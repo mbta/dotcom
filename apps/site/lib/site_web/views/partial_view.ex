@@ -205,7 +205,8 @@ defmodule SiteWeb.PartialView do
   defp time_filter(filter, current_timeframe, path_opts) do
     path_method = Keyword.fetch!(path_opts, :method)
 
-    item = Keyword.fetch!(path_opts, :item)
+    # item can be an atom (representing a mode) or a Route
+    item = Keyword.fetch!(path_opts, :item) |> get_item_value()
 
     path_params =
       path_opts
@@ -222,6 +223,10 @@ defmodule SiteWeb.PartialView do
       to: path
     )
   end
+
+  @spec get_item_value(Route.t() | atom) :: Route.id_t() | atom
+  defp get_item_value(route_or_mode) when is_atom(route_or_mode), do: route_or_mode
+  defp get_item_value(route_or_mode), do: route_or_mode.id
 
   @spec time_filter_text(atom) :: String.t()
   defp time_filter_text(nil), do: "All Alerts"
