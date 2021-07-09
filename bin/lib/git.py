@@ -19,8 +19,8 @@ def sha_for_tag(tag):
 def log_between(previous, current):
     return __call(["git", "log", "--abbrev-commit", "--no-decorate", "--pretty=oneline", "%s..%s" % (previous, current)])
 
-def release(tag, notes):
-    return __call(["gh", "release", "create", "%s" % tag, "--title", "%s" % tag, "--notes", "%s" % notes])
+def release(tag, sha, notes):
+    return __call(["gh", "release", "create", "%s" % tag, "--target", "%s" % sha, "--title", "%s" % tag, "--notes", "%s" % notes])
 
 def __call(cmd):
     return subprocess.check_output(cmd).decode('UTF-8').rstrip()

@@ -27,7 +27,7 @@ def main():
 
     release_notes = git.log_between(git.sha_for_tag(previous_tag), deploy_sha)
 
-    git.release(deploy_tag, release_notes)
+    git.release(deploy_tag, deploy_sha, release_notes)
 
     print("")
     print("Generating a new release:")
