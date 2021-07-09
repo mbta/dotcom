@@ -47,3 +47,41 @@ jobs:
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           job-status: ${{ job.status }}
+
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ success() }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get tag values...
+        run: |
+          echo PREV_TAG=$(git describe --tags --abbrev=0) >> $GITHUB_ENV
+          echo TODAY=$(date +'%Y.%m.%d') >> $GITHUB_ENV
+      - name: List commits since last tag
+        run: |
+          echo BODY=$(git log --abbrev-commit --no-decorate --pretty=oneline $PREV_TAG..$GITHUB_REF) >> $GITHUB_ENV
+          echo "Commits to be released: ${BODY}"
+      - name: Compute new tag name by incrementing last tag
+        if: startsWith(env.PREV_TAG, env.TODAY)
+        run: |
+          TAG_NUM="${PREV_TAG##*.}"
+          NEW_NUM="$((10#${TAG_NUM}+1))"
+          NEW_NUM="$(printf %02d $NEW_NUM)"
+          echo TAG="${TODAY}.${NEW_NUM}" >> $GITHUB_ENV
+          echo "Incrementing tag from ${PREV_TAG} to ${TAG}"
+      - name: Compute new tag name
+        if: > 
+          !startsWith(env.PREV_TAG, env.TODAY)
+        run: |
+          echo TAG="${TODAY}.01" >> $GITHUB_ENV
+          echo "Creating tag ${TAG}"
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.TAG }}
+          release_name: ${{ env.TAG }}
+          body: ${{ env.BODY }}
