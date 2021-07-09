@@ -239,4 +239,45 @@ defmodule SiteWeb.PartialViewTest do
       assert actual == expected
     end
   end
+
+  describe "alert_time_filters" do
+    test "returns the proper markup when item is Route" do
+      path_opts = [
+        method: :alerts_path,
+        item: %Routes.Route{
+          color: "00843D",
+          custom_route?: false,
+          description: :rapid_transit,
+          direction_destinations: %{0 => "Heath Street", 1 => "North Station"},
+          direction_names: %{0 => "Westbound", 1 => "Eastbound"},
+          id: "Green-E",
+          long_name: "Green Line E",
+          name: "Green Line E",
+          sort_order: 10_035,
+          type: 0
+        }
+      ]
+
+      [_, links] = alert_time_filters(nil, path_opts)
+
+      expected =
+        "<div class=\"m-alerts__time-filters\"><a class=\"m-alerts__time-filter m-alerts__time-filter--selected\" href=\"/schedules/Green-E/alerts\">All Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/Green-E/alerts?alerts_timeframe=current\">Current Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/Green-E/alerts?alerts_timeframe=upcoming\">Planned Service Alerts</a></div>"
+
+      assert safe_to_string(links) == expected
+    end
+
+    test "returns the proper markup when item is atom" do
+      path_opts = [
+        method: :alerts_path,
+        item: :subway
+      ]
+
+      [_, links] = alert_time_filters(nil, path_opts)
+
+      expected =
+        "<div class=\"m-alerts__time-filters\"><a class=\"m-alerts__time-filter m-alerts__time-filter--selected\" href=\"/schedules/subway/alerts\">All Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/subway/alerts?alerts_timeframe=current\">Current Alerts</a><a class=\"m-alerts__time-filter\" href=\"/schedules/subway/alerts?alerts_timeframe=upcoming\">Planned Service Alerts</a></div>"
+
+      assert safe_to_string(links) == expected
+    end
+  end
 end
