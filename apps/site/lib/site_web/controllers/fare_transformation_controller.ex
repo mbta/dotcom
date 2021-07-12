@@ -50,6 +50,7 @@ defmodule SiteWeb.FareTransformationController do
   end
 
   defp psl_type_filter(locations, nil), do: locations
+
   defp psl_type_filter(locations, psl_type) do
     Enum.filter(locations, &psl_type_filter_logic?(&1, psl_type))
   end
