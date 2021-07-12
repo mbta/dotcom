@@ -19,7 +19,9 @@ defmodule SiteWeb.FareTransformationView do
           else 
             []
           end
-        ]
+        ],
+        "role": "button",
+        "aria-pressed": (if selected === type or (type === "All Location Types" and selected === nil), do: "true", else: "false")
       )
     end
   end
