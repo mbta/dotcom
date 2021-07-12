@@ -10,11 +10,11 @@
           </div>
         </div>
       <% end %>
-      <%= link to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "m-homepage__important-link" do %>
+      <%= link to: cms_static_page_path(@conn, "/leadership"), class: "m-homepage__important-link" do %>
         <div class="m-homepage__important-link-content">
           <div class="m-homepage__important-link-title">Leadership</div>
           <div class="m-homepage__important-link-icon">
-            (FMCB)
+            <%= svg "icon-leadership.svg" %>
           </div>
         </div>
       <% end %>

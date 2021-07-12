@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { connect } from "react-redux";
 import { useQueryParams, StringParam } from "use-query-params";
-import SchedulePage from "../components/SchedulePage";
+import AdditionalLineInfo from "../components/AdditionalLineInfo";
 import ScheduleNote from "../components/ScheduleNote";
 import ScheduleDirection from "../components/ScheduleDirection";
 import {
@@ -151,18 +151,27 @@ export const ScheduleLoader = ({
       updateURL(selectedOrigin, readjustedDirectionId);
     }
 
-    if (component === "MAIN") {
+    if (component === "ADDITIONAL_LINE_INFORMATION") {
+      const {
+        teasers,
+        pdfs,
+        connections,
+        fares,
+        fare_link: fareLink,
+        hours,
+        holidays
+      } = schedulePageData;
+
       return (
-        <SchedulePage
-          updateURL={updateURL}
-          schedulePageData={schedulePageData}
-          closeModal={closeModal}
-          selectedDirection={readjustedDirectionId}
-          changeDirection={changeDirection}
-          selectedOrigin={selectedOrigin}
-          changeOrigin={changeOrigin}
-          modalOpen={modalOpen}
-          modalMode={modalMode}
+        <AdditionalLineInfo
+          teasers={teasers}
+          pdfs={pdfs}
+          connections={connections}
+          fares={fares}
+          fareLink={fareLink}
+          route={route}
+          hours={hours}
+          holidays={holidays}
         />
       );
     }
@@ -171,7 +180,7 @@ export const ScheduleLoader = ({
       return (
         <>
           <ScheduleNote
-            className="m-schedule-page__schedule-notes--mobile"
+            className="m-schedule-page__schedule-notes--desktop"
             scheduleNote={scheduleNote}
           />
           {modalOpen && (

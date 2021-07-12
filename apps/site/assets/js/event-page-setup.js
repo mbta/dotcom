@@ -199,7 +199,7 @@ export default function() {
       const viewPreviousEventsLink = document.querySelector(
         ".m-view-previous-events"
       );
-      if (viewPreviousEventsLink) { 
+      if (viewPreviousEventsLink) {
         viewPreviousEventsLink.classList.remove("hidden");
       }
       if (document.querySelector(".m-events-hub")) {

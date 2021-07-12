@@ -35,32 +35,35 @@
 
 $mobile-control-height: 73px;
 
-.m-event-list__month-header {
-  margin: 0;
-}
+.m-event-list__month {
 
-.c-expandable-block__link {
-  background-color: $white;
-  padding: $base-spacing $base-spacing / 2;
-
-  &.sticky-top {
-    @include media-breakpoint-down(xs) {
-      padding-left: $base-spacing;
-      transition: top .2s ease-in-out;
-
-      .js-nav-down & {
-        top: 0;
-      }
-
-      .js-nav-up & {
-        top: $mobile-control-height;
-      }
-    }
+  &-header {
+    margin: 0;
   }
 
-  &[stuck] {
-    /* stylelint-disable-next-line scss/operator-no-unspaced */
-    box-shadow: 0 $space-16 $space-16 -1rem $drop-shadow-color;
+ .c-expandable-block__link {
+    background-color: $white;
+    padding: $base-spacing $base-spacing / 2;
+
+    &.sticky-top {
+      @include media-breakpoint-down(xs) {
+        padding-left: $base-spacing;
+        transition: top .2s ease-in-out;
+
+        .js-nav-down & {
+          top: 0;
+        }
+
+        .js-nav-up & {
+          top: $mobile-control-height;
+        }
+      }
+    }
+
+    &[stuck] {
+      /* stylelint-disable-next-line scss/operator-no-unspaced */
+      box-shadow: 0 $space-16 $space-16 -1rem $drop-shadow-color;
+    }
   }
 }
 

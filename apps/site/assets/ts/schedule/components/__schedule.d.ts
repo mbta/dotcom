@@ -174,7 +174,7 @@ export type StoreAction =
   | "CLOSE_MODAL";
 
 export type ComponentToRender =
-  | "MAIN"
+  | "ADDITIONAL_LINE_INFORMATION"
   | "SCHEDULE_NOTE"
   | "SCHEDULE_FINDER"
   | "SCHEDULE_DIRECTION"

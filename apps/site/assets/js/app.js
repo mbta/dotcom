@@ -38,7 +38,6 @@ import photoGallery from "./photo-gallery";
 import { init as embeddedSearchInit } from "./algolia-embedded-search";
 import * as homepageSearch from "./algolia-homepage-search";
 import * as globalSearch from "./algolia-global-search";
-import AlgoliaResults from "./algolia-results";
 import fullstory from "./fullstory";
 import inputFocus from "./input-focus";
 import channels from "./channels";

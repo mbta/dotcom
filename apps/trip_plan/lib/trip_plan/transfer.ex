@@ -13,8 +13,7 @@ defmodule TripPlan.Transfer do
   @single_ride_transfers %{
     :bus => [:subway, :bus],
     :subway => [:subway, :bus],
-    :inner_express_bus => [:subway, :bus],
-    :outer_express_bus => [:subway, :bus]
+    :express_bus => [:subway, :bus]
   }
 
   @doc "Searches a list of legs for evidence of an in-station subway transfer."

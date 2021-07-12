@@ -60,6 +60,8 @@ defmodule Stops.RouteStops do
     |> Map.get(:branch)
   end
 
+  defp branch(_), do: nil
+
   @spec green_branch?(RouteStop.t()) :: boolean()
   defp green_branch?(%RouteStop{branch: branch}) when is_binary(branch),
     do: String.starts_with?(branch, "Green")

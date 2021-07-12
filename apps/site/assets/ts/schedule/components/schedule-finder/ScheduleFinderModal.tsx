@@ -100,8 +100,9 @@ export default ({
             ? "Choose Origin Stop"
             : `Schedules on the ${route.name} ${
                 route.direction_names[direction]
-              } to ${route.direction_destinations[direction]} ${originStop &&
-                `from ${originStop.name}`}`
+              } to ${route.direction_destinations[direction]}${
+                originStop ? ` from ${originStop.name}` : ""
+              }`
       }}
       className={
         initialMode === "origin" ? "schedule-finder__origin-modal" : ""

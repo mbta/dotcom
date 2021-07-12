@@ -57,20 +57,6 @@ defmodule FaresTest do
       end
     end
 
-    test "trips between a 'combo' zone stop and either South or North station are treated as zone 1A" do
-      assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-sstat") ==
-               {:ok, {:zone, "1A"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-sstat", "place-qnctr") ==
-               {:ok, {:zone, "1A"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-ER-0115", "place-north") ==
-               {:ok, {:zone, "1A"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-north", "place-ER-0115") ==
-               {:ok, {:zone, "1A"}}
-    end
-
     test "trips between a 'combo' zone and a non-terminus stop are treated as the general zone" do
       assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-PB-0245") ==
                {:ok, {:interzone, "6"}}
@@ -103,28 +89,12 @@ defmodule FaresTest do
   end
 
   describe "express routes" do
-    test "inner_express?/1 returns true if a route id is in @inner_express_routes" do
-      for id <- Fares.inner_express() do
-        assert Fares.inner_express?(id)
+    test "express?/1 returns true if a route id is in @express_routes" do
+      for id <- Fares.express() do
+        assert Fares.express?(id)
       end
 
-      for id <- Fares.outer_express() do
-        refute Fares.inner_express?(id)
-      end
-
-      refute Fares.inner_express?("1")
-    end
-
-    test "outer_express?/1 returns true if a route id is in @outer_express_routes" do
-      for id <- Fares.outer_express() do
-        assert Fares.outer_express?(id)
-      end
-
-      for id <- Fares.inner_express() do
-        refute Fares.outer_express?(id)
-      end
-
-      refute Fares.outer_express?("1")
+      refute Fares.express?("1")
     end
   end
 
@@ -153,12 +123,8 @@ defmodule FaresTest do
       assert Fares.to_fare_atom(%Route{type: 3, id: "751"}) == :bus
     end
 
-    test "inner express bus returns :inner_express_bus" do
-      assert Fares.to_fare_atom(%Route{type: 3, id: "170"}) == :inner_express_bus
-    end
-
-    test "outer express bus returns :outer_express_bus" do
-      assert Fares.to_fare_atom(%Route{type: 3, id: "352"}) == :outer_express_bus
+    test "express bus returns :express_bus" do
+      assert Fares.to_fare_atom(%Route{type: 3, id: "170"}) == :express_bus
     end
 
     test "other types of routes return specific atoms" do

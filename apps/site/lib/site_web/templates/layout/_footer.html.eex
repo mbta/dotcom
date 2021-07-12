@@ -45,7 +45,6 @@
         <div class="m-footer__group-title">About Us</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true] %></li>
-          <li class="m-footer__item"><%= link "FMCB", to: cms_static_page_path(@conn, "/leadership/fmcb"), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "News & Updates", to: news_entry_path(@conn, :index), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Events", to: event_path(@conn, :index), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %></li>

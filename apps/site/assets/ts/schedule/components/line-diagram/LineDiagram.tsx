@@ -81,7 +81,7 @@ const LineDiagramAndStopListPage = ({
     () => {
       const newDirection = query["schedule_direction[direction_id]"];
       const newOrigin = query["schedule_direction[origin]"];
-      // modify values in case URL either parameters:
+      // modify values in case URL has both parameters:
       if (newDirection !== undefined && newOrigin !== undefined) {
         dispatch({
           type: "initialize",
@@ -92,6 +92,7 @@ const LineDiagramAndStopListPage = ({
     },
     [query]
   );
+
   const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     if (window) {
       // eslint-disable-next-line camelcase

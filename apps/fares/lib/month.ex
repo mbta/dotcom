@@ -126,8 +126,7 @@ defmodule Fares.Month do
   defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id, _trip) do
     name =
       cond do
-        Fares.inner_express?(route_id) -> :inner_express_bus
-        Fares.outer_express?(route_id) -> :outer_express_bus
+        Fares.express?(route_id) -> :express_bus
         Fares.silver_line_airport_stop?(route_id, origin_id) -> :free_fare
         Fares.silver_line_rapid_transit?(route_id) -> :subway
         true -> :local_bus

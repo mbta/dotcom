@@ -77,8 +77,7 @@ defmodule Fares.Format do
   def name(%Fare{name: name}), do: name(name)
   def name(:subway), do: "Subway"
   def name(:local_bus), do: "Local Bus"
-  def name(:inner_express_bus), do: "Inner Express Bus"
-  def name(:outer_express_bus), do: "Outer Express Bus"
+  def name(:express_bus), do: "Express Bus"
   def name(:ferry_inner_harbor), do: "Charlestown Ferry"
   def name(:ferry_cross_harbor), do: "Cross Harbor Ferry"
   def name(:ferry_george), do: "Georges Island"
@@ -110,9 +109,7 @@ defmodule Fares.Format do
   @spec concise_full_name(Fare.t()) :: String.t() | iolist()
   def concise_full_name(%Fare{mode: :commuter_rail} = fare), do: name(fare)
 
-  def concise_full_name(%Fare{mode: :bus, name: name} = fare)
-      when name in [:inner_express_bus, :outer_express_bus],
-      do: name(fare)
+  def concise_full_name(%Fare{mode: :bus, name: :express_bus} = fare), do: name(fare)
 
   def concise_full_name(fare), do: full_name(fare)
 

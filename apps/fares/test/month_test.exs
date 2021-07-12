@@ -97,17 +97,7 @@ defmodule Fares.MonthTest do
         duration: :month,
         media: [:charlie_card, :charlie_ticket],
         mode: :bus,
-        name: :inner_express_bus,
-        price_label: nil,
-        reduced: nil
-      },
-      %Fare{
-        additional_valid_modes: [],
-        cents: 16_800,
-        duration: :month,
-        media: [:charlie_card, :charlie_ticket],
-        mode: :bus,
-        name: :outer_express_bus,
+        name: :express_bus,
         price_label: nil,
         reduced: nil
       }
@@ -124,30 +114,16 @@ defmodule Fares.MonthTest do
       assert %Fare{cents: 5_500} = Month.base_pass(local_route, nil, nil, nil, fare_fn)
     end
 
-    test "returns the lowest and highest month pass fares that are not discounted for the inner express bus" do
-      inner_express_route = %Route{type: 3, id: "170"}
+    test "returns the lowest and highest month pass fares that are not discounted for the express bus" do
+      express_route = %Route{type: 3, id: "170"}
 
-      fare_fn = fn @default_filters ++ [name: :inner_express_bus] ->
-        Enum.filter(@bus_fares, &(&1.name == :inner_express_bus))
+      fare_fn = fn @default_filters ++ [name: :express_bus] ->
+        Enum.filter(@bus_fares, &(&1.name == :express_bus))
       end
 
-      assert %Fare{cents: 13_600} =
-               Month.recommended_pass(inner_express_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 13_600} = Month.recommended_pass(express_route, nil, nil, nil, fare_fn)
 
-      assert %Fare{cents: 13_600} = Month.base_pass(inner_express_route, nil, nil, nil, fare_fn)
-    end
-
-    test "returns the lowest and highest month pass fares that are not discounted for the outer express bus" do
-      outer_express_route = %Route{type: 3, id: "352"}
-
-      fare_fn = fn @default_filters ++ [name: :outer_express_bus] ->
-        Enum.filter(@bus_fares, &(&1.name == :outer_express_bus))
-      end
-
-      assert %Fare{cents: 16_800} =
-               Month.recommended_pass(outer_express_route, nil, nil, nil, fare_fn)
-
-      assert %Fare{cents: 16_800} = Month.base_pass(outer_express_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 13_600} = Month.base_pass(express_route, nil, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest subway pass fares for the SL1, SL2, and SL3 routes" do

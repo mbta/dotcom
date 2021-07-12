@@ -312,5 +312,9 @@ defmodule Stops.RouteStopsTest do
 
       assert RouteStops.from_list(route_stops) == expected
     end
+
+    test "it handles route stops being []" do
+      assert RouteStops.from_list([]) == %Stops.RouteStops{branch: nil, stops: []}
+    end
   end
 end
