@@ -24,6 +24,11 @@
     padding: $base-spacing * .25 $base-spacing * .5;
     margin-right: $base-spacing;
     
+    &:hover, &:focus {
+      text-decoration: none;
+      background-color: $brand-primary-lightest-contrast;
+    }
+
     &.selected {
       background: $brand-primary;
       color: $white;
