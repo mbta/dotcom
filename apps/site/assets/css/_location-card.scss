@@ -15,14 +15,17 @@
     margin-top: $base-spacing * 5;
     margin-bottom: $base-spacing * 2;
   }
-  .psl-type-buttons {
-    border-color: $brand-primary;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 4px;
+  .psl-types-buttons {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .psl-type-button {
+    border: $border-width solid $brand-primary;
+    border-radius: $border-radius;
     color: $brand-primary;
     padding: $base-spacing * .25 $base-spacing * .5;
-    margin-right: $base-spacing;
+    margin: $base-spacing * .5 $base-spacing * .5 0 0;
+    white-space: nowrap;
     
     &:hover, &:focus {
       text-decoration: none;

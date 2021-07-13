@@ -13,7 +13,7 @@ defmodule SiteWeb.FareTransformationView do
         type,
         to: build_psl_button_path(conn, type),
         class: [
-          "psl-type-buttons",
+          "psl-type-button",
           if selected === type or (type === "All Location Types" and selected === nil) do
             [" selected"]
           else
