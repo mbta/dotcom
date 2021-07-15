@@ -115,7 +115,7 @@ const service: ServiceInSelector = {
 };
 const services = [service];
 
-const teasers = `<div><a href="http://some-link">Some teaser from CMS></a></div>`;
+const teasers = `<div><a href="http://some-link">Some teaser from CMS</a></div>`;
 
 const pdfs = [
   {
@@ -928,9 +928,16 @@ describe("ScheduleLoader", () => {
     wrapper.unmount();
   });
 
-  it("Does not render schedule page nor line diagram because route information is empty", () => {
+  it("Does not render line diagram because route information is empty", () => {
     const schedulePageData = {
-      route_patterns: {}
+      route_patterns: {},
+      direction_id: 1,
+      route,
+      stops,
+      connections: [],
+      fares: [],
+      holidays: [],
+      pdfs: []
     };
 
     document.body.innerHTML = `<div id="react-root">
@@ -939,9 +946,9 @@ describe("ScheduleLoader", () => {
   )}</script>
   </div>`;
 
-    const renderSchedulePageStub = jest.spyOn(
+    const renderAdditionalLineInformationStub = jest.spyOn(
       scheduleLoader,
-      "renderSchedulePage"
+      "renderAdditionalLineInformation"
     );
     const renderDirectionOrMapPageStub = jest.spyOn(
       scheduleLoader,
@@ -950,7 +957,7 @@ describe("ScheduleLoader", () => {
 
     scheduleLoader.default(); //onLoad
 
-    expect(renderSchedulePageStub).not.toHaveBeenCalled();
+    expect(renderAdditionalLineInformationStub).toHaveBeenCalled();
     expect(renderDirectionOrMapPageStub).not.toHaveBeenCalled();
   });
 
@@ -1116,5 +1123,65 @@ describe("ScheduleLoader", () => {
     stubFn.mockRestore();
     storeHandlerSpy.mockRestore();
     wrapper.unmount();
+  });
+
+  it("it only shows teasers and upcoming holidays because it is a suspended route", () => {
+    const schedulePageData = {
+      route_patterns: {},
+      direction_id: 1,
+      route,
+      stops,
+      hours,
+      connections: [
+        {
+          group_name: "subway",
+          routes: [
+            {
+              route: {
+                type: 1,
+                name: "Orange Line",
+                header: "Orange Line",
+                long_name: "Orange Line",
+                id: "Orange",
+                direction_names: {
+                  "0": "South",
+                  "1": "North"
+                },
+                direction_destinations: {
+                  "0": "Ashmont/Braintree",
+                  "1": "Alewife"
+                },
+                description: "rapid_transit",
+                alerts: []
+              }
+            }
+          ]
+        }
+      ],
+      fares,
+      holidays,
+      teasers,
+      pdfs
+    };
+
+    document.body.innerHTML = `<div id="react-root">
+  <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
+    schedulePageData
+  )}</script>
+  </div>`;
+
+    scheduleLoader.default();
+
+    expect(document.body.innerHTML.indexOf("Fares")).toEqual(-1);
+    expect(document.body.innerHTML.indexOf("PDF Schedules")).toEqual(-1);
+    expect(document.body.innerHTML.indexOf("Connections")).toEqual(-1);
+    expect(document.body.innerHTML.indexOf("Hours of Operation")).toEqual(-1);
+
+    expect(document.body.innerHTML.indexOf("Some teaser from CMS")).not.toEqual(
+      -1
+    );
+    expect(document.body.innerHTML.indexOf("Upcoming Holidays")).not.toEqual(
+      -1
+    );
   });
 });

@@ -1,6 +1,8 @@
 import React, { ReactElement } from "react";
 import { connect } from "react-redux";
 import { useQueryParams, StringParam } from "use-query-params";
+import ContentTeasers from "./ContentTeasers";
+import UpcomingHolidays from "./UpcomingHolidays";
 import AdditionalLineInfo from "../components/AdditionalLineInfo";
 import ScheduleNote from "../components/ScheduleNote";
 import ScheduleDirection from "../components/ScheduleDirection";
@@ -126,6 +128,8 @@ export const ScheduleLoader = ({
     variant: busVariantId
   } = schedulePageData;
 
+  const routeIsSuspended = Object.keys(routePatternsByDirection).length === 0;
+
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {
     const {
@@ -138,6 +142,7 @@ export const ScheduleLoader = ({
     // check first if this is a unidirectional route:
     let readjustedDirectionId: DirectionId = currentDirection;
     if (
+      !routeIsSuspended &&
       !Object.keys(routePatternsByDirection).includes(
         currentDirection.toString()
       )
@@ -161,6 +166,15 @@ export const ScheduleLoader = ({
         hours,
         holidays
       } = schedulePageData;
+
+      if (routeIsSuspended) {
+        return (
+          <>
+            <ContentTeasers teasers={teasers} />
+            <UpcomingHolidays holidays={holidays} />
+          </>
+        );
+      }
 
       return (
         <AdditionalLineInfo
