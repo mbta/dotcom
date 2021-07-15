@@ -12,24 +12,30 @@ const pslHtml = `
     <button class="psl-type-button" data-group="Fare Vending Machine">Fare Vending Machine</button>
   </div>
   <div class="c-sales-locations__cards">
-    ${[1,2,3,4,5,6,7,8].map(
-      x => 
-      `<div class="c-sales-locations__card" data-psltype="Both fare vending machine and Charlie retailer">
+    ${[1, 2, 3, 4, 5, 6, 7, 8]
+      .map(
+        x =>
+          `<div class="c-sales-locations__card" data-psltype="Both fare vending machine and Charlie retailer">
         Empty Card
       </div>`
-    ).join("")}
-    ${[1,2,3].map(
-      x => 
-      `<div class="c-sales-locations__card" data-psltype="Charlie retailer">
+      )
+      .join("")}
+    ${[1, 2, 3]
+      .map(
+        x =>
+          `<div class="c-sales-locations__card" data-psltype="Charlie retailer">
         Empty Card
       </div>`
-    ).join("")}
-    ${[1,2,3,4,5,6,7,8,9,10,11,12,13].map(
-      x => 
-      `<div class="c-sales-locations__card" data-psltype="Fare vending machine">
+      )
+      .join("")}
+    ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+      .map(
+        x =>
+          `<div class="c-sales-locations__card" data-psltype="Fare vending machine">
         Empty Card
       </div>`
-    ).join("")}
+      )
+      .join("")}
   </div>
 `;
 
@@ -50,13 +56,28 @@ describe.only("psl-filters", () => {
 
     // All the cards are relevant
     const cards = $(".c-sales-locations__card");
-    const visibleCards = cards.filter(x => !cards[x].classList.contains("hidden"))
+    const visibleCards = cards.filter(
+      x => !cards[x].classList.contains("hidden")
+    );
     // There are only 12 cards
-    assert.isTrue(visibleCards.length === 12)
+    assert.isTrue(visibleCards.length === 12);
     // The cards are of all types
-    assert.isTrue(visibleCards.filter(x => cards[x].dataset.psltype === "Both fare vending machine and Charlie retailer").length > 0);
-    assert.isTrue(visibleCards.filter(x => cards[x].dataset.psltype === "Charlie retailer").length > 0);
-    assert.isTrue(visibleCards.filter(x => cards[x].dataset.psltype === "Fare vending machine").length > 0);
+    assert.isTrue(
+      visibleCards.filter(
+        x =>
+          cards[x].dataset.psltype ===
+          "Both fare vending machine and Charlie retailer"
+      ).length > 0
+    );
+    assert.isTrue(
+      visibleCards.filter(x => cards[x].dataset.psltype === "Charlie retailer")
+        .length > 0
+    );
+    assert.isTrue(
+      visibleCards.filter(
+        x => cards[x].dataset.psltype === "Fare vending machine"
+      ).length > 0
+    );
   });
 
   it("Clicking 'Charlie Retailer' filters down the list", () => {
@@ -66,18 +87,34 @@ describe.only("psl-filters", () => {
 
     // Button is selected, not the default button
     assert.isTrue(retailerButton.classList.contains("selected"));
-    assert.isFalse(allTypesButton.classList.contains("selected"))
+    assert.isFalse(allTypesButton.classList.contains("selected"));
 
     // All the cards are relevant
     const cards = $(".c-sales-locations__card");
-    const visibleCards = cards.filter(x => !cards[x].classList.contains("hidden"))
+    const visibleCards = cards.filter(
+      x => !cards[x].classList.contains("hidden")
+    );
     // There are only 11 cards
-    assert.isTrue(visibleCards.length === 11)
+    assert.isTrue(visibleCards.length === 11);
     // The cards are only Charlie Retailer type or the BOTH type
-    assert.isTrue(visibleCards.filter(x => visibleCards[x].dataset.psltype === "Both fare vending machine and Charlie retailer").length > 0);
-    assert.isTrue(visibleCards.filter(x => visibleCards[x].dataset.psltype === "Charlie retailer").length > 0);
-    assert.isFalse(visibleCards.filter(x => visibleCards[x].dataset.psltype === "Fare vending machine").length > 0);
-  })
+    assert.isTrue(
+      visibleCards.filter(
+        x =>
+          visibleCards[x].dataset.psltype ===
+          "Both fare vending machine and Charlie retailer"
+      ).length > 0
+    );
+    assert.isTrue(
+      visibleCards.filter(
+        x => visibleCards[x].dataset.psltype === "Charlie retailer"
+      ).length > 0
+    );
+    assert.isFalse(
+      visibleCards.filter(
+        x => visibleCards[x].dataset.psltype === "Fare vending machine"
+      ).length > 0
+    );
+  });
 
   it("Clicking 'Fare vending machine' filters down the list", () => {
     const vendingButton = $(".psl-type-button")[2];
@@ -86,16 +123,32 @@ describe.only("psl-filters", () => {
 
     // Button is selected, not the default button
     assert.isTrue(vendingButton.classList.contains("selected"));
-    assert.isFalse(allTypesButton.classList.contains("selected"))
+    assert.isFalse(allTypesButton.classList.contains("selected"));
 
     // All the cards are relevant
     const cards = $(".c-sales-locations__card");
-    const visibleCards = cards.filter(x => !cards[x].classList.contains("hidden"))
+    const visibleCards = cards.filter(
+      x => !cards[x].classList.contains("hidden")
+    );
     // There are only 12 cards
-    assert.isTrue(visibleCards.length === 12)
+    assert.isTrue(visibleCards.length === 12);
     // The cards are only Charlie Retailer type or the BOTH type
-    assert.isTrue(visibleCards.filter(x => visibleCards[x].dataset.psltype === "Both fare vending machine and Charlie retailer").length > 0);
-    assert.isFalse(visibleCards.filter(x => visibleCards[x].dataset.psltype === "Charlie retailer").length > 0);
-    assert.isTrue(visibleCards.filter(x => visibleCards[x].dataset.psltype === "Fare vending machine").length > 0);
-  })
+    assert.isTrue(
+      visibleCards.filter(
+        x =>
+          visibleCards[x].dataset.psltype ===
+          "Both fare vending machine and Charlie retailer"
+      ).length > 0
+    );
+    assert.isFalse(
+      visibleCards.filter(
+        x => visibleCards[x].dataset.psltype === "Charlie retailer"
+      ).length > 0
+    );
+    assert.isTrue(
+      visibleCards.filter(
+        x => visibleCards[x].dataset.psltype === "Fare vending machine"
+      ).length > 0
+    );
+  });
 });
