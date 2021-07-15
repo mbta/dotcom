@@ -58,7 +58,7 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   }
 };
 
-export const renderSchedulePage = (
+export const renderAdditionalLineInformation = (
   schedulePageData: SchedulePageData
 ): void => {
   const { schedule_note: scheduleNote } = schedulePageData;
@@ -144,10 +144,11 @@ const render = (): void => {
     direction_id: directionId,
     route_patterns: routePatterns
   } = schedulePageData;
+
   createScheduleStore(directionId);
+  renderAdditionalLineInformation(schedulePageData);
 
   if (!isEmpty(routePatterns)) {
-    renderSchedulePage(schedulePageData);
     renderDirectionOrMap(schedulePageData);
   }
 };
