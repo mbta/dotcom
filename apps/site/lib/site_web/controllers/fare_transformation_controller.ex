@@ -25,7 +25,6 @@ defmodule SiteWeb.FareTransformationController do
   def finder(conn, %{"location" => %{"address" => address}} = params) do
     address = Geocode.check_address(address, @options)
     params = %{params | "location" => %{"address" => address}}
-    psl_type = Map.get(params, "psl_type")
 
     {position, _formatted} = Geocode.calculate_position(params, @options.geocode_fn)
 
@@ -38,26 +37,16 @@ defmodule SiteWeb.FareTransformationController do
         # Return the 10 closest locations, sorted by distance
         nearby_proposed_locations
         |> Util.Distance.sort(position)
-        |> psl_type_filter(psl_type)
-        |> Enum.slice(0, 10)
+        # There are 1178 PSLs. Since we are rendering them as hidden and showing/hiding them based on the filter,
+        # we should really narrow down how many we are passing 
+        |> Enum.slice(0, 50)
         |> Enum.map(fn loc ->
           lat_lon = {loc.latitude, loc.longitude}
           {loc, Util.Distance.haversine(lat_lon, position)}
         end)
       end
 
-    render_page(conn, nearby_proposed_locations_with_distance, address, position, psl_type)
-  end
-
-  defp psl_type_filter(locations, nil), do: locations
-
-  defp psl_type_filter(locations, psl_type) do
-    Enum.filter(locations, &psl_type_filter_logic?(&1, psl_type))
-  end
-
-  defp psl_type_filter_logic?(loc, psl_type) do
-    String.downcase(loc.retail_fvm) === String.downcase(psl_type) or
-      String.downcase(loc.retail_fvm) |> String.contains?("both")
+    render_page(conn, nearby_proposed_locations_with_distance, address, position)
   end
 
   def finder(conn, %{"latitude" => lat, "longitude" => lon} = params) do
@@ -67,10 +56,10 @@ defmodule SiteWeb.FareTransformationController do
   end
 
   def finder(conn, _params) do
-    render_page(conn, nil, "", %{}, nil)
+    render_page(conn, nil, "", %{})
   end
 
-  def render_page(conn, nearby_proposed_locations, address, search_position, psl_type) do
+  def render_page(conn, nearby_proposed_locations, address, search_position) do
     conn
     |> assign(:breadcrumbs, [
       Breadcrumb.build(
@@ -84,8 +73,7 @@ defmodule SiteWeb.FareTransformationController do
       requires_google_maps?: true,
       nearby_proposed_locations: nearby_proposed_locations,
       address: address,
-      search_position: search_position,
-      psl_type: psl_type
+      search_position: search_position
     )
   end
 end

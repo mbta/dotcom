@@ -20,10 +20,18 @@
     flex-wrap: wrap;
   }
   .psl-type-button {
+    height: 40px;
+    @include media-breakpoint-down(sm) {
+      height: 32px;
+    }
+    
+    display: flex;
+    align-items: center;
+    font-weight: 500;
     border: $border-width solid $brand-primary;
     border-radius: $border-radius;
     color: $brand-primary;
-    padding: $base-spacing * .25 $base-spacing * .5;
+    padding: 0 $base-spacing * .75;
     margin: $base-spacing * .5 $base-spacing * .5 0 0;
     white-space: nowrap;
     

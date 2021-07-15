@@ -1,3 +1,5 @@
+<% psl_types = ["All Location Types", "Charlie Retailer", "Fare Vending Machine"] %>
+
 <div class="container m-sales-locations">
   <div class="col-md-8">
     <div class="limited-width">
@@ -22,8 +24,10 @@
       <%= if Enum.empty?(@nearby_proposed_locations) do %>
         <p class="error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
       <% else %>
-        <div class="psl-types-buttons">
-          <%= psl_types_buttons(@conn, @psl_type) %>
+        <div class="psl-types-buttons hidden">
+          <%= for type <- psl_types do %>
+            <button class="psl-type-button" data-group="<%= type %>"><%= type %></button>
+          <% end %>
         </div>
         <%= render SiteWeb.FareView, "_nearby_locations.html", conn: @conn, address: @address, locations: @nearby_proposed_locations, search_position: @search_position %>
       <% end %>

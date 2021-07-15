@@ -47,6 +47,7 @@ import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
 import tripPlannerWidget from "./trip-planner-widget";
 import eventPageSetup from "./event-page-setup";
 import previousEventsButton from "./view-previous-events";
+import pslPageSetup from "./psl-page-setup.js";
 
 document.body.className = document.body.className.replace("no-js", "js");
 
@@ -367,3 +368,4 @@ dismissFullscreenError();
 tripPlannerWidget();
 eventPageSetup();
 previousEventsButton();
+pslPageSetup();
