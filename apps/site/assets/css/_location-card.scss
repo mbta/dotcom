@@ -28,20 +28,23 @@
     display: flex;
     align-items: center;
     font-weight: 500;
-    border: $border-width solid $brand-primary;
+    border: $border-width * 2 solid $gray-lightest;
     border-radius: $border-radius;
     color: $brand-primary;
     padding: 0 $base-spacing * .75;
     margin: $base-spacing * .5 $base-spacing * .5 0 0;
     white-space: nowrap;
+    background: $white;
     
     &:hover, &:focus {
       text-decoration: none;
-      background-color: $brand-primary-lightest-contrast;
+      background: $brand-primary-lightest-contrast;
+      border-color: $brand-primary-lightest-contrast;
     }
 
     &.selected {
       background: $brand-primary;
+      border-color: $brand-primary;
       color: $white;
     }
   }
