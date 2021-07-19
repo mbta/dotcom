@@ -30,7 +30,7 @@ interface Props {
   handleOriginSelectClick: () => void;
 }
 
-export default ({
+const ScheduleFinderModal = ({
   closeModal,
   directionChanged,
   initialMode,
@@ -116,3 +116,5 @@ export default ({
     </Modal>
   );
 };
+
+export default ScheduleFinderModal;

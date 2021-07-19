@@ -21,20 +21,13 @@ export const serviceStartDateComparator = (
   stringToDateObject(service1.start_date).getTime() -
   stringToDateObject(service2.start_date).getTime();
 
-const isInRemovedDates = (
-  service: Service,
-  currentDate: Date = new Date()
-): boolean => service.removed_dates.includes(dateObjectToString(currentDate));
+const isInRemovedDates = (service: Service, currentDate: Date): boolean =>
+  service.removed_dates.includes(dateObjectToString(currentDate));
 
-const isInAddedDates = (
-  service: Service,
-  currentDate: Date = new Date()
-): boolean => service.added_dates.includes(dateObjectToString(currentDate));
+const isInAddedDates = (service: Service, currentDate: Date): boolean =>
+  service.added_dates.includes(dateObjectToString(currentDate));
 
-const isOnValidDay = (
-  service: Service,
-  currentDate: Date = new Date()
-): boolean => {
+const isOnValidDay = (service: Service, currentDate: Date): boolean => {
   let currentDay = currentDate.getDay();
   // different numbering from valid_days for sunday
   currentDay = currentDay === 0 ? 7 : currentDay;
@@ -43,7 +36,7 @@ const isOnValidDay = (
 
 export const isInCurrentService = (
   service: Service,
-  currentDate: Date = new Date()
+  currentDate: Date
 ): boolean => {
   const serviceStartDate = stringToDateObject(service.start_date);
   const serviceEndDate = stringToDateObject(service.end_date);
@@ -52,7 +45,7 @@ export const isInCurrentService = (
 
 export const isInCurrentRating = (
   service: Service,
-  currentDate: Date = new Date()
+  currentDate: Date
 ): boolean => {
   if (!service.rating_start_date) {
     return false;
@@ -68,7 +61,7 @@ export const isInCurrentRating = (
 
 export const isCurrentValidService = (
   service: Service,
-  currentDate: Date = new Date()
+  currentDate: Date
 ): boolean => {
   // check against added dates
   if (isInAddedDates(service, currentDate)) {
@@ -96,7 +89,7 @@ export const startToEnd = (
 
 export const isInFutureService = (
   service: Service,
-  currentDate: Date = new Date()
+  currentDate: Date
 ): boolean => {
   const serviceStartDate = stringToDateObject(service.start_date);
   const serviceEndDate = stringToDateObject(service.end_date);
@@ -105,7 +98,7 @@ export const isInFutureService = (
 
 export const isInFutureRating = (
   service: Service,
-  currentDate: Date = new Date()
+  currentDate: Date
 ): boolean => {
   if (!service.rating_end_date) {
     if (service.rating_start_date) {
@@ -142,7 +135,7 @@ export const dedupeServices = (services: Service[]): Service[] =>
 
 export const groupServicesByDateRating = (
   services: Service[],
-  currentDate: Date = new Date()
+  currentDate: Date
 ): Dictionary<Service[]> =>
   _.groupBy(services, (service: Service) => {
     if (service.typicality === "holiday_service") {
