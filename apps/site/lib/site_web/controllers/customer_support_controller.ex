@@ -140,7 +140,10 @@ defmodule SiteWeb.CustomerSupportController do
 
   @spec do_submit(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp do_submit(%Plug.Conn{assigns: %{ip_address: {:ok, ip}}} = conn, data) do
-    case Hammer.check_rate("submit-feedback:#{ip}", 60_000, 1) do
+    rate_limit_interval =
+      if Application.get_env(:feedback, :rate_limit, true), do: 60_000, else: 1_000
+
+    case Hammer.check_rate("submit-feedback:#{ip}", rate_limit_interval, 1) do
       {:allow, _count} ->
         {:ok, pid} = Task.start(__MODULE__, :send_ticket, [data])
         conn = Plug.Conn.put_private(conn, :ticket_task, pid)
