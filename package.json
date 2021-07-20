@@ -24,6 +24,10 @@
     "backstop:record:clean": "rm -r apps/site/test/__files/*.json && rm -r apps/site/test/mappings/mapping* && npm run backstop:record",
     "backstop:approve": "cd apps/site/test && ../assets/node_modules/.bin/backstop approve",
     "backstop:test": "cd apps/site/test && ../assets/node_modules/.bin/backstop test --docker",
-    "dialyzer": "mix dialyzer --halt-exit-status"
+    "dialyzer": "mix dialyzer --halt-exit-status",
+    "cypress:run": "$(npm bin --prefix apps/site/assets)/cypress run",
+    "cypress:open": "$(npm bin --prefix apps/site/assets)/cypress open",
+    "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test mix phx.server' 4002 cypress:run",
+    "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test mix phx.server' 4002 cypress:open"
   }
 }
