@@ -98,6 +98,7 @@
     "sass": "^1.25.0",
     "sass-loader": "^7.1.0",
     "sinon": "^4.4.8",
+    "start-server-and-test": "^1.12.6",
     "style-loader": "^0.22.1",
     "stylelint": "^13.2.0",
     "stylelint-config-recommended-scss": "^4.2.0",
