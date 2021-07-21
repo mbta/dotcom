@@ -700,7 +700,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render(Map.put(@index_assigns, :conn, conn))
         |> safe_to_string()
 
-      assert [{"div", _, form}] = Floki.find(html, ".plan-date-time")
+      # two blocks because of the <noscript> block
+      assert [{"div", _, form}, {"div", _, no_script_form}] = Floki.find(html, ".plan-date-time")
       assert [{"select", _, _year_opts}] = Floki.find(form, ~s([name="plan[date_time][year]"]))
       assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][month]"]))
       assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][day]"]))
@@ -716,7 +717,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render(Map.put(@index_assigns, :conn, conn))
         |> safe_to_string()
 
-      assert [{"input", _, _}] = Floki.find(html, ~s(input#plan-date-input[type="text"]))
+      # two inputs because of the <noscript> block
+      assert [{"input", _, _}, {"input", _, _}] =
+               Floki.find(html, ~s(input#plan-date-input[type="text"]))
     end
   end
 

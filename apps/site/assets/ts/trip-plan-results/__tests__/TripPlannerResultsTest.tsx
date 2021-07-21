@@ -2,6 +2,7 @@ import React from "react";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import TripPlannerResults from "../components/TripPlannerResults";
+import Accordion, { AccordionNoJS } from "../../components/Accordion";
 import { TileServerUrl } from "../../leaflet/components/__mapdata";
 
 const html = "<div>Lots of content about the itinerary</div>";
@@ -90,9 +91,12 @@ it("it renders ItineraryBody when clicking to expand", () => {
 
   act(button.props.onClick);
 
+  expect(tree.root.findAllByType(Accordion).length).toBe(2);
+  expect(tree.root.findAllByType(AccordionNoJS).length).toBe(2);
+
   expect(
     tree.root.findAllByProps({
       html: "<div>Lots of content about the itinerary</div>"
     }).length
-  ).toBe(1);
+  ).toBe(2);
 });

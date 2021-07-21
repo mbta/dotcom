@@ -28,3 +28,16 @@
 >
 <%= render @view_module, @view_template, assigns %>
 </div>
+<noscript>
+  <%= if not @initially_expanded do %>
+    <div
+      class="c-expandable-block__panel collapse in"
+      tabIndex="0"
+      role="region"
+      id="<%= panel_id %>"
+      aria-labelledby="<%= header_id %>"
+    >
+    <%= render @view_module, @view_template, assigns %>
+    </div>
+  <% end %>
+</noscript>
