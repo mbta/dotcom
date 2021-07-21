@@ -37,7 +37,9 @@ defmodule SiteWeb.FareTransformationController do
         # Return the 10 closest locations, sorted by distance
         nearby_proposed_locations
         |> Util.Distance.sort(position)
-        |> Enum.slice(0, 10)
+        # There are 1178 PSLs. Since we are rendering them as hidden and showing/hiding them based on the filter,
+        # we should really narrow down how many we are passing 
+        |> Enum.slice(0, 50)
         |> Enum.map(fn loc ->
           lat_lon = {loc.latitude, loc.longitude}
           {loc, Util.Distance.haversine(lat_lon, position)}
