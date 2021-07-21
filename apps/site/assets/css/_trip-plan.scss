@@ -185,6 +185,10 @@
   }
 }
 
+.no-js .trip-plan-map {
+  display: none;
+}
+
 .trip-plan-initial-map {
   height: 100%;
   margin-bottom: $base-spacing;

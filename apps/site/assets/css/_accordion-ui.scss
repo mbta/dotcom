@@ -51,6 +51,10 @@
   }
 }
 
+.c-accordion-ui__content-nojs {
+  border-bottom: 1px solid $brand-primary-dark;
+}
+
 .c-accordion-ui__trigger,
 .c-accordion-ui__content {
   // Character/line-height includes some space, so here we

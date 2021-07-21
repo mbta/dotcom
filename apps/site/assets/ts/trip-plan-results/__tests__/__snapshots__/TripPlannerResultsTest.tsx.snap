@@ -77,6 +77,42 @@ exports[`it renders 1`] = `
       />
     </div>
   </div>
+  <noscript>
+    <div
+      className="c-accordion-ui"
+    >
+      <div
+        aria-level={3}
+        role="heading"
+      >
+        <div
+          aria-labelledby="itinerary-1-title"
+          className="c-accordion-ui__target"
+          id="itinerary-1-section"
+          role="region"
+        >
+          <div
+            className="c-accordion-ui__content"
+          >
+            <div
+              className="m-trip-plan-results__itinerary-body"
+            >
+              <div
+                className="trip-plan-map map"
+              />
+              <div
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "<div>Lots of content about the itinerary</div>",
+                  }
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </noscript>
   <div
     className="c-accordion-ui"
   >
@@ -118,5 +154,34 @@ exports[`it renders 1`] = `
       />
     </div>
   </div>
+  <noscript>
+    <div
+      className="c-accordion-ui"
+    >
+      <div
+        aria-level={3}
+        role="heading"
+      >
+        <div
+          aria-labelledby="itinerary-1-fare-calculator-title"
+          className="c-accordion-ui__target"
+          id="itinerary-1-fare-calculator-section"
+          role="region"
+        >
+          <div
+            className="c-accordion-ui__content"
+          >
+            <div
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<div>HTML content for fare calculator</div>",
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </noscript>
 </div>
 `;

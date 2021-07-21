@@ -30,6 +30,16 @@
           <% end %>
         </div>
       </div>
+      <noscript>
+        <div class="c-accordion-ui__content c-accordion-ui__content-nojs">
+          <%= if assigns[:parent_view] do %>
+            <% template = if (assigns[:content_template]), do: @content_template, else: section.content_template %>
+            <%= render(@parent_view, template, Map.merge(assigns, section)) %>
+          <% else %>
+            <%= section.content %>
+          <% end %>
+        </div>
+      </noscript>
     </div>
   <% end %>
 </div>

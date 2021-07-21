@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from "react";
-import Accordion from "../../components/Accordion";
+import Accordion, { AccordionNoJS } from "../../components/Accordion";
 import { Itinerary } from "./TripPlannerResults";
 import Map from "../../leaflet/components/Map";
 import {
@@ -99,6 +99,12 @@ const ItineraryAccordion = ({
     >
       <ItineraryBody {...itinerary} />
     </Accordion>
+    <noscript>
+      <AccordionNoJS id={`itinerary-${itinerary.id}`}>
+        <ItineraryBody {...itinerary} />
+      </AccordionNoJS>
+    </noscript>
+
     <Accordion
       id={`itinerary-${itinerary.id}-fare-calculator`}
       title={{
@@ -110,6 +116,13 @@ const ItineraryAccordion = ({
         dangerouslySetInnerHTML={{ __html: itinerary.fare_calculator_html }} // eslint-disable-line react/no-danger
       />
     </Accordion>
+    <noscript>
+      <AccordionNoJS id={`itinerary-${itinerary.id}-fare-calculator`}>
+        <div
+          dangerouslySetInnerHTML={{ __html: itinerary.fare_calculator_html }} // eslint-disable-line react/no-danger
+        />
+      </AccordionNoJS>
+    </noscript>
   </div>
 );
 

@@ -11,6 +11,27 @@ interface Props {
   children: ReactElement<HTMLElement>;
 }
 
+export const AccordionNoJS = ({
+  id,
+  children
+}: {
+  id: string;
+  children: ReactElement<HTMLElement>;
+}): ReactElement<HTMLElement> => (
+  <div className="c-accordion-ui">
+    <div role="heading" aria-level={3}>
+      <div
+        className="c-accordion-ui__target"
+        id={`${id}-section`}
+        role="region"
+        aria-labelledby={`${id}-title`}
+      >
+        <div className="c-accordion-ui__content">{children}</div>
+      </div>
+    </div>
+  </div>
+);
+
 const Accordion = (props: Props): ReactElement<HTMLElement> => {
   const { id, title, children } = props;
   const [isExpanded, toggleExpanded] = useState(false);
