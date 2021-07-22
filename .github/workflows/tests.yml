@@ -67,6 +67,61 @@ jobs:
         git config --global url."https://github.com/".insteadOf ssh://git@github.com/
         npm run install:ci
 
+  build:
+    name: Build application & cache it
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+      - uses: mbta/actions/reshim-asdf@v1
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      - uses: actions/cache@v2
+        with:
+          path: "apps/site/*/node_modules"
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - name: Cache react_renderer output
+        uses: actions/cache@v2
+        with:
+          path: apps/site/react_renderer/dist/app.js
+          key: ${{ runner.os }}-react_renderer-${{ hashFiles('apps/site/react_renderer/package-lock.json') }}
+        id: react_renderer-cache
+      - run: npm run --prefix apps/site/react_renderer build
+        if: steps.react_renderer-cache.outputs.cache-hit != 'true'
+      
+      - name: Cache front end assets
+        uses: actions/cache@v2
+        with:
+          path: apps/site/priv/static/js
+          key: ${{ runner.os }}-assets-${{ hashFiles('apps/site/assets/package-lock.json') }}
+        id: assets-cache
+      - run: npm run --prefix apps/site/assets webpack:build
+        if: steps.assets-cache.outputs.cache-hit != 'true'
+
+      - name: Cache back end assets
+        uses: actions/cache@v2
+        with:
+          path: apps/site/priv/static
+          key: ${{ runner.os }}-digest-${{ hashFiles('apps/site/assets/package-lock.json') }}
+        id: digest-cache
+      - run: mix phx.digest
+        if: steps.digest-cache.outputs.cache-hit != 'true'
+      
+      - name: Cache _build
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
+        id: build-cache
+      - run: mix compile --warnings-as-errors
+        if: steps.build-cache.outputs.cache-hit != 'true'
+
   file_changes:
     name: Before all / Note files changed
     runs-on: ubuntu-latest
@@ -168,7 +223,7 @@ jobs:
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
     runs-on: ubuntu-latest
-    needs: [file_changes, setup]
+    needs: [file_changes, build]
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
@@ -184,9 +239,19 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - name: Build app
-        run: npm run build
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: apps/site/react_renderer/dist/app.js
+          key: ${{ runner.os }}-react_renderer-${{ hashFiles('apps/site/react_renderer/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: apps/site/priv/static
+          key: ${{ runner.os }}-digest-${{ hashFiles('apps/site/assets/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
       - env:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
@@ -226,7 +291,7 @@ jobs:
   js_unit_2:
     name: Unit tests / JavaScript & TypeScript / Jest
     runs-on: ubuntu-latest
-    needs: [file_changes, setup]
+    needs: [file_changes, build]
     if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
     - uses: actions/checkout@v2
@@ -242,9 +307,11 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
-    - name: Build app
-      run: npm run build
+        key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+    - uses: actions/cache@v2
+      with:
+        path: _build
+        key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
     - run: npm run ci:unit:jest
 
   type_dialyzer:
@@ -322,8 +389,9 @@ jobs:
   elixir_wallaby:
     name: Integration tests / Elixir
     runs-on: ubuntu-latest
-    needs: [file_changes, setup]
-    if: ${{ needs.file_changes.outputs.ex || needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
+    needs: [file_changes, build]
+    if: ${{ needs.file_changes.outputs.ex }}
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -338,9 +406,15 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - name: Build app
-        run: npm run build
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: apps/site/priv/static
+          key: ${{ runner.os }}-digest-${{ hashFiles('apps/site/assets/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
       - env:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
