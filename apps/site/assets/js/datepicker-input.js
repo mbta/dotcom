@@ -131,17 +131,17 @@ export default class DatePickerInput {
   updateSelect(select) {
     const type = Object.keys(select)[0];
     const options = document.getElementById(this.selectors[type]);
-    const currentOpt = options.querySelector("option[selected='selected']");
+    const currentOpt =
+      options.querySelector("option[selected='selected']") ||
+      options.querySelector("option[selected]");
     const newOpt = options.querySelector(`option[value='${select[type]}']`);
     if (currentOpt) currentOpt.removeAttribute("selected");
     if (!newOpt) {
-      options.append(
-        $(
-          `<option value="${select[type]}" selected="selected">${
-            select[type]
-          }</option>`
-        )
-      );
+      const opt = document.createElement("option");
+      opt.value = select[type];
+      opt.text = select[type];
+      opt.setAttribute("selected", "selected");
+      options.append(opt);
     } else {
       newOpt.setAttribute("selected", "selected");
     }
