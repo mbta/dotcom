@@ -127,6 +127,8 @@ jobs:
   file_changes:
     name: Before all / Note files changed
     runs-on: ubuntu-latest
+    env:
+      isDevPR: ${{ github.event_name == 'pull_request' && github.actor != "dependabot[bot]" }}
     outputs:
       js: ${{ steps.changes.outputs.js }}
       ts: ${{ steps.changes.outputs.ts }}
@@ -136,7 +138,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - if: github.event_name == 'pull_request'
+      - if: env.isDevPR
         name: "PR: Compute changed files"
         run: |
           changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
@@ -145,8 +147,8 @@ jobs:
           echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
           echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
           echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
-      - if: github.event_name != 'pull_request'
-        name: "Not a PR. Use placeholder value so all tests run"
+      - if: !env.isDevPR
+        name: "Not a PR by a dev. Use placeholder value so all tests run"
         run: |
           echo "::set-output name=js::skip"
           echo "::set-output name=ts::skip"
