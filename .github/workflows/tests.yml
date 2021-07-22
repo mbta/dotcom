@@ -1,5 +1,7 @@
 name: CI
 on:
+  push:
+    branches: master
   pull_request:
     # Don't bother running if it's a PR on a feature branch
     branches: [master]
@@ -134,7 +136,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - id: changes
+      - if: github.event_name == 'pull_request'
+        name: "PR: Compute changed files"
         run: |
           changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
           echo "changed files? $(changes)"
@@ -142,7 +145,15 @@ jobs:
           echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
           echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
           echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
-      - run: |
+      - if: github.event_name != 'pull_request'
+        name: "Not a PR. Use placeholder value so all tests run"
+        run: |
+          echo "::set-output name=js::skip"
+          echo "::set-output name=ts::skip"
+          echo "::set-output name=scss::skip"
+          echo "::set-output name=ex::skip"
+      - name: "List changed files:"
+        run: |
           echo "JS? ${{ steps.changes.outputs.js }}"
           echo "TS? ${{ steps.changes.outputs.ts }}"
           echo "EX? ${{ steps.changes.outputs.ex }}"
