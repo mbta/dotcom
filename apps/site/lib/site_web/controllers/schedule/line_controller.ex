@@ -164,7 +164,15 @@ defmodule SiteWeb.ScheduleController.LineController do
   defp is_current_service?(service) do
     service_date_string = Date.to_iso8601(service.service_date)
 
-    in_current_rating? = Date.compare(service.start_date, Schedules.Repo.end_of_rating()) != :gt
+    end_of_rating = Schedules.Repo.end_of_rating()
+
+    in_current_rating? =
+      if is_nil(end_of_rating) do
+        false
+      else
+        Date.compare(service.start_date, end_of_rating) != :gt
+      end
+
     added_in? = Enum.member?(service.added_dates, service_date_string)
     removed? = Enum.member?(service.removed_dates, service_date_string)
 
