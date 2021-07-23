@@ -8,7 +8,6 @@ on:
 
     # Don't bother running if it's just a script or docs change
     paths-ignore:
-      - ".github/**"
       - "bin/**"
       - Dockerfile
       - "*.sh"
@@ -24,38 +23,49 @@ jobs:
   setup:
     name: Before all / Load cached deps
     runs-on: ubuntu-latest
+    outputs:
+      asdf-key: ${{ steps.cache-keys.outputs.asdf }}
+      mix-key: ${{ steps.cache-keys.outputs.mix }}
+      nodejs-key: ${{ steps.cache-keys.outputs.nodejs }}
     steps:
     - uses: actions/checkout@v2
-
+    - name: Set cache keys
+      id: cache-keys
+      run: |
+        echo "::set-output name=asdf::${{ runner.os }}-asdf-cache-${{ hashFiles('.tool-versions') }}"
+        echo "::set-output name=mix::${{ runner.os }}-mix-cache-${{ hashFiles('**/mix.lock') }}"
+        echo "::set-output name=nodejs::${{ runner.os }}-nodejs-cache-${{ hashFiles('apps/site/**/package-lock.json') }}"
     - name: <asdf> Restore cache of languages from .tool-versions
       uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+        key: ${{ steps.cache-keys.outputs.asdf }}
       id: asdf-cache
     - name: <asdf> Install languages from .tool-versions (if needed)
       uses: asdf-vm/actions/install@v1
-      if: steps.asdf-cache.outputs.cache-hit != 'true'
+      if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
     - name: <Mix> Install Hex/Rebar (if needed)
       run: |
         mix local.hex --force
         mix local.rebar --force
-      if: steps.asdf-cache.outputs.cache-hit != 'true'
+      if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
     - uses: mbta/actions/reshim-asdf@v1
     - name: <elixir> Restore dependencies cache
       uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        key: ${{ steps.cache-keys.outputs.mix }}
       id: elixir-cache
     - name: <elixir> Install dependencies (if needed)
-      if: steps.elixir-cache.outputs.cache-hit != 'true'
+      if: ${{ steps.elixir-cache.outputs.cache-hit != 'true' }}
       run: mix deps.get
     - name: <node> Restore dependencies cache
       uses: actions/cache@v2
       with:
-        path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+        path: |
+          apps/site/assets/node_modules
+          apps/site/react_renderer/node_modules
+        key: ${{ steps.cache-keys.outputs.nodejs }}
       id: node-cache
     - name: <node> Restore Cypress cache
       uses: actions/cache@v2
@@ -64,71 +74,79 @@ jobs:
         key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
       id: cypress-cache
     - name: <node> Install dependencies (if needed)
-      if: steps.node-cache.outputs.cache-hit != 'true'
+      if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
       run: |
         git config --global url."https://github.com/".insteadOf ssh://git@github.com/
         npm run install:ci
 
-  build:
-    name: Build application & cache it
+  build_app:
+    name: Build & cache app
     runs-on: ubuntu-latest
     needs: setup
+    outputs:
+      build-key: ${{ steps.cache-keys.outputs.build }}
+      digest-key: ${{ steps.cache-keys.outputs.digest }}
     steps:
       - uses: actions/checkout@v2
+      - name: Set cache keys
+        id: cache-keys
+        run: |
+          echo "::set-output name=digest::${{ runner.os }}-digest-cache-${{ hashFiles('apps/site/priv/static/**') }}"
+          echo "::set-output name=build::${{ runner.os }}-build-cache-${{ hashFiles('**/lib/**.ex', 'apps/site/priv/static/**', '**/mix.lock') }}"
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - name: Cache react_renderer output
-        uses: actions/cache@v2
-        with:
-          path: apps/site/react_renderer/dist/app.js
-          key: ${{ runner.os }}-react_renderer-${{ hashFiles('apps/site/react_renderer/package-lock.json') }}
-        id: react_renderer-cache
-      - run: npm run --prefix apps/site/react_renderer build
-        if: steps.react_renderer-cache.outputs.cache-hit != 'true'
+          path: |
+            apps/site/assets/node_modules
+            apps/site/react_renderer/node_modules
+          key: ${{ needs.setup.outputs.nodejs-key }}
       
       - name: Cache front end assets
         uses: actions/cache@v2
         with:
-          path: apps/site/priv/static/js
-          key: ${{ runner.os }}-assets-${{ hashFiles('apps/site/assets/package-lock.json') }}
+          path: |
+            apps/site/priv/static/js
+            apps/site/react_renderer/dist/app.js
+          key: ${{ runner.os }}-assets-${{ hashFiles('apps/site/assets/**', 'apps/site/react_renderer/**.js') }}
         id: assets-cache
-      - run: npm run --prefix apps/site/assets webpack:build
-        if: steps.assets-cache.outputs.cache-hit != 'true'
+      - run: npx webpack --version
+        working-directory: apps/site/assets
+      - run: npm run webpack:build
+        if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
+        working-directory: apps/site/assets
+      - run: npm run build
+        if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
+        working-directory: apps/site/react_renderer
 
-      - name: Cache back end assets
+      - name: Cache asset digest
         uses: actions/cache@v2
         with:
           path: apps/site/priv/static
-          key: ${{ runner.os }}-digest-${{ hashFiles('apps/site/assets/package-lock.json') }}
+          key: ${{ steps.cache-keys.outputs.digest }}
         id: digest-cache
       - run: mix phx.digest
-        if: steps.digest-cache.outputs.cache-hit != 'true'
+        if: ${{ steps.digest-cache.outputs.cache-hit != 'true' }}
       
       - name: Cache _build
         uses: actions/cache@v2
         with:
           path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ steps.cache-keys.outputs.build }}
         id: build-cache
       - run: mix compile --warnings-as-errors
-        if: steps.build-cache.outputs.cache-hit != 'true'
+        if: ${{ steps.build-cache.outputs.cache-hit != 'true' }}
 
   file_changes:
     name: Before all / Note files changed
     runs-on: ubuntu-latest
-    env:
-      isDevPR: ${{ github.event_name == 'pull_request' && github.actor != "dependabot[bot]" }}
     outputs:
       js: ${{ steps.changes.outputs.js }}
       ts: ${{ steps.changes.outputs.ts }}
@@ -138,22 +156,25 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - if: env.isDevPR
-        name: "PR: Compute changed files"
+      - id: changes
+        name: "Compute changed files"
+        shell: bash
         run: |
-          changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
-          echo "changed files? $(changes)"
-          echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
-          echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
-          echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
-          echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
-      - if: !env.isDevPR
-        name: "Not a PR by a dev. Use placeholder value so all tests run"
-        run: |
-          echo "::set-output name=js::skip"
-          echo "::set-output name=ts::skip"
-          echo "::set-output name=scss::skip"
-          echo "::set-output name=ex::skip"
+          if [[ "${{ github.event_name }}" == "pull_request" ]] && [[ "${{ github.actor }}" != "dependabot[bot]" ]]; then
+              changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
+              echo "changed files? $(changes)"
+              echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
+              echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
+              echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
+              echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
+          else
+              echo "Not a PR by a dev. Use placeholder value so all tests run"
+              echo "::set-output name=js::skip"
+              echo "::set-output name=ts::skip"
+              echo "::set-output name=scss::skip"
+              echo "::set-output name=ex::skip"
+          fi
+      
       - name: "List changed files:"
         run: |
           echo "JS? ${{ steps.changes.outputs.js }}"
@@ -171,12 +192,14 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
-          path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+          path: |
+            apps/site/assets/node_modules
+            apps/site/react_renderer/node_modules
+          key: ${{ needs.setup.outputs.nodejs-key }}
       - run: npm run ci:lint:ts
 
   jslint:
@@ -189,12 +212,14 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
-          path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+          path: |
+            apps/site/assets/node_modules
+            apps/site/react_renderer/node_modules
+          key: ${{ needs.setup.outputs.nodejs-key }}
       - run: npm run ci:lint:js
 
   stylelint:
@@ -207,12 +232,14 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+        key: ${{ needs.setup.outputs.asdf-key }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
-        path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+        path: |
+          apps/site/assets/node_modules
+          apps/site/react_renderer/node_modules
+        key: ${{ needs.setup.outputs.nodejs-key }}
     - run: npm run ci:lint:scss
 
   elixirlint:
@@ -225,46 +252,45 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ needs.setup.outputs.mix-key }}
       - run: npm run ci:lint:ex
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
     runs-on: ubuntu-latest
-    needs: [file_changes, build]
+    needs: [setup, file_changes, build_app]
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - uses: actions/cache@v2
-        with:
-          path: apps/site/react_renderer/dist/app.js
-          key: ${{ runner.os }}-react_renderer-${{ hashFiles('apps/site/react_renderer/package-lock.json') }}
+          path: |
+            apps/site/assets/node_modules
+            apps/site/react_renderer/node_modules
+          key: ${{ needs.setup.outputs.nodejs-key }}
+
       - uses: actions/cache@v2
         with:
           path: apps/site/priv/static
-          key: ${{ runner.os }}-digest-${{ hashFiles('apps/site/assets/package-lock.json') }}
+          key: ${{ needs.build_app.outputs.digest-key }}
       - uses: actions/cache@v2
         with:
           path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ needs.build_app.outputs.build-key }}
       - env:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
@@ -276,7 +302,7 @@ jobs:
           cat apps/*/cover/* > cover/lcov.info
           echo "${{ github.event.pull_request.number }}" > cover/PR_NUMBER
           echo "${{ github.event.pull_request.head.sha }}" > cover/PR_SHA
-        if: github.event.pull_request
+        if: ${{ github.event.pull_request }}
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v2
         with:
@@ -293,38 +319,42 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+        key: ${{ needs.setup.outputs.asdf-key }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
-        path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+        path: |
+          apps/site/assets/node_modules
+          apps/site/react_renderer/node_modules
+        key: ${{ needs.setup.outputs.nodejs-key }}
     - run: npm run ci:unit:mocha
 
   js_unit_2:
     name: Unit tests / JavaScript & TypeScript / Jest
     runs-on: ubuntu-latest
-    needs: [file_changes, build]
+    needs: [setup, file_changes, build_app]
     if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+        key: ${{ needs.setup.outputs.asdf-key }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        key: ${{ needs.setup.outputs.mix-key }}
     - uses: actions/cache@v2
       with:
-        path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+        path: |
+          apps/site/assets/node_modules
+          apps/site/react_renderer/node_modules
+        key: ${{ needs.setup.outputs.nodejs-key }}
     - uses: actions/cache@v2
       with:
         path: _build
-        key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ needs.build_app.outputs.build-key }}
     - run: npm run ci:unit:jest
 
   type_dialyzer:
@@ -337,12 +367,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ needs.setup.outputs.mix-key }}
       - uses: mbta/actions/dialyzer@v1
 
   type_typescript:
@@ -355,12 +385,14 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
-          path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+          path: |
+            apps/site/assets/node_modules
+            apps/site/react_renderer/node_modules
+          key: ${{ needs.setup.outputs.nodejs-key }}
       - run: npm run ci:types:ts
 
   elixir_format_check:
@@ -373,12 +405,12 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ needs.setup.outputs.mix-key }}
       - run: npm run ci:format:ex
 
   js_format_check:
@@ -391,18 +423,20 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+        key: ${{ needs.setup.outputs.asdf-key }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
-        path: "apps/site/*/node_modules"
-        key: ${{ runner.os }}-nodejs2-${{ hashFiles('apps/site/*/package-lock.json') }}
+        path: |
+          apps/site/assets/node_modules
+          apps/site/react_renderer/node_modules
+        key: ${{ needs.setup.outputs.nodejs-key }}
     - run: npm run ci:format:ts
 
   elixir_wallaby:
     name: Integration tests / Elixir
     runs-on: ubuntu-latest
-    needs: [file_changes, build]
+    needs: [setup, file_changes, build_app]
     if: ${{ needs.file_changes.outputs.ex }}
     continue-on-error: true
     steps:
@@ -410,24 +444,26 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
+          key: ${{ needs.setup.outputs.asdf-key }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: "apps/site/*/node_modules"
-          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+          path: |
+            apps/site/assets/node_modules
+            apps/site/react_renderer/node_modules
+          key: ${{ needs.setup.outputs.nodejs-key }}
       - uses: actions/cache@v2
         with:
           path: apps/site/priv/static
-          key: ${{ runner.os }}-digest-${{ hashFiles('apps/site/assets/package-lock.json') }}
+          key: ${{ needs.build_app.outputs.digest-key }}
       - uses: actions/cache@v2
         with:
           path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ needs.build_app.outputs.build-key }}
       - env:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
