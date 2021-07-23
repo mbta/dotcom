@@ -2,6 +2,7 @@ defmodule SiteWeb.Schedule.LineControllerTest do
   use SiteWeb.ConnCase
   alias Services.Service
   alias SiteWeb.ScheduleController.LineController
+  import Mock
 
   describe "services/3" do
     test "omits services in the past" do
@@ -91,6 +92,25 @@ defmodule SiteWeb.Schedule.LineControllerTest do
       services = LineController.services("1", service_date, repo_fn)
       assert length(services) == 2
       refute Enum.member?(services, subset_service)
+    end
+
+    test "does not break even when there's an error getting the current rating" do
+      with_mock(Schedules.Repo, end_of_rating: fn -> nil end) do
+        service_date = ~D[2021-05-01]
+
+        repo_fn = fn _ ->
+          [
+            %Service{
+              start_date: ~D[2021-05-01],
+              end_date: ~D[2021-05-01]
+            }
+          ]
+        end
+
+        services = LineController.services("1", service_date, repo_fn)
+
+        assert length(services) == 1
+      end
     end
   end
 
