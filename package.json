@@ -15,6 +15,7 @@
     "ci:format:ex": "mix format --check-formatted",
     "ci:format:ts": "npm run --prefix apps/site/assets prettier:check",
     "ci:integration:ex": "PORT=4003 mix test --only wallaby",
+    "ci:integration:cypress": "npm run test:cypress:run",
     "build": "mix phx.digest",
     "prebuild": "npm run --prefix apps/site/react_renderer build && npm run --prefix apps/site/assets webpack:build",
     "postbuild": "mix compile --warnings-as-errors",
