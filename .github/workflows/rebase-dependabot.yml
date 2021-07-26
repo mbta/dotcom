@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: dependabot-pr-list
         run: |
-          PR_LIST=$(gh pr list | grep 'dependabot/' | cut -d$'\t'  -f 1 | tac | tr '\n' ' '))
+          PR_LIST=$(gh pr list | grep 'dependabot/' | cut -d$'\t'  -f 1 | tac | tr '\n' ' ')
           echo "::set-output name=prs::${PR_LIST}"
   
   rebase-prs:
