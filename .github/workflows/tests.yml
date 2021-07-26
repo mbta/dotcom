@@ -352,6 +352,10 @@ jobs:
         key: ${{ needs.setup.outputs.nodejs-key }}
     - uses: actions/cache@v2
       with:
+        path: apps/site/priv/static
+        key: ${{ needs.build_app.outputs.digest-key }}
+    - uses: actions/cache@v2
+      with:
         path: _build
         key: ${{ needs.build_app.outputs.build-key }}
     - run: npm run ci:unit:jest
@@ -494,6 +498,10 @@ jobs:
         with:
           path: ~/.cache/Cypress
           key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - uses: actions/cache@v2
+        with:
+          path: apps/site/priv/static
+          key: ${{ needs.build_app.outputs.digest-key }}
       - uses: actions/cache@v2
         with:
           path: _build
