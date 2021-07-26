@@ -86,6 +86,7 @@ jobs:
     outputs:
       build-key: ${{ steps.cache-keys.outputs.build }}
       digest-key: ${{ steps.cache-keys.outputs.digest }}
+      assets-key: ${{ steps.cache-keys.outputs.assets }}
     steps:
       - uses: actions/checkout@v2
       - name: Set cache keys
@@ -93,6 +94,7 @@ jobs:
         run: |
           echo "::set-output name=digest::${{ runner.os }}-digest-cache-${{ hashFiles('apps/site/priv/static/**') }}"
           echo "::set-output name=build::${{ runner.os }}-build-cache-${{ hashFiles('**/lib/**.ex', 'apps/site/priv/static/**', '**/mix.lock') }}"
+          echo "::set-output name=assets::${{ runner.os }}-assets-cache-${{ hashFiles('apps/site/assets/**', 'apps/site/react_renderer/**.js') }}"
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
@@ -115,10 +117,8 @@ jobs:
           path: |
             apps/site/priv/static/js
             apps/site/react_renderer/dist/app.js
-          key: ${{ runner.os }}-assets-${{ hashFiles('apps/site/assets/**', 'apps/site/react_renderer/**.js') }}
+          key: ${{ steps.cache-keys.outputs.assets }}
         id: assets-cache
-      - run: npx webpack --version
-        working-directory: apps/site/assets
       - run: npm run webpack:build
         if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
         working-directory: apps/site/assets
@@ -286,6 +286,12 @@ jobs:
         with:
           path: apps/site/priv/static
           key: ${{ needs.build_app.outputs.digest-key }}
+      - uses: actions/cache@v2
+        with:
+          path: |
+            apps/site/priv/static/js
+            apps/site/react_renderer/dist/app.js
+          key: ${{ needs.build_app.outputs.assets-key }}
       - uses: actions/cache@v2
         with:
           path: _build
@@ -464,6 +470,12 @@ jobs:
           key: ${{ needs.build_app.outputs.digest-key }}
       - uses: actions/cache@v2
         with:
+          path: |
+            apps/site/priv/static/js
+            apps/site/react_renderer/dist/app.js
+          key: ${{ needs.build_app.outputs.assets-key }}
+      - uses: actions/cache@v2
+        with:
           path: _build
           key: ${{ needs.build_app.outputs.build-key }}
       - env:
@@ -502,6 +514,12 @@ jobs:
         with:
           path: apps/site/priv/static
           key: ${{ needs.build_app.outputs.digest-key }}
+      - uses: actions/cache@v2
+        with:
+          path: |
+            apps/site/priv/static/js
+            apps/site/react_renderer/dist/app.js
+          key: ${{ needs.build_app.outputs.assets-key }}
       - uses: actions/cache@v2
         with:
           path: _build
