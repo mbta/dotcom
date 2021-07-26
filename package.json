@@ -7,14 +7,14 @@
     "ci:lint:js": "npm run --prefix apps/site/assets eslint:js",
     "ci:lint:scss": "npm run --prefix apps/site/assets stylelint",
     "ci:lint:ex": "mix credo diff master -a",
-    "ci:unit:exunit": "mix test --exclude wallaby --cover",
+    "ci:unit:exunit": "PORT=4002 mix test --exclude wallaby --cover",
     "ci:unit:mocha": "npm run --prefix apps/site/assets mocha",
     "ci:unit:jest": "npm run --prefix apps/site/assets jest",
     "ci:types:ex": "mix dialyzer --halt-exit-status",
     "ci:types:ts": "npm run --prefix apps/site/assets tsc:check",
     "ci:format:ex": "mix format --check-formatted",
     "ci:format:ts": "npm run --prefix apps/site/assets prettier:check",
-    "ci:integration:ex": "mix test --only wallaby",
+    "ci:integration:ex": "PORT=4003 mix test --only wallaby",
     "build": "mix phx.digest",
     "prebuild": "npm run --prefix apps/site/react_renderer build && npm run --prefix apps/site/assets webpack:build",
     "postbuild": "mix compile --warnings-as-errors",
@@ -27,7 +27,7 @@
     "dialyzer": "mix dialyzer --halt-exit-status",
     "cypress:run": "$(npm bin --prefix apps/site/assets)/cypress run",
     "cypress:open": "$(npm bin --prefix apps/site/assets)/cypress open",
-    "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test mix phx.server' 4002 cypress:run",
-    "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test mix phx.server' 4002 cypress:open"
+    "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
+    "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
   }
 }

@@ -2,7 +2,7 @@ import faker from "../../../apps/site/assets/node_modules/faker/locale/en_US";
 
 describe("Customer Support Form", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:4002/customer-support");
+    cy.visit("http://localhost:4004/customer-support");
   });
 
   it("shows an error state for missing type and comments", () => {
