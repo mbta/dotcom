@@ -126,14 +126,13 @@ jobs:
         if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
         working-directory: apps/site/react_renderer
 
+      - name: Digest assets # always, as the cache key hash needs these files
+        run: mix phx.digest
       - name: Cache asset digest
         uses: actions/cache@v2
         with:
           path: apps/site/priv/static
           key: ${{ steps.cache-keys.outputs.digest }}
-        id: digest-cache
-      - run: mix phx.digest
-        if: ${{ steps.digest-cache.outputs.cache-hit != 'true' }}
       
       - name: Cache _build
         uses: actions/cache@v2
