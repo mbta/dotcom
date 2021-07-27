@@ -2,7 +2,15 @@
   event_start = @event_teaser.date
   event_stop = @event_teaser.date_end
   path_fn = fn -> cms_static_page_path(@conn, @event_teaser.path) end
-  event_is_hidden = if @check_event_ended, do: is_ended?(@event_teaser), else: false
+
+  # this hiding logic will only run for the current month of the current year
+  # so we only need to evaluate the day:
+  event_is_hidden = if @check_event_ended do
+    day_today = @conn.assigns.date.day
+    @event_teaser.date.day < day_today
+  else
+    false
+  end
 %>
 
 <!-- If date is upcoming, display on init -->
