@@ -5,6 +5,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   alias Routes.Route
   alias SiteWeb.ScheduleView
 
+  require Logger
+
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
   plug(:tab_name)
@@ -124,13 +126,24 @@ defmodule SiteWeb.ScheduleController.TimetableController do
           required(:all_stops) => [Stops.Stop.t()]
         }
   def build_timetable(all_stops, schedules) do
-    trip_schedules = Map.new(schedules, &{{&1.trip.id, &1.stop.id}, &1})
+    trip_schedules = Map.new(schedules, &trip_schedule(&1))
     all_stops = remove_unused_stops(all_stops, schedules)
 
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
     }
+  end
+
+  @spec trip_schedule(Schedules.Schedule.t()) ::
+          {{Schedules.Trip.id_t() | nil, Stops.Stop.id_t()}, Schedules.Schedule.t()}
+  defp trip_schedule(%Schedules.Schedule{trip: trip} = schedule) when not is_nil(trip) do
+    {{trip.id, schedule.stop.id}, schedule}
+  end
+
+  defp trip_schedule(schedule) do
+    :ok = Logger.warn("schedule_without_trip: #{inspect(schedule)}")
+    {{nil, schedule.stop.id}, schedule}
   end
 
   @spec header_schedules(list) :: list
