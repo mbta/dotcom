@@ -168,10 +168,10 @@ jobs:
               echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
           else
               echo "Not a PR by a dev. Use placeholder value so all tests run"
-              echo "::set-output name=js::skip"
-              echo "::set-output name=ts::skip"
-              echo "::set-output name=scss::skip"
-              echo "::set-output name=ex::skip"
+              echo "::set-output name=js::all"
+              echo "::set-output name=ts::all"
+              echo "::set-output name=scss::all"
+              echo "::set-output name=ex::all"
           fi
       
       - name: "List changed files:"
