@@ -61,5 +61,6 @@ defmodule SiteWeb.Endpoint do
     signing_salt: "TInvb4GN"
   )
 
+  plug(SiteWeb.Plugs.UriChecker)
   plug(SiteWeb.Router)
 end

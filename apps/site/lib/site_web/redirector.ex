@@ -2,7 +2,7 @@ defmodule SiteWeb.Redirector do
   @behaviour Plug
 
   import Plug.Conn, only: [put_status: 2, halt: 1]
-  import Phoenix.Controller, only: [redirect: 2, render: 3, put_layout: 2, put_view: 2]
+  import Phoenix.Controller, only: [redirect: 2]
 
   alias CMS.Repo
 
@@ -16,7 +16,7 @@ defmodule SiteWeb.Redirector do
   @spec call(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   def call(%Plug.Conn{params: %{"id" => id}} = conn, to: to) when to not in ["/projects"] do
     case find_record(id, to) do
-      :not_found -> render_not_found(conn)
+      :not_found -> SiteWeb.ControllerHelpers.render_not_found(conn)
       record -> redirect_to_show(conn, to, record)
     end
   end
@@ -43,15 +43,6 @@ defmodule SiteWeb.Redirector do
     conn
     |> put_status(:moved_permanently)
     |> redirect(to: to <> "/#{record.id}")
-    |> halt()
-  end
-
-  defp render_not_found(conn) do
-    conn
-    |> put_status(:not_found)
-    |> put_layout({SiteWeb.LayoutView, "app.html"})
-    |> put_view(SiteWeb.ErrorView)
-    |> render("404.html", [])
     |> halt()
   end
 end

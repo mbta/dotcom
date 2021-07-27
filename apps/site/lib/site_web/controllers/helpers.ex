@@ -2,7 +2,7 @@ defmodule SiteWeb.ControllerHelpers do
   @moduledoc false
 
   import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
-  import Phoenix.Controller, only: [render: 3, put_view: 2]
+  import Phoenix.Controller, only: [render: 3, put_view: 2, put_layout: 2]
 
   alias Alerts.{Alert, InformedEntity, Match, Repo}
   alias Phoenix.Controller
@@ -33,6 +33,15 @@ defmodule SiteWeb.ControllerHelpers do
   def render_404(conn) do
     conn
     |> put_status(:not_found)
+    |> put_view(SiteWeb.ErrorView)
+    |> render("404.html", [])
+    |> halt()
+  end
+
+  def render_not_found(conn) do
+    conn
+    |> put_status(:not_found)
+    |> put_layout({SiteWeb.LayoutView, "app.html"})
     |> put_view(SiteWeb.ErrorView)
     |> render("404.html", [])
     |> halt()
