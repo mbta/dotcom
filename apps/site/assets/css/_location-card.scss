@@ -24,7 +24,7 @@
     @include media-breakpoint-down(sm) {
       height: 32px;
     }
-    
+
     display: flex;
     align-items: center;
     font-weight: 500;
@@ -35,7 +35,7 @@
     margin: $base-spacing * .5 $base-spacing * .5 0 0;
     white-space: nowrap;
     background: $white;
-    
+
     &:hover, &:focus {
       text-decoration: none;
       background: $brand-primary-lightest-contrast;
@@ -66,7 +66,7 @@
   border: 1px solid $gray-lightest;
   border-radius: 4px;
   padding: $base-spacing;
-  
+
   @include media-breakpoint-up(sm) {
     flex: 1 1 30%;
   }
@@ -79,6 +79,11 @@
   &-flex-row {
     display: flex;
     justify-content: space-between;
+    min-height: auto;
+
+    @include media-breakpoint-up(md) {
+      min-height: 5.5rem;
+    }
   }
 
   &-place {
@@ -92,6 +97,11 @@
     text-align: right;
     white-space: nowrap;
     margin-left: $base-spacing;
+    margin-top: 0.5em;
+
+    @include media-breakpoint-down(xs) {
+      margin-top: 0.25em;
+    }
   }
 
   &-location {
