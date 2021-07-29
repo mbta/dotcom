@@ -39,6 +39,7 @@
       2,
       {
         "ignore": [
+          "param",
           "value"
         ]
       }

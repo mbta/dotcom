@@ -27,7 +27,7 @@
           <div class="m-event-section">
             <h2 class="mt-0">Event Description</h2>
             <%= Site.ContentRewriter.rewrite(@event.body, @conn) %>
-          
+
             <%= if has_related_files do %>
               <h3>Related Files</h3>
               <%= if @event.agenda_file do %>
@@ -72,19 +72,19 @@
           <% end %>
 
           <%= if @event.event_agenda do %>
-            <div>
-              <h2 class="mt-0"><%= "Agenda" %></h2>
-              <hr />
+            <section class="m-event__agenda">
+              <h2 class="mt-0">Agenda</h2>
               <ol type="A" class="agenda-topics">
                 <%= for topic <- @event.event_agenda.topics do %>
-                  <hr/>
-                  <li>
-                    <h3><%= topic.title %></h3>
-                    <%= Site.ContentRewriter.rewrite(topic.description, @conn) %>
+                  <li class="agenda-topic">
+                    <h3 class="agenda-topic__title"><%= topic.title %></h3>
+                    <div class="agenda-topic__details">
+                      <%= Site.ContentRewriter.rewrite(topic.description, @conn) %>
+                    </div>
                   </li>
                 <% end %>
               </ol>
-            </div>
+            </section>
           <% end %>
 
           <%= if @event.notes do %>
