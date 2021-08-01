@@ -58,7 +58,7 @@
     border: 0;
     display: flex;
     justify-content: space-between;
-    padding: 8px 40px 24px 40px;
+    padding: 8px 40px 24px;
 
     @include media-breakpoint-down(xs) {
       flex-flow: column wrap;
