@@ -29,6 +29,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
     test "returns :not_found if given a bad route ID" do
       assert Helpers.get_route("Puce") == :not_found
+      assert Helpers.get_route("") == :not_found
     end
   end
 

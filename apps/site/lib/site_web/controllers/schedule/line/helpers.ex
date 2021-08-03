@@ -17,6 +17,8 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   @typep stops_by_route :: %{String.t() => [Stop.t()]}
 
   @spec get_route(String.t()) :: {:ok, Route.t()} | :not_found
+  def get_route(""), do: :not_found
+
   def get_route(route_id) do
     route = do_get_route(route_id)
 
