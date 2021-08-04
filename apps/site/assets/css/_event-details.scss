@@ -81,7 +81,7 @@ $separator-border: solid 1px $gray-lightest;
   .agenda-topic,
   .agenda-topics ol > li {
     border-top: $separator-border;
-    padding: $base-spacing 0 $base-spacing * .75;
+    padding: $base-spacing * .75 0 $base-spacing;
   }
 
   // top-level topic
@@ -160,7 +160,7 @@ $separator-border: solid 1px $gray-lightest;
         font-family: $font-family-base;
         font-size: $font-size-base-xs;
         font-weight: normal;
-        line-height: 1;
+        line-height: 1.5;
       }
     }
   }
