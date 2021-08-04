@@ -95,7 +95,7 @@
     "prettier": "^1.15.3",
     "react-test-renderer": "^16.8.6",
     "regenerator-runtime": "^0.13.7",
-    "sass": "^1.25.0",
+    "sass": "^1.37.5",
     "sass-loader": "^7.1.0",
     "sinon": "^4.4.8",
     "start-server-and-test": "^1.12.6",
