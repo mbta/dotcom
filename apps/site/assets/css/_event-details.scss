@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .m-event-details {
 
   .c-cms__title {
@@ -49,7 +51,8 @@
   }
 }
 
-$bullet-size: 2 * $base-spacing;
+$bullet-size: 32px / $font-size-base-xxl * $base-spacing; // 32px on large viewport
+$bullet-space: $base-spacing * .75;
 $separator-border: solid 1px $gray-lightest;
 
 // adds a large round colored circle with number from counter
@@ -88,11 +91,12 @@ $separator-border: solid 1px $gray-lightest;
   .agenda-topic {
     @include agenda-bullet($counter: topicCounter, $counter-type: upper-alpha);
 
+    column-gap: $bullet-space;
     display: grid;
-    gap: $base-spacing * .25;
     grid-template: 'bullet title' auto
                    '.      content' auto
-                   / calc(#{$bullet-size} + .25em) auto;
+                   / $bullet-size auto;
+    row-gap: $base-spacing * .25;
 
     ::before {
       grid-area: bullet;
@@ -100,7 +104,6 @@ $separator-border: solid 1px $gray-lightest;
 
     &__title {
       grid-area: title;
-      line-height: inherit;
       margin: 0;
     }
 
@@ -136,9 +139,10 @@ $separator-border: solid 1px $gray-lightest;
 
         // this number is manually positioned instead of following grid
         &::before {
-          left: calc(-#{$bullet-size} - #{$base-spacing} * .5);
+          font-size: 16px / $font-size-base-xxl * $base-spacing;
+          left: - $bullet-size - $bullet-space;
           position: absolute;
-          top: $headings-line-height / 2;
+          top: math.div($headings-line-height, 2);
         }
 
         // add a bit of space before this list
