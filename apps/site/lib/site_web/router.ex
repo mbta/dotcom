@@ -195,6 +195,7 @@ defmodule SiteWeb.Router do
     get("/search", SearchController, :index)
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
+    get("/reduced-fares/:form", ReducedFaresController, :show)
 
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)

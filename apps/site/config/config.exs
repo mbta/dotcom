@@ -60,6 +60,8 @@ config :site, OldSiteFileController,
 
 config :site, StaticFileController, response_fn: {SiteWeb.StaticFileController, :send_file}
 
+config :site, SiteWeb.ReducedFaresView, reduced_fares_urls: System.get_env("REDUCED_FARES_URLS")
+
 config :util,
   router_helper_module: {:ok, SiteWeb.Router.Helpers},
   endpoint: {:ok, SiteWeb.Endpoint}

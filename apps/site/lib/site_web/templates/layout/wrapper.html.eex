@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%= render "_head.html", assigns %>
+  <%# <body> %>
+  <%= Site.BodyTag.render(@conn) %>
+    <%= content_tag :main, render(@view_module, @view_template, assigns), id: "main", tabindex: -1 %>
+  </body>
+</html>

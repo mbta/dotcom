@@ -26,7 +26,8 @@ defmodule Site.BodyTag do
       javascript_class(conn),
       error_class(conn),
       mticket_class(conn),
-      preview_class(conn)
+      preview_class(conn),
+      wrapper_class(conn)
     ]
     |> Enum.filter(&(&1 != ""))
     |> Enum.join(" ")
@@ -72,4 +73,10 @@ defmodule Site.BodyTag do
     do: "cms-preview"
 
   defp preview_class(_conn), do: ""
+
+  @spec wrapper_class(Plug.Conn.t()) :: String.t()
+  defp wrapper_class(%Plug.Conn{path_info: ["reduced-fares" | _]}),
+    do: "c-iframe-wrapper"
+
+  defp wrapper_class(_conn), do: ""
 end

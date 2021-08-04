@@ -52,5 +52,10 @@ defmodule Site.BodyTagTest do
 
       refute safe_to_string(render(conn)) =~ "no-js cms-preview"
     end
+
+    test "returns 'c-iframe-wrapper' for the /reduced-fares/* path" do
+      conn = %{build_conn() | path_info: ["reduced-fares", "youth-pass"]}
+      assert safe_to_string(render(conn)) =~ "c-iframe-wrapper"
+    end
   end
 end

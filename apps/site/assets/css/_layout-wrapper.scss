@@ -1,0 +1,12 @@
+.c-iframe-wrapper {
+  main,
+  iframe {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  iframe {
+    border: none;
+    overflow: hidden;
+  }
+}
