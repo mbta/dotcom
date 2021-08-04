@@ -67,11 +67,15 @@ const LiveVehicleIconSet = ({
   const vehicleData = stop.route_stop["is_beginning?"]
     ? liveData[stopId].vehicles.filter(vehicle => vehicle.status === "stopped")
     : liveData[stopId].vehicles;
+
+  const headsignsForStop = liveData[stopId].headsigns;
+
   return (
     <VehicleIcons
       key={`${stopId}-vehicles`}
       stop={stop.route_stop}
       vehicles={vehicleData}
+      headsigns={headsignsForStop}
     />
   );
 };

@@ -9,6 +9,12 @@ import {
 } from "../../__schedule";
 import VehicleIcons from "../VehicleIcons";
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
+import {
+  Prediction,
+  PredictedOrScheduledTime,
+  PredictedOrScheduledTimeWithCrowding,
+  HeadsignWithCrowding
+} from "../../../../__v3api";
 
 // mock the redux state
 jest.spyOn(redux, "useSelector").mockImplementation(selector =>
@@ -34,7 +40,7 @@ describe("VehicleIcons", () => {
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <VehicleIcons stop={stop} vehicles={vehicles} />
+        <VehicleIcons stop={stop} vehicles={vehicles} headsigns={[]} />
       </redux.Provider>
     );
   });
@@ -104,6 +110,7 @@ it.each`
         <VehicleIcons
           stop={{ ...stop, route: { type } as RouteStopRoute }}
           vehicles={vehicles}
+          headsigns={[]}
         />
       </redux.Provider>
     );
@@ -125,6 +132,7 @@ it("VehicleIcons includes the vehicle headsign if available", () => {
             crowding: null
           }
         ]}
+        headsigns={[]}
       />
     </redux.Provider>
   );
@@ -146,6 +154,7 @@ it("VehicleIcons includes the trip name as a train number for commuter rail", ()
       <VehicleIcons
         stop={{ ...stop, route: { type: 2 } as RouteStopRoute }}
         vehicles={vehicles}
+        headsigns={[]}
       />
     </redux.Provider>
   );
@@ -154,11 +163,44 @@ it("VehicleIcons includes the trip name as a train number for commuter rail", ()
       <VehicleIcons
         stop={{ ...stop, route: { type: 3 } as RouteStopRoute }}
         vehicles={vehicles}
+        headsigns={[]}
       />
     </redux.Provider>
   );
   expect(tooltipText(crWrapper)).toContain("Dest train 18 is arriving at Test");
   expect(tooltipText(busWrapper)).toContain("Dest bus is arriving at Test");
+});
+
+it("VehicleIcons includes the track number for commuter rail, when available", () => {
+  const vehicles: LineDiagramVehicle[] = [
+    {
+      id: "v1",
+      headsign: "Destination",
+      status: "incoming",
+      trip_name: "18",
+      crowding: null
+    }
+  ];
+
+  const prediction = { track: "999", time: ["14", " ", "min"] } as Prediction;
+  const timeData = { prediction: prediction } as PredictedOrScheduledTime;
+  const tdwcl = { time_data: timeData } as PredictedOrScheduledTimeWithCrowding;
+  const headsignWithCrowding = {
+    time_data_with_crowding_list: [tdwcl]
+  } as HeadsignWithCrowding;
+
+  const crWrapper = mount(
+    <redux.Provider store={store}>
+      <VehicleIcons
+        stop={{ ...stop, route: { type: 2 } as RouteStopRoute }}
+        vehicles={vehicles}
+        headsigns={[headsignWithCrowding]}
+      />
+    </redux.Provider>
+  );
+  expect(tooltipText(crWrapper)).toContain(
+    "Destination train 18 is arriving at Test Stop on Track 999"
+  );
 });
 
 it("VehicleIcons includes the vehicle crowding status if available", () => {
@@ -175,6 +217,7 @@ it("VehicleIcons includes the vehicle crowding status if available", () => {
             crowding: "some_crowding"
           }
         ]}
+        headsigns={[]}
       />
     </redux.Provider>
   );
@@ -200,6 +243,7 @@ it("VehicleIcons does not include the status if we don't know the stop name", ()
             crowding: "some_crowding"
           }
         ]}
+        headsigns={[]}
       />
     </redux.Provider>
   );
