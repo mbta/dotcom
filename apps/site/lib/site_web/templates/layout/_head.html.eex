@@ -1,0 +1,46 @@
+<%
+  google_maps_js_url = raw GoogleMaps.unsigned_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
+%>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <% meta_description = assigns[:meta_description] || "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines." %>
+  <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
+  <meta name="author" content="Massachusetts Bay Transportation Authority">
+  <%= Turbolinks.cache_meta @conn %>
+
+  <%= # hide any page in /org directory from search engines
+  if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
+    <meta name="robots" content="noindex, nofollow">
+  <% end %>
+
+  <% title = if @view_template == "404.html", do: "Page Not Found | MBTA - Massachusetts Bay Transportation Authority", else: title_breadcrumbs(@conn) %>
+  <title><%= title %></title>
+  <link rel="apple-touch-icon" href="<%= static_url(@conn, "/images/mbta-logo-t-180.png") %>" type="image/png">
+  <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
+  <link rel="icon" href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
+
+  <%= if google_tag_manager_id() do %>
+    <link rel="preconnect" href="//www.google-analytics.com">
+  <% end %>
+
+  <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
+  <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
+
+  <%= if Application.get_env(:site, :dev_server?) do %>
+    <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/core.js" %>" data-turbolinks-track="reload" ></script>
+    <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/app.js" %>" data-turbolinks-track="reload" ></script>
+  <% else %>
+    <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
+    <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
+  <% end %>
+
+  <%= if assigns[:requires_google_maps?] do %>
+    <script type="application/javascript">if (!window.mapsCallback) { window.mapsCallback = function () { window.isMapReady = true; } }</script>
+    <script async src="<%= google_maps_js_url %>"></script>
+  <% else %>
+    <link rel="prefetch" href="<%= google_maps_js_url %>" as="script">
+  <% end %>
+</head>
