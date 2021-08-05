@@ -4,7 +4,7 @@ defmodule SiteWeb.ReducedFaresControllerTest do
   test "renders a wrapper page with the requested form embedded in an iframe", %{conn: conn} do
     conn = get(conn, "/reduced-fares/youth-pass")
     rendered = html_response(conn, 200)
-    assert rendered =~ "body"
+    assert rendered =~ "iframe"
   end
 
   test "a request for an unknown form returns a 404", %{conn: conn} do
