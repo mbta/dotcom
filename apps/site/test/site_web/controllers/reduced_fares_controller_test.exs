@@ -1,4 +1,4 @@
-defmodule SiteWeb.StyleGuideControllerTest do
+defmodule SiteWeb.ReducedFaresControllerTest do
   use SiteWeb.ConnCase
 
   test "renders a wrapper page with the requested form embedded in an iframe", %{conn: conn} do
