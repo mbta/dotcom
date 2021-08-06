@@ -12,9 +12,10 @@
               "prediction": {
                 "time": ["2", " ", "min"],
                 "status": null,
-                "track": null
+                "track": "9 and ¾"
               }
             },
+            "predicted_schedule": {},
             "crowding": null
           }
         ]
@@ -33,6 +34,7 @@
                 "track": null
               }
             },
+            "predicted_schedule": {},
             "crowding": null
           }
         ]
@@ -71,6 +73,7 @@
                 "track": null
               }
             },
+            "predicted_schedule": {},
             "crowding": null
           }
         ]

@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { CrowdingType } from "../../schedule/components/__schedule";
+import { RouteType } from "../../__v3api";
 
 export type TileServerUrl =
   | "https://cdn.mbta.com"
@@ -18,6 +19,7 @@ export interface MapMarker {
   id: string | null;
   longitude: number;
   latitude: number;
+  mode?: RouteType;
   size?: number[];
   rotation_angle: number;
   tooltip: ReactElement<HTMLElement> | null;

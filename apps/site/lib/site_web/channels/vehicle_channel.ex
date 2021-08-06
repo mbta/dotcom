@@ -53,6 +53,7 @@ defmodule SiteWeb.VehicleChannel do
           vehicle.longitude,
           id: vehicle.id,
           icon: "vehicle-bordered-expanded",
+          mode: route.type,
           rotation_angle: vehicle.bearing,
           shape_id: trip && trip.shape_id,
           vehicle_crowding: vehicle.crowding,

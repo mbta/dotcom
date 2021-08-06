@@ -13,14 +13,11 @@ import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full lin
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import simpleLiveData from "./lineDiagramData/live-data.json";
 import SearchBox from "../../../../components/SearchBox";
+import { LiveDataByStop } from "../__line-diagram";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
-
-// Mock useSWR to return fixture data
-jest.mock("swr", () => {
-  return jest.fn(() => ({ data: simpleLiveData }));
-});
+const liveData = (simpleLiveData as unknown) as LiveDataByStop;
 
 const route = {
   type: 3 as RouteType,
@@ -83,6 +80,7 @@ describe("LineDiagram", () => {
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
         scheduleNote={null}
+        liveData={liveData}
       />
     );
   });
@@ -190,6 +188,7 @@ it.each`
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
         scheduleNote={null}
+        liveData={liveData}
       />
     );
     expect(wrapper.find(".m-schedule-diagram__heading").text()).toContain(name);

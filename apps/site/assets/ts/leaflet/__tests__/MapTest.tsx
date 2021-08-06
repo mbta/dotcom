@@ -1,9 +1,12 @@
 import React from "react";
 import { mount } from "enzyme";
-import Map from "../components/Map";
+import Map, { buildTooltip } from "../components/Map";
 import { MapData, MapMarker } from "../components/__mapdata";
 import getBounds from "../bounds";
 import { Marker } from "react-leaflet";
+import { RouteType } from "../../__v3api";
+import { LiveDataByStop } from "../../schedule/components/line-diagram/__line-diagram";
+import simpleLiveData from "../../schedule/components/line-diagram/__tests__/lineDiagramData/live-data.json";
 
 /* eslint-disable camelcase */
 const marker: MapMarker = {
@@ -88,4 +91,20 @@ it("it renders a marker with vehicle crowding info", () => {
 
   expect(wrapper.find(Marker)).toHaveLength(1);
 });
+
+it("creates a tooltip containing track info (for Commuter Rail)", () => {
+  const markerWithTrackInfo = {
+    ...marker,
+    id: "veh2",
+    z_index: 1000,
+    mode: 2 as RouteType,
+    tooltip_text: "Train has arrived"
+  };
+  const liveData = (simpleLiveData as unknown) as LiveDataByStop;
+
+  const wrapper = mount(<>{buildTooltip(markerWithTrackInfo, liveData)}</>);
+
+  expect(wrapper.html()).toContain("Train has arrived on Track 9 and ¾");
+});
+
 /* eslint-disable camelcase */

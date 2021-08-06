@@ -5,7 +5,6 @@ import {
   StringParam,
   updateInLocation
 } from "use-query-params";
-import useSWR from "swr";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
 import {
@@ -34,6 +33,7 @@ interface LineDiagramProps {
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
+  liveData: LiveDataByStop;
 }
 
 const stationsOrStops = (routeType: number): string =>
@@ -53,7 +53,8 @@ const LineDiagramAndStopListPage = ({
   services,
   stops,
   today,
-  scheduleNote
+  scheduleNote,
+  liveData
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
   /**
    * Setup state handling etc
@@ -146,16 +147,6 @@ const LineDiagramAndStopListPage = ({
     lineDiagram,
     "route_stop.name"
   );
-
-  /**
-   * Live data, including realtime vehicle locations and predictions
-   */
-  const { data: maybeLiveData } = useSWR(
-    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
-    url => fetch(url).then(response => response.json()),
-    { refreshInterval: 15000 }
-  );
-  const liveData = (maybeLiveData || {}) as LiveDataByStop;
 
   /**
    * Putting it all together

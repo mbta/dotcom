@@ -1,4 +1,6 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
+import useSWR from "swr";
+import { LiveDataByStop } from "./line-diagram/__line-diagram";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
@@ -202,6 +204,16 @@ const ScheduleDirection = ({
     [route, state.directionId, busVariantId, currentRoutePatternIdForData]
   );
 
+  /**
+   * Live data, including realtime vehicle locations and predictions
+   */
+  const { data: maybeLiveData } = useSWR(
+    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
+    url => fetch(url).then(response => response.json()),
+    { refreshInterval: 15000 }
+  );
+  const liveData = (maybeLiveData || {}) as LiveDataByStop;
+
   return (
     <>
       <div className="m-schedule-direction">
@@ -228,6 +240,7 @@ const ScheduleDirection = ({
           data={mapState.data}
           currentShapes={currentShapes}
           currentStops={currentStops}
+          liveData={liveData}
         />
       )}
       {staticMapData && (
@@ -257,6 +270,7 @@ const ScheduleDirection = ({
           stops={stops}
           today={today}
           scheduleNote={scheduleNote}
+          liveData={liveData}
         />
       )}
     </>

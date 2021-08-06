@@ -8,6 +8,10 @@ import {
 } from "leaflet";
 import Leaflet from "react-leaflet";
 import { MapData, MapMarker, IconOpts } from "./__mapdata";
+import { LiveDataByStop } from "../../schedule/components/line-diagram/__line-diagram";
+import CrowdingPill from "../../schedule/components/line-diagram/CrowdingPill";
+import { isACommuterRailRoute } from "../../models/route";
+import { maybeAddTrackToTooltip } from "../../../js/cr-timetable-tooltips";
 
 export interface ZoomOpts {
   maxZoom: number;
@@ -27,6 +31,9 @@ interface Props {
   bounds?: LatLngBounds;
   boundsByMarkers?: boolean;
   mapData: MapData;
+  // liveData set as optional since it's also used in Itinerary.tsx
+  // and we don't need liveData there
+  liveData?: LiveDataByStop;
 }
 
 const mapCenter = (
@@ -47,6 +54,33 @@ const rotateMarker = (
   markerEl.setRotationAngle(angle);
 };
 
+export const buildTooltip = (
+  marker: MapMarker,
+  liveData: LiveDataByStop | undefined
+): ReactElement<HTMLElement> => {
+  // for Commuter Rail, conditionally adjust vehicle markers' tooltip
+  // with information from both prediction and vehicle
+  const tooltipText =
+    marker.z_index === 1000 &&
+    liveData &&
+    marker.mode &&
+    isACommuterRailRoute(marker.mode)
+      ? maybeAddTrackToTooltip(marker, liveData)
+      : marker.tooltip_text;
+
+  return (
+    <div>
+      {marker.vehicle_crowding && (
+        <>
+          <CrowdingPill crowding={marker.vehicle_crowding} />
+          <br />
+        </>
+      )}
+      {tooltipText}
+    </div>
+  );
+};
+
 const Component = ({
   bounds,
   boundsByMarkers,
@@ -56,7 +90,8 @@ const Component = ({
     polylines,
     tile_server_url: tileServerUrl,
     zoom
-  }
+  },
+  liveData
 }: Props): ReactElement<HTMLElement> | null => {
   if (typeof window !== "undefined" && tileServerUrl !== "") {
     /* eslint-disable */
@@ -115,7 +150,9 @@ const Component = ({
             zIndexOffset={marker.z_index}
             keyboard={false}
           >
-            {marker.tooltip && <Popup maxHeight={175}>{marker.tooltip}</Popup>}
+            {marker.tooltip_text && (
+              <Popup maxHeight={175}>{buildTooltip(marker, liveData)}</Popup>
+            )}
           </Marker>
         ))}
         <FullscreenControl />

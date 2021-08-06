@@ -12,13 +12,14 @@ import {
   MapData,
   MapMarker as Marker
 } from "../../leaflet/components/__mapdata";
-import CrowdingPill from "./line-diagram/CrowdingPill";
+import { LiveDataByStop } from "./line-diagram/__line-diagram";
 
 interface Props {
   channel: string;
   data: MapData;
   currentShapes: string[];
   currentStops: string[];
+  liveData?: LiveDataByStop;
 }
 
 interface EventData {
@@ -84,17 +85,6 @@ const zIndex = (icon: string | null): number | undefined =>
 
 const updateMarker = (marker: Marker): Marker => ({
   ...marker,
-  tooltip: (
-    <div>
-      {marker.vehicle_crowding && (
-        <>
-          <CrowdingPill crowding={marker.vehicle_crowding} />
-          <br />
-        </>
-      )}
-      {marker.tooltip_text}
-    </div>
-  ),
   icon_opts: iconOpts(marker.icon), // eslint-disable-line camelcase
   z_index: zIndex(marker.icon) // eslint-disable-line camelcase
 });
@@ -179,7 +169,8 @@ export default ({
   data,
   channel,
   currentShapes,
-  currentStops
+  currentStops,
+  liveData
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     channel,
@@ -208,7 +199,7 @@ export default ({
   const bounds = useRef(getBounds(stopMarkers));
   return (
     <div className="m-schedule__map">
-      <Map bounds={bounds.current} mapData={mapData} />
+      <Map bounds={bounds.current} mapData={mapData} liveData={liveData} />
     </div>
   );
 };

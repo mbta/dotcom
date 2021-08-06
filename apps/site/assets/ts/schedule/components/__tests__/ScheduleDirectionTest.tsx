@@ -23,6 +23,8 @@ import {
 } from "../__schedule";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
+import simpleLiveData from "../line-diagram/__tests__/lineDiagramData/live-data.json";
+import { LiveDataByStop } from "../line-diagram/__line-diagram";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
@@ -164,6 +166,12 @@ const staticMapData: StaticMapData = {
   pdf_url: "http://example.com/map.pdf"
 };
 /* eslint-enable camelcase */
+
+const liveData = (simpleLiveData as unknown) as LiveDataByStop;
+// Mock useSWR to return fixture data
+jest.mock("swr", () => {
+  return jest.fn(() => ({ data: liveData }));
+});
 
 const getComponent = () => (
   <ScheduleDirection
