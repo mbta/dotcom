@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .m-event-details {
 
   .c-cms__title {
@@ -41,10 +43,129 @@
       }
     }
   }
+
+  .m-event__livestream {
+    width: 100%;
+    height: 56vw;
+    max-height: 560px;
+  }
 }
 
-.m-event__livestream {
-  width: 100%;
-  height: 56vw;
-  max-height: 560px;
+$bullet-size: 32px / $font-size-base-xxl * $base-spacing; // 32px on large viewport
+$bullet-space: $base-spacing * .75;
+$separator-border: solid 1px $gray-lightest;
+
+// adds a large round colored circle with number from counter
+@mixin agenda-bullet($bg-color: $gray, $color: $white,
+                     $counter, $counter-type: false) {
+  &::before {
+    background-color: $bg-color;
+    border-radius: 50%;
+    color: $color;
+
+    @if $counter-type {
+      content: counter($counter, $counter-type);
+    } @else {
+      content: counter($counter);
+    }
+
+    counter-increment: $counter;
+    display: inline-block;
+    font-weight: 700;
+    height: $bullet-size;
+    line-height: $bullet-size;
+    text-align: center;
+    width: $bullet-size;
+  }
+}
+
+.m-event__agenda {
+  // top level and second level topics
+  .agenda-topic,
+  .agenda-topics ol > li {
+    border-top: $separator-border;
+    padding: $base-spacing * .75 0 $base-spacing;
+  }
+
+  // top-level topic
+  .agenda-topic {
+    @include agenda-bullet($counter: topicCounter, $counter-type: upper-alpha);
+
+    column-gap: $bullet-space;
+    display: grid;
+    grid-template: 'bullet title' auto
+                   '.      content' auto
+                   / $bullet-size auto;
+    row-gap: $base-spacing * .25;
+
+    ::before {
+      grid-area: bullet;
+    }
+
+    &__title {
+      grid-area: title;
+      margin: 0;
+    }
+
+    &__details {
+      grid-area: content;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  // top-level list
+  .agenda-topics {
+    counter-reset: topicCounter 0 subCounter 0;
+    padding-left: 0;
+
+    // second-level topics list
+    // the selectors here target markup fetched from the CMS, so
+    /* stylelint-disable max-nesting-depth */
+    ol {
+      list-style: none;
+
+      > li {
+        @include agenda-bullet($bg-color: $gray-bordered-background,
+                               $color: $gray, $counter: subCounter);
+
+        align-items: first baseline;
+        font-family: $headings-font-family;
+        font-size: $font-size-h4;
+        font-weight: $headings-font-weight;
+        grid-area: content;
+        line-height: $headings-line-height;
+        position: relative;
+
+        // this number is manually positioned instead of following grid
+        &::before {
+          font-size: 16px / $font-size-base-xxl * $base-spacing;
+          left: - $bullet-size - $bullet-space;
+          position: absolute;
+          top: math.div($headings-line-height, 2);
+        }
+
+        // add a bit of space before this list
+        &:first-of-type {
+          margin-top: .75em;
+        }
+      }
+    }
+    /* stylelint-enable max-nesting-depth */
+
+    // further nested sub-lists get styled as small muted text
+    ul {
+      list-style: none;
+      padding-left: 0;
+      padding-top: $base-spacing * .25;
+
+      li {
+        color: $gray;
+        font-family: $font-family-base;
+        font-size: $font-size-base-xs;
+        font-weight: normal;
+        line-height: 1.5;
+      }
+    }
+  }
 }
