@@ -87,7 +87,9 @@ defmodule PredictedSchedule do
   PredictedSchedules where the `schedule` and `prediction` share a trip_id.
   Either the `schedule` or `prediction` may be nil, but not both.
   """
-  @spec group([Prediction.t()], [Schedule.t()], Keyword.t()) :: [PredictedSchedule.t()]
+  @spec group([Prediction.t()], [Schedule.t()] | [ScheduleCondensed.t()], Keyword.t()) :: [
+          PredictedSchedule.t()
+        ]
   def group(predictions, schedules, opts \\ []) do
     schedule_map = create_map(schedules)
     prediction_map = create_map(predictions)
