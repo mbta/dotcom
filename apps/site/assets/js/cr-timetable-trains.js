@@ -31,6 +31,33 @@ export class CRTimetableTrains {
       schedules: this.schedules,
       priorStops: this.priorStops
     });
+
+    setInterval(this.fetchLiveData, 15000);
+  }
+
+  buildUrl(channelId) {
+    // channelId = "vehicles:<routeId>:<directionId>"
+    if (channelId) {
+      const routeData = channelId.split(":");
+      const routeId = routeData[1];
+      const directionId = routeData[2];
+      return `/schedules/line_api/realtime?id=${routeId}&direction_id=${directionId}`;
+    }
+    return null;
+  }
+
+  fetchLiveData() {
+    const url = this.channelId ? this.buildUrl(this.channelId) : null;
+    if (url) {
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          this.liveData = data;
+        })
+        .catch(err => {
+          console.log(`error: ${err}`);
+        });
+    }
   }
 
   getData() {
@@ -59,6 +86,8 @@ export class CRTimetableTrains {
   bind() {
     this.onVehicles = this.onVehicles.bind(this);
     this.onRemoveVehicles = this.onRemoveVehicles.bind(this);
+    this.fetchLiveData = this.fetchLiveData.bind(this);
+    this.buildUrl = this.buildUrl.bind(this);
   }
 
   addEventListeners() {
@@ -80,7 +109,9 @@ export class CRTimetableTrains {
 
   onVehicles(ev, { data }) {
     // eslint-disable-next-line no-shadow
-    data.forEach(vehicle => this.icons.addOrUpdateTrain(vehicle));
+    data.forEach(vehicle =>
+      this.icons.addOrUpdateTrain(vehicle, this.liveData)
+    );
   }
 
   onRemoveVehicles(ev, { data }) {

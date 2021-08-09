@@ -1,4 +1,8 @@
-import { addOrUpdateTooltip, removeTooltip } from "./cr-timetable-tooltips";
+import {
+  addOrUpdateTooltip,
+  removeTooltip,
+  maybeAddTrackToTooltip
+} from "./cr-timetable-tooltips";
 
 export const allTrainsClass = "js-train-icon";
 export const trainIcon = id =>
@@ -20,11 +24,11 @@ export class CRTimetableTrainIcons {
     this.schedules = props.schedules;
   }
 
-  addOrUpdateTrain(data) {
+  addOrUpdateTrain(data, liveData) {
     // Splat together vehicle struct and stop name data
     const {
       data: { vehicle: vehicleStruct, stop_name: stopName },
-      marker: { tooltip_text }
+      marker
     } = data;
     const vehicle = { ...vehicleStruct, stop_name: stopName };
 
@@ -41,8 +45,13 @@ export class CRTimetableTrainIcons {
       removeTrain(vehicle.id);
     }
 
+    const tooltipText =
+      liveData && marker
+        ? maybeAddTrackToTooltip(marker, liveData)
+        : marker.tooltip_text;
+
     this.addTrain(vehicle, vehicleContainer);
-    const text = "<p class='prediction-tooltip'>" + tooltip_text + "</p>";
+    const text = `<p class='prediction-tooltip'>${tooltipText}</p>`;
     addOrUpdateTooltip(text, vehicleContainerId);
   }
 
