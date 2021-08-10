@@ -8,7 +8,7 @@
 Before getting review, please check the following:
 
 * [ ] Does frontend functionality render and work correctly in IE?
-* [ ] Have we load-tested any new pages or internal API endpoints that will receive significant traffic?
+* [ ] Have we load-tested any new pages or internal API endpoints that will receive significant traffic? [See load testing docs](./../apps/site/load_tests/README.md)
 * [ ] Are interactive elements accessible to screen readers?
 * [ ] Have you checked for tech debt you can address in the area you're working in?
 * [ ] If this change involves routes, does it work correctly with pertinent "unusual" routes such as the combined Green Line, Silver Line, Foxboro commuter rail, and single-direction bus routes like the 170?
