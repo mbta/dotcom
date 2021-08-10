@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'colors';
 
 $grid-breakpoints: (
@@ -46,20 +47,20 @@ $space-12: $space-16 * .75;
 $space-18: $space-12 * 1.5;
 $space-24: $space-12 * 2;
 $space-36: $space-16 * 2.25;
-$space-8: $space-16 / 2; // 8px real, 4px Zeplin
-$space-6: $space-12 / 2; // 6px real, 3px Zeplin
-$space-4: $space-12 / 4; // 3px real, 1.5px Zeplin
-$space-2: $space-12 / 6; // 2px real, 1px Zeplin
-$space-1: $space-12 / 12; // 1px real, 0.5px Zeplin
+$space-8: math.div($space-16, 2); // 8px real, 4px Zeplin
+$space-6: math.div($space-12, 2); // 6px real, 3px Zeplin
+$space-4: math.div($space-12, 4); // 3px real, 1.5px Zeplin
+$space-2: math.div($space-12, 6); // 2px real, 1px Zeplin
+$space-1: math.div($space-12, 12); // 1px real, 0.5px Zeplin
 
 $base-spacing: $space-16;
 $base-spacing-sm: $space-8;
 $base-spacing-lg: $space-24;
 $base-spacing-xl: $space-36;
 
-$homepage-gutter: $base-spacing / 2;
-$half-gutter: $grid-gutter-width / 2;
-$col-width: 100% / $grid-columns;
+$homepage-gutter: math.div($base-spacing, 2);
+$half-gutter: math.div($grid-gutter-width, 2);
+$col-width: math.div(100%, $grid-columns);
 
 $font-family-base: 'Inter UI', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
