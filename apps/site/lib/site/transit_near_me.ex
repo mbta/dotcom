@@ -141,6 +141,16 @@ defmodule Site.TransitNearMe do
       {:error, [%JsonApi.Error{code: "no_service"}]} ->
         %{}
 
+      {:error, error} ->
+        _ =
+          Logger.warn(
+            "module=#{__MODULE__} route_id=#{route_id} date=#{DateTime.to_string(date)} Other error fetching schedule: #{
+              inspect(error)
+            }"
+          )
+
+        %{}
+
       _ ->
         schedule_data
         |> get_predicted_schedules([route: route_id, direction_id: direction_id], opts)

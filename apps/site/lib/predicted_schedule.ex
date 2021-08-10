@@ -87,7 +87,9 @@ defmodule PredictedSchedule do
   PredictedSchedules where the `schedule` and `prediction` share a trip_id.
   Either the `schedule` or `prediction` may be nil, but not both.
   """
-  @spec group([Prediction.t()], [Schedule.t()], Keyword.t()) :: [PredictedSchedule.t()]
+  @spec group([Prediction.t()], [Schedule.t()] | [ScheduleCondensed.t()], Keyword.t()) :: [
+          PredictedSchedule.t()
+        ]
   def group(predictions, schedules, opts \\ []) do
     schedule_map = create_map(schedules)
     prediction_map = create_map(predictions)
@@ -110,18 +112,29 @@ defmodule PredictedSchedule do
   @spec group_transform(Schedule.t() | ScheduleCondensed.t() | Prediction.t()) ::
           {{String.t(), String.t(), non_neg_integer}, Schedule.t() | Prediction.t()}
   defp group_transform(%{trip: nil} = ps) do
-    {{ps.id, ps.stop.id, ps.stop_sequence}, ps}
+    case ps do
+      %Schedule{stop: nil} ->
+        {{nil, nil, ps.stop_sequence}, ps}
+
+      %Schedule{stop: stop} ->
+        {{nil, stop.id, ps.stop_sequence}, ps}
+
+      %Prediction{id: id, stop: nil} ->
+        {{id, nil, ps.stop_sequence}, ps}
+
+      %Prediction{id: id, stop: stop} ->
+        {{id, stop.id, ps.stop_sequence}, ps}
+    end
   end
 
-  defp group_transform(%{trip_id: nil} = ps) do
-    {{ps.id, ps.stop.id, ps.stop_sequence}, ps}
-  end
-
-  defp group_transform(%{trip_id: trip_id, stop_id: stop_id, stop_sequence: stop_sequence} = ps) do
+  defp group_transform(
+         %ScheduleCondensed{trip_id: trip_id, stop_id: stop_id, stop_sequence: stop_sequence} = ps
+       ) do
     {{trip_id, stop_id, stop_sequence}, ps}
   end
 
-  defp group_transform(ps) do
+  defp group_transform(%{trip: trip, stop: stop} = ps)
+       when not is_nil(trip) and not is_nil(stop) do
     {{ps.trip.id, ps.stop.id, ps.stop_sequence}, ps}
   end
 

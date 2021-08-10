@@ -1,6 +1,6 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: true
-  alias Schedules.{Schedule, Trip}
+  alias Schedules.{Schedule, ScheduleCondensed, Trip}
   alias Stops.Stop
   alias Predictions.Prediction
   import PredictedSchedule
@@ -50,6 +50,15 @@ defmodule PredictedScheduleTest do
       route: @route
     }
   ]
+
+  @condensed_schedules Enum.map(
+                         @schedules,
+                         &%ScheduleCondensed{
+                           trip_id: &1.trip.id,
+                           stop_id: &1.stop.id,
+                           time: &1.time
+                         }
+                       )
 
   @predictions [
     %Prediction{
@@ -185,13 +194,40 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "group/2" do
-    test "PredictedSchedules are paired by stop" do
+  describe "PredictedSchedules.group/2" do
+    test "paired by stop" do
       predicted_schedules = group(@predictions, Enum.shuffle(@schedules))
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
             Enum.take(predicted_schedules, 3) do
         assert schedule.stop == prediction.stop
+      end
+    end
+
+    test "does not pair when schedule trip is nil" do
+      schedules_nil_trips = Enum.map(@schedules, &Map.replace!(&1, :trip, nil))
+      predicted_schedules = group(@predictions, Enum.shuffle(schedules_nil_trips))
+
+      # predictions have no schedules with trips to pair with
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
+          is_nil(schedule) do
+        assert prediction.stop
+        assert prediction.trip
+      end
+
+      # nil-trip schedules are paired with a nil prediction
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
+          is_nil(prediction) do
+        assert schedule.stop
+      end
+    end
+
+    test "works with the schedules returned from Site.RealtimeSchedule" do
+      predicted_condensed_schedules = group(@predictions, Enum.shuffle(@condensed_schedules))
+
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
+            Enum.take(predicted_condensed_schedules, 3) do
+        assert prediction.stop.id == schedule.stop_id
       end
     end
 
@@ -214,9 +250,38 @@ defmodule PredictedScheduleTest do
       assert stop_sequences == Enum.sort(stop_sequences)
     end
 
+    test "Condensed Schedules and Predictions with different stop_sequence values stay separated" do
+      predictions = @predictions ++ Enum.map(@predictions, &%{&1 | stop_sequence: 5})
+
+      schedules =
+        @condensed_schedules ++ Enum.map(@condensed_schedules, &%{&1 | stop_sequence: 5})
+
+      predicted_schedules = group(predictions, schedules)
+      assert length(predicted_schedules) == length(schedules)
+
+      for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
+          not is_nil(prediction) do
+        assert schedule.stop_id == prediction.stop.id
+        assert schedule.stop_sequence == prediction.stop_sequence
+      end
+
+      stop_sequences =
+        for %PredictedSchedule{schedule: schedule} <- predicted_schedules,
+            do: schedule.stop_sequence
+
+      assert stop_sequences == Enum.sort(stop_sequences)
+    end
+
     test "All schedules are returned" do
       predicted_schedules = group(@predictions, @schedules)
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
+      predicted_condensed_schedules = group(@predictions, @condensed_schedules)
+      assert Enum.map(predicted_condensed_schedules, & &1.schedule) == @condensed_schedules
+      schedules_nil_trips = Enum.map(@schedules, &Map.replace!(&1, :trip, nil))
+      predicted_schedules_with_nil_trips = group(@predictions, schedules_nil_trips)
+      # these are grouped differently, so just check if all schedules are present
+      predicted_schedules_schedules = Enum.map(predicted_schedules_with_nil_trips, & &1.schedule)
+      assert Enum.all?(schedules_nil_trips, &Enum.member?(predicted_schedules_schedules, &1))
     end
 
     test "PredictedSchedules are returned in order of ascending time" do
