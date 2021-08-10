@@ -1026,12 +1026,6 @@ del .trip-list-realtime {
   color: $white;
 
   &.u-bg--commuter-rail {
-    .info-\&-maps-tab,
-    .schedule-\&-maps-tab {
-      @include media-breakpoint-down(xs) {
-        display: none;
-      }
-    }
 
     .info-tab,
     .schedule-tab {
