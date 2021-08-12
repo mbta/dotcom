@@ -48,6 +48,49 @@ exports[`it displays delayed status for CR 1`] = `
 </div>
 `;
 
+exports[`it displays on time status with the scheduled time and not the prediction time for CR 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+    >
+      Worcester
+    </div>
+    <div
+      className="m-tnm-sidebar__headsign-train"
+    >
+      Train 511
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  "
+      >
+        <div
+          className=" m-tnm-sidebar__time-number"
+        >
+          10:21 AM
+        </div>
+        <div
+          className="m-tnm-sidebar__status"
+        >
+          On time
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`it renders 2 predictions 1`] = `
 <div
   className="m-tnm-sidebar__headsign-schedule"

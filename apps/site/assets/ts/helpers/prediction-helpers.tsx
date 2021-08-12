@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { PredictedOrScheduledTime } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
 import { TripPrediction } from "../schedule/components/__trips";
+import { compareStringTimes } from "./date";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -27,7 +28,18 @@ export const timeForCommuterRail = (
     return delayForCommuterRail(data, className);
   }
 
-  const time = prediction ? prediction.time : scheduledTime;
+  let time = prediction ? prediction.time : scheduledTime;
+
+  // when 'On time', show the scheduled time only if it's later than the predicted time:
+  if (
+    scheduledTime &&
+    prediction &&
+    prediction.time[2] !== "min" &&
+    compareStringTimes(prediction.time, scheduledTime) === "lt"
+  ) {
+    // "On time"
+    time = scheduledTime;
+  }
 
   return <div className={className}>{time!.join("")}</div>;
 };
