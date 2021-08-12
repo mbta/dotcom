@@ -36,4 +36,26 @@ export const shortDate = (date: Date): string =>
     timeZone: "UTC"
   });
 
+export const compareStringTimes = (
+  timeStr1: string[],
+  timeStr2: string[]
+): string => {
+  const today = new Date();
+  const dateFormatted = new Intl.DateTimeFormat("en-US").format(today);
+
+  const fullDate1 = `${dateFormatted} ${timeStr1.join("")}`; // "11/24/2013 2:10 PM"
+  const fullDate2 = `${dateFormatted} ${timeStr2.join("")}`;
+
+  const timeInMs1 = new Date(fullDate1).getTime();
+  const timeInMs2 = new Date(fullDate2).getTime();
+
+  let comparison = "eq";
+  if (timeInMs1 < timeInMs2) {
+    comparison = "lt";
+  } else if (timeInMs1 > timeInMs2) {
+    comparison = "gt";
+  }
+  return comparison;
+};
+
 export default formattedDate;

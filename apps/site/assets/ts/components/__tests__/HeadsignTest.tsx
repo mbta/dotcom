@@ -289,3 +289,28 @@ it("it displays cancelled status for CR", () => {
     wrapper.find(".m-tnm-sidebar__time-number.strikethrough").exists()
   ).toBeTruthy();
 });
+
+it("it displays on time status with the scheduled time and not the prediction time for CR", () => {
+  const headsign: Headsign = {
+    name: "Worcester",
+    train_number: "511",
+    times: [
+      {
+        delay: -1,
+        scheduled_time: ["10:21", " ", "AM"],
+        prediction: {
+          schedule_relationship: null,
+          time: ["10:19", " ", "AM"],
+          status: null,
+          track: null
+        }
+      }
+    ]
+  };
+  createReactRoot();
+  const tree = renderer.create(
+    <HeadsignComponent headsign={headsign} condensed={true} routeType={2} />
+  );
+  // should display 10:21 AM and On time
+  expect(tree.toJSON()).toMatchSnapshot();
+});
