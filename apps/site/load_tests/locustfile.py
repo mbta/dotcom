@@ -1,6 +1,5 @@
-from locust import HttpLocust, TaskSet, task
-from page import Page
-
+from locust import HttpUser, TaskSet, task
+from linediagram import LineDiagramTaskSet
 
 class TransitNearMe(TaskSet):
     def on_start(self):
@@ -46,8 +45,19 @@ class TransitNearMe(TaskSet):
             "/transit-near-me?location%5Baddress%5D=Paris%2C+France&location%5Blatitude%5D=48.856614&location%5Blongitude%5D=2.3522219000000177"
         )
 
+class WebsiteUser(HttpUser):
+    LineDiagramCR = LineDiagramTaskSet("cr")
+    LineDiagramBus = LineDiagramTaskSet("bus")
+    LineDiagramSubway = LineDiagramTaskSet("subway")
+    LineDiagramFerry = LineDiagramTaskSet("ferry")
+    
+    tasks = {
+        TransitNearMe: 3,
+        LineDiagramCR: 5,
+        LineDiagramBus: 5,
+        LineDiagramSubway: 3,
+        LineDiagramFerry: 1
+    }
 
-class WebsiteUser(HttpLocust):
-    task_set = TransitNearMe
-    min_wait = 5000  # 5 seconds
+    min_wait = 1000  # 1 seconds
     max_wait = 15000  # 15 seconds
