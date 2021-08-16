@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import Map, { iconOpts, reducer } from "../Map";
+import Map, { iconOpts, reducer, updateMarker } from "../Map";
 import {
   MapData,
   MapMarker as Marker
@@ -194,5 +194,25 @@ describe("iconOpts", () => {
 
   it("does not throw error when icon is null", () => {
     expect(iconOpts(null)).toEqual({});
+  });
+
+  it("creates a tooltip containing track info (for Commuter Rail)", () => {
+    const vehicleMarkerWithTrackInfo: Marker = {
+      icon: "vehicle-bordered-expanded",
+      latitude: 42.43668,
+      longitude: -71.071097,
+      rotation_angle: 0,
+      tooltip: null,
+      id: "veh2",
+      z_index: 1000,
+      tooltip_text:
+        "<p class='prediction-tooltip'>Train has arrived on Track 9 and ¾</p>"
+    };
+
+    const updatedMarker = updateMarker(vehicleMarkerWithTrackInfo);
+
+    const wrapper = mount(<>{updatedMarker.tooltip}</>);
+
+    expect(wrapper.html()).toContain("Train has arrived on Track 9 and ¾");
   });
 });

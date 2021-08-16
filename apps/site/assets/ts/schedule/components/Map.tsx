@@ -82,18 +82,24 @@ export const iconOpts = (
 const zIndex = (icon: string | null): number | undefined =>
   icon === "vehicle-bordered-expanded" ? 1000 : undefined;
 
-const updateMarker = (marker: Marker): Marker => ({
+export const updateMarker = (marker: Marker): Marker => ({
   ...marker,
   tooltip: (
-    <div>
+    <>
       {marker.vehicle_crowding && (
         <>
           <CrowdingPill crowding={marker.vehicle_crowding} />
           <br />
         </>
       )}
-      {marker.tooltip_text}
-    </div>
+      {/* marker.tooltip_text can contain just the name of the stop OR some markup with the vehicle and prediction info */}
+      {marker.tooltip_text && (
+        <div
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: marker.tooltip_text }}
+        />
+      )}
+    </>
   ),
   icon_opts: iconOpts(marker.icon), // eslint-disable-line camelcase
   z_index: zIndex(marker.icon) // eslint-disable-line camelcase
