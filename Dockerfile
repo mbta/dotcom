@@ -10,7 +10,7 @@ ENV LANG="C.UTF-8" MIX_ENV="prod"
 WORKDIR /root
 
 # Debian dependencies
-RUN apt-get update && apt-get install -y curl git make build-essential
+RUN apt-get update --allow-releaseinfo-change && apt-get install -y curl git make build-essential
 
 # Configure Git to use HTTPS in order to avoid issues with the internal MBTA network
 RUN git config --global url.https://github.com/.insteadOf git://github.com/
