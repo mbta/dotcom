@@ -337,8 +337,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert Enum.count(conn.assigns.holidays) == 3
     end
 
-    @tag skip:
-           "Commenting out this test temporarily. As of early 2021, ferries are for the moment not in service"
     test "Ferry data", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "Boat-F4", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Charlestown Ferry"
@@ -350,7 +348,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
       # Map
       assert conn.assigns.map_img_src =~
-               "/sites/default/files/media/2021-01/2021-05-22-ferry-map.png"
+               "/sites/default/files/media/2021-05/2021-05-22-ferry-map.png"
     end
 
     test "Bus data", %{conn: conn} do
