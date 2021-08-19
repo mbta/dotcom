@@ -1,4 +1,10 @@
-import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
+import React, {
+  ReactElement,
+  useReducer,
+  useEffect,
+  Dispatch,
+  useRef
+} from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
@@ -12,10 +18,18 @@ import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
 import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
-import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
-import Map from "../components/Map";
+import {
+  MapData,
+  StaticMapData,
+  Polyline,
+  MapMarker
+} from "../../leaflet/components/__mapdata";
+import Map from "../../leaflet/components/Map";
 import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
 import { isABusRoute, isACommuterRailRoute } from "../../models/route";
+import getBounds from "../../leaflet/bounds";
+import { reducer as channelReducer, updateMarker } from "./reducer";
+import { setupChannels, stopChannels } from "./Channel";
 
 export interface Props {
   route: EnhancedRoute;
@@ -125,8 +139,8 @@ const ScheduleDirection = ({
   //    1. Filter by route_id - we only want to show the primary path, not the multi-route trips
   //    2. Filter by typicality
   //    3. If there are multiple route_patterns with different shape values, then filter out shuttles (which usually have priority = -1)
-  let currentShapes;
-  let currentStops;
+  let currentShapes: string[];
+  let currentStops: string[];
   if (isABusRoute(route)) {
     currentShapes = [state.routePattern.shape_id];
     currentStops = state.routePattern.stop_ids;
@@ -202,6 +216,44 @@ const ScheduleDirection = ({
     [route, state.directionId, busVariantId, currentRoutePatternIdForData]
   );
 
+  const channel = `vehicles:${route.id}:${state.directionId}`;
+
+  const [channelState, channelDispatch] = useReducer(channelReducer, {
+    channel,
+    markers: mapState.data ? mapState.data.markers : {}
+  });
+  useEffect(
+    () => {
+      setupChannels(channel, channelDispatch);
+      return () => stopChannels(channel);
+    },
+    [channel, channelDispatch]
+  );
+  const stopMarkers =
+    mapState.data && mapState.data.stop_markers
+      ? mapState.data.stop_markers
+          .filter((mark: MapMarker) => currentStops.includes(mark.id as string))
+          .map((marker: MapMarker) => updateMarker(marker))
+      : [];
+
+  const mapDataFromChannel = {
+    ...mapState.data,
+    polylines:
+      mapState.data && mapState.data.polylines
+        ? mapState.data.polylines.filter((p: Polyline) =>
+            currentShapes.some(shape => shape === p.id)
+          )
+        : [],
+    markers: channelState.markers.concat(stopMarkers)
+  };
+  const bounds = useRef(getBounds(stopMarkers));
+
+  const vehicleMarkers = mapDataFromChannel.markers
+    ? mapDataFromChannel.markers.filter(
+        (marker: MapMarker) => marker.icon === "vehicle-bordered-expanded"
+      )
+    : [];
+
   return (
     <>
       <div className="m-schedule-direction">
@@ -223,12 +275,9 @@ const ScheduleDirection = ({
         ) : null}
       </div>
       {!staticMapData && mapState.data && (
-        <Map
-          channel={`vehicles:${route.id}:${state.directionId}`}
-          data={mapState.data}
-          currentShapes={currentShapes}
-          currentStops={currentStops}
-        />
+        <div className="m-schedule__map">
+          <Map bounds={bounds.current} mapData={mapDataFromChannel} />
+        </div>
       )}
       {staticMapData && (
         <>
@@ -257,6 +306,7 @@ const ScheduleDirection = ({
           stops={stops}
           today={today}
           scheduleNote={scheduleNote}
+          vehicleMarkers={vehicleMarkers}
         />
       )}
     </>
