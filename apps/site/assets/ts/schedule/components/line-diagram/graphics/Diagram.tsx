@@ -18,10 +18,12 @@ import { getCurrentState } from "../../../store/ScheduleStore";
 import { DirectionId } from "../../../../__v3api";
 import { isAGreenLineRoute } from "../../../../models/route";
 import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
+import { MapMarker } from "../../../../leaflet/components/__mapdata";
 
 interface DiagramProps {
   lineDiagram: LineDiagramStop[];
   liveData: LiveDataByStop | null;
+  vehicleMarkers: MapMarker[];
 }
 
 const branchingDescription = (lineDiagram: LineDiagramStop[]): string => {
@@ -55,11 +57,13 @@ const diagramDescription = (
 interface VehicleIconSetProps {
   stop: LineDiagramStop;
   liveData: LiveDataByStop | null;
+  vehicleMarkers: MapMarker[];
 }
 
 const LiveVehicleIconSet = ({
   stop,
-  liveData
+  liveData,
+  vehicleMarkers
 }: VehicleIconSetProps): ReactElement<HTMLElement> | null => {
   const stopId = stop.route_stop.id;
   if (!liveData || !liveData[stopId]) return null;
@@ -68,20 +72,18 @@ const LiveVehicleIconSet = ({
     ? liveData[stopId].vehicles.filter(vehicle => vehicle.status === "stopped")
     : liveData[stopId].vehicles;
 
-  const headsignsForStop = liveData[stopId].headsigns;
-
   return (
     <VehicleIcons
       key={`${stopId}-vehicles`}
       stop={stop.route_stop}
       vehicles={vehicleData}
-      headsigns={headsignsForStop}
+      vehicleMarkers={vehicleMarkers}
     />
   );
 };
 
 const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
-  const { lineDiagram, liveData } = props;
+  const { lineDiagram, liveData, vehicleMarkers } = props;
   const { selectedDirection } = getCurrentState();
   const width = diagramWidth(
     max(lineDiagram.map(ld => ld.stop_data.length)) || 1
@@ -94,6 +96,7 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
           key={stop.route_stop.id}
           stop={stop}
           liveData={liveData}
+          vehicleMarkers={vehicleMarkers}
         />
       ))}
       <svg

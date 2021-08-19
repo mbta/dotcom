@@ -2,20 +2,27 @@ import React, { ReactElement } from "react";
 import { hasBranchLines } from "./line-diagram-helpers";
 import Diagram from "./graphics/Diagram";
 import StopListWithBranches from "./StopListWithBranches";
-import { CommonLineDiagramProps } from "./__line-diagram";
+import { LiveDataByStop } from "./__line-diagram";
+import { LineDiagramStop, RouteStop } from "../__schedule";
 import useStopPositions, { RefList } from "./graphics/useStopPositions";
 import StopCard from "./StopCard";
 import { hasPredictionTime } from "../../../models/prediction";
+import { MapMarker } from "../../../leaflet/components/__mapdata";
+
+interface Props {
+  stops: LineDiagramStop[];
+  handleStopClick: (stop: RouteStop) => void;
+  liveData: LiveDataByStop;
+  vehicleMarkers: MapMarker[];
+}
 
 export const StopRefContext = React.createContext<[RefList, () => void]>([
   {},
   () => {}
 ]);
 
-const LineDiagramWithStops = (
-  props: CommonLineDiagramProps
-): ReactElement<HTMLElement> => {
-  const { stops, handleStopClick, liveData } = props;
+const LineDiagramWithStops = (props: Props): ReactElement<HTMLElement> => {
+  const { stops, handleStopClick, liveData, vehicleMarkers } = props;
 
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
   const [stopRefsMap, updateAllStopCoords] = useStopPositions(stops);
@@ -39,7 +46,11 @@ const LineDiagramWithStops = (
           !anyCrowding ? "u-no-crowding-data" : ""
         }`}
       >
-        <Diagram lineDiagram={stops} liveData={liveData} />
+        <Diagram
+          lineDiagram={stops}
+          liveData={liveData}
+          vehicleMarkers={vehicleMarkers}
+        />
         {hasBranchLines(stops) ? (
           <StopListWithBranches {...props} />
         ) : (

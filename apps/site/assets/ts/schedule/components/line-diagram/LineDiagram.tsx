@@ -24,6 +24,7 @@ import { LiveDataByStop } from "./__line-diagram";
 import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import StopCard from "./StopCard";
 import LineDiagramWithStops from "./LineDiagramWithStops";
+import { MapMarker } from "../../../leaflet/components/__mapdata";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -34,6 +35,7 @@ interface LineDiagramProps {
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
+  vehicleMarkers: MapMarker[];
 }
 
 const stationsOrStops = (routeType: number): string =>
@@ -53,7 +55,8 @@ const LineDiagramAndStopListPage = ({
   services,
   stops,
   today,
-  scheduleNote
+  scheduleNote,
+  vehicleMarkers
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
   /**
    * Setup state handling etc
@@ -202,6 +205,7 @@ const LineDiagramAndStopListPage = ({
             stops={lineDiagram}
             handleStopClick={handleStopClick}
             liveData={liveData}
+            vehicleMarkers={vehicleMarkers}
           />
         </Provider>
       )}
