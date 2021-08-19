@@ -2,7 +2,7 @@
 
 exports[`VehicleIcons renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <VehicleIcons stop={{...}} vehicles={{...}} headsigns={{...}}>
+  <VehicleIcons stop={{...}} vehicles={{...}} vehicleMarkers={{...}}>
     <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
       <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\" tooltipOptions={{...}}>
         <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\">

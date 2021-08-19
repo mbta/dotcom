@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LineDiagram renders and matches snapshot 1`] = `
-"<LineDiagramAndStopListPage lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" scheduleNote={{...}}>
+"<LineDiagramAndStopListPage lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" scheduleNote={{...}} vehicleMarkers={{...}}>
   <h3 className=\\"m-schedule-diagram__heading\\">
     Stops
   </h3>
@@ -17,12 +17,12 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     </div>
   </SearchBox>
   <Provider store={{...}}>
-    <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}}>
+    <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}} vehicleMarkers={{...}}>
       <div className=\\"m-schedule-diagram u-no-crowding-data\\">
-        <Diagram lineDiagram={{...}} liveData={{...}}>
-          <LiveVehicleIconSet stop={{...}} liveData={{...}} />
-          <LiveVehicleIconSet stop={{...}} liveData={{...}}>
-            <VehicleIcons stop={{...}} vehicles={{...}} headsigns={{...}}>
+        <Diagram lineDiagram={{...}} liveData={{...}} vehicleMarkers={{...}}>
+          <LiveVehicleIconSet stop={{...}} liveData={{...}} vehicleMarkers={{...}} />
+          <LiveVehicleIconSet stop={{...}} liveData={{...}} vehicleMarkers={{...}}>
+            <VehicleIcons stop={{...}} vehicles={{...}} vehicleMarkers={{...}}>
               <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
                 <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
                   <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\">
@@ -39,8 +39,8 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
               </div>
             </VehicleIcons>
           </LiveVehicleIconSet>
-          <LiveVehicleIconSet stop={{...}} liveData={{...}}>
-            <VehicleIcons stop={{...}} vehicles={{...}} headsigns={{...}}>
+          <LiveVehicleIconSet stop={{...}} liveData={{...}} vehicleMarkers={{...}}>
+            <VehicleIcons stop={{...}} vehicles={{...}} vehicleMarkers={{...}}>
               <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
                 <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
                   <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\">
@@ -50,7 +50,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
               </div>
             </VehicleIcons>
           </LiveVehicleIconSet>
-          <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+          <LiveVehicleIconSet stop={{...}} liveData={{...}} vehicleMarkers={{...}} />
           <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"40px\\" height=\\"100%\\" style={{...}}>
             <title id=\\"diagram-title\\">
               Line diagram for
