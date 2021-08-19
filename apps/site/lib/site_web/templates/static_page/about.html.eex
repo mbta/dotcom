@@ -6,7 +6,6 @@
     <div class="c-grid-buttons">
       <%= render "_link.html", text: "Overview", href: cms_static_page_path(@conn, "/mbta-at-a-glance"), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "Leadership", href: cms_static_page_path(@conn, "/leadership"), class: "col-xs-12 col-sm-4" %>
-      <%= render "_link.html", text: "FMCB", href: cms_static_page_path(@conn, "/leadership/fmcb"), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "News & Updates", href: news_entry_path(@conn, :index), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "Events", href: event_path(@conn, :index), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "Civil Rights", href: cms_static_page_path(@conn, "/policies/title-vi"), class: "col-xs-12 col-sm-4" %>
