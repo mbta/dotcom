@@ -15,7 +15,7 @@ defmodule Leaflet.MapData.PolylineTest do
 
       assert color == "#FF0000"
       assert [first | _] = positions
-      assert first == [42.37427, -71.11901]
+      assert first == [42.37428, -71.119]
     end
 
     test "makes polyline with default options" do
@@ -27,7 +27,7 @@ defmodule Leaflet.MapData.PolylineTest do
 
       assert color == "#000000"
       assert [first | _] = positions
-      assert first == [42.37427, -71.11901]
+      assert first == [42.37428, -71.119]
     end
   end
 end
