@@ -1,4 +1,6 @@
 import { Socket, Channel } from "phoenix";
+import { Dispatch } from "react";
+import { EventData, Action, ActionWithChannel } from "./reducer";
 
 declare global {
   interface Window {
@@ -74,4 +76,24 @@ export const stopChannel = (id: string): void => {
   if (window.channels && window.channels[id]) {
     window.channels[id].off("data");
   }
+};
+
+export const setupChannels = (
+  channel: string,
+  dispatch: Dispatch<ActionWithChannel>
+): void => {
+  dispatch({ action: { event: "setChannel", data: [] }, channel });
+  /* istanbul ignore next */
+  initChannel<EventData[]>(channel, (action: Action) =>
+    dispatch({ action, channel })
+  );
+  /* istanbul ignore next */
+  initChannel<EventData[]>("vehicles:remove", (action: Action) =>
+    dispatch({ action, channel })
+  );
+};
+
+export const stopChannels = (channel: string): void => {
+  stopChannel(channel);
+  stopChannel("vehicles:remove");
 };
