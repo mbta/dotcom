@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { isEmpty } from "lodash";
 import { updateInLocation } from "use-query-params";
-import Map from "./components/Map";
+import Map from "../leaflet/components/Map";
 import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
 import { DirectionId } from "../__v3api";
@@ -13,33 +13,17 @@ import {
   createScheduleStore,
   getCurrentState
 } from "./store/ScheduleStore";
-import { isABusRoute } from "../models/route";
 
-const renderMap = ({
-  route_patterns: routePatternsByDirection,
-  direction_id: directionId,
-  route
-}: SchedulePageData): void => {
-  const routePatterns = routePatternsByDirection[directionId];
-  const defaultRoutePattern = routePatterns.slice(0, 1)[0];
-  const currentShapes = isABusRoute(route)
-    ? [defaultRoutePattern.shape_id]
-    : routePatterns.map(pattern => pattern.shape_id);
-  const currentStops = defaultRoutePattern.stop_ids;
+const renderMap = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
-  const channel = mapDataEl.getAttribute("data-channel-id");
-  if (!channel) throw new Error("data-channel-id attribute not set");
   const mapEl = document.getElementById("map-root");
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
   ReactDOM.render(
-    <Map
-      data={mapData}
-      channel={channel}
-      currentShapes={currentShapes}
-      currentStops={currentStops}
-    />,
+    <div className="m-schedule__map">
+      <Map mapData={mapData} />
+    </div>,
     mapEl
   );
 };
@@ -128,7 +112,7 @@ export const renderDirectionOrMap = (
 ): void => {
   const root = document.getElementById("react-schedule-direction-root");
   if (!root) {
-    renderMap(schedulePageData);
+    renderMap();
     return;
   }
   renderDirectionAndMap(schedulePageData, root);
