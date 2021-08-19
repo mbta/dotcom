@@ -8,6 +8,7 @@ import {
 } from "leaflet";
 import Leaflet from "react-leaflet";
 import { MapData, MapMarker, IconOpts } from "./__mapdata";
+import CrowdingPill from "../../schedule/components/line-diagram/CrowdingPill";
 
 export interface ZoomOpts {
   maxZoom: number;
@@ -115,7 +116,21 @@ const Component = ({
             zIndexOffset={marker.z_index}
             keyboard={false}
           >
-            {marker.tooltip && <Popup maxHeight={175}>{marker.tooltip}</Popup>}
+            <Popup maxHeight={175}>
+              {marker.vehicle_crowding && (
+                <>
+                  <CrowdingPill crowding={marker.vehicle_crowding} />
+                  <br />
+                </>
+              )}
+              {/* marker.tooltip_text can contain either just the name of the stop OR some markup with vehicle and prediction info */}
+              {marker.tooltip_text && (
+                <div
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={{ __html: marker.tooltip_text }}
+                />
+              )}
+            </Popup>
           </Marker>
         ))}
         <FullscreenControl />
