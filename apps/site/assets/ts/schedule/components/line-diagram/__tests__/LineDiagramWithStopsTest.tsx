@@ -84,6 +84,7 @@ describe("LineDiagramWithStops", () => {
           stops={lineDiagram}
           handleStopClick={handleStopClick}
           liveData={liveData}
+          vehicleMarkers={[]}
         />
       </redux.Provider>
     );
@@ -110,6 +111,7 @@ describe("LineDiagramWithStops", () => {
           stops={lineDiagramBranchingOut}
           handleStopClick={handleStopClick}
           liveData={liveData}
+          vehicleMarkers={[]}
         />
       </redux.Provider>
     );
@@ -124,6 +126,7 @@ describe("LineDiagramWithStops", () => {
           stops={lineDiagram}
           handleStopClick={handleStopClick}
           liveData={liveDataWithCrowding}
+          vehicleMarkers={[]}
         />
       </redux.Provider>
     );

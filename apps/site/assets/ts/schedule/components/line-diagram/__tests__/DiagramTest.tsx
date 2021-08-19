@@ -75,7 +75,7 @@ describe.each`
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <Diagram lineDiagram={source} liveData={liveData} />
+        <Diagram lineDiagram={source} liveData={liveData} vehicleMarkers={[]} />
       </redux.Provider>
     );
   });

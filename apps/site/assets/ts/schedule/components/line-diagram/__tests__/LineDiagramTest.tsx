@@ -83,6 +83,7 @@ describe("LineDiagram", () => {
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
         scheduleNote={null}
+        vehicleMarkers={[]}
       />
     );
   });
@@ -190,6 +191,7 @@ it.each`
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
         scheduleNote={null}
+        vehicleMarkers={[]}
       />
     );
     expect(wrapper.find(".m-schedule-diagram__heading").text()).toContain(name);
