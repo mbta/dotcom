@@ -32,7 +32,7 @@
           </li>
           <li>
             <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "ga-nav-sublink" do %>
-              <span class="no-wrap">Climate Change</span>
+              <span class="no-wrap">Sustainability</span>
             <% end %>
           </li>
           <li>
