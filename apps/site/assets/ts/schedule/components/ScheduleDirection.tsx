@@ -28,8 +28,8 @@ import Map from "../../leaflet/components/Map";
 import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
 import { isABusRoute, isACommuterRailRoute } from "../../models/route";
 import getBounds from "../../leaflet/bounds";
-import { reducer as channelReducer, updateMarker } from "./reducer";
-import { setupChannels, stopChannels } from "./Channel";
+import { isVehicleMarker, updateMarker } from "../vehicle-data/marker-utils";
+import { useVehicleChannel } from "../vehicle-data/Channel";
 
 export interface Props {
   route: EnhancedRoute;
@@ -216,19 +216,10 @@ const ScheduleDirection = ({
     [route, state.directionId, busVariantId, currentRoutePatternIdForData]
   );
 
-  const channel = `vehicles:${route.id}:${state.directionId}`;
-
-  const [channelState, channelDispatch] = useReducer(channelReducer, {
-    channel,
-    markers: mapState.data ? mapState.data.markers : {}
-  });
-  useEffect(
-    () => {
-      setupChannels(channel, channelDispatch);
-      return () => stopChannels(channel);
-    },
-    [channel, channelDispatch]
+  const liveVehicles = useVehicleChannel(
+    `vehicles:${route.id}:${state.directionId}`
   );
+
   const stopMarkers =
     mapState.data && mapState.data.stop_markers
       ? mapState.data.stop_markers
@@ -244,13 +235,14 @@ const ScheduleDirection = ({
             currentShapes.some(shape => shape === p.id)
           )
         : [],
-    markers: channelState.markers.concat(stopMarkers)
+    markers: liveVehicles.markers.concat(stopMarkers)
   };
+
   const bounds = useRef(getBounds(stopMarkers));
 
-  const vehicleMarkers = mapDataFromChannel.markers
-    ? mapDataFromChannel.markers.filter(
-        (marker: MapMarker) => marker.icon === "vehicle-bordered-expanded"
+  const vehicleMarkers = liveVehicles.markers
+    ? liveVehicles.markers.filter((marker: MapMarker) =>
+        isVehicleMarker(marker)
       )
     : [];
 

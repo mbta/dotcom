@@ -66,17 +66,13 @@ const LiveVehicleIconSet = ({
   vehicleMarkers
 }: VehicleIconSetProps): ReactElement<HTMLElement> | null => {
   const stopId = stop.route_stop.id;
-  if (!liveData || !liveData[stopId]) return null;
-  // Hide vehicles arriving to the origin from 'off the line'
-  const vehicleData = stop.route_stop["is_beginning?"]
-    ? liveData[stopId].vehicles.filter(vehicle => vehicle.status === "stopped")
-    : liveData[stopId].vehicles;
+  if (!liveData || !liveData[stopId] || !vehicleMarkers) return null;
 
   return (
     <VehicleIcons
       key={`${stopId}-vehicles`}
       stop={stop.route_stop}
-      vehicles={vehicleData}
+      liveData={liveData}
       vehicleMarkers={vehicleMarkers}
     />
   );

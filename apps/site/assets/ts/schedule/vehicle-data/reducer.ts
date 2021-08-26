@@ -1,13 +1,27 @@
 import { MapMarker as Marker } from "../../leaflet/components/__mapdata";
+// import { LineDiagramVehicle } from "../components/__schedule";
 import { SocketEvent } from "./Channel";
+import {
+  shouldRemoveMarker,
+  isVehicleMarker,
+  updateMarker
+} from "./marker-utils";
 
-interface State {
+export interface State {
   channel: string;
   markers: Marker[];
+  // data: {
+  //   vehicle: LineDiagramVehicle;
+  //   stop_name: string; // eslint-disable-line camelcase
+  // };
 }
 
 export interface EventData {
   marker: Marker;
+  // data: {
+  //   vehicle: LineDiagramVehicle;
+  //   stop_name: string; // eslint-disable-line camelcase
+  // };
 }
 
 export type Action = SocketEvent<EventData[]>;
@@ -17,51 +31,9 @@ export interface ActionWithChannel {
   channel: string;
 }
 
-interface IdHash {
+export interface IdHash {
   [id: string]: true;
 }
-
-export const iconOpts = (
-  icon: string | null
-): {
-  icon_size?: [number, number];
-  icon_anchor?: [number, number];
-} => {
-  switch (icon) {
-    case null:
-      return {};
-
-    case "vehicle-bordered-expanded":
-      return {
-        icon_size: [18, 18], // eslint-disable-line camelcase
-        icon_anchor: [6, 6] // eslint-disable-line camelcase
-      };
-
-    case "stop-circle-bordered-expanded":
-      return {
-        icon_size: [12, 12], // eslint-disable-line camelcase
-        icon_anchor: [6, 6] // eslint-disable-line camelcase
-      };
-
-    default:
-      throw new Error(`unexpected icon type: ${icon}`);
-  }
-};
-
-const zIndex = (icon: string | null): number | undefined =>
-  icon === "vehicle-bordered-expanded" ? 1000 : undefined;
-
-export const updateMarker = (marker: Marker): Marker => ({
-  ...marker,
-  icon_opts: iconOpts(marker.icon), // eslint-disable-line camelcase
-  z_index: zIndex(marker.icon) // eslint-disable-line camelcase
-});
-
-const shouldRemoveMarker = (id: string | null, idHash: IdHash): boolean =>
-  id !== null && idHash[id] === true;
-
-const isVehicleMarker = (marker: Marker): boolean =>
-  marker.icon ? marker.icon.includes("vehicle") : false;
 
 export const reducer = (
   state: State,
@@ -71,7 +43,12 @@ export const reducer = (
   if (channel !== state.channel && action.event !== "setChannel") return state;
   switch (action.event) {
     case "setChannel":
-      return { ...state, channel, markers: [] };
+      return {
+        ...state,
+        channel,
+        // data: { vehicle: {} as LineDiagramVehicle, stop_name: "" },
+        markers: []
+      };
     case "reset":
       return {
         ...state,
@@ -85,6 +62,7 @@ export const reducer = (
     case "add":
       return {
         ...state,
+        // data ??
         markers: state.markers.concat(
           action.data.map(({ marker }) => updateMarker(marker))
         )
@@ -97,6 +75,7 @@ export const reducer = (
       // Filter out the existing marker if necessary, always add new marker
       return {
         ...state,
+        // data: action.data[0].data,
         markers: [
           updateMarker(action.data[0].marker),
           ...state.markers.filter(

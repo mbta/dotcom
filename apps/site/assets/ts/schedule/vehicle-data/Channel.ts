@@ -1,6 +1,12 @@
 import { Socket, Channel } from "phoenix";
-import { Dispatch } from "react";
-import { EventData, Action, ActionWithChannel } from "./reducer";
+import { useReducer, useEffect, Dispatch } from "react";
+import {
+  EventData,
+  Action,
+  ActionWithChannel,
+  State,
+  reducer as channelReducer
+} from "./reducer";
 
 declare global {
   interface Window {
@@ -72,13 +78,13 @@ export const initChannel = <T>(
 // NB: this removes *all* handlers from the channel. We're currently throwing
 // away the reference returned by `channel.on`, so we can't remove a specific
 // handler, but we don't have a use case for that yet.
-export const stopChannel = (id: string): void => {
+const stopChannel = (id: string): void => {
   if (window.channels && window.channels[id]) {
     window.channels[id].off("data");
   }
 };
 
-export const setupChannels = (
+const setupChannels = (
   channel: string,
   dispatch: Dispatch<ActionWithChannel>
 ): void => {
@@ -96,4 +102,19 @@ export const setupChannels = (
 export const stopChannels = (channel: string): void => {
   stopChannel(channel);
   stopChannel("vehicles:remove");
+};
+
+export const useVehicleChannel = (channel: string): State => {
+  const [channelState, channelDispatch] = useReducer(channelReducer, {
+    channel,
+    markers: []
+  });
+  useEffect(
+    () => {
+      setupChannels(channel, channelDispatch);
+      return () => stopChannels(channel);
+    },
+    [channel, channelDispatch]
+  );
+  return channelState;
 };

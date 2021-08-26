@@ -1,5 +1,8 @@
 import { ReactElement } from "react";
-import { CrowdingType } from "../../schedule/components/__schedule";
+import {
+  CrowdingType,
+  VehicleStatus
+} from "../../schedule/components/__schedule";
 
 export type TileServerUrl =
   | "https://cdn.mbta.com"
@@ -20,6 +23,7 @@ export interface MapMarker {
   latitude: number;
   size?: number[];
   rotation_angle: number;
+  status?: VehicleStatus;
   tooltip: ReactElement<HTMLElement> | null;
   tooltip_text?: string | null;
   z_index?: number;
