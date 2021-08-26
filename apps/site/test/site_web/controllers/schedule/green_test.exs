@@ -111,7 +111,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert "place-sthld" in all_stops
     assert "place-clmnl" in all_stops
     assert "place-river" in all_stops
-    assert "place-brmnl" in all_stops
+    assert "place-symcl" in all_stops
   end
 
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
