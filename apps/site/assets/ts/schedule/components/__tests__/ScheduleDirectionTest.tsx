@@ -305,6 +305,18 @@ it("renders a CR component", () => {
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
+it("can render green line", () => {
+  createReactRoot();
+  const tree = mount(getGreenLineComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+});
+
+it("respects the initially selected pattern ID, if specified", () => {
+  createReactRoot();
+  const tree = mount(getVariantComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+});
+
 it.skip("renders with a static map", () => {
   // FIXME: An update to Enzyme made the <LineDiagram> disappear from this
   // snapshot. It's unclear why only this one is affected, but we may have been
@@ -428,6 +440,47 @@ it("can change route pattern for bus mode (accessible)", () => {
     .simulate("click");
 
   wrapper.find("#route-pattern_uncommon").simulate("keyUp", { key: "Enter" });
+});
+
+it("can change route for green line with click", () => {
+  const stubFn = jest
+    .spyOn(window.location, "assign")
+    .mockImplementation(url => url);
+
+  document.body.innerHTML = body;
+  const component = getGreenLineComponent();
+  const wrapper = mount(component);
+
+  // click to open
+  wrapper
+    .find(".m-schedule-direction__route-pattern--clickable")
+    .simulate("click");
+  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
+
+  // enter to close
+  wrapper
+    .find(".m-schedule-direction__route-pattern--clickable")
+    .simulate("keyUp", { key: "Enter" });
+  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+
+  // open again
+  wrapper
+    .find(".m-schedule-direction__route-pattern--clickable")
+    .simulate("click");
+
+  // click and item
+  wrapper.find("#route-pattern_Green-C").simulate("click");
+  expect(stubFn).toHaveBeenCalledTimes(1);
+  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+
+  // enter on an item
+  wrapper.find("#route-pattern_Green-D").simulate("keyUp", { key: "Enter" });
+  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+
+  // get code coverage of keyboard navigation
+  wrapper
+    .find("#route-pattern_Green")
+    .simulate("keydown", { key: "ArrowRight" });
 });
 
 it("reducer can change state correctly for closeRoutePatternMenu", () => {
@@ -558,57 +611,4 @@ describe("fetchLineData", () => {
       });
     });
   });
-});
-
-it("can render green line", () => {
-  createReactRoot();
-  const tree = mount(getGreenLineComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("can change route for green line with click", () => {
-  const stubFn = jest
-    .spyOn(window.location, "assign")
-    .mockImplementation(url => url);
-
-  document.body.innerHTML = body;
-  const component = getGreenLineComponent();
-  const wrapper = mount(component);
-
-  // click to open
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
-
-  // enter to close
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("keyUp", { key: "Enter" });
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
-
-  // open again
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
-
-  // click and item
-  wrapper.find("#route-pattern_Green-C").simulate("click");
-  expect(stubFn).toHaveBeenCalledTimes(1);
-  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
-
-  // enter on an item
-  wrapper.find("#route-pattern_Green-D").simulate("keyUp", { key: "Enter" });
-  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
-
-  // get code coverage of keyboard navigation
-  wrapper
-    .find("#route-pattern_Green")
-    .simulate("keydown", { key: "ArrowRight" });
-});
-
-it("respects the initially selected pattern ID, if specified", () => {
-  createReactRoot();
-  const tree = mount(getVariantComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
