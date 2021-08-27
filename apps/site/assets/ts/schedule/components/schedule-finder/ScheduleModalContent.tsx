@@ -3,6 +3,7 @@ import { DirectionId, Route } from "../../../__v3api";
 import { formattedDate, stringToDateObject } from "../../../helpers/date";
 import { reducer } from "../../../helpers/fetch";
 import { isInCurrentService } from "../../../helpers/service";
+import { routeToModeName } from "../../../helpers/css";
 import {
   SimpleStopMap,
   RoutePatternsByDirection,
@@ -104,6 +105,15 @@ const ScheduleModalContent = ({
     direction: selectedDirection
   };
 
+  const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
+    serviceToday ? (
+      <UpcomingDepartures state={state} input={input} />
+    ) : (
+      <div className="callout text-center u-bold">
+        There are no scheduled trips for {formattedDate(today)}.
+      </div>
+    );
+
   return (
     <>
       <div className="schedule-finder schedule-finder--modal">
@@ -118,13 +128,7 @@ const ScheduleModalContent = ({
         />
       </div>
 
-      {serviceToday ? (
-        <UpcomingDepartures state={state} input={input} />
-      ) : (
-        <div className="callout text-center u-bold">
-          There are no scheduled trips for {formattedDate(today)}.
-        </div>
-      )}
+      {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
 
       {scheduleNote ? (
         <ScheduleNote

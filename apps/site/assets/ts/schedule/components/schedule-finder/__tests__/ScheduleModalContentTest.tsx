@@ -1,6 +1,6 @@
 import React from "react";
 import renderer, { act } from "react-test-renderer";
-import { EnhancedRoute } from "../../../../__v3api";
+import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
 import { EnhancedJourney } from "../../__trips";
@@ -246,6 +246,38 @@ describe("ScheduleModalContent", () => {
     expect(wrapper.find(".callout").text()).toContain(
       "There are no scheduled trips"
     );
+  });
+
+  it("does not render UpcomingDepartures if mode is ferry", () => {
+    const ferryRoute = {
+      color: "008EAA",
+      "custom_route?": false,
+      description: "ferry",
+      direction_destinations: { 0: "Charlestown", 1: "Long Wharf" },
+      direction_names: { 0: "Outbound", 1: "Inbound" },
+      id: "Boat-F4",
+      long_name: "Charlestown Ferry",
+      name: "Charlestown Ferry",
+      sort_order: 30001,
+      type: 4
+    } as Route;
+    const wrapper = mount(
+      <ScheduleModalContent
+        handleChangeDirection={() => {}}
+        handleChangeOrigin={() => {}}
+        handleOriginSelectClick={() => {}}
+        route={ferryRoute}
+        stops={stops}
+        selectedOrigin={stopList[0].id}
+        selectedDirection={0}
+        services={[baseTypicalService]}
+        routePatternsByDirection={{}}
+        today={"2018-09-16"}
+        scheduleNote={null}
+      />
+    );
+
+    expect(wrapper.find(UpcomingDepartures).exists()).toEqual(false);
   });
 });
 
