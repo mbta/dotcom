@@ -139,6 +139,15 @@
   margin-top: $space-16;
 }
 
+.schedule-finder-vertical {
+  padding: $base-spacing;
+
+  .schedule-finder__inputs {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
 .schedule-finder {
   background-color: $brand-primary-lightest-contrast;
   padding: $base-spacing;
@@ -158,9 +167,6 @@
   }
 
   .m-schedule-line__main-content & {
-    @include media-breakpoint-up(md) {
-      display: none;
-    }
 
     @include media-breakpoint-down(sm) {
       margin-bottom: $base-spacing;

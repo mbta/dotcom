@@ -15,10 +15,28 @@
         <%= if Enum.empty?(@branches) do %>
           <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
         <% else %>
-
-          <h2><%= if @route.type == 2, do: "Schedule", else: "Schedules" %> &amp; Maps</h2>
+          <% title = case @route.type do
+              2 -> "Schedule & Maps"
+              4 -> nil
+              _ -> "Schedules & Maps"
+            end %>
+          <%= if title do %>
+            <h2><%= title %></h2>
+          <% end %>
 
           <div id="react-schedule-direction-root"></div>
+
+          <div id="react-schedule-finder-root">
+            <%= if Routes.Route.type_atom(@route.type) == :ferry do %>
+              <%= Site.React.render("ScheduleFinder", %{
+                directionId: @direction_id,
+                route: Routes.Route.to_json_safe(@route),
+                stops: @schedule_page_data.stops,
+                services: @schedule_page_data.services,
+                routePatternsByDirection: @schedule_page_data.route_patterns
+              }) %>
+            <% end %>
+          </div>
 
           <div class="line-map-container">
             <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>
@@ -47,8 +65,8 @@
             <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--desktop"}) %>
           <% end %>
         </div>
-        <div id="react-schedule-finder-root">
-          <%= unless @schedule_page_data[:schedule_note] do %>
+        <%= if is_nil(@schedule_page_data[:schedule_note]) and Routes.Route.type_atom(@route.type) != :ferry do %>
+          <div id="react-schedule-finder-root">
             <%= Site.React.render("ScheduleFinder", %{
               directionId: @direction_id,
               route: Routes.Route.to_json_safe(@route),
@@ -56,8 +74,8 @@
               services: @schedule_page_data.services,
               routePatternsByDirection: @schedule_page_data.route_patterns
             }) %>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       <% end %>
     </div>
 

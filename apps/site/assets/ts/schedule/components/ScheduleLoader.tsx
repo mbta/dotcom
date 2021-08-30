@@ -20,6 +20,7 @@ import {
   getCurrentState,
   storeHandler
 } from "../store/ScheduleStore";
+import { routeToModeName } from "../../helpers/css";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -156,6 +157,8 @@ export const ScheduleLoader = ({
       updateURL(selectedOrigin, readjustedDirectionId);
     }
 
+    const isFerryRoute = routeToModeName(route) === "ferry";
+
     if (component === "ADDITIONAL_LINE_INFORMATION") {
       const {
         teasers,
@@ -220,7 +223,9 @@ export const ScheduleLoader = ({
     }
 
     if (component === "SCHEDULE_FINDER") {
-      return (
+      return isFerryRoute ? (
+        <></>
+      ) : (
         <ScheduleFinder
           updateURL={updateURL}
           route={route}
@@ -253,7 +258,44 @@ export const ScheduleLoader = ({
         staticMapData = JSON.parse(staticDataEl.innerHTML);
       }
 
-      return (
+      return isFerryRoute ? (
+        <>
+          <ScheduleFinder
+            updateURL={updateURL}
+            route={route}
+            stops={stops}
+            services={services}
+            routePatternsByDirection={routePatternsByDirection}
+            today={today}
+            scheduleNote={null}
+            modalMode={modalMode}
+            modalOpen={modalOpen}
+            directionId={readjustedDirectionId}
+            changeDirection={changeDirection}
+            selectedOrigin={selectedOrigin}
+            changeOrigin={changeOrigin}
+            closeModal={closeModal}
+          />
+          <h2>Route Map</h2>
+          {staticMapData && (
+            <>
+              <img
+                src={staticMapData.img_src}
+                alt={`${route.name} route map`}
+                className="img-fluid"
+              />
+              <a
+                href={staticMapData.pdf_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fa fa-search-plus" aria-hidden="true" />
+                View map as a PDF
+              </a>
+            </>
+          )}
+        </>
+      ) : (
         <ScheduleDirection
           directionId={readjustedDirectionId}
           route={route}

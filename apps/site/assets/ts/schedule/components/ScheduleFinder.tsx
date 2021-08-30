@@ -8,10 +8,12 @@ import {
   SelectedOrigin
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
+import ScheduleFinderFormVertical from "./schedule-finder/ScheduleFinderFormVertical";
 import ScheduleFinderModal, {
   Mode as ModalMode
 } from "./schedule-finder/ScheduleFinderModal";
 import { getCurrentState, storeHandler } from "../store/ScheduleStore";
+import { routeToModeName } from "../../helpers/css";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
@@ -81,19 +83,37 @@ const ScheduleFinder = ({
     });
   };
 
-  return (
-    <div className="schedule-finder">
-      <ScheduleFinderForm
-        onDirectionChange={changeDirection}
-        onOriginChange={changeOrigin}
-        onOriginSelectClick={openOriginModal}
-        onSubmit={openScheduleModal}
-        route={route}
-        selectedDirection={directionId}
-        selectedOrigin={selectedOrigin}
-        stopsByDirection={stops}
-      />
+  const isFerryRoute = routeToModeName(route) === "ferry";
 
+  return (
+    <div
+      className={`${
+        isFerryRoute ? "schedule-finder-vertical" : "schedule-finder"
+      }`}
+    >
+      {isFerryRoute ? (
+        <ScheduleFinderFormVertical
+          onDirectionChange={changeDirection}
+          onOriginChange={changeOrigin}
+          onOriginSelectClick={openOriginModal}
+          onSubmit={openScheduleModal}
+          route={route}
+          selectedDirection={directionId}
+          selectedOrigin={selectedOrigin}
+          stopsByDirection={stops}
+        />
+      ) : (
+        <ScheduleFinderForm
+          onDirectionChange={changeDirection}
+          onOriginChange={changeOrigin}
+          onOriginSelectClick={openOriginModal}
+          onSubmit={openScheduleModal}
+          route={route}
+          selectedDirection={directionId}
+          selectedOrigin={selectedOrigin}
+          stopsByDirection={stops}
+        />
+      )}
       {modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}
