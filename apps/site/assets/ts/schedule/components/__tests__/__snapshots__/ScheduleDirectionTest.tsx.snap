@@ -197,6 +197,66 @@ exports[`renders a subway component 1`] = `
 </ScheduleDirection>
 `;
 
+exports[`renders with a static map 1`] = `
+<ScheduleDirection>
+  <div
+    className="m-schedule-direction"
+  >
+    <div
+      className="m-schedule-direction__direction"
+      id="direction-name"
+    >
+      Inbound
+    </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <div
+          className="m-schedule-direction__route-pattern"
+        >
+          End
+        </div>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
+  </div>
+  <img
+    alt="route 1 route map"
+    className="img-fluid"
+    src="http://example.com/map.png"
+  />
+  <a
+    href="http://example.com/map.pdf"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <i
+      aria-hidden="true"
+      className="fa fa-search-plus"
+    />
+    View map as a PDF
+  </a>
+</ScheduleDirection>
+`;
+
 exports[`respects the initially selected pattern ID, if specified 1`] = `
 <ScheduleDirection>
   <div
