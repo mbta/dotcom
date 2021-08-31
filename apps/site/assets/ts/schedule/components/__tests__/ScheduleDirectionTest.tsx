@@ -443,9 +443,11 @@ it("can change route pattern for bus mode (accessible)", () => {
 });
 
 it("can change route for green line with click", () => {
-  const stubFn = jest
-    .spyOn(window.location, "assign")
-    .mockImplementation(url => url);
+  const stubFn = jest.fn().mockImplementation(url => url);
+  Object.defineProperty(window, "location", {
+    writable: true,
+    value: { assign: stubFn }
+  });
 
   document.body.innerHTML = body;
   const component = getGreenLineComponent();
