@@ -26,7 +26,9 @@ describe("Stop component", () => {
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <Stop stop={lineDiagram[0]} />
+        <svg>
+          <Stop stop={lineDiagram[0]} />
+        </svg>
       </redux.Provider>
     );
   });

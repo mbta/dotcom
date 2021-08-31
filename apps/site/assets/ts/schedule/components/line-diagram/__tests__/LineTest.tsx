@@ -42,7 +42,9 @@ describe("Line component", () => {
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <Line from={from} to={to} />
+        <svg>
+          <Line from={from} to={to} />
+        </svg>
       </redux.Provider>
     );
   });
