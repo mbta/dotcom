@@ -133,7 +133,7 @@ any given time, the site may not be compatible with the very latest API version 
     ```
     npm run install
     ```
-    You won't see a `node_modules` folder at the root of this project -- this installs packages into `apps/site/assets` and `apps/site/react_renderer`.
+    You won't see a `node_modules` folder at the root of this project -- this installs packages into `apps/site/assets`.
 
 1.  Build the project:
     ```

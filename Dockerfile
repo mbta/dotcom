@@ -36,10 +36,7 @@ ADD apps/site/assets /root/apps/site/assets
 WORKDIR /root/apps/site/assets/
 RUN npm install && npm run webpack:build -- --env.SENTRY_DSN=$SENTRY_DSN
 
-ADD apps/site/react_renderer /root/apps/site/react_renderer
 
-WORKDIR /root/apps/site/react_renderer/
-RUN npm install && npx webpack
 
 # 3) now, build the application back in the Elixir container
 FROM elixir-builder as app-builder

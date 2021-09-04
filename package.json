@@ -17,7 +17,7 @@
     "ci:integration:ex": "PORT=4003 mix test --only wallaby",
     "ci:integration:cypress": "npm run test:cypress:run",
     "build": "mix phx.digest",
-    "prebuild": "npm run --prefix apps/site/react_renderer build && npm run --prefix apps/site/assets webpack:build",
+    "prebuild": "npm run --prefix apps/site/assets webpack:build:react && npm run --prefix apps/site/assets webpack:build",
     "postbuild": "mix compile --warnings-as-errors",
     "rebuild": "rm -rf _build && rm -rf apps/site/priv/static && npm run build",
     "backstop": "./semaphore/backstop.sh",
