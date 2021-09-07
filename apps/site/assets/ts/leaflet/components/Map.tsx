@@ -74,8 +74,15 @@ const Component = ({
     const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
     const position = mapCenter(markers, defaultCenter);
     const nonNullZoom = zoom === null ? undefined : zoom;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mapRef = React.createRef<any>();
+    const onTilesLoaded = (): void => {
+      mapRef.current.container.parentElement.classList += " map--loaded";
+    };
+
     return (
       <Map
+        ref={mapRef}
         bounds={boundsOrByMarkers}
         center={position}
         zoom={nonNullZoom}
@@ -84,6 +91,7 @@ const Component = ({
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={`${tileServerUrl}/osm_tiles/{z}/{x}/{y}.png`}
+          onload={onTilesLoaded}
         />
         {polylines.map(
           /* istanbul ignore next */
