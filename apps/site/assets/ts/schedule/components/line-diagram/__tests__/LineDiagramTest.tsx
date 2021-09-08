@@ -1,4 +1,5 @@
 import React from "react";
+import * as swr from "swr";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
 import LineDiagramAndStopListPage from "../LineDiagram";
@@ -170,6 +171,7 @@ it.each`
   ${1} | ${"Stations"}
   ${2} | ${"Stations"}
   ${3} | ${"Stops"}
+  ${4} | ${"Stops"}
 `(
   "LineDiagram names stops or stations for route type $type",
   ({ type, name }) => {
@@ -193,5 +195,58 @@ it.each`
       />
     );
     expect(wrapper.find(".m-schedule-diagram__heading").text()).toContain(name);
+  }
+);
+
+it.each`
+  type | willPoll
+  ${0} | ${true}
+  ${1} | ${true}
+  ${2} | ${true}
+  ${3} | ${true}
+  ${4} | ${false}
+`(
+  "LineDiagram requests live data for most route types: $type",
+  ({ type, willPoll }) => {
+    // don't mock the return value here,
+    // we just want to check if it's called
+    const useSWRSpy = jest.spyOn(swr, "default");
+    const wrapper = mount(
+      <LineDiagramAndStopListPage
+        lineDiagram={lineDiagram}
+        route={
+          {
+            ...route,
+            type: type as RouteType
+          } as EnhancedRoute
+        }
+        directionId={directionId}
+        routePatternsByDirection={
+          routePatternsByDirection as RoutePatternsByDirection
+        }
+        services={[]}
+        stops={{ 0: stops, 1: stops }}
+        today="2019-12-05"
+        scheduleNote={null}
+      />
+    );
+    expect(useSWRSpy).toHaveBeenCalled();
+
+    if (willPoll) {
+      expect(useSWRSpy).toHaveBeenCalledWith(
+        "/schedules/line_api/realtime?id=route-1&direction_id=1",
+        expect.any(Function),
+        expect.objectContaining({ refreshInterval: expect.any(Number) })
+      );
+    } else {
+      // will not ping the realtime endpoint
+      expect(useSWRSpy).toHaveBeenCalledWith(
+        "",
+        expect.any(Function),
+        expect.objectContaining({
+          refreshInterval: expect.any(Number)
+        })
+      );
+    }
   }
 );
