@@ -34,7 +34,11 @@ COPY --from=elixir-builder /root/deps /root/deps
 ADD apps/site/assets /root/apps/site/assets
 
 WORKDIR /root/apps/site/assets/
-RUN npm install && npm run webpack:build -- --env.SENTRY_DSN=$SENTRY_DSN
+RUN npm install
+# Create apps/site/priv/static
+RUN npm run webpack:build -- --env.SENTRY_DSN=$SENTRY_DSN
+# Create apps/site/react_renderer/dist/app.js
+RUN npm run webpack:build:react
 
 
 
