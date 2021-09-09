@@ -34,7 +34,7 @@ jobs:
       run: |
         echo "::set-output name=asdf::${{ runner.os }}-asdf-cache-${{ hashFiles('.tool-versions') }}"
         echo "::set-output name=mix::${{ runner.os }}-mix-cache-${{ hashFiles('**/mix.lock') }}"
-        echo "::set-output name=nodejs::${{ runner.os }}-nodejs-cache-${{ hashFiles('apps/site/**/package-lock.json') }}"
+        echo "::set-output name=nodejs::${{ runner.os }}-nodejs-cache-${{ hashFiles('apps/site/assets/package-lock.json') }}"
     - name: <asdf> Restore cache of languages from .tool-versions
       uses: actions/cache@v2
       with:
@@ -69,7 +69,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.cache/Cypress
-        key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/assets/package-lock.json') }}
       id: cypress-cache
     - name: <node> Install dependencies (if needed)
       if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
@@ -90,7 +90,7 @@ jobs:
         id: cache-keys
         run: |
           echo "::set-output name=build::${{ runner.os }}-build-cache-${{ hashFiles('**/lib/**.ex', '**/mix.lock') }}"
-          echo "::set-output name=assets::${{ runner.os }}-assets-cache-${{ hashFiles('apps/site/assets/**' }}"
+          echo "::set-output name=assets::${{ runner.os }}-assets-cache-${{ hashFiles('apps/site/assets/**') }}"
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
@@ -467,7 +467,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/assets/package-lock.json') }}
       - uses: actions/cache@v2
         with:
           path: |
