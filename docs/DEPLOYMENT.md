@@ -2,10 +2,12 @@
 
 ## Production deployment
 
+**NOTE**. Production deployment can now be handled in Github actions via the "Deploy to Production" workflow. This is the preferred method, but the below older instructions still work.
+
 Prerequisites:
 
 1. Use `aws configure` to configure your AWS credentials. (This only needs to be done once to set up a computer.)
-1. The commit you wish to deploy must have already been built and deploy to the Dev environment. Semaphore will do this automatically for everything that is merged into `master`.
+1. The commit you wish to deploy must have already been built and deploy to the Dev environment. Github actions will do this automatically for everything that is merged into `master`.
 1. Test the build on the [Dev server](https://dev.mbtace.com).
 1. Run our release script `./bin/release` and use the output to make a [Release in GitHub](https://github.com/mbta/dotcom/releases).
 
@@ -21,7 +23,7 @@ Monitor the deploy in AWS Elastic Beanstalk:
 
 ## Building the distribution package locally
 
-When deploying to our servers, Semaphore performs these steps for us. But for testing or development purposes it is possible to build locally as well.
+For testing or development purposes it is possible to build locally as well.
 
 1. (once) Install Docker: https://docs.docker.com/engine/install/
 2. Build the Docker image:
