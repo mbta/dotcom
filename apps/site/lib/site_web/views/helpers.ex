@@ -180,7 +180,10 @@ defmodule SiteWeb.ViewHelpers do
   def mode_name(type) when type in [3, :bus], do: "Bus"
   def mode_name(type) when type in [4, :ferry], do: "Ferry"
   def mode_name(type) when type in ["909", :logan_express], do: "Logan Express"
-  def mode_name(type) when type in ["983", :massport_shuttle], do: "Massport Shuttle"
+
+  def mode_name(type) when type in ["983", "Massport-1", :massport_shuttle],
+    do: "Massport Shuttle"
+
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
   def mode_name(:mattapan_trolley), do: "Mattapan Trolley"
