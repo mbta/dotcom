@@ -106,8 +106,12 @@ defmodule TripPlan.Leg do
        }) do
     route = Routes.Repo.get(route_id)
 
-    Routes.Route.type_atom(route) == :commuter_rail and
-      not Enum.all?([origin_id, destination_id], &Stops.Stop.has_zone?(&1))
+    if route do
+      Routes.Route.type_atom(route) == :commuter_rail and
+        not Enum.all?([origin_id, destination_id], &Stops.Stop.has_zone?(&1))
+    else
+      true
+    end
   end
 
   defp leg_missing_zone?(_), do: false
