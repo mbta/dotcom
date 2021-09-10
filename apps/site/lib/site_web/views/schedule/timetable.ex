@@ -42,6 +42,25 @@ defmodule SiteWeb.ScheduleView.Timetable do
     nil
   end
 
+  @spec stop_parking_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
+  def stop_parking_icon(stop) do
+    if length(stop.parking_lots) > 0 do
+      [
+        content_tag(
+          :span,
+          Helpers.svg("icon-parking-small.svg"),
+          aria: [hidden: "true"],
+          class: "m-timetable__access-icon",
+          data: [toggle: "tooltip"],
+          title: "Parking available"
+        ),
+        content_tag(:span, "Parking available", class: "sr-only")
+      ]
+    else
+      [content_tag(:span, "No parking", class: "sr-only")]
+    end
+  end
+
   @spec stop_accessibility_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
   def stop_accessibility_icon(stop) do
     cond do
@@ -101,4 +120,12 @@ defmodule SiteWeb.ScheduleView.Timetable do
   @spec cell_via_class(String.t() | nil) :: String.t()
   def cell_via_class(nil), do: ""
   def cell_via_class(<<_::binary>>), do: " m-timetable__cell--via"
+
+  @spec trains_or_boats(integer) :: String.t()
+  def trains_or_boats(2), do: "train"
+  def trains_or_boats(4), do: "boat"
+
+  @spec is_ferry(integer) :: boolean
+  def is_ferry(4), do: true
+  def is_ferry(_), do: false
 end
