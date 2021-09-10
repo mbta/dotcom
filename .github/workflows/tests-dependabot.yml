@@ -11,7 +11,7 @@ env:
   RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
   OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
 
-# Run everything, no skipping, minimal caching.
+# Run unit and integration tests, no skipping, minimal caching.
 jobs:
   ci:
     name: Run entire CI suite
@@ -53,37 +53,13 @@ jobs:
       run: mix compile --warnings-as-errors
 
     # The Tests
-    - name: Linting / TypeScript
-      run: npm run ci:lint:ts
-    - name: Linting / JavaScript
-      run: npm run ci:lint:js
-      if: always()
-    - name: Linting / CSS
-      run: npm run ci:lint:scss
-      if: always()
-    - name: Linting / Elixir
-      run: npm run ci:lint:ex
-      if: always()
     - name: Unit tests / Elixir / --exclude wallaby --cover
       run: npm run ci:unit:exunit
-      if: always()
     - name: Unit tests / JavaScript / Mocha
       run: npm run ci:unit:mocha
       if: always()
     - name: Unit tests / JavaScript & TypeScript / Jest
       run: npm run ci:unit:jest
-      if: always()
-    - name: Type checks / Elixir
-      uses: mbta/actions/dialyzer@v1
-      if: always()
-    - name: Type checks / TypeScript
-      run: npm run ci:types:ts
-      if: always()
-    - name: Formatting / Elixir
-      run: npm run ci:format:ex
-      if: always()
-    - name: Formatting / JavaScript & TypeScript
-      run: npm run ci:format:ts
       if: always()
     - name: Integration tests / Elixir
       run: npm run ci:integration:ex
