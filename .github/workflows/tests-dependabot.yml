@@ -55,7 +55,6 @@ jobs:
     # The Tests
     - name: Linting / TypeScript
       run: npm run ci:lint:ts
-      if: always()
     - name: Linting / JavaScript
       run: npm run ci:lint:js
       if: always()
