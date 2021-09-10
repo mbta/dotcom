@@ -172,7 +172,7 @@ jobs:
     name: Linting / TypeScript
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ts }}
+    if: ${{ needs.file_changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -192,7 +192,7 @@ jobs:
     name: Linting / JavaScript
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.js }}
+    if: ${{ needs.file_changes.outputs.js }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -212,7 +212,7 @@ jobs:
     name: Linting / CSS
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.scss }}
+    if: ${{ needs.file_changes.outputs.scss }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -232,7 +232,7 @@ jobs:
     name: Linting / Elixir
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ex }}
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -250,7 +250,7 @@ jobs:
     name: Unit tests / Elixir / --exclude wallaby --cover
     runs-on: ubuntu-latest
     needs: [setup, file_changes, build_app]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ex }}
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -300,7 +300,7 @@ jobs:
     name: Unit tests / JavaScript / Mocha
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.js }}
+    if: ${{ needs.file_changes.outputs.js }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -320,7 +320,7 @@ jobs:
     name: Unit tests / JavaScript & TypeScript / Jest
     runs-on: ubuntu-latest
     needs: [setup, file_changes, build_app]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && (needs.file_changes.outputs.ts || needs.file_changes.outputs.js) }}
+    if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -354,7 +354,7 @@ jobs:
     name: Type checks / Elixir
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ex }}
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -372,7 +372,7 @@ jobs:
     name: Type checks / TypeScript
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ts }}
+    if: ${{ needs.file_changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -392,7 +392,7 @@ jobs:
     name: Formatting / Elixir
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ex }}
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -410,7 +410,7 @@ jobs:
     name: Formatting / JavaScript & TypeScript
     runs-on: ubuntu-latest
     needs: [file_changes, setup]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && (needs.file_changes.outputs.js || needs.file_changes.outputs.ts) }}
+    if: ${{ needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -430,7 +430,7 @@ jobs:
     name: Integration tests / Elixir
     runs-on: ubuntu-latest
     needs: [setup, file_changes, build_app]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && needs.file_changes.outputs.ex }}
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -468,7 +468,7 @@ jobs:
     name: Integration tests / Cypress
     runs-on: ubuntu-latest
     needs: [setup, file_changes, build_app]
-    if: ${{ !(contains(github.head_ref, 'dependabot') || github.actor == 'dependabot[bot]') && (needs.file_changes.outputs.ex || needs.file_changes.outputs.js || needs.file_changes.outputs.ts) }}
+    if: ${{ needs.file_changes.outputs.ex || needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
