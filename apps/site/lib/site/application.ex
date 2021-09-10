@@ -31,11 +31,11 @@ defmodule Site.Application do
         ],
         [name: :line_diagram_realtime_cache]
       ]),
-      supervisor(SiteWeb.Endpoint, []),
       supervisor(Site.GreenLine.Supervisor, []),
       supervisor(Site.Stream.Vehicles, []),
       supervisor(Site.React, []),
-      supervisor(Site.RealtimeSchedule, [])
+      supervisor(Site.RealtimeSchedule, []),
+      supervisor(SiteWeb.Endpoint, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
