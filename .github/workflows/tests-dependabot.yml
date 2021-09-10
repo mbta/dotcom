@@ -1,0 +1,94 @@
+name: CI (Dependabot branches)
+on:
+  pull_request_target:
+    branches: [master]
+
+env:
+  MIX_ENV: test
+  V3_URL: ${{ secrets.V3_URL }}
+  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+  RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+  OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
+
+# Run everything, no skipping, minimal caching.
+jobs:
+  ci:
+    name: Run entire CI suite
+    if: ${{ contains(github.head_ref, 'dependabot') }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    # ASDF. Used the cached.
+    - uses: asdf-vm/actions/setup@v1
+    - uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf-cache-${{ hashFiles('.tool-versions') }}
+      id: asdf-cache
+    - uses: asdf-vm/actions/install@v1
+      if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
+
+    - name: Install Elixir dependencies
+      run: |
+        mix local.hex --force
+        mix local.rebar --force
+        mix deps.get
+
+    - name: Install Node dependencies
+      run: |
+        git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+        npm run install:ci
+
+    # Build assets
+    - run: npm run webpack:build
+      working-directory: apps/site/assets
+    - run: npm run build
+      working-directory: apps/site/react_renderer
+    - run: mix phx.digest
+
+    - name: Build application
+      run: mix compile --warnings-as-errors
+
+    # The Tests
+    - name: Linting / TypeScript
+      run: npm run ci:lint:ts
+      if: always()
+    - name: Linting / JavaScript
+      run: npm run ci:lint:js
+      if: always()
+    - name: Linting / CSS
+      run: npm run ci:lint:scss
+      if: always()
+    - name: Linting / Elixir
+      run: npm run ci:lint:ex
+      if: always()
+    - name: Unit tests / Elixir / --exclude wallaby --cover
+      run: npm run ci:unit:exunit
+      if: always()
+    - name: Unit tests / JavaScript / Mocha
+      run: npm run ci:unit:mocha
+      if: always()
+    - name: Unit tests / JavaScript & TypeScript / Jest
+      run: npm run ci:unit:jest
+      if: always()
+    - name: Type checks / Elixir
+      uses: mbta/actions/dialyzer@v1
+      if: always()
+    - name: Type checks / TypeScript
+      run: npm run ci:types:ts
+      if: always()
+    - name: Formatting / Elixir
+      run: npm run ci:format:ex
+      if: always()
+    - name: Formatting / JavaScript & TypeScript
+      run: npm run ci:format:ts
+      if: always()
+    - name: Integration tests / Elixir
+      run: npm run ci:integration:ex
+      if: always()
+    - name: Integration tests / Cypress
+      run: npm run ci:integration:cypress
+      if: always()
