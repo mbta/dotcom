@@ -142,9 +142,35 @@
 .schedule-finder-vertical {
   padding: $base-spacing;
 
+  hr {
+    margin-top: 24px;
+    border-color: $gray-bordered-background;
+  }
+
   .schedule-finder__inputs {
     display: flex;
     justify-content: space-between;
+
+    :last-child {
+      margin-left: 5px;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .schedule-finder__inputs {
+      margin-left: 0;
+      flex-direction: column;
+      :last-child {
+        margin-left: 0;
+      }
+    }
+    
+    .schedule-finder__submit {
+      .btn {
+        width: 100%;
+        margin-top: 3px;
+      }
+    }
   }
 }
 
@@ -294,6 +320,7 @@
   display: block;
   font-weight: bold;
   margin: $base-spacing / 2 0 0;
+  flex: 1 1;
 
   * {
     font-weight: normal;

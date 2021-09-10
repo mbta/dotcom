@@ -8,7 +8,6 @@ import {
   SelectedOrigin
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
-import ScheduleFinderFormVertical from "./schedule-finder/ScheduleFinderFormVertical";
 import ScheduleFinderModal, {
   Mode as ModalMode
 } from "./schedule-finder/ScheduleFinderModal";
@@ -91,29 +90,16 @@ const ScheduleFinder = ({
         isFerryRoute ? "schedule-finder-vertical" : "schedule-finder"
       }`}
     >
-      {isFerryRoute ? (
-        <ScheduleFinderFormVertical
-          onDirectionChange={changeDirection}
-          onOriginChange={changeOrigin}
-          onOriginSelectClick={openOriginModal}
-          onSubmit={openScheduleModal}
-          route={route}
-          selectedDirection={directionId}
-          selectedOrigin={selectedOrigin}
-          stopsByDirection={stops}
-        />
-      ) : (
-        <ScheduleFinderForm
-          onDirectionChange={changeDirection}
-          onOriginChange={changeOrigin}
-          onOriginSelectClick={openOriginModal}
-          onSubmit={openScheduleModal}
-          route={route}
-          selectedDirection={directionId}
-          selectedOrigin={selectedOrigin}
-          stopsByDirection={stops}
-        />
-      )}
+      <ScheduleFinderForm
+        onDirectionChange={changeDirection}
+        onOriginChange={changeOrigin}
+        onOriginSelectClick={openOriginModal}
+        onSubmit={openScheduleModal}
+        route={route}
+        selectedDirection={directionId}
+        selectedOrigin={selectedOrigin}
+        stopsByDirection={stops}
+      />
       {modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}
