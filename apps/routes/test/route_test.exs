@@ -147,7 +147,7 @@ defmodule Routes.RouteTest do
             {1, "Train"},
             {2, "Train"},
             {3, "Bus"},
-            {4, "Boat"}
+            {4, "Ferry"}
           ] do
         assert vehicle_name(%Route{type: type}) == name
       end
