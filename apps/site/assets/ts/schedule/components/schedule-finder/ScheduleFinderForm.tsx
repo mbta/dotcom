@@ -63,17 +63,17 @@ export default ({
   return (
     <>
       <form onSubmit={handleSubmit}>
-        { isFerryRoute ? 
+        {isFerryRoute ? (
           <h2>Schedule Finder</h2>
-          : <h2 className="h3 schedule-finder__heading">
+        ) : (
+          <h2 className="h3 schedule-finder__heading">
             {renderSvg("c-svg__icon", icon, true)} Schedule Finder
           </h2>
-        }
+        )}
         <div className="schedule-finder__prompt">
-          { isFerryRoute ?
-            `Get schedule information for your next ${route.name} trip.`
-            : "Choose a stop to get schedule information and real-time departure predictions."
-          }
+          {isFerryRoute
+            ? `Get schedule information for your next ${route.name} trip.`
+            : "Choose a stop to get schedule information and real-time departure predictions."}
         </div>
 
         {originError && (
@@ -108,7 +108,10 @@ export default ({
 
           <label className="schedule-finder__label">
             Choose an origin stop
-            <SelectContainer error={originError} handleClick={handleOriginClick}>
+            <SelectContainer
+              error={originError}
+              handleClick={handleOriginClick}
+            >
               <select
                 className="c-select-custom c-select-custom--noclick"
                 value={selectedOrigin || ""}
@@ -133,7 +136,7 @@ export default ({
           />
         </div>
       </form>
-      { isFerryRoute && <hr/> }
+      {isFerryRoute && <hr />}
     </>
   );
 };
