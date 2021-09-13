@@ -1,4 +1,4 @@
-<% mode_name = trains_or_boats(@route.type) %>
+<% mode_name = Routes.Route.vehicle_name(@route) |> String.downcase() %>
 
 <%
   bike = [
@@ -6,7 +6,7 @@
     content_tag(:p, [
       content_tag(:a, "Learn more about bikes on the T", href: "/bikes", class: "c-call-to-action")], class: "u-padding-top")]
   early_departure = "The " <> mode_name <> " may leave ahead of schedule at these stops."
-  flag_stop = "Passengers must tell " <> (if is_ferry(@route.type), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
+  flag_stop = "Passengers must tell " <> (if is_ferry(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
     must be visible on the platform for the " <> mode_name <> " to stop."
 %>
 <% [ bike_key | core_key ] = [
@@ -32,10 +32,10 @@
   <%=
     SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
       multiselectable: false,
-      sections: (if is_ferry(@route.type), do: core_key, else: [bike_key | core_key])
+      sections: (if is_ferry(@route), do: core_key, else: [bike_key | core_key])
     }))
   %>
-  <%= if is_ferry(@route.type) do %>
+  <%= if is_ferry(@route) do %>
     <div class="m-schedule-icon-key-suffix">
       <%= svg("icon-bikes-default.svg") %><span>Bikes are allowed on all ferry boats</span>
     </div>

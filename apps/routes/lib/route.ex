@@ -176,7 +176,7 @@ defmodule Routes.Route do
   end
 
   def vehicle_name(%__MODULE__{type: 4}) do
-    "Ferry"
+    "Boat"
   end
 
   @spec vehicle_atom(0..4) :: atom

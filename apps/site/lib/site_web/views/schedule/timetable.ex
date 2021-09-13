@@ -121,11 +121,6 @@ defmodule SiteWeb.ScheduleView.Timetable do
   def cell_via_class(nil), do: ""
   def cell_via_class(<<_::binary>>), do: " m-timetable__cell--via"
 
-  @spec trains_or_boats(integer) :: String.t()
-  def trains_or_boats(2), do: "train"
-  def trains_or_boats(4), do: "boat"
-
-  @spec is_ferry(integer) :: boolean
-  def is_ferry(4), do: true
-  def is_ferry(_), do: false
+  @spec is_ferry(Route.t()) :: boolean
+  def is_ferry(route), do: Routes.Route.type_atom(route) == :ferry
 end

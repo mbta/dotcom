@@ -13,9 +13,9 @@
       <div class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__row-header--empty"></div>
       <div class="m-timetable__col-headers" aria-hidden="true">
         <%= if should_show_scroll_controls? do %>
-          <span class="m-timetable__trains-label"><%= trains_or_boats(@route.type) <> "s" %></span>
-          <button class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm" data-scroll="earlier"><%= fa "angle-left m-timetable__scroll-btn-arrow" %> Earlier <%= trains_or_boats(@route.type) <> "s" %></button>
-          <button class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm" data-scroll="later">Later <%= trains_or_boats(@route.type) <> "s" %> <%= fa "angle-right m-timetable__scroll-btn-arrow" %></button>
+          <span class="m-timetable__trains-label"><%= Routes.Route.vehicle_name(@route) <> "s" %></span>
+          <button class="m-timetable__scroll-btn m-timetable__scroll-btn--left btn btn-outline-primary btn-sm" data-scroll="earlier"><%= fa "angle-left m-timetable__scroll-btn-arrow" %> Earlier <%= Routes.Route.vehicle_name(@route) <> "s" %></button>
+          <button class="m-timetable__scroll-btn m-timetable__scroll-btn--right btn btn-outline-primary btn-sm" data-scroll="later">Later <%= Routes.Route.vehicle_name(@route) <> "s" %> <%= fa "angle-right m-timetable__scroll-btn-arrow" %></button>
         <% end %>
       </div>
     </div>
@@ -38,7 +38,7 @@
             <% end %>
           <% end %>
         </tr>
-        <%= if not is_ferry(@route.type) do %>
+        <%= if not is_ferry(@route) do %>
           <tr>
             <th scope="row" class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer" data-absolute>
               <div class="m-timetable__row-header">
