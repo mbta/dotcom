@@ -11,7 +11,7 @@ it.each`
   ${1}      | ${"Train"}
   ${2}      | ${"Train"}
   ${3}      | ${"Bus"}
-  ${4}      | ${"Ferry"}
+  ${4}      | ${"Boat"}
 `(
   "vehicleName returns appropriate text for a route type $routeType",
   ({ routeType, expectedName }) => {
