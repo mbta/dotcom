@@ -149,9 +149,16 @@ const LineDiagramAndStopListPage = ({
 
   /**
    * Live data, including realtime vehicle locations and predictions
+   * Available on all modes except ferry (route.type 4)
    */
+  const liveUrl =
+    route.type !== 4
+      ? `/schedules/line_api/realtime?id=${
+          route.id
+        }&direction_id=${directionId}`
+      : "";
   const { data: maybeLiveData } = useSWR(
-    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
+    liveUrl,
     url => fetch(url).then(response => response.json()),
     { refreshInterval: 15000 }
   );

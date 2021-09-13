@@ -333,8 +333,8 @@ defmodule SiteWeb.ScheduleControllerTest do
       # builds a map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
 
-      # assigns 3 holidays
-      assert Enum.count(conn.assigns.holidays) == 3
+      # assigns holidays
+      assert conn.assigns.holidays
     end
 
     test "Ferry data", %{conn: conn} do
@@ -446,10 +446,10 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert "place-nuniv" in stop_ids
     end
 
-    test "assigns 3 holidays", %{conn: conn} do
+    test "assigns holidays", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "CR-Fitchburg"))
 
-      assert Enum.count(conn.assigns.holidays) == 3
+      assert conn.assigns.holidays
     end
 
     test "Bus line with variant", %{conn: conn} do

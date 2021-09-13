@@ -216,8 +216,9 @@ Note: If you are not running on OSX or Windows, you'll need to modify the
 
 ## Other helpful test scripts
 
-* `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
-  Requires wget (installable with `brew install wget`)
+* [`mbta/link_checker`](https://github.com/mbta/link_checker) - tries to hit all
+  the URLs on your server to find invalid links. This automatically runs as part
+  of the [`crawler.yml`](../.github/workflows/crawler.yml) workflow.
 
 * `mix run apps/content/bin/validate_fixtures.exs` - compares the attributes in
   our fixture files to production Drupal API endpoints to see if any are

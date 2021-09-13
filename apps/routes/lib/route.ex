@@ -65,6 +65,7 @@ defmodule Routes.Route do
   def type_atom("ferry"), do: :ferry
   def type_atom("909"), do: :logan_express
   def type_atom("983"), do: :massport_shuttle
+  def type_atom("Massport-1"), do: :massport_shuttle
 
   @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
