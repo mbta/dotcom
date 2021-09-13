@@ -5,6 +5,7 @@ import {
   MapData,
   MapMarker as Marker
 } from "../../../leaflet/components/__mapdata";
+import { TileLayer } from "react-leaflet";
 
 /* eslint-disable camelcase */
 const data: MapData = {
@@ -64,6 +65,39 @@ describe("Schedule Map", () => {
       />
     );
     expect(() => wrapper.render()).not.toThrow();
+  });
+
+  it("renders and matches snapshot", () => {
+    const wrapper = mount(
+      <Map
+        data={data}
+        channel="vehicles:Red:0"
+        currentShapes={["1", "2"]}
+        currentStops={["stop-place-alfcl", "22", "33"]}
+      />
+    );
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("adds class name after map load", () => {
+    const wrapper = mount(
+      <Map
+        data={data}
+        channel="vehicles:Red:0"
+        currentShapes={["1", "2"]}
+        currentStops={["stop-place-alfcl", "22", "33"]}
+      />
+    );
+
+    expect(wrapper.html()).not.toContain("map--loaded");
+
+    const onMapLoad: Function = wrapper.find(TileLayer).prop("onload");
+    expect(onMapLoad).toBeInstanceOf(Function);
+
+    // simulate the map load event being fired
+    onMapLoad();
+
+    expect(wrapper.html()).toContain("map--loaded");
   });
 });
 

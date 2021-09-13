@@ -9,7 +9,7 @@ set -e
 npm run --prefix apps/site/assets webpack:build
 
 # Start the server
-source ./semaphore/run_mock_server.sh
+source ./scripts/run_mock_server.sh
 
 # Do not exit on failure at this point (so s3 file uploads in CI)
 set +e

@@ -1,4 +1,12 @@
-[![Build Status](https://semaphoreci.com/api/v1/mbta/dotcom/branches/master/badge.svg)](https://semaphoreci.com/mbta/dotcom)
+![](https://github.com/mbta/dotcom/actions/workflows/tests.yml/badge.svg?branch=master)
+![](https://github.com/mbta/dotcom/actions/workflows/deploy-prod.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/deploy-dev.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/deploy-dev-blue.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/deploy-dev-green.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/docker.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/crawler.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/report-coverage.yml/badge.svg)
+![](https://github.com/mbta/dotcom/actions/workflows/shellcheck.yml/badge.svg)
 
 # Dotcom
 

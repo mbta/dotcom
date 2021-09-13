@@ -28,7 +28,9 @@ describe("Merge component", () => {
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <Merges lineDiagram={lineDiagramWithBranching} />
+        <svg>
+          <Merges lineDiagram={lineDiagramWithBranching} />
+        </svg>
       </redux.Provider>
     );
   });
@@ -48,7 +50,9 @@ describe("Merge component", () => {
   it("shows nothing when there are no branches", () => {
     const wrapperNoBranches = mount(
       <redux.Provider store={store}>
-        <Merges lineDiagram={lineDiagram} />
+        <svg>
+          <Merges lineDiagram={lineDiagram} />
+        </svg>
       </redux.Provider>
     );
 

@@ -163,6 +163,7 @@ defmodule SiteWeb.ViewHelpersTest do
     test "returns correct name for custom routes" do
       assert mode_name("909") == "Logan Express"
       assert mode_name("983") == "Massport Shuttle"
+      assert mode_name("Massport-1") == "Massport Shuttle"
     end
   end
 

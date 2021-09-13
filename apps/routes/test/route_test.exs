@@ -12,7 +12,8 @@ defmodule Routes.RouteTest do
             {3, :bus},
             {4, :ferry},
             {"909", :logan_express},
-            {"983", :massport_shuttle}
+            {"983", :massport_shuttle},
+            {"Massport-1", :massport_shuttle}
           ] do
         assert type_atom(int) == atom
       end

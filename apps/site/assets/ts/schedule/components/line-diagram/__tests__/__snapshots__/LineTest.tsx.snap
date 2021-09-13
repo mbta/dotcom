@@ -20,8 +20,10 @@ exports[`Line component between stops with disruptions renders and matches snaps
 
 exports[`Line component renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <Line from={{...}} to={{...}}>
-    <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#diagonalHatch)\\" />
-  </Line>
+  <svg>
+    <Line from={{...}} to={{...}}>
+      <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#diagonalHatch)\\" />
+    </Line>
+  </svg>
 </Provider>"
 `;

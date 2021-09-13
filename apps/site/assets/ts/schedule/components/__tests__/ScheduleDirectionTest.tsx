@@ -317,11 +317,7 @@ it("respects the initially selected pattern ID, if specified", () => {
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
-it.skip("renders with a static map", () => {
-  // FIXME: An update to Enzyme made the <LineDiagram> disappear from this
-  // snapshot. It's unclear why only this one is affected, but we may have been
-  // accidentally relying on a bug in earlier versions of Enzyme where changes
-  // to internal component state were not reflected in the wrapper.
+it("renders with a static map", () => {
   createReactRoot();
   const tree = mount(getStaticMapComponent());
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
@@ -443,9 +439,11 @@ it("can change route pattern for bus mode (accessible)", () => {
 });
 
 it("can change route for green line with click", () => {
-  const stubFn = jest
-    .spyOn(window.location, "assign")
-    .mockImplementation(url => url);
+  const stubFn = jest.fn().mockImplementation(url => url);
+  Object.defineProperty(window, "location", {
+    writable: true,
+    value: { assign: stubFn }
+  });
 
   document.body.innerHTML = body;
   const component = getGreenLineComponent();
