@@ -15,7 +15,7 @@ env:
 jobs:
   ci:
     name: Run entire CI suite
-    if: ${{ contains(github.head_ref, 'dependabot') }}
+    if: ${{ contains(github.head_ref, 'refs/heads/dependabot/') }}
     runs-on: ubuntu-latest
 
     steps:
