@@ -5,10 +5,13 @@ use Mix.Config
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with brunch.io to recompile .js and .css sources.
+# with Webpack to recompile .js and .css sources.
 
 port = String.to_integer(System.get_env("PORT") || "4001")
 host = System.get_env("HOST") || "localhost"
+
+Mix.shell().info([:green, "Starting dev server on " <> host <> ":" <> Integer.to_string(port)])
+
 webpack_port = String.to_integer(System.get_env("WEBPACK_PORT") || "8090")
 
 static_url =

@@ -19,4 +19,11 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  const port = process.env.PORT;
+  if (!port) {
+    throw new Error(`missing PORT environment variable`)
+  }
+
+  config.baseUrl = `http://localhost:${port}`;
+  return config
 };

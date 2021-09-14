@@ -67,3 +67,23 @@ Cypress.Commands.add("selectRandomServiceAndSubject", () => {
         .as("selectedSubject");
     });
 });
+
+/**
+ * Use the same way as cy.screenshot()
+ * 
+ * This includes a hack so that full page snapshots can be properly captured.
+ */
+Cypress.Commands.add("takeFullScreenshot", (subject, name, options={}) => {
+  /**
+   * Hack for dealing with screenshots.
+   * See Cypress bugs: https://github.com/cypress-io/cypress/issues/2681
+   * and https://github.com/cypress-io/cypress/issues/3200
+   */
+  cy.get('html')
+    .invoke('css', 'height', 'initial')
+    .invoke('css', 'scrollBehavior', 'initial');
+  cy.get('body').invoke('css', 'height', 'initial');
+
+  cy.wait(100);
+  cy.screenshot(subject, name, options);
+});
