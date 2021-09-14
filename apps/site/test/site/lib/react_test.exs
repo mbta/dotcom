@@ -94,7 +94,7 @@ defmodule Site.ReactTest do
                {"", 0}
              end) == :ok
 
-      assert_receive {:cmd, "npx", ["webpack"], cd: "/path/to/ts"}
+      assert_receive {:cmd, "npm", ["run", "webpack:build:react"], cd: "/path/to/ts"}
     end
 
     test "does not build files if path is nil" do

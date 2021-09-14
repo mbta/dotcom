@@ -72,7 +72,7 @@ config :recaptcha,
   secret: {:system, "RECAPTCHA_PRIVATE_KEY"}
 
 config :site, :react,
-  source_path: Path.join(File.cwd!(), "/apps/site/react_renderer/"),
+  source_path: Path.join(File.cwd!(), "/apps/site/assets/"),
   build_path: Path.join(File.cwd!(), "/apps/site/react_renderer/dist/app.js")
 
 config :site,

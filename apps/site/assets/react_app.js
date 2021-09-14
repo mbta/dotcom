@@ -1,7 +1,7 @@
 import ReactServer from "react-dom/server";
 import React from "react";
 import readline from "readline";
-import fs from "fs";
+
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 import StopPage from "../assets/ts/stop/components/StopPage";
 import AdditionalLineInfo from "../assets/ts/schedule/components/AdditionalLineInfo";
