@@ -68,7 +68,7 @@ defmodule SiteWeb.ScheduleView.Timetable do
         [
           content_tag(
             :span,
-            Helpers.svg("icon-accessibility.svg"),
+            Helpers.svg("icon-accessible-small.svg"),
             aria: [hidden: "true"],
             class: "m-timetable__access-icon",
             data: [toggle: "tooltip"],
