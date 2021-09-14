@@ -1,35 +1,43 @@
+<% mode_name = Routes.Route.vehicle_name(@route) |> String.downcase() %>
+
 <%
   bike = [
     "Bicycles are allowed on trains with the bicycle symbol below the train number.",
     content_tag(:p, [
       content_tag(:a, "Learn more about bikes on the T", href: "/bikes", class: "c-call-to-action")], class: "u-padding-top")]
-  early_departure = "The train may leave ahead of schedule at these stops."
-  flag_stop = "Passengers must tell the conductor that they wish to leave. Passengers waiting to board
-    must be visible on the platform for the train to stop."
-
+  early_departure = "The " <> mode_name <> " may leave ahead of schedule at these stops."
+  flag_stop = "Passengers must tell " <> (if is_ferry(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
+    must be visible on the platform for the " <> mode_name <> " to stop."
+%>
+<% [ bike_key | core_key ] = [
+    %{
+      content: bike,
+      title: [safe_to_string(svg("icon-bikes-default.svg")), "Bikes Allowed"],
+      prefix: "bikes-allowed"
+    },
+    %{
+      content: flag_stop,
+      title: [safe_to_string(svg("icon-flag-stop-default.svg")), "Flag Stop"],
+      prefix: "flag-stop",
+    },
+    %{
+      content: early_departure,
+      title: [safe_to_string(svg("icon-early-departure-stop-default.svg")), "Early Departure Stop"],
+      prefix: "early-departure-stop",
+    }
+  ]
 %>
 <div class="m-schedule-icon-key-container">
   <h2 class="m-schedule-icon-key-header">Icon Key</h2>
   <%=
-  SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
-    multiselectable: false,
-    sections: [
-      %{
-        content: bike,
-        title: [safe_to_string(svg("icon-bikes-default.svg")), "Bikes Allowed"],
-        prefix: "bikes-allowed"
-      },
-      %{
-        content: flag_stop,
-        title: [safe_to_string(svg("icon-flag-stop-default.svg")), "Flag Stop"],
-        prefix: "flag-stop",
-      },
-      %{
-        content: early_departure,
-        title: [safe_to_string(svg("icon-early-departure-stop-default.svg")), "Early Departure Stop"],
-        prefix: "early-departure-stop",
-      }
-    ]
-  }))
-%>
+    SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
+      multiselectable: false,
+      sections: (if is_ferry(@route), do: core_key, else: [bike_key | core_key])
+    }))
+  %>
+  <%= if is_ferry(@route) do %>
+    <div class="m-schedule-icon-key-suffix">
+      <%= svg("icon-bikes-default.svg") %><span>Bikes are allowed on all ferry boats</span>
+    </div>
+  <% end %>
 </div>

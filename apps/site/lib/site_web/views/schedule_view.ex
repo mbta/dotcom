@@ -383,7 +383,7 @@ defmodule SiteWeb.ScheduleView do
 
     tabs =
       case route.type do
-        2 ->
+        n when n in [2, 4] ->
           [
             %HeaderTab{id: "timetable", name: "Timetable", href: timetable_link},
             %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},

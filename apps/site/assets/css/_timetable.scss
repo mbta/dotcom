@@ -67,6 +67,7 @@
 .m-timetable__trains-label {
   align-self: center;
   order: 2;
+  text-transform: capitalize;
 }
 
 .m-timetable__scroll-btn {
@@ -78,6 +79,7 @@
   font-size: .875rem;
   font-weight: bold;
   padding: $base-spacing / 4 $base-spacing / 2;
+  text-transform: capitalize;
 
   @include media-breakpoint-down(sm) {
     display: none;
