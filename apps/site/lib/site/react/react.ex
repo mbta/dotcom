@@ -77,8 +77,8 @@ defmodule Site.React do
   def dev_build(path, cmd_fn) do
     {_, 0} =
       cmd_fn.(
-        "npx",
-        ["webpack"],
+        "npm",
+        ["run", "webpack:build:react"],
         cd: path
       )
 

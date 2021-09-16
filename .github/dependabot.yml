@@ -9,15 +9,15 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/apps/site/react_renderer" # Location of package manifests
-    schedule:
-      interval: "daily"
+      day: "sunday"
+    reviewers:
+      - "mbta/dotcom"
+    open-pull-requests-limit: 3
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/apps/site/assets" # Location of package manifests
     schedule:
       interval: "daily"
+      day: "wednesday"
+    reviewers:
+      - "mbta/dotcom"
+    open-pull-requests-limit: 3

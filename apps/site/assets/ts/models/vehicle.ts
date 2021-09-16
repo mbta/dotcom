@@ -11,7 +11,7 @@ export const vehicleName = (routeType: RouteType): string =>
     1: "Train",
     2: "Train",
     3: "Bus",
-    4: "Ferry"
+    4: "Boat"
   }[routeType]);
 
 // See also VehicleHelpers.realtime_status_text/1

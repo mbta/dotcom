@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: master
+    branches: [master]
   pull_request:
     # Don't bother running if it's a PR on a feature branch
     branches: [master]
@@ -21,6 +21,7 @@ env:
 
 jobs:
   setup:
+    if: ${{ !contains(github.head_ref, 'dependabot/hex') && !contains(github.head_ref, 'dependabot/npm_and_yarn') }}
     name: Before all / Load cached deps
     runs-on: ubuntu-latest
     outputs:
@@ -34,7 +35,7 @@ jobs:
       run: |
         echo "::set-output name=asdf::${{ runner.os }}-asdf-cache-${{ hashFiles('.tool-versions') }}"
         echo "::set-output name=mix::${{ runner.os }}-mix-cache-${{ hashFiles('**/mix.lock') }}"
-        echo "::set-output name=nodejs::${{ runner.os }}-nodejs-cache-${{ hashFiles('apps/site/**/package-lock.json') }}"
+        echo "::set-output name=nodejs::${{ runner.os }}-nodejs-cache-${{ hashFiles('apps/site/assets/package-lock.json') }}"
     - name: <asdf> Restore cache of languages from .tool-versions
       uses: actions/cache@v2
       with:
@@ -62,16 +63,14 @@ jobs:
     - name: <node> Restore dependencies cache
       uses: actions/cache@v2
       with:
-        path: |
-          apps/site/assets/node_modules
-          apps/site/react_renderer/node_modules
+        path: apps/site/assets/node_modules
         key: ${{ steps.cache-keys.outputs.nodejs }}
       id: node-cache
     - name: <node> Restore Cypress cache
       uses: actions/cache@v2
       with:
         path: ~/.cache/Cypress
-        key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
+        key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/assets/package-lock.json') }}
       id: cypress-cache
     - name: <node> Install dependencies (if needed)
       if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
@@ -92,7 +91,7 @@ jobs:
         id: cache-keys
         run: |
           echo "::set-output name=build::${{ runner.os }}-build-cache-${{ hashFiles('**/lib/**.ex', '**/mix.lock') }}"
-          echo "::set-output name=assets::${{ runner.os }}-assets-cache-${{ hashFiles('apps/site/assets/**', 'apps/site/react_renderer/**.js') }}"
+          echo "::set-output name=assets::${{ runner.os }}-all-assets-cache-${{ hashFiles('apps/site/assets/**') }}"
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
@@ -104,9 +103,7 @@ jobs:
           key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       
       - name: Cache front end assets
@@ -120,9 +117,9 @@ jobs:
       - run: npm run webpack:build
         if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
         working-directory: apps/site/assets
-      - run: npm run build
+      - run: npm run webpack:build:react
         if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
-        working-directory: apps/site/react_renderer
+        working-directory: apps/site/assets
       - run: mix phx.digest
         if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
       
@@ -151,20 +148,12 @@ jobs:
         name: "Compute changed files"
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]] && [[ "${{ github.actor }}" != "dependabot[bot]" ]]; then
-              changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
-              echo "changed files? $(changes)"
-              echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
-              echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
-              echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
-              echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
-          else
-              echo "Not a PR by a dev. Use placeholder value so all tests run"
-              echo "::set-output name=js::all"
-              echo "::set-output name=ts::all"
-              echo "::set-output name=scss::all"
-              echo "::set-output name=ex::all"
-          fi
+          changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
+          echo "changed files? $(changes)"
+          echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
+          echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
+          echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
+          echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
       
       - name: "List changed files:"
         run: |
@@ -187,9 +176,7 @@ jobs:
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       - run: npm run ci:lint:ts
 
@@ -207,9 +194,7 @@ jobs:
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       - run: npm run ci:lint:js
 
@@ -227,9 +212,7 @@ jobs:
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
-        path: |
-          apps/site/assets/node_modules
-          apps/site/react_renderer/node_modules
+        path: apps/site/assets/node_modules
         key: ${{ needs.setup.outputs.nodejs-key }}
     - run: npm run ci:lint:scss
 
@@ -269,9 +252,7 @@ jobs:
           key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       - uses: actions/cache@v2
         with:
@@ -315,9 +296,7 @@ jobs:
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
-        path: |
-          apps/site/assets/node_modules
-          apps/site/react_renderer/node_modules
+        path: apps/site/assets/node_modules
         key: ${{ needs.setup.outputs.nodejs-key }}
     - run: npm run ci:unit:mocha
 
@@ -339,9 +318,7 @@ jobs:
         key: ${{ needs.setup.outputs.mix-key }}
     - uses: actions/cache@v2
       with:
-        path: |
-          apps/site/assets/node_modules
-          apps/site/react_renderer/node_modules
+        path: apps/site/assets/node_modules
         key: ${{ needs.setup.outputs.nodejs-key }}
     - uses: actions/cache@v2
       with:
@@ -387,9 +364,7 @@ jobs:
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       - run: npm run ci:types:ts
 
@@ -425,9 +400,7 @@ jobs:
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
-        path: |
-          apps/site/assets/node_modules
-          apps/site/react_renderer/node_modules
+        path: apps/site/assets/node_modules
         key: ${{ needs.setup.outputs.nodejs-key }}
     - run: npm run ci:format:ts
 
@@ -449,9 +422,7 @@ jobs:
           key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       - uses: actions/cache@v2
         with:
@@ -487,14 +458,12 @@ jobs:
           key: ${{ needs.setup.outputs.mix-key }}
       - uses: actions/cache@v2
         with:
-          path: |
-            apps/site/assets/node_modules
-            apps/site/react_renderer/node_modules
+          path: apps/site/assets/node_modules
           key: ${{ needs.setup.outputs.nodejs-key }}
       - uses: actions/cache@v2
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/*/package-lock.json') }}
+          key: ${{ runner.os }}-cypress-${{ hashFiles('apps/site/assets/package-lock.json') }}
       - uses: actions/cache@v2
         with:
           path: |

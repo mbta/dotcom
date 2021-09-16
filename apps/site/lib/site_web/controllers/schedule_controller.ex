@@ -34,9 +34,10 @@ defmodule SiteWeb.ScheduleController do
   end
 
   def show(
-        %{assigns: %{route: %Route{type: 2, id: route_id}}, query_params: query_params} = conn,
+        %{assigns: %{route: %Route{type: mode, id: route_id}}, query_params: query_params} = conn,
         _params
-      ) do
+      )
+      when mode in [2, 4] do
     tab_redirect(conn, timetable_path(conn, :show, route_id, query_params))
   end
 

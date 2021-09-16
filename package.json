@@ -1,8 +1,8 @@
 {
   "name": "Dotcom",
   "scripts": {
-    "install": "npm install --prefix apps/site/assets --omit=optional && npm install --prefix apps/site/react_renderer --omit=optional",
-    "install:ci": "npm ci --prefix apps/site/assets --omit=optional && npm ci --prefix apps/site/react_renderer --omit=optional",
+    "install": "npm install --prefix apps/site/assets --omit=optional",
+    "install:ci": "npm ci --prefix apps/site/assets --omit=optional",
     "ci:lint:ts": "npm run --prefix apps/site/assets eslint:ts",
     "ci:lint:js": "npm run --prefix apps/site/assets eslint:js",
     "ci:lint:scss": "npm run --prefix apps/site/assets stylelint",
@@ -17,7 +17,7 @@
     "ci:integration:ex": "PORT=4003 mix test --only wallaby",
     "ci:integration:cypress": "npm run test:cypress:run",
     "build": "mix phx.digest",
-    "prebuild": "npm run --prefix apps/site/react_renderer build && npm run --prefix apps/site/assets webpack:build",
+    "prebuild": "npm run --prefix apps/site/assets webpack:build:react && npm run --prefix apps/site/assets webpack:build",
     "postbuild": "mix compile --warnings-as-errors",
     "rebuild": "rm -rf _build && rm -rf apps/site/priv/static && npm run build",
     "backstop": "./scripts/backstop.sh",
@@ -26,8 +26,8 @@
     "backstop:approve": "cd apps/site/test && ../assets/node_modules/.bin/backstop approve",
     "backstop:test": "cd apps/site/test && ../assets/node_modules/.bin/backstop test --docker",
     "dialyzer": "mix dialyzer --halt-exit-status",
-    "cypress:run": "$(npm bin --prefix apps/site/assets)/cypress run",
-    "cypress:open": "$(npm bin --prefix apps/site/assets)/cypress open",
+    "cypress:run": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress run",
+    "cypress:open": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress open",
     "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
     "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
   }
