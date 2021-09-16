@@ -3,7 +3,8 @@ defmodule Site.ViewCase do
 
   using do
     quote do
-      use Phoenix.ConnTest
+      import Plug.Conn
+      import Phoenix.ConnTest
       import Phoenix.View
       import SiteWeb.Router.Helpers
       import CMS.Factory
