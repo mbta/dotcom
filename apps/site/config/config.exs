@@ -13,6 +13,7 @@ config :site, SiteWeb.Endpoint,
   pubsub_server: Site.PubSub
 
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
+config :phoenix, :json_library, Poison
 
 # Configures Elixir's Logger
 config :logger, :console,
