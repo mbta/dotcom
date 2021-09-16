@@ -102,7 +102,8 @@ module.exports = {
                   "node_modules/bootstrap/scss",
                   "node_modules/font-awesome/scss"
                 ],
-                outputStyle: "compressed"
+                outputStyle: "compressed",
+                quietDeps: true
               }
             }
           }
