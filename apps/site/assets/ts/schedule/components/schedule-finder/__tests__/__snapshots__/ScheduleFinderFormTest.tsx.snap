@@ -6,7 +6,7 @@ exports[`ScheduleFinderForm matches snapshot 1`] = `
     onSubmit={[Function]}
   >
     <h2
-      className="h3 schedule-finder__heading"
+      className="schedule-finder__heading"
     >
       <span
         aria-hidden="true"
