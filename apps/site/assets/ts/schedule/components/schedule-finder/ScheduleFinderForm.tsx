@@ -18,7 +18,6 @@ interface Props {
   selectedDirection: DirectionId;
   selectedOrigin: SelectedOrigin;
   stopsByDirection: SimpleStopMap;
-  typeModal?: boolean;
 }
 
 export default ({
@@ -29,8 +28,7 @@ export default ({
   route,
   selectedDirection,
   selectedOrigin,
-  stopsByDirection,
-  typeModal
+  stopsByDirection
 }: Props): ReactElement => {
   const {
     direction_names: directionNames,
@@ -65,13 +63,9 @@ export default ({
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {isFerryRoute && !typeModal ? (
-          <h2>Schedule Finder</h2>
-        ) : (
-          <h2 className="h3 schedule-finder__heading">
-            {renderSvg("c-svg__icon", icon, true)} Schedule Finder
-          </h2>
-        )}
+        <h2 className="schedule-finder__heading">
+          {renderSvg("c-svg__icon", icon, true)} Schedule Finder
+        </h2>
         <div className="schedule-finder__prompt">
           {isFerryRoute
             ? `Get schedule information for your next ${route.name} trip.`
