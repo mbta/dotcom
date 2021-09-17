@@ -125,6 +125,7 @@ const ScheduleModalContent = ({
           selectedDirection={selectedDirection}
           selectedOrigin={selectedOrigin}
           stopsByDirection={stops}
+          typeModal={true}
         />
       </div>
 

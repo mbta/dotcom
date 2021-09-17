@@ -26,8 +26,8 @@
 
           <div id="react-schedule-direction-root"></div>
 
-          <div id="react-schedule-finder-root">
-            <%= if Routes.Route.type_atom(@route.type) == :ferry do %>
+          <%= if Routes.Route.type_atom(@route.type) == :ferry do %>
+            <div id="react-schedule-finder-root">
               <%= Site.React.render("ScheduleFinder", %{
                 directionId: @direction_id,
                 route: Routes.Route.to_json_safe(@route),
@@ -35,8 +35,8 @@
                 services: @schedule_page_data.services,
                 routePatternsByDirection: @schedule_page_data.route_patterns
               }) %>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
 
           <div class="line-map-container">
             <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>

@@ -222,10 +222,8 @@ export const ScheduleLoader = ({
       );
     }
 
-    if (component === "SCHEDULE_FINDER") {
-      return isFerryRoute ? (
-        <></>
-      ) : (
+    if (component === "SCHEDULE_FINDER" && !isFerryRoute) {
+      return (
         <ScheduleFinder
           updateURL={updateURL}
           route={route}

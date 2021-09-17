@@ -18,6 +18,7 @@ interface Props {
   selectedDirection: DirectionId;
   selectedOrigin: SelectedOrigin;
   stopsByDirection: SimpleStopMap;
+  typeModal?: boolean;
 }
 
 export default ({
@@ -28,7 +29,8 @@ export default ({
   route,
   selectedDirection,
   selectedOrigin,
-  stopsByDirection
+  stopsByDirection,
+  typeModal
 }: Props): ReactElement => {
   const {
     direction_names: directionNames,
@@ -63,7 +65,7 @@ export default ({
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {isFerryRoute ? (
+        {isFerryRoute && !typeModal ? (
           <h2>Schedule Finder</h2>
         ) : (
           <h2 className="h3 schedule-finder__heading">
@@ -136,7 +138,6 @@ export default ({
           />
         </div>
       </form>
-      {isFerryRoute && <hr />}
     </>
   );
 };
