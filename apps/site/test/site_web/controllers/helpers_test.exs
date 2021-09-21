@@ -403,6 +403,23 @@ defmodule SiteWeb.ControllerHelpersTest do
 
       refute {"x-robots-tag", "unavailable_after: 13 Nov 2019 00:00:00 EST"} in transformed_conn.resp_headers
     end
+
+    test "does not set an unavailable_after x-robots-tag HTTP header if x-robots-tag set to noindex",
+         %{conn: conn} do
+      old_value = Application.get_env(:site, :allow_indexing)
+
+      on_exit(fn ->
+        Application.put_env(:site, :allow_indexing, old_value)
+      end)
+
+      Application.put_env(:site, :allow_indexing, false)
+
+      conn = get(conn, "/basic_page_no_sidebar")
+      transformed_conn = unavailable_after_one_year(conn, nil)
+
+      refute {"x-robots-tag", "unavailable_after: 13 Nov 2019 00:00:00 EST"} in transformed_conn.resp_headers
+      assert Enum.find(conn.resp_headers, &(&1 == {"x-robots-tag", "noindex"}))
+    end
   end
 
   test "green_routes/0" do
