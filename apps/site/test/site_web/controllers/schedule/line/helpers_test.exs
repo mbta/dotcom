@@ -641,14 +641,14 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
     test "handles the Hingham-Hull ferry" do
       assert [
-              %RouteStops{branch: "Long Wharf - Hingham via Hull", stops: long_route_stops}, 
-              %RouteStops{branch: "Rowes Wharf - Hingham", stops: rowe_route_stops},
-              # Below is for Summer ratings
-              # %RouteStops{
-              #   branch: "Long Wharf - Hingham via Georges Island & Hull",
-              #   stops: long_route_stops
-              # },
-              %RouteStops{branch: nil, stops: trunk_route_stops}
+               %RouteStops{branch: "Long Wharf - Hingham via Hull", stops: long_route_stops},
+               %RouteStops{branch: "Rowes Wharf - Hingham", stops: rowe_route_stops},
+               # Below is for Summer ratings
+               # %RouteStops{
+               #   branch: "Long Wharf - Hingham via Georges Island & Hull",
+               #   stops: long_route_stops
+               # },
+               %RouteStops{branch: nil, stops: trunk_route_stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Boat-F1"}, 0)
 
       assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
