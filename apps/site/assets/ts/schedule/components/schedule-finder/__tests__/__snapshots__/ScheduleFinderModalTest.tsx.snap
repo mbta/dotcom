@@ -166,7 +166,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                   <div className=\\"schedule-finder schedule-finder--modal\\">
                     <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" stopsByDirection={{...}}>
                       <form onSubmit={[Function: handleSubmit]}>
-                        <h2 className=\\"h3 schedule-finder__heading\\">
+                        <h2 className=\\"schedule-finder__heading\\">
                           <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
                            Schedule Finder
                         </h2>

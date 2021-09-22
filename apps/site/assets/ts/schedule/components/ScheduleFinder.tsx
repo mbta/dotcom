@@ -12,6 +12,7 @@ import ScheduleFinderModal, {
   Mode as ModalMode
 } from "./schedule-finder/ScheduleFinderModal";
 import { getCurrentState, storeHandler } from "../store/ScheduleStore";
+import { routeToModeName } from "../../helpers/css";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
@@ -81,8 +82,14 @@ const ScheduleFinder = ({
     });
   };
 
+  const isFerryRoute = routeToModeName(route) === "ferry";
+
   return (
-    <div className="schedule-finder">
+    <div
+      className={`${
+        isFerryRoute ? "schedule-finder-vertical" : "schedule-finder"
+      }`}
+    >
       <ScheduleFinderForm
         onDirectionChange={changeDirection}
         onOriginChange={changeOrigin}
@@ -93,7 +100,6 @@ const ScheduleFinder = ({
         selectedOrigin={selectedOrigin}
         stopsByDirection={stops}
       />
-
       {modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}

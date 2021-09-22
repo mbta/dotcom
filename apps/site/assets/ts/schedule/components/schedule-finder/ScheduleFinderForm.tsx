@@ -4,6 +4,7 @@ import { SimpleStopMap, SelectedOrigin } from "../__schedule";
 import icon from "../../../../static/images/icon-schedule-finder.svg";
 import renderSvg from "../../../helpers/render-svg";
 import SelectContainer from "./SelectContainer";
+import { routeToModeName } from "../../../helpers/css";
 
 const validDirections = (directionInfo: DirectionInfo): DirectionId[] =>
   ([0, 1] as DirectionId[]).filter(dir => directionInfo[dir] !== null);
@@ -57,73 +58,80 @@ export default ({
   ): string => `${directionNames[direction]!.toUpperCase()} 
   ${directionDestinations[direction]!}`;
 
+  const isFerryRoute = routeToModeName(route) === "ferry";
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="h3 schedule-finder__heading">
-        {renderSvg("c-svg__icon", icon, true)} Schedule Finder
-      </h2>
-
-      <div className="schedule-finder__prompt">
-        Choose a stop to get schedule information and real-time departure
-        predictions.
-      </div>
-
-      {originError && (
-        <div className="error-container">
-          <span role="alert">Please provide an origin</span>
+    <>
+      <form onSubmit={handleSubmit}>
+        <h2 className="schedule-finder__heading">
+          {renderSvg("c-svg__icon", icon, true)} Schedule Finder
+        </h2>
+        <div className="schedule-finder__prompt">
+          {isFerryRoute
+            ? `Get schedule information for your next ${route.name} trip.`
+            : "Choose a stop to get schedule information and real-time departure predictions."}
         </div>
-      )}
 
-      <div className="schedule-finder__inputs">
-        <label className="schedule-finder__label">
-          Choose a direction
-          <SelectContainer>
-            <select
-              className="c-select-custom"
-              value={selectedDirection}
-              onChange={e =>
-                onDirectionChange(parseInt(e.target.value, 10) as DirectionId)
-              }
+        {originError && (
+          <div className="error-container">
+            <span role="alert">Please provide an origin</span>
+          </div>
+        )}
+
+        <div className="schedule-finder__inputs">
+          <label className="schedule-finder__label">
+            Choose a direction
+            <SelectContainer>
+              <select
+                className="c-select-custom"
+                value={selectedDirection}
+                onChange={e =>
+                  onDirectionChange(parseInt(e.target.value, 10) as DirectionId)
+                }
+              >
+                {validDirections(directionNames).map(direction => (
+                  <option
+                    key={direction}
+                    value={direction}
+                    aria-label={directionNameForId(direction)}
+                  >
+                    {directionNameForId(direction)}
+                  </option>
+                ))}
+              </select>
+            </SelectContainer>
+          </label>
+
+          <label className="schedule-finder__label">
+            Choose an origin stop
+            <SelectContainer
+              error={originError}
+              handleClick={handleOriginClick}
             >
-              {validDirections(directionNames).map(direction => (
-                <option
-                  key={direction}
-                  value={direction}
-                  aria-label={directionNameForId(direction)}
-                >
-                  {directionNameForId(direction)}
-                </option>
-              ))}
-            </select>
-          </SelectContainer>
-        </label>
+              <select
+                className="c-select-custom c-select-custom--noclick"
+                value={selectedOrigin || ""}
+                onChange={e => onOriginChange(e.target.value || null)}
+              >
+                <option value="">Select</option>
+                {stopsByDirection[selectedDirection].map(({ id, name }) => (
+                  <option key={id} value={id} aria-label={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </SelectContainer>
+          </label>
+        </div>
 
-        <label className="schedule-finder__label">
-          Choose an origin stop
-          <SelectContainer error={originError} handleClick={handleOriginClick}>
-            <select
-              className="c-select-custom c-select-custom--noclick"
-              value={selectedOrigin || ""}
-              onChange={e => onOriginChange(e.target.value || null)}
-            >
-              <option value="">Select</option>
-              {stopsByDirection[selectedDirection].map(({ id, name }) => (
-                <option key={id} value={id} aria-label={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </SelectContainer>
-        </label>
-      </div>
-
-      <div className="schedule-finder__submit text-right">
-        <input
-          className="btn btn-primary"
-          type="submit"
-          value="Get schedules"
-        />
-      </div>
-    </form>
+        <div className="schedule-finder__submit text-right">
+          <input
+            className="btn btn-primary"
+            type="submit"
+            value="Get schedules"
+          />
+        </div>
+      </form>
+    </>
   );
 };
