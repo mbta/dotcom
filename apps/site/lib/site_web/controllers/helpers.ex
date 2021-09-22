@@ -147,7 +147,16 @@ defmodule SiteWeb.ControllerHelpers do
   end
 
   def unavailable_after_one_year(conn, posted_on) do
-    Conn.put_resp_header(conn, "x-robots-tag", "unavailable_after: #{one_year_after(posted_on)}")
+    # only add tag if there isn't already a "noindex" value
+    if Conn.get_resp_header(conn, "x-robots-tag") |> Enum.member?("noindex") do
+      conn
+    else
+      Conn.put_resp_header(
+        conn,
+        "x-robots-tag",
+        "unavailable_after: #{one_year_after(posted_on)}"
+      )
+    end
   end
 
   @spec environment_allows_indexing?() :: boolean()
