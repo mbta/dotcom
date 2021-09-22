@@ -11,7 +11,7 @@
 
     <div class="<%= width %> m-schedule-page__main-content <%= min_size %>">
 
-      <div class="m-schedule-line__main-content">
+      <div class="m-schedule-line__main-content <%= if Routes.Route.type_atom(@route.type) == :ferry, do: 'ferry' %>">
         <%= if Enum.empty?(@branches) do %>
           <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
         <% else %>

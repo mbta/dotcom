@@ -274,24 +274,26 @@ export const ScheduleLoader = ({
             changeOrigin={changeOrigin}
             closeModal={closeModal}
           />
-          <h2>Route Map</h2>
-          {staticMapData && (
-            <>
-              <img
-                src={staticMapData.img_src}
-                alt={`${route.name} route map`}
-                className="img-fluid"
-              />
-              <a
-                href={staticMapData.pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i className="fa fa-search-plus" aria-hidden="true" />
-                View map as a PDF
-              </a>
-            </>
-          )}
+          <div className="schedule-map-container">
+            <h2>Route Map</h2>
+            {staticMapData && (
+              <>
+                <img
+                  src={staticMapData.img_src}
+                  alt={`${route.name} route map`}
+                  className="img-fluid"
+                />
+                <a
+                  href={staticMapData.pdf_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i className="fa fa-search-plus" aria-hidden="true" />
+                  View map as a PDF
+                </a>
+              </>
+            )}
+          </div>
         </>
       ) : (
         <ScheduleDirection
