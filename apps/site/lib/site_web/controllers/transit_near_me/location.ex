@@ -72,6 +72,8 @@ defmodule SiteWeb.TransitNearMeController.Location do
     :no_address
   end
 
+  defp parse_float(nil), do: {:error, :bad_float}
+
   defp parse_float(<<str::binary>>) do
     case Float.parse(str) do
       {float, ""} -> {:ok, float}
