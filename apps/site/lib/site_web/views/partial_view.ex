@@ -88,6 +88,8 @@ defmodule SiteWeb.PartialView do
 
   def render_teasers([], _, _), do: {:safe, []}
 
+  def render_teasers(nil, _, _), do: {:safe, []}
+
   def render_teasers(teasers, conn, opts) do
     display_fields =
       teasers
