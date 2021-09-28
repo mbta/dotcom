@@ -406,12 +406,7 @@ defmodule SiteWeb.ControllerHelpersTest do
 
     test "does not set an unavailable_after x-robots-tag HTTP header if x-robots-tag set to noindex",
          %{conn: conn} do
-      old_value = Application.get_env(:site, :allow_indexing)
-
-      on_exit(fn ->
-        Application.put_env(:site, :allow_indexing, old_value)
-      end)
-
+      # causes x-robots-tag to set to noindex
       Application.put_env(:site, :allow_indexing, false)
 
       conn = get(conn, "/basic_page_no_sidebar")
