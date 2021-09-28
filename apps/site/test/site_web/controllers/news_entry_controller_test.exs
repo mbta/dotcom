@@ -22,6 +22,8 @@ defmodule SiteWeb.NewsEntryControllerTest do
     end
 
     test "does not include an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
+      # unavailable_after header only gets applied when allow_indexing is true
+      Application.put_env(:site, :allow_indexing, true)
       conn = get(conn, news_entry_path(conn, :index))
 
       refute Enum.find(conn.resp_headers, fn {key, value} ->
@@ -97,6 +99,8 @@ defmodule SiteWeb.NewsEntryControllerTest do
       news_entry = news_entry_factory(0, path_alias: nil)
       path = news_entry_path(conn, :show, news_entry)
 
+      # unavailable_after header only gets applied when allow_indexing is true
+      Application.put_env(:site, :allow_indexing, true)
       conn = get(conn, path)
 
       assert Enum.find(conn.resp_headers, fn {key, value} ->
