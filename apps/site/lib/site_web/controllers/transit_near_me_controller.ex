@@ -29,7 +29,6 @@ defmodule SiteWeb.TransitNearMeController do
   end
 
   defp assign_location(conn) do
-    # Why do we check for location_fn?  It's never assigned
     location_fn = Map.get(conn.assigns, :location_fn, &Location.get/2)
 
     location = location_fn.(conn.params, [])
