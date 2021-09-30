@@ -864,6 +864,10 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                }
              ]
     end
+
+    test "for bus without scheduled trips" do
+      assert Helpers.get_shapes_by_direction("27", 3, 0) == []
+    end
   end
 
   describe "get_branches/4" do

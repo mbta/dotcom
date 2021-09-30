@@ -893,6 +893,9 @@ defmodule Routes.MockRepoApi do
   end
 
   @impl Routes.RepoApi
+  def get_shapes("27", direction_id: 0), do: []
+
+  @impl Routes.RepoApi
   def by_type(1) do
     all() |> Enum.filter(&(&1.type == 1))
   end
