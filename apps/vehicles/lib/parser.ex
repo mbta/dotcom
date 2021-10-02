@@ -28,22 +28,24 @@ defmodule Vehicles.Parser do
   defp optional_id([]), do: nil
   defp optional_id([%JsonApi.Item{id: id}]), do: id
 
-  @spec stop_id([JsonApi.Item.t()]) :: String.t()
-  defp stop_id([%JsonApi.Item{relationships: %{"parent_station" => [%JsonApi.Item{id: stop_id}]}}]) do
-    stop_id
-  end
-
+  @spec stop_id([JsonApi.Item.t()]) :: Stops.Stop.id_t() | nil
   defp stop_id([%JsonApi.Item{id: stop_id}]) do
-    stop_id
+    case Stops.Repo.get_parent(stop_id) do
+      %Stops.Stop{id: id} -> id
+      _ -> nil
+    end
   end
 
-  defp stop_id([]) do
+  defp stop_id(_) do
     nil
   end
 
-  @spec shape([JsonApi.Item.t()]) :: String.t() | nil
-  defp shape([%JsonApi.Item{relationships: %{"shape" => [%{id: id} | _]}} | _]) do
-    id
+  @spec shape([JsonApi.Item.t()]) :: Routes.Shape.id_t() | nil
+  defp shape([%JsonApi.Item{id: trip_id}]) do
+    case Schedules.Repo.trip(trip_id) do
+      %Schedules.Trip{shape_id: id} -> id
+      _ -> nil
+    end
   end
 
   defp shape(_) do

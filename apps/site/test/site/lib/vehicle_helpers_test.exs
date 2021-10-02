@@ -32,40 +32,6 @@ defmodule Site.VehicleHelpersTest do
   @tooltip_base @tooltips["place-sstat"]
 
   describe "build_tooltip_index/3" do
-    test "translate child stop to parent stop" do
-      locations = %{
-        {"CR-Weekday-Fall-20-531", "South Station-02"} => %Vehicles.Vehicle{
-          latitude: 1.1,
-          longitude: 2.2,
-          status: :stopped,
-          stop_id: "South Station-02",
-          trip_id: "CR-Weekday-Fall-20-531",
-          shape_id: "903_0018"
-        }
-      }
-
-      assert @route
-             |> build_tooltip_index(locations, @predictions)
-             |> Map.has_key?("place-sstat")
-    end
-
-    test "translate parent stop to itself" do
-      locations = %{
-        {"CR-Weekday-Fall-19-330", "place-NHRML-0254"} => %Vehicles.Vehicle{
-          latitude: 1.1,
-          longitude: 2.2,
-          status: :stopped,
-          stop_id: "place-NHRML-0254",
-          trip_id: "CR-Weekday-Fall-19-330",
-          shape_id: "903_0018"
-        }
-      }
-
-      assert @route
-             |> build_tooltip_index(locations, @predictions)
-             |> Map.has_key?("place-NHRML-0254")
-    end
-
     test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
       assert Map.has_key?(@tooltips, {"CR-502273-501", "place-sstat"})
@@ -95,7 +61,7 @@ defmodule Site.VehicleHelpersTest do
     end
 
     test "it does return a tooltip if a vehicle has a null trip_id" do
-      null_trip = %{{nil, "place-sstat"} => %Vehicles.Vehicle{}}
+      null_trip = %{{nil, "place-sstat"} => %Vehicles.Vehicle{stop_id: ""}}
       tooltips = build_tooltip_index(@route, null_trip, [])
       tooltip_base = tooltips["place-sstat"]
       assert length(Map.keys(tooltips)) == 2
@@ -104,7 +70,7 @@ defmodule Site.VehicleHelpersTest do
       assert tooltip_base.route.type == 2
       assert tooltip_base.trip == nil
       assert tooltip_base.prediction == nil
-      assert tooltip_base.vehicle == %Vehicles.Vehicle{}
+      assert tooltip_base.vehicle == %Vehicles.Vehicle{stop_id: ""}
     end
 
     test "it uses the prediction corresponding to the vehicle's current stop" do

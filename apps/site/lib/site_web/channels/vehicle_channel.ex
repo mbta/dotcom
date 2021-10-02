@@ -76,7 +76,7 @@ defmodule SiteWeb.VehicleChannel do
   end
 
   defp get_stop_name(stop_id) do
-    case Stops.Repo.get_parent(stop_id) do
+    case Stops.Repo.get(stop_id) do
       nil -> ""
       %Stops.Stop{name: name} -> name
     end
