@@ -3,7 +3,18 @@ defmodule SiteWeb.VehicleChannelTest do
 
   alias Leaflet.MapData.Marker
   alias SiteWeb.{VehicleChannel, UserSocket}
-  alias Vehicles.Repo
+  alias Vehicles.Vehicle
+
+  @vehicles [
+    %Vehicle{
+      id: "1",
+      route_id: "CR-Lowell",
+      direction_id: 0,
+      stop_id: "BNT-0000-01",
+      status: :in_transit,
+      trip_id: "trip"
+    }
+  ]
 
   test "sends vehicles and marker data" do
     # subscribes to a random channel name to
@@ -13,16 +24,14 @@ defmodule SiteWeb.VehicleChannelTest do
              |> socket("", %{some: :assign})
              |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest")
 
-    assert [vehicle | _] =
-             Repo.all()
-             |> Enum.reject(&(&1.route_id == nil))
+    [vehicle | _] = @vehicles
 
     assert {:noreply, %Phoenix.Socket{}} =
-             VehicleChannel.handle_out("reset", %{data: [vehicle]}, socket)
+             VehicleChannel.handle_out("reset", %{data: @vehicles}, socket)
 
     assert_push("data", vehicles)
 
-    assert %{data: [vehicle_with_marker]} = vehicles
+    assert %{data: [vehicle_with_marker | _]} = vehicles
 
     assert %{
              data: %{stop_name: _, vehicle: ^vehicle},
