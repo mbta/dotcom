@@ -1,25 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VehicleIcons renders and matches snapshot 1`] = `
+exports[`VehicleIcons with vehicles renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <VehicleIcons stop={{...}} vehicles={{...}} headsigns={{...}}>
+  <VehicleIcons stop={{...}} vehicles={{...}}>
     <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-      <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\" tooltipOptions={{...}}>
-        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\">
+      <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 1 tooltip text</div>\\" tooltipOptions={{...}}>
+        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 1 tooltip text</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 1 tooltip text</div>\\">
           <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
         </span>
       </TooltipWrapper>
     </div>
     <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-      <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is arriving at Test Stop</div>\\" tooltipOptions={{...}}>
-        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is arriving at Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is arriving at Test Stop</div>\\">
+      <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 2 tooltip text</div>\\" tooltipOptions={{...}}>
+        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 2 tooltip text</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 2 tooltip text</div>\\">
           <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
         </span>
       </TooltipWrapper>
     </div>
     <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-      <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle has arrived at Test Stop</div>\\" tooltipOptions={{...}}>
-        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle has arrived at Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle has arrived at Test Stop</div>\\">
+      <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 3 tooltip text</div>\\" tooltipOptions={{...}}>
+        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 3 tooltip text</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">vehicle 3 tooltip text</div>\\">
           <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
         </span>
       </TooltipWrapper>
