@@ -78,9 +78,7 @@ defmodule Site.Mixfile do
       {:poolboy, "~> 1.5"},
       {:wallaby, "~> 0.22", runtime: false, only: :test},
       {:con_cache, "~> 0.12.0"},
-      # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
-      {:recaptcha,
-       github: "samueljseay/recaptcha", ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"},
+      {:recaptcha, "~> 3.0"},
       {:route_patterns, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true},
