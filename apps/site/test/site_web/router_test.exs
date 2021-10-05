@@ -113,6 +113,18 @@ defmodule Phoenix.Router.RoutingTest do
       conn = get(conn, "/trip-planner/to/")
       assert redirected_to(conn, 301) == "/trip-planner"
     end
+
+    test "www.mbtace.com to www.mbta.com", %{conn: conn} do
+      System.put_env("HOST", "www.mbta.com")
+
+      on_exit(fn ->
+        System.delete_env("HOST")
+      end)
+
+      conn = %Plug.Conn{conn | host: "www.mbtace.com"}
+      conn = get(conn, "/")
+      assert redirected_to(conn, :moved_permanently) =~ "https://www.mbta.com/"
+    end
   end
 
   test "Adds noindex x-robots-tag HTTP header if config set", %{conn: conn} do
