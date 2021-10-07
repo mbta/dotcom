@@ -199,7 +199,7 @@ defmodule Routes.Repo do
 
   @spec do_duplicate_blended_route([Route.t()], Route.t()) :: [Route.t()]
   defp do_duplicate_blended_route(routes, %Route{name: name} = route) do
-    [head | separate_route_ids] = String.split(name, "/")
+    [_head | separate_route_ids] = String.split(name, "/")
 
     separate_route_ids
     |> Enum.reduce(routes, fn single_route_id, acc ->
