@@ -23,6 +23,7 @@ defmodule CMS.Partial.Paragraph do
   alias CMS.Partial.Paragraph.{
     Accordion,
     AccordionSection,
+    AgendaSubTopic,
     AgendaTopic,
     Callout,
     CodeEmbed,
@@ -46,6 +47,7 @@ defmodule CMS.Partial.Paragraph do
   @types [
     Accordion,
     AccordionSection,
+    AgendaSubTopic,
     AgendaTopic,
     Callout,
     CodeEmbed,
@@ -69,6 +71,7 @@ defmodule CMS.Partial.Paragraph do
   @type t ::
           Accordion.t()
           | AccordionSection.t()
+          | AgendaSubTopic.t()
           | AgendaTopic.t()
           | Callout.t()
           | CodeEmbed.t()
@@ -91,6 +94,7 @@ defmodule CMS.Partial.Paragraph do
   @type name ::
           Accordion
           | AccordionSection
+          | AgendaSubTopic
           | AgendaTopic
           | Callout
           | CodeEmbed
@@ -127,6 +131,10 @@ defmodule CMS.Partial.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "agenda_topic"}]} = para, _preview_opts) do
     AgendaTopic.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "agenda_sub_topic"}]} = para, _preview_opts) do
+    AgendaSubTopic.from_api(para)
   end
 
   def from_api(%{"type" => [%{"target_id" => "column"}]} = para, preview_opts) do
