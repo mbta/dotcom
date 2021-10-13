@@ -3,6 +3,8 @@
   <p class="error-card-subheader">Your stop cannot be found. This page is no longer in service.</p>
   <p class="error-card-content"><a href="/">Return to the homepage.</a></p>
   <p class="error-card-content">
-    <%= img_tag static_url(SiteWeb.Endpoint, "/images/error-bus.gif"), class: "img-fluid error-card-image", alt: "", aria: [hidden: true] %>
+    <div>
+      <%= svg("not-in-service.svg")%>
+    </div>
   </p>
 </div>

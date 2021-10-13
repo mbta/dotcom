@@ -3,6 +3,6 @@
   <h2 class="error-card-subheader">We are sorry. It looks like we have our signals crossed.  Our developers have been notified, and they will fix this error as soon as possible.</h2>
   <p class="error-card-button"><a href="/">Return to the homepage.</a></p>
   <div class="error-card-image">
-    <%= img_tag static_url(SiteWeb.Endpoint, "/images/error-bus.gif"), class: "img-fluid error-card-image", alt: "", aria: [hidden: true] %>
+    <%= svg("not-in-service.svg") %>
   </div>
 </div>

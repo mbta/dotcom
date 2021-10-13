@@ -13,6 +13,7 @@
   <link rel="icon" href="./mbta-logo-t-favicon.png" sizes="32x32" type="image/png">
   <link rel="icon" href="./favicon.ico" sizes="16x16" type="image/vnd.microsoft.icon">
 
+  <!-- I'm stuck here.  Not sure why the svg isn't animating according to the styles I added here -->
   <style>
     html,
     body {
@@ -110,6 +111,25 @@
     .m-footer__copyright {
       font-size: 14px;
     }
+
+    @keyframes blink {
+      0% { opacity: 0; }
+      25% { opacity: 0.8; }
+      75% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+    #LIGHT---NOTINSERVICE {
+      animation: blink 1s infinite;
+    }
+    @keyframes light {
+      0% { opacity: 0; }
+      25% { opacity: 1; }
+      75% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    [id$=--ON] {
+      animation: light 1s infinite;
+    }
   </style>
 </head>
 
@@ -140,7 +160,7 @@
         <h1 class="error-card-header">We'll be right back!</h1>
         <p class="error-card-subheader">MBTA.com is down for a bit of maintenance right now. Thanks for your patience.
         </p>
-        <img alt="" aria-hidden="true" class="error-card-image" src="./error-bus.gif">
+        <object data="../static/images/not-in-service.svg" alt="" aria-hidden="true" class="error-card-image"></object>
       </div>
     </div>
     <footer class="m-footer">
