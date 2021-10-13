@@ -129,8 +129,8 @@ defmodule CMS.Partial.Paragraph do
     ColumnMulti.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "agenda_topic"}]} = para, _preview_opts) do
-    AgendaTopic.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "agenda_topic"}]} = para, preview_opts) do
+    AgendaTopic.from_api(para, preview_opts)
   end
 
   def from_api(%{"type" => [%{"target_id" => "agenda_sub_topic"}]} = para, _preview_opts) do
