@@ -113,7 +113,7 @@ defmodule Site.VehicleHelpersTest do
         | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: "4"}
       }
 
-      assert tooltip(tooltip) =~ "Now boarding on track 4"
+      assert tooltip(tooltip) =~ "now boarding on track 4"
     end
 
     test "when a prediction does not have a track, gives nothing" do
@@ -122,7 +122,7 @@ defmodule Site.VehicleHelpersTest do
         | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: nil}
       }
 
-      refute tooltip(tooltip) =~ "Now boarding"
+      refute tooltip(tooltip) =~ "now boarding"
     end
 
     test "when there is no time or status for the prediction, returns stop name" do
@@ -143,7 +143,7 @@ defmodule Site.VehicleHelpersTest do
           | prediction: %Predictions.Prediction{time: time, status: "Now Boarding", track: "4"}
         })
 
-      assert result =~ "Now boarding on track 4"
+      assert result =~ "now boarding on track 4"
     end
 
     test "Displays text based on vehicle status" do
@@ -172,6 +172,22 @@ defmodule Site.VehicleHelpersTest do
       assert actual =~ "Framingham/Worcester Line"
       assert actual =~ "train has arrived"
       assert actual =~ "South Station"
+    end
+
+    test "special message with conflicting statuses" do
+      actual =
+        %{
+          @tooltip_base
+          | vehicle: %Vehicles.Vehicle{status: :stopped},
+            prediction: %Predictions.Prediction{
+              time: ~N[2021-10-01T11:00:00],
+              status: "Departed",
+              track: "4"
+            }
+        }
+        |> tooltip()
+
+      assert actual =~ "has left South Station, departed on track 4"
     end
   end
 

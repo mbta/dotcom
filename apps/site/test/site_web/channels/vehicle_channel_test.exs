@@ -117,7 +117,7 @@ defmodule SiteWeb.VehicleChannelTest do
              } = vehicle_with_marker
 
       assert tooltip_text =~ "Train Trip train is on the way to North Station"
-      assert tooltip_text =~ "All aboard on track 20"
+      assert tooltip_text =~ "all aboard on track 20"
     end
   end
 end

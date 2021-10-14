@@ -128,7 +128,7 @@ defmodule VehicleHelpers do
   @spec prediction_status_text(Prediction.t() | nil) :: iodata
   defp prediction_status_text(%Prediction{status: status, track: track})
        when not is_nil(track) and not is_nil(status) do
-    [String.capitalize(status), " on track ", track]
+    [String.downcase(status), " on track ", track]
   end
 
   defp prediction_status_text(_) do
@@ -172,7 +172,17 @@ defmodule VehicleHelpers do
   defp display_trip_name(_, _), do: ""
 
   @spec build_tooltip(iodata, iodata) :: String.t()
+  defp build_tooltip([], stop_text), do: "#{stop_text}"
+
   defp build_tooltip(status_text, stop_text) do
-    "#{stop_text}, #{status_text}"
+    # Sometimes the prediction status is "Departed" and the vehicle status is
+    # :stopped. We rewrite this tooltip to make a bit more sense
+    if Enum.member?(status_text, "departed") and Enum.member?(stop_text, " has arrived at ") do
+      adjusted_stop_text = "#{stop_text}" |> String.replace("arrived at", "has left")
+
+      "#{adjusted_stop_text}, #{status_text}"
+    else
+      "#{stop_text}, #{status_text}"
+    end
   end
 end
