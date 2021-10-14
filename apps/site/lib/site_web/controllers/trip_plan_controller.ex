@@ -383,10 +383,11 @@ defmodule SiteWeb.TripPlanController do
       mode: mode,
       long_name: long_name,
       name: name,
-      type: type
+      type: type,
+      url: url
     } = Enum.find(legs, &(Leg.route_id(&1) == {:ok, id}))
 
-    %Route{
+    custom_route = %Route{
       description: description,
       id: mode.route_id,
       long_name: long_name,
@@ -394,6 +395,18 @@ defmodule SiteWeb.TripPlanController do
       type: type,
       custom_route?: true
     }
+
+    case {url, description} do
+      # Workaround for Massport buses, manually assign type
+      {"https://massport.com/", "BUS"} ->
+        %Route{
+          custom_route
+          | type: "Massport-1"
+        }
+
+      _ ->
+        custom_route
+    end
   end
 
   defp meta_description(conn, _) do

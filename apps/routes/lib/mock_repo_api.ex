@@ -606,6 +606,9 @@ defmodule Routes.MockRepoApi do
   end
 
   @impl Routes.RepoApi
+  def get_shapes("27", direction_id: 0), do: []
+
+  @impl Routes.RepoApi
   def get_shapes("36", direction_id: 1) do
     [
       %Routes.Shape{
