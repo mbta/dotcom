@@ -302,7 +302,8 @@ defmodule CMS.ParagraphTest do
                sub_topics: [
                  %AgendaSubTopic{} = sub_topic_1,
                  %AgendaSubTopic{}
-               ]
+               ],
+               files: files
              } = from_api(topic_1)
 
       assert title == "This is the first topic (with details)"
@@ -315,6 +316,13 @@ defmodule CMS.ParagraphTest do
 
       assert safe_to_string(sub_topic_1.description) =~
                ~s(<p>This is a similar description, but of a sub-topic. It can also have <a href="https://www.google.com">HTML</a> in it.)
+
+      assert %File{
+               description: "",
+               type: "application/pdf",
+               url:
+                 "http://localhost:4002/sites/default/files/2021-10/2021-10-13-english-bus-network-redesign-public-meetings.pdf"
+             } = List.first(files)
     end
 
     test "parses an unknown paragraph type" do

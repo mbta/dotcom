@@ -3,6 +3,7 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
   A paragraph for agenda topics (used exclusively by CMS.Page.Agenda).
   """
 
+  alias CMS.Field.File
   alias CMS.Partial.Paragraph.AgendaSubTopic
   alias Phoenix.HTML
 
@@ -10,19 +11,22 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
     only: [
       field_value: 2,
       handle_html: 1,
+      parse_files: 2,
       parse_paragraphs: 3
     ]
 
   defstruct title: "",
             video_bookmark: nil,
             description: HTML.raw(""),
-            sub_topics: []
+            sub_topics: [],
+            files: []
 
   @type t :: %__MODULE__{
           title: String.t(),
           video_bookmark: String.t() | nil,
           description: HTML.safe(),
-          sub_topics: [AgendaSubTopic.t()]
+          sub_topics: [AgendaSubTopic.t()],
+          files: [File.t()]
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -31,7 +35,8 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
       title: field_value(data, "field_topic_title"),
       video_bookmark: field_value(data, "field_video_bookmark"),
       description: data |> field_value("field_agenda_topic_description") |> handle_html,
-      sub_topics: parse_paragraphs(data, preview_opts, "field_sub_topics")
+      sub_topics: parse_paragraphs(data, preview_opts, "field_sub_topics"),
+      files: parse_files(data, "field_related_files")
     }
   end
 end
