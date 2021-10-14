@@ -7,7 +7,7 @@ defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(1)
 
   import Routes.Parser
-  import CMS.Helpers, only: [int_or_string_to_int: 1]
+  import Routes.Helpers
 
   alias JsonApi
   alias Routes.{Route, Shape}
@@ -103,8 +103,7 @@ defmodule Routes.Repo do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
-    # Currently, we list the 62/76 in both places of the bus route list
-    |> duplicate_blended_route(["62/76"])
+    |> duplicate_blended_route()
   end
 
   def by_type(type) do
@@ -182,34 +181,5 @@ defmodule Routes.Repo do
       description: :rapid_transit,
       color: "00843D"
     }
-  end
-
-  # Currently, we list the 62/76 in both places of the bus route list
-  # This function accepts the name of the blended route and inserts it into the route list
-  @spec duplicate_blended_route([Route.t()], [String.t()]) :: [Route.t()]
-  defp duplicate_blended_route(routes, blended_route_names) do
-    blended_route_names
-    |> Enum.reduce(routes, fn current_blended_name, acc ->
-      case Enum.find(acc, fn route -> route.name === current_blended_name end) do
-        %Route{} = route -> do_duplicate_blended_route(acc, route)
-        nil -> acc
-      end
-    end)
-  end
-
-  @spec do_duplicate_blended_route([Route.t()], Route.t()) :: [Route.t()]
-  defp do_duplicate_blended_route(routes, %Route{name: name} = route) do
-    [_head | separate_route_ids] = String.split(name, "/")
-
-    separate_route_ids
-    |> Enum.reduce(routes, fn single_route_id, acc ->
-      index =
-        Enum.find_index(acc, fn x ->
-          !is_nil(int_or_string_to_int(x.name)) and
-            int_or_string_to_int(x.name) > int_or_string_to_int(single_route_id)
-        end)
-
-      List.insert_at(acc, index, route)
-    end)
   end
 end
