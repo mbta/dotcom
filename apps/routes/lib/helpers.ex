@@ -10,7 +10,6 @@ defmodule Routes.Helpers do
   @spec duplicate_blended_route([Route.t()]) :: [Route.t()]
   def duplicate_blended_route(routes) do
     Enum.reduce(routes, routes, &do_duplicate_blended_route/2)
-    |> IO.inspect()
   end
 
   @spec do_duplicate_blended_route(Route.t(), [Route.t()]) :: [Route.t()]
