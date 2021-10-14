@@ -2,7 +2,6 @@ defmodule Site.VehicleHelpersTest do
   use ExUnit.Case, async: true
 
   import VehicleHelpers
-  import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @locations %{
     {"CR-502273-501", "place-sstat"} => %Vehicles.Vehicle{
@@ -108,46 +107,7 @@ defmodule Site.VehicleHelpersTest do
   end
 
   describe "tooltip/1" do
-    test "when there is no prediction, there is no prediction time" do
-      tooltip = %{@tooltip_base | prediction: nil}
-      assert tooltip(@tooltip_base) =~ "11:00 AM"
-      refute tooltip(tooltip) =~ "11:00 AM"
-    end
-
-    test "when a prediction has a time, gives the arrival time" do
-      tooltip = %{
-        @tooltip_base
-        | prediction: %{
-            @tooltip_base.prediction
-            | departing?: false,
-              time: ~N[2017-01-01T13:00:00]
-          }
-      }
-
-      assert tooltip(tooltip) =~ "Expected arrival at 1:00 PM"
-    end
-
-    test "when a prediction is departing, gives the departing time" do
-      tooltip = %{
-        @tooltip_base
-        | prediction: %{
-            @tooltip_base.prediction
-            | departing?: true,
-              time: ~N[2017-01-01T12:00:00]
-          }
-      }
-
-      assert tooltip(tooltip) =~ "Expected departure at 12:00 PM"
-    end
-
-    test "when a prediction does not have a time, gives nothing" do
-      tooltip = %{@tooltip_base | prediction: %{@tooltip_base.prediction | time: nil}}
-      result = tooltip(tooltip)
-      refute result =~ "P"
-      refute result =~ "A"
-    end
-
-    test "when a prediction has a track, gives the time, the status and the track" do
+    test "when a prediction has a track, gives the status and the track" do
       tooltip = %{
         @tooltip_base
         | prediction: %{@tooltip_base.prediction | status: "Now Boarding", track: "4"}
@@ -174,30 +134,8 @@ defmodule Site.VehicleHelpersTest do
       assert tooltip(tooltip) =~ "South Station"
     end
 
-    test "when there is a time but no status for the prediction, gives a tooltip with arrival time" do
-      tooltip = %{
-        @tooltip_base
-        | prediction: %{@tooltip_base.prediction | status: nil, time: ~N[2017-01-01T12:00:00]}
-      }
-
-      assert tooltip(tooltip) =~ "12:00 PM"
-    end
-
-    test "when there is a status but no time for the prediction, gives a tooltip with the status" do
-      tooltip = %{
-        @tooltip_base
-        | prediction: %{@tooltip_base.prediction | status: "Now Boarding", time: nil}
-      }
-
-      result = tooltip(tooltip)
-      assert result =~ "has arrived"
-      refute result =~ "A"
-      refute result =~ "P"
-    end
-
     test "creates a tooltip for the prediction" do
       time = ~N[2017-02-17T05:46:28]
-      formatted_time = format_schedule_time(time)
 
       result =
         tooltip(%{
@@ -206,7 +144,6 @@ defmodule Site.VehicleHelpersTest do
         })
 
       assert result =~ "Now boarding on track 4"
-      assert result =~ "Expected arrival at #{formatted_time}"
     end
 
     test "Displays text based on vehicle status" do

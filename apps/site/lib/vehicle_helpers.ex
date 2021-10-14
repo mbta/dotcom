@@ -120,10 +120,9 @@ defmodule VehicleHelpers do
         stop_name: stop_name,
         route: route
       }) do
-    time_text = prediction_time_text(prediction)
     status_text = prediction_status_text(prediction)
     stop_text = realtime_stop_text(trip, stop_name, vehicle, route)
-    build_tooltip(time_text, status_text, stop_text)
+    build_tooltip(status_text, stop_text)
   end
 
   @spec prediction_status_text(Prediction.t() | nil) :: iodata
@@ -134,23 +133,6 @@ defmodule VehicleHelpers do
 
   defp prediction_status_text(_) do
     []
-  end
-
-  @spec prediction_time_text(Prediction.t() | nil) :: iodata
-  defp prediction_time_text(nil) do
-    []
-  end
-
-  defp prediction_time_text(%Prediction{time: nil}) do
-    []
-  end
-
-  defp prediction_time_text(%Prediction{time: time, departing?: true}) do
-    ["Expected departure at ", format_schedule_time(time)]
-  end
-
-  defp prediction_time_text(%Prediction{time: time}) do
-    ["Expected arrival at ", format_schedule_time(time)]
   end
 
   @spec realtime_stop_text(Trip.t() | nil, String.t(), Vehicle.t() | nil, Route.t()) :: iodata
@@ -189,8 +171,8 @@ defmodule VehicleHelpers do
   defp display_trip_name(%{type: 2}, %{name: name}), do: [" ", name]
   defp display_trip_name(_, _), do: ""
 
-  @spec build_tooltip(iodata, iodata, iodata) :: String.t()
-  defp build_tooltip(time_text, status_text, stop_text) do
-    "#{stop_text}, #{time_text}, #{status_text}"
+  @spec build_tooltip(iodata, iodata) :: String.t()
+  defp build_tooltip(status_text, stop_text) do
+    "#{stop_text}, #{status_text}"
   end
 end
