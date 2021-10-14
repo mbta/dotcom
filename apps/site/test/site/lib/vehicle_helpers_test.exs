@@ -195,20 +195,6 @@ defmodule Site.VehicleHelpersTest do
       refute result =~ "P"
     end
 
-    test "when there is a status and a time for the prediction, gives a tooltip with both and also replaces double quotes with single quotes" do
-      tooltip = %{
-        @tooltip_base
-        | prediction: %{
-            @tooltip_base.prediction
-            | status: "now boarding",
-              time: ~N[2017-01-01T12:00:00]
-          }
-      }
-
-      # there will be four single quotes, two for each class declaration
-      assert length(String.split(tooltip(tooltip), "'")) == 5
-    end
-
     test "creates a tooltip for the prediction" do
       time = ~N[2017-02-17T05:46:28]
       formatted_time = format_schedule_time(time)

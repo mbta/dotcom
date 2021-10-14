@@ -74,7 +74,6 @@ defmodule SiteWeb.VehicleChannel do
               trip: trip
             }
             |> VehicleHelpers.tooltip()
-            |> Floki.text()
         )
     }
   end

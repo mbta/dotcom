@@ -10,9 +10,6 @@ defmodule VehicleHelpers do
   alias SiteWeb.ScheduleController.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
-  import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
-  import Phoenix.HTML, only: [safe_to_string: 1]
-  import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
   @type tooltip_index :: %{
@@ -194,22 +191,6 @@ defmodule VehicleHelpers do
 
   @spec build_tooltip(iodata, iodata, iodata) :: String.t()
   defp build_tooltip(time_text, status_text, stop_text) do
-    time_tag = do_build_tooltip(time_text)
-    status_tag = do_build_tooltip(status_text)
-    stop_tag = do_build_tooltip(stop_text)
-
-    :div
-    |> content_tag([stop_tag, time_tag, status_tag])
-    |> safe_to_string
-    |> String.replace(~s("), ~s('))
-  end
-
-  @spec do_build_tooltip(iodata) :: Phoenix.HTML.Safe.t()
-  defp do_build_tooltip([]) do
-    ""
-  end
-
-  defp do_build_tooltip(text) do
-    content_tag(:p, text, class: 'prediction-tooltip')
+    "#{stop_text}, #{time_text}, #{status_text}"
   end
 end
