@@ -212,7 +212,8 @@ defmodule Routes.Route do
   def hidden?(%{id: "3233"}), do: true
   def hidden?(%{id: "3738"}), do: true
   def hidden?(%{id: "4050"}), do: true
-  def hidden?(%{id: "627"}), do: true
+  def hidden?(%{id: "62"}), do: true
+  def hidden?(%{id: "76"}), do: true
   def hidden?(%{id: "725"}), do: true
   def hidden?(%{id: "8993"}), do: true
   def hidden?(%{id: "116117"}), do: true
@@ -225,6 +226,13 @@ defmodule Routes.Route do
   def hidden?(%{id: "CapeFlyer"}), do: true
   def hidden?(%{id: "Boat-F3"}), do: true
   def hidden?(_), do: false
+
+  @doc """
+  Determines if given route route is a blended one
+  """
+  @spec combined_route?(t()) :: boolean
+  def combined_route?(%{id: "627"}), do: true
+  def combined_route?(_), do: false
 
   @spec to_json_safe(t) :: map
   def to_json_safe(%__MODULE__{
