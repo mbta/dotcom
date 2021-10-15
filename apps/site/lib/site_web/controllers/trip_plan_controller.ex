@@ -401,7 +401,7 @@ defmodule SiteWeb.TripPlanController do
       {"https://massport.com/", "BUS"} ->
         %Route{
           custom_route
-          | type: "Massport-1"
+          | type: "Massport-" <> type
         }
 
       _ ->
