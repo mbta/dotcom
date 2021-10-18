@@ -65,7 +65,7 @@ defmodule Routes.Route do
   def type_atom("ferry"), do: :ferry
   def type_atom("909"), do: :logan_express
   def type_atom("983"), do: :massport_shuttle
-  def type_atom("Massport-1"), do: :massport_shuttle
+  def type_atom("Massport-" <> _), do: :massport_shuttle
 
   @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
@@ -93,6 +93,7 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{id: "Green-C"}), do: :green_line_c
   def icon_atom(%__MODULE__{id: "Green-D"}), do: :green_line_d
   def icon_atom(%__MODULE__{id: "Green-E"}), do: :green_line_e
+  def icon_atom(%__MODULE__{id: "Massport-" <> _}), do: :massport_shuttle
 
   for silver_line_route <- @silver_line do
     def icon_atom(%__MODULE__{id: unquote(silver_line_route)}), do: unquote(:silver_line)
