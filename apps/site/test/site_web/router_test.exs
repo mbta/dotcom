@@ -1,6 +1,8 @@
 defmodule Phoenix.Router.RoutingTest do
   use SiteWeb.ConnCase, async: true
 
+  @canonical_host "www.mbta.com/"
+
   describe "routes" do
     test "Proposed Sales Locations page", %{conn: conn} do
       conn = get(conn, "/fare-transformation/proposed-sales-locations")
@@ -114,16 +116,18 @@ defmodule Phoenix.Router.RoutingTest do
       assert redirected_to(conn, 301) == "/trip-planner"
     end
 
-    test "www.mbtace.com to www.mbta.com", %{conn: conn} do
-      System.put_env("HOST", "www.mbta.com")
+    test "redirect to canonical host securely", %{conn: conn} do
+      System.put_env("HOST", @canonical_host)
 
       on_exit(fn ->
         System.delete_env("HOST")
       end)
 
-      conn = %Plug.Conn{conn | host: "www.mbtace.com"}
-      conn = get(conn, "/")
-      assert redirected_to(conn, :moved_permanently) =~ "https://www.mbta.com/"
+      conn_from_http = get(conn, "http://www.mbtace.com/")
+      assert redirected_to(conn_from_http, :moved_permanently) =~ "https://www.mbtace.com/"
+
+      conn_from_https = get(conn, "https://www.mbtace.com/")
+      assert redirected_to(conn_from_https, :moved_permanently) =~ "https://#{@canonical_host}"
     end
   end
 

@@ -6,6 +6,13 @@ config :site, SiteWeb.Endpoint,
   http: [port: System.get_env("PORT") || 4002],
   server: true
 
+# Let test requests get routed through the :secure pipeline
+config :site, :secure_pipeline,
+  force_ssl: [
+    host: nil,
+    rewrite_on: [:x_forwarded_proto]
+  ]
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 
