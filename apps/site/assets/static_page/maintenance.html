@@ -111,25 +111,6 @@
     .m-footer__copyright {
       font-size: 14px;
     }
-
-    @keyframes blink {
-      0% { opacity: 0; }
-      25% { opacity: 0.8; }
-      75% { opacity: 0.8; }
-      100% { opacity: 0; }
-    }
-    #LIGHT---NOTINSERVICE {
-      animation: blink 1s infinite;
-    }
-    @keyframes light {
-      0% { opacity: 0; }
-      25% { opacity: 1; }
-      75% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    [id$=--ON] {
-      animation: light 1s infinite;
-    }
   </style>
 </head>
 
@@ -160,7 +141,7 @@
         <h1 class="error-card-header">We'll be right back!</h1>
         <p class="error-card-subheader">MBTA.com is down for a bit of maintenance right now. Thanks for your patience.
         </p>
-        <object data="../static/images/not-in-service.svg" alt="" aria-hidden="true" class="error-card-image"></object>
+        <object data="../static/images/503.svg" alt="" aria-hidden="true" class="error-card-image"></object>
       </div>
     </div>
     <footer class="m-footer">
