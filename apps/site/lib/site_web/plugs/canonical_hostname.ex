@@ -26,8 +26,7 @@ defmodule SiteWeb.Plugs.CanonicalHostname do
     if requested_hostname == canonical_hostname or is_private_ip(requested_hostname) do
       conn
     else
-      rewritten_url =
-        Plug.Conn.request_url(%Plug.Conn{conn | host: canonical_hostname})
+      rewritten_url = Plug.Conn.request_url(%Plug.Conn{conn | host: canonical_hostname})
 
       conn
       |> put_status(:moved_permanently)
