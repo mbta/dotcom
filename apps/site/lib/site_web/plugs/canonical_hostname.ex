@@ -27,8 +27,8 @@ defmodule SiteWeb.Plugs.CanonicalHostname do
       conn
     else
       rewritten_url =
-        Plug.Conn.request_url(conn)
-        |> String.replace(requested_hostname, canonical_hostname, global: false)
+        %Plug.Conn{conn | host: canonical_hostname}
+        |> Plug.Conn.request_url()
 
       conn
       |> put_status(:moved_permanently)
