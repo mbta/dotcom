@@ -1,7 +1,7 @@
 defmodule Phoenix.Router.RoutingTest do
   use SiteWeb.ConnCase, async: true
 
-  @canonical_host "www.mbta.com/"
+  @canonical_host "www.mbta.com"
 
   describe "routes" do
     test "Proposed Sales Locations page", %{conn: conn} do
