@@ -24,7 +24,7 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
   def do_call(conn, opts) do
     locations =
       if should_fetch_vehicles?(conn) do
-        find_locations(conn, opts)
+        find_all_locations(conn, opts)
       else
         %{}
       end
@@ -66,6 +66,25 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
   defp should_fetch_vehicles?(conn) do
     conn.assigns.date == Util.service_date(conn.assigns.date_time)
   end
+
+  @spec find_all_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
+  defp find_all_locations(
+         %Plug.Conn{
+           assigns: %{route: %Routes.Route{id: "Green"}}
+         } = conn,
+         opts
+       ) do
+    GreenLine.branch_ids()
+    |> Enum.flat_map(fn route_id ->
+      find_locations(
+        %Plug.Conn{conn | assigns: %{conn.assigns | route: Routes.Repo.get(route_id)}},
+        opts
+      )
+    end)
+    |> Enum.into(%{})
+  end
+
+  defp find_all_locations(conn, opts), do: find_locations(conn, opts)
 
   @spec find_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
   defp find_locations(

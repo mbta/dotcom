@@ -31,7 +31,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
         conn =
           conn
           |> assign(:route, route)
-          |> assign(:direction_id, direction_id)
+          |> assign(:direction_id, String.to_integer(direction_id))
           |> assign_alerts(filter_by_direction?: true)
 
         line_data =
@@ -62,7 +62,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
         conn =
           conn
           |> assign(:route, route)
-          |> assign(:direction_id, direction_id)
+          |> assign(:direction_id, String.to_integer(direction_id))
           |> assign_vehicle_tooltips([])
 
         cache_key = {route_id, direction_id, conn.assigns.date}
@@ -211,10 +211,27 @@ defmodule SiteWeb.ScheduleController.LineApi do
   # SiteWeb.ScheduleController.VehicleTooltips plug, which requires various
   # other bits of data supplied by numerous preceding plugs.
   @spec assign_vehicle_tooltips(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
-  defp assign_vehicle_tooltips(conn, opts) do
-    # TODO: Handle route_id "Green"
+  defp assign_vehicle_tooltips(%Plug.Conn{assigns: %{route: %{id: "Green"}}} = conn, opts) do
     conn
     |> SiteWeb.Plugs.DateInRating.call(opts)
-    |> SiteWeb.ScheduleController.Core.call(opts)
+    |> SiteWeb.ScheduleController.Green.vehicle_locations(
+      SiteWeb.ScheduleController.VehicleLocations.init(opts)
+    )
+    |> SiteWeb.ScheduleController.Green.predictions(
+      SiteWeb.ScheduleController.Predictions.init(opts)
+    )
+    |> SiteWeb.ScheduleController.VehicleTooltips.call(opts)
+  end
+
+  defp assign_vehicle_tooltips(conn, opts) do
+    conn
+    |> SiteWeb.Plugs.DateInRating.call(opts)
+    |> SiteWeb.ScheduleController.VehicleLocations.call(
+      SiteWeb.ScheduleController.VehicleLocations.init(opts)
+    )
+    |> SiteWeb.ScheduleController.Predictions.call(
+      SiteWeb.ScheduleController.Predictions.init(opts)
+    )
+    |> SiteWeb.ScheduleController.VehicleTooltips.call(opts)
   end
 end
