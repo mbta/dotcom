@@ -303,7 +303,8 @@ defmodule CMS.ParagraphTest do
                  %AgendaSubTopic{} = sub_topic_1,
                  %AgendaSubTopic{}
                ],
-               files: files
+               files: files,
+               links: links
              } = from_api(topic_1)
 
       assert title == "This is the first topic (with details)"
@@ -323,6 +324,11 @@ defmodule CMS.ParagraphTest do
                url:
                  "http://localhost:4002/sites/default/files/2021-10/2021-10-13-english-bus-network-redesign-public-meetings.pdf"
              } = List.first(files)
+
+      assert %Link{
+               title: "Google",
+               url: "https://www.google.com"
+             } = List.first(links)
     end
 
     test "parses an unknown paragraph type" do
