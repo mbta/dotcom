@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Stop, EnhancedRoute, DirectionId } from "../../__v3api";
 import { RouteWithDirection } from "./__stop";
-import { modeIcon } from "../../helpers/icon";
+import { modeIcon, parkingIcon } from "../../helpers/icon";
 import { isABusRoute } from "../../models/route";
 import accessible from "./StopAccessibilityIcon";
 
@@ -67,6 +67,13 @@ const StopCard = ({
         {stop.name}
       </a>
       {accessible(stop)}
+      {stop.parking_lots.length > 0 ? (
+        <span className="m-stop-page__icon">
+          {parkingIcon("c-svg__icon-parking-default")}
+        </span>
+      ) : (
+        null
+      )}
       {routesToRender &&
         routesToRender.map(({ route, direction_id: directionId }) => (
           <div
