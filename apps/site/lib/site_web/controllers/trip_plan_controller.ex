@@ -393,7 +393,8 @@ defmodule SiteWeb.TripPlanController do
       long_name: long_name,
       name: name,
       type: type,
-      custom_route?: true
+      custom_route?: true,
+      color: "000000"
     }
 
     case {url, description} do
@@ -401,7 +402,7 @@ defmodule SiteWeb.TripPlanController do
       {"https://massport.com/", "BUS"} ->
         %Route{
           custom_route
-          | type: "Massport-1"
+          | type: "Massport-" <> type
         }
 
       _ ->
