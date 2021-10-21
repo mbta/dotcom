@@ -54,19 +54,19 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: ["Boston College", "Park Street"],
+    direction_destinations: ["Boston College", "Government Center"],
     icon: iconGreenB
   },
   {
     id: "Green-C",
     name: "Green Line C",
-    direction_destinations: ["Cleveland Circle", "North Station"],
+    direction_destinations: ["Cleveland Circle", "Government Center"],
     icon: iconGreenC
   },
   {
     id: "Green-D",
     name: "Green Line D",
-    direction_destinations: ["Riverside", "Government Center"],
+    direction_destinations: ["Riverside", "North Station"],
     icon: iconGreenD
   },
   {
