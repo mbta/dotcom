@@ -1,0 +1,125 @@
+@mixin base-heading__new {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+}
+
+.heading-1 {
+  @include base-heading__new();
+  font-size: 45px;
+  line-height: 57.37px;
+  @include media-breakpoint-down(lg) {
+    font-size: 40px;
+    line-height: 51px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 28px;
+    line-height: 35.7px;
+  }
+}
+.heading-2 {
+  @include base-heading__new();
+  font-size: 31.5px;
+  line-height: 40.16px;
+  @include media-breakpoint-down(lg) {
+    font-size: 28px;
+    line-height: 35.7px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 22.75px;
+    line-height: 29px;
+  }
+}
+.heading-3 {
+  @include base-heading__new();
+  font-size: 23.62px;
+  line-height: 30.12px;
+  @include media-breakpoint-down(lg) {
+    font-size: 21px;
+    line-height: 26.77px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 18.38px;
+    line-height: 23.42px;
+  }
+}
+
+.heading-4 {
+  @include base-heading__new();
+  font-size: 20.25px;
+  line-height: 25.81px;
+  @include media-breakpoint-down(lg) {
+    font-size: 18px;
+    line-height: 22.95px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 15.75px;
+    line-height: 20.08px;
+  }
+}
+.heading-5 {
+  @include base-heading__new();
+  font-size: 18px;
+  line-height: 22.95px;
+  @include media-breakpoint-down(lg) {
+    font-size: 16px;
+    line-height: 20.4px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 14px;
+    line-height: 17.85px;
+  }
+}
+
+.font-body {
+  font-family: $font-family-base;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  @include media-breakpoint-down(lg) {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 14px;
+    line-height: 21px;
+  }
+}
+.font-link {
+  font-family: $font-family-base;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: normal;
+  @include media-breakpoint-down(lg) {
+    font-size: 16px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 14px;
+  }
+}
+.font-small {
+  @include base-heading__new();
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 22.95px;
+  @include media-breakpoint-down(lg) {
+    font-size: 14px;
+    line-height: 20.4px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 12px;
+    line-height: 17.85px;
+  }
+}
+.font-white {
+  font-family: $font-family-base;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  @include media-breakpoint-down(lg) {
+    font-size: 16px;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 14px;
+    line-height: 21px;
+  }
+}

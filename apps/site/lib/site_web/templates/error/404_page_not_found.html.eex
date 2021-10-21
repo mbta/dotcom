@@ -1,0 +1,7 @@
+<%= render "error_layout.html",
+    conn: @conn,
+    error_code: "404",
+    error_type: "Page not found",
+    error_title: "Sorry! We missed your stop.",
+    error_description: "This page is no longer in service.",
+    error_instructions: "Try searching for what you're looking for below." %>

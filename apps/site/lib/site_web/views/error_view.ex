@@ -2,11 +2,11 @@ defmodule SiteWeb.ErrorView do
   use SiteWeb, :view
 
   def render("404.html", assigns) do
-    render(__MODULE__, "not_found.html", assigns)
+    render(__MODULE__, "404_page_not_found.html", assigns)
   end
 
   def render("500.html", assigns) do
-    render(__MODULE__, "crash.html", assigns)
+    render(__MODULE__, "500_server_error.html", assigns)
   end
 
   # In case no render clause matches or no

@@ -1,0 +1,7 @@
+<%= render "error_layout.html",
+    conn: @conn,
+    error_code: "500",
+    error_type: "Server issue",
+    error_title: "Oh no! We're experiencing delays.",
+    error_description: "Something went wrong on our end.",
+    error_instructions: "Try searching for what you're looking for below." %>

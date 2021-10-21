@@ -1,3 +1,5 @@
+<!-- Can we delete this page? I updated _errors.scss assuming these classnames are no longer used -->
+
 <div class="error-card">
   <h1 class="error-card-header">Hold On&hellip;</h1>
   <p class="error-card-content">While we're working on the new site, we haven't moved everything over yet.</p>

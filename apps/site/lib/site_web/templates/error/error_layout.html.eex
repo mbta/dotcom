@@ -1,0 +1,42 @@
+
+<!-- Default -->
+<div class="container error-page average-sizes">
+  <div class="font-small error-pre-title">
+    <%= @error_code <> " Error \u2022 " <> @error_type %>
+  </div>
+  <div class="heading-1 error-title"><%= @error_title %></div>
+  <div class="error-page-flex">
+    <div class="error-svg-container">
+      <%= svg(@error_code <> ".svg")%>
+    </div>
+    <div class="error-details-container">
+      <p class="error-paragraph">
+        <span class="error-description"><%= @error_description %></span>
+        <span class="error-instructions"><%= @error_instructions %></span>
+      </p>
+      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search the MBTA"  %>
+      <div class="error-links">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- XL screens -->
+<div class="container error-page xl-only">
+  <div class="font-small error-pre-title">
+    <%= @error_code <> " Error \u2022 " <> @error_type %>
+  </div>
+  <div class="error-page-flex">
+    <div class="error-svg-container">
+      <%= svg(@error_code <> ".svg")%>
+    </div>
+    <div class="error-details-container">
+      <div class="heading-1 error-title"><%= @error_title %></div>
+      <p class="error-paragraph">
+        <span class="error-description"><%= @error_description %></span>
+        <span class="error-instructions"><%= @error_instructions %></span>
+      </p>
+      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search the MBTA"  %>
+      <div class="error-links">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
+    </div>
+  </div>
+</div>
