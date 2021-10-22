@@ -173,4 +173,13 @@ defmodule SiteWeb.EventView do
       "#{event_path(conn, :index, month: month, year: year)}##{month}-#{year}"
     end
   end
+
+  @spec agenda_title(String.t(), :h3 | :h4) :: Phoenix.HTML.Safe.t()
+  def agenda_title(title, tag_type \\ :h3)
+  def agenda_title(title, tag_type)
+      when not is_nil(title) do
+    content_tag(tag_type, [title], class: "agenda-topic__title")
+  end
+
+  def agenda_title(_, _), do: ""
 end

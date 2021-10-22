@@ -1,8 +1,28 @@
 <%= if Enum.any?(@agenda.topics) do %>
-  <ol>
-    <%= for topic <- @agenda.topics do %>
+  <ol type="A" class="agenda-topics">
+    <%= for %CMS.Partial.Paragraph.AgendaTopic{description: description, title: title, video_bookmark: _bookmark, sub_topics: sub_topics, files: _files, links: _links} <- @agenda.topics do %>
       <li>
-        <%= SiteWeb.CMS.ParagraphView.render_paragraph_content(topic, @conn) %>
+        <%= agenda_title(title) %>
+        <div class="agenda-topic__content">
+          <%= if description do %>
+            <%= description %>
+          <% end %>
+
+          <%= if Enum.any?(sub_topics) do %>
+            <ol class="agenda-subtopics">
+              <%= for %CMS.Partial.Paragraph.AgendaSubTopic{description: sub_description, title: sub_title} <- sub_topics do %>
+                <li>
+                  <%= agenda_title(sub_title, :h4) %>
+                  <%= if sub_description do %>
+                    <div class="agenda-topic__content">
+                      <%= sub_description %>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ol>
+          <% end %>
+        </div>
       </li>
     <% end %>
   </ol>
