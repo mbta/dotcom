@@ -177,6 +177,50 @@ defmodule CMS.HelpersTest do
     end
   end
 
+  describe "parse_links/2" do
+    test "it parses a field with multiple links into Links" do
+      data = %{
+        "field_my_links" => [
+          %{
+            "title" => "This is the first link text",
+            "uri" => "internal:/this/is/the/link/url"
+          },
+          %{
+            "title" => "This is the second link text",
+            "uri" => "https://www.google.com"
+          }
+        ]
+      }
+
+      assert [
+               %CMS.Field.Link{
+                 title: "This is the first link text",
+                 url: "/this/is/the/link/url"
+               },
+               %CMS.Field.Link{
+                 title: "This is the second link text",
+                 url: "https://www.google.com"
+               }
+             ] = parse_links(data, "field_my_links")
+
+      data2 = %{
+        "field_my_links2" => [
+          %{
+            "title" => "This is the first link text",
+            "uri" => "internal:/this/is/the/link/url"
+          }
+        ]
+      }
+
+      assert [
+               %CMS.Field.Link{
+                 title: "This is the first link text",
+                 url: "/this/is/the/link/url"
+               }
+             ] = parse_links(data2, "field_my_links2")
+    end
+  end
+
   describe "parse_paragraphs/1" do
     test "it parses different kinds of paragraphs" do
       api_data = %{
