@@ -149,7 +149,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
       assert conn.status == 200
       assert html_response(conn, 200) =~ "Construction 1-Week Look Ahead 112"
-      assert %{"preview" => nil, "vid" => "112", "nid" => "3174"} == conn.query_params
+      assert %{"preview" => "", "vid" => "112", "nid" => "3174"} == conn.query_params
     end
 
     test "doesn't redirect update when project part of path would by itself return a native redirect",
