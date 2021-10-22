@@ -83,7 +83,8 @@ defmodule CMS.Page do
     paragraphs_with_lists =
       paragraphs
       |> Enum.map(&content_list_async/1)
-      |> Util.async_with_timeout(paragraphs, __MODULE__)
+      |> Util.async_with_timeout(nil, __MODULE__, 5000, 1)
+      |> Enum.filter(fn para -> !is_nil(para) end)
 
     %{struct | paragraphs: paragraphs_with_lists}
   end

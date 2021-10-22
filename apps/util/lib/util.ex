@@ -213,16 +213,29 @@ defmodule Util do
   Calls all the functions asynchronously, and returns a list of results.
   If a function times out, its result will be the provided default.
   """
-  @spec async_with_timeout([(() -> any)], any, atom, non_neg_integer) :: [any]
-  def async_with_timeout(functions, default, module, timeout \\ 5000)
+  @spec async_with_timeout([(() -> any)], any, atom, non_neg_integer, non_neg_integer) :: [any]
+  def async_with_timeout(functions, default, module, timeout \\ 5000, retries \\ 0)
       when is_list(functions) and is_atom(module) do
     functions
     |> Enum.map(&Task.async/1)
     |> Task.yield_many(timeout)
     |> Enum.with_index()
-    |> Enum.map(fn {{task, result}, index} ->
+    |> Enum.map(&task_result_or_default_loop(&1, default, module, retries))
+  end
+
+  @doc """
+  If a number of retries was specified, then go through those retries before settling on
+  the default value.
+  """
+  def task_result_or_default_loop({{task, result}, index}, default, module, retries) do
+    if retries > 0 do
+      case task_result_or_default(result, default, task, module, index) do
+        default -> task_result_or_default_loop({{task, result}, index}, default, module, retries - 1)
+        any -> any
+      end
+    else
       task_result_or_default(result, default, task, module, index)
-    end)
+    end
   end
 
   @doc """
