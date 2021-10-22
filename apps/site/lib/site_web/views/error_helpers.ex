@@ -37,5 +37,7 @@ defmodule SiteWeb.ErrorHelpers do
 end
 
 defimpl Plug.Exception, for: Stops.NotFoundError do
+  def actions(_), do: []
+
   def status(_), do: 404
 end
