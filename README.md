@@ -141,11 +141,6 @@ any given time, the site may not be compatible with the very latest API version 
    Note: `chromedriver` requires Chrome to be installed. If you don't already
    have it, `brew install --cask google-chrome` is an easy way to install it.
 
-1. Add the following line to `defp deps` section in `mix.exs`:
-    ```
-    {:fs, git: "https://github.com/synrc/fs.git", override: true}
-    ```
-
 1. Install our Elixir dependencies. From the root of this repo:
     ```
     mix deps.get
