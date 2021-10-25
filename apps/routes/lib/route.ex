@@ -65,7 +65,7 @@ defmodule Routes.Route do
   def type_atom("ferry"), do: :ferry
   def type_atom("909"), do: :logan_express
   def type_atom("983"), do: :massport_shuttle
-  def type_atom("Massport-1"), do: :massport_shuttle
+  def type_atom("Massport-" <> _), do: :massport_shuttle
 
   @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
@@ -93,6 +93,7 @@ defmodule Routes.Route do
   def icon_atom(%__MODULE__{id: "Green-C"}), do: :green_line_c
   def icon_atom(%__MODULE__{id: "Green-D"}), do: :green_line_d
   def icon_atom(%__MODULE__{id: "Green-E"}), do: :green_line_e
+  def icon_atom(%__MODULE__{id: "Massport-" <> _}), do: :massport_shuttle
 
   for silver_line_route <- @silver_line do
     def icon_atom(%__MODULE__{id: unquote(silver_line_route)}), do: unquote(:silver_line)
@@ -212,7 +213,8 @@ defmodule Routes.Route do
   def hidden?(%{id: "3233"}), do: true
   def hidden?(%{id: "3738"}), do: true
   def hidden?(%{id: "4050"}), do: true
-  def hidden?(%{id: "627"}), do: true
+  def hidden?(%{id: "62"}), do: true
+  def hidden?(%{id: "76"}), do: true
   def hidden?(%{id: "725"}), do: true
   def hidden?(%{id: "8993"}), do: true
   def hidden?(%{id: "116117"}), do: true
@@ -225,6 +227,13 @@ defmodule Routes.Route do
   def hidden?(%{id: "CapeFlyer"}), do: true
   def hidden?(%{id: "Boat-F3"}), do: true
   def hidden?(_), do: false
+
+  @doc """
+  Determines if given route route is a blended one
+  """
+  @spec combined_route?(t()) :: boolean
+  def combined_route?(%{id: "627"}), do: true
+  def combined_route?(_), do: false
 
   @spec to_json_safe(t) :: map
   def to_json_safe(%__MODULE__{

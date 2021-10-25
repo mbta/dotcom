@@ -21,10 +21,13 @@ defmodule CMS.Page.EventAgendaTest do
              } = EventAgenda.from_api(api_page)
 
       # Test normal fields
-      assert id == 5326
-      assert title == "5326 Bus Network Redesign Public Meeting 06/08/2021"
+      assert id == 5523
+
+      assert title ==
+               "5523 [test] Joint Meeting of the MassDOT Board and the Fiscal and Management Control Board 02/22/2021"
+
       assert collect_info == true
-      assert event_reference == 5321
+      assert event_reference == 5353
 
       # Test paragraphs
       assert [%AgendaTopic{}, %AgendaTopic{}] = topics

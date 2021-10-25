@@ -10,6 +10,7 @@ defmodule CMS.ParagraphTest do
   alias CMS.Partial.Paragraph.{
     Accordion,
     AccordionSection,
+    AgendaSubTopic,
     AgendaTopic,
     Callout,
     CodeEmbed,
@@ -292,17 +293,42 @@ defmodule CMS.ParagraphTest do
     end
 
     test "parses an agenda topic paragraph" do
-      agenda_topic_data = api_paragraph("agenda_topic")
+      assert [topic_1, topic_2] = api_paragraph("agenda_topic")
 
       assert %AgendaTopic{
                title: title,
                video_bookmark: video_bookmark,
-               description: description
-             } = from_api(agenda_topic_data)
+               description: description,
+               sub_topics: [
+                 %AgendaSubTopic{} = sub_topic_1,
+                 %AgendaSubTopic{}
+               ],
+               files: files,
+               links: links
+             } = from_api(topic_1)
 
-      assert title == "First Topic"
-      assert video_bookmark == "00:00:05"
-      assert safe_to_string(description) =~ "<p>This is the first topic of the agenda."
+      assert title == "This is the first topic (with details)"
+      assert video_bookmark == "00:10:01"
+
+      assert safe_to_string(description) =~
+               "<p>This is the description of the first topic. It has some <strong>HTML</strong> inside it."
+
+      assert sub_topic_1.title == "Topic 1 - Sub-topic 1"
+
+      assert safe_to_string(sub_topic_1.description) =~
+               ~s(<p>This is a similar description, but of a sub-topic. It can also have <a href="https://www.google.com">HTML</a> in it.)
+
+      assert %File{
+               description: "",
+               type: "application/pdf",
+               url:
+                 "http://localhost:4002/sites/default/files/2021-10/2021-10-13-english-bus-network-redesign-public-meetings.pdf"
+             } = List.first(files)
+
+      assert %Link{
+               title: "Google",
+               url: "https://www.google.com"
+             } = List.first(links)
     end
 
     test "parses an unknown paragraph type" do
@@ -392,6 +418,11 @@ defmodule CMS.ParagraphTest do
 
       refute full_bleed?(paragraph)
     end
+  end
+
+  defp api_paragraph("agenda_topic") do
+    Static.event_agenda_response()
+    |> Map.get("field_agenda_topics")
   end
 
   defp api_paragraph(paragraph_type) do
