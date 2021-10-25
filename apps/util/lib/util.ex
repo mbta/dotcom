@@ -230,8 +230,11 @@ defmodule Util do
   defp task_result_or_default_loop({{task, result}, index}, default, module, retries) do
     if retries > 0 do
       case task_result_or_default(result, default, task, module, index) do
-        default -> task_result_or_default_loop({{task, result}, index}, default, module, retries - 1)
-        any -> any
+        default ->
+          task_result_or_default_loop({{task, result}, index}, default, module, retries - 1)
+
+        any ->
+          any
       end
     else
       task_result_or_default(result, default, task, module, index)
