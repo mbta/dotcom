@@ -94,11 +94,11 @@ defmodule CMS.Page do
   end
 
   @spec content_list_async(Paragraph.t()) :: (() -> Paragraph.t())
-  defp content_list_async(%ContentList{} = content_list) do
+  def content_list_async(%ContentList{} = content_list) do
     fn -> ContentList.fetch_teasers(content_list) end
   end
 
-  defp content_list_async(not_a_content_list) do
+  def content_list_async(not_a_content_list) do
     fn -> not_a_content_list end
   end
 end

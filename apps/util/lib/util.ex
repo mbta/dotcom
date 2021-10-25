@@ -227,7 +227,7 @@ defmodule Util do
   If a number of retries was specified, then go through those retries before settling on
   the default value.
   """
-  def task_result_or_default_loop({{task, result}, index}, default, module, retries) do
+  defp task_result_or_default_loop({{task, result}, index}, default, module, retries) do
     if retries > 0 do
       case task_result_or_default(result, default, task, module, index) do
         default -> task_result_or_default_loop({{task, result}, index}, default, module, retries - 1)

@@ -338,7 +338,7 @@ defmodule UtilTest do
     end
   end
 
-  describe "async_with_timeout/3" do
+  describe "async_with_timeout/5" do
     test "returns the value of a task if it ends in time" do
       assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, __MODULE__, 1000) == [5, 6]
       assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, __MODULE__) == [5, 6]
@@ -374,6 +374,26 @@ defmodule UtilTest do
         end)
 
       assert log =~ "Async task timed out"
+    end
+    
+    test "retries request according to param, then returns the default for timeouts" do
+      set_retries = 2
+      log =
+        capture_log(fn ->
+          assert async_with_timeout(
+                   [
+                     fn -> 5 end,
+                     fn -> :timer.sleep(60_000) end
+                   ],
+                   :default,
+                   __MODULE__,
+                   10,
+                   set_retries
+                 ) == [5, :default]
+        end)
+
+      result_retries = String.split(log, "Async task timed out") |> length()
+      assert set_retries + 1 === result_retries - 1
     end
   end
 
