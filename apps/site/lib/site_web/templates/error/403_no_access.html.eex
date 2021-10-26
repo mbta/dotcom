@@ -1,7 +1,0 @@
-<%= render "error_layout.html",
-    conn: @conn,
-    error_code: "403",
-    error_type: "Access denied",
-    error_title: "This stop is closed.",
-    error_description: "Unfortunately, you do not have access to this page.",
-    error_instructions: "Try searching for what you're looking for below." %>

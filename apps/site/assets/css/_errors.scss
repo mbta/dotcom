@@ -1,5 +1,6 @@
 @import 'variables';
 
+// Used in the error layout page
 .error-page {
   display: flex;
   flex-direction: column;
@@ -100,6 +101,7 @@
   }
 }
 
+// Bus SVG animation
 @keyframes blink {
   0% { opacity: 0; }
   25% { opacity: 0.8; }
@@ -119,14 +121,14 @@
   animation: light 1s infinite;
 }
 
-// Wonder if any of this is used
-
+// Error for search box
 %error-message {
   background-color: $form-error-message;
   color: $error-text;
   padding: .375rem .75rem;
 }
 
+// Transit Near Me error
 .c-fullscreen-error__container {
   @extend %error-message;
 }

@@ -9,6 +9,7 @@ defmodule Site.ContentRewriters.Links do
   def add_target_to_redirect({"a", attrs, children} = element) do
     case Floki.attribute(element, "href") do
       ["/redirect/" <> _] ->
+        IO.puts("adding target to redirect")
         case Floki.attribute(element, "target") do
           [] -> {"a", [{"target", "_blank"} | attrs], children}
           _ -> element

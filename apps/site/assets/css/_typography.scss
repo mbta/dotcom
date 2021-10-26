@@ -1,125 +1,109 @@
+$base-line-height: 1.275;
+
 @mixin base-heading__new {
   font-family: $headings-font-family;
   font-weight: $headings-font-weight;
+  line-height: $base-line-height;
 }
 
 .heading-1 {
   @include base-heading__new();
-  font-size: 45px;
-  line-height: 57.37px;
+  font-size: 2.8125rem;
   @include media-breakpoint-down(lg) {
-    font-size: 40px;
-    line-height: 51px;
+    font-size: 2.5rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 28px;
-    line-height: 35.7px;
+    font-size: 1.75rem;
   }
 }
 .heading-2 {
   @include base-heading__new();
-  font-size: 31.5px;
-  line-height: 40.16px;
+  font-size: 1.9688rem;
   @include media-breakpoint-down(lg) {
-    font-size: 28px;
-    line-height: 35.7px;
+    font-size: 1.75rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 22.75px;
-    line-height: 29px;
+    font-size: 1.4219rem;
   }
 }
 .heading-3 {
   @include base-heading__new();
-  font-size: 23.62px;
-  line-height: 30.12px;
+  font-size: 1.4763rem;
   @include media-breakpoint-down(lg) {
-    font-size: 21px;
-    line-height: 26.77px;
+    font-size: 1.3125rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 18.38px;
-    line-height: 23.42px;
+    font-size: 1.1487rem;
   }
 }
 
 .heading-4 {
   @include base-heading__new();
-  font-size: 20.25px;
-  line-height: 25.81px;
+  font-size: 1.2656rem;
   @include media-breakpoint-down(lg) {
-    font-size: 18px;
-    line-height: 22.95px;
+    font-size: 1.125rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 15.75px;
-    line-height: 20.08px;
+    font-size: 0.9844rem;
   }
 }
 .heading-5 {
   @include base-heading__new();
-  font-size: 18px;
-  line-height: 22.95px;
+  font-size: 1.125rem;
   @include media-breakpoint-down(lg) {
-    font-size: 16px;
-    line-height: 20.4px;
+    font-size: 1rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 14px;
-    line-height: 17.85px;
+    font-size: 0.875rem;
   }
 }
 
 .font-body {
   font-family: $font-family-base;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 27px;
+  font-size: 1.125rem;
+  line-height: $base-line-height;
   @include media-breakpoint-down(lg) {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 1rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 0.875rem;
   }
 }
 .font-link {
   font-family: $font-family-base;
   font-weight: 500;
-  font-size: 18px;
-  line-height: normal;
+  font-size: 1.125rem;
+  line-height: $base-line-height;
   @include media-breakpoint-down(lg) {
-    font-size: 16px;
+    font-size: 1rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 .font-small {
   @include base-heading__new();
   text-transform: uppercase;
-  font-size: 16px;
-  line-height: 22.95px;
+  font-size: 1rem;
+  line-height: $base-line-height;
   @include media-breakpoint-down(lg) {
-    font-size: 14px;
-    line-height: 20.4px;
+    font-size: 0.875rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 12px;
-    line-height: 17.85px;
+    font-size: 0.75rem;
   }
 }
 .font-white {
   font-family: $font-family-base;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 27px;
+  font-size: 1.125rem;
+  line-height: $base-line-height;
+  color: $white;
   @include media-breakpoint-down(lg) {
-    font-size: 16px;
+    font-size: 1rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 0.875rem;
   }
 }

@@ -1,7 +1,0 @@
-<%= render "error_layout.html",
-    conn: @conn,
-    error_code: "404",
-    error_type: "File not found",
-    error_title: "Uh oh! We can't find the file.",
-    error_description: "The file you were looking for cannot be found.",
-    error_instructions: "We may have deleted it. Try searching for what you're looking for below." %>

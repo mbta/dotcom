@@ -12,11 +12,6 @@
 @import 'social';
 @import 'layout-core-shared';
 
-html,
-body {
-  @include base-font-size();
-}
-
 html {
   height: 100%;
   position: relative;
