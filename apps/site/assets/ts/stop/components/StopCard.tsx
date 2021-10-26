@@ -67,13 +67,13 @@ const StopCard = ({
         {stop.name}
       </a>
       {accessible(stop)}
-      {stop.parking_lots.length > 0  ? (
+      {stop.parking_lots.length > 0 ? (
         <span className="m-stop-page__icon">
           {parkingIcon("c-svg__icon-parking-default")}
         </span>
-      ) : (
+      ) : 
         null
-      )}
+      }
       {routesToRender &&
         routesToRender.map(({ route, direction_id: directionId }) => (
           <div
