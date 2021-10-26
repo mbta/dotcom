@@ -1,3 +1,6 @@
+// Starting 9/27/21, we're starting to set up new base-spacing numbers
+$base-spacing__new: 4px;
+
 $base-line-height: 1.275;
 
 @mixin base-heading__new {
@@ -58,9 +61,8 @@ $base-line-height: 1.275;
   }
 }
 
-.font-body {
+@mixin base-font__new {
   font-family: $font-family-base;
-  font-weight: 400;
   font-size: 1.125rem;
   line-height: $base-line-height;
   @include media-breakpoint-down(lg) {
@@ -70,17 +72,19 @@ $base-line-height: 1.275;
     font-size: 0.875rem;
   }
 }
+
+.font-body {
+  @include base-font__new();
+  font-weight: 400;
+}
 .font-link {
-  font-family: $font-family-base;
+  @include base-font__new();
   font-weight: 500;
-  font-size: 1.125rem;
-  line-height: $base-line-height;
-  @include media-breakpoint-down(lg) {
-    font-size: 1rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: 0.875rem;
-  }
+}
+.font-white {
+  @include base-font__new();
+  font-weight: 400;
+  color: $white;
 }
 .font-small {
   @include base-heading__new();
@@ -92,18 +96,5 @@ $base-line-height: 1.275;
   }
   @include media-breakpoint-down(sm) {
     font-size: 0.75rem;
-  }
-}
-.font-white {
-  font-family: $font-family-base;
-  font-weight: 400;
-  font-size: 1.125rem;
-  line-height: $base-line-height;
-  color: $white;
-  @include media-breakpoint-down(lg) {
-    font-size: 1rem;
-  }
-  @include media-breakpoint-down(sm) {
-    font-size: 0.875rem;
   }
 }

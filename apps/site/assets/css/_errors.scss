@@ -2,46 +2,37 @@
 
 // Used in the error layout page
 .error-page {
-  display: flex;
-  flex-direction: column;
-  @include media-breakpoint-down(xxl) {
+  @include media-breakpoint-between(md, xxl) {
     margin-top: $base-spacing__new * 10;
   }
-  @include media-breakpoint-down(md) {
-    margin-top: $base-spacing__new * 6;
+  @include media-breakpoint-only(sm) {
+    margin: $base-spacing__new * 6 $base-spacing__new * 10;
   }
-  @include media-breakpoint-down(sm) {
-    margin: $container-margin-sm;
+  @include media-breakpoint-only(xs) {
+    margin: $base-spacing__new * 4 $base-spacing__new * 6;
   }
-  @include media-breakpoint-down(xs) {
-    margin: $container-margin-xs;
-  }
-  @include media-breakpoint-up(xxl) {
-      display: none;
-  }
-  &.xl-only {
+}
+.error-pre-title + .error-title {
+  @include media-breakpoint-between(md, xxl) {
     display: none;
-    @include media-breakpoint-up(xxl) {
-      display: block;
-    }
+  }
+}
+.error-details-container .error-title {
+  margin-bottom: 40px;
+  @include media-breakpoint-between(xs, sm) {
+    display: none;
   }
 }
 .error-pre-title {
   color: $gray;
-  margin-bottom: $base-spacing__new * 4;
-  @include media-breakpoint-down(lg) {
+  margin-bottom: $base-spacing__new;
+  @include media-breakpoint-only(sm) {
     margin-bottom: $base-spacing__new * 2;
   }
 }
-.error-title {
-  @include media-breakpoint-up(xxl) {
-    margin-bottom: 40px;
-  }
-}
 .error-pre-title, .error-title {
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-only(xs) {
     text-align: center;
-    margin-bottom: $base-spacing__new;
   }
 }
 .error-page-flex {
@@ -49,14 +40,15 @@
   flex-direction: column;
   @include media-breakpoint-up(sm) {
     flex-direction: row-reverse;
-    margin-top: $base-spacing__new * 10;
+    margin-top: $base-spacing__new * 6;
   }
   @include media-breakpoint-up(xxl) {
     margin-top: 0;
   }
 }
 .error-details-container {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-only(sm) {
+    margin-top: $base-spacing__new * 4;
     margin-right: $base-spacing__new * 6;
   }
   @include media-breakpoint-up(md) {
@@ -68,31 +60,27 @@
 }
 .error-svg-container {
   flex: 0 0 auto;
-  @include media-breakpoint-down(xxl) {
+  @include media-breakpoint-only(xxl) {
     width: 380px;
     margin: 0 $base-spacing__new * 20;
   }
-  @include media-breakpoint-down(lg) {
-    width: 220px;
+  @include media-breakpoint-between(md,lg) {
+    width: 280px;
     margin: 0 $base-spacing__new * 10;
   }
   @include media-breakpoint-down(sm) {
-    width: 160px;
+    width: 220px;
     margin: 0 $base-spacing__new * 6;
   }
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-only(xs) {
     align-self: center;
     margin: $base-spacing__new * 5;
   }
 }
 .error-paragraph {
-  margin-bottom: 0;
-  @include media-breakpoint-up(md) {
-    margin-bottom: $base-spacing__new * 4;
-  }
-}
-.error-description {
-  font-weight: bold;
+  @include media-breakpoint-down(sm) {
+     margin-bottom: 0;
+   }
 }
 .error-links {
   margin-top: $base-spacing__new * 3;
