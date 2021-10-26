@@ -71,9 +71,7 @@ const StopCard = ({
         <span className="m-stop-page__icon">
           {parkingIcon("c-svg__icon-parking-default")}
         </span>
-      ) : 
-        null
-      }
+      ) : null}
       {routesToRender &&
         routesToRender.map(({ route, direction_id: directionId }) => (
           <div
