@@ -64,11 +64,6 @@ any given time, the site may not be compatible with the very latest API version 
      bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
      ```
 
-     If you receive an error that `You must install GnuPG to import release team keys` try installing GnuPG with homebrew.
-     ```
-     brew install gnupg
-     ```
-
      If you run into problems, you might have to update the `import-release-team-keyring` script.
 
    * If running OSX 10.15 Catalina, run `export MACOSX_DEPLOYMENT_TARGET=10.14`.
@@ -125,31 +120,12 @@ any given time, the site may not be compatible with the very latest API version 
 
      If you are missing any versions, you should re-run `asdf install`. Related [Github issue about asdf-erlang](https://github.com/asdf-vm/asdf-erlang/issues/57)
 
-     You may have to individually install each version
-     ```
-     asdf install plugin_name <version> (set by ~/dotcom/.tool-versions)
-     ```
-
-     If erlang is still missing you can run the following commands
-     ```
-      brew install openssl@1.1
-      export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=/usr/local/opt/openssl@1.1"
-      brew install autoconf@2.69 && \
-      brew link --overwrite autoconf@2.69 && \
-      autoconf -V
-     ```
-
 1. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
     brew install --cask chromedriver
     ```
    Note: `chromedriver` requires Chrome to be installed. If you don't already
    have it, `brew install --cask google-chrome` is an easy way to install it.
-
-1. Add the following line to `defp deps` section in `mix.exs`:
-    ```
-    {:fs, git: "https://github.com/synrc/fs.git", override: true}
-    ```
 
 1. Install our Elixir dependencies. From the root of this repo:
     ```
