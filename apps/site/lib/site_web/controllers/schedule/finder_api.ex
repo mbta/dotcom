@@ -328,6 +328,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   # Check for predictions w/o a schedule (added in predictions)
   # If there's a prediction and a schedule, use the schedule time
+  @spec set_departure_time(Journey.t()) :: Journey.t()
   defp set_departure_time(%{departure: departure} = journey) do
     departure_time =
       case departure do
@@ -335,7 +336,18 @@ defmodule SiteWeb.ScheduleController.FinderApi do
         %{schedule: s, prediction: _} -> s.time
       end
 
-    update_in(journey, [:departure], &Map.put_new(&1, :time, format_time(departure_time)))
+    update_in(
+      journey,
+      [:departure],
+      &Map.put_new(
+        &1,
+        :time,
+        case departure_time do
+          nil -> nil
+          _ -> format_time(departure_time)
+        end
+      )
+    )
   end
 
   # Removes problematic/unnecessary data from JSON response:
