@@ -138,8 +138,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.map(e_stops, & &1.branch) ==
                [
-                 nil,
-                 nil,
+                 "Green-E",
+                 "Green-E",
                  nil,
                  nil,
                  nil,
