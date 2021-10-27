@@ -1,9 +1,10 @@
 <%= if Enum.any?(@agenda.topics) do %>
   <ol type="A" class="agenda-topics">
-    <%= for %CMS.Partial.Paragraph.AgendaTopic{description: description, title: title, video_bookmark: _bookmark, sub_topics: sub_topics, files: _files, links: _links} <- @agenda.topics do %>
+    <%= for %CMS.Partial.Paragraph.AgendaTopic{description: description, title: title, video_bookmark: bookmark, sub_topics: sub_topics, files: _files, links: _links} <- @agenda.topics do %>
       <li>
         <%= agenda_title(title) %>
         <div class="agenda-topic__content">
+          <%= agenda_video_bookmark(bookmark) %>
           <%= if description do %>
             <%= description %>
           <% end %>

@@ -176,10 +176,38 @@ defmodule SiteWeb.EventView do
 
   @spec agenda_title(String.t(), :h3 | :h4) :: Phoenix.HTML.Safe.t()
   def agenda_title(title, tag_type \\ :h3)
+
   def agenda_title(title, tag_type)
       when not is_nil(title) do
     content_tag(tag_type, [title], class: "agenda-topic__title")
   end
 
   def agenda_title(_, _), do: ""
+
+  @spec agenda_video_bookmark(CMS.Partial.Paragraph.AgendaTopic.video_bookmark()) ::
+          Phoenix.HTML.Safe.t()
+  defp agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
+    # TODO: implement with event video livestream.
+    content_tag(
+      :a,
+      [
+        time_duration_tag(bookmark)
+      ],
+      href: "#",
+      class: "agenda-topic__timestamp"
+    )
+  end
+
+  defp agenda_video_bookmark(nil), do: ""
+
+  defp time_duration_tag(time) do
+    # "02:30:10" => "2h 30m 10s"
+    [h, m, s] =
+      String.split(time, ":")
+      |> Enum.map(&String.to_integer(&1))
+
+    duration = "#{h}h #{m}m #{s}s"
+
+    content_tag(:time, time, datetime: duration)
+  end
 end

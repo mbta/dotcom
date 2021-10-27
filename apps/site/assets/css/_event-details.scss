@@ -153,4 +153,14 @@ $agenda-column-gap: $base-spacing * .75;
       margin-left: - $bullet-size - $agenda-column-gap;
     }
   }
+
+  .agenda-topic__timestamp {
+    @extend %small-grey-font;
+    font-weight: bold;
+    margin-right: $base-spacing * .5;
+
+    + p {
+      display: inline;
+    }
+  }
 }
