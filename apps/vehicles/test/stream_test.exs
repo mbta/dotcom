@@ -91,6 +91,8 @@ defmodule Vehicles.StreamTest do
               broadcast_fn: broadcast_fn,
               subscribe_to: mock_api
             )
+
+          :timer.sleep(100)
         end)
 
       assert_receive :received_broadcast
