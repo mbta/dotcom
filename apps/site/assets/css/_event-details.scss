@@ -56,6 +56,13 @@ $separator-border: solid 1px $gray-lightest;
 $agenda-row-gap: $base-spacing * .25;
 $agenda-column-gap: $base-spacing * .75;
 
+%small-grey-font {
+  color: $gray;
+  font-family: $font-family-base;
+  font-size: $font-size-base-sm;
+  font-weight: normal;
+}
+
 // adds a large round colored circle with number from counter
 @mixin agenda-bullet($bg-color: $gray, $color: $white,
                      $counter, $counter-type: false) {
@@ -133,10 +140,7 @@ $agenda-column-gap: $base-spacing * .75;
 
     // further nested content gets styled as small muted text
     p {
-      color: $gray;
-      font-family: $font-family-base;
-      font-size: $font-size-base-sm;
-      font-weight: normal;
+      @extend %small-grey-font;
     }
 
     > li {
