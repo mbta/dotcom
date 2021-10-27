@@ -51,10 +51,10 @@
     margin-top: $base-spacing__new * 4;
     margin-right: $base-spacing__new * 6;
   }
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-between(md, lg) {
     margin-right: $base-spacing__new * 10;
   }
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-only(xxl) {
     margin-right: $base-spacing__new * 15;
   }
 }
