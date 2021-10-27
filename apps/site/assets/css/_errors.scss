@@ -83,9 +83,9 @@
    }
 }
 .error-links {
-  margin-top: $base-spacing__new * 3;
+  margin-top: .5rem;
   @include media-breakpoint-up(md) {
-    margin-top: $base-spacing__new * 6;
+    margin-top: 1.5rem;
   }
 }
 
@@ -133,5 +133,52 @@
 
   @include hover-focus-active {
     color: $error-text;
+  }
+}
+
+// Used in the redirect/show.html.eex
+.errorview {
+  flex: 0 0 auto;
+}
+.error-card {
+  background: $white;
+  color: $gray-dark;
+  text-align: center;
+}
+.error-card-header {
+  border-bottom: 0;
+  font-size: 4rem;
+
+  @include media-breakpoint-down(sm) {
+    h1 {
+      padding-bottom: 0;
+    }
+  }
+}
+.error-card-subheader {
+  margin-bottom: $base-spacing;
+}
+.error-card-content {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+
+  @include media-breakpoint-down(sm) {
+    width: 80%;
+  }
+}
+.error-card-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.error-card-button {
+  @include media-breakpoint-up(md) {
+    margin-bottom: $base-spacing * 3;
+    margin-top: $base-spacing * 3;
+  }
+  @include media-breakpoint-down(sm) {
+    margin-bottom: $base-spacing * 4;
+    margin-top: $base-spacing * 4;
   }
 }
