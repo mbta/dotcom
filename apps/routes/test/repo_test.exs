@@ -35,7 +35,7 @@ defmodule Routes.RepoTest do
                long_name: "Green Line B",
                color: "00843D",
                direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-               direction_destinations: %{0 => "Boston College", 1 => "Park Street"},
+               direction_destinations: %{0 => "Boston College", 1 => "Government Center"},
                description: :rapid_transit,
                sort_order: 10_032
              }
