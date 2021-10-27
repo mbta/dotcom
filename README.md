@@ -45,7 +45,7 @@ any given time, the site may not be compatible with the very latest API version 
    * Install the necessary tools to set up asdf plugins:
 
      ```
-     brew install coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc
+     brew install coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc gpg
      ```
 
    * Add asdf plugins
@@ -119,6 +119,20 @@ any given time, the site may not be compatible with the very latest API version 
 
      If you are missing any versions, you should re-run `asdf install`. Related [Github issue about asdf-erlang](https://github.com/asdf-vm/asdf-erlang/issues/57)
 
+     You may have to individually install each version
+     ```
+     asdf install plugin_name <version> (set by ~/dotcom/.tool-versions)
+     ```
+
+     If erlang is still missing you can run the following commands
+     ```
+      brew install openssl@1.1
+      export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=/usr/local/opt/openssl@1.1"
+      brew install autoconf@2.69 && \
+      brew link --overwrite autoconf@2.69 && \
+      autoconf -V
+     ```
+
 1. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
     brew install --cask chromedriver
@@ -142,7 +156,12 @@ any given time, the site may not be compatible with the very latest API version 
     ```
     npm run build
     ```
-  This does several things: builds the Phoenix application assets, builds all the front-end assets, and then compiles the entire Elixir application.
+    * If this fails try adding the following line to `defp deps` section in `mix.exs`:
+    ```
+    {:fs, git: "https://github.com/synrc/fs.git", override: true}
+    ```
+
+  `npm run build` does several things: builds the Phoenix application assets, builds all the front-end assets, and then compiles the entire Elixir application.
 
 1. Set up required environment variables:
     ```
