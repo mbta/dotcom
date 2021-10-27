@@ -246,6 +246,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  "Green-D"
                ]
 
+      # FIXME - should go to Haymarket & North Station
       assert_stop_ids(d_stops, [
         "place-gover",
         "place-pktrm",
