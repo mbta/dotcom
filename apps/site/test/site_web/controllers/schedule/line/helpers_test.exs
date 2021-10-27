@@ -323,8 +323,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  nil,
                  nil,
                  nil,
-                 nil,
-                 nil,
                  "Green-C",
                  "Green-C",
                  "Green-C",
@@ -341,8 +339,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
 
       assert_stop_ids(c_stops, [
-        "place-north",
-        "place-haecl",
         "place-gover",
         "place-pktrm",
         "place-boyls",
@@ -386,16 +382,12 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
-                 false,
-                 false,
                  true
                ]
 
       assert Enum.map(c_stops, & &1.is_beginning?) ==
                [
                  true,
-                 false,
-                 false,
                  false,
                  false,
                  false,
