@@ -223,14 +223,12 @@ defmodule Util do
     |> Enum.map(&task_result_or_default_loop(&1, default, module, retries))
   end
 
-  @doc """
-  If a number of retries was specified, then go through those retries before settling on
-  the default value.
-  """
+  # If a number of retries was specified, then go through those retries before settling on
+  # the default value.
   defp task_result_or_default_loop({{task, result}, index}, default, module, retries) do
     if retries > 0 do
       case task_result_or_default(result, default, task, module, index) do
-        default ->
+        x when x == default ->
           task_result_or_default_loop({{task, result}, index}, default, module, retries - 1)
 
         any ->
