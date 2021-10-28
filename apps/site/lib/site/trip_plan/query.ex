@@ -20,7 +20,7 @@ defmodule Site.TripPlan.Query do
           wheelchair_accessible?: boolean,
           itineraries: TripPlan.Api.t() | nil
         }
-  # here
+
   @spec from_query(map, Keyword.t()) :: t
   def from_query(params, date_opts) do
     opts = get_query_options(params)
@@ -140,7 +140,7 @@ defmodule Site.TripPlan.Query do
 
   @spec opts_from_query(map, Keyword.t()) :: Keyword.t()
   def opts_from_query(query, opts \\ [])
-  # here
+
   def opts_from_query(%{"optimize_for" => val} = query, opts) do
     # We have seen some rare sentry errors where the page anchor can
     # get appended to the optimize_for value, so we preemptively
@@ -150,8 +150,8 @@ defmodule Site.TripPlan.Query do
       |> String.split("#")
       |> List.first()
       |> optimize_for(opts)
-      |> IO.inspect(label: "val")
-    opts_from_query(Map.delete(query, "optimize_for"), val)
+
+      opts_from_query(Map.delete(query, "optimize_for"), val)
   end
 
   def opts_from_query(%{"modes" => modes} = query, opts) do
