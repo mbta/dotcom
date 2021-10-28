@@ -66,12 +66,14 @@ const StopCard = ({
       <a className="c-stop-card__stop-name" href={`/stops/${stop.id}`}>
         {stop.name}
       </a>
-      {accessible(stop)}
-      {stop.parking_lots.length > 0 ? (
-        <span className="m-stop-page__icon">
-          {parkingIcon("c-svg__icon-parking-default")}
-        </span>
-      ) : null}
+      <div className="m-tnm-icon-container">
+        {accessible(stop)}
+        {stop.parking_lots.length > 0 ? (
+          <span className="m-stop-page__icon">
+            {parkingIcon("c-svg__icon-parking-default")}
+          </span>
+        ) : null}
+      </div>
       {routesToRender &&
         routesToRender.map(({ route, direction_id: directionId }) => (
           <div
