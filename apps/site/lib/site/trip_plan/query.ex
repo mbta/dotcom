@@ -151,7 +151,7 @@ defmodule Site.TripPlan.Query do
       |> List.first()
       |> optimize_for(opts)
 
-      opts_from_query(Map.delete(query, "optimize_for"), val)
+    opts_from_query(Map.delete(query, "optimize_for"), val)
   end
 
   def opts_from_query(%{"modes" => modes} = query, opts) do
