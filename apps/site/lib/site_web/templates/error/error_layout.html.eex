@@ -12,12 +12,12 @@
     <div class="error-details-container">
       <!-- This error title appears for MD-XL screens -->
       <div class="heading-1 error-title"><%= @error_title %></div>
-      <p class="error-paragraph">
+      <p class="error-paragraph font-body">
         <strong><%= @error_description %></strong>
         <%= @error_instructions %>
       </p>
       <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search the MBTA"  %>
-      <div class="error-links">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
+      <div class="error-links font-body">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
     </div>
   </div>
 </div>

@@ -25,7 +25,8 @@
 }
 .error-pre-title {
   color: $gray;
-  margin-bottom: $base-spacing__new;
+  margin-bottom: $base-spacing__new * 4;
+  line-height: 1.4;
   @include media-breakpoint-only(sm) {
     margin-bottom: $base-spacing__new * 2;
   }
@@ -78,11 +79,13 @@
   }
 }
 .error-paragraph {
+  line-height: 1.5;
   @include media-breakpoint-down(sm) {
      margin-bottom: 0;
    }
 }
 .error-links {
+  line-height: 1.5;
   margin-top: .5rem;
   @include media-breakpoint-up(md) {
     margin-top: 1.5rem;
