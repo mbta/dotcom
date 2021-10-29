@@ -143,6 +143,15 @@ defmodule CMS.Helpers do
     end
   end
 
+  # This is silly and should be combined/refactored with above clause
+  @spec parse_links(map, String.t()) :: [Link.t()] | nil
+  def parse_links(%{} = data, field) do
+    case data[field] do
+      [_ | _] = links -> Enum.map(links, &Link.from_api(&1))
+      _ -> nil
+    end
+  end
+
   @doc """
   Gathers information about desired view mode based on incoming
   query parameters. Key presence is enough to count as true.

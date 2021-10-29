@@ -2,18 +2,7 @@
 
 ## Production deployment
 
-**NOTE**. Production deployment can now be handled in Github actions via the "Deploy to Production" workflow. This is the preferred method, but the below older instructions still work.
-
-Prerequisites:
-
-1. Use `aws configure` to configure your AWS credentials. (This only needs to be done once to set up a computer.)
-1. The commit you wish to deploy must have already been built and deploy to the Dev environment. Github actions will do this automatically for everything that is merged into `master`.
-1. Test the build on the [Dev server](https://dev.mbtace.com).
-1. Run our release script `./bin/release` and use the output to make a [Release in GitHub](https://github.com/mbta/dotcom/releases).
-
-Run the production deploy using our deploy script:
-
-    ./bin/deploy dotcom-prod <commit-hash>
+This can be done on GitHub with the [Deploy to Production](https://github.com/mbta/dotcom/actions/workflows/deploy-prod.yml) workflow. 
 
 Monitor the deploy in AWS Elastic Beanstalk:
 
@@ -23,7 +12,7 @@ Monitor the deploy in AWS Elastic Beanstalk:
 
 ## Building the distribution package locally
 
-For testing or development purposes it is possible to build locally as well.
+When deploying to our servers, the `mbta/actions/build-push-ecr@v1` and `mbta/actions/eb-ecr-dockerrun@v1` actions perform these steps for us. But for testing or development purposes it is possible to build locally as well.
 
 1. (once) Install Docker: https://docs.docker.com/engine/install/
 2. Build the Docker image:
@@ -43,7 +32,7 @@ The root (three-stage) `Dockerfile` is responsible for building and running the 
 
 ## Staging deployment
 
-Deploying to our staging servers can be done through GitHub Actions.
+Deploying to our staging servers can also be done through GitHub Actions.
 
 ![](run_workflow.png)
 

@@ -67,7 +67,7 @@ defmodule Site.Mixfile do
       {:dialyxir, ">= 1.0.0-rc.4", only: [:test, :dev], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
       {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
-      {:floki, "~> 0.20.4"},
+      {:floki, "~> 0.31.0"},
       {:httpoison, "~> 1.5"},
       {:mock, "~> 0.3.3", only: :test},
       {:polyline, github: "ryan-mahoney/polyline_ex"},
