@@ -66,7 +66,7 @@ const StopCard = ({
       <a className="c-stop-card__stop-name" href={`/stops/${stop.id}`}>
         {stop.name}
       </a>
-      <div className="c-tnm-icon-container">
+      <div className="c-stop-card__icon-container">
         {accessible(stop)}
         {stop.parking_lots.length > 0 ? (
           <span className="c-stop-page__icon">
