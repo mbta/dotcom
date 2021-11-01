@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import deepEqual from "fast-deep-equal";
+import deepEqual from "fast-deep-equal/react";
 import { Icon as IconType } from "leaflet";
 import Leaflet from "react-leaflet";
 import { MapMarker } from "../../../leaflet/components/__mapdata";

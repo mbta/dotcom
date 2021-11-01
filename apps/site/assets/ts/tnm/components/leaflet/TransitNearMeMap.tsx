@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import deepEqual from "fast-deep-equal";
+import deepEqual from "fast-deep-equal/react";
 import { LatLngBounds } from "leaflet";
 import { LatLng } from "react-leaflet";
 import { MapData, MapMarker } from "../../../leaflet/components/__mapdata";

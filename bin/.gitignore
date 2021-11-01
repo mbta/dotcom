@@ -1,3 +1,0 @@
-# Ignore wiremock jar files
-*.jar
-__pycache__/

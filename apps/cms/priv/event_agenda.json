@@ -1,17 +1,17 @@
 {
   "nid": [
     {
-      "value": 5326
+      "value": 5523
     }
   ],
   "uuid": [
     {
-      "value": "44eb335e-8e02-441c-ad3a-1a1fcee7ead5"
+      "value": "4d03161b-d26a-4d5f-9413-fb8ac1891085"
     }
   ],
   "vid": [
     {
-      "value": 51676
+      "value": 55297
     }
   ],
   "langcode": [
@@ -28,7 +28,7 @@
   ],
   "revision_timestamp": [
     {
-      "value": 1621887071
+      "value": 1634161791
     }
   ],
   "revision_uid": [
@@ -39,10 +39,14 @@
       "url": "/user/29"
     }
   ],
-  "revision_log": [],
+  "revision_log": [
+    {
+      "value": "adding internal link with text description"
+    }
+  ],
   "status": [
     {
-      "value": true
+      "value": false
     }
   ],
   "uid": [
@@ -55,17 +59,17 @@
   ],
   "title": [
     {
-      "value": "5326 Bus Network Redesign Public Meeting 06/08/2021"
+      "value": "5523 [test] Joint Meeting of the MassDOT Board and the Fiscal and Management Control Board 02/22/2021"
     }
   ],
   "created": [
     {
-      "value": 1620853939
+      "value": 1634161461
     }
   ],
   "changed": [
     {
-      "value": 1621887071
+      "value": 1634161791
     }
   ],
   "promote": [
@@ -112,30 +116,30 @@
   ],
   "field_agenda_event": [
     {
-      "target_id": 5321,
+      "target_id": 5353,
       "target_type": "node",
-      "target_uuid": "3a7d6e8e-7d63-480f-bb2c-f1ca15c7a1f0",
-      "url": "/bnrdmeeting"
+      "target_uuid": "deb3efd1-b066-40fa-80b4-dde33385c7ba",
+      "url": "/events/2021-02-22/test-joint-meeting-the-massdot-board-and-the-fiscal-and-management-control-board"
     }
   ],
   "field_agenda_formstack_url": [],
   "field_agenda_topics": [
     {
-      "target_id": 19929,
-      "target_revision_id": 572459,
+      "target_id": 21898,
+      "target_revision_id": 645743,
       "id": [
         {
-          "value": 19929
+          "value": 21898
         }
       ],
       "uuid": [
         {
-          "value": "fc10deba-79c8-47a1-b31f-42da2513ed52"
+          "value": "495aa66e-b7ee-4ac0-8c8a-ef5a28edf2bb"
         }
       ],
       "revision_id": [
         {
-          "value": 572459
+          "value": 645743
         }
       ],
       "langcode": [
@@ -157,12 +161,12 @@
       ],
       "created": [
         {
-          "value": 1620853948
+          "value": 1634161487
         }
       ],
       "parent_id": [
         {
-          "value": "5326"
+          "value": "5523"
         }
       ],
       "parent_type": [
@@ -192,38 +196,243 @@
       ],
       "field_agenda_topic_description": [
         {
-          "value": "<p>This is the first topic.</p>\r\n",
+          "value": "<p>This is the description of the first topic. It has some <strong>HTML</strong> inside it.</p>\r\n",
           "format": "simple_html",
-          "processed": "<p>This is the first topic.</p>\n"
+          "processed": "<p>This is the description of the first topic. It has some <strong>HTML</strong> inside it.</p>\n"
+        }
+      ],
+      "field_external_resources": [
+        {
+          "uri": "https://www.google.com",
+          "title": "Google",
+          "options": []
+        },
+        {
+          "uri": "https://www.mbta.com",
+          "title": "",
+          "options": []
+        },
+        {
+          "uri": "/events/2014-03-25/green-line-extension-project-glx-art-program",
+          "title": "",
+          "options": []
+        },
+        {
+          "uri": "/node/38",
+          "title": "Red Line Downtown Crossing construction",
+          "options": []
+        }
+      ],
+      "field_related_files": [
+        {
+          "target_id": 11902,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "c98a5d21-ce98-49d3-90be-80d7d1006127",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2021-10/2021-10-13-english-bus-network-redesign-public-meetings.pdf",
+          "mime_type": "application/pdf"
+        },
+        {
+          "target_id": 11904,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "50959096-b530-4f3e-83b7-e7266cd1c2ef",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2021-10/2021-10-13-portuguese-bus-network-redesign-public-meetings-accessible.pdf",
+          "mime_type": "application/pdf"
+        },
+        {
+          "target_id": 11903,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "91766e90-3df0-42c6-8e23-338b174ce4b0",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2021-10/2021-10-13-haitian-creole-bus-network-redesign-public-meetings-accessible.pdf",
+          "mime_type": "application/pdf"
+        }
+      ],
+      "field_sub_topics": [
+        {
+          "target_id": 21896,
+          "target_revision_id": 645741,
+          "id": [
+            {
+              "value": 21896
+            }
+          ],
+          "uuid": [
+            {
+              "value": "50f08f16-feb8-464c-a6d4-6e686bd46aa6"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 645741
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "agenda_sub_topic",
+              "target_type": "paragraphs_type",
+              "target_uuid": "b2681ec6-31ec-4c76-b297-bf75a5e94cb7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1634161537
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "21898"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_sub_topics"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_sub_topic_description": [
+            {
+              "value": "<p>This is a similar description, but of a sub-topic. It can also have <a href=\"https://www.google.com\">HTML</a> in it.</p>\r\n",
+              "format": "simple_html",
+              "processed": "<p>This is a similar description, but of a sub-topic. It can also have <a href=\"https://www.google.com\">HTML</a> in it.</p>\n"
+            }
+          ],
+          "field_sub_topic_title": [
+            {
+              "value": "Topic 1 - Sub-topic 1"
+            }
+          ]
+        },
+        {
+          "target_id": 21897,
+          "target_revision_id": 645742,
+          "id": [
+            {
+              "value": 21897
+            }
+          ],
+          "uuid": [
+            {
+              "value": "e1fc5327-11b1-4cba-8fb8-038d3c0c64aa"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 645742
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "agenda_sub_topic",
+              "target_type": "paragraphs_type",
+              "target_uuid": "b2681ec6-31ec-4c76-b297-bf75a5e94cb7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1634161598
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "21898"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_sub_topics"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_sub_topic_description": [],
+          "field_sub_topic_title": [
+            {
+              "value": "Topic 1 - Sub-topic 2"
+            }
+          ]
         }
       ],
       "field_topic_title": [
         {
-          "value": "First Topic"
+          "value": "This is the first topic (with details)"
         }
       ],
       "field_video_bookmark": [
         {
-          "value": "00:00:05"
+          "value": "00:10:01"
         }
       ]
     },
     {
-      "target_id": 19930,
-      "target_revision_id": 572460,
+      "target_id": 21899,
+      "target_revision_id": 645744,
       "id": [
         {
-          "value": 19930
+          "value": 21899
         }
       ],
       "uuid": [
         {
-          "value": "35fc7f7f-f199-41f8-9c16-ba1a2dcedf31"
+          "value": "f4ff7ec8-7837-405a-992c-b7fdde440352"
         }
       ],
       "revision_id": [
         {
-          "value": 572460
+          "value": 645744
         }
       ],
       "langcode": [
@@ -245,12 +454,12 @@
       ],
       "created": [
         {
-          "value": 1621887050
+          "value": 1634161691
         }
       ],
       "parent_id": [
         {
-          "value": "5326"
+          "value": "5523"
         }
       ],
       "parent_type": [
@@ -273,15 +482,14 @@
           "value": true
         }
       ],
-      "revision_translation_affected": [
-        {
-          "value": true
-        }
-      ],
+      "revision_translation_affected": [],
       "field_agenda_topic_description": [],
+      "field_external_resources": [],
+      "field_related_files": [],
+      "field_sub_topics": [],
       "field_topic_title": [
         {
-          "value": "Second Topic"
+          "value": "Second topic (no further details)"
         }
       ],
       "field_video_bookmark": []

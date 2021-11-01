@@ -30,7 +30,7 @@ config :site, SiteWeb.Endpoint,
        ]}
     ]
   ],
-  url: [host: {:system, "HOST"}, port: 80],
+  url: [host: {:system, "HOST"}],
   static_url: [
     scheme: {:system, "STATIC_SCHEME"},
     host: {:system, "STATIC_HOST"},
