@@ -97,7 +97,7 @@
     "regenerator-runtime": "^0.13.7",
     "sass": "^1.37.5",
     "sass-loader": "^7.1.0",
-    "sinon": "^4.4.8",
+    "sinon": "^11.1.2",
     "start-server-and-test": "^1.12.6",
     "style-loader": "^0.22.1",
     "stylelint": "^13.2.0",
