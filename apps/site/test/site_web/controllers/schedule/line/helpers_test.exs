@@ -138,8 +138,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.map(e_stops, & &1.branch) ==
                [
-                 "Green-E",
-                 "Green-E",
+                 nil,
+                 nil,
                  nil,
                  nil,
                  nil,
@@ -232,6 +232,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  nil,
                  nil,
                  nil,
+                 nil,
+                 nil,
                  "Green-D",
                  "Green-D",
                  "Green-D",
@@ -246,8 +248,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  "Green-D"
                ]
 
-      # FIXME - should go to Haymarket & North Station
       assert_stop_ids(d_stops, [
+        "place-north",
+        "place-haecl",
         "place-gover",
         "place-pktrm",
         "place-boyls",
@@ -289,12 +292,16 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
+                 false,
+                 false,
                  true
                ]
 
       assert Enum.map(d_stops, & &1.is_beginning?) ==
                [
                  true,
+                 false,
+                 false,
                  false,
                  false,
                  false,
