@@ -10,17 +10,34 @@ exports[`it renders 1`] = `
   >
     South Station
   </a>
-  <a
-    className="m-stop-page__access-icon"
-    href="#header-accessibility"
-    onClick={[Function]}
+  <div
+    className="c-stop-card__icon-container"
   >
+    <a
+      className="m-stop-page__access-icon"
+      href="#header-accessibility"
+      onClick={[Function]}
+    >
+      <span
+        className="m-stop-page__icon"
+      >
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-accessible-default"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </span>
+    </a>
     <span
-      className="m-stop-page__icon"
+      className="c-stop-page__icon"
     >
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon-accessible-default"
+        className="notranslate c-svg__icon-parking-default"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -28,7 +45,7 @@ exports[`it renders 1`] = `
         }
       />
     </span>
-  </a>
+  </div>
   <div
     className="c-stop-card__route"
   >
@@ -66,17 +83,34 @@ exports[`it renders with distance formatted 1`] = `
   >
     South Station
   </a>
-  <a
-    className="m-stop-page__access-icon"
-    href="#header-accessibility"
-    onClick={[Function]}
+  <div
+    className="c-stop-card__icon-container"
   >
+    <a
+      className="m-stop-page__access-icon"
+      href="#header-accessibility"
+      onClick={[Function]}
+    >
+      <span
+        className="m-stop-page__icon"
+      >
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-accessible-default"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </span>
+    </a>
     <span
-      className="m-stop-page__icon"
+      className="c-stop-page__icon"
     >
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon-accessible-default"
+        className="notranslate c-svg__icon-parking-default"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -84,7 +118,7 @@ exports[`it renders with distance formatted 1`] = `
         }
       />
     </span>
-  </a>
+  </div>
   <div
     className="c-stop-card__route"
   >
