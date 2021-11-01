@@ -1,0 +1,100 @@
+// Starting 9/27/21, we're starting to set up new base-spacing numbers
+$base-spacing__new: 4px;
+
+$base-line-height: 1.275;
+
+@mixin base-heading__new {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $base-line-height;
+}
+
+.heading-1 {
+  @include base-heading__new();
+  font-size: 2.8125rem;
+  @include media-breakpoint-down(lg) {
+    font-size: 2.5rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 1.75rem;
+  }
+}
+.heading-2 {
+  @include base-heading__new();
+  font-size: 1.9688rem;
+  @include media-breakpoint-down(lg) {
+    font-size: 1.75rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 1.4219rem;
+  }
+}
+.heading-3 {
+  @include base-heading__new();
+  font-size: 1.4763rem;
+  @include media-breakpoint-down(lg) {
+    font-size: 1.3125rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 1.1487rem;
+  }
+}
+
+.heading-4 {
+  @include base-heading__new();
+  font-size: 1.2656rem;
+  @include media-breakpoint-down(lg) {
+    font-size: 1.125rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 0.9844rem;
+  }
+}
+.heading-5 {
+  @include base-heading__new();
+  font-size: 1.125rem;
+  @include media-breakpoint-down(lg) {
+    font-size: 1rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 0.875rem;
+  }
+}
+
+@mixin base-font__new {
+  font-family: $font-family-base;
+  font-size: 1.125rem;
+  line-height: $base-line-height;
+  @include media-breakpoint-down(lg) {
+    font-size: 1rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 0.875rem;
+  }
+}
+
+.font-body {
+  @include base-font__new();
+  font-weight: 400;
+}
+.font-link {
+  @include base-font__new();
+  font-weight: 500;
+}
+.font-white {
+  @include base-font__new();
+  font-weight: 400;
+  color: $white;
+}
+.font-small {
+  @include base-heading__new();
+  text-transform: uppercase;
+  font-size: 1rem;
+  line-height: $base-line-height;
+  @include media-breakpoint-down(lg) {
+    font-size: 0.875rem;
+  }
+  @include media-breakpoint-down(sm) {
+    font-size: 0.75rem;
+  }
+}
