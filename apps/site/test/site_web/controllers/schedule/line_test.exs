@@ -381,8 +381,6 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert stops == []
     end
 
-    @tag skip:
-           "FIXME: I'm actually missing Copley and beyond on the eastern portion, and that's wrong wrong wrong."
     test "direction 1 returns a list of all stops in order from west to east" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
 
@@ -410,8 +408,6 @@ defmodule SiteWeb.ScheduleController.LineTest do
       end
     end
 
-    @tag skip:
-           "FIXME: the output is missing the trunk (shared portion of the line diagram), which is also wrong wrong wrong"
     test "direction 1 returns the correct number of bubbles for each stop" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
 
@@ -452,7 +448,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
       # assert stop_id(List.last(trunk)) == "place-lech"
-      assert trunk |> List.last() |> stop_id() == "place-gover"
+      assert trunk |> List.last() |> stop_id() == "place-north"
     end
   end
 

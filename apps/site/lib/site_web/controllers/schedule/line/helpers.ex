@@ -267,16 +267,17 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           direction_id
         ) :: RouteStops.t()
   defp get_green_branch(branch_id, stops, shapes, direction_id) do
-    headsign =
+    shape_name =
       branch_id
       |> RoutesRepo.get()
       |> Map.get(:direction_destinations)
-      |> Map.get(direction_id)
+      |> Map.values()
+      |> Enum.join(" - ")
 
     branch =
       shapes
       |> Enum.reject(&is_nil(&1.name))
-      |> Enum.filter(&(&1.name =~ headsign))
+      |> Enum.filter(&(&1.name =~ shape_name))
       |> get_branches(%{branch_id => stops}, %Route{id: branch_id, type: 0}, direction_id)
       |> List.first()
 
