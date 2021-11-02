@@ -115,7 +115,9 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
       <div className="m-tnm-sidebar__headsign">
         {renderHeadsignName(props)}
 
-        {routeType === 2 && renderTrainName(`Train ${headsign.train_number}`)}
+        {routeType === 2 && headsign.train_number
+          ? renderTrainName(`Train ${headsign.train_number}`)
+          : null}
       </div>
       <div className="m-tnm-sidebar__schedules">
         {headsign.times.map((time, idx) => {
