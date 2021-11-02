@@ -395,7 +395,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
             # {"place-lech", 64},
-            # {"place-north", 62},
+            {"place-north", 61},
             {"place-gover", 59},
             {"place-pktrm", 58},
             {"place-coecl", 55},
