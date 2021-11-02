@@ -59,7 +59,7 @@ defmodule ExcludedStopsTest do
     end
 
     @tag skip:
-      "No longer asserts that St. Mary's St (C line only) is not on the D line, and that's very wrong"
+           "No longer asserts that St. Mary's St (C line only) is not on the D line, and that's very wrong"
     test "excludes stops on different branches of the consolidated Green Line" do
       # As of June 2020, Lechmere has been closed so the commented lines will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
@@ -73,7 +73,7 @@ defmodule ExcludedStopsTest do
     end
 
     @tag skip:
-      "Thinks that Park St (B,C,D,E) is on a totally different branch from Coolidge Corner (C), very wrong"
+           "Thinks that Park St (B,C,D,E) is on a totally different branch from Coolidge Corner (C), very wrong"
     test "doesn't exclude stops that are shared between branches of the consolidated Green line" do
       refute "place-pktrm" in excluded_destination_stops("Green", "place-cool")
       refute "place-gover" in excluded_destination_stops("Green", "place-river")

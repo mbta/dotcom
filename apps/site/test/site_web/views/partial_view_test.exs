@@ -29,7 +29,7 @@ defmodule SiteWeb.PartialViewTest do
     end
 
     @tag skip:
-      "Thinks North Station (D,E) only serves the E, and Park St (B,C,D,E) doesn't serve C, both are wrong"
+           "Thinks North Station (D,E) only serves the E, and Park St (B,C,D,E) doesn't serve C, both are wrong"
     test "returns a comma-separated list of lines for the green line", %{conn: conn} do
       conn =
         conn
