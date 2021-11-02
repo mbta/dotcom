@@ -104,7 +104,7 @@
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-order": "^4.1.0",
     "stylelint-scss": "^3.14.2",
-    "stylelint-selector-bem-pattern": "^2.1.0",
+    "stylelint-selector-bem-pattern": "^2.1.1",
     "stylelint-selector-no-mergeable": "git+https://git@github.com/nkingsy/stylelint-selector-no-mergeable.git",
     "svg-inline-loader": "^0.8.0",
     "svgo": "^1.1.1",
