@@ -45,18 +45,25 @@ defmodule GreenLineTest do
         "Green-C" ->
           [
             %Stops.Stop{id: "place-clmnl"},
+            %Stops.Stop{id: "place-coecl"},
+            %Stops.Stop{id: "place-kencl"},
+            %Stops.Stop{id: "place-gover"}
+          ]
+
+        "Green-D" ->
+          [
+            %Stops.Stop{id: "place-river"},
+            %Stops.Stop{id: "place-coecl"},
+            %Stops.Stop{id: "place-kencl"},
             %Stops.Stop{id: "place-gover"},
             %Stops.Stop{id: "place-north"}
           ]
 
-        "Green-D" ->
-          [%Stops.Stop{id: "place-river"}, %Stops.Stop{id: "place-gover"}]
-
         "Green-E" ->
           [
             %Stops.Stop{id: "place-hsmnl"},
-            %Stops.Stop{id: "place-gover"}
-            # %Stops.Stop{id: "place-north"}
+            %Stops.Stop{id: "place-gover"},
+            %Stops.Stop{id: "place-north"}
             # %Stops.Stop{id: "place-lech"}
           ]
       end
@@ -65,15 +72,24 @@ defmodule GreenLineTest do
     test "each line returns a set of the ids of associated stops" do
       {_, stop_map} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
 
-      assert stop_map["Green-C"] == MapSet.new(["place-clmnl", "place-gover", "place-north"])
-      assert stop_map["Green-D"] == MapSet.new(["place-river", "place-gover"])
+      assert stop_map["Green-C"] ==
+               MapSet.new(["place-clmnl", "place-coecl", "place-gover", "place-kencl"])
+
+      assert stop_map["Green-D"] ==
+               MapSet.new([
+                 "place-north",
+                 "place-coecl",
+                 "place-gover",
+                 "place-kencl",
+                 "place-river"
+               ])
 
       # As of June 2020, Lechmere is closed for construction and the E-line will
       # be terminating at North Station for now.
       # assert stop_map["Green-E"] ==
       #          MapSet.new(["place-hsmnl", "place-gover", "place-north", "place-lech"])
       assert stop_map["Green-E"] ==
-               MapSet.new(["place-hsmnl", "place-gover"])
+               MapSet.new(["place-hsmnl", "place-gover", "place-north"])
     end
 
     test "a list of stops without duplicates is returned" do
@@ -84,6 +100,8 @@ defmodule GreenLineTest do
                  %Stops.Stop{id: "place-hsmnl"},
                  %Stops.Stop{id: "place-gover"},
                  %Stops.Stop{id: "place-north"},
+                 %Stops.Stop{id: "place-coecl"},
+                 %Stops.Stop{id: "place-kencl"},
                  # As of June 2020, Lechmere is closed for construction
                  #  %Stops.Stop{id: "place-lech"},
                  %Stops.Stop{id: "place-clmnl"},
@@ -106,15 +124,15 @@ defmodule GreenLineTest do
   end
 
   test "terminus?/2" do
-    for stop_id <- ["place-lake", "place-pktrm"] do
+    for stop_id <- ["place-lake", "place-gover"] do
       assert terminus?(stop_id, "Green-B")
     end
 
-    for stop_id <- ["place-north", "place-clmnl"] do
+    for stop_id <- ["place-gover", "place-clmnl"] do
       assert terminus?(stop_id, "Green-C")
     end
 
-    for stop_id <- ["place-river", "place-gover"] do
+    for stop_id <- ["place-river", "place-north"] do
       assert terminus?(stop_id, "Green-D")
     end
 
@@ -137,11 +155,11 @@ defmodule GreenLineTest do
   describe "naive_headsign/2" do
     test "correct headsign for route and direction" do
       assert naive_headsign("Green-B", 0) == "Boston College"
-      assert naive_headsign("Green-B", 1) == "Park Street"
+      assert naive_headsign("Green-B", 1) == "Government Center"
       assert naive_headsign("Green-C", 0) == "Cleveland Circle"
-      assert naive_headsign("Green-C", 1) == "North Station"
+      assert naive_headsign("Green-C", 1) == "Government Center"
       assert naive_headsign("Green-D", 0) == "Riverside"
-      assert naive_headsign("Green-D", 1) == "Government Center"
+      assert naive_headsign("Green-D", 1) == "North Station"
       assert naive_headsign("Green-E", 0) == "Heath Street"
       # As of June 2020, Lechmere is closed for construction and the E-line will
       # be terminating at North Station for now.
@@ -176,7 +194,7 @@ defmodule GreenLineTest do
         |> filter_lines("Green-B")
         |> Enum.map(fn %Stops.Stop{id: id} -> id end)
 
-      assert List.first(stops) == "place-pktrm"
+      assert List.first(stops) == "place-gover"
       assert List.last(stops) == "place-lake"
     end
   end
