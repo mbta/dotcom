@@ -121,7 +121,7 @@ const buildHeadsign = (
           ? {
               track: prediction.track,
               time: prediction.time,
-              status: null,
+              status: prediction.status,
               // eslint-disable-next-line camelcase
               schedule_relationship: prediction.schedule_relationship
             }
