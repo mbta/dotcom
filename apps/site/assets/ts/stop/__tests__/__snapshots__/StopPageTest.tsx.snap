@@ -2666,25 +2666,29 @@ Array [
                 >
                   Massachusetts Ave @ Prospect St
                 </a>
-                <a
-                  className="m-stop-page__access-icon"
-                  href="#header-accessibility"
-                  onClick={[Function]}
+                <div
+                  className="c-stop-card__icon-container"
                 >
-                  <span
-                    className="m-stop-page__icon"
+                  <a
+                    className="m-stop-page__access-icon"
+                    href="#header-accessibility"
+                    onClick={[Function]}
                   >
                     <span
-                      aria-hidden="false"
-                      className="notranslate c-svg__icon-accessible-default"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "SVG",
+                      className="m-stop-page__icon"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon-accessible-default"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
                         }
-                      }
-                    />
-                  </span>
-                </a>
+                      />
+                    </span>
+                  </a>
+                </div>
                 <div
                   className="c-stop-card__route"
                 >
@@ -2716,25 +2720,29 @@ Array [
                 >
                   Magazine St @ Green St
                 </a>
-                <a
-                  className="m-stop-page__access-icon"
-                  href="#header-accessibility"
-                  onClick={[Function]}
+                <div
+                  className="c-stop-card__icon-container"
                 >
-                  <span
-                    className="m-stop-page__icon"
+                  <a
+                    className="m-stop-page__access-icon"
+                    href="#header-accessibility"
+                    onClick={[Function]}
                   >
                     <span
-                      aria-hidden="false"
-                      className="notranslate c-svg__icon-accessible-default"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "SVG",
+                      className="m-stop-page__icon"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon-accessible-default"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
                         }
-                      }
-                    />
-                  </span>
-                </a>
+                      />
+                    </span>
+                  </a>
+                </div>
                 <div
                   className="c-stop-card__route"
                 >
@@ -2811,25 +2819,29 @@ Array [
                 >
                   Green St @ Magazine St
                 </a>
-                <a
-                  className="m-stop-page__access-icon"
-                  href="#header-accessibility"
-                  onClick={[Function]}
+                <div
+                  className="c-stop-card__icon-container"
                 >
-                  <span
-                    className="m-stop-page__icon"
+                  <a
+                    className="m-stop-page__access-icon"
+                    href="#header-accessibility"
+                    onClick={[Function]}
                   >
                     <span
-                      aria-hidden="false"
-                      className="notranslate c-svg__icon-accessible-default"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "SVG",
+                      className="m-stop-page__icon"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon-accessible-default"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
                         }
-                      }
-                    />
-                  </span>
-                </a>
+                      />
+                    </span>
+                  </a>
+                </div>
                 <div
                   className="c-stop-card__route"
                 >
