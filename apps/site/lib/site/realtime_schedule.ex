@@ -98,7 +98,7 @@ defmodule Site.RealtimeSchedule do
   end
 
   defp stop_fields(stop) do
-    Map.take(stop, [:id, :name, :accessibility, :address])
+    Map.take(stop, [:id, :name, :accessibility, :address, :parking_lots])
   end
 
   @spec get_routes([Stop.id_t()], fun()) :: [route_with_patterns_t]

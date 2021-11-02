@@ -209,6 +209,11 @@ defmodule Site.TripPlan.Query do
     Keyword.put(opts, :optimize_for, :less_walking)
   end
 
+  # If the query has a typo for this value, just use "best_route"
+  defp optimize_for(_, opts) do
+    opts
+  end
+
   @doc "Determines if the given query contains any itineraries"
   @spec itineraries?(t | nil) :: boolean
   def itineraries?(%__MODULE__{itineraries: {:ok, itineraries}}) do
