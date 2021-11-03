@@ -9,20 +9,19 @@ defmodule SiteWeb.ErrorViewTest do
     assert html_response(conn, 404) =~ "not-found"
   end
 
-  test "renders 404.html" do
-    expected = "This page is no longer in service"
-    actual = render_to_string(SiteWeb.ErrorView, "404.html", [])
-    assert actual =~ expected
+  test "renders 404.html", %{conn: conn} do
+    assert render_to_string(SiteWeb.ErrorView, "404.html", conn: conn) =~
+             "Sorry! We missed your stop."
   end
 
   test "render 500.html", %{conn: conn} do
     assert render_to_string(SiteWeb.ErrorView, "500.html", conn: conn) =~
-             "It looks like we have our signals crossed"
+             "Something went wrong on our end."
   end
 
   test "render any other", %{conn: conn} do
     assert render_to_string(SiteWeb.ErrorView, "505.html", conn: conn) =~
-             "It looks like we have our signals crossed"
+             "Something went wrong on our end."
   end
 
   test "render 500.html with a layout", %{conn: conn} do
@@ -37,6 +36,6 @@ defmodule SiteWeb.ErrorViewTest do
 
     conn = render(conn, :"500", conn: conn)
 
-    assert html_response(conn, 500) =~ "signals crossed"
+    assert html_response(conn, 500) =~ "Something went wrong on our end."
   end
 end

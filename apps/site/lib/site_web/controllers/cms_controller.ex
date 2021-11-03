@@ -93,9 +93,9 @@ defmodule SiteWeb.CMSController do
 
   defp handle_page_response({:error, _}, conn) do
     conn
-    |> put_status(503)
+    |> put_status(500)
     |> put_view(SiteWeb.ErrorView)
-    |> render("crash.html", [])
+    |> render("500.html", [])
   end
 
   @spec render_page(Conn.t(), Page.t()) :: Conn.t()

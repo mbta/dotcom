@@ -18,7 +18,7 @@ defmodule SiteWeb.ControllerHelpersTest do
         |> render_404()
         |> html_response(404)
 
-      assert rendered =~ "Your stop cannot be found."
+      assert rendered =~ "Sorry! We missed your stop."
     end
   end
 
@@ -383,7 +383,7 @@ defmodule SiteWeb.ControllerHelpersTest do
         |> check_cms_or_404()
         |> html_response(404)
 
-      assert rendered =~ "Your stop cannot be found."
+      assert rendered =~ "Sorry! We missed your stop."
     end
   end
 
