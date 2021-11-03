@@ -26,7 +26,7 @@ defmodule SiteWeb.FareControllerTest do
 
     test "404s on nonexistant mode", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show, :doesnotexist))
-      assert html_response(conn, 404) =~ "Your stop cannot be found."
+      assert html_response(conn, 404) =~ "Sorry! We missed your stop."
     end
 
     test "sets a custom meta description", %{conn: conn} do
