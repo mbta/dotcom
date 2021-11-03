@@ -15,13 +15,7 @@ defmodule Site.Stream.Vehicles do
   end
 
   def handle_info({:remove, ids}, state) do
-    _ =
-      Endpoint.broadcast(
-        "vehicles:remove",
-        "remove",
-        %{data: ids}
-      )
-
+    _ = broadcast_vehicles("vehicles:remove", :remove, ids)
     {:noreply, state}
   end
 
@@ -68,14 +62,31 @@ defmodule Site.Stream.Vehicles do
          event
        )
        when direction_id in [0, 1] do
-    Endpoint.broadcast(
+    broadcast_vehicles(
       "vehicles:" <> route_id <> ":" <> Integer.to_string(direction_id),
-      Atom.to_string(event),
-      %{data: vehicles}
+      event,
+      vehicles
     )
   end
 
   defp send_vehicles(_, _) do
     :ok
+  end
+
+  @spec broadcast_vehicles(String.t(), atom, any) :: :ok
+  defp broadcast_vehicles(topic, event, data) do
+    try do
+      Endpoint.broadcast(
+        topic,
+        Atom.to_string(event),
+        %{data: data}
+      )
+    rescue
+      _ in ArgumentError ->
+        # the :ets.lookup failed, the ETS tables for working with Vehicles.Repo
+        # aren't set up yet. we are still waiting for Siteweb.Endpoint to start.
+        # fail gracefully here, ignore event
+        :ok
+    end
   end
 end
