@@ -10,21 +10,23 @@ defmodule SiteWeb.ModeViewTest do
 
   describe "mode_group_header/3" do
     test "renders an h2 if is_homepage? == false" do
-      assert {tag, _, _} =
+      assert [{tag, _, _}] =
                :commuter_rail
                |> ModeView.mode_group_header("/schedules/commuter-rail", false)
                |> safe_to_string()
-               |> Floki.parse()
+               |> Floki.parse_fragment()
+               |> elem(1)
 
       assert tag == "h2"
     end
 
     test "renders an h3 if is_homepage? == true" do
-      assert {tag, _, _} =
+      assert [{tag, _, _}] =
                :commuter_rail
                |> ModeView.mode_group_header("/schedules/commuter-rail", true)
                |> safe_to_string()
-               |> Floki.parse()
+               |> Floki.parse_fragment()
+               |> elem(1)
 
       assert tag == "h3"
     end

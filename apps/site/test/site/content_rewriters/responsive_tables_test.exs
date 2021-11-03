@@ -5,7 +5,7 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
 
   describe "rewrite_table" do
     test "works with a full table" do
-      rewritten =
+      {:ok, [html]} =
         """
           <table>
             This is the caption
@@ -13,8 +13,9 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
             #{tbody()}
           </table>
         """
-        |> Floki.parse()
-        |> rewrite_table
+        |> Floki.parse_fragment()
+
+      rewritten = html |> rewrite_table
 
       assert rewritten ==
                {"table", [{"class", "c-media__element responsive-table"}],
@@ -49,10 +50,10 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
     end
 
     test "finds caption when it's a tag" do
-      assert Floki.parse("<table><caption>Caption in a tag</caption></table>") ==
-               {"table", [], [{"caption", [], ["Caption in a tag"]}]}
+      assert Floki.parse_fragment("<table><caption>Caption in a tag</caption></table>") ==
+               {:ok, [{"table", [], [{"caption", [], ["Caption in a tag"]}]}]}
 
-      rewritten =
+      {:ok, [html]} =
         """
           <table>
             <caption>Caption in tag</caption>
@@ -60,33 +61,38 @@ defmodule Site.ContentRewriters.ResponsiveTablesTest do
             #{tbody()}
           </table>
         """
-        |> Floki.parse()
-        |> rewrite_table()
+        |> Floki.parse_fragment()
+
+      rewritten = html |> rewrite_table()
 
       assert [{"caption", [], ["Caption in tag"]}] = Floki.find(rewritten, "caption")
     end
 
     test "finds caption when it is not in a tag" do
-      assert Floki.parse("<table>Caption outside of a tag</table>") ==
-               {"table", [], ["Caption outside of a tag"]}
+      assert Floki.parse_fragment("<table>Caption outside of a tag</table>") ==
+               {:ok, [{"table", [], ["Caption outside of a tag"]}]}
 
-      assert """
-               <table>
-                 Caption outside of a tag
-                 #{thead()}
-                 #{tbody()}
-               </table>
-             """
-             |> Floki.parse()
+      {:ok, [html]} =
+        """
+          <table>
+            Caption outside of a tag
+            #{thead()}
+            #{tbody()}
+          </table>
+        """
+        |> Floki.parse_fragment()
+
+      assert html
              |> rewrite_table()
              |> Floki.find("caption") == [{"caption", [], ["Caption outside of a tag"]}]
     end
 
     test "gracefully handles an invalid table" do
-      rewritten =
+      {:ok, [html]} =
         "<table></table>"
-        |> Floki.parse()
-        |> rewrite_table
+        |> Floki.parse_fragment()
+
+      rewritten = html |> rewrite_table
 
       assert rewritten == {
                "table",

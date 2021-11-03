@@ -363,11 +363,12 @@ defmodule SiteWeb.ViewHelpersTest do
           :trolley
         ],
         size <- [:default, :small] do
-      assert {"span", [{"class", class}], _} =
+      assert [{"span", [{"class", class}], _}] =
                type
                |> mode_icon(size)
                |> safe_to_string()
-               |> Floki.parse()
+               |> Floki.parse_fragment()
+               |> elem(1)
 
       case type do
         :commuter_rail -> assert class == "notranslate c-svg__icon-mode-commuter-rail-#{size}"
@@ -377,21 +378,23 @@ defmodule SiteWeb.ViewHelpersTest do
       end
     end
 
-    assert {"span", [{"class", "notranslate c-svg__icon-the-ride-default"}], _} =
+    assert [{"span", [{"class", "notranslate c-svg__icon-the-ride-default"}], _}] =
              :the_ride
              |> mode_icon(:default)
              |> safe_to_string()
-             |> Floki.parse()
+             |> Floki.parse_fragment()
+             |> elem(1)
   end
 
   test "bw_circle_icon/2" do
     for type <- [0, 1, 2, 3, 4],
         size <- [:default] do
-      assert {"span", [{"class", class}], _} =
+      assert [{"span", [{"class", class}], _}] =
                type
                |> bw_circle_icon(size)
                |> safe_to_string()
-               |> Floki.parse()
+               |> Floki.parse_fragment()
+               |> elem(1)
 
       if type == 0 do
         assert class == "notranslate c-svg__icon-trolley-circle-bw-#{size}"
