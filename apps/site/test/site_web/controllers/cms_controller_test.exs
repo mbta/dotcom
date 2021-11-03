@@ -179,7 +179,7 @@ defmodule SiteWeb.CMSControllerTest do
       conn = get(conn, "/timeout")
       assert conn.status == 500
 
-      assert html_response(conn, 500)  =~ "Something went wrong on our end."
+      assert html_response(conn, 500) =~ "Something went wrong on our end."
     end
   end
 end
