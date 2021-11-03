@@ -177,10 +177,9 @@ defmodule SiteWeb.CMSControllerTest do
 
     test "renders 500 page with status code 503 when Drupal times out", %{conn: conn} do
       conn = get(conn, "/timeout")
-      assert conn.status == 503
+      assert conn.status == 500
 
-      assert conn |> html_response(503) |> Floki.find("h1") ==
-               [{"h1", [{"class", "error-card-header"}], ["503"]}]
+      assert html_response(conn, 500)  =~ "Something went wrong on our end."
     end
   end
 end
