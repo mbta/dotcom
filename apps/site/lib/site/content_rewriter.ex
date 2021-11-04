@@ -18,8 +18,9 @@ defmodule Site.ContentRewriter do
   """
   @spec rewrite(Phoenix.HTML.safe() | String.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
   def rewrite({:safe, content}, conn) do
-    content
-    |> Floki.parse()
+    {:ok, parsed} = Floki.parse_fragment(content)
+
+    parsed
     |> FlokiHelpers.traverse(&dispatch_rewrites(&1, conn))
     |> render
     |> Phoenix.HTML.raw()

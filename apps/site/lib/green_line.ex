@@ -13,11 +13,11 @@ defmodule GreenLine do
 
   @termini %{
     {"Green-B", 0} => "place-lake",
-    {"Green-B", 1} => "place-pktrm",
+    {"Green-B", 1} => "place-gover",
     {"Green-C", 0} => "place-clmnl",
-    {"Green-C", 1} => "place-north",
+    {"Green-C", 1} => "place-gover",
     {"Green-D", 0} => "place-river",
-    {"Green-D", 1} => "place-gover",
+    {"Green-D", 1} => "place-north",
     {"Green-E", 0} => "place-hsmnl",
     # As of June 2020, Lechmere is closed for construction and the E-line will
     # be terminating at North Station for now.

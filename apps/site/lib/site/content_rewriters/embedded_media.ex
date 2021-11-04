@@ -107,7 +107,9 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   end
 
   def build(_) do
-    Floki.parse(~s(<div class="incompatible-media"></div>))
+    {:ok, [parsed]} = Floki.parse_fragment(~s(<div class="incompatible-media"></div>))
+
+    parsed
   end
 
   @spec media_iframe?(String.t()) :: boolean

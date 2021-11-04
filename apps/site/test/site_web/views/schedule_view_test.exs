@@ -681,11 +681,19 @@ defmodule SiteWeb.ScheduleViewTest do
       route = %Routes.Route{}
       today = ~D[2018-01-01]
 
-      assert {"div", _, []} =
-               [] |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse()
+      assert [{"div", _, []}] =
+               []
+               |> route_pdf_link(route, today)
+               |> safe_to_string
+               |> Floki.parse_fragment()
+               |> elem(1)
 
-      assert {"div", _, []} =
-               nil |> route_pdf_link(route, today) |> safe_to_string |> Floki.parse()
+      assert [{"div", _, []}] =
+               nil
+               |> route_pdf_link(route, today)
+               |> safe_to_string
+               |> Floki.parse_fragment()
+               |> elem(1)
     end
 
     test "shows all PDFs for the route" do

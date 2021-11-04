@@ -4,8 +4,8 @@ defmodule Site.FlokiHelpersTest do
   import Site.FlokiHelpers
 
   setup do
-    html =
-      Floki.parse("""
+    {:ok, html} =
+      Floki.parse_fragment("""
         <div><span class="highlight">Hello, this is some text</span></div>
         <div>
           <ul>
