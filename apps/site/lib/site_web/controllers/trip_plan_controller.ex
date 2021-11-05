@@ -114,8 +114,8 @@ defmodule SiteWeb.TripPlanController do
   end
 
   defp unseen(seen_routes, link) do
-    IO.inspect(Enum.at(Enum.at(link.text, 0),1) , label: "das link")
-    if Enum.count(link.text) > 0 do
+    IO.inspect(link , label: "das link")
+    if is_list(link.text) do
       {key, val} = {Enum.at(Enum.at(link.text, 0), 1),link}
       if Map.has_key?(seen_routes, key) do
         false
@@ -123,21 +123,28 @@ defmodule SiteWeb.TripPlanController do
         Map.put(seen_routes, key, val)
         true
       end
+    else
+      {key, val} = {Enum.at(link.text,0),link}
+      if Map.has_key?(seen_routes, key) do
+        false
+      else
+        Map.put(seen_routes, key, val)
+        true
+      end
     end
-      true # View information is just a string
+  end
+
+  defp get_route(link) do
+    if is_list(Enum.at(link.text, 0)) do
+      Enum.at(Enum.at(link.text, 0),1)
+    else
+      Enum.at(link.text, 0)
+    end
   end
 
   defp filter_duplicate_links(related_links) do
-    seen_routes = MapSet.new() #Enum.map(related_links, fn(x) -> Enum.at(related_links,0).text)
-    Enum.filter(related_links, fn(x) -> unseen(seen_routes, Enum.at(x,0)) end)
-
-    IO.inspect(seen_routes)
-    related_links
+    Enum.map(related_links, fn x -> Enum.uniq_by(x, fn y -> get_route(y) end) end)
   end
-
-
-
-
 
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do

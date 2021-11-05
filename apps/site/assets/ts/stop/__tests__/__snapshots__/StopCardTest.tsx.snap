@@ -11,6 +11,9 @@ exports[`StopCard renders with routes 1`] = `
         <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
       </span>
     </a>
+    <span className=\\"m-stop-page__icon\\">
+      <span className=\\"notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+    </span>
     <div className=\\"c-stop-card__route\\">
       <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
       <a href=\\"/schedules/Red\\" className=\\"c-stop-card__route-link\\">
@@ -98,6 +101,9 @@ exports[`StopCard renders with routes with directions 1`] = `
         <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
       </span>
     </a>
+    <span className=\\"m-stop-page__icon\\">
+      <span className=\\"notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+    </span>
     <div className=\\"c-stop-card__route\\">
       <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
       <a href=\\"/schedules/Red?direction_id=0\\" className=\\"c-stop-card__route-link\\">
