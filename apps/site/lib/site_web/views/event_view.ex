@@ -189,25 +189,33 @@ defmodule SiteWeb.EventView do
   defp agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
     # TODO: implement with event video livestream.
     content_tag(
-      :a,
+      :span,
       [
-        time_duration_tag(bookmark)
+        maybe_time_duration_tag(bookmark)
       ],
-      href: "#",
       class: "agenda-topic__timestamp"
     )
   end
 
   defp agenda_video_bookmark(nil), do: ""
 
-  defp time_duration_tag(time) do
+  defp maybe_time_duration_tag(time) do
     # "02:30:10" => "2h 30m 10s"
-    [h, m, s] =
-      String.split(time, ":")
-      |> Enum.map(&String.to_integer(&1))
+    duration = case String.split(time, ":") do
+      [_, _] = t ->
+        [m, s] = Enum.map(t, &String.to_integer(&1))
+        "#{m}m #{s}s"
+      [_, _, _] = t ->
+        [h, m, s] = Enum.map(t, &String.to_integer(&1))
+        "#{h}h #{m}m #{s}s"
+      _ ->
+        nil
+    end
 
-    duration = "#{h}h #{m}m #{s}s"
-
-    content_tag(:time, time, datetime: duration)
+    if duration do
+      content_tag(:time, time, datetime: duration)
+    else
+      time
+    end
   end
 end
