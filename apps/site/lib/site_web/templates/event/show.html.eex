@@ -3,9 +3,11 @@
 
 <%= if Laboratory.enabled?(@conn, :events_hub_redesign) and (!is_nil(@event.registration_link) or !is_nil(@event.event_agenda)) do %>
 
-  <%= if has_started?(@event) and !is_nil(@event.livestream_link) do %>
-    <iframe class="m-event__livestream" src="<%= @event.livestream_link %>"></iframe>
-  <% end %>
+  <%# if has_started?(@event) and !is_nil(@event.livestream_link) do %>
+    <!-- TODO: Get appropriate video embed code
+     <iframe class="m-event__livestream" src="<%= @event.livestream_link.url %>" title="<%= @event.livestream_link.title %>"></iframe>
+    -->
+  <%# end %>
 
   <div class="container m-event-details">
     <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
