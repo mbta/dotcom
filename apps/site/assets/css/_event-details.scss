@@ -90,7 +90,6 @@ $agenda-column-gap: $base-spacing * .75;
 .m-event__agenda {
   p {
     line-height: $headings-line-height;
-    margin-bottom: 0;
   }
 
   .agenda-topics,
@@ -159,10 +158,23 @@ $agenda-column-gap: $base-spacing * .75;
   .agenda-topic__timestamp {
     @extend %small-grey-font;
     font-weight: bold;
-    margin-right: $base-spacing * .5;
 
-    + p {
-      display: inline;
+    &:not(:last-child) {
+      // hacky way of showing it "in" the first paragraph
+      margin-right: $base-spacing * .25;
+
+      // first paragraph
+      + p {
+        // display paragraph inline so text is adjacent to timestamp
+        display: inline;
+
+        // display:inline removes margin from the paragraph.
+        // to make up for that, add a top margin to the next element
+        /* stylelint-disable-next-line max-nesting-depth */
+        + * {
+          margin-top: 1em;
+        }
+      }
     }
   }
 }
