@@ -115,7 +115,7 @@ defmodule SiteWeb.TripPlanController do
 
   defp get_route(link) do
     if is_list(Enum.at(link.text, 0)) do
-      Enum.at(Enum.at(link.text, 0),1)
+      Enum.at(Enum.at(link.text, 0), 1)
     else
       Enum.at(link.text, 0)
     end
@@ -153,7 +153,9 @@ defmodule SiteWeb.TripPlanController do
       itinerary_maps:
         Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
       related_links:
-        filter_duplicate_links(Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper))),
+        filter_duplicate_links(
+          Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper))
+        ),
       itinerary_row_lists: itinerary_row_lists
     )
   end
