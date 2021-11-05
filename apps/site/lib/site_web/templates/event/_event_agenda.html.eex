@@ -1,8 +1,16 @@
 <%= if Enum.any?(@agenda.topics) do %>
   <ol type="A" class="agenda-topics">
-    <%= for %CMS.Partial.Paragraph.AgendaTopic{description: description, title: title, video_bookmark: bookmark, sub_topics: sub_topics, files: _files, links: _links} <- @agenda.topics do %>
+    <%= for %CMS.Partial.Paragraph.AgendaTopic{description: description, title: title, video_bookmark: bookmark, sub_topics: sub_topics, files: files, links: _links} <- @agenda.topics do %>
       <li class="agenda-topic">
-        <%= agenda_title(title) %>
+        <%= if not Enum.empty?(files) do %>
+          <% %{url: url, type: _type} = List.first(files) %>
+          <a href="<%= url %>">
+           <%= agenda_title(title) %>
+          </a>
+        <% else %>
+          <%= agenda_title(title) %>
+        <% end %>
+
         <div class="agenda-topic__content">
           <%= if @is_ended, do: agenda_video_bookmark(bookmark) %>
           <%= if description do %>
