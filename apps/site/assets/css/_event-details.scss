@@ -93,7 +93,8 @@ $agenda-column-gap: $base-spacing * .75;
     margin-bottom: 0;
   }
 
-  ol {
+  .agenda-topics,
+  .agenda-subtopics {
     list-style: none;
     padding-left: 0;
 
@@ -104,7 +105,8 @@ $agenda-column-gap: $base-spacing * .75;
     //    |          |  [description+ nested lists]  |
     //    |          |  height adjusts to content    |
     //    --------------------------------------------
-    li {
+    .agenda-topic,
+    .agenda-subtopic {
       border-top: $separator-border;
       display: grid;
       gap: $agenda-row-gap $agenda-column-gap;
@@ -126,12 +128,12 @@ $agenda-column-gap: $base-spacing * .75;
   .agenda-topics {
     counter-reset: topicCounter 0 subCounter 0;
     margin-top: $base-spacing * .75;
+  }
 
-    > li {
-      @include agenda-bullet($counter: topicCounter, $counter-type: upper-alpha);
+  .agenda-topic {
+    @include agenda-bullet($counter: topicCounter, $counter-type: upper-alpha);
 
-      padding-bottom: 0;
-    }
+    padding-bottom: 0;
   }
 
   // second-level list
@@ -143,15 +145,15 @@ $agenda-column-gap: $base-spacing * .75;
       @extend %small-grey-font;
     }
 
-    > li {
-      @include agenda-bullet($bg-color: $gray-bordered-background,
-      $color: $gray, $counter: subCounter);
-    }
-
     @include media-breakpoint-down(sm) {
       // Nested items are aligned flush left with parent items in small display
       margin-left: - $bullet-size - $agenda-column-gap;
     }
+  }
+
+  .agenda-subtopic {
+    @include agenda-bullet($bg-color: $gray-bordered-background,
+    $color: $gray, $counter: subCounter);
   }
 
   .agenda-topic__timestamp {
