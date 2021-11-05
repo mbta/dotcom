@@ -186,7 +186,7 @@ defmodule SiteWeb.EventView do
 
   @spec agenda_video_bookmark(CMS.Partial.Paragraph.AgendaTopic.video_bookmark()) ::
           Phoenix.HTML.Safe.t()
-  defp agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
+  def agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
     # TODO: implement with event video livestream.
     content_tag(
       :span,
@@ -197,20 +197,23 @@ defmodule SiteWeb.EventView do
     )
   end
 
-  defp agenda_video_bookmark(nil), do: ""
+  def agenda_video_bookmark(nil), do: ""
 
   defp maybe_time_duration_tag(time) do
     # "02:30:10" => "2h 30m 10s"
-    duration = case String.split(time, ":") do
-      [_, _] = t ->
-        [m, s] = Enum.map(t, &String.to_integer(&1))
-        "#{m}m #{s}s"
-      [_, _, _] = t ->
-        [h, m, s] = Enum.map(t, &String.to_integer(&1))
-        "#{h}h #{m}m #{s}s"
-      _ ->
-        nil
-    end
+    duration =
+      case String.split(time, ":") do
+        [_, _] = t ->
+          [m, s] = Enum.map(t, &String.to_integer(&1))
+          "#{m}m #{s}s"
+
+        [_, _, _] = t ->
+          [h, m, s] = Enum.map(t, &String.to_integer(&1))
+          "#{h}h #{m}m #{s}s"
+
+        _ ->
+          nil
+      end
 
     if duration do
       content_tag(:time, time, datetime: duration)

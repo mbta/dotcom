@@ -2,6 +2,7 @@ defmodule SiteWeb.EventViewTest do
   use Site.ViewCase, async: true
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
+  import Phoenix.HTML, only: [safe_to_string: 1]
   alias CMS.Partial.Teaser
   alias CMS.Page.Event
 
@@ -225,5 +226,33 @@ defmodule SiteWeb.EventViewTest do
 
     test ":ended value verified",
       do: assert(has_started?(%Event{started_status: :started}) == true)
+  end
+
+  test "agenda_title/2 shows title" do
+    assert safe_to_string(agenda_title("Topic title")) =~
+             "<h3 class=\"agenda-topic__title\">Topic title"
+
+    assert safe_to_string(agenda_title("Topic title", :h4)) =~
+             "<h4 class=\"agenda-topic__title\">Topic title"
+
+    assert "" = agenda_title(nil)
+  end
+
+  test "agenda_video_bookmark/1 parses timestamp" do
+    time1 = "01:02:03"
+    time2 = "12:13"
+
+    assert safe_to_string(agenda_video_bookmark(time1)) =~
+             "<span class=\"agenda-topic__timestamp\"><time datetime=\"1h 2m 3s\">#{time1}</time>"
+
+    assert safe_to_string(agenda_video_bookmark(time2)) =~
+             "<span class=\"agenda-topic__timestamp\"><time datetime=\"12m 13s\">#{time2}</time>"
+  end
+
+  test "agenda_video_bookmark/1 shows input text if not able to parse the time" do
+    assert "" = agenda_video_bookmark(nil)
+
+    assert safe_to_string(agenda_video_bookmark("nonsense time")) =~
+             "<span class=\"agenda-topic__timestamp\">nonsense time"
   end
 end
