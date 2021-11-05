@@ -73,7 +73,7 @@
           <%= if @event.event_agenda do %>
             <section class="m-event__agenda">
               <h2 class="mt-0">Agenda</h2>
-              <%= render "_event_agenda.html", conn: @conn, agenda: @event.event_agenda %>
+              <%= render "_event_agenda.html", conn: @conn, agenda: @event.event_agenda, is_ended: is_ended?(@event) %>
             </section>
           <% end %>
 

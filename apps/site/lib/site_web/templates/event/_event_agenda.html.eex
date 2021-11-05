@@ -4,7 +4,7 @@
       <li class="agenda-topic">
         <%= agenda_title(title) %>
         <div class="agenda-topic__content">
-          <%= agenda_video_bookmark(bookmark) %>
+          <%= if @is_ended, do: agenda_video_bookmark(bookmark) %>
           <%= if description do %>
             <%= Site.ContentRewriter.rewrite(description, @conn) %>
           <% end %>
