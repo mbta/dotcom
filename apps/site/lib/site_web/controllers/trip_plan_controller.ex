@@ -114,10 +114,10 @@ defmodule SiteWeb.TripPlanController do
   end
 
   defp get_route(link) do
-    if is_list(Enum.at(link.text, 0)) do
-      Enum.at(Enum.at(link.text, 0), 1)
+    if is_bitstring(link.text) do
+      link.text
     else
-      Enum.at(link.text, 0)
+      link.text |> List.to_string()
     end
   end
 
