@@ -11,9 +11,11 @@
           <%= agenda_title(title) %>
         <% end %>
 
+        <% more_content? = (Enum.any?(sub_topics) || @is_ended and not is_nil(bookmark) || has_description?(description)) %>
+        <%= if more_content? do %>
         <div class="agenda-topic__content">
           <%= if @is_ended, do: agenda_video_bookmark(bookmark) %>
-          <%= if description do %>
+          <%= if has_description?(description) do %>
             <%= Site.ContentRewriter.rewrite(description, @conn) %>
           <% end %>
 
@@ -22,7 +24,7 @@
               <%= for %CMS.Partial.Paragraph.AgendaSubTopic{description: sub_description, title: sub_title} <- sub_topics do %>
                 <li class="agenda-subtopic">
                   <%= agenda_title(sub_title, :h4) %>
-                  <%= if sub_description do %>
+                  <%= if has_description?(sub_description) do %>
                     <div class="agenda-topic__content">
                       <%= Site.ContentRewriter.rewrite(sub_description, @conn) %>
                     </div>
@@ -32,6 +34,7 @@
             </ol>
           <% end %>
         </div>
+        <% end %>
       </li>
     <% end %>
   </ol>

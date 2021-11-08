@@ -53,7 +53,6 @@
 
 $bullet-size: 32px / $font-size-base-xxl * $base-spacing; // 32px on large viewport
 $separator-border: solid 1px $gray-lightest;
-$agenda-row-gap: $base-spacing * .25;
 $agenda-column-gap: $base-spacing * .75;
 
 %small-grey-font {
@@ -107,20 +106,32 @@ $agenda-column-gap: $base-spacing * .75;
     .agenda-topic,
     .agenda-subtopic {
       border-top: $separator-border;
+      column-gap: $agenda-column-gap;
       display: grid;
-      gap: $agenda-row-gap $agenda-column-gap;
       grid-template: auto auto / $bullet-size 1fr;
       padding: $base-spacing * .75 0 $base-spacing;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
     }
   }
 
   .agenda-topic__title {
     grid-area: 1 / 2 / 2 / 3;
-    margin-top: 0;
+    margin: 0;
+
+    + .agenda-topic__content {
+      margin-top: $base-spacing * .5;
+    }
   }
 
   .agenda-topic__content {
     grid-area: 2 / 2 / 3 / 3;
+
+    :last-child {
+      margin-bottom: 0;
+    }
   }
 
   // top-level list
@@ -137,7 +148,7 @@ $agenda-column-gap: $base-spacing * .75;
 
   // second-level list
   .agenda-subtopics {
-    margin-top: $base-spacing * .75;
+    margin-top: $base-spacing * .125;
 
     // further nested content gets styled as small muted text
     p {
@@ -153,6 +164,8 @@ $agenda-column-gap: $base-spacing * .75;
   .agenda-subtopic {
     @include agenda-bullet($bg-color: $gray-bordered-background,
     $color: $gray, $counter: subCounter);
+
+    align-items: baseline;
   }
 
   .agenda-topic__timestamp {

@@ -221,4 +221,8 @@ defmodule SiteWeb.EventView do
       time
     end
   end
+
+  @spec has_description?(Phoenix.HTML.Safe.t()) :: boolean()
+  defp has_description?({:safe, content}), do: content != ""
+  defp has_description?(_), do: false
 end
