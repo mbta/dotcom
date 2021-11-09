@@ -54,4 +54,25 @@ defmodule V3Api.HeadersTest do
                {"x-api-key", "API_KEY"}
              ]
   end
+
+  test "adds experimental features header if application config is set" do
+    Application.put_env(:site, :enable_experimental_features, "true")
+
+    assert Headers.build("API_KEY",
+             url: "URL",
+             params: []
+           ) == [
+             {"x-enable-experimental-features", "true"},
+             {"x-api-key", "API_KEY"}
+           ]
+
+    Application.put_env(:site, :enable_experimental_features, nil)
+
+    assert Headers.build("API_KEY",
+             url: "URL",
+             params: []
+           ) == [
+             {"x-api-key", "API_KEY"}
+           ]
+  end
 end

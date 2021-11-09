@@ -44,7 +44,8 @@ config :site, :websocket_check_origin, [
 ]
 
 config :site,
-  dev_server?: false
+  dev_server?: false,
+  enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES"}
 
 # Do not print debug messages in production
 config :logger,
