@@ -151,7 +151,7 @@ $agenda-column-gap: $base-spacing * .75;
     margin-top: $base-spacing * .125;
 
     // further nested content gets styled as small muted text
-    p {
+    .agenda-topic__content {
       @extend %small-grey-font;
     }
 
