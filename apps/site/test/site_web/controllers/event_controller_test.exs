@@ -69,6 +69,7 @@ defmodule SiteWeb.EventControllerTest do
     end
   end
 
+  # setup similar test for mobile menu?
   @tag todo: "Replacing with events_hub_redesign"
   describe "GET show" do
     test "renders and does not rewrite an unaliased event response", %{conn: conn} do
@@ -137,6 +138,7 @@ defmodule SiteWeb.EventControllerTest do
     end
   end
 
+  # setup similar test for mobile menu?
   describe "GET show (events_hub_redesign)" do
     setup %{conn: conn} do
       conn = conn |> put_req_cookie("events_hub_redesign", "true")

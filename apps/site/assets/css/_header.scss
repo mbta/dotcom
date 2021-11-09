@@ -3,7 +3,7 @@
 .desktop-menu-nav {
   float: right;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: none;
   }
 
@@ -57,11 +57,11 @@
   padding-left: $base-spacing / 2;
   padding-right: $base-spacing / 2;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     padding: 0;
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     @include hover-focus-active {
       background-color: $brand-primary-lightest;
     }
@@ -70,10 +70,6 @@
 
 .nav-link-arrows {
   width: $base-spacing;
-
-  @include media-breakpoint-only(md) {
-    width: $base-spacing * .875;
-  }
 }
 
 .nav-search-icon {
@@ -135,14 +131,14 @@
   background-color: $brand-primary;
   color: $white;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     background-color: $body-bg;
     color: $body-color;
   }
 }
 
 .header-border {
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     border-bottom: $border;
   }
 }
@@ -150,11 +146,12 @@
 .header-navbar {
   // required for the mobile button to be vertically centered
   height: $header-navbar-height;
+  display: flex;
 }
 
 .navbar-logo {
   display: block;
-  float: left;
+  margin-right: auto;
 
   svg {
     display: block;
@@ -163,7 +160,7 @@
     // while adding space above and below inside the svg.
     width: $base-spacing * 12;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       g {
         fill: $white;
       }
@@ -201,7 +198,7 @@
   padding: 0;
   text-align: right;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     display: none;
   }
 }
@@ -211,7 +208,7 @@
   text-align: center;
   width: 100%;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     display: none;
 
     a {
@@ -245,4 +242,103 @@
   font-size: $font-size-h2;
   font-weight: bold;
   line-height: $headings-line-height;
+}
+
+nav.m-menu, .m-menu__toggle,
+.header-navbar .search {
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+.header-navbar {
+  .search {
+    @include media-breakpoint-only(xs) {
+      display: none;
+    }
+  }
+  .header-search__toggle {
+    @include media-breakpoint-up(sm) {
+      display: none;
+    }
+  }
+}
+nav.m-menu {
+  position: absolute;
+  z-index: $z-index-modal;
+}
+.m-menu__toggle::after {
+  background-color: $brand-primary-darkest;
+  content: "Menu"
+}
+.m-menu__cover {
+  background-color: rgba($black, .15);
+  height: 100%;
+  position: fixed;
+  top: $header-navbar-height;
+  width: 100%;
+  display: none;
+}
+
+.m-menu__content,
+.m-menu__search {
+  width: 0px;
+  transition: width .25s ease;
+  overflow-y: auto;
+  z-index: 1;
+  background-color: $brand-primary-darkest;
+  position: fixed;
+  top: $header-navbar-height;
+  &::-webkit-scrollbar {
+    display: none; /* Chrome */
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.m-menu__content {
+  bottom: 0
+}
+.m-menu__search {
+  bottom: auto;
+}
+.header-search__toggle .fa-close {
+  display: none;
+}
+
+header.header.menu-open {
+  .m-menu__cover {
+    display: unset;
+  }
+  .m-menu__content {
+    width: 220px;
+    @include media-breakpoint-only(xs) {
+      width: 100%;
+    }
+  }
+  .search {
+    display: none;
+  }
+  .header-search__toggle {
+    display: none;
+  }
+  .m-menu__toggle::after {
+    content: "Close"
+  }
+}
+
+header.header.search-open {
+  .m-menu__cover {
+    display: unset;
+  }
+  .m-menu__search {
+    width: 100%;
+  }
+  .m-menu__toggle {
+    display: none;
+  }
+  .fa-search {
+    display: none;
+  }
+  .fa-close {
+    display: unset;
+  }
 }
