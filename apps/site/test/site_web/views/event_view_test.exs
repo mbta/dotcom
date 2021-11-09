@@ -243,16 +243,14 @@ defmodule SiteWeb.EventViewTest do
     time2 = "12:13"
 
     assert safe_to_string(agenda_video_bookmark(time1)) =~
-             "<span class=\"agenda-topic__timestamp\"><time datetime=\"1h 2m 3s\">#{time1}</time>"
+             "<span class=\"agenda-topic__timestamp\"><time datetime=\"PT1H2M3S\">#{time1}</time>"
 
     assert safe_to_string(agenda_video_bookmark(time2)) =~
-             "<span class=\"agenda-topic__timestamp\"><time datetime=\"12m 13s\">#{time2}</time>"
+             "<span class=\"agenda-topic__timestamp\"><time datetime=\"PT12H13M\">#{time2}</time>"
   end
 
   test "agenda_video_bookmark/1 shows input text if not able to parse the time" do
     assert "" = agenda_video_bookmark(nil)
-
-    assert safe_to_string(agenda_video_bookmark("nonsense time")) =~
-             "<span class=\"agenda-topic__timestamp\">nonsense time"
+    assert "" = agenda_video_bookmark("nonsense time")
   end
 end
