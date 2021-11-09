@@ -76,7 +76,8 @@ config :site, :react,
   build_path: Path.join(File.cwd!(), "/apps/site/react_renderer/dist/app.js")
 
 config :site,
-  allow_indexing: false
+  allow_indexing: false,
+  enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES", "true"}
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
