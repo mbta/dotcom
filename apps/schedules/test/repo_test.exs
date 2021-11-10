@@ -148,7 +148,7 @@ defmodule Schedules.RepoTest do
 
     test "returns nil if there's an error" do
       mock_response = {:error, "could not connect to the API"}
-      assert trip("trip ID with an error", fn _ -> mock_response end) == nil
+      assert trip("trip ID with an error", fn _, _ -> mock_response end) == nil
     end
   end
 

@@ -93,7 +93,7 @@ defmodule Schedules.Repo do
 
   @spec trip(String.t(), trip_by_id_fn) :: Schedules.Trip.t() | nil
         when trip_by_id_fn: (String.t() -> JsonApi.t() | {:error, any})
-  def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/1)
+  def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/2)
 
   def trip("", _trip_fn) do
     # short circuit an known invalid trip ID

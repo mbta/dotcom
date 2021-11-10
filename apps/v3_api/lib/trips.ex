@@ -6,8 +6,8 @@ defmodule V3Api.Trips do
   """
   import V3Api
 
-  def by_id(id) do
-    get_json("/trips/" <> id)
+  def by_id(id, opts \\ []) do
+    get_json("/trips/" <> id, opts)
   end
 
   def by_route(route_id, opts \\ []) do
