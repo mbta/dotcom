@@ -218,7 +218,7 @@ defmodule SiteWeb.EventView do
         |> Timex.Duration.from_clock()
         |> Timex.Duration.to_string()
       rescue
-        e ->
+        _e ->
           nil
       end
 
