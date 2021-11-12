@@ -52,8 +52,15 @@
 }
 
 $bullet-size: 32px / $font-size-base-xxl * $base-spacing; // 32px on large viewport
-$bullet-space: $base-spacing * .75;
 $separator-border: solid 1px $gray-lightest;
+$agenda-column-gap: $base-spacing * .75;
+
+%small-grey-font {
+  color: $gray;
+  font-family: $font-family-base;
+  font-size: $font-size-base-sm;
+  font-weight: normal;
+}
 
 // adds a large round colored circle with number from counter
 @mixin agenda-bullet($bg-color: $gray, $color: $white,
@@ -80,91 +87,106 @@ $separator-border: solid 1px $gray-lightest;
 }
 
 .m-event__agenda {
-  // top level and second level topics
-  .agenda-topic,
-  .agenda-topics ol > li {
-    border-top: $separator-border;
-    padding: $base-spacing * .75 0 $base-spacing;
+  p {
+    line-height: $headings-line-height;
   }
 
-  // top-level topic
-  .agenda-topic {
-    @include agenda-bullet($counter: topicCounter, $counter-type: upper-alpha);
+  .agenda-topics,
+  .agenda-subtopics {
+    list-style: none;
+    padding-left: 0;
 
-    column-gap: $bullet-space;
-    display: grid;
-    grid-template: 'bullet title' auto
-                   '.      content' auto
-                   / $bullet-size auto;
-    row-gap: $base-spacing * .25;
+    // each agenda item lays out the content in a grid as follows
+    //    --------------------------------------------
+    //    | [bullet] |         [title]               |
+    //    --------------------------------------------
+    //    |          |  [description+ nested lists]  |
+    //    |          |  height adjusts to content    |
+    //    --------------------------------------------
+    .agenda-topic,
+    .agenda-subtopic {
+      border-top: $separator-border;
+      column-gap: $agenda-column-gap;
+      display: grid;
+      grid-template: auto auto / $bullet-size 1fr;
+      padding: $base-spacing * .75 0 $base-spacing;
 
-    ::before {
-      grid-area: bullet;
+      &:last-child {
+        padding-bottom: 0;
+      }
     }
+  }
 
-    &__title {
-      grid-area: title;
-      margin: 0;
+  .agenda-topic__title {
+    grid-area: 1 / 2 / 2 / 3;
+    margin: 0;
+
+    + .agenda-topic__content {
+      margin-top: $base-spacing * .5;
     }
+  }
 
-    &__details {
-      grid-area: content;
-      margin: 0;
-      padding: 0;
+  .agenda-topic__content {
+    grid-area: 2 / 2 / 3 / 3;
+
+    :last-child {
+      margin-bottom: 0;
     }
   }
 
   // top-level list
   .agenda-topics {
     counter-reset: topicCounter 0 subCounter 0;
-    padding-left: 0;
+    margin-top: $base-spacing * .75;
+  }
 
-    // second-level topics list
-    // the selectors here target markup fetched from the CMS, so
-    /* stylelint-disable max-nesting-depth */
-    ol {
-      list-style: none;
+  .agenda-topic {
+    @include agenda-bullet($counter: topicCounter, $counter-type: upper-alpha);
 
-      > li {
-        @include agenda-bullet($bg-color: $gray-bordered-background,
-                               $color: $gray, $counter: subCounter);
+    padding-bottom: 0;
+  }
 
-        align-items: first baseline;
-        font-family: $headings-font-family;
-        font-size: $font-size-h4;
-        font-weight: $headings-font-weight;
-        grid-area: content;
-        line-height: $headings-line-height;
-        position: relative;
+  // second-level list
+  .agenda-subtopics {
+    margin-top: $base-spacing * .125;
 
-        // this number is manually positioned instead of following grid
-        &::before {
-          font-size: 16px / $font-size-base-xxl * $base-spacing;
-          left: - $bullet-size - $bullet-space;
-          position: absolute;
-          top: math.div($headings-line-height, 2);
-        }
-
-        // add a bit of space before this list
-        &:first-of-type {
-          margin-top: .75em;
-        }
-      }
+    // further nested content gets styled as small muted text
+    .agenda-topic__content {
+      @extend %small-grey-font;
     }
-    /* stylelint-enable max-nesting-depth */
 
-    // further nested sub-lists get styled as small muted text
-    ul {
-      list-style: none;
-      padding-left: 0;
-      padding-top: $base-spacing * .25;
+    @include media-breakpoint-down(sm) {
+      // Nested items are aligned flush left with parent items in small display
+      margin-left: - $bullet-size - $agenda-column-gap;
+    }
+  }
 
-      li {
-        color: $gray;
-        font-family: $font-family-base;
-        font-size: $font-size-base-xs;
-        font-weight: normal;
-        line-height: 1.5;
+  .agenda-subtopic {
+    @include agenda-bullet($bg-color: $gray-bordered-background,
+    $color: $gray, $counter: subCounter);
+
+    align-items: baseline;
+  }
+
+  .agenda-topic__timestamp {
+    @extend %small-grey-font;
+    font-weight: bold;
+
+    &:not(:last-child) {
+      // hacky way of showing it "in" the first paragraph
+      margin-right: $base-spacing * .25;
+
+      // first paragraph
+      + p {
+        // display paragraph inline so text is adjacent to timestamp
+        display: inline;
+
+        // display:inline removes margin from the paragraph.
+        // to make up for that, add a top margin to the next element
+        /* stylelint-disable-next-line max-nesting-depth */
+        + * {
+          margin-top: 1em;
+        }
       }
     }
   }
