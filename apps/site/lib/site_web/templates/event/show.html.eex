@@ -5,7 +5,7 @@
 
   <%# if has_started?(@event) and not is_nil(@event.livestream_link) do %>
     <!-- TODO: Get appropriate video embed code
-    <iframe class="m-event__livestream" src="<%= @event.livestream_link.url %>" title="<%= @event.livestream_link.title %>"></iframe> -->
+    <%# <iframe class="m-event__livestream" src="<%# @event.livestream_link.url %>" title="<%# @event.livestream_link.title %>"></iframe> %> -->
   <%# end %>
 
   <div class="container m-event-details">
