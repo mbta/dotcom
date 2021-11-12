@@ -23,9 +23,11 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
             files: [],
             links: []
 
+  @type video_bookmark :: String.t() | nil
+
   @type t :: %__MODULE__{
           title: String.t(),
-          video_bookmark: String.t() | nil,
+          video_bookmark: video_bookmark,
           description: HTML.safe(),
           sub_topics: [AgendaSubTopic.t()],
           files: [File.t()],

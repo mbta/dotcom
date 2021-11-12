@@ -95,7 +95,8 @@ defmodule Schedules.ParserTest do
                headsign: "Alewife",
                id: "31562821",
                name: "",
-               bikes_allowed?: true
+               bikes_allowed?: true,
+               occupancy: nil
              }
     end
 
@@ -142,7 +143,17 @@ defmodule Schedules.ParserTest do
                   }
                 ],
                 "service" => [],
-                "vehicle" => []
+                "vehicle" => [],
+                "occupancies" => [
+                  %JsonApi.Item{
+                    attributes: %{
+                      "percentage" => 31,
+                      "status" => "MANY_SEATS_AVAILABLE"
+                    },
+                    id: "occupancy-1215",
+                    type: "occupancy"
+                  }
+                ]
               },
               type: "trip"
             }
@@ -156,7 +167,8 @@ defmodule Schedules.ParserTest do
                headsign: "North Station",
                id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
                name: "300",
-               bikes_allowed?: true
+               bikes_allowed?: true,
+               occupancy: :not_crowded
              }
     end
 
