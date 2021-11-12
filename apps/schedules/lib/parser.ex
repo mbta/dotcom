@@ -59,7 +59,8 @@ defmodule Schedules.Parser do
       direction_id: direction_id,
       bikes_allowed?: bikes_allowed?(attributes),
       route_pattern_id: route_pattern_id(relationships),
-      shape_id: shape_id(relationships)
+      shape_id: shape_id(relationships),
+      occupancy: occupancy(relationships)
     }
   end
 
@@ -84,7 +85,8 @@ defmodule Schedules.Parser do
       direction_id: direction_id,
       shape_id: shape_id(relationships),
       route_pattern_id: route_pattern_id(relationships),
-      bikes_allowed?: bikes_allowed?(attributes)
+      bikes_allowed?: bikes_allowed?(attributes),
+      occupancy: occupancy(relationships)
     }
   end
 
@@ -154,4 +156,18 @@ defmodule Schedules.Parser do
   @spec bikes_allowed?(map) :: boolean
   defp bikes_allowed?(%{"bikes_allowed" => 1}), do: true
   defp bikes_allowed?(_), do: false
+
+  @spec occupancy(any) :: Schedules.Trip.crowding() | nil
+  defp occupancy(%{
+         "occupancies" => [%JsonApi.Item{attributes: %{"status" => status}}]
+       }) do
+    case status do
+      "MANY_SEATS_AVAILABLE" -> :not_crowded
+      "FEW_SEATS_AVAILABLE" -> :some_crowding
+      "FULL" -> :crowded
+      _ -> nil
+    end
+  end
+
+  defp occupancy(_), do: nil
 end

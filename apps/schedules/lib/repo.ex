@@ -93,7 +93,7 @@ defmodule Schedules.Repo do
 
   @spec trip(String.t(), trip_by_id_fn) :: Schedules.Trip.t() | nil
         when trip_by_id_fn: (String.t() -> JsonApi.t() | {:error, any})
-  def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/1)
+  def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/2)
 
   def trip("", _trip_fn) do
     # short circuit an known invalid trip ID
@@ -108,7 +108,13 @@ defmodule Schedules.Repo do
   end
 
   defp fetch_trip(trip_id, trip_by_id_fn) do
-    case trip_by_id_fn.(trip_id) do
+    trip_opts =
+      case Util.config(:site, :enable_experimental_features) do
+        "true" -> [include: "occupancies"]
+        _ -> []
+      end
+
+    case trip_by_id_fn.(trip_id, trip_opts) do
       %JsonApi{} = response ->
         {:ok, Parser.trip(response)}
 
