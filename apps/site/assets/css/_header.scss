@@ -3,7 +3,7 @@
 .desktop-menu-nav {
   float: right;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: none;
   }
 
@@ -57,11 +57,11 @@
   padding-left: $base-spacing / 2;
   padding-right: $base-spacing / 2;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     padding: 0;
   }
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     @include hover-focus-active {
       background-color: $brand-primary-lightest;
     }
@@ -70,10 +70,6 @@
 
 .nav-link-arrows {
   width: $base-spacing;
-
-  @include media-breakpoint-only(md) {
-    width: $base-spacing * .875;
-  }
 }
 
 .nav-search-icon {
@@ -135,14 +131,14 @@
   background-color: $brand-primary;
   color: $white;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     background-color: $body-bg;
     color: $body-color;
   }
 }
 
 .header-border {
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     border-bottom: $border;
   }
 }
@@ -162,12 +158,6 @@
     // setting the width keeps the rendered logo proportional,
     // while adding space above and below inside the svg.
     width: $base-spacing * 12;
-
-    @include media-breakpoint-down(sm) {
-      g {
-        fill: $white;
-      }
-    }
   }
 }
 
@@ -201,7 +191,11 @@
   padding: 0;
   text-align: right;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-only(md) {
+    font-size: $font-size-base;
+  }
+
+  @include media-breakpoint-up(lg) {
     display: none;
   }
 }
@@ -211,7 +205,7 @@
   text-align: center;
   width: 100%;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     display: none;
 
     a {
