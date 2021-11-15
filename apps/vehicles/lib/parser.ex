@@ -50,7 +50,7 @@ defmodule Vehicles.Parser do
     nil
   end
 
-  @spec crowding(String.t()) :: Vehicle.crowding()
+  @spec crowding(String.t()) :: Vehicle.crowding() | nil
   defp crowding("MANY_SEATS_AVAILABLE"), do: :not_crowded
   defp crowding("FEW_SEATS_AVAILABLE"), do: :some_crowding
   defp crowding("FULL"), do: :crowded

@@ -113,6 +113,18 @@ defmodule SiteWeb.TripPlanController do
     end
   end
 
+  defp get_route(link) do
+    if is_bitstring(link.text) do
+      link.text
+    else
+      link.text |> List.to_string()
+    end
+  end
+
+  defp filter_duplicate_links(related_links) do
+    Enum.map(related_links, fn x -> Enum.uniq_by(x, fn y -> get_route(y) end) end)
+  end
+
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do
     query =
@@ -141,7 +153,9 @@ defmodule SiteWeb.TripPlanController do
       itinerary_maps:
         Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
       related_links:
-        Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
+        filter_duplicate_links(
+          Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper))
+        ),
       itinerary_row_lists: itinerary_row_lists
     )
   end

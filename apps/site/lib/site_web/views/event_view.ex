@@ -173,4 +173,63 @@ defmodule SiteWeb.EventView do
       "#{event_path(conn, :index, month: month, year: year)}##{month}-#{year}"
     end
   end
+
+  @spec agenda_title(String.t(), :h3 | :h4) :: Phoenix.HTML.Safe.t()
+  def agenda_title(title, tag_type \\ :h3)
+
+  def agenda_title(title, tag_type)
+      when not is_nil(title) do
+    content_tag(tag_type, [title], class: "agenda-topic__title")
+  end
+
+  def agenda_title(_, _), do: ""
+
+  @spec agenda_video_bookmark(CMS.Partial.Paragraph.AgendaTopic.video_bookmark()) ::
+          Phoenix.HTML.Safe.t()
+  def agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
+    # TODO: implement with event video livestream.
+    time_tag = maybe_time_duration_tag(bookmark)
+
+    if time_tag do
+      content_tag(:span, time_tag, class: "agenda-topic__timestamp")
+    else
+      ""
+    end
+  end
+
+  def agenda_video_bookmark(nil), do: ""
+
+  defp maybe_time_duration_tag(time) do
+    duration =
+      try do
+        time
+        # "02:30:10"
+        |> String.split(":")
+        # ["02", "30", "10"]
+        |> Enum.map(&String.to_integer(&1))
+        # [2, 30, 10]
+        |> Enum.concat(List.duplicate(0, 4))
+        # 4 arguments required for Timex.Duration.from_clock()
+        # so, we append with zeroes -> [2, 30, 10, 0, 0, 0, 0]
+        |> Enum.take(4)
+        # [2, 30, 10, 0]
+        |> List.to_tuple()
+        # {2, 30, 10, 0}
+        |> Timex.Duration.from_clock()
+        |> Timex.Duration.to_string()
+      rescue
+        _e ->
+          nil
+      end
+
+    if duration do
+      content_tag(:time, time, datetime: duration)
+    else
+      nil
+    end
+  end
+
+  @spec has_description?(Phoenix.HTML.Safe.t()) :: boolean()
+  defp has_description?({:safe, content}), do: content != ""
+  defp has_description?(_), do: false
 end

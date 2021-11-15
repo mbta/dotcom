@@ -3,6 +3,17 @@ defmodule V3Api.HeadersTest do
 
   use ExUnit.Case
 
+  setup do
+    enabled = Application.get_env(:site, :enable_experimental_features)
+    Application.put_env(:site, :enable_experimental_features, "false")
+
+    on_exit(fn ->
+      Application.put_env(:site, :enable_experimental_features, enabled)
+    end)
+
+    :ok
+  end
+
   test "always adds api header" do
     key_tuple =
       Headers.build("API_KEY", use_cache?: false) |> Enum.find(fn {k, _} -> k == "x-api-key" end)
@@ -53,5 +64,26 @@ defmodule V3Api.HeadersTest do
                {"if-modified-since", "LAST_MODIFIED"},
                {"x-api-key", "API_KEY"}
              ]
+  end
+
+  test "adds experimental features header if application config is set" do
+    Application.put_env(:site, :enable_experimental_features, "true")
+
+    assert Headers.build("API_KEY",
+             url: "URL",
+             params: []
+           ) == [
+             {"x-enable-experimental-features", "true"},
+             {"x-api-key", "API_KEY"}
+           ]
+
+    Application.put_env(:site, :enable_experimental_features, nil)
+
+    assert Headers.build("API_KEY",
+             url: "URL",
+             params: []
+           ) == [
+             {"x-api-key", "API_KEY"}
+           ]
   end
 end

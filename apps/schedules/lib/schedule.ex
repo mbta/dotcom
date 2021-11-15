@@ -70,11 +70,13 @@ defmodule Schedules.Trip do
     :direction_id,
     :shape_id,
     :route_pattern_id,
+    :occupancy,
     bikes_allowed?: false
   ]
 
   @type id_t :: String.t()
   @type headsign :: String.t()
+  @type crowding :: Vehicles.Vehicle.crowding()
   @type t :: %Schedules.Trip{
           id: id_t,
           name: String.t(),
@@ -82,7 +84,8 @@ defmodule Schedules.Trip do
           direction_id: 0 | 1,
           shape_id: Shape.id_t() | nil,
           route_pattern_id: RoutePattern.id_t() | nil,
-          bikes_allowed?: boolean
+          bikes_allowed?: boolean,
+          occupancy: crowding() | nil
         }
 end
 

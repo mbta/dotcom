@@ -2,7 +2,7 @@
   background-color: $brand-primary;
   display: block;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     border-top: 1px solid $brand-primary-light-contrast;
   }
 }
@@ -13,7 +13,7 @@
   margin-left: auto;
   margin-right: auto;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(lg) {
     border-left: 1px solid $brand-primary-light-contrast;
   }
 }
@@ -36,7 +36,7 @@
     text-decoration: none;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     min-height: $base-spacing * 3;
     padding: $base-spacing / 2;
 
@@ -51,7 +51,7 @@
   flex: 0 0 auto;
   margin-right: $base-spacing / 2;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: none;
   }
 }
@@ -69,5 +69,8 @@
   @include media-breakpoint-down(sm) {
     font-size: $font-size-base-sm;
     line-height: $base-spacing;
+  }
+  @include media-breakpoint-only(md) {
+    font-size: $font-size-base;
   }
 }

@@ -3,9 +3,10 @@
 
 <%= if Laboratory.enabled?(@conn, :events_hub_redesign) and (!is_nil(@event.registration_link) or !is_nil(@event.event_agenda)) do %>
 
-  <%= if has_started?(@event) and !is_nil(@event.livestream_link) do %>
-    <iframe class="m-event__livestream" src="<%= @event.livestream_link %>"></iframe>
-  <% end %>
+  <%# if has_started?(@event) and not is_nil(@event.livestream_link) do %>
+    <!-- TODO: Get appropriate video embed code
+    <%# <iframe class="m-event__livestream" src="<%# @event.livestream_link.url %>" title="<%# @event.livestream_link.title %>"></iframe> %> -->
+  <%# end %>
 
   <div class="container m-event-details">
     <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
@@ -27,7 +28,6 @@
           <div class="m-event-section">
             <h2 class="mt-0">Event Description</h2>
             <%= Site.ContentRewriter.rewrite(@event.body, @conn) %>
-
             <%= if has_related_files do %>
               <h3>Related Files</h3>
               <%= if @event.agenda_file do %>
@@ -74,16 +74,7 @@
           <%= if @event.event_agenda do %>
             <section class="m-event__agenda">
               <h2 class="mt-0">Agenda</h2>
-              <ol type="A" class="agenda-topics">
-                <%= for topic <- @event.event_agenda.topics do %>
-                  <li class="agenda-topic">
-                    <h3 class="agenda-topic__title"><%= topic.title %></h3>
-                    <div class="agenda-topic__details">
-                      <%= Site.ContentRewriter.rewrite(topic.description, @conn) %>
-                    </div>
-                  </li>
-                <% end %>
-              </ol>
+              <%= render "_event_agenda.html", conn: @conn, agenda: @event.event_agenda, is_ended: is_ended?(@event) %>
             </section>
           <% end %>
 

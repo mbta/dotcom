@@ -16,6 +16,7 @@ defmodule V3Api.Headers do
     |> api_key_header(api_key)
     |> proxy_headers()
     |> cache_headers(opts)
+    |> extra_headers()
   end
 
   @spec api_key_header(header_list, String.t() | nil) :: header_list
@@ -58,4 +59,17 @@ defmodule V3Api.Headers do
     |> cache_headers_fn.(params)
     |> Enum.reduce(headers, &[&1 | &2])
   end
+
+  @spec extra_headers(header_list) :: header_list
+  defp extra_headers(headers) do
+    Util.config(:site, :enable_experimental_features)
+    |> do_extra_headers(headers)
+  end
+
+  @spec do_extra_headers(boolean() | nil, header_list) :: header_list
+  defp do_extra_headers("true", headers) do
+    [{"x-enable-experimental-features", "true"} | headers]
+  end
+
+  defp do_extra_headers(_, headers), do: headers
 end

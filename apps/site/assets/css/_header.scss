@@ -159,12 +159,6 @@
     // setting the width keeps the rendered logo proportional,
     // while adding space above and below inside the svg.
     width: $base-spacing * 12;
-
-    @include media-breakpoint-down(md) {
-      g {
-        fill: $white;
-      }
-    }
   }
 }
 
@@ -197,6 +191,10 @@
   font-size: $font-size-base-sm;
   padding: 0;
   text-align: right;
+
+  @include media-breakpoint-only(md) {
+    font-size: $font-size-base;
+  }
 
   @include media-breakpoint-up(lg) {
     display: none;
