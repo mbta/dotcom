@@ -109,12 +109,16 @@ function _subwayRouteIcon(routeId) {
   return mapper[routeId];
 }
 
-function iconFromGTFSId(id) {
+function iconFromGTFSId(id, route_name) {
+  console.log("in the gtfs " + route_name);
   const toSubway = _subwayRouteIcon(id);
   if (toSubway) {
     return Icons.getFeatureIcon(toSubway);
   }
-  if (id === "Silver Line") return Icons.getFeatureIcon("bus");
+  if (route_name.startsWith('SL')) {
+    console.log("in the silver zone " + id);
+    return Icons.getFeatureIcon("silver_line");
+  }
   if (id in ["commuter_rail", "bus", "ferry"]) {
     return Icons.getFeatureIcon(id);
   }
@@ -124,18 +128,21 @@ function iconFromGTFSId(id) {
   return Icons.getFeatureIcon(id);
 }
 
-function iconsFromGTFSIds(id) {
+function iconsFromGTFSIds(id, route_name) {
+  // console.log(id); id for silver line is bus!
+  console.log(route_name);
   if (Array.isArray(id)) {
-    return id.map(icon => iconFromGTFSId(icon));
+    return id.map(icon => iconFromGTFSId(icon,route_name));
   }
-  return [iconFromGTFSId(id)];
+  return [iconFromGTFSId(id,route_name)];
 }
 
-export function iconFromGTFS(id, ancestry) {
+export function iconFromGTFS(id, ancestry, route_name) {
+  console.log("iconFromGTFS "+ route_name)
   if (!id) {
     return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-info" });
   }
-  let icons = iconsFromGTFSIds(id);
+  let icons = iconsFromGTFSIds(id, route_name);
   if (ancestry) {
     icons = [...new Set([...icons, ...iconsFromGTFSAncestry(ancestry)])];
   }
@@ -220,6 +227,7 @@ function getPopularIcon(icon) {
 }
 
 export function getIcon(hit, type) {
+  console.log("in getIcon " + hit._highlightResult.route.name.value);
   switch (type) {
     case "locations":
       return _contentIcon({ ...hit, _content_type: "locations" });
@@ -251,6 +259,7 @@ export function getIcon(hit, type) {
 }
 
 function getTransitIcons(hit) {
+  console.log("getTransitIcons " +hit);
   if (
     hit.related_transit_gtfs_id === null &&
     hit.related_transit_gtfs_ancestry == null
@@ -259,7 +268,8 @@ function getTransitIcons(hit) {
   }
   const icons = iconFromGTFS(
     hit.related_transit_gtfs_id,
-    hit.related_transit_gtfs_ancestry
+    hit.related_transit_gtfs_ancestry,
+    hit.highlightResult.route.name.value
   );
   if (Array.isArray(icons)) {
     return icons.join(" ");
