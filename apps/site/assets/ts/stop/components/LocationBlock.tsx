@@ -61,7 +61,7 @@ const LocationBlock = ({
     <div className="m-stop-page__location-links">
       <div className="m-stop-page__location-link">
         <a
-          href={directionLink(stop, encoder)}
+          href={`/stops/${stop.id}`}
           className="btn btn-primary"
           target="_blank"
           rel="noopener noreferrer"
