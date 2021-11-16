@@ -29,8 +29,7 @@ config :site, SiteWeb.Endpoint,
 
 config :site,
   dev_server?: true,
-  webpack_path: webpack_path,
-  enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES", "true"}
+  webpack_path: webpack_path
 
 # Watch static and templates for browser reloading.
 config :site, SiteWeb.Endpoint,
