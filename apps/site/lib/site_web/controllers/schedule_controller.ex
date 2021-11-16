@@ -12,13 +12,6 @@ defmodule SiteWeb.ScheduleController do
     )
   end
 
-  def show(%{query_params: %{"tab" => "trip-view"} = query_params} = conn, _params) do
-    tab_redirect(
-      conn,
-      trip_view_path(conn, :show, conn.assigns.route.id, Map.delete(query_params, "tab"))
-    )
-  end
-
   def show(%{query_params: %{"tab" => "line"} = query_params} = conn, _params) do
     tab_redirect(
       conn,

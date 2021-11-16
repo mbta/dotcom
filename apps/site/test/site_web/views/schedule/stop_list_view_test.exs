@@ -11,28 +11,6 @@ defmodule SiteWeb.StopListViewTest do
   alias SiteWeb.ScheduleView
   alias Stops.{RouteStop, Stop}
 
-  @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
-  @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
-  @route %Routes.Route{type: 3, id: "1"}
-  @prediction %Predictions.Prediction{
-    departing?: true,
-    direction_id: 0,
-    status: "On Time",
-    trip: @trip
-  }
-  @schedule %Schedules.Schedule{
-    route: @route,
-    trip: @trip,
-    stop: @stop
-  }
-  @vehicle %Vehicles.Vehicle{direction_id: 0, id: "1819", status: :stopped, route_id: @route.id}
-  @predicted_schedule %PredictedSchedule{prediction: @prediction, schedule: @schedule}
-  @trip_info %TripInfo{
-    route: @route,
-    vehicle: @vehicle,
-    vehicle_stop_name: @stop.name,
-    times: [@predicted_schedule]
-  }
   @assigns %{
     bubbles: [{nil, :terminus}],
     stop: %RouteStop{branch: nil, id: "stop", zone: "1", stop_features: []},
@@ -495,23 +473,6 @@ defmodule SiteWeb.StopListViewTest do
       assert display_map_link?(0) == false
       assert display_map_link?(3) == false
       assert display_map_link?(2) == false
-    end
-  end
-
-  describe "trip_link/4" do
-    test "trip link for non-matching trip", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert trip_link(conn, @trip_info, false, "2") == "/?trip=2#2"
-    end
-
-    test "trip link for matching, un-chosen stop", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert trip_link(conn, @trip_info, false, "1") == "/?trip=1#1"
-    end
-
-    test "trip link for matching, chosen stop", %{conn: conn} do
-      conn = %{conn | query_params: %{}}
-      assert trip_link(conn, @trip_info, true, "1") == "/?trip=#1"
     end
   end
 

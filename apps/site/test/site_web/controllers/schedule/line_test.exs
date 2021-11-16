@@ -740,14 +740,4 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert default_services = [%{id: "WinterWeekday1"}]
     end
   end
-
-  describe "line diagram endpoint" do
-    test "renders", %{conn: conn} do
-      conn =
-        conn
-        |> get(line_path(conn, :line_diagram_api, "39"))
-
-      assert html_response(conn, 200) =~ "Forest Hills"
-    end
-  end
 end

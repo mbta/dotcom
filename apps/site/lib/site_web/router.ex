@@ -146,7 +146,6 @@ defmodule SiteWeb.Router do
     get("/schedules/ferry", ModeController, :ferry)
     get("/schedules/commuter-rail", ModeController, :commuter_rail)
     get("/schedules/Green/line", ScheduleController.Green, :line)
-    get("/schedules/Green/schedule", ScheduleController.Green, :trip_view)
     get("/schedules/Green/alerts", ScheduleController.Green, :alerts)
     get("/schedules/Green", ScheduleController.Green, :show)
     get("/schedules/finder_api/journeys", ScheduleController.FinderApi, :journeys)
@@ -160,19 +159,8 @@ defmodule SiteWeb.Router do
       as: :timetable
     )
 
-    get(
-      "/schedules/:route/schedule",
-      ScheduleController.TripViewController,
-      :show,
-      as: :trip_view
-    )
-
     get("/schedules/:route/alerts", ScheduleController.AlertsController, :show, as: :alerts)
     get("/schedules/:route/line", ScheduleController.LineController, :show, as: :line)
-
-    get("/schedules/:route/line/diagram", ScheduleController.LineController, :line_diagram_api,
-      as: :line
-    )
 
     get("/schedules/:route", ScheduleController, :show, as: :schedule)
     get("/schedules/:route/pdf", ScheduleController.Pdf, :pdf, as: :route_pdf)

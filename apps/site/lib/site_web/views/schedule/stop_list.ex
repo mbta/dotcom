@@ -256,13 +256,4 @@ defmodule SiteWeb.ScheduleView.StopList do
   @spec display_map_link?(integer) :: boolean
   # only show for ferry
   def display_map_link?(type), do: type == 4
-
-  @spec trip_link(Plug.Conn.t(), TripInfo.t(), boolean, String.t()) :: String.t()
-  def trip_link(conn, trip_info, trip_chosen?, trip_id) do
-    if TripInfo.is_current_trip?(trip_info, trip_id) && trip_chosen? do
-      UrlHelpers.update_url(conn, trip: "") <> "#" <> trip_id
-    else
-      UrlHelpers.update_url(conn, trip: trip_id) <> "#" <> trip_id
-    end
-  end
 end

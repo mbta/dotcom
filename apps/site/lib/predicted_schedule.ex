@@ -384,37 +384,4 @@ defmodule PredictedSchedule do
         0
     end
   end
-
-  @doc """
-  Determines if the delay between a predicted and scheduled time are represented
-  as different minutes
-  """
-  @spec minute_delay?(PredictedSchedule.t() | nil) :: boolean
-  def minute_delay?(nil), do: false
-
-  def minute_delay?(%PredictedSchedule{schedule: schedule, prediction: prediction})
-      when is_nil(schedule) or is_nil(prediction) do
-    false
-  end
-
-  def minute_delay?(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
-    if prediction.time do
-      delay(ps) > 0 or schedule.time.minute != prediction.time.minute
-    else
-      false
-    end
-  end
-
-  @doc """
-  Replaces the stop for both predicted and schedule.
-  """
-  @spec put_stop(PredictedSchedule.t(), Stops.Stop.t()) :: PredictedSchedule.t()
-  def put_stop(
-        %PredictedSchedule{schedule: schedule, prediction: prediction} = predicted_schedule,
-        %Stops.Stop{} = stop
-      ) do
-    new_schedule = if schedule, do: %{schedule | stop: stop}, else: schedule
-    new_prediction = if prediction, do: %{prediction | stop: stop}, else: prediction
-    %{predicted_schedule | prediction: new_prediction, schedule: new_schedule}
-  end
 end

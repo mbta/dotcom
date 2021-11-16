@@ -238,17 +238,6 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
     assign(conn, :journeys, %JourneyList{journeys: journeys})
   end
 
-  defp assign_journeys_from_schedules_and_predictions(conn, schedules, predictions) do
-    journeys =
-      schedules
-      |> Enum.zip(predictions)
-      |> Enum.map(fn {schedule, prediction} ->
-        %Journey{departure: %PredictedSchedule{schedule: schedule, prediction: prediction}}
-      end)
-
-    assign(conn, :journeys, %JourneyList{journeys: journeys})
-  end
-
   test "does not assign a trip when trip is the empty string", %{conn: conn} do
     conn = conn_builder(conn, @schedules, trip: "")
     assert conn.assigns.trip_info == nil
@@ -415,89 +404,6 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
     for time <- conn.assigns.trip_info.times do
       assert PredictedSchedule.trip(time).id == "32893585"
     end
-  end
-
-  test "Default Trip id is an upcoming trip", %{conn: conn} do
-    schedules = [
-      %Schedule{
-        trip: %Trip{id: "long_trip"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: -10),
-        route: %Routes.Route{type: 1}
-      },
-      %Schedule{
-        trip: %Trip{id: "32893585"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 15),
-        route: %Routes.Route{type: 1}
-      },
-      %Schedule{
-        trip: %Trip{id: "not_in_schedule"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 20),
-        route: %Routes.Route{type: 1}
-      }
-    ]
-
-    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
-
-    conn =
-      %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
-      |> assign_journeys_from_schedules(schedules)
-      |> assign(:route, %Routes.Route{type: 1})
-      |> assign(:date, ~D[2017-02-10])
-      |> assign(:datetime, @time)
-      |> assign(:vehicle_locations, %{})
-      |> call(init)
-
-    assert TripInfo.is_current_trip?(conn.assigns.trip_info, "32893585")
-  end
-
-  test "Default Trip id is an upcoming trip, defers to prediction over schedule", %{conn: conn} do
-    # the long_trip is scheduled for 10 minutes ago
-    schedules = [
-      %Schedule{
-        trip: %Trip{id: "long_trip"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: -10),
-        route: %Routes.Route{type: 1}
-      },
-      %Schedule{
-        trip: %Trip{id: "32893585"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 15),
-        route: %Routes.Route{type: 1}
-      }
-    ]
-
-    # however, with delays the long_trip is predicted to arrive in one minute
-    predictions = [
-      %Prediction{
-        trip: %Trip{id: "long_trip"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 1),
-        route: %Routes.Route{type: 1}
-      },
-      %Prediction{
-        trip: %Trip{id: "32893585"},
-        stop: %Stop{},
-        time: Timex.shift(@time, minutes: 20),
-        route: %Routes.Route{type: 1}
-      }
-    ]
-
-    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: fn _ -> [] end)
-
-    conn =
-      %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
-      |> assign_journeys_from_schedules_and_predictions(schedules, predictions)
-      |> assign(:route, %Routes.Route{type: 1})
-      |> assign(:date, ~D[2017-02-10])
-      |> assign(:datetime, @time)
-      |> assign(:vehicle_locations, %{})
-      |> call(init)
-
-    assert TripInfo.is_current_trip?(conn.assigns.trip_info, "long_trip")
   end
 
   test "does assign trips for the subway if the date is today", %{conn: conn} do
