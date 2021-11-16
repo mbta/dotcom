@@ -22,7 +22,7 @@ const LiveCrowdingIcon = ({
       <TooltipWrapper
         tooltipText={
           isCommuterRail
-            ? `This train typically has <strong>${crCrowdingDescriptions(
+            ? `This train typically has<br /><strong>${crCrowdingDescriptions(
                 crowding
               )}</strong>`
             : `Currently <strong>${crowdingDescriptions(
