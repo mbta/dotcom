@@ -77,7 +77,7 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   def mode_icon(:silver_line, size) when size in [:default, :small] do
-    svg("icon-mode-bus-#{size}.svg")
+    svg("icon-silver-line-#{size}.svg")
   end
 
   @spec bw_circle_icon(integer, :default | :small) :: Phoenix.HTML.Safe.t()
