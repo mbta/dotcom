@@ -63,6 +63,11 @@
                 <% else %>
                   <div class="sr-only">Bicycles not allowed</div>
                 <% end %>
+                <%= Site.React.render("LiveCrowdingIcon", %{
+                  crowding: schedule.trip.occupancy,
+                  tooltipPlacement: "top",
+                  isCommuterRail: true
+                }) %>
               </td>
             <% end %>
           </tr>

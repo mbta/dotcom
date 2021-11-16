@@ -327,6 +327,10 @@ a {
   &--not_crowded {
     color: $crowding-not-crowded;
 
+    &.commuter-rail {
+      color: $gray-dark;
+    }
+
     .person-left {
       fill: currentColor;
     }
@@ -334,6 +338,10 @@ a {
 
   &--some_crowding {
     color: $crowding-some-crowding;
+
+    &.commuter-rail {
+      color: $gray-dark;
+    }
 
     .person-left,
     .person-middle {
@@ -343,6 +351,10 @@ a {
 
   &--crowded {
     color: $crowding-crowded;
+
+    &.commuter-rail {
+      color: $gray-dark;
+    }
 
     .person {
       fill: currentColor;
