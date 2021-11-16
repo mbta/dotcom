@@ -32,18 +32,10 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
   const encodedAddress = window.encodeURIComponent(data.stop.address!);
   const latLng = `${data.stop.latitude},${data.stop.longitude}`;
   expect(
-    shallow(
-      <LocationBlock
-        routes={[]}
-        stop={data.stop}
-        streetViewUrl={null}
-      />
-    )
+    shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(
-    `/trip-planner/to/south-station`
-  );
+  ).toEqual(`/trip-planner/to/south-station`);
 
   expect(
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
