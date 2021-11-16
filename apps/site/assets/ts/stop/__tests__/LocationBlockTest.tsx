@@ -17,7 +17,6 @@ it("renders", () => {
       <LocationBlock
         routes={data.routes}
         stop={data.stop}
-        encoder={window.encodeURIComponent}
         streetViewUrl={null}
       />
     )
@@ -37,21 +36,20 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
       <LocationBlock
         routes={[]}
         stop={data.stop}
-        encoder={window.encodeURIComponent}
         streetViewUrl={null}
       />
     )
       .find(".btn.btn-primary")
       .prop("href")
   ).toEqual(
-    `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`
+    `/trip-planner/to/south-station`
   );
 
   expect(
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(`https://www.google.com/maps/dir/?api=1&destination=${latLng}`);
+  ).toEqual(`/trip-planner/to/south-station`);
 });
 
 it("falls back to municipality if stop has no address", () => {

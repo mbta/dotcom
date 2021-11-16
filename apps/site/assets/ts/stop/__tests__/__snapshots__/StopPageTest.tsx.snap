@@ -343,7 +343,7 @@ Array [
               >
                 <a
                   className="btn btn-primary"
-                  href="https://www.google.com/maps/dir/?api=1&destination=42.352271,-71.055242"
+                  href="/trip-planner/to/south-station"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

@@ -107,7 +107,6 @@ export default ({
                   <LocationBlock
                     stop={stop}
                     routes={routes}
-                    encoder={encoder}
                     streetViewUrl={streetViewUrl}
                   />
                   <Departures
