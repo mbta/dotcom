@@ -1,6 +1,4 @@
-<%= if !Laboratory.enabled?(@conn, :nav_redesign) do %>
-  <%= render "_secondary_nav.html", conn: @conn %>
-<% end %>
+<%= render "_secondary_nav.html", conn: @conn %>
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
   <div class="container">

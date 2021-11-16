@@ -1,51 +1,22 @@
-<%= if Laboratory.enabled?(@conn, :nav_redesign) do %>
-  <!-- New nav -->
-  <nav class="m-menu" id="navmenu">
-    <div class="m-menu__cover"></div>
-    <!-- Do we need to use ul for access? -->
-    <!-- Remove styles in favor of classes -->
-    <div class="m-menu__content">
-      <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- nav_link_content_redesign(@conn) do %>
-        <div class="font-small" style="color:white;"><%= menu_section %></div>
-        <%= for %{sub_menu_section: sub_menu_section} = sub_menu <- sub_menus do %>
-          <div class="heading-4" style="color:white;"><%= sub_menu_section %></div>
-          <%= if Map.has_key?(sub_menu, :links) do %>
-            <div style="background:#e2ecf9;">
-              <%= for {link_name, href, link_host} <- Map.get(sub_menu, :links) do %>
-                <% icon = if link_host === :external_link, do: fa("external-link"), else: "" %>
-                <%= link to: href, do: [content_tag(:div, link_name ), icon] %>
-              <% end %>
-            </div>
-          <% end %>
-        <% end %>
+<nav class="collapse row" id="navbar" role="navigation">
+  <ul class="mobile-nav">
+    <li class="mobile-nav-item search-mobile">
+      <%= Phoenix.HTML.Link.link to: search_path(@conn, :index), class: "mobile-nav-link" do %>
+        <span class="mobile-nav-item-header">
+          <%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
+          <%= svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %> <span>Search</span>
+        </span>
       <% end %>
-    </div>
-    <div class="m-menu__search">
-      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more"  %>
-    </div>
-  </nav>
-<% else %>
-  <!-- Old nav -->
-  <nav class="collapse row" id="navbar" role="navigation">
-    <ul class="mobile-nav">
-      <li class="mobile-nav-item search-mobile">
-        <%= Phoenix.HTML.Link.link to: search_path(@conn, :index), class: "mobile-nav-link" do %>
-          <span class="mobile-nav-item-header">
-            <%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
-            <%= svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %> <span>Search</span>
-          </span>
-        <% end %>
+    </li>
+    <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
+      <li class="mobile-nav-item">
+        <%=
+          link to: href, class: "mobile-nav-link" do [
+            content_tag(:span, bold_if_active(@conn, href, name), class: "mobile-nav-item-header"),
+            content_tag(:p, description, class: "mobile-nav-description")
+          ] end
+        %>
       </li>
-      <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
-        <li class="mobile-nav-item">
-          <%=
-            link to: href, class: "mobile-nav-link" do [
-              content_tag(:span, bold_if_active(@conn, href, name), class: "mobile-nav-item-header"),
-              content_tag(:p, description, class: "mobile-nav-description")
-            ] end
-          %>
-        </li>
-      <% end %>
-    </ul>
-  </nav>
-<% end %>
+    <% end %>
+  </ul>
+</nav>

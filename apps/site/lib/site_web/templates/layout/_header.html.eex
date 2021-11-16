@@ -1,57 +1,34 @@
-<%= if Laboratory.enabled?(@conn, :nav_redesign) do %>
-  <header class="header<%= unless assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
-    <div class="container">
-      <div class="header-navbar">
-        <button class="m-menu__toggle" type="button"></button>
-        <a class="navbar-logo" href="/">
-          <span class="sr-only">MBTA Home Page</span>
-          <div class="svg-container" aria-hidden="true">
-            <%= svg "mbta-logo.svg" %>
-          </div>
-        </a>
-        <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more"  %>
-        <button class="header-search__toggle" type="button">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          <i class="fa fa-close" aria-hidden="true"></i> 
-        </button>
-        <%= render "_nav_desktop.html", assigns %>
-      </div>
-    </div>
-    <%= render "_nav_mobile.html", assigns %>
-  </header>
-<% else %>
-  <header class="header<%= unless assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
-    <div class="container">
-      <div class="header-navbar">
-        <a class="navbar-logo" href="/">
-          <span class="sr-only">MBTA Home Page</span>
-          <div class="svg-container" aria-hidden="true">
-            <%= svg "mbta-logo.svg" %>
-          </div>
-        </a>
-        <span id="custom-language-button-mobile">
-          <button id="custom-language-selector-mobile" tabindex="0" class="u-pointer navbar-toggle-moble--language navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#languageMenuMobile">
-            <div class="nav-link-content js-header-link__content">
-              <span class="nav-link-name notranslate">
-                <i class="fa fa-globe" aria-hidden="true"></i> EN
-              </span>
-              <div class="nav-link-arrows js-header-link__carets"></div>
-            </div>
-          </button>
-        </span>
-        <button class="navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
-          <span class="nav-link-content">
-            <span class="nav-link-name">Menu</span>
-            <span class="nav-link-arrows">
-              <%= fa "angle-down", class: "down" %>
-              <%= fa "angle-up", class: "up" %>
+<header class="header<%= unless assigns[:page] == ~s(pageview index-template) do %> header-border<% end %>">
+  <div class="container">
+    <div class="header-navbar">
+      <a class="navbar-logo" href="/">
+        <span class="sr-only">MBTA Home Page</span>
+        <div class="svg-container" aria-hidden="true">
+          <%= svg "mbta-logo.svg" %>
+        </div>
+      </a>
+      <span id="custom-language-button-mobile">
+        <button id="custom-language-selector-mobile" tabindex="0" class="u-pointer navbar-toggle-moble--language navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#languageMenuMobile">
+          <div class="nav-link-content js-header-link__content">
+            <span class="nav-link-name notranslate">
+              <i class="fa fa-globe" aria-hidden="true"></i> EN
             </span>
-          </span>
+            <div class="nav-link-arrows js-header-link__carets"></div>
+          </div>
         </button>
-        <%= render "_nav_desktop.html", assigns %>
-      </div>
-      <div id="custom-language-menu-mobile"></div>
-      <%= render "_nav_mobile.html", assigns %>
+      </span>
+      <button class="navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="nav-link-content">
+          <span class="nav-link-name">Menu</span>
+          <span class="nav-link-arrows">
+            <%= fa "angle-down", class: "down" %>
+            <%= fa "angle-up", class: "up" %>
+          </span>
+        </span>
+      </button>
+      <%= render "_nav_desktop.html", assigns %>
     </div>
-  </header>
-<% end %>
+    <div id="custom-language-menu-mobile"></div>
+    <%= render "_nav_mobile.html", assigns %>
+  </div>
+</header>

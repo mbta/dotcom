@@ -264,10 +264,6 @@ nav.m-menu {
   position: absolute;
   z-index: $z-index-modal;
 }
-.m-menu__toggle::after {
-  background-color: $brand-primary-darkest;
-  content: "Menu"
-}
 .m-menu__cover {
   background-color: rgba($black, .15);
   height: 100%;
@@ -280,6 +276,7 @@ nav.m-menu {
 .m-menu__content,
 .m-menu__search {
   width: 0px;
+  white-space: nowrap;
   transition: width .25s ease;
   overflow-y: auto;
   z-index: 1;
@@ -317,9 +314,6 @@ header.header.menu-open {
   }
   .header-search__toggle {
     display: none;
-  }
-  .m-menu__toggle::after {
-    content: "Close"
   }
 }
 
