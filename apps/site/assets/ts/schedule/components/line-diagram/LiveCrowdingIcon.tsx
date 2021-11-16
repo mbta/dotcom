@@ -1,6 +1,9 @@
 import React from "react";
 import { TooltipWrapper, crowdingIcon } from "../../../helpers/icon";
-import { crowdingDescriptions, crCrowdingDescriptions } from "../../../models/vehicle";
+import {
+  crowdingDescriptions,
+  crCrowdingDescriptions
+} from "../../../models/vehicle";
 import { CrowdingType } from "../__schedule";
 
 interface LiveCrowdingIconProps {
@@ -9,21 +12,34 @@ interface LiveCrowdingIconProps {
   isCommuterRail?: boolean;
 }
 
-const LiveCrowdingIcon = ({ crowding, tooltipPlacement, isCommuterRail }: LiveCrowdingIconProps): JSX.Element => (
+const LiveCrowdingIcon = ({
+  crowding,
+  tooltipPlacement,
+  isCommuterRail
+}: LiveCrowdingIconProps): JSX.Element => (
   <div className="m-schedule-diagram__prediction-crowding">
     {crowding ? (
       <TooltipWrapper
-        tooltipText={ isCommuterRail ?
-          `This train typically has <strong>${crCrowdingDescriptions(crowding)}</strong>`
-          : `Currently <strong>${crowdingDescriptions(crowding).toLowerCase()}</strong>`
+        tooltipText={
+          isCommuterRail
+            ? `This train typically has <strong>${crCrowdingDescriptions(
+                crowding
+              )}</strong>`
+            : `Currently <strong>${crowdingDescriptions(
+                crowding
+              ).toLowerCase()}</strong>`
         }
         tooltipOptions={{
-          placement: tooltipPlacement ? tooltipPlacement : "left",
+          placement: tooltipPlacement || "left",
           animation: false,
           html: true
         }}
       >
-        {crowdingIcon(`c-icon__crowding--${crowding} ${isCommuterRail ? 'commuter-rail' : ''}`)}
+        {crowdingIcon(
+          `c-icon__crowding--${crowding} ${
+            isCommuterRail ? "commuter-rail" : ""
+          }`
+        )}
       </TooltipWrapper>
     ) : (
       crowdingIcon("c-icon__crowding--crowding_unavailable")
