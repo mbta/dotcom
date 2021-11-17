@@ -9,14 +9,14 @@
   flag_stop = "Passengers must tell " <> (if is_ferry(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
     must be visible on the platform for the " <> mode_name <> " to stop."
   cr_crowding = [
-    "Crowding levels are based on average train occupancy within the last month.",
-    content_tag(:p, "Current Commuter Rail crowding thresholds are: ", class: "u-padding-top"),
+    "Commuter Rail seat availability is regularly updated to reflect a trip’s typical ridership based on automated and conductor data from the past 14-30 days.",
+    content_tag(:p, "Current seat availability thresholds are:", class: "u-padding-top"),
     content_tag(:div,
       [
         content_tag(:span, svg("icon-crowding.svg"), class: "c-svg__icon c-icon__crowding c-icon__crowding--not_crowded c-icon__crowding--commuter-rail"),
         content_tag(:p, [
-          content_tag(:strong, "Not Crowded"),
-          content_tag(:span, ": Typically less than 33% occupied")
+          content_tag(:strong, "Many Seats Available"),
+          content_tag(:span, ": Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)")
         ])
       ],
       class: "m-schedule-icon-key__crowding-row"
@@ -25,8 +25,8 @@
       [
         content_tag(:span, svg("icon-crowding.svg"), class: "c-svg__icon c-icon__crowding c-icon__crowding--some_crowding c-icon__crowding--commuter-rail"),
         content_tag(:p, [
-          content_tag(:strong, "Some Crowding"),
-          content_tag(:span, ": Typically less than 66% occupied")
+          content_tag(:strong, "Some Seats Available"),
+          content_tag(:span, ": Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)")
         ])
       ],
       class: "m-schedule-icon-key__crowding-row"
@@ -35,8 +35,8 @@
       [
         content_tag(:span, svg("icon-crowding.svg"), class: "c-svg__icon c-icon__crowding c-icon__crowding--crowded c-icon__crowding--commuter-rail"),
         content_tag(:p, [
-          content_tag(:strong, "Crowded"),
-          content_tag(:span, ": Typically more than 66% occupied")
+          content_tag(:strong, "Few Seats Available"),
+          content_tag(:span, ": Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)")
         ])
       ],
       class: "m-schedule-icon-key__crowding-row"
