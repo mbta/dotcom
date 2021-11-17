@@ -109,13 +109,10 @@ function _subwayRouteIcon(routeId) {
   return mapper[routeId];
 }
 
-function iconFromGTFSId(id, route_name) {
+function iconFromGTFSId(id) {
   const toSubway = _subwayRouteIcon(id);
   if (toSubway) {
     return Icons.getFeatureIcon(toSubway);
-  }
-  if (route_name.startsWith('SL')) {
-    return Icons.getFeatureIcon("silver_line");
   }
   if (id in ["commuter_rail", "bus", "ferry"]) {
     return Icons.getFeatureIcon(id);
@@ -126,18 +123,18 @@ function iconFromGTFSId(id, route_name) {
   return Icons.getFeatureIcon(id);
 }
 
-function iconsFromGTFSIds(id, route_name) {
+function iconsFromGTFSIds(id) {
   if (Array.isArray(id)) {
-    return id.map(icon => iconFromGTFSId(icon,route_name));
+    return id.map(icon => iconFromGTFSId(icon));
   }
-  return [iconFromGTFSId(id,route_name)];
+  return [iconFromGTFSId(id)];
 }
 
-export function iconFromGTFS(id, ancestry, route_name) {
+export function iconFromGTFS(id, ancestry) {
   if (!id) {
     return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-info" });
   }
-  let icons = iconsFromGTFSIds(id, route_name);
+  let icons = iconsFromGTFSIds(id);
   if (ancestry) {
     icons = [...new Set([...icons, ...iconsFromGTFSAncestry(ancestry)])];
   }
@@ -202,13 +199,13 @@ function _iconFromRoute(route) {
       return "commuter_rail";
 
     case 3:
+      if (route.name.startsWith("SL")) {
+        return "silver_line";
+      }
       return "bus";
 
     case 4:
       return "ferry";
-
-    case 5:
-      return "silver_line";
 
     default:
       return _subwayRouteIcon(route.id);
