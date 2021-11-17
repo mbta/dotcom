@@ -69,9 +69,7 @@ export default function($ = window.jQuery) {
 
     // Esc key closes
     document.body.addEventListener("keydown", (e) => {
-      if (e.key == 'Escape') {
-        closeMenus();
-      }
+      handleNativeEscapeKeyPress(e, closeMenus);
     })
   }
   
