@@ -41,17 +41,15 @@
     "vehicles": [
       {
         "id": "veh1",
-        "headsign": "Dest1",
         "status": "incoming",
-        "trip_name": "",
-        "crowding": null
+        "crowding": null,
+        "tooltip": "tooltip for vehicle 1 at stop 1"
       },
       {
         "id": "veh2",
-        "headsign": null,
         "status": "in_transit",
-        "trip_name": "",
-        "crowding": null
+        "crowding": null,
+        "tooltip": "tooltip for vehicle 2 at stop 1"
       }
     ]
   },
@@ -79,10 +77,9 @@
     "vehicles": [
       {
         "id": "veh3",
-        "headsign": "Dest2",
         "status": "in_transit",
-        "trip_name": "",
-        "crowding": null
+        "crowding": null,
+        "tooltip": "tooltip for vehicle 3 at stop 2"
       }
     ]
   }

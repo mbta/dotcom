@@ -7,17 +7,17 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
       <Diagram lineDiagram={{...}} liveData={{...}}>
         <LiveVehicleIconSet stop={{...}} liveData={{...}} />
         <LiveVehicleIconSet stop={{...}} liveData={{...}}>
-          <VehicleIcons stop={{...}} vehicles={{...}} headsigns={{...}}>
+          <VehicleIcons stop={{...}} vehicles={{...}}>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
-                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\">
+              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 1 at stop 1</div>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 1 at stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 1 at stop 1</div>\\">
                   <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
               </TooltipWrapper>
             </div>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" tooltipOptions={{...}}>
-                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\">
+              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 2 at stop 1</div>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 2 at stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 2 at stop 1</div>\\">
                   <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
               </TooltipWrapper>
@@ -25,10 +25,10 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
           </VehicleIcons>
         </LiveVehicleIconSet>
         <LiveVehicleIconSet stop={{...}} liveData={{...}}>
-          <VehicleIcons stop={{...}} vehicles={{...}} headsigns={{...}}>
+          <VehicleIcons stop={{...}} vehicles={{...}}>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
-                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\">
+              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 3 at stop 2</div>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 3 at stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">tooltip for vehicle 3 at stop 2</div>\\">
                   <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
               </TooltipWrapper>

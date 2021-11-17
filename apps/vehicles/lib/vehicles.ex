@@ -1,11 +1,6 @@
 defmodule Vehicles do
   use Application
 
-  @api_params [
-    "fields[vehicle]": "direction_id,current_status,longitude,latitude,bearing,occupancy_status",
-    include: "stop,trip"
-  ]
-
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -41,8 +36,8 @@ defmodule Vehicles do
     sses_opts =
       V3Api.Stream.build_options(
         name: Vehicles.Api.SSES,
-        path: "/vehicles",
-        params: @api_params
+        path:
+          "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status"
       )
 
     [
