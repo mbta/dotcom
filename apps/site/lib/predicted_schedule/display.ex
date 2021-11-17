@@ -30,43 +30,4 @@ defmodule PredictedSchedule.Display do
 
   defp format_time_difference(diff, _, _, _),
     do: [Integer.to_string(diff), " ", "min"]
-
-  @doc """
-
-  Returns the headsign for the PredictedSchedule.  The headsign is generally
-  the destination of the train: what's displayed on the front of the
-  bus/train.
-
-  """
-  @spec headsign(PredictedSchedule.t()) :: String.t()
-  def headsign(%PredictedSchedule{schedule: nil, prediction: nil}) do
-    ""
-  end
-
-  def headsign(%PredictedSchedule{} = ps) do
-    case PredictedSchedule.trip(ps) do
-      nil -> ps |> PredictedSchedule.route() |> do_route_headsign(ps.prediction.direction_id)
-      trip -> trip.headsign
-    end
-  end
-
-  defp do_route_headsign(%Routes.Route{id: "Green-B"}, 0) do
-    "Boston College"
-  end
-
-  defp do_route_headsign(%Routes.Route{id: "Green-C"}, 0) do
-    "Cleveland Circle"
-  end
-
-  defp do_route_headsign(%Routes.Route{id: "Green-D"}, 0) do
-    "Riverside"
-  end
-
-  defp do_route_headsign(%Routes.Route{id: "Green-E"}, 0) do
-    "Heath Street"
-  end
-
-  defp do_route_headsign(_, _) do
-    ""
-  end
 end

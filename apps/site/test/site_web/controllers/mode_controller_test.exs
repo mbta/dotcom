@@ -12,26 +12,6 @@ defmodule SiteWeb.ModeControllerTest do
     end
   end
 
-  describe "Predictions API" do
-    test "Returns a list of predictions", %{conn: conn} do
-      path =
-        mode_path(conn, :predictions_api,
-          id: "1",
-          origin_stop: 59,
-          direction_id: 1
-        )
-
-      assert path == "/schedules/predictions_api?id=1&origin_stop=59&direction_id=1"
-
-      response =
-        conn
-        |> get(path)
-        |> json_response(200)
-
-      assert is_list(response)
-    end
-  end
-
   describe "Recently Visited" do
     test "/subway doesn't show recently visited routes", %{conn: conn} do
       conn =
