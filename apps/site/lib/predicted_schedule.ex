@@ -324,28 +324,6 @@ defmodule PredictedSchedule do
   defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}),
     do: {2, schedule.stop_sequence, to_unix(schedule.time)}
 
-  def sort_with_status(%PredictedSchedule{
-        schedule: _schedule,
-        prediction: %Prediction{time: nil, status: status}
-      })
-      when not is_nil(status) do
-    {0, status_order(status)}
-  end
-
-  def sort_with_status(predicted_schedule),
-    do: {1, predicted_schedule |> time |> to_unix()}
-
-  @spec status_order(String.t()) :: non_neg_integer | :sort_max
-  defp status_order("Boarding"), do: 0
-  defp status_order("Approaching"), do: 1
-
-  defp status_order(status) do
-    case Integer.parse(status) do
-      {num, _stops_away} -> num + 1
-      _ -> :sort_max
-    end
-  end
-
   defp to_unix(%DateTime{} = time) do
     DateTime.to_unix(time)
   end

@@ -540,14 +540,4 @@ defmodule PredictedScheduleTest do
              })
     end
   end
-
-  describe "sort_with_status/1" do
-    test "predicted schedule with status gets higher priority" do
-      ps1 = %PredictedSchedule{prediction: %Prediction{status: "3 stops away"}}
-      ps2 = %PredictedSchedule{prediction: %Prediction{status: "Approaching"}}
-      ps3 = %PredictedSchedule{prediction: %Prediction{time: @base_time}}
-      ps4 = %PredictedSchedule{schedule: %Schedule{time: Timex.shift(@base_time, minutes: -10)}}
-      assert Enum.sort_by([ps1, ps2, ps3, ps4], &sort_with_status/1) == [ps2, ps1, ps4, ps3]
-    end
-  end
 end
