@@ -323,11 +323,16 @@ a {
   height: $base-spacing;
   line-height: $base-spacing;
   width: $base-spacing;
+  margin-left: .5rem;
+
+  &.c-icon__crowding--commuter-rail {
+    margin-left: 0;
+  }
 
   &--not_crowded {
     color: $crowding-not-crowded;
 
-    &.commuter-rail {
+    &.c-icon__crowding--commuter-rail {
       color: $gray-dark;
     }
 
@@ -339,7 +344,7 @@ a {
   &--some_crowding {
     color: $crowding-some-crowding;
 
-    &.commuter-rail {
+    &.c-icon__crowding--commuter-rail {
       color: $gray-dark;
     }
 
@@ -352,7 +357,7 @@ a {
   &--crowded {
     color: $crowding-crowded;
 
-    &.commuter-rail {
+    &.c-icon__crowding--commuter-rail {
       color: $gray-dark;
     }
 

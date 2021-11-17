@@ -37,7 +37,7 @@ const LiveCrowdingIcon = ({
       >
         {crowdingIcon(
           `c-icon__crowding--${crowding} ${
-            isCommuterRail ? "commuter-rail" : ""
+            isCommuterRail ? "c-icon__crowding--commuter-rail" : ""
           }`
         )}
       </TooltipWrapper>

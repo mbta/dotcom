@@ -129,12 +129,6 @@
   }
 }
 
-.m-timetable__table {
-  [class*='c-svg__icon'] {
-    position: static;
-  }
-}
-
 .m-timetable__stop-name {
   @include icon-size-inline(1em);
   align-items: center;
@@ -232,6 +226,9 @@
 
 .m-timetable__header-cell {
   background: $brand-primary-lightest-contrast;
+  :nth-child(3) {
+    margin-left: 0.5rem;
+  }
 }
 
 .m-timetable__cell--first-column-header {
