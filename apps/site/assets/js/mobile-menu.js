@@ -10,7 +10,7 @@
 export default function($ = window.jQuery) {
 
   function setupMobileMenu() {
-    const htmlElement = document.getElementsByTagName("html")[0];
+    const htmlElement = document.documentElement;
     const menuButton = document.querySelector("button.m-menu__toggle");
     const searchButton = document.querySelector("button.header-search__toggle");
     const veil = document.querySelector(".m-menu__cover");
