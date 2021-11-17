@@ -114,7 +114,7 @@ function iconFromGTFSId(id) {
   if (toSubway) {
     return Icons.getFeatureIcon(toSubway);
   }
-  if (id in ["commuter_rail", "bus", "ferry"]) {
+  if (id in ["commuter_rail", "bus", "ferry", "silver_line"]) {
     return Icons.getFeatureIcon(id);
   }
   if (id.includes("CR-")) {
@@ -261,8 +261,7 @@ function getTransitIcons(hit) {
   }
   const icons = iconFromGTFS(
     hit.related_transit_gtfs_id,
-    hit.related_transit_gtfs_ancestry,
-    hit._highlightResult.route.name.value
+    hit.related_transit_gtfs_ancestry
   );
   if (Array.isArray(icons)) {
     return icons.join(" ");
