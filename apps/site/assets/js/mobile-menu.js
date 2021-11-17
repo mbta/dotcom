@@ -6,6 +6,7 @@
 // - pass focus from toggle button to first accordion item
 // - reset scroll on menu content when menu is closed
 // - menu can be closed by pressing esc key or veil-click
+import { handleNativeEscapeKeyPress } from "../ts/helpers/keyboard-events";
 
 export default function($ = window.jQuery) {
 
@@ -75,7 +76,12 @@ export default function($ = window.jQuery) {
   
   document.addEventListener(
     "turbolinks:load",
-    () => window.nextTick(setupMobileMenu),
+    () => {
+      const newMobileMenuToggle = document.querySelector("button.m-menu__toggle");
+      if (newMobileMenuToggle) {
+        setupMobileMenu($)
+      }
+    },
     { passive: true }
   );
 }

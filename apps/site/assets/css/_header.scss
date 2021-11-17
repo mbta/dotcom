@@ -288,6 +288,10 @@ nav.m-menu {
   }
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
 }
 .m-menu__content {
   bottom: 0
