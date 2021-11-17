@@ -15,7 +15,6 @@ const render = (): void => {
       stopPageData={stopPageData}
       mapId={mapId}
       mapData={mapData}
-      encoder={window.encodeURIComponent}
     />,
     document.getElementById("react-root")
   );
