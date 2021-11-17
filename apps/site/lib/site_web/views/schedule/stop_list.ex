@@ -1,8 +1,6 @@
 defmodule SiteWeb.ScheduleView.StopList do
-  import Phoenix.HTML.Tag, only: [content_tag: 3]
   alias SiteWeb.ViewHelpers
   alias Site.StopBubble
-  alias Stops.RouteStop
 
   @doc """
   Link to expand or collapse a route branch.
@@ -44,106 +42,6 @@ defmodule SiteWeb.ScheduleView.StopList do
     end
   end
 
-  @doc """
-  Sets the direction_id for the "Schedules from here" link. Chooses the opposite of the current direction only for the last stop
-  on the line or branch (since there are no trips in that direction from those stops).
-  """
-  @spec schedule_link_direction_id(RouteStop.t(), [Stops.Stop.t()], 0 | 1) :: 0 | 1 | nil
-  def schedule_link_direction_id(%RouteStop{is_terminus?: true, is_beginning?: false}, [], _) do
-    # if the reverse direction doesn't have any stops, we don't want to link to it
-    nil
-  end
-
-  def schedule_link_direction_id(
-        %RouteStop{is_terminus?: true, is_beginning?: false} = rs,
-        all_stops,
-        direction_id
-      ) do
-    reversed_direction_id =
-      case direction_id do
-        0 -> 1
-        1 -> 0
-      end
-
-    # if the stop is also excluded from the reverse direction, we don't want
-    # to link to it. This matches the logic we use for redirecting when the
-    # origin is selected in the OriginDestination plug.
-    excluded = ExcludedStops.excluded_origin_stops(reversed_direction_id, rs.route.id, all_stops)
-
-    unless rs.id in excluded do
-      reversed_direction_id
-    end
-  end
-
-  def schedule_link_direction_id(_, _, direction_id), do: direction_id
-
-  def chunk_branches(stops) do
-    Enum.chunk_by(stops, fn {_bubbles, stop} -> stop.branch end)
-  end
-
-  def separate_collapsible_rows(branch, direction_id) do
-    expand_idx = direction_id - 1
-    {expand_row, collapsible_stops} = List.pop_at(branch, expand_idx)
-    {expand_row, expand_idx, collapsible_stops}
-  end
-
-  def render_row(row, assigns) do
-    assigns = row_assigns(row, assigns)
-
-    SiteWeb.ScheduleView.render("_stop_list_row.html", assigns)
-  end
-
-  defp row_assigns({bubbles, stop}, assigns) do
-    %{
-      bubbles: bubbles,
-      stop: stop,
-      vehicle_tooltip: assigns.vehicle_tooltips[stop.id],
-      route: assigns.route,
-      direction_id: assigns.direction_id,
-      conn: assigns.conn,
-      show_checkmark?: false,
-      row_content_template: "_line_page_stop_info.html",
-      reverse_direction_all_stops: assigns.reverse_direction_all_stops,
-      expanded: assigns.expanded
-    }
-  end
-
-  def merge_rows(
-        {{_, %{branch: branch}} = expand_row, expand_idx, collapsible_rows},
-        %{expanded: expanded} = assigns
-      ) do
-    collapse_target_id =
-      "branch-#{branch}"
-      |> String.downcase()
-      |> String.replace(~r/[^a-zA-Z0-9-_]/, "-")
-
-    rendered_expand = render_row(expand_row, assigns)
-    rendered_collapse = Enum.map(collapsible_rows, &render_row(&1, assigns))
-    stop_list_class = if expanded == branch, do: "in", else: ""
-
-    if match?([_, _ | _], collapsible_rows) && !is_nil(branch) do
-      branch_map =
-        expand_row
-        |> row_assigns(assigns)
-        |> Map.put(:intermediate_stop_count, Enum.count(collapsible_rows))
-
-      [
-        content_tag(
-          :div,
-          [id: collapse_target_id, class: "collapse stop-list #{stop_list_class}"],
-          do: rendered_collapse
-        )
-      ]
-      |> List.insert_at(expand_idx, rendered_expand)
-      |> List.insert_at(
-        assigns.direction_id,
-        view_branch_link(branch, branch_map, collapse_target_id, branch <> " branch")
-      )
-    else
-      List.insert_at(rendered_collapse, expand_idx, rendered_expand)
-    end
-  end
-
   @spec stop_bubble_row_params(map(), boolean) :: [StopBubble.Params.t()]
   def stop_bubble_row_params(assigns, first_stop? \\ true) do
     for {{bubble_branch, bubble_type}, index} <- Enum.with_index(assigns.bubbles) do
@@ -164,20 +62,6 @@ defmodule SiteWeb.ScheduleView.StopList do
       }
     end
   end
-
-  def filter_stop_features(icons, %Stops.RouteStop{route: %Routes.Route{id: "Green-" <> _}}) do
-    Enum.reject(icons, &is_green_branch_icon?/1)
-  end
-
-  def filter_stop_features(icons, %Stops.RouteStop{}) do
-    icons
-  end
-
-  defp is_green_branch_icon?(icon)
-       when icon in [:green_line_b, :green_line_c, :green_line_d, :green_line_e],
-       do: true
-
-  defp is_green_branch_icon?(_), do: false
 
   defp show_checkmark?(nil, first_stop?, bubble_type) do
     !first_stop? and bubble_type == :terminus

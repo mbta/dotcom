@@ -9,7 +9,7 @@ defmodule SiteWeb.StopListViewTest do
   alias Schedules.Departures
   alias Site.StopBubble
   alias SiteWeb.ScheduleView
-  alias Stops.{RouteStop, Stop}
+  alias Stops.RouteStop
 
   @assigns %{
     bubbles: [{nil, :terminus}],
@@ -20,8 +20,6 @@ defmodule SiteWeb.StopListViewTest do
     add_expand_link?: false,
     branch_names: ["branch"],
     vehicle_tooltip: %VehicleTooltip{vehicle: %Vehicles.Vehicle{route_id: "route_id"}},
-    row_content_template: "_line_page_stop_info.html",
-    reverse_direction_all_stops: [%Stop{id: "other stop"}],
     expanded: nil
   }
 
@@ -277,171 +275,6 @@ defmodule SiteWeb.StopListViewTest do
       branch_stop = Floki.find(rendered, ".route-branch-stop")
 
       assert Floki.attribute(branch_stop, "class") == ["route-branch-stop expanded"]
-    end
-  end
-
-  describe "rendering stop list rows" do
-    @trunk [
-      {[{nil, :terminus}],
-       %RouteStop{name: "Broadway", id: "broadway", branch: nil}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()},
-      {[{nil, :stop}],
-       %RouteStop{name: "Andrew", id: "andrew", branch: nil}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()},
-      {[{nil, :merge}],
-       %RouteStop{name: "JFK/Umass", id: "jfk-umass", branch: nil}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()}
-    ]
-    @braintree [
-      {[{"Ashmont", :line}, {"Braintree", :stop}],
-       %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()},
-      {[{"Ashmont", :line}, {"Braintree", :terminus}],
-       %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()}
-    ]
-    @ashmont [
-      {[{"Ashmont", :stop}, {"Braintree", :empty}],
-       %RouteStop{name: "Savin Hill", id: "savin-hill", branch: "Ashmont"}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()},
-      {[{"Ashmont", :terminus}, {"Braintree", :empty}],
-       %RouteStop{name: "Fields Corner", id: "fields-corner", branch: "Ashmont"}
-       |> RouteStop.fetch_stop_features()
-       |> RouteStop.fetch_zone()}
-    ]
-    @assigns %{
-      all_stops: @trunk ++ @braintree ++ @ashmont,
-      conn: %Plug.Conn{query_params: %{}},
-      route: %Route{id: "Red", name: "Red Line", type: 1},
-      direction_id: 0,
-      vehicle_tooltips: %{},
-      expanded: nil,
-      reverse_direction_all_stops: [],
-      time_data_by_stop: %{}
-    }
-
-    test "splits the stops up into groups based on the branch" do
-      stops =
-        @assigns.all_stops
-        |> chunk_branches()
-        |> Enum.map(fn chunk ->
-          Enum.map(chunk, fn {_bubbles, %RouteStop{name: name}} -> name end)
-        end)
-
-      assert stops == [
-               ["Broadway", "Andrew", "JFK/Umass"],
-               ["North Quincy", "Wollaston"],
-               ["Savin Hill", "Fields Corner"]
-             ]
-    end
-
-    test "extracts the last row as the expand row for direction-id = 0" do
-      expected = {List.last(@braintree), -1, Enum.take(@braintree, 1)}
-      assert separate_collapsible_rows(@braintree, 0) == expected
-    end
-
-    test "extracts the first row as the expand row for direction-id = 1" do
-      expected = {List.first(@braintree), 0, Enum.drop(@braintree, 1)}
-      assert separate_collapsible_rows(@braintree, 1) == expected
-    end
-
-    test "renders a stop row" do
-      [row | _] = @trunk
-
-      html =
-        row
-        |> render_row(@assigns)
-        |> safe_to_string
-
-      assert html =~ "route-branch-stop-bubble"
-    end
-
-    test "recombines expand and collapsible rows when branch is nil" do
-      separated_rows = separate_collapsible_rows(@trunk, 0)
-
-      html =
-        separated_rows
-        |> merge_rows(@assigns)
-        |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary()
-
-      refute html =~ "id =\"branch-braintree\""
-      refute html =~ "id =\"branch-ashmont\""
-      refute html =~ "class=\"collapse\""
-
-      names =
-        html
-        |> Floki.find(".route-branch-stop-name")
-        |> Enum.map(fn {_elem, _attrs, [{_e, _a, [name]}]} -> String.trim(name) end)
-
-      assert names == ["Broadway", "Andrew", "JFK/​Umass"]
-    end
-
-    test "collapses branch when it is not nil and there is more than one intermediate stop" do
-      braintree = [
-        {[{"Ashmont", :line}, {"Braintree", :stop}],
-         %RouteStop{name: "Quincy Center", id: "quincy-center", branch: "Braintree"}
-         |> RouteStop.fetch_zone()
-         |> RouteStop.fetch_stop_features()},
-        {[{"Ashmont", :line}, {"Braintree", :stop}],
-         %RouteStop{name: "North Quincy", id: "north-quincy", branch: "Braintree"}
-         |> RouteStop.fetch_zone()
-         |> RouteStop.fetch_stop_features()},
-        {[{"Ashmont", :line}, {"Braintree", :terminus}],
-         %RouteStop{name: "Wollaston", id: "wollaston", branch: "Braintree"}
-         |> RouteStop.fetch_zone()
-         |> RouteStop.fetch_stop_features()}
-      ]
-
-      all_stops = @trunk ++ braintree ++ @ashmont
-
-      separated_rows = separate_collapsible_rows(braintree, 0)
-
-      assigns = %{@assigns | all_stops: all_stops}
-
-      html =
-        separated_rows
-        |> merge_rows(assigns)
-        |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary()
-
-      assert Enum.count(Floki.find(html, ".collapse")) == 1
-      assert Enum.count(Floki.find(html, "#branch-braintree")) == 1
-      assert Enum.empty?(Floki.find(html, "#branch-ashmont"))
-
-      names =
-        html
-        |> Floki.find(".route-branch-stop-name")
-        |> Enum.map(fn {_elem, _attrs, [{_e, _a, [name]}]} -> String.trim(name) end)
-
-      assert names == ["Quincy Center", "North Quincy", "Wollaston"]
-    end
-
-    test "does not collapse the branch when there fewer than two intermediate stops" do
-      separated_rows = separate_collapsible_rows(@braintree, 0)
-
-      html =
-        separated_rows
-        |> merge_rows(@assigns)
-        |> Enum.map(&safe_to_string/1)
-        |> IO.iodata_to_binary()
-
-      assert Enum.empty?(Floki.find(html, ".collapse"))
-      assert Enum.empty?(Floki.find(html, "#branch-braintree"))
-      assert Enum.empty?(Floki.find(html, "#branch-ashmont"))
-
-      names =
-        html
-        |> Floki.find(".route-branch-stop-name")
-        |> Enum.map(fn {_elem, _attrs, [{_e, _a, [name]}]} -> String.trim(name) end)
-
-      assert names == ["North Quincy", "Wollaston"]
     end
   end
 

@@ -1,7 +1,0 @@
-<div>
-  <%= if @route_type == 2 || @route_type == 4 do %>
-    <%= render "_line_page_stop_prediction_cr.html", time_data: @time_data %>
-  <% else %>
-    <%= render "_line_page_stop_prediction.html", time_data: @time_data %>
-  <% end %>
-</div>
