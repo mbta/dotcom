@@ -41,7 +41,7 @@
       ],
       class: "m-schedule-icon-key__crowding-row"
     ),
-    content_tag(:p, content_tag(:a, "Learn more about crowding trends", href: "/crowding", class: "c-call-to-action"), class: " u-padding-top")
+    content_tag(:p, content_tag(:a, "Learn more about seat availability trends", href: "/crowding", class: "c-call-to-action"), class: " u-padding-top")
   ]
 
   bike_key = %{
@@ -63,7 +63,7 @@
   ]
   cr_crowding_key = %{
     content: cr_crowding,
-    title: [safe_to_string(svg("icon-crowding.svg")), "Crowding"],
+    title: [safe_to_string(svg("icon-crowding.svg")), "Seat Availability"],
     prefix: "crowding"
   }
 %>
