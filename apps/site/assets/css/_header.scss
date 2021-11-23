@@ -276,8 +276,9 @@ nav.m-menu {
 .m-menu__content,
 .m-menu__search {
   width: 0px;
+  visibility: hidden;
   white-space: nowrap;
-  transition: width .25s ease;
+  transition: all .25s ease;
   overflow-y: auto;
   z-index: 1;
   background-color: $brand-primary-darkest;
@@ -308,6 +309,7 @@ header.header.menu-open {
     display: unset;
   }
   .m-menu__content {
+    visibility: unset;
     width: 220px;
     @include media-breakpoint-only(xs) {
       width: 100%;
