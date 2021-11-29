@@ -13,6 +13,7 @@ defmodule DotCom.Mixfile do
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
       deps: deps(),
+      aliases: aliases(),
 
       # docs
       name: "MBTA Website",
@@ -44,4 +45,37 @@ defmodule DotCom.Mixfile do
       {:eflame, "~> 1.0", only: :dev}
     ]
   end
+
+  defp aliases do
+    [
+      "compile.assets": &compile_assets/1
+    ]
+  end
+
+  defp compile_assets(_) do
+    # starts the Phoenix framework mix phx.digest command, that takes content
+    # from apps/site/static and processes it into apps/site/priv/static
+    print("(1/3) mix phx.digest")
+    Mix.Task.run("cmd", ["--app", "site", "mix", "phx.digest"])
+
+    # builds the node script that lets us render some react components
+    # server-side, compiling apps/site/assets/react_app.js,
+    # outputting apps/site/react_renderer/dist/app.js
+    print("(2/3) webpack --config webpack.config.react_app.js --env.production")
+
+    {_, 0} =
+      System.cmd("npm", ["run", "--prefix", "apps/site/assets", "webpack:build:react"],
+        stderr_to_stdout: true
+      )
+
+    # 3 - transpiles/builds our typescript/CSS/everything else for production
+    print("(3/3) webpack --config webpack.config.prod.js --env.production (long)")
+
+    {_, 0} =
+      System.cmd("npm", ["run", "--prefix", "apps/site/assets", "webpack:build"],
+        stderr_to_stdout: true
+      )
+  end
+
+  defp print(text), do: Mix.shell().info([:cyan, text, :reset])
 end

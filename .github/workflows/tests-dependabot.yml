@@ -45,11 +45,7 @@ jobs:
         npm run install:ci
 
     # Build assets
-    - run: npm run webpack:build
-      working-directory: apps/site/assets
-    - run: npm run webpack:build:react
-      working-directory: apps/site/assets
-    - run: mix phx.digest
+    - run: mix compile.assets
 
     - name: Build application
       run: mix compile --warnings-as-errors
