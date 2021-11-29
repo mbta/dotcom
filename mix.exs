@@ -48,7 +48,8 @@ defmodule DotCom.Mixfile do
 
   defp aliases do
     [
-      "compile.assets": &compile_assets/1
+      "compile.assets": &compile_assets/1,
+      "phx.server": [&server_setup/1, "phx.server"]
     ]
   end
 
@@ -77,5 +78,40 @@ defmodule DotCom.Mixfile do
       )
   end
 
+  defp server_setup(_) do
+    env = Mix.env()
+
+    # the test environment server needs assets compiled for production,
+    # in the dev environment the dev server would normally serve those
+    if env == :test, do: compile_assets([])
+
+    print_with_bg([
+      "\nCompiling Dotcom for the ",
+      :light_magenta_background,
+      " #{env} ",
+      :white_background,
+      " Mix environment."
+    ])
+
+    Mix.Task.run("compile")
+
+    print_with_bg([
+      "\nReady to start server @ ",
+      :light_green_background,
+      " #{site_url()} ",
+      :white_background,
+      " now."
+    ])
+  end
+
+  defp site_url do
+    host = Application.get_env(:site, SiteWeb.Endpoint)[:url][:host]
+    port = Application.get_env(:site, SiteWeb.Endpoint)[:http][:port]
+    "#{host}:#{port}"
+  end
+
   defp print(text), do: Mix.shell().info([:cyan, text, :reset])
+
+  defp print_with_bg(text_list),
+    do: Mix.shell().info([:white_background, :blue] ++ text_list ++ [:reset])
 end
