@@ -50,7 +50,7 @@ const LocationBlock = ({
     <div className="m-stop-page__location-links">
       <div className="m-stop-page__location-link">
         <a
-          href={`/trip-planner/to/${stop.name
+          href={`/trip-planner/to/${stop.address
             .replace(/\s+/g, "-")
             .toLowerCase()}`}
           className="btn btn-primary"
