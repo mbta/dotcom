@@ -9,6 +9,7 @@ import ScheduleNote from "../assets/ts/schedule/components/ScheduleNote";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
+import LiveCrowdingIcon from "./ts/schedule/components/line-diagram/LiveCrowdingIcon";
 
 const log = (title, obj) => {
   process.stdout.write(
@@ -60,7 +61,8 @@ const Components = {
   StopPage,
   TransitNearMe,
   TripPlannerResults,
-  ProjectsPage
+  ProjectsPage,
+  LiveCrowdingIcon
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");

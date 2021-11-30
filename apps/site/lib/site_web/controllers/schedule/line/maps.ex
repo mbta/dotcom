@@ -145,7 +145,6 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         tooltip_text:
           vt
           |> VehicleHelpers.tooltip()
-          |> Floki.text()
       )
     end)
   end

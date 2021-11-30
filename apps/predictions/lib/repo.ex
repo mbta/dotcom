@@ -13,7 +13,7 @@ defmodule Predictions.Repo do
       "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
-    include: "trip,stop"
+    include: "trip,trip.occupancies,stop"
   ]
 
   def all(opts) when is_list(opts) and opts != [] do

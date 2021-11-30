@@ -114,8 +114,7 @@ function iconFromGTFSId(id) {
   if (toSubway) {
     return Icons.getFeatureIcon(toSubway);
   }
-  if (id === "Silver Line") return Icons.getFeatureIcon("bus");
-  if (id in ["commuter_rail", "bus", "ferry"]) {
+  if (id in ["commuter_rail", "bus", "ferry", "silver_line"]) {
     return Icons.getFeatureIcon(id);
   }
   if (id.includes("CR-")) {
@@ -200,6 +199,9 @@ function _iconFromRoute(route) {
       return "commuter_rail";
 
     case 3:
+      if (route.name.startsWith("SL")) {
+        return "silver_line";
+      }
       return "bus";
 
     case 4:

@@ -11,7 +11,7 @@ defmodule Schedules.Repo do
 
   @default_timeout 10_000
   @default_params [
-    include: "trip",
+    include: "trip,trip.occupancies",
     "fields[schedule]":
       "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
@@ -277,6 +277,8 @@ defmodule Schedules.Repo do
     |> Enum.map(&Task.await/1)
   end
 
+  # Fetching predictions will also insert trips into cache using this function
+  # and that happens more frequently than fetching schedules due to realtime tracking
   @spec insert_trips_into_cache([JsonApi.Item.t()]) :: :ok
   def insert_trips_into_cache(data) do
     # Since we fetched all the trips along with the schedules, we can insert

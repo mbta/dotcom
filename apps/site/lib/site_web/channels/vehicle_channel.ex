@@ -45,6 +45,15 @@ defmodule SiteWeb.VehicleChannel do
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
 
+    prediction =
+      Predictions.Repo.all(
+        route: vehicle.route_id,
+        stop: vehicle.stop_id,
+        trip: vehicle.trip_id,
+        direction_id: vehicle.direction_id
+      )
+      |> List.first()
+
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
       marker:
@@ -58,14 +67,13 @@ defmodule SiteWeb.VehicleChannel do
           vehicle_crowding: vehicle.crowding,
           tooltip_text:
             %VehicleTooltip{
-              prediction: nil,
+              prediction: prediction,
               vehicle: vehicle,
               route: route,
               stop_name: stop_name,
               trip: trip
             }
             |> VehicleHelpers.tooltip()
-            |> Floki.text()
         )
     }
   end
@@ -76,7 +84,7 @@ defmodule SiteWeb.VehicleChannel do
   end
 
   defp get_stop_name(stop_id) do
-    case Stops.Repo.get_parent(stop_id) do
+    case Stops.Repo.get(stop_id) do
       nil -> ""
       %Stops.Stop{name: name} -> name
     end

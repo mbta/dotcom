@@ -305,14 +305,6 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
             # {"place-lech", 0},
-            # {"place-north", 2},
-            # {"place-gover", 4},
-            # {"place-pktrm", 5},
-            # {"place-coecl", 8},
-            # {"place-hsmnl", 19},
-            # {"place-river", 34},
-            # {"place-clmnl", 47},
-            # {"place-lake", 65}
             {"place-north", 0},
             {"place-gover", 2},
             {"place-pktrm", 3},
@@ -320,7 +312,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
             {"place-hsmnl", 17},
             {"place-river", 31},
             {"place-clmnl", 44},
-            {"place-lake", 61}
+            {"place-lake", 62}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -395,13 +387,13 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
             # {"place-lech", 64},
-            {"place-north", 61},
-            {"place-gover", 59},
-            {"place-pktrm", 58},
-            {"place-coecl", 55},
-            {"place-hsmnl", 44},
-            {"place-river", 30},
-            {"place-clmnl", 17},
+            {"place-north", 62},
+            {"place-gover", 60},
+            {"place-pktrm", 59},
+            {"place-coecl", 56},
+            {"place-hsmnl", 45},
+            {"place-river", 31},
+            {"place-clmnl", 18},
             {"place-lake", 0}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
