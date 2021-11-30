@@ -183,7 +183,7 @@ describe("trip-plan", () => {
 
         for (const widgetContainer of [".tp.one", ".tp.two"]) {
           for (const input of ["#to", "#from"]) {
-            it(`${input} in ${widgetContainer}`, () => {
+            it.skip(`${input} in ${widgetContainer}`, () => {
               document.querySelector(`${widgetContainer} ${input}`).focus();
               assert.include(
                 document.querySelector(widgetContainer).innerHTML,
