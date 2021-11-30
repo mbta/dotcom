@@ -39,7 +39,7 @@ const pslHtml = `
   </div>
 `;
 
-describe("psl-filters", () => {
+describe.only("psl-filters", () => {
   let $;
   jsdom({ url: testURL });
 
