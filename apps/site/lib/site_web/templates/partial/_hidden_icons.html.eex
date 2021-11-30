@@ -22,7 +22,7 @@
     end
   %>
   <%=
-    for mode <- [:subway, :commuter_rail, :bus, :ferry] do
+    for mode <- [:subway, :commuter_rail, :bus, :ferry, :silver_line] do
       content_tag(:div, [mode_icon(mode, :small)], id: ["icon-feature-", Atom.to_string(mode)])
     end
   %>

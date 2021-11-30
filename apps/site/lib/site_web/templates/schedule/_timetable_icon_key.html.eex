@@ -1,6 +1,6 @@
-<% mode_name = Routes.Route.vehicle_name(@route) |> String.downcase() %>
-
 <%
+  mode_name = Routes.Route.vehicle_name(@route) |> String.downcase()
+
   bike = [
     "Bicycles are allowed on trains with the bicycle symbol below the train number.",
     content_tag(:p, [
@@ -8,13 +8,48 @@
   early_departure = "The " <> mode_name <> " may leave ahead of schedule at these stops."
   flag_stop = "Passengers must tell " <> (if is_ferry(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
     must be visible on the platform for the " <> mode_name <> " to stop."
-%>
-<% [ bike_key | core_key ] = [
-    %{
-      content: bike,
-      title: [safe_to_string(svg("icon-bikes-default.svg")), "Bikes Allowed"],
-      prefix: "bikes-allowed"
-    },
+  cr_crowding = [
+    "Commuter Rail seat availability is regularly updated to reflect a trip’s typical ridership based on automated and conductor data from the past 14-30 days.",
+    content_tag(:p, "Current seat availability thresholds are:", class: "u-padding-top"),
+    content_tag(:div,
+      [
+        content_tag(:span, svg("icon-crowding.svg"), class: "c-svg__icon c-icon__crowding c-icon__crowding--not_crowded c-icon__crowding--commuter-rail"),
+        content_tag(:p, [
+          content_tag(:strong, "Many Seats Available"),
+          content_tag(:span, ": Typically more than 66% of seats are available and distancing is possible (~0-2 people per row)")
+        ])
+      ],
+      class: "m-schedule-icon-key__crowding-row"
+    ),
+    content_tag(:div,
+      [
+        content_tag(:span, svg("icon-crowding.svg"), class: "c-svg__icon c-icon__crowding c-icon__crowding--some_crowding c-icon__crowding--commuter-rail"),
+        content_tag(:p, [
+          content_tag(:strong, "Some Seats Available"),
+          content_tag(:span, ": Typically more than 33% of seats remain available and distancing may be possible (~2-3 people per row)")
+        ])
+      ],
+      class: "m-schedule-icon-key__crowding-row"
+    ),
+    content_tag(:div,
+      [
+        content_tag(:span, svg("icon-crowding.svg"), class: "c-svg__icon c-icon__crowding c-icon__crowding--crowded c-icon__crowding--commuter-rail"),
+        content_tag(:p, [
+          content_tag(:strong, "Few Seats Available"),
+          content_tag(:span, ": Typically fewer than 33% of seats available and distancing is unlikely (~3+ people per row)")
+        ])
+      ],
+      class: "m-schedule-icon-key__crowding-row"
+    ),
+    content_tag(:p, content_tag(:a, "Learn more about seat availability trends", href: "/crowding", class: "c-call-to-action"), class: " u-padding-top")
+  ]
+
+  bike_key = %{
+    content: bike,
+    title: [safe_to_string(svg("icon-bikes-default.svg")), "Bikes Allowed"],
+    prefix: "bikes-allowed"
+  }
+  core_key = [
     %{
       content: flag_stop,
       title: [safe_to_string(svg("icon-flag-stop-default.svg")), "Flag Stop"],
@@ -26,13 +61,24 @@
       prefix: "early-departure-stop",
     }
   ]
+  cr_crowding_key = %{
+    content: cr_crowding,
+    title: [safe_to_string(svg("icon-crowding.svg")), "Seat Availability"],
+    prefix: "crowding"
+  }
 %>
 <div class="m-schedule-icon-key-container">
   <h2 class="m-schedule-icon-key-header">Icon Key</h2>
   <%=
     SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
       multiselectable: false,
-      sections: (if is_ferry(@route), do: core_key, else: [bike_key | core_key])
+      sections: (
+        cond do
+          @show_crowding -> [cr_crowding_key] ++ [bike_key] ++ core_key
+          is_ferry(@route) -> core_key
+          true -> [bike_key | core_key]
+        end
+      )
     }))
   %>
   <%= if is_ferry(@route) do %>

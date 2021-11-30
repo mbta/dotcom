@@ -19,7 +19,7 @@ defmodule Schedules.RepoCondensed do
   @long_timeout 15_000
 
   @default_params [
-    include: "trip",
+    include: "trip,trip.occupancies",
     "fields[schedule]":
       "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
