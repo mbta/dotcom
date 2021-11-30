@@ -26,7 +26,7 @@ exports[`renders 1`] = `
     >
       <a
         className="btn btn-primary"
-        href="/trip-planner/to/south-station"
+        href="/trip-planner/to/700-atlantic-ave,-boston,-ma-02110"
         rel="noopener noreferrer"
         target="_blank"
       >
