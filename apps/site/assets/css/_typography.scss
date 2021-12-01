@@ -1,5 +1,8 @@
 // Starting 9/27/21, we're starting to set up new base-spacing numbers
 $base-spacing__new: 4px;
+$space-2_new: $base-spacing__new * 2;
+$space-3_new: $base-spacing__new * 3;
+$space-4_new: $base-spacing__new * 4;
 
 $base-line-height: 1.275;
 

@@ -9,14 +9,55 @@
           <!-- 'accordion' class marks the intended pass-of-focus from the menu button to the navbar, though divs don't have focus... -->
           <!-- Todo: so when accordions are updated, also update mobile-menu.js -->
           <nav aria-labelledby="accordion-heading">
-            <div id="accordion-heading" class="heading-4 accordion" style="color:white;"><%= sub_menu_section %></div>
-            <%= if Map.has_key?(sub_menu, :links) do %>
-              <div style="background:#e2ecf9;">
-                <%= for {link_name, href, link_host} <- Map.get(sub_menu, :links) do %>
-                  <% icon = if link_host === :external_link, do: fa("external-link"), else: "" %>
-                  <%= link to: href, do: [content_tag(:div, link_name ), icon] %>
-                <% end %>
-              </div>
+            <%= cond  do %>
+              <% sub_menu_section == "Most popular fares" -> %>
+                <div class="menu-container">
+                  <div class="font-small menu-container_header">Most popular fares</div>
+                  <div class="menu-container_row">
+                    <span>Subway One-Way</span>
+                    <span class="u-bold">$2.40</span>
+                  </div>
+                  <div class="menu-container_row">
+                    <span>Local Bus One-Way</span>
+                    <span class="u-bold">$1.70</span>
+                  </div>
+                  <div class="menu-container_row">
+                    <span>Monthly Linkpass</span>
+                    <span class="u-bold">$90.00</span>
+                  </div>
+                  <div class="menu-container_row">
+                    <div>
+                      <div>Commuter Rail One-Way</div>
+                      <div class="menu-container_smaller-font">Zones 1A - 10</div>
+                    </div>
+                    <div class="u-bold">
+                      <div>$2.40 -</div>
+                      <div>$13.25</div>
+                    </div>
+                  </div>
+                </div>
+              <% sub_menu_section == "Contact numbers" -> %>
+                <div class="menu-container top-half">
+                  <div class="font-small menu-container_header">Information & Support</div>
+                  <div class="menu-container_smaller-font">Monday thru Friday: 6:30 AM - 8 PM</div>
+                  <div class="menu-container_smaller-font">Saturday thru Sunday: 8 AM - 4 PM</div>
+                  <div class="menu-container_phone"><strong>Main:</strong> <%= tel_link "617-222-3200" %></div>
+                  <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-5146" %></div>
+                </div>
+                <div class="menu-container bottom-half">
+                  <div class="font-small menu-container_header">Emergency Contacts</div>
+                  <div class="menu-container_smaller-font">24 hours, 7 days a week</div>
+                  <div class="menu-container_phone"><strong>Transit Police:</strong> <%= tel_link "617-222-1212" %></div>
+                  <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-1200" %></div>
+                </div>
+              <% Map.has_key?(sub_menu, :links) -> %>
+                <div id="accordion-heading" class="heading-4 accordion" style="color:white;"><%= sub_menu_section %></div>
+                <div style="background:#e2ecf9;">
+                  <%= for {link_name, href, link_host} <- Map.get(sub_menu, :links) do %>
+                    <% icon = if link_host === :external_link, do: fa("external-link"), else: "" %>
+                    <%= link to: href, do: [content_tag(:div, link_name ), icon] %>
+                  <% end %>
+                </div>
             <% end %>
           </nav>
         <% end %>
