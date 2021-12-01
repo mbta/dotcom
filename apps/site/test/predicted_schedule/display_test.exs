@@ -1,8 +1,6 @@
 defmodule PredictedSchedule.DisplayTest do
   use ExUnit.Case, async: true
   import PredictedSchedule.Display
-  alias Schedules.Schedule
-  alias Predictions.Prediction
 
   describe "do_time_difference/4" do
     @base_time ~N[2017-01-01T12:00:00]
