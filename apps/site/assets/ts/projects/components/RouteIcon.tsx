@@ -18,7 +18,7 @@ import {
 } from "../../helpers/icon";
 
 interface TagDispatchTable {
-  [key: string]: ((className: string) => JSX.Element);
+  [key: string]: (className: string) => JSX.Element;
 }
 
 interface Props {

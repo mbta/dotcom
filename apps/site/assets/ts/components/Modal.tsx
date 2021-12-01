@@ -56,14 +56,11 @@ const ModalContent = ({
   // In Chrome (and others?), swapping out the modal content doesn't reset the
   // scroll position. Here we reset it manually whenever the content changes.
   const scrollRef = useRef<HTMLDivElement>(null);
-  useEffect(
-    () => {
-      if (scrollRef.current && scrollRef.current.scrollTo) {
-        scrollRef.current.scrollTo({ top: 0 });
-      }
-    },
-    [children]
-  );
+  useEffect(() => {
+    if (scrollRef.current && scrollRef.current.scrollTo) {
+      scrollRef.current.scrollTo({ top: 0 });
+    }
+  }, [children]);
 
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
