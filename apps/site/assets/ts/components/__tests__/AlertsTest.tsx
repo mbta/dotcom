@@ -87,7 +87,7 @@ test("it includes the URL field when it exists", () => {
 
   wrapper.unmount();
 
-  wrapper = mount(<Alerts alerts={[{ url: null, ...highAlert }]} />);
+  wrapper = mount(<Alerts alerts={[{ ...highAlert, url: null }]} />);
 
   wrapper.find(highAlertID).simulate("click");
   expect(wrapper.find("a")).toEqual({});
