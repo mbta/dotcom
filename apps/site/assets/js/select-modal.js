@@ -278,15 +278,11 @@ function dataFromOption($) {
 
 function renderSearch(selectName, data, options) {
   if (options.search === false) {
-    return `<label class="modal-label" id="select-modal-label" for="${selectName}">${
-      options.label
-    }</label>`;
+    return `<label class="modal-label" id="select-modal-label" for="${selectName}">${options.label}</label>`;
   }
   const placeholder = firstEnabledName(data);
   return `
-<label id="select-modal-label" for="select-modal-search">${
-    options.label
-  }</label>
+<label id="select-modal-label" for="select-modal-search">${options.label}</label>
 <input id="select-modal-search" name="select-modal-search" class="form-control" type="search" autocomplete="off" placeholder="Ex ${placeholder}"/>
 <span>Or select from route stops:</span>
 `;

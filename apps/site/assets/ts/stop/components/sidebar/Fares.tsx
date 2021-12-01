@@ -41,9 +41,7 @@ const fareFacilityList = (
 );
 
 const locationGoogleLink = (location: RetailLocation, stop: Stop): string =>
-  `https://maps.google.com/maps/dir/${stop.latitude},${stop.longitude}/${
-    location.latitude
-  },${location.longitude}/`;
+  `https://maps.google.com/maps/dir/${stop.latitude},${stop.longitude}/${location.latitude},${location.longitude}/`;
 
 const retailLocation = (
   { distance, location }: RetailLocationWithDistance,

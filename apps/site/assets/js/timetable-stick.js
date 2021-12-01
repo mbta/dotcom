@@ -97,7 +97,7 @@ const setUp = () => {
           bottom: tableBottom
         } = tableBodyEl.getBoundingClientRect();
 
-        if (!isStuck && (tableTop < 0 && tableBottom > 20)) {
+        if (!isStuck && tableTop < 0 && tableBottom > 20) {
           showStickyLabels();
         } else if (isStuck && (tableTop >= 0 || tableBottom < 20)) {
           hideStickyLabels();
