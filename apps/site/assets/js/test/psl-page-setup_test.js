@@ -14,7 +14,7 @@ const pslHtml = `
   <div class="c-sales-locations__cards">
     ${[1, 2, 3, 4, 5, 6, 7, 8]
       .map(
-        x =>
+        () =>
           `<div class="c-sales-locations__card" data-psltype="Both fare vending machine and Charlie retailer">
         Empty Card
       </div>`
@@ -22,7 +22,7 @@ const pslHtml = `
       .join("")}
     ${[1, 2, 3]
       .map(
-        x =>
+        () =>
           `<div class="c-sales-locations__card" data-psltype="Charlie retailer">
         Empty Card
       </div>`
@@ -30,7 +30,7 @@ const pslHtml = `
       .join("")}
     ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
       .map(
-        x =>
+        () =>
           `<div class="c-sales-locations__card" data-psltype="Fare vending machine">
         Empty Card
       </div>`
