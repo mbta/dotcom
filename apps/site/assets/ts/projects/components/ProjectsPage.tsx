@@ -37,16 +37,16 @@ export type SubwayLine = "red" | "orange" | "blue" | "green" | "mattapan";
 
 export type SetState = Dispatch<SetStateAction<State>>;
 export type FetchProjects = (state: State, setState: SetState) => void;
-export type UpdateSelectedMode = ((
+export type UpdateSelectedMode = (
   state: State,
   newMode: Mode,
   setState: SetState
-) => void);
-export type UpdateSelectedLine = ((
+) => void;
+export type UpdateSelectedLine = (
   state: State,
   newLine: SubwayLine,
   setState: SetState
-) => void);
+) => void;
 
 export const fetchMoreProjects: FetchProjects = (
   state: State,
@@ -55,9 +55,7 @@ export const fetchMoreProjects: FetchProjects = (
   setState({ ...state, fetchInProgress: true });
 
   const offset = state.projects.length + state.offsetStart;
-  let fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
-    state.currentMode
-  }`;
+  let fetchUrl = `/project_api?offset=${offset}&filter[mode]=${state.currentMode}`;
   if (state.currentLine) {
     fetchUrl = fetchUrl.concat(`&filter[line]=${state.currentLine}`);
   }

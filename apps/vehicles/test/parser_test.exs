@@ -1,6 +1,7 @@
 defmodule Vehicles.ParserTest do
   use ExUnit.Case, async: true
   alias Vehicles.{Parser, Vehicle}
+  import Mock
 
   @item %JsonApi.Item{
     attributes: %{
@@ -14,14 +15,7 @@ defmodule Vehicles.ParserTest do
     relationships: %{
       "route" => [%JsonApi.Item{id: "1"}],
       "stop" => [%JsonApi.Item{id: "72"}],
-      "trip" => [
-        %JsonApi.Item{
-          id: "32893540",
-          relationships: %{
-            "shape" => [%{id: "12345"}]
-          }
-        }
-      ]
+      "trip" => [%JsonApi.Item{id: "25"}]
     },
     type: "vehicle"
   }
@@ -32,8 +26,8 @@ defmodule Vehicles.ParserTest do
         id: "y1799",
         route_id: "1",
         stop_id: "72",
-        trip_id: "32893540",
-        shape_id: "12345",
+        trip_id: "25",
+        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -52,6 +46,7 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: "72",
         trip_id: nil,
+        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -69,8 +64,8 @@ defmodule Vehicles.ParserTest do
         id: "y1799",
         route_id: "1",
         stop_id: nil,
-        trip_id: "32893540",
-        shape_id: "12345",
+        trip_id: "25",
+        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -91,6 +86,7 @@ defmodule Vehicles.ParserTest do
         route_id: nil,
         stop_id: "72",
         trip_id: nil,
+        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -101,43 +97,44 @@ defmodule Vehicles.ParserTest do
       assert Parser.parse(item) == expected
     end
 
-    test "parses parent stop relationships if present" do
-      item = %JsonApi.Item{
-        attributes: %{
-          "current_status" => "IN_TRANSIT_TO",
-          "direction_id" => 0,
-          "longitude" => 1.1,
-          "latitude" => 2.2
-        },
-        id: "544B1E1A",
-        relationships: %{
-          "route" => [%JsonApi.Item{id: "Red"}],
-          "stop" => [
-            %JsonApi.Item{
-              id: "70068",
-              relationships: %{
-                "parent_station" => [%JsonApi.Item{id: "place-harsq"}]
-              }
-            }
-          ],
-          "trip" => [%JsonApi.Item{id: "32542428"}]
-        },
-        type: "vehicle"
-      }
+    test "fetches parent stop if present" do
+      with_mock(Stops.Repo, [:passthrough], get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end) do
+        expected = %Vehicle{
+          id: "y1799",
+          route_id: "1",
+          stop_id: "place-72",
+          trip_id: "25",
+          shape_id: nil,
+          direction_id: 1,
+          status: :stopped,
+          latitude: 2.2,
+          longitude: 1.1,
+          bearing: 140
+        }
 
-      expected = %Vehicle{
-        id: "544B1E1A",
-        route_id: "Red",
-        stop_id: "place-harsq",
-        trip_id: "32542428",
-        direction_id: 0,
-        status: :in_transit,
-        latitude: 2.2,
-        longitude: 1.1,
-        bearing: 0
-      }
+        assert Parser.parse(@item) == expected
+      end
+    end
 
-      assert Parser.parse(item) == expected
+    test "fetches shape if trip is present" do
+      with_mock(Schedules.Repo,
+        trip: fn "25" -> %Schedules.Trip{shape_id: "25-shape"} end
+      ) do
+        expected = %Vehicle{
+          id: "y1799",
+          route_id: "1",
+          stop_id: "72",
+          trip_id: "25",
+          shape_id: "25-shape",
+          direction_id: 1,
+          status: :stopped,
+          latitude: 2.2,
+          longitude: 1.1,
+          bearing: 140
+        }
+
+        assert Parser.parse(@item) == expected
+      end
     end
 
     test "can handle occupancy status" do
@@ -147,8 +144,8 @@ defmodule Vehicles.ParserTest do
         id: "y1799",
         route_id: "1",
         stop_id: "72",
-        trip_id: "32893540",
-        shape_id: "12345",
+        trip_id: "25",
+        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,

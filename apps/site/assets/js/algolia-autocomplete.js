@@ -331,7 +331,8 @@ export default class AlgoliaAutocomplete {
       templates: {
         suggestion: this.renderResult(indexName),
         footer: this.renderFooterTemplate(indexName)
-      }
+      },
+      debounce: 500
     });
     return acc;
   }

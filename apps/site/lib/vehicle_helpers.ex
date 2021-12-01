@@ -10,9 +10,6 @@ defmodule VehicleHelpers do
   alias SiteWeb.ScheduleController.VehicleLocations
 
   import Routes.Route, only: [vehicle_name: 1]
-  import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
-  import Phoenix.HTML, only: [safe_to_string: 1]
-  import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
   @type tooltip_index :: %{
@@ -32,25 +29,24 @@ defmodule VehicleHelpers do
     vehicle_locations
     |> Stream.reject(fn {{_trip_id, stop_id}, _status} -> is_nil(stop_id) end)
     |> Enum.reduce(%{}, fn vehicle_location, output ->
-      {{trip_id, child_stop_id}, vehicle_status} = vehicle_location
+      {{trip_id, stop_id}, vehicle} = vehicle_location
 
       {prediction, trip} =
         if trip_id do
           {
-            prediction_for_stop(indexed_predictions, trip_id, child_stop_id),
+            prediction_for_stop(indexed_predictions, trip_id, vehicle.stop_id),
             Schedules.Repo.trip(trip_id)
           }
         else
           {nil, nil}
         end
 
-      parent_stop = Stops.Repo.get_parent(child_stop_id)
-      stop_id = stop_id(parent_stop, child_stop_id)
+      stop_name = Stops.Repo.get(vehicle.stop_id) |> stop_name()
 
       tooltip = %VehicleTooltip{
-        vehicle: vehicle_status,
+        vehicle: vehicle,
         prediction: prediction,
-        stop_name: stop_name(parent_stop),
+        stop_name: stop_name,
         trip: trip,
         route: route
       }
@@ -79,10 +75,6 @@ defmodule VehicleHelpers do
   @spec stop_name(Stops.Stop.t() | nil) :: String.t()
   defp stop_name(nil), do: ""
   defp stop_name(stop), do: stop.name
-
-  @spec stop_id(Stops.Stop.t() | nil, String.t()) :: String.t()
-  defp stop_id(nil, child_stop_id), do: child_stop_id
-  defp stop_id(stop, _), do: stop.id
 
   @doc """
   Get polylines for vehicles that didn't already have their shape included when the route polylines were requested
@@ -121,55 +113,26 @@ defmodule VehicleHelpers do
     ""
   end
 
-  def tooltip(%{
+  def tooltip(%VehicleTooltip{
         prediction: prediction,
         vehicle: vehicle,
         trip: trip,
         stop_name: stop_name,
         route: route
       }) do
-    # Get stop name from vehicle if present, otherwise use provided predicted stop_name
-    stop_name =
-      if vehicle.stop_id do
-        case Stops.Repo.get_parent(vehicle.stop_id) do
-          nil -> stop_name
-          %Stops.Stop{name: name} -> name
-        end
-      else
-        stop_name
-      end
-
-    time_text = prediction_time_text(prediction)
     status_text = prediction_status_text(prediction)
     stop_text = realtime_stop_text(trip, stop_name, vehicle, route)
-    build_tooltip(time_text, status_text, stop_text)
+    build_tooltip(status_text, stop_text)
   end
 
   @spec prediction_status_text(Prediction.t() | nil) :: iodata
   defp prediction_status_text(%Prediction{status: status, track: track})
        when not is_nil(track) and not is_nil(status) do
-    [String.capitalize(status), " on track ", track]
+    [String.downcase(status), " on track ", track]
   end
 
   defp prediction_status_text(_) do
     []
-  end
-
-  @spec prediction_time_text(Prediction.t() | nil) :: iodata
-  defp prediction_time_text(nil) do
-    []
-  end
-
-  defp prediction_time_text(%Prediction{time: nil}) do
-    []
-  end
-
-  defp prediction_time_text(%Prediction{time: time, departing?: true}) do
-    ["Expected departure at ", format_schedule_time(time)]
-  end
-
-  defp prediction_time_text(%Prediction{time: time}) do
-    ["Expected arrival at ", format_schedule_time(time)]
   end
 
   @spec realtime_stop_text(Trip.t() | nil, String.t(), Vehicle.t() | nil, Route.t()) :: iodata
@@ -208,24 +171,18 @@ defmodule VehicleHelpers do
   defp display_trip_name(%{type: 2}, %{name: name}), do: [" ", name]
   defp display_trip_name(_, _), do: ""
 
-  @spec build_tooltip(iodata, iodata, iodata) :: String.t()
-  defp build_tooltip(time_text, status_text, stop_text) do
-    time_tag = do_build_tooltip(time_text)
-    status_tag = do_build_tooltip(status_text)
-    stop_tag = do_build_tooltip(stop_text)
+  @spec build_tooltip(iodata, iodata) :: String.t()
+  defp build_tooltip([], stop_text), do: "#{stop_text}"
 
-    :div
-    |> content_tag([stop_tag, time_tag, status_tag])
-    |> safe_to_string
-    |> String.replace(~s("), ~s('))
-  end
+  defp build_tooltip(status_text, stop_text) do
+    # Sometimes the prediction status is "Departed" and the vehicle status is
+    # :stopped. We rewrite this tooltip to make a bit more sense
+    if Enum.member?(status_text, "departed") and Enum.member?(stop_text, " has arrived at ") do
+      adjusted_stop_text = "#{stop_text}" |> String.replace("arrived at", "has left")
 
-  @spec do_build_tooltip(iodata) :: Phoenix.HTML.Safe.t()
-  defp do_build_tooltip([]) do
-    ""
-  end
-
-  defp do_build_tooltip(text) do
-    content_tag(:p, text, class: 'prediction-tooltip')
+      "#{adjusted_stop_text}, #{status_text}"
+    else
+      "#{stop_text}, #{status_text}"
+    end
   end
 end

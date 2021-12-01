@@ -717,12 +717,12 @@ defmodule Stops.RouteStopTest do
 
       newburyport_stops =
         make_stops(
-          ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
+          ~w(place-north place-chels place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
         )
 
       rockport_stops =
         make_stops(
-          ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296)s
+          ~w(place-north place-chels place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296)s
         )
 
       shuttle_stops = make_stops(~w(place-GB-0296 place-GB-0316 place-GB-0353)s)
@@ -737,7 +737,7 @@ defmodule Stops.RouteStopTest do
 
       assert_stop_ids(
         actual,
-        ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296 place-GB-0316 place-GB-0353 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
+        ~w(place-north place-chels place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296 place-GB-0316 place-GB-0353 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
       )
 
       assert_branch_names(actual, [
@@ -786,12 +786,12 @@ defmodule Stops.RouteStopTest do
 
       newburyport_stops =
         make_stops(
-          ~w(place-ER-0362 place-ER-0312 place-ER-0276 place-ER-0227 place-ER-0208 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-ER-0046 place-north)s
+          ~w(place-ER-0362 place-ER-0312 place-ER-0276 place-ER-0227 place-ER-0208 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-chels place-north)s
         )
 
       rockport_stops =
         make_stops(
-          ~w(place-GB-0353 place-GB-0316 place-GB-0296 place-GB-0254 place-GB-0229 place-GB-0222 place-GB-0198 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-ER-0046 place-north)s
+          ~w(place-GB-0353 place-GB-0316 place-GB-0296 place-GB-0254 place-GB-0229 place-GB-0222 place-GB-0198 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-chels place-north)s
         )
 
       route_patterns_with_stops = [
@@ -803,7 +803,7 @@ defmodule Stops.RouteStopTest do
 
       assert_stop_ids(
         actual,
-        ~w(place-ER-0362 place-ER-0312 place-ER-0276 place-ER-0227 place-ER-0208 place-GB-0353 place-GB-0316 place-GB-0296 place-GB-0254 place-GB-0229 place-GB-0222 place-GB-0198 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-ER-0046 place-north)s
+        ~w(place-ER-0362 place-ER-0312 place-ER-0276 place-ER-0227 place-ER-0208 place-GB-0353 place-GB-0316 place-GB-0296 place-GB-0254 place-GB-0229 place-GB-0222 place-GB-0198 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-chels place-north)s
       )
 
       assert_branch_names(actual, [

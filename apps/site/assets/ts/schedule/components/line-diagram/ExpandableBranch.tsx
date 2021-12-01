@@ -61,12 +61,9 @@ const ExpandableBranch = (
   const updateAllStopCoords = useContext(StopRefContext)[1];
 
   // reset all the coordinates.
-  React.useEffect(
-    () => {
-      updateAllStopCoords();
-    },
-    [isExpanded, updateAllStopCoords]
-  );
+  React.useEffect(() => {
+    updateAllStopCoords();
+  }, [isExpanded, updateAllStopCoords]);
 
   return (
     <div className="m-schedule-diagram__expander">

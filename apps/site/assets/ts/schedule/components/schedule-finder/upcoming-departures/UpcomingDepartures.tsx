@@ -337,7 +337,9 @@ export const UpcomingDepartures = ({
         stateFromProps.data !== null &&
         !stateFromProps.isLoading &&
         !stateFromProps.error &&
-        (state.data === null && !state.isLoading && !state.error)
+        state.data === null &&
+        !state.isLoading &&
+        !state.error
       ) {
         const journeys = stateFromProps.data;
 
@@ -346,10 +348,10 @@ export const UpcomingDepartures = ({
         if (
           journeys.length > 0 &&
           isABusRoute(journeys[0].route) &&
-          (route !== undefined &&
-            origin !== undefined &&
-            direction !== undefined &&
-            date !== undefined)
+          route !== undefined &&
+          origin !== undefined &&
+          direction !== undefined &&
+          date !== undefined
         ) {
           fetchData(input, journeys, dispatch)
             .then((retrievedJourneysWithTripInfo: EnhancedJourney[]) => {

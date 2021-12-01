@@ -18,7 +18,6 @@ import turbolinksMods from "./turbolinks-mods";
 import supportForm from "./support-form";
 import fixedsticky from "./fixedsticky";
 import menuCtrlClick from "./menu-ctrl-click";
-import carousel from "./carousel";
 import geoLocation from "./geolocation";
 import addressSearch from "./address-search";
 import autocompleteSetup from "./autocomplete-setup";
@@ -341,7 +340,6 @@ supportForm();
 fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
-carousel();
 inputFocus();
 geoLocation();
 addressSearch();
