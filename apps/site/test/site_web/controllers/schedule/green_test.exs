@@ -18,27 +18,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       assert conn.assigns.tab == "line"
     end
 
-    @tag skip: "Closing the Schedules Tab"
-    test ~s(renders trip_view tab without redirecting when query params = %{tab => trip-view}), %{
-      conn: conn
-    } do
-      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "trip-view"}))
-      assert conn.query_params == %{"tab" => "trip-view"}
-
-      assert conn.status == 200
-
-      assert conn.assigns.tab == "trip-view"
-    end
-
-    @tag todo: "Closing the Schedules Tab"
-    test "redirects trip_view tab to line tab", %{
-      conn: conn
-    } do
-      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "trip-view"}))
-      assert conn.status == 302
-      assert redirected_to(conn, 302) == line_path(conn, :show, "Green")
-    end
-
     test ~s(renders alerts tab without redirecting when query params = %{tab => alerts}), %{
       conn: conn
     } do
@@ -48,17 +27,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       assert conn.status == 200
 
       assert conn.assigns.tab == "alerts"
-    end
-
-    test ~s(renders line tab without redirecting when query params = %{tab => trip-view}), %{
-      conn: conn
-    } do
-      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "line"}))
-      assert conn.query_params == %{"tab" => "line"}
-
-      assert conn.status == 200
-
-      assert conn.assigns.tab == "line"
     end
   end
 
@@ -101,19 +69,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert conn.assigns.meta_description
   end
 
-  test "trip view :all_stops is a list of %Stop{} for all stops on all branches", %{conn: conn} do
-    conn = get(conn, green_path(conn, :trip_view, %{schedule_direction: %{direction_id: 0}}))
-
-    assert [%Stops.Stop{} | all_stops] = conn.assigns.all_stops
-
-    all_stops = Enum.map(all_stops, & &1.id)
-
-    assert "place-sthld" in all_stops
-    assert "place-clmnl" in all_stops
-    assert "place-river" in all_stops
-    assert "place-symcl" in all_stops
-  end
-
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
        %{conn: conn} do
     conn = get(conn, green_path(conn, :line, %{"schedule_direction[direction_id]": 0}))
@@ -131,12 +86,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert "place-clmnl" in all_stops
     assert "place-river" in all_stops
     assert "place-hsmnl" in all_stops
-  end
-
-  test "trip view assigns no stops and an error if the date is out of range", %{conn: conn} do
-    conn = get(conn, green_path(conn, :trip_view, date: "2017-01-01"))
-    assert conn.assigns.all_stops == []
-    assert conn.assigns.schedule_error
   end
 
   describe "predictions" do
@@ -251,12 +200,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
              ExcludedStops.excluded_destination_stops("Green", "place-pktrm")
   end
 
-  test "trip view assigns journeys", %{conn: conn} do
-    conn = get(conn, green_path(conn, :trip_view, origin: "place-pktrm"))
-
-    assert conn.assigns.journeys.journeys
-  end
-
   test "assigns breadcrumbs", %{conn: conn} do
     conn = get(conn, schedule_path(conn, :show, "Green"))
 
@@ -271,37 +214,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       )
 
     assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1, conn.assigns.date)
-  end
-
-  test "if we select an origin where we only have non-trip predictions, we hide the destination selector",
-       %{conn: conn} do
-    conn =
-      conn
-      |> assign(:date_time, ~N[2017-01-01T12:00:00])
-      |> assign(:date, ~D[2017-01-01])
-      |> assign(:direction_id, 0)
-      |> assign(:route, @green_line)
-      |> assign(:origin, %Stops.Stop{id: "place-north"})
-      |> hide_destination_selector([])
-
-    assert conn.assigns.hide_destination_selector?
-  end
-
-  test "direction is reversed when origin and destination are not in order", %{conn: conn} do
-    path =
-      schedule_path(
-        conn,
-        :show,
-        "Green",
-        schedule_direction: %{
-          origin: "place-pktrm",
-          destination: "place-coecl",
-          direction_id: 1
-        }
-      )
-
-    conn = get(conn, path)
-    assert redirected_to(conn, 302) =~ "direction_id=0"
   end
 
   test "direction is not changed when origin and destination are in the correct order", %{

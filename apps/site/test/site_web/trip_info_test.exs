@@ -3,7 +3,6 @@ defmodule TripInfoTest do
   import TripInfo
 
   alias Routes.Route
-  alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
   alias Vehicles.Vehicle
@@ -178,87 +177,6 @@ defmodule TripInfoTest do
     test "vehicle stop name is not set, vehicle does not match any times" do
       actual = from_list(@time_list)
       assert actual.vehicle_stop_name == nil
-    end
-  end
-
-  describe "is_current_trip?/2" do
-    test "returns false there is no TripInfo to compare to" do
-      assert is_current_trip?(nil, "trip_id") == false
-    end
-
-    test "returns false when TripInfo times is an empty list" do
-      assert is_current_trip?(%TripInfo{times: []}, "trip_id") == false
-    end
-
-    test "returns false when first trip in TripInfo times doesn't match provided id" do
-      assert is_current_trip?(@info, "not_trip_id") == false
-    end
-
-    test "returns true when first trip in TripInfo times matches provided id" do
-      assert is_current_trip?(@info, "trip_id") == true
-    end
-  end
-
-  describe "full_status/1" do
-    test "nil for bus routes" do
-      actual = @info |> full_status
-      expected = nil
-      assert actual == expected
-    end
-
-    test "result for CR, uses the route name" do
-      trip_info = %TripInfo{
-        route: %Routes.Route{type: 2},
-        vehicle: %Vehicles.Vehicle{status: :incoming},
-        vehicle_stop_name: "Readville"
-      }
-
-      actual = trip_info |> full_status |> IO.iodata_to_binary()
-      expected = "Train is on the way to Readville."
-      assert actual == expected
-    end
-
-    test "nil when there is no vehicle" do
-      trip_info = %TripInfo{
-        route: %Routes.Route{type: 2},
-        vehicle_stop_name: "Readville"
-      }
-
-      actual = trip_info |> full_status
-      expected = nil
-      assert actual == expected
-    end
-
-    test "result for Subway, uses the route name" do
-      trip_info = %TripInfo{
-        route: %Routes.Route{type: 1},
-        vehicle: %Vehicles.Vehicle{status: :stopped},
-        vehicle_stop_name: "Forest Hills"
-      }
-
-      actual = trip_info |> full_status
-      expected = ["Train", " has arrived at ", "Forest Hills", "."]
-      assert actual == expected
-    end
-  end
-
-  describe "should_display_trip_info?/2" do
-    test "Non subway will show trip info" do
-      commuter_info = %TripInfo{route: %Routes.Route{type: 4}}
-      assert should_display_trip_info?(commuter_info)
-    end
-
-    test "Subway will show trip info if predictions are given" do
-      subway_info = %TripInfo{
-        times: [%PredictedSchedule{prediction: %Prediction{time: Util.now()}}],
-        route: %Routes.Route{type: 1}
-      }
-
-      assert should_display_trip_info?(subway_info)
-    end
-
-    test "Will not show trip info if there is no trip info" do
-      refute should_display_trip_info?(nil)
     end
   end
 end

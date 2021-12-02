@@ -1,6 +1,5 @@
 defmodule TripInfo do
   require Routes.Route
-  alias Routes.Route
   alias Fares.OneWay
 
   @moduledoc """
@@ -67,20 +66,6 @@ defmodule TripInfo do
     |> do_from_list(starting_stop_ids, destination_id, vehicle_stop_name, opts)
   end
 
-  @doc """
-  Checks whether a trip id matches the trip being represented by the TripInfo.
-  """
-  @spec is_current_trip?(TripInfo.t(), String.t()) :: boolean
-  def is_current_trip?(nil, _), do: false
-  def is_current_trip?(%TripInfo{times: []}, _), do: false
-
-  def is_current_trip?(%TripInfo{times: [predicted_schedule | _]}, trip_id) do
-    case PredictedSchedule.trip(predicted_schedule) do
-      %{id: ^trip_id} -> true
-      _ -> false
-    end
-  end
-
   # finds a stop ID.  If one isn't provided, or is provided as nil, then
   # use a List function to get the stop ID from the times list.
   @spec time_stop_id(String.t(), time_list, :first | :last) :: String.t() | nil
@@ -132,40 +117,6 @@ defmodule TripInfo do
     {:error, "not enough times to build a trip"}
   end
 
-  @doc """
-  Returns a long status string suitable for display to a user.
-  """
-  @spec full_status(TripInfo.t()) :: iodata | nil
-  def full_status(%TripInfo{
-        vehicle: %{status: status},
-        vehicle_stop_name: vehicle_stop_name,
-        route: route
-      })
-      when vehicle_stop_name != nil do
-    vehicle = Routes.Route.vehicle_name(route)
-
-    case status do
-      :incoming ->
-        [vehicle, " is on the way to ", vehicle_stop_name, "."]
-
-      :stopped ->
-        [vehicle, " has arrived at ", vehicle_stop_name, "."]
-
-      :in_transit ->
-        [vehicle, " has left ", vehicle_stop_name, "."]
-    end
-  end
-
-  def full_status(_), do: nil
-
-  @doc "Determines if given TripInfo contains any predictions"
-  @spec any_predictions?(TripInfo.t()) :: boolean
-  def any_predictions?(%TripInfo{times: times}) do
-    times
-    |> List.flatten()
-    |> Enum.any?(&PredictedSchedule.has_prediction?/1)
-  end
-
   # Filters the list of times to those between origin and destination,
   # inclusive.  If the origin is after the trip, or one/both are not
   # included, the behavior is undefined.
@@ -206,13 +157,4 @@ defmodule TripInfo do
   defp duration_diff(nil, _), do: nil
   defp duration_diff(_, nil), do: nil
   defp duration_diff(last, first), do: Timex.diff(last, first, :minutes)
-
-  @doc "Determines if the trip info box should be displayed"
-  @spec should_display_trip_info?(TripInfo.t() | nil) :: boolean
-  def should_display_trip_info?(nil), do: false
-
-  def should_display_trip_info?(trip_info) do
-    not Route.subway?(trip_info.route.type, trip_info.route.id) or
-      TripInfo.any_predictions?(trip_info)
-  end
 end

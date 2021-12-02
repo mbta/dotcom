@@ -9,46 +9,6 @@ defmodule SiteWeb.PartialViewTest do
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{FullscreenError, HeaderTab, HeaderTabBadge, SvgIconWithCircle}
 
-  describe "stop_selector_suffix/2" do
-    test "returns zones for commuter rail", %{conn: conn} do
-      conn =
-        conn
-        |> assign(:route, %Routes.Route{type: 2})
-        |> assign(:zone_map, %{"Lowell" => "6"})
-
-      assert conn |> stop_selector_suffix("Lowell") |> IO.iodata_to_binary() == "Zone 6"
-    end
-
-    test "if the stop has no zone, returns the empty string", %{conn: conn} do
-      conn =
-        conn
-        |> assign(:route, %Routes.Route{type: 2})
-        |> assign(:zone_map, %{})
-
-      assert stop_selector_suffix(conn, "Wachusett") == ""
-    end
-
-    test "returns a comma-separated list of lines for the green line", %{conn: conn} do
-      conn =
-        conn
-        |> assign(:route, %Routes.Route{id: "Green"})
-        |> assign(:stops_on_routes, GreenLine.stops_on_routes(0))
-
-      assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary() == "B,C,D,E"
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      # assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary() == "E"
-      assert conn |> stop_selector_suffix("place-north") |> IO.iodata_to_binary() == "D,E"
-      assert conn |> stop_selector_suffix("place-kencl") |> IO.iodata_to_binary() == "B,C,D"
-      # not on the green line
-      assert conn |> stop_selector_suffix("place-alfcl") |> IO.iodata_to_binary() == ""
-    end
-
-    test "for other lines, returns the empty string", %{conn: conn} do
-      assert stop_selector_suffix(conn, "place-harsq") == ""
-    end
-  end
-
   describe "clear_selector_link/1" do
     test "returns the empty string when clearable? is false" do
       assert clear_selector_link(%{clearable?: false, selected: "place-davis"}) == ""

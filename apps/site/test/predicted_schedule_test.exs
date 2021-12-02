@@ -460,18 +460,6 @@ defmodule PredictedScheduleTest do
     end
   end
 
-  describe "any_predictions?/1" do
-    @scheduled_predictions [
-      %PredictedSchedule{prediction: %Prediction{}},
-      %PredictedSchedule{schedule: %Schedule{}, prediction: %Prediction{}},
-      %PredictedSchedule{schedule: %Schedule{}}
-    ]
-    test "Determines if Trip info object has predictions" do
-      assert TripInfo.any_predictions?(%TripInfo{times: @scheduled_predictions})
-      refute TripInfo.any_predictions?(%TripInfo{times: [List.last(@scheduled_predictions)]})
-    end
-  end
-
   describe "delay/1" do
     @time ~N[2017-01-01T12:00:00]
 
@@ -494,35 +482,6 @@ defmodule PredictedScheduleTest do
       assert delay(%PredictedSchedule{schedule: %Schedule{time: @time}, prediction: nil}) == 0
       assert delay(%PredictedSchedule{schedule: nil, prediction: nil}) == 0
       assert delay(nil) == 0
-    end
-  end
-
-  describe "minute_delay?/1" do
-    @late_time ~N[2017-01-01T05:40:10]
-    @early_time ~N[2017-01-01T05:39:58]
-    @early_prediction %Prediction{time: @early_time}
-    @late_schedule %Schedule{time: @late_time}
-
-    test "returns false when no delay comparison can be made" do
-      refute minute_delay?(nil)
-      refute minute_delay?(%PredictedSchedule{schedule: nil, prediction: @early_prediction})
-      refute minute_delay?(%PredictedSchedule{schedule: nil, prediction: %Prediction{}})
-    end
-
-    test "returns true when there is at least a minute difference between scheduled and predicted time" do
-      assert minute_delay?(%PredictedSchedule{
-               schedule: @late_schedule,
-               prediction: @early_prediction
-             })
-    end
-
-    test "returns false when there is less than a minute difference" do
-      close_prediction = %Prediction{time: Timex.shift(@late_time, seconds: 3)}
-
-      refute minute_delay?(%PredictedSchedule{
-               schedule: @late_schedule,
-               prediction: close_prediction
-             })
     end
   end
 
@@ -579,16 +538,6 @@ defmodule PredictedScheduleTest do
                prediction: %Prediction{departing?: true},
                schedule: nil
              })
-    end
-  end
-
-  describe "sort_with_status/1" do
-    test "predicted schedule with status gets higher priority" do
-      ps1 = %PredictedSchedule{prediction: %Prediction{status: "3 stops away"}}
-      ps2 = %PredictedSchedule{prediction: %Prediction{status: "Approaching"}}
-      ps3 = %PredictedSchedule{prediction: %Prediction{time: @base_time}}
-      ps4 = %PredictedSchedule{schedule: %Schedule{time: Timex.shift(@base_time, minutes: -10)}}
-      assert Enum.sort_by([ps1, ps2, ps3, ps4], &sort_with_status/1) == [ps2, ps1, ps4, ps3]
     end
   end
 end
