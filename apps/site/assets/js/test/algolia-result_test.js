@@ -167,7 +167,10 @@ describe("AlgoliaResult", () => {
   const locationHits = {
     bostonCommon: {
       description: "Boston Common, Tremont Street, Boston, MA, USA",
-      matched_substrings: [{ length: 2, offset: 3 }, { length: 5, offset: 9 }]
+      matched_substrings: [
+        { length: 2, offset: 3 },
+        { length: 5, offset: 9 }
+      ]
     }
   };
   const routeHits = {

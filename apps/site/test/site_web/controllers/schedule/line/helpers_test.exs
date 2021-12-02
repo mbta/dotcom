@@ -441,8 +441,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  "Green-B",
                  "Green-B",
                  "Green-B",
-                 "Green-B",
-                 "Green-B",
                  "Green-B"
                ]
 
@@ -458,8 +456,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-buest",
         "place-bucen",
         "place-amory",
-        "place-buwst",
-        "place-stplb",
         "place-babck",
         "place-brico",
         "place-harvd",
@@ -498,16 +494,12 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
-                 false,
-                 false,
                  true
                ]
 
       assert Enum.map(b_stops, & &1.is_beginning?) ==
                [
                  true,
-                 false,
-                 false,
                  false,
                  false,
                  false,
@@ -564,16 +556,12 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
-                 false,
-                 false,
                  true
                ]
 
       assert Enum.map(stops, & &1.is_beginning?) ==
                [
                  true,
-                 false,
-                 false,
                  false,
                  false,
                  false,

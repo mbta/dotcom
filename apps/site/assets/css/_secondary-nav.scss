@@ -5,6 +5,12 @@
   @include media-breakpoint-down(md) {
     border-top: 1px solid $brand-primary-light-contrast;
   }
+
+  &.todo-remove {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
 }
 
 .m-secondary-nav__items {

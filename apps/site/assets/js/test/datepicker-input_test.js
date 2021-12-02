@@ -17,12 +17,8 @@ const year = "support_date_time_year",
 // very simplified HTML output
 // from DateTimeSelector.custom_date_time_select
 const initial_markup = `<div id=${dateEl.container}>
-  <label aria-label="Tuesday, January 19, 2021, click or press the enter or space key to edit the date" for=${
-    dateEl.input
-  } id=${dateEl.label}></label>
-  <input data-max-date="01/19/2021" data-min-date="01/19/2020" id=${
-    dateEl.input
-  } type="text">
+  <label aria-label="Tuesday, January 19, 2021, click or press the enter or space key to edit the date" for=${dateEl.input} id=${dateEl.label}></label>
+  <input data-max-date="01/19/2021" data-min-date="01/19/2020" id=${dateEl.input} type="text">
   <div id=${dateEl.select}>
     <label class="sr-only" for=${month}>Month</label>
     <select class="c-select" id=${month}>

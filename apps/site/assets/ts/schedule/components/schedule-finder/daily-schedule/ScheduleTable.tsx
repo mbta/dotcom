@@ -44,9 +44,10 @@ const ScheduleTable = ({
     }),
     {}
   ) as RoutePatternsById;
-  const anySchoolTrips = Object.values(journeys).some(
-    ({ trip: { route_pattern_id: routePatternId } }) =>
-      isSchoolTrip(routePatternsById, routePatternId)
+  const anySchoolTrips = Object.values(
+    journeys
+  ).some(({ trip: { route_pattern_id: routePatternId } }) =>
+    isSchoolTrip(routePatternsById, routePatternId)
   );
 
   const firstTrip = journeys[0];

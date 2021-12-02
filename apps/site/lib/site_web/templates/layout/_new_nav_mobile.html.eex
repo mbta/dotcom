@@ -1,0 +1,29 @@
+<nav class="m-menu" id="navmenu">
+  <div class="m-menu__cover"></div>
+  <!-- Todo: Remove styles in favor of classes -->
+  <div class="m-menu__content">
+    <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- nav_link_content_redesign(@conn) do %>
+      <nav aria-labelledby="section-heading">
+        <div id="section-heading" class="font-small" style="color:white;"><%= menu_section %></div>
+        <%= for %{sub_menu_section: sub_menu_section} = sub_menu <- sub_menus do %>
+          <!-- 'accordion' class marks the intended pass-of-focus from the menu button to the navbar, though divs don't have focus... -->
+          <!-- Todo: so when accordions are updated, also update mobile-menu.js -->
+          <nav aria-labelledby="accordion-heading">
+            <div id="accordion-heading" class="heading-4 accordion" style="color:white;"><%= sub_menu_section %></div>
+            <%= if Map.has_key?(sub_menu, :links) do %>
+              <div style="background:#e2ecf9;">
+                <%= for {link_name, href, link_host} <- Map.get(sub_menu, :links) do %>
+                  <% icon = if link_host === :external_link, do: fa("external-link"), else: "" %>
+                  <%= link to: href, do: [content_tag(:div, link_name ), icon] %>
+                <% end %>
+              </div>
+            <% end %>
+          </nav>
+        <% end %>
+      </nav>
+    <% end %>
+  </div>
+  <div class="m-menu__search">
+    <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more"  %>
+  </div>
+</nav>

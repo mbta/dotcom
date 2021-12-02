@@ -7,15 +7,6 @@
           <%= svg "mbta-logo.svg" %>
         </div>
       </a>
-      <button class="navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
-        <span class="nav-link-content">
-          <span class="nav-link-name">Menu</span>
-          <span class="nav-link-arrows">
-            <%= fa "angle-down", class: "down" %>
-            <%= fa "angle-up", class: "up" %>
-          </span>
-        </span>
-      </button>
       <span id="custom-language-button-mobile">
         <button id="custom-language-selector-mobile" tabindex="0" class="u-pointer navbar-toggle-moble--language navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#languageMenuMobile">
           <div class="nav-link-content js-header-link__content">
@@ -26,6 +17,15 @@
           </div>
         </button>
       </span>
+      <button class="navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="nav-link-content">
+          <span class="nav-link-name">Menu</span>
+          <span class="nav-link-arrows">
+            <%= fa "angle-down", class: "down" %>
+            <%= fa "angle-up", class: "up" %>
+          </span>
+        </span>
+      </button>
       <%= render "_nav_desktop.html", assigns %>
     </div>
     <div id="custom-language-menu-mobile"></div>

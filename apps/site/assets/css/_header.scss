@@ -146,11 +146,12 @@
 .header-navbar {
   // required for the mobile button to be vertically centered
   height: $header-navbar-height;
+  display: flex;
 }
 
 .navbar-logo {
   display: block;
-  float: left;
+  margin-right: auto;
 
   svg {
     display: block;
@@ -239,4 +240,104 @@
   font-size: $font-size-h2;
   font-weight: bold;
   line-height: $headings-line-height;
+}
+
+nav.m-menu, .m-menu__toggle,
+.header-navbar .search {
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+.header-navbar {
+  .search {
+    @include media-breakpoint-only(xs) {
+      display: none;
+    }
+  }
+  .header-search__toggle {
+    @include media-breakpoint-up(sm) {
+      display: none;
+    }
+  }
+}
+nav.m-menu {
+  position: absolute;
+  z-index: $z-index-modal;
+}
+.m-menu__cover {
+  background-color: rgba($black, .15);
+  height: 100%;
+  position: fixed;
+  top: $header-navbar-height;
+  width: 100%;
+  display: none;
+}
+
+.m-menu__content,
+.m-menu__search {
+  width: 0px;
+  visibility: hidden;
+  white-space: nowrap;
+  transition: all .25s ease;
+  overflow-y: auto;
+  z-index: 1;
+  background-color: $brand-primary-darkest;
+  position: fixed;
+  top: $header-navbar-height;
+  &::-webkit-scrollbar {
+    display: none; /* Chrome */
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+.m-menu__content {
+  bottom: 0
+}
+.m-menu__search {
+  bottom: auto;
+}
+.header-search__toggle .fa-close {
+  display: none;
+}
+
+header.header.menu-open {
+  .m-menu__cover {
+    display: unset;
+  }
+  .m-menu__content {
+    visibility: unset;
+    width: 220px;
+    @include media-breakpoint-only(xs) {
+      width: 100%;
+    }
+  }
+  .search {
+    display: none;
+  }
+  .header-search__toggle {
+    display: none;
+  }
+}
+
+header.header.search-open {
+  .m-menu__cover {
+    display: unset;
+  }
+  .m-menu__search {
+    visibility: unset;
+    width: 100%;
+  }
+  .m-menu__toggle {
+    display: none;
+  }
+  .fa-search {
+    display: none;
+  }
+  .fa-close {
+    display: unset;
+  }
 }

@@ -185,13 +185,10 @@ export default ({
     channel,
     markers: data.markers
   });
-  useEffect(
-    () => {
-      setupChannels(channel, dispatch);
-      return () => stopChannels(channel);
-    },
-    [channel, dispatch]
-  );
+  useEffect(() => {
+    setupChannels(channel, dispatch);
+    return () => stopChannels(channel);
+  }, [channel, dispatch]);
   const stopMarkers = data.stop_markers
     ? data.stop_markers
         .filter(mark => currentStops.includes(mark.id as string))
