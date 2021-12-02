@@ -47,7 +47,7 @@ defmodule SiteWeb.LayoutView do
       {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
     ]
 
-  def nav_link_content_redesign(conn),
+  def nav_link_content_redesign(_conn),
     do: [
       %{
         menu_section: "Transit",
