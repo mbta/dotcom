@@ -60,7 +60,7 @@ defmodule Site.MapHelpers do
   def image(:subway) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/media/2020-11/subway-map-june2020-v34a-GLX-shuttle.png"
+      "/sites/default/files/media/2021-11/11-2021-subway-map-GLB-stops-consolidated.jpg"
     )
   end
 
