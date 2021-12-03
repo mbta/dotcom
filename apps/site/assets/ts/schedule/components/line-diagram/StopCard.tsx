@@ -52,7 +52,6 @@ const MaybeAlert = (alerts: Alert[]): JSX.Element | null => {
 };
 
 const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
-  console.log('StopCard Render')
   const { stop, onClick, liveData, searchQuery } = props;
   const {
     stop_data: stopData,

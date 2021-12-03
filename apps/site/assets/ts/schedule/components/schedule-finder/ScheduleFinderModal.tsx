@@ -28,26 +28,24 @@ interface Props {
   today: string;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   handleOriginSelectClick: () => void;
-  [index: string]: any;
 }
 
-class ScheduleFinderModal extends React.Component<Props> {
-
-  componentDidUpdate(prevProps: Props) {
-    for (const [key, value] of Object.entries(prevProps)) {
-      if (this.props[key] !== prevProps[key]) {
-        console.log('Changed props: ', key, value)
-        console.log('New props: ', key, prevProps[key])
-      }
-    }
-  }
-  render() {
-    const {
-      closeModal, directionChanged, initialMode, initialDirection,
-      initialOrigin, originChanged, route, routePatternsByDirection,
-      scheduleNote, services, stops, today, updateURL, handleOriginSelectClick
-    } = this.props
-  console.log('ScheduleFinderModal render')
+const ScheduleFinderModal = ({
+  closeModal,
+  directionChanged,
+  initialMode,
+  initialDirection,
+  initialOrigin,
+  originChanged,
+  route,
+  routePatternsByDirection,
+  scheduleNote,
+  services,
+  stops,
+  today,
+  updateURL,
+  handleOriginSelectClick
+}: Props): ReactElement => {
   const handleChangeDirection = (newDirection: DirectionId): void => {
     if (directionChanged) directionChanged(newDirection);
     if (originChanged) originChanged(null);
@@ -117,7 +115,6 @@ class ScheduleFinderModal extends React.Component<Props> {
         scheduleModalContent(origin)}
     </Modal>
   );
-}
 };
 
 export default ScheduleFinderModal;

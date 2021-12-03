@@ -28,6 +28,22 @@ interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
 }
 
+export const changeOrigin = (origin: SelectedOrigin): void => {
+  storeHandler({
+    type: "CHANGE_ORIGIN",
+    newStoreValues: {
+      selectedOrigin: origin
+    }
+  });
+  // reopen modal depending on choice:
+  storeHandler({
+    type: "OPEN_MODAL",
+    newStoreValues: {
+      modalMode: origin ? "schedule" : "origin"
+    }
+  });
+}; 
+
 export const ScheduleLoader = ({
   component,
   schedulePageData,
@@ -45,22 +61,6 @@ export const ScheduleLoader = ({
       newStoreValues: {
         selectedDirection: direction,
         selectedOrigin: null
-      }
-    });
-  };
-
-  const changeOrigin = (origin: SelectedOrigin): void => {
-    storeHandler({
-      type: "CHANGE_ORIGIN",
-      newStoreValues: {
-        selectedOrigin: origin
-      }
-    });
-    // reopen modal depending on choice:
-    storeHandler({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: origin ? "schedule" : "origin"
       }
     });
   };
