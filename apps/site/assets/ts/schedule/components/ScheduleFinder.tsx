@@ -47,6 +47,7 @@ const ScheduleFinder = ({
   modalOpen,
   closeModal
 }: Props): ReactElement<HTMLElement> => {
+  console.log('ScheduleFinder render')
   const openOriginModal = (): void => {
     const currentState = getCurrentState();
     const { modalOpen: modalIsOpen } = currentState;

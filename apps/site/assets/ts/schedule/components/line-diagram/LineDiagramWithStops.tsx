@@ -15,6 +15,7 @@ export const StopRefContext = React.createContext<[RefList, () => void]>([
 const LineDiagramWithStops = (
   props: CommonLineDiagramProps
 ): ReactElement<HTMLElement> => {
+  console.log('rerendering LineDiagramWithStops')
   const { stops, handleStopClick, liveData } = props;
 
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
