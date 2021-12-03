@@ -32,8 +32,10 @@ const addressOrMunicipality = (stop: Stop): ReactElement | null => {
   return null;
 };
 
-const formatMapLink = (location: string): string =>
-  `/trip-planner/to/${location.replace(/\s+/g, "-").toLowerCase()}`;
+const formatMapLink = (location: string | null): string =>
+  location
+    ? `/trip-planner/to/${location.replace(/\s+/g, "-").toLowerCase()}`
+    : "";
 
 const latLngString = (stop: Stop): string =>
   `${stop.latitude},${stop.longitude}`;
@@ -54,11 +56,7 @@ const LocationBlock = ({
       <div className="m-stop-page__location-link">
         <a
           href={formatMapLink(
-            stop["station?"]
-              ? `${stop.name}-station`
-              : stop.address
-              ? stop.address
-              : ""
+            stop["station?"] ? `${stop.name}-station` : stop.address
           )}
           className="btn btn-primary"
           target="_blank"
