@@ -28,22 +28,6 @@ const highAlert: Alert = {
   url: "https://www.mbta.com"
 };
 
-const nullURLAlert: Alert = {
-  updated_at: "Updated: 4/11/2019 09:33A",
-  severity: 7,
-  priority: "high",
-  lifecycle: "new",
-  active_period: [],
-  informed_entity: {} as InformedEntitySet,
-  id: "304666",
-  header:
-    'Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href="https://mbta.com/marathon">mbta.com/marathon</a>',
-  effect: "detour",
-  description:
-    "<strong>Affected direction:</strong><br />Inbound<br />\r<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
-  url: null
-};
-
 const lowAlert: Alert = {
   updated_at: "Updated: 4/11/2019 09:33A",
   severity: 7,
