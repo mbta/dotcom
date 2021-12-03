@@ -35,13 +35,13 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(`/trip-planner/to/700-atlantic-ave,-boston,-ma-02110`);
+  ).toEqual(`/trip-planner/to/south-station-station`);
 
   expect(
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(`/trip-planner/to/700-atlantic-ave,-boston,-ma-02110`);
+  ).toEqual(`/trip-planner/to/south-station-station`);
 });
 
 it("falls back to municipality if stop has no address", () => {
