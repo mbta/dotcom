@@ -1,7 +1,0 @@
-<div class="route-branch-stop">
-  <%= SiteWeb.PartialView.StopBubbles.render_stop_bubbles(stop_bubble_row_params(assigns, @stop.is_beginning?)) %>
-  <% is_last_stop? = @stop.is_terminus? and not @stop.is_beginning? %>
-  <div class="route-branch-stop-info <%= if is_last_stop? do "route-branch-destination" end %>">
-    <%= render @row_content_template, assigns %>
-  </div>
-</div>

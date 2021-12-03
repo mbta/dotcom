@@ -89,6 +89,13 @@
   @include media-breakpoint-down(xs) {
     margin-top: 0;
   }
+
+  .search {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: $base-spacing;
+      padding-top: $base-spacing;
+    }
+  }
 }
 
 .m-homepage__shortcut-text {

@@ -3,7 +3,6 @@ defmodule SiteWeb.ScheduleView do
   use SiteWeb, :view
 
   import SiteWeb.ScheduleView.StopList
-  import SiteWeb.ScheduleView.TripList
   import SiteWeb.ScheduleView.Timetable
 
   require Routes.Route
@@ -14,7 +13,7 @@ defmodule SiteWeb.ScheduleView do
   alias Routes.Route
   alias Site.MapHelpers
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
-  alias Stops.{RouteStop, Stop}
+  alias Stops.Stop
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
@@ -29,32 +28,9 @@ defmodule SiteWeb.ScheduleView do
     "Mattapan"
   ]
 
-  @doc """
-  Given a list of schedules, returns a display of the route direction. Assumes all
-  schedules have the same route and direction.
-  """
-  @spec display_direction(JourneyList.t()) :: iodata
-  def display_direction(%JourneyList{journeys: journeys}) do
-    do_display_direction(journeys)
-  end
-
-  @spec do_display_direction([Journey.t()]) :: iodata
-  defp do_display_direction([%Journey{departure: predicted_schedule} | _]) do
-    [
-      Route.direction_name(
-        PredictedSchedule.route(predicted_schedule),
-        PredictedSchedule.direction_id(predicted_schedule)
-      ),
-      " to"
-    ]
-  end
-
-  defp do_display_direction([]), do: ""
-
   @spec template_for_tab(String.t()) :: String.t()
   @doc "Returns the template for the selected tab."
   def template_for_tab(tab_name)
-  def template_for_tab("trip-view"), do: "_trip_view.html"
   def template_for_tab("timetable"), do: "_timetable.html"
   def template_for_tab("line"), do: "_line.html"
   def template_for_tab("alerts"), do: "_alerts.html"
@@ -262,55 +238,6 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  @spec render_trip_info_stops([PredictedSchedule.t()], map, Keyword.t()) :: [
-          Safe.t()
-        ]
-  def render_trip_info_stops(schedule_list, assigns, opts \\ [])
-
-  def render_trip_info_stops([], _, _) do
-    []
-  end
-
-  def render_trip_info_stops(schedule_list, assigns, opts) do
-    route = assigns.route
-    route_name = route.name
-    direction_id = assigns.direction_id
-    alerts = assigns.alerts
-    first? = opts[:first?] == true
-    last? = opts[:last?] == true
-    terminus? = first? or last?
-
-    for predicted_schedule <- schedule_list do
-      route_stop = build_route_stop_from_predicted_schedule(predicted_schedule, first?, last?)
-
-      vehicle_tooltip =
-        if predicted_schedule.schedule && predicted_schedule.schedule.trip do
-          assigns.vehicle_tooltips[{predicted_schedule.schedule.trip.id, route_stop.id}]
-        end
-
-      render("_stop_list_row.html", %{
-        bubbles: [{route_name, if(terminus?, do: :terminus, else: :stop)}],
-        direction_id: direction_id,
-        stop: route_stop,
-        href: stop_path(SiteWeb.Endpoint, :show, route_stop.id),
-        route: route,
-        vehicle_tooltip: vehicle_tooltip,
-        terminus?: terminus?,
-        alerts: stop_alerts(predicted_schedule, alerts, route.id, direction_id),
-        predicted_schedule: predicted_schedule,
-        row_content_template: "_trip_info_stop.html"
-      })
-    end
-  end
-
-  @spec build_route_stop_from_predicted_schedule(PredictedSchedule.t(), boolean, boolean) ::
-          RouteStop.t()
-  defp build_route_stop_from_predicted_schedule(predicted_schedule, first?, last?) do
-    stop = PredictedSchedule.stop(predicted_schedule)
-    route = PredictedSchedule.route(predicted_schedule)
-    RouteStop.build_route_stop(stop, route, first?: first?, last?: last?)
-  end
-
   @doc "Prefix route name with route for bus lines"
   @spec route_header_text(Route.t()) :: [String.t()] | Safe.t()
   def route_header_text(%Route{type: 3, name: name} = route) do
@@ -367,7 +294,6 @@ defmodule SiteWeb.ScheduleView do
   def route_header_tabs(conn) do
     route = conn.assigns.route
     tab_params = conn.assigns.tab_params
-    schedule_link = trip_view_path(conn, :show, route.id, tab_params)
     info_link = line_path(conn, :show, route.id, tab_params)
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
@@ -386,13 +312,11 @@ defmodule SiteWeb.ScheduleView do
         n when n in [2, 4] ->
           [
             %HeaderTab{id: "timetable", name: "Timetable", href: timetable_link},
-            %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
-            %HeaderTab{id: "line", name: "Schedule", href: info_link} | tabs
+            %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link} | tabs
           ]
 
         _ ->
           [
-            %HeaderTab{id: "trip-view", name: "Schedule", href: schedule_link},
             %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
           ]
       end

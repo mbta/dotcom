@@ -502,18 +502,13 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   @spec get_route_id(Route.id_t(), Trip.id_t()) :: Route.id_t() | nil
   defp get_route_id("Green", trip_id) do
-    schedule_for_trip =
-      trip_id
-      |> Schedules.Repo.schedule_for_trip()
+    case Schedules.Repo.trip(trip_id) do
+      %Schedules.Trip{route_pattern_id: route_pattern_id} ->
+        RoutePatterns.Repo.get(route_pattern_id)
+        |> Map.get(:route_id)
 
-    if Enum.empty?(schedule_for_trip) do
-      nil
-    else
-      schedule =
-        schedule_for_trip
-        |> List.first()
-
-      schedule.route.id
+      _ ->
+        nil
     end
   end
 

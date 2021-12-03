@@ -8,82 +8,10 @@ defmodule SiteWeb.ScheduleControllerTest do
   alias Stops.RouteStops
 
   @moduletag :external
-  @test_origin "66"
 
   @routes_repo_api Application.get_env(:routes, :routes_repo_api)
 
   describe "Bus" do
-    @tag skip: "Closing the Schedules Tab"
-    test "all stops is assigned for a route", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1"))
-      html_response(conn, 200)
-      assert conn.assigns.all_stops != nil
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "origin is unassigned for a route when you first view the page", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1"))
-      html_response(conn, 200)
-      assert conn.assigns.origin == nil
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "has the origin when it has been selected", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(conn, :show, "1",
-            schedule_direction: %{origin: @test_origin, direction_id: "1"}
-          )
-        )
-
-      html_response(conn, 200)
-      assert conn.assigns.origin.id == @test_origin
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "finds a trip when origin has been selected", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(conn, :show, "1",
-            schedule_direction: %{origin: @test_origin, direction_id: "1"}
-          )
-        )
-
-      html_response(conn, 200)
-      assert conn.assigns.origin.id == @test_origin
-      assert conn.assigns.trip_info
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "finds a trip list with origin and destination", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(conn, :show, "1",
-            schedule_direction: %{
-              origin: @test_origin,
-              destination: "82",
-              direction_id: "1"
-            }
-          )
-        )
-
-      html_response(conn, 200)
-      assert conn.assigns.origin.id == @test_origin
-      assert conn.assigns.destination.id == "82"
-      assert conn.assigns.trip_info
-      assert conn.assigns.schedules != nil
-      assert conn.assigns.predictions != nil
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns tab to \"trip-view\"", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1"))
-      assert conn.assigns.tab == "trip-view"
-    end
-
     test "uses a direction id to determine which stops to show", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "1", "schedule_direction[direction_id]": 0))
 
@@ -107,22 +35,6 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "show timetable if no tab is specified", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "CR-Worcester"))
       assert redirected_to(conn, 302) =~ "timetable"
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns information for the trip view", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(conn, :show, "CR-Worcester",
-            schedule_direction: %{origin: "place-WML-0340"}
-          )
-        )
-
-      assert conn.assigns.tab == "trip-view"
-      refute conn.assigns.schedules == nil
-      refute conn.assigns.predictions == nil
-      assert conn.assigns.trip_info
     end
 
     test "assigns information for the timetable", %{conn: conn} do
@@ -153,144 +65,6 @@ defmodule SiteWeb.ScheduleControllerTest do
                conn.assigns.timetable_schedules
                |> Sort.sort_by_first_times()
                |> Enum.map(&List.first/1)
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns a map of stop ID to zone", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "CR-Lowell"))
-      zone_map = conn.assigns.zone_map
-
-      assert "place-NHRML-0218" in Map.keys(zone_map)
-      assert zone_map["place-NHRML-0218"] == "5"
-    end
-  end
-
-  describe "subway" do
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(
-            conn,
-            :show,
-            "Red",
-            schedule_direction: %{
-              origin: "place-sstat",
-              destination: "place-brdwy",
-              direction_id: 0
-            }
-          )
-        )
-
-      assert conn.assigns.schedules
-      refute conn.assigns.schedules == []
-      assert conn.assigns.journeys
-      assert conn.assigns.frequency_table
-      assert conn.assigns.origin
-      assert conn.assigns.destination
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns schedules, frequency table, and origin", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(conn, :show, "Red", schedule_direction: %{origin: "place-sstat"})
-        )
-
-      assert conn.assigns.schedules
-      assert conn.assigns.frequency_table
-      assert conn.assigns.journeys
-      assert conn.assigns.origin
-      refute conn.assigns.destination
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "frequency table not assigned when no origin is selected", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Red"))
-      refute :frequency_table in Map.keys(conn.assigns)
-      refute conn.assigns.origin
-      refute :schedules in Map.keys(conn.assigns)
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Green-D", origin: "place-pktrm"))
-      assert conn.assigns.schedules
-      assert conn.assigns.journeys.journeys
-      assert conn.assigns.frequency_table
-      assert conn.assigns.origin
-      refute conn.assigns.destination
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns schedules, frequency table, origin, destination for green line", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(
-            conn,
-            :show,
-            "Green-C",
-            schedule_direction: %{
-              origin: "place-coecl",
-              destination: "place-pktrm",
-              direction_id: "1"
-            }
-          )
-        )
-
-      assert conn.assigns.schedules
-      refute conn.assigns.schedules == []
-      assert conn.assigns.journeys.journeys
-      assert conn.assigns.frequency_table
-      assert conn.assigns.origin
-      assert conn.assigns.destination
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns trip info and journeys for Mattapan line", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          trip_view_path(conn, :show, "Mattapan", origin: "place-butlr", direction_id: "1")
-        )
-
-      assert conn.assigns.trip_info
-      refute Enum.empty?(conn.assigns.journeys)
-    end
-  end
-
-  describe "all modes" do
-    @tag todo: "Closing the Schedules Tab"
-    test "redirects from schedules tab to line tab with query params", %{
-      conn: conn
-    } do
-      conn = get(conn, trip_view_path(conn, :show, "1", origin: "64", destination: "6"))
-      assert conn.status == 302
-
-      assert redirected_to(conn, 302) ==
-               line_path(conn, :show, "1", destination: "6", origin: "64")
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "assigns breadcrumbs", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1"))
-      assert conn.assigns.breadcrumbs
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "shows a checkmark next to the last stop", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-pktrm"))
-      response = html_response(conn, 200)
-      actual = Floki.find(response, ".terminus-circle .fa-check")
-
-      if conn.assigns.trip_info do
-        assert [_checkmark] = actual
-      else
-        assert actual == []
-      end
     end
   end
 
@@ -500,20 +274,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute path =~ "tab="
     end
 
-    @tag skip: "Closing the Schedules Tab"
-    test "trip_view tab", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          schedule_path(conn, :show, "1", tab: "trip-view", origin: "64", destination: "6")
-        )
-
-      path = redirected_to(conn, 302)
-      path =~ trip_view_path(conn, :show, "1")
-      path =~ "origin=64"
-      path =~ "destination=6"
-    end
-
     test "line tab as default", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "1"))
       assert redirected_to(conn, 302) == line_path(conn, :show, "1")
@@ -545,30 +305,5 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     assert first_route_pattern_0.direction_id == 0
     assert first_route_pattern_1.direction_id == 1
-  end
-
-  describe "schedule tab" do
-    @tag skip: "Closing the Schedules Tab"
-    test "a retirement message exists for buses", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1"))
-      html_response(conn, 200)
-      assert Map.has_key?(conn.assigns, :retirement_message)
-      assert conn.assigns.retirement_message != nil
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "a retirement message exists for subway", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Blue"))
-      html_response(conn, 200)
-      assert Map.has_key?(conn.assigns, :retirement_message)
-      assert conn.assigns.retirement_message != nil
-    end
-
-    @tag skip: "Closing the Schedules Tab"
-    test "a retirement message does not exist for CR", %{conn: conn} do
-      conn = get(conn, timetable_path(conn, :show, "CR-Lowell"))
-      html_response(conn, 200)
-      refute Map.has_key?(conn.assigns, :retirement_message)
-    end
   end
 end

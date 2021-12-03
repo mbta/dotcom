@@ -21,21 +21,6 @@ $location-line-width: $space-6;
   }
 }
 
-.icon-inverse,
-.stop-bubble-terminus {
-  circle {
-    fill: $gray-dark;
-  }
-}
-
-.trip-info-labels {
-  .route-branch-stop-info {
-    border-bottom-width: 0;
-    padding-bottom: 0;
-    padding-top: $base-spacing;
-  }
-}
-
 .route-branch-stop {
   align-items: stretch;
   display: flex;
@@ -286,24 +271,6 @@ $location-line-width: $space-6;
   .route-branch-stop-link {
     display: block;
   }
-}
-
-.trip-info-stop-name-times {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.trip-info-name {
-  display: inline-block; // for non-flex browsers
-  flex: 1 1 0%;
-  min-width: 50%;
-  padding-right: $base-spacing;
-}
-
-.trip-info-time {
-  display: inline-block; // for non-flex browsers
-  flex: 0 0 $base-spacing * 4.5;
-  float: right; // for non-flex browsers
 }
 
 .route-branch-stop-name {

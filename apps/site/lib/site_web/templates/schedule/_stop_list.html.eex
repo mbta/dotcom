@@ -1,9 +1,0 @@
-<div class="route-branch-stop-list stop-group <%= route_to_class(@route) %>">
-  <%=
-    for branch_stops <- chunk_branches(@all_stops) do
-       branch_stops
-       |> separate_collapsible_rows(@direction_id)
-       |> merge_rows(assigns)
-    end
-  %>
-</div>

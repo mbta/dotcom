@@ -15,10 +15,9 @@ defmodule Site.Components.Tabs.TabSelector do
   defstruct id: "tab-select",
             class: "",
             links: [
-              {"trip-view", "Schedule", "/schedules/bus"},
               {"info", "Info", "/schedules/bus"}
             ],
-            selected: "trip-view",
+            selected: "info",
             stacked_label: "",
             icon_map: %{}
 

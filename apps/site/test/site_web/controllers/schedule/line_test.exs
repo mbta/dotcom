@@ -312,7 +312,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
             {"place-hsmnl", 17},
             {"place-river", 31},
             {"place-clmnl", 44},
-            {"place-lake", 62}
+            {"place-lake", 60}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -387,13 +387,13 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
             # {"place-lech", 64},
-            {"place-north", 62},
-            {"place-gover", 60},
-            {"place-pktrm", 59},
-            {"place-coecl", 56},
-            {"place-hsmnl", 45},
-            {"place-river", 31},
-            {"place-clmnl", 18},
+            {"place-north", 60},
+            {"place-gover", 58},
+            {"place-pktrm", 57},
+            {"place-coecl", 54},
+            {"place-hsmnl", 43},
+            {"place-river", 29},
+            {"place-clmnl", 16},
             {"place-lake", 0}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
@@ -738,16 +738,6 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       assert length(default_services) == 1
       assert default_services = [%{id: "WinterWeekday1"}]
-    end
-  end
-
-  describe "line diagram endpoint" do
-    test "renders", %{conn: conn} do
-      conn =
-        conn
-        |> get(line_path(conn, :line_diagram_api, "39"))
-
-      assert html_response(conn, 200) =~ "Forest Hills"
     end
   end
 end

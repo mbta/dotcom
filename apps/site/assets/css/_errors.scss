@@ -80,16 +80,10 @@
 }
 .error-paragraph {
   line-height: 1.5;
-  @include media-breakpoint-down(sm) {
-     margin-bottom: 0;
-   }
 }
 .error-links {
   line-height: 1.5;
-  margin-top: .5rem;
-  @include media-breakpoint-up(md) {
-    margin-top: 1.5rem;
-  }
+  margin-top: 1.5rem;
 }
 
 // Bus SVG animation

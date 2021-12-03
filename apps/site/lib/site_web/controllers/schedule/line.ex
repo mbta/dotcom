@@ -9,13 +9,12 @@ defmodule SiteWeb.ScheduleController.Line do
 
   alias Plug.Conn
   alias Routes.Route
-  alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.Maps
   alias Stops.Repo, as: StopsRepo
-  alias Stops.{RouteStops, RouteStop, Stop}
+  alias Stops.{RouteStops, RouteStop}
 
   defmodule Dependencies do
     @moduledoc """
@@ -123,12 +122,6 @@ defmodule SiteWeb.ScheduleController.Line do
 
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
 
-    time_data_by_stop =
-      TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
-        date: conn.assigns.date,
-        now: conn.assigns.date_time
-      )
-
     {map_img_src, dynamic_map_data} =
       Maps.map_data(
         route,
@@ -154,14 +147,9 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
-    |> assign(
-      :reverse_direction_all_stops,
-      reverse_direction_all_stops(route.id, reverse_direction_id)
-    )
     |> assign(:all_stops_from_route, flatten_route_stops(route_stops))
     |> assign(:reverse_direction_all_stops_from_route, flatten_route_stops(reverse_route_stops))
     |> assign(:connections, connections(static_branches))
-    |> assign(:time_data_by_stop, time_data_by_stop)
     |> assign(:variant, variant)
   end
 
@@ -176,30 +164,6 @@ defmodule SiteWeb.ScheduleController.Line do
 
   def reverse_direction(0), do: 1
   def reverse_direction(1), do: 0
-
-  @doc """
-  Calculates the list of stops for the reverse direction.
-
-  Used by "Schedules from here" to determine whether we should link to the
-  stop going in the opposite direction.
-
-  """
-  @spec reverse_direction_all_stops(Route.id_t(), 0 | 1) :: [Stop.t()]
-  def reverse_direction_all_stops(route_id, reverse_direction_id) do
-    all_stops_without_date(route_id, reverse_direction_id)
-  end
-
-  @doc """
-  Calculates the list of stops regardless of date.
-
-  """
-  @spec all_stops_without_date(Route.id_t(), 0 | 1) :: [Stop.t()]
-  def all_stops_without_date(route_id, direction_id) do
-    case StopsRepo.by_route(route_id, direction_id) do
-      {:error, _} -> []
-      stops -> stops
-    end
-  end
 
   def connections(route_stops) do
     route_stops

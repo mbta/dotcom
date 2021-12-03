@@ -1,10 +1,3 @@
-.homepage-search {
-  @include media-breakpoint-down(sm) {
-    padding-bottom: $base-spacing;
-    padding-top: $base-spacing;
-  }
-}
-
 .index-news-item {
   @include truncate();
 

@@ -30,20 +30,18 @@ const activePeriodToDates = (
 ): (Date | null)[] => {
   const datePattern = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{2})$/;
 
-  return activePeriod.map(
-    (d: string): Date | null => {
-      const match = datePattern.exec(d);
-      if (match) {
-        const [, year, rawMonth, rawDay, rawHour, min] = match;
-        return new Date(
-          `${year}-${withLeadingZero(rawMonth)}-${withLeadingZero(
-            rawDay
-          )}T${withLeadingZero(rawHour)}:${min}:00`
-        );
-      }
-      return null;
+  return activePeriod.map((d: string): Date | null => {
+    const match = datePattern.exec(d);
+    if (match) {
+      const [, year, rawMonth, rawDay, rawHour, min] = match;
+      return new Date(
+        `${year}-${withLeadingZero(rawMonth)}-${withLeadingZero(
+          rawDay
+        )}T${withLeadingZero(rawHour)}:${min}:00`
+      );
     }
-  );
+    return null;
+  });
 };
 
 const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
@@ -57,12 +55,10 @@ export const isCurrentAlert = (
 ): boolean => {
   if (!alert.active_period) return false;
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
-  const isInARange = dateRanges.some(
-    (range): boolean => {
-      const [start, end] = range;
-      if (!start) return false; // end might be null for ongoing alerts
-      return currentDate >= start && (end ? currentDate <= end : true);
-    }
-  );
+  const isInARange = dateRanges.some((range): boolean => {
+    const [start, end] = range;
+    if (!start) return false; // end might be null for ongoing alerts
+    return currentDate >= start && (end ? currentDate <= end : true);
+  });
   return isCurrentLifecycle(alert) && isInARange;
 };

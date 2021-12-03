@@ -81,18 +81,15 @@ const ScheduleModalContent = ({
     error: false
   });
 
-  useEffect(
-    () => {
-      if (
-        routeId !== undefined &&
-        selectedOrigin !== undefined &&
-        selectedDirection !== undefined
-      ) {
-        fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
-      }
-    },
-    [routeId, selectedDirection, selectedOrigin]
-  );
+  useEffect(() => {
+    if (
+      routeId !== undefined &&
+      selectedOrigin !== undefined &&
+      selectedDirection !== undefined
+    ) {
+      fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
+    }
+  }, [routeId, selectedDirection, selectedOrigin]);
 
   const serviceToday = services.some(service =>
     isInCurrentService(service, stringToDateObject(today))

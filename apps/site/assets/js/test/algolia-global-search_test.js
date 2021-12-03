@@ -31,9 +31,7 @@ describe("AlgoliaGlobalSearch", function() {
   beforeEach(function() {
     document.body.innerHTML = "";
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
-      document.body.innerHTML += `<div id="${
-        AlgoliaGlobalSearch.SELECTORS[key]
-      }"></div>`;
+      document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
     });
     document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
     document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;
@@ -132,9 +130,7 @@ describe("AlgoliaGlobalSearch", function() {
       document.body.innerHTML = "";
       Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
         const elType = key == "input" ? "input" : "div";
-        document.body.innerHTML += `<${elType} id="${
-          AlgoliaGlobalSearch.SELECTORS[key]
-        }"></${elType}>`;
+        document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
       });
       document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
       document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;

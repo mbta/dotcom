@@ -57,7 +57,11 @@
         </div>
       <% end %>
       <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
-      <%= render "_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
+      <%= if Laboratory.enabled?(@conn, :nav_redesign) do %>
+        <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
+      <% else %>
+        <%= render "_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
+      <% end %>
       <%= if assigns[:breadcrumbs] do %>
         <div class="breadcrumb-container">
           <div class="container">

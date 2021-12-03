@@ -1,4 +1,0 @@
-<a href="<%= update_url(@conn, []) %>#refresh" class="pull-right" onclick="document.getElementById('refresh').classList.add('fa-spin');" data-turbolinks-action="replace" id="refresh">
-  <%= fa "refresh" %>
-  <span class="sr-only">Refresh</span>
-</a>

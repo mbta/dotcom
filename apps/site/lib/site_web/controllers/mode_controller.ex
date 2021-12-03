@@ -3,9 +3,6 @@ defmodule SiteWeb.ModeController do
   use SiteWeb, :controller
 
   alias CMS.{Partial.Teaser, Repo}
-  alias Plug.Conn
-  alias PredictedSchedule.Display
-  alias Site.TransitNearMe
   alias SiteWeb.{Mode}
   alias Routes.{Route}
 
@@ -39,49 +36,6 @@ defmodule SiteWeb.ModeController do
     )
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")
-  end
-
-  @spec predictions_api(Conn.t(), map) :: Conn.t()
-  def predictions_api(conn, %{
-        "id" => route_id,
-        "origin_stop" => origin_stop,
-        "direction_id" => direction_id
-      }) do
-    now = conn.assigns.date_time
-
-    schedules =
-      route_id
-      |> PredictedSchedule.get(origin_stop,
-        direction_id: direction_id,
-        now: now,
-        sort_fn: &sort_by_time/1
-      )
-      |> Enum.map(&TransitNearMe.build_time_map(&1, now: now))
-      |> Enum.map(&route_with_prediction(&1, route_id))
-      |> Enum.take(4)
-
-    json(conn, schedules)
-  end
-
-  @spec sort_by_time(PredictedSchedule.t()) :: {1 | 2, non_neg_integer}
-  defp sort_by_time(%PredictedSchedule{schedule: nil, prediction: prediction}),
-    do: {1, Timex.to_unix(prediction.time)}
-
-  defp sort_by_time(%PredictedSchedule{schedule: schedule, prediction: nil}),
-    do: {2, Timex.to_unix(schedule.time)}
-
-  defp sort_by_time(%PredictedSchedule{schedule: _schedule, prediction: prediction}),
-    do: {1, Timex.to_unix(prediction.time)}
-
-  def route_with_prediction({pred_sched, time_map}, route_id) do
-    trip = PredictedSchedule.trip(pred_sched)
-
-    %{
-      headsign: Display.headsign(pred_sched),
-      train_number: trip && trip.name,
-      route: Route.to_json_safe(Routes.Repo.get(route_id)),
-      prediction: time_map
-    }
   end
 
   def json_safe_routes(pred_or_sched) do

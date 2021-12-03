@@ -28,30 +28,4 @@ defmodule Util.EnumHelpersTest do
       end
     end
   end
-
-  describe "pop_off_front_and_back/2" do
-    test "splits a list into the first n, last n, and middle portions" do
-      ptest l: list(int()), n: int(min: 0) do
-        length = Enum.count(l)
-        {first, middle, last} = pop_off_front_and_back(l, n)
-
-        assert Enum.count(first) == Enum.min([n, length])
-        assert Enum.count(last) == Enum.min([Enum.max([length - n, 0]), n])
-        assert first ++ middle ++ last == l
-      end
-    end
-  end
-
-  describe "pop_off_front_and_back/3" do
-    test "splits a list into the first n, last m, and middle portions" do
-      ptest l: list(int()), n: int(min: 0), m: int(min: 0) do
-        length = Enum.count(l)
-        {first, middle, last} = pop_off_front_and_back(l, n, m)
-
-        assert Enum.count(first) == Enum.min([n, length])
-        assert Enum.count(last) == Enum.min([Enum.max([length - n, 0]), m])
-        assert first ++ middle ++ last == l
-      end
-    end
-  end
 end

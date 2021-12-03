@@ -22,35 +22,19 @@ export class FacetItem {
     return {
       facetItem: hogan.compile(`
         <div class="{{class}}">
-          <div id="${
-            this.selectors.expansionContainer
-          }" class="c-facets__flex-container--normal" ${tabToExpand}>
+          <div id="${this.selectors.expansionContainer}" class="c-facets__flex-container--normal" ${tabToExpand}>
             <div class="c-facets__icon">
               {{#iconClass}}
                 {{{iconClass}}}
               {{/iconClass}}
             </div>
-            <div id="${
-              this.selectors.textDisplay
-            }" class="c-facets__title">{{text}}</div>
+            <div id="${this.selectors.textDisplay}" class="c-facets__title">{{text}}</div>
           </div>
-          <div id="${
-            this.selectors.checkboxControlContainer
-          }" class="c-facets__flex-container--wide">
-            <div class="c-facets__facet-item" id="${
-              this.selectors.counter
-            }"></div>
+          <div id="${this.selectors.checkboxControlContainer}" class="c-facets__flex-container--wide">
+            <div class="c-facets__facet-item" id="${this.selectors.counter}"></div>
             <div class="c-checkbox">
-              <input id="${
-                this.selectors.checkbox
-              }" class="c-checkbox__input" type="checkbox" name="{{text}}" aria-labelledby="${
-        this.selectors.textDisplay
-      }">
-              <label id="${
-                this.selectors.checkboxLabel
-              }" class="c-checkbox__label" for="${
-        this.selectors.checkbox
-      }"></label>
+              <input id="${this.selectors.checkbox}" class="c-checkbox__input" type="checkbox" name="{{text}}" aria-labelledby="${this.selectors.textDisplay}">
+              <label id="${this.selectors.checkboxLabel}" class="c-checkbox__label" for="${this.selectors.checkbox}"></label>
             </div>
           </div>
         </div>
@@ -111,9 +95,7 @@ export class FacetItem {
   }
 
   _triangleRightIcon(id) {
-    return `<span id="${
-      this.selectors.icon
-    }" class="c-facets__triangle--right"></span>`;
+    return `<span id="${this.selectors.icon}" class="c-facets__triangle--right"></span>`;
   }
 
   toggleExpansion() {

@@ -7,7 +7,6 @@ defmodule SiteWeb.ScheduleController.Green do
   import UrlHelpers, only: [update_url: 2]
   import SiteWeb.ControllerHelpers, only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
 
-  alias Schedules.Schedule
   alias SiteWeb.ScheduleController.LineController
   alias SiteWeb.ScheduleView
 
@@ -21,14 +20,12 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(:all_stops)
   plug(SiteWeb.ScheduleController.OriginDestination)
   plug(:validate_direction)
-  plug(:schedules)
   plug(:vehicle_locations)
   plug(:predictions)
   plug(SiteWeb.ScheduleController.VehicleTooltips)
   plug(SiteWeb.ScheduleController.ExcludedStops)
   plug(SiteWeb.ScheduleController.Journeys)
   plug(:validate_journeys)
-  plug(:hide_destination_selector)
   plug(SiteWeb.ScheduleController.TripInfo)
   plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
   plug(SiteWeb.ScheduleController.ScheduleError)
@@ -38,17 +35,10 @@ defmodule SiteWeb.ScheduleController.Green do
 
   @task_timeout 10_000
 
-  def show(%Plug.Conn{query_params: %{"tab" => "trip-view"}} = conn, _params),
-    do: trip_view(conn, [])
-
   def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
     do: alerts(conn, [])
 
   def show(conn, _params), do: line(conn, [])
-
-  def trip_view(conn, _params) do
-    redirect(conn, to: line_path(conn, :show, "Green", Map.delete(conn.query_params, "tab")))
-  end
 
   def alerts(conn, _params) do
     conn
@@ -96,28 +86,6 @@ defmodule SiteWeb.ScheduleController.Green do
     end
   end
 
-  def schedules(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do
-    conn
-  end
-
-  def schedules(conn, opts) do
-    schedules =
-      conn
-      |> conn_with_branches
-      |> Task.async_stream(
-        fn conn ->
-          call_plug_with_opts(conn, SiteWeb.ScheduleController.Schedules, opts).assigns.schedules
-        end,
-        timeout: @task_timeout
-      )
-      |> flat_map_results
-      |> Enum.sort_by(&arrival_time/1, &Timex.before?/2)
-
-    conn
-    |> assign(:schedules, schedules)
-    |> SiteWeb.ScheduleController.Schedules.assign_frequency_table(schedules)
-  end
-
   def predictions(conn, opts) do
     {predictions, vehicle_predictions} =
       if SiteWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
@@ -160,29 +128,6 @@ defmodule SiteWeb.ScheduleController.Green do
       |> Enum.reduce(%{}, fn {:ok, result}, acc -> Map.merge(result, acc) end)
 
     assign(conn, :vehicle_locations, vehicle_locations)
-  end
-
-  @doc """
-
-  For a few westbound stops, we don't have trip predictions, only how far
-  away the train is. In those cases, we disabled the destination selector
-  since we can't match pairs of trips.
-
-  """
-  def hide_destination_selector(%{assigns: %{direction_id: 0, origin: %{id: stop_id}}} = conn, [])
-      when stop_id in [
-             "place-spmnl",
-             "place-north",
-             "place-haecl",
-             "place-gover",
-             "place-pktrm",
-             "place-boyls"
-           ] do
-    assign(conn, :hide_destination_selector?, true)
-  end
-
-  def hide_destination_selector(conn, []) do
-    conn
   end
 
   @doc """
@@ -237,10 +182,6 @@ defmodule SiteWeb.ScheduleController.Green do
   defp flat_map_ok(_) do
     []
   end
-
-  @spec arrival_time({Schedule.t(), Schedule.t()} | Schedule.t()) :: DateTime.t()
-  defp arrival_time({arrival, _departure}), do: arrival.time
-  defp arrival_time(schedule), do: schedule.time
 
   defp validate_direction(
          %{

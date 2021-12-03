@@ -1,7 +1,7 @@
 <% placeholder = if @placeholder, do: @placeholder, else: "Search for routes, places, information, and more" %>
 
 <div class="hidden-no-js">
-  <div class="homepage-search">
+  <div class="search">
     <form action="/search" method="get">
       <%= SiteWeb.PartialView.render("_search_input.html",
         Map.merge(assigns, %{
