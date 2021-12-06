@@ -6,10 +6,8 @@ import LineDiagramAndStopListPage from "../LineDiagram";
 import { EnhancedRoute, RouteType } from "../../../../__v3api";
 import {
   LineDiagramStop,
-  RoutePatternsByDirection,
   SimpleStop
 } from "../../__schedule";
-import * as routePatternsByDirection from "../../__tests__/test-data/routePatternsByDirectionData.json";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import simpleLiveData from "./lineDiagramData/live-data.json";
@@ -77,13 +75,6 @@ describe("LineDiagram", () => {
         lineDiagram={lineDiagram}
         route={route as EnhancedRoute}
         directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
       />
     );
   });
@@ -110,13 +101,14 @@ describe("LineDiagram", () => {
       .first()
       .simulate("click");
 
-    expect(wrapper.exists(".schedule-finder--modal")).toBeTruthy();
+    expect(document.getElementById(".schedule-finder--modal")).toBeTruthy();
 
-    expect(wrapper.exists("#modal-close")).toBeTruthy();
-
-    wrapper.find("#modal-close").simulate("click");
-    expect(wrapper.exists(".schedule-finder--modal")).toBeFalsy();
-    expect(wrapper.exists("#modal-close")).toBeFalsy();
+    const closeButton = document.getElementById
+    expect(closeButton).toBeTruthy();
+    // @ts-ignore
+    closeButton.simulate("click");
+    expect(document.getElementById(".schedule-finder--modal")).toBeFalsy();
+    expect(document.getElementById("#modal-close")).toBeFalsy();
   });
 
   describe("opens the ScheduleFinderModal", () => {
@@ -185,13 +177,6 @@ it.each`
           } as EnhancedRoute
         }
         directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
       />
     );
     expect(wrapper.find(".m-schedule-diagram__heading").text()).toContain(name);
@@ -221,13 +206,6 @@ it.each`
           } as EnhancedRoute
         }
         directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
       />
     );
     expect(useSWRSpy).toHaveBeenCalled();
