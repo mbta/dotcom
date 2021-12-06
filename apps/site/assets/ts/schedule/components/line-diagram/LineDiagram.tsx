@@ -1,25 +1,12 @@
-import React, { ReactElement, useReducer, useCallback } from "react";
+import React, { ReactElement } from "react";
 import { Provider } from "react-redux";
-import {
-  useQueryParams,
-  StringParam,
-  updateInLocation
-} from "use-query-params";
+import { updateInLocation } from "use-query-params";
 import useSWR from "swr";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
-import {
-  LineDiagramStop,
-  RoutePatternsByDirection,
-  ScheduleNote as ScheduleNoteType,
-  ServiceInSelector,
-  SimpleStopMap,
-  SelectedOrigin,
-  RouteStop
-} from "../__schedule";
+import { LineDiagramStop, SelectedOrigin, RouteStop } from "../__schedule";
 import { DirectionId, Route } from "../../../__v3api";
 import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
-import { lineDiagramReducer } from "./reducer";
 import { LiveDataByStop } from "./__line-diagram";
 import StopCard from "./StopCard";
 import LineDiagramWithStops from "./LineDiagramWithStops";
@@ -35,49 +22,13 @@ interface LineDiagramProps {
 const stationsOrStops = (routeType: number): string =>
   [0, 1, 2].includes(routeType) ? "Stations" : "Stops";
 
-const directionIdToNumber = (direction: string): DirectionId =>
-  direction === "0" ? 0 : 1;
-
 const LineDiagramAndStopListPage = ({
   lineDiagram,
   route,
   directionId
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
-
-  /**
-   * Setup state handling etc
-   */
-  const [state, dispatch] = useReducer(lineDiagramReducer, {
-    direction: directionId,
-    origin: lineDiagram[0].route_stop.id,
-    modalMode: "schedule",
-    modalOpen: false
-  });
-
   // also track the location of text to align the diagram points to
   const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
-
-  /**
-   * Handle URL params
-   */
-  const [query] = useQueryParams({
-    // eslint-disable-next-line camelcase
-    "schedule_direction[direction_id]": StringParam,
-    "schedule_direction[origin]": StringParam
-  });
-
-  React.useEffect(() => {
-    const newDirection = query["schedule_direction[direction_id]"];
-    const newOrigin = query["schedule_direction[origin]"];
-    // modify values in case URL has both parameters:
-    if (newDirection !== undefined && newOrigin !== undefined) {
-      dispatch({
-        type: "initialize",
-        origin: newOrigin,
-        direction: directionIdToNumber(newDirection)
-      });
-    }
-  }, [query]);
 
   const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     if (window) {
@@ -94,7 +45,7 @@ const LineDiagramAndStopListPage = ({
   };
 
   const handleStopClick = (stop: RouteStop): void => {
-    changeOrigin(stop.id)
+    changeOrigin(stop.id);
 
     const currentState = getCurrentState();
     const { modalOpen: modalIsOpen } = currentState;
@@ -109,7 +60,7 @@ const LineDiagramAndStopListPage = ({
         }
       });
     }
-  }
+  };
 
   /**
    * Provide a search box for filtering stops

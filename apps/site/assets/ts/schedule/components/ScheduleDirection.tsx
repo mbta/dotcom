@@ -91,10 +91,6 @@ const ScheduleDirection = ({
   mapData,
   staticMapData,
   lineDiagram,
-  services,
-  stops,
-  today,
-  scheduleNote,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
@@ -246,11 +242,6 @@ const ScheduleDirection = ({
           lineDiagram={lineState.data}
           route={route}
           directionId={state.directionId}
-          routePatternsByDirection={routePatternsByDirection}
-          services={services}
-          stops={stops}
-          today={today}
-          scheduleNote={scheduleNote}
         />
       )}
     </>

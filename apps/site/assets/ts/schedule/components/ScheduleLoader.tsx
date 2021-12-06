@@ -42,7 +42,7 @@ export const changeOrigin = (origin: SelectedOrigin): void => {
       modalMode: origin ? "schedule" : "origin"
     }
   });
-}; 
+};
 
 export const ScheduleLoader = ({
   component,
