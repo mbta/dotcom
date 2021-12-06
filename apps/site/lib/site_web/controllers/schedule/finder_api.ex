@@ -503,7 +503,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   @spec get_route_id(Route.id_t(), Trip.id_t()) :: Route.id_t() | nil
   defp get_route_id("Green", trip_id) do
     case Schedules.Repo.trip(trip_id) do
-      %Schedules.Trip{route_pattern_id: route_pattern_id} ->
+      %Schedules.Trip{route_pattern_id: route_pattern_id} when not is_nil(route_pattern_id) ->
         RoutePatterns.Repo.get(route_pattern_id)
         |> Map.get(:route_id)
 
