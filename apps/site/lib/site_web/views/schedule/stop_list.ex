@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleView.StopList do
-  alias SiteWeb.ViewHelpers
+  alias SiteWeb.TimeHelpers
   alias Site.StopBubble
 
   @doc """
@@ -119,9 +119,9 @@ defmodule SiteWeb.ScheduleView.StopList do
 
   def display_departure_range(%Schedules.Departures{} = departures) do
     [
-      ViewHelpers.format_schedule_time(departures.first_departure),
+      TimeHelpers.format_schedule_time(departures.first_departure),
       "-",
-      ViewHelpers.format_schedule_time(departures.last_departure)
+      TimeHelpers.format_schedule_time(departures.last_departure)
     ]
   end
 

@@ -4,7 +4,6 @@ defmodule SiteWeb.CMSView do
   """
   use SiteWeb, :view
 
-  import SiteWeb.TimeHelpers
   import SiteWeb.CMS.PageView, only: [render_page: 2]
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
@@ -61,13 +60,5 @@ defmodule SiteWeb.CMSView do
     "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{
       format_time(end_time)
     }"
-  end
-
-  def format_time(%{minute: 0} = time) do
-    Timex.format!(time, "{h12} {AM}")
-  end
-
-  def format_time(time) do
-    Timex.format!(time, "{h12}:{m} {AM}")
   end
 end

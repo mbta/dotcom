@@ -7,7 +7,7 @@ defmodule SiteWeb.EventView do
   import Site.FontAwesomeHelpers
 
   import SiteWeb.CMSView,
-    only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
+    only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1]
 
   alias CMS.Page.Event
   alias CMS.Partial.Teaser
