@@ -35,13 +35,13 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(`/trip-planner/to/south-station-station`);
+  ).toEqual(`/trip-planner/to/42.352271%2C-71.055242`);
 
   expect(
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(`/trip-planner/to/south-station-station`);
+  ).toEqual(`/trip-planner/to/42.352271%2C-71.055242`);
 });
 
 it("falls back to municipality if stop has no address", () => {
