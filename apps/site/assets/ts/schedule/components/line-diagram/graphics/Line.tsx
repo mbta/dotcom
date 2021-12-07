@@ -57,7 +57,9 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
     <>
       {from.stop_data.map((branchLine, branchIndex) => {
         const lineProps: React.SVGProps<SVGLineElement> = {
-          key: `${from.route_stop.id}-${to.route_stop.id}-${branchLine.type}-${branchIndex}`
+          key: `${from.route_stop.id}-${to.route_stop.id}-${
+            branchLine.type
+          }-${branchIndex}`
         };
         lineProps.strokeWidth = `${
           branchIndex >= 1 &&

@@ -79,7 +79,9 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this.useMyLocationErrorEl = document.createElement("div");
     this.useMyLocationErrorEl.classList.add("u-error");
     this.useMyLocationErrorEl.style.display = "none";
-    this.useMyLocationErrorEl.innerHTML = `${window.location.host} needs permission to use your location.
+    this.useMyLocationErrorEl.innerHTML = `${
+      window.location.host
+    } needs permission to use your location.
       Please update your browser's settings or refresh the page and try again.`;
     container.parentNode.appendChild(this.useMyLocationErrorEl);
   }

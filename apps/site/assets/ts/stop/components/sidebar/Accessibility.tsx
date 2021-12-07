@@ -15,7 +15,7 @@ interface Props {
 
 /* eslint-disable camelcase */
 export const accessibilityNames: {
-  [accessibilityName in AccessibilityType]: string;
+  [accessibilityName in AccessibilityType]: string
 } = {
   tty_phone: "TTY Phone",
   escalator_both: "Escalator (up and down)",
@@ -59,7 +59,9 @@ const maybeRenderBusAccess = (bus: boolean, accessKnown: boolean): string => {
 
 const renderSpecialCase = (stop: Stop): string => {
   const specialCase = stop.id === "place-asmnl" ? "Mattapan Trolley" : "train";
-  return `Significant accessibility barriers exist at ${stop.name} but customers can board or exit the ${specialCase} using a mobile lift. `;
+  return `Significant accessibility barriers exist at ${
+    stop.name
+  } but customers can board or exit the ${specialCase} using a mobile lift. `;
 };
 
 const renderAccessibilityLevel = (stop: Stop, bus: boolean): string => {

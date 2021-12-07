@@ -157,7 +157,9 @@ const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
   strippedAlertUrl = strippedAlertUrl.replace(/mbta/gi, "MBTA");
 
   const headerContent = alert.url
-    ? `${alert.header}<span>&nbsp;</span><a href="${alert.url}" target="_blank">${strippedAlertUrl}</a>`
+    ? `${alert.header}<span>&nbsp;</span><a href="${
+        alert.url
+      }" target="_blank">${strippedAlertUrl}</a>`
     : alert.header;
 
   return (

@@ -35,10 +35,14 @@ export const TEMPLATES = {
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
     {{#id}}
-    <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
+    <a id="hit-{{id}}" class="${
+      SELECTORS.result
+    } c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
+    <a class="${
+      SELECTORS.result
+    } c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
@@ -52,10 +56,14 @@ export const TEMPLATES = {
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
     {{#id}}
-    <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
+    <a id="hit-{{id}}" class="${
+      SELECTORS.result
+    } c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
-    <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
+    <a class="${
+      SELECTORS.result
+    } c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
@@ -304,7 +312,9 @@ function getRouteTitle(hit) {
   const name = hit._highlightResult.route.name.value;
   switch (hit.route.type) {
     case 3:
-      return `${name} <span class="c-search-result__long-name">${hit._highlightResult.route.long_name.value}</span>`;
+      return `${name} <span class="c-search-result__long-name">${
+        hit._highlightResult.route.long_name.value
+      }</span>`;
     default:
       return name;
   }

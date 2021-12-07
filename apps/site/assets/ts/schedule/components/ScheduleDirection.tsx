@@ -133,18 +133,21 @@ const ScheduleDirection = ({
   } else if (isACommuterRailRoute(route)) {
     const currentPatterns = routePatternsInCurrentDirection
       .filter(pattern => pattern.route_id === route.id)
-      .reduce((result, current) => {
-        if (result.length === 0 || current.typicality < result[0].typicality)
-          return [current];
-        if (current.typicality === result[0].typicality) {
-          if (result[0].shape_priority < 0 && current.shape_priority > 0)
+      .reduce(
+        (result, current) => {
+          if (result.length === 0 || current.typicality < result[0].typicality)
             return [current];
-          if (current.shape_priority < 0 && result[0].shape_priority > 0)
-            return result;
-          return result.concat(current);
-        }
-        return result;
-      }, [] as EnhancedRoutePattern[]);
+          if (current.typicality === result[0].typicality) {
+            if (result[0].shape_priority < 0 && current.shape_priority > 0)
+              return [current];
+            if (current.shape_priority < 0 && result[0].shape_priority > 0)
+              return result;
+            return result.concat(current);
+          }
+          return result;
+        },
+        [] as EnhancedRoutePattern[]
+      );
 
     currentShapes = currentPatterns.map(pattern => pattern.shape_id);
     currentStops = currentPatterns.reduce(
@@ -187,14 +190,17 @@ const ScheduleDirection = ({
     error: false
   });
 
-  useEffect(() => {
-    fetchLineData(
-      route.id,
-      state.directionId,
-      currentRoutePatternIdForData,
-      dispatchLineData
-    );
-  }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
+  useEffect(
+    () => {
+      fetchLineData(
+        route.id,
+        state.directionId,
+        currentRoutePatternIdForData,
+        dispatchLineData
+      );
+    },
+    [route, state.directionId, busVariantId, currentRoutePatternIdForData]
+  );
 
   return (
     <>

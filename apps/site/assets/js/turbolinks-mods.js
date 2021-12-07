@@ -35,8 +35,8 @@ const turbolinks = ($, w = window, doc = document) => {
       lastScrollPosition = [w.scrollX, w.scrollY];
       switch (
         ev.srcElement.activeElement &&
-        ev.srcElement.activeElement.dataset &&
-        ev.srcElement.activeElement.dataset.scroll
+          ev.srcElement.activeElement.dataset &&
+          ev.srcElement.activeElement.dataset.scroll
       ) {
         // allow the page to scroll on focus, or not at all if there is no focus
         case "true":
@@ -149,7 +149,9 @@ function includesTabParam(path) {
 }
 
 function getCurrentUrl() {
-  return `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+  return `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }`;
 }
 
 function focusAndExpand(el, $) {

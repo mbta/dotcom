@@ -30,12 +30,15 @@ export const routeToModeName = ({ mode, id }: Route): string => {
 };
 
 const sortedDistinctModes = (strings: string[]): string[] => {
-  const distinctModes = strings.reduce((acc, str) => {
-    if (acc.includes(str)) {
-      return acc;
-    }
-    return acc.concat([str]);
-  }, [] as string[]);
+  const distinctModes = strings.reduce(
+    (acc, str) => {
+      if (acc.includes(str)) {
+        return acc;
+      }
+      return acc.concat([str]);
+    },
+    [] as string[]
+  );
 
   return distinctModes;
 };

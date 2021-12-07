@@ -114,13 +114,16 @@ const TransitNearMe = ({
   };
   const [state, dispatch] = useReducer(reducer, initialStateWithModes);
   const mapRef = useRef(null);
-  useEffect(() => {
-    if (mapRef && mapRef.current && mapData.markers.length > 0) {
-      /* istanbul ignore next */
-      // @ts-ignore
-      mapRef.current!.scrollIntoView();
-    }
-  }, [mapData.markers.length, state.stopsWithRoutes.length]);
+  useEffect(
+    () => {
+      if (mapRef && mapRef.current && mapData.markers.length > 0) {
+        /* istanbul ignore next */
+        // @ts-ignore
+        mapRef.current!.scrollIntoView();
+      }
+    },
+    [mapData.markers.length, state.stopsWithRoutes.length]
+  );
   const selectedStop = getSelectedStop(
     state.stopsWithRoutes,
     state.selectedStopId

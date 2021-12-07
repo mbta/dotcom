@@ -15,16 +15,19 @@ const useFilteredList = (
   const [filteredList, setFilteredList] = useState([...list]);
   const [listQuery, setListQuery] = useState("");
 
-  useEffect(() => {
-    const results = [...list].filter(item => {
-      const string = get(item, key, item);
-      if (typeof string !== "string") {
-        return true;
-      }
-      return string.toLowerCase().includes(listQuery.toLowerCase());
-    });
-    setFilteredList(results);
-  }, [list, key, listQuery, setFilteredList]);
+  useEffect(
+    () => {
+      const results = [...list].filter(item => {
+        const string = get(item, key, item);
+        if (typeof string !== "string") {
+          return true;
+        }
+        return string.toLowerCase().includes(listQuery.toLowerCase());
+      });
+      setFilteredList(results);
+    },
+    [list, key, listQuery, setFilteredList]
+  );
 
   return [listQuery, setListQuery, filteredList];
 };

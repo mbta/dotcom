@@ -32,28 +32,34 @@ export default function useStopPositions(
 ): [RefList, () => void] {
   const stopRefsMap: RefList = stops.reduce(useStopRef, {});
   const dispatchStopCoords = useDispatch();
-  const updateAllStops = useCallback((): void => {
-    Object.entries(stopRefsMap).forEach(([stopId, ref]) => {
-      const x = xCoordForStop(stops.find(stopById(stopId))!);
-      let coordinates = null;
-      if (ref && ref.current) {
-        const { offsetTop, offsetHeight } = ref.current;
-        const y = offsetTop + offsetHeight / 2;
-        coordinates = [x, y];
-      }
-      dispatchStopCoords({
-        type: "set",
-        stop: stopId,
-        coords: coordinates
+  const updateAllStops = useCallback(
+    (): void => {
+      Object.entries(stopRefsMap).forEach(([stopId, ref]) => {
+        const x = xCoordForStop(stops.find(stopById(stopId))!);
+        let coordinates = null;
+        if (ref && ref.current) {
+          const { offsetTop, offsetHeight } = ref.current;
+          const y = offsetTop + offsetHeight / 2;
+          coordinates = [x, y];
+        }
+        dispatchStopCoords({
+          type: "set",
+          stop: stopId,
+          coords: coordinates
+        });
       });
-    });
-  }, [dispatchStopCoords, stopRefsMap, stops]);
+    },
+    [dispatchStopCoords, stopRefsMap, stops]
+  );
 
-  useEffect(() => {
-    updateAllStops();
-    window.addEventListener("resize", updateAllStops);
-    return () => window.removeEventListener("resize", updateAllStops);
-  }, [updateAllStops]);
+  useEffect(
+    () => {
+      updateAllStops();
+      window.addEventListener("resize", updateAllStops);
+      return () => window.removeEventListener("resize", updateAllStops);
+    },
+    [updateAllStops]
+  );
 
   return [stopRefsMap, updateAllStops];
 }

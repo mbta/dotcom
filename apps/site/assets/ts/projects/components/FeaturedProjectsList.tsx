@@ -38,7 +38,9 @@ const FeaturedProjectsList = ({
       <div className="page-section">
         {groupedProjects.map(projectPair => {
           const secondProjectId = projectPair[1] ? projectPair[1].id : "none";
-          const key = `featured-projects-row-${projectPair[0].id}_${secondProjectId}`;
+          const key = `featured-projects-row-${
+            projectPair[0].id
+          }_${secondProjectId}`;
           return (
             <FeaturedProjectsRow
               key={key}

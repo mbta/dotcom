@@ -32,7 +32,9 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
     {routeStop.zone &&
       routeStop.route &&
       isACommuterRailRoute(routeStop.route) && (
-        <span className="c-icon__cr-zone m-schedule-diagram__feature-icon">{`Zone ${routeStop.zone}`}</span>
+        <span className="c-icon__cr-zone m-schedule-diagram__feature-icon">{`Zone ${
+          routeStop.zone
+        }`}</span>
       )}
   </div>
 );

@@ -18,9 +18,12 @@ const SearchBox = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const [query, setQuery] = useState("");
 
-  useEffect(() => {
-    onChange(query);
-  }, [query, onChange]);
+  useEffect(
+    () => {
+      onChange(query);
+    },
+    [query, onChange]
+  );
 
   return (
     <div className={`${className} c-form__input-container`}>

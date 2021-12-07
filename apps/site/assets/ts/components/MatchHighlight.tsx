@@ -18,23 +18,26 @@ const MatchHighlight = ({
     (DetailedReactHTMLElement<{}, HTMLElement> | string)[]
   >([text]);
 
-  useEffect(() => {
-    if (matchQuery && matchQuery !== "") {
-      const matched = text.match(new RegExp(matchQuery, "i"));
-      if (matched && matched[0]) {
-        // split text on first instance of match only
-        const [precedingText, ...moreTexts] = text.split(matched[0]);
-        const subsequentText = moreTexts.join(matched[0]);
-        setChildNodes([
-          precedingText,
-          React.createElement("b", { className: "u-highlight" }, matched[0]),
-          subsequentText
-        ]);
+  useEffect(
+    () => {
+      if (matchQuery && matchQuery !== "") {
+        const matched = text.match(new RegExp(matchQuery, "i"));
+        if (matched && matched[0]) {
+          // split text on first instance of match only
+          const [precedingText, ...moreTexts] = text.split(matched[0]);
+          const subsequentText = moreTexts.join(matched[0]);
+          setChildNodes([
+            precedingText,
+            React.createElement("b", { className: "u-highlight" }, matched[0]),
+            subsequentText
+          ]);
+        }
+      } else {
+        setChildNodes([text]);
       }
-    } else {
-      setChildNodes([text]);
-    }
-  }, [text, matchQuery, setChildNodes]);
+    },
+    [text, matchQuery, setChildNodes]
+  );
 
   return React.createElement("span", {}, ...childNodes);
 };

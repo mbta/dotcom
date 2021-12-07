@@ -122,11 +122,7 @@ describe("geolocation", () => {
       $("#test").on("geolocation:complete", geolocationCallback);
       geolocation($, document, { geolocation: true });
 
-      locationHandler(
-        $,
-        $(".location-link"),
-        $("#test-geolocation-error")
-      )({
+      locationHandler($, $(".location-link"), $("#test-geolocation-error"))({
         coords: {
           latitude: lat,
           longitude: long
@@ -174,22 +170,14 @@ describe("geolocation", () => {
 
     it("hides the loading indicator", () => {
       assert.isFalse($(".loading-indicator").hasClass("hidden-xs-up"));
-      locationError(
-        $,
-        $(".location-link"),
-        $("#test-geolocation-error")
-      )({
+      locationError($, $(".location-link"), $("#test-geolocation-error"))({
         code: ""
       });
       assert.isTrue($(".loading-indicator").hasClass("hidden-xs-up"));
     });
 
     it("shows an error message on timeout or geolocation failure", () => {
-      locationError(
-        $,
-        $(".location-link"),
-        $("#test-geolocation-error")
-      )({
+      locationError($, $(".location-link"), $("#test-geolocation-error"))({
         code: "timeout",
         TIMEOUT: "timeout"
       });
@@ -197,11 +185,7 @@ describe("geolocation", () => {
     });
 
     it("shows a single error message", () => {
-      locationError(
-        $,
-        $(".location-link"),
-        $("#test-geolocation-error")
-      )({
+      locationError($, $(".location-link"), $("#test-geolocation-error"))({
         code: "permission",
         PERMISSION_DENIED: "permission"
       });
@@ -209,11 +193,7 @@ describe("geolocation", () => {
     });
 
     it("shows an error message if permission is denied", () => {
-      locationError(
-        $,
-        $(".location-link"),
-        $("#test-geolocation-error")
-      )({
+      locationError($, $(".location-link"), $("#test-geolocation-error"))({
         code: "permission",
         PERMISSION_DENIED: "permission"
       });

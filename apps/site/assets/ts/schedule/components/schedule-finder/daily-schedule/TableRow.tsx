@@ -110,14 +110,17 @@ const Accordion = ({
   const toggle = (): void => setExpanded(!expanded);
   const tripId = journey.trip.id;
 
-  useEffect(() => {
-    if (expanded && isNotStarted(fetchState)) {
-      fetch({
-        fetcher: fetchTripInfo(tripId, input),
-        parser: parseResults
-      });
-    }
-  }, [tripId, input, expanded, fetchState, fetch]);
+  useEffect(
+    () => {
+      if (expanded && isNotStarted(fetchState)) {
+        fetch({
+          fetcher: fetchTripInfo(tripId, input),
+          parser: parseResults
+        });
+      }
+    },
+    [tripId, input, expanded, fetchState, fetch]
+  );
 
   const isCommuterRail = isACommuterRailRoute(journey.route);
 

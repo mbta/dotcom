@@ -105,11 +105,14 @@ const LazyAccordion = ({
   const toggle = (): void => setExpanded(!expanded);
   const tripId = journey.trip.id;
 
-  useEffect(() => {
-    if (expanded && state.data === null && !state.isLoading && !state.error) {
-      fetchData(tripId, input, dispatch);
-    }
-  }, [tripId, input, expanded, state]);
+  useEffect(
+    () => {
+      if (expanded && state.data === null && !state.isLoading && !state.error) {
+        fetchData(tripId, input, dispatch);
+      }
+    },
+    [tripId, input, expanded, state]
+  );
 
   return (
     <AccordionRow

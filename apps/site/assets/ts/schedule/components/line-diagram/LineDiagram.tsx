@@ -77,18 +77,21 @@ const LineDiagramAndStopListPage = ({
     "schedule_direction[origin]": StringParam
   });
 
-  React.useEffect(() => {
-    const newDirection = query["schedule_direction[direction_id]"];
-    const newOrigin = query["schedule_direction[origin]"];
-    // modify values in case URL has both parameters:
-    if (newDirection !== undefined && newOrigin !== undefined) {
-      dispatch({
-        type: "initialize",
-        origin: newOrigin,
-        direction: directionIdToNumber(newDirection)
-      });
-    }
-  }, [query]);
+  React.useEffect(
+    () => {
+      const newDirection = query["schedule_direction[direction_id]"];
+      const newOrigin = query["schedule_direction[origin]"];
+      // modify values in case URL has both parameters:
+      if (newDirection !== undefined && newOrigin !== undefined) {
+        dispatch({
+          type: "initialize",
+          origin: newOrigin,
+          direction: directionIdToNumber(newDirection)
+        });
+      }
+    },
+    [query]
+  );
 
   const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     if (window) {
@@ -150,7 +153,9 @@ const LineDiagramAndStopListPage = ({
    */
   const liveUrl =
     route.type !== 4
-      ? `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`
+      ? `/schedules/line_api/realtime?id=${
+          route.id
+        }&direction_id=${directionId}`
       : "";
   const { data: maybeLiveData } = useSWR(
     liveUrl,

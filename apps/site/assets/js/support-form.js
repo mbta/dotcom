@@ -217,7 +217,9 @@ function PhotoPreview($, file) {
   let $div = $(`
     <div class="photo-preview">
       <div class="clear-upload-container">
-        <img height="64" class="m-r-1" alt="Uploaded image ${file.name} preview"></img>
+        <img height="64" class="m-r-1" alt="Uploaded image ${
+          file.name
+        } preview"></img>
         <div class="clear-photo">
           <i class="fa fa-circle fa-stack-1x" style="color: white" aria-hidden="true"></i>
           <i class="fa fa-times-circle fa-stack-1x" aria-hidden="true"></i>
