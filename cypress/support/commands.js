@@ -87,3 +87,12 @@ Cypress.Commands.add("takeFullScreenshot", (subject, name, options={}) => {
   cy.wait(100);
   cy.screenshot(subject, name, options);
 });
+
+/**
+ * Navigates to /_flags to enable a feature.
+ * e.g. cy.enableFlaggedFeature("nav_redesign")
+ */
+Cypress.Commands.add("enableFlaggedFeature", (featureSelector) => {
+  cy.visit("/_flags");
+  cy.get(`form[action="/_flags/enable/${featureSelector}"]`).submit();
+});
