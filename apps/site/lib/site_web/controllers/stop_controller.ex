@@ -232,7 +232,7 @@ defmodule SiteWeb.StopController do
   defp schedules_for_route(%Route{} = route, stop_id, now) do
     directions =
       route.id
-      |> PredictedSchedule.get(stop_id, now: now)
+      |> PredictedSchedule.Repo.get(stop_id, now: now)
       |> TransitNearMe.get_direction_map(now: now)
       |> filter_headsigns()
 

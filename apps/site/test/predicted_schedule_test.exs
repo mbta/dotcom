@@ -3,6 +3,7 @@ defmodule PredictedScheduleTest do
   alias Schedules.{Schedule, ScheduleCondensed, Trip}
   alias Stops.Stop
   alias Predictions.Prediction
+  alias PredictedSchedule.Repo
   import PredictedSchedule
   import Mock
 
@@ -136,9 +137,9 @@ defmodule PredictedScheduleTest do
     }
   ]
 
-  describe "get/2" do
+  describe "Repo.get/2" do
     test "returns a list of predicted schedules" do
-      predicted_schedules = get("1", 59, direction_id: 1, now: Util.now())
+      predicted_schedules = Repo.get("1", 59, direction_id: 1, now: Util.now())
       assert is_list(predicted_schedules)
 
       if !Enum.empty?(predicted_schedules) do
@@ -158,7 +159,7 @@ defmodule PredictedScheduleTest do
       end
 
       predicted_schedules =
-        get("Teal", "stop1",
+        Repo.get("Teal", "stop1",
           # between scheduled and predicted times for Trip 2
           now: Timex.shift(@base_time, minutes: 11),
           schedules_fn: schedules_fn,
@@ -182,21 +183,21 @@ defmodule PredictedScheduleTest do
       end
 
       with_mock PredictedSchedule, [:passthrough],
-        group: fn _predictions, _schedules, _opts -> [] end do
-        get("Teal", "stop1",
+        build: fn _predictions, _schedules, _opts -> [] end do
+        Repo.get("Teal", "stop1",
           now: Timex.shift(@base_time, minutes: 30),
           schedules_fn: schedules_fn,
           predictions_fn: predictions_fn
         )
 
-        assert :meck.num_calls(PredictedSchedule, :group, :_) == 2
+        assert :meck.num_calls(PredictedSchedule, :build, :_) == 2
       end
     end
   end
 
-  describe "PredictedSchedules.group/2" do
+  describe "PredictedSchedules.build/2" do
     test "paired by stop" do
-      predicted_schedules = group(@predictions, Enum.shuffle(@schedules))
+      predicted_schedules = build(@predictions, Enum.shuffle(@schedules))
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
             Enum.take(predicted_schedules, 3) do
@@ -206,7 +207,7 @@ defmodule PredictedScheduleTest do
 
     test "does not pair when schedule trip is nil" do
       schedules_nil_trips = Enum.map(@schedules, &Map.replace!(&1, :trip, nil))
-      predicted_schedules = group(@predictions, Enum.shuffle(schedules_nil_trips))
+      predicted_schedules = build(@predictions, Enum.shuffle(schedules_nil_trips))
 
       # predictions have no schedules with trips to pair with
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
@@ -223,7 +224,7 @@ defmodule PredictedScheduleTest do
     end
 
     test "works with the schedules returned from Site.RealtimeSchedule" do
-      predicted_condensed_schedules = group(@predictions, Enum.shuffle(@condensed_schedules))
+      predicted_condensed_schedules = build(@predictions, Enum.shuffle(@condensed_schedules))
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
             Enum.take(predicted_condensed_schedules, 3) do
@@ -234,7 +235,7 @@ defmodule PredictedScheduleTest do
     test "Schedules and Predictions with different stop_sequence values stay separated" do
       predictions = @predictions ++ Enum.map(@predictions, &%{&1 | stop_sequence: 5})
       schedules = @schedules ++ Enum.map(@schedules, &%{&1 | stop_sequence: 5})
-      predicted_schedules = group(predictions, schedules)
+      predicted_schedules = build(predictions, schedules)
       assert length(predicted_schedules) == length(schedules)
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
@@ -256,7 +257,7 @@ defmodule PredictedScheduleTest do
       schedules =
         @condensed_schedules ++ Enum.map(@condensed_schedules, &%{&1 | stop_sequence: 5})
 
-      predicted_schedules = group(predictions, schedules)
+      predicted_schedules = build(predictions, schedules)
       assert length(predicted_schedules) == length(schedules)
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <- predicted_schedules,
@@ -273,24 +274,24 @@ defmodule PredictedScheduleTest do
     end
 
     test "All schedules are returned" do
-      predicted_schedules = group(@predictions, @schedules)
+      predicted_schedules = build(@predictions, @schedules)
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
-      predicted_condensed_schedules = group(@predictions, @condensed_schedules)
+      predicted_condensed_schedules = build(@predictions, @condensed_schedules)
       assert Enum.map(predicted_condensed_schedules, & &1.schedule) == @condensed_schedules
       schedules_nil_trips = Enum.map(@schedules, &Map.replace!(&1, :trip, nil))
-      predicted_schedules_with_nil_trips = group(@predictions, schedules_nil_trips)
+      predicted_schedules_with_nil_trips = build(@predictions, schedules_nil_trips)
       # these are grouped differently, so just check if all schedules are present
       predicted_schedules_schedules = Enum.map(predicted_schedules_with_nil_trips, & &1.schedule)
       assert Enum.all?(schedules_nil_trips, &Enum.member?(predicted_schedules_schedules, &1))
     end
 
     test "PredictedSchedules are returned in order of ascending time" do
-      predicted_schedules = group(Enum.shuffle(@predictions), Enum.shuffle(@schedules))
+      predicted_schedules = build(Enum.shuffle(@predictions), Enum.shuffle(@schedules))
       assert Enum.map(predicted_schedules, & &1.schedule) == @schedules
     end
 
     test "Predictions without matching stops are still returned" do
-      predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
+      predicted_schedules = build(@non_matching_predictions, Enum.shuffle(@schedules))
 
       assert Enum.count(predicted_schedules) ==
                Enum.count(@non_matching_predictions) + Enum.count(@schedules)
@@ -302,7 +303,7 @@ defmodule PredictedScheduleTest do
     end
 
     test "PredictedSchedules are sorted with unmatched predictions first" do
-      predicted_schedules = group(@non_matching_predictions, Enum.shuffle(@schedules))
+      predicted_schedules = build(@non_matching_predictions, Enum.shuffle(@schedules))
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
             Enum.take(predicted_schedules, 2) do
@@ -317,7 +318,7 @@ defmodule PredictedScheduleTest do
     end
 
     test "predicted_schedules are grouped according to trip id" do
-      grouped_predicted_schedules = group(@trip_predictions, @trip_schedules)
+      grouped_predicted_schedules = build(@trip_predictions, @trip_schedules)
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <-
             grouped_predicted_schedules do
@@ -326,7 +327,7 @@ defmodule PredictedScheduleTest do
     end
 
     test "returns empty in case of error" do
-      assert group({:error, "error in predictions"}, {:error, "error in schedules"}) == []
+      assert build({:error, "error in predictions"}, {:error, "error in schedules"}) == []
     end
   end
 

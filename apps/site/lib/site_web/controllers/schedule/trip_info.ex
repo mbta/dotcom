@@ -151,7 +151,7 @@ defmodule SiteWeb.ScheduleController.TripInfo do
   defp build_trip_times(schedules, %{date_time: date_time} = assigns, trip_id, prediction_fn) do
     assigns
     |> get_trip_predictions(Util.service_date(date_time), trip_id, prediction_fn)
-    |> PredictedSchedule.group(schedules)
+    |> PredictedSchedule.build(schedules)
   end
 
   defp get_trip_predictions(%{date: date}, service_date, _, _prediction_fn)

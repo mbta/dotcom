@@ -6,11 +6,10 @@ defmodule Site.TransitNearMe do
   require Logger
 
   alias GoogleMaps.Geocode.Address
-  alias PredictedSchedule.Display
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  alias SiteWeb.ViewHelpers
+  alias SiteWeb.{ViewHelpers, TimeHelpers}
   alias Stops.{Nearby, Stop}
   alias Util.Distance
   alias Vehicles.Vehicle
@@ -78,13 +77,6 @@ defmodule Site.TransitNearMe do
     schedules_fn: &Schedules.Repo.schedule_for_stop/2
   ]
 
-  @stops_without_predictions [
-    "place-lake",
-    "place-clmnl",
-    "place-river",
-    "place-hsmnl"
-  ]
-
   @spec build(Address.t(), Keyword.t()) :: stops_with_distances
   def build(%Address{} = location, opts) do
     opts = Keyword.merge(@default_opts, opts)
@@ -102,8 +94,8 @@ defmodule Site.TransitNearMe do
   end
 
   @spec get_direction_map([PredictedSchedule.t()], Keyword.t()) :: [direction_data]
-  def get_direction_map(schedules, opts) do
-    schedules
+  def get_direction_map(predicted_schedules, opts) do
+    predicted_schedules
     |> Enum.group_by(&PredictedSchedule.direction_id/1)
     |> Enum.map(&build_direction_map(&1, opts))
     |> sort_by_time()
@@ -181,30 +173,30 @@ defmodule Site.TransitNearMe do
   @spec format_prediction_time(DateTime.t(), DateTime.t(), atom, integer) ::
           [String.t()] | String.t()
   def format_prediction_time(%DateTime{} = time, _now, :commuter_rail, _) do
-    format_time(time)
+    TimeHelpers.format_time(time)
   end
 
   def format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
-    Display.do_time_difference(time, now, &format_time/1, 120)
+    TimeHelpers.do_time_difference(time, now, &TimeHelpers.format_time/1, 120)
   end
 
   def format_prediction_time(_, _, :subway, _), do: ["arriving"]
 
   def format_prediction_time(%DateTime{} = time, now, :bus, seconds) when seconds > 60 do
-    Display.do_time_difference(time, now, &format_time/1, 120)
+    TimeHelpers.do_time_difference(time, now, &TimeHelpers.format_time/1, 120)
   end
 
   def format_prediction_time(_, _, :bus, _), do: ["arriving"]
 
-  @spec format_time(DateTime.t()) :: [String.t()]
-  def format_time(time) do
-    [time, am_pm] =
-      time
-      |> Timex.format!("{h12}:{m} {AM}")
-      |> String.split(" ")
+  # @spec format_time(DateTime.t()) :: [String.t()]
+  # def format_time(time) do
+  #   [time, am_pm] =
+  #     time
+  #     |> Timex.format!("{h12}:{m} {AM}")
+  #     |> String.split(" ")
 
-    [time, " ", am_pm]
-  end
+  #   [time, " ", am_pm]
+  # end
 
   @spec sort_by_time([{DateTime.t() | nil, any}]) ::
           {DateTime.t() | nil, [any]}
@@ -238,7 +230,7 @@ defmodule Site.TransitNearMe do
 
   @spec build_direction_map({0 | 1, [PredictedSchedule.t()]}, Keyword.t()) ::
           {DateTime.t(), direction_data}
-  def build_direction_map({direction_id, [ps | _] = schedules}, opts) do
+  def build_direction_map({direction_id, [ps | _] = predicted_schedules}, opts) do
     headsign_fn = Keyword.get(opts, :headsign_fn, &build_headsign_map/2)
     now = Keyword.fetch!(opts, :now)
 
@@ -251,8 +243,8 @@ defmodule Site.TransitNearMe do
       |> Map.fetch!(:id)
 
     {closest_time, headsigns} =
-      schedules
-      |> filter_predicted_schedules(route, stop_id, now)
+      predicted_schedules
+      |> PredictedSchedule.Filter.by_route_with_predictions(route, stop_id, now)
       |> Enum.group_by(&((trip = PredictedSchedule.trip(&1)) && trip.headsign))
       |> Enum.map(fn {headsign, predicted_scheds} ->
         predicted_scheds =
@@ -270,52 +262,6 @@ defmodule Site.TransitNearMe do
       }
     }
   end
-
-  @spec filter_predicted_schedules(
-          [PredictedSchedule.t()],
-          Routes.Route.t(),
-          Stop.id_t(),
-          DateTime.t()
-        ) :: [
-          PredictedSchedule.t()
-        ]
-  def filter_predicted_schedules(predicted_schedules, %Route{}, stop_id, %DateTime{})
-      when stop_id in @stops_without_predictions do
-    predicted_schedules
-  end
-
-  def filter_predicted_schedules(predicted_schedules, %Route{type: type}, _stop_id, now)
-      when type in [0, 1] do
-    # subway routes should only use predictions
-    predicted_schedules
-    |> Enum.filter(&PredictedSchedule.has_prediction?/1)
-    |> case do
-      [_ | _] = predictions ->
-        predictions
-
-      [] ->
-        if late_night?(now) do
-          predicted_schedules
-        else
-          []
-        end
-    end
-  end
-
-  def filter_predicted_schedules(predicted_schedules, %Route{}, _stop_id, %DateTime{}) do
-    # all other modes can use schedules
-    predicted_schedules
-  end
-
-  def late_night?(%DateTime{} = datetime) do
-    time = DateTime.to_time(datetime)
-
-    after_midnight?(time) and before_service_start?(time)
-  end
-
-  defp after_midnight?(%Time{} = time), do: Time.compare(time, ~T[00:00:00]) in [:eq, :gt]
-
-  defp before_service_start?(%Time{} = time), do: Time.compare(time, ~T[03:00:00]) === :lt
 
   @spec build_headsign_map(
           {Schedules.Trip.headsign(), [PredictedSchedule.t()]},
@@ -389,7 +335,7 @@ defmodule Site.TransitNearMe do
 
     params
     |> predictions_fn.()
-    |> PredictedSchedule.group(schedules)
+    |> PredictedSchedule.build(schedules)
     |> Enum.filter(&(!PredictedSchedule.last_stop?(&1) and after_min_time?(&1, now)))
   end
 
@@ -459,66 +405,13 @@ defmodule Site.TransitNearMe do
 
     enhanced_time_data_list =
       enhanced_predicted_schedules
-      |> filter_subway_schedules_without_predictions(route, stop_id, now)
+      |> PredictedSchedule.Filter.by_route_with_predictions(route, stop_id, now)
       |> time_data_from_predicted_schedule()
       |> sort_by_time()
       |> elem(1)
       |> Enum.take(2)
 
     {stop_id, enhanced_time_data_list}
-  end
-
-  @spec filter_subway_schedules_without_predictions(
-          [enhanced_predicted_schedule()],
-          Route.t(),
-          Stop.id_t(),
-          DateTime.t()
-        ) :: [enhanced_predicted_schedule()]
-  def filter_subway_schedules_without_predictions(
-        enhanced_predicted_schedule,
-        _route,
-        stop_id,
-        _now
-      )
-      when stop_id in @stops_without_predictions do
-    enhanced_predicted_schedule
-  end
-
-  def filter_subway_schedules_without_predictions(
-        predicted_schedules_with_crowding,
-        %Route{type: type},
-        _stop_id,
-        now
-      )
-      when type in [0, 1] do
-    # subway routes should only use predictions
-    predicted_schedules_with_crowding
-    |> Enum.filter(fn %{
-                        predicted_schedule: predicted_schedule
-                      } ->
-      PredictedSchedule.has_prediction?(predicted_schedule)
-    end)
-    |> case do
-      [] ->
-        if late_night?(now) do
-          predicted_schedules_with_crowding
-        else
-          []
-        end
-
-      filtered_predicted_schedules_with_crowding ->
-        filtered_predicted_schedules_with_crowding
-    end
-  end
-
-  def filter_subway_schedules_without_predictions(
-        predicted_schedules_with_crowding,
-        _route,
-        _stop_id,
-        _now
-      ) do
-    # all other modes can use schedules
-    predicted_schedules_with_crowding
   end
 
   @spec time_data_from_predicted_schedule([enhanced_predicted_schedule()]) ::
@@ -636,7 +529,7 @@ defmodule Site.TransitNearMe do
   defp expand_route_id(route), do: [route]
 
   defp scheduled_time(%PredictedSchedule{schedule: %Schedule{time: time}}) do
-    format_time(time)
+    TimeHelpers.format_time(time)
   end
 
   defp scheduled_time(%PredictedSchedule{}) do

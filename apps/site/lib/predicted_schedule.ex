@@ -6,7 +6,7 @@ defmodule PredictedSchedule do
   * prediction: The prediction for this trip (optional)
   """
   alias Predictions.Prediction
-  alias Schedules.{Schedule, ScheduleCondensed}
+  alias Schedules.{Schedule, ScheduleCondensed, Trip}
 
   @derive Jason.Encoder
 
@@ -18,82 +18,19 @@ defmodule PredictedSchedule do
           prediction: Prediction.t() | nil
         }
 
-  def get(route_id, stop_id, opts \\ []) do
-    schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
-    predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
-    now = Keyword.get(opts, :now, Util.now())
-    direction_id = Keyword.get(opts, :direction_id)
-    sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
-
-    schedules =
-      [route_id]
-      |> schedules_fn.(
-        stop_ids: stop_id,
-        direction_id: direction_id,
-        date: Util.service_date(now)
-      )
-
-    # if there are any schedules without a trip, maybe we need to...
-    # force another hit of the endpoint without using the cache??
-    # because the trip ids in the cache has probably been changed during a deploy
-    schedules =
-      if is_list(schedules) &&
-           Enum.any?(schedules, fn sched -> sched |> Map.get(:trip) |> is_nil() end) do
-        [route_id]
-        |> schedules_fn.(
-          stop_ids: stop_id,
-          direction_id: direction_id,
-          date: Util.service_date(now),
-          no_cache: true
-        )
-      else
-        schedules
-      end
-
-    predicted_schedules =
-      [route: route_id, stop: stop_id, direction_id: direction_id]
-      |> predictions_fn.()
-      |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
-      |> filter_predicted_schedules(now)
-
-    if Enum.empty?(predicted_schedules) do
-      # if there are no schedules left for today, get schedules for tomorrow
-      PredictedSchedule.group(
-        [],
-        schedules_fn.(
-          [route_id],
-          stop_ids: stop_id,
-          direction_id: direction_id,
-          date: Util.tomorrow_date(now)
-        ),
-        sort_fn: sort_fn
-      )
-      |> filter_predicted_schedules(now)
-    else
-      predicted_schedules
-    end
-  end
-
-  def filter_predicted_schedules(predicted_schedules, now) do
-    predicted_schedules
-    |> Enum.reject(&PredictedSchedule.last_stop?/1)
-    |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
-    |> Enum.reject(&(DateTime.compare(PredictedSchedule.time(&1), now) == :lt))
-  end
-
   @doc """
   The given predictions and schedules will be merged together according to
   stop_id and trip_id to create PredictedSchedules. The final result is a sorted list of
   PredictedSchedules where the `schedule` and `prediction` share a trip_id.
   Either the `schedule` or `prediction` may be nil, but not both.
   """
-  @spec group([Prediction.t()], [Schedule.t()] | [ScheduleCondensed.t()], Keyword.t()) :: [
+  @spec build([Prediction.t()], [Schedule.t()] | [ScheduleCondensed.t()], Keyword.t()) :: [
           PredictedSchedule.t()
         ]
-  def group(predictions, schedules, opts \\ []) do
+  def build(predictions, schedules, opts \\ []) do
     schedule_map = create_map(schedules)
     prediction_map = create_map(predictions)
-    sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
+    sort_fn = Keyword.get(opts, :sort_fn, &PredictedSchedule.Filter.default_sort/1)
 
     schedule_map
     |> unique_map_keys(prediction_map)
@@ -155,7 +92,7 @@ defmodule PredictedSchedule do
   @doc """
   Returns the trip for a given PredictedSchedule.
   """
-  @spec trip(PredictedSchedule.t()) :: Schedules.Trip.t() | nil
+  @spec trip(PredictedSchedule.t()) :: Trip.t() | nil
   def trip(%PredictedSchedule{schedule: %Schedule{trip: trip}}), do: trip
   def trip(%PredictedSchedule{prediction: %Prediction{trip: trip}}), do: trip
 
@@ -300,13 +237,6 @@ defmodule PredictedSchedule do
     end
   end
 
-  @spec is_schedule_after?(PredictedSchedule.t(), DateTime.t()) :: boolean
-  def is_schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
-
-  def is_schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
-    DateTime.compare(schedule.time, time) == :gt
-  end
-
   # Returns unique list of all stop_id's from given schedules and predictions
   @spec unique_map_keys(%{key => Schedule.t()}, %{key => Prediction.t()}) :: [key]
         when key: {String.t(), String.t(), non_neg_integer}
@@ -314,28 +244,6 @@ defmodule PredictedSchedule do
     schedule_map
     |> Map.merge(prediction_map)
     |> Map.keys()
-  end
-
-  @spec sort_predicted_schedules(PredictedSchedule.t()) ::
-          {integer, non_neg_integer, non_neg_integer}
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}),
-    do: {1, prediction.stop_sequence, to_unix(prediction.time)}
-
-  defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}),
-    do: {2, schedule.stop_sequence, to_unix(schedule.time)}
-
-  defp to_unix(%DateTime{} = time) do
-    DateTime.to_unix(time)
-  end
-
-  defp to_unix(%NaiveDateTime{} = time) do
-    time
-    |> DateTime.from_naive!("Etc/UTC")
-    |> to_unix()
-  end
-
-  defp to_unix(nil) do
-    nil
   end
 
   @doc """

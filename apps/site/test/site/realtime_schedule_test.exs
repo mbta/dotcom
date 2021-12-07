@@ -184,7 +184,7 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
-                  time: ["arriving"],
+                  time: "arriving",
                   track: nil,
                   headsign: "Oak Grove"
                 },
@@ -199,7 +199,7 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
-                  time: ["arriving"],
+                  time: "arriving",
                   track: nil,
                   headsign: "Oak Grove"
                 },
@@ -219,7 +219,7 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
-                  time: ["arriving"],
+                  time: "arriving",
                   track: nil,
                   headsign: "Oak Grove"
                 },
@@ -234,7 +234,7 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
-                  time: ["arriving"],
+                  time: "arriving",
                   track: nil,
                   headsign: "Oak Grove"
                 },
