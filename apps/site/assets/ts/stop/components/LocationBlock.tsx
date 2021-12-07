@@ -47,7 +47,6 @@ const LocationBlock = ({
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__location-block">
     {addressOrMunicipality(stop)}
-    {console.log(stop)}
     <div className="m-stop-page__location-links">
       <div className="m-stop-page__location-link">
         <a
