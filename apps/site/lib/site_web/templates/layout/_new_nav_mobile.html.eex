@@ -13,28 +13,28 @@
               <% sub_menu_section == "Most popular fares" -> %>
                 <div class="menu-container">
                   <div class="font-small menu-container_header">Most popular fares</div>
-                  <div class="menu-container_row">
-                    <span>Subway One-Way</span>
-                    <span class="u-bold">$2.40</span>
-                  </div>
-                  <div class="menu-container_row">
-                    <span>Local Bus One-Way</span>
-                    <span class="u-bold">$1.70</span>
-                  </div>
-                  <div class="menu-container_row">
-                    <span>Monthly Linkpass</span>
-                    <span class="u-bold">$90.00</span>
-                  </div>
-                  <div class="menu-container_row">
-                    <div>
-                      <div>Commuter Rail One-Way</div>
-                      <div class="menu-container_smaller-font">Zones 1A - 10</div>
+                  <dl title="Most popular fares">
+                    <div class="menu-container_row">
+                      <dt>Subway One-Way</dt>
+                      <dd class="u-bold">$2.40</dd>
                     </div>
-                    <div class="u-bold">
-                      <div>$2.40 -</div>
-                      <div>$13.25</div>
+                    <div class="menu-container_row">
+                      <dt>Local Bus One-Way</dt>
+                      <dd class="u-bold">$1.70</dd>
                     </div>
-                  </div>
+                    <div class="menu-container_row">
+                      <dt>Monthly Linkpass</dt>
+                      <dd class="u-bold">$90.00</dd>
+                    </div>
+                    <div class="menu-container_row">
+                      <dt>
+                        Commuter Rail One-Way
+                        <br>
+                        <span class="menu-container_smaller-font">Zones 1A - 10</span>
+                      </dt>
+                      <dd class="u-bold">$2.40 - <br>$13.25</dd>
+                    </div>
+                  </dl>
                 </div>
               <% sub_menu_section == "Contact numbers" -> %>
                 <div class="menu-container top-half">

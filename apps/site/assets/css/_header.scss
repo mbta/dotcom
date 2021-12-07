@@ -324,6 +324,24 @@ nav.m-menu {
     width: 280px;
     border-radius: 0 $space-2_new $space-2_new 0;
     font-size: 14px;
+
+    // Description list
+    dl {
+      overflow: auto;
+    }
+    dt, dd {
+      width: 50%;
+    }
+    dt {
+      float: left;
+      font-weight: normal;
+    }
+    dd {
+      float: right;
+      margin-bottom: none;
+      text-align: right;
+    }
+    
     &_header {
       font-size: 12px;
       padding-bottom: $base-spacing__new;
