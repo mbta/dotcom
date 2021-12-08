@@ -32,4 +32,11 @@ defmodule Predictions.Prediction do
           status: String.t() | nil,
           departing?: boolean
         }
+
+  @spec is_skipped_or_cancelled?(__MODULE__.t()) :: boolean()
+  def is_skipped_or_cancelled?(%__MODULE__{schedule_relationship: schedule_relationship})
+      when schedule_relationship in [:cancelled, :skipped],
+      do: true
+
+  def is_skipped_or_cancelled?(_), do: false
 end
