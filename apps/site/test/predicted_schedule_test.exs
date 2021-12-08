@@ -541,4 +541,45 @@ defmodule PredictedScheduleTest do
              })
     end
   end
+
+  describe "to_headsign_data/1" do
+    test "outputs headsign with time information for a PredictedSchedule" do
+      trip = %Schedules.Trip{name: "123", headsign: "Someplace"}
+      route = %Routes.Route{type: 3}
+
+      ps = %PredictedSchedule{
+        schedule: %Schedules.Schedule{
+          route: route,
+          trip: trip,
+          stop: %Stops.Stop{},
+          time: ~N[2021-11-22T12:34:56],
+          flag?: false,
+          early_departure?: false,
+          last_stop?: false,
+          stop_sequence: 10,
+          pickup_type: 1
+        },
+        prediction: %Predictions.Prediction{
+          trip: trip,
+          stop: %Stops.Stop{},
+          route: route,
+          direction_id: 0,
+          time: ~N[2021-11-22T12:35:56],
+          stop_sequence: 10,
+          track: nil,
+          status: nil,
+          schedule_relationship: :skipped,
+          departing?: false
+        }
+      }
+
+      headsign_data = to_headsign_data(ps)
+      assert %{skipped_or_cancelled: true} = headsign_data
+      assert %{headsign_name: "Someplace"} = headsign_data
+      assert %{trip_name: "123"} = headsign_data
+      assert %{predicted_time: ~N[2021-11-22T12:35:56]} = headsign_data
+      assert %{scheduled_time: ~N[2021-11-22T12:34:56]} = headsign_data
+      assert %{displayed_time: "arriving"} = headsign_data
+    end
+  end
 end

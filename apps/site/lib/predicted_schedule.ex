@@ -7,6 +7,7 @@ defmodule PredictedSchedule do
   """
   alias Predictions.Prediction
   alias Schedules.{Schedule, ScheduleCondensed, Trip}
+  alias SiteWeb.TimeHelpers
 
   @derive Jason.Encoder
 
@@ -269,5 +270,58 @@ defmodule PredictedSchedule do
       _ ->
         0
     end
+  end
+
+  @type headsign_data :: %{
+          headsign_name: Trip.headsign() | nil,
+          trip_name: String.t() | nil,
+          status: String.t() | nil,
+          track: String.t() | nil,
+          vehicle_crowding: Vehicles.Vehicle.crowding() | nil,
+          predicted_time: DateTime.t() | nil,
+          scheduled_time: DateTime.t() | nil,
+          displayed_time: String.t() | nil,
+          delay: integer(),
+          skipped_or_cancelled: boolean()
+        }
+
+  @doc """
+  Assemble various pieces of data for display with headsigns, combining information from the prediction and schedule.
+  """
+  @spec to_headsign_data(__MODULE__.t()) :: headsign_data()
+  def to_headsign_data(%PredictedSchedule{schedule: schedule, prediction: prediction} = ps) do
+    trip = trip(ps)
+    trip_name = if(trip, do: trip.name)
+    trip_headsign = if(trip, do: trip.headsign)
+
+    trip_vehicle_crowding =
+      if trip do
+        case Vehicles.Repo.trip(trip.id) do
+          %Vehicles.Vehicle{crowding: crowding} -> crowding
+          _ -> nil
+        end
+      end
+
+    predicted_time = if(has_prediction?(ps), do: prediction.time)
+    scheduled_time = if(has_schedule?(ps), do: schedule.time)
+    route_atom = route(ps) |> Routes.Route.type_atom()
+    displayed_time = TimeHelpers.displayed_time(predicted_time, scheduled_time, route_atom)
+
+    %{
+      headsign_name: trip_headsign,
+      trip_name: trip_name,
+      status: status(ps),
+      track: if(has_prediction?(ps), do: prediction.track),
+      vehicle_crowding: trip_vehicle_crowding,
+      predicted_time: predicted_time,
+      scheduled_time: scheduled_time,
+      displayed_time: displayed_time,
+      delay: delay(ps),
+      skipped_or_cancelled:
+        if(has_prediction?(ps),
+          do: Prediction.is_skipped_or_cancelled?(prediction),
+          else: false
+        )
+    }
   end
 end
