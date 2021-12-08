@@ -10,6 +10,30 @@ defmodule SiteWeb.TimeHelpers do
     Timex.format!(date, "{Mfull} {D}, {YYYY}")
   end
 
+  @doc """
+  Returns a string representing the predicted arrival time. This can vary by mode of transit.
+  """
+  @spec format_prediction_time(
+          Timex.Types.valid_datetime(),
+          Routes.Route.type_atom(),
+          Timex.Types.valid_datetime()
+        ) :: String.t()
+  def format_prediction_time(time, mode, now_time \\ Util.now())
+
+  def format_prediction_time(time, :commuter_rail, _now_time) do
+    format_time(time)
+  end
+
+  def format_prediction_time(time, mode, now_time) do
+    time_diff = Timex.diff(time, now_time, :seconds)
+
+    if time_diff <= 30 or (mode == :subway and time_diff <= 60) do
+      "arriving"
+    else
+      do_time_difference(time, now_time, &format_time/1, 120)
+    end
+  end
+
   @spec format_time(Timex.Types.valid_datetime()) :: String.t()
   def format_time(%{minute: 0} = time), do: Timex.format!(time, "{h12} {AM}")
   def format_time(time), do: Timex.format!(time, "{h12}:{m} {AM}")
@@ -54,4 +78,20 @@ defmodule SiteWeb.TimeHelpers do
     time
     |> Timex.format!("{h12}:{m} {AM}")
   end
+
+  @doc """
+  Compute a display value for a time. This can be the scheduled time, predicted time, or a difference between the two, depending on the associated route.
+  """
+  @spec displayed_time(
+          Timex.Types.valid_datetime(),
+          Timex.Types.valid_datetime(),
+          Routes.Route.gtfs_route_type()
+        ) :: String.t() | nil
+  def displayed_time(predicted_time, _scheduled_time, mode) when not is_nil(predicted_time),
+    do: format_prediction_time(predicted_time, mode)
+
+  def displayed_time(_predicted_time, scheduled_time, _mode) when not is_nil(scheduled_time),
+    do: format_schedule_time(scheduled_time)
+
+  def displayed_time(_predicted_time, _scheduled_time, _mode), do: ""
 end

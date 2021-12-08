@@ -182,7 +182,7 @@ defmodule Site.TransitNearMeTest do
         assert Enum.count(headsign.times) === TransitNearMe.schedule_count(route)
 
         for %{scheduled_time: sched} <- headsign.times do
-          assert sched === ["12:00", " ", "PM"]
+          assert sched === "12:00 PM"
         end
       end
     end
@@ -231,7 +231,7 @@ defmodule Site.TransitNearMeTest do
         assert Enum.count(headsign.times) === TransitNearMe.schedule_count(route)
 
         for %{scheduled_time: sched} <- headsign.times do
-          assert sched === ["12:00", " ", "PM"]
+          assert sched === "12:00 PM"
         end
       end
     end

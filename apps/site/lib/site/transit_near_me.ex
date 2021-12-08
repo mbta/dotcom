@@ -9,7 +9,7 @@ defmodule Site.TransitNearMe do
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
-  alias SiteWeb.{ViewHelpers, TimeHelpers}
+  alias SiteWeb.{TimeHelpers, ViewHelpers}
   alias Stops.{Nearby, Stop}
   alias Util.Distance
   alias Vehicles.Vehicle
@@ -169,34 +169,6 @@ defmodule Site.TransitNearMe do
       }
     }
   end
-
-  @spec format_prediction_time(DateTime.t(), DateTime.t(), atom, integer) ::
-          [String.t()] | String.t()
-  def format_prediction_time(%DateTime{} = time, _now, :commuter_rail, _) do
-    TimeHelpers.format_time(time)
-  end
-
-  def format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
-    TimeHelpers.do_time_difference(time, now, &TimeHelpers.format_time/1, 120)
-  end
-
-  def format_prediction_time(_, _, :subway, _), do: ["arriving"]
-
-  def format_prediction_time(%DateTime{} = time, now, :bus, seconds) when seconds > 60 do
-    TimeHelpers.do_time_difference(time, now, &TimeHelpers.format_time/1, 120)
-  end
-
-  def format_prediction_time(_, _, :bus, _), do: ["arriving"]
-
-  # @spec format_time(DateTime.t()) :: [String.t()]
-  # def format_time(time) do
-  #   [time, am_pm] =
-  #     time
-  #     |> Timex.format!("{h12}:{m} {AM}")
-  #     |> String.split(" ")
-
-  #   [time, " ", am_pm]
-  # end
 
   @spec sort_by_time([{DateTime.t() | nil, any}]) ::
           {DateTime.t() | nil, [any]}
@@ -529,7 +501,7 @@ defmodule Site.TransitNearMe do
   defp expand_route_id(route), do: [route]
 
   defp scheduled_time(%PredictedSchedule{schedule: %Schedule{time: time}}) do
-    TimeHelpers.format_time(time)
+    TimeHelpers.format_schedule_time(time)
   end
 
   defp scheduled_time(%PredictedSchedule{}) do
@@ -550,7 +522,7 @@ defmodule Site.TransitNearMe do
 
     prediction
     |> Map.take([:status, :track, :schedule_relationship])
-    |> Map.put(:time, format_prediction_time(prediction.time, now, route_type, seconds))
+    |> Map.put(:time, TimeHelpers.format_prediction_time(prediction.time, route_type, now))
     |> Map.put(:seconds, seconds)
   end
 end
