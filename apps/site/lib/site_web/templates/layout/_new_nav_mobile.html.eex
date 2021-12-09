@@ -51,13 +51,26 @@
                   <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-1200" %></div>
                 </div>
               <% Map.has_key?(sub_menu, :links) -> %>
-                <div id="accordion-heading" class="heading-4 accordion" style="color:white;"><%= sub_menu_section %></div>
                 <div style="background:#e2ecf9;">
-                  <%= for {link_name, href, link_host} <- Map.get(sub_menu, :links) do %>
-                    <% icon = if link_host === :external_link, do: fa("external-link"), else: "" %>
-                    <%= link to: href, do: [content_tag(:div, link_name ), icon] %>
-                  <% end %>
-                </div>
+                <%= SiteWeb.PartialView.render("_accordion_ui.html",
+                  Map.merge(assigns, %{
+                    multiselectable: false,
+                    sections:
+                      [%{
+                        content:
+                          Map.get(sub_menu, :links) |> Enum.map(fn {link_name, href, link_host} ->
+                              icon = if link_host === :external_link, do: fa("external-link"), else: ""
+                              [
+                                content_tag(:span, icon),
+                                content_tag(:a, [content_tag(:div, link_name ), content_tag(:span, icon)], href: href)
+                              ]
+                           end),
+                          title: sub_menu_section,
+                          prefix: String.replace(sub_menu_section, " ", "-")
+                      }]
+                  })
+                ) %>
+              </div>
             <% end %>
           </nav>
         <% end %>
