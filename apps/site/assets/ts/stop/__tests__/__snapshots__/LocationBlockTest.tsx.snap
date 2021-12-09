@@ -26,7 +26,7 @@ exports[`renders 1`] = `
     >
       <a
         className="btn btn-primary"
-        href="https://www.google.com/maps/dir/?api=1&destination=700%20Atlantic%20Ave%2C%20Boston%2C%20MA%2002110"
+        href="/trip-planner/to/42.352271%2C-71.055242"
         rel="noopener noreferrer"
         target="_blank"
       >

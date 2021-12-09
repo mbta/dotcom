@@ -11,12 +11,7 @@ const render = (): void => {
   const mapId = stopPageDataEl.getAttribute("data-for") as string;
   const mapData = JSON.parse(mapDataEl.innerHTML) as StopMapData;
   ReactDOM.render(
-    <StopPage
-      stopPageData={stopPageData}
-      mapId={mapId}
-      mapData={mapData}
-      encoder={window.encodeURIComponent}
-    />,
+    <StopPage stopPageData={stopPageData} mapId={mapId} mapData={mapData} />,
     document.getElementById("react-root")
   );
 };

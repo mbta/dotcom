@@ -17,7 +17,6 @@ interface Props {
   stopPageData: StopPageData;
   mapData: StopMapData;
   mapId: string;
-  encoder?: (component: string) => string;
 }
 
 export const fetchData = (stopId: string, dispatch: Dispatch): Promise<void> =>
@@ -34,8 +33,7 @@ export const fetchData = (stopId: string, dispatch: Dispatch): Promise<void> =>
 export default ({
   stopPageData,
   mapData,
-  mapId,
-  encoder
+  mapId
 }: Props): ReactElement<HTMLElement> => {
   const {
     stop,
@@ -107,7 +105,6 @@ export default ({
                   <LocationBlock
                     stop={stop}
                     routes={routes}
-                    encoder={encoder}
                     streetViewUrl={streetViewUrl}
                   />
                   <Departures

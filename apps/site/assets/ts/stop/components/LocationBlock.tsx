@@ -9,7 +9,6 @@ import streetViewSvg from "../../../static/images/icon-street-view-default.svg";
 interface Props {
   routes: TypedRoutes[];
   stop: Stop;
-  encoder?: (str: string) => string;
   streetViewUrl: string | null;
 }
 
@@ -36,15 +35,6 @@ const addressOrMunicipality = (stop: Stop): ReactElement | null => {
 const latLngString = (stop: Stop): string =>
   `${stop.latitude},${stop.longitude}`;
 
-const locationQuery = (stop: Stop, encoder?: (str: string) => string): string =>
-  stop.address && encoder ? encoder(stop.address) : latLngString(stop);
-
-const directionLink = (stop: Stop, encoder?: (str: string) => string): string =>
-  `https://www.google.com/maps/dir/?api=1&destination=${locationQuery(
-    stop,
-    encoder
-  )}`;
-
 const streetViewLink = (stop: Stop): string =>
   `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${latLngString(
     stop
@@ -53,7 +43,6 @@ const streetViewLink = (stop: Stop): string =>
 const LocationBlock = ({
   routes,
   stop,
-  encoder,
   streetViewUrl
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__location-block">
@@ -61,7 +50,11 @@ const LocationBlock = ({
     <div className="m-stop-page__location-links">
       <div className="m-stop-page__location-link">
         <a
-          href={directionLink(stop, encoder)}
+          href={`/trip-planner/to/${window.encodeURIComponent(
+            (stop.id === "Boat-Hingham" ? stop.id : latLngString(stop))
+              .replace(/\s+/g, "-")
+              .toLowerCase()
+          )}`}
           className="btn btn-primary"
           target="_blank"
           rel="noopener noreferrer"
