@@ -85,7 +85,10 @@ const setStop = (
     nextData,
     `${routeIndex}.stops_with_directions.${index}.directions`,
     // eslint-disable-next-line camelcase
-    [{ headsigns: [], direction_id: 0 }, { headsigns: [], direction_id: 1 }]
+    [
+      { headsigns: [], direction_id: 0 },
+      { headsigns: [], direction_id: 1 }
+    ]
   );
 
   return nextData;
