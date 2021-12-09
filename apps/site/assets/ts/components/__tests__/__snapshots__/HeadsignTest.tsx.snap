@@ -78,7 +78,9 @@ exports[`it displays on time status with the scheduled time and not the predicti
         <div
           className=" m-tnm-sidebar__time-number"
         >
-          10:21 AM
+          10:21
+           
+          AM
         </div>
         <div
           className="m-tnm-sidebar__status"
@@ -177,7 +179,9 @@ exports[`it renders a status and train name for Commuter Rail 1`] = `
         <div
           className=" m-tnm-sidebar__time-number"
         >
-          4:30 PM
+          4:30
+           
+          PM
         </div>
         <div
           className="m-tnm-sidebar__status"
@@ -220,7 +224,9 @@ exports[`it renders a status and train name for Commuter Rail with track number 
         <div
           className=" m-tnm-sidebar__time-number"
         >
-          4:30 PM
+          4:30
+           
+          PM
         </div>
         <div
           className="m-tnm-sidebar__status"

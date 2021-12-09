@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { PredictedOrScheduledTime } from "../__v3api";
+import { HeadsignWithTimeData, PredictedOrScheduledTime } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
 import { TripPrediction } from "../schedule/components/__trips";
-import { compareStringTimes } from "./date";
+import { compareStringTimes, dateObjectToTimeString } from "./date";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -18,10 +18,30 @@ const delayForCommuterRail = (
   </>
 );
 
+// Guard for use while refactoring - to be obsoleted
+const dataIsHeadsignWithTimeData = (
+  data: PredictedOrScheduledTime | HeadsignWithTimeData
+): data is HeadsignWithTimeData => Object.keys(data).includes("headsign_name");
+
 export const timeForCommuterRail = (
-  data: PredictedOrScheduledTime,
+  data: PredictedOrScheduledTime | HeadsignWithTimeData,
   className = ""
 ): ReactElement<HTMLElement> => {
+  if (dataIsHeadsignWithTimeData(data)) {
+    const { delay, scheduled_time, displayed_time } = data;
+
+    return (
+      <>
+        {delay! && delay >= 5 && scheduled_time ? (
+          <div className={className ? `${className}--delayed` : ""}>
+            {dateObjectToTimeString(scheduled_time!)}
+          </div>
+        ) : null}
+        <div className={className}>{displayed_time}</div>
+      </>
+    );
+  }
+
   const { delay, prediction, scheduled_time: scheduledTime } = data;
 
   if (delay >= 5 && prediction) {
@@ -41,7 +61,7 @@ export const timeForCommuterRail = (
     time = scheduledTime;
   }
 
-  return <div className={className}>{time!.join("")}</div>;
+  return <div className={className}>{time}</div>;
 };
 
 export const statusForCommuterRail = ({

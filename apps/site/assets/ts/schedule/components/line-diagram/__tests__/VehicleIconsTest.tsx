@@ -9,12 +9,7 @@ import {
 } from "../../__schedule";
 import VehicleIcons from "../VehicleIcons";
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
-import {
-  Prediction,
-  PredictedOrScheduledTime,
-  PredictedOrScheduledTimeWithCrowding,
-  HeadsignWithCrowding
-} from "../../../../__v3api";
+import { HeadsignWithTimeData } from "../../../../__v3api";
 
 // mock the redux state
 jest.spyOn(redux, "useSelector").mockImplementation(selector =>

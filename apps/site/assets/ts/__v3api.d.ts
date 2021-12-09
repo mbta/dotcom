@@ -1,6 +1,19 @@
 import { CrowdingType } from "./schedule/components/__schedule";
 import { TripPrediction } from "./schedule/components/__trips";
 
+export interface HeadsignWithTimeData {
+  headsign_name: string | null;
+  trip_name: string | null;
+  status: string | null;
+  track: string | null;
+  vehicle_crowding: CrowdingType;
+  predicted_time: Date | null;
+  scheduled_time: Date | null;
+  displayed_time: string | null; // e.g. "2 min" or "12:34 PM"
+  delay: number;
+  skipped_or_cancelled: boolean;
+}
+
 export interface Direction {
   direction_id: DirectionId;
   headsigns: Headsign[];

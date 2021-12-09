@@ -1,38 +1,26 @@
 import React from "react";
-import { capitalize } from "lodash";
-import { HeadsignWithCrowding } from "../../../__v3api";
-import {
-  timeForCommuterRail,
-  statusForCommuterRail
-} from "../../../helpers/prediction-helpers";
-import {
-  isSkippedOrCancelled,
-  hasPredictionTime
-} from "../../../models/prediction";
+import { HeadsignWithTimeData } from "../../../__v3api";
+import { timeForCommuterRail } from "../../../helpers/prediction-helpers";
+import { hasPredictionTime } from "../../../models/prediction";
 import LiveCrowdingIcon from "./LiveCrowdingIcon";
 
 interface StopPredictions {
-  headsigns: HeadsignWithCrowding[];
+  headsigns: HeadsignWithTimeData[];
   isCommuterRail: boolean;
 }
 
-const predictionTexts = (headsign: HeadsignWithCrowding): string[] => {
-  const texts = [headsign.name];
-  if (headsign.train_number) {
-    texts.push(` · Train ${headsign.train_number}`);
+const predictionTexts = (headsign: HeadsignWithTimeData): string[] => {
+  const texts = headsign.headsign_name! ? [headsign.headsign_name] : [];
+  if (headsign.trip_name!) {
+    texts.push(` · Train ${headsign.trip_name}`);
   }
 
-  const predictedOrScheduledTime =
-    headsign.time_data_with_crowding_list[0].time_data;
-  const { prediction } = predictedOrScheduledTime;
-
-  if (prediction && prediction.track) {
-    texts.push(` · Track ${prediction.track}`);
+  if (headsign.track!) {
+    texts.push(` · Track ${headsign.track}`);
   }
 
-  const status = statusForCommuterRail(predictedOrScheduledTime);
-  if (status) {
-    texts.push(` · ${status}`);
+  if (headsign.status!) {
+    texts.push(` · ${headsign.status}`);
   }
   return texts;
 };
@@ -47,18 +35,15 @@ const StopPredictions = ({
   if (isCommuterRail) {
     // Display at most 1 prediction for Commuter Rail
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {
-      const enhancedTimeData = headsign.time_data_with_crowding_list[0];
-      const predictedOrScheduledTime = enhancedTimeData.time_data;
-      const predictionTimeClass = isSkippedOrCancelled(
-        enhancedTimeData.predicted_schedule.prediction
-      )
+      const { headsign_name, skipped_or_cancelled } = headsign;
+      const predictionTimeClass = skipped_or_cancelled
         ? "m-schedule-diagram__cr-prediction-time strikethrough"
         : "m-schedule-diagram__cr-prediction-time";
 
       return (
-        <div key={`${headsign.name}-cr`}>
+        <div key={`${headsign_name}-cr`}>
           <div className="m-schedule-diagram__cr-prediction">
-            {timeForCommuterRail(predictedOrScheduledTime, predictionTimeClass)}
+            {timeForCommuterRail(headsign, predictionTimeClass)}
           </div>
           <div className="m-schedule-diagram__cr-prediction-details">
             {predictionTexts(headsign).map((text: string) => (
@@ -69,26 +54,21 @@ const StopPredictions = ({
       );
     });
   } else {
-    predictions = liveHeadsigns.map((headsign, index) => {
-      const { crowding } = headsign.time_data_with_crowding_list[0];
-      return (
+    predictions = liveHeadsigns.map(
+      ({ vehicle_crowding, headsign_name, displayed_time }, index) => (
         <div
           // eslint-disable-next-line react/no-array-index-key
           key={`headsign.name-${index}`}
           className="m-schedule-diagram__prediction"
         >
-          <div>{headsign.name}</div>
+          <div>{headsign_name}</div>
           <div className="m-schedule-diagram__prediction-time">
-            {capitalize(
-              headsign.time_data_with_crowding_list[0].time_data.prediction!.time.join(
-                " "
-              )
-            )}
+            {displayed_time}
           </div>
-          <LiveCrowdingIcon crowding={crowding} />
+          <LiveCrowdingIcon crowding={vehicle_crowding} />
         </div>
-      );
-    });
+      )
+    );
   }
 
   return <div className="m-schedule-diagram__predictions">{predictions}</div>;

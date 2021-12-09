@@ -6,11 +6,10 @@ defmodule SiteWeb.ScheduleController.LineApi do
   alias Alerts.Stop, as: AlertsStop
   alias RoutePatterns.RoutePattern
   alias Routes.Route
-  alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.DiagramFormat
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
-  alias Stops.RouteStop
+  alias Stops.{RouteStop, Stop}
   alias Vehicles.Vehicle
 
   import SiteWeb.StopController, only: [json_safe_alerts: 2]
@@ -72,7 +71,6 @@ defmodule SiteWeb.ScheduleController.LineApi do
             do_realtime(
               route_id,
               direction_id,
-              conn.assigns.date,
               conn.assigns.date_time,
               conn.assigns.vehicle_tooltips
             )
@@ -87,12 +85,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
     end
   end
 
-  defp do_realtime(route_id, direction_id, date, now, tooltips) do
+  defp do_realtime(route_id, direction_id, now, tooltips) do
     headsigns_by_stop =
-      TransitNearMe.time_data_for_route_by_stop(
+      headsigns_by_stop(
         route_id,
         String.to_integer(direction_id),
-        date: date,
         now: now
       )
 
@@ -116,6 +113,94 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
     Jason.encode!(combined_data_by_stop)
   end
+
+  @doc """
+  Gets all schedules for a route and compiles appropriate headsign_data for each stop.
+  Returns a map indexed by stop_id
+  """
+  @spec headsigns_by_stop(Route.id_t(), 1 | 0, Keyword.t()) ::
+          headsigns_by_stop()
+  def headsigns_by_stop(route_id, direction_id, opts) do
+    opts = Keyword.put(opts, :direction_id, direction_id)
+    now = Keyword.fetch!(opts, :now)
+
+    PredictedSchedule.Repo.get(route_id, nil, opts)
+    |> Enum.filter(&(!PredictedSchedule.last_stop?(&1) and after_min_time?(&1, now)))
+    |> Enum.group_by(&PredictedSchedule.stop(&1).id)
+    |> do_headsigns_by_stop(route_id, now)
+  end
+
+  @spec after_min_time?(PredictedSchedule.t(), DateTime.t()) :: boolean
+  defp after_min_time?(%PredictedSchedule{} = predicted_schedule, min_time) do
+    case PredictedSchedule.time(predicted_schedule) do
+      %DateTime{} = time ->
+        DateTime.compare(time, min_time) != :lt
+
+      nil ->
+        false
+    end
+  end
+
+  @type headsigns_by_stop :: %{
+          Stop.id_t() => [PredictedSchedule.to_headsign_data()]
+        }
+
+  @spec do_headsigns_by_stop(
+          %{
+            Stop.id_t() => [PredictedSchedule.t()]
+          },
+          Routes.Route.id_t(),
+          DateTime.t()
+        ) :: headsigns_by_stop()
+  defp do_headsigns_by_stop(predicted_schedules_by_stop, route_id, now) do
+    %Routes.Route{type: type} = Routes.Repo.get(route_id)
+
+    for {stop_id, predicted_schedules} <- predicted_schedules_by_stop, into: %{} do
+      selected_predicted_schedules =
+        predicted_schedules
+        |> Enum.sort_by(fn ps ->
+          PredictedSchedule.time(ps) |> DateTime.to_unix()
+        end)
+        |> PredictedSchedule.Filter.by_route_with_predictions(type, stop_id, now)
+        |> filter_predicted_schedules_for_display(type)
+        |> Enum.take(Site.TransitNearMe.schedule_count(%Routes.Route{type: type}))
+
+      headsigns = Enum.map(selected_predicted_schedules, &PredictedSchedule.to_headsign_data(&1))
+
+      {stop_id, headsigns}
+    end
+  end
+
+  # only show one schedule if the second schedule has no prediction:
+  # at least 1 result contains a prediction, up to 2 predictions are returned
+  # 1 result contains a prediction, only 1 prediction is returned if rest are schedules
+  # no results contains a prediction, only return 1 schedule
+  @spec filter_predicted_schedules_for_display([PredictedSchedule.t()], Routes.Route.type_int()) ::
+          [PredictedSchedule.t()]
+  def filter_predicted_schedules_for_display(predicted_schedules, 3) do
+    # for bus, remove items with a nil prediction when at least one item has a prediction
+    prediction_available? = Enum.any?(predicted_schedules, &PredictedSchedule.has_prediction?(&1))
+
+    if prediction_available? do
+      predicted_schedules
+      |> Enum.filter(&PredictedSchedule.has_prediction?(&1))
+      |> Enum.take(2)
+    else
+      predicted_schedules
+      |> Enum.take(2)
+      |> filter_predicted_schedules_for_display(nil)
+    end
+  end
+
+  def filter_predicted_schedules_for_display(
+        [%PredictedSchedule{} = keep, %PredictedSchedule{prediction: nil}],
+        _
+      ) do
+    # only show one schedule if the second schedule has no prediction
+    [keep]
+  end
+
+  def filter_predicted_schedules_for_display(predicted_schedules, _), do: predicted_schedules
 
   @spec get_line_data(Route.t(), LineHelpers.direction_id(), RoutePattern.id_t() | nil) :: [
           DiagramHelpers.stop_with_bubble_info()

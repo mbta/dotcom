@@ -419,7 +419,9 @@ exports[`render it renders 1`] = `
                       <div
                         className=" m-tnm-sidebar__time-number"
                       >
-                        5:26 PM
+                        5:26
+                         
+                        PM
                       </div>
                       <div
                         className="m-tnm-sidebar__status"
@@ -472,7 +474,9 @@ exports[`render it renders 1`] = `
                       <div
                         className=" m-tnm-sidebar__time-number"
                       >
-                        5:54 PM
+                        5:54
+                         
+                        PM
                       </div>
                       <div
                         className="m-tnm-sidebar__status"

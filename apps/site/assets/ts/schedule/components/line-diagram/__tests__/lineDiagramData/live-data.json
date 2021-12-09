@@ -2,40 +2,28 @@
   "line-stop1": {
     "headsigns": [
       {
-        "name": "Dest1",
-        "train_number": null,
-        "time_data_with_crowding_list": [
-          {
-            "time_data": {
-              "delay": 0,
-              "scheduled_time": null,
-              "prediction": {
-                "time": ["2", " ", "min"],
-                "status": null,
-                "track": null
-              }
-            },
-            "crowding": null
-          }
-        ]
+        "headsign_name": "Dest1",
+        "trip_name": null,
+        "delay": 0,
+        "scheduled_time": null,
+        "predicted_time": "2021-11-22T13:54:00-05:00",
+        "displayed_time": "2 min",
+        "status": null,
+        "track": null,
+        "vehicle_crowding": null,
+        "skipped_or_cancelled": false
       },
       {
-        "name": "Dest2",
-        "train_number": null,
-        "time_data_with_crowding_list": [
-          {
-            "time_data": {
-              "delay": 0,
-              "scheduled_time": null,
-              "prediction": {
-                "time": ["5", " ", "min"],
-                "status": null,
-                "track": null
-              }
-            },
-            "crowding": null
-          }
-        ]
+        "headsign_name": "Dest2",
+        "trip_name": null,
+        "delay": 0,
+        "scheduled_time": null,
+        "predicted_time": "2021-11-22T13:54:00-05:00",
+        "displayed_time": "5 min",
+        "status": null,
+        "track": null,
+        "vehicle_crowding": null,
+        "skipped_or_cancelled": false
       }
     ],
     "vehicles": [
@@ -56,22 +44,16 @@
   "line-stop2": {
     "headsigns": [
       {
-        "name": "Dest2",
-        "train_number": null,
-        "time_data_with_crowding_list": [
-          {
-            "time_data": {
-              "delay": 0,
-              "scheduled_time": null,
-              "prediction": {
-                "time": ["7", " ", "min"],
-                "status": null,
-                "track": null
-              }
-            },
-            "crowding": null
-          }
-        ]
+        "headsign_name": "Dest2",
+        "trip_name": null,
+        "delay": 0,
+        "scheduled_time": null,
+        "predicted_time": "2021-11-22T13:54:00-05:00",
+        "displayed_time": "7 min",
+        "status": null,
+        "track": null,
+        "vehicle_crowding": null,
+        "skipped_or_cancelled": false
       }
     ],
     "vehicles": [

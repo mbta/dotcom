@@ -168,7 +168,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           Dest1
                         </div>
                         <div className=\\"m-schedule-diagram__prediction-time\\">
-                          2   min
+                          2 min
                         </div>
                         <LiveCrowdingIcon crowding={{...}}>
                           <div className=\\"m-schedule-diagram__prediction-crowding\\">
@@ -181,7 +181,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           Dest2
                         </div>
                         <div className=\\"m-schedule-diagram__prediction-time\\">
-                          5   min
+                          5 min
                         </div>
                         <LiveCrowdingIcon crowding={{...}}>
                           <div className=\\"m-schedule-diagram__prediction-crowding\\">
@@ -250,7 +250,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           Dest2
                         </div>
                         <div className=\\"m-schedule-diagram__prediction-time\\">
-                          7   min
+                          7 min
                         </div>
                         <LiveCrowdingIcon crowding={{...}}>
                           <div className=\\"m-schedule-diagram__prediction-crowding\\">

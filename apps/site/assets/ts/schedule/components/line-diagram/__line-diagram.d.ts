@@ -1,4 +1,4 @@
-import { HeadsignWithCrowding } from "../../../__v3api";
+import { HeadsignWithTimeData } from "../../../__v3api";
 import { LineDiagramVehicle, LineDiagramStop, RouteStop } from "../__schedule";
 
 export interface CommonLineDiagramProps {
@@ -8,7 +8,7 @@ export interface CommonLineDiagramProps {
 }
 
 export interface LiveData {
-  headsigns: HeadsignWithCrowding[];
+  headsigns: HeadsignWithTimeData[];
   vehicles: LineDiagramVehicle[];
 }
 

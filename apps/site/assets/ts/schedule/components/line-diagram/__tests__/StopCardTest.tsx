@@ -2,18 +2,12 @@ import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
-import {
-  RouteType,
-  HeadsignWithCrowding,
-  Schedule,
-  Prediction
-} from "../../../../__v3api";
+import { RouteType, HeadsignWithTimeData } from "../../../../__v3api";
 import { LineDiagramStop } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import StopCard from "../StopCard";
-import { TripPrediction } from "../../__trips";
 import StopPredictions from "../StopPredictions";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
@@ -106,28 +100,19 @@ describe("StopCard", () => {
   });
 });
 
-const predictionHeadsign: HeadsignWithCrowding = {
-  name: "Somewhere",
-  time_data_with_crowding_list: [
-    {
-      time_data: {
-        delay: 0,
-        scheduled_time: ["4:30", " ", "PM"],
-        prediction: {
-          time: ["14", " ", "min"],
-          status: null,
-          track: null
-        } as Prediction
-      },
-      crowding: null,
-      predicted_schedule: {
-        schedule: {} as Schedule,
-        prediction: {} as TripPrediction
-      }
-    }
-  ],
-  train_number: null
+const predictionHeadsign: HeadsignWithTimeData = {
+  headsign_name: "Somewhere",
+  trip_name: null,
+  status: null,
+  track: null,
+  vehicle_crowding: null,
+  scheduled_time: new Date("2021-11-22T16:30:00-05:00"),
+  predicted_time: new Date("2021-11-22T16:30:00-05:00"),
+  displayed_time: "14 min",
+  delay: 0,
+  skipped_or_cancelled: false
 };
+
 const liveDataWithPrediction = {
   headsigns: [predictionHeadsign],
   vehicles: []

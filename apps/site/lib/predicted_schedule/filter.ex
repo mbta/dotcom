@@ -7,7 +7,7 @@ defmodule PredictedSchedule.Filter do
     "place-lake",
     "place-clmnl",
     "place-river",
-    "place-hsmnl"
+    "place-matt"
   ]
 
   @spec default_sort(PredictedSchedule.t()) ::
@@ -43,22 +43,26 @@ defmodule PredictedSchedule.Filter do
   Special filtering of PredictedSchedules mainly used in TransitNearMe, where
   - we don't inadvertently omit PredictedSchedules for stops where we won't have predictions
   - if working with subway routes, returns only PredictedSchedules that have predictions
+    - does not remove schedules without predictions for commuter rail, bus, or ferry
+    - filters schedules without predictions for subway if predictions exist
+    - returns empty list for subway if no predictions during normal hours
+    - returns schedules for subway if no predictions during late night
   """
   @spec by_route_with_predictions(
           [PredictedSchedule.t()],
-          Routes.Route.t(),
+          Routes.Route.type_int(),
           Stops.Stop.id_t(),
           DateTime.t()
         ) :: [
           PredictedSchedule.t()
         ]
-  def by_route_with_predictions(predicted_schedules, _route, stop_id, _now)
+  def by_route_with_predictions(predicted_schedules, _route_type, stop_id, _now)
       when stop_id in @stops_without_predictions do
     predicted_schedules
   end
 
-  def by_route_with_predictions(predicted_schedules, %Routes.Route{type: type}, _stop_id, now)
-      when type in [0, 1] do
+  def by_route_with_predictions(predicted_schedules, route_type, _stop_id, now)
+      when route_type in [0, 1] do
     # subway routes should only use predictions
     predicted_schedules
     |> Enum.filter(&PredictedSchedule.has_prediction?/1)
@@ -75,7 +79,7 @@ defmodule PredictedSchedule.Filter do
     end
   end
 
-  def by_route_with_predictions(predicted_schedules, %Routes.Route{}, _stop_id, %DateTime{}) do
+  def by_route_with_predictions(predicted_schedules, _, _, _) do
     # all other modes can use schedules
     predicted_schedules
   end

@@ -5,6 +5,7 @@ import {
   statusForCommuterRail,
   trackForCommuterRail
 } from "../helpers/prediction-helpers";
+import { isTimeStringArray } from "../helpers/date";
 
 interface Props {
   headsign: Headsign;
@@ -70,14 +71,22 @@ const renderTimeCommuterRail = (
 };
 
 const renderTimeDefault = (
-  time: string[],
+  time: string[] | string, // will be just string after PredictedOrScheduledTime is refactored
   modifier: string
-): ReactElement<HTMLElement> => (
-  <div className={`m-tnm-sidebar__time ${modifier}`}>
-    <div className="m-tnm-sidebar__time-number">{time[0]}</div>
-    <div className="m-tnm-sidebar__time-mins">{time[2]}</div>
-  </div>
-);
+): ReactElement<HTMLElement> => {
+  let times: string[];
+  if (isTimeStringArray(time)) {
+    times = [time[0], time[2]];
+  } else {
+    times = time.split(" ");
+  }
+  return (
+    <div className={`m-tnm-sidebar__time ${modifier}`}>
+      <div className="m-tnm-sidebar__time-number">{times[0]}</div>
+      <div className="m-tnm-sidebar__time-mins">{times[1]}</div>
+    </div>
+  );
+};
 
 const renderTime = (
   tnmTime: PredictedOrScheduledTime,

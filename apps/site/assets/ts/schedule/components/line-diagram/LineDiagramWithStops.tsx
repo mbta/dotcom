@@ -5,7 +5,6 @@ import StopListWithBranches from "./StopListWithBranches";
 import { CommonLineDiagramProps } from "./__line-diagram";
 import useStopPositions, { RefList } from "./graphics/useStopPositions";
 import StopCard from "./StopCard";
-import { hasPredictionTime } from "../../../models/prediction";
 
 export const StopRefContext = React.createContext<[RefList, () => void]>([
   {},
@@ -22,12 +21,7 @@ const LineDiagramWithStops = (
 
   const anyCrowding = Object.values(liveData).some(({ headsigns }): boolean =>
     headsigns
-      ? headsigns
-          .filter(hasPredictionTime)
-          .some(
-            ({ time_data_with_crowding_list: timeData }): boolean =>
-              !!timeData[0].crowding
-          )
+      ? headsigns.some(({ vehicle_crowding }): boolean => !!vehicle_crowding)
       : false
   );
 

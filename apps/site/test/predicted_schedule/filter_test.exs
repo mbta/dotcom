@@ -21,7 +21,7 @@ defmodule PredictedSchedule.FilterTest do
           prediction: nil
         }
 
-        assert by_route_with_predictions([schedule], route, stop.id, now) == [
+        assert by_route_with_predictions([schedule], type, stop.id, now) == [
                  schedule
                ]
       end
@@ -49,7 +49,7 @@ defmodule PredictedSchedule.FilterTest do
 
         assert by_route_with_predictions(
                  [schedule_1, schedule_2],
-                 route,
+                 type,
                  stop.id,
                  now
                ) ==
@@ -66,7 +66,7 @@ defmodule PredictedSchedule.FilterTest do
         trip = %Trip{direction_id: 0}
         schedule = %PredictedSchedule{schedule: %Schedule{route: route, stop: stop, trip: trip}}
 
-        assert by_route_with_predictions([schedule], route, stop.id, now) == []
+        assert by_route_with_predictions([schedule], type, stop.id, now) == []
       end
     end
 
@@ -82,7 +82,7 @@ defmodule PredictedSchedule.FilterTest do
           schedule: %Schedule{route: route, stop: stop, trip: trip}
         }
 
-        assert by_route_with_predictions([schedule], route, stop.id, now) == [
+        assert by_route_with_predictions([schedule], type, stop.id, now) == [
                  schedule
                ]
       end
