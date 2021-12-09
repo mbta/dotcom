@@ -50,11 +50,12 @@ const LocationBlock = ({
     <div className="m-stop-page__location-links">
       <div className="m-stop-page__location-link">
         <a
-          href={`/trip-planner/to/${window.encodeURIComponent(
-            (stop.id === "Boat-Hingham" ? stop.id : latLngString(stop))
-              .replace(/\s+/g, "-")
-              .toLowerCase()
-          )}`}
+          href={`/trip-planner/to/${(stop.id === "Boat-Hingham"
+            ? stop.id
+            : latLngString(stop)
+          )
+            .replace(/\s+/g, "-")
+            .toLowerCase()}`}
           className="btn btn-primary"
           target="_blank"
           rel="noopener noreferrer"
