@@ -1,102 +1,42 @@
-import React, { ReactElement, useReducer, useCallback } from "react";
+import React, { ReactElement } from "react";
 import { Provider } from "react-redux";
-import {
-  useQueryParams,
-  StringParam,
-  updateInLocation
-} from "use-query-params";
+import { updateInLocation } from "use-query-params";
 import useSWR from "swr";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
-import {
-  LineDiagramStop,
-  RoutePatternsByDirection,
-  ScheduleNote as ScheduleNoteType,
-  ServiceInSelector,
-  SimpleStopMap,
-  SelectedOrigin,
-  RouteStop
-} from "../__schedule";
+import { LineDiagramStop, SelectedOrigin, RouteStop } from "../__schedule";
 import { DirectionId, Route } from "../../../__v3api";
 import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
-import { lineDiagramReducer } from "./reducer";
 import { LiveDataByStop } from "./__line-diagram";
-import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import StopCard from "./StopCard";
 import LineDiagramWithStops from "./LineDiagramWithStops";
+import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
+import { changeOrigin } from "../ScheduleLoader";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
   route: Route;
   directionId: DirectionId;
-  routePatternsByDirection: RoutePatternsByDirection;
-  services: ServiceInSelector[];
-  stops: SimpleStopMap;
-  today: string;
-  scheduleNote: ScheduleNoteType | null;
 }
 
 const stationsOrStops = (routeType: number): string =>
   [0, 1, 2].includes(routeType) ? "Stations" : "Stops";
 
-const directionIdToNumber = (direction: string): DirectionId =>
-  direction === "0" ? 0 : 1;
-
-const reversedDirectionId = (direction: DirectionId): DirectionId =>
-  direction === 0 ? 1 : 0;
-
 const LineDiagramAndStopListPage = ({
   lineDiagram,
   route,
-  directionId,
-  routePatternsByDirection,
-  services,
-  stops,
-  today,
-  scheduleNote
+  directionId
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
-  /**
-   * Setup state handling etc
-   */
-  const [state, dispatch] = useReducer(lineDiagramReducer, {
-    direction: directionId,
-    origin: lineDiagram[0].route_stop.id,
-    modalMode: "schedule",
-    modalOpen: false
-  });
-
   // also track the location of text to align the diagram points to
   const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
-
-  /**
-   * Handle URL params
-   */
-  const [query] = useQueryParams({
-    // eslint-disable-next-line camelcase
-    "schedule_direction[direction_id]": StringParam,
-    "schedule_direction[origin]": StringParam
-  });
-
-  React.useEffect(() => {
-    const newDirection = query["schedule_direction[direction_id]"];
-    const newOrigin = query["schedule_direction[origin]"];
-    // modify values in case URL has both parameters:
-    if (newDirection !== undefined && newOrigin !== undefined) {
-      dispatch({
-        type: "initialize",
-        origin: newOrigin,
-        direction: directionIdToNumber(newDirection)
-      });
-    }
-  }, [query]);
 
   const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     if (window) {
       // eslint-disable-next-line camelcase
       const newQuery = {
-        "schedule_direction[direction_id]":
+        "schedule_finder[direction_id]":
           direction !== undefined ? direction.toString() : "",
-        "schedule_direction[origin]": origin
+        "schedule_finder[origin]": origin
       };
       const newLoc = updateInLocation(newQuery, window.location);
       // newLoc is not a true Location, so toString doesn't work
@@ -104,36 +44,22 @@ const LineDiagramAndStopListPage = ({
     }
   };
 
-  /**
-   * Events - clicking a stop, changing various params for the resulting modal
-   */
-  const handleStopClick = useCallback(
-    (stop: RouteStop): void => {
-      const { "is_beginning?": isBeginning, "is_terminus?": isTerminus } = stop;
-      const isDestination = isTerminus && !isBeginning;
-      const direction = isDestination
-        ? reversedDirectionId(directionId)
-        : directionId;
-      dispatch({ type: "initialize", origin: stop.id, direction });
-      // modify URL:
-      updateURL(stop.id, directionId);
-    },
-    [directionId]
-  ); // only update function when stop or directionId changes
-  const handleOriginSelectClick = (): void => {
-    dispatch({ type: "set_origin", origin: null });
-    dispatch({ type: "toggle_modal", modalOpen: true });
-  };
-  const directionChanged = (direction: DirectionId): void => {
-    dispatch({ type: "set_direction", direction });
-  };
-  const originChanged = (origin: SelectedOrigin): void => {
-    dispatch({ type: "set_origin", origin });
-  };
-  const closeModal = (): void => {
-    dispatch({ type: "toggle_modal", modalOpen: false });
-    // clear parameters from URL when closing the modal:
-    updateURL("");
+  const handleStopClick = (stop: RouteStop): void => {
+    changeOrigin(stop.id);
+
+    const currentState = getCurrentState();
+    const { modalOpen: modalIsOpen } = currentState;
+
+    updateURL(stop.id, directionId);
+
+    if (currentState.selectedOrigin !== undefined && !modalIsOpen) {
+      storeHandler({
+        type: "OPEN_MODAL",
+        newStoreValues: {
+          modalMode: "schedule"
+        }
+      });
+    }
   };
 
   /**
@@ -206,25 +132,6 @@ const LineDiagramAndStopListPage = ({
             liveData={liveData}
           />
         </Provider>
-      )}
-
-      {state.modalOpen && (
-        <ScheduleFinderModal
-          closeModal={closeModal}
-          initialMode={state.modalMode}
-          initialDirection={state.direction}
-          initialOrigin={state.origin}
-          handleOriginSelectClick={handleOriginSelectClick}
-          directionChanged={directionChanged}
-          originChanged={originChanged}
-          route={route}
-          routePatternsByDirection={routePatternsByDirection}
-          scheduleNote={scheduleNote}
-          services={services}
-          stops={stops}
-          today={today}
-          updateURL={updateURL}
-        />
       )}
     </>
   );
