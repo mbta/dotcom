@@ -24,6 +24,8 @@
   <i aria-hidden="true" id="search-<%= @prefix %>__loading-indicator" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
   <i id="search-<%= @prefix %>__reset" class="c-form__reset-icon fa fa-times-circle"></i>
   <button id="search-<%= @prefix %>__input-go-btn" class="c-form__submit-btn" aria-label="search">
+    <!-- We're phasing out the svg icon with the FA icon, searchbar by searchbar -->
+    <%= fa "search" %>
     <%= svg("icon-search-reverse-default.svg") %>
   </button>
   <%= if autocomplete? do %>

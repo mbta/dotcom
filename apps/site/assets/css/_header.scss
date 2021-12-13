@@ -123,11 +123,6 @@
   }
 }
 
-.nav-title {
-  font-weight: bold;
-  margin-bottom: .5rem;
-}
-
 .header {
   background-color: $brand-primary;
   color: $white;
@@ -148,6 +143,101 @@
   // required for the mobile button to be vertically centered
   height: $header-navbar-height;
   display: flex;
+}
+
+.header-navbar.new {
+  @include media-breakpoint-only(xs) {
+    height: 52px;
+  }
+  // The between can be removed when the desktop styles are worked out
+  @include media-breakpoint-between(sm, md) {
+    height: 72px;
+  }
+
+  .navbar-logo {
+    .svg-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    
+    // At XS size, use T logo only
+    @include media-breakpoint-only(xs) {
+      flex-grow: 2;
+      margin-right: 33px;
+      svg {
+        display: unset;
+        height: 24px;
+        width: 24px;
+      }
+      .c-svg__mbta-logo {
+        height: 24px;
+      }
+      .c-svg__mbta-name-and-logo {
+        display: none;
+      }
+    }
+
+    svg {
+      @include media-breakpoint-between(xs, md) {
+        width: unset;
+      }
+      @include media-breakpoint-only(sm) {
+        height: 24px;
+      }
+      @include media-breakpoint-only(md) {
+        height: 40px;
+      }
+    }
+
+    .c-svg__mbta-name-and-logo {
+      padding-left: 24px;
+    }
+
+    @include media-breakpoint-up(sm) {
+      .c-svg__mbta-logo {
+        display: none;
+      }
+    }
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    .search-wrapper {
+      flex-grow: 2;
+      height: 100%;
+      > div { height: 100%; }
+    }
+    .search {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 24px;
+      form {
+        flex-grow: 1;
+      }
+      .c-form__input-container {
+        height: 44px;
+        max-width: 350px;
+        border-radius: 4px;
+        margin-left: auto;
+      }
+      input {
+        @include base-font__new();
+      }
+      button.c-form__submit-btn {
+        background-color: unset;
+        > i {
+          color: $brand-primary;
+          display: inline-block !important;
+        }
+      }
+      .c-svg__icon-search-reverse-default {
+        display: none;
+      }
+    }
+  }
+  
 }
 
 .navbar-logo {
@@ -446,5 +536,25 @@ header.header.search-open {
   }
   .fa-close {
     display: unset;
+  }
+}
+
+.m-menu__toggle, .header-search__toggle {
+ background-color: unset;
+ border: 2px solid $brand-primary-light-contrast;
+ border-radius: 4px;
+ margin: auto 0;
+}
+
+.m-menu__toggle {
+  padding: 6px 12px 5px 12px;
+  @include media-breakpoint-only(md) {
+    padding: 7px 12px 6px 12px;
+  }
+}
+
+.header-search__toggle {
+  > i {
+    width: 16px;
   }
 }
