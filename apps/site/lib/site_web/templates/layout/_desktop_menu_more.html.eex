@@ -1,6 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">About Us</div>
+    <div class="h5 header-column-heading">Get to Know Us</div>
     <div class="row">
       <div class="col-xs-6">
         <ul>
@@ -11,80 +11,75 @@
             <%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: news_entry_path(@conn, :index), class: "ga-nav-sublink" do %>
-              News &amp; Updates
-            <% end %>
+            <%= link "History", to: cms_static_page_path(@conn, "/history"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link "Events", to: event_path(@conn, :index), class: "ga-nav-sublink" %>
+            <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Public Meetings", to: event_path(@conn, :index), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Press Releases", to: news_entry_path(@conn, :index), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "MBTA Gift Shop", to: "http://www.mbtagifts.com/", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies/"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Safety", to: cms_static_page_path(@conn, "/safety/"), class: "ga-nav-sublink" %>
           </li>
         </ul>
       </div>
       <div class="col-xs-6">
-        <ul>
-          <li>
-            <%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank", class: "ga-nav-sublink" do %>
-              <span class="no-wrap">Performance</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "ga-nav-sublink" do %>
-              <span class="no-wrap">Sustainability</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link "History", to: cms_static_page_path(@conn, "/history"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Gifts", to: "http://www.mbtagifts.com/", target: "_blank", class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), class: "ga-nav-sublink" %>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
   <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Business Center</div>
+    <div class="h5 header-column-heading">Work With Us</div>
     <div class="col-xs-12 p-a-0">
       <ul>
+        <li>
+          <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
+          <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program"), class: "ga-nav-sublink" %>
+        </li>
         <li>
           <%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Developers", to: cms_static_page_path(@conn, "/developers"), class: "ga-nav-sublink" %>
+          <%= link "Innovation Proposals", to: cms_static_page_path(@conn, "/innovation"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Innovation", to: cms_static_page_path(@conn, "/innovation"), class: "ga-nav-sublink" %>
+          <%= link "Engineering Design Standards", to: cms_static_page_path(@conn, "//engineering/design-standards-and-guidelines"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
   </div>
   <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Improvements and Projects</div>
+    <div class="h5 header-column-heading">Our Work</div>
     <div class="col-xs-12 p-a-0">
       <ul>
+        <li>
+          <%= link "Sustainability", to: cms_static_page_path(@conn, "/sustainability"), class: "ga-nav-sublink" %>
+        </li>
         <li>
           <%= link "Building a Better T", to: cms_static_page_path(@conn, "/projects/building-better-t-2020"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Commuter Rail Positive Train Control", to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc"), class: "ga-nav-sublink" %>
+          <%= link "Green Line Transformation", to: "/projects/green-line-transformation", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Fare Transformation", to: cms_static_page_path(@conn, "/fare-transformation"), class: "ga-nav-sublink" %>
+          <%= link "Commuter Rail Positive Train Control", to: project_path(@conn, :show, "projects/commuter-rail-positive-train-control-ptc"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Green Line Transformation", to: "https://www.mbta.com/projects/green-line-transformation", target: "_blank", class: "ga-nav-sublink" %>
+          <%= link "Better Bus Project", to: cms_static_page_path(@conn, "/projects/better-bus-project"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "See All Projects", to: project_path(@conn, :index), class: "ga-nav-sublink" %>
+          <%= link "All MBTA Improvement Projects", to: project_path(@conn, :index), class: "ga-nav-sublink" %>
       </ul>
     </div>
   </div>

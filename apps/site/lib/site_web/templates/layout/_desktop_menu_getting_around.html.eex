@@ -34,10 +34,8 @@
         <li>
           <%= link "Service Alerts", to: alert_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
-
-        <%# CHANGE TO EXTERNAL LINK %>
         <li>
-          <%= link "Sign Up for Service Alerts", to: cms_static_page_path(@conn, "/https://alerts.mbta.com/"), class: "ga-nav-sublink" %>
+          <%= link "Sign Up for Service Alerts", to: "https://alerts.mbta.com/", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
           <%= link "Parking", to: cms_static_page_path(@conn, "/parking"), class: "ga-nav-sublink" %>
