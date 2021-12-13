@@ -1,6 +1,6 @@
 <div class="menu-row">
   <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Transit Services</div>
+    <div class="h5 header-column-heading">Modes of Transit</div>
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
@@ -16,7 +16,10 @@
           <%= link "Ferry", to: schedule_path(@conn, :show, "ferry"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "The RIDE", to: cms_static_page_path(@conn, "/accessibility/the-ride"), class: "ga-nav-sublink" %>
+          <%= link "Paratransit (The RIDE)", to: cms_static_page_path(@conn, "/accessibility/the-ride"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
+          <%= link "All Schedules & Maps", to: cms_static_page_path(@conn, "/schedules"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
@@ -29,26 +32,12 @@
           <%= link "Trip Planner", to: trip_plan_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Station Info", to: stop_path(@conn, :index), class: "ga-nav-sublink" %>
-        </li>
-        <li>
           <%= link "Service Alerts", to: alert_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
+
+        <%# CHANGE TO EXTERNAL LINK %>
         <li>
-          <%= link "Maps", to: cms_static_page_path(@conn, "/maps"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Destinations", to: cms_static_page_path(@conn, "/destinations"), class: "ga-nav-sublink" %>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Riding the T</div>
-    <div class="col-xs-12 p-a-0">
-      <ul>
-        <li>
-          <%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility"), class: "ga-nav-sublink" %>
+          <%= link "Sign Up for Service Alerts", to: cms_static_page_path(@conn, "/https://alerts.mbta.com/"), class: "ga-nav-sublink" %>
         </li>
         <li>
           <%= link "Parking", to: cms_static_page_path(@conn, "/parking"), class: "ga-nav-sublink" %>
@@ -57,10 +46,32 @@
           <%= link "Bikes", to: cms_static_page_path(@conn, "/bikes"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services"), class: "ga-nav-sublink" %>
+          <%= link "User Guides", to: cms_static_page_path(@conn, "/guides"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Safety", to: cms_static_page_path(@conn, "/safety"), class: "ga-nav-sublink" %>
+          <%= link "Holidays", to: cms_static_page_path(@conn, "/holidays"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
+          <%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility"), class: "ga-nav-sublink" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Find a Location</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link "Find Nearby Transit", to: cms_static_page_path(@conn, "/transit-near-me"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
+          <%= link "MBTA Stations", to: cms_static_page_path(@conn, "/stops"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
+          <%= link "Destinations", to: cms_static_page_path(@conn, "/destinations"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
+          <%= link "Maps", to: cms_static_page_path(@conn, "/maps"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
