@@ -42,7 +42,8 @@ defmodule SiteWeb.LayoutView do
     do: [
       {"Transit", "Modes of Transit, Plan Your Journey, Find a Location...",
        static_page_path(conn, :getting_around)},
-      {"Fares", "Fares Info, Fares By Mode, Pay Your Fare...", cms_static_page_path(conn, "/fares")},
+      {"Fares", "Fares Info, Fares By Mode, Pay Your Fare...",
+       cms_static_page_path(conn, "/fares")},
       {"Contact", "Customer Support, Transit Police", customer_support_path(conn, :index)},
       {"About", "Get to Know Us, Work With Us, Our Work...", static_page_path(conn, :about)}
     ]
