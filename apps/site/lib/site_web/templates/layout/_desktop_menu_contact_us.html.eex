@@ -8,10 +8,8 @@
       <li>
         <%= link "View all contact numbers", to: customer_support_path(@conn, :index)<>"#customer_support", class: "ga-nav-sublink" %>
       </li>
-
-      <%# EXTERNAL LINK %>
       <li>
-        <%= link "Request Public Records", to: cms_static_page_path(@conn, "/transit-police"), class: "ga-nav-sublink" %>
+        <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank", class: "ga-nav-sublink" %>
       </li>
       <li>
         <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), class: "ga-nav-sublink" %>
