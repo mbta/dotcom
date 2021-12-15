@@ -11,7 +11,6 @@ import {
 } from "../../../../helpers/prediction-helpers";
 import { breakTextAtSlash } from "../../../../helpers/text";
 import { isABusRoute } from "../../../../models/route";
-import liveClockSvg from "../../../../../static/images/icon-live-clock.svg";
 import { modeBgClass } from "../../../../stop/components/RoutePillList";
 import { UserInput } from "../../__schedule";
 import { EnhancedJourney } from "../../__trips";
