@@ -207,16 +207,6 @@ const TableRow = ({
 const UpcomingDeparturesHeader = (
   <div className="schedule-table__upcoming-departures-header">
     <h3>Upcoming Departures</h3>
-    <span className="schedule-table__live-clock" aria-hidden>
-      <span className="icon-realtime animate notranslate">
-        <span
-          className="c-svg__icon-live-clock"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: liveClockSvg }}
-        />
-        <span className="icon-realtime-text">live</span>
-      </span>
-    </span>
   </div>
 );
 
