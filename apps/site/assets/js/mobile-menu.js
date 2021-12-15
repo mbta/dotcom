@@ -73,6 +73,11 @@ export default function mobileMenu($ = window.jQuery) {
     document.body.addEventListener("keydown", e => {
       handleNativeEscapeKeyPress(e, closeMenus);
     });
+
+    // Changing viewport size closes
+    window.addEventListener('resize', () => {
+      closeMenus();
+    });
   }
 
   document.addEventListener(
