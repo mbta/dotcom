@@ -7,7 +7,6 @@ defmodule Routes.Repo do
   use RepoCache, ttl: :timer.hours(1)
 
   import Routes.Parser
-  import Routes.Helpers
 
   alias JsonApi
   alias Routes.{Route, Shape}
@@ -103,7 +102,6 @@ defmodule Routes.Repo do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
-    |> duplicate_blended_route()
   end
 
   def by_type(type) do
