@@ -26,8 +26,6 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
-    {:events_hub_redesign, "Events Hub Redesign (Feb. 2021)",
-     "Changes to the event listings and the event pages as part of the 🤝 Public Engagement epic"},
     {:nav_redesign, "Navigation Menu Redesign (Nov. 2021)",
      "Changes to the navigation menus on mobile and desktop as part of the IA + Navigation epic"}
   ],
