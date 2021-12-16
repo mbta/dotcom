@@ -96,7 +96,8 @@ export const doInit = (id) => {
 export function init() {
   document.addEventListener("turbolinks:load", () => {
     doWhenGoogleMapsIsReady(
-      ["search-homepage", "search-header", "search-secondary-header"].forEach(id => doInit(id))
+      ["search-homepage", "search-header", "search-secondary-header", "search-error-page"]
+        .forEach(id => doInit(id))
     );
   });
 }
