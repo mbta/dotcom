@@ -30,16 +30,6 @@
       </li>
     </ul>
   </div>
-  <div class="col-xs-4 header-column" style="background-color: #a1c6ed">
-    <h4>INFORMATION & SUPPORT</h4>
-    <p>Monday thru Friday: 6:30 AM - 8 PM</p>
-    <p>Saturday thru Sunday: 8AM - 4PM</p>
-    <p><span style="font-weight:bold">Main</span>617-222-3200</p>
-    <p><span style="font-weight:bold">TTY</span>617-222-5146</p>
-    <br/>
-    <h4>EMERGENCY CONTACTS</h4>
-    <p>24 hours, 7 days a week</p>
-    <p><span style="font-weight:bold">Transit Police</span>617-222-1212</p>
-    <p><span style="font-weight:bold">TTY</span>617-222-1200</p>
+  <div class="col-xs-4 header-column">
   </div>
 </div>
