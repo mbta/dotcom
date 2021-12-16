@@ -30,7 +30,7 @@ describe("HomepageSearch", () => {
   });
 
   it("buildSearchParams", () => {
-    const search = doInit();
+    const search = doInit("search-homepage");
     const selectors = buildSelectors("homepage-search")
     const $input = window.$(`#${selectors.input}`);
     expect($input.length).to.equal(1);
@@ -40,7 +40,7 @@ describe("HomepageSearch", () => {
   });
 
   it("onClickGoBtn", () => {
-    const search = doInit();
+    const search = doInit("search-homepage");
     const selectors = buildSelectors("homepage-search")
     const $input = window.$(`#${selectors.input}`);
     expect($input.length).to.equal(1);
