@@ -8,7 +8,7 @@
           <%= svg "mbta-logo.svg" %>
         </div>
       </a>
-      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more"  %>
+      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more", id: "header" %>
       <button class="header-search__toggle" type="button" aria-expanded="false">
         <i class="fa fa-search" aria-hidden="true"></i>
         <i class="fa fa-close" aria-hidden="true"></i> 

@@ -7,10 +7,10 @@
         Map.merge(assigns, %{
           placeholder: placeholder,
           aria_label: "Search MBTA.com",
-          prefix: "homepage"
+          prefix: @id
         })) %>
     </form>
-    <div id="homepage-search__autocomplete" class="c-search-bar__results"></div>
-    <div id="homepage-search__results" class="c-search-bar__results"></div>
+    <div id="<%= @id %>-search__autocomplete" class="c-search-bar__results"></div>
+    <div id="<%= @id %>-search__results" class="c-search-bar__results"></div>
   </div>
 </div>

@@ -282,7 +282,6 @@ nav.m-menu {
   visibility: hidden;
   white-space: nowrap;
   transition: all .25s ease;
-  overflow-y: auto;
   z-index: 1;
   background-color: $brand-primary;
   position: fixed;
@@ -317,7 +316,7 @@ nav.m-menu {
 
 .m-menu__content {
   bottom: 0;
-
+  overflow-y: auto;
   .menu-container {
     background-color: $brand-primary-darkest;
     padding: $space-3_new 0 $space-3_new $space-3_new;
