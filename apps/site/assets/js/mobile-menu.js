@@ -43,10 +43,10 @@ export default function mobileMenu($ = window.jQuery) {
       menuButton.setAttribute("aria-expanded", !expanded);
       menuButton.innerHTML = expanded ? "Menu" : "Close";
       // Pass focus
-      if (!expanded) {
-        const firstAccordion = document.querySelector(".accordion");
-        firstAccordion.focus();
-      }
+      // if (!expanded) {
+      //   const firstAccordion = document.querySelector(".accordion");
+      //   firstAccordion.focus();
+      // }
       scrollToTop();
     });
     searchButton.addEventListener("click", () => {
@@ -56,12 +56,12 @@ export default function mobileMenu($ = window.jQuery) {
       const expanded = searchButton.getAttribute("aria-expanded") === "true";
       searchButton.setAttribute("aria-expanded", !expanded);
       // Pass focus
-      // if (!expanded) {
-      //   const searchBar = document.querySelector(
-      //     ".m-menu__search #search-homepage__input"
-      //   );
-      //   searchBar.focus();
-      // }
+      if (!expanded) {
+        const searchBar = document.querySelector(
+          ".m-menu__search #search-homepage__input"
+        );
+        searchBar.focus();
+      }
     });
 
     // Veil click closes

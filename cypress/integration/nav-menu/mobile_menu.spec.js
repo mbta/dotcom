@@ -65,7 +65,7 @@ describe("Navigation redesign - mobile menu", () => {
           cy.get("@menuButton").should("not.be.visible");
           cy.get(".m-menu__search")
             .should("be.visible")
-            .find("input#search-homepage__input")
+            .find("input#search-secondary-header__input")
             .should("have.attr", "placeholder", searchPlaceholderText);
           cy.get("@searchButton").click();
           cy.get(".header").should("not.have.class", "search-open");
@@ -75,7 +75,7 @@ describe("Navigation redesign - mobile menu", () => {
         it("search bar is visible", () => {
           cy.get(".header .search")
             .should("be.visible")
-            .find("input#search-homepage__input")
+            .find("input#search-secondary-header__input")
             .should("have.attr", "placeholder", searchPlaceholderText);
 
           cy.get("@searchButton").should("not.be.visible");
@@ -89,6 +89,6 @@ describe("Navigation redesign - mobile menu", () => {
   }, () => {
     cy.get("@menu").should("not.be.visible");
     cy.get("@menuButton").should("not.be.visible");
-    cy.get(".header input#search-homepage__input").should("not.be.visible");
+    cy.get(".header input#search-secondary-header__input").should("not.be.visible");
   });
 });
