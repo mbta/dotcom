@@ -137,6 +137,15 @@ defmodule SiteWeb.EventControllerTest do
     end
   end
 
+  describe "GET show (events_hub_redesign)" do
+    test "renders show.html", %{conn: conn} do
+      event = event_factory(0, path_alias: nil)
+      conn = get(conn, event_path(conn, :show, event))
+      assert conn.status == 200
+      refute html_response(conn, 200) =~ "<h3>Agenda</h3>"
+    end
+  end
+
   describe "GET icalendar" do
     test "returns an icalendar file as an attachment when event does not have an alias", %{
       conn: conn
