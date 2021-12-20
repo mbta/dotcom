@@ -1,72 +1,102 @@
+<%= if Laboratory.enabled?(@conn, :deskstop_nav_redesign) do %>
+  <div class="menu-row">
+    <div class="col-xs-4 header-column">
+      <div class="h5 header-column-heading">Fares Info</div>
+      <div class="col-xs-12 p-a-0">
+        <ul>
+          <li>
+            <%= link "Fares Overview", to: cms_static_page_path(@conn, "/fares"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Transfers", to: cms_static_page_path(@conn, "/fares/transfers"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Fares Transformation", to: cms_static_page_path(@conn, "/fares-transformation"), class: "ga-nav-sublink" %>
+          </li>
+
+          <li>
+            <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-4 header-column">
+      <div class="h5 header-column-heading">Fares By Mode</div>
+      <div class="col-xs-12 p-a-0">
+        <ul>
+          <li>
+            <%= link "Subway Fares", to: cms_static_page_path(@conn, "/fares/subway-fares"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Bus Fares", to: cms_static_page_path(@conn, "/fares/bus-fares"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Commuter Rail Fares", to: cms_static_page_path(@conn, "/fares/commuter-rail-fares"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Ferry Fares", to: cms_static_page_path(@conn, "/fares/ferry-fares"), class: "ga-nav-sublink" %>
+          </li>
+
+          <li>
+            <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-4 header-column">
+      <div class="h5 header-column-heading">Pay Your Fare</div>
+      <div class="col-xs-12 p-a-0">
+        <ul>
+          <li>
+            <%= link "CharlieCard Store", to: cms_static_page_path(@conn, "/fares/charlecard-store"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com/", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Order Monthly Pass", to: "https://commerce.mbta.com/", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Get a CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard#getacharliecard"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Retail Sales Locations", to: cms_static_page_path(@conn, "/fares/retail-sales-locations"), class: "ga-nav-sublink" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-4 header-column">
+    </div>
+  </div>
+<% else %>
 <div class="menu-row">
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Fares Info</div>
+  <div class="col-md-4 col-lg-3 fares-column">
+    <div class="h5 header-column-heading">More Fares Info</div>
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
           <%= link "Fares Overview", to: cms_static_page_path(@conn, "/fares"), class: "ga-nav-sublink" %>
         </li>
         <li>
+          <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
+        </li>
+        <li>
           <%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Transfers", to: cms_static_page_path(@conn, "/fares/transfers"), class: "ga-nav-sublink" %>
+          <%= link "Order Monthly Passes", to: "https://commerce.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Fares Transformation", to: cms_static_page_path(@conn, "/fares-transformation"), class: "ga-nav-sublink" %>
-        </li>
-
-        <li>
-          <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
+          <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
   </div>
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Fares By Mode</div>
-    <div class="col-xs-12 p-a-0">
-      <ul>
-        <li>
-          <%= link "Subway Fares", to: cms_static_page_path(@conn, "/fares/subway-fares"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Bus Fares", to: cms_static_page_path(@conn, "/fares/bus-fares"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Commuter Rail Fares", to: cms_static_page_path(@conn, "/fares/commuter-rail-fares"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Ferry Fares", to: cms_static_page_path(@conn, "/fares/ferry-fares"), class: "ga-nav-sublink" %>
-        </li>
-
-        <li>
-          <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Pay Your Fare</div>
-    <div class="col-xs-12 p-a-0">
-      <ul>
-        <li>
-          <%= link "CharlieCard Store", to: cms_static_page_path(@conn, "/fares/charlecard-store"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com/", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Order Monthly Pass", to: "https://commerce.mbta.com/", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Get a CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard#getacharliecard"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Retail Sales Locations", to: cms_static_page_path(@conn, "/fares/retail-sales-locations"), class: "ga-nav-sublink" %>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-xs-4 header-column">
+  <div class="col-md-8 col-lg-9">
+    <%= SiteWeb.FareView.summarize(@common_fare_summaries, link_class: "ga-nav-sublink") %>
   </div>
 </div>
+<% end %>

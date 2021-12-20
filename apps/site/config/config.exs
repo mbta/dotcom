@@ -29,7 +29,9 @@ config :laboratory,
     {:events_hub_redesign, "Events Hub Redesign (Feb. 2021)",
      "Changes to the event listings and the event pages as part of the 🤝 Public Engagement epic"},
     {:nav_redesign, "Navigation Menu Redesign (Nov. 2021)",
-     "Changes to the navigation menus on mobile and desktop as part of the IA + Navigation epic"}
+     "Changes to the navigation menus on mobile and desktop as part of the IA + Navigation epic"},
+    {:deskstop_nav_redesign, "Desktop Navigation Menu Redesign (Dec. 2021)",
+     "Changes to the navigation menus on desktop as part of the IA + Navigation epic"}
   ],
   cookie: [
     # one month,
