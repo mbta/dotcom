@@ -11,7 +11,6 @@ import {
 } from "../../../../helpers/prediction-helpers";
 import { breakTextAtSlash } from "../../../../helpers/text";
 import { isABusRoute } from "../../../../models/route";
-import liveClockSvg from "../../../../../static/images/icon-live-clock.svg";
 import { modeBgClass } from "../../../../stop/components/RoutePillList";
 import { UserInput } from "../../__schedule";
 import { EnhancedJourney } from "../../__trips";
@@ -207,16 +206,6 @@ const TableRow = ({
 const UpcomingDeparturesHeader = (
   <div className="schedule-table__upcoming-departures-header">
     <h3>Upcoming Departures</h3>
-    <span className="schedule-table__live-clock" aria-hidden>
-      <span className="icon-realtime animate notranslate">
-        <span
-          className="c-svg__icon-live-clock"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: liveClockSvg }}
-        />
-        <span className="icon-realtime-text">live</span>
-      </span>
-    </span>
   </div>
 );
 

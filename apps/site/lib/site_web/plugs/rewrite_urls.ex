@@ -28,14 +28,6 @@ defmodule SiteWeb.Plugs.RewriteUrls do
     String.replace(conn.request_path, "Boat-F3", "Boat-F1")
   end
 
-  defp rewrite_url(%{path_info: ["schedules", "62" | _]} = conn) do
-    String.replace(conn.request_path, "62", "627")
-  end
-
-  defp rewrite_url(%{path_info: ["schedules", "76" | _]} = conn) do
-    String.replace(conn.request_path, "76", "627")
-  end
-
   defp rewrite_url(_conn) do
     nil
   end
