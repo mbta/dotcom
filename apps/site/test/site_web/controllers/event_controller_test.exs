@@ -138,11 +138,6 @@ defmodule SiteWeb.EventControllerTest do
   end
 
   describe "GET show (events_hub_redesign)" do
-    setup %{conn: conn} do
-      conn = conn |> put_req_cookie("events_hub_redesign", "true")
-      {:ok, conn: conn}
-    end
-
     test "renders show.html", %{conn: conn} do
       event = event_factory(0, path_alias: nil)
       conn = get(conn, event_path(conn, :show, event))
