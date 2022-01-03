@@ -63,6 +63,7 @@ const LOCATION_PARAMS = {
 
 // exported for testing
 export const doInit = (id) => {
+  console.log('id: ', id)
   const selectors = buildSelectors(id)
   const input = document.getElementById(selectors.input);
   if (!input) return null;
@@ -81,6 +82,7 @@ export const doInit = (id) => {
     locationParams: LOCATION_PARAMS,
     withGoogle: true
   });
+  console.log('search: ', search)
 
   search.buildSearchParams = () =>
     QueryHelpers.paramsToString(
