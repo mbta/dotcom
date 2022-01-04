@@ -78,6 +78,6 @@
     <% end %>
   </div>
   <div class="m-menu__search">
-    <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more"  %>
+    <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more", id: "secondary-header" %>
   </div>
 </nav>
