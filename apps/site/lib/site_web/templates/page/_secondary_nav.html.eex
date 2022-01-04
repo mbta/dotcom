@@ -2,7 +2,7 @@
 # divs with onClick events were used here because Google Translate
 # has a problem when other tags are nested inside of anchor tags
 %>
-<div class="m-secondary-nav <%= if Laboratory.enabled?(@conn, :nav_redesign), do: 'todo-remove' %>">
+<div class="m-secondary-nav">
   <div class="m-secondary-nav__items">
     <div class="m-secondary-nav__item" onclick="location.href='/schedules'">
       <span class="m-secondary-nav__icon notranslate">
