@@ -68,9 +68,15 @@
         </ul>
       </div>
     </div>
-    <div class="col-xs-4 header-column">
+      <div class="submenu-container">
+        <h4>MOST POPULAR FARES</h4>
+        <div style="display:flex">
+          <div>Subway One-Way</div>
+          <div>$2.40</div>
+        </div>
+
+      </div>
     </div>
-  </div>
 <% else %>
 <div class="menu-row">
   <div class="col-md-4 col-lg-3 fares-column">
