@@ -10,7 +10,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
   @deps %SiteWeb.ScheduleController.Line.Dependencies{}
 
-  @base_end_date ~D[2021-12-08]
+  @base_end_date ~D[2022-12-08]
 
   @thirtynine_services [
     %Service{
@@ -549,9 +549,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       for {id, idx} <- [
             {"place-sstat", 0},
-            {"place-NEC-2139", 5},
-            {"place-SB-0189", 7},
-            {"place-NEC-2040", 9}
+            {"place-NEC-2173", 5},
+            {"place-SB-0156", 7},
+            {"place-NEC-2108", 9}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
