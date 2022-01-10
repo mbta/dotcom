@@ -43,7 +43,11 @@ export const fetchJourneys = (
 ): (() => Promise<Response>) => () =>
   window.fetch &&
   window.fetch(
-    `/schedules/finder_api/journeys?id=${routeId}&date=${selectedService.end_date}&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
+    `/schedules/finder_api/journeys?id=${
+      routeId === "627" ? "627,76,62" : routeId
+    }&date=${
+      selectedService.end_date
+    }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
   );
 
 // Exported solely for testing
