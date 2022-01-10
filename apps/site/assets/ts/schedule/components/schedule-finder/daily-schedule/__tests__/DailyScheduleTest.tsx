@@ -262,6 +262,25 @@ describe("fetchJourneys", () => {
       fetchJourneysMock.mockRestore();
     });
   });
+
+  it("fetches 62,76, and 627 when route is 627", () => {
+    window.fetch = jest.fn();
+    const service = services.find(service => service.id === "BUS319-P-Sa-02")!;
+
+    const fetcher = dailyScheduleModule.fetchJourneys(
+      "627",
+      "stopId",
+      service,
+      1,
+      true
+    );
+
+    fetcher();
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      "/schedules/finder_api/journeys?id=627,76,62&date=2019-08-31&direction=1&stop=stopId&is_current=true"
+    );
+  });
 });
 
 describe("parseResults", () => {
