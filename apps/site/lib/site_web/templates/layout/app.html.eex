@@ -10,7 +10,7 @@
     <% meta_description = assigns[:meta_description] || "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines." %>
     <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
     <meta name="author" content="Massachusetts Bay Transportation Authority">
-    <meta name="theme-color" content="#071d2e">
+    <meta name="theme-color" content="#0b2f4c">
     <%= Turbolinks.cache_meta @conn %>
 
     <%= # hide any page in /org directory from search engines
