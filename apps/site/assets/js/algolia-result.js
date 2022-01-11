@@ -34,13 +34,13 @@ export const TEMPLATES = {
     {{#hasDate}}
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
-    <span>{{{hitIcon}}}</span>
     {{#id}}
     <a id="hit-{{id}}" class="${SELECTORS.result} c-search-result__link" href="{{hitUrl}}">
     {{/id}}
     {{^id}}
     <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
+      <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
     {{#hasDate}}
