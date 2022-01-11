@@ -536,9 +536,6 @@ export function parseResult(hit, index) {
 }
 
 export function renderResult(hit, index) {
-  if (hit._content_type == "project" || hit._content_type == "project_update") {
-    return TEMPLATES.projects.render(parseResult(hit, "projects"));
-  }
   if (TEMPLATES[index]) {
     return TEMPLATES[index].render(parseResult(hit, index));
   }
