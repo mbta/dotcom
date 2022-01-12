@@ -165,8 +165,8 @@ function _contentIcon(hit) {
       search_result: "fa-info",
       news_entry: "fa-newspaper-o",
       event: "fa-calendar",
-      project: "fa-wrench",
-      project_update: "fa-wrench",
+      project: "fa-hammer",
+      project_update: "fa-hammer",
       page: "fa-info",
       landing_page: "fa-info",
       person: "fa-user",
@@ -227,8 +227,6 @@ export function getIcon(hit, type) {
       return getPopularIcon(hit.icon);
 
     case "projects":
-      return getTransitIcons(hit);
-
     case "drupal":
     case "pages":
     case "documents":
