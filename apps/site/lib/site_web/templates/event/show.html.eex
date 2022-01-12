@@ -60,21 +60,6 @@
             <hr />
           </div>
 
-          <%= if !is_ended?(@event) do %>
-            <div class="m-event__registration">
-              <h2 class="m-event__registration-header">Join the Virtual Meeting</h2>
-              <div>
-                <div class="mb-1">The meeting will be held over Zoom.</div>
-                <%= if !is_nil(@event.registration_link) do %>
-                  <a class="btn btn-primary btn-block" href="<%= @event.registration_link %>">Register for the meeting</a>
-                <% else %>
-                  <p>Virtual meeting registration will be available soon.</p>
-                <% end %>
-              </div>
-            </div>
-            <hr />
-          <% end %>
-
           <%= if @event.event_agenda do %>
             <section class="m-event__agenda">
               <h2 class="mt-0">Agenda</h2>
