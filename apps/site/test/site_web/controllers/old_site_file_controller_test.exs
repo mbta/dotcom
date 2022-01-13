@@ -2,7 +2,6 @@ defmodule SiteWeb.OldSiteFileControllerTest do
   use SiteWeb.ConnCase
 
   describe "/uploadedfiles" do
-    @tag skip: "FIXME: Failing possibly due to unrelated ITD work"
     test "can return a file with spaces in the URL", %{conn: conn} do
       conn =
         head(
@@ -13,7 +12,6 @@ defmodule SiteWeb.OldSiteFileControllerTest do
       assert conn.status == 200
     end
 
-    @tag skip: "FIXME: Failing possibly due to unrelated ITD work"
     test "can return file from /uploadedimages", %{conn: conn} do
       conn =
         head(conn, "/uploadedimages/About_the_T/Art_Collection/Map%20Runner%20Up%2015%20lg.jpg")
@@ -21,19 +19,16 @@ defmodule SiteWeb.OldSiteFileControllerTest do
       assert conn.status == 200
     end
 
-    @tag skip: "FIXME: Failing possibly due to unrelated ITD work"
     test "can return file from /uploadedImages", %{conn: conn} do
       conn = head(conn, "/uploadedImages/services/subway/braintree_station.jpg")
       assert conn.status == 200
     end
 
-    @tag skip: "FIXME: Failing possibly due to unrelated ITD work"
     test "can return file from /lib", %{conn: conn} do
       conn = head(conn, "/lib/css/T-Tracker.css")
       assert conn.status == 200
     end
 
-    @tag skip: "FIXME: Failing possibly due to unrelated ITD work"
     test "can return file from /images", %{conn: conn} do
       conn = head(conn, "/images/logo-mbta.gif")
       assert conn.status == 200
