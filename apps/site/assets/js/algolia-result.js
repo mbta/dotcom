@@ -30,7 +30,7 @@ export const TEMPLATES = {
       <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
     </a>
   `),
-  projects: hogan.compile(`
+  threePlusIcons: hogan.compile(`
     {{#hasDate}}
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
@@ -41,6 +41,12 @@ export const TEMPLATES = {
     <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
+      <span class="c-search-result__feature-icons">
+      {{#hitFeatureIcons}}
+        {{{.}}}
+      {{/hitFeatureIcons}}
+      <br/>
+    </span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
     {{#hasDate}}
@@ -165,8 +171,8 @@ function _contentIcon(hit) {
       search_result: "fa-info",
       news_entry: "fa-newspaper-o",
       event: "fa-calendar",
-      project: "fa-hammer",
-      project_update: "fa-hammer",
+      project: "fa-wrench",
+      project_update: "fa-wrench",
       page: "fa-info",
       landing_page: "fa-info",
       person: "fa-user",
@@ -534,8 +540,12 @@ export function parseResult(hit, index) {
 }
 
 export function renderResult(hit, index) {
-  if (TEMPLATES[index]) {
-    return TEMPLATES[index].render(parseResult(hit, index));
+  const parsedResult = parseResult(hit, index);
+  if (parsedResult.hitFeatureIcons.length > 2) {
+    return TEMPLATES["threePlusIcons"].render(parsedResult);
   }
-  return TEMPLATES.default.render(parseResult(hit, index));
+  if (TEMPLATES[index]) {
+    return TEMPLATES[index].render(parsedResult);
+  }
+  return TEMPLATES.default.render(parsedResult);
 }
