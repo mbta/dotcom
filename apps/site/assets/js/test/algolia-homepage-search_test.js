@@ -18,7 +18,7 @@ describe("HomepageSearch", () => {
       visit: sinon.spy()
     };
 
-    const selectors = buildSelectors("search-homepage")
+    const selectors = buildSelectors("search-homepage");
 
     document.body.innerHTML = `
       <div id="powered-by-google-logo"></div>
@@ -31,7 +31,7 @@ describe("HomepageSearch", () => {
 
   it("buildSearchParams", () => {
     const search = doInit("search-homepage");
-    const selectors = buildSelectors("search-homepage")
+    const selectors = buildSelectors("search-homepage");
     const $input = window.$(`#${selectors.input}`);
     expect($input.length).to.equal(1);
     $input.val("a");
@@ -41,7 +41,7 @@ describe("HomepageSearch", () => {
 
   it("onClickGoBtn", () => {
     doInit("search-homepage");
-    const selectors = buildSelectors("search-homepage")
+    const selectors = buildSelectors("search-homepage");
     const $input = window.$(`#${selectors.input}`);
     expect($input.length).to.equal(1);
     $input.val("b");

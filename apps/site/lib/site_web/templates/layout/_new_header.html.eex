@@ -12,6 +12,7 @@
       <div class="search-wrapper">
         <%= render SiteWeb.PageView, "_search_bar.html",
             conn: @conn,
+            id: "header-desktop",
             placeholder: "Search for routes, info, and more"
         %>
       </div>
@@ -20,15 +21,8 @@
         <i class="fa fa-search" aria-hidden="true"></i>
         <i class="fa fa-close" aria-hidden="true"></i>
       </button>
-      
       <%= render "_nav_desktop.html", assigns %>
     </div>
-  </div>
-  <div class="m-menu__search">
-    <%= render SiteWeb.PageView, "_search_bar.html",
-        conn: @conn,
-        placeholder: "Search for routes, info, and more"
-    %>
   </div>
   <%= render "_new_nav_mobile.html", assigns %>
 </header>

@@ -75,7 +75,7 @@ export default function mobileMenu($ = window.jQuery) {
     });
 
     // Changing viewport size closes
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       closeMenus();
     });
   }
