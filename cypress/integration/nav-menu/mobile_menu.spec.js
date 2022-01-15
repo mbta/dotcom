@@ -24,13 +24,13 @@ describe("Navigation redesign - mobile menu", () => {
       });
 
       it("button toggles the mobile menu", () => {
-        cy.get("@menu").should("not.be.visible");
+        cy.get(".m-menu__content").should("not.be.visible");
         cy.get("@menuButton").click();
-        cy.get("@menu").should("be.visible");
         cy.get("@menuButton").should("contain", "Close");
+        cy.get(".m-menu__content").should("be.visible");
         cy.get("@menuButton").click();
-        cy.get("@menu").should("not.be.visible")
         cy.get("@menuButton").should("contain", "Menu");
+        cy.get(".m-menu__content").should("not.be.visible")
       });
 
       it("ESC key closes open menu", () => {
