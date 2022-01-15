@@ -95,13 +95,13 @@ export const doInit = id => {
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(
+    doWhenGoogleMapsIsReady(() => {
       [
         "search-homepage",
         "search-header-desktop",
         "search-header-mobile",
         "search-error-page"
-      ].forEach(id => doInit(id))
-    );
+      ].forEach(id => doInit(id));
+    });
   });
 }
