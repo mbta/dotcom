@@ -123,17 +123,18 @@
   }
 }
 
-.nav-title {
-  font-weight: bold;
-  margin-bottom: .5rem;
-}
-
 .header {
   background-color: $brand-primary;
   color: $white;
 
+  &.menu-open, &.search-open {
+    background-color: $brand-primary-darkest;
+  }
+
+  // !important is needed while in case the modal is open and the viewport changes
+  // TODO: better handle the "modal open" situation when the viewport changes
   @include media-breakpoint-up(lg) {
-    background-color: $body-bg;
+    background-color: $body-bg !important;
     color: $body-color;
   }
 }
@@ -148,6 +149,106 @@
   // required for the mobile button to be vertically centered
   height: $header-navbar-height;
   display: flex;
+}
+
+.header-navbar.new {
+  @include media-breakpoint-only(xs) {
+    height: $header-navbar-height-xs;
+  }
+  // The between can be removed when the desktop styles are worked out
+  @include media-breakpoint-between(sm, md) {
+    height: $header-navbar-height-new;
+  }
+
+  .navbar-logo {
+    .svg-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .c-svg__mbta-logo {
+      display: none;
+    }
+    .c-svg__mbta-name-and-logo {
+      padding-left: 24px;
+    }
+    // At XS size, use T logo only
+    @include media-breakpoint-only(xs) {
+      flex-grow: 2;
+      svg {
+        display: unset;
+        height: 24px;
+      }
+      .c-svg__mbta-logo {
+        display: unset;
+        height: 24px;
+      }
+      .c-svg__mbta-name-and-logo {
+        display: none;
+      }
+    }
+
+    svg {
+      @include media-breakpoint-between(xs, md) {
+        width: unset;
+      }
+      @include media-breakpoint-only(sm) {
+        height: 24px;
+      }
+      @include media-breakpoint-only(md) {
+        height: 40px;
+      }
+    }
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    .search-wrapper {
+      flex-grow: 2;
+      height: 100%;
+      > div { height: 100%; }
+    }
+  }
+}
+
+.header-navbar.new, .m-menu__search {
+  @include media-breakpoint-down(md) {
+    .search {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      form {
+        flex-grow: 1;
+      }
+      .c-form__input-container {
+        height: 44px;
+        border-radius: 4px;
+        margin-left: auto;
+      }
+      input {
+        @include base-font__new();
+      }
+      button.c-form__submit-btn {
+        background-color: unset;
+        > i {
+          color: $brand-primary;
+          display: inline-block !important;
+        }
+      }
+      .c-svg__icon-search-reverse-default {
+        display: none;
+      }
+    }
+  }
+}
+.header-navbar.new .search {
+  padding-left: 24px;
+  .c-form__input-container {
+    max-width: 350px;
+  }
+  @include media-breakpoint-only(xs) {
+    display: none;
+  }
 }
 
 .navbar-logo {
@@ -258,6 +359,7 @@ nav.m-menu, .m-menu__toggle {
     }
   }
   .header-search__toggle {
+    margin-left: 33px;
     @include media-breakpoint-up(sm) {
       display: none;
     }
@@ -267,25 +369,28 @@ nav.m-menu {
   position: absolute;
   z-index: $z-index-modal;
 }
+.m-menu__title {
+  background-color: $brand-primary-darkest;
+  padding: 10px 12px;
+  @include media-breakpoint-up(sm) {
+    display: none;
+  }
+}
 .m-menu__cover {
   background-color: rgba($black, .15);
   height: 100%;
   position: fixed;
-  top: $header-navbar-height;
   width: 100%;
   display: none;
 }
 
 .m-menu__content,
 .m-menu__search {
-  width: 0px;
-  visibility: hidden;
+  display: none;
   white-space: nowrap;
   transition: all .25s ease;
   z-index: 1;
-  background-color: $brand-primary;
   position: fixed;
-  top: $header-navbar-height;
   &::-webkit-scrollbar {
     display: none; /* Chrome */
   }
@@ -296,6 +401,41 @@ nav.m-menu {
     display: none;
   }
 }
+.m-menu__content, .m-menu-search,
+.m-menu__cover {
+  @include media-breakpoint-only(xs) {
+    top: $header-navbar-height-xs;
+  }
+  @include media-breakpoint-up(sm) {
+    top: $header-navbar-height-new;
+  }
+}
+.m-menu__content {
+  width: 0px;
+  background-color: $brand-primary;
+
+  .m-menu__section {
+    @include media-breakpoint-only(sm) {
+      padding-left: 40px;
+    }
+    @include media-breakpoint-only(md) {
+      padding-left: 63px;
+    }
+  }
+}
+.m-menu__search {
+  height: 0px;
+  width: 100%;
+  background-color: $brand-primary-darkest;
+  padding: 0 12px 16px 12px;
+  display: none;
+
+  .c-form__input-container {
+    border: none;
+    border-radius: 4px;
+  }
+}
+
 
 @mixin dark-mode-links {
   color: $brand-primary-light-contrast;
@@ -317,8 +457,49 @@ nav.m-menu {
 .m-menu__content {
   bottom: 0;
   overflow-y: auto;
+  box-shadow: 0px 7px 14px 0px $gray-shadow;
+
+  .m-menu__section-heading {
+    @include font-small();
+    color: $brand-primary-lightest;
+    padding: 16px 0 0 16px;
+  }
+  .m-menu__section {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $brand-primary-light-contrast;
+  }
+  // Accordion stuff
+  .c-accordion-ui {
+    margin-bottom: 0;
+    border: none;
+    .c-accordion-ui__trigger{
+      @include heading-4();
+      color: $white;
+      &:hover, &:active {
+        background-color: $brand-primary-darkest;
+      }
+    }
+    .c-accordion-ui__content {
+      background-color: $brand-primary-lightest-contrast;
+      padding: 0;
+      > a > div {
+        padding: 12px 12px 12px 24px;
+        @include font-link();
+      }
+      .m-menu__link {
+        display: flex;
+        align-items: center;
+      }
+      @include media-breakpoint-up(sm) {
+        border-radius: 0 0 0 8px;
+      }
+    }
+  }
+  
   .menu-container {
     background-color: $brand-primary-darkest;
+    margin-top: 1rem;
+    margin-bottom: 8px;
     padding: $space-3_new 0 $space-3_new $space-3_new;
     width: calc(100% - 40px);
     border-radius: 0 $space-2_new $space-2_new 0;
@@ -337,7 +518,7 @@ nav.m-menu {
     }
     dd {
       float: right;
-      margin-bottom: none;
+      margin-bottom: 0;
       text-align: right;
     }
     
@@ -391,6 +572,7 @@ nav.m-menu {
       border-radius: 0 $space-2_new 0 0;
     }
     &.bottom-half {
+      margin-top: 0;
       border-radius: 0 0 $space-2_new;
       @include media-breakpoint-up(sm) {
         border-radius: 0 0 $space-2_new $space-2_new;
@@ -398,19 +580,17 @@ nav.m-menu {
     }
   }
 }
-.m-menu__search {
-  bottom: auto;
-}
+
 .header-search__toggle .fa-close {
   display: none;
 }
 
 header.header.menu-open {
   .m-menu__cover {
-    display: unset;
+    display: block;
   }
   .m-menu__content {
-    visibility: unset;
+    display: block;
     width: auto;
     @include media-breakpoint-only(xs) {
       width: 100%;
@@ -422,9 +602,7 @@ header.header.menu-open {
       width: 384px;
     }
   }
-  .search {
-    display: none;
-  }
+
   .header-search__toggle {
     display: none;
   }
@@ -432,11 +610,12 @@ header.header.menu-open {
 
 header.header.search-open {
   .m-menu__cover {
-    display: unset;
+    display: block;
+    top: 112px;
   }
   .m-menu__search {
-    visibility: unset;
-    width: 100%;
+    display: block;
+    height: 60px;
   }
   .m-menu__toggle {
     display: none;
@@ -445,6 +624,26 @@ header.header.search-open {
     display: none;
   }
   .fa-close {
-    display: unset;
+    display: inline;
+  }
+}
+
+.m-menu__toggle, .header-search__toggle {
+ background-color: unset;
+ border: 2px solid $brand-primary-light-contrast;
+ border-radius: 4px;
+ margin: auto 0;
+}
+
+.m-menu__toggle {
+  padding: 6px 12px 5px 12px;
+  @include media-breakpoint-only(md) {
+    padding: 7px 12px 6px 12px;
+  }
+}
+
+.header-search__toggle {
+  > i {
+    width: 16px;
   }
 }

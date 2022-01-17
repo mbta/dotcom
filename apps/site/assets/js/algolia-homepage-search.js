@@ -26,7 +26,7 @@ export const buildSelectors = pageId => ({
   locationLoadingIndicator: `${pageId}__loading-indicator`,
   resetButton: `${pageId}__reset`,
   announcer: `${pageId}__announcer`
-})
+});
 
 const PARAMS = {
   stops: {
@@ -62,9 +62,8 @@ const LOCATION_PARAMS = {
 };
 
 // exported for testing
-export const doInit = (id) => {
-  console.log('id: ', id)
-  const selectors = buildSelectors(id)
+export const doInit = id => {
+  const selectors = buildSelectors(id);
   const input = document.getElementById(selectors.input);
   if (!input) return null;
   // The global search page expects the query param to be ?query=foo, but
@@ -82,7 +81,6 @@ export const doInit = (id) => {
     locationParams: LOCATION_PARAMS,
     withGoogle: true
   });
-  console.log('search: ', search)
 
   search.buildSearchParams = () =>
     QueryHelpers.paramsToString(
@@ -97,9 +95,13 @@ export const doInit = (id) => {
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(
-      ["search-homepage", "search-header", "search-secondary-header", "search-error-page"]
-        .forEach(id => doInit(id))
-    );
+    doWhenGoogleMapsIsReady(() => {
+      [
+        "search-homepage",
+        "search-header-desktop",
+        "search-header-mobile",
+        "search-error-page"
+      ].forEach(id => doInit(id));
+    });
   });
 }

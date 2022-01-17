@@ -28,6 +28,13 @@
   }
 }
 
+div[id*='search-'].c-form__input-container
+.c-form__submit-btn {
+  > i.fa-search {
+    display: none;
+  }
+}
+
 .c-search-bar__empty {
   border-bottom: $border;
   border-left: $border;

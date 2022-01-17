@@ -8,7 +8,8 @@ module.exports = {
     "!./app/helpers/testUtils.ts", // test utilities
     "!**/*-entry.ts", // not necessary to test entry files
     "!**/*-loader.tsx", // not necessary to test loader files
-    "!**/search.ts" // for now
+    "!**/search.ts", // for now,
+    "!./app/mobile-menu.ts" // tested with Cypress
   ],
   coverageReporters: ["html"],
   coverageThreshold: {

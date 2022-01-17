@@ -1,83 +1,79 @@
 <nav class="m-menu" id="navmenu">
   <div class="m-menu__cover"></div>
-  <!-- Todo: Remove styles in favor of classes -->
   <div class="m-menu__content">
+    <div class="m-menu__title heading-2">Main Menu</div>
     <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- nav_link_content_redesign(@conn) do %>
-      <nav aria-labelledby="section-heading">
-        <div id="section-heading" class="font-small" style="color:white;"><%= menu_section %></div>
-        <%= for %{sub_menu_section: sub_menu_section} = sub_menu <- sub_menus do %>
-          <!-- 'accordion' class marks the intended pass-of-focus from the menu button to the navbar, though divs don't have focus... -->
-          <!-- Todo: so when accordions are updated, also update mobile-menu.js -->
-          <nav aria-labelledby="accordion-heading">
-            <%= cond  do %>
-              <% sub_menu_section == "Most popular fares" -> %>
-                <div class="menu-container">
-                  <div class="font-small menu-container_header">Most popular fares</div>
-                  <dl title="Most popular fares">
-                    <div class="menu-container_row">
-                      <dt>Subway One-Way</dt>
-                      <dd class="u-bold">$2.40</dd>
-                    </div>
-                    <div class="menu-container_row">
-                      <dt>Local Bus One-Way</dt>
-                      <dd class="u-bold">$1.70</dd>
-                    </div>
-                    <div class="menu-container_row">
-                      <dt>Monthly Linkpass</dt>
-                      <dd class="u-bold">$90.00</dd>
-                    </div>
-                    <div class="menu-container_row">
-                      <dt>
-                        Commuter Rail One-Way
-                        <br>
-                        <span class="menu-container_smaller-font">Zones 1A - 10</span>
-                      </dt>
-                      <dd class="u-bold">$2.40 - <br>$13.25</dd>
-                    </div>
-                  </dl>
+      <nav aria-labelledby="section-heading" class="m-menu__section">
+        <div id="section-heading" class="m-menu__section-heading"><%= menu_section %></div>
+        <%= SiteWeb.PartialView.render("_accordion_ui.html",
+            Map.merge(assigns, %{
+              multiselectable: false,
+              sections:
+                for %{links: links} = sub_menu <- sub_menus do
+                  %{
+                    content: links |> Enum.map(fn {link_name, href, link_host} ->
+                        icon = if link_host === :external_link, do: fa("external-link"), else: ""
+                        content_tag(:a,
+                          [content_tag(:div, link_name ), content_tag(:span, icon)],
+                          href: href,
+                          class: "m-menu__link"
+                        )
+                      end),
+                    title: sub_menu.sub_menu_section,
+                    prefix: String.replace(sub_menu.sub_menu_section, " ", "-")
+                  }
+                end
+            })
+          ) %>
+
+        <%= for %{sub_menu_section: sub_menu_section} <- sub_menus do %>
+          <%= if sub_menu_section == "Most popular fares" do %>
+            <div class="menu-container">
+              <div class="menu-container_header font-small">Most popular fares</div>
+              <dl title="Most popular fares">
+                <div class="menu-container_row">
+                  <dt>Subway One-Way</dt>
+                  <dd class="u-bold">$2.40</dd>
                 </div>
-              <% sub_menu_section == "Contact numbers" -> %>
-                <div class="menu-container top-half">
-                  <div class="font-small menu-container_header">Information & Support</div>
-                  <div class="menu-container_smaller-font">Monday thru Friday: 6:30 AM - 8 PM</div>
-                  <div class="menu-container_smaller-font">Saturday thru Sunday: 8 AM - 4 PM</div>
-                  <div class="menu-container_phone"><strong>Main:</strong> <%= tel_link "617-222-3200" %></div>
-                  <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-5146" %></div>
+                <div class="menu-container_row">
+                  <dt>Local Bus One-Way</dt>
+                  <dd class="u-bold">$1.70</dd>
                 </div>
-                <div class="menu-container bottom-half">
-                  <div class="font-small menu-container_header">Emergency Contacts</div>
-                  <div class="menu-container_smaller-font">24 hours, 7 days a week</div>
-                  <div class="menu-container_phone"><strong>Transit Police:</strong> <%= tel_link "617-222-1212" %></div>
-                  <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-1200" %></div>
+                <div class="menu-container_row">
+                  <dt>Monthly Linkpass</dt>
+                  <dd class="u-bold">$90.00</dd>
                 </div>
-              <% Map.has_key?(sub_menu, :links) -> %>
-                <div style="background:#e2ecf9;">
-                <%= SiteWeb.PartialView.render("_accordion_ui.html",
-                  Map.merge(assigns, %{
-                    multiselectable: false,
-                    sections:
-                      [%{
-                        content:
-                          Map.get(sub_menu, :links) |> Enum.map(fn {link_name, href, link_host} ->
-                              icon = if link_host === :external_link, do: fa("external-link"), else: ""
-                              [
-                                content_tag(:span, icon),
-                                content_tag(:a, [content_tag(:div, link_name ), content_tag(:span, icon)], href: href)
-                              ]
-                           end),
-                          title: sub_menu_section,
-                          prefix: String.replace(sub_menu_section, " ", "-")
-                      }]
-                  })
-                ) %>
-              </div>
-            <% end %>
-          </nav>
+                <div class="menu-container_row">
+                  <dt>
+                    Commuter Rail One-Way
+                    <br>
+                    <span class="menu-container_smaller-font">Zones 1A - 10</span>
+                  </dt>
+                  <dd class="u-bold">$2.40 - <br>$13.25</dd>
+                </div>
+              </dl>
+            </div>
+          <% end %>
+          <%= if sub_menu_section == "Contact numbers" do %>
+            <div class="menu-container top-half">
+              <div class="menu-container_header font-small">Information & Support</div>
+              <div class="menu-container_smaller-font">Monday thru Friday: 6:30 AM - 8 PM</div>
+              <div class="menu-container_smaller-font">Saturday thru Sunday: 8 AM - 4 PM</div>
+              <div class="menu-container_phone"><strong>Main:</strong> <%= tel_link "617-222-3200" %></div>
+              <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-5146" %></div>
+            </div>
+            <div class="menu-container bottom-half">
+              <div class="menu-container_header font-small">Emergency Contacts</div>
+              <div class="menu-container_smaller-font">24 hours, 7 days a week</div>
+              <div class="menu-container_phone"><strong>Transit Police:</strong> <%= tel_link "617-222-1212" %></div>
+              <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-1200" %></div>
+            </div>
+          <% end %>
         <% end %>
       </nav>
     <% end %>
   </div>
   <div class="m-menu__search">
-    <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more", id: "secondary-header" %>
+    <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more", id: "header-mobile" %>
   </div>
 </nav>

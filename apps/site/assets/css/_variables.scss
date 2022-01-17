@@ -100,6 +100,9 @@ $drop-shadow: $space-4 $space-4 $space-6 $drop-shadow-color;
 
 $header-navbar-height-multiplier: 3;
 $header-navbar-height: $base-spacing * $header-navbar-height-multiplier;
+$header-navbar-height-new: 72px;
+$header-navbar-height-xs: 52px;
+
 $navbar-padding-vertical: $base-spacing * .75;
 $navbar-padding-horizontal: 0;
 $default-border-radius: $space-4;
