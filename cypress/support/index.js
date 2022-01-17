@@ -15,6 +15,7 @@
 
 import "./../../apps/site/assets/node_modules/cypress-file-upload";
 import "./../../apps/site/assets/node_modules/cypress-iframe";
+import "./../../apps/site/assets/node_modules/cypress-axe";
 import "./commands";
 
 Cypress.Screenshot.defaults({
