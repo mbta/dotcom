@@ -3,10 +3,11 @@
   <div class="m-menu__content">
     <div class="m-menu__title heading-2">Main Menu</div>
     <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- nav_link_content_redesign(@conn) do %>
-      <nav aria-labelledby="section-heading" class="m-menu__section">
-        <div id="section-heading" class="m-menu__section-heading"><%= menu_section %></div>
+      <nav aria-labelledby="section-heading-<%= menu_section %>" class="m-menu__section">
+        <div id="section-heading-<%= menu_section %>" class="m-menu__section-heading"><%= menu_section %></div>
         <%= SiteWeb.PartialView.render("_accordion_ui.html",
             Map.merge(assigns, %{
+              id: menu_section,
               multiselectable: false,
               sections:
                 for %{links: links} = sub_menu <- sub_menus do
