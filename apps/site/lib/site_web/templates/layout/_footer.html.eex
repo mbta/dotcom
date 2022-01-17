@@ -63,22 +63,18 @@
       </li>
       <li class="m-footer__group m-footer--mobile__group">
         <div class="m-footer__group-title">Customer Support</div>
-        <ul class="list-unstyled">
-          <div class="m-footer--mobile__items">
-            <li class="m-footer__item m-footer--mobile__item">
-              <%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
-            </li>
-            <li class="m-footer__item m-footer--mobile__item">
-              <%= link "Lost and Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
-            </li>
-            <li class="m-footer__item m-footer--mobile__item">
-              <%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
-            </li>
-          </div>
-          <div class="hidden-sm-down">
-            <li class="m-footer__item"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %></li>
-            <li class="m-footer__item"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
-          </div>
+        <ul class="list-unstyled m-footer--mobile__items">
+          <li class="m-footer__item m-footer--mobile__item">
+            <%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
+          </li>
+          <li class="m-footer__item m-footer--mobile__item">
+            <%= link "Lost and Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
+          </li>
+          <li class="m-footer__item m-footer--mobile__item">
+            <%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
+          </li>
+          <li class="m-footer__item hidden-sm-down"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %></li>
+          <li class="m-footer__item hidden-sm-down"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
         </ul>
       </li>
       <li class="m-footer__group">
