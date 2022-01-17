@@ -12,7 +12,7 @@ $base-line-height: 1.275;
   line-height: $base-line-height;
 }
 
-.heading-1 {
+@mixin heading-1 {
   @include base-heading__new();
   font-size: 2.8125rem;
   @include media-breakpoint-down(lg) {
@@ -22,7 +22,7 @@ $base-line-height: 1.275;
     font-size: 1.75rem;
   }
 }
-.heading-2 {
+@mixin heading-2 {
   @include base-heading__new();
   font-size: 1.9688rem;
   @include media-breakpoint-down(lg) {
@@ -32,7 +32,7 @@ $base-line-height: 1.275;
     font-size: 1.4219rem;
   }
 }
-.heading-3 {
+@mixin heading-3 {
   @include base-heading__new();
   font-size: 1.4763rem;
   @include media-breakpoint-down(lg) {
@@ -43,7 +43,7 @@ $base-line-height: 1.275;
   }
 }
 
-.heading-4 {
+@mixin heading-4 {
   @include base-heading__new();
   font-size: 1.2656rem;
   @include media-breakpoint-down(lg) {
@@ -53,7 +53,7 @@ $base-line-height: 1.275;
     font-size: 0.9844rem;
   }
 }
-.heading-5 {
+@mixin heading-5 {
   @include base-heading__new();
   font-size: 1.125rem;
   @include media-breakpoint-down(lg) {
@@ -76,20 +76,20 @@ $base-line-height: 1.275;
   }
 }
 
-.font-body {
+@mixin font-body {
   @include base-font__new();
   font-weight: 400;
 }
-.font-link {
+@mixin font-link {
   @include base-font__new();
   font-weight: 500;
 }
-.font-white {
+@mixin font-white {
   @include base-font__new();
   font-weight: 400;
   color: $white;
 }
-.font-small {
+@mixin font-small {
   @include base-heading__new();
   text-transform: uppercase;
   font-size: 1rem;
@@ -101,3 +101,13 @@ $base-line-height: 1.275;
     font-size: 0.75rem;
   }
 }
+
+.heading-1 { @include heading-1() }
+.heading-2 { @include heading-2() }
+.heading-3 { @include heading-3() }
+.heading-4 { @include heading-4() }
+.heading-5 { @include heading-5() }
+.font-body { @include font-body() }
+.font-link { @include font-link() }
+.font-white { @include font-white() }
+.font-small { @include font-small() }

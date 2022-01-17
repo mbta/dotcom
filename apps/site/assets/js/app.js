@@ -11,7 +11,7 @@ import googleMapsLoaded from "./google-maps-loaded";
 import submitOnEvents from "./submit-on-events";
 import selectModal from "./select-modal";
 import collapse from "./collapse";
-import mobileMenu from "./mobile-menu";
+import mobileMenu from "../ts/app/mobile-menu";
 import headerDropdowns from "./header-dropdowns";
 import modal from "./modal";
 import turbolinksMods from "./turbolinks-mods";

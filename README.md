@@ -135,7 +135,7 @@ any given time, the site may not be compatible with the very latest API version 
 
 1. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
-    brew install --cask chromedriver
+    brew install chromedriver
     ```
    Note: `chromedriver` requires Chrome to be installed. If you don't already
    have it, `brew install --cask google-chrome` is an easy way to install it.
