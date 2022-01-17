@@ -386,7 +386,7 @@ nav.m-menu {
 
 .m-menu__content,
 .m-menu__search {
-  visibility: hidden;
+  display: none;
   white-space: nowrap;
   transition: all .25s ease;
   z-index: 1;
@@ -428,7 +428,7 @@ nav.m-menu {
   width: 100%;
   background-color: $brand-primary-darkest;
   padding: 0 12px 16px 12px;
-  visibility: hidden;
+  display: none;
 
   .c-form__input-container {
     border: none;
@@ -590,7 +590,7 @@ header.header.menu-open {
     display: block;
   }
   .m-menu__content {
-    visibility: visible;
+    display: block;
     width: auto;
     @include media-breakpoint-only(xs) {
       width: 100%;
@@ -604,7 +604,7 @@ header.header.menu-open {
   }
 
   .header-search__toggle {
-    visibility: hidden;
+    display: none;
   }
 }
 
@@ -614,11 +614,11 @@ header.header.search-open {
     top: 112px;
   }
   .m-menu__search {
-    visibility: visible;
+    display: block;
     height: 60px;
   }
   .m-menu__toggle {
-    visibility: hidden;
+    display: none;
   }
   .fa-search {
     display: none;
