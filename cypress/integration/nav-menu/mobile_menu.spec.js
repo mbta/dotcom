@@ -17,6 +17,27 @@ describe("Navigation redesign - mobile menu", () => {
     cy.get(".m-menu__content").as("menu");
   });
 
+  describe("has no detectable a11y violations", () => {
+    beforeEach(() => {
+      cy.injectAxe();
+    });
+
+    it("on load", () => {
+      cy.checkA11y();
+    });
+    
+    it("with menu open", () => {
+      cy.get("@menuButton").click();
+      cy.checkA11y();
+    });
+
+    it("with search open", () => {
+      cy.viewport("iphone-6");
+      cy.get("@searchButton").click();
+      cy.checkA11y();
+    });
+  });
+
   viewports.forEach(viewport => {
     describe(`${viewport} size`, () => {
       beforeEach(() => {
