@@ -608,7 +608,7 @@ header.header.menu-open {
   }
 
   .header-search__toggle {
-    display: none;
+    visibility: hidden;
   }
 }
 
@@ -617,16 +617,20 @@ header.header.search-open {
     display: block;
     top: 112px;
   }
+
   .m-menu__search {
     display: block;
     height: 60px;
   }
+
   .m-menu__toggle {
-    display: none;
+    visibility: hidden;
   }
+
   .fa-search {
     display: none;
   }
+
   .fa-close {
     display: inline;
   }
