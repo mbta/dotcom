@@ -233,6 +233,8 @@ export function getIcon(hit, type) {
       return getPopularIcon(hit.icon);
 
     case "projects":
+      return getTransitIcons(hit);
+      
     case "drupal":
     case "pages":
     case "documents":
