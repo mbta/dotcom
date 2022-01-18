@@ -2,7 +2,7 @@
 
 <div class="c-accordion-ui" id="<%= id %>" role="presentation" <%= if @multiselectable do %> aria-multiselectable="true"<% end %>>
   <%= for section <- @sections do %>
-    <div class="panel" role="heading">
+    <div class="panel" role="heading" aria-level="3">
       <div class="c-accordion-ui__heading<%= if assigns[:sticky] do %> fixedsticky sticky-top<% end %>">
         <button class="c-accordion-ui__trigger collapsed"
             data-target="#<%= section.prefix %>-section"
