@@ -263,7 +263,10 @@ defmodule SiteWeb.ViewHelpers do
         content_tag(:span, pretty_formatted, [])
 
       machine_formatted ->
-        content_tag(:a, pretty_formatted, href: "tel:#{machine_formatted}")
+        content_tag(:a, pretty_formatted,
+          href: "tel:#{machine_formatted}",
+          aria: [label: Site.PhoneNumber.aria_format(number)]
+        )
     end
   end
 
