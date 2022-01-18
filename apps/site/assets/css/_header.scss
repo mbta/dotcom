@@ -474,32 +474,51 @@ nav.m-menu {
   }
   // Accordion stuff
   .c-accordion-ui {
+    border: 0;
     margin-bottom: 0;
-    border: none;
-    .c-accordion-ui__trigger{
+
+    .c-accordion-ui__trigger {
       @include heading-4();
       color: $white;
-      &:hover, &:active {
+
+      &:hover,
+      &:active {
         background-color: $brand-primary-darkest;
       }
     }
+
     .c-accordion-ui__content {
       background-color: $brand-primary-lightest-contrast;
-      padding: 0;
-      > a > div {
-        padding: 12px 12px 12px 24px;
-        @include font-link();
-      }
-      .m-menu__link {
-        display: flex;
-        align-items: center;
-      }
+
       @include media-breakpoint-up(sm) {
         border-radius: 0 0 0 8px;
       }
     }
   }
-  
+
+  .m-menu__link {
+    @include font-link();
+    display: block;
+    padding: 12px 12px 12px 24px;
+
+    div {
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    &:focus {
+      color: $link-color;
+      outline: none;
+      text-decoration: none;
+
+      div {
+        border-radius: 4px;
+        box-shadow: 0 0 0 2px currentColor,
+          0 0 0 3px $brand-primary-lightest-contrast, 0 0 0 4px $brand-primary-darkest;
+      }
+    }
+  }
+
   .menu-container {
     background-color: $brand-primary-darkest;
     margin-top: 1rem;
