@@ -373,7 +373,9 @@ nav.m-menu {
 }
 .m-menu__title {
   background-color: $brand-primary-darkest;
+  margin: 0;
   padding: 10px 12px;
+
   @include media-breakpoint-up(sm) {
     display: none;
   }
@@ -474,6 +476,7 @@ nav.m-menu {
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
+    margin: 0;
     padding: 16px 0 0 16px;
   }
 
