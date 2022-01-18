@@ -589,15 +589,26 @@ header.header.menu-open {
   .m-menu__cover {
     display: block;
   }
+
   .m-menu__content {
     display: block;
+    min-height: 100vh;
+    overflow-y: scroll;
     width: auto;
+
+    // Safari workaround
+    @supports (-webkit-touch-callout: none) {
+      min-height: -webkit-fill-available;
+    }
+
     @include media-breakpoint-only(xs) {
       width: 100%;
     }
+
     @include media-breakpoint-only(sm) {
       width: 360px;
     }
+
     @include media-breakpoint-only(md) {
       width: 384px;
     }
