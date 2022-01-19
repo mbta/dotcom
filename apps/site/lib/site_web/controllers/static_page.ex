@@ -20,8 +20,7 @@ defmodule SiteWeb.StaticPage do
     %{
       key: :menu,
       meta_description:
-        "Information about the Massachusetts Bay Transportation Authority (MBTA), " <>
-          "including leadership, business opportunities, projects and initiatives, and financials."
+        "Browse the key areas of the MBTA website."
     }
   ]
 
