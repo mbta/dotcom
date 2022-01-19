@@ -360,6 +360,8 @@ nav.m-menu, .m-menu__toggle {
   }
   .header-search__toggle {
     margin-left: 33px;
+    height: 34px;
+    width: 34px;
     @include media-breakpoint-up(sm) {
       display: none;
     }
