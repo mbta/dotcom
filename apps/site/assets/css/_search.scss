@@ -407,6 +407,10 @@
   white-space: nowrap;
 }
 
+.c-search-result__link.u-no-underline {
+  text-decoration: none;
+}
+
 .c-search-result__hit {
   @include icon-size-inline(1em);
 
