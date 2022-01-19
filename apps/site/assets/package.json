@@ -44,7 +44,7 @@
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/register": "^7.4.0",
-    "@testing-library/react-hooks": "^3.3.0",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/core-js": "^2.5.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
