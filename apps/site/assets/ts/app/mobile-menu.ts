@@ -78,9 +78,6 @@ const setupMobileMenu = (): void => {
   document.body.addEventListener("keydown", e => {
     handleNativeEscapeKeyPress(e, closeMenu);
   });
-
-  // Changing viewport size closes
-  window.addEventListener("resize", closeMenu);
 };
 
 export default (): void => {
