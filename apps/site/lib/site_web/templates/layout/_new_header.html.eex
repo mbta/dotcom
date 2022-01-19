@@ -1,7 +1,8 @@
 <header class="header">
   <div class="container new">
     <div class="header-navbar new">
-      <button class="font-body m-menu__toggle u-bold" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
+      <button class="font-body m-menu__toggle u-bold hidden-no-js" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
+      <a class="font-body font-white m-menu__toggle u-bold hidden-js" href="<%= static_page_path(@conn, :menu) %>">Menu</a>
       <a class="navbar-logo" href="/">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
