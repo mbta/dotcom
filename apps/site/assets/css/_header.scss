@@ -606,7 +606,8 @@ header.header.menu-open {
   }
 
   .header-search__toggle {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
@@ -620,7 +621,8 @@ header.header.search-open {
     height: 60px;
   }
   .m-menu__toggle {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
   .fa-search {
     display: none;
