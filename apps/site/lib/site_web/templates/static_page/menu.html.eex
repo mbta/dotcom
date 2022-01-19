@@ -11,14 +11,7 @@
         <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
         <section aria-labelledby="#<%= section_name %>-section" class="col-sm-4">
           <h3 id="<%= section_name %>-section" class="font-small"><%= section_name %></h3>
-          <%= for {link_name, href, link_host} <- links do %>
-            <% icon = if link_host === :external_link, do: fa("external-link"), else: "" %>
-            <%= content_tag(:a,
-                            [content_tag(:div, link_name ), content_tag(:span, icon)],
-                            href: href,
-                            class: "m-menu__link"
-                          ) %>
-          <% end %>
+          <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
         </section>
         <% end %>
       </section>

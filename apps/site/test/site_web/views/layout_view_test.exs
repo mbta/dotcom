@@ -75,4 +75,28 @@ defmodule SiteWeb.LayoutViewTest do
       end)
     end
   end
+
+  describe "render_nav_link/1" do
+    test "renders a link" do
+      {:safe, html} = render_nav_link({"Title", "/page", :external_link})
+      html_string = IO.iodata_to_binary(html)
+      assert html_string =~ "<a class=\"m-menu__link\" href=\"/page\">"
+    end
+
+    test "renders icon for external links" do
+      {:safe, html} = render_nav_link({"Title", "/page", :external_link})
+      html_string = IO.iodata_to_binary(html)
+
+      assert html_string =~
+               "<span><i aria-hidden=\"true\" class=\"notranslate fa fa-external-link \"></i></span>"
+    end
+
+    test "does not render icon for other links" do
+      {:safe, html} = render_nav_link({"Title", "/page", :internal_link})
+      html_string = IO.iodata_to_binary(html)
+
+      refute html_string =~
+               "<span><i aria-hidden=\"true\" class=\"notranslate fa fa-external-link \"></i></span>"
+    end
+  end
 end
