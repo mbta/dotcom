@@ -19,8 +19,7 @@ defmodule SiteWeb.StaticPage do
     },
     %{
       key: :menu,
-      meta_description:
-        "Browse the key areas of the MBTA website."
+      meta_description: "Browse the key areas of the MBTA website."
     }
   ]
 
