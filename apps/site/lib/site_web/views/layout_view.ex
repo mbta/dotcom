@@ -193,4 +193,20 @@ defmodule SiteWeb.LayoutView do
         ]
       }
     ]
+
+  def render_nav_link({link_name, href, link_host}) do
+    link_content =
+      if link_host == :external_link do
+        [content_tag(:div, link_name), content_tag(:span, fa("external-link"))]
+      else
+        content_tag(:div, link_name)
+      end
+
+    content_tag(
+      :a,
+      link_content,
+      href: href,
+      class: "m-menu__link"
+    )
+  end
 end

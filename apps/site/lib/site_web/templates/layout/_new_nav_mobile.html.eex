@@ -11,14 +11,7 @@
               sections:
                 for %{links: links} = sub_menu <- sub_menus do
                   %{
-                    content: links |> Enum.map(fn {link_name, href, link_host} ->
-                        icon = if link_host === :external_link, do: fa("external-link"), else: ""
-                        content_tag(:a,
-                          [content_tag(:div, link_name ), content_tag(:span, icon)],
-                          href: href,
-                          class: "m-menu__link"
-                        )
-                      end),
+                    content: Enum.map(links, &render_nav_link/1),
                     title: sub_menu.sub_menu_section,
                     prefix: String.replace(sub_menu.sub_menu_section, " ", "-")
                   }
