@@ -478,7 +478,7 @@ nav.m-menu {
       @include heading-4();
       color: $white;
       &:hover, &:active {
-        background-color: $brand-primary-darkest;
+        background-color: $brand-primary;
       }
     }
     .c-accordion-ui__content {
