@@ -46,7 +46,7 @@ defmodule SiteWeb.LayoutView do
       {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
       {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
     ]
-    # When time to remove deskstop_nav_redesign feature flag replace the above with below
+    # When time to remove desktop_nav_redesign feature flag replace the above with below
     #   [
     #     {"Transit", "Modes of Transit, Plan Your Journey, Find a Location...",
     #     static_page_path(conn, :getting_around)},

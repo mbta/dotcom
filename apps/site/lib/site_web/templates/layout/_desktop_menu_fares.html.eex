@@ -1,4 +1,4 @@
-<%= if Laboratory.enabled?(@conn, :deskstop_nav_redesign) do %>
+<%= if Laboratory.enabled?(@conn, :desktop_nav_redesign) do %>
   <div class="menu-row">
     <div class="col-xs-4 header-column">
       <div class="h5 header-column-heading">Fares Info</div>
