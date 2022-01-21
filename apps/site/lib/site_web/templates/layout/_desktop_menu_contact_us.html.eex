@@ -1,101 +1,16 @@
 <%= if Laboratory.enabled?(@conn, :desktop_nav_redesign) do %>
-  <div class="menu-row">
-    <div class="col-xs-4 header-column">
-      <div class="h5 header-column-heading">Customer Support</div>
-      <ul>
-        <li>
-          <%= link "Send Us Feedback", to: cms_static_page_path(@conn, "/customer-support"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "View all contact numbers", to: customer_support_path(@conn, :index)<>"#customer_support", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services"), class: "ga-nav-sublink" %>
-        </li>
-      </ul>
+  <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
+    <div class="menu-row">
+      <div class="col-xs-4 header-column">
+        <div class="h5 header-column-heading">menu_section</div>
+          <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
+          <section aria-labelledby="#<%= section_name %>-section" class="col-sm-4">
+            <h3 id="<%= section_name %>-section" class="font-small"><%= section_name %></h3>
+            <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
+          </section>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-4 header-column">
-      <div class="h5 header-column-heading">Transit Police</div>
-      <ul>
-        <li>
-          <%= link "MBTA Transit Police", to: cms_static_page_path(@conn, "/transit-police"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "See Something, Say Something", to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "ga-nav-sublink" %>
-        </li>
-      </ul>
-    </div>
-    <div class="col-xs-4 header-column">
-    <div class="submenu-container">
-      <h4>INFORMATION & SUPPORT</h4>
-      <p>Monday thru Friday: 6:30 AM - 8 PM</p>
-      <p>Saturday thru Sunday: 8AM - 4PM</p>
-      <p><span style="font-weight:bold">Main</span>617-222-3200</p>
-      <p><span style="font-weight:bold">TTY</span>617-222-5146</p>
-    </div>
-    <div class="submenu-container">
-      <h4>EMERGENCY CONTACTS</h4>
-      <p>24 hours, 7 days a week</p>
-      <p><span style="font-weight:bold">Transit Police</span>617-222-1212</p>
-      <p><span style="font-weight:bold">TTY</span>617-222-1200</p>
-    </div>
-  </div>
-  </div>
-<% else %>
-  <div class="menu-row">
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Customer Support</div>
-    <p>
-      <%= tel_link "(617) 222-3200" %><br />
-      <strong>TTY</strong> <%= tel_link "(617) 222-5146" %><br />
-      <strong>Monday &mdash; Friday:</strong> 6:30A until 8:00P<br />
-      <strong>Saturday &mdash; Sunday:</strong> 8:00A until 4:00P<br />
-    </p>
-
-    <ul>
-      <li>
-        <%= link "Send us your comments or questions", to: customer_support_path(@conn, :index), class: "ga-nav-sublink" %>
-      </li>
-      <li>
-        <%= link "View all contact numbers", to: customer_support_path(@conn, :index)<>"#customer_support", class: "ga-nav-sublink" %>
-      </li>
-    </ul>
-  </div>
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Transit Police</div>
-    <p>
-      <strong>Emergency:</strong> <%= tel_link "(617) 222-1212" %><br />
-      <strong>TTY:</strong> <%= tel_link "(617) 222-1200" %><br />
-    </p>
-    <ul>
-      <li>
-        <%= link "Contact the Transit Police", to: cms_static_page_path(@conn, "/transit-police"), class: "ga-nav-sublink" %>
-      </li>
-      <li>
-        <%= link "See Something, Say Something", to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "ga-nav-sublink" %>
-      </li>
-    </ul>
-  </div>
-  <div class="col-xs-4 header-column">
-    <div class="h5 header-column-heading">Service Updates</div>
-    <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
-    <ul>
-      <li>
-        <%= link "About T-Alerts", to: cms_static_page_path(@conn, "/about-t-alerts"), class: "ga-nav-sublink" %>
-      </li>
-      <li>
-        <%= link "Sign Up for T-Alerts", to: "https://alerts.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
-      </li>
-      <li>
-        <%= link "@MBTA Twitter Updates", to: "https://twitter.com/MBTA", target: "_blank", class: "ga-nav-sublink" %>
-      </li>
-    </ul>
-  </div>
-  </div>
+  <% end %>
 <% end %>
