@@ -16,6 +16,10 @@ defmodule SiteWeb.StaticPage do
       meta_description:
         "Navigate public transit in the Greater Boston region. Routes, schedules, " <>
           "trip planner, service alerts, real-time updates, and general information."
+    },
+    %{
+      key: :menu,
+      meta_description: "Browse the key areas of the MBTA website."
     }
   ]
 
