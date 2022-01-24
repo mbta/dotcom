@@ -360,6 +360,8 @@ nav.m-menu, .m-menu__toggle {
   }
   .header-search__toggle {
     margin-left: 33px;
+    height: 34px;
+    width: 34px;
     @include media-breakpoint-up(sm) {
       display: none;
     }
@@ -487,7 +489,7 @@ nav.m-menu {
       @include heading-4();
       color: $white;
       &:hover, &:active {
-        background-color: $brand-primary-darkest;
+        background-color: inherit;
       }
     }
     .c-accordion-ui__content {
@@ -608,7 +610,8 @@ header.header.menu-open {
   }
 
   .header-search__toggle {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
 }
 
@@ -622,7 +625,8 @@ header.header.search-open {
     height: 60px;
   }
   .m-menu__toggle {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
   }
   .fa-search {
     display: none;
