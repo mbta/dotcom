@@ -19,14 +19,14 @@ const INDICES = {
 };
 
 // exported for testing
-export const SELECTORS = {
-  input: "search-homepage__input",
-  container: "search-homepage__container",
-  goBtn: "search-homepage__input-go-btn",
-  locationLoadingIndicator: "search-homepage__loading-indicator",
-  resetButton: "search-homepage__reset",
-  announcer: "search-homepage__announcer"
-};
+export const buildSelectors = pageId => ({
+  input: `${pageId}__input`,
+  container: `${pageId}__container`,
+  goBtn: `${pageId}__input-go-btn`,
+  locationLoadingIndicator: `${pageId}__loading-indicator`,
+  resetButton: `${pageId}__reset`,
+  announcer: `${pageId}__announcer`
+});
 
 const PARAMS = {
   stops: {
@@ -62,8 +62,9 @@ const LOCATION_PARAMS = {
 };
 
 // exported for testing
-export const doInit = () => {
-  const input = document.getElementById(SELECTORS.input);
+export const doInit = id => {
+  const selectors = buildSelectors(id);
+  const input = document.getElementById(selectors.input);
   if (!input) return null;
   // The global search page expects the query param to be ?query=foo, but
   // the &Phoenix.HTML.Form.text_input/3 helper that builds this input
@@ -73,10 +74,10 @@ export const doInit = () => {
   input.setAttribute("name", "query");
 
   const search = new AlgoliaEmbeddedSearch({
-    pageId: "search-homepage",
+    pageId: id,
     indices: INDICES,
     params: PARAMS,
-    selectors: SELECTORS,
+    selectors: selectors,
     locationParams: LOCATION_PARAMS,
     withGoogle: true
   });
@@ -94,6 +95,13 @@ export const doInit = () => {
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(doInit);
+    doWhenGoogleMapsIsReady(() => {
+      [
+        "search-homepage",
+        "search-header-desktop",
+        "search-header-mobile",
+        "search-error-page"
+      ].forEach(id => doInit(id));
+    });
   });
 }

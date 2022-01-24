@@ -30,7 +30,7 @@ export const TEMPLATES = {
       <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
     </a>
   `),
-  projects: hogan.compile(`
+  threePlusIcons: hogan.compile(`
     {{#hasDate}}
     <div class="c-search-result__hit--vertical">
     {{/hasDate}}
@@ -40,9 +40,15 @@ export const TEMPLATES = {
     {{^id}}
     <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
+      <span>{{{hitIcon}}}</span>
+      <span class="c-search-result__feature-icons">
+      {{#hitFeatureIcons}}
+        {{{.}}}
+      {{/hitFeatureIcons}}
+      <br/>
+    </span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
-    <span>{{{hitIcon}}}</span>
     {{#hasDate}}
     </div>
     {{/hasDate}}
@@ -58,13 +64,13 @@ export const TEMPLATES = {
     <a class="${SELECTORS.result} c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
       <span>{{{hitIcon}}}</span>
-      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
-    </a>
-    <span class="c-search-result__feature-icons">
+      <span class="c-search-result__feature-icons">
       {{#hitFeatureIcons}}
         {{{.}}}
       {{/hitFeatureIcons}}
     </span>
+      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+    </a>
     {{#hasDate}}
     </div>
     {{/hasDate}}
@@ -228,7 +234,7 @@ export function getIcon(hit, type) {
 
     case "projects":
       return getTransitIcons(hit);
-
+      
     case "drupal":
     case "pages":
     case "documents":
@@ -536,11 +542,12 @@ export function parseResult(hit, index) {
 }
 
 export function renderResult(hit, index) {
-  if (hit._content_type == "project" || hit._content_type == "project_update") {
-    return TEMPLATES.projects.render(parseResult(hit, "projects"));
+  const parsedResult = parseResult(hit, index);
+  if (parsedResult.hitFeatureIcons.length > 2) {
+    return TEMPLATES["threePlusIcons"].render(parsedResult);
   }
   if (TEMPLATES[index]) {
-    return TEMPLATES[index].render(parseResult(hit, index));
+    return TEMPLATES[index].render(parsedResult);
   }
-  return TEMPLATES.default.render(parseResult(hit, index));
+  return TEMPLATES.default.render(parsedResult);
 }

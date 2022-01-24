@@ -1,17 +1,25 @@
 <header class="header">
-  <div class="container">
-    <div class="header-navbar">
-      <button class="m-menu__toggle" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
+  <div class="container new">
+    <div class="header-navbar new">
+      <button class="font-body m-menu__toggle u-bold" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
       <a class="navbar-logo" href="/">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
           <%= svg "mbta-logo.svg" %>
+          <%= svg "mbta-name-and-logo.svg" %>
         </div>
       </a>
-      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more"  %>
+      <div class="search-wrapper">
+        <%= render SiteWeb.PageView, "_search_bar.html",
+            conn: @conn,
+            id: "header-desktop",
+            placeholder: "Search for routes, info, and more"
+        %>
+      </div>
+
       <button class="header-search__toggle" type="button" aria-expanded="false">
         <i class="fa fa-search" aria-hidden="true"></i>
-        <i class="fa fa-close" aria-hidden="true"></i> 
+        <i class="fa fa-close" aria-hidden="true"></i>
       </button>
       <%= render "_nav_desktop.html", assigns %>
     </div>

@@ -16,7 +16,7 @@
         <strong><%= @error_description %></strong>
         <%= @error_instructions %>
       </p>
-      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search the MBTA"  %>
+      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search the MBTA", id: "error-page" %>
       <div class="error-links font-body">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
     </div>
   </div>

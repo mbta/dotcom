@@ -4,7 +4,7 @@
       <a class="navbar-logo" href="/">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
-          <%= svg "mbta-logo.svg" %>
+          <%= svg "mbta-name-and-logo.svg" %>
         </div>
       </a>
       <span id="custom-language-button-mobile">

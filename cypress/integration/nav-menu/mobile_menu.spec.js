@@ -24,13 +24,13 @@ describe("Navigation redesign - mobile menu", () => {
       });
 
       it("button toggles the mobile menu", () => {
-        cy.get("@menu").should("not.be.visible");
+        cy.get(".m-menu__content").should("not.be.visible");
         cy.get("@menuButton").click();
-        cy.get("@menu").should("be.visible");
         cy.get("@menuButton").should("contain", "Close");
+        cy.get(".m-menu__content").should("be.visible");
         cy.get("@menuButton").click();
-        cy.get("@menu").should("not.be.visible")
         cy.get("@menuButton").should("contain", "Menu");
+        cy.get(".m-menu__content").should("not.be.visible")
       });
 
       it("ESC key closes open menu", () => {
@@ -63,9 +63,10 @@ describe("Navigation redesign - mobile menu", () => {
           cy.get("@searchButton").click();
           cy.get(".header").should("have.class", "search-open");
           cy.get("@menuButton").should("not.be.visible");
-          cy.get(".m-menu__search")
+          cy.get("input#search-header-desktop__input")
+            .should("not.be.visible")
+          cy.get("input#search-header-mobile__input")
             .should("be.visible")
-            .find("input#search-homepage__input")
             .should("have.attr", "placeholder", searchPlaceholderText);
           cy.get("@searchButton").click();
           cy.get(".header").should("not.have.class", "search-open");
@@ -73,9 +74,10 @@ describe("Navigation redesign - mobile menu", () => {
         });
       } else {
         it("search bar is visible", () => {
-          cy.get(".header .search")
+          cy.get("input#search-header-mobile__input")
+            .should("not.be.visible")
+          cy.get("input#search-header-desktop__input")
             .should("be.visible")
-            .find("input#search-homepage__input")
             .should("have.attr", "placeholder", searchPlaceholderText);
 
           cy.get("@searchButton").should("not.be.visible");
@@ -89,6 +91,6 @@ describe("Navigation redesign - mobile menu", () => {
   }, () => {
     cy.get("@menu").should("not.be.visible");
     cy.get("@menuButton").should("not.be.visible");
-    cy.get(".header input#search-homepage__input").should("not.be.visible");
+    cy.get(".header input#search-header-mobile__input").should("not.be.visible");
   });
 });
