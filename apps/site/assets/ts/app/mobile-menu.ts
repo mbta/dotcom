@@ -78,6 +78,15 @@ const setupMobileMenu = (): void => {
   document.body.addEventListener("keydown", e => {
     handleNativeEscapeKeyPress(e, closeMenu);
   });
+
+  // removes focus outline in Safari from open accordions
+  document
+    .querySelectorAll(".m-menu__content .js-focus-on-expand")
+    .forEach(acc => {
+      acc.addEventListener("focus", function undoOutline(this: HTMLElement) {
+        this.style.outline = "none";
+      });
+    });
 };
 
 export default (): void => {
