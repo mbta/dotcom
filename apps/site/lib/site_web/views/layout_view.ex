@@ -48,14 +48,15 @@ defmodule SiteWeb.LayoutView do
         {"Contact", "Customer Support, Transit Police", customer_support_path(conn, :index)},
         {"About", "Get to Know Us, Work With Us, Our Work...", static_page_path(conn, :about)}
       ]
+    else
+      [
+        {"Getting Around", "Transit Services, Plan Your Journey, Riding...",
+        static_page_path(conn, :getting_around)},
+        {"Fares", "Fares By Mode, Reduced Fares, Passes...", cms_static_page_path(conn, "/fares")},
+        {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
+        {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
+      ]
     end
-    [
-      {"Getting Around", "Transit Services, Plan Your Journey, Riding...",
-      static_page_path(conn, :getting_around)},
-      {"Fares", "Fares By Mode, Reduced Fares, Passes...", cms_static_page_path(conn, "/fares")},
-      {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
-      {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
-    ]
   end
 
   def nav_link_content_redesign(_conn),

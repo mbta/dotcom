@@ -1,83 +1,4 @@
-<%= if Laboratory.enabled?(@conn, :desktop_nav_redesign) do %>
-  <div class="menu-row">
-    <div class="col-xs-4 header-column">
-      <div class="h5 header-column-heading">Modes of Transit</div>
-      <div class="col-xs-12 p-a-0">
-        <ul>
-          <li>
-            <%= link "Subway", to: schedule_path(@conn, :show, "subway"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Bus", to: schedule_path(@conn, :show, "bus"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter-rail"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Ferry", to: schedule_path(@conn, :show, "ferry"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Paratransit (The RIDE)", to: cms_static_page_path(@conn, "/accessibility/the-ride"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "All Schedules & Maps", to: cms_static_page_path(@conn, "/schedules"), class: "ga-nav-sublink" %>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-xs-4 header-column">
-      <div class="h5 header-column-heading">Plan Your Journey</div>
-      <div class="col-xs-12 p-a-0">
-        <ul>
-          <li>
-            <%= link "Trip Planner", to: trip_plan_path(@conn, :index), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Service Alerts", to: alert_path(@conn, :index), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Sign Up for Service Alerts", to: "https://alerts.mbta.com/", target: "_blank", class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Parking", to: cms_static_page_path(@conn, "/parking"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Bikes", to: cms_static_page_path(@conn, "/bikes"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "User Guides", to: cms_static_page_path(@conn, "/guides"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Holidays", to: cms_static_page_path(@conn, "/holidays"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility"), class: "ga-nav-sublink" %>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-xs-4 header-column">
-      <div class="h5 header-column-heading">Find a Location</div>
-      <div class="col-xs-12 p-a-0">
-        <ul>
-          <li>
-            <%= link "Find Nearby Transit", to: cms_static_page_path(@conn, "/transit-near-me"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "MBTA Stations", to: cms_static_page_path(@conn, "/stops"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Destinations", to: cms_static_page_path(@conn, "/destinations"), class: "ga-nav-sublink" %>
-          </li>
-          <li>
-            <%= link "Maps", to: cms_static_page_path(@conn, "/maps"), class: "ga-nav-sublink" %>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-<% else %>
-  <div class="menu-row">
+<div class="menu-row">
   <div class="col-xs-4 header-column">
     <div class="h5 header-column-heading">Transit Services</div>
     <div class="col-xs-12 p-a-0">
@@ -144,5 +65,4 @@
       </ul>
     </div>
   </div>
-  </div>
-<% end %>
+</div>
