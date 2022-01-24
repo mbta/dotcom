@@ -45,3 +45,24 @@
 .navbar-toggle-moble--language {
   margin-right: $base-spacing;
 }
+
+.custom-language-selector {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: #a1c6ed;
+  text-decoration: none;
+  background: transparent;
+
+  &:hover {
+    color: #5da9e8;
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: #165c96;
+    text-decoration: underline;
+  }
+}
