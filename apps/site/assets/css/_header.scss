@@ -619,6 +619,11 @@ nav.m-menu {
   display: none;
 }
 
+header.header .c-search-bar__autocomplete {
+  // stylelint-disable-next-line declaration-no-important
+  z-index: calc(#{$z-index-modal} + 1) !important; // = 102. overwrites the 100 value added by autocomplete.js
+}
+
 header.header.menu-open {
   .m-menu__cover {
     display: block;
