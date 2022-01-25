@@ -1,0 +1,18 @@
+<div class="menu-row">
+    <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
+        <%= if menu_section == "Transit" do %>
+            <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
+                <div class="col-xs-4 header-column">
+                    <div class="h5 header-column-heading"><%= section_name %></div>
+                    <div class="col-xs-12 p-a-0">
+                        <ul>
+                            <li>
+                                <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+</div>

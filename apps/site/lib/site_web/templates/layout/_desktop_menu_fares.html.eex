@@ -1,27 +1,48 @@
-<div class="menu-row">
-  <div class="col-md-4 col-lg-3 fares-column">
-    <div class="h5 header-column-heading">More Fares Info</div>
-    <div class="col-xs-12 p-a-0">
-      <ul>
-        <li>
-          <%= link "Fares Overview", to: cms_static_page_path(@conn, "/fares"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced"), class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Order Monthly Passes", to: "https://commerce.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program"), class: "ga-nav-sublink" %>
-        </li>
-      </ul>
+<%= if Laboratory.enabled?(@conn, :desktop_nav_redesign) do %>
+  <div class="menu-row">
+    <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
+        <%= if menu_section == "Fares" do %>
+            <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
+                <div class="col-xs-4 header-column">
+                    <div class="h5 header-column-heading"><%= section_name %></div>
+                    <div class="col-xs-12 p-a-0">
+                        <ul>
+                            <li>
+                                <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+              <% end %>
+          <% end %>
+      <% end %>
+  </div>
+<% else %>
+  <div class="menu-row">
+    <div class="col-md-4 col-lg-3 fares-column">
+      <div class="h5 header-column-heading">More Fares Info</div>
+      <div class="col-xs-12 p-a-0">
+        <ul>
+          <li>
+            <%= link "Fares Overview", to: cms_static_page_path(@conn, "/fares"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced"), class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Order Monthly Passes", to: "https://commerce.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
+          </li>
+          <li>
+            <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program"), class: "ga-nav-sublink" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-8 col-lg-9">
+      <%= SiteWeb.FareView.summarize(@common_fare_summaries, link_class: "ga-nav-sublink") %>
     </div>
   </div>
-  <div class="col-md-8 col-lg-9">
-    <%= SiteWeb.FareView.summarize(@common_fare_summaries, link_class: "ga-nav-sublink") %>
-  </div>
-</div>
+<% end %>
