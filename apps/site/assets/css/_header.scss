@@ -373,7 +373,9 @@ nav.m-menu {
 }
 .m-menu__title {
   background-color: $brand-primary-darkest;
+  margin: 0;
   padding: 10px 12px;
+
   @include media-breakpoint-up(sm) {
     display: none;
   }
@@ -474,6 +476,7 @@ nav.m-menu {
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
+    margin: 0;
     padding: 16px 0 0 16px;
   }
 
@@ -483,15 +486,17 @@ nav.m-menu {
   }
   // Accordion stuff
   .c-accordion-ui {
+    border: 0;
     margin-bottom: 0;
-    border: none;
-    .c-accordion-ui__trigger{
+
+    .c-accordion-ui__trigger {
       @include heading-4();
       color: $white;
       &:hover, &:active {
         background-color: inherit;
       }
     }
+
     .c-accordion-ui__content {
       background-color: $brand-primary-lightest-contrast;
       padding: 0;
@@ -501,7 +506,30 @@ nav.m-menu {
       }
     }
   }
-  
+
+  .m-menu__link {
+    @include font-link();
+    display: block;
+    padding: 12px 12px 12px 24px;
+
+    div {
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    &:focus {
+      color: $link-color;
+      outline: none;
+      text-decoration: none;
+
+      div {
+        border-radius: 4px;
+        box-shadow: 0 0 0 2px currentColor,
+          0 0 0 3px $brand-primary-lightest-contrast, 0 0 0 4px $brand-primary-darkest;
+      }
+    }
+  }
+
   .menu-container {
     background-color: $brand-primary-darkest;
     margin-top: 1rem;
@@ -591,6 +619,11 @@ nav.m-menu {
   display: none;
 }
 
+header.header .c-search-bar__autocomplete {
+  // stylelint-disable-next-line declaration-no-important
+  z-index: calc(#{$z-index-modal} + 1) !important; // = 102. overwrites the 100 value added by autocomplete.js
+}
+
 header.header.menu-open {
   .m-menu__cover {
     display: block;
@@ -631,27 +664,41 @@ header.header.search-open {
     display: block;
     top: 112px;
   }
+
   .m-menu__search {
     display: block;
     height: 60px;
   }
+
   .m-menu__toggle {
     opacity: 0;
     pointer-events: none;
   }
+
   .fa-search {
     display: none;
   }
+
   .fa-close {
     display: inline;
   }
 }
 
 .m-menu__toggle, .header-search__toggle {
- background-color: unset;
- border: 2px solid $brand-primary-light-contrast;
- border-radius: 4px;
- margin: auto 0;
+  background-color: unset;
+  border: 2px solid $brand-primary-light-contrast;
+  border-radius: 4px;
+  margin: auto 0;
+
+  &:hover,
+  &:focus {
+    background-color: $brand-primary-darkest;
+  }
+
+  &[aria-expanded="true"]:hover,
+  &[aria-expanded="true"]:focus {
+    background-color: $brand-primary;
+  }
 }
 
 .m-menu__toggle {

@@ -42,6 +42,27 @@ defmodule Site.PhoneNumber do
     end
   end
 
+  @doc """
+  Format read by screenreaders in a nicer manner
+  Inspired by https://jhalabi.com/blog/accessibility-phone-number-formatting
+  """
+  def aria_format(nil), do: nil
+
+  def aria_format(number) do
+    case parse_phone_number(number) do
+      {area_code, prefix, line} ->
+        [area_code, prefix, line]
+        |> Enum.map(fn num ->
+          String.split(num, "", trim: true)
+          |> Enum.join(" ")
+        end)
+        |> Enum.join(". ")
+
+      nil ->
+        nil
+    end
+  end
+
   @spec parse_phone_number(String.t()) :: {String.t(), String.t(), String.t()} | nil
   def parse_phone_number(number) do
     case number |> digits |> without_leading_one do
