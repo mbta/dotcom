@@ -17,7 +17,6 @@
         <% end %>
     <% end %>
   </div>
-<% end %>
 </div>
 <% else %>
 <div class="menu-row">
