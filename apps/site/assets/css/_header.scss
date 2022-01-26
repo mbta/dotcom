@@ -1,6 +1,23 @@
 @import 'variables';
 @import 'typography';
 
+@mixin dark-mode-links {
+  color: $brand-primary-light-contrast;
+  &:hover, &:focus {
+    color: $brand-primary-light;
+  }
+  &:active {
+    color: $brand-primary;
+  }
+}
+
+@mixin light-mode-links {
+  color: $brand-primary;
+  &:active {
+    color: $brand-primary-darkest;
+  }
+}
+
 .desktop-menu-nav {
   float: right;
 
@@ -150,6 +167,12 @@
       padding-top: $space-3_new;
       > a {
         font-weight: 500;
+        @include media-breakpoint-down(md) {
+          @include dark-mode-links();
+        }
+        @include media-breakpoint-up(lg) {
+          @include light-mode-links();
+        }
       }
     }
     &_smaller-font {
@@ -518,24 +541,6 @@ nav.m-menu {
   .c-form__input-container {
     border: none;
     border-radius: 4px;
-  }
-}
-
-
-@mixin dark-mode-links {
-  color: $brand-primary-light-contrast;
-  &:hover, &:focus {
-    color: $brand-primary-light;
-  }
-  &:active {
-    color: $brand-primary;
-  }
-}
-
-@mixin light-mode-links {
-  color: $brand-primary;
-  &:active {
-    color: $brand-primary-darkest;
   }
 }
 
