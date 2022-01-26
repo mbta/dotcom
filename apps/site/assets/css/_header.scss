@@ -146,7 +146,12 @@
         border-bottom: unset;
       }
     }
-    
+    &_phone {
+      padding-top: $space-3_new;
+      > a {
+        font-weight: 500;
+      }
+    }
     &_smaller-font {
       font-size: 12px;
       line-height: 21px;
