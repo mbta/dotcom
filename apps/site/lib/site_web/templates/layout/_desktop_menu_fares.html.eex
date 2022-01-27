@@ -1,21 +1,48 @@
 <%= if Laboratory.enabled?(@conn, :desktop_nav_redesign) do %>
   <div class="menu-row">
     <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
-        <%= if menu_section == "Fares" do %>
-            <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-                <div class="col-xs-4 header-column">
-                    <div class="h5 header-column-heading"><%= section_name %></div>
-                    <div class="col-xs-12 p-a-0">
-                        <ul>
-                            <li>
-                                <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
-                            </li>
-                        </ul>
-                    </div>
+      <%= if menu_section == "Fares" do %>
+          <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
+              <div class="col-xs-4 header-column">
+                  <div class="h5 header-column-heading"><%= section_name %></div>
+                  <div class="col-xs-12 p-a-0">
+                      <ul>
+                          <li>
+                              <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
+                          </li>
+                      </ul>
                   </div>
-              <% end %>
-          <% end %>
-      <% end %>
+                </div>
+            <% end %>
+        <% end %>
+    <% end %>
+    <div class="col-xs-4 header-column">
+      <div class="menu-container">
+        <div class="menu-container_header font-small">Most popular fares</div>
+        <dl title="Most popular fares">
+          <div class="menu-container_row">
+            <dt>Subway One-Way</dt>
+            <dd class="u-bold">$2.40</dd>
+          </div>
+          <div class="menu-container_row">
+            <dt>Local Bus One-Way</dt>
+            <dd class="u-bold">$1.70</dd>
+          </div>
+          <div class="menu-container_row">
+            <dt>Monthly Linkpass</dt>
+            <dd class="u-bold">$90.00</dd>
+          </div>
+          <div class="menu-container_row">
+            <dt>
+              Commuter Rail One-Way
+              <br>
+              <span class="menu-container_smaller-font">Zones 1A - 10</span>
+            </dt>
+            <dd class="u-bold">$2.40 - <br>$13.25</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
   </div>
 <% else %>
   <div class="menu-row">

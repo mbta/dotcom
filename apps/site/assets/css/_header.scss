@@ -1,6 +1,23 @@
 @import 'variables';
 @import 'typography';
 
+@mixin dark-mode-links {
+  color: $brand-primary-light-contrast;
+  &:hover, &:focus {
+    color: $brand-primary-light;
+  }
+  &:active {
+    color: $brand-primary;
+  }
+}
+
+@mixin light-mode-links {
+  color: $brand-primary;
+  &:active {
+    color: $brand-primary-darkest;
+  }
+}
+
 .desktop-menu-nav {
   float: right;
 
@@ -105,7 +122,94 @@
     // the alignment of the form on the header should match the search page header
     padding-top: 3.9rem;
   }
+
+  .menu-container {
+    background-color: $brand-primary-lightest;
+    margin-top: 1rem;
+    margin-bottom: 8px;
+    padding: $space-3_new 0 $space-3_new $space-3_new;
+    width: calc(100% - 40px);
+    border-radius: 0 $space-2_new $space-2_new 0;
+    font-size: 14px;
+    min-width: 300px;
+
+    // Description list
+    dl {
+      overflow: auto;
+    }
+    dt, dd {
+      width: 50%;
+    }
+    dt {
+      float: left;
+      font-weight: normal;
+    }
+    dd {
+      float: right;
+      margin-bottom: 0;
+      text-align: right;
+    }
+    
+    &_header {
+      font-size: 12px;
+      padding-bottom: $base-spacing__new;
+    }
+    &_row {
+      display: flex;
+      justify-content: space-between;
+      padding: $space-2_new $space-4_new $space-2_new 0;
+      border-bottom: 1px solid $brand-primary;
+      &:last-child {
+        border-bottom: unset;
+      }
+    }
+    &_phone {
+      padding-top: $space-3_new;
+      > a {
+        font-weight: 500;
+        @include media-breakpoint-down(md) {
+          @include dark-mode-links();
+        }
+        @include media-breakpoint-up(lg) {
+          @include light-mode-links();
+        }
+      }
+    }
+    &_smaller-font {
+      font-size: 12px;
+      line-height: 21px;
+    }
+    
+    @include media-breakpoint-up(sm) {
+      border-radius: 0 $space-2_new $space-2_new;
+    }
+    @include media-breakpoint-up(lg) {
+      background-color: $brand-primary-lightest;
+      color: $gray-dark;
+      &_header {
+        color: $gray;
+      }
+      &_row {
+        border-color: $gray-lighter;
+      }
+    }
+
+    // CSS for the Contact Numbers split-container
+    &.top-half {
+      margin-bottom: 2px;
+      border-radius: 0 $space-2_new 0 0;
+    }
+    &.bottom-half {
+      margin-top: 0;
+      border-radius: 0 0 $space-2_new;
+      @include media-breakpoint-up(sm) {
+        border-radius: 0 0 $space-2_new $space-2_new;
+      }
+    }
+  }
 }
+
+  
 
 .menu-link-row {
   padding-bottom: $space-24;
@@ -437,24 +541,6 @@ nav.m-menu {
   .c-form__input-container {
     border: none;
     border-radius: 4px;
-  }
-}
-
-
-@mixin dark-mode-links {
-  color: $brand-primary-light-contrast;
-  &:hover, &:focus {
-    color: $brand-primary-light;
-  }
-  &:active {
-    color: $brand-primary;
-  }
-}
-
-@mixin light-mode-links {
-  color: $brand-primary;
-  &:active {
-    color: $brand-primary-darkest;
   }
 }
 
