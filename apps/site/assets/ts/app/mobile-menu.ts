@@ -76,7 +76,7 @@ const setupMobileMenu = (): void => {
 
   // menu click closes
   const menu_links = document.querySelectorAll(".m-menu__link");
-  for (let i = 0; i < menu_links.length; i++) {
+  for (let i = 0; i < menu_links.length; i+=1) {
     menu_links[i].addEventListener("click", closeMenu);
   }
 
