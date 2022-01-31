@@ -809,7 +809,8 @@ header.header.search-open {
   }
 }
 
-.staticpageview .m-menu {
+// /menu page
+.m-menu--page {
   margin-bottom: 4 * $base-spacing;
 
   .m-menu__link > div {

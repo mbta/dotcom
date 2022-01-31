@@ -1,4 +1,4 @@
-<nav class="m-menu" id="navmenu">
+<nav class="m-menu--mobile" id="navmenu">
   <div class="m-menu__cover"></div>
   <div class="m-menu__content">
     <h1 class="m-menu__title heading-2">Main Menu</h1>
