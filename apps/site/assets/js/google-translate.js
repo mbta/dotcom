@@ -119,7 +119,7 @@ const render = () => {
 
 const renderCustomSelect = () => `
   <div>
-    <i class="fa fa-globe" aria-hidden="true"></i>
+    <i class="fa fa-globe globe-icon" aria-hidden="true"></i>
     <select class="custom-language-selector">
     ${languages
       .map(
