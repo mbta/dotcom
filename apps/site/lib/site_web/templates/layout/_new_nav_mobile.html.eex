@@ -29,6 +29,9 @@
         <% end %>
       </nav>
     <% end %>
+    <div class="custom-language-selector-mobile-container">
+      <div id="custom-language-selector-mobile" />
+    </div>
   </div>
   <div class="m-menu__search">
     <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more", id: "header-mobile" %>
