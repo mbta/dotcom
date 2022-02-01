@@ -1,13 +1,21 @@
-<div class="menu-container top-half">
-  <div class="menu-container_header font-small">Information & Support</div>
-  <div class="menu-container_smaller-font">Monday thru Friday: 6:30 AM - 8 PM</div>
-  <div class="menu-container_smaller-font">Saturday thru Sunday: 8 AM - 4 PM</div>
-  <div class="menu-container_phone"><strong>Main:</strong> <%= tel_link "617-222-3200" %></div>
-  <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-5146" %></div>
+<div class="m-menu__feature top-half">
+  <div class="m-menu__section-heading">Information & Support</div>
+  <small>Monday thru Friday: 6:30 AM - 8 PM</small>
+  <small>Saturday thru Sunday: 8 AM - 4 PM</small>
+  <div class="m-menu__feature_phone">
+    <strong>Main:</strong> <%= tel_link "617-222-3200" %>
+  </div>
+  <div class="m-menu__feature_phone">
+    <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
+  </div>
 </div>
-<div class="menu-container bottom-half">
-  <div class="menu-container_header font-small">Emergency Contacts</div>
-  <div class="menu-container_smaller-font">24 hours, 7 days a week</div>
-  <div class="menu-container_phone"><strong>Transit Police:</strong> <%= tel_link "617-222-1212" %></div>
-  <div class="menu-container_phone"><strong>TTY:</strong> <%= tel_link "617-222-1200" %></div>
+<div class="m-menu__feature bottom-half">
+  <div class="m-menu__section-heading">Emergency Contacts</div>
+  <small>24 hours, 7 days a week</small>
+  <div class="m-menu__feature_phone">
+    <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
+  </div>
+  <div class="m-menu__feature_phone">
+    <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
+  </div>
 </div>

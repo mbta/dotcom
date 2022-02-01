@@ -15,12 +15,3 @@
 [class*=c-svg__icon] {
   display: inline-block;
 }
-
-.c-svg__mbta-logo, .c-svg__mbta-name-and-logo {
-  @include media-breakpoint-down(md) {
-    text,
-    path {
-      fill: $white;
-    }
-  }
-}

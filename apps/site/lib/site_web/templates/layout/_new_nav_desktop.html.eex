@@ -18,7 +18,7 @@
           <div class="collapse" id="<%= to_camelcase(name) %>" role="tabpanel">
             <div class="m-menu-desktop__section">
               <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-                <div class="m-menu-desktop__section-heading">
+                <div class="m-menu__section-heading">
                   <%= section_name %>
                 </div>
                 <nav class="m-menu-desktop__submenu-section">
@@ -27,10 +27,15 @@
               <% end %>
               <%= for %{sub_menu_section: special_section} <- sub_menus do %>
                 <%= if special_section == "Most popular fares" do %>
-                  <%= render "_new_nav_popular_fares.html" %>
+                  <div class="m-menu-desktop__section-feature">
+                    <%= render "_new_nav_popular_fares.html" %>
+                  </div>
                 <% end %>
+
                 <%= if special_section == "Contact numbers" do %>
-                  <%= render "_new_nav_contact_numbers.html" %>
+                  <div class="m-menu-desktop__section-feature">
+                    <%= render "_new_nav_contact_numbers.html" %>
+                  </div>
                 <% end %>
               <% end %>
             </div>
