@@ -44,6 +44,8 @@ header {
 }
 
 nav.m-menu--desktop {
+  @include base-font__new();
+
   display: flex;
   margin-left: $base-spacing;
   padding: 0 $base-spacing / 2;
@@ -93,9 +95,10 @@ nav.m-menu--desktop {
 
 // Buttons to open/close desktop menu
 .m-menu--desktop__toggle {
-  @include base-font__new();
-
+  align-items: center;
   color: inherit;
+  display: flex;
+  flex-wrap: nowrap;
   font-weight: bold;
   margin-right: $base-spacing / 2;
 
@@ -104,7 +107,7 @@ nav.m-menu--desktop {
     @include fa-icon();
 
     content: $fa-var-angle-down;
-    display: inline;
+    margin-left: $base-spacing__new;
 
     @include media-breakpoint-only(xxl) {
       margin-left: $space-2_new;

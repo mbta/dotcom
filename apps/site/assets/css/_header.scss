@@ -143,7 +143,7 @@
   }
 
   .c-svg__mbta-name-and-logo {
-    @include media-breakpoint-only(md) {
+    @include media-breakpoint-down(md) {
       margin-left: 24px;
     }
   }
@@ -432,10 +432,10 @@ nav.m-menu--mobile {
     border-bottom: 1px solid $brand-primary-light-contrast;
 
     @include media-breakpoint-only(sm) {
-      padding-left: 40px;
+      margin-left: 40px;
     }
     @include media-breakpoint-only(md) {
-      padding-left: 63px;
+      margin-left: 63px;
     }
   }
 
@@ -508,7 +508,6 @@ nav.m-menu--mobile {
 .header--new.menu-open {
   .m-menu__content {
     display: block;
-    min-height: 100vh;
     overflow-y: scroll;
     width: auto;
 
