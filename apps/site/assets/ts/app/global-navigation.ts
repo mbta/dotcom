@@ -95,6 +95,11 @@ export default function setupGlobalNavigation(): void {
               oldValue !== "true"
           ) !== undefined;
 
+        // adjust theme color
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute("content", aMenuIsExpanded ? "#0b2f4c" : "#165c96");
+
         // add/remove classes to header and document
         if (aMenuIsExpanded) {
           document.documentElement.classList.add("menu-open");
