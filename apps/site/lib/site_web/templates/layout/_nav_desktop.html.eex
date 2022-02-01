@@ -35,16 +35,8 @@
         </div>
       </div>
     <% end %>
-  
-    <div id="custom-language-selector" class="nav-item u-pointer">
-      <a tabindex="0" id="language-menu-toggle" class="notranslate desktop-nav-link js-header-link navbar-toggle toggle-up-down collapsed" aria-expanded="false" aria-controls="languageMenu" data-parent="#desktop-menu" data-target="#languageMenu" role="tab" data-toggle="collapse">
-        <div class="nav-link-content js-header-link__content">
-          <span class="nav-link-name"><i class="fa fa-globe" aria-hidden="true"></i> EN</span>
-          <div class="nav-link-arrows js-header-link__carets"></div>
-        </div>
-      </a>
+    <div id="custom-language-selector" class="nav-item u-pointer custom-language-selector-desktop-container">
     </div>
-
     <div class="nav-item">
       <%=
         link([
