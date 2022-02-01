@@ -7,10 +7,20 @@ defmodule GoogleMaps do
   alias Util.Position
   alias GoogleMaps.MapData
 
-  @host "https://maps.googleapis.com"
-  @host_uri URI.parse(@host)
-  @web "https://maps.google.com"
-  @web_uri URI.parse(@web)
+  if Application.get_env(:site, :maps_source) == "GOOGLE" do
+    @host "https://maps.googleapis.com"
+    @host_uri URI.parse(@host)
+    @web "https://maps.google.com"
+    @web_uri URI.parse(@web)
+  else
+    # aws api links
+  end
+
+  client_id = Application.get_env(:site, :maps_source) == "GOOGLE" ? :google_client_id : :aws_client_id
+  signing_id = Application.get_env(:site, :maps_source) == "GOOGLE" ? :google_signing_id : :aws_signing_id
+  api_key = Application.get_env(:site, :maps_source) == "GOOGLE" ? :google_api_key : :aws_api_key
+
+
 
   @doc """
   Given a path, returns a full URL with a signature.
@@ -31,7 +41,7 @@ defmodule GoogleMaps do
 
     path
     |> URI.parse()
-    |> do_signed_url(opts[:client_id], opts[:signing_key], opts)
+    |> do_signed_url(opts[client_id], opts[signing_key], opts)
   end
 
   @doc """
@@ -46,10 +56,10 @@ defmodule GoogleMaps do
     parsed =
       case opts[:client_id] do
         "" ->
-          append_api_key(parsed, opts[:google_api_key])
+          append_api_key(parsed, opts[api_key])
 
         nil ->
-          append_api_key(parsed, opts[:google_api_key])
+          append_api_key(parsed, opts[api_key])
 
         client_id ->
           append_query(parsed, :client, client_id)
@@ -82,9 +92,9 @@ defmodule GoogleMaps do
 
   defp default_options do
     [
-      client_id: get_env(:client_id),
-      google_api_key: get_env(:google_api_key),
-      signing_key: get_env(:signing_key)
+      client_id: client_id,
+      api_key: api_key,
+      signing_key: signing_key
     ]
   end
 
@@ -111,13 +121,13 @@ defmodule GoogleMaps do
 
   defp do_signed_url(uri, "", _, opts) do
     uri
-    |> append_api_key(opts[:google_api_key])
+    |> append_api_key(opts[api_key])
     |> prepend_host
   end
 
   defp do_signed_url(uri, _, "", opts) do
     uri
-    |> append_api_key(opts[:google_api_key])
+    |> append_api_key(opts[api_key])
     |> prepend_host
   end
 

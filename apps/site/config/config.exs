@@ -79,7 +79,12 @@ config :site, :react,
 
 config :site,
   allow_indexing: false,
-  enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES", "true"}
+  enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES", "true"},
+  geocode_source: "GOOGLE" || "AWS",
+  places_source: "GOOGLE" || "AWS",
+  map_data_source: "GOOGLE" || "AWS",
+  maps_source: "GOOGLE" || "AWS"
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
