@@ -53,6 +53,7 @@ nav.m-menu--desktop {
   }
 }
 
+// Buttons to open/close desktop menu
 .m-menu--desktop__toggle {
   @include base-font__new();
 
@@ -60,6 +61,7 @@ nav.m-menu--desktop {
   font-weight: bold;
   margin-right: $base-spacing / 2;
 
+  // place for up/down arrows
   &::after {
     @include fa-icon();
 
@@ -71,6 +73,7 @@ nav.m-menu--desktop {
     }
   }
 
+  // in expanded menu state
   &[aria-expanded='true'],
   &[aria-expanded='true']:focus,
   &[aria-expanded='true']:hover {
@@ -84,6 +87,7 @@ nav.m-menu--desktop {
   }
 }
 
+// Desktop menu expanded area
 .m-menu--desktop__menu {
   background-color: $brand-primary-lightest-contrast;
   box-shadow: 0 7px 14px 0 $gray-shadow;
@@ -95,11 +99,12 @@ nav.m-menu--desktop {
   z-index: 102;
 }
 
+// Layout the headers & links in the desktop menu
 .m-menu-desktop__section {
   color: $body-color;
   column-gap: $base-spacing;
   display: grid;
-  grid-template-columns: repeat(1fr);
+  grid-template-columns: repeat(1fr); // space unknown number of columns evenly
   grid-template-rows: auto 1fr;
   margin: $base-spacing * 2 0;
 
@@ -125,6 +130,7 @@ nav.m-menu--desktop {
   }
 }
 
+// Small, all-caps bold heading text used in all navigation menus
 .m-menu__section-heading {
   font-family: $headings-font-family;
   font-size: $font-size-base-sm;
@@ -149,6 +155,7 @@ nav.m-menu--desktop {
   }
 }
 
+// Reusing the veil component
 .c-modal__cover {
   display: none;
 
@@ -220,10 +227,6 @@ nav.m-menu--desktop {
   @include media-breakpoint-up(lg) {
     background-color: $brand-primary-lightest;
     color: $gray-dark;
-
-    &_header {
-      color: $gray;
-    }
   }
 
   // CSS for the Contact Numbers split-container

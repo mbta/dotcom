@@ -29,7 +29,7 @@ const TOGGLE_CLASSES = {
   desktop: "m-menu--desktop__toggle"
 };
 
-const allTogglesSelector = Object.values(TOGGLE_CLASSES)
+const allTogglesSelector: string = Object.values(TOGGLE_CLASSES)
   .map(className => `.${className}`)
   .join(", ");
 
@@ -47,10 +47,8 @@ export default function setupGlobalNavigation(): void {
     () => {
       const header = document.querySelector(".header--new")!;
       if (!header) return;
-      const mobileMenuToggle = header.querySelector(
-        `button.${TOGGLE_CLASSES.mobile}`
-      )!;
 
+      // On mobile, clicking Menu or the Search icon opens a menu
       header
         .querySelectorAll(
           `button.${TOGGLE_CLASSES.mobile}, button.${TOGGLE_CLASSES.search}`
@@ -66,16 +64,21 @@ export default function setupGlobalNavigation(): void {
           openAccordion.addEventListener("focus", undoOutline);
         });
 
-      const toggledMobileMenuObserver = new MutationObserver(([{ target }]) => {
-        const headerEl = target as Element;
-        if (headerEl.classList.contains("menu-open")) {
+      // On mobile, when a menu is opened/closed,
+      const toggledMobileMenuObserver = new MutationObserver(() => {
+        const mobileMenuToggle = header.querySelector(
+          `button.${TOGGLE_CLASSES.mobile}`
+        )!;
+
+        // Update Menu button text
+        if (header.classList.contains("menu-open")) {
           document.querySelector(".m-menu__content")!.scrollTop = 0;
           mobileMenuToggle.innerHTML = "Close";
         } else {
           mobileMenuToggle.innerHTML = "Menu";
         }
 
-        if (headerEl.classList.contains("search-open")) {
+        if (header.classList.contains("search-open")) {
           // pass focus to search bar
           (document.querySelector(
             ".m-menu__search #search-header-mobile__input"
@@ -83,6 +86,7 @@ export default function setupGlobalNavigation(): void {
         }
       });
 
+      // When any navigation menu is expanded,
       const expandedMenuObserver = new MutationObserver(mutations => {
         const observedClassNames = mutations.flatMap(m =>
           Array.from((m.target as Element).classList)
@@ -100,7 +104,9 @@ export default function setupGlobalNavigation(): void {
           .querySelector('meta[name="theme-color"]')
           ?.setAttribute("content", aMenuIsExpanded ? "#0b2f4c" : "#165c96");
 
-        // add/remove classes to header and document
+        // add/remove classes based on which menu is expanded
+        // .menu-open on the document body
+        // .menu-open or .search-open on the header
         if (aMenuIsExpanded) {
           document.documentElement.classList.add("menu-open");
           if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
@@ -117,9 +123,11 @@ export default function setupGlobalNavigation(): void {
           }
         }
 
-        // if button state indicates menu should be closed, and observed
-        // attribute change is on the desktop navigation buttons, we get to
-        // manually close the menu here
+        // To close the desktop navigation programmatically, normally one could
+        // trigger the hide.bs.collapse event, but Bootstrap's collapse plugin
+        // was still buggy in v4.0.0-alpha.2, so we'll close it here. if button
+        // state indicates menu should be closed, and observed attribute change
+        // is on the desktop navigation buttons, we can close the desktop menu.
         if (
           !aMenuIsExpanded &&
           observedClassNames.includes(TOGGLE_CLASSES.desktop)
