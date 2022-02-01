@@ -74,6 +74,12 @@ const setupMobileMenu = (): void => {
     .querySelector(".m-menu__cover")!
     .addEventListener("click", closeMenu);
 
+  // menu click closes
+  const menu_links = document.querySelectorAll(".m-menu__link");
+  for (let i = 0; i < menu_links.length; i += 1) {
+    menu_links[i].addEventListener("click", closeMenu);
+  }
+
   // Esc key closes
   document.body.addEventListener("keydown", e => {
     handleNativeEscapeKeyPress(e, closeMenu);
