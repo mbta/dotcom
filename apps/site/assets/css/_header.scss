@@ -446,9 +446,17 @@ nav.m-menu--mobile {
 
     .c-accordion-ui__trigger {
       @include heading-4();
+      border: 2px solid $brand-primary;
       color: $white;
-      &:hover, &:active {
+
+      &:hover,
+      &:active {
         background-color: inherit;
+      }
+
+      &:focus {
+        border-color: $brand-secondary;
+        outline: none;
       }
     }
 
