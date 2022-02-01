@@ -44,4 +44,5 @@
       </div>
     </div>
   <% end %>
+  <div class="m-menu__language"></div>
 </nav>

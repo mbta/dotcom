@@ -103,42 +103,124 @@ const setTranslation = (translateEl, language) => {
 };
 
 const render = () => {
-  // render desktop
-  document.getElementById(
-    "custom-language-selector"
-  ).innerHTML = renderCustomSelect();
+  /* Render either new or old version depending on which navigation is bring shown. */
+  if (document.querySelector(".header--new")) {
+    document
+      .querySelectorAll(".m-menu__language")
+      .forEach(el => (el.innerHTML = renderCustomSelect()));
+  } else {
+    // render desktop
+    document.getElementById(
+      "custom-language-selector"
+    ).innerHTML = `${renderCustomDesktopSelect()}${renderCustomDesktopMenu()}`;
 
-  // render mobile
-  document.getElementById(
-    "custom-language-selector-mobile"
-  ).innerHTML = renderCustomSelect();
+    // render mobile
+    document.getElementById(
+      "custom-language-button-mobile"
+    ).innerHTML = renderCustomMobileSelect();
+
+    document.getElementById(
+      "custom-language-menu-mobile"
+    ).innerHTML = renderCustomMobileMenu();
+
+    // handle keyboard events on links
+    document
+      .getElementById("custom-language-selector")
+      .addEventListener("keyup", triggerClick("language-menu-toggle"));
+    document
+      .getElementById("custom-language-selector-mobile")
+      .addEventListener(
+        "keyup",
+        triggerClick("custom-language-selector-mobile")
+      );
+  }
 
   // add DOM event handling to rendered links in menu
   registerLinkEvents();
 };
 
 const renderCustomSelect = () => `
-  <div>
-    <i class="fa fa-globe globe-icon" aria-hidden="true"></i>
-    <select class="custom-language-selector">
+  <i class="fa fa-globe fa-lg" aria-hidden="true"></i>
+  <select class="custom-language-selector">
+  ${languages.map(
+    ([code, name]) =>
+      `<option ${
+        code === currentLanguage ? "selected" : ""
+      } data-toggle="language" data-lang="${code}">${name}</option>`
+  )}
+  </select>
+`;
+
+const renderCustomDesktopSelect = () =>
+  `<a tabindex="0" id="language-menu-toggle" class="notranslate desktop-nav-link js-header-link navbar-toggle toggle-up-down collapsed" aria-expanded="false" aria-controls="languageMenu" data-parent="#desktop-menu" data-target="#languageMenu" role="tab" data-toggle="collapse">
+    <div class="nav-link-content js-header-link__content">
+      <span class="nav-link-name"><i class="fa fa-globe" aria-hidden="true"></i> ${currentLanguage.toUpperCase()}</span>
+      <div class="nav-link-arrows js-header-link__carets">
+        <i class="fa fa-angle-up up" aria-hidden="true"></i>
+        <i class="fa fa-angle-down down" aria-hidden="true"></i>
+      </div>
+    </div>
+  </a>`;
+
+const renderCustomDesktopMenu = () => `
+  <div class="desktop-menu desktop-menu--language">
+    <div class="container">
+      <div class="desktop-menu-body panel">
+        <div class="collapse" id="languageMenu" role="tabpanel" aria-expanded="false">
+          <div class="col-xs-4 header-column">
+            <div class="col-xs-12 p-a-0">
+              <ul class="language__linkcontainer">
+              ${languages
+                .map(
+                  ([code, name]) =>
+                    `<li><a tabindex="0" class="language__link ${
+                      code === currentLanguage ? "language__link--active" : ""
+                    }" data-toggle="language" data-lang="${code}">${name}</a></li>`
+                )
+                .join("")}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+const renderCustomMobileSelect = () =>
+  `<button id="custom-language-selector-mobile" tabindex="0" class="u-pointer navbar-toggle-moble--language navbar-toggle navbar-toggle-mobile collapsed toggle-up-down" aria-expanded="false" type="button" data-toggle="collapse" data-target="#languageMenuMobile">
+    <div class="nav-link-content js-header-link__content">
+      <span class="nav-link-name notranslate"><i class="fa fa-globe" aria-hidden="true"></i> ${currentLanguage.toUpperCase()}</span>
+      <div class="nav-link-arrows js-header-link__carets">
+        <i class="fa fa-angle-up up" aria-hidden="true"></i>
+        <i class="fa fa-angle-down down" aria-hidden="true"></i>
+      </div>
+    </div>
+  </button>`;
+
+const renderCustomMobileMenu = () => `
+  <nav class="row collapse" id="languageMenuMobile" role="navigation" aria-expanded="true">
+    <ul class="mobile-nav">
     ${languages
       .map(
         ([code, name]) =>
-          `<option ${code === currentLanguage ? "selected" : ""} data-toggle="language" data-lang="${code}">${name}</option>`
-      )}
-    </select>
-  </div>
-`
+          `<li class="mobile-nav-item"><a tabindex="0" class="language__link language__link--mobile ${
+            code === currentLanguage ? "language__link--mobile-active" : ""
+          }" data-toggle="language" data-lang="${code}">${name}</a></li>`
+      )
+      .join("")}
+    </ul>
+  </nav>
+`;
 
 const registerLinkEvents = () => {
   const translateEl = document.querySelector(".goog-te-combo");
-
-  [...document.querySelectorAll(".custom-language-selector")].forEach(
+  [...document.querySelectorAll("a[data-toggle='language']")].forEach(
     linkEl => {
       linkEl.addEventListener(
-        "change",
+        "click",
         event => {
-          setTranslation(translateEl, event.target.selectedOptions[0].getAttribute("data-lang"));
+          setTranslation(translateEl, event.target.getAttribute("data-lang"));
           render();
         },
         false

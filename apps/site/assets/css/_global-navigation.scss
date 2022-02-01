@@ -51,6 +51,44 @@ nav.m-menu--desktop {
   @include media-breakpoint-down(md) {
     display: none;
   }
+
+  .m-menu__language {
+    margin-left: $base-spacing / 2;
+  }
+}
+
+.m-menu__language {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  font-weight: $font-weight-medium;
+
+  .custom-language-selector {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: $brand-primary-light-contrast;
+    cursor: pointer;
+    margin-left: $base-spacing__new;
+    outline: none;
+    padding: 0 $base-spacing__new;
+    text-decoration: none;
+    width: 70px; // arbitrary, but would be too wide otherwise
+
+    &:hover {
+      color: $brand-primary-light;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $brand-primary;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: 2px solid $brand-secondary;
+    }
+  }
 }
 
 // Buttons to open/close desktop menu

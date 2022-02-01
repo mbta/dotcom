@@ -483,6 +483,11 @@ nav.m-menu--mobile {
       }
     }
   }
+
+  .m-menu__language {
+    border-bottom: unset;
+    padding: $base-spacing;
+  }
 }
 
 .header-search__toggle .fa-close {
@@ -613,12 +618,4 @@ nav.m-menu--mobile {
   hr {
     margin: 0;
   }
-}
-
-.custom-language-selector-mobile-container {
-  padding: 16px;
-}
-
-.custom-language-selector-desktop-container {
-  padding: 11px;
 }
