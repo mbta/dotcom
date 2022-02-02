@@ -21,7 +21,7 @@
                 <div class="m-menu__section-heading">
                   <%= section_name %>
                 </div>
-                <nav class="m-menu-desktop__submenu-section">
+                <nav class="m-menu-desktop__submenu-section" aria-label="<%= section_name %>">
                   <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
                 </nav>
               <% end %>

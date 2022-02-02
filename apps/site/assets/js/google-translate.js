@@ -141,7 +141,7 @@ const render = () => {
 
 const renderCustomSelect = () => `
   <i class="fa fa-globe fa-lg" aria-hidden="true"></i>
-  <select class="custom-language-selector">
+  <select class="custom-language-selector" aria-label="Page language">
   ${languages.map(
     ([code, name]) =>
       `<option ${
