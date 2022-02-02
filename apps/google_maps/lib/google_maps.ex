@@ -1,35 +1,21 @@
 defmodule GoogleMaps do
   @moduledoc """
-
   Helper functions for working with the Google Maps API.
-
   """
   alias Util.Position
   alias GoogleMaps.MapData
 
-  if Application.get_env(:site, :maps_source) == "GOOGLE" do
-    @host "https://maps.googleapis.com"
-    @host_uri URI.parse(@host)
-    @web "https://maps.google.com"
-    @web_uri URI.parse(@web)
-  else
-    # aws api links
-  end
-
-  client_id = Application.get_env(:site, :maps_source) == "GOOGLE" ? :google_client_id : :aws_client_id
-  signing_id = Application.get_env(:site, :maps_source) == "GOOGLE" ? :google_signing_id : :aws_signing_id
-  api_key = Application.get_env(:site, :maps_source) == "GOOGLE" ? :google_api_key : :aws_api_key
-
-
+  @host Application.get_env(:host)
+  @host_uri URI.parse(@host)
+  @web Application.get_env(:web)
+  @web_uri URI.parse(@web)
 
   @doc """
   Given a path, returns a full URL with a signature.
-
   Options:
   * client_id: client to use for the request
   * google_api_key: if no client ID is specified, a key to use
   * signing_key: the private key used to sign the path.
-
   If no options are passed, they'll be looked up out of the GoogleMaps
   configuration in config.exs
   """
@@ -41,7 +27,7 @@ defmodule GoogleMaps do
 
     path
     |> URI.parse()
-    |> do_signed_url(opts[client_id], opts[signing_key], opts)
+    |> do_signed_url(opts[:client_id], opts[:signing_key], opts)
   end
 
   @doc """
@@ -56,10 +42,10 @@ defmodule GoogleMaps do
     parsed =
       case opts[:client_id] do
         "" ->
-          append_api_key(parsed, opts[api_key])
+          append_api_key(parsed, opts[:google_api_key])
 
         nil ->
-          append_api_key(parsed, opts[api_key])
+          append_api_key(parsed, opts[:google_api_key])
 
         client_id ->
           append_query(parsed, :client, client_id)
@@ -91,11 +77,19 @@ defmodule GoogleMaps do
   end
 
   defp default_options do
-    [
-      client_id: client_id,
-      api_key: api_key,
-      signing_key: signing_key
-    ]
+    if Application.get_env(:maps_source) == "GOOGLE" do
+      [
+        client_id: google_client_id,
+        api_key: google_api_key,
+        signing_key: google_signing_key
+      ]
+    else
+      [
+        client_id: google_client_id,
+        api_key: google_api_key,
+        signing_key: google_signing_key
+      ]
+    end
   end
 
   @doc "Given a GoogleMaps.MapData struct, returns a URL to a static map image."
@@ -121,13 +115,13 @@ defmodule GoogleMaps do
 
   defp do_signed_url(uri, "", _, opts) do
     uri
-    |> append_api_key(opts[api_key])
+    |> append_api_key(opts[:google_api_key])
     |> prepend_host
   end
 
   defp do_signed_url(uri, _, "", opts) do
     uri
-    |> append_api_key(opts[api_key])
+    |> append_api_key(opts[:google_api_key])
     |> prepend_host
   end
 
