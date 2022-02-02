@@ -32,7 +32,7 @@ defmodule SiteWeb.ControllerHelpers do
 
   def render_404(conn) do
     conn
-    |> assign(:requires_google_maps?, true)
+    |> assign(:requires_location_service?, true)
     |> put_status(:not_found)
     |> put_view(SiteWeb.ErrorView)
     |> render("404.html", [])
@@ -41,7 +41,7 @@ defmodule SiteWeb.ControllerHelpers do
 
   def render_not_found(conn) do
     conn
-    |> assign(:requires_google_maps?, true)
+    |> assign(:requires_location_service?, true)
     |> put_status(:not_found)
     |> put_layout({SiteWeb.LayoutView, "app.html"})
     |> put_view(SiteWeb.ErrorView)

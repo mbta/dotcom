@@ -209,7 +209,7 @@ defmodule SiteWeb.ScheduleController.Green do
 
   defp validate_direction(conn, _), do: conn
 
-  defp require_map(conn, _), do: assign(conn, :requires_google_maps?, true)
+  defp require_map(conn, _), do: assign(conn, :requires_location_service?, true)
 
   defp route_pdfs(%{assigns: %{date: date}} = conn, _) do
     pdfs = Site.RoutePdfs.fetch_and_choose_pdfs("Green", date)

@@ -93,7 +93,7 @@ defmodule Site.Mixfile do
       {:fares, in_umbrella: true},
       {:cms, in_umbrella: true},
       {:vehicles, in_umbrella: true},
-      {:google_maps, in_umbrella: true},
+      {:location_service, in_umbrella: true},
       {:util, in_umbrella: true},
       {:predictions, in_umbrella: true},
       {:trip_plan, in_umbrella: true},

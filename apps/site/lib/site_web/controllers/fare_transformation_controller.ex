@@ -38,7 +38,7 @@ defmodule SiteWeb.FareTransformationController do
         nearby_proposed_locations
         |> Util.Distance.sort(position)
         # There are 1178 PSLs. Since we are rendering them as hidden and showing/hiding them based on the filter,
-        # we should really narrow down how many we are passing 
+        # we should really narrow down how many we are passing
         |> Enum.slice(0, 50)
         |> Enum.map(fn loc ->
           lat_lon = {loc.latitude, loc.longitude}
@@ -70,7 +70,7 @@ defmodule SiteWeb.FareTransformationController do
     ])
     |> render(
       "proposed_sales_locations.html",
-      requires_google_maps?: true,
+      requires_location_service?: true,
       nearby_proposed_locations: nearby_proposed_locations,
       address: address,
       search_position: search_position
