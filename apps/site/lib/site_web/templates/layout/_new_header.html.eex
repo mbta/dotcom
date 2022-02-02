@@ -22,8 +22,8 @@
       </div>
 
       <button class="header-search__toggle" type="button" aria-expanded="false" aria-controls="search-header-mobile__container" aria-label="Search MBTA.com">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <i class="fa fa-close" aria-hidden="true"></i>
+        <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+        <i class="fa fa-fw fa-close" aria-hidden="true"></i>
       </button>
     </div>
   </div>

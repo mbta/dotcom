@@ -211,9 +211,6 @@
       border-radius: 4px;
       margin-left: auto;
     }
-    input {
-      @include base-font__new();
-    }
     button.c-form__submit-btn {
       background-color: unset;
       > i {
@@ -341,9 +338,6 @@ nav.m-menu, .m-menu__toggle {
     }
   }
   .header-search__toggle {
-    margin-left: 33px;
-    height: 34px;
-    width: 34px;
     @include media-breakpoint-up(sm) {
       display: none;
     }
@@ -594,7 +588,11 @@ nav.m-menu--mobile {
   }
 }
 
+// Search button in top nav
 .header-search__toggle {
+  margin-left: 1.75rem;
+  padding: 2px 8px;
+
   > i {
     width: 16px;
   }
