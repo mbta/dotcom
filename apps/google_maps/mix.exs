@@ -44,7 +44,10 @@ defmodule GoogleMaps.Mixfile do
     [
       {:stops, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:exvcr_helpers, in_umbrella: true, only: :test},
+      {:aws, "~> 0.10.1"},
+      # Hackney ~> 1.16 required with aws
+      {:hackney, "~> 1.16"}
     ]
   end
 end

@@ -44,7 +44,7 @@ defmodule V3Api.Mixfile do
     [
       {:httpoison, "~> 1.5"},
       {:poison, "~> 2.2", override: true},
-      {:hackney, "~> 1.15.1"},
+      {:hackney, "~> 1.16"},
       {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:bypass, "~> 1.0", only: :test},
       {:server_sent_event_stage, "~> 1.0"},

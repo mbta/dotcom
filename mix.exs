@@ -42,7 +42,8 @@ defmodule DotCom.Mixfile do
       {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.18", only: :dev},
       {:exvcr, "~> 0.11.0", only: [:dev, :test]},
-      {:eflame, "~> 1.0", only: :dev}
+      {:eflame, "~> 1.0", only: :dev},
+      {:jason, "~> 1.2", override: true} # for aws library to work
     ]
   end
 
