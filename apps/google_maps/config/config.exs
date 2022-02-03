@@ -6,7 +6,7 @@ config :location_service, :http_pool, :google_http_pool
 
   geocode_source: "GOOGLE" || "AWS",
   places_source: "GOOGLE" || "AWS",
-  map_data_source: System.get_env("MAPS_SOURCE", "GOOGLE"),
+  map_data_source: "GOOGLE" || "AWS",
   maps_source: "GOOGLE" || "AWS",
   host: "https://maps.googleapis.com" || "https://places.geo.us-east-1.amazonaws.com",
   web: "https://maps.googleapis.com" || "https://places.geo.us-east-1.amazonaws.com"

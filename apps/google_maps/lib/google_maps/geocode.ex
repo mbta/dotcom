@@ -106,7 +106,7 @@ defmodule GoogleMaps.Geocode do
     cache(address, fn address ->
       address
       |> geocode_url
-      |> GoogleMaps.signed_url()
+      |> Application.get_env(:geocode_source) == "GOOGLE" ? GoogleMaps.signed_url() : ""
       |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{address: address})
     end)
@@ -117,7 +117,7 @@ defmodule GoogleMaps.Geocode do
     cache(place_id, fn place_id ->
       place_id
       |> geocode_by_place_id_url()
-      |> GoogleMaps.signed_url()
+      |> Application.get_env(:geocode_source) == "GOOGLE" ? GoogleMaps.signed_url() : ""
       |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{address: place_id})
     end)
@@ -128,7 +128,7 @@ defmodule GoogleMaps.Geocode do
     cache({latitude, longitude}, fn {latitude, longitude} ->
       {latitude, longitude}
       |> reverse_geocode_url()
-      |> GoogleMaps.signed_url()
+      |> Application.get_env(:geocode_source) == "GOOGLE" ? GoogleMaps.signed_url() : ""
       |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{latitude: latitude, longitude: longitude})
     end)
