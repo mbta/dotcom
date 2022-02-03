@@ -182,7 +182,7 @@ export default function setupGlobalNavigation(): void {
         handleNativeEscapeKeyPress(e, closeAllMenus);
       });
 
-      if (header.previousElementSibling?.classList.contains("c-modal__cover"))
+      if (header.previousElementSibling?.classList.contains("m-menu--cover"))
         header.previousElementSibling.addEventListener("click", closeAllMenus);
     },
     { passive: true }

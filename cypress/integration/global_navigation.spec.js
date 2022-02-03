@@ -8,7 +8,7 @@ const viewports = [
 const searchPlaceholderText = "Search for routes, info, and more";
 
 const SELECTORS = {
-  veil: ".c-modal__cover",
+  veil: ".m-menu--cover",
   desktopMenu: ".m-menu-desktop__section",
   desktopMenuButton: ".m-menu--desktop__toggle",
   mobileMenu: ".m-menu__content",
