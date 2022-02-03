@@ -59,7 +59,7 @@ defmodule DotCom.Mixfile do
     # starts the Phoenix framework mix phx.digest command, that takes content
     # from apps/site/static and processes it into apps/site/priv/static
     print("(1/3) mix phx.digest")
-    Mix.Task.run("cmd", ["--app", "site", "mix", "phx.digest"])
+    Mix.Task.run("phx.digest", [])
 
     # builds the node script that lets us render some react components
     # server-side, compiling apps/site/assets/react_app.js,
