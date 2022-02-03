@@ -53,10 +53,7 @@ COPY --from=assets-builder /root/apps/site/priv/static ./apps/site/priv/static
 
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
-WORKDIR /root/apps/site/
 RUN mix do compile, phx.digest
-
-WORKDIR /root
 RUN mix distillery.release --verbose
 
 
