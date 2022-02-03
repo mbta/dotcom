@@ -5,7 +5,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   @behaviour Plug
   import Plug.Conn
   import Phoenix.Controller, only: [put_flash: 3]
-  alias GoogleMaps.Geocode
+  alias LocationService.Geocode
   alias Plug.Conn
   alias Routes.{Group, Repo, Route}
   alias Stops.{Nearby, Stop}
@@ -145,7 +145,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     Keyword.put(routes, :mattapan_trolley, [route])
   end
 
-  @spec address(GoogleMaps.Geocode.t()) :: String.t()
+  @spec address(LocationService.Geocode.t()) :: String.t()
   def address({:ok, [%{formatted: address} | _]}) do
     address
   end

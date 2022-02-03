@@ -1,5 +1,5 @@
 <%
-  location_service_js_url = raw GoogleMaps.unsigned_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
+  location_service_js_url = raw LocationService.unsigned_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
 %>
 <!DOCTYPE html>
 <html lang="en">

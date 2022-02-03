@@ -4,7 +4,7 @@ defmodule SiteWeb.FareTransformationController do
   """
   use SiteWeb, :controller
   alias Fares.ProposedLocations
-  alias GoogleMaps.Geocode
+  alias LocationService.Geocode
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @options %{

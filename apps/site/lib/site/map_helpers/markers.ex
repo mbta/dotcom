@@ -1,5 +1,5 @@
 defmodule Site.MapHelpers.Markers do
-  alias GoogleMaps.MapData.Marker
+  alias LocationService.MapData.Marker
   alias Stops.Stop
 
   @doc """

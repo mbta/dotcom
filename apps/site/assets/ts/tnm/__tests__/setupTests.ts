@@ -1,6 +1,6 @@
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import createGoogleMapsMock from "./helpers/stubs/googleMaps";
+import createLocationServiceMock from "./helpers/stubs/googleMaps";
 
 configure({ adapter: new Adapter() });
 
@@ -24,7 +24,7 @@ window.Turbolinks = require("turbolinks");
 document.title = "MBTA";
 
 window.google = {
-  maps: createGoogleMapsMock()
+  maps: createLocationServiceMock()
 };
 
 window.matchMedia = jest.fn().mockImplementation(query => {

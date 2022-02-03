@@ -1,6 +1,6 @@
 import hogan from "hogan.js";
 import * as AlgoliaResult from "./algolia-result";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as LocationServiceHelpers from "./google-maps-helpers";
 import * as QueryHelpers from "../ts/helpers/query";
 
 const TEMPLATES = {
@@ -145,7 +145,7 @@ export class AlgoliaResults {
   }
 
   _locationSearchByGeo(latitude, longitude) {
-    GoogleMapsHelpers.reverseGeocode(
+    LocationServiceHelpers.reverseGeocode(
       parseFloat(latitude),
       parseFloat(longitude)
     )
@@ -164,7 +164,7 @@ export class AlgoliaResults {
 
   _locationSearch(placeId) {
     return () => {
-      GoogleMapsHelpers.lookupPlace(placeId)
+      LocationServiceHelpers.lookupPlace(placeId)
         .then(result => {
           this._parent.resetSessionToken();
           this._showLocation(

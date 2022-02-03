@@ -1,5 +1,5 @@
 import Algolia from "./algolia-search";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as LocationServiceHelpers from "./google-maps-helpers";
 
 export class AlgoliaWithGeo extends Algolia {
   constructor(indices, defaultParams, bounds, hitLimit) {
@@ -29,7 +29,7 @@ export class AlgoliaWithGeo extends Algolia {
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = GoogleMapsHelpers.autocomplete({
+      googleResults = LocationServiceHelpers.autocomplete({
         input: this._lastQuery,
         hitLimit: this._hitLimit,
         sessionToken: this.sessionToken

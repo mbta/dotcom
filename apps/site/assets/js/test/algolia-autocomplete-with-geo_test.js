@@ -4,7 +4,7 @@ import { expect } from "chai";
 import AlgoliaAutocompleteWithGeo, {
   addFilterParam
 } from "../algolia-autocomplete-with-geo";
-import * as GoogleMapsHelpers from "../google-maps-helpers";
+import * as LocationServiceHelpers from "../google-maps-helpers";
 import google from "./google-stubs";
 import testConfig from "./../../ts/jest.config";
 
@@ -90,7 +90,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
   describe("_datasetSource", function() {
     it('returns a callback that calls google for "location" index', function(done) {
       this.ac.init(this.client);
-      sinon.stub(GoogleMapsHelpers, "autocomplete").resolves({
+      sinon.stub(LocationServiceHelpers, "autocomplete").resolves({
         locations: {
           hits: [
             {
@@ -104,9 +104,9 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       const result = source("location query", callback);
       Promise.resolve(result).then(() => {
         setTimeout(() => {
-          expect(GoogleMapsHelpers.autocomplete.called).to.be.true;
+          expect(LocationServiceHelpers.autocomplete.called).to.be.true;
           expect(callback.called).to.be.true;
-          GoogleMapsHelpers.autocomplete.restore();
+          LocationServiceHelpers.autocomplete.restore();
           done();
         }, this.ac.debounceInterval + 500);
       });
@@ -140,7 +140,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       };
       window.encodeURIComponent = str => str;
       sinon
-        .stub(GoogleMapsHelpers, "reverseGeocode")
+        .stub(LocationServiceHelpers, "reverseGeocode")
         .resolves("10 Park Plaza, Boston MA");
       const result = this.ac.useMyLocationSearch();
       Promise.resolve(result).then(() => {

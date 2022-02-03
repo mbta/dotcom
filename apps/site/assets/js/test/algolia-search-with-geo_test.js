@@ -2,7 +2,7 @@ import { expect, assert } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaWithGeo } from "../algolia-search-with-geo";
-import * as GoogleMapsHelpers from "../google-maps-helpers";
+import * as LocationServiceHelpers from "../google-maps-helpers";
 import testConfig from "./../../ts/jest.config";
 
 const { testURL } = testConfig;
@@ -39,7 +39,7 @@ describe("AlgoliaWithGeo", function() {
       );
       this.algoliaWithGeo.sessionToken.id = "SESSION_TOKEN";
       const gmsStub = sinon
-        .stub(GoogleMapsHelpers, "autocomplete")
+        .stub(LocationServiceHelpers, "autocomplete")
         .resolves({ locations: "loc" });
       this.algoliaWithGeo.updateWidgets = function(results) {
         assert.equal(gmsStub.getCall(0).args[0].input, "query");

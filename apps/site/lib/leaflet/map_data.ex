@@ -2,9 +2,9 @@ defmodule Leaflet.MapData do
   @moduledoc """
   Represents leaflet map data.
   """
-  alias GoogleMaps.MapData, as: GoogleMapData
-  alias GoogleMaps.MapData.Marker, as: GoogleMapsMarker
-  alias GoogleMaps.MapData.Path, as: GoogleMapsPath
+  alias LocationService.MapData, as: GoogleMapData
+  alias LocationService.MapData.Marker, as: LocationServiceMarker
+  alias LocationService.MapData.Path, as: LocationServicePath
 
   alias Leaflet.MapData.{
     Marker,
@@ -90,7 +90,7 @@ defmodule Leaflet.MapData do
       scale: 2,
       markers:
         Enum.map(markers, fn %{latitude: latitude, longitude: longitude} ->
-          %GoogleMapsMarker{
+          %LocationServiceMarker{
             longitude: longitude,
             latitude: latitude,
             visible?: false
@@ -98,7 +98,7 @@ defmodule Leaflet.MapData do
         end),
       paths:
         Enum.map(polylines, fn %{color: color, weight: weight, dotted?: dotted?} ->
-          %GoogleMapsPath{
+          %LocationServicePath{
             color: color,
             weight: weight,
             dotted?: dotted?

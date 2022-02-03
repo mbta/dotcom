@@ -3,7 +3,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   Handles Map information for the line controller
   """
 
-  alias GoogleMaps.MapData, as: GoogleMapData
+  alias LocationService.MapData, as: GoogleMapData
   alias GoogleMapData.Marker, as: GoogleMarker
   alias GoogleMapData.Path
   alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
@@ -69,7 +69,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     |> GoogleMapData.new()
     |> GoogleMapData.add_markers(markers)
     |> GoogleMapData.add_paths(paths)
-    |> GoogleMaps.static_map_url()
+    |> LocationService.static_map_url()
   end
 
   @spec build_google_stop_marker(RouteStop.t()) :: GoogleMarker.t()

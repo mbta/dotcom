@@ -1,4 +1,4 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import { doWhenLocationServiceIsReady } from "./google-maps-loaded";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
@@ -135,7 +135,7 @@ export const init = () => {
   PAGE_IDS.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
     document.addEventListener("turbolinks:load", () => {
-      doWhenGoogleMapsIsReady(
+      doWhenLocationServiceIsReady(
         () =>
           new AlgoliaEmbeddedSearch({
             pageId,

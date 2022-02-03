@@ -3,7 +3,7 @@ defmodule Site.MapHelpers do
   Map-related helper functions.
   """
 
-  alias GoogleMaps.MapData.Marker
+  alias LocationService.MapData.Marker
 
   import SiteWeb.Router.Helpers, only: [static_url: 2]
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]

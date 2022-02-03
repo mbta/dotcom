@@ -1,6 +1,6 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
-  alias GoogleMaps.Geocode
+  alias LocationService.Geocode
   alias Leaflet.{MapData, MapData.Marker}
   alias Plug.Conn
   alias Site.TransitNearMe

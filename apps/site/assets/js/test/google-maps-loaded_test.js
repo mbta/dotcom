@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import googleMapsLoaded, {
-  doWhenGoogleMapsIsReady
+  doWhenLocationServiceIsReady
 } from "../google-maps-loaded";
 import testConfig from "./../../ts/jest.config";
 
@@ -17,7 +17,7 @@ describe("google-map-loaded", () => {
   it("does not execute any callbacks if isMapReady never gets set to true", done => {
     window.isMapReady = false;
     let callbackCalled = false;
-    doWhenGoogleMapsIsReady(() => {
+    doWhenLocationServiceIsReady(() => {
       callbackCalled = true;
     });
 
@@ -32,7 +32,7 @@ describe("google-map-loaded", () => {
   // this case models the scenario where Google maps loads before app.js
   it("executes the callback when isMapReady was already set to true", done => {
     window.isMapReady = true;
-    doWhenGoogleMapsIsReady(() => {
+    doWhenLocationServiceIsReady(() => {
       done();
     });
   });
@@ -41,7 +41,7 @@ describe("google-map-loaded", () => {
   it("executes the callback after this module sets isMapReady to true", done => {
     window.isMapReady = false;
     let callbackCalled = false;
-    doWhenGoogleMapsIsReady(() => {
+    doWhenLocationServiceIsReady(() => {
       done();
     });
     window.mapsCallback();

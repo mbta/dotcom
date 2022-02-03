@@ -1,7 +1,7 @@
 defmodule SiteWeb.TransitNearMeControllerTest do
   use SiteWeb.ConnCase
 
-  alias GoogleMaps.{Geocode.Address}
+  alias LocationService.{Geocode.Address}
   alias Leaflet.{MapData, MapData.Marker}
   alias Site.TransitNearMe
   alias SiteWeb.TransitNearMeController, as: TNMController

@@ -1,12 +1,12 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import { doWhenLocationServiceIsReady } from "./google-maps-loaded";
+import * as LocationServiceHelpers from "./google-maps-helpers";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => {
+    doWhenLocationServiceIsReady(() => {
       new TripPlannerLocControls();
     });
   });
@@ -296,7 +296,7 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.place_id)
+          LocationServiceHelpers.lookupPlace(hit.place_id)
             .then(res => {
               ac.resetSessionToken();
 

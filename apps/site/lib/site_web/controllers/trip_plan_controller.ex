@@ -5,7 +5,7 @@ defmodule SiteWeb.TripPlanController do
 
   use SiteWeb, :controller
   alias Fares.{Fare, Month, OneWay}
-  alias GoogleMaps.Geocode
+  alias LocationService.Geocode
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap

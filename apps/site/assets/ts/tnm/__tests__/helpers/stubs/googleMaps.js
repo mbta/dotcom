@@ -1,5 +1,5 @@
 // From https://www.npmjs.com/package/@wapps/jest-google-maps-mock
-// At https://github.com/hupe1980/wapps-components/blob/master/packages/jest-google-maps-mock/src/createGoogleMapsMock.js
+// At https://github.com/hupe1980/wapps-components/blob/master/packages/jest-google-maps-mock/src/createLocationServiceMock.js
 // Included in our repo so it's easier to add our own requirements onto it
 
 /* eslint-disable */
@@ -9,7 +9,7 @@ const createMockFuncsFromArray = (instance, names = []) => {
   });
 };
 
-const createGoogleMapsMock = (libraries = []) => {
+const createLocationServiceMock = (libraries = []) => {
   const createMVCObject = instance => {
     const listeners = {};
     instance.listeners = listeners;
@@ -361,4 +361,4 @@ const createGoogleMapsMock = (libraries = []) => {
   return maps;
 };
 
-export default createGoogleMapsMock;
+export default createLocationServiceMock;

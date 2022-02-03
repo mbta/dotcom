@@ -1,4 +1,4 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import { doWhenLocationServiceIsReady } from "./google-maps-loaded";
 import { AlgoliaWithGeo } from "./algolia-search-with-geo";
 import { AlgoliaFacets } from "./algolia-facets";
 import { AlgoliaResults } from "./algolia-results";
@@ -9,7 +9,7 @@ export function init() {
   document.addEventListener(
     "turbolinks:load",
     () => {
-      doWhenGoogleMapsIsReady(() => {
+      doWhenLocationServiceIsReady(() => {
         search.init();
       });
     },

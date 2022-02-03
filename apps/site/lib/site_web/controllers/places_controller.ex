@@ -3,7 +3,7 @@ defmodule SiteWeb.PlacesController do
   Routes for requesting data from Google Maps.
   """
   use SiteWeb, :controller
-  alias GoogleMaps.{Geocode, Place, Place.AutocompleteQuery}
+  alias LocationService.{Geocode, Place, Place.AutocompleteQuery}
   alias Plug.Conn
   alias SiteWeb.ControllerHelpers
 

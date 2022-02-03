@@ -4,7 +4,7 @@ defmodule SiteWeb.FareController do
   """
   use SiteWeb, :controller
   alias Fares.RetailLocations
-  alias GoogleMaps.Geocode
+  alias LocationService.Geocode
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   plug(:meta_description)

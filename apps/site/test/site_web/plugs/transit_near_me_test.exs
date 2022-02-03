@@ -3,7 +3,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
   import SiteWeb.Plugs.TransitNearMe
 
-  alias GoogleMaps.Geocode
+  alias LocationService.Geocode
   alias Routes.{Repo, Route}
   alias SiteWeb.Plugs.TransitNearMe.Options
   alias Stops.Stop

@@ -1,6 +1,6 @@
 defmodule SiteWeb.PlacesControllerTest do
   use SiteWeb.ConnCase
-  alias GoogleMaps.Place.AutocompleteQuery
+  alias LocationService.Place.AutocompleteQuery
   alias Plug.Conn
 
   @prediction_results Poison.encode!([

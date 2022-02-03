@@ -1,7 +1,7 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import { doWhenLocationServiceIsReady } from "./google-maps-loaded";
 
 export default function() {
-  doWhenGoogleMapsIsReady(() => {
+  doWhenLocationServiceIsReady(() => {
     document.addEventListener("turbolinks:load", setupAutocomplete, {
       passive: true
     });

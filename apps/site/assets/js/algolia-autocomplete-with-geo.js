@@ -1,5 +1,5 @@
 import AlgoliaAutocomplete from "./algolia-autocomplete";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as LocationServiceHelpers from "./google-maps-helpers";
 // eslint-disable-next-line
 import * as QueryHelpers from "../ts/helpers/query";
 import geolocationPromise from "./geolocation-promise";
@@ -102,7 +102,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
 
   _locationSource(index) {
     return (input, callback) =>
-      GoogleMapsHelpers.autocomplete({
+      LocationServiceHelpers.autocomplete({
         input,
         sessionToken: this.sessionToken,
         hitLimit: this._locationParams.hitLimit
@@ -182,7 +182,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _doLocationSearch(placeId) {
-    return GoogleMapsHelpers.lookupPlace(placeId).then(result =>
+    return LocationServiceHelpers.lookupPlace(placeId).then(result =>
       this._onLocationSearchResult(result)
     );
   }
@@ -193,7 +193,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   onUseMyLocationResults({ coords: { latitude, longitude } }) {
-    return GoogleMapsHelpers.reverseGeocode(
+    return LocationServiceHelpers.reverseGeocode(
       parseFloat(latitude),
       parseFloat(longitude)
     ).then(result => this.onReverseGeocodeResults(result, latitude, longitude));

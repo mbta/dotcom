@@ -2,7 +2,7 @@ defmodule SiteWeb.StopController.StopMap do
   @moduledoc """
   Module for building map info for Google Maps on stop pages
   """
-  alias GoogleMaps.ViewHelpers
+  alias LocationService.ViewHelpers
   alias Leaflet.{MapData, MapData.Marker}
   alias Stops.Stop
 
@@ -37,7 +37,7 @@ defmodule SiteWeb.StopController.StopMap do
   @spec map_srcset(Stop.t(), grouped_routes_map) :: String.t()
   defp map_srcset(stop, routes) do
     @srcset_sizes
-    |> GoogleMaps.scale()
+    |> LocationService.scale()
     |> Enum.map(&do_map_srcset(&1, stop, routes))
     |> Picture.srcset()
   end
@@ -54,7 +54,7 @@ defmodule SiteWeb.StopController.StopMap do
   defp map_url(map_data) do
     map_data
     |> MapData.to_google_map_data()
-    |> GoogleMaps.static_map_url()
+    |> LocationService.static_map_url()
   end
 
   @spec build_map_data(Stop.t(), grouped_routes_map, integer, integer) :: MapData.t()

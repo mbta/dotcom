@@ -1,6 +1,6 @@
 defmodule SiteWeb.TransitNearMeView do
   use SiteWeb, :view
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Geocode.Address
   alias Phoenix.HTML
   alias Site.React
 

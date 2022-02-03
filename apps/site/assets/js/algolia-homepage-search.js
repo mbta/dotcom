@@ -1,4 +1,4 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
+import { doWhenLocationServiceIsReady } from "./google-maps-loaded";
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
 // eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
@@ -95,7 +95,7 @@ export const doInit = id => {
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => {
+    doWhenLocationServiceIsReady(() => {
       [
         "search-homepage",
         "search-header-desktop",

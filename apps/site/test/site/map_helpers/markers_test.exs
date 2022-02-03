@@ -1,6 +1,6 @@
 defmodule Site.MapHelpers.MarkersTest do
   use ExUnit.Case, async: true
-  alias GoogleMaps.MapData.Marker
+  alias LocationService.MapData.Marker
   alias Site.MapHelpers.Markers
 
   @stop %Stops.Stop{
