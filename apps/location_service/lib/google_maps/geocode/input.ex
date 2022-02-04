@@ -1,4 +1,4 @@
-defmodule LocationService.Geocode.Input do
+defmodule GoogleMaps.Geocode.Input do
   @type t :: %__MODULE__{
           address: String.t() | nil,
           latitude: float | nil,

@@ -1,4 +1,4 @@
-defmodule LocationService.Place.Prediction do
+defmodule GoogleMaps.Place.Prediction do
   @moduledoc """
   Prediction result from a Place lookup.
   """

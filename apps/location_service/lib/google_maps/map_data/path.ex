@@ -1,4 +1,4 @@
-defmodule LocationService.MapData.Path do
+defmodule GoogleMaps.MapData.Path do
   @moduledoc """
   Represents a google map polyline path
   """

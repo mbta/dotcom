@@ -1,11 +1,11 @@
-defmodule LocationService.Geocode do
+defmodule GoogleMaps.Geocode do
   @moduledoc """
   Perform geocoding-related lookups against the Google Maps API.
   """
   use RepoCache, ttl: :timer.hours(24)
 
-  alias LocationService.Geocode.Address
-  alias LocationService.Geocode.Input
+  alias GoogleMaps.Geocode.Address
+  alias GoogleMaps.Geocode.Input
   require Logger
 
   @type t :: {:ok, nonempty_list(Address.t())} | {:error, :zero_results | :internal_error}
@@ -45,12 +45,12 @@ defmodule LocationService.Geocode do
 
   @spec calculate_position(
           map(),
-          (String.t() -> LocationService.Geocode.Address.t())
-        ) :: {LocationService.Geocode.Address.t(), String.t()}
+          (String.t() -> GoogleMaps.Geocode.Address.t())
+        ) :: {GoogleMaps.Geocode.Address.t(), String.t()}
   def calculate_position(%{"latitude" => lat_str, "longitude" => lng_str} = params, geocode_fn) do
     case {Float.parse(lat_str), Float.parse(lng_str)} do
       {{lat, ""}, {lng, ""}} ->
-        addr = %LocationService.Geocode.Address{
+        addr = %GoogleMaps.Geocode.Address{
           latitude: lat,
           longitude: lng,
           formatted: lat_str <> "," <> lng_str
@@ -106,7 +106,7 @@ defmodule LocationService.Geocode do
     cache(address, fn address ->
       address
       |> geocode_url
-      |> Application.get_env(:geocode_source) == "GOOGLE" ? LocationService.signed_url() : ""
+      |> Application.get_env(:geocode_source) == "GOOGLE" ? GoogleMaps.signed_url() : ""
       |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{address: address})
     end)
@@ -117,7 +117,7 @@ defmodule LocationService.Geocode do
     cache(place_id, fn place_id ->
       place_id
       |> geocode_by_place_id_url()
-      |> Application.get_env(:geocode_source) == "GOOGLE" ? LocationService.signed_url() : ""
+      |> Application.get_env(:geocode_source) == "GOOGLE" ? GoogleMaps.signed_url() : ""
       |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{address: place_id})
     end)
@@ -128,7 +128,7 @@ defmodule LocationService.Geocode do
     cache({latitude, longitude}, fn {latitude, longitude} ->
       {latitude, longitude}
       |> reverse_geocode_url()
-      |> Application.get_env(:geocode_source) == "GOOGLE" ? LocationService.signed_url() : ""
+      |> Application.get_env(:geocode_source) == "GOOGLE" ? GoogleMaps.signed_url() : ""
       |> HTTPoison.get([], hackney: [pool: @http_pool])
       |> parse_google_response(%Input{latitude: latitude, longitude: longitude})
     end)

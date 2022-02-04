@@ -1,4 +1,4 @@
-defmodule LocationService.Geocode.Address do
+defmodule GoogleMaps.Geocode.Address do
   @moduledoc """
   An address provided by a Google Maps Geocode lookup.
   """

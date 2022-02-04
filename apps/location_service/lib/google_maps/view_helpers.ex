@@ -1,4 +1,4 @@
-defmodule LocationService.ViewHelpers do
+defmodule GoogleMaps.ViewHelpers do
   @moduledoc """
   Helpers for the Google Maps API.
   """

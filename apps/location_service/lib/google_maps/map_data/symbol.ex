@@ -1,4 +1,4 @@
-defmodule LocationService.MapData.Symbol do
+defmodule GoogleMaps.MapData.Symbol do
   @moduledoc """
   Represents the Symbol version of a marker icon.
   Javascript parses the data into the correct format for the Google API.
@@ -6,7 +6,7 @@ defmodule LocationService.MapData.Symbol do
   https://developers.google.com/maps/documentation/javascript/reference/marker#Symbol
   """
 
-  alias LocationService.MapData.Point
+  alias GoogleMaps.MapData.Point
 
   defstruct [
     :anchor,

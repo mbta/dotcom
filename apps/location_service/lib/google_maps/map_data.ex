@@ -1,7 +1,7 @@
-defmodule LocationService.MapData do
-  alias LocationService.MapData.Path
-  alias LocationService.MapData.Marker
-  alias LocationService.MapData.Layers
+defmodule GoogleMaps.MapData do
+  alias GoogleMaps.MapData.Path
+  alias GoogleMaps.MapData.Marker
+  alias GoogleMaps.MapData.Layers
 
   defmodule Point do
     defstruct x: 0, y: 0

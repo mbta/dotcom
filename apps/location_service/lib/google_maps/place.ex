@@ -1,10 +1,10 @@
-defmodule LocationService.Place do
+defmodule GoogleMaps.Place do
   @moduledoc """
   Perform place-related lookups against the Google Maps API.
   """
   require Logger
   use RepoCache, ttl: :timer.hours(24)
-  alias LocationService.Place.{AutocompleteQuery, Prediction}
+  alias GoogleMaps.Place.{AutocompleteQuery, Prediction}
 
   @type t ::
           {:ok, nonempty_list(Prediction.t()) | map} | {:error, :zero_results | :internal_error}

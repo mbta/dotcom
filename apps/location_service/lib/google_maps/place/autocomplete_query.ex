@@ -1,4 +1,4 @@
-defmodule LocationService.Place.AutocompleteQuery do
+defmodule GoogleMaps.Place.AutocompleteQuery do
   @moduledoc """
   Query definition for Place lookups.
   """

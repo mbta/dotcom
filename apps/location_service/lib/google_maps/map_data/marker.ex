@@ -1,11 +1,11 @@
-defmodule LocationService.MapData.Marker do
+defmodule GoogleMaps.MapData.Marker do
   @moduledoc """
   Represents a google map marker. Markers with `visible?` as
   false will not be shown on the map, but will still be used in
   centering the map.
   """
 
-  alias LocationService.MapData.Symbol
+  alias GoogleMaps.MapData.Symbol
 
   defmodule Label do
     @type t :: %__MODULE__{
