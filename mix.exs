@@ -42,7 +42,10 @@ defmodule DotCom.Mixfile do
       {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.18", only: :dev},
       {:exvcr, "~> 0.11.0", only: [:dev, :test]},
-      {:eflame, "~> 1.0", only: :dev}
+      {:eflame, "~> 1.0", only: :dev},
+      # Can replace with release after 2.2.10
+      {:ex_aws,
+       github: "ex-aws/ex_aws", ref: "08cbbd2aef4ebf52796e48761d1351b5c87c4c5e", override: true}
     ]
   end
 
