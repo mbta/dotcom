@@ -75,7 +75,7 @@ nav.m-menu--desktop {
     outline: none;
     padding: 0 $base-spacing__new;
     text-decoration: none;
-    width: 70px; // arbitrary, but would be too wide otherwise
+    width: 5em; // arbitrary, but would be too wide otherwise
 
     &:hover {
       color: $brand-primary-light;

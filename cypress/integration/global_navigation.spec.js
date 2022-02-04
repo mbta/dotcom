@@ -162,4 +162,11 @@ describe("Navigation redesign", () => {
       }
     })
   });
+
+  it("translates languages", () => {
+    cy.viewport("macbook-16");
+    cy.get(".m-homepage__shortcuts").should("contain.text", "SubwayLines");
+    cy.get(".custom-language-selector").first().select("Polish");
+    cy.get(".m-homepage__shortcuts").should("contain.text", "Linie metra");
+  });
 });

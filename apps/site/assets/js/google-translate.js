@@ -108,6 +108,12 @@ const render = () => {
     document
       .querySelectorAll(".m-menu__language")
       .forEach(el => (el.innerHTML = renderCustomSelect()));
+
+    // handle keyboard events on links
+    [...document.querySelectorAll(".custom-language-selector")].forEach(
+      linkEl => {
+        linkEl.addEventListener("keyup", triggerClick("language-menu-toggle"));
+      });
   } else {
     // render desktop
     document.getElementById(
@@ -228,6 +234,18 @@ const registerLinkEvents = () => {
       linkEl.addEventListener("keyup", triggerClick());
     }
   );
+  // new selector
+  [...document.querySelectorAll(".custom-language-selector")].forEach(
+    linkEl => {
+      linkEl.addEventListener(
+        "change",
+        event => {
+          setTranslation(translateEl, event.target.selectedOptions[0].getAttribute("data-lang"));
+          render();
+        },
+        false
+      );
+    });
 };
 
 const triggerClick = target => event => {
