@@ -82,9 +82,9 @@ defmodule GoogleMaps do
 
   defp default_options do
     [
-      client_id: get_env(:client_id),
+      client_id: get_env(:google_client_id),
       google_api_key: get_env(:google_api_key),
-      signing_key: get_env(:signing_key)
+      signing_key: get_env(:google_signing_key)
     ]
   end
 
