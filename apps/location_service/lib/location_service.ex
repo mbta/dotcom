@@ -77,19 +77,11 @@ defmodule LocationService do
   end
 
   defp default_options do
-    if Application.get_env(:maps_source) == "GOOGLE" do
-      [
-        client_id: google_client_id,
-        api_key: google_api_key,
-        signing_key: google_signing_key
-      ]
-    else
-      [
-        client_id: google_client_id,
-        api_key: google_api_key,
-        signing_key: google_signing_key
-      ]
-    end
+    [
+      client_id: google_client_id,
+      api_key: google_api_key,
+      signing_key: google_signing_key
+    ]
   end
 
   @doc "Given a LocationService.MapData struct, returns a URL to a static map image."
@@ -103,7 +95,7 @@ defmodule LocationService do
   end
 
   defp get_env(key) do
-    case Application.get_env(:location_service, key) do
+    case Application.get_env(:google_maps, key) do
       "${" <> _ ->
         # relx configuration that wasn't overriden; ignore
         ""

@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :location_service, :http_pool, :google_http_pool,
+config :google_maps, :http_pool, :google_http_pool,
 
   # sources can be switched to AWS and host/web set to "https://places.geo.us-east-1.amazonaws.com"
   geocode_source: "GOOGLE",

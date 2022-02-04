@@ -1,6 +1,8 @@
 defmodule LocationService.Application do
   use Application
 
+  # TODO: setup children and supervisors as needed for AWS Location
+
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
