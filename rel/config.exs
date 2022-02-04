@@ -37,7 +37,7 @@ release :site do
       cms: :permanent,
       fares: :permanent,
       feedback: :permanent,
-      google_maps: :permanent,
+      location_service: :permanent,
       holiday: :permanent,
       json_api: :permanent,
       predictions: :permanent,

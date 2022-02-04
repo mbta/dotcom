@@ -51,7 +51,7 @@ defmodule SiteWeb.FareController do
     ])
     |> render(
       "retail_sales_locations.html",
-      requires_google_maps?: true,
+      requires_location_service?: true,
       fare_sales_locations: retail_locations,
       address: address,
       search_position: position

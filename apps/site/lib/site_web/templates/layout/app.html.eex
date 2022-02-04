@@ -1,5 +1,5 @@
 <%
-  google_maps_js_url = raw GoogleMaps.unsigned_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
+  location_service_js_url = raw GoogleMaps.unsigned_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,11 +40,11 @@
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
 
-    <%= if assigns[:requires_google_maps?] do %>
+    <%= if assigns[:requires_location_service?] do %>
       <script type="application/javascript">if (!window.mapsCallback) { window.mapsCallback = function () { window.isMapReady = true; } }</script>
-      <script async src="<%= google_maps_js_url %>"></script>
+      <script async src="<%= location_service_js_url %>"></script>
     <% else %>
-      <link rel="prefetch" href="<%= google_maps_js_url %>" as="script">
+      <link rel="prefetch" href="<%= location_service_js_url %>" as="script">
     <% end %>
   </head>
   <%= Site.BodyTag.render(@conn) %>
