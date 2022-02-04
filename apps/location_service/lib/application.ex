@@ -8,13 +8,13 @@ defmodule LocationService.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      LocationService.Geocode,
-      LocationService.Place
+      GoogleMaps.Geocode,
+      GoogleMaps.Place
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: LocationService.Supervisor]
+    opts = [strategy: :one_for_one, name: GoogleMaps.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end

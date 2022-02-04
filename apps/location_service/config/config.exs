@@ -4,12 +4,13 @@ use Mix.Config
 
 config :location_service, :http_pool, :google_http_pool,
 
-  geocode_source: "GOOGLE" || "AWS",
-  places_source: "GOOGLE" || "AWS",
-  map_data_source: "GOOGLE" || "AWS",
-  maps_source: "GOOGLE" || "AWS",
-  host: "https://maps.googleapis.com" || "https://places.geo.us-east-1.amazonaws.com",
-  web: "https://maps.googleapis.com" || "https://places.geo.us-east-1.amazonaws.com"
+  # sources can be switched to AWS and host/web set to "https://places.geo.us-east-1.amazonaws.com"
+  geocode_source: "GOOGLE",
+  places_source: "GOOGLE",
+  map_data_source: "GOOGLE",
+  maps_source: "GOOGLE",
+  host: "https://maps.googleapis.com",
+  web: "https://maps.googleapis.com"
 
 
 if Mix.env() == :prod do

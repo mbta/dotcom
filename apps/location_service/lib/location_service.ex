@@ -3,7 +3,7 @@ defmodule LocationService do
   Helper functions for working with the Google Maps API.
   """
   alias Util.Position
-  alias LocationService.MapData
+  alias GoogleMaps.MapData
 
   @host Application.get_env(:host)
   @host_uri URI.parse(@host)
