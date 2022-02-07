@@ -43,7 +43,7 @@ defmodule SiteWeb.StopController do
     |> async_assign_default(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end, [])
     |> async_assign_default(:route_hubs, fn -> HubStops.route_hubs(stop_info) end, [])
     |> assign(:stop_info, stop_info)
-    |> assign(:requires_google_maps?, true)
+    |> assign(:requires_location_service?, true)
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])

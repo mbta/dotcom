@@ -17,7 +17,7 @@ defmodule GoogleMaps.Geocode do
     south: -69.6189
   }
 
-  @http_pool Application.get_env(:google_maps, :http_pool)
+  @http_pool Application.get_env(:location_service, :http_pool)
   @path "/maps/api/geocode/json"
 
   # Visits to the "Transit Near Me" page from Algolia search results already have lat/lng geocoding, but use

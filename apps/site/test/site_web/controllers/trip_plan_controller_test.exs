@@ -153,7 +153,7 @@ defmodule SiteWeb.TripPlanControllerTest do
     test "renders index.html", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index))
       assert html_response(conn, 200) =~ "Trip Planner"
-      assert conn.assigns.requires_google_maps?
+      assert conn.assigns.requires_location_service?
     end
 
     test "assigns initial map data", %{conn: conn} do
@@ -202,7 +202,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       conn = get(conn, trip_plan_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
-      assert conn.assigns.requires_google_maps?
+      assert conn.assigns.requires_location_service?
       assert %Query{} = conn.assigns.query
     end
 
@@ -337,7 +337,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
       assert response =~ "Did you mean?"
-      assert conn.assigns.requires_google_maps?
+      assert conn.assigns.requires_location_service?
       assert %Query{} = conn.assigns.query
     end
 

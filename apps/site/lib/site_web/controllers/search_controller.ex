@@ -139,7 +139,7 @@ defmodule SiteWeb.SearchController do
     %{stop: stop_ids, route: route_ids} = get_alert_ids(conn.assigns.date_time)
 
     conn
-    |> assign(:requires_google_maps?, true)
+    |> assign(:requires_location_service?, true)
     |> assign(:stops_with_alerts, stop_ids)
     |> assign(:routes_with_alerts, route_ids)
   end

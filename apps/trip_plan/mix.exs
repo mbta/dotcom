@@ -44,7 +44,7 @@ defmodule TripPlan.Mixfile do
       {:routes, in_umbrella: true},
       {:schedules, in_umbrella: true},
       {:poison, "~> 2.2", override: true},
-      {:google_maps, in_umbrella: true},
+      {:location_service, in_umbrella: true},
       {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},

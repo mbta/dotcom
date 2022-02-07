@@ -211,11 +211,11 @@ defmodule SiteWeb.PlacesControllerTest do
       |> put_req_header("accept", "application/json")
 
     bypass = Bypass.open()
-    old_domain = Application.get_env(:google_maps, :domain)
-    Application.put_env(:google_maps, :domain, "http://localhost:#{bypass.port}")
+    old_domain = Application.get_env(:location_service, :domain)
+    Application.put_env(:location_service, :domain, "http://localhost:#{bypass.port}")
 
     on_exit(fn ->
-      Application.put_env(:google_maps, :domain, old_domain)
+      Application.put_env(:location_service, :domain, old_domain)
     end)
 
     {:ok, conn: conn, bypass: bypass}

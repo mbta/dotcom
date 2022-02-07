@@ -8,7 +8,7 @@ defmodule SiteWeb.ModeController do
 
   plug(SiteWeb.Plugs.RecentlyVisited)
   plug(SiteWeb.Plug.Mticket)
-  plug(:require_google_maps)
+  plug(:require_location_service)
 
   defdelegate subway(conn, params), to: Mode.SubwayController, as: :index
   defdelegate bus(conn, params), to: Mode.BusController, as: :index
@@ -42,8 +42,8 @@ defmodule SiteWeb.ModeController do
     Map.update!(pred_or_sched, :route, fn route -> Route.to_json_safe(route) end)
   end
 
-  defp require_google_maps(conn, _) do
-    assign(conn, :requires_google_maps?, true)
+  defp require_location_service(conn, _) do
+    assign(conn, :requires_location_service?, true)
   end
 
   @spec guides :: [Teaser.t()]

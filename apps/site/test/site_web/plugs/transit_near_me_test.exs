@@ -156,7 +156,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
         |> get("/")
         |> call(init([]))
 
-      assert conn.assigns.requires_google_maps?
+      assert conn.assigns.requires_location_service?
     end
   end
 
@@ -256,21 +256,21 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
   describe "assign_address/2" do
     test "it assigns address when there are no errors", %{conn: conn} do
-      google_maps_result = {:ok, [%{formatted: "10 park plaza"}]}
+      location_service_result = {:ok, [%{formatted: "10 park plaza"}]}
 
       conn =
         conn
-        |> assign_address(google_maps_result)
+        |> assign_address(location_service_result)
 
       assert conn.assigns.tnm_address == "10 park plaza"
     end
 
     test "when geocoding fails, it tells the user they had a bad address", %{conn: conn} do
-      google_maps_result = {:error, :zero_results}
+      location_service_result = {:error, :zero_results}
 
       conn =
         conn
-        |> assign_address(google_maps_result)
+        |> assign_address(location_service_result)
 
       assert conn.assigns.tnm_address == ""
 
