@@ -6,6 +6,7 @@
 // - reset scroll on menu content when menu is opened
 // - menu can be closed by pressing esc key or veil-click
 
+import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { handleNativeEscapeKeyPress } from "../helpers/keyboard-events";
 
 function undoOutline(this: HTMLElement): void {
@@ -109,12 +110,15 @@ export default function setupGlobalNavigation(): void {
         // .menu-open or .search-open on the header
         if (aMenuIsExpanded) {
           document.documentElement.classList.add("menu-open");
+          disableBodyScroll(header);
           if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
             header.classList.add("menu-open");
+            disableBodyScroll(document.querySelector(".m-menu__content")!);
           } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
             header.classList.add("search-open");
           }
         } else {
+          clearAllBodyScrollLocks();
           document.documentElement.classList.remove("menu-open");
           if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
             header.classList.remove("menu-open");
