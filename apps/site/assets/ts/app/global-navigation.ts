@@ -188,6 +188,11 @@ export default function setupGlobalNavigation(): void {
 
       if (header.previousElementSibling?.classList.contains("m-menu--cover"))
         header.previousElementSibling.addEventListener("click", closeAllMenus);
+
+      // Focusout on search input closes expanded search bar
+      document
+        .querySelector(".m-menu__search input")
+        ?.addEventListener("focusout", closeAllMenus);
     },
     { passive: true }
   );
