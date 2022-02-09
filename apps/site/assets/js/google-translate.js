@@ -113,7 +113,8 @@ const render = () => {
     [...document.querySelectorAll(".custom-language-selector")].forEach(
       linkEl => {
         linkEl.addEventListener("keyup", triggerClick("language-menu-toggle"));
-      });
+      }
+    );
   } else {
     // render desktop
     document.getElementById(
@@ -240,12 +241,16 @@ const registerLinkEvents = () => {
       linkEl.addEventListener(
         "change",
         event => {
-          setTranslation(translateEl, event.target.selectedOptions[0].getAttribute("data-lang"));
+          setTranslation(
+            translateEl,
+            event.target.selectedOptions[0].getAttribute("data-lang")
+          );
           render();
         },
         false
       );
-    });
+    }
+  );
 };
 
 const triggerClick = target => event => {
