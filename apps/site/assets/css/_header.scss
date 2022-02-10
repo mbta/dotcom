@@ -414,6 +414,7 @@ nav.m-menu--mobile {
   box-shadow: 0px 7px 14px 0px $gray-shadow;
   width: 0px;
   background-color: $brand-primary;
+  padding-bottom: calc(200px - $base-spacing);
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
