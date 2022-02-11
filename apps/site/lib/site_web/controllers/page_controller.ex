@@ -13,7 +13,6 @@ defmodule SiteWeb.PageController do
     WhatsHappeningItem
   }
 
-  plug(SiteWeb.Plugs.TransitNearMe)
   plug(SiteWeb.Plugs.RecentlyVisited)
 
   @type content :: Banner.t() | Teaser.t() | WhatsHappeningItem.t()
