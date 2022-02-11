@@ -16,3 +16,10 @@ else
     google_client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
     google_signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || ""
 end
+
+config :location_service, :api,
+  # TODO use env var
+  geocode: :aws,
+  reverse_geocode: :google,
+  place: :google,
+  maps: :google
