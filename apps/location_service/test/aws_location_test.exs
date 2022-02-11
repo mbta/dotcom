@@ -1,58 +1,69 @@
-defmodule AWSLocationTest do
+defmodule LocationService.AWSTest do
   use ExUnit.Case, async: true
 
-  @base_operation %ExAws.Operation.RestQuery{
-    http_method: :post,
-    body: %{
-      # copied from GoogleMaps.Geocode @bounds, should import later
-      FilterBBox: [-71.9380, 41.3193, -69.6189, 42.8266]
-    },
-    service: :places
-  }
+  import LocationService.AWS
+  import Mock
 
-  defp create_operation(:Text, text) do
-    @base_operation
-    |> Map.put(:path, "/places/v0/indexes/dotcom-dev-here/search/text")
-    |> Map.update(:body, %{}, &Map.put_new(&1, :Text, text))
-  end
+  alias LocationService.AWS.Request
 
-  defp create_operation(:Position, coords) do
-    @base_operation
-    |> Map.put(:path, "/places/v0/indexes/dotcom-dev-here/search/position")
-    |> Map.update(:body, %{}, fn body ->
-      Map.put_new(body, :Position, coords)
-    end)
-  end
+  describe "geocode/1" do
+    test "can parse a response with results" do
+      {:ok, body_string} =
+        %{
+          "Results" => [
+            %{
+              "Place" => %{
+                "Label" => "Somewhere",
+                "Geometry" => %{"Point" => [-71.05566, 42.35913]}
+              }
+            }
+          ]
+        }
+        |> Jason.encode()
 
-  describe "Using AWS Location" do
-    test "searches place names to get points (geocodes)" do
-      {:ok, %{status_code: 200, body: body}} =
-        create_operation(:Text, "Quincy m") |> ExAws.request()
+      with_mock Request, [],
+        new: fn _ ->
+          {:ok, %{status_code: 200, body: body_string}}
+        end do
+        assert {:ok, body} = geocode("testing")
 
-      {:ok, %{"Results" => [result | _]}} = Jason.decode(body)
-      %{"Place" => %{"Label" => label} = result_map} = result
-      assert %{"Geometry" => %{"Point" => [lon, lat]}} = result_map
-      assert String.contains?(label, "Quincy Market")
+        assert [
+                 %LocationService.Address{
+                   formatted: "Somewhere",
+                   longitude: -71.05566,
+                   latitude: 42.35913
+                 }
+               ] = body
+      end
     end
 
-    test "searches addresses to get points (geocodes)" do
-      {:ok, %{status_code: 200, body: body}} =
-        create_operation(:Text, "4 Merchants Row") |> ExAws.request()
+    test "can parse a response with no results" do
+      {:ok, no_results} = Jason.encode(%{"Results" => []})
 
-      {:ok, %{"Results" => [result | _]}} = Jason.decode(body)
-      %{"Place" => %{"Label" => label} = result_map} = result
-      assert %{"Geometry" => %{"Point" => [lon, lat]}} = result_map
-      assert String.contains?(label, "4 Merchants Row")
+      with_mock Request, [],
+        new: fn _ ->
+          {:ok, %{status_code: 200, body: no_results}}
+        end do
+        assert {:error, :zero_results} = geocode("test")
+      end
     end
 
-    test "searches coordinates to get a place (reverse geocodes)" do
-      {:ok, %{status_code: 200, body: body}} =
-        create_operation(:Position, [-71.05566, 42.35913]) |> ExAws.request()
+    test "can parse a response with no body" do
+      with_mock Request, [],
+        new: fn _ ->
+          {:ok, %{status_code: 412}}
+        end do
+        assert {:error, :zero_results} = geocode("test")
+      end
+    end
 
-      {:ok, %{"Results" => [result | _]}} = Jason.decode(body)
-      %{"Place" => %{"Label" => label} = result_map} = result
-      assert %{"Geometry" => %{"Point" => [-71.05566, 42.35913]}} = result_map
-      assert String.contains?(label, "Quincy Market")
+    test "can parse a response with error" do
+      with_mock Request, [],
+        new: fn _ ->
+          {:error, {:http_error, 500, "bad news"}}
+        end do
+        assert {:error, :internal_error} = geocode("test")
+      end
     end
   end
 end
