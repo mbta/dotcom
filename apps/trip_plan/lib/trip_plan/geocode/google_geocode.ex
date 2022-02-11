@@ -17,7 +17,7 @@ defmodule TripPlan.Geocode.GoogleGeocode do
     end
   end
 
-  defp address_to_result(%GoogleMaps.Geocode.Address{} = address) do
+  defp address_to_result(%LocationService.Address{} = address) do
     %NamedPosition{
       name: address.formatted,
       latitude: address.latitude,

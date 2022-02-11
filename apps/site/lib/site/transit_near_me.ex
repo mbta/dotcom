@@ -5,7 +5,7 @@ defmodule Site.TransitNearMe do
 
   require Logger
 
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
   alias PredictedSchedule.Display
   alias Predictions.Prediction
   alias Routes.Route

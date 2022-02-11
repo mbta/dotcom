@@ -39,7 +39,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     location =
       {:ok,
        [
-         %Geocode.Address{
+         %LocationService.Address{
            latitude: String.to_float(latitude),
            longitude: String.to_float(longitude),
            formatted: Geocode.formatted_address(conn.params, options)
