@@ -4,7 +4,7 @@ defmodule GoogleMaps.Geocode do
   """
   use RepoCache, ttl: :timer.hours(24)
 
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
   alias GoogleMaps.Geocode.Input
   require Logger
 
@@ -45,12 +45,12 @@ defmodule GoogleMaps.Geocode do
 
   @spec calculate_position(
           map(),
-          (String.t() -> GoogleMaps.Geocode.Address.t())
-        ) :: {GoogleMaps.Geocode.Address.t(), String.t()}
+          (String.t() -> LocationService.Address.t())
+        ) :: {LocationService.Address.t(), String.t()}
   def calculate_position(%{"latitude" => lat_str, "longitude" => lng_str} = params, geocode_fn) do
     case {Float.parse(lat_str), Float.parse(lng_str)} do
       {{lat, ""}, {lng, ""}} ->
-        addr = %GoogleMaps.Geocode.Address{
+        addr = %LocationService.Address{
           latitude: lat,
           longitude: lng,
           formatted: lat_str <> "," <> lng_str
@@ -204,7 +204,7 @@ defmodule GoogleMaps.Geocode do
          "geometry" => %{"location" => %{"lat" => lat, "lng" => lng}},
          "formatted_address" => address
        }) do
-    %Address{
+    %LocationService.Address{
       formatted: address,
       latitude: lat,
       longitude: lng

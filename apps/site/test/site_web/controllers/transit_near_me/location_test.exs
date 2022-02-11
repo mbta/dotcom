@@ -1,6 +1,6 @@
 defmodule SiteWeb.TransitNearMeController.LocationTest do
   use ExUnit.Case, async: true
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
   alias SiteWeb.TransitNearMeController.Location
 
   @address %Address{

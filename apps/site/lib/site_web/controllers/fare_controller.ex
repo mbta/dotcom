@@ -59,8 +59,8 @@ defmodule SiteWeb.FareController do
   end
 
   @spec fare_sales_locations(
-          Geocode.Address.t(),
-          (Geocode.Address.t() -> [{RetailLocations.Location.t(), float}])
+          LocationService.Address.t(),
+          (LocationService.Address.t() -> [{RetailLocations.Location.t(), float}])
         ) :: [{RetailLocations.Location.t(), float}]
   def fare_sales_locations(%{latitude: _lat, longitude: _long} = position, nearby_fn) do
     nearby_fn.(position)

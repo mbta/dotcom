@@ -3,7 +3,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
   import SiteWeb.Plugs.TransitNearMe
 
-  alias GoogleMaps.Geocode
+  alias LocationService.Address
   alias Routes.{Repo, Route}
   alias SiteWeb.Plugs.TransitNearMe.Options
   alias Stops.Stop
@@ -108,7 +108,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
     test "flashes message if no results are returned", %{conn: conn} do
       options =
         init(
-          geocode_fn: fn @tnm_address -> {:ok, [%Geocode.Address{formatted: "formatted"}]} end,
+          geocode_fn: fn @tnm_address -> {:ok, [%Address{formatted: "formatted"}]} end,
           nearby_fn: fn _ -> [] end
         )
 
@@ -168,8 +168,8 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
   describe "get_stops_nearby/2" do
     test "with a good geocode result, calls function with first result" do
-      geocode_result = {:ok, [%Geocode.Address{}]}
-      nearby = fn %Geocode.Address{} -> [%Stop{}] end
+      geocode_result = {:ok, [%Address{}]}
+      nearby = fn %Address{} -> [%Stop{}] end
 
       actual = get_stops_nearby(geocode_result, nearby)
       expected = [%Stop{}]
@@ -179,7 +179,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
 
     test "when there are errors, returns an empty list" do
       geocode_result = {:error, :internal_error}
-      nearby = fn %Geocode.Address{} -> [%Stop{}] end
+      nearby = fn %Address{} -> [%Stop{}] end
 
       actual = get_stops_nearby(geocode_result, nearby)
       expected = []
@@ -287,7 +287,7 @@ defmodule SiteWeb.Plugs.TransitNearMeTest do
   def geocode_fn("10 park plaza, boston ma") do
     {:ok,
      [
-       %Geocode.Address{
+       %Address{
          latitude: 42.351818,
          longitude: -71.067006,
          formatted: "10 Park Plaza, Boston, MA"

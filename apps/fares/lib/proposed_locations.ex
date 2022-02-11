@@ -10,7 +10,7 @@ defmodule Fares.ProposedLocations do
 
   @distance_in_miles 100
 
-  @spec by_lat_lon(%GoogleMaps.Geocode.Address{}) :: [Location.t()] | nil
+  @spec by_lat_lon(%LocationService.Address{}) :: [Location.t()] | nil
   def by_lat_lon(%{latitude: lat, longitude: lon}) do
     url =
       "#{@base_url}&where=1%3D1&geometry=#{lon}%2C+#{lat}&geometryType=esriGeometryPoint&distance=#{
