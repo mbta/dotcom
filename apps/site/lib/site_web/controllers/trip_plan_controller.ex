@@ -23,7 +23,7 @@ defmodule SiteWeb.TripPlanController do
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
 
   @options %{
-    geocode_fn: &Geocode.geocode/1,
+    geocode_fn: &LocationService.Geocode.geocode/1,
     reverse_geocode_fn: &Geocode.reverse_geocode/2
   }
 

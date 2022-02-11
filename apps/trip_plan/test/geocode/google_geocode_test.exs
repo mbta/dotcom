@@ -41,7 +41,7 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
   end
 
   defp with_geocode_mock(geocode_return, test_fn) do
-    with_mock Geocode, geocode: fn _address -> geocode_return end do
+    with_mock LocationService.Geocode, geocode: fn _address -> geocode_return end do
       test_fn.()
     end
   end
