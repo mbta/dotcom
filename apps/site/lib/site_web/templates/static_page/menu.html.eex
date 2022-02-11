@@ -2,7 +2,7 @@
   <h1>MBTA.com Menu</h1>
 </div>
 <hr class="mt-0 mb-0" />
-<div class="container m-menu">
+<div class="container m-menu--page">
   <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
     <div class="page-section">
       <h2 id="<%= menu_section %>-section"><%= menu_section %></h2>

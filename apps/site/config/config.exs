@@ -26,10 +26,8 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
-    {:nav_redesign, "Navigation Menu Redesign (Nov. 2021)",
-     "Changes to the navigation menus on mobile and desktop as part of the IA + Navigation epic"},
-    {:desktop_nav_redesign, "Desktop Navigation Menu Redesign (Dec. 2021)",
-     "Changes to the navigation menus on desktop as part of the IA + Navigation epic"}
+    {:nav_redesign, "Navigation Menu Redesign (Nov. 2021 -- Jan 2022)",
+     "Changes to the navigation menus on mobile and desktop as part of the IA + Navigation epic"}
   ],
   cookie: [
     # one month,

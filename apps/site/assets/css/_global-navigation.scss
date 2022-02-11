@@ -1,0 +1,309 @@
+// Navigation bar on both desktop and mobile
+
+.header { // old header on desktop is still white bg
+  @include media-breakpoint-up(lg) {
+    background-color: unset;
+    color: unset;
+  }
+}
+
+header.header--new {
+  background-color: $brand-primary-dark;
+  color: $white;
+
+  .navbar-logo,
+  .navbar-logo:hover,
+  .navbar-logo:focus {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .c-svg__mbta-logo,
+  .c-svg__mbta-name-and-logo {
+    text,
+    path {
+      fill: currentColor;
+    }
+  }
+}
+
+.menu-open {
+  body {
+    overflow: hidden; // prevent scrolling
+  }
+
+  .m-menu--cover {
+    display: block; // display veil
+  }
+
+  .header--new {
+    @include media-breakpoint-down(md) {
+      background-color: $brand-primary-darkest;
+    }
+  }
+}
+
+nav.m-menu--desktop {
+  @include base-font__new();
+
+  display: flex;
+  margin-left: $base-spacing;
+  padding: 0 $base-spacing / 2;
+
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+
+  .m-menu__language {
+    margin-left: $base-spacing / 2;
+  }
+}
+
+.m-menu__language {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  font-weight: $font-weight-medium;
+
+  .custom-language-selector {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: $brand-primary-lightest-contrast;
+    cursor: pointer;
+    margin-left: $base-spacing__new;
+    outline: none;
+    padding: 0 $base-spacing__new;
+    text-decoration: none;
+    width: 5em; // arbitrary, but would be too wide otherwise
+
+    &:hover {
+      color: $brand-primary-light;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $brand-primary;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: 2px solid $brand-secondary;
+    }
+  }
+}
+
+// Buttons to open/close desktop menu
+.m-menu--desktop__toggle {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  flex-wrap: nowrap;
+  font-weight: bold;
+  margin-right: $base-spacing / 2;
+
+  // place for up/down arrows
+  &::after {
+    @include fa-icon();
+
+    content: $fa-var-angle-down;
+    margin-left: $base-spacing__new;
+
+    @include media-breakpoint-only(xxl) {
+      margin-left: $space-2_new;
+    }
+  }
+
+  // in expanded menu state
+  &[aria-expanded='true'],
+  &[aria-expanded='true']:focus,
+  &[aria-expanded='true']:hover {
+    background: $white;
+    border-color: $white;
+    color: $brand-primary-dark;
+    outline: none;
+
+    &::after {
+      content: $fa-var-angle-up;
+    }
+  }
+}
+
+// Desktop menu expanded area
+.m-menu--desktop__menu {
+  background-color: $brand-primary-lightest-contrast;
+  box-shadow: 0 7px 14px 0 $gray-shadow;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: $header-navbar-height-new;
+  z-index: 102;
+}
+
+// Layout the headers & links in the desktop menu
+.m-menu-desktop__section {
+  color: $body-color;
+  column-gap: $base-spacing;
+  display: grid;
+  grid-template-columns: repeat(1fr); // space unknown number of columns evenly
+  grid-template-rows: auto 1fr;
+  margin: $base-spacing * 2 0;
+
+  .m-menu__section-heading {
+    grid-row: 1;
+  }
+
+  .m-menu-desktop__submenu-section {
+    grid-row: 2;
+  }
+
+  .m-menu-desktop__section-feature {
+    grid-row: 1 / 3;
+
+    .m-menu__feature {
+      margin-top: 0;
+      width: unset;
+    }
+  }
+
+  .m-menu__link {
+    padding: $space-2_new 0;
+  }
+}
+
+// Small, all-caps bold heading text used in all navigation menus
+.m-menu__section-heading {
+  font-family: $headings-font-family;
+  font-size: $font-size-base-sm;
+  font-weight: $headings-font-weight;
+  line-height: 1.75;
+  margin-bottom: $space-4_new;
+  padding-bottom: $base-spacing__new;
+  text-transform: uppercase;
+
+  .m-menu--mobile & {
+    font-size: $font-size-base-xs;
+  }
+
+  .m-menu--desktop & {
+    margin: 0;
+  }
+
+  .m-menu__feature & {
+    font-size: $font-size-base-xs;
+    margin-left: unset;
+    margin-top: unset;
+  }
+}
+
+// Reusing the veil component
+.m-menu--cover {
+  display: none;
+
+  @include media-breakpoint-only(xs) {
+    top: $header-navbar-height-xs;
+  }
+
+  @include media-breakpoint-up(sm) {
+    top: $header-navbar-height-new;
+  }
+}
+
+// Contact numbers & Popular fares sections
+.m-menu__feature {
+  background-color: $brand-primary-darkest;
+  border-radius: 0 $space-2_new $space-2_new 0;
+  font-size: $font-size-base-sm;
+  margin-bottom: 8px;
+  margin-top: 1rem;
+  padding: $space-3_new 0 $space-3_new $space-3_new;
+  width: calc(100% - 40px);
+
+  // Description list
+  dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+  }
+
+  dt,
+  dd {
+    border-bottom: 1px solid $brand-primary;
+    padding: $space-2_new 0;
+
+    &:last-of-type {
+      border-bottom: unset;
+    }
+
+    @include media-breakpoint-up(lg) {
+      border-color: $gray-lighter;
+    }
+  }
+
+  dt {
+    font-weight: normal;
+  }
+
+  dd {
+    font-weight: $headings-font-weight;
+    margin-bottom: 0;
+    padding-right: $space-4_new;
+    text-align: right;
+
+    &:last-of-type {
+      border-bottom: unset;
+    }
+  }
+
+  small {
+    display: block;
+    font-size: $font-size-base-xs;
+    line-height: 1.75;
+  }
+
+  @include media-breakpoint-up(sm) {
+    border-radius: 0 $space-2_new $space-2_new;
+  }
+
+  @include media-breakpoint-up(lg) {
+    background-color: $brand-primary-lightest;
+    color: $gray-dark;
+  }
+
+  // CSS for the Contact Numbers split-container
+  &.top-half {
+    border-radius: 0 $space-2_new 0 0;
+    margin-bottom: 2px;
+  }
+
+  &.bottom-half {
+    border-radius: 0 0 $space-2_new;
+    margin-top: 0;
+
+    @include media-breakpoint-up(sm) {
+      border-radius: 0 0 $space-2_new $space-2_new;
+    }
+  }
+}
+
+.m-menu__feature_phone {
+  padding-top: $space-3_new;
+
+  > a {
+    font-weight: $font-weight-medium;
+
+    @include media-breakpoint-down(md) {
+      color: $brand-primary-light-contrast;
+
+      &:hover,
+      &:focus {
+        color: $brand-primary-light;
+      }
+
+      &:active {
+        color: $brand-primary;
+      }
+    }
+  }
+}

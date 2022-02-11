@@ -39,31 +39,20 @@ defmodule SiteWeb.LayoutView do
   end
 
   def nav_link_content(conn) do
-    if Laboratory.enabled?(conn, :desktop_nav_redesign) do
-      [
-        {"Transit", "Modes of Transit, Plan Your Journey, Find a Location...",
-         static_page_path(conn, :getting_around)},
-        {"Fares", "Fares Info, Fares By Mode, Pay Your Fare...",
-         cms_static_page_path(conn, "/fares")},
-        {"Contact", "Customer Support, Transit Police", customer_support_path(conn, :index)},
-        {"About", "Get to Know Us, Work With Us, Our Work...", static_page_path(conn, :about)}
-      ]
-    else
-      [
-        {"Getting Around", "Transit Services, Plan Your Journey, Riding...",
-         static_page_path(conn, :getting_around)},
-        {"Fares", "Fares By Mode, Reduced Fares, Passes...",
-         cms_static_page_path(conn, "/fares")},
-        {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
-        {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
-      ]
-    end
+    [
+      {"Getting Around", "Transit Services, Plan Your Journey, Riding...",
+       static_page_path(conn, :getting_around)},
+      {"Fares", "Fares By Mode, Reduced Fares, Passes...", cms_static_page_path(conn, "/fares")},
+      {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
+      {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
+    ]
   end
 
-  def nav_link_content_redesign(_conn),
+  def nav_link_content_redesign(conn),
     do: [
       %{
         menu_section: "Transit",
+        link: static_page_path(conn, :menu) <> "#Transit-section",
         sub_menus: [
           %{
             sub_menu_section: "Modes of Transit",
@@ -102,6 +91,7 @@ defmodule SiteWeb.LayoutView do
       },
       %{
         menu_section: "Fares",
+        link: static_page_path(conn, :menu) <> "#Fares-section",
         sub_menus: [
           %{
             sub_menu_section: "Fares Info",
@@ -137,6 +127,7 @@ defmodule SiteWeb.LayoutView do
       },
       %{
         menu_section: "Contact",
+        link: static_page_path(conn, :menu) <> "#Contact-section",
         sub_menus: [
           %{
             sub_menu_section: "Customer Support",
@@ -164,6 +155,7 @@ defmodule SiteWeb.LayoutView do
       },
       %{
         menu_section: "About",
+        link: static_page_path(conn, :menu) <> "#About-section",
         sub_menus: [
           %{
             sub_menu_section: "Get to Know Us",

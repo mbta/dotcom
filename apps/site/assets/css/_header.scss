@@ -1,23 +1,6 @@
 @import 'variables';
 @import 'typography';
 
-@mixin dark-mode-links {
-  color: $brand-primary-light-contrast;
-  &:hover, &:focus {
-    color: $brand-primary-light;
-  }
-  &:active {
-    color: $brand-primary;
-  }
-}
-
-@mixin light-mode-links {
-  color: $brand-primary;
-  &:active {
-    color: $brand-primary-darkest;
-  }
-}
-
 .desktop-menu-nav {
   float: right;
 
@@ -122,94 +105,7 @@
     // the alignment of the form on the header should match the search page header
     padding-top: 3.9rem;
   }
-
-  .menu-container {
-    background-color: $brand-primary-lightest;
-    margin-top: 1rem;
-    margin-bottom: 8px;
-    padding: $space-3_new 0 $space-3_new $space-3_new;
-    width: calc(100% - 40px);
-    border-radius: 0 $space-2_new $space-2_new 0;
-    font-size: 14px;
-    min-width: 300px;
-
-    // Description list
-    dl {
-      overflow: auto;
-    }
-    dt, dd {
-      width: 50%;
-    }
-    dt {
-      float: left;
-      font-weight: normal;
-    }
-    dd {
-      float: right;
-      margin-bottom: 0;
-      text-align: right;
-    }
-    
-    &_header {
-      font-size: 12px;
-      padding-bottom: $base-spacing__new;
-    }
-    &_row {
-      display: flex;
-      justify-content: space-between;
-      padding: $space-2_new $space-4_new $space-2_new 0;
-      border-bottom: 1px solid $brand-primary;
-      &:last-child {
-        border-bottom: unset;
-      }
-    }
-    &_phone {
-      padding-top: $space-3_new;
-      > a {
-        font-weight: 500;
-        @include media-breakpoint-down(md) {
-          @include dark-mode-links();
-        }
-        @include media-breakpoint-up(lg) {
-          @include light-mode-links();
-        }
-      }
-    }
-    &_smaller-font {
-      font-size: 12px;
-      line-height: 21px;
-    }
-    
-    @include media-breakpoint-up(sm) {
-      border-radius: 0 $space-2_new $space-2_new;
-    }
-    @include media-breakpoint-up(lg) {
-      background-color: $brand-primary-lightest;
-      color: $gray-dark;
-      &_header {
-        color: $gray;
-      }
-      &_row {
-        border-color: $gray-lighter;
-      }
-    }
-
-    // CSS for the Contact Numbers split-container
-    &.top-half {
-      margin-bottom: 2px;
-      border-radius: 0 $space-2_new 0 0;
-    }
-    &.bottom-half {
-      margin-top: 0;
-      border-radius: 0 0 $space-2_new;
-      @include media-breakpoint-up(sm) {
-        border-radius: 0 0 $space-2_new $space-2_new;
-      }
-    }
-  }
 }
-
-  
 
 .menu-link-row {
   padding-bottom: $space-24;
@@ -227,22 +123,6 @@
   }
 }
 
-.header {
-  background-color: $brand-primary;
-  color: $white;
-
-  &.menu-open, &.search-open {
-    background-color: $brand-primary-darkest;
-  }
-
-  // !important is needed while in case the modal is open and the viewport changes
-  // TODO: better handle the "modal open" situation when the viewport changes
-  @include media-breakpoint-up(lg) {
-    background-color: $body-bg !important;
-    color: $body-color;
-  }
-}
-
 .header-border {
   @include media-breakpoint-up(lg) {
     border-bottom: $border;
@@ -256,12 +136,16 @@
 }
 
 .header-navbar.new {
+  height: $header-navbar-height-new;
+
   @include media-breakpoint-only(xs) {
     height: $header-navbar-height-xs;
   }
-  // The between can be removed when the desktop styles are worked out
-  @include media-breakpoint-between(sm, md) {
-    height: $header-navbar-height-new;
+
+  .c-svg__mbta-name-and-logo {
+    @include media-breakpoint-down(md) {
+      margin-left: 24px;
+    }
   }
 
   .navbar-logo {
@@ -274,12 +158,11 @@
     .c-svg__mbta-logo {
       display: none;
     }
-    .c-svg__mbta-name-and-logo {
-      padding-left: 24px;
-    }
+  
     // At XS size, use T logo only
     @include media-breakpoint-only(xs) {
-      flex-grow: 2;
+      flex-grow: 1;
+      
       svg {
         display: unset;
         height: 24px;
@@ -300,15 +183,15 @@
       @include media-breakpoint-only(sm) {
         height: 24px;
       }
-      @include media-breakpoint-only(md) {
+      @include media-breakpoint-up(md) {
         height: 40px;
       }
     }
   }
 
-  @include media-breakpoint-between(sm, md) {
+  @include media-breakpoint-up(sm) {
     .search-wrapper {
-      flex-grow: 2;
+      flex-grow: 1;
       height: 100%;
       > div { height: 100%; }
     }
@@ -316,35 +199,31 @@
 }
 
 .header-navbar.new, .m-menu__search {
-  @include media-breakpoint-down(md) {
-    .search {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      form {
-        flex-grow: 1;
+  .search {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    form {
+      flex-grow: 1;
+    }
+    .c-form__input-container {
+      height: 44px;
+      border-radius: 4px;
+      margin-left: auto;
+    }
+    button.c-form__submit-btn {
+      background-color: unset;
+      > i {
+        color: $brand-primary;
+        display: inline-block !important;
       }
-      .c-form__input-container {
-        height: 44px;
-        border-radius: 4px;
-        margin-left: auto;
-      }
-      input {
-        @include base-font__new();
-      }
-      button.c-form__submit-btn {
-        background-color: unset;
-        > i {
-          color: $brand-primary;
-          display: inline-block !important;
-        }
-      }
-      .c-svg__icon-search-reverse-default {
-        display: none;
-      }
+    }
+    .c-svg__icon-search-reverse-default {
+      display: none;
     }
   }
 }
+
 .header-navbar.new .search {
   padding-left: 24px;
   .c-form__input-container {
@@ -431,10 +310,6 @@
   display: block;
   font-size: $font-size-h2;
   margin-bottom: $base-spacing;
-
-  @include hover-focus-active {
-    color: $white;
-  }
 }
 
 .mobile-nav-description {
@@ -463,15 +338,12 @@ nav.m-menu, .m-menu__toggle {
     }
   }
   .header-search__toggle {
-    margin-left: 33px;
-    height: 34px;
-    width: 34px;
     @include media-breakpoint-up(sm) {
       display: none;
     }
   }
 }
-nav.m-menu {
+nav.m-menu--mobile {
   position: absolute;
   z-index: $z-index-modal;
 }
@@ -484,20 +356,12 @@ nav.m-menu {
     display: none;
   }
 }
-.m-menu__cover {
-  background-color: rgba($black, .15);
-  height: 100%;
-  position: fixed;
-  width: 100%;
-  display: none;
-}
 
 .m-menu__content,
 .m-menu__search {
   display: none;
   white-space: nowrap;
   transition: all .25s ease;
-  z-index: 1;
   position: fixed;
   &::-webkit-scrollbar {
     display: none; /* Chrome */
@@ -509,28 +373,16 @@ nav.m-menu {
     display: none;
   }
 }
-.m-menu__content, .m-menu-search,
-.m-menu__cover {
+
+.m-menu__content,
+.m-menu-search {
+  top: $header-navbar-height-new;
+
   @include media-breakpoint-only(xs) {
     top: $header-navbar-height-xs;
   }
-  @include media-breakpoint-up(sm) {
-    top: $header-navbar-height-new;
-  }
 }
-.m-menu__content {
-  width: 0px;
-  background-color: $brand-primary;
 
-  .m-menu__section {
-    @include media-breakpoint-only(sm) {
-      padding-left: 40px;
-    }
-    @include media-breakpoint-only(md) {
-      padding-left: 63px;
-    }
-  }
-}
 .m-menu__search {
   height: 0px;
   width: 100%;
@@ -545,13 +397,14 @@ nav.m-menu {
 }
 
 .m-menu__link {
+  @include font-link();
+
   align-items: center;
   display: flex;
+  padding: 12px 12px 12px 24px;
 
-  > div {
-    padding: 12px 12px 12px 24px;
-
-    @include font-link();
+  span {
+    margin-left: $base-spacing / 2;
   }
 }
 
@@ -559,33 +412,52 @@ nav.m-menu {
   bottom: 0;
   overflow-y: auto;
   box-shadow: 0px 7px 14px 0px $gray-shadow;
+  width: 0px;
+  background-color: $brand-primary;
+  padding-bottom: calc(200px - $base-spacing);
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
-    margin: 0;
-    padding: 16px 0 0 16px;
+    margin: $space-4_new 0 0 $space-4_new;
   }
 
   .m-menu__section {
-    padding-bottom: 1rem;
+    padding-bottom: $space-4_new;
+    padding-top: $space-2_new;
     border-bottom: 1px solid $brand-primary-light-contrast;
+
+    @include media-breakpoint-only(sm) {
+      margin-left: 40px;
+    }
+    @include media-breakpoint-only(md) {
+      margin-left: 63px;
+    }
   }
+
   // Accordion stuff
   .c-accordion-ui {
     border: 0;
-    margin-bottom: 0;
+    margin: 0;
 
     .c-accordion-ui__trigger {
       @include heading-4();
+      border: 2px solid $brand-primary;
       color: $white;
-      &:hover, &:active {
+
+      &:hover,
+      &:active {
         background-color: inherit;
+      }
+
+      &:focus {
+        border-color: $brand-secondary;
+        outline: none;
       }
     }
 
     .c-accordion-ui__content {
       background-color: $brand-primary-lightest-contrast;
-      padding: 0;
+      padding-left: 0;
 
       @include media-breakpoint-up(sm) {
         border-radius: 0 0 0 8px;
@@ -594,15 +466,6 @@ nav.m-menu {
   }
 
   .m-menu__link {
-    @include font-link();
-    display: block;
-    padding: 12px 12px 12px 24px;
-
-    div {
-      display: inline-block;
-      margin-right: 4px;
-    }
-
     &:focus {
       color: $link-color;
       outline: none;
@@ -616,88 +479,9 @@ nav.m-menu {
     }
   }
 
-  .menu-container {
-    background-color: $brand-primary-darkest;
-    margin-top: 1rem;
-    margin-bottom: 8px;
-    padding: $space-3_new 0 $space-3_new $space-3_new;
-    width: calc(100% - 40px);
-    border-radius: 0 $space-2_new $space-2_new 0;
-    font-size: 14px;
-
-    // Description list
-    dl {
-      overflow: auto;
-    }
-    dt, dd {
-      width: 50%;
-    }
-    dt {
-      float: left;
-      font-weight: normal;
-    }
-    dd {
-      float: right;
-      margin-bottom: 0;
-      text-align: right;
-    }
-    
-    &_header {
-      font-size: 12px;
-      padding-bottom: $base-spacing__new;
-    }
-    &_row {
-      display: flex;
-      justify-content: space-between;
-      padding: $space-2_new $space-4_new $space-2_new 0;
-      border-bottom: 1px solid $brand-primary;
-      &:last-child {
-        border-bottom: unset;
-      }
-    }
-    &_phone {
-      padding-top: $space-3_new;
-      > a {
-        font-weight: 500;
-        @include media-breakpoint-down(md) {
-          @include dark-mode-links();
-        }
-        @include media-breakpoint-up(lg) {
-          @include light-mode-links();
-        }
-      }
-    }
-    &_smaller-font {
-      font-size: 12px;
-      line-height: 21px;
-    }
-    
-    @include media-breakpoint-up(sm) {
-      border-radius: 0 $space-2_new $space-2_new;
-    }
-    @include media-breakpoint-up(lg) {
-      background-color: $brand-primary-lightest;
-      color: $gray-dark;
-      &_header {
-        color: $gray;
-      }
-      &_row {
-        border-color: $gray-lighter;
-      }
-    }
-
-    // CSS for the Contact Numbers split-container
-    &.top-half {
-      margin-bottom: 2px;
-      border-radius: 0 $space-2_new 0 0;
-    }
-    &.bottom-half {
-      margin-top: 0;
-      border-radius: 0 0 $space-2_new;
-      @include media-breakpoint-up(sm) {
-        border-radius: 0 0 $space-2_new $space-2_new;
-      }
-    }
+  .m-menu__language {
+    border-bottom: unset;
+    padding: $base-spacing;
   }
 }
 
@@ -705,19 +489,20 @@ nav.m-menu {
   display: none;
 }
 
-header.header .c-search-bar__autocomplete {
+.header--new .c-search-bar__autocomplete {
   // stylelint-disable-next-line declaration-no-important
   z-index: calc(#{$z-index-modal} + 1) !important; // = 102. overwrites the 100 value added by autocomplete.js
 }
 
-header.header.menu-open {
-  .m-menu__cover {
-    display: block;
-  }
+%hide-button {
+  opacity: 0;
+  pointer-events: none;
+}
 
+// show mobile menu, hide search button, hide search bar in tablet size
+.header--new.menu-open {
   .m-menu__content {
     display: block;
-    min-height: 100vh;
     overflow-y: scroll;
     width: auto;
 
@@ -740,27 +525,20 @@ header.header.menu-open {
   }
 
   .header-search__toggle {
-    opacity: 0;
-    pointer-events: none;
+    @extend %hide-button;
+  }
+
+  // Hide search bar on tablet view
+  @include media-breakpoint-down(md) {
+    .search {
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 }
 
-header.header.search-open {
-  .m-menu__cover {
-    display: block;
-    top: 112px;
-  }
-
-  .m-menu__search {
-    display: block;
-    height: 60px;
-  }
-
-  .m-menu__toggle {
-    opacity: 0;
-    pointer-events: none;
-  }
-
+// when search activated on mobile, switch icon from search to close
+.header-search__toggle[aria-expanded="true"] {
   .fa-search {
     display: none;
   }
@@ -770,7 +548,19 @@ header.header.search-open {
   }
 }
 
-.m-menu__toggle, .header-search__toggle {
+// show search bar, hide menu button
+.header--new.search-open {
+  .m-menu__search {
+    display: block;
+    height: 60px;
+  }
+
+  .m-menu__toggle {
+    @extend %hide-button;
+  }
+}
+
+.m-menu__toggle, .m-menu--desktop__toggle, .header-search__toggle {
   background-color: unset;
   border: 2px solid $brand-primary-light-contrast;
   border-radius: 4px;
@@ -781,13 +571,17 @@ header.header.search-open {
     background-color: $brand-primary-darkest;
   }
 
+  &:focus {
+    border-color: $brand-primary-light;
+  }
+
   &[aria-expanded="true"]:hover,
   &[aria-expanded="true"]:focus {
     background-color: $brand-primary;
   }
 }
 
-.m-menu__toggle {
+.m-menu__toggle, .m-menu--desktop__toggle {
   padding: 6px 12px 5px;
 
   // this button is a link when JS is disabled
@@ -803,19 +597,22 @@ header.header.search-open {
   }
 }
 
+// Search button in top nav
 .header-search__toggle {
+  margin-left: 1.75rem;
+  padding: 2px 8px;
+
   > i {
     width: 16px;
   }
 }
 
-.staticpageview .m-menu {
+// /menu page
+.m-menu--page {
   margin-bottom: 4 * $base-spacing;
 
-  .m-menu__link > div {
-    line-height: 2;
-    padding: unset;
-    padding-right: .5 * $base-spacing; // to offset external icon
+  .m-menu__link {
+    padding-left: 0;
   }
 
   h3 {

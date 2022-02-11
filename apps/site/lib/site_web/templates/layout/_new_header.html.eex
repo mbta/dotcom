@@ -1,8 +1,9 @@
-<header class="header">
+<aside class="c-modal__cover m-menu--cover"></aside>
+<header class="header--new">
   <div class="container new">
     <div class="header-navbar new">
-      <button class="font-body m-menu__toggle u-bold hidden-no-js" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
       <a class="font-body font-white m-menu__toggle u-bold hidden-js" href="<%= static_page_path(@conn, :menu) %>">Menu</a>
+      <button class="font-body m-menu__toggle u-bold hidden-no-js" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
       <a class="navbar-logo" href="/">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
@@ -10,6 +11,8 @@
           <%= svg "mbta-name-and-logo.svg" %>
         </div>
       </a>
+
+      <%= render "_new_nav_desktop.html", assigns %>
       <div class="search-wrapper">
         <%= render SiteWeb.PageView, "_search_bar.html",
             conn: @conn,
@@ -19,10 +22,9 @@
       </div>
 
       <button class="header-search__toggle" type="button" aria-expanded="false" aria-controls="search-header-mobile__container" aria-label="Search MBTA.com">
-        <i class="fa fa-search" aria-hidden="true"></i>
-        <i class="fa fa-close" aria-hidden="true"></i>
+        <i class="fa fa-fw fa-search" aria-hidden="true"></i>
+        <i class="fa fa-fw fa-close" aria-hidden="true"></i>
       </button>
-      <%= render "_nav_desktop.html", assigns %>
     </div>
   </div>
   <%= render "_new_nav_mobile.html", assigns %>

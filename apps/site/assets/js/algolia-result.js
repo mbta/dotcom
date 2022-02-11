@@ -234,7 +234,7 @@ export function getIcon(hit, type) {
 
     case "projects":
       return getTransitIcons(hit);
-      
+
     case "drupal":
     case "pages":
     case "documents":

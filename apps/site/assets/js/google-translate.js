@@ -103,31 +103,60 @@ const setTranslation = (translateEl, language) => {
 };
 
 const render = () => {
-  // render desktop
-  document.getElementById(
-    "custom-language-selector"
-  ).innerHTML = `${renderCustomDesktopSelect()}${renderCustomDesktopMenu()}`;
+  /* Render either new or old version depending on which navigation is bring shown. */
+  if (document.querySelector(".header--new")) {
+    document
+      .querySelectorAll(".m-menu__language")
+      .forEach(el => (el.innerHTML = renderCustomSelect()));
 
-  // render mobile
-  document.getElementById(
-    "custom-language-button-mobile"
-  ).innerHTML = renderCustomMobileSelect();
+    // handle keyboard events on links
+    [...document.querySelectorAll(".custom-language-selector")].forEach(
+      linkEl => {
+        linkEl.addEventListener("keyup", triggerClick("language-menu-toggle"));
+      }
+    );
+  } else {
+    // render desktop
+    document.getElementById(
+      "custom-language-selector"
+    ).innerHTML = `${renderCustomDesktopSelect()}${renderCustomDesktopMenu()}`;
 
-  document.getElementById(
-    "custom-language-menu-mobile"
-  ).innerHTML = renderCustomMobileMenu();
+    // render mobile
+    document.getElementById(
+      "custom-language-button-mobile"
+    ).innerHTML = renderCustomMobileSelect();
 
-  // handle keyboard events on links
-  document
-    .getElementById("custom-language-selector")
-    .addEventListener("keyup", triggerClick("language-menu-toggle"));
-  document
-    .getElementById("custom-language-selector-mobile")
-    .addEventListener("keyup", triggerClick("custom-language-selector-mobile"));
+    document.getElementById(
+      "custom-language-menu-mobile"
+    ).innerHTML = renderCustomMobileMenu();
+
+    // handle keyboard events on links
+    document
+      .getElementById("custom-language-selector")
+      .addEventListener("keyup", triggerClick("language-menu-toggle"));
+    document
+      .getElementById("custom-language-selector-mobile")
+      .addEventListener(
+        "keyup",
+        triggerClick("custom-language-selector-mobile")
+      );
+  }
 
   // add DOM event handling to rendered links in menu
   registerLinkEvents();
 };
+
+const renderCustomSelect = () => `
+  <i class="fa fa-globe fa-lg" aria-hidden="true"></i>
+  <select class="custom-language-selector" aria-label="Page language">
+  ${languages.map(
+    ([code, name]) =>
+      `<option ${
+        code === currentLanguage ? "selected" : ""
+      } data-toggle="language" data-lang="${code}">${name}</option>`
+  )}
+  </select>
+`;
 
 const renderCustomDesktopSelect = () =>
   `<a tabindex="0" id="language-menu-toggle" class="notranslate desktop-nav-link js-header-link navbar-toggle toggle-up-down collapsed" aria-expanded="false" aria-controls="languageMenu" data-parent="#desktop-menu" data-target="#languageMenu" role="tab" data-toggle="collapse">
@@ -204,6 +233,22 @@ const registerLinkEvents = () => {
         false
       );
       linkEl.addEventListener("keyup", triggerClick());
+    }
+  );
+  // new selector
+  [...document.querySelectorAll(".custom-language-selector")].forEach(
+    linkEl => {
+      linkEl.addEventListener(
+        "change",
+        event => {
+          setTranslation(
+            translateEl,
+            event.target.selectedOptions[0].getAttribute("data-lang")
+          );
+          render();
+        },
+        false
+      );
     }
   );
 };

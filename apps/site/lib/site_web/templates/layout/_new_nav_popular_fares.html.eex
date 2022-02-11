@@ -1,0 +1,16 @@
+<div class="m-menu__feature">
+  <div class="m-menu__section-heading">Most popular fares</div>
+  <dl title="Most popular fares">
+    <dt>Subway One-Way</dt>
+    <dd>$2.40</dd>
+    <dt>Local Bus One-Way</dt>
+    <dd>$1.70</dd>
+    <dt>Monthly Linkpass</dt>
+    <dd>$90.00</dd>
+    <dt>
+      Commuter Rail One-Way
+      <small>Zones 1A - 10</small>
+    </dt>
+    <dd>$2.40 - <br>$13.25</dd>
+  </dl>
+</div>
