@@ -419,8 +419,7 @@ defmodule GoogleMaps.GeocodeTest do
       params = %{"location" => %{"address" => "42.0, -71.0"}}
 
       geocode_fn = fn _address ->
-        {:ok,
-         [%LocationService.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+        {:ok, [%LocationService.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
 
       {position, formatted} = calculate_position(params, geocode_fn)
@@ -449,8 +448,7 @@ defmodule GoogleMaps.GeocodeTest do
       geocode_fn = fn _address ->
         send(self(), :geocode_called)
 
-        {:ok,
-         [%LocationService.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+        {:ok, [%LocationService.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
 
       {position, formatted} = calculate_position(params, geocode_fn)

@@ -10,7 +10,7 @@ defmodule SiteWeb.FareController do
   plug(:meta_description)
 
   @options %{
-    geocode_fn: &Geocode.geocode/1,
+    geocode_fn: &LocationService.Geocode.geocode/1,
     reverse_geocode_fn: &Geocode.reverse_geocode/2,
     nearby_fn: &Fares.RetailLocations.get_nearby/1
   }
