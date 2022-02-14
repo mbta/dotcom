@@ -1,16 +1,7 @@
 // Navigation bar on both desktop and mobile
+// Eventually we can phase out _header.scss file, and all relevant styling will be here
 
-.header { // old header on desktop is still white bg
-  @include media-breakpoint-up(lg) {
-    background-color: unset;
-    color: unset;
-  }
-}
-
-header.header--new {
-  background-color: $brand-primary-dark;
-  color: $white;
-
+header {
   .navbar-logo,
   .navbar-logo:hover,
   .navbar-logo:focus {
@@ -20,10 +11,25 @@ header.header--new {
 
   .c-svg__mbta-logo,
   .c-svg__mbta-name-and-logo {
-    text,
-    path {
+    path,
+    text {
       fill: currentColor;
     }
+  }
+
+  &.header { // old header 
+    background-color: $brand-primary;
+    color: $white;
+
+    @include media-breakpoint-up(xxl) {
+      background-color: unset;
+      color: unset;
+    }
+  }
+
+  &.header--new {
+    background-color: $brand-primary-dark;
+    color: $white;
   }
 }
 
