@@ -21,7 +21,7 @@ header {
     background-color: $brand-primary;
     color: $white;
 
-    @include media-breakpoint-up(xxl) {
+    @include media-breakpoint-up(lg) {
       background-color: unset;
       color: unset;
     }
