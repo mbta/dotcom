@@ -15,6 +15,7 @@ const SELECTORS = {
   mobileMenuButton: "button.m-menu__toggle",
   searchButton: "button.header-search__toggle",
   searchBarDesktop: "header #search-header-desktop__container",
+  searchInputDesktop: "header #search-header-desktop__input",
   searchBarMobile: "header #search-header-mobile__container"
 }
 
@@ -34,18 +35,18 @@ describe("Navigation redesign", () => {
         beforeEach(() => {
           cy.injectAxe();
         });
-    
+
         it("on load", () => {
           cy.checkA11y();
         });
-        
+
         it("with menu open", () => {
           switch (viewport) {
             case "macbook-16":
               cy.get(SELECTORS.desktopMenuButton).first().click();
               cy.get(SELECTORS.desktopMenu).should("be.visible");
               break;
-            
+
             default:
               cy.get(SELECTORS.mobileMenuButton).click();
               cy.get(SELECTORS.mobileMenu).should("be.visible");
@@ -53,7 +54,7 @@ describe("Navigation redesign", () => {
           }
           cy.checkA11y();
         });
-    
+
         if (viewport == "iphone-6") {
           it("with search open", () => {
             cy.get(SELECTORS.searchButton).click();
@@ -76,14 +77,14 @@ describe("Navigation redesign", () => {
             cy.get(SELECTORS.mobileMenuButton).should("not.be.visible");
             cy.get(SELECTORS.searchButton).should("not.be.visible");
             break;
-          
+
           case "ipad-2":
             cy.get(SELECTORS.desktopMenuButton).first().should("not.be.visible");
             cy.get(SELECTORS.searchBarDesktop).should("be.visible").get("input.c-search-bar__-input").should("have.attr", "placeholder", searchPlaceholderText);
             cy.get(SELECTORS.mobileMenuButton).should("be.visible");
             cy.get(SELECTORS.searchButton).should("not.be.visible");
             break;
-        
+
           case "iphone-6":
             cy.get(SELECTORS.desktopMenuButton).first().should("not.be.visible");
             cy.get(SELECTORS.searchBarDesktop).should("not.be.visible");
@@ -126,6 +127,13 @@ describe("Navigation redesign", () => {
           cy.get("body").type("{esc}");
           cy.get(SELECTORS.mobileMenu).should("not.be.visible");
           cy.get(SELECTORS.mobileMenuButton).should("contain", "Menu");
+        });
+
+        it ("Veil should be shown when search input is focused, and hidden when blurred", () => {
+          cy.get(SELECTORS.searchInputDesktop).focus();
+          cy.get(SELECTORS.veil).should("be.visible");
+          cy.get(SELECTORS.searchInputDesktop).blur();
+          cy.get(SELECTORS.veil).should("not.be.visible");
         });
       } else if (viewport == "macbook-16") {
         it("click veil closes the desktop menu", () => {
