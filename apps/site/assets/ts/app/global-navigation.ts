@@ -6,7 +6,7 @@
 // - reset scroll on menu content when menu is opened
 // - menu can be closed by pressing esc key or veil-click
 
-//import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
+import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { handleNativeEscapeKeyPress } from "../helpers/keyboard-events";
 
 function undoOutline(this: HTMLElement): void {
