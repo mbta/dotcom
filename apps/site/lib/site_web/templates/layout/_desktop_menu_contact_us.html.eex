@@ -1,5 +1,5 @@
 <div class="menu-row">
-  <div class="col-xs-4 header-column">
+  <div class="header-column">
     <div class="h5 header-column-heading">Customer Support</div>
     <p>
       <%= tel_link "(617) 222-3200" %><br />
@@ -17,7 +17,7 @@
       </li>
     </ul>
   </div>
-  <div class="col-xs-4 header-column">
+  <div class="header-column">
     <div class="h5 header-column-heading">Transit Police</div>
     <p>
       <strong>Emergency:</strong> <%= tel_link "(617) 222-1212" %><br />
@@ -32,7 +32,13 @@
       </li>
     </ul>
   </div>
-  <div class="col-xs-4 header-column">
+  <div class="header-column">
+    <div class="h5 header-column-heading">Report a Railroad Crossing Gate Issue</div>
+    <p>
+      <strong>Link:</strong> <%= tel_link "1-800-522-8236" %><br />
+    </p>
+  </div>
+  <div class="header-column">
     <div class="h5 header-column-heading">Service Updates</div>
     <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
     <ul>
