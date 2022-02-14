@@ -33,9 +33,9 @@
     </ul>
   </div>
   <div class="header-column">
-    <div class="h5 header-column-heading">Railroad Crossing Gate Emergency or gate not working properly:</div>
+    <div class="h5 header-column-heading">Report a Railroad Crossing Gate Issue</div>
     <p>
-      <%= tel_link "1-800-522-8236" %>
+      <strong>Link:</strong> <%= tel_link "1-800-522-8236" %><br />
     </p>
   </div>
   <div class="header-column">
