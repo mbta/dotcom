@@ -158,11 +158,11 @@
     .c-svg__mbta-logo {
       display: none;
     }
-  
+
     // At XS size, use T logo only
     @include media-breakpoint-only(xs) {
       flex-grow: 1;
-      
+
       svg {
         display: unset;
         height: 24px;
@@ -567,16 +567,16 @@ nav.m-menu--mobile {
   margin: auto 0;
 
   &:hover,
-  &:focus {
+  &:focus-visible {
     background-color: $brand-primary-darkest;
   }
 
-  &:focus {
-    border-color: $brand-primary-light;
+  &:focus-visible {
+    border-color: $brand-secondary;
   }
 
   &[aria-expanded="true"]:hover,
-  &[aria-expanded="true"]:focus {
+  &[aria-expanded="true"]:focus-visible {
     background-color: $brand-primary;
   }
 }
