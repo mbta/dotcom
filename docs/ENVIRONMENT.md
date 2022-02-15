@@ -23,7 +23,7 @@ There are many ways to set the environment variables described here:
 
 ### `V3_URL`
 
-The URL of the MBTA V3 API server, e.g. `https://dev.api.mbtace.com`.
+The URL of the MBTA V3 API server, e.g. `https://api-dev.mbtace.com`.
 
 ### `V3_API_KEY`
 
