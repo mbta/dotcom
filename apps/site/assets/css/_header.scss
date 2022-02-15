@@ -572,7 +572,7 @@ nav.m-menu--mobile {
   }
 
   &:focus-visible {
-    border-color: $brand-secondary;
+    outline: 2px solid $brand-secondary;
   }
 
   &[aria-expanded="true"]:hover,
