@@ -32,7 +32,7 @@ From a development standpoint, polyfills and code transforms are implemented via
 
 ## Getting Started
 
-1. Request a V3 API key at https://dev.api.mbtace.com/. Note that, at
+1. Request a V3 API key at https://api-dev.mbtace.com/. Note that, at
 any given time, the site may not be compatible with the very latest API version - as of Jan 2021 the site is using API version `2019-07-01`. After receiving an API key, you may need to edit the version of your key to match the site's API version.
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
