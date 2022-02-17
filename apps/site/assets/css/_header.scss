@@ -562,6 +562,7 @@ nav.m-menu--mobile {
 
 @mixin focus-visible {
   &.focus-visible {
+    empty-cells: inherit;
     @content;
   }
 
