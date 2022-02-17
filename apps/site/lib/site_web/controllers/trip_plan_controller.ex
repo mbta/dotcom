@@ -23,7 +23,7 @@ defmodule SiteWeb.TripPlanController do
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
 
   @options %{
-    geocode_fn: &Geocode.geocode/1,
+    geocode_fn: &LocationService.Geocode.geocode/1,
     reverse_geocode_fn: &Geocode.reverse_geocode/2
   }
 
@@ -66,51 +66,68 @@ defmodule SiteWeb.TripPlanController do
     redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
   end
 
+  def to(conn, %{
+        "address" => <<latitude::bytes-size(9)>> <> "," <> <<longitude::bytes-size(10)>> = address
+      }) do
+    destination = %TripPlan.NamedPosition{
+      latitude: latitude,
+      longitude: longitude,
+      name: address,
+      stop_id: nil
+    }
+
+    do_to(conn, destination)
+  end
+
   def to(conn, %{"address" => address}) do
     updated_address = Geocode.check_address(address, @options)
 
     case TripPlan.geocode(updated_address) do
       {:ok, geocoded_to} ->
-        # build a default query with a pre-filled 'to' field:
-        query = %Query{
-          to: geocoded_to,
-          time: {:error, :unknown},
-          from: {:error, :unknown}
-        }
-
-        now = Util.now()
-
-        # build map information for a single leg with the 'to' field:
-        {map_data, map_src} =
-          TripPlanMap.itinerary_map([
-            %Leg{
-              from: nil,
-              to: geocoded_to,
-              mode: %PersonalDetail{},
-              description: "",
-              start: now,
-              stop: now,
-              name: "",
-              long_name: "",
-              type: "",
-              url: "",
-              polyline: ""
-            }
-          ])
-
-        %{markers: [marker]} = map_data
-        to_marker = %{marker | id: "B"}
-        map_info_for_to_destination = {%{map_data | markers: [to_marker]}, map_src}
-
-        conn
-        |> assign(:query, query)
-        |> assign(:map_info, map_info_for_to_destination)
-        |> render(:index)
+        do_to(conn, geocoded_to)
 
       {:error, _} ->
         # redirect to the initial index page
         redirect(conn, to: trip_plan_path(conn, :index))
     end
+  end
+
+  defp do_to(conn, destination) do
+    # build a default query with a pre-filled 'to' field:
+    query = %Query{
+      to: destination,
+      time: {:error, :unknown},
+      from: {:error, :unknown}
+    }
+
+    now = Util.now()
+
+    # build map information for a single leg with the 'to' field:
+    {map_data, map_src} =
+      TripPlanMap.itinerary_map([
+        %Leg{
+          from: nil,
+          to: destination,
+          mode: %PersonalDetail{},
+          description: "",
+          start: now,
+          stop: now,
+          name: "",
+          long_name: "",
+          type: "",
+          url: "",
+          polyline: ""
+        }
+      ])
+
+    %{markers: [marker]} = map_data
+    to_marker = %{marker | id: "B"}
+    map_info_for_to_destination = {%{map_data | markers: [to_marker]}, map_src}
+
+    conn
+    |> assign(:query, query)
+    |> assign(:map_info, map_info_for_to_destination)
+    |> render(:index)
   end
 
   defp get_route(link) do

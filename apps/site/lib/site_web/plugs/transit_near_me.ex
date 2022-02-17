@@ -14,7 +14,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     @moduledoc """
     Struct for the TransitNearMe plug.
     """
-    defstruct geocode_fn: &Geocode.geocode/1,
+    defstruct geocode_fn: &LocatonService.Geocode.geocode/1,
               reverse_geocode_fn: &Geocode.reverse_geocode/2,
               nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
               routes_by_stop_fn: &Repo.by_stop/1
@@ -39,7 +39,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     location =
       {:ok,
        [
-         %Geocode.Address{
+         %LocationService.Address{
            latitude: String.to_float(latitude),
            longitude: String.to_float(longitude),
            formatted: Geocode.formatted_address(conn.params, options)
