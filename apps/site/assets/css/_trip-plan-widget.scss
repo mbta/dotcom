@@ -78,7 +78,7 @@
   color: $brand-primary;
   font-size: $font-size-h3;
   font-weight: bold;
-  margin-left: $base-spacing / 2;
+  margin-left: calc(#{$base-spacing} / 2);
 }
 
 .c-form__input-container--error {

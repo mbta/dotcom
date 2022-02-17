@@ -2,10 +2,10 @@
   @include icon-size-inline(1.25em, 0);
 
   background-color: $white;
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
   margin-top: $base-spacing;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-up(lg) {
     @include icon-size-inline(1.5em, 0);
@@ -29,23 +29,23 @@
   align-items: center;
   display: flex;
   justify-content: flex-start;
-  padding: $base-spacing / 4 0;
+  padding: calc(#{$base-spacing} / 4) 0;
 
   .leaflet-popup-content & {
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
   }
 }
 
 .c-stop-card__route-link {
   display: block;
-  padding-left: $base-spacing / 2;
+  padding-left: calc(#{$base-spacing} / 2);
 }
 
 .c-stop-card__bus-pill {
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   font-weight: bold;
   min-width: 2rem;
-  padding: 0 $base-spacing / 4;
+  padding: 0 calc(#{$base-spacing} / 4);
   text-align: center;
 }
 

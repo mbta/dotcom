@@ -61,7 +61,7 @@
     cursor: pointer;
     display: inline-block;
     height: $space-8;
-    left: $base-spacing / 4;
+    left: calc(#{$base-spacing} / 4);
     opacity: 0;
     position: absolute;
     top: $space-8;

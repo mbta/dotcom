@@ -325,7 +325,7 @@
   flex: 1 1 auto;
   font-size: $font-size-h4;
   font-weight: bold;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
   width: 100%;
 
   &::-ms-clear {
@@ -382,7 +382,7 @@
 .c-search-results__show-more {
   color: $brand-primary;
   cursor: pointer;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
   position: relative;
   text-align: center;
 
@@ -467,7 +467,7 @@
 .c-search-result__google {
   display: flex;
   justify-content: flex-end;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .c-search__error {
@@ -475,7 +475,7 @@
   border-radius: $border-radius;
   color: $error-text;
   display: none;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .c-search-result__long-name {

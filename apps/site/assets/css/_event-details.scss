@@ -39,7 +39,7 @@
     @include media-breakpoint-down(xs) {
       display: block;
       .m-event__registration-header {
-        margin-bottom: $base-spacing / 2;
+        margin-bottom: calc(#{$base-spacing} / 2);
       }
     }
   }

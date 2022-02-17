@@ -49,7 +49,7 @@
   padding: $half-gutter;
 
   > .icon-alert {
-    margin-left: $base-spacing / 2;
+    margin-left: calc(#{$base-spacing} / 2);
   }
 }
 
@@ -143,10 +143,10 @@
 }
 
 .c-inline-buttons {
-  margin: -1em -#{$half-gutter / 2} 1em;
+  margin: -1em -calc(#{$half-gutter} / 2) 1em;
 
   .btn {
-    margin: 1em $half-gutter / 2 0;
+    margin: 1em calc(#{$half-gutter} / 2) 0;
     white-space: normal;
 
     @include media-breakpoint-down(sm) {

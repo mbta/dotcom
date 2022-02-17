@@ -1,6 +1,6 @@
 .c-news-entry {
   align-items: flex-start;
-  border-left: $base-spacing / 2 solid $brand-primary;
+  border-left: calc(#{$base-spacing} / 2) solid $brand-primary;
   display: flex;
   font-weight: bold;
   margin-bottom: $base-spacing;
@@ -71,7 +71,7 @@
   flex: 0 0 20%;
   font-family: $headings-font-family;
   max-width: 20%;
-  padding-right: $base-spacing / 2;
+  padding-right: calc(#{$base-spacing} / 2);
   text-align: left;
 
   @include media-breakpoint-down(xs) {
@@ -81,7 +81,7 @@
 }
 
 .c-news-entry__month {
-  margin-right: $base-spacing / 4;
+  margin-right: calc(#{$base-spacing} / 4);
 
   &--large {
     @include media-breakpoint-up(md) {

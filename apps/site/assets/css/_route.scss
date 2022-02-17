@@ -19,5 +19,5 @@
   color: $gray-dark;
   display: inline-block;
   font-size: $font-size-sm;
-  padding: $base-spacing / 4;
+  padding: calc(#{$base-spacing} / 4);
 }

@@ -62,7 +62,7 @@
   margin-right: $base-spacing;
 
   @include media-breakpoint-down(xs) {
-    margin-right: $base-spacing / 4;
+    margin-right: calc(#{$base-spacing} / 4);
   }
 }
 

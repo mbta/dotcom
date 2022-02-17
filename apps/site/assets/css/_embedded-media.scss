@@ -274,7 +274,7 @@ $layout-media: (
     // so it needs to be moved inside the structure (it
     // should only be enough to clear 1 additional line).
     .c-media--half & {
-      margin-bottom: $base-spacing / 2;
+      margin-bottom: calc(#{$base-spacing} / 2);
 
       // Emulates the space between the top of an inline text element
       // and the top of that element's character ascenders. This is

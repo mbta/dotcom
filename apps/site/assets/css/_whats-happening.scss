@@ -7,7 +7,7 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding: 0 $base-spacing / 2 $base-spacing / 2;
+  padding: 0 calc(#{$base-spacing} / 2) calc(#{$base-spacing} / 2);
 
   &--secondary {
     @include side-scroll(xs);
@@ -17,7 +17,7 @@
 .m-whats-happening__item {
   flex-basis: 0;
   flex-grow: 1;
-  margin: 0 $base-spacing / 2 $base-spacing / 2;
+  margin: 0 calc(#{$base-spacing} / 2) calc(#{$base-spacing} / 2);
 
   &--promoted {
     @include media-breakpoint-only(xs) {
@@ -47,7 +47,7 @@
 
 .m-whats-happening__category {
   font-weight: bold;
-  margin-top: $base-spacing / 2;
+  margin-top: calc(#{$base-spacing} / 2);
 }
 
 .m-whats-happening__title {

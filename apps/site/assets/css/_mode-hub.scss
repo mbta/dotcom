@@ -7,13 +7,13 @@
 .m-mode-hub__map-btns {
   display: flex;
   flex-wrap: wrap;
-  margin-left: -$base-spacing / 4;
-  margin-right: -$base-spacing / 4;
+  margin-left: calc(-#{$base-spacing} / 4);
+  margin-right: calc(-#{$base-spacing} / 4);
 }
 
 .m-mode-hub__map-btn-wrapper {
   flex: 0 0 50%;
-  padding: $space-6 $base-spacing / 4;
+  padding: $space-6 calc(#{$base-spacing} / 4);
 
   @include media-breakpoint-down(xs) {
     flex-basis: 100%;

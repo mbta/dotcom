@@ -110,8 +110,8 @@ $location-line-width: $space-6;
   &.merge:last-child {
     .route-branch-stop-bubble-line.direction-1,
     .merge-stop-spacer {
-      flex: 0 0 $base-spacing / 2;
-      min-height: $base-spacing / 2;
+      flex: 0 0 calc(#{$base-spacing} / 2);
+      min-height: calc(#{$base-spacing} / 2);
     }
   }
 
@@ -201,7 +201,7 @@ $location-line-width: $space-6;
   width: $location-line-width;
 
   &.above {
-    flex: 0 0 $base-spacing / 4;
+    flex: 0 0 calc(#{$base-spacing} / 4);
     min-height: 0;
   }
 }
@@ -225,7 +225,7 @@ $location-line-width: $space-6;
   .green-line {
     .route-branch-stop-icons {
       display: block;
-      padding-bottom: $base-spacing / 2;
+      padding-bottom: calc(#{$base-spacing} / 2);
     }
   }
 }
@@ -296,7 +296,7 @@ $location-line-width: $space-6;
     svg {
       // required for icons to be displayed on IE 10+
       flex: 0 0 auto;
-      margin-left: $base-spacing / 8;
+      margin-left: calc(#{$base-spacing} / 8);
     }
   }
 }
@@ -304,7 +304,7 @@ $location-line-width: $space-6;
 .route-branch-indent-start {
   align-self: flex-start;
   height: $location-line-width;
-  width: ($icon-size / 2) + ($location-line-width / 2);
+  width: calc((#{$icon-size} / 2) + (#{$location-line-width} / 2));
 
   .solid {
     height: $location-line-width;
@@ -324,8 +324,8 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-zone {
-  margin-bottom: $base-spacing / 4;
-  margin-top: $base-spacing / 4;
+  margin-bottom: calc(#{$base-spacing} / 4);
+  margin-top: calc(#{$base-spacing} / 4);
 }
 
 .vehicle-bubble {
@@ -352,7 +352,7 @@ $location-line-width: $space-6;
   @include icon-size(1.5rem);
 
   [class*='c-svg__icon'] {
-    margin-left: $base-spacing / 4;
+    margin-left: calc(#{$base-spacing} / 4);
   }
 }
 

@@ -40,7 +40,7 @@
     background-color: $brand-primary-dark;
     border: 1px solid transparent; // Added a border for IE bug ignoring border-radius otherwise
     border-radius: 50%;
-    bottom: 1.25 * $base-spacing + $base-spacing / 4 - $space-4;
+    bottom: calc(1.25 * #{$base-spacing} + (#{$base-spacing} / 4) - #{$space-4});
     content: none;
     cursor: pointer;
     display: inline-block;

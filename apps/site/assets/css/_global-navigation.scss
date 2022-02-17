@@ -44,14 +44,14 @@ nav.m-menu--desktop {
 
   display: flex;
   margin-left: $base-spacing;
-  padding: 0 $base-spacing / 2;
+  padding: 0 calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(md) {
     display: none;
   }
 
   .m-menu__language {
-    margin-left: $base-spacing / 2;
+    margin-left: calc(#{$base-spacing} / 2);
   }
 }
 
@@ -96,7 +96,7 @@ nav.m-menu--desktop {
   display: flex;
   flex-wrap: nowrap;
   font-weight: bold;
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
 
   // place for up/down arrows
   &::after {
