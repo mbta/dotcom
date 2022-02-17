@@ -47,7 +47,7 @@ defmodule SiteWeb.PlacesController do
 
   @spec reverse_geocode(Conn.t(), map) :: Conn.t()
   def reverse_geocode(conn, params) do
-    reverse_geocode_fn = Map.get(conn.assigns, :reverse_geocode_fn, &Geocode.reverse_geocode/2)
+    reverse_geocode_fn = Map.get(conn.assigns, :reverse_geocode_fn, &LocationService.Geocode.reverse_geocode/1)
 
     with {:ok, latitude, longitude} <- parse_location(params),
          {:ok, results} <- reverse_geocode_fn.(latitude, longitude) do

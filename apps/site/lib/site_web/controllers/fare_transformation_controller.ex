@@ -9,7 +9,7 @@ defmodule SiteWeb.FareTransformationController do
 
   @options %{
     geocode_fn: &LocationService.Geocode.geocode/1,
-    reverse_geocode_fn: &Geocode.reverse_geocode/2
+    reverse_geocode_fn: &LocationService.Geocode.reverse_geocode/1
   }
 
   def index(conn, %{"id" => "proposed-sales-locations"} = params) do
