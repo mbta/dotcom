@@ -560,27 +560,39 @@ nav.m-menu--mobile {
   }
 }
 
+@mixin focus-visible {
+  &.focus-visible {
+    @content;
+  }
+
+  &:focus-visible {
+    @content;
+  }
+}
+
 .m-menu__toggle, .m-menu--desktop__toggle, .header-search__toggle {
   background-color: unset;
   border: 2px solid $brand-primary-light-contrast;
   border-radius: 4px;
   margin: auto 0;
 
-  &:hover,
-  &:focus-visible,
-  &.focus-visible {
+  &:hover {
     background-color: $brand-primary-darkest;
   }
 
-  &:focus-visible,
-  &.focus-visible {
+  @include focus-visible {
+    background-color: $brand-primary-darkest;
     outline: 2px solid $brand-secondary;
   }
 
-  &[aria-expanded="true"]:hover,
-  &[aria-expanded="true"]:focus-visible,
-  &[aria-expanded="true"].focus-visible {
-    background-color: $brand-primary;
+  &[aria-expanded="true"] {
+    &:hover {
+      background-color: $brand-primary;
+    }
+
+    @include focus-visible {
+      background-color: $brand-primary;
+    }
   }
 }
 
