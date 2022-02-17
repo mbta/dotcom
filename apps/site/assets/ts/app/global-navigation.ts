@@ -188,13 +188,6 @@ export default function setupGlobalNavigation(): void {
 
       if (header.previousElementSibling?.classList.contains("m-menu--cover"))
         header.previousElementSibling.addEventListener("click", closeAllMenus);
-
-      // Load focus-visible polyfill if needed.
-      try {
-        document.querySelector(":focus-visible");
-      } catch (e) {
-        require("focus-visible");
-      }
     },
     { passive: true }
   );
