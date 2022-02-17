@@ -1,9 +1,10 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const SriPlugin = require("webpack-subresource-integrity");
+const { SubresourceIntegrityPlugin } = require("webpack-subresource-integrity");
 const TerserPlugin = require("terser-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
 const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
@@ -36,16 +37,13 @@ const tsLoader = {
  */
 module.exports = (env, argv) => {
   const plugins = (argv.mode !== 'development') ? [
-    new CopyWebpackPlugin([
-      { from: "static/fonts/*", to: "fonts/[name].[ext]" },
-      { from: "static/favicon.ico", to: "favicon.ico" },
-      { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
-      { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
-    ], {}),
-    new SriPlugin({
-      hashFuncNames: ['sha256', 'sha384'],
-      enabled: true
-    }),
+    new CopyWebpackPlugin({ patterns: [
+          { from: "static/fonts/*", to: "fonts/[name].[ext]" },
+          { from: "static/favicon.ico", to: "favicon.ico" },
+          { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
+          { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
+        ]}),
+    new SubresourceIntegrityPlugin(),
     new HtmlWebpackPlugin({
       inject: false,
       filename: "head.html",
@@ -63,9 +61,12 @@ module.exports = (env, argv) => {
   return ({
     entry: ["./export-headerfooter.js", "./css/export-headerfooter.scss"],
 
+    mode: "production",
+
     output: {
       path: path.resolve(__dirname, argv.outputPath ? argv.outputPath: "../../../../dotcomchrome"),
-      filename: argv.mode === 'development' ? 'header.[contenthash].js' : 'header.[contenthash].min.js'
+      filename: argv.mode === 'development' ? 'header.[contenthash].js' : 'header.[contenthash].min.js',
+      crossOriginLoading: 'anonymous'
     },
 
     devtool: 'source-map',
@@ -86,28 +87,27 @@ module.exports = (env, argv) => {
           test: /\.scss$/,
           use: [
             {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                sourceMap: argv.mode === 'development'
-              },
+              loader: MiniCssExtractPlugin.loader
             },
             {
               loader: 'css-loader',
               options: {
                 sourceMap: argv.mode === 'development',
-                importLoaders: 1
+                importLoaders: 1,
+                url: false
               },
             },
             {
               loader: 'postcss-loader',
               options: {
                 sourceMap: argv.mode === 'development',
-                ident: "postcss",
-                plugins: () => [
-                  postcssPresetEnv({
-                    autoprefixer: { grid: true }
-                  })
-                ]
+                postcssOptions: {
+                  plugins: [
+                    postcssPresetEnv({
+                      autoprefixer: { grid: true }
+                    })
+                  ]
+                }
               },
             },
             {
@@ -148,26 +148,27 @@ module.exports = (env, argv) => {
     optimization: {
       minimizer: [
         new TerserPlugin({
-          cache: argv.mode !== 'development',
           parallel: true,
           terserOptions: {
             compress: {
               drop_console: argv.mode !== 'development',
             },
+            format: {
+              comments: false,
+            },
           },
+          extractComments: false
         }),
-        new OptimizeCSSAssetsPlugin({
-          cssProcessorPluginOptions: {
+        new CssMinimizerPlugin({
+          minimizerOptions: {
             preset: [
-              'default',
+              "default",
               {
-                discardComments: {
-                  removeAll: true,
-                },
+                discardComments: { removeAll: true },
               },
             ],
           },
-        }),
+        })
       ],
     },
 
