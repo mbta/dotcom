@@ -18,7 +18,7 @@ defmodule LocationService.AWS.Request do
   end
 
   @doc "Searches for a position"
-  def new([lon, lat]) when is_number(lon) and is_number(lat) do
+  def new([lat, lon]) when is_number(lon) and is_number(lat) do
     @base_request_body
     |> Map.put_new(:Position, [lon, lat])
     |> request()
