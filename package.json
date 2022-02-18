@@ -18,7 +18,7 @@
     "ci:integration:cypress": "npm run test:cypress:run",
     "build": "mix compile.assets",
     "postbuild": "mix compile --warnings-as-errors",
-    "rebuild": "rm -rf _build && rm -rf apps/site/priv/static && npm run build",
+    "rebuild": "rm -rf _build apps/site/priv/static apps/site/assets/node_modules; npm run install; npm run build",
     "backstop": "./scripts/backstop.sh",
     "backstop:record": "ENABLE_RECORDING=true ./scripts/backstop.sh",
     "backstop:record:clean": "rm -r apps/site/test/__files/*.json && rm -r apps/site/test/mappings/mapping* && npm run backstop:record",
