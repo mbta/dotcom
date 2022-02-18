@@ -196,6 +196,11 @@ export default function setupGlobalNavigation(): void {
         menu_links[i].addEventListener("click", closeAllMenus);
       }
 
+      // T logo click closes
+      header
+        .querySelector(".navbar-logo")
+        ?.addEventListener("click", closeAllMenus);
+
       // Veil click or Esc key closes everything
       document.body.addEventListener("keydown", e => {
         handleNativeEscapeKeyPress(e, closeAllMenus);
