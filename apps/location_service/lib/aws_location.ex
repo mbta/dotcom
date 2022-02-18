@@ -48,7 +48,7 @@ defmodule LocationService.AWS do
     end
   end
 
-  @spec geocode(String.t()) :: GoogleMaps.Geocode.t()
+  @spec reverse_geocode(number, number) :: GoogleMaps.Geocode.t()
   def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
     # Google's geocode function returns this type:
     # {:ok, nonempty_list(Address.t())}
@@ -75,7 +75,7 @@ defmodule LocationService.AWS do
         # No response body? Not sure how but ExAws request might return this
         _ =
           Logger.warn(fn ->
-            "#{__MODULE__} error=\"No response body for #{address} status=#{status}\""
+            "#{__MODULE__} error=\"No response body for #{latitude},#{longitude} status=#{status}\""
           end)
 
         {:error, :zero_results}
