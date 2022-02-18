@@ -22,7 +22,7 @@ defmodule LocationService.ReverseGeocodeTest do
         assert "i use the google one" = reverse_geocode(71.56890, -68.5285)
 
         Application.put_env(:location_service, :reverse_geocode, :aws)
-        assert "i use the amazon one" = reverse_geocode(71.56890, -68.5285)
+        assert "i use the amazon one" = reverse_geocode(71.56890, 40.5285)
       end
     end
 
