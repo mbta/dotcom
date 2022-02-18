@@ -8,6 +8,9 @@ const mediaBreakpoints = {
   xxl: 1344
 };
 
+export const isLGDown = (): boolean =>
+  window.matchMedia(`(max-width: ${mediaBreakpoints.lg}px)`).matches;
+
 export const isSMDown = (): boolean =>
   typeof document !== "undefined"
     ? window.matchMedia(`(max-width: ${mediaBreakpoints.sm}px)`).matches
