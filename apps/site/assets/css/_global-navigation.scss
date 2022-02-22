@@ -187,6 +187,7 @@ nav.m-menu--desktop {
   margin-bottom: $space-4_new;
   padding-bottom: $base-spacing__new;
   text-transform: uppercase;
+  white-space: break-spaces;
 
   .m-menu--mobile & {
     font-size: $font-size-base-xs;
@@ -223,7 +224,7 @@ nav.m-menu--desktop {
   font-size: $font-size-base-sm;
   margin-bottom: 8px;
   margin-top: 1rem;
-  padding: $space-3_new 0 $space-3_new $space-3_new;
+  padding: $space-3_new;
   width: calc(100% - 40px);
 
   // Description list
@@ -266,6 +267,7 @@ nav.m-menu--desktop {
     display: block;
     font-size: $font-size-base-xs;
     line-height: 1.75;
+    white-space: break-spaces;
   }
 
   @include media-breakpoint-up(sm) {
@@ -278,14 +280,20 @@ nav.m-menu--desktop {
   }
 
   // CSS for the Contact Numbers split-container
-  &.top-half {
+  &.top-section {
     border-radius: 0 $space-2_new 0 0;
     margin-bottom: 2px;
   }
 
-  &.bottom-half {
+  &.middle-section {
+    border-radius: 0;
+    margin-top: 0px;
+    margin-bottom: 2px;
+  }
+
+  &.bottom-section {
     border-radius: 0 0 $space-2_new;
-    margin-top: 0;
+    margin-top: 0px;
 
     @include media-breakpoint-up(sm) {
       border-radius: 0 0 $space-2_new $space-2_new;
