@@ -11,7 +11,7 @@ defmodule SiteWeb.TransitNearMeController.Location do
       Keyword.merge(
         [
           geocode_fn: &LocationService.Geocode.geocode/1,
-          reverse_geocode_fn: &Geocode.reverse_geocode/2
+          reverse_geocode_fn: &LocationService.ReverseGeocode.reverse_geocode/2
         ],
         opts
       )
