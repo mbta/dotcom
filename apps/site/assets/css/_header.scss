@@ -577,8 +577,10 @@ nav.m-menu--mobile {
   border-radius: 4px;
   margin: auto 0;
 
-  &:hover {
-    background-color: $brand-primary-darkest;
+  @media (hover: hover) {
+    &:hover {
+      background-color: $brand-primary-darkest;
+    }
   }
 
   @include focus-visible {
@@ -587,8 +589,10 @@ nav.m-menu--mobile {
   }
 
   &[aria-expanded="true"] {
-    &:hover {
-      background-color: $brand-primary;
+    @media (hover: hover) {
+      &:hover {
+        background-color: $brand-primary;
+      }
     }
 
     @include focus-visible {
