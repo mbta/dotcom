@@ -11,6 +11,7 @@ defmodule GreenLine do
   @type branch_name :: String.t()
   @typep stops_by_routes_fn :: ([Route.id_t()], 0 | 1, Keyword.t() -> [Stop.t()] | {:error, any})
 
+  # FIXME: Stop hardcoding these
   @termini %{
     {"Green-B", 0} => "place-lake",
     {"Green-B", 1} => "place-gover",
@@ -19,10 +20,8 @@ defmodule GreenLine do
     {"Green-D", 0} => "place-river",
     {"Green-D", 1} => "place-north",
     {"Green-E", 0} => "place-hsmnl",
-    # As of June 2020, Lechmere is closed for construction and the E-line will
-    # be terminating at North Station for now.
-    # {"Green-E", 1} => "place-lech"
-    {"Green-E", 1} => "place-north"
+    # In Spring 2022, the GLX extends E to Union Square
+    {"Green-E", 1} => "place-unsqu"
   }
 
   @doc """
@@ -111,8 +110,6 @@ defmodule GreenLine do
   @spec shared_stops() :: [Stop.id_t()]
   def shared_stops,
     do: [
-      "place-lech",
-      "place-spmnl",
       "place-north",
       "place-haecl",
       "place-gover",
@@ -129,16 +126,17 @@ defmodule GreenLine do
   """
   @spec excluded_shared_stops(branch_name) :: [Stop.id_t()]
   def excluded_shared_stops("Green-B"),
-    do: ["place-lech", "place-spmnl", "place-north", "place-haecl", "place-gover"]
+    do: ["place-north", "place-haecl"]
 
-  def excluded_shared_stops("Green-C"), do: ["place-lech", "place-spmnl"]
+  def excluded_shared_stops("Green-C"), do: ["place-north", "place-haecl"]
 
   def excluded_shared_stops("Green-D"),
-    do: ["place-lech", "place-spmnl", "place-north", "place-haecl"]
+    do: []
 
   def excluded_shared_stops("Green-E"), do: ["place-kencl", "place-hymnl"]
 
   @doc """
+  FIXME: This and split_id/1 won't make sense when there's branching at both ends.
   The stop at which a branch joins the other branches.
   """
   @spec merge_id(branch_name) :: Stop.id_t()

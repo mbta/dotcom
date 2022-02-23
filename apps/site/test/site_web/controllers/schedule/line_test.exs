@@ -591,7 +591,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       stop = %RouteStop{id: "place-north"}
       branches = {nil, GreenLine.branch_ids()}
 
-      bubbles = [{nil, :terminus}]
+      bubbles = [{nil, :stop}]
 
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
