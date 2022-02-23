@@ -187,7 +187,7 @@ defmodule SiteWeb.LayoutView do
             links: [
               {"Sustainability", "/sustainability", :internal_link},
               {"Building a Better T", "/projects/building-better-t-2020", :internal_link},
-              {"Green Line Transformation", "/projects/green-line-transformation",
+              {"Capital Transformation", "/projects/capital-transformation-programs",
                :internal_link},
               {"Commuter Rail Positive Train Control",
                "/projects/commuter-rail-positive-train-control-ptc", :internal_link},
