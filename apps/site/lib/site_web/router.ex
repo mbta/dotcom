@@ -242,9 +242,9 @@ defmodule SiteWeb.Router do
     end
   end
 
-  @doc "Activates a feature flag using a url parameter, e.g.
-   visiting /?active_flag=nav_redesign, using the same cookie settings as
-   activating via /_flags"
+  # Activates a feature flag using a url parameter, e.g.
+  # visiting /?active_flag=nav_redesign, using the same cookie settings as
+  # activating via /_flags
   defp activate_flag(%{query_params: %{"active_flag" => flag}} = conn, _) do
     # check if it's a known flagged feature
     known_features =
