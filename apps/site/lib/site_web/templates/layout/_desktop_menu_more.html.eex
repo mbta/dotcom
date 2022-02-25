@@ -81,7 +81,7 @@
           <%= link "Fare Transformation", to: cms_static_page_path(@conn, "/fare-transformation"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Green Line Transformation", to: "https://www.mbta.com/projects/green-line-transformation", target: "_blank", class: "ga-nav-sublink" %>
+          <%= link "Capital Transformation", to: "https://www.mbta.com/projects/capital-transformation-programs", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
           <%= link "See All Projects", to: project_path(@conn, :index), class: "ga-nav-sublink" %>
