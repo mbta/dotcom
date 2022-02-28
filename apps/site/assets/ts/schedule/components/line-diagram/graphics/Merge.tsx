@@ -3,7 +3,6 @@ import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { LineDiagramStop } from "../../__schedule";
 import {
-  getTreeDirection,
   isBranchTerminusStop,
   isMergeStop,
   lineDiagramIndexes,
@@ -21,33 +20,35 @@ interface MergeGraphicsProps {
   lineDiagram: LineDiagramStop[];
 }
 const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
-  const branchingOutward = getTreeDirection(lineDiagram) === "outward";
-  const mergeIndices = lineDiagramIndexes(lineDiagram, isMergeStop);
-  // walk through the diagram to find where all the merges go.
-  const stopGaps = mergeIndices.map(i => {
-    let from: LineDiagramStop;
-    let to: LineDiagramStop;
-    if (branchingOutward) {
-      from = lineDiagram[i];
-      [to] = lineDiagram.slice(i).filter(isStopOnMainLine);
-    } else {
-      to = lineDiagram[i];
-      from = last(lineDiagram.slice(0, i - 1).filter(isStopOnMainLine))!;
-    }
-
-    return [from, to];
-  });
-
   const lineDiagramCoords: CoordState = useSelector(
     (state: CoordState) => state
   );
   if (!lineDiagramCoords) return null;
 
-  const mergeBends = stopGaps.map(([from, to]) => {
+  const mergeIndices = lineDiagramIndexes(lineDiagram, isMergeStop);
+  // walk through the diagram to find where all the merges go.
+  type GapInfo = [number, number, 'in' | 'out'];
+  const stopGaps: GapInfo[] = mergeIndices.map(i => {
+    const prev = lineDiagram[i - 1];
+    const stop = lineDiagram[i];
+
+    if (prev.stop_data.length >= stop.stop_data.length) {
+      return [
+        (i - 2) - lineDiagram.slice(0, i - 1).reverse().findIndex(isStopOnMainLine),
+        i,
+        'in',
+      ];
+    }
+
+    return [i, i + lineDiagram.slice(i).findIndex(isStopOnMainLine), 'out'];
+  });
+
+  const mergeBends = stopGaps.map(([fromIdx, toIdx, dir]) => {
     // if outward, start with from and construct array of tos
     // if inward, start with to and construct array of froms
-    const mergeStop = branchingOutward ? from : to;
-    const mergeStopIndex = lineDiagram.indexOf(mergeStop);
+    const branchingOutward = dir === 'out';
+    const mergeStopIndex = branchingOutward ? fromIdx : toIdx;
+    const mergeStop = lineDiagram[mergeStopIndex];
     const mergeStopCoords = lineDiagramCoords[mergeStop.route_stop.id];
     if (!mergeStopCoords) return null;
 
@@ -55,7 +56,7 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
     const mergeEnds = mergeStop.stop_data.slice(1).map(({ branch }) => {
       // along the branch might be subsequent stops or prior stops
       const downBranch = (branchingOutward
-        ? lineDiagram.slice(mergeStopIndex)
+        ? lineDiagram.slice(mergeStopIndex + 1)
         : lineDiagram.slice(0, mergeStopIndex)
       ).filter(stop => stop.route_stop.branch === branch);
       const nextStopOnBranch = branchingOutward
@@ -68,7 +69,9 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
     });
 
     return mergeEnds.map(([nextStop, terminus]) => {
-      if (!nextStop && !terminus) return null;
+      if (!nextStop && !terminus) {
+        return null;
+      }
       // try the next stop on the branch first. if the branch is collapsed the
       // coordinates will be null as the next stop is hidden, so use terminus
       const nextStopVisible = !!lineDiagramCoords[nextStop!.route_stop.id];
@@ -86,7 +89,7 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
         ? `-${MERGE_RADIUS},-${MERGE_RADIUS} 0 0 0 -${MERGE_RADIUS},-${MERGE_RADIUS}`
         : `-${MERGE_RADIUS},${MERGE_RADIUS} 0 0 1 -${MERGE_RADIUS},${MERGE_RADIUS}`;
       const pathProps: React.SVGProps<SVGPathElement> = {
-        key: `${mergeStop.route_stop.id}-${terminus!.route_stop.id}-merge`,
+        key: `${mergeStop.route_stop.id}-${nextStop!.route_stop.id}-merge`,
         strokeWidth: `${BASE_LINE_WIDTH}px`,
         d: `M${x},${y} v${dy} a${arc} h${dx}`
       };
@@ -102,15 +105,18 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
   return (
     <g className="line-diagram-svg__merge">
       {stopGaps.map(
-        ([from, to]) =>
-          from &&
-          to && (
+        ([fromIdx, toIdx]) => {
+          const from = lineDiagram[fromIdx];
+          const to = lineDiagram[toIdx];
+
+          return (
             <Line
               key={`${from.route_stop.id}-${to.route_stop.id}-line`}
               from={from}
               to={to}
             />
           )
+        }
       )}
       {mergeBends}
     </g>
