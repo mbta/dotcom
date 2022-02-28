@@ -9,7 +9,7 @@
     <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
   </div>
 </div>
-<div class="m-menu__feature middle-section">
+<div class="m-menu__feature emergency-contacts mobile">
   <div class="m-menu__section-heading">Emergency Contacts</div>
   <small>24 hours, 7 days a week</small>
   <div class="m-menu__feature_phone">
