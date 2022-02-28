@@ -19,9 +19,8 @@ const SELECTORS = {
   searchBarMobile: "header #search-header-mobile__container"
 }
 
-describe("Navigation redesign", () => {
+describe("Header navigation", () => {
   beforeEach(() => {
-    cy.enableFlaggedFeature("nav_redesign");
     cy.visit("/");
   });
 
