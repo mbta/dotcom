@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'typography';
+@import 'mixins';
 
 .desktop-menu-nav {
   float: right;
@@ -557,17 +558,6 @@ nav.m-menu--mobile {
 
   .m-menu__toggle {
     @extend %hide-button;
-  }
-}
-
-@mixin focus-visible {
-  &.focus-visible {
-    empty-cells: inherit;
-    @content;
-  }
-
-  &:focus-visible {
-    @content;
   }
 }
 
