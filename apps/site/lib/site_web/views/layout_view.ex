@@ -150,6 +150,7 @@ defmodule SiteWeb.LayoutView do
             ]
           },
           # special
+          %{sub_menu_section: "Emergency Contacts"},
           %{sub_menu_section: "Contact numbers"}
         ]
       },
