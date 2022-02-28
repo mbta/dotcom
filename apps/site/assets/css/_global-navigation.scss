@@ -152,7 +152,7 @@ nav.m-menu--desktop {
   color: $body-color;
   column-gap: $base-spacing;
   display: grid;
-  grid-template-columns: repeat(1fr); // space unknown number of columns evenly
+  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr)); // space unknown number of columns evenly
   grid-template-rows: auto 1fr;
   margin: $base-spacing * 2 0;
 
