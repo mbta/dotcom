@@ -150,22 +150,19 @@ nav.m-menu--desktop {
 // Layout the headers & links in the desktop menu
 .m-menu-desktop__section {
   color: $body-color;
-  column-gap: $base-spacing-xl;
+  column-gap: $base-spacing;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); // space unknown number of columns evenly
+  grid-template-columns: repeat(1fr); // space unknown number of columns evenly
   grid-template-rows: auto 1fr;
   margin: $base-spacing * 2 0;
 
   .m-menu__section-heading {
     grid-row: 1;
+    line-height: unset; // smaller heading spacing
   }
 
   .m-menu-desktop__submenu-section {
     grid-row: 2;
-  }
-
-  .m-menu-desktop__submenu-section:nth-of-type(2) {
-    grid-column: 2;
   }
 
   .m-menu-desktop__section-feature {
@@ -179,6 +176,27 @@ nav.m-menu--desktop {
 
   .m-menu__link {
     padding: $space-2_new 0;
+  }
+
+  // Alternate layout for Contact menu
+  &.contact {
+    grid-template-columns: repeat(3, 1fr); // 3 columns
+    grid-template-rows: repeat(3, auto); // 3 rows
+
+    .m-menu-desktop__submenu-section:first-of-type {
+      grid-row: 2 / 4;
+    }
+
+    .m-menu-feature.emergency-contacts.desktop {
+      border-radius: 0 $space-2_new $space-2_new;
+      grid-row: 3 / 4;
+      width: unset;
+    }
+
+    .m-menu-desktop__section-feature {
+      grid-column: 3 / 4;
+      grid-row: 1 / 4;
+    }
   }
 }
 
@@ -290,19 +308,11 @@ nav.m-menu--desktop {
   }
 
   &.emergency-contacts {
-    border-radius: 0;
-    margin-top: 0px;
-    margin-bottom: 2px;
-
-    &.desktop {
-      border-radius: 0 $space-2_new $space-2_new;
-      grid-row: 2;
-      grid-column: 2;
-      align-self: end;
-      width: unset;
-    }
-
     &.mobile {
+      border-radius: 0;
+      margin-top: 0px;
+      margin-bottom: 2px;
+
       @include media-breakpoint-up(lg) {
         display: none;
       }
