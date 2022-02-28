@@ -128,7 +128,10 @@ module.exports = {
   },
 
   plugins: [
-    new CopyWebpackPlugin([{ from: "static/**/*", to: "../../" }], {}),
+    new CopyWebpackPlugin([
+      { from: "static/**/*", to: "../../" },
+      { from: "node_modules/focus-visible/dist/focus-visible.min.js", to: "../js" },
+    ], {}),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
     new webpack.ProvidePlugin({
       Turbolinks: "turbolinks",

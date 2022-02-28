@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'typography';
+@import 'mixins';
 
 .desktop-menu-nav {
   float: right;
@@ -158,11 +159,11 @@
     .c-svg__mbta-logo {
       display: none;
     }
-  
+
     // At XS size, use T logo only
     @include media-breakpoint-only(xs) {
       flex-grow: 1;
-      
+
       svg {
         display: unset;
         height: 24px;
@@ -566,18 +567,27 @@ nav.m-menu--mobile {
   border-radius: 4px;
   margin: auto 0;
 
-  &:hover,
-  &:focus {
+  @media (hover: hover) {
+    &:hover {
+      background-color: $brand-primary-darkest;
+    }
+  }
+
+  @include focus-visible {
     background-color: $brand-primary-darkest;
+    outline: 2px solid $brand-secondary;
   }
 
-  &:focus {
-    border-color: $brand-primary-light;
-  }
+  &[aria-expanded="true"] {
+    @media (hover: hover) {
+      &:hover {
+        background-color: $brand-primary;
+      }
+    }
 
-  &[aria-expanded="true"]:hover,
-  &[aria-expanded="true"]:focus {
-    background-color: $brand-primary;
+    @include focus-visible {
+      background-color: $brand-primary;
+    }
   }
 }
 
