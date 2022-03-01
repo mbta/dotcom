@@ -165,7 +165,7 @@ defmodule TransferTest do
           route_id: "Green-C"
         },
         to: %NamedPosition{
-          stop_id: "71199"
+          stop_id: "70200"
         }
       }
 
