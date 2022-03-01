@@ -29,53 +29,6 @@ defmodule SiteWeb.LayoutViewTest do
     assert body =~ "<title>#{expected_title}</title>"
   end
 
-  describe "_header.html" do
-    test "renders desktop nav with all content drawers", %{conn: conn} do
-      assert {:safe, html} = render("_header.html", %{conn: conn})
-      assert [{"nav", _, drawers}] = html |> IO.iodata_to_binary() |> Floki.find("#desktop-menu")
-      refute Floki.raw_html(drawers) =~ "mobile"
-      assert conn |> nav_link_content() |> length() > 0
-
-      conn
-      |> nav_link_content()
-      |> Enum.each(fn {name, description, href} ->
-        camelized = SiteWeb.ViewHelpers.to_camelcase(name)
-        id = "#" <> camelized
-
-        assert [{"div", _, drawer_content}] = Floki.find(drawers, id)
-
-        assert [{"a", link_attrs, _link_content}] =
-                 Floki.find(drawers, ".desktop-nav-link[href=\"#{href}\"]")
-
-        assert [controls, _class, parent, target, _href, role] = link_attrs
-
-        assert controls == {"aria-controls", camelized}
-        assert parent == {"data-parent", "#desktop-menu"}
-        assert target == {"data-target", id}
-        assert role == {"role", "tab"}
-
-        refute Floki.raw_html(drawer_content) =~ description
-
-        if id == "#fares" do
-          assert [{"div", _, _}] = Floki.find(drawer_content, ".fare-summary-container")
-        end
-      end)
-    end
-
-    test "renders mobile nav with all content drawers", %{conn: conn} do
-      assert {:safe, html} = render("_header.html", %{conn: conn})
-      html_string = IO.iodata_to_binary(html)
-
-      conn
-      |> nav_link_content()
-      |> Enum.each(fn {name, description, link} ->
-        assert html_string =~ name
-        assert html_string =~ description
-        assert html_string =~ link
-      end)
-    end
-  end
-
   describe "render_nav_link/1" do
     test "renders a link" do
       {:safe, html} = render_nav_link({"Title", "/page", :external_link})

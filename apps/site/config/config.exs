@@ -25,10 +25,7 @@ config :logster, :allowed_headers, ["referer"]
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [
-    {:nav_redesign, "Navigation Menu Redesign (Nov. 2021 -- Jan 2022)",
-     "Changes to the navigation menus on mobile and desktop as part of the IA + Navigation epic"}
-  ],
+  features: [],
   cookie: [
     # one month,
     max_age: 3600 * 24 * 30,

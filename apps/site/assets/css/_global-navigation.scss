@@ -17,16 +17,6 @@ header {
     }
   }
 
-  &.header { // old header 
-    background-color: $brand-primary;
-    color: $white;
-
-    @include media-breakpoint-up(lg) {
-      background-color: unset;
-      color: unset;
-    }
-  }
-
   &.header--new {
     background-color: $brand-primary-dark;
     color: $white;
