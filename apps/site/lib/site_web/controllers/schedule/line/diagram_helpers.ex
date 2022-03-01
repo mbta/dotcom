@@ -378,6 +378,22 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   # "Merge stop" IDs are hard-coded for the moment since we can't easily get data on *which* lines
   # are merging together at a given stop, and the E line needs a special case since it merges into
   # three other lines we want to represent as a single line.
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-unsqu"}) do
+    [{"Green-E", :terminus}]
+  end
+
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-lech"}) do
+    [{"Green-E", :stop}]
+  end
+
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-spmnl"}) do
+    [{"Green-E", :stop}]
+  end
+
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-north"}) do
+    [{nil, :stop}]
+  end
+
   defp combined_green_stop_bubble_types(%RouteStop{id: "place-coecl"}) do
     [{nil, :merge}, {"Green-E", :merge}]
   end
@@ -398,7 +414,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
       end
 
     # Determine whether this stop should be drawn as a terminus on its branch. Since we are
-    # presenting everything inbound of Copley as a single combined line, only Lechmere should be
+    # presenting everything inbound of Copley as a single combined line, only Union should be
     # considered a terminus on that segment.
     stop_bubble =
       if GreenLine.terminus?(id, branch, 0) or GreenLine.terminus?(id, "Green-E", 1) do

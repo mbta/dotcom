@@ -6,12 +6,9 @@ defmodule GreenLineTest do
   describe "stops_on_routes/1" do
     test "returns ordered stops on the green line by direction ID" do
       {stops, _} = stops_on_routes(0)
-
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      # assert %Stops.Stop{id: "place-lech", name: "Lechmere"} = List.first(stops)
-      assert %Stops.Stop{id: "place-north", name: "North Station"} = List.first(stops)
-      assert %Stops.Stop{id: "place-lake", name: "Boston College"} = List.last(stops)
+      earlier_stop = Enum.find_index(stops, &(&1.id == "place-gover"))
+      later_stop = Enum.find_index(stops, &(&1.id == "place-lake"))
+      assert earlier_stop < later_stop
     end
 
     test "returns a set of {stop_id, route_id} pairs" do
@@ -132,12 +129,14 @@ defmodule GreenLineTest do
       assert terminus?(stop_id, "Green-C")
     end
 
+    # FIXME: Update with new GLX data
     for stop_id <- ["place-river", "place-north"] do
       assert terminus?(stop_id, "Green-D")
     end
 
     # As of June 2020, Lechmere is closed for construction and the E-line will
     # be terminating at North Station for now.
+    # FIXME: Update with new GLX data
     for stop_id <- ["place-north", "place-hsmnl"] do
       assert terminus?(stop_id, "Green-E")
     end
@@ -148,11 +147,14 @@ defmodule GreenLineTest do
     refute terminus?("place-lake", "Green-B", 1)
     # As of June 2020, Lechmere is closed for construction and the E-line will
     # be terminating at North Station for now.
+    # FIXME: Update with new GLX data
     refute terminus?("place-north", "Green-E", 0)
+    # FIXME: Update with new GLX data
     assert terminus?("place-north", "Green-E", 1)
   end
 
   describe "naive_headsign/2" do
+    # FIXME: Update with new GLX data
     test "correct headsign for route and direction" do
       assert naive_headsign("Green-B", 0) == "Boston College"
       assert naive_headsign("Green-B", 1) == "Government Center"

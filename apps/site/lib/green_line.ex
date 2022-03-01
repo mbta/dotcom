@@ -11,20 +11,6 @@ defmodule GreenLine do
   @type branch_name :: String.t()
   @typep stops_by_routes_fn :: ([Route.id_t()], 0 | 1, Keyword.t() -> [Stop.t()] | {:error, any})
 
-  @termini %{
-    {"Green-B", 0} => "place-lake",
-    {"Green-B", 1} => "place-gover",
-    {"Green-C", 0} => "place-clmnl",
-    {"Green-C", 1} => "place-gover",
-    {"Green-D", 0} => "place-river",
-    {"Green-D", 1} => "place-north",
-    {"Green-E", 0} => "place-hsmnl",
-    # As of June 2020, Lechmere is closed for construction and the E-line will
-    # be terminating at North Station for now.
-    # {"Green-E", 1} => "place-lech"
-    {"Green-E", 1} => "place-north"
-  }
-
   @doc """
   Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
   """
@@ -47,6 +33,17 @@ defmodule GreenLine do
   end
 
   @doc """
+  Terminal stops for each Green Line branch and direction.
+  TODO: Combine with calculate_stops_on_routes?
+  """
+  def termini_stops() do
+    for direction_id <- [0, 1], branch_id <- GreenLine.branch_ids(), into: %{} do
+      stop = Stops.Repo.by_route(branch_id, direction_id) |> List.last()
+      {{branch_id, direction_id}, stop}
+    end
+  end
+
+  @doc """
   Returns whether or not the given stop is a terminus for the line. Assumes the given stop is
   actually on the line.
   """
@@ -58,18 +55,18 @@ defmodule GreenLine do
   @doc """
   Returns whether or not the stop is a terminus for the line in the given direction. Assumes
   the stop is actually on the line.
+  TODO: Cache this and naive_headsign, probably
   """
   @spec terminus?(Stop.id_t(), branch_name, 0 | 1) :: boolean
   def terminus?(stop_id, branch_name, direction_id) do
-    Map.get(@termini, {branch_name, direction_id}) == stop_id
+    Map.get(termini_stops(), {branch_name, direction_id}, %{}) |> Map.get(:id) == stop_id
   end
 
   @doc "A naive guess at the destination of a green line train when no trip is available"
   @spec naive_headsign(branch_name, 0 | 1) :: String.t()
   def naive_headsign(branch_name, direction_id) do
-    @termini
-    |> Map.get({branch_name, direction_id})
-    |> Stops.Repo.get_parent()
+    termini_stops()
+    |> Map.get({branch_name, direction_id}, %{})
     |> Map.get(:name)
   end
 
@@ -111,8 +108,6 @@ defmodule GreenLine do
   @spec shared_stops() :: [Stop.id_t()]
   def shared_stops,
     do: [
-      "place-lech",
-      "place-spmnl",
       "place-north",
       "place-haecl",
       "place-gover",
@@ -129,16 +124,17 @@ defmodule GreenLine do
   """
   @spec excluded_shared_stops(branch_name) :: [Stop.id_t()]
   def excluded_shared_stops("Green-B"),
-    do: ["place-lech", "place-spmnl", "place-north", "place-haecl", "place-gover"]
+    do: ["place-north", "place-haecl"]
 
-  def excluded_shared_stops("Green-C"), do: ["place-lech", "place-spmnl"]
+  def excluded_shared_stops("Green-C"), do: ["place-north", "place-haecl"]
 
   def excluded_shared_stops("Green-D"),
-    do: ["place-lech", "place-spmnl", "place-north", "place-haecl"]
+    do: []
 
   def excluded_shared_stops("Green-E"), do: ["place-kencl", "place-hymnl"]
 
   @doc """
+  FIXME: This and split_id/1 won't make sense when there's branching at both ends.
   The stop at which a branch joins the other branches.
   """
   @spec merge_id(branch_name) :: Stop.id_t()
