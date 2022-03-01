@@ -38,16 +38,6 @@ defmodule SiteWeb.LayoutView do
     "#{module_class} #{template_class}"
   end
 
-  def nav_link_content(conn) do
-    [
-      {"Getting Around", "Transit Services, Plan Your Journey, Riding...",
-       static_page_path(conn, :getting_around)},
-      {"Fares", "Fares By Mode, Reduced Fares, Passes...", cms_static_page_path(conn, "/fares")},
-      {"Contact Us", "Phone And Online Support, T-Alerts", customer_support_path(conn, :index)},
-      {"More", "About Us, Business Center, Projects...", static_page_path(conn, :about)}
-    ]
-  end
-
   def nav_link_content_redesign(conn),
     do: [
       %{
@@ -150,6 +140,7 @@ defmodule SiteWeb.LayoutView do
             ]
           },
           # special
+          %{sub_menu_section: "Emergency Contacts"},
           %{sub_menu_section: "Contact numbers"}
         ]
       },
@@ -187,7 +178,7 @@ defmodule SiteWeb.LayoutView do
             links: [
               {"Sustainability", "/sustainability", :internal_link},
               {"Building a Better T", "/projects/building-better-t-2020", :internal_link},
-              {"Green Line Transformation", "/projects/green-line-transformation",
+              {"Capital Transformation", "/projects/capital-transformation-programs",
                :internal_link},
               {"Commuter Rail Positive Train Control",
                "/projects/commuter-rail-positive-train-control-ptc", :internal_link},

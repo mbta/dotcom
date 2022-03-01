@@ -1,4 +1,4 @@
-<div class="m-menu__feature top-half">
+<div class="m-menu__feature top-section">
   <div class="m-menu__section-heading">Information & Support</div>
   <small>Monday thru Friday: 6:30 AM - 8 PM</small>
   <small>Saturday thru Sunday: 8 AM - 4 PM</small>
@@ -9,7 +9,7 @@
     <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
   </div>
 </div>
-<div class="m-menu__feature bottom-half">
+<div class="m-menu__feature emergency-contacts mobile">
   <div class="m-menu__section-heading">Emergency Contacts</div>
   <small>24 hours, 7 days a week</small>
   <div class="m-menu__feature_phone">
@@ -18,4 +18,8 @@
   <div class="m-menu__feature_phone">
     <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
   </div>
+</div>
+<div class="m-menu__feature bottom-section">
+  <div class="m-menu__section-heading">Report a Railroad Crossing Gate Issue</div>
+  <div class="m-menu__feature_phone">To report a problem or emergency with a railroad crossing, call <%= tel_link "1-800-522-8236" %></div>
 </div>

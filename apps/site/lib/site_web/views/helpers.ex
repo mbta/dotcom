@@ -264,6 +264,7 @@ defmodule SiteWeb.ViewHelpers do
 
       machine_formatted ->
         content_tag(:a, pretty_formatted,
+          class: "no-wrap",
           href: "tel:#{machine_formatted}",
           aria: [label: Site.PhoneNumber.aria_format(number)]
         )
