@@ -407,11 +407,12 @@ nav.m-menu--mobile {
 // Search button in top nav
 .header-search__toggle {
   margin-left: 1.75rem;
-  padding: 2px 8px;
+  height: 30px;
+  width: 30px;
 
-  > i {
-    width: 16px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // /menu page
