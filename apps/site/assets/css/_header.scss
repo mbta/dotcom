@@ -212,6 +212,7 @@ nav.m-menu--mobile {
   width: 0px;
   background-color: $brand-primary;
   padding-bottom: calc(200px - $base-spacing);
+  overscroll-behavior: none;
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
