@@ -418,6 +418,7 @@ defmodule SiteWeb.TripPlanController do
           custom_route
           | type: "Massport-" <> type
         }
+
       # Handle MBTA busses not present via api
       {"1", "BUS"} ->
         %Route{
