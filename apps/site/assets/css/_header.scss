@@ -120,7 +120,7 @@
   }
 }
 
-nav.m-menu, .header-navbar .m-menu__toggle {
+nav.m-menu {
   @include media-breakpoint-up(lg) {
     display: none;
   }
@@ -364,6 +364,10 @@ nav.m-menu--mobile {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
 }
 
 .m-menu__toggle, .m-menu--desktop__toggle, .header-search__toggle {
