@@ -41,7 +41,7 @@ on the site.
 ### `GOOGLE_API_KEY`
 
 This will ensure any part of the site that uses Google's API will not get rate
-limited. If your work requires a Google API key, request one via the [Infrastructure request form](https://form.asana.com/?d=15492006741476&k=yxvoxR2nofLwyXkOpuwrBg).
+limited. If your work for the MBTA requires a Google API key, you can request one via the [Infrastructure request form](https://form.asana.com/?d=15492006741476&k=yxvoxR2nofLwyXkOpuwrBg).
 
 ### `ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`
 
