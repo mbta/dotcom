@@ -411,12 +411,19 @@ defmodule SiteWeb.TripPlanController do
       color: "000000"
     }
 
-    case {url, description} do
+    case {type, description} do
       # Workaround for Massport buses, manually assign type
-      {"https://massport.com/", "BUS"} ->
+      {"2", "BUS"} ->
         %Route{
           custom_route
           | type: "Massport-" <> type
+        }
+
+      # Handle MBTA busses not present via api
+      {"1", "BUS"} ->
+        %Route{
+          custom_route
+          | type: 3
         }
 
       _ ->
