@@ -120,7 +120,7 @@
   }
 }
 
-nav.m-menu, .m-menu__toggle {
+nav.m-menu, .header-navbar .m-menu__toggle {
   @include media-breakpoint-up(lg) {
     display: none;
   }
@@ -356,6 +356,14 @@ nav.m-menu--mobile {
   .m-menu__toggle {
     @extend %hide-button;
   }
+}
+
+.m-menu__toggle {
+  width: 5em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .m-menu__toggle, .m-menu--desktop__toggle, .header-search__toggle {
