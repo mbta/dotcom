@@ -187,12 +187,19 @@ defmodule SiteWeb.Router do
     end
   end
 
+  # TODO replace with /locations
   scope "/places", SiteWeb do
     pipe_through([:api])
 
     get("/autocomplete/:input/:hit_limit/:token", PlacesController, :autocomplete)
     get("/details/:place_id", PlacesController, :details)
     get("/reverse-geocode/:latitude/:longitude", PlacesController, :reverse_geocode)
+  end
+
+  scope "/locations", SiteWeb do
+    get("/suggestion/:input", LocationServiceController, :suggestions)
+    get("/text/:address", LocationServiceController, :geocode)
+    get("/position/:latitude/:longitude", LocationServiceController, :position)
   end
 
   # static files
