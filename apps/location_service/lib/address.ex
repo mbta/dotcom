@@ -1,7 +1,6 @@
 defmodule LocationService.Address do
   @moduledoc """
   An address provided by a Geocode lookup.
-  [todo] deprecate GoogleMaps.Geocode.Address
   """
   @type t :: %__MODULE__{
           formatted: String.t(),
