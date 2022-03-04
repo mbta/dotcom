@@ -1,4 +1,4 @@
-defmodule LocationService.AWS.Request do
+defmodule AWSLocation.Request do
   @moduledoc """
   Constructs and dispatches requests to AWS Location service
   Maybe: handle errors here?
@@ -38,7 +38,6 @@ defmodule LocationService.AWS.Request do
       service: :places,
       path: path
     }
-    |> IO.inspect(label: "making request...")
     |> ExAws.request()
   end
 end
