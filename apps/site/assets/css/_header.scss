@@ -120,7 +120,7 @@
   }
 }
 
-nav.m-menu, .m-menu__toggle {
+nav.m-menu {
   @include media-breakpoint-up(lg) {
     display: none;
   }
@@ -355,6 +355,18 @@ nav.m-menu--mobile {
 
   .m-menu__toggle {
     @extend %hide-button;
+  }
+}
+
+.m-menu__toggle {
+  width: 5em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include media-breakpoint-up(lg) {
+    display: none;
   }
 }
 
