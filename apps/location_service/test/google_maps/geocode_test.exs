@@ -181,7 +181,7 @@ defmodule GoogleMaps.GeocodeTest do
           assert {:error, :internal_error} = actual
         end)
 
-      assert log =~ "HTTP error"
+      assert log =~ "error="
     end
 
     test "returns :error with error and message from google" do

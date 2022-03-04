@@ -73,7 +73,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   @doc """
     Retrieves stops close to a location and parses into the correct configuration
   """
-  @spec get_stops_nearby(Geocode.t(), Conn.t()) :: [Stop.t()]
+  @spec get_stops_nearby(LocationService.result(), Conn.t()) :: [Stop.t()]
   def get_stops_nearby({:ok, [location | _]}, nearby_fn) do
     nearby_fn.(location)
   end
@@ -82,7 +82,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     []
   end
 
-  @spec stops_with_routes([Stop.t()], Geocode.t(), (String.t() -> [Route.t()])) :: [
+  @spec stops_with_routes([Stop.t()], LocationService.result(), (String.t() -> [Route.t()])) :: [
           %{stop: Stop.t(), distance: String.t(), routes: [Group.t()]}
         ]
   def stops_with_routes(stops, {:ok, [location | _]}, routes_by_stop_fn) do
@@ -145,7 +145,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     Keyword.put(routes, :mattapan_trolley, [route])
   end
 
-  @spec address(GoogleMaps.Geocode.t()) :: String.t()
+  @spec address(LocationService.result()) :: String.t()
   def address({:ok, [%{formatted: address} | _]}) do
     address
   end
