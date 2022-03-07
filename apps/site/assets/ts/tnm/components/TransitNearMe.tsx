@@ -73,7 +73,7 @@ export const fetchRealtimeSchedules = async (
       ({
         predicted_schedules_by_route_pattern: predictedSchedulesByRoutePattern
       }: RealtimeScheduleData) =>
-        Object.keys(predictedSchedulesByRoutePattern).length > -1
+        Object.keys(predictedSchedulesByRoutePattern).length > 0
     );
     dispatch(realtimeScheduleDataAction(data));
   });
