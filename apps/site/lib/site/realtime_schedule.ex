@@ -210,6 +210,7 @@ defmodule Site.RealtimeSchedule do
           map
   defp do_get_schedules(route_id, stop_id, route_patterns, now, schedules_fn) do
     route_pattern_dictionary = make_route_pattern_dictionary(route_patterns, stop_id)
+
     [route_id]
     |> schedules_fn.(min_time: now)
     |> Enum.filter(&(&1.stop_id == stop_id))
