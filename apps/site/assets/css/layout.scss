@@ -22,14 +22,6 @@
   text-rendering: optimizeLegibility;
 }
 
-.search-mobile {
-  margin: $base-spacing 0;
-
-  g {
-    fill: $white;
-  }
-}
-
 // For some reason these font icons are misaligned in the layout template
 .c-social--instagram {
   .fa {

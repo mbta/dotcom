@@ -43,6 +43,46 @@ function closeAllMenus(): void {
   });
 }
 
+// Note: we can't use `scrollIntoView`, Safari doesn't support it as of
+// 2022-02-28, and even if it did, the opening/closing animations of the
+// accordions makes the behavior janky on other browsers
+function makeScrollAccordionToTop(): (target: HTMLElement) => void {
+  const menuContent = document.querySelector(
+    ".m-menu--mobile .m-menu__content"
+  )! as HTMLElement;
+
+  return (target: HTMLElement): void => {
+    if (target.getAttribute("aria-expanded") === "true") {
+      return;
+    }
+
+    const expandedDrawer = menuContent.querySelector(
+      ".c-accordion-ui__target[aria-expanded='true']"
+    );
+    const targetBB = target.getBoundingClientRect();
+    const yOffset = (() => {
+      if (expandedDrawer) {
+        const bb = expandedDrawer.getBoundingClientRect();
+        if (bb.y < targetBB.y) {
+          return bb.height;
+        }
+
+        return 0;
+      }
+
+      return 0;
+    })();
+
+    const targetY = target.offsetTop - targetBB.height / 2 - yOffset;
+
+    menuContent.scrollTo({
+      behavior: "smooth",
+      left: 0,
+      top: targetY
+    });
+  };
+}
+
 export default function setupGlobalNavigation(): void {
   document.addEventListener(
     "turbolinks:load",
@@ -189,6 +229,20 @@ export default function setupGlobalNavigation(): void {
           attributeFilter: ["aria-expanded"]
         });
       });
+
+      // Scroll accordion into view on click
+      if (
+        window.matchMedia("(prefers-reduced-motion: no-preference)").matches
+      ) {
+        const scrollAccordionToTop = makeScrollAccordionToTop();
+        document
+          .querySelectorAll(".m-menu--mobile .c-accordion-ui__trigger")
+          .forEach(el =>
+            el.addEventListener("click", () =>
+              scrollAccordionToTop(el as HTMLElement)
+            )
+          );
+      }
 
       // menu click closes
       const menu_links = document.querySelectorAll(".m-menu__link");

@@ -276,6 +276,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
              ] = DiagramHelpers.build_stop_list(branches, 0)
     end
 
+    # FIXME: Update with new GLX data
     test "builds a list of stops with bubble info for Green line (4 branches), direction 0" do
       branches = [
         %RouteStops{
@@ -635,7 +636,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
 
       assert [
                {
-                 [nil: :terminus],
+                 [nil: :stop],
                  %RouteStop{id: "place-north"}
                },
                {
@@ -705,6 +706,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
              ] = DiagramHelpers.build_stop_list(branches, 0)
     end
 
+    # FIXME: Update with new GLX data
     test "builds a list of stops with bubble info for Green line (4 branches), direction 1" do
       branches = [
         %RouteStops{

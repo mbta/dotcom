@@ -10,7 +10,7 @@
     <% meta_description = assigns[:meta_description] || "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines." %>
     <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
     <meta name="author" content="Massachusetts Bay Transportation Authority">
-    <meta name="theme-color" content="#0b2f4c">
+    <meta name="theme-color" content="#165c96">
     <%= Turbolinks.cache_meta @conn %>
 
     <%= # hide any page in /org directory from search engines
@@ -58,11 +58,7 @@
         </div>
       <% end %>
       <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
-      <%= if Laboratory.enabled?(@conn, :nav_redesign) do %>
-        <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
-      <% else %>
-        <%= render "_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
-      <% end %>
+      <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:breadcrumbs] do %>
         <div class="breadcrumb-container">
           <div class="container">
@@ -88,14 +84,23 @@
       <div id="ie-warning" class="c-ie-warning"></div>
     </div>
 
-  <%# Load focus-visible polyfill if needed. Lifted from https://alistairshepherd.uk/writing/focus-visible-conditional-polyfill/ %>
+  <%# Load polyfills only if needed %>
   <script>
+    function loadScript(src) {
+      const script = document.createElement("script");
+      script.src = src;
+      document.body.appendChild(script);
+    }
+
+    // Lifted from https://alistairshepherd.uk/writing/focus-visible-conditional-polyfill/
     try {
       document.querySelector(":focus-visible");
     } catch (e) {
-      const script = document.createElement("script");
-      script.src = '<%= static_url(@conn, "/js/focus-visible.min.js") %>';
-      document.body.appendChild(script);
+      loadScript('<%= static_url(@conn, "/js/focus-visible.min.js") %>');
+    }
+
+    if (!('scrollBehavior' in document.documentElement.style)) {
+      loadScript('<%= static_url(@conn, "/js/smoothscroll.min.js") %>');
     }
   </script>
     <%= if google_tag_manager_id() do %>
