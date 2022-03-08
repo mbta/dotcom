@@ -29,7 +29,7 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
   end
 
   defp after_open_date?(current_date, opening_date) do
-    Util.time_is_greater_or_equal?(opening_date, current_date)
+    Util.time_is_greater_or_equal?(current_date, opening_date)
   end
 
   defp before_end_date?(current_date, opening_date) do
