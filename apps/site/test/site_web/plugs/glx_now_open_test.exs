@@ -17,27 +17,27 @@ defmodule SiteWeb.Plugs.GlxNowOpenTest do
 
   describe "init/1" do
     test "defaults to Schedules.Repo.rating_dates/0" do
-      assert init([]) == [now_fn: &Util.now/0, to_local_fn: &Util.to_local_time/1]
+      assert init([]) == [now_fn: &Util.now/0]
     end
   end
 
   describe "call/2" do
     test "assigns glx_now_open? with false if current date is before opening date", %{conn: conn} do
-      updated_conn = call(conn, now_fn: &now_before_fn/0, to_local_fn: &Util.to_local_time/1)
+      updated_conn = call(conn, now_fn: &now_before_fn/0)
 
       assert updated_conn.assigns.glx_now_open? == false
     end
 
     test "assigns glx_now_open? with true if current date is between opening date and 3 months post opening",
          %{conn: conn} do
-      updated_conn = call(conn, now_fn: &now_between_fn/0, to_local_fn: &Util.to_local_time/1)
+      updated_conn = call(conn, now_fn: &now_between_fn/0)
 
       assert updated_conn.assigns.glx_now_open? == true
     end
 
     test "assigns glx_now_open? with false if current date is after 3 months post opening date",
          %{conn: conn} do
-      updated_conn = call(conn, now_fn: &now_after_fn/0, to_local_fn: &Util.to_local_time/1)
+      updated_conn = call(conn, now_fn: &now_after_fn/0)
 
       assert updated_conn.assigns.glx_now_open? == false
     end
