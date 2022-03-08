@@ -21,7 +21,10 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
   @impl true
   def call(conn, now_fn: now_fn) do
     conn
-    |> assign(:glx_now_open?, check_current_service_date(now_fn.(), Util.to_local_time(@opening_date)))
+    |> assign(
+      :glx_now_open?,
+      check_current_service_date(now_fn.(), Util.to_local_time(@opening_date))
+    )
   end
 
   defp check_current_service_date(current_date, opening_date) do
