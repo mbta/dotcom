@@ -397,8 +397,7 @@ defmodule SiteWeb.TripPlanController do
       mode: mode,
       long_name: long_name,
       name: name,
-      type: type,
-      url: url
+      type: type
     } = Enum.find(legs, &(Leg.route_id(&1) == {:ok, id}))
 
     custom_route = %Route{
