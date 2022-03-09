@@ -10,7 +10,7 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
       Science Park/West End (place-spmnl)
   """
 
-  @opening_date ~N[2022-03-21T00:00:00]
+  @opening_date ~N[2022-03-21T03:00:00]
 
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
@@ -38,6 +38,6 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
   defp before_end_date?(current_date, opening_date) do
     end_date = Timex.shift(opening_date, months: 3)
 
-    Util.time_is_greater_or_equal?(end_date, current_date)
+    !Util.time_is_greater_or_equal?(current_date, end_date)
   end
 end
