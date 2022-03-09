@@ -9,6 +9,8 @@ defmodule AWSLocation.Request do
     MaxResults: 50
   }
 
+  def base_request_body() do @base_request_body end
+
   @spec new(String.t() | [float] | nil) :: ExAws.Operation.RestQuery.t()
   @doc "Searches for text"
   def new(text) when is_binary(text) do

@@ -74,9 +74,9 @@ defmodule LocationService.Result do
     {:ok, results}
   end
 
-  defp internal_error(error, input, extra \\ %{})
+  def internal_error(error, input, extra \\ %{})
 
-  defp internal_error(:zero_results, input, extra) do
+  def internal_error(:zero_results, input, extra) do
     _ =
       Logger.info(fn ->
         "#{__MODULE__} input=#{inspect(input)} result=ZERO_RESULTS #{extra_messages(extra)}"
@@ -85,7 +85,7 @@ defmodule LocationService.Result do
     {:error, :zero_results}
   end
 
-  defp internal_error(error, input, extra) do
+  def internal_error(error, input, extra) do
     case error do
       %Jason.DecodeError{} ->
         _ =
