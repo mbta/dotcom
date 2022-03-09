@@ -16,7 +16,7 @@ defmodule SiteWeb.Plugs.GlxNowOpenTest do
   end
 
   describe "init/1" do
-    test "defaults to Schedules.Repo.rating_dates/0" do
+    test "defaults to Util.now/0" do
       assert init([]) == [now_fn: &Util.now/0]
     end
   end
