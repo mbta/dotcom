@@ -8,7 +8,8 @@ config :location_service, :http_pool, :google_http_pool
 if Mix.env() == :prod do
   config :location_service,
     geocode: if("${LOCATION_SERVICE}" == "AWS", do: :aws, else: :google),
-    reverse_geocode: if("${LOCATION_SERVICE}" == "AWS", do: :aws, else: :google)
+    reverse_geocode: if("${LOCATION_SERVICE}" == "AWS", do: :aws, else: :google),
+    autocomplete: if("${LOCATION_SERVICE}" == "AWS", do: :aws, else: :google)
 
   # place: :google,
   # maps: :google
@@ -20,7 +21,8 @@ if Mix.env() == :prod do
 else
   config :location_service,
     geocode: if(System.get_env("LOCATION_SERVICE") == "GOOGLE", do: :google, else: :aws),
-    reverse_geocode: if(System.get_env("LOCATION_SERVICE") == "GOOGLE", do: :google, else: :aws)
+    reverse_geocode: if(System.get_env("LOCATION_SERVICE") == "GOOGLE", do: :google, else: :aws),
+    autocomplete: if(System.get_env("LOCATION_SERVICE") == "GOOGLE", do: :google, else: :aws)
 
   # place: :google,
   # maps: :google
