@@ -325,6 +325,19 @@ defmodule PredictedScheduleTest do
       end
     end
 
+    test "works with schedules without stop" do
+      modified_trip_schedules =
+        @trip_schedules
+        |> Enum.map(fn schedule ->
+          %Schedule{
+            schedule
+            | stop: nil
+          }
+        end)
+
+      assert group(@trip_predictions, modified_trip_schedules)
+    end
+
     test "returns empty in case of error" do
       assert group({:error, "error in predictions"}, {:error, "error in schedules"}) == []
     end
