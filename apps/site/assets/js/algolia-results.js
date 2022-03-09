@@ -68,10 +68,10 @@ export class AlgoliaResults {
 
   _addLocationListeners(results) {
     if (results["locations"]) {
-      results["locations"].hits.forEach(hit => {
-        const elem = document.getElementById(`hit-${hit.place_id}`);
+      results["locations"].hits.forEach((hit, idx) => {
+        const elem = document.getElementById(`hit-location-${idx}`);
         if (elem) {
-          elem.addEventListener("click", this._locationSearch(hit.place_id));
+          elem.addEventListener("click", this._locationSearch(hit.address));
         }
       });
       const useLocation = document.getElementById(

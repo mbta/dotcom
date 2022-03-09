@@ -327,19 +327,9 @@ function _contentTitle(hit) {
 }
 
 export function getTitle(hit, type) {
-  let orig;
   switch (type) {
     case "locations":
-      orig = hit.description.split("");
-      hit.matched_substrings.forEach(match => {
-        orig[match.offset] = `<em>${orig[match.offset]}`;
-        if (match.offset + match.length < orig.length) {
-          orig[match.offset + match.length] = `</em>${
-            orig[match.offset + match.length]
-          }`;
-        }
-      });
-      return orig.join("");
+      return hit.address;
     case "stops":
       return hit._highlightResult.stop.name.value;
 
@@ -537,7 +527,7 @@ export function parseResult(hit, index) {
       index === "projects" ||
       null,
     hitFeatureIcons: getFeatureIcons(hit, index),
-    id: hit.place_id || null
+    id: hit.id || null,
   });
 }
 

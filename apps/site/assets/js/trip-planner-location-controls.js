@@ -296,14 +296,14 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.place_id)
+          GoogleMapsHelpers.lookupPlace(hit.address)
             .then(res => {
               ac.resetSessionToken();
 
               const { latitude, longitude } = res;
               this.setAutocompleteValue(
                 ac,
-                hit.description,
+                hit.address,
                 lat,
                 lng,
                 latitude,
