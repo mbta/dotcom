@@ -8,11 +8,11 @@ defmodule SiteWeb.Plugs.GlxNowOpenTest do
   end
 
   defp now_between_fn do
-    DateTime.from_naive!(~N[2022-03-21 03:00:00], "Etc/UTC")
+    DateTime.from_naive!(~N[2022-03-21 04:55:00], "Etc/UTC")
   end
 
   defp now_after_fn do
-    DateTime.from_naive!(~N[2022-06-21 03:00:00], "Etc/UTC")
+    DateTime.from_naive!(~N[2022-06-21 04:55:00], "Etc/UTC")
   end
 
   describe "init/1" do

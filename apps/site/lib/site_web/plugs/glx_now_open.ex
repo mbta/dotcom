@@ -10,7 +10,7 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
       Science Park/West End (place-spmnl)
   """
 
-  @opening_date ~N[2022-03-21T03:00:00]
+  @opening_date ~N[2022-03-21T04:55:00]
 
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
