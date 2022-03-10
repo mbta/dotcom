@@ -114,36 +114,14 @@ defmodule LocationServiceTest do
     test "selects function based on application environment variable" do
       with_mocks [
         {AWSLocation, [], [autocomplete: fn _, _ -> "i use the amazon one" end]},
-        {LocationService.Private, [],
-         [wrapped_google_autocomplete: fn _, _ -> "i use the google one" end]}
+        {LocationService.Wrappers, [],
+         [google_autocomplete: fn _, _ -> "i use the google one" end]}
       ] do
         Application.put_env(:location_service, :autocomplete, :google)
         assert "i use the google one" = autocomplete("a thing", 2)
 
         Application.put_env(:location_service, :autocomplete, :aws)
         assert "i use the amazon one" = autocomplete("some other thing", 2)
-      end
-    end
-  end
-
-  describe "wrapped_google_autocomplete/2" do
-    test "formats google results" do
-      with_mock GoogleMaps.Place,
-        autocomplete: fn _ ->
-          {:ok,
-           [
-             %{
-               description: "Test"
-             }
-           ]}
-        end do
-        {:ok, results} = LocationService.Private.wrapped_google_autocomplete("test", 2)
-
-        assert [
-                 %LocationService.Suggestion{
-                   address: "Test"
-                 }
-               ] = results
       end
     end
   end

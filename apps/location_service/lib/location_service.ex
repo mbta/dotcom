@@ -4,24 +4,6 @@ defmodule LocationService do
   """
   use RepoCache, ttl: :timer.hours(24)
 
-  defmodule Private do
-    @spec wrapped_google_autocomplete(String.t(), number) :: LocationService.Suggestion.result()
-    def wrapped_google_autocomplete(search, limit) do
-      {:ok, results} =
-        GoogleMaps.Place.autocomplete(%GoogleMaps.Place.AutocompleteQuery{
-          hit_limit: limit,
-          input: search,
-          session_token: ""
-        })
-
-      {:ok,
-       results
-       |> Enum.map(fn p ->
-         %LocationService.Suggestion{address: p.description}
-       end)}
-    end
-  end
-
   @type result ::
           {:ok, nonempty_list(LocationService.Address.t())}
           | {:error, :zero_results | :internal_error}
@@ -58,7 +40,7 @@ defmodule LocationService do
   def autocomplete(search, limit) do
     case Application.get_env(:location_service, :autocomplete) do
       :aws -> AWSLocation.autocomplete(search, limit)
-      _ -> Private.wrapped_google_autocomplete(search, limit)
+      _ -> LocationService.Wrappers.google_autocomplete(search, limit)
     end
   end
 end
