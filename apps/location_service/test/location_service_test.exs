@@ -137,8 +137,7 @@ defmodule LocationServiceTest do
              }
            ]}
         end do
-        {:ok, results} =
-          LocationService.Private.wrapped_google_autocomplete("test", 2)
+        {:ok, results} = LocationService.Private.wrapped_google_autocomplete("test", 2)
 
         assert [
                  %LocationService.Suggestion{

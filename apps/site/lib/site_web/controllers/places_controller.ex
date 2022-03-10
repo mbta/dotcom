@@ -9,8 +9,7 @@ defmodule SiteWeb.PlacesController do
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str, "token" => token}) do
-    autocomplete_fn =
-      Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/2)
+    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/2)
 
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
@@ -27,8 +26,7 @@ defmodule SiteWeb.PlacesController do
 
   @spec details(Conn.t(), map) :: Conn.t()
   def details(conn, %{"place_id" => place_id}) do
-    geocode_fn =
-      Map.get(conn.assigns, :geocode_by_place_id_fn, &LocationService.geocode/1)
+    geocode_fn = Map.get(conn.assigns, :geocode_by_place_id_fn, &LocationService.geocode/1)
 
     case geocode_fn.(place_id) do
       {:ok, results} ->
@@ -44,7 +42,8 @@ defmodule SiteWeb.PlacesController do
 
   @spec reverse_geocode(Conn.t(), map) :: Conn.t()
   def reverse_geocode(conn, params) do
-    reverse_geocode_fn = Map.get(conn.assigns, :reverse_geocode_fn, &LocationService.reverse_geocode/2)
+    reverse_geocode_fn =
+      Map.get(conn.assigns, :reverse_geocode_fn, &LocationService.reverse_geocode/2)
 
     with {:ok, latitude, longitude} <- parse_location(params),
          {:ok, results} <- reverse_geocode_fn.(latitude, longitude) do

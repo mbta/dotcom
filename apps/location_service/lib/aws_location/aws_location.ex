@@ -28,9 +28,10 @@ defmodule AWSLocation do
   def autocomplete(search, limit) do
     case ExAws.request(%ExAws.Operation.RestQuery{
            http_method: :post,
-           body: (AWSLocation.Request.base_request_body
-           |> Map.put(:Text, search)
-           |> Map.put(:MaxResults, limit)),
+           body:
+             AWSLocation.Request.base_request_body()
+             |> Map.put(:Text, search)
+             |> Map.put(:MaxResults, limit),
            service: :places,
            path: "/places/v0/indexes/dotcom-dev-esri/search/suggestions"
          }) do
@@ -45,10 +46,12 @@ defmodule AWSLocation do
               end)
             }
 
-          {:error, error} -> LocationService.Result.internal_error(error, search)
+          {:error, error} ->
+            LocationService.Result.internal_error(error, search)
         end
 
-      {:error, error} -> LocationService.Result.internal_error(error, search)
+      {:error, error} ->
+        LocationService.Result.internal_error(error, search)
     end
   end
 end
