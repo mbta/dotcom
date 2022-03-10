@@ -359,7 +359,7 @@ nav.m-menu--mobile {
 }
 
 .m-menu__toggle {
-  width: 5em;
+  width: 4rem;
 
   display: flex;
   justify-content: center;
@@ -418,8 +418,9 @@ nav.m-menu--mobile {
 
 // Search button in top nav
 .header-search__toggle {
-  margin-left: 1.75rem;
+  margin-left: calc(4rem - 30px);
   height: 30px;
+  padding: unset;
   width: 30px;
 
   display: flex;
