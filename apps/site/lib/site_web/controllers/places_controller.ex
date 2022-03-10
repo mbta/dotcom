@@ -25,10 +25,10 @@ defmodule SiteWeb.PlacesController do
   end
 
   @spec details(Conn.t(), map) :: Conn.t()
-  def details(conn, %{"place_id" => place_id}) do
-    geocode_fn = Map.get(conn.assigns, :geocode_by_place_id_fn, &LocationService.geocode/1)
+  def details(conn, %{"address" => address}) do
+    geocode_fn = Map.get(conn.assigns, :geocode_fn, &LocationService.geocode/1)
 
-    case geocode_fn.(place_id) do
+    case geocode_fn.(address) do
       {:ok, results} ->
         json(conn, %{result: results |> List.first() |> Poison.encode!()})
 
