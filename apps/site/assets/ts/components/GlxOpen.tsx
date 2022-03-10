@@ -1,13 +1,20 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import renderSvg from "../helpers/render-svg";
 import useGlxOpen from "../hooks/useGlxOpen";
 import glxLogo from "../../static/images/glx-logo.svg";
 
-const glxLogoElement = () => renderSvg("glx-logo", glxLogo)
+const glxLogoElement = (): JSX.Element => renderSvg("glx-logo", glxLogo);
 
-const GlxOpen = ({ stationPage = false, stopId }: { stationPage: boolean, stopId: string}) => {
-  const isGlxOpen = useGlxOpen(stopId)
+const GlxOpen = ({
+  stationPage = false,
+  stopId
+}: {
+  stationPage: boolean;
+  stopId: string;
+}): ReactElement<HTMLElement> => {
+  const isGlxOpen = useGlxOpen(stopId);
   let textContent;
+
   if (stationPage) {
     textContent = "STATION NOW OPEN";
   } else {
@@ -15,14 +22,15 @@ const GlxOpen = ({ stationPage = false, stopId }: { stationPage: boolean, stopId
   }
 
   if (isGlxOpen) {
-    return(
+    return (
       <div className="glx-open-container">
-        {glxLogoElement()}<span className="glx-open-message">{textContent}</span>
+        {glxLogoElement()}
+        <span className="glx-open-message">{textContent}</span>
       </div>
-    )
-  } else {
-    return <div className="glx-open-container"></div>
+    );
   }
-}
+
+  return <div className="glx-open-container" />;
+};
 
 export default GlxOpen;
