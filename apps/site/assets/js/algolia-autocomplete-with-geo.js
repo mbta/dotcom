@@ -181,8 +181,8 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
-  _doLocationSearch(placeId) {
-    return GoogleMapsHelpers.lookupPlace(placeId).then(result =>
+  _doLocationSearch(address) {
+    return GoogleMapsHelpers.lookupPlace(address).then(result =>
       this._onLocationSearchResult(result)
     );
   }

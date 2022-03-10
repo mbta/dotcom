@@ -162,9 +162,9 @@ export class AlgoliaResults {
       });
   }
 
-  _locationSearch(placeId) {
+  _locationSearch(address) {
     return () => {
-      GoogleMapsHelpers.lookupPlace(placeId)
+      GoogleMapsHelpers.lookupPlace(address)
         .then(result => {
           this._parent.resetSessionToken();
           this._showLocation(

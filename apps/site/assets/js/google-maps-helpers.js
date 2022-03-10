@@ -17,10 +17,10 @@ export function autocomplete({ input, hitLimit, sessionToken }) {
   });
 }
 
-export const lookupPlace = placeId =>
+export const lookupPlace = address =>
   new Promise((resolve, reject) => {
     window.jQuery
-      .getJSON(`/places/details/${encodeURIComponent(placeId)}`)
+      .getJSON(`/places/details/${encodeURIComponent(address)}`)
       .done(processPlacesCallback(resolve))
       .fail(reject);
   });
