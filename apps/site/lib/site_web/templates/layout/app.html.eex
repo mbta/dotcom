@@ -96,11 +96,11 @@
       try {
         document.querySelector(":focus-visible");
       } catch (e) {
-        loadScript('<%= static_url(@conn, "/js/focus-visible.min.js") %>');
+        loadScript('<%= "#{Application.get_env(:site, :webpack_path)}/js/focus-visible.min.js" %>');
       }
 
       if (!('scrollBehavior' in document.documentElement.style)) {
-        loadScript('<%= static_url(@conn, "/js/smoothscroll.min.js") %>');
+        loadScript('<%= "#{Application.get_env(:site, :webpack_path)}/js/smoothscroll.min.js" %>');
       }
     </script>
     <%= if google_tag_manager_id() do %>
