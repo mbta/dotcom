@@ -14,7 +14,7 @@ defmodule LocationService do
   @spec geocode(String.t()) :: result
   def geocode(address) when is_binary(address) do
     cache(address, fn address ->
-      case Application.get_env(:location_service, :geocode) do
+      case active_service(:geocode) do
         :aws -> AWSLocation.geocode(address)
         _ -> GoogleMaps.Geocode.geocode(address)
       end
@@ -27,12 +27,15 @@ defmodule LocationService do
   @spec reverse_geocode(number, number) :: result
   def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
     cache({latitude, longitude}, fn {latitude, longitude} ->
-      case Application.get_env(:location_service, :reverse_geocode) do
+      case active_service(:reverse_geocode) do
         :aws -> AWSLocation.reverse_geocode(latitude, longitude)
         _ -> GoogleMaps.Geocode.reverse_geocode(latitude, longitude)
       end
     end)
   end
 
-  # TODO Add suggestion/place lookup
+  defp active_service(key) do
+    {:system, env_var, default} = Application.get_env(:location_service, key)
+    if value = System.get_env(env_var), do: String.to_atom(value), else: default
+  end
 end
