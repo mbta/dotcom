@@ -41,6 +41,9 @@ Array [
     <div
       className="m-stop-page__header-container"
     >
+      <div
+        className="glx-open-container"
+      />
       <h1
         className="m-stop-page__name m-stop-page__name--upcase"
       >
