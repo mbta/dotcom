@@ -50,6 +50,9 @@ defmodule LocationService.Result do
     results =
       results
       |> Enum.map(fn
+        # AWS suggestions
+        %{"Text" => address } -> %LocationService.Suggestion{ address: address }
+
         # AWS format
         %{"Place" => %{"Label" => label, "Geometry" => %{"Point" => [lon, lat]}}} ->
           %LocationService.Address{

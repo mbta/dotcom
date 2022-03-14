@@ -102,7 +102,7 @@ defmodule LocationServiceTest do
     end
   end
 
-  describe "autocomplete/2" do
+  describe "autocomplete/3" do
     setup do
       old_value = Application.get_env(:location_service, :autocomplete)
 
@@ -115,13 +115,13 @@ defmodule LocationServiceTest do
       with_mocks [
         {AWSLocation, [], [autocomplete: fn _, _ -> "i use the amazon one" end]},
         {LocationService.Wrappers, [],
-         [google_autocomplete: fn _, _ -> "i use the google one" end]}
+         [google_autocomplete: fn _, _, _ -> "i use the google one" end]}
       ] do
-        Application.put_env(:location_service, :autocomplete, :google)
-        assert "i use the google one" = autocomplete("a thing", 2)
+        Application.put_env(:location_service, :autocomplete, {:system, "LOCATION_SERVICE", :google})
+        assert "i use the google one" = autocomplete("a thing", 2, nil)
 
-        Application.put_env(:location_service, :autocomplete, :aws)
-        assert "i use the amazon one" = autocomplete("some other thing", 2)
+        Application.put_env(:location_service, :autocomplete, {:system, "LOCATION_SERVICE", :aws})
+        assert "i use the amazon one" = autocomplete("some other thing", 2, nil)
       end
     end
   end

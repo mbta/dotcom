@@ -26,32 +26,7 @@ defmodule AWSLocation do
 
   @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
   def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
-    case ExAws.request(%ExAws.Operation.RestQuery{
-           http_method: :post,
-           body:
-             AWSLocation.Request.base_request_body()
-             |> Map.put(:Text, search)
-             |> Map.put(:MaxResults, limit),
-           service: :places,
-           path: "/places/v0/indexes/dotcom-dev-esri/search/suggestions"
-         }) do
-      {:ok, %{status_code: 200, body: body}} ->
-        case Jason.decode(body) do
-          {:ok, %{"Results" => results}} ->
-            {
-              :ok,
-              results
-              |> Enum.map(fn %{"Text" => text} ->
-                %LocationService.Suggestion{address: text}
-              end)
-            }
-
-          {:error, error} ->
-            LocationService.Result.internal_error(error, search)
-        end
-
-      {:error, error} ->
-        LocationService.Result.internal_error(error, search)
-    end
+    Request.autocomplete(search, limit)
+    |> Result.handle_response(%{ search: search, limit: limit })
   end
 end
