@@ -38,10 +38,11 @@ defmodule LocationService do
   autocompletion, selecting based on config value."
   @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
   def autocomplete(search, limit) do
-    case Application.get_env(:location_service, :autocomplete) do
+    case active_service(:autocomplete) do
       :aws -> AWSLocation.autocomplete(search, limit)
       _ -> LocationService.Wrappers.google_autocomplete(search, limit)
     end
+  end
 
   defp active_service(key) do
     {:system, env_var, default} = Application.get_env(:location_service, key)
