@@ -36,12 +36,12 @@ defmodule LocationService do
 
   @doc "Uses either AWS Location Service or Google Maps Place API to do
   autocompletion, selecting based on config value."
-  @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
-  def autocomplete(search, limit) do
+  @spec autocomplete(String.t(), number, String.t() | nil) :: LocationService.Suggestion.result()
+  def autocomplete(search, limit, token) do
     cache({search, limit}, fn {search, limit} ->
       case active_service(:autocomplete) do
         :aws -> AWSLocation.autocomplete(search, limit)
-        _ -> LocationService.Wrappers.google_autocomplete(search, limit)
+        _ -> LocationService.Wrappers.google_autocomplete(search, limit, token)
       end
     end)
   end

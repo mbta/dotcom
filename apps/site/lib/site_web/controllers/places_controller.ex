@@ -3,17 +3,16 @@ defmodule SiteWeb.PlacesController do
   Routes for requesting data from Google Maps.
   """
   use SiteWeb, :controller
-  alias GoogleMaps.{Geocode, Place, Place.AutocompleteQuery}
   alias Plug.Conn
   alias SiteWeb.ControllerHelpers
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str, "token" => token}) do
-    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/2)
+    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/3)
 
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
-           autocomplete_fn.(input, hit_limit) do
+           autocomplete_fn.(input, hit_limit, token) do
       json(conn, %{predictions: Poison.encode!(predictions)})
     else
       {:error, :internal_error} ->
