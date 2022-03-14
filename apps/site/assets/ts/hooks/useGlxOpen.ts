@@ -15,7 +15,7 @@ const useGlxOpen = (stationId: string): boolean => {
   const [isGlxOpen, setIsGlxOpen] = useState(false);
   useEffect(() => {
     setIsGlxOpen(getIsGlxOpen(stationId));
-  }, []);
+  }, [stationId]);
 
   return isGlxOpen;
 };
