@@ -25,7 +25,7 @@ defmodule AWSLocation do
   end
 
   @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
-  def autocomplete(search, limit) do
+  def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
     case ExAws.request(%ExAws.Operation.RestQuery{
            http_method: :post,
            body:
