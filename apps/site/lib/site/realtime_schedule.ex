@@ -213,7 +213,7 @@ defmodule Site.RealtimeSchedule do
 
     [route_id]
     |> schedules_fn.(min_time: now)
-    |> Enum.filter(&(if Map.has_key?(&1, :stop_id), do: &1.stop_id == stop_id, else: false))
+    |> Enum.filter(&if Map.has_key?(&1, :stop_id), do: &1.stop_id == stop_id, else: false)
     |> Enum.group_by(& &1.route_pattern_id)
     |> Enum.into(
       %{},
