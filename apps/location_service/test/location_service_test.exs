@@ -124,5 +124,14 @@ defmodule LocationServiceTest do
         assert "i use the amazon one" = autocomplete("some other thing", 2, nil)
       end
     end
+
+    test "is cached" do
+      with_mock AWSLocation, [], [autocomplete: fn _, _ -> DateTime.utc_now() end] do
+        Application.put_env(:location_service, :autocomplete, {:system, "LOCATION_SERVICE", :aws})
+        t1 = autocomplete("cached", 2, nil)
+        t2 = autocomplete("cached", 2, nil)
+        assert t1 == t2
+      end
+    end
   end
 end
