@@ -102,7 +102,7 @@ nav.m-menu--desktop {
   &::after {
     @include fa-icon();
 
-    content: $fa-var-angle-down;
+    content: $fa-var-caret-down;
     margin-left: $base-spacing__new;
 
     @include media-breakpoint-only(xxl) {
@@ -120,7 +120,7 @@ nav.m-menu--desktop {
     outline: none;
 
     &::after {
-      content: $fa-var-angle-up;
+      content: $fa-var-caret-up;
     }
   }
 }
@@ -145,6 +145,7 @@ nav.m-menu--desktop {
   grid-template-columns: repeat(auto-fit, minmax(10px, 1fr)); // space unknown number of columns evenly
   grid-template-rows: auto 1fr;
   margin: $base-spacing * 2 0;
+  margin-top: 24px;
 
   .m-menu__section-heading {
     grid-row: 1;
@@ -199,7 +200,7 @@ nav.m-menu--desktop {
   margin-bottom: $space-4_new;
   padding-bottom: $base-spacing__new;
   text-transform: uppercase;
-  white-space: break-spaces;
+  white-space: normal;
 
   .m-menu--mobile & {
     font-size: $font-size-base-xs;

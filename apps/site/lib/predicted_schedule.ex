@@ -6,7 +6,8 @@ defmodule PredictedSchedule do
   * prediction: The prediction for this trip (optional)
   """
   alias Predictions.Prediction
-  alias Schedules.{Schedule, ScheduleCondensed}
+  alias Schedules.{Schedule, ScheduleCondensed, Trip}
+  alias Stops.Stop
 
   @derive Jason.Encoder
 
@@ -133,9 +134,11 @@ defmodule PredictedSchedule do
     {{trip_id, stop_id, stop_sequence}, ps}
   end
 
-  defp group_transform(%{trip: trip, stop: stop} = ps)
-       when not is_nil(trip) and not is_nil(stop) do
-    {{ps.trip.id, ps.stop.id, ps.stop_sequence}, ps}
+  defp group_transform(%{trip: %Trip{id: trip_id}, stop: stop} = ps) do
+    case stop do
+      %Stop{} -> {{trip_id, stop.id, ps.stop_sequence}, ps}
+      _ -> {{trip_id, nil, ps.stop_sequence}, ps}
+    end
   end
 
   @doc """

@@ -13,7 +13,6 @@ defmodule SiteWeb.PageController do
     WhatsHappeningItem
   }
 
-  plug(SiteWeb.Plugs.TransitNearMe)
   plug(SiteWeb.Plugs.RecentlyVisited)
 
   @type content :: Banner.t() | Teaser.t() | WhatsHappeningItem.t()
@@ -30,6 +29,7 @@ defmodule SiteWeb.PageController do
       "Public transit in the Greater Boston region. Routes, schedules, trip planner, fares, " <>
         "service alerts, real-time updates, and general information."
     )
+    |> assign(:requires_location_service?, true)
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:banner, fn -> banner end)
     |> async_assign_default(:homepage_fares, fn -> fares end)
