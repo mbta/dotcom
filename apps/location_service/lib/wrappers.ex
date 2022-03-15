@@ -10,7 +10,7 @@ defmodule LocationService.Wrappers do
         {:ok,
          results
          |> Enum.map(fn p ->
-           %LocationService.Suggestion{address: p.description}
+           %LocationService.Suggestion{address: p.description, highlighted_spans: []}
          end)}
 
       e ->
