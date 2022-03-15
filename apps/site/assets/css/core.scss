@@ -26,6 +26,7 @@ body {
   height: 100%;
   justify-content: center;
   min-width: 20rem;
+  max-width: 100%;
   text-rendering: optimizeLegibility;
 
   // if display: flex is not reverted to display: block in print mode,

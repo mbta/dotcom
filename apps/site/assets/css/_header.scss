@@ -81,7 +81,7 @@
     }
     .c-form__input-container {
       height: 44px;
-      border-radius: 4px;
+      border-radius: 8px;
       margin-left: auto;
     }
     button.c-form__submit-btn {
@@ -120,7 +120,7 @@
   }
 }
 
-nav.m-menu, .m-menu__toggle {
+nav.m-menu {
   @include media-breakpoint-up(lg) {
     display: none;
   }
@@ -358,6 +358,18 @@ nav.m-menu--mobile {
   }
 }
 
+.m-menu__toggle {
+  width: 4rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+
 .m-menu__toggle, .m-menu--desktop__toggle, .header-search__toggle {
   background-color: unset;
   border: 2px solid $brand-primary-light-contrast;
@@ -406,12 +418,14 @@ nav.m-menu--mobile {
 
 // Search button in top nav
 .header-search__toggle {
-  margin-left: 1.75rem;
-  padding: 2px 8px;
+  margin-left: calc(4rem - 30px);
+  height: 30px;
+  padding: unset;
+  width: 30px;
 
-  > i {
-    width: 16px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // /menu page
