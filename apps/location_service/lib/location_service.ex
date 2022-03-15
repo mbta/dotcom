@@ -8,7 +8,7 @@ defmodule LocationService do
           {:ok, nonempty_list(LocationService.Address.t())}
           | {:error, :zero_results | :internal_error}
 
-  @doc "Uses either AWS Location Service or Google Maps Place API to perform a 
+  @doc "Uses either AWS Location Service or Google Maps Place API to perform a
   geocode lookup, selecting based on config value.
   Caches the result using the input address as key."
   @spec geocode(String.t()) :: result
@@ -30,6 +30,18 @@ defmodule LocationService do
       case active_service(:reverse_geocode) do
         :aws -> AWSLocation.reverse_geocode(latitude, longitude)
         _ -> GoogleMaps.Geocode.reverse_geocode(latitude, longitude)
+      end
+    end)
+  end
+
+  @doc "Uses either AWS Location Service or Google Maps Place API to do
+  autocompletion, selecting based on config value."
+  @spec autocomplete(String.t(), number, String.t() | nil) :: LocationService.Suggestion.result()
+  def autocomplete(search, limit, token) do
+    cache({search, limit}, fn {search, limit} ->
+      case active_service(:autocomplete) do
+        :aws -> AWSLocation.autocomplete(search, limit)
+        _ -> LocationService.Wrappers.google_autocomplete(search, limit, token)
       end
     end)
   end

@@ -23,4 +23,10 @@ defmodule AWSLocation do
     Request.new([latitude, longitude])
     |> Result.handle_response([latitude, longitude])
   end
+
+  @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
+  def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
+    Request.autocomplete(search, limit)
+    |> Result.handle_response(%{search: search, limit: limit})
+  end
 end

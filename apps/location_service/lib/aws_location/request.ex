@@ -24,6 +24,20 @@ defmodule AWSLocation.Request do
     |> request()
   end
 
+  @doc "Autocompletes some text, limiting the number of results returned"
+  @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
+  def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
+    ExAws.request(%ExAws.Operation.RestQuery{
+      http_method: :post,
+      body:
+        @base_request_body
+        |> Map.put(:Text, search)
+        |> Map.put(:MaxResults, limit),
+      service: :places,
+      path: "/places/v0/indexes/dotcom-dev-esri/search/suggestions"
+    })
+  end
+
   defp request(body) do
     path =
       if Map.has_key?(body, :Text) do
