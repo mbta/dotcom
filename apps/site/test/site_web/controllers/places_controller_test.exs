@@ -82,7 +82,7 @@ defmodule SiteWeb.PlacesControllerTest do
         {:error, :zero_results}
       end
 
-      conn = assign(conn,:geocode_fn, geocode_fn)
+      conn = assign(conn, :geocode_fn, geocode_fn)
       conn = get(conn, places_path(conn, :details, "PLACE_ID"))
 
       assert conn.status == 500
@@ -98,6 +98,7 @@ defmodule SiteWeb.PlacesControllerTest do
       reverse_geocode_fn = fn _, _ ->
         {:ok, []}
       end
+
       conn = assign(conn, :reverse_geocode_fn, reverse_geocode_fn)
       conn = get(conn, places_path(conn, :reverse_geocode, latitude, longitude))
 
