@@ -527,7 +527,7 @@ export function parseResult(hit, index) {
       index === "projects" ||
       null,
     hitFeatureIcons: getFeatureIcons(hit, index),
-    id: hit.id || null,
+    id: hit.id || null
   });
 }
 

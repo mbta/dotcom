@@ -38,7 +38,7 @@ const processAutocompleteResults = resolve => ({ predictions }) =>
 
 const predictionResults = predictions => ({
   locations: {
-    hits: predictions.map((p, i) => ({...p, id: `location-${i}`})),
+    hits: predictions.map((p, i) => ({ ...p, id: `location-${i}` })),
     nbHits: predictions.length
   }
 });
