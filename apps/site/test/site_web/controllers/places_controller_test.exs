@@ -116,8 +116,9 @@ defmodule SiteWeb.PlacesControllerTest do
   describe "autocomplete" do
     test "responds with predictions", %{conn: conn} do
       input = "controller1"
+
       autocomplete_fn = fn _, _ ->
-        {:ok, [%LocationService.Suggestion{ address: "123 Sesame Street" }]}
+        {:ok, [%LocationService.Suggestion{address: "123 Sesame Street"}]}
       end
 
       conn =

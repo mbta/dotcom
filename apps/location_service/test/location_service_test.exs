@@ -117,7 +117,12 @@ defmodule LocationServiceTest do
         {LocationService.Wrappers, [],
          [google_autocomplete: fn _, _, _ -> "i use the google one" end]}
       ] do
-        Application.put_env(:location_service, :autocomplete, {:system, "LOCATION_SERVICE", :google})
+        Application.put_env(
+          :location_service,
+          :autocomplete,
+          {:system, "LOCATION_SERVICE", :google}
+        )
+
         assert "i use the google one" = autocomplete("a thing", 2, nil)
 
         Application.put_env(:location_service, :autocomplete, {:system, "LOCATION_SERVICE", :aws})
@@ -126,7 +131,7 @@ defmodule LocationServiceTest do
     end
 
     test "is cached" do
-      with_mock AWSLocation, [], [autocomplete: fn _, _ -> DateTime.utc_now() end] do
+      with_mock AWSLocation, [], autocomplete: fn _, _ -> DateTime.utc_now() end do
         Application.put_env(:location_service, :autocomplete, {:system, "LOCATION_SERVICE", :aws})
         t1 = autocomplete("cached", 2, nil)
         t2 = autocomplete("cached", 2, nil)

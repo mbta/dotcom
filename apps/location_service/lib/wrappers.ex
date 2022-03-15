@@ -4,7 +4,7 @@ defmodule LocationService.Wrappers do
     case GoogleMaps.Place.autocomplete(%GoogleMaps.Place.AutocompleteQuery{
            hit_limit: limit,
            input: search,
-           session_token: token,
+           session_token: token
          }) do
       {:ok, results} ->
         {:ok,
