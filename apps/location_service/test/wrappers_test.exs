@@ -4,7 +4,7 @@ defmodule LocationService.WrappersTest do
   import LocationService.Wrappers
   import Mock
 
-  describe "google_autocomplete/2" do
+  describe "google_autocomplete/3" do
     test "formats google results" do
       with_mock GoogleMaps.Place,
         autocomplete: fn _ ->
@@ -15,7 +15,7 @@ defmodule LocationService.WrappersTest do
              }
            ]}
         end do
-        {:ok, results} = google_autocomplete("test", 2)
+        {:ok, results} = google_autocomplete("test", 2, "")
 
         assert [
                  %LocationService.Suggestion{
@@ -28,7 +28,7 @@ defmodule LocationService.WrappersTest do
     test "bubbles errors" do
       with_mock GoogleMaps.Place,
         autocomplete: fn _ -> {:error, :oops} end do
-        assert {:error, :oops} = google_autocomplete("oops", 6)
+        assert {:error, :oops} = google_autocomplete("oops", 6, "")
       end
     end
   end
