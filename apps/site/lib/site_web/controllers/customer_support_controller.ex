@@ -106,9 +106,17 @@ defmodule SiteWeb.CustomerSupportController do
     end
   end
 
-  def submit(conn, %{"support" => form_data}) do
-    comments = Map.get(form_data, "comments", nil)
+  def submit(conn, params) do
     Logger.warn("recaptcha validation missing")
+
+    comments =
+      case params do
+        %{"support" => form_data} ->
+          Map.get(form_data, "comments", nil)
+
+        _ ->
+          nil
+      end
 
     conn
     |> put_status(400)
