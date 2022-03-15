@@ -1,100 +1,5 @@
 defmodule SiteWeb.PlacesControllerTest do
   use SiteWeb.ConnCase
-  alias Plug.Conn
-
-  @result1 '{
-    "address_components" : [{
-        "long_name" : "52-2",
-        "short_name" : "52-2",
-        "types" : [ "street_number" ]
-      }],
-    "formatted_address" : "52-2 Park Ln, Boston, MA 02210, USA",
-    "geometry" : {
-      "bounds" : {
-        "northeast" : {
-          "lat" : 42.3484946,
-          "lng" : -71.0389612
-        },
-        "southwest" : {
-          "lat" : 42.3483114,
-          "lng" : -71.03938769999999
-        }
-      },
-      "location" : {
-        "lat" : 42.3484012,
-        "lng" : -71.039176
-      }
-    }
-  }'
-
-  @reverse_geocode_results Poison.encode!([
-                             %{
-                               "address_components" => [
-                                 %{
-                                   "long_name" => "1",
-                                   "short_name" => "1",
-                                   "types" => ["street_number"]
-                                 },
-                                 %{
-                                   "long_name" => "Cambridge Street",
-                                   "short_name" => "Cambridge St",
-                                   "types" => ["route"]
-                                 },
-                                 %{
-                                   "long_name" => "Downtown",
-                                   "short_name" => "Downtown",
-                                   "types" => ["neighborhood", "political"]
-                                 },
-                                 %{
-                                   "long_name" => "Boston",
-                                   "short_name" => "Boston",
-                                   "types" => ["locality", "political"]
-                                 },
-                                 %{
-                                   "long_name" => "Suffolk County",
-                                   "short_name" => "Suffolk County",
-                                   "types" => ["administrative_area_level_2", "political"]
-                                 },
-                                 %{
-                                   "long_name" => "Massachusetts",
-                                   "short_name" => "MA",
-                                   "types" => ["administrative_area_level_1", "political"]
-                                 },
-                                 %{
-                                   "long_name" => "United States",
-                                   "short_name" => "US",
-                                   "types" => ["country", "political"]
-                                 },
-                                 %{
-                                   "long_name" => "02114",
-                                   "short_name" => "02114",
-                                   "types" => ["postal_code"]
-                                 }
-                               ],
-                               "formatted_address" => "1 Cambridge St, Boston, MA 02114, USA",
-                               "geometry" => %{
-                                 "location" => %{"lat" => 42.3600825, "lng" => -71.0588801},
-                                 "location_type" => "ROOFTOP",
-                                 "viewport" => %{
-                                   "northeast" => %{
-                                     "lat" => 42.3614314802915,
-                                     "lng" => -71.05753111970849
-                                   },
-                                   "southwest" => %{
-                                     "lat" => 42.3587335197085,
-                                     "lng" => -71.06022908029149
-                                   }
-                                 }
-                               },
-                               "place_id" => "ChIJuUjwAYVw44kRY42oP5cuJ00",
-                               "plus_code" => %{
-                                 "compound_code" =>
-                                   "9W6R+2C Boston, Massachusetts, United States",
-                                 "global_code" => "87JC9W6R+2C"
-                               },
-                               "types" => ["street_address"]
-                             }
-                           ])
 
   setup do
     conn =
@@ -102,29 +7,19 @@ defmodule SiteWeb.PlacesControllerTest do
       |> put_req_header("accept", "application/json")
       |> put_req_header("content-type", "application/json")
 
-    bypass = Bypass.open()
-    old_domain = Application.get_env(:location_service, :domain)
-    Application.put_env(:location_service, :domain, "http://localhost:#{bypass.port}")
-
-    on_exit(fn ->
-      Application.put_env(:location_service, :domain, old_domain)
-    end)
-
-    {:ok, conn: conn, bypass: bypass}
+    {:ok, conn: conn}
   end
 
   describe "autocomplete" do
     test "responds with predictions", %{conn: conn} do
       input = "controller1"
 
-      autocomplete_fn = fn _, _ ->
+      autocomplete_fn = fn _, _, _ ->
         {:ok, [%LocationService.Suggestion{address: "123 Sesame Street"}]}
       end
 
-      conn =
-        conn
-        |> assign(:autocomplete_fn, autocomplete_fn)
-        |> get(conn, places_path(conn, :autocomplete, input, "3", "123"))
+      conn = assign(conn, :autocomplete_fn, autocomplete_fn)
+      conn = get(conn, places_path(conn, :autocomplete, input, "3", "123"))
 
       assert conn.status == 200
       body = json_response(conn, 200)
@@ -143,14 +38,12 @@ defmodule SiteWeb.PlacesControllerTest do
     end
 
     test "responds with 500 error when location service returns an error", %{conn: conn} do
-      autocomplete_fn = fn _, _ ->
+      autocomplete_fn = fn _, _, _ ->
         {:error, :internal_error}
       end
 
-      conn =
-        conn
-        |> assign(:autocomplete_fn, autocomplete_fn)
-        |> get(places_path(conn, :autocomplete, "input", "3", "123"))
+      conn = assign(conn, :autocomplete_fn, autocomplete_fn)
+      conn = get(conn, places_path(conn, :autocomplete, "input", "3", "123"))
 
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
@@ -158,51 +51,39 @@ defmodule SiteWeb.PlacesControllerTest do
   end
 
   describe "details" do
-    test "responds with place details", %{conn: conn, bypass: bypass} do
+    test "responds with place details", %{conn: conn} do
       place_id = "controller_test_place_id"
 
-      Bypass.expect(bypass, fn conn ->
-        assert "/maps/api/geocode/json" == conn.request_path
-        conn = Conn.fetch_query_params(conn)
-        assert conn.params["place_id"] == place_id
-
-        Conn.resp(conn, 200, ~s({"status": "OK", "results": [#{@result1}]}))
-      end)
-
+      geocode_fn = fn _ -> {:ok, [:test]} end
+      conn = assign(conn, :geocode_fn, geocode_fn)
       conn = get(conn, places_path(conn, :details, place_id))
 
       assert conn.status == 200
       body = json_response(conn, 200)
 
       result = Poison.decode!(body["result"])
-      assert is_map(result)
-
-      Map.has_key?(result, "place_id")
+      assert "test" = result
     end
 
     test "responds with 500 error when google returns an error", %{conn: conn} do
-      geocode_by_place_id_fn = fn "PLACE_ID" ->
+      geocode_fn = fn "PLACE_ID" ->
         {:error, :internal_error}
       end
 
-      conn =
-        conn
-        |> assign(:geocode_by_place_id_fn, geocode_by_place_id_fn)
-        |> get(places_path(conn, :details, "PLACE_ID"))
+      conn = assign(conn, :geocode_fn, geocode_fn)
+      conn = get(conn, places_path(conn, :details, "PLACE_ID"))
 
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
     end
 
     test "responds with 500 error when google returns zero_results", %{conn: conn} do
-      geocode_by_place_id_fn = fn "PLACE_ID" ->
+      geocode_fn = fn "PLACE_ID" ->
         {:error, :zero_results}
       end
 
-      conn =
-        conn
-        |> assign(:geocode_by_place_id_fn, geocode_by_place_id_fn)
-        |> get(places_path(conn, :details, "PLACE_ID"))
+      conn = assign(conn,:geocode_fn, geocode_fn)
+      conn = get(conn, places_path(conn, :details, "PLACE_ID"))
 
       assert conn.status == 500
       assert %{"error" => "Zero results"} = json_response(conn, 500)
@@ -210,17 +91,14 @@ defmodule SiteWeb.PlacesControllerTest do
   end
 
   describe "reverse_geocode" do
-    test "responds with the address given a latitude and longitude", %{conn: conn, bypass: bypass} do
+    test "responds with the address given a latitude and longitude", %{conn: conn} do
       latitude = "42.3484012"
       longitude = "-71.039176"
 
-      Bypass.expect(bypass, fn conn ->
-        assert "/maps/api/geocode/json" == conn.request_path
-        conn = Conn.fetch_query_params(conn)
-        assert conn.params["latlng"] == "#{latitude},#{longitude}"
-        Conn.resp(conn, 200, ~s({"status": "OK", "results": #{@reverse_geocode_results}}))
-      end)
-
+      reverse_geocode_fn = fn _, _ ->
+        {:ok, []}
+      end
+      conn = assign(conn, :reverse_geocode_fn, reverse_geocode_fn)
       conn = get(conn, places_path(conn, :reverse_geocode, latitude, longitude))
 
       assert conn.status == 200
