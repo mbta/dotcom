@@ -137,13 +137,20 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   @spec trip_schedule(Schedules.Schedule.t()) ::
           {{Schedules.Trip.id_t() | nil, Stops.Stop.id_t()}, Schedules.Schedule.t()}
-  defp trip_schedule(%Schedules.Schedule{trip: trip} = schedule) when not is_nil(trip) do
-    {{trip.id, schedule.stop.id}, schedule}
+  defp trip_schedule(%Schedules.Schedule{trip: trip, stop: stop} = schedule)
+       when not is_nil(trip) and not is_nil(stop) do
+    {{trip.id, stop.id}, schedule}
   end
 
   defp trip_schedule(schedule) do
-    :ok = Logger.warn("schedule_without_trip: #{inspect(schedule)}")
-    {{nil, schedule.stop.id}, schedule}
+    :ok =
+      Logger.warn(
+        "module=#{__MODULE__} trip_schedule schedule=#{inspect(schedule)} #{
+          if is_nil(schedule.trip), do: "no_trip"
+        } #{if is_nil(schedule.stop), do: "no_stop"}"
+      )
+
+    {{nil, nil}, schedule}
   end
 
   @spec header_schedules(list) :: list
