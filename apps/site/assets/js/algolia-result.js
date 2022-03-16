@@ -8,7 +8,7 @@ export const SELECTORS = {
 };
 
 export const AUTOCOMPLETE_POWERED_BY_GOOGLE =
-  window.location_autocomplete_backing === "google";
+  window.locationAutocompleteBacking === "google";
 
 export const TEMPLATES = {
   poweredByGoogleLogo: hogan.compile(
