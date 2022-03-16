@@ -15,7 +15,7 @@ defmodule SiteWeb.PlacesControllerTest do
       input = "controller1"
 
       autocomplete_fn = fn _, _, _ ->
-        {:ok, [%LocationService.Suggestion{address: "123 Sesame Street"}]}
+        {:ok, [%LocationService.Suggestion{address: "123 Sesame Street", highlighted_spans: []}]}
       end
 
       conn = assign(conn, :autocomplete_fn, autocomplete_fn)
