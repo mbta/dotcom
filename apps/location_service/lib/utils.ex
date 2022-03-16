@@ -24,6 +24,11 @@ defmodule LocationService.Utils do
     parts = String.split(search)
 
     Enum.flat_map(parts, fn p ->
+      # (^|\\W) -- Match start of string or non-word character
+      # (?<t>   -- Begin a capture group named `t`
+      # p       -- Match the current part
+      # \\w*    -- Match any number of word characters
+      # )       -- Close `t`
       src = "(^|\\W)(?<t>" <> p <> "\\w*)"
       {:ok, re} = Regex.compile(src, "i")
 
