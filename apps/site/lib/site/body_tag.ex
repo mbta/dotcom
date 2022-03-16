@@ -12,6 +12,8 @@ defmodule Site.BodyTag do
     UI elements.
   """
 
+  require Logger
+
   @spec render(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render(conn) do
     Phoenix.HTML.Tag.tag(
@@ -40,6 +42,20 @@ defmodule Site.BodyTag do
     if Turbolinks.enabled?(conn) do
       "js"
     else
+      %Plug.Conn{request_path: path, query_string: qs, req_headers: headers} = conn
+
+      ua =
+        case Enum.find(headers, &(elem(&1, 0) == "user-agent")) do
+          {_key, value} -> value
+          _ -> ""
+        end
+
+      :ok =
+        _ =
+        Logger.info(fn ->
+          "#{__MODULE__} no_js request_path=#{path} query_string=#{qs} user_agent=#{ua}"
+        end)
+
       "no-js"
     end
   end
