@@ -4,7 +4,6 @@ defmodule AWSLocation do
   """
   alias AWSLocation.Request
   alias LocationService.Result
-  require Logger
 
   @doc """
   Geocodes free-form text, such as an address, name, city, or region to allow
