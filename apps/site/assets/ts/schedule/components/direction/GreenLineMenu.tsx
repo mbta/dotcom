@@ -1,9 +1,12 @@
 import React, {
   ReactElement,
   Dispatch,
+  useReducer,
+  useEffect,
   KeyboardEvent as ReactKeyboardEvent
 } from "react";
-import { DirectionId, EnhancedRoute } from "../../../__v3api";
+import { reducer } from "../../../../../assets/ts/helpers/fetch";
+import { DirectionId, EnhancedRoute, Route } from "../../../__v3api";
 import { MenuAction, toggleRoutePatternMenuAction } from "./reducer";
 import renderSvg from "../../../helpers/render-svg";
 import handleNavigation from "./menu-helpers";
@@ -16,6 +19,32 @@ import iconGreenE from "../../../../static/images/icon-green-line-e-small.svg";
 import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+
+type fetchAction =
+  | { type: "FETCH_COMPLETE"; payload: Route }
+  | { type: "FETCH_ERROR" }
+  | { type: "FETCH_STARTED" };
+
+export const fetchData = (
+  routeId: string,
+  dispatch: (action: fetchAction) => void
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
+  return (
+    window.fetch &&
+    window
+      .fetch(
+        `/routes/${routeId}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  );
+};
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -43,6 +72,19 @@ interface GreenLineItem {
   directionId: DirectionId;
 }
 
+const [state, dispatch] = useReducer(reducer, {
+  data: null,
+  isLoading: false,
+  error: false
+});
+
+// const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
+// let directionDestinations = [];
+// for (var routeId in allRouteIds){
+//   directionDestinations.push(fetchData(routeId, dispatch));
+// } 
+console.log(fetchData("Green-B", dispatch));
+
 /* eslint-disable camelcase */
 const greenRoutes: GreenRoute[] = [
   {
@@ -54,7 +96,7 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: ["Boston College", "Government Center"],
+    direction_destinations: ["wokka", "wokka"],
     icon: iconGreenB
   },
   {
