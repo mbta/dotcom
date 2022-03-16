@@ -1,8 +1,8 @@
 defmodule LocationService.Utils do
   defmodule HighlightedSpan do
     @type t :: %__MODULE__{
-            offset: number,
-            length: number
+            offset: integer(),
+            length: non_neg_integer()
           }
 
     @enforce_keys [:offset, :length]
