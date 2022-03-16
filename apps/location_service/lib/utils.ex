@@ -10,7 +10,7 @@ defmodule LocationService.Utils do
               length: nil
   end
 
-  @spec get_highlighted_spans(%{search: String.t(), text: String.t()}) :: [HighlightedSpan]
+  @spec get_highlighted_spans(%{search: String.t(), text: String.t()}) :: [HighlightedSpan.t()]
   def get_highlighted_spans(%{search: search, text: text}) do
     parts = String.split(search)
 

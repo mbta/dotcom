@@ -5,7 +5,7 @@ defmodule LocationService.Suggestion do
   """
   @type t :: %__MODULE__{
           address: String.t(),
-          highlighted_spans: [LocationService.Utils.highlighted_span()]
+          highlighted_spans: [LocationService.Utils.HighlightedSpan.t()]
         }
 
   @enforce_keys [:address, :highlighted_spans]
