@@ -10,6 +10,15 @@ defmodule LocationService.Utils do
               length: nil
   end
 
+  @doc """
+  Gets indices of spans of text that should be highlighted in the
+  autocomplete dropdown.
+
+  Essentially, `search` is split on whitespace, and then we search `text`
+  for words that start with any of the `search` terms. The spans are
+  non-overlapping, and sorted by `offset`. There are examples in the tests
+  that should further clarify the behavior.
+  """
   @spec get_highlighted_spans(%{search: String.t(), text: String.t()}) :: [HighlightedSpan.t()]
   def get_highlighted_spans(%{search: search, text: text}) do
     parts = String.split(search)
