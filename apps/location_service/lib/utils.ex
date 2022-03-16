@@ -23,7 +23,7 @@ defmodule LocationService.Utils do
   def get_highlighted_spans(%{search: search, text: text}) do
     parts = String.split(search)
 
-    Enum.map(parts, fn p ->
+    Enum.flat_map(parts, fn p ->
       src = "(^|\\W)(?<t>" <> p <> "\\w*)"
       {:ok, re} = Regex.compile(src, "i")
 
@@ -32,9 +32,8 @@ defmodule LocationService.Utils do
         [{offset, length}] -> %HighlightedSpan{offset: offset, length: length}
         nil -> nil
       end)
+      |> Enum.filter(& &1)
     end)
-    |> Enum.filter(& &1)
-    |> List.flatten()
     |> Enum.uniq()
     |> Enum.sort(&(&1.offset <= &2.offset))
   end
