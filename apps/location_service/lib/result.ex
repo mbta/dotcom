@@ -52,7 +52,14 @@ defmodule LocationService.Result do
       |> Enum.map(fn
         # AWS suggestions
         %{"Text" => address} ->
-          %LocationService.Suggestion{address: address}
+          %LocationService.Suggestion{
+            address: address,
+            highlighted_spans:
+              LocationService.Utils.get_highlighted_spans(%{
+                search: input[:search],
+                text: address
+              })
+          }
 
         # AWS format
         %{"Place" => %{"Label" => label, "Geometry" => %{"Point" => [lon, lat]}}} ->

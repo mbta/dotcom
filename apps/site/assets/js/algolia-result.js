@@ -1,5 +1,6 @@
 import hogan from "hogan.js";
 import * as Icons from "./icons";
+import { highlightText } from "../ts/helpers/text.ts";
 
 /* eslint-disable no-underscore-dangle */
 
@@ -329,7 +330,9 @@ function _contentTitle(hit) {
 export function getTitle(hit, type) {
   switch (type) {
     case "locations":
-      return hit.address;
+      const { address: text, highlighted_spans: spans } = hit;
+
+      return highlightText(text, spans);
     case "stops":
       return hit._highlightResult.stop.name.value;
 
