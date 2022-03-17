@@ -7,9 +7,6 @@ exports[`renders 1`] = `
   <div
     className="m-stop-page__header-container"
   >
-    <div
-      className="glx-open-container"
-    />
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
     >
@@ -176,9 +173,6 @@ exports[`renders a ferry route 1`] = `
   <div
     className="m-stop-page__header-container"
   >
-    <div
-      className="glx-open-container"
-    />
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
     >
@@ -307,9 +301,6 @@ exports[`renders all subway routes 1`] = `
   <div
     className="m-stop-page__header-container"
   >
-    <div
-      className="glx-open-container"
-    />
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
     >
@@ -495,9 +486,6 @@ exports[`renders with green line routes 1`] = `
   <div
     className="m-stop-page__header-container"
   >
-    <div
-      className="glx-open-container"
-    />
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
     >
