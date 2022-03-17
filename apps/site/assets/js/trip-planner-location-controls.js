@@ -343,7 +343,10 @@ export class TripPlannerLocControls {
   }
 
   renderFooterTemplate(indexName) {
-    if (indexName === "locations") {
+    if (
+      indexName === "locations"
+      && AlgoliaResult.AUTOCOMPLETE_POWERED_BY_GOOGLE
+    ) {
       return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
         logo: document.getElementById("powered-by-google-logo").innerHTML
       });

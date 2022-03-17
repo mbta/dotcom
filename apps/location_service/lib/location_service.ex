@@ -57,7 +57,7 @@ defmodule LocationService do
     end)
   end
 
-  defp active_service(key) do
+  def active_service(key) do
     {:system, env_var, default} = Application.get_env(:location_service, key)
     if value = System.get_env(env_var), do: String.to_atom(value), else: default
   end
