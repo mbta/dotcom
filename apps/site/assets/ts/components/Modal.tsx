@@ -22,7 +22,7 @@ interface Props {
   ariaLabel: AriaLabel | AriaLabelledBy;
   focusElementId?: string; // a selector string to the DOM node that will receive focus when the model is first opened
   className?: string;
-  closeModal: Function;
+  closeModal: () => void;
 }
 
 interface ModalContentProps {
@@ -30,7 +30,7 @@ interface ModalContentProps {
   closeText: string | ReactElement<HTMLElement>;
   role: string;
   ariaLabel: AriaLabel | AriaLabelledBy;
-  closeModal: Function;
+  closeModal: () => void;
   focusElementId: string;
   bodyPadding: string;
   scrollBarPadding: number;
@@ -61,6 +61,15 @@ const ModalContent = ({
       scrollRef.current.scrollTo({ top: 0 });
     }
   }, [children]);
+
+  useEffect(() => {
+    document.addEventListener("turbolinks:before-visit", closeModal, {
+      passive: true
+    });
+
+    return () =>
+      document.removeEventListener("turbolinks:before-visit", closeModal);
+  }, [closeModal]);
 
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
