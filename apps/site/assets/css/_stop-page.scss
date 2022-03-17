@@ -1,6 +1,12 @@
 .m-stop-page__header {
   background: $gray-bordered-background;
   border-bottom: 0;
+  height: $base-spacing * 14;
+  display: grid;
+
+  @include media-breakpoint-down(sm) {
+    height: $base-spacing * 11;
+  }
 
   // required to prevent h2 margin-top from creating space between
   // header and breadcrumbs
@@ -10,8 +16,10 @@
 
 .m-stop-page__header-container {
   @include make-container-max-widths();
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  align-self: end;
 
   @include media-breakpoint-down(sm) {
     padding-left: $grid-gutter-width / 2;
@@ -19,6 +27,7 @@
   }
 
   .m-stop-page__name {
+    margin-top: $base-spacing-sm;
     margin-bottom: $base-spacing / 2;
   }
 }
