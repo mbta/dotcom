@@ -11,7 +11,8 @@ defmodule LocationService.WrappersTest do
           {:ok,
            [
              %{
-               description: "Test"
+               description: "Test",
+               matched_substrings: [%{"offset" => 0, "length" => 2}]
              }
            ]}
         end do
@@ -19,7 +20,13 @@ defmodule LocationService.WrappersTest do
 
         assert [
                  %LocationService.Suggestion{
-                   address: "Test"
+                   address: "Test",
+                   highlighted_spans: [
+                     %LocationService.Utils.HighlightedSpan{
+                       length: 2,
+                       offset: 0
+                     }
+                   ]
                  }
                ] = results
       end
