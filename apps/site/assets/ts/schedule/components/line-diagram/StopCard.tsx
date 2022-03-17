@@ -17,6 +17,7 @@ import MatchHighlight from "../../../components/MatchHighlight";
 import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
 import { effectNameForAlert } from "../../../components/Alerts";
+import GlxOpen from "../../../components/GlxOpen";
 
 interface StopCardProps {
   stop: LineDiagramStop;
@@ -83,6 +84,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
       style={{ paddingLeft: searchQuery ? "0.5rem" : `${width}px` }}
     >
       <section className="m-schedule-diagram__content">
+        <GlxOpen pageType="line-diagram" stopId={routeStop.id} />
         {hasBranchLabel(stop) && (
           <div className="u-bold u-small-caps">{lineName(routeStop)}</div>
         )}

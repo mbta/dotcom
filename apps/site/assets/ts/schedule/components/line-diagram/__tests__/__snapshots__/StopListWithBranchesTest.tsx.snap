@@ -7,6 +7,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-destination\\" />
             <div className=\\"u-bold u-small-caps\\">
               Destination Line
             </div>
@@ -36,6 +37,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stopC\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
               <h4 className=\\"m-schedule-diagram__stop-link\\">
                 <a href=\\"/stops/tree-stopC\\">
@@ -62,6 +64,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stopB\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
               <h4 className=\\"m-schedule-diagram__stop-link\\">
                 <a href=\\"/stops/tree-stopB\\">
@@ -88,6 +91,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stopA\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
               <h4 className=\\"m-schedule-diagram__stop-link\\">
                 <a href=\\"/stops/tree-stopA\\">
@@ -114,6 +118,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-twig-destination\\" />
             <div className=\\"u-bold u-small-caps\\">
               Twig Destination Line
             </div>
@@ -146,6 +151,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
             <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
+                  <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-twig-stop\\" />
                   <header className=\\"m-schedule-diagram__stop-heading\\">
                     <h4 className=\\"m-schedule-diagram__stop-link\\">
                       <a href=\\"/stops/tree-twig-stop\\">
@@ -175,6 +181,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-branch-destination\\" />
             <div className=\\"u-bold u-small-caps\\">
               Branch Destination Line
             </div>
@@ -240,6 +247,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stop1\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
               <h4 className=\\"m-schedule-diagram__stop-link\\">
                 <a href=\\"/stops/tree-stop1\\">
@@ -266,6 +274,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stop0\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
               <h4 className=\\"m-schedule-diagram__stop-link\\">
                 <a href=\\"/stops/tree-stop0\\">
@@ -292,6 +301,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
+            <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-origin\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
               <h4 className=\\"m-schedule-diagram__stop-link\\">
                 <a href=\\"/stops/tree-origin\\">
