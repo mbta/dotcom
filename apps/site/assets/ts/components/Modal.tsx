@@ -70,12 +70,11 @@ const ModalContent = ({
     });
     trap.activate();
 
-    const htmlElement = document.getElementsByTagName("html")[0];
     const bodyWrapper = document.getElementById("body-wrapper");
     if (bodyWrapper) {
       // aria-hidden for mobile devices where we want to emulate "focus" behavior
       bodyWrapper.setAttribute("aria-hidden", "true");
-      htmlElement.classList.add("modal-open");
+      document.body.classList.add("modal-open");
       bodyWrapper.style.paddingRight = `${scrollBarPadding}px`;
     }
 
@@ -83,7 +82,7 @@ const ModalContent = ({
     return () => {
       if (bodyWrapper) {
         bodyWrapper.setAttribute("aria-hidden", "false");
-        htmlElement.classList.remove("modal-open");
+        document.body.classList.remove("modal-open");
         bodyWrapper.style.paddingRight = bodyPadding;
       }
       trap.deactivate();
