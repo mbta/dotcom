@@ -1,8 +1,10 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import renderSvg from "../helpers/render-svg";
 import glxLogo from "../../static/images/glx-logo.svg";
 
 const getIsGlxOpen = (stationId: string): boolean => {
+  if (!document) return false;
+
   const glxStationsOpen = document.querySelector(".glx-stations-open");
 
   if (
@@ -23,7 +25,10 @@ const GlxOpen = ({
   stationPage: boolean;
   stopId: string;
 }): ReactElement<HTMLElement> | null => {
-  const isGlxOpen = getIsGlxOpen(stopId);
+  const [isGlxOpen, setIsGlxOpen] = useState(false);
+  useEffect(() => {
+    setIsGlxOpen(getIsGlxOpen(stopId));
+  }, []);
   let textContent;
 
   if (stationPage) {
