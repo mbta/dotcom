@@ -81,8 +81,8 @@
         <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
-      <%= if assigns[:glx_now_open?] do %>
-        <div class="glx-is-open" style="display: none;" data-open="true" />
+      <%= if assigns[:glx_stations_open] do %>
+        <div class="glx-stations-open" style="display: none;" data-stations='<%= assigns[:glx_stations_open] %>' />
       <% end %>
     </div>
 

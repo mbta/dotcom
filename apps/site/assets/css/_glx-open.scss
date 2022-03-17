@@ -1,13 +1,3 @@
-.glx-open-container {
-  height: 31px;
-  margin-top: 27px;
-
-  @include media-breakpoint-down(md) {
-    height: 15px;
-    margin-top: 20px;
-  }
-}
-
 .glx-open-message {
   color: $gray;
   font-family: 'Inter UI';
@@ -38,6 +28,6 @@
   width: 54px;
 
   @include media-breakpoint-down(md) {
-    margin-right: 8px;
+    margin-right: $base-spacing-sm;
   }
 }
