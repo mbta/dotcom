@@ -28,7 +28,7 @@ const GlxOpen = ({
   const [isGlxOpen, setIsGlxOpen] = useState(false);
   useEffect(() => {
     setIsGlxOpen(getIsGlxOpen(stopId));
-  }, []);
+  }, [stopId]);
   let textContent;
 
   if (stationPage) {
