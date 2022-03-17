@@ -5,7 +5,6 @@ import { breakTextAtSlash } from "../../../../helpers/text";
 import { isSkippedOrCancelled } from "../../../../models/prediction";
 import { isACommuterRailRoute } from "../../../../models/route";
 import { TripDepartureWithPrediction } from "../../__trips";
-import GlxOpen from "../../../../components/GlxOpen";
 
 interface Props {
   departure: TripDepartureWithPrediction;
@@ -64,7 +63,6 @@ const TripStop = ({
           )}
           {breakTextAtSlash(prediction.stop.name)}
         </a>
-        <GlxOpen pageType="schedule-finder" stopId={prediction.stop.id} />
       </th>
       {showFare && (
         <td className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums">

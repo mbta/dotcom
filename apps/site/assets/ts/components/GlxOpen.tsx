@@ -16,17 +16,13 @@ const getIsGlxOpen = (stationId: string): boolean => {
   return false;
 };
 
-const glxLogoElement = (pageType: string): JSX.Element => {
-  if (pageType === "schedule-finder") return <span className="glx-logo" />;
-
-  return renderSvg("glx-logo", glxLogo);
-};
+const glxLogoElement = (): JSX.Element => renderSvg("glx-logo", glxLogo);
 
 const GlxOpen = ({
-  pageType,
+  stationPage = false,
   stopId
 }: {
-  pageType: "station-page" | "schedule-finder";
+  stationPage: boolean;
   stopId: string;
 }): ReactElement<HTMLElement> | null => {
   const [isGlxOpen, setIsGlxOpen] = useState(false);
@@ -35,16 +31,16 @@ const GlxOpen = ({
   }, [stopId]);
   let textContent;
 
-  if (pageType === "station-page") {
+  if (stationPage) {
     textContent = "STATION NOW OPEN";
   } else {
-    textContent = "NOW OPEN";
+    textContent = "STATION OPEN";
   }
 
   if (isGlxOpen) {
     return (
       <div className="glx-open-container">
-        {glxLogoElement(pageType)}
+        {glxLogoElement()}
         <span className="glx-open-message">{textContent}</span>
       </div>
     );
