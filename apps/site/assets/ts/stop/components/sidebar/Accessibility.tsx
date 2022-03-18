@@ -41,7 +41,7 @@ const accessibilityKnown = (stop: Stop): boolean =>
 
 const isSpecialCase = (stop: Stop): boolean => {
   if (
-    ["place-lech", "place-brkhl", "place-newtn", "place-asmnl"].includes(
+    ["place-asmnl"].includes(
       stop.id
     )
   )
