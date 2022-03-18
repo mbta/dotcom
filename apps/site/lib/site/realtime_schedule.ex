@@ -197,9 +197,6 @@ defmodule Site.RealtimeSchedule do
   @spec get_schedules([route_with_patterns_t], DateTime.t(), fun()) :: map
   defp get_schedules(route_with_patterns, now, schedules_fn) do
     route_with_patterns
-    |> Enum.reject(fn {_stop_id, route, _route_patterns} ->
-      route.type == 0 || route.type == 1
-    end)
     |> Enum.map(fn {stop_id, route, route_patterns} ->
       Task.async(fn ->
         do_get_schedules(route.id, stop_id, route_patterns, now, schedules_fn)
@@ -216,7 +213,7 @@ defmodule Site.RealtimeSchedule do
 
     [route_id]
     |> schedules_fn.(min_time: now)
-    |> Enum.filter(&(&1.stop_id == stop_id))
+    |> Enum.filter(&if Map.has_key?(&1, :stop_id), do: &1.stop_id == stop_id, else: false)
     |> Enum.group_by(& &1.route_pattern_id)
     |> Enum.into(
       %{},

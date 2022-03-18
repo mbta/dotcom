@@ -441,6 +441,12 @@
 
   tbody .schedule-table__cell {
     border-top: $border;
+    
+    &:first-child {
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: start;
+    }
   }
 
   th[scope='row'] {

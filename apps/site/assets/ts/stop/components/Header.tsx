@@ -11,6 +11,7 @@ import {
   clickFeaturePillAction
 } from "../state";
 import { modeByV3ModeType } from "../../components/ModeFilter";
+import GlxOpen from "../../components/GlxOpen";
 
 interface Props {
   stop: Stop;
@@ -173,6 +174,7 @@ const Header = ({
   return (
     <div className="m-stop-page__header">
       <div className="m-stop-page__header-container">
+        <GlxOpen pageType="station-page" stopId={stop.id} />
         <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>
           {stop.name}
         </h1>

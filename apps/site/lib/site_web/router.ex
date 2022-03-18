@@ -30,6 +30,7 @@ defmodule SiteWeb.Router do
     plug(SiteWeb.Plugs.Cookies)
     plug(:optional_disable_indexing)
     plug(:activate_flag)
+    plug(SiteWeb.Plugs.GlxNowOpen)
   end
 
   pipeline :api do

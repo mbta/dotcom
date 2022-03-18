@@ -1,0 +1,45 @@
+.glx-open-message {
+  color: $gray;
+  font-family: 'Inter UI';
+  font-size: $font-size-base;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-left: 10px;
+  text-transform: uppercase;
+
+  @include media-breakpoint-down(md) {
+    font-size: $font-size-base-xs;
+  }
+}
+
+.glx-logo {
+  svg {
+    height: 24px;
+    width: 54px;
+
+    @include media-breakpoint-down(md) {
+      height: 16px;
+      width: 36px;
+    }
+  }
+
+  height: 24px;
+  vertical-align: middle;
+  width: 54px;
+}
+
+.c-svg__glx-logo {
+  svg {
+    height: 20px;
+    width: 45px;
+
+    @include media-breakpoint-down(md) {
+      height: 16px;
+      width: 36px;
+    }
+  }
+
+  height: 20px;
+  vertical-align: middle;
+  width: 45px;
+}

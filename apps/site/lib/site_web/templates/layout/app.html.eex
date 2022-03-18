@@ -39,7 +39,6 @@
       <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
-
     <%= if assigns[:requires_location_service?] do %>
       <script type="application/javascript">if (!window.mapsCallback) { window.mapsCallback = function () { window.isMapReady = true; } }</script>
       <script async src="<%= location_service_js_url %>"></script>
@@ -82,6 +81,9 @@
         <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
+      <%= if assigns[:glx_stations_open] do %>
+        <div class="glx-stations-open" style="display: none;" data-stations='<%= assigns[:glx_stations_open] %>' />
+      <% end %>
     </div>
 
     <%# Load polyfills only if needed %>
