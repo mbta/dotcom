@@ -26,10 +26,6 @@
   height: 24px;
   vertical-align: middle;
   width: 54px;
-
-  @include media-breakpoint-down(md) {
-    margin-right: $base-spacing-sm;
-  }
 }
 
 .c-svg__glx-logo {
