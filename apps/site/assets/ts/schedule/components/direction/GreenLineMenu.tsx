@@ -14,8 +14,8 @@ import iconGreenC from "../../../../static/images/icon-green-line-c-small.svg";
 import iconGreenD from "../../../../static/images/icon-green-line-d-small.svg";
 import iconGreenE from "../../../../static/images/icon-green-line-e-small.svg";
 import iconGreen from "../../../../static/images/icon-green-line-small.svg";
-import getIsGlxOpen from "../../../components/GlxOpen"
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { getIsGlxOpen } from "../../../components/GlxOpen";
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -44,38 +44,38 @@ interface GreenLineItem {
 }
 
 /* eslint-disable camelcase */
-// const greenRoutes: GreenRoute[] = [
-//   {
-//     id: "Green",
-//     name: "Green Line",
-//     direction_destinations: ["All branches", "All branches"],
-//     icon: iconGreen
-//   },
-//   {
-//     id: "Green-B",
-//     name: "Green Line B",
-//     direction_destinations: ["Boston College", "Government Center"],
-//     icon: iconGreenB
-//   },
-//   {
-//     id: "Green-C",
-//     name: "Green Line C",
-//     direction_destinations: ["Cleveland Circle", "Government Center"],
-//     icon: iconGreenC
-//   },
-//   {
-//     id: "Green-D",
-//     name: "Green Line D",
-//     direction_destinations: ["Riverside", "North Station"],
-//     icon: iconGreenD
-//   },
-//   {
-//     id: "Green-E",
-//     name: "Green Line E",
-//     direction_destinations: getIsGlxOpen({stationPage: false, stopId: "place-unsqu"}) ? ["Heath Street", "Union Square"] : ["Heath Street", "Lechmere"],
-//     icon: iconGreenE
-//   }
-// ];
+const greenRoutes: GreenRoute[] = [
+  {
+    id: "Green",
+    name: "Green Line",
+    direction_destinations: ["All branches", "All branches"],
+    icon: iconGreen
+  },
+  {
+    id: "Green-B",
+    name: "Green Line B",
+    direction_destinations: ["Boston College", "Government Center"],
+    icon: iconGreenB
+  },
+  {
+    id: "Green-C",
+    name: "Green Line C",
+    direction_destinations: ["Cleveland Circle", "Government Center"],
+    icon: iconGreenC
+  },
+  {
+    id: "Green-D",
+    name: "Green Line D",
+    direction_destinations: ["Riverside", "North Station"],
+    icon: iconGreenD
+  },
+  {
+    id: "Green-E",
+    name: "Green Line E",
+    direction_destinations: getIsGlxOpen("place-unsqu") ? ["Heath Street", "Union Square"] : ["Heath Street", "Lechmere"],
+    icon: iconGreenE
+  }
+];
 
 export const GreenLineItem = ({
   directionId,
@@ -133,41 +133,6 @@ export const ExpandedGreenMenu = ({
 }: ExpandedGreenMenuProps): ReactElement<HTMLElement> => {
 
 
-  let greenRoutes: GreenRoute[] = [
-    {
-      id: "Green",
-      name: "Green Line",
-      direction_destinations: ["All branches", "All branches"],
-      icon: iconGreen
-    },
-    {
-      id: "Green-B",
-      name: "Green Line B",
-      direction_destinations: ["Boston College", "Government Center"],
-      icon: iconGreenB
-    },
-    {
-      id: "Green-C",
-      name: "Green Line C",
-      direction_destinations: ["Cleveland Circle", "Government Center"],
-      icon: iconGreenC
-    },
-    {
-      id: "Green-D",
-      name: "Green Line D",
-      direction_destinations: ["Riverside", "North Station"],
-      icon: iconGreenD
-    },
-    {
-      id: "Green-E",
-      name: "Green Line E",
-      direction_destinations: getIsGlxOpen({stationPage: false, stopId: "place-unsqu"}) ? ["Heath Street", "Union Square"] : ["Heath Street", "Lechmere"],
-      icon: iconGreenE
-    }
-  ];
-
-
-
 
   const routeIds = greenRoutes.map(greenRoute => greenRoute.id);
   return (
@@ -194,40 +159,6 @@ export const GreenLineSelect = ({
   const handleClick = (): void => {
     dispatch(toggleRoutePatternMenuAction());
   };
-
-  let greenRoutes: GreenRoute[] = [
-    {
-      id: "Green",
-      name: "Green Line",
-      direction_destinations: ["All branches", "All branches"],
-      icon: iconGreen
-    },
-    {
-      id: "Green-B",
-      name: "Green Line B",
-      direction_destinations: ["Boston College", "Government Center"],
-      icon: iconGreenB
-    },
-    {
-      id: "Green-C",
-      name: "Green Line C",
-      direction_destinations: ["Cleveland Circle", "Government Center"],
-      icon: iconGreenC
-    },
-    {
-      id: "Green-D",
-      name: "Green Line D",
-      direction_destinations: ["Riverside", "North Station"],
-      icon: iconGreenD
-    },
-    {
-      id: "Green-E",
-      name: "Green Line E",
-      direction_destinations: getIsGlxOpen({stationPage: false, stopId: "place-unsqu"}) ? ["Heath Street", "Union Square"] : ["Heath Street", "Lechmere"],
-      icon: iconGreenE
-    }
-  ];
-
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
 
