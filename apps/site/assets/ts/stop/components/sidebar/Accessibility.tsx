@@ -39,15 +39,7 @@ const isAccessible = (stop: Stop): boolean =>
 const accessibilityKnown = (stop: Stop): boolean =>
   !stop.accessibility.includes("unknown");
 
-const isSpecialCase = (stop: Stop): boolean => {
-  if (
-    ["place-lech", "place-brkhl", "place-newtn", "place-asmnl"].includes(
-      stop.id
-    )
-  )
-    return true;
-  return false;
-};
+const isSpecialCase = (stop: Stop): boolean => stop.id === "place-asmnl";
 
 const maybeRenderBusAccess = (bus: boolean, accessKnown: boolean): string => {
   if (!bus) return "";
