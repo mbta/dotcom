@@ -442,7 +442,7 @@
   tbody .schedule-table__cell {
     border-top: $border;
     
-    &:nth-child(1) {
+    &:first-child {
       display: grid;
       grid-auto-flow: column;
       justify-content: start;

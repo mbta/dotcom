@@ -16,8 +16,8 @@ const getIsGlxOpen = (stationId: string): boolean => {
   return false;
 };
 
-const glxLogoElement = (pageType: string): JSX.Element => {
-  if (pageType === "schedule-finder") return <span className="glx-logo" />;
+const glxLogoElement = (pageType: string): JSX.Element | null => {
+  if (pageType === "schedule-finder") return null;
 
   return renderSvg("glx-logo", glxLogo);
 };
