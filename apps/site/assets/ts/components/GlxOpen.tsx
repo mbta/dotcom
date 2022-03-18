@@ -26,7 +26,7 @@ const GlxOpen = ({
   pageType,
   stopId
 }: {
-  pageType: "station-page" | "schedule-finder";
+  pageType: "station-page" | "schedule-finder" | "line-diagram";
   stopId: string;
 }): ReactElement<HTMLElement> | null => {
   const [isGlxOpen, setIsGlxOpen] = useState(false);
