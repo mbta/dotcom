@@ -34,7 +34,7 @@ export const fetchData = (
     window.fetch &&
     window
       .fetch(
-        `/routes/${routeId}`
+        `/schedules/map_api?id=${routeId}&direction_id=0`
       )
       .then(response => {
         if (response.ok) return response.json();
@@ -78,11 +78,11 @@ const [state, dispatch] = useReducer(reducer, {
   error: false
 });
 
-// const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
-// let directionDestinations = [];
-// for (var routeId in allRouteIds){
-//   directionDestinations.push(fetchData(routeId, dispatch));
-// } 
+const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
+let directionDestinations = [];
+for (var routeId in allRouteIds){
+  directionDestinations.push(fetchData(routeId, dispatch));
+} 
 console.log(fetchData("Green-B", dispatch));
 
 /* eslint-disable camelcase */
@@ -199,6 +199,12 @@ export const GreenLineSelect = ({
     dispatch(toggleRoutePatternMenuAction());
   };
 
+  const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
+let directionDestinations = [];
+for (var routeId in allRouteIds){
+  directionDestinations.push(fetchData(routeId, dispatch));
+} 
+console.log(fetchData("Green-B", dispatch));
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
 
   return (
