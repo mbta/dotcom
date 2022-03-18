@@ -2,7 +2,7 @@ import React, { ReactElement, useState, useEffect } from "react";
 import renderSvg from "../helpers/render-svg";
 import glxLogo from "../../static/images/glx-logo.svg";
 
-const getIsGlxOpen = (stationId: string): boolean => {
+export const getIsGlxOpen = (stationId: string): boolean => {
   if (!document) return false;
 
   const glxStationsOpen = document.querySelector(".glx-stations-open");
