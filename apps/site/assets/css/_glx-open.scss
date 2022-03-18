@@ -4,6 +4,7 @@
   font-size: $font-size-base;
   font-weight: bold;
   letter-spacing: 1px;
+  margin-left: 10px;
   text-transform: uppercase;
 
   @include media-breakpoint-down(md) {
@@ -23,7 +24,6 @@
   }
 
   height: 24px;
-  margin-right: 10px;
   vertical-align: middle;
   width: 54px;
 
@@ -44,11 +44,6 @@
   }
 
   height: 20px;
-  margin-right: 8px;
   vertical-align: middle;
   width: 45px;
-
-  @include media-breakpoint-down(md) {
-    margin-right: $base-spacing-sm;
-  }
 }
