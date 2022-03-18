@@ -124,6 +124,7 @@ defmodule Util do
     |> handle_ambiguous_time()
   end
 
+  # important: assumes the NaiveDateTime is in UTC.
   def to_local_time(%NaiveDateTime{} = time) do
     time
     |> DateTime.from_naive!("Etc/UTC")

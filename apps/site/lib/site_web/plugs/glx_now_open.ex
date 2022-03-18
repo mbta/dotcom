@@ -24,7 +24,12 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
     conn
     |> assign(
       :glx_stations_open,
-      set_assigns(check_current_service_date(now_fn.(), Util.to_local_time(@opening_date)))
+      set_assigns(
+        check_current_service_date(
+          now_fn.(),
+          Util.convert_using_timezone(@opening_date, "America/New_York")
+        )
+      )
     )
   end
 
