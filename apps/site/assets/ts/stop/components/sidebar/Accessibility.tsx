@@ -40,12 +40,7 @@ const accessibilityKnown = (stop: Stop): boolean =>
   !stop.accessibility.includes("unknown");
 
 const isSpecialCase = (stop: Stop): boolean => {
-  if (
-    ["place-asmnl"].includes(
-      stop.id
-    )
-  )
-    return true;
+  if (["place-asmnl"].includes(stop.id)) return true;
   return false;
 };
 
