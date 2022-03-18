@@ -14,12 +14,15 @@ defmodule GreenLineTest do
     test "returns a set of {stop_id, route_id} pairs" do
       {_, route_id_stop_map} = stops_on_routes(1)
 
+      refute "place-unsqu" in route_id_stop_map["Green-B"]
+      refute "place-unsqu" in route_id_stop_map["Green-C"]
+      refute "place-unsqu" in route_id_stop_map["Green-D"]
+      assert "place-unsqu" in route_id_stop_map["Green-E"]
+
       refute "place-lech" in route_id_stop_map["Green-B"]
       refute "place-lech" in route_id_stop_map["Green-C"]
       refute "place-lech" in route_id_stop_map["Green-D"]
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      refute "place-lech" in route_id_stop_map["Green-E"]
+      assert "place-lech" in route_id_stop_map["Green-E"]
 
       assert "place-coecl" in route_id_stop_map["Green-B"]
       assert "place-coecl" in route_id_stop_map["Green-C"]
@@ -134,10 +137,7 @@ defmodule GreenLineTest do
       assert terminus?(stop_id, "Green-D")
     end
 
-    # As of June 2020, Lechmere is closed for construction and the E-line will
-    # be terminating at North Station for now.
-    # FIXME: Update with new GLX data
-    for stop_id <- ["place-north", "place-hsmnl"] do
+    for stop_id <- ["place-unsqu", "place-hsmnl"] do
       assert terminus?(stop_id, "Green-E")
     end
   end
@@ -145,12 +145,8 @@ defmodule GreenLineTest do
   test "terminus?/3" do
     assert terminus?("place-lake", "Green-B", 0)
     refute terminus?("place-lake", "Green-B", 1)
-    # As of June 2020, Lechmere is closed for construction and the E-line will
-    # be terminating at North Station for now.
-    # FIXME: Update with new GLX data
-    refute terminus?("place-north", "Green-E", 0)
-    # FIXME: Update with new GLX data
-    assert terminus?("place-north", "Green-E", 1)
+    refute terminus?("place-unsqu", "Green-E", 0)
+    assert terminus?("place-unsqu", "Green-E", 1)
   end
 
   describe "naive_headsign/2" do
@@ -163,9 +159,7 @@ defmodule GreenLineTest do
       assert naive_headsign("Green-D", 0) == "Riverside"
       assert naive_headsign("Green-D", 1) == "North Station"
       assert naive_headsign("Green-E", 0) == "Heath Street"
-      # As of June 2020, Lechmere is closed for construction and the E-line will
-      # be terminating at North Station for now.
-      assert naive_headsign("Green-E", 1) == "North Station"
+      assert naive_headsign("Green-E", 1) == "Union Square"
     end
   end
 
