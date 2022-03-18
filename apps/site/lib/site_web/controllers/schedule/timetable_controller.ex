@@ -136,7 +136,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   @spec trip_schedule(Schedules.Schedule.t()) ::
-          {{Schedules.Trip.id_t() | nil, Stops.Stop.id_t()}, Schedules.Schedule.t()}
+          {{Schedules.Trip.id_t() | nil, Stops.Stop.id_t() | nil}, Schedules.Schedule.t()}
   defp trip_schedule(%Schedules.Schedule{trip: trip, stop: stop} = schedule)
        when not is_nil(trip) and not is_nil(stop) do
     {{trip.id, stop.id}, schedule}
