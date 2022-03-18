@@ -72,7 +72,9 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-E",
     name: "Green Line E",
-    direction_destinations: getIsGlxOpen("place-unsqu") ? ["Heath Street", "Union Square"] : ["Heath Street", "Lechmere"],
+    direction_destinations: getIsGlxOpen("place-unsqu")
+      ? ["Heath Street", "Union Square"]
+      : ["Heath Street", "Lechmere"],
     icon: iconGreenE
   }
 ];
@@ -131,9 +133,6 @@ export const ExpandedGreenMenu = ({
   route,
   directionId
 }: ExpandedGreenMenuProps): ReactElement<HTMLElement> => {
-
-
-
   const routeIds = greenRoutes.map(greenRoute => greenRoute.id);
   return (
     <div className="m-schedule-direction__menu" role="menu">
