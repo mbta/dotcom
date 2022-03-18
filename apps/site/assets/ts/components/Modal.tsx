@@ -22,7 +22,7 @@ interface Props {
   ariaLabel: AriaLabel | AriaLabelledBy;
   focusElementId?: string; // a selector string to the DOM node that will receive focus when the model is first opened
   className?: string;
-  closeModal: Function;
+  closeModal: () => void;
 }
 
 interface ModalContentProps {
@@ -30,7 +30,7 @@ interface ModalContentProps {
   closeText: string | ReactElement<HTMLElement>;
   role: string;
   ariaLabel: AriaLabel | AriaLabelledBy;
-  closeModal: Function;
+  closeModal: () => void;
   focusElementId: string;
   bodyPadding: string;
   scrollBarPadding: number;
@@ -62,6 +62,15 @@ const ModalContent = ({
     }
   }, [children]);
 
+  useEffect(() => {
+    document.addEventListener("turbolinks:before-visit", closeModal, {
+      passive: true
+    });
+
+    return () =>
+      document.removeEventListener("turbolinks:before-visit", closeModal);
+  }, [closeModal]);
+
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
     const trap = createFocusTrap("#modal-cover", {
@@ -70,12 +79,11 @@ const ModalContent = ({
     });
     trap.activate();
 
-    const htmlElement = document.getElementsByTagName("html")[0];
     const bodyWrapper = document.getElementById("body-wrapper");
     if (bodyWrapper) {
       // aria-hidden for mobile devices where we want to emulate "focus" behavior
       bodyWrapper.setAttribute("aria-hidden", "true");
-      htmlElement.classList.add("modal-open");
+      document.body.classList.add("modal-open");
       bodyWrapper.style.paddingRight = `${scrollBarPadding}px`;
     }
 
@@ -83,7 +91,7 @@ const ModalContent = ({
     return () => {
       if (bodyWrapper) {
         bodyWrapper.setAttribute("aria-hidden", "false");
-        htmlElement.classList.remove("modal-open");
+        document.body.classList.remove("modal-open");
         bodyWrapper.style.paddingRight = bodyPadding;
       }
       trap.deactivate();
