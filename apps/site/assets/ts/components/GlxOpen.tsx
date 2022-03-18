@@ -11,7 +11,7 @@ export const getIsGlxOpen = (stationId: string): boolean => {
     glxStationsOpen instanceof HTMLElement &&
     glxStationsOpen.dataset.stations
   ) {
-    return glxStationsOpen.dataset.stations.split(",").indexOf(stationId) > 0;
+    return glxStationsOpen.dataset.stations.includes(stationId);
   }
   return false;
 };
