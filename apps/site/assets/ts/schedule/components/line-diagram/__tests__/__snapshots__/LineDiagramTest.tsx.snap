@@ -109,6 +109,11 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                         <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       </span>
                     </TooltipWrapper>
+                    <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </TooltipWrapper>
                   </div>
                 </header>
                 <div className=\\"m-schedule-diagram__stop-details\\">
@@ -144,7 +149,13 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                       </MatchHighlight>
                     </a>
                   </h4>
-                  <div className=\\"m-schedule-diagram__features\\" />
+                  <div className=\\"m-schedule-diagram__features\\">
+                    <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </TooltipWrapper>
+                  </div>
                 </header>
                 <div className=\\"m-schedule-diagram__stop-details\\">
                   <div className=\\"m-schedule-diagram__connections\\">
