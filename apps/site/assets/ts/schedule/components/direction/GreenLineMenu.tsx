@@ -17,8 +17,8 @@ import iconGreenC from "../../../../static/images/icon-green-line-c-small.svg";
 import iconGreenD from "../../../../static/images/icon-green-line-d-small.svg";
 import iconGreenE from "../../../../static/images/icon-green-line-e-small.svg";
 import iconGreen from "../../../../static/images/icon-green-line-small.svg";
-
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { getIsGlxOpen } from "../../../components/GlxOpen";
 
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: Route }
@@ -114,7 +114,9 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-E",
     name: "Green Line E",
-    direction_destinations: ["Heath Street", "Lechmere"],
+    direction_destinations: getIsGlxOpen("place-unsqu")
+      ? ["Heath Street", "Union Square"]
+      : ["Heath Street", "Lechmere"],
     icon: iconGreenE
   }
 ];

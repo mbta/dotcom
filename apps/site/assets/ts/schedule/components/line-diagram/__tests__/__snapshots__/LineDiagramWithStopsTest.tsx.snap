@@ -77,6 +77,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
             <section className=\\"m-schedule-diagram__content\\">
+              <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-origin\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
                 <h4 className=\\"m-schedule-diagram__stop-link\\">
                   <a href=\\"/stops/line-origin\\">
@@ -112,6 +113,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
             <section className=\\"m-schedule-diagram__content\\">
+              <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-stop1\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
                 <h4 className=\\"m-schedule-diagram__stop-link\\">
                   <a href=\\"/stops/line-stop1\\">
@@ -188,6 +190,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
             <section className=\\"m-schedule-diagram__content\\">
+              <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-stop2\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
                 <h4 className=\\"m-schedule-diagram__stop-link\\">
                   <a href=\\"/stops/line-stop2\\">
@@ -257,6 +260,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
             <section className=\\"m-schedule-diagram__content\\">
+              <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-destination\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
                 <h4 className=\\"m-schedule-diagram__stop-link\\">
                   <a href=\\"/stops/line-destination\\">
