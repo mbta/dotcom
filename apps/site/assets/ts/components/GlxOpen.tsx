@@ -1,20 +1,7 @@
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement } from "react";
+import useIsGlxOpen from "../hooks/useIsGlxOpen";
 import renderSvg from "../helpers/render-svg";
 import glxLogo from "../../static/images/glx-logo.svg";
-
-export const getIsGlxOpen = (stationId: string): boolean => {
-  if (!document) return false;
-
-  const glxStationsOpen = document.querySelector(".glx-stations-open");
-
-  if (
-    glxStationsOpen instanceof HTMLElement &&
-    glxStationsOpen.dataset.stations
-  ) {
-    return glxStationsOpen.dataset.stations.includes(stationId);
-  }
-  return false;
-};
 
 const glxLogoElement = (pageType: string): JSX.Element | null => {
   if (pageType === "schedule-finder") return null;
@@ -29,10 +16,7 @@ const GlxOpen = ({
   pageType: "station-page" | "schedule-finder" | "line-diagram";
   stopId: string;
 }): ReactElement<HTMLElement> | null => {
-  const [isGlxOpen, setIsGlxOpen] = useState(false);
-  useEffect(() => {
-    setIsGlxOpen(getIsGlxOpen(stopId));
-  }, [stopId]);
+  const isGlxOpen = useIsGlxOpen(stopId)[0];
   let textContent;
 
   if (pageType === "station-page") {
