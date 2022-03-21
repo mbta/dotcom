@@ -76,8 +76,12 @@ export const StopCard = ({
         <a href={stop.href} className="m-tnm-sidebar__stop-name">
           {renderStopIcon(stop)}
           {stop.name}
-          {!!stop.accessibility.length &&
-            !stop.accessibility.includes("unknown") &&
+          {(
+            // NOTE: Bus stops are always considered accessible, see
+            // https://app.asana.com/0/1201653980996886/1201894234147725/f
+            route.type === 3 ||
+            (!!stop.accessibility.length &&
+              !stop.accessibility.includes("unknown"))) &&
             accessibleIcon("m-tnm-sidebar__stop-accessible")}
         </a>
         <div className="m-tnm-sidebar__stop-distance">{distance}</div>
