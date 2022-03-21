@@ -13,6 +13,7 @@ import Departures from "./Departures";
 import SuggestedTransfers from "./SuggestedTransfers";
 import { isHighSeverityOrHighPriority } from "../../models/alert";
 import useIsGlxOpen from "../../hooks/useIsGlxOpen";
+import { formattedDate } from "../../helpers/date";
 
 interface Props {
   stopPageData: StopPageData;
@@ -60,8 +61,20 @@ export default ({
   }, 15000);
 
   const highPriorityAlerts = alerts.filter(isHighSeverityOrHighPriority);
-
   const [isGlxOpen, glxOpenDate] = useIsGlxOpen(stop.id);
+  const stationInformation =
+    isGlxOpen && glxOpenDate ? (
+      <p>
+        <strong>Open to riders on {formattedDate(glxOpenDate)}</strong>, this
+        station is one of several to join the Green Line as part of the{" "}
+        <a href="https://www.mbta.com/projects/green-line-extension-glx">
+          Green Line Extension (GLX)
+        </a>
+        .
+      </p>
+    ) : (
+      <p>See upcoming departures, maps, and other features at this location.</p>
+    );
   return (
     <>
       <StopPageHeader
@@ -89,8 +102,7 @@ export default ({
                 </div>
               ) : null}
               <h2>Station Information</h2>
-              <p>See upcoming departures, maps, and other features at this 
-              location.</p>
+              {stationInformation}
             </div>
           </div>
           <div className="m-stop-page__hero">
