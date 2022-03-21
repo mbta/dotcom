@@ -79,11 +79,11 @@ const [state, dispatch] = useReducer(reducer, {
 });
 
 const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
-let directionDestinations = [];
+let directionDestinations = new Map();
 for (var routeId in allRouteIds){
-  directionDestinations.push(fetchData(routeId, dispatch));
+  directionDestinations.set(routeId,fetchData(routeId, dispatch));
 } 
-console.log(fetchData("Green-B", dispatch));
+console.log(directionDestinations.get("Green-B"));
 
 /* eslint-disable camelcase */
 const greenRoutes: GreenRoute[] = [
@@ -96,7 +96,7 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: ["wokka", "wokka"],
+    direction_destinations: ["Boston College", "Government Center"],
     icon: iconGreenB
   },
   {
@@ -199,12 +199,7 @@ export const GreenLineSelect = ({
     dispatch(toggleRoutePatternMenuAction());
   };
 
-  const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
-let directionDestinations = [];
-for (var routeId in allRouteIds){
-  directionDestinations.push(fetchData(routeId, dispatch));
-} 
-console.log(fetchData("Green-B", dispatch));
+
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
 
   return (
