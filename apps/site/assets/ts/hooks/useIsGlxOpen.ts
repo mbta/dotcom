@@ -1,26 +1,29 @@
 import { useState, useEffect } from "react";
 
-const getIsGlxOpen = (stationId: string): boolean => {
-  if (!document) return false;
+type GlxOpenStatus = [boolean, string | null]; // [status, Date string if true status]
 
-  const glxStationsOpen = document.querySelector(".glx-stations-open");
-
-  if (
-    glxStationsOpen instanceof HTMLElement &&
-    glxStationsOpen.dataset.stations
-  ) {
-    return glxStationsOpen.dataset.stations.includes(stationId);
-  }
-  return false;
+const getIsGlxOpen = (stationId: string): GlxOpenStatus => {
+  if (!document) return [false, null];
+  const glxStationsOpen: HTMLElement | null = document.querySelector(
+    ".glx-stations-open"
+  );
+  if (!glxStationsOpen) return [false, null];
+  const { stations, opening } = glxStationsOpen.dataset;
+  const isStationOpen = stations ? stations.includes(stationId) : false;
+  const stationOpenDate = !opening ? null : opening;
+  return [isStationOpen, stationOpenDate];
 };
 
 const useIsGlxOpen = (stopId: string): GlxOpenStatus => {
-  const [isGlxOpen, setIsGlxOpen] = useState(false);
+  const [[isGlxOpen, glxOpenDate], setIsGlxOpen] = useState<GlxOpenStatus>([
+    false,
+    null
+  ]);
   useEffect(() => {
     setIsGlxOpen(getIsGlxOpen(stopId));
   }, [stopId]);
 
-  return isGlxOpen;
+  return [isGlxOpen, glxOpenDate];
 };
 
 export default useIsGlxOpen;
