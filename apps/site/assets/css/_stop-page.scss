@@ -90,6 +90,24 @@
   }
 }
 
+.m-stop-page__info-container .m-stop-page__info {
+  @include make-container-max-widths();
+  margin: 0 auto;
+  padding: ($base-spacing * 2) 0;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    padding: ($base-spacing * 1.5) calc($grid-gutter-width / 2);
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
 .m-stop-page__sidebar-pills {
   @include media-breakpoint-down(md) {
     display: none;
