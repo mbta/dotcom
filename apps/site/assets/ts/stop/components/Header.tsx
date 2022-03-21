@@ -12,6 +12,7 @@ import {
 } from "../state";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import GlxOpen from "../../components/GlxOpen";
+import { typedRoutesHasBusRoute } from "../../helpers/routes";
 
 interface Props {
   stop: Stop;
@@ -151,7 +152,7 @@ const features = (
   <div className="m-stop-page__header-features">
     {modes(routes, dispatch)}
     {crZone(zoneNumber, dispatch)}
-    {accessible(stop, !!routes.find(r => r.group_name === "bus"), dispatch)}
+    {accessible(stop, typedRoutesHasBusRoute(routes), dispatch)}
     {parking(stop, dispatch)}
   </div>
 );

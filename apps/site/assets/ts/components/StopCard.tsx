@@ -8,6 +8,7 @@ import { accessibleIcon, alertIcon } from "../helpers/icon";
 import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 import { effectNameForAlert } from "./Alerts";
 import { isDiversion, alertsByStop, uniqueByEffect } from "../models/alert";
+import { isABusRoute } from "../models/route";
 
 interface Props {
   stop: Stop;
@@ -78,7 +79,7 @@ export const StopCard = ({
           {stop.name}
           {// NOTE: Bus stops are always considered accessible, see
           // https://app.asana.com/0/1201653980996886/1201894234147725/f
-          (route.type === 3 ||
+          (isABusRoute(route) ||
             (!!stop.accessibility.length &&
               !stop.accessibility.includes("unknown"))) &&
             accessibleIcon("m-tnm-sidebar__stop-accessible")}

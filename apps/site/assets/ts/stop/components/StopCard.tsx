@@ -4,6 +4,7 @@ import { RouteWithDirection } from "./__stop";
 import { modeIcon, parkingIcon } from "../../helpers/icon";
 import { isABusRoute } from "../../models/route";
 import accessible from "./StopAccessibilityIcon";
+import { routesWithDirectionsAreAllBusStops } from "../../helpers/routes";
 
 const formatMilesToFeet = (miles: number): number => Math.floor(miles * 5280.0);
 
@@ -60,9 +61,7 @@ const StopCard = ({
         }))
       : routesWithDirection;
 
-  const isBusStop =
-    routesWithDirection.length > 0 &&
-    routesWithDirection.reduce((acc, r) => r.route.type === 3 && acc, true);
+  const allAreBusStops = routesWithDirectionsAreAllBusStops(routesToRender);
 
   return (
     <div className="c-stop-card">
@@ -71,7 +70,7 @@ const StopCard = ({
         {stop.name}
       </a>
       <div className="c-stop-card__icon-container">
-        {accessible(stop, isBusStop)}
+        {accessible(stop, allAreBusStops)}
         {stop.parking_lots.length > 0 ? (
           <span className="c-stop-page__icon">
             {parkingIcon("c-svg__icon-parking-default")}
