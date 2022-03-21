@@ -60,6 +60,10 @@ const StopCard = ({
         }))
       : routesWithDirection;
 
+  const isBusStop =
+    routesWithDirection.length > 0 &&
+    routesWithDirection.reduce((acc, r) => r.route.type === 3 && acc, true);
+
   return (
     <div className="c-stop-card">
       {renderDistance(distance, distanceFormatted)}
@@ -67,7 +71,7 @@ const StopCard = ({
         {stop.name}
       </a>
       <div className="c-stop-card__icon-container">
-        {accessible(stop)}
+        {accessible(stop, isBusStop)}
         {stop.parking_lots.length > 0 ? (
           <span className="c-stop-page__icon">
             {parkingIcon("c-svg__icon-parking-default")}

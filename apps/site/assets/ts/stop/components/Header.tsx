@@ -151,7 +151,7 @@ const features = (
   <div className="m-stop-page__header-features">
     {modes(routes, dispatch)}
     {crZone(zoneNumber, dispatch)}
-    {accessible(stop, dispatch)}
+    {accessible(stop, !!routes.find(r => r.group_name === "bus"), dispatch)}
     {parking(stop, dispatch)}
   </div>
 );
