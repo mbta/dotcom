@@ -10,7 +10,7 @@ const getIsGlxOpen = (stationId: string): GlxOpenStatus => {
   if (!glxStationsOpen) return [false, null];
   const { stations, opening } = glxStationsOpen.dataset;
   const isStationOpen = stations ? stations.includes(stationId) : false;
-  const stationOpenDate = !opening ? null : opening;
+  const stationOpenDate = isStationOpen && opening ? opening : null;
   return [isStationOpen, stationOpenDate];
 };
 
