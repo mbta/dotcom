@@ -21,16 +21,14 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
 
   @impl true
   def call(conn, now_fn: now_fn) do
+    opens = @opening_date |> Util.convert_using_timezone("America/New_York")
+
     conn
     |> assign(
       :glx_stations_open,
-      set_assigns(
-        check_current_service_date(
-          now_fn.(),
-          Util.convert_using_timezone(@opening_date, "America/New_York")
-        )
-      )
+      set_assigns(check_current_service_date(now_fn.(), opens))
     )
+    |> assign(:glx_opening_date, DateTime.to_iso8601(opens))
   end
 
   defp set_assigns(true), do: Enum.join(@glx_stations, ",")

@@ -82,7 +82,7 @@
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
       <%= if assigns[:glx_stations_open] do %>
-        <div class="glx-stations-open" style="display: none;" data-stations='<%= assigns[:glx_stations_open] %>' />
+        <div class="glx-stations-open" style="display: none;" data-opening='<%= assigns[:glx_opening_date] %>' data-stations='<%= assigns[:glx_stations_open] %>' />
       <% end %>
     </div>
 

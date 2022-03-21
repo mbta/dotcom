@@ -12,6 +12,7 @@ import {
 } from "../state";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import GlxOpen from "../../components/GlxOpen";
+import useIsGlxOpen from "../../hooks/useIsGlxOpen";
 
 interface Props {
   stop: Stop;
@@ -171,8 +172,9 @@ const Header = ({
 }: Props): ReactElement<HTMLElement> => {
   const emptyFunc = (): void => {};
   const dispatchOrEmptyFunc = dispatch || emptyFunc;
+  const isGlxOpen = useIsGlxOpen(stop.id)[0];
   return (
-    <div className="m-stop-page__header">
+    <div className={`m-stop-page__header${isGlxOpen ? " glx-open" : ""}`}>
       <div className="m-stop-page__header-container">
         <GlxOpen pageType="station-page" stopId={stop.id} />
         <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>

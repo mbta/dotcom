@@ -435,10 +435,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
       assert trunk |> List.first() |> stop_id() == "place-armnl"
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      # assert stop_id(List.last(trunk)) == "place-lech"
-      assert trunk |> List.last() |> stop_id() == "place-north"
+      assert trunk |> List.last() |> stop_id() == "place-unsqu"
     end
   end
 

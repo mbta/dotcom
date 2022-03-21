@@ -144,7 +144,11 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
   </div>
 );
 
-const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
+export const Alert = ({
+  alert
+}: {
+  alert: AlertType;
+}): ReactElement<HTMLElement> => {
   const [expanded, toggleExpanded] = useState(false);
   const onClick = (): void => toggleExpanded(!expanded);
 
