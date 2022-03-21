@@ -12,6 +12,7 @@ import LocationBlock from "./LocationBlock";
 import Departures from "./Departures";
 import SuggestedTransfers from "./SuggestedTransfers";
 import { isHighSeverityOrHighPriority } from "../../models/alert";
+import useIsGlxOpen from "../../hooks/useIsGlxOpen";
 
 interface Props {
   stopPageData: StopPageData;
@@ -60,6 +61,7 @@ export default ({
 
   const highPriorityAlerts = alerts.filter(isHighSeverityOrHighPriority);
 
+  const [isGlxOpen, glxOpenDate] = useIsGlxOpen(stop.id);
   return (
     <>
       <StopPageHeader
@@ -71,7 +73,11 @@ export default ({
         <AlertsTab alertsTab={alertsTab} />
       ) : (
         <>
-          <div className="m-stop-page__info-container">
+          <div
+            className={`m-stop-page__info-container${
+              isGlxOpen ? " glx-open" : ""
+            }`}
+          >
             <div className="m-stop-page__info">
               {highPriorityAlerts.length > 0 ? (
                 <div className="page-section">

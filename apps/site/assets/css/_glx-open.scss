@@ -66,4 +66,15 @@
   .m-stop-page__name {
     color: $brand-green-line;
   }
+
+  .header-tab--selected:first-of-type,
+  &.m-stop-page__info-container {
+    background-color: $brand-green-line;
+    color: $white;
+  }
+
+  &.m-stop-page__info-container a {
+    color: inherit;
+    text-decoration: underline;
+  }
 }
