@@ -26,7 +26,6 @@ type fetchAction =
   | { type: "FETCH_STARTED" };
 
 export const fetchData = (
-  routeId: string,
   dispatch: (action: fetchAction) => void
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
@@ -34,7 +33,7 @@ export const fetchData = (
     window.fetch &&
     window
       .fetch(
-        `/schedules/map_api?id=${routeId}&direction_id=0`
+        `/schedules/green_termini_api`
       )
       .then(response => {
         if (response.ok) return response.json();
@@ -78,12 +77,9 @@ const [state, dispatch] = useReducer(reducer, {
   error: false
 });
 
-const allRouteIds = ["Green-B", "Green-C", "Green-D", "Green-E"];
-let directionDestinations = new Map();
-for (var routeId in allRouteIds){
-  directionDestinations.set(routeId,fetchData(routeId, dispatch));
-} 
-console.log(directionDestinations.get("Green-B"));
+useEffect(() => {
+  console.log(fetchData(dispatch))
+},);
 
 /* eslint-disable camelcase */
 const greenRoutes: GreenRoute[] = [
