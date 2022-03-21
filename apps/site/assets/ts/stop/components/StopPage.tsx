@@ -5,7 +5,7 @@ import { StopPageData, StopMapData, TypedRoutes } from "./__stop";
 import { EnhancedRoute } from "../../__v3api";
 import StopPageHeader from "./StopPageHeader";
 import { reducer, initialState, Dispatch, updateRoutesAction } from "../state";
-import { Alert } from "../../components/Alerts";
+import Alerts from "../../components/Alerts";
 import AlertsTab from "./AlertsTab";
 import Sidebar from "./Sidebar";
 import LocationBlock from "./LocationBlock";
@@ -92,15 +92,7 @@ export default ({
             }`}
           >
             <div className="m-stop-page__info">
-              {highPriorityAlerts.length > 0 ? (
-                <div className="page-section">
-                  <ul className="c-alert-group">
-                    {highPriorityAlerts.map(alert => (
-                      <Alert key={alert.id} alert={alert} />
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
+              <Alerts alerts={highPriorityAlerts} />
               <h2>Station Information</h2>
               {stationInformation}
             </div>

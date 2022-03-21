@@ -205,53 +205,57 @@ Array [
       className="m-stop-page__info"
     >
       <div
-        className="page-section"
+        className="container"
       >
-        <ul
-          className="c-alert-group"
+        <div
+          className="page-section"
         >
-          <li
-            aria-expanded={false}
-            className="c-alert-item c-alert-item--low"
-            id="alert-00005"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex={0}
+          <ul
+            className="c-alert-group"
           >
-            <div
-              className="c-alert-item__icon"
-            />
-            <div
-              className="c-alert-item__top"
+            <li
+              aria-expanded={false}
+              className="c-alert-item c-alert-item--low"
+              id="alert-00005"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={0}
             >
               <div
-                className="c-alert-item__top-text-container"
+                className="c-alert-item__icon"
+              />
+              <div
+                className="c-alert-item__top"
               >
                 <div
-                  className="c-alert-item__effect"
+                  className="c-alert-item__top-text-container"
                 >
-                  Other 
-                  <span
-                    className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
+                  <div
+                    className="c-alert-item__effect"
                   >
-                    Upcoming
-                  </span>
+                    Other 
+                    <span
+                      className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
+                    >
+                      Upcoming
+                    </span>
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
+                      }
+                    }
+                  />
                 </div>
                 <div
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
-                    }
-                  }
+                  className="c-alert-item__top-caret-container"
                 />
               </div>
-              <div
-                className="c-alert-item__top-caret-container"
-              />
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
       <h2>
         Station Information

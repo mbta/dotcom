@@ -104,7 +104,15 @@
     margin-top: 0;
   }
   :last-child {
-    margin-bottom: 0;
+    margin-bottom: 0; // remove spacing from station information <p>
+  }
+
+  .page-section {
+    margin-top: 0; // remove spacing left behind by unpopulated <Alerts />
+  }
+
+  .c-alert-group li:last-child {
+    padding-bottom: 1rem; // add space at bottom of populated <Alerts />
   }
 }
 
