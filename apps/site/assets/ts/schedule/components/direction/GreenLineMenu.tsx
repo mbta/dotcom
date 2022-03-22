@@ -71,16 +71,6 @@ interface GreenLineItem {
   directionId: DirectionId;
 }
 
-const [state, dispatch] = useReducer(reducer, {
-  data: null,
-  isLoading: false,
-  error: false
-});
-
-useEffect(() => {
-  console.log(fetchData(dispatch))
-},);
-
 /* eslint-disable camelcase */
 const greenRoutes: GreenRoute[] = [
   {
@@ -124,6 +114,15 @@ export const GreenLineItem = ({
   selected,
   focused
 }: GreenLineItem): ReactElement<HTMLElement> => {
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    isLoading: false,
+    error: false
+  });
+  
+  useEffect(() => {
+    console.log(fetchData(dispatch))
+  },);
   const selectedClass = selected ? " m-schedule-direction__menu--selected" : "";
   const icon = selected ? (
     <div className="m-schedule-direction__checkmark">
