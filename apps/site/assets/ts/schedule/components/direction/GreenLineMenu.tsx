@@ -114,15 +114,6 @@ export const GreenLineItem = ({
   selected,
   focused
 }: GreenLineItem): ReactElement<HTMLElement> => {
-  const [state, dispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: false,
-    error: false
-  });
-  
-  useEffect(() => {
-    console.log(fetchData(dispatch))
-  },);
   const selectedClass = selected ? " m-schedule-direction__menu--selected" : "";
   const icon = selected ? (
     <div className="m-schedule-direction__checkmark">
@@ -196,8 +187,17 @@ export const GreenLineSelect = ({
     dispatch(toggleRoutePatternMenuAction());
   };
 
-
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
+
+  const [state, dis] = useReducer(reducer, {
+    data: null,
+    isLoading: false,
+    error: false
+  });
+  
+  let dest = useEffect(() => {
+    console.log(fetchData(dis));
+  },);
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
