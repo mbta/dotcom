@@ -9,7 +9,7 @@ defmodule SiteWeb.ScheduleController.GreenTerminiApi do
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(_conn, %{
   }) do
-    ["Green-B", "Green-C", "Green-D", "Green-E"]
-    |> Map.new(fn [k, _v] -> {k, LineHelpers.get_route(k).direction_destinations} end)
+    GreenLine.branch_ids()
+    |> Map.new(fn [k] -> {k, Map.values(List.last(Tuple.to_list(LineHelpers.get_route("Green-B"))).direction_destinations)} end)
   end
 end
