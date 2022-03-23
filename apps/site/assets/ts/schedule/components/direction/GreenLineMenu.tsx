@@ -25,6 +25,18 @@ type fetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
+
+  // export const fetchData = (
+  //   window.fetch &&
+  //   window
+  //     .fetch(`/schedules/green_termini_api`)
+  //     .then(response => {
+  //       if (response.ok) return response.json();
+  //       throw new Error(response.statusText);
+  //     })
+  // );
+
+
 export const fetchData = (
   dispatch: (action: fetchAction) => void
 ): Promise<void> => {
@@ -44,6 +56,12 @@ export const fetchData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
+const [state, dis] = useReducer(reducer, {
+  data: null,
+  isLoading: false,
+  error: false
+});
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -189,11 +207,8 @@ export const GreenLineSelect = ({
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
 
-  const [state, dis] = useReducer(reducer, {
-    data: null,
-    isLoading: false,
-    error: false
-  });
+  console.log(fetchData(dis));
+  
   
   let dest = useEffect(() => {
     console.log(fetchData(dis));
