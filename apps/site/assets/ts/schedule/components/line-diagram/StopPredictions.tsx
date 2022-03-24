@@ -75,7 +75,7 @@ const StopPredictions = ({
         <div
           // eslint-disable-next-line react/no-array-index-key
           key={`headsign.name-${index}`}
-          className="m-schedule-diagram__prediction"
+          className="m-schedule-diagram__prediction notranslate"
         >
           <div>{headsign.name}</div>
           <div className="m-schedule-diagram__prediction-time">

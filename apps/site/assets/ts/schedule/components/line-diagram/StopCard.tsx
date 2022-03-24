@@ -92,7 +92,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
           className="m-schedule-diagram__stop-heading"
           ref={refs[routeStop.id]}
         >
-          <h4 className="m-schedule-diagram__stop-link">
+          <h4 className="m-schedule-diagram__stop-link notranslate">
             <a href={`/stops/${routeStop.id}`}>
               {MaybeAlert(stopAlerts)}
               <MatchHighlight text={routeStop.name} matchQuery={searchQuery} />
