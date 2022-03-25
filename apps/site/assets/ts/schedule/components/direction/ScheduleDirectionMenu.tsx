@@ -77,13 +77,13 @@ const ScheduleDirectionMenu = ({
       )}
       {// Mattapan Trolley
       route.id === "Mattapan" && (
-        <div className="m-schedule-direction__route-pattern">
+        <div className="m-schedule-direction__route-pattern notranslate">
           {route.direction_destinations[directionId]}
         </div>
       )}
       {// Subway, CR, Ferry
       [1, 2, 4].indexOf(route.type) !== -1 && (
-        <div className="m-schedule-direction__route-pattern">
+        <div className="m-schedule-direction__route-pattern notranslate">
           {route.direction_destinations[directionId]}
         </div>
       )}
