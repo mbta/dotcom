@@ -2,7 +2,7 @@
 
 exports[`BusMenuSelect renders a menu with a single route pattern 1`] = `
 <div
-  className="m-schedule-direction__route-pattern"
+  className="m-schedule-direction__route-pattern notranslate"
   onClick={[Function]}
   onKeyUp={[Function]}
 >
@@ -13,7 +13,7 @@ exports[`BusMenuSelect renders a menu with a single route pattern 1`] = `
 
 exports[`BusMenuSelect renders a menu with multiple route patterns 1`] = `
 <div
-  className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+  className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable notranslate"
   onClick={[Function]}
   onKeyUp={[Function]}
   role="button"

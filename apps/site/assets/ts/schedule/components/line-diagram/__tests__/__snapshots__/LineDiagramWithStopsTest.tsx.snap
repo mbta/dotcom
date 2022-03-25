@@ -79,7 +79,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             <section className=\\"m-schedule-diagram__content\\">
               <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-origin\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
+                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                   <a href=\\"/stops/line-origin\\">
                     <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
                       <span>
@@ -120,7 +120,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             <section className=\\"m-schedule-diagram__content\\">
               <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-stop1\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
+                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                   <a href=\\"/stops/line-stop1\\">
                     <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                     <span className=\\"sr-only\\">
@@ -161,7 +161,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 </div>
                 <StopPredictions headsigns={{...}} isCommuterRail={false}>
                   <div className=\\"m-schedule-diagram__predictions\\">
-                    <div className=\\"m-schedule-diagram__prediction\\">
+                    <div className=\\"m-schedule-diagram__prediction notranslate\\">
                       <div>
                         Dest1
                       </div>
@@ -174,7 +174,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </div>
                       </LiveCrowdingIcon>
                     </div>
-                    <div className=\\"m-schedule-diagram__prediction\\">
+                    <div className=\\"m-schedule-diagram__prediction notranslate\\">
                       <div>
                         Dest2
                       </div>
@@ -203,7 +203,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             <section className=\\"m-schedule-diagram__content\\">
               <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-stop2\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
+                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                   <a href=\\"/stops/line-stop2\\">
                     <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                     <span className=\\"sr-only\\">
@@ -244,7 +244,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 </div>
                 <StopPredictions headsigns={{...}} isCommuterRail={false}>
                   <div className=\\"m-schedule-diagram__predictions\\">
-                    <div className=\\"m-schedule-diagram__prediction\\">
+                    <div className=\\"m-schedule-diagram__prediction notranslate\\">
                       <div>
                         Dest2
                       </div>
@@ -273,7 +273,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             <section className=\\"m-schedule-diagram__content\\">
               <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-destination\\" />
               <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
+                <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                   <a href=\\"/stops/line-destination\\">
                     <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
                       <span>
