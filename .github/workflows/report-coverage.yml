@@ -8,6 +8,8 @@ on:
       - completed
 
 permissions:
+  actions: read
+  contents: read
   pull-requests: write
 
 jobs:
@@ -53,3 +55,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           coverage-files: ${{ runner.temp }}/cover/lcov*.info
           artifact-name: elixir-code-coverage
+          minimum-coverage: 90
