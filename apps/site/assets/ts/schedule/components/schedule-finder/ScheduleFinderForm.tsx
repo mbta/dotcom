@@ -83,7 +83,7 @@ export default ({
             Choose a direction
             <SelectContainer>
               <select
-                className="c-select-custom"
+                className="c-select-custom notranslate"
                 value={selectedDirection}
                 onChange={e =>
                   onDirectionChange(parseInt(e.target.value, 10) as DirectionId)
