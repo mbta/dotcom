@@ -89,7 +89,7 @@ defmodule Site.Mixfile do
       {:diskusage_logger, "~> 0.2.0"},
       {:hammer, "~> 6.0"},
       {:poolboy, "~> 1.5"},
-      {:wallaby, "~> 0.29", runtime: false, only: :test},
+      {:wallaby, "~> 0.22", runtime: false, only: :test},
       {:con_cache, "~> 0.12.0"},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,
