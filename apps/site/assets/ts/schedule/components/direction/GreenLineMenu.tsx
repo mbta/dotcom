@@ -101,7 +101,7 @@ export const GreenLineItem = ({
       id={`route-pattern_${route.id}`}
       tabIndex={0}
       role="menuitem"
-      className={`m-schedule-direction__menu-item${selectedClass}`}
+      className={`m-schedule-direction__menu-item${selectedClass} notranslate`}
       onClick={handleClick}
       onKeyUp={(e: ReactKeyboardEvent) => {
         handleReactEnterKeyPress(e, () => {
@@ -113,7 +113,7 @@ export const GreenLineItem = ({
       }}
       ref={item => item && focused && item.focus()}
     >
-      <div className="m-schedule-direction__menu-item-headsign">
+      <div className="m-schedule-direction__menu-item-headsign notranslate">
         {icon}
         {renderSvg(
           "c-svg__icon m-schedule-direction__menu-item-icon",
@@ -132,7 +132,7 @@ export const ExpandedGreenMenu = ({
 }: ExpandedGreenMenuProps): ReactElement<HTMLElement> => {
   const routeIds = greenRoutes.map(greenRoute => greenRoute.id);
   return (
-    <div className="m-schedule-direction__menu" role="menu">
+    <div className="m-schedule-direction__menu notranslate" role="menu">
       {greenRoutes.map((greenRoute: GreenRoute, index: number) => (
         <GreenLineItem
           directionId={directionId}
@@ -164,7 +164,7 @@ export const GreenLineSelect = ({
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
       role="button"
-      className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+      className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable notranslate"
       onClick={handleClick}
       onKeyUp={e =>
         handleReactEnterKeyPress(e, () => {

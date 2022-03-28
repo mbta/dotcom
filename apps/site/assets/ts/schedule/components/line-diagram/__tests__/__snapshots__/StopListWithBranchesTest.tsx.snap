@@ -12,7 +12,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               Destination Line
             </div>
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-destination\\">
                   <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
                     <span>
@@ -39,7 +39,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           <section className=\\"m-schedule-diagram__content\\">
             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stopC\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-stopC\\">
                   <MatchHighlight text=\\"Stop C\\" matchQuery={[undefined]}>
                     <span>
@@ -66,7 +66,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           <section className=\\"m-schedule-diagram__content\\">
             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stopB\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-stopB\\">
                   <MatchHighlight text=\\"Stop B\\" matchQuery={[undefined]}>
                     <span>
@@ -93,7 +93,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           <section className=\\"m-schedule-diagram__content\\">
             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stopA\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-stopA\\">
                   <MatchHighlight text=\\"Stop A\\" matchQuery={[undefined]}>
                     <span>
@@ -123,7 +123,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               Twig Destination Line
             </div>
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-twig-destination\\">
                   <MatchHighlight text=\\"Twig Destination\\" matchQuery={[undefined]}>
                     <span>
@@ -153,7 +153,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
                 <section className=\\"m-schedule-diagram__content\\">
                   <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-twig-stop\\" />
                   <header className=\\"m-schedule-diagram__stop-heading\\">
-                    <h4 className=\\"m-schedule-diagram__stop-link\\">
+                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                       <a href=\\"/stops/tree-twig-stop\\">
                         <MatchHighlight text=\\"Twig Stop\\" matchQuery={[undefined]}>
                           <span>
@@ -186,7 +186,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               Branch Destination Line
             </div>
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-branch-destination\\">
                   <MatchHighlight text=\\"Branch Destination\\" matchQuery={[undefined]}>
                     <span>
@@ -249,7 +249,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           <section className=\\"m-schedule-diagram__content\\">
             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stop1\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-stop1\\">
                   <MatchHighlight text=\\"Stop 1\\" matchQuery={[undefined]}>
                     <span>
@@ -276,7 +276,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           <section className=\\"m-schedule-diagram__content\\">
             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-stop0\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-stop0\\">
                   <MatchHighlight text=\\"Stop 0\\" matchQuery={[undefined]}>
                     <span>
@@ -303,7 +303,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           <section className=\\"m-schedule-diagram__content\\">
             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"tree-origin\\" />
             <header className=\\"m-schedule-diagram__stop-heading\\">
-              <h4 className=\\"m-schedule-diagram__stop-link\\">
+              <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                 <a href=\\"/stops/tree-origin\\">
                   <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
                     <span>
