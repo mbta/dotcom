@@ -20,10 +20,25 @@ import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { getIsGlxOpen } from "../../../components/GlxOpen";
 
-type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: Route }
-  | { type: "FETCH_ERROR" }
-  | { type: "FETCH_STARTED" };
+
+const destinations = (
+  window.fetch &&
+  window
+    .fetch(`/schedules/green_termini_api`)
+    .then(response => {
+      if (response.ok)
+        return response.json();
+      throw new Error(response.statusText);
+    })
+    .then(
+      data => { console.log(data); return data; }
+    )
+);
+
+// type fetchAction =
+//   | { type: "FETCH_COMPLETE"; payload: Route }
+//   | { type: "FETCH_ERROR" }
+//   | { type: "FETCH_STARTED" };
 
 
   // export const fetchData = (
@@ -34,34 +49,37 @@ type fetchAction =
   //       if (response.ok) return response.json();
   //       throw new Error(response.statusText);
   //     })
+  //     .then(
+  //       data => {console.log(data); return data}
+  //     )
   // );
 
 
-export const fetchData = (
-  dispatch: (action: fetchAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/green_termini_api`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
-  );
-};
+// export const fetchData = (
+//   dispatch: (action: fetchAction) => void
+// ): Promise<void> => {
+//   dispatch({ type: "FETCH_STARTED" });
+//   return (
+//     window.fetch &&
+//     window
+//       .fetch(
+//         `/schedules/green_termini_api`
+//       )
+//       .then(response => {
+//         if (response.ok) return response.json();
+//         throw new Error(response.statusText);
+//       })
+//       .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+//       // @ts-ignore
+//       .catch(() => dispatch({ type: "FETCH_ERROR" }))
+//   );
+// };
 
-const [state, dis] = useReducer(reducer, {
-  data: null,
-  isLoading: false,
-  error: false
-});
+// const [state, dis] = useReducer(reducer, {
+//   data: null,
+//   isLoading: false,
+//   error: false
+// });
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -206,14 +224,8 @@ export const GreenLineSelect = ({
   };
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
-
-  console.log(fetchData(dis));
   
   
-  let dest = useEffect(() => {
-    console.log(fetchData(dis));
-  },);
-
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -228,7 +240,10 @@ export const GreenLineSelect = ({
         })
       }
     >
-      {route.direction_destinations[directionId]}{" "}
+
+      {destinations instanceof Map ? destinations.then(
+        data => {console.log(data);data.get(route.id)[directionId]}
+      ) :null}{" "}
       {renderSvg(
         "c-svg__icon m-schedule-direction__route-pattern-arrow",
         arrowIcon
