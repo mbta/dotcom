@@ -39,7 +39,6 @@ defmodule DotCom.Mixfile do
   defp deps do
     [
       {:credo, "~> 1.5", only: [:dev, :test]},
-      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.18", only: :dev},
       {:exvcr, "~> 0.11.0", only: [:dev, :test]},
       {:eflame, "~> 1.0", only: :dev},
