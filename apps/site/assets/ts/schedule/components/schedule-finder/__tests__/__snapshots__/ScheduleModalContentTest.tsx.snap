@@ -42,7 +42,7 @@ Array [
             tabIndex={0}
           >
             <select
-              className="c-select-custom"
+              className="c-select-custom notranslate"
               onChange={[Function]}
               value={0}
             >

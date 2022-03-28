@@ -31,7 +31,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
                   <p className=\\"schedule-finder__origin-text\\">
                     Select from the list below.
                   </p>
-                  <div className=\\"schedule-finder__origin-list\\">
+                  <div className=\\"schedule-finder__origin-list notranslate\\">
                     <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
                       <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
                         <div className=\\"schedule-finder__origin-list-leftpad\\">
@@ -106,7 +106,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode with origin selecte
                   <p className=\\"schedule-finder__origin-text\\">
                     Select from the list below.
                   </p>
-                  <div className=\\"schedule-finder__origin-list\\">
+                  <div className=\\"schedule-finder__origin-list notranslate\\">
                     <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
                       <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
                         <div className=\\"schedule-finder__origin-list-leftpad\\">
@@ -178,7 +178,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                             Choose a direction
                             <SelectContainer>
                               <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                                <select className=\\"c-select-custom\\" value={0} onChange={[Function: onChange]}>
+                                <select className=\\"c-select-custom notranslate\\" value={0} onChange={[Function: onChange]}>
                                   <option value={0} aria-label=\\"INBOUND \\\\n  Oak Grove\\">
                                     INBOUND 
                                       Oak Grove

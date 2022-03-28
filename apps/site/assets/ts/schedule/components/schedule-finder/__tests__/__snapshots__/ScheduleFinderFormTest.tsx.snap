@@ -33,7 +33,7 @@ exports[`ScheduleFinderForm matches snapshot 1`] = `
         Choose a direction
         <SelectContainer>
           <select
-            className="c-select-custom"
+            className="c-select-custom notranslate"
             onChange={[Function]}
             value={0}
           >
