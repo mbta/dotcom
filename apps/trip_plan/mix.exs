@@ -14,11 +14,7 @@ defmodule TripPlan.Mixfile do
       start_permanent: Mix.env() == :prod,
       test_coverage: [
         tool: LcovEx,
-        output: "cover",
-        ignore_files: [
-          "lib/trip_plan/api/mock_planner.ex",
-          "lib/trip_plan/geocode/mock_geocode.ex"
-        ]
+        output: "cover"
       ],
       deps: deps()
     ]

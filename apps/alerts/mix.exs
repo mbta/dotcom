@@ -14,8 +14,7 @@ defmodule Alerts.Mixfile do
       start_permanent: Mix.env() == :prod,
       test_coverage: [
         tool: LcovEx,
-        output: "cover",
-        ignore_files: ["lib/alerts.ex", "lib/supervisor.ex"]
+        output: "cover"
       ],
       deps: deps()
     ]

@@ -14,11 +14,7 @@ defmodule CMS.Mixfile do
       start_permanent: Mix.env() == :prod,
       test_coverage: [
         tool: LcovEx,
-        output: "cover",
-        ignore_files: [
-          "test/support",
-          "lib/custom_html5_scrubber.ex"
-        ]
+        output: "cover"
       ],
       deps: deps()
     ]

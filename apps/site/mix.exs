@@ -16,17 +16,7 @@ defmodule Site.Mixfile do
       start_permanent: Mix.env() == :prod,
       test_coverage: [
         tool: LcovEx,
-        output: "cover",
-        ignore_files: [
-          "lib/site.ex",
-          "lib/green_line/supervisor.ex",
-          "lib/green_line/cache_supervisor.ex",
-          "lib/mix/tasks/backstop/servers.ex",
-          "lib/mix/tasks/backstop/tests.ex",
-          "lib/mix/tasks/backstop/update.ex",
-          "lib/mix/tasks/file_wrapper.ex",
-          "test/support"
-        ]
+        output: "cover"
       ],
       deps: deps()
     ]
