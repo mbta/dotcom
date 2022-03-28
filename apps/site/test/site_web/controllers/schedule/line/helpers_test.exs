@@ -679,14 +679,14 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(
                long_route_stops,
-               &(&1.branch == "Long Wharf - Hingham via Hull" ||
-                   &1.branch == "Long Wharf - Hingham via Georges Island & Hull")
+               &String.contains?(&1.branch, "Long Wharf - Hingham")
              )
 
       long_route_stop_ids = Enum.map(long_route_stops, & &1.id)
 
       assert long_route_stop_ids == ["Boat-Long", "Boat-Hull"] ||
-               long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull"]
+               long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull"] ||
+               long_route_stop_ids == ["Boat-Long", "Boat-Logan", "Boat-Hull"]
 
       assert [true | non_termini] = Enum.map(long_route_stops, & &1.is_terminus?)
       assert Enum.all?(non_termini, &(&1 == false))
