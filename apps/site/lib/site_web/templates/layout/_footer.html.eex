@@ -94,6 +94,13 @@
               ], to: href, class: "c-social__link c-social--" <> name, target: "_blank" %>
             </li>
           <% end %>
+          <% # TODO: Once we upgrade fontawesome we can use the above for tiktok %>
+          <li class="c-social__item m-footer__item">
+            <%= link [
+              svg("icon-tiktok.svg"),
+              content_tag(:span, "MBTA TikTok", class: "sr-only")
+            ], to: "https://www.tiktok.com/@thembta", class: "c-social__link tiktok", target: "_blank" %>
+          </li>
         </ul>
         <%= unless assigns[:exclude_google_translate] do %>
           <%= render "_google_translate_plugin.html", conn: @conn %>

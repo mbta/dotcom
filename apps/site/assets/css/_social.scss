@@ -25,6 +25,15 @@
   height: 1.5em;
   text-align: center;
   width: 1.5em;
+
+  svg {
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  &.tiktok {
+    background-color: #FE2C55;
+  }
 }
 
 .c-social--facebook {
