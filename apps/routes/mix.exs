@@ -12,7 +12,7 @@ defmodule Routes.Mixfile do
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: LcovEx, output: "cover", ignore_files: ["lib/routes.ex"]],
       deps: deps()
     ]
   end

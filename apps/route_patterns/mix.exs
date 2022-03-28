@@ -11,6 +11,7 @@ defmodule RoutePatterns.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: LcovEx, output: "cover"],
       deps: deps()
     ]
   end
@@ -30,7 +31,8 @@ defmodule RoutePatterns.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       {:repo_cache, in_umbrella: true},
       {:v3_api, in_umbrella: true},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:exvcr_helpers, in_umbrella: true, only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false}
     ]
   end
 end

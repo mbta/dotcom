@@ -12,6 +12,7 @@ defmodule LocationService.Mixfile do
       elixir: "~> 1.4",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
+      test_coverage: [tool: LcovEx, output: "cover"],
       deps: deps()
     ]
   end
@@ -44,7 +45,8 @@ defmodule LocationService.Mixfile do
     [
       {:stops, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:exvcr_helpers, in_umbrella: true, only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false}
     ]
   end
 end

@@ -6,7 +6,7 @@ defmodule DotCom.Mixfile do
       apps_path: "apps",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: LcovEx, output: "cover"],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :laboratory, :ex_aws, :ex_aws_ses],
         flags: [:race_conditions, :unmatched_returns],

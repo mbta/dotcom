@@ -12,7 +12,7 @@ defmodule Holiday.Mixfile do
       elixir: "~> 1.3",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: LcovEx, output: "cover"],
       deps: deps()
     ]
   end

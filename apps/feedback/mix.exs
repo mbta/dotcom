@@ -12,7 +12,7 @@ defmodule Feedback.Mixfile do
       lockfile: "../../mix.lock",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: LcovEx, output: "cover", ignore_files: ["lib/test.ex"]],
       deps: deps()
     ]
   end

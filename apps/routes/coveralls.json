@@ -1,8 +1,0 @@
-{
-  "custom_stop_words": [
-    "no cover"
-  ],
-  "skip_files": [
-    "lib/routes.ex"
-  ]
-}

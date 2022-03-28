@@ -12,7 +12,11 @@ defmodule Alerts.Mixfile do
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [
+        tool: LcovEx,
+        output: "cover",
+        ignore_files: ["lib/alerts.ex", "lib/supervisor.ex"]
+      ],
       deps: deps()
     ]
   end

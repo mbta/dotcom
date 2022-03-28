@@ -13,7 +13,7 @@ defmodule Util.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: LcovEx, output: "cover"],
       deps: deps()
     ]
   end
@@ -49,7 +49,8 @@ defmodule Util.Mixfile do
       {:quixir, "~> 0.9", only: :test},
       {:phoenix_html, "~> 2.13.1"},
       {:plug, "~> 1.12"},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:exvcr_helpers, in_umbrella: true, only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false}
     ]
   end
 end

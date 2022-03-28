@@ -12,7 +12,7 @@ defmodule Vehicles.Mixfile do
       elixir: "~> 1.3",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: LcovEx, output: "cover"],
       deps: deps()
     ]
   end
@@ -47,7 +47,8 @@ defmodule Vehicles.Mixfile do
       {:server_sent_event_stage, "~> 1.0"},
       {:castore, "~> 0.1.11"},
       {:gen_stage, "~> 0.14"},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:exvcr_helpers, in_umbrella: true, only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false}
     ]
   end
 end

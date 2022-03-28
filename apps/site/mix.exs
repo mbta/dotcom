@@ -14,7 +14,20 @@ defmodule Site.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [
+        tool: LcovEx,
+        output: "cover",
+        ignore_files: [
+          "lib/site.ex",
+          "lib/green_line/supervisor.ex",
+          "lib/green_line/cache_supervisor.ex",
+          "lib/mix/tasks/backstop/servers.ex",
+          "lib/mix/tasks/backstop/tests.ex",
+          "lib/mix/tasks/backstop/update.ex",
+          "lib/mix/tasks/file_wrapper.ex",
+          "test/support"
+        ]
+      ],
       deps: deps()
     ]
   end
@@ -76,7 +89,7 @@ defmodule Site.Mixfile do
       {:diskusage_logger, "~> 0.2.0"},
       {:hammer, "~> 6.0"},
       {:poolboy, "~> 1.5"},
-      {:wallaby, "~> 0.22", runtime: false, only: :test},
+      {:wallaby, "~> 0.29", runtime: false, only: :test},
       {:con_cache, "~> 0.12.0"},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,
