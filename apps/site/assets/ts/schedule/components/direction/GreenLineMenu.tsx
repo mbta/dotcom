@@ -17,6 +17,7 @@ import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { getIsGlxOpen } from "../../../components/GlxOpen";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const destinations: Map<string, any> = new Map();
 destinations.set("Green", ["All branches", "All branches"]);
 Promise.resolve(
