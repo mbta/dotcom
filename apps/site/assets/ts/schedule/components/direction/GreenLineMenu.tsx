@@ -29,7 +29,7 @@ Promise.resolve(
       })
       .then(result => {
         const keys = Object.keys(result);
-        for (let i = 0; i < keys.length; i++) {
+        for (let i = 0; i < keys.length; i += 1) {
           destinations.set(keys[i], result[keys[i]]);
         }
       })
@@ -49,7 +49,7 @@ interface ExpandedGreenMenuProps {
 interface GreenRoute {
   id: string;
   name: string;
-  direction_destinations: any;
+  direction_destinations: String[];
   icon: string;
 }
 
@@ -176,8 +176,6 @@ export const GreenLineSelect = ({
   const handleClick = (): void => {
     dispatch(toggleRoutePatternMenuAction());
   };
-
-  const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
