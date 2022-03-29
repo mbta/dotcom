@@ -20,8 +20,9 @@ import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { getIsGlxOpen } from "../../../components/GlxOpen";
 
+let destinations:Map<String, String[]> = new Map();
 
-const destinations = (
+Promise.resolve(
   window.fetch &&
   window
     .fetch(`/schedules/green_termini_api`)
@@ -31,55 +32,16 @@ const destinations = (
       throw new Error(response.statusText);
     })
     .then(
-      data => { console.log(data); return data; }
+      result => {
+        console.log(result);
+        result.forEach((value:String[], key:String) => { 
+          destinations.set(key, value);
+        } )
+      }
     )
 );
 
-// type fetchAction =
-//   | { type: "FETCH_COMPLETE"; payload: Route }
-//   | { type: "FETCH_ERROR" }
-//   | { type: "FETCH_STARTED" };
-
-
-  // export const fetchData = (
-  //   window.fetch &&
-  //   window
-  //     .fetch(`/schedules/green_termini_api`)
-  //     .then(response => {
-  //       if (response.ok) return response.json();
-  //       throw new Error(response.statusText);
-  //     })
-  //     .then(
-  //       data => {console.log(data); return data}
-  //     )
-  // );
-
-
-// export const fetchData = (
-//   dispatch: (action: fetchAction) => void
-// ): Promise<void> => {
-//   dispatch({ type: "FETCH_STARTED" });
-//   return (
-//     window.fetch &&
-//     window
-//       .fetch(
-//         `/schedules/green_termini_api`
-//       )
-//       .then(response => {
-//         if (response.ok) return response.json();
-//         throw new Error(response.statusText);
-//       })
-//       .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-//       // @ts-ignore
-//       .catch(() => dispatch({ type: "FETCH_ERROR" }))
-//   );
-// };
-
-// const [state, dis] = useReducer(reducer, {
-//   data: null,
-//   isLoading: false,
-//   error: false
-// });
+console.log(destinations);
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -95,7 +57,7 @@ interface ExpandedGreenMenuProps {
 interface GreenRoute {
   id: string;
   name: string;
-  direction_destinations: string[];
+  direction_destinations: any;
   icon: string;
 }
 
@@ -241,9 +203,7 @@ export const GreenLineSelect = ({
       }
     >
 
-      {destinations instanceof Map ? destinations.then(
-        data => {console.log(data);data.get(route.id)[directionId]}
-      ) :null}{" "}
+      {" "}
       {renderSvg(
         "c-svg__icon m-schedule-direction__route-pattern-arrow",
         arrowIcon
