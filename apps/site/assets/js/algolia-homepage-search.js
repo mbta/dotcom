@@ -1,4 +1,3 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
 // eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
@@ -95,13 +94,11 @@ export const doInit = id => {
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => {
-      [
-        "search-homepage",
-        "search-header-desktop",
-        "search-header-mobile",
-        "search-error-page"
-      ].forEach(id => doInit(id));
-    });
+    [
+      "search-homepage",
+      "search-header-desktop",
+      "search-header-mobile",
+      "search-error-page"
+    ].forEach(id => doInit(id));
   });
 }

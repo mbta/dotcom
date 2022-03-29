@@ -205,8 +205,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
         };
         this.ac.init(this.client);
-        this.ac.onFocus(); // initialize session token
-        this.ac.sessionToken.id = "SESSION_TOKEN";
 
         const result = this.ac.onHitSelected({
           originalEvent: {
@@ -246,78 +244,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
 
           done();
         });
-      });
-    });
-
-    describe("google session token", function() {
-      let getJSONStub;
-
-      beforeEach(function() {
-        getJSONStub = sinon.stub(window.jQuery, "getJSON");
-        getJSONStub.callsFake(_url => {
-          const deferred = window.jQuery.Deferred();
-          deferred.resolve(
-            {
-              predictions: JSON.stringify([
-                {
-                  description: "10 Park Plaza, Boston, MA",
-                  place_id: "10_PARK_PLAZA"
-                }
-              ])
-            },
-            "success"
-          );
-          return deferred.promise();
-        });
-      });
-
-      it("gets set on focus if a token doesn't already exist", function() {
-        expect(this.ac.sessionToken).to.equal(null);
-
-        this.ac.onFocus();
-
-        expect(this.ac.sessionToken).to.be.an.instanceOf(
-          window.google.maps.places.AutocompleteSessionToken
-        );
-      });
-
-      it("does not get reset on re-focus if a token already exists", function() {
-        expect(this.ac.sessionToken).to.equal(null);
-
-        this.ac.onFocus();
-
-        expect(this.ac.sessionToken).to.be.an.instanceOf(
-          window.google.maps.places.AutocompleteSessionToken
-        );
-
-        this.ac.sessionToken.id = "ORIGINAL_SESSION_TOKEN";
-        this.ac.onFocus();
-
-        expect(this.ac.sessionToken.id).to.equal("ORIGINAL_SESSION_TOKEN");
-      });
-
-      it("includes session token with location autocomplete queries", function(done) {
-        this.ac.init(this.client);
-        this.ac.onFocus(); // initialize the session token
-        this.ac.sessionToken.Pf = "SESSION_TOKEN";
-
-        const resultsCallbackSpy = sinon.spy();
-        const result = this.ac._locationSource("locations")(
-          "10 park plaza",
-          resultsCallbackSpy
-        );
-
-        Promise.resolve(result)
-          .then(() => {
-            expect(resultsCallbackSpy.called).to.be.true;
-
-            expect(getJSONStub.args[0][0]).to.equal(
-              "/places/autocomplete/10%20park%20plaza/3/SESSION_TOKEN"
-            );
-
-            done();
-          })
-          .catch(err => done(err));
       });
     });
   });
