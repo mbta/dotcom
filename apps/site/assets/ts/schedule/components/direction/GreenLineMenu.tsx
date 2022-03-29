@@ -20,28 +20,25 @@ import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { getIsGlxOpen } from "../../../components/GlxOpen";
 
-let destinations:Map<String, String[]> = new Map();
 
-Promise.resolve(
-  window.fetch &&
-  window
-    .fetch(`/schedules/green_termini_api`)
-    .then(response => {
-      if (response.ok)
-        return response.json();
-      throw new Error(response.statusText);
-    })
-    .then(
-      result => {
-        console.log(result);
-        result.forEach((value:String[], key:String) => { 
-          destinations.set(key, value);
-        } )
-      }
-    )
-);
+let destinations:Map<string, any> = new Map();
+   Promise.resolve(
+    window.fetch &&
+    window
+      .fetch(`/schedules/green_termini_api`)
+      .then(response => {
+        if (response.ok)
+          return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(
+        result => {
+          for (let key in result)
+            destinations.set(key, result[key]);
+        }
+      )
+  );
 
-console.log(destinations);
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -80,7 +77,7 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: ["Boston College", "Government Center"],
+    direction_destinations:  ["Boston College", "Government Center"],
     icon: iconGreenB
   },
   {
@@ -187,6 +184,9 @@ export const GreenLineSelect = ({
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
   
+  useEffect(() => {
+    console.log(destinations.get("Green-B"));
+  },);
   
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -202,8 +202,7 @@ export const GreenLineSelect = ({
         })
       }
     >
-
-      {" "}
+      {destinations.size > 0 ? destinations.get(routeId)[directionId] : []}{" "}
       {renderSvg(
         "c-svg__icon m-schedule-direction__route-pattern-arrow",
         arrowIcon
