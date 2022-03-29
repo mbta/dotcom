@@ -20,24 +20,19 @@ import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { getIsGlxOpen } from "../../../components/GlxOpen";
 
-
-let destinations:Map<string, any> = new Map();
+let destinations: Map<string, any> = new Map();
 destinations.set("Green", ["All branches", "All branches"]);
 Promise.resolve(
-window.fetch &&
-window
-  .fetch(`/schedules/green_termini_api`)
-  .then(response => {
-    if (response.ok)
-      return response.json();
-    throw new Error(response.statusText);
-  })
-  .then(
-    result => {
-      for (let key in result)
-        destinations.set(key, result[key]);
-    }
-  )
+  window.fetch &&
+    window
+      .fetch(`/schedules/green_termini_api`)
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(result => {
+        for (let key in result) destinations.set(key, result[key]);
+      })
 );
 
 interface GreenLineSelectProps {
@@ -77,7 +72,7 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations:  ["Boston College", "Government Center"],
+    direction_destinations: ["Boston College", "Government Center"],
     icon: iconGreenB
   },
   {
@@ -183,7 +178,7 @@ export const GreenLineSelect = ({
   };
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
-  
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
