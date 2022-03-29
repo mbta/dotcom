@@ -56,18 +56,10 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
 
   bind() {
     super.bind();
-    this.onFocus = this.onFocus.bind(this);
   }
 
   _addListeners() {
     super._addListeners();
-    this._input.addEventListener("focus", this.onFocus);
-  }
-
-  onFocus() {
-    if (!this.sessionToken) {
-      this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
-    }
   }
 
   resetSessionToken() {
