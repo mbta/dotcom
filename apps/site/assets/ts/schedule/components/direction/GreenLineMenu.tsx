@@ -28,10 +28,10 @@ Promise.resolve(
         throw new Error(response.statusText);
       })
       .then(result => {
-        for (const [key, value] of Object.entries(result)) {
-          destinations.set(key, value);
+        const keys = Object.keys(result);
+        for (let i = 0; i < keys.length; i++) {
+          destinations.set(keys[i], result[keys[i]]);
         }
-        //for (const key in result) destinations.set(key, result[key]);
       })
 );
 
