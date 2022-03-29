@@ -179,9 +179,11 @@ defmodule SiteWeb.EventView do
   Only show Agenda if it's published or if preview query param is present.
   """
   @spec agenda_visible?(EventAgenda.t(), map()) :: boolean()
-  def agenda_visible?(%{published: true}, _conn), do: true
+  def agenda_visible?(event_agenda, params \\ %{})
+
+  def agenda_visible?(%{published: true}, _params), do: true
   def agenda_visible?(_event_agenda, %{"preview" => _}), do: true
-  def agenda_visible?(_event_agenda, _conn), do: false
+  def agenda_visible?(_event_agenda, _params), do: false
 
   @spec agenda_title(String.t(), :h3 | :h4) :: Phoenix.HTML.Safe.t()
   def agenda_title(title, tag_type \\ :h3)
