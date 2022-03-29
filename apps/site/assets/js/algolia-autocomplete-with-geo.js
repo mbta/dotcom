@@ -37,7 +37,6 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     containerEl = null
   }) {
     super({ id, selectors, indices, parent, containerEl });
-    this.sessionToken = null;
     this.debounceInterval = 250;
     if (!this._parent.getParams) {
       this._parent.getParams = () => ({});
@@ -52,18 +51,6 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     this._indices.splice(this._locationParams.position, 0, "locations");
     this._indices.push("usemylocation");
     this._indices.push("popular");
-  }
-
-  bind() {
-    super.bind();
-  }
-
-  _addListeners() {
-    super._addListeners();
-  }
-
-  resetSessionToken() {
-    this.sessionToken = null;
   }
 
   addUseMyLocationErrorEl() {
@@ -96,7 +83,6 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     return (input, callback) =>
       GoogleMapsHelpers.autocomplete({
         input,
-        sessionToken: this.sessionToken,
         hitLimit: this._locationParams.hitLimit
       }).then(results => this._onResults(callback, index, results));
   }
@@ -180,7 +166,6 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _onLocationSearchResult(result) {
-    this.resetSessionToken();
     return this.showLocation(result.latitude, result.longitude);
   }
 
