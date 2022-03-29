@@ -1,12 +1,9 @@
 import React, {
   ReactElement,
   Dispatch,
-  useReducer,
-  useEffect,
   KeyboardEvent as ReactKeyboardEvent
 } from "react";
-import { reducer } from "../../../../../assets/ts/helpers/fetch";
-import { DirectionId, EnhancedRoute, Route } from "../../../__v3api";
+import { DirectionId, EnhancedRoute } from "../../../__v3api";
 import { MenuAction, toggleRoutePatternMenuAction } from "./reducer";
 import renderSvg from "../../../helpers/render-svg";
 import handleNavigation from "./menu-helpers";
@@ -20,7 +17,7 @@ import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { getIsGlxOpen } from "../../../components/GlxOpen";
 
-let destinations: Map<string, any> = new Map();
+const destinations: Map<string, any> = new Map();
 destinations.set("Green", ["All branches", "All branches"]);
 Promise.resolve(
   window.fetch &&
@@ -31,7 +28,10 @@ Promise.resolve(
         throw new Error(response.statusText);
       })
       .then(result => {
-        for (let key in result) destinations.set(key, result[key]);
+        for (const [key, value] of Object.entries(result)) {
+          destinations.set(key, value);
+        }
+        //for (const key in result) destinations.set(key, result[key]);
       })
 );
 
