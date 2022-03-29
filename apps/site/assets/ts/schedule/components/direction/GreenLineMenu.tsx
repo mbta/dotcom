@@ -22,23 +22,23 @@ import { getIsGlxOpen } from "../../../components/GlxOpen";
 
 
 let destinations:Map<string, any> = new Map();
-   Promise.resolve(
-    window.fetch &&
-    window
-      .fetch(`/schedules/green_termini_api`)
-      .then(response => {
-        if (response.ok)
-          return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(
-        result => {
-          for (let key in result)
-            destinations.set(key, result[key]);
-        }
-      )
-  );
-
+destinations.set("Green", ["All branches", "All branches"]);
+Promise.resolve(
+window.fetch &&
+window
+  .fetch(`/schedules/green_termini_api`)
+  .then(response => {
+    if (response.ok)
+      return response.json();
+    throw new Error(response.statusText);
+  })
+  .then(
+    result => {
+      for (let key in result)
+        destinations.set(key, result[key]);
+    }
+  )
+);
 
 interface GreenLineSelectProps {
   routeId: string;
@@ -184,10 +184,6 @@ export const GreenLineSelect = ({
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
   
-  useEffect(() => {
-    console.log(destinations.get("Green-B"));
-  },);
-  
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -202,7 +198,7 @@ export const GreenLineSelect = ({
         })
       }
     >
-      {destinations.size > 0 ? destinations.get(routeId)[directionId] : []}{" "}
+      {destinations.size > 1 ? destinations.get(routeId)[directionId] : []}{" "}
       {renderSvg(
         "c-svg__icon m-schedule-direction__route-pattern-arrow",
         arrowIcon
