@@ -23,7 +23,6 @@ exports[`can render green line 1`] = `
             role="button"
             tabIndex={0}
           >
-            All branches
              
             <span
               aria-hidden="true"
