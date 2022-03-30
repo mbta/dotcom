@@ -50,6 +50,7 @@ interface ExpandedGreenMenuProps {
 interface GreenRoute {
   id: string;
   name: string;
+  direction_destinations: String[];
   icon: string;
 }
 
@@ -66,26 +67,31 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green",
     name: "Green Line",
+    direction_destinations: destinations.get("Green"),
     icon: iconGreen
   },
   {
     id: "Green-B",
     name: "Green Line B",
+    direction_destinations: destinations.get("Green-B"),
     icon: iconGreenB
   },
   {
     id: "Green-C",
     name: "Green Line C",
+    direction_destinations: destinations.get("Green-C"),
     icon: iconGreenC
   },
   {
     id: "Green-D",
     name: "Green Line D",
+    direction_destinations: destinations.get("Green-D"),
     icon: iconGreenD
   },
   {
     id: "Green-E",
     name: "Green Line E",
+    direction_destinations: destinations.get("Green-E"),
     icon: iconGreenE
   }
 ];
@@ -134,7 +140,7 @@ export const GreenLineItem = ({
           route.icon
         )}
         <span className="sr-only">{route.name}</span>
-        {destinations.size > 1 ? destinations.get(route.id)[directionId] : []}{" "}
+        {route.direction_destinations[directionId]}
       </div>
     </div>
   );
