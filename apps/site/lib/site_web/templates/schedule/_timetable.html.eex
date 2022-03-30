@@ -83,7 +83,7 @@
               class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
                 cell_background
             ] do %>
-              <div class="m-timetable__row-header m-timetable__stop-name">
+              <div class="m-timetable__row-header m-timetable__stop-name notranslate">
                 <%= link to: stop_path(@conn, :show, stop.id), class: "m-timetable__stop-link" do %>
                   <%= break_text_at_slash(stop.name) %>
                 <% end %>
