@@ -50,7 +50,6 @@ interface ExpandedGreenMenuProps {
 interface GreenRoute {
   id: string;
   name: string;
-  direction_destinations: String[];
   icon: string;
 }
 
@@ -67,33 +66,26 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green",
     name: "Green Line",
-    direction_destinations: ["All branches", "All branches"],
     icon: iconGreen
   },
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: ["Boston College", "Government Center"],
     icon: iconGreenB
   },
   {
     id: "Green-C",
     name: "Green Line C",
-    direction_destinations: ["Cleveland Circle", "Government Center"],
     icon: iconGreenC
   },
   {
     id: "Green-D",
     name: "Green Line D",
-    direction_destinations: ["Riverside", "North Station"],
     icon: iconGreenD
   },
   {
     id: "Green-E",
     name: "Green Line E",
-    direction_destinations: getIsGlxOpen("place-unsqu")
-      ? ["Heath Street", "Union Square"]
-      : ["Heath Street", "Lechmere"],
     icon: iconGreenE
   }
 ];
@@ -142,7 +134,7 @@ export const GreenLineItem = ({
           route.icon
         )}
         <span className="sr-only">{route.name}</span>
-        {route.direction_destinations[directionId]}
+        {destinations.size > 1 ? destinations.get(route.id)[directionId] : []}{" "}
       </div>
     </div>
   );
