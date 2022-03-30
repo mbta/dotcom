@@ -35,7 +35,7 @@ exports[`ScheduleFinder matches snapshot 1`] = `
             Choose an origin stop
             <SelectContainer error={false} handleClick={[Function: handleOriginClick]}>
               <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                <select className=\\"c-select-custom c-select-custom--noclick\\" value=\\"\\" onChange={[Function: onChange]}>
+                <select className=\\"c-select-custom c-select-custom--noclick notranslate\\" value=\\"\\" onChange={[Function: onChange]}>
                   <option value=\\"\\">
                     Select
                   </option>

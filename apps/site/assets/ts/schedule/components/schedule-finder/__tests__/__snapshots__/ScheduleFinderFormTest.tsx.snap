@@ -67,7 +67,7 @@ exports[`ScheduleFinderForm matches snapshot 1`] = `
           handleClick={[Function]}
         >
           <select
-            className="c-select-custom c-select-custom--noclick"
+            className="c-select-custom c-select-custom--noclick notranslate"
             onChange={[Function]}
             value=""
           >
