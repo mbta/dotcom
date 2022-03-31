@@ -89,10 +89,13 @@ export function setHeaderElementPositions(header: HTMLElement): void {
   const heightPx = `${height}px`;
 
   header.querySelectorAll(".m-menu--desktop__menu").forEach(el => {
+    // eslint-disable-next-line no-param-reassign
     (el as HTMLElement).style.top = heightPx;
   });
 
-  const content = header.querySelector(".m-menu--mobile .m-menu__content") as HTMLElement | null;
+  const content = header.querySelector(
+    ".m-menu--mobile .m-menu__content"
+  ) as HTMLElement | null;
   if (content) {
     content.style.top = bottomPx;
   }
