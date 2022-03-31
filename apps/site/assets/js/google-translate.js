@@ -1,3 +1,5 @@
+import { setHeaderElementPositions } from "../ts/app/global-navigation";
+
 // maximum wait time to get a reference to Google Translate select DOM element
 const domPollLimitMilliseconds = 10000;
 
@@ -65,6 +67,11 @@ const registerEvents = translateEl => {
   // detect when the language has been changed from outside
   // this works because Google's JS mutates the DOM
   translateEl.addEventListener("DOMNodeInserted", () => {
+    const header = document.querySelector(".header--new");
+    if (header) {
+      setHeaderElementPositions(header);
+    }
+
     if (domMutateCallback) {
       clearTimeout(domMutateCallback);
     }

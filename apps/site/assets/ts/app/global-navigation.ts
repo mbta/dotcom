@@ -83,12 +83,40 @@ function makeScrollAccordionToTop(): (target: HTMLElement) => void {
   };
 }
 
+export function setHeaderElementPositions(header: HTMLElement): void {
+  const { bottom, height } = header.getBoundingClientRect();
+  const bottomPx = `${bottom}px`;
+  const heightPx = `${height}px`;
+
+  header.querySelectorAll(".m-menu--desktop__menu").forEach(el => {
+    // eslint-disable-next-line no-param-reassign
+    (el as HTMLElement).style.top = heightPx;
+  });
+
+  const content = header.querySelector(
+    ".m-menu--mobile .m-menu__content"
+  ) as HTMLElement | null;
+  if (content) {
+    content.style.top = bottomPx;
+  }
+
+  const cover = document.querySelector(".m-menu--cover") as HTMLElement | null;
+  if (cover) {
+    cover.style.top = bottomPx;
+  }
+}
+
 export default function setupGlobalNavigation(): void {
   document.addEventListener(
     "turbolinks:load",
     () => {
       const header = document.querySelector(".header--new")!;
       if (!header) return;
+
+      setHeaderElementPositions(header as HTMLElement);
+      window.addEventListener("resize", () => {
+        setHeaderElementPositions(header as HTMLElement);
+      });
 
       // On mobile, clicking Menu or the Search icon opens a menu
       header

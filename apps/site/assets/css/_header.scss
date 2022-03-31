@@ -159,6 +159,7 @@ nav.m-menu--mobile {
   display: none;
   white-space: nowrap;
   transition: all .25s ease;
+  transition: top 0s;
   position: fixed;
   &::-webkit-scrollbar {
     display: none; /* Chrome */
