@@ -1,13 +1,29 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const SriPlugin = require('webpack-subresource-integrity');
+const SriPlugin = require("webpack-subresource-integrity");
 const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
 const sass = require("sass");
+
+
+const babelLoader = {
+  loader: "babel-loader",
+  options: {
+    configFile: path.resolve(__dirname, 'babel.config.js'),
+  }
+};
+
+const tsLoader = {
+  loader: "ts-loader",
+  options: {
+    configFile: path.resolve(__dirname, 'tsconfig.webpack.json')
+  }
+};
+
 
 /**
  * Special configuration that outputs JavaScript, CSS, and static assets
@@ -23,7 +39,8 @@ module.exports = (env, argv) => {
     new CopyWebpackPlugin([
       { from: "static/fonts/*", to: "fonts/[name].[ext]" },
       { from: "static/favicon.ico", to: "favicon.ico" },
-      { from: "static/images/map-abstract-bkg-overlay.png", to: "images/map-abstract-bkg-overlay.png" },
+      { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
+      { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
     ], {}),
     new SriPlugin({
       hashFuncNames: ['sha256', 'sha384'],
@@ -56,12 +73,14 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /\.(ts)$/,
+          exclude: [/node_modules/],
+          use: [babelLoader, tsLoader]
+        },
+        {
           test: /\.(js)$/,
           exclude: ['/node_modules/'],
-          loader: "babel-loader",
-          options: {
-            configFile: path.resolve(__dirname, 'babel.config.js'),
-          }
+          use: babelLoader,
         },
         {
           test: /\.scss$/,
@@ -150,6 +169,10 @@ module.exports = (env, argv) => {
           },
         }),
       ],
+    },
+
+    resolve: {
+      extensions: [".ts", ".js"]
     }
   })
 };

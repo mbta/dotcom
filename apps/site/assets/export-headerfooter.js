@@ -2,7 +2,9 @@ import "bootstrap/dist/js/umd/util";
 import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/tooltip";
 import collapse from "./js/collapse";
-import { initCarets } from "./js/header-dropdowns";
+import { setup } from "./ts/app/global-navigation.ts";
 
 collapse();
-initCarets();
+setup();
+
+document.body.classList.add("js");
