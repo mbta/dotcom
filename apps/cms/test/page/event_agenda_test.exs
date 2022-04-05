@@ -17,7 +17,8 @@ defmodule CMS.Page.EventAgendaTest do
                topics: topics,
                collect_info: collect_info,
                event_reference: event_reference,
-               formstack_url: formstack_url
+               formstack_url: formstack_url,
+               published: published
              } = EventAgenda.from_api(api_page)
 
       # Test normal fields
@@ -34,6 +35,9 @@ defmodule CMS.Page.EventAgendaTest do
 
       # Test link (not yet implemented)
       assert formstack_url == nil
+
+      # Test published value
+      assert published == true
     end
   end
 end
