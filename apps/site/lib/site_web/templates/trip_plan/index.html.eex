@@ -35,9 +35,6 @@
                 <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
                 <script defer src="<%= static_url(@conn, "/js/tripplanner.js") %>"></script>
               <% end %>
-              <div class="map-static" style="background-image:url(<%= map_src %>);">
-                <span class="sr-only">Map of downtown Boston"</span>
-              </div>
           <% end %>
       <% end %>
     </div>
