@@ -1,18 +1,16 @@
 defmodule SiteWeb.ScheduleController.GreenTerminiApi do
-
   describe "show/2" do
-    test "successfully calls the API", %{conn: conn} do
-      path =
-        green_termini_api_path(conn, :result, %{
-          id: "Green-B"
-            : [
-              "Boston College",
-              "Government Center"
-            ]
-        })
+    test "returns green line stop data formatted as json", %{conn: conn} do
+      conn = get(conn, green_termini_api_path(conn, :show))
 
-      conn
-      |> get(path)
-      |> json_response(200)
+      assert response = json_response(conn, 200)
+
+      assert %{
+               "Green-E" => ["Heath Street", "Union Square"],
+               "Green-D" => ["Riverside", "North Station"],
+               "Green-C" => ["Cleveland Circle", "Government Center"],
+               "Green-B" => ["Boston College", "Government Center"]
+             } = response
     end
   end
+end
