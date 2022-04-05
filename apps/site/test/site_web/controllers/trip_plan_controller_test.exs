@@ -158,7 +158,7 @@ defmodule SiteWeb.TripPlanControllerTest do
 
     test "assigns initial map data", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index))
-      assert conn.assigns.map_info
+      assert conn.assigns.map_data
     end
 
     test "assigns modes to empty map", %{conn: conn} do

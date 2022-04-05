@@ -81,7 +81,7 @@ defmodule SiteWeb.TripPlanController do
         now = Util.now()
 
         # build map information for a single leg with the 'to' field:
-        {map_data, map_src} =
+        map_data =
           TripPlanMap.itinerary_map([
             %Leg{
               from: nil,
@@ -100,11 +100,10 @@ defmodule SiteWeb.TripPlanController do
 
         %{markers: [marker]} = map_data
         to_marker = %{marker | id: "B"}
-        map_info_for_to_destination = {%{map_data | markers: [to_marker]}, map_src}
 
         conn
         |> assign(:query, query)
-        |> assign(:map_info, map_info_for_to_destination)
+        |> assign(:map_data, %{map_data | markers: [to_marker]})
         |> render(:index)
 
       {:error, _} ->
@@ -316,7 +315,7 @@ defmodule SiteWeb.TripPlanController do
   @spec assign_initial_map(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def assign_initial_map(conn, _opts) do
     conn
-    |> assign(:map_info, {TripPlanMap.initial_map_data(), TripPlanMap.initial_map_src()})
+    |> assign(:map_data, TripPlanMap.initial_map_data())
   end
 
   @spec modes(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
