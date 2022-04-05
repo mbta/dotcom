@@ -8,10 +8,31 @@
 
       <h2>Find a Store Near You</h2>
       <p></p>
-      <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
-        <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,
-                                          address: @address, address_error: get_flash(@conn, :info), submit: true,
-                                          required: true, placeholder: "Enter a location", button_class: ""}) %>
+      <div class="transit-near-me">
+        <%= form_for @conn, @conn.request_path, [as: :location, method: :get, class: "form m-transit-near-me__input"], fn f -> %>
+          <%=
+            SiteWeb.PartialView.render(
+              "_search_input.html",
+              form: f,
+              field: :address,
+              autocomplete?: true,
+              prefix: "transit-near-me",
+              aria_label: "",
+              placeholder: "Enter a location",
+              value: input_value(@search_position)
+            )
+          %>
+          <%= Phoenix.HTML.Form.hidden_input f, :latitude,
+                                            value: assigns[:latitude], id: "search-transit-near-me__latitude" %>
+          <%= Phoenix.HTML.Form.hidden_input f, :longitude,
+                                            value: assigns[:longitude], id: "search-transit-near-me__longitude" %>
+        <% end %>
+      </div>
+      <%= if Application.get_env(:site, :dev_server?) do %>
+        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tnm.js" %>"></script>
+      <% else %>
+        <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+        <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
       <% end %>
     </div>
     <%= if !is_nil(@fare_sales_locations) do %>
