@@ -4,15 +4,14 @@ defmodule SiteWeb.ScheduleController.GreenTerminiApi do
     test "successfully calls the API", %{conn: conn} do
       path =
         green_termini_api_path(conn, :result, %{
-          id: "Green-B" # array of strings
+          id: "Green-B"
+            : [
+              "Boston College",
+              "Government Center"
+            ]
         })
 
-      opts = [
-
-      ]
-
       conn
-      |> assign(:trip_info_functions, opts)
       |> get(path)
       |> json_response(200)
     end
