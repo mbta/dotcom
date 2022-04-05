@@ -341,12 +341,6 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
-    test "renders a prereq error with the initial map", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, plan: %{"from" => "", "to" => ""}))
-      response = html_response(conn, 200)
-      assert response =~ conn.assigns.map_info |> elem(1) |> html_escape |> safe_to_string
-    end
-
     test "assigns maps for each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_maps

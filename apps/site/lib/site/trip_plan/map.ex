@@ -6,8 +6,7 @@ defmodule Site.TripPlan.Map do
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Util.Position
 
-  @type static_map :: String.t()
-  @type t :: {MapData.t(), static_map}
+  @type t :: MapData.t()
   @type route_mapper :: (String.t() -> Route.t() | nil)
   @type stop_mapper :: (String.t() -> Stops.Stop.t() | nil)
 
