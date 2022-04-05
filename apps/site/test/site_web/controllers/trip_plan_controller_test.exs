@@ -4,7 +4,6 @@ defmodule SiteWeb.TripPlanControllerTest do
   alias Site.TripPlan.Query
   alias SiteWeb.TripPlanController
   alias TripPlan.{Api.MockPlanner, Itinerary, PersonalDetail, TransitDetail}
-  import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
   doctest SiteWeb.TripPlanController
 
   import Mock
