@@ -269,17 +269,11 @@ jobs:
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
           OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
         run: npm run ci:unit:exunit
-      - name: Save PR information
-        run: |
-          mkdir -p cover
-          cat apps/*/cover/* > cover/lcov.info
-          echo "${{ github.event.pull_request.number }}" > cover/PR_NUMBER
-          echo "${{ github.event.pull_request.head.sha }}" > cover/PR_SHA
-        if: ${{ github.event.pull_request }}
       - name: Upload coverage artifact
+        if: ${{ always() && github.event.pull_request }}
         uses: actions/upload-artifact@v2
         with:
-          name: elixir-lcov
+          name: Elixir test coverage report
           path: cover/
 
   js_unit_1:
