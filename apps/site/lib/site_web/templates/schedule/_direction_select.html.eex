@@ -6,7 +6,7 @@
         <div class="inner-label">
           Direction of your trip:
         </div>
-        <div>
+        <div class="notranslate">
           <%= direction_with_headsign(@route, @direction_id, []) %>
         </div>
       </div>

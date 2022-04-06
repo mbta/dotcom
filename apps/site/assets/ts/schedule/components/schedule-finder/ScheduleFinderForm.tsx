@@ -83,7 +83,7 @@ export default ({
             Choose a direction
             <SelectContainer>
               <select
-                className="c-select-custom"
+                className="c-select-custom notranslate"
                 value={selectedDirection}
                 onChange={e =>
                   onDirectionChange(parseInt(e.target.value, 10) as DirectionId)
@@ -109,7 +109,7 @@ export default ({
               handleClick={handleOriginClick}
             >
               <select
-                className="c-select-custom c-select-custom--noclick"
+                className="c-select-custom c-select-custom--noclick notranslate"
                 value={selectedOrigin || ""}
                 onChange={e => onOriginChange(e.target.value || null)}
               >

@@ -199,67 +199,71 @@ Array [
     </div>
   </div>,
   <div
-    className="container"
+    className="m-stop-page__info-container"
   >
     <div
-      className="page-section"
+      className="m-stop-page__info"
     >
-      <ul
-        className="c-alert-group"
+      <div
+        className="container"
       >
-        <li
-          aria-expanded={false}
-          className="c-alert-item c-alert-item--low"
-          id="alert-00005"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex={0}
+        <div
+          className="page-section"
         >
-          <div
-            className="c-alert-item__icon"
-          />
-          <div
-            className="c-alert-item__top"
+          <ul
+            className="c-alert-group"
           >
-            <div
-              className="c-alert-item__top-text-container"
+            <li
+              aria-expanded={false}
+              className="c-alert-item c-alert-item--low"
+              id="alert-00005"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex={0}
             >
               <div
-                className="c-alert-item__effect"
-              >
-                Other 
-                <span
-                  className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
-                >
-                  Upcoming
-                </span>
-              </div>
-              <div
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
-                  }
-                }
+                className="c-alert-item__icon"
               />
-            </div>
-            <div
-              className="c-alert-item__top-caret-container"
-            />
-          </div>
-        </li>
-      </ul>
+              <div
+                className="c-alert-item__top"
+              >
+                <div
+                  className="c-alert-item__top-text-container"
+                >
+                  <div
+                    className="c-alert-item__effect"
+                  >
+                    Other 
+                    <span
+                      className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
+                    >
+                      Upcoming
+                    </span>
+                  </div>
+                  <div
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
+                      }
+                    }
+                  />
+                </div>
+                <div
+                  className="c-alert-item__top-caret-container"
+                />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <h2>
+        Station Information
+      </h2>
+      <p>
+        See upcoming departures, maps, and other features at this location.
+      </p>
     </div>
-  </div>,
-  <div
-    className="container"
-  >
-    <h2>
-      Station Information
-    </h2>
-    <p>
-      See upcoming departures, maps, and other features at this location.
-    </p>
   </div>,
   <div
     className="m-stop-page__hero"

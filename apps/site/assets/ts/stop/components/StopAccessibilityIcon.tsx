@@ -5,9 +5,12 @@ import { Dispatch, clickFeaturePillAction } from "../state";
 
 export default (
   { accessibility }: Stop,
+  isBusStop: boolean,
   dispatch?: Dispatch
 ): ReactElement<HTMLElement> | false =>
-  accessibility.includes("accessible") && (
+  // NOTE: Bus stops are always considered accessible, see
+  // https://app.asana.com/0/1201653980996886/1201894234147725/f
+  (isBusStop || accessibility.includes("accessible")) && (
     <a
       className="m-stop-page__access-icon"
       href="#header-accessibility"

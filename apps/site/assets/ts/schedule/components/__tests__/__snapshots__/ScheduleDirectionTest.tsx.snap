@@ -17,7 +17,7 @@ exports[`can render green line 1`] = `
       >
         <GreenLineSelect>
           <div
-            className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+            className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable notranslate"
             onClick={[Function]}
             onKeyUp={[Function]}
             role="button"
@@ -75,7 +75,7 @@ exports[`renders a CR component 1`] = `
         className="js-m-schedule-click-boundary"
       >
         <div
-          className="m-schedule-direction__route-pattern"
+          className="m-schedule-direction__route-pattern notranslate"
         >
           End
         </div>
@@ -120,7 +120,7 @@ exports[`renders a bus component 1`] = `
       >
         <BusMenuSelect>
           <div
-            className="m-schedule-direction__route-pattern"
+            className="m-schedule-direction__route-pattern notranslate"
             onClick={[Function]}
             onKeyUp={[Function]}
           >
@@ -168,7 +168,7 @@ exports[`renders a subway component 1`] = `
         className="js-m-schedule-click-boundary"
       >
         <div
-          className="m-schedule-direction__route-pattern"
+          className="m-schedule-direction__route-pattern notranslate"
         >
           End
         </div>
@@ -212,7 +212,7 @@ exports[`renders with a static map 1`] = `
         className="js-m-schedule-click-boundary"
       >
         <div
-          className="m-schedule-direction__route-pattern"
+          className="m-schedule-direction__route-pattern notranslate"
         >
           End
         </div>
@@ -273,7 +273,7 @@ exports[`respects the initially selected pattern ID, if specified 1`] = `
       >
         <BusMenuSelect>
           <div
-            className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+            className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable notranslate"
             onClick={[Function]}
             onKeyUp={[Function]}
             role="button"

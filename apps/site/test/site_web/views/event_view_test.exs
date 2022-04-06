@@ -3,8 +3,9 @@ defmodule SiteWeb.EventViewTest do
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  alias CMS.Partial.Teaser
   alias CMS.Page.Event
+  alias CMS.Page.EventAgenda
+  alias CMS.Partial.Teaser
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
@@ -17,7 +18,7 @@ defmodule SiteWeb.EventViewTest do
       refute html =~ "Notes"
     end
 
-    test "the agenda section is not renderd when the event agenda is empty", %{conn: conn} do
+    test "the agenda section is not rendered when the event agenda is empty", %{conn: conn} do
       event = event_factory(0, agenda: nil)
 
       html =
@@ -226,6 +227,20 @@ defmodule SiteWeb.EventViewTest do
 
     test ":ended value verified",
       do: assert(has_started?(%Event{started_status: :started}) == true)
+  end
+
+  describe "agenda_visible?/2 hides unpublished" do
+    test "normal published case is shown",
+      do: assert(agenda_visible?(%EventAgenda{published: true}) == true)
+
+    test "draft agendas are shown if preview param is present",
+      do: assert(agenda_visible?(%EventAgenda{published: false}, %{"preview" => ""}) == true)
+
+    test "false positives do not expose agenda",
+      do: assert(agenda_visible?(%EventAgenda{published: false}, %{"foobar" => ""}) == false)
+
+    test "draft agendas are not shown by default",
+      do: assert(agenda_visible?(%EventAgenda{published: false}) == false)
   end
 
   test "agenda_title/2 shows title" do
