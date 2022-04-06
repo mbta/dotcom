@@ -1,4 +1,4 @@
-defmodule SiteWeb.ScheduleController.GreenTerminiApi do
+defmodule SiteWeb.ScheduleController.GreenTerminiApiTest do
   use ExUnit.Case, async: true
   use SiteWeb.ConnCase, async: true
 

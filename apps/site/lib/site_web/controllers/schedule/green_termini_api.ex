@@ -1,4 +1,4 @@
-defmodule SiteWeb.ScheduleController.GreenTerminiApiTest do
+defmodule SiteWeb.ScheduleController.GreenTerminiApi do
   @moduledoc """
     API for retrieving the terminuses of each green line route
   """
