@@ -9,10 +9,9 @@ defmodule V3Api.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -45,7 +44,6 @@ defmodule V3Api.Mixfile do
       {:httpoison, "~> 1.5"},
       {:poison, "~> 2.2", override: true},
       {:hackney, "~> 1.16"},
-      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:bypass, "~> 1.0", only: :test},
       {:server_sent_event_stage, "~> 1.0"},
       {:castore, "~> 0.1.11"},
