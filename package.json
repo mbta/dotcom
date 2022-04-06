@@ -7,7 +7,7 @@
     "ci:lint:js": "npm run --prefix apps/site/assets eslint:js",
     "ci:lint:scss": "npm run --prefix apps/site/assets stylelint",
     "ci:lint:ex": "mix credo diff master -a",
-    "ci:unit:exunit": "PORT=4002 mix test --exclude wallaby --cover",
+    "ci:unit:exunit": "PORT=4002 mix coveralls.html --umbrella --exclude wallaby",
     "ci:unit:mocha": "npm run --prefix apps/site/assets mocha",
     "ci:unit:jest": "npm run --prefix apps/site/assets jest",
     "ci:types:ex": "mix dialyzer --halt-exit-status",
