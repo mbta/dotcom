@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleController.GreenTerminiApi do
-  describe "show/2" do
+  describe "show/1" do
     test "returns green line stop data formatted as json", %{conn: conn} do
       conn = get(conn, green_termini_api_path(conn, :show))
 
