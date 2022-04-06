@@ -72,25 +72,29 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: destinations.size > 1 ? destinations.get("Green-B") : "",
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-B") : "",
     icon: iconGreenB
   },
   {
     id: "Green-C",
     name: "Green Line C",
-    direction_destinations: destinations.size > 1 ? destinations.get("Green-C") : "",
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-C") : "",
     icon: iconGreenC
   },
   {
     id: "Green-D",
     name: "Green Line D",
-    direction_destinations: destinations.size > 1 ? destinations.get("Green-D") : "",
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-D") : "",
     icon: iconGreenD
   },
   {
     id: "Green-E",
     name: "Green Line E",
-    direction_destinations: destinations.size > 1 ? destinations.get("Green-E") : "",
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-E") : "",
     icon: iconGreenE
   }
 ];
@@ -139,7 +143,9 @@ export const GreenLineItem = ({
           route.icon
         )}
         <span className="sr-only">{route.name}</span>
-        {destinations.size > 1 ? destinations.get(route.id)[directionId] : []}{" "}
+        {destinations.size > 1
+          ? destinations.get(route.id)[directionId]
+          : []}{" "}
       </div>
     </div>
   );
