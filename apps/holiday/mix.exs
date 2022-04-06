@@ -9,10 +9,9 @@ defmodule Holiday.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.3",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -40,7 +39,6 @@ defmodule Holiday.Mixfile do
   defp deps do
     [
       {:timex, ">= 0.0.0"},
-      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
