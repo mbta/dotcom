@@ -321,7 +321,7 @@ defmodule Site.RealtimeSchedule do
   defp add_trip_headsign(nil), do: nil
 
   defp add_trip_headsign(%{trip: trip} = prediction) do
-    Map.put(prediction, :headsign, trip.headsign)
+    Map.put(prediction, :headsign, Map.get(trip, :headsign))
   end
 
   @spec do_shrink_predicted_schedule(Prediction.t() | ScheduleCondensed.t() | nil) :: map | nil
