@@ -1,5 +1,7 @@
 defmodule SiteWeb.ScheduleController.GreenTerminiApi do
   use ExUnit.Case, async: true
+  use SiteWeb.ConnCase, async: true
+
 
   describe "show/2" do
     test "returns green line stop data formatted as json", %{conn: conn} do
