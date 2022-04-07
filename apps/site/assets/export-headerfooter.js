@@ -8,3 +8,9 @@ collapse();
 setup();
 
 document.body.classList.add("js");
+
+// Remove event listeners from header search button, then hide
+const searchButton = document.querySelector(".header-search__toggle");
+const blankButton = searchButton.cloneNode(true);
+blankButton.style.opacity = "0";
+searchButton.replaceWith(blankButton);

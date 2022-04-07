@@ -1,7 +1,7 @@
 // slight rewrite from core.scss.
 // we overwrite .no-js with .js class on mbta.com
 // but outside mbta.com we can just add .js class
-.hidden-no-js {
+:not(.js) .hidden-no-js {
   display: none;
 }
 
