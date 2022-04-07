@@ -4,7 +4,6 @@ defmodule SiteWeb.TripPlanControllerTest do
   alias Site.TripPlan.Query
   alias SiteWeb.TripPlanController
   alias TripPlan.{Api.MockPlanner, Itinerary, PersonalDetail, TransitDetail}
-  import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
   doctest SiteWeb.TripPlanController
 
   import Mock
@@ -158,7 +157,7 @@ defmodule SiteWeb.TripPlanControllerTest do
 
     test "assigns initial map data", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index))
-      assert conn.assigns.map_info
+      assert conn.assigns.map_data
     end
 
     test "assigns modes to empty map", %{conn: conn} do
@@ -339,12 +338,6 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert response =~ "Did you mean?"
       assert conn.assigns.requires_location_service?
       assert %Query{} = conn.assigns.query
-    end
-
-    test "renders a prereq error with the initial map", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, plan: %{"from" => "", "to" => ""}))
-      response = html_response(conn, 200)
-      assert response =~ conn.assigns.map_info |> elem(1) |> html_escape |> safe_to_string
     end
 
     test "assigns maps for each itinerary", %{conn: conn} do

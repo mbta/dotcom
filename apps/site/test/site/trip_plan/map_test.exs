@@ -18,10 +18,4 @@ defmodule Site.TripPlan.MapTest do
       assert initial_map_data() == expected
     end
   end
-
-  describe "initial_map_src/0" do
-    test "gives the initial map src" do
-      assert initial_map_src() =~ "https://maps.googleapis.com/maps/api/staticmap?"
-    end
-  end
 end
