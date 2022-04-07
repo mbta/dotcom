@@ -170,29 +170,16 @@ defmodule SiteWeb.ScheduleControllerTest do
       conn = get(conn, line_path(conn, :show, "Green", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Green Line"
 
-      # As of June 2020, Lechmere has been closed so the commented lines will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-
-      # stops are in West order, North Station (prev. Lechmere) -> Boston College (last stop on B)
+      # stops are in West order, Union Square -> Boston College (last stop on B)
       {_, first_stop} = List.first(conn.assigns.all_stops)
       {_, last_stop} = List.last(conn.assigns.all_stops)
 
-      # To be uncommented later:
-      # assert first_stop.id == "place-lech"
-      assert first_stop.id == "place-north"
+      assert first_stop.id == "place-unsqu"
 
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      # assert first_stop.stop_features == [:bus, :access]
-      assert [
-               :orange_line,
-               :green_line_d,
-               :commuter_rail,
-               :access,
-               :parking_lot
-             ]
-             |> Enum.all?(&Enum.member?(first_stop.stop_features, &1))
+      assert first_stop.stop_features == [:access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"

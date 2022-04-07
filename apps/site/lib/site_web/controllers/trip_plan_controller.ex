@@ -336,7 +336,7 @@ defmodule SiteWeb.TripPlanController do
   @spec assign_initial_map(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def assign_initial_map(conn, _opts) do
     conn
-    |> assign(:map_info, {TripPlanMap.initial_map_data(), TripPlanMap.initial_map_src()})
+    |> assign(:map_data, TripPlanMap.initial_map_data())
   end
 
   @spec modes(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()

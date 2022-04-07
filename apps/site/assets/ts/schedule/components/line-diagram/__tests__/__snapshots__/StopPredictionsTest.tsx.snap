@@ -5,7 +5,7 @@ exports[`StopPredictions renders bus predictions 1`] = `
   className="m-schedule-diagram__predictions"
 >
   <div
-    className="m-schedule-diagram__prediction"
+    className="m-schedule-diagram__prediction notranslate"
   >
     <div>
       Harvard

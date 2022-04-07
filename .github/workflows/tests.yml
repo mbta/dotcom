@@ -148,7 +148,7 @@ jobs:
             echo "::set-output name=scss::true"
             echo "::set-output name=ex::true"
           else
-            changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
+            changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ; }
             echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
             echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
             echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"

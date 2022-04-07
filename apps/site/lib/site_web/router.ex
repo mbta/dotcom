@@ -30,6 +30,7 @@ defmodule SiteWeb.Router do
     plug(SiteWeb.Plugs.Cookies)
     plug(:optional_disable_indexing)
     plug(:activate_flag)
+    plug(SiteWeb.Plugs.GlxNowOpen)
   end
 
   pipeline :api do
@@ -140,6 +141,8 @@ defmodule SiteWeb.Router do
     get("/schedules/map_api", ScheduleController.MapApi, :show)
     get("/schedules/line_api", ScheduleController.LineApi, :show)
     get("/schedules/line_api/realtime", ScheduleController.LineApi, :realtime)
+
+    get("/schedules/green_termini_api", ScheduleController.GreenTerminiApi, :show)
 
     get("/schedules/subway", ModeController, :subway)
     get("/schedules/bus", ModeController, :bus)

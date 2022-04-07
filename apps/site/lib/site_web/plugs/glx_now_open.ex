@@ -1,8 +1,8 @@
 defmodule SiteWeb.Plugs.GlxNowOpen do
   @moduledoc """
-    assigns glx_now_open? value if the current date is after the set date for the
+    assigns glx_stations_open value if the current date is after the set date for the
     glx expansion to open (March 21, 2022) and not greater than 3 months post-opening
-    date (June, 21, 2022).
+    date (June, 21, 2022). Sets a "," delimited list of station ids to be used by frontend
 
     Stations set to open:
       Lechmere (place-lech)
@@ -11,6 +11,7 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
   """
 
   @opening_date ~N[2022-03-21T04:55:00]
+  @glx_stations ~w(place-lech place-unsqu place-spmnl)
 
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
@@ -20,12 +21,18 @@ defmodule SiteWeb.Plugs.GlxNowOpen do
 
   @impl true
   def call(conn, now_fn: now_fn) do
+    opens = @opening_date |> Util.convert_using_timezone("America/New_York")
+
     conn
     |> assign(
-      :glx_now_open?,
-      check_current_service_date(now_fn.(), Util.to_local_time(@opening_date))
+      :glx_stations_open,
+      set_assigns(check_current_service_date(now_fn.(), opens))
     )
+    |> assign(:glx_opening_date, DateTime.to_iso8601(opens))
   end
+
+  defp set_assigns(true), do: Enum.join(@glx_stations, ",")
+  defp set_assigns(_), do: nil
 
   defp check_current_service_date(current_date, opening_date) do
     after_open_date?(current_date, opening_date) && before_end_date?(current_date, opening_date)

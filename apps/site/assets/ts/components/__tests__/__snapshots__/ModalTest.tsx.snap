@@ -6,7 +6,9 @@ exports[`it renders 1`] = `
     <ModalContent>
       <Portal
         containerInfo={
-          <body>
+          <body
+            class="modal-open"
+          >
             <div
               aria-hidden="true"
               id="body-wrapper"

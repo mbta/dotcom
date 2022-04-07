@@ -11,6 +11,9 @@ import {
   clickFeaturePillAction
 } from "../state";
 import { modeByV3ModeType } from "../../components/ModeFilter";
+import GlxOpen from "../../components/GlxOpen";
+import { typedRoutesHasBusRoute } from "../../helpers/routes";
+import useIsGlxOpen from "../../hooks/useIsGlxOpen";
 
 interface Props {
   stop: Stop;
@@ -150,7 +153,7 @@ const features = (
   <div className="m-stop-page__header-features">
     {modes(routes, dispatch)}
     {crZone(zoneNumber, dispatch)}
-    {accessible(stop, dispatch)}
+    {accessible(stop, typedRoutesHasBusRoute(routes), dispatch)}
     {parking(stop, dispatch)}
   </div>
 );
@@ -170,9 +173,11 @@ const Header = ({
 }: Props): ReactElement<HTMLElement> => {
   const emptyFunc = (): void => {};
   const dispatchOrEmptyFunc = dispatch || emptyFunc;
+  const isGlxOpen = useIsGlxOpen(stop.id)[0];
   return (
-    <div className="m-stop-page__header">
+    <div className={`m-stop-page__header${isGlxOpen ? " glx-open" : ""}`}>
       <div className="m-stop-page__header-container">
+        <GlxOpen pageType="station-page" stopId={stop.id} />
         <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>
           {stop.name}
         </h1>

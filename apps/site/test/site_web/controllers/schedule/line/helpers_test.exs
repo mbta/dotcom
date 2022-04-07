@@ -138,6 +138,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.map(e_stops, & &1.branch) ==
                [
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
                  nil,
                  nil,
                  nil,
@@ -159,6 +162,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
 
       assert_stop_ids(e_stops, [
+        "place-unsqu",
+        "place-lech",
+        "place-spmnl",
         "place-north",
         "place-haecl",
         "place-gover",
@@ -198,12 +204,18 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
+                 false,
+                 false,
+                 false,
                  true
                ]
 
       assert Enum.map(e_stops, & &1.is_beginning?) ==
                [
                  true,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -591,16 +603,19 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test "handles the E line with the Lechmere shuttle" do
+    test "handles the E line" do
       assert [
-               %RouteStops{branch: "North Station - Heath Street", stops: stops}
+               %RouteStops{branch: "Union Square - Heath Street", stops: stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green-E"}, 0)
 
-      assert Enum.all?(stops, &(&1.branch == "North Station - Heath Street"))
+      assert Enum.all?(stops, &(&1.branch == "Union Square - Heath Street"))
 
       assert Enum.map(stops, & &1.is_terminus?) ==
                [
                  true,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -639,6 +654,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
+                 false,
+                 false,
+                 false,
                  false
                ]
     end
@@ -661,14 +679,14 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(
                long_route_stops,
-               &(&1.branch == "Long Wharf - Hingham via Hull" ||
-                   &1.branch == "Long Wharf - Hingham via Georges Island & Hull")
+               &String.contains?(&1.branch, "Long Wharf - Hingham")
              )
 
       long_route_stop_ids = Enum.map(long_route_stops, & &1.id)
 
       assert long_route_stop_ids == ["Boat-Long", "Boat-Hull"] ||
-               long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull"]
+               long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull"] ||
+               long_route_stop_ids == ["Boat-Long", "Boat-Logan", "Boat-Hull"]
 
       assert [true | non_termini] = Enum.map(long_route_stops, & &1.is_terminus?)
       assert Enum.all?(non_termini, &(&1 == false))

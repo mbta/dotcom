@@ -45,7 +45,7 @@ const OriginModalContent = ({
       <p className="schedule-finder__origin-text">
         Select from the list below.
       </p>
-      <div className="schedule-finder__origin-list">
+      <div className="schedule-finder__origin-list notranslate">
         {stopListSearchFilter(stops, originSearch).map((stop: SimpleStop) => (
           <OriginListItem
             key={stop.id}

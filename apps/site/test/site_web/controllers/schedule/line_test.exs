@@ -304,15 +304,15 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            # {"place-lech", 0},
-            {"place-north", 0},
-            {"place-gover", 2},
-            {"place-pktrm", 3},
-            {"place-coecl", 6},
-            {"place-hsmnl", 17},
-            {"place-river", 32},
-            {"place-clmnl", 45},
-            {"place-lake", 61}
+            {"place-unsqu", 0},
+            {"place-north", 3},
+            {"place-gover", 5},
+            {"place-pktrm", 6},
+            {"place-coecl", 9},
+            {"place-hsmnl", 20},
+            {"place-river", 35},
+            {"place-clmnl", 48},
+            {"place-lake", 64}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -332,10 +332,8 @@ defmodule SiteWeb.ScheduleController.LineTest do
         Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
       assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      # assert stop_id(List.first(trunk)) == "place-lech"
-      assert trunk |> List.first() |> stop_id() == "place-north"
+
+      assert trunk |> List.first() |> stop_id() == "place-unsqu"
       assert trunk |> List.last() |> stop_id() == "place-armnl"
 
       # E branch + merge
@@ -437,10 +435,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
       assert trunk |> List.first() |> stop_id() == "place-armnl"
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      # assert stop_id(List.last(trunk)) == "place-lech"
-      assert trunk |> List.last() |> stop_id() == "place-north"
+      assert trunk |> List.last() |> stop_id() == "place-unsqu"
     end
   end
 

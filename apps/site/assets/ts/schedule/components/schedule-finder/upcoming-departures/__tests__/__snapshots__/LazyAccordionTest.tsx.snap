@@ -68,6 +68,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/place-sstat\\" className=\\"\\">
                         South Station
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"place-sstat\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:46 AM
@@ -80,6 +81,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/place-crtst\\" className=\\"\\">
                         Courthouse
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"place-crtst\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:48 AM
@@ -92,6 +94,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/place-wtcst\\" className=\\"\\">
                         World Trade Center
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"place-wtcst\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:50 AM
@@ -104,6 +107,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/place-conrd\\" className=\\"\\">
                         Silver Line Way
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"place-conrd\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:53 AM
@@ -116,6 +120,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/247\\" className=\\"\\">
                         Northern Ave @ Harbor St
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"247\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:54 AM
@@ -128,6 +133,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/30249\\" className=\\"\\">
                         Northern Ave @ Tide St
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"30249\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:55 AM
@@ -140,6 +146,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/30250\\" className=\\"\\">
                         23 Drydock Ave
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"30250\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:56 AM
@@ -152,6 +159,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/30251\\" className=\\"\\">
                         27 Drydock Ave
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"30251\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:56 AM
@@ -164,6 +172,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/31259\\" className=\\"\\">
                         Drydock Ave @ Black Falcon Ave
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"31259\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:56 AM
@@ -176,6 +185,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/31258\\" className=\\"\\">
                         88 Black Falcon
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"31258\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       05:57 AM
@@ -188,6 +198,7 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
                       <a href=\\"/stops/31255\\" className=\\"\\">
                         Drydock Ave @ Design Center Place
                       </a>
+                      <GlxOpen pageType=\\"schedule-finder\\" stopId=\\"31255\\" />
                     </th>
                     <td className=\\"schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums\\">
                       06:00 AM

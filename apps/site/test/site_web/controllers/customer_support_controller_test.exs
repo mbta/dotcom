@@ -341,6 +341,17 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    test "handles invalid response", %{conn: conn} do
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          %{}
+        )
+
+      assert "recaptcha" in conn.assigns.errors
+    end
+
     test "if the submission doesn't carry a recaptcha value, consider it an invalid recaptcha", %{
       conn: conn
     } do

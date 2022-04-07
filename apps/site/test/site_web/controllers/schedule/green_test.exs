@@ -73,10 +73,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
        %{conn: conn} do
     conn = get(conn, green_path(conn, :line, %{"schedule_direction[direction_id]": 0}))
 
-    # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-    # We are temporarily adding the fix but this will need to be reverted later on.
-    # assert [{_, %{id: "place-lech"}} | all_stops] = conn.assigns.all_stops
-    assert [{_, %{id: "place-north"}} | all_stops] = conn.assigns.all_stops
+    assert [{_, %{id: "place-unsqu"}} | all_stops] = conn.assigns.all_stops
 
     fenway = Enum.find(all_stops, fn {_, stop} -> stop.id == "place-fenwy" end)
     assert elem(fenway, 0) == [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}]

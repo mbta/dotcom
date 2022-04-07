@@ -298,8 +298,6 @@ export class TripPlannerLocControls {
         case "locations":
           GoogleMapsHelpers.lookupPlace(hit.address)
             .then(res => {
-              ac.resetSessionToken();
-
               const { latitude, longitude } = res;
               this.setAutocompleteValue(
                 ac,
@@ -311,9 +309,6 @@ export class TripPlannerLocControls {
               );
               ac._input.blur();
             })
-            .catch(() => {
-              // TODO: we should display an error here but NOT log to the console
-            });
           break;
         case "usemylocation":
           ac.useMyLocationSearch();

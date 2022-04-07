@@ -19,7 +19,8 @@ defmodule CMS.Page.EventAgenda do
             topics: [],
             collect_info: false,
             event_reference: nil,
-            formstack_url: nil
+            formstack_url: nil,
+            published: true
 
   @type t :: %__MODULE__{
           id: integer | nil,
@@ -27,7 +28,8 @@ defmodule CMS.Page.EventAgenda do
           topics: [Paragraph.AgendaTopic.t()],
           collect_info: boolean,
           event_reference: integer | nil,
-          formstack_url: Link.t() | nil
+          formstack_url: Link.t() | nil,
+          published: boolean
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -38,7 +40,8 @@ defmodule CMS.Page.EventAgenda do
       topics: parse_paragraphs(data, preview_opts, "field_agenda_topics"),
       collect_info: field_value(data, "field_agenda_collect_user_info"),
       event_reference: int_or_string_to_int(field_value(data, "field_agenda_event")),
-      formstack_url: parse_link(data, "field_agenda_formstack_url")
+      formstack_url: parse_link(data, "field_agenda_formstack_url"),
+      published: field_value(data, "status")
     }
   end
 end

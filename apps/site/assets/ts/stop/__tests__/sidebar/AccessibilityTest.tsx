@@ -146,7 +146,7 @@ describe("Accessibility", () => {
 
   it("it renders other special cases", () => {
     createReactRoot();
-    const stopAshmont = { ...stop, id: "place-lech" };
+    const stopAshmont = { ...stop, id: "place-asmnl" };
     const wrapper = mount(
       <Accessibility
         routes={data.routes}
@@ -157,7 +157,7 @@ describe("Accessibility", () => {
       />
     );
     expect(wrapper.find("#accessibility-level").text()).toContain(
-      "Significant accessibility barriers exist at South Station but customers can board or exit the train using a mobile lift."
+      "Significant accessibility barriers exist at South Station but customers can board or exit the Mattapan Trolley using a mobile lift."
     );
     expect(wrapper.find("#accessibility-features").text()).toContain(
       "Escalator"

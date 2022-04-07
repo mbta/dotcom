@@ -32,16 +32,13 @@ defmodule ExcludedStopsTest do
              ]
     end
 
-    test "excludes Lechmere on eastbound GL trips" do
+    test "excludes Union Square on eastbound GL trips" do
       all_stops =
         1
         |> GreenLine.stops_on_routes()
         |> GreenLine.all_stops()
 
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
-      # assert excluded_origin_stops(1, "Green", all_stops) == ["place-lech"]
-      assert excluded_origin_stops(1, "Green", all_stops) == ["place-north"]
+      assert excluded_origin_stops(1, "Green", all_stops) == ["place-unsqu"]
     end
   end
 

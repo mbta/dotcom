@@ -423,10 +423,9 @@ defmodule SiteWeb.TripPlanView do
     template |> render(data) |> HTML.safe_to_string()
   end
 
-  def itinerary_map({map_data, map_src}) do
+  def itinerary_map(map_data) do
     map_data
     |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
-    |> Map.put(:src, map_src)
   end
 
   @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}) :: [any]

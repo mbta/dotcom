@@ -284,13 +284,4 @@ defmodule Site.RealtimeScheduleTest do
 
     assert actual == expected
   end
-
-  test "log_warning_if_missing_trip/1 logs warning if prediction has no trip" do
-    log_messages =
-      ExUnit.CaptureLog.capture_log(fn ->
-        RealtimeSchedule.log_warning_if_missing_trip(%Prediction{trip: nil})
-      end)
-
-    assert log_messages =~ "prediction_without_trip"
-  end
 end

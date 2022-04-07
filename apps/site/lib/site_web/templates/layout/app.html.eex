@@ -39,7 +39,6 @@
       <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
-
     <script type="application/javascript">
       locationAutocompleteBacking = "<%= LocationService.active_service(:autocomplete) %>";
     </script>
@@ -53,6 +52,8 @@
   <%= Site.BodyTag.render(@conn) %>
     <div class="body-wrapper" id="body-wrapper">
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
+      <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
+      <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:banner_template] do %>
         <div class="announcement-container <%= assigns[:banner_class] %>">
           <div class="container">
@@ -60,8 +61,6 @@
           </div>
         </div>
       <% end %>
-      <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
-      <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:breadcrumbs] do %>
         <div class="breadcrumb-container">
           <div class="container">
@@ -85,6 +84,9 @@
         <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
+      <%= if assigns[:glx_stations_open] do %>
+        <div class="glx-stations-open" style="display: none;" data-opening='<%= assigns[:glx_opening_date] %>' data-stations='<%= assigns[:glx_stations_open] %>' />
+      <% end %>
     </div>
 
     <%# Load polyfills only if needed %>

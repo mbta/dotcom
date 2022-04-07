@@ -92,8 +92,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
           <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
+                <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-origin\\" />
                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                     <a href=\\"/stops/line-origin\\">
                       <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
                         <span>
@@ -106,6 +107,11 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                     <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
                       <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
                         <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </TooltipWrapper>
+                    <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       </span>
                     </TooltipWrapper>
                   </div>
@@ -127,8 +133,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
           <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
+                <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-stop1\\" />
                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                     <a href=\\"/stops/line-stop1\\">
                       <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       <span className=\\"sr-only\\">
@@ -142,7 +149,13 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                       </MatchHighlight>
                     </a>
                   </h4>
-                  <div className=\\"m-schedule-diagram__features\\" />
+                  <div className=\\"m-schedule-diagram__features\\">
+                    <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </TooltipWrapper>
+                  </div>
                 </header>
                 <div className=\\"m-schedule-diagram__stop-details\\">
                   <div className=\\"m-schedule-diagram__connections\\">
@@ -163,7 +176,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                   </div>
                   <StopPredictions headsigns={{...}} isCommuterRail={false}>
                     <div className=\\"m-schedule-diagram__predictions\\">
-                      <div className=\\"m-schedule-diagram__prediction\\">
+                      <div className=\\"m-schedule-diagram__prediction notranslate\\">
                         <div>
                           Dest1
                         </div>
@@ -176,7 +189,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           </div>
                         </LiveCrowdingIcon>
                       </div>
-                      <div className=\\"m-schedule-diagram__prediction\\">
+                      <div className=\\"m-schedule-diagram__prediction notranslate\\">
                         <div>
                           Dest2
                         </div>
@@ -203,8 +216,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
           <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
+                <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-stop2\\" />
                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                     <a href=\\"/stops/line-stop2\\">
                       <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       <span className=\\"sr-only\\">
@@ -245,7 +259,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                   </div>
                   <StopPredictions headsigns={{...}} isCommuterRail={false}>
                     <div className=\\"m-schedule-diagram__predictions\\">
-                      <div className=\\"m-schedule-diagram__prediction\\">
+                      <div className=\\"m-schedule-diagram__prediction notranslate\\">
                         <div>
                           Dest2
                         </div>
@@ -272,8 +286,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
           <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
+                <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-destination\\" />
                 <header className=\\"m-schedule-diagram__stop-heading\\">
-                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                     <a href=\\"/stops/line-destination\\">
                       <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
                         <span>

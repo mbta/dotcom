@@ -239,7 +239,7 @@ export const BusMenuSelect = ({
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={isMenuClickable ? 0 : undefined}
       role={isMenuClickable ? "button" : undefined}
-      className={`m-schedule-direction__route-pattern${linkClass}`}
+      className={`m-schedule-direction__route-pattern${linkClass} notranslate`}
       onClick={handleClick}
       onKeyUp={e =>
         handleReactEnterKeyPress(e, () => {
