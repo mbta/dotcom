@@ -360,14 +360,14 @@ nav.m-menu--mobile {
 }
 
 .m-menu__toggle {
-  width: 4rem;
+  min-width: 4rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   @include media-breakpoint-up(lg) {
-    display: none;
+    display: none !important; // works when extracted via dotcomchrome
   }
 }
 
