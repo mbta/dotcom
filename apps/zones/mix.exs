@@ -9,9 +9,10 @@ defmodule Zones.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
+      elixir: "~> 1.3",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -38,6 +39,7 @@ defmodule Zones.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:csv, "~> 2.3"},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]

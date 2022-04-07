@@ -9,9 +9,10 @@ defmodule TripPlan.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
+      elixir: "~> 1.4",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -44,6 +45,7 @@ defmodule TripPlan.Mixfile do
       {:schedules, in_umbrella: true},
       {:poison, "~> 2.2", override: true},
       {:location_service, in_umbrella: true},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},
       {:exvcr_helpers, in_umbrella: true, only: :test},

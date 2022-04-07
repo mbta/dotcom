@@ -6,8 +6,8 @@ defmodule ExVCRHelpers.MixProject do
       app: :exvcr_helpers,
       build_path: "../../_build",
       version: "0.1.0",
+      elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
