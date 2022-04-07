@@ -9,9 +9,10 @@ defmodule Schedules.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
+      elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -47,6 +48,7 @@ defmodule Schedules.Mixfile do
       {:routes, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
       {:util, in_umbrella: true},
       {:exvcr_helpers, in_umbrella: true, only: :test}

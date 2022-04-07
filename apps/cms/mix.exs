@@ -9,9 +9,10 @@ defmodule CMS.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
+      elixir: "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -54,6 +55,7 @@ defmodule CMS.Mixfile do
       {:html_sanitize_ex, "~> 1.3.0"},
       {:bypass, "~> 1.0", only: :test},
       {:quixir, "~> 0.9", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:mock, "~> 0.3.3", only: :test},
       {:phoenix_html, "~> 2.6"},
       {:repo_cache, in_umbrella: true},

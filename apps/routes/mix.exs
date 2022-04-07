@@ -9,9 +9,10 @@ defmodule Routes.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
+      elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -39,6 +40,7 @@ defmodule Routes.Mixfile do
   defp deps do
     [
       {:v3_api, in_umbrella: true},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:mock, "~> 0.3.3", only: :test},
       {:repo_cache, in_umbrella: true},
       {:exvcr_helpers, in_umbrella: true, only: :test}

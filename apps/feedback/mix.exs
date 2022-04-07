@@ -5,13 +5,14 @@ defmodule Feedback.Mixfile do
     [
       app: :feedback,
       version: "0.1.0",
+      elixir: "~> 1.3",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -37,6 +38,7 @@ defmodule Feedback.Mixfile do
       {:poison, "~> 2.2", override: true},
       {:timex, ">= 2.0.0"},
       {:briefly, "~> 0.3"},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:plug, "~> 1.12"},
       {:ex_aws, "~> 2.1.2"},
       {:ex_aws_ses, "~> 2.1.1"},

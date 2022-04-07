@@ -5,13 +5,14 @@ defmodule Predictions.Mixfile do
     [
       app: :predictions,
       version: "0.1.0",
+      elixir: "~> 1.3",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -36,6 +37,7 @@ defmodule Predictions.Mixfile do
     [
       {:v3_api, in_umbrella: true},
       {:timex, ">= 0.0.0"},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:bypass, "~> 1.0", only: :test},
       {:repo_cache, in_umbrella: true},
       {:schedules, in_umbrella: true},
