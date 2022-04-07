@@ -34,7 +34,7 @@ defmodule AWSLocation.Request do
         |> Map.put(:Text, search)
         |> Map.put(:MaxResults, limit),
       service: :places,
-      path: "/places/v0/indexes/dotcom-dev-esri/search/suggestions"
+      path: "/places/v0/indexes/dotcom-dev-here/search/suggestions"
     })
   end
 
