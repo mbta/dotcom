@@ -16,6 +16,25 @@ import iconGreenE from "../../../../static/images/icon-green-line-e-small.svg";
 import iconGreen from "../../../../static/images/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const destinations: Map<string, any> = new Map();
+destinations.set("Green", ["All branches", "All branches"]);
+Promise.resolve(
+  window.fetch &&
+    window
+      .fetch(`/schedules/green_termini_api`)
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(result => {
+        const keys = Object.keys(result);
+        for (let i = 0; i < keys.length; i += 1) {
+          destinations.set(keys[i], result[keys[i]]);
+        }
+      })
+);
+
 interface GreenLineSelectProps {
   routeId: string;
   dispatch: Dispatch<MenuAction>;
@@ -30,7 +49,7 @@ interface ExpandedGreenMenuProps {
 interface GreenRoute {
   id: string;
   name: string;
-  direction_destinations: string[];
+  direction_destinations: String[];
   icon: string;
 }
 
@@ -47,31 +66,35 @@ const greenRoutes: GreenRoute[] = [
   {
     id: "Green",
     name: "Green Line",
-    direction_destinations: ["All branches", "All branches"],
+    direction_destinations: destinations.get("Green"),
     icon: iconGreen
   },
   {
     id: "Green-B",
     name: "Green Line B",
-    direction_destinations: ["Boston College", "Government Center"],
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-B") : "",
     icon: iconGreenB
   },
   {
     id: "Green-C",
     name: "Green Line C",
-    direction_destinations: ["Cleveland Circle", "Government Center"],
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-C") : "",
     icon: iconGreenC
   },
   {
     id: "Green-D",
     name: "Green Line D",
-    direction_destinations: ["Riverside", "North Station"],
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-D") : "",
     icon: iconGreenD
   },
   {
     id: "Green-E",
     name: "Green Line E",
-    direction_destinations: ["Heath Street", "Union Square"],
+    direction_destinations:
+      destinations.size > 1 ? destinations.get("Green-E") : "",
     icon: iconGreenE
   }
 ];
@@ -120,7 +143,9 @@ export const GreenLineItem = ({
           route.icon
         )}
         <span className="sr-only">{route.name}</span>
-        {route.direction_destinations[directionId]}
+        {destinations.size > 1
+          ? destinations.get(route.id)[directionId]
+          : []}{" "}
       </div>
     </div>
   );
@@ -156,8 +181,6 @@ export const GreenLineSelect = ({
     dispatch(toggleRoutePatternMenuAction());
   };
 
-  const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
-
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -172,7 +195,7 @@ export const GreenLineSelect = ({
         })
       }
     >
-      {route.direction_destinations[directionId]}{" "}
+      {destinations.size > 1 ? destinations.get(routeId)[directionId] : []}{" "}
       {renderSvg(
         "c-svg__icon m-schedule-direction__route-pattern-arrow",
         arrowIcon
