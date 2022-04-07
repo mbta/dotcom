@@ -106,191 +106,187 @@ export function setHeaderElementPositions(header: HTMLElement): void {
   }
 }
 
-export default function setupGlobalNavigation(): void {
-  document.addEventListener(
-    "turbolinks:load",
-    () => {
-      const header = document.querySelector(".header--new")!;
-      if (!header) return;
+export function setup(): void {
+  const header = document.querySelector(".header--new")!;
+  if (!header) return;
 
-      setHeaderElementPositions(header as HTMLElement);
-      window.addEventListener("resize", () => {
-        setHeaderElementPositions(header as HTMLElement);
-      });
+  setHeaderElementPositions(header as HTMLElement);
+  window.addEventListener("resize", () => {
+    setHeaderElementPositions(header as HTMLElement);
+  });
 
-      // On mobile, clicking Menu or the Search icon opens a menu
-      header
-        .querySelectorAll(
-          `button.${TOGGLE_CLASSES.mobile}, button.${TOGGLE_CLASSES.search}`
+  // On mobile, clicking Menu or the Search icon opens a menu
+  header
+    .querySelectorAll(
+      `button.${TOGGLE_CLASSES.mobile}, button.${TOGGLE_CLASSES.search}`
+    )
+    .forEach(toggle => {
+      toggle.addEventListener("click", toggleMenu);
+    });
+
+  // Show the modal search veil and disable scrolling when focusing
+  // the search input on tablet
+  const input = document.getElementById("search-header-desktop__input");
+  if (input) {
+    input.addEventListener("focus", () => {
+      if (isLGDown()) {
+        document.documentElement.classList.add("menu-open");
+      }
+    });
+    input.addEventListener("blur", () => {
+      document.documentElement.classList.remove("menu-open");
+    });
+  }
+
+  // removes focus outline in Safari from open accordions
+  document
+    .querySelectorAll(".m-menu__content .js-focus-on-expand")
+    .forEach(openAccordion => {
+      openAccordion.addEventListener("focus", undoOutline);
+    });
+
+  // On mobile, when a menu is opened/closed,
+  const toggledMobileMenuObserver = new MutationObserver(() => {
+    const mobileMenuToggle = header.querySelector(
+      `button.${TOGGLE_CLASSES.mobile}`
+    )!;
+
+    // Update Menu button text
+    if (header.classList.contains("menu-open")) {
+      document.querySelector(".m-menu__content")!.scrollTop = 0;
+      mobileMenuToggle.innerHTML = "Close";
+    } else {
+      mobileMenuToggle.innerHTML = "Menu";
+    }
+
+    if (header.classList.contains("search-open")) {
+      // pass focus to search bar
+      (document.querySelector(
+        ".m-menu__search #search-header-mobile__input"
+      ) as HTMLElement)!.focus();
+    }
+  });
+
+  // When any navigation menu is expanded,
+  const expandedMenuObserver = new MutationObserver(mutations => {
+    const observedClassNames = mutations.flatMap(m =>
+      Array.from((m.target as Element).classList)
+    );
+
+    const aMenuIsExpanded: boolean =
+      mutations.find(
+        ({ oldValue, target }) =>
+          (target as Element).getAttribute("aria-expanded") === "true" &&
+          oldValue !== "true"
+      ) !== undefined;
+
+    // adjust theme color
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", aMenuIsExpanded ? "#0b2f4c" : "#165c96");
+
+    // add/remove classes based on which menu is expanded
+    // .menu-open on the document body
+    // .menu-open or .search-open on the header
+    if (aMenuIsExpanded) {
+      document.documentElement.classList.add("menu-open");
+      disableBodyScroll(header);
+      if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
+        header.classList.add("menu-open");
+        disableBodyScroll(document.querySelector(".m-menu__content")!);
+      } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
+        header.classList.add("search-open");
+      }
+    } else {
+      clearAllBodyScrollLocks();
+      document.documentElement.classList.remove("menu-open");
+      if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
+        header.classList.remove("menu-open");
+      } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
+        header.classList.remove("search-open");
+      }
+    }
+
+    // To close the desktop navigation programmatically, normally one could
+    // trigger the hide.bs.collapse event, but Bootstrap's collapse plugin
+    // was still buggy in v4.0.0-alpha.2, so we'll close it here. if button
+    // state indicates menu should be closed, and observed attribute change
+    // is on the desktop navigation buttons, we can close the desktop menu.
+    if (
+      !aMenuIsExpanded &&
+      observedClassNames.includes(TOGGLE_CLASSES.desktop)
+    ) {
+      // find affected buttons
+      mutations
+        .map(({ target }) => target as Element)
+        .filter(
+          ({ classList }) =>
+            classList.contains("m-menu--desktop__toggle") &&
+            !classList.contains("collapsed")
         )
-        .forEach(toggle => {
-          toggle.addEventListener("click", toggleMenu);
-        });
-
-      // Show the modal search veil and disable scrolling when focusing
-      // the search input on tablet
-      const input = document.getElementById("search-header-desktop__input");
-      if (input) {
-        input.addEventListener("focus", () => {
-          if (isLGDown()) {
-            document.documentElement.classList.add("menu-open");
-          }
-        });
-        input.addEventListener("blur", () => {
-          document.documentElement.classList.remove("menu-open");
-        });
-      }
-
-      // removes focus outline in Safari from open accordions
-      document
-        .querySelectorAll(".m-menu__content .js-focus-on-expand")
-        .forEach(openAccordion => {
-          openAccordion.addEventListener("focus", undoOutline);
-        });
-
-      // On mobile, when a menu is opened/closed,
-      const toggledMobileMenuObserver = new MutationObserver(() => {
-        const mobileMenuToggle = header.querySelector(
-          `button.${TOGGLE_CLASSES.mobile}`
-        )!;
-
-        // Update Menu button text
-        if (header.classList.contains("menu-open")) {
-          document.querySelector(".m-menu__content")!.scrollTop = 0;
-          mobileMenuToggle.innerHTML = "Close";
-        } else {
-          mobileMenuToggle.innerHTML = "Menu";
-        }
-
-        if (header.classList.contains("search-open")) {
-          // pass focus to search bar
-          (document.querySelector(
-            ".m-menu__search #search-header-mobile__input"
-          ) as HTMLElement)!.focus();
-        }
-      });
-
-      // When any navigation menu is expanded,
-      const expandedMenuObserver = new MutationObserver(mutations => {
-        const observedClassNames = mutations.flatMap(m =>
-          Array.from((m.target as Element).classList)
-        );
-
-        const aMenuIsExpanded: boolean =
-          mutations.find(
-            ({ oldValue, target }) =>
-              (target as Element).getAttribute("aria-expanded") === "true" &&
-              oldValue !== "true"
-          ) !== undefined;
-
-        // adjust theme color
-        document
-          .querySelector('meta[name="theme-color"]')
-          ?.setAttribute("content", aMenuIsExpanded ? "#0b2f4c" : "#165c96");
-
-        // add/remove classes based on which menu is expanded
-        // .menu-open on the document body
-        // .menu-open or .search-open on the header
-        if (aMenuIsExpanded) {
-          document.documentElement.classList.add("menu-open");
-          disableBodyScroll(header);
-          if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
-            header.classList.add("menu-open");
-            disableBodyScroll(document.querySelector(".m-menu__content")!);
-          } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
-            header.classList.add("search-open");
-          }
-        } else {
-          clearAllBodyScrollLocks();
-          document.documentElement.classList.remove("menu-open");
-          if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
-            header.classList.remove("menu-open");
-          } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
-            header.classList.remove("search-open");
-          }
-        }
-
-        // To close the desktop navigation programmatically, normally one could
-        // trigger the hide.bs.collapse event, but Bootstrap's collapse plugin
-        // was still buggy in v4.0.0-alpha.2, so we'll close it here. if button
-        // state indicates menu should be closed, and observed attribute change
-        // is on the desktop navigation buttons, we can close the desktop menu.
-        if (
-          !aMenuIsExpanded &&
-          observedClassNames.includes(TOGGLE_CLASSES.desktop)
-        ) {
-          // find affected buttons
-          mutations
-            .map(({ target }) => target as Element)
-            .filter(
-              ({ classList }) =>
-                classList.contains("m-menu--desktop__toggle") &&
-                !classList.contains("collapsed")
-            )
-            .forEach(btn => {
-              btn.classList.add("collapsed");
-              const targetMenu = document.querySelector(
-                btn.getAttribute("data-target")!
-              );
-              targetMenu?.classList.remove("in");
-              targetMenu?.classList.replace("collapse", "collapsing");
-              targetMenu?.setAttribute("style", "height: 0px;");
-              // FIXME - desktop menu closing animation isn't working
-              // setTimeout(() => {
-              //   targetMenu?.classList.replace("collapsing", "collapse");
-              // }, 350);
-            });
-        }
-      });
-
-      // monitor the header for classList changes
-      toggledMobileMenuObserver.observe(header, {
-        attributes: true,
-        attributeFilter: ["class"]
-      });
-
-      // monitor all the menu toggles for aria-expanded changes
-      document.querySelectorAll(allTogglesSelector).forEach(el => {
-        expandedMenuObserver.observe(el, {
-          attributes: true,
-          attributeOldValue: true,
-          attributeFilter: ["aria-expanded"]
-        });
-      });
-
-      // Scroll accordion into view on click
-      if (
-        window.matchMedia("(prefers-reduced-motion: no-preference)").matches
-      ) {
-        const scrollAccordionToTop = makeScrollAccordionToTop();
-        document
-          .querySelectorAll(".m-menu--mobile .c-accordion-ui__trigger")
-          .forEach(el =>
-            el.addEventListener("click", () =>
-              scrollAccordionToTop(el as HTMLElement)
-            )
+        .forEach(btn => {
+          btn.classList.add("collapsed");
+          const targetMenu = document.querySelector(
+            btn.getAttribute("data-target")!
           );
-      }
+          targetMenu?.classList.remove("in");
+          targetMenu?.classList.replace("collapse", "collapsing");
+          targetMenu?.setAttribute("style", "height: 0px;");
+          // FIXME - desktop menu closing animation isn't working
+          // setTimeout(() => {
+          //   targetMenu?.classList.replace("collapsing", "collapse");
+          // }, 350);
+        });
+    }
+  });
 
-      // menu click closes
-      const menu_links = document.querySelectorAll(".m-menu__link");
-      for (let i = 0; i < menu_links.length; i += 1) {
-        menu_links[i].addEventListener("click", closeAllMenus);
-      }
+  // monitor the header for classList changes
+  toggledMobileMenuObserver.observe(header, {
+    attributes: true,
+    attributeFilter: ["class"]
+  });
 
-      // T logo click closes
-      header
-        .querySelector(".navbar-logo")
-        ?.addEventListener("click", closeAllMenus);
+  // monitor all the menu toggles for aria-expanded changes
+  document.querySelectorAll(allTogglesSelector).forEach(el => {
+    expandedMenuObserver.observe(el, {
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ["aria-expanded"]
+    });
+  });
 
-      // Veil click or Esc key closes everything
-      document.body.addEventListener("keydown", e => {
-        handleNativeEscapeKeyPress(e, closeAllMenus);
-      });
+  // Scroll accordion into view on click
+  if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+    const scrollAccordionToTop = makeScrollAccordionToTop();
+    document
+      .querySelectorAll(".m-menu--mobile .c-accordion-ui__trigger")
+      .forEach(el =>
+        el.addEventListener("click", () =>
+          scrollAccordionToTop(el as HTMLElement)
+        )
+      );
+  }
 
-      if (header.previousElementSibling?.classList.contains("m-menu--cover"))
-        header.previousElementSibling.addEventListener("click", closeAllMenus);
-    },
-    { passive: true }
-  );
+  // menu click closes
+  const menu_links = document.querySelectorAll(".m-menu__link");
+  for (let i = 0; i < menu_links.length; i += 1) {
+    menu_links[i].addEventListener("click", closeAllMenus);
+  }
+
+  // T logo click closes
+  header
+    .querySelector(".navbar-logo")
+    ?.addEventListener("click", closeAllMenus);
+
+  // Veil click or Esc key closes everything
+  document.body.addEventListener("keydown", e => {
+    handleNativeEscapeKeyPress(e, closeAllMenus);
+  });
+
+  if (header.previousElementSibling?.classList.contains("m-menu--cover"))
+    header.previousElementSibling.addEventListener("click", closeAllMenus);
+}
+
+export default function setupGlobalNavigation(): void {
+  document.addEventListener("turbolinks:load", setup, { passive: true });
 }
