@@ -296,19 +296,18 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.place_id)
-            .then(res => {
-              const { latitude, longitude } = res;
-              this.setAutocompleteValue(
-                ac,
-                hit.description,
-                lat,
-                lng,
-                latitude,
-                longitude
-              );
-              ac._input.blur();
-            })
+          GoogleMapsHelpers.lookupPlace(hit.place_id).then(res => {
+            const { latitude, longitude } = res;
+            this.setAutocompleteValue(
+              ac,
+              hit.description,
+              lat,
+              lng,
+              latitude,
+              longitude
+            );
+            ac._input.blur();
+          });
           break;
         case "usemylocation":
           ac.useMyLocationSearch();

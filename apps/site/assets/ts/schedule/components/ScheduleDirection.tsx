@@ -13,8 +13,8 @@ import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
 import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
-import Map from "../components/Map";
-import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
+import Map from "./Map";
+import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import { isABusRoute, isACommuterRailRoute } from "../../models/route";
 
 export interface Props {
