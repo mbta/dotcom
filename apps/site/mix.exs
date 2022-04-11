@@ -71,7 +71,7 @@ defmodule Site.Mixfile do
       {:httpoison, "~> 1.5"},
       {:mock, "~> 0.3.3", only: :test},
       {:polyline, github: "ryan-mahoney/polyline_ex"},
-      {:sentry, "~> 7.0"},
+      {:sentry, "~> 8.0.6"},
       {:recon, "~> 2.5.1", only: :prod},
       {:diskusage_logger, "~> 0.2.0"},
       {:hammer, "~> 6.0"},
