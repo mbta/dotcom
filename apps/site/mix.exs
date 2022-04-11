@@ -51,7 +51,7 @@ defmodule Site.Mixfile do
       {:phoenix_html, "~> 2.13.1"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.9"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.3"},
       {:timex, ">= 2.0.0"},
       {:ehmon, github: "mbta/ehmon", only: :prod},
       {:distillery, "~> 2.0"},
