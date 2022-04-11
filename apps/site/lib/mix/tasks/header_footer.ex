@@ -81,14 +81,15 @@ defmodule Mix.Tasks.Export.HeaderFooter do
 
     html =
       tree
-      |> Floki.find(".header, .m-footer")
+      |> Floki.find(".header--new, .m-footer")
       |> update_links()
+      |> remove_search_bar()
       |> remove_language_selector()
 
     IO.puts("#{IO.ANSI.yellow()}writing HTML")
 
-    header_html = Floki.find(html, ".header") |> Floki.raw_html(encode: true, pretty: true)
-    footer_html = Floki.find(html, ".m-footer") |> Floki.raw_html(encode: true, pretty: true)
+    header_html = Floki.find(html, ".header--new") |> Floki.raw_html(encode: true, pretty: false)
+    footer_html = Floki.find(html, ".m-footer") |> Floki.raw_html(encode: true, pretty: false)
 
     File.mkdir_p("export")
     :ok = File.write("export/header.html", header_html)
@@ -135,10 +136,15 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     end)
   end
 
+  defp remove_search_bar(html_tree) do
+    IO.puts("#{IO.ANSI.magenta()}removing search bar")
+    Floki.find_and_update(html_tree, ".search-wrapper > div", fn _ -> :delete end)
+  end
+
   defp remove_language_selector(html_tree) do
     IO.puts("#{IO.ANSI.magenta()}removing Google Translate stuff")
 
-    Floki.find_and_update(html_tree, "#custom-language-selector", fn _ -> :delete end)
+    Floki.find_and_update(html_tree, "#m-menu__language", fn _ -> :delete end)
     |> Floki.find_and_update("#google_translate_element", fn _ -> :delete end)
     |> Floki.find_and_update("#custom-language-menu-mobile", fn _ -> :delete end)
     |> Floki.find_and_update("#custom-language-button-mobile", fn _ -> :delete end)
@@ -171,15 +177,9 @@ defmodule Mix.Tasks.Export.HeaderFooter do
           :ok
 
         _ ->
-          if String.contains?(message, "ERROR") do
-            # This one's not actually an error
-            IO.puts(" * webpack did ok and no error")
-            :ok
-          else
-            IO.puts(message)
-            IO.puts(" * webpack did not ok")
-            :error
-          end
+          IO.puts(message)
+          IO.puts(" * webpack did not ok")
+          :error
       end
     end
   end
