@@ -2,7 +2,6 @@ defmodule SiteWeb.Router do
   @moduledoc false
 
   use SiteWeb, :router
-  use Sentry.PlugCapture
 
   alias SiteWeb.StaticPage
 
@@ -18,7 +17,6 @@ defmodule SiteWeb.Router do
     plug(:fetch_flash)
     plug(:fetch_cookies)
     plug(:put_secure_browser_headers)
-    plug(Sentry.PlugContext)
     plug(SiteWeb.Plugs.CanonicalHostname)
     plug(SiteWeb.Plugs.Banner)
     plug(Turbolinks.Plug)
