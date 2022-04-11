@@ -51,7 +51,7 @@ config :site,
 config :logger,
   level: :info,
   handle_sasl_reports: true,
-  backends: [:console]
+  backends: [:console, Sentry.LoggerBackend]
 
 config :logger, :console,
   level: :info,
