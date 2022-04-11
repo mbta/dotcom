@@ -28,6 +28,14 @@
       <link rel="preconnect" href="//www.google-analytics.com">
     <% end %>
 
+    <%= if Application.get_env(:sentry, :dsn) do %>
+      <script>
+        window.sentry = {
+          dsn: "<%= Application.get_env(:sentry, :dsn) %>"
+        }
+      </script>
+    <% end %>
+
     <%= if Application.get_env(:site, :dev_server?) do %>
       <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/core.css" %>" data-turbolinks-track="reload">
       <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/app.css" %>" data-turbolinks-track="reload">
