@@ -60,7 +60,7 @@
     "@types/react": "^16.8.25",
     "@types/react-dom": "^16.8.5",
     "@types/react-leaflet": "^2.5.2",
-    "@types/react-redux": "^7.1.7",
+    "@types/react-redux": "^7.1.23",
     "@types/react-test-renderer": "^16.8.3",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
