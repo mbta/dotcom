@@ -1,0 +1,61 @@
+# Reusable action for retrieving from cache or installing language 
+# dependencies via ASDF
+#
+# Usage:
+# - uses: ./.github/actions/setup-all
+
+name: Setup and install everything
+description: "Setup and install Dotcom dependencies"
+
+runs:
+  using: "composite"
+  steps:
+  - name: Restore cache of languages from .tool-versions
+    uses: actions/cache@v3
+    with:
+      path: ~/.asdf
+      key: ci-asdf-cache-${{ hashFiles('.tool-versions') }}
+    id: asdf-cache
+  
+  - name: Install languages from .tool-versions (if needed)
+    uses: asdf-vm/actions/install@v1
+    if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
+ 
+  - name: Install Hex/Rebar (if needed)
+    run: mix local.hex --force && mix local.rebar --force
+    shell: bash
+    if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
+  
+  - uses: mbta/actions/reshim-asdf@v1
+
+  - name: Restore cache of Elixir dependencies from mix.lock
+    uses: actions/cache@v3
+    with:
+      path: deps
+      key: ci-mix-cache-${{ hashFiles('**/mix.lock') }}
+    id: mix-cache
+  
+  - name: Install Elixir dependencies (if needed)
+    if: ${{ steps.mix-cache.outputs.cache-hit != 'true' }}
+    run: mix deps.get && mix deps.compile
+    shell: bash
+
+  - name: Restore cache of Node dependencies from package-lock.json
+    uses: actions/cache@v3
+    with:
+      path: apps/site/assets/node_modules
+      key: ci-nodejs-cache-${{ hashFiles('apps/site/assets/package-lock.json') }}
+    id: node-cache
+  
+  - name: Restore Cypress cache
+    uses: actions/cache@v3
+    with:
+      path: ~/.cache/Cypress
+      key: ci-cypress-${{ hashFiles('apps/site/assets/package-lock.json') }}
+  
+  - name: Install Node dependencies (if needed)
+    if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}
+    shell: bash
+    run: |
+      git config --global url."https://github.com/".insteadOf ssh://git@github.com/
+      npm run install:ci
