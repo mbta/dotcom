@@ -1,6 +1,13 @@
 defmodule SiteWeb.OldSiteFileControllerTest do
   use SiteWeb.ConnCase
 
+  setup do
+    # needed for HTTPoison to work
+    _ = Application.ensure_all_started(:hackney)
+
+    :ok
+  end
+
   describe "/uploadedfiles" do
     test "can return a file with spaces in the URL", %{conn: conn} do
       conn =
