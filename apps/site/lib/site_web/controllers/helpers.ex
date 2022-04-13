@@ -126,6 +126,7 @@ defmodule SiteWeb.ControllerHelpers do
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
     IO.inspect(url, label: "url in forward_static_file")
+
     case HTTPoison.get(url, [], hackney: [pool: @content_http_pool]) do
       {:ok, %{status_code: 200, body: body, headers: headers}} ->
         conn
