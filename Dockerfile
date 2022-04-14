@@ -37,7 +37,7 @@ WORKDIR /root/apps/site/assets/
 RUN npm install -g npm
 RUN npm ci
 # Create apps/site/priv/static
-RUN npm run webpack:build -- --env.SENTRY_DSN=$SENTRY_DSN
+RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create apps/site/react_renderer/dist/app.js
 RUN npm run webpack:build:react
 
