@@ -1,0 +1,65 @@
+# Uses git diff to list changed files, outputs the filenames by language
+# outputs.js - .js/.jsx files
+# outputs.ts - .ts/.tsx
+# outputs.ex - .ex/.exs/.eex
+# outputs.scss - .scss
+#
+# This works for our needs, but if our use case intensifies maybe using 
+# https://github.com/marketplace/actions/changed-files will help
+
+name: List changed files
+on: 
+  workflow_call:
+    inputs:
+      # If set to true, then everything will be listed as "changed"
+      force:
+        required: false
+        type: boolean
+        default: false
+
+    outputs:
+      js: 
+        description: "JavaScript files changed"
+        value: ${{ jobs.files.outputs.js }}
+      ts: 
+        description: "TypeScript files changed"
+        value: ${{ jobs.files.outputs.ts }}
+      ex: 
+        description: "Elixir files changed"
+        value: ${{ jobs.files.outputs.ex }}
+      scss: 
+        description: "CSS files changed"
+        value: ${{ jobs.files.outputs.scss }}
+
+jobs:
+  files:
+    name: List changed files
+    runs-on: ubuntu-latest
+    outputs:
+      js: ${{ steps.changes.outputs.js }}
+      ts: ${{ steps.changes.outputs.ts }}
+      ex: ${{ steps.changes.outputs.ex }}
+      scss: ${{ steps.changes.outputs.scss }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - id: changes
+        name: Compute changed files
+        shell: bash
+        run: |
+          if [[ ${{ inputs.force }} == 'true' ]]; then
+            echo "::set-output name=js::true"
+            echo "::set-output name=ts::true"
+            echo "::set-output name=scss::true"
+            echo "::set-output name=ex::true"
+          else
+            changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ; }
+            echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
+            echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
+            echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
+            echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
+          fi
+      - name: "List changed files:"
+        run: echo "${{ toJSON(steps.changes.outputs) }}"
+        shell: bash

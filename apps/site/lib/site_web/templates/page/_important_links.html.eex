@@ -58,11 +58,11 @@
           </div>
         </div>
       <% end %>
-      <%= link to: "http://transitapp.com", class: "m-homepage__important-link" do %>
+      <%= link to: cms_static_page_path(@conn, "/parking"), class: "m-homepage__important-link" do %>
         <div class="m-homepage__important-link-content">
-          <div class="m-homepage__important-link-title">Transit App</div>
+          <div class="m-homepage__important-link-title">Parking</div>
           <div class="m-homepage__important-link-icon">
-            <%= svg "transit-app.svg" %>
+            <%= svg "icon-parking-default.svg" %>
           </div>
         </div>
       <% end %>

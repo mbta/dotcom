@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import { useQueryParams, StringParam } from "use-query-params";
 import ContentTeasers from "./ContentTeasers";
 import UpcomingHolidays from "./UpcomingHolidays";
-import AdditionalLineInfo from "../components/AdditionalLineInfo";
-import ScheduleNote from "../components/ScheduleNote";
-import ScheduleDirection from "../components/ScheduleDirection";
+import AdditionalLineInfo from "./AdditionalLineInfo";
+import ScheduleNote from "./ScheduleNote";
+import ScheduleDirection from "./ScheduleDirection";
 import {
   SchedulePageData,
   SelectedOrigin,
   ComponentToRender
 } from "../components/__schedule";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
-import ScheduleFinder from "../components/ScheduleFinder";
-import ScheduleFinderModal from "../components/schedule-finder/ScheduleFinderModal";
+import ScheduleFinder from "./ScheduleFinder";
+import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
 import { DirectionId } from "../../__v3api";
 import {
   mapStateToProps,

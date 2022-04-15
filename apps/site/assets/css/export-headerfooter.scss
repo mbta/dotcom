@@ -1,3 +1,20 @@
+// slight rewrite from core.scss.
+// we overwrite .no-js with .js class on mbta.com
+// but outside mbta.com we can just add .js class
+:not(.js) .hidden-no-js {
+  display: none;
+}
+
+.js {
+  .hidden-no-js {
+    display: initial;
+  }
+
+  .hidden-js {
+    display: none;
+  }
+}
+
 @import "functions";
 @import "variables";
 @import "mixins";
@@ -9,6 +26,7 @@
 @import "layout";
 @import "vendor/font-awesome-4.6.3/scss/font-awesome";
 @import "icons";
-@import "fare-summary";
 @import "buttons";
-@import "header-desktop-menu";
+@import "accordion-ui"; // involved in mobile nav styles
+@import "header"; // some nav styles still here
+@import "global-navigation"; // other nav styles

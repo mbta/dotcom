@@ -1,4 +1,6 @@
 /* eslint-disable */
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -45,6 +47,13 @@ import tripPlannerWidget from "./trip-planner-widget";
 import eventPageSetup from "./event-page-setup";
 import previousEventsButton from "./view-previous-events";
 import pslPageSetup from "./psl-page-setup.js";
+
+if (window.sentry) {
+  Sentry.init({
+    dsn: window.sentry.dsn,
+    integrations: [new BrowserTracing()]
+  });
+}
 
 document.body.className = document.body.className.replace("no-js", "js");
 

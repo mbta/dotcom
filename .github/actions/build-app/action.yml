@@ -1,0 +1,38 @@
+# Reusable action for retrieving from cache or compiling
+#
+# Usage:
+# - uses: ./.github/actions/build-app
+
+name: Build and cache application
+description: "Build Dotcom assets and compile application"
+
+runs:
+  using: "composite"
+  steps:
+  - uses: ./.github/actions/setup-all
+  
+  - name: Cache front end assets
+    uses: actions/cache@v3
+    with:
+      path: |
+        apps/site/priv/static
+        apps/site/react_renderer/dist/app.js
+      key: ci-all-assets-cache-${{ hashFiles('apps/site/assets/**.js', 'apps/site/assets/**.ts', 'apps/site/assets/**.tsx', 'apps/site/assets/**.scss', 'apps/site/assets/static/**', 'apps/site/static/**') }}
+    id: assets-cache
+ 
+  - name: Compile front end assets (if needed)
+    run: mix compile.assets
+    shell: bash
+    if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
+  
+  - name: Cache _build
+    uses: actions/cache@v3
+    with:
+      path: _build/${{env.MIX_ENV}}/
+      key: ci-build-cache-${{env.MIX_ENV}}-${{ hashFiles('**/lib/**.ex', '**/mix.lock') }}"
+    id: build-cache
+  
+  - name: Compile application (if needed)
+    run: mix compile --all-warnings --warnings-as-errors
+    shell: bash
+    if: ${{ steps.build-cache.outputs.cache-hit != 'true' }}
