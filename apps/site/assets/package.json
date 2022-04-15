@@ -69,7 +69,6 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.1.0",
     "babel-loader": "^8.0.4",
-    "backstopjs": "^4.0.3",
     "chai": "^3.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",

@@ -175,45 +175,6 @@ If the tunnel is working, the "Local Connection" indicator should flip **ON**.
 You can now start a test using `local` as the domain, and the connection will be
 tunneled to `localhost` on your machine. For example: `http://local:4001/`
 
-## Backstop
-
-We use [BackstopJS](https://github.com/garris/BackstopJS) to test for unexpected
-visual changes. Backstop works by keeping a repository of reference images. When
-you run a Backstop test, it takes snapshots of pages on your version of the site
-and compares them to those reference images. If anything has changed, the test
-will fail. This helps us catch unintended changes to the UI (for example a CSS
-selector that is broader than expected). Whenever you make a change that affects
-the UI, you will need to check and update the Backstop images if necessary.
-
-The tests are run against a live application, built in production mode. To make
-sure that the tests work consistently and do not depend on a specific schedule
-or realtime vehicle locations, we use [WireMock](http://wiremock.org/) to record
-and play back the V3 API responses.
-
-Prerequisites for running the tests:
-
-* Docker
-  * `brew cask install docker`
-  * Start Docker Desktop from the dock or Applications; this only has to be done
-    once, after which it will auto-start on login by default
-* Wiremock
-  * `brew cask install java --no-quarantine`
-    * This option is currently required on OS X 10.15+ due to Gatekeeper
-      changes. Ref: https://github.com/Homebrew/homebrew-cask/issues/70798
-  * `brew install wiremock-standalone`
-* Ensure the [environment variable](ENVIRONMENT.md) `WIREMOCK_PATH` points to
-  the Wiremock JAR file; with brew cask this will be something like
-  `/usr/local/Cellar/wiremock-standalone/<VERSION>/libexec/wiremock-standalone-<VERSION>.jar`
-
-Once all the above are in place:
-
-* `npm run backstop` — run the tests
-* `npm run backstop:record` — run tests with recording of new network requests
-* `npm run backstop:approve` — mark the last set of failed diffs as approved
-
-Note: If you are not running on OSX or Windows, you'll need to modify the
-`STATIC_HOST=host.docker.internal` in the commands.
-
 ## Other helpful test scripts
 
 * [`mbta/link_checker`](https://github.com/mbta/link_checker) - tries to hit all
