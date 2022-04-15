@@ -4,7 +4,7 @@ defmodule SiteWeb.FareTransformationView do
   """
   use SiteWeb, :view
 
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
 
   defp input_value(%Address{formatted: address}) do
     address
