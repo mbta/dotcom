@@ -227,12 +227,11 @@ export class AlgoliaResults {
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
       group: group,
-      googleLogo:
-        AlgoliaResult.AUTOCOMPLETE_POWERED_BY_GOOGLE
-          ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
+      googleLogo: AlgoliaResult.AUTOCOMPLETE_POWERED_BY_GOOGLE
+        ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
             logo: document.getElementById("powered-by-google-logo").innerHTML
           })
-          : null,
+        : null,
       hits: results[group].hits.map(this.renderResult(group, results[group]))
     });
   }
