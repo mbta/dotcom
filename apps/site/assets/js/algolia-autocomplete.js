@@ -45,6 +45,7 @@ export default class AlgoliaAutocomplete {
     this.onKeyup = this.onKeyup.bind(this);
     this.clear = this.clear.bind(this);
     this._toggleResetButton = this._toggleResetButton.bind(this);
+    this.getById = this.getById.bind(this);
   }
 
   clear() {
@@ -214,7 +215,7 @@ export default class AlgoliaAutocomplete {
     const acDialog = window
       .jQuery(this._resultsContainer)
       .find(".c-search-bar__-dropdown-menu")[0];
-    if (acDialog) {
+    if (acDialog && this._input) {
       this.positionDropdown(acDialog);
       this.announceResults(acDialog);
     }
@@ -225,8 +226,7 @@ export default class AlgoliaAutocomplete {
       $(`#${this._selectors.container}`).css("border-left-width"),
       10
     );
-    const { offsetLeft } = this.getById(this._selectors.input);
-    const { offsetTop } = this.getById(this._selectors.input);
+    const { offsetLeft, offsetTop } = this._input;
 
     /* eslint-disable no-param-reassign */
     acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
