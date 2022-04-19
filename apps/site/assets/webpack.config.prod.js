@@ -19,6 +19,7 @@ module.exports = env =>
       splitChunks: {
         chunks: "all",
         cacheGroups: {
+          default: false,
           defaultVendors: false,
           // Set our own cacheGroups instead of using the default groups
           // Since all entrypoints are dependent on the app entrypoint
