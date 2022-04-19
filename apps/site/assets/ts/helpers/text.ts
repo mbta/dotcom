@@ -13,13 +13,13 @@ interface HighlightedSpan {
 export function highlightText(text: string, spans: HighlightedSpan[]): string {
   const parts = [];
   let cursor = 0;
-  for (const span of spans) {
+  spans.forEach(span => {
     const { offset, length } = span;
 
     parts.push(text.slice(cursor, offset));
     parts.push(`<em>${text.slice(offset, offset + length)}</em>`);
     cursor = length + offset;
-  }
+  });
   parts.push(text.slice(cursor));
 
   return parts.join("");
