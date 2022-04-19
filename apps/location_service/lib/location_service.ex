@@ -16,7 +16,11 @@ defmodule LocationService do
   @spec geocode(String.t()) :: result
   def geocode(address) when is_binary(address) do
     geocode_service = active_service(:reverse_geocode)
-    _ = Logger.info(fn -> "#{__MODULE__} geocode active_service=#{geocode_service} address=#{address}" end)
+
+    _ =
+      Logger.info(fn ->
+        "#{__MODULE__} geocode active_service=#{geocode_service} address=#{address}"
+      end)
 
     cache(address, fn address ->
       case geocode_service do
@@ -32,7 +36,13 @@ defmodule LocationService do
   @spec reverse_geocode(number, number) :: result
   def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
     reverse_geocode_service = active_service(:reverse_geocode)
-    _ = Logger.info(fn -> "#{__MODULE__} reverse_geocode active_service=#{reverse_geocode_service} lat=#{latitude} lon=#{longitude}" end)
+
+    _ =
+      Logger.info(fn ->
+        "#{__MODULE__} reverse_geocode active_service=#{reverse_geocode_service} lat=#{latitude} lon=#{
+          longitude
+        }"
+      end)
 
     cache({latitude, longitude}, fn {latitude, longitude} ->
       case reverse_geocode_service do
@@ -47,7 +57,13 @@ defmodule LocationService do
   @spec autocomplete(String.t(), number, String.t() | nil) :: LocationService.Suggestion.result()
   def autocomplete(search, limit, token) do
     autocomplete_service = active_service(:autocomplete)
-    _ = Logger.info(fn -> "#{__MODULE__} autocomplete active_service=#{autocomplete_service} search=#{search} limit=#{limit}" end)
+
+    _ =
+      Logger.info(fn ->
+        "#{__MODULE__} autocomplete active_service=#{autocomplete_service} search=#{search} limit=#{
+          limit
+        }"
+      end)
 
     cache({search, limit}, fn {search, limit} ->
       case autocomplete_service do

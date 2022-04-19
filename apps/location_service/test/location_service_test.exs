@@ -9,7 +9,7 @@ defmodule LocationServiceTest do
     System.put_env("LOCATION_SERVICE", "")
 
     on_exit(fn ->
-      System.put_env("LOCATION_SERVICE", old_value)
+      System.put_env("LOCATION_SERVICE", old_value || "")
     end)
   end
 
