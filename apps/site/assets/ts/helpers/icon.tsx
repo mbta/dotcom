@@ -161,7 +161,6 @@ export const TooltipWrapper: React.FC<{
       data-html={options.html}
       data-selector="true"
       data-original-title={tooltipText}
-      title={tooltipText}
     >
       {children}
     </Tag>
