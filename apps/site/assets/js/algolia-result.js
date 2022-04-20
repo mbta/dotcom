@@ -8,8 +8,8 @@ export const SELECTORS = {
   result: "js-search-result"
 };
 
-export const AUTOCOMPLETE_POWERED_BY_GOOGLE =
-  window.locationAutocompleteBacking === "google";
+export const autocompleteByGoogle = () =>
+  window && window.locationAutocompleteBacking === "google";
 
 export const TEMPLATES = {
   poweredByGoogleLogo: hogan.compile(

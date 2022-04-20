@@ -227,7 +227,7 @@ export class AlgoliaResults {
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
       group: group,
-      googleLogo: AlgoliaResult.AUTOCOMPLETE_POWERED_BY_GOOGLE
+      googleLogo: AlgoliaResult.autocompleteByGoogle()
         ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
             logo: document.getElementById("powered-by-google-logo").innerHTML
           })

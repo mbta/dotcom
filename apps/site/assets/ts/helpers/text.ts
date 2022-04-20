@@ -10,7 +10,10 @@ interface HighlightedSpan {
   offset: number;
   length: number;
 }
-export function highlightText(text: string, spans: HighlightedSpan[]): string {
+export function highlightText(
+  text: string,
+  spans: HighlightedSpan[] = []
+): string {
   const parts = [];
   let cursor = 0;
   spans.forEach(span => {
