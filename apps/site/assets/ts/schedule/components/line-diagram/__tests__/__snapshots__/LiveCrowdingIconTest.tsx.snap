@@ -4,7 +4,7 @@ exports[`LiveCrowdingIcon with crowded renders and matches snapshot 1`] = `
 "<LiveCrowdingIcon crowding=\\"crowded\\">
   <div className=\\"m-schedule-diagram__prediction-crowding\\">
     <TooltipWrapper tooltipText=\\"Currently <strong>crowded</strong>\\" tooltipOptions={{...}}>
-      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>crowded</strong>\\" title=\\"Currently <strong>crowded</strong>\\">
+      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>crowded</strong>\\">
         <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowded \\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
       </span>
     </TooltipWrapper>
@@ -16,7 +16,7 @@ exports[`LiveCrowdingIcon with not_crowded renders and matches snapshot 1`] = `
 "<LiveCrowdingIcon crowding=\\"not_crowded\\">
   <div className=\\"m-schedule-diagram__prediction-crowding\\">
     <TooltipWrapper tooltipText=\\"Currently <strong>not crowded</strong>\\" tooltipOptions={{...}}>
-      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>not crowded</strong>\\" title=\\"Currently <strong>not crowded</strong>\\">
+      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>not crowded</strong>\\">
         <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--not_crowded \\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
       </span>
     </TooltipWrapper>
@@ -28,7 +28,7 @@ exports[`LiveCrowdingIcon with some_crowding renders and matches snapshot 1`] = 
 "<LiveCrowdingIcon crowding=\\"some_crowding\\">
   <div className=\\"m-schedule-diagram__prediction-crowding\\">
     <TooltipWrapper tooltipText=\\"Currently <strong>some crowding</strong>\\" tooltipOptions={{...}}>
-      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>some crowding</strong>\\" title=\\"Currently <strong>some crowding</strong>\\">
+      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>some crowding</strong>\\">
         <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--some_crowding \\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
       </span>
     </TooltipWrapper>
