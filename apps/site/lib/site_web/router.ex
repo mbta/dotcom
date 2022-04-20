@@ -194,7 +194,7 @@ defmodule SiteWeb.Router do
     pipe_through([:api])
 
     get("/autocomplete/:input/:hit_limit/:token", PlacesController, :autocomplete)
-    get("/details/:place_id", PlacesController, :details)
+    get("/details/:address", PlacesController, :details)
     get("/reverse-geocode/:latitude/:longitude", PlacesController, :reverse_geocode)
   end
 

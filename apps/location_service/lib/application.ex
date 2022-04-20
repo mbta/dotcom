@@ -8,6 +8,7 @@ defmodule LocationService.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
+      LocationService,
       GoogleMaps.Geocode,
       GoogleMaps.Place
     ]

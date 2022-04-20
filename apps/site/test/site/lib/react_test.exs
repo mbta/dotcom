@@ -2,7 +2,7 @@ defmodule Site.ReactTest do
   use ExUnit.Case, async: true
 
   alias ExUnit.CaptureLog
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
   alias Site.{React, TransitNearMe}
 
   @address %Address{

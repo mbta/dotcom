@@ -1,6 +1,6 @@
-defmodule GoogleMaps.Geocode.Address do
+defmodule LocationService.Address do
   @moduledoc """
-  An address provided by a Google Maps Geocode lookup.
+  An address provided by a Geocode lookup.
   """
   @type t :: %__MODULE__{
           formatted: String.t(),

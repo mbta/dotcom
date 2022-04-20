@@ -1,11 +1,15 @@
 import hogan from "hogan.js";
 import * as Icons from "./icons";
+import { highlightText } from "../ts/helpers/text.ts";
 
 /* eslint-disable no-underscore-dangle */
 
 export const SELECTORS = {
   result: "js-search-result"
 };
+
+export const autocompleteByGoogle = () =>
+  window && window.locationAutocompleteBacking === "google";
 
 export const TEMPLATES = {
   poweredByGoogleLogo: hogan.compile(
@@ -327,19 +331,11 @@ function _contentTitle(hit) {
 }
 
 export function getTitle(hit, type) {
-  let orig;
   switch (type) {
     case "locations":
-      orig = hit.description.split("");
-      hit.matched_substrings.forEach(match => {
-        orig[match.offset] = `<em>${orig[match.offset]}`;
-        if (match.offset + match.length < orig.length) {
-          orig[match.offset + match.length] = `</em>${
-            orig[match.offset + match.length]
-          }`;
-        }
-      });
-      return orig.join("");
+      const { address: text, highlighted_spans: spans } = hit;
+
+      return highlightText(text, spans);
     case "stops":
       return hit._highlightResult.stop.name.value;
 
@@ -537,7 +533,7 @@ export function parseResult(hit, index) {
       index === "projects" ||
       null,
     hitFeatureIcons: getFeatureIcons(hit, index),
-    id: hit.place_id || null
+    id: hit.id || null
   });
 }
 

@@ -47,6 +47,9 @@
       <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
+    <script type="application/javascript">
+      locationAutocompleteBacking = "<%= LocationService.active_service(:autocomplete) %>";
+    </script>
     <%= if assigns[:requires_location_service?] do %>
       <script type="application/javascript">if (!window.mapsCallback) { window.mapsCallback = function () { window.isMapReady = true; } }</script>
       <script async src="<%= location_service_js_url %>"></script>

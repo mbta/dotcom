@@ -1,6 +1,6 @@
-defmodule GoogleMaps.Geocode.AddressTest do
+defmodule LocationService.AddressTest do
   use ExUnit.Case
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
   alias Util.Position
 
   describe "Address" do

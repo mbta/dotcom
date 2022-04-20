@@ -1,6 +1,5 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
-  alias GoogleMaps.Geocode
   alias Leaflet.{MapData, MapData.Marker}
   alias Plug.Conn
   alias Site.TransitNearMe
@@ -97,7 +96,10 @@ defmodule SiteWeb.TransitNearMeController do
   def marker_for_routes(:station), do: "map-station-marker"
   def marker_for_routes(_), do: "map-stop-marker"
 
-  def add_location_marker(map_data, %{location: {:ok, [%Geocode.Address{} | _]}} = assigns) do
+  def add_location_marker(
+        map_data,
+        %{location: {:ok, [%LocationService.Address{} | _]}} = assigns
+      ) do
     {:ok, [%{latitude: latitude, longitude: longitude, formatted: formatted} | _]} =
       assigns.location
 

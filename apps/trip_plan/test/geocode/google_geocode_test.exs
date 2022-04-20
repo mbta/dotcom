@@ -2,7 +2,7 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
   use ExUnit.Case
   import Mock
   import TripPlan.Geocode.GoogleGeocode
-  alias GoogleMaps.{Geocode, Geocode.Address}
+  alias LocationService.Address
   alias TripPlan.NamedPosition
 
   describe "geocode/1" do
@@ -40,7 +40,7 @@ defmodule TripPlan.Geocode.GoogleGeocodeTest do
   end
 
   defp with_geocode_mock(geocode_return, test_fn) do
-    with_mock Geocode, geocode: fn _address -> geocode_return end do
+    with_mock LocationService, geocode: fn _address -> geocode_return end do
       test_fn.()
     end
   end

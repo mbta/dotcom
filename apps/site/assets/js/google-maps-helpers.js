@@ -17,10 +17,10 @@ export function autocomplete({ input, hitLimit, sessionToken }) {
   });
 }
 
-export const lookupPlace = placeId =>
+export const lookupPlace = address =>
   new Promise((resolve, reject) => {
     window.jQuery
-      .getJSON(`/places/details/${placeId}`)
+      .getJSON(`/places/details/${encodeURIComponent(address)}`)
       .done(processPlacesCallback(resolve))
       .fail(reject);
   });
@@ -38,7 +38,7 @@ const processAutocompleteResults = resolve => ({ predictions }) =>
 
 const predictionResults = predictions => ({
   locations: {
-    hits: predictions,
+    hits: predictions.map((p, i) => ({ ...p, id: `location-${i}` })),
     nbHits: predictions.length
   }
 });
