@@ -99,7 +99,10 @@ defmodule SiteWeb.TripPlanController do
           ])
 
         %{markers: [marker]} = map_data
-        to_marker = %{marker | id: "B"}
+        coordinates = String.split(address, ",")
+        lat = String.to_float(Enum.at(coordinates, 0))
+        long = String.to_float(Enum.at(coordinates, 1))
+        to_marker = %{marker | id: "B", latitude: lat, longitude: long}
 
         conn
         |> assign(:query, query)
