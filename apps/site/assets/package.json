@@ -18,7 +18,7 @@
     "focus-trap": "^5.0.1",
     "focus-visible": "^5.2.0",
     "form-data": "^1.0.1",
-    "formdata-polyfill": "^3.0.20",
+    "formdata-polyfill": "^4.0.10",
     "hogan.js": "^3.0.2",
     "jquery": "^3.5.1",
     "leaflet": "^1.4.0",
