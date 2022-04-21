@@ -61,7 +61,7 @@ $leaflet-transparent-black: rgba(0, 0, 0, .65);
   right: $base-spacing * .75;
   text-align: center;
   text-decoration: none;
-  top: $base-spacing / 2;
+  top: calc(#{$base-spacing} / 2);
   width: 18px;
 
   &:hover,
@@ -474,7 +474,7 @@ $leaflet-transparent-black: rgba(0, 0, 0, .65);
 }
 
 .leaflet-popup-content-wrapper {
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   overflow: hidden;
   text-align: left;
 }
@@ -507,7 +507,7 @@ $leaflet-transparent-black: rgba(0, 0, 0, .65);
 
 .leaflet-popup-content {
   overflow-y: auto;
-  padding: $base-spacing / 2 0 $base-spacing / 2 $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2) 0 calc(#{$base-spacing} / 2) calc(#{$base-spacing} / 2);
   scrollbar-width: thin;
 
   &::-webkit-scrollbar {

@@ -202,7 +202,7 @@ nav.m-menu--mobile {
   padding: 12px 12px 12px 24px;
 
   span {
-    margin-left: $base-spacing / 2;
+    margin-left: calc(#{$base-spacing} / 2);
   }
 }
 

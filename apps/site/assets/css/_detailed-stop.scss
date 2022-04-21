@@ -26,8 +26,8 @@
   }
 
   &.c-search-bar__result {
-    padding-bottom: $base-spacing / 2;
-    padding-top: $base-spacing / 2;
+    padding-bottom: calc(#{$base-spacing} / 2);
+    padding-top: calc(#{$base-spacing} / 2);
   }
 }
 

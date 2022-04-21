@@ -22,7 +22,7 @@
 .m-alerts-header__name {
   color: $gray-dark;
   font-weight: bold;
-  margin: $base-spacing / 2 0;
+  margin: calc(#{$base-spacing} / 2) 0;
   width: 90%;
 
   &:hover {
@@ -45,7 +45,7 @@
 }
 
 .m-alerts-header__icon {
-  margin-top: $base-spacing / 2;
+  margin-top: calc(#{$base-spacing} / 2);
   position: absolute;
   right: 0;
   top: 0;
@@ -171,8 +171,8 @@
 
 .c-alert-item__badge {
   background-color: $service-alert-yellow-darker;
-  border-radius: $base-spacing / 4;
-  padding: $base-spacing / 8 $base-spacing / 2;
+  border-radius: calc(#{$base-spacing} / 4);
+  padding: calc(#{$base-spacing} / 8) calc(#{$base-spacing} / 2);
 }
 
 .c-alert-item__badge--upcoming {
@@ -185,8 +185,8 @@
 
 .m-alerts__mode-buttons {
   display: flex;
-  margin-left: -$grid-gutter-width / 4;
-  margin-right: -$grid-gutter-width / 4;
+  margin-left: calc(-#{$grid-gutter-width} / 4);
+  margin-right: calc(-#{$grid-gutter-width} / 4);
 
   @include media-breakpoint-down(xs) {
     flex-wrap: wrap;
@@ -195,14 +195,14 @@
 
 .m-alerts__mode-button-container {
   flex: 0 0 20%;
-  padding-left: $grid-gutter-width / 4;
-  padding-right: $grid-gutter-width / 4;
+  padding-left: calc(#{$grid-gutter-width} / 4);
+  padding-right: calc(#{$grid-gutter-width} / 4);
   text-align: center;
 
   @include media-breakpoint-down(xs) {
     flex: 0 0 33%;
-    padding-left: $grid-gutter-width / 4;
-    padding-right: $grid-gutter-width / 4;
+    padding-left: calc(#{$grid-gutter-width} / 4);
+    padding-right: calc(#{$grid-gutter-width} / 4);
   }
 }
 
@@ -223,7 +223,7 @@
 
     align-items: center;
     flex-direction: row;
-    padding: $base-spacing / 2;
+    padding: calc(#{$base-spacing} / 2);
   }
 
   &--selected {
@@ -233,7 +233,7 @@
 
 .m-alerts__mode-name {
   @include media-breakpoint-down(xs) {
-    padding-left: $base-spacing / 4;
+    padding-left: calc(#{$base-spacing} / 4);
   }
 }
 
@@ -342,7 +342,7 @@
   border-radius: $border-radius;
   color: $white;
   display: block;
-  margin-bottom: $base-spacing / 2;
+  margin-bottom: calc(#{$base-spacing} / 2);
   padding: $base-spacing * .75 $base-spacing;
   text-align: center;
 }
@@ -360,17 +360,17 @@
 
 .m-alert-badge {
   background-color: $brand-primary;
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   color: $white;
   font-weight: bold;
-  margin-left: $base-spacing / 2;
-  padding: $base-spacing / 8 $base-spacing / 2;
+  margin-left: calc(#{$base-spacing} / 2);
+  padding: calc(#{$base-spacing} / 8) calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-up(sm) {
     position: absolute;
-    right: $base-spacing / 2;
+    right: calc(#{$base-spacing} / 2);
     // unusual top spacing is due to the container having a border-bottom
     // that visually appears as part of the tab
-    top: $base-spacing / 1.75;
+    top: calc(#{$base-spacing} / 1.75);
   }
 }

@@ -279,7 +279,7 @@ a {
   font-weight: bold;
   letter-spacing: $space-1 * .9;
   line-height: $base-spacing * .75;
-  margin-left: $base-spacing / 4;
+  margin-left: calc(#{$base-spacing} / 4);
   text-transform: uppercase;
 }
 
@@ -292,30 +292,30 @@ a {
   border: solid $border-width $brand-commuter-rail;
   border-radius: $space-4;
   color: $brand-commuter-rail;
-  padding-left: $base-spacing / 4;
-  padding-right: $base-spacing / 4;
+  padding-left: calc(#{$base-spacing} / 4);
+  padding-right: calc(#{$base-spacing} / 4);
   white-space: nowrap;
   display: inline-block;
 }
 
 .c-icon__bus-pill {
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   font-weight: bold;
-  max-height: $base-spacing * 1.5;
+  max-height: calc(#{$base-spacing} * 1.5);
   min-width: 2rem;
-  padding: 0 $base-spacing / 4;
+  padding: 0 calc(#{$base-spacing} / 4);
   text-align: center;
 }
 
 .c-icon__bus-pill--small {
-  border-radius: $base-spacing / 6;
+  border-radius: calc(#{$base-spacing} / 6);
   display: inline-block;
-  font-size: $font-size-base * 2 / 3;
+  font-size: calc(#{$font-size-base} * 2 / 3);
   font-weight: bold;
   height: $base-spacing;
   line-height: $base-spacing;
-  min-width: $base-spacing * 4 / 3;
-  padding: 0 $base-spacing / 6;
+  min-width: calc(#{$base-spacing} * 4 / 3);
+  padding: 0 calc(#{$base-spacing} / 6);
   text-align: center;
 }
 

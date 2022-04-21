@@ -73,7 +73,7 @@
   border: $border-width solid $brand-primary;
   border-radius: $border-radius;
   display: flex;
-  padding: $base-spacing / 2 $space-16;
+  padding: calc(#{$base-spacing} / 2) $space-16;
 
   &:not(.collapsed) {
     background-color: $brand-primary-darkest;
@@ -113,7 +113,7 @@
   @include icon-size-inline(1em);
 
   [class*='c-svg__icon'] {
-    margin-right: $base-spacing / 4;
+    margin-right: calc(#{$base-spacing} / 4);
   }
 }
 
@@ -124,8 +124,8 @@
   flex: 1 1 auto;
 
   .fa-angle-right {
-    margin-left: $base-spacing / 4;
-    margin-right: $base-spacing / 4;
+    margin-left: calc(#{$base-spacing} / 4);
+    margin-right: calc(#{$base-spacing} / 4);
   }
 }
 
@@ -133,7 +133,7 @@
   align-items: center;
   display: flex;
   flex: 0 1 auto;
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
 }
 
 .trip-plan-itinerary-length-time {
@@ -231,7 +231,7 @@
 
 .trip-plan-related-link {
   [class*='c-svg__icon'] {
-    margin-right: $base-spacing / 4;
+    margin-right: calc(#{$base-spacing} / 4);
   }
 }
 
@@ -278,7 +278,7 @@
 
 .m-trip-plan__error {
   background-color: $form-error-message;
-  border-radius: $base-spacing / 4 $base-spacing / 4 0 0;
+  border-radius: calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 4) 0 0;
   color: $error-text;
   padding: $base-spacing;
   width: 100%;

@@ -10,7 +10,7 @@
   padding: .5rem 0 0;
 
   @include not-last-child {
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
   }
 }
 

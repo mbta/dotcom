@@ -24,7 +24,7 @@
 }
 
 .m-schedule-line__connection-name {
-  margin-left: $base-spacing / 2;
+  margin-left: calc(#{$base-spacing} / 2);
 }
 
 .m-schedule-line__map-static {

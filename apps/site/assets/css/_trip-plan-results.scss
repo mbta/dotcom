@@ -61,7 +61,7 @@
     margin-top: $base-spacing;
 
     [class*='c-svg__icon'] {
-      margin-right: $base-spacing / 4;
+      margin-right: calc(#{$base-spacing} / 4);
     }
   }
 
@@ -72,7 +72,7 @@
     flex-grow: 1;
 
     .fa-angle-right {
-      margin: 0 $base-spacing / 4;
+      margin: 0 calc(#{$base-spacing} / 4);
     }
 
     .c-icon__bus-pill {
@@ -84,7 +84,7 @@
 
   &-length-time {
     font-weight: bold;
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
   }
 
   &-length-duration {
@@ -105,7 +105,7 @@
   }
 
   &-alerts {
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
   }
 
   &-alerts-text {

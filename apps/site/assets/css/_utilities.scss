@@ -112,7 +112,7 @@
 .u-error {
   background-color: $form-error-message;
   color: $error-text;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .u-full-bleed {
@@ -201,7 +201,7 @@
 }
 
 .mb-05 {
-  margin-bottom: $base-spacing / 2 !important;
+  margin-bottom: calc(#{$base-spacing} / 2) !important;
 }
 
 .mb-1 {

@@ -2,7 +2,7 @@
   background-color: $brand-primary-lightest-contrast;
   border: 1px solid $gray-lightest;
   margin-top: $base-spacing;
-  padding: 0 $base-spacing / 2;
+  padding: 0 calc(#{$base-spacing} / 2);
 
   h3 {
     margin-top: $base-spacing;

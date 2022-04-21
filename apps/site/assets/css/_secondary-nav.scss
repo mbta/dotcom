@@ -41,7 +41,7 @@
 
   @include media-breakpoint-down(md) {
     min-height: $base-spacing * 3;
-    padding: $base-spacing / 2;
+    padding: calc(#{$base-spacing} / 2);
 
     &:last-child {
       border-right: 0;
@@ -52,7 +52,7 @@
 .m-secondary-nav__icon {
   @include icon-size-inline(2em);
   flex: 0 0 auto;
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(md) {
     display: none;

@@ -1,8 +1,13 @@
-# Attempt to cover old but in use browsers
-# Brings in ios safari 10
-> 0.25%
+# Defines target browsers for use by Autoprefixer, Stylelint, babel-preset-env
+# https://github.com/browserslist/browserslist
 
-# Browsers that we explicitly support
-safari >= 4
-ie >= 11
-last 2 versions
+# browserslist-stats.json has GA pageviews from 1/18/2022-2/16/2022 
+> 0.5% in my stats
+
+# Stats are not guaranteed to be up to date, 
+# so cover the latest browsers we explicitly support
+last 2 Chrome major versions
+last 2 Safari major versions
+last 2 Firefox major versions
+last 2 Edge major versions
+last 2 iOS major versions

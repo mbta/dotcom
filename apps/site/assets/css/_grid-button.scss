@@ -97,7 +97,7 @@
   display: flex;
   flex: 0 0 auto;
   justify-content: center;
-  padding-right: $base-spacing / 2;
+  padding-right: calc(#{$base-spacing} / 2);
 
   [class*=c-svg] {
     flex: 0 0 auto;
@@ -117,7 +117,7 @@
 .c-grid-button__alert {
   flex: 0 0 auto;
   justify-self: flex-end;
-  padding-right: $base-spacing / 2;
+  padding-right: calc(#{$base-spacing} / 2);
 
   path {
     fill: $brand-primary;
@@ -141,7 +141,7 @@
 
 .c-grid-button__condensed {
   flex-basis: 25%;
-  padding-right: $base-spacing / 2;
+  padding-right: calc(#{$base-spacing} / 2);
   width: 25%;
 
   &:last-child {
