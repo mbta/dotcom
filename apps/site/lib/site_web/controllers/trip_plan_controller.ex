@@ -99,10 +99,15 @@ defmodule SiteWeb.TripPlanController do
           ])
 
         %{markers: [marker]} = map_data
-        coordinates = String.split(address, ",")
-        lat = String.to_float(Enum.at(coordinates, 0))
-        long = String.to_float(Enum.at(coordinates, 1))
-        to_marker = %{marker | id: "B", latitude: lat, longitude: long}
+
+        to_marker =
+        if String.match?(address, ~r/^(\-?\d+(\.\d+)?),\w*(\-?\d+(\.\d+)?)$/iu) do
+          [lat, long] = String.split(address, ",")
+          |> Enum.map(&String.to_float/1)
+          %{marker | id: "B", latitude: lat, longitude: long}
+        else
+          %{marker | id: "B"}
+        end
 
         conn
         |> assign(:query, query)
