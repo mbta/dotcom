@@ -138,7 +138,7 @@ export function iconFromGTFS(id, ancestry) {
   }
   let icons = iconsFromGTFSIds(id);
   if (ancestry) {
-    icons = [...new Set([...icons, ...iconsFromGTFSAncestry(ancestry)])];
+    icons = icons.concat(iconsFromGTFSAncestry(ancestry));
   }
   return icons;
 }
