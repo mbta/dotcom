@@ -300,7 +300,7 @@ export class TripPlannerLocControls {
             const { latitude, longitude } = res;
             this.setAutocompleteValue(
               ac,
-              hit.description,
+              hit.address,
               lat,
               lng,
               latitude,
