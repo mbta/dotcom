@@ -25,7 +25,8 @@ defmodule AWSLocation.RequestTest do
       assert %ExAws.Operation.RestQuery{
                body: %{
                  Text: search_text
-               }
+               },
+               path: "/places/v0/indexes/dotcom-dev-esri/search/text"
              } = operation
     end
 
@@ -36,7 +37,77 @@ defmodule AWSLocation.RequestTest do
       assert %ExAws.Operation.RestQuery{
                body: %{
                  Position: search_coords
+               },
+               path: "/places/v0/indexes/dotcom-dev-here/search/position"
+             } = operation
+    end
+
+    test "uses config to get request pathname" do
+      old_value = System.get_env("AWS_PLACE_INDEX_PREFIX")
+      System.put_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
+
+      on_exit(fn ->
+        if old_value do
+          System.put_env("AWS_PLACE_INDEX_PREFIX", old_value)
+        else
+          System.delete_env("AWS_PLACE_INDEX_PREFIX")
+        end
+      end)
+
+      operation = new("Everywhere")
+
+      assert %ExAws.Operation.RestQuery{
+               path: "/places/v0/indexes/dotcom-prod-esri/search/text"
+             } = operation
+    end
+  end
+
+  describe "autocomplete/1" do
+    setup_with_mocks([
+      {ExAws, [:passthrough], [request: fn operation -> operation end]}
+    ]) do
+      :ok
+    end
+
+    test "searches for suggestions" do
+      search_text = "Melrose"
+      operation = autocomplete(search_text, 1)
+
+      assert %ExAws.Operation.RestQuery{
+               body: %{
+                 Text: search_text,
+                 MaxResults: 1
+               },
+               path: "/places/v0/indexes/dotcom-dev-here/search/suggestions"
+             } = operation
+    end
+
+    test "limits by MaxResults" do
+      operation = autocomplete("Somewhere", 7)
+
+      assert %ExAws.Operation.RestQuery{
+               body: %{
+                 MaxResults: 7
                }
+             } = operation
+    end
+
+    test "uses config to get request pathname" do
+      old_value = System.get_env("AWS_PLACE_INDEX_PREFIX")
+      System.put_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
+
+      on_exit(fn ->
+        if old_value do
+          System.put_env("AWS_PLACE_INDEX_PREFIX", old_value)
+        else
+          System.delete_env("AWS_PLACE_INDEX_PREFIX")
+        end
+      end)
+
+      operation = autocomplete("Everywhere", 1)
+
+      assert %ExAws.Operation.RestQuery{
+               path: "/places/v0/indexes/dotcom-prod-here/search/suggestions"
              } = operation
     end
   end
