@@ -70,6 +70,7 @@ defmodule SiteWeb.Router do
     get("/style_guide", Redirector, to: "/style-guide")
     get("/transit_near_me", Redirector, to: "/transit-near-me")
     get("/trip_planner", Redirector, to: "/trip-planner")
+    get("/trip-compare", TripCompareController, :index)
 
     # redirect SL and CT to proper route ids
     get("/schedules/SL1", Redirector, to: "/schedules/741")
