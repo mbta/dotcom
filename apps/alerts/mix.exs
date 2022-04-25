@@ -9,10 +9,9 @@ defmodule Alerts.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -48,7 +47,6 @@ defmodule Alerts.Mixfile do
       {:timex, ">= 0.0.0"},
       {:util, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
-      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]

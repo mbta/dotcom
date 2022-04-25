@@ -6,14 +6,13 @@ defmodule Stops.Mixfile do
     [
       app: :stops,
       version: "0.0.1",
-      elixir: "~> 1.2",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -40,7 +39,6 @@ defmodule Stops.Mixfile do
       {:v3_api, in_umbrella: true},
       {:json_api, in_umbrella: true},
       {:routes, in_umbrella: true},
-      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:repo_cache, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},
