@@ -68,7 +68,6 @@ defmodule SiteWeb.TripPlanController do
 
   def to(conn, %{"address" => address}) do
     updated_address = Geocode.check_address(address, @options)
-
     case TripPlan.geocode(updated_address) do
       {:ok, geocoded_to} ->
         # build a default query with a pre-filled 'to' field:
@@ -79,6 +78,10 @@ defmodule SiteWeb.TripPlanController do
         }
 
         now = Util.now()
+
+
+        # TripPlan.NamedPosition{latitude: 42.2931407, longitude: -71.06578329999999, name: "Shawmut, Dayton St &, Clementine Park, Dorchester, MA 02124, USA", stop_id: nil}
+        # geocoded_to = %{TripPlan.NamedPosition | name: "blick blick"}
 
         # build map information for a single leg with the 'to' field:
         map_data =
@@ -101,10 +104,11 @@ defmodule SiteWeb.TripPlanController do
         %{markers: [marker]} = map_data
 
         to_marker =
-        if String.match?(address, ~r/^(\-?\d+(\.\d+)?),\w*(\-?\d+(\.\d+)?)$/iu) do
-          [lat, long] = String.split(address, ",")
-          |> Enum.map(&String.to_float/1)
-          %{marker | id: "B", latitude: lat, longitude: long}
+        if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
+          [lat, long, name] = String.split(address, ",")
+          geocoded_to = %{geocoded_to | name: name}
+          IO.puts(geocoded_to.name)
+          %{marker | id: "B", latitude: String.to_float(lat), longitude: String.to_float(long)}
         else
           %{marker | id: "B"}
         end

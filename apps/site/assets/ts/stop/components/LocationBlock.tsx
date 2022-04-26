@@ -52,7 +52,7 @@ const LocationBlock = ({
         <a
           href={`/trip-planner/to/${latLngString(stop)
             .replace(/\s+/g, "-")
-            .toLowerCase()}`}
+            .toLowerCase()},${stop.name}`}
           className="btn btn-primary"
           target="_blank"
           rel="noopener noreferrer"
