@@ -5,12 +5,13 @@ defmodule Algolia.Api do
   alias Algolia.Config
   require Logger
 
-  defstruct [:host, :index, :action, :body]
+  defstruct [:host, :referrer, :index, :action, :body]
 
   @http_pool Application.get_env(:algolia, :http_pool)
 
   @type t :: %__MODULE__{
           host: String.t() | nil,
+          referrer: String.t() | nil,
           index: String.t() | nil,
           action: String.t() | nil,
           body: String.t() | nil
@@ -41,7 +42,7 @@ defmodule Algolia.Api do
 
     opts
     |> generate_url(config)
-    |> HTTPoison.post(body, headers(config), hackney: hackney)
+    |> HTTPoison.post(body, headers(opts.referrer, config), hackney: hackney)
   end
 
   @spec generate_url(t, Config.t()) :: String.t()
@@ -57,12 +58,18 @@ defmodule Algolia.Api do
     host
   end
 
-  @spec headers(Config.t()) :: [{String.t(), String.t()}]
-  defp headers(%Config{} = config) do
-    [
+  @spec headers(String | nil, Config.t()) :: [{String.t(), String.t()}]
+  defp headers(referrer, %Config{} = config) do
+    headers = [
       {"X-Algolia-API-Key", config.write},
       {"X-Algolia-Application-Id", config.app_id}
     ]
+
+    if referrer do
+      [{"referrer", referrer} | headers]
+    else
+      headers
+    end
   end
 
   defp hackney_opts(%__MODULE__{index: "*"}) do

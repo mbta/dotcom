@@ -14,11 +14,18 @@ defmodule SiteWeb.SearchControllerTest do
   end
 
   describe "query" do
+    setup %{conn: conn} do
+      conn = Plug.Conn.put_req_header(conn, "referrer", "something.somewhere.com")
+      %{conn: conn}
+    end
+
     @tag :capture_log
-    test "sends a POST to Algolia and returns the results", %{conn: conn} do
+    test "sends a POST with referrer to Algolia and returns the results", %{conn: conn} do
       bypass = Bypass.open()
 
       Bypass.expect(bypass, fn conn ->
+        assert ["something.somewhere.com"] = Plug.Conn.get_req_header(conn, "referrer")
+
         {status, resp} =
           case Plug.Conn.read_body(conn) do
             {:ok, ~s({"requests":[]}), %Plug.Conn{}} -> {200, ~s({"results": []})}

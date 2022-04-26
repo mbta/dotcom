@@ -44,6 +44,7 @@ defmodule Algolia.Update do
   defp send_update({:ok, request}, base_url, index_module) do
     opts = %Api{
       host: base_url,
+      referrer: nil,
       index: index_module.index_name(),
       action: "batch",
       body: request

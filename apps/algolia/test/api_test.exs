@@ -22,6 +22,7 @@ defmodule Algolia.ApiTest do
 
       opts = %Algolia.Api{
         host: "http://localhost:#{bypass.port}",
+        referrer: nil,
         index: "*",
         action: "queries",
         body: @request
@@ -36,6 +37,7 @@ defmodule Algolia.ApiTest do
 
       opts = %Algolia.Api{
         host: "http://localhost:#{bypass.port}",
+        referrer: nil,
         index: "*",
         action: "queries",
         body: @request
@@ -47,6 +49,26 @@ defmodule Algolia.ApiTest do
         end)
 
       assert log =~ "missing Algolia config keys"
+    end
+
+    test "uses the referrer in the POST request header" do
+      bypass = Bypass.open()
+
+      referrer = "something.somewhere.com"
+
+      Bypass.expect(bypass, "POST", "/1/indexes/*/queries", fn conn ->
+        assert [referrer] = Plug.Conn.get_req_header(conn, "referrer")
+        Plug.Conn.send_resp(conn, 200, "")
+      end)
+
+      %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        referrer: referrer,
+        index: "*",
+        action: "queries",
+        body: @request
+      }
+      |> Algolia.Api.post()
     end
   end
 end

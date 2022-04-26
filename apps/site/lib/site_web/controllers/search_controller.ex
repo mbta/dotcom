@@ -55,6 +55,7 @@ defmodule SiteWeb.SearchController do
   def query(%Conn{} = conn, params) do
     %Api{
       host: conn.assigns[:algolia_host],
+      referrer: Conn.get_req_header(conn, "referrer") |> List.first(),
       index: "*",
       action: "queries",
       body: Query.build(params)
