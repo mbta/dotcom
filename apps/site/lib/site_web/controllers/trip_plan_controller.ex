@@ -68,9 +68,11 @@ defmodule SiteWeb.TripPlanController do
 
   def to(conn, %{"address" => address}) do
     updated_address = Geocode.check_address(address, @options)
+
     case TripPlan.geocode(updated_address) do
       {:ok, geocoded_to} ->
         original_geocode = geocoded_to
+
         geocoded_to =
           if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
             [_lat, _long, name] = String.split(address, ",")
@@ -110,12 +112,12 @@ defmodule SiteWeb.TripPlanController do
         %{markers: [marker]} = map_data
 
         to_marker =
-        if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
-          [lat, long, _name] = String.split(address, ",")
-          %{marker | id: "B", latitude: String.to_float(lat), longitude: String.to_float(long)}
-        else
-          %{marker | id: "B"}
-        end
+          if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
+            [lat, long, _name] = String.split(address, ",")
+            %{marker | id: "B", latitude: String.to_float(lat), longitude: String.to_float(long)}
+          else
+            %{marker | id: "B"}
+          end
 
         conn
         |> assign(:query, query)
