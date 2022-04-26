@@ -1,5 +1,0 @@
-plugins:
-  - removeTitle: false
-  - removeAttrs:
-      attrs:
-        - 'id'
