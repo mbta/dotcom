@@ -41,6 +41,11 @@ defmodule SiteWeb.CustomerSupportController do
       header: %{text: "Report Fraud, Waste, or Abuse", iconSvgText: nil},
       id: "report",
       initially_expanded: false
+    },
+    %{
+      header: %{text: "Report a Railroad Crossing Gate Issue", iconSvgText: nil},
+      id: "rail_road",
+      initially_expanded: false
     }
   ]
 
