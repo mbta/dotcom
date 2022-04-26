@@ -106,12 +106,13 @@ defmodule SiteWeb.TripPlanController do
         to_marker =
         if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
           [lat, long, name] = String.split(address, ",")
-          geocoded_to = %{geocoded_to | name: name}
-          IO.puts(geocoded_to.name)
+          %{geocoded_to | name: name}
           %{marker | id: "B", latitude: String.to_float(lat), longitude: String.to_float(long)}
         else
           %{marker | id: "B"}
         end
+
+        IO.puts(geocoded_to.name)
 
         conn
         |> assign(:query, query)
