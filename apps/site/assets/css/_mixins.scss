@@ -30,7 +30,7 @@
 }
 
 @mixin column-lines($breakpoint) {
-  $gap: $grid-gutter-width / 2;
+  $gap: $grid-gutter-width * 0.5;
   margin: $gap #{-$gap};
 
   > [class*="col-#{$breakpoint}-"] {
@@ -374,7 +374,6 @@
 @mixin caret($color) {
   color: $color;
   float: right;
-  font-family: FontAwesome;
 }
 
 @mixin expandable-block-caret($color) {

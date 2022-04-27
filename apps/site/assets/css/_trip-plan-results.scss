@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .no-js .trip-plan-body .c-accordion-ui .panel {
   display: none;
 }
@@ -21,7 +23,7 @@
   .c-accordion-ui__trigger {
     @extend %button-primary-outline;
     border: 0;
-    padding: ($base-spacing / 1.5) $base-spacing;
+    padding: math.div($base-spacing, 1.5) $base-spacing;
 
     &[aria-expanded='true'] {
       border-bottom: 1px $btn-primary-bg solid;

@@ -141,7 +141,7 @@
   .m-featured-project__title {
     font-family: $font-family-base;
     font-size: $font-size-h3;
-    margin: ($base-spacing / 2) 0 0;
+    margin: ($base-spacing * 0.5) 0 0;
   }
 
   &:first-child {
