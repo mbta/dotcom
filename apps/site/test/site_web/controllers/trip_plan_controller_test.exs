@@ -759,8 +759,8 @@ defmodule SiteWeb.TripPlanControllerTest do
 
       assert html_response(conn, 200)
       assert conn.assigns.query.to.name == "Cobbs Corner, Canton"
-      assert conn.assigns.query.to.latitude == "42.395428"
-      assert conn.assigns.query.to.longitude == "-71.142483"
+      assert conn.assigns.query.to.latitude == 42.395428
+      assert conn.assigns.query.to.longitude == -71.142483
     end
 
     test "is unable to get address so it redirects to index", %{conn: conn} do
