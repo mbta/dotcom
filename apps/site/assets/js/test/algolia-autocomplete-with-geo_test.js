@@ -210,9 +210,8 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           originalEvent: {
             _args: [
               {
-                id:
-                  "EhtQYXJrIFBsYXphLCBCb3N0b24sIE1BLCBVU0EiLiosChQKEgkT7NAzdHrjiREVMn",
-                description: "Boston, MA 02128, USA"
+                id: "location-1",
+                address: "Boston, MA 02128, USA"
               },
               "locations"
             ]
@@ -222,7 +221,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
         Promise.resolve(result).then(() => {
           expect(
             getJSONStub.calledWith(
-              "/places/details/EhtQYXJrIFBsYXphLCBCb3N0b24sIE1BLCBVU0EiLiosChQKEgkT7NAzdHrjiREVMn"
+              `/places/details/Boston%2C%20MA%2002128%2C%20USA`
             )
           ).to.be.true;
 

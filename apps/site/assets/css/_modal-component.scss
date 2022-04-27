@@ -47,12 +47,12 @@
 
 .c-modal__content {
   min-height: 300px;
-  padding-top: $base-spacing / 4;
+  padding-top: calc(#{$base-spacing} / 4);
 }
 
 .c-modal__close {
   margin: $base-spacing;
-  padding: $base-spacing / 4;
+  padding: calc(#{$base-spacing} / 4);
   position: absolute;
   right: 0;
   top: 0;

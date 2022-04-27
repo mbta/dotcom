@@ -8,8 +8,8 @@ defmodule SiteWeb.FareTransformationController do
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @options %{
-    geocode_fn: &Geocode.geocode/1,
-    reverse_geocode_fn: &Geocode.reverse_geocode/2
+    geocode_fn: &LocationService.geocode/1,
+    reverse_geocode_fn: &LocationService.reverse_geocode/2
   }
 
   def index(conn, %{"id" => "proposed-sales-locations"} = params) do

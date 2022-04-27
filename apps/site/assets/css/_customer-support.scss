@@ -10,7 +10,7 @@
 
   section {
     background-color: $gray-bordered-background;
-    margin-bottom: $base-spacing / 4;
+    margin-bottom: calc(#{$base-spacing} / 4);
     padding: $base-spacing * .75;
 
     > .form-group:last-child {
@@ -48,7 +48,7 @@
   }
 
   .submit-button {
-    margin-top: $base-spacing / 2;
+    margin-top: calc(#{$base-spacing} / 2);
 
     .waiting {
       margin: 5%;
@@ -98,8 +98,8 @@
 
   .photo-preview {
     display: inline-block;
-    margin-left: $base-spacing / 2;
-    margin-top: $base-spacing / 2;
+    margin-left: calc(#{$base-spacing} / 2);
+    margin-top: calc(#{$base-spacing} / 2);
 
     img {
       // Polyfill for IE object-fit support
@@ -113,13 +113,13 @@
   }
 
   .clear-photo {
-    padding-left: $base-spacing / 8;
+    padding-left: calc(#{$base-spacing} / 8);
   }
 }
 
 .upload-photo-link {
   border: 2px solid $brand-primary;
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   cursor: pointer;
   display: inline-block;
   height: 3rem;
@@ -134,11 +134,11 @@
 
   > .fa {
     margin-bottom: 1.25rem;
-    padding-right: $base-spacing / 2;
+    padding-right: calc(#{$base-spacing} / 2);
   }
 
   + input {
-    padding: $base-spacing / 2 0;
+    padding: calc(#{$base-spacing} / 2) 0;
   }
 }
 
@@ -170,7 +170,7 @@ body {
   border: 2px solid $brand-primary;
   display: block;
   font-size: inherit; // Bootstrap override
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 
   &--small {
     @include media-breakpoint-down(xs) {
@@ -203,8 +203,8 @@ body {
   cursor: pointer;
   height: $base-spacing;
   position: absolute;
-  right: $base-spacing / 2;
-  top: -$base-spacing / 2;
+  right: calc(#{$base-spacing} / 2);
+  top: calc(-#{$base-spacing} / 2);
   width: $base-spacing;
 }
 

@@ -1,17 +1,32 @@
-import { breakTextAtSlash } from "../text";
+import { breakTextAtSlash, highlightText } from "../text";
 
-test("doesn't change text without slashes", () => {
-  const str = "this text doesn't contain a slash";
+describe("breakTextAtSlash", () => {
+  test("doesn't change text without slashes", () => {
+    const str = "this text doesn't contain a slash";
 
-  expect(breakTextAtSlash(str)).toEqual(str);
+    expect(breakTextAtSlash(str)).toEqual(str);
+  });
+
+  test("adds zero width spaces after slashes", () => {
+    const str = "abc/123/xyz";
+
+    const result = breakTextAtSlash(str);
+
+    expect(result.length).toEqual(13);
+    // There are now zero-widt spaces after each slash
+    expect(result).toEqual("abc/​123/​xyz");
+  });
 });
 
-test("adds zero width spaces after slashes", () => {
-  const str = "abc/123/xyz";
+describe("highlightText", () => {
+  test("generates proper <em> spans", () => {
+    const text = "Sesame Street";
+    const spans = [
+      { offset: 0, length: 6 },
+      { offset: 7, length: 6 }
+    ];
 
-  const result = breakTextAtSlash(str);
-
-  expect(result.length).toEqual(13);
-  // There are now zero-widt spaces after each slash
-  expect(result).toEqual("abc/​123/​xyz");
+    const highlighted = highlightText(text, spans);
+    expect(highlighted).toEqual("<em>Sesame</em> <em>Street</em>");
+  });
 });

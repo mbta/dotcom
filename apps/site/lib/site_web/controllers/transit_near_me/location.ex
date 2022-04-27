@@ -2,15 +2,15 @@ defmodule SiteWeb.TransitNearMeController.Location do
   @moduledoc """
   Fetches location data for the Transit Near Me controller.
   """
-  alias GoogleMaps.{Geocode, Geocode.Address}
+  alias LocationService.Address
 
-  @spec get(map(), keyword()) :: Geocode.t() | :no_address
+  @spec get(map(), keyword()) :: LocationService.result() | :no_address
   def get(params, opts) do
     opts =
       Keyword.merge(
         [
-          geocode_fn: &Geocode.geocode/1,
-          reverse_geocode_fn: &Geocode.reverse_geocode/2
+          geocode_fn: &LocationService.geocode/1,
+          reverse_geocode_fn: &LocationService.reverse_geocode/2
         ],
         opts
       )
@@ -18,7 +18,7 @@ defmodule SiteWeb.TransitNearMeController.Location do
     do_get(params, opts)
   end
 
-  @spec do_get(map(), keyword()) :: Geocode.t() | :no_address
+  @spec do_get(map(), keyword()) :: LocationService.result() | :no_address
   defp do_get(%{"latitude" => lat, "longitude" => lng} = params, opts) do
     lat_lng = %{
       "latitude" => lat,

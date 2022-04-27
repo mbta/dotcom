@@ -3,7 +3,7 @@
 }
 
 .ap-suggestion-icon {
-  margin-right: $base-spacing / 4;
+  margin-right: calc(#{$base-spacing} / 4);
 }
 
 .ap-address {
@@ -42,7 +42,7 @@ div[id*='search-'].c-form__input-container
   display: flex;
   justify-content: space-between;
   margin-bottom: 0;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .c-search-bar__header {
@@ -77,7 +77,7 @@ div[id*='search-'].c-form__input-container
 }
 
 .c-search-bar__autocomplete {
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   width: 100%;
 }
 
@@ -108,7 +108,7 @@ div[id*='search-'].c-form__input-container
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  padding: $base-spacing / 2 $base-spacing;
+  padding: calc(#{$base-spacing} / 2) $base-spacing;
   text-align: left;
 
   em {
@@ -122,7 +122,7 @@ div[id*='search-'].c-form__input-container
 }
 
 .c-search-bar__cards {
-  margin-left: -$base-spacing / 2;
+  margin-left: calc(-#{$base-spacing} / 2);
   padding: 0;
 }
 
@@ -138,7 +138,7 @@ div[id*='search-'].c-form__input-container
 
 .c-search-bar__input--homepage {
   border: 3px $brand-primary solid;
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   margin-top: $space-16;
 }
 
@@ -151,7 +151,7 @@ div[id*='search-'].c-form__input-container
   margin-bottom: auto;
   margin-top: auto;
   position: relative;
-  right: $base-spacing / 2;
+  right: calc(#{$base-spacing} / 2);
   visibility: hidden;
 }
 

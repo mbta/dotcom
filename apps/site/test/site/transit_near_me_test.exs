@@ -1,7 +1,7 @@
 defmodule Site.TransitNearMeTest do
   use ExUnit.Case
 
-  alias GoogleMaps.Geocode.Address
+  alias LocationService.Address
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}

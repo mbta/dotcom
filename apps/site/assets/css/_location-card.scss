@@ -48,6 +48,10 @@
       color: $white;
     }
   }
+
+  .m-transit-near-me__input {
+    width: 100%;
+  }
 }
 
 .c-sales-locations__cards {
@@ -55,7 +59,7 @@
   flex-flow: row wrap;
   // IE above, other browsers below
   display: grid;
-  grid-gap: $grid-gutter-width / 2;
+  grid-gap: calc(#{$grid-gutter-width} / 2);
   grid-template-columns: repeat(auto-fill, [col-start] minmax(240px, 1fr) [col-end]);
   margin-bottom: $base-spacing;
   margin-top: $base-spacing * 2
@@ -73,7 +77,7 @@
 
   // IE only
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    margin: $base-spacing / 2;
+    margin: calc(#{$base-spacing} / 2);
   }
 
   &-flex-row {

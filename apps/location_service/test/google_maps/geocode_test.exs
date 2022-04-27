@@ -1,7 +1,6 @@
 defmodule GoogleMaps.GeocodeTest do
   use ExUnit.Case
   import GoogleMaps.Geocode
-  alias GoogleMaps.Geocode.Address
   alias Plug.Conn
 
   @result1 '{
@@ -148,7 +147,7 @@ defmodule GoogleMaps.GeocodeTest do
 
       actual = geocode(address)
       assert {:ok, [result]} = actual
-      assert %GoogleMaps.Geocode.Address{} = result
+      assert %LocationService.Address{} = result
     end
 
     test "returns :ok for multiple matches" do
@@ -167,8 +166,8 @@ defmodule GoogleMaps.GeocodeTest do
 
       actual = geocode(address)
       assert {:ok, [result1, result2]} = actual
-      assert %GoogleMaps.Geocode.Address{} = result1
-      assert %GoogleMaps.Geocode.Address{} = result2
+      assert %LocationService.Address{} = result1
+      assert %LocationService.Address{} = result2
     end
 
     test "returns :error if the domain doesn't load" do
@@ -182,7 +181,7 @@ defmodule GoogleMaps.GeocodeTest do
           assert {:error, :internal_error} = actual
         end)
 
-      assert log =~ "HTTP error"
+      assert log =~ "error="
     end
 
     test "returns :error with error and message from google" do
@@ -262,11 +261,11 @@ defmodule GoogleMaps.GeocodeTest do
 
       cache_miss = geocode(address)
       assert {:ok, [cache_miss_result]} = cache_miss
-      assert %GoogleMaps.Geocode.Address{} = cache_miss_result
+      assert %LocationService.Address{} = cache_miss_result
 
       cache_hit = geocode(address)
       assert {:ok, [cache_hit_result]} = cache_hit
-      assert %GoogleMaps.Geocode.Address{} = cache_hit_result
+      assert %LocationService.Address{} = cache_hit_result
     end
   end
 
@@ -305,7 +304,7 @@ defmodule GoogleMaps.GeocodeTest do
 
       actual = geocode_by_place_id(place_id)
       assert {:ok, [result]} = actual
-      assert %GoogleMaps.Geocode.Address{} = result
+      assert %LocationService.Address{} = result
     end
 
     test "returns :ok for multiple matches" do
@@ -324,8 +323,8 @@ defmodule GoogleMaps.GeocodeTest do
 
       actual = geocode_by_place_id(place_id)
       assert {:ok, [result1, result2]} = actual
-      assert %GoogleMaps.Geocode.Address{} = result1
-      assert %GoogleMaps.Geocode.Address{} = result2
+      assert %LocationService.Address{} = result1
+      assert %LocationService.Address{} = result2
     end
 
     test "uses cache" do
@@ -344,11 +343,11 @@ defmodule GoogleMaps.GeocodeTest do
 
       cache_miss = geocode_by_place_id(place_id)
       assert {:ok, [cache_miss_result]} = cache_miss
-      assert %GoogleMaps.Geocode.Address{} = cache_miss_result
+      assert %LocationService.Address{} = cache_miss_result
 
       cache_hit = geocode_by_place_id(place_id)
       assert {:ok, [cache_hit_result]} = cache_hit
-      assert %GoogleMaps.Geocode.Address{} = cache_hit_result
+      assert %LocationService.Address{} = cache_hit_result
     end
   end
 
@@ -369,7 +368,7 @@ defmodule GoogleMaps.GeocodeTest do
 
       assert {:ok, results} = reverse_geocode(latitude, longitude)
       assert is_list(results)
-      assert Enum.all?(results, fn result -> %Address{} = result end)
+      assert Enum.all?(results, fn result -> %LocationService.Address{} = result end)
     end
 
     test "sets appropriate parameter and returns an error for invalid addresses" do
@@ -407,11 +406,11 @@ defmodule GoogleMaps.GeocodeTest do
 
       assert {:ok, cache_miss_results} = reverse_geocode(latitude, longitude)
       assert is_list(cache_miss_results)
-      assert Enum.all?(cache_miss_results, fn result -> %Address{} = result end)
+      assert Enum.all?(cache_miss_results, fn result -> %LocationService.Address{} = result end)
 
       assert {:ok, cache_hit_results} = reverse_geocode(latitude, longitude)
       assert is_list(cache_hit_results)
-      assert Enum.all?(cache_hit_results, fn result -> %Address{} = result end)
+      assert Enum.all?(cache_hit_results, fn result -> %LocationService.Address{} = result end)
     end
   end
 
@@ -420,8 +419,7 @@ defmodule GoogleMaps.GeocodeTest do
       params = %{"location" => %{"address" => "42.0, -71.0"}}
 
       geocode_fn = fn _address ->
-        {:ok,
-         [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+        {:ok, [%LocationService.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
 
       {position, formatted} = calculate_position(params, geocode_fn)
@@ -450,8 +448,7 @@ defmodule GoogleMaps.GeocodeTest do
       geocode_fn = fn _address ->
         send(self(), :geocode_called)
 
-        {:ok,
-         [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
+        {:ok, [%LocationService.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
       end
 
       {position, formatted} = calculate_position(params, geocode_fn)

@@ -70,7 +70,7 @@
   }
 
   &--news-entry {
-    border-left: $base-spacing / 2 solid $brand-primary;
+    border-left: calc(#{$base-spacing} / 2) solid $brand-primary;
     padding-left: $base-spacing;
   }
 
@@ -120,7 +120,7 @@
 }
 
 .c-content-teaser__image {
-  margin-bottom: $base-spacing / 2;
+  margin-bottom: calc(#{$base-spacing} / 2);
   width: 100%;
 
   &:last-child {

@@ -13,7 +13,7 @@
   border: $border;
   border-bottom: 0;
   display: flex;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 
   &:last-child {
     border-bottom: $border;
@@ -75,7 +75,7 @@
   align-items: baseline;
   display: flex;
   justify-content: space-between;
-  margin-bottom: $base-spacing / 4;
+  margin-bottom: calc(#{$base-spacing} / 4);
 }
 
 .m-schedule-diagram__stop-link {
@@ -97,7 +97,7 @@
   @include icon-size-inline($base-spacing * 1.25);
 
   .m-schedule-diagram__feature-icon {
-    margin-left: $base-spacing / 4;
+    margin-left: calc(#{$base-spacing} / 4);
   }
 
   .c-icon__cr-zone {
@@ -119,7 +119,7 @@
   @include icon-size-inline($base-spacing);
 
   a {
-    margin-right: $base-spacing / 4;
+    margin-right: calc(#{$base-spacing} / 4);
     vertical-align: top;
   }
 
@@ -137,7 +137,7 @@
 
 // 'View schedules' link
 .m-schedule-diagram__footer {
-  margin-top: $base-spacing / 2;
+  margin-top: calc(#{$base-spacing} / 2);
   text-align: center;
 
   .btn {
@@ -219,7 +219,7 @@
 // the 'show/hide n stops' button
 .m-schedule-diagram__toggle {
   font-weight: bold;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 // Live departure predictions
@@ -247,7 +247,7 @@
 
   .m-schedule-diagram__cr-prediction-time--delayed {
     font-weight: normal;
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
     text-align: right;
     text-decoration: line-through;
   }

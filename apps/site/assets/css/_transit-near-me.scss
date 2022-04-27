@@ -70,14 +70,14 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   }
 
   @include media-breakpoint-up(md) {
-    margin: $base-spacing / 2;
+    margin: calc(#{$base-spacing} / 2);
   }
 }
 
 .m-tnm-sidebar__filter-header {
   display: none;
   font-weight: bold;
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-only(xxl) {
     display: inline;
@@ -91,7 +91,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__filter-btn {
   background-color: transparent;
   font-weight: $font-weight-medium;
-  margin-left: $base-spacing / 2;
+  margin-left: calc(#{$base-spacing} / 2);
 
   &.active {
     background-color: $brand-primary-lightest;
@@ -114,24 +114,24 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__fixed-header {
   background-color: $gray-lightest;
   box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
   position: sticky;
   top: 0;
   z-index: $z-index-tnm-filter-header;
 
   @include media-breakpoint-down(sm) {
-    padding: $base-spacing / 2;
+    padding: calc(#{$base-spacing} / 2);
     width: 100%;
   }
 }
 
 .m-tnm-sidebar__separator {
   border-top: 1px solid $gray-lighter;
-  margin: $base-spacing / 2 0;
+  margin: calc(#{$base-spacing} / 2) 0;
 }
 
 .m-tnm-sidebar__header {
-  margin-top: $base-spacing / 2;
+  margin-top: calc(#{$base-spacing} / 2);
 
   h2 {
     flex-shrink: 0;
@@ -174,7 +174,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 }
 
 .m-tnm-sidebar__pill-close {
-  margin-left: $base-spacing / 2;
+  margin-left: calc(#{$base-spacing} / 2);
 }
 
 .m-tnm-sidebar__fixed-header-inner,
@@ -191,7 +191,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__route,
 .m-tnm-sidebar__stop-card {
   & + & {
-    margin-top: $base-spacing / 2;
+    margin-top: calc(#{$base-spacing} / 2);
   }
 }
 
@@ -214,7 +214,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   display: flex;
   justify-content: space-between;
   margin: 0;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
   text-transform: uppercase;
 
   // adjust icon colors and sizing based on background color
@@ -231,7 +231,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
   &.c-link-block {
     display: block;
-    margin-bottom: $base-spacing / 2;
+    margin-bottom: calc(#{$base-spacing} / 2);
 
     .c-link-block__inner {
       display: flex;
@@ -244,7 +244,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
     + .m-tnm-sidebar__route-stop,
     + .m-tnm-sidebar__route-alert-effect {
-      margin-top: - $base-spacing / 2;
+      margin-top: calc(-#{$base-spacing} / 2);
     }
   }
 }
@@ -268,12 +268,12 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   display: flex;
   font-size: .875 * $base-spacing;
   justify-content: space-between;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .m-tnm-sidebar__direction {
-  margin-bottom: $base-spacing / 4;
-  padding: $base-spacing / 2;
+  margin-bottom: calc(#{$base-spacing} / 4);
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .m-tnm-sidebar__direction-name {
@@ -305,7 +305,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__headsign-name--small {
   font-weight: bold;
   line-height: 1;
-  margin-top: $base-spacing / 4;
+  margin-top: calc(#{$base-spacing} / 4);
 }
 
 .c-mode-filter__filter-btn-group {
@@ -319,7 +319,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__via {
   font-weight: $font-weight-medium;
   line-height: 1;
-  margin-top: $base-spacing / 4;
+  margin-top: calc(#{$base-spacing} / 4);
 }
 
 .m-tnm-sidebar__schedules {
@@ -365,7 +365,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   @include h3();
   line-height: 1em;
   margin-bottom: 0;
-  margin-top: $base-spacing / 4;
+  margin-top: calc(#{$base-spacing} / 4);
 
   &--delayed {
     font-weight: bold;
@@ -382,18 +382,18 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .m-tnm-sidebar__stop-accessible {
   svg {
     @include center-icon($base-spacing);
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
   }
 }
 
 .m-tnm-sidebar__stop-accessible {
-  margin-left: $base-spacing / 2;
+  margin-left: calc(#{$base-spacing} / 2);
 }
 
 .m-tnm-sidebar__mode-icon {
   svg {
     @include center-icon(1.25em);
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
   }
 }
 
@@ -407,7 +407,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 }
 
 .m-tnm-sidebar__stop-card-description {
-  margin-top: $base-spacing / 2;
+  margin-top: calc(#{$base-spacing} / 2);
 }
 
 .m-tnm__address-marker {

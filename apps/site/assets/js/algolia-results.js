@@ -68,10 +68,10 @@ export class AlgoliaResults {
 
   _addLocationListeners(results) {
     if (results["locations"]) {
-      results["locations"].hits.forEach(hit => {
-        const elem = document.getElementById(`hit-${hit.place_id}`);
+      results["locations"].hits.forEach((hit, idx) => {
+        const elem = document.getElementById(`hit-location-${idx}`);
         if (elem) {
-          elem.addEventListener("click", this._locationSearch(hit.place_id));
+          elem.addEventListener("click", this._locationSearch(hit.address));
         }
       });
       const useLocation = document.getElementById(
@@ -162,9 +162,9 @@ export class AlgoliaResults {
       });
   }
 
-  _locationSearch(placeId) {
+  _locationSearch(address) {
     return () => {
-      GoogleMapsHelpers.lookupPlace(placeId)
+      GoogleMapsHelpers.lookupPlace(address)
         .then(result => {
           this._parent.resetSessionToken();
           this._showLocation(
@@ -227,9 +227,11 @@ export class AlgoliaResults {
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
       group: group,
-      googleLogo: AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-        logo: document.getElementById("powered-by-google-logo").innerHTML
-      }),
+      googleLogo: AlgoliaResult.autocompleteByGoogle()
+        ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
+            logo: document.getElementById("powered-by-google-logo").innerHTML
+          })
+        : null,
       hits: results[group].hits.map(this.renderResult(group, results[group]))
     });
   }

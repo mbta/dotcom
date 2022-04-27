@@ -107,7 +107,7 @@ export class AlgoliaEmbeddedSearch {
   }
 
   static renderFooterTemplate(indexName) {
-    if (indexName === "locations") {
+    if (indexName === "locations" && AlgoliaResult.autocompleteByGoogle()) {
       return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
         logo: document.getElementById("powered-by-google-logo").innerHTML
       });

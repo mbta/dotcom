@@ -1,15 +1,15 @@
 .c-crowding-pill {
   background-color: $gray-lightest;
   border: 2px $gray-lighter solid;
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   color: $black;
   display: inline-block;
-  margin: $base-spacing / 4 0;
-  padding: 0 $base-spacing / 2;
+  margin: calc(#{$base-spacing} / 4) 0;
+  padding: 0 calc(#{$base-spacing} / 2);
 
   .c-icon__crowding {
     color: currentColor;
-    margin-right: $base-spacing / 6;
+    margin-right: calc(#{$base-spacing} / 6);
     vertical-align: middle;
   }
 

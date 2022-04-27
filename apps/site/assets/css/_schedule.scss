@@ -5,7 +5,7 @@
 
 .schedule__route-name {
   display: inline-block;
-  margin-bottom: $base-spacing / 2;
+  margin-bottom: calc(#{$base-spacing} / 2);
   text-transform: uppercase;
 }
 
@@ -354,8 +354,8 @@
   margin-right: auto;
 
   @include media-breakpoint-down(sm) {
-    padding-left: $grid-gutter-width / 2;
-    padding-right: $grid-gutter-width / 2;
+    padding-left: calc(#{$grid-gutter-width} / 2);
+    padding-right: calc(#{$grid-gutter-width} / 2);
   }
 }
 
@@ -377,7 +377,7 @@
   display: inline-block;
   font-weight: bold;
   min-width: $base-spacing * 4;
-  padding: $base-spacing / 4 $base-spacing;
+  padding: calc(#{$base-spacing} / 4) $base-spacing;
   text-align: center;
 
   @include media-breakpoint-down(xs) {

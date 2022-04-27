@@ -27,7 +27,7 @@ defmodule Vehicles do
 
   defp stream_children("false") do
     # Wiremock does not support server-sent events,
-    # so starting the vehicle stream during backstop tests
+    # so starting the vehicle stream during tests using Wiremock
     # causes the server to crash.
     []
   end

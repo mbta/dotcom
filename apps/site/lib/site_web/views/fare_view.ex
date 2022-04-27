@@ -12,6 +12,7 @@ defmodule SiteWeb.FareView do
   }
 
   alias Fares.Summary
+  alias LocationService.Address
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.Route
@@ -126,5 +127,13 @@ defmodule SiteWeb.FareView do
         ),
       class: "c-call-to-action"
     )
+  end
+
+  defp input_value(%Address{formatted: address}) do
+    address
+  end
+
+  defp input_value(_) do
+    ""
   end
 end

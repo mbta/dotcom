@@ -25,13 +25,13 @@
 
 .m-schedule-page__sidebar-pdfs {
   display: flex;
-  margin-bottom: $base-spacing / 2;
+  margin-bottom: calc(#{$base-spacing} / 2);
 
   .c-svg__icon-pdf {
     fill: $brand-primary;
     flex-shrink: 0;
     height: $base-spacing * 1.5;
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
     width: $base-spacing * 1.5;
   }
 }
@@ -55,7 +55,7 @@
   // style similarly to the Bootstrap tooltip
   .leaflet-popup-content {
     max-width: $tooltip-width;
-    padding: $base-spacing / 4 $base-spacing * 1.5 $base-spacing / 4 $base-spacing / 2;
+    padding: calc(#{$base-spacing} / 4) $base-spacing * 1.5 calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
 
     @include media-breakpoint-down(xs) {
       max-width: 70vw;
@@ -63,8 +63,8 @@
   }
 
   .leaflet-popup-close-button {
-    right: $base-spacing / 4;
-    top: $base-spacing / 4;
+    right: calc(#{$base-spacing} / 4);
+    top: calc(#{$base-spacing} / 4);
   }
 }
 
@@ -74,7 +74,7 @@
 }
 
 .m-schedule-page__link {
-  margin-top: $base-spacing / 2;
+  margin-top: calc(#{$base-spacing} / 2);
 }
 
 .c-unordered-list,
@@ -84,7 +84,7 @@
 
 .m-schedule-page__schedule-note-icon {
   height: 1em;
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
   position: relative;
   top: .125em;
   width: 1em;
@@ -212,7 +212,7 @@
   }
 
   .schedule-finder__submit {
-    margin-top: $base-spacing / 2;
+    margin-top: calc(#{$base-spacing} / 2);
   }
 }
 
@@ -267,7 +267,7 @@
   border-bottom: 1px solid $gray-lightest;
   cursor: pointer;
   font-weight: bold;
-  padding: $base-spacing / 4 $base-spacing * 2.25;
+  padding: calc(#{$base-spacing} / 4) $base-spacing * 2.25;
   position: relative;
 
   &.active {
@@ -351,7 +351,7 @@
   }
 
   .c-select-custom__container {
-    margin-top: $base-spacing / 4;
+    margin-top: calc(#{$base-spacing} / 4);
   }
 }
 
@@ -361,7 +361,7 @@
   // IE11 doesn't support space-evenly
   justify-content: space-around;
   justify-content: space-evenly;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 }
 
 .schedule-finder__service-selector label {
@@ -396,7 +396,7 @@
 }
 
 .schedule-table__cell {
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
   vertical-align: top;
 
   &:last-child:not(:first-child) {
@@ -409,7 +409,7 @@
 
   &--headsign {
     .c-svg__icon {
-      margin-right: $base-spacing / 2;
+      margin-right: calc(#{$base-spacing} / 2);
     }
   }
 
@@ -436,7 +436,7 @@
   width: 100%;
 
   .schedule-table__cell {
-    padding: $base-spacing / 4 0;
+    padding: calc(#{$base-spacing} / 4) 0;
   }
 
   tbody .schedule-table__cell {
@@ -489,7 +489,7 @@
 
   &--delayed {
     display: inline-block;
-    margin-right: $base-spacing / 2;
+    margin-right: calc(#{$base-spacing} / 2);
     text-decoration: line-through;
 
     &-future_stop {
@@ -509,7 +509,7 @@
 }
 
 .schedule-table__route-pill {
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
 }
 
 .schedule-table__upcoming-departures-header {

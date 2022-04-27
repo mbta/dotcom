@@ -62,7 +62,7 @@
   @include icon-size-inline(1.25em);
 
   [class*='c-svg__icon'] {
-    margin-right: $base-spacing / 4;
+    margin-right: calc(#{$base-spacing} / 4);
   }
 }
 

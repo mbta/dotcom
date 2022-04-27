@@ -1,5 +1,5 @@
 const path = require("path");
-const merge = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const base = require("./webpack.config.base");
 const webpack = require("webpack");
 
@@ -19,7 +19,8 @@ module.exports = env =>
       splitChunks: {
         chunks: "all",
         cacheGroups: {
-          vendors: false,
+          default: false,
+          defaultVendors: false,
           // Set our own cacheGroups instead of using the default groups
           // Since all entrypoints are dependent on the app entrypoint
           vendor: {

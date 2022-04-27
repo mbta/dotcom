@@ -1,5 +1,5 @@
 /* eslint-disable */
-import * as Sentry from "@sentry/react";
+// import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
@@ -11,7 +11,6 @@ import objectFitImages from "object-fit-images";
 import googleAnalytics from "./google-analytics";
 import googleMapsLoaded from "./google-maps-loaded";
 import submitOnEvents from "./submit-on-events";
-import selectModal from "./select-modal";
 import collapse from "./collapse";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import modal from "./modal";
@@ -48,12 +47,12 @@ import eventPageSetup from "./event-page-setup";
 import previousEventsButton from "./view-previous-events";
 import pslPageSetup from "./psl-page-setup.js";
 
-if (window.sentry) {
-  Sentry.init({
-    dsn: window.sentry.dsn,
-    integrations: [new BrowserTracing()]
-  });
-}
+// if (window.sentry) {
+//   Sentry.init({
+//     dsn: window.sentry.dsn,
+//     integrations: [new BrowserTracing()]
+//   });
+// }
 
 document.body.className = document.body.className.replace("no-js", "js");
 
@@ -335,7 +334,6 @@ const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 submitOnEvents(["blur", "change"]);
 googleAnalytics();
 googleMapsLoaded();
-selectModal();
 setupGlobalNavigation();
 collapse();
 alertItemLoad();

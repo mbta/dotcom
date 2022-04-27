@@ -10,8 +10,8 @@ defmodule SiteWeb.FareController do
   plug(:meta_description)
 
   @options %{
-    geocode_fn: &Geocode.geocode/1,
-    reverse_geocode_fn: &Geocode.reverse_geocode/2,
+    geocode_fn: &LocationService.geocode/1,
+    reverse_geocode_fn: &LocationService.reverse_geocode/2,
     nearby_fn: &Fares.RetailLocations.get_nearby/1
   }
 
@@ -59,8 +59,8 @@ defmodule SiteWeb.FareController do
   end
 
   @spec fare_sales_locations(
-          Geocode.Address.t(),
-          (Geocode.Address.t() -> [{RetailLocations.Location.t(), float}])
+          LocationService.Address.t(),
+          (LocationService.Address.t() -> [{RetailLocations.Location.t(), float}])
         ) :: [{RetailLocations.Location.t(), float}]
   def fare_sales_locations(%{latitude: _lat, longitude: _long} = position, nearby_fn) do
     nearby_fn.(position)

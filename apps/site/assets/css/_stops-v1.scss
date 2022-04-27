@@ -17,12 +17,12 @@
   float: right;
 
   [class*='c-svg__icon'] {
-    margin-left: $base-spacing / 4;
+    margin-left: calc(#{$base-spacing} / 4);
   }
 }
 
 .hub-stop-link {
-  margin: 0 0 $base-spacing / 2;
+  margin: 0 0 calc(#{$base-spacing} / 2);
 
   @include media-breakpoint-down(sm) {
     background-color: $white;
@@ -44,7 +44,7 @@
   }
 
   .commuter-rail-zone {
-    margin-left: $base-spacing / 2;
+    margin-left: calc(#{$base-spacing} / 2);
   }
 }
 

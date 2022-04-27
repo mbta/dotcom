@@ -296,11 +296,11 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.place_id).then(res => {
+          GoogleMapsHelpers.lookupPlace(hit.address).then(res => {
             const { latitude, longitude } = res;
             this.setAutocompleteValue(
               ac,
-              hit.description,
+              hit.address,
               lat,
               lng,
               latitude,
@@ -337,7 +337,7 @@ export class TripPlannerLocControls {
   }
 
   renderFooterTemplate(indexName) {
-    if (indexName === "locations") {
+    if (indexName === "locations" && AlgoliaResult.autocompleteByGoogle()) {
       return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
         logo: document.getElementById("powered-by-google-logo").innerHTML
       });

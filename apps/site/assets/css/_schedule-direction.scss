@@ -12,7 +12,7 @@
 }
 
 .m-schedule-direction__button {
-  margin: $base-spacing / 2 0 0;
+  margin: calc(#{$base-spacing} / 2) 0 0;
   width: 100%;
 
   @include media-breakpoint-up(lg) {
@@ -73,7 +73,7 @@
   svg {
     fill: $white;
     height: $base-spacing;
-    transform: translateX($base-spacing / 2 * -1);
+    transform: translateX(-.5rem);
     width: $base-spacing;
   }
 }
@@ -92,7 +92,7 @@
 .m-schedule-direction__menu-item {
   background-color: $white;
   cursor: pointer;
-  padding: $base-spacing / 2 $base-spacing * 2.5;
+  padding: calc(#{$base-spacing} / 2) $base-spacing * 2.5;
   position: relative;
 
   @include hover-focus-active {

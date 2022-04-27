@@ -4,7 +4,7 @@
   border: 3px solid $brand-primary-dark;
   border-radius: $border-radius;
   display: flex;
-  padding: $base-spacing / 4;
+  padding: calc(#{$base-spacing} / 4);
   position: relative;
 
   &.c-form__input-focused {
@@ -29,7 +29,7 @@
   border-width: 0;
   color: $gray-dark;
   flex: 1 1 auto;
-  padding: $base-spacing / 4 $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
   width: 100%;
 
   &:focus {
@@ -41,7 +41,7 @@
   color: $brand-primary;
   display: none; // gets toggled by javascript on keyup
   flex: 0 0 auto;
-  margin-right: $base-spacing / 2;
+  margin-right: calc(#{$base-spacing} / 2);
   width: $space-18;
 
   .c-form__reset-btn & {
@@ -53,12 +53,12 @@
   @include icon-size($base-spacing * 1.5);
   background: $brand-primary;
   border: 0;
-  border-radius: $base-spacing / 4;
+  border-radius: calc(#{$base-spacing} / 4);
   color: $white;
   cursor: pointer;
   flex: 0 0 auto;
   margin-left: $space-2;
-  padding: $base-spacing / 2;
+  padding: calc(#{$base-spacing} / 2);
 
   .c-svg__icon-search-reverse-default {
     vertical-align: top;
