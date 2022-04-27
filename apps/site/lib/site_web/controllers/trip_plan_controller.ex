@@ -69,29 +69,28 @@ defmodule SiteWeb.TripPlanController do
   def to(conn, %{
         "address" => address
       }) do
-    with [latitude, longitude] when is_float(latitude) and is_float(longitude) <-
-           String.split(address, ",") do
+    if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
+      [latitude, longitude, name] = String.split(address, ",", parts: 3)
       # Avoid extra geocode call, just use these coordinates
       destination = %TripPlan.NamedPosition{
-        latitude: latitude,
-        longitude: longitude,
-        name: address,
+        latitude: String.to_float(latitude),
+        longitude: String.to_float(longitude),
+        name: name,
         stop_id: nil
       }
 
       do_to(conn, destination)
     else
-      _ ->
-        updated_address = Geocode.check_address(address, @options)
+      updated_address = Geocode.check_address(address, @options)
 
-        case TripPlan.geocode(updated_address) do
-          {:ok, geocoded_to} ->
-            do_to(conn, geocoded_to)
+      case TripPlan.geocode(updated_address) do
+        {:ok, geocoded_to} ->
+          do_to(conn, geocoded_to)
 
-          {:error, _} ->
-            # redirect to the initial index page
-            redirect(conn, to: trip_plan_path(conn, :index))
-        end
+        {:error, _} ->
+          # redirect to the initial index page
+          redirect(conn, to: trip_plan_path(conn, :index))
+      end
     end
   end
 
