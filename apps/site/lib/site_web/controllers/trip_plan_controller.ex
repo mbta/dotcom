@@ -73,8 +73,8 @@ defmodule SiteWeb.TripPlanController do
       [latitude, longitude, name] = String.split(address, ",")
       # Avoid extra geocode call, just use these coordinates
       destination = %TripPlan.NamedPosition{
-        latitude: latitude,
-        longitude: longitude,
+        latitude: String.to_float(latitude),
+        longitude: String.to_float(longitude),
         name: name,
         stop_id: nil
       }
