@@ -70,7 +70,7 @@ defmodule SiteWeb.TripPlanController do
         "address" => address
       }) do
     if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
-      [latitude, longitude, name] = String.split(address, ",")
+      [latitude, longitude, name] = String.split(address, ",", parts: 3)
       # Avoid extra geocode call, just use these coordinates
       destination = %TripPlan.NamedPosition{
         latitude: String.to_float(latitude),

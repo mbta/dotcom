@@ -752,6 +752,14 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert conn.assigns.query.to.name == "Geocoded Boston Common"
     end
 
+    test "uses expected values when addres is formatted latitutde,longitude,stopName" do
+      conn = get(conn, trip_plan_path(conn, :to, "1.2345, -2.678, Cobbs Corner, Canton"))
+
+      assert conn.assigns.query.to.name == "Cobbs Corner, Canton"
+      assert conn.assigns.query.to.latitude == "1.2345"
+      assert conn.assigns.query.to.longitude == "-2.678"
+    end
+
     test "is unable to get address so it redirects to index", %{conn: conn} do
       with_mock TripPlan, [:passthrough],
         geocode: fn _address ->
