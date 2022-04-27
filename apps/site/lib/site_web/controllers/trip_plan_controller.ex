@@ -81,16 +81,16 @@ defmodule SiteWeb.TripPlanController do
 
       do_to(conn, destination)
     else
-        updated_address = Geocode.check_address(address, @options)
+      updated_address = Geocode.check_address(address, @options)
 
-        case TripPlan.geocode(updated_address) do
-          {:ok, geocoded_to} ->
-            do_to(conn, geocoded_to)
+      case TripPlan.geocode(updated_address) do
+        {:ok, geocoded_to} ->
+          do_to(conn, geocoded_to)
 
-          {:error, _} ->
-            # redirect to the initial index page
-            redirect(conn, to: trip_plan_path(conn, :index))
-        end
+        {:error, _} ->
+          # redirect to the initial index page
+          redirect(conn, to: trip_plan_path(conn, :index))
+      end
     end
   end
 
