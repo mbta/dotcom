@@ -1,4 +1,4 @@
-name: Deploy to Dev-green
+name: Deploy to Dev-green (Elastic Beanstalk)
 
 on:
   workflow_dispatch:
