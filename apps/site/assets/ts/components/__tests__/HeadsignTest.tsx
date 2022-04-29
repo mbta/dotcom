@@ -45,6 +45,44 @@ it("it renders 2 predictions", () => {
   expect(tree).toMatchSnapshot();
 });
 
+it("it renders in chronological order when first time is later than second time", () => {
+  const headsign: Headsign = {
+    name: "Watertown",
+    headsign: "Watertown",
+    times: [
+      {
+        delay: 0,
+        scheduled_time: ["5:00", " ", "PM"],
+        prediction: {
+          schedule_relationship: null,
+          time: ["44", " ", "min"],
+          status: null,
+          track: null
+        }
+      },
+      {
+        delay: 0,
+        scheduled_time: ["4:30", " ", "PM"],
+        prediction: {
+          schedule_relationship: null,
+          time: ["14", " ", "min"],
+          status: null,
+          track: null
+        }
+      }
+    ],
+    train_number: null
+  };
+
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <HeadsignComponent headsign={headsign} condensed={false} routeType={1} />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
 it("it renders 1 prediction for CR", () => {
   const headsign: Headsign = {
     name: "Watertown",
