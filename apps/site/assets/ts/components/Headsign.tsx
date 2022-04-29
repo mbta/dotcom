@@ -113,10 +113,18 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   if (headsign.times.length == 2) {
     let first = headsign.times.at(0)?.prediction?.time?.at(0);
     let second = headsign.times.at(1)?.prediction?.time?.at(0);
+    let isMinutes = headsign.times.at(0)?.prediction?.time?.at(2) == "min";
+    // time could be in minutes, hh:mm, or simply "arriving"
     if(first != undefined && second != undefined){
-      if(parseInt(first) > parseInt(second)){
-        console.log("first " + first + " second " + second);
-        headsign.times = headsign.times.reverse();
+      if(isMinutes){
+        if(parseInt(first) > parseInt(second)){
+          headsign.times = headsign.times.reverse();
+        }
+      }
+      else {
+        if(first > second && first != "arriving" || second == "arrriving"){
+          headsign.times = headsign.times.reverse();
+        }
       }
     }
   }
