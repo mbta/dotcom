@@ -110,19 +110,18 @@ const renderTime = (
 
 const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   const { headsign, routeType, condensed } = props;
-  if (headsign.times.length == 2) {
-    let first = headsign.times.at(0)?.prediction?.time?.at(0);
-    let second = headsign.times.at(1)?.prediction?.time?.at(0);
-    let isMinutes = headsign.times.at(0)?.prediction?.time?.at(2) == "min";
+  if (headsign?.times?.length == 2) {
+    let first = headsign?.times?.at(0)?.prediction?.time?.at(0);
+    let second = headsign?.times?.at(1)?.prediction?.time?.at(0);
+    let isMinutes = headsign?.times?.at(0)?.prediction?.time?.at(2) == "min";
     // time could be in minutes, hh:mm, or simply "arriving"
-    if(first != undefined && second != undefined){
-      if(isMinutes){
-        if(parseInt(first) > parseInt(second)){
+    if (first != undefined && second != undefined) {
+      if (isMinutes) {
+        if (parseInt(first) > parseInt(second)) {
           headsign.times = headsign.times.reverse();
         }
-      }
-      else {
-        if(first > second && first != "arriving" || second == "arrriving"){
+      } else {
+        if ((first > second && first != "arriving") || second == "arrriving") {
           headsign.times = headsign.times.reverse();
         }
       }
