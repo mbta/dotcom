@@ -110,6 +110,15 @@ const renderTime = (
 
 const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   const { headsign, routeType, condensed } = props;
+  if (headsign.times.length == 2) {
+    let first = headsign.times.at(0)?.scheduled_time?.toString();
+    let second = headsign.times.at(1)?.scheduled_time?.toString();
+    if(first != undefined && second != undefined){
+      if(first > second){
+        headsign.times = headsign.times.reverse();
+      }
+    }
+  }
   return (
     <div className={headsignClass(condensed)}>
       <div className="m-tnm-sidebar__headsign">
