@@ -85,7 +85,18 @@ module.exports = {
           {
             loader: "svgo-loader",
             options: {
-              externalConfig: "svgo.yml"
+              plugins: [
+                {
+                  name: "removeTitle",
+                  active: "false"
+                }, 
+                {
+                  name: "removeAttrs",
+                  params: {
+                    "attrs": ["id"]
+                  }
+                }
+              ]
             }
           }
         ]

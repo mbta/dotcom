@@ -9,12 +9,11 @@ defmodule Site.Mixfile do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.0",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: LcovEx],
+      test_coverage: [tool: ExCoveralls],
       deps: deps()
     ]
   end
@@ -56,7 +55,7 @@ defmodule Site.Mixfile do
       {:ehmon, github: "mbta/ehmon", only: :prod},
       {:distillery, "~> 2.0"},
       {:inflex, "~> 1.8.0"},
-      {:html_sanitize_ex, "~> 1.3.0"},
+      {:html_sanitize_ex, "1.3.0"},
       {:logster, "~> 0.4.0"},
       {:quixir, "~> 0.9", only: :test},
       {:sizeable, "~> 0.1.5"},
@@ -66,7 +65,6 @@ defmodule Site.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:dialyxir, ">= 1.0.0-rc.4", only: [:test, :dev], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
-      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:floki, "~> 0.31.0"},
       {:httpoison, "~> 1.5"},
       {:mock, "~> 0.3.3", only: :test},

@@ -1,7 +1,6 @@
 defmodule AWSLocation.Request do
   @moduledoc """
   Constructs and dispatches requests to AWS Location service
-  Maybe: handle errors here?
   """
 
   @base_request_body %{
@@ -34,16 +33,16 @@ defmodule AWSLocation.Request do
         |> Map.put(:Text, search)
         |> Map.put(:MaxResults, limit),
       service: :places,
-      path: "/places/v0/indexes/dotcom-dev-here/search/suggestions"
+      path: place_index_path(:suggestions)
     })
   end
 
   defp request(body) do
     path =
       if Map.has_key?(body, :Text) do
-        "/places/v0/indexes/dotcom-dev-esri/search/text"
+        place_index_path(:text)
       else
-        "/places/v0/indexes/dotcom-dev-here/search/position"
+        place_index_path(:position)
       end
 
     %ExAws.Operation.RestQuery{
@@ -53,5 +52,17 @@ defmodule AWSLocation.Request do
       path: path
     }
     |> ExAws.request()
+  end
+
+  defp place_index_path(:text), do: place_index_base("esri") <> "/search/text"
+
+  defp place_index_path(:position), do: place_index_base("here") <> "/search/position"
+
+  defp place_index_path(:suggestions), do: place_index_base("here") <> "/search/suggestions"
+
+  defp place_index_base(data_provider) when data_provider in ["esri", "here"] do
+    {:system, env_var, default} = Application.get_env(:location_service, :aws_index_prefix)
+    prefix = if System.get_env(env_var), do: System.get_env(env_var), else: default
+    "/places/v0/indexes/#{prefix}-#{data_provider}"
   end
 end

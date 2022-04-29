@@ -86,6 +86,12 @@ jobs:
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
         OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
       run: npm run ci:unit:exunit
+    - name: Upload coverage artifact
+      if: ${{ always() && github.event.pull_request }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: Elixir test coverage report
+        path: cover/
 
   js_unit_1:
     name: Unit tests / JavaScript / Mocha
