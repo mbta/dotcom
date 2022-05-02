@@ -233,6 +233,62 @@ exports[`it renders a status and train name for Commuter Rail with track number 
 </div>
 `;
 
+exports[`it renders in chronological order when first time is later than second time 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+    >
+      Watertown
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time "
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          14
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time "
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          44
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          min
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`it renders scheduled time when prediction is null 1`] = `
 <div
   className="m-tnm-sidebar__headsign-schedule"
