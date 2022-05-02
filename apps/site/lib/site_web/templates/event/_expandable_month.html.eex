@@ -11,7 +11,7 @@
     data-toggle="collapse">
     <h2 class="m-event-list__month-header">
       <%= render_event_month(@month_number, @year) %>
-      <span class="c-expandable-block-caret--black"></span>
+      <span class="c-expandable-block-caret"></span>
     </h2>
   </button>
   <div

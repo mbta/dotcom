@@ -381,13 +381,13 @@
   align-items: flex-end;
   display: flex;
 
-  [aria-expanded='false'] &::after {
-    content: $fa-var-angle-down;
+  [aria-expanded='false'] &.c-expandable-block-caret {
+    @include fa-icon-solid($fa-var-angle-down);
     display: flex;
   }
 
-  [aria-expanded='true'] &::after {
-    content: $fa-var-angle-up;
+  [aria-expanded='true'] &.c-expandable-block-caret {
+    @include fa-icon-solid($fa-var-angle-up);
     display: flex;
   }
 }

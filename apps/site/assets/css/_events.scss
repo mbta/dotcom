@@ -375,6 +375,6 @@ $mobile-control-height: 73px;
   }
 }
 
-.c-expandable-block-caret--black {
+.c-expandable-block-caret {
   @include expandable-block-caret($color: $black);
 }

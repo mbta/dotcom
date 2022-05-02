@@ -329,25 +329,19 @@
 .m-more-projects-table__status-icon--contract-awarded {
   color: $brand-primary;
 
-  &::before {
-    content: $fa-var-plus-circle;
-  }
+  @include fa-icon-solid($fa-var-plus-circle);
 }
 
 .m-more-projects-table__status-icon--in-progress {
   color: $brand-primary-light;
 
-  &::before {
-    content: $fa-var-circle;
-  }
+  @include fa-icon-solid($fa-var-circle);
 }
 
 .m-more-projects-table__status-icon--complete {
   color: $brand-success;
 
-  &::before {
-    content: $fa-var-check-circle;
-  }
+  @include fa-icon-solid($fa-var-check-circle);
 }
 
 .filter-and-search {

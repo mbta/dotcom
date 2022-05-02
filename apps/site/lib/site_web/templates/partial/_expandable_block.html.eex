@@ -15,7 +15,7 @@
     <% end %>
     <div class="c-expandable-block__header-container">
       <%= @header.text %>
-      <span class="c-expandable-block-caret"></span>
+      <span class="far c-expandable-block-caret"></span>
     </div>
   </h3>
 </button>
