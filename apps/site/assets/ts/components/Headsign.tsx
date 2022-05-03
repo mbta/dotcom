@@ -123,8 +123,8 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
           headsign.times = headsign.times.reverse();
         }
       } else if (
-        // add am pm stufff
-        (first.concat(firstMeridiem) > second.concat(secondMeridiem) &&
+        (Date.parse(first.concat(firstMeridiem)) >
+          Date.parse(second.concat(secondMeridiem)) &&
           first !== "arriving") ||
         second === "arriving"
       ) {
