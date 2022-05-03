@@ -113,6 +113,8 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   if (headsign.times?.length === 2) {
     const first = headsign?.times?.[0].prediction?.time?.[0];
     const second = headsign?.times?.[1]?.prediction?.time?.[0];
+    const firstMeridiem = headsign?.times?.[0].prediction?.time?.[2] ?? "";
+    const secondMeridiem = headsign?.times?.[1]?.prediction?.time?.[2] ?? "";
     const isMinutes = headsign?.times?.[0]?.prediction?.time?.[2] === "min";
     // time could be in minutes, hh:mm, or simply "arriving"
     if (first !== undefined && second !== undefined) {
@@ -121,10 +123,11 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
           headsign.times = headsign.times.reverse();
         }
       } else if (
-        (first > second && first !== "arriving") ||
-        second === "arrriving"
+        // add am pm stufff
+        (first.concat(firstMeridiem) > second.concat(secondMeridiem) && first !== "arriving") ||
+        second === "arriving"
       ) {
-        headsign.times = headsign.times.reverse();
+        headsign.times.reverse();
       }
     }
   }
