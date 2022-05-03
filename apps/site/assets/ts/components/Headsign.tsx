@@ -124,7 +124,8 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
         }
       } else if (
         // add am pm stufff
-        (first.concat(firstMeridiem) > second.concat(secondMeridiem) && first !== "arriving") ||
+        (first.concat(firstMeridiem) > second.concat(secondMeridiem) &&
+          first !== "arriving") ||
         second === "arriving"
       ) {
         headsign.times.reverse();
