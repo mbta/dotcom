@@ -42,7 +42,8 @@ config :sentry,
   root_source_code_path: File.cwd!(),
   included_environments: ~w(prod dev dev-green dev-blue),
   json_library: Poison,
-  filter: Site.SentryFilter
+  filter: Site.SentryFilter,
+  tags: %{"dotcom.application" => "backend"}
 
 config :site, :former_mbta_site, host: "https://old.mbta.com"
 config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
