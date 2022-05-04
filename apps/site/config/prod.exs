@@ -116,7 +116,9 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: "${GOOGLE_TAG_MANAGER_
 
 config :ehmon, :report_mf, {:ehmon, :info_report}
 
-config :sentry, dsn: "${SENTRY_DSN}"
+config :sentry,
+  dsn: "${SENTRY_DSN}",
+  environment_name: "${SENTRY_ENVIRONMENT}"
 
 config :site, OldSiteFileController,
   response_fn: {SiteWeb.OldSiteFileController, :redirect_through_cdn}
