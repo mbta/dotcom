@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { MapData } from "../../leaflet/components/__mapdata";
-import Itinerary from "../../trip-plan-results/components/Itinerary";
+import Itinerary from "./Itinerary";
 
 export interface Itinerary {
   id: number;
