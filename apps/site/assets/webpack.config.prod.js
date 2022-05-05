@@ -36,7 +36,8 @@ module.exports = env =>
     },
     plugins: [
       new webpack.DefinePlugin({
-        SENTRY_DSN: JSON.stringify(env.SENTRY_DSN)
+        SENTRY_DSN: JSON.stringify(env.SENTRY_DSN),
+        __SENTRY_DEBUG__: false
       })
     ]
   });
