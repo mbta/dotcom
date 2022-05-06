@@ -9,6 +9,13 @@
   margin: $base-spacing * -.25;
 }
 
+.c-grid-buttons-right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: $base-spacing * -.25;
+}
+
 .c-grid-button {
   display: block;
   flex-basis: 100%;
