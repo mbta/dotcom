@@ -213,18 +213,6 @@ defmodule SiteWeb.Router do
     get("/about_the_mbta/news_events", Redirector, to: "/news")
   end
 
-  # old site static files
-  scope "/", SiteWeb do
-    pipe_through([:secure])
-    get("/uploadedfiles/*path", OldSiteFileController, :uploaded_files)
-    get("/uploadedFiles/*path", OldSiteFileController, :uploaded_files)
-    get("/uploadedimages/*path", OldSiteFileController, :uploaded_files)
-    get("/uploadedImages/*path", OldSiteFileController, :uploaded_files)
-    get("/images/*path", OldSiteFileController, :images)
-    get("/lib/*path", OldSiteFileController, :uploaded_files)
-    get("/gtfs_archive/archived_feeds.txt", OldSiteFileController, :archived_files)
-  end
-
   scope "/_flags" do
     pipe_through([:secure, :browser])
 
