@@ -289,6 +289,118 @@ exports[`it renders in chronological order when first time is later than second 
 </div>
 `;
 
+exports[`it renders in chronological order when second equals arriving 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+    >
+      Watertown
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time "
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          arriving
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time "
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          5:00
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          PM
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders in chronological order when times are hh:mm format 1`] = `
+<div
+  className="m-tnm-sidebar__headsign-schedule"
+>
+  <div
+    className="m-tnm-sidebar__headsign"
+  >
+    <div
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+    >
+      Watertown
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__schedules"
+  >
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time "
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          5:00
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          PM
+        </div>
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__schedule"
+    >
+      <div
+        className="m-tnm-sidebar__time "
+      >
+        <div
+          className="m-tnm-sidebar__time-number"
+        >
+          4:30
+        </div>
+        <div
+          className="m-tnm-sidebar__time-mins"
+        >
+          PM
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`it renders scheduled time when prediction is null 1`] = `
 <div
   className="m-tnm-sidebar__headsign-schedule"
