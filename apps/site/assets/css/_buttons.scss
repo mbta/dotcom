@@ -145,7 +145,7 @@
 }
 
 .c-inline-buttons {
-  margin: -1em -calc(math.div($half-gutter, 2)) 1em;
+  margin: -1em -calc(#{$half-gutter} / 2) 1em;
 
   .btn {
     margin: 1em calc(#{$half-gutter} / 2) 0;

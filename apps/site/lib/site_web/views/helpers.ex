@@ -151,7 +151,7 @@ defmodule SiteWeb.ViewHelpers do
       {:class,
        "notranslate #{Keyword.get(attributes, :font_family, "fa")} fa-#{name} " <>
          Keyword.get(attributes, :class, "")}
-      | Keyword.delete(attributes, :class)
+      | Keyword.drop(attributes, [:class, :font_family])
     ])
   end
 

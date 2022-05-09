@@ -265,6 +265,14 @@ defmodule SiteWeb.ViewHelpersTest do
 
       assert result |> safe_to_string() == expected
     end
+
+    test "when font family is included" do
+      expected = ~s(<i aria-hidden="true" class="notranslate fas fa-arrow-right "></i>)
+
+      result = fa("arrow-right", font_family: "fas")
+
+      assert result |> safe_to_string() == expected
+    end
   end
 
   describe "direction_with_headsign/3" do
