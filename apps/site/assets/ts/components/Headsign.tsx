@@ -110,6 +110,28 @@ const renderTime = (
 
 const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   const { headsign, routeType, condensed } = props;
+  if (headsign.times?.length === 2) {
+    const first = headsign?.times?.[0].prediction?.time?.[0];
+    const second = headsign?.times?.[1]?.prediction?.time?.[0];
+    const firstMeridiem = headsign?.times?.[0].prediction?.time?.[2] ?? "";
+    const secondMeridiem = headsign?.times?.[1]?.prediction?.time?.[2] ?? "";
+    const isMinutes = headsign?.times?.[0]?.prediction?.time?.[2] === "min";
+    // time could be in minutes, hh:mm, or simply "arriving"
+    if (first !== undefined && second !== undefined) {
+      if (isMinutes) {
+        if (parseInt(first, 10) > parseInt(second, 10)) {
+          headsign.times = headsign.times.reverse();
+        }
+      } else if (
+        (Date.parse(first.concat(firstMeridiem)) >
+          Date.parse(second.concat(secondMeridiem)) &&
+          first !== "arriving") ||
+        second === "arriving"
+      ) {
+        headsign.times.reverse();
+      }
+    }
+  }
   return (
     <div className={headsignClass(condensed)}>
       <div className="m-tnm-sidebar__headsign">

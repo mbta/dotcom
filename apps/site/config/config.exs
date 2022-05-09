@@ -37,16 +37,13 @@ config :site, Site.BodyTag, mticket_header: "x-mticket"
 # Centralize Error reporting
 config :sentry,
   dsn: System.get_env("SENTRY_DSN") || "",
-  environment_name:
-    (case System.get_env("SENTRY_REPORTING_ENV") do
-       nil -> Mix.env()
-       env -> String.to_existing_atom(env)
-     end),
+  environment_name: System.get_env("SENTRY_ENVIRONMENT"),
   enable_source_code_context: false,
   root_source_code_path: File.cwd!(),
-  included_environments: [:prod],
+  included_environments: ~w(prod dev dev-green dev-blue),
   json_library: Poison,
-  filter: Site.SentryFilter
+  filter: Site.SentryFilter,
+  tags: %{"dotcom.application" => "backend"}
 
 config :site, :former_mbta_site, host: "https://old.mbta.com"
 config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"

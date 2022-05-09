@@ -1,6 +1,5 @@
 /* eslint-disable */
-// import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
+import * as Sentry from "@sentry/react";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -47,12 +46,40 @@ import eventPageSetup from "./event-page-setup";
 import previousEventsButton from "./view-previous-events";
 import pslPageSetup from "./psl-page-setup.js";
 
-// if (window.sentry) {
-//   Sentry.init({
-//     dsn: window.sentry.dsn,
-//     integrations: [new BrowserTracing()]
-//   });
-// }
+if (window.sentry) {
+  Sentry.init({
+    dsn: window.sentry.dsn,
+    environment: window.sentry.environment,
+    sampleRate: 0.005, // error sampling - might increase later
+    tags: { "dotcom.application": "frontend" },
+    beforeBreadcrumb: (breadcrumb, hint) => {
+      // omit breadcrumbs that are just these scripts
+      // making their incessant pinging
+      if (
+        breadcrumb.data?.url?.contains("clarity.ms") ||
+        breadcrumb.data?.url?.contains("doubleclick.net") ||
+        breadcrumb.data?.url?.contains("google-analytics.com")
+      ) {
+        return null;
+      }
+      return breadcrumb;
+    },
+    // ignoreErrors is a list of messages to be filtered out before
+    // being sent to Sentry as either regular expressions or strings.
+    // When using strings, they’ll partially match the messages
+    ignoreErrors: [
+      "removeClass(leaflet/dist/leaflet-src)",
+      "translate_",
+      "ResizeObserver loop limit exceeded",
+      "Non-Error promise rejection captured",
+      "Extension context invalidated",
+      "t._leaflet_id"
+    ],
+    // we don't care about errors from external tools and libraries
+    // so only allow errors from our own domains
+    allowUrls: [/https?:\/\/((cdn|www)\.)?mbta\.com/, /mbtace.com/]
+  });
+}
 
 document.body.className = document.body.className.replace("no-js", "js");
 

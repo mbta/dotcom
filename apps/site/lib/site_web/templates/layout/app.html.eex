@@ -31,7 +31,8 @@
     <%= if Application.get_env(:sentry, :dsn) do %>
       <script>
         window.sentry = {
-          dsn: "<%= Application.get_env(:sentry, :dsn) %>"
+          dsn: "<%= Application.get_env(:sentry, :dsn) %>",
+          environment: "<%= Application.get_env(:sentry, :environment_name) %>"
         }
       </script>
     <% end %>
