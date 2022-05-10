@@ -198,9 +198,10 @@ defmodule SiteWeb.TripCompareController do
       |> with_fares_and_passes()
       |> with_free_legs_if_from_airport()
 
-    itineraries = Enum.map(itineraries, fn itinerary ->
+    itineraries =
+      Enum.map(itineraries, fn itinerary ->
         Map.put(itinerary, :source, source)
-    end)
+      end)
 
     %{query: query, itineraries: itineraries}
   end
