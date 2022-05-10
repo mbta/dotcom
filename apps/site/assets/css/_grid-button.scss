@@ -39,6 +39,25 @@
   }
 }
 
+.c-find-a-location-button {
+  display: block;
+  flex-basis: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-bottom: $space-6;
+  margin-top: $space-6;
+  padding: 0 $base-spacing * .25;
+  color: black;
+
+  @include media-breakpoint-down(sm) {
+    flex-basis: 100%;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .c-grid-button__content {
   align-items: center;
   border: $border;
