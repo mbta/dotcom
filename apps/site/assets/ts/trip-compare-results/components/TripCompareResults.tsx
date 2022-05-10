@@ -23,12 +23,17 @@ const TripCompareResults = ({
     source === "NEW"
       ? "m-alerts__mode-button"
       : "m-alerts__mode-button m-alerts__mode-button--selected";
+  const note = 
+    source === "NEW"
+      ? "The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts"
+      : "The following trips only reflect normal service (i.e. do not reflect current service, does not include service alert info)";
 
   const onClickNew = (): void => setSource("NEW");
   const onClickCurrent = (): void => setSource("CURRENT");
 
   return (
     <>
+      <h2>Compare trips</h2>
       <div>
         <div className="m-alerts__mode-buttons">
           <div className="m-alerts__mode-button-container">
@@ -58,10 +63,7 @@ const TripCompareResults = ({
           We found {filteredData.length} trips for you
         </p>
         <p className="instructions page-section">{itineraryHeader}</p>
-        <p className="instructions page-section">
-          <b>Note:</b> the following trips only reflect normal service (i.e. do
-          not reflect current service, does not include service alert info)
-        </p>
+        <p className="instructions page-section"><b>Note:</b>{note}</p>
         <TripPlannerResults itineraryData={filteredData} />
       </div>
     </>
