@@ -380,7 +380,9 @@ defmodule SiteWeb.TripCompareController do
 
   @spec breadcrumbs(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   defp breadcrumbs(conn, _) do
-    assign(conn, :breadcrumbs, [Breadcrumb.build("How Will the Proposed Bus Network Redesign Affect Your Trip?")])
+    assign(conn, :breadcrumbs, [
+      Breadcrumb.build("How Will the Proposed Bus Network Redesign Affect Your Trip?")
+    ])
   end
 
   @spec optimize_for(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()

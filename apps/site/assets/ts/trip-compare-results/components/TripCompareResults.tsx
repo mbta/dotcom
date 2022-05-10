@@ -23,7 +23,7 @@ const TripCompareResults = ({
     source === "NEW"
       ? "m-alerts__mode-button"
       : "m-alerts__mode-button m-alerts__mode-button--selected";
-  const note = 
+  const note =
     source === "NEW"
       ? "The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts"
       : "The following trips only reflect normal service (i.e. do not reflect current service, does not include service alert info)";
@@ -63,7 +63,10 @@ const TripCompareResults = ({
           We found {filteredData.length} trips for you
         </p>
         <p className="instructions page-section">{itineraryHeader}</p>
-        <p className="instructions page-section"><b>Note:</b>{note}</p>
+        <p className="instructions page-section">
+          <b>Note: </b>
+          {note}
+        </p>
         <TripPlannerResults itineraryData={filteredData} />
       </div>
     </>
