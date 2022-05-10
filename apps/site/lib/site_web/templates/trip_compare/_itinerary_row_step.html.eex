@@ -2,12 +2,5 @@
   <%= SiteWeb.PartialView.StopBubbles.render_stop_bubbles(@bubble_params) %>
   <div class="itinerary-step">
   <%= @step %>
-  <%= render "_itinerary_alert.html",
-    itinerary_idx: @itinerary_idx,
-    row_idx: @row_idx,
-    stop_id: @stop_id,
-    alerts: @alerts,
-    conn: @conn
-    %>
   </div>
 </div>

@@ -3,11 +3,6 @@
 </h2>
 <h2>Itinerary <%= @index %></h2>
 <div>
-  <%= if @itinerary_row_list.alerts? do %>
-    <span class="m-trip-plan-results__itinerary-alerts">
-      <%= fa "exclamation-triangle" %>
-    </span>
-  <% end %>
   <span class="m-trip-plan-results__itinerary-length-time">
     <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
   </span>
