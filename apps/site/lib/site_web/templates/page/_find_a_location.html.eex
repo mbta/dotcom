@@ -1,20 +1,19 @@
 <%
 %>
 <div class="c-grid-buttons-right">
-  <h2 class = "c-grid-button--button c-location-header">
+  <h3 class = "c-grid-button c-location-header">
     Find a Location
-  </h2>
-  <a href="https://www.mbta.com/stops/subway" class="c-grid-button c-grid-button--bus">
+  </h3>
+  <a href="https://www.mbta.com/stops/subway" class="c-grid-button c-grid-button--red-line">
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
-        <%= svg("stations-parking.svg") %>
       </span>
       <span class="c-grid-button__name">
         Stations
       </span>
     </div>
   </a>
-  <a href="https://www.mbta.com/transit-near-me" class="c-grid-button c-grid-button--bus">
+  <a href="https://www.mbta.com/transit-near-me" class="c-grid-button c-grid-button--red-line">
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
         <i class="fa- fa-map-location fa-lg" aria-hidden=true></i>
