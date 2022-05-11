@@ -46,7 +46,7 @@
   display: flex;
   flex-direction: column;
 
-  @include media-breakpoint-between(sm, md) {
+  @include media-breakpoint-up(sm) {
     flex-direction: row;
 
     .c-trip-plan-widget__from {
@@ -62,10 +62,10 @@
 .c-trip-plan-widget__submit {
   display: inline-flex;
   justify-content: center;
-  width: 65%;
+  width: 60%;
 
-  @include media-breakpoint-between(sm, md) {
-    width: 40%;
+  @include media-breakpoint-up(sm) {
+    width: 45%;
   }
 }
 
