@@ -14,7 +14,7 @@
     <%= for {_mode_key, fare_values} <- @fares do %>
 
       <div role="cell" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__mode-name">
-        <%= SiteWeb.TripPlanView.format_mode(fare_values.mode) %>
+        <%= SiteWeb.TripCompareView.format_mode(fare_values.mode) %>
       </div>
       <div role="cell" class="m-trip-plan-farecalc__table-cell">
         <span class="m-trip-plan-farecalc__label">Base: </span>
@@ -43,7 +43,7 @@
       <span class="m-trip-plan-farecalc__label">Base: </span>
       <span>
         <strong><%=
-          SiteWeb.TripPlanView.get_one_way_total_by_type(@itinerary, :highest_one_way_fare)
+          SiteWeb.TripCompareView.get_one_way_total_by_type(@itinerary, :highest_one_way_fare)
           |>Format.price()
          %></strong>
      </span>
@@ -52,7 +52,7 @@
       <span class="m-trip-plan-farecalc__label">Reduced: </span>
       <span>
         <strong><%=
-        SiteWeb.TripPlanView.get_one_way_total_by_type(@itinerary, :reduced_one_way_fare)
+        SiteWeb.TripCompareView.get_one_way_total_by_type(@itinerary, :reduced_one_way_fare)
         |>Format.price()
          %></strong>
      </span>

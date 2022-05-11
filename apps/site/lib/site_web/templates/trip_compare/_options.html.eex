@@ -1,7 +1,7 @@
 <%=
   SiteWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
     multiselectable: true,
-    parent_view: SiteWeb.TripPlanView,
+    parent_view: SiteWeb.TripCompareView,
     sections: [
       %{
         content_template: "_departure.html",
