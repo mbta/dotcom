@@ -741,7 +741,7 @@ defmodule SiteWeb.TripCompareControllerTest do
           })
         )
 
-      assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 2
+      assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 4
     end
   end
 
