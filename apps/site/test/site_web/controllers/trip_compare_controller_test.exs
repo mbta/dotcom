@@ -726,7 +726,7 @@ defmodule SiteWeb.TripCompareControllerTest do
       }
 
       morning_conn = get(conn, trip_compare_path(conn, :index, params))
-      assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 2
+      assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 4
 
       afternoon_conn =
         get(
@@ -769,7 +769,7 @@ defmodule SiteWeb.TripCompareControllerTest do
           {:error, :not_found}
         end do
         conn = get(conn, trip_compare_path(conn, :to, "Atlantis"))
-        assert html_response(conn, 302) =~ "/trip-planner"
+        assert html_response(conn, 302) =~ "/trip-compare"
       end
     end
 
