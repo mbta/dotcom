@@ -1,0 +1,151 @@
+.m-tabbed-nav {
+  background-color: $brand-primary;
+  display: block;
+  margin-top: $space-32;
+  height: 89px;
+  
+  @include media-breakpoint-down(md) {
+    height: 80px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    height: 64px;
+  }
+
+  @include media-breakpoint-down(xs) {
+    height: 48px;
+  }
+
+  .m-tabbed-nav__items {
+    @include make-container-max-widths();
+    display: flex;
+    height: 100%;
+    margin-right: auto;
+    padding-left: $space-16;
+
+    @include media-breakpoint-down(md) {
+      padding-left: $space-16;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      padding-left: $space-8;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      padding-left: $space-24;
+    }
+  }
+
+  .m-tabbed-nav__item-container {
+    display: flex;
+    margin-left: $space-32;
+    padding-left: $base-spacing;
+    padding-right: $base-spacing;
+
+    @include media-breakpoint-down(md) {
+      margin-left: $base-spacing;
+      padding-left: $base-spacing-sm;
+      padding-right: $base-spacing-sm;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      margin-left: $base-spacing;
+      padding-left: $base-spacing-sm;
+      padding-right: $base-spacing-sm;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      margin-left: $base-spacing-sm;
+      padding-left: $base-spacing-sm;
+      padding-right: $base-spacing-sm;
+    }
+
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: none;
+      background-color: $brand-primary-darkest;
+
+      .m-tabbed-nav__item {
+        border-bottom: 8px solid $brand-primary-darkest;
+
+        @include media-breakpoint-down(sm) {
+          border-bottom: 4px solid $brand-primary-darkest;
+        }
+      }
+
+      .m-tabbed-nav__icon-text {
+        color: $white;
+        text-decoration: none;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      height: 80px;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      height: 64px;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      height: 48px;
+    }
+  }
+
+  .m-tabbed-nav__item {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-weight: $font-weight-medium;
+    justify-content: center;
+    padding-bottom: $space-12;
+    padding-top: $space-12;
+    border-bottom: 8px solid $brand-primary;
+
+    @include media-breakpoint-down(sm) {
+      border-bottom: 4px solid $brand-primary;
+    }
+
+    &.active {
+      border-bottom: 8px solid $brand-primary-light-contrast;
+      .m-tabbed-nav__icon-text {
+        color: $white;
+      }
+
+      @include media-breakpoint-down(sm) {
+        border-bottom: 4px solid $brand-primary-light-contrast;
+      }
+    }
+  }
+
+  .m-tabbed-nav__icon {
+    @include icon-size-inline(2em);
+    flex: 0 0 auto;
+    margin-right: $base-spacing;
+
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .m-tabbed-nav__icon-text {
+    color: $brand-primary-light-contrast;
+    font-size: $font-size-base * 2;
+    font-family: $headings-font-family;
+    font-weight: bold;
+    line-height: $headings-line-height;
+
+    @include media-breakpoint-down(md) {
+      font-size: $font-size-base-sm * 2;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      font-size: $font-size-base-sm * 1.625;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      font-size: $font-size-base-sm;
+      font-weight: $font-weight-medium;
+    }
+  }
+}

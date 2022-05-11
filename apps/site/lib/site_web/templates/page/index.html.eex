@@ -1,7 +1,7 @@
-<%= render "_secondary_nav.html", conn: @conn %>
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
   <div class="container">
+    <%= render "_tabbed_nav.html", conn: @conn %>
     <div class="m-homepage--10-col-sm-only">
       <%= shortcut_icons() %>
     </div>
