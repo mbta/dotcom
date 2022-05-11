@@ -1,4 +1,4 @@
-defmodule SiteWeb.TripPlanControllerTest do
+defmodule SiteWeb.TripCompareControllerTest do
   use SiteWeb.ConnCase
   alias Fares.Fare
   alias Site.TripPlan.Query
@@ -824,7 +824,8 @@ defmodule SiteWeb.TripPlanControllerTest do
     end
 
     test "identifies subsequent subway legs as free when trip is from the airport" do
-      it = TripCompareController.readjust_itinerary_with_free_fares(@login_sl_plus_subway_itinerary)
+      it =
+        TripCompareController.readjust_itinerary_with_free_fares(@login_sl_plus_subway_itinerary)
 
       fares = SiteWeb.TripPlanView.get_calculated_fares(it)
 
