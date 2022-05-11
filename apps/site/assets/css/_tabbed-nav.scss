@@ -115,6 +115,7 @@
       border-bottom: 8px solid $brand-primary-light-contrast;
       .m-tabbed-nav__icon-text {
         color: $white;
+        text-decoration: none;
       }
 
       @include media-breakpoint-down(sm) {
@@ -151,6 +152,14 @@
     @include media-breakpoint-down(xs) {
       font-size: $font-size-base-sm;
       font-weight: $font-weight-medium;
+    }
+  }
+
+  .m-tabbed-nav__content-item {
+    display: none;
+
+    &.active {
+      display: block;
     }
   }
 }

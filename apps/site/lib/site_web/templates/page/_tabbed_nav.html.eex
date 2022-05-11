@@ -1,15 +1,15 @@
 <div class="m-tabbed-nav">
   <div class="m-tabbed-nav__items">
     <div class="m-tabbed-nav__item-container">
-      <div class="m-tabbed-nav__item active" onclick="location.href='/schedules'">
+      <div class="m-tabbed-nav__item active" data-tab-type="schedules">
         <span class="m-tabbed-nav__icon notranslate">
           <%= svg("icon-map-default.svg") %>
         </span>
-        <a href="/schedules" class="m-tabbed-nav__icon-text">Schedules</span></a>
+        <span class="m-tabbed-nav__icon-text">Schedules</span>
       </div>
     </div>
     <div class="m-tabbed-nav__item-container">
-      <div class="m-tabbed-nav__item" onclick="location.href='/trip-planner'">
+      <div class="m-tabbed-nav__item" data-tab-type="trip-planner">
         <span class="m-tabbed-nav__icon notranslate">
           <%= svg("icon-trip-planner-default.svg") %>
         </span>
@@ -17,12 +17,17 @@
       </div>
     </div>
     <div class="m-tabbed-nav__item-container">
-      <div class="m-tabbed-nav__item" onclick="location.href='/alerts'">
+      <div class="m-tabbed-nav__item" data-tab-type="alerts">
         <span class="m-tabbed-nav__icon notranslate">
           <%= svg("icon-alerts-default.svg") %>
         </span>
         <a href="/alerts" class="m-tabbed-nav__icon-text">Alerts</a>
       </div>
     </div>
+  </div>
+  <div class="m-tabbed-nav__content">
+    <div class="m-tabbed-nav__content-item schedules active">Schedule Content</div>
+    <div class="m-tabbed-nav__content-item trip-planner">Trip Planner Content</div>
+    <div class="m-tabbed-nav__content-item alerts">Alert Content</div>
   </div>
 </div>
