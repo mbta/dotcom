@@ -71,6 +71,8 @@ defmodule SiteWeb.Router do
     get("/transit_near_me", Redirector, to: "/transit-near-me")
     get("/trip_planner", Redirector, to: "/trip-planner")
     get("/trip-compare", TripCompareController, :index)
+    get("/trip-compare/to/", Redirector, to: "/trip-compare")
+    get("/trip-compare/to/:address", TripCompareController, :to)
     get("/trip_compare", Redirector, to: "/trip-compare")
 
     # redirect SL and CT to proper route ids
