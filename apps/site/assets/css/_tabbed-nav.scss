@@ -170,6 +170,15 @@
     }
   }
 
+  .m-tabbed-nav__content {
+    background-color: $gray-bordered-background;
+    padding: $base-spacing-xl;
+
+    @include media-breakpoint-down(sm) {
+      padding: $base-spacing;
+    }
+  }
+
   .m-tabbed-nav__content-item {
     display: none;
 
