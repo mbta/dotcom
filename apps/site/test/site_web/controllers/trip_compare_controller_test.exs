@@ -150,30 +150,30 @@ defmodule SiteWeb.TripCompareControllerTest do
 
   describe "index without params" do
     test "renders index.html", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
+      conn = get(conn, trip_compare_path(conn, :index))
       assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.requires_location_service?
     end
 
     test "assigns initial map data", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
+      conn = get(conn, trip_compare_path(conn, :index))
       assert conn.assigns.map_data
     end
 
     test "assigns modes to empty map", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
+      conn = get(conn, trip_compare_path(conn, :index))
       assert conn.assigns.modes == %{}
     end
 
     test "sets a custom meta description", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
+      conn = get(conn, trip_compare_path(conn, :index))
       assert conn.assigns.meta_description
     end
   end
 
   describe "index with params" do
     test "renders the query plan", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
       assert %Query{} = conn.assigns.query
@@ -198,7 +198,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.requires_location_service?
@@ -220,7 +220,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
 
       resp = html_response(conn, 200)
       assert from_latitude = Floki.find(resp, "#from_latitude")
@@ -248,7 +248,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.modes == %{subway: true, commuter_rail: true, bus: false, ferry: false}
@@ -270,7 +270,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.optimize_for == "best_route"
@@ -292,7 +292,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
       assert conn.assigns.optimize_for == "less_walking"
@@ -315,12 +315,12 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert html_response(conn, 200)
     end
 
     test "each map url has a path color", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
 
       for {map_data, static_map} <- conn.assigns.itinerary_maps do
         assert static_map =~ "color"
@@ -332,7 +332,7 @@ defmodule SiteWeb.TripCompareControllerTest do
     end
 
     test "renders a geocoding error", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @bad_params))
+      conn = get(conn, trip_compare_path(conn, :index, @bad_params))
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
       assert response =~ "Did you mean?"
@@ -341,7 +341,7 @@ defmodule SiteWeb.TripCompareControllerTest do
     end
 
     test "assigns maps for each itinerary", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_maps
 
       for {_map_data, static_map} <- conn.assigns.itinerary_maps do
@@ -350,7 +350,7 @@ defmodule SiteWeb.TripCompareControllerTest do
     end
 
     test "gets routes from each itinerary", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
       assert conn.assigns.routes
 
       for routes_for_itinerary <- conn.assigns.routes do
@@ -359,12 +359,12 @@ defmodule SiteWeb.TripCompareControllerTest do
     end
 
     test "assigns an ItineraryRowList for each itinerary", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_row_lists
     end
 
     test "adds fare data to each transit leg of each itinerary", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
 
       assert Enum.all?(conn.assigns.itineraries, fn itinerary ->
                Enum.all?(itinerary.legs, fn leg ->
@@ -389,7 +389,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         is_fare_complete_transit_leg?: fn _leg ->
           false
         end do
-        conn = get(conn, trip_plan_path(conn, :index, @good_params))
+        conn = get(conn, trip_compare_path(conn, :index, @good_params))
 
         for itinerary <- conn.assigns.itineraries do
           for leg <- itinerary.legs do
@@ -406,7 +406,7 @@ defmodule SiteWeb.TripCompareControllerTest do
     end
 
     test "adds monthly pass data to each itinerary", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_compare_path(conn, :index, @good_params))
 
       assert Enum.all?(conn.assigns.itineraries, fn itinerary ->
                %Itinerary{passes: %{base_month_pass: %Fare{}, recommended_month_pass: %Fare{}}} =
@@ -430,7 +430,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert conn.assigns.plan_error == [:same_address]
       assert html_response(conn, 200)
       assert html_response(conn, 200) =~ "two different locations"
@@ -450,7 +450,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert conn.assigns.plan_error == []
       assert html_response(conn, 200)
     end
@@ -465,7 +465,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert conn.assigns.plan_error == [:same_address]
       assert html_response(conn, 200)
       assert html_response(conn, 200) =~ "two different locations"
@@ -481,7 +481,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert conn.assigns.plan_error == []
       assert html_response(conn, 200)
     end
@@ -500,7 +500,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert conn.assigns.plan_error == [:same_address]
       assert html_response(conn, 200)
       assert html_response(conn, 200) =~ "two different locations"
@@ -516,7 +516,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       response = html_response(conn, 200)
       assert response =~ "Date is not valid"
     end
@@ -531,7 +531,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       response = html_response(conn, 200)
       assert response =~ "Date is not valid"
     end
@@ -551,7 +551,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         "plan" => %{"from" => "from address", "to" => "to address", "date_time" => date_input}
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       response = html_response(conn, 200)
       assert response =~ "Date is not valid"
     end
@@ -578,7 +578,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       response = html_response(conn, 200)
       assert Map.get(conn.assigns, :plan_error) == [:too_future]
       assert response =~ "Date is too far in the future"
@@ -616,7 +616,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       response = html_response(conn, 200)
       assert Map.get(conn.assigns, :plan_error) == [:past]
       assert response =~ "Date is in the past"
@@ -640,7 +640,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert html_response(conn, 200)
     end
 
@@ -655,7 +655,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert html_response(conn, 200)
     end
 
@@ -670,7 +670,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       assert html_response(conn, 200)
     end
 
@@ -694,7 +694,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         "plan" => %{"from" => "from address", "to" => "to address", "date_time" => date_params}
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
 
       response = html_response(conn, 200)
       assert Map.get(conn.assigns, :plan_error) == []
@@ -713,7 +713,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         }
       }
 
-      conn = get(conn, trip_plan_path(conn, :index, params))
+      conn = get(conn, trip_compare_path(conn, :index, params))
       response = html_response(conn, 200)
       assert Map.get(conn.assigns, :plan_error) == []
       refute response =~ "Date is not valid"
@@ -725,13 +725,13 @@ defmodule SiteWeb.TripCompareControllerTest do
         "plan" => %{"from" => "from address", "to" => "to address", "date_time" => @morning}
       }
 
-      morning_conn = get(conn, trip_plan_path(conn, :index, params))
+      morning_conn = get(conn, trip_compare_path(conn, :index, params))
       assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 2
 
       afternoon_conn =
         get(
           conn,
-          trip_plan_path(conn, :index, %{
+          trip_compare_path(conn, :index, %{
             params
             | "plan" => %{
                 "from" => "from address",
@@ -747,7 +747,7 @@ defmodule SiteWeb.TripCompareControllerTest do
 
   describe "/to/ address path" do
     test "gets a valid address in the 'to' field", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :to, "Boston Common"))
+      conn = get(conn, trip_compare_path(conn, :to, "Boston Common"))
 
       assert conn.assigns.query.to.name == "Geocoded Boston Common"
     end
@@ -755,7 +755,7 @@ defmodule SiteWeb.TripCompareControllerTest do
     test "uses expected values when addres is formatted latitutde,longitude,stopName", %{
       conn: conn
     } do
-      conn = get(conn, trip_plan_path(conn, :to, "42.395428,-71.142483,Cobbs Corner, Canton"))
+      conn = get(conn, trip_compare_path(conn, :to, "42.395428,-71.142483,Cobbs Corner, Canton"))
 
       assert html_response(conn, 200)
       assert conn.assigns.query.to.name == "Cobbs Corner, Canton"
@@ -768,7 +768,7 @@ defmodule SiteWeb.TripCompareControllerTest do
         geocode: fn _address ->
           {:error, :not_found}
         end do
-        conn = get(conn, trip_plan_path(conn, :to, "Atlantis"))
+        conn = get(conn, trip_compare_path(conn, :to, "Atlantis"))
         assert html_response(conn, 302) =~ "/trip-planner"
       end
     end
@@ -781,10 +781,10 @@ defmodule SiteWeb.TripCompareControllerTest do
       conn =
         get(
           conn,
-          trip_plan_path(conn, :to, "Address", plan_params)
+          trip_compare_path(conn, :to, "Address", plan_params)
         )
 
-      assert redirected_to(conn) == trip_plan_path(conn, :index, plan_params)
+      assert redirected_to(conn) == trip_compare_path(conn, :index, plan_params)
     end
   end
 
@@ -873,7 +873,7 @@ defmodule SiteWeb.TripCompareControllerTest do
 
   describe "Date and time selector" do
     test "renders a date and time selector", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index))
+      conn = get(conn, trip_compare_path(conn, :index))
       rendered = html_response(conn, 200)
 
       # check there are date and time selectors:

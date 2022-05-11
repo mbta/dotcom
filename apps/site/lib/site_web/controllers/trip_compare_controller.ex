@@ -63,7 +63,7 @@ defmodule SiteWeb.TripCompareController do
   end
 
   def to(conn, %{"plan" => _plan} = params) do
-    redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
+    redirect(conn, to: trip_compare_path(conn, :index, Map.delete(params, "address")))
   end
 
   def to(conn, %{
@@ -90,7 +90,7 @@ defmodule SiteWeb.TripCompareController do
 
           {:error, _} ->
             # redirect to the initial index page
-            redirect(conn, to: trip_plan_path(conn, :index))
+            redirect(conn, to: trip_compare_path(conn, :index))
         end
     end
   end
