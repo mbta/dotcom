@@ -585,7 +585,7 @@ defmodule SiteWeb.TripCompareControllerTest do
 
       expected =
         [:too_future]
-        |> SiteWeb.TripPlanView.plan_error_description()
+        |> SiteWeb.TripCompareView.plan_error_description()
         |> IO.iodata_to_binary()
 
       assert response =~ expected
@@ -827,7 +827,7 @@ defmodule SiteWeb.TripCompareControllerTest do
       it =
         TripCompareController.readjust_itinerary_with_free_fares(@login_sl_plus_subway_itinerary)
 
-      fares = SiteWeb.TripPlanView.get_calculated_fares(it)
+      fares = SiteWeb.TripCompareView.get_calculated_fares(it)
 
       assert fares == %{
                free_service: %{
@@ -852,7 +852,7 @@ defmodule SiteWeb.TripCompareControllerTest do
 
       it = TripCompareController.readjust_itinerary_with_free_fares(subway_itinerary)
 
-      fares = SiteWeb.TripPlanView.get_calculated_fares(it)
+      fares = SiteWeb.TripCompareView.get_calculated_fares(it)
 
       assert fares == %{
                subway: %{
