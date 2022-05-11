@@ -1,4 +1,4 @@
-export default function init() {
+const tabbedNavSetup = () => {
   const navTabs = document.querySelectorAll(".m-tabbed-nav__item");
   const contentTabs = document.querySelectorAll(".m-tabbed-nav__content-item");
 
@@ -16,5 +16,11 @@ export default function init() {
       item.classList.add("active");
       contentTab.classList.add("active");
     });
+  });
+};
+
+export default function init() {
+  document.addEventListener("turbolinks:load", () => {
+    tabbedNavSetup();
   });
 }
