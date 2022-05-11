@@ -1,4 +1,6 @@
 .m-tabbed-nav {
+  @include make-container();
+  @include make-container-max-widths();
   background-color: $brand-primary;
   display: block;
   margin-top: $space-32;
@@ -10,6 +12,9 @@
 
   @include media-breakpoint-down(sm) {
     height: 64px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: $space-24;
   }
 
   @include media-breakpoint-down(xs) {
