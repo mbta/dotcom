@@ -169,4 +169,12 @@
       display: block;
     }
   }
+
+  .m-tabbed-nav__content-item {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
 }
