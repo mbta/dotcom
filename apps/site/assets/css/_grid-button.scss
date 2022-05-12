@@ -13,12 +13,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  margin-top: 1rem;
-  align-items: stretch;
+  align-items: flex-end;
 }
 
 .c-location-header {
   flex-grow: 2;
+  @include media-breakpoint-down(sm) {
+    flex-basis: 100%;
+  }
 }
 
 .c-grid-button {
@@ -48,6 +50,13 @@
   margin-top: $space-6;
   padding: 0 $base-spacing * .25;
   color: black;
+  flex-basis: 33%;
+  max-width: 66%;
+
+    @include media-breakpoint-down(xs) {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
 
   @include media-breakpoint-down(sm) {
     flex-basis: 100%;
