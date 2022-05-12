@@ -31,9 +31,9 @@
     }
   }
 
-  @include media-breakpoint-only(md) {
+  @include media-breakpoint-up(sm) {
     .c-trip-plan-widget__inputs {
-      flex-direction: column;
+      flex-direction: row;
 
       .c-trip-plan-widget__from {
         margin-right: 0;
@@ -62,16 +62,19 @@
 .c-trip-plan-widget__submit {
   display: inline-flex;
   justify-content: center;
-  width: 60%;
+  width: 100%;
 
   @include media-breakpoint-up(sm) {
-    width: 45%;
+    width: 40%;
   }
 }
 
 .c-trip-plan-widget__submit-container {
   display: flex;
   justify-content: flex-end;
+  @include media-breakpoint-down(sm) {
+    width: 100%;
+  }
 }
 
 .c-trip-plan-widget__input-label {
@@ -109,4 +112,9 @@
   cursor: pointer;
   margin-left: auto;
   user-select: none;
+  @include media-breakpoint-up(sm) {
+    transform: rotate(90deg);
+    display: flex;
+    padding: 36px;
+  }
 }
