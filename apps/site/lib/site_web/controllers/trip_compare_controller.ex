@@ -156,29 +156,41 @@ defmodule SiteWeb.TripCompareController do
         __MODULE__
       )
 
-    %{query: query, itineraries: itineraries} = current_results
-    %{itineraries: new_itineraries} = new_results
+    case current_results do
+      %{query: query, itineraries: itineraries} ->
+        case new_results do
+          %{itineraries: new_itineraries} ->
+            itineraries = itineraries ++ new_itineraries
 
-    itineraries = itineraries ++ new_itineraries
+            route_map = routes_for_query(itineraries)
+            route_mapper = &Map.get(route_map, &1)
+            itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
 
-    route_map = routes_for_query(itineraries)
-    route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
+            conn
+            |> render(
+              query: query,
+              itineraries: itineraries,
+              plan_error: MapSet.to_list(query.errors),
+              routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
+              itinerary_maps:
+                Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
+              related_links:
+                filter_duplicate_links(
+                  Enum.map(
+                    itineraries,
+                    &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)
+                  )
+                ),
+              itinerary_row_lists: itinerary_row_lists
+            )
 
-    conn
-    |> render(
-      query: query,
-      itineraries: itineraries,
-      plan_error: MapSet.to_list(query.errors),
-      routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
-      itinerary_maps:
-        Enum.map(itineraries, &TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
-      related_links:
-        filter_duplicate_links(
-          Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper))
-        ),
-      itinerary_row_lists: itinerary_row_lists
-    )
+          _ ->
+            render(conn, :index)
+        end
+
+      _ ->
+        render(conn, :index)
+    end
   end
 
   defp get_itineraries(conn, plan, url_key, source) do
