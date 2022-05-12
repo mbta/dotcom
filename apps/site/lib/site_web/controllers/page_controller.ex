@@ -13,6 +13,7 @@ defmodule SiteWeb.PageController do
     WhatsHappeningItem
   }
 
+  plug(:alerts)
   plug(SiteWeb.Plugs.RecentlyVisited)
 
   @type content :: Banner.t() | Teaser.t() | WhatsHappeningItem.t()
@@ -123,4 +124,10 @@ defmodule SiteWeb.PageController do
   @spec do_add_utm_url(content, String.t()) :: content
   defp do_add_utm_url(%Teaser{} = item, url), do: %{item | path: url}
   defp do_add_utm_url(item, url), do: %{item | utm_url: url}
+
+  defp alerts(conn, _opts) do
+    alerts = Alerts.Repo.all(conn.assigns.date_time)
+
+    assign(conn, :alerts, alerts)
+  end
 end

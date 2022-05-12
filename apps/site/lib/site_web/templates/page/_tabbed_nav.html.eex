@@ -22,6 +22,8 @@
   <div class="m-tabbed-nav__content">
     <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">Schedule Content</div>
     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">Trip Planner Content</div>
-    <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">Alert Content</div>
+    <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">
+       <%= alerts(@conn.assigns.alerts) %>
+    </div>
   </div>
 </div>
