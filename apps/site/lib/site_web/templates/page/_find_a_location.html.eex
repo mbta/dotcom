@@ -1,12 +1,12 @@
 <%
 %>
 <div class="c-grid-buttons-right">
-<div class="c-find-a-location-button c-location-header">
+<div class="c-location-header">
   <h3>
     Find a Location
   </h3>
   </div>
-  <a href="https://www.mbta.com/stops/subway" class="c-find-a-location-button">
+  <a href="https://www.mbta.com/stops/subway" class="c-location-button">
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
       </span>
@@ -15,7 +15,7 @@
       </span>
     </div>
   </a>
-  <a href="https://www.mbta.com/transit-near-me" class="c-find-a-location-button">
+  <a href="https://www.mbta.com/transit-near-me" class="c-location-button">
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
         <i class="fa- fa-map-location fa-lg" aria-hidden=true></i>
@@ -26,4 +26,4 @@
     </div>
   </a>
 </div>
-  <hr>
+<hr>

@@ -14,12 +14,31 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: flex-end;
+  margin-top: 1rem;
 }
 
 .c-location-header {
   flex-grow: 2;
   @include media-breakpoint-down(sm) {
     flex-basis: 100%;
+  }
+}
+
+.c-location-button {
+  flex-grow: 1;
+  display: block;
+  flex-shrink: 0;
+  margin-bottom: $space-6;
+  margin-top: $space-6;
+  padding: 0 $base-spacing * .25;
+  color: black;
+
+  @include media-breakpoint-down(sm) {
+    flex-basis: 100%;
+  }
+
+  &:hover {
+    text-decoration: none;
   }
 }
 
@@ -31,32 +50,6 @@
   margin-bottom: $space-6;
   margin-top: $space-6;
   padding: 0 $base-spacing * .25;
-
-  @include media-breakpoint-down(sm) {
-    flex-basis: 100%;
-  }
-
-  &:hover {
-    text-decoration: none;
-  }
-}
-
-.c-find-a-location-button {
-  display: block;
-  flex-basis: 100%;
-  flex-grow: 0;
-  flex-shrink: 0;
-  margin-bottom: $space-6;
-  margin-top: $space-6;
-  padding: 0 $base-spacing * .25;
-  color: black;
-  flex-basis: 33%;
-  max-width: 66%;
-
-    @include media-breakpoint-down(xs) {
-      flex-basis: 100%;
-      max-width: 100%;
-    }
 
   @include media-breakpoint-down(sm) {
     flex-basis: 100%;
