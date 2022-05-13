@@ -9,7 +9,7 @@
     Your feedback will help us identify what works, what doesn't, and what could be better.
   </div>
   <div class="page-section">
-    <a href="https://reginavilla.az1.qualtrics.com/jfe/form/SV_821isTJ0Sy2PBfE">Submit feedback on BNRD</a>
+    <a href="https://reginavilla.az1.qualtrics.com/jfe/form/SV_821isTJ0Sy2PBfE">Submit feedback on the Bus Network Redesign</a>
   </div>
   <div class="trip-plan-container">
     <%= render "_sidebar.html", assigns %>
