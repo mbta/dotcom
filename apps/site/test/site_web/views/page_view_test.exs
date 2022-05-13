@@ -142,7 +142,6 @@ defmodule SiteWeb.PageViewTest do
       assert rendered =~ "/schedules/502/alerts"
       assert rendered =~ "/schedules/708/alerts"
       assert rendered =~ "/schedules/CR-Greenbush/alerts"
-      IO.inspect(rendered, printable_limit: :infinity)
       assert Regex.match?(~r/There are no high priority.*ferry.*alerts at this time/s, rendered)
       assert rendered =~ "/stops/place-sstat"
       assert rendered =~ "South Station"
