@@ -25,8 +25,8 @@ const TripCompareResults = ({
       : "m-alerts__mode-button m-alerts__mode-button--selected";
   const note =
     source === "NEW"
-      ? "The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts"
-      : "The following trips only reflect normal service (i.e. do not reflect current service, does not include service alert info)";
+      ? "The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts. To learn more about the fares associated with your trip, please visit https://www.mbta.com/fares."
+      : "The following trips only reflect normal service (i.e. do not reflect current service, do not include service alert info)";
 
   const onClickNew = (): void => setSource("NEW");
   const onClickCurrent = (): void => setSource("CURRENT");

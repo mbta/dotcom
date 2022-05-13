@@ -1,17 +1,15 @@
 <div class="container">
   <h1 class="trip-plan-title">How Will the Proposed Bus Network Redesign Affect Your Trip?</h1>
   <div class="page-section">
-    Fill in your trip details below and select the itineraries you'd like to compare.
-    You'll see how your current route and the
-    <a href="https://www.mbta.com/projects/bus-network-redesign" target="_blank">proposed redesign</a>
-    would differ in travel time, cost, accessibility and more.
+    Fill in your trip details below and you'll see how your current trip compares between the existing network and the
+    <a href="https://www.mbta.com/projects/bus-network-redesign" target="_blank">proposed redesigned bus network</a>.
   </div>
   <div class="page-section">
-    Then, share your thoughts with us about the changes to your trip by XX/XX/2022.
+    Then, share your thoughts with us about the changes to your trip by July 31, 2022.
     Your feedback will help us identify what works, what doesn't, and what could be better.
   </div>
   <div class="page-section">
-    <u>Submit feedback on BNRD</u>
+    <a href="https://reginavilla.az1.qualtrics.com/jfe/form/SV_821isTJ0Sy2PBfE">Submit feedback on BNRD</a>
   </div>
   <div class="trip-plan-container">
     <%= render "_sidebar.html", assigns %>
