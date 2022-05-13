@@ -25,27 +25,6 @@
   }
 }
 
-// .m-homepage__shortcut-row {
-//   @include make-col();
-//   @include make-col-span(6);
-
-//   @include media-breakpoint-down(sm) {
-//     @include make-col-span(12);
-//   }
-
-//   @include media-breakpoint-up(md) {
-//     &:first-child {
-//       padding-right: 0;
-//       text-align: right;
-//     }
-
-//     &:last-child {
-//       padding-left: 0;
-//       text-align: left;`
-//     }
-//   }
-// }
-
 .m-homepage__shortcut {
   background-color: $white;
   border: $border;
@@ -65,6 +44,7 @@
     text-decoration: none;
   }
 
+  // TODO: Update
   @include media-breakpoint-up(md) {
     //@include icon-size(80px);
     @include icon-size(5rem);

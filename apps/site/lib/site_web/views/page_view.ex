@@ -11,13 +11,11 @@ defmodule SiteWeb.PageView do
   use SiteWeb, :view
 
   def shortcut_icons do
-    other = [:subway, :bus, :commuter_rail, :ferry, :the_ride]
-    # rows =
-    #   for row <- [[:subway, :bus, :commuter_rail], [:ferry, :the_ride]] do
-    #     content_tag(:div, Enum.map(row, &shortcut_icon/1), class: "m-homepage__shortcut-row")
-    #   end
+    icons =
+      [:subway, :bus, :commuter_rail, :ferry, :the_ride]
+      |> Enum.map(&shortcut_icon/1)
 
-    content_tag(:div, Enum.map(other, &shortcut_icon/1), class: "m-homepage__shortcuts")
+    content_tag(:div, icons, class: "m-homepage__shortcuts")
   end
 
   @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t()
