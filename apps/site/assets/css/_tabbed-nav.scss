@@ -172,10 +172,19 @@
 
   .m-tabbed-nav__content {
     background-color: $gray-bordered-background;
-    padding: $base-spacing-xl;
+    padding: 2px 64px 40px 64px;
 
     @include media-breakpoint-down(sm) {
       padding: $base-spacing;
+    }
+
+    hr {
+      border: $border;
+      margin: $base-spacing-lg 0;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
     }
   }
 

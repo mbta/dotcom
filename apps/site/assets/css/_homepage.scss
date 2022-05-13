@@ -11,40 +11,45 @@
 }
 
 .m-homepage__shortcuts {
-  @include make-row();
-  margin-bottom: $base-spacing;
-  margin-top: $base-spacing;
-  padding-bottom: $base-spacing;
-  padding-top: $base-spacing;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  justify-items: stretch;
+  column-gap: 3.125%;
+  margin-top: 24px;
 
-  @include media-breakpoint-up(md) {
-    @include centered-10-col();
+  @include media-breakpoint-down(xs) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: 3.125%;
   }
 }
 
-.m-homepage__shortcut-row {
-  @include make-col();
-  @include make-col-span(6);
+// .m-homepage__shortcut-row {
+//   @include make-col();
+//   @include make-col-span(6);
 
-  @include media-breakpoint-down(sm) {
-    @include make-col-span(12);
-  }
+//   @include media-breakpoint-down(sm) {
+//     @include make-col-span(12);
+//   }
 
-  @include media-breakpoint-up(md) {
-    &:first-child {
-      padding-right: 0;
-      text-align: right;
-    }
+//   @include media-breakpoint-up(md) {
+//     &:first-child {
+//       padding-right: 0;
+//       text-align: right;
+//     }
 
-    &:last-child {
-      padding-left: 0;
-      text-align: left;
-    }
-  }
-}
+//     &:last-child {
+//       padding-left: 0;
+//       text-align: left;`
+//     }
+//   }
+// }
 
 .m-homepage__shortcut {
+  background-color: $white;
+  border: $border;
+  border-radius: 0.5rem;
   color: $gray-dark;
   display: inline-block;
   font-size: $font-size-h4;
@@ -52,7 +57,7 @@
   line-height: $headings-line-height;
   padding: $base-spacing;
   text-align: center;
-  width: 33%;
+  height: 176px;
 
   @include hover-focus-active {
     background-color: $brand-primary-lightest;
@@ -60,15 +65,18 @@
     text-decoration: none;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(md) {
+    //@include icon-size(80px);
     @include icon-size(5rem);
   }
 
   @include media-breakpoint-down(xs) {
+    //@include icon-size(40px);
     @include icon-size(3rem);
   }
 
-  @include media-breakpoint-only(md) {
+  @include media-breakpoint-only(sm) {
+    //@include icon-size(52px);
     @include icon-size(4rem);
   }
 

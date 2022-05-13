@@ -20,7 +20,17 @@
     </div>
   </div>
   <div class="m-tabbed-nav__content">
-    <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">Schedule Content</div>
+    <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">
+    <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
+                                                                routes: Map.get(assigns, :recently_visited, []),
+                                                                alerts: @alerts,
+                                                                date_time: @date_time,
+                                                                header_class: "h3") %>
+      <%= unless Enum.empty?(Map.get(assigns, :recently_visited, [])) do %>
+        <hr />
+      <% end %>
+      <%= shortcut_icons() %>
+    </div>
     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">Trip Planner Content</div>
     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">Alert Content</div>
   </div>

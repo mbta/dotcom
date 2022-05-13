@@ -29,6 +29,7 @@
 
 .c-grid-button__content {
   align-items: center;
+  background-color: $white;
   border: $border;
   border-radius: $border-radius;
   display: flex;
@@ -39,7 +40,6 @@
 
   &:hover {
     background: $brand-primary-lightest;
-    border-color: $brand-primary;
   }
 }
 
