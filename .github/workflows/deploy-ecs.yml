@@ -16,8 +16,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    concurrency: ${{ inputs.environment }}
+    environment: ${{ github.event.inputs.environment }}
+    concurrency: ${{ github.event.inputs.environment }}
 
     steps:
       - uses: actions/checkout@v3
@@ -29,7 +29,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           docker-repo: ${{ secrets.DOCKER_REPO }}
 
-      - if: ${{ inputs.environment }} != "prod" # we'll always deploy at least to dev, before deploying to prod. so by the time we are deploying to prod, the assets will have been already uploaded.
+      - if: ${{ github.event.inputs.environment }} != "prod" # we'll always deploy at least to dev, before deploying to prod. so by the time we are deploying to prod, the assets will have been already uploaded.
         name: Upload static assets to S3
         run: bash upload_assets.sh ${{ steps.build-push.outputs.docker-tag }}
         env:
