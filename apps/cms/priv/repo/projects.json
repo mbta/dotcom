@@ -334,6 +334,9 @@
       {
         "value": "2018-04-02"
       }
+    ],
+    "redirects": [
+      "/old-path/to/project-3004"
     ]
   },
   {
@@ -551,7 +554,8 @@
       {
         "value": "2018-03-30"
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -734,7 +738,8 @@
       {
         "value": "2018-03-29"
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -889,6 +894,9 @@
       {
         "value": "2018-03-29"
       }
+    ],
+    "redirects": [
+      "/alternate-path/to/project-2"
     ]
   },
   {
@@ -1112,6 +1120,10 @@
       {
         "value": "2018-03-29"
       }
+    ],
+    "redirects": [
+      "/alternate-path/to/project",
+      "/old-path/to/project"
     ]
   }
 ]

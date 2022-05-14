@@ -22,7 +22,8 @@ defmodule CMS.Page.ProjectUpdateTest do
                project_id: project_id,
                teaser: teaser,
                title: title,
-               path_alias: path_alias
+               path_alias: path_alias,
+               redirects: redirects
              } = ProjectUpdate.from_api(List.first(api_data))
 
       assert id == 3005
@@ -32,6 +33,7 @@ defmodule CMS.Page.ProjectUpdateTest do
       assert teaser =~ "On January 8, Wollaston Station on the Red Line closed"
       assert title == "How the Wollaston Station Closure Affects Your Trip"
       assert path_alias == nil
+      assert redirects == ["/another-path/to/update"]
     end
 
     test "sets project update path_alias accordingly", %{api_data: api_data} do
