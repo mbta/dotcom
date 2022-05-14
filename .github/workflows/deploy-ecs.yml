@@ -55,3 +55,5 @@ jobs:
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           job-status: ${{ needs.deploy.result }}
+          custom-message: |
+            `${{ github.ref }}` deployment to Dotcom ${{ github.event.inputs.environment }}
