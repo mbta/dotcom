@@ -52,6 +52,7 @@ defmodule Stops.ApiTest do
                  "NEC-2287-11",
                  "NEC-2287-12",
                  "NEC-2287-13",
+                 "NEC-2287-B",
                  "door-sstat-atlantic",
                  "door-sstat-bus",
                  "door-sstat-dewey",
