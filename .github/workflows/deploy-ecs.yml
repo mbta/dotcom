@@ -14,7 +14,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
+    name: ${{ github.event.inputs.environment }} - Deploy ${{ github.ref }}
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     environment: ${{ github.event.inputs.environment }}
     concurrency: ${{ github.event.inputs.environment }}
@@ -44,8 +44,14 @@ jobs:
           ecs-service: ${{ secrets.ECS_SERVICE }} # depends on selected environment
           docker-tag: ${{ steps.build-push.outputs.docker-tag }}
 
+  notify:
+    needs: [deploy]
+    name: Send notification to Slack
+    runs-on: ubuntu-latest
+
+    steps:
       - uses: mbta/actions/notify-slack-deploy@v1
         if: ${{ !cancelled() }}
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
-          job-status: ${{ job.status }}
+          job-status: ${{ needs.deploy.result }}
