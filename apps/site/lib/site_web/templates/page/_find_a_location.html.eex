@@ -9,6 +9,7 @@
   <a href="https://www.mbta.com/stops/subway" class="c-location-button">
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
+        <%= svg("stations-parking.svg") %>
       </span>
       <span class="c-grid-button__name">
         Stations
@@ -18,7 +19,7 @@
   <a href="https://www.mbta.com/transit-near-me" class="c-location-button">
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
-        <i class="fa- fa-map-location fa-lg" aria-hidden=true></i>
+        <i class="fa fa-map-location-dot" aria-hidden=true></i>
       </span>
       <span class="c-grid-button__name">
         Transit Near Me
