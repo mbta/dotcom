@@ -4,12 +4,12 @@ defmodule Site.VehicleHelpersTest do
   import VehicleHelpers
 
   @locations %{
-    {"CR-502273-501", "place-sstat"} => %Vehicles.Vehicle{
+    {"CR-532904-501", "place-sstat"} => %Vehicles.Vehicle{
       latitude: 1.1,
       longitude: 2.2,
       status: :stopped,
       stop_id: "place-sstat",
-      trip_id: "CR-502273-501",
+      trip_id: "CR-532904-501",
       shape_id: "9850002"
     }
   }
@@ -19,7 +19,7 @@ defmodule Site.VehicleHelpersTest do
       departing?: true,
       time: ~N[2018-05-01T11:00:00],
       status: "On Time",
-      trip: %Schedules.Trip{id: "CR-502273-501", shape_id: "9850002"},
+      trip: %Schedules.Trip{id: "CR-532904-501", shape_id: "9850002"},
       stop: %Stops.Stop{id: "place-sstat"}
     }
   ]
@@ -33,7 +33,7 @@ defmodule Site.VehicleHelpersTest do
   describe "build_tooltip_index/3" do
     test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
-      assert Map.has_key?(@tooltips, {"CR-502273-501", "place-sstat"})
+      assert Map.has_key?(@tooltips, {"CR-532904-501", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
       assert @tooltip_base.route.type == 2
       assert @tooltip_base.trip.name == "501"
@@ -47,7 +47,7 @@ defmodule Site.VehicleHelpersTest do
       tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
 
       assert length(Map.keys(tooltips)) == 2
-      assert Map.has_key?(tooltips, {"CR-502273-501", "place-sstat"})
+      assert Map.has_key?(tooltips, {"CR-532904-501", "place-sstat"})
       assert Map.has_key?(tooltips, "place-sstat")
 
       tooltip_base = tooltips["place-sstat"]

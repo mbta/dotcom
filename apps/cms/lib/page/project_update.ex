@@ -30,7 +30,8 @@ defmodule CMS.Page.ProjectUpdate do
     photo_gallery: [],
     posted_on: "",
     teaser: "",
-    title: ""
+    title: "",
+    redirects: []
   ]
 
   @type t :: %__MODULE__{
@@ -44,7 +45,8 @@ defmodule CMS.Page.ProjectUpdate do
           project_url: String.t(),
           path_alias: String.t() | nil,
           teaser: String.t(),
-          title: String.t()
+          title: String.t(),
+          redirects: [String.t()]
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -62,7 +64,8 @@ defmodule CMS.Page.ProjectUpdate do
       project_url: project_alias,
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
-      path_alias: path_alias(data)
+      path_alias: path_alias(data),
+      redirects: Map.get(data, "redirects", [])
     }
   end
 

@@ -41,7 +41,8 @@ defmodule CMS.Page.ProjectTest do
                teaser: teaser,
                title: title,
                updated_on: updated_on,
-               path_alias: path_alias
+               path_alias: path_alias,
+               redirects: redirects
              } = Project.from_api(api_data)
 
       assert id == 3004
@@ -58,6 +59,7 @@ defmodule CMS.Page.ProjectTest do
       assert updated_on == ~D[2018-04-02]
       assert path_alias == nil
       assert %CustomHTML{} = paragraph
+      assert redirects == ["/old-path/to/project-3004"]
     end
 
     test "maps project api data with path alias to a struct", %{

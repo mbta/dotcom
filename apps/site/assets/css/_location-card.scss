@@ -155,7 +155,5 @@
   @include caret($color: $brand-primary);
   margin-left: .3rem;
 
-  &::after {
-    content: $fa-var-angle-down;
-  }
+  @include fa-icon-solid($fa-var-angle-down);
 }

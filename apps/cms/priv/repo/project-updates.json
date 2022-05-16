@@ -133,6 +133,9 @@
       {
         "value": "On January 8, Wollaston Station on the Red Line closed to undergo improvements to make it a fully accessible, modern, and code-compliant station. Bus shuttle service is running."
       }
+    ],
+    "redirects": [
+      "/another-path/to/update"
     ]
   },
   {
@@ -275,7 +278,8 @@
       {
         "value": "The MBTA's contractor, LM Heavy Civil Construction, is working at Wollaston and Quincy Center Stations."
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -417,7 +421,8 @@
       {
         "value": "Construction activities are expected to continue for 3 months. During demolition, Quincy Center MBTA and Commuter Rail Stations will remain open to passengers with clearly designated work zones to ensure public safety."
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -559,7 +564,8 @@
       {
         "value": "Several lines are affected by day and night operations."
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -701,7 +707,8 @@
       {
         "value": "A temporary surface sewer line will be placed in the roadway during a relining of an existing sewer line. There will be no interruption of sewer service to homes or businesses in the area."
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -1129,7 +1136,8 @@
       {
         "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -1557,7 +1565,8 @@
       {
         "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
       }
-    ]
+    ],
+    "redirects": []
   },
   {
     "nid": [
@@ -1985,6 +1994,7 @@
       {
         "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
       }
-    ]
+    ],
+    "redirects": []
   }
 ]

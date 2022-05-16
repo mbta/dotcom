@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .c-checkbox {
   display: inline-flex;
   position: relative;
@@ -45,11 +47,11 @@
     content: '';
     cursor: pointer;
     display: inline-block;
-    height: $space-12 * 5 / 3;
+    height: math.div($space-12 * 5, 3);
     left: 0;
     position: absolute;
     top: $space-4;
-    width: $space-12 * 5 / 3;
+    width: math.div($space-12 * 5, 3);
   }
 
   &::after {

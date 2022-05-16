@@ -98,13 +98,11 @@ nav.m-menu--desktop {
   font-weight: bold;
   margin-right: calc(#{$base-spacing} / 2);
 
+  
   // place for up/down arrows
-  &::after {
-    @include fa-icon();
-
-    content: $fa-var-caret-down;
+  .c-indicator--angle {
     margin-left: $base-spacing__new;
-
+    @include fa-icon-solid($fa-var-caret-down);
     @include media-breakpoint-only(xxl) {
       margin-left: $space-2_new;
     }
@@ -118,9 +116,9 @@ nav.m-menu--desktop {
     border-color: $white;
     color: $brand-primary-dark;
     outline: none;
-
-    &::after {
-      content: $fa-var-caret-up;
+    
+    .c-indicator--angle {  
+      @include fa-icon-solid($fa-var-caret-up);
     }
   }
 }

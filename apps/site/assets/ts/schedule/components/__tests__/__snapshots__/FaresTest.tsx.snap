@@ -17,7 +17,7 @@ Array [
     >
       Fares
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF107;",
@@ -35,7 +35,7 @@ Array [
     >
       Fares
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",

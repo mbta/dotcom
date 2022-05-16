@@ -24,7 +24,7 @@ Array [
     >
       PDF Schedules
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",
@@ -67,7 +67,7 @@ Array [
     >
       PDF Schedules
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",
@@ -113,7 +113,7 @@ Array [
     >
       Fares
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF107;",
@@ -131,7 +131,7 @@ Array [
     >
       Fares
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",
@@ -190,7 +190,7 @@ Array [
     >
       Hours of Operation
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF107;",
@@ -208,7 +208,7 @@ Array [
     >
       Hours of Operation
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",
@@ -254,7 +254,7 @@ Array [
     >
       Upcoming Holidays
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF107;",
@@ -272,7 +272,7 @@ Array [
     >
       Upcoming Holidays
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",

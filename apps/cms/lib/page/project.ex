@@ -39,7 +39,8 @@ defmodule CMS.Page.Project do
     teaser: "",
     title: "",
     updated_on: nil,
-    path_alias: nil
+    path_alias: nil,
+    redirects: []
   ]
 
   @type t :: %__MODULE__{
@@ -59,7 +60,8 @@ defmodule CMS.Page.Project do
           teaser: String.t(),
           title: String.t(),
           updated_on: Date.t() | nil,
-          path_alias: String.t() | nil
+          path_alias: String.t() | nil,
+          redirects: [String.t()]
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -81,7 +83,8 @@ defmodule CMS.Page.Project do
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
       updated_on: parse_date(data, "field_updated_on"),
-      path_alias: path_alias(data)
+      path_alias: path_alias(data),
+      redirects: Map.get(data, "redirects", [])
     }
   end
 
