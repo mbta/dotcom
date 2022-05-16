@@ -1,0 +1,9 @@
+<div class="itinerary-stop">
+  <%= if @stop_id do %>
+    <%= render "_glx_now_open.html", glx_stations_open: @conn.assigns[:glx_stations_open], stop_id: @stop_id %>
+    <%= link @stop_name, to: stop_path(@conn, :show, @stop_id), class: "itinerary-transfer-row-label" %>
+  <% else %>
+    <span class="itinerary-transfer-row-label"><%= @stop_name %></span>
+  <% end %>
+  <%= render_stop_departure_display(@departure_display) %>
+</div>

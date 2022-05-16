@@ -14,7 +14,6 @@ defmodule SiteWeb.SearchController do
 
   plug(:breadcrumbs)
   plug(:search_header)
-  plug(:former_site)
 
   @typep id_map :: %{
            required(:stop) => MapSet.t(String.t()),
@@ -181,12 +180,6 @@ defmodule SiteWeb.SearchController do
   @spec breadcrumbs(Conn.t(), Keyword.t()) :: Conn.t()
   defp breadcrumbs(conn, _) do
     assign(conn, :breadcrumbs, [Breadcrumb.build("Search")])
-  end
-
-  @spec former_site(Conn.t(), Keyword.t()) :: Conn.t()
-  def former_site(conn, _) do
-    [host: former_site] = Application.get_env(:site, :former_mbta_site)
-    assign(conn, :former_site, former_site)
   end
 
   @spec link_context(Conn.t(), map) :: Conn.t()

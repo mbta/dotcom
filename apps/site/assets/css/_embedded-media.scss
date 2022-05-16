@@ -10,6 +10,8 @@
 // left:     graphic media floated left
 // right:    graphic media floated right
 
+@use "sass:math";
+
 $layout-media: (
   sm: (
     c-cms: (
@@ -116,7 +118,7 @@ $layout-media: (
   // to be added to the left side instead of right:
   @if $mixin == offset {
     @if $type == right {
-      margin-right: percentage($size / $columns);
+      margin-right: percentage(math.div($size, $columns));
     } @else {
       @include make-col-offset($size, $columns);
     }
@@ -281,7 +283,7 @@ $layout-media: (
       // used for optically aligning the top of images/media floated
       // to either side of <p> with the actual top pixels of characters.
       p + & {
-        margin-top: (($line-height / 2) * 1rem) / 2;
+        margin-top: (($line-height * 0.5) * 1rem) * 0.5;
       }
     }
 

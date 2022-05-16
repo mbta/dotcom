@@ -120,9 +120,6 @@ config :sentry,
   dsn: "${SENTRY_DSN}",
   environment_name: "${SENTRY_ENVIRONMENT}"
 
-config :site, OldSiteFileController,
-  response_fn: {SiteWeb.OldSiteFileController, :redirect_through_cdn}
-
 config :site, StaticFileController,
   response_fn: {SiteWeb.StaticFileController, :redirect_through_cdn}
 

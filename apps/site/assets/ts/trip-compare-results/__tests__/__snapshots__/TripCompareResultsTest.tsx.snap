@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+Array [
+  <h2>
+    Compare trips
+  </h2>,
+  <div>
+    <div
+      className="m-alerts__mode-buttons"
+    >
+      <div
+        className="m-alerts__mode-button-container"
+      >
+        <div
+          className="m-alerts__mode-button m-alerts__mode-button--selected"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <div
+            className="m-alerts__mode-button-name"
+          >
+            Redesigned
+          </div>
+        </div>
+      </div>
+      <div
+        className="m-alerts__mode-button-container"
+      >
+        <div
+          className="m-alerts__mode-button"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <div
+            className="m-alerts__mode-button-name"
+          >
+            Current
+          </div>
+        </div>
+      </div>
+    </div>
+    <p
+      className="no-trips page-section"
+    >
+      We found 
+      1
+       trips for you
+    </p>
+    <p
+      className="instructions page-section"
+    >
+      header
+    </p>
+    <p
+      className="instructions page-section"
+    >
+      <b>
+        Note: 
+      </b>
+      The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts. To learn more about the fares associated with your trip, please visit https://www.mbta.com/fares.
+    </p>
+    <div
+      className="m-trip-plan-results__itinerary"
+    >
+      <div
+        className="m-trip-plan-results__itinerary-header"
+      >
+        <div
+          className="m-trip-plan-results__itinerary-header-content"
+        >
+          <div
+            className="m-trip-plan-results__itinerary-summary"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<div>HTML for the accordion button</div>",
+              }
+            }
+          />
+        </div>
+      </div>
+      <div
+        className="c-accordion-ui"
+      >
+        <div
+          aria-level={3}
+          className="panel"
+          role="heading"
+        >
+          <div
+            className="c-accordion-ui__heading"
+          >
+            <button
+              aria-controls="itinerary-1-section"
+              aria-expanded={false}
+              className="c-accordion-ui__trigger collapsed"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="c-accordion-ui__title"
+                id="itinerary-1-title"
+              >
+                Show map and trip details
+              </span>
+              <div
+                className="c-accordion-ui__indicator"
+              >
+                <span
+                  className="c-indicator__content c-indicator__content--angle"
+                />
+              </div>
+            </button>
+          </div>
+          <div
+            aria-labelledby="itinerary-1-title"
+            className="c-accordion-ui__target js-focus-on-expand"
+            id="itinerary-1-section"
+            role="region"
+          />
+        </div>
+      </div>
+      <noscript>
+        <div
+          className="c-accordion-ui"
+        >
+          <div
+            aria-level={3}
+            role="heading"
+          >
+            <div
+              aria-labelledby="itinerary-1-title"
+              className="c-accordion-ui__target"
+              id="itinerary-1-section"
+              role="region"
+            >
+              <div
+                className="c-accordion-ui__content"
+              >
+                <div
+                  className="m-trip-plan-results__itinerary-body"
+                >
+                  <div
+                    className="trip-plan-map map"
+                  />
+                  <div
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "<div>Lots of content about the itinerary</div>",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </noscript>
+    </div>
+  </div>,
+]
+`;

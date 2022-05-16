@@ -164,7 +164,7 @@ Array [
             className="schedule-table__cell schedule-table__cell--tiny"
           >
             <span
-              className="c-expandable-block__header-caret"
+              className="fa c-expandable-block__header-caret"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "&#xF107;",
