@@ -1,0 +1,29 @@
+<fieldset>
+  <legend class="sr-only">Schedule By Arrival or Departure:</legend>
+  <div class="form-check m-trip-plan__form-check">
+    <%= label @parent_form, :time, for: "depart", class: "form-check-label m-trip-plan__form-label" do %>
+      <%= radio_button @parent_form, :time, "depart", id: "depart", checked: true,  class: "form-check-input c-radio" %>
+      <div class="c-radio__label">
+        Depart at
+      </div>
+    <% end %>
+  </div>
+  <div class="form-check m-trip-plan__form-check">
+    <%= label @parent_form, :time, for: "arrive", class: "form-check-label m-trip-plan__form-label" do %>
+      <%= radio_button @parent_form, :time, "arrive", id: "arrive", class: "form-check-input c-radio" %>
+      <div class="c-radio__label">
+        Arrive by
+      </div>
+    <% end %>
+  </div>
+</fieldset>
+<div id="trip-plan-datepicker" class="m-trip-plan__departure-last">
+  <script id="form-data" type="text/plain">
+    <%= raw(Poison.encode!(@plan_datetime_selector_fields)) %>
+  </script>
+  <% date_ranges = %{min_date: Util.now(), max_date: end_of_rating()} %>
+  <%= DateTimeSelector.custom_date_time_select(@parent_form, date_ranges, @datetime) %>
+  <div class="error-container">
+    <%= date_error(@errors) %>
+  </div>
+</div>
