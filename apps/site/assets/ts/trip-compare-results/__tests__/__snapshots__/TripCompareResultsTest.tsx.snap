@@ -62,7 +62,7 @@ Array [
       <b>
         Note: 
       </b>
-      The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts
+      The following trips only reflect normal service within our proposed redesigned bus network. They do not reflect current bus service and do not include bus service alerts. To learn more about the fares associated with your trip, please visit https://www.mbta.com/fares.
     </p>
     <div
       className="m-trip-plan-results__itinerary"
