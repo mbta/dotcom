@@ -10,6 +10,7 @@
       aria-expanded="false"
       aria-controls="<%= to_camelcase(name) %>">
       <%= name %>
+      <span class="c-indicator--angle" />
     </a>
 
     <div class="m-menu--desktop__menu">

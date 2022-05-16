@@ -51,7 +51,7 @@
   }
 }
 
-$bullet-size: 32px / $font-size-base-xxl * $base-spacing; // 32px on large viewport
+$bullet-size: math.div(32px, $font-size-base-xxl) * $base-spacing; // 32px on large viewport
 $separator-border: solid 1px $gray-lightest;
 $agenda-column-gap: $base-spacing * .75;
 

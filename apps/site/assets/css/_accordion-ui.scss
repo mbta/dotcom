@@ -38,16 +38,12 @@
 }
 
 .c-indicator__content {
-  &::after {
-    @include fa-icon();
+  &.c-indicator__content--angle {
+    @include fa-icon-solid($fa-var-angle-up);
   }
 
-  &.c-indicator__content--angle::after {
-    content: $fa-var-angle-up;
-  }
-
-  .collapsed &.c-indicator__content--angle::after {
-    content: $fa-var-angle-down;
+  .collapsed &.c-indicator__content--angle {
+    @include fa-icon-solid($fa-var-angle-down);
   }
 }
 

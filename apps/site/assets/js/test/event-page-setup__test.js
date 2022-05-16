@@ -26,7 +26,7 @@ const eventsHubListViewHTML = `
               ${m === 2 ? "m-event-list__month--active" : ""}">
                 <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
                   <h2 class="m-event-list__month-header">
-                    ${m} 2021<span class="c-expandable-block-caret--black"></span>
+                    ${m} 2021<span class="c-expandable-block-caret"></span>
                   </h2>
                 </button>
                 <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-${m}" aria-labelledby="header-${m}">

@@ -3107,7 +3107,7 @@ Array [
             >
               Accessibility
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF106;",
@@ -3188,7 +3188,7 @@ Array [
               />
               Accessibility
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF106;",
@@ -3272,7 +3272,7 @@ Array [
             >
               Parking
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF107;",
@@ -3299,7 +3299,7 @@ Array [
               />
               Parking
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF106;",
@@ -3466,7 +3466,7 @@ Array [
             >
               Bikes
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF107;",
@@ -3493,7 +3493,7 @@ Array [
               />
               Bikes
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF106;",
@@ -3563,7 +3563,7 @@ Array [
             >
               Fare Sales
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF107;",
@@ -3590,7 +3590,7 @@ Array [
               />
               Fare Sales
               <span
-                className="c-expandable-block__header-caret"
+                className="fa c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "&#xF106;",

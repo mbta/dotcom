@@ -178,7 +178,7 @@
 
     label {
       flex: unset;
-      flex-basis: calc(50% - #{$base-spacing / 4});
+      flex-basis: calc(50% - #{$base-spacing * 0.25});
     }
 
     @include media-breakpoint-down(sm) {

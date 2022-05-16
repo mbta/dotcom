@@ -45,7 +45,7 @@ const eventListHtml = `
     <section id="1-2021" class="m-event-list__month">
       <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
         <h2 class="m-event-list__month-header">
-          January 2021<span class="c-expandable-block-caret--black"></span>
+          January 2021<span class="c-expandable-block-caret"></span>
         </h2>
       </button>
       <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-1" aria-labelledby="header-1">
@@ -71,7 +71,7 @@ const eventListHtml = `
     <section id="2-2021" class="m-event-list__month m-event-list__month--active">
       <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
         <h2 class="m-event-list__month-header">
-          February 2021<span class="c-expandable-block-caret--black"></span>
+          February 2021<span class="c-expandable-block-caret"></span>
         </h2>
       </button>
       <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-2" aria-labelledby="header-2">
