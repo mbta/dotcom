@@ -90,12 +90,44 @@
     display: flex;
     font-weight: $font-weight-medium;
     justify-content: center;
-    padding-bottom: $space-12;
+    padding-bottom: calc(#{$space-12} - 8px);
     padding-top: $space-12;
     border-bottom: 8px solid $brand-primary;
 
     @include media-breakpoint-down(sm) {
       border-bottom: 4px solid $brand-primary;
+      padding-bottom: calc(#{$space-12} - 4px);
+    }
+
+    [class*='c-svg__icon'] {
+      @include icon-size-inline(2em);
+      flex: 0 0 auto;
+      margin-right: $base-spacing;
+  
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    .m-tabbed-nav__icon-text {
+      color: $brand-primary-light-contrast;
+      font-size: $font-size-base * 2;
+      font-family: $headings-font-family;
+      font-weight: bold;
+      line-height: $headings-line-height;
+  
+      @include media-breakpoint-down(md) {
+        font-size: $font-size-base-sm * 2;
+      }
+    
+      @include media-breakpoint-down(sm) {
+        font-size: $font-size-base-sm * 1.625;
+      }
+    
+      @include media-breakpoint-down(xs) {
+        font-size: $font-size-base-sm;
+        font-weight: $font-weight-medium;
+      }
     }
 
     &.active {
@@ -108,37 +140,16 @@
       @include media-breakpoint-down(sm) {
         border-bottom: 4px solid $brand-primary-light-contrast;
       }
-    }
-  }
 
-  .m-tabbed-nav__icon {
-    @include icon-size-inline(2em);
-    flex: 0 0 auto;
-    margin-right: $base-spacing;
-
-    @include media-breakpoint-down(md) {
-      display: none;
+      .m-tabbed-nav__icon-text {
+        @include media-breakpoint-down(xs) {
+          font-weight: bold;
+        }
+      }
     }
-  }
 
-  .m-tabbed-nav__icon-text {
-    color: $brand-primary-light-contrast;
-    font-size: $font-size-base * 2;
-    font-family: $headings-font-family;
-    font-weight: bold;
-    line-height: $headings-line-height;
-
-    @include media-breakpoint-down(md) {
-      font-size: $font-size-base-sm * 2;
-    }
-  
-    @include media-breakpoint-down(sm) {
-      font-size: $font-size-base-sm * 1.625;
-    }
-  
-    @include media-breakpoint-down(xs) {
-      font-size: $font-size-base-sm;
-      font-weight: $font-weight-medium;
+    &:focus, &:hover, &:active {
+        text-decoration: none;
     }
   }
 
