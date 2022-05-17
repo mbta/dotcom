@@ -32,7 +32,7 @@
   
     @include media-breakpoint-down(xs) {
       height: 48px;
-      padding-left: $space-24;
+      justify-content: center;
     }
   }
 
