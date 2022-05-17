@@ -48,16 +48,8 @@
       padding-right: $base-spacing-sm;
     }
   
-    @include media-breakpoint-down(sm) {
-      margin-left: $base-spacing;
-      padding-left: $base-spacing-sm;
-      padding-right: $base-spacing-sm;
-    }
-  
     @include media-breakpoint-down(xs) {
       margin-left: $base-spacing-sm;
-      padding-left: $base-spacing-sm;
-      padding-right: $base-spacing-sm;
     }
 
     @include hover-focus-active {
