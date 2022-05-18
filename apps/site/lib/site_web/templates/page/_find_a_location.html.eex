@@ -2,9 +2,9 @@
 %>
 <div class="c-grid-buttons-right">
 <div class="c-location-header">
-  <h3>
+  <h2>
     Find a Location
-  </h3>
+  </h2>
   </div>
   <a href="https://www.mbta.com/stops/subway" class="c-location-button">
     <div class="c-grid-button__content">
