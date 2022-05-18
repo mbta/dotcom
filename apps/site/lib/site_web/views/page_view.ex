@@ -27,6 +27,25 @@ defmodule SiteWeb.PageView do
     end
   end
 
+  @spec get_mode_route_sorter(Routes.Route.gtfs_route_type()) ::
+          (Routes.Route.t(), Routes.Route.t() -> boolean())
+  defp get_mode_route_sorter(:bus), do: &sort_string_number/2
+  defp get_mode_route_sorter(_), do: &<=/2
+
+  @spec sort_routes({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) ::
+          {Routes.Route.gtfs_route_type(), [Routes.Route.t()]}
+  defp sort_routes({mode, routes}) do
+    sorter = get_mode_route_sorter(mode)
+
+    {mode, Enum.sort_by(routes, & &1.name, sorter)}
+  end
+
+  @spec get_mode_order({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) :: integer()
+  defp get_mode_order({:subway, _}), do: 0
+  defp get_mode_order({:bus, _}), do: 1
+  defp get_mode_order({:commuter_rail, _}), do: 2
+  defp get_mode_order({:ferry, _}), do: 3
+
   @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
   def alerts(alerts) do
     routes_with_high_priority_alerts_by_mode =
@@ -39,25 +58,8 @@ defmodule SiteWeb.PageView do
       |> Enum.filter(& &1)
       |> Enum.group_by(&Routes.Route.type_atom(&1.type))
       |> (&Map.merge(%{bus: [], subway: [], ferry: [], commuter_rail: []}, &1)).()
-      |> Enum.map(fn {k, routes} ->
-        {k,
-         Enum.sort_by(
-           routes,
-           & &1.name,
-           case k do
-             :bus -> &sort_string_number/2
-             _ -> &<=/2
-           end
-         )}
-      end)
-      |> Enum.sort_by(fn {mode, _} ->
-        case mode do
-          :subway -> 0
-          :bus -> 1
-          :commuter_rail -> 2
-          :ferry -> 3
-        end
-      end)
+      |> Enum.map(&sort_routes/1)
+      |> Enum.sort_by(&get_mode_order/1)
 
     stops_with_accessibility_alerts_by_issue =
       alerts
