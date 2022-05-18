@@ -13,9 +13,8 @@ defmodule SiteWeb.PageView do
   @spec sort_string_number(String.t(), String.t()) :: boolean
   defp sort_string_number(a, b) do
     case {Integer.parse(a), Integer.parse(b)} do
-      {:error, _} -> a <= b
-      {_, :error} -> a <= b
-      {a_int, b_int} -> a_int <= b_int
+      {{a_int, _}, {b_int, _}} -> a_int <= b_int
+      _ -> a <= b
     end
   end
 
