@@ -359,7 +359,7 @@
 
   .m-homepage__alerts-stops li {
     &::after {
-      content: ",";
+      content: ",\00a0";
       display: inline-block;
     }
 
