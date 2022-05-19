@@ -19,10 +19,10 @@ defmodule SiteWeb.PageView do
   end
 
   @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
-  defp get_route(id) do
-    case id do
-      "Green" -> Routes.Repo.green_line()
-      _ -> Routes.Repo.get(id)
+  def get_route(id) do
+    case SiteWeb.ScheduleController.Line.Helpers.get_route(id) do
+      {:ok, route} -> route
+      _ -> nil
     end
   end
 
