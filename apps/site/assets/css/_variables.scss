@@ -46,7 +46,10 @@ $space-16: 1rem;
 $space-12: $space-16 * .75;
 $space-18: $space-12 * 1.5;
 $space-24: $space-12 * 2;
+$space-32: $space-16 * 2;
 $space-36: $space-16 * 2.25;
+$space-64: $space-32 * 2;
+$space-120: $space-12 * 10;
 $space-8: math.div($space-16, 2); // 8px real, 4px Zeplin
 $space-6: math.div($space-12, 2); // 6px real, 3px Zeplin
 $space-4: math.div($space-12, 4); // 3px real, 1.5px Zeplin

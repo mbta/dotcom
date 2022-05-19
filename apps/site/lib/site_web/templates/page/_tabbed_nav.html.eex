@@ -1,0 +1,27 @@
+<div class="m-tabbed-nav" role="navigation">
+  <div class="nav m-tabbed-nav__items" role="tablist">
+    <div class="m-tabbed-nav__item-container">
+      <a tabindex="0" class="nav-link m-tabbed-nav__item active" role="tab" data-toggle="tab" data-tab-type="schedules" aria-controls="schedules" aria-selected="true">
+        <%= svg("icon-map-default.svg") %>
+        <span href="/schedules" class="m-tabbed-nav__icon-text">Schedules</span>
+      </a>
+    </div>
+    <div class="m-tabbed-nav__item-container">
+      <a tabindex="0" class="nav-link m-tabbed-nav__item" role="tab" data-toggle="tab" data-tab-type="trip-planner" aria-controls="trip planner" aria-selected="false">
+        <%= svg("icon-trip-planner-default.svg") %>
+        <span href="/trip-planner" class="m-tabbed-nav__icon-text">Trip Planner</span>
+      </a>
+    </div>
+    <div class="m-tabbed-nav__item-container">
+      <a tabindex="0" class="nav-link m-tabbed-nav__item" role="tab" data-toggle="tab" data-tab-type="alerts" aria-controls="alerts" aria-selected="false">
+        <%= svg("icon-alerts-default.svg") %>
+        <span href="/alerts" class="m-tabbed-nav__icon-text">Alerts</span>
+      </a>
+    </div>
+  </div>
+  <div class="m-tabbed-nav__content">
+    <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">Schedule Content</div>
+    <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">Trip Planner Content</div>
+    <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">Alert Content</div>
+  </div>
+</div>
