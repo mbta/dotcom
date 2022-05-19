@@ -45,6 +45,11 @@ defmodule SiteWeb.PageView do
   defp get_mode_order({:commuter_rail, _}), do: 2
   defp get_mode_order({:ferry, _}), do: 3
 
+  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) :: integer()
+  defp get_access_issue_order({:access_issue, _}), do: 0
+  defp get_access_issue_order({:elevator_closure, _}), do: 1
+  defp get_access_issue_order({:escalator_closure, _}), do: 2
+
   @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
   def alerts(alerts) do
     routes_with_high_priority_alerts_by_mode =
@@ -79,6 +84,7 @@ defmodule SiteWeb.PageView do
          |> Enum.uniq_by(&(&1.parent_id || &1.id))
          |> Enum.sort_by(& &1.name)}
       end)
+      |> Enum.sort_by(&get_access_issue_order/1)
 
     render("_alerts.html",
       routes_with_high_priority_alerts_by_mode: routes_with_high_priority_alerts_by_mode,
