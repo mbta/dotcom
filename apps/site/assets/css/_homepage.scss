@@ -251,6 +251,8 @@
   ul {
     list-style: none;
     padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
 
     li {
       display: inline-block;
@@ -279,8 +281,18 @@
     }
   }
 
-  ul.bus li {
-    font-size: 0.9em;
+  ul.bus {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+
+    li {
+      font-size: 0.9em;
+
+      a, .c-icon__bus-pill {
+        display: inline-block;
+        width: 100%;
+      }
+    }
   }
 
   ul.subway svg {

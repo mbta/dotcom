@@ -58,6 +58,7 @@ defmodule SiteWeb.PageView do
       |> Enum.reduce(MapSet.new(), fn alert, routes ->
         MapSet.union(routes, Alerts.Alert.get_entity(alert, :route))
       end)
+      |> Enum.filter(& &1)
       |> Enum.map(&get_route/1)
       |> Enum.filter(& &1)
       |> Enum.group_by(&Routes.Route.type_atom(&1.type))
