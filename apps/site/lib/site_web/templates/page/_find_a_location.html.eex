@@ -1,10 +1,10 @@
 <div class="c-grid-buttons-right">
-<div class="c-location-header">
-  <h2>
-    Find a Location
-  </h2>
+  <div class="c-location-header">
+    <h2>
+      Find a Location
+    </h2>
   </div>
-  <a href="/stops" class="c-location-button">
+  <%= link to: cms_static_page_path(@conn, "/stops"), class: "c-location-button" do %>
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
         <%= svg("stations-parking.svg") %>
@@ -13,8 +13,8 @@
         Stations and Parking
       </span>
     </div>
-  </a>
-  <a href="https://www.mbta.com/transit-near-me" class="c-location-button">
+  <% end %>
+  <%= link to: cms_static_page_path(@conn, "/transit-near-me"), class: "c-location-button" do %>
     <div class="c-grid-button__content">
       <span class="c-grid-button__icon">
         <i class="fa fa-map-location-dot" aria-hidden=true></i>
@@ -23,5 +23,5 @@
         Transit Near Me
       </span>
     </div>
-  </a>
+  <% end %>
 </div>
