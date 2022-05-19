@@ -8,10 +8,7 @@ defmodule Alerts.Accessibility do
   def effect_types, do: [:elevator_closure, :escalator_closure, :access_issue]
 
   @spec is_accessibility_alert?(Alert.t()) :: boolean()
-  def is_accessibility_alert?(%Alert{effect: :elevator_closure}), do: true
-  def is_accessibility_alert?(%Alert{effect: :escalator_closure}), do: true
-  def is_accessibility_alert?(%Alert{effect: :access_issue}), do: true
-  def is_accessibility_alert?(_), do: false
+  def is_accessibility_alert?(%Alert{effect: effect}), do: effect in effect_types()
 
   @spec effect_type_to_group_title(effect_type()) :: String.t()
   def effect_type_to_group_title(:access_issue), do: "Access Issues"
