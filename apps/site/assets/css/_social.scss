@@ -30,10 +30,6 @@
     max-height: 100%;
     max-width: 100%;
   }
-
-  &.tiktok {
-    background-color: #FE2C55;
-  }
 }
 
 .c-social--facebook {
@@ -73,5 +69,13 @@
 
   .fa {
     color: $white;
+  }
+}
+
+.c-social--tiktok {
+  background-color: $tiktok;
+
+  .fab {
+    color: $white
   }
 }

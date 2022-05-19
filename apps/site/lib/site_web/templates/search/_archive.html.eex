@@ -1,5 +1,0 @@
-<% old_search_url = "#{@former_site}/search?q=#{URI.encode(@query)}" %>
-<p>Not finding what you are looking for? It may still be on our legacy site.</p>
-<p>
-  <a class="search-archive c-call-to-action" href="<%= old_search_url %>">Search the old website</a>
-</p>

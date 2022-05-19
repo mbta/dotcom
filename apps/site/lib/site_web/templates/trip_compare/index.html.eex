@@ -1,0 +1,47 @@
+<div class="container">
+  <h1 class="trip-plan-title">How Will the Proposed Bus Network Redesign Affect Your Trip?</h1>
+  <div class="page-section">
+    Fill in your trip details below and you'll see how your current trip compares between the existing network and the
+    <a href="https://www.mbta.com/projects/bus-network-redesign" target="_blank">proposed redesigned bus network</a>.
+  </div>
+  <div class="page-section">
+    Then, share your thoughts with us about the changes to your trip by July 31, 2022.
+    Your feedback will help us identify what works, what doesn't, and what could be better.
+  </div>
+  <div class="page-section">
+    <a href="https://reginavilla.az1.qualtrics.com/jfe/form/SV_821isTJ0Sy2PBfE">Submit feedback on the Bus Network Redesign</a>
+  </div>
+  <div class="trip-plan-container">
+    <%= render "_sidebar.html", assigns %>
+    <div class="trip-plan-body">
+      <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+      <%= case assigns[:query] do %>
+       <% %{itineraries: {:ok, _}} -> %>
+          <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
+          <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Poison.encode!(%{itineraryData: itinerary_data, itineraryExplanation: itinerary_explanation(@query, @modes)})) %></script>
+          <div id="react-root">
+              <%= unless Enum.empty?(@itineraries) do render_react(%{itineraryData: itinerary_data}) end %>
+          </div>
+          <%= if Application.get_env(:site, :dev_server?) do %>
+            <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tripcompareresults.js" %>"></script>
+          <% else %>
+            <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+            <script defer src="<%= static_url(@conn, "/js/tripcompareresults.js") %>"></script>
+          <% end %>
+       <% _ -> %>
+        <%= if assigns[:map_data] do %>
+          <% %{map_data: map_data } = assigns %>
+          <% map_data = Map.put(map_data, :tile_server_url, Application.fetch_env!(:site, :tile_server_url)) %>
+          <script id="js-trip-planner-map-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+          <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+            <div class="trip-plan-initial-map map" id="react-root"></div>
+              <%= if Application.get_env(:site, :dev_server?) do %>
+                <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tripplanner.js" %>"></script>
+              <% else %>
+                <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+                <script defer src="<%= static_url(@conn, "/js/tripplanner.js") %>"></script>
+              <% end %>
+          <% end %>
+      <% end %>
+    </div>
+  </div>

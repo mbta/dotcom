@@ -57,7 +57,7 @@ exports[`it renders 1`] = `
                 className="c-alert-item__top-caret-container"
               >
                 <span
-                  className="c-expandable-block__header-caret--black"
+                  className="fa c-expandable-block__header-caret--black"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "&#xF106;",

@@ -148,8 +148,10 @@ defmodule SiteWeb.ViewHelpers do
   def fa(name, attributes \\ []) when is_list(attributes) do
     content_tag(:i, [], [
       {:"aria-hidden", "true"},
-      {:class, "notranslate fa fa-#{name} " <> Keyword.get(attributes, :class, "")}
-      | Keyword.delete(attributes, :class)
+      {:class,
+       "notranslate #{Keyword.get(attributes, :font_family, "fa")} fa-#{name} " <>
+         Keyword.get(attributes, :class, "")}
+      | Keyword.drop(attributes, [:class, :font_family])
     ])
   end
 

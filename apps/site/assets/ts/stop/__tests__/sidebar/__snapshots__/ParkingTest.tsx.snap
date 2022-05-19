@@ -26,7 +26,7 @@ Array [
     >
       Parking
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF107;",
@@ -53,7 +53,7 @@ Array [
       />
       Parking
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",
@@ -250,7 +250,7 @@ exports[`Parking via enzyme-to-json it displays parking info when opened and inn
       >
         Parking
         <span
-          className="c-expandable-block__header-caret"
+          className="fa c-expandable-block__header-caret"
           dangerouslySetInnerHTML={
             Object {
               "__html": "&#xF106;",

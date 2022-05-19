@@ -1,7 +1,9 @@
+@use "sass:math";
+
 $sm-map-height: $base-spacing * 20;
 // Aspect ratios of 3:2 and 16:9
-$md-map-height: map-get($container-max-widths, md) * (2 / 3);
-$xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
+$md-map-height: map-get($container-max-widths, md) * math.div(2, 3);
+$xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
 
 .transitnearmeview {
   @include media-breakpoint-down(sm) {
