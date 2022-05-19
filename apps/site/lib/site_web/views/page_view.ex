@@ -79,9 +79,9 @@ defmodule SiteWeb.PageView do
       )
       |> Enum.map(fn {type, stops} ->
         {type,
-         Enum.map(stops, &Stops.Repo.get/1)
+         Enum.map(stops, & Stops.Repo.get_parent/1)
          |> Enum.filter(& &1)
-         |> Enum.uniq_by(&(&1.parent_id || &1.id))
+         |> Enum.uniq_by(& &1.id)
          |> Enum.sort_by(& &1.name)}
       end)
       |> Enum.sort_by(&get_access_issue_order/1)
@@ -150,7 +150,7 @@ defmodule SiteWeb.PageView do
     SiteWeb.Router.Helpers.stop_url(
       SiteWeb.Endpoint,
       :show,
-      stop.parent_id || stop.id
+      stop.id
     )
   end
 
