@@ -21,6 +21,8 @@
   }
 
   .c-grid-button__content {
+    background-color: $white;
+    
     &:hover {
       border: $border;
     }
