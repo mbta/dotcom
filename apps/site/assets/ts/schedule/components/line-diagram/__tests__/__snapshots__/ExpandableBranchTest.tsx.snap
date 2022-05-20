@@ -23,7 +23,7 @@ exports[`ExpandableBranch renders and matches snapshot 1`] = `
                  stops
               </button>
             </div>
-            <span className=\\"c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
+            <span className=\\"fa c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
           </div>
         </h3>
         <noscript>

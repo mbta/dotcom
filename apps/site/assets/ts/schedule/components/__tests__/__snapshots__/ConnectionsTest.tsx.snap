@@ -19,7 +19,7 @@ Array [
     >
       Connections
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF107;",
@@ -37,7 +37,7 @@ Array [
     >
       Connections
       <span
-        className="c-expandable-block__header-caret"
+        className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
           Object {
             "__html": "&#xF106;",

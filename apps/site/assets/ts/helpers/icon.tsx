@@ -103,7 +103,7 @@ export const caret = (
   const unicodeCharacter = expanded ? "&#xF106;" : "&#xF107;";
   return (
     <span
-      className={className}
+      className={`fa ${className}`}
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: unicodeCharacter }}
     />

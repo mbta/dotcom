@@ -42,6 +42,5 @@
       <%= render SiteWeb.PaginationHelpers, "_responsive_pagination.html", pagination: @pagination,
                                                                         link_context: @link_context %>
     </div>
-    <%= render "_archive.html", assigns %>
   </div>
 </div>

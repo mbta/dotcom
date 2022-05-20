@@ -45,12 +45,7 @@ config :sentry,
   filter: Site.SentryFilter,
   tags: %{"dotcom.application" => "backend"}
 
-config :site, :former_mbta_site, host: "https://old.mbta.com"
 config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
-
-config :site, OldSiteFileController,
-  response_fn: {SiteWeb.OldSiteFileController, :send_file},
-  gtfs_s3_bucket: {:system, "GTFS_S3_BUCKET", "mbta-gtfs-s3"}
 
 config :site, StaticFileController, response_fn: {SiteWeb.StaticFileController, :send_file}
 

@@ -6,6 +6,5 @@
       <li>Remove quotes around phrases to search for each word individually.</li>
       <li>Use fewer keywords to increase the number of results</li>
     </ul>
-    <%= render "_archive.html", assigns %>
   </div>
 </div>

@@ -70,6 +70,10 @@ defmodule SiteWeb.Router do
     get("/style_guide", Redirector, to: "/style-guide")
     get("/transit_near_me", Redirector, to: "/transit-near-me")
     get("/trip_planner", Redirector, to: "/trip-planner")
+    get("/trip-compare", TripCompareController, :index)
+    get("/trip-compare/to/", Redirector, to: "/trip-compare")
+    get("/trip-compare/to/:address", TripCompareController, :to)
+    get("/trip_compare", Redirector, to: "/trip-compare")
 
     # redirect SL and CT to proper route ids
     get("/schedules/SL1", Redirector, to: "/schedules/741")
@@ -208,21 +212,8 @@ defmodule SiteWeb.Router do
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
 
-    get("/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps)
     get("/about_the_mbta/public_meetings", Redirector, to: "/events")
     get("/about_the_mbta/news_events", Redirector, to: "/news")
-  end
-
-  # old site static files
-  scope "/", SiteWeb do
-    pipe_through([:secure])
-    get("/uploadedfiles/*path", OldSiteFileController, :uploaded_files)
-    get("/uploadedFiles/*path", OldSiteFileController, :uploaded_files)
-    get("/uploadedimages/*path", OldSiteFileController, :uploaded_files)
-    get("/uploadedImages/*path", OldSiteFileController, :uploaded_files)
-    get("/images/*path", OldSiteFileController, :images)
-    get("/lib/*path", OldSiteFileController, :uploaded_files)
-    get("/gtfs_archive/archived_feeds.txt", OldSiteFileController, :archived_files)
   end
 
   scope "/_flags" do
