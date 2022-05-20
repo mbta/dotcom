@@ -21,6 +21,14 @@
   }
 }
 
+.c-location-buttons-container {
+  display: flex;
+  flex-grow: 2;
+  @include media-breakpoint-down(xs) {
+    flex-wrap: wrap;
+  }
+}
+
 .c-location-header {
   flex-grow: 2;
   @include media-breakpoint-down(sm) {
@@ -40,7 +48,7 @@
   padding: 0 $base-spacing * .25;
   color: black;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     flex-basis: 100%;
   }
 
