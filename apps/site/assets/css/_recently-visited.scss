@@ -19,5 +19,11 @@
       max-width: 100%;
     }
   }
+
+  .c-grid-button__content {
+    &:hover {
+      border: $border;
+    }
+  }
 }
 
