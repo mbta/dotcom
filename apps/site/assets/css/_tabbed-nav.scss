@@ -172,9 +172,7 @@
 
   .m-tabbed-nav__content {
     background-color: $gray-bordered-background;
-
-    // TODO: update
-    padding: 2px 64px 40px 64px;
+    padding: $space-2 $space-64 $space-8 * 5 $space-64;
 
     @include media-breakpoint-down(sm) {
       padding: $base-spacing;
