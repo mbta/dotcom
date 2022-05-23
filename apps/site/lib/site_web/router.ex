@@ -212,6 +212,7 @@ defmodule SiteWeb.Router do
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
 
+    get("/schedules_and_maps/*path", OldSiteRedirectController, :schedules_and_maps)
     get("/about_the_mbta/public_meetings", Redirector, to: "/events")
     get("/about_the_mbta/news_events", Redirector, to: "/news")
   end
