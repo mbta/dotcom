@@ -7,7 +7,13 @@ defmodule SiteWeb.CMS.Page.ProjectContactTest do
   alias Phoenix.HTML
   alias Plug.Conn
 
-  @conn %Conn{}
+  @conn %Conn{
+    assigns: %{
+      alerts: [],
+      date_time: DateTime.utc_now(),
+      page: %{redirects: [], page_alias: 'n/a'}
+    }
+  }
   @project %Project{id: 1}
 
   describe "_contact.html" do
