@@ -81,4 +81,44 @@ defmodule SiteWeb.CMS.PageView do
       false
     end
   end
+
+  # TODO(Nick): once we move away from linking to project update URLs, we can
+  # most likely delete this function
+  @spec get_project_url_paths(String.t()) :: [String.t()]
+  def get_project_url_paths(s) do
+    if String.contains?(s, "/projects") do
+      if String.contains?(s, "/update") do
+        [s, Regex.replace(~r/\/update.*/, s, "")]
+      else
+        [s]
+      end
+    else
+      []
+    end
+  end
+
+  @spec get_mbta_url_path(String.t() | nil) :: String.t() | nil
+  defp get_mbta_url_path(nil), do: nil
+
+  defp get_mbta_url_path(path) do
+    uri = URI.parse(path)
+
+    if uri.host != nil and String.contains?(uri.host, "mbta.com") do
+      uri.path
+    else
+      nil
+    end
+  end
+
+  @spec alert_related?(MapSet.t(), Alerts.Alert.t()) :: boolean()
+  defp alert_related?(project_paths, alert) do
+    case get_mbta_url_path(alert.url) do
+      nil ->
+        false
+
+      alert_path ->
+        alert_project_paths = get_project_url_paths(alert_path)
+        Enum.any?(alert_project_paths, &MapSet.member?(project_paths, &1))
+    end
+  end
 end

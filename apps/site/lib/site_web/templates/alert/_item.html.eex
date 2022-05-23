@@ -18,7 +18,7 @@
       </div>
       <div>
         <%= replace_urls_with_links(@alert.header) %>
-        <%= if @alert.url != nil && @alert.url != "" do %>
+        <%= if @alert.url != nil && @alert.url != "" && !@hide_url do %>
           <span>&nbsp;</span>
           <%= replace_urls_with_links(@alert.url) %>
         <% end %>
