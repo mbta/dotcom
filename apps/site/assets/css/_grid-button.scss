@@ -9,6 +9,61 @@
   margin: $base-spacing * -.25;
 }
 
+.c-grid-buttons-right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: 1rem;
+  @include media-breakpoint-up(sm) {
+    border-bottom: 2px solid $gray-lightest;
+    padding-bottom: 10px;
+  }
+}
+
+.c-location-buttons-container {
+  display: flex;
+  flex-grow: 2;
+  @include media-breakpoint-down(xs) {
+    flex-wrap: wrap;
+  }
+  @include media-breakpoint-up(sm) {
+    flex-grow: 3;
+  }
+}
+
+.c-location-header {
+  flex-grow: 2;
+  @include media-breakpoint-down(sm) {
+    flex-basis: 100%;
+  }
+  @include media-breakpoint-up(sm) {
+    flex-grow: 1;
+  }
+}
+
+.c-location-button {
+  flex-grow: 1;
+  height: 50px;
+  width: 100px;
+  font-weight: $font-weight-medium;
+  display: block;
+  flex-shrink: 0;
+  margin-bottom: $space-6;
+  margin-top: $space-6;
+  padding: 0 $base-spacing * .25;
+  color: black;
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 100%;
+    padding: 0;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .c-grid-button {
   display: block;
   flex-basis: 100%;

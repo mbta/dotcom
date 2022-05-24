@@ -7,6 +7,7 @@
     </div>
     <div class="m-homepage--10-col-sm-only m-homepage__search-wrapper">
       <%= render "_search_bar.html", conn: @conn, placeholder: nil, id: "homepage" %>
+      <%= render "_find_a_location.html", conn: @conn %>
       <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                 routes: Map.get(assigns, :recently_visited, []),
                                                                 alerts: @alerts,
