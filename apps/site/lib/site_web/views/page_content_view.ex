@@ -121,4 +121,11 @@ defmodule SiteWeb.CMS.PageView do
         Enum.any?(alert_project_paths, &MapSet.member?(project_paths, &1))
     end
   end
+
+  @spec alerts_for_project(Page.Project.t(), [Alerts.Alert]) :: [Alerts.Alert]
+  defp alerts_for_project(project, alerts) do
+    paths = MapSet.new([project.path_alias | project.redirects])
+
+    Enum.filter(alerts, & alert_related?(paths, &1))
+  end
 end

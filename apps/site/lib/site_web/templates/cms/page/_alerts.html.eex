@@ -1,8 +1,5 @@
 <div class="alerts-section">
-  <%
-    paths = MapSet.new([@page.path_alias | @page.redirects])
-    alerts = Enum.filter(@alerts, & alert_related?(paths, &1))
-  %>
+  <% alerts = alerts_for_project(@page, @alerts) %>
   <%= if !Enum.empty?(alerts) do %>
     <h2>Related Service Alerts</h2>
     <details>
