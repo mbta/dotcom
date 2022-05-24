@@ -10,7 +10,7 @@ defmodule SiteWeb.CMS.Page.ProjectContactTest do
   @conn %Conn{
     assigns: %{
       alerts: [],
-      date_time: DateTime.utc_now(),
+      date_time: DateTime.utc_now()
     }
   }
   @project %Project{id: 1, path_alias: "/projects/test"}
@@ -126,12 +126,21 @@ defmodule SiteWeb.CMS.Page.ProjectContactTest do
 
     test ".contact-element-email is rendered with alerts" do
       project = %{@project | media_email: "present"}
-      conn = %{@conn | assigns: %{ @conn.assigns | alerts: [%Alerts.Alert{
-        url: "http://mbta.com/projects/test",
-        priority: :high,
-        description: "Test Alert",
-        effect: :cancellation,
-      }]}}
+
+      conn = %{
+        @conn
+        | assigns: %{
+            @conn.assigns
+            | alerts: [
+                %Alerts.Alert{
+                  url: "http://mbta.com/projects/test",
+                  priority: :high,
+                  description: "Test Alert",
+                  effect: :cancellation
+                }
+              ]
+          }
+      }
 
       output =
         project

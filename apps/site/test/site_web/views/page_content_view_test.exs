@@ -78,10 +78,13 @@ defmodule SiteWeb.CMS.PageViewTest do
 
   describe "project alerts" do
     test "renders project with no alerts" do
-      conn = %{ assigns: %{
-        alerts: [],
-        date_time: DateTime.utc_now(),
-      } }
+      conn = %{
+        assigns: %{
+          alerts: [],
+          date_time: DateTime.utc_now()
+        }
+      }
+
       project = %Project{id: 0}
 
       rendered =
@@ -94,13 +97,18 @@ defmodule SiteWeb.CMS.PageViewTest do
     end
 
     test "renders project with alerts" do
-      conn = %{ assigns: %{
-        alerts: [%Alerts.Alert {
-          url: "http://mbta.com/projects/test",
-        }],
-        date_time: DateTime.utc_now(),
-      } }
-      project = %Project{id: 0, path_alias: "/projects/test", }
+      conn = %{
+        assigns: %{
+          alerts: [
+            %Alerts.Alert{
+              url: "http://mbta.com/projects/test"
+            }
+          ],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0, path_alias: "/projects/test"}
 
       rendered =
         project

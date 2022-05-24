@@ -126,6 +126,6 @@ defmodule SiteWeb.CMS.PageView do
   defp alerts_for_project(project, alerts) do
     paths = MapSet.new([project.path_alias | project.redirects])
 
-    Enum.filter(alerts, & alert_related?(paths, &1))
+    Enum.filter(alerts, &alert_related?(paths, &1))
   end
 end
