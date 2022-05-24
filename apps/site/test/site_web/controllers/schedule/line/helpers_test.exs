@@ -704,7 +704,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert [
                %RouteStops{branch: nil, stops: trunk_route_stops},
-               %RouteStops{branch: "North Station - Manchester", stops: rockport_route_stops},
+               %RouteStops{branch: "North Station - Rockport", stops: rockport_route_stops},
                %RouteStops{branch: "North Station - Newburyport", stops: newburyport_route_stops}
              ] = Helpers.get_branch_route_stops(newburyport_route, 0)
 
@@ -742,18 +742,34 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false
                ]
 
-      assert Enum.all?(rockport_route_stops, &(&1.branch == "North Station - Manchester"))
+      assert Enum.all?(rockport_route_stops, &(&1.branch == "North Station - Rockport"))
 
       assert_stop_ids(rockport_route_stops, [
         "place-GB-0198",
         "place-GB-0229",
         "place-GB-0254",
-        "place-GB-0296"
+        "place-GB-0296",
+        "place-GB-0316",
+        "place-GB-0353"
       ])
 
-      assert Enum.map(rockport_route_stops, & &1.is_terminus?) == [false, false, false, true]
+      assert Enum.map(rockport_route_stops, & &1.is_terminus?) == [
+               false,
+               false,
+               false,
+               false,
+               false,
+               true
+             ]
 
-      assert Enum.map(rockport_route_stops, & &1.is_beginning?) == [false, false, false, false]
+      assert Enum.map(rockport_route_stops, & &1.is_beginning?) == [
+               false,
+               false,
+               false,
+               false,
+               false,
+               false
+             ]
 
       assert Enum.all?(newburyport_route_stops, &(&1.branch == "North Station - Newburyport"))
 
