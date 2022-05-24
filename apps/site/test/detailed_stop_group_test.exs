@@ -26,7 +26,7 @@ defmodule DetailedStopGroupTest do
           "Fitchburg Line",
           "Foxboro Event Service",
           "Framingham/Worcester Line",
-          "Franklin Line",
+          "Franklin/Foxboro Line",
           "Greenbush Line",
           "Haverhill Line",
           "Kingston Line",
