@@ -3,7 +3,7 @@ defmodule SiteWeb.CMS.PageViewTest do
 
   import SiteWeb.CMS.PageView
 
-  alias CMS.Page.Basic
+  alias CMS.Page.{Basic, Project}
   alias CMS.Partial.Paragraph.{ContentList, CustomHTML}
   alias Phoenix.HTML
 
@@ -73,6 +73,51 @@ defmodule SiteWeb.CMS.PageViewTest do
       }
 
       refute has_right_rail?(page)
+    end
+  end
+
+  describe "project alerts" do
+    test "renders project with no alerts" do
+      conn = %{
+        assigns: %{
+          alerts: [],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0}
+
+      rendered =
+        project
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "page-section"
+      assert rendered =~ "alerts-section"
+    end
+
+    test "renders project with alerts" do
+      conn = %{
+        assigns: %{
+          alerts: [
+            %Alerts.Alert{
+              url: "http://mbta.com/projects/test"
+            }
+          ],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0, path_alias: "/projects/test"}
+
+      rendered =
+        project
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "page-section"
+      assert rendered =~ "alerts-section"
+      assert rendered =~ "Related Service Alerts"
     end
   end
 end

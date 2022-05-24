@@ -8,6 +8,13 @@
   </div>
 <% end %>
 
+<%= render(
+  "_alerts.html",
+  alerts: @conn.assigns.alerts,
+  date_time: @conn.assigns.date_time,
+  page: @page
+) %>
+
 <div class="page-section">
   <%= Site.ContentRewriter.rewrite(@page.body, @conn) %>
 

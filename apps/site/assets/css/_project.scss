@@ -62,3 +62,32 @@
 .m-project-updates__title {
   margin-top: 0;
 }
+
+.alerts-section {
+  summary {
+    &::marker, &::-webkit-details-marker {
+      display: none;
+    }
+    list-style: none;
+
+    display: inline-block;
+    color: $brand-primary;
+    padding: 0.5em 0;
+
+    &::after {
+      @extend %fa-icon;
+      @extend .fa-solid;
+      margin-left: 0.5em;
+
+      content: fa-content($fa-var-angle-down);
+    }
+
+    cursor: pointer;
+  }
+
+  details[open] {
+    summary::after {
+      content: fa-content($fa-var-angle-up);
+    }
+  }
+}

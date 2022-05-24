@@ -1,5 +1,5 @@
 <ul class="c-alert-group">
   <%= for alert <- @alerts do %>
-    <%= render "_item.html", alert: alert, extra_id: @route.id, date_time: @date_time %>
+    <%= render "_item.html", alert: alert, date_time: @date_time, hide_url: assigns[:hide_urls] %>
   <% end %>
 </ul>
