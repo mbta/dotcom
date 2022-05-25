@@ -123,6 +123,10 @@
   user-select: none;
 }
 
+.m-mode-hub__guides-wrapper {
+  @include trip-planner-widget(true);
+}
+
 .m-tabbed-nav__content-item {
   @include trip-planner-widget(false);
   .c-trip-plan-widget {
