@@ -7,7 +7,9 @@ jobs:
   deploy:
     name: Deploy to Dev-green (Elastic Beanstalk)
     runs-on: ubuntu-latest
-    environment: dev-green
+    environment:
+      name: dev-green
+      url: green.dev.mbtace.com
     concurrency:
       group: dev-green-eb
       cancel-in-progress: true

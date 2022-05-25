@@ -8,7 +8,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: dev
+    environment:
+      name: dev
+      url: dev.mbtace.com
     concurrency:
       group: deploy-dev
       cancel-in-progress: true
