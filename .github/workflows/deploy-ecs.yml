@@ -16,14 +16,10 @@ concurrency:
   group: deploy-${{ github.event.inputs.environment }}
   cancel-in-progress: true
 
-# Using this to prevent deploys to environments we haven't yet migrated to ECS
-env:
-  SUPPORTED: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
-
 jobs:
   # TODO: Check if image is already there for this ref?
   build-push:
-    if: ${{ env.SUPPORTED }}
+    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
     name: Build image & push to ECR
     runs-on: ubuntu-latest
     outputs:
@@ -41,7 +37,7 @@ jobs:
 
   # TODO: Check if this ref has already uploaded asset files?
   deploy-assets:
-    if: ${{ env.SUPPORTED }}
+    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
     name: Upload static assets to S3
     needs: [build-push]
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
@@ -54,7 +50,7 @@ jobs:
       - run: echo '- Uploaded assets from ${{ needs.build-push.outputs.docker-tag }} to S3.' >> $GITHUB_STEP_SUMMARY
 
   deploy:
-    if: ${{ env.SUPPORTED }}
+    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
     needs: [deploy-assets]
     name: ${{ github.event.inputs.environment }} - Deploy ${{ github.ref }}
     runs-on: ubuntu-latest
@@ -71,7 +67,7 @@ jobs:
       - run: echo '- Deployed ${{ needs.deploy-assets.needs.build-push.outputs.docker-tag }} to ECS.' >> $GITHUB_STEP_SUMMARY
 
   notify:
-    if: ${{ env.SUPPORTED }}
+    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
     needs: [deploy]
     name: Send notification to Slack
     runs-on: ubuntu-latest
