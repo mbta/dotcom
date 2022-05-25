@@ -5,23 +5,22 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Environment'
+        description: "Environment"
         type: environment # will be prod, dev, dev-blue, or dev-green
         required: true
         default: dev-blue
   # push:
   #   branches: [master]
 
-jobs:
-  deploy:
-    name: ${{ github.event.inputs.environment }} - Deploy ${{ github.ref }}
-    runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
-    environment: ${{ github.event.inputs.environment }}
-    concurrency: ${{ github.event.inputs.environment }}
+concurrency:
+  group: deploy-${{ github.event.inputs.environment }}
+  cancel-in-progress: true
 
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - uses: mbta/actions/build-push-ecr@v1
         id: build-push
         with:
@@ -29,20 +28,31 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           docker-repo: ${{ secrets.DOCKER_REPO }}
 
-      - if: ${{ github.event.inputs.environment }} != "prod" # we'll always deploy at least to dev, before deploying to prod. so by the time we are deploying to prod, the assets will have been already uploaded.
-        name: Upload static assets to S3
-        run: bash upload_assets.sh ${{ steps.build-push.outputs.docker-tag }}
+  deploy-assets:
+    needs: [build-push]
+    runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
+    steps:
+      - uses: actions/checkout@v3
+      - name: Upload static assets to S3
+        run: bash upload_assets.sh ${{ needs.build-push.outputs.docker-tag }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  
+
+  deploy:
+    needs: [deploy-assets]
+    name: ${{ github.event.inputs.environment }} - Deploy ${{ github.ref }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+
+    steps:
       - uses: mbta/actions/deploy-ecs@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ecs-cluster: dotcom
           ecs-service: ${{ secrets.ECS_SERVICE }} # depends on selected environment
-          docker-tag: ${{ steps.build-push.outputs.docker-tag }}
+          docker-tag: ${{ needs.deploy-assets.needs.build-push.outputs.docker-tag }}
 
   notify:
     needs: [deploy]
