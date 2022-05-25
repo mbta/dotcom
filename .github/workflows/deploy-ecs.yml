@@ -21,7 +21,8 @@ jobs:
   build-push:
     if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
     name: Build image & push to ECR
-    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     outputs:
       docker-tag: ${{ steps.build-push.outputs.docker-tag }}
     steps:
@@ -34,37 +35,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           docker-repo: ${{ secrets.DOCKER_REPO }}
       - run: echo '- Built docker image and uploaded ${{ steps.build-push.outputs.docker-tag }} to ECR.' >> $GITHUB_STEP_SUMMARY
-
-  # TODO: Check if this ref has already uploaded asset files?
-  deploy-assets:
-    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
-    name: Upload static assets to S3
-    needs: [build-push]
-    runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
-    steps:
-      - uses: actions/checkout@v3
-      - run: bash upload_assets.sh ${{ needs.build-push.outputs.docker-tag }}
+      - run: bash upload_assets.sh ${{ steps.build-push.outputs.docker-tag }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - run: echo '- Uploaded assets from ${{ needs.build-push.outputs.docker-tag }} to S3.' >> $GITHUB_STEP_SUMMARY
-
-  deploy:
-    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
-    needs: [deploy-assets]
-    name: ${{ github.event.inputs.environment }} - Deploy ${{ github.ref }}
-    runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
-
-    steps:
+      - run: echo '- Uploaded assets from ${{ steps.build-push.outputs.docker-tag }} to S3.' >> $GITHUB_STEP_SUMMARY
       - uses: mbta/actions/deploy-ecs@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ecs-cluster: dotcom
           ecs-service: ${{ secrets.ECS_SERVICE }} # depends on selected environment
-          docker-tag: ${{ needs.deploy-assets.needs.build-push.outputs.docker-tag }}
-      - run: echo '- Deployed ${{ needs.deploy-assets.needs.build-push.outputs.docker-tag }} to ECS.' >> $GITHUB_STEP_SUMMARY
+          docker-tag: ${{ steps.build-push.outputs.docker-tag }}
+      - run: echo '- Deployed ${{ steps.build-push.outputs.docker-tag }} to ECS.' >> $GITHUB_STEP_SUMMARY
 
   notify:
     if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
