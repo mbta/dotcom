@@ -128,4 +128,33 @@ defmodule SiteWeb.CMS.PageView do
 
     Enum.filter(alerts, &alert_related?(paths, &1))
   end
+
+  @spec inject_alerts_section(Phoenix.HTML.Safe.t(), Phoenix.HTML.Safe.t()) ::
+          Phoenix.HTML.Safe.t()
+  defp inject_alerts_section({:safe, rewritten}, {:safe, alerts_section}) do
+    {:ok, parsed_rewritten} = Floki.parse_fragment(rewritten)
+
+    case parsed_rewritten do
+      [{"figure", _, _} = figure | rest] ->
+        {:safe, [Floki.raw_html([figure]) | alerts_section] ++ [Floki.raw_html(rest)]}
+
+      _ ->
+        {:safe, alerts_section ++ [rewritten]}
+    end
+  end
+
+  @spec body_with_alerts_section(Plug.Conn.t(), Page.Project.t()) :: Phoenix.HTML.Safe.t()
+  def body_with_alerts_section(conn, page) do
+    rewritten = Site.ContentRewriter.rewrite(page.body, conn)
+
+    alerts_section =
+      render(
+        "_alerts.html",
+        alerts: conn.assigns.alerts,
+        date_time: conn.assigns.date_time,
+        page: page
+      )
+
+    inject_alerts_section(rewritten, alerts_section)
+  end
 end
