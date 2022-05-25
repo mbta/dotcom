@@ -8,7 +8,9 @@ jobs:
     name: Deploy to Dev-green (Elastic Beanstalk)
     runs-on: ubuntu-latest
     environment: dev-green
-    concurrency: dev-green-eb
+    concurrency:
+      group: dev-green-eb
+      cancel-in-progress: true
     env:
       AWS_REGION: us-east-1
       ELASTICBEANSTALK_APPLICATION_NAME: dotcom

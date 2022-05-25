@@ -10,7 +10,9 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: prod
-    concurrency: prod
+    concurrency:
+      group: deploy-prod
+      cancel-in-progress: true
     env:
       AWS_REGION: us-east-1
       ELASTICBEANSTALK_APPLICATION_NAME: dotcom
