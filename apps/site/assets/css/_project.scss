@@ -90,4 +90,9 @@
       content: fa-content($fa-var-angle-up);
     }
   }
+
+  details {
+    border-bottom: 2px solid $gray-lightest;
+    margin-bottom: 1em;
+  }
 }
