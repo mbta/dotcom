@@ -18,9 +18,9 @@ concurrency:
 
 jobs:
   # TODO: Check if image is already there for this ref?
-  build-push:
+  deploy:
     if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
-    name: Build image & push to ECR
+    name: Build image, push to ECR, deploy to ECS
     environment: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     outputs:
