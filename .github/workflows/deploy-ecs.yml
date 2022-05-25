@@ -18,10 +18,9 @@ concurrency:
 
 # Using this to prevent deploys to environments we haven't yet migrated to ECS
 env:
-  SUPPORTED: ${{ contains(['dev-blue','dev-green'], github.event.inputs.environment) }}
+  SUPPORTED: ${{ github.event.inputs.environment != "dev" && github.event.inputs.environment != "prod" }}
 
 jobs:
-
   # TODO: Check if image is already there for this ref?
   build-push:
     if: ${{ env.SUPPORTED }}
