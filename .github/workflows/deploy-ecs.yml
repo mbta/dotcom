@@ -17,18 +17,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # TODO: Check if image is already there for this ref?
   deploy:
     if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
     name: Build image, push to ECR, deploy to ECS
-    environment: ${{ github.event.inputs.environment }}
+    environment:
+      name: ${{ github.event.inputs.environment }}
+      url: format('https://{0}.mbtace.com', github.event.inputs.environment) # TODO: fix prod url
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
-    outputs:
-      docker-tag: ${{ steps.build-push.outputs.docker-tag }}
     steps:
       - uses: actions/checkout@v3
       - run: echo '# Deploying ${{ github.ref }} to ${{ github.event.inputs.environment }} :rocket:' >> $GITHUB_STEP_SUMMARY
-      - uses: mbta/actions/build-push-ecr@v1
+      - uses: mbta/actions/build-push-ecr@v1 # TODO: Check if image is already there for this ref?
         id: build-push
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
