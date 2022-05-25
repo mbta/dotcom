@@ -361,11 +361,15 @@
 @mixin icon-mbta-colored($line-name, $inverse: false) {
   $icon-colors: get-icon-colors($line-name, $inverse);
 
-  [class*='c-svg__icon'] path {
-    fill: map-get($icon-colors, 'empty-fill');
-
-    &:not(:nth-child(1)) {
+  [class*='c-svg__icon'] {
+    path {
       fill: map-get($icon-colors, 'fill');
+    }
+
+    g {
+      path {
+        fill: map-get($icon-colors, 'empty-fill');
+      }
     }
   }
 }
