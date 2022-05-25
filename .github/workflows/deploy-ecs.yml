@@ -16,30 +16,46 @@ concurrency:
   group: deploy-${{ github.event.inputs.environment }}
   cancel-in-progress: true
 
+# Using this to prevent deploys to environments we haven't yet migrated to ECS
+env:
+  SUPPORTED: ${{ contains(['dev-blue','dev-green'], github.event.inputs.environment) }}
+
 jobs:
+
+  # TODO: Check if image is already there for this ref?
   build-push:
+    if: ${{ env.SUPPORTED }}
+    name: Build image & push to ECR
     runs-on: ubuntu-latest
+    outputs:
+      docker-tag: ${{ steps.build-push.outputs.docker-tag }}
     steps:
       - uses: actions/checkout@v3
+      - run: echo '# Deploying ${{ github.ref }} to ${{ github.event.inputs.environment }} :rocket:' >> $GITHUB_STEP_SUMMARY
       - uses: mbta/actions/build-push-ecr@v1
         id: build-push
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           docker-repo: ${{ secrets.DOCKER_REPO }}
+      - run: echo '- Built docker image and uploaded ${{ steps.build-push.outputs.docker-tag }} to ECR.' >> $GITHUB_STEP_SUMMARY
 
+  # TODO: Check if this ref has already uploaded asset files?
   deploy-assets:
+    if: ${{ env.SUPPORTED }}
+    name: Upload static assets to S3
     needs: [build-push]
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     steps:
       - uses: actions/checkout@v3
-      - name: Upload static assets to S3
-        run: bash upload_assets.sh ${{ needs.build-push.outputs.docker-tag }}
+      - run: bash upload_assets.sh ${{ needs.build-push.outputs.docker-tag }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - run: echo '- Uploaded assets from ${{ needs.build-push.outputs.docker-tag }} to S3.' >> $GITHUB_STEP_SUMMARY
 
   deploy:
+    if: ${{ env.SUPPORTED }}
     needs: [deploy-assets]
     name: ${{ github.event.inputs.environment }} - Deploy ${{ github.ref }}
     runs-on: ubuntu-latest
@@ -53,8 +69,10 @@ jobs:
           ecs-cluster: dotcom
           ecs-service: ${{ secrets.ECS_SERVICE }} # depends on selected environment
           docker-tag: ${{ needs.deploy-assets.needs.build-push.outputs.docker-tag }}
+      - run: echo '- Deployed ${{ needs.deploy-assets.needs.build-push.outputs.docker-tag }} to ECS.' >> $GITHUB_STEP_SUMMARY
 
   notify:
+    if: ${{ env.SUPPORTED }}
     needs: [deploy]
     name: Send notification to Slack
     runs-on: ubuntu-latest
