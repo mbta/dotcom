@@ -2,10 +2,9 @@
   <% alerts = alerts_for_project(@page, @alerts) %>
   <%= if !Enum.empty?(alerts) do %>
     <h2>Related Service Alerts</h2>
+    <%= render(SiteWeb.AlertView, "summary.html", alerts: alerts) %>
     <details>
-      <summary>
-        <%= render(SiteWeb.AlertView, "summary.html", alerts: alerts) %>
-      </summary>
+      <summary>Details</summary>
       <%= render(SiteWeb.AlertView, "group.html", alerts: alerts, date_time: @date_time, hide_urls: true) %>
     </details>
   <% end %>
