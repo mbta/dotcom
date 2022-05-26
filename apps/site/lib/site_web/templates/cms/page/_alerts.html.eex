@@ -3,7 +3,9 @@
   <%= if !Enum.empty?(alerts) do %>
     <h2>Related Service Alerts</h2>
     <details>
-      <summary>Details</summary>
+      <summary>
+        <%= render(SiteWeb.AlertView, "summary.html", alerts: alerts) %>
+      </summary>
       <%= render(SiteWeb.AlertView, "group.html", alerts: alerts, date_time: @date_time, hide_urls: true) %>
     </details>
   <% end %>

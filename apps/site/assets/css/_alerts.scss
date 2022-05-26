@@ -374,3 +374,18 @@
     top: calc(#{$base-spacing} / 1.75);
   }
 }
+
+.c-service-changes-container {
+  display: flex; 
+  color:black;
+}
+
+.c-service-changes-content {
+  width: 32px;
+  height: 24px;
+  background: rgb(233, 234, 237);
+  border-radius: 4px;
+  font-weight: bold;
+  margin-right: 1rem;
+  text-align:center;
+}
