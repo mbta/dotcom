@@ -378,12 +378,13 @@
 .c-service-changes-container {
   display: flex; 
   color:black;
+  align-items: center;
 }
 
 .c-service-changes-content {
-  width: 32px;
-  height: 24px;
-  background: rgb(233, 234, 237);
+  
+  padding: .25em 1em;
+  background: $gray-lightest;
   border-radius: 4px;
   font-weight: bold;
   margin-right: 1rem;
