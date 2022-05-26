@@ -1,27 +1,27 @@
 <div class="c-home-grid-section">
   <div class="c-home-grid-section-header">
     <h2>
-      Find a Location
+      Contact Us
     </h2>
   </div>
   <div class="c-home-grid-buttons-container">
-    <%= link to: cms_static_page_path(@conn, "/stops"), class: "c-home-grid-button" do %>
+    <%= link to: cms_static_page_path(@conn, "/customer-support"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
-          <%= svg("stations-parking.svg") %>
+          <%= fa "comments", class: "c-grid-button__icon" %>
         </span>
         <span class="c-grid-button__name">
-          Stations and Parking
+          Send Us Feedback
         </span>
       </div>
     <% end %>
-    <%= link to: cms_static_page_path(@conn, "/transit-near-me"), class: "c-home-grid-button" do %>
+    <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-home-grid-button" do %>
       <div class="c-grid-button__content">
         <span class="c-grid-button__icon">
-          <%= fa "map-location-dot", class: "c-grid-button__icon" %>
+          <%= fa "shield", class: "c-grid-button__icon" %>
         </span>
         <span class="c-grid-button__name">
-          Transit Near Me
+          MBTA Transit Police
         </span>
       </div>
     <% end %>
