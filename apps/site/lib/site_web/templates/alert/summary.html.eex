@@ -1,0 +1,8 @@
+<%= if length(@alerts) > 0 do %>
+    <div class="c-service-changes-container">
+        <div class="c-service-changes-content">
+            <%= length(@alerts) %>
+        </div>
+        service changes
+    </div>
+<% end %>
