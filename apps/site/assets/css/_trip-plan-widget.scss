@@ -123,6 +123,10 @@
   user-select: none;
 }
 
+.m-trip-plan__form-container {
+  @include trip-planner-widget(true);
+}
+
 .col-xs-12 {
   @include trip-planner-widget(true);
 }
