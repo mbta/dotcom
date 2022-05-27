@@ -18,7 +18,7 @@
 
 // adjustments for when rendered as a paragraph from the CMS
 .c-paragraph--trip-plan-widget .c-trip-plan-widget {
- background-color: initial;
+  background-color: initial;
   border: 0;
   padding: initial;
 
@@ -40,6 +40,16 @@
 
     h2:first-child {
       margin-top: .5rem;
+    }
+  }
+
+  @include media-breakpoint-only(md) {
+    .c-trip-plan-widget__inputs {
+      flex-direction: column;
+
+      .c-trip-plan-widget__from {
+        margin-right: 0;
+      }
     }
   }
 }
