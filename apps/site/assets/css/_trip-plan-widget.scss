@@ -18,18 +18,36 @@
 
 // adjustments for when rendered as a paragraph from the CMS
 .c-paragraph--trip-plan-widget .c-trip-plan-widget {
-  @include media-breakpoint-only(md) {
-    .c-trip-plan-widget__inputs {
-      flex-direction: column;
+ background-color: initial;
+  border: 0;
+  padding: initial;
 
-      .c-trip-plan-widget__from {
-        margin-right: 0;
-      }
+  h2:first-child {
+    margin-top: 0;
+  }
+
+  .c-trip-plan-widget__reverse-control-vert {
+    display: none;
+  }
+
+  .c-trip-plan-widget__submit-container {
+    justify-content: flex-start;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+
+    h2:first-child {
+      margin-top: .5rem;
     }
   }
 }
 
 .c-trip-plan-widget__inputs {
+  display: flex;
+  flex-direction: column;
+
   @include media-breakpoint-between(sm, md) {
     flex-direction: row;
 
