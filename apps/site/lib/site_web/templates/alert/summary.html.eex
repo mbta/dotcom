@@ -3,6 +3,6 @@
         <div class="c-service-changes-content">
             <%= length(@alerts) %>
         </div>
-        service changes
+        service <%= if length(@alerts) > 1, do: "changes", else: "change" %>
     </div>
 <% end %>
