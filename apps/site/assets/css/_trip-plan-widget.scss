@@ -18,31 +18,6 @@
 
 // adjustments for when rendered as a paragraph from the CMS
 .c-paragraph--trip-plan-widget .c-trip-plan-widget {
-  background-color: initial;
-  border: 0;
-  padding: initial;
-
-  h2:first-child {
-    margin-top: 0;
-  }
-
-  .c-trip-plan-widget__reverse-control-vert {
-    display: none;
-  }
-
-  .c-trip-plan-widget__submit-container {
-    justify-content: flex-start;
-  }
-
-  @include media-breakpoint-down(sm) {
-    padding-bottom: 1rem;
-    padding-top: 1rem;
-
-    h2:first-child {
-      margin-top: .5rem;
-    }
-  }
-
   @include media-breakpoint-only(md) {
     .c-trip-plan-widget__inputs {
       flex-direction: column;
@@ -55,9 +30,6 @@
 }
 
 .c-trip-plan-widget__inputs {
-  display: flex;
-  flex-direction: column;
-
   @include media-breakpoint-between(sm, md) {
     flex-direction: row;
 
@@ -130,45 +102,13 @@
 .m-tabbed-nav__content-item {
   @include trip-planner-widget(false);
   .c-trip-plan-widget {
-    background-color: $gray-bordered-background;
     border: solid 1px transparent;
-    padding: 0 $base-spacing $base-spacing;
   }
   
-  // adjustments for when rendered as a paragraph from the CMS
   .c-paragraph--trip-plan-widget .c-trip-plan-widget {
-    background-color: initial;
-    border: 0;
-    padding: initial;
-  
-    h2:first-child {
-      margin-top: 0;
-    }
-  
-    .c-trip-plan-widget__reverse-control {
-      display: none;
-    }
-  
-    .c-trip-plan-widget__submit-container {
-      justify-content: flex-start;
-    }
-  
-    @include media-breakpoint-down(sm) {
-      padding-bottom: 1rem;
-      padding-top: 1rem;
-  
-      h2:first-child {
-        margin-top: .5rem;
-      }
-    }
-  
     @include media-breakpoint-up(sm) {
       .c-trip-plan-widget__inputs {
         flex-direction: row;
-  
-        .c-trip-plan-widget__from {
-          margin-right: 0;
-        }
       }
     }
   }
@@ -176,7 +116,6 @@
   .c-trip-plan-widget__inputs {
     display: flex;
     flex-direction: column;
-  
     @include media-breakpoint-up(sm) {
       flex-direction: row;
   
@@ -207,37 +146,7 @@
       width: 100%;
     }
   }
-  
-  .c-trip-plan-widget__input-label {
-    color: $brand-primary;
-    font-size: $font-size-h3;
-    font-weight: bold;
-    margin-left: calc(#{$base-spacing} / 2);
-  }
-  
-  .c-form__input-container--error {
-    .c-trip-plan-widget__input-label {
-      color: $error-text;
-    }
-  }
-  
-  .c-trip-plan-widget__location-input {
-    width: 80%;
-  }
-  
-  .c-trip-plan-widget__location-error {
-    margin-left: -$base-spacing * .75;
-    margin-right: -$base-spacing * .75;
-    margin-top: $base-spacing * .75;
-    padding-bottom: $base-spacing * .75;
-    padding-top: $base-spacing * .75;
-  }
-  
-  .c-trip-plan-widget__label--to {
-    display: flex;
-    justify-content: flex-start;
-  }
-  
+
   .c-trip-plan-widget__reverse-control {
     color: $brand-primary;
     cursor: pointer;
