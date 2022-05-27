@@ -158,8 +158,6 @@
   }
   
   .c-trip-plan-widget__submit {
-    display: inline-flex;
-    justify-content: center;
     width: 100%;
   
     @include media-breakpoint-up(sm) {
@@ -168,8 +166,6 @@
   }
   
   .c-trip-plan-widget__submit-container {
-    display: flex;
-    justify-content: flex-end;
     @include media-breakpoint-down(sm) {
       width: 100%;
     }
