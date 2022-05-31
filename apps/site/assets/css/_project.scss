@@ -70,7 +70,8 @@
     }
     list-style: none;
 
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     color: $brand-primary;
     padding: 0.5em 0;
 
@@ -94,5 +95,22 @@
   details {
     border-bottom: 2px solid $gray-lightest;
     margin-bottom: 1em;
+  }
+
+  .c-service-changes-container {
+    display: flex;
+    color:black;
+    align-items: center;
+
+    margin-right: 0.75rem;
+  }
+
+  .c-service-changes-content {
+    padding: .25em 1em;
+    background: $gray-lightest;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-right: 1rem;
+    text-align:center;
   }
 }
