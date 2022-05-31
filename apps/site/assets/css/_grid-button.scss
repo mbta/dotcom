@@ -9,55 +9,50 @@
   margin: $base-spacing * -.25;
 }
 
-.c-grid-buttons-right {
+.c-home-grid-section {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: flex-end;
-  margin-top: 1rem;
-  @include media-breakpoint-up(sm) {
-    border-bottom: 2px solid $gray-lightest;
-    padding-bottom: 10px;
+  gap: 1rem 0;
+
+  align-items: center;
+
+  padding-bottom: 1rem;
+  margin-top: 2rem;
+
+  border-bottom: 2px solid $gray-lightest;
+  @include media-breakpoint-down(xs) {
+    border-bottom: none;
   }
 }
 
-.c-location-buttons-container {
+.c-home-grid-section-header {
+  flex-basis: 300px;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.c-home-grid-buttons-container {
   display: flex;
-  flex-grow: 2;
-  @include media-breakpoint-down(xs) {
-    flex-wrap: wrap;
-  }
-  @include media-breakpoint-up(sm) {
-    flex-grow: 3;
-  }
-}
-
-.c-location-header {
-  flex-grow: 2;
-  @include media-breakpoint-down(sm) {
-    flex-basis: 100%;
-  }
-  @include media-breakpoint-up(sm) {
-    flex-grow: 1;
-  }
-}
-
-.c-location-button {
+  flex-direction: row;
   flex-grow: 1;
-  height: 50px;
-  width: 100px;
-  font-weight: $font-weight-medium;
-  display: block;
-  flex-shrink: 0;
-  margin-bottom: $space-6;
-  margin-top: $space-6;
-  padding: 0 $base-spacing * .25;
-  color: black;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
 
-  @include media-breakpoint-down(xs) {
-    flex-basis: 100%;
-    padding: 0;
+  @include media-breakpoint-up(xxl) {
+    max-width: 500px;
   }
+}
+
+.c-home-grid-button {
+  font-weight: $font-weight-medium;
+  display: inline-block;
+  color: black;
+  flex: 1 0 0;
+  min-width: max-content;
+  height: 42px;
 
   &:hover {
     text-decoration: none;
