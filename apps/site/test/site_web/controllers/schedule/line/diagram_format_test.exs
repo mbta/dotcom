@@ -235,6 +235,36 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
   end
 
   describe "do_stops_list_with_disruptions/2 (out)" do
+    test "formats overlapping alerts properly" do
+      diagram_stops =
+        [
+          {"place-wondl", [stop: nil]},
+          {"place-rbmnl", [stop: nil]},
+          {"place-bmmnl", [stop: nil]},
+          {"place-sdmnl", [stop: nil]},
+          {"place-orhte", [stop: nil]},
+          {"place-wimnl", [stop: nil]},
+          {"place-aport", [stop: nil]},
+          {"place-mvbcl", [stop: nil]},
+          {"place-aqucl", [stop: nil]},
+          {"place-state", [stop: nil]},
+          {"place-gover", [stop: nil]},
+          {"place-bomnl", [stop: nil]}
+        ]
+        |> route_stops_to_line_diagram_stops()
+        |> stops_with_current_effect(
+          ["place-wondl", "place-rbmnl", "place-bmmnl", "place-sdmnl", "place-orhte"],
+          :shuttle,
+          @now
+        )
+        |> stops_with_current_effect(["place-sdmnl"], :closure, @now)
+
+      adjusted_stops = do_stops_list_with_disruptions(diagram_stops, @now)
+
+      assert ["place-wondl", "place-rbmnl", "place-bmmnl", "place-sdmnl"] =
+               adjusted_stops |> disrupted_stop_ids()
+    end
+
     test "formats shuttle stops", %{outward_line_diagram: line_diagram} do
       stops =
         stops_with_current_effect(line_diagram, ["place-nqncy", "place-brntn"], :shuttle, @now)
