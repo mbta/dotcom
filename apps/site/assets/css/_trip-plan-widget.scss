@@ -104,7 +104,6 @@
 }
 
 .c-trip-plan-widget__location-error {
-  display: none;
   margin-left: -$base-spacing * .75;
   margin-right: -$base-spacing * .75;
   margin-top: $base-spacing * .75;
@@ -176,10 +175,18 @@
     }
   }
 
-.c-trip-plan-widget__location-error {
-  padding: 0;
-  margin: 0;
-}
+  .c-trip-plan-widget__location-error {
+    display: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  %error-message {
+    background-color: $form-error-message;
+    color: $error-text;
+    padding: 0;
+  }
+
   .c-trip-plan-widget__reverse-control {
     color: $brand-primary;
     cursor: pointer;
@@ -189,7 +196,6 @@
       transform: rotate(90deg);
       display: flex;
       padding: 36px;
-      margin-right: 20px;
     }
   }
 }
