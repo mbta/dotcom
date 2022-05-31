@@ -1,19 +1,6 @@
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
-  <%= render "_tabbed_nav.html", conn: @conn %>
-  <div class="container">
-    <div class="m-homepage--10-col-sm-only">
-      <%= shortcut_icons() %>
-    </div>
-    <div class="m-homepage--10-col-sm-only m-homepage__search-wrapper">
-      <%= render "_search_bar.html", conn: @conn, placeholder: nil, id: "homepage" %>
-      <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
-                                                                routes: Map.get(assigns, :recently_visited, []),
-                                                                alerts: @alerts,
-                                                                date_time: @date_time,
-                                                                header_class: "h3") %>
-    </div>
-  </div>
+  <%= render "_tabbed_nav.html", assigns %>
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>

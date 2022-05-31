@@ -20,13 +20,23 @@
     </div>
   </div>
   <div class="m-tabbed-nav__content">
-    <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">Schedule Content</div>
-    <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">
+    <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">
+    <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
+                                                                routes: Map.get(assigns, :recently_visited, []),
+                                                                alerts: @alerts,
+                                                                date_time: @date_time,
+                                                                header_class: "h3") %>
+      <%= unless Enum.empty?(Map.get(assigns, :recently_visited, [])) do %>
+        <hr />
+      <% end %>
+      <%= shortcut_icons() %>
+    </div>
+     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">
       <div class="m-mode-hub__trip-plan-widget">
         <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
       </div>
-    </div>
-    <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">
+     </div>
+     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">
        <%= alerts(@conn.assigns.alerts) %>
     </div>
   </div>

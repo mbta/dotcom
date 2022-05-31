@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // Refactored styles for homepage.
 @mixin centered-10-col() {
   @include make-col-span(10);
@@ -11,40 +13,25 @@
 }
 
 .m-homepage__shortcuts {
-  @include make-row();
-  margin-bottom: $base-spacing;
-  margin-top: $base-spacing;
-  padding-bottom: $base-spacing;
-  padding-top: $base-spacing;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  justify-items: stretch;
+  column-gap: 3.125%;
+  margin-top: 24px;
 
-  @include media-breakpoint-up(md) {
-    @include centered-10-col();
-  }
-}
-
-.m-homepage__shortcut-row {
-  @include make-col();
-  @include make-col-span(6);
-
-  @include media-breakpoint-down(sm) {
-    @include make-col-span(12);
-  }
-
-  @include media-breakpoint-up(md) {
-    &:first-child {
-      padding-right: 0;
-      text-align: right;
-    }
-
-    &:last-child {
-      padding-left: 0;
-      text-align: left;
-    }
+  @include media-breakpoint-down(xs) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: 3.125%;
   }
 }
 
 .m-homepage__shortcut {
+  @include icon-size(80px);
+  background-color: $white;
+  border: $border;
+  border-radius: 0.5rem;
   color: $gray-dark;
   display: inline-block;
   font-size: $font-size-h4;
@@ -52,7 +39,6 @@
   line-height: $headings-line-height;
   padding: $base-spacing;
   text-align: center;
-  width: 33%;
 
   @include hover-focus-active {
     background-color: $brand-primary-lightest;
@@ -60,20 +46,21 @@
     text-decoration: none;
   }
 
-  @include media-breakpoint-up(sm) {
-    @include icon-size(5rem);
+  @include media-breakpoint-down(md) {
+    @include icon-size(52px);
   }
 
-  @include media-breakpoint-down(xs) {
-    @include icon-size(3rem);
-  }
-
-  @include media-breakpoint-only(md) {
-    @include icon-size(4rem);
+  @include media-breakpoint-only(xs) {
+    @include icon-size(40px);
+    margin-bottom: math.div($base-spacing, 2)
   }
 
   [class*='c-svg__icon'] {
-    margin-bottom: $base-spacing;
+    margin-bottom: math.div($base-spacing, 2);
+  
+    @include media-breakpoint-down(xs) {
+      margin-bottom: math.div($base-spacing, 4);
+    }
   }
 }
 
@@ -100,7 +87,17 @@
 
 .m-homepage__shortcut-text {
   font-family: $headings-font-family;
-  line-height: $space-16 * 1.3;
+  font-size: $font-size-base-xxl;
+  font-weight: $font-weight-medium;
+  line-height: $space-16 * 1.7;
+
+  @include media-breakpoint-down(md) {
+    font-size: $font-size-base;
+  }
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-base-sm;
+  }
 }
 
 .m-homepage-search__go-btn {

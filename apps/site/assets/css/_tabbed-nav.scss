@@ -169,4 +169,30 @@
       display: block;
     }
   }
+
+  .m-tabbed-nav__content {
+    background-color: $gray-bordered-background;
+    padding: $space-2 $space-64 $space-8 * 5 $space-64;
+
+    @include media-breakpoint-down(sm) {
+      padding: $base-spacing;
+    }
+
+    hr {
+      border: $border;
+      margin: $base-spacing-lg 0;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+  }
+
+  .m-tabbed-nav__content-item {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
 }
