@@ -85,11 +85,6 @@
   a {
     font-weight: bold;
   }
-
-  // renders blue (link color) alert icons instead of black
-  .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
-    fill: currentColor;
-  }
 }
 
 // Access, parking, commuter rail zone etc. icons
