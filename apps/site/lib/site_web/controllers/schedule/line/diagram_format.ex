@@ -147,18 +147,11 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
         chunk ->
           last_stop = List.last(chunk)
           last_stop_fx = effects_for_stop(last_stop)
-          has_same_effect = Enum.any?(last_stop_fx, fn effect -> effect in stop_fx end)
 
-          if has_same_effect do
-            {:cont, chunk ++ [stop]}
-          else
-            case stop_fx do
-              [] ->
-                {:cont, chunk, []}
-
-              _ ->
-                {:cont, chunk, [stop]}
-            end
+          case {last_stop_fx -- stop_fx, stop_fx} do
+            {^last_stop_fx, []} -> {:cont, chunk, []}
+            {^last_stop_fx, _} -> {:cont, chunk, [stop]}
+            _ -> {:cont, chunk ++ [stop]}
           end
       end
     else
