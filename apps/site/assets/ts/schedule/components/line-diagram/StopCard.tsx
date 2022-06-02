@@ -90,7 +90,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
         )}
         <header
           className="m-schedule-diagram__stop-heading"
-          ref={refs[routeStop.id]}
+          ref={(el) => refs.set(routeStop.id, el)}
         >
           <h4 className="m-schedule-diagram__stop-link notranslate">
             <a href={`/stops/${routeStop.id}`}>
