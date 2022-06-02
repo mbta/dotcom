@@ -81,4 +81,80 @@ defmodule SiteWeb.CMS.PageView do
       false
     end
   end
+
+  # TODO(Nick): once we move away from linking to project update URLs, we can
+  # most likely delete this function
+  @spec get_project_url_paths(String.t()) :: [String.t()]
+  def get_project_url_paths(s) do
+    if String.contains?(s, "/projects") do
+      if String.contains?(s, "/update") do
+        [s, Regex.replace(~r/\/update.*/, s, "")]
+      else
+        [s]
+      end
+    else
+      []
+    end
+  end
+
+  @spec get_mbta_url_path(String.t() | nil) :: String.t() | nil
+  defp get_mbta_url_path(nil), do: nil
+
+  defp get_mbta_url_path(path) do
+    uri = URI.parse(path)
+
+    if uri.host != nil and String.contains?(uri.host, "mbta.com") do
+      uri.path
+    else
+      nil
+    end
+  end
+
+  @spec alert_related?(MapSet.t(), Alerts.Alert.t()) :: boolean()
+  defp alert_related?(project_paths, alert) do
+    case get_mbta_url_path(alert.url) do
+      nil ->
+        false
+
+      alert_path ->
+        alert_project_paths = get_project_url_paths(alert_path)
+        Enum.any?(alert_project_paths, &MapSet.member?(project_paths, &1))
+    end
+  end
+
+  @spec alerts_for_project(Page.Project.t(), [Alerts.Alert]) :: [Alerts.Alert]
+  defp alerts_for_project(project, alerts) do
+    paths = MapSet.new([project.path_alias | project.redirects])
+
+    Enum.filter(alerts, &alert_related?(paths, &1))
+  end
+
+  @spec inject_alerts_section(Phoenix.HTML.Safe.t(), Phoenix.HTML.Safe.t()) ::
+          Phoenix.HTML.Safe.t()
+  defp inject_alerts_section({:safe, rewritten}, {:safe, alerts_section}) do
+    {:ok, parsed_rewritten} = Floki.parse_fragment(rewritten)
+
+    case parsed_rewritten do
+      [{"figure", _, _} = figure | rest] ->
+        {:safe, [Floki.raw_html([figure]) | alerts_section] ++ [Floki.raw_html(rest)]}
+
+      _ ->
+        {:safe, alerts_section ++ [rewritten]}
+    end
+  end
+
+  @spec body_with_alerts_section(Plug.Conn.t(), Page.Project.t()) :: Phoenix.HTML.Safe.t()
+  def body_with_alerts_section(conn, page) do
+    rewritten = Site.ContentRewriter.rewrite(page.body, conn)
+
+    alerts_section =
+      render(
+        "_alerts.html",
+        alerts: conn.assigns.alerts,
+        date_time: conn.assigns.date_time,
+        page: page
+      )
+
+    inject_alerts_section(rewritten, alerts_section)
+  end
 end

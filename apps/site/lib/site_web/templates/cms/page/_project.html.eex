@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-section">
-  <%= Site.ContentRewriter.rewrite(@page.body, @conn) %>
+  <%= body_with_alerts_section(@conn, @page) %>
 
   <%= for paragraph <- @page.paragraphs do %>
     <%= SiteWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
