@@ -36,6 +36,8 @@ describe("useStopPositions", () => {
     lineDiagram.forEach(stop => {
       map.set(stop.route_stop.id, null);
     });
+    // for test coverage purposes
+    map.set("this-stop-doesn't-exist", null);
 
     act(() => {
       updateFn();
