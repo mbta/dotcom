@@ -21,7 +21,7 @@ describe("useStopPositions", () => {
     });
     const [refsMap, updateFn] = result.current;
     expect(refsMap).toBeTruthy();
-    const ref0 = refsMap[lineDiagram[0].route_stop.id];
+    const ref0 = refsMap.get(lineDiagram[0].route_stop.id);
     expect(ref0).toBeTruthy();
     expect(ref0).toHaveProperty("current"); // it's a ref!
     expect(typeof ref0).toBe("object");
