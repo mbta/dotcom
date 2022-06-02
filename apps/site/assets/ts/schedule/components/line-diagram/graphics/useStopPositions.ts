@@ -37,6 +37,7 @@ export default function useStopPositions(
         const y = offsetTop + offsetHeight / 2;
         coordinates = [x, y];
       }
+
       dispatchStopCoords({
         type: "set",
         stop: stopId,
