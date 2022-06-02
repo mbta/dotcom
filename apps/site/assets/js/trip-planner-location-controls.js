@@ -22,6 +22,8 @@ export class TripPlannerLocControls {
     this.fromLat = this.getById(TripPlannerLocControls.SELECTORS.from.lat);
     this.fromLng = this.getById(TripPlannerLocControls.SELECTORS.from.lng);
     this.controller = null;
+    this.toInputDirty = false;
+    this.fromInputDirty = false;
 
     this.markers = {
       from: null,
@@ -117,6 +119,10 @@ export class TripPlannerLocControls {
         "input",
         this.onInputChange(ac)
       );
+      this.getById(ac._selectors.input).addEventListener(
+        "blur",
+        this.onInputChange(ac)
+      );
     });
 
     document.addEventListener("autocomplete:empty", this.onInvalidAddress);
@@ -127,6 +133,8 @@ export class TripPlannerLocControls {
   onSubmit(ev) {
     const missingFrom = this.getById("from").value === "";
     const missingTo = this.getById("to").value === "";
+    this.toInputDirty = true;
+    this.fromInputDirty = true;
 
     if (
       this.fromAutocomplete.error ||
@@ -156,13 +164,24 @@ export class TripPlannerLocControls {
       autocomplete.id === this.fromAutocomplete.id ||
       autocomplete.id === this.toAutocomplete.id
     ) {
+      this.toInputDirty = false;
+      this.fromInputDirty = false;
       this.toggleError(autocomplete, null);
     }
   }
 
   onInputChange(ac) {
     return () => {
+      if (ac && ac._input.id === "to") {
+        this.toInputDirty = true;
+      } else if (ac && ac._input.id === "from") {
+        this.fromInputDirty = true;
+      }
       if (ac.error === "invalid") {
+        return;
+      }
+      if (ac && ac._input.value.length === 0) {
+        this.toggleError(ac, "missing");
         return;
       }
 
@@ -181,7 +200,8 @@ export class TripPlannerLocControls {
     const required = this.getById(ac._selectors.required);
     const container = this.getById(ac._selectors.container);
     const input = this.getById(ac._selectors.input);
-    if (required && container && input) {
+    const inputDirty = (input.id === "from" && this.fromInputDirty) || (input.id === "to" && this.toInputDirty);
+    if (required && container && input && inputDirty) {
       if (errorType === "missing" || errorType === "invalid") {
         container.classList.add("c-form__input-container--error");
         required.classList.remove("m-trip-plan__hidden");
