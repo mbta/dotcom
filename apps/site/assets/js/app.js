@@ -68,12 +68,10 @@ if (window.sentry) {
     // being sent to Sentry as either regular expressions or strings.
     // When using strings, they’ll partially match the messages
     ignoreErrors: [
-      "removeClass(leaflet/dist/leaflet-src)",
       "translate_",
       "ResizeObserver loop limit exceeded",
       "Non-Error promise rejection captured",
-      "Extension context invalidated",
-      "t._leaflet_id"
+      "Extension context invalidated"
     ],
     // we don't care about errors from external tools and libraries
     // so only allow errors from our own domains
