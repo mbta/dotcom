@@ -1,6 +1,10 @@
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
   <%= render "_tabbed_nav.html", assigns %>
+  <div class="m-homepage--10-col-sm-only m-homepage__search-wrapper">
+    <%= render "_find_a_location.html", conn: @conn %>
+    <%= render "_contact_us.html", conn: @conn %>
+  </div>
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
