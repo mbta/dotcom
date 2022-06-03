@@ -4,16 +4,7 @@ import { LineDiagramStop } from "../../__schedule";
 import { isMergeStop } from "../line-diagram-helpers";
 import { BASE_LINE_WIDTH, BRANCH_SPACING } from "./graphic-helpers";
 
-export interface RefList {
-  [key: string]: React.MutableRefObject<HTMLElement | null>;
-}
-
-function useStopRef(prev: RefList, stop: LineDiagramStop): RefList {
-  return {
-    ...prev,
-    [stop.route_stop.id]: useRef<HTMLElement>(null)
-  };
-}
+export type RefMap = Map<string, HTMLElement | null>;
 
 const stopById = (stopId: string): ((stop: LineDiagramStop) => boolean) =>
   // eslint-disable-next-line camelcase
@@ -29,18 +20,24 @@ const xCoordForStop = (stop: LineDiagramStop): number => {
 
 export default function useStopPositions(
   stops: LineDiagramStop[]
-): [RefList, () => void] {
-  const stopRefsMap: RefList = stops.reduce(useStopRef, {});
+): [RefMap, () => void] {
+  const stopRefsMap = useRef(new Map() as RefMap);
   const dispatchStopCoords = useDispatch();
   const updateAllStops = useCallback((): void => {
-    Object.entries(stopRefsMap).forEach(([stopId, ref]) => {
-      const x = xCoordForStop(stops.find(stopById(stopId))!);
+    stopRefsMap.current.forEach((el, stopId) => {
+      const stop = stops.find(stopById(stopId));
+      if (!stop) {
+        return;
+      }
+
+      const x = xCoordForStop(stop);
       let coordinates = null;
-      if (ref && ref.current) {
-        const { offsetTop, offsetHeight } = ref.current;
+      if (el) {
+        const { offsetTop, offsetHeight } = el;
         const y = offsetTop + offsetHeight / 2;
         coordinates = [x, y];
       }
+
       dispatchStopCoords({
         type: "set",
         stop: stopId,
@@ -55,5 +52,5 @@ export default function useStopPositions(
     return () => window.removeEventListener("resize", updateAllStops);
   }, [updateAllStops]);
 
-  return [stopRefsMap, updateAllStops];
+  return [stopRefsMap.current, updateAllStops];
 }
