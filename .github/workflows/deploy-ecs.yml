@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
+    if: ${{ github.event.inputs.environment != 'prod' }}
     name: Build image, push to ECR, deploy to ECS
     environment:
       name: ${{ github.event.inputs.environment }}
@@ -49,7 +49,7 @@ jobs:
       - run: echo '- Deployed ${{ steps.build-push.outputs.docker-tag }} to ECS.' >> $GITHUB_STEP_SUMMARY
 
   notify:
-    if: ${{ github.event.inputs.environment != 'dev' && github.event.inputs.environment != 'prod' }}
+    if: ${{ github.event.inputs.environment != 'prod' }}
     needs: [deploy]
     name: Send notification to Slack
     runs-on: ubuntu-latest
