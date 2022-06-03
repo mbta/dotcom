@@ -1,5 +1,18 @@
+@mixin homepage-fares($homepage:true) {
+  @if $homepage == true {
+    .c-fare-card {
+      display: none;
+  }
+  } @else {
+    .c-fares-grid {
+      display: none;
+    }
+  }
+}
+
 // The size of the .c-fare-card__icon SVG ÷ 2
 $fare-card-icon-offset: 1.375 * $base-spacing;
+@include homepage-fares(false);
 
 .c-fare-card {
   background-color: $white;
@@ -133,4 +146,17 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 .c-fare-pass__price {
   float: left;
   margin: 0 0 $base-spacing;
+}
+
+.m-homepage__fares {
+  @include media-breakpoint-only(xs) {
+    @include homepage-fares(true);
+    .c-fares-grid {
+      display: grid;
+      grid-template-columns: 10% 70% 20%;
+      border-top: 2px solid;
+      padding-top: 10px;
+      // code for correct colors      
+    }
+  }
 }
