@@ -87,28 +87,27 @@
       <%= mode_icon(mode, :default) %>
     </div>
     <div>
-    <div style="display: block; color: black;text-decoration: underline;">
-      <%= if @fare_card.link do %>
-        <%= link card_title, to: @fare_card.link.url %>
-      <% else %>
-        <%= card_title %>
+      <div>
+        <%= if @fare_card.link do %>
+          <%= link card_title, to: @fare_card.link.url, class: "c-fare-name-link" %>
+        <% else %>
+          <%= card_title %>
+        <% end %>
+      </div>
+      <%= if @fare_card.show_media do %>
+        <p class="c-fare-card__media">
+          with <%= media %>
+        </p>
+      <% end %>
+
+      <%= if @fare_card.note do %>
+        <div class="c-fare-card__note">
+          <%= render_paragraph_content(@fare_card.note, @conn) %>
+        </div>
       <% end %>
     </div>
-    <%= if @fare_card.show_media do %>
-      <p class="c-fare-card__media">
-        with <%= media %>
-      </p>
-    <% end %>
-
-    <%= if @fare_card.note do %>
-      <div class="c-fare-card__note">
-        <%= render_paragraph_content(@fare_card.note, @conn) %>
-      </div>
-    <% end %>
-    </div>
-    <div style="font-weight: bold; min-width: 6rem;">
+    <div class="c-fares-price">
       <%= price %>
     </div>
   </div>
-
 <% end %>

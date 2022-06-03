@@ -158,5 +158,20 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
       padding-top: 10px;
       // code for correct colors      
     }
+
+    .c-fare-name-link {
+      text-decoration: underline;
+      color: black;
+      font-weight: bold;
+      :hover {
+        color: $brand-primary;
+        text-decoration: none;
+      }
+    }
+
+    .c-fares-price {
+      font-weight: bold;
+      min-width: 6rem;
+    }
   }
 }
