@@ -9,20 +9,23 @@ on:
         type: environment # will be prod, dev, dev-blue, or dev-green
         required: true
         default: dev-blue
-  # push:
-  #   branches: [master]
+  push:
+    branches: [master]
 
 concurrency:
   group: deploy-${{ github.event.inputs.environment }}
   cancel-in-progress: true
 
+env:
+  DEPLOY_ENV: ${{ github.event.inputs.environment || 'dev' }} # on push, deploy to dev
+
 jobs:
   deploy:
-    if: ${{ github.event.inputs.environment != 'prod' }}
+    if: ${{ github.event.inputs.environment != 'prod' }} # env not available in job.if
     name: Build image, push to ECR, deploy to ECS
     environment:
-      name: ${{ github.event.inputs.environment }}
-      url: format('https://{0}.mbtace.com', github.event.inputs.environment) # TODO: fix prod url
+      name: ${{ github.event.inputs.environment || 'dev' }}  # env not available in job.environment
+      url: ${{ env.DEPLOY_ENV == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', env.DEPLOY_ENV) }}
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +52,6 @@ jobs:
       - run: echo '- Deployed ${{ steps.build-push.outputs.docker-tag }} to ECS.' >> $GITHUB_STEP_SUMMARY
 
   notify:
-    if: ${{ github.event.inputs.environment != 'prod' }}
     needs: [deploy]
     name: Send notification to Slack
     runs-on: ubuntu-latest
@@ -61,4 +63,5 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           job-status: ${{ needs.deploy.result }}
           custom-message: |
-            `${{ github.ref }}` deployment to Dotcom ${{ github.event.inputs.environment }}
+            `${{ github.ref }}` deployment to Dotcom ${{ env.DEPLOY_ENV }}
+
