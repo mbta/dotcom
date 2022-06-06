@@ -19,5 +19,6 @@
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items, promoted: false %>
   <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>
+  <%= render SiteWeb.PageView, "_user_guides.html", conn: @conn %>
   <%= render SiteWeb.PageView, "_important_links.html", conn: @conn %>
 </div>
