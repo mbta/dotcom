@@ -119,6 +119,30 @@ defmodule SiteWeb.CMS.PageViewTest do
       assert rendered =~ "alerts-section"
       assert rendered =~ "Related Service Alerts"
     end
+
+    test "renders project with alerts, redirect with different casing" do
+      conn = %{
+        assigns: %{
+          alerts: [
+            %Alerts.Alert{
+              url: "http://mbta.com/NorthQuincy"
+            }
+          ],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0, path_alias: "/projects/test", redirects: ["/northquincy"]}
+
+      rendered =
+        project
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "page-section"
+      assert rendered =~ "alerts-section"
+      assert rendered =~ "Related Service Alerts"
+    end
   end
 
   describe "body_with_alerts_section/2" do
