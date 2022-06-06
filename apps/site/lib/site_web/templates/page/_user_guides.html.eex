@@ -27,7 +27,7 @@
       %>
       <%= for {header, image, link} <- guides do %>
         <a class="guide" href="<%= link %>">
-          <img src="<%= image %>"></img>
+          <img src="<%= image %>" alt='Decorative graphic for "<%= header %>"'></img>
           <h3><%= header %></h3>
         </a>
       <% end %>
