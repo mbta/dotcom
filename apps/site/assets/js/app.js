@@ -1,5 +1,6 @@
 /* eslint-disable */
 import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -50,7 +51,9 @@ if (window.sentry) {
   Sentry.init({
     dsn: window.sentry.dsn,
     environment: window.sentry.environment,
-    sampleRate: 0.005, // error sampling - might increase later
+    integrations: [new BrowserTracing()],
+    sampleRate: 0.05, // error sampling - might increase later
+    tracesSampleRate: 0.05,
     tags: { "dotcom.application": "frontend" },
     beforeBreadcrumb: (breadcrumb, hint) => {
       // omit breadcrumbs that are just these scripts
