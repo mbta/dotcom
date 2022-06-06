@@ -13,7 +13,12 @@ defmodule TripPlan.Transfer do
   @single_ride_transfers %{
     :bus => [:subway, :bus],
     :subway => [:subway, :bus],
-    :express_bus => [:subway, :bus]
+    :express_bus => [:subway, :bus, :express_bus],
+    # valid sequences for a two transfer trip
+    :triple => %{
+      :bus => [:bus, :bus, :subway],
+      :subway => [:subway, :bus, :bus]
+    }
   }
 
   @doc "Searches a list of legs for evidence of an in-station subway transfer."
@@ -32,9 +37,23 @@ defmodule TripPlan.Transfer do
   def is_subway_transfer?([_ | legs]), do: is_subway_transfer?(legs)
 
   def is_subway_transfer?(_), do: false
+  require Logger
 
   @doc "Takes a pair of legs and returns true if there might be a transfer between the two, based on the list in @single_ride_transfers. Exception: no transfers from bus route to same bus route."
   @spec is_maybe_transfer?([Leg.t()]) :: boolean
+  def is_maybe_transfer?([
+        first_leg = %Leg{mode: %TransitDetail{route_id: first_route}},
+        middle_leg = %Leg{mode: %TransitDetail{route_id: middle_route}},
+        last_leg = %Leg{mode: %TransitDetail{route_id: last_route}}
+      ]) do
+    @single_ride_transfers
+    |> Map.get(:triple)
+    |> Map.get(Fares.to_fare_atom(first_route), [])
+    |> Kernel.==(Enum.map([first_route, middle_route, last_route], &Fares.to_fare_atom/1))
+    |> Kernel.and(is_maybe_transfer?([first_leg, middle_leg]))
+    |> Kernel.and(is_maybe_transfer?([middle_leg, last_leg]))
+  end
+
   def is_maybe_transfer?([
         %Leg{mode: %TransitDetail{route_id: from_route}},
         %Leg{mode: %TransitDetail{route_id: to_route}}
