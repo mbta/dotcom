@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows:
-      - Deploy to Dev
+      - Deploy to ECS
     types:
       - completed
 
@@ -12,7 +12,7 @@ jobs:
   crawler:
     name: Website Crawler
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' }}
     steps:
     - uses: erlef/setup-beam@v1
       with:

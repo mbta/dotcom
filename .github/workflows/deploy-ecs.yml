@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     steps:
       - uses: actions/checkout@v3
-      - run: echo '# Deploying ${{ github.ref }} to ${{ github.event.inputs.environment }} :rocket:' >> $GITHUB_STEP_SUMMARY
+      - run: echo '# Deploying ${{ github.ref }} to ${{ env.DEPLOY_ENV }} :rocket:' >> $GITHUB_STEP_SUMMARY
       - uses: mbta/actions/build-push-ecr@v1 # TODO: Check if image is already there for this ref?
         id: build-push
         with:
