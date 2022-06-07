@@ -4422,9 +4422,9 @@
           "moderation_state": [],
           "field_header_text": [
             {
-              "value": "<h2>Standard One-Way</h2><a>See fares overview</a>\r\n",
+              "value": "<h2>Standard One-Way</h2>\r\n",
               "format": "full_html",
-              "processed": "<h2>Standard One-Way</h2><a>See fares overview</a>\n"
+              "processed": "<h2>Standard One-Way</h2>\n"
             }
           ]
         }
