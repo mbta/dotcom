@@ -117,17 +117,19 @@ defmodule SiteWeb.CMS.PageView do
         false
 
       alert_path ->
-        alert_project_paths = get_project_url_paths(alert_path)
-        alert_project_paths = Enum.map(alert_project_paths, &trim_and_downcase/1)
-
-        Enum.any?(alert_project_paths, &MapSet.member?(project_paths, &1))
+        alert_path
+        |> get_project_url_paths(alert_path)
+        |> Enum.map(&trim_and_downcase/1)
+        |> Enum.any(&MapSet.member?(project_paths, &1))
     end
   end
 
   @spec alerts_for_project(Page.Project.t(), [Alerts.Alert]) :: [Alerts.Alert]
   defp alerts_for_project(project, alerts) do
-    paths = [project.path_alias | project.redirects]
-    paths = MapSet.new(Enum.map(paths, &trim_and_downcase/1))
+    paths =
+      [project.path_alias | project.redirects]
+      |> Enum.map(&trim_and_downcase/1)
+      |> MapSet.new()
 
     Enum.filter(alerts, &alert_related?(paths, &1))
   end
