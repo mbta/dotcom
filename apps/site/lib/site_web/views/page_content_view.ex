@@ -86,14 +86,10 @@ defmodule SiteWeb.CMS.PageView do
   # most likely delete this function
   @spec get_project_url_paths(String.t()) :: [String.t()]
   def get_project_url_paths(s) do
-    if String.contains?(s, "/projects") do
-      if String.contains?(s, "/update") do
-        [s, Regex.replace(~r/\/update.*/, s, "")]
-      else
-        [s]
-      end
+    if String.contains?(s, "/projects") and String.contains?(s, "/update") do
+      [s, Regex.replace(~r/\/update.*/, s, "")]
     else
-      []
+      [s]
     end
   end
 
@@ -110,6 +106,10 @@ defmodule SiteWeb.CMS.PageView do
     end
   end
 
+  @spec trim_and_downcase(String.t() | nil) :: String.t()
+  defp trim_and_downcase(nil), do: nil
+  defp trim_and_downcase(s), do: String.downcase(String.trim(s))
+
   @spec alert_related?(MapSet.t(), Alerts.Alert.t()) :: boolean()
   defp alert_related?(project_paths, alert) do
     case get_mbta_url_path(alert.url) do
@@ -117,14 +117,19 @@ defmodule SiteWeb.CMS.PageView do
         false
 
       alert_path ->
-        alert_project_paths = get_project_url_paths(alert_path)
-        Enum.any?(alert_project_paths, &MapSet.member?(project_paths, &1))
+        alert_path
+        |> get_project_url_paths()
+        |> Enum.map(&trim_and_downcase/1)
+        |> Enum.any?(&MapSet.member?(project_paths, &1))
     end
   end
 
   @spec alerts_for_project(Page.Project.t(), [Alerts.Alert]) :: [Alerts.Alert]
   defp alerts_for_project(project, alerts) do
-    paths = MapSet.new([project.path_alias | project.redirects])
+    paths =
+      [project.path_alias | project.redirects]
+      |> Enum.map(&trim_and_downcase/1)
+      |> MapSet.new()
 
     Enum.filter(alerts, &alert_related?(paths, &1))
   end
