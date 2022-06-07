@@ -185,3 +185,9 @@
   flex: 1 1 auto;
   margin-right: $base-spacing;
 }
+
+.c-standard-fares__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
