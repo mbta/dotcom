@@ -238,8 +238,14 @@
     }
 
     @include media-breakpoint-down(xs) {
+      margin-bottom: 1.5rem;
+
       h2 {
         flex: 0 0 100%;
+      }
+
+      a {
+        margin-top: 0.75rem;
       }
     }
   }
