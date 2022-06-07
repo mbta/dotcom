@@ -176,22 +176,22 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 }
 
 .c-multi-column__row {
-  div:nth-child(1) {
-    .grid-container {
-      border-color: $gray;
+  :nth-child(1) {
+    .c-fares-grid {
+      border-color: $brand-subway !important;
     }
   }
-  div:nth-child(2) {
+  :nth-child(2) {
     .c-fares-grid {
       border-color: $brand-bus;
     }
   }
-  div:nth-child(3) {
+  :nth-child(3) {
     .c-fares-grid {
       border-color: $brand-commuter-rail;
     }
   }
-  div:nth-child(4) {
+  :nth-child(4) {
     .c-fares-grid {
       border-color: $brand-ferry;
     }
