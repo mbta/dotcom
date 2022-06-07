@@ -107,12 +107,8 @@ defmodule SiteWeb.CMS.PageView do
   end
 
   @spec trim_and_downcase(String.t() | nil) :: String.t()
-  defp trim_and_downcase(s) do
-    case s do
-      nil -> nil
-      s -> String.downcase(String.trim(s))
-    end
-  end
+  defp trim_and_downcase(nil), do: nil
+  defp trim_and_downcase(s), do: String.downcase(String.trim(s))
 
   @spec alert_related?(MapSet.t(), Alerts.Alert.t()) :: boolean()
   defp alert_related?(project_paths, alert) do
