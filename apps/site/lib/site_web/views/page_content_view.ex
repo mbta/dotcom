@@ -118,9 +118,9 @@ defmodule SiteWeb.CMS.PageView do
 
       alert_path ->
         alert_path
-        |> get_project_url_paths(alert_path)
+        |> get_project_url_paths()
         |> Enum.map(&trim_and_downcase/1)
-        |> Enum.any(&MapSet.member?(project_paths, &1))
+        |> Enum.any?(&MapSet.member?(project_paths, &1))
     end
   end
 
