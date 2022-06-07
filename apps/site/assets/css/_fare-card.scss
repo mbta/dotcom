@@ -155,8 +155,7 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
       display: grid;
       grid-template-columns: 10% 70% 20%;
       border-top: 2px solid;
-      padding-top: 10px;
-      // code for correct colors      
+      padding-top: 10px;    
     }
 
     .c-fare-name-link {
@@ -172,6 +171,29 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     .c-fares-price {
       font-weight: bold;
       min-width: 6rem;
+    }
+  }
+}
+
+.c-multi-column__row {
+  div:nth-child(1) {
+    .grid-container {
+      border-color: $gray;
+    }
+  }
+  div:nth-child(2) {
+    .c-fares-grid {
+      border-color: $brand-bus;
+    }
+  }
+  div:nth-child(3) {
+    .c-fares-grid {
+      border-color: $brand-commuter-rail;
+    }
+  }
+  div:nth-child(4) {
+    .c-fares-grid {
+      border-color: $brand-ferry;
     }
   }
 }

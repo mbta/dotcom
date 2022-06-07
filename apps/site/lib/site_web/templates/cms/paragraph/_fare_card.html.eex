@@ -50,7 +50,6 @@
 %>
 
 <%= content_tag :div, class: card_classes do %>
-
   <div class="c-fare-card__icon">
     <%= mode_icon(mode, :default) %>
   </div>
@@ -78,16 +77,15 @@
       <%= render_paragraph_content(@fare_card.note, @conn) %>
     </div>
   <% end %>
-
 <% end %>
 
-<%= content_tag :div do %>
+<%= content_tag :div, class: "grid-container" do %>
   <div class="c-fares-grid">
     <div>
       <%= mode_icon(mode, :default) %>
     </div>
     <div>
-      <div>
+      <div class="c-fare-name-link">
         <%= if @fare_card.link do %>
           <%= link card_title, to: @fare_card.link.url, class: "c-fare-name-link" %>
         <% else %>

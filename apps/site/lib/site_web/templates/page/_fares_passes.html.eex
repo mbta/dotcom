@@ -2,8 +2,6 @@
   <div class="container">
     <div class="m-homepage--10-col-sm-only">
       <div class="m-homepage__fares">
-    <%# <a href="/fares">See fares overview</a> %>
-
         <%= render_paragraph(@homepage_fares, @conn) %>
       </div>
     </div>
