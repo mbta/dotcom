@@ -2,7 +2,7 @@
   @if $homepage == true {
     .c-fare-card {
       display: none;
-  }
+    }
   } @else {
     .c-fares-grid {
       display: none;
