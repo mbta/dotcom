@@ -151,26 +151,48 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 .m-homepage__fares {
   @include media-breakpoint-only(xs) {
     @include homepage-fares(true);
+    .grid-container {
+      padding-top: 0.75rem;
+      padding-bottom: 1.25rem;
+      &__icon {
+        @include icon-size(1rem);
+      }
+    }
+
     .c-fares-grid {
       display: grid;
-      grid-template-columns: 10% 70% 20%;
+      grid-template-columns: 10% 65% 25%;
       border-top: 2px solid;
-      padding-top: 10px;    
+      padding-top: 10px;
     }
 
     .c-fare-name-link {
       text-decoration: underline;
       color: black;
       font-weight: bold;
+      font-family: 'Helvetica Neue';
+      margin-bottom: 0.25rem;
       :hover {
         color: $brand-primary;
         text-decoration: none;
       }
     }
+    
+    .c-fare-card__media {
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .c-fare-card__note {
+      font-size: 0.75rem;
+      color: $gray;
+    }
 
     .c-fares-price {
       font-weight: bold;
-      min-width: 6rem;
+      text-align: right;
+      padding-right: 1rem;
+      margin-left:  0.75rem;
     }
   }
 }
