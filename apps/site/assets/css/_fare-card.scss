@@ -151,12 +151,10 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 .m-homepage__fares {
   @include media-breakpoint-only(xs) {
     @include homepage-fares(true);
+    @include icon-size(1rem);
     .grid-container {
       padding-top: 0.75rem;
       padding-bottom: 1.25rem;
-      &__icon {
-        @include icon-size(1rem);
-      }
     }
 
     .c-fares-grid {
