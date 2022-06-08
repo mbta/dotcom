@@ -188,6 +188,8 @@
 
 .c-standard-fares__heading {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
+  @include media-breakpoint-down(xs) {
+    display: block;
+  }
 }
