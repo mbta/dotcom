@@ -3,9 +3,6 @@ on:
   push:
     branches: [master]
   pull_request:
-    # Don't bother running if it's a PR on a feature branch
-    branches: [master]
-
     # Don't bother running if it's just a script or docs change
     paths-ignore:
       - "bin/**"
