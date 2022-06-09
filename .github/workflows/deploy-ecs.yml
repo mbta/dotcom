@@ -21,7 +21,6 @@ env:
 
 jobs:
   deploy:
-    if: ${{ github.event.inputs.environment != 'prod' }} # env not available in job.if
     name: Build image, push to ECR, deploy to ECS
     environment:
       name: ${{ github.event.inputs.environment || 'dev' }}  # env not available in job.environment
@@ -63,5 +62,5 @@ jobs:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           job-status: ${{ needs.deploy.result }}
           custom-message: |
-            `${{ github.ref }}` deployment to Dotcom ${{ env.DEPLOY_ENV }}
+            `${{ github.ref }}` deployed to ${{ env.DEPLOY_ENV }} :rocket:
 
