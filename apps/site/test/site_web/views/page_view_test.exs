@@ -55,7 +55,7 @@ defmodule SiteWeb.PageViewTest do
       now = Util.now()
 
       entries =
-        for idx <- 1..5 do
+        for idx <- 1..6 do
           %Teaser{
             id: idx * 1000,
             title: "News Entry #{idx}",
@@ -72,9 +72,9 @@ defmodule SiteWeb.PageViewTest do
         |> PageView.render_news_entries()
         |> HTML.safe_to_string()
 
-      assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 5
-      assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2
-      assert rendered |> Floki.find(".c-news-entry--small") |> Enum.count() == 3
+      assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 6
+      # assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2
+      assert rendered |> Floki.find(".c-news-entry--small") |> Enum.count() == 6
       assert rendered =~ "2000"
     end
   end
