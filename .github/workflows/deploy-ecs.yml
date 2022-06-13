@@ -23,16 +23,12 @@ jobs:
   deploy:
     name: Build image, push to ECR, deploy to ECS
     environment:
-      name: ${{ steps.deploy-start.outputs.env_name }}  # env not available in job.environment
-      url: ${{ steps.deploy-start.outputs.env_url }}
+      name: ${{ github.event.inputs.environment || 'dev' }}  # env not available in job.environment
+      url: ${{ env.DEPLOY_ENV == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', env.DEPLOY_ENV) }}
     runs-on: ubuntu-18.04 # ubuntu-latest causes aws-cli command in upload_assets.sh to fail -- see https://github.com/aws/aws-cli/issues/5262
     steps:
       - uses: actions/checkout@v3
-      - id: deploy-start
-        run: >
-          echo "::set-output name=env_name::${{ env.DEPLOY_ENV }}"
-          echo "::set-output name=env_url::${{ env.DEPLOY_ENV == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', env.DEPLOY_ENV) }}"
-          echo '# Deploying ${{ github.ref }} to ${{ env.DEPLOY_ENV }} :rocket:' >> $GITHUB_STEP_SUMMARY
+      - run: echo '# Deploying ${{ github.ref }} to ${{ env.DEPLOY_ENV }} :rocket:' >> $GITHUB_STEP_SUMMARY
       - uses: mbta/actions/build-push-ecr@v1 # TODO: Check if image is already there for this ref?
         id: build-push
         with:
