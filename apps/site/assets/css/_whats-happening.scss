@@ -1,6 +1,21 @@
 .m-whats-happening__section {
   margin-bottom: $base-spacing;
   width: 100%;
+
+  h2 {
+    @include media-breakpoint-down(xxl) {
+      font-size: $font-size-base * 2;
+      margin-bottom: $base-spacing-lg;
+    }
+    @include media-breakpoint-down(md) {
+      font-size: $font-size-base-sm * 2;
+      margin-bottom: $base-spacing-lg;
+    }
+    @include media-breakpoint-down(sm) {
+      font-size: $font-size-base-sm * 1.625;
+      margin-bottom: $base-spacing;
+    }
+  }
 }
 
 .m-whats-happening__row {
