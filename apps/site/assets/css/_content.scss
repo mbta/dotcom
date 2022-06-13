@@ -191,5 +191,7 @@
   align-items: baseline;
   @include media-breakpoint-down(xs) {
     display: block;
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
   }
 }

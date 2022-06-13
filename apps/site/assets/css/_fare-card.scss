@@ -159,7 +159,7 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 
     .c-fares-grid {
       display: grid;
-      grid-template-columns: 10% 65% 25%;
+      grid-template-columns: 10% 60% 30%;
       border-top: 2px solid;
       padding-top: 10px;
     }
@@ -168,7 +168,7 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
       text-decoration: underline;
       color: black;
       font-weight: bold;
-      font-family: 'Helvetica Neue';
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       margin-bottom: 0.25rem;
       :hover {
         color: $brand-primary;
@@ -191,6 +191,7 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
       text-align: right;
       padding-right: 1rem;
       margin-left:  0.75rem;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
   }
 }
