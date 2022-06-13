@@ -4,7 +4,7 @@ defmodule SiteWeb.CMS.TeaserView do
   """
   use SiteWeb, :view
 
-  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1, link_category: 1]
+  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1, cms_route_to_svg: 1, link_category: 1]
 
   alias CMS.Partial.Teaser
 
@@ -14,6 +14,9 @@ defmodule SiteWeb.CMS.TeaserView do
   @spec transit_tag(Teaser.t()) :: String.t()
   def transit_tag(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)
   def transit_tag(%Teaser{routes: []}), do: "unknown"
+
+  def transit_svg(%Teaser{routes: [route | _]}), do: cms_route_to_svg(route)
+  def transit_svg(%Teaser{routes: []}), do: cms_route_to_svg(nil)
 
   @spec teaser_topic(Teaser.t()) :: Phoenix.HTML.safe()
   def teaser_topic(teaser), do: link_category(teaser.topic)

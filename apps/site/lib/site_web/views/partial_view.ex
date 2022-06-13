@@ -12,7 +12,7 @@ defmodule SiteWeb.PartialView do
 
   import SiteWeb.CMSView, only: [file_description: 1]
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
-  import SiteWeb.CMS.TeaserView, only: [transit_tag: 1, handle_fields: 2]
+  import SiteWeb.CMS.TeaserView, only: [transit_svg: 1, transit_tag: 1, handle_fields: 2]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -69,14 +69,15 @@ defmodule SiteWeb.PartialView do
   def news_entry(entry, opts \\ []) do
     size = Keyword.get(opts, :size, :small)
     color = transit_tag(entry)
+    svg = transit_svg(entry)
     opts = [{:color, color} | opts]
 
     link(
       [
-        news_date(entry, size),
+        SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: svg}),
         content_tag(
           :div,
-          raw(entry.title),
+          [raw(entry.title), news_date(entry, size)],
           class: "c-news-entry__title c-news-entry__title--#{size}"
         )
       ],

@@ -8,7 +8,7 @@ defmodule SiteWeb.CMSHelpers do
   import Phoenix.HTML.Link
 
   alias CMS.API
-  alias Routes.Repo
+  alias Routes.{Repo, Route}
 
   @doc """
   Converts CMS-flavored routes to classes, where the route may
@@ -26,6 +26,26 @@ defmodule SiteWeb.CMSHelpers do
   def cms_route_to_class(%{group: "custom", mode: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{group: "mode", id: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{id: id}), do: id |> Repo.get() |> route_to_class()
+
+  @doc """
+  Converts CMS-flavored routes to svg, where the route may
+  not strictly be an ID that matches an elixir route ID.
+
+  Example: authors can tag something with an umbrella term like
+  "commuter_rail" or "silver_line" to indicate the content item
+  is related to all routes on that mode or line.
+  """
+  @spec cms_route_to_svg(API.route_term()) :: atom()
+  def cms_route_to_svg(nil), do: :t_logo
+  def cms_route_to_svg(%{mode: nil}), do: :t_logo
+  def cms_route_to_svg(%{id: "Green"}), do: :green_line
+  def cms_route_to_svg(%{id: "mattapan"}), do: :mattapan_line
+  def cms_route_to_svg(%{id: "silver_line"}), do: :silver_line
+  def cms_route_to_svg(%{group: "mode", id: mode}), do: Route.type_atom(mode)
+  def cms_route_to_svg(%{group: "custom", mode: mode}), do: Route.type_atom(mode)
+
+  def cms_route_to_svg(%{id: id}),
+    do: id |> Repo.get() |> Route.icon_atom()
 
   @doc """
   Map certain CMS content categories to index pages of that content.
