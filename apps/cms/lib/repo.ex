@@ -354,4 +354,17 @@ defmodule CMS.Repo do
         end
     end
   end
+
+  @doc "Get the next n events, paginating through results if needed, and caches the result"
+  def next_n_events(n \\ []) do
+    opts = [
+      type: [:event],
+      items_per_page: n,
+      # date_op: "between",
+      # date: range,
+      # offset: offset * per_page,
+      sort_order: :ASC
+    ]
+    IO.inspect(events(opts))
+  end
 end
