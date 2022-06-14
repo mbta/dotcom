@@ -57,5 +57,15 @@ defmodule LocationService.UtilsTest do
 
       assert ["Sesame"] = spans
     end
+
+    test "can handle text with brackets" do
+      spans =
+        get_highlighted_spans_text(%{
+          search: "Great Harvest Bread Co. (great harvest bread)",
+          text: "Great Harvest Bread Co."
+        })
+
+      assert ["Great", "Harvest", "Bread", "Co."] = spans
+    end
   end
 end
