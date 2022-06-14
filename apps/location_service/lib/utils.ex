@@ -29,7 +29,7 @@ defmodule LocationService.Utils do
       # p       -- Match the current part
       # \\w*    -- Match any number of word characters
       # )       -- Close `t`
-      src = "(^|\\W)(?<t>" <> p <> "\\w*)"
+      src = "(^|\\W)(?<t>" <> Regex.escape(p) <> "\\w*)"
       {:ok, re} = Regex.compile(src, "i")
 
       Regex.scan(re, text, return: :index, capture: :all_names)
