@@ -154,7 +154,6 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     @include icon-size(1rem);
     .grid-container {
       padding-top: 0.75rem;
-      padding-bottom: 1.25rem;
     }
 
     .c-fares-grid {
@@ -184,6 +183,10 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
     .c-fare-card__note {
       font-size: 0.75rem;
       color: $gray;
+    }
+
+    .c-fare-card__note p {
+      margin-bottom: 0.5rem;
     }
 
     .c-fares-price {
