@@ -57,7 +57,7 @@
 
   [class*='c-svg__icon'] {
     margin-bottom: math.div($base-spacing, 2);
-  
+
     @include media-breakpoint-down(xs) {
       margin-bottom: math.div($base-spacing, 4);
     }
@@ -222,13 +222,16 @@
 }
 
 .m-homepage__alerts {
-  margin: -1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 
   h2, h3, h4 {
     a {
       display: inline-flex;
-
       color: inherit;
+      font-size: inherit;
+      line-height: inherit;
 
       &:hover {
         text-decoration: inherit;
@@ -245,11 +248,63 @@
     }
   }
 
+  h2 {
+    @include media-breakpoint-down(sm) {
+      font-size: 18px;
+      line-height: 24px;
+    }
+
+    @include media-breakpoint-only(md) {
+      font-size: 21px;
+      line-height: 27px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+
+  h3 {
+    @include media-breakpoint-down(sm) {
+      font-size: 14px;
+      line-height: 16px
+    }
+
+    @include media-breakpoint-only(md) {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 24px;
+      line-height: 30px;
+    }
+  }
+
+  p, a {
+    @include media-breakpoint-down(sm) {
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    @include media-breakpoint-only(md) {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: 18px;
+      line-height: 27px;
+    }
+  }
+
   ul {
     list-style: none;
     padding-left: 0;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 1rem;
 
     li {
       display: inline-block;
@@ -270,7 +325,6 @@
       border-radius: 200px;
       padding: 0 5px;
       text-transform: uppercase;
-      font-size: 0.9em;
 
       a {
         color: inherit;
@@ -279,15 +333,11 @@
   }
 
   ul.bus {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-
     li {
-      font-size: 0.9em;
-
       a, .c-icon__bus-pill {
         display: inline-block;
         width: 100%;
+        max-height: unset;
       }
     }
   }
@@ -300,24 +350,22 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 2rem;
 
     h2, h3, h4 {
       margin-top: 0px;
     }
-
-    > div {
-      padding: 1em;
-    }
   }
 
   .m-homepage__alerts-high-priority {
-    flex: 1 1 700px;
+    flex: 1 1 590px;
   }
 
   .m-homepage__alerts-high-priority-by-mode {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 1rem;
 
     flex: 1 1 450px;
 
@@ -325,10 +373,15 @@
       position: relative;
 
       flex: 1 1 max(250px, calc(50% - 1em));
-      margin-right: 1em;
 
       h3 {
         margin-bottom: 0.75em;
+      }
+
+      &:last-child {
+        p {
+          margin-bottom: 0;
+        }
       }
     }
 
@@ -367,6 +420,7 @@
 
   .m-homepage__alerts-footer {
     border-top: 2px solid $gray-lightest;
+    padding-top: 2rem;
 
     display: flex;
     flex-direction: row;
@@ -374,16 +428,13 @@
     justify-content: flex-end;
 
     .buttons {
-      margin-top: 1em;
-      margin-left: 1em;
       display: flex;
       flex-direction: row;
       flex-wrap: wrap-reverse;
+      gap: 1rem;
 
       a {
         flex: 1 1 auto;
-        margin-right: 1em;
-        margin-bottom: 1em;
       }
     }
   }
@@ -396,9 +447,9 @@
       background: $gray-lightest;
 
       position: absolute;
-      top: 0;
-      left: 1em;
-      right: 1em;
+      top: -1rem;
+      left: 1rem;
+      right: 1rem;
       height: 2px;
     }
   }
@@ -410,25 +461,21 @@
       background: $gray-lightest;
 
       position: absolute;
-      top: 1em;
-      left: -1em;
-      bottom: 1em;
+      top: 1rem;
+      left: -1rem;
+      bottom: 1rem;
       width: 2px;
     }
   }
 
   @include media-breakpoint-down(xs) {
-    .m-homepage__alerts-mode {
-      margin-bottom: 1em;
-    }
-
     .m-homepage__alerts-mode::after {
       content: '';
       display: block;
       background: $gray-lightest;
 
       position: absolute;
-      bottom: 0.25em;
+      bottom: 0.25rem;
       left: 0;
       right: 0;
       height: 2px;
