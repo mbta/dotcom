@@ -355,16 +355,21 @@ defmodule CMS.Repo do
     end
   end
 
-  @doc "Get the next n events, paginating through results if needed, and caches the result"
+  @doc "Get the next n events"
   def next_n_events(n \\ []) do
+    range = [
+      min: Timex.today |> Util.convert_to_iso_format(),
+      max: Timex.end_of_year(DateTime.utc_now.year) |> Timex.shift(days: 1) |> Util.convert_to_iso_format()
+    ]
     opts = [
       type: [:event],
       items_per_page: n,
-      # date_op: "between",
-      # date: range,
-      # offset: offset * per_page,
+      date_op: "between", # should be greater than
+      date: range, # should be able to pick single date rather than range
       sort_order: :ASC
     ]
-    IO.inspect(events(opts))
+    events = teasers(opts)
+    IO.inspect(events)
+    events
   end
 end
