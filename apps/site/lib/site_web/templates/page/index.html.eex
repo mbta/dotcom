@@ -16,6 +16,21 @@
   </div>
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
+
+
+<%# apps/site/lib/site_web/templates/event/_event_teaser.html.eex %>
+<%# apps/site/lib/site_web/templates/page/index.html.eex %>
+
+<% IO.inspect(@events) %>
+<% render(SiteWeb.EventView, "_calendar.html",
+              events: @events,
+              conn: @conn,
+              month: 6,
+              year: 2022) %>
+
+
+
+
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items, promoted: false %>
   <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>

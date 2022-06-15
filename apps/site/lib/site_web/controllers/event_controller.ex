@@ -29,7 +29,6 @@ defmodule SiteWeb.EventController do
   end
 
   defp assign_events(conn, _opts) do
-    Repo.next_n_events(3)
     events_by_year =
       for year <- year_options(conn), into: %{} do
         {year, Repo.events_for_year(year)}

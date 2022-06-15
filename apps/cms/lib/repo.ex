@@ -368,8 +368,6 @@ defmodule CMS.Repo do
       date: range, # should be able to pick single date rather than range
       sort_order: :ASC
     ]
-    events = teasers(opts)
-    IO.inspect(events)
-    events
+    teasers(opts)
   end
 end
