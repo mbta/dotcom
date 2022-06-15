@@ -185,3 +185,13 @@
   flex: 1 1 auto;
   margin-right: $base-spacing;
 }
+
+.c-standard-fares__heading {
+  display: flex;
+  align-items: baseline;
+  @include media-breakpoint-down(xs) {
+    display: block;
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+}

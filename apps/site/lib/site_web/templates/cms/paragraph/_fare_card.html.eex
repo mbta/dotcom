@@ -50,7 +50,6 @@
 %>
 
 <%= content_tag :div, class: card_classes do %>
-
   <div class="c-fare-card__icon">
     <%= mode_icon(mode, :default) %>
   </div>
@@ -78,5 +77,35 @@
       <%= render_paragraph_content(@fare_card.note, @conn) %>
     </div>
   <% end %>
+<% end %>
 
+<%= content_tag :div, class: "grid-container" do %>
+  <div class="c-fares-grid">
+    <div>
+      <%= mode_icon(mode, :default) %>
+    </div>
+    <div>
+      <div class="c-fare-name-link">
+        <%= if @fare_card.link do %>
+          <%= link card_title, to: @fare_card.link.url, class: "c-fare-name-link" %>
+        <% else %>
+          <%= card_title %>
+        <% end %>
+      </div>
+      <%= if @fare_card.show_media do %>
+        <p class="c-fare-card__media">
+          with <%= media %>
+        </p>
+      <% end %>
+
+      <%= if @fare_card.note do %>
+        <div class="c-fare-card__note">
+          <%= render_paragraph_content(@fare_card.note, @conn) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="c-fares-price">
+      <%= price %>
+    </div>
+  </div>
 <% end %>
