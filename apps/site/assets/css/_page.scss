@@ -11,6 +11,12 @@
       border-bottom-width: 0;
     }
   }
+
+  .list-group-item {
+    border-top: unset;
+    border-top: solid $gray-lightest;
+    border-width: 1px 0 0 0;
+  }
 }
 
 .pre-container-tnm {

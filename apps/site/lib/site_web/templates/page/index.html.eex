@@ -16,26 +16,7 @@
   </div>
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
-
-  <div class="c-standard-fares__heading">
-    <h2 class="homepage__header">Upcoming Public Meetings and Events</h2>
-    <a class="c-call-to-action homepage__header-link" href="/events">
-      See all public meetings and events
-    </a>
-  </div>
-    <%= for event_teaser <- @event_teasers do %>
-      <%= render(SiteWeb.EventView, "_event_teaser.html",
-          event_teaser: event_teaser,
-          check_event_ended: true,
-          conn: @conn,
-          month_number: 6,
-          year: 2022) %>
-    <% end %>
-    <%= if Enum.empty?(@event_teasers) do %>
-      <p>No events</p>
-    <% end %>
-
-
+  <%= render SiteWeb.PageView, "_homepage-events.html", conn: @conn, event_teasers: @event_teasers %>
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items, promoted: false %>
   <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>

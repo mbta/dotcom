@@ -1,0 +1,19 @@
+<div class="container page-section">
+  <div class="c-standard-fares__heading">
+    <h2 class="m-homepage__header">Upcoming Public Meetings and Events</h2>
+    <a class="c-call-to-action m-homepage__header-link" href="/events">
+      See all public meetings and events
+    </a>
+  </div>
+    <%= for event_teaser <- @event_teasers do %>
+      <%= render(SiteWeb.EventView, "_event_teaser.html",
+          event_teaser: event_teaser,
+          check_event_ended: true,
+          conn: @conn,
+          month_number: DateTime.utc_now.month,
+          year: DateTime.utc_now.year) %>
+    <% end %>
+    <%= if Enum.empty?(@event_teasers) do %>
+      <p>No events</p>
+    <% end %>
+</div>
