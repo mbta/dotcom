@@ -356,7 +356,7 @@ defmodule CMS.Repo do
   end
 
   @doc "Get the next n events"
-  def next_n_events(n \\ []) do
+  def next_n_event_teasers(n \\ []) do
     range = [
       min: Timex.today |> Util.convert_to_iso_format(),
       max: Timex.end_of_year(DateTime.utc_now.year) |> Timex.shift(days: 1) |> Util.convert_to_iso_format()

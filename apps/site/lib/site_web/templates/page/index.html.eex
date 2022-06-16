@@ -17,18 +17,23 @@
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
 
-
-<%# apps/site/lib/site_web/templates/event/_event_teaser.html.eex %>
-<%# apps/site/lib/site_web/templates/page/index.html.eex %>
-
-<% IO.inspect(@events) %>
-<% render(SiteWeb.EventView, "_calendar.html",
-              events: @events,
-              conn: @conn,
-              month: 6,
-              year: 2022) %>
-
-
+  <div class="c-standard-fares__heading">
+    <h2 class="homepage__header">Upcoming Public Meetings and Events</h2>
+    <a class="c-call-to-action homepage__header-link" href="/events">
+      See all public meetings and events
+    </a>
+  </div>
+    <%= for event_teaser <- @event_teasers do %>
+      <%= render(SiteWeb.EventView, "_event_teaser.html",
+          event_teaser: event_teaser,
+          check_event_ended: true,
+          conn: @conn,
+          month_number: 6,
+          year: 2022) %>
+    <% end %>
+    <%= if Enum.empty?(@event_teasers) do %>
+      <p>No events</p>
+    <% end %>
 
 
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
