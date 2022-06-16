@@ -8,10 +8,13 @@ on:
       - synchronize
       - labeled
 
+env:
+  # deploy only if any PR label is "dev-green" or "dev-blue"
+  DO_DEPLOY: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
+
 jobs:
   pr:
-    # run only if any PR label is "dev-green" or "dev-blue"
-    if: contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue')
+    if: ${{ env.DO_DEPLOY }}
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
       # really hacky expression because Github Actions
@@ -25,7 +28,7 @@ jobs:
   notify:
     needs: [pr]
     uses: ./.github/workflows/use-notify-slack.yml
-    if: ${{ !cancelled() }}
+    if: ${{ env.DO_DEPLOY && !cancelled() }}
     secrets:
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
     with:

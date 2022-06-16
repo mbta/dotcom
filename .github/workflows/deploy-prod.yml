@@ -13,7 +13,7 @@ jobs:
       name: prod
       url: mbta.com
     concurrency:
-      group: deploy-prod
+      group: deploy-prod-ecs
       cancel-in-progress: true
     env:
       AWS_REGION: us-east-1
