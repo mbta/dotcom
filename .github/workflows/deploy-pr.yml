@@ -9,7 +9,7 @@ on:
       - labeled
 
 jobs:
-  deploy:
+  pr:
     # run only if any PR label is "dev-green" or "dev-blue"
     if: contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue')
     uses: ./.github/workflows/use-deploy-ecs.yml
