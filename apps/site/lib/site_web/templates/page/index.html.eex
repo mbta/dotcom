@@ -1,7 +1,7 @@
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
   <%= render "_tabbed_nav.html", assigns %>
-  <div class="m-homepage--10-col-sm-only m-homepage__search-wrapper">
+  <div class="container page-section">
     <%= render "_find_a_location.html", conn: @conn %>
     <%= render "_contact_us.html", conn: @conn %>
   </div>
