@@ -23,15 +23,15 @@ jobs:
       docker-repo: ${{ secrets.DOCKER_REPO }}
 
   notify:
-    needs: [deploy]
+    needs: [pr]
     uses: ./.github/workflows/use-notify-slack.yml
     if: ${{ !cancelled() }}
     secrets:
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
     with:
-      job-status: ${{ needs.deploy.result }}
+      job-status: ${{ needs.pr.result }}
       success-message: |
-        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to **${{ needs.deploy.outputs.deployment-env }}**
+        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to **${{ needs.pr.outputs.deployment-env }}**
       failure-message: |
-        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ needs.deploy.outputs.deployment-env }}
+        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ needs.pr.outputs.deployment-env }}
 
