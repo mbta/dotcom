@@ -61,28 +61,35 @@ jobs:
           username: ${{ secrets.aws-access-key-id }}
           password: ${{ secrets.aws-secret-access-key }}
 
-      - name: Build image and push to ECR
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build image
         uses: docker/build-push-action@v3
-        id: docker-build
         with:
-          pull: true
-          push: true
-          load: true # lets us use the image in the next step
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=${{ secrets.docker-repo }}:latest
-          cache-to: type=inline
+          load: true
+          tags: assets-image
+          cache-from: type=gha,src=/tmp/.buildx-cache
+          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
-      - run: echo "build-tag=${{ fromJSON(steps.docker-build.outputs.metadata)['containerimage.config.digest'] }} >> $GITHUB_ENV"
-
-      - name: Upload assets to s3
+      - name: Upload assets from image into s3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.aws-access-key-id }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.aws-secret-access-key }}
           AWS_DEFAULT_REGION: us-east-1
           AWS_DEFAULT_OUTPUT: json
         run: |
-          bash upload_assets.sh ${{ env.build-tag }}
+          bash upload_assets.sh assets-image
+
+      - name: Push to ECR
+        uses: docker/build-push-action@v3
+        id: docker-build
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,src=/tmp/.buildx-cache
+          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
       - uses: mbta/actions/deploy-ecs@v1
         with:
@@ -90,7 +97,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
-          docker-tag: ${{ env.build-tag }}
+          docker-tag: ${{ secrets.docker-repo }}:${{ steps.meta.outputs.version }}
 
       ## TODO after Sentry internal integation with Github Actions setup
       # - uses: getsentry/action-release@v1.1.6
