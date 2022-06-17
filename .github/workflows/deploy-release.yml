@@ -8,7 +8,6 @@ on:
 
 jobs:
   release:
-    if: ${{ github.event.release.target_commitish == 'master' }}
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
       deployment-env: prod
@@ -21,7 +20,7 @@ jobs:
   notify:
     needs: [release]
     uses: ./.github/workflows/use-notify-slack.yml
-    if: ${{ github.event.release.target_commitish == 'master' && !cancelled() }}
+    if: ${{ !cancelled() }}
     secrets:
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
     with:
