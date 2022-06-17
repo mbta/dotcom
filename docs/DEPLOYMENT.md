@@ -2,17 +2,22 @@
 
 ## Production deployment
 
-This can be done on GitHub with the [Deploy to Production](https://github.com/mbta/dotcom/actions/workflows/deploy-prod.yml) workflow. 
+This can be done on GitHub Actions via the following:
 
-Monitor the deploy in AWS Elastic Beanstalk:
+- [Create a release](https://github.com/mbta/dotcom/releases). Select a relevant recent commit, follow the naming convention, click "generate release notes", and publish. This will trigger the [Deploy: release](.github/workflows/deploy-release.yml) workflow that will kick off a deploy to production.
+- [Manually](https://github.com/mbta/dotcom/actions/workflows/deploy-manual.yml). The [Deploy: manual](.github/workflows/deploy-manual.yml) workflow can be used to deploy to production by selecting the "prod" environment.
 
-- [Health Dashboard](https://console.aws.amazon.com/elasticbeanstalk/home?region=us-east-1#/environment/health?applicationName=dotcom&environmentId=e-63b6ycpxu2)
-- [Events](https://console.aws.amazon.com/elasticbeanstalk/home?region=us-east-1#/environment/events?applicationName=dotcom&environmentId=e-63b6ycpxu2)
-- [Application Versions](https://console.aws.amazon.com/elasticbeanstalk/home?region=us-east-1#/application/versions?applicationName=dotcom)
+![](run_workflow.png)
+
+## Staging deployment
+
+Deploying to our staging servers can also be done through GitHub Actions. In addition to the [manual](https://github.com/mbta/dotcom/actions/workflows/deploy-manual.yml) option mentioned under "Production deployment", deployment to our staging environments can be done within a pull request by adding the `dev-green` or `dev-blue` labels, which will trigger a deploy to the indicated environment via the [Deploy: PR](.github/workflows/deploy-pr.yml) workflow.
+
+The deployment will be held in a "waiting" state until approved by an active developer. Active developers may approve their own requests.
 
 ## Building the distribution package locally
 
-When deploying to our servers, the `mbta/actions/build-push-ecr@v1` and `mbta/actions/eb-ecr-dockerrun@v1` actions perform these steps for us. But for testing or development purposes it is possible to build locally as well.
+When deploying to our servers, the `docker/build-push-action@v3` action builds the application for us. But for testing or development purposes it is possible to build locally as well.
 
 1. (once) Install Docker: https://docs.docker.com/engine/install/
 2. Build the Docker image:
@@ -29,11 +34,3 @@ The root (three-stage) `Dockerfile` is responsible for building and running the 
 
 - Run:
   The part of the Dockerfile used to run the application (last stage) runs the script that `distillery` provides for us to run the server (`/root/rel/site/bin/site foreground`). At startup, the `relx` application looks for configuration values that look like `${VARIABLE}` and replaces them with the `VARIABLE` environment variable. This allows us to make a single build, but use it for different environments by changing the environment variables.
-
-## Staging deployment
-
-Deploying to our staging servers can also be done through GitHub Actions.
-
-![](run_workflow.png)
-
-Developers can manually request a deploy of any branch by using any of the deploy workflows. The deployment will be held in a "waiting" state until approved by an active developer. Active developers may approve their own requests.
