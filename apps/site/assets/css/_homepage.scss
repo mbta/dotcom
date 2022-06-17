@@ -323,10 +323,10 @@
     li {
       color: white;
       border-radius: 200px;
-      padding: 0 5px;
       text-transform: uppercase;
 
       a {
+        padding: calc(1rem / 4) calc(1rem / 2);
         color: inherit;
       }
     }
@@ -338,6 +338,17 @@
         display: inline-block;
         width: 100%;
         max-height: unset;
+      }
+    }
+  }
+
+  ul.bus, ul.commuter_rail, ul.ferry {
+    li {
+      a {
+        font-family: $headings-font-family;
+        font-size: $font-size-small-caps !important;
+        text-transform: uppercase;
+        font-weight: 700;
       }
     }
   }
