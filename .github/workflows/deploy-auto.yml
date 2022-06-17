@@ -24,6 +24,6 @@ jobs:
     with:
       job-status: ${{ needs.auto.result }}
       success-message: |
-        `dev` updated to `${{ github.sha }}`
+        :ballot_box_with_check: `dev` updated to latest commit on master
       failure-message: |
-        `dev` not updated to `${{ github.sha }}`
+        :ballot_box_with_check: `dev` not updated to latest commit on master
