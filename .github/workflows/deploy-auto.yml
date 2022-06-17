@@ -7,7 +7,6 @@ on:
 
 jobs:
   auto:
-    name: Deploy
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
       deployment-env: dev
