@@ -3,7 +3,7 @@ defmodule SiteWeb.CMS.PageViewTest do
 
   import SiteWeb.CMS.PageView
 
-  alias CMS.Page.Basic
+  alias CMS.Page.{Basic, Project}
   alias CMS.Partial.Paragraph.{ContentList, CustomHTML}
   alias Phoenix.HTML
 
@@ -73,6 +73,110 @@ defmodule SiteWeb.CMS.PageViewTest do
       }
 
       refute has_right_rail?(page)
+    end
+  end
+
+  describe "project alerts" do
+    test "renders project with no alerts" do
+      conn = %{
+        assigns: %{
+          alerts: [],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0}
+
+      rendered =
+        project
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "page-section"
+      assert rendered =~ "alerts-section"
+    end
+
+    test "renders project with alerts" do
+      conn = %{
+        assigns: %{
+          alerts: [
+            %Alerts.Alert{
+              url: "http://mbta.com/projects/test"
+            }
+          ],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0, path_alias: "/projects/test"}
+
+      rendered =
+        project
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "page-section"
+      assert rendered =~ "alerts-section"
+      assert rendered =~ "Related Service Alerts"
+    end
+
+    test "renders project with alerts, redirect with different casing" do
+      conn = %{
+        assigns: %{
+          alerts: [
+            %Alerts.Alert{
+              url: "http://mbta.com/NorthQuincy"
+            }
+          ],
+          date_time: DateTime.utc_now()
+        }
+      }
+
+      project = %Project{id: 0, path_alias: "/projects/test", redirects: ["/northquincy"]}
+
+      rendered =
+        project
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "page-section"
+      assert rendered =~ "alerts-section"
+      assert rendered =~ "Related Service Alerts"
+    end
+  end
+
+  describe "body_with_alerts_section/2" do
+    test "injects alerts section after figure if present" do
+      conn = %{assigns: %{alerts: [], date_time: DateTime.utc_now()}}
+
+      page = %{
+        body: {:safe, "<figure><img></img></figure><p></p>"},
+        path_alias: "/test",
+        redirects: []
+      }
+
+      {:safe, content} = body_with_alerts_section(conn, page)
+      content = Enum.join(content, "")
+
+      [{figure_index, _}] = Regex.run(~r/<figure>/, content, return: :index)
+      [{alerts_section_index, _}] = Regex.run(~r/alerts-section/, content, return: :index)
+      [{p_tag_index, _}] = Regex.run(~r/<p>/, content, return: :index)
+
+      assert figure_index < alerts_section_index
+      assert alerts_section_index < p_tag_index
+    end
+
+    test "renders alerts section first if figure not present" do
+      conn = %{assigns: %{alerts: [], date_time: DateTime.utc_now()}}
+      page = %{body: {:safe, "<p></p><div></div>"}, path_alias: "/test", redirects: []}
+
+      {:safe, content} = body_with_alerts_section(conn, page)
+      content = Enum.join(content, "")
+
+      [{alerts_section_index, _}] = Regex.run(~r/alerts-section/, content, return: :index)
+      [{p_tag_index, _}] = Regex.run(~r/<p>/, content, return: :index)
+
+      assert alerts_section_index < p_tag_index
     end
   end
 end

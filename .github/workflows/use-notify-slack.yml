@@ -1,0 +1,36 @@
+# Just an extra abstraction over mbta/actions/notify-slack-deploy
+
+name: Send notification to Slack
+
+on:
+  workflow_call:
+    inputs:
+      job-status:
+        type: string
+        required: true
+        description: "The job status (success, failure, cancelled)"
+      success-message:
+        type: string
+        required: false
+        description: "Custom message to display on success status"
+        default: ""
+      failure-message:
+        type: string
+        required: false
+        description: "Custom message to display on failure status"
+        default: ""
+    secrets:
+      slack-webhook:
+        required: true
+        description: "The webhook URL for the Slack integration"
+
+jobs:
+  slack:
+    runs-on: ubuntu-latest
+    if: inputs.job-status != 'cancelled'
+    steps:
+    - uses: mbta/actions/notify-slack-deploy@v1
+      with:
+        webhook-url: ${{ secrets.slack-webhook }}
+        job-status: ${{ inputs.job-status }}
+        custom-message: ${{ inputs.job-status == 'success' && inputs.success-message || inputs.failure-message }}

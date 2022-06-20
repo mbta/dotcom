@@ -1,0 +1,31 @@
+# Deploys released tag to production
+name: "Deploy: release"
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  release:
+    uses: ./.github/workflows/use-deploy-ecs.yml
+    with:
+      deployment-env: prod
+      extra-docker-tag: ${{ github.event.release.tag_name }}
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      docker-repo: ${{ secrets.DOCKER_REPO }}
+ 
+  notify:
+    needs: [release]
+    uses: ./.github/workflows/use-notify-slack.yml
+    if: ${{ !cancelled() }}
+    secrets:
+      slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+    with:
+      job-status: ${{ needs.release.result }}
+      success-message: |
+        :t-intensifies: `prod` updated to release `${{ github.event.release.tag_name }}`
+      failure-message: |
+        release `${{ github.event.release.tag_name }}` failed to update `prod`

@@ -1,0 +1,108 @@
+# Invoke deploy to ECS
+name: Reusable deploy workflow
+
+on:
+  workflow_call:
+    inputs:
+      deployment-env:
+        type: string
+        required: true
+        description: "Environment to deploy to"
+      extra-docker-tag:
+        type: string
+        required: false
+        description: "Additional tag to apply to the docker image"
+    secrets:
+      aws-access-key-id:
+        required: true
+        description: "AWS_ACCESS_KEY_ID value"
+      aws-secret-access-key:
+        required: true
+        description: "AWS_SECRET_ACCESS_KEY value"
+      docker-repo:
+        required: true
+        description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
+    outputs: 
+      deployment-env:
+        value: ${{ jobs.deploy.outputs.deployment-env }}
+        description: "The environment that was deployed to"
+
+concurrency:
+  group: deploy-${{ inputs.deployment-env }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.deployment-env }}
+      url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}
+    outputs:
+      deployment-env: ${{ inputs.deployment-env }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ secrets.docker-repo }}
+          tags: |
+            type=sha,priority=1000,prefix=git-
+            type=raw,value=${{ inputs.deployment-env }}
+            type=raw,priority=900,value=${{ inputs.extra-docker-tag }},enable=${{ inputs.extra-docker-tag != ''}}
+
+      - name: Login to AWS ECR
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.docker-repo }}
+          username: ${{ secrets.aws-access-key-id }}
+          password: ${{ secrets.aws-secret-access-key }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build image
+        uses: docker/build-push-action@v3
+        with:
+          load: true
+          tags: assets-image
+          cache-from: type=gha,src=/tmp/.buildx-cache
+          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+
+      - name: Upload assets from image into s3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.aws-secret-access-key }}
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_DEFAULT_OUTPUT: json
+        run: |
+          bash upload_assets.sh assets-image
+
+      - name: Push to ECR
+        uses: docker/build-push-action@v3
+        id: docker-build
+        with:
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,src=/tmp/.buildx-cache
+          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+
+      - uses: mbta/actions/deploy-ecs@v1
+        with:
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-${{ inputs.deployment-env }}
+          docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+
+      ## TODO after Sentry internal integation with Github Actions setup
+      # - uses: getsentry/action-release@v1.1.6
+      #   env:
+      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #     SENTRY_ORG: ${{  secrets.SENTRY_ORG }}
+      #   with:
+      #     environment: ${{ inputs.deployment-env }}
+      #     projects: mbta-site
+      #     version: ${{ needs.app.needs.assets.needs.image.outputs.docker-tag }}

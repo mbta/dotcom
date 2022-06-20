@@ -21,10 +21,6 @@ describe("useStopPositions", () => {
     });
     const [refsMap, updateFn] = result.current;
     expect(refsMap).toBeTruthy();
-    const ref0 = refsMap[lineDiagram[0].route_stop.id];
-    expect(ref0).toBeTruthy();
-    expect(ref0).toHaveProperty("current"); // it's a ref!
-    expect(typeof ref0).toBe("object");
     expect(typeof updateFn).toBe("function");
   });
 
@@ -36,16 +32,19 @@ describe("useStopPositions", () => {
       wrapper
     });
     const updateFn = result.current[1];
-
-    // useDispatch() fired for every stop on initialization
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+    const map = result.current[0];
+    lineDiagram.forEach(stop => {
+      map.set(stop.route_stop.id, null);
+    });
+    // for test coverage purposes
+    map.set("this-stop-doesn't-exist", null);
 
     act(() => {
       updateFn();
     });
 
     // useDispatch() fired for every stop when invoked manually
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length * 2);
+    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
 
     expect(mockDispatchFn).toHaveBeenCalledWith({
       type: "set",
@@ -63,10 +62,10 @@ describe("useStopPositions", () => {
     const { result } = renderHook(() => useStopPositions(lineDiagram), {
       wrapper
     });
-    const updateFn = result.current[1];
-
-    // useDispatch() fired for every stop on initialization
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+    const map = result.current[0];
+    lineDiagram.forEach(stop => {
+      map.set(stop.route_stop.id, null);
+    });
 
     act(() => {
       // Trigger the window resize event.
@@ -74,7 +73,7 @@ describe("useStopPositions", () => {
     });
 
     // useDispatch() fired for every stop when invoked manually
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length * 2);
+    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
     useDispatchSpy.mockClear();
   });
 
@@ -83,16 +82,12 @@ describe("useStopPositions", () => {
     const mockDispatchFn = jest.fn();
     useDispatchSpy.mockReturnValue(mockDispatchFn);
 
-    const useRefSpy = jest.spyOn(React, "useRef");
-    const mockUseRef = {
-      current: { offsetTop: 22, offsetHeight: 66 }
-    } as MutableRefObject<HTMLAttributes>;
-    useRefSpy.mockReturnValue(mockUseRef);
-
     const { result } = renderHook(() => useStopPositions(lineDiagram), {
       wrapper
     });
     const updateFn = result.current[1];
+    const map = result.current[0];
+    map.set(lineDiagram[0].route_stop.id, { offsetTop: 22, offsetHeight: 66 } as HTMLElement);
 
     act(() => {
       updateFn();

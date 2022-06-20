@@ -7,8 +7,13 @@ defmodule SiteWeb.CMS.Page.ProjectContactTest do
   alias Phoenix.HTML
   alias Plug.Conn
 
-  @conn %Conn{}
-  @project %Project{id: 1}
+  @conn %Conn{
+    assigns: %{
+      alerts: [],
+      date_time: DateTime.utc_now()
+    }
+  }
+  @project %Project{id: 1, path_alias: "/projects/test"}
 
   describe "_contact.html" do
     test ".project-contact is not rendered if no data is available" do
@@ -117,6 +122,33 @@ defmodule SiteWeb.CMS.Page.ProjectContactTest do
         |> HTML.safe_to_string()
 
       assert output =~ "contact-element-phone"
+    end
+
+    test ".contact-element-email is rendered with alerts" do
+      project = %{@project | media_email: "present"}
+
+      conn = %{
+        @conn
+        | assigns: %{
+            @conn.assigns
+            | alerts: [
+                %Alerts.Alert{
+                  url: "http://mbta.com/projects/test",
+                  priority: :high,
+                  description: "Test Alert",
+                  effect: :cancellation
+                }
+              ]
+          }
+      }
+
+      output =
+        project
+        |> render_page_content(conn)
+        |> HTML.safe_to_string()
+
+      assert output =~ "contact-element-email"
+      assert output =~ "Related Service Alerts"
     end
   end
 end

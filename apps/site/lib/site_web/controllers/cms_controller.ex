@@ -107,11 +107,14 @@ defmodule SiteWeb.CMSController do
       Breadcrumb.build(project.title)
     ]
 
+    conn = assign(conn, :alerts, Alerts.Repo.all(conn.assigns.date_time))
+
     render_generic(conn, project, breadcrumbs)
   end
 
   defp render_page(conn, %Page.ProjectUpdate{} = update) do
     base = ProjectController.get_breadcrumb_base()
+    conn = assign(conn, :alerts, Alerts.Repo.all(conn.assigns.date_time))
 
     case Repo.get_page(update.project_url) do
       %Page.Project{} = project ->

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -51,7 +52,9 @@ if (window.sentry) {
   Sentry.init({
     dsn: window.sentry.dsn,
     environment: window.sentry.environment,
-    sampleRate: 0.005, // error sampling - might increase later
+    integrations: [new BrowserTracing()],
+    sampleRate: 0.05, // error sampling - might increase later
+    tracesSampleRate: 0.05,
     tags: { "dotcom.application": "frontend" },
     beforeBreadcrumb: (breadcrumb, hint) => {
       // omit breadcrumbs that are just these scripts
@@ -69,12 +72,10 @@ if (window.sentry) {
     // being sent to Sentry as either regular expressions or strings.
     // When using strings, they’ll partially match the messages
     ignoreErrors: [
-      "removeClass(leaflet/dist/leaflet-src)",
       "translate_",
       "ResizeObserver loop limit exceeded",
       "Non-Error promise rejection captured",
-      "Extension context invalidated",
-      "t._leaflet_id"
+      "Extension context invalidated"
     ],
     // we don't care about errors from external tools and libraries
     // so only allow errors from our own domains

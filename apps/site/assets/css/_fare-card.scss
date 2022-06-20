@@ -1,5 +1,18 @@
+@mixin homepage-fares($homepage:true) {
+  @if $homepage == true {
+    .c-fare-card {
+      display: none;
+    }
+  } @else {
+    .c-fares-grid {
+      display: none;
+    }
+  }
+}
+
 // The size of the .c-fare-card__icon SVG ÷ 2
 $fare-card-icon-offset: 1.375 * $base-spacing;
+@include homepage-fares(false);
 
 .c-fare-card {
   background-color: $white;
@@ -133,4 +146,78 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 .c-fare-pass__price {
   float: left;
   margin: 0 0 $base-spacing;
+}
+
+.m-homepage__fares {
+  @include media-breakpoint-only(xs) {
+    @include homepage-fares(true);
+    @include icon-size(1rem);
+    .grid-container {
+      padding-top: 0.75rem;
+    }
+
+    .c-fares-grid {
+      display: grid;
+      grid-template-columns: 10% 60% 30%;
+      border-top: 2px solid;
+      padding-top: 10px;
+    }
+
+    .c-fare-name-link {
+      text-decoration: underline;
+      color: black;
+      font-weight: bold;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      margin-bottom: 0.25rem;
+      :hover {
+        color: $brand-primary;
+        text-decoration: none;
+      }
+    }
+    
+    .c-fare-card__media {
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .c-fare-card__note {
+      font-size: 0.75rem;
+      color: $gray;
+    }
+
+    .c-fare-card__note p {
+      margin-bottom: 0.5rem;
+    }
+
+    .c-fares-price {
+      font-weight: bold;
+      text-align: right;
+      padding-right: 1rem;
+      margin-left:  0.75rem;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+  }
+}
+
+.c-multi-column__row {
+  :nth-child(1) {
+    .c-fares-grid {
+      border-color: $brand-subway !important;
+    }
+  }
+  :nth-child(2) {
+    .c-fares-grid {
+      border-color: $brand-bus;
+    }
+  }
+  :nth-child(3) {
+    .c-fares-grid {
+      border-color: $brand-commuter-rail;
+    }
+  }
+  :nth-child(4) {
+    .c-fares-grid {
+      border-color: $brand-ferry;
+    }
+  }
 }

@@ -3,7 +3,6 @@
     <div class="m-homepage--10-col-sm-only">
       <div class="m-homepage__fares">
         <%= render_paragraph(@homepage_fares, @conn) %>
-        <p><a href="/fares" class="btn btn-secondary m-homepage__fares-link">See fares overview</a></p>
       </div>
     </div>
   </div>

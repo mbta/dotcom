@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Deploy to Production (ECS)
 
 on:
   workflow_dispatch:
@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prod
-      url: mbta.com
+      url: https://www.mbta.com
     concurrency:
-      group: deploy-prod
+      group: deploy-prod-ecs
       cancel-in-progress: true
     env:
       AWS_REGION: us-east-1

@@ -3,12 +3,12 @@ import { hasBranchLines } from "./line-diagram-helpers";
 import Diagram from "./graphics/Diagram";
 import StopListWithBranches from "./StopListWithBranches";
 import { CommonLineDiagramProps } from "./__line-diagram";
-import useStopPositions, { RefList } from "./graphics/useStopPositions";
+import useStopPositions, { RefMap } from "./graphics/useStopPositions";
 import StopCard from "./StopCard";
 import { hasPredictionTime } from "../../../models/prediction";
 
-export const StopRefContext = React.createContext<[RefList, () => void]>([
-  {},
+export const StopRefContext = React.createContext<[RefMap, () => void]>([
+  new Map(),
   () => {}
 ]);
 

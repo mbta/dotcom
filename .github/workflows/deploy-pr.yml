@@ -1,0 +1,59 @@
+# Uses label to decide which environment to deploy to.
+# e.g. "dev-blue" or "dev-green"
+name: "Deploy: PR"
+
+on:
+  pull_request:
+    types:
+      - synchronize
+      - labeled
+
+env:
+  # deploy only if any PR label is "dev-green" or "dev-blue"
+  DO_DEPLOY: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
+  # really hacky expression because Github Actions
+  # lacks real conditional statements
+  DEPLOY_ENV: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
+
+jobs:
+  pr:
+    if: ${{ env.DO_DEPLOY }}
+    uses: ./.github/workflows/use-deploy-ecs.yml
+    with:
+      deployment-env: ${{ env.DEPLOY_ENV }}
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      docker-repo: ${{ secrets.DOCKER_REPO }}
+
+  notify:
+    needs: [pr]
+    uses: ./.github/workflows/use-notify-slack.yml
+    if: ${{ env.DO_DEPLOY && !cancelled() }}
+    secrets:
+      slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
+    with:
+      job-status: ${{ needs.pr.result }}
+      success-message: |
+        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to ${{ env.DEPLOY_ENV }}
+      failure-message: |
+        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ env.DEPLOY_ENV }}
+
+  cleanup:
+    if: ${{ env.DO_DEPLOY }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Unlabel other PRs (if needed)
+      run: |
+        labelled=$(curl -s \
+        "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
+        | jq -r '.[].url')
+
+        for url in $(echo "${labelled}");  do
+          if [[ "${url}" != "${{ github.event.pull_request.issue_url }}" ]]; then
+            curl -X DELETE \
+              -H "Accept: application/vnd.github.v3+json" \ 
+              -H "Authorization: token $GITHUB_TOKEN" \
+              "${url}"/labels/${{ env.DEPLOY_ENV }}
+          fi
+        done
