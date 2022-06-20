@@ -17,7 +17,8 @@ env:
 
 jobs:
   pr:
-    if: ${{ env.DO_DEPLOY }}
+    # env not available for job if
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
       deployment-env: ${{ env.DEPLOY_ENV }}
@@ -29,7 +30,7 @@ jobs:
   notify:
     needs: [pr]
     uses: ./.github/workflows/use-notify-slack.yml
-    if: ${{ env.DO_DEPLOY && !cancelled() }}
+    if: ${{ success() || failure() }}
     secrets:
       slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
     with:
@@ -40,10 +41,10 @@ jobs:
         PR#${{ github.event.pull_request.number }} failed to deploy to ${{ env.DEPLOY_ENV }}
 
   cleanup:
-    if: ${{ env.DO_DEPLOY }}
     runs-on: ubuntu-latest
     steps:
     - name: Unlabel other PRs (if needed)
+      if: ${{ env.DO_DEPLOY }}
       run: |
         labelled=$(curl -s \
         "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
