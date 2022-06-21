@@ -345,11 +345,9 @@
   ul.bus, ul.commuter_rail, ul.ferry {
     li {
       a {
-        font-family: $headings-font-family;
-        font-size: $font-size-small-caps !important;
-        text-transform: uppercase;
-        font-weight: 700;
         white-space: nowrap;
+        font-size: $font-size-small-caps;
+        font-weight: 700;
       }
     }
   }
