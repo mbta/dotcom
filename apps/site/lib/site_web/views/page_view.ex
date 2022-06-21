@@ -45,10 +45,11 @@ defmodule SiteWeb.PageView do
   defp get_mode_order({:commuter_rail, _}), do: 2
   defp get_mode_order({:ferry, _}), do: 3
 
-  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) :: integer()
-  defp get_access_issue_order({:access_issue, _}), do: 0
-  defp get_access_issue_order({:elevator_closure, _}), do: 1
-  defp get_access_issue_order({:escalator_closure, _}), do: 2
+  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) ::
+          integer()
+  defp get_access_issue_order({:elevator_closure, _}), do: 0
+  defp get_access_issue_order({:escalator_closure, _}), do: 1
+  defp get_access_issue_order({:access_issue, _}), do: 2
 
   @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
   def alerts(alerts) do
@@ -80,7 +81,7 @@ defmodule SiteWeb.PageView do
       )
       |> Enum.map(fn {type, stops} ->
         {type,
-         Enum.map(stops, & Stops.Repo.get_parent/1)
+         Enum.map(stops, &Stops.Repo.get_parent/1)
          |> Enum.filter(& &1)
          |> Enum.uniq_by(& &1.id)
          |> Enum.sort_by(& &1.name)}

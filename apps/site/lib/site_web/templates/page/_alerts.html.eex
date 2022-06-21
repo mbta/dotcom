@@ -21,7 +21,7 @@
             <% else %>
               <ul class="m-homepage__alerts-route <%= mode %>">
                 <%= for route <- routes do %>
-                  <li><a href="<%= alerts_route_url(route) %>">
+                  <li><a href="<%= alerts_route_url(route) %>" class="u-small-caps">
                     <%= alerts_render_route_link_content(mode, route) %>
                   </a></li>
                 <% end %>
