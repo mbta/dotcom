@@ -1,3 +1,4 @@
+<%= unless Enum.empty?(@event_teasers) do %>
 <div class="container page-section">
   <div class="c-standard-fares__heading">
     <h2 class="m-homepage__header">Upcoming Public Meetings and Events</h2>
@@ -13,7 +14,5 @@
           month_number: DateTime.utc_now.month,
           year: DateTime.utc_now.year) %>
     <% end %>
-    <%= if Enum.empty?(@event_teasers) do %>
-      <p>No events</p>
-    <% end %>
 </div>
+<% end %>
