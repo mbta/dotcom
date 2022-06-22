@@ -283,11 +283,34 @@
   }
 }
 
-.m-homepage__header {
-  margin-right: 10px;
-}
+.m-homepage__events {
+  .m-homepage__header {
+    margin-right: 10px;
+  }
+  
+  .m-homepage__header-link {
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
 
-.m-homepage__header-link {
-  margin-top: 12px;
-  margin-bottom: 20px;
+  .list-group-item {
+    border-top: unset;
+    border-top: solid $gray-lightest;
+    border-width: 1px 0 0 0;
+  }
+
+  .m-event__title {
+    a {
+      color: $black;
+      &:hover {
+        color: $brand-primary;
+      }
+    }
+  }
+
+  .m-event__date-circle {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
 }
