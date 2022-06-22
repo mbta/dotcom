@@ -66,7 +66,6 @@ const Component = ({
       opts?: IconOpts
     ) => Icon | undefined = require("../icon").default;
     require("leaflet-rotatedmarker");
-    const FullscreenControl = require("react-leaflet-fullscreen");
     const getBounds = require("../bounds").default;
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
@@ -126,7 +125,6 @@ const Component = ({
             {marker.tooltip && <Popup maxHeight={175}>{marker.tooltip}</Popup>}
           </Marker>
         ))}
-        <FullscreenControl />
       </Map>
     );
   }

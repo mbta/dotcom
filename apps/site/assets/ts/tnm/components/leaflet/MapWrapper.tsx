@@ -65,7 +65,6 @@ const LeafletMap = ({
 }: Props): ReactElement<HTMLElement> => {
   /* eslint-disable */
   const leaflet: typeof Leaflet = require("react-leaflet");
-  const FullscreenControl = require("react-leaflet-fullscreen");
   const { Map, TileLayer } = leaflet;
   /* eslint-enable */
 
@@ -111,7 +110,6 @@ const LeafletMap = ({
           dispatch={dispatch}
         />
       ))}
-      <FullscreenControl />
     </Map>
   );
 };
