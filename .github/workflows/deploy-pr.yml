@@ -36,9 +36,9 @@ jobs:
     with:
       job-status: ${{ needs.pr.result }}
       success-message: |
-        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to ${{ env.DEPLOY_ENV }}
+        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
       failure-message: |
-        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ env.DEPLOY_ENV }}
+        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
 
   cleanup:
     runs-on: ubuntu-latest
