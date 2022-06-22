@@ -21,7 +21,7 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
-      deployment-env: ${{ env.DEPLOY_ENV }}
+      deployment-env: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }} # env not valid here either
     secrets:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -36,9 +36,9 @@ jobs:
     with:
       job-status: ${{ needs.pr.result }}
       success-message: |
-        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to ${{ env.DEPLOY_ENV }}
+        PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
       failure-message: |
-        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ env.DEPLOY_ENV }}
+        PR#${{ github.event.pull_request.number }} failed to deploy to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
 
   cleanup:
     runs-on: ubuntu-latest
@@ -47,14 +47,14 @@ jobs:
       if: ${{ env.DO_DEPLOY }}
       run: |
         labelled=$(curl -s \
-        "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
+        "${{ github.event.repository.url }}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
         | jq -r '.[].url')
 
         for url in $(echo "${labelled}");  do
           if [[ "${url}" != "${{ github.event.pull_request.issue_url }}" ]]; then
             curl -X DELETE \
               -H "Accept: application/vnd.github.v3+json" \ 
-              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Authorization: token ${{ github.token }}" \
               "${url}"/labels/${{ env.DEPLOY_ENV }}
           fi
         done
