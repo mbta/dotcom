@@ -62,7 +62,7 @@
         <div class="m-homepage__important-link-content">
           <div class="m-homepage__important-link-title">Parking</div>
           <div class="m-homepage__important-link-icon">
-            <%= svg "icon-parking-default.svg" %>
+            <%= fa "square-parking" %>
           </div>
         </div>
       <% end %>
