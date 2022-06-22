@@ -356,7 +356,7 @@ defmodule CMS.Repo do
   end
 
   @doc "Get the next n events"
-  def next_n_event_teasers(n \\ []) do
+  def next_n_event_teasers(n) when n >= 0 do
     single = [
       value: Timex.today() |> Util.convert_to_iso_format()
     ]
@@ -371,4 +371,6 @@ defmodule CMS.Repo do
 
     teasers(opts)
   end
+
+  def next_n_event_teasers(_), do: []
 end
