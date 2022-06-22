@@ -313,4 +313,37 @@
       display: none;
     }
   }
+
+  .m-homepage__events-container {
+    @include media-breakpoint-up(sm) {
+      columns: 2;
+    }
+
+    @include media-breakpoint-down(xs) {
+      // hide beyond 3rd event on mobile
+      :not(:nth-child(-n+3)) {
+        display: none;
+      }
+
+      .m-event {
+        padding: .75rem .25rem;
+      }
+    }
+
+    // hide "Add" button text on mobile & sm
+    .m-event__add-text {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    .m-event__status-message {
+      margin-left: 1rem;
+    }
+
+    // make button a bit bigger??
+    .m-event__add-button {
+      font-size: 1.75rem;
+    }
+  }
 }
