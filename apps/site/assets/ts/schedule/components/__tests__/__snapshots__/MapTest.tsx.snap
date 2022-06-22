@@ -16,9 +16,6 @@ exports[`Schedule Map renders and matches snapshot 1`] = `
               </ForwardRef(Leaflet(Popup))>
             </Marker>
           </ForwardRef(Leaflet(Marker))>
-          <ForwardRef(Leaflet(FullscreenControl))>
-            <FullscreenControl leaflet={{...}} />
-          </ForwardRef(Leaflet(FullscreenControl))>
         </div>
       </Map>
     </Component>
