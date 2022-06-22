@@ -294,18 +294,9 @@
   }
 
   .list-group-item {
-    border-top: unset;
-    border-top: solid $gray-lightest;
-    border-width: 1px 0 0 0;
-  }
-
-  .m-event__title {
-    a {
-      color: $black;
-      &:hover {
-        color: $brand-primary;
-      }
-    }
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
   }
 
   .m-event__date-circle {
