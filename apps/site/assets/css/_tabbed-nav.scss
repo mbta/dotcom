@@ -112,9 +112,12 @@
     .m-tabbed-nav__icon-text {
       color: $brand-primary-light-contrast;
       font-size: $font-size-base * 2;
-      font-family: $headings-font-family;
       font-weight: bold;
       line-height: $headings-line-height;
+
+      @include media-breakpoint-up(sm) {
+        font-family: $headings-font-family;
+      }
   
       @include media-breakpoint-down(md) {
         font-size: $font-size-base-sm * 2;
