@@ -32,9 +32,7 @@
       <%= shortcut_icons() %>
     </div>
      <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">
-      <div class="m-mode-hub__trip-plan-widget">
-        <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
-      </div>
+      <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
      </div>
      <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">
        <%= alerts(@conn.assigns.alerts) %>
