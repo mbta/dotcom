@@ -122,3 +122,13 @@
     }
   }
 }
+
+.m-homepage__news {
+  @include media-breakpoint-only(xs) {
+    .col-md-6 {
+      &:last-of-type {
+        display: none;
+      }
+    }
+  }
+}

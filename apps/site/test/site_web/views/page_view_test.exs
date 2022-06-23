@@ -73,7 +73,6 @@ defmodule SiteWeb.PageViewTest do
         |> HTML.safe_to_string()
 
       assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 6
-      # assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2
       assert rendered |> Floki.find(".c-news-entry--small") |> Enum.count() == 6
       assert rendered =~ "2000"
     end
