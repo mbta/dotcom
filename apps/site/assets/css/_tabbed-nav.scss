@@ -90,8 +90,7 @@
     display: flex;
     font-weight: $font-weight-medium;
     justify-content: center;
-    padding-bottom: calc(#{$space-12} - 8px);
-    padding-top: $space-12;
+    padding: $space-12 $space-24 calc(#{$space-12} - 8px) $space-24;
     border-bottom: 8px solid $brand-primary;
 
     @include media-breakpoint-down(sm) {
