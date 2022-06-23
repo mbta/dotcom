@@ -17,40 +17,27 @@
     @include make-container-max-widths();
     display: flex;
     height: 89px;
-    margin-right: auto;
-    padding-left: $space-16;
+    padding: 0 4em;
 
     @include media-breakpoint-down(md) {
       height: 80px;
-      padding-left: $space-16;
+      padding: 0 2.5em;
     }
   
     @include media-breakpoint-down(sm) {
       height: 64px;
-      padding-left: $space-8;
+      padding: 0 2em;
     }
   
     @include media-breakpoint-down(xs) {
       height: 48px;
       justify-content: center;
+      padding: 0 1em;
     }
   }
 
   .m-tabbed-nav__item-container {
     display: flex;
-    margin-left: $space-32;
-    padding-left: $base-spacing;
-    padding-right: $base-spacing;
-
-    @include media-breakpoint-down(md) {
-      margin-left: $base-spacing;
-      padding-left: $base-spacing-sm;
-      padding-right: $base-spacing-sm;
-    }
-  
-    @include media-breakpoint-down(xs) {
-      margin-left: $base-spacing-sm;
-    }
 
     @include hover-focus-active {
       color: $white;
