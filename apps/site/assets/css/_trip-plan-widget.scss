@@ -1,15 +1,3 @@
-@mixin trip-planner-widget($vertical:true) {
-  @if $vertical == true {
-    .c-trip-plan-widget__reverse-control {
-      display: none;
-  }
-  } @else {
-    .c-trip-plan-widget__reverse-control-vert {
-      display: none;
-    }
-  }
-}
-
 .c-trip-plan-widget {
   background-color: $gray-bordered-background;
   border: solid 1px $gray-lightest;
@@ -26,7 +14,7 @@
     margin-top: 0;
   }
 
-  .c-trip-plan-widget__reverse-control-vert {
+  .c-trip-plan-widget__reverse-control {
     display: none;
   }
 
@@ -116,23 +104,14 @@
   justify-content: flex-start;
 }
 
-.c-trip-plan-widget__reverse-control-vert {
+.c-trip-plan-widget__reverse-control {
   color: $brand-primary;
   cursor: pointer;
   margin-left: auto;
   user-select: none;
 }
 
-.m-trip-plan__form-container {
-  @include trip-planner-widget(true);
-}
-
-.col-xs-12 {
-  @include trip-planner-widget(true);
-}
-
 .m-tabbed-nav__content-item {
-  @include trip-planner-widget(false);
 
   .c-trip-plan-widget {
     border: solid 1px transparent;
