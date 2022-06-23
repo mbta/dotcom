@@ -1,4 +1,7 @@
 defmodule Site.TripPlan.Query do
+  @moduledoc "Fetch trip plan via OTP and handle response"
+
+  require Logger
   alias TripPlan.{Itinerary, NamedPosition}
 
   defstruct [
@@ -234,7 +237,8 @@ defmodule Site.TripPlan.Query do
     itineraries
   end
 
-  def get_itineraries(%__MODULE__{itineraries: {:error, _}}) do
+  def get_itineraries(%__MODULE__{itineraries: {:error, error}}) do
+    _ = Logger.info("#{__MODULE__} error getting itineraries: #{inspect(error)}")
     []
   end
 
