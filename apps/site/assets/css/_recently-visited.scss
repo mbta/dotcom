@@ -1,20 +1,34 @@
 .c-recently-visited {
-  .fa-star {
-    color: $brand-primary;
+  h2 {
+    margin-top: 0;
   }
 
   .c-grid-button {
     flex-basis: 25%;
-    max-width: 25%;
+    margin-right: 16px;
+
+    :nth-last-of-type() {
+      margin-right: 0;
+    }
 
     @include media-breakpoint-down(md) {
-      flex-basis: 50%;
-      max-width: 50%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin-right: 8px;
     }
 
     @include media-breakpoint-down(xs) {
       flex-basis: 100%;
       max-width: 100%;
+    }
+  }
+
+  .c-grid-button__content {
+    background-color: $white;
+    
+    &:hover {
+      border: $border;
     }
   }
 }

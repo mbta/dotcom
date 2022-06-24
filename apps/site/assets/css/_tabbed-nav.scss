@@ -1,0 +1,197 @@
+.m-tabbed-nav {
+  @include make-container();
+  @include make-container-max-widths();
+  background-color: $brand-primary;
+  display: block;
+  margin-top: $space-32;
+  padding-left: 0;
+  padding-right: 0;
+
+  @include media-breakpoint-down(sm) {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: $space-24;
+  }
+
+  .m-tabbed-nav__items {
+    @include make-container-max-widths();
+    display: flex;
+    height: 89px;
+    margin-right: auto;
+    padding-left: $space-16;
+
+    @include media-breakpoint-down(md) {
+      height: 80px;
+      padding-left: $space-16;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      height: 64px;
+      padding-left: $space-8;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      height: 48px;
+      justify-content: center;
+    }
+  }
+
+  .m-tabbed-nav__item-container {
+    display: flex;
+    margin-left: $space-32;
+    padding-left: $base-spacing;
+    padding-right: $base-spacing;
+
+    @include media-breakpoint-down(md) {
+      margin-left: $base-spacing;
+      padding-left: $base-spacing-sm;
+      padding-right: $base-spacing-sm;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      margin-left: $base-spacing-sm;
+    }
+
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: none;
+      background-color: $brand-primary-darkest;
+
+      .m-tabbed-nav__item {
+        border-bottom: 8px solid $brand-primary-darkest;
+
+        @include media-breakpoint-down(sm) {
+          border-bottom: 4px solid $brand-primary-darkest;
+        }
+      }
+
+      .m-tabbed-nav__icon-text {
+        color: $white;
+        text-decoration: none;
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      height: 80px;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      height: 64px;
+    }
+  
+    @include media-breakpoint-down(xs) {
+      height: 48px;
+    }
+  }
+
+  .m-tabbed-nav__item {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-weight: $font-weight-medium;
+    justify-content: center;
+    padding-bottom: calc(#{$space-12} - 8px);
+    padding-top: $space-12;
+    border-bottom: 8px solid $brand-primary;
+
+    @include media-breakpoint-down(sm) {
+      border-bottom: 4px solid $brand-primary;
+      padding-bottom: calc(#{$space-12} - 4px);
+    }
+
+    [class*='c-svg__icon'] {
+      @include icon-size-inline(2em);
+      flex: 0 0 auto;
+      margin-right: $base-spacing;
+  
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    .m-tabbed-nav__icon-text {
+      color: $brand-primary-light-contrast;
+      font-size: $font-size-base * 2;
+      font-family: $headings-font-family;
+      font-weight: bold;
+      line-height: $headings-line-height;
+  
+      @include media-breakpoint-down(md) {
+        font-size: $font-size-base-sm * 2;
+      }
+    
+      @include media-breakpoint-down(sm) {
+        font-size: $font-size-base-sm * 1.625;
+      }
+    
+      @include media-breakpoint-down(xs) {
+        font-size: $font-size-base-sm;
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    &.active {
+      border-bottom: 8px solid $brand-primary-light-contrast;
+      .m-tabbed-nav__icon-text {
+        color: $white;
+        text-decoration: none;
+      }
+
+      @include media-breakpoint-down(sm) {
+        border-bottom: 4px solid $brand-primary-light-contrast;
+      }
+
+      .m-tabbed-nav__icon-text {
+        @include media-breakpoint-down(xs) {
+          font-weight: bold;
+        }
+      }
+    }
+
+    &:focus, &:hover, &:active {
+        text-decoration: none;
+    }
+  }
+
+  .m-tabbed-nav__content-item {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  .m-tabbed-nav__content {
+    background-color: $gray-bordered-background;
+    padding: 2.5em 4em 2.5em;
+
+    @include media-breakpoint-only(md) {
+      padding: 2em 2.5em 2.5em;
+    }
+
+    @include media-breakpoint-only(sm) {
+      padding: 1.5em 2em 2em;
+    }
+
+    @include media-breakpoint-down(xs) {
+      padding: 1em 1em 1.5em;
+    }
+
+    hr {
+      border: $border;
+      margin: $base-spacing-lg 0;
+
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+  }
+
+  .m-tabbed-nav__content-item {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+}

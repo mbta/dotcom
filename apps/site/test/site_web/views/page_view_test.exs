@@ -77,4 +77,75 @@ defmodule SiteWeb.PageViewTest do
       assert rendered =~ "2000"
     end
   end
+
+  describe "alerts/1" do
+    alias Alerts.InformedEntitySet, as: IESet
+    alias Alerts.Alert
+
+    test "renders properly" do
+      alerts = [
+        # Filtered
+        %Alert{
+          effect: :lifecycle
+        },
+        # High Priority
+        %Alert{
+          effect: :suspension,
+          informed_entity: %IESet{
+            route: MapSet.new(["Green", "Blue"])
+          }
+        },
+        %Alert{
+          effect: :suspension,
+          informed_entity: %IESet{
+            route: MapSet.new(["CR-Greenbush"])
+          }
+        },
+        %Alert{
+          effect: :suspension,
+          informed_entity: %IESet{
+            route: MapSet.new(["502", "708"])
+          }
+        },
+        # Accessibility
+        %Alert{
+          effect: :escalator_closure,
+          informed_entity: %IESet{
+            stop: MapSet.new(["place-sstat"])
+          }
+        }
+      ]
+
+      rendered = PageView.alerts(alerts) |> HTML.safe_to_string()
+
+      # Section Headers
+      assert rendered =~ "Routes With High Priority Alerts"
+      assert rendered =~ "Subway"
+      assert rendered =~ "Bus"
+      assert rendered =~ "Commuter Rail"
+      assert rendered =~ "Ferry"
+      assert rendered =~ "Station Accessibility"
+      assert rendered =~ "Access Issues"
+      assert rendered =~ "Elevator Closures"
+      assert rendered =~ "Escalator Closures"
+
+      # Buttons
+      assert rendered =~ "href=\"/alerts\""
+      assert rendered =~ "See all service alerts"
+      assert rendered =~ "https://alerts.mbta.com"
+      assert rendered =~ "Sign up for alert notifications"
+
+      # Section Content
+      assert rendered =~ "/schedules/Green/alerts"
+      assert rendered =~ "/schedules/Blue/alerts"
+      assert rendered =~ "/schedules/502/alerts"
+      assert rendered =~ "/schedules/708/alerts"
+      assert rendered =~ "/schedules/CR-Greenbush/alerts"
+      assert Regex.match?(~r/There are no high priority.*ferry.*alerts at this time/s, rendered)
+      assert rendered =~ "/stops/place-sstat"
+      assert rendered =~ "South Station"
+      assert Regex.match?(~r/There are no.*elevator closures.*at this time/s, rendered)
+      assert Regex.match?(~r/There are no.*access issues.*at this time/s, rendered)
+    end
+  end
 end
