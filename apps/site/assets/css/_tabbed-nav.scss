@@ -153,15 +153,6 @@
     }
   }
 
-  .m-tabbed-nav__content {
-    background-color: $gray-bordered-background;
-    padding: $base-spacing-xl;
-
-    @include media-breakpoint-down(sm) {
-      padding: $base-spacing;
-    }
-  }
-
   .m-tabbed-nav__content-item {
     display: none;
 
@@ -172,10 +163,18 @@
 
   .m-tabbed-nav__content {
     background-color: $gray-bordered-background;
-    padding: $space-2 $space-64 $space-8 * 5 $space-64;
+    padding: 2.5em 4em 2.5em;
 
-    @include media-breakpoint-down(sm) {
-      padding: $base-spacing;
+    @include media-breakpoint-only(md) {
+      padding: 2em 2.5em 2.5em;
+    }
+
+    @include media-breakpoint-only(sm) {
+      padding: 1.5em 2em 2em;
+    }
+
+    @include media-breakpoint-down(xs) {
+      padding: 1em 1em 1.5em;
     }
 
     hr {

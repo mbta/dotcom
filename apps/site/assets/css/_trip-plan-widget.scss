@@ -133,8 +133,10 @@
 
 .m-tabbed-nav__content-item {
   @include trip-planner-widget(false);
+
   .c-trip-plan-widget {
     border: solid 1px transparent;
+    padding: 0;
   }
   
   .c-paragraph--trip-plan-widget .c-trip-plan-widget {
