@@ -17,40 +17,27 @@
     @include make-container-max-widths();
     display: flex;
     height: 89px;
-    margin-right: auto;
-    padding-left: $space-16;
+    padding: 0 4em;
 
     @include media-breakpoint-down(md) {
       height: 80px;
-      padding-left: $space-16;
+      padding: 0 2.5em;
     }
   
     @include media-breakpoint-down(sm) {
       height: 64px;
-      padding-left: $space-8;
+      padding: 0 2em;
     }
   
     @include media-breakpoint-down(xs) {
       height: 48px;
       justify-content: center;
+      padding: 0 1em;
     }
   }
 
   .m-tabbed-nav__item-container {
     display: flex;
-    margin-left: $space-32;
-    padding-left: $base-spacing;
-    padding-right: $base-spacing;
-
-    @include media-breakpoint-down(md) {
-      margin-left: $base-spacing;
-      padding-left: $base-spacing-sm;
-      padding-right: $base-spacing-sm;
-    }
-  
-    @include media-breakpoint-down(xs) {
-      margin-left: $base-spacing-sm;
-    }
 
     @include hover-focus-active {
       color: $white;
@@ -90,8 +77,7 @@
     display: flex;
     font-weight: $font-weight-medium;
     justify-content: center;
-    padding-bottom: calc(#{$space-12} - 8px);
-    padding-top: $space-12;
+    padding: $space-12 $space-24 calc(#{$space-12} - 8px) $space-24;
     border-bottom: 8px solid $brand-primary;
 
     @include media-breakpoint-down(sm) {
@@ -112,9 +98,12 @@
     .m-tabbed-nav__icon-text {
       color: $brand-primary-light-contrast;
       font-size: $font-size-base * 2;
-      font-family: $headings-font-family;
       font-weight: bold;
       line-height: $headings-line-height;
+
+      @include media-breakpoint-up(sm) {
+        font-family: $headings-font-family;
+      }
   
       @include media-breakpoint-down(md) {
         font-size: $font-size-base-sm * 2;
