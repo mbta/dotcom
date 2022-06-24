@@ -6,9 +6,6 @@
         <%= link "See all press releases", to: news_entry_path(@conn, :index), class: "c-call-to-action" %>
       </header>
       <%= render_news_entries(@conn) %>
-      <p>
-        <%= link "See Upcoming Events", to: event_path(@conn, :index), class: "c-call-to-action" %>
-      </p>
     </div>
   </div>
 <% end %>

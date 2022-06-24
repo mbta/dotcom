@@ -35,7 +35,8 @@ defmodule SiteWeb.CMSHelpers do
   "commuter_rail" or "silver_line" to indicate the content item
   is related to all routes on that mode or line.
   """
-  @spec cms_route_to_svg(API.route_term()) :: atom()
+  @spec cms_route_to_svg(API.route_term()) ::
+          Route.gtfs_route_type() | Route.subway_lines_type() | :t_logo
   def cms_route_to_svg(nil), do: :t_logo
   def cms_route_to_svg(%{mode: nil}), do: :t_logo
   def cms_route_to_svg(%{id: "Green"}), do: :green_line
