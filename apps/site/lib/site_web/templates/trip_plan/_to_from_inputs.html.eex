@@ -3,12 +3,14 @@
   When autocomplete results are available, use up and down arrows to review and enter to select.
   Touch device users, explore by touch or with swipe gestures.
 </span>
+
 <div class="c-trip-plan-widget__inputs">
+  <label for="from" class="c-search-bar__header" id="trip-plan__label--from">
+    From
+    <%= content_tag(:span, "(Required)", id: "trip-plan__required--from", class: "m-trip-plan__required#{if @from_error === "", do: " m-trip-plan__hidden"}") %>
+  </label>
+
   <div id="trip-plan__search--from" class="c-search-bar">
-    <label for="from" class="c-search-bar__header" id="trip-plan__label--from">
-      From
-      <%= content_tag(:span, "(Required)", id: "trip-plan__required--from", class: "m-trip-plan__required#{if @from_error === "", do: " m-trip-plan__hidden"}") %>
-    </label>
     <div id="trip-plan__container--from" class="c-trip-plan-widget__from c-form__input-container<%= if @from_error === "" do "" else " c-form__input-container--error" end %>">
       <span class="c-trip-plan-widget__input-label">A</span>
       <input type="text"
@@ -31,20 +33,19 @@
     <div id="trip-plan__location-error--from" role="alert" aria-live="assertive" tabindex="0" class="c-trip-plan-widget__location-error location-error"><%= @from_error %></div>
   </div>
 
-  <div id="trip-plan-reverse-control" class="c-trip-plan-widget__reverse-control">
-    <%= fa "long-arrow-down" %>
-    <%= fa "long-arrow-up" %>
+  <div id="trip-plan-reverse-control">
+    <div class="c-trip-plan-widget__reverse-control">
+      <%= fa "long-arrow-down" %>
+      <%= fa "long-arrow-up" %>
+    </div>
   </div>
 
+  <label for="to" class="c-search-bar__header c-trip-plan-widget__label--to" id="trip-plan__label--to">
+    To&nbsp;
+    <%= content_tag(:span, "(Required)", id: "trip-plan__required--to", class: "m-trip-plan__required#{if @to_error === "", do: " m-trip-plan__hidden"}") %>
+  </label>
+
   <div id="trip-plan__search--to" class="c-search-bar">
-    <label for="to" class="c-search-bar__header c-trip-plan-widget__label--to" id="trip-plan__label--to">
-      To&nbsp;
-      <%= content_tag(:span, "(Required)", id: "trip-plan__required--to", class: "m-trip-plan__required#{if @to_error === "", do: " m-trip-plan__hidden"}") %>
-      <div id="trip-plan-reverse-control" class="c-trip-plan-widget__reverse-control-vert">
-        <%= fa "long-arrow-down" %>
-        <%= fa "long-arrow-up" %>
-      </div>
-    </label>
     <div id="trip-plan__container--to" class="c-form__input-container<%= if @to_error === "" do "" else " c-form__input-container--error" end %>">
       <span class="c-trip-plan-widget__input-label">B</span>
       <input type="text"
