@@ -42,43 +42,21 @@
       margin-top: .5rem;
     }
   }
-
-  @include media-breakpoint-only(md) {
-    .c-trip-plan-widget__inputs {
-      flex-direction: column;
-
-      .c-trip-plan-widget__from {
-        margin-right: 0;
-      }
-    }
-  }
 }
 
 .c-trip-plan-widget__inputs {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template:
+    "a a" auto
+    "b b" auto
+    "c x" auto
+    "d d" auto / 1fr auto;
 
-  @include media-breakpoint-between(sm, md) {
-    flex-direction: row;
-
-    .c-trip-plan-widget__from {
-      margin-right: $base-spacing;
-    }
-
-    .c-search-bar {
-      flex-basis: 50%;
-    }
-  }
-}
-
-.c-trip-plan-widget__submit {
-  display: inline-flex;
-  justify-content: center;
-  width: 65%;
-
-  @include media-breakpoint-between(sm, md) {
-    width: 40%;
-  }
+  #trip-plan__label--from { grid-area: a; }
+  #trip-plan__search--from { grid-area: b; }
+  #trip-plan__label--to { grid-area: c; }
+  #trip-plan__search--to { grid-area: d; }
+  #trip-plan-reverse-control { grid-area: x; }
 }
 
 .c-trip-plan-widget__submit-container {
@@ -111,93 +89,41 @@
   padding-top: $base-spacing * .75;
 }
 
-.c-trip-plan-widget__label--to {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.c-trip-plan-widget__reverse-control-vert {
+.c-trip-plan-widget__reverse-control {
   color: $brand-primary;
   cursor: pointer;
-  margin-left: auto;
   user-select: none;
 }
 
-.m-trip-plan__form-container {
-  @include trip-planner-widget(true);
-}
+.m-tabbed-nav__content-item .c-trip-plan-widget {
+  border: none;
+  padding: 0;
 
-.col-xs-12 {
-  @include trip-planner-widget(true);
-}
-
-.m-tabbed-nav__content-item {
-  @include trip-planner-widget(false);
-
-  .c-trip-plan-widget {
-    border: solid 1px transparent;
-    padding: 0;
+  h2 {
+    display: none;
   }
-  
-  .c-paragraph--trip-plan-widget .c-trip-plan-widget {
+
+  .c-trip-plan-widget__inputs {
+    // use non-mobile layout at this breakpoint
     @include media-breakpoint-up(sm) {
-      .c-trip-plan-widget__inputs {
-        flex-direction: row;
-      }
+      grid-template:
+        "a . c" auto
+        "b x d" auto / 1fr auto 1fr;
     }
   }
-  
-  .c-trip-plan-widget__inputs {
-    display: flex;
-    flex-direction: column;
+
+  .c-trip-plan-widget__reverse-control {
     @include media-breakpoint-up(sm) {
-      flex-direction: row;
-  
-      .c-trip-plan-widget__from {
-        margin-right: $base-spacing;
-      }
-  
-      .c-search-bar {
-        flex-basis: 50%;
-      }
+      padding: 0 1em;
+      position: relative;
+      top: .75em;
+      transform: rotate(90deg);
     }
   }
   
   .c-trip-plan-widget__submit {
-    width: 100%;
-  
-    @include media-breakpoint-up(sm) {
-      width: 35%;
-    }
-  }
-  
-  .c-trip-plan-widget__submit-container {
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-only(xs) {
       width: 100%;
-    }
-  }
-
-  .c-trip-plan-widget__location-error {
-    display: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  %error-message {
-    background-color: $form-error-message;
-    color: $error-text;
-    padding: 0;
-  }
-
-  .c-trip-plan-widget__reverse-control {
-    color: $brand-primary;
-    cursor: pointer;
-    margin-left: auto;
-    user-select: none;
-    @include media-breakpoint-up(sm) {
-      transform: rotate(90deg);
-      display: flex;
-      padding: 36px;
     }
   }
 }

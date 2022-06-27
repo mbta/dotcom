@@ -45,10 +45,21 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   @spec parse_map(map) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
   defp parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
     accessible? = params["wheelchair"] == "true"
+
+    _ =
+      Logger.info(fn ->
+        "#{__MODULE__} trip_plan=error message=#{inspect(error_message)}"
+      end)
+
     {:error, error_message_atom(error_message, accessible?: accessible?)}
   end
 
   defp parse_map(json) do
+    _ =
+      Logger.info(fn ->
+        "#{__MODULE__} trip_plan=success count=#{Enum.count(json["plan"]["itineraries"])}"
+      end)
+
     {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary(&1, json["requestParameters"]))}
   end
 
