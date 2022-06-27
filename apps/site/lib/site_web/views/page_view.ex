@@ -196,12 +196,7 @@ defmodule SiteWeb.PageView do
   end
 
   defp shortcut_text(:the_ride) do
-    [
-      content_tag(:span, [
-        content_tag(:span, "The ", class: "hidden-md-down"),
-        "RIDE"
-      ])
-    ]
+    content_tag(:span, "The RIDE")
   end
 
   defp shortcut_text(:commuter_rail) do
