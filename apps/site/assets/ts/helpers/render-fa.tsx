@@ -8,8 +8,8 @@ export default (
   <i
     className={
       className
-        ? `fa fa-${svgName} notranslate ${className}`
-        : `fa fa-${svgName} notranslate`
+        ? `fa ${svgName} notranslate ${className}`
+        : `fa ${svgName} notranslate`
     }
     aria-hidden={ariaHide ? "true" : "false"}
   />

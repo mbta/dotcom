@@ -216,7 +216,7 @@ const Parking = ({
       id="parking"
       header={{
         text: "Parking",
-        iconSvgText: parkingIconSvg
+        iconSvgText: "fa-square-parking"
       }}
     >
       <>
