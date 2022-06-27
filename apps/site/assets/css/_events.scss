@@ -245,6 +245,13 @@ $mobile-control-height: 73px;
     line-height: 21px;
     padding-bottom: 0;
   }
+
+  a {
+    color: inherit;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
 }
 
 .m-event__status-message {
@@ -263,6 +270,7 @@ $mobile-control-height: 73px;
     }
   }
   .m-event__add-button {
+    align-items: center;
     display: flex;
     font-weight: 500;
     font-size: 21px;

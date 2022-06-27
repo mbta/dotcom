@@ -539,4 +539,27 @@ defmodule CMS.RepoTest do
       end
     end
   end
+
+  describe "next_n_event_teasers/1" do
+    test "calls for upcoming specified number of teasers" do
+      num = 3
+
+      with_mocks [
+        {Static, [], [view: fn "/cms/teasers", _ -> {:ok, []} end]},
+        {Util, [], [convert_to_iso_format: fn _ -> "1999-01-01" end]}
+      ] do
+        _ = Repo.next_n_event_teasers(num)
+
+        Static.view("/cms/teasers", %{
+          date: [value: "1999-01-01"],
+          date_op: ">=",
+          items_per_page: num,
+          sort_by: "field_start_time_value",
+          sort_order: :ASC,
+          type: [:event]
+        })
+        |> assert_called()
+      end
+    end
+  end
 end
