@@ -52,7 +52,6 @@
 
   @include media-breakpoint-only(xs) {
     @include icon-size(40px);
-    
     margin-bottom: math.div($base-spacing, 2);
     padding: $space-12;
   }
