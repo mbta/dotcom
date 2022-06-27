@@ -52,7 +52,8 @@
 
   @include media-breakpoint-only(xs) {
     @include icon-size(40px);
-    margin-bottom: math.div($base-spacing, 2)
+    margin-bottom: math.div($base-spacing, 2);
+    padding: $space-12;
   }
 
   [class*='c-svg__icon'] {
@@ -86,10 +87,9 @@
 }
 
 .m-homepage__shortcut-text {
-  font-family: $headings-font-family;
   font-size: $font-size-base-xxl;
   font-weight: $font-weight-medium;
-  line-height: $space-16 * 1.7;
+  line-height: $space-27;
 
   @include media-breakpoint-down(md) {
     font-size: $font-size-base;
@@ -97,6 +97,10 @@
 
   @include media-breakpoint-down(sm) {
     font-size: $font-size-base-sm;
+  }
+
+  @include media-breakpoint-only(xs) {
+    line-height: $space-21;
   }
 }
 
