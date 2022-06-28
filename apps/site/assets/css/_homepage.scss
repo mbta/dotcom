@@ -501,14 +501,6 @@
   }
 }
 
-.homepage-user-guides {
-  header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0 1rem;
-    align-items: flex-end;
-    margin: 1rem 0;
 .section-header {
   display: flex;
   flex-direction: row;
@@ -535,6 +527,15 @@
 }
 
 .homepage-user-guides {
+  header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    align-items: flex-end;
+    margin: 1rem 0;
+  }
+
   img {
     max-width: 100%;
   }
