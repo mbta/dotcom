@@ -1,26 +1,26 @@
 <div class="m-tabbed-nav" role="navigation">
   <div class="nav m-tabbed-nav__items" role="tablist">
     <div class="m-tabbed-nav__item-container">
-      <a tabindex="0" class="nav-link m-tabbed-nav__item active" role="tab" data-toggle="tab" data-tab-type="schedules" aria-controls="schedules" aria-selected="true">
+      <a tabindex="0" class="nav-link m-tabbed-nav__item active" role="tab" data-toggle="tab" data-tab-type="schedules" aria-controls="schedules-content" aria-selected="true">
         <%= svg("icon-map-default.svg") %>
         <span href="/schedules" class="m-tabbed-nav__icon-text">Schedules</span>
       </a>
     </div>
     <div class="m-tabbed-nav__item-container">
-      <a tabindex="0" class="nav-link m-tabbed-nav__item" role="tab" data-toggle="tab" data-tab-type="trip-planner" aria-controls="trip planner" aria-selected="false">
+      <a tabindex="0" class="nav-link m-tabbed-nav__item" role="tab" data-toggle="tab" data-tab-type="trip-planner" aria-controls="trip-planner-content" aria-selected="false">
         <%= svg("icon-trip-planner-default.svg") %>
         <span href="/trip-planner" class="m-tabbed-nav__icon-text">Trip Planner</span>
       </a>
     </div>
     <div class="m-tabbed-nav__item-container">
-      <a tabindex="0" class="nav-link m-tabbed-nav__item" role="tab" data-toggle="tab" data-tab-type="alerts" aria-controls="alerts" aria-selected="false">
+      <a tabindex="0" class="nav-link m-tabbed-nav__item" role="tab" data-toggle="tab" data-tab-type="alerts" aria-controls="alerts-content" aria-selected="false">
         <%= svg("icon-alerts-default.svg") %>
         <span href="/alerts" class="m-tabbed-nav__icon-text">Alerts</span>
       </a>
     </div>
   </div>
   <div class="m-tabbed-nav__content">
-    <div role="tabpanel" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules">
+    <div role="tabpanel" id="schedules-content" class="m-tabbed-nav__content-item active" data-tab-content-type="schedules-content">
     <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                 routes: Map.get(assigns, :recently_visited, []),
                                                                 alerts: @alerts,
@@ -31,10 +31,12 @@
       <% end %>
       <%= shortcut_icons() %>
     </div>
-     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner">
-      <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
+     <div role="tabpanel" id="trip-planner-content" class="m-tabbed-nav__content-item" data-tab-content-type="trip-planner-content">
+      <div class="m-mode-hub__trip-plan-widget">
+        <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
+      </div>
      </div>
-     <div role="tabpanel" class="m-tabbed-nav__content-item" data-tab-content-type="alerts">
+     <div role="tabpanel" id="alerts-content" class="m-tabbed-nav__content-item" data-tab-content-type="alerts-content">
        <%= alerts(@conn.assigns.alerts) %>
     </div>
   </div>

@@ -32,7 +32,6 @@
     <div id="trip-plan__search--from__results" class="c-search-bar__results"></div>
     <div id="trip-plan__location-error--from" role="alert" aria-live="assertive" tabindex="0" class="c-trip-plan-widget__location-error location-error"><%= @from_error %></div>
   </div>
-
   <div id="trip-plan-reverse-control">
     <div class="c-trip-plan-widget__reverse-control">
       <%= fa "long-arrow-down" %>

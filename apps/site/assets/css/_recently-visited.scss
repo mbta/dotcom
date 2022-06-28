@@ -26,10 +26,18 @@
 
   .c-grid-button__content {
     background-color: $white;
+    color: $gray-dark;
+    font-size: $font-size-base-xxl;
+    font-weight: $font-weight-medium;
+    line-height: $space-27;
+
+    @include media-breakpoint-down(md) {
+      font-size: $font-size-base-sm;
+      line-height: $space-21;
+    }
     
     &:hover {
       border: $border;
     }
   }
 }
-
