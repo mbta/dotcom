@@ -1440,7 +1440,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert Enum.count(notes_blocks) == 2
 
       links = Floki.find(html_with_transfer_note, "a")
-      assert Enum.count(links) == 4
+      assert Enum.count(links) == 3
     end
 
     test "includes Logan in the trip", %{conn: conn} do
