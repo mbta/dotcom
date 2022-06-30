@@ -40,12 +40,12 @@ jobs:
     outputs:
       deployment-env: ${{ github.event.inputs.deployment-env }}
     steps:
-      - uses: actions/checkout@v3
-
       - run: |
-          echo "github.event.inputs.deployment-env: ${{ github.event.inputs.deployment-env }}"
-          echo "inputs.deployment-env: ${{inputs.deployment-env }}"
-        if: github.event.inputs.deployment-env
+          echo "github.event.inputs: ${{ toJson(github.event.inputs) }}"
+          echo "inputs: ${{ toJson(inputs) }}"
+
+      - uses: actions/checkout@v3
+        if: ${{ github.event.inputs.deployment-env != '' }}
 
       - name: Docker metadata
         id: meta
