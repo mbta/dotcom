@@ -28,24 +28,23 @@ on:
         description: "The environment that was deployed to"
 
 concurrency:
-  group: deploy-${{ github.event.inputs.deployment-env }}
+  group: deploy-${{ inputs.deployment-env }}
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.event.inputs.deployment-env }}
-      url: ${{ github.event.inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', github.event.inputs.deployment-env) }}
+      name: ${{ inputs.deployment-env }}
+      url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}
     outputs:
-      deployment-env: ${{ github.event.inputs.deployment-env }}
+      deployment-env: ${{ inputs.deployment-env }}
     steps:
       - run: |
-          echo "github.event.inputs: ${{ toJson(github.event.inputs) }}"
           echo "inputs: ${{ toJson(inputs) }}"
 
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.deployment-env != '' }}
+        if: ${{ inputs.deployment-env != '' }}
 
       - name: Docker metadata
         id: meta
@@ -54,8 +53,8 @@ jobs:
           images: ${{ secrets.docker-repo }}
           tags: |
             type=sha,priority=1000,prefix=git-
-            type=raw,value=${{ github.event.inputs.deployment-env }}
-            type=raw,priority=900,value=${{ github.event.inputs.extra-docker-tag }},enable=${{ github.event.inputs.extra-docker-tag != ''}}
+            type=raw,value=${{ inputs.deployment-env }}
+            type=raw,priority=900,value=${{ inputs.extra-docker-tag }},enable=${{ inputs.extra-docker-tag != ''}}
 
       - name: Login to AWS ECR
         uses: docker/login-action@v2
@@ -99,7 +98,7 @@ jobs:
           aws-access-key-id: ${{ secrets.aws-access-key-id }}
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
           ecs-cluster: dotcom
-          ecs-service: dotcom-${{ github.event.inputs.deployment-env }}
+          ecs-service: dotcom-${{ inputs.deployment-env }}
           docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
 
       ## TODO after Sentry internal integation with Github Actions setup
@@ -108,6 +107,6 @@ jobs:
       #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       #     SENTRY_ORG: ${{  secrets.SENTRY_ORG }}
       #   with:
-      #     environment: ${{ github.event.inputs.deployment-env }}
+      #     environment: ${{ inputs.deployment-env }}
       #     projects: mbta-site
       #     version: ${{ needs.app.needs.assets.needs.image.outputs.docker-tag }}
