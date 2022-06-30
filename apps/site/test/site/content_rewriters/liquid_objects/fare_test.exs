@@ -122,6 +122,31 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry:month") == {:ok, "$80.00 – $329.00"}
     end
 
+    test "handles subway:week:reduced" do
+      assert [
+               mode: :subway,
+               reduced: :any,
+               duration: :week
+             ]
+             |> Repo.all()
+             |> fare_result() == "$10.00"
+
+      assert fare_request("subway:week:reduced") == {:ok, "$10.00"}
+    end
+
+    test "handles bus :week:reduced" do
+      assert [
+               mode: :bus,
+               reduced: :any,
+               duration: :week
+             ]
+             |> Repo.all()
+             |> fare_result() == "$10.00"
+
+      assert fare_request("local_bus:week:reduced") == {:ok, "$10.00"}
+      refute fare_request("express_bus:week:reduced") == {:ok, "$10.00"}
+    end
+
     test "handles :ferry:month:charlie_ticket" do
       assert [
                mode: :ferry,
