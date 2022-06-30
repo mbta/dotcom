@@ -104,7 +104,7 @@ defmodule SiteWeb.PageView do
       :div,
       conn.assigns
       |> Map.get(:news)
-      |> Enum.split(2)
+      |> Enum.split(3)
       |> Tuple.to_list()
       |> Enum.with_index()
       |> Enum.map(&do_render_news_entries/1),
@@ -115,13 +115,11 @@ defmodule SiteWeb.PageView do
   @spec do_render_news_entries({[NewsEntry.t()], 0 | 1}) ::
           Phoenix.HTML.Safe.t()
   defp do_render_news_entries({entries, idx}) when idx in [0, 1] do
-    size = if idx == 0, do: :large, else: :small
-
     content_tag(
       :div,
       Enum.map(
         entries,
-        &PartialView.news_entry(&1, size: size, class: "m-homepage__news-item")
+        &PartialView.news_entry(&1, class: "m-homepage__news-item")
       ),
       class: "col-md-6"
     )

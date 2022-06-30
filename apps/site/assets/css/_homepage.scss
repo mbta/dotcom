@@ -224,32 +224,32 @@
   }
 }
 
-.homepage-user-guides {
-  header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0 1rem;
-    align-items: flex-end;
-    margin: 1rem 0;
+.section-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+  align-items: flex-end;
+  margin: 1rem 0;
 
-    h2 {
-      margin: 0;
-    }
-
-    @include media-breakpoint-down(xs) {
-      margin-bottom: 1.5rem;
-
-      h2 {
-        flex: 0 0 100%;
-      }
-
-      a {
-        margin-top: 0.75rem;
-      }
-    }
+  h2 {
+    margin: 0;
   }
 
+  @include media-breakpoint-down(xs) {
+    margin-bottom: 1.5rem;
+
+    h2 {
+      flex: 0 0 100%;
+    }
+
+    a {
+      margin-top: 0.75rem;
+    }
+  }
+}
+
+.homepage-user-guides {
   img {
     max-width: 100%;
   }
@@ -279,6 +279,62 @@
       &:hover {
         color: $brand-primary;
       }
+    }
+  }
+}
+
+.m-homepage__events {
+  .m-homepage__header {
+    margin-right: 10px;
+  }
+  
+  .m-homepage__header-link {
+    margin-top: 12px;
+    margin-bottom: 20px;
+  }
+
+  .list-group-item {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+
+  .m-event__date-circle {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .m-homepage__events-container {
+    @include media-breakpoint-up(sm) {
+      columns: 2;
+    }
+
+    @include media-breakpoint-down(xs) {
+      // hide beyond 3rd event on mobile
+      :not(:nth-child(-n+3)) {
+        display: none;
+      }
+
+      .m-event {
+        padding: .75rem .25rem;
+      }
+    }
+
+    // hide "Add" button text on mobile & sm
+    .m-event__add-text {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+
+    .m-event__status-message {
+      margin-left: 1rem;
+    }
+
+    // make button a bit bigger??
+    .m-event__add-button {
+      font-size: 1.75rem;
     }
   }
 }

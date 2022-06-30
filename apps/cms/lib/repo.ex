@@ -354,4 +354,23 @@ defmodule CMS.Repo do
         end
     end
   end
+
+  @doc "Get the next n events"
+  def next_n_event_teasers(n) when n >= 0 do
+    single = [
+      value: Timex.today() |> Util.convert_to_iso_format()
+    ]
+
+    opts = [
+      type: [:event],
+      items_per_page: n,
+      date_op: ">=",
+      date: single,
+      sort_order: :ASC
+    ]
+
+    teasers(opts)
+  end
+
+  def next_n_event_teasers(_), do: []
 end

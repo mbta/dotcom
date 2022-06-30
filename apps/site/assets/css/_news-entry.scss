@@ -67,9 +67,8 @@
 }
 
 .c-news-entry__date {
-  color: $black;
+  color: $gray;
   flex: 0 0 20%;
-  font-family: $headings-font-family;
   max-width: 20%;
   padding-right: calc(#{$base-spacing} / 2);
   text-align: left;
@@ -107,8 +106,10 @@
 }
 
 .c-news-entry__title {
-  flex: 0 0 80%;
+  color: $gray-dark;
+  font-size: $font-size-base-xxl;
   font-weight: $font-weight-medium;
+  margin-left: 1rem;
 
   @include media-breakpoint-down(xs) {
     flex-basis: 75%;
@@ -118,6 +119,16 @@
   &--large {
     @include media-breakpoint-up(md) {
       font-size: $font-size-h3;
+    }
+  }
+}
+
+.m-homepage__news {
+  @include media-breakpoint-only(xs) {
+    .col-md-6 {
+      &:last-of-type {
+        display: none;
+      }
     }
   }
 }

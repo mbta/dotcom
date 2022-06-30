@@ -155,6 +155,38 @@ defmodule Fares.FareInfoTest do
                }
              ]
     end
+
+    test "includes $10 reduced pass for subway" do
+      subway_fares =
+        mapper(["subway", "2.40", "1.10", "10.00", "30.00", "12.75", "22.50", "90.00"])
+
+      assert %Fares.Fare{
+               additional_valid_modes: [:bus],
+               cents: 1000,
+               duration: :week,
+               media: [:senior_card, :student_card],
+               mode: :subway,
+               name: :subway,
+               price_label: nil,
+               reduced: :any
+             } in subway_fares
+    end
+
+    test "includes $10 reduced pass for local_bus" do
+      bus_fares =
+        mapper(["local_bus", "1.70", "0.85", "10.00", "30.00", "12.75", "22.50", "55.00"])
+
+      assert %Fares.Fare{
+               additional_valid_modes: [],
+               cents: 1000,
+               duration: :week,
+               media: [:senior_card, :student_card],
+               mode: :bus,
+               name: :local_bus,
+               price_label: nil,
+               reduced: :any
+             } in bus_fares
+    end
   end
 
   describe "mticket_price/1" do

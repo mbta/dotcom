@@ -7,7 +7,7 @@
 # export ALGOLIA_WRITE_KEY=
 export DRUPAL_ROOT=https://live-mbta.pantheonsite.io
 # export GOOGLE_API_KEY=
-export OPEN_TRIP_PLANNER_URL=https://dev.otp.mbtace.com
+export OPEN_TRIP_PLANNER_URL=http://otp-local.mbtace.com
 export OPEN_TRIP_PLANNER_URL_COMPARE=https://otp-bnrd.mbtace.com
 export RECAPTCHA_PUBLIC_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
 export RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
@@ -18,7 +18,7 @@ export RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
 export V3_URL=https://api-dev.mbtace.com
 # export WIREMOCK_PATH=
 export WIREMOCK_PROXY_URL=https://api-dev.mbtace.com
-export WIREMOCK_TRIP_PLAN_PROXY_URL=https://dev.otp.mbtace.com
+export WIREMOCK_TRIP_PLAN_PROXY_URL=http://otp-local.mbtace.com
 
 # You can also log in manually with `docker login`.
 # export DOCKER_USERNAME=

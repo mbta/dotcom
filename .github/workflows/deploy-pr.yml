@@ -47,14 +47,14 @@ jobs:
       if: ${{ env.DO_DEPLOY }}
       run: |
         labelled=$(curl -s \
-        "${{ github.event.repository.url }}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
+        ${{ github.event.repository.url }}/issues?state=all&labels=${{ env.DEPLOY_ENV }} \
         | jq -r '.[].url')
 
-        for url in $(echo "${labelled}");  do
-          if [[ "${url}" != "${{ github.event.pull_request.issue_url }}" ]]; then
+        for url in $(echo ${labelled});  do
+          if [[ ${url} != ${{ github.event.pull_request.issue_url }} && ${url} != "" ]]; then
             curl -X DELETE \
               -H "Accept: application/vnd.github.v3+json" \ 
               -H "Authorization: token ${{ github.token }}" \
-              "${url}"/labels/${{ env.DEPLOY_ENV }}
+              ${url}/labels/${{ env.DEPLOY_ENV }}
           fi
         done
