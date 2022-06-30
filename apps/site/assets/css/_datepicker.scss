@@ -44,10 +44,16 @@
 .datepicker-month-wrap {
   background: $brand-primary-darkest;
   color: $white;
-  // duplicate property required because IE doesn't support `initial`
-  height: auto;
   height: initial;
   padding: $base-spacing-sm;
+
+  .pull-left {
+    float: left;
+  }
+
+  .pull-right {
+    float: right;
+  }
 }
 
 .datepicker-month::after {
