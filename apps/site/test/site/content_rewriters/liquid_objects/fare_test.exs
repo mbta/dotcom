@@ -131,6 +131,8 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
              |> Repo.all()
              |> fare_result(:ferry) == "$30.00"
 
+      assert fare_request("ferry_inner_harbor:month:reduced") == {:ok, "$30.00"}
+      refute fare_request("ferry_cross_harbor:month:reduced") == {:ok, "$30.00"}
       assert fare_request("ferry:month:reduced") == {:ok, "$30.00"}
     end
 
@@ -207,6 +209,7 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
              |> fare_result() == "$30.00"
 
       assert fare_request("zone:1A:month:reduced") == {:ok, "$30.00"}
+      refute fare_request("zone:1:month:reduced") == {:ok, "$30.00"}
     end
 
     test "inter/zone passes are more expensive by default" do
