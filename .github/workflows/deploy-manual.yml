@@ -2,10 +2,10 @@
 name: "Deploy: selected branch"
 
 on:
-  # Manually select an environment to deploy to
+  # Manually select an env to deploy to
   workflow_dispatch:
     inputs:
-      environment:
+      env:
         description: "Environment"
         type: environment # will be prod, dev, dev-blue, or dev-green
         required: true
@@ -15,7 +15,7 @@ jobs:
   branch:
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
-      deployment-env: ${{ inputs.environment || github.event.inputs.environment }}
+      deployment-env: ${{ github.event.inputs.env }}
     secrets:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -30,6 +30,6 @@ jobs:
     with:
       job-status: ${{ needs.branch.result }}
       success-message: |
-        `${{ github.ref_name }}` branch manually deployed to `${{ inputs.environment || github.event.inputs.environment }}`
+        `${{ github.ref_name }}` branch manually deployed to `${{ github.event.inputs.env }}`
       failure-message: |
-        `${{ github.ref_name }}` branch not deployed to `${{ inputs.environment || github.event.inputs.environment }}`
+        `${{ github.ref_name }}` branch not deployed to `${{ github.event.inputs.env }}`
