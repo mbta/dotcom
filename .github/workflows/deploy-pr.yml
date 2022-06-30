@@ -51,7 +51,7 @@ jobs:
         | jq -r '.[].url')
 
         for url in $(echo "${labelled}");  do
-          if [[ "${url}" != "${{ github.event.pull_request.issue_url }}" ]]; then
+          if [[ "${url}" != "${{ github.event.pull_request.issue_url }}" && "${url}" != "" ]]; then
             curl -X DELETE \
               -H "Accept: application/vnd.github.v3+json" \ 
               -H "Authorization: token ${{ github.token }}" \
