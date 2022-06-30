@@ -15,7 +15,7 @@ jobs:
   branch:
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
-      deployment-env: ${{ inputs.environment }}
+      deployment-env: ${{ inputs.environment || github.event.inputs.environment }}
     secrets:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -30,6 +30,6 @@ jobs:
     with:
       job-status: ${{ needs.branch.result }}
       success-message: |
-        `${{ github.ref_name }}` branch manually deployed to `${{ inputs.environment }}`
+        `${{ github.ref_name }}` branch manually deployed to `${{ inputs.environment || github.event.inputs.environment }}`
       failure-message: |
-        `${{ github.ref_name }}` branch not deployed to `${{ inputs.environment }}`
+        `${{ github.ref_name }}` branch not deployed to `${{ inputs.environment || github.event.inputs.environment }}`
