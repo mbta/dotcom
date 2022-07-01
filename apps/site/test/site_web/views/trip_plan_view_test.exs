@@ -840,6 +840,96 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
     }
 
+    @testitinerary %TripPlan.Itinerary{
+      start: nil,
+      stop: nil,
+      legs: [
+        %TripPlan.Leg{
+          description: "SUBWAY",
+          from: %TripPlan.NamedPosition{
+            latitude: 42.365304,
+            longitude: -71.103621,
+            name: "Central",
+            stop_id: "70069"
+          },
+          long_name: "Red Line",
+          mode: %TripPlan.TransitDetail{
+            fares: @fares,
+            intermediate_stop_ids: ["70071", "70073"],
+            route_id: "Red",
+            trip_id: "43870769C0"
+          },
+          name: "Red Line",
+          to: %TripPlan.NamedPosition{
+            latitude: 42.356395,
+            longitude: -71.062424,
+            name: "Park Street",
+            stop_id: "70075"
+          },
+          type: "1",
+          url: "http://www.mbta.com"
+        },
+        %TripPlan.Leg{
+          description: "BUS",
+          from: %TripPlan.NamedPosition{
+            latitude: 42.362804,
+            longitude: -71.099509,
+            name: "Massachusetts Ave @ Sidney St",
+            stop_id: "73"
+          },
+          long_name: "Harvard Square - Dudley Station",
+          mode: %TripPlan.TransitDetail{
+            fares: bus_fares,
+            intermediate_stop_ids: ["74", "75", "77", "79", "80"],
+            route_id: "1",
+            trip_id: "44170977"
+          },
+          name: "1",
+          to: %TripPlan.NamedPosition{
+            latitude: 42.342478,
+            longitude: -71.084701,
+            name: "Massachusetts Ave @ Huntington Ave",
+            stop_id: "82"
+          },
+          type: "1",
+          url: "http://www.mbta.com"
+        }
+      ],
+      passes: %{
+        base_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        },
+        recommended_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        },
+        reduced_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        }
+      }
+    }
+
+
     test "renders fare information", %{conn: conn} do
       fares_assigns =
         @fares_assigns
@@ -867,6 +957,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "gets the total for a reduced one-way fare" do
       assert get_one_way_total_by_type(@itinerary, :reduced_one_way_fare) == 110
+    end
+
+    test "charges subway price when transferring from bus to subway and vice versa" do
+      assert get_one_way_total_by_type(@testitinerary, 170) == 240
     end
 
     test "gets calculated fares" do
