@@ -11,153 +11,175 @@ defmodule Fares.FareInfo do
       zone: "zone_1a",
       single_trip: "2.40",
       single_trip_reduced: "1.10",
-      monthly: "90.00"
+      monthly: "90.00",
+      monthly_reduced: "30.00"
     },
     %{
       mode: :commuter,
       zone: "zone_1",
       single_trip: "6.50",
       single_trip_reduced: "3.25",
-      monthly: "214.00"
+      monthly: "214.00",
+      monthly_reduced: "107.00"
     },
     %{
       mode: :commuter,
       zone: "zone_2",
       single_trip: "7.00",
       single_trip_reduced: "3.50",
-      monthly: "232.00"
+      monthly: "232.00",
+      monthly_reduced: "116.00"
     },
     %{
       mode: :commuter,
       zone: "zone_3",
       single_trip: "8.00",
       single_trip_reduced: "4.00",
-      monthly: "261.00"
+      monthly: "261.00",
+      monthly_reduced: "130.00"
     },
     %{
       mode: :commuter,
       zone: "zone_4",
       single_trip: "8.75",
       single_trip_reduced: "4.25",
-      monthly: "281.00"
+      monthly: "281.00",
+      monthly_reduced: "136.00"
     },
     %{
       mode: :commuter,
       zone: "zone_5",
       single_trip: "9.75",
       single_trip_reduced: "4.75",
-      monthly: "311.00"
+      monthly: "311.00",
+      monthly_reduced: "152.00"
     },
     %{
       mode: :commuter,
       zone: "zone_6",
       single_trip: "10.50",
       single_trip_reduced: "5.25",
-      monthly: "340.00"
+      monthly: "340.00",
+      monthly_reduced: "170.00"
     },
     %{
       mode: :commuter,
       zone: "zone_7",
       single_trip: "11.00",
       single_trip_reduced: "5.50",
-      monthly: "360.00"
+      monthly: "360.00",
+      monthly_reduced: "180.00"
     },
     %{
       mode: :commuter,
       zone: "zone_8",
       single_trip: "12.25",
       single_trip_reduced: "6.00",
-      monthly: "388.00"
+      monthly: "388.00",
+      monthly_reduced: "190.00"
     },
     %{
       mode: :commuter,
       zone: "zone_9",
       single_trip: "12.75",
       single_trip_reduced: "6.25",
-      monthly: "406.00"
+      monthly: "406.00",
+      monthly_reduced: "199.00"
     },
     %{
       mode: :commuter,
       zone: "zone_10",
       single_trip: "13.25",
       single_trip_reduced: "6.50",
-      monthly: "426.00"
+      monthly: "426.00",
+      monthly_reduced: "209.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_1",
       single_trip: "2.75",
       single_trip_reduced: "1.25",
-      monthly: "90.00"
+      monthly: "90.00",
+      monthly_reduced: "41.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_2",
       single_trip: "3.25",
       single_trip_reduced: "1.50",
-      monthly: "110.00"
+      monthly: "110.00",
+      monthly_reduced: "51.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_3",
       single_trip: "3.50",
       single_trip_reduced: "1.75",
-      monthly: "120.00"
+      monthly: "120.00",
+      monthly_reduced: "60.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_4",
       single_trip: "4.25",
       single_trip_reduced: "2.00",
-      monthly: "139.00"
+      monthly: "139.00",
+      monthly_reduced: "65.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_5",
       single_trip: "4.75",
       single_trip_reduced: "2.25",
-      monthly: "158.00"
+      monthly: "158.00",
+      monthly_reduced: "75.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_6",
       single_trip: "5.25",
       single_trip_reduced: "2.50",
-      monthly: "178.00"
+      monthly: "178.00",
+      monthly_reduced: "85.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_7",
       single_trip: "5.75",
       single_trip_reduced: "2.75",
-      monthly: "196.00"
+      monthly: "196.00",
+      monthly_reduced: "94.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_8",
       single_trip: "6.25",
       single_trip_reduced: "3.00",
-      monthly: "216.00"
+      monthly: "216.00",
+      monthly_reduced: "104.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_9",
       single_trip: "6.75",
       single_trip_reduced: "3.25",
-      monthly: "237.00"
+      monthly: "237.00",
+      monthly_reduced: "114.00"
     },
     %{
       mode: :commuter,
       zone: "interzone_10",
       single_trip: "7.25",
       single_trip_reduced: "3.50",
-      monthly: "257.00"
+      monthly: "257.00",
+      monthly_reduced: "124.00"
     },
     %{mode: :foxboro, round_trip: "20.00"},
     %{
       mode: :subway,
       charlie_card_price: "2.40",
       day_reduced_price: "1.10",
+      week_reduced_price: "10.00",
       month_reduced_price: "30.00",
       day_pass_price: "11.00",
       week_pass_price: "22.50",
@@ -167,6 +189,7 @@ defmodule Fares.FareInfo do
       mode: :local_bus,
       charlie_card_price: "1.70",
       day_reduced_price: "0.85",
+      week_reduced_price: "10.00",
       month_reduced_price: "30.00",
       day_pass_price: "11.00",
       week_pass_price: "22.50",
@@ -176,6 +199,7 @@ defmodule Fares.FareInfo do
       mode: :express_bus,
       charlie_card_price: "4.25",
       day_reduced_price: "2.10",
+      week_reduced_price: "10.00",
       month_reduced_price: "30.00",
       day_pass_price: "11.00",
       week_pass_price: "22.50",
@@ -197,7 +221,7 @@ defmodule Fares.FareInfo do
 
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
-  def fare_info() do
+  def fare_info do
     @fare_data
     |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
@@ -210,7 +234,8 @@ defmodule Fares.FareInfo do
         zone: zone,
         single_trip: single_trip,
         single_trip_reduced: single_trip_reduced,
-        monthly: monthly
+        monthly: monthly,
+        monthly_reduced: monthly_reduced
       }) do
     base = %Fare{
       mode: :commuter_rail,
@@ -250,7 +275,7 @@ defmodule Fares.FareInfo do
         base
         | duration: :month,
           media: [:commuter_ticket],
-          reduced: nil,
+          reduced: dollars_to_cents(monthly_reduced),
           cents: dollars_to_cents(monthly),
           additional_valid_modes: monthly_commuter_modes(zone)
       },
@@ -258,7 +283,7 @@ defmodule Fares.FareInfo do
         base
         | duration: :month,
           media: [:mticket],
-          reduced: nil,
+          reduced: reduced_mticket_price(dollars_to_cents(monthly_reduced)),
           cents: mticket_price(dollars_to_cents(monthly))
       },
       %{
@@ -349,13 +374,13 @@ defmodule Fares.FareInfo do
         mode: mode,
         charlie_card_price: charlie_card_price,
         day_reduced_price: day_reduced_price,
-        week_reduced_price: week_reduced_price
+        week_reduced_price: week_reduced_price,
         month_pass_price: month_pass_price
       })
       when mode in [:local_bus, :express_bus] do
     base = %Fare{
       mode: :bus,
-      name: :"#{mode}"
+      name: mode
     }
 
     fares = [
@@ -564,6 +589,12 @@ defmodule Fares.FareInfo do
   def mticket_price(monthly_price) when monthly_price > 1000 do
     monthly_price - 1000
   end
+
+  def reduced_mticket_price(reduced_monthly_price) when reduced_monthly_price > 3000 do
+    reduced_monthly_price - 500
+  end
+
+  def reduced_mticket_price(reduced_monthly_price), do: reduced_monthly_price
 
   defp commuter_rail_fare_name(zone) do
     case String.split(zone, "_") do
