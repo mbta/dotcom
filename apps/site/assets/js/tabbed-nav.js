@@ -4,7 +4,7 @@ const updateTabs = (tabType, navTabs, contentTabs) => e => {
   navTabs.forEach(tab => {
     const clickedTab = tab.dataset.tabType === tabType;
     tab.classList.toggle("active", clickedTab);
-    tab.toggleAttribute("aria-selected", clickedTab);
+    tab.setAttribute("aria-selected", clickedTab);
   });
 
   contentTabs.forEach(tab => {
