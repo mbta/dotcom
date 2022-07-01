@@ -28,7 +28,7 @@ defmodule Fares.FareInfoTest do
     test "maps the fares for a zone into one-way, round trip, monthly, mticket, and weekend prices" do
       assert mapper(%{
                mode: :commuter,
-               zone: "zone_1a",
+               zone: "1A",
                single_trip: "2.40",
                single_trip_reduced: "1.10",
                monthly: "90.00",
