@@ -396,15 +396,19 @@ defmodule SiteWeb.TripPlanView do
     SiteWeb.ViewHelpers.mode_name(type)
   end
 
-  @doc "Add a transfer note to the trip plan view when the itinerary might have valid transit transfers (determined by Transfer.is_maybe_transfer?) that are not already accounted for in the fare calculation. Right now the only transfer accounted for in the calculated fare is subway-subway (via Transfer.is_subway_transfer?)"
-  @spec transfer_note(Itinerary.t()) :: String.t() | nil
-  def transfer_note(itinerary) do
+  defp _transfer_note(itinerary, get_text) do
     itinerary.legs
     |> Stream.filter(&Leg.transit?/1)
     |> Stream.chunk_every(2, 1)
     |> Enum.reject(&Transfer.is_subway_transfer?/1)
     |> Enum.find(&Transfer.is_maybe_transfer?/1)
-    |> transfer_note_text
+    |> get_text.()
+  end
+
+  @doc "Add a transfer note to the trip plan view when the itinerary might have valid transit transfers (determined by Transfer.is_maybe_transfer?) that are not already accounted for in the fare calculation. Right now the only transfer accounted for in the calculated fare is subway-subway (via Transfer.is_subway_transfer?)"
+  @spec transfer_note(Itinerary.t()) :: String.t() | nil
+  def transfer_note(itinerary) do
+    _transfer_note(itinerary, &transfer_note_text/1)
   end
 
   defp transfer_note_text(nil), do: nil
@@ -415,6 +419,21 @@ defmodule SiteWeb.TripPlanView do
       [
         "Total may be less with ",
         HTML.Tag.content_tag(:a, "transfers", href: "https://www.mbta.com/fares/transfers")
+      ]
+    )
+  end
+
+  def transfer_note_calculator(itinerary) do
+    _transfer_note(itinerary, &transfer_note_calculator_text/1)
+  end
+
+  defp transfer_note_calculator_text(nil), do: nil
+
+  defp transfer_note_calculator_text(_) do
+    HTML.Tag.content_tag(
+      :span,
+      [
+        "Total Fare Estimate*"
       ]
     )
   end
@@ -533,14 +552,14 @@ defmodule SiteWeb.TripPlanView do
       if leg_index < 1 do
         acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
       else
-        # Look at this transit leg and previous transit leg
-        legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-
+        # Look at this transit leg and previous transit leg(s)
+        two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
+        three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
         # If this is part of a free transfer, don't add fare
-        if Transfer.is_subway_transfer?(legs) do
-          acc
-        else
-          acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+        cond do
+          Transfer.is_maybe_transfer?(three_legs) -> acc
+          Transfer.is_maybe_transfer?(two_legs) -> acc
+          true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
         end
       end
     end)

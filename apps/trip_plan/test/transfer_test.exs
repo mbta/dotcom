@@ -71,11 +71,11 @@ defmodule TransferTest do
     end
 
     test "inner express bus -> inner express bus" do
-      refute [@innerxp_leg, @other_innerxp_leg] |> is_maybe_transfer?
+      assert [@innerxp_leg, @other_innerxp_leg] |> is_maybe_transfer?
     end
 
     test "outer express bus -> outer express bus" do
-      refute [@outerxp_leg, @other_outerxp_leg] |> is_maybe_transfer?
+      assert [@outerxp_leg, @other_outerxp_leg] |> is_maybe_transfer?
     end
 
     test "commuter rail -> any other mode" do
@@ -96,6 +96,14 @@ defmodule TransferTest do
       refute [@ferry_leg, @outerxp_leg] |> is_maybe_transfer?
       refute [@ferry_leg, @sl_bus_leg] |> is_maybe_transfer?
       refute [@ferry_leg, @sl_rapid_leg] |> is_maybe_transfer?
+    end
+
+    test "bus -> bus -> subway" do
+      assert [@other_bus_leg, @bus_leg, @subway_leg] |> is_maybe_transfer?
+    end
+
+    test "subway -> bus -> bus" do
+      assert [@subway_leg, @bus_leg, @other_bus_leg] |> is_maybe_transfer?
     end
   end
 

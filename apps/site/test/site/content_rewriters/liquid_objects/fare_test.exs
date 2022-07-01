@@ -122,6 +122,45 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry:month") == {:ok, "$80.00 – $329.00"}
     end
 
+    test "handles :ferry:month:reduced" do
+      assert [
+               mode: :ferry,
+               reduced: :any,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result(:ferry) == "$30.00"
+
+      assert fare_request("ferry_inner_harbor:month:reduced") == {:ok, "$30.00"}
+      refute fare_request("ferry_cross_harbor:month:reduced") == {:ok, "$30.00"}
+      assert fare_request("ferry:month:reduced") == {:ok, "$30.00"}
+    end
+
+    test "handles subway:week:reduced" do
+      assert [
+               mode: :subway,
+               reduced: :any,
+               duration: :week
+             ]
+             |> Repo.all()
+             |> fare_result() == "$10.00"
+
+      assert fare_request("subway:week:reduced") == {:ok, "$10.00"}
+    end
+
+    test "handles bus :week:reduced" do
+      assert [
+               mode: :bus,
+               reduced: :any,
+               duration: :week
+             ]
+             |> Repo.all()
+             |> fare_result() == "$10.00"
+
+      assert fare_request("local_bus:week:reduced") == {:ok, "$10.00"}
+      refute fare_request("express_bus:week:reduced") == {:ok, "$10.00"}
+    end
+
     test "handles :ferry:month:charlie_ticket" do
       assert [
                mode: :ferry,
@@ -158,6 +197,19 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
              |> fare_result() == "$90.00"
 
       assert fare_request("zone:1A:month") == {:ok, "$90.00"}
+    end
+
+    test "handles zone 1A :reduced" do
+      assert [
+               name: {:zone, "1A"},
+               reduced: :any,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result() == "$30.00"
+
+      assert fare_request("zone:1A:month:reduced") == {:ok, "$30.00"}
+      refute fare_request("zone:1:month:reduced") == {:ok, "$30.00"}
     end
 
     test "inter/zone passes are more expensive by default" do
