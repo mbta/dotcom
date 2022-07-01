@@ -26,7 +26,16 @@ defmodule Fares.FareInfoTest do
 
   describe "mapper/1" do
     test "maps the fares for a zone into one-way, round trip, monthly, mticket, and weekend prices" do
-      assert mapper(["commuter", "zone_1a", "2.25", "1.10", "84.50"]) == [
+      assert mapper(["commuter", "zone_1a", "2.25", "1.10", "90.00", "30.00"]) == [
+               %Fare{
+                 additional_valid_modes: [],
+                 name: {:zone, "1A"},
+                 mode: :commuter_rail,
+                 duration: :month,
+                 media: [:senior_card, :student_card],
+                 reduced: :any,
+                 cents: 3000
+               },
                %Fare{
                  name: {:zone, "1A"},
                  mode: :commuter_rail,
@@ -65,7 +74,7 @@ defmodule Fares.FareInfoTest do
                  duration: :month,
                  media: [:commuter_ticket],
                  reduced: nil,
-                 cents: 8450,
+                 cents: 9000,
                  additional_valid_modes: [:subway, :bus, :ferry]
                },
                %Fare{
@@ -74,7 +83,7 @@ defmodule Fares.FareInfoTest do
                  duration: :month,
                  media: [:mticket],
                  reduced: nil,
-                 cents: 7450
+                 cents: 8000
                },
                %Fare{
                  name: {:zone, "1A"},
@@ -88,10 +97,10 @@ defmodule Fares.FareInfoTest do
     end
 
     test "does not include subway or ferry modes for interzone fares" do
-      assert mapper(["commuter", "interzone_5", "4.50", "2.25", "148.00"]) == [
+      assert mapper(["commuter", "interzone_5", "4.75", "2.25", "158.00", ""]) == [
                %Fare{
                  additional_valid_modes: [],
-                 cents: 450,
+                 cents: 475,
                  duration: :single_trip,
                  media: [:commuter_ticket, :cash, :mticket],
                  mode: :commuter_rail,
@@ -109,7 +118,7 @@ defmodule Fares.FareInfoTest do
                },
                %Fare{
                  additional_valid_modes: [],
-                 cents: 900,
+                 cents: 950,
                  duration: :round_trip,
                  media: [:commuter_ticket, :cash, :mticket],
                  mode: :commuter_rail,
@@ -127,7 +136,7 @@ defmodule Fares.FareInfoTest do
                },
                %Fare{
                  additional_valid_modes: [:bus],
-                 cents: 14_800,
+                 cents: 15_800,
                  duration: :month,
                  media: [:commuter_ticket],
                  mode: :commuter_rail,
@@ -136,7 +145,7 @@ defmodule Fares.FareInfoTest do
                },
                %Fare{
                  additional_valid_modes: [],
-                 cents: 13_800,
+                 cents: 14_800,
                  duration: :month,
                  media: [:mticket],
                  mode: :commuter_rail,
