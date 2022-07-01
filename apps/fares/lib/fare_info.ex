@@ -243,7 +243,7 @@ defmodule Fares.FareInfo do
       name: commuter_rail_fare_name(zone)
     }
 
-    fares = [
+    [
       %{
         base
         | duration: :single_trip,
