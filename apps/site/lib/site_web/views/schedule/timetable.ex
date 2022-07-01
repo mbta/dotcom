@@ -48,9 +48,9 @@ defmodule SiteWeb.ScheduleView.Timetable do
       [
         content_tag(
           :span,
-          Helpers.svg("icon-parking-small.svg"),
+          Helpers.fa("square-parking"),
           aria: [hidden: "true"],
-          class: "m-timetable__access-icon",
+          class: "m-timetable__parking-icon",
           data: [toggle: "tooltip"],
           title: "Parking available"
         ),

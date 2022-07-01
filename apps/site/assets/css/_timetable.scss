@@ -129,7 +129,6 @@
 }
 
 .m-timetable__stop-name {
-  @include icon-size-inline(1em);
   align-items: center;
   display: inline-flex;
   font-weight: $font-weight-medium;
@@ -148,17 +147,21 @@
 }
 
 .m-timetable__stop-alert,
-.m-timetable__access-icon {
+.m-timetable__access-icon,
+.m-timetable__parking-icon {
   @include media-breakpoint-down(sm) {
     font-size: 12px;
   }
 }
 
+.m-timetable__parking-icon .fa-square-parking {
+  font-size: calc(1em + 1.5px);
+  position: relative;
+  top: 0.04em;
+}
+
 .m-timetable__access-icon {
   margin-left: .1em; // Forces word split of Stops at small breakpoints
-  @include media-breakpoint-down(sm) {
-    @include icon-size(12px);
-  }
 }
 
 .m-timetable__row,
