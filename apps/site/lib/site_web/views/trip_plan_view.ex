@@ -556,11 +556,11 @@ defmodule SiteWeb.TripPlanView do
         two_legs = transit_legs |> Enum.slice(leg_index - 1, 2)
         three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
         # If this is part of a free transfer, don't add fare
-        cond do
-          Transfer.is_maybe_transfer?(three_legs) -> acc
-          Transfer.is_maybe_transfer?(two_legs) -> acc
-          true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
-        end
+        # cond do
+        #   Transfer.is_maybe_transfer?(three_legs) -> acc
+        #   Transfer.is_maybe_transfer?(two_legs) -> acc
+        #   true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+        # end
       end
     end)
   end
