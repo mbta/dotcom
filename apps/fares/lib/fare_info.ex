@@ -242,7 +242,7 @@ defmodule Fares.FareInfo do
       name: commuter_rail_fare_name(zone)
     }
 
-    [
+    fares = [
       %{
         base
         | duration: :single_trip,
@@ -309,6 +309,21 @@ defmodule Fares.FareInfo do
           cents: 1_000
       }
     ]
+
+    if zone == "zone_1a" do
+      [
+        %{
+          base
+          | duration: :month,
+            media: [:senior_card, :student_card],
+            reduced: :any,
+            cents: dollars_to_cents(monthly_reduced)
+        }
+        | fares
+      ]
+    else
+      fares
+    end
   end
 
   def mapper(%{
@@ -442,6 +457,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         inner_harbor_price: inner_harbor_price,
         inner_harbor_month_price: inner_harbor_month_price,
+        inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         commuter_ferry_price: commuter_ferry_price,
         commuter_ferry_month_price: commuter_ferry_month_price,
@@ -471,6 +487,15 @@ defmodule Fares.FareInfo do
         media: [:charlie_ticket],
         reduced: nil,
         cents: dollars_to_cents(inner_harbor_month_price),
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_inner_harbor,
+        duration: :month,
+        media: [:senior_card, :student_card],
+        reduced: :any,
+        cents: dollars_to_cents(inner_harbor_month_price_reduced),
         additional_valid_modes: [:subway, :bus, :commuter_rail]
       },
       %Fare{

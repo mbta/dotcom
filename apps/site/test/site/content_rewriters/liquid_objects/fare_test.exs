@@ -146,6 +146,20 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry:month") == {:ok, "$80.00 – $329.00"}
     end
 
+    test "handles :ferry:month:reduced" do
+      assert [
+               mode: :ferry,
+               reduced: :any,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result(:ferry) == "$30.00"
+
+      assert fare_request("ferry_inner_harbor:month:reduced") == {:ok, "$30.00"}
+      refute fare_request("ferry_cross_harbor:month:reduced") == {:ok, "$30.00"}
+      assert fare_request("ferry:month:reduced") == {:ok, "$30.00"}
+    end
+
     test "handles subway:week:reduced" do
       assert [
                mode: :subway,
@@ -209,7 +223,7 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("zone:1A:month") == {:ok, "$90.00"}
     end
 
-    test "handles :zone:X:reduced requests" do
+    test "handles zone 1A :reduced" do
       assert [
                name: {:zone, "1A"},
                reduced: :any,
