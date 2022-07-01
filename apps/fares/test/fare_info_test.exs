@@ -26,23 +26,21 @@ defmodule Fares.FareInfoTest do
 
   describe "mapper/1" do
     test "maps the fares for a zone into one-way, round trip, monthly, mticket, and weekend prices" do
-      assert mapper(["commuter", "zone_1a", "2.25", "1.10", "90.00", "30.00"]) == [
-               %Fare{
-                 additional_valid_modes: [],
-                 name: {:zone, "1A"},
-                 mode: :commuter_rail,
-                 duration: :month,
-                 media: [:senior_card, :student_card],
-                 reduced: :any,
-                 cents: 3000
-               },
+      assert mapper(%{
+               mode: :commuter,
+               zone: "1A",
+               single_trip: "2.40",
+               single_trip_reduced: "1.10",
+               monthly: "90.00",
+               monthly_reduced: "30.00"
+             }) == [
                %Fare{
                  name: {:zone, "1A"},
                  mode: :commuter_rail,
                  duration: :single_trip,
                  media: [:commuter_ticket, :cash, :mticket],
                  reduced: nil,
-                 cents: 225
+                 cents: 240
                },
                %Fare{
                  name: {:zone, "1A"},
@@ -58,7 +56,7 @@ defmodule Fares.FareInfoTest do
                  duration: :round_trip,
                  media: [:commuter_ticket, :cash, :mticket],
                  reduced: nil,
-                 cents: 450
+                 cents: 480
                },
                %Fare{
                  name: {:zone, "1A"},
@@ -81,9 +79,26 @@ defmodule Fares.FareInfoTest do
                  name: {:zone, "1A"},
                  mode: :commuter_rail,
                  duration: :month,
+                 media: [:senior_card, :student_card],
+                 reduced: :any,
+                 cents: 3000,
+                 additional_valid_modes: [:subway, :bus, :ferry]
+               },
+               %Fare{
+                 name: {:zone, "1A"},
+                 mode: :commuter_rail,
+                 duration: :month,
                  media: [:mticket],
                  reduced: nil,
                  cents: 8000
+               },
+               %Fare{
+                 name: {:zone, "1A"},
+                 mode: :commuter_rail,
+                 duration: :month,
+                 media: [:mticket],
+                 reduced: :any,
+                 cents: 3000
                },
                %Fare{
                  name: {:zone, "1A"},
@@ -97,7 +112,14 @@ defmodule Fares.FareInfoTest do
     end
 
     test "does not include subway or ferry modes for interzone fares" do
-      assert mapper(["commuter", "interzone_5", "4.75", "2.25", "158.00", ""]) == [
+      assert mapper(%{
+               mode: :commuter,
+               zone: "interzone_5",
+               single_trip: "4.75",
+               single_trip_reduced: "2.25",
+               monthly: "158.00",
+               monthly_reduced: "75.00"
+             }) == [
                %Fare{
                  additional_valid_modes: [],
                  cents: 475,
@@ -144,6 +166,15 @@ defmodule Fares.FareInfoTest do
                  reduced: nil
                },
                %Fare{
+                 additional_valid_modes: [:bus],
+                 cents: 7500,
+                 duration: :month,
+                 media: [:senior_card, :student_card],
+                 mode: :commuter_rail,
+                 name: {:interzone, "5"},
+                 reduced: :any
+               },
+               %Fare{
                  additional_valid_modes: [],
                  cents: 14_800,
                  duration: :month,
@@ -151,6 +182,15 @@ defmodule Fares.FareInfoTest do
                  mode: :commuter_rail,
                  name: {:interzone, "5"},
                  reduced: nil
+               },
+               %Fare{
+                 additional_valid_modes: [],
+                 cents: 7000,
+                 duration: :month,
+                 media: [:mticket],
+                 mode: :commuter_rail,
+                 name: {:interzone, "5"},
+                 reduced: :any
                },
                %Fare{
                  additional_valid_modes: [],
@@ -167,7 +207,16 @@ defmodule Fares.FareInfoTest do
 
     test "includes $10 reduced pass for subway" do
       subway_fares =
-        mapper(["subway", "2.40", "1.10", "10.00", "30.00", "12.75", "22.50", "90.00"])
+        mapper(%{
+          mode: :subway,
+          charlie_card_price: "2.40",
+          day_reduced_price: "1.10",
+          week_reduced_price: "10.00",
+          month_reduced_price: "30.00",
+          day_pass_price: "11.00",
+          week_pass_price: "22.50",
+          month_pass_price: "90.00"
+        })
 
       assert %Fares.Fare{
                additional_valid_modes: [:bus],
@@ -183,7 +232,16 @@ defmodule Fares.FareInfoTest do
 
     test "includes $10 reduced pass for local_bus" do
       bus_fares =
-        mapper(["local_bus", "1.70", "0.85", "10.00", "30.00", "12.75", "22.50", "55.00"])
+        mapper(%{
+          mode: :local_bus,
+          charlie_card_price: "1.70",
+          day_reduced_price: "0.85",
+          week_reduced_price: "10.00",
+          month_reduced_price: "30.00",
+          day_pass_price: "11.00",
+          week_pass_price: "22.50",
+          month_pass_price: "55.00"
+        })
 
       assert %Fares.Fare{
                additional_valid_modes: [],
