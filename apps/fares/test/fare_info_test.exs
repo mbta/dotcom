@@ -71,7 +71,7 @@ defmodule Fares.FareInfoTest do
                  mode: :commuter_rail,
                  duration: :month,
                  media: [:commuter_ticket],
-                 reduced: 3000,
+                 reduced: nil,
                  cents: 9000,
                  additional_valid_modes: [:subway, :bus, :ferry]
                },
@@ -79,9 +79,26 @@ defmodule Fares.FareInfoTest do
                  name: {:zone, "1A"},
                  mode: :commuter_rail,
                  duration: :month,
+                 media: [:senior_card, :student_card],
+                 reduced: :any,
+                 cents: 3000,
+                 additional_valid_modes: [:subway, :bus, :ferry]
+               },
+               %Fare{
+                 name: {:zone, "1A"},
+                 mode: :commuter_rail,
+                 duration: :month,
                  media: [:mticket],
-                 reduced: 3000,
+                 reduced: nil,
                  cents: 8000
+               },
+               %Fare{
+                 name: {:zone, "1A"},
+                 mode: :commuter_rail,
+                 duration: :month,
+                 media: [:mticket],
+                 reduced: :any,
+                 cents: 3000
                },
                %Fare{
                  name: {:zone, "1A"},
@@ -146,7 +163,16 @@ defmodule Fares.FareInfoTest do
                  media: [:commuter_ticket],
                  mode: :commuter_rail,
                  name: {:interzone, "5"},
-                 reduced: 7500
+                 reduced: nil
+               },
+               %Fare{
+                 additional_valid_modes: [:bus],
+                 cents: 7500,
+                 duration: :month,
+                 media: [:senior_card, :student_card],
+                 mode: :commuter_rail,
+                 name: {:interzone, "5"},
+                 reduced: :any
                },
                %Fare{
                  additional_valid_modes: [],
@@ -155,7 +181,16 @@ defmodule Fares.FareInfoTest do
                  media: [:mticket],
                  mode: :commuter_rail,
                  name: {:interzone, "5"},
-                 reduced: 7000
+                 reduced: nil
+               },
+               %Fare{
+                 additional_valid_modes: [],
+                 cents: 7000,
+                 duration: :month,
+                 media: [:mticket],
+                 mode: :commuter_rail,
+                 name: {:interzone, "5"},
+                 reduced: :any
                },
                %Fare{
                  additional_valid_modes: [],

@@ -46,6 +46,30 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("commuter_rail:mticket") == {:ok, "$2.40 – $13.25"}
     end
 
+    test "it handles monthly fare summary requests" do
+      assert [
+               mode: :commuter_rail,
+               reduced: nil,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result(:commuter_rail) == "$80.00 – $426.00"
+
+      assert fare_request("commuter_rail:month") == {:ok, "$80.00 – $426.00"}
+    end
+
+    test "it handles reduced monthly fare summary requests" do
+      assert [
+               mode: :commuter_rail,
+               reduced: :any,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result(:commuter_rail) == "$30.00 – $209.00"
+
+      assert fare_request("commuter_rail:month:reduced") == {:ok, "$30.00 – $209.00"}
+    end
+
     test "it handles weekend rail fare requests" do
       assert [
                mode: :commuter_rail,
@@ -185,6 +209,18 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("zone:1A:month") == {:ok, "$90.00"}
     end
 
+    test "handles :zone:X:reduced requests" do
+      assert [
+               name: {:zone, "1A"},
+               reduced: :any,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result() == "$30.00"
+
+      assert fare_request("zone:1A:month:reduced") == {:ok, "$30.00"}
+    end
+
     test "inter/zone passes are more expensive by default" do
       assert [
                name: {:zone, "8"},
@@ -206,6 +242,29 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
              |> fare_result() == "$378.00"
 
       assert fare_request("zone:8:month:mticket") == {:ok, "$378.00"}
+    end
+
+    test "inter/zone reduced passes" do
+      assert [
+               name: {:zone, "8"},
+               reduced: :any,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result() == "$190.00"
+
+      assert fare_request("zone:8:month:reduced") == {:ok, "$190.00"}
+
+      assert [
+               name: {:zone, "8"},
+               reduced: :any,
+               duration: :month,
+               includes_media: :mticket
+             ]
+             |> Repo.all()
+             |> fare_result() == "$185.00"
+
+      assert fare_request("zone:8:month:mticket:reduced") == {:ok, "$185.00"}
     end
 
     test "handles :interzone:X requests" do

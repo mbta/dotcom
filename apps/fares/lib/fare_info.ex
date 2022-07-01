@@ -275,16 +275,31 @@ defmodule Fares.FareInfo do
         base
         | duration: :month,
           media: [:commuter_ticket],
-          reduced: dollars_to_cents(monthly_reduced),
+          reduced: nil,
           cents: dollars_to_cents(monthly),
           additional_valid_modes: monthly_commuter_modes(zone)
       },
       %{
         base
         | duration: :month,
+          media: [:senior_card, :student_card],
+          reduced: :any,
+          cents: dollars_to_cents(monthly_reduced),
+          additional_valid_modes: monthly_commuter_modes(zone)
+      },
+      %{
+        base
+        | duration: :month,
           media: [:mticket],
-          reduced: reduced_mticket_price(dollars_to_cents(monthly_reduced)),
+          reduced: nil,
           cents: mticket_price(dollars_to_cents(monthly))
+      },
+      %{
+        base
+        | duration: :month,
+          media: [:mticket],
+          reduced: :any,
+          cents: reduced_mticket_price(dollars_to_cents(monthly_reduced))
       },
       %{
         base
