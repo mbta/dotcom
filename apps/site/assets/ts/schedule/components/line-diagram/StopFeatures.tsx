@@ -16,7 +16,7 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
         tooltipOptions={{ placement: "bottom" }}
       >
         {parkingIcon(
-          "c-svg__icon-parking-default m-schedule-diagram__feature-icon"
+          "m-schedule-diagram__feature-icon"
         )}
       </TooltipWrapper>
     ) : null}

@@ -89,8 +89,6 @@
 
 // Access, parking, commuter rail zone etc. icons
 .m-schedule-diagram__features {
-  @include icon-size-inline($base-spacing * 1.25);
-
   .m-schedule-diagram__feature-icon {
     margin-left: calc(#{$base-spacing} / 4);
   }
@@ -99,6 +97,12 @@
     font-size: $base-spacing * .7;
     vertical-align: text-top;
     width: auto;
+  }
+
+  .fa-square-parking {
+    font-size: $base-spacing * 1.25;
+    position: relative;
+    top: 0.08em;
   }
 }
 
