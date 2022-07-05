@@ -200,7 +200,9 @@ export class TripPlannerLocControls {
     const required = this.getById(ac._selectors.required);
     const container = this.getById(ac._selectors.container);
     const input = this.getById(ac._selectors.input);
-    const inputDirty = (input.id === "from" && this.fromInputDirty) || (input.id === "to" && this.toInputDirty);
+    const inputDirty =
+      (input.id === "from" && this.fromInputDirty) ||
+      (input.id === "to" && this.toInputDirty);
     if (required && container && input && inputDirty) {
       if (errorType === "missing" || errorType === "invalid") {
         container.classList.add("c-form__input-container--error");

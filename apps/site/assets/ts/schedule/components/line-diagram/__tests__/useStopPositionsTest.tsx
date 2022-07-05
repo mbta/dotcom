@@ -87,7 +87,10 @@ describe("useStopPositions", () => {
     });
     const updateFn = result.current[1];
     const map = result.current[0];
-    map.set(lineDiagram[0].route_stop.id, { offsetTop: 22, offsetHeight: 66 } as HTMLElement);
+    map.set(lineDiagram[0].route_stop.id, {
+      offsetTop: 22,
+      offsetHeight: 66
+    } as HTMLElement);
 
     act(() => {
       updateFn();

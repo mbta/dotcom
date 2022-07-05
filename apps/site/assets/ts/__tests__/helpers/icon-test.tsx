@@ -431,10 +431,7 @@ describe("parkingIcon", () => {
 
   it("renders without a class name", () => {
     const expected = (
-      <i
-        aria-hidden="false"
-        className="fa fa-square-parking notranslate"
-      />
+      <i aria-hidden="false" className="fa fa-square-parking notranslate" />
     );
 
     const result = parkingIcon();

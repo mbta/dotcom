@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../../components/ExpandableBlock";
-import parkingIconSvg from "../../../../static/images/icon-parking-default.svg";
 import { Stop, ParkingLot } from "../../../__v3api";
 import { Dispatch } from "../../state";
 
