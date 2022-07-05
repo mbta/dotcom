@@ -32,7 +32,6 @@ defmodule SiteWeb.StopView do
   @spec stop_feature_icon(Repo.stop_feature(), :small | :default) :: Safe.t()
   def stop_feature_icon(feature, size \\ :default)
 
-
   def stop_feature_icon(feature, size) when is_atom(size) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: stop_feature_icon_atom(feature), size: size})
   end
