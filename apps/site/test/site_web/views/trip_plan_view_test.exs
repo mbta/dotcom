@@ -840,7 +840,40 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
     }
 
-    @testitinerary %TripPlan.Itinerary{
+    bus_fares = %{
+      highest_one_way_fare: %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 200,
+        duration: :single_trip,
+        media: [:charlie_ticket, :cash],
+        mode: :bus,
+        name: :local_bus,
+        price_label: nil,
+        reduced: nil
+      },
+      lowest_one_way_fare: %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 170,
+        duration: :single_trip,
+        media: [:charlie_card],
+        mode: :bus,
+        name: :local_bus,
+        price_label: nil,
+        reduced: nil
+      },
+      reduced_one_way_fare: %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 85,
+        duration: :single_trip,
+        media: [:senior_card],
+        mode: :bus,
+        name: :local_bus,
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+    }
+
+    @transferItinerary %TripPlan.Itinerary{
       start: nil,
       stop: nil,
       legs: [
@@ -959,7 +992,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "charges subway price when transferring from bus to subway and vice versa" do
-      assert get_one_way_total_by_type(@testitinerary, 170) == 240
+      assert get_one_way_total_by_type(@transferItinerary, 170) == 240
     end
 
     test "gets calculated fares" do

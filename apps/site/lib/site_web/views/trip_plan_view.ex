@@ -547,8 +547,7 @@ defmodule SiteWeb.TripPlanView do
       |> Stream.filter(fn leg -> Fares.get_fare_by_type(leg, fare_type) != nil end)
 
     transit_legs
-    |> Stream.with_index()
-    |> Enum.reduce(0, fn {leg, _leg_index}, acc ->
+    |> Enum.reduce(0, fn leg, acc ->
       acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
     end)
   end
