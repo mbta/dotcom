@@ -929,7 +929,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
     }
 
-
     test "renders fare information", %{conn: conn} do
       fares_assigns =
         @fares_assigns
