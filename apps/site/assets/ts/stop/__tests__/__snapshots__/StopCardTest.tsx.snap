@@ -13,7 +13,7 @@ exports[`StopCard renders with routes 1`] = `
         </span>
       </a>
       <span className=\\"c-stop-page__icon\\">
-        <span className=\\"notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+        <i className=\\"fa fa-square-parking notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" />
       </span>
     </div>
     <div className=\\"c-stop-card__route\\">
@@ -105,7 +105,7 @@ exports[`StopCard renders with routes with directions 1`] = `
         </span>
       </a>
       <span className=\\"c-stop-page__icon\\">
-        <span className=\\"notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+        <i className=\\"fa fa-square-parking notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" />
       </span>
     </div>
     <div className=\\"c-stop-card__route\\">

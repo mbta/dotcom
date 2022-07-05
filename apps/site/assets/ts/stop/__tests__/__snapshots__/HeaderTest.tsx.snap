@@ -110,14 +110,9 @@ exports[`renders 1`] = `
         <span
           className="m-stop-page__icon"
         >
-          <span
+          <i
             aria-hidden="false"
-            className="notranslate c-svg__icon-parking-default"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
+            className="fa fa-square-parking notranslate"
           />
         </span>
       </a>
@@ -238,14 +233,9 @@ exports[`renders a ferry route 1`] = `
         <span
           className="m-stop-page__icon"
         >
-          <span
+          <i
             aria-hidden="false"
-            className="notranslate c-svg__icon-parking-default"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
+            className="fa fa-square-parking notranslate"
           />
         </span>
       </a>
@@ -423,14 +413,9 @@ exports[`renders all subway routes 1`] = `
         <span
           className="m-stop-page__icon"
         >
-          <span
+          <i
             aria-hidden="false"
-            className="notranslate c-svg__icon-parking-default"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
+            className="fa fa-square-parking notranslate"
           />
         </span>
       </a>
@@ -627,14 +612,9 @@ exports[`renders with green line routes 1`] = `
         <span
           className="m-stop-page__icon"
         >
-          <span
+          <i
             aria-hidden="false"
-            className="notranslate c-svg__icon-parking-default"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
+            className="fa fa-square-parking notranslate"
           />
         </span>
       </a>
