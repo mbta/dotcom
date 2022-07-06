@@ -840,39 +840,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
     }
 
-    bus_fares = %{
-      highest_one_way_fare: %Fares.Fare{
-        additional_valid_modes: [],
-        cents: 200,
-        duration: :single_trip,
-        media: [:charlie_ticket, :cash],
-        mode: :bus,
-        name: :local_bus,
-        price_label: nil,
-        reduced: nil
-      },
-      lowest_one_way_fare: %Fares.Fare{
-        additional_valid_modes: [],
-        cents: 170,
-        duration: :single_trip,
-        media: [:charlie_card],
-        mode: :bus,
-        name: :local_bus,
-        price_label: nil,
-        reduced: nil
-      },
-      reduced_one_way_fare: %Fares.Fare{
-        additional_valid_modes: [],
-        cents: 85,
-        duration: :single_trip,
-        media: [:senior_card],
-        mode: :bus,
-        name: :local_bus,
-        price_label: nil,
-        reduced: :senior_disabled
-      }
-    }
-
     test "renders fare information", %{conn: conn} do
       fares_assigns =
         @fares_assigns
@@ -1309,13 +1276,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             }
           }
         }
-
-      red_leg = %{
-        subway_leg_for_route.("Red")
-        | to: %NamedPosition{
-            stop_id: "place-dwnxg"
-          }
-      }
 
       orange_leg = %{
         subway_leg_for_route.("Orange")
