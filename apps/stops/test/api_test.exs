@@ -41,7 +41,7 @@ defmodule Stops.ApiTest do
             "node-400-middle",
             "node-400-rl",
             "node-6476-ground",
-            "node-sstat-400sl-slx",
+            "node-sstat-400sl-sl",
             "node-sstat-finctrstair-lobby",
             "node-sstat-north-farepaid",
             "node-sstat-north-fareunpaid",
