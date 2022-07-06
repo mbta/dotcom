@@ -1284,10 +1284,26 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           }
       }
 
+      leg_for_route =
+        &%Leg{
+          from: %TripPlan.NamedPosition{
+            stop_id: ""
+          },
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: @fares
+          },
+          to: %TripPlan.NamedPosition{
+            stop_id: ""
+          }
+        }
+
+      bus_leg = leg_for_route.("77")
+
       itinerary = %TripPlan.Itinerary{
         start: nil,
         stop: nil,
-        legs: [@bus_leg, orange_leg]
+        legs: [bus_leg, orange_leg]
       }
 
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 580
