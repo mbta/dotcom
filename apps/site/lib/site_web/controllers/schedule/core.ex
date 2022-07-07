@@ -11,8 +11,6 @@ defmodule SiteWeb.ScheduleController.Core do
   plug(SiteWeb.ScheduleController.ExcludedStops)
   plug(SiteWeb.ScheduleController.PreSelect)
   plug(SiteWeb.ScheduleController.VehicleLocations)
-  plug(SiteWeb.ScheduleController.Predictions)
-  plug(SiteWeb.ScheduleController.VehicleTooltips)
 
   defp schedule_pipeline_setup(conn, _opts) do
     conn

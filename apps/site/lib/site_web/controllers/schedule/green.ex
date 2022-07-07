@@ -26,7 +26,6 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(SiteWeb.ScheduleController.ExcludedStops)
   plug(SiteWeb.ScheduleController.Journeys)
   plug(:validate_journeys)
-  plug(SiteWeb.ScheduleController.TripInfo)
   plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
   plug(SiteWeb.ScheduleController.ScheduleError)
   plug(:require_map)
