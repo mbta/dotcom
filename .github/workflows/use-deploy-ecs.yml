@@ -46,31 +46,20 @@ jobs:
       - uses: actions/checkout@v3
         if: ${{ inputs.deployment-env != '' }}
 
-      - name: Docker metadata
-        id: meta
-        uses: docker/metadata-action@v4
+      - uses: mbta/actions/build-push-ecr@cbj/build-push-enhancements-docker
+        name: Build image and push to ECR
+        id: build-push
         with:
-          images: ${{ secrets.docker-repo }}
-          tags: |
-            type=sha,priority=1000,prefix=git-
-            type=raw,value=${{ inputs.deployment-env }}
-            type=raw,priority=900,value=${{ inputs.extra-docker-tag }},enable=${{ inputs.extra-docker-tag != ''}}
+          docker-repo: ${{ secrets.docker-repo }}
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+          docker-additional-tags: ${{ inputs.deployment-env }}
 
-      - name: Login to AWS ECR
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.docker-repo }}
-          username: ${{ secrets.aws-access-key-id }}
-          password: ${{ secrets.aws-secret-access-key }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build image
+      - name: Load image from ECR
         uses: docker/build-push-action@v3
         with:
           load: true
-          tags: assets-image
+          tags: ${{ steps.build-push.outputs.docker-tag }}
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
@@ -81,17 +70,7 @@ jobs:
           AWS_DEFAULT_REGION: us-east-1
           AWS_DEFAULT_OUTPUT: json
         run: |
-          bash upload_assets.sh assets-image
-
-      - name: Push to ECR
-        uses: docker/build-push-action@v3
-        id: docker-build
-        with:
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,src=/tmp/.buildx-cache
-          cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+          bash upload_assets.sh ${{ steps.build-push.outputs.docker-tag }}
 
       - uses: mbta/actions/deploy-ecs@v1
         with:
@@ -99,7 +78,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
-          docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          docker-tag: ${{ steps.build-push.outputs.docker-tag }}
 
       ## TODO after Sentry internal integation with Github Actions setup
       # - uses: getsentry/action-release@v1.1.6
