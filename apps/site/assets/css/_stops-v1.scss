@@ -16,8 +16,15 @@
 
   float: right;
 
-  [class*='c-svg__icon'] {
+  [class*='c-svg__icon'],
+  [class*='fa'] {
     margin-left: calc(#{$base-spacing} / 4);
+  }
+
+  .fa-square-parking {
+    font-size: 1.15em;
+    position: relative;
+    top: .93px;
   }
 }
 

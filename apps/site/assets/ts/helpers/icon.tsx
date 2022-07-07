@@ -15,12 +15,12 @@ import greenDLineIconSvg from "../../static/images/icon-green-line-d-small.svg";
 import greenELineIconSvg from "../../static/images/icon-green-line-e-small.svg";
 import mattapanLineIconSvg from "../../static/images/icon-mattapan-line-small.svg";
 import orangeLineIconSvg from "../../static/images/icon-orange-line-small.svg";
-import parkingIconSvg from "../../static/images/icon-parking-small.svg";
 import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.svg";
 import searchIconSvg from "../../static/images/icon-search-reverse-default.svg";
 import crowdingIconSvg from "../../static/images/icon-crowding.svg";
+import renderFa from "./render-fa";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, false);
@@ -65,7 +65,7 @@ export const orangeLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, orangeLineIconSvg, false);
 
 export const parkingIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, parkingIconSvg, false);
+  renderFa(className, "fa-square-parking", false);
 
 export const redLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, redLineIconSvg, false);

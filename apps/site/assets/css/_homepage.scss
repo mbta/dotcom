@@ -175,12 +175,19 @@
   flex: 0 0 auto;
   font-weight: $font-weight-medium;
 
-  .fa,
   svg {
     fill: $white;
+  }
+
+  .fa,
+  svg {
     font-size: 1.5rem;
     height: $base-spacing * 1.5;
     width: $base-spacing * 1.5;
+  }
+
+  .fa {
+    color: $white;
   }
 }
 

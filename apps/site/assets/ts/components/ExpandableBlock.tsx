@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events";
 import renderSvg from "../helpers/render-svg";
+import renderFa from "../helpers/render-fa";
 import { caret } from "../helpers/icon";
 
 export interface ExpandableBlockHeader {
@@ -84,6 +85,7 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   const { expanded, focused }: State = state;
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;
+  const iconHelper = iconSvgText?.slice(0, 3) !== "fa-" ? renderSvg : renderFa;
 
   return (
     <>
@@ -99,7 +101,7 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
         {iconSvgText
-          ? renderSvg("c-expandable-block__header-icon", iconSvgText)
+          ? iconHelper("c-expandable-block__header-icon", iconSvgText)
           : null}
         <div className="c-expandable-block__header-text">
           {text}

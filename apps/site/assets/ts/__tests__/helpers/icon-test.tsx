@@ -418,12 +418,9 @@ describe("parkingIcon", () => {
     const className = "test-class-name";
 
     const expected = (
-      <span
+      <i
         aria-hidden="false"
-        className={`notranslate ${className}`}
-        dangerouslySetInnerHTML={{
-          __html: "SVG"
-        }}
+        className={`fa fa-square-parking notranslate ${className}`}
       />
     );
 
@@ -434,13 +431,7 @@ describe("parkingIcon", () => {
 
   it("renders without a class name", () => {
     const expected = (
-      <span
-        aria-hidden="false"
-        className="notranslate"
-        dangerouslySetInnerHTML={{
-          __html: "SVG"
-        }}
-      />
+      <i aria-hidden="false" className="fa fa-square-parking notranslate" />
     );
 
     const result = parkingIcon();

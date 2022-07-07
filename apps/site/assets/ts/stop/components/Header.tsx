@@ -46,9 +46,7 @@ const parking = (
       href="#header-parking"
       onClick={() => dispatch && dispatch(clickFeaturePillAction("parking"))}
     >
-      <span className="m-stop-page__icon">
-        {parkingIcon("c-svg__icon-parking-default")}
-      </span>
+      <span className="m-stop-page__icon">{parkingIcon()}</span>
     </a>
   );
 
