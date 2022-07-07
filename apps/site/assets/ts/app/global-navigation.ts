@@ -288,7 +288,7 @@ export function setup(): void {
 
   const transitDiv = document.getElementById("Transit-accordion");
   if (transitDiv) {
-    transitDiv.getElementsByTagName("button")[0].ariaExpanded = "true";
+    transitDiv.getElementsByTagName("button")[0].click();
   }
 }
 
