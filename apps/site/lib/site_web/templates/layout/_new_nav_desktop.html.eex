@@ -19,9 +19,9 @@
           <div class="collapse" id="<%= to_camelcase(name) %>" role="tabpanel">
             <div class="m-menu-desktop__section <%= to_camelcase(name) %>">
               <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
-                <div class="m-menu__section-heading">
+                <h3 class="m-menu__section-heading">
                   <%= section_name %>
-                </div>
+                </h3>
                 <nav class="m-menu-desktop__submenu-section" aria-label="<%= section_name %>">
                   <%= Enum.map(links, &SiteWeb.LayoutView.render_nav_link/1) %>
                 </nav>
@@ -35,7 +35,7 @@
 
                 <%= if special_section == "Emergency Contacts" do %>
                   <div class="m-menu__feature emergency-contacts desktop">
-                    <div class="m-menu__section-heading">Emergency Contacts</div>
+                    <h3 class="m-menu__section-heading">Emergency Contacts</h3>
                     <small>24 hours, 7 days a week</small>
                     <div class="m-menu__feature_phone">
                       <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
