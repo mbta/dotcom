@@ -3,7 +3,7 @@
   hyphenated_class = "icon-#{CSSHelpers.atom_to_class(icon)}"
   data_toggle = if args.show_tooltip?, do: "data-toggle=tooltip", else: ""
   title = if args.show_tooltip?, do: icon_title(icon), else: ""
-  %><svg version="1.1" width="30" height="30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon <%= hyphenated_class %> <%= args.class %>" viewbox="<%= viewbox(icon) %>" preserveAspectRatio="xMidYMid meet" <%= data_toggle %> title="<%= title %>">
+  %><svg tabindex="0" version="1.1" width="30" height="30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon <%= hyphenated_class %> <%= args.class %>" viewbox="<%= viewbox(icon) %>" preserveAspectRatio="xMidYMid meet" <%= data_toggle %> title="<%= title %>">
   <g fill-rule="evenodd" class="notranslate icon-image <%= hyphenated_class %>-image">
     <%= get_path(icon) %>
   </g>
