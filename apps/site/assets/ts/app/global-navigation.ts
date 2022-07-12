@@ -35,55 +35,12 @@ const allTogglesSelector: string = Object.values(TOGGLE_CLASSES)
   .map(className => `.${className}`)
   .join(", ");
 
-function closeAllMenus(): void {
-  document.querySelectorAll(allTogglesSelector).forEach(el => {
-    if (el.getAttribute("aria-expanded") === "true") {
-      toggleAriaExpanded(el);
-    }
-  });
-}
+export function setHeaderElementPositions(
+  header: HTMLElement,
+  rootElement: HTMLElement
+): void {
+  if (!header || !rootElement) return;
 
-// Note: we can't use `scrollIntoView`, Safari doesn't support it as of
-// 2022-02-28, and even if it did, the opening/closing animations of the
-// accordions makes the behavior janky on other browsers
-function makeScrollAccordionToTop(): (target: HTMLElement) => void {
-  const menuContent = document.querySelector(
-    ".m-menu--mobile .m-menu__content"
-  )! as HTMLElement;
-
-  return (target: HTMLElement): void => {
-    if (target.getAttribute("aria-expanded") === "true") {
-      return;
-    }
-
-    const expandedDrawer = menuContent.querySelector(
-      ".c-accordion-ui__target[aria-expanded='true']"
-    );
-    const targetBB = target.getBoundingClientRect();
-    const yOffset = (() => {
-      if (expandedDrawer) {
-        const bb = expandedDrawer.getBoundingClientRect();
-        if (bb.y < targetBB.y) {
-          return bb.height;
-        }
-
-        return 0;
-      }
-
-      return 0;
-    })();
-
-    const targetY = target.offsetTop - targetBB.height / 2 - yOffset;
-
-    menuContent.scrollTo({
-      behavior: "smooth",
-      left: 0,
-      top: targetY
-    });
-  };
-}
-
-export function setHeaderElementPositions(header: HTMLElement): void {
   const { bottom, height } = header.getBoundingClientRect();
   const bottomPx = `${bottom}px`;
   const heightPx = `${height}px`;
@@ -100,19 +57,24 @@ export function setHeaderElementPositions(header: HTMLElement): void {
     content.style.top = bottomPx;
   }
 
-  const cover = document.querySelector(".m-menu--cover") as HTMLElement | null;
+  const cover = rootElement.querySelector(
+    ".m-menu--cover"
+  ) as HTMLElement | null;
   if (cover) {
     cover.style.top = bottomPx;
   }
 }
 
-export function setup(): void {
-  const header = document.querySelector(".header--new")!;
+export function setup(rootElement: HTMLElement): void {
+  if (!rootElement) return;
+  rootElement.classList.add("js");
+
+  const header: HTMLElement = rootElement.querySelector(".header--new")!;
   if (!header) return;
 
-  setHeaderElementPositions(header as HTMLElement);
+  setHeaderElementPositions(header, rootElement);
   window.addEventListener("resize", () => {
-    setHeaderElementPositions(header as HTMLElement);
+    setHeaderElementPositions(header, rootElement);
   });
 
   // On mobile, clicking Menu or the Search icon opens a menu
@@ -126,20 +88,20 @@ export function setup(): void {
 
   // Show the modal search veil and disable scrolling when focusing
   // the search input on tablet
-  const input = document.getElementById("search-header-desktop__input");
+  const input = rootElement.querySelector("#search-header-desktop__input");
   if (input) {
     input.addEventListener("focus", () => {
       if (isLGDown()) {
-        document.documentElement.classList.add("menu-open");
+        rootElement.classList.add("menu-open");
       }
     });
     input.addEventListener("blur", () => {
-      document.documentElement.classList.remove("menu-open");
+      rootElement.classList.remove("menu-open");
     });
   }
 
   // removes focus outline in Safari from open accordions
-  document
+  rootElement
     .querySelectorAll(".m-menu__content .js-focus-on-expand")
     .forEach(openAccordion => {
       openAccordion.addEventListener("focus", undoOutline);
@@ -153,7 +115,8 @@ export function setup(): void {
 
     // Update Menu button text
     if (header.classList.contains("menu-open")) {
-      document.querySelector(".m-menu__content")!.scrollTop = 0;
+      // eslint-disable-next-line no-param-reassign
+      rootElement.querySelector(".m-menu__content")!.scrollTop = 0;
       mobileMenuToggle.innerHTML = "Close";
     } else {
       mobileMenuToggle.innerHTML = "Menu";
@@ -161,7 +124,7 @@ export function setup(): void {
 
     if (header.classList.contains("search-open")) {
       // pass focus to search bar
-      (document.querySelector(
+      (rootElement.querySelector(
         ".m-menu__search #search-header-mobile__input"
       ) as HTMLElement)!.focus();
     }
@@ -181,7 +144,7 @@ export function setup(): void {
       ) !== undefined;
 
     // adjust theme color
-    document
+    rootElement
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", aMenuIsExpanded ? "#0b2f4c" : "#165c96");
 
@@ -189,17 +152,17 @@ export function setup(): void {
     // .menu-open on the document body
     // .menu-open or .search-open on the header
     if (aMenuIsExpanded) {
-      document.documentElement.classList.add("menu-open");
+      rootElement.classList.add("menu-open");
       disableBodyScroll(header);
       if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
         header.classList.add("menu-open");
-        disableBodyScroll(document.querySelector(".m-menu__content")!);
+        disableBodyScroll(rootElement.querySelector(".m-menu__content")!);
       } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
         header.classList.add("search-open");
       }
     } else {
       clearAllBodyScrollLocks();
-      document.documentElement.classList.remove("menu-open");
+      rootElement.classList.remove("menu-open");
       if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
         header.classList.remove("menu-open");
       } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
@@ -226,7 +189,7 @@ export function setup(): void {
         )
         .forEach(btn => {
           btn.classList.add("collapsed");
-          const targetMenu = document.querySelector(
+          const targetMenu = rootElement.querySelector(
             btn.getAttribute("data-target")!
           );
           targetMenu?.classList.remove("in");
@@ -247,7 +210,7 @@ export function setup(): void {
   });
 
   // monitor all the menu toggles for aria-expanded changes
-  document.querySelectorAll(allTogglesSelector).forEach(el => {
+  rootElement.querySelectorAll(allTogglesSelector).forEach(el => {
     expandedMenuObserver.observe(el, {
       attributes: true,
       attributeOldValue: true,
@@ -256,19 +219,62 @@ export function setup(): void {
   });
 
   // Scroll accordion into view on click
+  // Note: we can't use `scrollIntoView`, Safari doesn't support it as of
+  // 2022-02-28, and even if it did, the opening/closing animations of the
+  // accordions makes the behavior janky on other browsers
+  const menuContent = rootElement.querySelector(
+    ".m-menu--mobile .m-menu__content"
+  )! as HTMLElement;
   if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-    const scrollAccordionToTop = makeScrollAccordionToTop();
-    document
+    rootElement
       .querySelectorAll(".m-menu--mobile .c-accordion-ui__trigger")
-      .forEach(el =>
-        el.addEventListener("click", () =>
-          scrollAccordionToTop(el as HTMLElement)
-        )
+      .forEach(target =>
+        target.addEventListener("click", () => {
+          if (target.getAttribute("aria-expanded") === "true") {
+            return;
+          }
+
+          const expandedDrawer = menuContent.querySelector(
+            ".c-accordion-ui__target[aria-expanded='true']"
+          );
+
+          const targetBB = target.getBoundingClientRect();
+
+          const yOffset = (() => {
+            if (expandedDrawer) {
+              const bb = expandedDrawer.getBoundingClientRect();
+              if (bb.y < targetBB.y) {
+                return bb.height;
+              }
+
+              return 0;
+            }
+
+            return 0;
+          })();
+
+          const targetY =
+            (target as HTMLElement).offsetTop - targetBB.height / 2 - yOffset;
+
+          menuContent.scrollTo({
+            behavior: "smooth",
+            left: 0,
+            top: targetY
+          });
+        })
       );
   }
 
+  function closeAllMenus(): void {
+    rootElement.querySelectorAll(allTogglesSelector).forEach(el => {
+      if (el.getAttribute("aria-expanded") === "true") {
+        toggleAriaExpanded(el);
+      }
+    });
+  }
+
   // menu click closes
-  const menu_links = document.querySelectorAll(".m-menu__link");
+  const menu_links = rootElement.querySelectorAll(".m-menu__link");
   for (let i = 0; i < menu_links.length; i += 1) {
     menu_links[i].addEventListener("click", closeAllMenus);
   }
@@ -279,19 +285,25 @@ export function setup(): void {
     ?.addEventListener("click", closeAllMenus);
 
   // Veil click or Esc key closes everything
-  document.body.addEventListener("keydown", e => {
+  rootElement.addEventListener("keydown", e => {
     handleNativeEscapeKeyPress(e, closeAllMenus);
   });
 
   if (header.previousElementSibling?.classList.contains("m-menu--cover"))
     header.previousElementSibling.addEventListener("click", closeAllMenus);
 
-  const transitDiv = document.getElementById("Transit-accordion");
+  const transitDiv = rootElement.querySelector("#Transit-accordion");
   if (transitDiv) {
     transitDiv.getElementsByTagName("button")[0].click();
   }
 }
 
 export default function setupGlobalNavigation(): void {
-  document.addEventListener("turbolinks:load", setup, { passive: true });
+  document.addEventListener(
+    "turbolinks:load",
+    () => {
+      setup(document.documentElement);
+    },
+    { passive: true }
+  );
 }
