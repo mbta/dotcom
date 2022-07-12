@@ -1,9 +1,9 @@
-<nav id="navmenu-desktop" class="m-menu--desktop" role="tablist">
+<nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main navigation">
   <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
 
     <a class="m-menu--desktop__toggle collapsed"
       href="<%= href %>"
-      role="tab"
+      role="button"
       data-toggle="collapse"
       data-parent="#navmenu-desktop"
       data-target="#<%= to_camelcase(name) %>"
@@ -16,7 +16,7 @@
     <div class="m-menu--desktop__menu">
       <div class="container">
         <div class="panel">
-          <div class="collapse" id="<%= to_camelcase(name) %>" role="tabpanel">
+          <div class="collapse" id="<%= to_camelcase(name) %>">
             <div class="m-menu-desktop__section <%= to_camelcase(name) %>">
               <%= for %{links: links, sub_menu_section: section_name} <- sub_menus do %>
                 <div class="m-menu__section-heading">
