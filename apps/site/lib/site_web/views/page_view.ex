@@ -158,7 +158,7 @@ defmodule SiteWeb.PageView do
 
   def shortcut_icons do
     icons =
-      [:subway, :bus, :commuter_rail, :ferry, :the_ride]
+      [:commuter_rail, :subway, :bus, :ferry, :the_ride]
       |> Enum.map(&shortcut_icon/1)
 
     content_tag(:div, icons, class: "m-homepage__shortcuts")
@@ -200,11 +200,7 @@ defmodule SiteWeb.PageView do
   end
 
   defp shortcut_text(:commuter_rail) do
-    [
-      content_tag(:span, "Commuter", class: "hidden-md-down"),
-      " Rail",
-      content_tag(:span, [raw("&nbsp;"), " Lines"], class: "hidden-md-down")
-    ]
+    content_tag(:span, "Commuter Rail")
   end
 
   defp shortcut_text(:subway) do
