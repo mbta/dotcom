@@ -5,12 +5,12 @@
     <%= render "_find_a_location.html", conn: @conn %>
     <%= render "_contact_us.html", conn: @conn %>
   </div>
+  <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
   <%= render SiteWeb.PageView, "_homepage-events.html", conn: @conn, event_teasers: @event_teasers %>
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items, promoted: false %>
-  <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>
   <%= render SiteWeb.PageView, "_user_guides.html", conn: @conn %>
   <%= render SiteWeb.PageView, "_important_links.html", conn: @conn %>
 </div>
