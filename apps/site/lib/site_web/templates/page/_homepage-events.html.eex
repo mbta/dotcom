@@ -7,7 +7,7 @@
         See all public meetings and events
       </a>
     </div>
-    <div class="m-homepage__events-container">
+    <ul class="m-homepage__events-container">
       <%= for event_teaser <- @event_teasers do %>
         <%= render(SiteWeb.EventView, "_event_teaser.html",
             event_teaser: event_teaser,
@@ -16,7 +16,7 @@
             month_number: DateTime.utc_now.month,
             year: DateTime.utc_now.year) %>
       <% end %>
-    </div>
+    </ul>
   </div>
 </div>
 <% end %>
