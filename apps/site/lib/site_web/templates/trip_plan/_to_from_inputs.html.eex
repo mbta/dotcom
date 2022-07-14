@@ -12,7 +12,7 @@
 
   <div id="trip-plan__search--from" class="c-search-bar">
     <div id="trip-plan__container--from" class="c-trip-plan-widget__from c-form__input-container<%= if @from_error === "" do "" else " c-form__input-container--error" end %>">
-      <span class="c-trip-plan-widget__input-label">A</span>
+      <span class="c-trip-plan-widget__input-label" aria-hidden="true">A</span>
       <input type="text"
             id="from"
             data-label="A"
@@ -46,7 +46,7 @@
 
   <div id="trip-plan__search--to" class="c-search-bar">
     <div id="trip-plan__container--to" class="c-form__input-container<%= if @to_error === "" do "" else " c-form__input-container--error" end %>">
-      <span class="c-trip-plan-widget__input-label">B</span>
+      <span class="c-trip-plan-widget__input-label" aria-hidden="true">B</span>
       <input type="text"
             id="to"
             data-label="B"
