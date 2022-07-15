@@ -244,6 +244,11 @@
       > .header-text {
         text-decoration: underline;
         margin-left: 0.5em;
+
+        @include media-breakpoint-down(xs) {
+          font-size: $font-size-base;
+          margin-bottom: $base-spacing;
+        }
       }
     }
 
@@ -373,6 +378,12 @@
 
   .m-homepage__alerts-high-priority {
     flex: 1 1 590px;
+
+    @include media-breakpoint-down(xs) {
+      h2 {
+        margin-bottom: $base-spacing;
+      }
+    }
   }
 
   .m-homepage__alerts-high-priority-by-mode {
