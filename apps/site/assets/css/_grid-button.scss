@@ -24,6 +24,11 @@
   @include media-breakpoint-down(xs) {
     border-bottom: none;
     padding: 0 16px 0 16px;
+  }
+}
+
+.grid-first-section {
+  @include media-breakpoint-down(xs) {
     margin: 24px 0 24px 0;
   }
   @include  media-breakpoint-up(xs) {
