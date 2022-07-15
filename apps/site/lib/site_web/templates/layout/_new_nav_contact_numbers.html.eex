@@ -1,5 +1,5 @@
 <div class="m-menu__feature top-section">
-  <div class="m-menu__section-heading">Information & Support</div>
+  <h3 class="m-menu__section-heading">Information & Support</h3>
   <small>Monday thru Friday: 6:30 AM - 8 PM</small>
   <small>Saturday thru Sunday: 8 AM - 4 PM</small>
   <div class="m-menu__feature_phone">
@@ -10,7 +10,7 @@
   </div>
 </div>
 <div class="m-menu__feature emergency-contacts mobile">
-  <div class="m-menu__section-heading">Emergency Contacts</div>
+  <h3 class="m-menu__section-heading">Emergency Contacts</h3>
   <small>24 hours, 7 days a week</small>
   <div class="m-menu__feature_phone">
     <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
@@ -20,6 +20,6 @@
   </div>
 </div>
 <div class="m-menu__feature bottom-section">
-  <div class="m-menu__section-heading">Report a Railroad Crossing Gate Issue</div>
+  <h3 class="m-menu__section-heading">Report a Railroad Crossing Gate Issue</h3>
   <div class="m-menu__feature_phone">To report a problem or emergency with a railroad crossing, call <%= tel_link "1-800-522-8236" %></div>
 </div>
