@@ -176,12 +176,19 @@
   flex: 0 0 auto;
   font-weight: $font-weight-medium;
 
-  .fa,
   svg {
     fill: $white;
+  }
+
+  .fa,
+  svg {
     font-size: 1.5rem;
     height: $base-spacing * 1.5;
     width: $base-spacing * 1.5;
+  }
+
+  .fa {
+    color: $white;
   }
 }
 
@@ -594,6 +601,7 @@
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
+    overflow: auto;
   }
 
   .m-event__date-circle {
@@ -603,8 +611,9 @@
   }
 
   .m-homepage__events-container {
-    padding-inline-start: 0;
-    
+    margin: 0;
+    padding: 0;
+
     @include media-breakpoint-up(sm) {
       columns: 2;
     }

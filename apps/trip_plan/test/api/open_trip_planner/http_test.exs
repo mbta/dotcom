@@ -13,6 +13,7 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
   import Plug.Conn, only: [send_resp: 3]
 
   @tag :external
+  @tag :skip
   describe "plan/3" do
     test "can make a basic plan" do
       # use a NamedPosition + a regular Position to test both kinds of location handling
@@ -65,6 +66,7 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
   end
 
   @tag :external
+  @tag :skip
   describe "stops_nearby/1" do
     test "returns a list of named positions near given coordinates" do
       assert {:ok, stops} = stops_nearby({42.365257, -71.009650})

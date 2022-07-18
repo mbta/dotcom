@@ -1,0 +1,17 @@
+name: Update Algolia index
+
+on:
+  workflow_dispatch:
+  schedule: 
+    - cron: "0 3 * * *" # every day, 3am
+
+jobs:
+  algolia:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./.github/actions/build-app
+    - env:
+        ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+        ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
+      run: MIX_ENV=prod mix algolia.update

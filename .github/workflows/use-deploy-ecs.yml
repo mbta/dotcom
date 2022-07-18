@@ -40,7 +40,11 @@ jobs:
     outputs:
       deployment-env: ${{ inputs.deployment-env }}
     steps:
+      - run: |
+          echo "inputs: ${{ toJson(inputs) }}"
+
       - uses: actions/checkout@v3
+        if: ${{ inputs.deployment-env != '' }}
 
       - name: Docker metadata
         id: meta

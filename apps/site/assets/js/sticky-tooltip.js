@@ -61,6 +61,21 @@ export default function($) {
 
       hideTooltip($this);
     });
+    $(document).on("focus", selector, function(e) {
+      const $this = $(this);
+      if (wasTouchedRecently($this)) {
+        return;
+      }
+      $this.tooltip("show");
+    });
+    $(document).on("focusout", selector, function(e) {
+      const $this = $(this);
+      if (wasTouchedRecently($this)) {
+        return;
+      }
+
+      hideTooltip($this);
+    });
 
     $(document).on("touchend", "body", () => {
       hideTooltip($('[data-toggle="tooltip"]'));
@@ -69,6 +84,7 @@ export default function($) {
 
   function clearTooltips() {
     $(selector).tooltip("dispose");
+    $(".tooltip").remove();
   }
 
   document.addEventListener("turbolinks:before-cache", clearTooltips, {

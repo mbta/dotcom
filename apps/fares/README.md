@@ -1,6 +1,6 @@
 # Fares
 
-**TODO: Add description**
+Fares are encoded in `fares-july1.csv`, whose values vary in meaning by the mode indicated in the first column - see the `mapper` parsing function in `Fares.FareInfo` for more details.
 
 ## Installation
 

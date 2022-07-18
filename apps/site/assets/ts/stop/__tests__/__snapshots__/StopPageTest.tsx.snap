@@ -144,14 +144,9 @@ Array [
           <span
             className="m-stop-page__icon"
           >
-            <span
+            <i
               aria-hidden="false"
-              className="notranslate c-svg__icon-parking-default"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
+              className="fa fa-square-parking notranslate"
             />
           </span>
         </a>
@@ -3258,14 +3253,9 @@ Array [
             role="button"
             tabIndex={0}
           >
-            <span
+            <i
               aria-hidden="true"
-              className="notranslate c-expandable-block__header-icon"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
+              className="fa fa-square-parking notranslate c-expandable-block__header-icon"
             />
             <div
               className="c-expandable-block__header-text"
@@ -3293,7 +3283,7 @@ Array [
                 className="notranslate c-expandable-block__header-icon"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "SVG",
+                    "__html": "fa-square-parking",
                   }
                 }
               />

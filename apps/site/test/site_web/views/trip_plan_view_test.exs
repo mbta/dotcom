@@ -1241,7 +1241,72 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         legs: [red_leg, orange_leg]
       }
 
-      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
+      # Transfer calculations removed resulting in highest transfer($2.90) * 2
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 580
+    end
+
+    test "gets the highest one-way fare correctly with bus -> subway xfer" do
+      subway_leg_for_route =
+        &%Leg{
+          from: %NamedPosition{},
+          to: %NamedPosition{},
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: %{
+              highest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 290,
+                duration: :single_trip,
+                media: [:charlie_ticket, :cash],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              },
+              lowest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 240,
+                duration: :single_trip,
+                media: [:charlie_card],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              }
+            }
+          }
+        }
+
+      orange_leg = %{
+        subway_leg_for_route.("Orange")
+        | from: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
+      leg_for_route =
+        &%Leg{
+          from: %TripPlan.NamedPosition{
+            stop_id: ""
+          },
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: @fares
+          },
+          to: %TripPlan.NamedPosition{
+            stop_id: ""
+          }
+        }
+
+      bus_leg = leg_for_route.("77")
+
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [bus_leg, orange_leg]
+      }
+
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 580
     end
 
     test "returns 0 when there is no highest one-way fare" do
@@ -1440,7 +1505,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert Enum.count(notes_blocks) == 2
 
       links = Floki.find(html_with_transfer_note, "a")
-      assert Enum.count(links) == 4
+      assert Enum.count(links) == 3
     end
 
     test "includes Logan in the trip", %{conn: conn} do

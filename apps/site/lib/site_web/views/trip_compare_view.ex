@@ -531,21 +531,8 @@ defmodule SiteWeb.TripCompareView do
       |> Stream.filter(fn leg -> Fares.get_fare_by_type(leg, fare_type) != nil end)
 
     transit_legs
-    |> Stream.with_index()
-    |> Enum.reduce(0, fn {leg, leg_index}, acc ->
-      if leg_index < 1 do
-        acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
-      else
-        # Look at this transit leg and previous transit leg
-        legs = transit_legs |> Enum.slice(leg_index - 1, 2)
-
-        # If this is part of a free transfer, don't add fare
-        if Transfer.is_subway_transfer?(legs) do
-          acc
-        else
-          acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
-        end
-      end
+    |> Enum.reduce(0, fn leg, acc ->
+      acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
     end)
   end
 

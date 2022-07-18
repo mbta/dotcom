@@ -50,12 +50,16 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
     |> do_svg_icon_with_circle(args)
   end
 
+  def svg_icon_with_circle(%__MODULE__{icon: :parking_lot} = args) do
+    Helpers.fa("square-parking")
+    |> do_svg_icon_with_circle(args)
+  end
+
   def svg_icon_with_circle(%__MODULE__{icon: icon, size: size} = args)
       when icon in [
              :calendar,
              :stop,
              :station,
-             :parking_lot,
              :access,
              :no_access,
              :silver_line,

@@ -91,7 +91,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 <div className=\\"m-schedule-diagram__features\\">
                   <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\">
-                      <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      <i className=\\"fa fa-square-parking notranslate m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
                     </span>
                   </TooltipWrapper>
                   <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
@@ -285,7 +285,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 <div className=\\"m-schedule-diagram__features\\">
                   <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\">
-                      <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      <i className=\\"fa fa-square-parking notranslate m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
                     </span>
                   </TooltipWrapper>
                   <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>

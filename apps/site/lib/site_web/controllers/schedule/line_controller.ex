@@ -23,8 +23,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug(SiteWeb.ScheduleController.HoursOfOperation)
   plug(SiteWeb.ScheduleController.Holidays)
   plug(SiteWeb.ScheduleController.VehicleLocations)
-  plug(SiteWeb.ScheduleController.Predictions)
-  plug(SiteWeb.ScheduleController.VehicleTooltips)
   plug(SiteWeb.ScheduleController.Line)
   plug(SiteWeb.ScheduleController.CMS)
   plug(:channel_id)

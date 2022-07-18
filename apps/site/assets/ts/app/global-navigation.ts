@@ -285,6 +285,11 @@ export function setup(): void {
 
   if (header.previousElementSibling?.classList.contains("m-menu--cover"))
     header.previousElementSibling.addEventListener("click", closeAllMenus);
+
+  const transitDiv = document.getElementById("Transit-accordion");
+  if (transitDiv) {
+    transitDiv.getElementsByTagName("button")[0].click();
+  }
 }
 
 export default function setupGlobalNavigation(): void {

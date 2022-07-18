@@ -53,7 +53,7 @@ These keys are used to interact with the Algolia search api. The values can be f
 
 ### `OPEN_TRIP_PLANNER_URL`
 
-This variable is used to specify which Open Trip Planner URL to use. For our deployments this variable is configured to point to a designated internal load balancer instance on AWS. For local development, the `http://otp-local.mbtace.com` can be used when logged into the MBTA VPN. Optionally, if not logged into the VPN, you could also point this URL to a locally running instance of Open Trip Planner.
+This variable is used to specify which Open Trip Planner URL to use. For our deployments this variable is configured to point to a designated internal load balancer instance on AWS. For local development, the `http://otp-local.mbtace.com` can be used when logged into the MBTA VPN. Optionally, if not logged into the VPN, you could also point this URL to a [locally running instance of Open Trip Planner](./OTHER.md).
 
 ### `STATIC_HOST`
 

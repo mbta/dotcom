@@ -75,6 +75,16 @@
   .c-icon__cr-zone {
     padding: $base-spacing;
   }
+
+  .fa-square-parking {
+    font-size: 1.5em;
+    position: relative;
+    top: 1px;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1.75em;
+    }
+  }
 }
 
 .m-stop-page__header-description {

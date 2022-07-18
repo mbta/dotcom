@@ -1,4 +1,4 @@
-<% transfer_note = transfer_note(@itinerary) %>
+<% transfer_note = transfer_note_calculator(@itinerary) %>
 <% itinerary_contains_capeflyer = itinerary_satisfies_property?(@itinerary, :contains_capeflyer) %>
 
 <div class="h2 m-trip-plan-farecalc__main-title">Fare Calculator</div>
@@ -105,7 +105,7 @@
 
 <%= if transfer_note != nil do %>
   <div class="m-trip-plan-farecalc__notes-block">
-    <span class="m-trip-plan-farecalc__title">Transfers:</span> This trip suggestion includes one or more transfers. <%= link "Learn more about transfers", to: fare_path(@conn, :show, "transfers") %>.
+    <span class="m-trip-plan-farecalc__title">* Transfers:</span> This trip suggestion includes one or more transfers, which may be free or discounted with a CharlieCard or CharlieTicket. <%= link "Learn more about transfers", to: fare_path(@conn, :show, "transfers") %>.
   </div>
 <% end %>
 

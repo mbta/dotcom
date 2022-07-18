@@ -1,5 +1,5 @@
 <div class="m-menu__feature">
-  <div class="m-menu__section-heading">Most popular fares</div>
+  <h3 class="m-menu__section-heading">Most popular fares</h3>
   <dl title="Most popular fares">
     <dt>Subway One-Way</dt>
     <dd>$2.40</dd>
