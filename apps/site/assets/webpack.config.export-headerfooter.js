@@ -3,13 +3,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { SubresourceIntegrityPlugin } = require("webpack-subresource-integrity");
-const TerserPlugin = require("terser-webpack-plugin");
 
-const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
 const sass = require("sass");
-
 
 const babelLoader = {
   loader: "babel-loader",
@@ -25,47 +22,22 @@ const tsLoader = {
   }
 };
 
-
 /**
  * Special configuration that outputs JavaScript, CSS, and static assets
  * for the MBTA.com header and footer. 
  * 
- * When run in both production and development modes, outputs with minified and 
- * unminified versions, with sourcemaps. Also sets a hash for the filenames, 
+ * When run in both production and development modes, outputs with minified CSS and 
+ * unminified CSS and JS, with sourcemaps. Also sets a hash for the filenames, 
  * and outputs head.html and script.html containing the appropriate <link> and 
  * <script> HTML tags linked to the output files.
  */
 module.exports = (env, argv) => {
-  const plugins = (argv.mode !== 'development') ? [
-    new CopyWebpackPlugin({ patterns: [
-          { from: "static/fonts/*", to: "fonts/[name].[ext]" },
-          { from: "static/favicon.ico", to: "favicon.ico" },
-          { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
-          { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
-        ]}),
-    new SubresourceIntegrityPlugin(),
-    new HtmlWebpackPlugin({
-      inject: false,
-      filename: "head.html",
-      minify: false,
-      templateContent: ({ htmlWebpackPlugin }) => `<head>\n${htmlWebpackPlugin.tags.headTags}\n</head>`
-    }),
-    new HtmlWebpackPlugin({
-      inject: false,
-      filename: "scripts.html",
-      minify: false,
-      templateContent: ({ htmlWebpackPlugin }) => `${htmlWebpackPlugin.tags.bodyTags}`
-    })
-  ] : [];
-
   return ({
-    entry: ["./export-headerfooter.js", "./css/export-headerfooter.scss"],
-
     mode: "production",
-
+    entry: ["./export-headerfooter.ts"],
     output: {
       path: path.resolve(__dirname, argv.outputPath ? argv.outputPath: "../../../../dotcomchrome"),
-      filename: argv.mode === 'development' ? 'header.[contenthash].js' : 'header.[contenthash].min.js',
+      filename: 'header.[contenthash].js', // css gets loaded through here
       crossOriginLoading: 'anonymous'
     },
 
@@ -79,11 +51,6 @@ module.exports = (env, argv) => {
           use: [babelLoader, tsLoader]
         },
         {
-          test: /\.(js)$/,
-          exclude: ['/node_modules/'],
-          use: babelLoader,
-        },
-        {
           test: /\.scss$/,
           use: [
             {
@@ -92,7 +59,7 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: argv.mode === 'development',
+                sourceMap: true,
                 importLoaders: 1,
                 url: false
               },
@@ -100,7 +67,7 @@ module.exports = (env, argv) => {
             {
               loader: 'postcss-loader',
               options: {
-                sourceMap: argv.mode === 'development',
+                sourceMap: true,
                 postcssOptions: {
                   plugins: [
                     postcssPresetEnv({
@@ -113,14 +80,14 @@ module.exports = (env, argv) => {
             {
               loader: 'sass-loader',
               options: {
-                sourceMap: argv.mode === 'development',
+                sourceMap: true,
                 implementation: sass,
                 sassOptions: {
                   includePaths: [
                     "node_modules/bootstrap/scss",
                     "node_modules/font-awesome/scss"
                   ],
-                  outputStyle: argv.mode === 'development' ? "compressed" : "expanded",
+                  outputStyle: "expanded",
                   quietDeps: true
                 }
               },
@@ -131,43 +98,52 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
+      // extract CSS out of code, twice because we'll minify one
       new MiniCssExtractPlugin({
-        filename: argv.mode === 'development' ? 'styles.[contenthash].css' : 'styles.[contenthash].min.css'
+        filename: 'styles.[contenthash].min.css'
       }),
-      new webpack.ProvidePlugin({
-        Turbolinks: "turbolinks",
-        Tether: "tether",
-        "window.Tether": "tether",
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery",
-        "window.$": "jquery"
+      new MiniCssExtractPlugin({
+        filename: 'styles.[contenthash].css'
+      }),
+
+      // copy images and fonts
+      new CopyWebpackPlugin({ patterns: [
+            { from: "static/fonts/*", to: "fonts/[name][ext]" },
+            { from: "static/favicon.ico", to: "favicon.ico" },
+            { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
+            { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
+          ]}),
+
+      // add integrity attribute to linked resources
+      new SubresourceIntegrityPlugin(),
+
+      // write file with <link> tag to CSS
+      new HtmlWebpackPlugin({
+        inject: false,
+        filename: "head.html",
+        scriptLoading: "blocking",
+        minify: false,
+        templateContent: ({ htmlWebpackPlugin }) => `<head>\n${htmlWebpackPlugin.tags.headTags[0]}\n</head>`
+      }),
+
+      // write file with <script> tag to JS
+      new HtmlWebpackPlugin({
+        inject: false,
+        filename: "scripts.html",
+        scriptLoading: "blocking",
+        minify: false,
+        templateContent: ({ htmlWebpackPlugin }) => `${htmlWebpackPlugin.tags.bodyTags}`
       })
-    ].concat(plugins),
+    ],
 
     optimization: {
+      // only minimize the .min.css file
       minimizer: [
-        new TerserPlugin({
-          parallel: true,
-          terserOptions: {
-            compress: {
-              drop_console: argv.mode !== 'development',
-            },
-            format: {
-              comments: false,
-            },
-          },
-          extractComments: false
-        }),
         new CssMinimizerPlugin({
-          minimizerOptions: {
-            preset: [
-              "default",
-              {
-                discardComments: { removeAll: true },
-              },
-            ],
-          },
+          include: /min/,
+          minimizerOptions: { preset: ["default", {
+            discardComments: { removeAll: true },
+          }] }
         })
       ],
     },

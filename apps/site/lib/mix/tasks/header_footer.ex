@@ -8,21 +8,21 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   - fonts/
       (all font files)
   - images/
-      map-abstract-bkg-overlay.png
+      (images)
   - favicon.ico
   - footer.html
   - head.html
   - header.b2fee8c6f272e94d70dd.js
   - header.b2fee8c6f272e94d70dd.js.map
-  - header.c7c0a900e66023d922a2.min.js
   - header.html
   - scripts.html
   - styles.105dc30b074592c46ad9.css
   - styles.105dc30b074592c46ad9.css.map
   - styles.1d0bb3f99e53cb784f6b.min.css
+  - styles.1d0bb3f99e53cb784f6b.min.css.map
 
   Depends on these files and configuration:
-  - apps/site/assets/export-headerfooter.js
+  - apps/site/assets/export-headerfooter.ts
   - apps/site/assets/css/export-headerfooter.scss
   - apps/site/assets/webpack.config.export-headerfooter.js
   """
@@ -32,6 +32,7 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   def run(_) do
     get_mbta_tree()
     [:ok, :ok] = webpack([])
+    :ok = webpack([])
     make_zip()
   end
 
@@ -154,33 +155,30 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   defp webpack(_args) do
     IO.puts(" * starting webpack")
 
-    for mode <- ~w(development production) do
-      {message, status} =
-        System.cmd(
-          "npx",
-          [
-            "webpack",
-            "--mode=#{mode}",
-            "--config",
-            "webpack.config.export-headerfooter.js",
-            "--outputPath",
-            "../../../export"
-          ],
-          cd: "apps/site/assets"
-        )
+    {message, status} =
+      System.cmd(
+        "npx",
+        [
+          "webpack",
+          "--config",
+          "webpack.config.export-headerfooter.js",
+          "--output-path",
+          "../../../export"
+        ],
+        cd: "apps/site/assets"
+      )
 
-      IO.puts(" * evaluating webpack result")
+    IO.puts(" * evaluating webpack result")
 
-      case status do
-        0 ->
-          IO.puts(" * webpack did ok")
-          :ok
+    case status do
+      0 ->
+        IO.puts(" * webpack did ok")
+        :ok
 
-        _ ->
-          IO.puts(message)
-          IO.puts(" * webpack did not ok")
-          :error
-      end
+      _ ->
+        IO.puts(message)
+        IO.puts(" * webpack did not ok")
+        :error
     end
   end
 end
