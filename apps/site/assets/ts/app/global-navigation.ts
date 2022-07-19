@@ -21,8 +21,8 @@ function toggleAriaExpanded(el: Element): void {
   );
 }
 
-function toggleMenu(this: Element): void {
-  toggleAriaExpanded(this);
+function toggleMenu(el: Element): void {
+  toggleAriaExpanded(el);
 }
 
 const TOGGLE_CLASSES = {
@@ -83,8 +83,19 @@ export function setup(rootElement: HTMLElement): void {
       `button.${TOGGLE_CLASSES.mobile}, button.${TOGGLE_CLASSES.search}`
     )
     .forEach(toggle => {
-      toggle.addEventListener("click", toggleMenu);
+      toggle.addEventListener("click", event => {
+        event.preventDefault(); // don't navigate the <a>
+        toggleMenu(event.currentTarget as Element);
+      });
     });
+
+  // On desktop, clicking a menu item opens the submenu
+  header.querySelectorAll(`a.${TOGGLE_CLASSES.desktop}`).forEach(toggle => {
+    toggle.addEventListener("click", event => {
+      event.preventDefault(); // don't navigate the <a>
+      toggleMenu(event.currentTarget as Element);
+    });
+  });
 
   // Show the modal search veil and disable scrolling when focusing
   // the search input on tablet
@@ -136,7 +147,7 @@ export function setup(rootElement: HTMLElement): void {
       Array.from((m.target as Element).classList)
     );
 
-    const aMenuIsExpanded: boolean =
+    const aMenuIsBeingExpanded: boolean =
       mutations.find(
         ({ oldValue, target }) =>
           (target as Element).getAttribute("aria-expanded") === "true" &&
@@ -146,12 +157,12 @@ export function setup(rootElement: HTMLElement): void {
     // adjust theme color
     rootElement
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", aMenuIsExpanded ? "#0b2f4c" : "#165c96");
+      ?.setAttribute("content", aMenuIsBeingExpanded ? "#0b2f4c" : "#165c96");
 
     // add/remove classes based on which menu is expanded
     // .menu-open on the document body
     // .menu-open or .search-open on the header
-    if (aMenuIsExpanded) {
+    if (aMenuIsBeingExpanded) {
       rootElement.classList.add("menu-open");
       disableBodyScroll(header);
       if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
@@ -161,45 +172,38 @@ export function setup(rootElement: HTMLElement): void {
         header.classList.add("search-open");
       }
     } else {
-      clearAllBodyScrollLocks();
-      rootElement.classList.remove("menu-open");
-      if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
-        header.classList.remove("menu-open");
-      } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
-        header.classList.remove("search-open");
+      // only do this if no other menu is expanded
+      const anyOpen = Array.from(
+        rootElement.querySelectorAll(allTogglesSelector)
+      ).find(el => el.getAttribute("aria-expanded") === "true");
+
+      if (!anyOpen) {
+        clearAllBodyScrollLocks();
+        rootElement.classList.remove("menu-open");
+        if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
+          header.classList.remove("menu-open");
+        } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
+          header.classList.remove("search-open");
+        }
       }
     }
 
-    // To close the desktop navigation programmatically, normally one could
-    // trigger the hide.bs.collapse event, but Bootstrap's collapse plugin
-    // was still buggy in v4.0.0-alpha.2, so we'll close it here. if button
-    // state indicates menu should be closed, and observed attribute change
-    // is on the desktop navigation buttons, we can close the desktop menu.
+    // Close the other desktop tabs programmatically
     if (
-      !aMenuIsExpanded &&
+      aMenuIsBeingExpanded &&
       observedClassNames.includes(TOGGLE_CLASSES.desktop)
     ) {
-      // find affected buttons
-      mutations
-        .map(({ target }) => target as Element)
+      const thisMenu = mutations.map(({ target }) =>
+        (target as Element).getAttribute("aria-controls")
+      )[0];
+      // close OTHER menus
+      Array.from(rootElement.querySelectorAll(`.${TOGGLE_CLASSES.desktop}`))
         .filter(
-          ({ classList }) =>
-            classList.contains("m-menu--desktop__toggle") &&
-            !classList.contains("collapsed")
+          (el: Element) =>
+            el.getAttribute("aria-controls") !== thisMenu &&
+            el.getAttribute("aria-expanded") === "true"
         )
-        .forEach(btn => {
-          btn.classList.add("collapsed");
-          const targetMenu = rootElement.querySelector(
-            btn.getAttribute("data-target")!
-          );
-          targetMenu?.classList.remove("in");
-          targetMenu?.classList.replace("collapse", "collapsing");
-          targetMenu?.setAttribute("style", "height: 0px;");
-          // FIXME - desktop menu closing animation isn't working
-          // setTimeout(() => {
-          //   targetMenu?.classList.replace("collapsing", "collapse");
-          // }, 350);
-        });
+        .forEach(toggleAriaExpanded);
     }
   });
 
@@ -229,39 +233,43 @@ export function setup(rootElement: HTMLElement): void {
     rootElement
       .querySelectorAll(".m-menu--mobile .c-accordion-ui__trigger")
       .forEach(target =>
-        target.addEventListener("click", () => {
-          if (target.getAttribute("aria-expanded") === "true") {
-            return;
-          }
+        target.addEventListener(
+          "click",
+          () => {
+            // if (target.getAttribute("aria-expanded") === "true") {
+            //   // return;
+            // }
 
-          const expandedDrawer = menuContent.querySelector(
-            ".c-accordion-ui__target[aria-expanded='true']"
-          );
+            const expandedDrawer = menuContent.querySelector(
+              ".c-accordion-ui__target[aria-expanded='true']"
+            );
 
-          const targetBB = target.getBoundingClientRect();
+            const targetBB = target.getBoundingClientRect();
 
-          const yOffset = (() => {
-            if (expandedDrawer) {
-              const bb = expandedDrawer.getBoundingClientRect();
-              if (bb.y < targetBB.y) {
-                return bb.height;
+            const yOffset = (() => {
+              if (expandedDrawer) {
+                const bb = expandedDrawer.getBoundingClientRect();
+                if (bb.y < targetBB.y) {
+                  return bb.height;
+                }
+
+                return 0;
               }
 
               return 0;
-            }
+            })();
 
-            return 0;
-          })();
+            const targetY =
+              (target as HTMLElement).offsetTop - targetBB.height / 2 - yOffset;
 
-          const targetY =
-            (target as HTMLElement).offsetTop - targetBB.height / 2 - yOffset;
-
-          menuContent.scrollTo({
-            behavior: "smooth",
-            left: 0,
-            top: targetY
-          });
-        })
+            menuContent.scrollTo({
+              behavior: "smooth",
+              left: 0,
+              top: targetY
+            });
+          },
+          false
+        )
       );
   }
 
