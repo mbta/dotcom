@@ -4,7 +4,7 @@
     <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- nav_link_content_redesign(@conn) do %>
       <nav aria-labelledby="section-heading-<%= menu_section %>" class="m-menu__section">
         <h2 id="section-heading-<%= menu_section %>" class="m-menu__section-heading"><%= menu_section %></h2>
-        <%= SiteWeb.PartialView.render("_accordion_ui.html",
+        <%= SiteWeb.PartialView.render("_accordion_ui_no_bootstrap.html",
             Map.merge(assigns, %{
               id: menu_section,
               multiselectable: false,

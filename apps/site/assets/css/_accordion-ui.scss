@@ -116,3 +116,22 @@
     margin-bottom: 0;
   }
 }
+
+// handles collapse functionality w/o bs
+.c-accordion-ui--no-bootstrap {
+  .c-accordion-ui__heading {
+    margin: 0;
+  }
+
+  :not(.is-expanded) + .c-accordion-ui__content {
+    display: none; // start hidden
+  }
+
+  .c-indicator__content--angle {
+    @include fa-icon-solid($fa-var-angle-down);
+  }
+
+  .is-expanded .c-indicator__content--angle {
+    @include fa-icon-solid($fa-var-angle-up);
+  }
+}
