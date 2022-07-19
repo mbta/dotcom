@@ -30,8 +30,20 @@ defmodule Mix.Tasks.Export.HeaderFooter do
 
   @impl Mix.Task
   def run(_) do
-    get_mbta_tree()
-    [:ok, :ok] = webpack([])
+    # needed for HTTPoison to work
+    _ = Application.ensure_all_started(:hackney)
+
+    response =
+      case HTTPoison.get("http://localhost:4001", hackney: []) do
+        {:ok, response} ->
+          response
+
+        _ ->
+          {:ok, response} = HTTPoison.get("https://www.mbta.com/", hackney: [])
+          response
+      end
+
+    get_mbta_tree(response)
     :ok = webpack([])
     make_zip()
   end
@@ -73,10 +85,7 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     end)
   end
 
-  defp get_mbta_tree do
-    # needed for HTTPoison to work
-    Application.ensure_all_started(:hackney)
-    {:ok, response} = HTTPoison.get("https://www.mbta.com/", hackney: [])
+  defp get_mbta_tree(response) do
     200 = response.status_code
     {:ok, tree} = Floki.parse_document(response.body)
 
