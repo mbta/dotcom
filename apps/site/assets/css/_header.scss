@@ -329,9 +329,8 @@ nav.m-menu--mobile {
 
   // Hide search bar on tablet view
   @include media-breakpoint-down(md) {
-    .search {
-      opacity: 0;
-      pointer-events: none;
+    .search * {
+      visibility: hidden;
     }
   }
 }
