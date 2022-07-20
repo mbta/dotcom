@@ -5,7 +5,7 @@
 
 // toggles .is-expanded class on the accordion header <h3> wrapper to
 // align with button.c-accordion-ui__trigger[aria-expanded] value
-const addAccordionToggleObserver = (btn: Element) =>
+const addAccordionToggleObserver = (btn: Element): void =>
   new MutationObserver(mutations => {
     mutations.forEach(({ oldValue, target }): void => {
       const newValue = (target as HTMLElement).getAttribute("aria-expanded");
@@ -21,7 +21,7 @@ const addAccordionToggleObserver = (btn: Element) =>
     attributeFilter: ["aria-expanded"]
   });
 
-export default function setupAccordion(rootElement: HTMLElement) {
+export default function setupAccordion(rootElement: HTMLElement): void {
   rootElement
     .querySelectorAll(".c-accordion-ui--no-bootstrap")
     .forEach(accordion => {
@@ -34,7 +34,7 @@ export default function setupAccordion(rootElement: HTMLElement) {
         accordionHeaders.forEach(btn => {
           btn.setAttribute(
             "aria-expanded",
-            btn == this ? (!isOpen).toString() : "false"
+            btn === this ? (!isOpen).toString() : "false"
           );
         });
       }
@@ -43,7 +43,7 @@ export default function setupAccordion(rootElement: HTMLElement) {
         function toggleItemWithKeyboard(
           this: HTMLButtonElement,
           event: KeyboardEvent
-        ) {
+        ): void {
           switch (event.code) {
             case "Space":
               toggleItem.call(this); // same as click or Enter
@@ -58,6 +58,8 @@ export default function setupAccordion(rootElement: HTMLElement) {
                 btnList[btnIndex - 1].focus(); // move to prior accordion header
               }
               break;
+            default:
+              return;
           }
           // Cancel the default action to avoid it being handled twice
           event.preventDefault();
