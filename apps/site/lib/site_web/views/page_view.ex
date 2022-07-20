@@ -10,13 +10,158 @@ defmodule SiteWeb.PageView do
 
   use SiteWeb, :view
 
-  def shortcut_icons do
-    rows =
-      for row <- [[:stations, :subway, :bus], [:commuter_rail, :ferry, :the_ride]] do
-        content_tag(:div, Enum.map(row, &shortcut_icon/1), class: "m-homepage__shortcut-row")
+  @spec sort_string_number(String.t(), String.t()) :: boolean
+  defp sort_string_number(a, b) do
+    case {Integer.parse(a), Integer.parse(b)} do
+      {{a_int, _}, {b_int, _}} -> a_int <= b_int
+      _ -> a <= b
+    end
+  end
+
+  @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
+  def get_route(id) do
+    case SiteWeb.ScheduleController.Line.Helpers.get_route(id) do
+      {:ok, route} -> route
+      _ -> nil
+    end
+  end
+
+  @spec get_mode_route_sorter(Routes.Route.gtfs_route_type()) ::
+          (Routes.Route.t(), Routes.Route.t() -> boolean())
+  defp get_mode_route_sorter(:bus), do: &sort_string_number/2
+  defp get_mode_route_sorter(_), do: &<=/2
+
+  @spec sort_routes({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) ::
+          {Routes.Route.gtfs_route_type(), [Routes.Route.t()]}
+  defp sort_routes({mode, routes}) do
+    sorter = get_mode_route_sorter(mode)
+
+    {mode, Enum.sort_by(routes, & &1.name, sorter)}
+  end
+
+  @spec get_mode_order({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) :: integer()
+  defp get_mode_order({:subway, _}), do: 0
+  defp get_mode_order({:bus, _}), do: 1
+  defp get_mode_order({:commuter_rail, _}), do: 2
+  defp get_mode_order({:ferry, _}), do: 3
+
+  @spec get_access_issue_order({Alerts.Accessibility.effect_type(), [Stops.Stop.t()]}) ::
+          integer()
+  defp get_access_issue_order({:elevator_closure, _}), do: 0
+  defp get_access_issue_order({:escalator_closure, _}), do: 1
+  defp get_access_issue_order({:access_issue, _}), do: 2
+
+  @spec alerts([Alerts.Alert.t()]) :: Phoenix.HTML.Safe.t()
+  def alerts(alerts) do
+    routes_with_high_priority_alerts_by_mode =
+      alerts
+      |> Enum.filter(&(Alerts.Priority.priority(&1) == :high))
+      |> Enum.reduce(MapSet.new(), fn alert, routes ->
+        MapSet.union(routes, Alerts.Alert.get_entity(alert, :route))
+      end)
+      |> Enum.filter(& &1)
+      |> Enum.map(&get_route/1)
+      |> Enum.filter(& &1)
+      |> Enum.group_by(&Routes.Route.type_atom(&1.type))
+      |> (&Map.merge(%{bus: [], subway: [], ferry: [], commuter_rail: []}, &1)).()
+      |> Enum.map(&sort_routes/1)
+      |> Enum.sort_by(&get_mode_order/1)
+
+    stops_with_accessibility_alerts_by_issue =
+      alerts
+      |> Enum.filter(&Alerts.Accessibility.is_accessibility_alert?/1)
+      |> Enum.reduce(
+        Map.new(Alerts.Accessibility.effect_types(), fn t -> {t, MapSet.new()} end),
+        fn alert, types ->
+          stops = Alerts.Alert.get_entity(alert, :stop)
+          type = alert.effect
+
+          Map.put(types, type, MapSet.union(Map.get(types, type), stops))
+        end
+      )
+      |> Enum.map(fn {type, stops} ->
+        {type,
+         Enum.map(stops, &Stops.Repo.get_parent/1)
+         |> Enum.filter(& &1)
+         |> Enum.uniq_by(& &1.id)
+         |> Enum.sort_by(& &1.name)}
+      end)
+      |> Enum.sort_by(&get_access_issue_order/1)
+
+    render("_alerts.html",
+      routes_with_high_priority_alerts_by_mode: routes_with_high_priority_alerts_by_mode,
+      stops_with_accessibility_alerts_by_issue: stops_with_accessibility_alerts_by_issue
+    )
+  end
+
+  @spec alerts_mode_url(Routes.Route.gtfs_route_type()) :: String.t()
+  defp alerts_mode_url(mode) do
+    path =
+      case mode do
+        :commuter_rail -> "commuter-rail"
+        _ -> mode
       end
 
-    content_tag(:div, rows, class: "m-homepage__shortcuts")
+    SiteWeb.Router.Helpers.alert_url(
+      SiteWeb.Endpoint,
+      :show,
+      path
+    )
+  end
+
+  @spec alerts_access_url() :: String.t()
+  defp alerts_access_url() do
+    SiteWeb.Router.Helpers.alert_url(
+      SiteWeb.Endpoint,
+      :show,
+      "access"
+    )
+  end
+
+  @spec alerts_render_route_link_content(Routes.Route.gtfs_route_type(), Routes.Route.t()) ::
+          Phoenix.HTML.Safe.t()
+  defp alerts_render_route_link_content(mode, route) do
+    case mode do
+      :subway -> SiteWeb.ViewHelpers.line_icon(route, :default)
+      :bus -> SiteWeb.ViewHelpers.bus_icon_pill(route)
+      _ -> route.name
+    end
+  end
+
+  @spec alerts_mode_icon_name(Routes.Route.gtfs_route_desc()) :: String.t()
+  defp alerts_mode_icon_name(mode) do
+    case mode do
+      :subway -> "icon-subway-default.svg"
+      :bus -> "icon-bus-default.svg"
+      :ferry -> "icon-ferry-default.svg"
+      :commuter_rail -> "icon-commuter-rail-default.svg"
+    end
+  end
+
+  @spec alerts_route_url(Routes.Route.t()) :: String.t()
+  defp alerts_route_url(route) do
+    SiteWeb.Router.Helpers.alerts_url(
+      SiteWeb.Endpoint,
+      :show,
+      route.id
+    )
+  end
+
+  @spec alerts_stop_url(Stops.Stop.t()) :: String.t()
+  defp alerts_stop_url(stop) do
+    SiteWeb.Router.Helpers.stop_url(
+      SiteWeb.Endpoint,
+      :show,
+      stop.id
+    )
+  end
+
+  def shortcut_icons do
+    icons =
+      [:commuter_rail, :subway, :bus, :ferry, :the_ride]
+      |> Enum.map(&shortcut_icon/1)
+
+    content_tag(:div, icons, class: "m-homepage__shortcuts")
   end
 
   @spec shortcut_icon(atom) :: Phoenix.HTML.Safe.t()
@@ -46,46 +191,29 @@ defmodule SiteWeb.PageView do
   defp shortcut_text(:stations) do
     [
       "Stations",
-      content_tag(:span, [" &", tag(:br), "Stops"], class: "hidden-md-down")
+      content_tag(:span, " & Stops", class: "hidden-md-down")
     ]
   end
 
   defp shortcut_text(:the_ride) do
-    [
-      content_tag(:span, [
-        content_tag(
-          :span,
-          [
-            "The",
-            tag(:br)
-          ],
-          class: "hidden-md-down"
-        ),
-        "RIDE"
-      ])
-    ]
+    content_tag(:span, "The RIDE")
   end
 
   defp shortcut_text(:commuter_rail) do
-    [
-      content_tag(:span, "Commuter ", class: "hidden-md-down"),
-      tag(:br, class: "hidden-md-down"),
-      "Rail",
-      content_tag(:span, [raw("&nbsp;"), "Lines"], class: "hidden-md-down")
-    ]
+    content_tag(:span, "Commuter Rail")
   end
 
   defp shortcut_text(:subway) do
     [
       "Subway",
-      content_tag(:span, [tag(:br), "Lines"], class: "hidden-md-down")
+      content_tag(:span, " Lines", class: "hidden-md-down")
     ]
   end
 
   defp shortcut_text(mode) do
     [
       mode_name(mode),
-      content_tag(:span, [tag(:br), "Routes"], class: "hidden-md-down")
+      content_tag(:span, " Routes", class: "hidden-md-down")
     ]
   end
 

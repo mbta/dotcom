@@ -5,7 +5,7 @@
       <h2 class="sr-only">Featured MBTA Updates and Projects</h2>
     <% end %>
     <div class="container page-section">
-      <%= unless @promoted do %>
+      <%= unless Enum.empty?(@whats_happening_items) do %>
         <h2>What's Happening at the MBTA</h2>
       <% end %>
       <div id="whats-happening-<%= tag %>" class="row m-whats-happening__row m-whats-happening__row--<%= tag %>">

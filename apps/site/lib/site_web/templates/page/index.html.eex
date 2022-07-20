@@ -1,25 +1,16 @@
-<%= render "_secondary_nav.html", conn: @conn %>
 <div class="index">
   <h1 class="sr-only">MBTA Homepage</h1>
-  <div class="container">
-    <div class="m-homepage--10-col-sm-only">
-      <%= shortcut_icons() %>
-    </div>
-    <div class="m-homepage--10-col-sm-only m-homepage__search-wrapper">
-      <%= render "_search_bar.html", conn: @conn, placeholder: nil, id: "homepage" %>
-      <%= render(SiteWeb.PartialView, "_recently_visited.html", conn: @conn,
-                                                                routes: Map.get(assigns, :recently_visited, []),
-                                                                alerts: @alerts,
-                                                                date_time: @date_time,
-                                                                header_class: "h3") %>
-    </div>
+  <%= render "_tabbed_nav.html", assigns %>
+  <div class="container page-section">
+    <%= render "_find_a_location.html", conn: @conn %>
+    <%= render "_contact_us.html", conn: @conn %>
   </div>
+  <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>
   <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
   <%= render SiteWeb.PageView, "_homepage-events.html", conn: @conn, event_teasers: @event_teasers %>
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items, promoted: false %>
-  <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>
   <%= render SiteWeb.PageView, "_user_guides.html", conn: @conn %>
   <%= render SiteWeb.PageView, "_important_links.html", conn: @conn %>
 </div>
