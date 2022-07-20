@@ -53,8 +53,8 @@ if (window.sentry) {
     dsn: window.sentry.dsn,
     environment: window.sentry.environment,
     integrations: [new BrowserTracing()],
-    sampleRate: 0.05, // error sampling - might increase later
-    tracesSampleRate: 0.05,
+    sampleRate: 0.10, // error sampling - might increase later
+    tracesSampleRate: 0.10,
     tags: { "dotcom.application": "frontend" },
     beforeBreadcrumb: (breadcrumb, hint) => {
       // omit breadcrumbs that are just these scripts
@@ -78,8 +78,21 @@ if (window.sentry) {
       "Extension context invalidated"
     ],
     // we don't care about errors from external tools and libraries
-    // so only allow errors from our own domains
-    allowUrls: [/https?:\/\/((cdn|www)\.)?mbta\.com/, /mbtace.com/]
+    denyUrls: [
+      // Chrome extensions
+      /extensions\//i,
+      /^chrome:\/\//i,
+      /^chrome-extension:\/\//i,
+      // Firefox extensions
+      /^resource:\/\//i,
+      /^moz-extension:\/\//i,
+      // Safari extensions
+      /^safari-extension:/i,
+      // Others
+      /google/i,
+      /gstatic/i,
+      /clarity/i
+    ]
   });
 }
 
