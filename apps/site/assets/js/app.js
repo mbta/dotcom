@@ -46,6 +46,7 @@ import tripPlannerWidget from "./trip-planner-widget";
 import eventPageSetup from "./event-page-setup";
 import previousEventsButton from "./view-previous-events";
 import pslPageSetup from "./psl-page-setup.js";
+import tabbedNav from "./tabbed-nav.js";
 import setupAccordion from "../ts/ui/accordion";
 
 if (window.sentry) {
@@ -377,6 +378,7 @@ addressSearch();
 autocompleteSetup();
 googleTranslate();
 scrollTo();
+tabbedNav();
 timetableScroll();
 timetableStyle();
 timetableStick();
