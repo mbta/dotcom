@@ -2,8 +2,7 @@
   "repository": {},
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
-    "@sentry/react": "^7.0.0",
-    "@sentry/tracing": "^7.0.0",
+    "@sentry/react": "^7.7.0",
     "@types/dot-prop-immutable": "^1.5.0",
     "a11y-dialog": "^7.0.3",
     "algoliasearch": "^3.25.1",

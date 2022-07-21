@@ -1,6 +1,5 @@
 /* eslint-disable */
 import * as Sentry from "@sentry/react";
-// import { BrowserTracing } from "@sentry/tracing";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -53,10 +52,10 @@ if (window.sentry) {
     dsn: window.sentry.dsn,
     environment: window.sentry.environment,
     autoSessionTracking: false,
-    // integrations: [new BrowserTracing()],
     sampleRate: 0.10, // error sampling - might increase later
-    // tracesSampleRate: 0.10  ,
-    tags: { "dotcom.application": "frontend" },
+    initialScope: {
+      tags: { "dotcom.application": "frontend" }
+    },
     beforeBreadcrumb: (breadcrumb, hint) => {
       // omit breadcrumbs that are just these scripts
       // making their incessant pinging
@@ -91,6 +90,7 @@ if (window.sentry) {
       /^safari-extension:/i,
       // Others
       /google/i,
+      /gtag/i,
       /gstatic/i,
       /clarity/i
     ]
