@@ -1,19 +1,29 @@
 .page-section {
-  @include media-breakpoint-down(xxl) {
-    margin-top: 80px;
-  }
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
 
-  @include media-breakpoint-down(md) {
-    margin-top: 64px;
+  &:last-child {
+    margin-bottom: 0;
   }
-
-  @include media-breakpoint-down(sm) {
-    margin-top: 40px;
-  }
-
   .homepage-link:last-child {
     .about-title {
       border-bottom-width: 0;
+    }
+  }
+}
+
+.index {
+  .page-section {
+    @include media-breakpoint-down(xxl) {
+      margin-top: 80px;
+    }
+  
+    @include media-breakpoint-down(md) {
+      margin-top: 64px;
+    }
+  
+    @include media-breakpoint-down(sm) {
+      margin-top: 40px;
     }
   }
 }
