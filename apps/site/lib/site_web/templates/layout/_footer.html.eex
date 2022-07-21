@@ -78,25 +78,6 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="m-footer__group-title">Follow Us Online</div>
-        <ul class="c-social">
-            <% social_links = [
-                {"facebook", "https://www.facebook.com/TheMBTA/", []},
-                {"instagram", "https://www.instagram.com/thembta/", []},
-                {"linkedin", "https://linkedin.com/company/mbta", []},
-                {"youtube", "https://www.youtube.com/user/mbtagm/", []},
-                {"twitter", "https://twitter.com/MBTA", []},
-                {"tiktok", "https://www.tiktok.com/@thembta", [font_family: "fab"]}
-             ] %>
-          <%= for {name, href, attributes} <- social_links do %>
-            <li class="c-social__item m-footer__item">
-              <%= link [
-                fa(name, attributes),
-                content_tag(:span, "MBTA " <> String.capitalize(name), class: "sr-only")
-              ], to: href, class: "c-social__link c-social--" <> name, target: "_blank" %>
-            </li>
-          <% end %>
-        </ul>
         <%= unless assigns[:exclude_google_translate] do %>
           <%= render "_google_translate_plugin.html", conn: @conn %>
         <% end %>
