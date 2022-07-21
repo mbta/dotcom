@@ -102,6 +102,30 @@
         <% end %>
       </li>
     </ul>
+
+    <div class="lower-footer">
+        <div class="m-menu__language"></div>
+      <div class="social-icons-container">
+          <a class="social-icon" href="https://www.facebook.com/TheMBTA/">
+            <i class="fa-brands fa-facebook fa-lg"></i>
+          </a>
+          <a class="social-icon" href="https://www.instagram.com/thembta/">
+            <i class="fa-brands fa-instagram fa-lg"></i>
+          </a>
+          <a class="social-icon" href="https://linkedin.com/company/mbta">
+            <i class="fa-brands fa-linkedin fa-lg"></i>
+          </a>
+          <a class="social-icon" href="https://www.youtube.com/user/mbtagm/">
+            <i class="fa-brands fa-youtube fa-lg"></i>
+          </a>
+          <a class="social-icon" href="https://twitter.com/MBTA">
+            <i class="fa-brands fa-twitter fa-lg"></i>
+          </a>
+          <a class="social-icon" href="https://www.tiktok.com/@thembta">
+            <i class="fa-brands fa-tiktok fa-lg"></i>
+          </a>
+        </div>
+    </div>
     <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
   </div>
 </footer>
