@@ -87,23 +87,23 @@
     <div class="lower-footer">
         <div class="m-menu__language"></div>
       <div class="social-icons-container">
-          <a class="social-icon" href="https://www.facebook.com/TheMBTA/">
-            <i class="fa-brands fa-facebook fa-lg"></i>
+          <a href="https://www.facebook.com/TheMBTA/" target="_blank">
+            <i aria-label="facebook" class="fa-brands fa-facebook fa-lg social-icon"></i>
           </a>
-          <a class="social-icon" href="https://www.instagram.com/thembta/">
-            <i class="fa-brands fa-instagram fa-lg"></i>
+          <a href="https://www.instagram.com/thembta/" target="_blank">
+            <i aria-label="instagram" class="fa-brands fa-instagram fa-lg social-icon"></i>
           </a>
-          <a class="social-icon" href="https://linkedin.com/company/mbta">
-            <i class="fa-brands fa-linkedin fa-lg"></i>
+          <a href="https://linkedin.com/company/mbta" target="_blank">
+            <i aria-label="linkedin" class="fa-brands fa-linkedin fa-lg social-icon"></i>
           </a>
-          <a class="social-icon" href="https://www.youtube.com/user/mbtagm/">
-            <i class="fa-brands fa-youtube fa-lg"></i>
+          <a href="https://www.youtube.com/user/mbtagm/" target="_blank">
+            <i aria-label="youtube" class="fa-brands fa-youtube fa-lg social-icon"></i>
           </a>
-          <a class="social-icon" href="https://twitter.com/MBTA">
-            <i class="fa-brands fa-twitter fa-lg"></i>
+          <a href="https://twitter.com/MBTA" target="_blank">
+            <i aria-label="twitter" class="fa-brands fa-twitter fa-lg social-icon"></i>
           </a>
-          <a class="social-icon" href="https://www.tiktok.com/@thembta">
-            <i class="fa-brands fa-tiktok fa-lg"></i>
+          <a href="https://www.tiktok.com/@thembta" target="_blank">
+            <i aria-label="tiktok" class="fa-brands fa-tiktok fa-lg social-icon"></i>
           </a>
         </div>
     </div>

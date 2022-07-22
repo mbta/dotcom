@@ -50,9 +50,6 @@
 
 .m-footer__copyright {
   font-size: $font-size-base-xs;
-  font-family: InterUI-Regular;
-  color: $white;
-  font-weight: normal;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -130,4 +127,13 @@
 .social-icon {
   padding-left: 20px;
   color: $brand-primary-light-contrast;
+  &:hover {
+    color: $brand-primary-light;
+  }
+  &:active {
+    color: $brand-primary;
+  }
+  &:focus {
+    color: $brand-primary-light;
+  }
 }
