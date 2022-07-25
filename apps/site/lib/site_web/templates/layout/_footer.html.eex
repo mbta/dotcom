@@ -1,8 +1,7 @@
-<address style="background-color: green; margin-bottom: -50px; background-color: #e2ecf9">
-
+<address class="call-us-container">
   <div class="container">
     <ul class="row list-unstyled">
-    <h2>Call Us</h2>
+    <h2 class="call-us-header">Call Us</h2>
       <li class="m-footer__group">
         <div class="m-footer__group-title">INFORMATION AND SUPPORT</div>
         <ul class="list-unstyled">
@@ -10,25 +9,28 @@
           <li class="m-footer__item"><small>6:30 AM - 8 PM</small></li>
           <li class="m-footer__item"><small>Saturday thru Sunday</small></li>
           <li class="m-footer__item"><small>8 AM - 4 PM</small></li>
-
-          <li class="m-footer__item">
-           <strong>Main:</strong> <%= tel_link "617-222-3200" %>
-          </li>
-          <li class="m-footer__item">
-            <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
-          </li>
+          <div class="numbers-container">
+            <li class="m-footer__item">
+            <strong>Main:</strong> <%= tel_link "617-222-3200" %>
+            </li>
+            <li class="m-footer__item">
+              <strong>TTY:</strong><%= tel_link "617-222-5146" %>
+            </li>
+          </div>
         </ul>
       </li>
       <li class="m-footer__group">
         <div class="m-footer__group-title">EMERGENCY CONTACTS</div>
         <ul class="list-unstyled">
           <li class="m-footer__item"><small>24 hours, 7 days a week</small></li>
-          <li class="m-footer__item">
-           <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
-          </li>
-          <li class="m-footer__item">
-            <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
-          </li>
+          <div class="numbers-container">
+            <li class="m-footer__item">
+            <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
+            </li>
+            <li class="m-footer__item">
+              <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
+            </li>
+          </div>
         </ul>
       </li>
       <li class="m-footer__group">
