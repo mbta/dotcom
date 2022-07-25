@@ -1,4 +1,5 @@
-<address class="call-us-container">
+<div class="all-container">
+<address class="call-us-container" style="flex:1">
   <div class="container">
     <ul class="row list-unstyled">
     <h2 class="call-us-header">Call Us</h2>
@@ -48,7 +49,7 @@
   </div>
 </address>
 
-<footer class="m-footer l-footer">
+<footer class="m-footer l-footer" style="flex:2">
   <div class="container">
     <ul class="row list-unstyled">
       <li class="m-footer__group">
@@ -155,3 +156,4 @@
     <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
   </div>
 </footer>
+</div>

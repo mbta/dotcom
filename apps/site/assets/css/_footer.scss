@@ -65,6 +65,12 @@
   }
 }
 
+@include media-breakpoint-up(lg) {
+  .m-footer__group {
+    padding-left: 15px;
+  }
+}
+
 address {
   .m-footer__item {
     a {
@@ -77,9 +83,22 @@ address {
   margin-bottom: -50px;
   padding-bottom: 20px;
   background-color: $brand-primary-lightest-contrast;
-@include media-breakpoint-down(sm) {
-  padding-bottom: 50px;
-}
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 50px;
+  }
+  @include media-breakpoint-up(lg) {
+    border-radius: 50px 0 0 0;
+
+    .container {
+      ul {
+        display: flex;
+        flex-direction: column;
+        .m-footer__group {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 
 .call-us-header {
@@ -88,4 +107,10 @@ address {
 
 .numbers-container {
   padding-top: 15px;
+}
+
+.all-container {
+  @include media-breakpoint-up(lg) {
+    display: flex;
+  }
 }
