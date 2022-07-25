@@ -61,37 +61,7 @@
 
 @include media-breakpoint-down(sm) {
   .m-footer__group {
-    display: none;
-  }
-
-  .m-footer__group-title {
-    display: none;
-  }
-
-  .m-footer--mobile__group {
-    display: block;
-  }
-
-  .m-footer--mobile__items {
-    text-align: center;
-
-    @include not-last-child {
-      &::after {
-        color: $white;
-        content: '●';
-        margin-left: .25em;
-        margin-right: .25em;
-      }
-    }
-  }
-
-  .m-footer--mobile__item {
-    display: inline;
-  }
-
-  .m-footer__copyright {
-    padding-top: 0;
-    text-align: center;
+    padding-left: 15px;
   }
 }
 
@@ -107,6 +77,9 @@ address {
   margin-bottom: -50px;
   padding-bottom: 20px;
   background-color: $brand-primary-lightest-contrast;
+@include media-breakpoint-down(sm) {
+  padding-bottom: 50px;
+}
 }
 
 .call-us-header {
