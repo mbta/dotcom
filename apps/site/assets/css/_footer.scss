@@ -135,5 +135,6 @@
   }
   &:focus {
     color: $brand-primary-light;
+    outline: $brand-secondary solid 2px;
   }
 }
