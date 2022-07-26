@@ -17,6 +17,11 @@
     font-size: $font-size-base;
   }
 
+  @include media-breakpoint-up(lg) {
+    height: 100%;
+    padding-left: 1rem;
+  }
+
   @include media-breakpoint-down(md) {
     font-size: $font-size-base-sm;
   }
@@ -81,18 +86,27 @@ address {
 
 .call-us-container {
   margin-bottom: -50px;
-  padding-bottom: 20px;
   background-color: $brand-primary-lightest-contrast;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $font-size-base;
+  }
+
+  @include media-breakpoint-down(md) {
+    font-size: $font-size-base-sm;
+  }
+
   @include media-breakpoint-down(sm) {
     padding-bottom: 50px;
   }
   @include media-breakpoint-up(lg) {
     border-radius: 50px 0 0 0;
-
+    margin-bottom: 0px;
     .container {
       ul {
         display: flex;
         flex-direction: column;
+        padding-left: 1rem;
         .m-footer__group {
           width: 100%;
         }
@@ -112,5 +126,6 @@ address {
 .all-container {
   @include media-breakpoint-up(lg) {
     display: flex;
+    height: 100%;
   }
 }
