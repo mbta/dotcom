@@ -20,6 +20,12 @@
   @include media-breakpoint-up(lg) {
     height: 100%;
     padding-left: 1rem;
+    padding-right: 1rem;
+    position: relative;
+    p {
+      position: absolute;
+      bottom: 64px;
+    }
   }
 
   @include media-breakpoint-down(md) {
@@ -87,6 +93,8 @@ address {
 .call-us-container {
   margin-bottom: -50px;
   background-color: $brand-primary-lightest-contrast;
+  padding-bottom: $base-spacing * 2;
+  padding-top: $base-spacing * 2;
 
   @include media-breakpoint-up(lg) {
     font-size: $font-size-base;
@@ -134,11 +142,20 @@ address {
   @include media-breakpoint-down(xs) {
     flex-direction: column;
   }
+
+  @include media-breakpoint-up(lg) {
+    position: absolute;
+    margin: 0 15px 0 15px;
+    left: 0;
+    right: 0;
+  }
+
   display: flex;
   justify-content: space-between;
   border-top: 2px solid $brand-primary-light-contrast;
   padding-top: 20px;
   padding-bottom: 20px;
+  bottom: 90px;
 
   .m-menu__language {
     color: $brand-primary-light-contrast;
