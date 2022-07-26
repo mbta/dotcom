@@ -90,6 +90,51 @@
 
   .m-footer__copyright {
     padding-top: 0;
-    text-align: center;
+  }
+}
+
+.lower-footer {
+  @include media-breakpoint-down(xs) {
+    flex-direction: column;
+  }
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid $brand-primary-light-contrast;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  .m-menu__language {
+    color: $brand-primary-light-contrast;
+    .custom-language-selector {
+      color: $brand-primary-light-contrast;
+    }
+  }
+  
+}
+
+.social-icons-container {
+  @include media-breakpoint-down(xs) {
+    padding-top: 20px;
+  }
+}
+
+.social-icons-container a:first-of-type {
+  &:first-child {
+    padding-left: 0px;
+  }
+}
+
+.social-icon {
+  padding-left: 20px;
+  color: $brand-primary-light-contrast;
+  &:hover {
+    color: $brand-primary-light;
+  }
+  &:active {
+    color: $brand-primary;
+  }
+  &:focus {
+    color: $brand-primary-light;
+    outline: $brand-secondary solid 2px;
   }
 }

@@ -78,30 +78,35 @@
         </ul>
       </li>
       <li class="m-footer__group">
-        <div class="m-footer__group-title">Follow Us Online</div>
-        <ul class="c-social">
-            <% social_links = [
-                {"facebook", "https://www.facebook.com/TheMBTA/", []},
-                {"instagram", "https://www.instagram.com/thembta/", []},
-                {"linkedin", "https://linkedin.com/company/mbta", []},
-                {"youtube", "https://www.youtube.com/user/mbtagm/", []},
-                {"twitter", "https://twitter.com/MBTA", []},
-                {"tiktok", "https://www.tiktok.com/@thembta", [font_family: "fab"]}
-             ] %>
-          <%= for {name, href, attributes} <- social_links do %>
-            <li class="c-social__item m-footer__item">
-              <%= link [
-                fa(name, attributes),
-                content_tag(:span, "MBTA " <> String.capitalize(name), class: "sr-only")
-              ], to: href, class: "c-social__link c-social--" <> name, target: "_blank" %>
-            </li>
-          <% end %>
-        </ul>
         <%= unless assigns[:exclude_google_translate] do %>
           <%= render "_google_translate_plugin.html", conn: @conn %>
         <% end %>
       </li>
     </ul>
+
+    <div class="lower-footer">
+        <div class="m-menu__language"></div>
+      <div class="social-icons-container">
+          <a href="https://www.facebook.com/TheMBTA/" target="_blank">
+            <i aria-label="MBTA facebook" class="fa-brands fa-facebook fa-lg social-icon"></i>
+          </a>
+          <a href="https://www.instagram.com/thembta/" target="_blank">
+            <i aria-label="MBTA instagram" class="fa-brands fa-instagram fa-lg social-icon"></i>
+          </a>
+          <a href="https://linkedin.com/company/mbta" target="_blank">
+            <i aria-label="MBTA linkedin" class="fa-brands fa-linkedin fa-lg social-icon"></i>
+          </a>
+          <a href="https://www.youtube.com/user/mbtagm/" target="_blank">
+            <i aria-label="MBTA youtube" class="fa-brands fa-youtube fa-lg social-icon"></i>
+          </a>
+          <a href="https://twitter.com/MBTA" target="_blank">
+            <i aria-label="MBTA twitter" class="fa-brands fa-twitter fa-lg social-icon"></i>
+          </a>
+          <a href="https://www.tiktok.com/@thembta" target="_blank">
+            <i aria-label="MBTA tiktok" class="fa-brands fa-tiktok fa-lg social-icon"></i>
+          </a>
+        </div>
+    </div>
     <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
   </div>
 </footer>
