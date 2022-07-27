@@ -37,7 +37,7 @@ describe("Header navigation", () => {
         });
 
         it("on load", () => {
-          cy.checkA11y();
+          cy.checkA11y('header.header--new');
         });
 
         it("with menu open", () => {
@@ -60,7 +60,7 @@ describe("Header navigation", () => {
                 });
               break;
           }
-          cy.checkA11y();
+          cy.checkA11y('header.header--new');
         });
 
         if (viewport == "iphone-6") {
@@ -71,7 +71,7 @@ describe("Header navigation", () => {
                 cy.get('@searchBarMobile').should("be.visible");
               })
 
-            cy.checkA11y();
+            cy.checkA11y('header.header--new');
           });
         }
       });
@@ -240,5 +240,24 @@ describe("Header navigation", () => {
         cy.wait(1000); // translating is slow!
         cy.get(".m-homepage__shortcuts").should("contain.text", "Linie metra");
       })
+  });
+});
+
+describe("Footer navigation", () => {
+  beforeEach(() => {
+    cy.visit("/");
+  });
+
+  viewports.forEach(viewport => {
+    describe(`${viewport} size`, () => {
+      beforeEach(() => {
+        cy.viewport(viewport);
+        cy.injectAxe();
+      });
+
+      it("has no detectable a11y violations", () => {
+        cy.checkA11y('footer.m-footer');
+      });
+    });
   });
 });
