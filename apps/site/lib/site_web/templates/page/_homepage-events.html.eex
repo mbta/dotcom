@@ -11,10 +11,10 @@
       <%= for event_teaser <- @event_teasers do %>
         <%= render(SiteWeb.EventView, "_event_teaser.html",
             event_teaser: event_teaser,
-            check_event_ended: true,
+            check_event_ended: false,
             conn: @conn,
-            month_number: DateTime.utc_now.month,
-            year: DateTime.utc_now.year) %>
+            month_number: event_teaser.date.month,
+            year: event_teaser.date.year) %>
       <% end %>
     </ul>
   </div>
