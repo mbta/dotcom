@@ -4,8 +4,8 @@
   path_fn = fn -> cms_static_page_path(@conn, @event_teaser.path) end
 
   event_is_hidden = if @check_event_ended do
-    day_today = @conn.assigns.date
-    @event_teaser.date < day_today
+    today = @conn.assigns.date
+    @event_teaser.date.day < today.day and @event_teaser.date.month <= today.month
   else
     false
   end
