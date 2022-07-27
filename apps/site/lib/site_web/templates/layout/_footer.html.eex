@@ -2,7 +2,7 @@
 <address class="call-us-container" style="flex:1">
   <div class="container">
     <ul class="row list-unstyled">
-    <h2 class="call-us-header">Call Us</h2>
+    <div class="call-us-header">Call Us</div>
       <li class="m-footer__group">
         <div class="m-footer__group-title">INFORMATION AND SUPPORT</div>
         <ul class="list-unstyled">
