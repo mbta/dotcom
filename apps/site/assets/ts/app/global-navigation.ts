@@ -290,6 +290,9 @@ export function setup(): void {
   if (transitDiv) {
     transitDiv.getElementsByTagName("button")[0].click();
   }
+
+  // Closes veil before navigating to search result
+  document.addEventListener("autocomplete:selected", closeAllMenus);
 }
 
 export default function setupGlobalNavigation(): void {
