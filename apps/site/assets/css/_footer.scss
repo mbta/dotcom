@@ -35,10 +35,6 @@
     display: block;
     margin: .75rem 0;
 
-    span {
-      margin-left: calc(#{$base-spacing} / 2);
-    }
-
     &:hover {
       color: $brand-primary-light;
       text-decoration: underline;

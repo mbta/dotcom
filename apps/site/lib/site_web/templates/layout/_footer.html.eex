@@ -4,9 +4,7 @@
       <div id="footer-customer" class="m-footer__group-title">Customer Support</div>
       <%= link "Send Us Feedback", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
       <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
-      <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" do %>
-        Request Public Records <%= content_tag(:span, fa("external-link")) %>
-      <% end %>
+      <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %>
       <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services") %>
     </nav>
     <nav class="m-footer__group" aria-labelledby="footer-know-us">
@@ -18,9 +16,7 @@
       <%= link "Press Releases", to: cms_static_page_path(@conn, "/news"), data: [scroll: true]  %>
       <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
       <%= link "Safety", to: cms_static_page_path(@conn, "/safety") %>
-      <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
-        Performance <%= content_tag(:span, fa("external-link")) %>
-      <% end %>
+      <%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %>
     </nav>
     <nav class="m-footer__group" aria-labelledby="footer-work-with">
       <div id="footer-work-with" class="m-footer__group-title">Work With Us</div>
