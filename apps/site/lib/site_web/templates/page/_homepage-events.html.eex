@@ -13,8 +13,8 @@
             event_teaser: event_teaser,
             check_event_ended: true,
             conn: @conn,
-            month_number: DateTime.utc_now.month,
-            year: DateTime.utc_now.year) %>
+            month_number: event_teaser.date.month,
+            year: event_teaser.date.year) %>
       <% end %>
     </ul>
   </div>
