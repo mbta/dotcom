@@ -52,7 +52,7 @@ if (window.sentry) {
     dsn: window.sentry.dsn,
     environment: window.sentry.environment,
     autoSessionTracking: false,
-    sampleRate: 0.1, // error sampling - might increase later
+    sampleRate: 0.10, // error sampling - might increase later
     initialScope: {
       tags: { "dotcom.application": "frontend" }
     },

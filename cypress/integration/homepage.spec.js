@@ -24,13 +24,13 @@ describe("Tabbed navigation", () => {
       });
 
       it("has no a11y errors", () => {
-        cy.checkA11y(".m-tabbed-nav");
+        cy.checkA11y();
         cy.get(SELECTORS.tripplannerTab).click();
-        cy.checkA11y(".m-tabbed-nav");
+        cy.checkA11y();
         cy.get(SELECTORS.alertsTab).click();
-        cy.checkA11y(".m-tabbed-nav");
+        cy.checkA11y();
         cy.get(SELECTORS.schedulesTab).click();
-        cy.checkA11y(".m-tabbed-nav");
+        cy.checkA11y();
       });
 
       it("shows expected content on tab click", () => {
