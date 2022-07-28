@@ -136,6 +136,14 @@ address {
     border-radius: 50px 0 0 0;
     margin-bottom: 0px;
     padding-right: 40px;
+    .m-footer__links {
+      @include media-breakpoint-down(xs){
+        display: block;
+      }
+      @include media-breakpoint-up(lg){
+        display: block;
+      }
+    }
     .container {
       ul {
         display: flex;

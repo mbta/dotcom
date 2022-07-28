@@ -1,8 +1,9 @@
 <div class="all-container">
 <address class="call-us-container">
-
-  <div class="container">
-      <div class="m-footer__group-title">Call Us</div>
+  <div class="container m-footer__links">
+    <div class="m-footer__group-title call-us-header">Call Us</div>
+  </div>
+  <div class="container m-footer__links">
     <nav class="m-footer__group" aria-labelledby="footer-customer">
       <div class="m-footer__group-title">INFORMATION AND SUPPORT</div>
       <ul class="list-unstyled">
@@ -20,7 +21,6 @@
           </div>
         </ul>
     </nav>
-
     <nav class="m-footer__group" aria-labelledby="footer-customer">
       <div class="m-footer__group-title">EMERGENCY CONTACTS</div>
         <ul class="list-unstyled">
@@ -35,7 +35,6 @@
           </div>
         </ul>
     </nav>
-
     <nav class="m-footer__group" aria-labelledby="footer-customer">
       <div class="m-footer__group-title">REPORT A RAILROAD CROSSING GATE ISSUE</div>
         <ul class="list-unstyled">
@@ -47,9 +46,8 @@
           </li>
         </ul>
     </nav>
-  </div>
+    </div>
 </address>
-
 <footer class="m-footer">
   <div class="container m-footer__links">
     <nav class="m-footer__group" aria-labelledby="footer-customer">
