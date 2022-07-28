@@ -150,6 +150,11 @@ module.exports = (env, argv) => {
 
     resolve: {
       extensions: [".ts", ".js"]
+    },
+
+    // this should have been removed as its only relevant to ununsed module code
+    externals: {
+      react: 'React'
     }
   })
 };
