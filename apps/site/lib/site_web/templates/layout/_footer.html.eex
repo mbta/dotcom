@@ -13,10 +13,10 @@
           <li class="m-footer__item"><small>8 AM - 4 PM</small></li>
           <div class="numbers-container">
             <li class="m-footer__item">
-            <strong>Main:</strong> <%= tel_link "617-222-3200" %>
+            <strong>Main: </strong> <%= tel_link "617-222-3200" %>
             </li>
             <li class="m-footer__item">
-              <strong>TTY:</strong><%= tel_link "617-222-5146" %>
+              <strong>TTY: </strong><%= tel_link "617-222-5146" %>
             </li>
           </div>
         </ul>

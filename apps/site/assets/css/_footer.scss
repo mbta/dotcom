@@ -171,6 +171,15 @@ address {
 
 .numbers-container {
   padding-top: 19px;
+  @include media-breakpoint-up(sm) {
+    .m-footer__item {
+      display: flex;
+    }
+    strong {
+      margin-top: 12px;
+      padding-right: 4px;
+    }
+  }
 }
 
 .all-container {
