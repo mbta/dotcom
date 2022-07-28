@@ -96,36 +96,3 @@ Cypress.Commands.add("enableFlaggedFeature", (featureSelector) => {
   cy.visit("/_flags");
   cy.get(`form[action="/_flags/enable/${featureSelector}"]`).submit();
 });
-
-/**
- * Adds nicer logging in the terminal to cy.checkA11y()
- */
-Cypress.Commands.overwrite("checkA11y", (originalFn, context, options, violationCallback) => {
-  function terminalLog(violations) {
-    cy.task(
-      'log',
-      `\n=== ${violations.length} accessibility violation${
-        violations.length === 1 ? '' : 's'
-      } ${violations.length === 1 ? 'was' : 'were'} detected ===`
-    );
-
-    for (const violation of violations) {
-      const { id, impact, description, nodes } = violation;
-      cy.task('log', `[${id}: ${description}]`);
-
-      for (const node of nodes) {
-        const { target, failureSummary } = node;
-        cy.task('log', `— ${target} (${impact}) ${failureSummary}`);
-      }
-    }
-
-    cy.task('log', '======\n')
-  }
-
-  originalFn(context, options, (violations) => {
-    if (violationCallback) {
-      violationCallback(violations);
-    }
-    terminalLog(violations);
-  });
-});

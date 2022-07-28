@@ -8,6 +8,7 @@
 @import 'page';
 @import 'headings';
 @import 'vendor/fontawesome';
+@import 'social';
 @import 'layout-core-shared';
 
 html {
@@ -62,7 +63,7 @@ body {
   &.mticket {
     .announcement-container,
     .header,
-    .m-footer,
+    .l-footer,
     .smartbanner {
       display: none;
     }

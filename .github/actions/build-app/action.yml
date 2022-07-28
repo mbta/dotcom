@@ -29,7 +29,7 @@ runs:
     uses: actions/cache@v3
     with:
       path: _build/${{env.MIX_ENV}}/
-      key: ci-build-cache-${{env.MIX_ENV}}-${{ hashFiles('**/lib/**.ex', 'apps/site/lib/**.eex', '**/mix.lock') }}"
+      key: ci-build-cache-${{env.MIX_ENV}}-${{ hashFiles('**/lib/**.ex', '**/mix.lock') }}"
     id: build-cache
   
   - name: Compile application (if needed)
