@@ -763,16 +763,6 @@ defmodule SiteWeb.TripCompareControllerTest do
       assert conn.assigns.query.to.longitude == -71.142483
     end
 
-    test "is unable to get address so it redirects to index", %{conn: conn} do
-      with_mock TripPlan, [:passthrough],
-        geocode: fn _address ->
-          {:error, :not_found}
-        end do
-        conn = get(conn, trip_compare_path(conn, :to, "Atlantis"))
-        assert html_response(conn, 302) =~ "/trip-compare"
-      end
-    end
-
     test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
       conn: conn
     } do
