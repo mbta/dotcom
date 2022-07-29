@@ -62,37 +62,37 @@ defmodule SiteWeb.TripCompareController do
     render(conn, :index)
   end
 
-  def to(conn, %{"plan" => _plan} = params) do
-    redirect(conn, to: trip_compare_path(conn, :index, Map.delete(params, "address")))
-  end
+  # def to(conn, %{"plan" => _plan} = params) do
+  #   redirect(conn, to: trip_compare_path(conn, :index, Map.delete(params, "address")))
+  # end
 
-  def to(conn, %{
-        "address" => address
-      }) do
-    if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
-      [latitude, longitude, name] = String.split(address, ",", parts: 3)
-      # Avoid extra geocode call, just use these coordinates
-      destination = %TripPlan.NamedPosition{
-        latitude: String.to_float(latitude),
-        longitude: String.to_float(longitude),
-        name: name,
-        stop_id: nil
-      }
+  # def to(conn, %{
+  #       "address" => address
+  #     }) do
+  #   if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
+  #     [latitude, longitude, name] = String.split(address, ",", parts: 3)
+  #     # Avoid extra geocode call, just use these coordinates
+  #     destination = %TripPlan.NamedPosition{
+  #       latitude: String.to_float(latitude),
+  #       longitude: String.to_float(longitude),
+  #       name: name,
+  #       stop_id: nil
+  #     }
 
-      do_to(conn, destination)
-    else
-      updated_address = Geocode.check_address(address, @options)
+  #     do_to(conn, destination)
+  #   else
+  #     updated_address = Geocode.check_address(address, @options)
 
-      case TripPlan.geocode(updated_address) do
-        {:ok, geocoded_to} ->
-          do_to(conn, geocoded_to)
+  #     case TripPlan.geocode(updated_address) do
+  #       {:ok, geocoded_to} ->
+  #         do_to(conn, geocoded_to)
 
-        {:error, _} ->
-          # redirect to the initial index page
-          redirect(conn, to: trip_compare_path(conn, :index))
-      end
-    end
-  end
+  #       {:error, _} ->
+  #         # redirect to the initial index page
+  #         redirect(conn, to: trip_compare_path(conn, :index))
+  #     end
+  #   end
+  # end
 
   defp do_to(conn, destination) do
     # build a default query with a pre-filled 'to' field:
