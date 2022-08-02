@@ -36,6 +36,10 @@ defmodule CMS.API.Static do
     parse_json("cms/route-pdfs.json")
   end
 
+  def schedule_pdfs_response do
+    parse_json("cms/schedule-pdfs.json")
+  end
+
   # Teaser responses from CMS API (minimal data)
 
   def teaser_response do
@@ -377,6 +381,10 @@ defmodule CMS.API.Static do
 
   def view("/cms/route-pdfs/87", _) do
     {:ok, route_pdfs_response()}
+  end
+
+  def view("/cms/schedules/87", _) do
+    {:ok, schedule_pdfs_response()}
   end
 
   def view("/cms/route-pdfs/error", _) do
