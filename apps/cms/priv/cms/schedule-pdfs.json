@@ -1,0 +1,118 @@
+[
+  {
+    "mid": [
+      {
+        "value": 3811
+      }
+    ],
+    "uuid": [
+      {
+        "value": "96d1dadc-9bbc-436e-becf-b0bdf817df3e"
+      }
+    ],
+    "vid": [
+      {
+        "value": 6129
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "bundle": [
+      {
+        "target_id": "schedule",
+        "target_type": "media_type",
+        "target_uuid": "cf7fb1e9-5939-424f-b773-cab79031e70f"
+      }
+    ],
+    "revision_created": [
+      {
+        "value": 1659387643
+      }
+    ],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "name": [
+      {
+        "value": "110-01.22.3.pdf"
+      }
+    ],
+    "thumbnail": [
+      {
+        "target_id": 7201,
+        "alt": "",
+        "title": null,
+        "width": 180,
+        "height": 180,
+        "target_type": "file",
+        "target_uuid": "93cdf192-1e76-4091-89cd-b9093cef9394",
+        "url": "https://pr-390-mbta.pantheonsite.io/sites/default/files/media-icons/generic/generic.png",
+        "mime_type": "image/png"
+      }
+    ],
+    "created": [
+      {
+        "value": 1659387643
+      }
+    ],
+    "changed": [
+      {
+        "value": 1659387656
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "field_link_text_override": [],
+    "field_pdf_date_end": [
+      {
+        "value": "2022-08-31"
+      }
+    ],
+    "field_pdf_date_start": [
+      {
+        "value": "2022-08-01"
+      }
+    ],
+    "field_route_pdf": [
+      {
+        "target_id": 12219,
+        "display": true,
+        "description": "",
+        "target_type": "file",
+        "target_uuid": "b8724a29-125a-4699-a9b4-00c8ef1a20b6",
+        "url": "https://dev-mbta.pantheonsite.io/sites/default/files/route_pdfs/2022-winter/110-01.22.3.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  }
+]

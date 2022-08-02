@@ -122,6 +122,34 @@ defmodule CMS.Repo do
     end
   end
 
+  @spec get_schedule_pdfs(Route.id_t()) :: [RoutePdf.t()]
+  def get_schedule_pdfs(route_id) do
+    case cache(route_id, &do_get_schedule_pdfs/1, timeout: :timer.hours(6)) do
+      {:ok, pdfs} ->
+        pdfs
+
+      error ->
+        _ =
+          Logger.warn(fn ->
+            "module=#{__MODULE__} Error getting schedule pdfs for route #{route_id}. Using default []. Error: #{
+              inspect(error)
+            }"
+          end)
+
+        []
+    end
+  end
+
+  defp do_get_schedule_pdfs(route_id) do
+    case @cms_api.view("/cms/schedules/#{route_id}", []) do
+      {:ok, pdfs} ->
+        {:ok, Enum.map(pdfs, &RoutePdf.from_api/1)}
+
+      error ->
+        error
+    end
+  end
+
   @spec get_route_pdfs(Route.id_t()) :: [RoutePdf.t()]
   def get_route_pdfs(route_id) do
     case cache(route_id, &do_get_route_pdfs/1, timeout: :timer.hours(6)) do

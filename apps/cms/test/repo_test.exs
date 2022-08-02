@@ -229,6 +229,10 @@ defmodule CMS.RepoTest do
     end
   end
 
+  describe "get_schedule_pdfs/1" do
+    assert [%RoutePdf{} | _] = Repo.get_schedule_pdfs("87")
+  end
+
   describe "teasers/1" do
     test "returns only teasers for a project type" do
       types =
