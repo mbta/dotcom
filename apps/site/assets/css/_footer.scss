@@ -115,10 +115,16 @@ address {
 
 .call-us-container {
   margin-bottom: -50px;
-  background-color: $brand-primary-lightest-contrast;
+  background: $brand-primary-lightest-contrast;
   padding-bottom: $base-spacing * 2;
   padding-top: 22px;
   flex:1;
+  border-radius: 50px 0 0 0;
+
+  .m-menu__feature {
+    background: $brand-primary-lightest-contrast;
+    font-size: 1rem;
+  }
 
   @include media-breakpoint-up(lg) {
     font-size: $font-size-base;
@@ -132,18 +138,17 @@ address {
   @include media-breakpoint-down(sm) {
     padding-bottom: 50px;
   }
+  .m-footer__links {
+    @include media-breakpoint-down(xs){
+      display: block;
+    }
+    @include media-breakpoint-up(lg){
+      display: block;
+    }
+  }
   @include media-breakpoint-up(lg) {
-    border-radius: 50px 0 0 0;
     margin-bottom: 0px;
     padding-right: 40px;
-    .m-footer__links {
-      @include media-breakpoint-down(xs){
-        display: block;
-      }
-      @include media-breakpoint-up(lg){
-        display: block;
-      }
-    }
     .container {
       ul {
         display: flex;
@@ -156,6 +161,12 @@ address {
 
     .m-footer__group {
       padding-left: 15px;
+    }
+  }
+
+  :nth-child(2) {
+    :nth-child(1) {
+      margin-top: 0;
     }
   }
 }

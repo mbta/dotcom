@@ -1,112 +1,70 @@
 <div class="all-container">
-<address class="call-us-container">
-  <div class="container m-footer__links">
-    <div class="m-footer__group-title call-us-header">Call Us</div>
-  </div>
-  <div class="container m-footer__links">
-    <nav class="m-footer__group" aria-labelledby="footer-customer">
-      <div class="m-footer__group-title">INFORMATION AND SUPPORT</div>
-      <ul class="list-unstyled">
-          <li class="m-footer__item"><small>Monday thru Friday</small></li>
-          <li class="m-footer__item"><small>6:30 AM - 8 PM</small></li>
-          <li class="m-footer__item"><small>Saturday thru Sunday</small></li>
-          <li class="m-footer__item"><small>8 AM - 4 PM</small></li>
-          <div class="numbers-container">
-            <li class="m-footer__item">
-            <strong>Main: </strong> <%= tel_link "617-222-3200" %>
-            </li>
-            <li class="m-footer__item">
-              <strong>TTY: </strong><%= tel_link "617-222-5146" %>
-            </li>
-          </div>
-        </ul>
-    </nav>
-    <nav class="m-footer__group" aria-labelledby="footer-customer">
-      <div class="m-footer__group-title">EMERGENCY CONTACTS</div>
-        <ul class="list-unstyled">
-          <li class="m-footer__item"><small>24 hours, 7 days a week</small></li>
-          <div class="numbers-container">
-            <li class="m-footer__item">
-            <strong>Transit Police:</strong> <%= tel_link "617-222-1212" %>
-            </li>
-            <li class="m-footer__item">
-              <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
-            </li>
-          </div>
-        </ul>
-    </nav>
-    <nav class="m-footer__group" aria-labelledby="footer-customer">
-      <div class="m-footer__group-title">REPORT A RAILROAD CROSSING GATE ISSUE</div>
-        <ul class="list-unstyled">
-          <li class="m-footer__item"><small>
-            To report a problem or emergency with a railroad crossing
-          </small></li>
-          <li class="m-footer__item">
-            <%= tel_link "800-522-8236" %>
-          </li>
-        </ul>
-    </nav>
+  <address class="call-us-container">
+    <div class="container m-footer__links">
+      <div class="m-footer__group-title call-us-header">Call Us</div>
     </div>
-</address>
-<footer class="m-footer">
-  <div class="container m-footer__links">
-    <nav class="m-footer__group" aria-labelledby="footer-customer">
-      <div id="footer-customer" class="m-footer__group-title">Customer Support</div>
-      <%= link "Send Us Feedback", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
-      <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
-      <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %>
-      <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services") %>
-    </nav>
-    <nav class="m-footer__group" aria-labelledby="footer-know-us">
-      <div id="footer-know-us" class="m-footer__group-title">Get to Know Us</div>
-      <%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true] %>
-      <%= link "History", to: cms_static_page_path(@conn, "/history"), data: [scroll: true] %>
-      <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true]  %>
-      <%= link "Public Meetings", to: cms_static_page_path(@conn, "/events"), data: [scroll: true]  %>
-      <%= link "Press Releases", to: cms_static_page_path(@conn, "/news"), data: [scroll: true]  %>
-      <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
-      <%= link "Safety", to: cms_static_page_path(@conn, "/safety") %>
-      <%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %>
-    </nav>
-    <nav class="m-footer__group" aria-labelledby="footer-work-with">
-      <div id="footer-work-with" class="m-footer__group-title">Work With Us</div>
-      <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %>
-      <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program") %>
-      <%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business") %>
-      <%= link "Innovation Proposals", to: cms_static_page_path(@conn, "/innovation") %>
-      <%= link "Engineering Design Standards", to: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines") %>
-      <%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %>
-    </nav>
-  </div>
-  <div class="container">
-    <div class="lower-footer">
-      <%= unless assigns[:exclude_google_translate] do %>
-        <%= render "_google_translate_plugin.html", conn: @conn %>
-      <% end %>
-      <div class="m-menu__language"></div>
-      <div class="social-icons-container">
-          <a href="https://www.facebook.com/TheMBTA/" target="_blank" aria-label="MBTA facebook">
-            <i class="fa-brands fa-facebook fa-lg social-icon"></i>
-          </a>
-          <a href="https://www.instagram.com/thembta/" target="_blank" aria-label="MBTA instagram">
-            <i class="fa-brands fa-instagram fa-lg social-icon"></i>
-          </a>
-          <a href="https://linkedin.com/company/mbta" target="_blank" aria-label="MBTA linkedin">
-            <i class="fa-brands fa-linkedin fa-lg social-icon"></i>
-          </a>
-          <a href="https://www.youtube.com/user/mbtagm/" target="_blank" aria-label="MBTA youtube">
-            <i class="fa-brands fa-youtube fa-lg social-icon"></i>
-          </a>
-          <a href="https://twitter.com/MBTA" target="_blank" aria-label="MBTA twitter">
-            <i class="fa-brands fa-twitter fa-lg social-icon"></i>
-          </a>
-          <a href="https://www.tiktok.com/@thembta" target="_blank" aria-label="MBTA tiktok">
-            <i class="fa-brands fa-tiktok fa-lg social-icon"></i>
-          </a>
+    <div class="container m-footer__links">
+      <%= render "_new_nav_contact_numbers.html" %>
+    <div class="container m-footer__links">
+  </address>
+  <footer class="m-footer">
+    <div class="container m-footer__links">
+      <nav class="m-footer__group" aria-labelledby="footer-customer">
+        <div id="footer-customer" class="m-footer__group-title">Customer Support</div>
+        <%= link "Send Us Feedback", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
+        <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
+        <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %>
+        <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services") %>
+      </nav>
+      <nav class="m-footer__group" aria-labelledby="footer-know-us">
+        <div id="footer-know-us" class="m-footer__group-title">Get to Know Us</div>
+        <%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true] %>
+        <%= link "History", to: cms_static_page_path(@conn, "/history"), data: [scroll: true] %>
+        <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true]  %>
+        <%= link "Public Meetings", to: cms_static_page_path(@conn, "/events"), data: [scroll: true]  %>
+        <%= link "Press Releases", to: cms_static_page_path(@conn, "/news"), data: [scroll: true]  %>
+        <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
+        <%= link "Safety", to: cms_static_page_path(@conn, "/safety") %>
+        <%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %>
+      </nav>
+      <nav class="m-footer__group" aria-labelledby="footer-work-with">
+        <div id="footer-work-with" class="m-footer__group-title">Work With Us</div>
+        <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %>
+        <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program") %>
+        <%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business") %>
+        <%= link "Innovation Proposals", to: cms_static_page_path(@conn, "/innovation") %>
+        <%= link "Engineering Design Standards", to: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines") %>
+        <%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %>
+      </nav>
+    </div>
+    <div class="container">
+      <div class="lower-footer">
+        <%= unless assigns[:exclude_google_translate] do %>
+          <%= render "_google_translate_plugin.html", conn: @conn %>
+        <% end %>
+        <div class="m-menu__language"></div>
+        <div class="social-icons-container">
+            <a href="https://www.facebook.com/TheMBTA/" target="_blank" aria-label="MBTA facebook">
+              <i class="fa-brands fa-facebook fa-lg social-icon"></i>
+            </a>
+            <a href="https://www.instagram.com/thembta/" target="_blank" aria-label="MBTA instagram">
+              <i class="fa-brands fa-instagram fa-lg social-icon"></i>
+            </a>
+            <a href="https://linkedin.com/company/mbta" target="_blank" aria-label="MBTA linkedin">
+              <i class="fa-brands fa-linkedin fa-lg social-icon"></i>
+            </a>
+            <a href="https://www.youtube.com/user/mbtagm/" target="_blank" aria-label="MBTA youtube">
+              <i class="fa-brands fa-youtube fa-lg social-icon"></i>
+            </a>
+            <a href="https://twitter.com/MBTA" target="_blank" aria-label="MBTA twitter">
+              <i class="fa-brands fa-twitter fa-lg social-icon"></i>
+            </a>
+            <a href="https://www.tiktok.com/@thembta" target="_blank" aria-label="MBTA tiktok">
+              <i class="fa-brands fa-tiktok fa-lg social-icon"></i>
+            </a>
+        </div>
       </div>
+      <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
     </div>
-    <p class="m-footer__copyright">&copy; Massachusetts Bay Transportation Authority, all rights reserved.</p>
-  </div>
-</footer>
-</div>
+  </footer>
 </div>
