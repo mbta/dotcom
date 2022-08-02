@@ -71,8 +71,19 @@
   @include h3();
   margin: 0 0 1.15em;
 
+  @include media-breakpoint-down(xs) {
+    font-size: 12px;
+  }
+
   @include media-breakpoint-down(sm) {
     font-size: 1.15rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 1rem;
+    line-height: 23px;
+    font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
+    margin-bottom: 4px;
   }
 }
 
@@ -93,12 +104,6 @@
 // MOBILE FOOTER STYLES
 //
 
-@include media-breakpoint-down(sm) {
-  .m-footer__group {
-    padding-left: 1rem;
-  }
-}
-
 @include media-breakpoint-up(lg) {
   .m-footer__group {
     padding-left: 40px;
@@ -109,6 +114,11 @@ address {
   .m-footer__item {
     a {
       color: $brand-primary;
+    }
+
+    @include media-breakpoint-down(xs) {
+      font-size: 14px;
+      line-height: 21px;
     }
   }
 }
@@ -124,6 +134,20 @@ address {
   .m-menu__feature {
     background: $brand-primary-lightest-contrast;
     font-size: 1rem;
+    margin-bottom: 14px;
+
+    @include media-breakpoint-down(sm) {
+      padding-top: 16px;
+      margin-bottom: 14px;
+      a {
+        margin-top: 20px;
+      }
+    }
+
+  small {
+    font-size: 16px;
+  }
+  
   }
 
   @include media-breakpoint-up(lg) {
@@ -169,11 +193,19 @@ address {
       margin-top: 0;
     }
   }
+
+  .m-menu__feature_phone {
+    padding-top: 1rem;
+
+  }
 }
 
 .call-us-header {
   @include media-breakpoint-up(lg) {
     padding-left: 15px;
+    font-size:23px;
+    margin-bottom: 24px;
+    font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
   }
   @include media-breakpoint-down(sm) {
     padding-left: 15px;
