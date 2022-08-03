@@ -71,11 +71,11 @@
   @include h3();
   margin: 0 0 1.15em;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-only(xs) {
     font-size: 12px;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-only(sm) {
     font-size: 1.15rem;
   }
 
@@ -126,7 +126,7 @@ address {
 .call-us-container {
   margin-bottom: -50px;
   background: $brand-primary-lightest-contrast;
-  padding-bottom: $base-spacing * 2;
+  padding-bottom: 0;
   padding-top: 22px;
   flex:1;
   border-radius: 50px 0 0 0;
@@ -138,10 +138,14 @@ address {
 
     @include media-breakpoint-down(sm) {
       padding-top: 16px;
-      margin-bottom: 14px;
+      padding-bottom: 14px;
       a {
         margin-top: 20px;
       }
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 26px;
     }
 
   small {
@@ -155,8 +159,9 @@ address {
     padding-left: 120px;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-only(md) {
     font-size: $font-size-base-sm;
+    padding-bottom: $base-spacing * 2;
   }
 
   @include media-breakpoint-down(sm) {
