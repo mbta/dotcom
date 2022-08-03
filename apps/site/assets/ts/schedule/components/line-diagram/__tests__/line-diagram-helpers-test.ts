@@ -5,7 +5,6 @@ import {
   areOnDifferentBranchLines,
   isBranchTerminusStop,
   lineDiagramIndexes,
-  getTreeDirection,
   isStopOnMainLine,
   diagramWidth
 } from "../line-diagram-helpers";
@@ -46,12 +45,6 @@ it("lineDiagramIndexes returns index locations meeting desired condition", () =>
       stop => stop.route_stop["is_terminus?"]
     )
   ).toEqual([0, 6, 8, 12]);
-});
-
-it("getTreeDirection identifies direction of branching", () => {
-  const inwardLineDiagram = cloneDeep(lineDiagramStopsOutward).reverse();
-  expect(getTreeDirection(lineDiagramStopsOutward)).toBe("outward");
-  expect(getTreeDirection(inwardLineDiagram)).toBe("inward");
 });
 
 it("isStopOnMainLine identifies stop", () => {

@@ -37,35 +37,6 @@ export const lineDiagramIndexes = (
   return subset.map(s => lineDiagram.indexOf(s));
 };
 
-export const getTreeDirection = (
-  lineDiagram: LineDiagramStop[]
-): BranchDirection => {
-  // determines if tree should fan out or collect branches as we go down the page
-  // use the position of the merge stop to find this. assume default of outward
-  let direction: BranchDirection = "outward";
-  if (lineDiagram.some(isMergeStop)) {
-    const firstMergeIndex = lineDiagramIndexes(lineDiagram, isMergeStop)[0];
-    const branchTerminiIndices = lineDiagramIndexes(
-      lineDiagram,
-      isBranchTerminusStop
-    );
-    // if there are more termini stops before the merge, then presume "inward" direction
-    // where 2+ branches converge as you go down the list. and vice versa
-    const terminiBeforeMerge = branchTerminiIndices.filter(
-      i => i < firstMergeIndex
-    );
-    const terminiAfterMerge = branchTerminiIndices.filter(
-      i => i > firstMergeIndex
-    );
-    direction =
-      terminiBeforeMerge.length > terminiAfterMerge.length
-        ? "inward"
-        : "outward";
-  }
-
-  return direction;
-};
-
 // eslint-disable-next-line camelcase
 export const isStopOnMainLine = ({ stop_data }: LineDiagramStop): boolean =>
   // eslint-disable-next-line camelcase

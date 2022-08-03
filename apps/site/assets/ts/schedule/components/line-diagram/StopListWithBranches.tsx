@@ -11,9 +11,6 @@ const buildBranchedLineDiagram = (
   lineDiagram: LineDiagramStop[]
 ): (LineDiagramStop | LineDiagramStop[])[] => {
   const branchedDiagram: (LineDiagramStop | LineDiagramStop[])[] = [];
-  // determine if the diagram will collect branches ("inward")
-  // or split into branches ("outward") going down the page
-  // const direction = getTreeDirection(lineDiagram);
 
   // identify where in the list to branch out or in, e.g.
   // [stop, stop, stop, stop, stop, #, stop, stop]
