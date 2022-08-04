@@ -40,7 +40,7 @@ const LineDiagramWithStops = (
       >
         <Diagram lineDiagram={stops} liveData={liveData} />
         {hasBranchLines(stops) ? (
-          <StopListWithBranches {...props} stops={stops} />
+          <StopListWithBranches {...props} />
         ) : (
           <ol>
             {stops.map(stop => (
