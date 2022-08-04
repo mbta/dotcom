@@ -28,7 +28,7 @@
     }
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-only(md) {
     font-size: $font-size-base-sm;
     z-index: 1;
     position: absolute;
