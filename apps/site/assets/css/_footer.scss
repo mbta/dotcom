@@ -30,6 +30,9 @@
 
   @include media-breakpoint-down(md) {
     font-size: $font-size-base-sm;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
   }
 
   .container {
@@ -260,7 +263,6 @@ address {
 .all-container {
   @include media-breakpoint-up(lg) {
     display: flex;
-    height: 100%;
   }
 }
 
