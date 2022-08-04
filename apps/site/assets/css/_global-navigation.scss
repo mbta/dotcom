@@ -87,6 +87,10 @@ nav.m-menu--desktop {
       outline: 2px solid $brand-secondary;
     }
   }
+
+  .footer-globe {
+      display: none;
+  }
 }
 
 // Buttons to open/close desktop menu

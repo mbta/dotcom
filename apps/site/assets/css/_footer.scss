@@ -289,6 +289,13 @@ address {
     .custom-language-selector {
       color: $brand-primary-light-contrast;
     }
+    
+    .header-globe {
+      display: none;
+    }
+    .footer-globe {
+      display: block;
+    }
   }
   
 }

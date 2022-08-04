@@ -45,22 +45,22 @@
         <div class="m-menu__language"></div>
         <div class="social-icons-container">
             <a href="https://www.facebook.com/TheMBTA/" target="_blank" aria-label="MBTA facebook">
-              <i class="fa-brands fa-facebook fa-lg social-icon"></i>
+              <i class="fa-brands fa-facebook fa-xl social-icon"></i>
             </a>
             <a href="https://www.instagram.com/thembta/" target="_blank" aria-label="MBTA instagram">
-              <i class="fa-brands fa-instagram fa-lg social-icon"></i>
+              <i class="fa-brands fa-instagram fa-xl social-icon"></i>
             </a>
             <a href="https://linkedin.com/company/mbta" target="_blank" aria-label="MBTA linkedin">
-              <i class="fa-brands fa-linkedin fa-lg social-icon"></i>
+              <i class="fa-brands fa-linkedin fa-xl social-icon"></i>
             </a>
             <a href="https://www.youtube.com/user/mbtagm/" target="_blank" aria-label="MBTA youtube">
-              <i class="fa-brands fa-youtube fa-lg social-icon"></i>
+              <i class="fa-brands fa-youtube fa-xl social-icon"></i>
             </a>
             <a href="https://twitter.com/MBTA" target="_blank" aria-label="MBTA twitter">
-              <i class="fa-brands fa-twitter fa-lg social-icon"></i>
+              <i class="fa-brands fa-twitter fa-xl social-icon"></i>
             </a>
             <a href="https://www.tiktok.com/@thembta" target="_blank" aria-label="MBTA tiktok">
-              <i class="fa-brands fa-tiktok fa-lg social-icon"></i>
+              <i class="fa-brands fa-tiktok fa-xl social-icon"></i>
             </a>
         </div>
       </div>
