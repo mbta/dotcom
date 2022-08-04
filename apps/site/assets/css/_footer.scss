@@ -12,7 +12,7 @@
   padding-bottom: $base-spacing * 2;
   padding-top: 22px;
   border-radius:  0 50px 0 0;
-  flex:2;
+  flex-basis: 70%;
 
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-base;
@@ -128,7 +128,7 @@ address {
   background: $brand-primary-lightest-contrast;
   padding-bottom: 0;
   padding-top: 22px;
-  flex:1;
+  flex-basis: 30%;
   border-radius: 50px 0 0 0;
 
   .m-menu__feature {
