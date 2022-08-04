@@ -27,26 +27,31 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
 
   const mergeIndices = lineDiagramIndexes(lineDiagram, isMergeStop);
   // walk through the diagram to find where all the merges go.
-  type GapInfo = [number, number, 'in' | 'out'];
+  type GapInfo = [number, number, "in" | "out"];
   const stopGaps: GapInfo[] = mergeIndices.map(i => {
     const prev = lineDiagram[i - 1];
     const stop = lineDiagram[i];
 
     if (prev.stop_data.length >= stop.stop_data.length) {
       return [
-        (i - 2) - lineDiagram.slice(0, i - 1).reverse().findIndex(isStopOnMainLine),
+        i -
+          2 -
+          lineDiagram
+            .slice(0, i - 1)
+            .reverse()
+            .findIndex(isStopOnMainLine),
         i,
-        'in',
+        "in"
       ];
     }
 
-    return [i, i + lineDiagram.slice(i).findIndex(isStopOnMainLine), 'out'];
+    return [i, i + lineDiagram.slice(i).findIndex(isStopOnMainLine), "out"];
   });
 
   const mergeBends = stopGaps.map(([fromIdx, toIdx, dir]) => {
     // if outward, start with from and construct array of tos
     // if inward, start with to and construct array of froms
-    const branchingOutward = dir === 'out';
+    const branchingOutward = dir === "out";
     const mergeStopIndex = branchingOutward ? fromIdx : toIdx;
     const mergeStop = lineDiagram[mergeStopIndex];
     const mergeStopCoords = lineDiagramCoords[mergeStop.route_stop.id];
@@ -104,20 +109,18 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
 
   return (
     <g className="line-diagram-svg__merge">
-      {stopGaps.map(
-        ([fromIdx, toIdx]) => {
-          const from = lineDiagram[fromIdx];
-          const to = lineDiagram[toIdx];
+      {stopGaps.map(([fromIdx, toIdx]) => {
+        const from = lineDiagram[fromIdx];
+        const to = lineDiagram[toIdx];
 
-          return (
-            <Line
-              key={`${from.route_stop.id}-${to.route_stop.id}-line`}
-              from={from}
-              to={to}
-            />
-          )
-        }
-      )}
+        return (
+          <Line
+            key={`${from.route_stop.id}-${to.route_stop.id}-line`}
+            from={from}
+            to={to}
+          />
+        );
+      })}
       {mergeBends}
     </g>
   );

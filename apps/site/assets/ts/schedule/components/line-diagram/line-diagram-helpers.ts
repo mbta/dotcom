@@ -1,4 +1,3 @@
-import { BranchDirection } from "./__line-diagram";
 import { LineDiagramStop } from "../__schedule";
 import { BRANCH_SPACING, BASE_LINE_WIDTH } from "./graphics/graphic-helpers";
 
