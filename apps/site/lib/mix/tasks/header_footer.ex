@@ -28,6 +28,8 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   """
   use Mix.Task
 
+  @css_prefix "mbta__dotcomchrome__"
+
   @impl Mix.Task
   def run(_) do
     # needed for HTTPoison to work
@@ -95,11 +97,16 @@ defmodule Mix.Tasks.Export.HeaderFooter do
       |> update_links()
       |> remove_search_bar()
       |> remove_language_selector()
+      |> edit_classnames()
 
     IO.puts("#{IO.ANSI.yellow()}writing HTML")
 
-    header_html = Floki.find(html, ".header--new") |> Floki.raw_html(encode: true, pretty: false)
-    footer_html = Floki.find(html, ".m-footer") |> Floki.raw_html(encode: true, pretty: false)
+    header_html =
+      Floki.find(html, ".#{@css_prefix}header--new")
+      |> Floki.raw_html(encode: true, pretty: false)
+
+    footer_html =
+      Floki.find(html, ".#{@css_prefix}m-footer") |> Floki.raw_html(encode: true, pretty: false)
 
     File.mkdir_p("export")
     :ok = File.write("export/header.html", header_html)
@@ -159,6 +166,34 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     |> Floki.find_and_update("#custom-language-menu-mobile", fn _ -> :delete end)
     |> Floki.find_and_update("#custom-language-button-mobile", fn _ -> :delete end)
     |> Floki.find_and_update("script", fn _ -> :delete end)
+  end
+
+  defp edit_classnames(html_tree) do
+    IO.puts("#{IO.ANSI.magenta()}appending prefix to class names")
+
+    Floki.traverse_and_update(html_tree, fn
+      {tag, attrs, children} when is_list(attrs) ->
+        updated_attrs =
+          Enum.map(attrs, fn
+            {"class", class_names} ->
+              IO.inspect(class_names, label: "\tediting classes on <#{tag}>")
+
+              updated_class_names =
+                String.split(class_names)
+                |> Enum.map(&"#{@css_prefix}#{&1}")
+                |> Enum.join(" ")
+
+              {"class", updated_class_names}
+
+            other ->
+              other
+          end)
+
+        {tag, updated_attrs, children}
+
+      node ->
+        node
+    end)
   end
 
   defp webpack(_args) do

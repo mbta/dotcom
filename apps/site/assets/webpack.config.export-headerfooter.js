@@ -7,7 +7,6 @@ const PurgecssPlugin = require("purgecss-webpack-plugin");
 
 const path = require("path");
 const glob = require("glob");
-const postcssPresetEnv = require("postcss-preset-env");
 const sass = require("sass");
 
 const babelLoader = {
@@ -57,28 +56,18 @@ module.exports = (env, argv) => {
         {
           test: /\.scss$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader
-            },
+            MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
                 sourceMap: true,
                 importLoaders: 1,
-                url: false
-              },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: true,
-                postcssOptions: {
-                  plugins: [
-                    postcssPresetEnv({
-                      autoprefixer: { grid: true }
-                    })
-                  ]
-                }
+                url: false,
+                esModule: true,
+                modules: {
+                  // namedExport: true,
+                  localIdentName: "mbta__dotcomchrome__[local]",
+                },
               },
             },
             {
