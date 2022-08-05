@@ -37,6 +37,12 @@
 
   .container {
     padding-bottom: 44px;
+
+    .m-footer__group {
+      .m-footer__group-title {
+        white-space: nowrap;
+      }
+    }
   }
 }
 
