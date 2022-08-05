@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
 import renderSvg from "../../../helpers/render-svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
 import { SimpleStop, SelectedOrigin } from "../__schedule";

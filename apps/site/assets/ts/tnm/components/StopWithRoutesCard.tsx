@@ -3,7 +3,7 @@ import { Mode, EnhancedRoute, Stop } from "../../__v3api";
 import { RouteGroup } from "./__tnm";
 import { Dispatch } from "../state";
 import ModeIcon from "./ModeIcon";
-import { useSMDown } from "../../helpers/media-breakpoints";
+import { useSMDown } from "../../helpers/media-breakpoints-react";
 import { buttonProps } from "../../components/StopCard";
 
 export const renderRoutesLabel = (

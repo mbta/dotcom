@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { Alert as AlertType, Lifecycle } from "../__v3api";
-import { handleReactEnterKeyPress } from "../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
 import renderSVG from "../helpers/render-svg";
 import shuttleIcon from "../../static/images/icon-shuttle-default.svg";

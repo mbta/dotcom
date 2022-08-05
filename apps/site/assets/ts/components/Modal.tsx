@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import createFocusTrap from "focus-trap";
-import { handleReactExitKeyPress } from "../helpers/keyboard-events";
+import { handleReactExitKeyPress } from "../helpers/keyboard-events-react";
 import {
   AriaLabel,
   AriaLabelledBy,

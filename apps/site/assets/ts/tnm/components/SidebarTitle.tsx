@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 import { clickViewChangeAction, Dispatch } from "../state";
 
 interface Props {
