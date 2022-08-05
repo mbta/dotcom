@@ -8,9 +8,9 @@
         aria-expanded="false"
         aria-controls="<%= section.prefix %>-section">
         <%= section.title |> Site.ContentRewriter.rewrite(@conn) |> raw() %>
-        <div class="c-accordion-ui__indicator">
+        <span class="c-accordion-ui__indicator">
           <span class="c-indicator__content c-indicator__content--angle"></span>
-        </div>
+        </span>
       </button>
     </h3>
     <div class="c-accordion-ui__content"
