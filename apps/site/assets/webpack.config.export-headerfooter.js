@@ -3,8 +3,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { SubresourceIntegrityPlugin } = require("webpack-subresource-integrity");
+const PurgecssPlugin = require("purgecss-webpack-plugin");
 
 const path = require("path");
+const glob = require("glob");
 const postcssPresetEnv = require("postcss-preset-env");
 const sass = require("sass");
 
@@ -32,11 +34,13 @@ const tsLoader = {
  * <script> HTML tags linked to the output files.
  */
 module.exports = (env, argv) => {
+  const outputPath = path.resolve(__dirname, argv.outputPath ? argv.outputPath: "../../../../dotcomchrome");
+
   return ({
     mode: "production",
     entry: ["./export-headerfooter.ts"],
     output: {
-      path: path.resolve(__dirname, argv.outputPath ? argv.outputPath: "../../../../dotcomchrome"),
+      path: outputPath,
       filename: 'header.[contenthash].js', // css gets loaded through here
       crossOriginLoading: 'anonymous'
     },
@@ -133,7 +137,17 @@ module.exports = (env, argv) => {
         scriptLoading: "blocking",
         minify: false,
         templateContent: ({ htmlWebpackPlugin }) => `${htmlWebpackPlugin.tags.bodyTags}`
-      })
+      }),
+
+      // purge CSS based on HTML
+      new PurgecssPlugin({
+        fontFace: true, // remove unused @font-face
+        keyframes: true, // remove unused keyframes
+        paths: glob.sync(`${outputPath}/*.html`, { nodir: true }),
+        rejected: true, // list removed things in stats
+        variables: true, // remove unused --custom-properties
+        dynamicAttributes: ["aria-expanded", "href"]
+      }),
     ],
 
     optimization: {
