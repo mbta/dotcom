@@ -21,7 +21,7 @@
   @include media-breakpoint-up(lg) {
     height: 100%;
     padding-left: 1rem;
-    padding-right: 1rem;
+    padding-right: 120px;
     position: relative;
     p {
       margin-left: 40px;
@@ -37,6 +37,7 @@
 
   .container {
     padding-bottom: 44px;
+    padding: 0 4px 0 4px;
 
     .m-footer__group {
       .m-footer__group-title {
@@ -59,14 +60,14 @@
   a {
     color: $brand-primary-light-contrast;
     display: block;
-    margin: .75rem 0;
+    margin-bottom: .75rem;
+    font-size: 18px;
     @include media-breakpoint-up(lg) {
-      font-size: 18px;
       margin-bottom: 1rem;
     }
 
     @include media-breakpoint-down(xs) {
-      margin: 20px 0;
+      margin-bottom: 20px;
     }
 
     &:hover {
@@ -91,11 +92,10 @@
 
 .m-footer__group-title {
   @include h3();
-  margin: 0 0 1.15em;
+  margin: 0 0 24px;
 
   @include media-breakpoint-only(xs) {
     font-size: 12px;
-    margin: 0 0 24px;
   }
 
   @include media-breakpoint-only(sm) {
@@ -103,7 +103,7 @@
   }
 
   @include media-breakpoint-up(lg) {
-    font-size: 24px;
+    font-size: 16px;
     line-height: 30px;
     font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
     margin-bottom: 4px;
@@ -166,6 +166,11 @@ address {
       a {
         margin-top: 20px;
       }
+    }
+
+    @include media-breakpoint-down(xs) {
+      margin-bottom: 0px;
+      padding-top: 24px;
     }
 
     @include media-breakpoint-up(lg) {
@@ -239,11 +244,16 @@ address {
       }
     }
   }
+  @include media-breakpoint-down(lg) {
+    a {
+      padding-top: 12px;
+    }
+  
 }
 
 .call-us-header {
   @include media-breakpoint-up(lg) {
-    padding-left: 15px;
+    padding-left: 12px;
     font-size:23px;
     margin-bottom: 24px;
     font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -251,18 +261,24 @@ address {
   @include media-breakpoint-down(sm) {
     padding-left: 15px;
   }
+  @include media-breakpoint-down(xs) {
+    margin-top: 24px;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
 }
 
 .numbers-container {
   padding-top: 19px;
-  @include media-breakpoint-up(sm) {
-    .m-footer__item {
-      display: flex;
-    }
-    strong {
-      margin-top: 12px;
-      padding-right: 4px;
-    }
+  .m-footer__item {
+    display: flex;
+  }
+  strong {
+    margin-top: 12px;
+    padding-right: 4px;
+  }
+  a {
+    color: $brand-primary;
   }
 }
 
@@ -332,5 +348,11 @@ address {
   &:focus {
     color: $brand-primary-light;
     outline: $brand-secondary solid 2px;
+  }
+}
+
+.bottom-section {
+  .m-menu__feature_phone {
+    display: inline;
   }
 }
