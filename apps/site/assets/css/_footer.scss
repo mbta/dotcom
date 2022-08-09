@@ -160,6 +160,18 @@ address {
     font-size: 1rem;
     margin-bottom: 14px;
 
+    &.emergency-contacts {
+      &.mobile {
+        border-radius: 0;
+        margin-top: 0px;
+        margin-bottom: 2px;
+  
+        @include media-breakpoint-up(lg) {
+          display: block;
+        }
+      }
+    }
+
     @include media-breakpoint-down(sm) {
       padding-top: 16px;
       padding-bottom: 14px;
@@ -248,7 +260,7 @@ address {
     a {
       padding-top: 12px;
     }
-  
+  }
 }
 
 .call-us-header {
