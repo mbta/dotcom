@@ -39,6 +39,11 @@
     padding-bottom: 44px;
     padding: 0 4px 0 4px;
 
+    @include media-breakpoint-up(lg) {
+      padding-left: 0px;
+      padding-right: 4px;
+    }
+
     .m-footer__group {
       .m-footer__group-title {
         white-space: nowrap;
@@ -67,7 +72,7 @@
     }
 
     @include media-breakpoint-down(xs) {
-      margin-bottom: 20px;
+      margin-bottom: 4px;
     }
 
     &:hover {
@@ -217,6 +222,7 @@ address {
     }
     @include media-breakpoint-up(lg){
       display: block;
+
     }
   }
   @include media-breakpoint-up(lg) {
@@ -267,7 +273,7 @@ address {
   @include media-breakpoint-up(lg) {
     padding-left: 12px;
     font-size:23px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
   }
   @include media-breakpoint-down(sm) {
