@@ -10,12 +10,14 @@ const addAccordionToggleObserver = (btn: Element): void =>
     mutations.forEach(({ oldValue, target }): void => {
       const newValue = (target as HTMLElement).getAttribute("aria-expanded");
       if (newValue === oldValue) return;
-      const shouldToggle = newValue === "true" && oldValue !== "true";
       const wrapperEl = target.parentElement!;
-      if ("accordionExpanded" in wrapperEl.dataset && newValue === "false") {
-        delete wrapperEl.dataset.accordionExpanded;
-      } else if (shouldToggle) {
-        wrapperEl.dataset.accordionExpanded = "true";
+      if (
+        wrapperEl.getAttribute("data-accordion-expanded") &&
+        newValue === "false"
+      ) {
+        wrapperEl.removeAttribute("data-accordion-expanded");
+      } else if (newValue === "true") {
+        wrapperEl.setAttribute("data-accordion-expanded", "true");
       }
     });
   }).observe(btn, {

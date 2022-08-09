@@ -1,8 +1,8 @@
 import setupAccordion from "../accordion";
-import { fireEvent, getByText } from "@testing-library/dom";
+import { fireEvent, getByText, waitFor } from "@testing-library/dom";
 
 const body = `
-<div class="c-accordion-ui c-accordion-ui--no-bootstrap" role="presentation">
+<div class="c-accordion-ui c-accordion-ui--no-bootstrap" role="presentation" data-accordion>
 ${[1, 2, 3].map(
   (_, i) => `
   <h3 class="c-accordion-ui__heading">
@@ -11,9 +11,9 @@ ${[1, 2, 3].map(
       aria-expanded="false"
       aria-controls="${i}-section">
       Heading ${i}
-      <div class="c-accordion-ui__indicator">
+      <span class="c-accordion-ui__indicator">
         <span class="c-indicator__content c-indicator__content--angle"></span>
-      </div>
+      </span>
     </button>
   </h3>
   <div class="c-accordion-ui__content"
@@ -27,18 +27,33 @@ ${[1, 2, 3].map(
 </div>`;
 
 describe("accordion", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     document.body.innerHTML = body;
     setupAccordion(document.documentElement);
   });
 
-  test("toggles aria-expanded on click", () => {
-    const btn1 = document.querySelector("button");
-    expect(btn1?.getAttribute("aria-expanded")).toBe("false");
-    document.querySelector("button")?.click();
-    expect(btn1?.getAttribute("aria-expanded")).toBe("true");
-    document.querySelector("button")?.click();
-    expect(btn1?.getAttribute("aria-expanded")).toBe("false");
+  test("toggles aria-expanded on click", async () => {
+    const btn = document.querySelector("button")!;
+    expect(btn.getAttribute("aria-expanded")).toBe("false");
+    expect(
+      btn.parentElement!.getAttribute("data-accordion-expanded")
+    ).toBeFalsy();
+
+    fireEvent.click(btn);
+    await waitFor(() => {
+      expect(btn.getAttribute("aria-expanded")).toBe("true");
+      expect(btn.parentElement!.getAttribute("data-accordion-expanded")).toBe(
+        "true"
+      );
+    });
+
+    fireEvent.click(btn);
+    await waitFor(() => {
+      expect(btn.getAttribute("aria-expanded")).toBe("false");
+      expect(
+        btn.parentElement!.getAttribute("data-accordion-expanded")
+      ).toBeFalsy();
+    });
   });
 
   test("toggles aria-expanded on Space", () => {

@@ -203,7 +203,7 @@ defmodule SiteWeb.LayoutView do
       link_content,
       href: href,
       class: "m-menu__link",
-      'data-nav': "link"
+      "data-nav": "link"
     )
   end
 end
