@@ -1,10 +1,10 @@
-<aside class="c-modal__cover m-menu--cover"></aside>
+<aside class="c-modal__cover m-menu--cover" data-nav="veil"></aside>
 <header class="header--new">
   <div class="container new">
     <div class="header-navbar new">
-      <a class="font-body font-white m-menu__toggle u-bold hidden-js" href="<%= static_page_path(@conn, :menu) %>">Menu</a>
-      <button class="font-body m-menu__toggle u-bold hidden-no-js" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
-      <a class="navbar-logo" href="/">
+      <a class="font-body font-white m-menu__toggle u-bold hidden-js" data-nav="toggle-mobile-nav" href="<%= static_page_path(@conn, :menu) %>">Menu</a>
+      <button class="font-body m-menu__toggle u-bold hidden-no-js" data-nav="toggle-mobile-nav" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
+      <a class="navbar-logo" href="/" data-nav="logo">
         <span class="sr-only">MBTA Home Page</span>
         <div class="svg-container" aria-hidden="true">
           <%= svg "mbta-logo.svg" %>
@@ -21,7 +21,7 @@
         %>
       </div>
 
-      <button class="header-search__toggle" type="button" aria-expanded="false" aria-controls="search-header-mobile__container" aria-label="Search MBTA.com">
+      <button class="header-search__toggle" data-nav="toggle-nav-search" type="button" aria-expanded="false" aria-controls="search-header-mobile__container" aria-label="Search MBTA.com">
         <i class="fa fa-fw fa-search" aria-hidden="true"></i>
         <i class="fa fa-fw fa-close" aria-hidden="true"></i>
       </button>

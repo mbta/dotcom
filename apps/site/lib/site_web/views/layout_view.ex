@@ -202,7 +202,8 @@ defmodule SiteWeb.LayoutView do
       :a,
       link_content,
       href: href,
-      class: "m-menu__link"
+      class: "m-menu__link",
+      'data-nav': "link"
     )
   end
 end

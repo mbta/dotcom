@@ -25,15 +25,17 @@ function toggleMenu(el: Element): void {
   toggleAriaExpanded(el);
 }
 
-const TOGGLE_CLASSES = {
-  mobile: "m-menu__toggle",
-  search: "header-search__toggle",
-  desktop: "m-menu--desktop__toggle"
+const TOGGLE_NAMES = {
+  mobile: "toggle-mobile-nav",
+  search: "toggle-nav-search",
+  desktop: "toggle-desktop-nav"
 };
 
-const allTogglesSelector: string = Object.values(TOGGLE_CLASSES)
-  .map(className => `.${className}`)
-  .join(", ");
+const TOGGLE_SELECTORS = Object.fromEntries(
+  Object.entries(TOGGLE_NAMES).map(([key, name]) => [key, `[data-nav=${name}]`])
+);
+
+const allTogglesSelector: string = Object.values(TOGGLE_SELECTORS).join(", ");
 
 export function setHeaderElementPositions(
   header: HTMLElement,
@@ -45,20 +47,20 @@ export function setHeaderElementPositions(
   const bottomPx = `${bottom}px`;
   const heightPx = `${height}px`;
 
-  header.querySelectorAll(".m-menu--desktop__menu").forEach(el => {
+  header.querySelectorAll("[data-nav='desktop-section']").forEach(el => {
     // eslint-disable-next-line no-param-reassign
     (el as HTMLElement).style.top = heightPx;
   });
 
   const content = header.querySelector(
-    ".m-menu--mobile .m-menu__content"
+    "[data-nav='mobile-content']"
   ) as HTMLElement | null;
   if (content) {
     content.style.top = bottomPx;
   }
 
   const cover = rootElement.querySelector(
-    ".m-menu--cover"
+    "[data-nav='veil']"
   ) as HTMLElement | null;
   if (cover) {
     cover.style.top = bottomPx;
@@ -67,9 +69,8 @@ export function setHeaderElementPositions(
 
 export function setup(rootElement: HTMLElement): void {
   if (!rootElement) return;
-  rootElement.classList.add("js");
 
-  const header: HTMLElement = rootElement.querySelector(".header--new")!;
+  const header: HTMLElement = rootElement.querySelector("header")!;
   if (!header) return;
 
   setHeaderElementPositions(header, rootElement);
@@ -80,7 +81,7 @@ export function setup(rootElement: HTMLElement): void {
   // On mobile, clicking Menu or the Search icon opens a menu
   header
     .querySelectorAll(
-      `button.${TOGGLE_CLASSES.mobile}, button.${TOGGLE_CLASSES.search}`
+      `button${TOGGLE_SELECTORS.mobile}, button${TOGGLE_SELECTORS.search}`
     )
     .forEach(toggle => {
       toggle.addEventListener("click", event => {
@@ -90,7 +91,7 @@ export function setup(rootElement: HTMLElement): void {
     });
 
   // On desktop, clicking a menu item opens the submenu
-  header.querySelectorAll(`a.${TOGGLE_CLASSES.desktop}`).forEach(toggle => {
+  header.querySelectorAll(`a${TOGGLE_SELECTORS.desktop}`).forEach(toggle => {
     toggle.addEventListener("click", event => {
       event.preventDefault(); // don't navigate the <a>
       toggleMenu(event.currentTarget as Element);
@@ -103,17 +104,19 @@ export function setup(rootElement: HTMLElement): void {
   if (input) {
     input.addEventListener("focus", () => {
       if (isLGDown()) {
-        rootElement.classList.add("menu-open");
+        // eslint-disable-next-line no-param-reassign
+        rootElement.dataset.navOpen = "true";
       }
     });
     input.addEventListener("blur", () => {
-      rootElement.classList.remove("menu-open");
+      // eslint-disable-next-line no-param-reassign
+      delete rootElement.dataset.navOpen;
     });
   }
 
   // removes focus outline in Safari from open accordions
   rootElement
-    .querySelectorAll(".m-menu__content .js-focus-on-expand")
+    .querySelectorAll("[data-nav='mobile-content'] .js-focus-on-expand")
     .forEach(openAccordion => {
       openAccordion.addEventListener("focus", undoOutline);
     });
@@ -121,30 +124,30 @@ export function setup(rootElement: HTMLElement): void {
   // On mobile, when a menu is opened/closed,
   const toggledMobileMenuObserver = new MutationObserver(() => {
     const mobileMenuToggle = header.querySelector(
-      `button.${TOGGLE_CLASSES.mobile}`
+      `button${TOGGLE_SELECTORS.mobile}`
     )!;
 
     // Update Menu button text
-    if (header.classList.contains("menu-open")) {
+    if ("navOpen" in header.dataset) {
       // eslint-disable-next-line no-param-reassign
-      rootElement.querySelector(".m-menu__content")!.scrollTop = 0;
+      rootElement.querySelector("[data-nav='mobile-content']")!.scrollTop = 0;
       mobileMenuToggle.innerHTML = "Close";
     } else {
       mobileMenuToggle.innerHTML = "Menu";
     }
 
-    if (header.classList.contains("search-open")) {
+    if ("searchOpen" in header.dataset) {
       // pass focus to search bar
       (rootElement.querySelector(
-        ".m-menu__search #search-header-mobile__input"
+        "[data-nav='search'] #search-header-mobile__input"
       ) as HTMLElement)!.focus();
     }
   });
 
   // When any navigation menu is expanded,
   const expandedMenuObserver = new MutationObserver(mutations => {
-    const observedClassNames = mutations.flatMap(m =>
-      Array.from((m.target as Element).classList)
+    const observedDataAttributes = mutations.map(
+      m => (m.target as HTMLElement).dataset.nav || ""
     );
 
     const aMenuIsBeingExpanded: boolean =
@@ -159,17 +162,22 @@ export function setup(rootElement: HTMLElement): void {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", aMenuIsBeingExpanded ? "#0b2f4c" : "#165c96");
 
-    // add/remove classes based on which menu is expanded
-    // .menu-open on the document body
-    // .menu-open or .search-open on the header
+    // add/remove data attributes based on which menu is expanded
+    // nav-open on the document body
+    // nav-open or search-open on the header
     if (aMenuIsBeingExpanded) {
-      rootElement.classList.add("menu-open");
+      // eslint-disable-next-line no-param-reassign
+      rootElement.dataset.navOpen = "true";
       disableBodyScroll(header);
-      if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
-        header.classList.add("menu-open");
-        disableBodyScroll(rootElement.querySelector(".m-menu__content")!);
-      } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
-        header.classList.add("search-open");
+      if (observedDataAttributes.includes(TOGGLE_NAMES.mobile)) {
+        // eslint-disable-next-line no-param-reassign
+        header.dataset.navOpen = "true";
+        disableBodyScroll(
+          rootElement.querySelector("[data-nav='mobile-content']")!
+        );
+      } else if (observedDataAttributes.includes(TOGGLE_NAMES.search)) {
+        // eslint-disable-next-line no-param-reassign
+        header.dataset.searchOpen = "true";
       }
     } else {
       // only do this if no other menu is expanded
@@ -179,11 +187,14 @@ export function setup(rootElement: HTMLElement): void {
 
       if (!anyOpen) {
         clearAllBodyScrollLocks();
-        rootElement.classList.remove("menu-open");
-        if (observedClassNames.includes(TOGGLE_CLASSES.mobile)) {
-          header.classList.remove("menu-open");
-        } else if (observedClassNames.includes(TOGGLE_CLASSES.search)) {
-          header.classList.remove("search-open");
+        // eslint-disable-next-line no-param-reassign
+        delete rootElement.dataset.navOpen;
+        if (observedDataAttributes.includes(TOGGLE_NAMES.mobile)) {
+          // eslint-disable-next-line no-param-reassign
+          delete header.dataset.navOpen;
+        } else if (observedDataAttributes.includes(TOGGLE_NAMES.search)) {
+          // eslint-disable-next-line no-param-reassign
+          delete header.dataset.searchOpen;
         }
       }
     }
@@ -191,13 +202,13 @@ export function setup(rootElement: HTMLElement): void {
     // Close the other desktop tabs programmatically
     if (
       aMenuIsBeingExpanded &&
-      observedClassNames.includes(TOGGLE_CLASSES.desktop)
+      observedDataAttributes.includes(TOGGLE_NAMES.desktop)
     ) {
       const thisMenu = mutations.map(({ target }) =>
         (target as Element).getAttribute("aria-controls")
       )[0];
       // close OTHER menus
-      Array.from(rootElement.querySelectorAll(`.${TOGGLE_CLASSES.desktop}`))
+      Array.from(rootElement.querySelectorAll(`${TOGGLE_SELECTORS.desktop}`))
         .filter(
           (el: Element) =>
             el.getAttribute("aria-controls") !== thisMenu &&
@@ -207,10 +218,10 @@ export function setup(rootElement: HTMLElement): void {
     }
   });
 
-  // monitor the header for classList changes
+  // monitor the header for attribute changes
   toggledMobileMenuObserver.observe(header, {
     attributes: true,
-    attributeFilter: ["class"]
+    attributeFilter: ["data-nav-open", "data-search-open"]
   });
 
   // monitor all the menu toggles for aria-expanded changes
@@ -227,24 +238,26 @@ export function setup(rootElement: HTMLElement): void {
   // 2022-02-28, and even if it did, the opening/closing animations of the
   // accordions makes the behavior janky on other browsers
   const menuContent = rootElement.querySelector(
-    ".m-menu--mobile .m-menu__content"
+    "[data-nav='mobile-content']"
   )! as HTMLElement;
   if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-    rootElement
-      .querySelectorAll(".m-menu--mobile .c-accordion-ui__trigger")
+    menuContent
+      .querySelectorAll("[data-accordion] h3 > button")
       .forEach(target =>
         target.addEventListener(
           "click",
-          () => {
-            // if (target.getAttribute("aria-expanded") === "true") {
-            //   // return;
-            // }
+          event => {
+            const el = event.target as HTMLElement;
+            if (target.getAttribute("aria-expanded") === "false") {
+              return;
+            }
 
+            const expandedDrawerId = el.getAttribute("aria-controls");
             const expandedDrawer = menuContent.querySelector(
-              ".c-accordion-ui__target[aria-expanded='true']"
+              `#${expandedDrawerId}`
             );
 
-            const targetBB = target.getBoundingClientRect();
+            const targetBB = el.getBoundingClientRect();
 
             const yOffset = (() => {
               if (expandedDrawer) {
@@ -259,8 +272,7 @@ export function setup(rootElement: HTMLElement): void {
               return 0;
             })();
 
-            const targetY =
-              (target as HTMLElement).offsetTop - targetBB.height / 2 - yOffset;
+            const targetY = el.offsetTop - targetBB.height / 2 - yOffset;
 
             menuContent.scrollTo({
               behavior: "smooth",
@@ -282,14 +294,14 @@ export function setup(rootElement: HTMLElement): void {
   }
 
   // menu click closes
-  const menu_links = rootElement.querySelectorAll(".m-menu__link");
+  const menu_links = rootElement.querySelectorAll("[data-nav='link']");
   for (let i = 0; i < menu_links.length; i += 1) {
     menu_links[i].addEventListener("click", closeAllMenus);
   }
 
   // T logo click closes
   header
-    .querySelector(".navbar-logo")
+    .querySelector("[data-nav='logo']")
     ?.addEventListener("click", closeAllMenus);
 
   // Veil click or Esc key closes everything
@@ -297,8 +309,9 @@ export function setup(rootElement: HTMLElement): void {
     handleNativeEscapeKeyPress(e, closeAllMenus);
   });
 
-  if (header.previousElementSibling?.classList.contains("m-menu--cover"))
-    header.previousElementSibling.addEventListener("click", closeAllMenus);
+  rootElement
+    .querySelector("[data-nav='veil']")
+    ?.addEventListener("click", closeAllMenus);
 
   const transitDiv = rootElement.querySelector("#Transit-accordion");
   if (transitDiv) {

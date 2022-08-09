@@ -12,11 +12,11 @@ declare global {
 window.setupDotcomChrome = function(rootElement: HTMLElement) {
   if (!rootElement) return;
 
-  setup(rootElement);
   setupAccordion(rootElement);
+  setup(rootElement);
 
   // Remove event listeners from header search button, then hide
-  const searchButton = rootElement.querySelector(".header-search__toggle");
+  const searchButton = rootElement.querySelector("[data-nav='toggle-nav-search']");
   if (searchButton) {
     const blankButton = searchButton?.cloneNode(true) as HTMLElement;
     blankButton.style.opacity = "0";

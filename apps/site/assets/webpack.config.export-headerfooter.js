@@ -146,7 +146,16 @@ module.exports = (env, argv) => {
         paths: glob.sync(`${outputPath}/*.html`, { nodir: true }),
         rejected: true, // list removed things in stats
         variables: true, // remove unused --custom-properties
-        dynamicAttributes: ["aria-expanded", "href"]
+        safelist: {
+          greedy: [/data-nav/, /data-search-open/, /aria-expanded/]
+        },
+        dynamicAttributes: [
+          "aria-expanded",
+          "href",
+          "data-search-open",
+          "data-nav-open",
+          "data-nav"
+        ]
       }),
     ],
 
@@ -164,11 +173,6 @@ module.exports = (env, argv) => {
 
     resolve: {
       extensions: [".ts", ".js"]
-    },
-
-    // this should have been removed as its only relevant to ununsed module code
-    externals: {
-      react: 'React'
     }
   })
 };

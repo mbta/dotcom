@@ -33,7 +33,7 @@ defmodule SiteWeb.LayoutViewTest do
     test "renders a link" do
       {:safe, html} = render_nav_link({"Title", "/page", :external_link})
       html_string = IO.iodata_to_binary(html)
-      assert html_string =~ "<a class=\"m-menu__link\" href=\"/page\">"
+      assert html_string =~ "<a class=\"m-menu__link\" href=\"/page\" data-nav=\"link\">"
     end
 
     test "renders icon for external links" do

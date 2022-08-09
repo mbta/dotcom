@@ -23,7 +23,7 @@ header {
   }
 }
 
-.menu-open {
+[data-nav-open] {
   body {
     overflow: hidden; // prevent scrolling
   }

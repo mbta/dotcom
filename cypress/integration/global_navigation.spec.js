@@ -8,12 +8,12 @@ const viewports = [
 const searchPlaceholderText = "Search for routes, info, and more";
 
 const SELECTORS = {
-  veil: ".m-menu--cover",
-  desktopMenu: ".m-menu-desktop__section",
-  desktopMenuButton: ".m-menu--desktop__toggle",
-  mobileMenu: ".m-menu__content",
-  mobileMenuButton: "button.m-menu__toggle",
-  searchButton: "button.header-search__toggle",
+  veil: "[data-nav='veil']",
+  desktopMenu: "[data-nav='desktop-section']",
+  desktopMenuButton: "[data-nav='toggle-desktop-nav']",
+  mobileMenu: "[data-nav='mobile-content']",
+  mobileMenuButton: "button[data-nav='toggle-mobile-nav']",
+  searchButton: "[data-nav='toggle-nav-search']",
   searchBarDesktop: "header #search-header-desktop__container",
   searchInputDesktop: "header #search-header-desktop__input",
   searchBarMobile: "header #search-header-mobile__container"
@@ -104,7 +104,7 @@ describe("Header navigation", () => {
         });
       } else {
         // no idea why this test is failing in CI but here we are
-        it.skip("button toggles the desktop menu", { retries: 5 }, () => {
+        it("button toggles the desktop menu", { retries: 5 }, () => {
           cy.get(SELECTORS.desktopMenuButton).first().click();
           cy.get(SELECTORS.desktopMenu).should("be.visible");
           cy.get(SELECTORS.desktopMenuButton).first().click();
@@ -156,7 +156,7 @@ describe("Header navigation", () => {
         it("search button toggles search bar", () => {
           cy.get(SELECTORS.searchBarMobile).should("not.be.visible");
           cy.get(SELECTORS.searchButton).click();
-          cy.get("header").should("have.class", "search-open");
+          cy.get("header").should("have.attr", "data-search-open");
           cy.get(SELECTORS.mobileMenuButton).should("not.be.visible");
           cy.get(SELECTORS.searchBarDesktop)
             .should("not.be.visible")
@@ -164,7 +164,7 @@ describe("Header navigation", () => {
             .should("be.visible")
             .get("input.c-search-bar__-input").should("have.attr", "placeholder", searchPlaceholderText);
           cy.get(SELECTORS.searchButton).click();
-          cy.get("header").should("not.have.class", "search-open");
+          cy.get("header").should("not.have.attr", "data-search-open");
           cy.get(SELECTORS.searchBarMobile).should("not.be.visible");
         });
       }
