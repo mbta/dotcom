@@ -53,10 +53,25 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
     prior_stops = prior_stops(vehicle_schedules)
 
+    if conn.assigns.route.id == "Orange" do
+      route_ids = ["CR-Haverhill", "CR-Needham", "CR-Providence","CR-Franklin"]
+      stop_ids = ["place-sstat", "place-bbsta","place-forhl","place-rugg"]
+
+
+      the_stops = for stop_id <- stop_ids, do: Stops.Repo.get(stop_id)
+      the_schedules = for route_id <- route_ids, do: Schedules.Repo.by_route_ids([route_id], date: conn.assigns.date, direction_id: conn.assigns.direction_id)
+
+      %{
+        trip_schedules: the_schedules,
+        all_stops: the_stops
+      } = build_timetable(conn.assigns.all_stops, the_schedules)
+    end
+
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
+
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
@@ -128,7 +143,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   def build_timetable(all_stops, schedules) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
     all_stops = remove_unused_stops(all_stops, schedules)
-
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
