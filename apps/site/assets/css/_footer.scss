@@ -4,8 +4,11 @@
 // GENERAL FOOTER STYLES
 //
 //
+@import "typography";
 
 .m-footer {
+  @include base-font__new();
+
   background-color: $footer-color;
   color: $white;
   min-width: 20rem;
