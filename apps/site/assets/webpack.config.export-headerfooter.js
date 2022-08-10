@@ -136,7 +136,7 @@ module.exports = (env, argv) => {
         rejected: true, // list removed things in stats
         variables: true, // remove unused --custom-properties
         safelist: {
-          greedy: [/data-nav/, /data-search-open/, /aria-expanded/]
+          greedy: [/data-nav/, /data-search-open/, /aria-expanded/, /href/, /m-menu/, /m-footer/]
         },
         dynamicAttributes: [
           "aria-expanded",
