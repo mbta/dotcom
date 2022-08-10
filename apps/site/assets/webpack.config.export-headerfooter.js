@@ -4,6 +4,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { SubresourceIntegrityPlugin } = require("webpack-subresource-integrity");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
+const WebpackAssetsManifest = require("webpack-assets-manifest");
 
 const path = require("path");
 const glob = require("glob");
@@ -147,6 +148,10 @@ module.exports = (env, argv) => {
           "data-nav"
         ]
       }),
+
+      new WebpackAssetsManifest({
+        integrity: true
+      })
     ],
 
     optimization: {
