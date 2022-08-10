@@ -93,7 +93,7 @@ defmodule Mix.Tasks.Export.HeaderFooter do
 
     html =
       tree
-      |> Floki.find(".header--new, .m-footer")
+      |> Floki.find(".m-menu--cover, .header--new, .m-footer")
       |> update_links()
       |> remove_search_bar()
       |> remove_language_selector()
@@ -102,7 +102,7 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     IO.puts("#{IO.ANSI.yellow()}writing HTML")
 
     header_html =
-      Floki.find(html, ".#{@css_prefix}header--new")
+      Floki.find(html, ".#{@css_prefix}m-menu--cover, .#{@css_prefix}header--new")
       |> Floki.raw_html(encode: true, pretty: false)
 
     footer_html =

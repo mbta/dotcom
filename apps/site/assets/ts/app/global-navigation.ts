@@ -73,7 +73,9 @@ export function setup(rootElement: HTMLElement): void {
   const header: HTMLElement = rootElement.querySelector("header")!;
   if (!header) return;
 
-  setHeaderElementPositions(header, rootElement);
+  window.addEventListener("DOMContentLoaded", () => {
+    setHeaderElementPositions(header, rootElement);
+  });
   window.addEventListener("resize", () => {
     setHeaderElementPositions(header, rootElement);
   });
