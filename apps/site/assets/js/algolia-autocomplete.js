@@ -6,7 +6,16 @@ import * as QueryHelpers from "../ts/helpers/query";
 /* eslint-disable class-methods-use-this */
 
 export default class AlgoliaAutocomplete {
-  constructor({ id, selectors, indices, parent, containerEl = null }) {
+  #templates;
+
+  constructor({
+    id,
+    selectors,
+    indices,
+    parent,
+    containerEl = null,
+    templates = AlgoliaResult.TEMPLATES
+  }) {
     if (typeof id !== "string") {
       throw new window.Error("autocomplete must have an id");
     }
@@ -27,6 +36,9 @@ export default class AlgoliaAutocomplete {
     this._results = {};
     this._highlightedHit = null;
     this._autocomplete = null;
+
+    this.#templates = templates;
+
     this.bind();
   }
 
@@ -375,7 +387,7 @@ export default class AlgoliaAutocomplete {
   }
 
   renderResult(index) {
-    return hit => AlgoliaResult.renderResult(hit, index);
+    return hit => AlgoliaResult.renderResult(hit, index, this.#templates);
   }
 
   setValue(value) {

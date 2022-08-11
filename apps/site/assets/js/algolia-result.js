@@ -81,6 +81,17 @@ export const TEMPLATES = {
   `)
 };
 
+export const TEMPLATES_ALT_USE_MY_LOCATION = {
+  ...TEMPLATES,
+  usemylocation: hogan.compile(`
+    <a id="search-bar__my-location" class="c-search-bar__my-location">
+      <i aria-hidden="true" class="fa fa-location-arrow "></i>
+      Use my location to find transit near me
+      <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
+    </a>
+  `)
+};
+
 function iconsFromGTFSAncestries(ancestries) {
   return ancestries
     .map(anc => anc.toLowerCase())
@@ -537,13 +548,13 @@ export function parseResult(hit, index) {
   });
 }
 
-export function renderResult(hit, index) {
+export function renderResult(hit, index, templates) {
   const parsedResult = parseResult(hit, index);
   if (parsedResult.hitFeatureIcons.length > 2) {
     return TEMPLATES["threePlusIcons"].render(parsedResult);
   }
-  if (TEMPLATES[index]) {
-    return TEMPLATES[index].render(parsedResult);
+  if (templates[index]) {
+    return templates[index].render(parsedResult);
   }
-  return TEMPLATES.default.render(parsedResult);
+  return templates.default.render(parsedResult);
 }
