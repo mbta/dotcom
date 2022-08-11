@@ -548,7 +548,7 @@ export function parseResult(hit, index) {
   });
 }
 
-export function renderResult(hit, index, templates) {
+export function renderResult(hit, index, templates = TEMPLATES) {
   const parsedResult = parseResult(hit, index);
   if (parsedResult.hitFeatureIcons.length > 2) {
     return TEMPLATES["threePlusIcons"].render(parsedResult);
