@@ -72,33 +72,14 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   # Helper function for obtaining schedule data
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
-
-    case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
-      {:error, _} -> []
-      schedules -> schedules
-    end
-
     if route.id == "Orange" do
       route_ids = ["CR-Haverhill", "CR-Needham", "CR-Providence","CR-Franklin"]
-      # for route_id <- route_ids, do: Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id)
-        # {:error, _} -> []
-        # schedules -> schedules
-
-        # haverill activated when gtfs updated
-      all_sched = Schedules.Repo.by_route_ids(["CR-Needham"], date: date, direction_id: direction_id)
-      all_sched = Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Providence"], date: date, direction_id: direction_id))
-      all_sched = Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Franklin"], date: date, direction_id: direction_id))
-      all_sched = Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Haverhill"], date: date, direction_id: direction_id))
-      all_sched
-
-
+      Enum.flat_map(route_ids, fn route_id -> Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id) end)
     else
-      x = case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
+      case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
         {:error, _} -> []
         schedules -> schedules
       end
-      IO.inspect(x)
-      x
     end
   end
 
