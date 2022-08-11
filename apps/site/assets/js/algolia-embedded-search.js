@@ -14,13 +14,16 @@ import {
 } from "./algolia-embedded-search-options";
 
 export class AlgoliaEmbeddedSearch {
+  #templates;
+
   constructor({
     pageId,
     withGoogle,
     selectors,
     params,
     indices,
-    locationParams
+    locationParams,
+    templates = AlgoliaResult.TEMPLATES
   }) {
     this.withGoogle = withGoogle;
     this.pageId = pageId;
@@ -35,6 +38,8 @@ export class AlgoliaEmbeddedSearch {
     this.controller = null;
     this.autocomplete = null;
     this.goBtn = document.getElementById(selectors.goBtn);
+    this.#templates = templates;
+
     this.bind();
     if (this.input) {
       this.init();
@@ -55,6 +60,7 @@ export class AlgoliaEmbeddedSearch {
           indices: Object.keys(this.indices),
           locationParams: this.locationParams,
           popular: [],
+          templates: this.#templates,
           parent: this
         })
       : new AlgoliaAutocomplete({
@@ -63,6 +69,7 @@ export class AlgoliaEmbeddedSearch {
           indices: Object.keys(this.indices),
           locationParams: this.locationParams,
           popular: [],
+          templates: this.#templates,
           parent: this
         });
     this.autocomplete.renderFooterTemplate =
@@ -142,6 +149,7 @@ export const init = () => {
             selectors,
             params,
             indices,
+            templates: AlgoliaResult.TEMPLATES_ALT_USE_MY_LOCATION,
             withGoogle: true
           })
       );

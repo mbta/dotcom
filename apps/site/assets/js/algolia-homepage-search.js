@@ -1,4 +1,5 @@
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
+import { TEMPLATES_ALT_USE_MY_LOCATION } from "./algolia-result";
 // eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
 
@@ -78,7 +79,8 @@ export const doInit = id => {
     params: PARAMS,
     selectors: selectors,
     locationParams: LOCATION_PARAMS,
-    withGoogle: true
+    withGoogle: true,
+    templates: TEMPLATES_ALT_USE_MY_LOCATION
   });
 
   search.buildSearchParams = () =>

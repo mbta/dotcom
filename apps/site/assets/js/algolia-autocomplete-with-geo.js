@@ -1,4 +1,5 @@
 import AlgoliaAutocomplete from "./algolia-autocomplete";
+import { TEMPLATES } from "./algolia-result";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
 // eslint-disable-next-line
 import * as QueryHelpers from "../ts/helpers/query";
@@ -34,9 +35,10 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     locationParams,
     popular,
     parent,
-    containerEl = null
+    containerEl = null,
+    templates = TEMPLATES
   }) {
-    super({ id, selectors, indices, parent, containerEl });
+    super({ id, selectors, indices, parent, containerEl, templates });
     this.debounceInterval = 250;
     if (!this._parent.getParams) {
       this._parent.getParams = () => ({});
