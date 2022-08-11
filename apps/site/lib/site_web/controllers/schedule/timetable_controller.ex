@@ -80,19 +80,15 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
     if route.id == "Orange" do
       route_ids = ["CR-Haverhill", "CR-Needham", "CR-Providence","CR-Franklin"]
-      for route_id <- route_ids, do: Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id)
+      # for route_id <- route_ids, do: Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id)
         # {:error, _} -> []
         # schedules -> schedules
 
-        all_sched = Schedules.Repo.by_route_ids(["CR-Haverhill"], date: date, direction_id: direction_id)
-        Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Needham"], date: date, direction_id: direction_id))
-        Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Providence"], date: date, direction_id: direction_id))
-        Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Franklin"], date: date, direction_id: direction_id))
-
-        all_sched
-
-        IO.inspect(all_sched)
-
+        # haverill activated when gtfs updated
+      all_sched = Schedules.Repo.by_route_ids(["CR-Needham"], date: date, direction_id: direction_id)
+      Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Providence"], date: date, direction_id: direction_id))
+      Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Franklin"], date: date, direction_id: direction_id))
+      all_sched
     else
       x = case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
         {:error, _} -> []
