@@ -73,7 +73,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     if route.id == "Orange" do
-      route_ids = ["CR-Haverhill", "CR-Needham", "CR-Providence","CR-Franklin"]
+      route_ids = ["CR-Needham", "CR-Providence","CR-Franklin"]
       Enum.flat_map(route_ids, fn route_id -> Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id) end)
     else
       case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
