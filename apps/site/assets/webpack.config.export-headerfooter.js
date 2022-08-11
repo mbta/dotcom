@@ -1,8 +1,6 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { SubresourceIntegrityPlugin } = require("webpack-subresource-integrity");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 
@@ -38,7 +36,9 @@ module.exports = (env, argv) => {
 
   return ({
     mode: "production",
-    entry: ["./export-headerfooter.ts"],
+    entry: {
+      dotcomchrome: "./export-headerfooter.ts"
+    },
     output: {
       path: outputPath,
       filename: 'header.[contenthash].js', // css gets loaded through here
@@ -108,28 +108,8 @@ module.exports = (env, argv) => {
             { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
           ]}),
 
-      // add integrity attribute to linked resources
-      new SubresourceIntegrityPlugin(),
-
-      // write file with <link> tag to CSS
-      new HtmlWebpackPlugin({
-        inject: false,
-        filename: "head.html",
-        scriptLoading: "blocking",
-        minify: false,
-        templateContent: ({ htmlWebpackPlugin }) => `<head>\n${htmlWebpackPlugin.tags.headTags[0]}\n</head>`
-      }),
-
-      // write file with <script> tag to JS
-      new HtmlWebpackPlugin({
-        inject: false,
-        filename: "scripts.html",
-        scriptLoading: "blocking",
-        minify: false,
-        templateContent: ({ htmlWebpackPlugin }) => `${htmlWebpackPlugin.tags.bodyTags}`
-      }),
-
       // purge CSS based on HTML
+      // depends on header.html and footer.html already being present at the outputPath.
       new PurgecssPlugin({
         fontFace: true, // remove unused @font-face
         keyframes: true, // remove unused keyframes
