@@ -53,20 +53,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
     prior_stops = prior_stops(vehicle_schedules)
 
-    if conn.assigns.route.id == "Orange" do
-      route_ids = ["CR-Haverhill", "CR-Needham", "CR-Providence","CR-Franklin"]
-      stop_ids = ["place-sstat", "place-bbsta","place-forhl","place-rugg"]
-
-
-      the_stops = for stop_id <- stop_ids, do: Stops.Repo.get(stop_id)
-      the_schedules = for route_id <- route_ids, do: Schedules.Repo.by_route_ids([route_id], date: conn.assigns.date, direction_id: conn.assigns.direction_id)
-
-      %{
-        trip_schedules: the_schedules,
-        all_stops: the_stops
-      } = build_timetable(conn.assigns.all_stops, the_schedules)
-    end
-
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
@@ -86,9 +72,34 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   # Helper function for obtaining schedule data
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
+
     case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
       {:error, _} -> []
       schedules -> schedules
+    end
+
+    if route.id == "Orange" do
+      route_ids = ["CR-Haverhill", "CR-Needham", "CR-Providence","CR-Franklin"]
+      for route_id <- route_ids, do: Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id)
+        # {:error, _} -> []
+        # schedules -> schedules
+
+        all_sched = Schedules.Repo.by_route_ids(["CR-Haverhill"], date: date, direction_id: direction_id)
+        Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Needham"], date: date, direction_id: direction_id))
+        Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Providence"], date: date, direction_id: direction_id))
+        Enum.concat(all_sched, Schedules.Repo.by_route_ids(["CR-Franklin"], date: date, direction_id: direction_id))
+
+        all_sched
+
+        IO.inspect(all_sched)
+
+    else
+      x = case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
+        {:error, _} -> []
+        schedules -> schedules
+      end
+      IO.inspect(x)
+      x
     end
   end
 
@@ -124,10 +135,15 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp all_stops(conn, _) do
     # we override the default fetch of all_stops to not use the date. We will
     # use the date to fetch the actual schedule data.
-    all_stops =
+    all_stops = if conn.assigns.route.id == "Orange" do
+      stop_ids = ["place-sstat", "place-bbsta","place-forhl","place-rugg"]
+      for stop_id <- stop_ids, do: Stops.Repo.get(stop_id)
+    else
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
         date: conn.assigns.date
       )
+    end
+
 
     assign(conn, :all_stops, all_stops)
   end
