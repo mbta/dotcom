@@ -116,7 +116,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     # we override the default fetch of all_stops to not use the date. We will
     # use the date to fetch the actual schedule data.
     all_stops = if conn.assigns.route.id == "Orange" do
-      stop_ids = ["place-sstat", "place-bbsta","place-forhl","place-rugg"]
+      stop_ids = ["place-forhl","place-rugg", "place-bbsta", "place-sstat"]
       for stop_id <- stop_ids, do: Stops.Repo.get(stop_id)
     else
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
