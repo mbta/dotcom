@@ -1,8 +1,4 @@
 .c-recently-visited {
-  h2 {
-    margin-top: 0;
-  }
-
   .c-grid-button {
     flex-basis: 25%;
     margin-right: 16px;
@@ -35,9 +31,17 @@
       font-size: $font-size-base-sm;
       line-height: $space-21;
     }
-    
+
     &:hover {
       border: $border;
+    }
+  }
+}
+
+.m-tabbed-nav__content-item {
+  .c-recently-visited {
+    h2 {
+      margin-top: 0;
     }
   }
 }
