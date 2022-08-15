@@ -14,7 +14,7 @@ import iconGreenC from "../../../../static/images/icon-green-line-c-small.svg";
 import iconGreenD from "../../../../static/images/icon-green-line-d-small.svg";
 import iconGreenE from "../../../../static/images/icon-green-line-e-small.svg";
 import iconGreen from "../../../../static/images/icon-green-line-small.svg";
-import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const destinations: Map<string, any> = new Map();

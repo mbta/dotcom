@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { mount, ReactWrapper } from "enzyme";
-import * as KeyboardEvents from "../../../../../helpers/keyboard-events";
+import * as KeyboardEvents from "../../../../../helpers/keyboard-events-react";
 import AccordionRow from "../AccordionRow";
 
-jest.mock("../../../../../helpers/keyboard-events", () => ({
+jest.mock("../../../../../helpers/keyboard-events-react", () => ({
   __esModule: true,
   handleReactEnterKeyPress: jest.fn()
 }));

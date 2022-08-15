@@ -1,7 +1,7 @@
 import React, { useState, ReactElement } from "react";
 import { AlertsTab as AlertsTabType, AlertData } from "./__stop";
 import Alerts from "../../components/Alerts";
-import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 
 interface Props {
   alertsTab: AlertsTabType;

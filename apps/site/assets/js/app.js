@@ -46,6 +46,7 @@ import eventPageSetup from "./event-page-setup";
 import previousEventsButton from "./view-previous-events";
 import pslPageSetup from "./psl-page-setup.js";
 import tabbedNav from "./tabbed-nav.js";
+import setupAccordion from "../ts/ui/accordion";
 
 if (window.sentry) {
   Sentry.init({
@@ -414,3 +415,4 @@ tripPlannerWidget();
 eventPageSetup();
 previousEventsButton();
 pslPageSetup();
+setupAccordion(document.documentElement);

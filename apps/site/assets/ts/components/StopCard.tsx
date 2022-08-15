@@ -3,7 +3,7 @@ import { Direction as DirectionType, EnhancedRoute, Stop } from "../__v3api";
 import { clickStopCardAction, Dispatch } from "../tnm/state";
 import Direction from "./Direction";
 import renderSvg from "../helpers/render-svg";
-import { useSMDown } from "../helpers/media-breakpoints";
+import { useSMDown } from "../helpers/media-breakpoints-react";
 import { accessibleIcon, alertIcon } from "../helpers/icon";
 import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 import { effectNameForAlert } from "./Alerts";

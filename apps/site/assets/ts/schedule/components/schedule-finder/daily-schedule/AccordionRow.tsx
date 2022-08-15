@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import { caret } from "../../../../helpers/icon";
-import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events-react";
 
 interface Props {
   id: string;

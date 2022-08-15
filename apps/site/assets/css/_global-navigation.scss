@@ -23,7 +23,7 @@ header {
   }
 }
 
-.menu-open {
+[data-nav-open] {
   body {
     overflow: hidden; // prevent scrolling
   }
@@ -127,12 +127,18 @@ nav.m-menu--desktop {
 .m-menu--desktop__menu {
   background-color: $brand-primary-lightest-contrast;
   box-shadow: 0 7px 14px 0 $gray-shadow;
-  height: auto;
+  height: 0; // start off closed
   left: 0;
+  overflow: hidden;
   position: absolute;
   right: 0;
   top: $header-navbar-height-new;
   z-index: 102;
+
+  // opened
+  .m-menu--desktop__toggle[aria-expanded="true"] + & {
+    height: initial;
+  }
 }
 
 // Layout the headers & links in the desktop menu

@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 import TripPlannerResults, { Itinerary } from "./TripPlannerResults";
 
 interface Props {

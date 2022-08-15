@@ -8,30 +8,45 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   - fonts/
       (all font files)
   - images/
-      map-abstract-bkg-overlay.png
+      (images)
   - favicon.ico
   - footer.html
   - head.html
   - header.b2fee8c6f272e94d70dd.js
   - header.b2fee8c6f272e94d70dd.js.map
-  - header.c7c0a900e66023d922a2.min.js
   - header.html
   - scripts.html
   - styles.105dc30b074592c46ad9.css
   - styles.105dc30b074592c46ad9.css.map
   - styles.1d0bb3f99e53cb784f6b.min.css
+  - styles.1d0bb3f99e53cb784f6b.min.css.map
 
   Depends on these files and configuration:
-  - apps/site/assets/export-headerfooter.js
+  - apps/site/assets/export-headerfooter.ts
   - apps/site/assets/css/export-headerfooter.scss
   - apps/site/assets/webpack.config.export-headerfooter.js
   """
   use Mix.Task
 
+  @css_prefix "mbta__dotcomchrome__"
+
   @impl Mix.Task
   def run(_) do
-    get_mbta_tree()
-    [:ok, :ok] = webpack([])
+    # needed for HTTPoison to work
+    _ = Application.ensure_all_started(:hackney)
+
+    response =
+      case HTTPoison.get("http://localhost:4001", hackney: []) do
+        {:ok, response} ->
+          response
+
+        _ ->
+          {:ok, response} = HTTPoison.get("https://www.mbta.com/", hackney: [])
+          response
+      end
+
+    get_mbta_tree(response)
+    :ok = webpack([])
     make_zip()
   end
 
@@ -72,24 +87,26 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     end)
   end
 
-  defp get_mbta_tree do
-    # needed for HTTPoison to work
-    Application.ensure_all_started(:hackney)
-    {:ok, response} = HTTPoison.get("https://www.mbta.com/", hackney: [])
+  defp get_mbta_tree(response) do
     200 = response.status_code
     {:ok, tree} = Floki.parse_document(response.body)
 
     html =
       tree
-      |> Floki.find(".header--new, .m-footer")
+      |> Floki.find(".m-menu--cover, .header--new, .m-footer")
       |> update_links()
       |> remove_search_bar()
       |> remove_language_selector()
+      |> edit_classnames()
 
     IO.puts("#{IO.ANSI.yellow()}writing HTML")
 
-    header_html = Floki.find(html, ".header--new") |> Floki.raw_html(encode: true, pretty: false)
-    footer_html = Floki.find(html, ".m-footer") |> Floki.raw_html(encode: true, pretty: false)
+    header_html =
+      Floki.find(html, ".#{@css_prefix}m-menu--cover, .#{@css_prefix}header--new")
+      |> Floki.raw_html(encode: true, pretty: false)
+
+    footer_html =
+      Floki.find(html, ".#{@css_prefix}m-footer") |> Floki.raw_html(encode: true, pretty: false)
 
     File.mkdir_p("export")
     :ok = File.write("export/header.html", header_html)
@@ -151,36 +168,61 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     |> Floki.find_and_update("script", fn _ -> :delete end)
   end
 
+  defp edit_classnames(html_tree) do
+    IO.puts("#{IO.ANSI.magenta()}appending prefix to class names")
+
+    Floki.traverse_and_update(html_tree, fn
+      {tag, attrs, children} when is_list(attrs) ->
+        updated_attrs =
+          Enum.map(attrs, fn
+            {"class", class_names} ->
+              IO.inspect(class_names, label: "\tediting classes on <#{tag}>")
+
+              updated_class_names =
+                String.split(class_names)
+                |> Enum.map(&"#{@css_prefix}#{&1}")
+                |> Enum.join(" ")
+
+              {"class", updated_class_names}
+
+            other ->
+              other
+          end)
+
+        {tag, updated_attrs, children}
+
+      node ->
+        node
+    end)
+  end
+
   defp webpack(_args) do
     IO.puts(" * starting webpack")
 
-    for mode <- ~w(development production) do
-      {message, status} =
-        System.cmd(
-          "npx",
-          [
-            "webpack",
-            "--mode=#{mode}",
-            "--config",
-            "webpack.config.export-headerfooter.js",
-            "--outputPath",
-            "../../../export"
-          ],
-          cd: "apps/site/assets"
-        )
+    {message, status} =
+      System.cmd(
+        "npx",
+        [
+          "webpack",
+          "--config",
+          "webpack.config.export-headerfooter.js",
+          "--output-path",
+          "../../../export"
+        ],
+        cd: "apps/site/assets"
+      )
 
-      IO.puts(" * evaluating webpack result")
+    IO.puts(" * evaluating webpack result")
 
-      case status do
-        0 ->
-          IO.puts(" * webpack did ok")
-          :ok
+    case status do
+      0 ->
+        IO.puts(" * webpack did ok")
+        :ok
 
-        _ ->
-          IO.puts(message)
-          IO.puts(" * webpack did not ok")
-          :error
-      end
+      _ ->
+        IO.puts(message)
+        IO.puts(" * webpack did not ok")
+        :error
     end
   end
 end

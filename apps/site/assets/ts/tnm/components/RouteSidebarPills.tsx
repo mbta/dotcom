@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Stop } from "../../__v3api";
 import { clickStopPillAction, Dispatch } from "../state";
-import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 
 interface Props {
   selectedStop: Stop | undefined;

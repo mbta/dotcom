@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Tab, TabBadge } from "./__stop";
 import { Dispatch, clickTabAction } from "../state";
-import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 
 interface Props {
   tab: Tab;

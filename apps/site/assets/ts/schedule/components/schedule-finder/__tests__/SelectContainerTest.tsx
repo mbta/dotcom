@@ -1,10 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { shallow } from "enzyme";
-import * as KeyboardEvents from "../../../../helpers/keyboard-events";
+import * as KeyboardEvents from "../../../../helpers/keyboard-events-react";
 import SelectContainer from "../SelectContainer";
 
-jest.mock("../../../../helpers/keyboard-events", () => ({
+jest.mock("../../../../helpers/keyboard-events-react", () => ({
   __esModule: true,
   handleReactEnterKeyPress: jest.fn()
 }));

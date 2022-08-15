@@ -299,7 +299,7 @@ nav.m-menu--mobile {
 }
 
 // show mobile menu, hide search button, hide search bar in tablet size
-.header--new.menu-open {
+.header--new[data-nav-open] {
   .m-menu__content {
     display: block;
     overflow-y: scroll;
@@ -329,9 +329,8 @@ nav.m-menu--mobile {
 
   // Hide search bar on tablet view
   @include media-breakpoint-down(md) {
-    .search {
-      opacity: 0;
-      pointer-events: none;
+    .search * {
+      visibility: hidden;
     }
   }
 }
@@ -348,7 +347,7 @@ nav.m-menu--mobile {
 }
 
 // show search bar, hide menu button
-.header--new.search-open {
+.header--new[data-search-open] {
   .m-menu__search {
     display: block;
     height: 60px;

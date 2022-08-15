@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useReducer, useState } from "react";
 import { reducer } from "../../../../helpers/fetch";
 import { caret } from "../../../../helpers/icon";
-import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events";
+import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events-react";
 import { isACommuterRailRoute } from "../../../../models/route";
 import { UserInput } from "../../__schedule";
 import { EnhancedJourney, Journey, TripInfo } from "../../__trips";
