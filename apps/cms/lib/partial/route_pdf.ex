@@ -19,6 +19,7 @@ defmodule CMS.Partial.RoutePdf do
           date_start: Date.t(),
           date_end: Date.t(),
           link_text_override: String.t(),
+          # Once we move off the old endpoint, we can remove the `| nil`
           name: String.t() | nil
         }
 
