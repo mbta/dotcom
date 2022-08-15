@@ -3,7 +3,7 @@
 ###
 
 # 1.) Get the Elixir dependencies within an Elixir container
-FROM hexpm/elixir:1.10.3-erlang-22.3.4.17-debian-buster-20210326 as elixir-builder
+FROM hexpm/elixir:1.10.4-erlang-22.3.4.26-debian-buster-20210902 as elixir-builder
 
 ENV LANG="C.UTF-8" MIX_ENV="prod"
 
@@ -17,14 +17,14 @@ RUN git config --global url.https://github.com/.insteadOf git://github.com/
 
 # Install Hex+Rebar
 RUN mix local.hex --force && \
-mix local.rebar --force
+	mix local.rebar --force
 
 ADD . .
 
 RUN mix deps.get --only prod
 
 # 2) Build the frontend assets within a node.js container instead of installing node/npm
-FROM node:14.15.1-buster as assets-builder
+FROM node:14.20.0-buster as assets-builder
 
 ARG SENTRY_DSN=""
 
@@ -59,7 +59,7 @@ RUN mix distillery.release --verbose
 
 # 4) Use the nodejs container for the runtime environment
 # Since we're server-rendering the React templates, we need a Javascript engine running inside the container.
-FROM node:14.15.1-buster-slim
+FROM node:14.20.0-buster-slim
 
 # Set exposed ports
 EXPOSE 4000
