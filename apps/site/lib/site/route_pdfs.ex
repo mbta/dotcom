@@ -9,6 +9,7 @@ defmodule Site.RoutePdfs do
   def fetch_and_choose_pdfs(route_id, date) do
     route_id
     |> Repo.get_route_pdfs()
+    |> Enum.concat(Repo.get_schedule_pdfs(route_id))
     |> choose_pdfs(date)
   end
 

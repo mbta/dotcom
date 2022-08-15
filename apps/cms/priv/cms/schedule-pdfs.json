@@ -1,0 +1,179 @@
+[
+  {
+    "mid": [{ "value": 3835 }],
+    "uuid": [{ "value": "ff1bd70b-fad6-4147-bbd7-257ed58dd2d8" }],
+    "vid": [{ "value": 6160 }],
+    "langcode": [{ "value": "en" }],
+    "bundle": [
+      {
+        "target_id": "schedule",
+        "target_type": "media_type",
+        "target_uuid": "cf7fb1e9-5939-424f-b773-cab79031e70f"
+      }
+    ],
+    "revision_created": [{ "value": 1660236438 }],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [{ "value": true }],
+    "uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "name": [{ "value": "Summer 2025 350-351-S2-P4" }],
+    "thumbnail": [
+      {
+        "target_id": 7201,
+        "alt": "",
+        "title": null,
+        "width": 180,
+        "height": 180,
+        "target_type": "file",
+        "target_uuid": "93cdf192-1e76-4091-89cd-b9093cef9394",
+        "url": "https://sandbox-mbta.pantheonsite.io/sites/default/files/media-icons/generic/generic.png",
+        "mime_type": "image/png"
+      }
+    ],
+    "created": [{ "value": 1660236438 }],
+    "changed": [{ "value": 1660236438 }],
+    "default_langcode": [{ "value": true }],
+    "revision_translation_affected": [{ "value": true }],
+    "path": [{ "alias": null, "pid": null, "langcode": "en" }],
+    "field_batch": [],
+    "field_link_text_override": [],
+    "field_pdf_date_end": [],
+    "field_pdf_date_start": [{ "value": "2022-08-11" }],
+    "field_route_pdf": [
+      {
+        "target_id": 14437,
+        "display": null,
+        "description": null,
+        "target_type": "file",
+        "target_uuid": "c051bfd5-3744-4320-aad3-7ca37822e8e6",
+        "url": "https://sandbox-mbta.pantheonsite.io/sites/default/files/media/route_pdfs/batch_304/350-351-S2-P4.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  {
+    "mid": [{ "value": 3841 }],
+    "uuid": [{ "value": "f99fa39d-70ba-4051-aab5-d159d20ab3eb" }],
+    "vid": [{ "value": 6166 }],
+    "langcode": [{ "value": "en" }],
+    "bundle": [
+      {
+        "target_id": "schedule",
+        "target_type": "media_type",
+        "target_uuid": "cf7fb1e9-5939-424f-b773-cab79031e70f"
+      }
+    ],
+    "revision_created": [{ "value": 1660250618 }],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [{ "value": true }],
+    "uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "name": [{ "value": "Winter 2023 350-351-S2-P4" }],
+    "thumbnail": [
+      {
+        "target_id": 7201,
+        "alt": "",
+        "title": null,
+        "width": 180,
+        "height": 180,
+        "target_type": "file",
+        "target_uuid": "93cdf192-1e76-4091-89cd-b9093cef9394",
+        "url": "https://sandbox-mbta.pantheonsite.io/sites/default/files/media-icons/generic/generic.png",
+        "mime_type": "image/png"
+      }
+    ],
+    "created": [{ "value": 1660250618 }],
+    "changed": [{ "value": 1660250618 }],
+    "default_langcode": [{ "value": true }],
+    "revision_translation_affected": [{ "value": true }],
+    "path": [{ "alias": null, "pid": null, "langcode": "en" }],
+    "field_batch": [],
+    "field_link_text_override": [],
+    "field_pdf_date_end": [{ "value": "2022-09-10" }],
+    "field_pdf_date_start": [{ "value": "2022-08-11" }],
+    "field_route_pdf": [
+      {
+        "target_id": 14444,
+        "display": null,
+        "description": null,
+        "target_type": "file",
+        "target_uuid": "7a24945c-d808-47c7-8e25-6af1b268bf0b",
+        "url": "https://sandbox-mbta.pantheonsite.io/sites/default/files/media/route_pdfs/batch_305/350-351-S2-P4.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  },
+  {
+    "mid": [{ "value": 3847 }],
+    "uuid": [{ "value": "fe352e1c-5272-4236-b11c-f888ce371640" }],
+    "vid": [{ "value": 6172 }],
+    "langcode": [{ "value": "en" }],
+    "bundle": [
+      {
+        "target_id": "schedule",
+        "target_type": "media_type",
+        "target_uuid": "cf7fb1e9-5939-424f-b773-cab79031e70f"
+      }
+    ],
+    "revision_created": [{ "value": 1660315027 }],
+    "revision_user": [],
+    "revision_log_message": [],
+    "status": [{ "value": true }],
+    "uid": [
+      {
+        "target_id": 247,
+        "target_type": "user",
+        "target_uuid": "07c22bc5-5e30-4233-b181-cbf2998d2512",
+        "url": "/user/247"
+      }
+    ],
+    "name": [{ "value": "Summer 2022 350-351-S2-P4" }],
+    "thumbnail": [
+      {
+        "target_id": 7201,
+        "alt": "",
+        "title": null,
+        "width": 180,
+        "height": 180,
+        "target_type": "file",
+        "target_uuid": "93cdf192-1e76-4091-89cd-b9093cef9394",
+        "url": "https://sandbox-mbta.pantheonsite.io/sites/default/files/media-icons/generic/generic.png",
+        "mime_type": "image/png"
+      }
+    ],
+    "created": [{ "value": 1660315027 }],
+    "changed": [{ "value": 1660315027 }],
+    "default_langcode": [{ "value": true }],
+    "revision_translation_affected": [{ "value": true }],
+    "path": [{ "alias": null, "pid": null, "langcode": "en" }],
+    "field_batch": [],
+    "field_link_text_override": [],
+    "field_pdf_date_end": [],
+    "field_pdf_date_start": [{ "value": "2022-06-19" }],
+    "field_route_pdf": [
+      {
+        "target_id": 14451,
+        "display": null,
+        "description": null,
+        "target_type": "file",
+        "target_uuid": "56d697c9-3edb-41dc-94fa-7c2b2e47fb62",
+        "url": "https://sandbox-mbta.pantheonsite.io/sites/default/files/media/route_pdfs/batch_304/350-351-S2-P4.pdf",
+        "mime_type": "application/pdf"
+      }
+    ]
+  }
+]
