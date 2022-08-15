@@ -9,6 +9,7 @@ defmodule CMS.Partial.RoutePdf do
   defstruct [
     :path,
     :date_start,
+    :name,
     date_end: nil,
     link_text_override: nil
   ]
@@ -17,7 +18,9 @@ defmodule CMS.Partial.RoutePdf do
           path: String.t(),
           date_start: Date.t(),
           date_end: Date.t(),
-          link_text_override: String.t()
+          link_text_override: String.t(),
+          # Once we move off the old endpoint, we can remove the `| nil`
+          name: String.t() | nil
         }
 
   @spec from_api(map) :: t
@@ -32,7 +35,8 @@ defmodule CMS.Partial.RoutePdf do
         |> Map.get(:path),
       date_start: parse_date(data, "field_pdf_date_start"),
       date_end: parse_date(data, "field_pdf_date_end"),
-      link_text_override: field_value(data, "field_link_text_override")
+      link_text_override: field_value(data, "field_link_text_override"),
+      name: field_value(data, "name")
     }
   end
 

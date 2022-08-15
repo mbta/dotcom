@@ -182,10 +182,10 @@ defmodule SiteWeb.ScheduleView do
       end
 
     pdf_name =
-      if RoutePdf.custom?(pdf) do
-        pdf.link_text_override
-      else
-        [pretty_route_name(route), " schedule"]
+      cond do
+        RoutePdf.custom?(pdf) -> pdf.link_text_override
+        pdf.name != nil && pdf.name != "" -> pdf.name
+        true -> [pretty_route_name(route), " schedule"]
       end
 
     effective_date_text =

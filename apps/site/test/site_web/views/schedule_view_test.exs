@@ -136,12 +136,26 @@ defmodule SiteWeb.ScheduleViewTest do
           path: "/custom-url",
           date_start: ~D[2017-12-01],
           link_text_override: "Custom schedule"
+        },
+        %RoutePdf{
+          path: "/cool-url",
+          date_start: ~D[2017-12-01],
+          name: "Cool Name"
+        },
+        %RoutePdf{
+          path: "/cool-url",
+          date_start: ~D[2017-12-01],
+          name: ""
         }
       ]
 
       maps = route_pdfs(pdfs, %Routes.Route{name: "1", type: 3}, ~D[2019-01-29])
       assert List.first(maps).url =~ ~r"http://.*/basic-current-url"
       assert List.first(maps).title =~ "Current Route 1 schedule PDF"
+      assert Enum.at(maps, 3).url =~ ~r"http://.*/cool-url"
+      assert Enum.at(maps, 3).title =~ "Cool Name PDF"
+      assert List.last(maps).url =~ ~r"http://.*/cool-url"
+      assert List.last(maps).title =~ "Current Route 1 schedule PDF"
     end
   end
 
