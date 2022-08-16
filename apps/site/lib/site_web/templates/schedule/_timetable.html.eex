@@ -74,7 +74,7 @@
             <% end %>
           </tr>
         <% end %>
-        <%= for {stop, idx} <- Enum.with_index(Enum.take(@all_stops, 4)) do %>
+        <%= for {stop, idx} <- Enum.with_index(Enum.take(@all_stops, 2)) do %>
           <% cell_background = if rem(idx, 2) == 0 do "white" else "gray" end %>
           <%= content_tag :tr, [class: stop_row_class(idx)] do %>
             <%= content_tag :th, [
@@ -130,7 +130,6 @@
 </div>
 
 
-<%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
 <%= render "_trip_view_filters.html", assigns %>
 
 <div class="calendar-covered m-timetable">
@@ -206,7 +205,7 @@
             <% end %>
           </tr>
         <% end %>
-        <%= for {stop, idx} <- Enum.with_index(Enum.take(@all_stops, -3)) do %>
+        <%= for {stop, idx} <- Enum.with_index(Enum.take(@all_stops, -4)) do %>
           <% cell_background = if rem(idx, 2) == 0 do "white" else "gray" end %>
           <%= content_tag :tr, [class: stop_row_class(idx)] do %>
             <%= content_tag :th, [
