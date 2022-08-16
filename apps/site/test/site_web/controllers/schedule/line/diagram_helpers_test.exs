@@ -644,7 +644,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
                  %Stops.RouteStop{id: "place-haecl"}
                },
                {
-                 [nil: :stop],
+                 # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+                 #  [nil: :stop],
+                 [nil: :terminus],
                  %Stops.RouteStop{id: "place-gover"}
                },
                {
@@ -996,7 +998,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
                  %Stops.RouteStop{id: "place-pktrm"}
                },
                {
-                 [nil: :stop],
+                 # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+                 #  [nil: :stop],
+                 [nil: :terminus],
                  %Stops.RouteStop{id: "place-gover"}
                }
              ] = DiagramHelpers.build_stop_list(branches, 1)
