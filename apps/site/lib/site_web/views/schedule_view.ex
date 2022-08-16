@@ -318,8 +318,8 @@ defmodule SiteWeb.ScheduleView do
         _ ->
           if route.id == "Orange" do
             [
-              %HeaderTab{id: "timetable", name: "Timetable", href: timetable_link},
-              %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link} | tabs
+              %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
+              %HeaderTab{id: "timetable", name: "Commuter Rail Alternatives", href: timetable_link} | tabs
             ]
           else
             [

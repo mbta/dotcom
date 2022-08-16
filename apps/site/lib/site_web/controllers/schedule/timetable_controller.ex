@@ -123,9 +123,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       south = for stop_id <- stop_ids, do: Stops.Repo.get(stop_id)
       north_ids = ["place-north","place-ogmnl","place-mlmnl"]
       north = for north_id <- north_ids, do: Stops.Repo.get(north_id)
-
-      IO.inspect(Enum.at([south, north], 0))
-
      north ++ south
     else
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
