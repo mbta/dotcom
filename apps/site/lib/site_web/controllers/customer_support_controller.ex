@@ -278,7 +278,7 @@ defmodule SiteWeb.CustomerSupportController do
 
   @spec validate_vehicle(map) :: :ok | String.t()
   defp validate_vehicle(%{"vehicle" => vehicle_number}) do
-    if vehicle_number == "" || Regex.match?(~r/^[0-9]{1,8}$/, vehicle_number),
+    if Regex.match?(~r/^[0-9]{0,8}$/, vehicle_number),
       do: :ok,
       else: "vehicle"
   end
