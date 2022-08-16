@@ -21,7 +21,7 @@ import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
 
 interface DiagramProps {
   lineDiagram: LineDiagramStop[];
-  liveData: LiveDataByStop | null;
+  liveData: LiveDataByStop | undefined;
 }
 
 const branchingDescription = (lineDiagram: LineDiagramStop[]): string => {
@@ -54,7 +54,7 @@ const diagramDescription = (
 
 interface VehicleIconSetProps {
   stop: LineDiagramStop;
-  liveData: LiveDataByStop | null;
+  liveData: LiveDataByStop | undefined;
 }
 
 const LiveVehicleIconSet = ({

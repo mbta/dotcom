@@ -220,7 +220,7 @@ it.each`
     } else {
       // will not ping the realtime endpoint
       expect(useSWRSpy).toHaveBeenCalledWith(
-        "",
+        null,
         expect.any(Function),
         expect.objectContaining({
           refreshInterval: expect.any(Number)

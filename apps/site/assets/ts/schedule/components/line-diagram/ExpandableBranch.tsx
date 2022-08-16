@@ -85,7 +85,7 @@ const ExpandableBranch = (
               key={stop.route_stop.id}
               stop={stop}
               onClick={handleStopClick}
-              liveData={liveData[stop.route_stop.id]}
+              liveData={liveData ? liveData[stop.route_stop.id] : undefined}
             />
           ))}
         </>
