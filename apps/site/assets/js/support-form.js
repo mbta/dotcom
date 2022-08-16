@@ -364,7 +364,7 @@ const validators = {
   },
   vehicle: function($) {
     const value = $("#vehicle").val();
-    return /^[0-9]*$/.test(value);
+    return value.length == 0 || /^[0-9]{1,8}$/.test(value);
   }
 };
 
