@@ -345,6 +345,21 @@ describe("support form", () => {
       );
     });
 
+    it("errors when vehicle number longer than 8 digits", () => {
+      $("#vehicle").val("Not a number");
+      $("#support-submit").click();
+      assert.isFalse(
+        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        "not false"
+      );
+      $("#vehicle").val("1".repeat(9));
+      $("#support-submit").click();
+      assert.isFalse(
+        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        "not false"
+      );
+    });
+
     it("requires a service to be selected", () => {
       $("#support-submit").click();
       assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));

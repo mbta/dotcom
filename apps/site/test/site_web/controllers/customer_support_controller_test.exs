@@ -188,6 +188,15 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         post(
           conn,
           customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "vehicle"], String.duplicate("0", 9))
+        )
+
+      assert "vehicle" in conn.assigns.errors
+
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "vehicle"], "01243")
         )
 
