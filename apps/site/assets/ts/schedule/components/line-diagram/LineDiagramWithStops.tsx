@@ -20,7 +20,9 @@ const LineDiagramWithStops = (
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
   const [stopRefsMap, updateAllStopCoords] = useStopPositions(stops);
 
-  const anyCrowding = Object.values(liveData).some(({ headsigns }): boolean =>
+  const anyCrowding = Object.values(
+    liveData || {}
+  ).some(({ headsigns }): boolean =>
     headsigns
       ? headsigns
           .filter(hasPredictionTime)
@@ -48,7 +50,7 @@ const LineDiagramWithStops = (
                 key={stop.route_stop.id}
                 stop={stop}
                 onClick={handleStopClick}
-                liveData={liveData[stop.route_stop.id]}
+                liveData={liveData ? liveData[stop.route_stop.id] : undefined}
               />
             ))}
           </ol>
