@@ -11,6 +11,7 @@ import LineDiagramWithStops from "./LineDiagramWithStops";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
 import useRealtime from "../../../hooks/useRealtime";
+import currentLineSuspensions from "../../../helpers/use-line-suspensions";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -69,7 +70,9 @@ const LineDiagramAndStopListPage = ({
     "route_stop.name"
   );
 
-  const liveData = useRealtime(route, directionId, true);
+  const { lineIsSuspended } = currentLineSuspensions(route.id);
+
+  const liveData = useRealtime(route, directionId, !lineIsSuspended);
 
   /**
    * Putting it all together
