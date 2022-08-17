@@ -67,6 +67,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> assign(:prior_stops, prior_stops)
     |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
     |> assign(:all_stops, all_stops)
+    |> assign(:south_header_schedules, south_header_schedules(conn.assigns.date, conn.assigns.direction_id))
+    |> assign(:north_header_schedules, north_header_schedules(conn.assigns.date, conn.assigns.direction_id))
   end
 
   # Helper function for obtaining schedule data
@@ -175,6 +177,37 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> Schedules.Sort.sort_by_first_times()
     |> Enum.map(&List.first/1)
   end
+
+
+
+
+
+  #@spec south_header_schedules(date, direction_id) :: list
+  defp south_header_schedules(date, direction_id) do
+
+
+    route_ids = ["CR-Needham", "CR-Providence","CR-Franklin"]
+    timetable_schedules = Enum.flat_map(route_ids, fn route_id -> Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id) end)
+
+    timetable_schedules
+    |> Schedules.Sort.sort_by_first_times()
+    |> Enum.map(&List.first/1)
+  end
+
+  #@spec north_header_schedules(date, direction_id) :: list
+  defp north_header_schedules(date, direction_id) do
+
+    timetable_schedules = Schedules.Repo.by_route_ids(["CR-Haverhill"], date: date, direction_id: direction_id)
+
+    timetable_schedules
+    |> Schedules.Sort.sort_by_first_times()
+    |> Enum.map(&List.first/1)
+  end
+
+
+
+
+
 
   @spec vehicle_schedules(Conn.t(), list) :: map
   def vehicle_schedules(%{assigns: %{date: date}}, timetable_schedules) do
