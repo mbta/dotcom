@@ -88,10 +88,7 @@ export class AlgoliaGlobalSearch {
   }
 
   loadState(query) {
-    this._queryParams = QueryHelpers.parseQuery(
-      query,
-      window.decodeURIComponent
-    );
+    this._queryParams = QueryHelpers.parseQuery(query);
     this.container.value = this._queryParams.query || "";
 
     const showMoreState = this._queryParams.showmore || "";
@@ -151,11 +148,7 @@ export class AlgoliaGlobalSearch {
     window.history.replaceState(
       window.history.state,
       "",
-      window.location.pathname +
-        QueryHelpers.paramsToString(
-          this._queryParams,
-          window.encodeURIComponent
-        )
+      window.location.pathname + QueryHelpers.paramsToString(this._queryParams)
     );
   }
 

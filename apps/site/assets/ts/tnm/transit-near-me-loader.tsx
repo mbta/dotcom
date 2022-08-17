@@ -17,7 +17,7 @@ const render = (): void => {
   const mapId = dataEl.getAttribute("data-for") as string;
   const mapData = JSON.parse(dataEl.innerHTML) as MapData;
   const stopsWithDistances = JSON.parse(stopsWithDistancesEl.innerHTML);
-  const query = parseQuery(window.location.search, window.decodeURIComponent);
+  const query = parseQuery(window.location.search);
   ReactDOM.render(
     <TransitNearMe
       mapData={mapData}

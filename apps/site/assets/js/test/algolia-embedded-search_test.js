@@ -5,7 +5,7 @@ import Algolia from "../algolia-search";
 import { AlgoliaEmbeddedSearch } from "../algolia-embedded-search";
 import AlgoliaAutocomplete from "../algolia-autocomplete";
 import { PAGE_IDS, buildOptions } from "../algolia-embedded-search-options";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -34,7 +34,6 @@ describe("AlgoliaEmbeddedSearch", () => {
   beforeEach(() => {
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
-    window.encodeURIComponent = str => str;
     window.Turbolinks = {
       visit: sinon.spy()
     };
@@ -82,7 +81,7 @@ describe("AlgoliaEmbeddedSearch", () => {
       $goBtn.click();
       expect(window.Turbolinks.visit.called).to.equal(true);
       expect(window.Turbolinks.visit.args[0][0]).to.equal(
-        "/search?query=&facets=stations,stops,locations&showmore=stops"
+        "/search?query=&facets=stations%2Cstops%2Clocations&showmore=stops"
       );
     });
   });
@@ -90,9 +89,6 @@ describe("AlgoliaEmbeddedSearch", () => {
   describe("showLocation", () => {
     it("adds query parameters for analytics", () => {
       const ac = setup(0);
-
-      window.encodeURIComponent = string =>
-        string.replace(/\s/g, "%20").replace(/&/g, "%26");
 
       ac.input.value = "Park Plaza";
       ac.autocomplete.showLocation(
@@ -105,7 +101,7 @@ describe("AlgoliaEmbeddedSearch", () => {
       expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain(
-        "address=Park%20Plaza"
+        "address=Park+Plaza"
       );
     });
   });
@@ -116,37 +112,37 @@ describe("AlgoliaEmbeddedSearch", () => {
       const stopSearch = setup(0);
       expect(stopSearch.pageId).to.equal("search-stop");
       expect(stopSearch.buildSearchParams()).to.equal(
-        "?query=&facets=stations,stops,locations&showmore=stops"
+        "?query=&facets=stations%2Cstops%2Clocations&showmore=stops"
       );
 
       const routeSearch = setup(1);
       expect(routeSearch.pageId).to.equal("search-route");
       expect(routeSearch.buildSearchParams()).to.equal(
-        "?query=&facets=subway,commuter-rail,bus,ferry,locations&showmore=routes"
+        "?query=&facets=subway%2Ccommuter-rail%2Cbus%2Cferry%2Clocations&showmore=routes"
       );
 
       const subwaySearch = setup(2);
       expect(subwaySearch.pageId).to.equal("search-route--subway");
       expect(subwaySearch.buildSearchParams()).to.equal(
-        "?query=&facets=subway,stations,stops,locations&showmore=routes"
+        "?query=&facets=subway%2Cstations%2Cstops%2Clocations&showmore=routes"
       );
 
       const crSearch = setup(3);
       expect(crSearch.pageId).to.equal("search-route--commuter_rail");
       expect(crSearch.buildSearchParams()).to.equal(
-        "?query=&facets=commuter-rail,stations,stops,locations&showmore=routes"
+        "?query=&facets=commuter-rail%2Cstations%2Cstops%2Clocations&showmore=routes"
       );
 
       const busSearch = setup(4);
       expect(busSearch.pageId).to.equal("search-route--bus");
       expect(busSearch.buildSearchParams()).to.equal(
-        "?query=&facets=bus,stations,stops,locations&showmore=routes"
+        "?query=&facets=bus%2Cstations%2Cstops%2Clocations&showmore=routes"
       );
 
       const ferrySearch = setup(5);
       expect(ferrySearch.pageId).to.equal("search-route--ferry");
       expect(ferrySearch.buildSearchParams()).to.equal(
-        "?query=&facets=ferry,stations,stops,locations&showmore=routes"
+        "?query=&facets=ferry%2Cstations%2Cstops%2Clocations&showmore=routes"
       );
     });
   });

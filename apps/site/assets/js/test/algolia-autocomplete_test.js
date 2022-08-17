@@ -3,7 +3,7 @@ import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import AlgoliaAutocomplete from "../algolia-autocomplete";
 import Algolia from "../algolia-search";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -47,8 +47,6 @@ describe("AlgoliaAutocomplete", () => {
     window.Turbolinks = {
       visit: sinon.spy()
     };
-    window.encodeURIComponent = string =>
-      string.replace(/\s/g, "%20").replace(/&/g, "%26");
   });
   it("constructor does not initialize autocomplete", () => {
     const ac = new AlgoliaAutocomplete({

@@ -67,8 +67,8 @@ export class AlgoliaResults {
   }
 
   _addLocationListeners(results) {
-    if (results["locations"]) {
-      results["locations"].hits.forEach((hit, idx) => {
+    if (results.locations) {
+      results.locations.hits.forEach((hit, idx) => {
         const elem = document.getElementById(`hit-location-${idx}`);
         if (elem) {
           elem.addEventListener("click", this._locationSearch(hit.address));
@@ -95,7 +95,7 @@ export class AlgoliaResults {
   }
 
   _addShowMoreListener(groupName) {
-    const el = document.getElementById("show-more--" + groupName);
+    const el = document.getElementById(`show-more--${groupName}`);
     if (el) {
       el.removeEventListener("click", this.onClickShowMore);
       el.addEventListener("click", this.onClickShowMore);
@@ -122,11 +122,7 @@ export class AlgoliaResults {
     return response => {
       this.reset();
       window.Turbolinks.visit(
-        href +
-          QueryHelpers.paramsToString(
-            this._parent.getParams(),
-            window.encodeURIComponent
-          )
+        href + QueryHelpers.paramsToString(this._parent.getParams())
       );
     };
   }
@@ -140,7 +136,7 @@ export class AlgoliaResults {
     params.latitude = latitude;
     params.longitude = longitude;
     params.address = address;
-    const qs = QueryHelpers.paramsToString(params, window.encodeURIComponent);
+    const qs = QueryHelpers.paramsToString(params);
     window.Turbolinks.visit(`/transit-near-me${qs}`);
   }
 
@@ -184,12 +180,8 @@ export class AlgoliaResults {
       "inline-block";
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
-        pos => {
-          return resolve(pos);
-        },
-        err => {
-          return reject(err);
-        }
+        pos => resolve(pos),
+        err => reject(err)
       );
     });
   }
@@ -226,7 +218,7 @@ export class AlgoliaResults {
       nbHits: results[group].nbHits,
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
-      group: group,
+      group,
       googleLogo: AlgoliaResult.autocompleteByGoogle()
         ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
             logo: document.getElementById("powered-by-google-logo").innerHTML
@@ -237,13 +229,11 @@ export class AlgoliaResults {
   }
 
   renderResult(index, groupData) {
-    return (hit, idx) => {
-      return `
+    return (hit, idx) => `
         <div class="c-search-result__hit">
           ${AlgoliaResult.renderResult(hit, index)}
         </div>
       `;
-    };
   }
 
   addResultClickHandler(el) {

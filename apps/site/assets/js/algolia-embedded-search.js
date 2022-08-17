@@ -84,14 +84,11 @@ export class AlgoliaEmbeddedSearch {
   }
 
   buildSearchParams() {
-    return QueryHelpers.paramsToString(
-      {
-        query: this.input.value,
-        facets: this.facets(),
-        showmore: this.indexNames()
-      },
-      window.encodeURIComponent
-    );
+    return QueryHelpers.paramsToString({
+      query: this.input.value,
+      facets: this.facets(),
+      showmore: this.indexNames()
+    });
   }
 
   onClickGoBtn() {

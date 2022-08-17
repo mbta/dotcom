@@ -77,19 +77,16 @@ export const doInit = id => {
     pageId: id,
     indices: INDICES,
     params: PARAMS,
-    selectors: selectors,
+    selectors,
     locationParams: LOCATION_PARAMS,
     withGoogle: true,
     templates: TEMPLATES_ALT_USE_MY_LOCATION
   });
 
   search.buildSearchParams = () =>
-    QueryHelpers.paramsToString(
-      {
-        query: search.input.value
-      },
-      window.encodeURIComponent
-    );
+    QueryHelpers.paramsToString({
+      query: search.input.value
+    });
 
   return search;
 };

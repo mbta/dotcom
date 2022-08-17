@@ -2,7 +2,7 @@ import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaResults } from "../algolia-results";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -10,7 +10,7 @@ describe("AlgoliaResults", () => {
   jsdom({
     url: testURL
   });
-  var search;
+  let search;
 
   beforeEach(() => {
     document.body.innerHTML = `
@@ -26,14 +26,9 @@ describe("AlgoliaResults", () => {
     window.Turbolinks = {
       visit: sinon.spy()
     };
-    window.encodeURIComponent = string => {
-      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
-    };
     search = new AlgoliaResults("search-results", {
       onClickShowMore: sinon.spy(),
-      getParams: () => {
-        return { from: "global-search" };
-      }
+      getParams: () => ({ from: "global-search" })
     });
   });
 
@@ -161,7 +156,7 @@ describe("AlgoliaResults", () => {
         );
 
         expect(result).to.be.a("string");
-        expect(result).to.have.string("/stops/" + hit.stop.id);
+        expect(result).to.have.string(`/stops/${hit.stop.id}`);
         expect(result).to.have.string(hit._highlightResult.stop.name.value);
         expect(result).to.have.string("stop-icon");
         expect(result).to.have.string("green-line-b-icon");
@@ -197,7 +192,7 @@ describe("AlgoliaResults", () => {
         );
 
         expect(result).to.be.a("string");
-        expect(result).to.have.string("/schedules/" + hit.route.id);
+        expect(result).to.have.string(`/schedules/${hit.route.id}`);
         expect(result).to.have.string(hit._highlightResult.route.name.value);
         expect(result).to.have.string("commuter-rail-icon");
       });
@@ -229,7 +224,7 @@ describe("AlgoliaResults", () => {
         );
 
         expect(result).to.be.a("string");
-        expect(result).to.have.string("/schedules/" + hit.route.id);
+        expect(result).to.have.string(`/schedules/${hit.route.id}`);
         expect(result).to.have.string(hit._highlightResult.route.name.value);
         expect(result).to.have.string("orange-line-icon");
       });
@@ -237,7 +232,7 @@ describe("AlgoliaResults", () => {
   });
 
   describe("render", () => {
-    var $;
+    let $;
 
     beforeEach(() => {
       $ = jsdom.rerequire("jquery");
@@ -487,7 +482,7 @@ describe("AlgoliaResults", () => {
       expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
       expect(window.Turbolinks.visit.args[0][0]).to.contain(
-        "address=10%20Park%20Plaza,%20Boston,%20MA"
+        "address=10+Park+Plaza%2C+Boston%2C+MA"
       );
     });
   });

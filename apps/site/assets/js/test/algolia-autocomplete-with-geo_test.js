@@ -6,7 +6,7 @@ import AlgoliaAutocompleteWithGeo, {
 } from "../algolia-autocomplete-with-geo";
 import * as GoogleMapsHelpers from "../google-maps-helpers";
 import google from "./google-stubs";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -34,9 +34,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       </div>
       <div id="${selectors.locationLoadingIndicator}"></div>
     `;
-    window.encodeURIComponent = string => {
-      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
-    };
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
     window.Turbolinks = {
@@ -138,7 +135,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           resolve({ coords: { latitude: 42.0, longitude: -71.0 } });
         }
       };
-      window.encodeURIComponent = str => str;
       sinon
         .stub(GoogleMapsHelpers, "reverseGeocode")
         .resolves("10 Park Plaza, Boston MA");
@@ -146,7 +142,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       Promise.resolve(result).then(() => {
         expect(window.Turbolinks.visit.called).to.be.true;
         expect(window.Turbolinks.visit.args[0][0]).to.equal(
-          "/transit-near-me?latitude=42&longitude=-71&address=10 Park Plaza, Boston MA"
+          "/transit-near-me?latitude=42&longitude=-71&address=10+Park+Plaza%2C+Boston+MA"
         );
         done();
       });
@@ -200,10 +196,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       });
 
       it('does a location search when index is "locations"', function(done) {
-        window.encodeURIComponent = params => {
-          const forceString = params.toString();
-          return forceString.replace(/\s/g, "%20").replace(/\&/g, "%26");
-        };
         this.ac.init(this.client);
 
         const result = this.ac.onHitSelected({
@@ -229,7 +221,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
           expect($(`#${selectors.input}`).val()).to.equal(
             "Boston, MA 02128, USA"
           );
-
           expect(window.Turbolinks.visit.called).to.be.true;
           expect(window.Turbolinks.visit.args[0][0]).to.contain(
             "latitude=42.3517525"
@@ -238,9 +229,8 @@ describe("AlgoliaAutocompleteWithGeo", function() {
             "longitude=-71.0679696"
           );
           expect(window.Turbolinks.visit.args[0][0]).to.contain(
-            "address=Boston,%20MA"
+            "address=Boston%2C+MA"
           );
-
           done();
         });
       });

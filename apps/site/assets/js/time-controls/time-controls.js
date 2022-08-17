@@ -67,10 +67,7 @@ export class TimeControls {
 
   // eslint-disable-next-line class-methods-use-this
   getStateFromQuery() {
-    return QueryHelpers.parseQuery(
-      window.location.search,
-      window.decodeURIComponent
-    );
+    return QueryHelpers.parseQuery(window.location.search);
   }
 
   formatQueryPlanType() {

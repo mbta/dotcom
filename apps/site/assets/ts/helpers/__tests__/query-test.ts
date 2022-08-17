@@ -6,8 +6,7 @@ describe("parseQuery", () => {
       "?spaces=space%20space" +
         "&pluses=plus+plus" +
         "&brackets=%5Bbrackets%5D" +
-        "&commas=comma%2Ccomma",
-      window.decodeURIComponent
+        "&commas=comma%2Ccomma"
     );
     expect(query).toEqual({
       spaces: "space space",
@@ -20,16 +19,13 @@ describe("parseQuery", () => {
 
 describe("paramsToString", () => {
   it("turns query into an encoded string", () => {
-    const query = paramsToString(
-      {
-        spaces: "value with spaces",
-        brackets: "[brackets]",
-        commas: "comma,comma"
-      },
-      window.encodeURIComponent
-    );
+    const query = paramsToString({
+      spaces: "value with spaces",
+      brackets: "[brackets]",
+      commas: "comma,comma"
+    });
     expect(query).toEqual(
-      "?spaces=value%20with%20spaces" +
+      "?spaces=value+with+spaces" +
         "&brackets=%5Bbrackets%5D" +
         "&commas=comma%2Ccomma"
     );

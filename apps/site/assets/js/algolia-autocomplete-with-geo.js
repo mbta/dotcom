@@ -192,8 +192,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     params.longitude = longitude;
     params.address = this._input.value;
     const qs = QueryHelpers.paramsToString(
-      addFilterParam(params, window.location.pathname),
-      window.encodeURIComponent
+      addFilterParam(params, window.location.pathname)
     );
     window.Turbolinks.visit(`/transit-near-me${qs}`);
   }
