@@ -171,7 +171,7 @@ defmodule SiteWeb.ViewHelpers do
       content_tag(:span, "to", class: "sr-only"),
       " ",
       if route.id == "Orange" do
-        if direction_id == 1 do
+        if direction_id == 0 do
           "South Station"
         else
           "Forest Hills"
