@@ -1,4 +1,17 @@
 <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+<%= if @route.id == "Orange" do %>
+  <p>
+    These are timetables for all commuter rail trains that will be running to Orange Line stations while service is suspended. During this shutdown, riders can simply show their CharlieCard or CharlieTicket to conductors to ride the Commuter Rail in
+    <a target="_blank" href="https://cdn.mbta.com/sites/default/files/2021-03/2021-03-23-cr-fare-zones.pdf">Zones 1A, 1 and 2 </a>at no charge.
+  </p>
+  <p>
+    For service on the north side of the Orange Line, most
+    <a target="_blank" href="https://www.mbta.com/schedules/CR-Haverhill/timetable">Haverhill Line</a> trains will stop at
+    <a target="_blank" href="https://www.mbta.com/stops/place-ogmnl">Oak Grove</a> en route to
+    <a target="_blank" href="https://www.mbta.com/stops/place-mlmnl">Malden Center</a> and
+    <a target="_blank" href="https://www.mbta.com/stops/place-north">North Station</a>
+  </p>
+<% end %>
 <%= render "_trip_view_filters.html", assigns %>
 
 <div class="calendar-covered m-timetable">

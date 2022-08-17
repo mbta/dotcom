@@ -71,9 +71,15 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   # Helper function for obtaining schedule data
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
-    case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
-      {:error, _} -> []
-      schedules -> schedules
+    if route.id == "Orange" do
+      route_ids = ["CR-Needham", "CR-Providence","CR-Franklin"]
+      Enum.flat_map(route_ids, fn route_id -> Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id) end)
+
+    else
+      case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
+        {:error, _} -> []
+        schedules -> schedules
+      end
     end
   end
 
@@ -109,11 +115,14 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp all_stops(conn, _) do
     # we override the default fetch of all_stops to not use the date. We will
     # use the date to fetch the actual schedule data.
-    all_stops =
+    all_stops = if conn.assigns.route.id == "Orange" do
+      stop_ids = ["place-forhl","place-rugg", "place-bbsta", "place-sstat"]
+      for stop_id <- stop_ids, do: Stops.Repo.get(stop_id)
+    else
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
         date: conn.assigns.date
       )
-
+    end
     assign(conn, :all_stops, all_stops)
   end
 
