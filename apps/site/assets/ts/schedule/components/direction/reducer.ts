@@ -1,4 +1,4 @@
-import { updateInLocation } from "use-query-params";
+import { updateParams } from "../../../helpers/use-params";
 import { DirectionId } from "../../../__v3api";
 import { RoutePatternsByDirection, EnhancedRoutePattern } from "../__schedule";
 import { MapData } from "../../../leaflet/components/__mapdata";
@@ -63,9 +63,7 @@ const updateDirectionAndVariantInURL = (
     "schedule_direction[direction_id]": directionId.toString(),
     "schedule_direction[variant]": routePatternId
   };
-  const newLoc = updateInLocation(query, window.location);
-  // newLoc is not a true Location, so toString doesn't work
-  window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
+  updateParams(query);
 };
 
 const toggleDirection = (state: State): State => {

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { isEmpty } from "lodash";
-import { updateInLocation } from "use-query-params";
+import { updateParams } from "../helpers/use-params";
 import Map from "./components/Map";
 import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
@@ -44,18 +44,17 @@ const renderMap = ({
   );
 };
 
-const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
-  if (window) {
-    // eslint-disable-next-line camelcase
-    const newQuery = {
-      "schedule_finder[direction_id]":
-        direction !== undefined ? direction.toString() : "",
-      "schedule_finder[origin]": origin
-    };
-    const newLoc = updateInLocation(newQuery, window.location);
-    // newLoc is not a true Location, so toString doesn't work
-    window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
-  }
+export const updateURL = (
+  origin: SelectedOrigin,
+  direction?: DirectionId
+): void => {
+  // eslint-disable-next-line camelcase
+  const newQuery = {
+    "schedule_finder[direction_id]":
+      direction !== undefined ? direction.toString() : null,
+    "schedule_finder[origin]": origin ?? null
+  };
+  updateParams(newQuery);
 };
 
 export const renderAdditionalLineInformation = (

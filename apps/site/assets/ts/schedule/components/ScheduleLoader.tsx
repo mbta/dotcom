@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { connect } from "react-redux";
-import { useQueryParams, StringParam } from "use-query-params";
+import { getParam, updateParams } from "../../helpers/use-params";
 import ContentTeasers from "./ContentTeasers";
 import UpcomingHolidays from "./UpcomingHolidays";
 import AdditionalLineInfo from "./AdditionalLineInfo";
@@ -50,11 +50,11 @@ export const ScheduleLoader = ({
   schedulePageData,
   updateURL
 }: Props): ReactElement<HTMLElement> => {
-  const [query] = useQueryParams({
+  const query = {
     // eslint-disable-next-line camelcase
-    "schedule_finder[direction_id]": StringParam,
-    "schedule_finder[origin]": StringParam
-  });
+    "schedule_finder[direction_id]": getParam("schedule_finder[direction_id]"),
+    "schedule_finder[origin]": getParam("schedule_finder[origin]")
+  };
 
   const changeDirection = (direction: DirectionId): void => {
     storeHandler({
@@ -72,7 +72,11 @@ export const ScheduleLoader = ({
       newStoreValues: {}
     });
     // clear parameters from URL when closing the modal:
-    updateURL("");
+    updateParams({
+      // eslint-disable-next-line camelcase
+      "schedule_finder[direction_id]": null,
+      "schedule_finder[origin]": null
+    });
   };
 
   React.useEffect(() => {

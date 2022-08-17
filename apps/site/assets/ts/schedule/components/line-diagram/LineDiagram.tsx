@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { Provider } from "react-redux";
-import { updateInLocation } from "use-query-params";
+import { updateURL } from "../../schedule-loader";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
-import { LineDiagramStop, SelectedOrigin, RouteStop } from "../__schedule";
+import { LineDiagramStop, RouteStop } from "../__schedule";
 import { DirectionId, Route } from "../../../__v3api";
 import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
 import StopCard from "./StopCard";
@@ -30,20 +30,6 @@ const LineDiagramAndStopListPage = ({
   const currentLineSuspension = currentLineSuspensions(route.id);
   // also track the location of text to align the diagram points to
   const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
-
-  const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
-    if (window) {
-      // eslint-disable-next-line camelcase
-      const newQuery = {
-        "schedule_finder[direction_id]":
-          direction !== undefined ? direction.toString() : "",
-        "schedule_finder[origin]": origin
-      };
-      const newLoc = updateInLocation(newQuery, window.location);
-      // newLoc is not a true Location, so toString doesn't work
-      window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
-    }
-  };
 
   const handleStopClick = (stop: RouteStop): void => {
     changeOrigin(stop.id);

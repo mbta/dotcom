@@ -40,7 +40,6 @@
     "tether": "^1.4.7",
     "turbolinks": "git+https://github.com/paulswartz/turbolinks.git#82b188e",
     "use-interval": "^1.2.1",
-    "use-query-params": "^0.5.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
