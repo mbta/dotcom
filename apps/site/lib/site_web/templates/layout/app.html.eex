@@ -96,6 +96,11 @@
       <%= if assigns[:glx_stations_open] do %>
         <div class="glx-stations-open" style="display: none;" data-opening='<%= assigns[:glx_opening_date] %>' data-stations='<%= assigns[:glx_stations_open] %>' />
       <% end %>
+      <%= if assigns[:line_suspensions] do %>
+        <div data-line-suspensions>
+          <%= raw Jason.encode!(@line_suspensions) %>
+        </div>
+      <% end %>
     </div>
 
     <%# Load polyfills only if needed %>
