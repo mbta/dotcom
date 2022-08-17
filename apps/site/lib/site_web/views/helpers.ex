@@ -164,8 +164,6 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   def direction_with_headsign(route, direction_id, headsign) do
-
-    IO.inspect(direction_id)
     [
       Route.direction_name(route, direction_id),
       " ",
