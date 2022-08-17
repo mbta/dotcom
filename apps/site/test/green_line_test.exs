@@ -17,12 +17,14 @@ defmodule GreenLineTest do
       refute "place-unsqu" in route_id_stop_map["Green-B"]
       refute "place-unsqu" in route_id_stop_map["Green-C"]
       refute "place-unsqu" in route_id_stop_map["Green-D"]
-      assert "place-unsqu" in route_id_stop_map["Green-E"]
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert "place-unsqu" in route_id_stop_map["Green-E"]
 
       refute "place-lech" in route_id_stop_map["Green-B"]
       refute "place-lech" in route_id_stop_map["Green-C"]
       refute "place-lech" in route_id_stop_map["Green-D"]
-      assert "place-lech" in route_id_stop_map["Green-E"]
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert "place-lech" in route_id_stop_map["Green-E"]
 
       assert "place-coecl" in route_id_stop_map["Green-B"]
       assert "place-coecl" in route_id_stop_map["Green-C"]
@@ -88,8 +90,11 @@ defmodule GreenLineTest do
       # be terminating at North Station for now.
       # assert stop_map["Green-E"] ==
       #          MapSet.new(["place-hsmnl", "place-gover", "place-north", "place-lech"])
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert stop_map["Green-E"] ==
+      #          MapSet.new(["place-hsmnl", "place-gover", "place-north"])
       assert stop_map["Green-E"] ==
-               MapSet.new(["place-hsmnl", "place-gover", "place-north"])
+               MapSet.new(["place-hsmnl", "place-gover"])
     end
 
     test "a list of stops without duplicates is returned" do
@@ -137,7 +142,9 @@ defmodule GreenLineTest do
       assert terminus?(stop_id, "Green-D")
     end
 
-    for stop_id <- ["place-unsqu", "place-hsmnl"] do
+    # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+    # for stop_id <- ["place-unsqu", "place-hsmnl"] do
+    for stop_id <- ["place-gover", "place-hsmnl"] do
       assert terminus?(stop_id, "Green-E")
     end
   end
@@ -145,8 +152,11 @@ defmodule GreenLineTest do
   test "terminus?/3" do
     assert terminus?("place-lake", "Green-B", 0)
     refute terminus?("place-lake", "Green-B", 1)
-    refute terminus?("place-unsqu", "Green-E", 0)
-    assert terminus?("place-unsqu", "Green-E", 1)
+    # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+    # refute terminus?("place-unsqu", "Green-E", 0)
+    # assert terminus?("place-unsqu", "Green-E", 1)
+    refute terminus?("place-gover", "Green-E", 0)
+    assert terminus?("place-gover", "Green-E", 1)
   end
 
   describe "naive_headsign/2" do
@@ -159,7 +169,9 @@ defmodule GreenLineTest do
       assert naive_headsign("Green-D", 0) == "Riverside"
       assert naive_headsign("Green-D", 1) == "North Station"
       assert naive_headsign("Green-E", 0) == "Heath Street"
-      assert naive_headsign("Green-E", 1) == "Union Square"
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert naive_headsign("Green-E", 1) == "Union Square"
+      assert naive_headsign("Green-E", 1) == "Government Center"
     end
   end
 

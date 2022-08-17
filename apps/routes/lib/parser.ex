@@ -83,11 +83,15 @@ defmodule Routes.Parser do
       %Shape{
         id: id,
         name: attributes["name"],
-        stop_ids: Enum.map(relationships["stops"], & &1.id),
+        stop_ids: stop_ids(relationships),
         direction_id: attributes["direction_id"],
         polyline: attributes["polyline"],
         priority: attributes["priority"]
       }
     ]
   end
+
+  @spec stop_ids(%{String.t() => list(JsonApi.Item.t())}) :: [Stops.Stop.id_t()]
+  defp stop_ids(%{"stops" => stops}), do: Enum.map(stops, & &1.id)
+  defp stop_ids(_), do: []
 end

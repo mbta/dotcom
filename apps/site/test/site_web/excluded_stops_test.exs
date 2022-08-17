@@ -38,7 +38,9 @@ defmodule ExcludedStopsTest do
         |> GreenLine.stops_on_routes()
         |> GreenLine.all_stops()
 
-      assert excluded_origin_stops(1, "Green", all_stops) == ["place-unsqu"]
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert excluded_origin_stops(1, "Green", all_stops) == ["place-unsqu"]
+      assert excluded_origin_stops(1, "Green", all_stops) == ["place-north"]
     end
   end
 

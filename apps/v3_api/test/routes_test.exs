@@ -25,7 +25,8 @@ defmodule V3Api.RoutesTest do
 
   describe "by_stop/2" do
     test "gets routes by stop ID" do
-      assert %JsonApi{data: [%JsonApi.Item{id: "131"}]} = Routes.by_stop("place-ogmnl", @opts)
+      assert %JsonApi{data: [%JsonApi.Item{id: "CR-Haverhill"}]} =
+               Routes.by_stop("place-ogmnl", @opts)
     end
   end
 

@@ -257,10 +257,16 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     end
 
     test "handles green line trips from the generic Green page", %{conn: conn} do
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # params = %{
+      #   id: "Green",
+      #   direction: "0",
+      #   stop: "place-north"
+      # }
       params = %{
         id: "Green",
         direction: "0",
-        stop: "place-north"
+        stop: "place-gover"
       }
 
       params_for_trip = get_valid_trip_params(params, conn)
