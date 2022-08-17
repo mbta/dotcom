@@ -174,12 +174,19 @@ defmodule SiteWeb.ScheduleControllerTest do
       {_, first_stop} = List.first(conn.assigns.all_stops)
       {_, last_stop} = List.last(conn.assigns.all_stops)
 
-      assert first_stop.id == "place-unsqu"
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      assert first_stop.id == "place-gover"
 
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert first_stop.stop_features == [:access]
+      assert first_stop.stop_features == [
+               :green_line_b,
+               :green_line_c,
+               :green_line_d,
+               :blue_line,
+               :access
+             ]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"

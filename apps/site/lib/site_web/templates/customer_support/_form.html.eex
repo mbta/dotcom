@@ -69,7 +69,7 @@
               </span>
             </span>
           </div>
-          <%= text_input(f, :vehicle, id: "vehicle", placeholder: placeholder_text("vehicle"), class: "support-form-input form-control", value: assigns[:vehicle], maxlength: 8, ) %>
+          <%= text_input(f, :vehicle, id: "vehicle", placeholder: placeholder_text("vehicle"), class: "support-form-input form-control", value: assigns[:vehicle], maxlength: 8 ) %>
         </div>
       </div>
     </div>
