@@ -164,13 +164,23 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   def direction_with_headsign(route, direction_id, headsign) do
+
+    IO.inspect(direction_id)
     [
       Route.direction_name(route, direction_id),
       " ",
       fa("arrow-right"),
       content_tag(:span, "to", class: "sr-only"),
       " ",
-      headsign
+      if route.id == "Orange" do
+        if direction_id == 1 do
+          "South Station"
+        else
+          "Forest Hills"
+        end
+      else
+        headsign
+      end
     ]
   end
 
