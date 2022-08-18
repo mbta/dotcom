@@ -4,16 +4,6 @@ interface LineSuspensions {
   [routeId: string]: TimePeriodPairs;
 }
 
-// get list of line suspensions encoded in the
-// <div [data-line-suspensions]></div> element
-const parseLineSuspensions = (
-  suspensionsList: [string, TimePeriodPairs][]
-): LineSuspensions =>
-  suspensionsList.reduce((acc, [routeId, dateRange]) => {
-    acc[routeId] = dateRange;
-    return acc;
-  }, {} as LineSuspensions);
-
 interface LineSuspensionInfo {
   lineIsSuspended: boolean;
   shuttledStopsLists: SuspendedStopsInfo;
@@ -42,7 +32,9 @@ const currentLineSuspensions = (routeId: string): LineSuspensionInfo => {
   )!;
   if (!lineSuspensionsEl) return info;
 
-  const suspensions = parseLineSuspensions(
+  // get list of line suspensions encoded in the
+  // <div [data-line-suspensions]></div> element
+  const suspensions = Object.fromEntries(
     JSON.parse(lineSuspensionsEl.innerHTML)
   );
 
