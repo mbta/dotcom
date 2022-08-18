@@ -101,7 +101,7 @@ const ItineraryAccordion = ({
       <ItineraryBody {...itinerary} />
     </Accordion>
     <noscript>
-      <AccordionNoJS id={`itinerary-${itinerary.id}`}>
+      <AccordionNoJS id={`itinerary-${itinerary.id}`} headingRole={false}>
         <ItineraryBody {...itinerary} />
       </AccordionNoJS>
     </noscript>
