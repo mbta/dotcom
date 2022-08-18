@@ -35,7 +35,7 @@ defmodule Feedback.Mixfile do
   defp deps do
     [
       {:poison, "~> 2.2", override: true},
-      {:timex, ">= 2.0.0"},
+      {:timex, ">= 3.7.8"},
       {:briefly, "~> 0.3"},
       {:plug, "~> 1.12"},
       {:ex_aws, "~> 2.1.2"},

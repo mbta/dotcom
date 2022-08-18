@@ -35,7 +35,7 @@ defmodule Predictions.Mixfile do
   defp deps do
     [
       {:v3_api, in_umbrella: true},
-      {:timex, ">= 0.0.0"},
+      {:timex, "~> 3.7.8"},
       {:bypass, "~> 1.0", only: :test},
       {:repo_cache, in_umbrella: true},
       {:schedules, in_umbrella: true},

@@ -47,7 +47,7 @@ defmodule TripPlan.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},
       {:exvcr_helpers, in_umbrella: true, only: :test},
-      {:fast_local_datetime, "~> 0.1.0"}
+      {:fast_local_datetime, "~> 1.0.1"}
     ]
   end
 end

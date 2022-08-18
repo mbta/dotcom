@@ -38,7 +38,7 @@ defmodule Holiday.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:timex, ">= 0.0.0"},
+      {:timex, "~> 3.7.8"},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end

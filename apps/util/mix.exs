@@ -44,7 +44,7 @@ defmodule Util.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:timex, ">= 0.0.0"},
+      {:timex, "~> 3.7.8"},
       {:quixir, "~> 0.9", only: :test},
       {:phoenix_html, "~> 2.13.1"},
       {:plug, "~> 1.12"},

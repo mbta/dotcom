@@ -42,7 +42,7 @@ defmodule Schedules.Mixfile do
   defp deps do
     [
       {:v3_api, in_umbrella: true},
-      {:timex, ">= 0.0.0"},
+      {:timex, "~> 3.7.8"},
       {:repo_cache, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:stops, in_umbrella: true},

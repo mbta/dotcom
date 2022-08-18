@@ -44,7 +44,7 @@ defmodule Alerts.Mixfile do
       {:v3_api, in_umbrella: true},
       {:repo_cache, in_umbrella: true},
       {:con_cache, "~> 0.12.0"},
-      {:timex, ">= 0.0.0"},
+      {:timex, "~> 3.7.8"},
       {:util, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
       {:benchfella, "~> 0.3", only: :dev},

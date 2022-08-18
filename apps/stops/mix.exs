@@ -40,7 +40,7 @@ defmodule Stops.Mixfile do
       {:json_api, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:repo_cache, in_umbrella: true},
-      {:timex, ">= 0.0.0"},
+      {:timex, "~> 3.7.8"},
       {:bypass, "~> 1.0", only: :test},
       {:csv, "~> 2.3"},
       {:util, in_umbrella: true},
