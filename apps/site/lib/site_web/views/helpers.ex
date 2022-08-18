@@ -170,7 +170,15 @@ defmodule SiteWeb.ViewHelpers do
       fa("arrow-right"),
       content_tag(:span, "to", class: "sr-only"),
       " ",
-      headsign
+      if route.id == "Orange" do
+        if direction_id == 0 do
+          "Forest Hills"
+        else
+          "South Station"
+        end
+      else
+        headsign
+      end
     ]
   end
 
