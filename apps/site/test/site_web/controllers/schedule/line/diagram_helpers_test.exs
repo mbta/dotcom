@@ -1311,42 +1311,18 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
   end
 
   describe "build_branched_stop" do
-    # As of June 2020, Lechmere is closed for construction.
-    # Replacing with North Station for now
-
-    # test "lechmere" do
-    #   stop = %RouteStop{id: "place-lech"}
-    #   branches = {nil, GreenLine.branch_ids()}
-    #
-    #   bubbles = [
-    #     {"Green-B", :empty},
-    #     {"Green-C", :empty},
-    #     {"Green-D", :empty},
-    #     {"Green-E", :terminus}
-    #   ]
-    #
-    #   assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
-    # end
-
-    test "North Station" do
-      stop = %RouteStop{id: "place-north"}
-      branches = {nil, GreenLine.branch_ids()}
+    test "unbranched stops that aren't first or last in list are just :stop" do
+      stop = %RouteStop{id: "mock"}
+      branches = {nil, []}
+      branch_length = 3
 
       bubbles = [{nil, :stop}]
 
-      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+      assert DiagramHelpers.build_branched_stop({stop, false}, [], branches, branch_length) ==
+               [{bubbles, stop}]
     end
 
-    test "park" do
-      stop = %RouteStop{id: "place-pktrm"}
-      branches = {nil, GreenLine.branch_ids()}
-
-      bubbles = [{nil, :stop}]
-
-      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
-    end
-
-    test "copley" do
+    test "builds stop bubble information for a merge stop (merge stops are hard-coded)" do
       stop = %RouteStop{id: "place-coecl"}
       branches = {nil, GreenLine.branch_ids()}
 
@@ -1358,17 +1334,15 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
-    test "heath st" do
-      assert GreenLine.terminus?("place-hsmnl", "Green-E")
-      stop = %RouteStop{id: "place-hsmnl", branch: "Green-E", is_terminus?: true}
-      branches = {nil, GreenLine.branch_ids()}
+    test "builds stop bubble information for a stop marked as a terminus" do
+      stop = %RouteStop{id: "mock", is_terminus?: true}
+      branches = {nil, []}
+      branch_length = 3
 
-      bubbles = [
-        {nil, :line},
-        {"Green-E", :terminus}
-      ]
+      bubbles = [{nil, :terminus}]
 
-      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+      assert DiagramHelpers.build_branched_stop({stop, false}, [], branches, branch_length) ==
+               [{bubbles, stop}]
     end
 
     test "a terminus on a one-stop trunk is a merge" do
@@ -1423,13 +1397,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       assert result == [{[{"branch 1", :merge}, {"branch 2", :merge}], new_stop}]
     end
 
-    test "unbranched stops that aren't first or last in list are just :stop" do
-      new_stop = %RouteStop{id: "new"}
-      branch_length = 3
-      result = DiagramHelpers.build_branched_stop({new_stop, false}, [], {nil, []}, branch_length)
-      assert result == [{[{nil, :stop}], new_stop}]
-    end
-
     test "branched terminus includes :terminus in stop bubbles" do
       new_stop = %RouteStop{id: "new", branch: "branch 1", is_terminus?: true}
       branch_length = 3
@@ -1443,6 +1410,62 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
         )
 
       assert result == [{[{"branch 1", :terminus}, {"branch 2", :line}], new_stop}]
+    end
+
+    test "builds stop bubble information for several hard-coded Green line stops" do
+      unsqu = %RouteStop{id: "place-unsqu"}
+      lech = %RouteStop{id: "place-lech"}
+      spmnl = %RouteStop{id: "place-spmnl"}
+      north = %RouteStop{id: "place-north"}
+      coecl = %RouteStop{id: "place-coecl"}
+      kencl = %RouteStop{id: "place-kencl"}
+
+      branches = {nil, GreenLine.branch_ids()}
+
+      assert DiagramHelpers.build_branched_stop(unsqu, [], branches) == [
+               {[{"Green-E", :terminus}], unsqu}
+             ]
+
+      assert DiagramHelpers.build_branched_stop(lech, [], branches) == [
+               {[{"Green-E", :stop}], lech}
+             ]
+
+      assert DiagramHelpers.build_branched_stop(spmnl, [], branches) == [
+               {[{"Green-E", :stop}], spmnl}
+             ]
+
+      assert DiagramHelpers.build_branched_stop(north, [], branches) == [{[{nil, :stop}], north}]
+
+      assert DiagramHelpers.build_branched_stop(coecl, [], branches) == [
+               {[{nil, :merge}, {"Green-E", :merge}], coecl}
+             ]
+
+      assert DiagramHelpers.build_branched_stop(kencl, [], branches) == [
+               {[{"Green-B", :merge}, {"Green-C", :merge}, {"Green-D", :merge}], kencl}
+             ]
+    end
+
+    test "builds 'stop' stop bubbles for Green line stops" do
+      stop = %RouteStop{id: "place-bland", branch: "Green-B"}
+      branches = {nil, GreenLine.branch_ids()}
+
+      bubbles = [{"Green-B", :stop}]
+
+      assert DiagramHelpers.build_branched_stop(stop, [], branches) ==
+               [{bubbles, stop}]
+    end
+
+    test "builds 'terminus' stop bubbles for Green line termini" do
+      assert GreenLine.terminus?("place-hsmnl", "Green-E")
+      stop = %RouteStop{id: "place-hsmnl", branch: "Green-E", is_terminus?: true}
+      branches = {nil, GreenLine.branch_ids()}
+
+      bubbles = [
+        {nil, :line},
+        {"Green-E", :terminus}
+      ]
+
+      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
   end
 
