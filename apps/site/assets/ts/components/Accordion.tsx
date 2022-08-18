@@ -15,7 +15,7 @@ interface Props {
 export const AccordionNoJS = ({
   id,
   children,
-  headingRole = true,
+  headingRole = true
 }: {
   id: string;
   children: ReactElement<HTMLElement>;

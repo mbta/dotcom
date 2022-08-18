@@ -42,7 +42,7 @@ exports[`it renders 1`] = `
     <div
       aria-level={3}
       className="panel"
-      role="heading"
+      role=""
     >
       <div
         className="c-accordion-ui__heading"
@@ -83,7 +83,7 @@ exports[`it renders 1`] = `
     >
       <div
         aria-level={3}
-        role="heading"
+        role=""
       >
         <div
           aria-labelledby="itinerary-1-title"
