@@ -21,7 +21,7 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
-import currentLineSuspensions from "../../helpers/use-line-suspensions";
+import currentLineSuspensions from "../../helpers/line-suspensions";
 
 interface Props {
   schedulePageData: SchedulePageData;

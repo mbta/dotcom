@@ -18,7 +18,7 @@ import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
 import { effectNameForAlert } from "../../../components/Alerts";
 import GlxOpen from "../../../components/GlxOpen";
-import currentLineSuspensions from "../../../helpers/use-line-suspensions";
+import currentLineSuspensions from "../../../helpers/line-suspensions";
 
 interface StopCardProps {
   stop: LineDiagramStop;

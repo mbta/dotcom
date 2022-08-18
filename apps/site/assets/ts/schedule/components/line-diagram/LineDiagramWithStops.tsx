@@ -6,7 +6,7 @@ import { CommonLineDiagramProps } from "./__line-diagram";
 import useStopPositions, { RefMap } from "./graphics/useStopPositions";
 import StopCard from "./StopCard";
 import { hasPredictionTime } from "../../../models/prediction";
-import currentLineSuspensions from "../../../helpers/use-line-suspensions";
+import currentLineSuspensions from "../../../helpers/line-suspensions";
 import { BASE_LINE_WIDTH, BRANCH_SPACING } from "./graphics/graphic-helpers";
 
 export const StopRefContext = React.createContext<[RefMap, () => void]>([

@@ -16,7 +16,7 @@ import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
 import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import { isABusRoute, isACommuterRailRoute } from "../../models/route";
-import currentLineSuspensions from "../../helpers/use-line-suspensions";
+import currentLineSuspensions from "../../helpers/line-suspensions";
 
 export interface Props {
   route: EnhancedRoute;

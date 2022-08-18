@@ -11,7 +11,7 @@ import LineDiagramWithStops from "./LineDiagramWithStops";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
 import useRealtime from "../../../hooks/useRealtime";
-import currentLineSuspensions from "../../../helpers/use-line-suspensions";
+import currentLineSuspensions from "../../../helpers/line-suspensions";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
