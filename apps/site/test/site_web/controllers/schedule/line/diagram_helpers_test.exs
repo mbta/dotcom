@@ -1133,13 +1133,14 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
     end
 
     test "direction 1 returns the correct number of bubbles for each stop" do
-      route_stops = Helpers.get_route_stops("Green", 0, @deps.stops_by_route_fn)
+      direction_id = 1
+      route_stops = Helpers.get_route_stops("Green", direction_id, @deps.stops_by_route_fn)
 
       stops =
         "Green"
-        |> Helpers.get_shapes_by_direction(0, 1)
-        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Green"}, 1)
-        |> DiagramHelpers.build_stop_list(1)
+        |> Helpers.get_shapes_by_direction(0, direction_id)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Green"}, direction_id)
+        |> DiagramHelpers.build_stop_list(direction_id)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
       chunked = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
