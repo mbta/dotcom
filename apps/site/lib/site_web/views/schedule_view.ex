@@ -404,20 +404,4 @@ defmodule SiteWeb.ScheduleView do
   def json_safe_route(route) do
     Route.to_json_safe(route)
   end
-
-  def build_retirement_message(%Conn{assigns: %{route: %Route{type: 2}}}), do: nil
-
-  def build_retirement_message(conn) do
-    path = line_path(conn, :show, conn.assigns[:route].id)
-    link_to_schedule_finder = content_tag(:a, "Schedule Finder", href: path)
-
-    %{
-      header: ["We'll be retiring this tool on March 1, 2021."],
-      body: [
-        "All the information provided here, including scheduled trips and realtime departure and arrival information, can be found in our ",
-        link_to_schedule_finder,
-        "."
-      ]
-    }
-  end
 end
