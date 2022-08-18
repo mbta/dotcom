@@ -6,9 +6,8 @@ defmodule Fares.FareInfo do
   alias Fares.Fare
 
   now = DateTime.utc_now()
-  # TEMP VALUE FOR TESTING UPDATE BEFORE  MERGE
-  surge_start = ~U[2022-08-11 04:55:00Z]
-  surge_end = ~U[2022-09-19 04:55:00Z]
+  surge_start = ~U[2022-08-20 01:00:00Z]
+  surge_end = ~U[2022-09-19 06:00:00Z]
 
   @fare_data [
     %{
