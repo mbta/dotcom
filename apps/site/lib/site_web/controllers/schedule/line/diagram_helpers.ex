@@ -30,6 +30,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     |> Enum.reverse()
     |> Enum.reduce({[], []}, &reduce_green_branch(&1, &2, direction_id))
     |> build_green_stop_list(direction_id)
+    |> Enum.filter(&filter_out_bad_stops/1)
   end
 
   def build_stop_list([%RouteStops{stops: stops}], _direction_id) do
@@ -137,6 +138,11 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
        end)}
     end)
   end
+
+  @spec filter_out_bad_stops({[StopBubble.stop_bubble()], RouteStop.t()}) :: boolean()
+  defp filter_out_bad_stops({_bubbles, %RouteStop{id: "place-haecl"}}), do: false
+  defp filter_out_bad_stops({_bubbles, %RouteStop{id: "place-north"}}), do: false
+  defp filter_out_bad_stops(_), do: true
 
   # Splits green branch into a tuple of shared stops and stops that are unique to that branch.
   @spec split_green_branch(RouteStops.t(), direction_id) :: {[RouteStop.t()], [RouteStop.t()]}

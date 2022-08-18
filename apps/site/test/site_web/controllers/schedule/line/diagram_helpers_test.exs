@@ -637,14 +637,15 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       ]
 
       assert [
-               {
-                 [nil: :stop],
-                 %RouteStop{id: "place-north"}
-               },
-               {
-                 [nil: :stop],
-                 %RouteStop{id: "place-haecl"}
-               },
+               # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+               #  {
+               #    [nil: :stop],
+               #    %RouteStop{id: "place-north"}
+               #  },
+               #  {
+               #    [nil: :stop],
+               #    %RouteStop{id: "place-haecl"}
+               #  },
                {
                  # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
                  #  [nil: :stop],
@@ -1040,9 +1041,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
             {"place-pktrm", 1},
             {"place-coecl", 4},
             {"place-hsmnl", 15},
-            {"place-river", 32},
-            {"place-clmnl", 45},
-            {"place-lake", 61}
+            {"place-river", 30},
+            {"place-clmnl", 43},
+            {"place-lake", 59}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
