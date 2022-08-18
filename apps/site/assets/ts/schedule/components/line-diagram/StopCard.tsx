@@ -62,12 +62,24 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     route_stop: { "is_beginning?": isOrigin, "is_terminus?": isTerminus }
   } = stop;
 
-  const { lineIsSuspended } = currentLineSuspensions(routeStop.route!.id ?? "");
+  const {
+    lineIsSuspended,
+    shuttledStopsLists,
+    crStopsLists
+  } = currentLineSuspensions(routeStop.route!.id ?? "");
 
   const isDestination = !isOrigin && isTerminus;
+  const numlines = Math.max(
+    Math.max(
+      Object.values(shuttledStopsLists["0"] || {}).length,
+      Object.values(crStopsLists["0"] || {}).length
+    ),
+    1
+  );
   const width = isMergeStop(stop)
     ? diagramWidth(1)
-    : diagramWidth(stopData.length);
+    : diagramWidth(Math.max(stopData.length, numlines));
+
   const refs = useContext(StopRefContext)[0];
 
   const diversionAlert = stopAlerts.find(
