@@ -6,31 +6,62 @@ defmodule Fares.FareInfo do
   alias Fares.Fare
 
   now = DateTime.utc_now()
-  surge_start =  ~U[2022-08-11 04:55:00Z] # TEMP VALUE FOR TESTING UPDATE BEFORE  MERGE
-  surge_end =  ~U[2022-09-19 04:55:00Z]
+  # TEMP VALUE FOR TESTING UPDATE BEFORE  MERGE
+  surge_start = ~U[2022-08-11 04:55:00Z]
+  surge_end = ~U[2022-09-19 04:55:00Z]
 
   @fare_data [
     %{
       mode: :commuter,
       zone: "1A",
-      single_trip: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "2.40" end,
-      single_trip_reduced: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "1.10" end,
+      single_trip:
+        if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do
+          "0.00"
+        else
+          "2.40"
+        end,
+      single_trip_reduced:
+        if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do
+          "0.00"
+        else
+          "1.10"
+        end,
       monthly: "90.00",
       monthly_reduced: "30.00"
     },
     %{
       mode: :commuter,
       zone: "1",
-      single_trip: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "6.50" end,
-      single_trip_reduced: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "3.25" end,
+      single_trip:
+        if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do
+          "0.00"
+        else
+          "6.50"
+        end,
+      single_trip_reduced:
+        if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do
+          "0.00"
+        else
+          "3.25"
+        end,
       monthly: "214.00",
       monthly_reduced: "107.00"
     },
     %{
       mode: :commuter,
       zone: "2",
-      single_trip: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "7.00" end,
-      single_trip_reduced: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "3.50" end,
+      single_trip:
+        if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do
+          "0.00"
+        else
+          "7.00"
+        end,
+      single_trip_reduced:
+        if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do
+          "0.00"
+        else
+          "3.50"
+        end,
       monthly: "232.00",
       monthly_reduced: "116.00"
     },
