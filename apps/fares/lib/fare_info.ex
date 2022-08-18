@@ -5,28 +5,37 @@ defmodule Fares.FareInfo do
 
   alias Fares.Fare
 
+  now = DateTime.utc_now()
+  surge_start =  ~U[2022-08-11 04:55:00Z] # TEMP VALUE FOR TESTING
+  surge_end =  ~U[2022-09-19 04:55:00Z]
+
+  # def is_surge(date) do
+  #   DateTime.compare(date, surge_start) == :gt and DateTime.compare(date, surge_end) == :lt
+  # end
+
+
   @fare_data [
     %{
       mode: :commuter,
       zone: "1A",
-      single_trip: "2.40",
-      single_trip_reduced: "1.10",
+      single_trip: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "2.40" end,
+      single_trip_reduced: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "1.10" end,
       monthly: "90.00",
       monthly_reduced: "30.00"
     },
     %{
       mode: :commuter,
       zone: "1",
-      single_trip: "6.50",
-      single_trip_reduced: "3.25",
+      single_trip: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "6.50" end,
+      single_trip_reduced: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "3.25" end,
       monthly: "214.00",
       monthly_reduced: "107.00"
     },
     %{
       mode: :commuter,
       zone: "2",
-      single_trip: "7.00",
-      single_trip_reduced: "3.50",
+      single_trip: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "7.00" end,
+      single_trip_reduced: if DateTime.compare(now, surge_start) == :gt and DateTime.compare(now, surge_end) == :lt do "0.00" else "3.50" end,
       monthly: "232.00",
       monthly_reduced: "116.00"
     },

@@ -82,6 +82,10 @@
   </div>
 <% end %>
 
+<div class="m-trip-plan-farecalc__notes-block">
+  During the Orange Line shutdown, riders can show their CharlieCard or CharlieTicket to conductors to ride the Commuter Rail in Zones 1A, 1 and 2 at no charge.
+</div>
+
 <%= if @itinerary_is_from_or_to_airport do %>
   <div class="m-trip-plan-farecalc__notes-block">
     <span class="m-trip-plan-farecalc__title">Logan Airport:</span> Silver Line service from Logan Airport is always free. If you are headed to Logan Airport, transfers from the Red Line to the SL1 are also free.
