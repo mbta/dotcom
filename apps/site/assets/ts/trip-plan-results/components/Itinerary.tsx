@@ -92,6 +92,7 @@ const ItineraryAccordion = ({
     </div>
     <Accordion
       id={`itinerary-${itinerary.id}`}
+      headingRole={false}
       title={{
         collapsed: "Show map and trip details",
         expanded: "Hide map and trip details"
