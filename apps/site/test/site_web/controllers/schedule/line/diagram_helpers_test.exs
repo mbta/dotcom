@@ -641,69 +641,69 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-haecl"}
+                 %RouteStop{id: "place-haecl"}
                },
                {
                  # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
                  #  [nil: :stop],
                  [nil: :terminus],
-                 %Stops.RouteStop{id: "place-gover"}
+                 %RouteStop{id: "place-gover"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-pktrm"}
+                 %RouteStop{id: "place-pktrm"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-boyls"}
+                 %RouteStop{id: "place-boyls"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-armnl"}
+                 %RouteStop{id: "place-armnl"}
                },
                {
                  [{nil, :merge}, {"Green-E", :merge}],
-                 %Stops.RouteStop{id: "place-coecl"}
+                 %RouteStop{id: "place-coecl"}
                },
                {
                  [{nil, :line}, {"Green-E", :stop}],
-                 %Stops.RouteStop{id: "place-prmnl"}
+                 %RouteStop{id: "place-prmnl"}
                },
                {
                  [{nil, :line}, {"Green-E", :terminus}],
-                 %Stops.RouteStop{id: "place-hsmnl"}
+                 %RouteStop{id: "place-hsmnl"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-hymnl"}
+                 %RouteStop{id: "place-hymnl"}
                },
                {
                  [{"Green-B", :merge}, {"Green-C", :merge}, {"Green-D", :merge}],
-                 %Stops.RouteStop{id: "place-kencl"}
+                 %RouteStop{id: "place-kencl"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}],
-                 %Stops.RouteStop{id: "place-fenwy"}
+                 %RouteStop{id: "place-fenwy"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :terminus}],
-                 %Stops.RouteStop{id: "place-river"}
+                 %RouteStop{id: "place-river"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :stop}],
-                 %Stops.RouteStop{id: "place-smary"}
+                 %RouteStop{id: "place-smary"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :terminus}],
-                 %Stops.RouteStop{id: "place-clmnl"}
+                 %RouteStop{id: "place-clmnl"}
                },
                {
                  [{"Green-B", :stop}],
-                 %Stops.RouteStop{id: "place-bland"}
+                 %RouteStop{id: "place-bland"}
                },
                {
                  [{"Green-B", :terminus}],
-                 %Stops.RouteStop{id: "place-lake"}
+                 %RouteStop{id: "place-lake"}
                }
              ] = DiagramHelpers.build_stop_list(branches, 0)
     end
@@ -943,65 +943,65 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       assert [
                {
                  [{"Green-B", :terminus}],
-                 %Stops.RouteStop{id: "place-lake"}
+                 %RouteStop{id: "place-lake"}
                },
                {
                  [{"Green-B", :stop}],
-                 %Stops.RouteStop{id: "place-bland"}
+                 %RouteStop{id: "place-bland"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :terminus}],
-                 %Stops.RouteStop{id: "place-clmnl"}
+                 %RouteStop{id: "place-clmnl"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :stop}],
-                 %Stops.RouteStop{id: "place-smary"}
+                 %RouteStop{id: "place-smary"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :terminus}],
-                 %Stops.RouteStop{id: "place-river"}
+                 %RouteStop{id: "place-river"}
                },
                {
                  [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}],
-                 %Stops.RouteStop{id: "place-fenwy"}
+                 %RouteStop{id: "place-fenwy"}
                },
                {
                  [{"Green-B", :merge}, {"Green-C", :merge}, {"Green-D", :merge}],
-                 %Stops.RouteStop{id: "place-kencl"}
+                 %RouteStop{id: "place-kencl"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-hymnl"}
+                 %RouteStop{id: "place-hymnl"}
                },
                {
                  [{nil, :line}, {"Green-E", :terminus}],
-                 %Stops.RouteStop{id: "place-hsmnl"}
+                 %RouteStop{id: "place-hsmnl"}
                },
                {
                  [{nil, :line}, {"Green-E", :stop}],
-                 %Stops.RouteStop{id: "place-prmnl"}
+                 %RouteStop{id: "place-prmnl"}
                },
                {
                  [{nil, :merge}, {"Green-E", :merge}],
-                 %Stops.RouteStop{id: "place-coecl"}
+                 %RouteStop{id: "place-coecl"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-armnl"}
+                 %RouteStop{id: "place-armnl"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-boyls"}
+                 %RouteStop{id: "place-boyls"}
                },
                {
                  [nil: :stop],
-                 %Stops.RouteStop{id: "place-pktrm"}
+                 %RouteStop{id: "place-pktrm"}
                },
                {
                  # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
                  #  [nil: :stop],
                  [nil: :terminus],
-                 %Stops.RouteStop{id: "place-gover"}
+                 %RouteStop{id: "place-gover"}
                }
              ] = DiagramHelpers.build_stop_list(branches, 1)
     end
