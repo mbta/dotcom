@@ -2,7 +2,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
   use ExUnit.Case, async: true
 
   alias Routes.Route
-  alias SiteWeb.ScheduleController.Line.DiagramHelpers
+  alias SiteWeb.ScheduleController.Line.{DiagramHelpers, Helpers}
   alias Stops.{RouteStop, RouteStops}
 
   @route_red %Route{
@@ -35,6 +35,8 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
     name: "",
     type: 0
   }
+
+  @deps %SiteWeb.ScheduleController.Line.Dependencies{}
 
   describe "build_stop_list/2" do
     test "builds a list of stops with bubble info for Red line (2 branches), direction 0" do
@@ -1004,6 +1006,461 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
                  %RouteStop{id: "place-gover"}
                }
              ] = DiagramHelpers.build_stop_list(branches, 1)
+    end
+  end
+
+  describe "build_stop_list/2 for Green Line" do
+    defp stop_id({_branches, stop_id}), do: stop_id
+    defp branches({branches, _stop_id}), do: branches
+
+    test "direction 0 returns a list of all stops in order from east to west" do
+      route_stops = Helpers.get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
+      stops =
+        "Green"
+        |> Helpers.get_shapes_by_direction(0, 0)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Green"}, 0)
+        |> DiagramHelpers.build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      for {id, idx} <- [
+            # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+            # {"place-unsqu", 0},
+            # {"place-north", 3},
+            # {"place-gover", 5},
+            # {"place-pktrm", 6},
+            # {"place-coecl", 9},
+            # {"place-hsmnl", 20},
+            # {"place-river", 35},
+            # {"place-clmnl", 48},
+            # {"place-lake", 64}
+            {"place-gover", 0},
+            {"place-pktrm", 1},
+            {"place-coecl", 4},
+            {"place-hsmnl", 15},
+            {"place-river", 32},
+            {"place-clmnl", 45},
+            {"place-lake", 61}
+          ] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "direction 0 returns the correct number of bubbles for each stop" do
+      route_stops = Helpers.get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
+      stops =
+        "Green"
+        |> Helpers.get_shapes_by_direction(0, 0)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Green"}, 0)
+        |> DiagramHelpers.build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [trunk, e, hynes, bcd_combined, bc_combined, b] =
+        Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
+      assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
+
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert trunk |> List.first() |> stop_id() == "place-unsqu"
+      assert trunk |> List.first() |> stop_id() == "place-gover"
+      assert trunk |> List.last() |> stop_id() == "place-armnl"
+
+      # E branch + merge
+      assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
+      assert e |> List.first() |> stop_id() == "place-coecl"
+      assert e |> List.last() |> stop_id() == "place-hsmnl"
+
+      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      assert length(hynes) == 1
+      assert hynes |> List.first() |> stop_id() == "place-hymnl"
+
+      assert Enum.all?(bcd_combined, &(&1 |> branches() |> length() == 3))
+      assert bcd_combined |> List.first() |> stop_id() == "place-kencl"
+      assert bcd_combined |> List.last() |> stop_id() == "place-river"
+
+      assert Enum.all?(bc_combined, &(&1 |> branches() |> length() == 2))
+      assert bc_combined |> List.first() |> stop_id() == "place-smary"
+      assert bc_combined |> List.last() |> stop_id() == "place-clmnl"
+
+      assert Enum.all?(b, &(&1 |> branches() |> length() == 1))
+      assert b |> List.first() |> stop_id() == "place-bland"
+      assert b |> List.last() |> stop_id() == "place-lake"
+    end
+
+    test "direction 0 handles an empty list of stops" do
+      stops =
+        [
+          %Stops.RouteStops{branch: "Green-E", stops: []},
+          %Stops.RouteStops{branch: "Green-D", stops: []},
+          %Stops.RouteStops{branch: "Green-C", stops: []},
+          %Stops.RouteStops{branch: "Green-B", stops: []}
+        ]
+        |> DiagramHelpers.build_stop_list(0)
+
+      assert stops == []
+    end
+
+    test "direction 1 returns a list of all stops in order from west to east" do
+      direction_id = 1
+
+      route_stops = Helpers.get_route_stops("Green", direction_id, @deps.stops_by_route_fn)
+
+      stops =
+        "Green"
+        |> Helpers.get_shapes_by_direction(0, direction_id)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Green"}, direction_id)
+        |> DiagramHelpers.build_stop_list(direction_id)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      for {id, idx} <- [
+            # {"place-lech", 64},
+            # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+            # {"place-north", 61},
+            {"place-gover", 59},
+            {"place-pktrm", 58},
+            {"place-coecl", 55},
+            {"place-hsmnl", 44},
+            {"place-river", 29},
+            {"place-clmnl", 16},
+            {"place-lake", 0}
+          ] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "direction 1 returns the correct number of bubbles for each stop" do
+      route_stops = Helpers.get_route_stops("Green", 0, @deps.stops_by_route_fn)
+
+      stops =
+        "Green"
+        |> Helpers.get_shapes_by_direction(0, 1)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Green"}, 1)
+        |> DiagramHelpers.build_stop_list(1)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      chunked = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
+      assert [b, bc_combined, bcd_combined, hynes, e, trunk] = chunked
+
+      assert Enum.all?(b, &(&1 |> branches() |> length() == 1))
+      assert b |> List.first() |> stop_id() == "place-lake"
+      assert b |> List.last() |> stop_id() == "place-bland"
+
+      assert Enum.all?(bc_combined, &(&1 |> branches() |> length() == 2))
+      assert bc_combined |> List.first() |> stop_id() == "place-clmnl"
+      assert bc_combined |> List.last() |> stop_id() == "place-smary"
+
+      assert Enum.all?(bcd_combined, &(&1 |> branches() |> length() == 3))
+      assert bcd_combined |> List.first() |> stop_id() == "place-river"
+      assert bcd_combined |> List.last() |> stop_id() == "place-kencl"
+
+      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      assert length(hynes) == 1
+      assert hynes |> List.first() |> stop_id() == "place-hymnl"
+
+      # E branch + merge
+      assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
+      assert e |> List.first() |> stop_id() == "place-hsmnl"
+      assert e |> List.last() |> stop_id() == "place-coecl"
+
+      assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
+      assert trunk |> List.first() |> stop_id() == "place-armnl"
+      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # assert trunk |> List.last() |> stop_id() == "place-unsqu"
+      assert trunk |> List.last() |> stop_id() == "place-gover"
+    end
+  end
+
+  describe "build_stop_list/2 for branched non-Green routes" do
+    test "Red direction 0" do
+      direction_id = 0
+      route_stops = Helpers.get_route_stops("Red", direction_id, @deps.stops_by_route_fn)
+
+      stops =
+        "Red"
+        |> Helpers.get_shapes_by_direction(1, direction_id)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Red"}, direction_id)
+        |> DiagramHelpers.build_stop_list(direction_id)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      for {id, idx} <- [
+            {"place-alfcl", 0},
+            {"place-jfk", 12},
+            {"place-brntn", -5},
+            {"place-asmnl", -1}
+          ] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "direction 0 returns the correct number of bubbles for each stop" do
+      direction_id = 0
+      route_stops = Helpers.get_route_stops("Red", direction_id, @deps.stops_by_route_fn)
+
+      stops =
+        "Red"
+        |> Helpers.get_shapes_by_direction(1, direction_id)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Red"}, direction_id)
+        |> DiagramHelpers.build_stop_list(direction_id)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [one, two, another_one] =
+        Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "place-alfcl"
+      assert stop_id(List.last(one)) == "place-andrw"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "place-jfk"
+      assert stop_id(List.last(two)) == "place-brntn"
+
+      assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(another_one)) == "place-shmnl"
+      assert stop_id(List.last(another_one)) == "place-asmnl"
+    end
+
+    test "Red direction 1" do
+      direction_id = 1
+      route_stops = Helpers.get_route_stops("Red", direction_id, @deps.stops_by_route_fn)
+
+      stops =
+        "Red"
+        |> Helpers.get_shapes_by_direction(1, direction_id)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Red"}, direction_id)
+        |> DiagramHelpers.build_stop_list(direction_id)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      for {id, idx} <- [
+            {"place-alfcl", -1},
+            {"place-jfk", -13},
+            {"place-brntn", 4},
+            {"place-asmnl", 0}
+          ] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+
+    test "direction 1 returns the correct number of bubbles for each stop" do
+      direction_id = 1
+      route_stops = Helpers.get_route_stops("Red", direction_id, @deps.stops_by_route_fn)
+
+      stops =
+        "Red"
+        |> Helpers.get_shapes_by_direction(1, 1)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "Red"}, direction_id)
+        |> DiagramHelpers.build_stop_list(direction_id)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      [another_one, two, one] =
+        Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+
+      assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(another_one)) == "place-asmnl"
+      assert stop_id(List.last(another_one)) == "place-shmnl"
+
+      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
+      assert stop_id(List.first(two)) == "place-brntn"
+      assert stop_id(List.last(two)) == "place-jfk"
+
+      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
+      assert stop_id(List.first(one)) == "place-andrw"
+      assert stop_id(List.last(one)) == "place-alfcl"
+    end
+
+    @tag skip: "FIXME: Failing due to missing Forest Hills stop"
+    test "CR-Providence outbound" do
+      route_stops = Helpers.get_route_stops("CR-Providence", 0, @deps.stops_by_route_fn)
+
+      stops =
+        "CR-Providence"
+        |> Helpers.get_shapes_by_direction(2, 0)
+        |> Helpers.get_branches(route_stops, %Routes.Route{id: "CR-Providence"}, 0)
+        |> DiagramHelpers.build_stop_list(0)
+        |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
+
+      for {id, idx} <- [
+            {"place-sstat", 0},
+            {"place-NEC-2173", 5},
+            {"place-SB-0156", 7},
+            {"place-NEC-2108", 9}
+          ] do
+        assert stops |> Enum.at(idx) |> elem(1) == id
+      end
+    end
+  end
+
+  describe "build_branched_stop" do
+    # As of June 2020, Lechmere is closed for construction.
+    # Replacing with North Station for now
+
+    # test "lechmere" do
+    #   stop = %RouteStop{id: "place-lech"}
+    #   branches = {nil, GreenLine.branch_ids()}
+    #
+    #   bubbles = [
+    #     {"Green-B", :empty},
+    #     {"Green-C", :empty},
+    #     {"Green-D", :empty},
+    #     {"Green-E", :terminus}
+    #   ]
+    #
+    #   assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+    # end
+
+    test "North Station" do
+      stop = %RouteStop{id: "place-north"}
+      branches = {nil, GreenLine.branch_ids()}
+
+      bubbles = [{nil, :stop}]
+
+      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+    end
+
+    test "park" do
+      stop = %RouteStop{id: "place-pktrm"}
+      branches = {nil, GreenLine.branch_ids()}
+
+      bubbles = [{nil, :stop}]
+
+      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+    end
+
+    test "copley" do
+      stop = %RouteStop{id: "place-coecl"}
+      branches = {nil, GreenLine.branch_ids()}
+
+      bubbles = [
+        {nil, :merge},
+        {"Green-E", :merge}
+      ]
+
+      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+    end
+
+    test "heath st" do
+      assert GreenLine.terminus?("place-hsmnl", "Green-E")
+      stop = %RouteStop{id: "place-hsmnl", branch: "Green-E", is_terminus?: true}
+      branches = {nil, GreenLine.branch_ids()}
+
+      bubbles = [
+        {nil, :line},
+        {"Green-E", :terminus}
+      ]
+
+      assert DiagramHelpers.build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+    end
+
+    test "a terminus on a one-stop trunk is a merge" do
+      stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
+      branch_length = 1
+
+      assert DiagramHelpers.build_branched_stop(
+               {stop, true},
+               [],
+               {nil, ["branch 1", "branch 2"]},
+               branch_length
+             ) ==
+               [
+                 {[{"branch 1", :merge}, {"branch 2", :merge}], stop}
+               ]
+
+      assert DiagramHelpers.build_branched_stop(
+               {stop, false},
+               [],
+               {nil, ["branch 1", "branch 2"]},
+               branch_length
+             ) == [
+               {[{"branch 1", :merge}, {"branch 2", :merge}], stop}
+             ]
+    end
+
+    test "a terminus not on a branch (but also not the ONLY stop on a branch) is always a terminus" do
+      stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
+      branch_length = 3
+
+      assert DiagramHelpers.build_branched_stop({stop, true}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
+
+      assert DiagramHelpers.build_branched_stop({stop, false}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
+    end
+
+    test "non-terminus in unbranched stops is a merge stop when it's first or last in list" do
+      new_stop = %RouteStop{id: "new"}
+      branch_length = 3
+
+      result =
+        DiagramHelpers.build_branched_stop(
+          {new_stop, true},
+          [],
+          {nil, ["branch 1", "branch 2"]},
+          branch_length
+        )
+
+      assert result == [{[{"branch 1", :merge}, {"branch 2", :merge}], new_stop}]
+    end
+
+    test "unbranched stops that aren't first or last in list are just :stop" do
+      new_stop = %RouteStop{id: "new"}
+      branch_length = 3
+      result = DiagramHelpers.build_branched_stop({new_stop, false}, [], {nil, []}, branch_length)
+      assert result == [{[{nil, :stop}], new_stop}]
+    end
+
+    test "branched terminus includes :terminus in stop bubbles" do
+      new_stop = %RouteStop{id: "new", branch: "branch 1", is_terminus?: true}
+      branch_length = 3
+
+      result =
+        DiagramHelpers.build_branched_stop(
+          {new_stop, false},
+          [],
+          {"branch 1", ["branch 1", "branch 2"]},
+          branch_length
+        )
+
+      assert result == [{[{"branch 1", :terminus}, {"branch 2", :line}], new_stop}]
+    end
+  end
+
+  describe "build_branched_stop_list" do
+    test "returns stops in reverse order for both directions when branch is nil" do
+      stops =
+        ["first", "middle", "last"]
+        |> Util.EnumHelpers.with_first_last()
+        |> Enum.map(fn {stop_id, is_terminus?} ->
+          %RouteStop{id: stop_id, is_terminus?: is_terminus?}
+        end)
+
+      outbound =
+        DiagramHelpers.build_branched_stop_list(%RouteStops{branch: nil, stops: stops}, {[], []})
+
+      inbound =
+        DiagramHelpers.build_branched_stop_list(%RouteStops{branch: nil, stops: stops}, {[], []})
+
+      assert outbound == inbound
+      assert {[last, middle, first], []} = outbound
+      assert last == {[{nil, :terminus}], %RouteStop{id: "last", is_terminus?: true}}
+      assert middle == {[{nil, :stop}], %RouteStop{id: "middle", is_terminus?: false}}
+      assert first == {[{nil, :terminus}], %RouteStop{id: "first", is_terminus?: true}}
+    end
+  end
+
+  describe "stop_bubble_type/2" do
+    test "copley" do
+      stop = %RouteStop{id: "place-coecl"}
+      assert DiagramHelpers.stop_bubble_type("Green-B", stop) == {"Green-B", :stop}
+      assert DiagramHelpers.stop_bubble_type("Green-C", stop) == {"Green-C", :stop}
+      assert DiagramHelpers.stop_bubble_type("Green-D", stop) == {"Green-D", :stop}
+      assert DiagramHelpers.stop_bubble_type("Green-E", stop) == {"Green-E", :stop}
     end
   end
 end
