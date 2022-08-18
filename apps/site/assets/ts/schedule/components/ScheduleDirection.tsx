@@ -16,6 +16,7 @@ import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
 import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import { isABusRoute, isACommuterRailRoute } from "../../models/route";
+import currentLineSuspensions from "../../helpers/use-line-suspensions";
 
 export interface Props {
   route: EnhancedRoute;
@@ -192,6 +193,8 @@ const ScheduleDirection = ({
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
 
+  const { lineIsSuspended } = currentLineSuspensions(route.id);
+
   return (
     <>
       <div className="m-schedule-direction">
@@ -212,7 +215,7 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {!staticMapData && mapState.data && (
+      {!staticMapData && mapState.data && !lineIsSuspended && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
           data={mapState.data}
