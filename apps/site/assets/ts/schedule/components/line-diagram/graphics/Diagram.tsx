@@ -22,6 +22,8 @@ import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
 interface DiagramProps {
   lineDiagram: LineDiagramStop[];
   liveData: LiveDataByStop | undefined;
+  overrideStyle?: "shuttle" | "commuter-rail";
+  overridePlacement?: number;
 }
 
 const branchingDescription = (lineDiagram: LineDiagramStop[]): string => {
@@ -78,11 +80,16 @@ const LiveVehicleIconSet = ({
 };
 
 const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
-  const { lineDiagram, liveData } = props;
+  const { lineDiagram, liveData, overrideStyle, overridePlacement } = props;
   const { selectedDirection } = getCurrentState();
   const width = diagramWidth(
     max(lineDiagram.map(ld => ld.stop_data.length)) || 1
   );
+
+  const extraClassName =
+    overrideStyle === "commuter-rail"
+      ? "commuter-rail"
+      : routeToModeName(lineDiagram[0].route_stop.route!);
 
   return (
     <>
@@ -97,12 +104,10 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-labelledby="diagram-title diagram-desc"
-        className={`line-diagram-svg ${routeToModeName(
-          lineDiagram[0].route_stop.route!
-        )}`}
+        className={`line-diagram-svg ${extraClassName}`}
         width={`${width + 4}px`}
         height="100%"
-        style={{ left: BASE_LINE_WIDTH / 2 }}
+        style={{ left: BASE_LINE_WIDTH / 2 + (overridePlacement ?? 0) }}
       >
         <title id="diagram-title">
           Line diagram for{" "}
@@ -115,7 +120,7 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
           {hasBranchLines(lineDiagram) && branchingDescription(lineDiagram)}
         </desc>
 
-        <defs>{DiagonalHatchPattern}</defs>
+        <defs>{DiagonalHatchPattern(overrideStyle)}</defs>
         {/* If there are multiple branches, draw the lines and curves for those */
         hasBranchLines(lineDiagram) && <Merges lineDiagram={lineDiagram} />}
 
@@ -133,6 +138,7 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
                 key={`${current.route_stop.id}-${self[idx + 1].route_stop.id}`}
                 from={current}
                 to={self[idx + 1]}
+                shuttle={overrideStyle === "shuttle"}
               />
             );
           }
@@ -141,7 +147,11 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
 
         {/* Draw circles for each stop */
         lineDiagram.map(stop => (
-          <Stop key={stop.route_stop.id} stop={stop} />
+          <Stop
+            key={stop.route_stop.id}
+            stop={stop}
+            shuttle={overrideStyle === "shuttle"}
+          />
         ))}
       </svg>
     </>

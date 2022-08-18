@@ -17,8 +17,13 @@ import {
 interface PathGraphicsProps {
   from: LineDiagramStop;
   to: LineDiagramStop;
+  shuttle?: boolean;
 }
-const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
+const Line = ({
+  from,
+  to,
+  shuttle
+}: PathGraphicsProps): ReactElement | null => {
   const fromCoords: StopCoord | null = useSelector(
     (state: CoordState) => state[from.route_stop.id]
   );
@@ -44,8 +49,9 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
     lineProps.y1 = `${y1}px`;
     lineProps.y2 = `${y2}px`;
     if (
-      from.stop_data.some(sd => sd["has_disruption?"]) &&
-      to.stop_data.some(sd => sd["has_disruption?"])
+      shuttle ||
+      (from.stop_data.some(sd => sd["has_disruption?"]) &&
+        to.stop_data.some(sd => sd["has_disruption?"]))
     ) {
       lineProps.stroke = "url(#diagonalHatch)";
     }
@@ -73,8 +79,8 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
         lineProps.x2 = lineProps.x1;
         lineProps.y1 = `${y1}px`;
         lineProps.y2 = `${y2}px`;
-        if (branchLine["has_disruption?"]) {
-          lineProps.stroke = "url(#diagonalHatch)";
+        if (shuttle || branchLine["has_disruption?"]) {
+          lineProps.stroke = "url(#shuttle)";
         }
         return <line className="line-diagram-svg__line" {...lineProps} />;
       })}
