@@ -14,6 +14,7 @@ config :site, SiteWeb.Endpoint,
 
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 
+config :gettext, default_locale: "en"
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
