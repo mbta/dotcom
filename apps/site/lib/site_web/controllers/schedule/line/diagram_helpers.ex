@@ -115,9 +115,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     end)
   end
 
+  @spec fix_green_connections([stop_with_bubble_info()]) :: [stop_with_bubble_info()]
   defp fix_green_connections(stops) do
-    stops
-    |> Enum.map(fn {bubbles, stop} ->
+    Enum.map(stops, fn {bubbles, stop} ->
       {bubbles,
        Map.update!(stop, :connections, fn connections ->
          green_indices =
@@ -125,8 +125,8 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
            |> Enum.filter(fn {connection, _} -> String.starts_with?(connection.id, "Green-") end)
            |> Enum.map(fn {_, index} -> index end)
 
-         connections
-         |> List.insert_at(
+         List.insert_at(
+           connections,
            case {stop.route.id, green_indices} do
              {_, []} -> 0
              {"Green-B", _} -> List.first(green_indices)
