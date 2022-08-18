@@ -18,6 +18,7 @@ import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
 import { effectNameForAlert } from "../../../components/Alerts";
 import GlxOpen from "../../../components/GlxOpen";
+import currentLineSuspensions from "../../../helpers/use-line-suspensions";
 
 interface StopCardProps {
   stop: LineDiagramStop;
@@ -60,6 +61,8 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     alerts: stopAlerts,
     route_stop: { "is_beginning?": isOrigin, "is_terminus?": isTerminus }
   } = stop;
+
+  const { lineIsSuspended } = currentLineSuspensions(routeStop.route!.id ?? "");
 
   const isDestination = !isOrigin && isTerminus;
   const width = isMergeStop(stop)
@@ -122,15 +125,17 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
           )}
         </div>
 
-        <footer className="m-schedule-diagram__footer">
-          <button
-            className="btn btn-link"
-            type="button"
-            onClick={() => onClick(routeStop)}
-          >
-            View schedule
-          </button>
-        </footer>
+        {lineIsSuspended ? null : (
+          <footer className="m-schedule-diagram__footer">
+            <button
+              className="btn btn-link"
+              type="button"
+              onClick={() => onClick(routeStop)}
+            >
+              View schedule
+            </button>
+          </footer>
+        )}
       </section>
     </li>
   );
