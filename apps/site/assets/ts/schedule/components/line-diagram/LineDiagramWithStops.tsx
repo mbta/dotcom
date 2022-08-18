@@ -98,7 +98,7 @@ const LineDiagramWithStops = (
                 key={stop.route_stop.id}
                 stop={stop}
                 onClick={handleStopClick}
-                liveData={liveData ? liveData[stop.route_stop.id] : undefined}
+                liveData={liveData?.[stop.route_stop.id]}
               />
             ))}
           </ol>

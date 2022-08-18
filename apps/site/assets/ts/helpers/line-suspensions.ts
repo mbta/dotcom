@@ -34,7 +34,7 @@ const currentLineSuspensions = (routeId: string): LineSuspensionInfo => {
 
   // get list of line suspensions encoded in the
   // <div [data-line-suspensions]></div> element
-  const suspensions = Object.fromEntries(
+  const suspensions: LineSuspensions = Object.fromEntries(
     JSON.parse(lineSuspensionsEl.innerHTML)
   );
 
