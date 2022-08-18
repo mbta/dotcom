@@ -7,7 +7,7 @@
   <h2>North Side Alternatives</h2>
   <p>
     For service on the north side of the Orange Line, most
-    <a target="_blank" href="<%= stop_path(@conn, :show, "CR-Haverhill") %>">Haverhill Line</a> trains will stop at
+    <a target="_blank" href="https://www.mbta.com/schedules/CR-Haverhill/timetable">Haverhill Line</a> trains will stop at
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-ogmnl") %>">Oak Grove</a> en route to
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-mlmnl") %>">Malden Center</a> and
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-north") %>">North Station</a>
