@@ -6,13 +6,8 @@ defmodule Fares.FareInfo do
   alias Fares.Fare
 
   now = DateTime.utc_now()
-  surge_start =  ~U[2022-08-11 04:55:00Z] # TEMP VALUE FOR TESTING
+  surge_start =  ~U[2022-08-11 04:55:00Z] # TEMP VALUE FOR TESTING UPDATE BEFORE  MERGE
   surge_end =  ~U[2022-09-19 04:55:00Z]
-
-  # def is_surge(date) do
-  #   DateTime.compare(date, surge_start) == :gt and DateTime.compare(date, surge_end) == :lt
-  # end
-
 
   @fare_data [
     %{
