@@ -27,6 +27,43 @@ export const shuttleForStop = (
       )?.[0]
     : undefined;
 
+const makePill = (extra: string = "") => (
+  routeId: string,
+  routeName: string,
+  bgClassName: string
+) => `
+<a href="/schedules/${routeId}" class="mr-025" data-toggle="tooltip" data-trigger="hover focus" data-placement="bottom" data-animation="false" data-html="false" data-selector="true" data-original-title="${routeName} ${extra}"><span class="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--${bgClassName}">${routeName}</span></a>
+`;
+const BUS_39 = makePill()("39", "39", "bus");
+const BUS_92 = makePill()("92", "92", "bus");
+const BUS_93 = makePill()("93", "93", "bus");
+const BUS_CT2 = makePill()("747", "CT2", "bus");
+const GL_E = (extra?: string): string =>
+  makePill(extra)("Green-E", "Green Line E", "green-line");
+const GL = (extra?: string): string =>
+  makePill(extra)("Green", "Green Line", "green-line");
+const BLUE = makePill()("Blue", "Blue Line", "blue-line");
+const SL4 = makePill("with added buses")("751", "SL4", "silver-line");
+const SL5 = makePill("with added buses")("749", "SL5", "silver-line");
+
+const recommendedConnections: { [stopId: string]: string[] } = {
+  "place-forhl": [BUS_39],
+  "place-grnst": [BUS_39],
+  "place-sbmnl": [BUS_39],
+  "place-rugg": [GL_E(), BUS_39, BUS_CT2],
+  "place-masta": [GL_E("(@ Symphony)")],
+  "place-bbsta": [GL("(@ Copley)"), BUS_39],
+  "place-tumnl": [SL4, SL5],
+  "place-chncl": [GL("(@ Boylston)"), SL4, SL5],
+  "place-dwnxg": [GL("(@ Park)"), SL4, SL5],
+  "place-state": [BLUE],
+  "place-sull": [BUS_92, BUS_93, BUS_CT2]
+};
+
+export const suspensionStopConnections = (
+  stopId: string
+): string[] | undefined => recommendedConnections[stopId];
+
 /* eslint-disable consistent-return */
 const currentLineSuspensions = (
   routeId: string

@@ -19,7 +19,8 @@ import { StopRefContext } from "./LineDiagramWithStops";
 import { effectNameForAlert } from "../../../components/Alerts";
 import GlxOpen from "../../../components/GlxOpen";
 import currentLineSuspensions, {
-  shuttleForStop
+  shuttleForStop,
+  suspensionStopConnections
 } from "../../../helpers/line-suspensions";
 
 interface StopCardProps {
@@ -119,7 +120,11 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
         </header>
 
         <div className="m-schedule-diagram__stop-details">
-          {StopConnections(routeStop.connections)}
+          {shuttledStopsLists || crStopsLists
+            ? suspensionStopConnections(routeStop.id)?.map(cxn => (
+                <div dangerouslySetInnerHTML={{ __html: cxn }} /> // eslint-disable-line react/no-danger
+              ))
+            : StopConnections(routeStop.connections)}
           {showPrediction ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
