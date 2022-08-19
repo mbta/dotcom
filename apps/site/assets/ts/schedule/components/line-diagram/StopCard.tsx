@@ -18,7 +18,9 @@ import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
 import { effectNameForAlert } from "../../../components/Alerts";
 import GlxOpen from "../../../components/GlxOpen";
-import currentLineSuspensions from "../../../helpers/line-suspensions";
+import currentLineSuspensions, {
+  shuttleForStop
+} from "../../../helpers/line-suspensions";
 
 interface StopCardProps {
   stop: LineDiagramStop;
@@ -67,6 +69,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     shuttledStopsLists,
     crStopsLists
   } = currentLineSuspensions(routeStop.route!.id ?? "");
+  const shuttleId = shuttleForStop(stop.route_stop.id, shuttledStopsLists);
 
   const isDestination = !isOrigin && isTerminus;
   const numlines = Math.max(
@@ -135,6 +138,13 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
               </div>
             )
           )}
+          {shuttleId ? (
+            <div className="m-schedule-diagram__alert">
+              <a href={`/schedules/${shuttleId}`}>
+                {alertIcon("c-svg__icon-alerts-triangle")} Shuttle
+              </a>
+            </div>
+          ) : null}
         </div>
 
         {lineIsSuspended ? null : (

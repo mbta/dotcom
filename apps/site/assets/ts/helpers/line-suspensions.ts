@@ -18,6 +18,16 @@ interface SuspendedStopsList {
   [directionId: string]: string[];
 }
 
+export const shuttleForStop = (
+  stopId: string,
+  shuttleStopsList: SuspendedStopsInfo
+): string | undefined =>
+  shuttleStopsList["0"]
+    ? Object.entries(shuttleStopsList["0"]).find(([, stops]) =>
+        stops.includes(stopId)
+      )?.[0]
+    : undefined;
+
 const currentLineSuspensions = (routeId: string): LineSuspensionInfo => {
   const info: LineSuspensionInfo = {
     lineIsSuspended: false,
