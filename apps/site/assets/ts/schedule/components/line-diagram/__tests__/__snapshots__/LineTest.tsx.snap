@@ -13,7 +13,7 @@ exports[`Line component between stops with branches renders and matches snapshot
 exports[`Line component between stops with disruptions renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <Line from={{...}} to={{...}}>
-    <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#diagonalHatch)\\" />
+    <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#shuttle)\\" />
   </Line>
 </Provider>"
 `;
@@ -22,7 +22,7 @@ exports[`Line component renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <svg>
     <Line from={{...}} to={{...}}>
-      <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#diagonalHatch)\\" />
+      <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#shuttle)\\" />
     </Line>
   </svg>
 </Provider>"

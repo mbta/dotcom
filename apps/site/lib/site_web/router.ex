@@ -31,6 +31,7 @@ defmodule SiteWeb.Router do
     plug(:optional_disable_indexing)
     plug(:activate_flag)
     plug(SiteWeb.Plugs.GlxNowOpen)
+    plug(SiteWeb.Plugs.LineSuspensions)
   end
 
   pipeline :api do

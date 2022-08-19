@@ -21,6 +21,7 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import currentLineSuspensions from "../../helpers/line-suspensions";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -129,7 +130,9 @@ export const ScheduleLoader = ({
     variant: busVariantId
   } = schedulePageData;
 
-  const routeIsSuspended = Object.keys(routePatternsByDirection).length === 0;
+  const routeIsSuspended =
+    Object.keys(routePatternsByDirection).length === 0 ||
+    currentLineSuspensions(route.id);
 
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {
@@ -196,10 +199,12 @@ export const ScheduleLoader = ({
     if (component === "SCHEDULE_NOTE" && scheduleNote) {
       return (
         <>
-          <ScheduleNote
-            className="m-schedule-page__schedule-notes--desktop"
-            scheduleNote={scheduleNote}
-          />
+          {!routeIsSuspended ? (
+            <ScheduleNote
+              className="m-schedule-page__schedule-notes--desktop"
+              scheduleNote={scheduleNote}
+            />
+          ) : null}
           {modalOpen && (
             <ScheduleFinderModal
               closeModal={closeModal}
