@@ -395,9 +395,6 @@ defmodule SiteWeb.ScheduleView do
   end
 
   defp sort_subway(route_a, route_b) do
-
-    IO.inspect(route_a)
-
     Enum.find_index(@subway_order, fn x -> x == route_a.id end) <
       Enum.find_index(@subway_order, fn x -> x == route_b.id end)
   end

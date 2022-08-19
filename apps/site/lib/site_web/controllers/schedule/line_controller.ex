@@ -46,7 +46,7 @@ defmodule SiteWeb.ScheduleController.LineController do
       conn,
       :schedule_page_data,
       %{
-        connections: group_connections(conn.assigns.connections),
+        connections: group_connections(conn, conn.assigns.connections),
         pdfs:
           ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
         teasers:
@@ -249,9 +249,28 @@ defmodule SiteWeb.ScheduleController.LineController do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
   end
 
-  defp group_connections(connections) do
+  defp group_connections(conn, connections) do
 
-    IO.inspect(connections)
+
+    IO.inspect(conn.assigns.route.name)
+    if conn.assigns.route.name ==  "Orange Line Shuttle" do
+      no_orange_conns = Enum.reject(connections, &(&1.id == "Orange"))
+
+      no_orange_conns
+    |> Enum.group_by(&Route.type_atom/1)
+    |> Enum.sort_by(&Group.sorter/1)
+    |> Enum.map(fn {group, routes} ->
+      %{
+        group_name: ViewHelpers.mode_name(group),
+        routes:
+          routes
+          |> Enum.sort_by(&connection_sorter/1)
+          |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
+      }
+    end)
+
+  else
+
 
     connections
     |> Enum.group_by(&Route.type_atom/1)
@@ -265,6 +284,7 @@ defmodule SiteWeb.ScheduleController.LineController do
           |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
       }
     end)
+  end
   end
 
   defp route_description(route) do
