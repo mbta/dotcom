@@ -9,40 +9,35 @@ interface Props {
     expanded: string;
   };
   children: ReactElement<HTMLElement>;
-  headingRole?: boolean;
 }
 
 export const AccordionNoJS = ({
   id,
-  children,
-  headingRole = true
+  children
 }: {
   id: string;
   children: ReactElement<HTMLElement>;
-  headingRole?: boolean;
 }): ReactElement<HTMLElement> => (
   <div className="c-accordion-ui">
-    <div role={headingRole ? "heading" : ""} aria-level={3}>
-      <div
-        className="c-accordion-ui__target"
-        id={`${id}-section`}
-        role="region"
-        aria-labelledby={`${id}-title`}
-      >
-        <div className="c-accordion-ui__content">{children}</div>
-      </div>
+    <div
+      className="c-accordion-ui__target"
+      id={`${id}-section`}
+      role="region"
+      aria-labelledby={`${id}-title`}
+    >
+      <div className="c-accordion-ui__content">{children}</div>
     </div>
   </div>
 );
 
 const Accordion = (props: Props): ReactElement<HTMLElement> => {
-  const { id, title, children, headingRole = true } = props;
+  const { id, title, children } = props;
   const [isExpanded, toggleExpanded] = useState(false);
   const onClick = (): void => toggleExpanded(expanded => !expanded);
   return (
     <div className="c-accordion-ui">
-      <div className="panel" role={headingRole ? "heading" : ""} aria-level={3}>
-        <div className="c-accordion-ui__heading">
+      <div className="panel">
+        <div className="c-accordion-ui__heading" role="heading" aria-level={3}>
           <button
             className={`c-accordion-ui__trigger ${!isExpanded && "collapsed"}`}
             aria-expanded={isExpanded}

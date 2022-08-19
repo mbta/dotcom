@@ -92,7 +92,6 @@ const ItineraryAccordion = ({
     </div>
     <Accordion
       id={`itinerary-${itinerary.id}`}
-      headingRole={false}
       title={{
         collapsed: "Show map and trip details",
         expanded: "Hide map and trip details"
@@ -101,7 +100,7 @@ const ItineraryAccordion = ({
       <ItineraryBody {...itinerary} />
     </Accordion>
     <noscript>
-      <AccordionNoJS id={`itinerary-${itinerary.id}`} headingRole={false}>
+      <AccordionNoJS id={`itinerary-${itinerary.id}`}>
         <ItineraryBody {...itinerary} />
       </AccordionNoJS>
     </noscript>
