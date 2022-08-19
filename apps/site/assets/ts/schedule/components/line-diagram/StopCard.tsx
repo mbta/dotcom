@@ -64,18 +64,17 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     route_stop: { "is_beginning?": isOrigin, "is_terminus?": isTerminus }
   } = stop;
 
-  const {
-    lineIsSuspended,
-    shuttledStopsLists,
-    crStopsLists
-  } = currentLineSuspensions(routeStop.route!.id ?? "");
-  const shuttleId = shuttleForStop(stop.route_stop.id, shuttledStopsLists);
+  const { shuttledStopsLists, crStopsLists } =
+    currentLineSuspensions(routeStop.route!.id ?? "") || {};
+  const shuttleId =
+    shuttledStopsLists &&
+    shuttleForStop(stop.route_stop.id, shuttledStopsLists);
 
   const isDestination = !isOrigin && isTerminus;
   const numlines = Math.max(
     Math.max(
-      Object.values(shuttledStopsLists["0"] || {}).length,
-      Object.values(crStopsLists["0"] || {}).length
+      Object.values(shuttledStopsLists?.["0"] || {}).length,
+      Object.values(crStopsLists?.["0"] || {}).length
     ),
     1
   );
@@ -147,7 +146,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
           ) : null}
         </div>
 
-        {lineIsSuspended ? null : (
+        {shuttledStopsLists || crStopsLists ? null : (
           <footer className="m-schedule-diagram__footer">
             <button
               className="btn btn-link"

@@ -27,7 +27,7 @@ const LineDiagramAndStopListPage = ({
   route,
   directionId
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
-  const { lineIsSuspended } = currentLineSuspensions(route.id);
+  const currentLineSuspension = currentLineSuspensions(route.id);
   // also track the location of text to align the diagram points to
   const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
 
@@ -71,7 +71,7 @@ const LineDiagramAndStopListPage = ({
     "route_stop.name"
   );
 
-  const liveData = useRealtime(route, directionId, !lineIsSuspended);
+  const liveData = useRealtime(route, directionId, !currentLineSuspension);
 
   /**
    * Putting it all together
@@ -81,7 +81,7 @@ const LineDiagramAndStopListPage = ({
       <h3 className="m-schedule-diagram__heading">
         {stationsOrStops(route.type)}
       </h3>
-      {!lineIsSuspended ? (
+      {!currentLineSuspension ? (
         <SearchBox
           id="stop-search"
           labelText={`Search for a ${stationsOrStops(route.type)

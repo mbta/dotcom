@@ -5,7 +5,6 @@ interface LineSuspensions {
 }
 
 interface LineSuspensionInfo {
-  lineIsSuspended: boolean;
   shuttledStopsLists: SuspendedStopsInfo;
   crStopsLists: SuspendedStopsInfo;
 }
@@ -28,19 +27,16 @@ export const shuttleForStop = (
       )?.[0]
     : undefined;
 
-const currentLineSuspensions = (routeId: string): LineSuspensionInfo => {
-  const info: LineSuspensionInfo = {
-    lineIsSuspended: false,
-    shuttledStopsLists: {},
-    crStopsLists: {}
-  };
-
-  if (!document) return info;
+/* eslint-disable consistent-return */
+const currentLineSuspensions = (
+  routeId: string
+): LineSuspensionInfo | undefined => {
+  if (!document) return;
 
   const lineSuspensionsEl: Element | undefined = document.querySelector(
     "[data-line-suspensions]"
   )!;
-  if (!lineSuspensionsEl) return info;
+  if (!lineSuspensionsEl) return;
 
   // get list of line suspensions encoded in the
   // <div [data-line-suspensions]></div> element
@@ -48,9 +44,8 @@ const currentLineSuspensions = (routeId: string): LineSuspensionInfo => {
     JSON.parse(lineSuspensionsEl.innerHTML)
   );
 
+  if (!Object.keys(suspensions).includes(routeId)) return;
   return {
-    lineIsSuspended: Object.keys(suspensions).includes(routeId),
-
     shuttledStopsLists: {
       /**
        * TODO: Stop hardcoding these

@@ -35,14 +35,11 @@ const LineDiagramWithStops = (
       : false
   );
 
-  const {
-    lineIsSuspended,
-    shuttledStopsLists,
-    crStopsLists
-  } = currentLineSuspensions(stops[0].route_stop.route?.id ?? "");
+  const { shuttledStopsLists, crStopsLists } =
+    currentLineSuspensions(stops[0].route_stop.route?.id ?? "") || {};
 
   const crDiagrams =
-    lineIsSuspended && Object.entries(crStopsLists["0"]).length > 0
+    crStopsLists && Object.entries(crStopsLists["0"]).length > 0
       ? Object.values(crStopsLists["0"]).map(stopsList => {
           const coveredStops = stops.filter(s =>
             stopsList.includes(s.route_stop.id)
@@ -58,7 +55,7 @@ const LineDiagramWithStops = (
       : null;
 
   const shuttleDiagrams =
-    lineIsSuspended && Object.entries(shuttledStopsLists["0"]).length > 0
+    shuttledStopsLists && Object.entries(shuttledStopsLists["0"]).length > 0
       ? Object.values(shuttledStopsLists["0"]).map(stopsList => {
           const coveredStops = stops.filter(s =>
             stopsList.includes(s.route_stop.id)
@@ -81,7 +78,7 @@ const LineDiagramWithStops = (
           !anyCrowding ? "u-no-crowding-data" : ""
         }`}
       >
-        {!lineIsSuspended ? (
+        {!(shuttledStopsLists || crStopsLists) ? (
           <Diagram lineDiagram={stops} liveData={liveData} />
         ) : (
           <>

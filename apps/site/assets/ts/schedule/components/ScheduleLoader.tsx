@@ -130,9 +130,9 @@ export const ScheduleLoader = ({
     variant: busVariantId
   } = schedulePageData;
 
-  const { lineIsSuspended } = currentLineSuspensions(route.id);
   const routeIsSuspended =
-    Object.keys(routePatternsByDirection).length === 0 || lineIsSuspended;
+    Object.keys(routePatternsByDirection).length === 0 ||
+    currentLineSuspensions(route.id);
 
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {

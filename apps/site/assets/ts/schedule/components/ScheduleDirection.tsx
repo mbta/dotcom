@@ -193,8 +193,6 @@ const ScheduleDirection = ({
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
 
-  const { lineIsSuspended } = currentLineSuspensions(route.id);
-
   return (
     <>
       <div className="m-schedule-direction">
@@ -215,7 +213,7 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {!staticMapData && mapState.data && !lineIsSuspended && (
+      {!staticMapData && mapState.data && !currentLineSuspensions(route.id) && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
           data={mapState.data}
