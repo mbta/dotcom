@@ -1007,6 +1007,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
                }
              ] = DiagramHelpers.build_stop_list(branches, 1)
     end
+  end
 
   describe "build_stop_list/2 for Green Line" do
     defp stop_id({_branches, stop_id}), do: stop_id
