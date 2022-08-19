@@ -250,36 +250,25 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   defp group_connections(conn, connections) do
+    filtered_connections =
+      if conn.assigns.route.name == "Orange Line Shuttle" do
+        Enum.reject(connections, &(&1.id == "Orange"))
+      else
+        connections
+      end
 
-    if conn.assigns.route.name == "Orange Line Shuttle" do
-      no_orange_conns = Enum.reject(connections, &(&1.id == "Orange"))
-
-      no_orange_conns
-      |> Enum.group_by(&Route.type_atom/1)
-      |> Enum.sort_by(&Group.sorter/1)
-      |> Enum.map(fn {group, routes} ->
-        %{
-          group_name: ViewHelpers.mode_name(group),
-          routes:
-            routes
-            |> Enum.sort_by(&connection_sorter/1)
-            |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
-        }
-      end)
-    else
-      connections
-      |> Enum.group_by(&Route.type_atom/1)
-      |> Enum.sort_by(&Group.sorter/1)
-      |> Enum.map(fn {group, routes} ->
-        %{
-          group_name: ViewHelpers.mode_name(group),
-          routes:
-            routes
-            |> Enum.sort_by(&connection_sorter/1)
-            |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
-        }
-      end)
-    end
+    filtered_connections
+    |> Enum.group_by(&Route.type_atom/1)
+    |> Enum.sort_by(&Group.sorter/1)
+    |> Enum.map(fn {group, routes} ->
+      %{
+        group_name: ViewHelpers.mode_name(group),
+        routes:
+          routes
+          |> Enum.sort_by(&connection_sorter/1)
+          |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
+      }
+    end)
   end
 
   defp route_description(route) do
