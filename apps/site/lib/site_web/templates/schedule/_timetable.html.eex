@@ -2,7 +2,8 @@
 <%= if @route.id == "Orange" do %>
   <p>
     During this shutdown, riders can simply show their CharlieCard or CharlieTicket to conductors to ride the Commuter Rail in
-    <a target="_blank" href="https://cdn.mbta.com/sites/default/files/2021-03/2021-03-23-cr-fare-zones.pdf">Zones 1A, 1 and 2 </a>at no charge.
+    <a target="_blank" href="https://cdn.mbta.com/sites/default/files/2021-03/2021-03-23-cr-fare-zones.pdf">Zones 1A, 1 and 2 </a>at no charge. 
+    For additional Orange Line service alternatives, visit <a target="_blank" href="https://www.mbta.com/BBT2022">Building a Better T 2022</a>.
   </p>
   <h2>North Side Alternatives</h2>
   <p>
@@ -10,11 +11,23 @@
     <a target="_blank" href="https://www.mbta.com/schedules/CR-Haverhill/timetable">Haverhill Line</a> trains will stop at
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-ogmnl") %>">Oak Grove</a> en route to
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-mlmnl") %>">Malden Center</a> and
-    <a target="_blank" href="<%= stop_path(@conn, :show, "place-north") %>">North Station</a>
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-north") %>">North Station</a>.
+  </p>
+  <p>
+    <a target="_blank" href="https://www.mbta.com/schedules/CR-Haverhill/timetable">View an updated schedule for the Haverhill Line</a>
   </p>
   <h2>South Side Alternatives</h2>
   <p>
-    This is a combined timetable for all commuter rail trains that will be running to south side Orange Line stations while service is suspended.
+    For service on the south side of the Orange Line, most
+    <a target="_blank" href="https://www.mbta.com/schedules/CR-Providence/timetable">Providence/Stoughton Line</a> trains will stop at
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-NEC-2203") %>">Hyde Park</a> and 
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-forhl") %>">Forest Hills</a> en route to 
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-rugg") %>">Ruggles</a>,
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-bbsta") %>">Back Bay</a>, and
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-sstat") %>">South Station</a>
+  </p>
+  <p>
+    Below is a timetable for all Commuter Rail trains that will be running to south side Orange Line stations while service is suspended.
   </p>
 <% end %>
 <%= render "_trip_view_filters.html", assigns %>
