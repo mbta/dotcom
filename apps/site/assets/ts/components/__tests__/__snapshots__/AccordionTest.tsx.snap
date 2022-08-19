@@ -5,12 +5,12 @@ exports[`Accordion component renders 1`] = `
   className="c-accordion-ui"
 >
   <div
-    aria-level={3}
     className="panel"
-    role="heading"
   >
     <div
+      aria-level={3}
       className="c-accordion-ui__heading"
+      role="heading"
     >
       <button
         aria-controls="test-accordion-section"

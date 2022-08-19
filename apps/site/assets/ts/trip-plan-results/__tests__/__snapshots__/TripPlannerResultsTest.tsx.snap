@@ -40,12 +40,12 @@ exports[`it renders 1`] = `
     className="c-accordion-ui"
   >
     <div
-      aria-level={3}
       className="panel"
-      role=""
     >
       <div
+        aria-level={3}
         className="c-accordion-ui__heading"
+        role="heading"
       >
         <button
           aria-controls="itinerary-1-section"
@@ -82,32 +82,27 @@ exports[`it renders 1`] = `
       className="c-accordion-ui"
     >
       <div
-        aria-level={3}
-        role=""
+        aria-labelledby="itinerary-1-title"
+        className="c-accordion-ui__target"
+        id="itinerary-1-section"
+        role="region"
       >
         <div
-          aria-labelledby="itinerary-1-title"
-          className="c-accordion-ui__target"
-          id="itinerary-1-section"
-          role="region"
+          className="c-accordion-ui__content"
         >
           <div
-            className="c-accordion-ui__content"
+            className="m-trip-plan-results__itinerary-body"
           >
             <div
-              className="m-trip-plan-results__itinerary-body"
-            >
-              <div
-                className="trip-plan-map map"
-              />
-              <div
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "<div>Lots of content about the itinerary</div>",
-                  }
+              className="trip-plan-map map"
+            />
+            <div
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<div>Lots of content about the itinerary</div>",
                 }
-              />
-            </div>
+              }
+            />
           </div>
         </div>
       </div>
@@ -117,12 +112,12 @@ exports[`it renders 1`] = `
     className="c-accordion-ui"
   >
     <div
-      aria-level={3}
       className="panel"
-      role="heading"
     >
       <div
+        aria-level={3}
         className="c-accordion-ui__heading"
+        role="heading"
       >
         <button
           aria-controls="itinerary-1-fare-calculator-section"
@@ -159,26 +154,21 @@ exports[`it renders 1`] = `
       className="c-accordion-ui"
     >
       <div
-        aria-level={3}
-        role="heading"
+        aria-labelledby="itinerary-1-fare-calculator-title"
+        className="c-accordion-ui__target"
+        id="itinerary-1-fare-calculator-section"
+        role="region"
       >
         <div
-          aria-labelledby="itinerary-1-fare-calculator-title"
-          className="c-accordion-ui__target"
-          id="itinerary-1-fare-calculator-section"
-          role="region"
+          className="c-accordion-ui__content"
         >
           <div
-            className="c-accordion-ui__content"
-          >
-            <div
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<div>HTML content for fare calculator</div>",
-                }
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "<div>HTML content for fare calculator</div>",
               }
-            />
-          </div>
+            }
+          />
         </div>
       </div>
     </div>

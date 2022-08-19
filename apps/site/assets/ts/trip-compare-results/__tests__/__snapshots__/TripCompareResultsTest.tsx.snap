@@ -87,12 +87,12 @@ Array [
         className="c-accordion-ui"
       >
         <div
-          aria-level={3}
           className="panel"
-          role="heading"
         >
           <div
+            aria-level={3}
             className="c-accordion-ui__heading"
+            role="heading"
           >
             <button
               aria-controls="itinerary-1-section"
@@ -129,32 +129,27 @@ Array [
           className="c-accordion-ui"
         >
           <div
-            aria-level={3}
-            role="heading"
+            aria-labelledby="itinerary-1-title"
+            className="c-accordion-ui__target"
+            id="itinerary-1-section"
+            role="region"
           >
             <div
-              aria-labelledby="itinerary-1-title"
-              className="c-accordion-ui__target"
-              id="itinerary-1-section"
-              role="region"
+              className="c-accordion-ui__content"
             >
               <div
-                className="c-accordion-ui__content"
+                className="m-trip-plan-results__itinerary-body"
               >
                 <div
-                  className="m-trip-plan-results__itinerary-body"
-                >
-                  <div
-                    className="trip-plan-map map"
-                  />
-                  <div
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "<div>Lots of content about the itinerary</div>",
-                      }
+                  className="trip-plan-map map"
+                />
+                <div
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "<div>Lots of content about the itinerary</div>",
                     }
-                  />
-                </div>
+                  }
+                />
               </div>
             </div>
           </div>
