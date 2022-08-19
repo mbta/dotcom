@@ -250,7 +250,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   defp group_connections(conn, connections) do
-    IO.inspect(conn.assigns.route.name)
 
     if conn.assigns.route.name == "Orange Line Shuttle" do
       no_orange_conns = Enum.reject(connections, &(&1.id == "Orange"))
