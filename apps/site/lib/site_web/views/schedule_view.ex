@@ -386,18 +386,18 @@ defmodule SiteWeb.ScheduleView do
 
   @spec sort_connections([Route.t()]) :: [Route.t()]
   def sort_connections(routes) do
-
-
     {cr, subway} =
       routes
-
-      |> Enum.reject(&(&1.type === 3 or &1.type === 4 or &1.id == "Orange"))
+      |> Enum.reject(&(&1.type === 3 or &1.type === 4))
       |> Enum.split_with(&(&1.type == 2))
 
     Enum.sort(subway, &sort_subway/2) ++ Enum.sort(cr, &(&1.name < &2.name))
   end
 
   defp sort_subway(route_a, route_b) do
+
+    IO.inspect(route_a)
+
     Enum.find_index(@subway_order, fn x -> x == route_a.id end) <
       Enum.find_index(@subway_order, fn x -> x == route_b.id end)
   end

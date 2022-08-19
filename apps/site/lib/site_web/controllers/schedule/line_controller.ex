@@ -250,6 +250,9 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   defp group_connections(connections) do
+
+    IO.inspect(connections)
+
     connections
     |> Enum.group_by(&Route.type_atom/1)
     |> Enum.sort_by(&Group.sorter/1)
