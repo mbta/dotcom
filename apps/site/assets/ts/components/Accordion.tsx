@@ -19,15 +19,13 @@ export const AccordionNoJS = ({
   children: ReactElement<HTMLElement>;
 }): ReactElement<HTMLElement> => (
   <div className="c-accordion-ui">
-    <div role="heading" aria-level={3}>
-      <div
-        className="c-accordion-ui__target"
-        id={`${id}-section`}
-        role="region"
-        aria-labelledby={`${id}-title`}
-      >
-        <div className="c-accordion-ui__content">{children}</div>
-      </div>
+    <div
+      className="c-accordion-ui__target"
+      id={`${id}-section`}
+      role="region"
+      aria-labelledby={`${id}-title`}
+    >
+      <div className="c-accordion-ui__content">{children}</div>
     </div>
   </div>
 );
@@ -38,8 +36,8 @@ const Accordion = (props: Props): ReactElement<HTMLElement> => {
   const onClick = (): void => toggleExpanded(expanded => !expanded);
   return (
     <div className="c-accordion-ui">
-      <div className="panel" role="heading" aria-level={3}>
-        <div className="c-accordion-ui__heading">
+      <div className="panel">
+        <div className="c-accordion-ui__heading" role="heading" aria-level={3}>
           <button
             className={`c-accordion-ui__trigger ${!isExpanded && "collapsed"}`}
             aria-expanded={isExpanded}
