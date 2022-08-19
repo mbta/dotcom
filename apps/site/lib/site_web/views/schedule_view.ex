@@ -319,7 +319,12 @@ defmodule SiteWeb.ScheduleView do
           if route.id == "Orange" do
             [
               %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
-              %HeaderTab{id: "timetable", name: "Commuter Rail Alternatives", href: timetable_link} | tabs
+              %HeaderTab{
+                id: "timetable",
+                name: "Commuter Rail Alternatives",
+                href: timetable_link
+              }
+              | tabs
             ]
           else
             [
@@ -365,12 +370,11 @@ defmodule SiteWeb.ScheduleView do
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
-
-      if route.name == "Orange Line Shuttle" do
-        [Tuple.append(Tuple.delete_at(Enum.at(summary.fares,0), 1), "0.00")]
-      else
-        summary.fares
-      end
+    if route.name == "Orange Line Shuttle" do
+      [Tuple.append(Tuple.delete_at(Enum.at(summary.fares, 0), 1), "0.00")]
+    else
+      summary.fares
+    end
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom
