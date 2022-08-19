@@ -365,7 +365,12 @@ defmodule SiteWeb.ScheduleView do
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
-    summary.fares
+
+      if route.name == "Orange Line Shuttle" do
+        [Tuple.append(Tuple.delete_at(Enum.at(summary.fares,0), 1), "0.00")]
+      else
+        summary.fares
+      end
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom
@@ -381,9 +386,12 @@ defmodule SiteWeb.ScheduleView do
 
   @spec sort_connections([Route.t()]) :: [Route.t()]
   def sort_connections(routes) do
+
+
     {cr, subway} =
       routes
-      |> Enum.reject(&(&1.type === 3 or &1.type === 4))
+
+      |> Enum.reject(&(&1.type === 3 or &1.type === 4 or &1.id == "Orange"))
       |> Enum.split_with(&(&1.type == 2))
 
     Enum.sort(subway, &sort_subway/2) ++ Enum.sort(cr, &(&1.name < &2.name))
