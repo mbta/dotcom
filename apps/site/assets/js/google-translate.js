@@ -14,15 +14,17 @@ const languages = [
   ["ar", "Arabic"],
   ["zh-CN", "Chinese (Simplified)"],
   ["zh-TW", "Chinese (Traditional)"],
-  ["fr", "French"],
   ["en", "English"],
+  ["fr", "French"],
   ["ht", "Haitian Creole"],
   ["it", "Italian"],
   ["km", "Khmer"],
   ["ko", "Korean"],
+  ["ne", "Nepali"],
   ["pl", "Polish"],
   ["pt", "Portuguese"],
   ["ru", "Russian"],
+  ["so", "Somali"],
   ["es", "Spanish"],
   ["vi", "Vietnamese"]
 ];
