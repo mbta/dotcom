@@ -6,6 +6,7 @@ import { routeBgClass } from "../../../helpers/css";
 import { Route } from "../../../__v3api";
 
 const filteredConnections = (
+  route_id: string,
   connections: RouteStopRoute[]
 ): RouteStopRoute[] => {
   const firstCRIndex = connections.findIndex(
@@ -19,7 +20,8 @@ const filteredConnections = (
     (connection, index) =>
       (connection.type !== 2 && connection.type !== 4) ||
       (connection.type === 2 && index === firstCRIndex) ||
-      (connection.type === 4 && index === firstFerryIndex)
+      (connection.type === 4 && index === firstFerryIndex) ||
+      (route_id === "Orange Line Shuttle" && connection.id !== "Orange")
   );
 };
 
@@ -37,9 +39,9 @@ const connectionName = (connection: Route): string => {
   return connection.name;
 };
 
-const StopConnections = (connections: RouteStopRoute[]): JSX.Element => (
+const StopConnections = (route_id: string, connections: RouteStopRoute[]): JSX.Element => (
   <div className="m-schedule-diagram__connections">
-    {filteredConnections(connections).map((connectingRoute: Route) => (
+    {filteredConnections(route_id, connections).map((connectingRoute: Route) => (
       <TooltipWrapper
         key={connectingRoute.id}
         href={`/schedules/${connectingRoute.id}/line`}

@@ -124,7 +124,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
             ? suspensionStopConnections(routeStop.id)?.map(cxn => (
                 <div dangerouslySetInnerHTML={{ __html: cxn }} /> // eslint-disable-line react/no-danger
               ))
-            : StopConnections(routeStop.connections)}
+            : StopConnections(routeStop.id, routeStop.connections)}
           {showPrediction ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
