@@ -129,116 +129,124 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     end
 
     test "handles the combined Green line" do
+      res = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0)
+
       assert [
-               %Stops.RouteStops{branch: "Green-E", stops: e_stops},
+               # The E line is suspended for maintenance until 8/21/2022
+               #  %Stops.RouteStops{branch: "Green-E", stops: e_stops},
+               %Stops.RouteStops{branch: nil, stops: []},
                %Stops.RouteStops{branch: "Green-D", stops: d_stops},
                %Stops.RouteStops{branch: "Green-C", stops: c_stops},
                %Stops.RouteStops{branch: "Green-B", stops: b_stops}
-             ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0)
+             ] = res
 
-      assert Enum.map(e_stops, & &1.branch) ==
-               [
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E"
-               ]
+      # The E line is suspended for maintenance until 8/21/2022
+      # assert Enum.map(e_stops, & &1.branch) ==
+      #          [
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            nil,
+      #            nil,
+      #            nil,
+      #            nil,
+      #            nil,
+      #            nil,
+      #            nil,
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E",
+      #            "Green-E"
+      #          ]
 
-      assert_stop_ids(e_stops, [
-        "place-unsqu",
-        "place-lech",
-        "place-spmnl",
-        "place-north",
-        "place-haecl",
-        "place-gover",
-        "place-pktrm",
-        "place-boyls",
-        "place-armnl",
-        "place-coecl",
-        "place-prmnl",
-        "place-symcl",
-        "place-nuniv",
-        "place-mfa",
-        "place-lngmd",
-        "place-brmnl",
-        "place-fenwd",
-        "place-mispk",
-        "place-rvrwy",
-        "place-bckhl",
-        "place-hsmnl"
-      ])
+      # assert_stop_ids(e_stops, [
+      #   "place-unsqu",
+      #   "place-lech",
+      #   "place-spmnl",
+      #   "place-north",
+      #   "place-haecl",
+      #   "place-gover",
+      #   "place-pktrm",
+      #   "place-boyls",
+      #   "place-armnl",
+      #   "place-coecl",
+      #   "place-prmnl",
+      #   "place-symcl",
+      #   "place-nuniv",
+      #   "place-mfa",
+      #   "place-lngmd",
+      #   "place-brmnl",
+      #   "place-fenwd",
+      #   "place-mispk",
+      #   "place-rvrwy",
+      #   "place-bckhl",
+      #   "place-hsmnl"
+      # ])
 
-      assert Enum.map(e_stops, & &1.is_terminus?) ==
-               [
-                 true,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 true
-               ]
+      # assert Enum.map(e_stops, & &1.is_terminus?) ==
+      #          [
+      #            true,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            true
+      #          ]
 
-      assert Enum.map(e_stops, & &1.is_beginning?) ==
-               [
-                 true,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false
-               ]
+      # assert Enum.map(e_stops, & &1.is_beginning?) ==
+      #          [
+      #            true,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false,
+      #            false
+      #          ]
 
       assert Enum.map(d_stops, & &1.branch) ==
                [
-                 nil,
-                 nil,
+                 # As of 8/2022, most branches are suspended past Government Center
+                 #  nil,
+                 #  nil,
+                 "Green-D",
+                 "Green-D",
                  nil,
                  nil,
                  nil,
@@ -603,6 +611,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
+    @tag skip: "The E line is suspended for maintenance until 8/21/2022"
     test "handles the E line" do
       assert [
                %RouteStops{branch: "Union Square - Heath Street", stops: stops}
