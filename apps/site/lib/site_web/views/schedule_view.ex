@@ -362,7 +362,9 @@ defmodule SiteWeb.ScheduleView do
     "/fares/" <> route_type <> "-fares"
   end
 
-  @spec single_trip_fares(Route.t()) :: [{String.t(), String.t() | iolist}]
+  @spec single_trip_fares(Route.t() | Route.type_int() | String.t()) :: [
+          {String.t(), String.t() | iolist}
+        ]
   def single_trip_fares(route) do
     summary =
       route
@@ -370,14 +372,14 @@ defmodule SiteWeb.ScheduleView do
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
-    if route.name == "Orange Line Shuttle" do
+    if match?(%Route{name: "Orange Line Shuttle"}, route) do
       [Tuple.append(Tuple.delete_at(Enum.at(summary.fares, 0), 1), "0.00")]
     else
       summary.fares
     end
   end
 
-  @spec to_fare_summary_atom(Route.t()) :: atom
+  @spec to_fare_summary_atom(Route.t() | Route.type_int() | String.t()) :: atom()
   def to_fare_summary_atom(%Route{type: 3, id: id}) do
     cond do
       Fares.silver_line_rapid_transit?(id) -> :subway
