@@ -25,7 +25,7 @@ defmodule SiteWeb.Views.Helpers.URLParsingHelpers do
   def replace_urls_with_links(text) do
     @url_regex
     |> Regex.replace(text, &create_url/1)
-    |> Phoenix.HTML.raw
+    |> Phoenix.HTML.raw()
   end
 
   defp create_url(url) do
