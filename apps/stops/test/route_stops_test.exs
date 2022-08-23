@@ -164,7 +164,7 @@ defmodule Stops.RouteStopsTest do
       #            stops: [%RouteStop{id: "place-lech", is_terminus?: true} | _]
       #          }
       #        ] = stops
-      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # As of Aug 2022, the Green Line past North Station is temporarily suspended.
       # assert [
       #          %RouteStops{
       #            stops: [%RouteStop{id: "place-north", is_terminus?: true} | _]
@@ -172,7 +172,7 @@ defmodule Stops.RouteStopsTest do
       #        ] = stops
       assert [
                %RouteStops{
-                 stops: [%RouteStop{id: "place-gover", is_terminus?: true} | _]
+                 stops: [%RouteStop{id: "place-north", is_terminus?: true} | _]
                }
              ] = stops
     end

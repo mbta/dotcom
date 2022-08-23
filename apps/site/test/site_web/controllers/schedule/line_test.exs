@@ -304,7 +304,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+            # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
             # {"place-unsqu", 0},
             # {"place-north", 3},
             # {"place-gover", 5},
@@ -314,13 +314,13 @@ defmodule SiteWeb.ScheduleController.LineTest do
             # {"place-river", 35},
             # {"place-clmnl", 48},
             # {"place-lake", 64}
-            {"place-gover", 0},
-            {"place-pktrm", 1},
-            {"place-coecl", 4},
-            {"place-hsmnl", 15},
-            {"place-river", 32},
-            {"place-clmnl", 45},
-            {"place-lake", 61}
+            {"place-lech", 0},
+            {"place-pktrm", 5},
+            {"place-coecl", 8},
+            {"place-hsmnl", 19},
+            {"place-river", 35},
+            {"place-clmnl", 48},
+            {"place-lake", 64}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
