@@ -138,7 +138,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.map(e_stops, & &1.branch) ==
                [
-                 "Green-E",
+                 # As of 8/2022, the E line running to Union Square has been suspended
+                 #  "Green-E",
                  "Green-E",
                  "Green-E",
                  nil,
@@ -162,7 +163,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
 
       assert_stop_ids(e_stops, [
-        "place-unsqu",
+        # As of 8/2022, the E line running to Union Square has been suspended
+        # "place-unsqu",
         "place-lech",
         "place-spmnl",
         "place-north",
@@ -188,7 +190,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(e_stops, & &1.is_terminus?) ==
                [
                  true,
-                 false,
+                 # As of 8/2022, the E line running to Union Square has been suspended
+                 #  false,
                  false,
                  false,
                  false,
@@ -213,7 +216,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(e_stops, & &1.is_beginning?) ==
                [
                  true,
-                 false,
+                 # As of 8/2022, the E line running to Union Square has been suspended
+                 #  false,
                  false,
                  false,
                  false,
@@ -605,15 +609,20 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
     test "handles the E line" do
       assert [
-               %RouteStops{branch: "Union Square - Heath Street", stops: stops}
+               # As of 8/2022, the E line running to Union Square has been suspended
+               #  %RouteStops{branch: "Union Square - Heath Street", stops: stops}
+               %RouteStops{branch: "Lechmere - Heath Street", stops: stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green-E"}, 0)
 
-      assert Enum.all?(stops, &(&1.branch == "Union Square - Heath Street"))
+      # As of 8/2022, the E line running to Union Square has been suspended
+      # assert Enum.all?(stops, &(&1.branch == "Union Square - Heath Street"))
+      assert Enum.all?(stops, &(&1.branch == "Lechmere - Heath Street"))
 
       assert Enum.map(stops, & &1.is_terminus?) ==
                [
                  true,
-                 false,
+                 # As of 8/2022, the E line running to Union Square has been suspended
+                 #  false,
                  false,
                  false,
                  false,
@@ -638,7 +647,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(stops, & &1.is_beginning?) ==
                [
                  true,
-                 false,
+                 # As of 8/2022, the E line running to Union Square has been suspended
+                 #  false,
                  false,
                  false,
                  false,

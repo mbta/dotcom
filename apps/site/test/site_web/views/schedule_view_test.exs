@@ -446,7 +446,9 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "single_trip_fares/1" do
     test "only return summary for single_trip fares" do
-      assert single_trip_fares("commuter_rail") == [{"Zones 1A-10", ["$2.40", " – ", "$13.25"]}]
+      assert single_trip_fares(%Route{type: 2, name: "Fitchburg"}) == [
+               {"Zones 1A-10", ["$2.40", " – ", "$13.25"]}
+             ]
     end
   end
 

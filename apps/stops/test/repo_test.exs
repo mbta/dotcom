@@ -183,10 +183,10 @@ defmodule Stops.RepoTest do
     test "includes specific green_line branches if specified" do
       # when green line isn't expanded, keep it in GTFS order
       features = stop_features(%Stop{id: "place-pktrm"})
-      assert features == [:red_line, :green_line_b, :green_line_c, :green_line_d]
+      assert features == [:red_line, :green_line_b, :green_line_c, :green_line_d, :green_line_e]
       # when green line is expanded, put the branches first
       features = stop_features(%Stop{id: "place-pktrm"}, expand_branches?: true)
-      assert features == [:"Green-B", :"Green-C", :"Green-D", :red_line]
+      assert features == [:"Green-B", :"Green-C", :"Green-D", :"Green-E", :red_line]
     end
   end
 end

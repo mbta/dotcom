@@ -304,7 +304,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+            # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
             # {"place-unsqu", 0},
             # {"place-north", 3},
             # {"place-gover", 5},
@@ -314,13 +314,13 @@ defmodule SiteWeb.ScheduleController.LineTest do
             # {"place-river", 35},
             # {"place-clmnl", 48},
             # {"place-lake", 64}
-            {"place-gover", 0},
-            {"place-pktrm", 1},
-            {"place-coecl", 4},
-            {"place-hsmnl", 15},
-            {"place-river", 32},
-            {"place-clmnl", 45},
-            {"place-lake", 61}
+            {"place-lech", 0},
+            {"place-pktrm", 5},
+            {"place-coecl", 8},
+            {"place-hsmnl", 19},
+            {"place-river", 35},
+            {"place-clmnl", 48},
+            {"place-lake", 64}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -341,9 +341,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
 
-      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
       # assert trunk |> List.first() |> stop_id() == "place-unsqu"
-      assert trunk |> List.first() |> stop_id() == "place-gover"
+      assert trunk |> List.first() |> stop_id() == "place-lech"
       assert trunk |> List.last() |> stop_id() == "place-armnl"
 
       # E branch + merge
@@ -351,9 +351,12 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert e |> List.first() |> stop_id() == "place-coecl"
       assert e |> List.last() |> stop_id() == "place-hsmnl"
 
-      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
-      assert length(hynes) == 1
-      assert hynes |> List.first() |> stop_id() == "place-hymnl"
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
+      # assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      # assert length(hynes) == 1
+      assert length(hynes) == 2
+      # assert hynes |> List.first() |> stop_id() == "place-hymnl"
+      assert hynes |> List.first() |> stop_id() == "place-unsqu"
 
       assert Enum.all?(bcd_combined, &(&1 |> branches() |> length() == 3))
       assert bcd_combined |> List.first() |> stop_id() == "place-kencl"
@@ -423,7 +426,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       chunked = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
-      assert [b, bc_combined, bcd_combined, hynes, e, trunk] = chunked
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
+      # assert [b, bc_combined, bcd_combined, hynes, e, trunk] = chunked
+      assert [b, bc_combined, bcd_combined, e, trunk] = chunked
 
       assert Enum.all?(b, &(&1 |> branches() |> length() == 1))
       assert b |> List.first() |> stop_id() == "place-lake"
@@ -437,20 +442,25 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert bcd_combined |> List.first() |> stop_id() == "place-river"
       assert bcd_combined |> List.last() |> stop_id() == "place-kencl"
 
-      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
-      assert length(hynes) == 1
-      assert hynes |> List.first() |> stop_id() == "place-hymnl"
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
+      # assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      # assert length(hynes) == 1
+      # assert hynes |> List.first() |> stop_id() == "place-hymnl"
 
       # E branch + merge
-      assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
-      assert e |> List.first() |> stop_id() == "place-hsmnl"
-      assert e |> List.last() |> stop_id() == "place-coecl"
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
+      # assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
+      # assert e |> List.first() |> stop_id() == "place-hsmnl"
+      # assert e |> List.last() |> stop_id() == "place-coecl"
+      assert e |> List.first() |> stop_id() == "place-hymnl"
+      assert e |> List.last() |> stop_id() == "place-armnl"
 
-      assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
-      assert trunk |> List.first() |> stop_id() == "place-armnl"
-      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
+      # assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
+      # assert trunk |> List.first() |> stop_id() == "place-armnl"
       # assert trunk |> List.last() |> stop_id() == "place-unsqu"
-      assert trunk |> List.last() |> stop_id() == "place-gover"
+      assert trunk |> List.first() |> stop_id() == "place-coecl"
+      assert trunk |> List.last() |> stop_id() == "place-hsmnl"
     end
   end
 

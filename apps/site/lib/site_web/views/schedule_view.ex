@@ -370,7 +370,7 @@ defmodule SiteWeb.ScheduleView do
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
-    if route.name == "Orange Line Shuttle" do
+    if match?(%Route{name: "Orange Line Shuttle"}, route) do
       [Tuple.append(Tuple.delete_at(Enum.at(summary.fares, 0), 1), "0.00")]
     else
       summary.fares

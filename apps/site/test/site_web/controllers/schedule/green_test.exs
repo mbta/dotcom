@@ -73,9 +73,9 @@ defmodule SiteWeb.ScheduleController.GreenTest do
        %{conn: conn} do
     conn = get(conn, green_path(conn, :line, %{"schedule_direction[direction_id]": 0}))
 
-    # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+    # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
     # assert [{_, %{id: "place-unsqu"}} | all_stops] = conn.assigns.all_stops
-    assert [{_, %{id: "place-gover"}} | all_stops] = conn.assigns.all_stops
+    assert [{_, %{id: "place-lech"}} | all_stops] = conn.assigns.all_stops
 
     fenway = Enum.find(all_stops, fn {_, stop} -> stop.id == "place-fenwy" end)
     assert elem(fenway, 0) == [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}]

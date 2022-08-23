@@ -277,7 +277,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       |> json_response(200)
     end
 
-    test "only shows times starting at selected origin onward - outbound", %{conn: conn} do
+    test "only shows times starting at selected origin onward - direction 0", %{conn: conn} do
       origin_stop = "place-sstat"
 
       params = %{
@@ -295,12 +295,14 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
         |> json_response(200)
 
       assert %{"times" => times} = trip
-      assert length(times) == 8
+      destination_stop_ids = Enum.map(times, &get_in(&1, ["schedule", "stop", "id"]))
+
+      refute Enum.member?(destination_stop_ids, "place-dwnxg")
 
       assert origin_stop = times |> List.first() |> get_in(["schedule", "stop", "id"])
     end
 
-    test "only shows times starting at selected origin onward - inbound", %{conn: conn} do
+    test "only shows times starting at selected origin onward - direction 1", %{conn: conn} do
       origin_stop = "place-sstat"
 
       params = %{
@@ -318,7 +320,10 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
         |> json_response(200)
 
       assert %{"times" => times} = trip
-      assert length(times) == 10
+
+      destination_stop_ids = Enum.map(times, &get_in(&1, ["schedule", "stop", "id"]))
+
+      refute Enum.member?(destination_stop_ids, "place-brdwy")
 
       assert origin_stop = times |> List.first() |> get_in(["schedule", "stop", "id"])
     end
