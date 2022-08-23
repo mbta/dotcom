@@ -362,9 +362,7 @@ defmodule SiteWeb.ScheduleView do
     "/fares/" <> route_type <> "-fares"
   end
 
-  @spec single_trip_fares(Route.t() | Route.type_int() | String.t()) :: [
-          {String.t(), String.t() | iolist}
-        ]
+  @spec single_trip_fares(Route.t()) :: [{String.t(), String.t() | iolist}]
   def single_trip_fares(route) do
     summary =
       route
@@ -379,7 +377,7 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  @spec to_fare_summary_atom(Route.t() | Route.type_int() | String.t()) :: atom()
+  @spec to_fare_summary_atom(Route.t()) :: atom
   def to_fare_summary_atom(%Route{type: 3, id: id}) do
     cond do
       Fares.silver_line_rapid_transit?(id) -> :subway
