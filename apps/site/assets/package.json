@@ -133,7 +133,7 @@
     "stylelint": "stylelint css/**/*.scss --ignore-path .stylelintignore",
     "prettier": "prettier --write \"{js,ts}/**/*.{js,ts,tsx}\"",
     "prettier:check": "npm run prettier -- --list-different",
-    "prepare": "cd ../../.. && husky install",
+    "prepare": "cd ../../.. && husky install .husky",
     "tsc": "cd ts && tsc",
     "tsc:check": "npm run tsc -- --noEmit --skipLibCheck",
     "jest": "jest -c ts/jest.config.js",
