@@ -199,12 +199,13 @@ defmodule Alerts.Parser do
               "informed_entity" => informed_entity
             } = attributes
         })
-        when title != nil do
+        when title != nil and url != nil do
       [
         %Banner{
           id: id,
           title: title,
           url: url,
+          url_parsed_out_of_title: false,
           effect: Alert.effect(attributes),
           severity: Alert.severity(severity),
           informed_entity_set:
@@ -212,6 +213,33 @@ defmodule Alerts.Parser do
         }
       ]
     end
+
+    def parse(%JsonApi.Item{
+      id: id,
+      attributes:
+        %{
+          "url" => url,
+          "banner" => title,
+          "severity" => severity,
+          "informed_entity" => informed_entity
+        } = attributes
+    })
+    when title != nil and url == nil do
+
+    parsed_url = SiteWeb.Views.Helpers.URLParsingHelpers.get_full_url(title)
+  [
+    %Banner{
+      id: id,
+      title: title,
+      url: parsed_url,
+      url_parsed_out_of_title: true,
+      effect: Alert.effect(attributes),
+      severity: Alert.severity(severity),
+      informed_entity_set:
+        informed_entity |> Alert.parse_informed_entity() |> InformedEntitySet.new()
+    }
+  ]
+end
 
     def parse(%JsonApi.Item{}) do
       []
