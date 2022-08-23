@@ -341,9 +341,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
       assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
 
-      # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
+      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
       # assert trunk |> List.first() |> stop_id() == "place-unsqu"
-      assert trunk |> List.first() |> stop_id() == "place-gover"
+      assert trunk |> List.first() |> stop_id() == "place-lech"
       assert trunk |> List.last() |> stop_id() == "place-armnl"
 
       # E branch + merge
