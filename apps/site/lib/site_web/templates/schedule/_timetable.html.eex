@@ -3,6 +3,7 @@
   <p>
     During this shutdown, riders can simply show their CharlieCard or CharlieTicket to conductors to ride the Commuter Rail in
     <a target="_blank" href="https://cdn.mbta.com/sites/default/files/2021-03/2021-03-23-cr-fare-zones.pdf">Zones 1A, 1 and 2 </a>at no charge.
+    For additional Orange Line service alternatives, visit <a target="_blank" href="https://www.mbta.com/BBT2022">Building a Better T 2022</a>.
   </p>
   <h2>North Side Alternatives</h2>
   <p>
@@ -10,11 +11,23 @@
     <a target="_blank" href="https://www.mbta.com/schedules/CR-Haverhill/timetable">Haverhill Line</a> trains will stop at
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-ogmnl") %>">Oak Grove</a> en route to
     <a target="_blank" href="<%= stop_path(@conn, :show, "place-mlmnl") %>">Malden Center</a> and
-    <a target="_blank" href="<%= stop_path(@conn, :show, "place-north") %>">North Station</a>
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-north") %>">North Station</a>.
+  </p>
+  <p>
+    <a target="_blank" href="https://www.mbta.com/schedules/CR-Haverhill/timetable">View an updated schedule for the Haverhill Line</a>
   </p>
   <h2>South Side Alternatives</h2>
   <p>
-    This is a combined timetable for all commuter rail trains that will be running to south side Orange Line stations while service is suspended.
+    For service on the south side of the Orange Line, most
+    <a target="_blank" href="https://www.mbta.com/schedules/CR-Providence/timetable">Providence/Stoughton Line</a> trains will stop at
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-NEC-2203") %>">Hyde Park</a> and
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-forhl") %>">Forest Hills</a> en route to
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-rugg") %>">Ruggles</a>,
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-bbsta") %>">Back Bay</a>, and
+    <a target="_blank" href="<%= stop_path(@conn, :show, "place-sstat") %>">South Station</a>
+  </p>
+  <p>
+    Below is a timetable for all Commuter Rail trains that will be running to south side Orange Line stations while service is suspended.
   </p>
 <% end %>
 <%= render "_trip_view_filters.html", assigns %>
@@ -92,6 +105,50 @@
             <% end %>
           </tr>
         <% end %>
+
+
+
+          <% cell_background = if rem(2, 2) == 0 do "white" else "gray" end %>
+          <%= content_tag :tr, [class: stop_row_class(2)] do %>
+            <%= content_tag :th, [
+              scope: "row",
+              data: [absolute: true],
+              class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
+                cell_background
+            ] do %>
+              <div class="m-timetable__row-header m-timetable__stop-name notranslate">
+                Train Continues From
+              </div>
+            <% end %>
+            <td class="js-tt-cell hidden-no-js">
+              <div class="m-timetable__row-header"></div>
+            </td>
+            <%= for schedule <- @header_schedules do %>
+              <%
+                stop = Enum.at(@all_stops, 2)
+                trip_id = schedule.trip.id
+                trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
+              %>
+              <td>
+                <%= if @route.id == "Orange" and @direction_id == 1 do %>
+                  <%= if !is_nil(trip_schedule) do%>
+
+  <span class="m-timetable__schedule">
+
+                       <span class="m-timetable__time">
+                      <%= Routes.Route.short_name(Map.fetch!(trip_schedule.route.direction_destinations, 0)) %>
+    </span>
+    </span>
+                  <% end %>
+                <% end %>
+              </td>
+            <% end %>
+          <% end %>
+
+
+
+
+
         <%= for {stop, idx} <- Enum.with_index(@all_stops) do %>
           <% cell_background = if rem(idx, 2) == 0 do "white" else "gray" end %>
           <%= content_tag :tr, [class: stop_row_class(idx)] do %>
@@ -101,50 +158,8 @@
               class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
                 cell_background
             ] do %>
-
-
-          <%= if @route.id == "Orange" and idx == 0 and @direction_id == 1 do %>
               <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-                <div class="m-timetable__stop-link">
-                  Trains Coming From
-                </div>
-            <td class="js-tt-cell hidden-no-js">
-              <div class="m-timetable__row-header"></div>
-            </td>
-            <%= for schedule <- @header_schedules do %>
-              <%
-                trip_id = schedule.trip.id
-                trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
-                tooltip = stop_tooltip(trip_schedule)
-                full_trip_message = @trip_messages[{schedule.trip.name}]
-                trip_message = @trip_messages[{schedule.trip.name, stop.id}]
-                tooltip_attrs = [html: true, toggle: "tooltip"]
-              %>
-              <%= content_tag :td, [
-                class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
-                id: "#{stop.name}-#{trip_id}-tooltip",
-                data: if tooltip do tooltip_attrs ++ [stop: raw(tooltip)] else tooltip_attrs end,
-                title: if tooltip do raw(tooltip) end
-              ] do %>
-                <%= if trip_message do %>
-                  <div class="sr-only"><%= full_trip_message %></div>
-                  <div aria-hidden="true"><%= trip_message %></div>
-                <% else %>
-                  <%= if !is_nil(trip_schedule) do%>
-                    <%# <span class="m-timetable__time"> %>
-                      <%= Map.fetch!(trip_schedule.route.direction_destinations, @direction_id) %>
-                    <%# </span> %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            <% end %>
-            </div>
-          <% end %>
-
-
-              <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-                <%= link to: stop_path(@conn, :show, stop.id), class: "m-ta
-                imetable__stop-link" do %>
+                <%= link to: stop_path(@conn, :show, stop.id), class: "m-timetable__stop-link" do %>
                   <%= break_text_at_slash(stop.name) %>
                 <% end %>
                 <div class="m-timetable__stop-icons">
@@ -181,44 +196,6 @@
                   <%= render "_timetable_schedule.html", Map.merge(assigns, %{trip_schedule: trip_schedule, schedule: schedule, stop: stop}) %>
                 <% end %>
               <% end %>
-
-            <%= if @route.id == "Orange" and idx == 3 and @direction_id == 0 do %>
-              <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-                <div class="m-timetable__stop-link">
-                  Trains Continue to
-                </div>
-            <td class="js-tt-cell hidden-no-js">
-              <div class="m-timetable__row-header"></div>
-            </td>
-            <%= for schedule <- @header_schedules do %>
-              <%
-                trip_id = schedule.trip.id
-                trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
-                tooltip = stop_tooltip(trip_schedule)
-                full_trip_message = @trip_messages[{schedule.trip.name}]
-                trip_message = @trip_messages[{schedule.trip.name, stop.id}]
-                tooltip_attrs = [html: true, toggle: "tooltip"]
-              %>
-              <%= content_tag :td, [
-                class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
-                id: "#{stop.name}-#{trip_id}-tooltip",
-                data: if tooltip do tooltip_attrs ++ [stop: raw(tooltip)] else tooltip_attrs end,
-                title: if tooltip do raw(tooltip) end
-              ] do %>
-                <%= if trip_message do %>
-                  <div class="sr-only"><%= full_trip_message %></div>
-                  <div aria-hidden="true"><%= trip_message %></div>
-                <% else %>
-                  <%= if !is_nil(trip_schedule) do%>
-                    <%# <span class="m-timetable__time"> %>
-                      <%= Map.fetch!(trip_schedule.route.direction_destinations, @direction_id) %>
-                    <%# </span> %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            <% end %>
-            </div>
-          <% end %>
             <% end %>
           <% end %>
         <% end %>
