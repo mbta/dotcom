@@ -39,37 +39,42 @@ const connectionName = (connection: Route): string => {
   return connection.name;
 };
 
-const StopConnections = (route_id: string, connections: RouteStopRoute[]): JSX.Element => (
+const StopConnections = (
+  route_id: string,
+  connections: RouteStopRoute[]
+): JSX.Element => (
   <div className="m-schedule-diagram__connections">
-    {filteredConnections(route_id, connections).map((connectingRoute: Route) => (
-      <TooltipWrapper
-        key={connectingRoute.id}
-        href={`/schedules/${connectingRoute.id}/line`}
-        tooltipText={connectionName(connectingRoute)}
-        tooltipOptions={{
-          placement: "bottom",
-          animation: false
-        }}
-      >
-        {isABusRoute(connectingRoute) ? (
-          <span
-            key={connectingRoute.id}
-            className={`c-icon__bus-pill--small m-schedule-diagram__connection ${routeBgClass(
-              connectingRoute
-            )}`}
-          >
-            {connectingRoute.name}
-          </span>
-        ) : (
-          <span
-            key={connectingRoute.id}
-            className="m-schedule-diagram__connection"
-          >
-            {modeIcon(connectingRoute.id)}
-          </span>
-        )}
-      </TooltipWrapper>
-    ))}
+    {filteredConnections(route_id, connections).map(
+      (connectingRoute: Route) => (
+        <TooltipWrapper
+          key={connectingRoute.id}
+          href={`/schedules/${connectingRoute.id}/line`}
+          tooltipText={connectionName(connectingRoute)}
+          tooltipOptions={{
+            placement: "bottom",
+            animation: false
+          }}
+        >
+          {isABusRoute(connectingRoute) ? (
+            <span
+              key={connectingRoute.id}
+              className={`c-icon__bus-pill--small m-schedule-diagram__connection ${routeBgClass(
+                connectingRoute
+              )}`}
+            >
+              {connectingRoute.name}
+            </span>
+          ) : (
+            <span
+              key={connectingRoute.id}
+              className="m-schedule-diagram__connection"
+            >
+              {modeIcon(connectingRoute.id)}
+            </span>
+          )}
+        </TooltipWrapper>
+      )
+    )}
   </div>
 );
 
