@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Only save the files that were stagged for the commit
+# Only save the files that were staged for the commit
 stagged_files=$(git diff --name-only --cached --diff-filter=ACMRTUB)
 
 # formatting
