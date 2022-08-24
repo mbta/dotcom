@@ -232,7 +232,7 @@ defmodule Alerts.Parser do
           id: id,
           title: title,
           url: parsed_url,
-          url_parsed_out_of_title: true,
+          url_parsed_out_of_title: parsed_url != nil,
           effect: Alert.effect(attributes),
           severity: Alert.severity(severity),
           informed_entity_set:
