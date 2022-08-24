@@ -1,4 +1,4 @@
-defmodule SiteWeb.Views.Helpers.AlertHelpersTest do
+defmodule SiteWeb.Views.Helpers.URLParsingHelpersTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.Views.Helpers.URLParsingHelpers
 
