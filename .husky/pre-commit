@@ -9,8 +9,8 @@ mix format
 npm run --prefix apps/site/assets prettier -- -staged
 
 # linting
-npm run --prefix apps/site/assets eslint:js
-npm run --prefix apps/site/assets eslint:ts
+npm run ci:lint:js
+npm run ci:lint:ts
 
 # only re-adds the files that were stagged for the commit
 # catching any re-formatted files in the process 
