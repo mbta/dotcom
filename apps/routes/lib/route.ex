@@ -276,7 +276,7 @@ defmodule Routes.Route do
       "Needham Heights" -> "NEED"
       "Stoughton or Wickford Junction" -> "STOU"
       "Forge Park/495 or Foxboro" -> "FORG"
-      "" -> "PROV"
+      "South Station" -> "SOUT"
     end
   end
 end
