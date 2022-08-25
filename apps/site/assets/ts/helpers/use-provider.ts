@@ -25,30 +25,45 @@ export type UseProviderStateWithoutInitialLoading<T> = Exclude<
   UseProviderState<T>,
   InitialLoading
 >;
-export const useProvider = <Fn extends (...args: any) => PromiseLike<any>>(
+
+// any used here for type inference
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useProvider = <Fn extends (...args: any[]) => PromiseLike<any>>(
   provider: Fn,
   deps: Parameters<Fn>
-) => {
+): [
+  UseProviderState<Awaited<ReturnType<Fn>>>,
+  () => Promise<Awaited<ReturnType<Fn>>>
+] => {
   const [state, setState] = useState<UseProviderState<Awaited<ReturnType<Fn>>>>(
     { loading: true }
   );
 
-  const updateData = useCallback(async () => {
-    const setStateIfSame = (fn: (currentState: typeof state) => typeof state) =>
-      setState(currentState => {
-        if (newestUpdateData.current !== updateData) {
-          return currentState;
-        }
+  const updateData = useCallback(
+    async () => {
+      const setStateIfSame = (
+        fn: (currentState: typeof state) => typeof state
+      ): void =>
+        setState(currentState => {
+          // eslint-disable-next-line @typescript-eslint/no-use-before-define
+          if (newestUpdateData.current !== updateData) {
+            return currentState;
+          }
 
-        return fn(currentState);
-      });
+          return fn(currentState);
+        });
 
-    setStateIfSame(state => ({ ...state, loading: true }));
-    const data = await provider(...deps);
-    setStateIfSame(() => ({ loading: false, data }));
+      setStateIfSame(state_ => ({ ...state_, loading: true }));
+      const data = await provider(...deps);
+      setStateIfSame(() => ({ loading: false, data }));
 
-    return data;
-  }, deps);
+      return data;
+    },
+    // we spread deps here to rebind this closure if any of them change,
+    // but eslint isn't smart enough to know that
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [provider, ...deps]
+  );
   const newestUpdateData = useRef(updateData);
   newestUpdateData.current = updateData;
 
@@ -56,7 +71,7 @@ export const useProvider = <Fn extends (...args: any) => PromiseLike<any>>(
     updateData();
   }, [updateData]);
 
-  return [state, updateData] as const;
+  return [state, updateData];
 };
 
 export const isInitialLoading = <T>(

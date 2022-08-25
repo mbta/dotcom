@@ -11,7 +11,6 @@ import {
 import { breakTextAtSlash } from "../../../../helpers/text";
 import { isABusRoute, isACommuterRailRoute } from "../../../../models/route";
 import { modeBgClass } from "../../../../stop/components/RoutePillList";
-import { UserInput } from "../../__schedule";
 import { EnhancedJourney, Journey } from "../../__trips";
 import LiveCrowdingIcon from "../../line-diagram/LiveCrowdingIcon";
 import {
@@ -29,11 +28,9 @@ type StateWithoutInitialLoading = UseProviderStateWithoutInitialLoading<
 
 interface Props {
   state: State;
-  input: UserInput;
 }
 
 interface AccordionProps {
-  input: UserInput;
   journey: EnhancedJourney;
   contentComponent: () => ReactElement<HTMLElement>;
 }
@@ -77,7 +74,7 @@ export const crowdingInformation = (
 export const BusTableRow = ({
   journey
 }: {
-  journey: Journey;
+  journey: EnhancedJourney;
 }): ReactElement<HTMLElement> | null => {
   const { trip, route, realtime } = journey;
 
@@ -95,7 +92,7 @@ export const BusTableRow = ({
       </td>
       <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right">
         {realtime.prediction!.time}
-        {crowdingInformation(journey as any, trip.id)}
+        {crowdingInformation(journey, trip.id)}
       </td>
     </>
   );
@@ -147,7 +144,6 @@ const AccordionRow = ({
   contentComponent: () => ReactElement<HTMLElement>;
   expanded: boolean;
   toggle: () => void;
-  input: UserInput;
 }): ReactElement<HTMLElement> => {
   const tripId = journey.trip.id;
   const isCommuterRail = isACommuterRailRoute(journey.route);
@@ -190,7 +186,6 @@ const AccordionRow = ({
 };
 
 const Accordion = ({
-  input,
   journey,
   contentComponent
 }: AccordionProps): ReactElement<HTMLElement> => {
@@ -199,7 +194,6 @@ const Accordion = ({
 
   return (
     <AccordionRow
-      input={input}
       journey={journey}
       contentComponent={contentComponent}
       expanded={expanded}
@@ -209,10 +203,8 @@ const Accordion = ({
 };
 
 const TableRow = ({
-  input,
   journey
 }: {
-  input: UserInput;
   journey: EnhancedJourney;
 }): ReactElement<HTMLElement> | null => {
   const { realtime } = journey;
@@ -224,13 +216,7 @@ const TableRow = ({
       ? () => <BusTableRow journey={journey} />
       : () => <CrTableRow journey={journey} />;
 
-  return (
-    <Accordion
-      input={input}
-      journey={journey}
-      contentComponent={contentComponent}
-    />
-  );
+  return <Accordion journey={journey} contentComponent={contentComponent} />;
 };
 
 const UpcomingDeparturesHeader = (
@@ -240,8 +226,7 @@ const UpcomingDeparturesHeader = (
 );
 
 export const upcomingDeparturesTable = (
-  state: StateWithoutInitialLoading,
-  input: UserInput
+  state: StateWithoutInitialLoading
 ): ReactElement<HTMLElement> => {
   const headerLabel = "Trip Details";
   const { data: journeys } = state;
@@ -286,7 +271,6 @@ export const upcomingDeparturesTable = (
           <tbody>
             {journeys.map((journey, idx: number) => (
               <TableRow
-                input={input}
                 journey={journey}
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
@@ -304,14 +288,13 @@ export const upcomingDeparturesTable = (
 };
 
 export const UpcomingDepartures = ({
-  state,
-  input
+  state
 }: Props): ReactElement<HTMLElement> | null => {
   if (isInitialLoading(state)) {
     return <Loading />;
   }
 
-  return <>{upcomingDeparturesTable(state, input)}</>;
+  return <>{upcomingDeparturesTable(state)}</>;
 };
 
 export default UpcomingDepartures;

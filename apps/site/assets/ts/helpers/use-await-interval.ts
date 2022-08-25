@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { useCallback, useEffect, useRef } from "react";
 
 /**
@@ -12,37 +14,40 @@ import { useCallback, useEffect, useRef } from "react";
  * again.
  */
 
-export const useAwaitInterval = <Fn extends () => PromiseLike<any>>(
+export const useAwaitInterval = <Fn extends () => PromiseLike<unknown>>(
   fn: Fn,
   delay: number
-) => {
+): (() => () => void) => {
   type LatestTimeout = ReturnType<typeof setTimeout> | "cancelled" | undefined;
   const latestTimeout = useRef<LatestTimeout>(undefined);
 
-  const enqueue = (fn: () => any) => {
-    if (latestTimeout.current !== "cancelled") {
-      latestTimeout.current = setTimeout(fn, delay);
-    }
-  };
+  const enqueue = useCallback(
+    (fn_: () => unknown): void => {
+      if (latestTimeout.current !== "cancelled") {
+        latestTimeout.current = setTimeout(fn_, delay);
+      }
+    },
+    [delay]
+  );
 
-  const cancel = () => {
+  const cancel = (): void => {
     if (latestTimeout.current && latestTimeout.current !== "cancelled") {
       clearTimeout(latestTimeout.current);
       latestTimeout.current = "cancelled";
     }
   };
 
-  const go = async () => {
+  const go = useCallback(async () => {
     await fn();
 
     enqueue(go);
-  };
+  }, [fn, enqueue]);
 
   useEffect(() => {
     go();
 
     return cancel;
-  }, []);
+  }, [go]);
 
   return useCallback(() => {
     cancel();
@@ -52,5 +57,5 @@ export const useAwaitInterval = <Fn extends () => PromiseLike<any>>(
 
       go();
     };
-  }, []);
+  }, [go]);
 };

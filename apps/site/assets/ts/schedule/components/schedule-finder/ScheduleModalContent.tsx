@@ -94,7 +94,7 @@ const ScheduleModalContent = ({
 
   const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
     serviceToday ? (
-      <UpcomingDepartures state={state} input={input} />
+      <UpcomingDepartures state={state} />
     ) : (
       <div className="callout text-center u-bold">
         There are no scheduled trips for {formattedDate(today)}.

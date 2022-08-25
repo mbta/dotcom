@@ -1,7 +1,6 @@
 import React from "react";
 import { act } from "react-test-renderer";
 import { mount, ReactWrapper } from "enzyme";
-import { UserInput } from "../../../__schedule";
 import { EnhancedJourney } from "../../../__trips";
 import UpcomingDepartures, {
   upcomingDeparturesTable,
@@ -17,20 +16,13 @@ import { UseProviderState } from "../../../../../helpers/use-provider";
 const enhancedBusJourneys = (enhancedBusJourneysResponse as unknown) as EnhancedJourney[];
 const enhancedCRjourneys = (enhancedCRjourneysResponse as unknown) as EnhancedJourney[];
 
-const input: UserInput = {
-  route: "a",
-  origin: "place-dudly",
-  date: "2020-07-13",
-  direction: 0
-};
-
 describe("UpcomingDepartures", () => {
   let wrapper: ReactWrapper;
 
   it("renders with message if there are no predictions", () => {
     act(() => {
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable({ loading: false, data: [] }, input)}</>
+        <>{upcomingDeparturesTable({ loading: false, data: [] })}</>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -47,10 +39,10 @@ describe("UpcomingDepartures", () => {
     act(() => {
       const mockUpcomingDeparturesTable = (
         <>
-          {upcomingDeparturesTable(
-            { loading: false, data: enhancedBusJourneys },
-            input
-          )}
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedBusJourneys
+          })}
         </>
       );
 
@@ -65,10 +57,10 @@ describe("UpcomingDepartures", () => {
     act(() => {
       const mockUpcomingDeparturesTable = (
         <>
-          {upcomingDeparturesTable(
-            { loading: false, data: enhancedBusJourneys },
-            input
-          )}
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedBusJourneys
+          })}
         </>
       );
 
@@ -83,10 +75,10 @@ describe("UpcomingDepartures", () => {
     act(() => {
       const mockUpcomingDeparturesTable = (
         <>
-          {upcomingDeparturesTable(
-            { loading: false, data: enhancedCRjourneys },
-            input
-          )}
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedCRjourneys
+          })}
         </>
       );
 
@@ -101,10 +93,10 @@ describe("UpcomingDepartures", () => {
     act(() => {
       const mockUpcomingDeparturesTable = (
         <>
-          {upcomingDeparturesTable(
-            { loading: false, data: enhancedCRjourneys },
-            input
-          )}
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedCRjourneys
+          })}
         </>
       );
 
@@ -119,10 +111,10 @@ describe("UpcomingDepartures", () => {
     act(() => {
       const mockUpcomingDeparturesTable = (
         <>
-          {upcomingDeparturesTable(
-            { loading: false, data: enhancedBusJourneys },
-            input
-          )}
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedBusJourneys
+          })}
         </>
       );
 
@@ -134,7 +126,7 @@ describe("UpcomingDepartures", () => {
 
   it("renders the 'loading' status", () => {
     const state: UseProviderState<EnhancedJourney[]> = { loading: true };
-    wrapper = mount(<UpcomingDepartures state={state} input={input} />);
+    wrapper = mount(<UpcomingDepartures state={state} />);
 
     expect(wrapper.find(".c-spinner__container")).toHaveLength(1);
   });
