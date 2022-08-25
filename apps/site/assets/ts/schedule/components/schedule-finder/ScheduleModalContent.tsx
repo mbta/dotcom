@@ -1,7 +1,6 @@
-import React, { ReactElement, useReducer, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { DirectionId, Route } from "../../../__v3api";
 import { formattedDate, stringToDateObject } from "../../../helpers/date";
-import { reducer } from "../../../helpers/fetch";
 import { isInCurrentService } from "../../../helpers/service";
 import { routeToModeName } from "../../../helpers/css";
 import {
@@ -12,38 +11,36 @@ import {
   SelectedOrigin,
   UserInput
 } from "../__schedule";
-import { EnhancedJourney } from "../__trips";
+import { EnhancedJourney, Journey, TripInfo } from "../__trips";
 import ScheduleNote from "../ScheduleNote";
 import ScheduleFinderForm from "./ScheduleFinderForm";
 import DailySchedule from "./daily-schedule/DailySchedule";
 import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
+import { useProvider } from "../../../helpers/use-provider";
+import { fetchJson, throwIfFetchFailed } from "../../../helpers/fetch-json";
+import { useAwaitInterval } from "../../../helpers/use-await-interval";
 
-type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: EnhancedJourney[] }
-  | { type: "FETCH_ERROR" }
-  | { type: "FETCH_STARTED" };
-
-export const fetchData = (
+const fetchData = async (
   routeId: string,
   selectedOrigin: string,
   selectedDirection: DirectionId,
-  dispatch: (action: fetchAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  date: string
+): Promise<EnhancedJourney[]> => {
+  const departures = await fetchJson<Journey[]>(
+    `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
+  ).then(throwIfFetchFailed);
+
+  const enhanced = await Promise.all(
+    departures.map(async departure => {
+      const tripInfo = await fetchJson<TripInfo>(
+        `/schedules/finder_api/trip?id=${departure.trip.id}&route=${routeId}&date=${date}&direction=${selectedDirection}&stop=${selectedOrigin}`
+      ).then(throwIfFetchFailed);
+
+      return { ...departure, tripInfo };
+    })
   );
+
+  return enhanced;
 };
 
 interface Props {
@@ -75,32 +72,24 @@ const ScheduleModalContent = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
-  const [state, dispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: true,
-    error: false
-  });
-
-  useEffect(() => {
-    if (
-      routeId !== undefined &&
-      selectedOrigin !== undefined &&
-      selectedDirection !== undefined
-    ) {
-      fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
-    }
-  }, [routeId, selectedDirection, selectedOrigin]);
-
-  const serviceToday = services.some(service =>
-    isInCurrentService(service, stringToDateObject(today))
-  );
-
   const input: UserInput = {
     route: routeId,
     origin: selectedOrigin,
     date: today,
     direction: selectedDirection
   };
+
+  const [state, updateData] = useProvider(fetchData, [
+    routeId,
+    selectedOrigin,
+    selectedDirection,
+    input.date
+  ]);
+  useAwaitInterval(updateData, 1000);
+
+  const serviceToday = services.some(service =>
+    isInCurrentService(service, stringToDateObject(today))
+  );
 
   const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
     serviceToday ? (

@@ -12,11 +12,11 @@ export interface Journey {
   trip: Trip;
   route: Route;
   departure: Departure;
+  realtime: PredictedOrScheduledTime;
 }
 
 export interface EnhancedJourney extends Journey {
-  realtime: PredictedOrScheduledTime;
-  tripInfo: TripInfo | null;
+  tripInfo: TripInfo;
 }
 
 export interface Departure {

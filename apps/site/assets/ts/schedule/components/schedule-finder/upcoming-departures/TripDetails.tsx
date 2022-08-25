@@ -4,18 +4,11 @@ import {
   TripDepartureWithPrediction,
   TripInfo
 } from "../../__trips";
-import Loading from "../../../../components/Loading";
 import CrowdingPill from "../../line-diagram/CrowdingPill";
 import TripStop from "./TripStop";
 
-export interface State {
-  data: TripInfo | null;
-  isLoading: boolean;
-  error: boolean;
-}
-
 interface Props {
-  state: State;
+  tripInfo: TripInfo;
   showFare: boolean;
 }
 
@@ -55,28 +48,10 @@ const TripSummary = ({
 );
 
 const TripDetails = ({
-  state,
+  tripInfo,
   showFare
 }: Props): ReactElement<HTMLElement> | null => {
-  const { data: tripInfo, error, isLoading } = state;
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  const errorLoadingTrip = (
-    <p>
-      <em>Error loading trip details. Please try again later.</em>
-    </p>
-  );
-
-  if (error) {
-    return errorLoadingTrip;
-  }
-
-  if (!tripInfo) return null;
-
-  const crowding = tripInfo.vehicle ? tripInfo.vehicle.crowding : null;
+  const crowding = tripInfo.vehicle?.crowding || null;
 
   return (
     <table className="trip-details-table">
