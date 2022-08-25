@@ -270,15 +270,6 @@ defmodule Routes.Route do
       custom_route?: custom_route?
     }
   end
-
-  def short_name(route_id) do
-    case route_id do
-      "Needham Heights" -> "NEED"
-      "Stoughton or Wickford Junction" -> "STOU"
-      "Forge Park/495 or Foxboro" -> "FORG"
-      "South Station" -> "SOUT"
-    end
-  end
 end
 
 defimpl Phoenix.Param, for: Routes.Route do

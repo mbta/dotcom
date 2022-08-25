@@ -131,7 +131,7 @@
                   <%= if !is_nil(trip_schedule) do%>
                     <span class="m-timetable__schedule">
                       <span class="m-timetable__time">
-                        <%= Routes.Route.short_name(Map.fetch!(trip_schedule.route.direction_destinations, 0)) %>
+                        <%# <% V3Api.Trips.get_origin(trip_schedule.trip.name) %> %>
                       </span>
                     </span>
                   <% end %>
@@ -216,7 +216,7 @@
                   <%= if !is_nil(trip_schedule) do%>
                     <span class="m-timetable__schedule">
                       <span class="m-timetable__time" >
-                        <%= Routes.Route.short_name(Map.fetch!(trip_schedule.route.direction_destinations, 0)) %>
+                        <%= V3Api.Trips.short_name(trip_schedule.trip.headsign) %>
                       </span>
                     </span>
                   <% end %>
