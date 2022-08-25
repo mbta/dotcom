@@ -23,13 +23,8 @@ exports[`it renders 1`] = `
     <h4
       className="m-schedule-page__service"
     >
-      Peak Service
+      Weekdays
     </h4>
-    <div
-      className="m-schedule-page__service-subheading"
-    >
-      Weekdays 7 – 9 AM, 4 – 6:30 PM
-    </div>
     <p
       className="m-schedule-page__service-note-time"
     >
@@ -43,7 +38,7 @@ exports[`it renders 1`] = `
     <h4
       className="m-schedule-page__service"
     >
-      Off Peak / Weekends
+      Weekends
     </h4>
     <p
       className="m-schedule-page__service-note-time"
@@ -120,13 +115,8 @@ exports[`it renders without service exceptions 1`] = `
     <h4
       className="m-schedule-page__service"
     >
-      Peak Service
+      Weekdays
     </h4>
-    <div
-      className="m-schedule-page__service-subheading"
-    >
-      Weekdays 7 – 9 AM, 4 – 6:30 PM
-    </div>
     <p
       className="m-schedule-page__service-note-time"
     >
@@ -140,7 +130,7 @@ exports[`it renders without service exceptions 1`] = `
     <h4
       className="m-schedule-page__service"
     >
-      Off Peak / Weekends
+      Weekends
     </h4>
     <p
       className="m-schedule-page__service-note-time"
