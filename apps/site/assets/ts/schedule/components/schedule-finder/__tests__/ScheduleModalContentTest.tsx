@@ -3,8 +3,6 @@ import renderer, { act } from "react-test-renderer";
 import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
-import { EnhancedJourney } from "../../__trips";
-import departuresResponse from "./test-data/departures.json";
 import ScheduleNote from "../../ScheduleNote";
 import { createReactRoot } from "../../../../app/helpers/testUtils";
 import { UpcomingDepartures } from "../upcoming-departures/UpcomingDepartures";
@@ -62,8 +60,6 @@ const stopList: SimpleStop[] = [
 ];
 
 const stops: SimpleStopMap = { 0: stopList, 1: stopList.slice().reverse() };
-
-const payload: EnhancedJourney[] = (departuresResponse as unknown) as EnhancedJourney[];
 
 const baseTypicalService: ServiceInSelector = {
   valid_days: [1, 2, 3, 4, 5],
@@ -146,8 +142,8 @@ describe("ScheduleModalContent", () => {
   });
 
   describe("fetchData", () => {
-    it("fetches data", () => {
-      const spy = jest.fn();
+    it("fetches data", async () => {
+      const payload = [{ trip: { id: "yeah" } }];
       window.fetch = jest.fn().mockImplementation(
         () =>
           new Promise((resolve: Function) =>
@@ -160,45 +156,14 @@ describe("ScheduleModalContent", () => {
           )
       );
 
-      return fetchData("1", "99", 0, spy).then(() => {
-        expect(window.fetch).toHaveBeenCalledWith(
-          "/schedules/finder_api/departures?id=1&stop=99&direction=0"
-        );
-        expect(spy).toHaveBeenCalledWith({
-          type: "FETCH_STARTED"
-        });
-        expect(spy).toHaveBeenCalledWith({
-          type: "FETCH_COMPLETE",
-          payload
-        });
-      });
-    });
-
-    it("fails gracefully if fetch is unsuccessful", () => {
-      const spy = jest.fn();
-      window.fetch = jest.fn().mockImplementation(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              json: () => "Internal Server Error",
-              ok: false,
-              status: 500,
-              statusText: "INTERNAL SERVER ERROR"
-            })
-          )
+      const result = await fetchData("1", "99", 0, "");
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/schedules/finder_api/departures?id=1&stop=99&direction=0"
       );
 
-      return fetchData(route.id, stopList[0].id, 0, spy).then(() => {
-        expect(window.fetch).toHaveBeenCalledWith(
-          "/schedules/finder_api/departures?id=Orange&stop=place-mlmnl&direction=0"
-        );
-        expect(spy).toHaveBeenCalledWith({
-          type: "FETCH_STARTED"
-        });
-        expect(spy).toHaveBeenCalledWith({
-          type: "FETCH_ERROR"
-        });
-      });
+      expect(result).toStrictEqual([
+        { trip: { id: "yeah" }, tripInfo: payload }
+      ]);
     });
   });
 

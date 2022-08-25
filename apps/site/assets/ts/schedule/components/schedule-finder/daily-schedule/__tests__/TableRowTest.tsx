@@ -6,7 +6,7 @@ import { UserInput } from "../../../__schedule";
 import { Journey } from "../../../__trips";
 import TableRow, { fetchTripInfo, parseResults } from "../TableRow";
 
-const journey = {
+const journey = ({
   trip: {
     shape_id: "9890009",
     route_pattern_id: "CR-Providence-0-0",
@@ -45,7 +45,7 @@ const journey = {
     },
     prediction: null
   }
-} as Journey;
+} as unknown) as Journey;
 
 const input = {
   route: "CR-Providence",

@@ -217,26 +217,6 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
 </table>
 `;
 
-exports[`TripDetails it renders an error if fetch failed 1`] = `
-<p>
-  <em>
-    Error loading trip details. Please try again later.
-  </em>
-</p>
-`;
-
-exports[`TripDetails it renders the loading state 1`] = `
-<div
-  className="c-spinner__container"
->
-  <div
-    className="c-spinner"
-  >
-    Loading...
-  </div>
-</div>
-`;
-
 exports[`TripDetails it renders trip details for a CR trip 1`] = `
 <table
   className="trip-details-table"

@@ -20,7 +20,8 @@ import { useProvider } from "../../../helpers/use-provider";
 import { fetchJson, throwIfFetchFailed } from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
 
-const fetchData = async (
+// exported for testing
+export const fetchData = async (
   routeId: string,
   selectedOrigin: string,
   selectedDirection: DirectionId,
@@ -29,6 +30,7 @@ const fetchData = async (
   const departures = await fetchJson<Journey[]>(
     `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
   ).then(throwIfFetchFailed);
+  console.debug(departures);
 
   const enhanced = await Promise.all(
     departures.map(async departure => {
