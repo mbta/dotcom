@@ -6,7 +6,7 @@ module.exports = env =>
   merge(base, {
     mode: "development",
 
-    devtool: "eval",
+    devtool: "inline-source-map",
 
     output: {
       publicPath: "http://localhost:8090/",
