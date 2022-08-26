@@ -46,29 +46,29 @@ describe("useAwaitInterval", () => {
 
       expect(value).toBeNull();
 
-      await wait(60);
+      await wait(70);
       expect(value).toBe("hello");
 
       setValueTo = "goodbye";
-      await wait(150);
+      await wait(180);
       expect(value).toBe("goodbye");
 
       const cancel = result.current;
       const resume = cancel();
-      await wait(150);
+      await wait(180);
       setValueTo = "missing";
-      await wait(150);
+      await wait(180);
       expect(value).toBe("goodbye");
 
       resume();
       setValueTo = "hello";
-      await wait(150);
+      await wait(180);
       expect(value).toBe("hello");
 
       cancel();
-      await wait(150);
+      await wait(180);
       setValueTo = "missing";
-      await wait(150);
+      await wait(180);
       expect(value).toBe("hello");
     });
   });
