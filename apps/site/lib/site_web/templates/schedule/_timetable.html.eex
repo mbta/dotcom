@@ -184,14 +184,19 @@
                         <%= V3Api.Trips.short_name(trip_schedule.trip.headsign) %>
                       <% else %>
                       <%# if trip schedule is nil check other stops for non nil value %>
-                        <%# <%
-                          [one, two, three] = for stop_idx <- [0,1,3] do
+                        <%
+                          all_trips = for stop_idx <- [0,1,3] do
                             stop = Enum.at(@all_stops, stop_idx)
                             trip_id = schedule.trip.id
-                            @trip_schedules[{trip_id, stop.id} || %{}]
+                            trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
+                            if !is_nil(trip_schedule) do
+                             V3Api.Trips.short_name(trip_schedule.trip.headsign)
+                            else
+                             nil
+                            end
                           end
-                         %> %>
-
+                         %>
+                          <%= Enum.at(Enum.filter(all_trips, & !is_nil(&1)), 0) %>
                       <% end %>
                       </span>
                     </span>
@@ -201,6 +206,7 @@
           <% end %>
       </table>
     </div>
+    <% end %>
 </div>
 <%= timetable_note(assigns) %>
 <div class="m-timetable__key-and-pdfs">
