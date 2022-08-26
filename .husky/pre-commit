@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Only save the files that were staged for the commit
+staged_files=$(git diff --name-only --cached --diff-filter=ACMRTUB)
+
+# formatting
+mix format
+npm run --prefix apps/site/assets prettier -- -staged
+
+# linting
+npm run ci:lint:js
+npm run ci:lint:ts
+
+# only re-adds the files that were staged for the commit
+# catching any re-formatted files in the process 
+for file in $staged_files
+do
+  echo $file
+  git add $file
+done;

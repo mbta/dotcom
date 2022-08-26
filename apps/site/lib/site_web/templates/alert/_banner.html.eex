@@ -13,7 +13,7 @@
       </div>
       <div>
         <%= replace_urls_with_links(BannerAlert.header(@alert)) %>
-        <%= if @alert.url != nil && @alert.url != "" do %>
+        <%= if @alert.url != nil && @alert.url != "" && @alert.url_parsed_out_of_title == false do %>
           <span>&nbsp;</span>
           <%= replace_urls_with_links(@alert.url) %>
         <% end %>

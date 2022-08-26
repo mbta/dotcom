@@ -28,7 +28,7 @@ From a development standpoint, polyfills and code transforms are implemented via
     - [`DRUPAL_ROOT`](docs/ENVIRONMENT.md#drupal_root)
     - [`GOOGLE_API_KEY`](docs/ENVIRONMENT.md#google_api_key)
     - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`](docs/ENVIRONMENT.md#algolia_app_id-algolia_search_key-and-algolia_write_key)
-- [Additional documentation](#additional-documentation)
+- [Additional documentation](#additional-resources)
 
 ## Getting Started
 
@@ -188,6 +188,18 @@ Then, visit the site at http://localhost:4001/
 ## Algolia
 
 [Algolia](https://www.algolia.com) powers our search features. Sometimes after content updates or GTFS releases we will find that the search results do not contain up-to-date results. When this happens you can re-index the Algolia data by running: `mix algolia.update`.
+
+## Commiting Code
+
+When commiting code a bunch of checks are run using [git pre-commit hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+
+This is configured using the tool [husky](https://typicode.github.io/husky/#/) and should install as part of the regular `npm run install` process
+
+This allows all code changed during a commit to be linted and formatted before being commited.
+
+If you wish to modify the checks ran during the pre-commit process the [pre-commit](.husky/pre-commit) file can be modified with any command line commands/scripts
+
+These checks can be skipped by using the `--no-verify` flag when runnint the `commit` git command
 
 ## Additional Resources
 

@@ -1,17 +1,17 @@
 import React, { ReactElement } from "react";
 import { Provider } from "react-redux";
 import { updateInLocation } from "use-query-params";
-import useSWR from "swr";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
 import { LineDiagramStop, SelectedOrigin, RouteStop } from "../__schedule";
 import { DirectionId, Route } from "../../../__v3api";
 import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
-import { LiveDataByStop } from "./__line-diagram";
 import StopCard from "./StopCard";
 import LineDiagramWithStops from "./LineDiagramWithStops";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
+import useRealtime from "../../../hooks/useRealtime";
+import currentLineSuspensions from "../../../helpers/line-suspensions";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -27,6 +27,7 @@ const LineDiagramAndStopListPage = ({
   route,
   directionId
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
+  const currentLineSuspension = currentLineSuspensions(route.id);
   // also track the location of text to align the diagram points to
   const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
 
@@ -70,20 +71,7 @@ const LineDiagramAndStopListPage = ({
     "route_stop.name"
   );
 
-  /**
-   * Live data, including realtime vehicle locations and predictions
-   * Available on all modes except ferry (route.type 4)
-   */
-  const liveUrl =
-    route.type !== 4
-      ? `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`
-      : "";
-  const { data: maybeLiveData } = useSWR(
-    liveUrl,
-    url => fetch(url).then(response => response.json()),
-    { refreshInterval: 15000 }
-  );
-  const liveData = (maybeLiveData || {}) as LiveDataByStop;
+  const liveData = useRealtime(route, directionId, !currentLineSuspension);
 
   /**
    * Putting it all together
@@ -93,14 +81,16 @@ const LineDiagramAndStopListPage = ({
       <h3 className="m-schedule-diagram__heading">
         {stationsOrStops(route.type)}
       </h3>
-      <SearchBox
-        id="stop-search"
-        labelText={`Search for a ${stationsOrStops(route.type)
-          .toLowerCase()
-          .slice(0, -1)}`}
-        onChange={setStopQuery}
-        className="m-schedule-diagram__filter"
-      />
+      {!currentLineSuspension ? (
+        <SearchBox
+          id="stop-search"
+          labelText={`Search for a ${stationsOrStops(route.type)
+            .toLowerCase()
+            .slice(0, -1)}`}
+          onChange={setStopQuery}
+          className="m-schedule-diagram__filter"
+        />
+      ) : null}
       {stopQuery !== "" ? (
         <ol className="m-schedule-diagram m-schedule-diagram--searched">
           {filteredStops.length ? (
@@ -110,7 +100,7 @@ const LineDiagramAndStopListPage = ({
                   key={stop.route_stop.id}
                   stop={stop}
                   onClick={handleStopClick}
-                  liveData={liveData[stop.route_stop.id]}
+                  liveData={liveData?.[stop.route_stop.id]}
                   searchQuery={stopQuery}
                 />
               )

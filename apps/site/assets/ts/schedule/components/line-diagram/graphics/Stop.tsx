@@ -4,9 +4,11 @@ import { LineDiagramStop } from "../../__schedule";
 import { StopCoord, CoordState, CIRC_RADIUS } from "./graphic-helpers";
 
 const Stop = ({
-  stop
+  stop,
+  shuttle
 }: {
   stop: LineDiagramStop;
+  shuttle?: boolean;
 }): ReactElement<SVGCircleElement> | null => {
   const coords: StopCoord | null = useSelector(
     (state: CoordState) => state[stop.route_stop.id]
@@ -19,6 +21,7 @@ const Stop = ({
       r={`${CIRC_RADIUS}px`}
       cx={`${x}px`}
       cy={`${y}px`}
+      data-shuttle={!!shuttle}
     />
   );
 };

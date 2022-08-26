@@ -51,8 +51,10 @@ export const createLineDiagramCoordStore = (
 };
 
 export const DiagonalHatchPattern = (
+  id?: string | undefined
+): React.SVGProps<SVGPatternElement> => (
   <pattern
-    id="diagonalHatch"
+    id={id ?? "diagonalHatch"}
     width="10"
     height="10"
     patternTransform="rotate(45 0 0)"

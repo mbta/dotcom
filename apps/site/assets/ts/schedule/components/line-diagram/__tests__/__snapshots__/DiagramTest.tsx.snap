@@ -21,26 +21,26 @@ exports[`Diagram for simple lines renders and matches snapshot 1`] = `
           <line className=\\"line-diagram-svg__line\\" y2={8} strokeWidth=\\"16px\\" />
         </pattern>
       </defs>
-      <Line from={{...}} to={{...}}>
-        <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"30px\\" y2=\\"50px\\" stroke=\\"url(#diagonalHatch)\\" />
+      <Line from={{...}} to={{...}} shuttle={false}>
+        <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"30px\\" y2=\\"50px\\" stroke=\\"url(#shuttle)\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"50px\\" y2=\\"70px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"70px\\" y2=\\"90px\\" />
       </Line>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"30px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"30px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"50px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"50px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"70px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"70px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"90px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"90px\\" data-shuttle={false} />
       </Stop>
     </svg>
   </Diagram>
@@ -87,86 +87,86 @@ exports[`Diagram with branches going inward renders and matches snapshot 1`] = `
           <path strokeWidth=\\"10px\\" d=\\"M10,170 v-6 a-6,6 0 0 1 -6,6 h6\\" />
         </g>
       </Merges>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"350px\\" y2=\\"330px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"330px\\" y2=\\"310px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"310px\\" y2=\\"290px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"290px\\" y2=\\"270px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"270px\\" y2=\\"250px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"270px\\" y2=\\"250px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"250px\\" y2=\\"230px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"250px\\" y2=\\"230px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"230px\\" y2=\\"210px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"230px\\" y2=\\"210px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"43px\\" x2=\\"43px\\" y1=\\"230px\\" y2=\\"210px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"210px\\" y2=\\"190px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"210px\\" y2=\\"190px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"16px\\" x1=\\"43px\\" x2=\\"43px\\" y1=\\"210px\\" y2=\\"190px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"190px\\" y2=\\"170px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"190px\\" y2=\\"170px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"16px\\" x1=\\"43px\\" x2=\\"43px\\" y1=\\"190px\\" y2=\\"170px\\" />
       </Line>
-      <Line from={{...}} to={{...}} />
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false} />
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"10px\\" x2=\\"10px\\" y1=\\"150px\\" y2=\\"130px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"130px\\" y2=\\"110px\\" />
       </Line>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"350px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"350px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"330px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"330px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"310px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"310px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"290px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"290px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"270px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"270px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"250px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"250px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"230px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"230px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"210px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"210px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"190px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"190px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"170px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"170px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"150px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"150px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"130px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"130px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"110px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"110px\\" data-shuttle={false} />
       </Stop>
     </svg>
   </Diagram>
@@ -213,81 +213,81 @@ exports[`Diagram with branches going outward renders and matches snapshot 1`] = 
           <path strokeWidth=\\"10px\\" d=\\"M10,170 v46 a-6,-6 0 0 0 -6,-6 h6\\" />
         </g>
       </Merges>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"110px\\" y2=\\"130px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"130px\\" y2=\\"150px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"10px\\" x2=\\"10px\\" y1=\\"150px\\" y2=\\"170px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"170px\\" y2=\\"190px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"170px\\" y2=\\"190px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"16px\\" x1=\\"43px\\" x2=\\"43px\\" y1=\\"170px\\" y2=\\"190px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"190px\\" y2=\\"210px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"190px\\" y2=\\"210px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"16px\\" x1=\\"43px\\" x2=\\"43px\\" y1=\\"190px\\" y2=\\"210px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"210px\\" y2=\\"230px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"210px\\" y2=\\"230px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"43px\\" x2=\\"43px\\" y1=\\"210px\\" y2=\\"230px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"250px\\" y2=\\"270px\\" />
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"27px\\" x2=\\"27px\\" y1=\\"250px\\" y2=\\"270px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"290px\\" y2=\\"310px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"310px\\" y2=\\"330px\\" />
       </Line>
-      <Line from={{...}} to={{...}}>
+      <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"330px\\" y2=\\"350px\\" />
       </Line>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"110px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"110px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"130px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"130px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"150px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"150px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"170px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"170px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"190px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"190px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"210px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"210px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"230px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"230px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"250px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"250px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"270px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"270px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"290px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"290px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"310px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"310px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"330px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"330px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}}>
-        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"350px\\" />
+      <Stop stop={{...}} shuttle={false}>
+        <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"350px\\" data-shuttle={false} />
       </Stop>
     </svg>
   </Diagram>

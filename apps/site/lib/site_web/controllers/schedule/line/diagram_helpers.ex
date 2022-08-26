@@ -67,29 +67,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     |> parse_green_branch(acc, direction_id, branch.branch)
   end
 
-  defp fix_green_connections(stops) do
-    stops
-    |> Enum.map(fn {bubbles, stop} ->
-      {bubbles,
-       Map.update!(stop, :connections, fn connections ->
-         green_indices =
-           Enum.with_index(connections)
-           |> Enum.filter(fn {connection, _} -> String.starts_with?(connection.id, "Green-") end)
-           |> Enum.map(fn {_, index} -> index end)
-
-         connections
-         |> List.insert_at(
-           case {stop.route.id, green_indices} do
-             {_, []} -> 0
-             {"Green-B", _} -> List.first(green_indices)
-             _ -> List.last(green_indices) + 1
-           end,
-           stop.route
-         )
-       end)}
-    end)
-  end
-
   # Pulls together the results of &reduce_green_branches/3 and compiles the full list of Green Line stops
   # in the expected order based on direction_id. Unshared stops have already had their bubble types generated in
   # &parse_green_branch/4; shared stops get their bubble types generated here, after the shared stops have
@@ -135,6 +112,29 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
         true -> %{route_stop | is_beginning?: true}
         false -> route_stop
       end
+    end)
+  end
+
+  @spec fix_green_connections([stop_with_bubble_info()]) :: [stop_with_bubble_info()]
+  defp fix_green_connections(stops) do
+    Enum.map(stops, fn {bubbles, stop} ->
+      {bubbles,
+       Map.update!(stop, :connections, fn connections ->
+         green_indices =
+           Enum.with_index(connections)
+           |> Enum.filter(fn {connection, _} -> String.starts_with?(connection.id, "Green-") end)
+           |> Enum.map(fn {_, index} -> index end)
+
+         List.insert_at(
+           connections,
+           case {stop.route.id, green_indices} do
+             {_, []} -> 0
+             {"Green-B", _} -> List.first(green_indices)
+             _ -> List.last(green_indices) + 1
+           end,
+           stop.route
+         )
+       end)}
     end)
   end
 

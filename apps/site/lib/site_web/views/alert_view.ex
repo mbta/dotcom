@@ -4,6 +4,7 @@ defmodule SiteWeb.AlertView do
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias SiteWeb.Views.Helpers.URLParsingHelpers
   alias Stops.Stop
   import SiteWeb.ViewHelpers
   import Phoenix.HTML.Tag, only: [content_tag: 3]
@@ -182,46 +183,10 @@ defmodule SiteWeb.AlertView do
     |> replace_urls_with_links
   end
 
-  @url_regex ~r/(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-]*)*\/?/i
-
   @spec replace_urls_with_links(String.t()) :: Phoenix.HTML.safe()
   def replace_urls_with_links(text) do
-    @url_regex
-    |> Regex.replace(text, &create_url/1)
-    |> raw
+    URLParsingHelpers.replace_urls_with_links(text)
   end
-
-  defp create_url(url) do
-    # I could probably convince the Regex to match an internal period but not
-    # one at the end, but this is clearer. -ps
-    {url, suffix} =
-      if String.ends_with?(url, ".") do
-        String.split_at(url, -1)
-      else
-        {url, ""}
-      end
-
-    full_url = ensure_scheme(url)
-
-    # remove [http:// | https:// | www.] from URL:
-    stripped_url = String.replace(full_url, ~r/(https?:\/\/)?(www\.)?/i, "")
-
-    # capitalize 'mbta' (special case):
-    stripped_url =
-      if String.contains?(stripped_url, "mbta") do
-        String.replace(stripped_url, "mbta", "MBTA")
-      else
-        stripped_url
-      end
-
-    ~s(<a target="_blank" href="#{full_url}">#{stripped_url}</a>#{suffix})
-  end
-
-  defp ensure_scheme("http://" <> _ = url), do: url
-  defp ensure_scheme("https://" <> _ = url), do: url
-  defp ensure_scheme("mbta.com" <> _ = url), do: "https://" <> url
-  defp ensure_scheme("MBTA.com" <> _ = url), do: "https://" <> url
-  defp ensure_scheme(url), do: "http://" <> url
 
   @spec group_header_path(Route.t() | Stop.t()) :: String.t()
   def group_header_path(%Route{id: route_id}) do

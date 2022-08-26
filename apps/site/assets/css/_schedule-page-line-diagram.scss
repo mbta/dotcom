@@ -36,6 +36,11 @@
     stroke-width: 0;
   }
 
+  &__stop[data-shuttle="true"] {
+    stroke-width: 1.25px;
+    stroke: black;
+  }
+
   &__merge {
     path {
       fill: none;

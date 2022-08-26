@@ -187,6 +187,7 @@ defmodule Stops.NearbyTest do
         {"65", 1},
         {"8", 0},
         {"8", 1},
+        {"9", 1},
         {"Green-B", 0},
         {"Green-B", 1},
         {"Green-C", 0},

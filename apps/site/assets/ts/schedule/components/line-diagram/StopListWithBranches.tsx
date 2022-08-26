@@ -61,7 +61,7 @@ export const Branch = (props: CommonLineDiagramProps): React.ReactElement => {
               key={stop.route_stop.id}
               stop={stop}
               onClick={handleStopClick}
-              liveData={liveData[stop.route_stop.id]}
+              liveData={liveData?.[stop.route_stop.id]}
             />
           ))}
         </ol>
@@ -94,7 +94,7 @@ const StopListWithBranches = (
             key={stopOrStops.route_stop.id}
             stop={stopOrStops}
             onClick={props.handleStopClick}
-            liveData={props.liveData[stopOrStops.route_stop.id]}
+            liveData={props.liveData?.[stopOrStops.route_stop.id]}
           />
         );
       })}

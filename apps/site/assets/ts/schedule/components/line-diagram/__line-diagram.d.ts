@@ -4,7 +4,7 @@ import { LineDiagramVehicle, LineDiagramStop, RouteStop } from "../__schedule";
 export interface CommonLineDiagramProps {
   stops: LineDiagramStop[];
   handleStopClick: (stop: RouteStop) => void;
-  liveData: LiveDataByStop;
+  liveData: LiveDataByStop | undefined;
 }
 
 export interface LiveData {

@@ -319,7 +319,12 @@ defmodule SiteWeb.ScheduleView do
           if route.id == "Orange" do
             [
               %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
-              %HeaderTab{id: "timetable", name: "Commuter Rail Alternatives", href: timetable_link} | tabs
+              %HeaderTab{
+                id: "timetable",
+                name: "Commuter Rail Alternatives",
+                href: timetable_link
+              }
+              | tabs
             ]
           else
             [
@@ -365,7 +370,11 @@ defmodule SiteWeb.ScheduleView do
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
-    summary.fares
+    if match?(%Route{name: "Orange Line Shuttle"}, route) do
+      [Tuple.append(Tuple.delete_at(Enum.at(summary.fares, 0), 1), "0.00")]
+    else
+      summary.fares
+    end
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom
@@ -410,21 +419,5 @@ defmodule SiteWeb.ScheduleView do
 
   def json_safe_route(route) do
     Route.to_json_safe(route)
-  end
-
-  def build_retirement_message(%Conn{assigns: %{route: %Route{type: 2}}}), do: nil
-
-  def build_retirement_message(conn) do
-    path = line_path(conn, :show, conn.assigns[:route].id)
-    link_to_schedule_finder = content_tag(:a, "Schedule Finder", href: path)
-
-    %{
-      header: ["We'll be retiring this tool on March 1, 2021."],
-      body: [
-        "All the information provided here, including scheduled trips and realtime departure and arrival information, can be found in our ",
-        link_to_schedule_finder,
-        "."
-      ]
-    }
   end
 end
