@@ -206,7 +206,7 @@
           <% end %>
       </table>
     </div>
-    <% end %>
+  <% end %>
 </div>
 <%= timetable_note(assigns) %>
 <div class="m-timetable__key-and-pdfs">
