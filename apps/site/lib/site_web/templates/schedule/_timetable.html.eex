@@ -165,7 +165,7 @@
                 cell_background
             ] do %>
               <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-                Train continues to
+                Trains continues to
               </div>
             <% end %>
             <td class="js-tt-cell hidden-no-js">
