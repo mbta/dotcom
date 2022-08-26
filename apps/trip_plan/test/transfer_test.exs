@@ -19,6 +19,7 @@ defmodule TransferTest do
     @other_outerxp_leg leg_for_route.("352")
     @sl_rapid_leg leg_for_route.("741")
     @sl_bus_leg leg_for_route.("751")
+    @shuttle_leg leg_for_route.("Shuttle-GovernmentCenterOakGrove")
 
     test "if from or to is nil" do
       refute [nil, nil] |> is_maybe_transfer?
@@ -96,6 +97,11 @@ defmodule TransferTest do
       refute [@ferry_leg, @outerxp_leg] |> is_maybe_transfer?
       refute [@ferry_leg, @sl_bus_leg] |> is_maybe_transfer?
       refute [@ferry_leg, @sl_rapid_leg] |> is_maybe_transfer?
+    end
+
+    test "shuttle -> subway or bus" do
+      refute is_maybe_transfer?([@shuttle_leg, @bus_leg])
+      refute is_maybe_transfer?([@shuttle_leg, @subway_leg])
     end
 
     test "bus -> bus -> subway" do

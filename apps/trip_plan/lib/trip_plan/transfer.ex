@@ -38,8 +38,16 @@ defmodule TripPlan.Transfer do
 
   def is_subway_transfer?(_), do: false
 
-  @doc "Takes a set of legs and returns true if there might be a transfer between the legs, based on the lists in @single_ride_transfers and @multi_ride_transfers. Exception: no transfers from bus route to same bus route."
+  @doc """
+  Takes a set of legs and returns true if there might be a transfer between the legs, based on the lists in @single_ride_transfers and @multi_ride_transfers.
+
+  Exceptions:
+  - no transfers from bus route to same bus route
+  - no transfers from a shuttle to any other mode
+  """
   @spec is_maybe_transfer?([Leg.t()]) :: boolean
+  def is_maybe_transfer?([%Leg{mode: %TransitDetail{route_id: "Shuttle-" <> _}} | _]), do: false
+
   def is_maybe_transfer?([
         first_leg = %Leg{mode: %TransitDetail{route_id: first_route}},
         middle_leg = %Leg{mode: %TransitDetail{route_id: middle_route}},
@@ -60,7 +68,8 @@ defmodule TripPlan.Transfer do
          Enum.all?([from_route, to_route], &is_bus?/1) do
       false
     else
-      Map.get(@single_ride_transfers, Fares.to_fare_atom(from_route), [])
+      @single_ride_transfers
+      |> Map.get(Fares.to_fare_atom(from_route), [])
       |> Enum.member?(Fares.to_fare_atom(to_route))
     end
   end

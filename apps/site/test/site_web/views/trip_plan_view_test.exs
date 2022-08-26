@@ -49,6 +49,30 @@ defmodule SiteWeb.TripPlanViewTest do
     reduced_one_way_fare: @reduced_one_way_fare
   }
 
+  @shuttle_fares %{
+    highest_one_way_fare: %Fare{
+      additional_valid_modes: [],
+      cents: 0,
+      duration: :single_trip,
+      media: [],
+      mode: :bus,
+      name: :free_fare,
+      price_label: nil,
+      reduced: nil
+    },
+    lowest_one_way_fare: %Fare{
+      additional_valid_modes: [],
+      cents: 0,
+      duration: :single_trip,
+      media: [],
+      mode: :bus,
+      name: :free_fare,
+      price_label: nil,
+      reduced: nil
+    },
+    reduced_one_way_fare: nil
+  }
+
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
       from: {:error, :unknown},
@@ -1039,30 +1063,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "includes a shuttle fare" do
-      shuttle_fares = %{
-        highest_one_way_fare: %Fare{
-          additional_valid_modes: [],
-          cents: 0,
-          duration: :single_trip,
-          media: [],
-          mode: :bus,
-          name: :free_fare,
-          price_label: nil,
-          reduced: nil
-        },
-        lowest_one_way_fare: %Fare{
-          additional_valid_modes: [],
-          cents: 0,
-          duration: :single_trip,
-          media: [],
-          mode: :bus,
-          name: :free_fare,
-          price_label: nil,
-          reduced: nil
-        },
-        reduced_one_way_fare: nil
-      }
-
       itinerary = %Itinerary{
         legs: [
           %Leg{
@@ -1075,7 +1075,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             },
             long_name: "Green Line Shuttle",
             mode: %TransitDetail{
-              fares: shuttle_fares,
+              fares: @shuttle_fares,
               intermediate_stop_ids: ["9070093"],
               route_id: "Shuttle-LechmereNorthStation",
               trip_id: "43831675C0-LechmereNorthStation1"
@@ -1125,7 +1125,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       expected_fares = %{
         bus: %{
           mode: %{
-            fares: shuttle_fares,
+            fares: @shuttle_fares,
             mode_name: "Bus",
             name: "Shuttle",
             mode: :bus
@@ -1146,6 +1146,80 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
 
       assert get_calculated_fares(itinerary) == expected_fares
+    end
+
+    test "when there's a free shuttle and then a transfer to a paid leg, the total should include the cost of the paid leg(s)" do
+      itinerary = %Itinerary{
+        legs: [
+          %Leg{
+            description: "BUS",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.436807,
+              longitude: -71.070338,
+              name: "Oak Grove Busway",
+              stop_id: "9328"
+            },
+            long_name: "Oak Grove - Government Center",
+            mode: %TransitDetail{
+              fares: @shuttle_fares,
+              intermediate_stop_ids: [
+                "53270",
+                "5271",
+                "28743",
+                "29001",
+                "9070028",
+                "9170206",
+                "9070024",
+                "65"
+              ],
+              route_id: "Shuttle-GovernmentCenterOakGrove",
+              trip_id: "Orange-AugSuperSurge-Weekday-N-0-16:28:30"
+            },
+            name: "Orange Line Shuttle",
+            to: %NamedPosition{
+              latitude: 42.360043,
+              longitude: -71.0598,
+              name: "Cambridge St @ Government Ctr Sta",
+              stop_id: "4510"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          },
+          %Leg{
+            description: "TRAM",
+            from: %NamedPosition{
+              latitude: 42.359705,
+              longitude: -71.059215,
+              name: "Government Center",
+              stop_id: "70202"
+            },
+            long_name: "Green Line D",
+            mode: %TransitDetail{
+              fares: %{
+                highest_one_way_fare: @highest_one_way_fare,
+                lowest_one_way_fare: @lowest_one_way_fare,
+                reduced_one_way_fare: @reduced_one_way_fare
+              },
+              intermediate_stop_ids: ["70198"],
+              route_id: "Green-D",
+              trip_id: "52140322-CloseUnionGovtGovtCtrNorthSta2"
+            },
+            name: "D",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.353214,
+              longitude: -71.064545,
+              name: "Boylston",
+              stop_id: "70159"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ],
+        start: nil,
+        stop: nil
+      }
+
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
     end
 
     test "removes cash from payment options for Commuter Rail" do
