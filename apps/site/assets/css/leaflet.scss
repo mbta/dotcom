@@ -1,5 +1,9 @@
-@import 'variables';
+// This is probably going to lead to confusion (and maybe some breaking idk)
+// (TODO could this be added to the app.scss instead of its own entry in webpack)"
+@import '/node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
 @import 'colors';
+@import 'variables';
 
 $leaflet-transparent-white: rgba(255, 255, 255, .5);
 $leaflet-transparent-black: rgba(0, 0, 0, .65);

@@ -174,7 +174,7 @@ const Header = ({
   const isGlxOpen = useIsGlxOpen(stop.id)[0];
   return (
     <div className={`m-stop-page__header${isGlxOpen ? " glx-open" : ""}`}>
-      <div className="m-stop-page__header-container">
+      <div className="container m-stop-page__header-container">
         <GlxOpen pageType="station-page" stopId={stop.id} />
         <h1 className={`m-stop-page__name ${nameUpcaseClass(routes)}`}>
           {stop.name}

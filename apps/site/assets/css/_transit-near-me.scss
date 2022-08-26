@@ -184,7 +184,6 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
 .m-tnm-sidebar__stop-card,
 .m-tnm-sidebar__header {
   @include media-breakpoint-only(sm) {
-    @include make-col-span(8);
     margin-left: auto;
     margin-right: auto;
   }

@@ -34,7 +34,11 @@
   }
 
   &.u-linked-card:focus-within {
-    @include tab-focus();
+      // Default
+      outline: thin dotted;
+      // WebKit
+      outline: 0.313rem auto -webkit-focus-ring-color;
+      outline-offset: -0.125rem;
   }
 
   // Primary links

@@ -34,7 +34,7 @@
   padding: $base-spacing-sm $base-spacing;
   text-decoration: none;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $brand-primary;
     color: $white;
     text-decoration: none;

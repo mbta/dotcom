@@ -1,4 +1,4 @@
-<div class="recent-news">
+<div>
   <h2>Recent News on the T</h2>
   <div class="l-title-cards">
     <%= for teaser <- @recent_news do %>

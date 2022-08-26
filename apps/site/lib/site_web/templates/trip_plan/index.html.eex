@@ -2,7 +2,7 @@
   <h1 class="trip-plan-title">Trip Planner</h1>
   <div class="trip-plan-container">
     <%= render "_sidebar.html", assigns %>
-    <div class="trip-plan-body">
+    <div class="col-md-7 col-lg-8 trip-plan-body">
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
       <%= case assigns[:query] do %>
        <% %{itineraries: {:ok, _}} -> %>

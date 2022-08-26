@@ -41,7 +41,7 @@
     color: $black;
     text-decoration: none;
 
-    @include hover-focus-active {
+    &:hover, &:focus, &:active {
       color: $brand-primary;
     }
   }

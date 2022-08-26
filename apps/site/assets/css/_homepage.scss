@@ -1,17 +1,5 @@
 @use 'sass:math';
 
-// Refactored styles for homepage.
-@mixin centered-10-col() {
-  @include make-col-span(10);
-  @include make-col-offset(1);
-}
-
-.m-homepage--10-col-sm-only {
-  @include media-breakpoint-only(sm) {
-    @include centered-10-col();
-  }
-}
-
 .m-homepage__shortcuts {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -40,7 +28,7 @@
   padding: $base-spacing;
   text-align: center;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $brand-primary-lightest;
     color: $gray-dark;
     text-decoration: none;
@@ -61,27 +49,6 @@
 
     @include media-breakpoint-down(xs) {
       margin-bottom: math.div($base-spacing, 4);
-    }
-  }
-}
-
-.m-homepage__search-wrapper {
-  @include media-breakpoint-up(md) {
-    @include centered-10-col();
-  }
-
-  @include media-breakpoint-down(sm) {
-    margin-top: $base-spacing * 2;
-  }
-
-  @include media-breakpoint-down(xs) {
-    margin-top: 0;
-  }
-
-  .search {
-    @include media-breakpoint-down(sm) {
-      padding-bottom: $base-spacing;
-      padding-top: $base-spacing;
     }
   }
 }
@@ -194,33 +161,6 @@
 
 .m-homepage__news-item {
   color: $black;
-}
-
-.m-homepage__fares {
-  // Gaps should match Important Links on XXL
-  @include media-breakpoint-only(xxl) {
-    .c-multi-column__row {
-      margin-left: -$homepage-gutter;
-      margin-right: -$homepage-gutter;
-    }
-
-    .c-multi-column__column {
-      padding: $homepage-gutter;
-    }
-  }
-
-  // Override multi-column grid math (default is 1 ÷ #columns)
-  @include media-breakpoint-between(sm, lg) {
-    // Allow over-width wrapping of columns
-    .c-multi-column__row {
-      flex-wrap: wrap;
-    }
-
-    // Force two-columns per row
-    .c-multi-column__column {
-      @include make-col-span(6);
-    }
-  }
 }
 
 .m-homepage__fares-link {

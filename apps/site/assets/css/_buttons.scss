@@ -13,7 +13,7 @@
   font-weight: $font-weight-medium;
 
   &.btn-primary {
-    @include hover {
+    &:hover {
       background-color: $brand-primary-darkest;
     }
 
@@ -26,7 +26,7 @@
   &.btn-secondary {
     background-color: transparent;
 
-    @include hover {
+    &:hover {
       background-color: $brand-primary-lightest;
       color: $brand-primary-darkest;
     }
@@ -73,7 +73,7 @@
 
 %button-focus-color {
   // helper to give an element the focus coloring of a button
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $btn-primary-focus-bg;
     color: $btn-primary-focus-color;
     text-decoration: none;
@@ -87,7 +87,7 @@
 
 @mixin button-selected-color {
   // helper to give an element the selected coloring
-  @include plain-hover-focus {
+  &:plain, &:hover, &:focus {
     background-color: $btn-primary-bg;
     color: $btn-primary-color;
 

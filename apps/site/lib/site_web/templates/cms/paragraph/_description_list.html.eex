@@ -7,10 +7,10 @@
     <dl class="dl" role="list">
       <%= for description <- @content.descriptions do %>
         <div role="listitem" class="dl--item">
-          <dt class="dt">
+          <dt class="col-4 col-xs-12 dt">
             <%= ContentRewriter.rewrite(description.term, @conn) %>
           </dt>
-          <dd class="dd">
+          <dd class="col-8 col-sm-12 dd">
             <%= ContentRewriter.rewrite(description.details, @conn) %>
           </dd>
         </div>

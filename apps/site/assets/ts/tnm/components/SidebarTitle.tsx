@@ -16,7 +16,7 @@ const SidebarTitle = ({
 }: Props): ReactElement<HTMLElement> => {
   const onClick = (): void => onClickViewChange(dispatch);
   return (
-    <div className="m-tnm-sidebar__header">
+    <div className="col-sm-8 m-tnm-sidebar__header">
       <div className="m-tnm-sidebar__header-title">
         <h2>{`Nearby ${viewType}`}</h2>
         <div

@@ -23,7 +23,7 @@
     padding: $space-12;
     text-align: center;
 
-    @include hover-focus-active {
+    &:hover, &:focus, &:active {
       background-color: $btn-primary-focus-bg;
       color: $btn-primary-focus-color;
     }
@@ -34,7 +34,7 @@
     color: $btn-primary-color;
     font-weight: bold;
 
-    @include hover-focus-active {
+    &:hover, &:focus, &:active {
       background-color: $btn-primary-bg;
       color: $btn-primary-color;
     }

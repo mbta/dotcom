@@ -13,7 +13,6 @@
 
 .dt {
   @include make-col();
-  @include make-col-span(4);
   border-top: 1px solid $gray-light;
   padding-top: 1rem;
 
@@ -23,7 +22,6 @@
   }
 
   @include media-breakpoint-only(xs) {
-    @include make-col-span(12);
     padding-left: 0;
     padding-right: 0;
   }
@@ -31,7 +29,6 @@
 
 .dd {
   @include make-col();
-  @include make-col-span(8);
   margin-bottom: 0;
   padding-top: 1rem;
 
@@ -41,7 +38,6 @@
   }
 
   @include media-breakpoint-down(xs) {
-    @include make-col-span(12);
     padding: 0;
   }
 

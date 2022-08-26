@@ -31,7 +31,6 @@
 .m-footer__group {
   @include media-breakpoint-up(md) {
     @include make-col();
-    @include make-col-span(3);
     padding-bottom: $base-spacing * 2;
   }
 }

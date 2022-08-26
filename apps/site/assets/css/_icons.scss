@@ -10,7 +10,7 @@
   display: inline-block;
   font-weight: normal;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     text-decoration: none;
   }
 }

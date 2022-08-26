@@ -18,14 +18,6 @@
   padding: 0;
   width: 100%;
 
-  @include media-breakpoint-only(md) {
-    @include make-col-span(7);
-  }
-
-  @include media-breakpoint-up(lg) {
-    @include make-col-span(8);
-  }
-
   @media print {
     width: 100%;
   }

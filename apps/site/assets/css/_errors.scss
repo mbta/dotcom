@@ -128,7 +128,7 @@
   float: right;
   text-decoration: none;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     color: $error-text;
   }
 }

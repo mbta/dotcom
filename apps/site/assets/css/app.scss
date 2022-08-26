@@ -3,11 +3,15 @@
 //
 // VARIABLES AND MIXINS
 //
-@import 'functions';
-@import 'variables';
-@import 'mixins';
+@import '/node_modules/bootstrap/scss/functions';
 @import 'node_modules/bootstrap/scss/variables';
 @import 'node_modules/bootstrap/scss/mixins';
+// Overrides should go here
+//
+@import 'functions';
+@import 'colors';
+@import 'variables';
+@import 'mixins';
 @import 'vendor/fontawesome';
 @import 'typography';
 

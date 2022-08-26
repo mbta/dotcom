@@ -87,11 +87,11 @@ export default ({
       ) : (
         <>
           <div
-            className={`m-stop-page__info-container${
+            className={`container m-stop-page__info-container${
               isGlxOpen ? " glx-open" : ""
             }`}
           >
-            <div className="m-stop-page__info">
+            <div className="container m-stop-page__info">
               <Alerts alerts={highPriorityAlerts} />
               <h2>Station Information</h2>
               {stationInformation}

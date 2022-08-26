@@ -20,7 +20,7 @@ defmodule SiteWeb.PartialView.HeaderTabs do
 
     Link.link to: href,
               id: id,
-              class: "header-tab #{selected_class(selected?)} #{class} #{id}" do
+              class: "col-2 header-tab #{selected_class(selected?)} #{class} #{id}" do
       [name, render_badge(badge)]
     end
   end

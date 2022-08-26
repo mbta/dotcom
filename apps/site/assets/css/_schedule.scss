@@ -41,7 +41,7 @@
         color: $white;
 
         /* stylelint-disable-next-line max-nesting-depth */
-        @include hover-focus-active {
+        &:hover, &:focus, &:active {
           text-decoration: none;
         }
       }
@@ -354,7 +354,6 @@
 }
 
 .schedule__header-container {
-  @include make-container-max-widths();
   margin-left: auto;
   margin-right: auto;
 

@@ -1,5 +1,5 @@
 <div class="schedule__header <%= header_class(@route) %>">
-  <div class="schedule__header-container">
+  <div class="container schedule__header-container">
     <h1 class="schedule__route-name">
       <%= route_header_text(@route) %>
     </h1>

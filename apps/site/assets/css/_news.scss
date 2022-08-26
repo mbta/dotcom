@@ -1,17 +1,3 @@
-.recent-news {
-  @include media-breakpoint-up(sm) {
-    .recent-news-title {
-      @include make-col();
-      @include make-col-span(6);
-    }
-  }
-}
-
-.recent-news-title {
-  color: $gray-dark;
-  font-weight: bold;
-}
-
 .news-entry-hr-row {
   @include media-breakpoint-up(md) {
     border-bottom: $border;

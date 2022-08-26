@@ -1,5 +1,5 @@
-<div class="m-tabbed-nav" role="navigation">
-  <div class="nav m-tabbed-nav__items" role="tablist">
+<div class="container m-tabbed-nav" role="navigation">
+  <div class="nav container m-tabbed-nav__items" role="tablist">
     <div class="m-tabbed-nav__item-container">
       <a tabindex="0" class="nav-link m-tabbed-nav__item active" role="tab" data-toggle="tab" data-tab-type="schedules" aria-controls="schedules-content" aria-selected="true">
         <span aria-hidden="true">

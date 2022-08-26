@@ -20,14 +20,6 @@
     padding-right: .9375rem;
   }
 
-  @include media-breakpoint-only(md) {
-    @include make-col-span(5);
-  }
-
-  @include media-breakpoint-up(lg) {
-    @include make-col-span(4);
-  }
-
   @media print {
     display: none;
   }

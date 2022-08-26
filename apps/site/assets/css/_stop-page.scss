@@ -15,7 +15,6 @@
 }
 
 .m-stop-page__header-container {
-  @include make-container-max-widths();
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -101,7 +100,6 @@
 }
 
 .m-stop-page__info-container .m-stop-page__info {
-  @include make-container-max-widths();
   margin: 0 auto;
   padding: ($base-spacing * 2) 0;
   width: 100%;

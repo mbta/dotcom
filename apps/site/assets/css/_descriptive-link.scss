@@ -11,7 +11,7 @@
     margin-bottom: $base-spacing;
   }
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $brand-primary-lightest-contrast;
     text-decoration: none;
 

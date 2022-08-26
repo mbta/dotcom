@@ -59,7 +59,7 @@
     background-color: transparent;
     border: 0;
     color: $gray-dark;
-    font-size: $font-size-h1;
+    font-size: $h1-font-size;
     width: 90%;
 
     &:focus {
@@ -100,24 +100,24 @@
 
 .searchbar-heading {
   border: 0;
-  font-size: $font-size-h6;
+  font-size: $h6-font-size;
   margin: $base-spacing 0;
 }
 
 .search-filter-heading {
-  font-size: $font-size-h6;
+  font-size: $h6-font-size;
 
   @include media-breakpoint-down(sm) {
     border-bottom: $border;
     color: $brand-primary;
-    font-size: $font-size-h5;
+    font-size: $h5-font-size;
     margin: 0;
     padding: $base-spacing;
   }
 
   span {
     float: right;
-    font-size: $font-size-h3;
+    font-size: $h3-font-size;
     pointer-events: none;
   }
 
@@ -171,7 +171,7 @@
 
   li {
     border-top: $border;
-    font-size: $font-size-h5;
+    font-size: $h5-font-size;
     font-weight: normal;
     padding: $space-6;
 
@@ -200,7 +200,7 @@
 
   li {
     border-top: $border;
-    font-size: $font-size-h5;
+    font-size: $h5-font-size;
     font-weight: normal;
     padding: $base-spacing 0;
 
@@ -241,7 +241,7 @@
 }
 
 .search-summary {
-  font-size: $font-size-h5;
+  font-size: $h5-font-size;
   font-weight: normal;
 
   @include media-breakpoint-down(sm) {
@@ -323,7 +323,7 @@
   border-radius: $border-radius;
   border-width: 0;
   flex: 1 1 auto;
-  font-size: $font-size-h4;
+  font-size: $h4-font-size;
   font-weight: bold;
   padding: calc(#{$base-spacing} / 2);
   width: 100%;

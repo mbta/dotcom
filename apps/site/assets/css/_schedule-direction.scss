@@ -95,7 +95,7 @@
   padding: calc(#{$base-spacing} / 2) $base-spacing * 2.5;
   position: relative;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $btn-primary-focus-bg;
 
     .m-schedule-direction__menu-item-description {
@@ -119,7 +119,7 @@
   background-color: $brand-primary;
   color: $brand-primary-lightest-contrast;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $brand-primary-darkest;
 
     .m-schedule-direction__menu-item-description {

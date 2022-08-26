@@ -26,7 +26,7 @@
   to_from_assigns = %{ from_error: from_error, to_error: to_error, from_position: from_position, to_position: to_position }
 %>
 
-<div class="m-trip-plan__sidebar">
+<div class="col-md-5 col-lg-4 m-trip-plan__sidebar">
   <%= render "_error.html", plan_error: plan_error %>
   <div class="m-trip-plan__form-container callout">
     <%= render "_mobile_trip_summary.html", query: query, itineraries?: itineraries? %>

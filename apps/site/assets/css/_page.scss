@@ -74,7 +74,7 @@
 }
 
 .homepage-link {
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     .homepage-svg {
       background-color: $btn-primary-focus-bg;
     }

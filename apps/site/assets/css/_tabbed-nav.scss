@@ -1,6 +1,5 @@
 .m-tabbed-nav {
   @include make-container();
-  @include make-container-max-widths();
   background-color: $brand-primary;
   display: block;
   margin-top: $space-32;
@@ -19,7 +18,6 @@
   }
 
   .m-tabbed-nav__items {
-    @include make-container-max-widths();
     display: flex;
     height: 89px;
     padding: 0 4em;
@@ -44,7 +42,7 @@
   .m-tabbed-nav__item-container {
     display: flex;
 
-    @include hover-focus-active {
+    &:hover, &:focus, &:active {
       color: $white;
       text-decoration: none;
       background-color: $brand-primary-darkest;

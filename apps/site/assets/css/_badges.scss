@@ -7,7 +7,7 @@
   text-decoration-color: transparent;
   vertical-align: top;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     text-decoration: none;
   }
 }

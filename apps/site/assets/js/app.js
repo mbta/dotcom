@@ -2,10 +2,7 @@
 import * as Sentry from "@sentry/react";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
-import "bootstrap/dist/js/umd/collapse";
-import "bootstrap/dist/js/umd/modal";
-import "bootstrap/dist/js/umd/tooltip";
-import "bootstrap/dist/js/umd/dropdown";
+import "bootstrap";
 import objectFitImages from "object-fit-images";
 import googleAnalytics from "./google-analytics";
 import googleMapsLoaded from "./google-maps-loaded";

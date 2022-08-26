@@ -1,5 +1,5 @@
 <div class="container page-section" id="important-links">
-  <div class="m-homepage--10-col-sm-only">
+  <div class="col-sm-10 col-sm-offset-1">
     <h2>Important Links</h2>
     <div class="m-homepage__important-links">
       <%= link to: cms_static_page_path(@conn, "/accessibility"), class: "m-homepage__important-link" do %>

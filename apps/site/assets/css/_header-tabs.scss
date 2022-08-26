@@ -8,8 +8,6 @@
 }
 
 .header-tab {
-  @include make-col-span(2.5);
-
   background-color: $transparent-white;
   border: 0;
   border-radius: $border-radius $border-radius 0 0;
@@ -28,7 +26,7 @@
     padding: $space-8;
   }
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $white;
     text-decoration: none;
 
@@ -46,7 +44,7 @@
 }
 
 .header-tab--bus {
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
 
     &::before {
       border-bottom-color: $brand-secondary-dark;
@@ -70,7 +68,7 @@
   background-color: $white;
   cursor: default;
 
-  @include hover-focus-active {
+  &:hover, &:focus, &:active {
     background-color: $white;
     text-decoration: none;
 

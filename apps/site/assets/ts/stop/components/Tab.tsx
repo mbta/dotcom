@@ -31,6 +31,7 @@ const TabComponent = ({
     role="button"
     tabIndex={0}
     className={`
+      col-2
       header-tab
       header-tab--dark
       ${selectedClass(selected)}
