@@ -20,11 +20,9 @@ const languages = [
   ["it", "Italian"],
   ["km", "Khmer"],
   ["ko", "Korean"],
-  ["ne", "Nepali"],
   ["pl", "Polish"],
   ["pt", "Portuguese"],
   ["ru", "Russian"],
-  ["so", "Somali"],
   ["es", "Spanish"],
   ["vi", "Vietnamese"]
 ];
