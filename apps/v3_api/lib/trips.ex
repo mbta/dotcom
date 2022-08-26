@@ -15,11 +15,6 @@ defmodule V3Api.Trips do
     get_json("/trips/", opts)
   end
 
-  def get_origin(trip_id, opts \\ []) do
-    trip = V3Api.get_json("/trips/", [include: "stops", name: trip_id])
-    x = Poison.encode!(trip) |> Poison.decode!(keys: :atoms)
-  end
-
   def short_name(stop_name) do
     case stop_name do
       "Needham Heights" -> "NEED"

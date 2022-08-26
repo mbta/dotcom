@@ -105,41 +105,6 @@
             <% end %>
           </tr>
         <% end %>
-        <%= if @route.id == "Orange" and @direction_id == 1 do %>
-          <% cell_background = if rem(2, 2) == 0 do "white" else "gray" end %>
-          <%= content_tag :tr, [class: stop_row_class(2)] do %>
-            <%= content_tag :th, [
-              scope: "row",
-              data: [absolute: true],
-              class: "js-tt-stop-name m-timetable__cell--first-column m-timetable__cell m-timetable__cell--" <>
-                cell_background
-            ] do %>
-              <div class="m-timetable__row-header m-timetable__stop-name notranslate">
-                Train continues from
-              </div>
-            <% end %>
-            <td class="js-tt-cell hidden-no-js">
-              <div class="m-timetable__row-header"></div>
-            </td>
-            <%= for schedule <- @header_schedules do %>
-              <%
-                stop = Enum.at(@all_stops, 2)
-                trip_id = schedule.trip.id
-                trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
-              %>
-              <td class="m-continue__row">
-                  <%= if !is_nil(trip_schedule) do%>
-                    <span class="m-timetable__schedule">
-                      <span class="m-timetable__time">
-                        <%# <% V3Api.Trips.get_origin(trip_schedule.trip.name) %> %>
-                      </span>
-                    </span>
-                  <% end %>
-                <% end %>
-              </td>
-            <% end %>
-          <% end %>
-        <% end %>
         <%= for {stop, idx} <- Enum.with_index(@all_stops) do %>
           <% cell_background = if rem(idx, 2) == 0 do "white" else "gray" end %>
           <%= content_tag :tr, [class: stop_row_class(idx)] do %>
@@ -213,13 +178,23 @@
                 trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
               %>
               <td class="m-continue__row">
-                  <%= if !is_nil(trip_schedule) do%>
                     <span class="m-timetable__schedule">
                       <span class="m-timetable__time" >
+                      <%= if !is_nil(trip_schedule) do%>
                         <%= V3Api.Trips.short_name(trip_schedule.trip.headsign) %>
+                      <% else %>
+                      <%# if trip schedule is nil check other stops for non nil value %>
+                        <%# <%
+                          [one, two, three] = for stop_idx <- [0,1,3] do
+                            stop = Enum.at(@all_stops, stop_idx)
+                            trip_id = schedule.trip.id
+                            @trip_schedules[{trip_id, stop.id} || %{}]
+                          end
+                         %> %>
+
+                      <% end %>
                       </span>
                     </span>
-                  <% end %>
                 <% end %>
               </td>
             <% end %>
