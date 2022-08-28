@@ -156,7 +156,7 @@
           <% end %>
         <% end %>
         <%= if @route.id == "Orange" and @direction_id == 0 do %>
-         <% cell_background = if rem(2, 2) == 0 do "white" else "gray" end %>
+         <% cell_background = "white" %>
           <%= content_tag :tr, [class: stop_row_class(2)] do %>
             <%= content_tag :th, [
               scope: "row",
