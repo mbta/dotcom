@@ -120,11 +120,11 @@ defmodule DateTimeSelector do
     content_tag(
       :div,
       [
-        content_tag(:label, "Month", for: "#{prefix}_date_time_month", class: "sr-only"),
+        content_tag(:label, "Month", for: "#{prefix}_date_time_month", class: "visually-hidden"),
         field.(:month, class: "c-select"),
-        content_tag(:label, "Day", for: "#{prefix}_date_time_day", class: "sr-only"),
+        content_tag(:label, "Day", for: "#{prefix}_date_time_day", class: "visually-hidden"),
         field.(:day, class: "c-select"),
-        content_tag(:label, "Year", for: "#{prefix}_date_time_year", class: "sr-only"),
+        content_tag(:label, "Year", for: "#{prefix}_date_time_year", class: "visually-hidden"),
         field.(:year, class: "c-select")
       ],
       class: "plan-date-select hidden-js",
@@ -167,12 +167,12 @@ defmodule DateTimeSelector do
     content_tag(
       :div,
       [
-        content_tag(:label, "Hour", for: "#{prefix}_date_time_hour", class: "sr-only"),
+        content_tag(:label, "Hour", for: "#{prefix}_date_time_hour", class: "visually-hidden"),
         field.(:hour, class: "c-select"),
-        content_tag(:label, "Minute", for: "#{prefix}_date_time_minute", class: "sr-only"),
+        content_tag(:label, "Minute", for: "#{prefix}_date_time_minute", class: "visually-hidden"),
         field.(:minute, class: "c-select", options: @minute_options),
         " ",
-        content_tag(:label, "AM or PM", for: "#{prefix}_date_time_am_pm", class: "sr-only"),
+        content_tag(:label, "AM or PM", for: "#{prefix}_date_time_am_pm", class: "visually-hidden"),
         select(
           :date_time,
           :am_pm,

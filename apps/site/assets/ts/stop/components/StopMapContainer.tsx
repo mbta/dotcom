@@ -19,7 +19,7 @@ const StopMapContainer = ({
   routes
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__hero-map">
-    <h3 className="sr-only">Map</h3>
+    <h3 className="visually-hidden">Map</h3>
     <div
       id={mapId}
       role="application"

@@ -24,7 +24,7 @@ const SearchBox = ({
 
   return (
     <div className={`${className} c-form__input-container`}>
-      <label htmlFor={id} className="sr-only">
+      <label htmlFor={id} className="visually-hidden">
         {labelText}
       </label>
       <input

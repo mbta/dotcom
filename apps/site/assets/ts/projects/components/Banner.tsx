@@ -74,7 +74,7 @@ const BannerXS = ({
           backgroundImage: `url(${bannerImageURL(banner, placeholderImageUrl)})`
         }}
       >
-        <div className="sr-only">{bannerImageAlt(banner)}</div>
+        <div className="visually-hidden">{bannerImageAlt(banner)}</div>
       </div>
       <BannerContent banner={banner} />
     </div>
@@ -95,7 +95,7 @@ const BannerSideBySide = ({
       src={bannerImageURL(banner, placeholderImageUrl)}
       alt={bannerImageAlt(banner)}
     />
-    <div className="sr-only">{bannerImageAlt(banner)}</div>
+    <div className="visually-hidden">{bannerImageAlt(banner)}</div>
   </div>
 );
 

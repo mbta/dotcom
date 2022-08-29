@@ -24,7 +24,7 @@
   %>
 
   <fieldset>
-    <legend class="sr-only">Choose how to optimize your trip:</legend>
+    <legend class="visually-hidden">Choose how to optimize your trip:</legend>
     <%= for {val, text} <- radio_buttons do %>
       <div class="form-check m-trip-plan__form-check">
         <label class="form-check-label m-trip-plan__form-label" for="<%= val %>">

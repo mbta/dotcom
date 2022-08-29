@@ -1,5 +1,5 @@
 <div class="index">
-  <h1 class="sr-only">MBTA Homepage</h1>
+  <h1 class="visually-hidden">MBTA Homepage</h1>
   <%= render "_tabbed_nav.html", assigns %>
   <div class="container page-section">
     <%= render "_find_a_location.html", conn: @conn %>

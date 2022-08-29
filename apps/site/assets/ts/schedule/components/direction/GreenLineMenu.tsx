@@ -142,7 +142,7 @@ export const GreenLineItem = ({
           "c-svg__icon m-schedule-direction__menu-item-icon",
           route.icon
         )}
-        <span className="sr-only">{route.name}</span>
+        <span className="visually-hidden">{route.name}</span>
         {destinations.size > 1
           ? destinations.get(route.id)[directionId]
           : []}{" "}

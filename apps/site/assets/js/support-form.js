@@ -221,7 +221,7 @@ function PhotoPreview($, file) {
         <div class="clear-photo">
           <i class="fa fa-circle fa-stack-1x" style="color: white" aria-hidden="true"></i>
           <i class="fa fa-times-circle fa-stack-1x" aria-hidden="true"></i>
-          <span class="sr-only">Clear Photo Upload</span>
+          <span class="visually-hidden">Clear Photo Upload</span>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
   <% tag = if @promoted do "promoted" else "secondary" end %>
   <div class="m-whats-happening__section m-whats-happening__section--<%= tag %>" id="<%= tag %>">
     <%= if @promoted do %>
-      <h2 class="sr-only">Featured MBTA Updates and Projects</h2>
+      <h2 class="visually-hidden">Featured MBTA Updates and Projects</h2>
     <% end %>
     <div class="container page-section">
       <%= unless Enum.empty?(@whats_happening_items) do %>

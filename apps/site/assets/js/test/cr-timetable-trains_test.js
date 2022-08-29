@@ -28,7 +28,7 @@ describe("CRTimetableTrains", () => {
                 &nbsp;
           </span>
           <span class="timetable-data-time ">
-            <span class="sr-only">05:20 AM</span>
+            <span class="visually-hidden">05:20 AM</span>
             <span aria-hidden="true">05:20A</span>
           </span>
           <span class="timetable-data-icon" id="Middleborough/Lakeville-CR-Weekday-Fall-18-002">
@@ -42,7 +42,7 @@ describe("CRTimetableTrains", () => {
               &nbsp;
         </span>
         <span class="timetable-data-time ">
-          <span class="sr-only">05:30 AM</span>
+          <span class="visually-hidden">05:30 AM</span>
           <span aria-hidden="true">05:30A</span>
         </span>
         <span class="timetable-data-icon" id="Brockton-CR-Weekday-Fall-18-028">
@@ -56,7 +56,7 @@ describe("CRTimetableTrains", () => {
                 &nbsp;
           </span>
           <span class="timetable-data-time ">
-            <span class="sr-only">05:40 AM</span>
+            <span class="visually-hidden">05:40 AM</span>
             <span aria-hidden="true">05:40A</span>
           </span>
           <span class="timetable-data-icon" id="Holbrook/Randolph-CR-Weekday-Fall-18-028">

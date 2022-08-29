@@ -20,19 +20,19 @@ const initial_markup = `<div id=${dateEl.container}>
   <label aria-label="Tuesday, January 19, 2021, click or press the enter or space key to edit the date" for=${dateEl.input} id=${dateEl.label}></label>
   <input data-max-date="01/19/2021" data-min-date="01/19/2020" id=${dateEl.input} type="text">
   <div id=${dateEl.select}>
-    <label class="sr-only" for=${month}>Month</label>
+    <label class="visually-hidden" for=${month}>Month</label>
     <select class="c-select" id=${month}>
       <option value="1" selected="">January</option>
       <option value="2">February</option>
       <option value="3">March</option>
     </select>
-    <label class="sr-only" for=${day}>Day</label>
+    <label class="visually-hidden" for=${day}>Day</label>
     <select class="c-select" id=${day}>
       <option value="1">01</option>
       <option value="2">02</option>
       <option value="3">03</option>
     </select>
-    <label class="sr-only" for=${year}>Year</label>
+    <label class="visually-hidden" for=${year}>Year</label>
     <select class="c-select" id=${year}>
       <option value="2020">2020</option>
       <option value="2021" selected="">2021</option>

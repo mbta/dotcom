@@ -75,7 +75,7 @@ const SchedulesSelect = ({
   return (
     <div className="schedule-finder__service-selector">
       <label>
-        <span className="sr-only">
+        <span className="visually-hidden">
           Choose a schedule type from the available options
         </span>
         <SelectContainer>
@@ -181,7 +181,7 @@ export const DailySchedule = ({
         {isLoading(fetchState) ? (
           <Loading />
         ) : (
-          <span className="sr-only" aria-live="polite">
+          <span className="visually-hidden" aria-live="polite">
             Showing times for {selectedService.description}
           </span>
         )}

@@ -24,7 +24,7 @@
       <input id="from_longitude" name="plan[from_longitude]" type="hidden" value="<%= @from_position.longitude %>">
       <i aria-hidden="true" id="trip-plan__loading-indicator--from" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
       <i id="trip-plan__reset--from" class="c-form__reset-icon fa fa-times-circle"></i>
-      <div id="trip-plan__announcer--from" aria-live="polite" class="sr-only"></div>
+      <div id="trip-plan__announcer--from" aria-live="polite" class="visually-hidden"></div>
     </div>
     <div id="trip-plan__search--from__autocomplete" class="c-search-bar__results"></div>
     <div id="trip-plan__search--from__results" class="c-search-bar__results"></div>
@@ -59,7 +59,7 @@
       <input id="to_longitude" name="plan[to_longitude]" type="hidden" value="<%= @to_position.longitude %>">
       <i aria-hidden="true" id="trip-plan__loading-indicator--to" class="fa fa-cog fa-spin c-search-bar__loading-indicator"></i>
       <i id="trip-plan__reset--to" class="c-form__reset-icon fa fa-times-circle"></i>
-      <div id="trip-plan__announcer--to" aria-live="polite" class="sr-only"></div>
+      <div id="trip-plan__announcer--to" aria-live="polite" class="visually-hidden"></div>
     </div>
     <div id="trip-plan__search--to__autocomplete" class="c-search-bar__results"></div>
     <div id="trip-plan__search--to__results" class="c-search-bar__results"></div>

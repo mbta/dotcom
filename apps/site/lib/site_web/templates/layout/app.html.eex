@@ -60,7 +60,7 @@
   </head>
   <%= Site.BodyTag.render(@conn) %>
     <div class="body-wrapper" id="body-wrapper">
-      <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
+      <a href="#main" class="visually-hidden visually-hidden-focusable" data-turbolinks="false">Skip to main content</a>
       <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
       <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:banner_template] do %>

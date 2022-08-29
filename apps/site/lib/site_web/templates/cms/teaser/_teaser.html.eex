@@ -14,7 +14,7 @@
   <%=
     # Main link (invisible) is positioned over content using CSS to avoid nested link problems
     link to: cms_static_page_path(@conn, @teaser.path), class: "u-linked-card__primary-link" do
-      content_tag(:h3, @teaser.title, class: "sr-only")
+      content_tag(:h3, @teaser.title, class: "visually-hidden")
     end
   %>
 

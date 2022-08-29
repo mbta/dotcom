@@ -1,16 +1,16 @@
 <%= if @trip_schedule do %>
-  <% 
+  <%
     trip_id = @schedule.trip.id
   %>
   <span class="m-timetable__schedule">
     <span class="m-timetable__flag-icon">
       <%= if @trip_schedule.flag? do %>
         <%= content_tag(:span, svg("icon-flag-stop-default.svg"), aria: [hidden: "true"]) %>
-        <%= content_tag(:span, "Flag Stop", class: "sr-only") %>
+        <%= content_tag(:span, "Flag Stop", class: "visually-hidden") %>
       <% else %>
         <%= if @trip_schedule.early_departure? do %>
           <%= content_tag(:span, svg("icon-early-departure-stop-default.svg"), aria: [hidden: "true"]) %>
-          <%= content_tag(:span, "Early Departure", class: "sr-only") %>
+          <%= content_tag(:span, "Early Departure", class: "visually-hidden") %>
         <% else %>
           &nbsp;
         <% end %>
@@ -24,5 +24,5 @@
     </span>
   </span>
 <% else %>
-  <span class="sr-only">Does not stop at <%= @stop.name %></span>
+  <span class="visually-hidden">Does not stop at <%= @stop.name %></span>
 <% end %>

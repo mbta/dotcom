@@ -61,7 +61,9 @@ const TripStop = ({
           {isSkippedOrCancelled(departure.prediction) && (
             <>
               {alertIcon("c-svg__icon-alerts-triangle")}
-              <span className="sr-only">This trip skips this stop at</span>
+              <span className="visually-hidden">
+                This trip skips this stop at
+              </span>
             </>
           )}
           {breakTextAtSlash(schedule.stop.name)}

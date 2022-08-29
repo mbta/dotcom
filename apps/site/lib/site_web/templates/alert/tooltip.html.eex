@@ -2,4 +2,4 @@
 <span class="alert-icon">
   <%= fa "exclamation-triangle", title: text, "data-toggle": "tooltip" %>
 </span>
-<span class="sr-only"><%= text %></span>
+<span class="visually-hidden"><%= text %></span>

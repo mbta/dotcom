@@ -11,7 +11,7 @@
   end
 %>
 <div id="search-<%= @prefix %>__container" class="c-form__input-container">
-  <label for="search-<%= @prefix %>__input" class="sr-only"><%= @aria_label %></label>
+  <label for="search-<%= @prefix %>__input" class="visually-hidden"><%= @aria_label %></label>
   <%= Phoenix.HTML.Form.text_input(
     Map.get(assigns, :form, :query),
     Map.get(assigns, :field, :input),
@@ -34,6 +34,6 @@
       When autocomplete results are available, use up and down arrows to review and enter to select.
       Touch device users, explore by touch or with swipe gestures.
     </span>
-    <div id="search-<%= @prefix %>__announcer" aria-live="polite" class="sr-only"></div>
+    <div id="search-<%= @prefix %>__announcer" aria-live="polite" class="visually-hidden"></div>
   <% end %>
 </div>

@@ -168,7 +168,7 @@ defmodule SiteWeb.ViewHelpers do
       Route.direction_name(route, direction_id),
       " ",
       fa("arrow-right"),
-      content_tag(:span, "to", class: "sr-only"),
+      content_tag(:span, "to", class: "visually-hidden"),
       " ",
       if route.id == "Orange" do
         if direction_id == 0 do

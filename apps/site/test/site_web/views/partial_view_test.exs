@@ -30,7 +30,7 @@ defmodule SiteWeb.PartialViewTest do
         |> clear_selector_link()
         |> safe_to_string
 
-      assert result =~ "(clear<span class=\"sr-only\"> destination</span>)"
+      assert result =~ "(clear<span class=\"visually-hidden\"> destination</span>)"
       refute result =~ "place-davis"
     end
   end

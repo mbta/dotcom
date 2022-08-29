@@ -50,7 +50,7 @@ const MaybeAlert = (alerts: Alert[]): JSX.Element | null => {
   return (
     <>
       {alertIcon("c-svg__icon-alerts-triangle")}
-      <span className="sr-only">Service alert or delay</span>
+      <span className="visually-hidden">Service alert or delay</span>
       &nbsp;
     </>
   );

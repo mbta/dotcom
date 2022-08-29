@@ -6,9 +6,9 @@
           <div class="fare-summary-title">
             <span class="fare-summary-name"><%= summary.name %></span>
             <span class="fare-summary-mode-icons">
-              <span class="sr-only">Valid on:</span>
+              <span class="visually-hidden">Valid on:</span>
               <%= for mode <- summary.modes do %>
-                <span class="sr-only"><%= mode_name(mode) %></span>
+                <span class="visually-hidden"><%= mode_name(mode) %></span>
                 <span class="fares-mode-icon-group" aria-hidden="true">
                   <%= svg_icon_with_circle(%SvgIconWithCircle{icon: mode, size: :small}) %>
                 </span>

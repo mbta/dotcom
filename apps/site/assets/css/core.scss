@@ -1,10 +1,10 @@
-@import '/node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
+@import '../node_modules/bootstrap/scss/functions';
+@import '../node_modules/bootstrap/scss/variables';
 @import 'colors';
 @import 'variables';
 
-@import 'bootstrap';
-@import 'bootstrap-extra';
+@import "../node_modules/bootstrap/scss/mixins";
+
 @import 'mixins';
 @import 'inter_ui';
 @import 'footer';
@@ -14,6 +14,8 @@
 @import 'vendor/fontawesome';
 @import 'social';
 @import 'layout-core-shared';
+
+@import "../node_modules/bootstrap/scss/bootstrap";
 
 html {
   height: 100%;
@@ -59,7 +61,7 @@ body {
     }
 
     .sr-or-no-js {
-      @include sr-only();
+      @include visually-hidden();
     }
   }
 
@@ -193,8 +195,8 @@ small {
 @include media-breakpoint-down(sm) {
   // hide SM down, but remain visible to screen readers
   .focusable-sm-down {
-    @include sr-only();
-    @include sr-only-focusable();
+    @include visually-hidden();
+    @include visually-hidden-focusable();
   }
 }
 

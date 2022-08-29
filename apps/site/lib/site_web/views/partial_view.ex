@@ -22,7 +22,7 @@ defmodule SiteWeb.PartialView do
     link to: update_url(assigns.conn, [{assigns.query_key, nil}]) do
       [
         "(clear",
-        content_tag(:span, [" ", assigns.placeholder_text], class: "sr-only"),
+        content_tag(:span, [" ", assigns.placeholder_text], class: "visually-hidden"),
         ")"
       ]
     end

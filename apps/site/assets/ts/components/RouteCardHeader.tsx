@@ -18,7 +18,7 @@ const RouteCardHeader = ({
     )}`}
   >
     <a className="c-link-block__outer-link" href={`/schedules/${route.id}`}>
-      <span className="sr-only">Go to route</span>
+      <span className="visually-hidden">Go to route</span>
     </a>
     <div className="c-link-block__inner">
       <span className={busClass(route)}>

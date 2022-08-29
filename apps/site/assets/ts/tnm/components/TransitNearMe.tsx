@@ -159,7 +159,7 @@ const TransitNearMe = ({
           emptyMessage={emptyMessage(state.pendingFirstData)}
         />
       )}
-      <h3 className="sr-only">Map</h3>
+      <h3 className="visually-hidden">Map</h3>
       <div
         ref={mapRef}
         id={mapId}

@@ -52,7 +52,7 @@ describe("geolocation", () => {
           <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
           <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
-          <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
+          <span class="visually-hidden hidden-xs-up loading-indicator">Retrieving location...</span>
         </button>
         <div id="test-geolocation-error"></div>
       `);
@@ -108,7 +108,7 @@ describe("geolocation", () => {
           <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
           <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
-          <span class="sr-only hidden-xs-up loading-indicator">Retrieving location...</span>
+          <span class="visually-hidden hidden-xs-up loading-indicator">Retrieving location...</span>
         </button>
         <div id="test-geolocation-error"></div>
       `);

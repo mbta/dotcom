@@ -92,7 +92,7 @@
             <li class="c-social__item m-footer__item">
               <%= link [
                 fa(name, attributes),
-                content_tag(:span, "MBTA " <> String.capitalize(name), class: "sr-only")
+                content_tag(:span, "MBTA " <> String.capitalize(name), class: "visually-hidden")
               ], to: href, class: "c-social__link c-social--" <> name, target: "_blank" %>
             </li>
           <% end %>

@@ -17,27 +17,10 @@ $container-max-widths: (
 );
 
 $spacers: (
-  0: (
-    x: 0,
-    y: 0
-  ),
-  1: (
-    x: $spacer,
-    y: $spacer
-  ),
-  2: (
-    x: ($spacer * 1.5),
-    y: ($spacer * 1.5)
-  ),
-  3: (
-    x: ($spacer * 3),
-    y: ($spacer * 3)
-  ),
-  g: (
-    // for grid
-    x: $grid-gutter-width,
-    y: $grid-gutter-width
-  )
+  0: 0,
+  1: $spacer,
+  2: $spacer * 1.5,
+  3: $spacer * 3,
 );
 
 $space-16: 1rem;

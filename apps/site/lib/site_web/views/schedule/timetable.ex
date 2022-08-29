@@ -54,10 +54,10 @@ defmodule SiteWeb.ScheduleView.Timetable do
           data: [toggle: "tooltip"],
           title: "Parking available"
         ),
-        content_tag(:span, "Parking available", class: "sr-only")
+        content_tag(:span, "Parking available", class: "visually-hidden")
       ]
     else
-      [content_tag(:span, "No parking", class: "sr-only")]
+      [content_tag(:span, "No parking", class: "visually-hidden")]
     end
   end
 
@@ -74,17 +74,17 @@ defmodule SiteWeb.ScheduleView.Timetable do
             data: [toggle: "tooltip"],
             title: "Accessible"
           ),
-          content_tag(:span, "Accessible", class: "sr-only")
+          content_tag(:span, "Accessible", class: "visually-hidden")
         ]
 
       Stop.accessibility_known?(stop) ->
         [
-          content_tag(:span, "Not accessible", class: "sr-only")
+          content_tag(:span, "Not accessible", class: "visually-hidden")
         ]
 
       true ->
         [
-          content_tag(:span, "May not be accessible", class: "sr-only")
+          content_tag(:span, "May not be accessible", class: "visually-hidden")
         ]
     end
   end

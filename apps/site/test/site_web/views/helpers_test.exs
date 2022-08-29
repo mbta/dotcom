@@ -280,7 +280,7 @@ defmodule SiteWeb.ViewHelpersTest do
       actual = safe_to_string(html_escape(direction_with_headsign(%Route{}, 0, "headsign")))
       assert actual =~ "Outbound"
       assert actual =~ "arrow-right"
-      assert actual =~ ~s(<span class="sr-only">to</span>)
+      assert actual =~ ~s(<span class="visually-hidden">to</span>)
       assert actual =~ "headsign"
     end
 
