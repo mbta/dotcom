@@ -40,14 +40,11 @@ const peakOffPeakTimes = ({
 }): ReactElement<HTMLElement> => (
   <>
     <div className="m-schedule-page__schedule-note">
-      <h4 className="m-schedule-page__service">Peak Service</h4>
-      <div className="m-schedule-page__service-subheading">
-        Weekdays 7 &ndash; 9 AM, 4 &ndash; 6:30 PM
-      </div>
+      <h4 className="m-schedule-page__service">Weekdays</h4>
       {service(peakService)}
     </div>
     <div className="m-schedule-page__schedule-note">
-      <h4 className="m-schedule-page__service">Off Peak / Weekends</h4>
+      <h4 className="m-schedule-page__service">Weekends</h4>
       {offPeak(offpeakService, exceptions)}
       {exceptions.map(exception =>
         service(`${exception.service} ${exception.type}`)
