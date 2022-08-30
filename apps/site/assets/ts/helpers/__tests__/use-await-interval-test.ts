@@ -7,26 +7,45 @@ const wait = (delay: number): Promise<void> =>
 describe("useAwaitInterval", () => {
   it("works", async () => {
     await act(async () => {
-      let value: null | string = null;
-      let setValueTo = "hello";
+      type CallbackState = "not started" | "started" | "finished";
+      let callbackState: CallbackState = "not started";
+
       const go = async () => {
+        callbackState = "started";
+
         await wait(50);
 
-        value = setValueTo;
+        callbackState = "finished";
       };
 
       renderHook(() => {
         return useAwaitInterval(go, 50);
       });
 
-      expect(value).toBeNull();
+      // give the hook a chance to settle and kick off the initial callback
+      // t = 5
+      await wait(5);
+      expect(callbackState).toBe("started");
 
-      await wait(60);
-      expect(value).toBe("hello");
+      await wait(55);
+      // `go` should be finished
+      // t = 60
+      expect(callbackState).toBe("finished");
 
-      setValueTo = "goodbye";
-      await wait(150);
-      expect(value).toBe("goodbye");
+      // `go` is requeued, but not started
+
+      await wait(30);
+      // `go` should not yet have triggered
+      // t = 90
+      expect(callbackState).toBe("finished");
+
+      await wait(25);
+      // at this point, go should have triggered again
+      // t = 115
+      expect(callbackState).toBe("started");
+
+      await wait(50);
+      expect(callbackState).toBe("finished");
     });
   });
 
