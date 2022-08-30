@@ -45,7 +45,7 @@ export const fetchData = async (
         // 404s here are a known failure mode, see finder_api.ex#get_trip_info
         if (res.status !== 404) {
           throw new Error(
-            "Failed to fetch trip information: ${res.status} ${res.statusText}"
+            `Failed to fetch trip information: ${res.status} ${res.statusText}`
           );
         }
 
@@ -101,7 +101,7 @@ const ScheduleModalContent = ({
     selectedDirection,
     input.date
   ]);
-  useAwaitInterval(updateData, 1000);
+  useAwaitInterval(updateData, 10000);
 
   const serviceToday = services.some(service =>
     isInCurrentService(service, stringToDateObject(today))
