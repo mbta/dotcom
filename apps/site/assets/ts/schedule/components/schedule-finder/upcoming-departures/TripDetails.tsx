@@ -8,7 +8,7 @@ import CrowdingPill from "../../line-diagram/CrowdingPill";
 import TripStop from "./TripStop";
 
 interface Props {
-  tripInfo: TripInfo;
+  tripInfo: TripInfo | null;
   showFare: boolean;
 }
 
@@ -51,6 +51,8 @@ const TripDetails = ({
   tripInfo,
   showFare
 }: Props): ReactElement<HTMLElement> | null => {
+  if (!tripInfo) return null;
+
   const crowding = tripInfo.vehicle?.crowding || null;
 
   return (

@@ -230,12 +230,11 @@ export const upcomingDeparturesTable = (
 ): ReactElement<HTMLElement> => {
   const headerLabel = "Trip Details";
   const { data: journeys } = state;
-  const journeysWithTripInfo = journeys as EnhancedJourney[];
 
   // We use this condition for cosmetic purposes: if there's no crowding information for _any_ of the upcoming departures, we don't want to show a gap/empty column.
   const someCrowdingInfoExists =
-    !isEmpty(journeysWithTripInfo) && isABusRoute(journeysWithTripInfo[0].route)
-      ? journeysWithTripInfo.some(journey => {
+    !isEmpty(journeys) && isABusRoute(journeys[0].route)
+      ? journeys.some(journey => {
           const { tripInfo } = journey;
           if (!tripInfo) return false;
           const crowding = get(tripInfo, "vehicle.crowding", null);

@@ -16,7 +16,7 @@ export interface Journey {
 }
 
 export interface EnhancedJourney extends Journey {
-  tripInfo: TripInfo;
+  tripInfo: TripInfo | null;
 }
 
 export interface Departure {

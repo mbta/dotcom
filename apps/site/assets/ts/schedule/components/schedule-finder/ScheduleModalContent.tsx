@@ -17,7 +17,11 @@ import ScheduleFinderForm from "./ScheduleFinderForm";
 import DailySchedule from "./daily-schedule/DailySchedule";
 import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 import { useProvider } from "../../../helpers/use-provider";
-import { fetchJson, throwIfFetchFailed } from "../../../helpers/fetch-json";
+import {
+  fetchJsonOrThrow,
+  fetchJson,
+  isFetchFailed
+} from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
 
 // exported for testing
@@ -27,17 +31,28 @@ export const fetchData = async (
   selectedDirection: DirectionId,
   date: string
 ): Promise<EnhancedJourney[]> => {
-  const departures = await fetchJson<Journey[]>(
+  const departures = await fetchJsonOrThrow<Journey[]>(
     `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
-  ).then(throwIfFetchFailed);
+  );
 
   const enhanced = await Promise.all(
     departures.map(async departure => {
-      const tripInfo = await fetchJson<TripInfo>(
+      const res = await fetchJson<TripInfo>(
         `/schedules/finder_api/trip?id=${departure.trip.id}&route=${routeId}&date=${date}&direction=${selectedDirection}&stop=${selectedOrigin}`
-      ).then(throwIfFetchFailed);
+      );
 
-      return { ...departure, tripInfo };
+      if (isFetchFailed(res)) {
+        // 404s here are a known failure mode, see finder_api.ex#get_trip_info
+        if (res.status !== 404) {
+          throw new Error(
+            "Failed to fetch trip information: ${res.status} ${res.statusText}"
+          );
+        }
+
+        return { ...departure, tripInfo: null };
+      }
+
+      return { ...departure, tripInfo: res };
     })
   );
 
