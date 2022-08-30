@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { get, isEmpty } from "lodash";
 import { Route } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
-import { caret, modeIcon } from "../../../../helpers/icon";
+import { caret, modeIcon, liveClockIcon } from "../../../../helpers/icon";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
@@ -222,6 +222,9 @@ const TableRow = ({
 const UpcomingDeparturesHeader = (
   <div className="schedule-table__upcoming-departures-header">
     <h3>Upcoming Departures</h3>
+    <span className="live">
+      {liveClockIcon("live-icon icon-realtime animate")}&nbsp;live
+    </span>
   </div>
 );
 
