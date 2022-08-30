@@ -1,5 +1,5 @@
 export const isFetchFailed = <T>(r: FetchResult<T>): r is FetchFailed =>
-  typeof r === "object" && "statusText" in r;
+  r && typeof r === "object" && "statusText" in r;
 
 export const throwIfFetchFailed = <T>(result: FetchResult<T>): T => {
   if (isFetchFailed(result)) {
