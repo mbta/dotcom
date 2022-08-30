@@ -18,7 +18,7 @@ jest.mock("../../../../../helpers/use-fetch", () => ({
   default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
 }));
 
-const journeys: Journey[] = serviceData as Journey[];
+const journeys: Journey[] = (serviceData as unknown) as Journey[];
 
 const routePatterns = [
   {
@@ -59,7 +59,7 @@ const crRoutePatterns = [
   }
 ] as EnhancedRoutePattern[];
 
-const crJourneys: Journey[] = crServiceData as Journey[];
+const crJourneys: Journey[] = (crServiceData as unknown) as Journey[];
 
 const input = {
   route: "",

@@ -1,46 +1,28 @@
 import React from "react";
 import { act } from "react-test-renderer";
 import { mount, ReactWrapper } from "enzyme";
-import { UserInput } from "../../../__schedule";
 import { EnhancedJourney } from "../../../__trips";
-import departuresResponse from "../../__tests__/test-data/departures.json";
 import UpcomingDepartures, {
   upcomingDeparturesTable,
-  fetchData,
   crowdingInformation,
   BusTableRow,
   CrTableRow
 } from "../UpcomingDepartures";
-import crDeparturesResponse from "./test-data/crDepartures.json";
 import enhancedBusJourneysResponse from "./test-data/enhancedBusJourneys.json";
 import enhancedCRjourneysResponse from "./test-data/enhancedCRjourneys.json";
 import LiveCrowdingIcon from "../../../line-diagram/LiveCrowdingIcon";
+import { UseProviderState } from "../../../../../helpers/use-provider";
 
-const busDepartures = (departuresResponse as unknown) as EnhancedJourney[];
-const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
 const enhancedBusJourneys = (enhancedBusJourneysResponse as unknown) as EnhancedJourney[];
 const enhancedCRjourneys = (enhancedCRjourneysResponse as unknown) as EnhancedJourney[];
-
-const input: UserInput = {
-  route: "a",
-  origin: "place-dudly",
-  date: "2020-07-13",
-  direction: 0
-};
 
 describe("UpcomingDepartures", () => {
   let wrapper: ReactWrapper;
 
   it("renders with message if there are no predictions", () => {
     act(() => {
-      const state = {
-        data: busDepartures,
-        error: false,
-        isLoading: false
-      };
-
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable([], state, input)}</>
+        <>{upcomingDeparturesTable({ loading: false, data: [] })}</>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -53,32 +35,15 @@ describe("UpcomingDepartures", () => {
     });
   });
 
-  it("doesn't render if there was an error", () => {
-    act(() => {
-      const state = {
-        data: crDepartures,
-        error: true,
-        isLoading: false
-      };
-
-      jest.spyOn(React, "useEffect").mockImplementation(f => f());
-
-      wrapper = mount(<UpcomingDepartures state={state} input={input} />);
-
-      expect(wrapper.html()).toBeNull();
-    });
-  });
-
   it("renders bus predictions", () => {
     act(() => {
-      const state = {
-        data: busDepartures,
-        error: false,
-        isLoading: false
-      };
-
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable(enhancedBusJourneys, state, input)}</>
+        <>
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedBusJourneys
+          })}
+        </>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -90,19 +55,13 @@ describe("UpcomingDepartures", () => {
 
   it("renders SL bus predictions", () => {
     act(() => {
-      const state = {
-        data: [
-          {
-            ...busDepartures[0],
-            route: { ...busDepartures[0].route, name: "SL-2", id: "741" }
-          }
-        ],
-        error: false,
-        isLoading: false
-      };
-
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable(enhancedBusJourneys, state, input)}</>
+        <>
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedBusJourneys
+          })}
+        </>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -114,14 +73,13 @@ describe("UpcomingDepartures", () => {
 
   it("renders cr predictions", () => {
     act(() => {
-      const state = {
-        data: crDepartures,
-        error: false,
-        isLoading: false
-      };
-
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable(enhancedCRjourneys, state, input)}</>
+        <>
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedCRjourneys
+          })}
+        </>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -133,14 +91,13 @@ describe("UpcomingDepartures", () => {
 
   it("doesn't render cr departures that don't have a predicted time yet", () => {
     act(() => {
-      const state = {
-        data: crDepartures,
-        error: false,
-        isLoading: false
-      };
-
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable(enhancedCRjourneys, state, input)}</>
+        <>
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedCRjourneys
+          })}
+        </>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -152,14 +109,13 @@ describe("UpcomingDepartures", () => {
 
   it("renders upcoming (bus) departures containing crowding information", () => {
     act(() => {
-      const state = {
-        data: busDepartures,
-        error: false,
-        isLoading: false
-      };
-
       const mockUpcomingDeparturesTable = (
-        <>{upcomingDeparturesTable(enhancedBusJourneys, state, input)}</>
+        <>
+          {upcomingDeparturesTable({
+            loading: false,
+            data: enhancedBusJourneys
+          })}
+        </>
       );
 
       wrapper = mount(mockUpcomingDeparturesTable);
@@ -169,68 +125,10 @@ describe("UpcomingDepartures", () => {
   });
 
   it("renders the 'loading' status", () => {
-    const state = {
-      data: busDepartures,
-      error: false,
-      isLoading: false
-    };
+    const state: UseProviderState<EnhancedJourney[]> = { loading: true };
+    wrapper = mount(<UpcomingDepartures state={state} />);
 
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            json: () => enhancedBusJourneys[0].tripInfo
-          })
-        )
-    );
-
-    const dispatchSpy = jest.fn();
-
-    return fetchData(input, [busDepartures[0]], dispatchSpy).then(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
-
-      wrapper = mount(<UpcomingDepartures state={state} input={input} />);
-
-      expect(wrapper.find(".c-spinner__container")).toHaveLength(1);
-    });
-  });
-
-  it("mocks successful fetchData", () => {
-    const dispatchSpy = jest.fn();
-
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            json: () => enhancedBusJourneys[0].tripInfo
-          })
-        )
-    );
-
-    return fetchData(input, [busDepartures[0]], dispatchSpy).then(
-      (result: EnhancedJourney[]) => {
-        expect(window.fetch).toHaveBeenCalledWith(
-          "/schedules/finder_api/trip?id=41894293&route=1&date=2020-07-13&direction=0&stop=place-dudly"
-        );
-
-        expect(result).toEqual([enhancedBusJourneys[0]]);
-      }
-    );
-  });
-
-  it("mocks unsuccessful fetchData", () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) => {
-          throw new Error("500 error");
-        })
-    );
-
-    const dispatchSpy = jest.fn();
-
-    return fetchData(input, [busDepartures[0]], dispatchSpy).then(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
-    });
+    expect(wrapper.find(".c-spinner__container")).toHaveLength(1);
   });
 
   it("should display crowding information for buses", () => {
@@ -249,7 +147,7 @@ describe("UpcomingDepartures", () => {
       const journey = (enhancedCRjourneysResponse[0] as unknown) as EnhancedJourney;
 
       wrapper = mount(<>{crowdingInformation(journey, journey.trip.id)}</>);
-      expect(wrapper.find(LiveCrowdingIcon).prop("crowding")).toBeFalsy();
+      expect(wrapper.exists(LiveCrowdingIcon)).toBeFalsy();
     });
   });
 });
