@@ -96,7 +96,7 @@ export const ScheduleLoader = ({
       newOrigin = query["schedule_finder[origin]"];
     }
 
-    if (newDirection !== undefined && newOrigin !== undefined) {
+    if (newDirection !== undefined && newOrigin && newOrigin !== "") {
       modalMode = "schedule";
       modalOpen = true;
     }
