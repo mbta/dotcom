@@ -15,7 +15,7 @@ export const fetchJson = async <T>(
   ...args: Parameters<typeof fetch>
 ): Promise<FetchResult<T>> => {
   const resp = await fetch(...args);
-  if (resp.status !== 200) {
+  if (!resp.ok) {
     return resp;
   }
 
