@@ -2,7 +2,8 @@ import React, { ReactElement, useState } from "react";
 import { get, isEmpty } from "lodash";
 import { Route } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
-import { caret, modeIcon, liveClockIcon } from "../../../../helpers/icon";
+import { caret, modeIcon } from "../../../../helpers/icon";
+import liveClockSvg from "../../../../../static/images/icon-live-clock.svg";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
@@ -222,8 +223,15 @@ const TableRow = ({
 const UpcomingDeparturesHeader = (
   <div className="schedule-table__upcoming-departures-header">
     <h3>Upcoming Departures</h3>
-    <span className="live">
-      {liveClockIcon("live-icon icon-realtime animate")}&nbsp;live
+    <span className="schedule-table__live-clock" aria-hidden>
+      <span className="icon-realtime animate notranslate">
+        <span
+          className="c-svg__icon-live-clock"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: liveClockSvg }}
+        />
+        <span className="icon-realtime-text">live</span>
+      </span>
     </span>
   </div>
 );

@@ -21,7 +21,6 @@ import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.
 import searchIconSvg from "../../static/images/icon-search-reverse-default.svg";
 import crowdingIconSvg from "../../static/images/icon-crowding.svg";
 import renderFa from "./render-fa";
-import liveClockSvg from "../../static/images/icon-live-clock.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, false);
@@ -96,9 +95,6 @@ export const modeIcon = (routeId: string): JSX.Element | undefined => {
 
   return busIcon("c-svg__icon-bus-small");
 };
-
-export const liveClockIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, liveClockSvg, false);
 
 export const caret = (
   className: string,

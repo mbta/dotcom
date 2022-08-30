@@ -516,20 +516,6 @@
   align-items: baseline;
   display: flex;
   justify-content: space-between;
-
-  .live {
-    display: flex;
-    align-items: center;
-
-    .live-icon {
-      display: inline-block;
-      max-width: 1em;
-
-      svg {
-        max-height: 100%;
-      }
-    }
-  }
 }
 
 .schedule-table__live-clock {
