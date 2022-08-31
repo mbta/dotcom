@@ -22,7 +22,7 @@ defmodule Predictions.Prediction do
   @type t :: %__MODULE__{
           id: id_t,
           trip: Schedules.Trip.t() | nil,
-          stop: Stops.Stop.t(),
+          stop: Stops.Stop.t() | nil,
           route: Routes.Route.t(),
           direction_id: 0 | 1,
           time: DateTime.t() | nil,
