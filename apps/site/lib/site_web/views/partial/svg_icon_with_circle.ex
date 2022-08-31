@@ -97,7 +97,6 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
   defp icon_name(:access), do: "accessible"
   defp icon_name(:no_access), do: "not-accessible"
   defp icon_name(:the_ride), do: "the-ride"
-  defp icon_name(:parking_lot), do: "parking"
   defp icon_name(:station), do: "circle-t"
   defp icon_name(:t_logo), do: "circle-t"
   defp icon_name(:silver_line), do: "silver-line"
