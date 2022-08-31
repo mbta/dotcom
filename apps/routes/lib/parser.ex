@@ -26,16 +26,16 @@ defmodule Routes.Parser do
     {parse_route(item), parse_route_patterns(relationships)}
   end
 
+  @spec name(map) :: String.t()
+  def name(%{"type" => 3, "short_name" => short_name}) when short_name != "", do: short_name
+  def name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
+  def name(%{"long_name" => long_name}), do: long_name
+
   defp parse_route_patterns(%{"route_patterns" => route_patterns}) do
     Enum.map(route_patterns, &RoutePattern.new(&1))
   end
 
   defp parse_route_patterns(_), do: []
-
-  @spec name(map) :: String.t()
-  defp name(%{"type" => 3, "short_name" => short_name}) when short_name != "", do: short_name
-  defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
-  defp name(%{"long_name" => long_name}), do: long_name
 
   @spec direction_attrs([String.t()], [Item.t()]) :: %{
           0 => String.t() | nil,

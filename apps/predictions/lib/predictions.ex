@@ -1,4 +1,12 @@
 defmodule Predictions do
+  @moduledoc """
+  Supervisor for the Predictions application.
+
+  Children include:
+  - StreamSupervisor: Dynamically sets up per-route streams of predictions from the API.
+  - Repo: Manages ad-hoc API requests.
+  """
+
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
@@ -8,6 +16,11 @@ defmodule Predictions do
 
     # Define workers and child supervisors to be supervised
     children = [
+      supervisor(Phoenix.PubSub.PG2, [Predictions.PubSub, []]),
+      {Registry, keys: :unique, name: :prediction_streams_registry},
+      {Registry, keys: :duplicate, name: :prediction_subscriptions_registry},
+      Predictions.StreamSupervisor,
+      Predictions.PredictionsPubSub,
       Predictions.Repo
     ]
 
