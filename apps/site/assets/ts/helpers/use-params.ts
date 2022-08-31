@@ -2,7 +2,7 @@
  * Basically replacement for use-query-params, query-param, similar packages
  */
 
-export const getParam = (key: string): string | null | undefined => {
+export const getParam = (key: string): string | null => {
   const params = new URLSearchParams(window?.location.search ?? undefined);
   return params.get(key);
 };
