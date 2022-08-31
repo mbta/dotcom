@@ -184,7 +184,6 @@ defmodule SiteWeb.ScheduleView do
     pdf_name =
       cond do
         RoutePdf.custom?(pdf) -> pdf.link_text_override
-        pdf.name != nil && pdf.name != "" -> pdf.name
         true -> [pretty_route_name(route), " schedule"]
       end
 
