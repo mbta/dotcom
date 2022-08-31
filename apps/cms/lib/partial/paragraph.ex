@@ -197,12 +197,12 @@ defmodule CMS.Partial.Paragraph do
     TripPlanWidget.from_api(para)
   end
 
-  @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."
+  # "This ¶ type has a single paragraph reference within. Get the nested paragraph."
   def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para, preview_opts) do
     parse_library_item(para, preview_opts)
   end
 
-  @doc "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
+  # "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
   def from_api(%{"paragraphs" => [para]}, preview_opts) do
     from_api(para, preview_opts)
   end
