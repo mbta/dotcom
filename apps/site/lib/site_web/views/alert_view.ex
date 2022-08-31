@@ -1,10 +1,9 @@
 defmodule SiteWeb.AlertView do
   @moduledoc "Helper functions related to displaying Alerts on the web site."
   use SiteWeb, :view
-  alias Alerts.{Alert, InformedEntity, InformedEntitySet}
+  alias Alerts.{Alert, InformedEntity, InformedEntitySet, URLParsingHelpers}
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias SiteWeb.Views.Helpers.URLParsingHelpers
   alias Stops.Stop
   import SiteWeb.ViewHelpers
   import Phoenix.HTML.Tag, only: [content_tag: 3]
