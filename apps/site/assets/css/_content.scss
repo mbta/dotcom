@@ -3,13 +3,13 @@
 
   // Only show "More from <title>" prefix if we are
   // in a stacked/single column page layout (sm-down)
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     display: inline;
   }
 }
 
 .c-cms__sidebar-blurb {
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     display: none;
   }
 }
@@ -58,7 +58,7 @@
   margin: 0 auto;
   padding: 7rem 0;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     padding: 4rem 0;
     width: 80%;
   }
@@ -81,7 +81,7 @@
 }
 
 .content-person-body {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(xs) {
     margin-left: 170px;
   }
 }
@@ -109,7 +109,7 @@
 }
 
 .iframe-container {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     height: 0;
     overflow: hidden;
     padding-bottom: 100%;
@@ -117,7 +117,7 @@
   }
 
   .eventview & { // FMCB livestream iframe
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       padding-bottom: 56.25%; // 16x9 Aspect Ratio
     }
   }
@@ -129,7 +129,7 @@
   display: block;
   width: 100%;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     height: 100%;
     left: 0;
     position: absolute;
@@ -138,7 +138,7 @@
 }
 
 .iframe {
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     height: $base-spacing * 19;
     margin-left: auto;
     margin-right: auto;
@@ -147,7 +147,7 @@
 }
 
 .iframe-full-width {
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     width: 100%;
   }
 }
@@ -161,11 +161,11 @@
 .c-content-file {
   flex: 0 1 33%;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     flex: 0 1 50%;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     flex: 0 1 100%;
   }
 }
@@ -189,7 +189,7 @@
 .c-standard-fares__heading {
   display: flex;
   align-items: baseline;
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     display: block;
     margin-top: 0.75rem;
     margin-bottom: 1.25rem;

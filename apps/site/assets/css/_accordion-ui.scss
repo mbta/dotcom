@@ -97,15 +97,15 @@
 }
 
 .c-expandable-block__header-caret--black {
-  @include caret($color: $black);
+  @include caret-mbta($color: $black);
 }
 
 .c-expandable-block__header-caret {
-  @include caret($color: $brand-primary);
+  @include caret-mbta($color: $brand-primary);
 }
 
 .c-expandable-block__header-caret--white {
-  @include caret($color: $white);
+  @include caret-mbta($color: $white);
 }
 
 .c-expandable-block__panel {

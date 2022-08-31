@@ -1,6 +1,6 @@
 <aside class="c-modal__cover m-menu--cover" data-nav="veil"></aside>
 <header class="header--new">
-  <div class="container new">
+  <div class="container new p-0">
     <div class="header-navbar new">
       <a class="font-body font-white m-menu__toggle u-bold hidden-js" data-nav="toggle-mobile-nav" href="<%= static_page_path(@conn, :menu) %>">Menu</a>
       <button class="font-body m-menu__toggle u-bold hidden-no-js" data-nav="toggle-mobile-nav" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>

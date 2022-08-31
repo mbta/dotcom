@@ -10,7 +10,6 @@
     <% meta_description = assigns[:meta_description] || "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines." %>
     <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
     <meta name="author" content="Massachusetts Bay Transportation Authority">
-    <meta name="theme-color" content="#165c96">
     <%= Turbolinks.cache_meta @conn %>
 
     <%= # hide any page in /org directory from search engines
@@ -65,7 +64,7 @@
       <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:banner_template] do %>
         <div class="announcement-container <%= assigns[:banner_class] %>">
-          <div class="container">
+          <div class="container p-0">
             <%= render __MODULE__, @banner_template, assigns %>
           </div>
         </div>

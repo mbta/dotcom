@@ -5,6 +5,7 @@ $grid-breakpoints: (
   sm: 544px,
   md: 800px,
   lg: 1088px,
+  xl: 1200px,
   xxl: 1344px
 );
 
@@ -53,22 +54,25 @@ $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-ser
 $headings-font-weight: 700;
 
 $font-size-base-xs: 12px;
-$font-size-base-sm: 14px;
-$font-size-base: 16px;
-$font-size-base-xxl: 18px;
-$font-size-base-print: 24px;
+$font-size-base-sm: $font-size-sm;
+// This is the base already (in rem)
+// $font-size-base: 16px;
+$font-size-base-xxl: 1.125rem;;
+$font-size-base-print: 1.5rem;
 
 $headings: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6';
 
-$font-size-h1: 2.5rem;
-$font-size-h2: 1.75rem;
-$font-size-h3: 1.3125rem;
-$font-size-h4: 1.125rem;
-$font-size-h5: 1rem;
+$h1-font-size: 2.5rem;
+$h2-font-size: 1.75rem;
+$h3-font-size: 1.3125rem;
+$h4-font-size: 1.125rem;
+$h5-font-size: 1rem;
+$h6-font-size: 1rem;
+
 $font-size-small-caps: .875rem;
 
-$font-size-h1-sm: 2rem;
-$font-size-h2-sm: 1.625rem;
+$h1-font-size-sm: 2rem;
+$h2-font-size-sm: 1.625rem;
 
 $font-weight-medium: 500;
 

@@ -25,13 +25,13 @@
       width: map-get($container-max-widths, xxl);
     }
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-only(xs) {
       margin-bottom: $base-spacing;
     }
   }
 
   &--responsive-no-margin {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       // Break out of container
       margin: $base-spacing * 3 auto $base-spacing;
     }
@@ -42,7 +42,7 @@
   }
 
   &--lg-9 {
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       width: 100%;
     }
   }
@@ -53,7 +53,7 @@
   background-size: cover;
 
   &--responsive {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       // content is outside of the image div at xs,
       // so the div needs a set height for the
       // background image to be visible
@@ -67,18 +67,18 @@
   }
 
   &--responsive-side-by-side {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(md) {
       // content is outside of the image div at xs,
       // so the div needs a set height for the
       // background image to be visible
       height: $base-spacing * 20;
     }
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-only(xs) {
       display: flex;
     }
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       padding: 0;
     }
   }
@@ -99,30 +99,30 @@
   justify-content: space-between;
   padding: $base-spacing;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     margin-bottom: $base-spacing * 2;
     margin-left: $base-spacing * 2;
     margin-right: $base-spacing * 2;
     margin-top: -$base-spacing * 4;
   }
 
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-only(xs) {
     width: $col-width * 5;
   }
 
   &--responsive {
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-only(xs) {
       min-height: $base-spacing * 20;
     }
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(md) {
       width: $col-width * 4;
     }
   }
 }
 
 .c-banner__content--right {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-only(xs) {
     float: right;
     margin-right: $col-width;
   }
@@ -133,7 +133,7 @@
     margin-left: $col-width;
   }
 
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(xl) {
     margin-left: $col-width;
   }
 }
@@ -147,10 +147,8 @@
     width: $col-width * 8;
   }
 
-  @include media-breakpoint-up(sm) {
-    margin-left: auto;
-    margin-right: auto;
-  }
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .c-banner__category {

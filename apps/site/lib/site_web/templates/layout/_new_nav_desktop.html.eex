@@ -1,6 +1,6 @@
 <nav id="navmenu-desktop" class="m-menu--desktop" aria-label="Main navigation">
   <%= for %{menu_section: name, link: href, sub_menus: sub_menus} <- SiteWeb.LayoutView.nav_link_content_redesign(@conn) do %>
-    <a class="m-menu--desktop__toggle"
+    <a class="m-menu--desktop__toggle text-decoration-none"
       href="<%= href %>"
       data-nav="toggle-desktop-nav"
       role="button"

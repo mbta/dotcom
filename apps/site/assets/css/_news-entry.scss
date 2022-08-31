@@ -84,15 +84,15 @@
 
   &--large {
     @include media-breakpoint-up(md) {
-      font-size: $font-size-h3;
+      font-size: $h3-font-size;
     }
   }
 }
 
 .c-news-entry__day--large {
   @include media-breakpoint-up(md) {
-    font-size: $font-size-h2;
-    line-height: $font-size-h2;
+    font-size: $h2-font-size;
+    line-height: $h2-font-size;
   }
 }
 
@@ -118,7 +118,7 @@
 
   &--large {
     @include media-breakpoint-up(md) {
-      font-size: $font-size-h3;
+      font-size: $h3-font-size;
     }
   }
 }

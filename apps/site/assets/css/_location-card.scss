@@ -152,7 +152,7 @@
 }
 
 .m-sales-locations__caret {
-  @include caret($color: $brand-primary);
+  @include caret-mbta($color: $brand-primary);
   margin-left: .3rem;
 
   @include fa-icon-solid($fa-var-angle-down);

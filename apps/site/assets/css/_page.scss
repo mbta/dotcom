@@ -14,15 +14,13 @@
 
 .index {
   .page-section {
-    @include media-breakpoint-down(xxl) {
-      margin-top: 80px;
-    }
+    margin-top: 80px;
   
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       margin-top: 64px;
     }
   
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       margin-top: 40px;
     }
   }
@@ -52,7 +50,7 @@
 }
 
 .pre-container-wrapper {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(xs) {
     padding-top: $base-spacing * 3;
   }
 }
@@ -61,13 +59,13 @@
   background-color: $gray-lightest;
   margin: $space-24 0;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     align-items: center;
     background-image: url('/images/banner-squares.png');
     background-position: right bottom;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     // cover space created by .c-banner__content positioning
     margin-top: -$base-spacing * 2;
   }

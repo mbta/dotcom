@@ -173,7 +173,7 @@ defmodule SiteWeb.PageView do
         content_tag(:div, shortcut_text(id), class: "m-homepage__shortcut-text")
       ],
       href: shortcut_link(id),
-      class: "m-homepage__shortcut"
+      class: "m-homepage__shortcut text-decoration-none"
     )
   end
 

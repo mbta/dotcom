@@ -1,6 +1,6 @@
 <%= if !Enum.empty?(@news) do %>
-  <div class="container page-section m-homepage__news" id="news-and-updates">
-    <div class="col-sm-10 col-sm-offset-1">
+  <div class="container page-section m-homepage__news p-0" id="news-and-updates">
+    <div class="col-xs-10 col-sm-12 col-offset-1">
       <header class="section-header">
         <h2>Press Releases</h2>
         <%= link "See all press releases", to: news_entry_path(@conn, :index), class: "c-call-to-action" %>

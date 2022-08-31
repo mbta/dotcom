@@ -21,7 +21,7 @@
   padding: 0 calc(#{$base-spacing} / 2) calc(#{$base-spacing} / 2);
 
   &--secondary {
-    @include side-scroll(xs);
+    @include side-scroll(sm);
   }
 }
 
@@ -63,6 +63,6 @@
 
 .m-whats-happening__title {
   font-family: $font-family-base;
-  font-size: $font-size-h3;
+  font-size: $h3-font-size;
   margin: 0;
 }

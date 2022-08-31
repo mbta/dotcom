@@ -149,6 +149,9 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 }
 
 .m-homepage__fares {
+  .c-multi-column__column {
+    padding: 0.5rem;
+  }
   @include media-breakpoint-only(xs) {
     @include homepage-fares(true);
     @include icon-size(1rem);

@@ -1,25 +1,41 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 //
-// VARIABLES AND MIXINS
+// Start Bootstrap
 //
 @import '../node_modules/bootstrap/scss/functions';
-@import '../node_modules/bootstrap/scss/variables';
-@import '../node_modules/bootstrap/scss/mixins';
-// Overrides should go here
 //
+
+
+// Variable overrides for bootstrap
 @import 'functions';
 @import 'colors';
+//
+
+// Bootstrap core (required)
+@import '../node_modules/bootstrap/scss/variables';
+@import '../node_modules/bootstrap/scss/mixins';
+//
+
+// Actual Bootstrap
+@import '../node_modules/bootstrap/scss/maps';
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+
+// All custom CSS below
+
+// MBTA CSS helpers
 @import 'variables';
-@import 'mixins';
-@import 'vendor/fontawesome';
 @import 'typography';
+@import 'mixins';
+//
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 // VENDOR STYLES
 //
+@import 'vendor/fontawesome';
 @import 'vendor/accessible-date-picker';
 @import 'datepicker'; // our overrides of datepicker styles (can't use BEM conventions)
 

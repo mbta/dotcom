@@ -1,9 +1,9 @@
 @mixin base-font-size {
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(xl) {
     font-size: $font-size-base-xxl;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     font-size: $font-size-base-sm;
   }
 
@@ -70,27 +70,27 @@
 
 @mixin h1 {
   @include base-heading();
-  font-size: $font-size-h1;
+  font-size: $h1-font-size;
 
-  @include media-breakpoint-down(sm) {
-    font-size: $font-size-h1-sm;
+  @include media-breakpoint-down(md) {
+    font-size: $h1-font-size-sm;
   }
 }
 
 @mixin h2 {
   @include base-heading();
   @include after-heading-space();
-  font-size: $font-size-h2;
+  font-size: $h2-font-size;
 
-  @include media-breakpoint-down(sm) {
-    font-size: $font-size-h2-sm;
+  @include media-breakpoint-down(md) {
+    font-size: $h2-font-size-sm;
   }
 }
 
 @mixin h3 {
   @include base-heading();
   @include after-heading-space();
-  font-size: $font-size-h3;
+  font-size: $h3-font-size;
 
   + h4,
   + .h4 {
@@ -101,7 +101,7 @@
 @mixin h4 {
   @include base-heading();
   @include after-heading-space();
-  font-size: $font-size-h4;
+  font-size: $h4-font-size;
   font-weight: bold;
 
   + h5,
@@ -113,7 +113,7 @@
 @mixin h5 {
   @include base-heading();
   @include after-heading-space();
-  font-size: $font-size-h5;
+  font-size: $h5-font-size;
 
   + h6,
   + .h6 {
@@ -160,7 +160,7 @@
 
   // When columns break and are ordered vertically only the first should get
   // the updated spacing
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     + div > div ~ div > p:first-child,
     + div > div ~ div > ul:first-child,
     + div > div ~ div > ol:first-child {
@@ -170,10 +170,8 @@
 
   // If an author floats media between a heading and body copy, we lose
   // the heading + copy relationship. Add this scenario back here:
-  @include media-breakpoint-up(sm) {
-    + .c-media--half + p {
+  + .c-media--half + p {
       margin-top: -$after-heading-adjustment;
-    }
   }
 
   // When images are visually directly after a headline, they should get
@@ -183,10 +181,8 @@
     margin-top: $after-heading-adjustment;
   }
   // Make floated media items align with the top of adjacent wrapped text characters
-  @include media-breakpoint-up(sm) {
-    + .c-media--half .c-media__content {
-      margin-top: $after-heading-adjustment;
-    }
+  + .c-media--half .c-media__content {
+    margin-top: $after-heading-adjustment;
   }
 }
 
@@ -402,13 +398,13 @@
 }
 
 // Caret used in some expandable/collapsable blocks in the application
-@mixin caret($color) {
+@mixin caret-mbta($color) {
   color: $color;
   float: right;
 }
 
 @mixin expandable-block-caret($color) {
-  @include caret($color);
+  @include caret-mbta($color);
   align-items: flex-end;
   display: flex;
 

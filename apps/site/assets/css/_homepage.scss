@@ -8,7 +8,7 @@
   column-gap: 3.125%;
   margin-top: 24px;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     column-gap: 3.125%;
@@ -22,7 +22,7 @@
   border-radius: 0.5rem;
   color: $gray-dark;
   display: inline-block;
-  font-size: $font-size-h4;
+  font-size: $h4-font-size;
   font-weight: 700;
   line-height: $headings-line-height;
   padding: $base-spacing;
@@ -133,8 +133,8 @@
   margin-bottom: $base-spacing;
 
   @include media-breakpoint-up(sm) {
-    font-size: $font-size-h3;
-    line-height: $font-size-h3;
+    font-size: $h3-font-size;
+    line-height: $h3-font-size;
     margin-bottom: $base-spacing * 2;
   }
 }
@@ -553,12 +553,9 @@
   .m-homepage__events-container {
     margin: 0;
     padding: 0;
+    columns: 2;
 
-    @include media-breakpoint-up(sm) {
-      columns: 2;
-    }
-
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       // hide beyond 3rd event on mobile
       :not(:nth-child(-n+3)) {
         display: none;
@@ -571,7 +568,7 @@
 
     // hide "Add" button text on mobile & sm
     .m-event__add-text {
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-between(xs, sm) {
         display: none;
       }
     }

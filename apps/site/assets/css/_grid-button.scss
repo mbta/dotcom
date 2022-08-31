@@ -21,17 +21,17 @@
   margin-top: 2rem;
 
   border-bottom: 2px solid $gray-lightest;
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     border-bottom: none;
     padding: 0 16px 0 16px;
   }
 }
 
 .grid-first-section {
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     margin: 24px 0 24px 0;
   }
-  @include  media-breakpoint-up(xs) {
+  @include  media-breakpoint-up(xxl) {
     margin: 40px 0 40px 0;
   }
 }
@@ -52,7 +52,7 @@
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
 
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-up(lg) {
     max-width: 500px;
   }
 }
@@ -79,7 +79,7 @@
   margin-top: $space-6;
   padding: 0 $base-spacing * .25;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     flex-basis: 100%;
   }
 
@@ -114,7 +114,7 @@
 .c-grid-button--mattapan-line,
 .c-grid-button--static-page,
 .c-grid-buttons__condensed {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(xs) {
     flex-basis: 50%;
     max-width: 50%;
   }
@@ -122,19 +122,19 @@
 
 .c-grid-button--bus,
 .c-grid-button--silver-line {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(xs) {
     flex-basis: 20%;
     max-width: 20%;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     flex-basis: 33.33%;
     max-width: 33.33%;
   }
 }
 
 .c-grid-button--commuter-rail {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(xs) {
     flex-basis: 50%;
     max-width: 50%;
   }
@@ -147,7 +147,7 @@
 
 .c-grid-button--ferry,
 .c-grid-button--the-ride {
-  @include media-breakpoint-up(sm) {
+  @include media-breakpoint-up(xs) {
     flex-basis: 50%;
     max-width: 50%;
   }

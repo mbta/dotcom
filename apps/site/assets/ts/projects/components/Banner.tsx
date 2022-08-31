@@ -30,7 +30,7 @@ const bannerBgClass = (banner: Project): string => {
 };
 
 const bannerContentClass = (banner: Project): string =>
-  `c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--${bannerBgClass(
+  `c-banner__content c-banner__content--responsive-side-by-side u-bg--${bannerBgClass(
     banner
   )}`;
 

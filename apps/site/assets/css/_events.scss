@@ -7,7 +7,7 @@
 .event-info-label {
   font-weight: bold;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: block;
   }
 }
@@ -27,7 +27,7 @@
 }
 
 .m-event-listing {
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
     margin: 0 -$base-spacing;
   }
@@ -85,20 +85,20 @@ $mobile-control-height: 73px;
     top: $base-spacing;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     display: none;
   }
 }
 
 .m-events-content {
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     margin-top: 1.044rem;
   }
 }
 
 .m-events-hub__nav--controls {
   display: flex;
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: none;
   }
 }
@@ -148,14 +148,14 @@ $mobile-control-height: 73px;
 
   // show on scrolling up, hide on down
   .js-nav-up & {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       display: flex;
       top: 0;
     }
   }
 
   .js-nav-down & {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       display: flex;
       top: -$mobile-control-height;
     }
@@ -188,7 +188,7 @@ $mobile-control-height: 73px;
 
 .m-event {
   padding: 16px;
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     padding: 13px 24px 17px 24px;
   }
 }
@@ -206,7 +206,7 @@ $mobile-control-height: 73px;
   color: $gray;
   font-family: $headings-font-family;
   text-transform: uppercase;
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     display: none;
   }
 }
@@ -226,7 +226,7 @@ $mobile-control-height: 73px;
   font-weight: 500;
   padding-top: 4px;
   padding-bottom: 4px;
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     font-size: 12px;
     padding-top: 0;
     padding-bottom: 9px;
@@ -240,7 +240,7 @@ $mobile-control-height: 73px;
   line-height: 24px;
   padding-bottom: 9px;
   font-weight: 500;
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     font-size: 14px;
     line-height: 21px;
     padding-bottom: 0;
@@ -290,7 +290,7 @@ $mobile-control-height: 73px;
     .m-event__add-text {
       padding-left: 8px;
       font-size: 18px;
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(sm) {
         display: none;
       }
     }
@@ -371,14 +371,14 @@ $mobile-control-height: 73px;
 }
 
 .m-hide-show-calendar {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: none;
   }
 }
 
 .m-list-view-instead-of-calendar {
   display: none;
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     display: block;
   }
 }

@@ -28,7 +28,7 @@
   align-items: center;
   display: flex;
   font-family: $headings-font-family;
-  font-size: $font-size-h3;
+  font-size: $h3-font-size;
   font-weight: bold;
 
   @include media-breakpoint-only(xxl) {
@@ -133,7 +133,7 @@
 }
 
 .m-schedule-direction__menu-item-headsign {
-  font-size: $font-size-h5;
+  font-size: $h5-font-size;
   font-weight: $font-weight-medium;
 }
 

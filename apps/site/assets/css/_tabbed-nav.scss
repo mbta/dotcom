@@ -6,7 +6,7 @@
   padding-left: 0;
   padding-right: 0;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     margin-left: .9375rem;
     margin-right: .9375rem;
     margin-top: $space-24;
@@ -22,17 +22,17 @@
     height: 89px;
     padding: 0 4em;
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       height: 80px;
       padding: 0 2.5em;
     }
   
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       height: 64px;
       padding: 0 2em;
     }
   
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       height: 48px;
       justify-content: center;
       padding: 0 1em;
@@ -50,7 +50,7 @@
       .m-tabbed-nav__item {
         border-bottom: 8px solid $brand-primary-darkest;
 
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
           border-bottom: 4px solid $brand-primary-darkest;
         }
       }
@@ -61,15 +61,15 @@
       }
     }
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       height: 80px;
     }
   
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       height: 64px;
     }
   
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       height: 48px;
     }
   }
@@ -104,19 +104,19 @@
       font-weight: bold;
       line-height: $headings-line-height;
 
-      @include media-breakpoint-up(sm) {
+      @include media-breakpoint-up(md) {
         font-family: $headings-font-family;
       }
   
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         font-size: $font-size-base-sm * 2;
       }
     
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         font-size: $font-size-base-sm * 1.625;
       }
     
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(sm) {
         font-size: $font-size-base-sm;
         font-weight: $font-weight-medium;
       }
@@ -134,7 +134,7 @@
       }
 
       .m-tabbed-nav__icon-text {
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
           font-weight: bold;
         }
       }
@@ -165,7 +165,7 @@
       padding: 1.5em 2em 2em;
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       padding: 1em 1em 1.5em;
     }
 
@@ -173,7 +173,7 @@
       border: $border;
       margin: $base-spacing-lg 0;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         display: none;
       }
     }

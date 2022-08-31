@@ -15,15 +15,13 @@
 
 // Multi-column with either Fare Cards or Descriptive Links
 .c-paragraph--with-cards {
-  @include media-breakpoint-up(sm) {
-    .c-multi-column__row,
-    .c-multi-column__column {
-      display: flex;
-    }
+  .c-multi-column__row,
+  .c-multi-column__column {
+    display: flex;
+  }
 
-    .c-multi-column__column {
-      flex-direction: column;
-    }
+  .c-multi-column__column {
+    flex-direction: column;
   }
 }
 
@@ -47,10 +45,8 @@
 
   // When paragraphs follow directly, give them an extra $base-spacing of space
   // (such as when fare groups are added directly to Elixir-only pages)
-  @include media-breakpoint-up(sm) {
-    + p {
-      margin-top: $base-spacing;
-    }
+  + p {
+    margin-top: $base-spacing;
   }
 
   &.c-paragraph--ungrouped {

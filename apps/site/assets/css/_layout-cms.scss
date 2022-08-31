@@ -184,7 +184,7 @@ $body-columns: ();
   .c-cms--sidebar-left & {
     // Values below approximate differences in line-height & font-size between
     // h1 headings and h3 headings, should those variables change in the future.
-    $h1-top: strip-units($font-size-h1) * $headings-margin-top;
+    $h1-top: strip-units($h1-font-size) * $headings-margin-top;
     $top-adjust: 1.25rem;
     $bottom-adjust: .275rem;
     $h1-bottom: 1rem;

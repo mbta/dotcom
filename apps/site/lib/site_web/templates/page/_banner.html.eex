@@ -3,11 +3,11 @@
     <div class="visually-hidden">
       <%= @banner.thumb.alt %>
     </div>
-    <div class="container hidden-xs-down">
+    <div class="container d-none d-sm-block p-0">
       <%= render "_banner_content.html", banner: @banner, conn: @conn %>
     </div>
   </div>
-  <div class="hidden-sm-up">
+  <div class="d-block d-sm-none">
     <%# mobile banner design requires a different div structure %>
     <%= render "_banner_content.html", banner: @banner, conn: @conn %>
   </div>

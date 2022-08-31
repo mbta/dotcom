@@ -1,6 +1,6 @@
 <%= unless Enum.empty?(@event_teasers) do %>
-<div class="container page-section m-homepage__events">
-  <div class="col-sm-10 col-sm-offset-1">
+<div class="container page-section m-homepage__events p-0">
+  <div class="col-xs-10 col-sm-12 col-offset-1">
     <div class="c-standard-fares__heading">
       <h2 class="m-homepage__header">Upcoming Public Meetings and Events</h2>
       <a class="c-call-to-action m-homepage__header-link" href="<%= event_path(@conn, :index) %>">
