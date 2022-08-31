@@ -8,13 +8,13 @@
       <%= unless Enum.empty?(@whats_happening_items) do %>
         <h2>What's Happening at the MBTA</h2>
       <% end %>
-      <div id="whats-happening-<%= tag %>" class="row m-whats-happening__row m-whats-happening__row--<%= tag %>">
+      <div id="whats-happening-<%= tag %>" class="row m-whats-happening__row m-whats-happening__row--<%= tag %> p-0">
         <%= for {item, counter} <- Enum.with_index(@whats_happening_items) do %>
           <div id="whats-happening-<%= tag %>-<%= counter %>" class="
             homepage-link
             m-whats-happening__item
             m-whats-happening__item--<%= if @promoted do "promoted" else "secondary" end %>
-            u-linked-card">
+             p-0">
             <%= if item.image do %>
               <div class="m-whats-happening__image">
                 <%= img_tag(item.image.url, alt: item.image.alt) %>

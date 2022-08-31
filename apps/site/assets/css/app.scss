@@ -20,7 +20,8 @@
 // Actual Bootstrap
 @import '../node_modules/bootstrap/scss/maps';
 @import "../node_modules/bootstrap/scss/root";
-@import "../node_modules/bootstrap/scss/reboot";
+// This is listed as required by bootstrap, but overrides some of our spacings for headers
+// @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/buttons";
 
 // All custom CSS below

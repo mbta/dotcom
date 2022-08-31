@@ -47,6 +47,12 @@
 
   a {
     color: $brand-primary-light-contrast;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      color: $brand-primary-light-contrast;
+    }
   }
 }
 
