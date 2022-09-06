@@ -13,6 +13,8 @@
 
 .dt {
   @include make-col();
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
   border-top: 1px solid $gray-light;
   padding-top: 1rem;
 
@@ -29,6 +31,8 @@
 
 .dd {
   @include make-col();
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
   margin-bottom: 0;
   padding-top: 1rem;
 

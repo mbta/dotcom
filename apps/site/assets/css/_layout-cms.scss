@@ -83,6 +83,8 @@ $layout-cms: (
 .c-cms__sidebar,
 .c-cms__body {
   @include make-col();
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
   // CMS content column should default to maximum space
   // in absence of proper layout classes / hierarchy
   width: 100%;

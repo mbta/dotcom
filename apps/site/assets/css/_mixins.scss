@@ -193,6 +193,8 @@
 /// Override Bootstrap's make-col() @mixin, but with float: right.
 @mixin make-col-right($gutter: $grid-gutter-width) {
   @include make-col();
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
 }
 
 // Should remove this block as code has been deprecated/removed from bootstrap
@@ -287,6 +289,8 @@
   .c-content-teaser {
     @include make-col();
     @include make-col-span(6);
+    padding-left: ($grid-gutter-width / 2);
+    padding-right: ($grid-gutter-width / 2);
   }
 }
 
