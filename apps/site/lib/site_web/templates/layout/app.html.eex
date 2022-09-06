@@ -37,12 +37,9 @@
     <% end %>
 
     <%= if Application.get_env(:site, :dev_server?) do %>
-      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/core.css" %>" data-turbolinks-track="reload">
       <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/app.css" %>" data-turbolinks-track="reload">
-      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/core.js" %>" data-turbolinks-track="reload" ></script>
       <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/app.js" %>" data-turbolinks-track="reload" ></script>
     <% else %>
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
       <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
@@ -71,7 +68,7 @@
       <% end %>
       <%= if assigns[:breadcrumbs] do %>
         <div class="breadcrumb-container">
-          <div class="container">
+          <div class="container p-0">
             <%= breadcrumb_trail(@conn) %>
           </div>
         </div>

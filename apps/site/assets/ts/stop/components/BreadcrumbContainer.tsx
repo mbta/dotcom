@@ -7,7 +7,7 @@ interface Props {
 
 const BreadcrumbContainer = ({ stop }: Props): ReactElement<HTMLElement> => (
   <div className="breadcrumb-container">
-    <div className="container">
+    <div className="container p-0">
       <span className="focusable-sm-down">
         <a href="/">Home</a>
         <i className="fa fa-angle-right" aria-hidden="true" />

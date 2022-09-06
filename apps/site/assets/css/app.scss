@@ -4,32 +4,25 @@
 // Start Bootstrap
 //
 @import '../node_modules/bootstrap/scss/functions';
-//
-
-
-// Variable overrides for bootstrap
-@import 'functions';
-@import 'colors';
-//
-
-// Bootstrap core (required)
 @import '../node_modules/bootstrap/scss/variables';
-@import '../node_modules/bootstrap/scss/mixins';
+//
+
+// Our overrides for bootstrap
+@import 'colors';
+@import 'variables';
 //
 
 // Actual Bootstrap
-@import '../node_modules/bootstrap/scss/maps';
-@import "../node_modules/bootstrap/scss/root";
-// This is listed as required by bootstrap, but overrides some of our spacings for headers
-// @import "../node_modules/bootstrap/scss/reboot";
-@import "../node_modules/bootstrap/scss/buttons";
+@import '../node_modules/bootstrap/scss/bootstrap';
+//
 
 // All custom CSS below
 
 // MBTA CSS helpers
-@import 'variables';
+@import 'functions';
 @import 'typography';
 @import 'mixins';
+@import 'headings';
 //
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -171,3 +164,269 @@
 //
 @import 'vendor/fixedsticky'; // needs refactor
 @import 'utilities';
+
+@import 'inter_ui';
+@import 'footer';
+@import 'header';
+@import 'page';
+@import 'social';
+@import 'layout-core-shared';
+
+
+html {
+  height: 100%;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+body {
+  align-items: stretch;
+  background-color: $homepage-bg-color;
+  display: flex;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  justify-content: center;
+  min-width: 20rem;
+  max-width: 100%;
+  text-rendering: optimizeLegibility;
+
+  // if display: flex is not reverted to display: block in print mode,
+  // Firefox only renders content on the first page.
+  // Must also be reverted on .body-wrapper as well.
+  // more details: https://app.asana.com/0/395349163493257/434551553219078
+
+  @media print {
+    color: $black;
+    display: block;
+  }
+
+  &.no-js {
+    .collapse:target {
+      display: block;
+    }
+
+    .hidden-no-js {
+      display: none;
+    }
+  }
+
+  &.js {
+    .hidden-js {
+      display: none;
+    }
+
+    .sr-or-no-js {
+      @include visually-hidden();
+    }
+  }
+
+  // Only show the main content on the mTicket app's view
+  &.mticket {
+    .announcement-container,
+    .header,
+    .l-footer,
+    .smartbanner {
+      display: none;
+    }
+
+    // Remove space reserved for the footer
+    .body-wrapper {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  // Display a label when viewing CMS content previews
+  &.cms-preview {
+    &::after {
+      @include h2();
+      background-color: $alert-color;
+      border: 1px solid darken($color: $alert-color, $amount: 10);
+      border-radius: $border-radius;
+      bottom: 1em;
+      box-shadow: 0 0 .5em 0 transparentize($color: $black, $amount: .75);
+      content: 'PREVIEW MODE';
+      display: block;
+      line-height: 1;
+      margin: 0;
+      padding: .5em;
+      pointer-events: none;
+      position: fixed;
+      right: 1em;
+      z-index: 100;
+    }
+  }
+}
+
+h1 {
+  @include h1();
+}
+
+h2 {
+  @include h2();
+}
+
+h3 {
+  @include h3();
+}
+
+h4 {
+  @include h4();
+}
+
+h5 {
+  @include h5();
+}
+
+h6 {
+  @include h6();
+}
+
+p a,
+ul a,
+ol a {
+  font-weight: $font-weight-medium;
+}
+
+input,
+select {
+  // prevents page from zooming when user taps on input on mobile
+  // https://techstacker.com/html-disable-auto-zoom-input-element-ios/rexPaNAgaJG7xRYRk
+  @include media-breakpoint-down(sm) {
+    font-size: 16px;
+  }
+}
+
+// "Snap" <small> elements to next smallest font-size to
+// prevent them from shrinking too much (and follow our scale)
+small {
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-base-xs;
+  }
+
+  @include media-breakpoint-between(md, lg) {
+    font-size: $font-size-base-sm;
+  }
+
+  @include media-breakpoint-down(xxl) {
+    font-size: $font-size-base;
+  }
+}
+
+// undo styles in app.html.eex
+// duplicate property required because IE doesn't support `initial`
+.icon {
+  height: auto;
+  height: initial;
+  width: auto;
+  width: initial;
+}
+
+.icon-circle {
+  fill: initial;
+  stroke: initial;
+  stroke-width: initial;
+}
+
+.schedule__header,
+.page-container {
+  max-width: 100%;
+  width: 100%;
+}
+
+.page-container {
+  align-self: center;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  padding: 0 0 $base-spacing * 2;
+}
+
+.main-container {
+  background-color: $white;
+  padding-bottom: $base-spacing;
+}
+
+@include media-breakpoint-down(sm) {
+  // hide SM down, but remain visible to screen readers
+  .focusable-sm-down {
+    @include visually-hidden();
+    @include visually-hidden-focusable();
+  }
+}
+
+.breadcrumb-container {
+  background-color: $gray-bordered-background;
+  border: solid 1px $gray-lightest;
+  color: $gray-dark;
+  padding-bottom: $space-8;
+  padding-top: $space-8;
+
+  i {
+    color: $gray-light;
+    padding: 0 .5em;
+  }
+}
+
+.announcement-container {
+  background-color: $gray-bordered-background;
+  border: solid 1px $gray-lightest;
+  color: $gray-dark;
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
+
+  @include media-breakpoint-down(sm) {
+    padding-bottom: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
+  }
+}
+
+.alert-announcement__container {
+  background-color: $service-alert-yellow-darker;
+  border: 0;
+  color: $gray-dark;
+  font-size: $font-size-base;
+  padding: 0;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.alert-announcement__header {
+  cursor: pointer;
+}
+
+// To be removed once the smart banner is disabled
+div {
+  &.smartbanner {
+    top: -80px;
+  }
+}
+
+.d-inline {
+  display: inline;
+}
+
+.error-container {
+  background-color: $form-error-message;
+  color: $error-text;
+  margin-top: .5em;
+
+  span {
+    display: inline-block;
+    margin: .5em;
+
+    // NB this should use the single-colon syntax (i.e. :before); it's
+    // older CSS2 syntax but FA uses it and due to the way SCSS @extend
+    // works we need to match selector syntax.
+
+    &::before {
+      @include fa-icon();
+      content: $fa-var-exclamation-circle;
+      margin-right: .25em;
+    }
+  }
+}
+
