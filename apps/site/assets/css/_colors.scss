@@ -108,6 +108,7 @@ $transparent-gray: transparentize($gray-lighter, .5);
 
 // Button Colors
 // - Bootstrap overrides
+// I don't think these colors do anything.  They use the theme variables to generate the buttons
 $btn-primary-color: $white;
 $btn-primary-bg: $brand-primary;
 $btn-secondary-color: $brand-primary;

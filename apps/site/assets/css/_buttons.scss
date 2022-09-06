@@ -1,8 +1,5 @@
 @use "sass:math";
 
-@import 'variables';
-@import 'colors';
-
 // Override Bootstrap .btn:hover colors to be
 // explicit brand colors vs. darken (%) transforms.
 // Removes third, 'active' state as well (specificity).

@@ -33,6 +33,16 @@
 @import 'vendor/accessible-date-picker';
 @import 'datepicker'; // our overrides of datepicker styles (can't use BEM conventions)
 
+////// Unknown Where they go in the order (because classes are defined in multiple files, so order matters)
+/// I know header needs to go before global-nav because they have conflicting definitions for the
+/// .m-menu--desktop__toggle class
+@import 'inter_ui';
+@import 'footer';
+@import 'header';
+@import 'page';
+@import 'social';
+@import 'layout-core-shared';
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -163,13 +173,6 @@
 //
 @import 'vendor/fixedsticky'; // needs refactor
 @import 'utilities';
-
-@import 'inter_ui';
-@import 'footer';
-@import 'header';
-@import 'page';
-@import 'social';
-@import 'layout-core-shared';
 
 
 html {
