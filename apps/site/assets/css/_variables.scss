@@ -1,57 +1,10 @@
 @use 'sass:math';
 
-$grid-breakpoints: (
-  xs: 0,
-  sm: 544px,
-  md: 800px,
-  lg: 1088px,
-  xl: 1200px,
-  xxl: 1344px
-);
-
-$container-max-widths: (
-  xs: 100%,
-  sm: 100%,
-  md: map-get($grid-breakpoints, md) - (16px * 2),
-  lg: map-get($grid-breakpoints, lg) - (16px * 8),
-  xxl: map-get($grid-breakpoints, xxl) - (18px * 8)
-);
-
-$spacers: (
-  0: 0,
-  1: $spacer,
-  2: $spacer * 1.5,
-  3: $spacer * 3,
-);
-
-$space-16: 1rem;
-$space-12: $space-16 * .75;
-$space-18: $space-12 * 1.5;
-$space-21: $space-12 * 1.75;
-$space-24: $space-12 * 2;
-$space-27: $space-12 * 2.25;
-$space-32: $space-16 * 2;
-$space-36: $space-16 * 2.25;
-$space-64: $space-32 * 2;
-$space-120: $space-12 * 10;
-$space-8: math.div($space-16, 2); // 8px real, 4px Zeplin
-$space-6: math.div($space-12, 2); // 6px real, 3px Zeplin
-$space-4: math.div($space-12, 4); // 3px real, 1.5px Zeplin
-$space-2: math.div($space-12, 6); // 2px real, 1px Zeplin
-$space-1: math.div($space-12, 12); // 1px real, 0.5px Zeplin
-
-$base-spacing: $space-16;
-$base-spacing-sm: $space-8;
-$base-spacing-lg: $space-24;
-$base-spacing-xl: $space-36;
-
+// TODO I think this should be reorganized (or broken out)
+// Everything that overrides bootstrap has been removed from here
 $homepage-gutter: math.div($base-spacing, 2);
 $half-gutter: math.div($grid-gutter-width, 2);
 $col-width: math.div(100%, $grid-columns);
-
-$font-family-base: 'Inter UI', $font-family-sans-serif;
-$headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
-$headings-font-weight: 700;
 
 $font-size-base-xs: 12px;
 $font-size-base-sm: $font-size-sm;
@@ -62,13 +15,6 @@ $font-size-base-print: 1.5rem;
 
 $headings: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6';
 
-$h1-font-size: 2.5rem;
-$h2-font-size: 1.75rem;
-$h3-font-size: 1.3125rem;
-$h4-font-size: 1.125rem;
-$h5-font-size: 1rem;
-$h6-font-size: 1rem;
-
 $font-size-small-caps: .875rem;
 
 $h1-font-size-sm: 2rem;
@@ -76,14 +22,8 @@ $h2-font-size-sm: 1.625rem;
 
 $font-weight-medium: 500;
 
-$headings-margin-top: 1.075em;
-$headings-line-height: 1.275em;
-$headings-margin-bottom: .375em;
-
 $pagination-line-height: 1.5rem;
 
-$border-width: 1px;
-$border-color: $gray-lightest;
 $border: $border-width solid $border-color;
 $border-md: 2px solid $border-color;
 $drop-shadow: $space-4 $space-4 $space-6 $drop-shadow-color;
@@ -93,17 +33,12 @@ $header-navbar-height: $base-spacing * $header-navbar-height-multiplier;
 $header-navbar-height-new: 72px;
 $header-navbar-height-xs: 52px;
 
-$navbar-padding-vertical: $base-spacing * .75;
-$navbar-padding-horizontal: 0;
 $default-border-radius: $space-4;
 $icon-size: $space-16 * 1.5;
 $icon-size-sm: $space-16;
 $icon-size-lg: $space-16 * 3;
 $tooltip-width: 20rem;
 $tab-border: $border-width solid $btn-primary-bg;
-
-$btn-padding-x: $base-spacing * 1.6;
-$btn-padding-y: $base-spacing * .6;
 
 $z-index-modal: 101;
 $z-index-desktop-menu: 100;

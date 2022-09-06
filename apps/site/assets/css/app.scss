@@ -1,25 +1,24 @@
-////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-//
-// Start Bootstrap
-//
-@import '../node_modules/bootstrap/scss/functions';
-@import '../node_modules/bootstrap/scss/variables';
-//
-
 // Our overrides for bootstrap
+// (Bootstrap variables/mixins are not available here)
 @import 'colors';
-@import 'variables';
+@import 'spacers';
+@import 'grid-breakpoints';
+@import 'container-max-widths';
+@import 'fonts';
+@import 'navbar';
+@import 'buttons-overrides';
 //
 
-// Actual Bootstrap
+// Start Bootstrap
 @import '../node_modules/bootstrap/scss/bootstrap';
 //
 
 // All custom CSS below
+// (Bootstrap variables/mixins are available here)
 
 // MBTA CSS helpers
 @import 'functions';
+@import 'variables';
 @import 'typography';
 @import 'mixins';
 @import 'headings';
@@ -293,7 +292,7 @@ input,
 select {
   // prevents page from zooming when user taps on input on mobile
   // https://techstacker.com/html-disable-auto-zoom-input-element-ios/rexPaNAgaJG7xRYRk
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     font-size: 16px;
   }
 }
@@ -301,11 +300,11 @@ select {
 // "Snap" <small> elements to next smallest font-size to
 // prevent them from shrinking too much (and follow our scale)
 small {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     font-size: $font-size-base-xs;
   }
 
-  @include media-breakpoint-between(md, lg) {
+  @include media-breakpoint-between(md, xl) {
     font-size: $font-size-base-sm;
   }
 
@@ -348,7 +347,7 @@ small {
   padding-bottom: $base-spacing;
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   // hide SM down, but remain visible to screen readers
   .focusable-sm-down {
     @include visually-hidden();
@@ -376,7 +375,7 @@ small {
   padding-bottom: $base-spacing;
   padding-top: $base-spacing;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     padding-bottom: $base-spacing-sm;
     padding-top: $base-spacing-sm;
   }

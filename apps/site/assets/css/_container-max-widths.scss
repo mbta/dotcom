@@ -1,0 +1,7 @@
+$container-max-widths: (
+  xs: 100%,
+  sm: 100%,
+  md: map-get($grid-breakpoints, md) - (16px * 2),
+  lg: map-get($grid-breakpoints, lg) - (16px * 8),
+  xxl: map-get($grid-breakpoints, xxl) - (18px * 8)
+);

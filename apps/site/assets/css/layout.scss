@@ -1,4 +1,11 @@
+@import 'colors';
+@import 'spacers';
+@import 'grid-breakpoints';
+@import 'container-max-widths';
+@import 'fonts';
+@import 'navbar';
 @import 'variables';
+// TODO figure out how to import here
 @import 'mixins';
 @import 'bootstrap';
 @import 'bootstrap-extra';
@@ -10,6 +17,7 @@
 @import 'headings';
 @import 'social';
 @import 'svg';
+@import 'fonts';
 
 .header,
 .m-footer {
