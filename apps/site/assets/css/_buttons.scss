@@ -25,6 +25,11 @@
 
   &.btn-secondary {
     background-color: transparent;
+    // Hack to get buttons to behave like old bootstrap
+    // overrides bootstrap defaults
+    color: $brand-primary;
+    background-color: $white;
+
 
     &:hover {
       background-color: $brand-primary-lightest;
