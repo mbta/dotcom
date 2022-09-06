@@ -57,9 +57,17 @@
   gap: 1.75rem;
   grid-template-columns: 1fr 1fr 1fr;
 
+  .m-menu__feature {
+  @include media-breakpoint-up(lg) {
+     .m-menu__section-heading {
+      font-size: 16px;
+     }
+    }
+  }
+
   @include media-breakpoint-down(xs) {
     display: block;
-
+    padding-bottom: 20px;
   }
 
   a {
@@ -92,7 +100,7 @@
 }
 
 .m-footer__group {
-  margin-bottom: 1.75rem;
+  margin-bottom: 20px;
 }
 
 .m-footer__group-title {
@@ -100,7 +108,7 @@
   margin: 0 0 24px;
 
   @include media-breakpoint-only(xs) {
-    font-size: 12px;
+    font-size: 18px;
   }
 
   @include media-breakpoint-only(sm) {
@@ -108,10 +116,10 @@
   }
 
   @include media-breakpoint-up(lg) {
-    font-size: 16px;
+    font-size: 24px;
     line-height: 30px;
     font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
-    margin-bottom: 4px;
+    margin-bottom: 24px;
     margin-top: 16px;
   }
 }
@@ -159,6 +167,10 @@ address {
   padding-top: 22px;
   flex-basis: 30%;
   border-radius: 50px 0 0 0;
+
+  .m-footer__links {
+    margin-bottom: 0px;
+  }
 
   .m-menu__feature {
     background: $brand-primary-lightest-contrast;
@@ -251,20 +263,25 @@ address {
 
   .m-menu__feature_phone {
     padding-top: 1rem;
+    a {
+      color: $brand-primary;
+    }
     @include media-breakpoint-down(xs) {
       display: flex;
       a {
         padding-top: 0px;
         margin-top: 0px;
+        display: inline;
       }
       strong {
         padding-right: 4px;
       }
     }
   }
-  @include media-breakpoint-down(lg) {
+  @include media-breakpoint-up(lg) {
     a {
       padding-top: 12px;
+      margin-bottom: 0px;
     }
   }
 }
@@ -272,7 +289,8 @@ address {
 .call-us-header {
   @include media-breakpoint-up(lg) {
     padding-left: 12px;
-    font-size:23px;
+    font-size:24px;
+    margin-top: 18px;
     margin-bottom: 12px;
     font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
   }
@@ -280,9 +298,9 @@ address {
     padding-left: 15px;
   }
   @include media-breakpoint-down(xs) {
-    margin-top: 24px;
+    margin-top: 2px;
     font-size: 18px;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
   }
 }
 
@@ -314,6 +332,7 @@ address {
   @include media-breakpoint-up(lg) {
     position: absolute;
     margin: 0 40px 0 40px;
+    margin-right: 80px;
     left: 0;
     right: 0;
     bottom: 60px;
@@ -372,5 +391,17 @@ address {
 .bottom-section {
   .m-menu__feature_phone {
     display: inline;
+  }
+}
+
+.m-footer__link {
+  @include media-breakpoint-down(xs) {
+    padding-bottom: 16px;
+  }
+}
+
+.m-footer__last-link {
+  @include media-breakpoint-down(xs) {
+    padding-bottom: 32px;
   }
 }

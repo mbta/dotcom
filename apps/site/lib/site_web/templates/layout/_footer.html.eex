@@ -11,30 +11,30 @@
     <div class="container m-footer__links">
       <nav class="m-footer__group" aria-labelledby="footer-customer">
         <div id="footer-customer" class="m-footer__group-title">Customer Support</div>
-        <%= link "Send Us Feedback", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
-        <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
-        <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %>
-        <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services") %>
+        <%= link "Send Us Feedback", to: customer_support_path(@conn, :index), data: [scroll: true], class: "m-footer__link" %>
+        <%= link "Lost & Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true], class: "m-footer__link" %>
+        <%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank", class: "m-footer__link" %>
+        <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services"), class: "m-footer__link" %>
       </nav>
       <nav class="m-footer__group" aria-labelledby="footer-know-us">
         <div id="footer-know-us" class="m-footer__group-title">Get to Know Us</div>
-        <%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true] %>
-        <%= link "History", to: cms_static_page_path(@conn, "/history"), data: [scroll: true] %>
-        <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true]  %>
-        <%= link "Public Meetings", to: cms_static_page_path(@conn, "/events"), data: [scroll: true]  %>
-        <%= link "Press Releases", to: cms_static_page_path(@conn, "/news"), data: [scroll: true]  %>
-        <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
+        <%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), data: [scroll: true], class: "m-footer__link" %>
+        <%= link "History", to: cms_static_page_path(@conn, "/history"), data: [scroll: true], class: "m-footer__link" %>
+        <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true], class: "m-footer__link"  %>
+        <%= link "Public Meetings", to: cms_static_page_path(@conn, "/events"), data: [scroll: true], class: "m-footer__link"  %>
+        <%= link "Press Releases", to: cms_static_page_path(@conn, "/news"), data: [scroll: true], class: "m-footer__link"  %>
+        <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true], class: "m-footer__link"  %>
         <%= link "Safety", to: cms_static_page_path(@conn, "/safety") %>
-        <%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" %>
+        <%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank", class: "m-footer__link" %>
       </nav>
       <nav class="m-footer__group" aria-labelledby="footer-work-with">
         <div id="footer-work-with" class="m-footer__group-title">Work With Us</div>
-        <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true]  %>
-        <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program") %>
-        <%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business") %>
-        <%= link "Innovation Proposals", to: cms_static_page_path(@conn, "/innovation") %>
-        <%= link "Engineering Design Standards", to: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines") %>
-        <%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %>
+        <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), data: [scroll: true], class: "m-footer__link"  %>
+        <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program"), class: "m-footer__link" %>
+        <%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business"), class: "m-footer__link" %>
+        <%= link "Innovation Proposals", to: cms_static_page_path(@conn, "/innovation"), class: "m-footer__link" %>
+        <%= link "Engineering Design Standards", to: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines"), class: "m-footer__link" %>
+        <%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true], class: "m-footer__last-link" %>
       </nav>
     </div>
     <div class="container">
