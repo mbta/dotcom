@@ -215,9 +215,11 @@ address {
   
   }
 
-  @include media-breakpoint-up(lg) {
-    font-size: $font-size-base;
-    padding-left: 120px;
+  @include media-breakpoint-down(xs) {
+    .container {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
   }
 
   @include media-breakpoint-only(md) {
@@ -240,6 +242,8 @@ address {
   @include media-breakpoint-up(lg) {
     margin-bottom: 0px;
     padding-right: 40px;
+    font-size: $font-size-base;
+    padding-left: 120px;
     .container {
       ul {
         display: flex;
@@ -256,6 +260,9 @@ address {
   }
 
   :nth-child(2) {
+    :first-child {
+      padding-top: 0px;
+    }
     :nth-child(1) {
       margin-top: 0;
       margin-bottom: 0px;
