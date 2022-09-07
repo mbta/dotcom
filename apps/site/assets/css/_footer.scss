@@ -342,6 +342,7 @@ address {
 
   @include media-breakpoint-up(lg) {
     position: absolute;
+    margin: 0 40px 0 56px;
     margin-right: 80px;
     left: 0;
     right: 0;
