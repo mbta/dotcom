@@ -32,4 +32,12 @@
   &__inner-link {
     pointer-events: all;
   }
+
+  &__view-schedule {
+    position: relative;
+    bottom: 2px;
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 25px;
+  }
 }
