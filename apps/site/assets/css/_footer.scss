@@ -15,6 +15,16 @@
   flex-basis: 70%;
 
   @include media-breakpoint-up(xxl) {
+    border-radius:  0 24px 0 0;
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    padding-left: 11px;
+    border-radius:  0 40px 0 0;
+    padding-top: 32px;
+  }
+
+  @include media-breakpoint-up(xxl) {
     font-size: $font-size-base;
   }
 
@@ -22,6 +32,7 @@
     height: auto;
     padding-left: 1rem;
     position: relative;
+    padding-top: 40px;
   }
 
   @include media-breakpoint-only(md) {
@@ -50,7 +61,8 @@
   grid-template-columns: 1fr 1fr 1fr;
 
   .m-menu__feature {
-  @include media-breakpoint-up(lg) {
+    width: initial;
+    @include media-breakpoint-up(lg) {
      .m-menu__section-heading {
       font-size: 16px;
      }
@@ -116,7 +128,7 @@
   @include media-breakpoint-up(lg) {
     font-size: 24px;
     line-height: 30px;
-    font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: $font-family-base;
     margin-bottom: 24px;
     margin-top: 16px;
   }
@@ -162,9 +174,9 @@ address {
   margin-bottom: -50px;
   background: $brand-primary-lightest-contrast;
   padding-bottom: 0;
-  padding-top: 22px;
   flex-basis: 30%;
   border-radius: 50px 0 0 0;
+  padding-top: 40px;
 
   .m-footer__links {
     margin-bottom: 0px;
@@ -175,6 +187,10 @@ address {
     font-size: 1rem;
     margin-bottom: 14px;
 
+    &.top-section {
+      padding-top: 12px !important;
+    }
+    
     &.emergency-contacts {
       &.mobile {
         border-radius: 0;
@@ -188,7 +204,6 @@ address {
     }
 
     @include media-breakpoint-down(sm) {
-      padding-top: 16px;
       padding-bottom: 14px;
       a {
         margin-top: 20px;
@@ -204,20 +219,27 @@ address {
       padding-bottom: 26px;
     }
 
-  small {
-    font-size: 16px;
-    @include media-breakpoint-down(xs) {
-      white-space: nowrap;
+    small {
+      font-size: 16px;
+      @include media-breakpoint-down(xs) {
+        font-size: 14px;
+        white-space: nowrap;
+      }
     }
-  }
-  
   }
 
   @include media-breakpoint-down(xs) {
+    padding-top: 22px !important;
     .container {
       padding-left: 4px;
       padding-right: 4px;
+      border-radius: 24px 0 0 0;
     }
+  }
+
+  @include media-breakpoint-down(md) {
+    border-radius: 40px 0 0 0;
+    padding-top: 32px;
   }
 
   @include media-breakpoint-only(md) {
@@ -275,13 +297,12 @@ address {
     padding-top: 1rem;
     a {
       color: $brand-primary;
+      display: inline;
     }
     @include media-breakpoint-down(xs) {
-      display: flex;
       a {
         margin-top: 0px;
         font-size: 14px;
-        display: inline;
       }
       strong {
         padding-right: 4px;
@@ -294,7 +315,6 @@ address {
     a {
       padding-top: 12px;
       margin-bottom: 0px;
-      display: inline;
     }
   }
 }
@@ -304,7 +324,7 @@ address {
     font-size:24px;
     margin-top: 18px;
     margin-bottom: 12px;
-    font-family: Inter UI,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: $font-family-base;
   }
   @include media-breakpoint-down(md) {
     padding-left: 12px;
@@ -340,12 +360,13 @@ address {
 .lower-footer {
   @include media-breakpoint-down(xs) {
     flex-direction: column;
+    margin-left: 16px;
+    margin-right: 16px;
   }
 
   @include media-breakpoint-up(lg) {
     position: absolute;
     margin: 0 40px 0 56px;
-    margin-right: 80px;
     left: 0;
     right: 0;
     bottom: 60px;
