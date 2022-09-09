@@ -257,6 +257,11 @@ address {
   }
 
   :nth-child(2) {
+    div {
+      @include media-breakpoint-up(lg) {
+        padding-left: 0px;
+      }
+    }
     :first-child {
       padding-top: 0px;
     }
@@ -296,7 +301,6 @@ address {
 
 .call-us-header {
   @include media-breakpoint-up(lg) {
-    padding-left: 12px;
     font-size:24px;
     margin-top: 18px;
     margin-bottom: 12px;
