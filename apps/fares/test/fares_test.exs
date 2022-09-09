@@ -19,7 +19,7 @@ defmodule FaresTest do
 
   describe "fare_for_stops/3" do
     # a subset of possible ferry stops
-    @ferries ~w(Boat-Hingham Boat-Charlestown Boat-Logan Boat-Long-South)
+    @ferries ~w(Boat-Hingham Boat-Charlestown Boat-Logan Boat-Long-South Boat-Lewis)
 
     test "returns the name of the commuter rail fare given the origin and destination" do
       zone_1a = "place-north"
@@ -43,6 +43,7 @@ defmodule FaresTest do
         has_charlestown? = "Boat-Charlestown" in both
         has_long? = "Boat-Long" in both
         has_long_south? = "Boat-Long-South" in both
+        has_east_boston? = "Boat-Lewis" in both
 
         expected_name =
           cond do
@@ -50,6 +51,7 @@ defmodule FaresTest do
             has_long? and has_logan? -> :ferry_cross_harbor
             has_long_south? and has_charlestown? -> :ferry_inner_harbor
             has_logan? -> :commuter_ferry_logan
+            has_long? and has_east_boston? -> :ferry_east_boston
             true -> :commuter_ferry
           end
 

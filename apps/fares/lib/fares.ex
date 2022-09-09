@@ -24,6 +24,7 @@ defmodule Fares do
   @type ferry_name ::
           :ferry_cross_harbor
           | :ferry_inner_harbor
+          | :ferry_east_boston
           | :commuter_ferry_logan
           | :commuter_ferry
           | :ferry_george
@@ -131,6 +132,11 @@ defmodule Fares do
   defp calculate_ferry(origin, destination)
        when "Boat-Long" in [origin, destination] and "Boat-Logan" in [origin, destination] do
     :ferry_cross_harbor
+  end
+
+  defp calculate_ferry(origin, destination)
+       when "Boat-Long" in [origin, destination] and "Boat-Lewis" in [origin, destination] do
+    :ferry_east_boston
   end
 
   defp calculate_ferry(origin, destination)
