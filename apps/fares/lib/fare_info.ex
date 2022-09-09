@@ -671,7 +671,8 @@ defmodule Fares.FareInfo do
 
   defp floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
 
-  defp compute_reduced_fare(%Fare{name: :ferry_east_boston}), do: 110
+  defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :single_trip}), do: 110
+  defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :round_trip}), do: 220
   defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 
   # Student and Senior fare prices are always the same.
