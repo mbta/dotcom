@@ -217,7 +217,6 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
   justify-content: space-between;
   margin: 0;
   padding: calc(#{$base-spacing} / 2);
-  text-transform: uppercase;
 
   // adjust icon colors and sizing based on background color
   @each $line in map-keys($mbta-line-colors) {
