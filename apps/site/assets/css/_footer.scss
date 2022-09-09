@@ -22,9 +22,6 @@
     height: auto;
     padding-left: 1rem;
     position: relative;
-    p {
-      margin-left: 40px;
-    }
   }
 
   @include media-breakpoint-only(md) {
