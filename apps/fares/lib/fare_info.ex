@@ -596,7 +596,7 @@ defmodule Fares.FareInfo do
       fares
       |> Enum.filter(&(&1.duration in [:single_trip, :round_trip]))
       |> Enum.flat_map(fn fare ->
-        reduced_price = floor_to_ten_cents(fare.cents) / 2
+        reduced_price = compute_reduced_fare(fare)
         [%{fare | cents: reduced_price, media: [:senior_card, :student_card], reduced: :any}]
       end)
 
@@ -670,6 +670,9 @@ defmodule Fares.FareInfo do
   end
 
   defp floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
+
+  defp compute_reduced_fare(%Fare{name: :ferry_east_boston}), do: 110
+  defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 
   # Student and Senior fare prices are always the same.
   # For every generic reduced fare, add in two discreet
