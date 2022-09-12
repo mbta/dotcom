@@ -369,6 +369,10 @@ address {
     margin-right: 16px;
   }
 
+  @include media-breakpoint-between(sm, md){
+    margin-right: 11px;
+  }
+
   @include media-breakpoint-up(lg) {
     position: absolute;
     margin: 0 40px 0 56px;
