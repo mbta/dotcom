@@ -126,12 +126,12 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
                duration: :single_trip
              ]
              |> Repo.all()
-             |> fare_result(:ferry) == "$3.70 – $9.75"
+             |> fare_result(:ferry) == "$2.40 – $9.75"
 
-      assert fare_request("ferry") == {:ok, "$3.70 – $9.75"}
+      assert fare_request("ferry") == {:ok, "$2.40 – $9.75"}
 
       # mticket single-ride fares are not reduced
-      assert fare_request("ferry:mticket") == {:ok, "$3.70 – $9.75"}
+      assert fare_request("ferry:mticket") == {:ok, "$2.40 – $9.75"}
     end
 
     test "handles :ferry:month" do
@@ -158,6 +158,21 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry_inner_harbor:month:reduced") == {:ok, "$30.00"}
       refute fare_request("ferry_cross_harbor:month:reduced") == {:ok, "$30.00"}
       assert fare_request("ferry:month:reduced") == {:ok, "$30.00"}
+    end
+
+    test "handles ferry:reduced" do
+      assert [
+               mode: :ferry,
+               reduced: :any,
+               duration: :single_trip
+             ]
+             |> Repo.all()
+             |> fare_result(:ferry) == "$1.10 – $4.85"
+
+      assert fare_request("ferry_inner_harbor:reduced") == {:ok, "$1.85"}
+      assert fare_request("ferry_east_boston:reduced") == {:ok, "$1.10"}
+      assert fare_request("ferry_cross_harbor:reduced") == {:ok, "$4.85"}
+      assert fare_request("ferry:reduced") == {:ok, "$1.10 – $4.85"}
     end
 
     test "handles subway:week:reduced" do

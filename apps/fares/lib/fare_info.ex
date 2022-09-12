@@ -211,6 +211,7 @@ defmodule Fares.FareInfo do
       inner_harbor_month_price: "90.00",
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
+      east_boston_price: "2.40",
       commuter_ferry_price: "9.75",
       commuter_ferry_month_price: "329.00",
       commuter_ferry_logan_price: "9.75",
@@ -460,6 +461,7 @@ defmodule Fares.FareInfo do
         inner_harbor_month_price: inner_harbor_month_price,
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
+        east_boston_price: east_boston_price,
         commuter_ferry_price: commuter_ferry_price,
         commuter_ferry_month_price: commuter_ferry_month_price,
         commuter_ferry_logan_price: commuter_ferry_logan_price
@@ -525,6 +527,22 @@ defmodule Fares.FareInfo do
       },
       %Fare{
         mode: :ferry,
+        name: :ferry_east_boston,
+        duration: :single_trip,
+        media: [:mticket, :paper_ferry],
+        reduced: nil,
+        cents: dollars_to_cents(east_boston_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_east_boston,
+        duration: :round_trip,
+        media: [:mticket, :paper_ferry],
+        reduced: nil,
+        cents: dollars_to_cents(east_boston_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
         name: :commuter_ferry,
         duration: :single_trip,
         media: [:mticket, :paper_ferry, :cash],
@@ -578,7 +596,7 @@ defmodule Fares.FareInfo do
       fares
       |> Enum.filter(&(&1.duration in [:single_trip, :round_trip]))
       |> Enum.flat_map(fn fare ->
-        reduced_price = floor_to_ten_cents(fare.cents) / 2
+        reduced_price = compute_reduced_fare(fare)
         [%{fare | cents: reduced_price, media: [:senior_card, :student_card], reduced: :any}]
       end)
 
@@ -652,6 +670,10 @@ defmodule Fares.FareInfo do
   end
 
   defp floor_to_ten_cents(fare), do: Float.floor(fare / 10) * 10
+
+  defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :single_trip}), do: 110
+  defp compute_reduced_fare(%Fare{name: :ferry_east_boston, duration: :round_trip}), do: 220
+  defp compute_reduced_fare(%Fare{cents: cents}), do: floor_to_ten_cents(cents) / 2
 
   # Student and Senior fare prices are always the same.
   # For every generic reduced fare, add in two discreet
