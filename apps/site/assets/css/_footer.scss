@@ -11,10 +11,9 @@
   min-width: 20rem;
   padding-bottom: 24px;
   padding-top: 24px;
-  border-radius:  0 50px 0 0;
   flex-basis: 70%;
 
-  @include media-breakpoint-up(xxl) {
+  @include media-breakpoint-down(sm) {
     border-radius:  0 24px 0 0;
   }
 
@@ -33,6 +32,7 @@
     padding-left: 1rem;
     position: relative;
     padding-top: 40px;
+    border-radius:  0 40px 0 0;
   }
 
   @include media-breakpoint-only(md) {
@@ -143,6 +143,10 @@
     right: 0;
     bottom: 34px;
   }
+  @include media-breakpoint-down(xs) {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -175,7 +179,7 @@ address {
   background: $brand-primary-lightest-contrast;
   padding-bottom: 0;
   flex-basis: 30%;
-  border-radius: 50px 0 0 0;
+  border-radius: 40px 0 0 0;
   padding-top: 40px;
 
   .m-footer__links {
@@ -249,6 +253,7 @@ address {
 
   @include media-breakpoint-down(sm) {
     padding-bottom: 50px;
+    border-radius:  24px 0 0;
   }
   .m-footer__links {
     @include media-breakpoint-down(xs){
@@ -457,6 +462,6 @@ address {
 .m-footer__outer-background {
   @include media-breakpoint-up(lg) {
     background: linear-gradient(90deg, $brand-primary-lightest-contrast 50%, $footer-color 50%);
-    border-radius: 50px 50px 0 0;
+    border-radius: 40px 40px 0 0;
   }
 }
