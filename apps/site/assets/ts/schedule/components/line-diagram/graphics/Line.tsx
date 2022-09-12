@@ -80,7 +80,7 @@ const Line = ({
         lineProps.y1 = `${y1}px`;
         lineProps.y2 = `${y2}px`;
         if (shuttle || branchLine["has_disruption?"]) {
-          lineProps.stroke = "url(#shuttle)";
+          lineProps.stroke = "url(#diagonalHatch)";
         }
         return <line className="line-diagram-svg__line" {...lineProps} />;
       })}
