@@ -180,7 +180,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert first_stop.stop_features == [:bus, :access]
+      assert first_stop.stop_features == [:green_line_d, :bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"

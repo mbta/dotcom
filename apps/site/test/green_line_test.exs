@@ -16,13 +16,13 @@ defmodule GreenLineTest do
 
       refute "place-unsqu" in route_id_stop_map["Green-B"]
       refute "place-unsqu" in route_id_stop_map["Green-C"]
-      refute "place-unsqu" in route_id_stop_map["Green-D"]
+      assert "place-unsqu" in route_id_stop_map["Green-D"]
       # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
       # assert "place-unsqu" in route_id_stop_map["Green-E"]
 
       refute "place-lech" in route_id_stop_map["Green-B"]
       refute "place-lech" in route_id_stop_map["Green-C"]
-      refute "place-lech" in route_id_stop_map["Green-D"]
+      assert "place-lech" in route_id_stop_map["Green-D"]
       # As of Aug 2022, the Green Line past Government Center is temporarily suspended.
       # assert "place-lech" in route_id_stop_map["Green-E"]
 
@@ -138,7 +138,7 @@ defmodule GreenLineTest do
     end
 
     # FIXME: Update with new GLX data
-    for stop_id <- ["place-river", "place-north"] do
+    for stop_id <- ["place-river", "place-unsqu"] do
       assert terminus?(stop_id, "Green-D")
     end
 
@@ -160,14 +160,13 @@ defmodule GreenLineTest do
   end
 
   describe "naive_headsign/2" do
-    # FIXME: Update with new GLX data
     test "correct headsign for route and direction" do
       assert naive_headsign("Green-B", 0) == "Boston College"
       assert naive_headsign("Green-B", 1) == "Government Center"
       assert naive_headsign("Green-C", 0) == "Cleveland Circle"
       assert naive_headsign("Green-C", 1) == "Government Center"
       assert naive_headsign("Green-D", 0) == "Riverside"
-      assert naive_headsign("Green-D", 1) == "North Station"
+      assert naive_headsign("Green-D", 1) == "Union Square"
       assert naive_headsign("Green-E", 0) == "Heath Street"
       # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
       # assert naive_headsign("Green-E", 1) == "Union Square"

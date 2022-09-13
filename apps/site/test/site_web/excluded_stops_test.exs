@@ -38,9 +38,7 @@ defmodule ExcludedStopsTest do
         |> GreenLine.stops_on_routes()
         |> GreenLine.all_stops()
 
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert excluded_origin_stops(1, "Green", all_stops) == ["place-unsqu"]
-      assert excluded_origin_stops(1, "Green", all_stops) == ["place-lech"]
+      assert excluded_origin_stops(1, "Green", all_stops) == ["place-unsqu"]
     end
   end
 

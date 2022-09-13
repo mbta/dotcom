@@ -9,8 +9,8 @@ defmodule SiteWeb.ScheduleController.GreenTerminiApiTest do
       assert response = json_response(conn, 200)
 
       assert %{
-               "Green-E" => ["Heath Street", "Union Square"],
-               "Green-D" => ["Riverside", "North Station"],
+               "Green-E" => ["Heath Street", "Lechmere"],
+               "Green-D" => ["Riverside", "Union Square"],
                "Green-C" => ["Cleveland Circle", "Government Center"],
                "Green-B" => ["Boston College", "Government Center"]
              } = response
