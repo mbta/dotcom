@@ -136,31 +136,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                %Stops.RouteStops{branch: "Green-B", stops: b_stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0)
 
-      assert Enum.map(e_stops, & &1.branch) ==
-               [
-                 # As of 8/2022, the E line running to Union Square has been suspended
-                 #  "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E",
-                 "Green-E"
-               ]
+      assert Enum.all?(e_stops, &Enum.member?(["Green-E", nil], &1.branch))
 
       assert_stop_ids(e_stops, [
         # As of 8/2022, the E line running to Union Square has been suspended
@@ -239,33 +215,12 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false
                ]
 
-      assert Enum.map(d_stops, & &1.branch) ==
-               [
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D",
-                 "Green-D"
-               ]
+      assert Enum.all?(d_stops, &Enum.member?(["Green-D", nil], &1.branch))
 
       assert_stop_ids(d_stops, [
+        "place-unsqu",
+        "place-lech",
+        "place-spmnl",
         "place-north",
         "place-haecl",
         "place-gover",
@@ -313,6 +268,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
+                 false,
+                 false,
+                 false,
                  true
                ]
 
@@ -339,32 +297,13 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
+                 false,
+                 false,
+                 false,
                  false
                ]
 
-      assert Enum.map(c_stops, & &1.branch) ==
-               [
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C",
-                 "Green-C"
-               ]
+      assert Enum.all?(c_stops, &Enum.member?(["Green-C", nil], &1.branch))
 
       assert_stop_ids(c_stops, [
         "place-gover",
@@ -437,32 +376,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false
                ]
 
-      assert Enum.map(b_stops, & &1.branch) ==
-               [
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 nil,
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B",
-                 "Green-B"
-               ]
+      assert Enum.all?(b_stops, &Enum.member?(["Green-B", nil], &1.branch))
 
       assert_stop_ids(b_stops, [
         "place-gover",

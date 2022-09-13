@@ -1143,9 +1143,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
 
       chunked = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert [b, bc_combined, bcd_combined, hynes, e, trunk] = chunked
-      assert [b, bc_combined, bcd_combined, e, trunk] = chunked
+      assert [b, bc_combined, bcd_combined, hynes, e, trunk] = chunked
 
       assert Enum.all?(b, &(&1 |> branches() |> length() == 1))
       assert b |> List.first() |> stop_id() == "place-lake"
@@ -1159,25 +1157,18 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       assert bcd_combined |> List.first() |> stop_id() == "place-river"
       assert bcd_combined |> List.last() |> stop_id() == "place-kencl"
 
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
-      # assert length(hynes) == 1
-      # assert hynes |> List.first() |> stop_id() == "place-hymnl"
+      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      assert length(hynes) == 1
+      assert hynes |> List.first() |> stop_id() == "place-hymnl"
 
       # E branch + merge
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
-      # assert e |> List.first() |> stop_id() == "place-hsmnl"
-      # assert e |> List.last() |> stop_id() == "place-coecl"
-      assert e |> List.first() |> stop_id() == "place-hymnl"
-      assert e |> List.last() |> stop_id() == "place-armnl"
+      assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
+      assert e |> List.first() |> stop_id() == "place-hsmnl"
+      assert e |> List.last() |> stop_id() == "place-coecl"
 
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
-      # assert trunk |> List.first() |> stop_id() == "place-armnl"
-      # assert trunk |> List.last() |> stop_id() == "place-unsqu"
-      assert trunk |> List.first() |> stop_id() == "place-coecl"
-      assert trunk |> List.last() |> stop_id() == "place-hsmnl"
+      assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
+      assert trunk |> List.first() |> stop_id() == "place-armnl"
+      assert trunk |> List.last() |> stop_id() == "place-unsqu"
     end
   end
 
