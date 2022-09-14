@@ -315,21 +315,9 @@ defmodule SiteWeb.ScheduleView do
           ]
 
         _ ->
-          if route.id == "Orange" do
-            [
-              %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
-              %HeaderTab{
-                id: "timetable",
-                name: "Commuter Rail Alternatives",
-                href: timetable_link
-              }
-              | tabs
-            ]
-          else
-            [
-              %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
-            ]
-          end
+          [
+            %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
+          ]
       end
 
     HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
