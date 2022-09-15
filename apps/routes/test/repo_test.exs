@@ -108,7 +108,7 @@ defmodule Routes.RepoTest do
     end
 
     test "returns a hidden route" do
-      assert %Route{id: "746"} = @routes_repo_api.get("746")
+      assert %Route{id: "b00f3"} = @routes_repo_api.get("b00f3")
     end
   end
 

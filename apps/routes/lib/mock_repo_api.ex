@@ -591,6 +591,21 @@ defmodule Routes.MockRepoApi do
   end
 
   @impl Routes.RepoApi
+  def get_shapes("Boat-F3", direction_id: 0) do
+    [
+      %Routes.Shape{
+        direction_id: 0,
+        id: "b00f3",
+        name: "",
+        polyline:
+          "",
+        priority: 3,
+        stop_ids: ["", ""]
+      }
+    ]
+  end
+
+  @impl Routes.RepoApi
   def get_shapes("Boat-F4", direction_id: 0) do
     [
       %Routes.Shape{
