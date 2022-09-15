@@ -111,8 +111,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     # use the date to fetch the actual schedule data.
     all_stops =
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
-      date: conn.assigns.date
-    )
+        date: conn.assigns.date
+      )
 
     assign(conn, :all_stops, all_stops)
   end

@@ -46,7 +46,7 @@ defmodule SiteWeb.ScheduleController.LineController do
       conn,
       :schedule_page_data,
       %{
-        connections: group_connections(conn, conn.assigns.connections),
+        connections: group_connections(conn.assigns.connections),
         pdfs:
           ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date),
         teasers:
@@ -249,15 +249,8 @@ defmodule SiteWeb.ScheduleController.LineController do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
   end
 
-  defp group_connections(conn, connections) do
-    filtered_connections =
-      if conn.assigns.route.name == "Orange Line Shuttle" do
-        Enum.reject(connections, &(&1.id == "Orange"))
-      else
-        connections
-      end
-
-    filtered_connections
+  defp group_connections(connections) do
+    connections
     |> Enum.group_by(&Route.type_atom/1)
     |> Enum.sort_by(&Group.sorter/1)
     |> Enum.map(fn {group, routes} ->
