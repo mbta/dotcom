@@ -106,10 +106,6 @@ defmodule Routes.RepoTest do
     test "returns nil for an unknown route" do
       refute @routes_repo_api.get("_unknown_route")
     end
-
-    test "returns a hidden route" do
-      assert %Route{description: :local_bus} = @routes_repo_api.get("b00f3")
-    end
   end
 
   test "key bus routes are tagged" do
