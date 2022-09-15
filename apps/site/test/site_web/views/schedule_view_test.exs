@@ -317,7 +317,10 @@ defmodule SiteWeb.ScheduleViewTest do
     test "translates the type number to a string or number if non-silver-line bus" do
       assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
       assert route_header_text(%Route{type: 3, name: "SL1", id: "741"}) == ["Silver Line ", "SL1"]
-      assert route_header_text(%Route{type: 3, name: "SLW", id: "746"}) == ["Silver Line Waterway"]
+
+      assert route_header_text(%Route{type: 3, name: "SLW", id: "746"}) == [
+               "Silver Line Waterway"
+             ]
 
       assert route_header_text(%Route{type: 3, name: "2"}) ==
                content_tag(:div, "2", class: "bus-route-sign")
