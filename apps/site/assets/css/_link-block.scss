@@ -34,10 +34,11 @@
   }
 
   &__view-schedule {
+    font-size: 1rem;
     position: relative;
-    bottom: 2px;
+    bottom: 0.125rem;
     font-weight: 500;
-    font-size: 14px;
-    margin-left: 25px;
+    margin-left: 0.75rem;
+    border-bottom: 0.063rem solid;
   }
 }
