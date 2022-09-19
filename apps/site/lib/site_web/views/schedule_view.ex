@@ -315,21 +315,9 @@ defmodule SiteWeb.ScheduleView do
           ]
 
         _ ->
-          if route.id == "Orange" do
-            [
-              %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
-              %HeaderTab{
-                id: "timetable",
-                name: "Commuter Rail Alternatives",
-                href: timetable_link
-              }
-              | tabs
-            ]
-          else
-            [
-              %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
-            ]
-          end
+          [
+            %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
+          ]
       end
 
     HeaderTabs.render_tabs(tabs, selected: conn.assigns.tab, tab_class: route_tab_class(route))
@@ -369,11 +357,7 @@ defmodule SiteWeb.ScheduleView do
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
-    if match?(%Route{name: "Orange Line Shuttle"}, route) do
-      [Tuple.append(Tuple.delete_at(Enum.at(summary.fares, 0), 1), "0.00")]
-    else
-      summary.fares
-    end
+    summary.fares
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom

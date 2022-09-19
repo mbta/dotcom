@@ -18,10 +18,6 @@ import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
 import { effectNameForAlert } from "../../../components/Alerts";
 import GlxOpen from "../../../components/GlxOpen";
-import currentLineSuspensions, {
-  shuttleForStop,
-  suspensionStopConnections
-} from "../../../helpers/line-suspensions";
 
 interface StopCardProps {
   stop: LineDiagramStop;
@@ -65,23 +61,10 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     route_stop: { "is_beginning?": isOrigin, "is_terminus?": isTerminus }
   } = stop;
 
-  const { shuttledStopsLists, crStopsLists } =
-    currentLineSuspensions(routeStop.route!.id ?? "") || {};
-  const shuttleId =
-    shuttledStopsLists &&
-    shuttleForStop(stop.route_stop.id, shuttledStopsLists);
-
   const isDestination = !isOrigin && isTerminus;
-  const numlines = Math.max(
-    Math.max(
-      Object.values(shuttledStopsLists?.["0"] || {}).length,
-      Object.values(crStopsLists?.["0"] || {}).length
-    ),
-    1
-  );
   const width = isMergeStop(stop)
     ? diagramWidth(1)
-    : diagramWidth(Math.max(stopData.length, numlines));
+    : diagramWidth(stopData.length);
 
   const refs = useContext(StopRefContext)[0];
 
@@ -120,11 +103,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
         </header>
 
         <div className="m-schedule-diagram__stop-details">
-          {shuttledStopsLists || crStopsLists
-            ? suspensionStopConnections(routeStop.id)?.map(cxn => (
-                <div dangerouslySetInnerHTML={{ __html: cxn }} /> // eslint-disable-line react/no-danger
-              ))
-            : StopConnections(routeStop.id, routeStop.connections)}
+          {StopConnections(routeStop.id, routeStop.connections)}
           {showPrediction ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
@@ -142,26 +121,17 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
               </div>
             )
           )}
-          {shuttleId ? (
-            <div className="m-schedule-diagram__alert">
-              <a href={`/schedules/${shuttleId}`}>
-                {alertIcon("c-svg__icon-alerts-triangle")} Shuttle
-              </a>
-            </div>
-          ) : null}
         </div>
 
-        {shuttledStopsLists || crStopsLists ? null : (
-          <footer className="m-schedule-diagram__footer">
-            <button
-              className="btn btn-link"
-              type="button"
-              onClick={() => onClick(routeStop)}
-            >
-              View schedule
-            </button>
-          </footer>
-        )}
+        <footer className="m-schedule-diagram__footer">
+          <button
+            className="btn btn-link"
+            type="button"
+            onClick={() => onClick(routeStop)}
+          >
+            View schedule
+          </button>
+        </footer>
       </section>
     </li>
   );

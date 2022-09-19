@@ -20,8 +20,7 @@ const filteredConnections = (
     (connection, index) =>
       (connection.type !== 2 && connection.type !== 4) ||
       (connection.type === 2 && index === firstCRIndex) ||
-      (connection.type === 4 && index === firstFerryIndex) ||
-      (route_id === "Orange Line Shuttle" && connection.id !== "Orange")
+      (connection.type === 4 && index === firstFerryIndex)
   );
 };
 

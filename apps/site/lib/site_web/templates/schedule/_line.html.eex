@@ -15,14 +15,13 @@
         <%= if Enum.empty?(@branches) do %>
           <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
         <% else %>
-          <% is_suspended? = assigns[:line_suspensions] && Enum.find(@line_suspensions, &(List.first(&1) === @route.id)) %>
           <% title = case @route.type do
               2 -> "Schedule & Maps"
               4 -> nil
               _ -> "Schedules & Maps"
             end %>
           <%= if title do %>
-            <h2><%= if(is_suspended?, do: "Suggested Alternatives", else: title) %></h2>
+            <h2><%= title %></h2>
           <% end %>
 
           <div id="react-schedule-direction-root"></div>

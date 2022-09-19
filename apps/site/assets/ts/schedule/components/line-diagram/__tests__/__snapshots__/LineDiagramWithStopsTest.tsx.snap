@@ -51,7 +51,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             </pattern>
           </defs>
           <Line from={{...}} to={{...}} shuttle={false}>
-            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"30px\\" y2=\\"50px\\" stroke=\\"url(#shuttle)\\" />
+            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"30px\\" y2=\\"50px\\" stroke=\\"url(#diagonalHatch)\\" />
           </Line>
           <Line from={{...}} to={{...}} shuttle={false}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"50px\\" y2=\\"70px\\" />
