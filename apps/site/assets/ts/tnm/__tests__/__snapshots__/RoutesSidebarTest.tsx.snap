@@ -132,11 +132,11 @@ exports[`render it renders 1`] = `
               >
                 Orange Line
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
             <a
               className="c-link-block__inner-link"
@@ -350,11 +350,11 @@ exports[`render it renders 1`] = `
               >
                 Haverhill Line
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -527,11 +527,11 @@ exports[`render it renders 1`] = `
               >
                 97
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -730,11 +730,11 @@ exports[`render it renders 1`] = `
               >
                 99
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -933,11 +933,11 @@ exports[`render it renders 1`] = `
               >
                 101
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -1134,11 +1134,11 @@ exports[`render it renders 1`] = `
               >
                 104
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
             <a
               className="c-link-block__inner-link"
@@ -1352,11 +1352,11 @@ exports[`render it renders 1`] = `
               >
                 105
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
             <a
               className="c-link-block__inner-link"
@@ -1570,11 +1570,11 @@ exports[`render it renders 1`] = `
               >
                 106
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -1871,11 +1871,11 @@ exports[`render it renders 1`] = `
               >
                 108
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -2074,11 +2074,11 @@ exports[`render it renders 1`] = `
               >
                 131
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -2211,11 +2211,11 @@ exports[`render it renders 1`] = `
               >
                 132
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -2414,11 +2414,11 @@ exports[`render it renders 1`] = `
               >
                 136
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -2599,11 +2599,11 @@ exports[`render it renders 1`] = `
               >
                 137
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -2802,11 +2802,11 @@ exports[`render it renders 1`] = `
               >
                 411
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>
@@ -3063,11 +3063,11 @@ exports[`render it renders 1`] = `
               >
                 430
               </span>
-              <u
+              <span
                 className="c-link-block__view-schedule"
               >
                 View Schedule
-              </u>
+              </span>
             </span>
           </div>
         </div>

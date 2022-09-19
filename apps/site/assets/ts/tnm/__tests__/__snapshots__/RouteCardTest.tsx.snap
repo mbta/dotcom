@@ -27,11 +27,11 @@ exports[`it renders a stop card 1`] = `
         >
           Route Name
         </span>
-        <u
+        <span
           className="c-link-block__view-schedule"
         >
           View Schedule
-        </u>
+        </span>
       </span>
       <a
         className="c-link-block__inner-link"
@@ -174,11 +174,11 @@ exports[`it renders a stop card for the silver line 1`] = `
         >
           Silver Line Route Name
         </span>
-        <u
+        <span
           className="c-link-block__view-schedule"
         >
           View Schedule
-        </u>
+        </span>
       </span>
       <a
         className="c-link-block__inner-link"
