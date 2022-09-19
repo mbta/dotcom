@@ -11,7 +11,7 @@ exports[`RouteCardHeader component renders 1`] = `
     <span>
       <span className=\\"bus-route-sign\\" />
       <span className=\\"c-link-block__view-schedule\\">
-        View Schedule
+        View schedule
       </span>
     </span>
   </div>

@@ -135,7 +135,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
             <a
@@ -353,7 +353,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -530,7 +530,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -733,7 +733,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -936,7 +936,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -1137,7 +1137,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
             <a
@@ -1355,7 +1355,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
             <a
@@ -1573,7 +1573,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -1874,7 +1874,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -2077,7 +2077,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -2214,7 +2214,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -2417,7 +2417,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -2602,7 +2602,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -2805,7 +2805,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>
@@ -3066,7 +3066,7 @@ exports[`render it renders 1`] = `
               <span
                 className="c-link-block__view-schedule"
               >
-                View Schedule
+                View schedule
               </span>
             </span>
           </div>

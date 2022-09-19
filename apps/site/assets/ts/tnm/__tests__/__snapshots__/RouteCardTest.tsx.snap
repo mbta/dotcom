@@ -30,7 +30,7 @@ exports[`it renders a stop card 1`] = `
         <span
           className="c-link-block__view-schedule"
         >
-          View Schedule
+          View schedule
         </span>
       </span>
       <a
@@ -177,7 +177,7 @@ exports[`it renders a stop card for the silver line 1`] = `
         <span
           className="c-link-block__view-schedule"
         >
-          View Schedule
+          View schedule
         </span>
       </span>
       <a

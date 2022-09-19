@@ -27,7 +27,7 @@ const RouteCardHeader = ({
             ? `Silver Line ${route.name}`
             : breakTextAtSlash(route.name)}
         </span>
-        <span className="c-link-block__view-schedule">View Schedule</span>
+        <span className="c-link-block__view-schedule">View schedule</span>
       </span>
       {hasAlert && (
         <a

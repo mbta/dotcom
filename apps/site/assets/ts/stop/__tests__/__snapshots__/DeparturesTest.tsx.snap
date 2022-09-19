@@ -106,7 +106,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -325,7 +325,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -495,7 +495,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -665,7 +665,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -835,7 +835,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -975,7 +975,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -1195,7 +1195,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -1415,7 +1415,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -1555,7 +1555,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -1735,7 +1735,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -1875,7 +1875,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -2015,7 +2015,7 @@ exports[`it renders 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
@@ -2317,7 +2317,7 @@ exports[`it renders filtered data 1`] = `
             <span
               className="c-link-block__view-schedule"
             >
-              View Schedule
+              View schedule
             </span>
           </span>
         </div>
