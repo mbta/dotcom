@@ -92,9 +92,9 @@ const renderFeaturesList = (stop: Stop): ReactElement<HTMLElement> | null =>
       has the following features:
       <ul className="m-stop-page__sidebar-list">
         {stop.name === "Lynn"
-          ? [stop.accessibility[0], stop.accessibility[2]].map(access => (
-              <Access access={access} key={access} />
-            ))
+          ? stop.accessibility
+              .filter(access => formatAccess(access) !== "elevator")
+              .map(access => <Access access={access} key={access} />)
           : stop.accessibility.map(access => (
               <Access access={access} key={access} />
             ))}
