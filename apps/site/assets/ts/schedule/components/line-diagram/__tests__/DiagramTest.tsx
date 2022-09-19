@@ -10,6 +10,8 @@ import simpleLiveData from "./lineDiagramData/live-data.json";
 import LineDiagramWithStops from "../LineDiagramWithStops";
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import Diagram from "../graphics/Diagram";
+import { LiveDataByStop } from "../__line-diagram";
+import VehicleIcons from "../VehicleIcons";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
@@ -64,6 +66,50 @@ const mockState = [...lineDiagram, ...lineDiagramBranchingOut].reduce(
 jest
   .spyOn(redux, "useSelector")
   .mockImplementation(selector => selector(mockState));
+
+test("<Diagram /> filters out incoming <VehicleIcons /> at first stop", () => {
+  const liveDataVehiclesArrivingToOrigin: LiveDataByStop = {
+    "line-origin": {
+      headsigns: [],
+      vehicles: [
+        {
+          id: "veh0",
+          status: "stopped",
+          crowding: null,
+          tooltip: "tooltip for stopped vehicle at stop 1"
+        },
+        {
+          id: "veh1",
+          status: "incoming",
+          crowding: null,
+          tooltip: "tooltip for vehicle 1 incoming to stop 1"
+        },
+        {
+          id: "veh2",
+          status: "in_transit",
+          crowding: null,
+          tooltip: "tooltip for vehicle 2 in_transit at stop 1"
+        }
+      ]
+    }
+  };
+  const wrapper = mount(
+    <redux.Provider store={store}>
+      <Diagram
+        lineDiagram={lineDiagram}
+        liveData={liveDataVehiclesArrivingToOrigin}
+      />
+    </redux.Provider>
+  );
+  expect(wrapper.find(VehicleIcons)).toHaveLength(1);
+  const iconHtml = wrapper
+    .find(VehicleIcons)
+    .first()
+    .html();
+  expect(iconHtml).toContain("tooltip for stopped vehicle at stop 1");
+  expect(iconHtml).not.toContain("tooltip for vehicle 1 incoming to stop 1");
+  expect(iconHtml).not.toContain("tooltip for vehicle 2 in_transit at stop 1");
+});
 
 describe.each`
   source                     | situation                        | css
