@@ -615,10 +615,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Red Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Red Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -827,10 +834,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Silver Line SL1
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Silver Line SL1
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -990,10 +1004,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Silver Line SL2
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Silver Line SL2
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -1153,10 +1174,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Silver Line SL3
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Silver Line SL3
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -1316,10 +1344,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Fairmount Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Fairmount Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -1449,10 +1484,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Framingham/​Worcester Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Framingham/​Worcester Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -1662,10 +1704,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Franklin Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Franklin Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -1875,10 +1924,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Greenbush Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Greenbush Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -2008,10 +2064,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Kingston/​Plymouth Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Kingston/​Plymouth Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -2181,10 +2244,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Middleborough/​Lakeville Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Middleborough/​Lakeville Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -2314,10 +2384,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Needham Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Needham Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -2447,10 +2524,17 @@ Array [
                   <div
                     className="c-link-block__inner"
                   >
-                    <span
-                      className=""
-                    >
-                      Providence/​Stoughton Line
+                    <span>
+                      <span
+                        className=""
+                      >
+                        Providence/​Stoughton Line
+                      </span>
+                      <span
+                        className="c-link-block__view-schedule"
+                      >
+                        View schedule
+                      </span>
                     </span>
                   </div>
                 </div>

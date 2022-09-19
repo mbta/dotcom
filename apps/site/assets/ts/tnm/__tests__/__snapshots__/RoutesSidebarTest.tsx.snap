@@ -126,10 +126,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className=""
-            >
-              Orange Line
+            <span>
+              <span
+                className=""
+              >
+                Orange Line
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
             <a
               className="c-link-block__inner-link"
@@ -337,10 +344,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className=""
-            >
-              Haverhill Line
+            <span>
+              <span
+                className=""
+              >
+                Haverhill Line
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -507,10 +521,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              97
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                97
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -703,10 +724,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              99
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                99
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -899,10 +927,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              101
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                101
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -1093,10 +1128,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              104
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                104
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
             <a
               className="c-link-block__inner-link"
@@ -1304,10 +1346,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              105
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                105
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
             <a
               className="c-link-block__inner-link"
@@ -1515,10 +1564,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              106
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                106
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -1809,10 +1865,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              108
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                108
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -2005,10 +2068,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              131
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                131
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -2135,10 +2205,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              132
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                132
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -2331,10 +2408,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              136
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                136
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -2509,10 +2593,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              137
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                137
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -2705,10 +2796,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              411
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                411
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>
@@ -2959,10 +3057,17 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span
-              className="bus-route-sign"
-            >
-              430
+            <span>
+              <span
+                className="bus-route-sign"
+              >
+                430
+              </span>
+              <span
+                className="c-link-block__view-schedule"
+              >
+                View schedule
+              </span>
             </span>
           </div>
         </div>

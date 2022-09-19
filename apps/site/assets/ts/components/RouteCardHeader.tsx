@@ -21,10 +21,13 @@ const RouteCardHeader = ({
       <span className="sr-only">Go to route</span>
     </a>
     <div className="c-link-block__inner">
-      <span className={busClass(route)}>
-        {isASilverLineRoute(route.id)
-          ? `Silver Line ${route.name}`
-          : breakTextAtSlash(route.name)}
+      <span>
+        <span className={busClass(route)}>
+          {isASilverLineRoute(route.id)
+            ? `Silver Line ${route.name}`
+            : breakTextAtSlash(route.name)}
+        </span>
+        <span className="c-link-block__view-schedule">View schedule</span>
       </span>
       {hasAlert && (
         <a

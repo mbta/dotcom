@@ -21,10 +21,17 @@ exports[`it renders a stop card 1`] = `
     <div
       className="c-link-block__inner"
     >
-      <span
-        className="bus-route-sign"
-      >
-        Route Name
+      <span>
+        <span
+          className="bus-route-sign"
+        >
+          Route Name
+        </span>
+        <span
+          className="c-link-block__view-schedule"
+        >
+          View schedule
+        </span>
       </span>
       <a
         className="c-link-block__inner-link"
@@ -161,10 +168,17 @@ exports[`it renders a stop card for the silver line 1`] = `
     <div
       className="c-link-block__inner"
     >
-      <span
-        className=""
-      >
-        Silver Line Route Name
+      <span>
+        <span
+          className=""
+        >
+          Silver Line Route Name
+        </span>
+        <span
+          className="c-link-block__view-schedule"
+        >
+          View schedule
+        </span>
       </span>
       <a
         className="c-link-block__inner-link"

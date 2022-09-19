@@ -32,4 +32,13 @@
   &__inner-link {
     pointer-events: all;
   }
+
+  &__view-schedule {
+    font-size: 1rem;
+    position: relative;
+    bottom: 0.125rem;
+    font-weight: 500;
+    margin-left: 0.75rem;
+    border-bottom: 0.063rem solid;
+  }
 }
