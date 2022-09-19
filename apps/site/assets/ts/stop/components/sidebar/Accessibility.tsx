@@ -91,7 +91,7 @@ const renderFeaturesList = (stop: Stop): ReactElement<HTMLElement> | null =>
       {isSpecialCase(stop) ? `${stop.name} ` : "It "}
       has the following features:
       <ul className="m-stop-page__sidebar-list">
-        {stop.name === "Lynn" ? stop.accessibility.shift : null}
+        {stop.name === "Lynn" ? stop.accessibility.shift() : null}
         {stop.accessibility.map(access => (
           <Access access={access} key={access} />
         ))}
