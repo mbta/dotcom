@@ -21,7 +21,6 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
-import currentLineSuspensions from "../../helpers/line-suspensions";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -130,9 +129,7 @@ export const ScheduleLoader = ({
     variant: busVariantId
   } = schedulePageData;
 
-  const routeIsSuspended =
-    Object.keys(routePatternsByDirection).length === 0 ||
-    currentLineSuspensions(route.id);
+  const routeIsSuspended = Object.keys(routePatternsByDirection).length === 0;
 
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {

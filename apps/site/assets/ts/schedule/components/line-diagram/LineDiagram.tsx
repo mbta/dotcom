@@ -11,7 +11,6 @@ import LineDiagramWithStops from "./LineDiagramWithStops";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
 import useRealtime from "../../../hooks/useRealtime";
-import currentLineSuspensions from "../../../helpers/line-suspensions";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -27,7 +26,6 @@ const LineDiagramAndStopListPage = ({
   route,
   directionId
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
-  const currentLineSuspension = currentLineSuspensions(route.id);
   // also track the location of text to align the diagram points to
   const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
 
@@ -71,7 +69,7 @@ const LineDiagramAndStopListPage = ({
     "route_stop.name"
   );
 
-  const liveData = useRealtime(route, directionId, !currentLineSuspension);
+  const liveData = useRealtime(route, directionId, true);
 
   /**
    * Putting it all together
@@ -81,16 +79,14 @@ const LineDiagramAndStopListPage = ({
       <h3 className="m-schedule-diagram__heading">
         {stationsOrStops(route.type)}
       </h3>
-      {!currentLineSuspension ? (
-        <SearchBox
-          id="stop-search"
-          labelText={`Search for a ${stationsOrStops(route.type)
-            .toLowerCase()
-            .slice(0, -1)}`}
-          onChange={setStopQuery}
-          className="m-schedule-diagram__filter"
-        />
-      ) : null}
+      <SearchBox
+        id="stop-search"
+        labelText={`Search for a ${stationsOrStops(route.type)
+          .toLowerCase()
+          .slice(0, -1)}`}
+        onChange={setStopQuery}
+        className="m-schedule-diagram__filter"
+      />
       {stopQuery !== "" ? (
         <ol className="m-schedule-diagram m-schedule-diagram--searched">
           {filteredStops.length ? (

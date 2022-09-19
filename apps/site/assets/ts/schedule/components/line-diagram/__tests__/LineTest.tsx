@@ -132,6 +132,6 @@ describe("Line component between stops with disruptions", () => {
     expect(x2).toEqual(`${BASE_LINE_WIDTH + 1}px`);
     expect(y1).toEqual(`${testY}px`);
     expect(y2).toEqual(`${testY + 7}px`);
-    expect(stroke).toContain("url(#shuttle)");
+    expect(stroke).toContain("url(#diagonalHatch)");
   });
 });
