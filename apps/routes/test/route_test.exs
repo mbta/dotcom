@@ -241,7 +241,6 @@ defmodule Routes.RouteTest do
   describe "hidden?/1" do
     test "Returns true for hidden routes" do
       hidden_routes = [
-        "746",
         "2427",
         "3233",
         "3738",

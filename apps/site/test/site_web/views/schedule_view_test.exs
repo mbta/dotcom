@@ -318,6 +318,9 @@ defmodule SiteWeb.ScheduleViewTest do
       assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
       assert route_header_text(%Route{type: 3, name: "SL1", id: "741"}) == ["Silver Line ", "SL1"]
 
+      assert route_header_text(%Route{type: 3, name: "SLW", id: "746"}) ==
+               "Silver Line Waterfront"
+
       assert route_header_text(%Route{type: 3, name: "2"}) ==
                content_tag(:div, "2", class: "bus-route-sign")
 

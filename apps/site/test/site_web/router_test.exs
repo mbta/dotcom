@@ -51,6 +51,9 @@ defmodule Phoenix.Router.RoutingTest do
 
       conn = get(conn, "/schedules/sl5")
       assert redirected_to(conn, 301) == "/schedules/749"
+
+      conn = get(conn, "/schedules/slw")
+      assert redirected_to(conn, 301) == "/schedules/746"
     end
 
     test "CT buses", %{conn: conn} do
