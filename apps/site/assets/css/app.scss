@@ -7,7 +7,10 @@
 @import 'fonts';
 @import 'navbar';
 @import 'buttons-overrides';
-//
+$link-decoration: none;
+$link-hover-color: $brand-primary-darkest;
+$link-hover-decoration: underline;
+$border-radius: .25rem; // resolves to 4px
 
 // Start Bootstrap
 @import '../node_modules/bootstrap/scss/bootstrap';
