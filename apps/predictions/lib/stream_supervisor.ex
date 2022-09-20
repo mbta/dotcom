@@ -65,7 +65,7 @@ defmodule Predictions.StreamSupervisor do
   @spec sses_opts(Route.id_t()) :: Keyword.t()
   defp sses_opts(route_id) do
     path =
-      "/predictions?filter[route]=#{route_id}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=direction_destinations,direction_names,long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
+      "/predictions?filter[route]=#{route_id}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
 
     sses_opts =
       V3Api.Stream.build_options(

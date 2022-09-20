@@ -23,6 +23,9 @@ import {
   isFetchFailed
 } from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
+import usePredictions, { Prediction } from "../../../hooks/usePredictions";
+import { SocketProvider } from "../../../contexts/socketContext";
+import useSocket from "../../../hooks/useSocket";
 
 // exported for testing
 export const fetchData = async (
@@ -103,6 +106,8 @@ const ScheduleModalContent = ({
   ]);
   useAwaitInterval(updateData, 10000);
 
+  const predictions: Prediction[] = usePredictions(routeId);
+
   const serviceToday = services.some(service =>
     isInCurrentService(service, stringToDateObject(today))
   );
@@ -130,6 +135,15 @@ const ScheduleModalContent = ({
         />
       </div>
 
+      <div>
+        <b>Predictions ({predictions.length})</b>
+        {predictions.map(prediction => (
+          <div key={prediction.id}>
+            Stop {prediction.stopId}: {prediction.time.toLocaleString()}
+          </div>
+        ))}
+      </div>
+
       {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
 
       {scheduleNote ? (
@@ -151,4 +165,16 @@ const ScheduleModalContent = ({
   );
 };
 
-export default ScheduleModalContent;
+const ScheduleModalContentWrapper = (
+  props: Props
+): ReactElement<HTMLElement> => {
+  const socketStatus = useSocket();
+
+  return (
+    <SocketProvider socketStatus={socketStatus}>
+      <ScheduleModalContent {...props} />
+    </SocketProvider>
+  );
+};
+
+export default ScheduleModalContentWrapper;

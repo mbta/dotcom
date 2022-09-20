@@ -4,6 +4,7 @@ defmodule Routes.Route do
   alias Routes.Repo
 
   @derive Jason.Encoder
+  @derive {Poison.Encoder, except: [:direction_names, :direction_destinations]}
 
   defstruct id: "",
             type: 0,

@@ -43,8 +43,15 @@ defmodule Predictions.Stream do
     data
     |> Enum.filter(&Repo.has_trip?/1)
     |> Enum.map(&StreamParser.parse/1)
+    |> Enum.filter(&by_min_time/1)
     |> broadcast(type, broadcast_fn)
   end
+
+  @spec by_min_time(Prediction.t()) :: boolean()
+  @spec by_min_time(Prediction.t(), DateTime.t()) :: boolean()
+  defp by_min_time(prediction, now \\ Util.now())
+  defp by_min_time(%Prediction{time: nil}, _), do: false
+  defp by_min_time(%Prediction{time: time}, now), do: Util.time_is_greater_or_equal?(time, now)
 
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
   @spec broadcast([Prediction.t() | String.t()], event_type, broadcast_fn) :: :ok

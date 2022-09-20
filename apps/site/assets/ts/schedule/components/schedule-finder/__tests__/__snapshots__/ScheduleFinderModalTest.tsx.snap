@@ -162,114 +162,125 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                 Close
               </button>
               <div className=\\"c-modal__content\\">
-                <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
-                  <div className=\\"schedule-finder schedule-finder--modal\\">
-                    <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" stopsByDirection={{...}}>
-                      <form onSubmit={[Function: handleSubmit]}>
-                        <h2 className=\\"schedule-finder__heading\\">
-                          <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                           Schedule Finder
-                        </h2>
-                        <div className=\\"schedule-finder__prompt\\">
-                          Choose a stop to get schedule information and real-time departure predictions.
-                        </div>
-                        <div className=\\"schedule-finder__inputs\\">
-                          <label className=\\"schedule-finder__label\\">
-                            Choose a direction
-                            <SelectContainer>
-                              <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                                <select className=\\"c-select-custom notranslate\\" value={0} onChange={[Function: onChange]}>
-                                  <option value={0} aria-label=\\"INBOUND \\\\n  Oak Grove\\">
-                                    INBOUND 
-                                      Oak Grove
-                                  </option>
-                                  <option value={1} aria-label=\\"OUTBOUND \\\\n  Forest Hills\\">
-                                    OUTBOUND 
-                                      Forest Hills
-                                  </option>
-                                </select>
-                                <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                              </div>
-                            </SelectContainer>
-                          </label>
-                          <label className=\\"schedule-finder__label\\">
-                            Choose an origin stop
-                            <SelectContainer error={false} handleClick={[Function: handleOriginClick]}>
-                              <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                                <select className=\\"c-select-custom c-select-custom--noclick notranslate\\" value=\\"place-welln\\" onChange={[Function: onChange]}>
-                                  <option value=\\"\\">
-                                    Select
-                                  </option>
-                                  <option value=\\"place-welln\\" aria-label=\\"Wellington\\">
-                                    Wellington
-                                  </option>
-                                  <option value=\\"123\\" aria-label=\\"Abc\\">
-                                    Abc
-                                  </option>
-                                  <option value=\\"741\\" aria-label=\\"SL\\">
-                                    SL
-                                  </option>
-                                </select>
-                                <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                              </div>
-                            </SelectContainer>
-                          </label>
-                        </div>
-                        <div className=\\"schedule-finder__submit text-right\\">
-                          <input className=\\"btn btn-primary\\" type=\\"submit\\" value=\\"Get schedules\\" />
-                        </div>
-                      </form>
-                    </Component>
-                  </div>
-                  <div className=\\"callout text-center u-bold\\">
-                    There are no scheduled trips for 
-                    December 5, 2019
-                    .
-                  </div>
-                  <DailySchedule stopId=\\"place-welln\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
-                    <h3>
-                      Daily Schedule
-                    </h3>
-                    <SchedulesSelect sortedServices={{...}} todayServiceId=\\"\\" defaultSelectedServiceId=\\"BUS319-J-Wdy-02\\" todayDate={{...}} onSelectService={[Function: onSelectService]}>
-                      <div className=\\"schedule-finder__service-selector\\">
-                        <label>
-                          <span className=\\"sr-only\\">
-                            Choose a schedule type from the available options
-                          </span>
-                          <SelectContainer>
-                            <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                              <select className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]} aria-controls=\\"daily-schedule\\">
-                                <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} todayServiceId=\\"\\">
-                                  <optgroup label=\\"Other Schedules\\">
-                                    <option value=\\"BUS319-J-Wdy-02\\" aria-label=\\"Other Schedules Weekday schedule, Jul 8 to Aug 30\\">
-                                      Weekday schedule, Jul 8 to Aug 30
-                                    </option>
-                                    <option value=\\"BUS319-K-Sa-02\\" aria-label=\\"Other Schedules Saturday schedule, Jul 13 to Aug 31\\">
-                                      Saturday schedule, Jul 13 to Aug 31
-                                    </option>
-                                    <option value=\\"BUS319-L-Su-02\\" aria-label=\\"Other Schedules Sunday schedule, Jul 14 to Aug 25\\">
-                                      Sunday schedule, Jul 14 to Aug 25
-                                    </option>
-                                  </optgroup>
-                                </ServiceOptGroup>
-                              </select>
-                              <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                <ScheduleModalContentWrapper handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
+                  <SocketProvider socketStatus={{...}}>
+                    <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
+                      <div className=\\"schedule-finder schedule-finder--modal\\">
+                        <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" stopsByDirection={{...}}>
+                          <form onSubmit={[Function: handleSubmit]}>
+                            <h2 className=\\"schedule-finder__heading\\">
+                              <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                               Schedule Finder
+                            </h2>
+                            <div className=\\"schedule-finder__prompt\\">
+                              Choose a stop to get schedule information and real-time departure predictions.
                             </div>
-                          </SelectContainer>
-                        </label>
+                            <div className=\\"schedule-finder__inputs\\">
+                              <label className=\\"schedule-finder__label\\">
+                                Choose a direction
+                                <SelectContainer>
+                                  <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                                    <select className=\\"c-select-custom notranslate\\" value={0} onChange={[Function: onChange]}>
+                                      <option value={0} aria-label=\\"INBOUND \\\\n  Oak Grove\\">
+                                        INBOUND 
+                                          Oak Grove
+                                      </option>
+                                      <option value={1} aria-label=\\"OUTBOUND \\\\n  Forest Hills\\">
+                                        OUTBOUND 
+                                          Forest Hills
+                                      </option>
+                                    </select>
+                                    <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                                  </div>
+                                </SelectContainer>
+                              </label>
+                              <label className=\\"schedule-finder__label\\">
+                                Choose an origin stop
+                                <SelectContainer error={false} handleClick={[Function: handleOriginClick]}>
+                                  <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                                    <select className=\\"c-select-custom c-select-custom--noclick notranslate\\" value=\\"place-welln\\" onChange={[Function: onChange]}>
+                                      <option value=\\"\\">
+                                        Select
+                                      </option>
+                                      <option value=\\"place-welln\\" aria-label=\\"Wellington\\">
+                                        Wellington
+                                      </option>
+                                      <option value=\\"123\\" aria-label=\\"Abc\\">
+                                        Abc
+                                      </option>
+                                      <option value=\\"741\\" aria-label=\\"SL\\">
+                                        SL
+                                      </option>
+                                    </select>
+                                    <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                                  </div>
+                                </SelectContainer>
+                              </label>
+                            </div>
+                            <div className=\\"schedule-finder__submit text-right\\">
+                              <input className=\\"btn btn-primary\\" type=\\"submit\\" value=\\"Get schedules\\" />
+                            </div>
+                          </form>
+                        </Component>
                       </div>
-                    </SchedulesSelect>
-                    <div id=\\"daily-schedule\\">
-                      <Loading>
-                        <div className=\\"c-spinner__container\\">
-                          <div className=\\"c-spinner\\">
-                            Loading...
+                      <div>
+                        <b>
+                          Predictions (
+                          0
+                          )
+                        </b>
+                      </div>
+                      <div className=\\"callout text-center u-bold\\">
+                        There are no scheduled trips for 
+                        December 5, 2019
+                        .
+                      </div>
+                      <DailySchedule stopId=\\"place-welln\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
+                        <h3>
+                          Daily Schedule
+                        </h3>
+                        <SchedulesSelect sortedServices={{...}} todayServiceId=\\"\\" defaultSelectedServiceId=\\"BUS319-J-Wdy-02\\" todayDate={{...}} onSelectService={[Function: onSelectService]}>
+                          <div className=\\"schedule-finder__service-selector\\">
+                            <label>
+                              <span className=\\"sr-only\\">
+                                Choose a schedule type from the available options
+                              </span>
+                              <SelectContainer>
+                                <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                                  <select className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]} aria-controls=\\"daily-schedule\\">
+                                    <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} todayServiceId=\\"\\">
+                                      <optgroup label=\\"Other Schedules\\">
+                                        <option value=\\"BUS319-J-Wdy-02\\" aria-label=\\"Other Schedules Weekday schedule, Jul 8 to Aug 30\\">
+                                          Weekday schedule, Jul 8 to Aug 30
+                                        </option>
+                                        <option value=\\"BUS319-K-Sa-02\\" aria-label=\\"Other Schedules Saturday schedule, Jul 13 to Aug 31\\">
+                                          Saturday schedule, Jul 13 to Aug 31
+                                        </option>
+                                        <option value=\\"BUS319-L-Su-02\\" aria-label=\\"Other Schedules Sunday schedule, Jul 14 to Aug 25\\">
+                                          Sunday schedule, Jul 14 to Aug 25
+                                        </option>
+                                      </optgroup>
+                                    </ServiceOptGroup>
+                                  </select>
+                                  <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                                </div>
+                              </SelectContainer>
+                            </label>
                           </div>
+                        </SchedulesSelect>
+                        <div id=\\"daily-schedule\\">
+                          <Loading>
+                            <div className=\\"c-spinner__container\\">
+                              <div className=\\"c-spinner\\">
+                                Loading...
+                              </div>
+                            </div>
+                          </Loading>
                         </div>
-                      </Loading>
-                    </div>
-                  </DailySchedule>
-                </ScheduleModalContent>
+                      </DailySchedule>
+                    </ScheduleModalContent>
+                  </SocketProvider>
+                </ScheduleModalContentWrapper>
               </div>
             </div>
           </aside>

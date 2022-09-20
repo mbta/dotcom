@@ -131,6 +131,13 @@ Array [
       </div>
     </form>
   </div>,
+  <div>
+    <b>
+      Predictions (
+      0
+      )
+    </b>
+  </div>,
   <div
     className="callout text-center u-bold"
   >
