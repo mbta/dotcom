@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useContext } from "react";
 import { connect } from "react-redux";
 import { useQueryParams, StringParam } from "use-query-params";
 import ContentTeasers from "./ContentTeasers";
@@ -9,10 +9,11 @@ import ScheduleDirection from "./ScheduleDirection";
 import {
   SchedulePageData,
   SelectedOrigin,
-  ComponentToRender
+  ComponentToRender,
+  SimpleStopMap
 } from "../components/__schedule";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
-import ScheduleFinder from "./ScheduleFinder";
+import ScheduleFinder, { Props as ScheduleFinderProps } from "./ScheduleFinder";
 import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
 import { DirectionId } from "../../__v3api";
 import {
@@ -21,6 +22,7 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import { StateContext, Actions } from "../page/state";
 import { fetchJsonOrThrow } from "../../helpers/fetch-json";
 import { isInitialLoading, useProvider } from "../../helpers/use-provider";
 
@@ -76,6 +78,8 @@ export const ScheduleLoader = ({
   schedulePageData,
   updateURL
 }: Props): ReactElement<HTMLElement> => {
+  const { dispatch, state: pageState } = useContext(StateContext);
+
   const [query] = useQueryParams({
     // eslint-disable-next-line camelcase
     "schedule_finder[direction_id]": StringParam,
@@ -84,12 +88,13 @@ export const ScheduleLoader = ({
 
   const changeDirection = (direction: DirectionId): void => {
     storeHandler({
-      type: "CHANGE_DIRECTION",
+      type: "CHANGE_ORIGIN",
       newStoreValues: {
-        selectedDirection: direction,
         selectedOrigin: null
       }
     });
+
+    dispatch(Actions.setDirection(direction));
   };
 
   const closeModal = (): void => {
@@ -104,7 +109,8 @@ export const ScheduleLoader = ({
   React.useEffect(() => {
     // get initial values from the store:
     const currentState = getCurrentState();
-    const { selectedDirection, selectedOrigin } = currentState;
+    const { directionId: selectedDirection } = pageState;
+    const { selectedOrigin } = currentState;
     let { modalOpen, modalMode } = currentState;
 
     let newDirection: DirectionId | undefined;
@@ -160,12 +166,9 @@ export const ScheduleLoader = ({
 
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {
-    const {
-      selectedDirection: currentDirection,
-      selectedOrigin,
-      modalOpen,
-      modalMode
-    } = currentState;
+    const { directionId: currentDirection } = pageState;
+
+    const { selectedOrigin, modalOpen, modalMode } = currentState;
 
     // check first if this is a unidirectional route:
     let readjustedDirectionId: DirectionId = currentDirection;
@@ -253,10 +256,9 @@ export const ScheduleLoader = ({
 
     if (component === "SCHEDULE_FINDER" && !isFerryRoute) {
       return (
-        <ScheduleFinder
+        <ScheduleFinderLoader
           updateURL={updateURL}
           route={route}
-          stops={stops}
           services={services}
           routePatternsByDirection={routePatternsByDirection}
           today={today}

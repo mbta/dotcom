@@ -4,7 +4,6 @@ import { DirectionId } from "../../__v3api";
 import { Mode as ModalMode } from "../components/schedule-finder/ScheduleFinderModal";
 
 export interface StoreProps {
-  selectedDirection: DirectionId;
   selectedOrigin: SelectedOrigin | "";
   modalOpen: boolean;
   modalMode: ModalMode;
@@ -39,12 +38,6 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
   switch (action.type) {
     case "INITIALIZE":
       return { ...newState, ...action.newStoreValues };
-    case "CHANGE_DIRECTION":
-      return {
-        ...newState,
-        selectedDirection: action.newStoreValues.selectedDirection!,
-        selectedOrigin: action.newStoreValues.selectedOrigin!
-      };
     case "CHANGE_ORIGIN":
       return {
         ...newState,
@@ -66,17 +59,16 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
   }
 };
 
-export const createScheduleStore = (directionId: DirectionId): Store =>
+export const createScheduleStore = (): Store =>
   // create store with preloadedState:
   createStore(scheduleStoreReducer, {
-    selectedDirection: directionId,
     selectedOrigin: "",
     modalOpen: false,
     modalMode: "schedule"
   });
 
 // initial 'dummy' value (will be overwritten when schedule-loader loads)
-export const store: Store = createScheduleStore(0);
+export const store: Store = createScheduleStore();
 
 export const getCurrentState = (): StoreProps => store.getState();
 

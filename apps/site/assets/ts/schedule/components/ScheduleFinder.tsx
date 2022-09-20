@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useContext, useEffect } from "react";
 import { Route, DirectionId } from "../../__v3api";
 import {
   SimpleStopMap,
@@ -13,8 +13,9 @@ import ScheduleFinderModal, {
 } from "./schedule-finder/ScheduleFinderModal";
 import { getCurrentState, storeHandler } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import { StateContext } from "../page/state";
 
-interface Props {
+export interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   services: ServiceInSelector[];
   directionId: DirectionId;
@@ -47,6 +48,18 @@ const ScheduleFinder = ({
   modalOpen,
   closeModal
 }: Props): ReactElement<HTMLElement> => {
+  const { state } = useContext(StateContext);
+
+  // clear the origin when direction or pattern changes
+  useEffect(() => {
+    storeHandler({
+      type: "CHANGE_ORIGIN",
+      newStoreValues: {
+        selectedOrigin: null
+      }
+    });
+  }, [directionId, state.pattern]);
+
   const openOriginModal = (): void => {
     const currentState = getCurrentState();
     const { modalOpen: modalIsOpen } = currentState;

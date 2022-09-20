@@ -1,4 +1,10 @@
-import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
+import React, {
+  ReactElement,
+  useReducer,
+  useEffect,
+  Dispatch,
+  useContext
+} from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
@@ -16,6 +22,7 @@ import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
 import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import { isABusRoute, isACommuterRailRoute } from "../../models/route";
+import { StateContext } from "../page/state";
 
 export interface Props {
   route: EnhancedRoute;
@@ -93,18 +100,14 @@ const ScheduleDirection = ({
   lineDiagram,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
+  const { state: pageState } = useContext(StateContext);
+
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
-  const defaultRoutePattern =
-    routePatternsInCurrentDirection.find(
-      routePattern => routePattern.id === busVariantId
-    ) || routePatternsInCurrentDirection.slice(0, 1)[0];
 
   const reverseDirection = directionId === 0 ? 1 : 0;
   const directionIsChangeable = route.direction_names[reverseDirection] != null;
 
   const [state, dispatch] = useReducer(menuReducer, {
-    routePattern: defaultRoutePattern,
-    directionId,
     routePatternsByDirection,
     routePatternMenuOpen: false,
     routePatternMenuAll: false,
@@ -124,8 +127,8 @@ const ScheduleDirection = ({
   let currentShapes;
   let currentStops;
   if (isABusRoute(route)) {
-    currentShapes = [state.routePattern.shape_id];
-    currentStops = state.routePattern.stop_ids;
+    currentShapes = [pageState.pattern.shape_id];
+    currentStops = pageState.pattern.stop_ids;
   } else if (isACommuterRailRoute(route)) {
     const currentPatterns = routePatternsInCurrentDirection
       .filter(pattern => pattern.route_id === route.id)
@@ -159,7 +162,7 @@ const ScheduleDirection = ({
 
   const currentRoutePatternIdForData =
     isABusRoute(route) && routePatternsInCurrentDirection.length > 1
-      ? state.routePattern.id
+      ? pageState.pattern.id
       : undefined;
 
   useEffect(
@@ -167,14 +170,14 @@ const ScheduleDirection = ({
       if (!staticMapData) {
         fetchMapData(
           route.id,
-          state.directionId,
+          pageState.directionId,
           currentRoutePatternIdForData,
           dispatchMapData
         );
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [route, state.directionId, busVariantId, staticMapData]
+    [route, pageState.directionId, busVariantId, staticMapData]
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
@@ -186,35 +189,38 @@ const ScheduleDirection = ({
   useEffect(() => {
     fetchLineData(
       route.id,
-      state.directionId,
+      pageState.directionId,
       currentRoutePatternIdForData,
       dispatchLineData
     );
-  }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
+  }, [
+    route,
+    pageState.directionId,
+    busVariantId,
+    currentRoutePatternIdForData
+  ]);
 
   return (
     <>
       <div className="m-schedule-direction">
         <div id="direction-name" className="m-schedule-direction__direction">
-          {route.direction_names[state.directionId]}
+          {route.direction_names[pageState.directionId]}
         </div>
         <ScheduleDirectionMenu
           route={route}
-          directionId={state.directionId}
+          directionId={pageState.directionId}
           routePatternsByDirection={routePatternsByDirection}
-          selectedRoutePatternId={state.routePattern.id}
+          selectedRoutePatternId={pageState.pattern.id}
           menuOpen={state.routePatternMenuOpen}
           showAllRoutePatterns={state.routePatternMenuAll}
           itemFocus={state.itemFocus}
           dispatch={dispatch}
         />
-        {directionIsChangeable ? (
-          <ScheduleDirectionButton dispatch={dispatch} />
-        ) : null}
+        {directionIsChangeable ? <ScheduleDirectionButton /> : null}
       </div>
       {!staticMapData && mapState.data && (
         <Map
-          channel={`vehicles:${route.id}:${state.directionId}`}
+          channel={`vehicles:${route.id}:${pageState.directionId}`}
           data={mapState.data}
           currentShapes={currentShapes}
           currentStops={currentStops}
@@ -241,7 +247,7 @@ const ScheduleDirection = ({
         <LineDiagramAndStopListPage
           lineDiagram={lineState.data}
           route={route}
-          directionId={state.directionId}
+          directionId={pageState.directionId}
         />
       )}
     </>
