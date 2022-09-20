@@ -3,6 +3,7 @@ defmodule SiteWeb.UserSocket do
 
   ## Channels
   channel("vehicles:*", SiteWeb.VehicleChannel)
+  channel("predictions:*", SiteWeb.PredictionsChannel)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
