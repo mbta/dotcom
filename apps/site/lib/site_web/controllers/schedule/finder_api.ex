@@ -9,11 +9,16 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   alias Predictions.Prediction
   alias Routes.Route
+  alias Routes
+  alias RoutePatterns
+  alias Schedules
   alias Schedules.{Schedule, Trip}
+  alias Stops
   alias Site.TransitNearMe
   alias SiteWeb.ControllerHelpers
   alias SiteWeb.ScheduleController.TripInfo, as: Trips
   alias SiteWeb.ScheduleController.VehicleLocations, as: Vehicles
+  alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
 
   import SiteWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 4]
 
@@ -32,6 +37,29 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   # How many seconds a departure is considered recent
   @recent_departure_max_age 600
+
+  def stops_for_route_pattern(conn, %{
+        "route_id" => route_id,
+        "pattern_id" => pattern_id
+      }) do
+    {:ok, route} = LineHelpers.get_route(route_id)
+
+    stops_by_direction =
+      Map.new()
+      |> Map.put("0", get_stops_for_route_pattern(route, 0, pattern_id))
+      |> Map.put("1", get_stops_for_route_pattern(route, 1, pattern_id))
+
+    json(conn, stops_by_direction)
+  end
+
+  defp get_stops_for_route_pattern(route, direction_id, pattern_id) do
+    pattern = RoutePatterns.Repo.get(pattern_id)
+    trip = Schedules.Repo.trip(pattern.representative_trip_id)
+    shape = Routes.Repo.get_shape(trip.shape_id) |> List.first()
+    stops = Enum.map(shape.stop_ids, &Stops.Repo.get!/1)
+
+    stops
+  end
 
   # Leverage the JourneyList module to return a simplified set of trips
   @spec journeys(Plug.Conn.t(), map) :: Plug.Conn.t()

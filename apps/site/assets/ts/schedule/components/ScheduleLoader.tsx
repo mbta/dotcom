@@ -21,12 +21,39 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import { fetchJsonOrThrow } from "../../helpers/fetch-json";
+import { isInitialLoading, useProvider } from "../../helpers/use-provider";
 
 interface Props {
   schedulePageData: SchedulePageData;
   component: ComponentToRender;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
 }
+
+const fetchStopsForRoutePattern = (
+  routeId: string,
+  patternId: string
+): Promise<SimpleStopMap> =>
+  fetchJsonOrThrow(
+    `/schedules/finder_api/stops_for_route_pattern?route_id=${routeId}&pattern_id=${patternId}`
+  );
+
+export const ScheduleFinderLoader = (
+  props: Omit<ScheduleFinderProps, "stops">
+): ReactElement<HTMLElement> => {
+  const { state } = useContext(StateContext);
+  const [loadingState] = useProvider(fetchStopsForRoutePattern, [
+    props.route.id,
+    state.pattern.id
+  ]);
+  if (isInitialLoading(loadingState)) {
+    return <></>;
+  }
+
+  const stopsByDirection = loadingState.data;
+
+  return <ScheduleFinder stops={stopsByDirection} {...props} />;
+};
 
 export const changeOrigin = (origin: SelectedOrigin): void => {
   storeHandler({
