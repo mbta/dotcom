@@ -167,7 +167,6 @@ export interface UserInput {
 
 export type StoreAction =
   | "INITIALIZE"
-  | "CHANGE_DIRECTION"
   | "CHANGE_ORIGIN"
   | "OPEN_MODAL"
   | "CLOSE_MODAL";

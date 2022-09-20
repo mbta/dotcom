@@ -55,7 +55,7 @@ export default ({
 
   const directionNameForId = (
     direction: DirectionId
-  ): string => `${directionNames[direction]!.toUpperCase()} 
+  ): string => `${directionNames[direction]!.toUpperCase()}
   ${directionDestinations[direction]!}`;
 
   const isFerryRoute = routeToModeName(route) === "ferry";

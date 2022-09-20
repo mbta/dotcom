@@ -1,11 +1,12 @@
 import React, {
   ReactElement,
   Dispatch,
-  KeyboardEvent as ReactKeyboardEvent
+  KeyboardEvent as ReactKeyboardEvent,
+  useContext
 } from "react";
 import {
+  closeRoutePatternMenuAction,
   MenuAction,
-  setRoutePatternAction,
   showAllRoutePatternsAction,
   toggleRoutePatternMenuAction
 } from "./reducer";
@@ -15,6 +16,7 @@ import renderSvg from "../../../helpers/render-svg";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
+import { StateContext, Actions } from "../../page/state";
 
 interface ExpandedBusMenuProps {
   routePatterns: EnhancedRoutePattern[];
@@ -58,6 +60,8 @@ const RoutePatternItem = ({
   duplicated,
   dispatch
 }: RoutePatternItem): ReactElement<HTMLElement> => {
+  const { dispatch: pageStateDispatch } = useContext(StateContext);
+
   const selectedClass = selected ? " m-schedule-direction__menu--selected" : "";
 
   const icon = selected ? (
@@ -66,7 +70,10 @@ const RoutePatternItem = ({
     </div>
   ) : null;
 
-  const handleClick = (): void => dispatch(setRoutePatternAction(routePattern));
+  const handleClick = (): void => {
+    pageStateDispatch(Actions.setRoutePattern(routePattern));
+    dispatch(closeRoutePatternMenuAction());
+  };
 
   return (
     <div

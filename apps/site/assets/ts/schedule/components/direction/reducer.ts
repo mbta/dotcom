@@ -1,11 +1,7 @@
-import { updateInLocation } from "use-query-params";
-import { DirectionId } from "../../../__v3api";
 import { RoutePatternsByDirection, EnhancedRoutePattern } from "../__schedule";
 import { MapData } from "../../../leaflet/components/__mapdata";
 
 export interface State {
-  routePattern: EnhancedRoutePattern;
-  directionId: DirectionId;
   routePatternsByDirection: RoutePatternsByDirection;
   routePatternMenuOpen: boolean;
   routePatternMenuAll: boolean;
@@ -54,64 +50,11 @@ export type FetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
-const updateDirectionAndVariantInURL = (
-  directionId: DirectionId,
-  routePatternId: string
-): void => {
-  const query = {
-    // eslint-disable-next-line camelcase
-    "schedule_direction[direction_id]": directionId.toString(),
-    "schedule_direction[variant]": routePatternId
-  };
-  const newLoc = updateInLocation(query, window.location);
-  // newLoc is not a true Location, so toString doesn't work
-  window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
-};
-
-const toggleDirection = (state: State): State => {
-  const nextDirection = state.directionId === 0 ? 1 : 0;
-
-  // attempt to find the same route pattern for the opposite direction
-  const possibleNextRoutePattern = `${state.routePattern.id.slice(
-    0,
-    -1
-  )}${nextDirection}`;
-
-  const nextRoutePattern = state.routePatternsByDirection[nextDirection].find(
-    element => element.id === possibleNextRoutePattern
-  );
-
-  const defaultRoutePatternForDirection =
-    nextRoutePattern || state.routePatternsByDirection[nextDirection][0];
-
-  updateDirectionAndVariantInURL(
-    nextDirection,
-    defaultRoutePatternForDirection.id
-  );
-  return {
-    ...state,
-    directionId: nextDirection,
-    routePattern: defaultRoutePatternForDirection,
-    itemFocus: "first"
-  };
-};
-
 const toggleRoutePatternMenu = (state: State): State => ({
   ...state,
   routePatternMenuOpen: !state.routePatternMenuOpen,
   itemFocus: "first"
 });
-
-const setRoutePattern = (state: State, data: Payload): State => {
-  const newRoutePattern = data!.routePattern!;
-  updateDirectionAndVariantInURL(state.directionId, newRoutePattern.id);
-  return {
-    ...state,
-    routePattern: newRoutePattern,
-    routePatternMenuOpen: false,
-    itemFocus: null
-  };
-};
 
 const showAllRoutePatterns = (state: State): State => ({
   ...state,
@@ -121,9 +64,6 @@ const showAllRoutePatterns = (state: State): State => ({
 
 export const menuReducer = (state: State, action: MenuAction): State => {
   switch (action.type) {
-    case "toggleDirection":
-      return toggleDirection(state);
-
     case "toggleRoutePatternMenu":
       return toggleRoutePatternMenu(state);
 
@@ -136,9 +76,6 @@ export const menuReducer = (state: State, action: MenuAction): State => {
         routePatternMenuOpen: false,
         itemFocus: null
       };
-
-    case "setRoutePattern":
-      return setRoutePattern(state, action.payload!);
 
     /* istanbul ignore next */
     default:
