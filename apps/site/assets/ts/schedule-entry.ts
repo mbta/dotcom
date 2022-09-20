@@ -1,3 +1,3 @@
-import schedule from "./schedule/schedule-loader";
+import { initialize } from "./schedule/page/index";
 
-schedule();
+initialize();
