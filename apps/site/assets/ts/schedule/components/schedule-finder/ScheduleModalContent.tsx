@@ -114,7 +114,7 @@ const ScheduleModalContent = ({
 
   const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
     serviceToday ? (
-      <UpcomingDepartures state={state} />
+      <UpcomingDepartures state={state} predictions={predictions} />
     ) : (
       <div className="callout text-center u-bold">
         There are no scheduled trips for {formattedDate(today)}.
@@ -133,15 +133,6 @@ const ScheduleModalContent = ({
           selectedOrigin={selectedOrigin}
           stopsByDirection={stops}
         />
-      </div>
-
-      <div>
-        <b>Predictions ({predictions.length})</b>
-        {predictions.map(prediction => (
-          <div key={prediction.id}>
-            Stop {prediction.stopId}: {prediction.time.toLocaleString()}
-          </div>
-        ))}
       </div>
 
       {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}

@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import { get, isEmpty } from "lodash";
-import { Route } from "../../../../__v3api";
+import { get, isEmpty, join } from "lodash";
+import { Route, Trip } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { caret, modeIcon } from "../../../../helpers/icon";
 import liveClockSvg from "../../../../../static/images/icon-live-clock.svg";
@@ -21,6 +21,7 @@ import {
 } from "../../../../helpers/use-provider";
 import TripDetails from "./TripDetails";
 import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events-react";
+import { Prediction } from "../../../../hooks/usePredictions";
 
 type State = UseProviderState<EnhancedJourney[]>;
 type StateWithoutInitialLoading = UseProviderStateWithoutInitialLoading<
@@ -29,6 +30,7 @@ type StateWithoutInitialLoading = UseProviderStateWithoutInitialLoading<
 
 interface Props {
   state: State;
+  predictions: Prediction[];
 }
 
 interface AccordionProps {
@@ -36,10 +38,21 @@ interface AccordionProps {
   contentComponent: () => ReactElement<HTMLElement>;
 }
 
+const predictionsForTrip = (
+  predictions: Prediction[],
+  trip: Trip
+): Prediction[] =>
+  predictions.filter(prediction => prediction.tripId === trip.id);
+
 // Predictions are nil unless they have a time. This helps
 // prevent far-future trips from appearing in Upcoming Departures.
-const hasPredictions = (journeys: Journey[]): boolean =>
-  journeys.filter(journey => journey.realtime.prediction !== null).length > 0;
+const hasPredictions = (
+  journeys: Journey[],
+  predictions: Prediction[]
+): boolean =>
+  journeys.some(journey =>
+    predictions.some(prediction => prediction.tripId === journey.trip.id)
+  );
 
 const RoutePillSmall = ({
   route
@@ -204,9 +217,11 @@ const Accordion = ({
 };
 
 const TableRow = ({
-  journey
+  journey,
+  predictions
 }: {
   journey: EnhancedJourney;
+  predictions: Prediction[];
 }): ReactElement<HTMLElement> | null => {
   const { realtime } = journey;
 
@@ -237,7 +252,8 @@ const UpcomingDeparturesHeader = (
 );
 
 export const upcomingDeparturesTable = (
-  state: StateWithoutInitialLoading
+  state: StateWithoutInitialLoading,
+  predictions: Prediction[]
 ): ReactElement<HTMLElement> => {
   const headerLabel = "Trip Details";
   const { data: journeys } = state;
@@ -256,7 +272,7 @@ export const upcomingDeparturesTable = (
   return (
     <>
       {UpcomingDeparturesHeader}
-      {hasPredictions(journeys) ? (
+      {hasPredictions(journeys, predictions) ? (
         <table
           className={`schedule-table schedule-table--upcoming ${
             !someCrowdingInfoExists ? "u-no-crowding-data" : ""
@@ -282,6 +298,7 @@ export const upcomingDeparturesTable = (
             {journeys.map((journey, idx: number) => (
               <TableRow
                 journey={journey}
+                predictions={predictionsForTrip(predictions, journey.trip)}
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
               />
@@ -298,13 +315,14 @@ export const upcomingDeparturesTable = (
 };
 
 export const UpcomingDepartures = ({
-  state
+  state,
+  predictions
 }: Props): ReactElement<HTMLElement> | null => {
   if (isInitialLoading(state)) {
     return <Loading />;
   }
 
-  return <>{upcomingDeparturesTable(state)}</>;
+  return <>{upcomingDeparturesTable(state, predictions)}</>;
 };
 
 export default UpcomingDepartures;
