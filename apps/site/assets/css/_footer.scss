@@ -141,7 +141,6 @@
 .m-footer__copyright {
   font-size: $font-size-base-xs;
   @include media-breakpoint-up(lg) {
-    position: absolute;
     margin: 0 40px 0 56px;
     left: 0;
     right: 0;
@@ -188,6 +187,17 @@ address {
 
   .m-footer__links {
     margin-bottom: 0px;
+  }
+
+  .bottom-section {
+    .m-menu__feature_phone {
+      display: inline;
+      a {
+        font-size: 14px;
+        font-weight: 500;
+        color:  $brand-primary !important;
+      }
+    }
   }
 
   .m-menu__feature {
@@ -302,6 +312,9 @@ address {
 
   .m-menu__feature_phone {
     padding-top: 1rem;
+    small {
+      white-space: normal;
+    }
     a {
       color: $brand-primary;
       display: inline;
@@ -376,7 +389,6 @@ address {
   }
 
   @include media-breakpoint-up(lg) {
-    position: absolute;
     margin: 0 40px 0 56px;
     left: 0;
     right: 0;

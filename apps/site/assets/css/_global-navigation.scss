@@ -319,12 +319,23 @@ nav.m-menu--desktop {
     @include media-breakpoint-up(sm) {
       border-radius: 0 0 $space-2_new $space-2_new;
     }
+
+    .m-menu__feature_phone {
+      a {
+        color: $brand-primary-light-contrast;
+      }
+    }
   }
 }
 
 .m-menu__feature_phone {
   padding-top: $space-3_new;
   white-space: normal;
+
+  a {
+    color: $brand-primary-light-contrast;
+    font-size: 14px;
+  }
 
   > a {
     font-weight: $font-weight-medium;
