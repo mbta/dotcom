@@ -322,7 +322,7 @@ nav.m-menu--desktop {
 
     .m-menu__feature_phone {
       a {
-        color: $brand-primary-light-contrast;
+        font-size: 14px;
       }
     }
   }
@@ -333,8 +333,10 @@ nav.m-menu--desktop {
   white-space: normal;
 
   a {
-    color: $brand-primary-light-contrast;
-    font-size: 14px;
+    @include media-breakpoint-down(md) {
+      color: $brand-primary-light-contrast;
+      font-size: 14px;
+    }
   }
 
   > a {
