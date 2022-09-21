@@ -212,6 +212,15 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
+
+      {lineState.data && lineState.data[0] && (
+        <LineDiagramAndStopListPage
+          lineDiagram={lineState.data}
+          route={route}
+          directionId={state.directionId}
+        />
+      )}
+
       {!staticMapData && mapState.data && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
@@ -236,13 +245,6 @@ const ScheduleDirection = ({
             View map as a PDF
           </a>
         </>
-      )}
-      {lineState.data && lineState.data[0] && (
-        <LineDiagramAndStopListPage
-          lineDiagram={lineState.data}
-          route={route}
-          directionId={state.directionId}
-        />
       )}
     </>
   );

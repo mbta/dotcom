@@ -129,7 +129,9 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
             type="button"
             onClick={() => onClick(routeStop)}
           >
-            View schedule
+            {routeStop.route?.type === 1
+              ? "View upcoming departures"
+              : "View schedule"}
           </button>
         </footer>
       </section>
