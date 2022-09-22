@@ -1057,10 +1057,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
         Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
       assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
-
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert trunk |> List.first() |> stop_id() == "place-unsqu"
-      assert trunk |> List.first() |> stop_id() == "place-lech"
+      assert trunk |> List.first() |> stop_id() == "place-unsqu"
       assert trunk |> List.last() |> stop_id() == "place-armnl"
 
       # E branch + merge
@@ -1068,12 +1065,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       assert e |> List.first() |> stop_id() == "place-coecl"
       assert e |> List.last() |> stop_id() == "place-hsmnl"
 
-      # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-      # assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
-      # assert length(hynes) == 1
-      assert length(hynes) == 2
-      # assert hynes |> List.first() |> stop_id() == "place-hymnl"
-      assert hynes |> List.first() |> stop_id() == "place-unsqu"
+      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      assert length(hynes) == 1
+      assert hynes |> List.first() |> stop_id() == "place-hymnl"
 
       assert Enum.all?(bcd_combined, &(&1 |> branches() |> length() == 3))
       assert bcd_combined |> List.first() |> stop_id() == "place-kencl"
