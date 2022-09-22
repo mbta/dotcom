@@ -4,7 +4,7 @@ const baseConfig = require("../.eslintrc");
 const config = {
   ...baseConfig,
   parser: "@typescript-eslint/parser",
-  plugins: [...baseConfig.plugins, "@typescript-eslint"],
+  plugins: [...baseConfig.plugins, "@typescript-eslint", "testing-library"],
   parserOptions: {
     ...baseConfig.parserOptions,
     project: "../tsconfig.json"

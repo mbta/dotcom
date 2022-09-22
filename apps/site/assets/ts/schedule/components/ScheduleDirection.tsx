@@ -3,9 +3,6 @@ import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
   LineDiagramStop,
-  SimpleStopMap,
-  ServiceInSelector,
-  ScheduleNote as ScheduleNoteType,
   EnhancedRoutePattern
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
@@ -24,10 +21,6 @@ export interface Props {
   mapData?: MapData;
   staticMapData?: StaticMapData;
   lineDiagram: LineDiagramStop[];
-  services: ServiceInSelector[];
-  stops: SimpleStopMap;
-  today: string;
-  scheduleNote: ScheduleNoteType | null;
   busVariantId: string | null;
 }
 

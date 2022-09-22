@@ -56,6 +56,18 @@ describe("accordion", () => {
     });
   });
 
+  test("does nothing for some keys", () => {
+    const btn = getByText(document.body, /Heading 0/);
+    btn.focus();
+
+    expect(btn.getAttribute("aria-expanded")).toBe("false");
+
+    btn.focus();
+
+    fireEvent.keyUp(document.activeElement!, { code: "Delete" });
+    expect(document.activeElement!.getAttribute("aria-expanded")).toBe("false");
+  });
+
   test("toggles aria-expanded on Space", () => {
     const btn = getByText(document.body, /Heading 0/);
     btn.focus();

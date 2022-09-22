@@ -1,102 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BusMenuSelect renders a menu with a single route pattern 1`] = `
-<div
-  className="m-schedule-direction__route-pattern notranslate"
-  onClick={[Function]}
-  onKeyUp={[Function]}
->
-  Harvard via Allston
-   
-</div>
+<DocumentFragment>
+  <div
+    class="m-schedule-direction__route-pattern notranslate"
+  >
+    Harvard via Allston 
+  </div>
+</DocumentFragment>
 `;
 
 exports[`BusMenuSelect renders a menu with multiple route patterns 1`] = `
-<div
-  className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable notranslate"
-  onClick={[Function]}
-  onKeyUp={[Function]}
-  role="button"
-  tabIndex={0}
->
-  Harvard via Allston
-   
-  <span
-    aria-hidden="true"
-    className="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "SVG",
-      }
-    }
-  />
-</div>
+<DocumentFragment>
+  <div
+    class="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable notranslate"
+    role="button"
+    tabindex="0"
+  >
+    Harvard via Allston 
+    <span
+      aria-hidden="true"
+      class="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
+    >
+      SVG
+    </span>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`ExpandedBusMenu renders a menu 1`] = `
-<div
-  className="m-schedule-direction__menu"
-  role="menu"
->
+<DocumentFragment>
   <div
-    aria-current="page"
-    className="m-schedule-direction__menu-item m-schedule-direction__menu--selected"
-    id="route-pattern_66-6-0"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    role="menuitem"
-    tabIndex={0}
+    class="m-schedule-direction__menu"
+    role="menu"
   >
     <div
-      className="m-schedule-direction__menu-item-headsign"
+      aria-current="page"
+      class="m-schedule-direction__menu-item m-schedule-direction__menu--selected"
+      id="route-pattern_66-6-0"
+      role="menuitem"
+      tabindex="0"
     >
       <div
-        className="m-schedule-direction__checkmark"
+        class="m-schedule-direction__menu-item-headsign"
       >
+        <div
+          class="m-schedule-direction__checkmark"
+        >
+          <span
+            aria-hidden="true"
+            class="notranslate c-svg__icon"
+          >
+            SVG
+          </span>
+        </div>
+        Harvard via Allston
+      </div>
+      <div
+        class="m-schedule-direction__menu-item-description"
+      >
+        typical route
+      </div>
+    </div>
+    <div
+      aria-label="click for additional routes"
+      class="m-schedule-direction__menu-item"
+      id="route-pattern_uncommon"
+      role="menuitem"
+      tabindex="0"
+    >
+      <div
+        class="m-schedule-direction__menu-item-more"
+      >
+        Uncommon destinations 
         <span
           aria-hidden="true"
-          className="notranslate c-svg__icon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
-            }
-          }
-        />
+          class="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
+        >
+          SVG
+        </span>
       </div>
-      Harvard via Allston
-    </div>
-    <div
-      className="m-schedule-direction__menu-item-description"
-    >
-      typical route
     </div>
   </div>
-  <div
-    aria-label="click for additional routes"
-    className="m-schedule-direction__menu-item"
-    id="route-pattern_uncommon"
-    onClick={[Function]}
-    onKeyDown={[Function]}
-    onKeyUp={[Function]}
-    role="menuitem"
-    tabIndex={0}
-  >
-    <div
-      className="m-schedule-direction__menu-item-more"
-    >
-      Uncommon destinations
-       
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-    </div>
-  </div>
-</div>
+</DocumentFragment>
 `;

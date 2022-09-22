@@ -6,6 +6,7 @@ import { Teaser as Project } from "../../__cms";
 import MoreProjectsTable, {
   tableHeaderText
 } from "../components/MoreProjectsTable";
+import { Mode } from "../../__v3api";
 
 /* eslint-disable camelcase */
 const body = '<div id="react-root"></div>';
@@ -67,6 +68,9 @@ it("has the right header text", () => {
     "Subway"
   );
   expect(tableHeaderText({ ...state, currentMode: undefined })).toEqual("More");
+  expect(
+    tableHeaderText({ ...state, currentMode: "something-else" as Mode })
+  ).toEqual("");
 });
 
 it("triggers event when clicked", () => {

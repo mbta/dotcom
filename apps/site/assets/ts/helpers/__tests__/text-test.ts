@@ -28,5 +28,8 @@ describe("highlightText", () => {
 
     const highlighted = highlightText(text, spans);
     expect(highlighted).toEqual("<em>Sesame</em> <em>Street</em>");
+
+    const notHighlighted = highlightText(text);
+    expect(notHighlighted).toEqual("Sesame Street");
   });
 });

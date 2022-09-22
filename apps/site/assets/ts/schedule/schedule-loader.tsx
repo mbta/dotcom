@@ -45,6 +45,7 @@ const renderMap = ({
 };
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
+  /* istanbul ignore else  */
   if (window) {
     // eslint-disable-next-line camelcase
     const newQuery = {
