@@ -1,12 +1,20 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
+import useHoursOfOperation from "../../hooks/useHoursOfOperation";
+import { EnhancedRoute } from "../../__v3api";
 
 const HoursOfOperation = ({
-  hours
+  route
 }: {
-  hours: string;
-}): ReactElement<HTMLElement> | null =>
-  hours ? (
+  route: EnhancedRoute;
+}): ReactElement<HTMLElement> | null => {
+  console.log(route)
+
+  const hoursOfOperation = useHoursOfOperation(route.id)
+
+  console.log(hoursOfOperation)
+
+  return (
     <ExpandableBlock
       header={{ text: "Hours of Operation", iconSvgText: null }}
       initiallyExpanded={false}
@@ -15,9 +23,10 @@ const HoursOfOperation = ({
       <div
         className="m-schedule-page__sidebar-hours"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: hours }}
+        dangerouslySetInnerHTML={{ __html: "<div>HELLO WORLD</div>" }}
       />
     </ExpandableBlock>
-  ) : null;
+  )
+}
 
 export default HoursOfOperation;

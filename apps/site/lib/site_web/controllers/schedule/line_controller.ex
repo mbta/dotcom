@@ -37,6 +37,13 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> render("show.html", [])
   end
 
+  def hours_of_operation(conn, _) do
+    # populated by the plug up above
+    hours_of_operation = Map.get(conn.assigns, :hours_of_operation)
+    IO.inspect(hours_of_operation)
+    json(conn, hours_of_operation)
+  end
+
   def assign_schedule_page_data(conn) do
     services_fn = Map.get(conn.assigns, :services_fn, &ServicesRepo.by_route_id/1)
 

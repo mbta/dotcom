@@ -4,11 +4,11 @@ defmodule Schedules.HoursOfOperation do
 
   @type departure :: Departures.t() | :no_service
   @type t :: %__MODULE__{
-          week: {departure, departure},
-          saturday: {departure, departure},
-          sunday: {departure, departure}
+          week: {[departure], [departure]},
+          saturday: {[departure], [departure]},
+          sunday: {[departure], [departure]}
         }
-
+  @derive [Poison.Encoder]
   defstruct week: {:no_service, :no_service},
             saturday: {:no_service, :no_service},
             sunday: {:no_service, :no_service}
@@ -25,16 +25,19 @@ defmodule Schedules.HoursOfOperation do
   It's possible for one or more of the ranges to be :no_service, if the route
   does not run on that day.
   """
-  @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()]) :: t | {:error, any}
-  def hours_of_operation(route_id_or_ids, date \\ Util.service_date()) do
+  @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], atom()) :: t | {:error, any}
+  def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
+    IO.inspect("RAPID RAPID RAPID RAPID RAPID RAPID RAPID RAPID")
+    IO.inspect(route_id_or_ids)
     route_id_or_ids
     |> List.wrap()
-    |> api_params(date)
+    # we don't want to filter only the first and last
+    |> api_params(date, description)
     |> Task.async_stream(&V3Api.Schedules.all/1, on_timeout: :kill_task)
     # 3 dates * 2 directions == 6 responses per route
     |> Enum.chunk_every(6)
-    |> Enum.map(&parse_responses/1)
-    |> join_hours
+    |> Enum.map(&parse_responses(&1, description))
+    |> join_hours(description)
   end
 
   @doc """
@@ -49,8 +52,18 @@ defmodule Schedules.HoursOfOperation do
   * saturday, direction 1
   * sunday, direction 1
   """
-  @spec api_params([Routes.Route.id_t()], Date.t()) :: Keyword.t()
-  def api_params(route_ids, today) do
+  @spec api_params([Routes.Route.id_t()], Date.t(), atom()) :: Keyword.t()
+  def api_params(route_ids, today, :rapid_transit) do
+    for route_id <- route_ids, direction_id <- [0, 1], date <- week_dates(today) do
+      [
+        route: route_id,
+        date: date,
+        direction_id: direction_id,
+        "fields[schedule]": "departure_time,arrival_time"
+      ]
+    end
+  end
+  def api_params(route_ids, today, _) do
     for route_id <- route_ids, direction_id <- [0, 1], date <- week_dates(today) do
       [
         route: route_id,
@@ -86,7 +99,7 @@ defmodule Schedules.HoursOfOperation do
 
   It expects 6 responses, in the same order specified in `api_params/2`.
   """
-  @spec parse_responses([{:ok, api_response} | {:exit, any}]) :: t | {:error, any}
+  @spec parse_responses([{:ok, api_response} | {:exit, any}], atom()) :: t | {:error, any}
         when api_response: JsonApi.t() | {:error, any}
   def parse_responses([
         {:ok, week_response_0},
@@ -95,24 +108,24 @@ defmodule Schedules.HoursOfOperation do
         {:ok, week_response_1},
         {:ok, saturday_response_1},
         {:ok, sunday_response_1}
-      ]) do
-    with {:ok, week_0} <- departure(week_response_0),
-         {:ok, week_1} <- departure(week_response_1),
-         {:ok, saturday_0} <- departure(saturday_response_0),
-         {:ok, saturday_1} <- departure(saturday_response_1),
-         {:ok, sunday_0} <- departure(sunday_response_0),
-         {:ok, sunday_1} <- departure(sunday_response_1) do
+      ], description) do
+    with {:ok, week_0} <- departure(week_response_0, description),
+         {:ok, week_1} <- departure(week_response_1, description),
+         {:ok, saturday_0} <- departure(saturday_response_0, description),
+         {:ok, saturday_1} <- departure(saturday_response_1, description),
+         {:ok, sunday_0} <- departure(sunday_response_0, description),
+         {:ok, sunday_1} <- departure(sunday_response_1, description) do
       %__MODULE__{
         week: {week_0, week_1},
         saturday: {saturday_0, saturday_1},
         sunday: {sunday_0, sunday_1}
       }
     else
-      _ -> parse_responses([])
+      _ -> parse_responses([], description)
     end
   end
 
-  def parse_responses(errors) when is_list(errors) do
+  def parse_responses(errors, _) when is_list(errors) do
     {:error, :timeout}
   end
 
@@ -122,12 +135,17 @@ defmodule Schedules.HoursOfOperation do
   Used to combine %HoursOfOperation structs for different routes into a
   single struct representing all the routes together.
   """
-  @spec join_hours([t]) :: t
-  def join_hours([single]) do
+  @spec join_hours([t], atom()) :: t
+  # TODO figure out if rapid transit needs to have hours joined
+  def join_hours(data, :rapid_transit) do
+    data
+  end
+
+  def join_hours([single], _) do
     single
   end
 
-  def join_hours(multiple) do
+  def join_hours(multiple, _) do
     Enum.reduce(multiple, %__MODULE__{}, &merge/2)
   end
 
@@ -196,23 +214,53 @@ defmodule Schedules.HoursOfOperation do
   defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
   defp time(%{"departure_time" => time}), do: time
 
-  defp departure(%JsonApi{data: data}) do
-    {:ok, departure(data)}
+  defp departure(%JsonApi{data: data}, description) do
+    {:ok, departure(data, description)}
   end
 
-  defp departure({:error, [%JsonApi.Error{code: "no_service"}]}) do
+  defp departure({:error, [%JsonApi.Error{code: "no_service"}]}, _) do
     {:ok, :no_service}
   end
 
-  defp departure({:error, _} = error) do
+  defp departure({:error, _} = error, _) do
     error
   end
 
-  defp departure([]) do
+  defp departure([], _) do
     :no_service
   end
 
-  defp departure(data) do
+  # This one returns an array of data
+  defp departure(data, :rapid_transit) do
+    # IO.inspect("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    # IO.inspect(data)
+
+    # This data is already going only one direction so we don't need to worry about that
+    times_by_stop = Enum.group_by(data, fn x ->
+      # How does this become an array?  It looks like the data comes back as just an object from the API
+      stop_array = Map.get(x.relationships, "stop")
+      # should be exactly one element
+      List.first(stop_array).id
+    end)
+
+    #IO.inspect(value)
+
+    Enum.map(times_by_stop, fn {id, x} ->
+      # IO.inspect(x)
+      {min, max} = x
+      |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
+      |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
+      %{stop_id: id, first_departure: min, last_departure: max}
+    end)
+
+
+    # {min, max} =
+    #   data
+    #   |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
+    #   |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
+  end
+
+  defp departure(data, _) do
     {min, max} =
       data
       |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))

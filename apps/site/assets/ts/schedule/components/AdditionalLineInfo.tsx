@@ -16,7 +16,6 @@ interface Props {
   fares: Fare[];
   fareLink: string;
   route: EnhancedRoute;
-  hours: string;
   holidays: Holiday[];
 }
 
@@ -24,7 +23,6 @@ const AdditionalLineInfo = ({
   connections,
   pdfs,
   teasers,
-  hours,
   fares,
   holidays,
   fareLink,
@@ -35,7 +33,7 @@ const AdditionalLineInfo = ({
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />
     <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
-    <HoursOfOperation hours={hours} />
+    <HoursOfOperation route={route} />
     <UpcomingHolidays holidays={holidays} />
   </>
 );

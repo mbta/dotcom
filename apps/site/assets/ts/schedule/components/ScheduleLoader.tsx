@@ -189,7 +189,6 @@ export const ScheduleLoader = ({
           fares={fares}
           fareLink={fareLink}
           route={route}
-          hours={hours}
           holidays={holidays}
         />
       );

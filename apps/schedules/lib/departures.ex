@@ -1,12 +1,12 @@
 defmodule Schedules.Departures do
   @enforce_keys [:first_departure, :last_departure]
+  @derive [Poison.Encoder]
   defstruct [:first_departure, :last_departure]
 
   @type t :: %__MODULE__{
           first_departure: DateTime.t(),
           last_departure: DateTime.t()
         }
-
   @doc """
   Given a non-empty list of schedules, returns the first and last times.
   """

@@ -165,6 +165,8 @@ defmodule SiteWeb.Router do
 
     get("/schedules/:route/alerts", ScheduleController.AlertsController, :show, as: :alerts)
     get("/schedules/:route/line", ScheduleController.LineController, :show, as: :line)
+    # TODO figure out where this controller info should live
+    get("/schedules/:route/line/hours", ScheduleController.LineController, :hours_of_operation)
 
     get("/schedules/:route", ScheduleController, :show, as: :schedule)
     get("/schedules/:route/pdf", ScheduleController.Pdf, :pdf, as: :route_pdf)
