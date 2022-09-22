@@ -12,47 +12,147 @@
   background-color: $footer-color;
   color: $white;
   min-width: 20rem;
-  padding-bottom: $base-spacing * 2;
-  padding-top: $base-spacing * 2;
+  padding-bottom: 24px;
+  padding-top: 24px;
+  flex-basis: 70%;
+
+  @include media-breakpoint-down(sm) {
+    border-radius:  0 24px 0 0;
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    padding-left: 11px;
+    border-radius:  0 40px 0 0;
+    padding-top: 32px;
+  }
 
   @include media-breakpoint-up(xxl) {
     font-size: $font-size-base;
   }
 
-  @include media-breakpoint-down(md) {
-    font-size: $font-size-base-sm;
+  @include media-breakpoint-up(lg) {
+    height: auto;
+    padding-left: 1rem;
+    position: relative;
+    padding-top: 40px;
+    border-radius:  0 40px 0 0;
   }
 
-  @media print {
-    display: none;
+  @include media-breakpoint-only(md) {
+    font-size: $font-size-base-sm;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+  }
+
+  .container {
+    padding-bottom: 44px;
+    padding: 0 4px 0 4px;
+
+    @include media-breakpoint-up(lg) {
+      padding-left: 0px;
+      padding-right: 4px;
+    }
+
+
+  }
+}
+
+.m-footer__links {
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  .m-menu__feature {
+    width: initial;
+    @include media-breakpoint-up(lg) {
+     .m-menu__section-heading {
+      font-size: 16px;
+     }
+    }
+  }
+
+  @include media-breakpoint-down(xs) {
+    display: block;
+    padding-bottom: 20px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .m-footer__group {
+      padding-left: 12px;
+    }
+  }
+
+  a {
+    color: $brand-primary-light-contrast;
+    display: block;
+    margin-bottom: .75rem;
+    font-size: 18px;
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 1rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      font-size: 0.875rem;
+    }
+
+    @include media-breakpoint-down(xs) {
+      margin-bottom: 4px;
+    }
+
+    &:hover {
+      color: $brand-primary-light;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $brand-primary;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: 2px solid $brand-secondary;
+    }
   }
 }
 
 .m-footer__group {
-  @include media-breakpoint-up(md) {
-    @include make-col();
-    @include make-col-span(3);
-    padding-bottom: $base-spacing * 2;
-  }
+  margin-bottom: 20px;
 }
 
 .m-footer__group-title {
-  @include h5();
-  font-size: 1.04em; // Tweak so that titles appear same size as links (~15px)
-  margin-bottom: .5rem; // Match vertical spacing of listed items below
-}
+  @include h3();
+  margin: 0 0 24px;
 
-.m-footer__item {
-  display: block;
-  margin: .25rem 0;
+  @include media-breakpoint-only(xs) {
+    font-size: 18px;
+  }
 
-  a {
-    color: $brand-primary-light-contrast;
+  @include media-breakpoint-only(sm) {
+    font-size: 1.15rem;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 24px;
+    line-height: 30px;
+    font-family: $font-family-base;
+    margin-bottom: 24px;
+    margin-top: 16px;
   }
 }
 
 .m-footer__copyright {
   font-size: $font-size-base-xs;
+  @include media-breakpoint-up(lg) {
+    margin: 0 40px 0 56px;
+    left: 0;
+    right: 0;
+    bottom: 34px;
+  }
+  @include media-breakpoint-down(xs) {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -61,38 +161,328 @@
 // MOBILE FOOTER STYLES
 //
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-up(lg) {
   .m-footer__group {
-    display: none;
+    padding-left: 40px;
+  }
+}
+
+address {
+  .m-footer__item {
+    a {
+      color: $brand-primary;
+    }
+
+    @include media-breakpoint-down(xs) {
+      font-size: 14px;
+      line-height: 21px;
+    }
+  }
+}
+
+.call-us-container {
+  margin-bottom: -50px;
+  background: $brand-primary-lightest-contrast;
+  padding-bottom: 0;
+  flex-basis: 30%;
+  border-radius: 40px 0 0 0;
+  padding-top: 40px;
+
+  .m-footer__links {
+    margin-bottom: 0px;
   }
 
-  .m-footer__group-title {
-    display: none;
-  }
-
-  .m-footer--mobile__group {
-    display: block;
-  }
-
-  .m-footer--mobile__items {
-    text-align: center;
-
-    @include not-last-child {
-      &::after {
-        color: $white;
-        content: '●';
-        margin-left: .25em;
-        margin-right: .25em;
+  .bottom-section {
+    .m-menu__feature_phone {
+      display: inline;
+      a {
+        font-size: 14px;
+        font-weight: 500;
+        color:  $brand-primary !important;
       }
     }
   }
 
-  .m-footer--mobile__item {
-    display: inline;
+  .m-menu__feature {
+    background: $brand-primary-lightest-contrast;
+    font-size: 1rem;
+    margin-bottom: 14px;
+
+    &.top-section {
+      padding-top: 12px !important;
+    }
+    
+    &.emergency-contacts {
+      display: block;
+      white-space: normal;
+      &.mobile {
+        border-radius: 0;
+        margin-top: 0px;
+        margin-bottom: 2px;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 14px;
+      a {
+        margin-top: 20px;
+      }
+    }
+
+    @include media-breakpoint-down(xs) {
+      margin-bottom: 0px;
+      padding-top: 24px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 26px;
+    }
+
+    small {
+      font-size: 16px;
+      @include media-breakpoint-down(xs) {
+        font-size: 14px;
+        white-space: nowrap;
+      }
+    }
   }
 
-  .m-footer__copyright {
-    padding-top: 0;
-    text-align: center;
+  @include media-breakpoint-down(xs) {
+    padding-top: 22px !important;
+    .container {
+      padding-left: 4px;
+      padding-right: 4px;
+      border-radius: 24px 0 0 0;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    border-radius: 40px 0 0 0;
+    padding-top: 32px;
+  }
+
+  @include media-breakpoint-only(md) {
+    font-size: $font-size-base-sm;
+    padding-bottom: $base-spacing * 2;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 50px;
+    border-radius:  24px 0 0;
+  }
+  .m-footer__links {
+    @include media-breakpoint-down(xs){
+      display: block;
+    }
+    @include media-breakpoint-up(lg){
+      display: block;
+
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 0px;
+    padding-right: 40px;
+    font-size: $font-size-base;
+    .container {
+      ul {
+        display: flex;
+        flex-direction: column;
+        .m-footer__group {
+          width: 100%;
+        }
+      }
+    }
+
+    .m-footer__group {
+      padding-left: 15px;
+    }
+  }
+
+  :nth-child(2) {
+    div {
+      @include media-breakpoint-up(lg) {
+        padding-left: 0px;
+      }
+    }
+    :first-child {
+      padding-top: 0px;
+    }
+    :nth-child(1) {
+      margin-top: 0;
+      margin-bottom: 0px;
+    }
+  }
+
+  .m-menu__feature_phone {
+    padding-top: 1rem;
+    small {
+      white-space: normal;
+    }
+    a {
+      color: $brand-primary;
+      display: inline;
+    }
+    @include media-breakpoint-down(xs) {
+      a {
+        margin-top: 0px;
+        font-size: 14px;
+      }
+      strong {
+        padding-right: 4px;
+        font-size: 14px;
+        display: inline;
+      }
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    a {
+      padding-top: 12px;
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.call-us-header {
+  @include media-breakpoint-up(lg) {
+    font-size:24px;
+    margin-top: 18px;
+    margin-bottom: 12px;
+    font-family: $font-family-base;
+  }
+  @include media-breakpoint-down(md) {
+    padding-left: 12px;
+  }
+  @include media-breakpoint-down(xs) {
+    margin-top: 2px;
+    font-size: 18px;
+    margin-bottom: 0px;
+  }
+}
+
+.numbers-container {
+  padding-top: 19px;
+  .m-footer__item {
+    display: flex;
+  }
+  strong {
+    margin-top: 12px;
+    padding-right: 4px;
+  }
+  a {
+    color: $brand-primary;
+  }
+}
+
+.all-container {
+  max-width: 100%;
+  @include media-breakpoint-up(lg) {
+    display: flex;
+  }
+}
+
+.lower-footer {
+  @include media-breakpoint-down(xs) {
+    flex-direction: column;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  @include media-breakpoint-between(sm, md){
+    margin-right: 11px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin: 0 40px 0 56px;
+    left: 0;
+    right: 0;
+    bottom: 60px;
+  }
+
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid $brand-primary-light-contrast;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  bottom: 90px;
+
+  .m-menu__language {
+    color: $brand-primary-light-contrast;
+    .custom-language-selector {
+      color: $brand-primary-light-contrast;
+    }
+    
+    .header-globe {
+      display: none;
+    }
+    .footer-globe {
+      display: block;
+    }
+  }
+  
+}
+
+.social-icons-container {
+  @include media-breakpoint-down(xs) {
+    padding-top: 20px;
+  }
+}
+
+.social-icons-container a:first-of-type {
+  :first-child {
+    padding-left: 0px;
+  }
+}
+
+.social-icon {
+  padding-left: 20px;
+  color: $brand-primary-light-contrast;
+  &:hover {
+    color: $brand-primary-light;
+  }
+  &:active {
+    color: $brand-primary;
+  }
+  &:focus {
+    color: $brand-primary-light;
+    outline: $brand-secondary solid 2px;
+  }
+}
+
+.bottom-section {
+  .m-menu__feature_phone {
+    display: inline;
+  }
+}
+
+.m-footer__link {
+  @include media-breakpoint-down(xs) {
+    padding-bottom: 16px;
+  }
+}
+
+.m-footer__last-link {
+  @include media-breakpoint-down(xs) {
+    padding-bottom: 32px;
+  }
+}
+
+.outer-container {
+  @include media-breakpoint-up(lg) {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 960px;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+  }
+}
+
+.m-footer__outer-background {
+  @include media-breakpoint-up(lg) {
+    background: linear-gradient(90deg, $brand-primary-lightest-contrast 50%, $footer-color 50%);
+    border-radius: 40px 40px 0 0;
   }
 }

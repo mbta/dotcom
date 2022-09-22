@@ -127,7 +127,8 @@ const render = () => {
 };
 
 const renderCustomSelect = () => `
-  <i class="fa fa-globe fa-lg" aria-hidden="true"></i>
+  <i class="header-globe fa fa-globe fa-lg" aria-hidden="true"></i>
+  <i class="footer-globe fa fa-globe fa-xl" aria-hidden="true"></i>
   <select class="custom-language-selector" aria-label="Page language">
   ${languages.map(
     ([code, name]) =>

@@ -87,6 +87,10 @@ nav.m-menu--desktop {
       outline: 2px solid $brand-secondary;
     }
   }
+
+  .footer-globe {
+      display: none;
+  }
 }
 
 // Buttons to open/close desktop menu
@@ -321,12 +325,25 @@ nav.m-menu--desktop {
     @include media-breakpoint-up(sm) {
       border-radius: 0 0 $space-2_new $space-2_new;
     }
+
+    .m-menu__feature_phone {
+      a {
+        font-size: 14px;
+      }
+    }
   }
 }
 
 .m-menu__feature_phone {
   padding-top: $space-3_new;
   white-space: normal;
+
+  a {
+    @include media-breakpoint-down(md) {
+      color: $brand-primary-light-contrast;
+      font-size: 14px;
+    }
+  }
 
   > a {
     font-weight: $font-weight-medium;

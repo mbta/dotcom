@@ -21,5 +21,7 @@
 </div>
 <div class="m-menu__feature bottom-section">
   <h3 class="m-menu__section-heading">Report a Railroad Crossing Gate Issue</h3>
-  <div class="m-menu__feature_phone">To report a problem or emergency with a railroad crossing, call <%= tel_link "1-800-522-8236" %></div>
+  <div class="m-menu__feature_phone">
+    <small>To report a problem or emergency with a railroad crossing, call <%= tel_link "1-800-522-8236" %></small>
+  </div>
 </div>
