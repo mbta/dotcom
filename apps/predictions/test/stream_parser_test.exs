@@ -71,7 +71,9 @@ defmodule Predictions.StreamParserTest do
 
       expected = %Prediction{
         id: "TEST-ID",
+        arrival_time: ~U[2016-01-01 04:00:00Z],
         departing?: true,
+        departure_time: ~U[2016-09-15 19:40:00Z],
         direction_id: 1,
         route: %Route{
           id: "route_id",
