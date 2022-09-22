@@ -638,15 +638,15 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       assert [
                {
                  [nil: :stop],
+                 %Stops.RouteStop{id: "place-gover"}
+               },
+               {
+                 [nil: :stop],
                  %RouteStop{id: "place-north"}
                },
                {
                  [nil: :stop],
                  %RouteStop{id: "place-haecl"}
-               },
-               {
-                 [nil: :stop],
-                 %Stops.RouteStop{id: "place-gover"}
                },
                {
                  [nil: :stop],
@@ -1018,23 +1018,13 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
         |> DiagramHelpers.build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
-      # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            # As of Aug 2022, the Green Line Union Square branch is temporarily suspended.
-            # {"place-unsqu", 0},
-            # {"place-north", 3},
-            # {"place-gover", 5},
-            # {"place-pktrm", 6},
-            # {"place-coecl", 9},
-            # {"place-hsmnl", 20},
-            # {"place-river", 35},
-            # {"place-clmnl", 48},
-            # {"place-lake", 64}
-            {"place-lech", 0},
-            {"place-pktrm", 5},
-            {"place-coecl", 8},
-            {"place-hsmnl", 19},
+            {"place-unsqu", 0},
+            {"place-north", 3},
+            {"place-gover", 5},
+            {"place-pktrm", 6},
+            {"place-coecl", 9},
+            {"place-hsmnl", 20},
             {"place-river", 35},
             {"place-clmnl", 48},
             {"place-lake", 64}
@@ -1408,11 +1398,11 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       branches = {nil, GreenLine.branch_ids()}
 
       assert DiagramHelpers.build_branched_stop(unsqu, [], branches) == [
-               {[{"Green-E", :terminus}], unsqu}
+               {[{"Green-D", :terminus}], unsqu}
              ]
 
       assert DiagramHelpers.build_branched_stop(lech, [], branches) == [
-               {[{"Green-E", :stop}], lech}
+               {[{"Green-E", :terminus}], lech}
              ]
 
       assert DiagramHelpers.build_branched_stop(spmnl, [], branches) == [
