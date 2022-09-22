@@ -89,7 +89,7 @@ exports[`it renders 1`] = `
           href="/schedules/Red"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -301,7 +301,7 @@ exports[`it renders 1`] = `
           href="/schedules/741"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -464,7 +464,7 @@ exports[`it renders 1`] = `
           href="/schedules/742"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -627,7 +627,7 @@ exports[`it renders 1`] = `
           href="/schedules/743"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -790,7 +790,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Fairmount"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -923,7 +923,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Worcester"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -1136,7 +1136,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Franklin"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -1349,7 +1349,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Greenbush"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -1482,7 +1482,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Kingston"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -1655,7 +1655,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Middleborough"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -1788,7 +1788,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Needham"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -1921,7 +1921,7 @@ exports[`it renders 1`] = `
           href="/schedules/CR-Providence"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>
@@ -2216,7 +2216,7 @@ exports[`it renders filtered data 1`] = `
           href="/schedules/Red"
         >
           <span
-            className="sr-only"
+            className="visually-hidden"
           >
             Go to route
           </span>

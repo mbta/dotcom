@@ -13,7 +13,7 @@ exports[`it renders a stop card 1`] = `
       href="/schedules/route-id"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -153,7 +153,7 @@ exports[`it renders a stop card for the silver line 1`] = `
       href="/schedules/751"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>

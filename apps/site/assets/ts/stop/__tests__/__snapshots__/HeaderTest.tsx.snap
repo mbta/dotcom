@@ -5,7 +5,7 @@ exports[`renders 1`] = `
   className="m-stop-page__header"
 >
   <div
-    className="m-stop-page__header-container"
+    className="container m-stop-page__header-container"
   >
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
@@ -122,6 +122,7 @@ exports[`renders 1`] = `
     >
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       header-tab--selected
@@ -137,6 +138,7 @@ exports[`renders 1`] = `
       </div>
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       
@@ -166,7 +168,7 @@ exports[`renders a ferry route 1`] = `
   className="m-stop-page__header"
 >
   <div
-    className="m-stop-page__header-container"
+    className="container m-stop-page__header-container"
   >
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
@@ -245,6 +247,7 @@ exports[`renders a ferry route 1`] = `
     >
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       header-tab--selected
@@ -260,6 +263,7 @@ exports[`renders a ferry route 1`] = `
       </div>
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       
@@ -289,7 +293,7 @@ exports[`renders all subway routes 1`] = `
   className="m-stop-page__header"
 >
   <div
-    className="m-stop-page__header-container"
+    className="container m-stop-page__header-container"
   >
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
@@ -425,6 +429,7 @@ exports[`renders all subway routes 1`] = `
     >
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       header-tab--selected
@@ -440,6 +445,7 @@ exports[`renders all subway routes 1`] = `
       </div>
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       
@@ -469,7 +475,7 @@ exports[`renders with green line routes 1`] = `
   className="m-stop-page__header"
 >
   <div
-    className="m-stop-page__header-container"
+    className="container m-stop-page__header-container"
   >
     <h1
       className="m-stop-page__name m-stop-page__name--upcase"
@@ -624,6 +630,7 @@ exports[`renders with green line routes 1`] = `
     >
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       header-tab--selected
@@ -639,6 +646,7 @@ exports[`renders with green line routes 1`] = `
       </div>
       <div
         className="
+      col-2
       header-tab
       header-tab--dark
       

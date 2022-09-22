@@ -7,7 +7,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
   </h3>
   <SearchBox id=\\"stop-search\\" labelText=\\"Search for a stop\\" onChange={[Function: bound dispatchAction]} className=\\"m-schedule-diagram__filter\\">
     <div className=\\"m-schedule-diagram__filter c-form__input-container\\">
-      <label htmlFor=\\"stop-search\\" className=\\"sr-only\\">
+      <label htmlFor=\\"stop-search\\" className=\\"visually-hidden\\">
         Search for a stop
       </label>
       <input className=\\"c-form__input\\" id=\\"stop-search\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Search for a stop\\" />
@@ -138,7 +138,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                   <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                     <a href=\\"/stops/line-stop1\\">
                       <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                      <span className=\\"sr-only\\">
+                      <span className=\\"visually-hidden\\">
                         Service alert or delay
                       </span>
                        
@@ -221,7 +221,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                   <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                     <a href=\\"/stops/line-stop2\\">
                       <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                      <span className=\\"sr-only\\">
+                      <span className=\\"visually-hidden\\">
                         Service alert or delay
                       </span>
                        

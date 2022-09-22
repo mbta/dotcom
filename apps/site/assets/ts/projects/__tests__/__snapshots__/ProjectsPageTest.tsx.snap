@@ -129,13 +129,13 @@ Array [
               }
             >
               <div
-                className="sr-only"
+                className="visually-hidden"
               >
                 Better Bus Project: Making transit better together
               </div>
             </div>
             <div
-              className="c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--unknown"
+              className="c-banner__content c-banner__content--responsive-side-by-side u-bg--unknown"
             >
               <div
                 className="c-banner__top"
@@ -169,7 +169,7 @@ Array [
               className="c-banner__image c-banner__image--responsive-side-by-side c-banner--responsive-no-margin c-banner__image--default"
             >
               <div
-                className="c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--unknown"
+                className="c-banner__content c-banner__content--responsive-side-by-side u-bg--unknown"
               >
                 <div
                   className="c-banner__top"
@@ -197,7 +197,7 @@ Array [
                 src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
               />
               <div
-                className="sr-only"
+                className="visually-hidden"
               >
                 Better Bus Project: Making transit better together
               </div>
@@ -211,7 +211,7 @@ Array [
             className="c-banner__image c-banner__image--responsive-side-by-side c-banner--responsive-no-margin c-banner__image--default"
           >
             <div
-              className="c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--unknown"
+              className="c-banner__content c-banner__content--responsive-side-by-side u-bg--unknown"
             >
               <div
                 className="c-banner__top"
@@ -239,7 +239,7 @@ Array [
               src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
             />
             <div
-              className="sr-only"
+              className="visually-hidden"
             >
               Better Bus Project: Making transit better together
             </div>

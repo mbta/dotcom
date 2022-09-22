@@ -10,7 +10,7 @@ Array [
   >
     <label>
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Choose a schedule type from the available options
       </span>
@@ -89,7 +89,7 @@ Array [
   >
     <span
       aria-live="polite"
-      className="sr-only"
+      className="visually-hidden"
     >
       Showing times for 
       Saturday schedule

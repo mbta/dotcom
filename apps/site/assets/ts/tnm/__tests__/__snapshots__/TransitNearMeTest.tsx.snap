@@ -87,7 +87,7 @@ exports[`it filters by selected stop id 1`] = `
       className="m-tnm-sidebar__inner"
     >
       <div
-        className="m-tnm-sidebar__header"
+        className="col-sm-8 m-tnm-sidebar__header"
       >
         <div
           className="m-tnm-sidebar__header-title"
@@ -126,7 +126,7 @@ exports[`it filters by selected stop id 1`] = `
     </div>
   </div>
   <h3
-    className="sr-only"
+    className="visually-hidden"
   >
     Map
   </h3>
@@ -226,7 +226,7 @@ exports[`it renders 1`] = `
       className="m-tnm-sidebar__inner"
     >
       <div
-        className="m-tnm-sidebar__header"
+        className="col-sm-8 m-tnm-sidebar__header"
       >
         <div
           className="m-tnm-sidebar__header-title"
@@ -265,7 +265,7 @@ exports[`it renders 1`] = `
     </div>
   </div>
   <h3
-    className="sr-only"
+    className="visually-hidden"
   >
     Map
   </h3>

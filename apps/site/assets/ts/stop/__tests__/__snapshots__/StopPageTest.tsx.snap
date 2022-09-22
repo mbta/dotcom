@@ -6,7 +6,7 @@ Array [
     className="breadcrumb-container"
   >
     <div
-      className="container"
+      className="container p-0"
     >
       <span
         className="focusable-sm-down"
@@ -39,7 +39,7 @@ Array [
     className="m-stop-page__header"
   >
     <div
-      className="m-stop-page__header-container"
+      className="container m-stop-page__header-container"
     >
       <h1
         className="m-stop-page__name m-stop-page__name--upcase"
@@ -156,6 +156,7 @@ Array [
       >
         <div
           className="
+      col-2
       header-tab
       header-tab--dark
       
@@ -171,6 +172,7 @@ Array [
         </div>
         <div
           className="
+      col-2
       header-tab
       header-tab--dark
       
@@ -194,10 +196,10 @@ Array [
     </div>
   </div>,
   <div
-    className="m-stop-page__info-container"
+    className="container m-stop-page__info-container"
   >
     <div
-      className="m-stop-page__info"
+      className="container m-stop-page__info"
     >
       <div
         className="container"
@@ -267,7 +269,7 @@ Array [
       className="m-stop-page__hero-map"
     >
       <h3
-        className="sr-only"
+        className="visually-hidden"
       >
         Map
       </h3>
@@ -607,7 +609,7 @@ Array [
                     href="/schedules/Red"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -819,7 +821,7 @@ Array [
                     href="/schedules/741"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -982,7 +984,7 @@ Array [
                     href="/schedules/742"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -1145,7 +1147,7 @@ Array [
                     href="/schedules/743"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -1308,7 +1310,7 @@ Array [
                     href="/schedules/CR-Fairmount"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -1441,7 +1443,7 @@ Array [
                     href="/schedules/CR-Worcester"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -1654,7 +1656,7 @@ Array [
                     href="/schedules/CR-Franklin"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -1867,7 +1869,7 @@ Array [
                     href="/schedules/CR-Greenbush"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -2000,7 +2002,7 @@ Array [
                     href="/schedules/CR-Kingston"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -2173,7 +2175,7 @@ Array [
                     href="/schedules/CR-Middleborough"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -2306,7 +2308,7 @@ Array [
                     href="/schedules/CR-Needham"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>
@@ -2439,7 +2441,7 @@ Array [
                     href="/schedules/CR-Providence"
                   >
                     <span
-                      className="sr-only"
+                      className="visually-hidden"
                     >
                       Go to route
                     </span>

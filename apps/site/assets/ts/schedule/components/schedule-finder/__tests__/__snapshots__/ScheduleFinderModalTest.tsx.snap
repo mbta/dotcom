@@ -19,7 +19,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
                   </h3>
                   <SearchBox id=\\"origin-filter\\" labelText=\\"Choose an origin stop\\" className=\\"schedule-finder__origin-search-container\\" placeholder=\\"Filter stops and stations\\" onChange={[Function: bound dispatchAction]}>
                     <div className=\\"schedule-finder__origin-search-container c-form__input-container\\">
-                      <label htmlFor=\\"origin-filter\\" className=\\"sr-only\\">
+                      <label htmlFor=\\"origin-filter\\" className=\\"visually-hidden\\">
                         Choose an origin stop
                       </label>
                       <input className=\\"c-form__input\\" id=\\"origin-filter\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Filter stops and stations\\" />
@@ -94,7 +94,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode with origin selecte
                   </h3>
                   <SearchBox id=\\"origin-filter\\" labelText=\\"Choose an origin stop\\" className=\\"schedule-finder__origin-search-container\\" placeholder=\\"Filter stops and stations\\" onChange={[Function: bound dispatchAction]}>
                     <div className=\\"schedule-finder__origin-search-container c-form__input-container\\">
-                      <label htmlFor=\\"origin-filter\\" className=\\"sr-only\\">
+                      <label htmlFor=\\"origin-filter\\" className=\\"visually-hidden\\">
                         Choose an origin stop
                       </label>
                       <input className=\\"c-form__input\\" id=\\"origin-filter\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Filter stops and stations\\" />
@@ -233,7 +233,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                     <SchedulesSelect sortedServices={{...}} todayServiceId=\\"\\" defaultSelectedServiceId=\\"BUS319-J-Wdy-02\\" todayDate={{...}} onSelectService={[Function: onSelectService]}>
                       <div className=\\"schedule-finder__service-selector\\">
                         <label>
-                          <span className=\\"sr-only\\">
+                          <span className=\\"visually-hidden\\">
                             Choose a schedule type from the available options
                           </span>
                           <SelectContainer>

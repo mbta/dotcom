@@ -84,7 +84,7 @@ exports[`render it renders 1`] = `
     className="m-tnm-sidebar__inner"
   >
     <div
-      className="m-tnm-sidebar__header"
+      className="col-sm-8 m-tnm-sidebar__header"
     >
       <div
         className="m-tnm-sidebar__header-title"
@@ -118,7 +118,7 @@ exports[`render it renders 1`] = `
             href="/schedules/Orange"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -329,7 +329,7 @@ exports[`render it renders 1`] = `
             href="/schedules/CR-Haverhill"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -499,7 +499,7 @@ exports[`render it renders 1`] = `
             href="/schedules/97"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -695,7 +695,7 @@ exports[`render it renders 1`] = `
             href="/schedules/99"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -891,7 +891,7 @@ exports[`render it renders 1`] = `
             href="/schedules/101"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -1085,7 +1085,7 @@ exports[`render it renders 1`] = `
             href="/schedules/104"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -1296,7 +1296,7 @@ exports[`render it renders 1`] = `
             href="/schedules/105"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -1507,7 +1507,7 @@ exports[`render it renders 1`] = `
             href="/schedules/106"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -1801,7 +1801,7 @@ exports[`render it renders 1`] = `
             href="/schedules/108"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -1997,7 +1997,7 @@ exports[`render it renders 1`] = `
             href="/schedules/131"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -2127,7 +2127,7 @@ exports[`render it renders 1`] = `
             href="/schedules/132"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -2323,7 +2323,7 @@ exports[`render it renders 1`] = `
             href="/schedules/136"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -2501,7 +2501,7 @@ exports[`render it renders 1`] = `
             href="/schedules/137"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -2697,7 +2697,7 @@ exports[`render it renders 1`] = `
             href="/schedules/411"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -2951,7 +2951,7 @@ exports[`render it renders 1`] = `
             href="/schedules/430"
           >
             <span
-              className="sr-only"
+              className="visually-hidden"
             >
               Go to route
             </span>
@@ -3358,7 +3358,7 @@ exports[`render it returns null when there isn't data 1`] = `
     className="m-tnm-sidebar__inner"
   >
     <div
-      className="m-tnm-sidebar__header"
+      className="col-sm-8 m-tnm-sidebar__header"
     >
       <div
         className="m-tnm-sidebar__header-title"

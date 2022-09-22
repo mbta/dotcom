@@ -5,7 +5,7 @@ exports[`it renders 1`] = `
   className="breadcrumb-container"
 >
   <div
-    className="container"
+    className="container p-0"
   >
     <span
       className="focusable-sm-down"

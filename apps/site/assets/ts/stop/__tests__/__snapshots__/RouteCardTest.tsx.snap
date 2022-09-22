@@ -12,7 +12,7 @@ exports[`it renders 1`] = `
       href="/schedules/Red"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -227,7 +227,7 @@ exports[`renders blue line routes 1`] = `
       href="/schedules/Blue"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -274,7 +274,7 @@ exports[`renders bus routes 1`] = `
       href="/schedules/Bus"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -321,7 +321,7 @@ exports[`renders ferry routes 1`] = `
       href="/schedules/Boat-F4"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -368,7 +368,7 @@ exports[`renders green line routes 1`] = `
       href="/schedules/Green-B"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -415,7 +415,7 @@ exports[`renders orange line routes 1`] = `
       href="/schedules/Orange"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>
@@ -462,7 +462,7 @@ exports[`renders red line routes 1`] = `
       href="/schedules/Red"
     >
       <span
-        className="sr-only"
+        className="visually-hidden"
       >
         Go to route
       </span>

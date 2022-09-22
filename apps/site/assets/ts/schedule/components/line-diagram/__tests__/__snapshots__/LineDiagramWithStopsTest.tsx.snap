@@ -123,7 +123,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                   <a href=\\"/stops/line-stop1\\">
                     <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    <span className=\\"sr-only\\">
+                    <span className=\\"visually-hidden\\">
                       Service alert or delay
                     </span>
                      
@@ -206,7 +206,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
                   <a href=\\"/stops/line-stop2\\">
                     <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    <span className=\\"sr-only\\">
+                    <span className=\\"visually-hidden\\">
                       Service alert or delay
                     </span>
                      

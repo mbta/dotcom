@@ -85,7 +85,7 @@ exports[`StopsSidebar it renders 1`] = `
     className="m-tnm-sidebar__inner"
   >
     <div
-      className="m-tnm-sidebar__header"
+      className="col-sm-8 m-tnm-sidebar__header"
     >
       <div
         className="m-tnm-sidebar__header-title"
@@ -336,7 +336,7 @@ exports[`StopsSidebar it returns null when there isn't data 1`] = `
     className="m-tnm-sidebar__inner"
   >
     <div
-      className="m-tnm-sidebar__header"
+      className="col-sm-8 m-tnm-sidebar__header"
     >
       <div
         className="m-tnm-sidebar__header-title"

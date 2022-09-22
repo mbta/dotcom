@@ -2,7 +2,7 @@
 
 exports[`it renders 1`] = `
 <div
-  className="m-tnm-sidebar__header"
+  className="col-sm-8 m-tnm-sidebar__header"
 >
   <div
     className="m-tnm-sidebar__header-title"
