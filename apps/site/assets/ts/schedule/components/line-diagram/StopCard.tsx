@@ -78,7 +78,9 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
   const showPrediction = hasLivePredictions && !isDestination;
   const showDiversion =
     diversionAlert && !(hasLivePredictions && isDestination);
-
+  const showDepartures =
+    liveData?.headsigns.length &&
+    (routeStop.route?.type === 1 || routeStop.route?.type === 0);
   return (
     <li
       className="m-schedule-diagram__stop"
@@ -129,9 +131,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
             type="button"
             onClick={() => onClick(routeStop)}
           >
-            {routeStop.route?.type === 1
-              ? "View upcoming departures"
-              : "View schedule"}
+            {showDepartures ? "View upcoming departures" : "View schedule"}
           </button>
         </footer>
       </section>

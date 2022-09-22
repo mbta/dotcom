@@ -27,9 +27,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -54,9 +52,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -81,9 +77,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -108,9 +102,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -138,9 +130,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -168,9 +158,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
                     <div className=\\"m-schedule-diagram__connections\\" />
                   </div>
                   <footer className=\\"m-schedule-diagram__footer\\">
-                    <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                      View schedule
-                    </button>
+                    <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
                   </footer>
                 </section>
               </li>
@@ -201,9 +189,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -264,9 +250,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -291,9 +275,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
@@ -318,9 +300,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
               <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <footer className=\\"m-schedule-diagram__footer\\">
-              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                View schedule
-              </button>
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]} />
             </footer>
           </section>
         </li>
