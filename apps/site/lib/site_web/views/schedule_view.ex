@@ -241,7 +241,11 @@ defmodule SiteWeb.ScheduleView do
   @spec route_header_text(Route.t()) :: [String.t()] | Safe.t()
   def route_header_text(%Route{type: 3, name: name} = route) do
     if Route.silver_line?(route) do
-      ["Silver Line ", name]
+      if route.id == "746" do
+        "Silver Line Waterfront"
+      else
+        ["Silver Line ", name]
+      end
     else
       content_tag :div, class: "bus-route-sign" do
         route.name

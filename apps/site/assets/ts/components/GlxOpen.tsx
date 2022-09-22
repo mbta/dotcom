@@ -25,6 +25,7 @@ const GlxOpen = ({
     textContent = "NOW OPEN";
   }
 
+  /* istanbul ignore else */
   if (isGlxOpen) {
     return (
       <div className="glx-open-container">

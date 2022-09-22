@@ -305,10 +305,6 @@ export const ScheduleLoader = ({
           mapData={mapData}
           staticMapData={staticMapData}
           lineDiagram={lineDiagram}
-          services={services}
-          stops={stops}
-          today={today}
-          scheduleNote={scheduleNote}
           busVariantId={busVariantId}
         />
       );

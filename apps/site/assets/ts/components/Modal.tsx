@@ -176,6 +176,7 @@ const WrappedModal = (props: Props): ReactElement<HTMLElement> | null => {
       />
     );
   }
+  /* istanbul ignore next */
   return null;
 };
 

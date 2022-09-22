@@ -1,6 +1,5 @@
 import React, { Dispatch } from "react";
-import renderer from "react-test-renderer";
-import { mount } from "enzyme";
+import { render, fireEvent, screen } from "@testing-library/react";
 import { EnhancedRoutePattern } from "../../__schedule";
 import { BusMenuSelect, ExpandedBusMenu } from "../BusMenu";
 import {
@@ -45,35 +44,7 @@ const singleRoutePattern = routePatterns.slice(0, 1);
 
 describe("BusMenuSelect", () => {
   it("renders a menu with a single route pattern", () => {
-    const tree = renderer
-      .create(
-        <BusMenuSelect
-          routePatterns={singleRoutePattern}
-          selectedRoutePatternId="66-6-0"
-          dispatch={mockDisptach}
-        />
-      )
-      .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it("renders a menu with multiple route patterns", () => {
-    const tree = renderer
-      .create(
-        <BusMenuSelect
-          routePatterns={routePatterns}
-          selectedRoutePatternId="66-6-0"
-          dispatch={mockDisptach}
-        />
-      )
-      .toJSON();
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it("it does nothing when clicked if there is only one route pattern", () => {
-    const wrapper = mount(
+    const { asFragment } = render(
       <BusMenuSelect
         routePatterns={singleRoutePattern}
         selectedRoutePatternId="66-6-0"
@@ -81,12 +52,11 @@ describe("BusMenuSelect", () => {
       />
     );
 
-    wrapper.find(".m-schedule-direction__route-pattern").simulate("click");
-    expect(mockDisptach).not.toHaveBeenCalled();
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it("it opens the route pattern menu when clicked if there are multiple route patterns", () => {
-    const wrapper = mount(
+  it("renders a menu with multiple route patterns", () => {
+    const { asFragment } = render(
       <BusMenuSelect
         routePatterns={routePatterns}
         selectedRoutePatternId="66-6-0"
@@ -94,30 +64,67 @@ describe("BusMenuSelect", () => {
       />
     );
 
-    wrapper.find(".m-schedule-direction__route-pattern").simulate("click");
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it("it does nothing when clicked if there is only one route pattern", () => {
+    const { container } = render(
+      <BusMenuSelect
+        routePatterns={singleRoutePattern}
+        selectedRoutePatternId="66-6-0"
+        dispatch={mockDisptach}
+      />
+    );
+
+    fireEvent.click(
+      container.querySelector(".m-schedule-direction__route-pattern")!
+    );
+    expect(mockDisptach).not.toHaveBeenCalled();
+  });
+
+  it("it opens the route pattern menu when clicked if there are multiple route patterns", () => {
+    const { container } = render(
+      <BusMenuSelect
+        routePatterns={routePatterns}
+        selectedRoutePatternId="66-6-0"
+        dispatch={mockDisptach}
+      />
+    );
+
+    fireEvent.click(
+      container.querySelector(".m-schedule-direction__route-pattern")!
+    );
     expect(mockDisptach).toHaveBeenCalledWith(toggleRoutePatternMenuAction());
+
+    // coverage
+    fireEvent.keyUp(
+      container.querySelector(".m-schedule-direction__route-pattern")!,
+      { key: "Enter" }
+    );
+    fireEvent.keyDown(
+      container.querySelector(".m-schedule-direction__route-pattern")!,
+      { key: "Tab" }
+    );
   });
 });
 
 describe("ExpandedBusMenu", () => {
   it("renders a menu", () => {
-    const tree = renderer
-      .create(
-        <ExpandedBusMenu
-          routePatterns={routePatterns}
-          selectedRoutePatternId="66-6-0"
-          showAllRoutePatterns={false}
-          itemFocus={"first"}
-          dispatch={mockDisptach}
-        />
-      )
-      .toJSON();
+    const { asFragment } = render(
+      <ExpandedBusMenu
+        routePatterns={routePatterns}
+        selectedRoutePatternId="66-6-0"
+        showAllRoutePatterns={false}
+        itemFocus={"first"}
+        dispatch={mockDisptach}
+      />
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("selects a new route pattern when an item is clicked on", () => {
-    const wrapper = mount(
+    const { container } = render(
       <ExpandedBusMenu
         routePatterns={routePatterns}
         selectedRoutePatternId="66-6-0"
@@ -127,14 +134,34 @@ describe("ExpandedBusMenu", () => {
       />
     );
 
-    expect(wrapper.find(".m-schedule-direction__menu-item")).toHaveLength(2);
+    expect(
+      container.querySelectorAll(".m-schedule-direction__menu-item")
+    ).toHaveLength(2);
 
     const routePattern = routePatterns[1];
-    expect(wrapper.find(`#route-pattern_${routePattern.id}`)).toHaveLength(1);
-    wrapper.find(`#route-pattern_${routePattern.id}`).simulate("click");
+    expect(
+      container.querySelectorAll(`#route-pattern_${routePattern.id}`)
+    ).toHaveLength(1);
+
+    fireEvent.click(
+      container.querySelector(`#route-pattern_${routePattern.id}`)!
+    );
 
     expect(mockDisptach).toHaveBeenCalledWith(
       setRoutePatternAction(routePattern)
     );
+
+    fireEvent.keyUp(
+      container.querySelector(`#route-pattern_${routePattern.id}`)!,
+      { key: "Enter" }
+    );
+    fireEvent.keyDown(
+      container.querySelector(`#route-pattern_${routePattern.id}`)!,
+      { key: "Enter" }
+    );
+
+    const menu = screen.getByRole("menu");
+    fireEvent.keyUp(menu, { key: "Enter" });
+    fireEvent.keyDown(menu, { key: "Tab" });
   });
 });

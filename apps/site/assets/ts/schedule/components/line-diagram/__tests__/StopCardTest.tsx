@@ -132,7 +132,7 @@ const liveDataWithPrediction = {
   headsigns: [predictionHeadsign],
   vehicles: []
 };
-it.only("indicates predictions if available", () => {
+it("indicates predictions if available", () => {
   const wrapper = mount(
     <redux.Provider store={store}>
       <StopCard
@@ -181,8 +181,8 @@ it.each`
 
 it.each`
   index | expectedNames                      | expectedFeatures
-  ${0}  | ${[]}                              | ${["Parking"]}
-  ${1}  | ${["Orange Line", "Green Line C"]} | ${[]}
+  ${0}  | ${[]}                              | ${["Parking", "Accessible"]}
+  ${1}  | ${["Orange Line", "Green Line C"]} | ${["Accessible"]}
   ${2}  | ${["Route 62", "Route 67"]}        | ${["Accessible"]}
   ${3}  | ${["Atlantis"]}                    | ${["Parking", "Accessible"]}
 `(
@@ -200,14 +200,16 @@ it.each`
 
     const connections = wrapper.find(".m-schedule-diagram__connections");
 
-    const names = connections.find("a").map(c => c.props().title);
+    const names = connections
+      .find("a")
+      .map(c => c.getDOMNode<HTMLElement>().dataset.originalTitle);
     expect(names).toEqual(expectedNames);
 
     const features = wrapper.find(".m-schedule-diagram__features");
 
     const featureNames = features
       .find("span[data-toggle='tooltip']")
-      .map(c => c.props().title);
+      .map(c => c.getDOMNode<HTMLElement>().dataset.originalTitle);
     expect(featureNames).toEqual(expectedFeatures);
   }
 );

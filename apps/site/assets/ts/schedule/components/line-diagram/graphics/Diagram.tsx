@@ -107,7 +107,11 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
         className={`line-diagram-svg ${extraClassName}`}
         width={`${width + 4}px`}
         height="100%"
-        style={{ left: BASE_LINE_WIDTH / 2 + (overridePlacement ?? 0) }}
+        style={{
+          left:
+            BASE_LINE_WIDTH / 2 +
+            /* istanbul ignore next */ (overridePlacement ?? 0)
+        }}
       >
         <title id="diagram-title">
           Line diagram for{" "}

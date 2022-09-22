@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GreenLineItem renders a menu item 1`] = `
+<DocumentFragment>
+  <div
+    aria-current="page"
+    class="m-schedule-direction__menu-item m-schedule-direction__menu--selected notranslate"
+    id="route-pattern_Green"
+    role="menuitem"
+    tabindex="0"
+  >
+    <div
+      class="m-schedule-direction__menu-item-headsign notranslate"
+    >
+      <div
+        class="m-schedule-direction__checkmark"
+      >
+        <span
+          aria-hidden="true"
+          class="notranslate c-svg__icon"
+        >
+          SVG
+        </span>
+      </div>
+      <span
+        aria-hidden="true"
+        class="notranslate c-svg__icon m-schedule-direction__menu-item-icon"
+      />
+      <span
+        class="sr-only"
+      >
+        Green Line
+      </span>
+       
+    </div>
+  </div>
+</DocumentFragment>
+`;

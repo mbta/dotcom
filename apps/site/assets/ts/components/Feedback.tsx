@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 
 const Feedback = (): ReactElement<HTMLElement> => {
   const url =
+    /* istanbul ignore next */
     typeof document !== "undefined"
       ? `/customer-support?comments=${document.title}`
       : `/customer-support`;

@@ -110,12 +110,13 @@ const renderTime = (
 
 const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
   const { headsign, routeType, condensed } = props;
-  if (headsign.times?.length === 2) {
-    const first = headsign?.times?.[0].prediction?.time?.[0];
-    const second = headsign?.times?.[1]?.prediction?.time?.[0];
-    const firstMeridiem = headsign?.times?.[0].prediction?.time?.[2] ?? "";
-    const secondMeridiem = headsign?.times?.[1]?.prediction?.time?.[2] ?? "";
-    const isMinutes = headsign?.times?.[0]?.prediction?.time?.[2] === "min";
+  const { times } = headsign;
+  if (times.length === 2) {
+    const first = times[0].prediction?.time?.[0];
+    const second = times[1].prediction?.time?.[0];
+    const firstMeridiem = times[0].prediction?.time?.[2] ?? "";
+    const secondMeridiem = times[1].prediction?.time?.[2] ?? "";
+    const isMinutes = times[0].prediction?.time?.[2] === "min";
     // time could be in minutes, hh:mm, or simply "arriving"
     if (first !== undefined && second !== undefined) {
       if (isMinutes) {

@@ -29,13 +29,6 @@ const body =
 
 const lineDiagram = lineDiagramData as LineDiagramStop[];
 
-const stops = lineDiagram.map(({ route_stop }) => ({
-  name: route_stop.name,
-  id: route_stop.id,
-  is_closed: false,
-  zone: route_stop.zone || null
-}));
-
 const route = {
   type: 3,
   name: "route 1",
@@ -172,10 +165,6 @@ const getComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
-    services={[]}
-    stops={{ stops }}
-    today="2019-12-05"
-    scheduleNote={null}
     busVariantId={null}
   />
 );
@@ -187,10 +176,6 @@ const getSingleDirectionComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
-    services={[]}
-    stops={{ stops }}
-    today="2019-12-05"
-    scheduleNote={null}
     busVariantId={null}
   />
 );
@@ -202,10 +187,6 @@ const getSubwayComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     lineDiagram={lineDiagram}
-    services={[]}
-    stops={{ stops }}
-    today="2019-12-05"
-    scheduleNote={null}
     busVariantId={null}
   />
 );
@@ -217,10 +198,6 @@ const getCRComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
-    services={[]}
-    stops={{ stops }}
-    today="2019-12-05"
-    scheduleNote={null}
     busVariantId={null}
   />
 );
@@ -232,10 +209,6 @@ const getStaticMapComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     lineDiagram={lineDiagram}
-    services={[]}
-    stops={{ stops }}
-    today="2019-12-05"
-    scheduleNote={null}
     busVariantId={null}
   />
 );
@@ -263,10 +236,6 @@ const getGreenLineComponent = () => {
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
       lineDiagram={lineDiagram}
-      services={[]}
-      stops={{ stops }}
-      today="2019-12-05"
-      scheduleNote={null}
       busVariantId={null}
     />
   );
@@ -279,10 +248,6 @@ const getVariantComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
-    services={[]}
-    stops={{ stops }}
-    today="2019-12-05"
-    scheduleNote={null}
     busVariantId="pattern-3"
   />
 );

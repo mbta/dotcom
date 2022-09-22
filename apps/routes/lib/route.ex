@@ -208,7 +208,6 @@ defmodule Routes.Route do
   Determines if the given route data is hidden
   """
   @spec hidden?(t()) :: boolean
-  def hidden?(%{id: "746"}), do: true
   def hidden?(%{id: "2427"}), do: true
   def hidden?(%{id: "3233"}), do: true
   def hidden?(%{id: "3738"}), do: true

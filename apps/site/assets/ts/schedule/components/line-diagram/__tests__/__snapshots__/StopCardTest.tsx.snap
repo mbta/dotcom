@@ -5,8 +5,9 @@ exports[`StopCard renders and matches snapshot 1`] = `
   <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
       <section className=\\"m-schedule-diagram__content\\">
+        <GlxOpen pageType=\\"line-diagram\\" stopId=\\"line-origin\\" />
         <header className=\\"m-schedule-diagram__stop-heading\\">
-          <h4 className=\\"m-schedule-diagram__stop-link\\">
+          <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
             <a href=\\"/stops/line-origin\\">
               <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
                 <span>
@@ -16,11 +17,16 @@ exports[`StopCard renders and matches snapshot 1`] = `
             </a>
           </h4>
           <div className=\\"m-schedule-diagram__features\\">
-            <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
-              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
-                <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+            <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\">
+                <i className=\\"fa fa-square-parking notranslate m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
               </span>
-            </Component>
+            </TooltipWrapper>
+            <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
+                <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+              </span>
+            </TooltipWrapper>
           </div>
         </header>
         <div className=\\"m-schedule-diagram__stop-details\\">

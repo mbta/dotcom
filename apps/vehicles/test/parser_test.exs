@@ -112,7 +112,8 @@ defmodule Vehicles.ParserTest do
           bearing: 140
         }
 
-        assert Parser.parse(@item) == expected
+        %Vehicle{} = parsed_vehicle = Parser.parse(@item)
+        assert parsed_vehicle == expected, "parsed vehicle is #{inspect(parsed_vehicle)}"
       end
     end
 
