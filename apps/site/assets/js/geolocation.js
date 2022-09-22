@@ -19,7 +19,7 @@ export default function(
 
 function beforeVisit($) {
   return () => {
-    $(".loading-indicator, .location-error").addClass("hidden-xs-up");
+    $(".loading-indicator, .location-error").addClass("d-none");
   };
 }
 
@@ -30,7 +30,7 @@ export function clickHandler($, navigator) {
     const $btn = locationButton($(event.target));
     const $errorEl = $(`#${$btn.data("id")}-geolocation-error`);
     toggleLoadingIndicator($, $btn);
-    $errorEl.addClass("hidden-xs-up");
+    $errorEl.addClass("d-none");
     navigator.geolocation.getCurrentPosition(
       locationHandler($, $btn, $errorEl),
       locationError($, $btn, $errorEl)
@@ -48,17 +48,17 @@ export function locationHandler($, $btn, $errorEl) {
 
 export function locationError($, $btn, $errorEl) {
   return error => {
-    $btn.find(".loading-indicator").addClass("hidden-xs-up");
+    $btn.find(".loading-indicator").addClass("d-none");
     if (
       error.code == error.TIMEOUT ||
       error.code == error.POSITION_UNAVAILABLE
     ) {
-      $errorEl.removeClass("hidden-xs-up");
+      $errorEl.removeClass("d-none");
       $errorEl.html(
         "We couldn't fetch your location &mdash; please wait a minute and try again, or enter your address."
       );
     } else if (error.code == error.PERMISSION_DENIED) {
-      $errorEl.removeClass("hidden-xs-up");
+      $errorEl.removeClass("d-none");
       $errorEl.html(
         "It looks like you haven't granted permission to fetch your location &mdash; to use geolocation, update your browser's settings and try again."
       );
@@ -69,9 +69,9 @@ export function locationError($, $btn, $errorEl) {
 function toggleLoadingIndicator($, $btn) {
   const id = $btn.data("id");
   const $indicator = $btn.find(".loading-indicator");
-  $indicator.removeClass("hidden-xs-up");
+  $indicator.removeClass("d-none");
   $(`#${id}`).on("geolocation:complete", () => {
-    $indicator.addClass("hidden-xs-up");
+    $indicator.addClass("d-none");
   });
 }
 

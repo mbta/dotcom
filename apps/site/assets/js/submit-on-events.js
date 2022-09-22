@@ -5,7 +5,7 @@ export default function(events, $) {
       $(ev.target)
         .siblings("label")
         .find(".loading-indicator")
-        .removeClass("hidden-xs-up");
+        .removeClass("d-none");
       const form = $(ev.target).parents("form");
       const action = form.attr("action");
       const serialized = form.serialize();
@@ -15,7 +15,7 @@ export default function(events, $) {
 
     function hideLoading(ev) {
       $(`[data-submit-on-${event}] label .loading-indicator`).addClass(
-        "hidden-xs-up"
+        "d-none"
       );
     }
 

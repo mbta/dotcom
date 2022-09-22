@@ -12,7 +12,7 @@ Array [
       className="m-more-projects-table"
     >
       <thead
-        className="m-more-projects-table__thead hidden-md-down"
+        className="m-more-projects-table__thead d-none d-md-table-row"
       >
         <tr>
           <th
@@ -46,7 +46,7 @@ Array [
           >
             <img
               alt="Photo of stuff"
-              className="hidden-xs-down m-more-projects-table__thumbnail"
+              className="d-none d-sm-block m-more-projects-table__thumbnail"
               src="http://www.example.com/some.gif"
             />
             <div
@@ -62,7 +62,7 @@ Array [
                 </h3>
               </a>
               <div
-                className="m-more-projects-table__updated-and-status hidden-lg-up"
+                className="m-more-projects-table__updated-and-status d-lg-none"
               >
                 <div
                   className="m-more-projects-table__last-updated"
@@ -77,7 +77,7 @@ Array [
                   <br />
                   <span
                     aria-hidden="false"
-                    className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
+                    className="notranslate c-svg__icon m-more-projects-table__route-icon d-lg-none"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "SVG",
@@ -86,7 +86,7 @@ Array [
                   />
                   <span
                     aria-hidden="false"
-                    className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
+                    className="notranslate c-svg__icon m-more-projects-table__route-icon d-lg-none"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "SVG",
@@ -97,7 +97,7 @@ Array [
               </div>
               <span
                 aria-hidden="false"
-                className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
+                className="notranslate c-svg__icon m-more-projects-table__route-icon d-none d-md-inline-block"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
@@ -106,7 +106,7 @@ Array [
               />
               <span
                 aria-hidden="false"
-                className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
+                className="notranslate c-svg__icon m-more-projects-table__route-icon d-none d-md-inline-block"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
@@ -116,12 +116,12 @@ Array [
             </div>
           </td>
           <td
-            className="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down"
+            className="m-more-projects-table__td m-more-projects-table__td-last-updated d-none d-md-table-cell"
           >
             June 2, 2018
           </td>
           <td
-            className="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down"
+            className="m-more-projects-table__td m-more-projects-table__td-status d-none d-md-table-cell"
           >
             <span
               className="m-more-projects-table__status-wrapper"

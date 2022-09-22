@@ -26,7 +26,7 @@ const formattedDepartureTimes = (
           <span className="schedule-table__times--delayed schedule-table__times--delayed-future_stop">
             {schedule.time}
           </span>
-          <br className="hidden-sm-up" />
+          <br className="d-sm-none" />
           {prediction.time}
         </>
       );

@@ -73,8 +73,8 @@
           <li class="m-footer__item m-footer--mobile__item">
             <%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
           </li>
-          <li class="m-footer__item hidden-sm-down"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %></li>
-          <li class="m-footer__item hidden-sm-down"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
+          <li class="m-footer__item d-none d-sm-block"><%= link "Request Public Records", to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank" %></li>
+          <li class="m-footer__item d-none d-sm-block"><%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), data: [scroll: true]  %></li>
         </ul>
       </li>
       <li class="col-3 m-footer__group">

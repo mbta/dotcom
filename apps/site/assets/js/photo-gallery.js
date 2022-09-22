@@ -181,7 +181,7 @@ function render(id, focusId) {
 }
 
 function renderNavigation(id, pagination) {
-  const hideOnDesktop = pagination ? "" : " hidden-md-up";
+  const hideOnDesktop = pagination ? "" : " d-md-none";
   return `<div class="c-photo-gallery__nav-btns${hideOnDesktop}">
       <a href="#gallery-previous"
         title="previous photos"

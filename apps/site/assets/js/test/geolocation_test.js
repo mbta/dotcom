@@ -36,7 +36,7 @@ describe("geolocation", () => {
       geolocation($, { addEventListener: spy }, { geolocation: true });
       assert.equal(spy.args[0][0], "turbolinks:before-visit");
       spy.args[0][1](); // call the aEL callback
-      assert.isTrue($(".loading-indicator").hasClass("hidden-xs-up"));
+      assert.isTrue($(".loading-indicator").hasClass("d-none"));
     });
 
     it("adds a class to the HTML element if geolocation is disabled", () => {
@@ -51,8 +51,8 @@ describe("geolocation", () => {
         <button class="location-link " data-geolocation-target="true" data-id="test" data-field="location[address]">
           <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
-          <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
-          <span class="visually-hidden hidden-xs-up loading-indicator">Retrieving location...</span>
+          <i aria-hidden="true" class="fa fa-cog fa-spin d-none loading-indicator "></i>
+          <span class="visually-hidden d-none loading-indicator">Retrieving location...</span>
         </button>
         <div id="test-geolocation-error"></div>
       `);
@@ -88,13 +88,13 @@ describe("geolocation", () => {
     });
 
     it("shows the loading indicator", () => {
-      assert.isTrue($(".loading-indicator").hasClass("hidden-xs-up"));
+      assert.isTrue($(".loading-indicator").hasClass("d-none"));
       clickHandler($, {
         geolocation: {
           getCurrentPosition: () => {}
         }
       })({ preventDefault: () => {}, target: $(".location-link")[0] });
-      assert.isFalse($(".loading-indicator").hasClass("hidden-xs-up"));
+      assert.isFalse($(".loading-indicator").hasClass("d-none"));
     });
   });
 
@@ -107,8 +107,8 @@ describe("geolocation", () => {
         <button class="location-link" data-geolocation-target="target" data-id="test" data-action="reload" data-field="location[address]">
           <i aria-hidden="true" class="fa fa-location-arrow "></i>
           Use my current location
-          <i aria-hidden="true" class="fa fa-cog fa-spin hidden-xs-up loading-indicator "></i>
-          <span class="visually-hidden hidden-xs-up loading-indicator">Retrieving location...</span>
+          <i aria-hidden="true" class="fa fa-cog fa-spin d-none loading-indicator "></i>
+          <span class="visually-hidden d-none loading-indicator">Retrieving location...</span>
         </button>
         <div id="test-geolocation-error"></div>
       `);
@@ -144,14 +144,14 @@ describe("geolocation", () => {
       });
       $("#test")
         .find(".loading-indicator")
-        .removeClass("hidden-xs-up");
+        .removeClass("d-none");
       $("#test")
         .parent()
         .on("geolocation:complete", () => {
           assert.isTrue(
             $("#test")
               .find(".loading-indicator")
-              .hasClass("hidden-xs-up")
+              .hasClass("d-none")
           );
           done();
         });
@@ -168,12 +168,12 @@ describe("geolocation", () => {
           Use my current location
           <i aria-hidden="true" class="fa fa-cog fa-spin loading-indicator"></i>
         </button>
-        <div id="test-geolocation-error" class="location-error hidden-xs-up"></div>
+        <div id="test-geolocation-error" class="location-error d-none"></div>
       `);
     });
 
     it("hides the loading indicator", () => {
-      assert.isFalse($(".loading-indicator").hasClass("hidden-xs-up"));
+      assert.isFalse($(".loading-indicator").hasClass("d-none"));
       locationError(
         $,
         $(".location-link"),
@@ -181,7 +181,7 @@ describe("geolocation", () => {
       )({
         code: ""
       });
-      assert.isTrue($(".loading-indicator").hasClass("hidden-xs-up"));
+      assert.isTrue($(".loading-indicator").hasClass("d-none"));
     });
 
     it("shows an error message on timeout or geolocation failure", () => {
@@ -193,7 +193,7 @@ describe("geolocation", () => {
         code: "timeout",
         TIMEOUT: "timeout"
       });
-      assert.isFalse($("#tnm-geolocation-error").hasClass("hidden-xs-up"));
+      assert.isFalse($("#tnm-geolocation-error").hasClass("d-none"));
     });
 
     it("shows a single error message", () => {
@@ -205,7 +205,7 @@ describe("geolocation", () => {
         code: "permission",
         PERMISSION_DENIED: "permission"
       });
-      assert.equal($(".location-error").not(".hidden-xs-up").length, 1);
+      assert.equal($(".location-error").not(".d-none").length, 1);
     });
 
     it("shows an error message if permission is denied", () => {
@@ -217,7 +217,7 @@ describe("geolocation", () => {
         code: "permission",
         PERMISSION_DENIED: "permission"
       });
-      assert.isFalse($("#test-geolocation-error").hasClass("hidden-xs-up"));
+      assert.isFalse($("#test-geolocation-error").hasClass("d-none"));
     });
   });
 });

@@ -126,7 +126,7 @@ const resizeAndHandleUploadedFile = ($, file, $container, toUpload) => {
       .then(newFile => {
         newFile.name = file.name;
         handleUploadedPhoto($, newFile, $container, toUpload);
-        $("#support-upload-error-container").addClass("hidden-xs-up");
+        $("#support-upload-error-container").addClass("d-none");
       })
       .catch(err => {
         displayError($, "#upload");
@@ -205,9 +205,9 @@ export function rescale(dim) {
 
 function hideOrShowPreviews($container, toUpload) {
   if (toUpload.length > 0) {
-    $container.removeClass("hidden-xs-up");
+    $container.removeClass("d-none");
   } else {
-    $container.addClass("hidden-xs-up");
+    $container.addClass("d-none");
   }
 }
 
@@ -393,7 +393,7 @@ function setupValidation($) {
 
 function displayError($, selector) {
   const rootSelector = selector.slice(1);
-  $(`.support-${rootSelector}-error-container`).removeClass("hidden-xs-up");
+  $(`.support-${rootSelector}-error-container`).removeClass("d-none");
   $(selector)
     .parent()
     .addClass("has-danger")
@@ -401,7 +401,7 @@ function displayError($, selector) {
 }
 
 function displaySuccess($, selector) {
-  $(`.support-${selector.slice(1)}-error-container`).addClass("hidden-xs-up");
+  $(`.support-${selector.slice(1)}-error-container`).addClass("d-none");
   $(selector)
     .parent()
     .removeClass("has-danger")
@@ -539,15 +539,15 @@ export function handleSubmitClick($, toUpload) {
       contentType: false,
       success: () => {
         $(".support-confirmation--success")
-          .removeClass("hidden-xs-up")
+          .removeClass("d-none")
           .focus();
-        $(".support-confirmation--error").addClass("hidden-xs-up");
+        $(".support-confirmation--error").addClass("d-none");
         reactivateSubmitButton($);
         $("#support-form").remove();
       },
       error: () => {
         $(".support-confirmation--error")
-          .removeClass("hidden-xs-up")
+          .removeClass("d-none")
           .focus();
         reactivateSubmitButton($);
       }

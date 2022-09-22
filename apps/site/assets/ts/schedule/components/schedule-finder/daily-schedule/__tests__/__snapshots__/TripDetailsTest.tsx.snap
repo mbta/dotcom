@@ -62,7 +62,7 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
           04:00 PM
         </span>
         <br
-          className="hidden-sm-up"
+          className="d-sm-none"
         />
         04:01 PM
       </td>
@@ -106,7 +106,7 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
           04:22 PM
         </span>
         <br
-          className="hidden-sm-up"
+          className="d-sm-none"
         />
         04:22 PM
       </td>
@@ -150,7 +150,7 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
           04:38 PM
         </span>
         <br
-          className="hidden-sm-up"
+          className="d-sm-none"
         />
         04:39 PM
       </td>
@@ -194,7 +194,7 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
           04:58 PM
         </span>
         <br
-          className="hidden-sm-up"
+          className="d-sm-none"
         />
         04:57 PM
       </td>

@@ -12,7 +12,7 @@ Array [
     href="/projects/better-bus-project"
   >
     <div
-      className="hidden-sm-up"
+      className="d-sm-none"
     >
       <div
         className="row"
@@ -57,7 +57,7 @@ Array [
       </div>
     </div>
     <div
-      className="hidden-xs-down hidden-lg-up"
+      className="d-none d-sm-block d-lg-none"
     >
       <div
         className="row"
@@ -102,7 +102,7 @@ Array [
       </div>
     </div>
     <div
-      className="hidden-md-down"
+      className="d-none d-lg-block"
     >
       <div
         className="c-banner__image c-banner__image--responsive-side-by-side c-banner--responsive-no-margin c-banner__image--default"

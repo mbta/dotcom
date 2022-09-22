@@ -11,7 +11,7 @@
           method: :alert_path,
           item: @id
         ]) %>
-        <div class="hidden-md-down">
+        <div class="d-none d-md-block">
           <%= render "_t-alerts.html" %>
         </div>
       </div>
@@ -57,7 +57,7 @@
             There are no <%= timeframe %> <%= mode_name(@id) %> alerts at this time.
           </div>
         <% end %>
-        <div class="hidden-lg-up">
+        <div class="d-lg-none">
           <%= render "_t-alerts.html" %>
         </div>
       </div>

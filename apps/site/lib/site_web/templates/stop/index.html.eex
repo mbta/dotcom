@@ -64,13 +64,13 @@
           <% end %>
         </div>
         <%= if subway? do %>
-          <span class="stops-view-all-btn hidden-md-up hidden-no-js" data-toggle-route=<%= route.id %>>
+          <span class="stops-view-all-btn d-md-none hidden-no-js" data-toggle-route=<%= route.id %>>
             Showing major stops.
             <a data-toggle="collapse" data-toggle-collapse=<%= route.id %> href="#stops-<%= route.id %>" >
               View all <%= fa "angle-down" %>
             </a>
           </span>
-          <div class="stops-view-all-btn stops-hide-all-btn hidden-md-up hidden-no-js" data-toggle-route=<%= route.id %>>
+          <div class="stops-view-all-btn stops-hide-all-btn d-md-none hidden-no-js" data-toggle-route=<%= route.id %>>
             Showing all <%= route.name %> stops.
             <a data-toggle="collapse" href="#stops-<%= route.id %>" data-toggle-collapse=<%= route.id %> >
               Hide <%= fa "angle-up" %>

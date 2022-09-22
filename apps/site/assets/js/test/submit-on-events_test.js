@@ -17,7 +17,7 @@ describe("submit-on-event", () => {
   beforeEach(() => {
     $("body").append("<div id=test></div>");
     $("#test").html(
-      '<form data-submit-on-change><input type=text><label><i class="loading-indicator hidden-xs-up"></i></label><select><option value=1>1</select><button type=submit>Submit</button></form>'
+      '<form data-submit-on-change><input type=text><label><i class="loading-indicator d-none"></i></label><select><option value=1>1</select><button type=submit>Submit</button></form>'
     );
   });
 
@@ -48,9 +48,9 @@ describe("submit-on-event", () => {
     window.Turbolinks = {
       visit: () => true
     };
-    assert($(".loading-indicator").hasClass("hidden-xs-up"));
+    assert($(".loading-indicator").hasClass("d-none"));
     $("#test select").change();
-    assert.isNotTrue($(".loading-indicator").hasClass("hidden-xs-up"));
+    assert.isNotTrue($(".loading-indicator").hasClass("d-none"));
   });
 });
 

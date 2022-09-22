@@ -98,13 +98,13 @@ const MoreProjectsRow = ({
           <img
             src={image.url}
             alt={image.alt}
-            className="hidden-xs-down m-more-projects-table__thumbnail"
+            className="d-none d-sm-block m-more-projects-table__thumbnail"
           />
         )) || (
           <img
             src={placeholderImageUrl}
             alt="MBTA logo"
-            className="hidden-xs-down m-more-projects-table__thumbnail"
+            className="d-none d-sm-block m-more-projects-table__thumbnail"
           />
         )}
 
@@ -113,7 +113,7 @@ const MoreProjectsRow = ({
             <h3 className="m-more-projects-table__title">{title}</h3>
           </a>
 
-          <div className="m-more-projects-table__updated-and-status hidden-lg-up">
+          <div className="m-more-projects-table__updated-and-status d-lg-none">
             <div className="m-more-projects-table__last-updated">
               <span className="m-more-projects-table__internal-header">
                 Last updated
@@ -125,7 +125,7 @@ const MoreProjectsRow = ({
                 <RouteIcon
                   key={tag}
                   tag={tag}
-                  extraClasses="m-more-projects-table__route-icon hidden-lg-up"
+                  extraClasses="m-more-projects-table__route-icon d-lg-none"
                 />
               ))}
             </div>
@@ -152,17 +152,17 @@ const MoreProjectsRow = ({
             <RouteIcon
               key={tag}
               tag={tag}
-              extraClasses="m-more-projects-table__route-icon hidden-md-down"
+              extraClasses="m-more-projects-table__route-icon d-none d-md-inline-block"
             />
           ))}
         </div>
       </td>
 
-      <td className="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down">
+      <td className="m-more-projects-table__td m-more-projects-table__td-last-updated d-none d-md-table-cell">
         {formattedDate(date)}
       </td>
 
-      <td className="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down">
+      <td className="m-more-projects-table__td m-more-projects-table__td-status d-none d-md-table-cell">
         <span className="m-more-projects-table__status-wrapper">
           {status && (
             <>

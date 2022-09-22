@@ -66,7 +66,7 @@ const BannerXS = ({
   banner: Project;
   placeholderImageUrl: string;
 }): ReactElement<HTMLElement> => (
-  <div className="hidden-sm-up">
+  <div className="d-sm-none">
     <div className="row">
       <div
         className="c-banner__image c-banner__image--responsive c-banner__image--default"
@@ -106,7 +106,7 @@ const BannerSMUp = ({
   banner: Project;
   placeholderImageUrl: string;
 }): ReactElement<HTMLElement> => (
-  <div className="hidden-xs-down hidden-lg-up">
+  <div className="d-none d-sm-block d-lg-none">
     <div className="row">
       <BannerSideBySide
         banner={banner}
@@ -123,7 +123,7 @@ const BannerLGUp = ({
   banner: Project;
   placeholderImageUrl: string;
 }): ReactElement<HTMLElement> => (
-  <div className="hidden-md-down">
+  <div className="d-none d-lg-block">
     <BannerSideBySide
       banner={banner}
       placeholderImageUrl={placeholderImageUrl}

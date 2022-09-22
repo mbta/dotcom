@@ -90,7 +90,7 @@ describe("support form", () => {
       blob.name = "test-file";
 
       $("#test").html(`
-     <div class="photo-preview-container hidden-xs-up" tabindex="-1">
+     <div class="photo-preview-container d-none" tabindex="-1">
        <strong></strong>
      </div>
      <input type="file" id="photo" name="photo" />
@@ -106,7 +106,7 @@ describe("support form", () => {
     });
 
     it("does not hide the upload link", () => {
-      assert.isFalse($(".upload-photo-link").hasClass("hidden-xs-up"));
+      assert.isFalse($(".upload-photo-link").hasClass("d-none"));
     });
 
     it("adds a clear button which clears the photo", () => {
@@ -169,7 +169,7 @@ describe("support form", () => {
       const $second_photo = $preview.last();
       $first_photo.find(".clear-photo").trigger("click");
 
-      assert.isFalse($(".photo-preview-container").hasClass("hidden-xs-up"));
+      assert.isFalse($(".photo-preview-container").hasClass("d-none"));
       assert.equal($(".photo-preview").length, 1);
       assert.include($second_photo.html(), "test-file-2");
     });
@@ -273,33 +273,33 @@ describe("support form", () => {
       spy = sinon.spy($, "ajax");
       $("#test").html(`
         <div class="form-container">
-          <div class="support-confirmation support-confirmation--success hidden-xs-up"></div>
+          <div class="support-confirmation support-confirmation--success d-none"></div>
           <form id="support-form" action="/customer-support">
-            <div class="support-service-error-container hidden-xs-up" tabindex="-1"><div class="support-service-error"></div></div>
+            <div class="support-service-error-container d-none" tabindex="-1"><div class="support-service-error"></div></div>
             <input name="support[service]" value="Complaint">Complaint</input>
             <input name="support[service]" value="Suggestion">Comment</input>
             <input name="support[service]" value="Inquiry">Question</input>
             <input name="support[service]" value="Commendation">Request</input>
-            <div class="support-support_subject-error-container hidden-xs-up"></div>
+            <div class="support-support_subject-error-container d-none"></div>
             <select id="support_subject" name="support[subject]" required="required">
             <option value="">Please choose a subject</option>
             <option value="Random_option" selected="selected">Random option</option>
             </select>
-            <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
+            <div class="support-comments-error-container d-none" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
-            <div class="support-vehicle-error-container hidden-xs-up" tabindex="-1"><div class="support-vehicle-error"></div></div>
+            <div class="support-vehicle-error-container d-none" tabindex="-1"><div class="support-vehicle-error"></div></div>
             <input id="vehicle" name="support[vehicle]" placeholder="00001" type="text" />
             <input name="support[photo]" id="photo" type="file" />
-            <div class="support-first_name-error-container hidden-xs-up" tabindex="-1"><div class="support-first_name-error"></div></div>
+            <div class="support-first_name-error-container d-none" tabindex="-1"><div class="support-first_name-error"></div></div>
             <input name="support[first_name]" id="first_name" />
-            <div class="support-last_name-error-container hidden-xs-up" tabindex="-1"><div class="support-last_name-error"></div></div>
+            <div class="support-last_name-error-container d-none" tabindex="-1"><div class="support-last_name-error"></div></div>
             <input name="support[last_name]" id="last_name" />
             <input name="support[no_request_response]" id="no_request_response" type="checkbox" />
             <input name="support[phone]" id="phone" />
             <input name="support[email]" id="email" />
-            <div class="support-email-error-container hidden-xs-up" tabindex="-1"><div class="support-email-error"></div></div>
+            <div class="support-email-error-container d-none" tabindex="-1"><div class="support-email-error"></div></div>
             <input id="privacy" type="checkbox" />
-            <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
+            <div class="support-privacy-error-container d-none" tabindex="-1"><div class="support-privacy-error"></div></div>
             <div class="support-form-expanded" style="display: none"></div>
             <div class="error-container support-g-recaptcha-response-error-container" tabindex="-1"><div class="support-g-recaptcha-response-error"></div></div>
             <textarea id="g-recaptcha-response" name="g-recaptcha-response"></textarea>
@@ -317,30 +317,26 @@ describe("support form", () => {
 
     it("expands the form if it is hidden", () => {
       $("#support-submit").click();
-      assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));
-      assert.isTrue(
-        $(".support-confirmation--success").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-form-expanded").hasClass("d-none"));
+      assert.isTrue($(".support-confirmation--success").hasClass("d-none"));
     });
 
     it("requires text in the main textarea", () => {
       $("#support-submit").click();
-      assert.isFalse(
-        $(".support-comments-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-comments-error-container").hasClass("d-none"));
     });
 
     it("requires vehicle number to have only numeric characters, if filled", () => {
       $("#vehicle").val("Not a number");
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        $(".support-vehicle-error-container").hasClass("d-none"),
         "not false"
       );
       $("#vehicle").val("1234");
       $("#support-submit").click();
       assert.isTrue(
-        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        $(".support-vehicle-error-container").hasClass("d-none"),
         "not true"
       );
     });
@@ -349,23 +345,21 @@ describe("support form", () => {
       $("#vehicle").val("Not a number");
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        $(".support-vehicle-error-container").hasClass("d-none"),
         "not false"
       );
       $("#vehicle").val("1".repeat(9));
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        $(".support-vehicle-error-container").hasClass("d-none"),
         "not false"
       );
     });
 
     it("requires a service to be selected", () => {
       $("#support-submit").click();
-      assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));
-      assert.isTrue(
-        $(".support-confirmation--success").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-form-expanded").hasClass("d-none"));
+      assert.isTrue($(".support-confirmation--success").hasClass("d-none"));
     });
 
     it("requires a subject to be selected", () => {
@@ -376,62 +370,50 @@ describe("support form", () => {
 
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-support_subject-error-container").hasClass("hidden-xs-up")
+        $(".support-support_subject-error-container").hasClass("d-none")
       );
     });
 
     it("requires the privacy box to be checked if the customer wants a response", () => {
       $("#support-submit").click();
-      assert.isFalse(
-        $(".support-privacy-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-privacy-error-container").hasClass("d-none"));
     });
 
     it("does not require the privacy box to be checked if the customer does not want a response", () => {
       $("#no_request_response").click();
       $("#support-submit").click();
-      assert.isTrue(
-        $(".support-privacy-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isTrue($(".support-privacy-error-container").hasClass("d-none"));
     });
 
     it("requires a name if the customer wants a response", () => {
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-first_name-error-container").hasClass("hidden-xs-up")
+        $(".support-first_name-error-container").hasClass("d-none")
       );
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-last_name-error-container").hasClass("hidden-xs-up")
+        $(".support-last_name-error-container").hasClass("d-none")
       );
     });
 
     it("requires an email when the customer wants a response", () => {
       $("#support-submit").click();
-      assert.isFalse(
-        $(".support-email-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-email-error-container").hasClass("d-none"));
     });
 
     it("does not require a phone number or an email when the customer does not want a response", () => {
       $("#no_request_response").click();
       $("#support-submit").click();
-      assert.isTrue(
-        $(".support-email-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isTrue($(".support-email-error-container").hasClass("d-none"));
     });
 
     it("requires a valid email", () => {
       $("#email").val("not an email");
       $("#support-submit").click();
-      assert.isFalse(
-        $(".support-email-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-email-error-container").hasClass("d-none"));
       $("#email").val("test@email.com");
       $("#support-submit").click();
-      assert.isTrue(
-        $(".support-email-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isTrue($(".support-email-error-container").hasClass("d-none"));
     });
 
     it("focuses to the highest error message on the page", () => {
@@ -509,9 +491,7 @@ describe("support form", () => {
       assert.propertyVal(ajaxArgs, "url", "/customer-support");
       ajaxArgs.success();
 
-      assert.isFalse(
-        $(".support-confirmation--success").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-confirmation--success").hasClass("d-none"));
       assert.equal($("#support-form").length, 0);
     });
 
@@ -530,9 +510,7 @@ describe("support form", () => {
       $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
       spy.firstCall.args[0].error();
-      assert.isFalse(
-        $(".support-confirmation--error").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-confirmation--error").hasClass("d-none"));
     });
 
     it("shows comment validation when other fields provided", () => {
@@ -541,9 +519,7 @@ describe("support form", () => {
       $("#last_name").val("brady");
       $("#privacy").prop("checked", "checked");
       $("#support-submit").click();
-      assert.isFalse(
-        $(".support-comments-error-container").hasClass("hidden-xs-up")
-      );
+      assert.isFalse($(".support-comments-error-container").hasClass("d-none"));
     });
 
     it("sends multiple files down to the server", () => {

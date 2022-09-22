@@ -25,7 +25,7 @@ defmodule SiteWeb.PaginationHelpersTest do
     end
 
     test "some pages were collapsed" do
-      @result =~ ~s(<li class="pagination-collapsed hidden-sm-down">…</li>)
+      @result =~ ~s(<li class="pagination-collapsed d-none d-sm-inline-block">…</li>)
     end
 
     test "an active page was set" do
@@ -33,7 +33,7 @@ defmodule SiteWeb.PaginationHelpersTest do
     end
 
     test "mobile links were hidden" do
-      @result =~ ~s(<li class="pagination-num  hidden-sm-down">)
+      @result =~ ~s(<li class="pagination-num  d-none d-sm-inline">)
     end
 
     test "there are next and previous links" do

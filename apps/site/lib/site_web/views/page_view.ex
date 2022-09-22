@@ -191,7 +191,7 @@ defmodule SiteWeb.PageView do
   defp shortcut_text(:stations) do
     [
       "Stations",
-      content_tag(:span, " & Stops", class: "hidden-md-down")
+      content_tag(:span, " & Stops", class: "d-none d-md-inline")
     ]
   end
 
@@ -206,14 +206,14 @@ defmodule SiteWeb.PageView do
   defp shortcut_text(:subway) do
     [
       "Subway",
-      content_tag(:span, " Lines", class: "hidden-md-down")
+      content_tag(:span, " Lines", class: "d-none d-md-inline")
     ]
   end
 
   defp shortcut_text(mode) do
     [
       mode_name(mode),
-      content_tag(:span, " Routes", class: "hidden-md-down")
+      content_tag(:span, " Routes", class: "d-none d-md-inline")
     ]
   end
 

@@ -13,26 +13,26 @@
     <% end %>
     <div class="pagination-list">
       <%= if @pagination.prefix != [] do %>
-        <a href="<%= offset_link(link, 1) %>" class="pagination-num hidden-sm-down">
+        <a href="<%= offset_link(link, 1) %>" class="pagination-num d-none d-sm-inline">
           1
         </a>
         <%= if List.last(@pagination.prefix) == "…" do %>
-          <div class="pagination-collapsed hidden-sm-down"><span>…<span></div>
+          <div class="pagination-collapsed d-none d-sm-inline-block"><span>…<span></div>
         <% end %>
       <% end %>
       <%= for page <- @pagination.range do %>
         <% selected_class = if page == @pagination.current, do: "active", else: "" %>
-        <% hidden_class = if page in @pagination.mobile_range, do: "", else: "hidden-sm-down" %>
+        <% hidden_class = if page in @pagination.mobile_range, do: "", else: "d-none d-sm-block" %>
         <a href="<%= offset_link(link, page) %>" class="pagination-num <%= selected_class %> <%= hidden_class %>">
           <%= page %>
         </a>
       <% end %>
       <%= if @pagination.suffix != [] do %>
         <%= if List.first(@pagination.suffix) == "…" do %>
-          <div class="pagination-collapsed hidden-sm-down"><span>…</span></div>
+          <div class="pagination-collapsed d-none d-sm-block"><span>…</span></div>
         <% end %>
         <% suffix_offset = List.last(@pagination.suffix) %>
-        <a href="<%= offset_link(link, suffix_offset) %>" class="pagination-num hidden-sm-down">
+        <a href="<%= offset_link(link, suffix_offset) %>" class="pagination-num d-none d-sm-block">
           <%= suffix_offset %>
         </a>
       <% end %>

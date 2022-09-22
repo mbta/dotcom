@@ -42,7 +42,7 @@ const MoreProjectsTable = ({
       <h2>{tableHeaderText(state)} Projects</h2>
       <div>
         <table className="m-more-projects-table" aria-label="More Projects">
-          <thead className="m-more-projects-table__thead hidden-md-down">
+          <thead className="m-more-projects-table__thead d-none d-md-table-row">
             <tr>
               <th
                 scope="col"

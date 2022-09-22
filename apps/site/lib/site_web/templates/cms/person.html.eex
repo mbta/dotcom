@@ -1,10 +1,10 @@
 <div class="container">
   <div class="page-section">
-    <%= img_tag @person.profile_image.url, alt: @person.profile_image.alt, class: "hidden-xs-down content-person-sidebar-img" %>
+    <%= img_tag @person.profile_image.url, alt: @person.profile_image.alt, class: "d-none d-sm-block content-person-sidebar-img" %>
 
     <div class="content-person-body">
       <h1><%= @person.name %></h1>
-      <%= tag :img, src: @person.profile_image.url, alt: @person.profile_image.alt, class: "hidden-sm-up" %>
+      <%= tag :img, src: @person.profile_image.url, alt: @person.profile_image.alt, class: "d-sm-none" %>
       <p><%= @person.position %></p>
       <%= Site.ContentRewriter.rewrite(@person.bio, @conn) %>
     </div>

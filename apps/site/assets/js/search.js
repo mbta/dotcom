@@ -22,7 +22,7 @@ function setupFilterToggleOnMobile($, breakpoints) {
   });
 
   // hide search filter options on mobile
-  $("[data-container='search-filter']").addClass("hidden-sm-down");
+  $("[data-container='search-filter']").addClass("d-none d-sm-block");
 
   // toggle filter options when clicking the header on mobile
   $("[data-heading='search-filter']")
@@ -37,16 +37,16 @@ function setupFilterToggleOnMobile($, breakpoints) {
       const $listContainer = $header
         .siblings("[data-container='search-filter']")
         .eq(0);
-      if ($listContainer.hasClass("hidden-sm-down")) {
+      if ($listContainer.hasClass("d-none d-sm-block")) {
         $listContainer
           .hide()
-          .removeClass("hidden-sm-down")
+          .removeClass("d-none d-sm-block")
           .slideDown("fast");
         $header.addClass("open").removeClass("closed");
       } else {
         $header.removeClass("open").addClass("closed");
         $listContainer.slideUp("fast", () => {
-          $listContainer.addClass("hidden-sm-down").css({ display: "block" });
+          $listContainer.addClass("d-none d-sm-block");
         });
       }
     });
