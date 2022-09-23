@@ -205,14 +205,16 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-
-      {lineState.data && lineState.data[0] && (
-        <LineDiagramAndStopListPage
-          lineDiagram={lineState.data}
-          route={route}
-          directionId={state.directionId}
-        />
-      )}
+      {route.type === 1 || route.type === 0
+        ? lineState.data &&
+          lineState.data[0] && (
+            <LineDiagramAndStopListPage
+              lineDiagram={lineState.data}
+              route={route}
+              directionId={state.directionId}
+            />
+          )
+        : null}
 
       {!staticMapData && mapState.data && (
         <Map
@@ -239,6 +241,16 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
+      {!(route.type === 1 || route.type === 0)
+        ? lineState.data &&
+          lineState.data[0] && (
+            <LineDiagramAndStopListPage
+              lineDiagram={lineState.data}
+              route={route}
+              directionId={state.directionId}
+            />
+          )
+        : null}
     </>
   );
 };
