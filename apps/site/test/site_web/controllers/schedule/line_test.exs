@@ -309,4 +309,102 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert default_services = [%{id: "WinterWeekday1"}]
     end
   end
+
+  describe "get_all_route_stops/2" do
+    test "works with route with variants" do
+      stops = Line.get_all_route_stops(93, 0)
+      stop_ids = Enum.map(stops, & &1.id)
+
+      assert Enum.sort(stop_ids) ==
+               Enum.sort([
+                 "12862",
+                 "2634",
+                 "12860",
+                 "2742",
+                 "2860",
+                 "2733",
+                 "2832",
+                 "2720",
+                 "2735",
+                 "place-sull",
+                 "2861",
+                 "12858",
+                 "2722",
+                 "2719",
+                 "191",
+                 "2715",
+                 "2734",
+                 "2726",
+                 "2862",
+                 "2725",
+                 "2738",
+                 "2636",
+                 "2736",
+                 "2841",
+                 "2865",
+                 "2864",
+                 "12838",
+                 "2637",
+                 "11891",
+                 "2740",
+                 "2867",
+                 "2729",
+                 "8309",
+                 "2743",
+                 "6548",
+                 "190",
+                 "2866",
+                 "2731",
+                 "2721",
+                 "2635",
+                 "2863",
+                 "2723",
+                 "117",
+                 "12836",
+                 "2741",
+                 "2718",
+                 "2737",
+                 "12859",
+                 "12866"
+               ])
+    end
+
+    test "works with route without variants" do
+      stops = Line.get_all_route_stops(65, 0)
+      stop_ids = Enum.map(stops, & &1.id)
+
+      assert Enum.sort(stop_ids) ==
+               Enum.sort([
+                 "1026",
+                 "1286",
+                 "1287",
+                 "1288",
+                 "1289",
+                 "1290",
+                 "1291",
+                 "1292",
+                 "1293",
+                 "1294",
+                 "1295",
+                 "1296",
+                 "1298",
+                 "1299",
+                 "1300",
+                 "1301",
+                 "1518",
+                 "1519",
+                 "1520",
+                 "1521",
+                 "1523",
+                 "1524",
+                 "1525",
+                 "1526",
+                 "1777",
+                 "1778",
+                 "1994",
+                 "8993",
+                 "place-kencl"
+               ])
+    end
+  end
 end
