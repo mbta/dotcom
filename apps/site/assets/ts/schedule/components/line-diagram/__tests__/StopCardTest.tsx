@@ -89,6 +89,17 @@ describe("StopCard", () => {
     ).toContain("View schedule");
   });
 
+  it("Text on schedle finder button updates when subway", () => {
+    const subwayRoute = merge(cloneDeep(route), { type: 1 as RouteType });
+    lineDiagramBranchingIn.forEach(({ route_stop }) => {
+      route_stop.route = subwayRoute;
+    });
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
+    expect(
+      wrapper.find(".m-schedule-diagram__footer > button").text()
+    ).toContain("View upcoming departures");
+  });
+
   it("has a tooltip for a transit connection", () => {
     const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
     stopConnections.forEach(connectionLink => {
