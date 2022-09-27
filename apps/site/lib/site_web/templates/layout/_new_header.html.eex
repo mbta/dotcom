@@ -1,4 +1,4 @@
-<aside class="c-modal__cover m-menu--cover" data-nav="veil"></aside>
+<aside class="c-modal__cover m-menu--cover" aria-hidden="true" data-nav="veil"></aside>
 <header class="header--new">
   <div class="container new">
     <div class="header-navbar new">

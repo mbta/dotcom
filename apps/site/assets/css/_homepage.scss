@@ -372,6 +372,11 @@
     height: 24px;
   }
 
+  /* adjusts #7c878e -> #6c777e (4.59 contrast ratio) */
+  .u-bg--silver-line {
+    background-color: darken(saturate($brand-silver-line, 0.32), 6.27);
+  }
+
   .m-homepage__alerts-main {
     display: flex;
     flex-direction: row;

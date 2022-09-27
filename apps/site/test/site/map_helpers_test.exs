@@ -1,36 +1,15 @@
 defmodule MapHelpersTest do
   use SiteWeb.ConnCase, async: true
   import Site.MapHelpers
-  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   describe "map_pdf_url/1" do
-    test "returns the map link for subway" do
-      assert map_pdf_url(:subway) ==
-               cms_static_page_path(
-                 SiteWeb.Endpoint,
-                 "/subway-map"
-               )
-    end
+    test "returns a URL string" do
+      map_types = [:subway, :ferry, :bus, :commuter_rail]
 
-    test "returns the map link for ferry" do
-      assert map_pdf_url(:ferry) ==
-               cms_static_page_path(SiteWeb.Endpoint, "/ferry-map")
-    end
-
-    test "returns the bus map for bus" do
-      assert map_pdf_url(:bus) ==
-               cms_static_page_path(
-                 SiteWeb.Endpoint,
-                 "/bus-map"
-               )
-    end
-
-    test "returns the map link for commuter rail" do
-      assert map_pdf_url(:commuter_rail) ==
-               cms_static_page_path(
-                 SiteWeb.Endpoint,
-                 "/cr-map"
-               )
+      for map_type <- map_types do
+        assert map_type |> map_pdf_url() |> is_binary()
+        refute map_type == ""
+      end
     end
   end
 

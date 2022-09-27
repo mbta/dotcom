@@ -82,7 +82,7 @@ defmodule Site.Stream.Vehicles do
         %{data: data}
       )
     rescue
-      _ in ArgumentError ->
+      _ in [UndefinedFunctionError, ArgumentError] ->
         # the :ets.lookup failed, the ETS tables for working with Vehicles.Repo
         # aren't set up yet. we are still waiting for Siteweb.Endpoint to start.
         # fail gracefully here, ignore event

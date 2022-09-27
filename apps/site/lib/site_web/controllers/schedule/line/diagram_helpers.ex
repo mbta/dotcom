@@ -28,6 +28,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
       ) do
     branches
     |> Enum.reverse()
+    |> override_green_0_order(direction_id)
     |> Enum.reduce({[], []}, &reduce_green_branch(&1, &2, direction_id))
     |> build_green_stop_list(direction_id)
   end
@@ -52,6 +53,18 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     |> sort_branches(direction_id)
     |> Enum.reduce({[], []}, &build_branched_stop_list/2)
   end
+
+  # Split out Union Square from the D line to force it to be the last stop
+  defp override_green_0_order([b, c, %RouteStops{branch: d_branch, stops: [unsqu | tail]}, e], 0),
+    do: [
+      b,
+      c,
+      %RouteStops{branch: d_branch, stops: tail},
+      e,
+      %RouteStops{branch: d_branch, stops: [unsqu]}
+    ]
+
+  defp override_green_0_order(branches, _), do: branches
 
   # Reduces each green line branch into a tuple of {stops_on_branches, shared_stops}, which gets parsed
   # by &build_green_stop_list/2.
@@ -151,6 +164,8 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   defp split_green_branch(%RouteStops{stops: stops, branch: branch_id}, 1) do
     Enum.split_while(stops, fn stop -> stop.id != GreenLine.merge_id(branch_id) end)
   end
+
+  defp split_green_branch(%RouteStops{stops: [stop]}, 0), do: {[], [stop]}
 
   defp split_green_branch(%RouteStops{stops: stops, branch: branch_id}, 0) do
     {shared, [merge | branch]} =
@@ -379,11 +394,11 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   # are merging together at a given stop, and the E line needs a special case since it merges into
   # three other lines we want to represent as a single line.
   defp combined_green_stop_bubble_types(%RouteStop{id: "place-unsqu"}) do
-    [{"Green-E", :terminus}]
+    [{"Green-D", :terminus}]
   end
 
   defp combined_green_stop_bubble_types(%RouteStop{id: "place-lech"}) do
-    [{"Green-E", :stop}]
+    [{"Green-E", :terminus}]
   end
 
   defp combined_green_stop_bubble_types(%RouteStop{id: "place-spmnl"}) do
@@ -417,7 +432,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     # presenting everything inbound of Copley as a single combined line, only Union should be
     # considered a terminus on that segment.
     stop_bubble =
-      if GreenLine.terminus?(id, branch, 0) or GreenLine.terminus?(id, "Green-E", 1) do
+      if GreenLine.terminus?(id, branch, 0) or GreenLine.terminus?(id, "Green-D", 1) do
         {branch, :terminus}
       else
         {branch, :stop}
