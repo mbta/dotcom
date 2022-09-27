@@ -89,17 +89,6 @@ describe("StopCard", () => {
     ).toContain("View schedule");
   });
 
-  it("Text on schedle finder button updates when subway", () => {
-    const subwayRoute = merge(cloneDeep(route), { type: 1 as RouteType });
-    lineDiagramBranchingIn.forEach(({ route_stop }) => {
-      route_stop.route = subwayRoute;
-    });
-    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
-    expect(
-      wrapper.find(".m-schedule-diagram__footer > button").text()
-    ).toContain("View upcoming departures");
-  });
-
   it("has a tooltip for a transit connection", () => {
     const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
     stopConnections.forEach(connectionLink => {
@@ -224,3 +213,75 @@ it.each`
     expect(featureNames).toEqual(expectedFeatures);
   }
 );
+
+const lineDiagramSubway = (simpleLineDiagram as unknown) as LineDiagramStop[];
+let lineDiagramBranchingOutSubway = (outwardLineDiagram as unknown) as LineDiagramStop[];
+
+const routeSubway = {
+  type: 1 as RouteType,
+  name: "route 1",
+  long_name: "route 1 long name",
+  color: "F00B42",
+  id: "route-1",
+  direction_names: {
+    0: "Outbound",
+    1: "Inbound"
+  },
+  direction_destinations: {
+    0: "Begin",
+    1: "End"
+  },
+  description: "key_bus_route",
+  "custom_route?": false,
+  header: "",
+  alerts: []
+};
+
+lineDiagramSubway.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeSubway);
+});
+
+lineDiagramBranchingOutSubway.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeSubway);
+});
+
+let lineDiagramBranchingInSubway = cloneDeep(
+  lineDiagramBranchingOutSubway
+).reverse();
+const CRrouteTwo = merge(cloneDeep(route), { type: 2 as RouteType });
+lineDiagramBranchingInSubway.forEach(({ route_stop }) => {
+  route_stop.route = CRrouteTwo;
+  if (route_stop["is_terminus?"]) {
+    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
+  }
+});
+
+const handleStopClickSubway = () => {};
+const liveDataSubway = { headsigns: [], vehicles: [] };
+const storeSubway = createLineDiagramCoordStore(lineDiagramSubway);
+
+describe("StopCard", () => {
+  let wrapper: ReactWrapper;
+  beforeEach(() => {
+    wrapper = mount(
+      <redux.Provider store={storeSubway}>
+        <StopCard
+          stop={lineDiagramSubway[0]}
+          onClick={handleStopClickSubway}
+          liveData={liveDataSubway}
+        />
+      </redux.Provider>
+    );
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it("Text on schedle finder button empty when no departures", () => {
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
+    expect(
+      wrapper.find(".m-schedule-diagram__footer > button").text()
+    ).toContain("");
+  });
+});
