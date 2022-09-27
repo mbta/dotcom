@@ -121,8 +121,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert List.last(stops).id == "Boat-Charlestown"
 
       # Map
-      assert conn.assigns.map_img_src =~
-               "/sites/default/files/media/2021-05/2021-05-22-ferry-map.png"
+      assert is_binary(conn.assigns.map_img_src)
     end
 
     test "Bus data", %{conn: conn} do
