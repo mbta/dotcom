@@ -8,6 +8,7 @@ defmodule MapHelpersTest do
 
       for map_type <- map_types do
         assert map_type |> map_pdf_url() |> is_binary()
+        refute map_type == ""
       end
     end
   end
