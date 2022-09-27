@@ -182,15 +182,7 @@ export const ScheduleLoader = ({
       }
 
       return (
-        <AdditionalLineInfo
-          teasers={teasers}
-          pdfs={pdfs}
-          connections={connections}
-          fares={fares}
-          fareLink={fareLink}
-          route={route}
-          holidays={holidays}
-        />
+<></>
       );
     }
 

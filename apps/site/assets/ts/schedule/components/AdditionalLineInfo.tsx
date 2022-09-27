@@ -5,7 +5,7 @@ import { TypedRoutes } from "../../stop/components/__stop";
 import PDFSchedules from "./PDFSchedules";
 import Connections from "./Connections";
 import ContentTeasers from "./ContentTeasers";
-import HoursOfOperation from "./HoursOfOperation";
+// import HoursOfOperation from "./HoursOfOperation";
 import Fares from "./Fares";
 import UpcomingHolidays from "./UpcomingHolidays";
 
@@ -29,12 +29,7 @@ const AdditionalLineInfo = ({
   route
 }: Props): ReactElement<HTMLElement> => (
   <>
-    <ContentTeasers teasers={teasers} />
-    <PDFSchedules pdfs={pdfs} />
-    <Connections connections={connections} />
-    <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
-    <HoursOfOperation route={route} />
-    <UpcomingHolidays holidays={holidays} />
+    <div>ASDFASDFASDFASDFASDF</div>
   </>
 );
 

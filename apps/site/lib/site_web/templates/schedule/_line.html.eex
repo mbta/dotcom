@@ -85,8 +85,7 @@
     <div class="col-md-5 col-lg-4 <%= offset %> m-schedule-page__side-content">
       <div class="m-schedule-line__side-content">
         <% %{teasers: teasers, pdfs: pdfs, connections: connections, fares: fares, fare_link: fare_link, route: route, hours: hours, holidays: holidays} = @schedule_page_data %>
-        <div id="react-root">
-          <%= Site.React.render("AdditionalLineInfo", %{
+        <div id="react-root"><%=Site.React.render("AdditionalLineInfo", %{
             teasers: teasers,
             pdfs: pdfs,
             connections: connections,
@@ -94,8 +93,7 @@
             fareLink: fare_link,
             route: route,
             hours: hours,
-            holidays: holidays}) %>
-        </div>
+            holidays: holidays})%></div>
         <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
         <%= if Application.get_env(:site, :dev_server?) do %>
           <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>

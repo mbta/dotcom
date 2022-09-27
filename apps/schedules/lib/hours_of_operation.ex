@@ -27,8 +27,8 @@ defmodule Schedules.HoursOfOperation do
   """
   @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], atom()) :: t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    IO.inspect("RAPID RAPID RAPID RAPID RAPID RAPID RAPID RAPID")
-    IO.inspect(route_id_or_ids)
+    # IO.inspect("RAPID RAPID RAPID RAPID RAPID RAPID RAPID RAPID")
+    # IO.inspect(route_id_or_ids)
     route_id_or_ids
     |> List.wrap()
     # we don't want to filter only the first and last
@@ -140,6 +140,7 @@ defmodule Schedules.HoursOfOperation do
   def join_hours(data, :rapid_transit) do
     data
   end
+  #######
 
   def join_hours([single], _) do
     single
@@ -247,10 +248,11 @@ defmodule Schedules.HoursOfOperation do
 
     Enum.map(times_by_stop, fn {id, x} ->
       # IO.inspect(x)
+      stop = Stops.Repo.get(id)
       {min, max} = x
       |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
       |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
-      %{stop_id: id, first_departure: min, last_departure: max}
+      %{stop_id: id, first_departure: min, last_departure: max, stop_name: stop.name}
     end)
 
 

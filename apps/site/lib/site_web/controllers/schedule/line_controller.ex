@@ -40,7 +40,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   def hours_of_operation(conn, _) do
     # populated by the plug up above
     hours_of_operation = Map.get(conn.assigns, :hours_of_operation)
-    IO.inspect(hours_of_operation)
+    # IO.inspect(hours_of_operation)
     json(conn, hours_of_operation)
   end
 
