@@ -136,6 +136,11 @@ defmodule SiteWeb.ScheduleController.Line do
 
     diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
 
+    stop_tree =
+      static_branches
+      |> Enum.map(&Enum.map(&1.stops, fn route_stop -> {route_stop.id, route_stop} end))
+      |> UnrootedPolytree.from_lists()
+
     conn
     |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
@@ -143,6 +148,7 @@ defmodule SiteWeb.ScheduleController.Line do
       :all_stops,
       DiagramHelpers.build_stop_list(static_branches, diagram_direction)
     )
+    |> assign(:stop_tree, stop_tree)
     |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
