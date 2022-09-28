@@ -110,21 +110,8 @@ class Algolia {
     requestedQueryIds.forEach(queryId => {
       queries.push(this._buildQuery(queryId, opts));
     });
-    Object.keys(this._queries).forEach(queryId => {
-      queries.push(this._buildFacetQuery(queryId, opts));
-    });
-    return queries;
-  }
 
-  _buildFacetQuery(queryId, opts) {
-    return {
-      indexName: this._queries[queryId].indexName,
-      query: opts.query,
-      params: {
-        hitsPerPage: 0,
-        facets: ["*"]
-      }
-    };
+    return queries;
   }
 
   _buildQuery(queryId, { query }) {
