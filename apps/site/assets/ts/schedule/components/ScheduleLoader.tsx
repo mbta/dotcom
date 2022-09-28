@@ -44,6 +44,15 @@ export const changeOrigin = (origin: SelectedOrigin): void => {
   });
 };
 
+export const changeDirection = (directionId: DirectionId): void => {
+  storeHandler({
+    type: "CHANGE_DIRECTION",
+    newStoreValues: {
+      selectedDirection: directionId
+    }
+  });
+};
+
 export const ScheduleLoader = ({
   component,
   schedulePageData,
@@ -55,6 +64,7 @@ export const ScheduleLoader = ({
     "schedule_finder[origin]": StringParam
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const changeDirection = (direction: DirectionId): void => {
     storeHandler({
       type: "CHANGE_DIRECTION",

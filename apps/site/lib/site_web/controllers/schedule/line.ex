@@ -9,6 +9,9 @@ defmodule SiteWeb.ScheduleController.Line do
 
   alias Plug.Conn
   alias Routes.Route
+  alias RoutePatterns
+  alias Schedules
+  alias Routes
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
@@ -131,10 +134,10 @@ defmodule SiteWeb.ScheduleController.Line do
         vehicle_tooltips
       )
 
-    reverse_route_stops =
-      LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
-
     diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
+
+    all_stops_from_route = get_all_route_stops(route.id, direction_id)
+    reverse_all_stops_from_route = get_all_route_stops(route.id, reverse_direction_id)
 
     conn
     |> assign(:route_patterns, route_patterns_map)
@@ -147,14 +150,22 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
-    |> assign(:all_stops_from_route, flatten_route_stops(route_stops))
-    |> assign(:reverse_direction_all_stops_from_route, flatten_route_stops(reverse_route_stops))
+    |> assign(:all_stops_from_route, all_stops_from_route)
+    |> assign(:reverse_direction_all_stops_from_route, reverse_all_stops_from_route)
     |> assign(:connections, connections(static_branches))
     |> assign(:variant, variant)
   end
 
-  defp flatten_route_stops(route_stops) do
-    Enum.flat_map(route_stops, fn {_route_id, stops} -> stops end)
+  # visible for testing
+  def get_all_route_stops(route_id, direction_id) do
+    patterns = RoutePatterns.Repo.by_route_id(route_id, direction_id: direction_id)
+
+    all_pattern_stop_ids =
+      Enum.reduce(patterns, MapSet.new(), fn pattern, stop_ids ->
+        MapSet.union(stop_ids, MapSet.new(pattern.stop_ids))
+      end)
+
+    Enum.map(all_pattern_stop_ids, &Stops.Repo.get!/1)
   end
 
   defp map_route_patterns_by_direction(route_patterns) do
