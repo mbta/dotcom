@@ -46,9 +46,42 @@ export interface SchedulePageData {
   direction_id: DirectionId;
   route_patterns: RoutePatternsByDirection;
   line_diagram: LineDiagramStop[];
+  stop_tree: StopTreeData;
   today: string;
   variant: string | null;
 }
+
+interface StopTreeData {
+  by_id: { string: { id: string; value: RouteStop } };
+  edges: { string: { next: string[]; previous: string[] } };
+  starting_nodes: string[];
+}
+
+export type StopId = string;
+
+export interface ByStopId<T> {
+  [stopId: StopId]: T;
+}
+
+export interface StopTreeNode {
+  id: StopId;
+  value: RouteStop;
+}
+
+export interface StopTreeEdges {
+  next: StopId[];
+  previous: StopId[];
+}
+
+export interface StopTree {
+  byId: ByStopId<StopTreeNode>;
+  edges: ByStopId<StopTreeEdges>;
+  startingNodes: StopId[];
+}
+
+export type StopTreePath = StopId[];
+
+export type StopTreeSlice = StopId[];
 
 interface StopData {
   branch: string | null;
