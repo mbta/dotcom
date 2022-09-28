@@ -36,29 +36,6 @@ defmodule SiteWeb.ScheduleController.Line do
     Util.log_duration(__MODULE__, :do_call, [conn, opts])
   end
 
-  @spec replace_map_key(map, String.t(), String.t()) :: map
-  defp replace_map_key(input, from, to) do
-    if Map.has_key?(input, from) do
-      input
-      |> Map.put(to, Map.get(input, from))
-      |> Map.delete(from)
-    else
-      input
-    end
-  end
-
-  @spec get_updated_format_for_url_params(map) :: map
-  def get_updated_format_for_url_params(query_params) do
-    new_params =
-      query_params
-      |> replace_map_key("direction_id", "schedule_direction[direction_id]")
-      |> replace_map_key("origin", "schedule_direction[origin]")
-      |> replace_map_key("destination", "schedule_direction[destination]")
-      |> replace_map_key("variant", "schedule_direction[variant]")
-
-    new_params
-  end
-
   def do_call(
         %Conn{
           assigns: %{
@@ -100,6 +77,29 @@ defmodule SiteWeb.ScheduleController.Line do
       conn
       |> redirect(to: url)
       |> halt()
+    end
+  end
+
+  @spec get_updated_format_for_url_params(map) :: map
+  defp get_updated_format_for_url_params(query_params) do
+    new_params =
+      query_params
+      |> replace_map_key("direction_id", "schedule_direction[direction_id]")
+      |> replace_map_key("origin", "schedule_direction[origin]")
+      |> replace_map_key("destination", "schedule_direction[destination]")
+      |> replace_map_key("variant", "schedule_direction[variant]")
+
+    new_params
+  end
+
+  @spec replace_map_key(map, String.t(), String.t()) :: map
+  defp replace_map_key(input, from, to) do
+    if Map.has_key?(input, from) do
+      input
+      |> Map.put(to, Map.get(input, from))
+      |> Map.delete(from)
+    else
+      input
     end
   end
 
