@@ -53,12 +53,12 @@ describe("Algolia", function() {
   });
 
   describe("Algolia._buildAllQueries", function() {
-    it("builds a list of queries for result list AND facets", function() {
+    it("builds a list of queries for result list", function() {
       expect(this.algolia._queries).to.be.an("object");
       expect(this.algolia._queries).to.have.keys(["stops"]);
       const queries = this.algolia._buildAllQueries({});
       expect(queries).to.be.an("array");
-      expect(queries).to.have.a.lengthOf(2);
+      expect(queries).to.have.a.lengthOf(1);
 
       expect(queries[0]).to.have.all.keys(["indexName", "params", "query"]);
       expect(queries[0].indexName).to.equal("stops");
@@ -67,11 +67,6 @@ describe("Algolia", function() {
         "hitsPerPage",
         "clickAnalytics"
       ]);
-
-      expect(queries[1]).to.have.all.keys(["indexName", "params", "query"]);
-      expect(queries[1].indexName).to.equal("stops");
-      expect(queries[1].params).to.have.all.keys(["facets", "hitsPerPage"]);
-      expect(queries[1].params.facets).to.include("*");
     });
   });
 
@@ -91,18 +86,6 @@ describe("Algolia", function() {
         "hitsPerPage",
         "clickAnalytics"
       ]);
-      expect(this.algolia._doSearch.args[0][0][1]).to.have.keys([
-        "indexName",
-        "params",
-        "query"
-      ]);
-      expect(this.algolia._doSearch.args[0][0][1].params).to.have.keys([
-        "facets",
-        "hitsPerPage"
-      ]);
-      expect(this.algolia._doSearch.args[0][0][1].params.facets).to.include(
-        "*"
-      );
     });
 
     it("returns a promise", function() {
