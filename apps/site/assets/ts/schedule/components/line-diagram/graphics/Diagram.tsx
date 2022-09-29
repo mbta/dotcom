@@ -153,7 +153,7 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
         lineDiagram.map(stop => (
           <Stop
             key={stop.route_stop.id}
-            stop={stop}
+            stopId={stop.route_stop.id}
             shuttle={overrideStyle === "shuttle"}
           />
         ))}

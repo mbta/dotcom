@@ -30,16 +30,16 @@ exports[`Diagram for simple lines renders and matches snapshot 1`] = `
       <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"70px\\" y2=\\"90px\\" />
       </Line>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"line-origin\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"30px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"line-stop1\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"50px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"line-stop2\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"70px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"line-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"90px\\" data-shuttle={false} />
       </Stop>
     </svg>
@@ -129,43 +129,43 @@ exports[`Diagram with branches going inward renders and matches snapshot 1`] = `
       <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"130px\\" y2=\\"110px\\" />
       </Line>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"350px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stopC\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"330px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stopB\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"310px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stopA\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"290px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-twig-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"270px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-twig-stop\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"250px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-branch-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"230px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop3\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"210px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop4\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"190px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop2\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"170px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop1\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"150px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop0\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"130px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-origin\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"110px\\" data-shuttle={false} />
       </Stop>
     </svg>
@@ -250,43 +250,43 @@ exports[`Diagram with branches going outward renders and matches snapshot 1`] = 
       <Line from={{...}} to={{...}} shuttle={false}>
         <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"330px\\" y2=\\"350px\\" />
       </Line>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-origin\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"110px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop0\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"130px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop1\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"150px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop2\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"170px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop4\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"190px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stop3\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"210px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-branch-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"230px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-twig-stop\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"250px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-twig-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"270px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stopA\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"290px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stopB\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"310px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-stopC\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"330px\\" data-shuttle={false} />
       </Stop>
-      <Stop stop={{...}} shuttle={false}>
+      <Stop stopId=\\"tree-destination\\" shuttle={false}>
         <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"350px\\" data-shuttle={false} />
       </Stop>
     </svg>

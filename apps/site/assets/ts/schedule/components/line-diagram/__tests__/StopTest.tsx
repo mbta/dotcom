@@ -27,7 +27,7 @@ describe("Stop component", () => {
     wrapper = mount(
       <redux.Provider store={store}>
         <svg>
-          <Stop stop={lineDiagram[0]} />
+          <Stop stopId={lineDiagram[0].route_stop.id} />
         </svg>
       </redux.Provider>
     );

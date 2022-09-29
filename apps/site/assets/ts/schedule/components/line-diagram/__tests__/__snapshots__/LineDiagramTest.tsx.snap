@@ -74,16 +74,16 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
             <Line from={{...}} to={{...}} shuttle={false}>
               <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
             </Line>
-            <Stop stop={{...}} shuttle={false}>
+            <Stop stopId=\\"line-origin\\" shuttle={false}>
               <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
             </Stop>
-            <Stop stop={{...}} shuttle={false}>
+            <Stop stopId=\\"line-stop1\\" shuttle={false}>
               <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
             </Stop>
-            <Stop stop={{...}} shuttle={false}>
+            <Stop stopId=\\"line-stop2\\" shuttle={false}>
               <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
             </Stop>
-            <Stop stop={{...}} shuttle={false}>
+            <Stop stopId=\\"line-destination\\" shuttle={false}>
               <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
             </Stop>
           </svg>
