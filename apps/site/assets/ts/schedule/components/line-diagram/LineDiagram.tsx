@@ -9,7 +9,7 @@ import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
 import StopCard from "./StopCard";
 import LineDiagramWithStops from "./LineDiagramWithStops";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
-import { changeDirection, changeOrigin } from "../ScheduleLoader";
+import { changeOrigin } from "../ScheduleLoader";
 import useRealtime from "../../../hooks/useRealtime";
 
 interface LineDiagramProps {
@@ -45,7 +45,6 @@ const LineDiagramAndStopListPage = ({
   };
 
   const handleStopClick = (stop: RouteStop): void => {
-    changeDirection(directionId);
     changeOrigin(stop.id);
 
     const currentState = getCurrentState();
