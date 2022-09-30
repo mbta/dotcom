@@ -16,6 +16,8 @@
           <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
         <% else %>
           <% title = case @route.type do
+              0 -> "Schedules & Departures"
+              1 -> "Schedules & Departures"
               2 -> "Schedule & Maps"
               4 -> nil
               _ -> "Schedules & Maps"

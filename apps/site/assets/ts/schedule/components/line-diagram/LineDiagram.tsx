@@ -77,9 +77,11 @@ const LineDiagramAndStopListPage = ({
    */
   return (
     <>
-      <h3 className="m-schedule-diagram__heading">
-        {stationsOrStops(route.type)}
-      </h3>
+      {route.type === 0 || route.type === 1 ? null : (
+        <h3 className="m-schedule-diagram__heading">
+          {stationsOrStops(route.type)}
+        </h3>
+      )}
       <SearchBox
         id="stop-search"
         labelText={`Search for a ${stationsOrStops(route.type)

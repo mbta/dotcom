@@ -127,9 +127,9 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
             )
           )}
         </div>
-
-        {!liveData?.headsigns.length &&
-        (routeStop.route?.type === 1 || routeStop.route?.type === 0) ? null : (
+        {(!liveData?.headsigns.length &&
+          (routeStop.route?.type === 1 || routeStop.route?.type === 0)) ||
+        (routeStop["is_terminus?"] && !routeStop["is_beginning?"]) ? null : (
           <footer className="m-schedule-diagram__footer">
             <button
               className="btn btn-link"
