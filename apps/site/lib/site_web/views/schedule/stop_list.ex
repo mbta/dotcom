@@ -125,6 +125,12 @@ defmodule SiteWeb.ScheduleView.StopList do
     ]
   end
 
+  # Rapid transit list data returns in a list with each stop
+  # This data is rendered in front-end so render nothing here
+  def display_departure_range(data) when is_list(data) do
+    ""
+  end
+
   @doc """
   Displays a schedule period.
   """

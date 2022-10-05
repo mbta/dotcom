@@ -84,16 +84,7 @@
     <% offset = if Enum.empty?(@branches), do: "col-md-offset-7 col-lg-offset-8", else: "col-lg-offset-1" %>
     <div class="col-md-5 col-lg-4 <%= offset %> m-schedule-page__side-content">
       <div class="m-schedule-line__side-content">
-        <% %{teasers: teasers, pdfs: pdfs, connections: connections, fares: fares, fare_link: fare_link, route: route, hours: hours, holidays: holidays} = @schedule_page_data %>
-        <div id="react-root"><%=Site.React.render("AdditionalLineInfo", %{
-            teasers: teasers,
-            pdfs: pdfs,
-            connections: connections,
-            fares: fares,
-            fareLink: fare_link,
-            route: route,
-            hours: hours,
-            holidays: holidays})%></div>
+        <div id="react-root"></div>
         <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
         <%= if Application.get_env(:site, :dev_server?) do %>
           <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>

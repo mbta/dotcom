@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { connect } from "react-redux";
 import { useQueryParams, StringParam } from "use-query-params";
 import ContentTeasers from "./ContentTeasers";
@@ -18,9 +18,11 @@ import { DirectionId } from "../../__v3api";
 import {
   mapStateToProps,
   getCurrentState,
-  storeHandler
+  storeHandler,
+  store
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import useUrlSearchParams from "../../hooks/useUrlSearchParams";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -181,8 +183,23 @@ export const ScheduleLoader = ({
         );
       }
 
+      console.log(store.getState());
+      store.subscribe(() => {
+        console.log("HITHITHITHITHITHITHITHITHITHITHITHITHITHI");
+      });
+
       return (
-<></>
+        <AdditionalLineInfo
+          directionId={store.getState().directionId}
+          teasers={teasers}
+          pdfs={pdfs}
+          connections={connections}
+          fares={fares}
+          fareLink={fareLink}
+          route={route}
+          hours={hours}
+          holidays={holidays}
+        />
       );
     }
 
@@ -250,6 +267,10 @@ export const ScheduleLoader = ({
       if (staticDataEl) {
         staticMapData = JSON.parse(staticDataEl.innerHTML);
       }
+
+      store.subscribe(() => {
+        console.log("OOOOOOOOOOOOOOOO%O%O%O%O%O%O%O%O%O%O%O%O%O%O%O%");
+      });
 
       return isFerryRoute ? (
         <>

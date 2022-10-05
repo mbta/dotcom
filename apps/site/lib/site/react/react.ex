@@ -20,7 +20,7 @@ defmodule Site.React do
 
   @spec render(String.t(), map) :: HTML.safe()
   def render(react_component_name, args) do
-    resp = case do_render(react_component_name, args) do
+    case do_render(react_component_name, args) do
       {:ok, %{"markup" => body}} ->
         body
         # Replace zero-width space HTML entities with the Unicode character
@@ -31,8 +31,6 @@ defmodule Site.React do
         _ = Logger.warn(fn -> "react_renderer component=#{react_component_name} #{message}" end)
         ""
     end
-    IO.inspect(resp)
-    resp
   end
 
   defp do_render(component, props) do
