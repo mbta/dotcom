@@ -98,7 +98,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   @spec dedup_similar_services([Service.t()]) :: [Service.t()]
   def dedup_similar_services(services) do
     services
-    |> Enum.group_by(&{&1.type, &1.typicality})
+    |> Enum.group_by(&{&1.type, &1.typicality, &1.valid_days})
     |> Enum.flat_map(fn {_, service_group} ->
       Enum.reject(service_group, &service_completely_overlapped?(&1, service_group))
     end)
@@ -127,13 +127,21 @@ defmodule SiteWeb.ScheduleController.LineController do
   def services(route_id, service_date, services_by_route_id_fn \\ &ServicesRepo.by_route_id/1) do
     route_id
     |> services_by_route_id_fn.()
+    |> IO.inspect(label: "initial 501 services")
     |> dedup_identical_services()
+    |> IO.inspect(label: "dedup ident")
     |> dedup_similar_services()
+    |> IO.inspect(label: "dedup similar")
     |> Enum.reject(&(&1.name == "Weekday (no school)"))
     |> Enum.reject(&(Date.compare(&1.end_date, service_date) == :lt))
+    |> IO.inspect(label: "one")
     |> Enum.sort_by(&sort_services_by_date/1)
+    |> IO.inspect(label: "two")
+    # seems to wrap each service in __struct__:
     |> Enum.map(&Map.put(&1, :service_date, service_date))
+    |> IO.inspect(label: "three")
     |> tag_default_service()
+    |> IO.inspect(label: "end result 501")
   end
 
   # Some routes have no services (ie, "Green")
