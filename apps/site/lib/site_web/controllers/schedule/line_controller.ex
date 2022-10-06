@@ -99,7 +99,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   def dedup_similar_services(services) do
     services
     |> Enum.reject(&(&1.valid_days == [5] || &1.valid_days == [1, 2, 3, 4]))
-    |> Enum.group_by(&{&1.type, &1.typicality, &1.valid_days})
+    |> Enum.group_by(&{&1.type, &1.typicality})
     |> Enum.flat_map(fn {_, service_group} ->
       Enum.reject(service_group, &service_completely_overlapped?(&1, service_group))
     end)
