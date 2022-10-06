@@ -1,16 +1,13 @@
 import { parseISO } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
-import { map, uniqueId, sortBy } from "lodash";
-import React, { ReactElement, useEffect, useReducer } from "react";
-import { useStore } from "react-redux";
+import { map, uniqueId, sortBy, filter } from "lodash";
+import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
 import renderFa from "../../helpers/render-fa";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import useUrlSearchParams from "../../hooks/useUrlSearchParams";
 import { EnhancedRoute, StopHours } from "../../__v3api";
-import { getCurrentState } from "../store/ScheduleStore";
-import { menuReducer } from "./direction/reducer";
 import { SchedulePDF } from "./__schedule";
 
 const SCHEDULE_PARAM = "schedule_direction[direction_id]";
@@ -24,22 +21,24 @@ const getSchedule = (
   dataArray: StopHours[][] | StopHours[],
   currentDirection: number
 ): ReactElement<HTMLElement>[] | ReactElement<HTMLElement> => {
-  const sortedData = sortBy(
+  const filteredData = filter(
     dataArray[currentDirection],
+    (stopData: StopHours) => stopData.is_terminus
+  );
+  const sortedData = sortBy(
+    filteredData,
     (stopData: StopHours) => stopData.stop_name
   );
-  const mappedData = map(sortedData, (weekData: any) => {
-    return (
-      <div key={uniqueId()} className="fs-18">
-        <span className="pe-16">{weekData.stop_name}</span>
-        <span className="font-weight-bold">
-          {parseOutTime(weekData.first_departure) +
-            " - " +
-            parseOutTime(weekData.last_departure)}
-        </span>
-      </div>
-    );
-  });
+  const mappedData = map(sortedData, (stopData: StopHours) => (
+    <div key={uniqueId()} className="fs-18">
+      <span className="pe-16">{stopData.stop_name}</span>
+      <span className="font-weight-bold">
+        {`${parseOutTime(stopData.first_departure)} - ${parseOutTime(
+          stopData.last_departure
+        )}`}
+      </span>
+    </div>
+  ));
 
   return mappedData;
 };
@@ -50,19 +49,16 @@ const pdfLink = (pdf: SchedulePDF): ReactElement<HTMLElement> => (
   </a>
 );
 
-const trainsLeaveBetweenHTML = (): ReactElement<HTMLElement> => {
-  return (
-    <div className="font-weight-bold fs-12 pb-14">Trains leave between...</div>
-  );
-};
+const trainsLeaveBetweenHTML = (): ReactElement<HTMLElement> => (
+  <div className="font-weight-bold fs-12 pb-14">Trains leave between...</div>
+);
 
 const trainsEveryHTML = (
   minuteString: string,
   showExceptDuringRushHour: boolean
 ): ReactElement<HTMLElement> => {
-  const trainsEvery =
-    `Trains every ${minuteString} minutes` +
-    (showExceptDuringRushHour ? " except during rush hour" : "");
+  const rushHour = showExceptDuringRushHour ? " except during rush hour" : "";
+  const trainsEvery = `Trains every ${minuteString} minutes ${rushHour}`;
   return <div className="fs-14 pt-14">{trainsEvery}</div>;
 };
 
@@ -76,31 +72,10 @@ const RapidTransitHoursOfOperation = ({
   const hours = useHoursOfOperation(route.id);
   const urlParams = useUrlSearchParams();
 
-  useEffect(() => {
-    console.log("HEREHEREHEREHEREHEREHEREHEREHERE");
-    console.log(urlParams);
-  }, [urlParams]);
-
-  const state = getCurrentState();
-  const currentDirection = state.selectedDirection;
-
-  const store = useStore();
-  console.log(store.getState());
-
-  useEffect(() => {
-    console.log(store.getState());
-  }, [store]);
-
-  // const [state, dispatch] = useReducer(menuReducer, {
-  //   routePattern: defaultRoutePattern,
-  //   directionId,
-  //   routePatternsByDirection,
-  //   routePatternMenuOpen: false,
-  //   routePatternMenuAll: false,
-  //   itemFocus: null
-  // });
-
-  console.log(currentDirection);
+  const currentDirectionParam = urlParams?.get(SCHEDULE_PARAM);
+  const currentDirection = currentDirectionParam
+    ? Number(currentDirectionParam)
+    : 0;
 
   return (
     <>
@@ -138,7 +113,7 @@ const RapidTransitHoursOfOperation = ({
               borderBottomStyle: "solid"
             }}
             className="pt-18"
-          ></div>
+          />
           <div className="font-weight-bold fs-18 pt-18 pb-14">Sunday</div>
           {trainsLeaveBetweenHTML()}
           {hours && getSchedule(hours.sunday, currentDirection)}

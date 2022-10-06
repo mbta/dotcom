@@ -28,9 +28,6 @@ defmodule Schedules.HoursOfOperation do
   @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], atom()) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    IO.inspect("RAPID RAPID RAPID RAPID RAPID RAPID RAPID RAPID")
-    IO.inspect(route_id_or_ids)
-
     route_id_or_ids
     |> List.wrap()
     # we don't want to filter only the first and last
@@ -61,7 +58,9 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
-        "fields[schedule]": "departure_time,arrival_time"
+        "fields[schedule]": "departure_time,arrival_time",
+        include: "trip",
+        "fields[trip]": "headsign"
       ]
     end
   end
@@ -115,12 +114,13 @@ defmodule Schedules.HoursOfOperation do
         ],
         description
       ) do
-    with {:ok, week_0} <- departure(week_response_0, description),
-         {:ok, week_1} <- departure(week_response_1, description),
-         {:ok, saturday_0} <- departure(saturday_response_0, description),
-         {:ok, saturday_1} <- departure(saturday_response_1, description),
-         {:ok, sunday_0} <- departure(sunday_response_0, description),
-         {:ok, sunday_1} <- departure(sunday_response_1, description) do
+    with {:ok, headsigns} <- get_headsigns(week_response_0, week_response_1, description),
+         {:ok, week_0} <- departure(week_response_0, headsigns, description),
+         {:ok, week_1} <- departure(week_response_1, headsigns, description),
+         {:ok, saturday_0} <- departure(saturday_response_0, headsigns, description),
+         {:ok, saturday_1} <- departure(saturday_response_1, headsigns, description),
+         {:ok, sunday_0} <- departure(sunday_response_0, headsigns, description),
+         {:ok, sunday_1} <- departure(sunday_response_1, headsigns, description) do
       %__MODULE__{
         week: {week_0, week_1},
         saturday: {saturday_0, saturday_1},
@@ -142,17 +142,6 @@ defmodule Schedules.HoursOfOperation do
   single struct representing all the routes together.
   """
   @spec join_hours([t], atom()) :: t
-  # TODO figure out if rapid transit needs to have hours joined
-  def join_hours([data], :rapid_transit) do
-    data
-  end
-
-  def join_hours(data, :rapid_transit) do
-    data
-  end
-
-  #######
-
   def join_hours([single], _) do
     single
   end
@@ -223,63 +212,82 @@ defmodule Schedules.HoursOfOperation do
     }
   end
 
-  ## defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
+  defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
   defp time(%{"departure_time" => time}), do: time
 
-  defp departure(%JsonApi{data: data}, description) do
-    {:ok, departure(data, description)}
+  # Grabs the head sign data from the stops,
+  # Letting us know the terminal stops for the trip
+  defp get_terminal_stops(data) do
+    data
+    |> Enum.map(fn data ->
+      trips = Map.get(data.relationships, "trip")
+      trip = List.first(trips)
+      Map.get(trip.attributes, "headsign")
+    end)
+    |> Enum.uniq()
   end
 
-  defp departure({:error, [%JsonApi.Error{code: "no_service"}]}, _) do
+  defp get_headsigns(%JsonApi{data: data_0}, %JsonApi{data: data_1}, :rapid_transit) do
+    headsign_0 = get_terminal_stops(data_0)
+    headsign_1 = get_terminal_stops(data_1)
+
+    {:ok, Enum.concat(headsign_0, headsign_1)}
+  end
+
+  defp get_headsigns(%JsonApi{data: _data_0}, %JsonApi{data: _data_1}, _) do
+    {:ok, []}
+  end
+
+  defp is_terminus?(stop_name, headsigns) do
+    Enum.member?(headsigns, stop_name)
+  end
+
+  defp departure(%JsonApi{data: data}, headsigns, description) do
+    {:ok, departure(data, headsigns, description)}
+  end
+
+  defp departure({:error, [%JsonApi.Error{code: "no_service"}]}, _, _) do
     {:ok, :no_service}
   end
 
-  defp departure({:error, _} = error, _) do
+  defp departure({:error, _} = error, _, _) do
     error
   end
 
-  defp departure([], _) do
+  defp departure([], _, _) do
     :no_service
   end
 
-  defp helper(x) do
-    # IO.inspect(x)
-    obj = Map.get(x, "departure_time")
-    # IO.inspect(obj)
-    obj != nil
-  end
-
-  # This one returns an array of data
-  defp departure(data, :rapid_transit) do
-    IO.inspect("*****************HERE*********************")
-
+  # This one returns an array of hours
+  defp departure(data, headsigns, :rapid_transit) do
     # This data is already going only one direction so we don't need to worry about that
     times_by_stop =
       Enum.group_by(data, fn x ->
-        # How does this become an array?  It looks like the data comes back as just an object from the API
         stop_array = Map.get(x.relationships, "stop")
         # should be exactly one element
         List.first(stop_array).id
       end)
 
     Enum.map(times_by_stop, fn {id, x} ->
-      stop = Stops.Repo.get(id)
-      filtered = Enum.filter(x, &helper(&1.attributes))
-      IO.inspect(stop)
-      IO.inspect(filtered)
-      IO.inspect("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+      stop = Stops.Repo.get!(id)
 
       {min, max} =
         x
-        |> Stream.filter(&helper(&1.attributes))
         |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
         |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
-      %{stop_id: id, first_departure: min, last_departure: max, stop_name: stop.name}
+      %{
+        stop_id: id,
+        first_departure: min,
+        last_departure: max,
+        stop_name: stop.name,
+        is_terminus: is_terminus?(stop.name, headsigns)
+      }
     end)
   end
 
-  defp departure(data, _) do
+  # This returns a single hours map
+  defp departure(data, _headsigns, _description) do
     {min, max} =
       data
       |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))

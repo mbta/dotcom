@@ -342,6 +342,7 @@ export interface StopHours {
   stop_id: string;
   last_departure: string;
   first_departure: string;
+  is_terminus: boolean;
 }
 export interface RapidTransitHours {
   week: StopHours[][];

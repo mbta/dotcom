@@ -5,7 +5,6 @@ const useUrlSearchParams = (): URLSearchParams | null => {
     null
   );
 
-  console.log(window.location.search);
   const searchString = window.location.search;
 
   useEffect(() => {

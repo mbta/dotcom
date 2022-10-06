@@ -10,14 +10,12 @@ const useHoursOfOperation = (
   >(null);
 
   const fetchData = async (
-    routeId: string
+    routeIdString: string
   ): Promise<RapidTransitHours | TransitHours> =>
-    await fetchJsonOrThrow(`/schedules/${routeId}/line/hours`);
+    fetchJsonOrThrow(`/schedules/${routeIdString}/line/hours`);
 
   useEffect(() => {
-    fetchData(routeId)
-      .then(result => setHoursOfOperation(result))
-      .catch(console.error);
+    fetchData(routeId).then(result => setHoursOfOperation(result));
   }, [routeId]);
 
   return hoursOfOperation;

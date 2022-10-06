@@ -10,7 +10,6 @@ import Fares from "./Fares";
 import UpcomingHolidays from "./UpcomingHolidays";
 
 interface Props {
-  directionId: number;
   teasers: string | null;
   pdfs: SchedulePDF[];
   connections: TypedRoutes[];
@@ -22,7 +21,6 @@ interface Props {
 }
 
 const AdditionalLineInfo = ({
-  directionId,
   connections,
   pdfs,
   teasers,
@@ -31,20 +29,15 @@ const AdditionalLineInfo = ({
   holidays,
   fareLink,
   route
-}: Props): ReactElement<HTMLElement> => {
-  // console.log("%%%%%%%%%%%%")
-  // console.log(directionId)
-  // console.log("%%%%%%%%%%%%")
-  return (
-    <>
-      <ContentTeasers teasers={teasers} />
-      <PDFSchedules pdfs={pdfs} />
-      <Connections connections={connections} />
-      <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
-      <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />
-      <UpcomingHolidays holidays={holidays} />
-    </>
-  );
-};
+}: Props): ReactElement<HTMLElement> => (
+  <>
+    <ContentTeasers teasers={teasers} />
+    <PDFSchedules pdfs={pdfs} />
+    <Connections connections={connections} />
+    <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
+    <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />
+    <UpcomingHolidays holidays={holidays} />
+  </>
+);
 
 export default AdditionalLineInfo;

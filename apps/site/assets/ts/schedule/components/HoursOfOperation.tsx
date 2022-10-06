@@ -15,14 +15,13 @@ const HoursOfOperation = ({
   pdfs: SchedulePDF[];
   hours: string;
 }): ReactElement<HTMLElement> | null => {
-  // if (isGreenLine(route)) {
-  //   return <GreenLineScheduleLinks pdfs={pdfs}/>
-  // } else if (isRapidTransit(route)) {
-  //   return <RapidTransitHoursOfOperation pdfs={pdfs} route={route}/>
-  // } else {
-  //   return <DefaultHoursOfOperation hours={hours}/>
-  // }
-  return <RapidTransitHoursOfOperation pdfs={pdfs} route={route} />;
+  if (isGreenLine(route)) {
+    return <GreenLineScheduleLinks pdfs={pdfs} />;
+  }
+  if (isRapidTransit(route)) {
+    return <RapidTransitHoursOfOperation pdfs={pdfs} route={route} />;
+  }
+  return <DefaultHoursOfOperation hours={hours} />;
 };
 
 export default HoursOfOperation;
