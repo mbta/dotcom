@@ -74,8 +74,7 @@ export const isCurrentValidService = (
   }
 
   // check on valid_days
-  // disregard if empty valid_days value
-  if (service.valid_days.length > 0 && !isOnValidDay(service, currentDate)) {
+  if (!isOnValidDay(service, currentDate)) {
     return false;
   }
 
