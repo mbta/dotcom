@@ -96,6 +96,7 @@
     "focus-options-polyfill": "^1.1.1",
     "husky": "^8.0.1",
     "jest": "^27.0.1",
+    "lint-staged": "^13.0.3",
     "mini-css-extract-plugin": "^2.6.0",
     "mocha": "^9.2.2",
     "mocha-jsdom": "2.0.0",
