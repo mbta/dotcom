@@ -24,5 +24,8 @@
     "cypress:open": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress open",
     "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
     "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
+  },
+  "lint-staged": {
+    "**/*.{ex,exs,eex}": "mix format"
   }
 }
