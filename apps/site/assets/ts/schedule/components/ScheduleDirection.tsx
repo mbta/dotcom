@@ -176,6 +176,8 @@ const ScheduleDirection = ({
     error: false
   });
 
+  const isSubwayRoute: boolean = route.type === 1 || route.type === 0;
+
   useEffect(() => {
     fetchLineData(
       route.id,
@@ -205,7 +207,7 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {route.type === 1 || route.type === 0
+      {isSubwayRoute
         ? lineState.data &&
           lineState.data[0] && (
             <>
@@ -244,7 +246,7 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!(route.type === 1 || route.type === 0)
+      {!isSubwayRoute
         ? lineState.data &&
           lineState.data[0] && (
             <LineDiagramAndStopListPage
