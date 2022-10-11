@@ -99,7 +99,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   @spec dedup_similar_services([Service.t()]) :: [Service.t()]
   def dedup_similar_services(services) do
     services
-    |> Enum.reject(&(&1.valid_days == [5] || &1.valid_days == [1, 2, 3, 4]))
     |> Enum.group_by(&{&1.type, &1.typicality})
     |> Enum.flat_map(fn {_, service_group} ->
       Enum.reject(service_group, &service_completely_overlapped?(&1, service_group))
@@ -108,9 +107,14 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp service_completely_overlapped?(service, services) do
     Enum.any?(services, fn other_service ->
+      # There's an other service that
+      # - starts earlier/same time as this service
+      # - and ends later/same time as this service
+      # - and covers the same valid_days as this service
       other_service != service &&
         Date.compare(other_service.start_date, service.start_date) != :gt &&
-        Date.compare(other_service.end_date, service.end_date) != :lt
+        Date.compare(other_service.end_date, service.end_date) != :lt &&
+        Enum.all?(service.valid_days, &Enum.member?(other_service.valid_days, &1))
     end)
   end
 
