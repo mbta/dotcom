@@ -200,7 +200,7 @@ defmodule Fares.FareInfo do
       charlie_card_price: "4.25",
       day_reduced_price: "2.10",
       week_reduced_price: "10.00",
-      month_reduced_price: "30.00",
+      month_reduced_price: "67.00",
       day_pass_price: "11.00",
       week_pass_price: "22.50",
       month_pass_price: "136.00"
@@ -408,6 +408,7 @@ defmodule Fares.FareInfo do
         charlie_card_price: charlie_card_price,
         day_reduced_price: day_reduced_price,
         week_reduced_price: week_reduced_price,
+        month_reduced_price: month_reduced_price,
         month_pass_price: month_pass_price
       })
       when mode in [:local_bus, :express_bus] do
@@ -452,7 +453,16 @@ defmodule Fares.FareInfo do
         | fares
       ]
     else
-      fares
+      [
+        %{
+          base
+          | duration: :month,
+            media: [:senior_card, :student_card],
+            reduced: :any,
+            cents: dollars_to_cents(month_reduced_price)
+        }
+        | fares
+      ]
     end
   end
 
