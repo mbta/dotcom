@@ -151,7 +151,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
     |> json_safe_route_stop_data(date)
   end
 
-  @spec compose_route_stop_data(any, any, DateTime.t()) :: any
+  @spec compose_route_stop_data(
+          DiagramHelpers.stop_with_bubble_info(),
+          [Alerts.Alert.t()],
+          DateTime.t()
+        ) :: DiagramFormat.line_diagram_stop()
   defp compose_route_stop_data({data, %RouteStop{id: stop_id} = route_stop}, alerts, date) do
     %{
       alerts:
