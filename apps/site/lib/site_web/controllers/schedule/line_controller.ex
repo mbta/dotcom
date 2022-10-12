@@ -70,6 +70,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
         stop_tree: conn.assigns.stop_tree,
+        alerts: conn.assigns.alerts,
         line_diagram:
           update_route_stop_data(
             conn.assigns.all_stops,

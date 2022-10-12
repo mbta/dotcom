@@ -255,3 +255,53 @@ defmodule Alerts.Alert do
   def is_diversion(%{effect: effect}),
     do: effect in @diversion_effects
 end
+
+defimpl Poison.Encoder, for: Alerts.Alert do
+  def encode(
+        %Alerts.Alert{
+          id: id,
+          header: header,
+          informed_entity: informed_entity,
+          active_period: active_period_pairs,
+          effect: effect,
+          severity: severity,
+          lifecycle: lifecycle,
+          updated_at: updated_at,
+          description: description,
+          priority: priority,
+          url: url
+        },
+        options
+      ) do
+    active_period = Enum.map(active_period_pairs, &alert_active_period/1)
+
+    Poison.Encoder.encode(
+      %{
+        id: id,
+        header: header,
+        informed_entity: informed_entity,
+        active_period: active_period,
+        effect: effect,
+        severity: severity,
+        lifecycle: lifecycle,
+        updated_at: updated_at,
+        description: description,
+        priority: priority,
+        url: url
+      },
+      options
+    )
+  end
+
+  @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
+  defp alert_active_period({first, last}) do
+    [first, last] |> Enum.map(&format_time(&1))
+  end
+
+  defp format_time(t) do
+    case Timex.format(t, "{YYYY}-{M}-{D} {h24}:{m}") do
+      {:ok, formatted_time} -> formatted_time
+      _ -> nil
+    end
+  end
+end
