@@ -55,28 +55,9 @@ defmodule Stops.RepoTest do
       assert response == Enum.uniq(response)
     end
 
-    test "uses the parent station name" do
+    test "uses the parent station" do
       response = by_route("CR-Fitchburg", 1)
-
-      assert Enum.map(response, &{&1.id, &1.name}) == [
-               {"place-FR-3338", "Wachusett"},
-               {"place-FR-0494", "Fitchburg"},
-               {"place-FR-0451", "North Leominster"},
-               {"place-FR-0394", "Shirley"},
-               {"place-FR-0361", "Ayer"},
-               {"place-FR-0301", "Littleton/Route 495"},
-               {"place-FR-0253", "South Acton"},
-               {"place-FR-0219", "West Concord"},
-               {"place-FR-0201", "Concord"},
-               {"place-FR-0167", "Lincoln"},
-               {"place-FR-0132", "Kendal Green"},
-               {"place-FR-0115", "Brandeis/Roberts"},
-               {"place-FR-0098", "Waltham"},
-               {"place-FR-0074", "Waverley"},
-               {"place-FR-0064", "Belmont"},
-               {"place-portr", "Porter"},
-               {"place-north", "North Station"}
-             ]
+      assert Enum.all?(response, &(!has_parent?(&1)))
     end
 
     test "does not include a parent station multiple times" do
