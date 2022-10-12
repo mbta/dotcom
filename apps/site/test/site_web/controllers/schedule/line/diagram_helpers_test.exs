@@ -1115,6 +1115,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpersTest do
       end
     end
 
+    @tag skip: "Will soon be refactored away with new line diagram code"
     test "direction 1 returns the correct number of bubbles for each stop" do
       route_stops = Helpers.get_route_stops("Green", 0, @deps.stops_by_route_fn)
 

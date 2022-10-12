@@ -76,6 +76,7 @@ defmodule Site.Mixfile do
       {:poolboy, "~> 1.5"},
       {:wallaby, "~> 0.22", runtime: false, only: :test},
       {:con_cache, "~> 0.12.0"},
+      {:unrooted_polytree, "~> 0.1.0"},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,
        github: "samueljseay/recaptcha", ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"},
