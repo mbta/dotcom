@@ -39,8 +39,32 @@ const route = {
   alerts: []
 };
 
+const predictionHeadsign: HeadsignWithCrowding = {
+  name: "Somewhere",
+  time_data_with_crowding_list: [
+    {
+      time_data: {
+        delay: 0,
+        scheduled_time: ["4:30", " ", "PM"],
+        prediction: {
+          time: ["14", " ", "min"],
+          status: null,
+          track: null
+        } as Prediction
+      },
+      crowding: null,
+      predicted_schedule: {
+        schedule: {} as Schedule,
+        prediction: {} as TripPrediction
+      }
+    }
+  ],
+  train_number: null
+};
+
 lineDiagram.forEach(({ route_stop }) => {
   route_stop.route = cloneDeep(route);
+  route_stop.route.type = 3;
 });
 
 lineDiagramBranchingOut.forEach(({ route_stop }) => {
@@ -51,9 +75,7 @@ let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
 const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
 lineDiagramBranchingIn.forEach(({ route_stop }) => {
   route_stop.route = CRroute;
-  if (route_stop["is_terminus?"]) {
-    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
-  }
+  route_stop.route.type = 2;
 });
 
 const handleStopClick = () => {};
@@ -108,28 +130,6 @@ describe("StopCard", () => {
 
 // test for when there is no footer
 // test for footer text is View upcoming departures
-const predictionHeadsign: HeadsignWithCrowding = {
-  name: "Somewhere",
-  time_data_with_crowding_list: [
-    {
-      time_data: {
-        delay: 0,
-        scheduled_time: ["4:30", " ", "PM"],
-        prediction: {
-          time: ["14", " ", "min"],
-          status: null,
-          track: null
-        } as Prediction
-      },
-      crowding: null,
-      predicted_schedule: {
-        schedule: {} as Schedule,
-        prediction: {} as TripPrediction
-      }
-    }
-  ],
-  train_number: null
-};
 const lineDiagramSubway = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOutSubway = (outwardLineDiagram as unknown) as LineDiagramStop[];
 
@@ -256,8 +256,8 @@ it.each`
 
 it.each`
   index | expectedNames                      | expectedFeatures
-  ${0}  | ${[]}                              | ${["Parking", "Accessible"]}
-  ${1}  | ${["Orange Line", "Green Line C"]} | ${["Accessible"]}
+  ${0}  | ${[]}                              | ${["Parking"]}
+  ${1}  | ${["Orange Line", "Green Line C"]} | ${[]}
   ${2}  | ${["Route 62", "Route 67"]}        | ${["Accessible"]}
   ${3}  | ${["Atlantis"]}                    | ${["Parking", "Accessible"]}
 `(
