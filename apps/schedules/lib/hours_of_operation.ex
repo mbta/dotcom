@@ -28,7 +28,9 @@ defmodule Schedules.HoursOfOperation do
   @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], atom()) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    route_id_or_ids
+    IO.inspect(route_id_or_ids)
+    # route_id_or_ids
+    ["Green-B", "Green-C", "Green-D", "Green-E"]
     |> List.wrap()
     # we don't want to filter only the first and last
     |> api_params(date, description)
@@ -146,8 +148,9 @@ defmodule Schedules.HoursOfOperation do
     single
   end
 
-  def join_hours(multiple, _) do
-    Enum.reduce(multiple, %__MODULE__{}, &merge/2)
+  # Repid transit hours don't need to be merged (at least yet)
+  def join_hours(multiple, :rapid_transit) do
+    multiple
   end
 
   defimpl Enumerable do
@@ -238,6 +241,10 @@ defmodule Schedules.HoursOfOperation do
     {:ok, []}
   end
 
+  defp get_headsigns({:error, _} = error, _, _) do
+    error
+  end
+
   defp is_terminus?(stop_name, headsigns) do
     Enum.member?(headsigns, stop_name)
   end
@@ -276,7 +283,7 @@ defmodule Schedules.HoursOfOperation do
         |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
         |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
-      %{
+      %Departures{
         stop_id: id,
         first_departure: min,
         last_departure: max,
@@ -295,7 +302,10 @@ defmodule Schedules.HoursOfOperation do
 
     %Departures{
       first_departure: min,
-      last_departure: max
+      last_departure: max,
+      stop_name: nil,
+      stop_id: nil,
+      is_terminus: nil
     }
   end
 end

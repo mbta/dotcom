@@ -254,12 +254,12 @@ defmodule Schedules.RepoTest do
   describe "hours_of_operation/1" do
     @tag :external
     test "returns an %HoursOfOperation{} struct for a valid route" do
-      assert %Schedules.HoursOfOperation{} = hours_of_operation("47")
+      assert %Schedules.HoursOfOperation{} = hours_of_operation("47", :desc)
     end
 
     @tag :external
     test "returns an %HoursOfOperation{} struct for an invalid route" do
-      assert %Schedules.HoursOfOperation{} = hours_of_operation("unknown route ID")
+      assert %Schedules.HoursOfOperation{} = hours_of_operation("unknown route ID", :desc)
     end
   end
 

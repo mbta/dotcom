@@ -6,10 +6,10 @@ defmodule Schedules.HoursOfOperationTest do
   alias Schedules.{HoursOfOperation, Departures}
   alias Pollution.VG
 
-  describe "hours_of_operation/1" do
+  describe "hours_of_operation/2" do
     test "returns basic hours for a route" do
       # does not validate the actual hours, that's in other tests
-      actual = hours_of_operation("47")
+      actual = hours_of_operation("47", :desc)
       assert %HoursOfOperation{} = actual
       assert {week_0, week_1} = actual.week
       assert {saturday_0, saturday_1} = actual.saturday
@@ -22,10 +22,25 @@ defmodule Schedules.HoursOfOperationTest do
       assert %Departures{} = sunday_1
     end
 
+    test "returns hours for a rapid_transit route" do
+      # does not validate the actual hours, that's in other tests
+      actual = hours_of_operation("47", :rapid_transit)
+      assert %HoursOfOperation{} = actual
+      assert {week_0, week_1} = actual.week
+      assert {saturday_0, saturday_1} = actual.saturday
+      assert {sunday_0, sunday_1} = actual.sunday
+      assert [%Departures{} | _rest] = week_0
+      assert [%Departures{} | _rest] = week_1
+      assert [%Departures{} | _rest] = saturday_0
+      assert [%Departures{} | _rest] = saturday_1
+      assert [%Departures{} | _rest] = sunday_0
+      assert [%Departures{} | _rest] = sunday_1
+    end
+
     test "can take a list of route IDs" do
       empty = %HoursOfOperation{}
-      single_route = hours_of_operation(["50"])
-      assert %HoursOfOperation{} = multiple_routes = hours_of_operation(["47", "50"])
+      single_route = hours_of_operation(["50"], :desc)
+      assert %HoursOfOperation{} = multiple_routes = hours_of_operation(["47", "50"], :desc)
       refute multiple_routes == empty
       refute multiple_routes == single_route
     end
@@ -36,7 +51,7 @@ defmodule Schedules.HoursOfOperationTest do
       date = ~D[2017-12-01]
       route_id = "route_id"
       [week_date, saturday_date, sunday_date] = week_dates(date)
-      actual = api_params([route_id], date)
+      actual = api_params([route_id], date, :desc)
 
       assert [
                week_query,
@@ -71,14 +86,17 @@ defmodule Schedules.HoursOfOperationTest do
   describe "parse_responses/1" do
     test "returns a timeout error if not all of the tasks complete within the timeout" do
       assert {:error, :timeout} =
-               parse_responses([
-                 {:exit, :timeout},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}}
-               ])
+               parse_responses(
+                 [
+                   {:exit, :timeout},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}}
+                 ],
+                 :desc
+               )
     end
 
     test "returns a timeout error if the API returns an error" do
@@ -87,26 +105,32 @@ defmodule Schedules.HoursOfOperationTest do
       error = {:error, [%JsonApi.Error{}]}
 
       assert {:error, :timeout} =
-               parse_responses([
-                 {:ok, error},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}}
-               ])
+               parse_responses(
+                 [
+                   {:ok, error},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}}
+                 ],
+                 :desc
+               )
     end
 
     test "if they all complete, returns a %__MODULE__{} struct" do
       assert %HoursOfOperation{} =
-               parse_responses([
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}},
-                 {:ok, %JsonApi{}}
-               ])
+               parse_responses(
+                 [
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}}
+                 ],
+                 :desc
+               )
     end
 
     test "returns min/max times if present, otherwise :no_service" do
@@ -131,7 +155,7 @@ defmodule Schedules.HoursOfOperationTest do
         sunday: {:no_service, :no_service}
       }
 
-      actual = parse_responses(responses)
+      actual = parse_responses(responses, :desc)
       assert expected == actual
     end
   end

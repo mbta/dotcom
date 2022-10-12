@@ -1,4 +1,5 @@
 defmodule SiteWeb.Encoding.TupleEncoder do
+  @moduledoc "Allows JSON encoding of tuples to arrays"
   alias Poison.Encoder
 
   defimpl Encoder, for: Tuple do
