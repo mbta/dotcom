@@ -22,11 +22,6 @@ exports[`StopCard renders and matches snapshot 1`] = `
                 <i className=\\"fa fa-square-parking notranslate m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
               </span>
             </TooltipWrapper>
-            <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\">
-                <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-              </span>
-            </TooltipWrapper>
           </div>
         </header>
         <div className=\\"m-schedule-diagram__stop-details\\">
@@ -35,11 +30,6 @@ exports[`StopCard renders and matches snapshot 1`] = `
             Detour
           </div>
         </div>
-        <footer className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </footer>
       </section>
     </li>
   </StopCard>
