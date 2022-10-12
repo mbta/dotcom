@@ -11,6 +11,46 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
           stop_data: [map]
         }
 
+  @doc """
+  Identify sequences of disrupted stops and makes adjustments to the line
+  diagram stop data. Disruptions include diversions, such as shuttles, detours,
+  and stop closures.
+  """
+  @spec do_stops_list_with_disruptions([line_diagram_stop], DateTime.t()) :: [line_diagram_stop]
+  def do_stops_list_with_disruptions(stops_list, nil), do: stops_list
+
+  def do_stops_list_with_disruptions(stops_list, date) do
+    disrupted_ids = get_disrupted_stops(stops_list, date)
+
+    stops_list
+    |> Enum.map(fn %{stop_data: stop_data, route_stop: %RouteStop{id: id}} = stop ->
+      if id in disrupted_ids do
+        %{stop | stop_data: stop_data_with_disruption(stop_data)}
+      else
+        stop
+      end
+    end)
+  end
+
+  @spec get_disrupted_stops([line_diagram_stop], DateTime.t()) :: [Stops.Stop.id_t()]
+  defp get_disrupted_stops(stops_list, date) do
+    stops_list
+    |> Enum.chunk_while(
+      [],
+      &chunk_by_diversions(&1, &2, date),
+      fn
+        [] -> {:cont, []}
+        chunk -> {:cont, chunk, []}
+      end
+    )
+    |> Enum.map(fn chunk ->
+      chunk
+      |> shift_chunk_by_effect(stops_list)
+      |> Enum.map(& &1.route_stop.id)
+    end)
+    |> List.flatten()
+  end
+
   # For each set of disrupted stops, maybe make adjustment to the diagram based on
   # the nature of the disruption.
   #   * if there is a shuttle we don't style the final stop
@@ -41,6 +81,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
 
   @doc """
   Identifies the prior stop in a line diagram stop list, accounting for branching in either direction.
+  Public only for testing purposes.
   """
   @spec prior_stop(line_diagram_stop(), [line_diagram_stop()]) :: [line_diagram_stop()] | nil
   def prior_stop(%{stop_data: stop_data} = stop, all_stops) do
@@ -115,18 +156,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
     end)
   end
 
-  @spec stop_has_diversion_now?(line_diagram_stop, DateTime.t()) :: boolean
-  defp stop_has_diversion_now?(%{alerts: alerts}, now) do
-    Enum.any?(alerts, &has_active_diversion?(&1, now))
-  end
-
-  @spec has_active_diversion?(Alert.t(), DateTime.t()) :: boolean
-  defp has_active_diversion?(%Alert{active_period: active_period} = alert, now) do
-    Match.any_period_match?(active_period, now) and Alert.is_diversion(alert)
-  end
-
-  defp has_active_diversion?(_, _), do: false
-
   @spec effects_for_stop(line_diagram_stop) :: [{String.t(), Alerts.Alert.effect()}]
   defp effects_for_stop(%{alerts: alerts}) do
     Enum.map(alerts, &{&1.id, &1.effect})
@@ -159,43 +188,15 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
     end
   end
 
-  @spec get_disrupted_stops([line_diagram_stop], DateTime.t()) :: [Stops.Stop.id_t()]
-  defp get_disrupted_stops(stops_list, date) do
-    stops_list
-    |> Enum.chunk_while(
-      [],
-      &chunk_by_diversions(&1, &2, date),
-      fn
-        [] -> {:cont, []}
-        chunk -> {:cont, chunk, []}
-      end
-    )
-    |> Enum.map(fn chunk ->
-      chunk
-      |> shift_chunk_by_effect(stops_list)
-      |> Enum.map(& &1.route_stop.id)
-    end)
-    |> List.flatten()
+  @spec stop_has_diversion_now?(line_diagram_stop, DateTime.t()) :: boolean
+  defp stop_has_diversion_now?(%{alerts: alerts}, now) do
+    Enum.any?(alerts, &has_active_diversion?(&1, now))
   end
 
-  @doc """
-  Identify sequences of disrupted stops and makes adjustments to the line
-  diagram stop data. Disruptions include diversions, such as shuttles, detours,
-  and stop closures.
-  """
-  @spec do_stops_list_with_disruptions([line_diagram_stop], DateTime.t()) :: [line_diagram_stop]
-  def do_stops_list_with_disruptions(stops_list, nil), do: stops_list
-
-  def do_stops_list_with_disruptions(stops_list, date) do
-    disrupted_ids = get_disrupted_stops(stops_list, date)
-
-    stops_list
-    |> Enum.map(fn %{stop_data: stop_data, route_stop: %RouteStop{id: id}} = stop ->
-      if id in disrupted_ids do
-        %{stop | stop_data: stop_data_with_disruption(stop_data)}
-      else
-        stop
-      end
-    end)
+  @spec has_active_diversion?(Alert.t(), DateTime.t()) :: boolean
+  defp has_active_diversion?(%Alert{active_period: active_period} = alert, now) do
+    Match.any_period_match?(active_period, now) and Alert.is_diversion(alert)
   end
+
+  defp has_active_diversion?(_, _), do: false
 end
