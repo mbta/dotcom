@@ -28,9 +28,7 @@ defmodule Schedules.HoursOfOperation do
   @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], atom()) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    IO.inspect(route_id_or_ids)
-    # route_id_or_ids
-    ["Green-B", "Green-C", "Green-D", "Green-E"]
+    route_id_or_ids
     |> List.wrap()
     # we don't want to filter only the first and last
     |> api_params(date, description)
@@ -151,6 +149,10 @@ defmodule Schedules.HoursOfOperation do
   # Repid transit hours don't need to be merged (at least yet)
   def join_hours(multiple, :rapid_transit) do
     multiple
+  end
+
+  def join_hours(multiple, _) do
+    Enum.reduce(multiple, %__MODULE__{}, &merge/2)
   end
 
   defimpl Enumerable do

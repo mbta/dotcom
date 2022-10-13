@@ -2,6 +2,7 @@ defmodule Schedules.HoursOfOperationTest do
   @moduledoc false
   use ExUnit.Case, async: true
   use Quixir
+  import Mock
   import Schedules.HoursOfOperation
   alias Schedules.{HoursOfOperation, Departures}
   alias Pollution.VG
@@ -81,6 +82,43 @@ defmodule Schedules.HoursOfOperationTest do
       assert sunday_query_1[:route] == route_id
       assert sunday_query_1[:date] == sunday_date
     end
+
+    test "for rapid transit and a given date, returns a query for each relevant day of the week and direction_id" do
+      date = ~D[2017-12-01]
+      route_id = "route_id"
+      [week_date, saturday_date, sunday_date] = week_dates(date)
+      actual = api_params([route_id], date, :rapid_transit)
+
+      assert [
+               week_query,
+               saturday_query,
+               sunday_query,
+               week_query_1,
+               saturday_query_1,
+               sunday_query_1
+             ] = actual
+
+      assert [
+               {:route, ^route_id},
+               {:date, ^week_date},
+               {:direction_id, 0},
+               {:"fields[schedule]", "departure_time,arrival_time"},
+               {:include, "trip"},
+               {:"fields[trip]", "headsign"} | _
+             ] = week_query
+
+      assert week_query_1[:route] == route_id
+      assert week_query_1[:direction_id] == 1
+      assert week_query_1[:date] == week_date
+      assert saturday_query[:route] == route_id
+      assert saturday_query[:date] == saturday_date
+      assert saturday_query_1[:route] == route_id
+      assert saturday_query_1[:date] == saturday_date
+      assert sunday_query[:route] == route_id
+      assert sunday_query[:date] == sunday_date
+      assert sunday_query_1[:route] == route_id
+      assert sunday_query_1[:date] == sunday_date
+    end
   end
 
   describe "parse_responses/1" do
@@ -133,6 +171,21 @@ defmodule Schedules.HoursOfOperationTest do
                )
     end
 
+    test "rapid transit if they all complete, returns a %__MODULE__{} struct" do
+      assert %HoursOfOperation{} =
+               parse_responses(
+                 [
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}}
+                 ],
+                 :rapid_transit
+               )
+    end
+
     test "returns min/max times if present, otherwise :no_service" do
       {min_item, min_time} = build_schedule()
       {max_item, max_time} = build_schedule()
@@ -158,11 +211,79 @@ defmodule Schedules.HoursOfOperationTest do
       actual = parse_responses(responses, :desc)
       assert expected == actual
     end
+
+    test "returns terminus status, and first and last departure times per stop for rapid transit if present, otherwise :no_service" do
+      with_mock(Stops.Repo, [:passthrough], get!: &test_stop_name(&1)) do
+        {stop_1_d_1, stop_1_d_1_time} =
+          build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:45:00Z]})
+
+        {stop_1_d_2, _stop_1_d_2_time} =
+          build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:55:00Z]})
+
+        {stop_1_d_3, stop_1_d_3_time} =
+          build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 11:05:00Z]})
+
+        {stop_2_d_1, stop_2_d_1_time} =
+          build_schedule(%{stop_id: "2", departure_time: ~U[2022-01-01 10:45:00Z]})
+
+        {stop_2_d_2, stop_2_d_2_time} =
+          build_schedule(%{stop_id: "2", departure_time: ~U[2022-01-01 10:55:00Z]})
+
+        sunday_out_of_service = {:error, [%JsonApi.Error{code: "no_service"}]}
+
+        # 0 - week, saturday, sunday
+        # 1 - week, saturday, sunday
+
+        responses = [
+          {:ok, %JsonApi{data: [stop_1_d_1, stop_1_d_2, stop_1_d_3, stop_2_d_1, stop_2_d_2]}},
+          {:ok, %JsonApi{}},
+          {:ok, sunday_out_of_service},
+          {:ok, %JsonApi{}},
+          {:ok, %JsonApi{data: [stop_2_d_1]}},
+          {:ok, %JsonApi{}}
+        ]
+
+        expected = %HoursOfOperation{
+          week:
+            {[
+               %Departures{
+                 first_departure: stop_1_d_1_time,
+                 last_departure: stop_1_d_3_time,
+                 stop_id: "1",
+                 is_terminus: true,
+                 stop_name: "Test Stop"
+               },
+               %Departures{
+                 first_departure: stop_2_d_1_time,
+                 last_departure: stop_2_d_2_time,
+                 stop_id: "2",
+                 is_terminus: false,
+                 stop_name: "Test Stop 2"
+               }
+             ], :no_service},
+          saturday:
+            {:no_service,
+             [
+               %Departures{
+                 first_departure: stop_2_d_1_time,
+                 last_departure: stop_2_d_1_time,
+                 stop_id: "2",
+                 is_terminus: false,
+                 stop_name: "Test Stop 2"
+               }
+             ]},
+          sunday: {:no_service, :no_service}
+        }
+
+        actual = parse_responses(responses, :rapid_transit)
+        assert expected == actual
+      end
+    end
   end
 
   describe "join_hours/2" do
     test "returns a single struct" do
-      assert join_hours([%HoursOfOperation{}]) == %HoursOfOperation{}
+      assert join_hours([%HoursOfOperation{}], :desc) == %HoursOfOperation{}
     end
 
     test "combines multiple structs, taking the earlier/latest times" do
@@ -180,19 +301,22 @@ defmodule Schedules.HoursOfOperationTest do
       }
 
       actual =
-        join_hours([
-          %HoursOfOperation{
-            week: {:no_service, lower_middle},
-            saturday: {middle_higher, :no_service},
-            sunday: {lower_middle, lower_middle}
-          },
-          %HoursOfOperation{},
-          %HoursOfOperation{
-            week: {lower_higher, middle_higher},
-            saturday: {lower_middle, lower_higher},
-            sunday: {middle_higher, middle_higher}
-          }
-        ])
+        join_hours(
+          [
+            %HoursOfOperation{
+              week: {:no_service, lower_middle},
+              saturday: {middle_higher, :no_service},
+              sunday: {lower_middle, lower_middle}
+            },
+            %HoursOfOperation{},
+            %HoursOfOperation{
+              week: {lower_higher, middle_higher},
+              saturday: {lower_middle, lower_higher},
+              sunday: {middle_higher, middle_higher}
+            }
+          ],
+          :desc
+        )
 
       assert expected == actual
     end
@@ -258,16 +382,36 @@ defmodule Schedules.HoursOfOperationTest do
     VG.struct(%Date{calendar: value(Calendar.ISO), year: year, month: month, day: day})
   end
 
-  defp build_schedule do
-    date_time = DateTime.utc_now()
+  defp test_stop_name("1"), do: %Stops.Stop{name: "Test Stop"}
+  defp test_stop_name("2"), do: %Stops.Stop{name: "Test Stop 2"}
 
+  defp build_schedule(
+         %{stop_id: stop_id, departure_time: departure_time} \\ %{
+           stop_id: "1",
+           departure_time: DateTime.utc_now()
+         }
+       ) do
     item = %JsonApi.Item{
       type: "schedule",
       attributes: %{
-        "departure_time" => DateTime.to_iso8601(date_time)
+        "departure_time" => DateTime.to_iso8601(departure_time)
+      },
+      relationships: %{
+        "trip" => [
+          %{
+            attributes: %{
+              "headsign" => "Test Stop"
+            }
+          }
+        ],
+        "stop" => [
+          %{
+            id: stop_id
+          }
+        ]
       }
     }
 
-    {item, date_time}
+    {item, departure_time}
   end
 end
