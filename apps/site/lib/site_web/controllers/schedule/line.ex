@@ -136,8 +136,10 @@ defmodule SiteWeb.ScheduleController.Line do
 
     diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
 
+    branch_route_stops = LineHelpers.get_branch_route_stops(route, direction_id)
+
     stop_tree =
-      static_branches
+      branch_route_stops
       |> Enum.map(&Enum.map(&1.stops, fn route_stop -> {route_stop.id, route_stop} end))
       |> UnrootedPolytree.from_lists()
 
