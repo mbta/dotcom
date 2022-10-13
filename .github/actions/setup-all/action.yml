@@ -37,7 +37,7 @@ runs:
   
   - name: Install Elixir dependencies (if needed)
     if: ${{ steps.mix-cache.outputs.cache-hit != 'true' }}
-    run: mix deps.get && mix deps.compile
+    run: mix deps.get && mix compile
     shell: bash
 
   - name: Restore cache of Node dependencies from package-lock.json
