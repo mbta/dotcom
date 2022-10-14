@@ -14,4 +14,5 @@
 
 [class*=c-svg__icon] {
   display: inline-block;
+  pointer-events: none; // prevents click events on SVG paths or shapes
 }
