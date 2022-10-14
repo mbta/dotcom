@@ -52,6 +52,7 @@ export const ScheduleLoader = ({
   const [query] = useQueryParams({
     // eslint-disable-next-line camelcase
     "schedule_finder[direction_id]": StringParam,
+    "schedule_direction[direction_id]": StringParam,
     "schedule_finder[origin]": StringParam
   });
 
@@ -81,14 +82,15 @@ export const ScheduleLoader = ({
     let { modalOpen, modalMode } = currentState;
 
     let newDirection: DirectionId | undefined;
-    let newOrigin: SelectedOrigin | undefined;
+    const newOrigin: SelectedOrigin | undefined =
+      query["schedule_finder[origin]"];
 
     // modify the store values in case URL has parameters:
-    if (query["schedule_finder[direction_id]"] !== undefined) {
-      newDirection = query["schedule_finder[direction_id]"] === "0" ? 0 : 1;
-    }
-    if (query["schedule_finder[origin]"] !== undefined) {
-      newOrigin = query["schedule_finder[origin]"];
+    const queryDirectionId =
+      query["schedule_finder[direction_id]"] ||
+      query["schedule_direction[direction_id]"];
+    if (queryDirectionId !== undefined) {
+      newDirection = queryDirectionId === "0" ? 0 : 1;
     }
 
     if (newDirection !== undefined && newOrigin !== undefined) {
