@@ -1,13 +1,7 @@
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
-import renderFa from "../../helpers/render-fa";
+import { pdfLink } from "../helpers/hoursOfOperationHelpers";
 import { SchedulePDF } from "./__schedule";
-
-const pdfLink = (pdf: SchedulePDF): ReactElement<HTMLElement> => (
-  <a key={pdf.url} href={pdf.url} rel="noopener noreferrer" target="_blank">
-    Open subway schedule PDF {renderFa("fa-arrow-up-right-from-square", "")}
-  </a>
-);
 
 const getGreenLineScheduleLinks = (): ReactElement<HTMLElement> => (
   <>

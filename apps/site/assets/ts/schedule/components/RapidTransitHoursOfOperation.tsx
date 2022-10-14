@@ -4,10 +4,10 @@ import { formatInTimeZone } from "date-fns-tz";
 import { map, uniqueId, sortBy, filter } from "lodash";
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
-import renderFa from "../../helpers/render-fa";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import useUrlSearchParams from "../../hooks/useUrlSearchParams";
 import { EnhancedRoute, StopHours } from "../../__v3api";
+import { pdfLink } from "../helpers/hoursOfOperationHelpers";
 import { SchedulePDF } from "./__schedule";
 
 const SCHEDULE_PARAM = "schedule_direction[direction_id]";
@@ -43,14 +43,8 @@ const getSchedule = (
   return mappedData;
 };
 
-const pdfLink = (pdf: SchedulePDF): ReactElement<HTMLElement> => (
-  <a key={pdf.url} href={pdf.url} rel="noopener noreferrer" target="_blank">
-    Open subway schedule PDF {renderFa("fa-arrow-up-right-from-square", "")}
-  </a>
-);
-
-const trainsLeaveBetweenHTML = (): ReactElement<HTMLElement> => (
-  <div className="font-weight-bold fs-12 pb-14">Trains leave between...</div>
+const regularScheduleHTML = (): ReactElement<HTMLElement> => (
+  <div className="font-weight-bold fs-12 pb-14">Regular schedule</div>
 );
 
 const trainsEveryHTML = (
@@ -87,7 +81,7 @@ const RapidTransitHoursOfOperation = ({
         id="weekday-hours"
       >
         <div className="m-schedule-page__sidebar-hours">
-          {trainsLeaveBetweenHTML()}
+          {regularScheduleHTML()}
           {hours && getSchedule(hours.week, currentDirection)}
           {trainsEveryHTML("8-15", true)}
           <div className="font-weight-bold fs-12 pt-14">Rush hour service</div>
@@ -105,7 +99,7 @@ const RapidTransitHoursOfOperation = ({
       >
         <div className="m-schedule-page__sidebar-hours">
           <div className="font-weight-bold fs-18 pb-14">Saturday</div>
-          {trainsLeaveBetweenHTML()}
+          {regularScheduleHTML()}
           {hours && getSchedule(hours.saturday, currentDirection)}
           {trainsEveryHTML("8-15", false)}
           <div
@@ -117,7 +111,7 @@ const RapidTransitHoursOfOperation = ({
             className="pt-18"
           />
           <div className="font-weight-bold fs-18 pt-18 pb-14">Sunday</div>
-          {trainsLeaveBetweenHTML()}
+          {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday, currentDirection)}
           {trainsEveryHTML("8-15", false)}
           <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
