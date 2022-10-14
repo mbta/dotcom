@@ -14,13 +14,13 @@ defmodule V3Api.SentryExtraTest do
   describe "log_context/2" do
     test "one message is one entry in process dictionary" do
       expects = %{extra: %{"A-1" => "B"}}
-      assert nil == log_context("A", "B")
+      assert :ok == log_context("A", "B")
       assert expects == Process.get(@process_dictionary_key)
     end
 
     test "input can be an anonymous function" do
       expects = %{extra: %{"A-1" => "B"}}
-      assert nil == log_context("A", fn -> "B" end)
+      assert :ok == log_context("A", fn -> "B" end)
       assert expects == Process.get(@process_dictionary_key)
     end
 
