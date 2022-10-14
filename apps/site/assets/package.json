@@ -136,7 +136,7 @@
     "eslint:js:fix": "npm run eslint:js -- --fix",
     "eslint:ts": "cd ts && eslint -c .eslintrc.js --ext .ts,.tsx --max-warnings=0 .",
     "eslint:ts:fix": "cd ts && eslint -c .eslintrc.js --ext .ts,.tsx --fix .",
-    "stylelint": "stylelint css/**/*.scss --ignore-path .stylelintignore",
+    "stylelint": "stylelint --ignore-path .stylelintignore",
     "prettier": "prettier --write \"{js,ts}/**/*.{js,ts,tsx}\"",
     "prettier:check": "npm run prettier -- --list-different",
     "prepare": "cd ../../.. && husky install .husky",
