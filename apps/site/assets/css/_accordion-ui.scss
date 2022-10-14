@@ -123,7 +123,7 @@
     margin: 0;
   }
 
-  :not([data-accordion-expanded]) + .c-accordion-ui__content {
+  [data-accordion-expanded='false'] + .c-accordion-ui__content {
     display: none; // start hidden
   }
 
@@ -131,7 +131,7 @@
     @include fa-icon-solid($fa-var-angle-down);
   }
 
-  [data-accordion-expanded] .c-indicator__content--angle {
+  [data-accordion-expanded='true'] .c-indicator__content--angle {
     @include fa-icon-solid($fa-var-angle-up);
   }
 }
