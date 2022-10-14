@@ -77,6 +77,8 @@ const RapidTransitHoursOfOperation = ({
     ? Number(currentDirectionParam)
     : 0;
 
+  console.log(hours)
+
   return (
     <>
       <ExpandableBlock
@@ -93,7 +95,7 @@ const RapidTransitHoursOfOperation = ({
             7 - 9am | 4 - 6:30pm
           </div>
           {trainsEveryHTML("6-8", false)}
-          <div className="fs-14 pt-18">{pdfLink(pdfs[0])}</div>
+          <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
         </div>
       </ExpandableBlock>
       <ExpandableBlock
@@ -118,7 +120,7 @@ const RapidTransitHoursOfOperation = ({
           {trainsLeaveBetweenHTML()}
           {hours && getSchedule(hours.sunday, currentDirection)}
           {trainsEveryHTML("8-15", false)}
-          <div className="fs-14 pt-18">{pdfLink(pdfs[0])}</div>
+          <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
         </div>
       </ExpandableBlock>
     </>

@@ -102,6 +102,10 @@ $base-line-height: 1.275;
   }
 }
 
+.text-decoration-underline {
+  text-decoration: underline;
+}
+
 .heading-1 { @include heading-1() }
 .heading-2 { @include heading-2() }
 .heading-3 { @include heading-3() }

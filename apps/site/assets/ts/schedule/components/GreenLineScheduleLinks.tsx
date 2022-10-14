@@ -38,8 +38,8 @@ const GreenLineScheduleLinks = ({
       id="weekday-hours"
     >
       <div className="m-schedule-page__sidebar-hours">
-        <div className="fs-14 pt-14">Trains every 6-12 minutes</div>
         {getGreenLineScheduleLinks()}
+        <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
       </div>
     </ExpandableBlock>
     <ExpandableBlock
@@ -48,20 +48,8 @@ const GreenLineScheduleLinks = ({
       id="weekend-hours"
     >
       <div className="m-schedule-page__sidebar-hours">
-        <div className="font-weight-bold fs-18 pb-14">Saturday</div>
-        <div className="fs-14 pt-14">Trains every 6-12 minutes</div>
         {getGreenLineScheduleLinks()}
-        <div
-          style={{
-            borderBottomWidth: "0.5px",
-            borderBottomColor: "black",
-            borderBottomStyle: "solid"
-          }}
-          className="pt-18"
-        />
-        <div className="font-weight-bold fs-18 pt-18 pb-14">Sunday</div>
-        {getGreenLineScheduleLinks()}
-        <div className="fs-14 pt-18">{pdfLink(pdfs[0])}</div>
+        <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
       </div>
     </ExpandableBlock>
   </>
