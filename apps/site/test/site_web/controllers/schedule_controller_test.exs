@@ -69,16 +69,6 @@ defmodule SiteWeb.ScheduleControllerTest do
   end
 
   describe "line tabs" do
-    test "renders react content server-side", %{conn: conn} do
-      assert [{"div", _, content}] =
-               conn
-               |> get(line_path(conn, :show, "Red", "schedule_direction[direction_id]": 0))
-               |> html_response(200)
-               |> Floki.find("#react-root")
-
-      assert [_ | _] = content
-    end
-
     test "Commuter Rail data", %{conn: conn} do
       conn =
         get(conn, line_path(conn, :show, "CR-Needham", "schedule_direction[direction_id]": 1))
