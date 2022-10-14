@@ -39,32 +39,8 @@ const route = {
   alerts: []
 };
 
-const predictionHeadsign: HeadsignWithCrowding = {
-  name: "Somewhere",
-  time_data_with_crowding_list: [
-    {
-      time_data: {
-        delay: 0,
-        scheduled_time: ["4:30", " ", "PM"],
-        prediction: {
-          time: ["14", " ", "min"],
-          status: null,
-          track: null
-        } as Prediction
-      },
-      crowding: null,
-      predicted_schedule: {
-        schedule: {} as Schedule,
-        prediction: {} as TripPrediction
-      }
-    }
-  ],
-  train_number: null
-};
-
 lineDiagram.forEach(({ route_stop }) => {
   route_stop.route = cloneDeep(route);
-  route_stop.route.type = 3;
 });
 
 lineDiagramBranchingOut.forEach(({ route_stop }) => {
@@ -75,7 +51,9 @@ let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
 const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
 lineDiagramBranchingIn.forEach(({ route_stop }) => {
   route_stop.route = CRroute;
-  route_stop.route.type = 2;
+  if (route_stop["is_terminus?"]) {
+    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
+  }
 });
 
 const handleStopClick = () => {};
@@ -104,13 +82,6 @@ describe("StopCard", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("includes a button to open Schedule Finder on each stop", () => {
-    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
-    expect(
-      wrapper.find(".m-schedule-diagram__footer > button").text()
-    ).toContain("View schedule");
-  });
-
   it("has a tooltip for a transit connection", () => {
     const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
     stopConnections.forEach(connectionLink => {
@@ -128,10 +99,89 @@ describe("StopCard", () => {
   });
 });
 
-// test for when there is no footer
-// test for footer text is View upcoming departures
-const lineDiagramSubway = (simpleLineDiagram as unknown) as LineDiagramStop[];
-let lineDiagramBranchingOutSubway = (outwardLineDiagram as unknown) as LineDiagramStop[];
+const predictionHeadsign: HeadsignWithCrowding = {
+  name: "Somewhere",
+  time_data_with_crowding_list: [
+    {
+      time_data: {
+        delay: 0,
+        scheduled_time: ["4:30", " ", "PM"],
+        prediction: {
+          time: ["14", " ", "min"],
+          status: null,
+          track: null
+        } as Prediction
+      },
+      crowding: null,
+      predicted_schedule: {
+        schedule: {} as Schedule,
+        prediction: {} as TripPrediction
+      }
+    }
+  ],
+  train_number: null
+};
+
+const lineDiagramNoPredictions = (simpleLineDiagram as unknown) as LineDiagramStop[];
+let lineDiagramBranchingOutNoPredictions = (outwardLineDiagram as unknown) as LineDiagramStop[];
+
+const routeNoPredictions = {
+  type: 1 as RouteType,
+  name: "route 1",
+  long_name: "route 1 long name",
+  color: "F00B42",
+  id: "route-1",
+  direction_names: {
+    0: "Outbound",
+    1: "Inbound"
+  },
+  direction_destinations: {
+    0: "Begin",
+    1: "End"
+  },
+  description: "key_bus_route",
+  "custom_route?": false,
+  header: "",
+  alerts: []
+};
+
+lineDiagramNoPredictions.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeNoPredictions);
+});
+
+lineDiagramBranchingOutNoPredictions.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeNoPredictions);
+});
+
+const handleStopClickNoPredictions = () => {};
+const liveDataNoPredictions = { headsigns: [], vehicles: [] };
+const storeNoPredictions = createLineDiagramCoordStore(
+  lineDiagramNoPredictions
+);
+
+describe("StopCard", () => {
+  let noPredictionsWrapper: ReactWrapper;
+  beforeEach(() => {
+    noPredictionsWrapper = mount(
+      <redux.Provider store={storeNoPredictions}>
+        <StopCard
+          stop={lineDiagramNoPredictions[0]}
+          onClick={handleStopClickNoPredictions}
+          liveData={liveDataNoPredictions}
+        />
+      </redux.Provider>
+    );
+  });
+
+  afterEach(() => {
+    noPredictionsWrapper.unmount();
+  });
+  it("no button on each stop card", () => {
+    expect(
+      noPredictionsWrapper.exists(".m-schedule-diagram__footer > button")
+    ).toBe(false);
+  });
+});
 
 const routeSubway = {
   type: 1 as RouteType,
@@ -152,24 +202,14 @@ const routeSubway = {
   header: "",
   alerts: []
 };
-
+const lineDiagramSubway = (simpleLineDiagram as unknown) as LineDiagramStop[];
+let lineDiagramBranchingOutSubway = (outwardLineDiagram as unknown) as LineDiagramStop[];
 lineDiagramSubway.forEach(({ route_stop }) => {
   route_stop.route = cloneDeep(routeSubway);
 });
 
 lineDiagramBranchingOutSubway.forEach(({ route_stop }) => {
   route_stop.route = cloneDeep(routeSubway);
-});
-
-let lineDiagramBranchingInSubway = cloneDeep(
-  lineDiagramBranchingOutSubway
-).reverse();
-const CRrouteTwo = merge(cloneDeep(route), { type: 2 as RouteType });
-lineDiagramBranchingInSubway.forEach(({ route_stop }) => {
-  route_stop.route = CRrouteTwo;
-  if (route_stop["is_terminus?"]) {
-    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
-  }
 });
 
 const handleStopClickSubway = () => {};
