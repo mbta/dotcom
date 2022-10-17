@@ -7,7 +7,7 @@ import ExpandableBlock from "../../components/ExpandableBlock";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import useUrlSearchParams from "../../hooks/useUrlSearchParams";
 import { EnhancedRoute, StopHours } from "../../__v3api";
-import { pdfLink } from "../helpers/hoursOfOperationHelpers";
+import pdfLink from "../helpers/hoursOfOperationHelpers";
 import { SchedulePDF } from "./__schedule";
 
 const SCHEDULE_PARAM = "schedule_direction[direction_id]";
@@ -71,8 +71,6 @@ const RapidTransitHoursOfOperation = ({
     ? Number(currentDirectionParam)
     : 0;
 
-  console.log(hours)
-
   return (
     <>
       <ExpandableBlock
@@ -89,7 +87,9 @@ const RapidTransitHoursOfOperation = ({
             7 - 9am | 4 - 6:30pm
           </div>
           {trainsEveryHTML("6-8", false)}
-          <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
+          <div className="fs-14 pt-18 text-decoration-underline">
+            {pdfLink(pdfs[0])}
+          </div>
         </div>
       </ExpandableBlock>
       <ExpandableBlock
@@ -114,7 +114,9 @@ const RapidTransitHoursOfOperation = ({
           {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday, currentDirection)}
           {trainsEveryHTML("8-15", false)}
-          <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
+          <div className="fs-14 pt-18 text-decoration-underline">
+            {pdfLink(pdfs[0])}
+          </div>
         </div>
       </ExpandableBlock>
     </>

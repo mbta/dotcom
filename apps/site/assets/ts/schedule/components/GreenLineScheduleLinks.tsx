@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
-import { pdfLink } from "../helpers/hoursOfOperationHelpers";
+import pdfLink from "../helpers/hoursOfOperationHelpers";
 import { SchedulePDF } from "./__schedule";
 
 const getGreenLineScheduleLinks = (): ReactElement<HTMLElement> => (
@@ -33,7 +33,9 @@ const GreenLineScheduleLinks = ({
     >
       <div className="m-schedule-page__sidebar-hours">
         {getGreenLineScheduleLinks()}
-        <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
+        <div className="fs-14 pt-18 text-decoration-underline">
+          {pdfLink(pdfs[0])}
+        </div>
       </div>
     </ExpandableBlock>
     <ExpandableBlock
@@ -43,7 +45,9 @@ const GreenLineScheduleLinks = ({
     >
       <div className="m-schedule-page__sidebar-hours">
         {getGreenLineScheduleLinks()}
-        <div className="fs-14 pt-18 text-decoration-underline">{pdfLink(pdfs[0])}</div>
+        <div className="fs-14 pt-18 text-decoration-underline">
+          {pdfLink(pdfs[0])}
+        </div>
       </div>
     </ExpandableBlock>
   </>
