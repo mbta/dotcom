@@ -7,10 +7,9 @@ import HoursOfOperation from "../HoursOfOperation";
 import { SchedulePDF } from "../__schedule";
 
 describe("HoursOfOperation", () => {
-
   beforeEach(() => {
-    createReactRoot()
-  })
+    createReactRoot();
+  });
 
   it("doesn't render if there are no hours", () => {
     const route = { id: "Silver", description: "Bus Service" } as EnhancedRoute;
@@ -23,33 +22,47 @@ describe("HoursOfOperation", () => {
   it("renders the hours of operation if the are passed", () => {
     const route = { id: "Silver", description: "Bus Service" } as EnhancedRoute;
     const tree = renderer
-      .create(<HoursOfOperation hours={"These are hours"} pdfs={[]} route={route} />)
+      .create(
+        <HoursOfOperation hours={"These are hours"} pdfs={[]} route={route} />
+      )
       .toJSON();
     expect(tree).not.toBeNull();
-    expect(JSON.stringify(tree)).toMatch("These are hours")
+    expect(JSON.stringify(tree)).toMatch("These are hours");
   });
 
   it("renders the green line schedule if route is green line", () => {
     const route = { id: "Green", description: "Bus Service" } as EnhancedRoute;
     const tree = renderer
-      .create(<HoursOfOperation hours={"These are hours"} pdfs={[{url: "URL"} as SchedulePDF]} route={route} />)
+      .create(
+        <HoursOfOperation
+          hours={"These are hours"}
+          pdfs={[{ url: "URL" } as SchedulePDF]}
+          route={route}
+        />
+      )
       .toJSON();
     expect(tree).not.toBeNull();
-    const treeString = JSON.stringify(tree)
-    expect(treeString).toMatch("B Line Schedule")
-    expect(treeString).toMatch("C Line Schedule")
-    expect(treeString).toMatch("D Line Schedule")
-    expect(treeString).toMatch("E Line Schedule")
+    const treeString = JSON.stringify(tree);
+    expect(treeString).toMatch("B Line Schedule");
+    expect(treeString).toMatch("C Line Schedule");
+    expect(treeString).toMatch("D Line Schedule");
+    expect(treeString).toMatch("E Line Schedule");
   });
 
   it("renders the rapid transit schedule if route rapid transit", () => {
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
     const tree = renderer
-      .create(<HoursOfOperation hours={"These are hours"} pdfs={[{url: "URL"} as SchedulePDF]} route={route} />)
+      .create(
+        <HoursOfOperation
+          hours={"These are hours"}
+          pdfs={[{ url: "URL" } as SchedulePDF]}
+          route={route}
+        />
+      )
       .toJSON();
     expect(tree).not.toBeNull();
-    const treeString = JSON.stringify(tree)
-    expect(treeString).toMatch("Weekend Schedule")
-    expect(treeString).toMatch("Weekday Schedule")
+    const treeString = JSON.stringify(tree);
+    expect(treeString).toMatch("Weekend Schedule");
+    expect(treeString).toMatch("Weekday Schedule");
   });
 });
