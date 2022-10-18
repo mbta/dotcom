@@ -160,8 +160,6 @@ describe("LineDiagram", () => {
 
 it.each`
   type | name
-  ${0} | ${"Stations"}
-  ${1} | ${"Stations"}
   ${2} | ${"Stations"}
   ${3} | ${"Stops"}
   ${4} | ${"Stops"}

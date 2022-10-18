@@ -82,13 +82,6 @@ describe("StopCard", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("includes a button to open Schedule Finder on each stop", () => {
-    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
-    expect(
-      wrapper.find(".m-schedule-diagram__footer > button").text()
-    ).toContain("View schedule");
-  });
-
   it("has a tooltip for a transit connection", () => {
     const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
     stopConnections.forEach(connectionLink => {
@@ -128,6 +121,128 @@ const predictionHeadsign: HeadsignWithCrowding = {
   ],
   train_number: null
 };
+
+const lineDiagramNoPredictions = (simpleLineDiagram as unknown) as LineDiagramStop[];
+let lineDiagramBranchingOutNoPredictions = (outwardLineDiagram as unknown) as LineDiagramStop[];
+
+const routeNoPredictions = {
+  type: 1 as RouteType,
+  name: "route 1",
+  long_name: "route 1 long name",
+  color: "F00B42",
+  id: "route-1",
+  direction_names: {
+    0: "Outbound",
+    1: "Inbound"
+  },
+  direction_destinations: {
+    0: "Begin",
+    1: "End"
+  },
+  description: "key_bus_route",
+  "custom_route?": false,
+  header: "",
+  alerts: []
+};
+
+lineDiagramNoPredictions.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeNoPredictions);
+});
+
+lineDiagramBranchingOutNoPredictions.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeNoPredictions);
+});
+
+const handleStopClickNoPredictions = () => {};
+const liveDataNoPredictions = { headsigns: [], vehicles: [] };
+const storeNoPredictions = createLineDiagramCoordStore(
+  lineDiagramNoPredictions
+);
+
+describe("StopCard", () => {
+  let noPredictionsWrapper: ReactWrapper;
+  beforeEach(() => {
+    noPredictionsWrapper = mount(
+      <redux.Provider store={storeNoPredictions}>
+        <StopCard
+          stop={lineDiagramNoPredictions[0]}
+          onClick={handleStopClickNoPredictions}
+          liveData={liveDataNoPredictions}
+        />
+      </redux.Provider>
+    );
+  });
+
+  afterEach(() => {
+    noPredictionsWrapper.unmount();
+  });
+  it("no button on each stop card", () => {
+    expect(
+      noPredictionsWrapper.exists(".m-schedule-diagram__footer > button")
+    ).toBe(false);
+  });
+});
+
+const routeSubway = {
+  type: 1 as RouteType,
+  name: "route 1",
+  long_name: "route 1 long name",
+  color: "F00B42",
+  id: "route-1",
+  direction_names: {
+    0: "Outbound",
+    1: "Inbound"
+  },
+  direction_destinations: {
+    0: "Begin",
+    1: "End"
+  },
+  description: "key_bus_route",
+  "custom_route?": false,
+  header: "",
+  alerts: []
+};
+const lineDiagramSubway = (simpleLineDiagram as unknown) as LineDiagramStop[];
+let lineDiagramBranchingOutSubway = (outwardLineDiagram as unknown) as LineDiagramStop[];
+lineDiagramSubway.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeSubway);
+});
+
+lineDiagramBranchingOutSubway.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(routeSubway);
+});
+
+const handleStopClickSubway = () => {};
+const liveDataSubway = { headsigns: [predictionHeadsign], vehicles: [] };
+const storeSubway = createLineDiagramCoordStore(lineDiagramSubway);
+
+describe("StopCard", () => {
+  let subwayWrapper: ReactWrapper;
+  beforeEach(() => {
+    subwayWrapper = mount(
+      <redux.Provider store={storeSubway}>
+        <StopCard
+          stop={lineDiagramSubway[0]}
+          onClick={handleStopClickSubway}
+          liveData={liveDataSubway}
+        />
+      </redux.Provider>
+    );
+  });
+
+  afterEach(() => {
+    subwayWrapper.unmount();
+  });
+  it("includes a button to open Schedule Finder on each stop with departures text", () => {
+    expect(
+      subwayWrapper.exists(".m-schedule-diagram__footer > button")
+    ).toBeTruthy();
+    expect(
+      subwayWrapper.find(".m-schedule-diagram__footer > button").text()
+    ).toContain("View upcoming departures");
+  });
+});
+
 const liveDataWithPrediction = {
   headsigns: [predictionHeadsign],
   vehicles: []
@@ -181,8 +296,8 @@ it.each`
 
 it.each`
   index | expectedNames                      | expectedFeatures
-  ${0}  | ${[]}                              | ${["Parking", "Accessible"]}
-  ${1}  | ${["Orange Line", "Green Line C"]} | ${["Accessible"]}
+  ${0}  | ${[]}                              | ${["Parking"]}
+  ${1}  | ${["Orange Line", "Green Line C"]} | ${[]}
   ${2}  | ${["Route 62", "Route 67"]}        | ${["Accessible"]}
   ${3}  | ${["Atlantis"]}                    | ${["Parking", "Accessible"]}
 `(

@@ -12,7 +12,11 @@ import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
 import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
-import { isABusRoute, isACommuterRailRoute } from "../../models/route";
+import {
+  isABusRoute,
+  isSubwayRoute,
+  isACommuterRailRoute
+} from "../../models/route";
 
 export interface Props {
   route: EnhancedRoute;
@@ -205,6 +209,20 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
+      {isSubwayRoute(route)
+        ? lineState.data &&
+          lineState.data[0] && (
+            <>
+              <LineDiagramAndStopListPage
+                lineDiagram={lineState.data}
+                route={route}
+                directionId={state.directionId}
+              />
+              <h2>Realtime Tracking Map</h2>
+            </>
+          )
+        : null}
+
       {!staticMapData && mapState.data && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
@@ -230,13 +248,16 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {lineState.data && lineState.data[0] && (
-        <LineDiagramAndStopListPage
-          lineDiagram={lineState.data}
-          route={route}
-          directionId={state.directionId}
-        />
-      )}
+      {!isSubwayRoute(route)
+        ? lineState.data &&
+          lineState.data[0] && (
+            <LineDiagramAndStopListPage
+              lineDiagram={lineState.data}
+              route={route}
+              directionId={state.directionId}
+            />
+          )
+        : null}
     </>
   );
 };

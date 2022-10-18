@@ -321,11 +321,6 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                     </TooltipWrapper>
                   </div>
                 </div>
-                <footer className=\\"m-schedule-diagram__footer\\">
-                  <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                    View schedule
-                  </button>
-                </footer>
               </section>
             </li>
           </StopCard>

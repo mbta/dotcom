@@ -297,7 +297,8 @@
 // stop filter
 .m-schedule-diagram__filter {
   margin-bottom: $base-spacing;
-
+  margin-top: 1rem;
+  
   &:focus-within {
     border-color: $brand-primary-light;
   }
