@@ -12,7 +12,11 @@ import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
 import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
-import { isABusRoute, isACommuterRailRoute } from "../../models/route";
+import {
+  isABusRoute,
+  isSubwayRoute,
+  isACommuterRailRoute
+} from "../../models/route";
 
 export interface Props {
   route: EnhancedRoute;
@@ -176,8 +180,6 @@ const ScheduleDirection = ({
     error: false
   });
 
-  const isSubwayRoute: boolean = route.type === 1 || route.type === 0;
-
   useEffect(() => {
     fetchLineData(
       route.id,
@@ -207,7 +209,7 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute
+      {isSubwayRoute(route)
         ? lineState.data &&
           lineState.data[0] && (
             <>
@@ -246,7 +248,7 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!isSubwayRoute
+      {!isSubwayRoute(route)
         ? lineState.data &&
           lineState.data[0] && (
             <LineDiagramAndStopListPage

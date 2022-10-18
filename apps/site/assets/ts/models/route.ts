@@ -5,6 +5,9 @@ const isRouteType = (obj: Route | RouteType): obj is RouteType =>
 
 export const isABusRoute = ({ type }: Route): boolean => type === 3;
 
+export const isSubwayRoute = ({ type }: Route): boolean =>
+  type === 1 || type === 0;
+
 const isCommuterRailRouteType = (type: RouteType): boolean => type === 2;
 
 export const isACommuterRailRoute = (routeOrType: Route | RouteType): boolean =>

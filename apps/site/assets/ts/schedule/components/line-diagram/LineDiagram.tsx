@@ -11,6 +11,7 @@ import LineDiagramWithStops from "./LineDiagramWithStops";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
 import useRealtime from "../../../hooks/useRealtime";
+import { isSubwayRoute } from "../../../models/route";
 
 interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -77,7 +78,7 @@ const LineDiagramAndStopListPage = ({
    */
   return (
     <>
-      {route.type === 0 || route.type === 1 ? null : (
+      {isSubwayRoute(route) ? null : (
         <h3 className="m-schedule-diagram__heading">
           {stationsOrStops(route.type)}
         </h3>
