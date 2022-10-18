@@ -1,9 +1,10 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
-import { DirectionId, EnhancedRoute } from "../../__v3api";
+import { Alert, DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
   LineDiagramStop,
-  EnhancedRoutePattern
+  EnhancedRoutePattern,
+  StopTree
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -11,12 +12,13 @@ import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
-import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
+// import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import {
   isABusRoute,
   isSubwayRoute,
   isACommuterRailRoute
 } from "../../models/route";
+import TreeLineDiagram from "./line-diagram/TreeLineDiagram";
 
 export interface Props {
   route: EnhancedRoute;
@@ -25,6 +27,8 @@ export interface Props {
   mapData?: MapData;
   staticMapData?: StaticMapData;
   lineDiagram: LineDiagramStop[];
+  stopTree: StopTree;
+  alerts: Alert[];
   busVariantId: string | null;
 }
 
@@ -88,6 +92,8 @@ const ScheduleDirection = ({
   mapData,
   staticMapData,
   lineDiagram,
+  stopTree,
+  alerts,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
@@ -174,7 +180,8 @@ const ScheduleDirection = ({
     [route, state.directionId, busVariantId, staticMapData]
   );
 
-  const [lineState, dispatchLineData] = useReducer(fetchReducer, {
+  // const [_lineState, dispatchLineData] = useReducer(fetchReducer, {
+  const [, dispatchLineData] = useReducer(fetchReducer, {
     data: lineDiagram,
     isLoading: false,
     error: false
@@ -209,7 +216,8 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute(route)
+      {/* OLD LINE DIAGRAM */}
+      {/* {isSubwayRoute(route) &&
         ? lineState.data &&
           lineState.data[0] && (
             <>
@@ -220,8 +228,16 @@ const ScheduleDirection = ({
               />
               <h2>Realtime Tracking Map</h2>
             </>
-          )
-        : null}
+          )} */}
+      {/* NEW LINE DIAGRAM */}
+      {isSubwayRoute(route) && (
+        <TreeLineDiagram
+          stopTree={stopTree}
+          route={route}
+          directionId={state.directionId}
+          alerts={alerts}
+        />
+      )}
 
       {!staticMapData && mapState.data && (
         <Map
@@ -248,16 +264,25 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!isSubwayRoute(route)
-        ? lineState.data &&
-          lineState.data[0] && (
-            <LineDiagramAndStopListPage
-              lineDiagram={lineState.data}
-              route={route}
-              directionId={state.directionId}
-            />
-          )
-        : null}
+
+      {/* OLD LINE DIAGRAM */}
+      {/* {!isSubwayRoute(route) && lineState.data && lineState.data[0] && (
+        <LineDiagramAndStopListPage
+          lineDiagram={lineState.data}
+          route={route}
+          directionId={state.directionId}
+        />
+      )} */}
+
+      {/* NEW LINE DIAGRAM */}
+      {!isSubwayRoute(route) && (
+        <TreeLineDiagram
+          stopTree={stopTree}
+          route={route}
+          directionId={state.directionId}
+          alerts={alerts}
+        />
+      )}
     </>
   );
 };

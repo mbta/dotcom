@@ -9,7 +9,9 @@ import ScheduleDirection from "./ScheduleDirection";
 import {
   SchedulePageData,
   SelectedOrigin,
-  ComponentToRender
+  ComponentToRender,
+  StopTree,
+  StopTreeData
 } from "../components/__schedule";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import ScheduleFinder from "./ScheduleFinder";
@@ -122,6 +124,12 @@ export const ScheduleLoader = ({
     });
   };
 
+  const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
+    byId: stopTreeData.by_id,
+    edges: stopTreeData.edges,
+    startingNodes: stopTreeData.starting_nodes
+  });
+
   const {
     route,
     stops,
@@ -130,8 +138,11 @@ export const ScheduleLoader = ({
     schedule_note: scheduleNote,
     today,
     line_diagram: lineDiagram,
+    stop_tree,
+    alerts,
     variant: busVariantId
   } = schedulePageData;
+  const stopTree: StopTree = fromStopTreeData(stop_tree);
 
   const routeIsSuspended = Object.keys(routePatternsByDirection).length === 0;
 
@@ -313,6 +324,8 @@ export const ScheduleLoader = ({
           mapData={mapData}
           staticMapData={staticMapData}
           lineDiagram={lineDiagram}
+          stopTree={stopTree}
+          alerts={alerts}
           busVariantId={busVariantId}
         />
       );

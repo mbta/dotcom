@@ -1,3 +1,4 @@
+import { StopId } from "../schedule/components/__schedule";
 import { Alert, TimePeriodPairs } from "../__v3api";
 
 export const isHighSeverityOrHighPriority = ({
@@ -11,10 +12,10 @@ export const isDiversion = ({ effect }: Alert): boolean =>
   effect === "station_closure" ||
   effect === "detour";
 
-export const alertsByStop = (alerts: Alert[], stopId: string): Alert[] =>
+export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
   alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>
-      !!entities.stop && entities.stop!.some((id: string) => id === stopId)
+      !!entities.stop && entities.stop!.some((id: StopId) => id === stopId)
   );
 
 export const uniqueByEffect = (
@@ -62,3 +63,11 @@ export const isCurrentAlert = (
   });
   return isCurrentLifecycle(alert) && isInARange;
 };
+
+export const hasAnActiveDiversion = (
+  stopId: StopId,
+  alerts: Alert[]
+): boolean =>
+  alertsByStop(alerts, stopId).some(
+    alert => isDiversion(alert) && isCurrentAlert(alert)
+  );

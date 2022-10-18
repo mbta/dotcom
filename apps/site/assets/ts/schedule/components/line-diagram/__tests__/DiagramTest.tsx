@@ -6,8 +6,6 @@ import { RouteType } from "../../../../__v3api";
 import { LineDiagramStop } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
-import simpleLiveData from "./lineDiagramData/live-data.json";
-import LineDiagramWithStops from "../LineDiagramWithStops";
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import Diagram from "../graphics/Diagram";
 import { LiveDataByStop } from "../__line-diagram";

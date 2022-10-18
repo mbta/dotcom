@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from "react";
+import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";

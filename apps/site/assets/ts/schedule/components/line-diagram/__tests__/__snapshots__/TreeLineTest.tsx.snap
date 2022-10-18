@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TreeLine component between stops with branches renders and matches snapshot 1`] = `
+"<Provider store={{...}}>
+  <TreeLine stopTree={{...}} fromId=\\"b\\" toId=\\"d\\" alerts={{...}}>
+    <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"24px\\" y2=\\"31px\\" />
+  </TreeLine>
+</Provider>"
+`;
+
+exports[`TreeLine component between stops with disruptions renders and matches snapshot 1`] = `
+"<Provider store={{...}}>
+  <TreeLine stopTree={{...}} fromId=\\"a\\" toId=\\"b\\" alerts={{...}}>
+    <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" stroke=\\"url(#diagonalHatch)\\" />
+  </TreeLine>
+</Provider>"
+`;
+
+exports[`TreeLine component renders and matches snapshot 1`] = `
+"<Provider store={{...}}>
+  <svg>
+    <TreeLine stopTree={{...}} fromId=\\"a\\" toId=\\"b\\" alerts={{...}}>
+      <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"17px\\" y2=\\"24px\\" />
+    </TreeLine>
+  </svg>
+</Provider>"
+`;

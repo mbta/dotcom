@@ -5,7 +5,9 @@ import {
   LineDiagramStop,
   ServiceInSelector,
   RoutePatternsByDirection,
-  ShapesById
+  ShapesById,
+  StopTreeData,
+  RouteStop
 } from "../__schedule";
 import { EnhancedRoute } from "../../../__v3api";
 import { mount, ReactWrapper } from "enzyme";
@@ -235,6 +237,23 @@ const shapesById = {
   }
 } as ShapesById;
 
+const routeStopA: RouteStop = { id: "a" } as RouteStop;
+const routeStopB: RouteStop = { id: "b" } as RouteStop;
+const routeStopC: RouteStop = { id: "c" } as RouteStop;
+const stopTreeData: StopTreeData = ({
+  by_id: {
+    a: { id: "a", value: routeStopA },
+    b: { id: "b", value: routeStopB },
+    c: { id: "c", value: routeStopC }
+  },
+  edges: {
+    a: { next: ["b"], previous: [] },
+    b: { next: ["c"], previous: ["a"] },
+    c: { next: [], previous: ["b"] }
+  },
+  starting_nodes: ["a"]
+} as unknown) as StopTreeData;
+
 jest.mock("../ScheduleDirection", () => {
   return {
     __esModule: true,
@@ -268,6 +287,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -299,6 +320,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -332,6 +355,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -409,6 +434,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -441,6 +468,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -483,6 +512,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -522,6 +553,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -554,6 +587,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -605,6 +640,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -671,6 +708,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -716,6 +755,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -770,6 +811,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -808,6 +851,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -864,6 +909,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -910,6 +957,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -954,6 +1003,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routes,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -982,7 +1033,9 @@ describe("ScheduleLoader", () => {
       connections: [],
       fares: [],
       holidays: [],
-      pdfs: []
+      pdfs: [],
+      stop_tree: stopTreeData,
+      alerts: []
     };
 
     document.body.innerHTML = `<div id="react-root">
@@ -1023,6 +1076,8 @@ describe("ScheduleLoader", () => {
       direction_id: 1,
       line_diagram: lineDiagram,
       today: "2019-12-05",
+      stop_tree: stopTreeData,
+      alerts: [],
       variant: null
     };
 
@@ -1060,25 +1115,6 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    const schedulePageData = {
-      schedule_note: null,
-      connections: [],
-      fares,
-      fare_link: fareLink,
-      hours,
-      holidays,
-      pdfs,
-      teasers,
-      route,
-      services,
-      stops,
-      direction_id: 0,
-      route_patterns: {},
-      line_diagram: lineDiagram,
-      today: "2019-12-05",
-      variant: null
-    };
-
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -1099,6 +1135,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -1141,6 +1179,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -1206,6 +1246,8 @@ describe("ScheduleLoader", () => {
       fares,
       holidays,
       teasers,
+      stop_tree: stopTreeData,
+      alerts: [],
       pdfs
     };
 

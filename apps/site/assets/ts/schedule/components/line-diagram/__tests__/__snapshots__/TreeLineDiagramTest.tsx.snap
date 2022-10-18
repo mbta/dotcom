@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TreeLineDiagram renders and matches snapshot 1`] = `
+"<TreeLineDiagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}}>
+  <h3 className=\\"m-schedule-diagram__heading\\">
+    Stops
+  </h3>
+  <SearchBox id=\\"stop-search\\" labelText=\\"Search for a stop\\" onChange={[Function: bound dispatchAction]} className=\\"m-schedule-diagram__filter\\">
+    <div className=\\"m-schedule-diagram__filter c-form__input-container\\">
+      <label htmlFor=\\"stop-search\\" className=\\"sr-only\\">
+        Search for a stop
+      </label>
+      <input className=\\"c-form__input\\" id=\\"stop-search\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Search for a stop\\" />
+      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      </button>
+    </div>
+  </SearchBox>
+  <Provider store={{...}}>
+    <TreeLineDiagramWithStops stopTree={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={[undefined]}>
+      <div className=\\"m-schedule-diagram u-no-crowding-data\\">
+        <TreeDiagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={[undefined]}>
+          <LiveVehicleIconSet stopTree={{...}} stopId=\\"a\\" liveData={[undefined]} />
+          <LiveVehicleIconSet stopTree={{...}} stopId=\\"b\\" liveData={[undefined]} />
+          <LiveVehicleIconSet stopTree={{...}} stopId=\\"c\\" liveData={[undefined]} />
+          <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"40px\\" height=\\"100%\\" style={{...}}>
+            <title id=\\"diagram-title\\">
+              Line diagram for 
+              route 1
+            </title>
+            <desc id=\\"diagram-desc\\">
+              3 stops going Inbound to End
+            </desc>
+            <defs>
+              <pattern id=\\"diagonalHatch\\" width=\\"10\\" height=\\"10\\" patternTransform=\\"rotate(45 0 0)\\" patternUnits=\\"userSpaceOnUse\\">
+                <line className=\\"line-diagram-svg__line\\" y2={8} strokeWidth=\\"16px\\" />
+              </pattern>
+            </defs>
+            <TreeLine stopTree={{...}} fromId=\\"a\\" toId=\\"b\\" alerts={{...}}>
+              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
+            </TreeLine>
+            <TreeLine stopTree={{...}} fromId=\\"b\\" toId=\\"c\\" alerts={{...}}>
+              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
+            </TreeLine>
+            <Stop stopId=\\"a\\">
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
+            </Stop>
+            <Stop stopId=\\"b\\">
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
+            </Stop>
+            <Stop stopId=\\"c\\">
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" data-shuttle={false} />
+            </Stop>
+          </svg>
+        </TreeDiagram>
+        <ol>
+          <NextStopOrBranch stopTree={{...}} stopId=\\"a\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={[undefined]}>
+            <TreeStopCard stopTree={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+              <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+                <section className=\\"m-schedule-diagram__content\\">
+                  <GlxOpen pageType=\\"line-diagram\\" stopId=\\"a\\" />
+                  <header className=\\"m-schedule-diagram__stop-heading\\">
+                    <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                      <a href=\\"/stops/a\\">
+                        <MatchHighlight text=\\"a\\" matchQuery={[undefined]}>
+                          <span>
+                            a
+                          </span>
+                        </MatchHighlight>
+                      </a>
+                    </h4>
+                    <div className=\\"m-schedule-diagram__features\\" />
+                  </header>
+                  <div className=\\"m-schedule-diagram__stop-details\\">
+                    <div className=\\"m-schedule-diagram__connections\\" />
+                  </div>
+                  <footer className=\\"m-schedule-diagram__footer\\">
+                    <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                      View schedule
+                    </button>
+                  </footer>
+                </section>
+              </li>
+            </TreeStopCard>
+            <NextStopOrBranch stopTree={{...}} stopId=\\"b\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={[undefined]}>
+              <TreeStopCard stopTree={{...}} stopId=\\"b\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+                  <section className=\\"m-schedule-diagram__content\\">
+                    <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b\\" />
+                    <header className=\\"m-schedule-diagram__stop-heading\\">
+                      <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                        <a href=\\"/stops/b\\">
+                          <MatchHighlight text=\\"b\\" matchQuery={[undefined]}>
+                            <span>
+                              b
+                            </span>
+                          </MatchHighlight>
+                        </a>
+                      </h4>
+                      <div className=\\"m-schedule-diagram__features\\" />
+                    </header>
+                    <div className=\\"m-schedule-diagram__stop-details\\">
+                      <div className=\\"m-schedule-diagram__connections\\" />
+                    </div>
+                    <footer className=\\"m-schedule-diagram__footer\\">
+                      <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                        View schedule
+                      </button>
+                    </footer>
+                  </section>
+                </li>
+              </TreeStopCard>
+              <NextStopOrBranch stopTree={{...}} stopId=\\"c\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={[undefined]}>
+                <TreeStopCard stopTree={{...}} stopId=\\"c\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                  <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+                    <section className=\\"m-schedule-diagram__content\\">
+                      <GlxOpen pageType=\\"line-diagram\\" stopId=\\"c\\" />
+                      <header className=\\"m-schedule-diagram__stop-heading\\">
+                        <h4 className=\\"m-schedule-diagram__stop-link notranslate\\">
+                          <a href=\\"/stops/c\\">
+                            <MatchHighlight text=\\"c\\" matchQuery={[undefined]}>
+                              <span>
+                                c
+                              </span>
+                            </MatchHighlight>
+                          </a>
+                        </h4>
+                        <div className=\\"m-schedule-diagram__features\\" />
+                      </header>
+                      <div className=\\"m-schedule-diagram__stop-details\\">
+                        <div className=\\"m-schedule-diagram__connections\\" />
+                      </div>
+                      <footer className=\\"m-schedule-diagram__footer\\">
+                        <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                          View schedule
+                        </button>
+                      </footer>
+                    </section>
+                  </li>
+                </TreeStopCard>
+              </NextStopOrBranch>
+            </NextStopOrBranch>
+          </NextStopOrBranch>
+        </ol>
+      </div>
+    </TreeLineDiagramWithStops>
+  </Provider>
+</TreeLineDiagram>"
+`;

@@ -3,8 +3,29 @@ import {
   isHighSeverityOrHighPriority,
   isCurrentAlert,
   alertsByStop,
-  uniqueByEffect
+  uniqueByEffect,
+  isDiversion
 } from "../alert";
+
+const zeroPadded = (num: number): string => `${num}`.padStart(2, "0");
+
+const activePeriodDateFormatted = (ms: number): string => {
+  const date = new Date(ms);
+  return `${date.getFullYear()}-${zeroPadded(date.getMonth() + 1)}-${zeroPadded(
+    date.getDate()
+  )} ${zeroPadded(date.getHours())}:${zeroPadded(date.getMinutes())}`;
+};
+
+export const aroundNow = () => {
+  const now = Date.now();
+  const five_minutes = 300_000;
+  return [
+    [
+      activePeriodDateFormatted(now - five_minutes),
+      activePeriodDateFormatted(now + five_minutes)
+    ]
+  ];
+};
 
 const testDate = new Date("2020-09-10T09:00");
 const alert1: Alert = {
@@ -49,6 +70,17 @@ describe("isHighSeverityOrHighPriority", () => {
       }
     }
   );
+});
+
+describe("isDiversion", () => {
+  test("returns whether effect is a diversion", () => {
+    expect(isDiversion(alert1)).toBeFalsy();
+    expect(isDiversion({ ...alert1, effect: "shuttle" })).toBeTruthy();
+    expect(isDiversion({ ...alert1, effect: "stop_closure" })).toBeTruthy();
+    expect(isDiversion({ ...alert1, effect: "station_closure" })).toBeTruthy();
+    expect(isDiversion({ ...alert1, effect: "detour" })).toBeTruthy();
+    expect(isDiversion({ ...alert1, effect: "other" })).toBeFalsy();
+  });
 });
 
 describe("isCurrentAlert", () => {

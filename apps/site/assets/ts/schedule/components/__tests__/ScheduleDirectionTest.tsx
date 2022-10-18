@@ -19,7 +19,8 @@ import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
 import {
   ShapesById,
   LineDiagramStop,
-  RoutePatternsByDirection
+  RoutePatternsByDirection,
+  StopTree
 } from "../__schedule";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
@@ -158,6 +159,12 @@ const staticMapData: StaticMapData = {
 };
 /* eslint-enable camelcase */
 
+const emptyStopTree: StopTree = {
+  byId: {},
+  edges: {},
+  startingNodes: []
+};
+
 const getComponent = () => (
   <ScheduleDirection
     route={route}
@@ -165,6 +172,8 @@ const getComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
+    stopTree={emptyStopTree}
+    alerts={[]}
     busVariantId={null}
   />
 );
@@ -176,6 +185,8 @@ const getSingleDirectionComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
+    stopTree={emptyStopTree}
+    alerts={[]}
     busVariantId={null}
   />
 );
@@ -187,6 +198,8 @@ const getSubwayComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     lineDiagram={lineDiagram}
+    stopTree={emptyStopTree}
+    alerts={[]}
     busVariantId={null}
   />
 );
@@ -198,6 +211,8 @@ const getCRComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
+    stopTree={emptyStopTree}
+    alerts={[]}
     busVariantId={null}
   />
 );
@@ -209,6 +224,8 @@ const getStaticMapComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     lineDiagram={lineDiagram}
+    stopTree={emptyStopTree}
+    alerts={[]}
     busVariantId={null}
   />
 );
@@ -236,6 +253,8 @@ const getGreenLineComponent = () => {
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
       lineDiagram={lineDiagram}
+      stopTree={emptyStopTree}
+      alerts={[]}
       busVariantId={null}
     />
   );
@@ -248,6 +267,8 @@ const getVariantComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     lineDiagram={lineDiagram}
+    stopTree={emptyStopTree}
+    alerts={[]}
     busVariantId="pattern-3"
   />
 );
