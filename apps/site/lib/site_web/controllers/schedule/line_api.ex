@@ -4,13 +4,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   alias Alerts.Match
   alias Alerts.Stop, as: AlertsStop
-  alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.DiagramFormat
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
-  alias Stops.RouteStop
+  alias Stops.{RouteStop, RouteStops}
   alias Vehicles.Vehicle
 
   import SiteWeb.StopController, only: [json_safe_alerts: 2]
@@ -25,25 +24,38 @@ defmodule SiteWeb.ScheduleController.LineApi do
          }
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => route_id, "direction_id" => direction_id}) do
+  def show(conn, %{"id" => route_id, "direction_id" => direction_id_str}) do
+    direction_id = String.to_integer(direction_id_str)
+
     case LineHelpers.get_route(route_id) do
       {:ok, route} ->
         conn =
           conn
           |> assign(:route, route)
-          |> assign(:direction_id, String.to_integer(direction_id))
+          |> assign(:direction_id, direction_id)
           |> assign_alerts(filter_by_direction?: true)
 
-        line_data =
-          get_line_data(
+        branch_route_stops =
+          LineHelpers.get_branch_route_stops(
             route,
-            String.to_integer(direction_id),
+            direction_id,
             conn.query_params["route_pattern"]
           )
 
+        stop_tree =
+          branch_route_stops
+          |> Enum.map(&Enum.map(&1.stops, fn route_stop -> {route_stop.id, route_stop} end))
+          |> UnrootedPolytree.from_lists()
+
+        line_data = get_line_data(branch_route_stops, route, direction_id)
+
         json(
           conn,
-          update_route_stop_data(line_data, conn.assigns.alerts, conn.assigns.date_time)
+          %{
+            line_diagram:
+              update_route_stop_data(line_data, conn.assigns.alerts, conn.assigns.date_time),
+            stop_tree: stop_tree
+          }
         )
 
       :not_found ->
@@ -117,15 +129,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
     Jason.encode!(combined_data_by_stop)
   end
 
-  @spec get_line_data(Route.t(), LineHelpers.direction_id(), RoutePattern.id_t() | nil) :: [
+  @spec get_line_data([RouteStops.t()], Route.t(), LineHelpers.direction_id()) :: [
           DiagramHelpers.stop_with_bubble_info()
         ]
-  defp get_line_data(route, direction_id, route_pattern_id) do
+  defp get_line_data(branch_route_stops, route, direction_id) do
     diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
-
-    route
-    |> LineHelpers.get_branch_route_stops(direction_id, route_pattern_id)
-    |> DiagramHelpers.build_stop_list(diagram_direction)
+    DiagramHelpers.build_stop_list(branch_route_stops, diagram_direction)
   end
 
   @doc """

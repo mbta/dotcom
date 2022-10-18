@@ -32,6 +32,12 @@ interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
 }
 
+export const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
+  byId: stopTreeData.by_id,
+  edges: stopTreeData.edges,
+  startingNodes: stopTreeData.starting_nodes
+});
+
 export const changeOrigin = (origin: SelectedOrigin): void => {
   storeHandler({
     type: "CHANGE_ORIGIN",
@@ -123,12 +129,6 @@ export const ScheduleLoader = ({
       }
     });
   };
-
-  const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
-    byId: stopTreeData.by_id,
-    edges: stopTreeData.edges,
-    startingNodes: stopTreeData.starting_nodes
-  });
 
   const {
     route,

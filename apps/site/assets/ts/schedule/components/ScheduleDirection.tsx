@@ -8,8 +8,8 @@ import {
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
-import { reducer as fetchReducer } from "../../helpers/fetch";
-import { menuReducer, FetchAction } from "./direction/reducer";
+import { fetchAction, reducer as fetchReducer } from "../../helpers/fetch";
+import { menuReducer } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
 // import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
@@ -19,6 +19,7 @@ import {
   isACommuterRailRoute
 } from "../../models/route";
 import TreeLineDiagram from "./line-diagram/TreeLineDiagram";
+import { fromStopTreeData } from "./ScheduleLoader";
 
 export interface Props {
   route: EnhancedRoute;
@@ -36,7 +37,7 @@ export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
   currentRoutePatternIdForData: string | undefined,
-  dispatch: Dispatch<FetchAction>
+  dispatch: Dispatch<fetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   const baseURL = `/schedules/map_api?id=${routeId}&direction_id=${directionId}`;
@@ -62,7 +63,7 @@ export const fetchLineData = (
   routeId: string,
   directionId: DirectionId,
   currentRoutePatternIdForData: string | undefined,
-  dispatch: Dispatch<FetchAction>
+  dispatch: Dispatch<fetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
 
@@ -79,7 +80,14 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      .then(json => {
+        const { line_diagram, stop_tree } = json;
+        const stopTree: StopTree = fromStopTreeData(stop_tree);
+        dispatch({
+          type: "FETCH_COMPLETE",
+          payload: { line_diagram, stopTree }
+        });
+      })
       // @ts-ignore
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
@@ -92,7 +100,7 @@ const ScheduleDirection = ({
   mapData,
   staticMapData,
   lineDiagram,
-  stopTree,
+  stopTree: initialStopTree,
   alerts,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
@@ -180,13 +188,14 @@ const ScheduleDirection = ({
     [route, state.directionId, busVariantId, staticMapData]
   );
 
-  // const [_lineState, dispatchLineData] = useReducer(fetchReducer, {
-  const [, dispatchLineData] = useReducer(fetchReducer, {
-    data: lineDiagram,
+  const [lineState, dispatchLineData] = useReducer(fetchReducer, {
+    data: {
+      lineDiagram,
+      stopTree: initialStopTree
+    },
     isLoading: false,
     error: false
   });
-
   useEffect(() => {
     fetchLineData(
       route.id,
@@ -230,9 +239,9 @@ const ScheduleDirection = ({
             </>
           )} */}
       {/* NEW LINE DIAGRAM */}
-      {isSubwayRoute(route) && (
+      {isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
         <TreeLineDiagram
-          stopTree={stopTree}
+          stopTree={lineState.data.stopTree}
           route={route}
           directionId={state.directionId}
           alerts={alerts}
@@ -264,7 +273,6 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-
       {/* OLD LINE DIAGRAM */}
       {/* {!isSubwayRoute(route) && lineState.data && lineState.data[0] && (
         <LineDiagramAndStopListPage
@@ -273,11 +281,10 @@ const ScheduleDirection = ({
           directionId={state.directionId}
         />
       )} */}
-
       {/* NEW LINE DIAGRAM */}
-      {!isSubwayRoute(route) && (
+      {!isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
         <TreeLineDiagram
-          stopTree={stopTree}
+          stopTree={lineState.data.stopTree}
           route={route}
           directionId={state.directionId}
           alerts={alerts}

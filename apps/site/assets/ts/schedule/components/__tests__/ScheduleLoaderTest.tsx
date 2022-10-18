@@ -5,9 +5,7 @@ import {
   LineDiagramStop,
   ServiceInSelector,
   RoutePatternsByDirection,
-  ShapesById,
-  StopTreeData,
-  RouteStop
+  StopTreeData
 } from "../__schedule";
 import { EnhancedRoute } from "../../../__v3api";
 import { mount, ReactWrapper } from "enzyme";
@@ -72,7 +70,13 @@ const stops = {
   ]
 };
 
-const lineDiagram = lineDiagramData as LineDiagramStop[];
+const {
+  line_diagram: lineDiagram,
+  stop_tree: stopTreeData
+} = (lineDiagramData as unknown) as {
+  line_diagram: LineDiagramStop[];
+  stop_tree: StopTreeData;
+};
 
 const fares = [
   {
@@ -209,50 +213,6 @@ const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsBy
 const routes: RoutePatternsByDirection = {
   "1": routePatternsByDirection["1"]
 };
-
-const shapesById = {
-  "shape-1": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 1",
-    id: "shape-1",
-    direction_id: 0
-  },
-  "shape-2": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 2",
-    id: "shape-2",
-    direction_id: 1
-  },
-  "shape-3": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 3",
-    id: "shape-3",
-    direction_id: 0
-  }
-} as ShapesById;
-
-const routeStopA: RouteStop = { id: "a" } as RouteStop;
-const routeStopB: RouteStop = { id: "b" } as RouteStop;
-const routeStopC: RouteStop = { id: "c" } as RouteStop;
-const stopTreeData: StopTreeData = ({
-  by_id: {
-    a: { id: "a", value: routeStopA },
-    b: { id: "b", value: routeStopB },
-    c: { id: "c", value: routeStopC }
-  },
-  edges: {
-    a: { next: ["b"], previous: [] },
-    b: { next: ["c"], previous: ["a"] },
-    c: { next: [], previous: ["b"] }
-  },
-  starting_nodes: ["a"]
-} as unknown) as StopTreeData;
 
 jest.mock("../ScheduleDirection", () => {
   return {
