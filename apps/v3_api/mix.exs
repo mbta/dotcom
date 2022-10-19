@@ -50,7 +50,7 @@ defmodule V3Api.Mixfile do
       {:gen_stage, "~> 0.14"},
       {:json_api, in_umbrella: true},
       {:util, in_umbrella: true},
-      {:sentry, "~> 7.0"},
+      {:sentry, "~> 8.0"},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
