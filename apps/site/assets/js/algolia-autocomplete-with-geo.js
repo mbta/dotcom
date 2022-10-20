@@ -127,6 +127,8 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
 
   onHitSelected(ev) {
     // placesService can be injected in tests
+    // eslint-disable-next-line no-console
+    console.log(ev);
     const hit = ev.originalEvent;
     const index = hit._args[1];
     switch (index) {
