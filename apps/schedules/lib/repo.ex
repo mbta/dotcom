@@ -150,17 +150,9 @@ defmodule Schedules.Repo do
   @spec hours_of_operation(
           Routes.Route.id_t() | [Routes.Route.id_t()],
           Date.t(),
-          :rapid_transit | atom()
+          Routes.Route.gtfs_route_desc()
         ) ::
           HoursOfOperation.t()
-  def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), type)
-
-  def hours_of_operation(route_id_or_ids, date, :rapid_transit) do
-    route_id_or_ids
-    |> cache(&HoursOfOperation.hours_of_operation(&1, date, :rapid_transit))
-    |> Util.error_default(%HoursOfOperation{})
-  end
-
   def hours_of_operation(route_id_or_ids, date, description) do
     route_id_or_ids
     |> cache(&HoursOfOperation.hours_of_operation(&1, date, description))

@@ -2,14 +2,24 @@ import React, { ReactElement } from "react";
 import renderFa from "../../helpers/render-fa";
 import { SchedulePDF } from "../components/__schedule";
 
-const pdfLink = (pdf: SchedulePDF): ReactElement<HTMLElement> => {
+const pdfLink = (
+  pdf: SchedulePDF,
+  routeName: string
+): ReactElement<HTMLElement> | null => {
   if (!pdf) {
-    return <></>;
+    return null;
+  }
+  let vehicleType = "subway";
+  if (routeName === "Mattapan") {
+    vehicleType = "trolley";
   }
   return (
-    <a key={pdf.url} href={pdf.url} rel="noopener noreferrer" target="_blank">
-      Open subway schedule PDF {renderFa("fa-arrow-up-right-from-square", "")}
-    </a>
+    <div className="fs-14 pt-16 text-decoration-underline">
+      <a key={pdf.url} href={pdf.url} rel="noopener noreferrer" target="_blank">
+        {`Open ${vehicleType} schedule PDF`}{" "}
+        {renderFa("fa-arrow-up-right-from-square", "")}
+      </a>
+    </div>
   );
 };
 

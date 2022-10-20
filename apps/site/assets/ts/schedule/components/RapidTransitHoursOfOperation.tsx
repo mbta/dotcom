@@ -43,17 +43,13 @@ const getSchedule = (
   return mappedData;
 };
 
-const regularScheduleHTML = (): ReactElement<HTMLElement> => (
-  <div className="font-weight-bold fs-12 pb-14">Regular schedule</div>
+const regularScheduleHTML = (): JSX.Element => (
+  <div className="font-weight-bold fs-14 pb-8">Regular schedule</div>
 );
 
-const trainsEveryHTML = (
-  minuteString: string,
-  showExceptDuringRushHour: boolean
-): ReactElement<HTMLElement> => {
-  const rushHour = showExceptDuringRushHour ? " except during rush hour" : "";
-  const trainsEvery = `Trains every ${minuteString} minutes ${rushHour}`;
-  return <div className="fs-14 pt-14">{trainsEvery}</div>;
+const trainsEveryHTML = (minuteString: string): JSX.Element => {
+  const trainsEvery = `Trains depart every ${minuteString} minutes`;
+  return <div className="fs-14 pt-8">{trainsEvery}</div>;
 };
 
 const RapidTransitHoursOfOperation = ({
@@ -81,15 +77,13 @@ const RapidTransitHoursOfOperation = ({
         <div className="m-schedule-page__sidebar-hours">
           {regularScheduleHTML()}
           {hours && getSchedule(hours.week, currentDirection)}
-          {trainsEveryHTML("8-15", true)}
-          <div className="font-weight-bold fs-12 pt-14">Rush hour service</div>
-          <div className="font-weight-bold fs-18 pt-14">
-            7 - 9am | 4 - 6:30pm
+          {trainsEveryHTML("8-15")}
+          <div className="font-weight-bold fs-14 pb-8 pt-24">
+            Rush hour schedule
           </div>
-          {trainsEveryHTML("6-8", false)}
-          <div className="fs-14 pt-18 text-decoration-underline">
-            {pdfLink(pdfs[0])}
-          </div>
+          <div className="font-weight-bold fs-18">7 - 9am | 4 - 6:30pm</div>
+          {trainsEveryHTML("6-8")}
+          {pdfLink(pdfs[0], route.name)}
         </div>
       </ExpandableBlock>
       <ExpandableBlock
@@ -101,22 +95,20 @@ const RapidTransitHoursOfOperation = ({
           <div className="font-weight-bold fs-18 pb-14">Saturday</div>
           {regularScheduleHTML()}
           {hours && getSchedule(hours.saturday, currentDirection)}
-          {trainsEveryHTML("8-15", false)}
-          <div
+          {trainsEveryHTML("8-15")}
+          <hr
             style={{
-              borderBottomWidth: "0.5px",
-              borderBottomColor: "black",
-              borderBottomStyle: "solid"
+              borderBottomWidth: "1px",
+              borderBottomColor: "#e9eaed",
+              borderBottomStyle: "solid",
+              marginBottom: "0rem"
             }}
-            className="pt-18"
           />
           <div className="font-weight-bold fs-18 pt-18 pb-14">Sunday</div>
           {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday, currentDirection)}
-          {trainsEveryHTML("8-15", false)}
-          <div className="fs-14 pt-18 text-decoration-underline">
-            {pdfLink(pdfs[0])}
-          </div>
+          {trainsEveryHTML("8-15")}
+          {pdfLink(pdfs[0], route.name)}
         </div>
       </ExpandableBlock>
     </>

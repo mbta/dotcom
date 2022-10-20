@@ -345,13 +345,13 @@ export interface StopHours {
   is_terminus: boolean;
 }
 export interface RapidTransitHours {
-  week: StopHours[][];
-  saturday: StopHours[][];
-  sunday: StopHours[][];
+  week: [StopHours[], StopHours[]];
+  saturday: [StopHours[], StopHours[]];
+  sunday: [StopHours[], StopHours[]];
 }
 
 export interface TransitHours {
-  week: StopHours[];
-  saturday: StopHours[];
-  sunday: StopHours[];
+  week: [StopHours, StopHours];
+  saturday: [StopHours, StopHours];
+  sunday: [StopHours, StopHours];
 }

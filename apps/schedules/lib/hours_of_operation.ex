@@ -25,7 +25,11 @@ defmodule Schedules.HoursOfOperation do
   It's possible for one or more of the ranges to be :no_service, if the route
   does not run on that day.
   """
-  @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], atom()) ::
+  @spec hours_of_operation(
+          Routes.Route.id_t() | [Routes.Route.id_t()],
+          Date.t(),
+          Routes.Route.gtfs_route_desc()
+        ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
     route_id_or_ids
@@ -58,6 +62,7 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
+        stop_sequence: "first,last",
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
@@ -304,10 +309,7 @@ defmodule Schedules.HoursOfOperation do
 
     %Departures{
       first_departure: min,
-      last_departure: max,
-      stop_name: nil,
-      stop_id: nil,
-      is_terminus: nil
+      last_departure: max
     }
   end
 end

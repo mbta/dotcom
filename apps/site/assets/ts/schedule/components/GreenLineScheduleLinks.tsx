@@ -33,9 +33,7 @@ const GreenLineScheduleLinks = ({
     >
       <div className="m-schedule-page__sidebar-hours">
         {getGreenLineScheduleLinks()}
-        <div className="fs-14 pt-18 text-decoration-underline">
-          {pdfLink(pdfs[0])}
-        </div>
+        {pdfLink(pdfs[0])}
       </div>
     </ExpandableBlock>
     <ExpandableBlock
@@ -45,9 +43,7 @@ const GreenLineScheduleLinks = ({
     >
       <div className="m-schedule-page__sidebar-hours">
         {getGreenLineScheduleLinks()}
-        <div className="fs-14 pt-18 text-decoration-underline">
-          {pdfLink(pdfs[0])}
-        </div>
+        {pdfLink(pdfs[0])}
       </div>
     </ExpandableBlock>
   </>
