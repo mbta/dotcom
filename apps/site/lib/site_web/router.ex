@@ -2,6 +2,8 @@ defmodule SiteWeb.Router do
   @moduledoc false
 
   use SiteWeb, :router
+  use Plug.ErrorHandler
+  use Sentry.Plug
 
   alias SiteWeb.StaticPage
 

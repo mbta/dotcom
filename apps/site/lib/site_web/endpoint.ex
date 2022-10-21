@@ -1,6 +1,6 @@
 defmodule SiteWeb.Endpoint do
   @moduledoc false
-  use Sentry.PlugCapture
+
   use Phoenix.Endpoint, otp_app: :site
 
   @doc """
@@ -50,7 +50,6 @@ defmodule SiteWeb.Endpoint do
     json_decoder: Poison
   )
 
-  plug(Sentry.PlugContext)
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
