@@ -28,8 +28,8 @@ export const onLoad = (): void => {
       const index = hit._args[1];
       switch (index) {
         case "locations":
-          ac.setValue(hit._args[0].description);
-          ac._doLocationSearch(hit._args[0].id);
+          ac.setValue(hit._args[0].address);
+          ac._doLocationSearch(hit._args[0].address);
           break;
         case "usemylocation":
           ac.useMyLocationSearch();
