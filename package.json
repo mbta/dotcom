@@ -5,7 +5,7 @@
     "install:ci": "npm ci --prefix apps/site/assets --omit=optional",
     "ci:lint:ts": "npm run --prefix apps/site/assets eslint:ts",
     "ci:lint:js": "npm run --prefix apps/site/assets eslint:js",
-    "ci:lint:scss": "npm run --prefix apps/site/assets stylelint",
+    "ci:lint:scss": "npm run --prefix apps/site/assets stylelint -- css/**/*.scss",
     "ci:lint:ex": "mix credo diff master -a",
     "ci:unit:exunit": "PORT=4002 mix coveralls.html --umbrella --exclude wallaby",
     "ci:unit:mocha": "npm run --prefix apps/site/assets mocha",
@@ -24,5 +24,8 @@
     "cypress:open": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress open",
     "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
     "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
+  },
+  "lint-staged": {
+    "**/*.{ex,exs}": "mix format"
   }
 }

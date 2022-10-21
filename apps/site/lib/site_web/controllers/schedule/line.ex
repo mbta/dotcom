@@ -36,29 +36,6 @@ defmodule SiteWeb.ScheduleController.Line do
     Util.log_duration(__MODULE__, :do_call, [conn, opts])
   end
 
-  @spec replace_map_key(map, String.t(), String.t()) :: map
-  defp replace_map_key(input, from, to) do
-    if Map.has_key?(input, from) do
-      input
-      |> Map.put(to, Map.get(input, from))
-      |> Map.delete(from)
-    else
-      input
-    end
-  end
-
-  @spec get_updated_format_for_url_params(map) :: map
-  def get_updated_format_for_url_params(query_params) do
-    new_params =
-      query_params
-      |> replace_map_key("direction_id", "schedule_direction[direction_id]")
-      |> replace_map_key("origin", "schedule_direction[origin]")
-      |> replace_map_key("destination", "schedule_direction[destination]")
-      |> replace_map_key("variant", "schedule_direction[variant]")
-
-    new_params
-  end
-
   def do_call(
         %Conn{
           assigns: %{
@@ -103,6 +80,29 @@ defmodule SiteWeb.ScheduleController.Line do
     end
   end
 
+  @spec get_updated_format_for_url_params(map) :: map
+  defp get_updated_format_for_url_params(query_params) do
+    new_params =
+      query_params
+      |> replace_map_key("direction_id", "schedule_direction[direction_id]")
+      |> replace_map_key("origin", "schedule_direction[origin]")
+      |> replace_map_key("destination", "schedule_direction[destination]")
+      |> replace_map_key("variant", "schedule_direction[variant]")
+
+    new_params
+  end
+
+  @spec replace_map_key(map, String.t(), String.t()) :: map
+  defp replace_map_key(input, from, to) do
+    if Map.has_key?(input, from) do
+      input
+      |> Map.put(to, Map.get(input, from))
+      |> Map.delete(from)
+    else
+      input
+    end
+  end
+
   @spec update_conn(Conn.t(), Route.t(), direction_id, Dependencies.t()) :: Conn.t()
   defp update_conn(conn, route, direction_id, deps) do
     schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
@@ -136,6 +136,11 @@ defmodule SiteWeb.ScheduleController.Line do
 
     diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
 
+    stop_tree =
+      static_branches
+      |> Enum.map(&Enum.map(&1.stops, fn route_stop -> {route_stop.id, route_stop} end))
+      |> UnrootedPolytree.from_lists()
+
     conn
     |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
@@ -143,6 +148,7 @@ defmodule SiteWeb.ScheduleController.Line do
       :all_stops,
       DiagramHelpers.build_stop_list(static_branches, diagram_direction)
     )
+    |> assign(:stop_tree, stop_tree)
     |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)

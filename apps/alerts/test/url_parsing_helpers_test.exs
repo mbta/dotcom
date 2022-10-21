@@ -1,6 +1,6 @@
-defmodule SiteWeb.Views.Helpers.URLParsingHelpersTest do
+defmodule Alerts.URLParsingHelpersTest do
   use SiteWeb.ConnCase, async: true
-  import SiteWeb.Views.Helpers.URLParsingHelpers
+  import Alerts.URLParsingHelpers
 
   describe "get_full_url/1" do
     test "should return the url parsed from the text" do

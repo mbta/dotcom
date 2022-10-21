@@ -276,3 +276,50 @@ defimpl Phoenix.Param, for: Routes.Route do
   def to_param(%Route{id: "Green" <> _rest}), do: "Green"
   def to_param(%Route{id: id}), do: id
 end
+
+defimpl Poison.Encoder, for: Routes.Route do
+  def encode(
+        %Routes.Route{
+          id: id,
+          type: type,
+          name: name,
+          long_name: long_name,
+          color: color,
+          sort_order: sort_order,
+          direction_names: direction_names,
+          direction_destinations: direction_destinations,
+          description: description,
+          custom_route?: custom_route?
+        },
+        options
+      ) do
+    direction_names = %{
+      "0" => direction_names[0],
+      "1" => direction_names[1]
+    }
+
+    direction_destinations_value =
+      if direction_destinations == :unknown,
+        do: nil,
+        else: %{
+          "0" => direction_destinations[0],
+          "1" => direction_destinations[1]
+        }
+
+    Poison.Encoder.encode(
+      %{
+        id: id,
+        type: type,
+        name: name,
+        long_name: long_name,
+        color: color,
+        sort_order: sort_order,
+        direction_names: direction_names,
+        direction_destinations: direction_destinations_value,
+        description: description,
+        custom_route?: custom_route?
+      },
+      options
+    )
+  end
+end

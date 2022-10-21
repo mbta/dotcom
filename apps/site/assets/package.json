@@ -98,12 +98,13 @@
     "focus-options-polyfill": "^1.1.1",
     "husky": "^8.0.1",
     "jest": "^27.0.1",
+    "lint-staged": "^13.0.3",
     "mini-css-extract-plugin": "^2.6.0",
     "mocha": "^9.2.2",
     "mocha-jsdom": "2.0.0",
     "postcss-loader": "^6.2.1",
     "postcss-preset-env": "^7.4.3",
-    "prettier": "^1.15.3",
+    "prettier": "1.19.1",
     "purgecss-webpack-plugin": "^4.1.3",
     "react-test-renderer": "^16.8.6",
     "regenerator-runtime": "^0.13.7",
@@ -136,7 +137,8 @@
     "eslint:js": "git diff --name-only --diff-filter=dx origin/master... | grep js/.*\\.js | awk -F/js '{print \"js\"$2}' | xargs eslint -c .eslintrc.js",
     "eslint:js:fix": "npm run eslint:js -- --fix",
     "eslint:ts": "cd ts && eslint -c .eslintrc.js --ext .ts,.tsx --max-warnings=0 .",
-    "stylelint": "stylelint css/**/*.scss --ignore-path .stylelintignore",
+    "eslint:ts:fix": "cd ts && eslint -c .eslintrc.js --ext .ts,.tsx --fix .",
+    "stylelint": "stylelint --ignore-path .stylelintignore",
     "prettier": "prettier --write \"{js,ts}/**/*.{js,ts,tsx}\"",
     "prettier:check": "npm run prettier -- --list-different",
     "prepare": "cd ../../.. && husky install .husky",
@@ -151,5 +153,11 @@
     "webpack:build": "webpack --config webpack.config.prod.js --env production",
     "webpack:build:react": "webpack --config webpack.config.react_app.js --env production",
     "webpack:analyze": "webpack --config webpack.config.prod.js --env production --profile --json > stats.json && webpack-bundle-analyzer stats.json ../priv/static/js/"
+  },
+  "lint-staged": {
+    "{js,ts}/**/*.{js,ts,tsx}": "npm run prettier",
+    "js/**/*.js": "npm run eslint:js:fix",
+    "ts/**/*.{ts,tsx}": "npm run eslint:ts:fix",
+    "css/**/*.scss": "npm run stylelint -- --fix"
   }
 }

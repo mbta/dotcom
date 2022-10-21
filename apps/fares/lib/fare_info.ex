@@ -200,7 +200,7 @@ defmodule Fares.FareInfo do
       charlie_card_price: "4.25",
       day_reduced_price: "2.10",
       week_reduced_price: "10.00",
-      month_reduced_price: "30.00",
+      month_reduced_price: "67.00",
       day_pass_price: "11.00",
       week_pass_price: "22.50",
       month_pass_price: "136.00"
@@ -214,6 +214,7 @@ defmodule Fares.FareInfo do
       east_boston_price: "2.40",
       commuter_ferry_price: "9.75",
       commuter_ferry_month_price: "329.00",
+      commuter_ferry_month_price_reduced: "164.00",
       commuter_ferry_logan_price: "9.75",
       day_pass_price: "11.00",
       week_pass_price: "22.50"
@@ -407,6 +408,7 @@ defmodule Fares.FareInfo do
         charlie_card_price: charlie_card_price,
         day_reduced_price: day_reduced_price,
         week_reduced_price: week_reduced_price,
+        month_reduced_price: month_reduced_price,
         month_pass_price: month_pass_price
       })
       when mode in [:local_bus, :express_bus] do
@@ -451,7 +453,16 @@ defmodule Fares.FareInfo do
         | fares
       ]
     else
-      fares
+      [
+        %{
+          base
+          | duration: :month,
+            media: [:senior_card, :student_card],
+            reduced: :any,
+            cents: dollars_to_cents(month_reduced_price)
+        }
+        | fares
+      ]
     end
   end
 
@@ -463,6 +474,7 @@ defmodule Fares.FareInfo do
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
         commuter_ferry_price: commuter_ferry_price,
+        commuter_ferry_month_price_reduced: commuter_ferry_month_price_reduced,
         commuter_ferry_month_price: commuter_ferry_month_price,
         commuter_ferry_logan_price: commuter_ferry_logan_price
       }) do
@@ -589,6 +601,15 @@ defmodule Fares.FareInfo do
         media: [:mticket],
         reduced: nil,
         cents: dollars_to_cents(commuter_ferry_month_price) - 1000
+      },
+      %Fare{
+        mode: :ferry,
+        name: :commuter_ferry,
+        duration: :month,
+        media: [:senior_card, :student_card],
+        reduced: :any,
+        cents: dollars_to_cents(commuter_ferry_month_price_reduced),
+        additional_valid_modes: [:subway, :bus, :commuter_rail]
       }
     ]
 

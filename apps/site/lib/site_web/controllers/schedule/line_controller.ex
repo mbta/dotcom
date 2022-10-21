@@ -69,6 +69,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
+        stop_tree: conn.assigns.stop_tree,
         line_diagram:
           update_route_stop_data(
             conn.assigns.all_stops,
@@ -106,9 +107,14 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp service_completely_overlapped?(service, services) do
     Enum.any?(services, fn other_service ->
+      # There's an other service that
+      # - starts earlier/same time as this service
+      # - and ends later/same time as this service
+      # - and covers the same valid_days as this service
       other_service != service &&
         Date.compare(other_service.start_date, service.start_date) != :gt &&
-        Date.compare(other_service.end_date, service.end_date) != :lt
+        Date.compare(other_service.end_date, service.end_date) != :lt &&
+        Enum.all?(service.valid_days, &Enum.member?(other_service.valid_days, &1))
     end)
   end
 

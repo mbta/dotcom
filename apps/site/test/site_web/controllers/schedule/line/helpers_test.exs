@@ -623,6 +623,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true]
     end
 
+    @tag skip: "FIXME: Replace with mocked response data"
     test "stitches together connecting patterns due to a shuttle on a branching CR line" do
       newburyport_route = %Route{id: "CR-Newburyport"}
 

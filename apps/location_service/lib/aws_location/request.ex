@@ -9,14 +9,14 @@ defmodule AWSLocation.Request do
   }
 
   @spec new(String.t() | [float] | nil) :: ExAws.Operation.RestQuery.t()
-  @doc "Searches for text"
+  # "Searches for text"
   def new(text) when is_binary(text) do
     @base_request_body
     |> Map.put_new(:Text, text)
     |> request()
   end
 
-  @doc "Searches for a position"
+  # "Searches for a position"
   def new([lat, lon]) when is_number(lon) and is_number(lat) do
     @base_request_body
     |> Map.put_new(:Position, [lon, lat])

@@ -225,7 +225,7 @@ defmodule Alerts.Parser do
             } = attributes
         })
         when title != nil and url == nil do
-      parsed_url = SiteWeb.Views.Helpers.URLParsingHelpers.get_full_url(title)
+      parsed_url = Alerts.URLParsingHelpers.get_full_url(title)
 
       [
         %Banner{

@@ -17,7 +17,7 @@ runs:
       path: |
         apps/site/priv/static
         apps/site/react_renderer/dist/app.js
-      key: ci-all-assets-cache-${{ hashFiles('apps/site/assets/**.js', 'apps/site/assets/**.ts', 'apps/site/assets/**.tsx', 'apps/site/assets/**.scss', 'apps/site/assets/static/**', 'apps/site/static/**') }}
+      key: ci-all-assets-cache-${{ hashFiles('apps/site/assets/**', 'apps/site/static/**') }}
     id: assets-cache
  
   - name: Compile front end assets (if needed)
@@ -28,8 +28,8 @@ runs:
   - name: Cache _build
     uses: actions/cache@v3
     with:
-      path: _build/${{env.MIX_ENV}}/
-      key: ci-build-cache-${{env.MIX_ENV}}-${{ hashFiles('**/lib/**.ex', '**/mix.lock') }}"
+      path: _build
+      key: ci-build-cache-${{ hashFiles('**/lib/**.ex', '**.exs', '**/mix.lock') }}"
     id: build-cache
   
   - name: Compile application (if needed)

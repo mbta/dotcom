@@ -78,7 +78,12 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
   const showPrediction = hasLivePredictions && !isDestination;
   const showDiversion =
     diversionAlert && !(hasLivePredictions && isDestination);
-
+  const schedulesLinkText = (): string => {
+    if (routeStop.route?.type === 1 || routeStop.route?.type === 0) {
+      return "View upcoming departures";
+    }
+    return "View schedule";
+  };
   return (
     <li
       className="m-schedule-diagram__stop"
@@ -122,16 +127,19 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
             )
           )}
         </div>
-
-        <footer className="m-schedule-diagram__footer">
-          <button
-            className="btn btn-link"
-            type="button"
-            onClick={() => onClick(routeStop)}
-          >
-            View schedule
-          </button>
-        </footer>
+        {(!liveData?.headsigns.length &&
+          (routeStop.route?.type === 1 || routeStop.route?.type === 0)) ||
+        (routeStop["is_terminus?"] && !routeStop["is_beginning?"]) ? null : (
+          <footer className="m-schedule-diagram__footer">
+            <button
+              className="btn btn-link"
+              type="button"
+              onClick={() => onClick(routeStop)}
+            >
+              {schedulesLinkText()}
+            </button>
+          </footer>
+        )}
       </section>
     </li>
   );
