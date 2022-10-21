@@ -86,7 +86,7 @@ export const StopCard = ({
         </a>
         <div className="m-tnm-sidebar__stop-distance">{distance}</div>
       </div>
-      {alertsByStop(route.alerts.filter(isDiversion), stop.id)
+      {alertsByStop(route.alerts?.filter(isDiversion) || [], stop.id)
         .filter(uniqueByEffect)
         .map(alert => (
           <div key={alert.id} className="m-tnm-sidebar__route-alert-effect">
