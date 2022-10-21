@@ -137,7 +137,7 @@ $padding: 1rem;
 
   nav li {
     @include media-breakpoint-down(sm) {
-      padding: $padding * 0.5 $padding;
+      padding: $padding * .5 $padding;
       text-align: center;
     }
 
@@ -259,5 +259,5 @@ $padding: 1rem;
 .icon-inverse,
 .icon-boring {
   background: $gray-dark;
-  padding: $padding * 0.5;
+  padding: $padding * .5;
 }

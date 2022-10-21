@@ -1,13 +1,13 @@
 .c-recently-visited {
   .c-grid-button {
+
+    @include media-breakpoint-down(md) {
+    }
     flex-basis: 25%;
     margin-right: 16px;
 
     :nth-last-of-type() {
       margin-right: 0;
-    }
-
-    @include media-breakpoint-down(md) {
     }
 
     @include media-breakpoint-down(sm) {

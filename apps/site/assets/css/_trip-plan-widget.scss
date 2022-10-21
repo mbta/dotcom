@@ -34,11 +34,10 @@
 
 .c-trip-plan-widget__inputs {
   display: grid;
-  grid-template:
-    "a a" auto
-    "b b" auto
-    "c x" auto
-    "d d" auto / 1fr auto;
+  grid-template: 'a a' auto
+    'b b' auto
+    'c x' auto
+    'd d' auto / 1fr auto;
 
   #trip-plan__label--from { grid-area: a; }
   #trip-plan__search--from { grid-area: b; }
@@ -94,9 +93,8 @@
   .c-trip-plan-widget__inputs {
     // use non-mobile layout at this breakpoint
     @include media-breakpoint-up(sm) {
-      grid-template:
-        "a . c" auto
-        "b x d" auto / 1fr auto 1fr;
+      grid-template: 'a . c' auto
+        'b x d' auto / 1fr auto 1fr;
     }
   }
 
@@ -108,7 +106,7 @@
       transform: rotate(90deg);
     }
   }
-  
+
   .c-trip-plan-widget__submit {
     @include media-breakpoint-only(xs) {
       width: 100%;

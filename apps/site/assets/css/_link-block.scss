@@ -34,11 +34,11 @@
   }
 
   &__view-schedule {
+    border-bottom: .063rem solid;
+    bottom: .125rem;
     font-size: 1rem;
-    position: relative;
-    bottom: 0.125rem;
     font-weight: 500;
-    margin-left: 0.75rem;
-    border-bottom: 0.063rem solid;
+    margin-left: .75rem;
+    position: relative;
   }
 }

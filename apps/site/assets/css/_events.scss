@@ -41,7 +41,7 @@ $mobile-control-height: 73px;
     margin: 0;
   }
 
- .c-expandable-block__link {
+  .c-expandable-block__link {
     background-color: $white;
     padding: $base-spacing calc(#{$base-spacing} / 2);
 
@@ -133,8 +133,8 @@ $mobile-control-height: 73px;
   display: none;
   height: $mobile-control-height;
   padding: $base-spacing;
-  transition: top .2s ease-in-out;
   position: sticky;
+  transition: top .2s ease-in-out;
   z-index: 14; // one-up value so the mobile nav shows on top
 
   .m-event-list__select {
@@ -165,16 +165,16 @@ $mobile-control-height: 73px;
 .m-event-list__select {
   border-radius: 4px;
   border-width: 1px;
-  padding: .5 * $base-spacing 2 * $base-spacing .5 * $base-spacing $base-spacing;
   display: none;
+  padding: .5 * $base-spacing 2 * $base-spacing .5 * $base-spacing $base-spacing;
   body.js & {
     display: block;
   }
 }
 
 .list-group-flush:first-child .list-group-item:first-child {
-  border-top: unset;
   border: solid $gray-lightest;
+  border-top: unset;
   border-width: 1px 0;
 }
 
@@ -189,57 +189,61 @@ $mobile-control-height: 73px;
 .m-event {
   padding: 16px;
   @include media-breakpoint-down(xs) {
-    padding: 13px 24px 17px 24px;
+    padding: 13px 24px 17px;
   }
 }
 
 .m-event__date-circle {
-  display: flex;
-  flex-direction: column;
-  height: 64px;
-  width: 64px;
+  align-items: center;
   background-color: $gray-bordered-background;
   border-radius: 32px;
-  justify-content: center;
-  align-items: center;
-  margin-right: 24px;
   color: $gray;
+  display: flex;
+  flex-direction: column;
   font-family: $headings-font-family;
+  height: 64px;
+  justify-content: center;
+  margin-right: 24px;
   text-transform: uppercase;
+  width: 64px;
   @include media-breakpoint-down(xs) {
     display: none;
   }
 }
+
 .m-event__month {
   font-size: 14px;
   line-height: 17px;
 }
+
 .m-event__day {
   font-size: 23.62px;
   line-height: 28px;
   margin: 0;
 }
+
 .m-event__date-range {
   font-size: 14px;
-  line-height: 22.95px;
-  text-transform: uppercase;
   font-weight: 500;
-  padding-top: 4px;
+  line-height: 22.95px;
   padding-bottom: 4px;
+  padding-top: 4px;
+  text-transform: uppercase;
   @include media-breakpoint-down(xs) {
     font-size: 12px;
-    padding-top: 0;
     padding-bottom: 9px;
+    padding-top: 0;
   }
   &.gray {
     color: $gray;
   }
 }
+
 .m-event__title {
   font-size: 18px;
+  font-weight: 500;
   line-height: 24px;
   padding-bottom: 9px;
-  font-weight: 500;
   @include media-breakpoint-down(xs) {
     font-size: 14px;
     line-height: 21px;
@@ -272,12 +276,12 @@ $mobile-control-height: 73px;
   .m-event__add-button {
     align-items: center;
     display: flex;
-    font-weight: 500;
     font-size: 21px;
+    font-weight: 500;
 
     &:disabled {
-      color: $gray-light;
       border-color: $gray-light;
+      color: $gray-light;
       &:hover {
         background-color: $gray-lightest;
       }
@@ -288,8 +292,8 @@ $mobile-control-height: 73px;
     }
 
     .m-event__add-text {
-      padding-left: 8px;
       font-size: 18px;
+      padding-left: 8px;
       @include media-breakpoint-down(xs) {
         display: none;
       }
@@ -298,10 +302,10 @@ $mobile-control-height: 73px;
 }
 
 .m-event__ended-message {
-  width: 96px;
   color: $gray;
-  font-weight: 500;
   font-size: 18px;
+  font-weight: 500;
+  width: 96px;
 }
 
 .m-event-calendar {
@@ -330,24 +334,24 @@ $mobile-control-height: 73px;
   }
 
   &__event {
-    display: flex;
-    width: 100%;
-    font-size: 12px;
     align-items: center;
-    color: $gray-dark;
     background-color: $white;
     border: 0;
+    color: $gray-dark;
+    display: flex;
+    font-size: 12px;
     padding: 0;
+    width: 100%;
 
     // hide when JS is disabled
     .no-js &[data-a11y-dialog-show] {
-        display: none;
+      display: none;
     }
 
     .fa-circle {
+      color: $brand-primary;
       font-size: xx-small;
       padding-right: 8px;
-      color: $brand-primary;
       &.ended {
         color: $gray;
       }
@@ -358,11 +362,12 @@ $mobile-control-height: 73px;
     }
     &-title {
       font-weight: 700;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         color: $brand-primary;
         text-decoration: none;
       }

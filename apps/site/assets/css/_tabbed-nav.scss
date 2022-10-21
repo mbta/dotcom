@@ -28,12 +28,12 @@
       height: 80px;
       padding: 0 2.5em;
     }
-  
+
     @include media-breakpoint-down(sm) {
       height: 64px;
       padding: 0 2em;
     }
-  
+
     @include media-breakpoint-down(xs) {
       height: 48px;
       justify-content: center;
@@ -45,9 +45,9 @@
     display: flex;
 
     @include hover-focus-active {
+      background-color: $brand-primary-darkest;
       color: $white;
       text-decoration: none;
-      background-color: $brand-primary-darkest;
 
       .m-tabbed-nav__item {
         border-bottom: 8px solid $brand-primary-darkest;
@@ -66,11 +66,11 @@
     @include media-breakpoint-down(md) {
       height: 80px;
     }
-  
+
     @include media-breakpoint-down(sm) {
       height: 64px;
     }
-  
+
     @include media-breakpoint-down(xs) {
       height: 48px;
     }
@@ -78,12 +78,12 @@
 
   .m-tabbed-nav__item {
     align-items: center;
+    border-bottom: 8px solid $brand-primary;
     cursor: pointer;
     display: flex;
     font-weight: $font-weight-medium;
     justify-content: center;
     padding: $space-12 $space-24 calc(#{$space-12} - 8px) $space-24;
-    border-bottom: 8px solid $brand-primary;
 
     @include media-breakpoint-down(sm) {
       border-bottom: 4px solid $brand-primary;
@@ -94,7 +94,7 @@
       @include icon-size-inline(2em);
       flex: 0 0 auto;
       margin-right: $base-spacing;
-  
+
       @include media-breakpoint-down(md) {
         display: none;
       }
@@ -109,15 +109,15 @@
       @include media-breakpoint-up(sm) {
         font-family: $headings-font-family;
       }
-  
+
       @include media-breakpoint-down(md) {
         font-size: $font-size-base-sm * 2;
       }
-    
+
       @include media-breakpoint-down(sm) {
         font-size: $font-size-base-sm * 1.625;
       }
-    
+
       @include media-breakpoint-down(xs) {
         font-size: $font-size-base-sm;
         font-weight: $font-weight-medium;
@@ -142,8 +142,10 @@
       }
     }
 
-    &:focus, &:hover, &:active {
-        text-decoration: none;
+    &:focus,
+    &:hover,
+    &:active {
+      text-decoration: none;
     }
   }
 
@@ -157,7 +159,7 @@
 
   .m-tabbed-nav__content {
     background-color: $gray-bordered-background;
-    padding: 2.5em 4em 2.5em;
+    padding: 2.5em 4em;
 
     @include media-breakpoint-only(md) {
       padding: 2em 2.5em 2.5em;

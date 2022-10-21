@@ -292,10 +292,10 @@ a {
   border: solid $border-width $brand-commuter-rail;
   border-radius: $space-4;
   color: $brand-commuter-rail;
+  display: inline-block;
   padding-left: calc(#{$base-spacing} / 4);
   padding-right: calc(#{$base-spacing} / 4);
   white-space: nowrap;
-  display: inline-block;
 }
 
 .c-icon__bus-pill {
@@ -323,8 +323,8 @@ a {
   fill: $gray-lighter;
   height: $base-spacing;
   line-height: $base-spacing;
-  width: $base-spacing;
   margin-left: .5rem;
+  width: $base-spacing;
 
   &.c-icon__crowding--commuter-rail {
     margin-left: 0;

@@ -89,7 +89,7 @@ nav.m-menu--desktop {
   }
 
   .footer-globe {
-      display: none;
+    display: none;
   }
 }
 
@@ -102,11 +102,11 @@ nav.m-menu--desktop {
   font-weight: bold;
   margin-right: calc(#{$base-spacing} / 2);
 
-  
+
   // place for up/down arrows
   .c-indicator--angle {
-    margin-left: $base-spacing__new;
     @include fa-icon-solid($fa-var-caret-down);
+    margin-left: $base-spacing__new;
     @include media-breakpoint-only(xxl) {
       margin-left: $space-2_new;
     }
@@ -120,8 +120,8 @@ nav.m-menu--desktop {
     border-color: $white;
     color: $brand-primary-dark;
     outline: none;
-    
-    .c-indicator--angle {  
+
+    .c-indicator--angle {
       @include fa-icon-solid($fa-var-caret-up);
     }
   }
@@ -140,7 +140,7 @@ nav.m-menu--desktop {
   z-index: 102;
 
   // opened
-  .m-menu--desktop__toggle[aria-expanded="true"] + & {
+  .m-menu--desktop__toggle[aria-expanded='true'] + & {
     height: initial;
   }
 }
@@ -309,8 +309,8 @@ nav.m-menu--desktop {
   &.emergency-contacts {
     &.mobile {
       border-radius: 0;
-      margin-top: 0px;
       margin-bottom: 2px;
+      margin-top: 0;
 
       @include media-breakpoint-up(lg) {
         display: none;
@@ -320,7 +320,7 @@ nav.m-menu--desktop {
 
   &.bottom-section {
     border-radius: 0 0 $space-2_new;
-    margin-top: 0px;
+    margin-top: 0;
 
     @include media-breakpoint-up(sm) {
       border-radius: 0 0 $space-2_new $space-2_new;

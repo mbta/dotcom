@@ -1,25 +1,25 @@
 .m-stop-page__header {
   background: $gray-bordered-background;
   border-bottom: 0;
-  height: $base-spacing * 14;
   display: grid;
-
-  @include media-breakpoint-down(sm) {
-    height: $base-spacing * 11;
-  }
+  height: $base-spacing * 14;
 
   // required to prevent h2 margin-top from creating space between
   // header and breadcrumbs
   // https://stackoverflow.com/questions/13573653
   overflow: auto;
+
+  @include media-breakpoint-down(sm) {
+    height: $base-spacing * 11;
+  }
 }
 
 .m-stop-page__header-container {
   @include make-container-max-widths();
-  width: 100%;
+  align-self: end;
   margin-left: auto;
   margin-right: auto;
-  align-self: end;
+  width: 100%;
 
   @include media-breakpoint-down(sm) {
     padding-left: calc(#{$grid-gutter-width} / 2);
@@ -27,8 +27,8 @@
   }
 
   .m-stop-page__name {
-    margin-top: $base-spacing-sm;
     margin-bottom: calc(#{$base-spacing} / 2);
+    margin-top: $base-spacing-sm;
   }
 }
 

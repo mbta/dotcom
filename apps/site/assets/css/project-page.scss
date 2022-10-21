@@ -141,7 +141,7 @@
   .m-featured-project__title {
     font-family: $font-family-base;
     font-size: $font-size-h3;
-    margin: ($base-spacing * 0.5) 0 0;
+    margin: ($base-spacing * .5) 0 0;
   }
 
   &:first-child {
@@ -327,21 +327,21 @@
 }
 
 .m-more-projects-table__status-icon--contract-awarded {
-  color: $brand-primary;
 
   @include fa-icon-solid($fa-var-plus-circle);
+  color: $brand-primary;
 }
 
 .m-more-projects-table__status-icon--in-progress {
-  color: $brand-primary-light;
 
   @include fa-icon-solid($fa-var-circle);
+  color: $brand-primary-light;
 }
 
 .m-more-projects-table__status-icon--complete {
-  color: $brand-success;
 
   @include fa-icon-solid($fa-var-check-circle);
+  color: $brand-success;
 }
 
 .filter-and-search {

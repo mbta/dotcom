@@ -8,8 +8,8 @@
   border-radius: $border-radius;
   box-shadow: $drop-shadow;
   position: absolute;
-  z-index: 2000;
   width: 280px;
+  z-index: 2000;
 
   &.open-left {
     right: 306px;
@@ -34,11 +34,11 @@
     [data-a11y-dialog-hide] {
       background-color: transparent;
       border: 0;
-      margin-left: 10px;
       font-size: 26px;
+      font-weight: bold;
       height: 18px;
       line-height: 18px;
-      font-weight: bold;
+      margin-left: 10px;
       padding: 0;
     }
 
@@ -54,8 +54,8 @@
         padding: 0;
       }
       .m-event__bold-date {
-        text-transform: uppercase;
         font-weight: bold;
+        text-transform: uppercase;
       }
     }
   }

@@ -178,7 +178,7 @@
 
     label {
       flex: unset;
-      flex-basis: calc(50% - #{$base-spacing * 0.25});
+      flex-basis: calc(50% - #{$base-spacing * .25});
     }
 
     @include media-breakpoint-down(sm) {
@@ -197,8 +197,8 @@
   padding-bottom: 24px;
 
   .schedule-finder__heading {
-    margin-top: 6px;
     margin-bottom: 8px;
+    margin-top: 6px;
     .c-svg__icon {
       display: none;
     }
@@ -219,7 +219,7 @@
 @include media-breakpoint-down(sm) {
   .m-schedule-line__main-content.ferry {
     border-bottom: 2px solid $gray-bordered-background;
-    margin: 0 0 1rem 0;
+    margin: 0 0 1rem;
   }
 }
 
@@ -229,15 +229,15 @@
   }
 
   .schedule-finder-vertical {
-    padding: 0 1rem 1.75rem 1rem;
+    padding: 0 1rem 1.75rem;
   }
 
   .schedule-map-container {
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 1rem 1rem;
   }
 
   .m-schedule-line__main-content {
-    margin: 0 1rem 1rem 1rem;
+    margin: 0 1rem 1rem;
   }
 
   .schedule-finder__inputs {
@@ -250,8 +250,8 @@
   .schedule-finder__submit {
     margin-top: 0;
     .btn {
-      width: 100%;
       margin-top: 3px;
+      width: 100%;
     }
   }
 }
@@ -342,9 +342,9 @@
 
 .schedule-finder__label {
   display: block;
+  flex: 1 1;
   font-weight: bold;
   margin: $base-spacing 0 0;
-  flex: 1 1;
 
   * {
     font-weight: normal;

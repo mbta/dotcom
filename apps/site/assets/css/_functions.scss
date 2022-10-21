@@ -3,7 +3,7 @@
 /// @access public
 /// @param {Number} $number - number (with em, px, rem, etc)
 /// @return {*} - Desired value (number w/o units attached)
-@use "sass:math";
+@use 'sass:math';
 
 @function strip-units($number) {
   @return math.div($number, $number * 0 + 1);

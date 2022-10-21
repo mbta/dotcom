@@ -5,20 +5,20 @@
   top: 0;
 }
 
-@import "functions";
-@import "variables";
-@import "mixins";
-@import "node_modules/bootstrap/scss/variables";
-@import "node_modules/bootstrap/scss/mixins";
+@import 'functions';
+@import 'variables';
+@import 'mixins';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
 @import 'vendor/fontawesome';
-@import "typography";
-@import "layout";
-@import "icons";
-@import "buttons";
-@import "modal-component";
-@import "accordion-ui"; // involved in mobile nav styles
-@import "header"; // some nav styles still here
-@import "global-navigation"; // other nav styles
+@import 'typography';
+@import 'layout';
+@import 'icons';
+@import 'buttons';
+@import 'modal-component';
+@import 'accordion-ui'; // involved in mobile nav styles
+@import 'header'; // some nav styles still here
+@import 'global-navigation'; // other nav styles
 
 // we overwrite .no-js with .js class on mbta.com
 // but outside mbta.com we can just hide

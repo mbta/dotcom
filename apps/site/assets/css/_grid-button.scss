@@ -10,29 +10,29 @@
 }
 
 .c-home-grid-section {
+
+  align-items: center;
+
+  border-bottom: 2px solid $gray-lightest;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 1rem 0;
-
-  align-items: center;
-
-  padding-bottom: 1rem;
   margin-top: 2rem;
 
-  border-bottom: 2px solid $gray-lightest;
+  padding-bottom: 1rem;
   @include media-breakpoint-down(xs) {
     border-bottom: none;
-    padding: 0 16px 0 16px;
+    padding: 0 16px;
   }
 }
 
 .grid-first-section {
   @include media-breakpoint-down(xs) {
-    margin: 24px 0 24px 0;
+    margin: 24px 0;
   }
   @include  media-breakpoint-up(xs) {
-    margin: 40px 0 40px 0;
+    margin: 40px 0;
   }
 }
 
@@ -50,7 +50,7 @@
   flex-direction: row;
   flex-grow: 1;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  gap: .5rem 1rem;
 
   @include media-breakpoint-up(xxl) {
     max-width: 500px;
@@ -58,12 +58,12 @@
 }
 
 .c-home-grid-button {
-  font-weight: $font-weight-medium;
-  display: inline-block;
   color: black;
+  display: inline-block;
   flex: 1 0 0;
-  min-width: max-content;
+  font-weight: $font-weight-medium;
   height: 42px;
+  min-width: max-content;
 
   &:hover {
     text-decoration: none;

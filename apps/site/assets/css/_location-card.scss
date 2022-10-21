@@ -12,34 +12,35 @@
     padding: 7px;
   }
   .feedback-section {
-    margin-top: $base-spacing * 5;
     margin-bottom: $base-spacing * 2;
+    margin-top: $base-spacing * 5;
   }
   .psl-types-buttons {
     display: flex;
     flex-wrap: wrap;
   }
   .psl-type-button {
+    align-items: center;
+    background: $white;
+    border: $border-width * 2 solid $gray-lightest;
+    border-radius: $border-radius;
+    color: $brand-primary;
+
+    display: flex;
+    font-weight: 500;
     height: 40px;
+    margin: $base-spacing * .5 $base-spacing * .5 0 0;
+    padding: 0 $base-spacing * .75;
+    white-space: nowrap;
     @include media-breakpoint-down(sm) {
       height: 32px;
     }
 
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    border: $border-width * 2 solid $gray-lightest;
-    border-radius: $border-radius;
-    color: $brand-primary;
-    padding: 0 $base-spacing * .75;
-    margin: $base-spacing * .5 $base-spacing * .5 0 0;
-    white-space: nowrap;
-    background: $white;
-
-    &:hover, &:focus {
-      text-decoration: none;
+    &:hover,
+    &:focus {
       background: $brand-primary-lightest-contrast;
       border-color: $brand-primary-lightest-contrast;
+      text-decoration: none;
     }
 
     &.selected {
@@ -56,13 +57,13 @@
 
 .c-sales-locations__cards {
   display: flex;
-  flex-flow: row wrap;
   // IE above, other browsers below
   display: grid;
+  flex-flow: row wrap;
   grid-gap: calc(#{$grid-gutter-width} / 2);
   grid-template-columns: repeat(auto-fill, [col-start] minmax(240px, 1fr) [col-end]);
   margin-bottom: $base-spacing;
-  margin-top: $base-spacing * 2
+  margin-top: $base-spacing * 2;
 }
 
 .c-sales-locations__card {
@@ -98,13 +99,13 @@
 
   &-distance {
     font-size: $font-size-base-sm;
+    margin-left: $base-spacing;
+    margin-top: .5em;
     text-align: right;
     white-space: nowrap;
-    margin-left: $base-spacing;
-    margin-top: 0.5em;
 
     @include media-breakpoint-down(xs) {
-      margin-top: 0.25em;
+      margin-top: .25em;
     }
   }
 
@@ -131,7 +132,7 @@
       margin-top: $font-size-base-xs;
     }
 
-    [data-toggle="dropdown"] {
+    [data-toggle='dropdown'] {
       display: flex;
       text-decoration: none;
       &:hover {
@@ -153,7 +154,7 @@
 
 .m-sales-locations__caret {
   @include caret($color: $brand-primary);
-  margin-left: .3rem;
 
   @include fa-icon-solid($fa-var-angle-down);
+  margin-left: .3rem;
 }
