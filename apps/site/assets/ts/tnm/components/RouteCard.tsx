@@ -44,7 +44,7 @@ const RouteCard = ({
     return null;
   }
 
-  const hasAlert = route.route.alerts && route.route.alerts.length > 0;
+  const hasAlert = route.route.alerts?.length > 0;
 
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
