@@ -90,7 +90,7 @@ describe("RapidTransitHoursOfOperation", () => {
             }
           ]
         ],
-        sunday: []
+        sunday: [[], []]
       };
     });
 

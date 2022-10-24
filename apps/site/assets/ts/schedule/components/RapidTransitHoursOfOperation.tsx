@@ -1,11 +1,10 @@
 import { parseISO } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
-import { map, uniqueId, sortBy, filter } from "lodash";
+import { map, uniqueId, sortBy, filter, concat } from "lodash";
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
-import useUrlSearchParams from "../../hooks/useUrlSearchParams";
 import { EnhancedRoute, StopHours } from "../../__v3api";
 import pdfLink from "../helpers/hoursOfOperationHelpers";
 import { SchedulePDF } from "./__schedule";
@@ -18,11 +17,11 @@ const parseOutTime = (dateTimeString: string): string => {
 };
 
 const getSchedule = (
-  dataArray: StopHours[][] | StopHours[],
-  currentDirection: number
+  dataArray: StopHours[][] | StopHours[]
 ): ReactElement<HTMLElement>[] | ReactElement<HTMLElement> => {
+  const bothDirectionData = concat(dataArray[0], dataArray[1]);
   const filteredData = filter(
-    dataArray[currentDirection],
+    bothDirectionData,
     (stopData: StopHours) => stopData.is_terminus
   );
   const sortedData = sortBy(
@@ -60,12 +59,6 @@ const RapidTransitHoursOfOperation = ({
   pdfs: SchedulePDF[];
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id);
-  const urlParams = useUrlSearchParams();
-
-  const currentDirectionParam = urlParams?.get(SCHEDULE_PARAM);
-  const currentDirection = currentDirectionParam
-    ? Number(currentDirectionParam)
-    : 0;
 
   return (
     <>
@@ -76,7 +69,7 @@ const RapidTransitHoursOfOperation = ({
       >
         <div className="m-schedule-page__sidebar-hours">
           {regularScheduleHTML()}
-          {hours && getSchedule(hours.week, currentDirection)}
+          {hours && getSchedule(hours.week)}
           {trainsEveryHTML("8-15")}
           <div className="font-weight-bold fs-14 pb-8 pt-24">
             Rush hour schedule
@@ -94,7 +87,7 @@ const RapidTransitHoursOfOperation = ({
         <div className="m-schedule-page__sidebar-hours">
           <div className="font-weight-bold fs-18 pb-14">Saturday</div>
           {regularScheduleHTML()}
-          {hours && getSchedule(hours.saturday, currentDirection)}
+          {hours && getSchedule(hours.saturday)}
           {trainsEveryHTML("8-15")}
           <hr
             style={{
@@ -106,7 +99,7 @@ const RapidTransitHoursOfOperation = ({
           />
           <div className="font-weight-bold fs-18 pt-18 pb-14">Sunday</div>
           {regularScheduleHTML()}
-          {hours && getSchedule(hours.sunday, currentDirection)}
+          {hours && getSchedule(hours.sunday)}
           {trainsEveryHTML("8-15")}
           {pdfLink(pdfs[0], route.name)}
         </div>

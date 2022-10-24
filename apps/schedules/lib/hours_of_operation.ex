@@ -222,9 +222,6 @@ defmodule Schedules.HoursOfOperation do
     }
   end
 
-  defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
-  defp time(%{"departure_time" => time}), do: time
-
   # Grabs the head sign data from the stops,
   # Letting us know the terminal stops for the trip
   defp get_terminal_stops(data) do
@@ -256,6 +253,9 @@ defmodule Schedules.HoursOfOperation do
     Enum.member?(headsigns, stop_name)
   end
 
+  defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
+  defp time(%{"departure_time" => time}), do: time
+
   defp departure(%JsonApi{data: data}, headsigns, description) do
     {:ok, departure(data, headsigns, description)}
   end
@@ -273,10 +273,20 @@ defmodule Schedules.HoursOfOperation do
   end
 
   # This one returns an array of hours
+  # The hours are departure times leaving the station
+  # This will not return terminal stations for the given direction
+  # Example: this will never return Wonderland for east bound blue line departures
+  # There are never any trains departing Wonderland headed east bound, they
+  # are departing heading west bound (the other direction and will be in the other directions data)
   defp departure(data, headsigns, :rapid_transit) do
+    only_departure_times =
+      Enum.filter(data, fn x ->
+        Map.get(x.attributes, "departure_time") != nil
+      end)
+
     # This data is already going only one direction so we don't need to worry about that
     times_by_stop =
-      Enum.group_by(data, fn x ->
+      Enum.group_by(only_departure_times, fn x ->
         stop_array = Map.get(x.relationships, "stop")
         # should be exactly one element
         List.first(stop_array).id
