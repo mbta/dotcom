@@ -9,7 +9,7 @@ Usage:
 
 Arguments:
     <infile>  The CSV file to use an input.
-    <outfile>  The location to write an output CSV file. If an existing file exists it will be overwritten.
+    <outfile>  The location to write an output CSV file. If there is an existing file, it will be overwritten.
 """
 
 import csv
