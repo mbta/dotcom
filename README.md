@@ -154,6 +154,8 @@ any given time, the site may not be compatible with the very latest API version 
     ```
     You won't see a `node_modules` folder at the root of this project -- this installs packages into `apps/site/assets`.
 
+    Minor note - you may see a prompt to upgrade `npm`. This isn't needed, and `"lockfileVersion": 1` in our `apps/site/assets/package-lock.json` file means it was generated with an `npm` version prior to 7.
+
 1.  Build the project:
     ```
     npm run build
