@@ -1,7 +1,7 @@
 <nav class="m-menu--mobile" id="navmenu" aria-label="Navigation Menu">
   <div class="m-menu__content" data-nav="mobile-content">
     <h1 class="m-menu__title heading-2">Main Menu</h1>
-    <%= for %{menu_section: menu_section, sub_menus: sub_menus} <- nav_link_content_redesign(@conn) do %>
+    <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content_redesign(@conn)) do %>
       <nav aria-labelledby="section-heading-<%= menu_section %>" class="m-menu__section">
         <h2 id="section-heading-<%= menu_section %>" class="m-menu__section-heading"><%= menu_section %></h2>
         <%= SiteWeb.PartialView.render("_accordion_ui_no_bootstrap.html",
@@ -9,11 +9,12 @@
               id: menu_section,
               multiselectable: false,
               sections:
-                for %{links: links} = sub_menu <- sub_menus do
+                for {%{links: links} = sub_menu, sub_index} <- Enum.with_index(sub_menus) do
                   %{
                     content: Enum.map(links, &render_nav_link/1),
                     title: sub_menu.sub_menu_section,
-                    prefix: String.replace(sub_menu.sub_menu_section, " ", "-")
+                    prefix: String.replace(sub_menu.sub_menu_section, " ", "-"),
+                    expanded?: index === 0 && sub_index === 0
                   }
                 end
             })

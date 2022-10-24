@@ -12,10 +12,10 @@ const addAccordionToggleObserver = (btn: Element): void =>
       if (newValue === oldValue) return;
       const wrapperEl = target.parentElement!;
       if (
-        wrapperEl.getAttribute("data-accordion-expanded") &&
+        wrapperEl.getAttribute("data-accordion-expanded") === "true" &&
         newValue === "false"
       ) {
-        wrapperEl.removeAttribute("data-accordion-expanded");
+        wrapperEl.setAttribute("data-accordion-expanded", "false");
       } else if (newValue === "true") {
         wrapperEl.setAttribute("data-accordion-expanded", "true");
       }

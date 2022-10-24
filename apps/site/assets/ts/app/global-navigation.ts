@@ -315,11 +315,6 @@ export function setup(rootElement: HTMLElement): void {
     .querySelector("[data-nav='veil']")
     ?.addEventListener("click", closeAllMenus);
 
-  const transitDiv = rootElement.querySelector("#Transit-accordion");
-  if (transitDiv) {
-    transitDiv.getElementsByTagName("button")[0].click();
-  }
-
   // Closes veil before navigating to search result
   document.addEventListener("autocomplete:selected", closeAllMenus);
 }

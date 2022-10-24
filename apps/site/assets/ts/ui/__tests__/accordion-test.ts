@@ -5,7 +5,7 @@ const body = `
 <div class="c-accordion-ui c-accordion-ui--no-bootstrap" role="presentation" data-accordion>
 ${[1, 2, 3].map(
   (_, i) => `
-  <h3 class="c-accordion-ui__heading">
+  <h3 class="c-accordion-ui__heading" data-accordion-expanded="false">
     <button class="c-accordion-ui__trigger c-accordion-ui__title"
       id="${i}-title"
       aria-expanded="false"
@@ -35,9 +35,9 @@ describe("accordion", () => {
   test("toggles aria-expanded on click", async () => {
     const btn = document.querySelector("button")!;
     expect(btn.getAttribute("aria-expanded")).toBe("false");
-    expect(
-      btn.parentElement!.getAttribute("data-accordion-expanded")
-    ).toBeFalsy();
+    expect(btn.parentElement!.getAttribute("data-accordion-expanded")).toBe(
+      "false"
+    );
 
     fireEvent.click(btn);
     await waitFor(() => {
@@ -50,9 +50,9 @@ describe("accordion", () => {
     fireEvent.click(btn);
     await waitFor(() => {
       expect(btn.getAttribute("aria-expanded")).toBe("false");
-      expect(
-        btn.parentElement!.getAttribute("data-accordion-expanded")
-      ).toBeFalsy();
+      expect(btn.parentElement!.getAttribute("data-accordion-expanded")).toBe(
+        "false"
+      );
     });
   });
 
