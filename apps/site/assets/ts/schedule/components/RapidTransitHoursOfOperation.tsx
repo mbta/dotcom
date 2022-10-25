@@ -1,20 +1,11 @@
-import { parseISO } from "date-fns";
-import { formatInTimeZone } from "date-fns-tz";
-
 import { map, uniqueId, sortBy, filter, concat } from "lodash";
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
+import { formatToBostonTime } from "../../helpers/date";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import { EnhancedRoute, StopHours } from "../../__v3api";
 import pdfLink from "../helpers/hoursOfOperationHelpers";
-import { SchedulePDF } from "./__schedule";
-
-const SCHEDULE_PARAM = "schedule_direction[direction_id]";
-
-const parseOutTime = (dateTimeString: string): string => {
-  const dateTime = parseISO(dateTimeString);
-  return formatInTimeZone(dateTime, "America/New_York", "h:mmaaa");
-};
+import { ScheduleNote, SchedulePDF } from "./__schedule";
 
 const getSchedule = (
   dataArray: StopHours[][] | StopHours[]
@@ -29,12 +20,12 @@ const getSchedule = (
     (stopData: StopHours) => stopData.stop_name
   );
   const mappedData = map(sortedData, (stopData: StopHours) => (
-    <div key={uniqueId()} className="fs-18">
+    <div key={uniqueId()} className="fs-18 font-helvetica-neue">
       <span className="pe-16">{stopData.stop_name}</span>
       <span className="font-weight-bold">
-        {`${parseOutTime(stopData.first_departure)} - ${parseOutTime(
-          stopData.last_departure
-        )}`}
+        {`${formatToBostonTime(
+          stopData.first_departure
+        )} - ${formatToBostonTime(stopData.last_departure)}`}
       </span>
     </div>
   ));
@@ -46,17 +37,19 @@ const regularScheduleHTML = (): JSX.Element => (
   <div className="font-weight-bold fs-14 pb-8">Regular schedule</div>
 );
 
-const trainsEveryHTML = (minuteString: string): JSX.Element => {
-  const trainsEvery = `Trains depart every ${minuteString} minutes`;
+const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => {
+  const trainsEvery = `Trains depart every ${minuteString}`;
   return <div className="fs-14 pt-8">{trainsEvery}</div>;
 };
 
 const RapidTransitHoursOfOperation = ({
   route,
-  pdfs
+  pdfs,
+  scheduleNote
 }: {
   route: EnhancedRoute;
   pdfs: SchedulePDF[];
+  scheduleNote: ScheduleNote | null;
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id);
 
@@ -64,18 +57,18 @@ const RapidTransitHoursOfOperation = ({
     <>
       <ExpandableBlock
         header={{ text: "Weekday Schedule", iconSvgText: null }}
-        initiallyExpanded={false}
+        initiallyExpanded
         id="weekday-hours"
       >
         <div className="m-schedule-page__sidebar-hours">
           {regularScheduleHTML()}
           {hours && getSchedule(hours.week)}
-          {trainsEveryHTML("8-15")}
+          {trainsEveryHTML(scheduleNote?.offpeak_service)}
           <div className="font-weight-bold fs-14 pb-8 pt-24">
             Rush hour schedule
           </div>
           <div className="font-weight-bold fs-18">7 - 9am | 4 - 6:30pm</div>
-          {trainsEveryHTML("6-8")}
+          {trainsEveryHTML(scheduleNote?.peak_service)}
           {pdfLink(pdfs[0], route.name)}
         </div>
       </ExpandableBlock>
@@ -85,10 +78,12 @@ const RapidTransitHoursOfOperation = ({
         id="weekend-hours"
       >
         <div className="m-schedule-page__sidebar-hours">
-          <div className="font-weight-bold fs-18 pb-14">Saturday</div>
+          <div className="font-weight-bold fs-18 pb-14 font-helvetica-neue">
+            Saturday
+          </div>
           {regularScheduleHTML()}
           {hours && getSchedule(hours.saturday)}
-          {trainsEveryHTML("8-15")}
+          {trainsEveryHTML(scheduleNote?.offpeak_service)}
           <hr
             style={{
               borderBottomWidth: "1px",
@@ -97,10 +92,12 @@ const RapidTransitHoursOfOperation = ({
               marginBottom: "0rem"
             }}
           />
-          <div className="font-weight-bold fs-18 pt-18 pb-14">Sunday</div>
+          <div className="font-weight-bold fs-18 pt-18 pb-14 font-helvetica-neue">
+            Sunday
+          </div>
           {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday)}
-          {trainsEveryHTML("8-15")}
+          {trainsEveryHTML(scheduleNote?.offpeak_service)}
           {pdfLink(pdfs[0], route.name)}
         </div>
       </ExpandableBlock>

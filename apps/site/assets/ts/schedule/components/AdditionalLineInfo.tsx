@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Holiday, SchedulePDF, Fare } from "./__schedule";
+import { Holiday, SchedulePDF, Fare, ScheduleNote } from "./__schedule";
 import { EnhancedRoute } from "../../__v3api";
 import { TypedRoutes } from "../../stop/components/__stop";
 import PDFSchedules from "./PDFSchedules";
@@ -18,6 +18,7 @@ interface Props {
   route: EnhancedRoute;
   hours: string;
   holidays: Holiday[];
+  scheduleNote: ScheduleNote | null;
 }
 
 const AdditionalLineInfo = ({
@@ -28,14 +29,20 @@ const AdditionalLineInfo = ({
   fares,
   holidays,
   fareLink,
-  route
+  route,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> => (
   <>
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />
     <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
-    <HoursOfOperation route={route} pdfs={pdfs} hours={hours} />
+    <HoursOfOperation
+      route={route}
+      pdfs={pdfs}
+      hours={hours}
+      scheduleNote={scheduleNote}
+    />
     <UpcomingHolidays holidays={holidays} />
   </>
 );

@@ -4,14 +4,8 @@ import { createReactRoot } from "../../../app/helpers/testUtils";
 import { RAPID_TRANSIT } from "../../../models/route";
 import { EnhancedRoute } from "../../../__v3api";
 import HoursOfOperation from "../HoursOfOperation";
-import { SchedulePDF } from "../__schedule";
+import { ScheduleNote, SchedulePDF } from "../__schedule";
 import * as hours from "../../../hooks/useHoursOfOperation";
-import {
-  formatInTimeZone,
-  getTimezoneOffset,
-  utcToZonedTime
-} from "date-fns-tz";
-import { format, parseISO } from "date-fns";
 
 describe("RapidTransitHoursOfOperation", () => {
   beforeEach(() => {
@@ -20,20 +14,6 @@ describe("RapidTransitHoursOfOperation", () => {
   });
 
   it("renders the rapid transit schedule if route rapid transit", () => {
-    // get todays date so we have the right daylight savings time offset
-    const today = new Date();
-    const dateString = formatInTimeZone(
-      today,
-      "America/New_York",
-      "yyyy-MM-dd"
-    );
-
-    const offset = getTimezoneOffset("America/New_York");
-    const hourOffset = offset / 3_600_000;
-
-    // America/New_York is either a -4 or -5 hour offest from UTC (depending on daylight savings time)
-    const offsetString = hourOffset == -4 ? "-04:00" : "-05:00";
-
     jest.spyOn(hours, "default").mockImplementation(() => {
       return {
         week: [
@@ -41,15 +21,15 @@ describe("RapidTransitHoursOfOperation", () => {
             {
               stop_name: "Test Stop 1",
               stop_id: "1",
-              last_departure: `${dateString}T23:44:00${offsetString}`,
-              first_departure: `${dateString}T08:54:00${offsetString}`,
+              last_departure: `2022-10-24T23:44:00-04:00`,
+              first_departure: `$2022-10-24T08:54:00-04:00`,
               is_terminus: false
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
-              last_departure: `${dateString}T22:45:00${offsetString}`,
-              first_departure: `${dateString}T07:55:00${offsetString}`,
+              last_departure: `2022-10-24T22:45:00-04:00`,
+              first_departure: `2022-10-24T07:55:00-04:00`,
               is_terminus: true
             }
           ],
@@ -57,15 +37,15 @@ describe("RapidTransitHoursOfOperation", () => {
             {
               stop_name: "Test Stop 1",
               stop_id: "1",
-              last_departure: `${dateString}T23:35:00${offsetString}`,
-              first_departure: `${dateString}T08:35:00${offsetString}`,
+              last_departure: `2022-10-24T23:35:00-04:00`,
+              first_departure: `2022-10-24T08:35:00-04:00`,
               is_terminus: false
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
-              last_departure: `${dateString}T23:25:00${offsetString}`,
-              first_departure: `${dateString}T08:25:00${offsetString}`,
+              last_departure: `2022-10-24T23:25:00-04:00`,
+              first_departure: `2022-10-24T08:25:00-04:00`,
               is_terminus: true
             }
           ]
@@ -75,8 +55,8 @@ describe("RapidTransitHoursOfOperation", () => {
             {
               stop_name: "Test Stop 1",
               stop_id: "1",
-              last_departure: `${dateString}T21:15:00${offsetString}`,
-              first_departure: `${dateString}T08:15:00${offsetString}`,
+              last_departure: `2022-10-22T21:15:00-04:00`,
+              first_departure: `2022-10-22T08:15:00-04:00`,
               is_terminus: true
             }
           ],
@@ -84,8 +64,8 @@ describe("RapidTransitHoursOfOperation", () => {
             {
               stop_name: "Test Stop 1",
               stop_id: "1",
-              last_departure: `${dateString}T22:15:00${offsetString}`,
-              first_departure: `${dateString}T07:15:00${offsetString}`,
+              last_departure: `2022-10-22T22:15:00-04:00`,
+              first_departure: `2022-10-22T07:15:00-04:00`,
               is_terminus: true
             }
           ]
@@ -95,12 +75,17 @@ describe("RapidTransitHoursOfOperation", () => {
     });
 
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
+    const scheduleNote = {
+      offpeak_service: "10 minutes",
+      peak_service: "5 minutes"
+    } as ScheduleNote;
     const tree = renderer
       .create(
         <HoursOfOperation
           hours={"These are hours"}
           pdfs={[{ url: "URL" } as SchedulePDF]}
           route={route}
+          scheduleNote={scheduleNote}
         />
       )
       .toJSON();

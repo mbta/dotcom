@@ -1,3 +1,6 @@
+import { parseISO } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
+
 // this returns a Date() in the browser time zone, unlike new Date(unformatted)
 export const stringToDateObject = (unformatted: string): Date => {
   const [year, month, day] = unformatted
@@ -56,6 +59,11 @@ export const compareStringTimes = (
     comparison = "gt";
   }
   return comparison;
+};
+
+export const formatToBostonTime = (dateTimeString: string): string => {
+  const dateTime = parseISO(dateTimeString);
+  return formatInTimeZone(dateTime, "America/New_York", "h:mmaaa");
 };
 
 export default formattedDate;

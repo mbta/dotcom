@@ -21,6 +21,7 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import { isRapidTransit } from "../../models/route";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -191,6 +192,7 @@ export const ScheduleLoader = ({
           route={route}
           hours={hours}
           holidays={holidays}
+          scheduleNote={scheduleNote}
         />
       );
     }

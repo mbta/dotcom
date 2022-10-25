@@ -14,8 +14,14 @@ const pdfLink = (
     vehicleType = "trolley";
   }
   return (
-    <div className="fs-14 pt-16 text-decoration-underline">
-      <a key={pdf.url} href={pdf.url} rel="noopener noreferrer" target="_blank">
+    <div className="fs-14 pt-16">
+      <a
+        key={pdf.url}
+        href={pdf.url}
+        rel="noopener noreferrer"
+        className="c-call-to-action"
+        target="_blank"
+      >
         {`Open ${vehicleType} schedule PDF`}{" "}
         {renderFa("fa-arrow-up-right-from-square", "")}
       </a>
