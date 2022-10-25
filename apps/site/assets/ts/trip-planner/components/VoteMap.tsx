@@ -56,7 +56,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
         ReactDOM.createPortal(
           precinct ? (
             <div style={{ marginTop: 20 }}>
-              <h5 className="c-search-bar__header">Your Precinct</h5>
+              <h5 className="c-search-bar__header">Your polling location</h5>
               <div>{precinct.name}</div>
               <div>{precinct.address}</div>
               <div>{precinct.town}</div>
