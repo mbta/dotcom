@@ -1,5 +1,5 @@
 import * as AlgoliaResult from "./algolia-result";
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-unresolved, import/extensions
 import * as QueryHelpers from "../ts/helpers/query";
 
 /* eslint-disable no-underscore-dangle */
@@ -98,10 +98,10 @@ export default class AlgoliaAutocomplete {
       this._input,
       {
         appendTo: this._resultsContainer,
-        debug: false,
+        debug: true,
         autoselectOnBlur: false,
         openOnFocus: true,
-        detachedMediaQuery: true,
+        detachedMediaQuery: false,
         hint: false,
         minLength: 0,
         cssClasses: {
