@@ -101,6 +101,7 @@ export default class AlgoliaAutocomplete {
         debug: false,
         autoselectOnBlur: false,
         openOnFocus: true,
+        detachedMediaQuery: true,
         hint: false,
         minLength: 0,
         cssClasses: {

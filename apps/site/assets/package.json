@@ -159,17 +159,5 @@
     "js/**/*.js": "npm run eslint:js:fix",
     "ts/**/*.{ts,tsx}": "npm run eslint:ts:fix",
     "css/**/*.scss": "npm run stylelint -- --fix"
-  },
-  "browserslist": {
-    "production": [
-      "ios 12",
-      "ios 14",
-      "ios 14"
-    ],
-    "development": [
-      "ios 12",
-      "ios 14",
-      "ios 14"
-    ]
   }
 }

@@ -7,6 +7,7 @@ import {
   MarkerOptions
 } from "leaflet";
 import Leaflet from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import { MapData, MapMarker, IconOpts } from "./__mapdata";
 
 export interface ZoomOpts {
