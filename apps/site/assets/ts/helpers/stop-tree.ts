@@ -93,7 +93,7 @@ export const slices = (stopTree: StopTree): StopTreeSlice[] => {
     recordIdPositionsMovingBackward(id, index);
   };
 
-  longestPath(stopTree)!.forEach(recordIdPositions);
+  longestPath(stopTree).forEach(recordIdPositions);
 
   return sliceSets.map(set => Array.from(set));
 };
