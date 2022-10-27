@@ -64,6 +64,15 @@ it("diagramWidth computes width based on number of branches", () => {
 });
 
 describe("branchPosition", () => {
+  /**
+   *          a1 ---> a2
+   *                        \
+   *                         ˅
+   *  b1 ---> b2 ---> b3 ---> m1 ---> m2
+   *                                 ˄
+   *                                /
+   *                  c1 ---> c2
+   */
   const stopTree: StopTree = {
     byId: {
       a1: { id: "a1", value: { id: "a1" } as RouteStop },
