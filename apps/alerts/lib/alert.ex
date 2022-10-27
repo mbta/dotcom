@@ -257,38 +257,11 @@ defmodule Alerts.Alert do
 end
 
 defimpl Poison.Encoder, for: Alerts.Alert do
-  def encode(
-        %Alerts.Alert{
-          id: id,
-          header: header,
-          informed_entity: informed_entity,
-          active_period: active_period_pairs,
-          effect: effect,
-          severity: severity,
-          lifecycle: lifecycle,
-          updated_at: updated_at,
-          description: description,
-          priority: priority,
-          url: url
-        },
-        options
-      ) do
+  def encode(%Alerts.Alert{active_period: active_period_pairs} = alert, options) do
     active_period = Enum.map(active_period_pairs, &alert_active_period/1)
 
-    Poison.Encoder.encode(
-      %{
-        id: id,
-        header: header,
-        informed_entity: informed_entity,
-        active_period: active_period,
-        effect: effect,
-        severity: severity,
-        lifecycle: lifecycle,
-        updated_at: updated_at,
-        description: description,
-        priority: priority,
-        url: url
-      },
+    Poison.Encoder.Map.encode(
+      %{alert | active_period: active_period},
       options
     )
   end
