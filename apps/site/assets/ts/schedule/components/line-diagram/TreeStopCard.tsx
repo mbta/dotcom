@@ -66,10 +66,13 @@ const showPrediction = (
 
 const byRouteId = (a: Route, b: Route): number => (a.id < b.id ? -1 : 1);
 
-const connectionsFor = (routeStop: RouteStop): RouteStopRoute[] => {
+const connectionsFor = (
+  routeStop: RouteStop,
+  stopTree: StopTree
+): RouteStopRoute[] => {
   const { connections } = routeStop;
   const greenLineConnections = connections.filter(isAGreenLineRoute);
-  if (routeStop.route && greenLineConnections.length) {
+  if (routeStop.route && hasBranches(stopTree) && greenLineConnections.length) {
     // If we can connect to other Green Line routes, they can connect back to
     // this route as well.
     const routeStopRoute: RouteStopRoute = {
@@ -134,7 +137,7 @@ const TreeStopCard = ({
         </header>
 
         <div className="m-schedule-diagram__stop-details">
-          {StopConnections(stopId, connectionsFor(routeStop))}
+          {StopConnections(stopId, connectionsFor(routeStop, stopTree))}
           {showPrediction(stopTree, stopId, liveData) ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
