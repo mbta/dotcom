@@ -159,9 +159,5 @@
     "js/**/*.js": "npm run eslint:js:fix",
     "ts/**/*.{ts,tsx}": "npm run eslint:ts:fix",
     "css/**/*.scss": "npm run stylelint -- --fix"
-  },
-  "browserslist": [
-    "defaults and supports es6-module",
-    "maintained node versions"
-  ]
+  }
 }
