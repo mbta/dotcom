@@ -9,8 +9,7 @@ import { hasPredictionTime } from "../../../models/prediction";
 import { alertIcon } from "../../../helpers/icon";
 import {
   isHighSeverityOrHighPriority,
-  isDiversion,
-  isCurrentAlert
+  isActiveDiversion
 } from "../../../models/alert";
 import { Alert, Route } from "../../../__v3api";
 import MatchHighlight from "../../../components/MatchHighlight";
@@ -68,9 +67,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
 
   const refs = useContext(StopRefContext)[0];
 
-  const diversionAlert = stopAlerts.find(
-    alert => isDiversion(alert) && isCurrentAlert(alert)
-  );
+  const diversionAlert = stopAlerts.find(isActiveDiversion);
   const hasLivePredictions =
     liveData &&
     liveData.headsigns.length &&

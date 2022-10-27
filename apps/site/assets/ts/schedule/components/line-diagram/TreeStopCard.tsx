@@ -6,8 +6,7 @@ import { alertIcon } from "../../../helpers/icon";
 import { isEndNode, isStartNode, stopForId } from "../../../helpers/stop-tree";
 import {
   alertsByStop,
-  isCurrentAlert,
-  isDiversion,
+  isActiveDiversion,
   isHighSeverityOrHighPriority
 } from "../../../models/alert";
 import { hasPredictionTime } from "../../../models/prediction";
@@ -98,9 +97,7 @@ const TreeStopCard = ({
   const refs = useContext(StopRefContext)[0];
   const routeStop: RouteStop = stopForId(stopTree, stopId);
 
-  const diversionAlert = alerts.find(
-    alert => isDiversion(alert) && isCurrentAlert(alert)
-  );
+  const diversionAlert = alerts.find(isActiveDiversion);
   const showDiversion =
     diversionAlert &&
     !(hasLivePredictions(liveData) && isEndNode(stopTree, stopId));

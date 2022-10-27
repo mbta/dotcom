@@ -64,10 +64,10 @@ export const isCurrentAlert = (
   return isCurrentLifecycle(alert) && isInARange;
 };
 
+export const isActiveDiversion = (alert: Alert): boolean =>
+  isDiversion(alert) && isCurrentAlert(alert);
+
 export const hasAnActiveDiversion = (
   stopId: StopId,
   alerts: Alert[]
-): boolean =>
-  alertsByStop(alerts, stopId).some(
-    alert => isDiversion(alert) && isCurrentAlert(alert)
-  );
+): boolean => alertsByStop(alerts, stopId).some(isActiveDiversion);

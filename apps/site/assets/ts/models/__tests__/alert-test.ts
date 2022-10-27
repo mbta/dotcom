@@ -1,10 +1,13 @@
-import { Alert, InformedEntitySet } from "../../__v3api";
+import { StopId } from "../../schedule/components/__schedule";
+import { Alert, InformedEntitySet, TimePeriodPairs } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
   isCurrentAlert,
   alertsByStop,
   uniqueByEffect,
-  isDiversion
+  isDiversion,
+  isActiveDiversion,
+  hasAnActiveDiversion
 } from "../alert";
 
 const zeroPadded = (num: number): string => `${num}`.padStart(2, "0");
@@ -23,7 +26,18 @@ export const aroundNow = () => {
     [
       activePeriodDateFormatted(now - five_minutes),
       activePeriodDateFormatted(now + five_minutes)
-    ]
+    ] as TimePeriodPairs
+  ];
+};
+
+export const beforeNow = () => {
+  const now = Date.now();
+  const five_minutes = 300_000;
+  return [
+    [
+      activePeriodDateFormatted(now - 2 * five_minutes),
+      activePeriodDateFormatted(now - five_minutes)
+    ] as TimePeriodPairs
   ];
 };
 
@@ -138,5 +152,69 @@ describe("uniqueByEffect", () => {
       "detour",
       "unknown"
     ]);
+  });
+});
+
+describe("isActiveDiversion", () => {
+  test("true if the alert is current and a diversion", () => {
+    const alert: Alert = {
+      active_period: aroundNow(),
+      lifecycle: "new",
+      effect: "shuttle"
+    } as Alert;
+
+    expect(isActiveDiversion(alert)).toBeTruthy();
+  });
+
+  test("false if not current", () => {
+    const nonCurrentLifecyleAlert: Alert = {
+      active_period: aroundNow(),
+      lifecycle: "upcoming",
+      effect: "shuttle"
+    } as Alert;
+    const outsideActivePeriodAlert: Alert = {
+      active_period: beforeNow(),
+      lifecycle: "new",
+      effect: "shuttle"
+    } as Alert;
+
+    expect(isActiveDiversion(nonCurrentLifecyleAlert)).toBeFalsy();
+    expect(isActiveDiversion(outsideActivePeriodAlert)).toBeFalsy();
+  });
+
+  test("false if not a diversion", () => {
+    const nonDiversionAlert: Alert = {
+      active_period: aroundNow(),
+      lifecycle: "new",
+      effect: "other"
+    } as Alert;
+
+    expect(isActiveDiversion(nonDiversionAlert)).toBeFalsy();
+  });
+});
+
+describe("hasAnActiveDiversion", () => {
+  const stopId: StopId = "place-sstat";
+  const actvieDiversionAlert: Alert = {
+    active_period: aroundNow(),
+    lifecycle: "new",
+    effect: "shuttle",
+    informed_entity: { stop: [stopId] } as InformedEntitySet
+  } as Alert;
+  const nonActiveDiversionAlert: Alert = {
+    active_period: aroundNow(),
+    lifecycle: "new",
+    effect: "other",
+    informed_entity: { stop: [stopId] } as InformedEntitySet
+  } as Alert;
+
+  test("returns whether the list contains an active diversion alert", () => {
+    expect(
+      hasAnActiveDiversion(stopId, [
+        actvieDiversionAlert,
+        nonActiveDiversionAlert
+      ])
+    ).toBeTruthy();
+    expect(hasAnActiveDiversion(stopId, [nonActiveDiversionAlert])).toBeFalsy();
   });
 });
