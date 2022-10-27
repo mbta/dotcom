@@ -126,10 +126,12 @@ def main(args):
 
     districts = from_shapes_file(district_shapes_file)
     polling_places = from_polling_places_csv(polling_places_file)
-    precincts = [
+    maybe_precincts = [
         precinct_from_polling_place(polling_place, districts)
         for polling_place in polling_places
     ]
+    # Filter out Nones
+    precincts = [precinct for precinct in maybe_precincts if precinct]
 
     write_json_data(output_json_file, precincts)
 
