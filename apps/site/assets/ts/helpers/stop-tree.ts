@@ -42,7 +42,7 @@ export const isMergeNode = (stopTree: StopTree, id: StopId): boolean =>
 export const isBranchingNode = (stopTree: StopTree, id: StopId): boolean =>
   nextStopIds(stopTree, id).length > 1;
 
-const appendStopId = (ids: StopTreePath, id: StopId): StopTreePath => [
+const prependStopId = (ids: StopTreePath, id: StopId): StopTreePath => [
   id,
   ...ids
 ];
@@ -51,7 +51,7 @@ const pathsFrom = (stopTree: StopTree, id: StopId): StopTreePath[] => {
   if (isEndNode(stopTree, id)) return [[id]];
 
   return nextStopIds(stopTree, id).flatMap((nextId: StopId) =>
-    pathsFrom(stopTree, nextId).map(ids => appendStopId(ids, id))
+    pathsFrom(stopTree, nextId).map(ids => prependStopId(ids, id))
   );
 };
 
