@@ -2,7 +2,9 @@
 
 <div class="container">
   <h1>Find Your Polling Location</h1>
-  <p>November 8 is the last day to vote. Enter your address below to find your polling location, then plan your trip there. You can also use our regular Trip Planner to find directions to your polling location. </p>
+  <p>November 8 is the last day to vote. Enter your address below to find your polling location, then plan your trip there. You can also use our regular
+  <a href="https://dev-green.mbtace.com/trip-planner">Trip Planner</a>to find directions to your polling location. </p>
+  <p>Please note this doesn't include <a href="https://www.sec.state.ma.us/ele/eleev/ev-find-my-election-office.htm">dropbox locations.</a></p>
   <p><a href="https://www.sec.state.ma.us/ele/eleidx.htm">Learn more about voting and elections in Massachusetts</a></p>
   <div class="row poll-div">
     <div class="col-12 col-md-4 mt-0 mb-0 h-100 callout">
