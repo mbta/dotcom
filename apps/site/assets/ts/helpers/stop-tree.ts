@@ -70,6 +70,16 @@ export const longestPath = (stopTree: StopTree): StopTreePath => {
 export const longestPathStartingId = (stopTree: StopTree): StopId =>
   longestPath(stopTree)[0];
 
+/**
+ * Calculate an array of cross-sections through the tree, where each
+ * cross-sectional slice is an array of StopIds.
+ *
+ * These slices are useful for determining other branches running in parallel
+ * with a given stop.
+ *
+ * @param stopTree A StopTree data structure
+ * @returns An array of StopTreeSlices where each slice is an array of StopIds.
+ */
 export const slices = (stopTree: StopTree): StopTreeSlice[] => {
   const len = longestPathLength(stopTree);
   if (len < 1) return [[]];
