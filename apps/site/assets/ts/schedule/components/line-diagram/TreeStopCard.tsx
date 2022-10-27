@@ -3,7 +3,12 @@ import { effectNameForAlert } from "../../../components/Alerts";
 import GlxOpen from "../../../components/GlxOpen";
 import MatchHighlight from "../../../components/MatchHighlight";
 import { alertIcon } from "../../../helpers/icon";
-import { isEndNode, isStartNode, stopForId } from "../../../helpers/stop-tree";
+import {
+  hasBranches,
+  isEndNode,
+  isStartNode,
+  stopForId
+} from "../../../helpers/stop-tree";
 import {
   alertsByStop,
   isActiveDiversion,
@@ -35,6 +40,7 @@ const width = (stopTree: StopTree, stopId: StopId): number =>
 const hasBranchLabel = (stopTree: StopTree, stopId: StopId): boolean => {
   const stop: RouteStop = stopForId(stopTree, stopId);
   return (
+    hasBranches(stopTree) &&
     (isStartNode(stopTree, stopId) || isEndNode(stopTree, stopId)) &&
     !!stop.branch &&
     !!stop.route
