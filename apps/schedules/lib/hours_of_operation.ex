@@ -83,30 +83,6 @@ defmodule Schedules.HoursOfOperation do
     end
   end
 
-  defp calc_week_day_date(dow, today) when dow in [6, 7] do
-    Date.add(today, 5 - dow)
-  end
-
-  defp calc_week_day_date(_, today) do
-    today
-  end
-
-  defp calc_sat_date(6, today) do
-    today
-  end
-
-  defp calc_sat_date(dow, today) do
-    Date.add(today, -1 * Integer.mod(1 + dow, 7))
-  end
-
-  defp calc_sun_date(7, today) do
-    today
-  end
-
-  defp calc_sun_date(dow, today) do
-    Date.add(today, 0 - dow)
-  end
-
   @doc """
   Returns the next Monday, Saturday, and Sunday, relative to a given date.
 
@@ -117,12 +93,12 @@ defmodule Schedules.HoursOfOperation do
     dow = Date.day_of_week(today)
 
     [
-      # Weekday (or past friday)
-      calc_week_day_date(dow, today),
-      # Saturday, going back in time
-      calc_sat_date(dow, today),
-      # Sunday, going back in time
-      calc_sun_date(dow, today)
+      # Monday
+      Date.add(today, 8 - dow),
+      # Saturday, not going back in time
+      Date.add(today, Integer.mod(6 - dow, 7)),
+      # Sunday
+      Date.add(today, 7 - dow)
     ]
   end
 

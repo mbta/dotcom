@@ -323,41 +323,29 @@ defmodule Schedules.HoursOfOperationTest do
   end
 
   describe "week_dates/1" do
-    test "for a given date, returns the week day, and last saturday, and last sunday" do
+    test "for a given date, returns the next monday, saturday, and sunday" do
       # Thursday
       date = ~D[2017-10-26]
 
       assert week_dates(date) == [
-               # Thursday
-               ~D[2017-10-26],
-               # Past Saturday
-               ~D[2017-10-21],
+               # Next Monday
+               ~D[2017-10-30],
+               # Upcoming Saturday
+               ~D[2017-10-28],
                # Upcoming Sunday
-               ~D[2017-10-22]
+               ~D[2017-10-29]
              ]
     end
 
-    test "on a sunday, we use the saturday from last week, and friday from last week" do
+    test "on a sunday, we use the saturday from next week" do
       date = ~D[2017-10-29]
 
       assert week_dates(date) == [
-               # Last Friday
-               ~D[2017-10-27],
-               # Last Saturday
-               ~D[2017-10-28],
+               # Next Monday
+               ~D[2017-10-30],
+               # Next Saturday
+               ~D[2017-11-04],
                date
-             ]
-    end
-
-    test "on a saturday, we use the sunday from last week, and friday from last week" do
-      date = ~D[2017-10-28]
-
-      assert week_dates(date) == [
-               # Last Friday
-               ~D[2017-10-27],
-               date,
-               # Last Sunday
-               ~D[2017-10-22]
              ]
     end
 
