@@ -98,5 +98,6 @@ describe("RapidTransitHoursOfOperation", () => {
     expect(treeString).toMatch("7:55am - 10:45pm");
     expect(treeString).not.toMatch("8:54am - 10:44pm");
     expect(treeString).toMatch("8:15am - 9:15pm");
+    expect(treeString).toMatch("Trains depart every 10 minutes");
   });
 });

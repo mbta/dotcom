@@ -14,7 +14,14 @@ describe("HoursOfOperation", () => {
   it("doesn't render if there are no hours", () => {
     const route = { id: "Silver", description: "Bus Service" } as EnhancedRoute;
     const tree = renderer
-      .create(<HoursOfOperation hours="" pdfs={[]} route={route} />)
+      .create(
+        <HoursOfOperation
+          hours=""
+          pdfs={[]}
+          route={route}
+          scheduleNote={null}
+        />
+      )
       .toJSON();
     expect(tree).toBeNull();
   });
@@ -23,7 +30,12 @@ describe("HoursOfOperation", () => {
     const route = { id: "Silver", description: "Bus Service" } as EnhancedRoute;
     const tree = renderer
       .create(
-        <HoursOfOperation hours={"These are hours"} pdfs={[]} route={route} />
+        <HoursOfOperation
+          hours={"These are hours"}
+          pdfs={[]}
+          route={route}
+          scheduleNote={null}
+        />
       )
       .toJSON();
     expect(tree).not.toBeNull();
@@ -38,6 +50,7 @@ describe("HoursOfOperation", () => {
           hours={"These are hours"}
           pdfs={[{ url: "URL" } as SchedulePDF]}
           route={route}
+          scheduleNote={null}
         />
       )
       .toJSON();
@@ -57,6 +70,7 @@ describe("HoursOfOperation", () => {
           hours={"These are hours"}
           pdfs={[{ url: "URL" } as SchedulePDF]}
           route={route}
+          scheduleNote={null}
         />
       )
       .toJSON();

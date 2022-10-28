@@ -72,6 +72,7 @@ it("it renders", () => {
         route={route}
         hours={hours}
         holidays={holidays}
+        scheduleNote={null}
       />
     )
     .toJSON();
