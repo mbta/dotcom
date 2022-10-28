@@ -64,12 +64,7 @@ const RapidTransitHoursOfOperation = ({
           {regularScheduleHTML()}
           {hours && getSchedule(hours.week)}
           {trainsEveryHTML(scheduleNote?.offpeak_service)}
-          <div className="font-weight-bold fs-14 pb-8 pt-24">
-            Rush hour schedule
-          </div>
-          <div className="font-weight-bold fs-18">7 - 9am | 4 - 6:30pm</div>
-          {trainsEveryHTML(scheduleNote?.peak_service)}
-          {pdfLink(pdfs[0], route.name)}
+          {pdfLink(pdfs[0])}
         </div>
       </ExpandableBlock>
       <ExpandableBlock
@@ -98,7 +93,7 @@ const RapidTransitHoursOfOperation = ({
           {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday)}
           {trainsEveryHTML(scheduleNote?.offpeak_service)}
-          {pdfLink(pdfs[0], route.name)}
+          {pdfLink(pdfs[0])}
         </div>
       </ExpandableBlock>
     </>
