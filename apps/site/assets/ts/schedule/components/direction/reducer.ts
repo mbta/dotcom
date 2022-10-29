@@ -2,6 +2,7 @@ import { updateInLocation } from "use-query-params";
 import { DirectionId } from "../../../__v3api";
 import { RoutePatternsByDirection, EnhancedRoutePattern } from "../__schedule";
 import { MapData } from "../../../leaflet/components/__mapdata";
+import { dispatchChangedDirection } from "../../../hooks/useDirectionChangeEvent";
 
 export interface State {
   routePattern: EnhancedRoutePattern;
@@ -88,6 +89,10 @@ const toggleDirection = (state: State): State => {
     nextDirection,
     defaultRoutePatternForDirection.id
   );
+
+  // notify other components of change
+  dispatchChangedDirection(nextDirection);
+
   return {
     ...state,
     directionId: nextDirection,

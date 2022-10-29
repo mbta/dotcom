@@ -13,6 +13,7 @@ import ScheduleFinderModal, {
 } from "./schedule-finder/ScheduleFinderModal";
 import { getCurrentState, storeHandler } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
@@ -47,6 +48,7 @@ const ScheduleFinder = ({
   modalOpen,
   closeModal
 }: Props): ReactElement<HTMLElement> => {
+  const currentDirection = useDirectionChangeEvent(directionId);
   const openOriginModal = (): void => {
     const currentState = getCurrentState();
     const { modalOpen: modalIsOpen } = currentState;
@@ -96,7 +98,7 @@ const ScheduleFinder = ({
         onOriginSelectClick={openOriginModal}
         onSubmit={openScheduleModal}
         route={route}
-        selectedDirection={directionId}
+        selectedDirection={currentDirection}
         selectedOrigin={selectedOrigin}
         stopsByDirection={stops}
       />
@@ -105,7 +107,7 @@ const ScheduleFinder = ({
           closeModal={closeModal}
           directionChanged={changeDirection}
           initialMode={modalMode}
-          initialDirection={directionId}
+          initialDirection={currentDirection}
           initialOrigin={selectedOrigin}
           handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
