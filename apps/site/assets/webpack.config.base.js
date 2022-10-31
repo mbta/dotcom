@@ -32,6 +32,7 @@ module.exports = {
     map: ["./js/leaflet-css.js"], // For leaflet.css only, not js
     tnm: ["./ts/transit-near-me-entry.ts"],
     tripplanner: ["./ts/trip-planner-entry.ts"],
+    vote: ["./ts/vote-map-entry.ts"],
     stop: ["./ts/stop-entry.ts"],
     leaflet: ["./ts/leaflet-entry.ts"],
     schedule: ["./ts/schedule-entry.ts"],
