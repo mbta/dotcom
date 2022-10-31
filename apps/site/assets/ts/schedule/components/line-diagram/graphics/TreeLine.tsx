@@ -1,12 +1,19 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { isMergeNode, longestPath } from "../../../../helpers/stop-tree";
+import {
+  isBranchingNode,
+  isEndNode,
+  isMergeNode,
+  isStartNode,
+  longestPath
+} from "../../../../helpers/stop-tree";
 import { hasAnActiveDiversion } from "../../../../models/alert";
 import { Alert } from "../../../../__v3api";
 import { StopId, StopTree } from "../../__schedule";
 import { branchPosition } from "../line-diagram-helpers";
 import {
   BASE_LINE_WIDTH,
+  BRANCH_LINE_WIDTH,
   BRANCH_SPACING,
   CoordState,
   StopCoord
@@ -21,6 +28,13 @@ interface Props {
 
 const isOnPrimaryBranch = (stopTree: StopTree, stopId: StopId): boolean =>
   longestPath(stopTree).includes(stopId);
+
+const isMiddleBranchStop = (stopTree: StopTree, stopId: StopId): boolean =>
+  !isOnPrimaryBranch(stopTree, stopId) &&
+  !isStartNode(stopTree, stopId) &&
+  !isEndNode(stopTree, stopId) &&
+  !isMergeNode(stopTree, stopId) &&
+  !isBranchingNode(stopTree, stopId);
 
 const lineProps = (
   stopTree: StopTree,
@@ -37,6 +51,11 @@ const lineProps = (
   const [, y1] = fromCoords;
   const [, y2] = toCoords;
 
+  const strokeWidth =
+    isMiddleBranchStop(stopTree, fromId) && isMiddleBranchStop(stopTree, toId)
+      ? BRANCH_LINE_WIDTH
+      : BASE_LINE_WIDTH;
+
   const strokeProp =
     hasAnActiveDiversion(fromId, alerts) && hasAnActiveDiversion(toId, alerts)
       ? { stroke: "url(#diagonalHatch)" }
@@ -45,7 +64,7 @@ const lineProps = (
   return {
     key: `${fromId}-${toId}`,
     className: "line-diagram-svg__line",
-    strokeWidth: `${BASE_LINE_WIDTH}px`,
+    strokeWidth: `${strokeWidth}px`,
     x1: `${x}px`,
     x2: `${x}px`,
     y1: `${y1}px`,
