@@ -17,6 +17,8 @@ Convert geo files from .shp to .geojson format.
 
 This script depends on the `ogr2ogr` library from `gdal`. Before you run it you should install gdal from homebrew via `brew install gdal`.
 
+__NOTE:__ This is a quick-and-dirty example of how to run the script. Adjust the file arguments as needed.
+
 ## combine_geocoded_addresses_with_shapes.py
 
 Combine geocode polling place addresses from a CSV file with district shapes from a geojson file. This assembles everything from the previous two scripts into a single `precincts.json` file that the dotcom app can consume.
