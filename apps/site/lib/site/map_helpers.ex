@@ -37,7 +37,7 @@ defmodule Site.MapHelpers do
 
   @spec thumbnail(atom) :: String.t()
   def thumbnail(:subway) do
-    static_url(SiteWeb.Endpoint, "/images/2022-10-17-subway-map-v37a.png")
+    static_url(SiteWeb.Endpoint, "/images/map-thumbnail-subway.jpg")
   end
 
   def thumbnail(:commuter_rail) do
@@ -60,7 +60,7 @@ defmodule Site.MapHelpers do
   def image(:subway) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/media/2022-03/3-21-2022-subway-map-1.jpg"
+      "/sites/default/files/media/2022-10/2022-10-17-subway-map-v37a.png"
     )
   end
 
