@@ -1,4 +1,4 @@
-import { compareStringTimes } from "../date";
+import { compareStringTimes, formatToBostonTime } from "../date";
 
 describe("compareStringTimes", () => {
   it.each`
@@ -15,4 +15,10 @@ describe("compareStringTimes", () => {
       expect(compareStringTimes(time1, time2)).toEqual(result);
     }
   );
+});
+
+describe("formatToBostonTime", () => {
+  it("should format the string in the same timezone as Boston", () => {
+    expect(formatToBostonTime("2022-10-28T15:25:00-04:00")).toBe("3:25pm");
+  });
 });

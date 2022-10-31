@@ -1,3 +1,4 @@
+import { isWeekend } from "date-fns";
 import { map, uniqueId, sortBy, filter, concat } from "lodash";
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
@@ -52,12 +53,13 @@ const RapidTransitHoursOfOperation = ({
   scheduleNote: ScheduleNote | null;
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id);
+  const isTodayWeekend = isWeekend(new Date());
 
   return (
     <>
       <ExpandableBlock
         header={{ text: "Weekday Schedule", iconSvgText: null }}
-        initiallyExpanded
+        initiallyExpanded={!isTodayWeekend}
         id="weekday-hours"
       >
         <div className="m-schedule-page__sidebar-hours">
@@ -69,7 +71,7 @@ const RapidTransitHoursOfOperation = ({
       </ExpandableBlock>
       <ExpandableBlock
         header={{ text: "Weekend Schedule", iconSvgText: null }}
-        initiallyExpanded={false}
+        initiallyExpanded={isTodayWeekend}
         id="weekend-hours"
       >
         <div className="m-schedule-page__sidebar-hours">

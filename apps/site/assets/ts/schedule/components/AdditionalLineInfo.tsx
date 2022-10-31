@@ -37,12 +37,14 @@ const AdditionalLineInfo = ({
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />
     <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
-    <HoursOfOperation
-      route={route}
-      pdfs={pdfs}
-      hours={hours}
-      scheduleNote={scheduleNote}
-    />
+    <div className="m-schedule-page__hours_of_operation--hide-mobile">
+      <HoursOfOperation
+        route={route}
+        pdfs={pdfs}
+        hours={hours}
+        scheduleNote={scheduleNote}
+      />
+    </div>
     <UpcomingHolidays holidays={holidays} />
   </>
 );

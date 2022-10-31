@@ -68,6 +68,18 @@
   }
 }
 
+.m-schedule-page__hours-of-operation--hide-non-mobile {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.m-schedule-page__hours_of_operation--hide-mobile {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
 .m-schedule-page__fare {
   display: flex;
   justify-content: space-between;

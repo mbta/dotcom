@@ -21,7 +21,8 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
-import { isRapidTransit } from "../../models/route";
+import { isRapidTransit, isSubwayRoute } from "../../models/route";
+import HoursOfOperation from "./HoursOfOperation";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -198,6 +199,19 @@ export const ScheduleLoader = ({
     }
 
     if (component === "SCHEDULE_NOTE" && scheduleNote) {
+      if (isSubwayRoute(route)) {
+        const { pdfs, hours } = schedulePageData;
+        return (
+          <div className="m-schedule-page__hours-of-operation--hide-non-mobile">
+            <HoursOfOperation
+              route={route}
+              pdfs={pdfs}
+              hours={hours}
+              scheduleNote={scheduleNote}
+            />
+          </div>
+        );
+      }
       return (
         <>
           {!routeIsSuspended ? (
