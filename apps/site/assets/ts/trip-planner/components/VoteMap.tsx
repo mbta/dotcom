@@ -12,6 +12,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
     latitude: number;
     longitude: number;
   }>(null);
+  // @ts-ignore data conversion
   const precincts = precinctsData as {
     town: string;
     address: string;
