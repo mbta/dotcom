@@ -2,6 +2,8 @@
 
 Some years during election season we enable a page to help riders search for their polling place and get transit directions to it. In order to support this functionality, we need to gather current data on polling places and district shapes each year. There are a few scripts to help automate this.
 
+__IMPORTANT NOTE:__ In past years we have found the source data files to be very messy. We have had to do manual work to correct inconsistencies so that the final output is as correct as possible. Examples of this include adjusting how ward and precincts are formatted so that we can match the CSV data to the shapes data, as well as a good deal of manual geocoding to account for noise in the address fields.
+
 ## geocode_addresses.py
 
 Geocode polling addresses from a CSV input file. Adds columns for the clean
