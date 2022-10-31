@@ -3,16 +3,17 @@ defmodule Site.VehicleHelpersTest do
   TODO: Mock the underlying trip fetching
   """
   use ExUnit.Case, async: true
+  use ExVCRHelpers
 
   import VehicleHelpers
 
   @locations %{
-    {"CR-547045-501", "place-sstat"} => %Vehicles.Vehicle{
+    {"CR-554466-501", "place-sstat"} => %Vehicles.Vehicle{
       latitude: 1.1,
       longitude: 2.2,
       status: :stopped,
       stop_id: "place-sstat",
-      trip_id: "CR-547045-501",
+      trip_id: "CR-554466-501",
       shape_id: "9850002"
     }
   }
@@ -22,7 +23,7 @@ defmodule Site.VehicleHelpersTest do
       departing?: true,
       time: ~N[2018-05-01T11:00:00],
       status: "On Time",
-      trip: %Schedules.Trip{id: "CR-547045-501", shape_id: "9850002"},
+      trip: %Schedules.Trip{id: "CR-554466-501", shape_id: "9850002"},
       stop: %Stops.Stop{id: "place-sstat"}
     }
   ]
@@ -34,9 +35,9 @@ defmodule Site.VehicleHelpersTest do
   @tooltip_base @tooltips["place-sstat"]
 
   describe "build_tooltip_index/3" do
-    test "verify the Vehicle tooltip data" do
+    test_vcr "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
-      assert Map.has_key?(@tooltips, {"CR-547045-501", "place-sstat"})
+      assert Map.has_key?(@tooltips, {"CR-554466-501", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
       assert @tooltip_base.route.type == 2
       assert @tooltip_base.trip.name == "501"
@@ -45,12 +46,12 @@ defmodule Site.VehicleHelpersTest do
       assert @tooltip_base.vehicle.status == :stopped
     end
 
-    test "it does not return a tooltip if a vehicle has a null stop_id" do
+    test_vcr "it does not return a tooltip if a vehicle has a null stop_id" do
       null_location = %{{"trip-1", nil} => %Vehicles.Vehicle{}}
       tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
 
       assert length(Map.keys(tooltips)) == 2
-      assert Map.has_key?(tooltips, {"CR-547045-501", "place-sstat"})
+      assert Map.has_key?(tooltips, {"CR-554466-501", "place-sstat"})
       assert Map.has_key?(tooltips, "place-sstat")
 
       tooltip_base = tooltips["place-sstat"]
@@ -149,7 +150,7 @@ defmodule Site.VehicleHelpersTest do
       assert result =~ "now boarding on track 4"
     end
 
-    test "Displays text based on vehicle status" do
+    test_vcr "Displays text based on vehicle status" do
       tooltip1 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :incoming}}
       tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
       tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
@@ -159,7 +160,7 @@ defmodule Site.VehicleHelpersTest do
       assert tooltip(tooltip3) =~ "Worcester train 501 is on the way to"
     end
 
-    test "does not include vehicle status if we don't have the name of the next stop" do
+    test_vcr "does not include vehicle status if we don't have the name of the next stop" do
       tooltip = %{
         @tooltip_base
         | vehicle: %Vehicles.Vehicle{status: :in_transit},
@@ -195,7 +196,7 @@ defmodule Site.VehicleHelpersTest do
   end
 
   describe "prediction_for_stop/2" do
-    test "do not crash if vehicle prediction does not contain a trip" do
+    test_vcr "do not crash if vehicle prediction does not contain a trip" do
       predictions = [
         %Predictions.Prediction{
           departing?: true,
