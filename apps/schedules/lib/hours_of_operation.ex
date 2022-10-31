@@ -62,7 +62,8 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
-        stop_sequence: "first,last",
+        # there appears to be an issue with the new api when using first returning stops that shouldn't be returned
+        stop_sequence: "1,last",
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
