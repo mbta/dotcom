@@ -21,7 +21,7 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
-import { isRapidTransit, isSubwayRoute } from "../../models/route";
+import { isSubwayRoute } from "../../models/route";
 import HoursOfOperation from "./HoursOfOperation";
 
 interface Props {
