@@ -102,6 +102,7 @@ defmodule Schedules.HoursOfOperationTest do
                {:route, ^route_id},
                {:date, ^week_date},
                {:direction_id, 0},
+               {:stop_sequence, "1,last"},
                {:"fields[schedule]", "departure_time,arrival_time"},
                {:include, "trip"},
                {:"fields[trip]", "headsign"} | _
