@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import renderFa from "../../helpers/render-fa";
 import { SchedulePDF } from "../components/__schedule";
 
-const pdfLink = (pdf: SchedulePDF): ReactElement<HTMLElement> | null => {
+const pdfLink = (pdf: SchedulePDF | null): ReactElement<HTMLElement> | null => {
   if (!pdf) {
     return null;
   }

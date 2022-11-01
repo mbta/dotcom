@@ -1,16 +1,50 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { create, act } from "react-test-renderer";
 import { createReactRoot } from "../../../app/helpers/testUtils";
 import { RAPID_TRANSIT } from "../../../models/route";
 import { EnhancedRoute } from "../../../__v3api";
-import HoursOfOperation from "../HoursOfOperation";
 import { ScheduleNote, SchedulePDF } from "../__schedule";
 import * as hours from "../../../hooks/useHoursOfOperation";
+import * as fetchJson from "../../../helpers/fetch-json";
+import RapidTransitHoursOfOperation from "../RapidTransitHoursOfOperation";
 
 describe("RapidTransitHoursOfOperation", () => {
   beforeEach(() => {
     createReactRoot();
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("calls the hours of operation hook", () => {
+    const spy = jest
+      .spyOn(fetchJson, "fetchJsonOrThrow")
+      .mockImplementation(() => {
+        return Promise.resolve({
+          week: [],
+          saturday: [],
+          sunday: []
+        });
+      });
+
+    const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
+    const scheduleNote = {
+      offpeak_service: "10 minutes",
+      peak_service: "5 minutes"
+    } as ScheduleNote;
+    let tree;
+    act(() => {
+      tree = create(
+        <RapidTransitHoursOfOperation
+          pdfs={[{ url: "URL" } as SchedulePDF]}
+          route={route}
+          scheduleNote={scheduleNote}
+        />
+      ).toJSON();
+    });
+    //expect(tree).not.toBeNull();
+    expect(spy).toHaveBeenCalled();
   });
 
   it("renders the rapid transit schedule if route rapid transit", () => {
@@ -79,16 +113,13 @@ describe("RapidTransitHoursOfOperation", () => {
       offpeak_service: "10 minutes",
       peak_service: "5 minutes"
     } as ScheduleNote;
-    const tree = renderer
-      .create(
-        <HoursOfOperation
-          hours={"These are hours"}
-          pdfs={[{ url: "URL" } as SchedulePDF]}
-          route={route}
-          scheduleNote={scheduleNote}
-        />
-      )
-      .toJSON();
+    const tree = create(
+      <RapidTransitHoursOfOperation
+        pdfs={[{ url: "URL" } as SchedulePDF]}
+        route={route}
+        scheduleNote={scheduleNote}
+      />
+    ).toJSON();
     expect(tree).not.toBeNull();
     const treeString = JSON.stringify(tree);
     expect(treeString).toMatch("Weekend Schedule");

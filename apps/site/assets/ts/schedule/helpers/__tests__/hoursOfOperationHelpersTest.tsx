@@ -12,4 +12,9 @@ describe("hoursOfOperationHelpers", () => {
     const treeString = JSON.stringify(tree);
     expect(treeString).toMatch("Open full schedule PDF");
   });
+
+  it("should return null if no pdf is passed", () => {
+    let pdf = pdfLink(null);
+    expect(pdf).toBe(null);
+  });
 });
