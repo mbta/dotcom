@@ -1,6 +1,7 @@
 import { mount, ReactWrapper } from "enzyme";
 import React from "react";
 import * as redux from "react-redux";
+import * as StopTreeHelpers from "../../../../helpers/stop-tree";
 import { aroundNow } from "../../../../models/__tests__/alert-test";
 import {
   Alert,
@@ -9,11 +10,12 @@ import {
   Prediction,
   Schedule
 } from "../../../../__v3api";
-import { RouteStop, StopTree } from "../../__schedule";
+import { RouteStop, RouteStopRoute, StopTree } from "../../__schedule";
 import { TripPrediction } from "../../__trips";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import StopPredictions from "../StopPredictions";
 import TreeStopCard from "../TreeStopCard";
+import { LiveData } from "../__line-diagram";
 
 const stopTree: StopTree = {
   byId: {
@@ -72,34 +74,114 @@ const alertB: Alert = {
 
 const handleStopClick = () => {};
 
+const emptyLiveData = { headsigns: [], vehicles: [] };
+
 describe("TreeStopCard", () => {
-  const liveData = { headsigns: [], vehicles: [] };
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-  let wrapper: ReactWrapper;
-
-  beforeEach(() => {
-    wrapper = mount(
+  it("renders and matches snapshot", () => {
+    const wrapper = mount(
       <redux.Provider store={store}>
         <TreeStopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={liveData}
+          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
-  });
 
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  it("renders and matches snapshot", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("includes a button to open Schedule Finder on each stop", () => {
+  it("for a stop on a subway route with upcoming departures, shows a View upcoming departures button", () => {
+    const liveDataWithHeadsigns: LiveData = {
+      headsigns: [
+        {
+          name: "MOCK"
+        } as HeadsignWithCrowding
+      ],
+      vehicles: []
+    };
+    jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
+      () =>
+        (({
+          route: { type: 1 } as RouteStopRoute,
+          stop_features: [],
+          connections: []
+        } as unknown) as RouteStop)
+    );
+
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <TreeStopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[]}
+          onClick={handleStopClick}
+          liveData={liveDataWithHeadsigns}
+        />
+      </redux.Provider>
+    );
+
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
+    expect(
+      wrapper.find(".m-schedule-diagram__footer > button").text()
+    ).toContain("View upcoming departures");
+  });
+
+  it("for a stop on a subway route with no upcoming departures, shows a View upcoming departures button", () => {
+    jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
+      () =>
+        (({
+          route: { type: 1 } as RouteStopRoute,
+          stop_features: [],
+          connections: []
+        } as unknown) as RouteStop)
+    );
+
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <TreeStopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeFalsy();
+
+    jest.restoreAllMocks();
+  });
+
+  it("for a stop on a non-subway route, always shows a View schedule button", () => {
+    jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
+      () =>
+        (({
+          route: { type: 3 } as RouteStopRoute,
+          stop_features: [],
+          connections: []
+        } as unknown) as RouteStop)
+    );
+
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <TreeStopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
     expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
     expect(
       wrapper.find(".m-schedule-diagram__footer > button").text()
@@ -114,7 +196,7 @@ describe("TreeStopCard", () => {
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={liveData}
+          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -132,7 +214,7 @@ describe("TreeStopCard", () => {
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={liveData}
+          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -153,6 +235,18 @@ describe("TreeStopCard", () => {
   });
 
   it("indicates detours, stop closures, etc", () => {
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <TreeStopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[alertA, alertB]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
     expect(wrapper.exists(".m-schedule-diagram__alert")).toBeTruthy();
     expect(wrapper.find(".m-schedule-diagram__alert").text()).toContain(
       "Detour"

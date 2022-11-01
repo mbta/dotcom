@@ -15,7 +15,11 @@ import {
   isHighSeverityOrHighPriority
 } from "../../../models/alert";
 import { hasPredictionTime } from "../../../models/prediction";
-import { isACommuterRailRoute, isAGreenLineRoute } from "../../../models/route";
+import {
+  isACommuterRailRoute,
+  isAGreenLineRoute,
+  isSubwayRoute
+} from "../../../models/route";
 import { Alert, Route } from "../../../__v3api";
 import { RouteStop, RouteStopRoute, StopId, StopTree } from "../__schedule";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
@@ -87,6 +91,31 @@ const connectionsFor = (
 const hasHighPriorityAlert = (stopId: StopId, alerts: Alert[]): boolean =>
   alertsByStop(alerts, stopId).filter(isHighSeverityOrHighPriority).length > 0;
 
+const routeForStop = (
+  stopTree: StopTree,
+  stopId: StopId
+): RouteStopRoute | null => {
+  const { route } = stopForId(stopTree, stopId);
+  return route;
+};
+
+const hasUpcomingDeparturesIfSubway = (
+  stopTree: StopTree,
+  stopId: StopId,
+  liveData?: LiveData
+): boolean => {
+  const route = routeForStop(stopTree, stopId);
+  if (!route || !isSubwayRoute(route)) return true;
+  return !!liveData && liveData.headsigns.length > 0;
+};
+
+const schedulesButtonLabel = (stopTree: StopTree, stopId: StopId): string => {
+  const route = routeForStop(stopTree, stopId);
+  return route && isSubwayRoute(route)
+    ? "View upcoming departures"
+    : "View schedule";
+};
+
 const Alert = (): JSX.Element => (
   <>
     {alertIcon("c-svg__icon-alerts-triangle")}
@@ -154,15 +183,18 @@ const TreeStopCard = ({
           )}
         </div>
 
-        <footer className="m-schedule-diagram__footer">
-          <button
-            className="btn btn-link"
-            type="button"
-            onClick={() => onClick(routeStop)}
-          >
-            View schedule
-          </button>
-        </footer>
+        {!isEndNode(stopTree, stopId) &&
+          hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData) && (
+            <footer className="m-schedule-diagram__footer">
+              <button
+                className="btn btn-link"
+                type="button"
+                onClick={() => onClick(routeStop)}
+              >
+                {schedulesButtonLabel(stopTree, stopId)}
+              </button>
+            </footer>
+          )}
       </section>
     </li>
   );
