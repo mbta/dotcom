@@ -26,7 +26,7 @@ const getSchedule = (
       <span className="font-weight-bold">
         {`${formatToBostonTime(
           stopData.first_departure
-        )} - ${formatToBostonTime(stopData.last_departure)}`}
+        )} – ${formatToBostonTime(stopData.last_departure)}`}
       </span>
     </div>
   ));

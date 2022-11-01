@@ -126,9 +126,9 @@ describe("RapidTransitHoursOfOperation", () => {
     expect(treeString).toMatch("Weekday Schedule");
     expect(treeString).toMatch("Test Stop 2");
     // only the week day stop that is a terminus stop is shown
-    expect(treeString).toMatch("7:55am - 10:45pm");
-    expect(treeString).not.toMatch("8:54am - 10:44pm");
-    expect(treeString).toMatch("8:15am - 9:15pm");
+    expect(treeString).toMatch("7:55 AM – 10:45 PM");
+    expect(treeString).not.toMatch("8:54 AM – 10:44 PM");
+    expect(treeString).toMatch("8:15 AM – 9:15 PM");
     expect(treeString).toMatch("Trains depart every 10 minutes");
   });
 });

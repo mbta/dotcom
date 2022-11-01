@@ -170,7 +170,6 @@ export const ScheduleLoader = ({
         connections,
         fares,
         fare_link: fareLink,
-        hours,
         holidays
       } = schedulePageData;
 
@@ -191,32 +190,26 @@ export const ScheduleLoader = ({
           fares={fares}
           fareLink={fareLink}
           route={route}
-          hours={hours}
           holidays={holidays}
-          scheduleNote={scheduleNote}
         />
       );
     }
 
     if (component === "SCHEDULE_NOTE" && scheduleNote) {
-      if (isSubwayRoute(route)) {
-        const { pdfs, hours } = schedulePageData;
-        return (
-          <div className="m-schedule-page__hours-of-operation--hide-non-mobile">
+      const { pdfs, hours } = schedulePageData;
+      return (
+        <>
+          {!routeIsSuspended && !isSubwayRoute(route) ? (
+            <ScheduleNote
+              className="m-schedule-page__schedule-notes--desktop"
+              scheduleNote={scheduleNote}
+            />
+          ) : null}
+          {isSubwayRoute(route) ? (
             <HoursOfOperation
               route={route}
               pdfs={pdfs}
               hours={hours}
-              scheduleNote={scheduleNote}
-            />
-          </div>
-        );
-      }
-      return (
-        <>
-          {!routeIsSuspended ? (
-            <ScheduleNote
-              className="m-schedule-page__schedule-notes--desktop"
               scheduleNote={scheduleNote}
             />
           ) : null}
