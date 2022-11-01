@@ -71,8 +71,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   def get_branch_route_stops(route, direction_id, route_pattern_id) do
     route
     |> do_get_branch_route_stops(direction_id, route_pattern_id)
-    |> RouteStop.list_from_route_patterns(route, direction_id)
-    |> Enum.chunk_by(& &1.branch)
+    |> Enum.map(&RouteStop.list_from_route_pattern(&1, route, direction_id))
     |> RouteStops.from_route_stop_groups()
   end
 
@@ -80,9 +79,8 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route_patterns = get_line_route_patterns(route.id, direction_id, route_pattern_id)
-
-    route_patterns
+    route.id
+    |> get_line_route_patterns(direction_id, route_pattern_id)
     |> filtered_by_typicality(route, route_pattern_id)
     |> Enum.map(&stops_for_route_pattern/1)
     |> maybe_use_overarching_branch()

@@ -39,14 +39,13 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
     test "returns a list of RouteStops, one for each branch of the line" do
       assert [
-               %RouteStops{branch: nil, stops: trunk_route_stops},
-               %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops},
-               %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops}
+               %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops},
+               %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Red"}, 0)
 
-      assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
+      assert Enum.all?(ashmont_route_stops, &(&1.branch == "Alewife - Ashmont"))
 
-      assert_stop_ids(trunk_route_stops, [
+      assert_stop_ids(ashmont_route_stops, [
         "place-alfcl",
         "place-davis",
         "place-portr",
@@ -59,10 +58,14 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-sstat",
         "place-brdwy",
         "place-andrw",
-        "place-jfk"
+        "place-jfk",
+        "place-shmnl",
+        "place-fldcr",
+        "place-smmnl",
+        "place-asmnl"
       ])
 
-      assert Enum.map(trunk_route_stops, & &1.is_terminus?) ==
+      assert Enum.map(ashmont_route_stops, & &1.is_terminus?) ==
                [
                  true,
                  false,
@@ -76,12 +79,20 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false,
                  false,
                  false,
-                 false
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
                ]
 
-      assert Enum.map(trunk_route_stops, & &1.is_beginning?) ==
+      assert Enum.map(ashmont_route_stops, & &1.is_beginning?) ==
                [
                  true,
+                 false,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -99,6 +110,19 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.all?(braintree_route_stops, &(&1.branch == "Alewife - Braintree"))
 
       assert_stop_ids(braintree_route_stops, [
+        "place-alfcl",
+        "place-davis",
+        "place-portr",
+        "place-harsq",
+        "place-cntsq",
+        "place-knncl",
+        "place-chmnl",
+        "place-pktrm",
+        "place-dwnxg",
+        "place-sstat",
+        "place-brdwy",
+        "place-andrw",
+        "place-jfk",
         "place-nqncy",
         "place-wlsta",
         "place-qnctr",
@@ -107,25 +131,48 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       ])
 
       assert Enum.map(braintree_route_stops, & &1.is_terminus?) ==
-               [false, false, false, false, true]
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
 
       assert Enum.map(braintree_route_stops, & &1.is_beginning?) ==
-               [false, false, false, false, false]
-
-      assert Enum.all?(ashmont_route_stops, &(&1.branch == "Alewife - Ashmont"))
-
-      assert_stop_ids(ashmont_route_stops, [
-        "place-shmnl",
-        "place-fldcr",
-        "place-smmnl",
-        "place-asmnl"
-      ])
-
-      assert Enum.map(ashmont_route_stops, & &1.is_terminus?) ==
-               [false, false, false, true]
-
-      assert Enum.map(ashmont_route_stops, & &1.is_beginning?) ==
-               [false, false, false, false]
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
     end
 
     test "handles the combined Green line" do
@@ -586,20 +633,13 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     end
 
     test "handles the Hingham-Hull ferry" do
-      branch_route_stops = Helpers.get_branch_route_stops(%Route{id: "Boat-F1"}, 0)
-
-      %RouteStops{stops: long_route_stops} =
-        Enum.find(branch_route_stops, &String.contains?(&1.branch, "Long Wharf - Hingham"))
-
-      %RouteStops{stops: rowe_route_stops} =
-        Enum.find(branch_route_stops, &(&1.branch == "Rowes Wharf - Hingham"))
-
-      %RouteStops{stops: trunk_route_stops} = Enum.find(branch_route_stops, &(&1.branch == nil))
-
-      assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
-      assert_stop_ids(trunk_route_stops, ["Boat-Hingham"])
-      assert Enum.map(trunk_route_stops, & &1.is_terminus?) == [true]
-      assert Enum.map(trunk_route_stops, & &1.is_beginning?) == [false]
+      [
+        %RouteStops{
+          branch: "Long Wharf - Hingham via Logan Airport & Hull",
+          stops: long_route_stops
+        },
+        %RouteStops{branch: "Rowes Wharf - Hingham", stops: rowe_route_stops}
+      ] = Helpers.get_branch_route_stops(%Route{id: "Boat-F1"}, 0)
 
       assert Enum.all?(
                long_route_stops,
@@ -608,121 +648,21 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       long_route_stop_ids = Enum.map(long_route_stops, & &1.id)
 
-      assert long_route_stop_ids == ["Boat-Long", "Boat-Hull"] ||
-               long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull"] ||
-               long_route_stop_ids == ["Boat-Long", "Boat-Logan", "Boat-Hull"]
+      assert long_route_stop_ids == ["Boat-Long", "Boat-Hull", "Boat-Hingham"] ||
+               long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull", "Boat-Hingham"] ||
+               long_route_stop_ids == ["Boat-Long", "Boat-Logan", "Boat-Hull", "Boat-Hingham"]
 
-      assert [true | non_termini] = Enum.map(long_route_stops, & &1.is_terminus?)
-      assert Enum.all?(non_termini, &(&1 == false))
+      assert [first | tail] = Enum.map(long_route_stops, & &1.is_terminus?)
+      [last | non_termini] = Enum.reverse(tail)
+      assert Enum.all?([first, last])
+      refute Enum.all?(non_termini)
       assert [true | non_beginning] = Enum.map(long_route_stops, & &1.is_beginning?)
       assert Enum.all?(non_beginning, &(&1 == false))
 
       assert Enum.all?(rowe_route_stops, &(&1.branch == "Rowes Wharf - Hingham"))
-      assert_stop_ids(rowe_route_stops, ["Boat-Rowes"])
-      assert Enum.map(rowe_route_stops, & &1.is_terminus?) == [true]
-      assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true]
-    end
-
-    @tag skip: "FIXME: Replace with mocked response data"
-    test "stitches together connecting patterns due to a shuttle on a branching CR line" do
-      newburyport_route = %Route{id: "CR-Newburyport"}
-
-      assert [
-               %RouteStops{branch: nil, stops: trunk_route_stops},
-               %RouteStops{branch: "North Station - Rockport", stops: rockport_route_stops},
-               %RouteStops{branch: "North Station - Newburyport", stops: newburyport_route_stops}
-             ] = Helpers.get_branch_route_stops(newburyport_route, 0)
-
-      assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
-
-      assert_stop_ids(trunk_route_stops, [
-        "place-north",
-        "place-chels",
-        "place-ER-0099",
-        "place-ER-0115",
-        "place-ER-0128",
-        "place-ER-0168",
-        "place-ER-0183"
-      ])
-
-      assert Enum.map(trunk_route_stops, & &1.is_terminus?) ==
-               [
-                 true,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false
-               ]
-
-      assert Enum.map(trunk_route_stops, & &1.is_beginning?) ==
-               [
-                 true,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false,
-                 false
-               ]
-
-      assert Enum.all?(rockport_route_stops, &(&1.branch == "North Station - Rockport"))
-
-      assert_stop_ids(rockport_route_stops, [
-        "place-GB-0198",
-        "place-GB-0229",
-        "place-GB-0254",
-        "place-GB-0296",
-        "place-GB-0316",
-        "place-GB-0353"
-      ])
-
-      assert Enum.map(rockport_route_stops, & &1.is_terminus?) == [
-               false,
-               false,
-               false,
-               false,
-               false,
-               true
-             ]
-
-      assert Enum.map(rockport_route_stops, & &1.is_beginning?) == [
-               false,
-               false,
-               false,
-               false,
-               false,
-               false
-             ]
-
-      assert Enum.all?(newburyport_route_stops, &(&1.branch == "North Station - Newburyport"))
-
-      assert_stop_ids(newburyport_route_stops, [
-        "place-ER-0208",
-        "place-ER-0227",
-        "place-ER-0276",
-        "place-ER-0312",
-        "place-ER-0362"
-      ])
-
-      assert Enum.map(newburyport_route_stops, & &1.is_terminus?) ==
-               [
-                 false,
-                 false,
-                 false,
-                 false,
-                 true
-               ]
-
-      assert Enum.map(newburyport_route_stops, & &1.is_beginning?) ==
-               [
-                 false,
-                 false,
-                 false,
-                 false,
-                 false
-               ]
+      assert_stop_ids(rowe_route_stops, ["Boat-Rowes", "Boat-Hingham"])
+      assert Enum.map(rowe_route_stops, & &1.is_terminus?) == [true, true]
+      assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true, false]
     end
 
     test "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
