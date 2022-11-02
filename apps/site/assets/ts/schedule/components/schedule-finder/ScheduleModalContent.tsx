@@ -7,12 +7,10 @@ import {
   SimpleStopMap,
   RoutePatternsByDirection,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType,
   SelectedOrigin,
   UserInput
 } from "../__schedule";
 import { EnhancedJourney, Journey, TripInfo } from "../__trips";
-import ScheduleNote from "../ScheduleNote";
 import ScheduleFinderForm from "./ScheduleFinderForm";
 import DailySchedule from "./daily-schedule/DailySchedule";
 import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
@@ -71,7 +69,6 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
-  scheduleNote: ScheduleNoteType | null;
 }
 
 const ScheduleModalContent = ({
@@ -84,8 +81,7 @@ const ScheduleModalContent = ({
   services,
   stops,
   routePatternsByDirection,
-  today,
-  scheduleNote
+  today
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 

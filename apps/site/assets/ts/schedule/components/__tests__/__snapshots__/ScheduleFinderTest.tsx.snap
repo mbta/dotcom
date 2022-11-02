@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScheduleFinder matches snapshot 1`] = `
-"<ScheduleFinder route={{...}} stops={{...}} directionId={0} services={{...}} routePatternsByDirection={{...}} today=\\"2019-12-05\\" scheduleNote={{...}} updateURL={[Function: updateURL]} changeDirection={[Function: changeDirection]} selectedOrigin={{...}} changeOrigin={[Function: changeOrigin]} closeModal={[Function: closeModal]} modalMode=\\"schedule\\" modalOpen={false}>
+"<ScheduleFinder route={{...}} stops={{...}} directionId={0} services={{...}} routePatternsByDirection={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} changeDirection={[Function: changeDirection]} selectedOrigin={{...}} changeOrigin={[Function: changeOrigin]} closeModal={[Function: closeModal]} modalMode=\\"schedule\\" modalOpen={false}>
   <div className=\\"schedule-finder\\">
     <Component onDirectionChange={[Function: changeDirection]} onOriginChange={[Function: changeOrigin]} onOriginSelectClick={[Function: openOriginModal]} onSubmit={[Function: openScheduleModal]} route={{...}} selectedDirection={0} selectedOrigin={{...}} stopsByDirection={{...}}>
       <form onSubmit={[Function: handleSubmit]}>

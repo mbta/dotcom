@@ -151,7 +151,6 @@ describe("ScheduleFinderModal", () => {
         initialMode={mode}
         route={route}
         routePatternsByDirection={routePatternsByDirection}
-        scheduleNote={null}
         services={services}
         stops={stops}
         today={today}

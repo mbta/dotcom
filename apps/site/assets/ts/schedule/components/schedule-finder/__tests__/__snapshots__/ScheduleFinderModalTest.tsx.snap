@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
-"<ScheduleFinderModal closeModal={[Function: closeModal]} initialMode=\\"origin\\" route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} initialDirection={0} directionChanged={[undefined]} initialOrigin={{...}} originChanged={[undefined]} handleOriginSelectClick={[Function: handleOriginSelectClick]}>
+"<ScheduleFinderModal closeModal={[Function: closeModal]} initialMode=\\"origin\\" route={{...}} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} initialDirection={0} directionChanged={[undefined]} initialOrigin={{...}} originChanged={[undefined]} handleOriginSelectClick={[Function: handleOriginSelectClick]}>
   <WrappedModal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
     <Modal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
       <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"origin-filter\\" className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
@@ -76,7 +76,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
 `;
 
 exports[`ScheduleFinderModal matches snapshot in origin mode with origin selected 1`] = `
-"<ScheduleFinderModal closeModal={[Function: closeModal]} initialMode=\\"origin\\" route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} initialDirection={0} directionChanged={[undefined]} initialOrigin={{...}} originChanged={[undefined]} handleOriginSelectClick={[Function: handleOriginSelectClick]}>
+"<ScheduleFinderModal closeModal={[Function: closeModal]} initialMode=\\"origin\\" route={{...}} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} initialDirection={0} directionChanged={[undefined]} initialOrigin={{...}} originChanged={[undefined]} handleOriginSelectClick={[Function: handleOriginSelectClick]}>
   <WrappedModal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
     <Modal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
       <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"origin-filter\\" className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
@@ -151,7 +151,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode with origin selecte
 `;
 
 exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
-"<ScheduleFinderModal closeModal={[Function: closeModal]} initialMode=\\"schedule\\" route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} initialDirection={0} directionChanged={[undefined]} initialOrigin=\\"place-welln\\" originChanged={[undefined]} handleOriginSelectClick={[Function: handleOriginSelectClick]}>
+"<ScheduleFinderModal closeModal={[Function: closeModal]} initialMode=\\"schedule\\" route={{...}} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} initialDirection={0} directionChanged={[undefined]} initialOrigin=\\"place-welln\\" originChanged={[undefined]} handleOriginSelectClick={[Function: handleOriginSelectClick]}>
   <WrappedModal focusElementId=\\"modal-close\\" ariaLabel={{...}} className=\\"\\" closeModal={[Function: closeModal]}>
     <Modal focusElementId=\\"modal-close\\" ariaLabel={{...}} className=\\"\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
       <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"modal-close\\" className=\\"\\" closeModal={[Function: closeModal]}>
@@ -162,7 +162,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                 Close
               </button>
               <div className=\\"c-modal__content\\">
-                <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
+                <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
                   <div className=\\"schedule-finder schedule-finder--modal\\">
                     <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" stopsByDirection={{...}}>
                       <form onSubmit={[Function: handleSubmit]}>

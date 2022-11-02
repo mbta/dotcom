@@ -4,7 +4,6 @@ import {
   SimpleStopMap,
   RoutePatternsByDirection,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType,
   SelectedOrigin
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
@@ -22,7 +21,6 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
-  scheduleNote: ScheduleNoteType | null;
   changeDirection: (direction: DirectionId) => void;
   selectedOrigin: SelectedOrigin;
   changeOrigin: (origin: SelectedOrigin) => void;
@@ -39,7 +37,6 @@ const ScheduleFinder = ({
   stops,
   routePatternsByDirection,
   today,
-  scheduleNote,
   modalMode,
   selectedOrigin,
   changeDirection,
@@ -111,7 +108,6 @@ const ScheduleFinder = ({
           originChanged={changeOrigin}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
-          scheduleNote={scheduleNote}
           services={services}
           stops={stops}
           today={today}

@@ -178,7 +178,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin={null}
@@ -203,7 +202,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin="123"
@@ -261,7 +259,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin={null}
@@ -289,7 +286,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin="123"
