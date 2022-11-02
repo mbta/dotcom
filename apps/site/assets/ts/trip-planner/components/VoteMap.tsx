@@ -89,12 +89,13 @@ const VoteMap = (): ReactElement<HTMLElement> => {
           ) : (
             <div>
               <p>
-                We’re sorry, we are unable to provide a nearby polling location
+                We’re sorry, we are unable to find the polling place
                 for that address.
               </p>
               <p>
+                If you are registered to vote in MA, you can&nbsp; 
                 <a href="https://www.sec.state.ma.us/WhereDoIVoteMA/bal/MyElectionInfo.aspx">
-                  Find your polling location on the Secretary of State’s
+                  find your polling place on the Secretary of the Commonwealth's
                   website.
                 </a>
               </p>
