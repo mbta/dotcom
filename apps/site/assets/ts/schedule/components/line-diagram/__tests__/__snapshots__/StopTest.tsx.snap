@@ -3,7 +3,7 @@
 exports[`Stop component renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <svg>
-    <Stop stopId=\\"line-origin\\">
+    <Stop stopId=\\"a\\">
       <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"7px\\" cy=\\"17px\\" data-shuttle={false} />
     </Stop>
   </svg>

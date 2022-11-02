@@ -10,7 +10,6 @@ defmodule SiteWeb.ScheduleController.Line do
   alias Plug.Conn
   alias Routes.Route
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
-  alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.Maps
   alias Stops.Repo, as: StopsRepo
@@ -134,8 +133,6 @@ defmodule SiteWeb.ScheduleController.Line do
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
 
-    diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
-
     branch_route_stops = LineHelpers.get_branch_route_stops(route, direction_id)
 
     stop_tree =
@@ -146,10 +143,6 @@ defmodule SiteWeb.ScheduleController.Line do
     conn
     |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
-    |> assign(
-      :all_stops,
-      DiagramHelpers.build_stop_list(static_branches, diagram_direction)
-    )
     |> assign(:stop_tree, stop_tree)
     |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)

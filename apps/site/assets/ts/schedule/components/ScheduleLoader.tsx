@@ -137,7 +137,6 @@ export const ScheduleLoader = ({
     route_patterns: routePatternsByDirection,
     schedule_note: scheduleNote,
     today,
-    line_diagram: lineDiagram,
     stop_tree,
     alerts,
     variant: busVariantId
@@ -323,7 +322,6 @@ export const ScheduleLoader = ({
           routePatternsByDirection={routePatternsByDirection}
           mapData={mapData}
           staticMapData={staticMapData}
-          lineDiagram={lineDiagram}
           stopTree={stopTree}
           alerts={alerts}
           busVariantId={busVariantId}

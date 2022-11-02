@@ -18,7 +18,6 @@ import { EnhancedRoute } from "../../../__v3api";
 import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
 import {
   ShapesById,
-  LineDiagramStop,
   RoutePatternsByDirection,
   StopTree,
   StopTreeData
@@ -30,11 +29,7 @@ import { fromStopTreeData } from "../ScheduleLoader";
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
 
-const {
-  line_diagram: lineDiagram,
-  stop_tree
-} = (lineDiagramData as unknown) as {
-  line_diagram: LineDiagramStop[];
+const { stop_tree } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
 const stopTree: StopTree = fromStopTreeData(stop_tree);
@@ -174,7 +169,6 @@ const getComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
-    lineDiagram={lineDiagram}
     stopTree={stopTree}
     alerts={[]}
     busVariantId={null}
@@ -187,7 +181,6 @@ const getSingleDirectionComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
-    lineDiagram={lineDiagram}
     stopTree={stopTree}
     alerts={[]}
     busVariantId={null}
@@ -200,7 +193,6 @@ const getSubwayComponent = () => (
     route={{ ...route, type: 1 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    lineDiagram={lineDiagram}
     stopTree={stopTree}
     alerts={[]}
     busVariantId={null}
@@ -213,7 +205,6 @@ const getCRComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
-    lineDiagram={lineDiagram}
     stopTree={stopTree}
     alerts={[]}
     busVariantId={null}
@@ -226,7 +217,6 @@ const getStaticMapComponent = () => (
     route={{ ...route, type: 4 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    lineDiagram={lineDiagram}
     stopTree={stopTree}
     alerts={[]}
     busVariantId={null}
@@ -255,7 +245,6 @@ const getGreenLineComponent = () => {
       route={greenRoute}
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
-      lineDiagram={lineDiagram}
       stopTree={stopTree}
       alerts={[]}
       busVariantId={null}
@@ -269,7 +258,6 @@ const getVariantComponent = () => (
     directionId={0}
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
-    lineDiagram={lineDiagram}
     stopTree={stopTree}
     alerts={[]}
     busVariantId="pattern-3"
@@ -567,7 +555,7 @@ describe("fetchLineData", () => {
       });
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_COMPLETE",
-        payload: { line_diagram: lineDiagram, stopTree }
+        payload: { stopTree }
       });
     });
   });

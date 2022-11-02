@@ -2,7 +2,6 @@ import React from "react";
 import { Provider } from "react-redux";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
-  LineDiagramStop,
   ServiceInSelector,
   RoutePatternsByDirection,
   StopTreeData
@@ -70,11 +69,7 @@ const stops = {
   ]
 };
 
-const {
-  line_diagram: lineDiagram,
-  stop_tree: stopTreeData
-} = (lineDiagramData as unknown) as {
-  line_diagram: LineDiagramStop[];
+const { stop_tree: stopTreeData } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
 
@@ -245,7 +240,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -278,7 +272,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -313,7 +306,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -392,7 +384,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -426,7 +417,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -470,7 +460,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -511,7 +500,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -545,7 +533,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -598,7 +585,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -666,7 +652,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -713,7 +698,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -769,7 +753,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -809,7 +792,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -867,7 +849,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -915,7 +896,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -961,7 +941,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routes,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -1034,7 +1013,6 @@ describe("ScheduleLoader", () => {
       services,
       stops,
       direction_id: 1,
-      line_diagram: lineDiagram,
       today: "2019-12-05",
       stop_tree: stopTreeData,
       alerts: [],
@@ -1093,7 +1071,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],
@@ -1137,7 +1114,6 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
             stop_tree: stopTreeData,
             alerts: [],

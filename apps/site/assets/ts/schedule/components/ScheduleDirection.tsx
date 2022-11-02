@@ -2,7 +2,6 @@ import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
 import { Alert, DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
-  LineDiagramStop,
   EnhancedRoutePattern,
   StopTree
 } from "./__schedule";
@@ -26,7 +25,6 @@ export interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   mapData?: MapData;
   staticMapData?: StaticMapData;
-  lineDiagram: LineDiagramStop[];
   stopTree: StopTree;
   alerts: Alert[];
   busVariantId: string | null;
@@ -79,12 +77,11 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(json => {
-        const { line_diagram, stop_tree } = json;
+      .then(({ stop_tree }) => {
         const stopTree: StopTree = fromStopTreeData(stop_tree);
         dispatch({
           type: "FETCH_COMPLETE",
-          payload: { line_diagram, stopTree }
+          payload: { stopTree }
         });
       })
       // @ts-ignore
@@ -98,7 +95,6 @@ const ScheduleDirection = ({
   routePatternsByDirection,
   mapData,
   staticMapData,
-  lineDiagram,
   stopTree: initialStopTree,
   alerts,
   busVariantId
@@ -189,7 +185,6 @@ const ScheduleDirection = ({
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: {
-      lineDiagram,
       stopTree: initialStopTree
     },
     isLoading: false,

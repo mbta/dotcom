@@ -45,7 +45,6 @@ export interface SchedulePageData {
   stops: SimpleStopMap;
   direction_id: DirectionId;
   route_patterns: RoutePatternsByDirection;
-  line_diagram: LineDiagramStop[];
   stop_tree: StopTreeData;
   alerts: Alert[];
   today: string;
@@ -88,12 +87,6 @@ interface StopData {
   branch: string | null;
   type: "line" | "merge" | "stop" | "terminus" | null;
   "has_disruption?": boolean;
-}
-
-export interface LineDiagramStop {
-  stop_data: StopData[];
-  route_stop: RouteStop;
-  alerts: Alert[];
 }
 
 export type CrowdingType = "not_crowded" | "some_crowding" | "crowded" | null;

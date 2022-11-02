@@ -1,22 +1,53 @@
 import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
-import { LineDiagramStop } from "../../__schedule";
-import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
-import {
-  createLineDiagramCoordStore,
-  CIRC_RADIUS
-} from "../graphics/graphic-helpers";
+import { RouteStop, StopTree } from "../../__schedule";
+import { CIRC_RADIUS } from "../graphics/graphic-helpers";
 import Stop from "../graphics/Stop";
-const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
+import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 
 const [testX, testY] = [7, 17];
-const store = createLineDiagramCoordStore([lineDiagram[0]]);
+const stopTree: StopTree = {
+  byId: {
+    a: {
+      id: "a",
+      value: ({
+        id: "a",
+        connections: [{ id: "Orange", name: "Orange Line" }],
+        stop_features: ["parking_lot"]
+      } as unknown) as RouteStop
+    },
+    b: {
+      id: "b",
+      value: ({
+        id: "b",
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    c: {
+      id: "c",
+      value: ({
+        id: "c",
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    }
+  },
+  edges: {
+    a: { next: ["b"], previous: [] },
+    b: { next: ["c"], previous: ["a"] },
+    c: { next: [], previous: ["b"] }
+  },
+  startingNodes: ["a"]
+};
+const store = createStopTreeCoordStore(stopTree);
+
+const stopId = "a";
 // mock the redux state
 const mockState = {
-  [lineDiagram[0].route_stop.id]: [testX, testY]
+  [stopId]: [testX, testY]
 };
-
 jest
   .spyOn(redux, "useSelector")
   .mockImplementation(selector => selector(mockState));
@@ -27,7 +58,7 @@ describe("Stop component", () => {
     wrapper = mount(
       <redux.Provider store={store}>
         <svg>
-          <Stop stopId={lineDiagram[0].route_stop.id} />
+          <Stop stopId={stopId} />
         </svg>
       </redux.Provider>
     );
