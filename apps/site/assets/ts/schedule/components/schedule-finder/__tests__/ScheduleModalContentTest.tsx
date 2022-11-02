@@ -3,7 +3,6 @@ import renderer, { act } from "react-test-renderer";
 import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
-import ScheduleNote from "../../ScheduleNote";
 import { UpcomingDepartures } from "../upcoming-departures/UpcomingDepartures";
 import { mount } from "enzyme";
 import DailySchedule from "../daily-schedule/DailySchedule";
