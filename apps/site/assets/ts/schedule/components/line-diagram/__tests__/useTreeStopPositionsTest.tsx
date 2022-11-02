@@ -35,7 +35,7 @@ const wrapper = ({ children }: any) => (
   <redux.Provider store={store}>{children}</redux.Provider>
 );
 
-describe("useStopPositions", () => {
+describe("useTreeStopPositions", () => {
   it("returns a set of refs & an update function", () => {
     const { result } = renderHook(() => useTreeStopPositions(stopTree), {
       wrapper

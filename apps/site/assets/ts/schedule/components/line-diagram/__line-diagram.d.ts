@@ -1,11 +1,5 @@
 import { HeadsignWithCrowding } from "../../../__v3api";
-import { LineDiagramVehicle, LineDiagramStop, RouteStop } from "../__schedule";
-
-export interface CommonLineDiagramProps {
-  stops: LineDiagramStop[];
-  handleStopClick: (stop: RouteStop) => void;
-  liveData: LiveDataByStop | undefined;
-}
+import { LineDiagramVehicle } from "../__schedule";
 
 export interface LiveData {
   headsigns: HeadsignWithCrowding[];
@@ -15,5 +9,3 @@ export interface LiveData {
 export interface LiveDataByStop {
   [stopId: string]: LiveData;
 }
-
-export type BranchDirection = "inward" | "outward";

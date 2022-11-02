@@ -204,7 +204,7 @@ describe("TreeLineDiagramWithStops", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("uses the useStopPositions hook", () => {
+  it("uses the useTreeStopPositions hook", () => {
     expect(spy).toHaveBeenCalled();
   });
 

@@ -23,10 +23,10 @@ import {
 import { Alert, Route } from "../../../__v3api";
 import { RouteStop, RouteStopRoute, StopId, StopTree } from "../__schedule";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
-import { StopRefContext } from "./LineDiagramWithStops";
 import StopConnections from "./StopConnections";
 import StopFeatures from "./StopFeatures";
 import StopPredictions from "./StopPredictions";
+import { StopRefContext } from "./TreeLineDiagramWithStops";
 import { LiveData } from "./__line-diagram";
 
 interface Props {

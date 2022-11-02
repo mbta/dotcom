@@ -11,7 +11,7 @@ import {
   CIRC_RADIUS
 } from "./graphics/graphic-helpers";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
-import { StopRefContext } from "./LineDiagramWithStops";
+import { StopRefContext } from "./TreeLineDiagramWithStops";
 import TreeStopCard from "./TreeStopCard";
 import { LiveDataByStop } from "./__line-diagram";
 

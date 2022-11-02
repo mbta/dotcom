@@ -12,7 +12,6 @@ import { fetchAction, reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
-// import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import {
   isABusRoute,
   isSubwayRoute,
@@ -225,20 +224,6 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {/* OLD LINE DIAGRAM */}
-      {/* {isSubwayRoute(route) &&
-        ? lineState.data &&
-          lineState.data[0] && (
-            <>
-              <LineDiagramAndStopListPage
-                lineDiagram={lineState.data}
-                route={route}
-                directionId={state.directionId}
-              />
-              <h2>Realtime Tracking Map</h2>
-            </>
-          )} */}
-      {/* NEW LINE DIAGRAM */}
       {isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
         <TreeLineDiagram
           stopTree={lineState.data.stopTree}
@@ -273,15 +258,6 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {/* OLD LINE DIAGRAM */}
-      {/* {!isSubwayRoute(route) && lineState.data && lineState.data[0] && (
-        <LineDiagramAndStopListPage
-          lineDiagram={lineState.data}
-          route={route}
-          directionId={state.directionId}
-        />
-      )} */}
-      {/* NEW LINE DIAGRAM */}
       {!isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
         <TreeLineDiagram
           stopTree={lineState.data.stopTree}

@@ -10,8 +10,7 @@ import { hasPredictionTime } from "../../../models/prediction";
 import { Alert, DirectionId, Route } from "../../../__v3api";
 import { RouteStop, StopId, StopTree } from "../__schedule";
 import TreeDiagram from "./graphics/TreeDiagram";
-import useTreeStopPositions from "./graphics/useTreeStopPositions";
-import { StopRefContext } from "./LineDiagramWithStops";
+import useTreeStopPositions, { RefMap } from "./graphics/useTreeStopPositions";
 import TreeExpandableBranch from "./TreeExpandableBranch";
 import TreeStopCard from "./TreeStopCard";
 import { LiveDataByStop } from "./__line-diagram";
@@ -24,6 +23,11 @@ interface Props {
   handleStopClick: (stop: RouteStop) => void;
   liveData?: LiveDataByStop;
 }
+
+export const StopRefContext = React.createContext<[RefMap, () => void]>([
+  new Map(),
+  () => {}
+]);
 
 const stopsToTerminus = (stopTree: StopTree, stopId: StopId): StopId[] => [
   stopId,

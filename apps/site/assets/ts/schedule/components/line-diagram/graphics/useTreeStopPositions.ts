@@ -11,7 +11,8 @@ import {
   coordReducer,
   CoordState
 } from "./graphic-helpers";
-import { RefMap } from "./useStopPositions";
+
+export type RefMap = Map<string, HTMLElement | null>;
 
 export const createStopTreeCoordStore = (
   stopTree: StopTree
