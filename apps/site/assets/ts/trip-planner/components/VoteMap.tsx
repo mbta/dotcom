@@ -93,9 +93,9 @@ const VoteMap = (): ReactElement<HTMLElement> => {
                 for that address.
               </p>
               <p>
-                If you are registered to vote in MA, you can 
+                If you are registered to vote in MA, you can&nbsp; 
                 <a href="https://www.sec.state.ma.us/WhereDoIVoteMA/bal/MyElectionInfo.aspx">
-                   find your polling place on the Secretary of the Commonwealth's
+                  find your polling place on the Secretary of the Commonwealth's
                   website.
                 </a>
               </p>
