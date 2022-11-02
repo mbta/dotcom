@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
+exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <TreeLineDiagramWithStops stopTree={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+  <LineDiagramWithStops stopTree={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
     <div className=\\"m-schedule-diagram \\">
-      <TreeDiagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
+      <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
         <LiveVehicleIconSet stopTree={{...}} stopId=\\"a1\\" liveData={{...}} />
         <LiveVehicleIconSet stopTree={{...}} stopId=\\"a2\\" liveData={{...}} />
         <LiveVehicleIconSet stopTree={{...}} stopId=\\"b1\\" liveData={{...}} />
@@ -32,46 +32,46 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
               <line className=\\"line-diagram-svg__line\\" y2={8} strokeWidth=\\"16px\\" />
             </pattern>
           </defs>
-          <TreeMerges stopTree={{...}} alerts={{...}}>
+          <Merges stopTree={{...}} alerts={{...}}>
             <g className=\\"line-diagram-svg__merge\\">
-              <TreeLine stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
-              <TreeLine stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
-              <TreeLine stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}}>
+              <Line stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
+              <Line stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
+              <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}}>
                 <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-              </TreeLine>
+              </Line>
               <path strokeWidth=\\"10px\\" d=\\"M27,0 v-26 a-6,6 0 0 1 -6,6 h-10\\" />
               <path strokeWidth=\\"10px\\" d=\\"M27,0 v-26 a-6,6 0 0 1 -6,6 h-10\\" />
               <path strokeWidth=\\"10px\\" d=\\"M27,0 v66 a-6,-6 0 0 0 -6,-6 h-10\\" />
             </g>
-          </TreeMerges>
-          <TreeLine stopTree={{...}} fromId=\\"a1\\" toId=\\"a2\\" alerts={{...}} />
-          <TreeLine stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
-          <TreeLine stopTree={{...}} fromId=\\"b1\\" toId=\\"b2\\" alerts={{...}}>
+          </Merges>
+          <Line stopTree={{...}} fromId=\\"a1\\" toId=\\"a2\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"b1\\" toId=\\"b2\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"b2\\" toId=\\"b3\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"b2\\" toId=\\"b3\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"b3\\" toId=\\"m1\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"b3\\" toId=\\"m1\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"c1\\" toId=\\"c2\\" alerts={{...}} />
-          <TreeLine stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
-          <TreeLine stopTree={{...}} fromId=\\"m1\\" toId=\\"m2\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"c1\\" toId=\\"c2\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"m1\\" toId=\\"m2\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"m2\\" toId=\\"m3\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"m2\\" toId=\\"m3\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"m3\\" toId=\\"x1\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"x1\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
-          <TreeLine stopTree={{...}} fromId=\\"x1\\" toId=\\"x2\\" alerts={{...}}>
+          </Line>
+          <Line stopTree={{...}} fromId=\\"x1\\" toId=\\"x2\\" alerts={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
-          </TreeLine>
+          </Line>
           <Stop stopId=\\"a1\\">
             <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"27px\\" cy=\\"0px\\" data-shuttle={false} />
           </Stop>
@@ -108,10 +108,10 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
             <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"27px\\" cy=\\"0px\\" data-shuttle={false} />
           </Stop>
         </svg>
-      </TreeDiagram>
+      </Diagram>
       <ol>
         <NextStopOrBranch stopTree={{...}} stopId=\\"b1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-          <TreeStopCard stopTree={{...}} stopId=\\"b1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+          <StopCard stopTree={{...}} stopId=\\"b1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b1\\" />
@@ -141,9 +141,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                 </footer>
               </section>
             </li>
-          </TreeStopCard>
+          </StopCard>
           <NextStopOrBranch stopTree={{...}} stopId=\\"b2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-            <TreeStopCard stopTree={{...}} stopId=\\"b2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+            <StopCard stopTree={{...}} stopId=\\"b2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
                   <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b2\\" />
@@ -173,9 +173,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                   </footer>
                 </section>
               </li>
-            </TreeStopCard>
+            </StopCard>
             <NextStopOrBranch stopTree={{...}} stopId=\\"b3\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-              <TreeStopCard stopTree={{...}} stopId=\\"b3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+              <StopCard stopTree={{...}} stopId=\\"b3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                   <section className=\\"m-schedule-diagram__content\\">
                     <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b3\\" />
@@ -205,9 +205,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                     </footer>
                   </section>
                 </li>
-              </TreeStopCard>
+              </StopCard>
               <NextStopOrBranch stopTree={{...}} stopId=\\"m1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                <TreeStopCard stopTree={{...}} stopId=\\"a1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                <StopCard stopTree={{...}} stopId=\\"a1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                   <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                     <section className=\\"m-schedule-diagram__content\\">
                       <GlxOpen pageType=\\"line-diagram\\" stopId=\\"a1\\" />
@@ -237,8 +237,8 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                       </footer>
                     </section>
                   </li>
-                </TreeStopCard>
-                <TreeExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+                </StopCard>
+                <ExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
                   <div className=\\"m-schedule-diagram__expander\\">
                     <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
                       <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -269,9 +269,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                       </noscript>
                     </ExpandableBlock>
                   </div>
-                </TreeExpandableBranch>
+                </ExpandableBranch>
                 <NextStopOrBranch stopTree={{...}} stopId=\\"m1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                  <TreeStopCard stopTree={{...}} stopId=\\"m1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                  <StopCard stopTree={{...}} stopId=\\"m1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                       <section className=\\"m-schedule-diagram__content\\">
                         <GlxOpen pageType=\\"line-diagram\\" stopId=\\"m1\\" />
@@ -301,9 +301,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                         </footer>
                       </section>
                     </li>
-                  </TreeStopCard>
+                  </StopCard>
                   <NextStopOrBranch stopTree={{...}} stopId=\\"m2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                    <TreeStopCard stopTree={{...}} stopId=\\"c1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                    <StopCard stopTree={{...}} stopId=\\"c1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                       <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                         <section className=\\"m-schedule-diagram__content\\">
                           <GlxOpen pageType=\\"line-diagram\\" stopId=\\"c1\\" />
@@ -333,8 +333,8 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                           </footer>
                         </section>
                       </li>
-                    </TreeStopCard>
-                    <TreeExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+                    </StopCard>
+                    <ExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
                       <div className=\\"m-schedule-diagram__expander\\">
                         <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
                           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -365,9 +365,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                           </noscript>
                         </ExpandableBlock>
                       </div>
-                    </TreeExpandableBranch>
+                    </ExpandableBranch>
                     <NextStopOrBranch stopTree={{...}} stopId=\\"m2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                      <TreeStopCard stopTree={{...}} stopId=\\"m2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                      <StopCard stopTree={{...}} stopId=\\"m2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                           <section className=\\"m-schedule-diagram__content\\">
                             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"m2\\" />
@@ -397,9 +397,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                             </footer>
                           </section>
                         </li>
-                      </TreeStopCard>
+                      </StopCard>
                       <NextStopOrBranch stopTree={{...}} stopId=\\"m3\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                        <TreeStopCard stopTree={{...}} stopId=\\"m3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                        <StopCard stopTree={{...}} stopId=\\"m3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                             <section className=\\"m-schedule-diagram__content\\">
                               <GlxOpen pageType=\\"line-diagram\\" stopId=\\"m3\\" />
@@ -429,9 +429,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                               </footer>
                             </section>
                           </li>
-                        </TreeStopCard>
+                        </StopCard>
                         <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                          <TreeStopCard stopTree={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                          <StopCard stopTree={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                               <section className=\\"m-schedule-diagram__content\\">
                                 <GlxOpen pageType=\\"line-diagram\\" stopId=\\"y1\\" />
@@ -456,9 +456,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                                 </div>
                               </section>
                             </li>
-                          </TreeStopCard>
+                          </StopCard>
                           <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                            <TreeStopCard stopTree={{...}} stopId=\\"x1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                            <StopCard stopTree={{...}} stopId=\\"x1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                 <section className=\\"m-schedule-diagram__content\\">
                                   <GlxOpen pageType=\\"line-diagram\\" stopId=\\"x1\\" />
@@ -488,9 +488,9 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                                   </footer>
                                 </section>
                               </li>
-                            </TreeStopCard>
+                            </StopCard>
                             <NextStopOrBranch stopTree={{...}} stopId=\\"x2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                              <TreeStopCard stopTree={{...}} stopId=\\"x2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                              <StopCard stopTree={{...}} stopId=\\"x2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                   <section className=\\"m-schedule-diagram__content\\">
                                     <GlxOpen pageType=\\"line-diagram\\" stopId=\\"x2\\" />
@@ -515,7 +515,7 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
                                     </div>
                                   </section>
                                 </li>
-                              </TreeStopCard>
+                              </StopCard>
                             </NextStopOrBranch>
                           </NextStopOrBranch>
                         </NextStopOrBranch>
@@ -529,6 +529,6 @@ exports[`TreeLineDiagramWithStops renders and matches snapshot 1`] = `
         </NextStopOrBranch>
       </ol>
     </div>
-  </TreeLineDiagramWithStops>
+  </LineDiagramWithStops>
 </Provider>"
 `;

@@ -5,7 +5,7 @@ import { aroundNow } from "../../../../models/__tests__/alert-test";
 import { Alert, InformedEntitySet } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";
 import { BASE_LINE_WIDTH } from "../graphics/graphic-helpers";
-import TreeLine from "../graphics/TreeLine";
+import Line from "../graphics/Line";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 
 const routeStopA: RouteStop = { id: "a" } as RouteStop;
@@ -65,13 +65,13 @@ jest
   .spyOn(redux, "useSelector")
   .mockImplementation(selector => selector(mockState));
 
-describe("TreeLine component", () => {
+describe("Line component", () => {
   let wrapper: ReactWrapper;
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
         <svg>
-          <TreeLine stopTree={stopTree} fromId={"a"} toId={"b"} alerts={[]} />
+          <Line stopTree={stopTree} fromId={"a"} toId={"b"} alerts={[]} />
         </svg>
       </redux.Provider>
     );
@@ -98,12 +98,12 @@ describe("TreeLine component", () => {
   });
 });
 
-describe("TreeLine component between stops with branches", () => {
+describe("Line component between stops with branches", () => {
   let wrapper: ReactWrapper;
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <TreeLine stopTree={stopTree} fromId={"b"} toId={"d"} alerts={[]} />
+        <Line stopTree={stopTree} fromId={"b"} toId={"d"} alerts={[]} />
       </redux.Provider>
     );
   });
@@ -129,12 +129,12 @@ describe("TreeLine component between stops with branches", () => {
   });
 });
 
-describe("TreeLine component between stops with disruptions", () => {
+describe("Line component between stops with disruptions", () => {
   let wrapper: ReactWrapper;
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <TreeLine
+        <Line
           stopTree={stopTree}
           fromId={"a"}
           toId={"b"}

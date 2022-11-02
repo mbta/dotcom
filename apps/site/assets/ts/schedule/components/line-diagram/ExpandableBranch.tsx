@@ -11,8 +11,8 @@ import {
   CIRC_RADIUS
 } from "./graphics/graphic-helpers";
 import { branchPosition, diagramWidth } from "./line-diagram-helpers";
-import { StopRefContext } from "./TreeLineDiagramWithStops";
-import TreeStopCard from "./TreeStopCard";
+import { StopRefContext } from "./LineDiagramWithStops";
+import StopCard from "./StopCard";
 import { LiveDataByStop } from "./__line-diagram";
 
 interface Props {
@@ -66,7 +66,7 @@ const BranchToggle = (
   );
 };
 
-const TreeExpandableBranch = ({
+const ExpandableBranch = ({
   stopTree,
   stopIds,
   alerts,
@@ -96,7 +96,7 @@ const TreeExpandableBranch = ({
       >
         <>
           {stopIds.map(stopId => (
-            <TreeStopCard
+            <StopCard
               key={stopId}
               stopTree={stopTree}
               stopId={stopId}
@@ -111,4 +111,4 @@ const TreeExpandableBranch = ({
   );
 };
 
-export default TreeExpandableBranch;
+export default ExpandableBranch;

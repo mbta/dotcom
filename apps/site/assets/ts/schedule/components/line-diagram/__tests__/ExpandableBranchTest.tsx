@@ -3,7 +3,7 @@ import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import { RouteStop, StopTree } from "../../__schedule";
-import TreeExpandableBranch from "../TreeExpandableBranch";
+import ExpandableBranch from "../ExpandableBranch";
 import { RouteType } from "../../../../__v3api";
 
 const stopTree: StopTree = {
@@ -148,13 +148,13 @@ const store = createStopTreeCoordStore(stopTree);
 const handleStopClick = () => {};
 const liveData = {};
 
-describe("TreeExpandableBranch", () => {
+describe("ExpandableBranch", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <TreeExpandableBranch
+        <ExpandableBranch
           stopTree={stopTree}
           stopIds={["x1", "x2"]}
           alerts={[]}

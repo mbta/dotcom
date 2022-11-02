@@ -10,8 +10,8 @@ import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
 import { RouteStop, SelectedOrigin, StopTree } from "../__schedule";
 import { createStopTreeCoordStore } from "./graphics/useTreeStopPositions";
-import TreeLineDiagramWithStops from "./TreeLineDiagramWithStops";
-import TreeStopCard from "./TreeStopCard";
+import LineDiagramWithStops from "./LineDiagramWithStops";
+import StopCard from "./StopCard";
 
 interface Props {
   stopTree: StopTree;
@@ -38,7 +38,7 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   }
 };
 
-const TreeLineDiagram = ({
+const LineDiagram = ({
   stopTree,
   route,
   directionId,
@@ -92,7 +92,7 @@ const TreeLineDiagram = ({
         <ol className="m-schedule-diagram m-schedule-diagram--searched">
           {filteredStops.length ? (
             filteredStops.map((stop: RouteStop) => (
-              <TreeStopCard
+              <StopCard
                 key={stop.id}
                 stopTree={stopTree}
                 stopId={stop.id}
@@ -113,7 +113,7 @@ const TreeLineDiagram = ({
         </ol>
       ) : (
         <Provider store={stopTreeCoordStore}>
-          <TreeLineDiagramWithStops
+          <LineDiagramWithStops
             stopTree={stopTree}
             route={route}
             directionId={directionId}
@@ -127,4 +127,4 @@ const TreeLineDiagram = ({
   );
 };
 
-export default TreeLineDiagram;
+export default LineDiagram;

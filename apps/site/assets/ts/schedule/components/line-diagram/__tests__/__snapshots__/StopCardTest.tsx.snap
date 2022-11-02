@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TreeStopCard renders and matches snapshot 1`] = `
+exports[`StopCard renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <TreeStopCard stopTree={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
+  <StopCard stopTree={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
       <section className=\\"m-schedule-diagram__content\\">
         <GlxOpen pageType=\\"line-diagram\\" stopId=\\"a\\" />
@@ -50,6 +50,6 @@ exports[`TreeStopCard renders and matches snapshot 1`] = `
         </footer>
       </section>
     </li>
-  </TreeStopCard>
+  </StopCard>
 </Provider>"
 `;

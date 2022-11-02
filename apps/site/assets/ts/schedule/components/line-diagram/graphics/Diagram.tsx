@@ -18,8 +18,8 @@ import VehicleIcons from "../VehicleIcons";
 import { LiveDataByStop } from "../__line-diagram";
 import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
 import Stop from "./Stop";
-import TreeLine from "./TreeLine";
-import TreeMerges from "./TreeMerges";
+import Line from "./Line";
+import Merges from "./Merges";
 
 interface Props {
   stopTree: StopTree;
@@ -94,7 +94,7 @@ const LiveVehicleIconSet = ({
   );
 };
 
-const TreeDiagram = ({
+const Diagram = ({
   stopTree,
   route,
   directionId,
@@ -128,13 +128,13 @@ const TreeDiagram = ({
 
       {/* If there are multiple branches, draw the lines and curves for those */
       hasBranchLines(stopTree) && (
-        <TreeMerges stopTree={stopTree} alerts={alerts} />
+        <Merges stopTree={stopTree} alerts={alerts} />
       )}
 
       {/* Draw lines between stops */
       stopIds(stopTree).map(stopId =>
         nextStopIds(stopTree, stopId).map(nextStopId => (
-          <TreeLine
+          <Line
             key={`${stopId}-${nextStopId}`}
             stopTree={stopTree}
             fromId={stopId}
@@ -152,4 +152,4 @@ const TreeDiagram = ({
   </>
 );
 
-export default TreeDiagram;
+export default Diagram;

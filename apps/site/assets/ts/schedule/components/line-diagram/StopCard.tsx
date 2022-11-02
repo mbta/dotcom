@@ -26,7 +26,7 @@ import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopFeatures from "./StopFeatures";
 import StopPredictions from "./StopPredictions";
-import { StopRefContext } from "./TreeLineDiagramWithStops";
+import { StopRefContext } from "./LineDiagramWithStops";
 import { LiveData } from "./__line-diagram";
 
 interface Props {
@@ -124,7 +124,7 @@ const Alert = (): JSX.Element => (
   </>
 );
 
-const TreeStopCard = ({
+const StopCard = ({
   stopTree,
   stopId,
   alerts,
@@ -200,4 +200,4 @@ const TreeStopCard = ({
   );
 };
 
-export default TreeStopCard;
+export default StopCard;

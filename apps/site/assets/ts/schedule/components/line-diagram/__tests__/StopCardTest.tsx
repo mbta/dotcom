@@ -14,7 +14,7 @@ import { RouteStop, RouteStopRoute, StopTree } from "../../__schedule";
 import { TripPrediction } from "../../__trips";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import StopPredictions from "../StopPredictions";
-import TreeStopCard from "../TreeStopCard";
+import StopCard from "../StopCard";
 import { LiveData } from "../__line-diagram";
 
 const stopTree: StopTree = {
@@ -76,7 +76,7 @@ const handleStopClick = () => {};
 
 const emptyLiveData = { headsigns: [], vehicles: [] };
 
-describe("TreeStopCard", () => {
+describe("StopCard", () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -84,7 +84,7 @@ describe("TreeStopCard", () => {
   it("renders and matches snapshot", () => {
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[alertA, alertB]}
@@ -117,7 +117,7 @@ describe("TreeStopCard", () => {
 
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[]}
@@ -145,7 +145,7 @@ describe("TreeStopCard", () => {
 
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[]}
@@ -172,7 +172,7 @@ describe("TreeStopCard", () => {
 
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[]}
@@ -191,7 +191,7 @@ describe("TreeStopCard", () => {
   it("should show high priority or high severity alerts", () => {
     const wrapperWithAlerts = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[alertA, alertB]}
@@ -209,7 +209,7 @@ describe("TreeStopCard", () => {
   it("should show tooltip content", () => {
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[alertA, alertB]}
@@ -237,7 +237,7 @@ describe("TreeStopCard", () => {
   it("indicates detours, stop closures, etc", () => {
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[alertA, alertB]}
@@ -282,7 +282,7 @@ describe("TreeStopCard", () => {
     };
     const wrapper = mount(
       <redux.Provider store={store}>
-        <TreeStopCard
+        <StopCard
           stopTree={stopTree}
           stopId={"a"}
           alerts={[alertA, alertB]}

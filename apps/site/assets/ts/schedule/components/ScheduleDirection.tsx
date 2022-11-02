@@ -17,7 +17,7 @@ import {
   isSubwayRoute,
   isACommuterRailRoute
 } from "../../models/route";
-import TreeLineDiagram from "./line-diagram/TreeLineDiagram";
+import LineDiagram from "./line-diagram/LineDiagram";
 import { fromStopTreeData } from "./ScheduleLoader";
 
 export interface Props {
@@ -225,7 +225,7 @@ const ScheduleDirection = ({
         ) : null}
       </div>
       {isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
-        <TreeLineDiagram
+        <LineDiagram
           stopTree={lineState.data.stopTree}
           route={route}
           directionId={state.directionId}
@@ -259,7 +259,7 @@ const ScheduleDirection = ({
         </>
       )}
       {!isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
-        <TreeLineDiagram
+        <LineDiagram
           stopTree={lineState.data.stopTree}
           route={route}
           directionId={state.directionId}

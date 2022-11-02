@@ -9,10 +9,10 @@ import {
 import { hasPredictionTime } from "../../../models/prediction";
 import { Alert, DirectionId, Route } from "../../../__v3api";
 import { RouteStop, StopId, StopTree } from "../__schedule";
-import TreeDiagram from "./graphics/TreeDiagram";
+import Diagram from "./graphics/Diagram";
 import useTreeStopPositions, { RefMap } from "./graphics/useTreeStopPositions";
-import TreeExpandableBranch from "./TreeExpandableBranch";
-import TreeStopCard from "./TreeStopCard";
+import ExpandableBranch from "./ExpandableBranch";
+import StopCard from "./StopCard";
 import { LiveDataByStop } from "./__line-diagram";
 
 interface Props {
@@ -76,7 +76,7 @@ const NextStopOrBranch = ({
     const nonTerminalStops = branchStopIds.slice(0, -1);
     const expandableBranch = nonTerminalStops.length
       ? [
-          <TreeExpandableBranch
+          <ExpandableBranch
             key={`branch-${terminalStopId}`}
             stopTree={stopTree}
             // Strip the terminus stop
@@ -89,7 +89,7 @@ const NextStopOrBranch = ({
       : [];
     const children = [
       ...expandableBranch,
-      <TreeStopCard
+      <StopCard
         key={`stop-card-${terminalStopId}`}
         stopTree={stopTree}
         stopId={terminalStopId}
@@ -130,7 +130,7 @@ const NextStopOrBranch = ({
 
     const expandableBranch = nonStartingStops.length
       ? [
-          <TreeExpandableBranch
+          <ExpandableBranch
             key={`branch-${startingId}`}
             stopTree={stopTree}
             // Strip the merge stop
@@ -142,7 +142,7 @@ const NextStopOrBranch = ({
         ]
       : [];
     const children = [
-      <TreeStopCard
+      <StopCard
         key={`stop-card-${startingId}`}
         stopTree={stopTree}
         stopId={startingId}
@@ -177,7 +177,7 @@ const NextStopOrBranch = ({
     if (newSplittingOffBranches.length) {
       // Display splitting off branches before any next stops on the primary branch
       const children = [
-        <TreeStopCard
+        <StopCard
           key={stopId}
           stopTree={stopTree}
           stopId={stopId}
@@ -206,7 +206,7 @@ const NextStopOrBranch = ({
     });
 
     const children = [
-      <TreeStopCard
+      <StopCard
         key={stopId}
         stopTree={stopTree}
         stopId={stopId}
@@ -230,7 +230,7 @@ const NextStopOrBranch = ({
   }
 
   return (
-    <TreeStopCard
+    <StopCard
       key={stopId}
       stopTree={stopTree}
       stopId={stopId}
@@ -241,7 +241,7 @@ const NextStopOrBranch = ({
   );
 };
 
-const TreeLineDiagramWithStops = ({
+const LineDiagramWithStops = ({
   stopTree,
   route,
   directionId,
@@ -272,7 +272,7 @@ const TreeLineDiagramWithStops = ({
           !anyCrowding ? "u-no-crowding-data" : ""
         }`}
       >
-        <TreeDiagram
+        <Diagram
           stopTree={stopTree}
           route={route}
           directionId={directionId}
@@ -295,4 +295,4 @@ const TreeLineDiagramWithStops = ({
   );
 };
 
-export default TreeLineDiagramWithStops;
+export default LineDiagramWithStops;

@@ -1,7 +1,7 @@
 import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
-import TreeLineDiagramWithStops from "../TreeLineDiagramWithStops";
+import LineDiagramWithStops from "../LineDiagramWithStops";
 import { CrowdingType, RouteStop, StopTree } from "../../__schedule";
 import * as UseTreeStopPositions from "../graphics/useTreeStopPositions";
 import { cloneDeep } from "lodash";
@@ -178,13 +178,13 @@ const liveDataWithCrowding = (cloneDeep(
 
 const spy = jest.spyOn(UseTreeStopPositions, "default");
 
-describe("TreeLineDiagramWithStops", () => {
+describe("LineDiagramWithStops", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <TreeLineDiagramWithStops
+        <LineDiagramWithStops
           stopTree={stopTree}
           route={route}
           directionId={1}
@@ -211,7 +211,7 @@ describe("TreeLineDiagramWithStops", () => {
   it("toggles u-no-crowding-data class if crowding present", () => {
     const wrapperWithoutCrowding = mount(
       <redux.Provider store={store}>
-        <TreeLineDiagramWithStops
+        <LineDiagramWithStops
           stopTree={stopTree}
           route={route}
           directionId={1}

@@ -2,7 +2,7 @@ import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import * as swr from "swr";
 import * as UseQueryParams from "use-query-params";
-import TreeLineDiagram from "../TreeLineDiagram";
+import LineDiagram from "../LineDiagram";
 import { Route, RouteType } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";
 import SearchBox from "../../../../components/SearchBox";
@@ -70,12 +70,12 @@ const useSWRSpy = jest.spyOn(swr, "default");
 const storeHandlerSpy = jest.spyOn(ScheduleStore, "storeHandler");
 const updateInLocationSpy = jest.spyOn(UseQueryParams, "updateInLocation");
 
-describe("TreeLineDiagram", () => {
+describe("LineDiagram", () => {
   let wrapper: ReactWrapper;
 
   beforeEach(() => {
     wrapper = mount(
-      <TreeLineDiagram
+      <LineDiagram
         stopTree={stopTree}
         route={route}
         directionId={1}
@@ -101,7 +101,7 @@ describe("TreeLineDiagram", () => {
   it("should name stops or stations", () => {
     const subwayRoute = { ...route, type: 2 } as Route;
     const subwayWrapper = mount(
-      <TreeLineDiagram
+      <LineDiagram
         stopTree={stopTree}
         route={subwayRoute}
         directionId={1}

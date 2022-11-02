@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TreeDiagram renders and matches snapshot 1`] = `
+exports[`Diagram renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <TreeDiagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
+  <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
     <LiveVehicleIconSet stopTree={{...}} stopId=\\"a1\\" liveData={{...}}>
       <VehicleIcons stop={{...}} vehicles={{...}} />
     </LiveVehicleIconSet>
@@ -32,25 +32,25 @@ exports[`TreeDiagram renders and matches snapshot 1`] = `
           <line className=\\"line-diagram-svg__line\\" y2={8} strokeWidth=\\"16px\\" />
         </pattern>
       </defs>
-      <TreeMerges stopTree={{...}} alerts={{...}}>
+      <Merges stopTree={{...}} alerts={{...}}>
         <g className=\\"line-diagram-svg__merge\\">
-          <TreeLine stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
-          <TreeLine stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
-          <TreeLine stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
+          <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}} />
         </g>
-      </TreeMerges>
-      <TreeLine stopTree={{...}} fromId=\\"a1\\" toId=\\"a2\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"b1\\" toId=\\"b2\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"b2\\" toId=\\"b3\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"b3\\" toId=\\"m1\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"c1\\" toId=\\"c2\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"m1\\" toId=\\"m2\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"m2\\" toId=\\"m3\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"m3\\" toId=\\"x1\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}} />
-      <TreeLine stopTree={{...}} fromId=\\"x1\\" toId=\\"x2\\" alerts={{...}} />
+      </Merges>
+      <Line stopTree={{...}} fromId=\\"a1\\" toId=\\"a2\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"b1\\" toId=\\"b2\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"b2\\" toId=\\"b3\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"b3\\" toId=\\"m1\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"c1\\" toId=\\"c2\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"m1\\" toId=\\"m2\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"m2\\" toId=\\"m3\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"x1\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}} />
+      <Line stopTree={{...}} fromId=\\"x1\\" toId=\\"x2\\" alerts={{...}} />
       <Stop stopId=\\"a1\\" />
       <Stop stopId=\\"a2\\" />
       <Stop stopId=\\"b1\\" />
@@ -65,6 +65,6 @@ exports[`TreeDiagram renders and matches snapshot 1`] = `
       <Stop stopId=\\"x2\\" />
       <Stop stopId=\\"y1\\" />
     </svg>
-  </TreeDiagram>
+  </Diagram>
 </Provider>"
 `;

@@ -73,7 +73,7 @@ const lineProps = (
   };
 };
 
-const TreeLine = ({
+const Line = ({
   stopTree,
   fromId,
   toId,
@@ -97,4 +97,4 @@ const TreeLine = ({
   );
 };
 
-export default TreeLine;
+export default Line;

@@ -16,7 +16,7 @@ import {
   MERGE_RADIUS,
   StopCoord
 } from "./graphic-helpers";
-import TreeLine from "./TreeLine";
+import Line from "./Line";
 
 interface Props {
   stopTree: StopTree;
@@ -144,7 +144,7 @@ const branchingBends = (
     return <path {...pathProps} />;
   });
 
-const TreeMerges = ({
+const Merges = ({
   stopTree,
   alerts
 }: Props): ReactElement<HTMLElement> | null => {
@@ -167,7 +167,7 @@ const TreeMerges = ({
         ([fromId, toId]) =>
           fromId &&
           toId && (
-            <TreeLine
+            <Line
               key={`${fromId}-${toId}-line`}
               stopTree={stopTree}
               fromId={fromId}
@@ -181,4 +181,4 @@ const TreeMerges = ({
   );
 };
 
-export default TreeMerges;
+export default Merges;

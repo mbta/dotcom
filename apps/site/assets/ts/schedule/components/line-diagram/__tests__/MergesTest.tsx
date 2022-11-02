@@ -3,7 +3,7 @@ import React from "react";
 import * as redux from "react-redux";
 import { stopIds } from "../../../../helpers/stop-tree";
 import { RouteStop, StopTree } from "../../__schedule";
-import TreeMerges from "../graphics/TreeMerges";
+import Merges from "../graphics/Merges";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 
 const stopTree: StopTree = {
@@ -55,13 +55,13 @@ jest
   .spyOn(redux, "useSelector")
   .mockImplementation(selector => selector(mockState));
 
-describe("TreeMerge component", () => {
+describe("Merges", () => {
   let wrapper: ReactWrapper;
   beforeAll(() => {
     wrapper = mount(
       <redux.Provider store={store}>
         <svg>
-          <TreeMerges stopTree={stopTree} alerts={[]} />
+          <Merges stopTree={stopTree} alerts={[]} />
         </svg>
       </redux.Provider>
     );
@@ -97,7 +97,7 @@ describe("TreeMerge component", () => {
     const wrapperNoBranches = mount(
       <redux.Provider store={store}>
         <svg>
-          <TreeMerges stopTree={simpleStopTree} alerts={[]} />
+          <Merges stopTree={simpleStopTree} alerts={[]} />
         </svg>
       </redux.Provider>
     );

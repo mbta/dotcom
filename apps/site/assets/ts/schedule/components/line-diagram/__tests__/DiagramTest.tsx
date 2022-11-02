@@ -3,7 +3,7 @@ import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { RouteStop, StopTree } from "../../__schedule";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
-import TreeDiagram from "../graphics/TreeDiagram";
+import Diagram from "../graphics/Diagram";
 import { Route, RouteType } from "../../../../__v3api";
 import Stop from "../graphics/Stop";
 import { LiveDataByStop } from "../__line-diagram";
@@ -87,12 +87,12 @@ const liveData: LiveDataByStop = {
   }
 };
 
-describe("TreeDiagram", () => {
+describe("Diagram", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
-        <TreeDiagram
+        <Diagram
           stopTree={stopTree}
           route={route}
           directionId={1}
