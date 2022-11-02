@@ -6,6 +6,7 @@ import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
 import ScheduleNote from "../../ScheduleNote";
 import { UpcomingDepartures } from "../upcoming-departures/UpcomingDepartures";
 import { mount } from "enzyme";
+import DailySchedule from "../daily-schedule/DailySchedule";
 
 const today = "2019-12-05";
 const route: EnhancedRoute = {
@@ -105,7 +106,7 @@ describe("ScheduleModalContent", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("renders with schedule note if present", () => {
+  it("will not render Daily Schedule for subway lines", () => {
     act(() => {
       const tree = mount(
         <ScheduleModalContent
@@ -122,9 +123,7 @@ describe("ScheduleModalContent", () => {
           scheduleNote={scheduleNoteData}
         />
       );
-      expect(tree.find(ScheduleNote).props().scheduleNote.offpeak_service).toBe(
-        "8-12 minutes"
-      );
+      expect(tree.find(DailySchedule)).toEqual({});
     });
   });
 

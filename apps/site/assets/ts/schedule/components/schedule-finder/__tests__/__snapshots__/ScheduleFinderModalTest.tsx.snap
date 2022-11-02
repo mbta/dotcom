@@ -226,49 +226,6 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                     December 5, 2019
                     .
                   </div>
-                  <DailySchedule stopId=\\"place-welln\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
-                    <h3>
-                      Daily Schedule
-                    </h3>
-                    <SchedulesSelect sortedServices={{...}} todayServiceId=\\"\\" defaultSelectedServiceId=\\"BUS319-J-Wdy-02\\" todayDate={{...}} onSelectService={[Function: onSelectService]}>
-                      <div className=\\"schedule-finder__service-selector\\">
-                        <label>
-                          <span className=\\"sr-only\\">
-                            Choose a schedule type from the available options
-                          </span>
-                          <SelectContainer>
-                            <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                              <select className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]} aria-controls=\\"daily-schedule\\">
-                                <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} todayServiceId=\\"\\">
-                                  <optgroup label=\\"Other Schedules\\">
-                                    <option value=\\"BUS319-J-Wdy-02\\" aria-label=\\"Other Schedules Weekday schedule, Jul 8 to Aug 30\\">
-                                      Weekday schedule, Jul 8 to Aug 30
-                                    </option>
-                                    <option value=\\"BUS319-K-Sa-02\\" aria-label=\\"Other Schedules Saturday schedule, Jul 13 to Aug 31\\">
-                                      Saturday schedule, Jul 13 to Aug 31
-                                    </option>
-                                    <option value=\\"BUS319-L-Su-02\\" aria-label=\\"Other Schedules Sunday schedule, Jul 14 to Aug 25\\">
-                                      Sunday schedule, Jul 14 to Aug 25
-                                    </option>
-                                  </optgroup>
-                                </ServiceOptGroup>
-                              </select>
-                              <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                            </div>
-                          </SelectContainer>
-                        </label>
-                      </div>
-                    </SchedulesSelect>
-                    <div id=\\"daily-schedule\\">
-                      <Loading>
-                        <div className=\\"c-spinner__container\\">
-                          <div className=\\"c-spinner\\">
-                            Loading...
-                          </div>
-                        </div>
-                      </Loading>
-                    </div>
-                  </DailySchedule>
                 </ScheduleModalContent>
               </div>
             </div>

@@ -23,6 +23,7 @@ import {
   isFetchFailed
 } from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
+import { isSubwayRoute } from "../../../models/route";
 
 // exported for testing
 export const fetchData = async (
@@ -132,12 +133,7 @@ const ScheduleModalContent = ({
 
       {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
 
-      {scheduleNote ? (
-        <ScheduleNote
-          className="m-schedule-page__schedule-notes--modal"
-          scheduleNote={scheduleNote}
-        />
-      ) : (
+      {isSubwayRoute(route) ? null : (
         <DailySchedule
           stopId={selectedOrigin}
           services={services}
