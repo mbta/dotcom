@@ -1,9 +1,4 @@
-import {
-  fireEvent,
-  MatcherOptions,
-  render,
-  screen
-} from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React, { PropsWithChildren } from "react";
 import { Provider } from "react-redux";
 import { createScheduleStore } from "../../../store/ScheduleStore";
