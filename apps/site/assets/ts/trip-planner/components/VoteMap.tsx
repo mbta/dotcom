@@ -36,10 +36,11 @@ const VoteMap = (): ReactElement<HTMLElement> => {
     );
   }, [fromLocation, precincts]);
   React.useEffect(() => {
-    document.addEventListener("vote:update-from", e => {
-      // @ts-ignore
+    const setVotingLocation = (e: CustomEvent): void => {
       setFromLocation(e.detail);
-    });
+    };
+    //@ts-ignore
+    document.addEventListener("vote:update-from", setVotingLocation);
     const el = document.createElement("div");
     const root = document.getElementById("results-portal");
     if (root) {
@@ -49,6 +50,11 @@ const VoteMap = (): ReactElement<HTMLElement> => {
       root.appendChild(el);
     }
     setPortalEl(el);
+
+    return () => {
+      //@ts-ignore
+      document.removeEventListener("vote:update-from", setVotingLocation);
+    };
   }, [setPortalEl]);
   return (
     <div>
