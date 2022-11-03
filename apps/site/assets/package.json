@@ -155,9 +155,9 @@
     "webpack:analyze": "webpack --config webpack.config.prod.js --env production --profile --json > stats.json && webpack-bundle-analyzer stats.json ../priv/static/js/"
   },
   "lint-staged": {
-    "{js,ts}/**/*.{js,ts,tsx}": "npm run prettier",
-    "js/**/*.js": "npm run eslint:js:fix",
-    "ts/**/*.{ts,tsx}": "npm run eslint:ts:fix",
+    "{js,ts}/**/*.{js,ts,tsx}": "prettier --write",
+    "js/**/*.js": "eslint -c .eslintrc.js --fix --max-warnings=0",
+    "ts/**/*.{ts,tsx}": "cd ts && eslint -c .eslintrc.js --fix --max-warnings=0",
     "css/**/*.scss": "npm run stylelint -- --fix"
   }
 }
