@@ -2,6 +2,7 @@ import { Reducer, createStore, Store } from "redux";
 import { StoreAction, SelectedOrigin } from "../components/__schedule";
 import { DirectionId } from "../../__v3api";
 import { Mode as ModalMode } from "../components/schedule-finder/ScheduleFinderModal";
+import { dispatchChangedDirection } from "../../hooks/useDirectionChangeEvent";
 
 export interface StoreProps {
   selectedDirection: DirectionId;
@@ -40,6 +41,9 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
     case "INITIALIZE":
       return { ...newState, ...action.newStoreValues };
     case "CHANGE_DIRECTION":
+      // notify other components of changed direction
+      dispatchChangedDirection(action.newStoreValues.selectedDirection!);
+
       return {
         ...newState,
         selectedDirection: action.newStoreValues.selectedDirection!,
