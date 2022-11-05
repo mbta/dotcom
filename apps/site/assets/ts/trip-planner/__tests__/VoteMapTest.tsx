@@ -37,7 +37,11 @@ describe("VoteMap", () => {
     const { asFragment, container } = render(<VoteMap />);
 
     expect(asFragment()).toMatchSnapshot();
-    expect(container.querySelector(".leaflet-pane")).toBeTruthy();
+    expect(
+      container.querySelector(
+        ".leaflet-layer, .leaflet-container, .leaflet-pane"
+      )
+    ).toBeTruthy();
   });
 
   describe("handles 'vote:update-from' events", () => {

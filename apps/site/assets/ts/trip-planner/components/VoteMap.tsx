@@ -39,7 +39,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
     const setVotingLocation = (e: CustomEvent): void => {
       setFromLocation(e.detail);
     };
-    //@ts-ignore
+    // @ts-ignore
     document.addEventListener("vote:update-from", setVotingLocation);
     const el = document.createElement("div");
     const root = document.getElementById("results-portal");
@@ -52,7 +52,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
     setPortalEl(el);
 
     return () => {
-      //@ts-ignore
+      // @ts-ignore
       document.removeEventListener("vote:update-from", setVotingLocation);
     };
   }, [setPortalEl]);
