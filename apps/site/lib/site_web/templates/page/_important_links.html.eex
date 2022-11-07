@@ -18,7 +18,7 @@
           </div>
         </div>
       <% end %>
-      <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "m-homepage__important-link" do %>
+      <%= link to: "http://www.mbta.com/performance-metrics", class: "m-homepage__important-link" do %>
         <div class="m-homepage__important-link-content">
           <div class="m-homepage__important-link-title">Performance</div>
           <div class="m-homepage__important-link-icon">

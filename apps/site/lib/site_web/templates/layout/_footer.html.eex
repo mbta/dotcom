@@ -27,7 +27,7 @@
             <%= link "Press Releases", to: cms_static_page_path(@conn, "/news"), data: [scroll: true], class: "m-footer__link"  %>
             <%= link "Policies & Civil Rights", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true], class: "m-footer__link"  %>
             <%= link "Safety", to: cms_static_page_path(@conn, "/safety") %>
-            <%= link "Performance", to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank", class: "m-footer__link" %>
+            <%= link "Performance", to: "http://www.mbta.com/performance-metrics", target: "_blank", class: "m-footer__link" %>
           </nav>
           <nav class="m-footer__group" aria-labelledby="footer-work-with">
             <div id="footer-work-with" class="m-footer__group-title">Work With Us</div>
