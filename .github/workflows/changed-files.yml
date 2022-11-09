@@ -49,16 +49,16 @@ jobs:
         shell: bash
         run: |
           if [[ ${{ inputs.force }} == 'true' ]]; then
-            echo "::set-output name=js::true"
-            echo "::set-output name=ts::true"
-            echo "::set-output name=scss::true"
-            echo "::set-output name=ex::true"
+            echo "{js}={true}" >> $GITHUB_OUTPUT
+            echo "{ts}={true}" >> $GITHUB_OUTPUT
+            echo "{scss}={true}" >> $GITHUB_OUTPUT
+            echo "{ex}={true}" >> $GITHUB_OUTPUT
           else
             changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ; }
-            echo "::set-output name=js::$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)"
-            echo "::set-output name=ts::$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)"
-            echo "::set-output name=scss::$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)"
-            echo "::set-output name=ex::$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)"
+            echo "{js}={$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)}" >> $GITHUB_OUTPUT
+            echo "{ts}={$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)}" >> $GITHUB_OUTPUT
+            echo "{scss}={$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)}" >> $GITHUB_OUTPUT
+            echo "{ex}={$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)}" >> $GITHUB_OUTPUT
           fi
       - name: "List changed files:"
         run: echo "${{ toJSON(steps.changes.outputs) }}"
