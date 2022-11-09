@@ -80,9 +80,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route.id
-    |> get_line_route_patterns(direction_id, route_pattern_id)
-    |> filtered_by_typicality(route, route_pattern_id)
+    route_patterns = get_line_route_patterns(route.id, direction_id, route_pattern_id)
+
+    route_patterns
+    |> filtered_by_typicality()
     |> Enum.map(&stops_for_route_pattern/1)
     |> maybe_use_overarching_branch()
   end
@@ -224,19 +225,12 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> Enum.all?(&MapSet.subset?(&1, MapSet.new(stops)))
   end
 
-  @spec filtered_by_typicality([RoutePattern.t()], Route.t(), RoutePattern.id_t() | nil) :: [
-          RoutePattern.t()
-        ]
-  defp filtered_by_typicality(route_patterns, %Route{id: "Boat-F1"}, _route_pattern_id) do
+  @spec filtered_by_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
+  defp filtered_by_typicality(route_patterns) do
     # Find route patterns with smallest typicality.
     route_patterns
     |> filter_by_min_typicality()
     |> Enum.filter(fn x -> x.shape_priority > 0 end)
-  end
-
-  defp filtered_by_typicality(route_patterns, _route, route_pattern_id) do
-    # Filter route patterns by typicality == 1
-    Enum.filter(route_patterns, &by_typicality(&1, route_pattern_id))
   end
 
   # Filters route patterns by the smallest typicality found in the array
@@ -412,10 +406,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
         []
     end
   end
-
-  @spec by_typicality(RoutePattern.t(), RoutePattern.id_t() | nil) :: boolean()
-  def by_typicality(%RoutePattern{typicality: typicality}, nil), do: typicality == 1
-  def by_typicality(_, _), do: true
 
   @spec nil_out_shared_stop_branches([[RouteStop.t()]]) :: [[RouteStop.t()]]
   defp nil_out_shared_stop_branches(route_stop_groups) do
