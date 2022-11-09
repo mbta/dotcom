@@ -29,7 +29,6 @@ exports[`VoteMap renders a Map by default 1`] = `
                 <img
                   alt=""
                   class="leaflet-tile"
-                  role="presentation"
                   src="https://mbta-map-tiles-dev.s3.amazonaws.com/osm_tiles/15/9916/12119.png"
                   style="width: 256px; height: 256px; left: -15px; top: -187px;"
                 />
