@@ -287,32 +287,6 @@ defmodule Stops.RouteStop do
     |> merge_branch_list(1)
   end
 
-  def list_from_shapes(
-        shapes,
-        stops,
-        %Route{id: "CR-Franklin"} = route,
-        0
-      ) do
-    shapes
-    |> Enum.reject(&(&1.name == "South Station - Foxboro via Fairmount"))
-    |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
-    |> merge_branch_list(0)
-  end
-
-  def list_from_shapes(
-        shapes,
-        stops,
-        %Route{id: "CR-Franklin"} = route,
-        1
-      ) do
-    # We need to prefer the shorter "trunk" here when merging the branch list so the trunk stops
-    # don't end up being the ones from the Fairmount line
-    shapes
-    |> Enum.reject(&(&1.name == "Forge Park/495 - South Station via Fairmount"))
-    |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
-    |> merge_branch_list(1, true)
-  end
-
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
     |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
