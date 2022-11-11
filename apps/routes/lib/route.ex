@@ -51,7 +51,7 @@ defmodule Routes.Route do
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
 
-  @spec type_atom(t | type_int | String.t()) :: gtfs_route_type
+  @spec type_atom(t | type_int | String.t()) :: route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
   def type_atom(0), do: :subway
   def type_atom(1), do: :subway
@@ -66,6 +66,7 @@ defmodule Routes.Route do
   def type_atom("909"), do: :logan_express
   def type_atom("983"), do: :massport_shuttle
   def type_atom("Massport-" <> _), do: :massport_shuttle
+  def type_atom("the_ride"), do: :the_ride
 
   @spec types_for_mode(gtfs_route_type | subway_lines_type) :: [0..4]
   def types_for_mode(:subway), do: [0, 1]
