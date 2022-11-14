@@ -8,7 +8,7 @@
     "@types/dot-prop-immutable": "^1.5.0",
     "a11y-dialog": "^7.0.3",
     "algoliasearch": "^3.25.1",
-    "autocomplete.js": "1.7.3",
+    "autocomplete.js": "git+https://github.com/algolia/autocomplete.js.git",
     "bad-words": "^1.6.5",
     "body-scroll-lock": "^4.0.0-beta.0",
     "bootstrap": "4.0.0-alpha.2",
