@@ -21,7 +21,9 @@ defmodule V3Api.Headers do
 
   @spec api_key_header(header_list, String.t() | nil) :: header_list
   defp api_key_header(headers, nil), do: headers
-  defp api_key_header(headers, <<key::binary>>), do: [{"x-api-key", key} | headers]
+
+  defp api_key_header(headers, <<key::binary>>),
+    do: [{"x-api-key", key}, {"MBTA-Version", "2019-07-01"} | headers]
 
   @spec proxy_headers(header_list) :: header_list
   defp proxy_headers(headers) do
