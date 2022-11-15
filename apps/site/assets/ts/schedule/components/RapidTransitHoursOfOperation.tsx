@@ -1,4 +1,4 @@
-import { isWeekend } from "date-fns";
+import { isEqual, isWeekend, parseISO } from "date-fns";
 import { map, uniqueId, sortBy, filter, concat } from "lodash";
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
@@ -20,16 +20,24 @@ const getSchedule = (
     filteredData,
     (stopData: StopHours) => stopData.stop_name
   );
-  const mappedData = map(sortedData, (stopData: StopHours) => (
-    <div key={uniqueId()} className="fs-18 font-helvetica-neue">
-      <span className="pe-16">{stopData.stop_name}</span>
-      <span className="font-weight-bold">
-        {`${formatToBostonTime(
-          stopData.first_departure
-        )} – ${formatToBostonTime(stopData.last_departure)}`}
-      </span>
-    </div>
-  ));
+  const mappedData = map(sortedData, (stopData: StopHours) => {
+    const firstDeparture = parseISO(stopData.first_departure);
+    const lastDeparture = parseISO(stopData.last_departure);
+    let timeString = "";
+    if (isEqual(firstDeparture, lastDeparture)) {
+      timeString = formatToBostonTime(stopData.first_departure);
+    } else {
+      timeString = `${formatToBostonTime(
+        stopData.first_departure
+      )} – ${formatToBostonTime(stopData.last_departure)}`;
+    }
+    return (
+      <div key={uniqueId()} className="fs-18 font-helvetica-neue">
+        <span className="pe-16">{stopData.stop_name}</span>
+        <span className="font-weight-bold">{timeString}</span>
+      </div>
+    );
+  });
 
   return mappedData;
 };
@@ -38,10 +46,9 @@ const regularScheduleHTML = (): JSX.Element => (
   <div className="font-weight-bold fs-14 pb-8">Regular schedule</div>
 );
 
-const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => {
-  const trainsEvery = `Trains depart every ${minuteString}`;
-  return <div className="fs-14 pt-8">{trainsEvery}</div>;
-};
+const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => (
+  <div className="fs-14 pt-8">{`Trains depart every ${minuteString}`}</div>
+);
 
 const RapidTransitHoursOfOperation = ({
   route,
