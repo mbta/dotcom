@@ -14,6 +14,7 @@ export RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
 # export SUPPORT_TICKET_REPLY_EMAIL=
 # export SUPPORT_TICKET_TO_EMAIL=
 # export V3_API_KEY=
+export V3_API_VERSION=2019-07-01
 export V3_URL=https://api-dev.mbtace.com
 # export WIREMOCK_PATH=
 export WIREMOCK_PROXY_URL=https://api-dev.mbtace.com

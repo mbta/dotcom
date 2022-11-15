@@ -15,16 +15,29 @@ defmodule V3Api.HeadersTest do
   end
 
   test "always adds api header" do
-    key_tuple =
-      Headers.build("API_KEY", use_cache?: false) |> Enum.find(fn {k, _} -> k == "x-api-key" end)
+    assert Headers.build("API_KEY", use_cache?: false) == [
+             {"x-api-key", "API_KEY"},
+             {"MBTA-Version", "2019-07-01"}
+           ]
 
-    assert key_tuple == {"x-api-key", "API_KEY"}
+    assert Headers.build("API_KEY", params: [], url: "url") == [
+             {"x-api-key", "API_KEY"},
+             {"MBTA-Version", "2019-07-01"}
+           ]
+  end
 
-    key_tuple =
-      Headers.build("API_KEY", params: [], url: "url")
-      |> Enum.find(fn {k, _} -> k == "x-api-key" end)
+  test "uses V3_API_VERSION environment variable" do
+    original_version = System.get_env("V3_API_VERSION")
+    System.put_env("V3_API_VERSION", "3005-01-02")
 
-    assert key_tuple == {"x-api-key", "API_KEY"}
+    assert Headers.build("API_KEY", params: [], url: "url") == [
+             {"x-api-key", "API_KEY"},
+             {"MBTA-Version", "3005-01-02"}
+           ]
+
+    on_exit(fn ->
+      System.put_env("V3_API_VERSION", original_version || "")
+    end)
   end
 
   test "adds wiremock proxy header if env var is set" do
@@ -32,9 +45,8 @@ defmodule V3Api.HeadersTest do
     System.put_env("WIREMOCK_PROXY", "true")
     System.put_env("WIREMOCK_PROXY_URL", "proxy_url")
 
-    assert Headers.build("API_KEY", use_cache?: false) == [
-             {"X-WM-Proxy-Url", "proxy_url"},
-             {"x-api-key", "API_KEY"}
+    assert Headers.build("API_KEY", use_cache?: false) |> Keyword.take(["X-WM-Proxy-Url"]) == [
+             {"X-WM-Proxy-Url", "proxy_url"}
            ]
 
     on_exit(fn ->
@@ -72,9 +84,9 @@ defmodule V3Api.HeadersTest do
     assert Headers.build("API_KEY",
              url: "URL",
              params: []
-           ) == [
-             {"x-enable-experimental-features", "true"},
-             {"x-api-key", "API_KEY"}
+           )
+           |> Keyword.take(["x-enable-experimental-features"]) == [
+             {"x-enable-experimental-features", "true"}
            ]
 
     Application.put_env(:site, :enable_experimental_features, nil)
@@ -82,8 +94,7 @@ defmodule V3Api.HeadersTest do
     assert Headers.build("API_KEY",
              url: "URL",
              params: []
-           ) == [
-             {"x-api-key", "API_KEY"}
-           ]
+           )
+           |> Keyword.take(["x-enable-experimental-features"]) == []
   end
 end

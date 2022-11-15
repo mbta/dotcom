@@ -64,7 +64,7 @@ defmodule V3Api.Stream do
       ]
     else
       _ ->
-        raise ArgumentError, "Missing valid V3_URL and/or V3_API_KEY (2019-07-01 version)"
+        raise ArgumentError, "Missing valid V3_URL and/or V3_API_KEY"
     end
   end
 

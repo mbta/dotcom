@@ -5,6 +5,7 @@ use Mix.Config
 config :v3_api,
   base_url: {:system, "V3_URL"},
   api_key: {:system, "V3_API_KEY"},
+  api_version: {:system, "V3_API_VERSION", "2019-07-01"},
   wiremock_proxy_url: {:system, "WIREMOCK_PROXY_URL"},
   wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
   default_timeout: 5_000,
