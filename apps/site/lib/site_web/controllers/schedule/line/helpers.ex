@@ -87,8 +87,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> maybe_use_overarching_branch()
   end
 
+  @routes_with_trunk_discrepancies ~w(CR-Franklin CR-Providence)
   @spec make_trunks_consistent([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
-  defp make_trunks_consistent(route_stop_lists, %Route{id: "CR-Franklin"}) do
+  defp make_trunks_consistent(route_stop_lists, %Route{id: route_id})
+       when route_id in @routes_with_trunk_discrepancies do
     shared_ids = shared_ids(route_stop_lists)
 
     route_stop_lists_with_trunk_ranges =

@@ -710,6 +710,16 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.member?(stop_ids(branch_1_1_stops), "place-forhl")
       assert Enum.member?(stop_ids(branch_1_2_stops), "place-forhl")
     end
+
+    test "ensures that Forest Hills is in the trunk of every CR-Providence direction 0 branch" do
+      providence_route = %Routes.Route{id: "CR-Providence"}
+
+      assert [%RouteStops{stops: branch_0_1_stops}, %RouteStops{stops: branch_0_2_stops}] =
+               Helpers.get_branch_route_stops(providence_route, 0)
+
+      assert Enum.member?(stop_ids(branch_0_1_stops), "place-forhl")
+      assert Enum.member?(stop_ids(branch_0_2_stops), "place-forhl")
+    end
   end
 
   describe "get_route_stops" do
