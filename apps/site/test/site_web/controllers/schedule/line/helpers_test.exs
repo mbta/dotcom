@@ -695,6 +695,21 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert [%RouteStops{}] = Helpers.get_branch_route_stops(fitchburg_route, 1),
              "should have only one 'branch'"
     end
+
+    test "ensures that Forest Hills is in the trunk of every CR-Franklin branch" do
+      franklin_route = %Routes.Route{id: "CR-Franklin"}
+
+      assert [%RouteStops{stops: branch_0_1_stops}, %RouteStops{stops: branch_0_2_stops}] =
+               Helpers.get_branch_route_stops(franklin_route, 0)
+
+      assert [%RouteStops{stops: branch_1_1_stops}, %RouteStops{stops: branch_1_2_stops}] =
+               Helpers.get_branch_route_stops(franklin_route, 1)
+
+      assert Enum.member?(stop_ids(branch_0_1_stops), "place-forhl")
+      assert Enum.member?(stop_ids(branch_0_2_stops), "place-forhl")
+      assert Enum.member?(stop_ids(branch_1_1_stops), "place-forhl")
+      assert Enum.member?(stop_ids(branch_1_2_stops), "place-forhl")
+    end
   end
 
   describe "get_route_stops" do
@@ -811,7 +826,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     end
   end
 
-  def assert_stop_ids(actual, stop_ids) do
-    assert Enum.map(actual, & &1.id) == stop_ids
+  defp assert_stop_ids(actual, stop_ids) do
+    assert stop_ids(actual) == stop_ids
   end
+
+  defp stop_ids(stops), do: Enum.map(stops, & &1.id)
 end

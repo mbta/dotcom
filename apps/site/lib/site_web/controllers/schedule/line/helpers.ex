@@ -72,6 +72,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     route
     |> do_get_branch_route_stops(direction_id, route_pattern_id)
     |> Enum.map(&RouteStop.list_from_route_pattern(&1, route, direction_id))
+    |> make_trunks_consistent(route)
     |> RouteStops.from_route_stop_groups()
   end
 
@@ -84,6 +85,61 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> filtered_by_typicality(route, route_pattern_id)
     |> Enum.map(&stops_for_route_pattern/1)
     |> maybe_use_overarching_branch()
+  end
+
+  @spec make_trunks_consistent([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
+  defp make_trunks_consistent(route_stop_lists, %Route{id: "CR-Franklin"}) do
+    shared_ids = shared_ids(route_stop_lists)
+
+    route_stop_lists_with_trunk_ranges =
+      Enum.map(route_stop_lists, fn route_stop_list ->
+        trunk_range =
+          range(route_stop_list, fn route_stop -> MapSet.member?(shared_ids, route_stop.id) end)
+
+        {route_stop_list, trunk_range}
+      end)
+
+    largest_trunk = largest_trunk(route_stop_lists_with_trunk_ranges)
+
+    Enum.map(route_stop_lists_with_trunk_ranges, fn {route_stops, trunk_range} ->
+      old_trunk = Enum.slice(route_stops, trunk_range)
+
+      if old_trunk == largest_trunk do
+        # No need to replace anything
+        route_stops
+      else
+        route_stops
+        |> Enum.reject(&Enum.member?(old_trunk, &1))
+        |> List.insert_at(trunk_range.first, largest_trunk)
+        |> List.flatten()
+      end
+    end)
+  end
+
+  defp make_trunks_consistent(route_stop_lists, _route), do: route_stop_lists
+
+  @spec range(Enum.t(), (Enum.element() -> as_boolean(term()))) :: Range.t()
+  defp range(items, fun) do
+    {min, max} =
+      items
+      |> Enum.with_index()
+      |> Enum.reduce([], fn {item, index}, acc -> if fun.(item), do: [index | acc], else: acc end)
+      |> Enum.min_max()
+
+    min..max
+  end
+
+  @spec largest_trunk([{[RouteStop.t()], Range.t()}]) :: [RouteStop.t()]
+  defp largest_trunk(route_stop_lists_with_trunk_ranges) do
+    largest_trunk_range =
+      route_stop_lists_with_trunk_ranges
+      |> Enum.map(&elem(&1, 1))
+      |> Enum.max()
+
+    route_stop_lists_with_trunk_ranges
+    |> Enum.find(fn {_, trunk_range} -> trunk_range == largest_trunk_range end)
+    |> elem(0)
+    |> Enum.slice(largest_trunk_range)
   end
 
   @spec get_map_route_patterns(Route.id_t(), Route.type_int()) :: [RoutePattern.t()]
