@@ -72,7 +72,7 @@ const RapidTransitHoursOfOperation = ({
         <div className="m-schedule-page__sidebar-hours">
           {regularScheduleHTML()}
           {hours && getSchedule(hours.week)}
-          {trainsEveryHTML(scheduleNote?.offpeak_service)}
+          {trainsEveryHTML(scheduleNote?.peak_service)}
           {pdfLink(pdfs[0])}
         </div>
       </ExpandableBlock>
