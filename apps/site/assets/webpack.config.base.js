@@ -188,7 +188,7 @@ module.exports = {
       "window.jQuery": "jquery",
       "window.$": "jquery",
       phoenix: "phoenix",
-      autocomplete: "autocomplete.js"
+      autocomplete: "@algolia/autocomplete-js"
     })
   ],
 
