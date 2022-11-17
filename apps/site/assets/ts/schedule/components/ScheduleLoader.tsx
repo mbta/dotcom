@@ -21,6 +21,8 @@ import {
   storeHandler
 } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
+import { isSubwayRoute } from "../../models/route";
+import HoursOfOperation from "./HoursOfOperation";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -168,7 +170,6 @@ export const ScheduleLoader = ({
         connections,
         fares,
         fare_link: fareLink,
-        hours,
         holidays
       } = schedulePageData;
 
@@ -189,18 +190,26 @@ export const ScheduleLoader = ({
           fares={fares}
           fareLink={fareLink}
           route={route}
-          hours={hours}
           holidays={holidays}
         />
       );
     }
 
     if (component === "SCHEDULE_NOTE" && scheduleNote) {
+      const { pdfs, hours } = schedulePageData;
       return (
         <>
-          {!routeIsSuspended ? (
+          {!routeIsSuspended && !isSubwayRoute(route) ? (
             <ScheduleNote
               className="m-schedule-page__schedule-notes--desktop"
+              scheduleNote={scheduleNote}
+            />
+          ) : null}
+          {isSubwayRoute(route) ? (
+            <HoursOfOperation
+              route={route}
+              pdfs={pdfs}
+              hours={hours}
               scheduleNote={scheduleNote}
             />
           ) : null}
@@ -215,7 +224,6 @@ export const ScheduleLoader = ({
               originChanged={changeOrigin}
               route={route}
               routePatternsByDirection={routePatternsByDirection}
-              scheduleNote={scheduleNote}
               services={services}
               stops={stops}
               today={today}
@@ -235,7 +243,6 @@ export const ScheduleLoader = ({
           services={services}
           routePatternsByDirection={routePatternsByDirection}
           today={today}
-          scheduleNote={null}
           modalMode={modalMode}
           modalOpen={modalOpen}
           directionId={readjustedDirectionId}
@@ -269,7 +276,6 @@ export const ScheduleLoader = ({
             services={services}
             routePatternsByDirection={routePatternsByDirection}
             today={today}
-            scheduleNote={null}
             modalMode={modalMode}
             modalOpen={modalOpen}
             directionId={readjustedDirectionId}

@@ -10,7 +10,7 @@
 // left:     graphic media floated left
 // right:    graphic media floated right
 
-@use "sass:math";
+@use 'sass:math';
 
 $layout-media: (
   sm: (
@@ -283,7 +283,7 @@ $layout-media: (
       // used for optically aligning the top of images/media floated
       // to either side of <p> with the actual top pixels of characters.
       p + & {
-        margin-top: (($line-height * 0.5) * 1rem) * 0.5;
+        margin-top: (($line-height * .5) * 1rem) * .5;
       }
     }
 

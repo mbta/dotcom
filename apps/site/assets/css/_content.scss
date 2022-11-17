@@ -187,11 +187,11 @@
 }
 
 .c-standard-fares__heading {
-  display: flex;
   align-items: baseline;
+  display: flex;
   @include media-breakpoint-down(xs) {
     display: block;
-    margin-top: 0.75rem;
     margin-bottom: 1.25rem;
+    margin-top: .75rem;
   }
 }

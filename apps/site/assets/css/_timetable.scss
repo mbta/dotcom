@@ -157,7 +157,7 @@
 .m-timetable__parking-icon .fa-square-parking {
   font-size: calc(1em + 1.5px);
   position: relative;
-  top: 0.04em;
+  top: .04em;
 }
 
 .m-timetable__access-icon {
@@ -229,7 +229,7 @@
 .m-timetable__header-cell {
   background: $brand-primary-lightest-contrast;
   :nth-child(3) {
-    margin-left: 0.5rem;
+    margin-left: .5rem;
   }
 }
 
@@ -319,6 +319,6 @@
 }
 
 .m-continue__row {
-  text-align: center;
   border-right: 1px solid $gray-lighter;
+  text-align: center;
 }

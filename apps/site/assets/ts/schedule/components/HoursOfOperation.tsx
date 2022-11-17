@@ -1,23 +1,35 @@
 import React, { ReactElement } from "react";
-import ExpandableBlock from "../../components/ExpandableBlock";
+import { isGreenLine, isRapidTransit } from "../../models/route";
+import { EnhancedRoute } from "../../__v3api";
+import DefaultHoursOfOperation from "./DefaultHoursOfOperation";
+import GreenLineScheduleLinks from "./GreenLineScheduleLinks";
+import RapidTransitHoursOfOperation from "./RapidTransitHoursOfOperation";
+import { SchedulePDF, ScheduleNote } from "./__schedule";
 
 const HoursOfOperation = ({
-  hours
+  route,
+  pdfs,
+  hours,
+  scheduleNote
 }: {
+  route: EnhancedRoute;
+  pdfs: SchedulePDF[];
   hours: string;
-}): ReactElement<HTMLElement> | null =>
-  hours ? (
-    <ExpandableBlock
-      header={{ text: "Hours of Operation", iconSvgText: null }}
-      initiallyExpanded={false}
-      id="hours"
-    >
-      <div
-        className="m-schedule-page__sidebar-hours"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: hours }}
+  scheduleNote: ScheduleNote | null;
+}): ReactElement<HTMLElement> | null => {
+  if (isGreenLine(route)) {
+    return <GreenLineScheduleLinks pdfs={pdfs} />;
+  }
+  if (isRapidTransit(route)) {
+    return (
+      <RapidTransitHoursOfOperation
+        pdfs={pdfs}
+        route={route}
+        scheduleNote={scheduleNote}
       />
-    </ExpandableBlock>
-  ) : null;
+    );
+  }
+  return <DefaultHoursOfOperation hours={hours} />;
+};
 
 export default HoursOfOperation;

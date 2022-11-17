@@ -65,25 +65,26 @@
 
 .alerts-section {
   summary {
-    &::marker, &::-webkit-details-marker {
-      display: none;
-    }
-    list-style: none;
-
-    display: inline-flex;
     align-items: center;
     color: $brand-primary;
-    padding: 0.5em 0;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    list-style: none;
+    padding: .5em 0;
+    &::marker,
+    &::-webkit-details-marker {
+      display: none;
+    }
 
     &::after {
       @extend %fa-icon;
       @extend .fa-solid;
-      margin-left: 0.5em;
 
       content: fa-content($fa-var-angle-down);
+      margin-left: .5em;
     }
-
-    cursor: pointer;
   }
 
   details[open] {
@@ -98,19 +99,19 @@
   }
 
   .c-service-changes-container {
-    display: flex;
-    color:black;
     align-items: center;
+    color: black;
+    display: flex;
 
-    margin-right: 0.75rem;
+    margin-right: .75rem;
   }
 
   .c-service-changes-content {
-    padding: .25em 1em;
     background: $gray-lightest;
     border-radius: 4px;
     font-weight: bold;
     margin-right: 1rem;
-    text-align:center;
+    padding: .25em 1em;
+    text-align: center;
   }
 }

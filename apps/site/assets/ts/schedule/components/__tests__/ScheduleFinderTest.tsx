@@ -178,7 +178,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin={null}
@@ -203,7 +202,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin="123"
@@ -261,7 +259,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin={null}
@@ -289,7 +286,6 @@ describe("ScheduleFinder", () => {
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        scheduleNote={null}
         updateURL={() => {}}
         changeDirection={() => {}}
         selectedOrigin="123"
@@ -304,10 +300,10 @@ describe("ScheduleFinder", () => {
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    // select the second-to-last node (i.e. origin drop-down) and choose an option
+    // select the last node (i.e. origin drop-down) and choose an option
     wrapper
       .find("SelectContainer")
-      .at(numNodes - 2)
+      .at(numNodes - 1)
       // @ts-ignore -- types for `invoke` seem to be too restrictive
       .invoke("handleClick")();
 

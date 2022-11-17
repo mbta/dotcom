@@ -336,3 +336,22 @@ export interface RoutePattern {
   id: string;
   direction_id: DirectionId;
 }
+
+export interface StopHours {
+  stop_name: string;
+  stop_id: string;
+  last_departure: string;
+  first_departure: string;
+  is_terminus: boolean;
+}
+export interface RapidTransitHours {
+  week: [StopHours[], StopHours[]];
+  saturday: [StopHours[], StopHours[]];
+  sunday: [StopHours[], StopHours[]];
+}
+
+export interface TransitHours {
+  week: [StopHours, StopHours];
+  saturday: [StopHours, StopHours];
+  sunday: [StopHours, StopHours];
+}

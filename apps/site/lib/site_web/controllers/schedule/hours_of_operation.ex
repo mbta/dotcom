@@ -10,7 +10,7 @@ defmodule SiteWeb.ScheduleController.HoursOfOperation do
   def call(%Plug.Conn{assigns: %{route: route}} = conn, _opts) when not is_nil(route) do
     route.id
     |> full_route_id
-    |> Schedules.Repo.hours_of_operation(conn.assigns.date)
+    |> Schedules.Repo.hours_of_operation(conn.assigns.date, route.description)
     |> assign_hours(conn)
   end
 

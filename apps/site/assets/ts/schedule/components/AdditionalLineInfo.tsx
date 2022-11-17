@@ -5,7 +5,6 @@ import { TypedRoutes } from "../../stop/components/__stop";
 import PDFSchedules from "./PDFSchedules";
 import Connections from "./Connections";
 import ContentTeasers from "./ContentTeasers";
-import HoursOfOperation from "./HoursOfOperation";
 import Fares from "./Fares";
 import UpcomingHolidays from "./UpcomingHolidays";
 
@@ -16,7 +15,6 @@ interface Props {
   fares: Fare[];
   fareLink: string;
   route: EnhancedRoute;
-  hours: string;
   holidays: Holiday[];
 }
 
@@ -24,7 +22,6 @@ const AdditionalLineInfo = ({
   connections,
   pdfs,
   teasers,
-  hours,
   fares,
   holidays,
   fareLink,
@@ -35,7 +32,6 @@ const AdditionalLineInfo = ({
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />
     <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
-    <HoursOfOperation hours={hours} />
     <UpcomingHolidays holidays={holidays} />
   </>
 );

@@ -1,6 +1,5 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { mount } from "enzyme";
 import { createReactRoot } from "../../../app/helpers/testUtils";
 import AdditionalLineInfo from "../AdditionalLineInfo";
 import { TypedRoutes } from "../../../stop/components/__stop";
@@ -14,17 +13,6 @@ const pdfs = [
 ];
 
 const teasers = `<div><a href="http://some-link">Some teaser from CMS></a></div>`;
-
-const hours = `<div class="m-schedule-page__sidebar-hours">  <h3 class="hours-period-heading">Monday to Friday</h3>
-<p class="hours-directions">
-  <span class="hours-direction-name">Inbound</span>
-  <span class="hours-time">04:17A-12:46A</span>
-</p>
-<p class="hours-directions">
-  <span class="hours-direction-name">Outbound</span>
-  <span class="hours-time">05:36A-01:08A</span>
-</p>
-</div>`;
 
 const connections: TypedRoutes[] = [];
 
@@ -70,7 +58,6 @@ it("it renders", () => {
         fares={fares}
         fareLink={fareLink}
         route={route}
-        hours={hours}
         holidays={holidays}
       />
     )

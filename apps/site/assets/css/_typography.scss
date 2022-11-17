@@ -50,7 +50,7 @@ $base-line-height: 1.275;
     font-size: 1.125rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 0.9844rem;
+    font-size: .9844rem;
   }
 }
 @mixin heading-5 {
@@ -60,7 +60,7 @@ $base-line-height: 1.275;
     font-size: 1rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
 }
 
@@ -72,7 +72,7 @@ $base-line-height: 1.275;
     font-size: 1rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
 }
 
@@ -86,28 +86,60 @@ $base-line-height: 1.275;
 }
 @mixin font-white {
   @include base-font__new();
-  font-weight: 400;
   color: $white;
+  font-weight: 400;
 }
 @mixin font-small {
   @include base-heading__new();
-  text-transform: uppercase;
   font-size: 1rem;
   line-height: $base-line-height;
+  text-transform: uppercase;
   @include media-breakpoint-down(lg) {
-    font-size: 0.875rem;
+    font-size: .875rem;
   }
   @include media-breakpoint-down(sm) {
-    font-size: 0.75rem;
+    font-size: .75rem;
   }
 }
 
-.heading-1 { @include heading-1() }
-.heading-2 { @include heading-2() }
-.heading-3 { @include heading-3() }
-.heading-4 { @include heading-4() }
-.heading-5 { @include heading-5() }
-.font-body { @include font-body() }
-.font-link { @include font-link() }
-.font-white { @include font-white() }
-.font-small { @include font-small() }
+.text-decoration-underline {
+  text-decoration: underline;
+}
+
+.heading-1 { @include heading-1(); }
+
+.heading-2 { @include heading-2(); }
+
+.heading-3 { @include heading-3(); }
+
+.heading-4 { @include heading-4(); }
+
+.heading-5 { @include heading-5(); }
+
+.font-body { @include font-body(); }
+
+.font-link { @include font-link(); }
+
+.font-white { @include font-white(); }
+
+.font-small { @include font-small(); }
+
+.fs-12 {
+  font-size: .75rem;
+}
+
+.fs-14 {
+  font-size: .875rem;
+}
+
+.fs-16 {
+  font-size: 1rem;
+}
+
+.fs-18 {
+  font-size: 1.125rem;
+}
+
+.font-helvetica-neue {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}

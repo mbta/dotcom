@@ -30,7 +30,7 @@ defmodule SiteWeb.ScheduleController.HoursOfOperationTest do
       |> assign(:date, Util.service_date())
       |> SiteWeb.ScheduleController.HoursOfOperation.call([])
 
-    assert %Schedules.HoursOfOperation{} = conn.assigns.hours_of_operation
+    assert [%Schedules.HoursOfOperation{} | _] = conn.assigns.hours_of_operation
   end
 
   test "assigns nothing if there is no service", %{conn: conn} do

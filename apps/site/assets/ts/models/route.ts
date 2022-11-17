@@ -23,3 +23,9 @@ export const isASilverLineRoute = (routeOrRouteId: Route | string): boolean => {
     typeof routeOrRouteId === "string" ? routeOrRouteId : routeOrRouteId.id;
   return ["741", "742", "743", "746", "749", "751"].includes(id);
 };
+
+export const RAPID_TRANSIT = "rapid_transit";
+
+export const isRapidTransit = ({ description }: Route): boolean =>
+  description === RAPID_TRANSIT;
+export const isGreenLine = ({ id }: Route): boolean => id === "Green";

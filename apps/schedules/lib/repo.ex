@@ -147,11 +147,15 @@ defmodule Schedules.Repo do
     end)
   end
 
-  @spec hours_of_operation(Routes.Route.id_t() | [Routes.Route.id_t()], Date.t()) ::
+  @spec hours_of_operation(
+          Routes.Route.id_t() | [Routes.Route.id_t()],
+          Date.t(),
+          Routes.Route.gtfs_route_desc()
+        ) ::
           HoursOfOperation.t()
-  def hours_of_operation(route_id_or_ids, date \\ Util.service_date()) do
+  def hours_of_operation(route_id_or_ids, date, description) do
     route_id_or_ids
-    |> cache(&HoursOfOperation.hours_of_operation(&1, date))
+    |> cache(&HoursOfOperation.hours_of_operation(&1, date, description))
     |> Util.error_default(%HoursOfOperation{})
   end
 

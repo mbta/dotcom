@@ -12,30 +12,36 @@
     margin: $base-spacing__new * 4 $base-spacing__new * 6;
   }
 }
+
 .error-pre-title + .error-title {
   @include media-breakpoint-between(md, xxl) {
     display: none;
   }
 }
+
 .error-details-container .error-title {
   margin-bottom: 40px;
   @include media-breakpoint-between(xs, sm) {
     display: none;
   }
 }
+
 .error-pre-title {
   color: $gray;
-  margin-bottom: $base-spacing__new * 4;
   line-height: 1.4;
+  margin-bottom: $base-spacing__new * 4;
   @include media-breakpoint-only(sm) {
     margin-bottom: $base-spacing__new * 2;
   }
 }
-.error-pre-title, .error-title {
+
+.error-pre-title,
+.error-title {
   @include media-breakpoint-only(xs) {
     text-align: center;
   }
 }
+
 .error-page-flex {
   display: flex;
   flex-direction: column;
@@ -47,10 +53,11 @@
     margin-top: 0;
   }
 }
+
 .error-details-container {
   @include media-breakpoint-only(sm) {
-    margin-top: $base-spacing__new * 4;
     margin-right: $base-spacing__new * 6;
+    margin-top: $base-spacing__new * 4;
   }
   @include media-breakpoint-between(md, lg) {
     margin-right: $base-spacing__new * 10;
@@ -59,28 +66,31 @@
     margin-right: $base-spacing__new * 15;
   }
 }
+
 .error-svg-container {
   flex: 0 0 auto;
   @include media-breakpoint-only(xxl) {
-    width: 380px;
     margin: 0 $base-spacing__new * 20;
+    width: 380px;
   }
   @include media-breakpoint-between(md,lg) {
-    width: 280px;
     margin: 0 $base-spacing__new * 10;
+    width: 280px;
   }
   @include media-breakpoint-down(sm) {
-    width: 220px;
     margin: 0 $base-spacing__new * 6;
+    width: 220px;
   }
   @include media-breakpoint-only(xs) {
     align-self: center;
     margin: $base-spacing__new * 5;
   }
 }
+
 .error-paragraph {
   line-height: 1.5;
 }
+
 .error-links {
   line-height: 1.5;
   margin-top: 1.5rem;
@@ -89,10 +99,11 @@
 // Bus SVG animation
 @keyframes blink {
   0% { opacity: 0; }
-  25% { opacity: 0.8; }
-  75% { opacity: 0.8; }
+  25% { opacity: .8; }
+  75% { opacity: .8; }
   100% { opacity: 0; }
 }
+
 #LIGHT---NOTINSERVICE {
   animation: blink 1s infinite;
 }
@@ -102,6 +113,7 @@
   75% { opacity: 1; }
   100% { opacity: 0; }
 }
+
 [id$=--ON] {
   animation: light 1s infinite;
 }
@@ -137,11 +149,13 @@
 .errorview {
   flex: 0 0 auto;
 }
+
 .error-card {
   background: $white;
   color: $gray-dark;
   text-align: center;
 }
+
 .error-card-header {
   border-bottom: 0;
   font-size: 4rem;
@@ -152,9 +166,11 @@
     }
   }
 }
+
 .error-card-subheader {
   margin-bottom: $base-spacing;
 }
+
 .error-card-content {
   margin-left: auto;
   margin-right: auto;
@@ -164,11 +180,13 @@
     width: 80%;
   }
 }
+
 .error-card-image {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
+
 .error-card-button {
   @include media-breakpoint-up(md) {
     margin-bottom: $base-spacing * 3;

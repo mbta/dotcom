@@ -3,9 +3,9 @@ import renderer, { act } from "react-test-renderer";
 import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
-import ScheduleNote from "../../ScheduleNote";
 import { UpcomingDepartures } from "../upcoming-departures/UpcomingDepartures";
 import { mount } from "enzyme";
+import DailySchedule from "../daily-schedule/DailySchedule";
 
 const today = "2019-12-05";
 const route: EnhancedRoute = {
@@ -97,7 +97,6 @@ describe("ScheduleModalContent", () => {
           services={[]}
           routePatternsByDirection={{}}
           today={today}
-          scheduleNote={null}
         />
       );
     });
@@ -105,7 +104,7 @@ describe("ScheduleModalContent", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("renders with schedule note if present", () => {
+  it("will not render Daily Schedule for subway lines", () => {
     act(() => {
       const tree = mount(
         <ScheduleModalContent
@@ -119,12 +118,9 @@ describe("ScheduleModalContent", () => {
           services={[]}
           routePatternsByDirection={{}}
           today={today}
-          scheduleNote={scheduleNoteData}
         />
       );
-      expect(tree.find(ScheduleNote).props().scheduleNote.offpeak_service).toBe(
-        "8-12 minutes"
-      );
+      expect(tree.find(DailySchedule)).toEqual({});
     });
   });
 
@@ -168,7 +164,6 @@ describe("ScheduleModalContent", () => {
           services={[baseTypicalService]}
           routePatternsByDirection={{}}
           today={"2019-07-09"}
-          scheduleNote={null}
         />
       );
 
@@ -192,7 +187,6 @@ describe("ScheduleModalContent", () => {
           services={[baseTypicalService]}
           routePatternsByDirection={{}}
           today={"2018-09-16"}
-          scheduleNote={null}
         />
       );
 
@@ -230,7 +224,6 @@ describe("ScheduleModalContent", () => {
           services={[baseTypicalService]}
           routePatternsByDirection={{}}
           today={"2018-09-16"}
-          scheduleNote={null}
         />
       );
 
@@ -268,7 +261,6 @@ it.each`
           services={[service]}
           routePatternsByDirection={{}}
           today={testToday}
-          scheduleNote={null}
         />
       );
 

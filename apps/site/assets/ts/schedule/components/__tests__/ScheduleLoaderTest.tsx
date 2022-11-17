@@ -95,6 +95,18 @@ const route: EnhancedRoute = {
   type: 1
 };
 
+const routeNotSubway: EnhancedRoute = {
+  alerts: [],
+  description: "",
+  direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
+  direction_names: { 0: "Inbound", 1: "Outbound" },
+  header: "",
+  id: "Silver",
+  name: "Silver 1",
+  long_name: "Silver Line",
+  type: 2
+};
+
 const service: ServiceInSelector = {
   added_dates: [],
   added_dates_notes: {},
@@ -313,7 +325,7 @@ describe("ScheduleLoader", () => {
             holidays,
             pdfs,
             teasers,
-            route,
+            route: routeNotSubway,
             services,
             stops,
             direction_id: 0,
@@ -327,6 +339,39 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
     expect(wrapper.find(ScheduleNote).exists()).toEqual(true);
+    expect(wrapper.find(ScheduleFinder).exists()).toEqual(false);
+
+    wrapper.unmount();
+  });
+
+  it("Does Not Render ScheduleNote", () => {
+    wrapper = mount(
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_NOTE"
+          schedulePageData={{
+            schedule_note: scheduleNoteData,
+            connections: [],
+            fares,
+            fare_link: fareLink, // eslint-disable-line camelcase
+            hours,
+            holidays,
+            pdfs,
+            teasers,
+            route,
+            services,
+            stops,
+            direction_id: 0,
+            route_patterns: routePatternsByDirection,
+            line_diagram: lineDiagram,
+            today: "2019-12-05",
+            variant: null
+          }}
+          updateURL={() => {}}
+        />
+      </Provider>
+    );
+    expect(wrapper.find(ScheduleNote).exists()).toEqual(false);
     expect(wrapper.find(ScheduleFinder).exists()).toEqual(false);
 
     wrapper.unmount();
@@ -357,7 +402,7 @@ describe("ScheduleLoader", () => {
             holidays,
             pdfs,
             teasers,
-            route,
+            route: routeNotSubway,
             services,
             stops,
             direction_id: 0,
@@ -812,7 +857,7 @@ describe("ScheduleLoader", () => {
             holidays,
             pdfs,
             teasers,
-            route,
+            route: routeNotSubway,
             services,
             stops,
             direction_id: 0,

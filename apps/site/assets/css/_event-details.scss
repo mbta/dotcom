@@ -29,11 +29,11 @@
   .m-event__registration {
     display: flex;
     justify-content: space-between;
-    
+
     &-header {
+      align-self: center;
       flex: 0 1 40%;
       margin: 0;
-      align-self: center;
     }
 
     @include media-breakpoint-down(xs) {
@@ -45,9 +45,9 @@
   }
 
   .m-event__livestream {
-    width: 100%;
     height: 56vw;
     max-height: 560px;
+    width: 100%;
   }
 }
 
@@ -70,12 +70,6 @@ $agenda-column-gap: $base-spacing * .75;
     border-radius: 50%;
     color: $color;
 
-    @if $counter-type {
-      content: counter($counter, $counter-type);
-    } @else {
-      content: counter($counter);
-    }
-
     counter-increment: $counter;
     display: inline-block;
     font-weight: 700;
@@ -83,6 +77,12 @@ $agenda-column-gap: $base-spacing * .75;
     line-height: $bullet-size;
     text-align: center;
     width: $bullet-size;
+
+    @if $counter-type {
+      content: counter($counter, $counter-type);
+    } @else {
+      content: counter($counter);
+    }
   }
 }
 

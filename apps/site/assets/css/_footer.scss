@@ -4,25 +4,25 @@
 // GENERAL FOOTER STYLES
 //
 //
-@import "typography";
+@import 'typography';
 
 .m-footer {
   @include base-font__new();
 
   background-color: $footer-color;
   color: $white;
+  flex-basis: 70%;
   min-width: 20rem;
   padding-bottom: 24px;
   padding-top: 24px;
-  flex-basis: 70%;
 
   @include media-breakpoint-down(sm) {
-    border-radius:  0 24px 0 0;
+    border-radius: 0 24px 0 0;
   }
 
   @include media-breakpoint-between(sm, md) {
+    border-radius: 0 40px 0 0;
     padding-left: 11px;
-    border-radius:  0 40px 0 0;
     padding-top: 32px;
   }
 
@@ -31,26 +31,26 @@
   }
 
   @include media-breakpoint-up(lg) {
+    border-radius: 0 40px 0 0;
     height: auto;
     padding-left: 1rem;
-    position: relative;
     padding-top: 40px;
-    border-radius:  0 40px 0 0;
+    position: relative;
   }
 
   @include media-breakpoint-only(md) {
     font-size: $font-size-base-sm;
-    z-index: 1;
     position: absolute;
     width: 100%;
+    z-index: 1;
   }
 
   .container {
+    padding: 0 4px;
     padding-bottom: 44px;
-    padding: 0 4px 0 4px;
 
     @include media-breakpoint-up(lg) {
-      padding-left: 0px;
+      padding-left: 0;
       padding-right: 4px;
     }
 
@@ -66,9 +66,9 @@
   .m-menu__feature {
     width: initial;
     @include media-breakpoint-up(lg) {
-     .m-menu__section-heading {
-      font-size: 16px;
-     }
+      .m-menu__section-heading {
+        font-size: 16px;
+      }
     }
   }
 
@@ -86,14 +86,14 @@
   a {
     color: $brand-primary-light-contrast;
     display: block;
-    margin-bottom: .75rem;
     font-size: 18px;
+    margin-bottom: .75rem;
     @include media-breakpoint-up(lg) {
       margin-bottom: 1rem;
     }
 
     @include media-breakpoint-down(sm) {
-      font-size: 0.875rem;
+      font-size: .875rem;
     }
 
     @include media-breakpoint-down(xs) {
@@ -133,9 +133,9 @@
   }
 
   @include media-breakpoint-up(lg) {
+    font-family: $font-family-base;
     font-size: 24px;
     line-height: 30px;
-    font-family: $font-family-base;
     margin-bottom: 24px;
     margin-top: 16px;
   }
@@ -144,10 +144,10 @@
 .m-footer__copyright {
   font-size: $font-size-base-xs;
   @include media-breakpoint-up(lg) {
-    margin: 0 40px 0 56px;
-    left: 0;
-    right: 0;
     bottom: 34px;
+    left: 0;
+    margin: 0 40px 0 56px;
+    right: 0;
   }
   @include media-breakpoint-down(xs) {
     margin-left: 16px;
@@ -181,24 +181,24 @@ address {
 }
 
 .call-us-container {
-  margin-bottom: -50px;
   background: $brand-primary-lightest-contrast;
-  padding-bottom: 0;
+  border-radius: 40px 0 0;
   flex-basis: 30%;
-  border-radius: 40px 0 0 0;
+  margin-bottom: -50px;
+  padding-bottom: 0;
   padding-top: 40px;
 
   .m-footer__links {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 
   .bottom-section {
     .m-menu__feature_phone {
       display: inline;
       a {
+        color: $brand-primary !important;
         font-size: 14px;
         font-weight: 500;
-        color:  $brand-primary !important;
       }
     }
   }
@@ -211,14 +211,14 @@ address {
     &.top-section {
       padding-top: 12px !important;
     }
-    
+
     &.emergency-contacts {
       display: block;
       white-space: normal;
       &.mobile {
         border-radius: 0;
-        margin-top: 0px;
         margin-bottom: 2px;
+        margin-top: 0;
       }
     }
 
@@ -230,7 +230,7 @@ address {
     }
 
     @include media-breakpoint-down(xs) {
-      margin-bottom: 0px;
+      margin-bottom: 0;
       padding-top: 24px;
     }
 
@@ -250,14 +250,14 @@ address {
   @include media-breakpoint-down(xs) {
     padding-top: 22px !important;
     .container {
+      border-radius: 24px 0 0;
       padding-left: 4px;
       padding-right: 4px;
-      border-radius: 24px 0 0 0;
     }
   }
 
   @include media-breakpoint-down(md) {
-    border-radius: 40px 0 0 0;
+    border-radius: 40px 0 0;
     padding-top: 32px;
   }
 
@@ -267,22 +267,22 @@ address {
   }
 
   @include media-breakpoint-down(sm) {
+    border-radius: 24px 0 0;
     padding-bottom: 50px;
-    border-radius:  24px 0 0;
   }
   .m-footer__links {
-    @include media-breakpoint-down(xs){
+    @include media-breakpoint-down(xs) {
       display: block;
     }
-    @include media-breakpoint-up(lg){
+    @include media-breakpoint-up(lg) {
       display: block;
 
     }
   }
   @include media-breakpoint-up(lg) {
-    margin-bottom: 0px;
-    padding-right: 40px;
     font-size: $font-size-base;
+    margin-bottom: 0;
+    padding-right: 40px;
     .container {
       ul {
         display: flex;
@@ -301,15 +301,15 @@ address {
   :nth-child(2) {
     div {
       @include media-breakpoint-up(lg) {
-        padding-left: 0px;
+        padding-left: 0;
       }
     }
     :first-child {
-      padding-top: 0px;
+      padding-top: 0;
     }
     :nth-child(1) {
+      margin-bottom: 0;
       margin-top: 0;
-      margin-bottom: 0px;
     }
   }
 
@@ -324,38 +324,38 @@ address {
     }
     @include media-breakpoint-down(xs) {
       a {
-        margin-top: 0px;
         font-size: 14px;
+        margin-top: 0;
       }
       strong {
-        padding-right: 4px;
-        font-size: 14px;
         display: inline;
+        font-size: 14px;
+        padding-right: 4px;
       }
     }
   }
   @include media-breakpoint-up(lg) {
     a {
+      margin-bottom: 0;
       padding-top: 12px;
-      margin-bottom: 0px;
     }
   }
 }
 
 .call-us-header {
   @include media-breakpoint-up(lg) {
-    font-size:24px;
-    margin-top: 18px;
-    margin-bottom: 12px;
     font-family: $font-family-base;
+    font-size: 24px;
+    margin-bottom: 12px;
+    margin-top: 18px;
   }
   @include media-breakpoint-down(md) {
     padding-left: 12px;
   }
   @include media-breakpoint-down(xs) {
-    margin-top: 2px;
     font-size: 18px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
+    margin-top: 2px;
   }
 }
 
@@ -387,30 +387,30 @@ address {
     margin-right: 16px;
   }
 
-  @include media-breakpoint-between(sm, md){
+  @include media-breakpoint-between(sm, md) {
     margin-right: 11px;
   }
 
   @include media-breakpoint-up(lg) {
-    margin: 0 40px 0 56px;
-    left: 0;
-    right: 0;
     bottom: 60px;
+    left: 0;
+    margin: 0 40px 0 56px;
+    right: 0;
   }
+  border-top: 2px solid $brand-primary-light-contrast;
+  bottom: 90px;
 
   display: flex;
   justify-content: space-between;
-  border-top: 2px solid $brand-primary-light-contrast;
-  padding-top: 20px;
   padding-bottom: 20px;
-  bottom: 90px;
+  padding-top: 20px;
 
   .m-menu__language {
     color: $brand-primary-light-contrast;
     .custom-language-selector {
       color: $brand-primary-light-contrast;
     }
-    
+
     .header-globe {
       display: none;
     }
@@ -418,7 +418,7 @@ address {
       display: block;
     }
   }
-  
+
 }
 
 .social-icons-container {
@@ -429,13 +429,13 @@ address {
 
 .social-icons-container a:first-of-type {
   :first-child {
-    padding-left: 0px;
+    padding-left: 0;
   }
 }
 
 .social-icon {
-  padding-left: 20px;
   color: $brand-primary-light-contrast;
+  padding-left: 20px;
   &:hover {
     color: $brand-primary-light;
   }

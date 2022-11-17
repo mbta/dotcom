@@ -7,12 +7,10 @@ import {
   SimpleStopMap,
   RoutePatternsByDirection,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType,
   SelectedOrigin,
   UserInput
 } from "../__schedule";
 import { EnhancedJourney, Journey, TripInfo } from "../__trips";
-import ScheduleNote from "../ScheduleNote";
 import ScheduleFinderForm from "./ScheduleFinderForm";
 import DailySchedule from "./daily-schedule/DailySchedule";
 import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
@@ -23,6 +21,7 @@ import {
   isFetchFailed
 } from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
+import { isSubwayRoute } from "../../../models/route";
 
 // exported for testing
 export const fetchData = async (
@@ -70,7 +69,6 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
-  scheduleNote: ScheduleNoteType | null;
 }
 
 const ScheduleModalContent = ({
@@ -83,8 +81,7 @@ const ScheduleModalContent = ({
   services,
   stops,
   routePatternsByDirection,
-  today,
-  scheduleNote
+  today
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
@@ -132,12 +129,7 @@ const ScheduleModalContent = ({
 
       {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
 
-      {scheduleNote ? (
-        <ScheduleNote
-          className="m-schedule-page__schedule-notes--modal"
-          scheduleNote={scheduleNote}
-        />
-      ) : (
+      {isSubwayRoute(route) ? null : (
         <DailySchedule
           stopId={selectedOrigin}
           services={services}

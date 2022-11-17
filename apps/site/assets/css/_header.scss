@@ -3,9 +3,9 @@
 @import 'mixins';
 
 .header-navbar {
+  display: flex;
   // required for the mobile button to be vertically centered
   height: $header-navbar-height;
-  display: flex;
 }
 
 .header-navbar.new {
@@ -23,10 +23,10 @@
 
   .navbar-logo {
     .svg-container {
-      display: flex;
-      justify-content: center;
       align-items: center;
+      display: flex;
       height: 100%;
+      justify-content: center;
     }
     .c-svg__mbta-logo {
       display: none;
@@ -71,17 +71,18 @@
   }
 }
 
-.header-navbar.new, .m-menu__search {
+.header-navbar.new,
+.m-menu__search {
   .search {
-    height: 100%;
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 100%;
     form {
       flex-grow: 1;
     }
     .c-form__input-container {
-      height: 44px;
       border-radius: 8px;
+      height: 44px;
       margin-left: auto;
     }
     button.c-form__submit-btn {
@@ -125,6 +126,7 @@ nav.m-menu {
     display: none;
   }
 }
+
 .header-navbar {
   .search {
     @include media-breakpoint-only(xs) {
@@ -140,10 +142,12 @@ nav.m-menu {
     }
   }
 }
+
 nav.m-menu--mobile {
   position: absolute;
   z-index: $z-index-modal;
 }
+
 .m-menu__title {
   background-color: $brand-primary-darkest;
   margin: 0;
@@ -157,15 +161,15 @@ nav.m-menu--mobile {
 .m-menu__content,
 .m-menu__search {
   display: none;
-  white-space: nowrap;
+  -ms-overflow-style: none;  /* IE and Edge */
+  position: fixed;
+  scrollbar-width: none;  /* Firefox */
   transition: all .25s ease;
   transition: top 0s;
-  position: fixed;
+  white-space: nowrap;
   &::-webkit-scrollbar {
     display: none; /* Chrome */
   }
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 
   @include media-breakpoint-up(lg) {
     display: none;
@@ -182,11 +186,11 @@ nav.m-menu--mobile {
 }
 
 .m-menu__search {
-  height: 0px;
-  width: 100%;
   background-color: $brand-primary-darkest;
-  padding: 0 12px 16px 12px;
   display: none;
+  height: 0;
+  padding: 0 12px 16px;
+  width: 100%;
 
   .c-form__input-container {
     border: none;
@@ -207,13 +211,13 @@ nav.m-menu--mobile {
 }
 
 .m-menu__content {
-  bottom: 0;
-  overflow-y: auto;
-  box-shadow: 0px 7px 14px 0px $gray-shadow;
-  width: 0px;
   background-color: $brand-primary;
-  padding-bottom: calc(200px - $base-spacing);
+  bottom: 0;
+  box-shadow: 0 7px 14px 0 $gray-shadow;
+  overflow-y: auto;
   overscroll-behavior: none;
+  padding-bottom: calc(200px - $base-spacing);
+  width: 0;
 
   .m-menu__section-heading {
     color: $brand-primary-lightest;
@@ -221,9 +225,9 @@ nav.m-menu--mobile {
   }
 
   .m-menu__section {
+    border-bottom: 1px solid $brand-primary-light-contrast;
     padding-bottom: $space-4_new;
     padding-top: $space-2_new;
-    border-bottom: 1px solid $brand-primary-light-contrast;
 
     @include media-breakpoint-only(sm) {
       margin-left: 40px;
@@ -336,7 +340,7 @@ nav.m-menu--mobile {
 }
 
 // when search activated on mobile, switch icon from search to close
-.header-search__toggle[aria-expanded="true"] {
+.header-search__toggle[aria-expanded='true'] {
   .fa-search {
     display: none;
   }
@@ -359,18 +363,20 @@ nav.m-menu--mobile {
 }
 
 .m-menu__toggle {
-  min-width: 4rem;
+  align-items: center;
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  min-width: 4rem;
 
   @include media-breakpoint-up(lg) {
     display: none !important; // works when extracted via dotcomchrome
   }
 }
 
-.m-menu__toggle, .m-menu--desktop__toggle, .header-search__toggle {
+.m-menu__toggle,
+.m-menu--desktop__toggle,
+.header-search__toggle {
   background-color: unset;
   border: 2px solid $brand-primary-light-contrast;
   border-radius: 4px;
@@ -387,7 +393,7 @@ nav.m-menu--mobile {
     outline: 2px solid $brand-secondary;
   }
 
-  &[aria-expanded="true"] {
+  &[aria-expanded='true'] {
     @media (hover: hover) {
       &:hover {
         background-color: $brand-primary;
@@ -400,7 +406,8 @@ nav.m-menu--mobile {
   }
 }
 
-.m-menu__toggle, .m-menu--desktop__toggle {
+.m-menu__toggle,
+.m-menu--desktop__toggle {
   padding: 6px 12px 5px;
 
   // this button is a link when JS is disabled
@@ -418,14 +425,14 @@ nav.m-menu--mobile {
 
 // Search button in top nav
 .header-search__toggle {
-  margin-left: calc(4rem - 30px);
-  height: 30px;
-  padding: unset;
-  width: 30px;
+  align-items: center;
 
   display: flex;
-  align-items: center;
+  height: 30px;
   justify-content: center;
+  margin-left: calc(4rem - 30px);
+  padding: unset;
+  width: 30px;
 }
 
 // /menu page

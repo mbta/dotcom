@@ -30,7 +30,7 @@
 }
 
 @mixin column-lines($breakpoint) {
-  $gap: $grid-gutter-width * 0.5;
+  $gap: $grid-gutter-width * .5;
   margin: $gap #{-$gap};
 
   > [class*="col-#{$breakpoint}-"] {

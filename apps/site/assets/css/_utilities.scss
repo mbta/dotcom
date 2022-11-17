@@ -186,6 +186,7 @@
 .u-flex-container {
   display: flex;
 }
+
 .u-flex-one {
   flex: 1;
 }
@@ -229,6 +230,6 @@
 }
 
 .mr-025 {
-  margin-right: $base-spacing * 0.25 !important;
+  margin-right: $base-spacing * .25 !important;
 }
 /* stylelint-enable declaration-no-important */
