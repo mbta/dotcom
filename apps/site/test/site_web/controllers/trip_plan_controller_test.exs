@@ -745,6 +745,49 @@ defmodule SiteWeb.TripPlanControllerTest do
     end
   end
 
+  describe "/from/ address path" do
+    test "gets a valid address in the 'from' field", %{conn: conn} do
+      conn = get(conn, trip_plan_path(conn, :from, "Boston Common"))
+
+      assert conn.assigns.query.from.name == "Geocoded Boston Common"
+    end
+
+    test "uses expected values when addres is formatted latitutde,longitude,stopName", %{
+      conn: conn
+    } do
+      conn = get(conn, trip_plan_path(conn, :from, "42.395428,-71.142483,Cobbs Corner, Canton"))
+
+      assert html_response(conn, 200)
+      assert conn.assigns.query.from.name == "Cobbs Corner, Canton"
+      assert conn.assigns.query.from.latitude == 42.395428
+      assert conn.assigns.query.from.longitude == -71.142483
+    end
+
+    test "is unable to get address so it redirects to index", %{conn: conn} do
+      with_mock TripPlan, [:passthrough],
+        geocode: fn _address ->
+          {:error, :not_found}
+        end do
+        conn = get(conn, trip_plan_path(conn, :from, "Atlantis"))
+        assert html_response(conn, 302) =~ "/trip-planner"
+      end
+    end
+
+    test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
+      conn: conn
+    } do
+      plan_params = %{"plan" => %{"from" => "from address", "to" => "to address"}}
+
+      conn =
+        get(
+          conn,
+          trip_plan_path(conn, :from, "Address", plan_params)
+        )
+
+      assert redirected_to(conn) == trip_plan_path(conn, :index, plan_params)
+    end
+  end
+
   describe "/to/ address path" do
     test "gets a valid address in the 'to' field", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :to, "Boston Common"))
