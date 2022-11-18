@@ -102,9 +102,7 @@ export default class AlgoliaAutocomplete {
         autoselectOnBlur: false,
         openOnFocus: true,
         detachedMediaQuery: false,
-        hint: false,
-        minLength: 0,
-        cssClasses: {
+        classNames: {
           root: "c-search-bar__autocomplete",
           prefix: "c-search-bar__"
         }
