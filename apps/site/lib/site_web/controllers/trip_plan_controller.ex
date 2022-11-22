@@ -62,6 +62,76 @@ defmodule SiteWeb.TripPlanController do
     render(conn, :index)
   end
 
+  def from(conn, %{"plan" => _plan} = params) do
+    redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
+  end
+
+  def from(conn, %{
+        "address" => address
+      }) do
+    if String.match?(address, ~r/^(\-?\d+(\.\d+)?),(\-?\d+(\.\d+)?),.*$/) do
+      [latitude, longitude, name] = String.split(address, ",", parts: 3)
+      # Avoid extra geocode call, just use these coordinates
+      destination = %TripPlan.NamedPosition{
+        latitude: String.to_float(latitude),
+        longitude: String.to_float(longitude),
+        name: name,
+        stop_id: nil
+      }
+
+      do_from(conn, destination)
+    else
+      updated_address = Geocode.check_address(address, @options)
+
+      case TripPlan.geocode(updated_address) do
+        {:ok, geocoded_from} ->
+          do_from(conn, geocoded_from)
+
+        {:error, _} ->
+          # redirect to the initial index page
+          redirect(conn, to: trip_plan_path(conn, :index))
+      end
+    end
+  end
+
+  defp do_from(conn, destination) do
+    # build a default query with a pre-filled 'from' field:
+    query = %Query{
+      from: destination,
+      to: {:error, :unknown},
+      time: {:error, :unknown}
+    }
+
+    now = Util.now()
+
+    # build map information for a single leg with the 'from' field:
+    map_data =
+      TripPlanMap.itinerary_map([
+        %Leg{
+          from: destination,
+          to: nil,
+          mode: %PersonalDetail{},
+          description: "",
+          start: now,
+          stop: now,
+          name: "",
+          long_name: "",
+          type: "",
+          url: "",
+          polyline: ""
+        }
+      ])
+
+    %{markers: [marker]} = map_data
+    from_marker = %{marker | id: "B"}
+    map_info_for_from_destination = %{map_data | markers: [from_marker]}
+
+    conn
+    |> assign(:query, query)
+    |> assign(:map_data, map_info_for_from_destination)
+    |> render(:index)
+  end
+
   def to(conn, %{"plan" => _plan} = params) do
     redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
   end
