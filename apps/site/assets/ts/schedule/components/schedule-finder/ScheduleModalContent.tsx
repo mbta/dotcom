@@ -22,6 +22,7 @@ import {
 } from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
 import { isSubwayRoute } from "../../../models/route";
+import DailyScheduleSubway from "./daily-schedule/DailyScheduleSubway";
 
 // exported for testing
 export const fetchData = async (
@@ -126,6 +127,15 @@ const ScheduleModalContent = ({
           stopsByDirection={stops}
         />
       </div>
+
+      {!isSubwayRoute(route) ? null : (
+        <DailyScheduleSubway
+          stops={stops}
+          stopId={selectedOrigin}
+          directionId={selectedDirection}
+          routeId={routeId}
+        />
+      )}
 
       {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
 
