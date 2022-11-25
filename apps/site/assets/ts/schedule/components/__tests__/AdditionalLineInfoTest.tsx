@@ -59,6 +59,8 @@ it("it renders", () => {
         fareLink={fareLink}
         route={route}
         holidays={holidays}
+        hours={""}
+        scheduleNote={null}
       />
     )
     .toJSON();

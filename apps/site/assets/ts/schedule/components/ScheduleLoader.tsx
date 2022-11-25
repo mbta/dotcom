@@ -170,7 +170,8 @@ export const ScheduleLoader = ({
         connections,
         fares,
         fare_link: fareLink,
-        holidays
+        holidays,
+        hours
       } = schedulePageData;
 
       if (routeIsSuspended) {
@@ -191,6 +192,8 @@ export const ScheduleLoader = ({
           fareLink={fareLink}
           route={route}
           holidays={holidays}
+          hours={hours}
+          scheduleNote={scheduleNote}
         />
       );
     }
