@@ -32,7 +32,7 @@ export default class AlgoliaAutocomplete {
     this._resetButton = this.getById(this._selectors.resetButton);
     this.announcer = this.getById(this._selectors.announcer);
     this._indices = indices;
-    this._datasets = [];
+    this._getSources = [];
     this._results = {};
     this._highlightedHit = null;
     this._autocomplete = null;
@@ -61,7 +61,7 @@ export default class AlgoliaAutocomplete {
   }
 
   clear() {
-    this._autocomplete.autocomplete.close();
+    this._autocomplete.close();
     this.setValue("");
     this._toggleResetButton(false);
     this._client.reset();
@@ -89,12 +89,12 @@ export default class AlgoliaAutocomplete {
 
     this._resultsContainer.innerHTML = "";
 
-    this._datasets = this._indices.reduce(
+    this._getSources = this._indices.reduce(
       (acc, index) => this._buildDataset(index, acc),
       []
     );
 
-    this._autocomplete = window.autocomplete(
+    this._autocomplete = window(
       this._input,
       {
         appendTo: this._resultsContainer,
@@ -102,12 +102,14 @@ export default class AlgoliaAutocomplete {
         autoselectOnBlur: false,
         openOnFocus: true,
         detachedMediaQuery: false,
-        classNames: {
+        hint: false,
+        minLength: 0,
+        cssClasses: {
           root: "c-search-bar__autocomplete",
           prefix: "c-search-bar__"
         }
       },
-      this._datasets
+      this._getSources
     );
 
     this._addErrorMsg();
@@ -116,7 +118,7 @@ export default class AlgoliaAutocomplete {
   }
 
   resetResetButton() {
-    this._toggleResetButton(this._autocomplete.autocomplete.getVal() !== "");
+    this._toggleResetButton(this._autocomplete.getVal() !== "");
   }
 
   setError(error) {
@@ -219,7 +221,7 @@ export default class AlgoliaAutocomplete {
   }
 
   onKeyup() {
-    this._toggleResetButton(this._autocomplete.autocomplete.getVal() !== "");
+    this._toggleResetButton(this._autocomplete.getVal() !== "");
   }
 
   onOpen() {
@@ -333,7 +335,7 @@ export default class AlgoliaAutocomplete {
 
   _buildDataset(indexName, acc) {
     acc.push({
-      source: this._datasetSource(indexName),
+      source: this._getSourcesource(indexName),
       displayKey: AlgoliaAutocomplete.DISPLAY_KEYS[indexName],
       name: indexName,
       hitsPerPage: 5,
@@ -362,7 +364,7 @@ export default class AlgoliaAutocomplete {
     return null;
   }
 
-  _datasetSource(index) {
+  _getSourcesource(index) {
     return (query, callback) => {
       this._client.reset();
       return this._client
@@ -390,13 +392,13 @@ export default class AlgoliaAutocomplete {
   }
 
   setValue(value) {
-    this._autocomplete.autocomplete.setVal(value);
+    this._autocomplete.setQuery(value);
     window.jQuery(this._input).change();
-    this._autocomplete.autocomplete.close();
+    this._autocomplete.setIsOpen(false);
   }
 
   getValue() {
-    return this._autocomplete.autocomplete.getVal();
+    return this._autocomplete.getVal();
   }
 }
 
