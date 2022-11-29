@@ -327,6 +327,7 @@ describe("ScheduleLoader", () => {
         <ScheduleLoader
           component="SCHEDULE_NOTE"
           schedulePageData={{
+            alerts: [],
             schedule_note: scheduleNoteData,
             connections: [],
             fares,
@@ -340,8 +341,8 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
             variant: null
           }}
           updateURL={() => {}}
