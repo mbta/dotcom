@@ -56,10 +56,16 @@ defmodule V3Api.Stream do
 
   @spec default_options :: Keyword.t()
   defp default_options do
-    [
-      base_url: config(:base_url),
-      api_key: config(:api_key)
-    ]
+    with base_url when not is_nil(base_url) <- config(:base_url),
+         api_key when not is_nil(api_key) <- config(:api_key) do
+      [
+        base_url: base_url,
+        api_key: api_key
+      ]
+    else
+      _ ->
+        raise ArgumentError, "Missing valid V3_URL and/or V3_API_KEY"
+    end
   end
 
   @spec config(atom) :: any
