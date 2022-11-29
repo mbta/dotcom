@@ -1,20 +1,8 @@
 import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
-import {
-  LineDiagramVehicle,
-  RouteStop,
-  LineDiagramStop,
-  RouteStopRoute
-} from "../../__schedule";
+import { LineDiagramVehicle, RouteStop } from "../../__schedule";
 import VehicleIcons from "../VehicleIcons";
-import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
-import {
-  Prediction,
-  PredictedOrScheduledTime,
-  PredictedOrScheduledTimeWithCrowding,
-  HeadsignWithCrowding
-} from "../../../../__v3api";
 
 // mock the redux state
 jest.spyOn(redux, "useSelector").mockImplementation(selector =>
@@ -28,20 +16,13 @@ const vehicles = [
   { id: "vehicle-2", status: "incoming", tooltip: "vehicle 2 tooltip text" },
   { id: "vehicle-3", status: "stopped", tooltip: "vehicle 3 tooltip text" }
 ] as LineDiagramVehicle[];
-const store = createLineDiagramCoordStore([
-  { route_stop: stop } as LineDiagramStop
-]);
 
 const tooltipText = (wrapper: ReactWrapper) =>
   wrapper.find("[tooltipText]").prop("tooltipText");
 
 describe("VehicleIcons with no vehicles", () => {
   it("doesn't render", () => {
-    const wrapper = mount(
-      <redux.Provider store={store}>
-        <VehicleIcons stop={stop} vehicles={null} />
-      </redux.Provider>
-    );
+    const wrapper = mount(<VehicleIcons stop={stop} vehicles={null} />);
 
     expect(wrapper.html()).toBeFalsy();
   });
@@ -50,11 +31,7 @@ describe("VehicleIcons with no vehicles", () => {
 describe("VehicleIcons with vehicles", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
-    wrapper = mount(
-      <redux.Provider store={store}>
-        <VehicleIcons stop={stop} vehicles={vehicles} />
-      </redux.Provider>
-    );
+    wrapper = mount(<VehicleIcons stop={stop} vehicles={vehicles} />);
   });
 
   afterEach(() => {
@@ -98,19 +75,17 @@ describe("VehicleIcons with vehicles", () => {
 
 it("VehicleIcons includes the vehicle crowding status if available", () => {
   const wrapper = mount(
-    <redux.Provider store={store}>
-      <VehicleIcons
-        stop={stop}
-        vehicles={[
-          {
-            id: "v1",
-            status: "incoming",
-            crowding: "some_crowding",
-            tooltip: "tooltip text"
-          }
-        ]}
-      />
-    </redux.Provider>
+    <VehicleIcons
+      stop={stop}
+      vehicles={[
+        {
+          id: "v1",
+          status: "incoming",
+          crowding: "some_crowding",
+          tooltip: "tooltip text"
+        }
+      ]}
+    />
   );
   expect(tooltipText(wrapper)).toContain("Some crowding");
 });

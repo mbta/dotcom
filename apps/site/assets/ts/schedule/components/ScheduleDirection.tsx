@@ -1,22 +1,23 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
-import { DirectionId, EnhancedRoute } from "../../__v3api";
+import { Alert, DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
-  LineDiagramStop,
-  EnhancedRoutePattern
+  EnhancedRoutePattern,
+  StopTree
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
-import { reducer as fetchReducer } from "../../helpers/fetch";
-import { menuReducer, FetchAction } from "./direction/reducer";
+import { fetchAction, reducer as fetchReducer } from "../../helpers/fetch";
+import { menuReducer } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "./Map";
-import LineDiagramAndStopListPage from "./line-diagram/LineDiagram";
 import {
   isABusRoute,
   isSubwayRoute,
   isACommuterRailRoute
 } from "../../models/route";
+import LineDiagram from "./line-diagram/LineDiagram";
+import { fromStopTreeData } from "./ScheduleLoader";
 
 export interface Props {
   route: EnhancedRoute;
@@ -24,7 +25,8 @@ export interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   mapData?: MapData;
   staticMapData?: StaticMapData;
-  lineDiagram: LineDiagramStop[];
+  stopTree: StopTree;
+  alerts: Alert[];
   busVariantId: string | null;
 }
 
@@ -32,7 +34,7 @@ export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
   currentRoutePatternIdForData: string | undefined,
-  dispatch: Dispatch<FetchAction>
+  dispatch: Dispatch<fetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   const baseURL = `/schedules/map_api?id=${routeId}&direction_id=${directionId}`;
@@ -58,7 +60,7 @@ export const fetchLineData = (
   routeId: string,
   directionId: DirectionId,
   currentRoutePatternIdForData: string | undefined,
-  dispatch: Dispatch<FetchAction>
+  dispatch: Dispatch<fetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
 
@@ -75,7 +77,13 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      .then(({ stop_tree }) => {
+        const stopTree: StopTree = fromStopTreeData(stop_tree);
+        dispatch({
+          type: "FETCH_COMPLETE",
+          payload: { stopTree }
+        });
+      })
       // @ts-ignore
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
@@ -87,7 +95,8 @@ const ScheduleDirection = ({
   routePatternsByDirection,
   mapData,
   staticMapData,
-  lineDiagram,
+  stopTree: initialStopTree,
+  alerts,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
@@ -175,11 +184,12 @@ const ScheduleDirection = ({
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
-    data: lineDiagram,
+    data: {
+      stopTree: initialStopTree
+    },
     isLoading: false,
     error: false
   });
-
   useEffect(() => {
     fetchLineData(
       route.id,
@@ -209,19 +219,14 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute(route)
-        ? lineState.data &&
-          lineState.data[0] && (
-            <>
-              <LineDiagramAndStopListPage
-                lineDiagram={lineState.data}
-                route={route}
-                directionId={state.directionId}
-              />
-              <h2>Realtime Tracking Map</h2>
-            </>
-          )
-        : null}
+      {isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
+        <LineDiagram
+          stopTree={lineState.data.stopTree}
+          route={route}
+          directionId={state.directionId}
+          alerts={alerts}
+        />
+      )}
 
       {!staticMapData && mapState.data && (
         <Map
@@ -248,16 +253,14 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!isSubwayRoute(route)
-        ? lineState.data &&
-          lineState.data[0] && (
-            <LineDiagramAndStopListPage
-              lineDiagram={lineState.data}
-              route={route}
-              directionId={state.directionId}
-            />
-          )
-        : null}
+      {!isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
+        <LineDiagram
+          stopTree={lineState.data.stopTree}
+          route={route}
+          directionId={state.directionId}
+          alerts={alerts}
+        />
+      )}
     </>
   );
 };

@@ -2,15 +2,15 @@
 
 exports[`ExpandableBranch renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <ExpandableBranch stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+  <ExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
     <div className=\\"m-schedule-diagram__expander\\">
-      <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"null\\">
-        <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-null\\" aria-expanded={false} aria-controls=\\"panel-null\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+      <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
+        <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
           <div className=\\"c-expandable-block__header-text\\">
             <div className=\\"m-schedule-diagram__expander-header\\">
               <div style={{...}}>
-                <svg className=\\"line-diagram-svg__toggle bus\\" width={38} height=\\"100%\\">
-                  <g transform=\\"translate(15, 1)\\">
+                <svg className=\\"line-diagram-svg__toggle bus\\" width={21} height=\\"100%\\">
+                  <g transform=\\"translate(-1, 1)\\">
                     <rect width={16} height=\\"42\\" rx={8} />
                     <circle cx={8} cy={11} r={4} />
                     <circle cx={8} cy={21} r={4} />
@@ -19,7 +19,7 @@ exports[`ExpandableBranch renders and matches snapshot 1`] = `
                 </svg>
               </div>
               <button className=\\"btn btn-link m-schedule-diagram__toggle\\" type=\\"button\\">
-                4
+                2
                  stops
               </button>
             </div>

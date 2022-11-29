@@ -1,66 +1,163 @@
 import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
-import { cloneDeep, merge } from "lodash";
-import { RouteType } from "../../../../__v3api";
-import { LineDiagramStop } from "../../__schedule";
-import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
-import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
-import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
-import StopListWithBranches from "../StopListWithBranches";
+import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
+import { RouteStop, StopTree } from "../../__schedule";
 import ExpandableBranch from "../ExpandableBranch";
+import { RouteType } from "../../../../__v3api";
 
-const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
-let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
-
-const route = {
-  type: 3 as RouteType,
-  name: "route 1",
-  long_name: "route 1 long name",
-  color: "F00B42",
-  id: "route-1",
-  direction_names: {
-    0: "Outbound",
-    1: "Inbound"
+const stopTree: StopTree = {
+  byId: {
+    a1: {
+      id: "a1",
+      value: ({
+        id: "a1",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    a2: {
+      id: "a2",
+      value: ({
+        id: "a2",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    b1: {
+      id: "b1",
+      value: ({
+        id: "b1",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    b2: {
+      id: "b2",
+      value: ({
+        id: "b2",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    b3: {
+      id: "b3",
+      value: ({
+        id: "b3",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    c1: {
+      id: "c1",
+      value: ({
+        id: "c1",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    c2: {
+      id: "c2",
+      value: ({
+        id: "c2",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    m1: {
+      id: "m1",
+      value: ({
+        id: "m1",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    m2: {
+      id: "m2",
+      value: ({
+        id: "m2",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    m3: {
+      id: "m3",
+      value: ({
+        id: "m3",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    x1: {
+      id: "x1",
+      value: ({
+        id: "x1",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    x2: {
+      id: "x2",
+      value: ({
+        id: "x2",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    y1: {
+      id: "y1",
+      value: ({
+        id: "y1",
+        route: { id: "route-1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    }
   },
-  direction_destinations: {
-    0: "Begin",
-    1: "End"
+  edges: {
+    a1: { next: ["a2"], previous: [] },
+    a2: { next: ["m1"], previous: ["a1"] },
+    b1: { next: ["b2"], previous: [] },
+    b2: { next: ["b3"], previous: ["b1"] },
+    b3: { next: ["m1"], previous: ["b2"] },
+    c1: { next: ["c2"], previous: [] },
+    c2: { next: ["m2"], previous: ["c1"] },
+    m1: { next: ["m2"], previous: ["a2", "b3"] },
+    m2: { next: ["m3"], previous: ["c2", "m1"] },
+    m3: { next: ["x1", "y1"], previous: ["m2"] },
+    x1: { next: ["x2"], previous: ["m3"] },
+    x2: { next: [], previous: ["x1"] },
+    y1: { next: [], previous: ["m3"] }
   },
-  description: "key_bus_route",
-  "custom_route?": false,
-  header: "",
-  alerts: []
+  startingNodes: ["a1", "b1", "c1"]
 };
-
-lineDiagram.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(route);
-});
-
-lineDiagramBranchingOut.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(route);
-});
-
-let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
-const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
-lineDiagramBranchingIn.forEach(({ route_stop }) => {
-  route_stop.route = CRroute;
-  if (route_stop["is_terminus?"]) {
-    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
-  }
-});
+const store = createStopTreeCoordStore(stopTree);
 
 const handleStopClick = () => {};
 const liveData = {};
-const store = createLineDiagramCoordStore(lineDiagram);
 
 describe("ExpandableBranch", () => {
   let wrapper: ReactWrapper;
+
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
         <ExpandableBranch
-          stops={lineDiagram}
+          stopTree={stopTree}
+          stopIds={["x1", "x2"]}
+          alerts={[]}
           handleStopClick={handleStopClick}
           liveData={liveData}
         />

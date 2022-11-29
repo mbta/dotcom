@@ -12,47 +12,284 @@ defmodule Stops.RouteStopsTest do
     test "makes a RouteStops struct for each list of RouteStop structs" do
       route = %Route{id: "Red", type: 1}
 
-      nil_route_stop = %RouteStop{
-        branch: nil,
+      shared_route_stop = %RouteStop{
         id: "place-alfcl",
         name: "Alewife",
-        route: route,
-        station_info: %Stops.Stop{
-          id: "place-alfcl",
-          name: "Alewife"
+        route: route
+      }
+
+      braintree_route_stops = [
+        %RouteStop{
+          shared_route_stop
+          | branch: "Alewife - Braintree"
+        },
+        %RouteStop{
+          branch: "Alewife - Braintree",
+          id: "place-brntn",
+          name: "Braintree",
+          route: route
         }
-      }
+      ]
 
-      braintree_route_stop = %RouteStop{
-        nil_route_stop
-        | branch: "Alewife - Braintree"
-      }
-
-      ashmont_route_stop = %RouteStop{
-        nil_route_stop
-        | branch: "Alewife - Ashmont"
-      }
+      ashmont_route_stops = [
+        %RouteStop{
+          shared_route_stop
+          | branch: "Alewife - Ashmont"
+        },
+        %RouteStop{
+          branch: "Alewife - Ashmont",
+          id: "place-asmnl",
+          name: "Ashmont",
+          route: route
+        }
+      ]
 
       route_patern_groups = [
-        [nil_route_stop],
-        [braintree_route_stop],
-        [ashmont_route_stop]
+        braintree_route_stops,
+        ashmont_route_stops
       ]
 
       assert [
                %RouteStops{
-                 branch: nil,
-                 stops: [nil_route_stop]
-               },
-               %RouteStops{
                  branch: "Alewife - Braintree",
-                 stops: [braintree_route_stop]
+                 stops: braintree_route_stops
                },
                %RouteStops{
                  branch: "Alewife - Ashmont",
-                 stops: [ashmont_route_stop]
+                 stops: ashmont_route_stops
                }
              ] = RouteStops.from_route_stop_groups(route_patern_groups)
+    end
+
+    test "supports branching in both directions" do
+      route_b = %Route{id: "Green-B", name: "Green Line B", type: 0}
+      route_c = %Route{id: "Green-C", name: "Green Line C", type: 0}
+      route_d = %Route{id: "Green-D", name: "Green Line D", type: 0}
+      route_e = %Route{id: "Green-E", name: "Green Line E", type: 0}
+
+      b_route_stops = [
+        %RouteStop{
+          branch: nil,
+          id: "place-gover",
+          name: "Government Center",
+          route: route_b
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-coecl",
+          name: "Copley",
+          route: route_b
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-hymnl",
+          name: "Hynes Convention Center",
+          route: route_b
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-kencl",
+          name: "Kenmore",
+          route: route_b
+        },
+        %RouteStop{
+          branch: "Green-B",
+          id: "place-bland",
+          name: "Blandford Street",
+          route: route_b
+        },
+        %RouteStop{
+          branch: "Green-B",
+          id: "place-lake",
+          name: "Boston College",
+          route: route_b
+        }
+      ]
+
+      c_route_stops = [
+        %RouteStop{
+          branch: nil,
+          id: "place-gover",
+          name: "Government Center",
+          route: route_c
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-coecl",
+          name: "Copley",
+          route: route_c
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-hymnl",
+          name: "Hynes Convention Center",
+          route: route_c
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-kencl",
+          name: "Kenmore",
+          route: route_c
+        },
+        %RouteStop{
+          branch: "Green-C",
+          id: "place-smary",
+          name: "Saint Mary's Street",
+          route: route_c
+        },
+        %RouteStop{
+          branch: "Green-C",
+          id: "place-clmnl",
+          name: "Cleveland Circle",
+          route: route_c
+        }
+      ]
+
+      d_route_stops = [
+        %RouteStop{
+          branch: "Green-D",
+          id: "place-unsqu",
+          name: "Union Square",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-lech",
+          name: "Lechmere",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-spmnl",
+          name: "Science Park/West End",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-north",
+          name: "North Station",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-haecl",
+          name: "Haymarket",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-gover",
+          name: "Government Center",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-coecl",
+          name: "Copley",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-hymnl",
+          name: "Hynes Convention Center",
+          route: route_d
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-kencl",
+          name: "Kenmore",
+          route: route_d
+        },
+        %RouteStop{
+          branch: "Green-D",
+          id: "place-fenwy",
+          name: "Fenway",
+          route: route_d
+        },
+        %RouteStop{
+          branch: "Green-D",
+          id: "place-river",
+          name: "Riverside",
+          route: route_d
+        }
+      ]
+
+      e_route_stops = [
+        %RouteStop{
+          branch: "Green-E",
+          id: "place-mdftf",
+          name: "Medford/Tufts",
+          route: route_e
+        },
+        %RouteStop{
+          branch: "Green-E",
+          id: "place-esomr",
+          name: "East Somerville",
+          route: route_e
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-lech",
+          name: "Lechmere",
+          route: route_e
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-spmnl",
+          name: "Science Park/West End",
+          route: route_e
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-north",
+          name: "North Station",
+          route: route_e
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-haecl",
+          name: "Haymarket",
+          route: route_e
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-gover",
+          name: "Government Center",
+          route: route_e
+        },
+        %RouteStop{
+          branch: nil,
+          id: "place-coecl",
+          name: "Copley",
+          route: route_e
+        },
+        %RouteStop{
+          branch: "Green-E",
+          id: "place-prmnl",
+          name: "Prudential",
+          route: route_e
+        },
+        %RouteStop{
+          branch: "Green-E",
+          id: "place-hsmnl",
+          name: "Heath Street",
+          route: route_e
+        }
+      ]
+
+      route_stop_groups = [
+        e_route_stops,
+        d_route_stops,
+        c_route_stops,
+        b_route_stops
+      ]
+
+      assert [
+               %RouteStops{branch: "Green-E", stops: e_route_stops},
+               %RouteStops{branch: "Green-D", stops: d_route_stops},
+               %RouteStops{branch: "Green-C", stops: c_route_stops},
+               %RouteStops{branch: "Green-B", stops: b_route_stops}
+             ] = RouteStops.from_route_stop_groups(route_stop_groups)
     end
   end
 

@@ -1,37 +1,50 @@
-import { max, times } from "lodash";
-import React, { ReactElement, useState, useContext } from "react";
+import { times } from "lodash";
+import React, { ReactElement, useContext, useState } from "react";
 import ExpandableBlock from "../../../components/ExpandableBlock";
-import { LineDiagramStop } from "../__schedule";
-import { CommonLineDiagramProps } from "./__line-diagram";
-import { StopRefContext } from "./LineDiagramWithStops";
-import { diagramWidth } from "./line-diagram-helpers";
-import {
-  CIRC_DIAMETER,
-  CIRC_RADIUS,
-  BRANCH_LINE_WIDTH
-} from "./graphics/graphic-helpers";
 import { routeToModeName } from "../../../helpers/css";
+import { stopForId } from "../../../helpers/stop-tree";
+import { Alert } from "../../../__v3api";
+import { RouteStop, StopId, StopTree } from "../__schedule";
+import {
+  BRANCH_LINE_WIDTH,
+  CIRC_DIAMETER,
+  CIRC_RADIUS
+} from "./graphics/graphic-helpers";
+import { branchPosition, diagramWidth } from "./line-diagram-helpers";
+import { StopRefContext } from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
+import { LiveDataByStop } from "./__line-diagram";
+
+interface Props {
+  stopTree: StopTree;
+  stopIds: StopId[];
+  alerts: Alert[];
+  handleStopClick: (stop: RouteStop) => void;
+  liveData?: LiveDataByStop;
+}
 
 const BranchToggle = (
-  stops: LineDiagramStop[],
+  stopTree: StopTree,
+  stopIds: StopId[],
   isExpanded: boolean
 ): JSX.Element => {
-  const maxBranches = max(stops.map(ld => ld.stop_data.length - 1)) || 1;
-  const width = diagramWidth(maxBranches) + 2;
+  const position = branchPosition(stopTree, stopIds[0]);
+  const width = diagramWidth(position) - 15;
+
   return (
     <div className="m-schedule-diagram__expander-header">
       <div style={{ width }}>
         {!isExpanded && (
           <svg
             className={`line-diagram-svg__toggle ${routeToModeName(
-              stops[0].route_stop.route!
+              stopForId(stopTree, stopIds[0]).route!
             )}`}
             width={width}
             height="100%"
           >
             <g
-              transform={`translate(${maxBranches * BRANCH_LINE_WIDTH - 1}, 1)`}
+              transform={`translate(${(position - 1) * BRANCH_LINE_WIDTH -
+                1}, 1)`}
             >
               <rect width={CIRC_DIAMETER * 2} height="42" rx={CIRC_DIAMETER} />
               {times(3, i => (
@@ -47,19 +60,21 @@ const BranchToggle = (
         )}
       </div>
       <button className="btn btn-link m-schedule-diagram__toggle" type="button">
-        {stops.length} stops
+        {stopIds.length} stops
       </button>
     </div>
   );
 };
 
-const ExpandableBranch = (
-  props: CommonLineDiagramProps
-): ReactElement<HTMLElement> => {
-  const { stops, handleStopClick, liveData } = props;
+const ExpandableBranch = ({
+  stopTree,
+  stopIds,
+  alerts,
+  handleStopClick,
+  liveData
+}: Props): ReactElement<HTMLElement> => {
   const [isExpanded, setIsExpanded] = useState(false);
   const updateAllStopCoords = useContext(StopRefContext)[1];
-
   // reset all the coordinates.
   React.useEffect(() => {
     updateAllStopCoords();
@@ -70,22 +85,24 @@ const ExpandableBranch = (
       <ExpandableBlock
         header={{
           iconSvgText: null,
-          text: BranchToggle(stops, isExpanded)
+          text: BranchToggle(stopTree, stopIds, isExpanded)
         }}
         initiallyExpanded={isExpanded}
         notifyExpanded={(blockIsExpanded: boolean) => {
           setIsExpanded(blockIsExpanded);
         }}
         preventScroll
-        id={`${stops[0].route_stop.branch}`}
+        id={`${stopForId(stopTree, stopIds[0]).branch}`}
       >
         <>
-          {stops.map(stop => (
+          {stopIds.map(stopId => (
             <StopCard
-              key={stop.route_stop.id}
-              stop={stop}
+              key={stopId}
+              stopTree={stopTree}
+              stopId={stopId}
+              alerts={alerts}
               onClick={handleStopClick}
-              liveData={liveData?.[stop.route_stop.id]}
+              liveData={liveData?.[stopId]}
             />
           ))}
         </>

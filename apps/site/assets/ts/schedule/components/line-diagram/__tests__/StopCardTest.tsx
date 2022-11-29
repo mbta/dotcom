@@ -1,314 +1,220 @@
+import { mount, ReactWrapper } from "enzyme";
 import React from "react";
 import * as redux from "react-redux";
-import { mount, ReactWrapper } from "enzyme";
-import { cloneDeep, merge } from "lodash";
+import * as StopTreeHelpers from "../../../../helpers/stop-tree";
+import { aroundNow } from "../../../../models/__tests__/alert-test";
 import {
-  RouteType,
+  Alert,
   HeadsignWithCrowding,
-  Schedule,
-  Prediction
+  InformedEntitySet,
+  Prediction,
+  Schedule
 } from "../../../../__v3api";
-import { LineDiagramStop } from "../../__schedule";
-import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
-import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
-import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
-import StopCard from "../StopCard";
+import { RouteStop, RouteStopRoute, StopTree } from "../../__schedule";
 import { TripPrediction } from "../../__trips";
+import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import StopPredictions from "../StopPredictions";
+import StopCard from "../StopCard";
+import { LiveData } from "../__line-diagram";
 
-const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
-let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
-
-const route = {
-  type: 3 as RouteType,
-  name: "route 1",
-  long_name: "route 1 long name",
-  color: "F00B42",
-  id: "route-1",
-  direction_names: {
-    0: "Outbound",
-    1: "Inbound"
+const stopTree: StopTree = {
+  byId: {
+    a: {
+      id: "a",
+      value: ({
+        id: "a",
+        connections: [{ id: "Orange", name: "Orange Line" }],
+        stop_features: ["parking_lot"]
+      } as unknown) as RouteStop
+    },
+    b: {
+      id: "b",
+      value: ({
+        id: "b",
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    c: {
+      id: "c",
+      value: ({
+        id: "c",
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    }
   },
-  direction_destinations: {
-    0: "Begin",
-    1: "End"
+  edges: {
+    a: { next: ["b"], previous: [] },
+    b: { next: ["c"], previous: ["a"] },
+    c: { next: [], previous: ["b"] }
   },
-  description: "key_bus_route",
-  "custom_route?": false,
-  header: "",
-  alerts: []
+  startingNodes: ["a"]
 };
+const store = createStopTreeCoordStore(stopTree);
 
-lineDiagram.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(route);
-});
-
-lineDiagramBranchingOut.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(route);
-});
-
-let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
-const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
-lineDiagramBranchingIn.forEach(({ route_stop }) => {
-  route_stop.route = CRroute;
-  if (route_stop["is_terminus?"]) {
-    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
-  }
-});
+const alertA: Alert = {
+  id: "MOCK-ALERT-A",
+  severity: 7,
+  priority: "high",
+  lifecycle: "new",
+  effect: "detour",
+  informed_entity: { stop: ["a"] } as InformedEntitySet,
+  active_period: aroundNow()
+} as Alert;
+const alertB: Alert = {
+  id: "MOCK-ALERT-B",
+  severity: 7,
+  priority: "high",
+  lifecycle: "new",
+  effect: "detour",
+  informed_entity: { stop: ["b"] } as InformedEntitySet,
+  active_period: aroundNow()
+} as Alert;
 
 const handleStopClick = () => {};
-const liveData = { headsigns: [], vehicles: [] };
-const store = createLineDiagramCoordStore(lineDiagram);
+
+const emptyLiveData = { headsigns: [], vehicles: [] };
 
 describe("StopCard", () => {
-  let wrapper: ReactWrapper;
-  beforeEach(() => {
-    wrapper = mount(
-      <redux.Provider store={store}>
-        <StopCard
-          stop={lineDiagram[0]}
-          onClick={handleStopClick}
-          liveData={liveData}
-        />
-      </redux.Provider>
-    );
-  });
-
   afterEach(() => {
-    wrapper.unmount();
+    jest.restoreAllMocks();
   });
 
   it("renders and matches snapshot", () => {
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[alertA, alertB]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("has a tooltip for a transit connection", () => {
-    const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
-    stopConnections.forEach(connectionLink => {
-      const props = connectionLink.props();
-      expect(props.title).toBeTruthy();
-      expect(Object.entries(props)).toContainEqual(["data-toggle", "tooltip"]);
-    });
-  });
-
-  it("indicates detours, stop closures, etc", () => {
-    expect(wrapper.exists(".m-schedule-diagram__alert")).toBeTruthy();
-    expect(wrapper.find(".m-schedule-diagram__alert").text()).toContain(
-      "Detour"
+  it("for a stop on a subway route with upcoming departures, shows a View upcoming departures button", () => {
+    const liveDataWithHeadsigns: LiveData = {
+      headsigns: [
+        {
+          name: "MOCK"
+        } as HeadsignWithCrowding
+      ],
+      vehicles: []
+    };
+    jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
+      () =>
+        (({
+          route: { type: 1 } as RouteStopRoute,
+          stop_features: [],
+          connections: []
+        } as unknown) as RouteStop)
     );
-  });
-});
 
-const predictionHeadsign: HeadsignWithCrowding = {
-  name: "Somewhere",
-  time_data_with_crowding_list: [
-    {
-      time_data: {
-        delay: 0,
-        scheduled_time: ["4:30", " ", "PM"],
-        prediction: {
-          time: ["14", " ", "min"],
-          status: null,
-          track: null
-        } as Prediction
-      },
-      crowding: null,
-      predicted_schedule: {
-        schedule: {} as Schedule,
-        prediction: {} as TripPrediction
-      }
-    }
-  ],
-  train_number: null
-};
-
-const lineDiagramNoPredictions = (simpleLineDiagram as unknown) as LineDiagramStop[];
-let lineDiagramBranchingOutNoPredictions = (outwardLineDiagram as unknown) as LineDiagramStop[];
-
-const routeNoPredictions = {
-  type: 1 as RouteType,
-  name: "route 1",
-  long_name: "route 1 long name",
-  color: "F00B42",
-  id: "route-1",
-  direction_names: {
-    0: "Outbound",
-    1: "Inbound"
-  },
-  direction_destinations: {
-    0: "Begin",
-    1: "End"
-  },
-  description: "key_bus_route",
-  "custom_route?": false,
-  header: "",
-  alerts: []
-};
-
-lineDiagramNoPredictions.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(routeNoPredictions);
-});
-
-lineDiagramBranchingOutNoPredictions.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(routeNoPredictions);
-});
-
-const handleStopClickNoPredictions = () => {};
-const liveDataNoPredictions = { headsigns: [], vehicles: [] };
-const storeNoPredictions = createLineDiagramCoordStore(
-  lineDiagramNoPredictions
-);
-
-describe("StopCard", () => {
-  let noPredictionsWrapper: ReactWrapper;
-  beforeEach(() => {
-    noPredictionsWrapper = mount(
-      <redux.Provider store={storeNoPredictions}>
+    const wrapper = mount(
+      <redux.Provider store={store}>
         <StopCard
-          stop={lineDiagramNoPredictions[0]}
-          onClick={handleStopClickNoPredictions}
-          liveData={liveDataNoPredictions}
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[]}
+          onClick={handleStopClick}
+          liveData={liveDataWithHeadsigns}
         />
       </redux.Provider>
     );
-  });
 
-  afterEach(() => {
-    noPredictionsWrapper.unmount();
-  });
-  it("no button on each stop card", () => {
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
     expect(
-      noPredictionsWrapper.exists(".m-schedule-diagram__footer > button")
-    ).toBe(false);
-  });
-});
-
-const routeSubway = {
-  type: 1 as RouteType,
-  name: "route 1",
-  long_name: "route 1 long name",
-  color: "F00B42",
-  id: "route-1",
-  direction_names: {
-    0: "Outbound",
-    1: "Inbound"
-  },
-  direction_destinations: {
-    0: "Begin",
-    1: "End"
-  },
-  description: "key_bus_route",
-  "custom_route?": false,
-  header: "",
-  alerts: []
-};
-const lineDiagramSubway = (simpleLineDiagram as unknown) as LineDiagramStop[];
-let lineDiagramBranchingOutSubway = (outwardLineDiagram as unknown) as LineDiagramStop[];
-lineDiagramSubway.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(routeSubway);
-});
-
-lineDiagramBranchingOutSubway.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(routeSubway);
-});
-
-const handleStopClickSubway = () => {};
-const liveDataSubway = { headsigns: [predictionHeadsign], vehicles: [] };
-const storeSubway = createLineDiagramCoordStore(lineDiagramSubway);
-
-describe("StopCard", () => {
-  let subwayWrapper: ReactWrapper;
-  beforeEach(() => {
-    subwayWrapper = mount(
-      <redux.Provider store={storeSubway}>
-        <StopCard
-          stop={lineDiagramSubway[0]}
-          onClick={handleStopClickSubway}
-          liveData={liveDataSubway}
-        />
-      </redux.Provider>
-    );
-  });
-
-  afterEach(() => {
-    subwayWrapper.unmount();
-  });
-  it("includes a button to open Schedule Finder on each stop with departures text", () => {
-    expect(
-      subwayWrapper.exists(".m-schedule-diagram__footer > button")
-    ).toBeTruthy();
-    expect(
-      subwayWrapper.find(".m-schedule-diagram__footer > button").text()
+      wrapper.find(".m-schedule-diagram__footer > button").text()
     ).toContain("View upcoming departures");
   });
-});
 
-const liveDataWithPrediction = {
-  headsigns: [predictionHeadsign],
-  vehicles: []
-};
-it("indicates predictions if available", () => {
-  const wrapper = mount(
-    <redux.Provider store={store}>
-      <StopCard
-        stop={lineDiagram[2]}
-        onClick={handleStopClick}
-        liveData={liveDataWithPrediction}
-      />
-    </redux.Provider>
-  );
+  it("for a stop on a subway route with no upcoming departures, shows a View upcoming departures button", () => {
+    jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
+      () =>
+        (({
+          route: { type: 1 } as RouteStopRoute,
+          stop_features: [],
+          connections: []
+        } as unknown) as RouteStop)
+    );
 
-  expect(wrapper.exists(StopPredictions)).toBeTruthy();
-  const predictions = wrapper.find(StopPredictions);
-  expect(predictions.text()).toContain("Somewhere");
-  expect(
-    predictions.find(".m-schedule-diagram__prediction-time").text()
-  ).toContain("14");
-  expect(
-    predictions.find(".m-schedule-diagram__prediction-time").text()
-  ).toContain("min");
-});
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
 
-it.each`
-  index | expectedAlerts
-  ${0}  | ${0}
-  ${1}  | ${1}
-  ${2}  | ${1}
-  ${3}  | ${0}
-`(
-  "shows $expectedAlerts high priority or high severity alerts for stop $index",
-  ({ index, expectedAlerts }) => {
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeFalsy();
+
+    jest.restoreAllMocks();
+  });
+
+  it("for a stop on a non-subway route, always shows a View schedule button", () => {
+    jest.spyOn(StopTreeHelpers, "stopForId").mockImplementation(
+      () =>
+        (({
+          route: { type: 3 } as RouteStopRoute,
+          stop_features: [],
+          connections: []
+        } as unknown) as RouteStop)
+    );
+
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
+    expect(wrapper.exists(".m-schedule-diagram__footer > button")).toBeTruthy();
+    expect(
+      wrapper.find(".m-schedule-diagram__footer > button").text()
+    ).toContain("View schedule");
+  });
+
+  it("should show high priority or high severity alerts", () => {
     const wrapperWithAlerts = mount(
       <redux.Provider store={store}>
         <StopCard
-          stop={lineDiagram[index]}
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={liveData}
+          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
     const alerts = wrapperWithAlerts.find(
       ".m-schedule-diagram__stop-link .c-svg__icon-alerts-triangle"
     );
-    expect(alerts.length).toEqual(expectedAlerts);
-  }
-);
+    expect(alerts.length).toEqual(1);
+  });
 
-it.each`
-  index | expectedNames                      | expectedFeatures
-  ${0}  | ${[]}                              | ${["Parking"]}
-  ${1}  | ${["Orange Line", "Green Line C"]} | ${[]}
-  ${2}  | ${["Route 62", "Route 67"]}        | ${["Accessible"]}
-  ${3}  | ${["Atlantis"]}                    | ${["Parking", "Accessible"]}
-`(
-  "has appropriate tooltip content for stop $index",
-  ({ index, expectedNames, expectedFeatures }) => {
+  it("should show tooltip content", () => {
     const wrapper = mount(
       <redux.Provider store={store}>
         <StopCard
-          stop={lineDiagram[index]}
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[alertA, alertB]}
           onClick={handleStopClick}
-          liveData={liveData}
+          liveData={emptyLiveData}
         />
       </redux.Provider>
     );
@@ -318,13 +224,82 @@ it.each`
     const names = connections
       .find("a")
       .map(c => c.getDOMNode<HTMLElement>().dataset.originalTitle);
-    expect(names).toEqual(expectedNames);
+    expect(names).toEqual(["Orange Line"]);
 
     const features = wrapper.find(".m-schedule-diagram__features");
 
     const featureNames = features
       .find("span[data-toggle='tooltip']")
       .map(c => c.getDOMNode<HTMLElement>().dataset.originalTitle);
-    expect(featureNames).toEqual(expectedFeatures);
-  }
-);
+    expect(featureNames).toEqual(["Parking"]);
+  });
+
+  it("indicates detours, stop closures, etc", () => {
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[alertA, alertB]}
+          onClick={handleStopClick}
+          liveData={emptyLiveData}
+        />
+      </redux.Provider>
+    );
+
+    expect(wrapper.exists(".m-schedule-diagram__alert")).toBeTruthy();
+    expect(wrapper.find(".m-schedule-diagram__alert").text()).toContain(
+      "Detour"
+    );
+  });
+
+  it("indicates predictions if available", () => {
+    const predictionHeadsign: HeadsignWithCrowding = {
+      name: "Somewhere",
+      time_data_with_crowding_list: [
+        {
+          time_data: {
+            delay: 0,
+            scheduled_time: ["4:30", " ", "PM"],
+            prediction: {
+              time: ["14", " ", "min"],
+              status: null,
+              track: null
+            } as Prediction
+          },
+          crowding: null,
+          predicted_schedule: {
+            schedule: {} as Schedule,
+            prediction: {} as TripPrediction
+          }
+        }
+      ],
+      train_number: null
+    };
+    const liveDataWithPrediction = {
+      headsigns: [predictionHeadsign],
+      vehicles: []
+    };
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"a"}
+          alerts={[alertA, alertB]}
+          onClick={handleStopClick}
+          liveData={liveDataWithPrediction}
+        />
+      </redux.Provider>
+    );
+
+    expect(wrapper.exists(StopPredictions)).toBeTruthy();
+    const predictions = wrapper.find(StopPredictions);
+    expect(predictions.text()).toContain("Somewhere");
+    expect(
+      predictions.find(".m-schedule-diagram__prediction-time").text()
+    ).toContain("14");
+    expect(
+      predictions.find(".m-schedule-diagram__prediction-time").text()
+    ).toContain("min");
+  });
+});

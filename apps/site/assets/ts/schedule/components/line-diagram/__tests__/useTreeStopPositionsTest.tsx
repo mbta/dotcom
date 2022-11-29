@@ -1,21 +1,43 @@
 import React from "react";
 import * as redux from "react-redux";
-import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import { act, renderHook } from "@testing-library/react-hooks";
-import useStopPositions from "../graphics/useStopPositions";
-import simpleLineDiagram from "./lineDiagramData/simple.json";
-import { LineDiagramStop } from "../../__schedule";
+import { RouteStop, StopTree } from "../../__schedule";
+import useTreeStopPositions, {
+  createStopTreeCoordStore
+} from "../graphics/useTreeStopPositions";
+import { stopIds } from "../../../../helpers/stop-tree";
 
-const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
+const routeStopA: RouteStop = { id: "a" } as RouteStop;
+const routeStopB: RouteStop = { id: "b" } as RouteStop;
+const routeStopC: RouteStop = { id: "c" } as RouteStop;
 
-const store = createLineDiagramCoordStore(lineDiagram);
+/**
+ *  a ---> b ---> c
+ */
+const stopTree: StopTree = {
+  byId: {
+    a: { id: "a", value: routeStopA },
+    b: { id: "b", value: routeStopB },
+    c: { id: "c", value: routeStopC }
+  },
+  edges: {
+    a: { next: ["b"], previous: [] },
+    b: { next: ["c"], previous: ["a"] },
+    c: { next: [], previous: ["b"] }
+  },
+  startingNodes: ["a"]
+};
+
+const ids = stopIds(stopTree);
+
+const store = createStopTreeCoordStore(stopTree);
 const wrapper = ({ children }: any) => (
   <redux.Provider store={store}>{children}</redux.Provider>
 );
 
-describe("useStopPositions", () => {
+describe("useTreeStopPositions", () => {
   it("returns a set of refs & an update function", () => {
-    const { result } = renderHook(() => useStopPositions(lineDiagram), {
+    const { result } = renderHook(() => useTreeStopPositions(stopTree), {
       wrapper
     });
     const [refsMap, updateFn] = result.current;
@@ -27,27 +49,27 @@ describe("useStopPositions", () => {
     const useDispatchSpy = jest.spyOn(redux, "useDispatch");
     const mockDispatchFn = jest.fn();
     useDispatchSpy.mockReturnValue(mockDispatchFn);
-    const { result } = renderHook(() => useStopPositions(lineDiagram), {
+
+    const { result } = renderHook(() => useTreeStopPositions(stopTree), {
       wrapper
     });
+
     const updateFn = result.current[1];
     const map = result.current[0];
-    lineDiagram.forEach(stop => {
-      map.set(stop.route_stop.id, null);
+    ids.forEach(stopId => {
+      map.set(stopId, null);
     });
-    // for test coverage purposes
-    map.set("this-stop-doesn't-exist", null);
 
     act(() => {
       updateFn();
     });
 
     // useDispatch() fired for every stop when invoked manually
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+    expect(mockDispatchFn).toHaveBeenCalledTimes(ids.length);
 
     expect(mockDispatchFn).toHaveBeenCalledWith({
       type: "set",
-      stop: lineDiagram[0].route_stop.id,
+      stop: ids[0],
       coords: null
     });
 
@@ -58,12 +80,14 @@ describe("useStopPositions", () => {
     const useDispatchSpy = jest.spyOn(redux, "useDispatch");
     const mockDispatchFn = jest.fn();
     useDispatchSpy.mockReturnValue(mockDispatchFn);
-    const { result } = renderHook(() => useStopPositions(lineDiagram), {
+
+    const { result } = renderHook(() => useTreeStopPositions(stopTree), {
       wrapper
     });
+
     const map = result.current[0];
-    lineDiagram.forEach(stop => {
-      map.set(stop.route_stop.id, null);
+    ids.forEach(stopId => {
+      map.set(stopId, null);
     });
 
     act(() => {
@@ -72,7 +96,7 @@ describe("useStopPositions", () => {
     });
 
     // useDispatch() fired for every stop when invoked manually
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+    expect(mockDispatchFn).toHaveBeenCalledTimes(ids.length);
     useDispatchSpy.mockClear();
   });
 
@@ -81,12 +105,14 @@ describe("useStopPositions", () => {
     const mockDispatchFn = jest.fn();
     useDispatchSpy.mockReturnValue(mockDispatchFn);
 
-    const { result } = renderHook(() => useStopPositions(lineDiagram), {
+    const { result } = renderHook(() => useTreeStopPositions(stopTree), {
       wrapper
     });
+
     const updateFn = result.current[1];
+
     const map = result.current[0];
-    map.set(lineDiagram[0].route_stop.id, {
+    map.set(ids[0], {
       offsetTop: 22,
       offsetHeight: 66
     } as HTMLElement);
@@ -98,7 +124,7 @@ describe("useStopPositions", () => {
     const expectedY = 22 + 66 / 2;
     expect(mockDispatchFn).toHaveBeenNthCalledWith(1, {
       type: "set",
-      stop: lineDiagram[0].route_stop.id,
+      stop: ids[0],
       coords: [11, expectedY]
     });
 

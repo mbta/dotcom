@@ -2,10 +2,9 @@ import React from "react";
 import { Provider } from "react-redux";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
-  LineDiagramStop,
   ServiceInSelector,
   RoutePatternsByDirection,
-  ShapesById
+  StopTreeData
 } from "../__schedule";
 import { EnhancedRoute } from "../../../__v3api";
 import { mount, ReactWrapper } from "enzyme";
@@ -70,7 +69,9 @@ const stops = {
   ]
 };
 
-const lineDiagram = lineDiagramData as LineDiagramStop[];
+const { stop_tree: stopTreeData } = (lineDiagramData as unknown) as {
+  stop_tree: StopTreeData;
+};
 
 const fares = [
   {
@@ -208,33 +209,6 @@ const routes: RoutePatternsByDirection = {
   "1": routePatternsByDirection["1"]
 };
 
-const shapesById = {
-  "shape-1": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 1",
-    id: "shape-1",
-    direction_id: 0
-  },
-  "shape-2": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 2",
-    id: "shape-2",
-    direction_id: 1
-  },
-  "shape-3": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 3",
-    id: "shape-3",
-    direction_id: 0
-  }
-} as ShapesById;
-
 jest.mock("../ScheduleDirection", () => {
   return {
     __esModule: true,
@@ -266,8 +240,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -297,8 +272,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -330,8 +306,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -350,6 +327,7 @@ describe("ScheduleLoader", () => {
         <ScheduleLoader
           component="SCHEDULE_NOTE"
           schedulePageData={{
+            alerts: [],
             schedule_note: scheduleNoteData,
             connections: [],
             fares,
@@ -363,8 +341,8 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
             variant: null
           }}
           updateURL={() => {}}
@@ -407,8 +385,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -439,8 +418,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -481,8 +461,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -520,8 +501,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -552,8 +534,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -603,8 +586,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -669,8 +653,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -714,8 +699,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -768,8 +754,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -806,8 +793,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -862,8 +850,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -908,8 +897,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -952,8 +942,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routes,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -982,7 +973,9 @@ describe("ScheduleLoader", () => {
       connections: [],
       fares: [],
       holidays: [],
-      pdfs: []
+      pdfs: [],
+      stop_tree: stopTreeData,
+      alerts: []
     };
 
     document.body.innerHTML = `<div id="react-root">
@@ -1021,8 +1014,9 @@ describe("ScheduleLoader", () => {
       services,
       stops,
       direction_id: 1,
-      line_diagram: lineDiagram,
       today: "2019-12-05",
+      stop_tree: stopTreeData,
+      alerts: [],
       variant: null
     };
 
@@ -1060,25 +1054,6 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    const schedulePageData = {
-      schedule_note: null,
-      connections: [],
-      fares,
-      fare_link: fareLink,
-      hours,
-      holidays,
-      pdfs,
-      teasers,
-      route,
-      services,
-      stops,
-      direction_id: 0,
-      route_patterns: {},
-      line_diagram: lineDiagram,
-      today: "2019-12-05",
-      variant: null
-    };
-
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -1097,8 +1072,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -1139,8 +1115,9 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             route_patterns: routePatternsByDirection,
-            line_diagram: lineDiagram,
             today: "2019-12-05",
+            stop_tree: stopTreeData,
+            alerts: [],
             variant: null
           }}
           updateURL={() => {}}
@@ -1206,6 +1183,8 @@ describe("ScheduleLoader", () => {
       fares,
       holidays,
       teasers,
+      stop_tree: stopTreeData,
+      alerts: [],
       pdfs
     };
 

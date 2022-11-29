@@ -1,6 +1,5 @@
 import React from "react";
-import { AnyAction, Reducer, Store, createStore } from "redux";
-import { LineDiagramStop } from "../../__schedule";
+import { AnyAction, Reducer } from "redux";
 
 export const CIRC_RADIUS = 4;
 export const CIRC_DIAMETER = CIRC_RADIUS * 2;
@@ -28,26 +27,6 @@ export const coordReducer: Reducer<CoordState, CoordAction> = (
     ...allCoordinates,
     [stop]: coords
   };
-};
-
-export const createLineDiagramCoordStore = (
-  lineDiagram: LineDiagramStop[]
-): Store<CoordState, CoordAction> => {
-  const stopIds = lineDiagram.map(ld => ld.route_stop.id);
-  const initialCoordState: CoordState = stopIds.reduce(
-    (state, id) => ({ ...state, [id]: null }),
-    {}
-  );
-  const store = createStore(
-    coordReducer,
-    initialCoordState,
-    /* eslint-disable no-underscore-dangle, @typescript-eslint/no-explicit-any */
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-      (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-    /* eslint-enable no-underscore-dangle, @typescript-eslint/no-explicit-any */
-  );
-
-  return store;
 };
 
 export const DiagonalHatchPattern = (

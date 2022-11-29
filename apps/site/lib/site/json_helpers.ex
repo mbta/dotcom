@@ -35,7 +35,7 @@ defmodule Site.JsonHelpers do
   end
 
   @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
-  defp alert_active_period({first, last}) do
+  def alert_active_period({first, last}) do
     [first, last] |> Enum.map(&format_time(&1))
   end
 

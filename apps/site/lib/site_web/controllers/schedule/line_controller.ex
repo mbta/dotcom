@@ -10,8 +10,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
 
-  import SiteWeb.ScheduleController.LineApi, only: [update_route_stop_data: 3]
-
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
   plug(:tab_name)
@@ -70,12 +68,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
         stop_tree: conn.assigns.stop_tree,
-        line_diagram:
-          update_route_stop_data(
-            conn.assigns.all_stops,
-            conn.assigns.alerts,
-            conn.assigns.date_time
-          ),
+        alerts: conn.assigns.alerts,
         today: conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601(),
         variant: conn.assigns.variant
       }

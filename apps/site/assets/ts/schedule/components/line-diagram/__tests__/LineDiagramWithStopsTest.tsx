@@ -1,20 +1,152 @@
-import React, { MutableRefObject } from "react";
+import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
-import { cloneDeep, merge } from "lodash";
-import { RouteType } from "../../../../__v3api";
-import { LineDiagramStop, CrowdingType } from "../../__schedule";
-import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
-import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import LineDiagramWithStops from "../LineDiagramWithStops";
-import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
-import StopListWithBranches from "../StopListWithBranches";
-import * as UseStopPositions from "../graphics/useStopPositions";
+import { CrowdingType, RouteStop, StopTree } from "../../__schedule";
+import * as UseTreeStopPositions from "../graphics/useTreeStopPositions";
+import { cloneDeep } from "lodash";
 import * as simpleLiveData from "./lineDiagramData/live-data.json";
 import { LiveDataByStop } from "../__line-diagram";
+import { RouteType } from "../../../../__v3api";
 
-const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
-let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
+const stopTree: StopTree = {
+  byId: {
+    a1: {
+      id: "a1",
+      value: ({
+        id: "a1",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    a2: {
+      id: "a2",
+      value: ({
+        id: "a2",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    b1: {
+      id: "b1",
+      value: ({
+        id: "b1",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    b2: {
+      id: "b2",
+      value: ({
+        id: "b2",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    b3: {
+      id: "b3",
+      value: ({
+        id: "b3",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    c1: {
+      id: "c1",
+      value: ({
+        id: "c1",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    c2: {
+      id: "c2",
+      value: ({
+        id: "c2",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    m1: {
+      id: "m1",
+      value: ({
+        id: "m1",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    m2: {
+      id: "m2",
+      value: ({
+        id: "m2",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    m3: {
+      id: "m3",
+      value: ({
+        id: "m3",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    x1: {
+      id: "x1",
+      value: ({
+        id: "x1",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    x2: {
+      id: "x2",
+      value: ({
+        id: "x2",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    },
+    y1: {
+      id: "y1",
+      value: ({
+        id: "y1",
+        route: { id: "1", type: 3 },
+        connections: [],
+        stop_features: []
+      } as unknown) as RouteStop
+    }
+  },
+  edges: {
+    a1: { next: ["a2"], previous: [] },
+    a2: { next: ["m1"], previous: ["a1"] },
+    b1: { next: ["b2"], previous: [] },
+    b2: { next: ["b3"], previous: ["b1"] },
+    b3: { next: ["m1"], previous: ["b2"] },
+    c1: { next: ["c2"], previous: [] },
+    c2: { next: ["m2"], previous: ["c1"] },
+    m1: { next: ["m2"], previous: ["a2", "b3"] },
+    m2: { next: ["m3"], previous: ["c2", "m1"] },
+    m3: { next: ["x1", "y1"], previous: ["m2"] },
+    x1: { next: ["x2"], previous: ["m3"] },
+    x2: { next: [], previous: ["x1"] },
+    y1: { next: [], previous: ["m3"] }
+  },
+  startingNodes: ["a1", "b1", "c1"]
+};
+const store = UseTreeStopPositions.createStopTreeCoordStore(stopTree);
 
 const route = {
   type: 3 as RouteType,
@@ -36,54 +168,29 @@ const route = {
   alerts: []
 };
 
-lineDiagram.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(route);
-});
-
-lineDiagramBranchingOut.forEach(({ route_stop }) => {
-  route_stop.route = cloneDeep(route);
-});
-
-let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
-const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
-lineDiagramBranchingIn.forEach(({ route_stop }) => {
-  route_stop.route = CRroute;
-  if (route_stop["is_terminus?"]) {
-    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
-  }
-});
-
 const handleStopClick = () => {};
-const liveData = (simpleLiveData as unknown) as LiveDataByStop;
+
 const liveDataWithCrowding = (cloneDeep(
   simpleLiveData
 ) as unknown) as LiveDataByStop;
 (liveDataWithCrowding["line-stop2"].headsigns[0].time_data_with_crowding_list[0]
   .crowding as CrowdingType) = "not_crowded";
-const store = createLineDiagramCoordStore(lineDiagram);
-const spy = jest.spyOn(UseStopPositions, "default");
 
-// mock the redux state so that snapshot has positioned stops
-const mockState = lineDiagram.reduce(
-  (acc, stop, index) => ({
-    ...acc,
-    [stop.route_stop.id]: [10, index * 20 + 30]
-  }),
-  {}
-);
-jest
-  .spyOn(redux, "useSelector")
-  .mockImplementation(selector => selector(mockState));
+const spy = jest.spyOn(UseTreeStopPositions, "default");
 
 describe("LineDiagramWithStops", () => {
   let wrapper: ReactWrapper;
+
   beforeEach(() => {
     wrapper = mount(
       <redux.Provider store={store}>
         <LineDiagramWithStops
-          stops={lineDiagram}
+          stopTree={stopTree}
+          route={route}
+          directionId={1}
+          alerts={[]}
           handleStopClick={handleStopClick}
-          liveData={liveData}
+          liveData={liveDataWithCrowding}
         />
       </redux.Provider>
     );
@@ -97,36 +204,24 @@ describe("LineDiagramWithStops", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("uses the useStopPositions hook", () => {
+  it("uses the useTreeStopPositions hook", () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it("shows <StopListWithBranches /> if the line has branches", () => {
-    // wrapper's line diagram has no branches
-    expect(wrapper.find(StopListWithBranches)).toHaveLength(0);
-    const wrapperWithBranches = mount(
-      <redux.Provider store={store}>
-        <LineDiagramWithStops
-          stops={lineDiagramBranchingOut}
-          handleStopClick={handleStopClick}
-          liveData={liveData}
-        />
-      </redux.Provider>
-    );
-    expect(wrapperWithBranches.find(StopListWithBranches)).toHaveLength(1);
-  });
-
   it("toggles u-no-crowding-data class if crowding present", () => {
-    expect(wrapper.exists(".u-no-crowding-data")).toBeTruthy();
-    const wrapperWithCrowding = mount(
+    const wrapperWithoutCrowding = mount(
       <redux.Provider store={store}>
         <LineDiagramWithStops
-          stops={lineDiagram}
+          stopTree={stopTree}
+          route={route}
+          directionId={1}
+          alerts={[]}
           handleStopClick={handleStopClick}
-          liveData={liveDataWithCrowding}
         />
       </redux.Provider>
     );
-    expect(wrapperWithCrowding.exists(".u-no-crowding-data")).toBeFalsy();
+
+    expect(wrapper.exists(".u-no-crowding-data")).toBeFalsy();
+    expect(wrapperWithoutCrowding.exists(".u-no-crowding-data")).toBeTruthy();
   });
 });

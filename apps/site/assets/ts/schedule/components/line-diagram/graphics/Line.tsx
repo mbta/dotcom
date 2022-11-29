@@ -1,90 +1,99 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { LineDiagramStop } from "../../__schedule";
 import {
-  areOnDifferentBranchLines,
-  isMergeStop,
-  isBranchTerminusStop
-} from "../line-diagram-helpers";
+  isBranchingNode,
+  isEndNode,
+  isMergeNode,
+  isStartNode,
+  longestPath
+} from "../../../../helpers/stop-tree";
+import { hasAnActiveDiversion } from "../../../../models/alert";
+import { Alert } from "../../../../__v3api";
+import { StopId, StopTree } from "../../__schedule";
+import { branchPosition } from "../line-diagram-helpers";
 import {
-  StopCoord,
-  CoordState,
-  BRANCH_LINE_WIDTH,
   BASE_LINE_WIDTH,
-  BRANCH_SPACING
+  BRANCH_LINE_WIDTH,
+  BRANCH_SPACING,
+  CoordState,
+  StopCoord
 } from "./graphic-helpers";
 
-interface PathGraphicsProps {
-  from: LineDiagramStop;
-  to: LineDiagramStop;
-  shuttle?: boolean;
+interface Props {
+  stopTree: StopTree;
+  fromId: StopId;
+  toId: StopId;
+  alerts: Alert[];
 }
+
+const isOnPrimaryBranch = (stopTree: StopTree, stopId: StopId): boolean =>
+  longestPath(stopTree).includes(stopId);
+
+const isMiddleBranchStop = (stopTree: StopTree, stopId: StopId): boolean =>
+  !isOnPrimaryBranch(stopTree, stopId) &&
+  !isStartNode(stopTree, stopId) &&
+  !isEndNode(stopTree, stopId) &&
+  !isMergeNode(stopTree, stopId) &&
+  !isBranchingNode(stopTree, stopId);
+
+const lineProps = (
+  stopTree: StopTree,
+  fromId: StopId,
+  toId: StopId,
+  fromCoords: StopCoord,
+  toCoords: StopCoord,
+  alerts: Alert[]
+): React.SVGProps<SVGLineElement> => {
+  const x =
+    BRANCH_SPACING * (branchPosition(stopTree, fromId) - 1) +
+    BASE_LINE_WIDTH +
+    1;
+  const [, y1] = fromCoords;
+  const [, y2] = toCoords;
+
+  const strokeWidth =
+    isMiddleBranchStop(stopTree, fromId) && isMiddleBranchStop(stopTree, toId)
+      ? BRANCH_LINE_WIDTH
+      : BASE_LINE_WIDTH;
+
+  const strokeProp =
+    hasAnActiveDiversion(fromId, alerts) && hasAnActiveDiversion(toId, alerts)
+      ? { stroke: "url(#diagonalHatch)" }
+      : {};
+
+  return {
+    key: `${fromId}-${toId}`,
+    className: "line-diagram-svg__line",
+    strokeWidth: `${strokeWidth}px`,
+    x1: `${x}px`,
+    x2: `${x}px`,
+    y1: `${y1}px`,
+    y2: `${y2}px`,
+    ...strokeProp
+  };
+};
+
 const Line = ({
-  from,
-  to,
-  shuttle
-}: PathGraphicsProps): ReactElement | null => {
+  stopTree,
+  fromId,
+  toId,
+  alerts
+}: Props): ReactElement | null => {
   const fromCoords: StopCoord | null = useSelector(
-    (state: CoordState) => state[from.route_stop.id]
+    (state: CoordState) => state[fromId]
   );
   const toCoords: StopCoord | null = useSelector(
-    (state: CoordState) => state[to.route_stop.id]
+    (state: CoordState) => state[toId]
   );
   if (!fromCoords || !toCoords) return null;
-  if (isMergeStop(to) && from.stop_data.length === to.stop_data.length) {
+
+  if (isMergeNode(stopTree, toId) && !isOnPrimaryBranch(stopTree, fromId))
     return null;
-  }
 
-  const [x1, y1] = fromCoords;
-  const y2 = toCoords[1];
-
-  if (isMergeStop(from) && !areOnDifferentBranchLines(from, to)) {
-    // just draw one line.
-    const lineProps: React.SVGProps<SVGLineElement> = {
-      key: `${from.route_stop.id}-${to.route_stop.id}`
-    };
-    lineProps.strokeWidth = `${BASE_LINE_WIDTH}px`;
-    lineProps.x1 = `${x1}px`;
-    lineProps.x2 = lineProps.x1;
-    lineProps.y1 = `${y1}px`;
-    lineProps.y2 = `${y2}px`;
-    if (
-      shuttle ||
-      (from.stop_data.some(sd => sd["has_disruption?"]) &&
-        to.stop_data.some(sd => sd["has_disruption?"]))
-    ) {
-      lineProps.stroke = "url(#diagonalHatch)";
-    }
-    return <line className="line-diagram-svg__line" {...lineProps} />;
-  }
-
-  // otherwise let's just show all the lines...
   return (
-    <>
-      {from.stop_data.map((branchLine, branchIndex) => {
-        const lineProps: React.SVGProps<SVGLineElement> = {
-          key: `${from.route_stop.id}-${to.route_stop.id}-${branchLine.type}-${branchIndex}`
-        };
-        lineProps.strokeWidth = `${
-          branchIndex >= 1 &&
-          !(isBranchTerminusStop(from) || isBranchTerminusStop(to)) &&
-          (branchLine.type === "stop" ||
-            to.stop_data[branchIndex].type === "stop")
-            ? BRANCH_LINE_WIDTH
-            : BASE_LINE_WIDTH
-        }px`;
-        lineProps.x1 = `${BRANCH_SPACING * branchIndex +
-          BASE_LINE_WIDTH +
-          1}px`;
-        lineProps.x2 = lineProps.x1;
-        lineProps.y1 = `${y1}px`;
-        lineProps.y2 = `${y2}px`;
-        if (shuttle || branchLine["has_disruption?"]) {
-          lineProps.stroke = shuttle ? "url(#shuttle)" : "url(#diagonalHatch)";
-        }
-        return <line className="line-diagram-svg__line" {...lineProps} />;
-      })}
-    </>
+    <line
+      {...lineProps(stopTree, fromId, toId, fromCoords, toCoords, alerts)}
+    />
   );
 };
 
