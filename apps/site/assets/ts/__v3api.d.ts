@@ -340,6 +340,8 @@ export interface RoutePattern {
 export interface StopHours {
   stop_name: string;
   stop_id: string;
+  // TODO is this a permanent or temporary work around
+  parent_stop_id: string;
   last_departure: string;
   first_departure: string;
   is_terminus: boolean;

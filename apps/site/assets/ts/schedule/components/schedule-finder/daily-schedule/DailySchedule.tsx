@@ -25,7 +25,7 @@ import ServiceOptGroup from "./ServiceOptGroup";
 // some lines in this file have been ignored from codecov
 
 interface Props {
-  stopId: string;
+  selectedOrigin: string;
   services: ServiceInSelector[];
   routeId: string;
   directionId: DirectionId;
@@ -36,7 +36,7 @@ interface Props {
 // Exported solely for testing
 export const fetchJourneys = (
   routeId: string,
-  stopId: string,
+  selectedOrigin: string,
   selectedService: Service,
   selectedDirection: DirectionId,
   isCurrent: boolean
@@ -47,7 +47,7 @@ export const fetchJourneys = (
       routeId === "627" ? "627,76,62" : routeId
     }&date=${
       selectedService.end_date
-    }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
+    }&direction=${selectedDirection}&stop=${selectedOrigin}&is_current=${isCurrent}`
   );
 
 // Exported solely for testing
@@ -114,7 +114,7 @@ const SchedulesSelect = ({
 };
 
 export const DailySchedule = ({
-  stopId,
+  selectedOrigin,
   services,
   routeId,
   directionId,
@@ -142,7 +142,13 @@ export const DailySchedule = ({
 
   const getJourneysForSelectedService = (service: Service): void => {
     fetch({
-      fetcher: fetchJourneys(routeId, stopId, service, directionId, false),
+      fetcher: fetchJourneys(
+        routeId,
+        selectedOrigin,
+        service,
+        directionId,
+        false
+      ),
       parser: parseResults
     });
   };
@@ -193,7 +199,7 @@ export const DailySchedule = ({
               routePatterns={routePatterns}
               input={{
                 route: routeId,
-                origin: stopId,
+                origin: selectedOrigin,
                 direction: directionId,
                 date: selectedService!.end_date
               }}

@@ -8,7 +8,8 @@ import {
   RoutePatternsByDirection,
   ServiceInSelector,
   SelectedOrigin,
-  UserInput
+  UserInput,
+  ScheduleNote
 } from "../__schedule";
 import { EnhancedJourney, Journey, TripInfo } from "../__trips";
 import ScheduleFinderForm from "./ScheduleFinderForm";
@@ -70,6 +71,7 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
+  scheduleNote: ScheduleNote | null;
 }
 
 const ScheduleModalContent = ({
@@ -82,7 +84,8 @@ const ScheduleModalContent = ({
   services,
   stops,
   routePatternsByDirection,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
@@ -117,6 +120,7 @@ const ScheduleModalContent = ({
   return (
     <>
       <div className="schedule-finder schedule-finder--modal">
+        {/* TODO figure out where selected origin is set, maybe it isn't a stopId at its source */}
         <ScheduleFinderForm
           onDirectionChange={handleChangeDirection}
           onOriginChange={handleChangeOrigin}
@@ -134,6 +138,9 @@ const ScheduleModalContent = ({
           stopId={selectedOrigin}
           directionId={selectedDirection}
           routeId={routeId}
+          route={route}
+          scheduleNote={scheduleNote}
+          today={today}
         />
       )}
 
@@ -141,7 +148,7 @@ const ScheduleModalContent = ({
 
       {isSubwayRoute(route) ? null : (
         <DailySchedule
-          stopId={selectedOrigin}
+          selectedOrigin={selectedOrigin}
           services={services}
           routeId={routeId}
           directionId={selectedDirection}

@@ -4,7 +4,8 @@ import {
   SimpleStopMap,
   RoutePatternsByDirection,
   ServiceInSelector,
-  SelectedOrigin
+  SelectedOrigin,
+  ScheduleNote
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
 import ScheduleFinderModal, {
@@ -28,6 +29,7 @@ interface Props {
   closeModal: () => void;
   modalMode: ModalMode;
   modalOpen: boolean;
+  scheduleNote: ScheduleNote | null;
 }
 
 const ScheduleFinder = ({
@@ -43,7 +45,8 @@ const ScheduleFinder = ({
   changeDirection,
   changeOrigin,
   modalOpen,
-  closeModal
+  closeModal,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> => {
   const currentDirection = useDirectionChangeEvent(directionId);
   const openOriginModal = (): void => {
@@ -114,6 +117,7 @@ const ScheduleFinder = ({
           stops={stops}
           today={today}
           updateURL={updateURL}
+          scheduleNote={scheduleNote}
         />
       )}
     </div>

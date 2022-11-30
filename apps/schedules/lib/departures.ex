@@ -1,12 +1,20 @@
 defmodule Schedules.Departures do
   @enforce_keys [:first_departure, :last_departure]
   @derive [Poison.Encoder]
-  defstruct [:first_departure, :last_departure, :stop_name, :stop_id, :is_terminus]
+  defstruct [
+    :first_departure,
+    :last_departure,
+    :stop_name,
+    :stop_id,
+    :parent_stop_id,
+    :is_terminus
+  ]
 
   @type t :: %__MODULE__{
           first_departure: DateTime.t(),
           last_departure: DateTime.t(),
           stop_id: Stops.Stop.id_t() | nil,
+          parent_stop_id: Stops.Stop.id_t() | nil,
           stop_name: String.t() | nil,
           is_terminus: boolean() | nil
         }

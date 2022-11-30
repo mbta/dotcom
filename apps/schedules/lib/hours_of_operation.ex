@@ -62,7 +62,8 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
-        stop_sequence: "first,last",
+        # First and last is removed to get the times for all of the subway stops
+        # Is this a problem?  I don't think we should filter this data for the caching, but when we return the cached data we may want to filter it
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
@@ -292,6 +293,12 @@ defmodule Schedules.HoursOfOperation do
         List.first(stop_array).id
       end)
 
+    stop_ids =
+      Enum.map(data, fn x ->
+        stop_array = Map.get(x.relationships, "stop")
+        List.first(stop_array).id
+      end)
+
     Enum.map(times_by_stop, fn {id, x} ->
       stop = Stops.Repo.get!(id)
 
@@ -305,6 +312,7 @@ defmodule Schedules.HoursOfOperation do
         first_departure: min,
         last_departure: max,
         stop_name: stop.name,
+        parent_stop_id: stop.parent_id,
         is_terminus: is_terminus?(stop.name, headsigns)
       }
     end)
