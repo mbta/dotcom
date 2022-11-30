@@ -81,20 +81,27 @@ const DailyScheduleSubway = ({
   const isTodayAWeekday = !isWeekend(todayDate);
 
   useEffect(() => {
-    let hours;
     if (isTodayAWeekday) {
       setSelectedSchedule("weekday");
-      hours = getHoursByStop(stopId, hoursOfOperation?.week);
     } else if (isTodaySaturday) {
       setSelectedSchedule("saturday");
-      hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
     } else {
       setSelectedSchedule("sunday");
+    }
+  }, [isTodayAWeekday, isTodaySaturday, isTodaySunday]);
+
+  useEffect(() => {
+    let hours;
+    if (selectedSchedule == "weekday") {
+      hours = getHoursByStop(stopId, hoursOfOperation?.week);
+    } else if (selectedSchedule == "saturday") {
+      hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
+    } else {
       hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
     }
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
-  }, [selectedSchedule]);
+  }, [selectedSchedule, hoursOfOperation]);
 
   return (
     <div>
@@ -169,8 +176,7 @@ const DailyScheduleSubway = ({
         </ExpandableBlock>
       </div>
       <div className="d-flex pt-8 fs-18">
-        {/* TODO This should navigate to trip planner */}
-        <a href="/trip-planner" className="flex-grow-1">
+        <a href={`/trip-planner/from/${stopId}`} className="flex-grow-1">
           <button className="btn btn-secondary flex-grow-1 w-100">
             Plan Your Trip
           </button>
