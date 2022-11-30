@@ -7,7 +7,10 @@ defmodule Schedules.Departures do
     :stop_name,
     :stop_id,
     :parent_stop_id,
-    :is_terminus
+    :is_terminus,
+    :address,
+    :latitude,
+    :longitude
   ]
 
   @type t :: %__MODULE__{
@@ -16,7 +19,10 @@ defmodule Schedules.Departures do
           stop_id: Stops.Stop.id_t() | nil,
           parent_stop_id: Stops.Stop.id_t() | nil,
           stop_name: String.t() | nil,
-          is_terminus: boolean() | nil
+          is_terminus: boolean() | nil,
+          address: String.t() | nil,
+          latitude: float(),
+          longitude: float()
         }
   @doc """
   Given a non-empty list of schedules, returns the first and last times.

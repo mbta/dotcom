@@ -308,6 +308,8 @@ defmodule Schedules.HoursOfOperation do
         |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
       %Departures{
+        latitude: stop.latitude,
+        longitude: stop.longitude,
         stop_id: id,
         first_departure: min,
         last_departure: max,

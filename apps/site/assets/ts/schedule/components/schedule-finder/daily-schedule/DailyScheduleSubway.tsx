@@ -40,6 +40,7 @@ const getHoursByStop = (
     return h.parent_stop_id === stopId;
   });
 
+  console.log(stopHours);
   return stopHours;
 };
 
@@ -71,6 +72,7 @@ const DailyScheduleSubway = ({
   const [lastTrainHours, setLastTrainHours] = useState<string | undefined>(
     undefined
   );
+  const [stopLatLong, setStopLatLong] = useState<string | undefined>("");
 
   const { direction_destinations: directionDestinations } = route;
 
@@ -99,6 +101,9 @@ const DailyScheduleSubway = ({
     } else {
       hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
     }
+    setStopLatLong(
+      hours?.latitude ? `${hours.latitude},${hours.longitude}` : ""
+    );
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
   }, [selectedSchedule, hoursOfOperation]);
@@ -176,7 +181,7 @@ const DailyScheduleSubway = ({
         </ExpandableBlock>
       </div>
       <div className="d-flex pt-8 fs-18">
-        <a href={`/trip-planner/from/${stopId}`} className="flex-grow-1">
+        <a href={`/trip-planner/from/${stopLatLong}`} className="flex-grow-1">
           <button className="btn btn-secondary flex-grow-1 w-100">
             Plan Your Trip
           </button>
