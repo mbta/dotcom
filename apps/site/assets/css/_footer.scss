@@ -219,6 +219,10 @@ address {
         border-radius: 0;
         margin-bottom: 2px;
         margin-top: 0;
+
+        @include media-breakpoint-up(lg) {
+          display: block !important;
+        }
       }
     }
 
