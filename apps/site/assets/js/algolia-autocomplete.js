@@ -94,7 +94,7 @@ export default class AlgoliaAutocomplete {
       []
     );
 
-    this._autocomplete = window(
+    this._autocomplete = window.autocomplete(
       this._input,
       {
         appendTo: this._resultsContainer,
