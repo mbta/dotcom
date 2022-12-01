@@ -131,6 +131,205 @@ Array [
       </div>
     </form>
   </div>,
+  <div>
+    <div
+      className="u-highlight-gray m-n24"
+    >
+      <div
+        className="m-24"
+      >
+        <div
+          className="d-flex pt-10"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon me-12"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+          <div
+            className="fs-18 u-bold"
+          >
+            Malden Center
+          </div>
+        </div>
+        <div
+          className="fs-12 u-bold pb-10"
+        >
+          To 
+          Oak Grove
+        </div>
+      </div>
+    </div>
+    <h3
+      className="pt-18"
+    >
+      Daily Schedule
+    </h3>
+    <div
+      className="pt-8"
+    >
+      <div
+        className="c-select-custom__container "
+        onClick={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <select
+          className="c-select-custom notranslate"
+          onChange={[Function]}
+          value="weekday"
+        >
+          <option
+            value="weekday"
+          >
+            Weekday 
+            (Today)
+          </option>
+          <option
+            value="saturday"
+          >
+            Saturday 
+            
+          </option>
+          <option
+            value="sunday"
+          >
+            Sunday 
+            
+          </option>
+        </select>
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon c-select-custom__arrow"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="d-flex justify-content-space-between pt-8"
+    >
+      <div
+        className="flex-grow-1 u-highlight ps-16 pt-16 pb-16"
+        style={
+          Object {
+            "maxWidth": "49%",
+          }
+        }
+      >
+        <div
+          className="fs-14"
+        >
+          First Train
+        </div>
+        <div
+          className="fs-18 u-bold"
+        />
+      </div>
+      <div
+        className="flex-grow-1 u-highlight ps-16 pt-16 pb-16"
+        style={
+          Object {
+            "maxWidth": "49%",
+          }
+        }
+      >
+        <div
+          className="fs-14"
+        >
+          Last Train
+        </div>
+        <div
+          className="fs-18 u-bold"
+        />
+      </div>
+    </div>
+    <div>
+      <h3
+        aria-controls="panel-train-frequency"
+        aria-expanded={false}
+        className="c-expandable-block__header"
+        id="header-train-frequency"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <div
+          className="c-expandable-block__header-text"
+        >
+          Train Frequency
+          <span
+            className="fa c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </div>
+      </h3>
+      <noscript>
+        <style>
+          #header-train-frequency { display: none; }
+        </style>
+        <h3
+          className="c-expandable-block__header"
+        >
+          Train Frequency
+          <span
+            className="fa c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF106;",
+              }
+            }
+          />
+        </h3>
+        <div
+          className="c-expandable-block__panel"
+          role="region"
+        >
+          <div
+            className="m-schedule-page__sidebar-hours"
+          >
+            <div
+              className="font-weight-bold fs-14 pb-8"
+            >
+              Regular schedule
+            </div>
+            <div
+              className="fs-14 pt-8"
+            >
+              Trains depart every undefined
+            </div>
+          </div>
+        </div>
+      </noscript>
+    </div>
+    <div
+      className="d-flex pt-8 fs-18"
+    >
+      <a
+        className="flex-grow-1"
+        href="/trip-planner/from/"
+      >
+        <button
+          className="btn btn-secondary flex-grow-1 w-100"
+        >
+          Plan Your Trip
+        </button>
+      </a>
+    </div>
+  </div>,
   <div
     className="callout text-center u-bold"
   >

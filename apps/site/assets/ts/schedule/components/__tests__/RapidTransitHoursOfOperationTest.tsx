@@ -57,14 +57,20 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-24T23:44:00-04:00`,
               first_departure: `2022-10-24T08:54:00-04:00`,
-              is_terminus: false
+              is_terminus: false,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
               last_departure: `2022-10-24T22:45:00-04:00`,
               first_departure: `2022-10-24T07:55:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ],
           [
@@ -73,14 +79,20 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-24T23:35:00-04:00`,
               first_departure: `2022-10-24T08:35:00-04:00`,
-              is_terminus: false
+              is_terminus: false,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
               last_departure: `2022-10-24T23:25:00-04:00`,
               first_departure: `2022-10-24T08:25:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ]
         ],
@@ -91,7 +103,10 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-22T21:15:00-04:00`,
               first_departure: `2022-10-22T08:15:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ],
           [
@@ -100,7 +115,10 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-22T22:15:00-04:00`,
               first_departure: `2022-10-22T07:15:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ]
         ],
@@ -142,14 +160,20 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-24T08:54:00-04:00`,
               first_departure: `2022-10-24T08:54:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
               last_departure: `2022-10-24T22:45:00-04:00`,
               first_departure: `2022-10-24T07:55:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ],
           []

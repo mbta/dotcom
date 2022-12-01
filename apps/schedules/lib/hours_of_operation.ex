@@ -293,12 +293,6 @@ defmodule Schedules.HoursOfOperation do
         List.first(stop_array).id
       end)
 
-    stop_ids =
-      Enum.map(data, fn x ->
-        stop_array = Map.get(x.relationships, "stop")
-        List.first(stop_array).id
-      end)
-
     Enum.map(times_by_stop, fn {id, x} ->
       stop = Stops.Repo.get!(id)
 

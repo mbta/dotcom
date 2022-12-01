@@ -40,7 +40,6 @@ const getHoursByStop = (
     return h.parent_stop_id === stopId;
   });
 
-  console.log(stopHours);
   return stopHours;
 };
 
@@ -61,10 +60,6 @@ const DailyScheduleSubway = ({
   scheduleNote: ScheduleNote | null;
   today: string;
 }): ReactElement | null => {
-  const todayDate = stringToDateObject(today);
-  const originStopName = findStopName(stopId, directionId, stops);
-  const hoursOfOperation = useHoursOfOperation(routeId);
-
   const [selectedSchedule, setSelectedSchedule] = useState("");
   const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>(
     undefined
@@ -73,6 +68,10 @@ const DailyScheduleSubway = ({
     undefined
   );
   const [stopLatLong, setStopLatLong] = useState<string | undefined>("");
+
+  const todayDate = stringToDateObject(today);
+  const originStopName = findStopName(stopId, directionId, stops);
+  const hoursOfOperation = useHoursOfOperation(routeId);
 
   const { direction_destinations: directionDestinations } = route;
 
@@ -106,7 +105,7 @@ const DailyScheduleSubway = ({
     );
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
-  }, [selectedSchedule, hoursOfOperation]);
+  }, [selectedSchedule, hoursOfOperation, stopId]);
 
   return (
     <div>
