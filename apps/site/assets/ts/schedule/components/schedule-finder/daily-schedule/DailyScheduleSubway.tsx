@@ -18,14 +18,8 @@ const findStopName = (
   stops: SimpleStopMap
 ): string => {
   const stopsInDirection = stops[directionId];
-  const stop = find(stopsInDirection, stopData => {
-    return stopData.id === stopId;
-  });
-  if (stop) {
-    return stop.name;
-  } else {
-    return "";
-  }
+  const stop = find(stopsInDirection, stopData => stopData.id === stopId);
+  return stop ? stop.name : "";
 };
 
 const getHoursByStop = (
@@ -36,9 +30,7 @@ const getHoursByStop = (
     return undefined;
   }
   const bothDirectionHours = concat(hours[0], hours[1]);
-  const stopHours = find(bothDirectionHours, h => {
-    return h.parent_stop_id === stopId;
-  });
+  const stopHours = find(bothDirectionHours, h => h.parent_stop_id === stopId);
 
   return stopHours;
 };
@@ -93,9 +85,9 @@ const DailyScheduleSubway = ({
 
   useEffect(() => {
     let hours;
-    if (selectedSchedule == "weekday") {
+    if (selectedSchedule === "weekday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.week);
-    } else if (selectedSchedule == "saturday") {
+    } else if (selectedSchedule === "saturday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
     } else {
       hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
@@ -113,7 +105,7 @@ const DailyScheduleSubway = ({
         <div className="m-24">
           <div className="d-flex pt-10">
             {/* TODO figure out icon sizing */}
-            <RouteIcon tag={toLower(routeId)} extraClasses={"me-12"} />
+            <RouteIcon tag={toLower(routeId)} extraClasses="me-12" />
             <div className="fs-18 u-bold">{originStopName}</div>
           </div>
           <div className="fs-12 u-bold pb-10">To {destinationName}</div>
@@ -130,13 +122,13 @@ const DailyScheduleSubway = ({
             }}
           >
             {/* TODO can the today string be done better? */}
-            <option value={"weekday"} key={"weekday"}>
+            <option value="weekday" key="weekday">
               Weekday {isTodayAWeekday ? "(Today)" : ""}
             </option>
-            <option value={"saturday"} key={"saturday"}>
+            <option value="saturday" key="saturday">
               Saturday {isTodaySaturday ? "(Today)" : ""}
             </option>
-            <option value={"sunday"} key={"sunday"}>
+            <option value="sunday" key="sunday">
               Sunday {isTodaySunday ? "(Today)" : ""}
             </option>
           </select>
@@ -181,7 +173,7 @@ const DailyScheduleSubway = ({
       </div>
       <div className="d-flex pt-8 fs-18">
         <a href={`/trip-planner/from/${stopLatLong}`} className="flex-grow-1">
-          <button className="btn btn-secondary flex-grow-1 w-100">
+          <button type="button" className="btn btn-secondary flex-grow-1 w-100">
             Plan Your Trip
           </button>
         </a>
