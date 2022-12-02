@@ -14,7 +14,8 @@ defmodule Predictions.StreamSupervisorTest do
 
   describe "ensure_stream_is_started/1" do
     test "starts a stream if not already started" do
-      assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(1)
+      prediction_key = "Purple:awesome-station:1"
+      assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
     end
   end
 end

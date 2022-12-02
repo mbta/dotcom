@@ -3,7 +3,6 @@ defmodule Predictions.StreamTest do
 
   alias JsonApi.Item
   alias Predictions.{Prediction, Stream}
-  alias Timex.Timezone
 
   @predictions_data %JsonApi{
     data: [

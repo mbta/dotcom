@@ -3,11 +3,24 @@ defmodule Predictions.PredictionsPubSubTest do
 
   alias Predictions.{Prediction, PredictionsPubSub}
   alias Routes.Route
+  alias Stops.Stop
 
   @route_39 "39"
   @route_66 "66"
-  @prediction39 %Prediction{id: "prediction39", route: %Route{id: @route_39}}
-  @prediction66 %Prediction{id: "prediction66", route: %Route{id: @route_66}}
+  @stop_id "place-where"
+  @direction_id 1
+  @prediction39 %Prediction{
+    id: "prediction39",
+    direction_id: @direction_id,
+    route: %Route{id: @route_39},
+    stop: %Stop{id: @stop_id}
+  }
+  @prediction66 %Prediction{
+    id: "prediction66",
+    direction_id: @direction_id,
+    route: %Route{id: @route_66},
+    stop: %Stop{id: @stop_id}
+  }
 
   describe "start_link/1" do
     test "starts the server" do
@@ -32,10 +45,12 @@ defmodule Predictions.PredictionsPubSubTest do
       predictions = [@prediction39]
 
       :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_route_id, %{@route_39 => predictions})
+        Map.put(state, :predictions_by_key, %{
+          "#{@route_39}:#{@stop_id}:#{@direction_id}" => predictions
+        })
       end)
 
-      assert PredictionsPubSub.subscribe(@route_39, pid) == predictions
+      assert PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid) == predictions
     end
   end
 
@@ -47,7 +62,9 @@ defmodule Predictions.PredictionsPubSubTest do
       {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
 
       :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_route_id, %{@route_39 => [1, 2, 3]})
+        Map.put(state, :predictions_by_key, %{
+          "#{@route_39}:#{@stop_id}:#{@direction_id}" => [1, 2, 3]
+        })
       end)
 
       {:ok, pid: pid}
@@ -56,14 +73,17 @@ defmodule Predictions.PredictionsPubSubTest do
     test "resets the predictions", %{pid: pid} do
       send(pid, {:reset, [@prediction39]})
 
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_route_id) |> Map.get(@route_39) ==
+      assert pid
+             |> :sys.get_state()
+             |> Map.get(:predictions_by_key)
+             |> Map.get("#{@route_39}:#{@stop_id}:#{@direction_id}") ==
                [
                  @prediction39
                ]
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, pid)
+      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
 
       send(pid, {:reset, [@prediction66]})
       send(pid, {:reset, [@prediction39]})
@@ -81,7 +101,7 @@ defmodule Predictions.PredictionsPubSubTest do
       {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
 
       :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_route_id, %{})
+        Map.put(state, :predictions_by_key, %{})
       end)
 
       {:ok, pid: pid}
@@ -90,12 +110,12 @@ defmodule Predictions.PredictionsPubSubTest do
     test "adds the new predictions by route ID", %{pid: pid} do
       send(pid, {:add, [@prediction39]})
 
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_route_id) ==
-               %{@route_39 => [@prediction39]}
+      assert pid |> :sys.get_state() |> Map.get(:predictions_by_key) ==
+               %{"#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]}
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, pid)
+      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
 
       send(pid, {:add, [@prediction66]})
       send(pid, {:add, [@prediction39]})
@@ -113,7 +133,9 @@ defmodule Predictions.PredictionsPubSubTest do
       {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
 
       :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_route_id, %{@route_39 => [@prediction39]})
+        Map.put(state, :predictions_by_key, %{
+          "#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]
+        })
       end)
 
       {:ok, pid: pid}
@@ -122,12 +144,12 @@ defmodule Predictions.PredictionsPubSubTest do
     test "updates the predictions", %{pid: pid} do
       send(pid, {:update, [@prediction39]})
 
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_route_id) ==
-               %{@route_39 => [@prediction39]}
+      assert pid |> :sys.get_state() |> Map.get(:predictions_by_key) ==
+               %{"#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]}
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, pid)
+      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
 
       send(pid, {:update, [@prediction66]})
       send(pid, {:update, [@prediction39]})
@@ -145,7 +167,9 @@ defmodule Predictions.PredictionsPubSubTest do
       {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
 
       :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_route_id, %{@route_39 => [@prediction39]})
+        Map.put(state, :predictions_by_key, %{
+          "#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]
+        })
       end)
 
       {:ok, pid: pid}
@@ -154,11 +178,13 @@ defmodule Predictions.PredictionsPubSubTest do
     test "removes the given predictions", %{pid: pid} do
       send(pid, {:remove, [@prediction39]})
 
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_route_id) == %{@route_39 => []}
+      assert pid |> :sys.get_state() |> Map.get(:predictions_by_key) == %{
+               "#{@route_39}:#{@stop_id}:#{@direction_id}" => []
+             }
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, pid)
+      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
 
       send(pid, {:remove, [@prediction39]})
 
