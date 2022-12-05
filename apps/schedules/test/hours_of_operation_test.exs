@@ -329,8 +329,8 @@ defmodule Schedules.HoursOfOperationTest do
       date = ~D[2017-10-26]
 
       assert week_dates(date) == [
-               # Next Monday
-               ~D[2017-10-30],
+               # This day
+               ~D[2017-10-26],
                # Upcoming Saturday
                ~D[2017-10-28],
                # Upcoming Sunday

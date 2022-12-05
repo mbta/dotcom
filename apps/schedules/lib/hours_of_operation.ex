@@ -83,7 +83,7 @@ defmodule Schedules.HoursOfOperation do
   end
 
   @doc """
-  Returns the next Monday, Saturday, and Sunday, relative to a given date.
+  Returns the a current or upcoming weekday, Saturday, and Sunday.
 
   Returns as a list rather than a tuple for easier iteration.
   """
@@ -91,9 +91,16 @@ defmodule Schedules.HoursOfOperation do
   def week_dates(today) do
     dow = Date.day_of_week(today)
 
+    weekday =
+      if dow in 1..5 do
+        today
+      else
+        # Monday
+        Date.add(today, 8 - dow)
+      end
+
     [
-      # Monday
-      Date.add(today, 8 - dow),
+      weekday,
       # Saturday, not going back in time
       Date.add(today, Integer.mod(6 - dow, 7)),
       # Sunday
