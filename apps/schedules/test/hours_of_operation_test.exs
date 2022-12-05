@@ -1,11 +1,9 @@
 defmodule Schedules.HoursOfOperationTest do
   @moduledoc false
   use ExUnit.Case, async: true
-  use Quixir
   import Mock
   import Schedules.HoursOfOperation
   alias Schedules.{HoursOfOperation, Departures}
-  alias Pollution.VG
 
   describe "hours_of_operation/2" do
     test "returns basic hours for a route" do
@@ -351,12 +349,13 @@ defmodule Schedules.HoursOfOperationTest do
     end
 
     test "always generates valid responses" do
-      ptest date: date_vg(min_year: 2017) do
-        [monday, saturday, sunday] = week_dates(date)
-        assert Date.day_of_week(monday) == 1
+      Enum.map(0..364, &Timex.shift(~D[2017-01-01], days: &1))
+      |> Enum.each(fn test_date ->
+        [weekday, saturday, sunday] = week_dates(test_date)
+        assert Date.day_of_week(weekday) in 1..5
         assert Date.day_of_week(saturday) == 6
         assert Date.day_of_week(sunday) == 7
-      end
+      end)
     end
   end
 
@@ -374,13 +373,6 @@ defmodule Schedules.HoursOfOperationTest do
       assert Enum.count(hours) == 2
       assert Enum.into(hours, []) == [week: hours.week, sunday: hours.sunday]
     end
-  end
-
-  defp date_vg(min_year: year) do
-    year = int(min: year, max: year + 5)
-    month = int(min: 1, max: 12)
-    day = int(min: 1, max: 28)
-    VG.struct(%Date{calendar: value(Calendar.ISO), year: year, month: month, day: day})
   end
 
   defp test_stop_name("1"), do: %Stops.Stop{name: "Test Stop"}
