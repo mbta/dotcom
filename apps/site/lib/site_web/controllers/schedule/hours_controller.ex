@@ -3,6 +3,9 @@ defmodule SiteWeb.ScheduleController.HoursController do
 
   use SiteWeb, :controller
 
+  # uses a date URL parameter to set conn.assigns.date
+  plug(SiteWeb.Plugs.Date)
+
   def hours_of_operation(conn, %{"route" => "Green"}) do
     # Return an empty object.  Only supports specific routes
     json(conn, %{})
