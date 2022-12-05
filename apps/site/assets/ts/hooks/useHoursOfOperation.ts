@@ -5,7 +5,11 @@ import { RapidTransitHours, TransitHours } from "../__v3api";
 const fetchData = async (
   routeIdString: string
 ): Promise<RapidTransitHours | TransitHours> =>
-  fetchJsonOrThrow(`/schedules/${routeIdString}/line/hours?${window.location.search.substring(1)}`);
+  fetchJsonOrThrow(
+    `/schedules/${routeIdString}/line/hours?${window.location.search.substring(
+      1
+    )}`
+  );
 
 const useHoursOfOperation = (
   routeId: string
