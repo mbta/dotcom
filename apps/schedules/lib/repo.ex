@@ -154,8 +154,10 @@ defmodule Schedules.Repo do
         ) ::
           HoursOfOperation.t()
   def hours_of_operation(route_id_or_ids, date, description) do
-    route_id_or_ids
-    |> cache(&HoursOfOperation.hours_of_operation(&1, date, description))
+    {route_id_or_ids, date}
+    |> cache(fn _ ->
+      HoursOfOperation.hours_of_operation(route_id_or_ids, date, description)
+    end)
     |> Util.error_default(%HoursOfOperation{})
   end
 
