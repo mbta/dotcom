@@ -143,7 +143,7 @@ Array [
         >
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon me-12"
+            className="notranslate c-svg__icon schedule__icon-header--size me-8"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -256,7 +256,7 @@ Array [
       <h3
         aria-controls="panel-train-frequency"
         aria-expanded={false}
-        className="c-expandable-block__header"
+        className="c-expandable-block__header mt-8"
         id="header-train-frequency"
         onClick={[Function]}
         onKeyPress={[Function]}
@@ -302,12 +302,12 @@ Array [
             className="m-schedule-page__sidebar-hours"
           >
             <div
-              className="font-weight-bold fs-14 pb-8"
+              className="font-weight-bold fs-14"
             >
               Regular schedule
             </div>
             <div
-              className="fs-14 pt-8"
+              className="fs-16 pt-8"
             >
               Trains depart every undefined
             </div>
@@ -316,7 +316,7 @@ Array [
       </noscript>
     </div>
     <div
-      className="d-flex pt-8 fs-18"
+      className="d-flex pt-8 pb-18 fs-18"
     >
       <a
         className="flex-grow-1"
@@ -324,6 +324,7 @@ Array [
       >
         <button
           className="btn btn-secondary flex-grow-1 w-100"
+          type="button"
         >
           Plan Your Trip
         </button>

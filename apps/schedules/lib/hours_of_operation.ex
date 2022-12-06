@@ -62,8 +62,6 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
-        # First and last is removed to get the times for all of the subway stops
-        # Is this a problem?  I don't think we should filter this data for the caching, but when we return the cached data we may want to filter it
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"

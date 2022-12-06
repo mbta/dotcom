@@ -5,7 +5,7 @@ Array [
   <h3
     aria-controls="panel-bikes"
     aria-expanded={false}
-    className="c-expandable-block__header"
+    className="c-expandable-block__header undefined"
     id="header-bikes"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -118,7 +118,7 @@ exports[`BikeStorage via enzyme-to-json it displays parking info when opened and
     <h3
       aria-controls="panel-bikes"
       aria-expanded={true}
-      className="c-expandable-block__header"
+      className="c-expandable-block__header undefined"
       id="header-bikes"
       onClick={[Function]}
       onKeyPress={[Function]}

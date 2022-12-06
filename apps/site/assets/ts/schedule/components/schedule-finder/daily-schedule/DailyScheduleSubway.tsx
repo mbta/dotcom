@@ -99,13 +99,19 @@ const DailyScheduleSubway = ({
     setLastTrainHours(hours?.last_departure);
   }, [selectedSchedule, hoursOfOperation, stopId]);
 
+  let scheduleNoteText = isTodayAWeekday
+    ? scheduleNote?.peak_service
+    : scheduleNote?.offpeak_service;
+
   return (
     <div>
       <div className="u-highlight-gray m-n24">
         <div className="m-24">
           <div className="d-flex pt-10">
-            {/* TODO figure out icon sizing */}
-            <RouteIcon tag={toLower(routeId)} extraClasses="me-12" />
+            <RouteIcon
+              tag={toLower(routeId)}
+              extraClasses="schedule__icon-header--size me-8"
+            />
             <div className="fs-18 u-bold">{originStopName}</div>
           </div>
           <div className="fs-12 u-bold pb-10">To {destinationName}</div>
@@ -121,7 +127,6 @@ const DailyScheduleSubway = ({
               setSelectedSchedule(e.target.value);
             }}
           >
-            {/* TODO can the today string be done better? */}
             <option value="weekday" key="weekday">
               Weekday {isTodayAWeekday ? "(Today)" : ""}
             </option>
@@ -156,22 +161,21 @@ const DailyScheduleSubway = ({
       </div>
       <div>
         <ExpandableBlock
-          header={{ text: "Train Frequency", iconSvgText: null }}
+          header={{
+            text: "Train Frequency",
+            iconSvgText: null,
+            classOverride: "mt-8"
+          }}
           initiallyExpanded={false}
           id="train-frequency"
         >
           <div className="m-schedule-page__sidebar-hours">
-            <div className="font-weight-bold fs-14 pb-8">Regular schedule</div>
-            {isTodayAWeekday && (
-              <div className="fs-14 pt-8">{`Trains depart every ${scheduleNote?.peak_service}`}</div>
-            )}
-            {!isTodayAWeekday && (
-              <div className="fs-14 pt-8">{`Trains depart every ${scheduleNote?.offpeak_service}`}</div>
-            )}
+            <div className="font-weight-bold fs-14">Regular schedule</div>
+            <div className="fs-16 pt-8">{`Trains depart every ${scheduleNoteText}`}</div>
           </div>
         </ExpandableBlock>
       </div>
-      <div className="d-flex pt-8 fs-18">
+      <div className="d-flex pt-8 pb-18 fs-18">
         <a href={`/trip-planner/from/${stopLatLong}`} className="flex-grow-1">
           <button type="button" className="btn btn-secondary flex-grow-1 w-100">
             Plan Your Trip

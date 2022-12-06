@@ -5,7 +5,7 @@ Array [
   <h3
     aria-controls="panel-pdfs"
     aria-expanded={true}
-    className="c-expandable-block__header"
+    className="c-expandable-block__header undefined"
     id="header-pdfs"
     onClick={[Function]}
     onKeyPress={[Function]}

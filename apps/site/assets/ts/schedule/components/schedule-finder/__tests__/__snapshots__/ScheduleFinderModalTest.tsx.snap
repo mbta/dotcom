@@ -151,8 +151,8 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                       <div className=\\"u-highlight-gray m-n24\\">
                         <div className=\\"m-24\\">
                           <div className=\\"d-flex pt-10\\">
-                            <RouteIcon tag=\\"orange\\" extraClasses=\\"me-12\\">
-                              <span className=\\"notranslate c-svg__icon me-12\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                            <RouteIcon tag=\\"orange\\" extraClasses=\\"schedule__icon-header--size me-8\\">
+                              <span className=\\"notranslate c-svg__icon schedule__icon-header--size me-8\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                             </RouteIcon>
                             <div className=\\"fs-18 u-bold\\">
                               Wellington
@@ -202,7 +202,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                       </div>
                       <div>
                         <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"train-frequency\\">
-                          <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-train-frequency\\" aria-expanded={false} aria-controls=\\"panel-train-frequency\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+                          <h3 className=\\"c-expandable-block__header mt-8\\" tabIndex={0} id=\\"header-train-frequency\\" aria-expanded={false} aria-controls=\\"panel-train-frequency\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
                             <div className=\\"c-expandable-block__header-text\\">
                               Train Frequency
                               <span className=\\"fa c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
@@ -215,9 +215,9 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                           </noscript>
                         </ExpandableBlock>
                       </div>
-                      <div className=\\"d-flex pt-8 fs-18\\">
+                      <div className=\\"d-flex pt-8 pb-18 fs-18\\">
                         <a href=\\"/trip-planner/from/\\" className=\\"flex-grow-1\\">
-                          <button className=\\"btn btn-secondary flex-grow-1 w-100\\">
+                          <button type=\\"button\\" className=\\"btn btn-secondary flex-grow-1 w-100\\">
                             Plan Your Trip
                           </button>
                         </a>

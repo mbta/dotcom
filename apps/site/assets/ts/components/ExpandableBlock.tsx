@@ -7,6 +7,7 @@ import { caret } from "../helpers/icon";
 export interface ExpandableBlockHeader {
   text: string | ReactElement<HTMLElement>;
   iconSvgText: string | null;
+  classOverride?: string;
 }
 
 // If dispatch is provided in Props, the block will not
@@ -43,7 +44,7 @@ export interface ClickExpandableBlockAction {
 
 const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   const {
-    header: { text, iconSvgText },
+    header: { text, iconSvgText, classOverride },
     dispatch,
     notifyExpanded,
     initiallyExpanded,
@@ -90,7 +91,7 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   return (
     <>
       <h3
-        className="c-expandable-block__header"
+        className={`c-expandable-block__header ${classOverride}`}
         tabIndex={0}
         id={headerId}
         aria-expanded={expanded}

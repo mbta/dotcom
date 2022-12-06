@@ -8,7 +8,6 @@ defmodule Schedules.Departures do
     :stop_id,
     :parent_stop_id,
     :is_terminus,
-    :address,
     :latitude,
     :longitude
   ]
@@ -20,7 +19,6 @@ defmodule Schedules.Departures do
           parent_stop_id: Stops.Stop.id_t() | nil,
           stop_name: String.t() | nil,
           is_terminus: boolean() | nil,
-          address: String.t() | nil,
           latitude: float(),
           longitude: float()
         }
@@ -36,7 +34,9 @@ defmodule Schedules.Departures do
       last_departure: last.time,
       stop_id: nil,
       stop_name: nil,
-      is_terminus: nil
+      is_terminus: nil,
+      latitude: 0,
+      longitude: 0
     }
   end
 end
