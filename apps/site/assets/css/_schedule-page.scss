@@ -400,7 +400,7 @@
   vertical-align: top;
 
   &:last-child:not(:first-child) {
-    text-align: left;
+    text-align: right;
   }
 
   &--expanded {
@@ -562,4 +562,8 @@
       flex: none;
     }
   }
+}
+
+.pull-left {
+  float: left;
 }
