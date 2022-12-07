@@ -120,10 +120,8 @@ describe("reducer", () => {
     const result = reducer(
       { markers: data.markers, channel: "vehicle:1:1" },
       {
-        action: {
-          event: "reset",
-          data: [{ marker: newMarker }]
-        },
+        event: "reset",
+        data: [{ marker: newMarker }],
         channel: "vehicle:1:1"
       }
     );
@@ -138,7 +136,8 @@ describe("reducer", () => {
     const result = reducer(
       { markers: data.markers, channel: "vehicle:1:1" },
       {
-        action: { event: "add", data: [{ marker: newMarker }] },
+        event: "add",
+        data: [{ marker: newMarker }],
         channel: "vehicle:1:1"
       }
     );
@@ -151,10 +150,8 @@ describe("reducer", () => {
     const result = reducer(
       { markers: data.markers, channel: "vehicle:1:1" },
       {
-        action: {
-          event: "update",
-          data: [{ marker: { ...data.markers[0], latitude: 43.0 } }]
-        },
+        event: "update",
+        data: [{ marker: { ...data.markers[0], latitude: 43.0 } }],
         channel: "vehicle:1:1"
       }
     );
@@ -168,7 +165,8 @@ describe("reducer", () => {
     const result = reducer(
       { markers: data.markers, channel: "vehicle:1:1" },
       {
-        action: { event: "update", data: [{ marker: data.markers[0] }] },
+        event: "update",
+        data: [{ marker: data.markers[0] }],
         channel: "vehicle:1:0"
       }
     );
@@ -192,10 +190,7 @@ describe("reducer", () => {
   it("handles empty data actions", () => {
     const result = reducer(
       { markers: data.markers, channel: "vehicle:1:1" },
-      {
-        action: { event: "update", data: [] },
-        channel: "vehicle:1:1"
-      }
+      { event: "update", data: [], channel: "vehicle:1:1" }
     );
 
     expect(result.markers).toEqual(data.markers);
@@ -205,7 +200,8 @@ describe("reducer", () => {
     const result = reducer(
       { markers: data.markers, channel: "vehicle:1:1" },
       {
-        action: { event: "remove", data: [data.markers[0].id!] },
+        event: "remove",
+        data: [data.markers[0].id!],
         channel: "vehicle:1:1"
       }
     );
