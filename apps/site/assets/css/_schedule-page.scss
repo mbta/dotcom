@@ -430,6 +430,10 @@
   &--tiny {
     width: 1ch;
   }
+
+  .pull-left {
+    float: left;
+  }
 }
 
 .trip-details-table {
@@ -562,8 +566,4 @@
       flex: none;
     }
   }
-}
-
-.pull-left {
-  float: left;
 }
