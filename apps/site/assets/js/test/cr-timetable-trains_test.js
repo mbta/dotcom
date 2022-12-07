@@ -1,5 +1,4 @@
 import jsdom from "mocha-jsdom";
-import sinon from "sinon";
 import { expect } from "chai";
 import { CRTimetableTrains, channelDataId } from "../cr-timetable-trains";
 import { trainIcon } from "../cr-timetable-train-icons";
