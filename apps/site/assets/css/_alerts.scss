@@ -365,6 +365,7 @@
   font-weight: bold;
   margin-left: calc(#{$base-spacing} / 2);
   padding: calc(#{$base-spacing} / 8) calc(#{$base-spacing} / 2);
+  pointer-events: none;
 
   @include media-breakpoint-up(sm) {
     position: absolute;
