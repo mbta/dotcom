@@ -225,9 +225,13 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> Enum.all?(&MapSet.subset?(&1, MapSet.new(stops)))
   end
 
+  @doc """
+  Filters a list of route patterns down to the route patterns sharing the lowest
+  number for the "typicality" property, additionally removing route patterns
+  associated with a negative shape_priority value.
+  """
   @spec filtered_by_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
-  defp filtered_by_typicality(route_patterns) do
-    # Find route patterns with smallest typicality.
+  def filtered_by_typicality(route_patterns) do
     route_patterns
     |> filter_by_min_typicality()
     |> Enum.filter(fn x -> x.shape_priority > 0 end)
