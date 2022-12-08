@@ -2,7 +2,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
 
   alias Routes.{Route}
-  alias RoutePatterns.RoutePattern
   alias SiteWeb.ScheduleController.Line.Helpers
   alias Stops.{RouteStops, Stop}
 
@@ -824,20 +823,41 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     end
   end
 
-  describe "by_typicality/2" do
-    test "without a selected route pattern, allows (returns true) only RoutePattern with a typicality of 1 through the filter" do
-      assert Helpers.by_typicality(%RoutePattern{typicality: 1}, nil)
-      refute Helpers.by_typicality(%RoutePattern{typicality: 2}, nil)
+  describe "filtered_by_typicality/1" do
+    test "finds all most typical route patterns" do
+      assert [%{typicality: 1}] =
+               Helpers.filtered_by_typicality([
+                 %RoutePatterns.RoutePattern{typicality: 1},
+                 %RoutePatterns.RoutePattern{typicality: 2},
+                 %RoutePatterns.RoutePattern{typicality: 3},
+                 %RoutePatterns.RoutePattern{typicality: 4},
+                 %RoutePatterns.RoutePattern{typicality: 5}
+               ])
+
+      assert [%{typicality: 2}, _, _] =
+               Helpers.filtered_by_typicality([
+                 %RoutePatterns.RoutePattern{typicality: 2},
+                 %RoutePatterns.RoutePattern{typicality: 2},
+                 %RoutePatterns.RoutePattern{typicality: 2},
+                 %RoutePatterns.RoutePattern{typicality: 4},
+                 %RoutePatterns.RoutePattern{typicality: 5}
+               ])
     end
 
-    test "with a selected route pattern, allows (returns true) all RoutePatterns through the filter" do
-      assert Helpers.by_typicality(%RoutePattern{typicality: 1}, "123")
-      assert Helpers.by_typicality(%RoutePattern{typicality: 2}, "123")
+    test "excludes route patterns with negative shape_priority" do
+      assert [%RoutePatterns.RoutePattern{typicality: 2, shape_priority: 1}, _] =
+               Helpers.filtered_by_typicality([
+                 %RoutePatterns.RoutePattern{typicality: 2, shape_priority: -2},
+                 %RoutePatterns.RoutePattern{typicality: 2, shape_priority: 1},
+                 %RoutePatterns.RoutePattern{typicality: 2, shape_priority: 2},
+                 %RoutePatterns.RoutePattern{typicality: 4, shape_priority: 1},
+                 %RoutePatterns.RoutePattern{typicality: 5, shape_priority: 1}
+               ])
     end
   end
 
-  defp assert_stop_ids(actual, stop_ids) do
-    assert stop_ids(actual) == stop_ids
+  def assert_stop_ids(actual, stop_ids) do
+    assert Enum.map(actual, & &1.id) == stop_ids
   end
 
   defp stop_ids(stops), do: Enum.map(stops, & &1.id)
