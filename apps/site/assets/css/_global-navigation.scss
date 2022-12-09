@@ -107,6 +107,7 @@ nav.m-menu--desktop {
   .c-indicator--angle {
     @include fa-icon-solid($fa-var-caret-down);
     margin-left: $base-spacing__new;
+    pointer-events: none;
     @include media-breakpoint-only(xxl) {
       margin-left: $space-2_new;
     }
@@ -123,6 +124,7 @@ nav.m-menu--desktop {
 
     .c-indicator--angle {
       @include fa-icon-solid($fa-var-caret-up);
+      pointer-events: none;
     }
   }
 }
