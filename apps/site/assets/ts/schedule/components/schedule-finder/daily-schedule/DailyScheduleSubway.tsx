@@ -99,7 +99,7 @@ const DailyScheduleSubway = ({
     setLastTrainHours(hours?.last_departure);
   }, [selectedSchedule, hoursOfOperation, stopId]);
 
-  let scheduleNoteText = isTodayAWeekday
+  const scheduleNoteText = isTodayAWeekday
     ? scheduleNote?.peak_service
     : scheduleNote?.offpeak_service;
 
