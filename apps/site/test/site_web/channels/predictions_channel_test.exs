@@ -69,7 +69,7 @@ defmodule SiteWeb.PredictionsChannelTest do
                  socket
                )
 
-      assert_push("predictions", %{predictions: predictions})
+      assert_push("data", %{predictions: predictions})
     end
   end
 end

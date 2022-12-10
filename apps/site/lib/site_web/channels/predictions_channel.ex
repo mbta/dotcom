@@ -27,7 +27,7 @@ defmodule SiteWeb.PredictionsChannel do
   @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
   def handle_info({:new_predictions, predictions}, socket) do
-    :ok = push(socket, "predictions", %{predictions: predictions})
+    :ok = push(socket, "data", %{predictions: predictions})
     {:noreply, socket}
   end
 end
