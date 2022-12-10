@@ -36,8 +36,7 @@ defmodule Predictions.StreamParserTest do
             %Item{id: "wrong"}
           ],
           "stop" => [
-            %Item{id: "place-pktrm", attributes: %{"name" => "Stop"}},
-            %Item{id: "wrong"}
+            %Item{id: "place-pktrm", attributes: %{"name" => "Stop", "platform_code" => 99}}
           ],
           "trip" => [
             %Item{
@@ -86,6 +85,7 @@ defmodule Predictions.StreamParserTest do
         },
         stop_sequence: 0,
         time: ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4"),
+        track: 99,
         trip: %Trip{
           id: "trip_id",
           name: "trip_name",

@@ -68,10 +68,18 @@ defmodule Predictions.StreamParser do
 
   defp trip(_), do: nil
 
+  # Predictions are generally associated in the API with child stops. Find the
+  # parent stop and store that ID.
   @spec stop(Item.t()) :: Stops.Stop.t() | nil
-  defp stop(%Item{relationships: %{"stop" => [%Item{id: id, attributes: attributes} | _]}}) do
+  defp stop(%Item{relationships: %{"stop" => [%Item{id: id, attributes: attributes}]}}) do
+    stop_id =
+      case Stops.Repo.get_parent(id) do
+        %Stop{id: parent_id} -> parent_id
+        nil -> id
+      end
+
     %Stop{
-      id: id,
+      id: stop_id,
       name: attributes["name"]
     }
   end
