@@ -1,3 +1,4 @@
+import { autocomplete } from "@algolia/autocomplete-js";
 import * as AlgoliaResult from "./algolia-result";
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import * as QueryHelpers from "../ts/helpers/query";
@@ -41,6 +42,11 @@ export default class AlgoliaAutocomplete {
 
     this.bind();
   }
+
+  // let searchClient = algoliasearch(
+  //   'latency',
+  //   '6be0576ff61c053d5f9a3225e2a90f76'
+  // );
 
   getById(id) {
     return this.containerElement
@@ -94,17 +100,19 @@ export default class AlgoliaAutocomplete {
       []
     );
 
-    this._autocomplete = window.autocomplete(
-      this._input,
+    this._autocomplete = autocomplete(
+      // this._input,
       {
+        container: this._searchContainer,
         appendTo: this._resultsContainer,
         debug: true,
         autoselectOnBlur: false,
         openOnFocus: true,
-        detachedMediaQuery: false,
-        classNames: {
-          root: "c-search-bar__autocomplete"
-        }
+        detachedMediaQuery: false
+        // tagName: 'em',
+        // classNames: {
+        //   root: "c-search-bar__autocomplete"
+        // }
       },
       this._getSources
     );
@@ -115,7 +123,7 @@ export default class AlgoliaAutocomplete {
   }
 
   resetResetButton() {
-    this._toggleResetButton(this._autocomplete.getVal() !== "");
+    this._toggleResetButton(this._autocomplete.value() !== "");
   }
 
   setError(error) {
@@ -218,7 +226,7 @@ export default class AlgoliaAutocomplete {
   }
 
   onKeyup() {
-    this._toggleResetButton(this._autocomplete.getVal() !== "");
+    this._toggleResetButton(this._autocomplete.value() !== "");
   }
 
   onOpen() {
@@ -395,7 +403,7 @@ export default class AlgoliaAutocomplete {
   }
 
   getValue() {
-    return this._autocomplete.getVal();
+    return this._autocomplete.value();
   }
 }
 
