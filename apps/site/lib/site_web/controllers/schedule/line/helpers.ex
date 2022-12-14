@@ -234,7 +234,12 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   def filtered_by_typicality(route_patterns) do
     route_patterns
     |> filter_by_min_typicality()
-    |> Enum.filter(fn x -> x.shape_priority > 0 end)
+    |> Enum.filter(fn x ->
+      # TODO: Deprecate our use of shape priority entirely,
+      # because it's no longer supported in the V3 API
+      # For now, be less strict if using the most typical route pattern
+      if x.typicality == 1, do: true, else: x.shape_priority > 0
+    end)
   end
 
   # Filters route patterns by the smallest typicality found in the array
