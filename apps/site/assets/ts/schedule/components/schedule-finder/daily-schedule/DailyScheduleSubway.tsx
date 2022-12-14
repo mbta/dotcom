@@ -154,23 +154,24 @@ const DailyScheduleSubway = ({
         </div>
       </div>
       <div>
-        <ExpandableBlock
-          header={{
-            text: "Train Frequency",
-            iconSvgText: null,
-            classOverride: "mt-8"
-          }}
-          initiallyExpanded={false}
-          id="train-frequency"
-        >
-          <div className="m-schedule-page__sidebar-hours">
-            <div className="font-weight-bold fs-14">Regular schedule</div>
-            <div className="fs-16 pt-8">
-              {scheduleNoteText !== "" &&
-                `Trains depart every ${scheduleNoteText}`}
+        {scheduleNoteText !== "" && (
+          <ExpandableBlock
+            header={{
+              text: "Train Frequency",
+              iconSvgText: null,
+              classOverride: "mt-8"
+            }}
+            initiallyExpanded={false}
+            id="train-frequency"
+          >
+            <div className="m-schedule-page__sidebar-hours">
+              <div className="font-weight-bold fs-14">Regular schedule</div>
+              <div className="fs-16 pt-8">
+                `Trains depart every ${scheduleNoteText}`
+              </div>
             </div>
-          </div>
-        </ExpandableBlock>
+          </ExpandableBlock>
+        )}
       </div>
       <div className="d-flex pt-8 pb-18 fs-18">
         <a
