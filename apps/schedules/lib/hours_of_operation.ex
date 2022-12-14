@@ -62,7 +62,6 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
-        stop_sequence: "first,last",
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
@@ -308,10 +307,13 @@ defmodule Schedules.HoursOfOperation do
         |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
       %Departures{
+        latitude: stop.latitude,
+        longitude: stop.longitude,
         stop_id: id,
         first_departure: min,
         last_departure: max,
         stop_name: stop.name,
+        parent_stop_id: stop.parent_id,
         is_terminus: is_terminus?(stop.name, headsigns)
       }
     end)

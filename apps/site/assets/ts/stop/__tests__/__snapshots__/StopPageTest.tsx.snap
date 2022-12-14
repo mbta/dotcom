@@ -3165,7 +3165,7 @@ Array [
           <h3
             aria-controls="panel-accessibility"
             aria-expanded={true}
-            className="c-expandable-block__header"
+            className="c-expandable-block__header "
             id="header-accessibility"
             onClick={[Function]}
             onKeyPress={[Function]}
@@ -3330,7 +3330,7 @@ Array [
           <h3
             aria-controls="panel-parking"
             aria-expanded={false}
-            className="c-expandable-block__header"
+            className="c-expandable-block__header "
             id="header-parking"
             onClick={[Function]}
             onKeyPress={[Function]}
@@ -3519,7 +3519,7 @@ Array [
           <h3
             aria-controls="panel-bikes"
             aria-expanded={false}
-            className="c-expandable-block__header"
+            className="c-expandable-block__header "
             id="header-bikes"
             onClick={[Function]}
             onKeyPress={[Function]}
@@ -3616,7 +3616,7 @@ Array [
           <h3
             aria-controls="panel-fares"
             aria-expanded={false}
-            className="c-expandable-block__header"
+            className="c-expandable-block__header "
             id="header-fares"
             onClick={[Function]}
             onKeyPress={[Function]}

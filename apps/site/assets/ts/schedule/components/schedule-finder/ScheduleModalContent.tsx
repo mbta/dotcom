@@ -8,7 +8,8 @@ import {
   RoutePatternsByDirection,
   ServiceInSelector,
   SelectedOrigin,
-  UserInput
+  UserInput,
+  ScheduleNote
 } from "../__schedule";
 import { EnhancedJourney, Journey, TripInfo } from "../__trips";
 import ScheduleFinderForm from "./ScheduleFinderForm";
@@ -22,6 +23,7 @@ import {
 } from "../../../helpers/fetch-json";
 import { useAwaitInterval } from "../../../helpers/use-await-interval";
 import { isSubwayRoute } from "../../../models/route";
+import DailyScheduleSubway from "./daily-schedule/DailyScheduleSubway";
 
 // exported for testing
 export const fetchData = async (
@@ -69,6 +71,7 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
+  scheduleNote: ScheduleNote | null;
 }
 
 const ScheduleModalContent = ({
@@ -81,7 +84,8 @@ const ScheduleModalContent = ({
   services,
   stops,
   routePatternsByDirection,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
@@ -127,11 +131,23 @@ const ScheduleModalContent = ({
         />
       </div>
 
+      {!isSubwayRoute(route) ? null : (
+        <DailyScheduleSubway
+          stops={stops}
+          stopId={selectedOrigin}
+          directionId={selectedDirection}
+          routeId={routeId}
+          route={route}
+          scheduleNote={scheduleNote}
+          today={today}
+        />
+      )}
+
       {routeToModeName(route) !== "ferry" && renderUpcomingDepartures()}
 
       {isSubwayRoute(route) ? null : (
         <DailySchedule
-          stopId={selectedOrigin}
+          selectedOrigin={selectedOrigin}
           services={services}
           routeId={routeId}
           directionId={selectedDirection}

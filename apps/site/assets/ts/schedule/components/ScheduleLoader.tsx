@@ -241,6 +241,7 @@ export const ScheduleLoader = ({
               stops={stops}
               today={today}
               updateURL={updateURL}
+              scheduleNote={scheduleNote}
             />
           )}
         </>
@@ -263,6 +264,7 @@ export const ScheduleLoader = ({
           selectedOrigin={selectedOrigin}
           changeOrigin={changeOrigin}
           closeModal={closeModal}
+          scheduleNote={scheduleNote}
         />
       );
     }
@@ -296,6 +298,7 @@ export const ScheduleLoader = ({
             selectedOrigin={selectedOrigin}
             changeOrigin={changeOrigin}
             closeModal={closeModal}
+            scheduleNote={scheduleNote}
           />
           <div className="schedule-map-container">
             <h2>Route Map</h2>
