@@ -5,7 +5,7 @@ Array [
   <h3
     aria-controls="panel-parking"
     aria-expanded={false}
-    className="c-expandable-block__header undefined"
+    className="c-expandable-block__header "
     id="header-parking"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -224,7 +224,7 @@ exports[`Parking via enzyme-to-json it displays parking info when opened and inn
     <h3
       aria-controls="panel-parking"
       aria-expanded={true}
-      className="c-expandable-block__header undefined"
+      className="c-expandable-block__header "
       id="header-parking"
       onClick={[Function]}
       onKeyPress={[Function]}

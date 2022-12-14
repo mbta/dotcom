@@ -5,7 +5,7 @@ exports[`ExpandableBranch renders and matches snapshot 1`] = `
   <ExpandableBranch stopTree={{...}} stopIds={{...}} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
     <div className=\\"m-schedule-diagram__expander\\">
       <ExpandableBlock header={{...}} initiallyExpanded={false} notifyExpanded={[Function: notifyExpanded]} preventScroll={true} id=\\"undefined\\">
-        <h3 className=\\"c-expandable-block__header undefined\\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+        <h3 className=\\"c-expandable-block__header \\" tabIndex={0} id=\\"header-undefined\\" aria-expanded={false} aria-controls=\\"panel-undefined\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
           <div className=\\"c-expandable-block__header-text\\">
             <div className=\\"m-schedule-diagram__expander-header\\">
               <div style={{...}}>

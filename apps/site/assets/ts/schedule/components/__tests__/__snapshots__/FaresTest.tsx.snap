@@ -5,7 +5,7 @@ Array [
   <h3
     aria-controls="panel-fares"
     aria-expanded={false}
-    className="c-expandable-block__header undefined"
+    className="c-expandable-block__header "
     id="header-fares"
     onClick={[Function]}
     onKeyPress={[Function]}

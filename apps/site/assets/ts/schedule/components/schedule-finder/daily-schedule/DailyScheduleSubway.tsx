@@ -53,13 +53,10 @@ const DailyScheduleSubway = ({
   today: string;
 }): ReactElement | null => {
   const [selectedSchedule, setSelectedSchedule] = useState("");
-  const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>(
-    undefined
-  );
-  const [lastTrainHours, setLastTrainHours] = useState<string | undefined>(
-    undefined
-  );
-  const [stopLatLong, setStopLatLong] = useState<string | undefined>("");
+  const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>();
+  const [lastTrainHours, setLastTrainHours] = useState<string | undefined>();
+  const [stopLatLong, setStopLatLong] = useState<string>("");
+  const [scheduleNoteText, setScheduleNoteText] = useState<string>("");
 
   const todayDate = stringToDateObject(today);
   const originStopName = findStopName(stopId, directionId, stops);
@@ -87,21 +84,20 @@ const DailyScheduleSubway = ({
     let hours;
     if (selectedSchedule === "weekday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.week);
+      setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
     } else if (selectedSchedule === "saturday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
+      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
     } else {
       hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
+      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
     }
     setStopLatLong(
       hours?.latitude ? `${hours.latitude},${hours.longitude}` : ""
     );
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
-  }, [selectedSchedule, hoursOfOperation, stopId]);
-
-  const scheduleNoteText = isTodayAWeekday
-    ? scheduleNote?.peak_service
-    : scheduleNote?.offpeak_service;
+  }, [selectedSchedule, hoursOfOperation, stopId, scheduleNote]);
 
   return (
     <div>
@@ -139,20 +135,18 @@ const DailyScheduleSubway = ({
           </select>
         </SelectContainer>
       </div>
-      <div className="d-flex justify-content-space-between pt-8">
-        <div
-          style={{ maxWidth: "49%" }}
-          className="flex-grow-1 u-highlight ps-16 pt-16 pb-16"
-        >
+      <div
+        className="d-flex justify-content-space-between pt-8"
+        style={{ gap: "2%" }}
+        aria-live="polite"
+      >
+        <div className="w-100 u-highlight ps-16 pt-16 pb-16">
           <div className="fs-14">First Train</div>
           <div className="fs-18 u-bold">
             {firstTrainHours && formatToBostonTime(firstTrainHours)}
           </div>
         </div>
-        <div
-          style={{ maxWidth: "49%" }}
-          className="flex-grow-1 u-highlight ps-16 pt-16 pb-16"
-        >
+        <div className="w-100 u-highlight ps-16 pt-16 pb-16">
           <div className="fs-14">Last Train</div>
           <div className="fs-18 u-bold">
             {lastTrainHours && formatToBostonTime(lastTrainHours)}
@@ -171,15 +165,19 @@ const DailyScheduleSubway = ({
         >
           <div className="m-schedule-page__sidebar-hours">
             <div className="font-weight-bold fs-14">Regular schedule</div>
-            <div className="fs-16 pt-8">{`Trains depart every ${scheduleNoteText}`}</div>
+            <div className="fs-16 pt-8">
+              {scheduleNoteText !== "" &&
+                `Trains depart every ${scheduleNoteText}`}
+            </div>
           </div>
         </ExpandableBlock>
       </div>
       <div className="d-flex pt-8 pb-18 fs-18">
-        <a href={`/trip-planner/from/${stopLatLong}`} className="flex-grow-1">
-          <button type="button" className="btn btn-secondary flex-grow-1 w-100">
-            Plan Your Trip
-          </button>
+        <a
+          href={`/trip-planner/from/${stopLatLong}`}
+          className="btn btn-secondary btn-block mt-8"
+        >
+          Plan Your Trip
         </a>
       </div>
     </div>

@@ -12,7 +12,7 @@ Array [
   <h3
     aria-controls="panel-pdfs"
     aria-expanded={true}
-    className="c-expandable-block__header undefined"
+    className="c-expandable-block__header "
     id="header-pdfs"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -101,7 +101,7 @@ Array [
   <h3
     aria-controls="panel-fares"
     aria-expanded={false}
-    className="c-expandable-block__header undefined"
+    className="c-expandable-block__header "
     id="header-fares"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -178,7 +178,7 @@ Array [
   <h3
     aria-controls="panel-holidays"
     aria-expanded={false}
-    className="c-expandable-block__header undefined"
+    className="c-expandable-block__header "
     id="header-holidays"
     onClick={[Function]}
     onKeyPress={[Function]}

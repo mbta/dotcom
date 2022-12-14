@@ -215,15 +215,16 @@ Array [
       </div>
     </div>
     <div
+      aria-live="polite"
       className="d-flex justify-content-space-between pt-8"
+      style={
+        Object {
+          "gap": "2%",
+        }
+      }
     >
       <div
-        className="flex-grow-1 u-highlight ps-16 pt-16 pb-16"
-        style={
-          Object {
-            "maxWidth": "49%",
-          }
-        }
+        className="w-100 u-highlight ps-16 pt-16 pb-16"
       >
         <div
           className="fs-14"
@@ -235,12 +236,7 @@ Array [
         />
       </div>
       <div
-        className="flex-grow-1 u-highlight ps-16 pt-16 pb-16"
-        style={
-          Object {
-            "maxWidth": "49%",
-          }
-        }
+        className="w-100 u-highlight ps-16 pt-16 pb-16"
       >
         <div
           className="fs-14"
@@ -308,9 +304,7 @@ Array [
             </div>
             <div
               className="fs-16 pt-8"
-            >
-              Trains depart every undefined
-            </div>
+            />
           </div>
         </div>
       </noscript>
@@ -319,15 +313,10 @@ Array [
       className="d-flex pt-8 pb-18 fs-18"
     >
       <a
-        className="flex-grow-1"
+        className="btn btn-secondary btn-block mt-8"
         href="/trip-planner/from/"
       >
-        <button
-          className="btn btn-secondary flex-grow-1 w-100"
-          type="button"
-        >
-          Plan Your Trip
-        </button>
+        Plan Your Trip
       </a>
     </div>
   </div>,

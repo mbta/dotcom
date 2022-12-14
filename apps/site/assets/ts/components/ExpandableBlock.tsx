@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import { isString } from "lodash";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import renderSvg from "../helpers/render-svg";
 import renderFa from "../helpers/render-fa";
@@ -87,11 +88,12 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;
   const iconHelper = iconSvgText?.slice(0, 3) !== "fa-" ? renderSvg : renderFa;
+  const classOverrideString = isString(classOverride) ? classOverride : "";
 
   return (
     <>
       <h3
-        className={`c-expandable-block__header ${classOverride}`}
+        className={`c-expandable-block__header ${classOverrideString}`}
         tabIndex={0}
         id={headerId}
         aria-expanded={expanded}

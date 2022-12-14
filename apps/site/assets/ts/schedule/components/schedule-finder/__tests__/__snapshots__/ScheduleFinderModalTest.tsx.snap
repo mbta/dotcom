@@ -186,14 +186,14 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                           </div>
                         </SelectContainer>
                       </div>
-                      <div className=\\"d-flex justify-content-space-between pt-8\\">
-                        <div style={{...}} className=\\"flex-grow-1 u-highlight ps-16 pt-16 pb-16\\">
+                      <div className=\\"d-flex justify-content-space-between pt-8\\" style={{...}} aria-live=\\"polite\\">
+                        <div className=\\"w-100 u-highlight ps-16 pt-16 pb-16\\">
                           <div className=\\"fs-14\\">
                             First Train
                           </div>
                           <div className=\\"fs-18 u-bold\\" />
                         </div>
-                        <div style={{...}} className=\\"flex-grow-1 u-highlight ps-16 pt-16 pb-16\\">
+                        <div className=\\"w-100 u-highlight ps-16 pt-16 pb-16\\">
                           <div className=\\"fs-14\\">
                             Last Train
                           </div>
@@ -216,10 +216,8 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                         </ExpandableBlock>
                       </div>
                       <div className=\\"d-flex pt-8 pb-18 fs-18\\">
-                        <a href=\\"/trip-planner/from/\\" className=\\"flex-grow-1\\">
-                          <button type=\\"button\\" className=\\"btn btn-secondary flex-grow-1 w-100\\">
-                            Plan Your Trip
-                          </button>
+                        <a href=\\"/trip-planner/from/\\" className=\\"btn btn-secondary btn-block mt-8\\">
+                          Plan Your Trip
                         </a>
                       </div>
                     </div>

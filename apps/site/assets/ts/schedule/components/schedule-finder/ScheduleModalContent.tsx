@@ -120,7 +120,6 @@ const ScheduleModalContent = ({
   return (
     <>
       <div className="schedule-finder schedule-finder--modal">
-        {/* TODO figure out where selected origin is set, maybe it isn't a stopId at its source */}
         <ScheduleFinderForm
           onDirectionChange={handleChangeDirection}
           onOriginChange={handleChangeOrigin}
