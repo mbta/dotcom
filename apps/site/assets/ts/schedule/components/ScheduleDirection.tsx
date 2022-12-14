@@ -18,6 +18,7 @@ import {
 } from "../../models/route";
 import LineDiagram from "./line-diagram/LineDiagram";
 import { fromStopTreeData } from "./ScheduleLoader";
+import { isEmptyTree } from "../../helpers/stop-tree";
 
 export interface Props {
   route: EnhancedRoute;
@@ -199,6 +200,7 @@ const ScheduleDirection = ({
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
 
+  const hasValidTree = lineState.data && !isEmptyTree(lineState.data.stopTree);
   return (
     <>
       <div className="m-schedule-direction">
@@ -219,7 +221,7 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
+      {isSubwayRoute(route) && hasValidTree && (
         <LineDiagram
           stopTree={lineState.data.stopTree}
           route={route}
@@ -253,7 +255,7 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!isSubwayRoute(route) && lineState.data && lineState.data.stopTree && (
+      {!isSubwayRoute(route) && hasValidTree && (
         <LineDiagram
           stopTree={lineState.data.stopTree}
           route={route}

@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import {
   RouteStop,
   StopId,
@@ -137,3 +138,6 @@ export const newBranchesStartingInSlice = (
   (sliceForId(stopTree, stopId) || []).filter(
     id => id !== stopId && isStartNode(stopTree, id)
   );
+
+export const isEmptyTree = (stopTree: StopTree): boolean =>
+  Object.values(stopTree).some(isEmpty);
