@@ -24,7 +24,8 @@ import {
   sliceSizeForId,
   startingNodes,
   stopForId,
-  stopIds
+  stopIds,
+  isEmptyTree
 } from "../stop-tree";
 
 const routeStopA: RouteStop = { id: "a" } as RouteStop;
@@ -89,6 +90,12 @@ const branchingStopTree: StopTree = {
     y1: { next: [], previous: ["m3"] }
   },
   startingNodes: ["a1", "b1", "c1"]
+};
+
+const emptyStopTree: StopTree = {
+  byId: {},
+  edges: {},
+  startingNodes: []
 };
 
 describe("nodeForId", () => {
@@ -276,5 +283,19 @@ describe("newBranchesStartingInSlice", () => {
     expect(newBranchesStartingInSlice(branchingStopTree, "b1")).toEqual([]);
     expect(newBranchesStartingInSlice(branchingStopTree, "b2")).toEqual(["a1"]);
     expect(newBranchesStartingInSlice(branchingStopTree, "b3")).toEqual(["c1"]);
+  });
+});
+
+describe("isEmptyTree", () => {
+  test("returns true for stop trees with empty data", () => {
+    expect(isEmptyTree(emptyStopTree)).toBe(true);
+    expect(isEmptyTree({ ...simpleStopTree, edges: {} })).toBe(true);
+    expect(isEmptyTree({ ...simpleStopTree, byId: {} })).toBe(true);
+    expect(isEmptyTree({ ...simpleStopTree, startingNodes: [] })).toBe(true);
+  });
+
+  test("returns false when tree has complete data", () => {
+    expect(isEmptyTree(simpleStopTree)).toBe(false);
+    expect(isEmptyTree(branchingStopTree)).toBe(false);
   });
 });
