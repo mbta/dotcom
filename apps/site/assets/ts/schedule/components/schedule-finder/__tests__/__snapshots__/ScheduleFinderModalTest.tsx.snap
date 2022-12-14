@@ -200,21 +200,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                           <div className=\\"fs-18 u-bold\\" />
                         </div>
                       </div>
-                      <div>
-                        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"train-frequency\\">
-                          <h3 className=\\"c-expandable-block__header mt-8\\" tabIndex={0} id=\\"header-train-frequency\\" aria-expanded={false} aria-controls=\\"panel-train-frequency\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
-                            <div className=\\"c-expandable-block__header-text\\">
-                              Train Frequency
-                              <span className=\\"fa c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
-                            </div>
-                          </h3>
-                          <noscript>
-                            <style />
-                            <h3 className=\\"c-expandable-block__header\\" />
-                            <div className=\\"c-expandable-block__panel\\" role=\\"region\\" />
-                          </noscript>
-                        </ExpandableBlock>
-                      </div>
+                      <div />
                       <div className=\\"d-flex pt-8 pb-18 fs-18\\">
                         <a href=\\"/trip-planner/from/\\" className=\\"btn btn-secondary btn-block mt-8\\">
                           Plan Your Trip

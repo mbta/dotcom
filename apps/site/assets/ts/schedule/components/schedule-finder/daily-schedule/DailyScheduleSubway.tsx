@@ -167,7 +167,7 @@ const DailyScheduleSubway = ({
             <div className="m-schedule-page__sidebar-hours">
               <div className="font-weight-bold fs-14">Regular schedule</div>
               <div className="fs-16 pt-8">
-                `Trains depart every ${scheduleNoteText}`
+                Trains depart every {scheduleNoteText}
               </div>
             </div>
           </ExpandableBlock>

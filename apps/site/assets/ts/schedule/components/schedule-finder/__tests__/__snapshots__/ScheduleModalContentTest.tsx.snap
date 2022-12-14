@@ -248,67 +248,7 @@ Array [
         />
       </div>
     </div>
-    <div>
-      <h3
-        aria-controls="panel-train-frequency"
-        aria-expanded={false}
-        className="c-expandable-block__header mt-8"
-        id="header-train-frequency"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        tabIndex={0}
-      >
-        <div
-          className="c-expandable-block__header-text"
-        >
-          Train Frequency
-          <span
-            className="fa c-expandable-block__header-caret"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "&#xF107;",
-              }
-            }
-          />
-        </div>
-      </h3>
-      <noscript>
-        <style>
-          #header-train-frequency { display: none; }
-        </style>
-        <h3
-          className="c-expandable-block__header"
-        >
-          Train Frequency
-          <span
-            className="fa c-expandable-block__header-caret"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "&#xF106;",
-              }
-            }
-          />
-        </h3>
-        <div
-          className="c-expandable-block__panel"
-          role="region"
-        >
-          <div
-            className="m-schedule-page__sidebar-hours"
-          >
-            <div
-              className="font-weight-bold fs-14"
-            >
-              Regular schedule
-            </div>
-            <div
-              className="fs-16 pt-8"
-            />
-          </div>
-        </div>
-      </noscript>
-    </div>
+    <div />
     <div
       className="d-flex pt-8 pb-18 fs-18"
     >
