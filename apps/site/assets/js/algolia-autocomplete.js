@@ -97,10 +97,7 @@ export default class AlgoliaAutocomplete {
       []
     );
 
-    const searchClient = algoliasearch(
-      "U5MJWQNAKL",
-      "6be0576ff61c053d5f9a3225e2a90f76"
-    );
+    const searchClient = algoliasearch("x", "y");
 
     this._autocomplete = autocomplete(
       {
