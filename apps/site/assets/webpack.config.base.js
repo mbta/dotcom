@@ -178,6 +178,11 @@ module.exports = {
         { from: "node_modules/smoothscroll-polyfill/dist/smoothscroll.min.js", to: "../js" },
       ]
     }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify({
+        DEBUG: undefined
+      })
+    }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
     new webpack.ProvidePlugin({
       Turbolinks: "turbolinks",

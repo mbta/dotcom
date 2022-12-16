@@ -1,5 +1,7 @@
-import { autocomplete } from "@algolia/autocomplete-js";
+import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
+import algoliasearch from "algoliasearch";
 import * as AlgoliaResult from "./algolia-result";
+
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import * as QueryHelpers from "../ts/helpers/query";
 
@@ -42,11 +44,6 @@ export default class AlgoliaAutocomplete {
 
     this.bind();
   }
-
-  // let searchClient = algoliasearch(
-  //   'latency',
-  //   '6be0576ff61c053d5f9a3225e2a90f76'
-  // );
 
   getById(id) {
     return this.containerElement
@@ -100,21 +97,62 @@ export default class AlgoliaAutocomplete {
       []
     );
 
+    const searchClient = algoliasearch(
+      "U5MJWQNAKL",
+      "6be0576ff61c053d5f9a3225e2a90f76"
+    );
+
     this._autocomplete = autocomplete(
-      // this._input,
       {
         container: this._searchContainer,
         appendTo: this._resultsContainer,
         debug: true,
         autoselectOnBlur: false,
         openOnFocus: true,
-        detachedMediaQuery: false
-        // tagName: 'em',
-        // classNames: {
-        //   root: "c-search-bar__autocomplete"
-        // }
-      },
-      this._getSources
+        detachedMediaQuery: false,
+        getSources() {
+          return [
+            {
+              sourceId: "tmp",
+              getItems() {
+                return getAlgoliaResults({
+                  searchClient,
+                  queries: [
+                    {
+                      indexName: "routes",
+                      query: "search in categories index",
+                      params: {
+                        hitsPerPage: 5
+                      }
+                    },
+                    {
+                      indexName: "stops",
+                      query: "first search in products",
+                      params: {
+                        hitsPerPage: 5
+                      }
+                    },
+                    {
+                      indexName: "drupal",
+                      query: "another search in products",
+                      params: {
+                        hitsPerPage: 5
+                      }
+                    }
+                  ]
+                });
+              }
+            }
+          ];
+          // what is getItemInputValue? The function called to get the value of an item. The value is used to fill the search box.
+          // what get items? The function called when the input changes.
+          // what is templates? A set of templates to customize how sections and their items are displayed.
+        },
+        getItemInputValue() {
+          return this._autocomplete.value();
+        }
+      }
+      // this._getSources
     );
 
     this._addErrorMsg();
