@@ -76,28 +76,19 @@ function setupChannels(): void {
   window.socket.connect();
   window.channels = {};
 
-  document.addEventListener(
-    "turbolinks:load",
-    () => {
-      document.querySelectorAll("[data-channel]").forEach(el => {
-        const channelId = el.getAttribute("data-channel");
-        if (channelId) joinChannel(channelId);
-      });
-    },
-    {
-      passive: true
-    }
-  );
+  document.addEventListener("turbolinks:load", () => {
+    document.querySelectorAll("[data-channel]").forEach(el => {
+      const channelId = el.getAttribute("data-channel");
+      if (channelId) joinChannel(channelId);
+    });
+  });
 
-  document.addEventListener(
-    "turbolinks:before-render",
-    () => {
-      Object.keys(window.channels).forEach(id => leaveChannel(id));
-    },
-    {
-      passive: true
-    }
-  );
+  // leave subscribed channels when navigating away from a page.
+  function leaveAllChannels(): void {
+    Object.keys(window.channels).forEach(id => leaveChannel(id));
+  }
+  document.addEventListener("turbolinks:before-render", leaveAllChannels);
+  window.addEventListener("beforeunload", leaveAllChannels);
 }
 
 export { joinChannel, leaveChannel };
