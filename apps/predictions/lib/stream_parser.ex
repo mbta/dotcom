@@ -1,6 +1,10 @@
 defmodule Predictions.StreamParser do
   @moduledoc """
   Parse predictions from the JSON:API format streamed from the V3 API.
+
+  Because the V3 API streaming feature does not update related objects fetched
+  via `included`, we fetch related Route, Stop, and Trip information separately
+  rather than parsing them out of the prediction stream API response
   """
 
   alias JsonApi.Item
@@ -11,20 +15,30 @@ defmodule Predictions.StreamParser do
 
   @spec parse(Item.t()) :: Prediction.t()
   def parse(%Item{} = item) do
+    route = included_route(item)
+    stop = included_stop(item)
+    trip = included_trip(item)
+
+    track =
+      case stop do
+        %Stop{platform_code: code} -> code
+        _ -> nil
+      end
+
     %Prediction{
       id: item.id,
       arrival_time: arrival_time(item),
       departing?: Parser.departing?(item),
       departure_time: departure_time(item),
       direction_id: Parser.direction_id(item),
-      route: route(item),
-      stop: stop(item),
       stop_sequence: Parser.stop_sequence(item),
-      trip: trip(item),
       time: Parser.first_time(item),
+      route: route,
+      stop: Stops.Repo.get_parent(stop),
+      trip: trip,
       schedule_relationship: Parser.schedule_relationship(item),
       status: Parser.status(item),
-      track: Parser.track(item)
+      track: track
     }
   end
 
@@ -46,43 +60,23 @@ defmodule Predictions.StreamParser do
     dt
   end
 
-  @spec route(Item.t()) :: Route.t() | nil
-  defp route(%Item{relationships: %{"route" => [%Item{id: id, attributes: attributes} | _]}}) do
-    %Route{
-      id: id,
-      type: attributes["type"]
-    }
-  end
+  @spec included_route(Item.t()) :: Route.t() | nil
+  defp included_route(%Item{relationships: %{"route" => [%Item{id: id} | _]}}),
+    do: Routes.Repo.get(id)
 
-  defp route(_), do: nil
+  defp included_route(_), do: nil
 
-  @spec trip(Item.t()) :: Trip.t() | nil
-  defp trip(%Item{relationships: %{"trip" => [%Item{id: id, attributes: attributes} | _]}}) do
-    %Trip{
-      id: id,
-      name: attributes["name"],
-      direction_id: attributes["direction_id"],
-      headsign: attributes["headsign"]
-    }
-  end
 
-  defp trip(_), do: nil
 
-  # Predictions are generally associated in the API with child stops. Find the
-  # parent stop and store that ID.
-  @spec stop(Item.t()) :: Stops.Stop.t() | nil
-  defp stop(%Item{relationships: %{"stop" => [%Item{id: id, attributes: attributes}]}}) do
-    stop_id =
-      case Stops.Repo.get_parent(id) do
-        %Stop{id: parent_id} -> parent_id
-        nil -> id
-      end
+  @spec included_trip(Item.t()) :: Trip.t() | nil
+  defp included_trip(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}),
+    do: Schedules.Repo.trip(id)
 
-    %Stop{
-      id: stop_id,
-      name: attributes["name"]
-    }
-  end
+  defp included_trip(_), do: nil
 
-  defp stop(_), do: nil
+  # note: likely to be a child stop
+  @spec included_stop(Item.t()) :: Stops.Stop.t() | nil
+  defp included_stop(%Item{relationships: %{"stop" => [%Item{id: id}]}}), do: Stops.Repo.get(id)
+
+  defp included_stop(_), do: nil
 end

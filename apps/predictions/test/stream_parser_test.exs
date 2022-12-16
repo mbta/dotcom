@@ -1,6 +1,6 @@
 defmodule Predictions.StreamParserTest do
   use ExUnit.Case, async: true
-
+  import Mock
   alias JsonApi.Item
   alias Predictions.{Prediction, StreamParser}
   alias Routes.Route
@@ -9,6 +9,15 @@ defmodule Predictions.StreamParserTest do
   alias Timex.Timezone
 
   describe "parse/1" do
+    setup_with_mocks([
+      {Routes.Repo, [], [get: fn "route_id" -> %Route{id: "route_id"} end]},
+      {Stops.Repo, [:passthrough],
+       [get: fn "place-pktrm" -> %Stop{id: "place-pktrm", platform_code: "99"} end]},
+      {Schedules.Repo, [], [trip: fn "trip_id" -> %Trip{id: "trip_id"} end]}
+    ]) do
+      :ok
+    end
+
     test "parses a %JsonApi.Item{} into a Prediction record" do
       item = %Item{
         id: "TEST-ID",
@@ -22,79 +31,41 @@ defmodule Predictions.StreamParserTest do
           "status" => "On Time"
         },
         relationships: %{
-          "facilities" => [],
-          "parent_station" => [],
           "route" => [
-            %Item{
-              id: "route_id",
-              attributes: %{
-                "long_name" => "Route",
-                "short_name" => "Route",
-                "type" => 5
-              }
-            },
+            %Item{id: "route_id"},
             %Item{id: "wrong"}
           ],
           "stop" => [
-            %Item{id: "place-pktrm", attributes: %{"name" => "Stop", "platform_code" => 99}}
+            %Item{id: "place-pktrm"}
           ],
           "trip" => [
-            %Item{
-              id: "trip_id",
-              attributes: %{
-                "name" => "trip_name",
-                "direction_id" => "0",
-                "headsign" => "trip_headsign"
-              }
-            },
-            %Item{
-              id: "wrong",
-              attributes: %{
-                "name" => "trip_name",
-                "direction_id" => "0",
-                "headsign" => "trip_headsign"
-              }
-            }
-          ],
-          "zone" => [
-            %JsonApi.Item{
-              attributes: nil,
-              id: "LocalBus",
-              relationships: nil,
-              type: "zone"
-            }
+            %Item{id: "trip_id"},
+            %Item{id: "wrong"}
           ]
         },
-        type: "stop"
+        type: "prediction"
       }
 
-      expected = %Prediction{
-        id: "TEST-ID",
-        arrival_time: ~U[2016-01-01 04:00:00Z],
-        departing?: true,
-        departure_time: ~U[2016-09-15 19:40:00Z],
-        direction_id: 1,
-        route: %Route{
-          id: "route_id",
-          type: 5
-        },
-        status: "On Time",
-        stop: %Stop{
-          id: "place-pktrm",
-          name: "Stop"
-        },
-        stop_sequence: 0,
-        time: ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4"),
-        track: 99,
-        trip: %Trip{
-          id: "trip_id",
-          name: "trip_name",
-          direction_id: "0",
-          headsign: "trip_headsign"
-        }
-      }
+      assert %Prediction{
+               id: "TEST-ID",
+               arrival_time: ~U[2016-01-01 04:00:00Z],
+               departing?: true,
+               departure_time: ~U[2016-09-15 19:40:00Z],
+               direction_id: 1,
+               route: route,
+               status: "On Time",
+               stop: stop,
+               stop_sequence: 0,
+               time: time,
+               track: track,
+               trip: trip
+             } = StreamParser.parse(item)
 
-      assert StreamParser.parse(item) == expected
+      assert %Route{id: "route_id"} = route
+      assert %Stop{id: "place-pktrm"} = stop
+      assert %Trip{id: "trip_id"} = trip
+      assert time == ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4")
+      assert track == stop.platform_code
     end
   end
 end
