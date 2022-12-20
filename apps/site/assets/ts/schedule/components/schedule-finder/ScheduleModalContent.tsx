@@ -1,7 +1,5 @@
 import React, { ReactElement } from "react";
 import { DirectionId, Route } from "../../../__v3api";
-import { formattedDate, stringToDateObject } from "../../../helpers/date";
-import { isInCurrentService } from "../../../helpers/service";
 import { routeToModeName } from "../../../helpers/css";
 import {
   SimpleStopMap,
@@ -104,18 +102,27 @@ const ScheduleModalContent = ({
   ]);
   useAwaitInterval(updateData, 10000);
 
-  const serviceToday = services.some(service =>
-    isInCurrentService(service, stringToDateObject(today))
-  );
-
-  const renderUpcomingDepartures = (): ReactElement<HTMLElement> =>
-    serviceToday ? (
-      <UpcomingDepartures state={state} />
-    ) : (
-      <div className="callout text-center u-bold">
+  const renderUpcomingDepartures = (): ReactElement<HTMLElement> | null => {
+    /**
+   * TODO: Fix our logic around determining whether there is service today.
+   *
+   * Old logic wasn't so great in the time when transitioning from one rating
+   * to the next - when services from two ratings are available from the API,
+   * the valid one might get filtered out during our backend service
+   * deduplication, leading the frontend to conclude there's 'no service today'.
+   * Once we fix that, we can go back to showing this message:
+   *
+   * <div className="callout text-center u-bold">
         There are no scheduled trips for {formattedDate(today)}.
       </div>
-    );
+   */
+    // @ts-ignore
+    if (state.data?.length) {
+      return <UpcomingDepartures state={state} />;
+    }
+
+    return null;
+  };
 
   return (
     <>
