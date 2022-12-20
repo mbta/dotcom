@@ -40,7 +40,10 @@ export const isInCurrentService = (
 ): boolean => {
   const serviceStartDate = stringToDateObject(service.start_date);
   const serviceEndDate = stringToDateObject(service.end_date);
-  return currentDate >= serviceStartDate && currentDate <= serviceEndDate;
+  return (
+    isInAddedDates(service, currentDate) ||
+    (currentDate >= serviceStartDate && currentDate <= serviceEndDate)
+  );
 };
 
 export const isInCurrentRating = (
