@@ -99,58 +99,65 @@ export default class AlgoliaAutocomplete {
 
     const searchClient = algoliasearch("x", "y");
 
-    this._autocomplete = autocomplete(
-      {
-        container: this._searchContainer,
-        appendTo: this._resultsContainer,
-        debug: true,
-        autoselectOnBlur: false,
-        openOnFocus: true,
-        detachedMediaQuery: false,
-        getSources() {
-          return [
-            {
-              sourceId: "tmp",
-              getItems() {
-                return getAlgoliaResults({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: "routes",
-                      query: "search in categories index",
-                      params: {
-                        hitsPerPage: 5
-                      }
-                    },
-                    {
-                      indexName: "stops",
-                      query: "first search in products",
-                      params: {
-                        hitsPerPage: 5
-                      }
-                    },
-                    {
-                      indexName: "drupal",
-                      query: "another search in products",
-                      params: {
-                        hitsPerPage: 5
-                      }
-                    }
-                  ]
-                });
+    this._autocomplete = autocomplete({
+      container: this._searchContainer,
+      appendTo: this._resultsContainer,
+      debug: true,
+      autoselectOnBlur: false,
+      openOnFocus: true,
+      detachedMediaQuery: false,
+      getSources(query) {
+        return [
+          {
+            sourceId: "tmp",
+            templates: {
+              noResults() {
+                return "No results.";
+              },
+              item({ item, html }) {
+                return html`
+                  <div>${item.name}</div>
+                `;
               }
+            },
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: "routes",
+                    query,
+                    params: {
+                      hitsPerPage: 5
+                    }
+                  },
+                  {
+                    indexName: "stops",
+                    query,
+                    params: {
+                      hitsPerPage: 5
+                    }
+                  },
+                  {
+                    indexName: "drupal",
+                    query,
+                    params: {
+                      hitsPerPage: 5
+                    }
+                  }
+                ]
+              });
             }
-          ];
-          // what is getItemInputValue? The function called to get the value of an item. The value is used to fill the search box.
-          // what get items? The function called when the input changes.
-          // what is templates? A set of templates to customize how sections and their items are displayed.
-        },
-        getItemInputValue() {
-          return this._autocomplete.value();
-        }
+          }
+        ];
+        // what is getItemInputValue? The function called to get the value of an item. The value is used to fill the search box.
+        // what get items? The function called when the input changes.
+        // what is templates? A set of templates to customize how sections and their items are displayed.
+      },
+      getItemInputValue(item) {
+        return item.value();
       }
-      // this._getSources
-    );
+    });
 
     this._addErrorMsg();
     this._toggleResetButton(false);
