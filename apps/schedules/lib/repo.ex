@@ -9,7 +9,6 @@ defmodule Schedules.Repo do
 
   @type schedule_pair :: {Schedule.t(), Schedule.t()}
 
-  @default_timeout 10_000
   @default_params [
     include: "trip,trip.occupancies",
     "fields[schedule]":
@@ -53,31 +52,6 @@ defmodule Schedules.Repo do
     |> cache(&all_from_params/1)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
-  end
-
-  @spec origin_destination(Stop.id_t(), Stop.id_t(), Keyword.t()) ::
-          [schedule_pair] | {:error, :timeout}
-  def origin_destination(origin_stop, dest_stop, opts \\ []) do
-    origin_task = Task.async(__MODULE__, :schedule_for_stop, [origin_stop, opts])
-    dest_task = Task.async(__MODULE__, :schedule_for_stop, [dest_stop, opts])
-
-    result =
-      Util.yield_or_default_many(
-        %{
-          origin_task => {:origin, {:error, :timeout}},
-          dest_task => {:dest, {:error, :timeout}}
-        },
-        __MODULE__,
-        @default_timeout
-      )
-
-    case result do
-      %{origin: origin, dest: dest} when is_list(origin) and is_list(dest) ->
-        join_schedules(origin, dest)
-
-      _ ->
-        {:error, :timeout}
-    end
   end
 
   @spec schedule_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
@@ -223,13 +197,6 @@ defmodule Schedules.Repo do
 
   defp to_string(int) when is_integer(int) do
     Integer.to_string(int)
-  end
-
-  defp join_schedules(origin_schedules, dest_schedules) do
-    origin_schedules
-    |> Join.join(dest_schedules, & &1.trip.id)
-    |> Enum.filter(fn {o, d} -> o.stop_sequence < d.stop_sequence end)
-    |> Enum.uniq_by(fn {o, _} -> o.trip.id end)
   end
 
   @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::

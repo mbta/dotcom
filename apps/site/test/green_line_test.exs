@@ -125,13 +125,6 @@ defmodule GreenLineTest do
     end
   end
 
-  describe "all_stops/1" do
-    test_vcr "can return an error" do
-      gl = stops_on_routes(0, ~D[2017-01-01])
-      assert {:error, _} = all_stops(gl)
-    end
-  end
-
   test_vcr "terminus?/2" do
     for stop_id <- ["place-lake", "place-gover"] do
       assert terminus?(stop_id, "Green-B")

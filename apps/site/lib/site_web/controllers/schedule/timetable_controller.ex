@@ -107,8 +107,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   defp all_stops(conn, _) do
-    # we override the default fetch of all_stops to not use the date. We will
-    # use the date to fetch the actual schedule data.
     all_stops =
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
         date: conn.assigns.date

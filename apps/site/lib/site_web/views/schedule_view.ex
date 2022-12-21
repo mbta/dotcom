@@ -35,20 +35,12 @@ defmodule SiteWeb.ScheduleView do
   def template_for_tab("line"), do: "_line.html"
   def template_for_tab("alerts"), do: "_alerts.html"
 
-  @spec reverse_direction_opts(Stops.Stop.t() | nil, Stops.Stop.t() | nil, 0..1) :: Keyword.t()
-  def reverse_direction_opts(origin, destination, direction_id) do
-    origin_id = if origin, do: origin.id, else: nil
-    destination_id = if destination, do: destination.id, else: nil
-
-    new_origin_id = destination_id || origin_id
-    new_dest_id = destination_id && origin_id
-
+  @spec reverse_direction_opts(0 | 1) :: Keyword.t()
+  def reverse_direction_opts(direction_id) do
     [
       trip: nil,
       schedule_direction: %{
-        direction_id: direction_id,
-        destination: new_dest_id,
-        origin: new_origin_id
+        direction_id: direction_id
       }
     ]
   end
@@ -59,12 +51,10 @@ defmodule SiteWeb.ScheduleView do
   """
   @spec no_trips_message(
           JsonApi.Error.t() | nil,
-          Stops.Stop.t() | nil,
-          Stops.Stop.t() | nil,
           String.t() | nil,
           Date.t()
         ) :: iodata
-  def no_trips_message(%{code: "no_service"} = error, _, _, _, date) do
+  def no_trips_message(%{code: "no_service"} = error, _, date) do
     [
       content_tag(:div, [
         format_full_date(date),
@@ -80,33 +70,7 @@ defmodule SiteWeb.ScheduleView do
     ]
   end
 
-  def no_trips_message(
-        _,
-        %Stops.Stop{name: origin_name},
-        %Stops.Stop{name: destination_name},
-        _,
-        date
-      ) do
-    [
-      "There are no scheduled trips between ",
-      origin_name,
-      " and ",
-      destination_name,
-      " on ",
-      format_full_date(date),
-      "."
-    ]
-  end
-
-  def no_trips_message(_, _, _, direction, nil) when not is_nil(direction) do
-    [
-      "There are no scheduled ",
-      downcase_direction(direction),
-      " trips."
-    ]
-  end
-
-  def no_trips_message(_, _, _, direction, date) when not is_nil(direction) do
+  def no_trips_message(_, direction, date) when not is_nil(direction) and not is_nil(date) do
     [
       "There are no scheduled ",
       downcase_direction(direction),
@@ -116,7 +80,28 @@ defmodule SiteWeb.ScheduleView do
     ]
   end
 
-  def no_trips_message(_, _, _, _, _), do: "There are no scheduled trips."
+  def no_trips_message(_, direction, nil) when not is_nil(direction) do
+    [
+      "There are no scheduled ",
+      downcase_direction(direction),
+      " trips."
+    ]
+  end
+
+  def no_trips_message(
+        _,
+        _,
+        date
+      )
+      when not is_nil(date) do
+    [
+      "There are no scheduled trips on ",
+      format_full_date(date),
+      "."
+    ]
+  end
+
+  def no_trips_message(_, _, _), do: "There are no scheduled trips."
 
   defp rating_name(%{meta: %{"version" => version}}) do
     version
