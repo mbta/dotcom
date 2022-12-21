@@ -101,11 +101,11 @@ export default class AlgoliaAutocomplete {
 
     this._autocomplete = autocomplete({
       container: this._searchContainer,
-      appendTo: this._resultsContainer,
+      // appendTo: this._resultsContainer,
       debug: true,
       autoselectOnBlur: false,
-      openOnFocus: true,
-      detachedMediaQuery: false,
+      openOnFocus: false,
+      // detachedMediaQuery: false,
       getSources(query) {
         return [
           {
@@ -114,13 +114,19 @@ export default class AlgoliaAutocomplete {
               noResults() {
                 return "No results.";
               },
-              item({ item, html }) {
-                return html`
-                  <div>${item.name}</div>
-                `;
+              item({ item }) {
+                return item;
               }
             },
+            getItemUrl({ item }) {
+              return item.url;
+            },
+            getItemInputValue(item) {
+              // console.log(item);
+              return item;
+            },
             getItems() {
+              // if (query.length() > 3 || /\d/.test(query)) {
               return getAlgoliaResults({
                 searchClient,
                 queries: [
@@ -153,9 +159,6 @@ export default class AlgoliaAutocomplete {
         // what is getItemInputValue? The function called to get the value of an item. The value is used to fill the search box.
         // what get items? The function called when the input changes.
         // what is templates? A set of templates to customize how sections and their items are displayed.
-      },
-      getItemInputValue(item) {
-        return item.value();
       }
     });
 
