@@ -1,0 +1,128 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/route_patterns/?include=representative_trip.shape&sort=typicality%2Csort_order&route=Red&direction_id=0"
+    },
+    "response": {
+      "binary": true,
+      "body": "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",
+      "headers": {
+        "Date": "Wed, 21 Dec 2022 00:06:01 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "2280",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:48 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6940",
+        "x-ratelimit-reset": "1671581220",
+        "x-request-id": "FzKmNa4kqYjlb3sAEzuC"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/shapes/931_0009"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAPkH4sIAAAAAAAAA4VU23LaSBD9lRTPycbZfYpfpns0SEIR4mJsY0wA3UCX0QVpuNnI356Wnd2trdqCh5FKmtNnTnef6ddO4Cq3c/vacZWqYm+nwrr9CuIq9FVc5Ms46NzefO7kbhZ2bjsow0O8Dj99+YR1lBW56nzulIU8yThvt5v84Bpv53BrGyent0X04W6pYfdxBxtoYAcpLfoY9I1ev3c3SnHgo3GAu0LoqbaG+n7qW9auOz6Yw7TrbDUr44tM5NAIxsTzJETnBPN5jAq2fIUHLsFHCRl48JTDqOJdpf04jpZY9ieMjdkqg0isnBIS1M+grfgSIh5DDjUEsMEVaZotYdyf9STAmuuSz+cKh4y9gb1gpmb/sB6tJey1V0cY9mhvNGagxWIFIUx9OrTApOsPKx4aa6y1fX/7IKFGxhJ+EitRGAHJS8DnVormljuxMQ3Nh8yqIB2/wXZh1hzuGXM2ooKNNfHNFbh9/aTpDdqNcBrDbrRp2rNdASM9Q3imIriox1zsgKcI9/yn7oNVADdIpe1TaRrYW8tBpZ1EAjF6sMQ93+mr92Rd3FPZHgqY7oAxT2x6jE0yeOvVIxKJFRx4CSlPaDFmPirhOxQIw4GE+wjvIuh6wBToU1PC8EjpRyFEz6WmEVmOVGqgoh/1My+JZzG0+RRf4EnCT0n1OvNGmzyXJOqMDZ/F8CJ2+nzuvzfjYeDhARZ3Ep4SuJ/PB2d4DPD+iKOxpqBLrGhUfDTDCA2J3T106e8bYIDoaUap4Zl3E61fAcu52KMjcRxwD3Lh4RtMc5Izn1tjk7EzuWWFMw8XCS4kzucRDM8wOeLsDBY13WFrPj2aEZZCUYLWVFf4EKF9BN1DoZAsxF6Am9yEM6xh7CwWk5YkQscDc0YNNBd2iUIiBAISAUcgGjrfDFAPwJagLxjLoRJ8LGEvFiVOShh7BHohjSQOEihB0TOiyrRrReTtm5wJwxd0SsSSG6rbwJG71McjmTofZHw12FDKvUqjIve9boZj7YFcbptMiRNO++1NreKiitWpc/tn87nT3uzO97++LW9ubr7TLt3h9P3y16Fc09bXOnLLsP76D4RiqlC67Vioo7h8x1YFjYz3ifF7jryzjsOACNWpbIfCB6Sh6FoVH1Ef4Off6FK6fvjFlWtf/hvVYunE/0ACdx/XlyFlUanqMiRyq3p7GeLn6hokzfNrcv0oy69AylRV2ZWkD/lxcxlS18pVlyFeFRxOlyFuHlSHy5BknV5Rcj3ltQz8Kx2qs6ssbv0/kJ+tyf7+05q3tWxSF7lbxq3t9mFVk3lp99sfN+TIXzGZOQv+BgAA",
+      "headers": {
+        "Date": "Wed, 21 Dec 2022 00:06:01 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "996",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:51:39 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6939",
+        "x-ratelimit-reset": "1671581220",
+        "x-request-id": "FzKmNbCK2s7jxBIAHPMB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/shapes/933_0009"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAUAH4sIAAAAAAAAA4VUyZLiOBD9lQ7O3TPV0aeuizMlecWYpVgLqrDxgo2NMbIxO98+SXXPTMwcqIMjLOnlovee8twIvMprPJ8bXlXJZLGrwvK+ChIZ+lWyyedJ0Hh++trIvXXYeG5gFu6TKPzy7QuTXpJXMgwbXxvFJjtmSX4HXPO9p98u4dbWj465RfThZc5RHe1gCVfYQUofLdot3WyZL90U2z7qe3jZCC3lEZSDsW9ZO7W3Nzqp6my5tWbva5HDVSiKmPZDdI4wmyVYwZa5uGcZ+JjBGhYwyaErmVrx5qE7x6LVV5Se4q4hFq5TwAq1C3CXzSFmCeRQQgBLdKmn1zn0Wq9mBhAxLWOzWYUdRbmB/a4Y3G5aI2sONT87Qre7tX41Ap4IF0IY+1R0gyvV70gW6hGWvG5thxmUqCgrdhSu2OgBtbcCn1kpGlvmJPo4NIZrS0Lau8H23SgZDBTFWQoJS6vvGy54Le3ItSvaV+FcdfvKx6lpewK62hphSiR4qCVM7IClCAP2pvlgbYDp1KXtEzVXqK15W/KjWEGCC5hjzXaa+3FZD2uibbiB8Q4UZSGWpqL013Azyy41iRL2rICUrehTFGNUCd+hQOi0MxjE+BKDugClAm1sZNA50PXjEOJpwTkly5GoBiL9oF1YQXneOzYb4wkmGbxlxNeFXXl/WlBTF7yy1wRWLBQ5JuxEWxEZI6NSAZYQIYFhVPCQtvQ+76mzmX5XpO2CalO0HgHOZnzFdak2T4CBigdjcmHiBtaKvUfaDQOxwIuZ8wOv4SQuIEeROhYFc6FCp0bjALhi5gFaN3i5gUc1EzDUHM/0d4aLsTMvYq8uxFYUdurE/MgzNdFi2yNCfIhgA71Bb7AQJdVJ0MUlMTtHo2mYN/WqBWzDItqLxFkcxEa9CZ9ISXmGe7TbQrXaVvNCivRHNW4oekdVS4gxJWN2C/SgFiHGOD3AJIZRTf2RvSP0cMWX/EQyVuxItJ1JxIvm6RX3xMI+27F5Nk/G0gpwR8gzH05qKqgoFpnbA6fltGaz6YUOpTbXs86xK8VclQQJSJ5cPatS7MRs5tH/XHuddF56g9o+t+r7I5lapt2s6aGRWhDxFDO2poc3re6epCYPLMQC3gLisYDJ2Oyo46ZAW3XUBXZJxhPwGEWF9g17OX9d6Ac4kBp9YUOHnXC4Mmt814ZiyC7grIwMs07Ocx5AzcYxc2qw6FnaZKKxREdRXNB65FOymbZAcQIlQLMA8wKtA3RdHMU4yVgJhfAoeQk5W+Jr19ItPaZVrzlsOc1+K4JJYPjqiW5S4B5cfS1sE9DQM3VPWiWkCD19GBTQXrC3EzQlmBLUV16gEvBeBKJAo0ZHqi4sRF+CiFoButyqWS8HkXM7Z50ItSHch6RMNjKpjo3n79evjftYbfz88WP+9PT0k05pfKYfk7cMs4iO/ixjrwjLP/+BUIwMM+8+k8s4KT6wckPz+mNc/x7iH1l7YUAJq2Nxn8e/IFeKLqvNr6hf4OlvdJF5fvjNyyI/+zfqjqWK/4EEXp2UjyHFRlbyMST2ZLl9DPHz6jNImueftevH6/wTSJFWcv3Jpff5YfkYUpaVVz2GLGSwPz6GeHkg948hqyh9DMi3uf9JmX1G3T6GUJLPRNx6n3K7kHmV/x/ydvfh3zt3f99dvSo3uVckd2fWoSzJ33T6/Y8nMu1fkWmh3J4IAAA=",
+      "headers": {
+        "Date": "Wed, 21 Dec 2022 00:06:01 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "1280",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:50:36 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6938",
+        "x-ratelimit-reset": "1671581220",
+        "x-request-id": "FzKmNbIYf_GNIf4AEzvC"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

@@ -1,0 +1,632 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/routes/?stop=place-mdftf&include=route_patterns"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAHEH4sIAAAAAAAAA7VUTU+DQBD9K2TPxS72Q9KzXwe9aBMPTUNWmNrV7UJ2p40N6X93drFQWjRRIxdg5r2ZnfcGSpYJFGwyK5lANPJ5jWDZpGRprnLDJozzeDi4ZD2WgU2NLFDmmsIPopBZMDVCW4kuKw2kLpcQDqUW7pkKzdgtCFwGj2gAHPAeskVusv50vUDL5odMLVbgKU9UgqBXgm6EWAgDSaqEtR2NVa5fPJNyN9RDB3dSQ3BFKbvMDe5zPuDeqTnQYBHng1GPIbxjsp/12l8ExG1BHL7rMZnt64augpL6zctjQS0o0ze5E6y/RxDDgKqGX8rCQ4kD7l4JXVYlXTD0rLpdBdy5Eq5oUpAhYLRtuLOydZ4wjschb/gtGh2lAx19iZ67xocpCtH4OlXrDLKOBWl8c114j30K3TI4CIMj/0884Jy4KFfgNidlE71Wyp9EpkJJ3BLsyId67m43auH6bXyXNwYKAxY0UngDCc1XnFg1Go6GPI7PG+k8rDbqhNCsS1vPY4VbVn0nblSLeygmadv+mDrEjX4nbvRDcaO/iTseX/yjuLTGrzbX9N9wRTZgbPULi85oJ3YfEqZvjAEFAAA=",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:20 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "452",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:49 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6254",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf5O3SEV_XasAEYJB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/4516?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": false,
+      "body": "#Reference<0.4050424168.708313089.28370>",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "326",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6268",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4I40nkQqzIAEYCB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/47170?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": false,
+      "body": "#Reference<0.4050424168.708313089.28445>",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "339",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6267",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4O5HyJbrMcACl3i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/21151?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": false,
+      "body": "#Reference<0.4050424168.708313089.28541>",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "332",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6266",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4VFwFX9WR4AEYDB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/3477?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": false,
+      "body": "#Reference<0.4050424168.708313089.28631>",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "326",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6265",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4bW_ar6OngACl4i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/15351?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": false,
+      "body": "#Reference<0.4050424168.708050946.225104>",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "331",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6264",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4iCW--Mb2sAEYEB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/12932?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": false,
+      "body": "#Reference<0.4050424168.708050947.219855>",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "329",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6263",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4omY0hRwA0ACl5i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/15216?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAFFH4sIAAAAAAAAA1WQzW7CMBCEXwX5TEmC+FMk1AquvfWIUGTsDdnW2Ja9aUUR7951DKW92bOfZzx7EVqSFPVFSKKAh54gDjetA0Q+2t6YsdAQVUBP6OxdMpKQeg2ink0n09VyOV+x6JRMUENnz5MyKfZ4456W1aSaLcqSwVNvUaGXBuksarFxkdh6LKw8MSm2YCnA6GW0deYAgUZvxEPPma0Lp0a55Jf/8Svmp1n86gCM6iSG5uBk0GiPoq6uY4Ga3av5tFqwn0H7MbSNYFrWC/6Ej0UeMxzADG1ih37gVIdGNwOVrnl1uz2jrVTIXRD+Df5EDF6Q0osHWzy3aAjCLlnu17dgtvMy8AY4SeaV3y1TOx5/OwsP8ZJbvfLuzaaPXCxvP2PX5HcTUkwq9h6dlR7T008IcYgQ1aRk+AcjCnX6EQIAAA==",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "325",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6262",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf4vQLgnHGKgAEYFB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/2419?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAFKH4sIAAAAAAAAA1WQzW7DIBCEX8Xi7MZxEqmJpao/px5aqVKPUWQRWMfbEkCAU6VW3r0LJE17g9mPGWZHJnngrBkZD8Hhdgjg001KB56OelCqZBK8cGgDGn2RFA8YBgmsWcwmi1k9nS9JNIJHqA1HS5NpVPTuzN3c1pN6vqqX85LtB40CLVcYjqxhryA74yQrmeZ7Qtkz7vriPRQPxRsG0YMrHg9AY0uxRO5bYaJl/sqvmB9n8asHUKLn6Nqt4U6i3tGHTiVDSf6zRb0iO4X6M/X1oDqSKx+M9VWaEupApTq+R5sw0aOSbYLiNe9uvSG04wKpDMK/wZ+E5AUxu7qy1X2HKoBbR8vNXc4lN8sd6EBBPK/84hir0fjbaLiKY670QrtXT4OnWnn7GTtFv7MQU2KvD280txifHsD5FMHqyZTgH+4bij0RAgAA",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "330",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6261",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf41co3w9nTgACl6i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/7247?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAFIH4sIAAAAAAAAA1WQwU7DMBBEfyXyOTRNFRSIhICee+PAoaoi1940C65t2U5RqfrvrO2WQk7x7POMZ09M8sBZd2I8BIfbKYBPJykdePrVk1Ilk+CFQxvQ6KukeMAwSWBds5g1bd3WDyQawSPUh6OlyTwqenfh7tr57PG+oa9k+0mjQMsVhiPr2OqoNSuZ5nvi2Dv4AE4XrwcoXoolKMXRFW+BCEuxg3H7XphomZ/yK+b7WfwaAZQY6Wa/NdxJ1DvW1eeSoaSIdtG0ZKdQf6a+HtRAcuWDsb5KU0IdqFTHj2gTJkZUsk9QPObdrTeEDlwglUH4N/iTkLwgZlc3tnoeUFHXdbTcPOVccrPcgQ4UxPPKr46xGo2/jYabeMqVVrR7tZw81crbz9g5+l2EmBJ7fXijucV49QDOpwhWz+YE/wDkiVNxEQIAAA==",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "328",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6259",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf475oOJFAjQAEYGB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/route_patterns/?include=representative_trip.shape&sort=typicality%2Csort_order&route=Green-E&direction_id=0"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAWRH4sIAAAAAAAAA61Wa3OiSBT9K1N8jhtNZray+cLtBh8xSIxhDDFEeTWC8hIQ3/72vZDJjDvJhtqqtQoKu88999xzm6Z3nG1kBnf9vOOMLEs8c5mxlLvecbaXMCvzonDi2dx1/YwLjYBx11yP2U6U2OfK0snSL7UvHWZk7peHLGEs4864NEqyCc6zhLtu1OuX3+p1jM28gE1sllrcdbj0fRzYxJ5l+F62QdjhjCtycG3kCGvN2tXVn7U6cvleOC+1pMx3cP48iVDdJEahLAnT83/ikSVhvlFITl0vLgMTFicsZWGGwzmbYH1xWVtZ8u4167ev377Wr64uuFJVUWIJOxR8Rb53AT/S/sK/wg5FxOnIm1Du8IIFhpa/tJn9gdOmN2fpxPD9aFXMX5xxph9Z89J3jl7V67Wvf2Gydw1xmWGn3jRE1G9N+NEqfFq5jPmWa3jJxLAslqae6bMTy0+Kf+d2YUN6/hPxob//zaCz34z5l8CfC+BjN5EmZUnuWe8zS4Nh46J+cVlzfbNxWW80ao+MzW1jU6s3fvG9RZdMrhG/50HT6/XG1UlICTtt8esiOfufXps48jfYgAJprDZGe3/UF9LoQbqVez4YMBMYjYU5dUVDSMgB5NstmZLx9y3MwSQpODDB60W5w5sNTyY844MOT4Oepj0eS1AEIVgww8uG526b5wveHDw4QgTjxzU++TiZwxQwvJg0yQISHE6AgUMDIt0iowsvBbR/122XuV4TPcaIeROzhQCUHs+LzRhZYiRU7hNY4vgBUwTINyHd+5GHghjx8RoFoINBZAZrshJdIe3YkBKdTMQZrIh6QNUbsoUNFe943sXnHA5Up7smElCTrKhNFhShJXNMViSDBcbgRRbEpRFxyQ4ScSpuO4fOVtgIPL+lG2pj4TpJSQI7yG/Z7RGjTcIw04SMpyA9yRPoPI92aJhBNM2D4Yv6gCDoN3Vo2/CgPqzLpCusZEL95lxSpmQ4J/05YHXKs3w3vNe0J54HPkQnMjKnCUQUaRM6beUwp3FRI42aNg2wmB2BQhp4Qk6motizAbkYKMgVwWABgyUoS9K1SDeFsSFo2oTQO7gTLGga0AvQ6AOx6KR1+yw8Ch7wD/SudZ8JqSCjb/7NvLPGaenexTZLN6N7npfbg+ZI0OFGbz84QBRQ5Ky5F2Osp98fyDyvDkeK3fSFDNuY0SMNIcNWmTDsK2qMDeV5RdO2YJPReIyjIxfnQtDwR1U5BsWhOQw6OrK15L4LAx0QL1GMy8io0xW7VKLjJ13qmnRgCjaYYk6SG55vjc1uOEWYlMBYF1STqjrpDPotn05Bpm7HxTUwGqtDTVs3t+2xi9CBuu4598W6zlGjA0dhLzpkS4Y2NlAnsg19H6XNiGpiy9eU51ERwhBitjrDGEwhhj0dh0TRiUPWIqY8Er2luoTnkYOa9Nja033HR9QM//N8dyS7SGmTGfhUwhv4wiCHPclaojyDkGIGUUJpCSBQL3xKUGmnL6uati/GpBhEG/gRHxPIBHoEPgfUX9x9EMe4dCRotVS0UM1AHkuaFkJI0GcFTdW0/qiviqIIo7aCrmWiRY50gRmGbZ1G4BADS/8+ZtB/GhrQue32Wk1ZoEBpseUkXpSUH+DLt6/Br23v3ceg3ADT8zfE//IxSLPoNfLnEaSMiH3DYrXAdjLnZANGbLndnkBMw08Xn0OCaTj1P4dMPT8IP4ewNAqSzyE+s9zPEWkchBVSQjw8VbC4BrOqCopyVqE2nmdJUGFutPHTzyFGUlmRFVXKjatZ0k1QxRIuQy+vWAuOUdHDcBrYFa5Ui3VYuKpgCbw0nn8OSfJktanQYs3dCi1u+oHcl5NTzI9zDR5QZ2kUGrFXvI64fFJ8sXG68Qeeqw9/A5IRAfQkDAAA",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "1425",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:55 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6260",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf43-ymK3CM4ACl7i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/5240?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAFJH4sIAAAAAAAAA1WRzU7DMBCEXyXyOTTpP0RCoHKFCxyrKnLtTbPg2pbtgErVd2dttxRu8eznGc/myCQPnDVHxkNwuB0C+HSS0oGnTz0oVTIJXji0AY2+SIoHDIME1swmo8ntYlrPSTSCR6gNB0uTOip6d+ZuluNRfTedLxcl2w8aBVquMBxYw1bGB7IumeZ7ItmLcXQu3kLxWDyZwQXFtSxeJRGWgjvj9q0w0TQ/5lfM97P41QMo0XN07dZwJ1HvWDM+lQwlRcwns5rsFOqP1NiD6kiu6CHWV2lKqAOVCvkebcJEj0q2CYrHvL31htCOC6Q6CP8GfxKSF8Ts6spWDx2qAG4dLTf3OZfcLHegAwXxvPSLY6xG42+j4Soec6Vn2r5aDZ5q5f1n7BT9zkJMib3evdHcYrz6Cc6nCEa/h+AfnYARLBMCAAA=",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "329",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6258",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf5CXeRyPaecAEYHB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/trips/54540882?include=occupancies"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAE1H4sIAAAAAAAAA3VRTU/DMAz9KyjnhiVdh8qOSAgOnECCA0KVmxoSGtIqyTZNVf87Tss2xMQt9vvwszOwBiKw9cAgRm/qTcSQqtq0GCqwttthw9Z5xmrbqbYyVLCbUgheXLOMNcajiqZzEyAyphGaYD4cse4Ror54ih4xEtXBF1KXXjuNaJUG4ytQCkMwtSVIjhmb7FfFqhBlmRPVGtdOeQLad4IWlLEPiyODJB4tpARBE5KonVKbHpwy8ybzfq9vidrReqfeMI+7o4CO39K0uO9TxJk2HgRVT6dB7/4T8rK84uKP/ChKNgH91qjzyQ+PzzIX+ZJrW8ulkJK/ILYN7LmQJ7+DenLS0J/70HcIIctfkok2JsVPJ90tXeszdA56k6Rb9IHuRqC8FET+BocnVfoLAgAA",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:19 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "309",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 23:16:16 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6257",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf5CZm27vnUsACl8i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/shapes/8000018"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAASCH4sIAAAAAAAAA4VUXY+iShD9Kxufd+7u5r5s5qWrGlRGER1lHYZhEBAQlC+hB7/97bdwdnNzkxshaQJdp06dququU8d3hdt5PHVcIcrY+xBB1fz5cRksRZxni9jvPH7/2sncNOg8dkaBH+al/03/CEX15eGLErgi+jITZRCIztdOkSeHJM4apLs7uP3z1dmq5kwdaqMEXFhLAS+kDY9kVyrxAtrwiCu0fx1hAx5WEMKC1rs+ppcPrx680YcDr9ORZb1cb6AcMljCmpYPb4M+Yw1vDTFcIQf7ZU9fCRlrWAG5N0YPt1DSdgkBhDxFdUiMEbw30Ml40L/F+gz0UhDmj5gjpKCPGJO7BbEURKg/l/BB+xcKkRLfAgfPZkyCAkxomSk44KIWwB53ciRVig8VOriQ17BD40KqD3iEA5fHjEX0XcOFO/zUJQLu4Y77uOUEvTEXuEMBW/KhhVuMeI4RnqCUV/JRuShH6SAxduQH7lPiDlZYwgnqYTC8kreHAUVaoL0C9VVbgPJmnqhgLlpWDPN3Y0YgmHQd6PswM2b7W9AdZbLgSXej6iucb3CyAcpOf9PG82fLemUMWEaVELjhJeScaEu+6tWw4UWTI8+7Pk8pmRNCIw1iqcaVLI98IK4AdOLKYbqF6QfoHzhY4qAC25Usa4F8DGNpCV0XRikV+oJLvugN36QXKQY24+Pes5AqSaO6JU8bZU9m9TmiNqtP5jNjWn/aNSUHnpz+LATUQddE9ywXlM9kMtUYM+am7ncTSVAbBb/yDAS1yoP5RDcKaihjumUdwUfTtmnXjMiWgUUPN7QC9JDXMFUcYutpkwimDhBe5eQn0FQG8oCr3H511IHHp57kgyfXWD4x1rO9QbYimFqC7UiGxw0Hlemkl/AVaDxSIjoDpm3MLWvfPfbtiKBTYz8Kn5tzXZPGEK7SWQ7xiHOfGuig5sMkIWlrNDxq+Z4zRooIRhCvp8wL8KQCztzOUHcwxL1MIa/o9IwIGSMO7vFr78zPSkKoNf0zNjC1iCh9XEPCVXpBIk1rOKPoydoaMk4RZJWklUBAp6lTSUqViWZY1rnZUwuQfWAmKxCExK/AaiD9zTsB2aajo0KvZ1AJDQGarVpWBhlSnXUqqmVNzIkhyzKYfZ2qJuQlXvmWIsz7Ds8hRJdS/2UHMHmdu6AMB6NeV5M4cN6MnDLOy1gcOo9/X752mmnV+fmdnh8/yUizaHObZ1WQhGT5VkVuEVTf/iDIowwStxl0VRQXN2iZ0xC8zcDfk/HG2acJlz10iVMcima+fcIuxFCJ/NPz0+Htt0eRuMvgIfVDEf7r1WAp6n8gnptU2/uQdJWtkvuQVZyk2X1IUOVpeR+SBMvoPqIq0qxFSpaXooUlcoNlW0J5HbSoLTaiTFuKmx+S6j7ELVszWuatcot2luqQtrFkH1lct5yF0G3pYbZK/ZaqtIsNg2zXwpLGVbG5Dynrcndo0bLcRC1aoup/5L43d+/PTnOtm9u8rvLMLeLmNtLpqehek/XHX9/pov4Dck+x0OsIAAA=",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:20 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "1154",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:50:36 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6256",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf5I1IZZjmbYAEYIB"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/1618?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription"
+    },
+    "response": {
+      "binary": true,
+      "body": "g20AAAFEH4sIAAAAAAAAA1WQQW8CIRCF/4rhvHWLWetmk6aJl1566N2YDcKsOy0CAbbGGv97B9Da3uDNx3u8OTMlomDdmYkYPe6mCCHflPIQ6GgmrSumIEiPLqI1N0mLiHFSwLpmMV8smxVvSbRSJKiPJ0eTx6SY/ZV7WPE5b5a8XVTsMBmU6ITGeGIdW9sQybpiRhyIZG0zewXr9xDt0cDsXdPIUeJg/aGXNrmVX/yK5WERjyOAlqNA3++s8ArNnnX8UjFU5M2feEt2Gs1nrhpADyTX9AMX6jwl1IPOTcKILmNyRK36DKVrWdtmS+ggJFIPhH+DPwnZC1J2fWfrlwF1BL9JltvnkktuTngwkYJE2fbNMVWj8bc1cBfPpdIbrV2vp0C1yuILdkl+VyGlpF4fwRrhMD39Ah9yBOPzR4J/AJyqkCIMAgAA",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:16:20 GMT",
+        "Content-Type": "application/vnd.api+json; charset=utf-8",
+        "Content-Length": "324",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "content-encoding": "gzip",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "vary": "accept-encoding",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6255",
+        "x-ratelimit-reset": "1671578220",
+        "x-request-id": "FzKjf5I1mXd4PckACl9i"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

@@ -159,11 +159,11 @@ defmodule SiteWeb.ScheduleControllerTest do
       conn = get(conn, line_path(conn, :show, "Green", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Green Line"
 
-      # stops are in West order, Union Square -> Boston College (last stop on B)
+      # stops are in West order, Medford/Tufts -> Boston College (last stop on B)
       {_, first_stop} = List.first(conn.assigns.all_stops)
       {_, last_stop} = List.last(conn.assigns.all_stops)
 
-      assert first_stop.id == "place-unsqu"
+      assert first_stop.id == "place-mdftf"
 
       assert last_stop.id == "place-lake"
 

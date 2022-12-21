@@ -1,0 +1,162 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/?direction_id=0&route=Green-C&include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription&date=2017-01-01"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"errors\":[{\"code\":\"no_service\",\"meta\":{\"end_date\":\"2023-03-11\",\"start_date\":\"2022-12-13\",\"version\":\"Winter 2023, 2022-12-20T21:42:42+00:00, version D\"},\"source\":{\"parameter\":\"date\"}}],\"jsonapi\":{\"version\":\"1.0\"}}",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:58:02 GMT",
+        "Content-Type": "application/vnd.api+json",
+        "Content-Length": "213",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6943",
+        "x-ratelimit-reset": "1671580740",
+        "x-request-id": "FzKlxhyTrxlu69YAG0fB"
+      },
+      "status_code": 400,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/?direction_id=0&route=Green-D&include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription&date=2017-01-01"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"errors\":[{\"code\":\"no_service\",\"meta\":{\"end_date\":\"2023-03-11\",\"start_date\":\"2022-12-13\",\"version\":\"Winter 2023, 2022-12-20T21:42:42+00:00, version D\"},\"source\":{\"parameter\":\"date\"}}],\"jsonapi\":{\"version\":\"1.0\"}}",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:58:02 GMT",
+        "Content-Type": "application/vnd.api+json",
+        "Content-Length": "213",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6941",
+        "x-ratelimit-reset": "1671580740",
+        "x-request-id": "FzKlxhymcWX6PkYADBGD"
+      },
+      "status_code": 400,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/?direction_id=0&route=Green-B&include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription&date=2017-01-01"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"errors\":[{\"code\":\"no_service\",\"meta\":{\"end_date\":\"2023-03-11\",\"start_date\":\"2022-12-13\",\"version\":\"Winter 2023, 2022-12-20T21:42:42+00:00, version D\"},\"source\":{\"parameter\":\"date\"}}],\"jsonapi\":{\"version\":\"1.0\"}}",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:58:02 GMT",
+        "Content-Type": "application/vnd.api+json",
+        "Content-Length": "213",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "last-modified": "Tue, 20 Dec 2022 21:49:01 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6942",
+        "x-ratelimit-reset": "1671580740",
+        "x-request-id": "FzKlxhyo0jbmEE4ADIUD"
+      },
+      "status_code": 400,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "accept-encoding": "gzip",
+        "accept": "application/vnd.api+json",
+        "x-enable-experimental-features": "true",
+        "x-api-key": "***",
+        "MBTA-Version": ""
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 5000,
+        "connect_timeout": 5000,
+        "pool": "v3_api_http_pool"
+      },
+      "request_body": "",
+      "url": "https://api-dev.mbtace.com/stops/?direction_id=0&route=Green-E&include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription&date=2017-01-01"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"errors\":[{\"code\":\"no_service\",\"meta\":{\"end_date\":\"2023-03-11\",\"start_date\":\"2022-12-13\",\"version\":\"Winter 2023, 2022-12-20T21:42:42+00:00, version D\"},\"source\":{\"parameter\":\"date\"}}],\"jsonapi\":{\"version\":\"1.0\"}}",
+      "headers": {
+        "Date": "Tue, 20 Dec 2022 23:58:02 GMT",
+        "Content-Type": "application/vnd.api+json",
+        "Content-Length": "213",
+        "Connection": "keep-alive",
+        "cache-control": "max-age=0, private, must-revalidate",
+        "last-modified": "Tue, 20 Dec 2022 21:48:52 GMT",
+        "server": "Cowboy",
+        "strict-transport-security": "max-age=31536000",
+        "x-ratelimit-limit": "6944",
+        "x-ratelimit-remaining": "6940",
+        "x-ratelimit-reset": "1671580740",
+        "x-request-id": "FzKlxhyqIsK9080AH0Ah"
+      },
+      "status_code": 400,
+      "type": "ok"
+    }
+  }
+]

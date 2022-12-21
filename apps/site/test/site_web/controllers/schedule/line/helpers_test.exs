@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
+  use ExVCRHelpers
 
   alias Routes.{Route}
   alias SiteWeb.ScheduleController.Line.Helpers
@@ -36,7 +37,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     @tag skip: "We'll mock route patterns soon"
     test "does not return branches for route patterns from multi trip routes"
 
-    test "returns a list of RouteStops, one for each branch of the line" do
+    test_vcr "returns a list of RouteStops, one for each branch of the line" do
       assert [
                %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops},
                %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops}
@@ -185,8 +186,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.all?(e_stops, &Enum.member?(["Green-E", nil], &1.branch))
 
       assert_stop_ids(e_stops, [
-        # As of 8/2022, the E line running to Union Square has been suspended
-        # "place-unsqu",
+        "place-mdftf",
+        "place-balsq",
+        "place-mgngl",
+        "place-gilmn",
+        "place-esomr",
         "place-lech",
         "place-spmnl",
         "place-north",
@@ -212,8 +216,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(e_stops, & &1.is_terminus?) ==
                [
                  true,
-                 # As of 8/2022, the E line running to Union Square has been suspended
-                 #  false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -238,8 +245,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(e_stops, & &1.is_beginning?) ==
                [
                  true,
-                 # As of 8/2022, the E line running to Union Square has been suspended
-                 #  false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -505,7 +515,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test "handles a single Green line" do
+    test_vcr "handles a single Green line" do
       assert [
                %RouteStops{branch: "Government Center - Boston College", stops: stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green-B"}, 0)
@@ -567,22 +577,21 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test "handles the E line" do
+    test_vcr "handles the E line" do
       assert [
-               # As of 8/2022, the E line running to Union Square has been suspended
-               #  %RouteStops{branch: "Union Square - Heath Street", stops: stops}
-               %RouteStops{branch: "Lechmere - Heath Street", stops: stops}
+               %RouteStops{branch: "Medford/Tufts - Heath Street", stops: stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green-E"}, 0)
 
-      # As of 8/2022, the E line running to Union Square has been suspended
-      # assert Enum.all?(stops, &(&1.branch == "Union Square - Heath Street"))
-      assert Enum.all?(stops, &(&1.branch == "Lechmere - Heath Street"))
+      assert Enum.all?(stops, &(&1.branch == "Medford/Tufts - Heath Street"))
 
       assert Enum.map(stops, & &1.is_terminus?) ==
                [
                  true,
-                 # As of 8/2022, the E line running to Union Square has been suspended
-                 #  false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -607,8 +616,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(stops, & &1.is_beginning?) ==
                [
                  true,
-                 # As of 8/2022, the E line running to Union Square has been suspended
-                 #  false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
                  false,
                  false,
                  false,
@@ -664,7 +676,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true, false]
     end
 
-    test "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
+    test_vcr "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
       plymouth_route = %Route{id: "CR-Kingston"}
 
       assert [%RouteStops{stops: plymouth_route_stops}] =
@@ -688,14 +700,14 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       )
     end
 
-    test "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
+    test_vcr "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
       fitchburg_route = %Route{id: "CR-Fitchburg"}
 
       assert [%RouteStops{}] = Helpers.get_branch_route_stops(fitchburg_route, 1),
              "should have only one 'branch'"
     end
 
-    test "ensures that Forest Hills is in the trunk of every CR-Franklin branch" do
+    test_vcr "ensures that Forest Hills is in the trunk of every CR-Franklin branch" do
       franklin_route = %Routes.Route{id: "CR-Franklin"}
 
       assert [%RouteStops{stops: branch_0_1_stops}, %RouteStops{stops: branch_0_2_stops}] =
@@ -710,7 +722,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.member?(stop_ids(branch_1_2_stops), "place-forhl")
     end
 
-    test "ensures that Forest Hills is in the trunk of every CR-Providence direction 0 branch" do
+    test_vcr "ensures that Forest Hills is in the trunk of every CR-Providence direction 0 branch" do
       providence_route = %Routes.Route{id: "CR-Providence"}
 
       assert [%RouteStops{stops: branch_0_1_stops}, %RouteStops{stops: branch_0_2_stops}] =
@@ -749,11 +761,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_shapes_by_direction/3 (for cases not tested in line_test)" do
-    test "for ferry" do
+    test_vcr "for ferry" do
       assert Helpers.get_shapes_by_direction("Ferry ID", 4, 0) == []
     end
 
-    test "for bus" do
+    test_vcr "for bus" do
       assert Helpers.get_shapes_by_direction("1", 3, 0) == Helpers.do_get_shapes("1", 0)
 
       assert @routes_repo_api.get_shapes("1", direction_id: 0) == [
@@ -793,7 +805,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
              ]
     end
 
-    test "for bus without scheduled trips" do
+    test_vcr "for bus without scheduled trips" do
       assert Helpers.get_shapes_by_direction("27", 3, 0) == []
     end
   end
