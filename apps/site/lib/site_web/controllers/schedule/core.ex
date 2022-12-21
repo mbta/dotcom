@@ -7,8 +7,6 @@ defmodule SiteWeb.ScheduleController.Core do
 
   plug(:schedule_pipeline_setup)
   plug(:schedule_pipeline_with_direction)
-  plug(SiteWeb.ScheduleController.OriginDestination)
-  plug(SiteWeb.ScheduleController.ExcludedStops)
   plug(SiteWeb.ScheduleController.VehicleLocations)
 
   defp schedule_pipeline_setup(conn, _opts) do

@@ -50,39 +50,9 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert conn.assigns.calendar
   end
 
-  test "assigns origin and destination", %{conn: conn} do
-    conn =
-      get(
-        conn,
-        schedule_path(conn, :show, "Green",
-          "schedule_direction[origin]": "place-pktrm",
-          "schedule_direction[destination]": "place-boyls"
-        )
-      )
-
-    assert conn.assigns.origin.id == "place-pktrm"
-    assert conn.assigns.destination.id == "place-boyls"
-  end
-
   test "sets a custom meta description", %{conn: conn} do
     conn = get(conn, schedule_path(conn, :show, "Green"))
     assert conn.assigns.meta_description
-  end
-
-  test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
-       %{conn: conn} do
-    conn = get(conn, green_path(conn, :line, %{"schedule_direction[direction_id]": 0}))
-
-    assert [{_, %{id: "place-unsqu"}} | all_stops] = conn.assigns.all_stops
-
-    fenway = Enum.find(all_stops, fn {_, stop} -> stop.id == "place-fenwy" end)
-    assert elem(fenway, 0) == [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}]
-
-    all_stops = Enum.map(all_stops, fn {_, stop} -> stop.id end)
-    assert "place-lake" in all_stops
-    assert "place-clmnl" in all_stops
-    assert "place-river" in all_stops
-    assert "place-hsmnl" in all_stops
   end
 
   describe "predictions" do
@@ -178,23 +148,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
            |> Map.values()
            |> Enum.map(& &1.route_id)
            |> Kernel.==(GreenLine.branch_ids())
-  end
-
-  test "assigns excluded stops", %{conn: conn} do
-    conn =
-      get(
-        conn,
-        schedule_path(conn, :show, "Green",
-          "schedule_direction[origin]": "place-pktrm",
-          "schedule_direction[direction_id]": 0
-        )
-      )
-
-    assert conn.assigns.excluded_origin_stops ==
-             ExcludedStops.excluded_origin_stops(0, "Green", conn.assigns.all_stops)
-
-    assert conn.assigns.excluded_destination_stops ==
-             ExcludedStops.excluded_destination_stops("Green", "place-pktrm")
   end
 
   test "assigns breadcrumbs", %{conn: conn} do

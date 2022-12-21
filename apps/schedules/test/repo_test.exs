@@ -2,7 +2,6 @@ defmodule Schedules.RepoTest do
   use ExUnit.Case
   use Timex
   import Schedules.Repo
-  import Mock
   alias Schedules.Schedule
 
   describe "by_route_ids/2" do
@@ -149,59 +148,6 @@ defmodule Schedules.RepoTest do
     test "returns nil if there's an error" do
       mock_response = {:error, "could not connect to the API"}
       assert trip("trip ID with an error", fn _, _ -> mock_response end) == nil
-    end
-  end
-
-  describe "origin_destination/3" do
-    test "returns pairs of Schedule items" do
-      today = Util.service_date() |> Util.convert_to_iso_format()
-
-      response =
-        origin_destination("place-NHRML-0127", "North Station", date: today, direction_id: 1)
-
-      [{origin, dest} | _] = response
-
-      assert origin.stop.id == "place-NHRML-0127"
-      assert dest.stop.id == "place-north"
-      assert origin.trip.id == dest.trip.id
-      assert origin.time < dest.time
-    end
-
-    test "does not require a direction id" do
-      today = Util.service_date() |> Util.convert_to_iso_format()
-      no_direction_id = origin_destination("place-NHRML-0127", "North Station", date: today)
-
-      direction_id =
-        origin_destination("place-NHRML-0127", "North Station", date: today, direction_id: 1)
-
-      assert no_direction_id == direction_id
-    end
-
-    test "does not return duplicate trips if a stop hits multiple stops with the same parent" do
-      next_tuesday =
-        "America/New_York"
-        |> Timex.now()
-        |> Timex.end_of_week(:wed)
-        |> Util.convert_to_iso_format()
-
-      # stops multiple times at ruggles
-      response = origin_destination("place-rugg", "1237", route: "43", date: next_tuesday)
-      trips = Enum.map(response, fn {origin, _} -> origin.trip.id end)
-      assert trips == Enum.uniq(trips)
-    end
-
-    test "returns an error tuple if we get an error from the API" do
-      # when the API is updated such that this is an error, we won't need to
-      # mock this anymore. -ps
-      with_mock V3Api.Schedules, all: fn _ -> {:error, :tuple} end do
-        response =
-          origin_destination(
-            "place-NHRML-0127",
-            "North Station"
-          )
-
-        assert {:error, _} = response
-      end
     end
   end
 
