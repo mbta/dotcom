@@ -47,6 +47,18 @@ const route: EnhancedRoute = {
   type: 1
 };
 
+const notSubwayRoute: EnhancedRoute = {
+  alerts: [],
+  description: "",
+  direction_destinations: { 0: "Over here", 1: "Over there" },
+  direction_names: { 0: "Inbound", 1: "Outbound" },
+  header: "",
+  id: "2",
+  name: "Two",
+  long_name: "Two",
+  type: 3
+};
+
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
@@ -58,6 +70,26 @@ it("it renders", () => {
         fares={fares}
         fareLink={fareLink}
         route={route}
+        holidays={holidays}
+        hours={""}
+        scheduleNote={null}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("it renders for a non-subway route", () => {
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <AdditionalLineInfo
+        teasers={teasers}
+        pdfs={pdfs}
+        connections={connections}
+        fares={fares}
+        fareLink={fareLink}
+        route={notSubwayRoute}
         holidays={holidays}
         hours={""}
         scheduleNote={null}
