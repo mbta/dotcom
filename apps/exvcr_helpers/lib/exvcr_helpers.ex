@@ -5,7 +5,7 @@ defmodule ExVCRHelpers do
 
   defmacro __using__(_opts) do
     quote do
-      use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney, clear_mock: true
+      use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
       import ExVCRHelpers, only: [test_vcr: 2, test_vcr: 3]
     end
   end
