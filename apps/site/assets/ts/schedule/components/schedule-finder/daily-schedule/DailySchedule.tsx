@@ -72,6 +72,8 @@ const SchedulesSelect = ({
     todayDate
   );
 
+  console.log(sortedServices);
+
   return (
     <div className="schedule-finder__service-selector">
       <label>

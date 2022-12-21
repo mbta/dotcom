@@ -1,17 +1,20 @@
 defmodule Schedules.HoursOfOperation do
   @moduledoc false
   alias Schedules.Departures
+  alias Services.Service
 
   @type departure :: Departures.t() | :no_service
   @type t :: %__MODULE__{
           week: {departure, departure},
           saturday: {departure, departure},
-          sunday: {departure, departure}
+          sunday: {departure, departure},
+          special_service: [{departure, departure}]
         }
   @derive [Poison.Encoder]
   defstruct week: {:no_service, :no_service},
             saturday: {:no_service, :no_service},
-            sunday: {:no_service, :no_service}
+            sunday: {:no_service, :no_service},
+            special_service: [{:no_service, :no_service}]
 
   @doc """
   Fetches the hours of operation for a given route.
@@ -32,13 +35,19 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
+    special_services = Service.special_service_map(route_id_or_ids)
+    IO.inspect(special_services)
+
     route_id_or_ids
     |> List.wrap()
     # we don't want to filter only the first and last
-    |> api_params(date, description)
+    |> api_params(date, description, special_services)
     |> Task.async_stream(&V3Api.Schedules.all/1, on_timeout: :kill_task)
     # 3 dates * 2 directions == 6 responses per route
-    |> Enum.chunk_every(6)
+    # 2 directions for each special service day = 2 * n
+    # Every 6 + (2 * n) responses is a single route
+    # Calling Enum here makes the code wait for a response, as it is not an async function.
+    |> Enum.chunk_every(6 + 2 * Kernel.length(special_services))
     |> Enum.map(&parse_responses(&1, description))
     |> join_hours(description)
   end
@@ -46,18 +55,28 @@ defmodule Schedules.HoursOfOperation do
   @doc """
   For a list of route IDs and a date, returns the API queries we'll need to run.
 
-  For a given route, there are 6 queries:
+  For a given route, there are 6 + (2 * n) possible queries (n being the number of special service days):
 
   * weekday, direction 0
-  * saturday, direction 0,
-  * sunday, direction 0,
   * weekday, direction 1
-  * saturday, direction 1
-  * sunday, direction 1
+  * saturday, direction 0,
+  * saturday, direction 1,
+  * sunday, direction 0,
+  * sunday, direction 1,
+  * special_service_1, direction 0,
+  * special_service_1, direction 1,
+  * special_service_2, direction 0,
+  * ...
   """
-  @spec api_params([Routes.Route.id_t()], Date.t(), atom()) :: Keyword.t()
-  def api_params(route_ids, today, :rapid_transit) do
-    for route_id <- route_ids, direction_id <- [0, 1], date <- week_dates(today) do
+  @spec api_params([Routes.Route.id_t()], Date.t(), atom(), [Service.special_service()]) ::
+          Keyword.t()
+  def api_params(route_ids, today, :rapid_transit, special_services) do
+    special_sercvice_dates = Enum.map(special_services, fn x -> x.date end)
+    # This does some fancy math so its week_0, week_1, saturday_0, saturday_1
+    # Basically this order defines how we need to parse the data futher on
+    for route_id <- route_ids,
+        date <- Enum.concat(week_dates(today, special_sercvice_dates), special_sercvice_dates),
+        direction_id <- [0, 1] do
       [
         route: route_id,
         date: date,
@@ -69,8 +88,8 @@ defmodule Schedules.HoursOfOperation do
     end
   end
 
-  def api_params(route_ids, today, _) do
-    for route_id <- route_ids, direction_id <- [0, 1], date <- week_dates(today) do
+  def api_params(route_ids, today, _, _) do
+    for route_id <- route_ids, date <- week_dates(today, []), direction_id <- [0, 1] do
       [
         route: route_id,
         date: date,
@@ -83,11 +102,13 @@ defmodule Schedules.HoursOfOperation do
 
   @doc """
   Returns the a current or upcoming weekday, Saturday, and Sunday.
+  Avoids any dates in the days_to_avoid array (eg Holidays) as they are
+  fetched separately
 
   Returns as a list rather than a tuple for easier iteration.
   """
-  @spec week_dates(Date.t()) :: [Date.t()]
-  def week_dates(today) do
+  @spec week_dates(Date.t(), [Date.t()]) :: [Date.t()]
+  def week_dates(today, days_to_avoid) do
     dow = Date.day_of_week(today)
 
     weekday =
@@ -98,30 +119,56 @@ defmodule Schedules.HoursOfOperation do
         Date.add(today, 8 - dow)
       end
 
+    # Saturday, not going back in time
+    saturday = Date.add(today, Integer.mod(6 - dow, 7))
+    sunday = Date.add(today, 7 - dow)
+
+    valid_weekday = get_valid_week_day(weekday, days_to_avoid)
+    valid_saturday = get_valid_saturday_sunday(saturday, days_to_avoid)
+    valid_sunday = get_valid_saturday_sunday(sunday, days_to_avoid)
+
     [
-      weekday,
-      # Saturday, not going back in time
-      Date.add(today, Integer.mod(6 - dow, 7)),
-      # Sunday
-      Date.add(today, 7 - dow)
+      valid_weekday,
+      valid_saturday,
+      valid_sunday
     ]
+  end
+
+  defp get_valid_week_day(check_date, days_to_avoid) do
+    dow = Date.day_of_week(check_date)
+
+    if Enum.member?(days_to_avoid, check_date) or !(dow in 1..5) do
+      get_valid_week_day(Date.add(check_date, 1), days_to_avoid)
+    else
+      check_date
+    end
+  end
+
+  # Will only check every 7 of the day, instead of the next day
+  defp get_valid_saturday_sunday(check_date, days_to_avoid) do
+    if Enum.member?(days_to_avoid, check_date) do
+      get_valid_week_day(Date.add(check_date, 7), days_to_avoid)
+    else
+      check_date
+    end
   end
 
   @doc """
   Parses a block of API responses into an %HoursOfOperation struct, or returns an error.
 
-  It expects 6 responses, in the same order specified in `api_params/2`.
+  It expects 6 + (2 * n) responses, in the same order specified in `api_params/4`.
   """
   @spec parse_responses([{:ok, api_response} | {:exit, any}], atom()) :: t | {:error, any}
         when api_response: JsonApi.t() | {:error, any}
   def parse_responses(
         [
           {:ok, week_response_0},
-          {:ok, saturday_response_0},
-          {:ok, sunday_response_0},
           {:ok, week_response_1},
+          {:ok, saturday_response_0},
           {:ok, saturday_response_1},
+          {:ok, sunday_response_0},
           {:ok, sunday_response_1}
+          | special_service_responses
         ],
         description
       ) do
@@ -131,11 +178,14 @@ defmodule Schedules.HoursOfOperation do
          {:ok, saturday_0} <- departure(saturday_response_0, headsigns, description),
          {:ok, saturday_1} <- departure(saturday_response_1, headsigns, description),
          {:ok, sunday_0} <- departure(sunday_response_0, headsigns, description),
-         {:ok, sunday_1} <- departure(sunday_response_1, headsigns, description) do
+         {:ok, sunday_1} <- departure(sunday_response_1, headsigns, description),
+         {:ok, special_service} <-
+           special_service_departures(special_service_responses, headsigns, description) do
       %__MODULE__{
         week: {week_0, week_1},
         saturday: {saturday_0, saturday_1},
-        sunday: {sunday_0, sunday_1}
+        sunday: {sunday_0, sunday_1},
+        special_service: special_service
       }
     else
       _ -> parse_responses([], description)
@@ -144,6 +194,45 @@ defmodule Schedules.HoursOfOperation do
 
   def parse_responses(errors, _) when is_list(errors) do
     {:error, :timeout}
+  end
+
+  defp special_service_departures({:error, _} = error, _, _) do
+    error
+  end
+
+  defp special_service_departures(special_service_responses, headsigns, description) do
+    # TODO how to bubble up failures, and should the flatten go here or somewhere else?
+    {:ok,
+     List.flatten(
+       special_service_departures_parser(special_service_responses, headsigns, description)
+     )}
+  end
+
+  # These should come in chunks of 2, anything else and its bad data
+  defp special_service_departures_parser(
+         [{:ok, %JsonApi{data: data_0}}, {:ok, %JsonApi{data: data_1}} | tail],
+         headsigns,
+         description
+       ) do
+    # TODO how to get dynamically set the key
+    [
+      %{
+        date_key:
+          {departure(data_0, headsigns, description), departure(data_1, headsigns, description)}
+      },
+      List.flatten(special_service_departures_parser(tail, headsigns, description))
+    ]
+  end
+
+  # Last elements of array
+  defp special_service_departures_parser([], _, _) do
+    []
+  end
+
+  defp get_date_string(data) do
+    departure_time = Map.get(data.attributes, "departure_time")
+    IO.inspect(departure_time)
+    Map.get(data.attributes, "departure_time")
   end
 
   @doc """

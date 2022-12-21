@@ -35,6 +35,8 @@ defmodule Services.Service do
 
   @type date_notes :: %{String.t() => String.t() | nil}
 
+  @type special_service :: %{date: Date.t(), name: String.t()}
+
   # 1 = Monday, 7 = Sunday
   @type valid_day :: 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -110,6 +112,25 @@ defmodule Services.Service do
         |> Enum.reduce(%{}, &Map.put(&2, elem(&1, 0), elem(&1, 1)))
 
       %{acc | "#{date_type}_dates_notes": note_map}
+    end)
+  end
+
+  @spec special_service_map(Routes.Route.id_t() | [Routes.Route.id_t()]) :: [special_service()]
+  def special_service_map(route_id_or_ids) do
+    # TODO rename to special_service_dates
+    # Every 1 response is for a single route
+    route_id_or_ids
+    |> List.wrap()
+    |> Services.Repo.by_route_id()
+    |> Enum.flat_map(&get_date_and_name_map(&1))
+  end
+
+  defp get_date_and_name_map(service) do
+    Enum.map(service.added_dates_notes, fn {date, name} ->
+      %{
+        date: Date.from_iso8601!(date),
+        name: name
+      }
     end)
   end
 

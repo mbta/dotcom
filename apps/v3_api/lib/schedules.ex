@@ -7,6 +7,7 @@ defmodule V3Api.Schedules do
   import V3Api
 
   def all(params \\ []) do
+    IO.inspect(params)
     get_json("/schedules/", params)
   end
 end
