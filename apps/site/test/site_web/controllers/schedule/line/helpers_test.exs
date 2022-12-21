@@ -643,11 +643,15 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test "handles the Hingham-Hull ferry" do
+    test_vcr "handles the Hingham-Hull ferry" do
       [
         %RouteStops{
           branch: "Long Wharf - Hingham via Logan Airport & Hull",
           stops: long_route_stops
+        },
+        %RouteStops{
+          branch: "Long Wharf - Hingham via Hull",
+          stops: long_hull_route_stops
         },
         %RouteStops{branch: "Rowes Wharf - Hingham", stops: rowe_route_stops}
       ] = Helpers.get_branch_route_stops(%Route{id: "Boat-F1"}, 0)
@@ -669,6 +673,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       refute Enum.all?(non_termini)
       assert [true | non_beginning] = Enum.map(long_route_stops, & &1.is_beginning?)
       assert Enum.all?(non_beginning, &(&1 == false))
+
+      assert Enum.all?(long_hull_route_stops, &(&1.branch == "Long Wharf - Hingham via Hull"))
+      assert_stop_ids(long_hull_route_stops, ["Boat-Long", "Boat-Hull", "Boat-Hingham"])
+      assert Enum.map(long_hull_route_stops, & &1.is_terminus?) == [true, false, true]
+      assert Enum.map(long_hull_route_stops, & &1.is_beginning?) == [true, false, false]
 
       assert Enum.all?(rowe_route_stops, &(&1.branch == "Rowes Wharf - Hingham"))
       assert_stop_ids(rowe_route_stops, ["Boat-Rowes", "Boat-Hingham"])
