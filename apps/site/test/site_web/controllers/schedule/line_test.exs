@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.LineTest do
   use SiteWeb.ConnCase, async: true
+  import Mock
   alias Services.Service
   alias SiteWeb.ScheduleController.Line
 
@@ -283,6 +284,19 @@ defmodule SiteWeb.ScheduleController.LineTest do
   end
 
   describe "services" do
+    setup_with_mocks([
+      {Util, [:passthrough],
+       [
+         now: fn ->
+           {:ok, t} = DateTime.from_naive(~N[2021-01-18T00:00:00], "Etc/UTC")
+           t
+         end,
+         service_date: fn -> Util.now() end
+       ]}
+    ]) do
+      :ok
+    end
+
     test "determines a single, default service for route and date", %{conn: conn} do
       conn =
         conn
