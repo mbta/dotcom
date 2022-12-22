@@ -77,7 +77,7 @@ defmodule SiteWeb.FareView do
           details: fare_pass_price("{{fare:express_bus:charlie_card}}")
         },
         %Description{
-          term: fare_pass_name("Monthly LinkPass"),
+          term: fare_pass_name("Monthly Local Bus Pass"),
           details: fare_pass_price("{{fare:local_bus:month}}")
         },
         %Description{
