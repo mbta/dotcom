@@ -4,6 +4,7 @@ defmodule Schedules.HoursOfOperation do
   alias Services.Service
 
   @type departure :: Departures.t() | :no_service
+  # TODO make this type actually correct
   @type t :: %__MODULE__{
           week: {departure, departure},
           saturday: {departure, departure},
@@ -36,7 +37,6 @@ defmodule Schedules.HoursOfOperation do
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
     special_services = Service.special_service_map(route_id_or_ids)
-    IO.inspect(special_services)
 
     route_id_or_ids
     |> List.wrap()
@@ -214,12 +214,13 @@ defmodule Schedules.HoursOfOperation do
          headsigns,
          description
        ) do
-    # TODO how to get dynamically set the key
+    date_key = get_date_string(List.first(data_0))
+
+    direction_tuple =
+      {departure(data_0, headsigns, description), departure(data_1, headsigns, description)}
+
     [
-      %{
-        date_key:
-          {departure(data_0, headsigns, description), departure(data_1, headsigns, description)}
-      },
+      Map.put(%{}, date_key, direction_tuple),
       List.flatten(special_service_departures_parser(tail, headsigns, description))
     ]
   end
@@ -231,8 +232,8 @@ defmodule Schedules.HoursOfOperation do
 
   defp get_date_string(data) do
     departure_time = Map.get(data.attributes, "departure_time")
-    IO.inspect(departure_time)
-    Map.get(data.attributes, "departure_time")
+    # Get the date part of the date time string
+    List.first(String.split(departure_time, "T"))
   end
 
   @doc """
