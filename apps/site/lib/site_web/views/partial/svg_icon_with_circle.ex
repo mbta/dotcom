@@ -14,6 +14,7 @@ defmodule SiteWeb.PartialView.SvgIconWithCircle do
           aria_hidden?: boolean
         }
 
+  @spec svg_icon_with_circle(t()) :: Phoenix.HTML.Safe.t()
   def svg_icon_with_circle(%__MODULE__{icon: %Route{}} = args) do
     args.icon
     |> Helpers.line_icon(args.size)

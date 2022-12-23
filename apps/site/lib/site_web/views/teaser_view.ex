@@ -7,6 +7,7 @@ defmodule SiteWeb.CMS.TeaserView do
   import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1, cms_route_to_svg: 1, link_category: 1]
 
   alias CMS.Partial.Teaser
+  alias alias Routes.Route
 
   @all_fields [:image, :title, :date, :topic, :location, :summary]
   @image_required [:project, :project_update]
@@ -15,6 +16,8 @@ defmodule SiteWeb.CMS.TeaserView do
   def transit_tag(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)
   def transit_tag(%Teaser{routes: []}), do: "unknown"
 
+  @spec transit_svg(Teaser.t()) ::
+          Route.gtfs_route_type() | Route.subway_lines_type() | :t_logo
   def transit_svg(%Teaser{routes: [route | _]}), do: cms_route_to_svg(route)
   def transit_svg(%Teaser{routes: []}), do: cms_route_to_svg(nil)
 
