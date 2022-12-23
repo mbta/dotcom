@@ -76,16 +76,6 @@ const getNonTypicalServices = (
   });
 };
 
-const isNonTypicalService = (
-  todayDate: Date,
-  nonTypicalServices: NonTypicalServiceMap[]
-): boolean => {
-  return (
-    undefined !==
-    nonTypicalServices.find(service => isSameDay(todayDate, service.date))
-  );
-};
-
 const getNonTypicalServiceByDate = (
   date: Date,
   nonTypicalServices: NonTypicalServiceMap[]
@@ -134,9 +124,9 @@ const DailyScheduleSubway = ({
   );
   const isTodayNonTypicalService = nonTypicalService !== undefined;
   // We only want the regular schedule days if it is a typical service day
-  const isTodaySunday = isSunday(todayDate) && isTodayNonTypicalService;
-  const isTodaySaturday = isSaturday(todayDate) && isTodayNonTypicalService;
-  const isTodayAWeekday = !isWeekend(todayDate) && isTodayNonTypicalService;
+  const isTodaySunday = isSunday(todayDate) && !isTodayNonTypicalService;
+  const isTodaySaturday = isSaturday(todayDate) && !isTodayNonTypicalService;
+  const isTodayAWeekday = !isWeekend(todayDate) && !isTodayNonTypicalService;
 
   useEffect(() => {
     if (isTodayAWeekday) {
