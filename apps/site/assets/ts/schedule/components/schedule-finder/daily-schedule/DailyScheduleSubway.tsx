@@ -48,20 +48,20 @@ const getHoursByStop = (
   return stopHours;
 };
 
-type NonTypicalServiceMap = {
+type SpecialServiceMap = {
   date: Date;
   dateString: string;
   name: string;
 };
 
-const getNonTypicalServices = (
+const getSpecialServiceMaps = (
   services: ServiceInSelector[]
-): NonTypicalServiceMap[] => {
-  const nonTypicalServices = services.filter(service => {
+): SpecialServiceMap[] => {
+  const specialServices = services.filter(service => {
     return service.typicality !== "typical_service";
   });
 
-  const dateNameMaps = nonTypicalServices.flatMap(service => {
+  const dateNameMaps = specialServices.flatMap(service => {
     return service.added_dates.flatMap(addedDate => {
       return {
         date: parse(addedDate, "yyyy-MM-dd", new Date()),
@@ -76,11 +76,11 @@ const getNonTypicalServices = (
   });
 };
 
-const getNonTypicalServiceByDate = (
+const getSpecialServiceByDate = (
   date: Date,
-  nonTypicalServices: NonTypicalServiceMap[]
-): NonTypicalServiceMap | undefined => {
-  return nonTypicalServices.find(service => isSameDay(date, service.date));
+  specialServices: SpecialServiceMap[]
+): SpecialServiceMap | undefined => {
+  return specialServices.find(service => isSameDay(date, service.date));
 };
 
 const DailyScheduleSubway = ({
@@ -102,7 +102,7 @@ const DailyScheduleSubway = ({
   scheduleNote: ScheduleNote | null;
   today: string;
 }): ReactElement | null => {
-  const [selectedSchedule, setSelectedSchedule] = useState("");
+  const [selectedSchedule, setSelectedSchedule] = useState<string>("");
   const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>();
   const [lastTrainHours, setLastTrainHours] = useState<string | undefined>();
   const [stopLatLong, setStopLatLong] = useState<string>("");
@@ -116,17 +116,17 @@ const DailyScheduleSubway = ({
 
   const destinationName = directionDestinations[directionId];
 
-  const nonTypicalServices = getNonTypicalServices(services);
+  const specialServices = getSpecialServiceMaps(services);
 
-  const nonTypicalService = getNonTypicalServiceByDate(
+  const todaysSpecialService = getSpecialServiceByDate(
     todayDate,
-    nonTypicalServices
+    specialServices
   );
-  const isTodayNonTypicalService = nonTypicalService !== undefined;
+  const isTodaySpecialService = todaysSpecialService !== undefined;
   // We only want the regular schedule days if it is a typical service day
-  const isTodaySunday = isSunday(todayDate) && !isTodayNonTypicalService;
-  const isTodaySaturday = isSaturday(todayDate) && !isTodayNonTypicalService;
-  const isTodayAWeekday = !isWeekend(todayDate) && !isTodayNonTypicalService;
+  const isTodaySunday = isSunday(todayDate) && !isTodaySpecialService;
+  const isTodaySaturday = isSaturday(todayDate) && !isTodaySpecialService;
+  const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   useEffect(() => {
     if (isTodayAWeekday) {
@@ -135,10 +135,10 @@ const DailyScheduleSubway = ({
       setSelectedSchedule("saturday");
     } else if (isTodaySunday) {
       setSelectedSchedule("sunday");
-    } else if (nonTypicalService) {
-      setSelectedSchedule(nonTypicalService.dateString);
+    } else if (todaysSpecialService) {
+      setSelectedSchedule(todaysSpecialService.dateString);
     }
-  }, [isTodayAWeekday, isTodaySaturday, isTodaySunday, nonTypicalService]);
+  }, [isTodayAWeekday, isTodaySaturday, isTodaySunday, todaysSpecialService]);
 
   useEffect(() => {
     let hours;
@@ -153,16 +153,15 @@ const DailyScheduleSubway = ({
       setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
     } else {
       // We need to select a special service
-      const specialServiceHours:
-        | { [key: string]: [StopHours[], StopHours[]] }
-        | undefined = hoursOfOperation?.special_service.find(
-        (specialService: { [key: string]: [StopHours[], StopHours[]] }) => {
-          return specialService[selectedSchedule] !== undefined;
-        }
-      );
+      const specialServiceHours = hoursOfOperation?.special_service;
 
       if (specialServiceHours) {
-        hours = getHoursByStop(stopId, specialServiceHours[selectedSchedule]);
+        hours = getHoursByStop(
+          stopId,
+          specialServiceHours[
+            selectedSchedule as keyof typeof specialServiceHours
+          ]
+        );
         setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
       }
     }
@@ -206,9 +205,9 @@ const DailyScheduleSubway = ({
             <option value="sunday" key="sunday">
               Sunday {isTodaySunday ? "(Today)" : ""}
             </option>
-            {nonTypicalServices.length > 0 && (
-              <optgroup label="Non Typical Service">
-                {nonTypicalServices.map(service => {
+            {specialServices.length > 0 && (
+              <optgroup label="Special Service">
+                {specialServices.map(service => {
                   const dateString = format(service.date, "MMM dd");
                   const today = isToday(service.date);
                   return (

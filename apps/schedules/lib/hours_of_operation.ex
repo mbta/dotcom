@@ -20,11 +20,12 @@ defmodule Schedules.HoursOfOperation do
   @doc """
   Fetches the hours of operation for a given route.
 
-  The hours of operation are broken into three date ranges:
+  The hours of operation are broken into four date ranges:
 
   * week
   * saturday
   * sunday
+  * special service
 
   It's possible for one or more of the ranges to be :no_service, if the route
   does not run on that day.
@@ -134,6 +135,8 @@ defmodule Schedules.HoursOfOperation do
     ]
   end
 
+  # Increments check_day until the date is not found in the days_to_avoid array
+  # Will only return weekdays
   defp get_valid_week_day(check_date, days_to_avoid) do
     dow = Date.day_of_week(check_date)
 
@@ -144,7 +147,7 @@ defmodule Schedules.HoursOfOperation do
     end
   end
 
-  # Will only check every 7 of the day, instead of the next day
+  # Will only check every 7 days, instead of the next day
   defp get_valid_saturday_sunday(check_date, days_to_avoid) do
     if Enum.member?(days_to_avoid, check_date) do
       get_valid_week_day(Date.add(check_date, 7), days_to_avoid)
@@ -201,11 +204,13 @@ defmodule Schedules.HoursOfOperation do
   end
 
   defp special_service_departures(special_service_responses, headsigns, description) do
-    # TODO how to bubble up failures, and should the flatten go here or somewhere else?
-    {:ok,
-     List.flatten(
-       special_service_departures_parser(special_service_responses, headsigns, description)
-     )}
+    with {:ok, special_service_depature_maps} <-
+           special_service_departures_parser(special_service_responses, headsigns, description) do
+      {
+        :ok,
+        special_service_depature_maps
+      }
+    end
   end
 
   # These should come in chunks of 2, anything else and its bad data
@@ -219,15 +224,19 @@ defmodule Schedules.HoursOfOperation do
     direction_tuple =
       {departure(data_0, headsigns, description), departure(data_1, headsigns, description)}
 
-    [
-      Map.put(%{}, date_key, direction_tuple),
-      List.flatten(special_service_departures_parser(tail, headsigns, description))
-    ]
+    with {:ok, special_service_departures_map} <-
+           special_service_departures_parser(tail, headsigns, description) do
+      {:ok, Map.put(special_service_departures_map, date_key, direction_tuple)}
+    end
   end
 
-  # Last elements of array
+  # Reached the end of the array, return the map we build on
   defp special_service_departures_parser([], _, _) do
-    []
+    {:ok, %{}}
+  end
+
+  defp special_service_departures_parser(_, _, _) do
+    {:error, "Unexpected special service hours data"}
   end
 
   defp get_date_string(data) do

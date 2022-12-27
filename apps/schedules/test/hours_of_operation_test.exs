@@ -19,6 +19,7 @@ defmodule Schedules.HoursOfOperationTest do
       assert %Departures{} = saturday_1
       assert %Departures{} = sunday_0
       assert %Departures{} = sunday_1
+      # TODO add empty special service hours
     end
 
     test "returns hours for a rapid_transit route" do
@@ -34,6 +35,7 @@ defmodule Schedules.HoursOfOperationTest do
       assert [%Departures{} | _rest] = saturday_1
       assert [%Departures{} | _rest] = sunday_0
       assert [%Departures{} | _rest] = sunday_1
+      # TODO add speical service hours
     end
 
     test "can take a list of route IDs" do
@@ -45,7 +47,7 @@ defmodule Schedules.HoursOfOperationTest do
     end
   end
 
-  describe "api_params/2" do
+  describe "api_params/4" do
     test "for a given date, returns a query for each relevant day of the week and direction_id" do
       date = ~D[2017-12-01]
       route_id = "route_id"
@@ -118,6 +120,10 @@ defmodule Schedules.HoursOfOperationTest do
       assert sunday_query_1[:route] == route_id
       assert sunday_query_1[:date] == sunday_date
     end
+
+    test "for rapid transit and a list of dates, returns a query for valid dates not in the list" do
+      assert 1 == 0
+    end
   end
 
   describe "parse_responses/1" do
@@ -126,6 +132,7 @@ defmodule Schedules.HoursOfOperationTest do
                parse_responses(
                  [
                    {:exit, :timeout},
+                   {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
@@ -149,6 +156,7 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}}
                  ],
                  :desc
@@ -159,6 +167,7 @@ defmodule Schedules.HoursOfOperationTest do
       assert %HoursOfOperation{} =
                parse_responses(
                  [
+                   {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
@@ -179,6 +188,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
+                   {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}}
                  ],
                  :rapid_transit
@@ -194,9 +205,10 @@ defmodule Schedules.HoursOfOperationTest do
       responses = [
         {:ok, %JsonApi{data: [max_item, min_item]}},
         {:ok, %JsonApi{}},
-        {:ok, sunday_out_of_service},
         {:ok, %JsonApi{}},
         {:ok, %JsonApi{data: [only_item]}},
+        {:ok, sunday_out_of_service},
+        {:ok, %JsonApi{}},
         {:ok, %JsonApi{}}
       ]
 
@@ -204,7 +216,8 @@ defmodule Schedules.HoursOfOperationTest do
         week: {%Departures{first_departure: min_time, last_departure: max_time}, :no_service},
         saturday:
           {:no_service, %Departures{first_departure: only_time, last_departure: only_time}},
-        sunday: {:no_service, :no_service}
+        sunday: {:no_service, :no_service},
+        special_service: []
       }
 
       actual = parse_responses(responses, :desc)
@@ -236,9 +249,10 @@ defmodule Schedules.HoursOfOperationTest do
         responses = [
           {:ok, %JsonApi{data: [stop_1_d_1, stop_1_d_2, stop_1_d_3, stop_2_d_1, stop_2_d_2]}},
           {:ok, %JsonApi{}},
-          {:ok, sunday_out_of_service},
           {:ok, %JsonApi{}},
           {:ok, %JsonApi{data: [stop_2_d_1]}},
+          {:ok, sunday_out_of_service},
+          {:ok, %JsonApi{}},
           {:ok, %JsonApi{}}
         ]
 
@@ -277,6 +291,9 @@ defmodule Schedules.HoursOfOperationTest do
         actual = parse_responses(responses, :rapid_transit)
         assert expected == actual
       end
+    end
+
+    test "returns rapid transit hours for dates avaoiding any dates with non typical service (1)" do
     end
   end
 

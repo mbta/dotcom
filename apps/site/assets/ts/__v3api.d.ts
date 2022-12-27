@@ -347,16 +347,21 @@ export interface StopHours {
   latitude: number;
   longitude: number;
 }
+
+export interface SpecialServiceHours {
+  [key: string]: [StopHours[], StopHours[]];
+}
+
 export interface RapidTransitHours {
   week: [StopHours[], StopHours[]];
   saturday: [StopHours[], StopHours[]];
   sunday: [StopHours[], StopHours[]];
-  special_service: { [key: string]: [StopHours[], StopHours[]] }[];
+  special_service: SpecialServiceHours;
 }
 
 export interface TransitHours {
   week: [StopHours, StopHours];
   saturday: [StopHours, StopHours];
   sunday: [StopHours, StopHours];
-  special_service: {}[];
+  special_service: {};
 }
