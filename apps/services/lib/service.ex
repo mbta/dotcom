@@ -115,22 +115,20 @@ defmodule Services.Service do
     end)
   end
 
-  @spec special_service_map(Routes.Route.id_t() | [Routes.Route.id_t()]) :: [special_service()]
-  def special_service_map(route_id_or_ids) do
-    # TODO rename to special_service_dates
+  @spec special_service_dates(Routes.Route.id_t() | [Routes.Route.id_t()]) :: [Date.t()]
+  def special_service_dates(route_id_or_ids) do
     # Every 1 response is for a single route
     route_id_or_ids
     |> List.wrap()
     |> Services.Repo.by_route_id()
-    |> Enum.flat_map(&get_date_and_name_map(&1))
+    |> Enum.filter(fn x -> x.typicality != :typical_service end)
+    |> Enum.flat_map(&get_date_from_map(&1))
+    |> Enum.sort(Date)
   end
 
-  defp get_date_and_name_map(service) do
-    Enum.map(service.added_dates_notes, fn {date, name} ->
-      %{
-        date: Date.from_iso8601!(date),
-        name: name
-      }
+  defp get_date_from_map(service) do
+    Enum.map(service.added_dates_notes, fn {date, _name} ->
+      Date.from_iso8601!(date)
     end)
   end
 

@@ -4,7 +4,6 @@ import {
   isSameDay,
   isSaturday,
   isSunday,
-  isToday,
   isWeekend,
   parse
 } from "date-fns";
@@ -57,31 +56,31 @@ type SpecialServiceMap = {
 const getSpecialServiceMaps = (
   services: ServiceInSelector[]
 ): SpecialServiceMap[] => {
-  const specialServices = services.filter(service => {
-    return service.typicality !== "typical_service";
-  });
+  const specialServices = services.filter(
+    service => service.typicality !== "typical_service"
+  );
 
-  const dateNameMaps = specialServices.flatMap(service => {
-    return service.added_dates.flatMap(addedDate => {
+  const dateNameMaps = specialServices.flatMap(service =>
+    // eslint-disable-next-line arrow-body-style
+    service.added_dates.flatMap(addedDate => {
       return {
         date: parse(addedDate, "yyyy-MM-dd", new Date()),
         dateString: addedDate,
         name: service.added_dates_notes[addedDate]
       };
-    });
-  });
+    })
+  );
 
-  return dateNameMaps.sort((date1, date2) => {
-    return compareAsc(date1.date, date2.date);
-  });
+  return dateNameMaps.sort((date1, date2) =>
+    compareAsc(date1.date, date2.date)
+  );
 };
 
 const getSpecialServiceByDate = (
   date: Date,
   specialServices: SpecialServiceMap[]
-): SpecialServiceMap | undefined => {
-  return specialServices.find(service => isSameDay(date, service.date));
-};
+): SpecialServiceMap | undefined =>
+  specialServices.find(service => isSameDay(date, service.date));
 
 const DailyScheduleSubway = ({
   directionId,
@@ -141,16 +140,21 @@ const DailyScheduleSubway = ({
   }, [isTodayAWeekday, isTodaySaturday, isTodaySunday, todaysSpecialService]);
 
   useEffect(() => {
+    if (selectedSchedule === "weekday") {
+      setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
+    } else {
+      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
+    }
+  }, [selectedSchedule, scheduleNote]);
+
+  useEffect(() => {
     let hours;
     if (selectedSchedule === "weekday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.week);
-      setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
     } else if (selectedSchedule === "saturday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
-      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
     } else if (selectedSchedule === "sunday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
-      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
     } else {
       // We need to select a special service
       const specialServiceHours = hoursOfOperation?.special_service;
@@ -162,7 +166,6 @@ const DailyScheduleSubway = ({
             selectedSchedule as keyof typeof specialServiceHours
           ]
         );
-        setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
       }
     }
     setStopLatLong(
@@ -170,7 +173,7 @@ const DailyScheduleSubway = ({
     );
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
-  }, [selectedSchedule, hoursOfOperation, stopId, scheduleNote]);
+  }, [selectedSchedule, hoursOfOperation, stopId]);
 
   return (
     <div>
@@ -209,10 +212,10 @@ const DailyScheduleSubway = ({
               <optgroup label="Special Service">
                 {specialServices.map(service => {
                   const dateString = format(service.date, "MMM dd");
-                  const today = isToday(service.date);
+                  const isToday = isSameDay(todayDate, service.date);
                   return (
                     <option value={service.dateString} key={service.dateString}>
-                      {service.name}, {dateString} {today ? "(Today)" : ""}
+                      {service.name}, {dateString} {isToday ? "(Today)" : ""}
                     </option>
                   );
                 })}

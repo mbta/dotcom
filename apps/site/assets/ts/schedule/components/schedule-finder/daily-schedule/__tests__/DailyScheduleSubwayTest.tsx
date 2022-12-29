@@ -1,6 +1,11 @@
 import React from "react";
 import { mount } from "enzyme";
-import { RouteType } from "../../../../../__v3api";
+import {
+  RouteType,
+  ServiceType,
+  ServiceTypicality
+} from "../../../../../__v3api";
+import { ServiceInSelector } from "../../../__schedule";
 import DailyScheduleSubway from "../DailyScheduleSubway";
 import * as hours from "../../../../../hooks/useHoursOfOperation";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
@@ -13,6 +18,27 @@ describe("DailyScheduleSubway", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
+  const services = [
+    {
+      added_dates: ["2022-12-27"],
+      added_dates_notes: { "2022-12-27": "" },
+      description: "descr",
+      end_date: "2022-12-31",
+      id: "1",
+      removed_dates: [],
+      removed_dates_notes: {},
+      start_date: "2022-12-01",
+      type: "weekday" as ServiceType,
+      typicality: "typical_service" as ServiceTypicality,
+      valid_days: [],
+      name: "name",
+      rating_start_date: null,
+      rating_end_date: null,
+      rating_description: "descr",
+      "default_service?": false
+    }
+  ];
 
   const stopMap = {
     "0": [
@@ -51,6 +77,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -67,6 +94,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-26T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -83,6 +111,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-27T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -99,6 +128,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-28T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -124,7 +154,8 @@ describe("DailyScheduleSubway", () => {
           []
         ],
         saturday: [[], []],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
     const wrapper = mount(
@@ -136,6 +167,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-28T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -176,7 +208,8 @@ describe("DailyScheduleSubway", () => {
           ],
           []
         ],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
     const wrapper = mount(
@@ -188,6 +221,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-28T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -216,6 +250,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -241,7 +276,8 @@ describe("DailyScheduleSubway", () => {
           []
         ],
         saturday: [[], []],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
 
@@ -254,6 +290,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -270,6 +307,7 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
+        services={services}
       />
     );
 
@@ -286,10 +324,123 @@ describe("DailyScheduleSubway", () => {
         route={route}
         scheduleNote={null}
         today={"2022-11-30T13:45:00-05:00"}
+        services={services}
       />
     );
 
+    expect(wrapper.html()).not.toContain("Special Service");
     expect(wrapper.html()).toContain("Stop 1");
     expect(wrapper.html()).toContain("Heathrow");
+  });
+
+  it("should display the special services in the drop down", () => {
+    const specialServices = [
+      {
+        added_dates: ["2022-12-27"],
+        added_dates_notes: { "2022-12-27": "" },
+        description: "descr",
+        end_date: "2022-12-31",
+        id: "1",
+        removed_dates: [],
+        removed_dates_notes: {},
+        start_date: "2022-12-01",
+        type: "weekday" as ServiceType,
+        typicality: "typical_service" as ServiceTypicality,
+        valid_days: [],
+        name: "name",
+        rating_start_date: null,
+        rating_end_date: null,
+        rating_description: "descr",
+        "default_service?": false
+      },
+      {
+        added_dates: ["2022-12-26"],
+        added_dates_notes: { "2022-12-26": "Holiday 1" },
+        description: "descr",
+        end_date: "2022-12-31",
+        id: "1",
+        removed_dates: [],
+        removed_dates_notes: {},
+        start_date: "2022-12-01",
+        type: "weekday" as ServiceType,
+        typicality: "holiday_service" as ServiceTypicality,
+        valid_days: [],
+        name: "name",
+        rating_start_date: null,
+        rating_end_date: null,
+        rating_description: "descr",
+        "default_service?": false
+      }
+    ] as ServiceInSelector[];
+    const wrapper = mount(
+      <DailyScheduleSubway
+        directionId={0}
+        stops={stopMap}
+        stopId={"1"}
+        routeId={"blue"}
+        route={route}
+        scheduleNote={null}
+        today={"2022-11-30T13:45:00-05:00"}
+        services={specialServices}
+      />
+    );
+
+    expect(wrapper.html()).toContain("Special Service");
+    expect(wrapper.html()).toContain("Holiday");
+  });
+  it("should set special service date as today if date is today", () => {
+    const specialServices = [
+      {
+        added_dates: ["2022-12-27"],
+        added_dates_notes: { "2022-12-27": "" },
+        description: "descr",
+        end_date: "2022-12-31",
+        id: "1",
+        removed_dates: [],
+        removed_dates_notes: {},
+        start_date: "2022-12-01",
+        type: "weekday" as ServiceType,
+        typicality: "typical_service" as ServiceTypicality,
+        valid_days: [],
+        name: "name",
+        rating_start_date: null,
+        rating_end_date: null,
+        rating_description: "descr",
+        "default_service?": false
+      },
+      {
+        added_dates: ["2022-12-26"],
+        added_dates_notes: { "2022-12-26": "Holiday 1" },
+        description: "descr",
+        end_date: "2022-12-31",
+        id: "1",
+        removed_dates: [],
+        removed_dates_notes: {},
+        start_date: "2022-12-01",
+        type: "weekday" as ServiceType,
+        typicality: "holiday_service" as ServiceTypicality,
+        valid_days: [],
+        name: "name",
+        rating_start_date: null,
+        rating_end_date: null,
+        rating_description: "descr",
+        "default_service?": false
+      }
+    ] as ServiceInSelector[];
+    const wrapper = mount(
+      <DailyScheduleSubway
+        directionId={0}
+        stops={stopMap}
+        stopId={"1"}
+        routeId={"blue"}
+        route={route}
+        scheduleNote={null}
+        today={"2022-12-26T13:45:00-05:00"}
+        services={specialServices}
+      />
+    );
+
+    expect(wrapper.html()).toContain("Special Service");
+    expect(wrapper.html()).toContain("Holiday 1, Dec 26 (Today)");
   });
 });

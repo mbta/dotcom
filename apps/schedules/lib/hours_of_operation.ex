@@ -4,18 +4,17 @@ defmodule Schedules.HoursOfOperation do
   alias Services.Service
 
   @type departure :: Departures.t() | :no_service
-  # TODO make this type actually correct
   @type t :: %__MODULE__{
           week: {departure, departure},
           saturday: {departure, departure},
           sunday: {departure, departure},
-          special_service: [{departure, departure}]
+          special_service: %{String.t() => {departure, departure}}
         }
   @derive [Poison.Encoder]
   defstruct week: {:no_service, :no_service},
             saturday: {:no_service, :no_service},
             sunday: {:no_service, :no_service},
-            special_service: [{:no_service, :no_service}]
+            special_service: %{}
 
   @doc """
   Fetches the hours of operation for a given route.
@@ -37,18 +36,19 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    special_services = Service.special_service_map(route_id_or_ids)
+    route_id_list = List.wrap(route_id_or_ids)
 
-    route_id_or_ids
-    |> List.wrap()
+    special_service_dates = Enum.flat_map(route_id_list, &Service.special_service_dates(&1))
+
+    route_id_list
     # we don't want to filter only the first and last
-    |> api_params(date, description, special_services)
+    |> api_params(date, description, special_service_dates)
     |> Task.async_stream(&V3Api.Schedules.all/1, on_timeout: :kill_task)
     # 3 dates * 2 directions == 6 responses per route
     # 2 directions for each special service day = 2 * n
     # Every 6 + (2 * n) responses is a single route
     # Calling Enum here makes the code wait for a response, as it is not an async function.
-    |> Enum.chunk_every(6 + 2 * Kernel.length(special_services))
+    |> Enum.chunk_every(6 + 2 * Kernel.length(special_service_dates))
     |> Enum.map(&parse_responses(&1, description))
     |> join_hours(description)
   end
@@ -69,14 +69,13 @@ defmodule Schedules.HoursOfOperation do
   * special_service_2, direction 0,
   * ...
   """
-  @spec api_params([Routes.Route.id_t()], Date.t(), atom(), [Service.special_service()]) ::
+  @spec api_params([Routes.Route.id_t()], Date.t(), atom(), [Date.t()]) ::
           Keyword.t()
-  def api_params(route_ids, today, :rapid_transit, special_services) do
-    special_sercvice_dates = Enum.map(special_services, fn x -> x.date end)
+  def api_params(route_ids, today, :rapid_transit, special_service_dates) do
     # This does some fancy math so its week_0, week_1, saturday_0, saturday_1
     # Basically this order defines how we need to parse the data futher on
     for route_id <- route_ids,
-        date <- Enum.concat(week_dates(today, special_sercvice_dates), special_sercvice_dates),
+        date <- Enum.concat(week_dates(today, special_service_dates), special_service_dates),
         direction_id <- [0, 1] do
       [
         route: route_id,
@@ -124,9 +123,9 @@ defmodule Schedules.HoursOfOperation do
     saturday = Date.add(today, Integer.mod(6 - dow, 7))
     sunday = Date.add(today, 7 - dow)
 
-    valid_weekday = get_valid_week_day(weekday, days_to_avoid)
-    valid_saturday = get_valid_saturday_sunday(saturday, days_to_avoid)
-    valid_sunday = get_valid_saturday_sunday(sunday, days_to_avoid)
+    valid_weekday = get_valid_day(weekday, days_to_avoid)
+    valid_saturday = get_valid_day(saturday, days_to_avoid)
+    valid_sunday = get_valid_day(sunday, days_to_avoid)
 
     [
       valid_weekday,
@@ -135,24 +134,21 @@ defmodule Schedules.HoursOfOperation do
     ]
   end
 
-  # Increments check_day until the date is not found in the days_to_avoid array
-  # Will only return weekdays
-  defp get_valid_week_day(check_date, days_to_avoid) do
-    dow = Date.day_of_week(check_date)
-
-    if Enum.member?(days_to_avoid, check_date) or !(dow in 1..5) do
-      get_valid_week_day(Date.add(check_date, 1), days_to_avoid)
-    else
+  # defp get_valid_day(check_date, days_to_avoid) when check_date not in days_to_avoid, do: check_date
+  defp get_valid_day(check_date, days_to_avoid) do
+    if !Enum.member?(days_to_avoid, check_date) do
       check_date
-    end
-  end
-
-  # Will only check every 7 days, instead of the next day
-  defp get_valid_saturday_sunday(check_date, days_to_avoid) do
-    if Enum.member?(days_to_avoid, check_date) do
-      get_valid_week_day(Date.add(check_date, 7), days_to_avoid)
     else
-      check_date
+      next_date =
+        case Date.day_of_week(check_date) do
+          d when d in 1..4 -> Date.add(check_date, 1)
+          # Friday so skip weekend to Monday
+          5 -> Date.add(check_date, 3)
+          # Saturday or Sunday so jump to next weeks Sat or Sun
+          _ -> Date.add(check_date, 7)
+        end
+
+      get_valid_day(next_date, days_to_avoid)
     end
   end
 
@@ -203,6 +199,11 @@ defmodule Schedules.HoursOfOperation do
     error
   end
 
+  # No special service
+  defp special_service_departures([], _, _) do
+    {:ok, %{}}
+  end
+
   defp special_service_departures(special_service_responses, headsigns, description) do
     with {:ok, special_service_depature_maps} <-
            special_service_departures_parser(special_service_responses, headsigns, description) do
@@ -241,8 +242,14 @@ defmodule Schedules.HoursOfOperation do
 
   defp get_date_string(data) do
     departure_time = Map.get(data.attributes, "departure_time")
+    arrival_time = Map.get(data.attributes, "arrival_time")
     # Get the date part of the date time string
-    List.first(String.split(departure_time, "T"))
+    if departure_time != nil do
+      List.first(String.split(departure_time, "T"))
+    else
+      # If there is no departure time defined, use the arrival time
+      List.first(String.split(arrival_time, "T"))
+    end
   end
 
   @doc """

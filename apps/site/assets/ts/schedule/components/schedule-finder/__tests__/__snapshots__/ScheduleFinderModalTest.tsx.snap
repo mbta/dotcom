@@ -146,7 +146,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                       </form>
                     </Component>
                   </div>
-                  <DailyScheduleSubway stops={{...}} stopId=\\"place-welln\\" directionId={0} routeId=\\"Orange\\" route={{...}} scheduleNote={{...}} today=\\"2019-12-05\\">
+                  <DailyScheduleSubway stops={{...}} services={{...}} stopId=\\"place-welln\\" directionId={0} routeId=\\"Orange\\" route={{...}} scheduleNote={{...}} today=\\"2019-12-05\\">
                     <div>
                       <div className=\\"u-highlight-gray m-n24\\">
                         <div className=\\"m-24\\">
