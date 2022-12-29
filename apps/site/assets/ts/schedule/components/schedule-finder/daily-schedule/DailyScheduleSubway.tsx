@@ -61,7 +61,6 @@ const getSpecialServiceMaps = (
   );
 
   const dateNameMaps = specialServices.flatMap(service =>
-    // eslint-disable-next-line arrow-body-style
     service.added_dates.flatMap(addedDate => {
       return {
         date: parse(addedDate, "yyyy-MM-dd", new Date()),

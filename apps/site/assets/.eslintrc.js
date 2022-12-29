@@ -1,5 +1,5 @@
 const baseConfig = {
-  extends: ["airbnb", "prettier", "prettier/react"],
+  extends: ["airbnb", "prettier", "prettier/react", "plugin:prettier/recommended"],
   parser: "babel-eslint",
   parserOptions: {
     sourceType: "module"
