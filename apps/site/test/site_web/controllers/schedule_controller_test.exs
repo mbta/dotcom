@@ -89,6 +89,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert List.last(stops).stop_features == [
                :red_line,
                :silver_line,
+               :bus,
                :commuter_rail,
                :access,
                :parking_lot
@@ -175,7 +176,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert first_stop.stop_features == [:access]
+      assert first_stop.stop_features == [:bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"

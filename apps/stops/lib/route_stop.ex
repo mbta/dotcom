@@ -370,7 +370,7 @@ defmodule Stops.RouteStop do
       ) do
     connections =
       route_stop.id
-      |> Routes.Repo.by_stop()
+      |> Routes.Repo.by_stop(include: "stop.connecting_stops")
       |> Enum.reject(&(&1.id == route_stop.route.id))
 
     %{route_stop | connections: connections}
