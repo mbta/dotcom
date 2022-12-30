@@ -71,7 +71,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   def get_branch_route_stops(route, direction_id, route_pattern_id) do
     route
     |> do_get_branch_route_stops(direction_id, route_pattern_id)
-    |> Enum.map(&RouteStop.list_from_route_pattern(&1, route, direction_id))
+    |> Enum.map(&RouteStop.list_from_route_pattern(&1, route))
     |> make_trunks_consistent(route)
     |> other_line_modifications(route)
     |> RouteStops.from_route_stop_groups()
@@ -86,7 +86,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     route_patterns
     |> filtered_by_typicality()
     |> Enum.map(&stops_for_route_pattern/1)
-    |> maybe_use_overarching_branch()
   end
 
   @spec other_line_modifications([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
@@ -179,61 +178,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       |> filter_by_min_typicality()
     end
     |> List.flatten()
-  end
-
-  # Before constructing branches, detect whether one of the lists of stops is a
-  # superset of the other lists of stops. In that case we can just proceed with
-  # the superset stop list for display on the line diagram.
-  @spec maybe_use_overarching_branch([
-          {RoutePattern.t(), [Stop.t()]}
-        ]) :: [
-          {RoutePattern.t(), [Stop.t()]}
-        ]
-  defp maybe_use_overarching_branch(branches) do
-    case overarching_branch(branches) do
-      nil ->
-        branches
-
-      overarching_branch ->
-        [overarching_branch]
-    end
-  end
-
-  # Is there a route pattern whose stops cover all stops on all the given route
-  # patterns? If so, return it.
-  # For example, this happens on CR-Kingston, where one route pattern terminates
-  # at Kingston and another goes one stop further to Plymouth. In that case we
-  # want to display the route pattern to Plymouth as it emcompasses more stops
-  @spec overarching_branch([
-          {RoutePattern.t(), [Stop.t()]}
-        ]) :: {RoutePattern.t(), [Stop.t()]} | nil
-  defp overarching_branch(route_patterns_with_stops) do
-    all_stop_sets =
-      route_patterns_with_stops
-      |> Enum.map(fn {route_pattern, stops} ->
-        stops
-        |> maybe_adjust_for_rail_replacement_bus(route_pattern)
-      end)
-      |> Enum.map(&MapSet.new/1)
-
-    route_patterns_with_stops
-    |> Enum.find(&has_all_stops?(&1, all_stop_sets))
-  end
-
-  # If these stops are for a rail_replacement_bus, some manual adjustments are
-  # needed for the line diagram. The line diagram should show rail stops only
-  @spec maybe_adjust_for_rail_replacement_bus([Stop.t()], RoutePattern.t()) :: [Stop.t()]
-  defp maybe_adjust_for_rail_replacement_bus(stops, %RoutePatterns.RoutePattern{
-         id: "Shuttle-AlewifeLittleton" <> _
-       }),
-       do: Enum.reject(stops, &(&1.id == "place-alfcl"))
-
-  defp maybe_adjust_for_rail_replacement_bus(stops, _), do: stops
-
-  @spec has_all_stops?({RoutePattern.t(), [Stop.t()]}, [MapSet.t(Stop.t())]) :: boolean
-  defp has_all_stops?({_route_pattern, stops}, all_stop_sets) do
-    all_stop_sets
-    |> Enum.all?(&MapSet.subset?(&1, MapSet.new(stops)))
   end
 
   @doc """
