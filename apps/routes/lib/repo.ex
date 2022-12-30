@@ -165,8 +165,8 @@ defmodule Routes.Repo do
      data
      |> Enum.flat_map(&fetch_connecting_routes_via_stop/1)
      |> Enum.reject(&Route.hidden?/1)
-     |> Enum.uniq()
      |> Enum.map(&parse_route/1)
+     |> Enum.uniq()
      |> Enum.sort_by(& &1.sort_order)}
   end
 
