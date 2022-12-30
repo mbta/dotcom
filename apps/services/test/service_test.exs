@@ -72,9 +72,10 @@ defmodule Services.ServiceTest do
       },
       %Service{
         added_dates: ["2022-12-03", "2022-12-04"],
-        added_dates_notes: %{
+        removed_dates_notes: %{
           "2022-12-03" => nil,
-          "2022-12-04" => nil
+          "2022-12-04" => nil,
+          "2022-12-15" => nil
         },
         typicality: :extra_service
       },

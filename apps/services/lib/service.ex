@@ -123,6 +123,7 @@ defmodule Services.Service do
     |> Services.Repo.by_route_id()
     |> Enum.filter(fn x -> x.typicality != :typical_service end)
     |> Enum.flat_map(&get_date_from_map(&1))
+    |> Enum.uniq()
     |> Enum.sort(Date)
   end
 
