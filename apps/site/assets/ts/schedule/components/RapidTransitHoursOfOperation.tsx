@@ -61,6 +61,7 @@ const RapidTransitHoursOfOperation = ({
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id);
   const isTodayWeekend = isWeekend(new Date());
+  const hideScheduleFrequency = route.id === "Orange";
 
   return (
     <>
@@ -72,7 +73,8 @@ const RapidTransitHoursOfOperation = ({
         <div className="m-schedule-page__sidebar-hours">
           {regularScheduleHTML()}
           {hours && getSchedule(hours.week)}
-          {trainsEveryHTML(scheduleNote?.peak_service)}
+          {!hideScheduleFrequency &&
+            trainsEveryHTML(scheduleNote?.peak_service)}
           {pdfLink(pdfs[0])}
         </div>
       </ExpandableBlock>
@@ -87,7 +89,8 @@ const RapidTransitHoursOfOperation = ({
           </div>
           {regularScheduleHTML()}
           {hours && getSchedule(hours.saturday)}
-          {trainsEveryHTML(scheduleNote?.offpeak_service)}
+          {!hideScheduleFrequency &&
+            trainsEveryHTML(scheduleNote?.offpeak_service)}
           <hr
             style={{
               borderBottomWidth: "1px",
@@ -101,7 +104,8 @@ const RapidTransitHoursOfOperation = ({
           </div>
           {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday)}
-          {trainsEveryHTML(scheduleNote?.offpeak_service)}
+          {!hideScheduleFrequency &&
+            trainsEveryHTML(scheduleNote?.offpeak_service)}
           {pdfLink(pdfs[0])}
         </div>
       </ExpandableBlock>

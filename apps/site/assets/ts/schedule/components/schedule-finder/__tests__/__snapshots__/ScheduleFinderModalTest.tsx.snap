@@ -200,7 +200,6 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                           <div className=\\"fs-18 u-bold\\" />
                         </div>
                       </div>
-                      <div />
                       <div className=\\"d-flex pt-8 pb-18 fs-18\\">
                         <a href=\\"/trip-planner/from/\\" className=\\"btn btn-secondary btn-block mt-8\\">
                           Plan Your Trip

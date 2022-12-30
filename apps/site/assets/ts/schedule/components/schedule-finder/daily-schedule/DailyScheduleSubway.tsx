@@ -126,6 +126,8 @@ const DailyScheduleSubway = ({
   const isTodaySaturday = isSaturday(todayDate) && !isTodaySpecialService;
   const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
+  const hideScheduleFrequency = route.id === "Orange";
+
   useEffect(() => {
     if (isTodayAWeekday) {
       setSelectedSchedule("weekday");
@@ -241,26 +243,24 @@ const DailyScheduleSubway = ({
           </div>
         </div>
       </div>
-      <div>
-        {scheduleNoteText !== "" && (
-          <ExpandableBlock
-            header={{
-              text: "Train Frequency",
-              iconSvgText: null,
-              classOverride: "mt-8"
-            }}
-            initiallyExpanded={false}
-            id="train-frequency"
-          >
-            <div className="m-schedule-page__sidebar-hours">
-              <div className="font-weight-bold fs-14">Regular schedule</div>
-              <div className="fs-16 pt-8">
-                Trains depart every {scheduleNoteText}
-              </div>
+      {!hideScheduleFrequency && scheduleNoteText !== "" && (
+        <ExpandableBlock
+          header={{
+            text: "Train Frequency",
+            iconSvgText: null,
+            classOverride: "mt-8"
+          }}
+          initiallyExpanded={false}
+          id="train-frequency"
+        >
+          <div className="m-schedule-page__sidebar-hours">
+            <div className="font-weight-bold fs-14">Regular schedule</div>
+            <div className="fs-16 pt-8">
+              Trains depart every {scheduleNoteText}
             </div>
-          </ExpandableBlock>
-        )}
-      </div>
+          </div>
+        </ExpandableBlock>
+      )}
       <div className="d-flex pt-8 pb-18 fs-18">
         <a
           href={`/trip-planner/from/${stopLatLong}`}
