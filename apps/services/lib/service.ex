@@ -127,9 +127,14 @@ defmodule Services.Service do
   end
 
   defp get_date_from_map(service) do
-    Enum.map(service.added_dates_notes, fn {date, _name} ->
-      Date.from_iso8601!(date)
-    end)
+    Enum.concat(
+      Enum.map(service.added_dates_notes, fn {date, _name} ->
+        Date.from_iso8601!(date)
+      end),
+      Enum.map(service.removed_dates_notes, fn {date, _name} ->
+        Date.from_iso8601!(date)
+      end)
+    )
   end
 
   defp type("Weekday"), do: :weekday

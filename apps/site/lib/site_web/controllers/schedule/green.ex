@@ -54,7 +54,6 @@ defmodule SiteWeb.ScheduleController.Green do
       "MBTA Green Line trolley stations and schedules, including maps, real-time updates, " <>
         "parking and accessibility information, and connections."
     )
-    |> call_plug(SiteWeb.ScheduleController.HoursOfOperation)
     |> call_plug(SiteWeb.ScheduleController.Holidays)
     |> call_plug(SiteWeb.ScheduleController.Line)
     |> call_plug(SiteWeb.ScheduleController.CMS)

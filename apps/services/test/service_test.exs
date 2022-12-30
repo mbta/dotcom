@@ -54,7 +54,8 @@ defmodule Services.ServiceTest do
   describe "special_service_dates/1" do
     test "should return only the dates of non typical services (special service)" do
       with_mock(Services.Repo, [:passthrough], by_route_id: &test_services(&1)) do
-        assert [~D[2022-12-14], ~D[2022-12-15]] = Service.special_service_dates("45")
+        assert [~D[2022-12-03], ~D[2022-12-04], ~D[2022-12-14], ~D[2022-12-15]] =
+                 Service.special_service_dates("45")
       end
     end
   end
@@ -70,10 +71,22 @@ defmodule Services.ServiceTest do
         typicality: :extra_service
       },
       %Service{
+        added_dates: ["2022-12-03", "2022-12-04"],
+        added_dates_notes: %{
+          "2022-12-03" => nil,
+          "2022-12-04" => nil
+        },
+        typicality: :extra_service
+      },
+      %Service{
         added_dates: ["2022-12-04", "2022-12-05"],
         added_dates_notes: %{
           "2022-12-04" => nil,
           "2022-12-05" => nil
+        },
+        removed_dates_notes: %{
+          "2022-11-01" => nil,
+          "2022-11-02" => nil
         },
         typicality: :typical_service
       }

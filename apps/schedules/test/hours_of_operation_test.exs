@@ -154,8 +154,10 @@ defmodule Schedules.HoursOfOperationTest do
     end
   end
 
-  describe "parse_responses/2" do
+  describe "parse_responses/3" do
     test "returns a timeout error if not all of the tasks complete within the timeout" do
+      mock_params = [[], [], [], [], [], []]
+
       assert {:error, :timeout} =
                parse_responses(
                  [
@@ -167,7 +169,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}}
                  ],
-                 :desc
+                 :desc,
+                 mock_params
                )
     end
 
@@ -175,6 +178,7 @@ defmodule Schedules.HoursOfOperationTest do
       # {:ok, _} is from Task.async_stream
       # {:error, [%JsonApi.Error{}]} is from JsonApi
       error = {:error, [%JsonApi.Error{}]}
+      mock_params = [[], [], [], [], [], []]
 
       assert {:error, :timeout} =
                parse_responses(
@@ -187,11 +191,14 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}}
                  ],
-                 :desc
+                 :desc,
+                 mock_params
                )
     end
 
     test "if they all complete, returns a %__MODULE__{} struct" do
+      mock_params = [[], [], [], [], [], []]
+
       assert %HoursOfOperation{} =
                parse_responses(
                  [
@@ -202,11 +209,14 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}}
                  ],
-                 :desc
+                 :desc,
+                 mock_params
                )
     end
 
     test "rapid transit if they all complete, returns a %__MODULE__{} struct" do
+      mock_params = [[], [], [], [], [], []]
+
       assert %HoursOfOperation{} =
                parse_responses(
                  [
@@ -217,7 +227,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}},
                    {:ok, %JsonApi{}}
                  ],
-                 :rapid_transit
+                 :rapid_transit,
+                 mock_params
                )
     end
 
@@ -244,7 +255,8 @@ defmodule Schedules.HoursOfOperationTest do
         special_service: %{}
       }
 
-      actual = parse_responses(responses, :desc)
+      mock_params = [[], [], [], [], [], []]
+      actual = parse_responses(responses, :desc, mock_params)
       assert expected == actual
     end
 
@@ -312,7 +324,8 @@ defmodule Schedules.HoursOfOperationTest do
           sunday: {:no_service, :no_service}
         }
 
-        actual = parse_responses(responses, :rapid_transit)
+        mock_params = [[], [], [], [], [], []]
+        actual = parse_responses(responses, :rapid_transit, mock_params)
         assert expected == actual
       end
     end
@@ -324,6 +337,8 @@ defmodule Schedules.HoursOfOperationTest do
 
         {stop_1_dep_2, stop_1_dep_2_time} =
           build_schedule(%{stop_id: "1", departure_time: ~U[2022-12-27 23:45:00Z]})
+
+        stop_2_date = ~D[2022-12-31]
 
         {stop_2_dep_1, stop_2_dep_1_time} =
           build_schedule(%{stop_id: "2", departure_time: ~U[2022-12-31 08:45:00Z]})
@@ -369,9 +384,38 @@ defmodule Schedules.HoursOfOperationTest do
           sunday: {:no_service, :no_service}
         }
 
-        actual = parse_responses(responses, :rapid_transit)
+        mock_params = [[], [], [], [], [], [], [date: stop_2_date], [date: stop_2_date]]
+        actual = parse_responses(responses, :rapid_transit, mock_params)
         assert expected == actual
       end
+    end
+
+    test "returns no service for special service days not in service" do
+      stop_2_date = ~D[2022-12-31]
+
+      responses = [
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}}
+      ]
+
+      expected = %HoursOfOperation{
+        week: {:no_service, :no_service},
+        saturday: {:no_service, :no_service},
+        special_service: %{
+          "2022-12-31" => {:no_service, :no_service}
+        },
+        sunday: {:no_service, :no_service}
+      }
+
+      mock_params = [[], [], [], [], [], [], [date: stop_2_date], [date: stop_2_date]]
+      actual = parse_responses(responses, :rapid_transit, mock_params)
+      assert expected == actual
     end
   end
 
