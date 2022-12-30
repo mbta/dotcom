@@ -1,4 +1,12 @@
-import { isSaturday, isSunday, isWeekend } from "date-fns";
+import {
+  compareAsc,
+  format,
+  isSameDay,
+  isSaturday,
+  isSunday,
+  isWeekend,
+  parse
+} from "date-fns";
 import { concat, find, toLower } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
 import ExpandableBlock from "../../../../components/ExpandableBlock";
@@ -9,7 +17,11 @@ import {
 import useHoursOfOperation from "../../../../hooks/useHoursOfOperation";
 import RouteIcon from "../../../../projects/components/RouteIcon";
 import { DirectionId, Route, StopHours } from "../../../../__v3api";
-import { ScheduleNote, SimpleStopMap } from "../../__schedule";
+import {
+  ScheduleNote,
+  ServiceInSelector,
+  SimpleStopMap
+} from "../../__schedule";
 import SelectContainer from "../SelectContainer";
 
 const findStopName = (
@@ -35,12 +47,47 @@ const getHoursByStop = (
   return stopHours;
 };
 
+type SpecialServiceMap = {
+  date: Date;
+  dateString: string;
+  name: string;
+};
+
+const getSpecialServiceMaps = (
+  services: ServiceInSelector[]
+): SpecialServiceMap[] => {
+  const specialServices = services.filter(
+    service => service.typicality !== "typical_service"
+  );
+
+  const dateNameMaps = specialServices.flatMap(service =>
+    service.added_dates.flatMap(addedDate => {
+      return {
+        date: parse(addedDate, "yyyy-MM-dd", new Date()),
+        dateString: addedDate,
+        name: service.added_dates_notes[addedDate]
+      };
+    })
+  );
+
+  return dateNameMaps.sort((date1, date2) =>
+    compareAsc(date1.date, date2.date)
+  );
+};
+
+const getSpecialServiceByDate = (
+  date: Date,
+  specialServices: SpecialServiceMap[]
+): SpecialServiceMap | undefined =>
+  specialServices.find(service => isSameDay(date, service.date));
+
 const DailyScheduleSubway = ({
   directionId,
   stops,
   stopId,
   routeId,
   route,
+  services,
   scheduleNote,
   today
 }: {
@@ -49,10 +96,11 @@ const DailyScheduleSubway = ({
   stopId: string;
   routeId: string;
   route: Route;
+  services: ServiceInSelector[];
   scheduleNote: ScheduleNote | null;
   today: string;
 }): ReactElement | null => {
-  const [selectedSchedule, setSelectedSchedule] = useState("");
+  const [selectedSchedule, setSelectedSchedule] = useState<string>("");
   const [firstTrainHours, setFirstTrainHours] = useState<string | undefined>();
   const [lastTrainHours, setLastTrainHours] = useState<string | undefined>();
   const [stopLatLong, setStopLatLong] = useState<string>("");
@@ -66,38 +114,65 @@ const DailyScheduleSubway = ({
 
   const destinationName = directionDestinations[directionId];
 
-  const isTodaySunday = isSunday(todayDate);
-  const isTodaySaturday = isSaturday(todayDate);
-  const isTodayAWeekday = !isWeekend(todayDate);
+  const specialServices = getSpecialServiceMaps(services);
+
+  const todaysSpecialService = getSpecialServiceByDate(
+    todayDate,
+    specialServices
+  );
+  const isTodaySpecialService = todaysSpecialService !== undefined;
+  // We only want the regular schedule days if it is a typical service day
+  const isTodaySunday = isSunday(todayDate) && !isTodaySpecialService;
+  const isTodaySaturday = isSaturday(todayDate) && !isTodaySpecialService;
+  const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   useEffect(() => {
     if (isTodayAWeekday) {
       setSelectedSchedule("weekday");
     } else if (isTodaySaturday) {
       setSelectedSchedule("saturday");
-    } else {
+    } else if (isTodaySunday) {
       setSelectedSchedule("sunday");
+    } else if (todaysSpecialService) {
+      setSelectedSchedule(todaysSpecialService.dateString);
     }
-  }, [isTodayAWeekday, isTodaySaturday, isTodaySunday]);
+  }, [isTodayAWeekday, isTodaySaturday, isTodaySunday, todaysSpecialService]);
+
+  useEffect(() => {
+    if (selectedSchedule === "weekday") {
+      setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
+    } else {
+      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
+    }
+  }, [selectedSchedule, scheduleNote]);
 
   useEffect(() => {
     let hours;
     if (selectedSchedule === "weekday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.week);
-      setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
     } else if (selectedSchedule === "saturday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
-      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
-    } else {
+    } else if (selectedSchedule === "sunday") {
       hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
-      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
+    } else {
+      // We need to select a special service
+      const specialServiceHours = hoursOfOperation?.special_service;
+
+      if (specialServiceHours) {
+        hours = getHoursByStop(
+          stopId,
+          specialServiceHours[
+            selectedSchedule as keyof typeof specialServiceHours
+          ]
+        );
+      }
     }
     setStopLatLong(
       hours?.latitude ? `${hours.latitude},${hours.longitude}` : ""
     );
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
-  }, [selectedSchedule, hoursOfOperation, stopId, scheduleNote]);
+  }, [selectedSchedule, hoursOfOperation, stopId]);
 
   return (
     <div>
@@ -132,6 +207,19 @@ const DailyScheduleSubway = ({
             <option value="sunday" key="sunday">
               Sunday {isTodaySunday ? "(Today)" : ""}
             </option>
+            {specialServices.length > 0 && (
+              <optgroup label="Special Service">
+                {specialServices.map(service => {
+                  const dateString = format(service.date, "MMM dd");
+                  const isToday = isSameDay(todayDate, service.date);
+                  return (
+                    <option value={service.dateString} key={service.dateString}>
+                      {service.name}, {dateString} {isToday ? "(Today)" : ""}
+                    </option>
+                  );
+                })}
+              </optgroup>
+            )}
           </select>
         </SelectContainer>
       </div>

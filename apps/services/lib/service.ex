@@ -35,6 +35,8 @@ defmodule Services.Service do
 
   @type date_notes :: %{String.t() => String.t() | nil}
 
+  @type special_service :: %{date: Date.t(), name: String.t()}
+
   # 1 = Monday, 7 = Sunday
   @type valid_day :: 1 | 2 | 3 | 4 | 5 | 6 | 7
 
@@ -111,6 +113,29 @@ defmodule Services.Service do
 
       %{acc | "#{date_type}_dates_notes": note_map}
     end)
+  end
+
+  @spec special_service_dates(Routes.Route.id_t() | [Routes.Route.id_t()]) :: [Date.t()]
+  def special_service_dates(route_id_or_ids) do
+    # Every 1 response is for a single route
+    route_id_or_ids
+    |> List.wrap()
+    |> Services.Repo.by_route_id()
+    |> Enum.filter(fn x -> x.typicality != :typical_service end)
+    |> Enum.flat_map(&get_date_from_map(&1))
+    |> Enum.uniq()
+    |> Enum.sort(Date)
+  end
+
+  defp get_date_from_map(service) do
+    Enum.concat(
+      Enum.map(service.added_dates_notes, fn {date, _name} ->
+        Date.from_iso8601!(date)
+      end),
+      Enum.map(service.removed_dates_notes, fn {date, _name} ->
+        Date.from_iso8601!(date)
+      end)
+    )
   end
 
   defp type("Weekday"), do: :weekday

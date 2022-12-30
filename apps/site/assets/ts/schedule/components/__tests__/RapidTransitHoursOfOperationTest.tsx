@@ -122,7 +122,8 @@ describe("RapidTransitHoursOfOperation", () => {
             }
           ]
         ],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
 
@@ -179,7 +180,8 @@ describe("RapidTransitHoursOfOperation", () => {
           []
         ],
         saturday: [[], []],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
 

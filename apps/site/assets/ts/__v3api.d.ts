@@ -340,7 +340,6 @@ export interface RoutePattern {
 export interface StopHours {
   stop_name: string;
   stop_id: string;
-  // TODO is this a permanent or temporary work around
   parent_stop_id: string;
   last_departure: string;
   first_departure: string;
@@ -348,14 +347,21 @@ export interface StopHours {
   latitude: number;
   longitude: number;
 }
+
+export interface SpecialServiceHours {
+  [key: string]: [StopHours[], StopHours[]];
+}
+
 export interface RapidTransitHours {
   week: [StopHours[], StopHours[]];
   saturday: [StopHours[], StopHours[]];
   sunday: [StopHours[], StopHours[]];
+  special_service: SpecialServiceHours;
 }
 
 export interface TransitHours {
   week: [StopHours, StopHours];
   saturday: [StopHours, StopHours];
   sunday: [StopHours, StopHours];
+  special_service: {};
 }
