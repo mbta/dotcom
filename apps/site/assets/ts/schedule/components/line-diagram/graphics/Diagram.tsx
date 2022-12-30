@@ -115,9 +115,9 @@ const Diagram = ({
       role="img"
       aria-labelledby="diagram-title diagram-desc"
       className={`line-diagram-svg ${routeToModeName(route)}`}
-      width={`${diagramWidth(largestSliceSize(stopTree)) + 4}px`}
+      width={`${diagramWidth(1)}px`}
       height="100%"
-      style={{ left: BASE_LINE_WIDTH / 2 }}
+      style={{ left: BASE_LINE_WIDTH / 2, overflow: "visible" }}
     >
       <title id="diagram-title">Line diagram for {routeName(route)}</title>
       <desc id="diagram-desc">

@@ -18,7 +18,7 @@ exports[`Diagram renders and matches snapshot 1`] = `
     <LiveVehicleIconSet stopTree={{...}} stopId=\\"x1\\" liveData={{...}} />
     <LiveVehicleIconSet stopTree={{...}} stopId=\\"x2\\" liveData={{...}} />
     <LiveVehicleIconSet stopTree={{...}} stopId=\\"y1\\" liveData={{...}} />
-    <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"72px\\" height=\\"100%\\" style={{...}}>
+    <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"36px\\" height=\\"100%\\" style={{...}}>
       <title id=\\"diagram-title\\">
         Line diagram for 
         route 1
