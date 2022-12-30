@@ -1,3 +1,5 @@
+import { getByTestId, render, screen } from "@testing-library/react";
+import { add, format } from "date-fns";
 import { mount, ReactWrapper } from "enzyme";
 import React from "react";
 import * as redux from "react-redux";
@@ -51,10 +53,6 @@ const mockState = stopIds(stopTree).reduce(
   {}
 );
 
-jest
-  .spyOn(redux, "useSelector")
-  .mockImplementation(selector => selector(mockState));
-
 describe("Merges", () => {
   let wrapper: ReactWrapper;
   beforeAll(() => {
@@ -67,11 +65,33 @@ describe("Merges", () => {
     );
   });
 
-  it("renders and matches snapshot", () => {
+  beforeEach(() => {
+    jest
+      .spyOn(redux, "useSelector")
+      .mockImplementation(selector => selector(mockState));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it.skip("renders and matches snapshot", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("shows an SVG group for the merge point", () => {
+  it.skip("should return null if there are no coordinates", () => {
+    jest.spyOn(redux, "useSelector").mockImplementationOnce(() => null);
+    render(
+      <div data-testid="should-be-empty">
+        <Merges stopTree={stopTree} alerts={[]} />
+      </div>
+    );
+    expect(screen.getByTestId("should-be-empty")).toBeEmptyDOMElement();
+  });
+
+  it("should work if there are no bends", () => {});
+
+  it.skip("shows an SVG group for the merge point", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge")).toBeTruthy();
     expect(
       wrapper.exists("g.line-diagram-svg__merge line.line-diagram-svg__line")
@@ -79,7 +99,35 @@ describe("Merges", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge path")).toBeTruthy();
   });
 
-  it("shows nothing when there are no branches", () => {
+  it("shows a different stroke if there is an active diversion", () => {
+    const today = new Date();
+    const tomorrow = add(today, { days: 1 });
+    const alert = {
+      informed_entity: { stop: ["y1"] },
+      effect: "detour",
+      active_period: [
+        [
+          format(today, "yyyy-MM-dd hh:mm"),
+          format(tomorrow, "yyyy-MM-dd hh:mm")
+        ]
+      ],
+      lifecycle: "new"
+    } as any;
+    render(
+      <redux.Provider store={store}>
+        <svg>
+          <Merges stopTree={stopTree} alerts={[alert]} />
+        </svg>
+      </redux.Provider>
+    );
+
+    screen.debug();
+    screen.query;
+    // TODO figure out how to query the stroke property (this definetly sets it)
+    expect(1).toBe(0);
+  });
+
+  it.skip("shows nothing when there are no branches", () => {
     const simpleStopTree: StopTree = {
       byId: {
         a: { id: "a", value: { id: "a" } as RouteStop },
