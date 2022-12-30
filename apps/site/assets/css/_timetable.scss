@@ -132,6 +132,7 @@
   align-items: center;
   display: inline-flex;
   font-weight: $font-weight-medium;
+  justify-content: space-between;
 }
 
 .m-timetable__stop-link {
@@ -142,8 +143,9 @@
 }
 
 .m-timetable__stop-icons {
-  flex: 0 0 25%;
-  text-align: right;
+  align-items: center;
+  display: flex;
+  gap: 1px;
 }
 
 .m-timetable__stop-alert,
