@@ -75,11 +75,11 @@ describe("Merges", () => {
     jest.clearAllMocks();
   });
 
-  it.skip("renders and matches snapshot", () => {
+  it("renders and matches snapshot", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it.skip("should return null if there are no coordinates", () => {
+  it("should return null if there are no coordinates in the branch", () => {
     jest.spyOn(redux, "useSelector").mockImplementationOnce(() => null);
     render(
       <div data-testid="should-be-empty">
@@ -91,7 +91,7 @@ describe("Merges", () => {
 
   it("should work if there are no bends", () => {});
 
-  it.skip("shows an SVG group for the merge point", () => {
+  it("shows an SVG group for the merge point", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge")).toBeTruthy();
     expect(
       wrapper.exists("g.line-diagram-svg__merge line.line-diagram-svg__line")
@@ -99,7 +99,7 @@ describe("Merges", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge path")).toBeTruthy();
   });
 
-  it("shows a different stroke if there is an active diversion", () => {
+  it("shows a different stroke on a branch if there is an active diversion", () => {
     const today = new Date();
     const tomorrow = add(today, { days: 1 });
     const alert = {
@@ -113,7 +113,36 @@ describe("Merges", () => {
       ],
       lifecycle: "new"
     } as any;
-    render(
+    // Fragile test, don't use containers normally
+    const { container } = render(
+      <redux.Provider store={store}>
+        <svg>
+          <Merges stopTree={stopTree} alerts={[alert]} />
+        </svg>
+      </redux.Provider>
+    );
+
+    const paths = container.querySelectorAll("path");
+    expect(paths.length).toBe(3);
+    expect(paths[2].getAttribute("stroke")).toBe("url(#diagonalHatch)");
+  });
+
+  it("shows a different stroke on a merge if there is an active diversion", () => {
+    const today = new Date();
+    const tomorrow = add(today, { days: 1 });
+    const alert = {
+      informed_entity: { stop: ["a2"] },
+      effect: "detour",
+      active_period: [
+        [
+          format(today, "yyyy-MM-dd hh:mm"),
+          format(tomorrow, "yyyy-MM-dd hh:mm")
+        ]
+      ],
+      lifecycle: "new"
+    } as any;
+    // Fragile test, don't use containers normally
+    const { container } = render(
       <redux.Provider store={store}>
         <svg>
           <Merges stopTree={stopTree} alerts={[alert]} />
@@ -122,12 +151,13 @@ describe("Merges", () => {
     );
 
     screen.debug();
-    screen.query;
-    // TODO figure out how to query the stroke property (this definetly sets it)
-    expect(1).toBe(0);
+
+    const paths = container.querySelectorAll("path");
+    expect(paths.length).toBe(3);
+    expect(paths[0].getAttribute("stroke")).toBe("url(#diagonalHatch)");
   });
 
-  it.skip("shows nothing when there are no branches", () => {
+  it("shows nothing when there are no branches", () => {
     const simpleStopTree: StopTree = {
       byId: {
         a: { id: "a", value: { id: "a" } as RouteStop },
