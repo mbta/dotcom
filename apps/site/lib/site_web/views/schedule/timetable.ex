@@ -1,6 +1,7 @@
 defmodule SiteWeb.ScheduleView.Timetable do
   alias Schedules.Schedule
   alias SiteWeb.ViewHelpers, as: Helpers
+  alias SiteWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
 
   import Phoenix.HTML.Tag, only: [content_tag: 3]
@@ -65,17 +66,7 @@ defmodule SiteWeb.ScheduleView.Timetable do
   def stop_accessibility_icon(stop) do
     cond do
       Stop.accessible?(stop) ->
-        [
-          content_tag(
-            :span,
-            Helpers.svg("icon-accessible-small.svg"),
-            aria: [hidden: "true"],
-            class: "m-timetable__access-icon",
-            data: [toggle: "tooltip"],
-            title: "Accessible"
-          ),
-          content_tag(:span, "Accessible", class: "sr-only")
-        ]
+        SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: :access})
 
       Stop.accessibility_known?(stop) ->
         [
