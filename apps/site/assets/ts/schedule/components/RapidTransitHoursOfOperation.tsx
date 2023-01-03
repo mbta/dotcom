@@ -25,7 +25,7 @@ const getSchedule = (
     const lastDeparture = parseISO(stopData.last_departure);
     let timeString = "";
     if (isEqual(firstDeparture, lastDeparture)) {
-      timeString = formatToBostonTime(stopData.first_departure);
+      return <></>;
     } else {
       timeString = `${formatToBostonTime(
         stopData.first_departure
