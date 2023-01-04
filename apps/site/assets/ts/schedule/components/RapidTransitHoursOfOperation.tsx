@@ -23,14 +23,12 @@ const getSchedule = (
   const mappedData = map(sortedData, (stopData: StopHours) => {
     const firstDeparture = parseISO(stopData.first_departure);
     const lastDeparture = parseISO(stopData.last_departure);
-    let timeString = "";
     if (isEqual(firstDeparture, lastDeparture)) {
-      timeString = formatToBostonTime(stopData.first_departure);
-    } else {
-      timeString = `${formatToBostonTime(
-        stopData.first_departure
-      )} – ${formatToBostonTime(stopData.last_departure)}`;
+      return <></>;
     }
+    const timeString = `${formatToBostonTime(
+      stopData.first_departure
+    )} – ${formatToBostonTime(stopData.last_departure)}`;
     return (
       <div key={uniqueId()} className="fs-18 font-helvetica-neue">
         <span className="pe-16">{stopData.stop_name}</span>

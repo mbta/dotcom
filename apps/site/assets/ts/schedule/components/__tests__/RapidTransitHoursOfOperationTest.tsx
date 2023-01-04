@@ -151,7 +151,7 @@ describe("RapidTransitHoursOfOperation", () => {
     expect(treeString).toMatch("Trains depart every 10 minutes");
   });
 
-  it("renders only one time if first and last departure are the same", () => {
+  it("does not render that station if first and last departure are the same", () => {
     jest.spyOn(hours, "default").mockImplementation(() => {
       return {
         week: [
@@ -201,10 +201,10 @@ describe("RapidTransitHoursOfOperation", () => {
     const treeString = JSON.stringify(tree);
     expect(treeString).toMatch("Weekend Schedule");
     expect(treeString).toMatch("Weekday Schedule");
-    expect(treeString).toMatch("Test Stop 1");
+    expect(treeString).not.toMatch("Test Stop 1");
+    expect(treeString).not.toMatch("8:54 AM");
     expect(treeString).toMatch("Test Stop 2");
     expect(treeString).toMatch("7:55 AM – 10:45 PM");
-    expect(treeString).toMatch("8:54 AM");
     expect(treeString).toMatch("Trains depart every 10 minutes");
   });
 });
