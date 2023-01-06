@@ -19,14 +19,6 @@ defmodule TripPlan do
   end
 
   @doc """
-  Fetches all stops within 1km of a given point
-  """
-  @spec stops_nearby(Position.t()) :: [Position.t()]
-  def stops_nearby(location) do
-    apply(module(Api), :stops_nearby, [location])
-  end
-
-  @doc """
   Finds the latitude/longitude for a given address.
   """
   @spec geocode(String.t()) :: TripPlan.Geocode.t()

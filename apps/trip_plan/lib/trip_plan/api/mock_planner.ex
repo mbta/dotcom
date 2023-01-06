@@ -156,15 +156,4 @@ defmodule TripPlan.Api.MockPlanner do
       }
     }
   end
-
-  def stops_nearby(%NamedPosition{name: "Geocoded stops_nearby error"}), do: {:error, "error"}
-  def stops_nearby(%NamedPosition{name: "Geocoded stops_nearby no_results"}), do: {:ok, []}
-
-  def stops_nearby(%NamedPosition{name: "Timeout error"}) do
-    :timer.sleep(:infinity)
-  end
-
-  def stops_nearby(_location) do
-    {:ok, [random_stop(), random_stop(), random_stop()]}
-  end
 end

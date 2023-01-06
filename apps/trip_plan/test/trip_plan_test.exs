@@ -22,11 +22,4 @@ defmodule TripPlanTest do
       assert received_opts[:depart_at] == opts[:depart_at]
     end
   end
-
-  describe "stops_nearby/1" do
-    test "returns {:ok, locations} from the api" do
-      assert {:ok, nearby} = stops_nearby({42.365518, -71.009120})
-      assert Enum.all?(nearby, fn location -> match?(%NamedPosition{}, location) end)
-    end
-  end
 end

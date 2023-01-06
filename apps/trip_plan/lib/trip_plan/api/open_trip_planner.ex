@@ -3,7 +3,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @behaviour TripPlan.Api
   require Logger
   import __MODULE__.Builder, only: [build_params: 3]
-  import __MODULE__.Parser, only: [parse_json: 1, parse_nearby: 1]
+  import __MODULE__.Parser, only: [parse_json: 1]
   alias TripPlan.NamedPosition
   alias Util.Position
 
@@ -30,19 +30,6 @@ defmodule TripPlan.Api.OpenTripPlanner do
       full_url = "#{root_url}/otp/routers/default/plan"
       send_request(full_url, params, &parse_json/1)
     end
-  end
-
-  def stops_nearby(location) do
-    root_url = config(:root_url)
-    full_url = "#{root_url}/otp/routers/default/index/stops"
-
-    params = %{
-      lat: Position.latitude(location),
-      lon: Position.longitude(location),
-      radius: 1000
-    }
-
-    send_request(full_url, params, &parse_nearby/1)
   end
 
   def config(key) do

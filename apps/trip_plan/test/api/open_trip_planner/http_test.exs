@@ -64,13 +64,4 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
       assert {:error, _} = plan({1, 1}, {2, 2}, depart_at: DateTime.utc_now())
     end
   end
-
-  @tag :external
-  @tag :skip
-  describe "stops_nearby/1" do
-    test "returns a list of named positions near given coordinates" do
-      assert {:ok, stops} = stops_nearby({42.365257, -71.009650})
-      refute stops == []
-    end
-  end
 end
