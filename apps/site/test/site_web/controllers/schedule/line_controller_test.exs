@@ -4,6 +4,22 @@ defmodule SiteWeb.Schedule.LineControllerTest do
   alias SiteWeb.ScheduleController.LineController
   import Mock
 
+  describe "show/2" do
+    test "sets a custom meta description", %{conn: conn} do
+      conn = get(conn, line_path(conn, :show, "1"))
+
+      assert conn.assigns.meta_description ==
+               "MBTA bus route 1 stops and schedules, including maps, real-time updates, parking and accessibility information, and connections."
+    end
+
+    test "sets a good meta description for buses with names", %{conn: conn} do
+      conn = get(conn, line_path(conn, :show, "747"))
+      assert "MBTA bus route CT2" <> _ = conn.assigns.meta_description
+      conn = get(conn, line_path(conn, :show, "751"))
+      assert "MBTA Silver Line route SL4" <> _ = conn.assigns.meta_description
+    end
+  end
+
   describe "services/3" do
     test "omits services in the past" do
       service_date = ~D[2019-05-01]
