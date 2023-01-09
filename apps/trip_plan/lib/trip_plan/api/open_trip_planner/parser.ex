@@ -32,16 +32,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       {:error, :invalid_json}
   end
 
-  @spec parse_nearby(binary) :: {:ok, [NamedPosition.t()]}
-  def parse_nearby(json_binary) do
-    with {:ok, json} <- Poison.decode(json_binary) do
-      json
-      |> Enum.sort_by(fn location -> location["dist"] end)
-      |> Enum.map(&parse_named_position(&1, "id"))
-      |> (fn positions -> {:ok, positions} end).()
-    end
-  end
-
   @spec parse_map(map) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
   defp parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
     accessible? = params["wheelchair"] == "true"
