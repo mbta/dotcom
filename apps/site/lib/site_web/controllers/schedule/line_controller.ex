@@ -257,7 +257,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         group_name: ViewHelpers.mode_name(group),
         routes:
           routes
-          |> Enum.sort_by(&connection_sorter/1)
+          |> Enum.sort_by(& &1.sort_order)
           |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
       }
     end)
@@ -289,19 +289,6 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp bus_type(route),
     do: if(Route.silver_line?(route), do: "Silver Line", else: "bus")
-
-  defp connection_sorter(%Route{id: id} = route) do
-    # force silver line to top of list
-    if Route.silver_line?(route) do
-      "000" <> id
-    else
-      case Integer.parse(id) do
-        {number, _} when number < 10 -> "00" <> id
-        {number, _} when number < 100 -> "0" <> id
-        _ -> id
-      end
-    end
-  end
 
   defp route_type(route) do
     route
