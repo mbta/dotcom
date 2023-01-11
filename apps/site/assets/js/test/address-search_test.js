@@ -53,10 +53,14 @@ describe("input-location", () => {
         defaultPrevented = false;
       const loc = {
         search: "?number=5&location[address]=Boston%2C%20MA",
-        reload: () => (reloaded = true) // test reload is called
+        reload: () => {
+          reloaded = true;
+        } // test reload is called
       };
       const event = {
-        preventDefault: () => (defaultPrevented = true)
+        preventDefault: () => {
+          defaultPrevented = true;
+        }
       };
       assert.isFalse(validateLocationForm(event, loc, placeInput));
       assert.isTrue(reloaded);
@@ -67,7 +71,9 @@ describe("input-location", () => {
       var reloaded = false;
       const loc = {
         search: "?number=5&location[address]=Kendall",
-        reload: () => (reloaded = true)
+        reload: () => {
+          reloaded = true;
+        }
       };
       assert.isTrue(validateLocationForm("event", loc, placeInput));
       assert.isFalse(reloaded);
@@ -101,8 +107,19 @@ describe("input-location", () => {
           }
         }
       };
+      const fake_placeNull = {
+        geometry: {
+          location: {
+            lat: () => null,
+            lng: () => null
+          }
+        }
+      };
       const expected = `${testURL}/?latitude=8&longitude=5&location[address]=Boston#input`;
+      const expectedNull = `${testURL}/?latitude=null&longitude=null&location[address]=Boston#input`;
+
       assert.equal(expected, constructUrl(fake_place, placeInput));
+      assert.equal(expectedNull, constructUrl(fake_placeNull, placeInput));
     });
 
     it("Builds URL with place name when place has no geometry", () => {
