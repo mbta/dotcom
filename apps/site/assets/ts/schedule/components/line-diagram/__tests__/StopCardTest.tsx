@@ -1,4 +1,4 @@
-import { mount, ReactWrapper } from "enzyme";
+import { mount } from "enzyme";
 import React from "react";
 import * as redux from "react-redux";
 import * as StopTreeHelpers from "../../../../helpers/stop-tree";
@@ -16,6 +16,8 @@ import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 import StopPredictions from "../StopPredictions";
 import StopCard from "../StopCard";
 import { LiveData } from "../__line-diagram";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 const stopTree: StopTree = {
   byId: {
@@ -42,12 +44,48 @@ const stopTree: StopTree = {
         connections: [],
         stop_features: []
       } as unknown) as RouteStop
+    },
+    d: {
+      id: "d",
+      value: ({
+        id: "d",
+        connections: [],
+        stop_features: [],
+        branch: {},
+        name: "Test",
+        route: { id: "d", name: "Test" }
+      } as unknown) as RouteStop
+    },
+    e: {
+      id: "e",
+      value: ({
+        id: "e",
+        connections: [{ id: "Green-Test" }],
+        stop_features: [],
+        branch: {},
+        name: "Should Not Display This String",
+        route: { id: "Green-E", name: "Green-E", type: 0 }
+      } as unknown) as RouteStop
+    },
+    f: {
+      id: "f",
+      value: ({
+        id: "f",
+        connections: [],
+        stop_features: [],
+        branch: {},
+        name: "Commuter Test",
+        route: { id: "f", name: "Commuter Test", type: 2 }
+      } as unknown) as RouteStop
     }
   },
   edges: {
     a: { next: ["b"], previous: [] },
-    b: { next: ["c"], previous: ["a"] },
-    c: { next: [], previous: ["b"] }
+    b: { next: ["c", "d", "e", "f"], previous: ["a"] },
+    c: { next: [], previous: ["b"] },
+    d: { next: [], previous: ["b"] },
+    e: { next: [], previous: ["b"] },
+    f: { next: [], previous: ["b"] }
   },
   startingNodes: ["a"]
 };
@@ -301,5 +339,88 @@ describe("StopCard", () => {
     expect(
       predictions.find(".m-schedule-diagram__prediction-time").text()
     ).toContain("min");
+  });
+
+  it("should display the line name on the card if there is a branch", () => {
+    render(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"d"}
+          alerts={[]}
+          onClick={() => {}}
+        />
+      </redux.Provider>
+    );
+
+    expect(screen.queryByText("Test Branch")).not.toBeNull();
+  });
+
+  it("should display the correct green line name if there is a branch", () => {
+    render(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"e"}
+          alerts={[]}
+          onClick={() => {}}
+        />
+      </redux.Provider>
+    );
+
+    expect(screen.queryByText("Green Line E Branch")).not.toBeNull();
+  });
+
+  it("should display the line name on the card if there is a branch and it is a commuter rail", () => {
+    render(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"f"}
+          alerts={[]}
+          onClick={() => {}}
+        />
+      </redux.Provider>
+    );
+
+    expect(screen.queryByText("Commuter Test Line")).not.toBeNull();
+  });
+
+  it("should display the green line connections from the route", () => {
+    const { container } = render(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"e"}
+          alerts={[]}
+          onClick={() => {}}
+        />
+      </redux.Provider>
+    );
+
+    expect(
+      container.querySelectorAll("[href='/schedules/Green-Test/line']").length
+    ).toBe(1);
+  });
+
+  it("should call the onClick function when the user clicks on the footer button", async () => {
+    const clickSpy = jest.fn();
+    render(
+      <redux.Provider store={store}>
+        <StopCard
+          stopTree={stopTree}
+          stopId={"b"}
+          alerts={[]}
+          onClick={clickSpy}
+        />
+      </redux.Provider>
+    );
+
+    const buttons = screen.getAllByRole("button");
+    await userEvent.click(buttons[buttons.length - 1]);
+
+    waitFor(() => {
+      expect(clickSpy).toHaveBeenCalled();
+    });
   });
 });

@@ -72,7 +72,6 @@ const mergeBends = (
   alerts: Alert[]
 ): (JSX.Element | null)[] =>
   mergeGaps.map(([lastStopOnBranch, trunkStop]) => {
-    console.log(lastStopOnBranch);
     const trunkStopCoords: StopCoord | null = coords[trunkStop];
     if (!trunkStopCoords) return null;
 

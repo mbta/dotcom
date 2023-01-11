@@ -7,12 +7,7 @@ exports[`Merges renders and matches snapshot 1`] = `
       <g className=\\"line-diagram-svg__merge\\">
         <Line stopTree={{...}} fromId=\\"a2\\" toId=\\"m1\\" alerts={{...}} />
         <Line stopTree={{...}} fromId=\\"c2\\" toId=\\"m2\\" alerts={{...}} />
-        <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}}>
-          <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"210px\\" y2=\\"270px\\" />
-        </Line>
-        <path strokeWidth=\\"10px\\" d=\\"M10,50 v94 a-6,6 0 0 1 -6,6 h6\\" />
-        <path strokeWidth=\\"10px\\" d=\\"M10,150 v14 a-6,6 0 0 1 -6,6 h6\\" />
-        <path strokeWidth=\\"10px\\" d=\\"M10,270 v6 a-6,-6 0 0 0 -6,-6 h6\\" />
+        <Line stopTree={{...}} fromId=\\"m3\\" toId=\\"y1\\" alerts={{...}} />
       </g>
     </Merges>
   </svg>
