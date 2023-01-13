@@ -77,7 +77,7 @@ if (window.sentry) {
       "ResizeObserver loop limit exceeded",
       "Non-Error promise rejection captured",
       "Extension context invalidated",
-      "/^xd(/_/translate_http/i"
+      /^xd\/\(\/_\/translate_http/i
     ],
     // we don't care about errors from external tools and libraries
     denyUrls: [
