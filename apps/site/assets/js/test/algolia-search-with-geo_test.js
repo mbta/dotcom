@@ -1,9 +1,10 @@
-import { expect, assert } from "chai";
+/* eslint-disable func-names */
+import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaWithGeo } from "../algolia-search-with-geo";
 import * as GoogleMapsHelpers from "../google-maps-helpers";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -32,6 +33,7 @@ describe("AlgoliaWithGeo", function() {
     it("searches both indexes and updates widgets when both have returned", function(done) {
       this.algoliaWithGeo.enableLocationSearch(true);
       this.algoliaWithGeo.addActiveQuery("stops");
+      assert.isTrue(!this.algoliaWithGeo.sessionToken);
       this.algoliaWithGeo.setSessionToken();
       assert.instanceOf(
         this.algoliaWithGeo.sessionToken,
