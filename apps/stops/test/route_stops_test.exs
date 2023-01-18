@@ -52,11 +52,11 @@ defmodule Stops.RouteStopsTest do
       assert [
                %RouteStops{
                  branch: "Alewife - Braintree",
-                 stops: braintree_route_stops
+                 stops: ^braintree_route_stops
                },
                %RouteStops{
                  branch: "Alewife - Ashmont",
-                 stops: ashmont_route_stops
+                 stops: ^ashmont_route_stops
                }
              ] = RouteStops.from_route_stop_groups(route_patern_groups)
     end
@@ -285,10 +285,10 @@ defmodule Stops.RouteStopsTest do
       ]
 
       assert [
-               %RouteStops{branch: "Green-E", stops: e_route_stops},
-               %RouteStops{branch: "Green-D", stops: d_route_stops},
-               %RouteStops{branch: "Green-C", stops: c_route_stops},
-               %RouteStops{branch: "Green-B", stops: b_route_stops}
+               %RouteStops{branch: "Green-E", stops: ^e_route_stops},
+               %RouteStops{branch: "Green-D", stops: ^d_route_stops},
+               %RouteStops{branch: "Green-C", stops: ^c_route_stops},
+               %RouteStops{branch: "Green-B", stops: ^b_route_stops}
              ] = RouteStops.from_route_stop_groups(route_stop_groups)
     end
   end

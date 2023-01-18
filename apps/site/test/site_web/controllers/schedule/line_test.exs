@@ -317,10 +317,8 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> get(line_path(conn, :show, "424"))
 
       services_for_route = conn.assigns.schedule_page_data.services
-      default_services = Enum.filter(services_for_route, &(&1.default_service? === true))
-
-      assert length(default_services) == 1
-      assert default_services = [%{id: "WinterWeekday1"}]
+      [default_service] = Enum.filter(services_for_route, &(&1.default_service? === true))
+      assert default_service.id == List.first(@fourtwofour_services) |> Map.get(:id)
     end
   end
 end

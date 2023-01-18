@@ -293,7 +293,7 @@ defmodule CMS.ParagraphTest do
     end
 
     test "parses an agenda topic paragraph" do
-      assert [topic_1, topic_2] = api_paragraph("agenda_topic")
+      assert [topic_1, _topic_2] = api_paragraph("agenda_topic")
 
       assert %AgendaTopic{
                title: title,

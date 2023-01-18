@@ -224,7 +224,7 @@ defmodule SiteWeb.ScheduleControllerTest do
           )
         )
 
-      assert %RoutePattern{stop_ids: [_ | _] = stop_ids} =
+      assert %RoutePattern{stop_ids: [_ | _] = _stop_ids} =
                Enum.find(
                  conn.assigns.route_patterns[Integer.to_string(direction)],
                  &(&1.shape_id == variant)

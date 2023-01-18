@@ -3,17 +3,17 @@ defmodule SiteWeb.StyleGuideControllerTest do
   use SiteWeb.ConnCase
 
   test "unknown top level pages return a 404", %{conn: conn} do
-    conn = get(conn, "style-guide/i_dont_exist")
+    conn = get(conn, "/style-guide/i_dont_exist")
     assert html_response(conn, 404)
   end
 
   test "top level redirects to zeroheight landing page", %{conn: conn} do
-    conn = get(conn, "style-guide")
+    conn = get(conn, "/style-guide")
     assert redirected_to(conn, 301) =~ "https://zeroheight.com/2fedee66c"
   end
 
   test "/style-guide/content redirects to zeroheight content page", %{conn: conn} do
-    conn = get(conn, "style-guide/content")
+    conn = get(conn, "/style-guide/content")
     assert redirected_to(conn, 301) =~ "https://zeroheight.com/2fedee66c/p/43fa10"
   end
 

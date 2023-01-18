@@ -44,12 +44,12 @@ defmodule SiteWeb.Mode.HubBehavior do
     projects_fn = fn -> mode_strategy.mode_name() |> teasers([:project], 2) end
 
     conn
-    |> filter_recently_visited(mode_strategy.route_type)
+    |> filter_recently_visited(mode_strategy.route_type())
     |> async_assign_default(:fares, &mode_strategy.fares/0, [])
     |> async_assign_default(:alerts, alerts_fn, [])
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
-    |> assign(:route_type, mode_strategy.route_type |> Route.type_atom())
+    |> assign(:route_type, mode_strategy.route_type() |> Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())

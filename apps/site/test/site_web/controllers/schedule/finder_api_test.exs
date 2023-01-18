@@ -213,7 +213,8 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
         |> get(path)
         |> json_response(200)
 
-      assert [%{"departure" => %{"prediction" => added_prediction, "schedule" => nil}}] = response
+      assert [%{"departure" => %{"prediction" => _added_prediction, "schedule" => nil}}] =
+               response
     end
 
     test "logs a warning and returns empty when schedules_fn returns error", %{conn: conn} do
@@ -299,7 +300,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
       refute Enum.member?(destination_stop_ids, "place-dwnxg")
 
-      assert origin_stop = times |> List.first() |> get_in(["schedule", "stop", "id"])
+      assert times |> List.first() |> get_in(["schedule", "stop", "id"])
     end
 
     test "only shows times starting at selected origin onward - direction 1", %{conn: conn} do
@@ -325,7 +326,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
       refute Enum.member?(destination_stop_ids, "place-brdwy")
 
-      assert origin_stop = times |> List.first() |> get_in(["schedule", "stop", "id"])
+      assert times |> List.first() |> get_in(["schedule", "stop", "id"])
     end
 
     test "skips formatting predictions without a time", %{conn: conn} do

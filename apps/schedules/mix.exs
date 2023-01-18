@@ -21,7 +21,17 @@ defmodule Schedules.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [:logger, :v3_api, :timex, :repo_cache, :tzdata, :util, :routes, :stops],
+      applications: [
+        :logger,
+        :v3_api,
+        :timex,
+        :repo_cache,
+        :tzdata,
+        :util,
+        :routes,
+        :stops,
+        :services
+      ],
       mod: {Schedules, []}
     ]
   end
