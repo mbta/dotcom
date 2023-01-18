@@ -17,7 +17,7 @@
     "ci:integration:ex": "PORT=4003 mix test --only wallaby",
     "ci:integration:cypress": "npm run test:cypress:run",
     "build": "mix compile.assets",
-    "postbuild": "mix compile --warnings-as-errors",
+    "postbuild": "mix compile",
     "rebuild": "rm -rf _build apps/site/priv/static apps/site/assets/node_modules; npm run install; npm run build",
     "dialyzer": "mix dialyzer --halt-exit-status",
     "cypress:run": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress run",

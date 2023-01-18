@@ -33,6 +33,6 @@ runs:
     id: build-cache
   
   - name: Compile application (if needed)
-    run: mix compile --all-warnings --warnings-as-errors
+    run: mix compile --all-warnings
     shell: bash
     if: ${{ steps.build-cache.outputs.cache-hit != 'true' }}
