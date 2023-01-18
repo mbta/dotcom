@@ -99,6 +99,31 @@ if (window.sentry) {
   });
 }
 
+document.body.addEventListener(
+  "error",
+  event => {
+    if (!event.target) return;
+
+    if (event.target.tagName === "IMG") {
+      Sentry.captureMessage(
+        `Failed to load image: ${event.target.src}`,
+        "warning"
+      );
+    } else if (event.target.tagName === "LINK") {
+      Sentry.captureMessage(
+        `Failed to load css: ${event.target.href}`,
+        "warning"
+      );
+    } else if (event.target.tagName === "SCRIPT") {
+      Sentry.captureMessage(
+        `Failed to load script: ${event.target.src}`,
+        "warning"
+      );
+    }
+  },
+  true // useCapture - necessary for resource loading errors
+);
+
 document.body.className = document.body.className.replace("no-js", "js");
 
 // Extra steps for non-modular javascript
