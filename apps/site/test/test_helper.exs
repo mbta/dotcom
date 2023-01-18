@@ -7,6 +7,7 @@ _ = Tzdata.ReleaseUpdater.poll_for_update()
 Application.put_env(:wallaby, :base_url, SiteWeb.Endpoint.url())
 
 # Ensure the deps are all started
+Application.ensure_all_started(:vehicles)
 Application.ensure_all_started(:site)
 
 # Report warnings as errors

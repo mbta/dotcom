@@ -6,6 +6,7 @@ defmodule Schedules.Repo do
   alias Schedules.{HoursOfOperation, Parser, Schedule}
   alias Stops.Stop
   alias Routes.Route
+  alias Util
 
   @type schedule_pair :: {Schedule.t(), Schedule.t()}
 

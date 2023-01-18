@@ -5,6 +5,7 @@ defmodule V3Api do
   require Logger
   import V3Api.SentryExtra
   alias V3Api.Cache
+  alias Util
 
   @default_timeout Application.get_env(:v3_api, :default_timeout)
   @http_pool Application.get_env(:v3_api, :http_pool)
