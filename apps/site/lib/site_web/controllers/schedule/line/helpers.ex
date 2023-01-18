@@ -73,7 +73,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> do_get_branch_route_stops(direction_id, route_pattern_id)
     |> Enum.map(&RouteStop.list_from_route_pattern(&1, route))
     |> make_trunks_consistent(route)
-    |> other_line_modifications(route)
     |> RouteStops.from_route_stop_groups()
   end
 
@@ -87,16 +86,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> filtered_by_typicality()
     |> Enum.map(&stops_for_route_pattern/1)
   end
-
-  @spec other_line_modifications([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
-  defp other_line_modifications(route_stop_lists, %Route{id: "CR-Providence"}) do
-    Enum.map(route_stop_lists, fn route_stops ->
-      # Pawtucket Falls not in service yet! Remove this soon!
-      Enum.reject(route_stops, &(&1.id == "place-NEC-1891"))
-    end)
-  end
-
-  defp other_line_modifications(route_stop_lists, _), do: route_stop_lists
 
   @routes_with_trunk_discrepancies ~w(CR-Franklin CR-Providence)
   @spec make_trunks_consistent([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
