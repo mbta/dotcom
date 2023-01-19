@@ -101,9 +101,7 @@ defmodule LocationService.Result do
       %Jason.DecodeError{} ->
         _ =
           Logger.warn(fn ->
-            "#{__MODULE__} input=#{inspect(input)} error=\"Error parsing to JSON\" #{
-              extra_messages(extra)
-            }"
+            "#{__MODULE__} input=#{inspect(input)} error=\"Error parsing to JSON\" #{extra_messages(extra)}"
           end)
 
       nil ->
@@ -115,9 +113,7 @@ defmodule LocationService.Result do
       _ ->
         _ =
           Logger.warn(fn ->
-            "#{__MODULE__} input=#{inspect(input)} error=#{inspect(error)} #{
-              extra_messages(extra)
-            }"
+            "#{__MODULE__} input=#{inspect(input)} error=#{inspect(error)} #{extra_messages(extra)}"
           end)
     end
 

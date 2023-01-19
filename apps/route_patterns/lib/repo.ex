@@ -52,9 +52,7 @@ defmodule RoutePatterns.Repo do
       {:error, error} ->
         _ =
           Logger.warn(
-            "module=#{__MODULE__} RoutePatternsApi.all with opts #{inspect(opts)} returned :error -> #{
-              inspect(error)
-            }"
+            "module=#{__MODULE__} RoutePatternsApi.all with opts #{inspect(opts)} returned :error -> #{inspect(error)}"
           )
 
         []

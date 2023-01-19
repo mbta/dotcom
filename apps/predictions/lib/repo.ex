@@ -169,9 +169,7 @@ defmodule Predictions.Repo do
   defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
     :ok =
       Logger.error(
-        "Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{
-          inspect(record)
-        }"
+        "Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{inspect(record)}"
       )
 
     []

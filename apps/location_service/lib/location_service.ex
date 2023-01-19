@@ -39,9 +39,7 @@ defmodule LocationService do
 
     _ =
       Logger.info(fn ->
-        "#{__MODULE__} reverse_geocode active_service=#{reverse_geocode_service} lat=#{latitude} lon=#{
-          longitude
-        }"
+        "#{__MODULE__} reverse_geocode active_service=#{reverse_geocode_service} lat=#{latitude} lon=#{longitude}"
       end)
 
     cache({latitude, longitude}, fn {latitude, longitude} ->
@@ -60,9 +58,7 @@ defmodule LocationService do
 
     _ =
       Logger.info(fn ->
-        "#{__MODULE__} autocomplete active_service=#{autocomplete_service} search=#{search} limit=#{
-          limit
-        }"
+        "#{__MODULE__} autocomplete active_service=#{autocomplete_service} search=#{search} limit=#{limit}"
       end)
 
     cache({search, limit}, fn {search, limit} ->
