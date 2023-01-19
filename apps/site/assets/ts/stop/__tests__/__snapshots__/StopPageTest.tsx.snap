@@ -381,9 +381,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--red-line
     "
-                  href="/schedules/Red"
+                  href="/schedule/Red"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Red Line
                 </a>
@@ -396,9 +399,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-                  href="/schedules/741"
+                  href="/schedule/741"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   SL1
                 </a>
@@ -407,9 +413,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-                  href="/schedules/742"
+                  href="/schedule/742"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   SL2
                 </a>
@@ -418,9 +427,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-                  href="/schedules/743"
+                  href="/schedule/743"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   SL3
                 </a>
@@ -433,9 +445,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Fairmount"
+                  href="/schedule/CR-Fairmount"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Fairmount Line
                 </a>
@@ -444,9 +459,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Worcester"
+                  href="/schedule/CR-Worcester"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Framingham/​Worcester Line
                 </a>
@@ -455,9 +473,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Franklin"
+                  href="/schedule/CR-Franklin"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Franklin Line
                 </a>
@@ -466,9 +487,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Greenbush"
+                  href="/schedule/CR-Greenbush"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Greenbush Line
                 </a>
@@ -477,9 +501,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Kingston"
+                  href="/schedule/CR-Kingston"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Kingston/​Plymouth Line
                 </a>
@@ -488,9 +515,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Middleborough"
+                  href="/schedule/CR-Middleborough"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Middleborough/​Lakeville Line
                 </a>
@@ -499,9 +529,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Needham"
+                  href="/schedule/CR-Needham"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Needham Line
                 </a>
@@ -510,9 +543,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Providence"
+                  href="/schedule/CR-Providence"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Providence/​Stoughton Line
                 </a>
@@ -3021,9 +3057,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--red-line
     "
-                  href="/schedules/Red"
+                  href="/schedule/Red"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Red Line
                 </a>
@@ -3036,9 +3075,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-                  href="/schedules/741"
+                  href="/schedule/741"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   SL1
                 </a>
@@ -3047,9 +3089,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-                  href="/schedules/742"
+                  href="/schedule/742"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   SL2
                 </a>
@@ -3058,9 +3103,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-                  href="/schedules/743"
+                  href="/schedule/743"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   SL3
                 </a>
@@ -3073,9 +3121,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Fairmount"
+                  href="/schedule/CR-Fairmount"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Fairmount Line
                 </a>
@@ -3084,9 +3135,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Worcester"
+                  href="/schedule/CR-Worcester"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Framingham/​Worcester Line
                 </a>
@@ -3095,9 +3149,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Franklin"
+                  href="/schedule/CR-Franklin"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Franklin Line
                 </a>
@@ -3106,9 +3163,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Greenbush"
+                  href="/schedule/CR-Greenbush"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Greenbush Line
                 </a>
@@ -3117,9 +3177,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Kingston"
+                  href="/schedule/CR-Kingston"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Kingston/​Plymouth Line
                 </a>
@@ -3128,9 +3191,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Middleborough"
+                  href="/schedule/CR-Middleborough"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Middleborough/​Lakeville Line
                 </a>
@@ -3139,9 +3205,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Needham"
+                  href="/schedule/CR-Needham"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Needham Line
                 </a>
@@ -3150,9 +3219,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-                  href="/schedules/CR-Providence"
+                  href="/schedule/CR-Providence"
+                  rel="noreferrer"
+                  target="_self"
                 >
                   Providence/​Stoughton Line
                 </a>

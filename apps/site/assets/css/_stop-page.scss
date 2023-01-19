@@ -149,7 +149,8 @@
     flex-direction: column;
   }
 
-  .m-route-pills {
+  .m-route-pills,
+  .m-external-connections {
     @include media-breakpoint-up(lg) {
       display: none;
     }

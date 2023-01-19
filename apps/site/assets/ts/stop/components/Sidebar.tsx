@@ -8,6 +8,7 @@ import { Stop } from "../../__v3api";
 import { TypedRoutes, RetailLocationWithDistance } from "./__stop";
 import Feedback from "../../components/Feedback";
 import { Dispatch, ExpandableBlockState, ExpandableBlockName } from "../state";
+import ExternalRiptaConnection from "./ExternalRiptaConnection";
 
 interface Props {
   dispatch: Dispatch;
@@ -29,6 +30,7 @@ const Sidebar = ({
   <>
     <div className="m-stop-page__sidebar-pills">
       <RoutePillList routes={routes} />
+      <ExternalRiptaConnection stop={stop} />
     </div>
     <h2>Features</h2>
     <Accessibility

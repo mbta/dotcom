@@ -79,6 +79,11 @@
   background-color: $brand-primary;
 }
 
+.u-bg--gray {
+  @include bg-text($white);
+  background-color: $gray;
+}
+
 .u-nowrap {
   white-space: nowrap;
 }
