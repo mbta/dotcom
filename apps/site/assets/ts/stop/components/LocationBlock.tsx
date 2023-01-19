@@ -76,7 +76,7 @@ const LocationBlock = ({
       </div>
     </div>
     <RoutePillList routes={routes} />
-    <ExternalRiptaConnection routes={routes} />
+    <ExternalRiptaConnection stop={stop} />
   </div>
 );
 

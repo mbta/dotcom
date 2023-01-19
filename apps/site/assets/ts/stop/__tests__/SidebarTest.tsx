@@ -52,8 +52,8 @@ describe("Sidebar", () => {
       <Sidebar
         dispatch={mockDispatchFunction}
         expandedBlocks={{} as any}
-        stop={{} as any}
-        routes={routes as any}
+        stop={{ id: "Test-Stop-ID" } as any}
+        routes={{} as any}
         retailLocations={[]}
       />
     );
@@ -78,8 +78,8 @@ describe("Sidebar", () => {
       <Sidebar
         dispatch={mockDispatchFunction}
         expandedBlocks={{} as any}
-        stop={{} as any}
-        routes={routes as any}
+        stop={{ id: "place-NEC-1659" } as any}
+        routes={{} as any}
         retailLocations={[]}
       />
     );

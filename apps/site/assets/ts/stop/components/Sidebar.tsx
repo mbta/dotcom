@@ -30,7 +30,7 @@ const Sidebar = ({
   <>
     <div className="m-stop-page__sidebar-pills">
       <RoutePillList routes={routes} />
-      <ExternalRiptaConnection routes={routes} />
+      <ExternalRiptaConnection stop={stop} />
     </div>
     <h2>Features</h2>
     <Accessibility

@@ -1,27 +1,29 @@
 import React, { ReactElement } from "react";
-import { TypedRoutes } from "./__stop";
 import PillLink from "./PillLink";
+import { Stop } from "../../__v3api";
 
 export const bgClass = (color: string | undefined): string =>
   color ? `u-bg--${color}` : "";
 
-const riptaRouteIDs = ["CR-Providence"];
+// Hard code the known stops
+const riptaStopIDs = [
+  "place-NEC-1851",
+  "place-NEC-1891",
+  "place-NEC-1768",
+  "place-NEC-1659"
+];
 
 // used to display the external link to the ripta website
-const containsRIPTARoute = (routes: TypedRoutes[]): boolean => {
-  return routes.some(route => {
-    return route.routes.some(route2 => {
-      return riptaRouteIDs.includes(route2.route.id);
-    });
-  });
+const containsRIPTARoute = (stop: Stop): boolean => {
+  return riptaStopIDs.includes(stop.id);
 };
 
 const ExternalRiptaConnection = ({
-  routes
+  stop
 }: {
-  routes: TypedRoutes[];
+  stop: Stop;
 }): ReactElement<HTMLElement> => {
-  if (containsRIPTARoute(routes)) {
+  if (containsRIPTARoute(stop)) {
     return (
       <div className="mt-16 m-external-connections">
         <div className="u-small-caps u-bold">EXTERNAL CONNECTIONS</div>
