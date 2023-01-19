@@ -13,6 +13,7 @@ defmodule Algolia.ObjectTest do
       assert data.stop == stop
       assert is_list(data.routes)
       assert data.features == [:access, :parking_lot]
+      assert Algolia.Object.object_id(stop) == "stop-place-commuter-rail"
     end
 
     test "for Routes.Route", %{routes: repo} do
@@ -20,6 +21,7 @@ defmodule Algolia.ObjectTest do
       data = Algolia.Object.data(route)
       assert data.stop_names == ["Green Line Stop", "Subway Station", "Commuter Rail Stop"]
       assert data.headsigns == ["Start", "End"]
+      assert Algolia.Object.object_id(route) == "route-CR-Commuterrail"
 
       assert data.route == %{
                route
