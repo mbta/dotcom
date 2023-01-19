@@ -30,7 +30,7 @@ const ExternalRiptaConnection = ({
         <div className="m-route-pills">
           <PillLink
             displayText="RIPTA"
-            linkText="https://www.ripta.com/"
+            linkURL="https://www.ripta.com/"
             backgroundColor="gray"
             externalLink
           />

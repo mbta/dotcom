@@ -5,13 +5,13 @@ export const bgClass = (color: string | undefined): string =>
 
 const PillLink = ({
   displayText,
-  linkText,
+  linkURL,
   backgroundColor,
   optionalCSS = "",
   externalLink
 }: {
   displayText: string;
-  linkText: string;
+  linkURL: string;
   backgroundColor?: string | undefined;
   optionalCSS?: string | undefined;
   externalLink?: boolean;
@@ -20,7 +20,7 @@ const PillLink = ({
     <a
       target={externalLink ? "_blank" : "_self"}
       rel="noreferrer"
-      href={linkText}
+      href={linkURL}
       className={`
       m-stop-page__header-feature
       m-stop-page__header-description
