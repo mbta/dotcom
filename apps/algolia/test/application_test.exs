@@ -3,8 +3,8 @@ defmodule Algolia.ApplicationTest do
 
   describe "start/2" do
     test "can start the application" do
-      Application.stop(:algolia)
-      assert {:ok, _} = Application.ensure_all_started(:algolia)
+      # should have already been started
+      assert {:error, {:already_started, _pid}} = Algolia.Application.start(:permanent, [])
     end
   end
 end
