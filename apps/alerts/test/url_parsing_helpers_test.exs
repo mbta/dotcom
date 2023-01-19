@@ -39,4 +39,15 @@ defmodule Alerts.URLParsingHelpersTest do
       assert get_full_url(text_five) == "http://othersite.com"
     end
   end
+
+  test "urls a stripped correctly" do
+    assert Enum.at(Tuple.to_list(replace_urls_with_links("https://mbta.com")), 1) ==
+             "<a target=\"_blank\" href=\"https://mbta.com\">MBTA.com</a>"
+
+    assert Enum.at(Tuple.to_list(replace_urls_with_links("www.google.com")), 1) ==
+             "<a target=\"_blank\" href=\"http://www.google.com\">google.com</a>"
+
+    assert Enum.at(Tuple.to_list(replace_urls_with_links("mbta.com")), 1) ==
+             "<a target=\"_blank\" href=\"https://mbta.com\">MBTA.com</a>"
+  end
 end
