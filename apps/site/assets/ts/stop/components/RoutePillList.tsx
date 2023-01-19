@@ -37,7 +37,7 @@ export const modeBgClass = (route: EnhancedRoute | Route): string =>
 const RoutePill = ({ route }: RoutePillProps): ReactElement<HTMLElement> => (
   <PillLink
     displayText={breakTextAtSlash(route.name)}
-    linkText={`/schedule/${route.id}`}
+    linkURL={`/schedule/${route.id}`}
     optionalCSS={modeBgClass(route)}
   />
 );
