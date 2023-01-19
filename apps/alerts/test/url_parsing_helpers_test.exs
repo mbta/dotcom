@@ -10,11 +10,33 @@ defmodule Alerts.URLParsingHelpersTest do
       assert get_full_url(text) == "https://MBTA.com/BBT2022"
     end
 
+    test "should return the url parsed from the text if '.' after url" do
+      text =
+        "The Orange Line shutdown (9 PM, August 19 - September 18) overlaps with Green Line closures. Learn more and see alternative travel options at MBTA.com/BBT2022."
+
+      assert get_full_url(text) == "https://MBTA.com/BBT2022"
+    end
+
     test "should return nil if there is no url in the parsed text" do
       text =
         "The Orange Line shutdown (9 PM, August 19 - September 18) overlaps with Green Line closures. Learn more and see alternative travel options at"
 
       assert get_full_url(text) == nil
+    end
+  end
+
+  describe "create_url/1" do
+    test "get_full_url/1 should return a properly formatted url given a valid input" do
+      text_one = "The Orange Line http://mbta.com"
+      assert get_full_url(text_one) == "http://mbta.com"
+      text_two = "The Orange Line https://mbta.com"
+      assert get_full_url(text_two) == "https://mbta.com"
+      text_three = "The Orange Line mbta.com"
+      assert get_full_url(text_three) == "https://mbta.com"
+      text_four = "The Orange Line MBTA.com"
+      assert get_full_url(text_four) == "https://MBTA.com"
+      text_five = "The Orange Line othersite.com"
+      assert get_full_url(text_five) == "http://othersite.com"
     end
   end
 end
