@@ -24,7 +24,7 @@ const ExternalRiptaConnection = ({
   if (containsRIPTARoute(routes)) {
     return (
       <div className="mt-16 m-external-connections">
-        <div className="u-bold">EXTERNAL CONNECTIONS</div>
+        <div className="u-small-caps u-bold">EXTERNAL CONNECTIONS</div>
         <div className="m-route-pills">
           <PillLink
             displayText="RIPTA"
