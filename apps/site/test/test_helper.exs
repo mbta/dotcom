@@ -10,7 +10,7 @@ Application.put_env(:wallaby, :base_url, SiteWeb.Endpoint.url())
 Application.ensure_all_started(:vehicles)
 Application.ensure_all_started(:site)
 
-# Don't report warnings as errors... Phoenix has some warnings for Elixir 1.11
+# Don't report warnings as errors... Phoenix has some warnings for Elixir 1.12
 # Can revert after upgrading Phoenix to at least 1.5.4
 Code.compiler_options(warnings_as_errors: false)
 ExUnit.start(capture_log: true)
