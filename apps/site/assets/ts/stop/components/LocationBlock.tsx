@@ -5,6 +5,7 @@ import { TypedRoutes } from "./__stop";
 import renderSvg from "../../helpers/render-svg";
 
 import streetViewSvg from "../../../static/images/icon-street-view-default.svg";
+import ExternalRiptaConnection from "./ExternalRiptaConnection";
 
 interface Props {
   routes: TypedRoutes[];
@@ -75,6 +76,7 @@ const LocationBlock = ({
       </div>
     </div>
     <RoutePillList routes={routes} />
+    <ExternalRiptaConnection routes={routes} />
   </div>
 );
 

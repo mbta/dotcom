@@ -8,7 +8,7 @@ import { Stop } from "../../__v3api";
 import { TypedRoutes, RetailLocationWithDistance } from "./__stop";
 import Feedback from "../../components/Feedback";
 import { Dispatch, ExpandableBlockState, ExpandableBlockName } from "../state";
-import PillLink from "./PillLink";
+import ExternalRiptaConnection from "./ExternalRiptaConnection";
 
 interface Props {
   dispatch: Dispatch;
@@ -18,17 +18,6 @@ interface Props {
   routes: TypedRoutes[];
   retailLocations: RetailLocationWithDistance[];
 }
-
-const riptaRouteIDs = ["CR-Providence"];
-
-// used to display the external link to the ripta website
-const containsRIPTARoute = (routes: TypedRoutes[]): boolean => {
-  return routes.some(route => {
-    return route.routes.some(route2 => {
-      return riptaRouteIDs.includes(route2.route.id);
-    });
-  });
-};
 
 const Sidebar = ({
   dispatch,
@@ -41,19 +30,7 @@ const Sidebar = ({
   <>
     <div className="m-stop-page__sidebar-pills">
       <RoutePillList routes={routes} />
-      {containsRIPTARoute(routes) && (
-        <div className="mt-16">
-          <div className="u-bold">EXTERNAL CONNECTIONS</div>
-          <div className="m-route-pills">
-            <PillLink
-              displayText="RIPTA"
-              linkText="https://www.ripta.com/"
-              backgroundColor="gray"
-              externalLink
-            />
-          </div>
-        </div>
-      )}
+      <ExternalRiptaConnection routes={routes} />
     </div>
     <h2>Features</h2>
     <Accessibility

@@ -65,9 +65,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--red-line
     "
-        href="/schedules/Red"
+        href="/schedule/Red"
+        rel="noreferrer"
+        target="_self"
       >
         Red Line
       </a>
@@ -80,9 +83,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-        href="/schedules/741"
+        href="/schedule/741"
+        rel="noreferrer"
+        target="_self"
       >
         SL1
       </a>
@@ -91,9 +97,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-        href="/schedules/742"
+        href="/schedule/742"
+        rel="noreferrer"
+        target="_self"
       >
         SL2
       </a>
@@ -102,9 +111,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--silver-line
     "
-        href="/schedules/743"
+        href="/schedule/743"
+        rel="noreferrer"
+        target="_self"
       >
         SL3
       </a>
@@ -117,9 +129,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Fairmount"
+        href="/schedule/CR-Fairmount"
+        rel="noreferrer"
+        target="_self"
       >
         Fairmount Line
       </a>
@@ -128,9 +143,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Worcester"
+        href="/schedule/CR-Worcester"
+        rel="noreferrer"
+        target="_self"
       >
         Framingham/​Worcester Line
       </a>
@@ -139,9 +157,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Franklin"
+        href="/schedule/CR-Franklin"
+        rel="noreferrer"
+        target="_self"
       >
         Franklin Line
       </a>
@@ -150,9 +171,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Greenbush"
+        href="/schedule/CR-Greenbush"
+        rel="noreferrer"
+        target="_self"
       >
         Greenbush Line
       </a>
@@ -161,9 +185,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Kingston"
+        href="/schedule/CR-Kingston"
+        rel="noreferrer"
+        target="_self"
       >
         Kingston/​Plymouth Line
       </a>
@@ -172,9 +199,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Middleborough"
+        href="/schedule/CR-Middleborough"
+        rel="noreferrer"
+        target="_self"
       >
         Middleborough/​Lakeville Line
       </a>
@@ -183,9 +213,12 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Needham"
+        href="/schedule/CR-Needham"
+        rel="noreferrer"
+        target="_self"
       >
         Needham Line
       </a>
@@ -194,11 +227,41 @@ exports[`renders 1`] = `
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--commuter-rail
     "
-        href="/schedules/CR-Providence"
+        href="/schedule/CR-Providence"
+        rel="noreferrer"
+        target="_self"
       >
         Providence/​Stoughton Line
+      </a>
+    </div>
+  </div>
+  <div
+    className="mt-16 m-external-connections"
+  >
+    <div
+      className="u-bold"
+    >
+      EXTERNAL CONNECTIONS
+    </div>
+    <div
+      className="m-route-pills"
+    >
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--gray
+      
+    "
+        href="https://www.ripta.com/"
+        rel="noreferrer"
+        target="_blank"
+      >
+        RIPTA
       </a>
     </div>
   </div>
