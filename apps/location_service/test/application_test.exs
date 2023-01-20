@@ -1,5 +1,6 @@
 defmodule LocationService.ApplicationTest do
-  use ExUnit.Case, async: true
+  @moduledoc false
+  use ExUnit.Case
 
   describe "start/2" do
     test "can start the application" do
