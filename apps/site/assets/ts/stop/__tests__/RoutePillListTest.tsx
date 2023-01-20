@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import stopData from "./stopData.json";
 import { StopPageData, TypedRoutes } from "../components/__stop";
 import RoutePillList from "../components/RoutePillList";
+import { render, screen } from "@testing-library/react";
 
 const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 
@@ -43,4 +44,23 @@ it("renders a ferry route", () => {
   const tree = renderer.create(<RoutePillList routes={routes} />).toJSON();
 
   expect(tree).toMatchSnapshot();
+});
+
+it("renders route to css class", () => {
+  const routes: TypedRoutes[] = [
+    {
+      group_name: "Test Group",
+      routes: [
+        {
+          route: {
+            type: 0,
+            name: "Test Route",
+            id: "1"
+          }
+        }
+      ]
+    }
+  ] as any;
+  const { container } = render(<RoutePillList routes={routes} />);
+  expect(container.getElementsByClassName("u-bg--test-route").length).toBe(1);
 });
