@@ -119,6 +119,11 @@ document.body.addEventListener(
         `Failed to load script: ${event.target.src}`,
         "warning"
       );
+    } else if (event.target.tagName === "VIDEO") {
+      Sentry.captureMessage(
+        `Failed to load video: ${event.target.src}`,
+        "warning"
+      );
     }
   },
   true // useCapture - necessary for resource loading errors
