@@ -158,6 +158,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ./.github/actions/build-app
+    - run:
+        # Install Chromedriver version that corresponds with the version of Chrome that is installed here.
+        bash ./scripts/setup_chromedriver.sh
     - env:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
