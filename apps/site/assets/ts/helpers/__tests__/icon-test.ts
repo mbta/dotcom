@@ -12,7 +12,11 @@ import {
   mattapanLineIcon,
   orangeLineIcon,
   redLineIcon,
-  silverLineIcon
+  silverLineIcon,
+  alertIcon,
+  vehicleArrowIcon,
+  searchIcon,
+  crowdingIcon
 } from "../../helpers/icon";
 
 describe("blueLineIcon", () => {
@@ -110,5 +114,35 @@ describe("silverLineIcon", () => {
   it("works with a default className", () => {
     const result = silverLineIcon();
     expect(result.props.className).toEqual("notranslate");
+  });
+});
+
+describe("alertIcon", () => {
+  it("works with a default className", () => {
+    const result = alertIcon();
+    expect(result.props.className).toEqual("notranslate");
+  });
+});
+
+describe("vehicleArrowIcon", () => {
+  it("works with a default className", () => {
+    const result = vehicleArrowIcon();
+    expect(result.props.className).toEqual("notranslate");
+  });
+});
+
+describe("searchIcon", () => {
+  it("works with a default className", () => {
+    const result = searchIcon();
+    expect(result.props.className).toEqual("notranslate");
+  });
+});
+
+describe("crowdingIcon", () => {
+  it("works with a default className", () => {
+    const result = crowdingIcon();
+    expect(result.props.className).toEqual(
+      "notranslate c-svg__icon c-icon__crowding "
+    );
   });
 });

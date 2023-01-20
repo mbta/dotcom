@@ -53,6 +53,10 @@ const mockState = stopIds(stopTree).reduce(
   {}
 );
 
+jest
+  .spyOn(redux, "useSelector")
+  .mockImplementation(selector => selector(mockState));
+
 describe("Merges", () => {
   let wrapper: ReactWrapper;
   beforeAll(() => {
@@ -63,16 +67,6 @@ describe("Merges", () => {
         </svg>
       </redux.Provider>
     );
-  });
-
-  beforeEach(() => {
-    jest
-      .spyOn(redux, "useSelector")
-      .mockImplementation(selector => selector(mockState));
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   it("renders and matches snapshot", () => {
@@ -149,8 +143,6 @@ describe("Merges", () => {
         </svg>
       </redux.Provider>
     );
-
-    screen.debug();
 
     const paths = container.querySelectorAll("path");
     expect(paths.length).toBe(3);

@@ -63,7 +63,7 @@ describe("StopConnections", () => {
   });
 
   it("should not show more than the first ferry connection", () => {
-    const result = filteredConnections("a", [
+    const result = filteredConnections([
       { type: 4, id: "first ferry" },
       { type: 1, id: "First Train" },
       { type: 4, id: "Second Ferry" }
@@ -74,13 +74,13 @@ describe("StopConnections", () => {
   });
 
   it("should not show more than the first commuter rail connection", () => {
-    const result = filteredConnections("a", [
+    const result = filteredConnections([
       { type: 1, id: "first train" },
       { type: 2, id: "First Commuter Rail" },
       { type: 2, id: "Second Commuter Rail" }
     ] as any);
     expect(result.length).toBe(2);
-    expect(result[0]).toEqual({ type: 1, id: "first train" });
-    expect(result[1]).toEqual({ type: 2, id: "First Commuter Rail" });
+    expect(result[1]).toEqual({ type: 1, id: "first train" });
+    expect(result[0]).toEqual({ type: 2, id: "First Commuter Rail" });
   });
 });

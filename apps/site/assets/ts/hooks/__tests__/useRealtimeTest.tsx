@@ -58,12 +58,9 @@ describe("useRealtime", () => {
   });
 
   test("should make fetch request", async () => {
-    const { result, waitFor } = renderHook(
-      () => useRealtime(testRoute, 0, true),
-      {
-        wrapper: HookWrapper
-      }
-    );
+    const { result, waitFor } = renderHook(() => useRealtime(testRoute, 0), {
+      wrapper: HookWrapper
+    });
 
     await waitFor(() => expect(result.current).toMatchObject(testResponse));
     expect(global.fetch).toHaveBeenCalledWith(testRequestURL);

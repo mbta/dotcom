@@ -16,6 +16,10 @@ describe("parseQuery", () => {
       commas: "comma,comma"
     });
   });
+
+  it("should return an empty object if there is no query", () => {
+    expect(parseQuery(null as any, window.decodeURIComponent)).toEqual({});
+  });
 });
 
 describe("paramsToString", () => {
@@ -33,5 +37,13 @@ describe("paramsToString", () => {
         "&brackets=%5Bbrackets%5D" +
         "&commas=comma%2Ccomma"
     );
+  });
+
+  it("returns am empty string if there are no params", () => {
+    expect(paramsToString(null as any, window.encodeURIComponent)).toEqual("");
+  });
+
+  it("returns am empty string if is an empty param object", () => {
+    expect(paramsToString({} as any, window.encodeURIComponent)).toEqual("");
   });
 });
