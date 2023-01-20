@@ -32,7 +32,7 @@ jobs:
 
   tslint:
     name: Linting / TypeScript
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts }}
     steps:
@@ -42,7 +42,7 @@ jobs:
 
   jslint:
     name: Linting / JavaScript
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js }}
     steps:
@@ -52,7 +52,7 @@ jobs:
 
   stylelint:
     name: Linting / CSS
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.scss }}
     steps:
@@ -62,7 +62,7 @@ jobs:
 
   elixirlint:
     name: Linting / Elixir
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
@@ -72,7 +72,7 @@ jobs:
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
@@ -92,7 +92,7 @@ jobs:
 
   js_unit_1:
     name: Unit tests / JavaScript / Mocha
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js }}
     steps:
@@ -102,7 +102,7 @@ jobs:
 
   js_unit_2:
     name: Unit tests / JavaScript & TypeScript / Jest
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
@@ -112,7 +112,7 @@ jobs:
 
   type_dialyzer:
     name: Type checks / Elixir
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
@@ -122,7 +122,7 @@ jobs:
 
   type_typescript:
     name: Type checks / TypeScript
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts }}
     steps:
@@ -132,7 +132,7 @@ jobs:
 
   elixir_format_check:
     name: Formatting / Elixir
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
@@ -142,7 +142,7 @@ jobs:
 
   js_format_check:
     name: Formatting / JavaScript & TypeScript
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:
@@ -152,12 +152,15 @@ jobs:
 
   elixir_wallaby:
     name: Integration tests / Elixir
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
     - uses: actions/checkout@v3
     - uses: ./.github/actions/build-app
+    - run:
+        # Install Chromedriver version that corresponds with the version of Chrome that is installed here.
+        bash ./scripts/setup_chromedriver.sh
     - env:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
@@ -168,7 +171,7 @@ jobs:
 
   cypress:
     name: Integration tests / Cypress
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex || needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:

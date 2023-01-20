@@ -33,7 +33,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     environment:
       name: ${{ inputs.deployment-env }}
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}

@@ -3,17 +3,10 @@
 Common test suites developers might want to run:
 
 * `mix test` — Elixir tests
+  * `mix test --exclude wallaby` - Excludes the integration tests
+  * `mix test --only wallaby` - Runs only the integration tests. This depends on having chromedriver installed, which can be installed via `bash scripts/setup_chromedriver.sh`
 * `npm run --prefix apps/site/assets mocha && npm run --prefix apps/site/assets jest` — all of the JavaScript tests
 
-IMPORTANT NOTE: As of June 2020, Lechmere is closed for construction and the E line will be terminating at North Station for now. This is the list of files that have been affected (whose changes will need to be reverted at a later time):
-
-- `apps/site/lib/green_line.ex`
-- `apps/site/test/green_line_test.exs`
-- `apps/site/test/site_web/controllers/schedule/line_test.exs`
-- `apps/site/test/site_web/controllers/schedule_controller_test.exs`
-- `apps/site/test/site_web/excluded_stops_test.exs`
-- `apps/site/test/site_web/views/partial_view_test.exs`
-- `apps/stops/test/route_stops_test.exs`
 
 Dotcom runs its test suite automatically using Github Actions, mainly from the [`tests.yml`](../.github/workflows/tests.yml) workflow.
 

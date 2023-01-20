@@ -62,13 +62,12 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
      asdf plugin add erlang
      asdf plugin add elixir
      asdf plugin add nodejs
-     asdf plugin add chromedriver
      ```
      You can verify the plugins were installed with `asdf plugin list`.
 
-     While Erlang, Elixir, and NodeJS are essential for any development on Dotcom, Chromedriver is only needed for Elixir acceptance tests using Wallaby.
+     While Erlang, Elixir, and NodeJS are essential for any development on Dotcom.
 
-     You're welcome to add more plugins for personal use! But these four are the ones set up in `.tool-versions` and invoked in the next step:
+     You're welcome to add more plugins for personal use! But these are the ones set up in `.tool-versions` and invoked in the next step:
 
    * Now run the install:
 
@@ -88,7 +87,6 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
       elixir         <version> (set by ~/dotcom/.tool-versions)
       erlang         <version> (set by ~/dotcom/.tool-versions)
       nodejs         <version> (set by ~/dotcom/.tool-versions)
-      chromedriver   <version> (set by ~/dotcom/.tool-versions)
       ...
      ```
 
