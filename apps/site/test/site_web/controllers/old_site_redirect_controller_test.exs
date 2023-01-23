@@ -40,57 +40,57 @@ defmodule SiteWeb.OldSiteRedirectControllerTest do
     end
 
     test "Commuter stop redirected to commuter rail stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/rail/lines/stations/"
+      old_url = "/schedules_and_maps/rail/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                stop_path(SiteWeb.Endpoint, :show, :commuter_rail)
     end
 
     test "Ferry stop redirected to ferry stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/boats/lines/stations/"
+      old_url = "/schedules_and_maps/boats/lines/stations/"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                stop_path(SiteWeb.Endpoint, :show, :ferry)
     end
 
     test "Specific stops redirect to corresponding stop page", %{conn: conn} do
-      old_url = "schedules_and_maps/rail/lines/stations/?stopId=19"
+      old_url = "/schedules_and_maps/rail/lines/stations/?stopId=19"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                stop_path(SiteWeb.Endpoint, :show, "Beverly")
     end
 
     test "Other rail routes redirected to commuter rail stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/rail/something/else"
+      old_url = "/schedules_and_maps/rail/something/else"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                mode_path(SiteWeb.Endpoint, :commuter_rail)
     end
 
     test "Other ferry routes redirected to ferry stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/boats/something/else"
+      old_url = "/schedules_and_maps/boats/something/else"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                mode_path(SiteWeb.Endpoint, :ferry)
     end
 
     test "Other subway routes redirected to subway stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/subway/something/else"
+      old_url = "/schedules_and_maps/subway/something/else"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                mode_path(SiteWeb.Endpoint, :subway)
     end
 
     test "Other bus routes redirected to bus stops page", %{conn: conn} do
-      old_url = "schedules_and_maps/bus/something/else"
+      old_url = "/schedules_and_maps/bus/something/else"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
                mode_path(SiteWeb.Endpoint, :bus)
     end
 
     test "Redirects to stop page regardless of incoming mode", %{conn: conn} do
-      north_station_subway = "schedules_and_maps/subway/lines/stations?stopId=141"
-      north_station_rail = "schedules_and_maps/rail/lines/stations?stopId=13610"
+      north_station_subway = "/schedules_and_maps/subway/lines/stations?stopId=141"
+      north_station_rail = "/schedules_and_maps/rail/lines/stations?stopId=13610"
 
       assert redirected_to(get(conn, north_station_subway), :moved_permanently) =~
                stop_path(SiteWeb.Endpoint, :show, "place-north")

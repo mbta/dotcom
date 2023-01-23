@@ -24,7 +24,7 @@ defmodule AWSLocation.RequestTest do
 
       assert %ExAws.Operation.RestQuery{
                body: %{
-                 Text: search_text
+                 Text: ^search_text
                },
                path: "/places/v0/indexes/dotcom-dev-esri/search/text"
              } = operation
@@ -36,7 +36,7 @@ defmodule AWSLocation.RequestTest do
 
       assert %ExAws.Operation.RestQuery{
                body: %{
-                 Position: search_coords
+                 Position: [-71.214, 42.124]
                },
                path: "/places/v0/indexes/dotcom-dev-here/search/position"
              } = operation
@@ -75,7 +75,7 @@ defmodule AWSLocation.RequestTest do
 
       assert %ExAws.Operation.RestQuery{
                body: %{
-                 Text: search_text,
+                 Text: ^search_text,
                  MaxResults: 1
                },
                path: "/places/v0/indexes/dotcom-dev-here/search/suggestions"

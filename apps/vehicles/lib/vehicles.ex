@@ -11,15 +11,13 @@ defmodule Vehicles do
   end
 
   defp children do
-    import Supervisor.Spec, warn: false
-
     streams =
       "USE_SERVER_SENT_EVENTS"
       |> System.get_env()
       |> stream_children()
 
     [
-      supervisor(Phoenix.PubSub.PG2, [Vehicles.PubSub, []]),
+      {Phoenix.PubSub.PG2, name: Vehicles.PubSub},
       Vehicles.Repo
       | streams
     ]

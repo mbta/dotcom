@@ -175,7 +175,7 @@ defmodule SiteWeb.EventViewTest do
     grouped_2020_events = grouped_by_month(events, 2020)
 
     assert grouped_2020_events
-    assert {1, [january_event, another_january_event]} = List.first(grouped_2020_events)
+    assert {1, [january_event, _another_january_event]} = List.first(grouped_2020_events)
     assert january_event.date.month == 1
     assert january_event.date.year == 2020
   end

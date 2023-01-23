@@ -12,8 +12,8 @@ defmodule Site.React do
   @doc """
   Starts the react renderer worker pool.
   """
-  @spec start_link() :: {:ok, pid} | {:error, any()}
-  def start_link do
+  @spec start_link(any) :: {:ok, pid} | {:error, any()}
+  def start_link(_) do
     opts = [pool_size: @default_pool_size]
     Supervisor.start_link(__MODULE__, opts, name: __MODULE__)
   end

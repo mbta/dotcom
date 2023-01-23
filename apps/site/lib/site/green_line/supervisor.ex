@@ -13,13 +13,20 @@ defmodule Site.GreenLine.Supervisor do
   module is also the interface for querying the cache.
 
   """
-  def start_link do
+  use Supervisor
+
+  def start_link(_) do
+    Supervisor.start_link(__MODULE__, [])
+  end
+
+  @impl Supervisor
+  def init(_) do
     children = [
       {Registry, keys: :unique, name: :green_line_cache_registry},
       Site.GreenLine.CacheSupervisor,
       Site.GreenLine.Cache
     ]
 
-    Supervisor.start_link(children, strategy: :rest_for_one)
+    Supervisor.init(children, strategy: :rest_for_one)
   end
 end

@@ -114,9 +114,7 @@ defmodule RepoCache.Log do
               _ -> Float.round(hit / total, 2)
             end
 
-          "repocache_report mod=#{mod} fun=#{name} hit=#{hit} miss=#{miss} total=#{total} hit_rate=#{
-            hit_rate
-          }"
+          "repocache_report mod=#{mod} fun=#{name} hit=#{hit} miss=#{miss} total=#{total} hit_rate=#{hit_rate}"
         end)
     end
 

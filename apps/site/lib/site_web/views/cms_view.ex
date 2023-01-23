@@ -58,9 +58,7 @@ defmodule SiteWeb.CMSView do
   end
 
   defp do_render_duration(start_time, end_time) do
-    "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{
-      format_time(end_time)
-    }"
+    "#{format_date(start_time)} #{format_time(start_time)} - #{format_date(end_time)} #{format_time(end_time)}"
   end
 
   def format_time(%{minute: 0} = time) do

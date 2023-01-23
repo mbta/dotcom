@@ -31,7 +31,7 @@ defmodule CMS.Page.EventTest do
                notes: notes,
                agenda: agenda,
                path_alias: path_alias,
-               paragraphs: paragraphs,
+               paragraphs: _paragraphs,
                registration_link: registration_link,
                livestream_link: livestream_link
              } = from_api(api_event)

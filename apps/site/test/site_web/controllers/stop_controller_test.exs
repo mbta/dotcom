@@ -70,7 +70,7 @@ defmodule SiteWeb.StopControllerTest do
       |> get(stop_path(conn, :show, "Boat-Charlestown"))
 
     assert [ferry] = conn.assigns.routes
-    assert %{group_name: :ferry, routes: [%{route: %Route{id: "Boat-F4"}}]}
+    assert %{group_name: :ferry, routes: [%{route: %{id: "Boat-F4"}}]} = ferry
   end
 
   test "assigns the zone number for the current stop", %{conn: conn} do

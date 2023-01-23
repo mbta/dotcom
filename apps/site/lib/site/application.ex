@@ -6,8 +6,6 @@ defmodule Site.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
     Application.put_env(
       :site,
       :allow_indexing,
@@ -23,25 +21,30 @@ defmodule Site.Application do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(ConCache, [
-        [
-          ttl: :timer.seconds(60),
-          ttl_check: :timer.seconds(5),
-          ets_options: [read_concurrency: true]
-        ],
-        [name: :line_diagram_realtime_cache]
-      ]),
-      supervisor(Site.GreenLine.Supervisor, []),
-      supervisor(Site.Stream.Vehicles, []),
-      supervisor(Site.React, []),
-      supervisor(Site.RealtimeSchedule, []),
-      supervisor(SiteWeb.Endpoint, [])
+      %{
+        id: ConCache,
+        start:
+          {ConCache, :start_link,
+           [
+             [
+               ttl: :timer.seconds(60),
+               ttl_check: :timer.seconds(5),
+               ets_options: [read_concurrency: true]
+             ],
+             [name: :line_diagram_realtime_cache]
+           ]}
+      },
+      {Site.Stream.Vehicles, name: Site.Stream.Vehicles},
+      {Site.GreenLine.Supervisor, name: Site.GreenLine.Supervisor},
+      {Site.React, name: Site.React},
+      {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
+      {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Site.Supervisor]
-    Supervisor.start_link(children, opts)
+    {:ok, _pid} = Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration

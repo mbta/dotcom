@@ -724,7 +724,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> safe_to_string()
 
       # two blocks because of the <noscript> block
-      assert [{"div", _, form}, {"div", _, no_script_form}] = Floki.find(html, ".plan-date-time")
+      assert [{"div", _, form}, {"div", _, _no_script_form}] = Floki.find(html, ".plan-date-time")
       assert [{"select", _, _year_opts}] = Floki.find(form, ~s([name="plan[date_time][year]"]))
       assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][month]"]))
       assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][day]"]))

@@ -59,9 +59,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
     _ =
       Logger.info(fn ->
-        "#{__MODULE__}.plan_response url=#{url} params=#{inspect(params)} #{status_text(response)} duration=#{
-          duration / :timer.seconds(1)
-        }"
+        "#{__MODULE__}.plan_response url=#{url} params=#{inspect(params)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
       end)
 
     response

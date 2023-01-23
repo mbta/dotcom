@@ -143,9 +143,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp trip_schedule(schedule) do
     :ok =
       Logger.warn(
-        "module=#{__MODULE__} trip_schedule schedule=#{inspect(schedule)} #{
-          if is_nil(schedule.trip), do: "no_trip"
-        } #{if is_nil(schedule.stop), do: "no_stop"}"
+        "module=#{__MODULE__} trip_schedule schedule=#{inspect(schedule)} #{if is_nil(schedule.trip), do: "no_trip"} #{if is_nil(schedule.stop), do: "no_stop"}"
       )
 
     {{nil, nil}, schedule}
