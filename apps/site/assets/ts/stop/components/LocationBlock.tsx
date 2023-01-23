@@ -58,7 +58,7 @@ const LocationBlock = ({
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get directions to this station
+          Plan a trip from this station
         </a>
       </div>
       <div className="m-stop-page__location-link">
