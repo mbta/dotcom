@@ -90,8 +90,12 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
          vehicle_tooltips
        ) do
     stop_ids =
-      Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
-      |> Enum.uniq()
+      if is_list(route_patterns) do
+        Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
+        |> Enum.uniq()
+      else
+        []
+      end
 
     stop_markers =
       stop_ids
@@ -151,7 +155,13 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
 
   @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
-    route_paths = Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
+    route_paths =
+      if is_list(route_patterns) do
+        Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
+      else
+        []
+      end
+
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths
   end
