@@ -1,7 +1,6 @@
 {
   "skip_files": [
     "lib/test.ex",
-    "fake_date_time.ex",
-    "mock_aws.ex"
+    "fake_date_time.ex"
   ]
 }
