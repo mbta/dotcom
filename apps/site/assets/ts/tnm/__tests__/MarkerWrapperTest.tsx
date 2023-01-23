@@ -61,6 +61,17 @@ describe("buildIcon", () => {
     const locMarker = buildIcon("stop-id", undefined, false, false);
     expect(locMarker!.options.iconUrl).toMatch("stop-id");
   });
+
+  it("returns undefined if the window is not defined", () => {
+    const { window } = global;
+    // @ts-ignore
+    delete global.window;
+
+    const locMarker = buildIcon("stop-id", undefined, false, true);
+    expect(locMarker).toBeUndefined();
+
+    global.window = window;
+  });
 });
 
 const marker: MapMarker = {

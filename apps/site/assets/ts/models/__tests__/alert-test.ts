@@ -66,6 +66,24 @@ const alert4: Alert = {
   lifecycle: "upcoming",
   active_period: [["2020-09-10 12:00", "2020-09-10 20:00"]]
 } as Alert;
+const alert5: Alert = {
+  severity: 7,
+  priority: "high",
+  lifecycle: "ongoing",
+  active_period: null as any
+} as Alert;
+const alert6: Alert = {
+  severity: 7,
+  priority: "high",
+  lifecycle: "ongoing",
+  active_period: [[null as any, "2020-09-10 20:00"]]
+} as Alert;
+const alert7: Alert = {
+  severity: 7,
+  priority: "high",
+  lifecycle: "new",
+  active_period: [["2020-09-10 08:00", null as any]]
+} as Alert;
 
 describe("isHighSeverityOrHighPriority", () => {
   test.each`
@@ -104,6 +122,9 @@ describe("isCurrentAlert", () => {
     ${alert2} | ${true}
     ${alert3} | ${false}
     ${alert4} | ${false}
+    ${alert5} | ${false}
+    ${alert6} | ${false}
+    ${alert7} | ${true}
   `(
     "isCurrentAlert returns whether alert is current based on lifecycle and active period",
     ({ alert, isCurrent }) => {

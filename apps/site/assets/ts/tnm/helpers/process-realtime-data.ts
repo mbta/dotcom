@@ -179,7 +179,7 @@ const setHeadsigns = (
     data
   );
 
-export const transformRoutes = (
+const transformRoutes = (
   distances: DistanceByStopId,
   data: RouteWithStopsWithDirections[],
   realtimeScheduleData: RealtimeScheduleData[]
@@ -300,7 +300,7 @@ const setRouteInStops = (
     route
   );
 
-export const transformStops = (
+const transformStops = (
   distances: DistanceByStopId,
   data: StopWithRoutes[],
   realtimeScheduleData: RealtimeScheduleData[]
@@ -352,3 +352,14 @@ export const transformStops = (
     },
     data
   );
+
+export {
+  findRoute,
+  findStop,
+  findHeadsign,
+  findStopInStops,
+  makeGroupName,
+  findRouteInStops,
+  transformRoutes,
+  transformStops
+};

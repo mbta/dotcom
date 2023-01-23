@@ -7,6 +7,9 @@ import { Route, RouteType } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";
 import SearchBox from "../../../../components/SearchBox";
 import * as ScheduleStore from "../../../store/ScheduleStore";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import * as store from "../../../store/ScheduleStore";
+import userEvent from "@testing-library/user-event";
 
 const stopTree: StopTree = {
   byId: {
@@ -86,6 +89,7 @@ describe("LineDiagram", () => {
 
   afterEach(() => {
     wrapper.unmount();
+    jest.clearAllMocks();
   });
 
   it("renders and matches snapshot", () => {
@@ -136,5 +140,63 @@ describe("LineDiagram", () => {
       expect.objectContaining({ type: "OPEN_MODAL" })
     );
     expect(updateInLocationSpy).toHaveBeenCalled();
+  });
+
+  it("should display the No Results card when a user doesn't query a stop", async () => {
+    render(
+      <LineDiagram
+        stopTree={stopTree}
+        route={route}
+        directionId={0}
+        alerts={[]}
+      />
+    );
+    const search = screen.getByLabelText(/Search for a */);
+    fireEvent.change(search, { target: { value: "Test Query Text" } });
+    await waitFor(() => {
+      expect(screen.getByText("Test Query Text")).toBeDefined();
+      expect(screen.getByText(/No stops.*/)).toBeDefined();
+    });
+  });
+
+  it("should display the Stop Card for each stop a user queries", () => {
+    render(
+      <LineDiagram
+        stopTree={stopTree}
+        route={route}
+        directionId={0}
+        alerts={[]}
+      />
+    );
+    const search = screen.getByLabelText(/Search for a */);
+    fireEvent.change(search, { target: { value: "a" } });
+
+    // a is the stop name
+    expect(screen.getByText("a")).toBeDefined();
+  });
+
+  it("should fire the open modal event when a user clicks on the results stop card", async () => {
+    const storeHandlerSpy = jest.spyOn(store, "storeHandler");
+    render(
+      <LineDiagram
+        stopTree={stopTree}
+        route={route}
+        directionId={0}
+        alerts={[]}
+      />
+    );
+    const search = screen.getByLabelText(/Search for a */);
+    fireEvent.change(search, { target: { value: "a" } });
+
+    const scheduleButton = await screen.findByText("View schedule");
+
+    await userEvent.click(scheduleButton);
+
+    await waitFor(() => {
+      expect(storeHandlerSpy).toHaveBeenCalledWith({
+        type: "OPEN_MODAL",
+        newStoreValues: { modalMode: "schedule" }
+      });
+    });
   });
 });

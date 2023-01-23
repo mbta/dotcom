@@ -171,6 +171,10 @@ describe("isMarkerVisible", () => {
     const isVisible = isMarkerVisible(stopData, true, ["commuter_rail"]);
     expect(isVisible).toBeFalsy();
   });
+  it("marker is visible if there is no stop data, or filter markers", () => {
+    expect(isMarkerVisible(undefined, true, [])).toBeTruthy();
+    expect(isMarkerVisible({} as any, false, [])).toBeTruthy();
+  });
 });
 
 describe("buildStopsForMarker", () => {

@@ -82,4 +82,4 @@ const StopConnections = (
   </div>
 );
 
-export default StopConnections;
+export { filteredConnections, StopConnections as default };

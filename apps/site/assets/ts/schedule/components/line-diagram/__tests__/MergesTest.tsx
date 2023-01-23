@@ -1,3 +1,5 @@
+import { getByTestId, render, screen } from "@testing-library/react";
+import { add, format } from "date-fns";
 import { mount, ReactWrapper } from "enzyme";
 import React from "react";
 import * as redux from "react-redux";
@@ -71,12 +73,78 @@ describe("Merges", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
+  it("should return null if there are no coordinates in the branch", () => {
+    jest.spyOn(redux, "useSelector").mockImplementationOnce(() => null);
+    render(
+      <div data-testid="should-be-empty">
+        <Merges stopTree={stopTree} alerts={[]} />
+      </div>
+    );
+    expect(screen.getByTestId("should-be-empty")).toBeEmptyDOMElement();
+  });
+
   it("shows an SVG group for the merge point", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge")).toBeTruthy();
     expect(
       wrapper.exists("g.line-diagram-svg__merge line.line-diagram-svg__line")
     ).toBeTruthy();
     expect(wrapper.exists("g.line-diagram-svg__merge path")).toBeTruthy();
+  });
+
+  it("shows a different stroke on a branch if there is an active diversion", () => {
+    const today = new Date();
+    const tomorrow = add(today, { days: 1 });
+    const alert = {
+      informed_entity: { stop: ["y1"] },
+      effect: "detour",
+      active_period: [
+        [
+          format(today, "yyyy-MM-dd hh:mm"),
+          format(tomorrow, "yyyy-MM-dd hh:mm")
+        ]
+      ],
+      lifecycle: "new"
+    } as any;
+    // Fragile test, don't use containers normally
+    const { container } = render(
+      <redux.Provider store={store}>
+        <svg>
+          <Merges stopTree={stopTree} alerts={[alert]} />
+        </svg>
+      </redux.Provider>
+    );
+
+    const paths = container.querySelectorAll("path");
+    expect(paths.length).toBe(3);
+    expect(paths[2].getAttribute("stroke")).toBe("url(#diagonalHatch)");
+  });
+
+  it("shows a different stroke on a merge if there is an active diversion", () => {
+    const today = new Date();
+    const tomorrow = add(today, { days: 1 });
+    const alert = {
+      informed_entity: { stop: ["a2"] },
+      effect: "detour",
+      active_period: [
+        [
+          format(today, "yyyy-MM-dd hh:mm"),
+          format(tomorrow, "yyyy-MM-dd hh:mm")
+        ]
+      ],
+      lifecycle: "new"
+    } as any;
+    // Fragile test, don't use containers normally
+    const { container } = render(
+      <redux.Provider store={store}>
+        <svg>
+          <Merges stopTree={stopTree} alerts={[alert]} />
+        </svg>
+      </redux.Provider>
+    );
+
+    const paths = container.querySelectorAll("path");
+    expect(paths.length).toBe(3);
+    expect(paths[0].getAttribute("stroke")).toBe("url(#diagonalHatch)");
   });
 
   it("shows nothing when there are no branches", () => {

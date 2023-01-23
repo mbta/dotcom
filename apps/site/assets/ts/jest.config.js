@@ -41,7 +41,10 @@ module.exports = {
     "^.+\\.ts?$": "ts-jest"
   },
   testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["./tnm/__tests__/setupTests.ts"],
+  setupFilesAfterEnv: [
+    "./tnm/__tests__/setupTests.ts",
+    "<rootDir>/jest-setup.ts"
+  ],
   snapshotSerializers: ["enzyme-to-json/serializer"],
   testPathIgnorePatterns: [
     "/node_modules/",
