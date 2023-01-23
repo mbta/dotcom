@@ -142,7 +142,7 @@ describe("LineDiagram", () => {
     expect(updateInLocationSpy).toHaveBeenCalled();
   });
 
-  it.only("should display the No Results card when a user doesn't query a stop", async () => {
+  it("should display the No Results card when a user doesn't query a stop", async () => {
     render(
       <LineDiagram
         stopTree={stopTree}
