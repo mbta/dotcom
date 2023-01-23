@@ -5,7 +5,7 @@ defmodule V3Api.StreamTest do
   describe "build_options" do
     test "includes api key" do
       opts = V3Api.Stream.build_options(path: "/vehicles")
-      assert Keyword.get(opts, :url) == "https://api-dev-green.mbtace.com/vehicles"
+      assert Keyword.get(opts, :url) == "https://api-dev.mbtace.com/vehicles"
       assert <<_::binary>> = Keyword.get(opts, :api_key)
     end
   end

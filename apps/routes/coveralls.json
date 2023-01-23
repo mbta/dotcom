@@ -3,6 +3,7 @@
     "no cover"
   ],
   "skip_files": [
-    "lib/routes.ex"
+    "lib/routes.ex",
+    "lib/mock_repo.ex"
   ]
 }
