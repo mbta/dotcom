@@ -419,7 +419,7 @@ describe("StopCard", () => {
     const buttons = screen.getAllByRole("button");
     await userEvent.click(buttons[buttons.length - 1]);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(clickSpy).toHaveBeenCalled();
     });
   });

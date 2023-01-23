@@ -153,9 +153,9 @@ describe("LineDiagram", () => {
     );
     const search = screen.getByLabelText(/Search for a */);
     fireEvent.change(search, { target: { value: "Test Query Text" } });
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByText("Test Query Text")).toBeDefined();
-      expect(screen.getByText("No stops")).toBeDefined();
+      expect(screen.getByText(/No stops.*/)).toBeDefined();
     });
   });
 
@@ -188,11 +188,11 @@ describe("LineDiagram", () => {
     const search = screen.getByLabelText(/Search for a */);
     fireEvent.change(search, { target: { value: "a" } });
 
-    const scheduleButton = screen.getByText("View schedule");
+    const scheduleButton = await screen.findByText("View schedule");
 
     await userEvent.click(scheduleButton);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(storeHandlerSpy).toHaveBeenCalledWith({
         type: "OPEN_MODAL",
         newStoreValues: { modalMode: "schedule" }
