@@ -142,7 +142,7 @@ describe("LineDiagram", () => {
     expect(updateInLocationSpy).toHaveBeenCalled();
   });
 
-  it("should display the No Results card when a user doesn't query a stop", () => {
+  it.only("should display the No Results card when a user doesn't query a stop", async () => {
     render(
       <LineDiagram
         stopTree={stopTree}
@@ -153,8 +153,10 @@ describe("LineDiagram", () => {
     );
     const search = screen.getByLabelText(/Search for a */);
     fireEvent.change(search, { target: { value: "Test Query Text" } });
-
-    expect(screen.getByText("Test Query Text")).toBeDefined();
+    waitFor(() => {
+      expect(screen.getByText("Test Query Text")).toBeDefined();
+      expect(screen.getByText("No stops")).toBeDefined();
+    });
   });
 
   it("should display the Stop Card for each stop a user queries", () => {

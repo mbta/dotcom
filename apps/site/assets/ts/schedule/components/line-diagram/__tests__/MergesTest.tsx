@@ -83,8 +83,6 @@ describe("Merges", () => {
     expect(screen.getByTestId("should-be-empty")).toBeEmptyDOMElement();
   });
 
-  it("should work if there are no bends", () => {});
-
   it("shows an SVG group for the merge point", () => {
     expect(wrapper.exists("g.line-diagram-svg__merge")).toBeTruthy();
     expect(
