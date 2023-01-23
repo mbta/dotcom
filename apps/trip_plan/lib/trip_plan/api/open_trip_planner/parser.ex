@@ -166,7 +166,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     # agency is either 1 (MBTA) or 2 (Massport)
     case agency do
       "1" -> id
-      "2" -> "Massport-" <> id
+      "2" <> _ -> "Massport-" <> id
     end
   end
 end
