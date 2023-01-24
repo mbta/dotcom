@@ -33,7 +33,7 @@
           <%= render @view_module, "_sidebar_nav.html", assigns %>
         <% end %>
         <div class="main-content col-sm-12<%= styleguide_main_content_class(assigns) %> <%= Map.get(@conn.params, "section") %>">
-          <%= render @view_module, @view_template, assigns %>
+          <%= @inner_content %>
         </div>
       </main>
       <footer></footer>

@@ -84,7 +84,7 @@
         <%= render "_searchbar.html", assigns %>
       <% end %>
       <div class="page-container <%= get_page_classes(@view_module, @view_template) %>">
-        <%= content_tag :main, render(@view_module, @view_template, assigns), id: "main", tabindex: -1 %>
+        <%= content_tag :main, @inner_content, id: "main", tabindex: -1 %>
       </div> <%# /container %>
       <%= render __MODULE__, "_footer.html", conn: @conn %>
 
