@@ -278,9 +278,6 @@ function getTransitIcons(hit) {
     hit.related_transit_gtfs_ancestry
   );
   if (Array.isArray(icons)) {
-    if (!Array.isArray(hit.related_transit_gtfs_ancestry)) {
-      return icons.join(" ");
-    }
     const uniqeIcons = [...new Set(icons)];
     return uniqeIcons.join(" ");
   }
