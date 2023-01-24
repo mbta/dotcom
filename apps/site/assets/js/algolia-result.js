@@ -273,13 +273,13 @@ function getTransitIcons(hit) {
   ) {
     return "";
   }
-  let icons = iconFromGTFS(
+  const icons = iconFromGTFS(
     hit.related_transit_gtfs_id,
     hit.related_transit_gtfs_ancestry
   );
   if (Array.isArray(icons)) {
-    icons = [...new Set(icons)];
-    return icons.join(" ");
+    const uniqeIcons = [...new Set(icons)];
+    return uniqeIcons.join(" ");
   }
   return icons;
 }
