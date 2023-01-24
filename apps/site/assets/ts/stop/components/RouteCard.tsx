@@ -35,6 +35,7 @@ const RouteCard = ({
       hasAlert={
         alerts && alerts.filter(isHighSeverityOrHighPriority).length > 0
       }
+      numberOfAlerts={alerts.filter(isHighSeverityOrHighPriority).length}
     />
     {alertsByStop(alerts.filter(isDiversion), stop.id)
       .filter(uniqueByEffect)

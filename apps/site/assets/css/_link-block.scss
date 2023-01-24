@@ -30,6 +30,10 @@
   }
 
   &__inner-link {
+    border: 1px solid ;
+    border-radius: 4.5px;
+    display: inline-flex;
+    padding: 5px 10px;
     pointer-events: all;
   }
 

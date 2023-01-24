@@ -7,10 +7,12 @@ import { breakTextAtSlash } from "../helpers/text";
 
 const RouteCardHeader = ({
   route,
-  hasAlert
+  hasAlert,
+  numberOfAlerts
 }: {
   route: EnhancedRoute;
   hasAlert?: boolean;
+  numberOfAlerts: number;
 }): ReactElement<HTMLElement> => (
   <div
     className={`c-link-block h3 m-tnm-sidebar__route-name ${routeBgClass(
@@ -36,6 +38,7 @@ const RouteCardHeader = ({
           title="alert"
         >
           {alertIcon("c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert")}
+          <p>{numberOfAlerts} alert</p>
         </a>
       )}
     </div>
