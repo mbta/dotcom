@@ -342,7 +342,7 @@ Array [
               >
                 <a
                   className="btn btn-primary"
-                  href="/trip-planner/to/42.352271,-71.055242,South Station"
+                  href="/trip-planner/from/42.352271,-71.055242,South Station"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

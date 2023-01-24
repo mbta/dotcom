@@ -33,7 +33,7 @@ it("uses lat/lng when linking to the trip planner", () => {
     shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
-  ).toEqual(`/trip-planner/to/${latLng},${data.stop.name}`);
+  ).toEqual(`/trip-planner/from/${latLng},${data.stop.name}`);
 });
 
 it("falls back to municipality if stop has no address", () => {
