@@ -248,6 +248,7 @@ export function getIcon(hit, type) {
       return getPopularIcon(hit.icon);
 
     case "projects":
+      // eslint-disable-next-line no-use-before-define
       return getTransitIcons(hit);
 
     case "drupal":
@@ -272,11 +273,12 @@ function getTransitIcons(hit) {
   ) {
     return "";
   }
-  const icons = iconFromGTFS(
+  let icons = iconFromGTFS(
     hit.related_transit_gtfs_id,
     hit.related_transit_gtfs_ancestry
   );
   if (Array.isArray(icons)) {
+    icons = [...new Set(icons)];
     return icons.join(" ");
   }
   return icons;
@@ -344,6 +346,7 @@ function _contentTitle(hit) {
 export function getTitle(hit, type) {
   switch (type) {
     case "locations":
+      // eslint-disable-next-line no-case-declarations
       const { address: text, highlighted_spans: spans } = hit;
 
       return highlightText(text, spans);
@@ -551,7 +554,7 @@ export function parseResult(hit, index) {
 export function renderResult(hit, index, templates = TEMPLATES) {
   const parsedResult = parseResult(hit, index);
   if (parsedResult.hitFeatureIcons.length > 2) {
-    return TEMPLATES["threePlusIcons"].render(parsedResult);
+    return TEMPLATES.threePlusIcons.render(parsedResult);
   }
   if (templates[index]) {
     return templates[index].render(parsedResult);
