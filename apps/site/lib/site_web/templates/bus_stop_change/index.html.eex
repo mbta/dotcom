@@ -15,6 +15,14 @@
         <%= for alert <- @alerts do %>
         <section>
           <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
+          <%= if length(related_stops(alert)) > 0 do %>
+          <strong>Affected Stops</strong>
+          <ul>
+          <%= for stop <- related_stops(alert) do %>
+            <li><a href="<%= stop_path(@conn, :show, stop.id) %>"><%= stop.name %></a></li>
+          <% end %>
+          </ul>
+          <% end %>
           <hr />
         </section>
         <% end %>
