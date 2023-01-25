@@ -1,4 +1,6 @@
 import hogan from "hogan.js";
+// eslint-disable-next-line no-unused-vars
+import _, { uniq } from "lodash";
 import * as Icons from "./icons";
 import { highlightText } from "../ts/helpers/text.ts";
 
@@ -278,11 +280,8 @@ function getTransitIcons(hit) {
     hit.related_transit_gtfs_ancestry
   );
   if (Array.isArray(icons)) {
-    // eslint-disable-next-line func-names
-    const uniqueIcons = icons.filter(function(item, pos) {
-      return icons.indexOf(item) === pos;
-    });
-    return uniqueIcons;
+    const uniqueIcons = _.uniq(icons);
+    return uniqueIcons.join(" ");
   }
   return icons;
 }
