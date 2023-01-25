@@ -1,6 +1,5 @@
 import hogan from "hogan.js";
-// eslint-disable-next-line no-unused-vars
-import _, { uniq } from "lodash";
+import _ from "lodash";
 import * as Icons from "./icons";
 import { highlightText } from "../ts/helpers/text.ts";
 
