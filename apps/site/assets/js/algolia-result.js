@@ -278,8 +278,11 @@ function getTransitIcons(hit) {
     hit.related_transit_gtfs_ancestry
   );
   if (Array.isArray(icons)) {
-    const uniqeIcons = [...new Set(icons)];
-    return uniqeIcons.join(" ");
+    // eslint-disable-next-line func-names
+    const uniqueIcons = icons.filter(function(item, pos) {
+      return icons.indexOf(item) === pos;
+    });
+    return uniqueIcons;
   }
   return icons;
 }

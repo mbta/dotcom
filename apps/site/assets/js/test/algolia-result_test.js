@@ -325,7 +325,7 @@ describe("AlgoliaResult", () => {
   const projectHits = {
     bus: {
       related_transit_gtfs_id: "1",
-      related_transit_gtfs_ancestry: "Bus"
+      related_transit_gtfs_ancestry: "bus"
     },
     subway: {
       related_transit_gtfs_id: ["Red", "Orange", "Green-B", "Green-C", "Green"],
@@ -481,31 +481,31 @@ describe("AlgoliaResult", () => {
       assert.include(AlgoliaResult.getIcon(projectHits.bus, "projects"), "bus");
       assert.include(
         AlgoliaResult.getIcon(projectHits.red, "projects"),
-        "red-line"
+        "red line"
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.green, "projects"),
-        "green-line"
+        "green line"
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.cr, "projects"),
-        "commuter-rail"
+        "commuter rail"
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.subway, "projects"),
-        "green-line"
+        "green line"
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.subway, "projects"),
-        "red-line"
+        "red line"
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.subway, "projects"),
-        "orange-line"
+        "orange line"
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.subway, "projects"),
-        "green-line-b"
+        "green line b"
       );
       assert.notInclude(
         AlgoliaResult.getIcon(projectHits.subway, "projects"),
