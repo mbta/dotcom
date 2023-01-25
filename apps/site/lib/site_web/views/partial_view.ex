@@ -83,7 +83,7 @@ defmodule SiteWeb.PartialView do
       ],
       to: news_path(entry, SiteWeb.Endpoint),
       class: news_entry_class(opts),
-      id: entry.id
+      id: "#{entry.id}"
     )
   end
 

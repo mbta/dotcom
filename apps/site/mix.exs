@@ -10,7 +10,7 @@ defmodule Site.Mixfile do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -45,10 +45,13 @@ defmodule Site.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
-      {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_html, "~> 2.13.1"},
+      {:phoenix, "~> 1.6"},
+      {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix_live_view, "~> 0.16.4"},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 0.5"},
       {:gettext, "~> 0.9"},
       {:plug_cowboy, "~> 2.0"},
       {:timex, ">= 2.0.0"},

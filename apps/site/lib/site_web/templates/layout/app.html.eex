@@ -19,7 +19,7 @@
       <meta name="robots" content="noindex, nofollow">
     <% end %>
 
-    <% title = if @view_template == "404.html", do: "Page Not Found | MBTA - Massachusetts Bay Transportation Authority", else: title_breadcrumbs(@conn) %>
+    <% title = if Phoenix.Controller.view_template(@conn) == "404.html", do: "Page Not Found | MBTA - Massachusetts Bay Transportation Authority", else: title_breadcrumbs(@conn) %>
     <title><%= title %></title>
     <link rel="apple-touch-icon" href="<%= static_url(@conn, "/images/mbta-logo-t-180.png") %>" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
@@ -65,7 +65,7 @@
     <div class="body-wrapper" id="body-wrapper">
       <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
       <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
-      <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
+      <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(Phoenix.Controller.view_module(@conn), Phoenix.Controller.view_template(@conn))) |> forward_assigns %>
       <%= if assigns[:banner_template] do %>
         <div class="announcement-container <%= assigns[:banner_class] %>">
           <div class="container">
@@ -83,7 +83,7 @@
       <%= if assigns[:search_header?] do %>
         <%= render "_searchbar.html", assigns %>
       <% end %>
-      <div class="page-container <%= get_page_classes(@view_module, @view_template) %>">
+      <div class="page-container <%= get_page_classes(Phoenix.Controller.view_module(@conn), Phoenix.Controller.view_template(@conn)) %>">
         <%= content_tag :main, @inner_content, id: "main", tabindex: -1 %>
       </div> <%# /container %>
       <%= render __MODULE__, "_footer.html", conn: @conn %>

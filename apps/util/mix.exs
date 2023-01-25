@@ -46,8 +46,8 @@ defmodule Util.Mixfile do
     [
       {:timex, ">= 0.0.0"},
       {:quixir, "~> 0.9", only: :test},
-      {:phoenix_html, "~> 2.13.1"},
-      {:plug, "~> 1.13.0"}
+      {:phoenix_html, "~> 3.0"},
+      {:plug, "~> 1.14.0"}
     ]
   end
 end
