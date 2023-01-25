@@ -7,7 +7,7 @@
     "c-content-teaser ",
     "c-content-teaser--#{css_type} ",
     "c-content-teaser--#{tag}"
-  ]
+  ] |> Enum.join("")
 %>
 
 <%= content_tag :div, id: "#{@teaser.id}", class: wrapper_classes do %>

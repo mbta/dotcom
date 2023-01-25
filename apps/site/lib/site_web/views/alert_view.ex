@@ -234,14 +234,12 @@ defmodule SiteWeb.AlertView do
               content_tag(:div, type_icon(mode), class: "m-alerts__mode-icon"),
               content_tag(:div, type_name(mode), class: "m-alerts__mode-name")
             ],
-            class: [
-              "m-alerts__mode-button",
+            class:
               if mode == selected do
-                [" ", "m-alerts__mode-button--selected"]
+                "m-alerts__mode-button m-alerts__mode-button--selected"
               else
-                []
+                "m-alerts__mode-button"
               end
-            ]
           )
         ],
         to: alert_path(SiteWeb.Endpoint, :show, mode),
