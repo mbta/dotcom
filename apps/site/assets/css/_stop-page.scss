@@ -215,6 +215,18 @@
   }
 }
 
+.m-stop-page__departures--small-screen {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.m-stop-page__departures--regular-screen {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
 .m-stop-page__no-departures {
   padding: calc(#{$base-spacing} / 2);
 }

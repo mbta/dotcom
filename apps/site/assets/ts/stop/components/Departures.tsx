@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Stop, Mode, Alert } from "../../__v3api";
 import { Dispatch, clickModeAction } from "../state";
 import { TypedRoutes, RouteWithDirections } from "./__stop";
@@ -39,6 +39,19 @@ const filteredByModes = (
   );
 };
 
+// Only return the first 2 routes for small screens, or all of them if there are filters, showMore
+const filterForSmallScreen = (
+  routes: RouteWithDirections[],
+  modes: Mode[],
+  showMore: boolean
+): RouteWithDirections[] => {
+  if (modes.length > 0 || showMore) {
+    return routes;
+  } else {
+    return routes.slice(0, 2);
+  }
+};
+
 const Departures = ({
   routes,
   routesAndAlerts,
@@ -46,11 +59,18 @@ const Departures = ({
   selectedModes,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
+  const [showMore, setShowMore] = useState<boolean>(false);
   const isModeSelected = (mode: Mode): boolean => selectedModes.includes(mode);
 
   const handleModeClick = (mode: Mode): void => dispatch(clickModeAction(mode));
 
   const filteredRoutes = filteredByModes(allRoutes(routes), selectedModes);
+  // Only show the first 2 elements of the array (unless filtered or button clicked)
+  const shortFilteredRoutes = filterForSmallScreen(
+    allRoutes(routes),
+    selectedModes,
+    showMore
+  );
 
   return (
     <div id="route-card-list">
@@ -64,20 +84,47 @@ const Departures = ({
             modeButtonsToShow={availableModes(routes)}
           />
         )}
-
-        {filteredRoutes.map(routeWithDirections => (
-          <RouteCard
-            key={routeWithDirections.route.id}
-            route={routeWithDirections.route}
-            directions={routeWithDirections.directions}
-            stop={stop}
-            alerts={
-              routesAndAlerts
-                ? routesAndAlerts[routeWithDirections.route.id]
-                : []
-            }
-          />
-        ))}
+        <div className="m-stop-page__departures--regular-screen mt-8">
+          {filteredRoutes.map(routeWithDirections => (
+            <RouteCard
+              key={routeWithDirections.route.id}
+              route={routeWithDirections.route}
+              directions={routeWithDirections.directions}
+              stop={stop}
+              alerts={
+                routesAndAlerts
+                  ? routesAndAlerts[routeWithDirections.route.id]
+                  : []
+              }
+            />
+          ))}
+        </div>
+        <div className="m-stop-page__departures--small-screen mt-8">
+          {/* This should only show on small screens */}
+          {shortFilteredRoutes.map(routeWithDirections => (
+            <RouteCard
+              key={routeWithDirections.route.id}
+              route={routeWithDirections.route}
+              directions={routeWithDirections.directions}
+              stop={stop}
+              alerts={
+                routesAndAlerts
+                  ? routesAndAlerts[routeWithDirections.route.id]
+                  : []
+              }
+            />
+          ))}
+          {!showMore && filteredRoutes.length > 2 && (
+            <div className="d-flex justify-content-center mt-10">
+              <button
+                className="btn btn-secondary"
+                onClick={() => setShowMore(true)}
+              >
+                Show {filteredRoutes.length - 2} more routes
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
