@@ -38,7 +38,8 @@ const RouteCardHeader = ({
           title="alert"
         >
           {alertIcon("c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert")}
-          <p>{numberOfAlerts} alert</p>
+          {numberOfAlerts}
+          {numberOfAlerts > 1 ? "alerts" : "alert"}
         </a>
       )}
     </div>

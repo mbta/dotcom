@@ -30,11 +30,22 @@
   }
 
   &__inner-link {
-    border: 1px solid ;
+    border: 1px solid $white;
     border-radius: 4.5px;
     display: inline-flex;
-    padding: 5px 10px;
+    flex-basis: content;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 10px;
+    padding-right: 10px;
     pointer-events: all;
+    text-align: center;
+    width: 89px;
+
+    svg {
+      width: 14px;
+    }
   }
 
   &__view-schedule {
