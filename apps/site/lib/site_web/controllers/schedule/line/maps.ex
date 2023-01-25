@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   @moduledoc """
   Handles Map information for the line controller
   """
+  require Logger
 
   alias GoogleMaps.MapData, as: GoogleMapData
   alias GoogleMapData.Marker, as: GoogleMarker
@@ -90,11 +91,21 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
          vehicle_tooltips
        ) do
     stop_ids =
-      if is_list(route_patterns) do
-        Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
-        |> Enum.uniq()
-      else
-        []
+      try do
+        if is_list(route_patterns) do
+          Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
+          |> Enum.uniq()
+        else
+          []
+        end
+      rescue
+        _error in Protocol.UndefinedError ->
+          _ =
+            Logger.info(
+              "module=#{__MODULE__} dynamic_map_data route_patterns=#{inspect(route_patterns)}"
+            )
+
+          []
       end
 
     stop_markers =
