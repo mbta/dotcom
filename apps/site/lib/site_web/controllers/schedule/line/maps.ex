@@ -167,11 +167,8 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
     route_paths =
-      if is_list(route_patterns) do
-        Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
-      else
-        []
-      end
+      Enum.filter(route_patterns, &(!is_nil(&1.representative_trip_polyline)))
+      |> Enum.map(&Polyline.new(&1, color: color, weight: 4))
 
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths
