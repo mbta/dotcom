@@ -1,0 +1,4 @@
+<div class="container">
+  <h1><%= @stop_id %></h1>
+  <p>Stay tuned for a new stop page experience.</p>
+</div>
