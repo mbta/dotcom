@@ -633,7 +633,7 @@ Array [
                 </div>
               </div>
               <div
-                className="m-stop-page__departures--regular-screen mt-8"
+                className="hidden-sm-down mt-8"
               >
                 <div
                   className="m-stop-page__departures-route"
@@ -2766,7 +2766,7 @@ Array [
                 </div>
               </div>
               <div
-                className="m-stop-page__departures--small-screen mt-8"
+                className="hidden-md-up mt-8"
               >
                 <div
                   className="m-stop-page__departures-route"
@@ -3157,18 +3157,14 @@ Array [
                     </div>
                   </div>
                 </div>
-                <div
-                  className="d-flex justify-content-center mt-10"
+                <button
+                  className="btn btn-block mt-10 btn-secondary"
+                  onClick={[Function]}
                 >
-                  <button
-                    className="btn btn-secondary"
-                    onClick={[Function]}
-                  >
-                    Show 
-                    10
-                     more routes
-                  </button>
-                </div>
+                  Show 
+                  10
+                   more routes
+                </button>
               </div>
             </div>
           </div>

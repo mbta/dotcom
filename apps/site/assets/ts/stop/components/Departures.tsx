@@ -67,7 +67,7 @@ const Departures = ({
   const filteredRoutes = filteredByModes(allRoutes(routes), selectedModes);
   // Only show the first 2 elements of the array (unless filtered or button clicked)
   const shortFilteredRoutes = filterForSmallScreen(
-    allRoutes(routes),
+    filteredRoutes,
     selectedModes,
     showMore
   );
@@ -84,7 +84,7 @@ const Departures = ({
             modeButtonsToShow={availableModes(routes)}
           />
         )}
-        <div className="m-stop-page__departures--regular-screen mt-8">
+        <div className="hidden-sm-down mt-8">
           {filteredRoutes.map(routeWithDirections => (
             <RouteCard
               key={routeWithDirections.route.id}
@@ -99,7 +99,7 @@ const Departures = ({
             />
           ))}
         </div>
-        <div className="m-stop-page__departures--small-screen mt-8">
+        <div className="hidden-md-up mt-8">
           {/* This should only show on small screens */}
           {shortFilteredRoutes.map(routeWithDirections => (
             <RouteCard
@@ -115,14 +115,12 @@ const Departures = ({
             />
           ))}
           {!showMore && filteredRoutes.length > 2 && (
-            <div className="d-flex justify-content-center mt-10">
-              <button
-                className="btn btn-secondary"
-                onClick={() => setShowMore(true)}
-              >
-                Show {filteredRoutes.length - 2} more routes
-              </button>
-            </div>
+            <button
+              className="btn btn-block mt-10 btn-secondary"
+              onClick={() => setShowMore(true)}
+            >
+              Show {filteredRoutes.length - 2} more routes
+            </button>
           )}
         </div>
       </div>
