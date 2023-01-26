@@ -43,9 +43,9 @@ const filteredByModes = (
 const filterForSmallScreen = (
   routes: RouteWithDirections[],
   modes: Mode[],
-  showMore: boolean
+  allRoutesShown: boolean
 ): RouteWithDirections[] => {
-  if (modes.length > 0 || showMore) {
+  if (modes.length > 0 || allRoutesShown) {
     return routes;
   }
   return routes.slice(0, 2);
@@ -58,7 +58,7 @@ const Departures = ({
   selectedModes,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
-  const [showMore, setShowMore] = useState<boolean>(false);
+  const [allRoutesShown, setAllRoutesShown] = useState<boolean>(false);
   const isModeSelected = (mode: Mode): boolean => selectedModes.includes(mode);
 
   const handleModeClick = (mode: Mode): void => dispatch(clickModeAction(mode));
@@ -68,15 +68,15 @@ const Departures = ({
   const shortFilteredRoutes = filterForSmallScreen(
     filteredRoutes,
     selectedModes,
-    showMore
+    allRoutesShown
   );
 
   const displayShowMoreButton = (
-    showMoreBoolean: boolean,
+    allRoutesBoolean: boolean,
     modes: Mode[],
     routesArray: RouteWithDirections[]
   ): boolean => {
-    return !showMoreBoolean && modes.length === 0 && routesArray.length > 2;
+    return !allRoutesBoolean && modes.length === 0 && routesArray.length > 2;
   };
 
   return (
@@ -121,10 +121,14 @@ const Departures = ({
               }
             />
           ))}
-          {displayShowMoreButton(showMore, selectedModes, filteredRoutes) && (
+          {displayShowMoreButton(
+            allRoutesShown,
+            selectedModes,
+            filteredRoutes
+          ) && (
             <button
               className="btn btn-block mt-10 btn-secondary"
-              onClick={() => setShowMore(true)}
+              onClick={() => setAllRoutesShown(true)}
               type="button"
             >
               Show {filteredRoutes.length - 2} more routes

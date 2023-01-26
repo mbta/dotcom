@@ -3160,6 +3160,7 @@ Array [
                 <button
                   className="btn btn-block mt-10 btn-secondary"
                   onClick={[Function]}
+                  type="button"
                 >
                   Show 
                   10
