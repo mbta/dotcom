@@ -21,4 +21,4 @@ jobs:
     - name: Run Crawler
       run: |
         mix escript.install --force github mbta/link_checker
-        $HOME/.mix/escripts/crawler https://api-dev.mbtace.com/ --num-workers 3
+        $HOME/.mix/escripts/crawler https://dev.mbtace.com/ --num-workers 3
