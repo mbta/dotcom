@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Stop, Mode, Alert } from "../../__v3api";
 import { Dispatch, clickModeAction } from "../state";
 import { TypedRoutes, RouteWithDirections } from "./__stop";
@@ -39,6 +39,18 @@ const filteredByModes = (
   );
 };
 
+// Only return the first 2 routes for small screens, or all of them if there are filters, showMore
+const filterForSmallScreen = (
+  routes: RouteWithDirections[],
+  modes: Mode[],
+  allRoutesShown: boolean
+): RouteWithDirections[] => {
+  if (modes.length > 0 || allRoutesShown) {
+    return routes;
+  }
+  return routes.slice(0, 2);
+};
+
 const Departures = ({
   routes,
   routesAndAlerts,
@@ -46,11 +58,26 @@ const Departures = ({
   selectedModes,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
+  const [allRoutesShown, setAllRoutesShown] = useState<boolean>(false);
   const isModeSelected = (mode: Mode): boolean => selectedModes.includes(mode);
 
   const handleModeClick = (mode: Mode): void => dispatch(clickModeAction(mode));
 
   const filteredRoutes = filteredByModes(allRoutes(routes), selectedModes);
+  // Only show the first 2 elements of the array (unless filtered or button clicked)
+  const shortFilteredRoutes = filterForSmallScreen(
+    filteredRoutes,
+    selectedModes,
+    allRoutesShown
+  );
+
+  const displayShowMoreButton = (
+    allRoutesBoolean: boolean,
+    modes: Mode[],
+    routesArray: RouteWithDirections[]
+  ): boolean => {
+    return !allRoutesBoolean && modes.length === 0 && routesArray.length > 2;
+  };
 
   return (
     <div id="route-card-list">
@@ -64,20 +91,50 @@ const Departures = ({
             modeButtonsToShow={availableModes(routes)}
           />
         )}
-
-        {filteredRoutes.map(routeWithDirections => (
-          <RouteCard
-            key={routeWithDirections.route.id}
-            route={routeWithDirections.route}
-            directions={routeWithDirections.directions}
-            stop={stop}
-            alerts={
-              routesAndAlerts
-                ? routesAndAlerts[routeWithDirections.route.id]
-                : []
-            }
-          />
-        ))}
+        <div className="hidden-sm-down mt-8">
+          {filteredRoutes.map(routeWithDirections => (
+            <RouteCard
+              key={routeWithDirections.route.id}
+              route={routeWithDirections.route}
+              directions={routeWithDirections.directions}
+              stop={stop}
+              alerts={
+                routesAndAlerts
+                  ? routesAndAlerts[routeWithDirections.route.id]
+                  : []
+              }
+            />
+          ))}
+        </div>
+        <div className="hidden-md-up mt-8">
+          {/* This should only show on small screens */}
+          {shortFilteredRoutes.map(routeWithDirections => (
+            <RouteCard
+              key={routeWithDirections.route.id}
+              route={routeWithDirections.route}
+              directions={routeWithDirections.directions}
+              stop={stop}
+              alerts={
+                routesAndAlerts
+                  ? routesAndAlerts[routeWithDirections.route.id]
+                  : []
+              }
+            />
+          ))}
+          {displayShowMoreButton(
+            allRoutesShown,
+            selectedModes,
+            filteredRoutes
+          ) && (
+            <button
+              className="btn btn-block mt-10 btn-secondary"
+              onClick={() => setAllRoutesShown(true)}
+              type="button"
+            >
+              Show {filteredRoutes.length - 2} more routes
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
