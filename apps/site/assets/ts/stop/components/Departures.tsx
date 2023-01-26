@@ -47,9 +47,8 @@ const filterForSmallScreen = (
 ): RouteWithDirections[] => {
   if (modes.length > 0 || showMore) {
     return routes;
-  } else {
-    return routes.slice(0, 2);
   }
+  return routes.slice(0, 2);
 };
 
 const Departures = ({
@@ -71,6 +70,14 @@ const Departures = ({
     selectedModes,
     showMore
   );
+
+  const displayShowMoreButton = (
+    showMoreBoolean: boolean,
+    modes: Mode[],
+    routesArray: RouteWithDirections[]
+  ): boolean => {
+    return !showMoreBoolean && modes.length === 0 && routesArray.length > 2;
+  };
 
   return (
     <div id="route-card-list">
@@ -114,10 +121,11 @@ const Departures = ({
               }
             />
           ))}
-          {!showMore && filteredRoutes.length > 2 && (
+          {displayShowMoreButton(showMore, selectedModes, filteredRoutes) && (
             <button
               className="btn btn-block mt-10 btn-secondary"
               onClick={() => setShowMore(true)}
+              type="button"
             >
               Show {filteredRoutes.length - 2} more routes
             </button>
