@@ -30,12 +30,12 @@
   }
 
   &__inner-link {
+    align-items: center;
     border: 1px solid $white;
     border-radius: 4.5px;
     display: inline-flex;
     flex-basis: content;
     font-size: 14px;
-    height: 24px;
     line-height: 24px;
     padding-left: 10px;
     padding-right: 20px;
