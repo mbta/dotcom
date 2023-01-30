@@ -58,6 +58,7 @@
   @include bg-text($black);
   background-color: $brand-bus;
   .c-link-block__inner-link {
+    border: 1px solid $black;
     svg {
       margin-top: 3px;
     }
