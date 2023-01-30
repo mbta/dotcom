@@ -35,9 +35,7 @@ const RouteCardHeader = ({
           href={`/schedules/${route.id}/alerts`}
           title="alert"
         >
-          {alertIcon(
-            "btn btn-sm c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
-          )}
+          {alertIcon("c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert")}
           <span>
             {alerts.length}
             {alerts.length > 1 ? " alerts" : " alert"}

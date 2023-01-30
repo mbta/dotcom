@@ -43,9 +43,16 @@
     text-align: center;
     white-space: nowrap;
 
+    &:hover {
+      text-decoration: none;
+    }
+
     svg {
+      display: block;
+      height: .8em;
+      margin-left: 10px;
+      margin-top: 5px;
       padding-right: 5px;
-      width: 14px;
     }
   }
 
