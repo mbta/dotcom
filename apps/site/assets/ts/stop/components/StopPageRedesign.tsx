@@ -6,9 +6,9 @@ const StopPageRedesign = ({
   stopId: string;
 }): ReactElement<HTMLElement> => {
   return (
-    <div>
+    <article>
       {/* Title Bar Div */}
-      <div className="d-flex justify-content-space-between">
+      <header className="d-flex justify-content-space-between">
         <div>
           <h1>{stopId}</h1>
           {/* ICONS GO HERE */}
@@ -16,14 +16,14 @@ const StopPageRedesign = ({
         <div style={{ marginTop: "3.075rem" }}>
           Zone Information PLACEHOLDER
         </div>
-      </div>
+      </header>
       {/* Route and Map Div */}
       <div className="d-flex">
         <div style={{ minWidth: "50%" }}>
           <div>Route schedules & maps / Upcoming Trips PLACEHOLDER</div>
           <div>Filter Pills PLACEHOLDER</div>
-          <div style={{ maxHeight: "250px", overflowY: "auto" }}>
-            <div className="d-flex">
+          <ul style={{ maxHeight: "250px", overflowY: "auto" }}>
+            <li className="d-flex">
               <div className="me-8">210</div>
               <div>
                 <div>Fields Corner</div>
@@ -32,8 +32,8 @@ const StopPageRedesign = ({
                   <div>View Realtime Map</div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex">
+            </li>
+            <li className="d-flex">
               <div className="me-8">210</div>
               <div>
                 <div>Fields Corner</div>
@@ -42,8 +42,8 @@ const StopPageRedesign = ({
                   <div>View Realtime Map</div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex">
+            </li>
+            <li className="d-flex">
               <div className="me-8">210</div>
               <div>
                 <div>Fields Corner</div>
@@ -52,8 +52,8 @@ const StopPageRedesign = ({
                   <div>View Realtime Map</div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex">
+            </li>
+            <li className="d-flex">
               <div className="me-8">210</div>
               <div>
                 <div>Fields Corner</div>
@@ -62,8 +62,8 @@ const StopPageRedesign = ({
                   <div>View Realtime Map</div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex">
+            </li>
+            <li className="d-flex">
               <div className="me-8">210</div>
               <div>
                 <div>Fields Corner</div>
@@ -72,8 +72,8 @@ const StopPageRedesign = ({
                   <div>View Realtime Map</div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex">
+            </li>
+            <li className="d-flex">
               <div className="me-8">210</div>
               <div>
                 <div>Fields Corner</div>
@@ -82,18 +82,8 @@ const StopPageRedesign = ({
                   <div>View Realtime Map</div>
                 </div>
               </div>
-            </div>
-            <div className="d-flex">
-              <div className="me-8">210</div>
-              <div>
-                <div>Fields Corner</div>
-                <div className="d-flex">
-                  <div>Open Schedule</div>
-                  <div>View Realtime Map</div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </li>
+          </ul>
           <button>Plan your Trip PLACEHOLDER</button>
         </div>
         <div className="hidden-sm-down">
@@ -101,12 +91,12 @@ const StopPageRedesign = ({
         </div>
       </div>
       {/* Station Information Div */}
-      <div>
+      <footer>
         <div>Station information PLACEHOLDER</div>
         <div>Station Address PLACEHOLDER</div>
         <div>Station Status Blocks PLACEHOLDER</div>
-      </div>
-    </div>
+      </footer>
+    </article>
   );
 };
 
