@@ -1,4 +1,9 @@
 <div class="container">
   <h1><%= @stop_id %></h1>
+    <%= for stop <- @routes_by_stop do %>
+      <p>
+        <%= stop.long_name %>
+      </p>
+    <% end %>
   <p>Stay tuned for a new stop page experience.</p>
 </div>
