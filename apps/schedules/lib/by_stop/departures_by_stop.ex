@@ -1,0 +1,53 @@
+defmodule Schedules.ByStop.DeparturesByStop do
+  @moduledoc """
+    Departure times and arrival times of all the routes at a given stop.
+  """
+
+  @derive Jason.Encoder
+
+  defstruct route_id: nil,
+            stop_id: nil,
+            arrival_time: nil,
+            departure_time: nil
+
+  @type t :: %Schedules.ByStop.DeparturesByStop{
+          route_id: String.t(),
+          stop_id: String.t(),
+          arrival_time: DateTime.t() | nil,
+          departure_time: DateTime.t() | nil
+        }
+
+  @spec parse_from_schedule_json(Item.t()) :: t()
+  def parse_from_schedule_json(item) do
+    %Schedules.ByStop.DeparturesByStop{
+      route_id: route_id(item),
+      stop_id: stop_id(item),
+      arrival_time: arrival_time(item),
+      departure_time: departure_time(item)
+    }
+  end
+
+  defp departure_time(%JsonApi.Item{attributes: %{"departure_time" => nil}}) do
+    nil
+  end
+
+  defp departure_time(%JsonApi.Item{attributes: %{"departure_time" => time}}) do
+    Timex.parse!(time, "{ISO:Extended}")
+  end
+
+  defp arrival_time(%JsonApi.Item{attributes: %{"arrival_time" => nil}}) do
+    nil
+  end
+
+  defp arrival_time(%JsonApi.Item{attributes: %{"arrival_time" => time}}) do
+    Timex.parse!(time, "{ISO:Extended}")
+  end
+
+  def stop_id(%JsonApi.Item{relationships: %{"stop" => [%JsonApi.Item{id: id}]}}) do
+    id
+  end
+
+  def route_id(%JsonApi.Item{relationships: %{"route" => [%JsonApi.Item{id: id} | _]}}) do
+    id
+  end
+end

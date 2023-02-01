@@ -138,6 +138,7 @@ defmodule SiteWeb.Router do
     get("/api/realtime/stops", RealtimeScheduleApi, :stops)
 
     get("/schedules", ModeController, :index)
+    get("/schedules/at_stop/:stop_id", ScheduleController.SchedulesByStopController, :show)
     get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
     get("/schedules/line_api", ScheduleController.LineApi, :show)
