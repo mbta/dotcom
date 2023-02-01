@@ -61,7 +61,7 @@ defmodule SiteWeb.StopController do
       conn
       |> render("show-redesign.html", %{
         stop_id: stop_id,
-        routes_by_stop: Routes.Repo.by_stop(stop_id)
+        routes_by_stop: Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
       })
     else
       show_old(conn, params)
