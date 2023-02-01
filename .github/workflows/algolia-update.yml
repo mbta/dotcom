@@ -14,4 +14,4 @@ jobs:
     - env:
         ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
         ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
-      run: MIX_ENV=prod mix algolia.update
+      run: MIX_ENV=dev mix algolia.update
