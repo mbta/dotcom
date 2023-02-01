@@ -8,13 +8,15 @@ defmodule Schedules.ByStop.DeparturesByStop do
   defstruct route_id: nil,
             stop_id: nil,
             arrival_time: nil,
-            departure_time: nil
+            departure_time: nil,
+            headsign: ""
 
   @type t :: %Schedules.ByStop.DeparturesByStop{
           route_id: String.t(),
           stop_id: String.t(),
           arrival_time: DateTime.t() | nil,
-          departure_time: DateTime.t() | nil
+          departure_time: DateTime.t() | nil,
+          headsign: String.t()
         }
 
   @spec parse_from_schedule_json(Item.t()) :: t()
@@ -23,7 +25,8 @@ defmodule Schedules.ByStop.DeparturesByStop do
       route_id: route_id(item),
       stop_id: stop_id(item),
       arrival_time: arrival_time(item),
-      departure_time: departure_time(item)
+      departure_time: departure_time(item),
+      headsign: headsign(item)
     }
   end
 
@@ -49,5 +52,15 @@ defmodule Schedules.ByStop.DeparturesByStop do
 
   def route_id(%JsonApi.Item{relationships: %{"route" => [%JsonApi.Item{id: id} | _]}}) do
     id
+  end
+
+  def headsign(%JsonApi.Item{
+        relationships: %{"trip" => [%JsonApi.Item{attributes: %{"headsign" => headsign}} | _]}
+      }) do
+    headsign
+  end
+
+  def headsign(%JsonApi{data: [%JsonApi.Item{attributes: %{"headsign" => headsign}}]}) do
+    headsign
   end
 end
