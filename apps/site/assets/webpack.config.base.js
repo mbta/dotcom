@@ -34,6 +34,7 @@ module.exports = {
     tripplanner: ["./ts/trip-planner-entry.ts"],
     vote: ["./ts/vote-map-entry.ts"],
     stop: ["./ts/stop-entry.ts"],
+    stopRedesign: ["./ts/stop-redesign-entry.ts"],
     leaflet: ["./ts/leaflet-entry.ts"],
     schedule: ["./ts/schedule-entry.ts"],
     tripplanresults: ["./ts/trip-plan-results-entry.ts"],
