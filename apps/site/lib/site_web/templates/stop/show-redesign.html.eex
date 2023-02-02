@@ -1,9 +1,10 @@
 <div class="container">
-  <h1><%= @stop_id %></h1>
-    <%= for stop <- @routes_by_stop do %>
-      <p>
-        <%= stop.long_name %>
-      </p>
-    <% end %>
-  <p>Stay tuned for a new stop page experience.</p>
+  <div id="react-stop-redesign-root"></div>
 </div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/stopRedesign.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/stopRedesign.js") %>"></script>
+<% end %>

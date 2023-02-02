@@ -1,9 +1,17 @@
 name: Update Algolia index
 
 on:
+  workflow_call:
   workflow_dispatch:
   schedule: 
     - cron: "0 3 * * *" # every day, 3am
+
+env:
+  MIX_ENV: dev
+  USE_SERVER_SENT_EVENTS: "false"
+  V3_URL: ${{ secrets.V3_URL }}
+  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  WARM_CACHES: "false"
 
 jobs:
   algolia:
@@ -14,4 +22,4 @@ jobs:
     - env:
         ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
         ALGOLIA_WRITE_KEY: ${{ secrets.ALGOLIA_WRITE_KEY }}
-      run: MIX_ENV=prod mix algolia.update
+      run: mix algolia.update
