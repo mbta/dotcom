@@ -68,7 +68,7 @@
     position: relative;
     white-space: nowrap;
     @include media-breakpoint-down(xs) {
-      display: block;
+      display: table-cell;
       margin-left: 0;
     }
   }
