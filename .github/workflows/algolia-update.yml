@@ -9,6 +9,9 @@ on:
 env:
   MIX_ENV: dev
   USE_SERVER_SENT_EVENTS: "false"
+  V3_URL: ${{ secrets.V3_URL }}
+  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  WARM_CACHES: "false"
 
 jobs:
   algolia:
