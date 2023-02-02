@@ -59,7 +59,10 @@ defmodule SiteWeb.StopController do
       # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/2
       # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/3
       conn
-      |> render("show-redesign.html", %{stop_id: stop_id})
+      |> render("show-redesign.html", %{
+        stop_id: stop_id,
+        routes_by_stop: Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+      })
     else
       show_old(conn, params)
     end
