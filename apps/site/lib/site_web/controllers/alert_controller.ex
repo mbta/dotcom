@@ -1,6 +1,6 @@
 defmodule SiteWeb.AlertController do
   use SiteWeb, :controller
-  alias Alerts.{Alert, InformedEntity, Match}
+  alias Alerts.{Alert, InformedEntity, Match, Repo}
   alias Stops.Stop
 
   plug(:route_type)
@@ -28,6 +28,22 @@ defmodule SiteWeb.AlertController do
 
   def show(conn, _params) do
     check_cms_or_404(conn)
+  end
+
+  # TODO revisit this later to see if it is used/needed
+  @spec show_by_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def show_by_stop(conn, %{"stop_id" => stop_id}) do
+    alerts = Repo.by_stop_id(stop_id)
+    json(conn, alerts)
+  end
+
+  @spec show_by_routes(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def show_by_routes(conn, _) do
+    query_params = conn.query_params
+    route_id_string = query_params["route_ids"]
+    route_ids = String.split(route_id_string, ",")
+    alerts = Repo.by_route_ids(List.wrap(route_ids), DateTime.utc_now())
+    json(conn, alerts)
   end
 
   def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do

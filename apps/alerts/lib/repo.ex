@@ -38,6 +38,13 @@ defmodule Alerts.Repo do
     |> Store.alerts(now)
   end
 
+  @spec by_stop_id(String.t(), DateTime.t()) :: [Alert.t()]
+  def by_stop_id(stop_id, now \\ DateTime.utc_now()) do
+    stop_id
+    |> Store.alert_ids_for_stop_id()
+    |> Store.alerts(now)
+  end
+
   @spec by_priority(DateTime.t(), Priority.priority_level()) :: [Alert.t()]
   def by_priority(now, priority) do
     now

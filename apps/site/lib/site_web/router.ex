@@ -111,6 +111,8 @@ defmodule SiteWeb.Router do
 
     get("/", PageController, :index)
 
+    get("/alerts", AlertController, :show_by_routes)
+
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)
@@ -131,7 +133,9 @@ defmodule SiteWeb.Router do
     # stop redirects
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
+
     get("/stops/api", StopController, :api)
+    get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
