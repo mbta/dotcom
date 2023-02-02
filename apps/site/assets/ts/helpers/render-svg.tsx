@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (
+const SVGIcon = (
   className: string,
   svgText: string,
   ariaHide: boolean = true
@@ -12,3 +12,5 @@ export default (
     dangerouslySetInnerHTML={{ __html: svgText }}
   />
 );
+
+export default SVGIcon;

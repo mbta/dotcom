@@ -175,7 +175,7 @@ export const reducer = (
   }
 };
 
-export default ({
+const Map = ({
   data,
   channel,
   currentShapes,
@@ -209,3 +209,5 @@ export default ({
     </div>
   );
 };
+
+export default Map;

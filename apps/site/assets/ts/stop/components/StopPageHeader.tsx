@@ -10,7 +10,7 @@ interface Props {
   dispatch: Dispatch;
 }
 
-export default ({
+const StopPageHeader = ({
   stopPageData: { stop, routes, tabs, zone_number: zoneNumber },
   selectedTab,
   dispatch
@@ -27,3 +27,5 @@ export default ({
     />
   </>
 );
+
+export default StopPageHeader;

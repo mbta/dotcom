@@ -11,7 +11,7 @@ interface Props {
   routes: EnhancedRoute[];
 }
 
-export default ({
+const StopMap = ({
   // eslint-disable-next-line camelcase
   initialData: { map_data: mapData },
   stop,
@@ -35,3 +35,5 @@ export default ({
     }}
   />
 );
+
+export default StopMap;

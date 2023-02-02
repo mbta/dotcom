@@ -98,7 +98,7 @@ const mergeBends = (
       d: `M${branchX},${branchY} v${dy} a${arc} h${dx}`,
       ...strokeProp
     };
-    return <path {...pathProps} />;
+    return <path key={pathProps.key} {...pathProps} />;
   });
 
 const stopsToTerminus = (stopTree: StopTree, stopId: StopId): StopId[] => [
@@ -141,7 +141,7 @@ const branchingBends = (
       ...strokeProp
     };
 
-    return <path {...pathProps} />;
+    return <path key={pathProps.key} {...pathProps} />;
   });
 
 const Merges = ({
