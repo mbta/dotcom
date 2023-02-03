@@ -230,7 +230,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
     }
   }
 
-  .c-link-block__inner-link {
+  &.u-bg--bus  .c-link-block__inner-link {
     svg {
       margin-top: 1px;
     }
