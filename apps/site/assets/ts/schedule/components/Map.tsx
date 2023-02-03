@@ -6,7 +6,7 @@ import React, {
   useRef
 } from "react";
 import { initChannel, stopChannel, SocketEvent } from "./Channel";
-import Map from "../../leaflet/components/Map";
+import LeafletMap from "../../leaflet/components/Map";
 import getBounds from "../../leaflet/bounds";
 import {
   MapData,
@@ -205,7 +205,7 @@ const Map = ({
   const bounds = useRef(getBounds(stopMarkers));
   return (
     <div className="m-schedule__map">
-      <Map bounds={bounds.current} mapData={mapData} />
+      <LeafletMap bounds={bounds.current} mapData={mapData} />
     </div>
   );
 };

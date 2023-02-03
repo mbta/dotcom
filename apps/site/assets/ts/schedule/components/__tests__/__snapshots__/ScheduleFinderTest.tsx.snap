@@ -3,7 +3,7 @@
 exports[`ScheduleFinder matches snapshot 1`] = `
 "<ScheduleFinder route={{...}} stops={{...}} directionId={0} services={{...}} routePatternsByDirection={{...}} today=\\"2019-12-05\\" updateURL={[Function: updateURL]} changeDirection={[Function: changeDirection]} selectedOrigin={{...}} changeOrigin={[Function: changeOrigin]} closeModal={[Function: closeModal]} modalMode=\\"schedule\\" modalOpen={false} scheduleNote={{...}}>
   <div className=\\"schedule-finder\\">
-    <Component onDirectionChange={[Function: changeDirection]} onOriginChange={[Function: changeOrigin]} onOriginSelectClick={[Function: openOriginModal]} onSubmit={[Function: openScheduleModal]} route={{...}} selectedDirection={0} selectedOrigin={{...}} stopsByDirection={{...}}>
+    <ScheduleFinderForm onDirectionChange={[Function: changeDirection]} onOriginChange={[Function: changeOrigin]} onOriginSelectClick={[Function: openOriginModal]} onSubmit={[Function: openScheduleModal]} route={{...}} selectedDirection={0} selectedOrigin={{...}} stopsByDirection={{...}}>
       <form onSubmit={[Function: handleSubmit]}>
         <h2 className=\\"schedule-finder__heading\\">
           <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
@@ -58,7 +58,7 @@ exports[`ScheduleFinder matches snapshot 1`] = `
           <input className=\\"btn btn-primary\\" type=\\"submit\\" value=\\"Get schedules\\" />
         </div>
       </form>
-    </Component>
+    </ScheduleFinderForm>
   </div>
 </ScheduleFinder>"
 `;

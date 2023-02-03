@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Schedule Map renders and matches snapshot 1`] = `
-"<Component data={{...}} channel=\\"vehicles:Red:0\\" currentShapes={{...}} currentStops={{...}}>
+"<Map data={{...}} channel=\\"vehicles:Red:0\\" currentShapes={{...}} currentStops={{...}}>
   <div className=\\"m-schedule__map\\">
     <Component bounds={{...}} mapData={{...}}>
       <Map bounds={{...}} center={{...}} zoom={16} maxZoom={18} minZoom={9} scrollWheelZoom={false} style={{...}}>
@@ -20,5 +20,5 @@ exports[`Schedule Map renders and matches snapshot 1`] = `
       </Map>
     </Component>
   </div>
-</Component>"
+</Map>"
 `;
