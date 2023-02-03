@@ -55,6 +55,11 @@ defmodule Alerts.Cache.Store do
     :ets.select(:route_id_and_type_to_alert_ids, keys)
   end
 
+  def alert_ids_for_stop_id(stop_id) do
+    keys = [{{stop_id, :"$1"}, [], [:"$1"]}]
+    :ets.select(:stop_id_to_alert_ids, keys)
+  end
+
   @doc """
   Retrieves the alert objects given a list of alert IDs. If an ID
   is passed that doesn't have a current alert, it is ignored.
@@ -116,6 +121,8 @@ defmodule Alerts.Cache.Store do
         read_concurrency: true
       ])
 
+    _ = :ets.new(:stop_id_to_alert_ids, [:bag, :protected, :named_table, read_concurrency: true])
+
     # no cover
     _ = :ets.new(:alert_banner, [:set, :protected, :named_table, read_concurrency: true])
 
@@ -133,13 +140,30 @@ defmodule Alerts.Cache.Store do
         }
       end)
 
+    stop_inserts =
+      Enum.flat_map(alerts, fn alert ->
+        non_nil_stops =
+          Enum.filter(alert.informed_entity.stop, fn stop_id ->
+            stop_id != nil
+          end)
+
+        Enum.map(non_nil_stops, fn stop_id ->
+          {
+            stop_id,
+            alert.id
+          }
+        end)
+      end)
+
     :ets.delete_all_objects(:alert_id_to_alert)
     :ets.delete_all_objects(:route_id_and_type_to_alert_ids)
     :ets.delete_all_objects(:alert_banner)
+    :ets.delete_all_objects(:stop_id_to_alert_ids)
 
     :ets.insert(:alert_id_to_alert, alert_inserts)
     :ets.insert(:route_id_and_type_to_alert_ids, route_inserts)
     :ets.insert(:alert_banner, {:banner, banner})
+    :ets.insert(:stop_id_to_alert_ids, stop_inserts)
 
     {:reply, :ok, state, :hibernate}
   end

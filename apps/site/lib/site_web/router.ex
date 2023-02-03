@@ -131,7 +131,9 @@ defmodule SiteWeb.Router do
     # stop redirects
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
+
     get("/stops/api", StopController, :api)
+    get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
@@ -193,6 +195,11 @@ defmodule SiteWeb.Router do
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
     end
+  end
+
+  scope "/api", SiteWeb do
+    pipe_through([:secure, :browser])
+    get("/alerts", AlertController, :show_by_routes)
   end
 
   scope "/places", SiteWeb do
