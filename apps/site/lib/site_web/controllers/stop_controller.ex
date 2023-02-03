@@ -68,6 +68,14 @@ defmodule SiteWeb.StopController do
     end
   end
 
+  def schedules_for_stop(conn, %{"stop_id" => stop_id}) do
+    # we should only cache figure out what, and how long to cache
+    # Real time should be a separate request (this is only scheduled)
+    # Should not return past schedules by default
+    schedules = Schedules.ByStop.SchedulesByStopRepo.departures_for_stop(stop_id, [])
+    json(conn, schedules)
+  end
+
   @spec show_old(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show_old(%Plug.Conn{query_params: query_params} = conn, %{"id" => stop}) do
     stop =
