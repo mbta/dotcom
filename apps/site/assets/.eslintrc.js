@@ -1,5 +1,15 @@
 const baseConfig = {
-  extends: ["airbnb", "prettier", "prettier/react", "plugin:prettier/recommended"],
+  extends: [
+    "airbnb",
+    "eslint:recommended",
+    "prettier",
+    "prettier/react",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:import/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
   parser: "babel-eslint",
   parserOptions: {
     sourceType: "module"
@@ -12,7 +22,6 @@ const baseConfig = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-console": "error",
-    "jsx-a11y/label-has-for": "off", // deprecated in newer versions
     "jsx-a11y/label-has-associated-control": [2, { "depth": 3 }],
     "react/jsx-curly-brace-presence": "warn",
     "react/require-default-props": "off",

@@ -6,7 +6,7 @@ interface Props {
   suggestedTransfers: SuggestedTransfer[];
 }
 
-export default ({
+const SuggestedTransfers = ({
   suggestedTransfers
 }: Props): ReactElement<HTMLElement> | null =>
   suggestedTransfers.length === 0 ? null : (
@@ -30,3 +30,5 @@ export default ({
       </div>
     </div>
   );
+
+export default SuggestedTransfers;

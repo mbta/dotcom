@@ -3,7 +3,7 @@ import { Stop } from "../../__v3api";
 import { accessibleIcon } from "../../helpers/icon";
 import { Dispatch, clickFeaturePillAction } from "../state";
 
-export default (
+const StopAccessibilityIcon = (
   { accessibility }: Stop,
   isBusStop: boolean,
   dispatch?: Dispatch
@@ -23,3 +23,5 @@ export default (
       </span>
     </a>
   );
+
+export default StopAccessibilityIcon;

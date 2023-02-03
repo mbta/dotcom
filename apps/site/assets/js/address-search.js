@@ -34,8 +34,8 @@ export function constructUrl(place, input) {
   const name = input.getAttribute("name");
   var query_str;
   const loc = window.location;
-    const location_url = loc.protocol + "//" + loc.host + loc.pathname;
-    const addr = input.value;
+  const location_url = loc.protocol + "//" + loc.host + loc.pathname;
+  const addr = input.value;
 
   if (place.geometry) {
     const lat = place.geometry.location.lat();
@@ -65,7 +65,7 @@ export default function() {
   function addLocationChangeCallback(ev, autocomplete) {
     addLocationChangedEventListener(autocomplete, ev.target);
   }
-  
+
   function setupLocationInput() {
     const transitNearMeInput = document.getElementById("address-search-input");
 

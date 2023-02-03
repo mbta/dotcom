@@ -36,7 +36,10 @@ const config = {
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["error"]
   },
-  extends: ["plugin:@typescript-eslint/recommended"]
+  extends: [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:testing-library/react"
+  ]
 };
 
 module.exports = config;

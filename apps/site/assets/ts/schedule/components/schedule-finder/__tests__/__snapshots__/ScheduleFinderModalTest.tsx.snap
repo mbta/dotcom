@@ -89,7 +89,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
               <div className=\\"c-modal__content\\">
                 <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" services={{...}} stops={{...}} today=\\"2019-12-05\\" scheduleNote={{...}}>
                   <div className=\\"schedule-finder schedule-finder--modal\\">
-                    <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" stopsByDirection={{...}}>
+                    <ScheduleFinderForm onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"place-welln\\" stopsByDirection={{...}}>
                       <form onSubmit={[Function: handleSubmit]}>
                         <h2 className=\\"schedule-finder__heading\\">
                           <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
@@ -144,7 +144,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                           <input className=\\"btn btn-primary\\" type=\\"submit\\" value=\\"Get schedules\\" />
                         </div>
                       </form>
-                    </Component>
+                    </ScheduleFinderForm>
                   </div>
                   <DailyScheduleSubway stops={{...}} services={{...}} stopId=\\"place-welln\\" directionId={0} routeId=\\"Orange\\" route={{...}} scheduleNote={{...}} today=\\"2019-12-05\\">
                     <div>
