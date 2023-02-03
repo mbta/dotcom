@@ -296,18 +296,10 @@ defimpl Poison.Encoder, for: Routes.Route do
         },
         options
       ) do
-    direction_names = %{
-      "0" => direction_names[0],
-      "1" => direction_names[1]
-    }
-
     direction_destinations_value =
       if direction_destinations == :unknown,
         do: nil,
-        else: %{
-          "0" => direction_destinations[0],
-          "1" => direction_destinations[1]
-        }
+        else: encoded_directions(direction_destinations)
 
     Poison.Encoder.encode(
       %{
@@ -317,7 +309,7 @@ defimpl Poison.Encoder, for: Routes.Route do
         long_name: long_name,
         color: color,
         sort_order: sort_order,
-        direction_names: direction_names,
+        direction_names: encoded_directions(direction_names),
         direction_destinations: direction_destinations_value,
         description: description,
         custom_route?: custom_route?
@@ -325,4 +317,12 @@ defimpl Poison.Encoder, for: Routes.Route do
       options
     )
   end
+
+  defp encoded_directions(%{0 => direction0, 1 => direction1}),
+    do: %{
+      "0" => direction0,
+      "1" => direction1
+    }
+
+  defp encoded_directions(directions), do: directions
 end

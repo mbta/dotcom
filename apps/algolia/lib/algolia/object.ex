@@ -30,12 +30,11 @@ defimpl Algolia.Object, for: Routes.Route do
   def url(route), do: Util.site_path(:schedule_path, [:show, route])
 
   def data(route) do
-    {:ok, encoded_route} = Poison.encode(route)
     stop_names = Algolia.Routes.get_stop_names(route)
     headsigns = Algolia.Routes.headsigns(route.id)
 
     %{
-      route: encoded_route,
+      route: route,
       stop_names: stop_names,
       headsigns: headsigns
     }
