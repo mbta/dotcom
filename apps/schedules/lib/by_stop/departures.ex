@@ -1,4 +1,4 @@
-defmodule Schedules.ByStop.DeparturesByStop do
+defmodule Schedules.ByStop.Departures do
   @moduledoc """
     Departure times and arrival times of all the routes at a given stop.
   """
@@ -11,7 +11,7 @@ defmodule Schedules.ByStop.DeparturesByStop do
             departure_time: nil,
             headsign: ""
 
-  @type t :: %Schedules.ByStop.DeparturesByStop{
+  @type t :: %Schedules.ByStop.Departures{
           route_id: String.t(),
           stop_id: String.t(),
           arrival_time: DateTime.t() | nil,
@@ -21,7 +21,7 @@ defmodule Schedules.ByStop.DeparturesByStop do
 
   @spec parse_from_schedule_json(Item.t()) :: t()
   def parse_from_schedule_json(item) do
-    %Schedules.ByStop.DeparturesByStop{
+    %Schedules.ByStop.Departures{
       route_id: route_id(item),
       stop_id: stop_id(item),
       arrival_time: arrival_time(item),

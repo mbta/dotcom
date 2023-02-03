@@ -1,7 +1,7 @@
 defmodule Schedules.ByStop.SchedulesByStopRepo do
   @moduledoc "Repo for getting departure information about all the routes at a given stop"
 
-  alias Schedules.ByStop.DeparturesByStop
+  alias Schedules.ByStop.Departures
   alias Schedules.Schedule
 
   @default_params [
@@ -18,11 +18,11 @@ defmodule Schedules.ByStop.SchedulesByStopRepo do
     |> all_from_params
   end
 
-  @spec all_from_params(Keyword.t()) :: [DeparturesByStop.t()] | {:error, any}
+  @spec all_from_params(Keyword.t()) :: [Departures.t()] | {:error, any}
   defp all_from_params(params) do
     with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
       data
-      |> Stream.map(&Schedules.ByStop.DeparturesByStop.parse_from_schedule_json/1)
+      |> Stream.map(&Schedules.ByStop.Departures.parse_from_schedule_json/1)
     end
   end
 end
