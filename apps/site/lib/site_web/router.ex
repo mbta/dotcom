@@ -111,8 +111,6 @@ defmodule SiteWeb.Router do
 
     get("/", PageController, :index)
 
-    get("/alerts", AlertController, :show_by_routes)
-
     get("/events", EventController, :index)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)
@@ -197,6 +195,11 @@ defmodule SiteWeb.Router do
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
     end
+  end
+
+  scope "/api", SiteWeb do
+    pipe_through([:secure, :browser])
+    get("/alerts", AlertController, :show_by_routes)
   end
 
   scope "/places", SiteWeb do

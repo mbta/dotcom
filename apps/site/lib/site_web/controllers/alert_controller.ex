@@ -38,12 +38,14 @@ defmodule SiteWeb.AlertController do
   end
 
   @spec show_by_routes(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def show_by_routes(conn, _) do
-    query_params = conn.query_params
-    route_id_string = query_params["route_ids"]
-    route_ids = String.split(route_id_string, ",")
-    alerts = Repo.by_route_ids(List.wrap(route_ids), DateTime.utc_now())
+  def show_by_routes(%{query_params: %{"route_ids" => route_ids}} = conn, _) do
+    route_id_array = String.split(route_ids, ",")
+    alerts = Repo.by_route_ids(route_id_array, DateTime.utc_now())
     json(conn, alerts)
+  end
+
+  def show_by_routes(conn, _) do
+    json(conn, [])
   end
 
   def render_routes(%{assigns: %{alerts: alerts, routes: routes}} = conn) do

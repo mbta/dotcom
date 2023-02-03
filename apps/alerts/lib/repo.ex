@@ -18,6 +18,10 @@ defmodule Alerts.Repo do
   end
 
   @spec by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
+  def by_route_ids([], _now) do
+    []
+  end
+
   def by_route_ids(route_ids, now) do
     route_ids
     |> Store.alert_ids_for_routes()
