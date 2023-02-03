@@ -230,6 +230,12 @@ $xxl-map-height: map-get($container-max-widths, xxl) * math.div(9, 16);
     }
   }
 
+  .c-link-block__inner-link {
+    svg {
+      margin-top: 1px;
+    }
+  }
+
   &.c-link-block {
     display: block;
     margin-bottom: calc(#{$base-spacing} / 2);
