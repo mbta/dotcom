@@ -311,6 +311,14 @@ defmodule Schedules.HoursOfOperation do
     }
   end
 
+  defp merge(%__MODULE__{} = first, {:error, :timeout}) do
+    first
+  end
+
+  defp merge({:error, :timeout}, %__MODULE__{} = second) do
+    second
+  end
+
   defp merge_directions({first_0, first_1}, {second_0, second_1}) do
     {
       merge_departure(first_0, second_0),

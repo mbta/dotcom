@@ -23,14 +23,7 @@ defmodule Algolia.ObjectTest do
       assert data.headsigns == ["Start", "End"]
       assert Algolia.Object.object_id(route) == "route-CR-Commuterrail"
 
-      assert data.route == %{
-               route
-               | direction_names: [route.direction_names[0], route.direction_names[1]],
-                 direction_destinations: [
-                   route.direction_destinations[0],
-                   route.direction_destinations[1]
-                 ]
-             }
+      assert data.route == route
 
       refute Map.has_key?(data, :_geoloc)
     end
@@ -42,14 +35,7 @@ defmodule Algolia.ObjectTest do
       assert data.stop_names == ["Green Line Stop", "Commuter Rail Stop"]
       assert data.headsigns == ["Start", "End"]
 
-      assert data.route == %{
-               route
-               | direction_names: [route.direction_names[0], route.direction_names[1]],
-                 direction_destinations: [
-                   route.direction_destinations[0],
-                   route.direction_destinations[1]
-                 ]
-             }
+      assert data.route == route
 
       refute Map.has_key?(data, :_geoloc)
     end
