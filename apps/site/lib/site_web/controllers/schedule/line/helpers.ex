@@ -76,18 +76,33 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> RouteStops.from_route_stop_groups()
   end
 
+  @routes_with_trunk_discrepancies ~w(CR-Franklin CR-Providence)
+
   @spec do_get_branch_route_stops(Route.t(), direction_id(), RoutePattern.id_t() | nil) :: [
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
     route_patterns = get_line_route_patterns(route.id, direction_id, route_pattern_id)
 
-    route_patterns
-    |> filtered_by_typicality()
+    # code addressing routes_with_trunk_discrepancies depends on this function
+    # returning at least two route patterns, which is not guaranteed when using
+    # filtered_by_typicality()
+    filtered_route_patterns =
+      case route.id do
+        id when id in @routes_with_trunk_discrepancies ->
+          route_patterns
+          |> Enum.sort_by(& &1.typicality)
+          |> Enum.take(2)
+
+        _ ->
+          route_patterns
+          |> filtered_by_typicality()
+      end
+
+    filtered_route_patterns
     |> Enum.map(&stops_for_route_pattern/1)
   end
 
-  @routes_with_trunk_discrepancies ~w(CR-Franklin CR-Providence)
   @spec make_trunks_consistent([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
   defp make_trunks_consistent(route_stop_lists, %Route{id: route_id})
        when route_id in @routes_with_trunk_discrepancies do
