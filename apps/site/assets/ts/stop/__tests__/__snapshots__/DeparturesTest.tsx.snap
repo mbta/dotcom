@@ -106,11 +106,11 @@ exports[`it renders 1`] = `
               >
                 Red Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -325,11 +325,11 @@ exports[`it renders 1`] = `
               >
                 Silver Line SL1
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -495,11 +495,11 @@ exports[`it renders 1`] = `
               >
                 Silver Line SL2
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -665,11 +665,11 @@ exports[`it renders 1`] = `
               >
                 Silver Line SL3
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -835,11 +835,11 @@ exports[`it renders 1`] = `
               >
                 Fairmount Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -975,11 +975,11 @@ exports[`it renders 1`] = `
               >
                 Framingham/​Worcester Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -1195,11 +1195,11 @@ exports[`it renders 1`] = `
               >
                 Franklin Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -1415,11 +1415,11 @@ exports[`it renders 1`] = `
               >
                 Greenbush Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -1555,11 +1555,11 @@ exports[`it renders 1`] = `
               >
                 Kingston/​Plymouth Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -1735,11 +1735,11 @@ exports[`it renders 1`] = `
               >
                 Middleborough/​Lakeville Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -1875,11 +1875,11 @@ exports[`it renders 1`] = `
               >
                 Needham Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -2015,11 +2015,11 @@ exports[`it renders 1`] = `
               >
                 Providence/​Stoughton Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -2239,11 +2239,11 @@ exports[`it renders 1`] = `
               >
                 Red Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -2458,11 +2458,11 @@ exports[`it renders 1`] = `
               >
                 Silver Line SL1
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -2723,11 +2723,11 @@ exports[`it renders filtered data 1`] = `
               >
                 Red Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>
@@ -2946,11 +2946,11 @@ exports[`it renders filtered data 1`] = `
               >
                 Red Line
               </span>
-              <span
+              <div
                 className="c-link-block__view-schedule"
               >
                 View schedule
-              </span>
+              </div>
             </span>
           </div>
         </div>

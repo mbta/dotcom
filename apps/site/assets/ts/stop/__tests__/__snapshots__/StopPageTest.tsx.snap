@@ -660,11 +660,11 @@ Array [
                         >
                           Red Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -879,11 +879,11 @@ Array [
                         >
                           Silver Line SL1
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -1049,11 +1049,11 @@ Array [
                         >
                           Silver Line SL2
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -1219,11 +1219,11 @@ Array [
                         >
                           Silver Line SL3
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -1389,11 +1389,11 @@ Array [
                         >
                           Fairmount Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -1529,11 +1529,11 @@ Array [
                         >
                           Framingham/​Worcester Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -1749,11 +1749,11 @@ Array [
                         >
                           Franklin Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -1969,11 +1969,11 @@ Array [
                         >
                           Greenbush Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -2109,11 +2109,11 @@ Array [
                         >
                           Kingston/​Plymouth Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -2289,11 +2289,11 @@ Array [
                         >
                           Middleborough/​Lakeville Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -2429,11 +2429,11 @@ Array [
                         >
                           Needham Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -2569,11 +2569,11 @@ Array [
                         >
                           Providence/​Stoughton Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -2793,11 +2793,11 @@ Array [
                         >
                           Red Line
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>
@@ -3012,11 +3012,11 @@ Array [
                         >
                           Silver Line SL1
                         </span>
-                        <span
+                        <div
                           className="c-link-block__view-schedule"
                         >
                           View schedule
-                        </span>
+                        </div>
                       </span>
                     </div>
                   </div>

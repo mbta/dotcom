@@ -44,11 +44,9 @@ const RouteCard = ({
     return null;
   }
 
-  const hasAlert = route.route.alerts?.length > 0;
-
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
-      <RouteCardHeader route={route.route} hasAlert={hasAlert} />
+      <RouteCardHeader route={route.route} alerts={route.route.alerts} />
       {filterStops(route).map(
         stopWithDirections =>
           !everyDirectionIsEmpty(stopWithDirections.directions) && (
