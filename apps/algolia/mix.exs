@@ -34,7 +34,7 @@ defmodule Algolia.Mixfile do
       {:routes, in_umbrella: true},
       {:util, in_umbrella: true},
       {:httpoison, "~> 1.5"},
-      {:plug, "~> 1.12"},
+      {:plug, "~> 1.13.0"},
       {:bypass, "~> 1.0", only: :test},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
