@@ -265,9 +265,24 @@
   }
 }
 
+.m-timetable__schedule__content {
+  align-items: center;
+  display: contents;
+  justify-content: center;
+  padding: 0 calc(#{$base-spacing} / 2);
+
+  @include media-breakpoint-down(sm) {
+    padding: 0 calc(#{$base-spacing} / 4);
+  }
+}
+
 .m-timetable__vehicle-icon,
 .m-timetable__flag-icon {
   width: $base-spacing;
+}
+
+.js-train-icon {
+  padding-left: 5px;
 }
 
 .m-timetable__time {

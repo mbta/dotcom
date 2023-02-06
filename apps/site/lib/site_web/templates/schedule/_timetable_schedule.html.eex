@@ -1,8 +1,8 @@
 <%= if @trip_schedule do %>
-  <% 
+  <%
     trip_id = @schedule.trip.id
   %>
-  <span class="m-timetable__schedule">
+  <span class="timetable__schedule__content">
     <span class="m-timetable__flag-icon">
       <%= if @trip_schedule.flag? do %>
         <%= content_tag(:span, svg("icon-flag-stop-default.svg"), aria: [hidden: "true"]) %>
