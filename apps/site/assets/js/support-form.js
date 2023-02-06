@@ -115,7 +115,9 @@ function setupPhotoPreviews($, toUpload) {
   const $container = $(".photo-preview-container");
   $("#photo").change(function() {
     if (this.files.length >= 1) {
-      resizeAndHandleUploadedFile($, this.files[0], $container, toUpload);
+      Array.from(this.files).forEach(file =>
+        resizeAndHandleUploadedFile($, file, $container, toUpload)
+      );
     }
   });
 }
