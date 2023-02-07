@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="page-section">
+    <div class="page-header">
+      <h1>Bus Stop Changes</h1>
+    </div>
+    <div class="callout bg-warning lead">This page is under construction. Please use for testing and research purposes only at this time.</div>
+    <div class="row">
+      <div class="col-lg-3">
+        <%= SiteWeb.PartialView.alert_time_filters(nil, [
+          method: :alert_path,
+          item: :subway
+        ]) %>
+      </div>
+      <div class="col-lg-8 col-lg-offset-1">
+        <%= for alert <- @alerts do %>
+        <section>
+          <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
+          <%= if length(related_stops(alert)) > 0 do %>
+          <strong>Affected Stops</strong>
+          <ul>
+          <%= for stop <- related_stops(alert) do %>
+            <li><a href="<%= stop_path(@conn, :show, stop.id) %>"><%= stop.name %></a></li>
+          <% end %>
+          </ul>
+          <% end %>
+          <hr />
+        </section>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -26,6 +26,8 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
+    {:bus_changes, "Bus Change Page (~ Feb 2023)",
+     "Adding a page listing past and present stop changes."},
     {:stops_redesign, "Stops Page Redesign (Jan ~ April 2023)",
      "Revamping of the Stop pages as part of the 🚉 Website - Stops Page Redesign epic"}
   ],
