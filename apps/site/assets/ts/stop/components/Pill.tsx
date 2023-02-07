@@ -17,7 +17,8 @@ const Pill = ({
   children: ReactElement<HTMLElement> | string;
 }): ReactElement<HTMLElement> => {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
       className={`
       u-pill
@@ -29,7 +30,7 @@ const Pill = ({
     `}
     >
       {children}
-    </div>
+    </button>
   );
 };
 

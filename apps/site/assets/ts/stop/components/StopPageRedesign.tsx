@@ -1,12 +1,13 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { each, startCase, uniqueId } from "lodash";
 import Pill from "./Pill";
 import { Mode } from "../../__v3api";
-import { uniqueId } from "lodash";
 
-export const BUS = "bus";
-export const SUBWAY = "subway";
-export const FERRY = "ferry";
-export const COMMUTER_RAIL = "commuter_rail";
+export const ALL = "all";
+export const BUS: Mode = "bus";
+export const SUBWAY: Mode = "subway";
+export const FERRY: Mode = "ferry";
+export const COMMUTER_RAIL: Mode = "commuter_rail";
 
 // TODO replace with real data
 const departures: any[] = [
@@ -38,13 +39,13 @@ const departures: any[] = [
 ];
 
 const filterDeparturesByMode = (
-  departures: any[],
-  mode: Mode | "all"
+  departuresArray: any[],
+  mode: Mode | typeof ALL
 ): any[] => {
-  if (mode === "all") {
-    return departures;
+  if (mode === ALL) {
+    return departuresArray;
   }
-  return departures.filter(d => d.mode === mode);
+  return departuresArray.filter(d => d.mode === mode);
 };
 
 const StopPageRedesign = ({
@@ -52,24 +53,37 @@ const StopPageRedesign = ({
 }: {
   stopId: string;
 }): ReactElement<HTMLElement> => {
-  const [selectedMode, setSelectedMode] = useState<"all" | Mode>("all");
+  const [selectedMode, setSelectedMode] = useState<typeof ALL | Mode>(ALL);
   // TODO replace type with actual data type
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
+  const [filterOptions, setFilterOptions] = useState<
+    { displayText: string; mode: typeof ALL | Mode }[]
+  >([]);
 
-  const [hasBusRoutes, setHasBusRoutes] = useState<boolean>(false);
-  const [hasCommuterRailRoutes, setHasCommuterRailRoutes] = useState<boolean>(
-    false
-  );
-  const [hasSubwayRoutes, setHasSubwayRoutes] = useState<boolean>(false);
-  const [hasFerryRoutes, setHasFerryRoutes] = useState<boolean>(false);
-
+  // Create filter list
   useEffect(() => {
-    setHasBusRoutes(filterDeparturesByMode(departures, BUS).length > 0);
-    setHasCommuterRailRoutes(
-      filterDeparturesByMode(departures, COMMUTER_RAIL).length > 0
-    );
-    setHasSubwayRoutes(filterDeparturesByMode(departures, SUBWAY).length > 0);
-    setHasFerryRoutes(filterDeparturesByMode(departures, FERRY).length > 0);
+    if (departures.length === 0) {
+      setFilterOptions([]);
+    } else {
+      const filterOptionsArray: {
+        displayText: string;
+        mode: typeof ALL | Mode;
+      }[] = [
+        {
+          displayText: startCase(ALL),
+          mode: ALL
+        }
+      ];
+      each([BUS, SUBWAY, COMMUTER_RAIL, FERRY], arrayMode => {
+        if (filterDeparturesByMode(departures, arrayMode).length > 0) {
+          filterOptionsArray.push({
+            displayText: startCase(arrayMode),
+            mode: arrayMode
+          });
+        }
+      });
+      setFilterOptions(filterOptionsArray);
+    }
   }, [departures]);
 
   useEffect(() => {
@@ -93,46 +107,15 @@ const StopPageRedesign = ({
         <div style={{ minWidth: "50%" }}>
           <div>Route schedules & maps / Upcoming Trips PLACEHOLDER</div>
           <div className="d-flex">
-            {departures.length > 0 && (
+            {filterOptions.map(option => (
               <Pill
-                onClick={() => setSelectedMode("all")}
-                selected={selectedMode === "all"}
+                onClick={() => setSelectedMode(option.mode)}
+                selected={selectedMode === option.mode}
+                key={uniqueId()}
               >
-                All
+                {option.displayText}
               </Pill>
-            )}
-            {hasBusRoutes && (
-              <Pill
-                onClick={() => setSelectedMode(BUS)}
-                selected={selectedMode === BUS}
-              >
-                Bus
-              </Pill>
-            )}
-            {hasSubwayRoutes && (
-              <Pill
-                onClick={() => setSelectedMode(SUBWAY)}
-                selected={selectedMode === SUBWAY}
-              >
-                Subway
-              </Pill>
-            )}
-            {hasCommuterRailRoutes && (
-              <Pill
-                onClick={() => setSelectedMode(COMMUTER_RAIL)}
-                selected={selectedMode === COMMUTER_RAIL}
-              >
-                Commuter Rail
-              </Pill>
-            )}
-            {hasFerryRoutes && (
-              <Pill
-                onClick={() => setSelectedMode(FERRY)}
-                selected={selectedMode === FERRY}
-              >
-                Ferry
-              </Pill>
-            )}
+            ))}
           </div>
           <ul style={{ maxHeight: "250px", overflowY: "auto" }}>
             {filteredDepartures.map(departure => (
@@ -148,7 +131,7 @@ const StopPageRedesign = ({
               </li>
             ))}
           </ul>
-          <button>Plan your Trip PLACEHOLDER</button>
+          <button type="button">Plan your Trip PLACEHOLDER</button>
         </div>
         <div className="hidden-sm-down">
           Map PLACEHOLDER Imageine a pretty map
