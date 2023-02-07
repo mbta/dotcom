@@ -53,12 +53,20 @@
 // End Bottom
 
 // Start
+.ps-5 {
+  padding-left: .313rem;
+}
+
 .ps-16 {
   padding-left: 1rem;
 }
 // End Start
 
 // End
+.pe-5 {
+  padding-right: .313rem;
+}
+
 .pe-16 {
   padding-right: 1rem;
 }
@@ -77,20 +85,24 @@
 }
 
 // Top
-.mt-16 {
-  margin-top: 1rem;
+.mt-8 {
+  margin-top: .5rem;
 }
 
 .mt-10 {
   margin-top: .625rem;
 }
 
-.mt-8 {
-  margin-top: .5rem;
+.mt-16 {
+  margin-top: 1rem;
 }
 // End Top
 
 // End
+.me-5 {
+  margin-right: .313rem;
+}
+
 .me-8 {
   margin-right: .5rem;
 }

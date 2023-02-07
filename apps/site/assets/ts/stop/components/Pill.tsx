@@ -22,6 +22,7 @@ const Pill = ({
       className={`
       u-pill
       u-small-caps
+      pe-5 ps-5 me-5
       ${selected ? "u-bg--gray" : ""}
       ${bgClass(backgroundColor)}
       ${optionalCSS}
