@@ -114,10 +114,8 @@ export function clearFallbacks($) {
 function setupPhotoPreviews($, toUpload) {
   const $container = $(".photo-preview-container");
   $("#photo").change(function() {
-    if (this.files.length >= 1) {
-      Array.from(this.files).forEach(file =>
-        resizeAndHandleUploadedFile($, file, $container, toUpload)
-      );
+    for (const file of this.files) {
+      resizeAndHandleUploadedFile($, file, $container, toUpload);
     }
   });
 }
