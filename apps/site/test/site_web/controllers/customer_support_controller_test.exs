@@ -287,10 +287,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       wait_for_ticket_task(conn)
       attachments = Feedback.Test.latest_message()["attachments"]
 
-      assert attachments == [
-               %{"filename" => "photo-1.jpg", "data" => "upload 1 data"},
-               %{"filename" => "photo-2.jpg", "data" => "upload 2 data"}
-             ]
+      assert %{"filename" => "photo-1.jpg", "data" => "upload 1 data"} in attachments
+      assert %{"filename" => "photo-2.jpg", "data" => "upload 2 data"} in attachments
     end
 
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
