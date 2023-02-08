@@ -1,7 +1,7 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { each, startCase, uniqueId } from "lodash";
-import Pill from "./Pill";
+import React, { ReactElement, useState } from "react";
+import { uniqueId } from "lodash";
 import { Mode } from "../../__v3api";
+import DeparturesFilters from "./DeparturesFilters";
 
 export const ALL = "all";
 export const BUS: Mode = "bus";
@@ -38,57 +38,13 @@ const departures: any[] = [
   }
 ];
 
-const filterDeparturesByMode = (
-  departuresArray: any[],
-  mode: Mode | typeof ALL
-): any[] => {
-  if (mode === ALL) {
-    return departuresArray;
-  }
-  return departuresArray.filter(d => d.mode === mode);
-};
-
 const StopPageRedesign = ({
   stopId
 }: {
   stopId: string;
 }): ReactElement<HTMLElement> => {
-  const [selectedMode, setSelectedMode] = useState<typeof ALL | Mode>(ALL);
   // TODO replace type with actual data type
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
-  const [filterOptions, setFilterOptions] = useState<
-    { displayText: string; mode: typeof ALL | Mode }[]
-  >([]);
-
-  // Create filter list
-  useEffect(() => {
-    if (departures.length === 0) {
-      setFilterOptions([]);
-    } else {
-      const filterOptionsArray: {
-        displayText: string;
-        mode: typeof ALL | Mode;
-      }[] = [
-        {
-          displayText: startCase(ALL),
-          mode: ALL
-        }
-      ];
-      each([BUS, SUBWAY, COMMUTER_RAIL, FERRY], arrayMode => {
-        if (filterDeparturesByMode(departures, arrayMode).length > 0) {
-          filterOptionsArray.push({
-            displayText: startCase(arrayMode),
-            mode: arrayMode
-          });
-        }
-      });
-      setFilterOptions(filterOptionsArray);
-    }
-  }, [departures]);
-
-  useEffect(() => {
-    setFilteredDepartures(filterDeparturesByMode(departures, selectedMode));
-  }, [departures, selectedMode]);
 
   return (
     <article>
@@ -107,15 +63,10 @@ const StopPageRedesign = ({
         <div style={{ minWidth: "50%" }}>
           <div>Route schedules & maps / Upcoming Trips PLACEHOLDER</div>
           <div className="d-flex">
-            {filterOptions.map(option => (
-              <Pill
-                onClick={() => setSelectedMode(option.mode)}
-                selected={selectedMode === option.mode}
-                key={uniqueId()}
-              >
-                {option.displayText}
-              </Pill>
-            ))}
+            <DeparturesFilters
+              departures={departures}
+              onModeChange={setFilteredDepartures}
+            />
           </div>
           <ul style={{ maxHeight: "250px", overflowY: "auto" }}>
             {filteredDepartures.map(departure => (
