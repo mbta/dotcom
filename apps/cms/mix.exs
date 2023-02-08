@@ -50,7 +50,7 @@ defmodule CMS.Mixfile do
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 0.0.0", override: true},
       {:timex, ">= 0.0.0"},
-      {:plug, "~> 1.12"},
+      {:plug, "~> 1.13.0"},
       {:html_sanitize_ex, "1.3.0"},
       {:bypass, "~> 1.0", only: :test},
       {:quixir, "~> 0.9", only: :test},
