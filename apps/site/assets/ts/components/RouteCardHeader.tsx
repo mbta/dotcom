@@ -29,7 +29,8 @@ const RouteCardHeader = ({
         </span>
         <div className="c-link-block__view-schedule">View schedule</div>
       </span>
-      {alerts !== null
+      {console.log(alerts)}
+      {alerts !== undefined
         ? alerts.length > 0 && (
             <a
               className="c-link-block__inner-link"
