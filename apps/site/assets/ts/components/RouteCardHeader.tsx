@@ -29,24 +29,19 @@ const RouteCardHeader = ({
         </span>
         <div className="c-link-block__view-schedule">View schedule</div>
       </span>
-      {console.log(alerts)}
-      {alerts !== undefined
-        ? alerts.length > 0 && (
-            <a
-              className="c-link-block__inner-link"
-              href={`/schedules/${route.id}/alerts`}
-              title="alert"
-            >
-              {alertIcon(
-                "c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
-              )}
-              <span>
-                {alerts.length}
-                {alerts.length > 1 ? " alerts" : " alert"}
-              </span>
-            </a>
-          )
-        : ""}
+      {alerts?.length > 0 && (
+        <a
+          className="c-link-block__inner-link"
+          href={`/schedules/${route.id}/alerts`}
+          title="alert"
+        >
+          {alertIcon("c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert")}
+          <span>
+            {alerts.length}
+            {alerts.length > 1 ? " alerts" : " alert"}
+          </span>
+        </a>
+      )}
     </div>
   </div>
 );
