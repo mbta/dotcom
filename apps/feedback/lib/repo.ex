@@ -4,7 +4,17 @@ defmodule Feedback.Repo do
 
   @spec send_ticket(Feedback.Message.t()) :: {:ok, any} | {:error, any}
   def send_ticket(message) do
-    Feedback.Mailer.send_heat_ticket(message, photo_attachment(message.photos))
+    result = Feedback.Mailer.send_heat_ticket(message, photo_attachment(message.photos))
+
+    case result do
+      {:ok, _} ->
+        Logger.info("module=#{__MODULE__} HEAT Ticket successfully sent.")
+
+      {:error, error} ->
+        _ = Logger.error("module=#{__MODULE__} error=#{inspect(error)}")
+    end
+
+    result
   end
 
   @spec photo_attachment([Plug.Upload.t()]) :: [%{path: String.t(), filename: String.t()}] | nil

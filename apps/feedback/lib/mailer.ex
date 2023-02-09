@@ -66,11 +66,10 @@ defmodule Feedback.Mailer do
     exaws_perform_fn =
       Application.get_env(:feedback, :exaws_perform_fn, &ExAws.Operation.perform/2)
 
-    {:ok, _} =
-      message
-      |> Mail.Renderers.RFC2822.render()
-      |> ExAws.SES.send_raw_email()
-      |> exaws_perform_fn.(exaws_config_fn.(:ses))
+    message
+    |> Mail.Renderers.RFC2822.render()
+    |> ExAws.SES.send_raw_email()
+    |> exaws_perform_fn.(exaws_config_fn.(:ses))
   end
 
   @spec topic(Message.t()) :: String.t()

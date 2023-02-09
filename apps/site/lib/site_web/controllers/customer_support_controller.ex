@@ -105,6 +105,8 @@ defmodule SiteWeb.CustomerSupportController do
         do_submit(conn, params)
 
       errors ->
+        _ = Logger.warn("#{__MODULE__} form validation failed: #{inspect(errors)}")
+
         conn
         |> put_status(400)
         |> render_form(%{errors: errors, comments: Map.get(params, "comments")})
