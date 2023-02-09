@@ -27,27 +27,95 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   - apps/site/assets/webpack.config.export-headerfooter.js
   """
   use Mix.Task
+  use Wallaby.DSL
 
   @css_prefix "mbta__dotcomchrome__"
+  @languages [
+    {"en", "English"},
+    {"es", "Spanish"},
+    {"zh-CN", "Chinese (Simplified)"},
+    {"pt", "Portuguese"}
+  ]
 
   @impl Mix.Task
   def run(_) do
-    # needed for HTTPoison to work
-    _ = Application.ensure_all_started(:hackney)
+    IO.puts("#{IO.ANSI.magenta()}Starting Wallaby.")
+    {:ok, _} = Application.ensure_all_started(:wallaby)
 
-    response =
-      case HTTPoison.get("http://localhost:4001", hackney: []) do
-        {:ok, response} ->
-          response
+    tasks =
+      Enum.map(@languages, fn {lang_code, lang_name} ->
+        Task.async(fn ->
+          IO.puts("#{IO.ANSI.cyan()}Starting #{lang_name}")
+          make_markup(lang_code)
+          IO.puts("#{IO.ANSI.cyan()}Ending #{lang_name}")
+        end)
+      end)
 
-        _ ->
-          {:ok, response} = HTTPoison.get("https://www.mbta.com/", hackney: [])
-          response
-      end
+    _ = Task.await_many(tasks, :infinity)
 
-    get_mbta_tree(response)
+    IO.puts("#{IO.ANSI.magenta()}Done running everything.")
+
     :ok = webpack([])
     make_zip()
+  end
+
+  defp make_markup(lang_code) do
+    session = new_session()
+
+    html =
+      session
+      |> visit("https://dev.mbtace.com/menu")
+      |> find(
+        Query.css("header .custom-language-selector"),
+        fn dropdown ->
+          if lang_code != "en" do
+            dropdown
+            |> click(:middle)
+            |> find(Query.css("option[data-lang='#{lang_code}']"), fn option ->
+              Element.click(option)
+              # IO.inspect(option, label: "clicked on:")
+              # Translations take so long...
+              :timer.sleep(90_000)
+            end)
+          end
+        end
+      )
+      |> page_source()
+
+    {:ok, html_tree} = Floki.parse_document(html)
+
+    :ok =
+      write_mbta_file({:header, lang_code, Floki.find(html_tree, ".m-menu--cover, .header--new")})
+
+    :ok =
+      write_mbta_file({:footer, lang_code, Floki.find(html_tree, ".m-footer__outer-background")})
+
+    close_session(session)
+  end
+
+  defp new_session() do
+    {:ok, session} =
+      Wallaby.start_session(
+        readiness_timeout: 60_000,
+        capabilities: %{
+          chromeOptions: %{
+            args: [
+              "--no-sandbox",
+              "window-size=1280,800",
+              "--headless"
+            ]
+          },
+          javascriptEnabled: true,
+          nativeEvents: true,
+          detach: true
+        }
+      )
+
+    session
+  end
+
+  defp close_session(session) do
+    Wallaby.end_session(session)
   end
 
   defp make_zip do
@@ -87,38 +155,26 @@ defmodule Mix.Tasks.Export.HeaderFooter do
     end)
   end
 
-  defp get_mbta_tree(response) do
-    200 = response.status_code
-    {:ok, tree} = Floki.parse_document(response.body)
-
+  defp write_mbta_file({header_or_footer, lang_code, markup}) do
     html =
-      tree
-      |> Floki.find(".m-menu--cover, .header--new, .m-footer")
+      markup
       |> update_links()
       |> remove_search_bar()
       |> remove_language_selector()
       |> edit_classnames()
-
-    IO.puts("#{IO.ANSI.yellow()}writing HTML")
-
-    header_html =
-      Floki.find(html, ".#{@css_prefix}m-menu--cover, .#{@css_prefix}header--new")
       |> Floki.raw_html(encode: true, pretty: false)
 
-    footer_html =
-      Floki.find(html, ".#{@css_prefix}m-footer") |> Floki.raw_html(encode: true, pretty: false)
+    IO.puts("#{IO.ANSI.yellow()}writing #{header_or_footer} HTML (#{lang_code})")
 
-    File.mkdir_p("export")
-    :ok = File.write("export/header.html", header_html)
-    :ok = File.write("export/footer.html", footer_html)
-
-    IO.puts("#{IO.ANSI.green()}done.")
+    :ok = File.mkdir_p("export")
+    filename_suffix = if lang_code == "en", do: "", else: "-#{String.downcase(lang_code)}"
+    File.write("export/#{header_or_footer}#{filename_suffix}.html", html)
   end
 
   # Make relative links absolute.
   # Standard links open within the same window and include rel="noreferrer"
   defp handle_internal_link(link) do
-    IO.puts(" * updating relative link")
+    # IO.puts(" * updating relative link")
 
     [link]
     |> Floki.attr("a", "href", fn href -> "https://www.mbta.com" <> href end)
@@ -127,7 +183,7 @@ defmodule Mix.Tasks.Export.HeaderFooter do
 
   # External links should have target='_blank' and rel='noopener noreferrer'
   defp handle_external_link(link) do
-    IO.puts(" * modifying external link")
+    # IO.puts(" * modifying external link")
 
     [link]
     |> Floki.attr("a", "rel", fn _ -> "noopener noreferrer" end)
@@ -145,7 +201,7 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   end
 
   defp update_links(tree) do
-    IO.puts("#{IO.ANSI.blue()}traversing all links")
+    # IO.puts("#{IO.ANSI.blue()}traversing all links")
 
     Floki.traverse_and_update(tree, fn
       {"a", _attrs, _children} = link -> process_link(link)
@@ -154,14 +210,20 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   end
 
   defp remove_search_bar(html_tree) do
-    IO.puts("#{IO.ANSI.magenta()}removing search bar")
+    # IO.puts("#{IO.ANSI.magenta()}removing search bar")
     Floki.find_and_update(html_tree, ".search-wrapper > div", fn _ -> :delete end)
+    |> Floki.find_and_update("#navmenu m-menu__search", fn _ -> :delete end)
+    |> Floki.find_and_update("#search-header-mobile__announcer", fn _ -> :delete end)
+    |> Floki.find_and_update("#search-header-mobile__input-autocomplete-results", fn _ ->
+      :delete
+    end)
+    |> Floki.find_and_update("[id^=search]", fn _ -> :delete end)
   end
 
   defp remove_language_selector(html_tree) do
-    IO.puts("#{IO.ANSI.magenta()}removing Google Translate stuff")
+    # IO.puts("#{IO.ANSI.magenta()}removing Google Translate stuff")
 
-    Floki.find_and_update(html_tree, "#m-menu__language", fn _ -> :delete end)
+    Floki.find_and_update(html_tree, ".m-menu__language", fn _ -> :delete end)
     |> Floki.find_and_update("#google_translate_element", fn _ -> :delete end)
     |> Floki.find_and_update("#custom-language-menu-mobile", fn _ -> :delete end)
     |> Floki.find_and_update("#custom-language-button-mobile", fn _ -> :delete end)
@@ -169,14 +231,14 @@ defmodule Mix.Tasks.Export.HeaderFooter do
   end
 
   defp edit_classnames(html_tree) do
-    IO.puts("#{IO.ANSI.magenta()}appending prefix to class names")
+    # IO.puts("#{IO.ANSI.magenta()}appending prefix to class names")
 
     Floki.traverse_and_update(html_tree, fn
       {tag, attrs, children} when is_list(attrs) ->
         updated_attrs =
           Enum.map(attrs, fn
             {"class", class_names} ->
-              IO.inspect(class_names, label: "\tediting classes on <#{tag}>")
+              # IO.inspect(class_names, label: "\tediting classes on <#{tag}>")
 
               updated_class_names =
                 String.split(class_names)

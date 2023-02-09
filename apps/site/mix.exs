@@ -74,7 +74,7 @@ defmodule Site.Mixfile do
       {:diskusage_logger, "~> 0.2.0"},
       {:hammer, "~> 6.0"},
       {:poolboy, "~> 1.5"},
-      {:wallaby, "~> 0.30", runtime: false, only: :test},
+      {:wallaby, "~> 0.30", runtime: false, only: [:test, :dev]},
       {:con_cache, "~> 0.12.0"},
       {:unrooted_polytree, "~> 0.1.1"},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.

@@ -1,8 +1,7 @@
 // slight rewrite from core.scss.
-
-.m-footer .c-social [class*=fa-] {
-  line-height: 1.5;
-  top: 0;
+// keeps social icons in correct place after language selector is removed
+.m-footer .lower-footer {
+  justify-content: end;
 }
 
 @import 'functions';
@@ -18,7 +17,13 @@
 @import 'modal-component';
 @import 'accordion-ui'; // involved in mobile nav styles
 @import 'header'; // some nav styles still here
+@import 'footer';
 @import 'global-navigation'; // other nav styles
+
+.header--new,
+.m-footer__outer-background {
+  @include base-font__new();
+}
 
 // we overwrite .no-js with .js class on mbta.com
 // but outside mbta.com we can just hide
