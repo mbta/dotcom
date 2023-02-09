@@ -1,32 +1,36 @@
 <div class="container">
   <div class="page-section">
-    <div class="page-header">
-      <h1>Bus Stop Changes</h1>
-    </div>
-    <div class="callout bg-warning lead">This page is under construction. Please use for testing and research purposes only at this time.</div>
+    <div class="callout u-bg--gray">This page is under construction. Please use for testing and research purposes only at this time.</div>
+
+    <h1>Bus Stop Changes</h1>
     <div class="row">
-      <div class="col-lg-3">
-        <%= SiteWeb.PartialView.alert_time_filters(nil, [
-          method: :alert_path,
-          item: :subway
-        ]) %>
+      <div class="col-md-2">
+        <div class="h3">Filter by type</div>
+        <%= time_filter_buttons(@conn) %>
       </div>
-      <div class="col-lg-8 col-lg-offset-1">
-        <%= for alert <- @alerts do %>
-        <section>
-          <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
-          <%= if length(related_stops(alert)) > 0 do %>
-          <strong>Affected Stops</strong>
-          <ul>
-          <%= for stop <- related_stops(alert) do %>
-            <li><a href="<%= stop_path(@conn, :show, stop.id) %>"><%= stop.name %></a></li>
+      <div class="col-md-10" style="padding-top: 2em;">
+        <%= if Enum.empty?(@alerts) do %>
+          <%= if is_nil(@alerts_timeframe) do %>
+            <div class="callout bg-success">Past alerts are not yet available. Check back later!</div>
+          <% else %>
+            <div class="callout bg-info">No alerts here.</div>
           <% end %>
-          </ul>
-          <% end %>
-          <hr />
-        </section>
+        <% else %>
+          <section style="display: grid; grid-template-columns: 1fr 250px; grid-gap: 1.25em 1em; list-style-type: none;">
+            <%= for alert <- sorted_by_start_date(@alerts) do %>
+              <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
+              <div>
+                <%= time_range(alert) %>
+                <hr />
+                <%= affected_stops_links(@conn, alert)%>
+              </div>
+            <% end %>
+          </section>
         <% end %>
       </div>
     </div>
+
+
+
   </div>
 </div>

@@ -192,7 +192,7 @@ defmodule SiteWeb.Router do
     get("/search", SearchController, :index)
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
-    get("/bus-stop-changes", BusStopChangeController, :index)
+    get("/bus-stop-changes", BusStopChangeController, :show)
 
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
