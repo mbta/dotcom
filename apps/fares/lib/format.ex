@@ -93,6 +93,8 @@ defmodule Fares.Format do
   def name(:ada_ride), do: "ADA Ride"
   def name(:premium_ride), do: "Premium Ride"
   def name(:invalid), do: "Invalid Fare"
+  def name(:massport_shuttle), do: "Massport Shuttle"
+  def name("Massport-" <> _id), do: "Massport Shuttle"
 
   @spec full_name(Fare.t() | nil) :: String.t() | iolist
   def full_name(nil), do: "Shuttle"
