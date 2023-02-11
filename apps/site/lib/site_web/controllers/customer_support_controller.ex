@@ -318,6 +318,10 @@ defmodule SiteWeb.CustomerSupportController do
       {:error, [error]} when error in @expected_recaptcha_errors ->
         _ = Logger.warn("recaptcha failed_validation=#{error}")
         "recaptcha"
+
+      {:error, [:invalid_keys]} ->
+        _ = Logger.error("recaptcha invalid_keys")
+        "recaptcha"
     end
   end
 
