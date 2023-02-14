@@ -272,7 +272,11 @@
 
 .js-train-icon {
   display: inline-flex;
-  padding-left: 1rem;
+  padding-left: .9rem;
+  @include media-breakpoint-down(md) {
+    padding-left: .4rem;
+  }
+
 }
 
 .m-timetable__time {
