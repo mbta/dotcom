@@ -1,18 +1,12 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { Stop } from "../__v3api";
 
-const fetchData = async (stopIdString: string): Promise<Stop> =>
-  fetchJsonOrThrow(`/api/stop/${stopIdString}`);
+const fetchData = async (url: string): Promise<Stop> => fetchJsonOrThrow(url);
 
-const useStop = (stopId: string): Stop | null => {
-  const [stop, setStop] = useState<Stop | null>(null);
-
-  useEffect(() => {
-    fetchData(stopId).then(result => setStop(result));
-  }, [stopId]);
-
-  return stop;
+const useStop = (stopId: string): Stop | undefined => {
+  const { data } = useSWR<Stop>(`/api/stop/${stopId}`, fetchData);
+  return data;
 };
 
 export default useStop;
