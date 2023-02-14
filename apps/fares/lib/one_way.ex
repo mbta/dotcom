@@ -142,4 +142,8 @@ defmodule Fares.OneWay do
   defp name_or_mode_filter(:ferry, _, origin_id, destination_id, _) do
     [name: :ferry |> Fares.fare_for_stops(origin_id, destination_id) |> elem(1)]
   end
+
+  defp name_or_mode_filter(:massport_shuttle, %{id: route_id}, _origin_id, _destination_id, _trip) do
+    [name: route_id]
+  end
 end

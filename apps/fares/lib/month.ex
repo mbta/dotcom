@@ -123,6 +123,10 @@ defmodule Fares.Month do
     [name: :foxboro]
   end
 
+  defp name_or_mode_filter(:massport_shuttle, _, _origin_id, _destination_id, _trip) do
+    [name: :massport_shuttle]
+  end
+
   defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id, _trip) do
     name =
       cond do

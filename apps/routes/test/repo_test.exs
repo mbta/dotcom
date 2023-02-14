@@ -104,6 +104,18 @@ defmodule Routes.RepoTest do
              } = @routes_repo_api.get("Red")
     end
 
+    test "should return a generated route for Massport Routes" do
+      assert %Route{
+               description: "Massport Generated Route",
+               id: "Massport-TEST",
+               long_name: "Massport-TEST",
+               name: "Massport-TEST",
+               type: "Massport-TEST",
+               custom_route?: true,
+               color: "000000"
+             } = Repo.get("Massport-TEST")
+    end
+
     test "returns nil for an unknown route" do
       refute @routes_repo_api.get("_unknown_route")
     end
