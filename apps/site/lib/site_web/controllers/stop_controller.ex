@@ -4,6 +4,7 @@ defmodule SiteWeb.StopController do
   """
   use SiteWeb, :controller
   alias Alerts.Alert
+  alias Alerts.Match
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
@@ -116,7 +117,8 @@ defmodule SiteWeb.StopController do
 
             alerts =
               all_alerts
-              |> Enum.filter(&(Alerts.Match.match([&1], entity) == [&1]))
+              |> Enum.filter(&(Match.match([&1], entity) == [&1]))
+              |> Enum.filter(&Match.any_time_match?(&1, conn.assigns.date_time))
               |> json_safe_alerts(conn.assigns.date_time)
 
             {route.id, alerts}
