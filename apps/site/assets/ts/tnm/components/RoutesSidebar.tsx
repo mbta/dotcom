@@ -39,7 +39,7 @@ export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
   let alerts: Alert[] = [];
   results.filter(isHighSeverityOrHighPriority);
   for (let i = 0; i < results.length; i++) {
-    alerts.push(results[i]);
+    alerts.push(results[i] as Alert);
   }
   return alerts;
 };
@@ -168,12 +168,14 @@ const RoutesSidebar = ({
         <SidebarTitle dispatch={dispatch} viewType="Routes" />
         <div className="m-tnm-sidebar__cards">
           {filteredData.length > 0
-            ? filteredData.map(async route => (
+            ? filteredData.map(route => (
                 <RouteCard
                   key={route.route.id}
                   route={route}
                   dispatch={dispatch}
-                  alerts={await fetchAlerts("Orange")}
+                  alerts={fetchAlerts("Orange").then(function(val) {
+                    return val;
+                  })}
                 />
               ))
             : emptyMessage}
