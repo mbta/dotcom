@@ -16,7 +16,7 @@
         <% end %>
       <% end %>
     </span>
-    <span class="m-timetable__time">
+    <span>
       <%= format_schedule_time(@trip_schedule.time) %>
     </span>
     <span class="m-timetable__vehicle-icon" id="<%="#{@stop.name}-#{trip_id}"%>">
