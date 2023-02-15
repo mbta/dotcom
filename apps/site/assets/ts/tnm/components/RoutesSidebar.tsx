@@ -1,11 +1,13 @@
 import React, { ReactElement } from "react";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import { Dispatch } from "../state";
-import { Mode, RouteWithStopsWithDirections, Stop } from "../../__v3api";
+import { Alert, Mode, RouteWithStopsWithDirections, Stop } from "../../__v3api";
 import RouteCard from "./RouteCard";
 import RouteSidebarPills from "./RouteSidebarPills";
 import ModeFilterContainer from "./ModeFilterContainer";
 import SidebarTitle from "./SidebarTitle";
+import { fetchJsonOrThrow, isFetchFailed } from "../../helpers/fetch-json";
+import { isHighSeverityOrHighPriority } from "../../models/alert";
 
 interface Props {
   data: RouteWithStopsWithDirections[];
@@ -21,6 +23,50 @@ interface FilterOptions {
   stopId: string | null;
   modes: Mode[];
 }
+
+export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
+  const results = await fetchJsonOrThrow<Alert[]>(
+    `/api/alerts?route_ids=${routeId}`
+  );
+
+  if (isFetchFailed(results)) {
+    // 404s here are a known failure mode, see finder_api.ex#get_trip_info
+    throw new Error(
+      `Failed to fetch Alert information: ${results.status} ${results.statusText}`
+    );
+  }
+
+  let alerts: Alert[] = [];
+  results.filter(isHighSeverityOrHighPriority);
+  for (let i = 0; i < results.length; i++) {
+    alerts.push(results[i]);
+  }
+  return alerts;
+};
+
+//fetchAlerts("Orange").then(function(val) {console.log(val[0] instanceof Alert)});
+// export const fetchAlerts = async (
+//   routeId: string,
+// ): Promise<Alert[]> => {
+//   let alerts: Alert[] = [];
+//   window.fetch &&
+//   window
+//     .fetch(`/api/alerts?route_ids=${routeId}`)
+//     .then(response => {
+//       if (response.ok) return response.json();
+//       throw new Error(response.statusText);
+//     })
+//     .then(result => {
+//         for (let alert in result) {
+//           alerts.push(JSON.parse(alert) as Alert);
+//         }
+//     console.log(alerts);
+
+//       return alerts;
+//     })
+//     console.log(alerts);
+//     return alerts;
+// };
 
 const filterDataByModes = (
   data: RouteWithStopsWithDirections[],
@@ -122,11 +168,12 @@ const RoutesSidebar = ({
         <SidebarTitle dispatch={dispatch} viewType="Routes" />
         <div className="m-tnm-sidebar__cards">
           {filteredData.length > 0
-            ? filteredData.map(route => (
+            ? filteredData.map(async route => (
                 <RouteCard
                   key={route.route.id}
                   route={route}
                   dispatch={dispatch}
+                  alerts={await fetchAlerts("Orange")}
                 />
               ))
             : emptyMessage}
