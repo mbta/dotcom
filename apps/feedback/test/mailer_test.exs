@@ -153,19 +153,33 @@ defmodule Feedback.MailerTest do
     end
 
     test "can attach a photo" do
-      Mailer.send_heat_ticket(
-        @base_message,
-        [
-          {"test.png", "png data goes here"}
-        ]
-      )
+      [test_photo | _] = test_photos()
+      Mailer.send_heat_ticket(@base_message, [test_photo])
 
-      assert Test.latest_message()["attachments"] == [
+      assert [
                %{
-                 "filename" => "test.png",
-                 "data" => "png data goes here"
+                 "filename" => filename,
+                 "data" => _test_photo_data
                }
-             ]
+             ] = Test.latest_message()["attachments"]
+
+      assert test_photo.filename == filename
+    end
+
+    test "doesn't attach more than 6 files" do
+      test_files = test_photos()
+      assert length(test_files) > 6
+      Mailer.send_heat_ticket(@base_message, test_files)
+      sent_files = Test.latest_message()["attachments"]
+      assert length(sent_files) <= 6
+    end
+
+    test "doesn't attach a file larger than 2 MB" do
+      # Oversized test file is ~4 MB
+      oversized_file = Enum.find(test_photos(), &String.starts_with?(&1.filename, "oversized"))
+      Mailer.send_heat_ticket(@base_message, [oversized_file])
+      sent_files = Test.latest_message()["attachments"]
+      assert length(sent_files) == 0
     end
 
     test "does not log anything when the user doesnt want feedback" do
@@ -266,5 +280,14 @@ defmodule Feedback.MailerTest do
       dt = Util.convert_using_timezone(~N[2020-11-01T01:00:00], "America/New_York")
       assert Mailer.formatted_utc_timestamp(dt) == "11/01/2020 05:00"
     end
+  end
+
+  defp test_photos do
+    Application.app_dir(:feedback, "priv/test/attachments/*.jpg")
+    |> Path.wildcard()
+    |> Enum.map(fn path ->
+      filename = String.split(path, "/") |> List.last()
+      %Plug.Upload{path: path, filename: filename, content_type: "image/jpeg"}
+    end)
   end
 end
