@@ -143,7 +143,7 @@ defmodule Alerts.Cache.Store do
     stop_inserts =
       Enum.flat_map(alerts, fn alert ->
         non_nil_stops =
-          Enum.filter(alert.informed_entity.stop, fn stop_id ->
+          Enum.filter(alert.informed_entity, fn %Alerts.InformedEntity{stop: stop_id} ->
             stop_id != nil
           end)
 

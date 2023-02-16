@@ -4,6 +4,11 @@ defmodule Alerts.RepoTest do
 
   @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
 
+  setup_all do
+    start_supervised(Store)
+    :ok
+  end
+
   describe "all/0" do
     test "returns the list of alerts from the store" do
       Store.update([%Alert{id: "alert!"}], nil)
