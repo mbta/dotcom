@@ -1,18 +1,17 @@
 defmodule GreenLineTest do
   use ExUnit.Case, async: true
-  use ExVCRHelpers
 
   import GreenLine
 
   describe "stops_on_routes/1" do
-    test_vcr "returns ordered stops on the green line by direction ID" do
+    test "returns ordered stops on the green line by direction ID" do
       {stops, _} = stops_on_routes(0)
       earlier_stop = Enum.find_index(stops, &(&1.id == "place-gover"))
       later_stop = Enum.find_index(stops, &(&1.id == "place-lake"))
       assert earlier_stop < later_stop
     end
 
-    test_vcr "returns a set of {stop_id, route_id} pairs" do
+    test "returns a set of {stop_id, route_id} pairs" do
       {_, route_id_stop_map} = stops_on_routes(1)
 
       refute "place-unsqu" in route_id_stop_map["Green-B"]
@@ -73,7 +72,7 @@ defmodule GreenLineTest do
       end
     end
 
-    test_vcr "each line returns a set of the ids of associated stops" do
+    test "each line returns a set of the ids of associated stops" do
       {_, stop_map} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
 
       assert stop_map["Green-C"] ==
@@ -100,7 +99,7 @@ defmodule GreenLineTest do
                ])
     end
 
-    test_vcr "a list of stops without duplicates is returned" do
+    test "a list of stops without duplicates is returned" do
       {stops, _} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
 
       assert Enum.sort(stops) ==
@@ -118,14 +117,14 @@ defmodule GreenLineTest do
                ])
     end
 
-    test_vcr "if a line returns no stops, it is represented in the map by an empty set" do
+    test "if a line returns no stops, it is represented in the map by an empty set" do
       {_, stop_map} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
 
       assert stop_map["Green-B"] == MapSet.new()
     end
   end
 
-  test_vcr "terminus?/2" do
+  test "terminus?/2" do
     for stop_id <- ["place-lake", "place-gover"] do
       assert terminus?(stop_id, "Green-B")
     end
@@ -143,7 +142,7 @@ defmodule GreenLineTest do
     end
   end
 
-  test_vcr "terminus?/3" do
+  test "terminus?/3" do
     assert terminus?("place-lake", "Green-B", 0)
     refute terminus?("place-lake", "Green-B", 1)
     refute terminus?("place-mdftf", "Green-E", 0)
@@ -151,7 +150,7 @@ defmodule GreenLineTest do
   end
 
   describe "naive_headsign/2" do
-    test_vcr "correct headsign for route and direction" do
+    test "correct headsign for route and direction" do
       assert naive_headsign("Green-B", 0) == "Boston College"
       assert naive_headsign("Green-B", 1) == "Government Center"
       assert naive_headsign("Green-C", 0) == "Cleveland Circle"
@@ -169,7 +168,7 @@ defmodule GreenLineTest do
       "Green-C" => ["shared_stop1", "shared_stop2", "c_stop1", "c_stop2"]
     }
 
-    test_vcr "Returns a map of stop ids associated with the green line routes that stop at that stop" do
+    test "Returns a map of stop ids associated with the green line routes that stop at that stop" do
       stop_map = routes_for_stops({nil, @stops_on_routes})
       assert "Green-C" in stop_map["shared_stop1"] and "Green-B" in stop_map["shared_stop1"]
       assert "Green-C" in stop_map["shared_stop2"] and "Green-B" in stop_map["shared_stop2"]
@@ -179,11 +178,11 @@ defmodule GreenLineTest do
   end
 
   describe "filter_lines/2" do
-    test_vcr "returns error when there is an error" do
+    test "returns error when there is an error" do
       assert filter_lines({:error, "error"}, "Green-B") == {:error, "error"}
     end
 
-    test_vcr "returns the list of all stops on a branch in reverse order" do
+    test "returns the list of all stops on a branch in reverse order" do
       stops =
         "Green-B"
         |> Stops.Repo.by_route(0, [])

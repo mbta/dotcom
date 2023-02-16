@@ -58,8 +58,7 @@ defmodule Schedules.Mixfile do
       {:stops, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
       {:benchfella, "~> 0.3", only: :dev},
-      {:util, in_umbrella: true},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:util, in_umbrella: true}
     ]
   end
 end

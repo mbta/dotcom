@@ -38,8 +38,7 @@ defmodule Zones.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:csv, "~> 2.3"},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:csv, "~> 2.3"}
     ]
   end
 end

@@ -40,8 +40,7 @@ defmodule Routes.Mixfile do
     [
       {:v3_api, in_umbrella: true},
       {:mock, "~> 0.3.3", only: :test},
-      {:repo_cache, in_umbrella: true},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:repo_cache, in_umbrella: true}
     ]
   end
 end
