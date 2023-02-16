@@ -122,23 +122,6 @@ There is a WIP adding screenshot capturing and visual regression testing using t
 ### Performance measurement
 There is an early WIP using the Lighthouse CI service for measuring performance metrics. Eventually this will run on a Github Action too.
 
-## ExVCR and ExVCRHelpers
-
-ExVCR is a library that allows mocking out sequences of HTTP requests and
-responses, so that tests can run without requesting live data from
-third-party services. Since almost everything dotcom does involves requesting
-data from the API and/or CMS, this is a valuable capability for our tests to have.
-
-There is a certain amount of boilerplate involved in working with ExVCR. To
-automate that boilerplate, we have a library called `ExVCRHelpers`. See
-`apps/exvcr_helpers/README.md` for more details on that.
-
-Many tests in the Elixir test suite currently do request live data from the API
-and/or CMS. This practice should be avoided for new tests, and ExVCR or
-another strategy to mock out live data requests should be used. When tests
-using live data break due to changes in that data, that is an opportune time
-to convert those tests to use ExVCR.
-
 ## CrossBrowserTesting
 
 We use this service to test site changes in Internet Explorer 11 without needing
