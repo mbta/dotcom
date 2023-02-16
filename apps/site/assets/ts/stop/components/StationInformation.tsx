@@ -10,9 +10,11 @@ const StationInformation = ({
   return (
     <div>
       <div>Station information PLACEHOLDER</div>
+      {/* TODO combine station name with municiplaity (station name, municiplaity) if no address */}
       {stop.address && (
         <ExternalMapLink
           address={stop.address}
+          municipality={stop.municipality}
           name={stop.name}
           latitude={stop.latitude}
           longitude={stop.longitude}
