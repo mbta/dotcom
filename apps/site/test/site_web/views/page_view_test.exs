@@ -104,7 +104,7 @@ defmodule SiteWeb.PageViewTest do
         %Alert{
           effect: :suspension,
           informed_entity: %IESet{
-            route: MapSet.new(["502", "708"])
+            route: MapSet.new(["505", "708"])
           }
         },
         # Accessibility
@@ -138,7 +138,7 @@ defmodule SiteWeb.PageViewTest do
       # Section Content
       assert rendered =~ "/schedules/Green/alerts"
       assert rendered =~ "/schedules/Blue/alerts"
-      assert rendered =~ "/schedules/502/alerts"
+      assert rendered =~ "/schedules/505/alerts"
       assert rendered =~ "/schedules/708/alerts"
       assert rendered =~ "/schedules/CR-Greenbush/alerts"
       assert Regex.match?(~r/There are no high priority.*ferry.*alerts at this time/s, rendered)
