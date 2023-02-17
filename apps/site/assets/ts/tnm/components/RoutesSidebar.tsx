@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import { Dispatch } from "../state";
 import { Alert, Mode, RouteWithStopsWithDirections, Stop } from "../../__v3api";
@@ -8,6 +8,7 @@ import ModeFilterContainer from "./ModeFilterContainer";
 import SidebarTitle from "./SidebarTitle";
 import { fetchJsonOrThrow, isFetchFailed } from "../../helpers/fetch-json";
 import { isHighSeverityOrHighPriority } from "../../models/alert";
+import useSWR from "swr";
 
 interface Props {
   data: RouteWithStopsWithDirections[];
@@ -42,6 +43,13 @@ export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
     alerts.push(results[i] as Alert);
   }
   return alerts;
+};
+
+export const isUndefined = (arg: any): any => {
+  if (arg == undefined) {
+    return [];
+  }
+  return arg;
 };
 
 //fetchAlerts("Orange").then(function(val) {console.log(val[0] instanceof Alert)});
@@ -149,6 +157,14 @@ const RoutesSidebar = ({
     selectedModes,
     shouldFilterStopCards
   );
+
+  // const alerts = new Map<String, Alert[]>();
+
+  // useEffect(() => {
+  // filteredData.length > 0 ? filteredData.forEach(route => alerts.set(route.route.id, (useSWR<Alert[]>(`/api/alerts?route_ids=${"Orange"}`, fetchAlerts).data))) : [];
+  // console.log(alerts);
+  // });
+
   return (
     <div className="m-tnm-sidebar">
       <div className="m-tnm-sidebar__fixed-header">
@@ -166,6 +182,7 @@ const RoutesSidebar = ({
       </div>
       <div className="m-tnm-sidebar__inner">
         <SidebarTitle dispatch={dispatch} viewType="Routes" />
+
         <div className="m-tnm-sidebar__cards">
           {filteredData.length > 0
             ? filteredData.map(route => (
@@ -173,9 +190,12 @@ const RoutesSidebar = ({
                   key={route.route.id}
                   route={route}
                   dispatch={dispatch}
-                  alerts={fetchAlerts("Orange").then(function(val) {
-                    return val;
-                  })}
+                  alerts={isUndefined(
+                    useSWR<Alert[]>(
+                      `/api/alerts?route_ids=${"Orange"}`,
+                      fetchAlerts
+                    ).data
+                  )}
                 />
               ))
             : emptyMessage}
