@@ -1,5 +1,4 @@
 /* eslint-disable */
-import * as Sentry from "@sentry/react";
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -47,87 +46,9 @@ import previousEventsButton from "./view-previous-events";
 import pslPageSetup from "./psl-page-setup.js";
 import tabbedNav from "./tabbed-nav.js";
 import setupAccordion from "../ts/ui/accordion";
+import initializeSentry from "../ts/sentry";
 
-if (window.sentry) {
-  Sentry.init({
-    dsn: window.sentry.dsn,
-    environment: window.sentry.environment,
-    autoSessionTracking: false,
-    sampleRate: 0.1, // error sampling - might increase later
-    initialScope: {
-      tags: { "dotcom.application": "frontend" }
-    },
-    beforeBreadcrumb: (breadcrumb, hint) => {
-      // omit breadcrumbs that are just these scripts
-      // making their incessant pinging
-      if (
-        breadcrumb.data?.url?.contains("clarity.ms") ||
-        breadcrumb.data?.url?.contains("doubleclick.net") ||
-        breadcrumb.data?.url?.contains("google-analytics.com")
-      ) {
-        return null;
-      }
-      return breadcrumb;
-    },
-    // ignoreErrors is a list of messages to be filtered out before
-    // being sent to Sentry as either regular expressions or strings.
-    // When using strings, they’ll partially match the messages
-    ignoreErrors: [
-      "translate_",
-      "ResizeObserver loop limit exceeded",
-      "Non-Error promise rejection captured",
-      "Extension context invalidated",
-      /^xd\/\(\/_\/translate_http/i
-    ],
-    // we don't care about errors from external tools and libraries
-    denyUrls: [
-      // Chrome extensions
-      /extensions\//i,
-      /^chrome:\/\//i,
-      /^chrome-extension:\/\//i,
-      // Firefox extensions
-      /^resource:\/\//i,
-      /^moz-extension:\/\//i,
-      // Safari extensions
-      /^safari-extension:/i,
-      // Others
-      /google/i,
-      /gtag/i,
-      /gstatic/i,
-      /clarity/i
-    ]
-  });
-}
-
-document.body.addEventListener(
-  "error",
-  event => {
-    if (!event.target) return;
-
-    if (event.target.tagName === "IMG") {
-      Sentry.captureMessage(
-        `Failed to load image: ${event.target.src}`,
-        "warning"
-      );
-    } else if (event.target.tagName === "LINK") {
-      Sentry.captureMessage(
-        `Failed to load css: ${event.target.href}`,
-        "warning"
-      );
-    } else if (event.target.tagName === "SCRIPT") {
-      Sentry.captureMessage(
-        `Failed to load script: ${event.target.src}`,
-        "warning"
-      );
-    } else if (event.target.tagName === "VIDEO") {
-      Sentry.captureMessage(
-        `Failed to load video: ${event.target.src}`,
-        "warning"
-      );
-    }
-  },
-  true // useCapture - necessary for resource loading errors
-);
+initializeSentry();
 
 document.body.className = document.body.className.replace("no-js", "js");
 
