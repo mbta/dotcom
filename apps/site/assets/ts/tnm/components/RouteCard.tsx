@@ -39,11 +39,8 @@ export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
   return alerts;
 };
 
-export const isUndefined = (arg: any): any => {
-  if (arg == undefined) {
-    return [];
-  }
-  return arg;
+export const isDefined = (arg: any): Alert[] => {
+  return arg !== undefined ? arg : [];
 };
 
 const routeIsEmpty = (route: RouteWithStopsWithDirections): boolean =>
