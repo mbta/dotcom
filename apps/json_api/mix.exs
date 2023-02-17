@@ -40,8 +40,7 @@ defmodule JsonApi.Mixfile do
     [
       {:poison, ">= 0.0.0"},
       {:jason, "~> 1.1"},
-      {:benchfella, "~> 0.3", only: :dev},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:benchfella, "~> 0.3", only: :dev}
     ]
   end
 end

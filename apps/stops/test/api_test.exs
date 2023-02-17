@@ -2,7 +2,6 @@ defmodule Stops.ApiTest do
   use ExUnit.Case
   import Stops.Api
   alias Stops.Stop
-  use ExVCRHelpers
 
   describe "by_gtfs_id/1" do
     test "uses the gtfs ID to find a stop" do

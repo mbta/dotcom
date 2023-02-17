@@ -47,8 +47,7 @@ defmodule Alerts.Mixfile do
       {:timex, ">= 0.0.0"},
       {:util, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
-      {:benchfella, "~> 0.3", only: :dev},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:benchfella, "~> 0.3", only: :dev}
     ]
   end
 end

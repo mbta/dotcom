@@ -33,7 +33,6 @@ defmodule DotCom.Mixfile do
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:excoveralls, "~> 0.14", only: :test},
       {:ex_doc, "~> 0.18", only: :dev},
-      {:exvcr, "~> 0.11.0", only: [:dev, :test]},
       {:eflame, "~> 1.0", only: :dev},
       # Can replace with release after 2.2.10
       {:ex_aws,

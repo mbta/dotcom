@@ -40,8 +40,7 @@ defmodule Predictions.Mixfile do
       {:repo_cache, in_umbrella: true},
       {:schedules, in_umbrella: true},
       {:stops, in_umbrella: true},
-      {:routes, in_umbrella: true},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:routes, in_umbrella: true}
     ]
   end
 end

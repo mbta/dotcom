@@ -1,6 +1,5 @@
 defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
-  use ExVCRHelpers
 
   alias Routes.{Route}
   alias SiteWeb.ScheduleController.Line.Helpers
@@ -37,7 +36,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     @tag skip: "We'll mock route patterns soon"
     test "does not return branches for route patterns from multi trip routes"
 
-    test_vcr "returns a list of RouteStops, one for each branch of the line" do
+    test "returns a list of RouteStops, one for each branch of the line" do
       assert [
                %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops},
                %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops}
@@ -515,7 +514,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test_vcr "handles a single Green line" do
+    test "handles a single Green line" do
       assert [
                %RouteStops{branch: "Government Center - Boston College", stops: stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green-B"}, 0)
@@ -577,7 +576,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test_vcr "handles the E line" do
+    test "handles the E line" do
       assert [
                %RouteStops{branch: "Medford/Tufts - Heath Street", stops: stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green-E"}, 0)
@@ -643,7 +642,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
-    test_vcr "handles the Hingham-Hull ferry" do
+    test "handles the Hingham-Hull ferry" do
       [
         %RouteStops{
           branch: "Long Wharf - Hingham via Logan Airport & Hull",
@@ -685,7 +684,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true, false]
     end
 
-    test_vcr "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
+    test "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
       plymouth_route = %Route{id: "CR-Kingston"}
 
       assert [%RouteStops{stops: plymouth_route_stops}] =
@@ -709,14 +708,14 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       )
     end
 
-    test_vcr "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
+    test "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
       fitchburg_route = %Route{id: "CR-Fitchburg"}
 
       assert [%RouteStops{}] = Helpers.get_branch_route_stops(fitchburg_route, 1),
              "should have only one 'branch'"
     end
 
-    test_vcr "ensures that Forest Hills is in the trunk of every CR-Franklin branch" do
+    test "ensures that Forest Hills is in the trunk of every CR-Franklin branch" do
       franklin_route = %Routes.Route{id: "CR-Franklin"}
 
       assert [%RouteStops{stops: branch_0_1_stops}, %RouteStops{stops: branch_0_2_stops}] =
@@ -731,7 +730,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert Enum.member?(stop_ids(branch_1_2_stops), "place-forhl")
     end
 
-    test_vcr "ensures that Forest Hills is in the trunk of every CR-Providence direction 0 branch" do
+    test "ensures that Forest Hills is in the trunk of every CR-Providence direction 0 branch" do
       providence_route = %Routes.Route{id: "CR-Providence"}
 
       assert [%RouteStops{stops: branch_0_1_stops}, %RouteStops{stops: branch_0_2_stops}] =
@@ -770,11 +769,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_shapes_by_direction/3 (for cases not tested in line_test)" do
-    test_vcr "for ferry" do
+    test "for ferry" do
       assert Helpers.get_shapes_by_direction("Ferry ID", 4, 0) == []
     end
 
-    test_vcr "for bus" do
+    test "for bus" do
       assert Helpers.get_shapes_by_direction("1", 3, 0) == Helpers.do_get_shapes("1", 0)
 
       assert @routes_repo_api.get_shapes("1", direction_id: 0) == [
@@ -814,7 +813,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
              ]
     end
 
-    test_vcr "for bus without scheduled trips" do
+    test "for bus without scheduled trips" do
       assert Helpers.get_shapes_by_direction("27", 3, 0) == []
     end
   end

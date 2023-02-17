@@ -38,8 +38,7 @@ defmodule RepoCache.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:con_cache, "~> 0.12.0"},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:con_cache, "~> 0.12.0"}
     ]
   end
 end

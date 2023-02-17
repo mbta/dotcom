@@ -35,8 +35,7 @@ defmodule Algolia.Mixfile do
       {:util, in_umbrella: true},
       {:httpoison, "~> 1.5"},
       {:plug, "~> 1.13.0"},
-      {:bypass, "~> 1.0", only: :test},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:bypass, "~> 1.0", only: :test}
     ]
   end
 end
