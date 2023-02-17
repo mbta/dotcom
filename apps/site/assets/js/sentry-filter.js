@@ -256,6 +256,7 @@ export const beforeSend = (event, hint) => {
       "prebidjs", // Coming from a bidding external script (Prebid.js)
       "Taboola", // Taboola third-party script
       "fb.js", // Issues coming from Facebook pixel/third-party script on GTM
+      "fbevents.js", // Issues coming from Facebook pixel/third-party script on GTM
       "ats.js", // ATS tracker script (probably coming from GTM)
       "Could not find Nativo", // Nativo third-party script
       "Could not find googletag", // Another possible GTM issue
@@ -293,6 +294,7 @@ export const beforeSend = (event, hint) => {
       "hstc.tracking", // Hubspot tracking script
       "setupPops", // Chrome issue coming from adblockers
       "translate_http", // Issues coming from Google Translate API
+      "translate_a", // Issues coming from Google Translate API
       "common-scripts", // Third-party scripts such as CrazyEgg
       "clarity.js", // Microsoft Clarity analytics tool
       "srcIsLegacy", // Drift third-party script
