@@ -5,10 +5,6 @@ defmodule Feedback.Mailer do
 
   alias Feedback.Message
 
-  # Max 6 files per ticket, max 2 MB for single attachment
-  @file_count_limit 6
-  @file_size_limit 2_097_152
-
   @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
@@ -48,7 +44,7 @@ defmodule Feedback.Mailer do
     """
 
     message =
-      case photo_attachment(photo_info) do
+      case photo_info do
         nil ->
           Mail.build()
 
@@ -131,31 +127,4 @@ defmodule Feedback.Mailer do
        """
 
   defp ticket_number(_), do: nil
-
-  @spec photo_attachment([Plug.Upload.t()]) :: [%{path: String.t(), filename: String.t()}] | nil
-  defp photo_attachment([%Plug.Upload{} | _rest] = photos) do
-    attachments =
-      Enum.reduce(photos, [], fn %Plug.Upload{path: path, filename: filename}, acc ->
-        with {:ok, uploaded_file} <- File.read(path),
-             {:ok, %File.Stat{size: size}} when size <= @file_size_limit <- File.stat(path) do
-          [{filename, uploaded_file} | acc]
-        else
-          {:error, file_error} ->
-            # Sometimes a file isn't successfully uploaded. Ignore it here so that we can still send the email
-            _ =
-              Logger.warn(
-                "module=#{__MODULE__} error=#{inspect(file_error)} failed_photo_attachment"
-              )
-
-            acc
-
-          _ ->
-            acc
-        end
-      end)
-
-    if Enum.empty?(attachments), do: nil, else: Enum.take(attachments, @file_count_limit)
-  end
-
-  defp photo_attachment(nil), do: nil
 end
