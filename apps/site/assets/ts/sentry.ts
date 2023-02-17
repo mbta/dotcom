@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react";
+import { beforeSend } from "../js/sentry-filter";
 
 declare global {
   interface Window {
@@ -14,8 +15,9 @@ export default function initializeSentry(): void {
     Sentry.init({
       dsn: window.sentry.dsn,
       environment: window.sentry.environment,
+      beforeSend,
       autoSessionTracking: false,
-      sampleRate: 0.1, // error sampling - might increase later
+      sampleRate: 0.5, // error sampling - might increase later
       initialScope: {
         tags: { "dotcom.application": "frontend" }
       },
@@ -52,11 +54,52 @@ export default function initializeSentry(): void {
         /^moz-extension:\/\//i,
         // Safari extensions
         /^safari-extension:/i,
+        /safari-extension:\/\//i,
         // Others
         /google/i,
         /gtag/i,
         /gstatic/i,
-        /clarity/i
+        /clarity/i,
+        // reCAPTCHA flakiness
+        /gstatic\.com\/recaptcha\/releases/i,
+
+        // Bing UET tracking flakiness
+        /bat\.bing\.com\/bat\.js/i,
+
+        // Local user files
+        /file:\/\//i,
+
+        // Trustpilot scripts
+        /widget\.trustpilot\.com/i,
+
+        // Hubspot scripts
+        /js\.hs-banner\.com/i,
+        /js\.hs-analytics\.net/i,
+        /js\.hs-scripts\.com/i,
+        /js\.hsadspixel\.net/i,
+
+        // Sentry scripts
+        /browser\.sentry-cdn\.com/i,
+
+        // Facebook scripts
+        /graph\.facebook\.com/i,
+        /connect\.facebook\.net\/en_US\/all\.js/i,
+
+        // Microsoft Clarity
+        /clarity\.ms/i,
+
+        // Twitter ads
+        /ads-twitter\.com/i,
+
+        // Google scripts
+        /googletagmanager\.com/i,
+        /google-analytics\.com/i,
+
+        // LinkedIn scripts
+        /snap\.licdn\.com/i,
+
+        // Quora scripts
+        /a\.quora\.com/i
       ]
     });
   }
