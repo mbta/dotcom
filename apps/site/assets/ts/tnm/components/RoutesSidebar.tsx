@@ -103,7 +103,6 @@ const RoutesSidebar = ({
     selectedModes,
     shouldFilterStopCards
   );
-
   return (
     <div className="m-tnm-sidebar">
       <div className="m-tnm-sidebar__fixed-header">
@@ -121,7 +120,6 @@ const RoutesSidebar = ({
       </div>
       <div className="m-tnm-sidebar__inner">
         <SidebarTitle dispatch={dispatch} viewType="Routes" />
-
         <div className="m-tnm-sidebar__cards">
           {filteredData.length > 0
             ? filteredData.map(route => (
