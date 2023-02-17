@@ -140,9 +140,13 @@ defmodule Feedback.Mailer do
              {:ok, %File.Stat{size: size}} when size <= @file_size_limit <- File.stat(path) do
           [{filename, uploaded_file} | acc]
         else
-          {:error, _file_error} ->
+          {:error, file_error} ->
             # Sometimes a file isn't successfully uploaded. Ignore it here so that we can still send the email
-            _ = Logger.warn("module=#{__MODULE__} error=failed_photo_attachment")
+            _ =
+              Logger.warn(
+                "module=#{__MODULE__} error=#{inspect(file_error)} failed_photo_attachment"
+              )
+
             acc
 
           _ ->

@@ -288,6 +288,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       attachments = Feedback.Test.latest_message()["attachments"]
 
       assert %{"filename" => "photo-1.jpg", "data" => Base.encode64("upload 1 data")} in attachments
+
       assert %{"filename" => "photo-2.jpg", "data" => Base.encode64("upload 2 data")} in attachments
     end
 
