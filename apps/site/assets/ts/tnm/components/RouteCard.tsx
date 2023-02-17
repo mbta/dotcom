@@ -12,15 +12,39 @@ import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import RouteCardHeader from "../../components/RouteCardHeader";
 import { isABusRoute } from "../../models/route";
+import useSWR from "swr";
+import { isHighSeverityOrHighPriority } from "../../models/alert";
+import { fetchJsonOrThrow, isFetchFailed } from "../../helpers/fetch-json";
 
 interface Props {
   route: RouteWithStopsWithDirections;
-  alerts: Alert[];
   dispatch: Dispatch;
 }
 
 const everyDirectionIsEmpty = (directions: Direction[]): boolean =>
   directions.every(directionIsEmpty);
+
+export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
+  const results = await fetchJsonOrThrow<Alert[]>(
+    `/api/alerts?route_ids=${routeId}`
+  );
+  if (isFetchFailed(results)) {
+    throw new Error(
+      `Failed to fetch Alert information: ${results.status} ${results.statusText}`
+    );
+  }
+
+  let alerts: Alert[] = [];
+  alerts = results.filter(isHighSeverityOrHighPriority) as Alert[];
+  return alerts;
+};
+
+export const isUndefined = (arg: any): any => {
+  if (arg == undefined) {
+    return [];
+  }
+  return arg;
+};
 
 const routeIsEmpty = (route: RouteWithStopsWithDirections): boolean =>
   route.stops_with_directions.every(stop =>
@@ -38,7 +62,6 @@ const filterStops = (
 
 const RouteCard = ({
   route,
-  alerts,
   dispatch
 }: Props): ReactElement<HTMLElement> | null => {
   const mode = modeByV3ModeType[route.route.type];
@@ -49,7 +72,12 @@ const RouteCard = ({
 
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
-      <RouteCardHeader route={route.route} alerts={alerts} />
+      <RouteCardHeader
+        route={route.route}
+        alerts={isUndefined(
+          useSWR<Alert[]>(`${route.route.id}`, fetchAlerts).data
+        )}
+      />
       {filterStops(route).map(
         stopWithDirections =>
           !everyDirectionIsEmpty(stopWithDirections.directions) && (
