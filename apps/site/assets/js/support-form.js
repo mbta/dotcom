@@ -550,7 +550,7 @@ export function handleSubmitClick($, toUpload) {
         console.error(errorString);
         Sentry.captureException(errorObject, {
           tags: { "dotcom.application": "frontend", "support.form": true },
-          extra: { "errorStatus": errorString, "formData": formData }
+          extra: { errorStatus: errorString, formData: formData }
         });
         $(".support-confirmation--error")
           .removeClass("hidden-xs-up")

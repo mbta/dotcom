@@ -10,6 +10,7 @@ export const FERRY: Mode = "ferry";
 export const COMMUTER_RAIL: Mode = "commuter_rail";
 
 // TODO replace with real data
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const departures: any[] = [
   {
     headsign: "Fields Corner",
@@ -45,7 +46,7 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   // TODO replace type with actual data type
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
-
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   return (
     <article>
       {/* Title Bar Div */}

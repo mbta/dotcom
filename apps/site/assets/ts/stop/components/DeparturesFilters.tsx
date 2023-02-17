@@ -9,6 +9,7 @@ export const SUBWAY: Mode = "subway";
 export const FERRY: Mode = "ferry";
 export const COMMUTER_RAIL: Mode = "commuter_rail";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const filterDeparturesByMode = (
   departuresArray: any[],
   mode: Mode | typeof ALL
@@ -26,6 +27,8 @@ const DeparturesFilters = ({
   departures: any[];
   onModeChange: (val: any[]) => void;
 }): ReactElement<HTMLElement> => {
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+
   const [selectedMode, setSelectedMode] = useState<typeof ALL | Mode>(ALL);
   const [filterOptions, setFilterOptions] = useState<
     { displayText: string; mode: typeof ALL | Mode }[]
