@@ -71,7 +71,7 @@ const RouteCard = ({
     <div className="m-tnm-sidebar__route" data-mode={mode}>
       <RouteCardHeader
         route={route.route}
-        alerts={isUndefined(
+        alerts={isDefined(
           useSWR<Alert[]>(`${route.route.id}`, fetchAlerts).data
         )}
       />
