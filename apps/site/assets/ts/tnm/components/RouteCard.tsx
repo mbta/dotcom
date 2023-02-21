@@ -34,13 +34,7 @@ export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
     );
   }
 
-  let alerts: Alert[] = [];
-  alerts = results.filter(isHighSeverityOrHighPriority) as Alert[];
-  return alerts;
-};
-
-export const isDefined = (arg: any): Alert[] => {
-  return arg !== undefined ? arg : [];
+  return results.filter(isHighSeverityOrHighPriority);
 };
 
 const routeIsEmpty = (route: RouteWithStopsWithDirections): boolean =>
@@ -63,18 +57,15 @@ const RouteCard = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const mode = modeByV3ModeType[route.route.type];
 
+  const { data: alerts } = useSWR<Alert[]>(`${route.route.id}`, fetchAlerts);
+
   if (routeIsEmpty(route)) {
     return null;
   }
 
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
-      <RouteCardHeader
-        route={route.route}
-        alerts={isDefined(
-          useSWR<Alert[]>(`${route.route.id}`, fetchAlerts).data
-        )}
-      />
+      <RouteCardHeader route={route.route} alerts={alerts || []} />
       {filterStops(route).map(
         stopWithDirections =>
           !everyDirectionIsEmpty(stopWithDirections.directions) && (
