@@ -44,14 +44,16 @@ defmodule Feedback.Mailer do
     """
 
     message =
-      if photo_info do
-        photo_info
-        |> Enum.reduce(
-          Mail.build_multipart(),
-          fn attachment, message -> Mail.put_attachment(message, attachment) end
-        )
-      else
-        Mail.build()
+      case photo_info do
+        nil ->
+          Mail.build()
+
+        attachments ->
+          attachments
+          |> Enum.reduce(
+            Mail.build_multipart(),
+            fn attachment, message -> Mail.put_attachment(message, attachment) end
+          )
       end
 
     message =

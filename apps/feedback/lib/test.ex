@@ -46,6 +46,6 @@ defmodule Feedback.Test do
          body: data,
          headers: %{"content-disposition" => ["attachment", {"filename", filename}]}
        }) do
-    %{"filename" => filename, "data" => data}
+    %{"filename" => filename, "data" => Base.encode64(data)}
   end
 end

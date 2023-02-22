@@ -287,8 +287,35 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       wait_for_ticket_task(conn)
       attachments = Feedback.Test.latest_message()["attachments"]
 
-      assert %{"filename" => "photo-1.jpg", "data" => "upload 1 data"} in attachments
-      assert %{"filename" => "photo-2.jpg", "data" => "upload 2 data"} in attachments
+      assert %{"filename" => "photo-1.jpg", "data" => Base.encode64("upload 1 data")} in attachments
+
+      assert %{"filename" => "photo-2.jpg", "data" => Base.encode64("upload 2 data")} in attachments
+    end
+
+    test "doesn't attach more than 6 files", %{conn: conn} do
+      params =
+        valid_no_response_data()
+        |> put_in(["support", "photos"], test_photos())
+
+      conn = post(conn, customer_support_path(conn, :submit), params)
+      wait_for_ticket_task(conn)
+      attachments = Feedback.Test.latest_message()["attachments"]
+      assert length(attachments) <= 6
+    end
+
+    test "doesn't attach a file larger than 2 MB", %{conn: conn} do
+      # Oversized test file is ~4 MB
+      oversized_file = Enum.find(test_photos(), &String.starts_with?(&1.filename, "oversized"))
+
+      params =
+        valid_no_response_data()
+        |> put_in(["support", "photos"], [oversized_file])
+
+      conn = post(conn, customer_support_path(conn, :submit), params)
+
+      wait_for_ticket_task(conn)
+      attachments = Feedback.Test.latest_message()["attachments"]
+      assert length(attachments) == 0
     end
 
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
@@ -578,5 +605,14 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     ref = Process.monitor(pid)
     assert_receive {:DOWN, ^ref, _, _, _}, 1_000
     :ok
+  end
+
+  defp test_photos do
+    Application.app_dir(:site, "priv/test/attachments/*.jpg")
+    |> Path.wildcard()
+    |> Enum.map(fn path ->
+      filename = String.split(path, "/") |> List.last()
+      %Plug.Upload{path: path, filename: filename, content_type: "image/jpeg"}
+    end)
   end
 end
