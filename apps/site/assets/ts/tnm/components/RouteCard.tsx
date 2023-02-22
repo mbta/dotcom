@@ -1,5 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { ReactElement } from "react";
+import useSWR from "swr";
 import StopCard from "../../components/StopCard";
 import {
   Direction,
@@ -12,7 +13,6 @@ import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import RouteCardHeader from "../../components/RouteCardHeader";
 import { isABusRoute } from "../../models/route";
-import useSWR from "swr";
 import { isHighSeverityOrHighPriority } from "../../models/alert";
 import { fetchJsonOrThrow, isFetchFailed } from "../../helpers/fetch-json";
 
