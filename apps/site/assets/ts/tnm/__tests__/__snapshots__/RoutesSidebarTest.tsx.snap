@@ -138,25 +138,6 @@ exports[`render it renders 1`] = `
                 View schedule
               </div>
             </span>
-            <a
-              className="c-link-block__inner-link"
-              href="/schedules/Orange/alerts"
-              title="alert"
-            >
-              <span
-                aria-hidden="false"
-                className="notranslate c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-              <span>
-                1
-                 alert
-              </span>
-            </a>
           </div>
         </div>
         <div
@@ -1144,25 +1125,6 @@ exports[`render it renders 1`] = `
                 View schedule
               </div>
             </span>
-            <a
-              className="c-link-block__inner-link"
-              href="/schedules/104/alerts"
-              title="alert"
-            >
-              <span
-                aria-hidden="false"
-                className="notranslate c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-              <span>
-                1
-                 alert
-              </span>
-            </a>
           </div>
         </div>
         <div
@@ -1366,25 +1328,6 @@ exports[`render it renders 1`] = `
                 View schedule
               </div>
             </span>
-            <a
-              className="c-link-block__inner-link"
-              href="/schedules/105/alerts"
-              title="alert"
-            >
-              <span
-                aria-hidden="false"
-                className="notranslate c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-              <span>
-                1
-                 alert
-              </span>
-            </a>
           </div>
         </div>
         <div
