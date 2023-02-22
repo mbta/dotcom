@@ -182,7 +182,7 @@ defmodule SiteWeb.CustomerSupportController do
       Enum.reduce(photos, [], fn %Plug.Upload{path: path, filename: filename}, acc ->
         with {:ok, uploaded_file} <- File.read(path),
              {:ok, %File.Stat{size: size}} when size <= @file_size_limit <- File.stat(path) do
-          [{filename, uploaded_file} | acc]
+          [{simple_filename(filename), uploaded_file} | acc]
         else
           {:error, file_error} ->
             # Sometimes a file isn't successfully uploaded. Ignore it here so that we can still send the email
@@ -202,6 +202,8 @@ defmodule SiteWeb.CustomerSupportController do
   end
 
   defp photo_attachments(nil), do: nil
+
+  defp simple_filename(name), do: String.replace(name, ~r/(\s)+/, "-")
 
   defp render_form(conn, %{errors: errors, comments: comments}) do
     render(
