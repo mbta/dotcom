@@ -3,6 +3,8 @@ defmodule SiteWeb.BusStopChangeView do
   alias Alerts.Alert
   alias Stops.Stop
 
+  @type alerts_by_stop :: [{Stop.t(), [%Alert{}]}]
+
   @spec sorted_by_start_date([%Alert{}]) :: [%Alert{}]
   def sorted_by_start_date(alerts) do
     Enum.sort_by(
@@ -12,6 +14,31 @@ defmodule SiteWeb.BusStopChangeView do
       end,
       Date
     )
+  end
+
+  @spec grouped_by_municipality([%Alert{}]) :: %{String.t() => alerts_by_stop}
+  def grouped_by_municipality(alerts) do
+    grouped_by_stop(alerts)
+    |> Enum.group_by(fn {stop, _alerts} ->
+      stop.municipality
+    end)
+  end
+
+  @spec grouped_by_stop([%Alert{}]) :: alerts_by_stop
+  def grouped_by_stop(alerts) do
+    alerts
+    |> Enum.flat_map(fn alert ->
+      alert
+      |> related_stops()
+      |> Enum.map(&{&1, alert})
+    end)
+    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
+    |> Enum.sort_by(fn {stop, _alerts} ->
+      stop.name
+    end)
+    |> Enum.map(fn {stop, alerts} ->
+      {stop, sorted_by_start_date(alerts)}
+    end)
   end
 
   @spec related_stops(%Alert{}) :: [%Stop{}]
@@ -47,19 +74,9 @@ defmodule SiteWeb.BusStopChangeView do
   defp filter_text(:current), do: "Current Alerts"
   defp filter_text(:upcoming), do: "Upcoming Service Alerts"
 
-  @spec affected_stops_links(%Plug.Conn{}, %Alert{}) :: Phoenix.HTML.Safe.t() | nil
-  def affected_stops_links(conn, alert) do
-    related_stops = related_stops(alert)
-
-    if length(related_stops) > 0 do
-      content_tag(
-        :ul,
-        Enum.map(related_stops, fn stop ->
-          content_tag(:li, link(stop.name, to: stop_path(conn, :show, stop.id)))
-        end),
-        class: "list-unstyled"
-      )
-    end
+  @spec affected_stop_link(%Plug.Conn{}, %Stop{}) :: Phoenix.HTML.Safe.t() | nil
+  def affected_stop_link(conn, stop) do
+    link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary")
   end
 
   @spec time_range(%Alert{}) :: Phoenix.HTML.Safe.t()
@@ -69,16 +86,12 @@ defmodule SiteWeb.BusStopChangeView do
       content_tag(
         :div,
         [
+          fa("calendar", class: "mr-025"),
           date_tag(start_date),
-          content_tag(
-            :div,
-            [
-              "End date: ",
-              date_tag(end_date) || "N/A"
-            ],
-            class: "small"
-          )
-        ]
+          " — ",
+          date_tag(end_date) || "N/A"
+        ],
+        class: "u-small-caps u-bold mb-1"
       )
     end)
     |> List.first()
@@ -88,10 +101,7 @@ defmodule SiteWeb.BusStopChangeView do
   defp date_tag(%DateTime{} = date) do
     with iso <- DateTime.to_iso8601(date),
          {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do
-      [
-        fa("calendar", class: "mr-025"),
-        content_tag(:time, readable, datetime: iso, class: "u-small-caps u-bold")
-      ]
+      content_tag(:time, readable, datetime: iso)
     end
   end
 
