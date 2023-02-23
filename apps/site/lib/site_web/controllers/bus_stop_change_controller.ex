@@ -44,47 +44,6 @@ defmodule SiteWeb.BusStopChangeController do
     assign(conn, :alerts, Enum.filter(alerts, &is_stop_move_or_closure?/1))
   end
 
-  defp is_stop_move_or_closure?(%Alert{effect: effect})
-       when effect in [:stop_closure, :stop_moved] do
-    true
-  end
-
-  # filter more aggressively on verbiage, since service changes can really be
-  # about anything at all, including whether a future change is postponed, etc
-  defp is_stop_move_or_closure?(%Alert{effect: :service_change, header: header} = alert) do
-    if contains_excluded_phrases?(header) || affected_stops_are_not_bus_stops?(alert) do
-      false
-    else
-      if mentions_station_or_stop?(header) do
-        true
-      else
-        false
-      end
-    end
-  end
-
-  defp is_stop_move_or_closure?(_), do: false
-
-  defp mentions_station_or_stop?(text),
-    do: String.contains?(text, "station") || String.contains?(text, "stop")
-
-  @excluded_phrases [
-    "postponed",
-    "Green Line Extension riders will need to validate their fare"
-  ]
-  defp contains_excluded_phrases?(text), do: String.contains?(text, @excluded_phrases)
-
-  defp affected_stops_are_not_bus_stops?(alert) do
-    with stops when stops != [] <- SiteWeb.BusStopChangeView.related_stops(alert) do
-      not Enum.any?(stops, &serves_bus?(&1))
-    else
-      _ ->
-        false
-    end
-  end
-
-  defp serves_bus?(stop) do
-    Routes.Repo.by_stop(stop.id, include: "stop.connecting_stops")
-    |> Enum.any?(&(&1.type == 3))
-  end
+  defp is_stop_move_or_closure?(%Alert{effect: effect}),
+    do: effect in [:stop_closure, :stop_moved]
 end
