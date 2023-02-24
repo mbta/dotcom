@@ -11,6 +11,17 @@ defmodule V3Api.StreamTest do
   end
 
   describe "start_link" do
+    test "errors when bad url" do
+      assert {:error, _sses} =
+               [
+                 base_url: nil,
+                 path: "/vehicles",
+                 headers: []
+               ]
+               |> V3Api.Stream.build_options()
+               |> ServerSentEventStage.start_link()
+    end
+
     test "starts a genserver that sends events" do
       assert {:ok, sses} =
                [

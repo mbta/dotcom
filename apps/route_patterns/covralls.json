@@ -1,4 +1,7 @@
 {
+    "custom_stop_words": [
+        "no cover"
+      ],
     "skip_files": [
         "lib/mock_repo.ex"
     ]

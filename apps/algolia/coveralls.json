@@ -1,0 +1,7 @@
+{
+    "skip_files": [
+      "test/support/mock_object.ex",
+      "test/support/mock_routes_repo.ex",
+      "test/support/mock_stops_repo.ex"
+    ]
+  }
