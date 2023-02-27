@@ -4,6 +4,6 @@
   ],
   "skip_files": [
     "lib/routes.ex",
-    "lib/mock_repo.ex"
+    "lib/mock_repo_api.ex"
   ]
 }
