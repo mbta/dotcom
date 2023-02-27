@@ -71,8 +71,8 @@ defmodule SiteWeb.BusStopChangeView do
   end
 
   defp filter_text(nil), do: "Past Changes"
-  defp filter_text(:current), do: "Current Alerts"
-  defp filter_text(:upcoming), do: "Upcoming Service Alerts"
+  defp filter_text(:current), do: "Current Changes"
+  defp filter_text(:upcoming), do: "Upcoming Changes"
 
   @spec affected_stop_link(%Plug.Conn{}, %Stop{}) :: Phoenix.HTML.Safe.t() | nil
   def affected_stop_link(conn, stop) do
