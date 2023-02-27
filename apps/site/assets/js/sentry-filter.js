@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * Via https://github.com/toptal/keycodes/
  */
@@ -104,6 +105,7 @@ const exceptionsWithMechanism = [
   }
 ];
 
+// eslint-disable-next-line consistent-return
 const handleUnhandledRejection = (event, value, stacktrace) => {
   // Google reCAPTCHA timeout exceptions
   const recaptchaPattern = /^Non-Error promise rejection captured with value: Timeout( \(\w\))?$/;
@@ -158,8 +160,7 @@ const handleUserPromptedError = event => {
   return urlRegExp.test(relativeUrl) && version >= 102;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const beforeSend = (event, hint) => {
+const beforeSend = (event, hint) => {
   const exactFetchMessages = [
     "Load failed", // Safari fetch error
     "Failed to fetch", // Chrome fetch error
@@ -321,7 +322,8 @@ export const beforeSend = (event, hint) => {
       "crypto.getRandomValues", // third-party app
       "localStorage", // Mobile device settings (usually coming from Android)
       "/Users/", // MacOS localhost
-      "C:\\Users\\" // Windows localhost
+      "C:\\Users\\", // Windows localhost
+      "insitez.blob.core.windows" // informizely
     ].some(predicate => parsedEvent.includes(predicate));
 
     if (match) {
@@ -358,13 +360,13 @@ export const beforeSend = (event, hint) => {
 
     if (mechanism) {
       const errorType = exceptionsWithMechanism.find(
-        event => event.type === type
+        ({ type: eventType }) => eventType === type
       );
 
       if (errorType) {
         const match = errorType.items.some(
-          ({ value: itemValue, type }) =>
-            itemValue === value && type === mechanism?.type
+          ({ value: itemValue, type: itemType }) =>
+            itemValue === value && itemType === mechanism?.type
         );
 
         if (match) {
@@ -374,7 +376,9 @@ export const beforeSend = (event, hint) => {
     }
 
     if (stacktrace?.frames) {
-      const errorType = exceptionsByType.find(event => event.type === type);
+      const errorType = exceptionsByType.find(
+        ({ type: eventType }) => eventType === type
+      );
 
       if (errorType) {
         const match = stacktrace.frames.some(frame =>
@@ -431,3 +435,5 @@ export const beforeSend = (event, hint) => {
 
   return event;
 };
+
+export default beforeSend;

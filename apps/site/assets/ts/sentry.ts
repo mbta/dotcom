@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { beforeSend } from "../js/sentry-filter";
+import beforeSend from "../js/sentry-filter";
 
 declare global {
   interface Window {
@@ -17,7 +17,7 @@ export default function initializeSentry(): void {
       environment: window.sentry.environment,
       beforeSend,
       autoSessionTracking: false,
-      sampleRate: 0.5, // error sampling - might increase later
+      sampleRate: 0.6, // error sampling - might increase later
       initialScope: {
         tags: { "dotcom.application": "frontend" }
       },
