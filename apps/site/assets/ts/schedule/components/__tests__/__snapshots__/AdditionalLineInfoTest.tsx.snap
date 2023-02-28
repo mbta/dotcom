@@ -42,6 +42,7 @@ Array [
   >
     <a
       className="m-schedule-page__sidebar-pdfs"
+      data-turbolinks="false"
       href="https://mbta.com/example-pdf.pdf"
       rel="noopener noreferrer"
       target="_blank"
@@ -81,6 +82,7 @@ Array [
     >
       <a
         className="m-schedule-page__sidebar-pdfs"
+        data-turbolinks="false"
         href="https://mbta.com/example-pdf.pdf"
         rel="noopener noreferrer"
         target="_blank"
@@ -285,6 +287,7 @@ Array [
   >
     <a
       className="m-schedule-page__sidebar-pdfs"
+      data-turbolinks="false"
       href="https://mbta.com/example-pdf.pdf"
       rel="noopener noreferrer"
       target="_blank"
@@ -324,6 +327,7 @@ Array [
     >
       <a
         className="m-schedule-page__sidebar-pdfs"
+        data-turbolinks="false"
         href="https://mbta.com/example-pdf.pdf"
         rel="noopener noreferrer"
         target="_blank"
