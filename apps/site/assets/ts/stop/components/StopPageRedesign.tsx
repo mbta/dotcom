@@ -1,13 +1,8 @@
 import React, { ReactElement, useState } from "react";
 import { uniqueId } from "lodash";
-import { Mode } from "../../__v3api";
 import DeparturesFilters from "./DeparturesFilters";
-
-export const ALL = "all";
-export const BUS: Mode = "bus";
-export const SUBWAY: Mode = "subway";
-export const FERRY: Mode = "ferry";
-export const COMMUTER_RAIL: Mode = "commuter_rail";
+import useStop from "../../hooks/useStop";
+import StationInformation from "./StationInformation";
 
 // TODO replace with real data
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -47,6 +42,8 @@ const StopPageRedesign = ({
   // TODO replace type with actual data type
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
   /* eslint-enable @typescript-eslint/no-explicit-any */
+  const stop = useStop(stopId);
+
   return (
     <article>
       {/* Title Bar Div */}
@@ -90,11 +87,7 @@ const StopPageRedesign = ({
         </div>
       </div>
       {/* Station Information Div */}
-      <footer>
-        <div>Station information PLACEHOLDER</div>
-        <div>Station Address PLACEHOLDER</div>
-        <div>Station Status Blocks PLACEHOLDER</div>
-      </footer>
+      <footer>{stop && <StationInformation stop={stop} />}</footer>
     </article>
   );
 };

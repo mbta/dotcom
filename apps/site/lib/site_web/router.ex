@@ -202,6 +202,8 @@ defmodule SiteWeb.Router do
   scope "/api", SiteWeb do
     pipe_through([:secure, :browser])
     get("/alerts", AlertController, :show_by_routes)
+
+    get("/stop/:id", StopController, :get)
   end
 
   scope "/places", SiteWeb do

@@ -166,6 +166,11 @@ defmodule SiteWeb.StopController do
   defp tab_value("alerts"), do: "alerts"
   defp tab_value(_), do: "info"
 
+  @spec get(Conn.t(), map) :: Conn.t()
+  def get(conn, %{"id" => stop_id}) do
+    json(conn, Stops.Repo.get(stop_id))
+  end
+
   @spec api(Conn.t(), map) :: Conn.t()
   def api(conn, %{"id" => stop_id}) do
     routes_by_stop = Routes.Repo.by_stop(stop_id)
