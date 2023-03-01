@@ -10,15 +10,13 @@ const StationInformation = ({
   return (
     <div>
       <div>Station information PLACEHOLDER</div>
-      {
-        <ExternalMapLink
-          address={stop.address}
-          municipality={stop.municipality}
-          name={stop.name}
-          latitude={stop.latitude}
-          longitude={stop.longitude}
-        />
-      }
+      <ExternalMapLink
+        address={stop.address}
+        municipality={stop.municipality}
+        name={stop.name}
+        latitude={stop.latitude}
+        longitude={stop.longitude}
+      />
       <div>Station Status Blocks PLACEHOLDER</div>
     </div>
   );
