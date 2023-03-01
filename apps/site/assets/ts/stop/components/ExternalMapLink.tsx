@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import renderFa from "../../helpers/render-fa";
-import { isIPhone } from "../../hooks/useMobileDetect";
+import { isIPhone } from "../../helpers/mobileDetect";
 
 // This is temporary to test out an idea
-const getPlaceID = (stationName: string) => {
+const getPlaceID = (stationName: string): string => {
   return stationName === "Wonderland" ? "ChIJSbu0PwZu44kRLxNeyhVE0oI" : "";
 };
 
