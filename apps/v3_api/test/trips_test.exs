@@ -5,7 +5,7 @@ defmodule V3Api.TripsTest do
 
   describe "by_route/1" do
     test "gets the trip by route_id" do
-      %JsonApi{data: [%JsonApi.Item{} = trip]} = Trips.by_id("747")
+      %JsonApi{data: [%JsonApi.Item{} = trip]} = Trips.by_route("747")
       assert trip.id == "747"
     end
   end
