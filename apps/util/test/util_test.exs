@@ -19,6 +19,12 @@ defmodule UtilTest do
     end
   end
 
+  describe "today/1" do
+    test "returns today" do
+      assert today() == now() |> Timex.to_date()
+    end
+  end
+
   describe "to_local_time/1" do
     test "handles NaiveDateTime" do
       assert %DateTime{day: 02, hour: 0, zone_abbr: "EST"} =

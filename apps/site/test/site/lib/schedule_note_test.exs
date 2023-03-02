@@ -6,6 +6,7 @@ defmodule Site.ScheduleNoteTest do
 
   @red_line %Route{id: "Red"}
   @blue_line %Route{id: "Blue"}
+  @orange_line %Route{id: "Orange"}
   @mattapan %Route{id: "Mattapan"}
   @green_line %Route{id: "Green"}
   @green_line_b %Route{id: "Green-B"}
@@ -17,6 +18,7 @@ defmodule Site.ScheduleNoteTest do
   @all_lines [
     @red_line,
     @blue_line,
+    @orange_line,
     @mattapan,
     @green_line,
     @green_line_b,
