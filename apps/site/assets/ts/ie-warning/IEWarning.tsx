@@ -1,15 +1,14 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import IEWarning from "./components/IEWarningBanner";
 import { getCookie } from "../../js/cookies";
 
 const render = (): void => {
   const showIEwarning = getCookie("show_ie_warning");
+  if (showIEwarning === "false") return;
 
-  ReactDOM.render(
-    showIEwarning === "false" ? <></> : <IEWarning />,
-    document.getElementById("ie-warning")
-  );
+  const root = createRoot(document.getElementById("ie-warning")!);
+  root.render(<IEWarning />);
 };
 
 export const browserIsIE = (): boolean => {
