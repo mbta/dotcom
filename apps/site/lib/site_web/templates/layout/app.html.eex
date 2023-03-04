@@ -96,14 +96,6 @@
       </div> <%# /container %>
       <%= render __MODULE__, "_footer.html", conn: @conn %>
 
-      <%# Show a warning when browser is Internet Explorer %>
-      <%= if Application.get_env(:site, :dev_server?) do %>
-        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/iewarning.js" %>"></script>
-      <% else %>
-        <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-        <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
-      <% end %>
-      <div id="ie-warning" class="c-ie-warning"></div>
       <%= if assigns[:glx_stations_open] do %>
         <div class="glx-stations-open" style="display: none;" data-opening='<%= assigns[:glx_opening_date] %>' data-stations='<%= assigns[:glx_stations_open] %>' />
       <% end %>
