@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { uniqBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
 import {
   Icon,
@@ -108,7 +109,7 @@ const Component = ({
             />
           )
         )}
-        {markers.map(marker => (
+        {uniqBy(markers, "id").map(marker => (
           <Marker
             icon={buildIcon(marker.icon, marker.icon_opts)}
             key={

@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { uniqBy } from "lodash";
 import { routeToModeName } from "../../../../helpers/css";
 import {
   isBranchingNode,
@@ -79,11 +80,11 @@ const LiveVehicleIconSet = ({
   liveData?: LiveDataByStop;
 }): ReactElement<HTMLElement> | null => {
   if (!liveData || !liveData[stopId]) return null;
-
+  const vehicles = uniqBy(liveData[stopId].vehicles, "id");
   // Hide vehicles arriving to the origin from 'off the line'
   const vehicleData = isStartNode(stopTree, stopId)
-    ? liveData[stopId].vehicles.filter(vehicle => vehicle.status === "stopped")
-    : liveData[stopId].vehicles;
+    ? vehicles.filter(vehicle => vehicle.status === "stopped")
+    : vehicles;
 
   return (
     <VehicleIcons
