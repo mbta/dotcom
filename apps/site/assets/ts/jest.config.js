@@ -53,6 +53,9 @@ module.exports = {
     "./tnm/__tests__/helpers"
   ],
   moduleNameMapper: {
-    "\\.svg$": "<rootDir>/tnm/__tests__/helpers/svgStubber.js"
+    "\\.svg$": "<rootDir>/tnm/__tests__/helpers/svgStubber.js",
+    "^react-dom/client$": "react-dom/client",
+    "^react-dom((\\/.*)?)$": "react-dom-16$1",
+    "^react((\\/.*)?)$": "react-16$1"
   }
 };
