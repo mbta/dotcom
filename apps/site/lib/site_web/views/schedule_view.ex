@@ -389,7 +389,24 @@ defmodule SiteWeb.ScheduleView do
 
   def timetable_note(_), do: nil
 
+  @spec json_safe_route(Routes.Route.t()) :: %{
+          color: any,
+          custom_route?: any,
+          description: any,
+          direction_destinations: nil | %{optional(<<_::8>>) => any},
+          direction_names: %{optional(<<_::8>>) => any},
+          id: any,
+          long_name: any,
+          name: any,
+          sort_order: any,
+          type: any
+        }
   def json_safe_route(route) do
     Route.to_json_safe(route)
+  end
+
+  @spec is_station?(Stops.Stop.t()) :: boolean()
+  def is_station?(stop) do
+    stop.station?
   end
 end
