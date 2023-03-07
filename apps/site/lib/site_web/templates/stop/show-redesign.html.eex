@@ -1,10 +1,5 @@
 <div class="container">
-  <div id="react-stop-redesign-root"></div>
+  <mbta-stop-page props-json='<%= Jason.encode!(%{
+    stopId: @stop_id
+  }) %>'>
 </div>
-
-<%= if Application.get_env(:site, :dev_server?) do %>
-  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/stopRedesign.js" %>"></script>
-<% else %>
-  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-  <script defer src="<%= static_url(@conn, "/js/stopRedesign.js") %>"></script>
-<% end %>

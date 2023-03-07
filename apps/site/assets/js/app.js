@@ -5,6 +5,7 @@ import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/modal";
 import "bootstrap/dist/js/umd/tooltip";
 import "bootstrap/dist/js/umd/dropdown";
+import "../ts/app/redefined-components";
 import objectFitImages from "object-fit-images";
 import googleAnalytics from "./google-analytics";
 import googleMapsLoaded from "./google-maps-loaded";

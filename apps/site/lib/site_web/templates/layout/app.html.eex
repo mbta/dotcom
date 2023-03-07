@@ -13,9 +13,6 @@
     <meta name="theme-color" content="#165c96">
 
     <%# Subject to change with ongoing Stop Page Redesign work %>
-    <%= if @conn.assigns[:stop_id] do %>
-      <meta name="mbta-stop-id" content="<%= @stop_id %>" />
-    <% end %>
     <%= if @conn.assigns[:routes_by_stop] && not Enum.empty?(@routes_by_stop) do %>
       <%= for %Routes.Route{id: route_id} <- @routes_by_stop do %>
         <meta name="mbta-route-id" content="<%= route_id %>" />
