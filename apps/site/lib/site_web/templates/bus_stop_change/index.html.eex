@@ -22,6 +22,7 @@
               <section style="list-style-type: none; margin-bottom: 1.5rem;">
                 <h3 class="mt-0"><%= affected_stop_link(@conn, stop) %></h3>
                 <%= for alert <- alerts do %>
+                  <%= affected_routes(alert)%>
                   <%= time_range(alert) %>
                   <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
                 <% end %>
@@ -31,8 +32,5 @@
         <% end %>
       </div>
     </div>
-
-
-
   </div>
 </div>

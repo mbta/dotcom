@@ -1,6 +1,7 @@
 defmodule SiteWeb.BusStopChangeView do
   use SiteWeb, :view
   alias Alerts.Alert
+  alias Routes.Route
   alias Stops.Stop
 
   @type alerts_by_stop :: [{Stop.t(), [%Alert{}]}]
@@ -38,6 +39,21 @@ defmodule SiteWeb.BusStopChangeView do
     end)
     |> Enum.map(fn {stop, alerts} ->
       {stop, sorted_by_start_date(alerts)}
+    end)
+  end
+
+  @spec affected_routes(%Alert{}) :: [Phoenix.HTML.Safe.t()]
+  def affected_routes(%Alert{} = alert) do
+    Alert.get_entity(alert, :route)
+    |> MapSet.delete(nil)
+    |> MapSet.to_list()
+    |> Enum.uniq()
+    |> Enum.map(&Routes.Repo.get(&1))
+    |> Enum.map(fn %Route{name: name} ->
+      content_tag(:span, name,
+        class: "c-icon__bus-pill--small u-bg--bus",
+        style: "margin-right: .25rem;"
+      )
     end)
   end
 
