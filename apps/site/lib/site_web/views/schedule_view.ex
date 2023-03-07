@@ -392,4 +392,9 @@ defmodule SiteWeb.ScheduleView do
   def json_safe_route(route) do
     Route.to_json_safe(route)
   end
+
+  @spec is_station?(Stops.Stop.t()) :: boolean()
+  def is_station?(stop) do
+    stop.station?
+  end
 end
