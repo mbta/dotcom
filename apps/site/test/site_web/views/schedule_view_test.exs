@@ -435,4 +435,10 @@ defmodule SiteWeb.ScheduleViewTest do
              )
     end
   end
+
+  describe "is_station?" do
+    test "returns true if stop is station" do
+      assert is_station?(%Stop{id: "place-north", station?: true}) == true
+    end
+  end
 end
