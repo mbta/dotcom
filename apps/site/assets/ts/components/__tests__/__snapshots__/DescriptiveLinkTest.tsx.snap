@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading renders 1`] = `
+<a
+  className="c-descriptive-link"
+  href="/page"
+>
+  <div
+    className="c-descriptive-link__text"
+  >
+    <div
+      className="c-descriptive-link__title"
+    >
+      This Goes To Page
+    </div>
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "Click <b>here</b> to visit it.",
+        }
+      }
+    />
+  </div>
+  <div
+    className="c-descriptive-link__caret-wrapper"
+  >
+    <i
+      aria-hidden="true"
+      className="fa fa-solid fa-angle-right notranslate c-descriptive-link__caret"
+    />
+  </div>
+</a>
+`;
