@@ -297,3 +297,23 @@
   background-color: $gray-bordered-background;
   padding: $base-spacing * .75;
 }
+
+.route-schedules-maps,
+.bike-heading {
+  font-family: 'Helvetica Neue';
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 27px;
+}
+
+.m-hide {
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+
+.bike-heading {
+  font-size: 15.75px;
+  line-height: 20px;
+}

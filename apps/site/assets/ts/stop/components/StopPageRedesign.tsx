@@ -59,7 +59,9 @@ const StopPageRedesign = ({
       {/* Route and Map Div */}
       <div className="d-flex">
         <div style={{ minWidth: "50%" }}>
-          <div>Route schedules & maps / Upcoming Trips PLACEHOLDER</div>
+          <div className="route-schedules-maps m-hide">
+            Route Schedules & Maps
+          </div>
           <div className="d-flex">
             <DeparturesFilters
               departures={departures}
@@ -87,6 +89,8 @@ const StopPageRedesign = ({
         </div>
       </div>
       {/* Station Information Div */}
+      <div className="route-schedules-maps"> Station Information</div>
+      <div className="bike-heading">Bringing Your Car or Bike</div>
       <footer>{stop && <StationInformation stop={stop} />}</footer>
     </article>
   );
