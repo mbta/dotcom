@@ -4,6 +4,9 @@ import DeparturesFilters from "./DeparturesFilters";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
+import { useRoutesByStop, useTypedRoutesByStop } from "../../hooks/useRoute";
+import { features } from "./Header";
+import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 
 // TODO replace with real data
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -44,45 +47,44 @@ const StopPageRedesign = ({
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
   /* eslint-enable @typescript-eslint/no-explicit-any */
   const stop = useStop(stopId);
+  const typedRoutes = useTypedRoutesByStop(stopId);
 
   return (
     <article>
-      {/* Title Bar Div */}
-      <header className="d-flex justify-content-space-between">
-        <div>
-          <h1>{stopId}</h1>
-          {/* ICONS GO HERE */}
-        </div>
-      </header>
+      <StopPageHeaderRedesign stop={stop} typedRoutes={typedRoutes} />
       {/* Route and Map Div */}
-      <div className="d-flex">
-        <div style={{ minWidth: "50%" }}>
-          <h2 className="hidden-sm-down">Route Schedules & Maps</h2>
-          <div className="d-flex">
-            <DeparturesFilters
-              departures={departures}
-              onModeChange={setFilteredDepartures}
-            />
-          </div>
-          <ul style={{ maxHeight: "250px", overflowY: "auto" }}>
-            {filteredDepartures.map(departure => (
-              <li className="d-flex" key={uniqueId()}>
-                <div className="me-8">{departure.routeNumber}</div>
-                <div>
-                  <div>{departure.headsign}</div>
-                  <div className="d-flex">
-                    <div>Open Schedule</div>
-                    <div>View Realtime Map</div>
+      <div className="container">
+        <div className="d-flex">
+          <div style={{ minWidth: "50%" }}>
+            <h2 className="hidden-sm-down">Route Schedules & Maps</h2>
+            <div className="d-flex">
+              <DeparturesFilters
+                departures={departures}
+                onModeChange={setFilteredDepartures}
+              />
+            </div>
+            <ul style={{ maxHeight: "250px", overflowY: "auto" }}>
+              {filteredDepartures.map(departure => (
+                <li className="d-flex" key={uniqueId()}>
+                  <div className="me-8">{departure.routeNumber}</div>
+                  <div>
+                    <div>{departure.headsign}</div>
+                    <div className="d-flex">
+                      <div>Open Schedule</div>
+                      <div>View Realtime Map</div>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <button type="button">Plan your Trip PLACEHOLDER</button>
+                </li>
+              ))}
+            </ul>
+            <button type="button">Plan your Trip PLACEHOLDER</button>
+          </div>
+          <div className="hidden-sm-down">
+            {stop && <StopMapRedesign stop={stop} />}
+          </div>
         </div>
-        <div className="hidden-sm-down w-100">
-          {stop && <StopMapRedesign stop={stop} />}
-        </div>
+        {/* Station Information Div */}
+        <footer>{stop && <StationInformation stop={stop} />}</footer>
       </div>
       {/* Station Information Div */}
       <h2>{stop?.["station?"] ? "Station Information" : "Stop Information"}</h2>

@@ -40,6 +40,11 @@
   margin-top: calc(#{$base-spacing} / 2);
 }
 
+.m-stop-page__header-features-redesign {
+  @extend .m-stop-page__header-features;
+  max-height: 1.2rem;
+}
+
 .m-stop-page__header-feature,
 .m-stop-page__access-icon {
   align-items: center;
@@ -83,6 +88,30 @@
 
     @include media-breakpoint-up(lg) {
       font-size: 1.75em;
+    }
+  }
+}
+
+.m-stop-page__icon-redesign {
+  @include icon-size-inline(1rem, .125rem);
+
+  flex: 0 0 auto;
+
+  @include media-breakpoint-up(lg) {
+    @include icon-size-inline(1em, .125em);
+  }
+
+  .c-icon__cr-zone {
+    padding: $base-spacing;
+  }
+
+  .fa-square-parking {
+    font-size: 1rem;
+    position: relative;
+    top: 1px;
+
+    @include media-breakpoint-up(lg) {
+      font-size: 1rem;
     }
   }
 }

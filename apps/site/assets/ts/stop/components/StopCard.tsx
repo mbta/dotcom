@@ -3,8 +3,8 @@ import { Stop, EnhancedRoute, DirectionId } from "../../__v3api";
 import { RouteWithDirection } from "./__stop";
 import { modeIcon, parkingIcon } from "../../helpers/icon";
 import { isABusRoute } from "../../models/route";
-import accessible from "./StopAccessibilityIcon";
 import { routesWithDirectionsAreAllBusStops } from "../../helpers/routes";
+import StopAccessibilityIcon from "./StopAccessibilityIcon";
 
 const formatMilesToFeet = (miles: number): number => Math.floor(miles * 5280.0);
 
@@ -70,7 +70,7 @@ const StopCard = ({
         {stop.name}
       </a>
       <div className="c-stop-card__icon-container">
-        {accessible(stop, allAreBusStops)}
+        <StopAccessibilityIcon stop={stop} isBusStop={allAreBusStops} />
         {stop.parking_lots.length > 0 ? (
           <span className="c-stop-page__icon">
             {parkingIcon("c-svg__icon-parking-default")}

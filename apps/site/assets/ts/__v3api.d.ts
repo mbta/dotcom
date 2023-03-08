@@ -180,6 +180,7 @@ export interface Stop {
   platform_name?: string | null;
   platform_code?: string | null;
   description?: string | null;
+  zone?: string;
 }
 
 export interface ClosedStopInfo {

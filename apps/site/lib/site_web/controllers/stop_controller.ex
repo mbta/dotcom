@@ -168,7 +168,7 @@ defmodule SiteWeb.StopController do
 
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
-    json(conn, Stops.Repo.get(stop_id))
+    json(conn, Repo.get(stop_id))
   end
 
   @spec api(Conn.t(), map) :: Conn.t()

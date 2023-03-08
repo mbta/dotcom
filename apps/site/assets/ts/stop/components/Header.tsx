@@ -4,7 +4,6 @@ import TabComponent from "./Tab";
 import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import { parkingIcon, modeIcon } from "../../helpers/icon";
 import { isASilverLineRoute } from "../../models/route";
-import accessible from "./StopAccessibilityIcon";
 import {
   Dispatch,
   clickRoutePillAction,
@@ -14,6 +13,7 @@ import { modeByV3ModeType } from "../../components/ModeFilter";
 import GlxOpen from "../../components/GlxOpen";
 import { typedRoutesHasBusRoute } from "../../helpers/routes";
 import useIsGlxOpen from "../../hooks/useIsGlxOpen";
+import StopAccessibilityIcon from "./StopAccessibilityIcon";
 
 interface Props {
   stop: Stop;
@@ -60,11 +60,13 @@ const modeType = (modeId: string): string => {
 
 const modeIconFeature = (
   { id, type }: EnhancedRoute,
-  dispatch: Dispatch
+  dispatch?: Dispatch
 ): ReactElement<HTMLElement> => (
   <a
     href="#route-card-list"
-    onClick={() => dispatch(clickRoutePillAction(modeByV3ModeType[type]))}
+    onClick={() =>
+      dispatch && dispatch(clickRoutePillAction(modeByV3ModeType[type]))
+    }
     key={modeType(id)}
     className="m-stop-page__header-feature"
   >
@@ -116,7 +118,7 @@ const iconableRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>
 
 const modes = (
   typedRoutes: TypedRoutes[],
-  dispatch: Dispatch
+  dispatch?: Dispatch
 ): ReactElement<HTMLElement> | null => (
   <>
     {iconableRoutes(typedRoutes).map(({ route }) =>
@@ -126,14 +128,16 @@ const modes = (
 );
 
 const crZone = (
-  zoneNumber: string,
-  dispatch: Dispatch
+  zoneNumber?: string,
+  dispatch?: Dispatch
 ): ReactElement<HTMLElement> | false =>
   !!zoneNumber &&
   zoneNumber.length > 0 && (
     <a
       href="#route-card-list"
-      onClick={() => dispatch(clickRoutePillAction("commuter_rail"))}
+      onClick={() =>
+        dispatch && dispatch(clickRoutePillAction("commuter_rail"))
+      }
       className="m-stop-page__header-feature"
     >
       <span className="m-stop-page__icon c-icon__cr-zone">
@@ -145,13 +149,17 @@ const crZone = (
 const features = (
   stop: Stop,
   routes: TypedRoutes[],
-  zoneNumber: string,
-  dispatch: Dispatch
+  zoneNumber?: string,
+  dispatch?: Dispatch
 ): ReactElement<HTMLElement> => (
   <div className="m-stop-page__header-features">
     {modes(routes, dispatch)}
     {crZone(zoneNumber, dispatch)}
-    {accessible(stop, typedRoutesHasBusRoute(routes), dispatch)}
+    <StopAccessibilityIcon
+      stop={stop}
+      isBusStop={typedRoutesHasBusRoute(routes)}
+      dispatch={dispatch}
+    />
     {parking(stop, dispatch)}
   </div>
 );
@@ -197,4 +205,4 @@ const Header = ({
   );
 };
 
-export default Header;
+export { features, Header as default };
