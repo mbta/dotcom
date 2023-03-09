@@ -27,10 +27,10 @@ defmodule Site.TransitNearMeTest do
                "Washington St @ Tufts Med Ctr",
                "Tufts Medical Center",
                "Washington St @ Tufts Med Ctr",
-               "Tremont St @ Charles St S",
                "Boylston",
                "Kneeland St @ Washington St",
                "Tremont St @ Boylston Station",
+               "Washington St @ Essex St",
                "Park Street",
                "South Station"
              ]
