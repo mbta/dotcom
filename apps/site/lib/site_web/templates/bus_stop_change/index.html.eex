@@ -10,11 +10,7 @@
       </div>
       <div class="col-md-10" style="padding-top: 1rem;">
         <%= if Enum.empty?(@alerts) do %>
-          <%= if is_nil(@alerts_timeframe) do %>
-            <div class="callout bg-success">Past alerts are not yet available. Check back later!</div>
-          <% else %>
-            <div class="callout bg-info">No alerts here.</div>
-          <% end %>
+          <div class="callout bg-info">No alerts here.</div>
         <% else %>
           <%= for {municipality, muni_alerts} <- grouped_by_municipality(@alerts) do %>
             <h2 class="mt-0"><%= municipality %></h2>
