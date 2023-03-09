@@ -1,6 +1,6 @@
 defmodule SiteWeb.RouteController do
   @moduledoc """
-  Page for display of information about in individual stop or station.
+  Endpoints for getting route data.
   """
   use SiteWeb, :controller
   alias Routes.Repo
@@ -8,8 +8,5 @@ defmodule SiteWeb.RouteController do
   def get_by_stop_id(conn, %{"stop_id" => stop_id} = _params) do
     routes = Repo.by_stop(stop_id)
     json(conn, routes)
-  end
-
-  def get_by_stop_id(conn, %{"stop_id" => stop_id, "group_by" => "type"} = _params) do
   end
 end

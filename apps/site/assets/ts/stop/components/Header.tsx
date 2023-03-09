@@ -79,4 +79,4 @@ const Header = ({
   );
 };
 
-export { features, Header as default };
+export { Header as default };

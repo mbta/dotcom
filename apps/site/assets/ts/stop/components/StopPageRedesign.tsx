@@ -5,7 +5,6 @@ import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
 import { useRoutesByStop, useTypedRoutesByStop } from "../../hooks/useRoute";
-import { features } from "./Header";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 
 // TODO replace with real data
