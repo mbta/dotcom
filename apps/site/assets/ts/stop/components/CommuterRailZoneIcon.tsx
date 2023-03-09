@@ -1,26 +1,43 @@
 import React, { ReactElement } from "react";
-import { Stop } from "../../__v3api";
-import { TypedRoutes } from "./__stop";
-import ModeIcons from "./ModeIcons";
+import { clickRoutePillAction, Dispatch } from "../state";
 
-const crZone = (zoneNumber?: string): ReactElement<HTMLElement> | false =>
-  !!zoneNumber &&
-  zoneNumber.length > 0 && (
+const crZone = (
+  zoneNumber?: string,
+  dispatch?: Dispatch
+): ReactElement<HTMLElement> | false => {
+  const content = `Zone ${zoneNumber}`;
+
+  let tag = (
     <div className="m-stop-page__header-feature">
-      <span className="m-stop-page__icon c-icon__cr-zone">
-        {`Zone ${zoneNumber}`}
-      </span>
+      <span className="m-stop-page__icon c-icon__cr-zone">{content}</span>
     </div>
   );
 
+  if (dispatch) {
+    tag = (
+      <a
+        href="#route-card-list"
+        onClick={() =>
+          dispatch && dispatch(clickRoutePillAction("commuter_rail"))
+        }
+        className="m-stop-page__header-feature"
+      >
+        <span className="m-stop-page__icon c-icon__cr-zone">{content}</span>
+      </a>
+    );
+  }
+
+  return !!zoneNumber && zoneNumber.length > 0 && tag;
+};
+
 const CommuterRailZoneIcon = ({
-  zoneNumber
+  zoneNumber,
+  dispatch
 }: {
   zoneNumber?: string;
+  dispatch?: Dispatch;
 }): ReactElement<HTMLElement> => {
-  // TODO replace type with actual data type
-
-  return <>{crZone(zoneNumber)}</>;
+  return <>{crZone(zoneNumber, dispatch)}</>;
 };
 
 export { CommuterRailZoneIcon as default };

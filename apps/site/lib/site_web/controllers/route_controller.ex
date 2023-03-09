@@ -9,4 +9,7 @@ defmodule SiteWeb.RouteController do
     routes = Repo.by_stop(stop_id)
     json(conn, routes)
   end
+
+  def get_by_stop_id(conn, %{"stop_id" => stop_id, "group_by" => "type"} = _params) do
+  end
 end

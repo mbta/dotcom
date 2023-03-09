@@ -26,10 +26,8 @@ exports[`renders 1`] = `
       <div
         className="c-stop-card__icon-container"
       >
-        <a
+        <div
           className="m-stop-page__access-icon"
-          href="#header-accessibility"
-          onClick={[Function]}
         >
           <span
             className="m-stop-page__icon"
@@ -44,7 +42,7 @@ exports[`renders 1`] = `
               }
             />
           </span>
-        </a>
+        </div>
       </div>
       <div
         className="c-stop-card__route"
@@ -80,10 +78,8 @@ exports[`renders 1`] = `
       <div
         className="c-stop-card__icon-container"
       >
-        <a
+        <div
           className="m-stop-page__access-icon"
-          href="#header-accessibility"
-          onClick={[Function]}
         >
           <span
             className="m-stop-page__icon"
@@ -98,7 +94,7 @@ exports[`renders 1`] = `
               }
             />
           </span>
-        </a>
+        </div>
       </div>
       <div
         className="c-stop-card__route"
@@ -179,10 +175,8 @@ exports[`renders 1`] = `
       <div
         className="c-stop-card__icon-container"
       >
-        <a
+        <div
           className="m-stop-page__access-icon"
-          href="#header-accessibility"
-          onClick={[Function]}
         >
           <span
             className="m-stop-page__icon"
@@ -197,7 +191,7 @@ exports[`renders 1`] = `
               }
             />
           </span>
-        </a>
+        </div>
       </div>
       <div
         className="c-stop-card__route"

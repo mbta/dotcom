@@ -1,14 +1,35 @@
 import React, { ReactElement } from "react";
-import { features } from "./Header";
-import { EnhancedRoute, Stop } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 import { RouteWithDirections, TypedRoutes } from "./__stop";
-import { parkingIcon, modeIcon } from "../../helpers/icon";
+import { modeIcon } from "../../helpers/icon";
 import { isASilverLineRoute } from "../../models/route";
+import { clickRoutePillAction, Dispatch } from "../state";
+import { modeByV3ModeType } from "../../components/ModeFilter";
 
 interface BusRoutesAcc {
   bus: RouteWithDirections[];
   silverLine: RouteWithDirections[];
 }
+
+const subwayModeIds = [
+  "Blue",
+  "Green",
+  "Green-B",
+  "Green-C",
+  "Green-D",
+  "Green-E",
+  "Mattapan",
+  "Orange",
+  "Red"
+];
+
+const modeType = (modeId: string): string => {
+  if (modeId.startsWith("CR-")) return "CR";
+
+  if (subwayModeIds.includes(modeId)) return modeId;
+
+  return "Bus";
+};
 
 const doSplitSilverLine = (
   acc: BusRoutesAcc,
@@ -26,14 +47,29 @@ const splitSilverLine = (
   return bus.slice(0, 1).concat(silverLine.slice(0, 1));
 };
 
-const modeIconFeature = ({
-  id,
-  type
-}: EnhancedRoute): ReactElement<HTMLElement> => (
-  <div key={type} className="m-stop-page__header-feature">
-    <span className="m-stop-page__icon">{modeIcon(id)}</span>
-  </div>
-);
+const modeIconFeature = (
+  { id, type }: EnhancedRoute,
+  dispatch?: Dispatch
+): ReactElement<HTMLElement> => {
+  const content = <span className="m-stop-page__icon">{modeIcon(id)}</span>;
+
+  return dispatch ? (
+    <a
+      href="#route-card-list"
+      onClick={() =>
+        dispatch && dispatch(clickRoutePillAction(modeByV3ModeType[type]))
+      }
+      key={modeType(id)}
+      className="m-stop-page__header-feature"
+    >
+      {content}
+    </a>
+  ) : (
+    <div key={type} className="m-stop-page__header-feature">
+      {content}
+    </div>
+  );
+};
 
 const iconableRoutesForType = ({
   // eslint-disable-next-line camelcase
@@ -58,14 +94,17 @@ const iconableRoutes = (typedRoutes: TypedRoutes[]): RouteWithDirections[] =>
 
 // TODO figure out where this file should live
 const ModeIcons = ({
-  typedRoutes
+  typedRoutes,
+  dispatch
 }: {
   typedRoutes: TypedRoutes[];
+  dispatch?: Dispatch;
 }): ReactElement<HTMLElement> => {
-  // TODO replace type with actual data type
   return (
     <>
-      {iconableRoutes(typedRoutes).map(({ route }) => modeIconFeature(route))}
+      {iconableRoutes(typedRoutes).map(({ route }) =>
+        modeIconFeature(route, dispatch)
+      )}
     </>
   );
 };

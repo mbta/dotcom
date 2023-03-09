@@ -3194,10 +3194,8 @@ Array [
                 <div
                   className="c-stop-card__icon-container"
                 >
-                  <a
+                  <div
                     className="m-stop-page__access-icon"
-                    href="#header-accessibility"
-                    onClick={[Function]}
                   >
                     <span
                       className="m-stop-page__icon"
@@ -3212,7 +3210,7 @@ Array [
                         }
                       />
                     </span>
-                  </a>
+                  </div>
                 </div>
                 <div
                   className="c-stop-card__route"
@@ -3248,10 +3246,8 @@ Array [
                 <div
                   className="c-stop-card__icon-container"
                 >
-                  <a
+                  <div
                     className="m-stop-page__access-icon"
-                    href="#header-accessibility"
-                    onClick={[Function]}
                   >
                     <span
                       className="m-stop-page__icon"
@@ -3266,7 +3262,7 @@ Array [
                         }
                       />
                     </span>
-                  </a>
+                  </div>
                 </div>
                 <div
                   className="c-stop-card__route"
@@ -3347,10 +3343,8 @@ Array [
                 <div
                   className="c-stop-card__icon-container"
                 >
-                  <a
+                  <div
                     className="m-stop-page__access-icon"
-                    href="#header-accessibility"
-                    onClick={[Function]}
                   >
                     <span
                       className="m-stop-page__icon"
@@ -3365,7 +3359,7 @@ Array [
                         }
                       />
                     </span>
-                  </a>
+                  </div>
                 </div>
                 <div
                   className="c-stop-card__route"

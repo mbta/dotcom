@@ -13,10 +13,8 @@ exports[`it renders 1`] = `
   <div
     className="c-stop-card__icon-container"
   >
-    <a
+    <div
       className="m-stop-page__access-icon"
-      href="#header-accessibility"
-      onClick={[Function]}
     >
       <span
         className="m-stop-page__icon"
@@ -31,7 +29,7 @@ exports[`it renders 1`] = `
           }
         />
       </span>
-    </a>
+    </div>
     <span
       className="c-stop-page__icon"
     >
@@ -81,10 +79,8 @@ exports[`it renders with distance formatted 1`] = `
   <div
     className="c-stop-card__icon-container"
   >
-    <a
+    <div
       className="m-stop-page__access-icon"
-      href="#header-accessibility"
-      onClick={[Function]}
     >
       <span
         className="m-stop-page__icon"
@@ -99,7 +95,7 @@ exports[`it renders with distance formatted 1`] = `
           }
         />
       </span>
-    </a>
+    </div>
     <span
       className="c-stop-page__icon"
     >

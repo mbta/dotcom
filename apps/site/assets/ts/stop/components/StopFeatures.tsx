@@ -15,7 +15,7 @@ const StopFeatures = ({
   typedRoutes: TypedRoutes[];
 }): ReactElement<HTMLElement> => {
   return (
-    <span className="m-stop-page__header-features-redesign">
+    <span className="m-stop-page__header-features">
       <ModeIcons typedRoutes={typedRoutes} />
       <CommuterRailZoneIcon zoneNumber={stop.zone} />
       <StopAccessibilityIcon

@@ -7,11 +7,13 @@ exports[`StopCard renders with routes 1`] = `
       South Station
     </a>
     <div className=\\"c-stop-card__icon-container\\">
-      <a className=\\"m-stop-page__access-icon\\" href=\\"#header-accessibility\\" onClick={[Function: onClick]}>
-        <span className=\\"m-stop-page__icon\\">
-          <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-        </span>
-      </a>
+      <StopAccessibilityIcon stop={{...}} isBusStop={false}>
+        <div className=\\"m-stop-page__access-icon\\">
+          <span className=\\"m-stop-page__icon\\">
+            <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+          </span>
+        </div>
+      </StopAccessibilityIcon>
       <span className=\\"c-stop-page__icon\\">
         <i className=\\"fa fa-square-parking notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" />
       </span>
@@ -99,11 +101,13 @@ exports[`StopCard renders with routes with directions 1`] = `
       South Station
     </a>
     <div className=\\"c-stop-card__icon-container\\">
-      <a className=\\"m-stop-page__access-icon\\" href=\\"#header-accessibility\\" onClick={[Function: onClick]}>
-        <span className=\\"m-stop-page__icon\\">
-          <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-        </span>
-      </a>
+      <StopAccessibilityIcon stop={{...}} isBusStop={false}>
+        <div className=\\"m-stop-page__access-icon\\">
+          <span className=\\"m-stop-page__icon\\">
+            <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+          </span>
+        </div>
+      </StopAccessibilityIcon>
       <span className=\\"c-stop-page__icon\\">
         <i className=\\"fa fa-square-parking notranslate c-svg__icon-parking-default\\" aria-hidden=\\"false\\" />
       </span>

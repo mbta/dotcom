@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { features } from "./Header";
 import { Stop } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 import StopFeatures from "./StopFeatures";
@@ -17,18 +16,17 @@ const StopPageHeaderRedesign = ({
       <header className="d-flex justify-content-space-between container">
         <div className="d-flex">
           <h3>{stop && stop.name}</h3>
-          <div className="ps-16 mt-20">
+          <div className="ps-16 mt-12">
             {stop && typedRoutes && (
               <StopFeatures stop={stop} typedRoutes={typedRoutes} />
             )}
           </div>
         </div>
         <div className="mt-20">
-          {/* Should show stop number for bus stops, blank at all other stop types */}
           {stop &&
             typedRoutes &&
             typedRoutesHasBusRoute(typedRoutes) &&
-            "Stop 1234 Placeholder"}
+            `Stop ${stop.id}`}
         </div>
       </header>
     </div>

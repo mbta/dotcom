@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 
-export const bgClass = (color: string | undefined): string =>
+const bgClass = (color: string | undefined): string =>
   color ? `u-bg--${color}` : "";
 
 const PillLink = ({

@@ -9,8 +9,7 @@ const fetchData = async (url: string): Promise<Route[]> =>
 
 const typeToString = (type: number): String => {
   switch (type) {
-    case 0: {
-    }
+    case 0:
     case 1: {
       return "subway";
     }
@@ -20,8 +19,7 @@ const typeToString = (type: number): String => {
     case 3: {
       return "bus";
     }
-    case 4: {
-    }
+    case 4:
     default: {
       return "ferry";
     }
@@ -33,7 +31,6 @@ const useRoutesByStop = (stopId: string): Route[] | undefined => {
   return data;
 };
 
-// TODO move this grouping to the backend
 const useTypedRoutesByStop = (stopId: string): TypedRoutes[] | undefined => {
   const routes = useRoutesByStop(stopId);
   const groupedRoutes = groupBy(routes, route => {
