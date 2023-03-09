@@ -8,7 +8,7 @@ deps
 erl_crash.dump
 build.sh
 deploy.sh
-apps/site/priv
+apps/site/priv/static
 aws
 site-build.zip
 bin
