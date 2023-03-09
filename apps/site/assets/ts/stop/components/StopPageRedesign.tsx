@@ -89,7 +89,9 @@ const StopPageRedesign = ({
         </div>
       </div>
       {/* Station Information Div */}
-      <div className="route-schedules-maps"> Station Information</div>
+      <div className="route-schedules-maps">
+        {stop?.["station?"] ? "Station Information" : "Stop Information"}
+      </div>
       <div className="bike-heading">Bringing Your Car or Bike</div>
       <footer>{stop && <StationInformation stop={stop} />}</footer>
     </article>
