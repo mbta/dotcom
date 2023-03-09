@@ -49,9 +49,6 @@ WORKDIR /root
 
 # Add frontend assets compiled in the node container, required by phx.digest
 COPY --from=assets-builder /root/apps/site/priv/static ./apps/site/priv/static
-# Special folder containing data for the Bus Stop Change page
-# TODO: Deprecate this when we start using a database for this info
-COPY --from=assets-builder /root/apps/site/priv/bus-stop-change ./apps/site/priv/bus-stop-change
 
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
