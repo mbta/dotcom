@@ -39,6 +39,24 @@ defmodule CMS.RepoTest do
     test "returns :not_found given no record is found" do
       assert :not_found == Repo.news_entry_by(id: 999)
     end
+
+    test "gracefully handles more than one API result" do
+      two_news =
+        Enum.map([1, 2], fn n ->
+          CMS.Factory.news_entry_factory(n, title: "News #{n}")
+        end)
+
+      mock_view = fn
+        "/cms/news", _ -> {:ok, two_news}
+      end
+
+      with_mocks [
+        {Static, [], view: mock_view},
+        {NewsEntry, [], [from_api: fn n -> n end]}
+      ] do
+        assert %NewsEntry{} = Repo.news_entry_by([])
+      end
+    end
   end
 
   describe "get_page/1" do

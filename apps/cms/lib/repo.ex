@@ -59,7 +59,7 @@ defmodule CMS.Repo do
       end)
 
     case news do
-      [record] -> record
+      [record | _] -> record
       [] -> :not_found
     end
   end
