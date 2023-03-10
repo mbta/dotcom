@@ -4,7 +4,7 @@ import DeparturesFilters from "./DeparturesFilters";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
-import { useRoutesByStop, useTypedRoutesByStop } from "../../hooks/useRoute";
+import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 
 // TODO replace with real data
@@ -46,11 +46,12 @@ const StopPageRedesign = ({
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
   /* eslint-enable @typescript-eslint/no-explicit-any */
   const stop = useStop(stopId);
-  const typedRoutes = useTypedRoutesByStop(stopId);
+  // const typedRoutes = useTypedRoutesByStop(stopId);
+  const routes = useRoutesByStop(stopId);
 
   return (
     <article>
-      <StopPageHeaderRedesign stop={stop} typedRoutes={typedRoutes} />
+      <StopPageHeaderRedesign stop={stop} routes={routes} />
       {/* Route and Map Div */}
       <div className="container">
         <div className="d-flex">

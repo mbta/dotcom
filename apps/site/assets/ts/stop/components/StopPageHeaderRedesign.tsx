@@ -1,15 +1,14 @@
 import React, { ReactElement } from "react";
-import { Stop } from "../../__v3api";
-import { TypedRoutes } from "./__stop";
+import { Route, Stop } from "../../__v3api";
 import StopFeatures from "./StopFeatures";
-import { typedRoutesHasBusRoute } from "../../helpers/routes";
+import { routesHasBusRoute } from "../../helpers/routes";
 
 const StopPageHeaderRedesign = ({
   stop,
-  typedRoutes
+  routes
 }: {
   stop: Stop | undefined;
-  typedRoutes: TypedRoutes[] | undefined;
+  routes: Route[] | undefined;
 }): ReactElement<HTMLElement> => {
   return (
     <div className="u-bg--gray-bordered-background">
@@ -17,16 +16,11 @@ const StopPageHeaderRedesign = ({
         <div className="d-flex">
           <h3>{stop && stop.name}</h3>
           <div className="ps-16 mt-12">
-            {stop && typedRoutes && (
-              <StopFeatures stop={stop} typedRoutes={typedRoutes} />
-            )}
+            {stop && routes && <StopFeatures stop={stop} routes={routes} />}
           </div>
         </div>
         <div className="mt-20">
-          {stop &&
-            typedRoutes &&
-            typedRoutesHasBusRoute(typedRoutes) &&
-            `Stop ${stop.id}`}
+          {stop && routes && routesHasBusRoute(routes) && `Stop ${stop.id}`}
         </div>
       </header>
     </div>

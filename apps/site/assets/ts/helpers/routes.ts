@@ -1,6 +1,7 @@
 import { RouteStop } from "../schedule/components/__schedule";
 import { RouteWithDirection, TypedRoutes } from "../stop/components/__stop";
 import { isABusRoute } from "../models/route";
+import { Route } from "../__v3api";
 
 export function isBusRouteStop(stop: RouteStop): boolean {
   return !!stop.route && isABusRoute(stop.route);
@@ -17,4 +18,8 @@ export function routesWithDirectionsAreAllBusStops(
 
 export function typedRoutesHasBusRoute(routes: TypedRoutes[]): boolean {
   return !!routes.find(r => r.group_name === "bus");
+}
+
+export function routesHasBusRoute(routes: Route[]): boolean {
+  return !!routes.find(r => isABusRoute(r));
 }

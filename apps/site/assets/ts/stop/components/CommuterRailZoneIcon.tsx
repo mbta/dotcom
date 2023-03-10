@@ -1,43 +1,24 @@
 import React, { ReactElement } from "react";
-import { clickRoutePillAction, Dispatch } from "../state";
 
-const crZone = (
-  zoneNumber?: string,
-  dispatch?: Dispatch
-): ReactElement<HTMLElement> | false => {
-  const content = `Zone ${zoneNumber}`;
-
-  let tag = (
-    <div className="m-stop-page__header-feature">
-      <span className="m-stop-page__icon c-icon__cr-zone">{content}</span>
-    </div>
+const crZone = (zoneNumber?: string): ReactElement<HTMLElement> | false => {
+  return (
+    !!zoneNumber &&
+    zoneNumber.length > 0 && (
+      <div className="m-stop-page__header-feature">
+        <span className="m-stop-page__icon c-icon__cr-zone">
+          Zone {zoneNumber}
+        </span>
+      </div>
+    )
   );
-
-  if (dispatch) {
-    tag = (
-      <a
-        href="#route-card-list"
-        onClick={() =>
-          dispatch && dispatch(clickRoutePillAction("commuter_rail"))
-        }
-        className="m-stop-page__header-feature"
-      >
-        <span className="m-stop-page__icon c-icon__cr-zone">{content}</span>
-      </a>
-    );
-  }
-
-  return !!zoneNumber && zoneNumber.length > 0 && tag;
 };
 
 const CommuterRailZoneIcon = ({
-  zoneNumber,
-  dispatch
+  zoneNumber
 }: {
   zoneNumber?: string;
-  dispatch?: Dispatch;
 }): ReactElement<HTMLElement> => {
-  return <>{crZone(zoneNumber, dispatch)}</>;
+  return <>{crZone(zoneNumber)}</>;
 };
 
 export { CommuterRailZoneIcon as default };

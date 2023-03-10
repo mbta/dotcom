@@ -1,27 +1,22 @@
 import React, { ReactElement } from "react";
-import { Stop } from "../../__v3api";
-import { TypedRoutes } from "./__stop";
+import { Route, Stop } from "../../__v3api";
 import ModeIcons from "./ModeIcons";
 import CommuterRailZoneIcon from "./CommuterRailZoneIcon";
 import ParkingIcon from "./ParkingIcon";
-import StopAccessibilityIcon from "./StopAccessibilityIcon";
-import { typedRoutesHasBusRoute } from "../../helpers/routes";
+import AccessibilityIcon from "./AccessibilityIcon";
 
 const StopFeatures = ({
   stop,
-  typedRoutes
+  routes
 }: {
   stop: Stop;
-  typedRoutes: TypedRoutes[];
+  routes: Route[];
 }): ReactElement<HTMLElement> => {
   return (
     <span className="m-stop-page__header-features">
-      <ModeIcons typedRoutes={typedRoutes} />
+      <ModeIcons routes={routes} />
       <CommuterRailZoneIcon zoneNumber={stop.zone} />
-      <StopAccessibilityIcon
-        stop={stop}
-        isBusStop={typedRoutesHasBusRoute(typedRoutes)}
-      />
+      <AccessibilityIcon stop={stop} routes={routes} />
       <ParkingIcon stop={stop} />
     </span>
   );
