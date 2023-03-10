@@ -49,11 +49,11 @@ defmodule SiteWeb.BusStopChangeController do
     do: effect in [:stop_closure, :stop_moved]
 
   defp get_old_alerts() do
-    with folder <- Path.join([Path.dirname(__ENV__.file), "../../../priv/", "bus-stop-change"]),
-         {:ok, files} <- File.ls(folder) do
+    folder = Application.app_dir(:site) |> Path.join("priv/bus-stop-change")
+    with {:ok, files} <- File.ls(folder) do
       Enum.reduce(files, [], fn filepath, acc ->
         alert_info =
-          "#{folder}/#{filepath}"
+          Path.join(folder, filepath)
           |> File.stream!()
           |> CSV.decode!(headers: true)
           |> Enum.to_list()
