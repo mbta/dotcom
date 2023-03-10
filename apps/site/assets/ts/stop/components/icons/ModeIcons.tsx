@@ -1,12 +1,12 @@
 import React, { ReactElement } from "react";
-import { Route } from "../../__v3api";
-import { modeIcon } from "../../helpers/icon";
+import { Route } from "../../../__v3api";
+import { modeIcon } from "../../../helpers/icon";
 import {
   isACommuterRailRoute,
   isASilverLineRoute,
   isFerryRoute,
   isSubwayRoute
-} from "../../models/route";
+} from "../../../models/route";
 import { uniqBy } from "lodash";
 
 const modeType = (route: Route): string => {

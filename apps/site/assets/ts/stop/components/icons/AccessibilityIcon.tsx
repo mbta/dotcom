@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { Route, Stop } from "../../__v3api";
-import { accessibleIcon } from "../../helpers/icon";
+import { Route, Stop } from "../../../__v3api";
+import { accessibleIcon } from "../../../helpers/icon";
 import { some } from "lodash";
-import { isABusRoute } from "../../models/route";
+import { isABusRoute } from "../../../models/route";
 
 const AccessibilityIcon = ({
   stop,

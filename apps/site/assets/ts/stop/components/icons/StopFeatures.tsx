@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Route, Stop } from "../../__v3api";
+import { Route, Stop } from "../../../__v3api";
 import ModeIcons from "./ModeIcons";
 import CommuterRailZoneIcon from "./CommuterRailZoneIcon";
 import ParkingIcon from "./ParkingIcon";

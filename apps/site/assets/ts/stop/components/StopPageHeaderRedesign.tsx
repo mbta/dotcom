@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Route, Stop } from "../../__v3api";
-import StopFeatures from "./StopFeatures";
+import StopFeatures from "./icons/StopFeatures";
 import { routesHasBusRoute } from "../../helpers/routes";
 
 const StopPageHeaderRedesign = ({
