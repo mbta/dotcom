@@ -1,5 +1,5 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 import TripPlannerPage from "./components/TripPlannerPage";
 import { MapData } from "../leaflet/components/__mapdata";
 
@@ -8,8 +8,10 @@ const render = (): void => {
   if (!mapDataEl) return;
 
   const mapData = JSON.parse(mapDataEl.innerHTML) as MapData;
-  const root = createRoot(document.getElementById("react-root")!);
-  root.render(<TripPlannerPage mapData={mapData} />);
+  ReactDOM.render(
+    <TripPlannerPage mapData={mapData} />,
+    document.getElementById("react-root")
+  );
 };
 
 export const onLoad = (): void => {

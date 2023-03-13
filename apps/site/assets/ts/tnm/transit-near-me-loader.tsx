@@ -1,5 +1,5 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 import { MapData } from "../leaflet/components/__mapdata";
 import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
@@ -18,8 +18,7 @@ const render = (): void => {
   const mapData = JSON.parse(dataEl.innerHTML) as MapData;
   const stopsWithDistances = JSON.parse(stopsWithDistancesEl.innerHTML);
   const query = parseQuery(window.location.search, window.decodeURIComponent);
-  const root = createRoot(document.getElementById("react-root")!);
-  root.render(
+  ReactDOM.render(
     <TransitNearMe
       mapData={mapData}
       mapId={mapId}
@@ -27,7 +26,8 @@ const render = (): void => {
       stopsWithDistances={stopsWithDistances}
       routesWithRealtimeSchedules={[]}
       stopsWithRoutes={[]}
-    />
+    />,
+    document.getElementById("react-root")
   );
 };
 

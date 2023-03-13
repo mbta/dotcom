@@ -1,5 +1,5 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 import AlgoliaAutocompleteWithGeo from "../../js/algolia-autocomplete-with-geo";
 import { buildOptions } from "../../js/algolia-embedded-search-options";
 import Algolia from "../../js/algolia-search";
@@ -9,8 +9,7 @@ import VoteMap from "./components/VoteMap";
 /* eslint-disable no-underscore-dangle */
 
 const render = (): void => {
-  const root = createRoot(document.getElementById("react-vote-root")!);
-  root.render(<VoteMap />);
+  ReactDOM.render(<VoteMap />, document.getElementById("react-vote-root"));
 };
 
 export const onLoad = (): void => {

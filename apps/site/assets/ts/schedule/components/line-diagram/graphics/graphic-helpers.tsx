@@ -29,7 +29,9 @@ export const coordReducer: Reducer<CoordState, CoordAction> = (
   };
 };
 
-export const DiagonalHatchPattern = (id?: string | undefined): JSX.Element => (
+export const DiagonalHatchPattern = (
+  id?: string | undefined
+): React.SVGProps<SVGPatternElement> => (
   <pattern
     id={id ?? "diagonalHatch"}
     width="10"

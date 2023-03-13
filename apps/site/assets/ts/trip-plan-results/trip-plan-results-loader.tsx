@@ -1,5 +1,5 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom";
 import TripPlannerResults, { Itinerary } from "./components/TripPlannerResults";
 
 const render = (): void => {
@@ -9,8 +9,10 @@ const render = (): void => {
   rootEl!.innerHTML = ""; // purge server rendered content
   const itineraryData = JSON.parse(itinDataEl.innerHTML)
     .itineraryData as Itinerary[];
-  const root = createRoot(document.getElementById("react-root")!);
-  root.render(<TripPlannerResults itineraryData={itineraryData} />);
+  ReactDOM.render(
+    <TripPlannerResults itineraryData={itineraryData} />,
+    document.getElementById("react-root")
+  );
 };
 
 export const onLoad = (): void => {

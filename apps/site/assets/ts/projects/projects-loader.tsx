@@ -1,5 +1,5 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import { render } from "react-dom";
 import ProjectsPage from "./components/ProjectsPage";
 import { initWithoutGoogle } from "../../js/algolia-embedded-search";
 
@@ -20,15 +20,15 @@ export const projectsLoader = (): void => {
     projects,
     projectUpdates
   } = projectsData;
-  const root = createRoot(projectsRootEl);
-  root.render(
+  render(
     <ProjectsPage
       initialBanner={banner}
       initialFeaturedProjects={featuredProjects}
       initialProjects={projects}
       initialProjectUpdates={projectUpdates}
       placeholderImageUrl={placeholderImageUrl}
-    />
+    />,
+    projectsRootEl
   );
 };
 

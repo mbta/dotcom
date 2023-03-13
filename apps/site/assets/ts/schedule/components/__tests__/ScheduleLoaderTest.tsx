@@ -1,5 +1,4 @@
 import React from "react";
-import * as React16DOM from "react-dom";
 import { Provider } from "react-redux";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
@@ -18,20 +17,6 @@ import ScheduleNote from "../ScheduleNote";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as scheduleLoader from "../../schedule-loader";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
-
-// A React 16/18 migration hack.
-// We're running these tests using React 16 until we finish migrating the tests
-// off of Enzyme. But the codebase works with React 18. The test environment
-// can't use react-dom/client's createRoot function so we mock it here, making
-// it actually perform the equivalent React 16 operation.
-jest.mock("react-dom/client", () => ({
-  createRoot: (el: any) => ({
-    render: (component: any) => {
-      // actually instantiate the react 16 way
-      React16DOM.render(component, el);
-    }
-  })
-}));
 
 jest.mock("../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -491,7 +476,7 @@ describe("ScheduleLoader", () => {
   });
 
   it("Shows the ScheduleDirection component", () => {
-    document.body.innerHTML = `<div id="react-root"></div>
+    document.body.innerHTML = `<div id="react-root">
   <script id="js-map-data" type="text/plain">${JSON.stringify(mapData)}</script>
   <script id="static-map-data" type="text/plain">${JSON.stringify(
     staticMapData
@@ -993,7 +978,7 @@ describe("ScheduleLoader", () => {
       alerts: []
     };
 
-    document.body.innerHTML = `<div id="react-root"></div>
+    document.body.innerHTML = `<div id="react-root">
   <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
     schedulePageData
   )}</script>
@@ -1035,7 +1020,7 @@ describe("ScheduleLoader", () => {
       variant: null
     };
 
-    document.body.innerHTML = `<div id="react-root"></div>
+    document.body.innerHTML = `<div id="react-root">
   <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
     schedulePageData
   )}</script>
