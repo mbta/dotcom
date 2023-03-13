@@ -8,7 +8,6 @@ defmodule SiteWeb.Plugs.Cookies do
   @behaviour Plug
   @id_cookie_name "mbta_id"
   @route_cookie_name "mbta_visited_routes"
-  @ie_warning_cookie_name "show_ie_warning"
 
   @id_cookie_options [
     http_only: false,
@@ -30,7 +29,6 @@ defmodule SiteWeb.Plugs.Cookies do
     conn
     |> set_id_cookie()
     |> set_route_cookie()
-    |> set_ie_warning_cookie()
   end
 
   def id_cookie_name, do: @id_cookie_name
@@ -73,15 +71,6 @@ defmodule SiteWeb.Plugs.Cookies do
 
   def set_route_cookie(%Conn{} = conn) do
     conn
-  end
-
-  @spec set_ie_warning_cookie(Conn.t()) :: Conn.t()
-  def set_ie_warning_cookie(%{cookies: %{@ie_warning_cookie_name => _ie_warning_cookie}} = conn) do
-    conn
-  end
-
-  def set_ie_warning_cookie(conn) do
-    Conn.put_resp_cookie(conn, @ie_warning_cookie_name, "true", @id_cookie_options)
   end
 
   @spec do_set_route_cookie(String.t(), Conn.t()) :: Conn.t()

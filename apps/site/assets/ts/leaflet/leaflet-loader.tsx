@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { MapData } from "./components/__mapdata";
 import Map from "./components/Map";
 
@@ -8,8 +8,10 @@ const render = (): void => {
   if (!dataEl) return;
   const mapData = JSON.parse(dataEl.innerHTML) as MapData;
   const rootEl = document.getElementById("leaflet-react-root");
+  if (!rootEl) return;
   rootEl!.innerHTML = ""; // purge server rendered content
-  ReactDOM.render(<Map mapData={mapData} />, rootEl);
+  const root = createRoot(rootEl);
+  root.render(<Map mapData={mapData} />);
 };
 
 export default render;

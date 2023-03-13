@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { isEmpty } from "lodash";
 import { updateInLocation } from "use-query-params";
@@ -33,14 +33,14 @@ const renderMap = ({
   const mapEl = document.getElementById("map-root");
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
-  ReactDOM.render(
+  const root = createRoot(mapEl);
+  root.render(
     <Map
       data={mapData}
       channel={channel}
       currentShapes={currentShapes}
       currentStops={currentStops}
-    />,
-    mapEl
+    />
   );
 };
 
@@ -63,43 +63,44 @@ export const renderAdditionalLineInformation = (
   schedulePageData: SchedulePageData
 ): void => {
   const { schedule_note: scheduleNote } = schedulePageData;
-
-  ReactDOM.render(
+  const root = createRoot(document.getElementById("react-root")!);
+  root.render(
     <Provider store={store}>
       <ScheduleLoader
         component="ADDITIONAL_LINE_INFORMATION"
         schedulePageData={schedulePageData}
         updateURL={updateURL}
       />
-    </Provider>,
-    document.getElementById("react-root")
+    </Provider>
   );
   // don't show Schedule Finder for subway
   if (scheduleNote) {
-    ReactDOM.render(
+    const scheduleNoteRoot = createRoot(
+      document.getElementById("react-schedule-note-root")!
+    );
+    scheduleNoteRoot.render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_NOTE"
           schedulePageData={schedulePageData}
           updateURL={updateURL}
         />
-      </Provider>,
-      document.getElementById("react-schedule-note-root")
+      </Provider>
     );
   } else {
-    const scheduleFinderRoot = document.getElementById(
+    const scheduleFinderEl = document.getElementById(
       "react-schedule-finder-root"
     );
-    if (scheduleFinderRoot) {
-      ReactDOM.render(
+    if (scheduleFinderEl) {
+      const scheduleFinderRoot = createRoot(scheduleFinderEl);
+      scheduleFinderRoot.render(
         <Provider store={store}>
           <ScheduleLoader
             component="SCHEDULE_FINDER"
             schedulePageData={schedulePageData}
             updateURL={updateURL}
           />
-        </Provider>,
-        scheduleFinderRoot
+        </Provider>
       );
     }
   }
@@ -107,19 +108,19 @@ export const renderAdditionalLineInformation = (
 
 const renderDirectionAndMap = (
   schedulePageData: SchedulePageData,
-  root: HTMLElement
+  rootEl: HTMLElement
 ): void => {
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {
-    ReactDOM.render(
+    const root = createRoot(rootEl);
+    root.render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_DIRECTION"
           schedulePageData={schedulePageData}
           updateURL={updateURL}
         />
-      </Provider>,
-      root
+      </Provider>
     );
   }
 };

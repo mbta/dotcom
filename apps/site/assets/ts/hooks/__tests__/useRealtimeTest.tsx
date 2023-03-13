@@ -10,9 +10,9 @@ const unmockedFetch = global.fetch;
 const testRoute = { id: "Red", type: 1 } as Route;
 const testRouteFerry = { id: "Boat", type: 4 } as Route;
 const testRequestURL = `/schedules/line_api/realtime?id=${testRoute.id}&direction_id=0`;
-const HookWrapper: React.FC = ({ children }) => (
-  <SWRConfig value={{ dedupingInterval: 0 }}>{children}</SWRConfig>
-);
+const HookWrapper: React.FC<{ children?: React.ReactNode }> = ({
+  children
+}) => <SWRConfig value={{ dedupingInterval: 0 }}>{children}</SWRConfig>;
 const testResponse: LiveDataByStop = {
   "place-north": {
     vehicles: [{} as LineDiagramVehicle],

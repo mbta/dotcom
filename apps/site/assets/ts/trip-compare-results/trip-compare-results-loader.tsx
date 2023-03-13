@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import TripCompareResults from "./components/TripCompareResults";
 import { Itinerary } from "./components/TripPlannerResults";
 
@@ -14,12 +14,12 @@ const render = (jsId: string, reactId: string): void => {
   const itineraryData = json.itineraryData as Itinerary[];
   const itineraryHeader = json.itineraryExplanation as string;
 
-  ReactDOM.render(
+  const root = createRoot(document.getElementById(reactId)!);
+  root.render(
     <TripCompareResults
       itineraryData={itineraryData}
       itineraryHeader={itineraryHeader}
-    />,
-    document.getElementById(reactId)
+    />
   );
 };
 

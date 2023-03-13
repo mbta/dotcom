@@ -1,4 +1,4 @@
-import ReactServer from "react-dom/server";
+import * as ReactServer from "react-dom/server";
 import React from "react";
 import readline from "readline";
 
