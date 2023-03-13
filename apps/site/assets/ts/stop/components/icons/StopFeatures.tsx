@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { Route, Stop } from "../../../__v3api";
-import ModeIcons from "./ModeIcons";
-import CommuterRailZoneIcon from "./CommuterRailZoneIcon";
-import ParkingIcon from "./ParkingIcon";
-import AccessibilityIcon from "./AccessibilityIcon";
+import { ModeIcons } from "./ModeIcons";
+import { CommuterRailZoneIcon } from "./CommuterRailZoneIcon";
+import { ParkingIcon } from "./ParkingIcon";
+import { AccessibilityIcon } from "./AccessibilityIcon";
 
 const StopFeatures = ({
   stop,
@@ -22,4 +22,4 @@ const StopFeatures = ({
   );
 };
 
-export default StopFeatures;
+export { StopFeatures };

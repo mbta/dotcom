@@ -27,4 +27,4 @@ const AccessibilityIcon = ({
   );
 };
 
-export { AccessibilityIcon as default };
+export { AccessibilityIcon };

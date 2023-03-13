@@ -21,4 +21,4 @@ const CommuterRailZoneIcon = ({
   return <>{crZone(zoneNumber)}</>;
 };
 
-export { CommuterRailZoneIcon as default };
+export { CommuterRailZoneIcon };

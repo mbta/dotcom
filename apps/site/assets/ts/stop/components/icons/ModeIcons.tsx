@@ -46,4 +46,4 @@ const ModeIcons = ({
   return <>{uniqRouteMap}</>;
 };
 
-export { ModeIcons as default };
+export { ModeIcons };
