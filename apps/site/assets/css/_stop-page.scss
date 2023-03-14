@@ -305,6 +305,7 @@
 
 .station-amenities {
   display: grid;
+  grid-gap: 1rem;
   grid-template-columns: repeat(3, 1fr);
 
   @include media-breakpoint-down(lg) {
@@ -317,6 +318,5 @@
 
 .station-amenity {
   background-color: aqua;
-  border: solid white 5px;
   height: 160px;
 }

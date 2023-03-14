@@ -85,13 +85,6 @@ const StopPageRedesign = ({
       </div>
       {/* Station Information Div */}
       <footer>{stop && <StationInformation stop={stop} />}</footer>
-      <div className="station-amenities">
-        <div className="station-amenity" />
-        <div className="station-amenity" />
-        <div className="station-amenity" />
-        <div className="station-amenity" />
-        <div className="station-amenity" />
-      </div>
     </article>
   );
 };
