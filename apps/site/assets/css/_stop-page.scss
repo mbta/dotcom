@@ -297,3 +297,26 @@
   background-color: $gray-bordered-background;
   padding: $base-spacing * .75;
 }
+
+.map-container {
+  background-color: gray;
+  width: 100%;
+}
+
+.station-amenities {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+
+  @include media-breakpoint-down(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.station-amenity {
+  background-color: aqua;
+  height: 160px;
+}

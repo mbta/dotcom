@@ -18,6 +18,13 @@ const StationInformation = ({
         longitude={stop.longitude}
       />
       <div>Station Status Blocks PLACEHOLDER</div>
+      <div className="station-amenities">
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+      </div>
     </div>
   );
 };
