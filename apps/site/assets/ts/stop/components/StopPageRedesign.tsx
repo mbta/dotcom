@@ -52,9 +52,6 @@ const StopPageRedesign = ({
           <h1>{stopId}</h1>
           {/* ICONS GO HERE */}
         </div>
-        <div style={{ marginTop: "3.075rem" }}>
-          Zone Information PLACEHOLDER
-        </div>
       </header>
       {/* Route and Map Div */}
       <div className="d-flex">
@@ -88,6 +85,13 @@ const StopPageRedesign = ({
       </div>
       {/* Station Information Div */}
       <footer>{stop && <StationInformation stop={stop} />}</footer>
+      <div className="station-amenities">
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+        <div className="station-amenity" />
+      </div>
     </article>
   );
 };

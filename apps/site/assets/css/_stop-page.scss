@@ -297,3 +297,26 @@
   background-color: $gray-bordered-background;
   padding: $base-spacing * .75;
 }
+
+.hidden-sm-down {
+  background-color: gray;
+}
+
+.station-amenities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  @include media-breakpoint-down(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include media-breakpoint-down(xs) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.station-amenity {
+  background-color: aqua;
+  border: solid white 5px;
+  height: 160px;
+  width: 327px;
+}
