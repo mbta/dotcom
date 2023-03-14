@@ -79,7 +79,7 @@ const StopPageRedesign = ({
           </ul>
           <button type="button">Plan your Trip PLACEHOLDER</button>
         </div>
-        <div className="hidden-sm-down">
+        <div className="hidden-sm-down map-container">
           Map PLACEHOLDER Imageine a pretty map
         </div>
       </div>
