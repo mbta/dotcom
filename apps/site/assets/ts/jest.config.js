@@ -9,7 +9,8 @@ module.exports = {
     "!**/*-entry.ts", // not necessary to test entry files
     "!**/*-loader.tsx", // not necessary to test loader files
     "!**/search.ts", // for now,
-    "!./app/global-navigation.ts" // tested with Cypress
+    "!./app/global-navigation.ts", // tested with Cypress
+    "!./ie-warning/**" // about to be deprecated
   ],
   coverageReporters: ["html"],
   coverageThreshold: {
@@ -50,7 +51,8 @@ module.exports = {
     "/node_modules/",
     "./ts-build",
     "./tnm/__tests__/setupTests.ts",
-    "./tnm/__tests__/helpers"
+    "./tnm/__tests__/helpers",
+    "./ie-warning/__tests__" // about to be deprecated
   ],
   moduleNameMapper: {
     "\\.svg$": "<rootDir>/tnm/__tests__/helpers/svgStubber.js",
