@@ -12,9 +12,13 @@ defmodule Alerts.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps()
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Configuration for the OTP application
   #
@@ -49,7 +53,10 @@ defmodule Alerts.Mixfile do
       {:timex, ">= 0.0.0"},
       {:util, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
-      {:benchfella, "~> 0.3", only: :dev}
+      {:benchfella, "~> 0.3", only: :dev},
+      {:ex_aws, "~> 2.4", only: [:prod, :dev]},
+      {:ex_aws_s3, "~> 2.4", only: [:prod, :dev]},
+      {:sweet_xml, "~> 0.7.1", only: [:prod, :dev]}
     ]
   end
 end
