@@ -89,7 +89,6 @@ const StopPageRedesign = ({
       <h1 className="route-schedules-heading">
         {stop?.["station?"] ? "Station Information" : "Stop Information"}
       </h1>
-      <h2 className="bike-heading">Bringing Your Car or Bike</h2>
       <footer>{stop && <StationInformation stop={stop} />}</footer>
     </article>
   );
