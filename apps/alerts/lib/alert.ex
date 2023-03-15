@@ -50,8 +50,9 @@ defmodule Alerts.Alert do
 
   @type severity :: 0..10
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
+  @type id_t :: String.t()
   @type t :: %Alerts.Alert{
-          id: String.t(),
+          id: id_t(),
           header: String.t(),
           informed_entity: IESet.t(),
           active_period: [period_pair],
