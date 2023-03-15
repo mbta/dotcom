@@ -52,9 +52,6 @@ const StopPageRedesign = ({
           <h1>{stopId}</h1>
           {/* ICONS GO HERE */}
         </div>
-        <div style={{ marginTop: "3.075rem" }}>
-          Zone Information PLACEHOLDER
-        </div>
       </header>
       {/* Route and Map Div */}
       <div className="d-flex">
@@ -84,7 +81,7 @@ const StopPageRedesign = ({
           </ul>
           <button type="button">Plan your Trip PLACEHOLDER</button>
         </div>
-        <div className="hidden-sm-down">
+        <div className="hidden-sm-down map-container">
           Map PLACEHOLDER Imageine a pretty map
         </div>
       </div>

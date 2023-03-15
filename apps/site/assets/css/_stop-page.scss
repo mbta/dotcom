@@ -298,22 +298,25 @@
   padding: $base-spacing * .75;
 }
 
-.route-schedules-maps,
-.bike-heading {
-  font-family: 'Helvetica Neue';
-  font-size: 21px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 27px;
+.map-container {
+  background-color: gray;
+  width: 100%;
 }
 
-.m-hide {
-  @include media-breakpoint-down(xs) {
-    display: none;
+.station-amenities {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+
+  @include media-breakpoint-down(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
-.bike-heading {
-  font-size: 15.75px;
-  line-height: 20px;
+.station-amenity {
+  background-color: aqua;
+  height: 160px;
 }

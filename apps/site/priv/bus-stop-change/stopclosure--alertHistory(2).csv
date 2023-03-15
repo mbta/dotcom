@@ -1,0 +1,665 @@
+Alert ID,Version No.,Time Type,Image URL,Mode,Effect,Affecting,Cause,Severity,Effect Start,Effect End,Recurrence Start,Recurrence End,Recurrence Start Time,Recurrence End Time,Recurrence Days,Notification From,Notification Until,Header,Note Text,Note Last Modified,Note Last Modified By,Accessibility Information,Send via PA/ESS,PA/ESS,T-Alert Sent to Subscribers,Send to Twitter,Set as Website Banner,Website Banner Text,URL,Additional Information,Last Modified By,Last Modified Date,Closed,Reminders,PCF,Planned Disruption,Send T-Alert on close,Send T-Alert on edit,Text-To-Speech Message Text,Text-To-Speech Description Text
+358943,1,One-time,,Bus,Stop Closure,64; N Beacon @ Market St,,information,2020-03-07T04:30,further notice,,,,,,2020-03-04T14:09:12.210,further notice,"Beginning March 7th, 2020, Route 64 will no longer operate on Life St or N Beacon St between Market St and Arthur St. Make connections at Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS)",,,,,False,,True,False,False,,,"Affected routes:
+64
+Affected Stops:
+N Beacon St @ Market St (IB)
+N Beacon St @ Etna St (IB)
+N Beacon St @ Life St (OB)
+N Beacon St @ Market St (OB)
+
+Nearest Connections
+Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS) 
+Guest St @ Life St or N Beacon St @ Saunders St
+Guest St @ Life St or Market St @ Vineland St
+Market St @ Vinleand St or 239 N Beacon St",christopher.delano,2020-03-04T14:09:52.383,False,,current,,False,True,,
+358943,2,One-time,,Bus,Stop Closure,64; N Beacon @ Market St,,information,2020-03-07T04:30,further notice,,,,,,2020-03-04T14:09:12.210,further notice,"Beginning March 7th, 2020, Route 64 will no longer operate on Life St or N Beacon St between Market St and Arthur St. Make connections at Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS)",,,,,False,,False,False,False,,,"Affected routes:
+64
+
+Affected Stops:
+N Beacon St @ Market St (IB)
+N Beacon St @ Etna St (IB)
+N Beacon St @ Life St (OB)
+N Beacon St @ Market St (OB)
+
+Nearest Connections:
+Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS) 
+Guest St @ Life St or N Beacon St @ Saunders St
+Guest St @ Life St or Market St @ Vineland St
+Market St @ Vinleand St or 239 N Beacon St",eryk.rotondo,2020-03-05T10:34:02.313,False,,current,,False,True,,
+358943,3,One-time,,Bus,Stop Closure,64; N Beacon @ Market St,,information,2020-03-07T04:30,further notice,,,,,,2020-03-04T14:09:12.210,further notice,"Beginning March 7th, 2020, Route 64 will no longer operate on Life St or N Beacon St between Market St and Arthur St. Make connections at Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS)",,,,,False,,False,False,False,,,"Affected routes:
+64
+
+Affected Stops:
+N Beacon St @ Market St (IB)
+N Beacon St @ Etna St (IB)
+N Beacon St @ Life St (OB)
+N Beacon St @ Market St (OB)
+
+Nearest Connections:
+Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS) (IB) 
+Guest St @ Life St or N Beacon St @ Saunders St (IB)
+Guest St @ Life St or Market St @ Vineland St (OB)
+Market St @ Vinleand St or 239 N Beacon St (OB)",nicholas.tomkavage,2020-03-05T15:31:22.997,False,,current,,False,True,,
+358943,4,One-time,,Bus,Stop Closure,,,information,2020-03-07T04:30,2020-12-23T06:16:47.627,,,,,,2020-03-04T14:09:12.210,2020-12-23T06:16:47.627,"Beginning March 7th, 2020, Route 64 will no longer operate on Life St or N Beacon St between Market St and Arthur St. Make connections at Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS)",,,,,False,,False,False,False,,,"Affected routes:
+64
+
+Affected Stops:
+N Beacon St @ Market St (IB)
+N Beacon St @ Etna St (IB)
+N Beacon St @ Life St (OB)
+N Beacon St @ Market St (OB)
+
+Nearest Connections:
+Market St @ Guest St or N Beacon St @ Market St (on other side of intersection on N Beacon St between Gulf and CVS) (IB) 
+Guest St @ Life St or N Beacon St @ Saunders St (IB)
+Guest St @ Life St or Market St @ Vineland St (OB)
+Market St @ Vinleand St or 239 N Beacon St (OB)",eryk.rotondo,2020-12-23T06:16:47.627,True,,past,,False,True,,
+361021,1,One-time,,Bus,Stop Closure,87; Somerville Ave at McGrath Hwy,construction,up to 20 minutes,2020-04-02T11:45:15.855,later today,,,,,,2020-04-02T11:45:15.860,2020-04-03T02:30,"Until further notice, the Route 87 outbound stop at Somerville Ave at McGrath Hwy in front of Burger King will be closed due to ongoing utility work. The nearest connection is Somerville Ave @ Merriam St.",,,,,False,,True,False,False,,,"Affected routes:
+87",eryk.rotondo,2020-04-02T11:46:21.547,False,,current,,False,True,,
+361021,2,One-time,,Bus,Stop Closure,87; Somerville Ave at McGrath Hwy,construction,up to 20 minutes,2020-04-02T11:45:15.855,further notice,,,,,,2020-04-02T11:45:15.860,further notice,"Until further notice, the Route 87 outbound stop at Somerville Ave at McGrath Hwy in front of Burger King will be closed due to ongoing utility work. The nearest connection is Somerville Ave @ Merriam St.",,,,,False,,False,False,False,,,"Affected routes:
+87",eryk.rotondo,2020-04-02T11:49:18.170,False,,current,,False,True,,
+361021,3,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-04-02T11:45:15.855,2021-11-05T08:39:50.463,,,,,,2020-04-02T11:45:15.860,2021-11-05T08:39:50.463,"Until further notice, the Route 87 outbound stop at Somerville Ave at McGrath Hwy in front of Burger King will be closed due to ongoing utility work. The nearest connection is Somerville Ave @ Merriam St.",,,,,False,,False,False,False,,,"Affected routes:
+87",eryk.rotondo,2021-11-05T08:39:50.463,True,,past,,False,True,,
+371566,1,One-time,,Bus,Stop Closure,1; Massachusetts Ave @ Columbus Ave (outbound),construction,information,2020-09-11T10:45,further notice,,,,,,2020-09-11T10:47:52.510,further notice, Massachusetts Ave @ Columbus Ave is closed due to construction. Nearest connection: Massachusetts Ave @ Tremont St,,,,,False,,False,False,False,,,"Affected routes:
+1",christopher.delano,2020-09-11T10:48:08.963,False,,current,,False,True,,
+371566,2,One-time,,Bus,Stop Closure,,construction,information,2020-09-11T10:45,2020-12-29T10:47:55.613,,,,,,2020-09-11T10:47:52.510,2020-12-29T10:47:55.613, Massachusetts Ave @ Columbus Ave is closed due to construction. Nearest connection: Massachusetts Ave @ Tremont St,,,,,False,,False,False,False,,,"Affected routes:
+1",eryk.rotondo,2020-12-29T10:47:55.613,True,,past,,False,True,,
+375548,1,One-time,,Bus,Stop Closure,"426, 429, 435, 436, 455; Silsbee St @ Union St",,up to 20 minutes,2020-11-15T04:30,further notice,,,,,,2020-11-03T09:12:38.057,further notice,Beginning on Nov 15 the stop at Silsbee St @ Union St will be permanently closed.,,,,,False,,True,False,False,,,"Inbound service for Routes 436 and 455 can be found on Buffum St at 4 Freeman Sq.
+
+Affected routes:
+426
+429
+435
+436
+455",eryk.rotondo,2020-11-03T09:12:44.343,False,,current,,False,True,,
+375548,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-11-15T04:30,2020-12-01T16:32:15.457,,,,,,2020-11-03T09:12:38.057,2020-12-01T16:32:15.457,Beginning on Nov 15 the stop at Silsbee St @ Union St will be permanently closed.,,,,,False,,False,False,False,,,"Inbound service for Routes 436 and 455 can be found on Buffum St at 4 Freeman Sq.
+
+Affected routes:
+426
+429
+435
+436
+455",christopher.delano,2020-12-01T16:32:15.457,True,,past,,False,True,,
+375549,1,One-time,,Bus,Stop Closure,"426, 429, 435, 436, 455; Mt Vernon @ Exchange St",,up to 20 minutes,2020-11-15T04:30,further notice,,,,,,2020-11-03T09:19:31.560,further notice,Beginning on Nov 15 the stop at Mt Vernon @ Exchange St will be permanently closed.,,,,,False,,True,False,False,,,"Affected routes:
+426
+429
+435
+436
+455",eryk.rotondo,2020-11-03T09:19:36.330,False,,current,,False,True,,
+375549,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-11-15T04:30,2020-12-01T16:32:54.973,,,,,,2020-11-03T09:19:31.560,2020-12-01T16:32:54.973,Beginning on Nov 15 the stop at Mt Vernon @ Exchange St will be permanently closed.,,,,,False,,False,False,False,,,"Affected routes:
+426
+429
+435
+436
+455",christopher.delano,2020-12-01T16:32:54.973,True,,past,,False,True,,
+376417,1,One-time,,Bus,Stop Closure,435; Liberty St @ Barker Ct,,up to 20 minutes,2020-11-15T04:30,further notice,,,,,,2020-11-13T08:09:01.200,further notice,"The stop at Liberty St @ Barker Ct. will close permanently beginning on Sun, Nov 15. Route 435 service can be obtained 800 feet away at  Washington St @ Essex St.",,,,,False,,True,False,False,,,"Affected routes:
+435",eryk.rotondo,2020-11-13T08:09:15.193,False,,current,,False,True,,
+376417,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-11-15T04:30,2020-12-01T16:33:11.973,,,,,,2020-11-13T08:09:01.200,2020-12-01T16:33:11.973,"The stop at Liberty St @ Barker Ct. will close permanently beginning on Sun, Nov 15. Route 435 service can be obtained 800 feet away at  Washington St @ Essex St.",,,,,False,,False,False,False,,,"Affected routes:
+435",christopher.delano,2020-12-01T16:33:11.973,True,,past,,False,True,,
+376423,1,One-time,,Bus,Stop Closure,"553, 554; Washington St @ Cross St",construction,up to 20 minutes,2020-11-16T04:30,2020-12-08T02:30,,,,,,2020-11-13T08:41:13.797,2020-12-08T02:30,"The stop at Washington St @ Cross St will be closed for three weeks, beginning the week of Nov 16, to accommodate a sidewalk reconstruction project by the City of Newton.",,,,,False,,True,False,False,,,"Affected routes:
+553
+554",eryk.rotondo,2020-11-13T08:41:24.190,False,,current,,False,True,,
+376423,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-11-16T04:30,2020-12-08T02:30,,,,,,2020-11-13T08:41:13.797,2020-12-08T02:30,"The stop at Washington St @ Cross St will be closed for three weeks, beginning the week of Nov 16, to accommodate a sidewalk reconstruction project by the City of Newton.",,,,,False,,False,False,False,,,"Affected routes:
+553
+554",expiry,2020-12-08T02:30:16.720,True,,past,,False,True,,
+376558,1,One-time,,Bus,Stop Closure,Silver Line - SL5; Tremont St @ Boylston Station (outbound),construction,up to 20 minutes,2020-11-14T17:53:16.321,later today,,,,,,2020-11-14T17:53:16.323,2020-11-15T02:30,The following closed due to construction: Tremont St @ Boylston Station (outbound). Connections made at: Temple Pl @ Washington St (outbound) & Washington St @ Tufts Medical Center (outbound),,,,,False,,True,False,False,,,"Affected routes:
+Silver Line - SL5",Michael.Kelly,2020-11-14T17:53:40.243,False,,current,,False,True,,
+376558,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-11-14T17:53:16.321,2020-11-15T02:25:17.190,,,,,,2020-11-14T17:53:16.323,2020-11-15T02:25:17.190,The following closed due to construction: Tremont St @ Boylston Station (outbound). Connections made at: Temple Pl @ Washington St (outbound) & Washington St @ Tufts Medical Center (outbound),,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL5",expiry,2020-11-15T02:25:17.190,True,,past,,False,True,,
+376559,1,One-time,,Bus,Stop Closure,43; Tremont St @ Boylston Station (outbound),construction,up to 20 minutes,2020-11-14T17:56:10.615,later today,,,,,,2020-11-14T17:56:10.617,2020-11-15T02:30,The following closed due to construction: Tremont St @ Boylston Station (outbound).  Connections made at: Tremont St opposite Temple Pl (outbound) & 285 Tremont St (outbound),,,,,False,,True,False,False,,,"Affected routes:
+43",Michael.Kelly,2020-11-14T17:56:21.120,False,,current,,False,True,,
+376559,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-11-14T17:56:10.615,2020-11-15T02:25:17.190,,,,,,2020-11-14T17:56:10.617,2020-11-15T02:25:17.190,The following closed due to construction: Tremont St @ Boylston Station (outbound).  Connections made at: Tremont St opposite Temple Pl (outbound) & 285 Tremont St (outbound),,,,,False,,False,False,False,,,"Affected routes:
+43",expiry,2020-11-15T02:25:17.190,True,,past,,False,True,,
+378652,1,One-time,,Bus,Stop Closure,9; Arlington St @ Saint James Ave (outbound),construction,up to 20 minutes,2020-12-09T10:16:01.866,later today,,,,,,2020-12-09T10:16:01.867,2020-12-10T02:30,Arlington St @ Saint James Ave is currently closed due to construction. Connect at Boylston St @ Berkeley St or Arlington St @ Isabella St for outbound service on the Route 9.,,,,,False,,True,False,False,,,"Affected routes:
+9",michael.joyce,2020-12-09T10:16:03.220,False,,current,,False,True,,
+378652,2,One-time,,Bus,Stop Closure,9; Arlington St @ Saint James Ave,construction,up to 20 minutes,2020-12-09T10:16:01.866,further notice,,,,,,2020-12-09T10:16:01.867,further notice,Arlington St @ Saint James Ave is currently closed due to construction. Connect at Boylston St @ Berkeley St or Arlington St @ Isabella St for outbound service on the Route 9.,,,,,False,,True,False,False,,,"Affected routes:
+9",michael.joyce,2020-12-09T15:24:49.287,False,,current,,False,True,,
+378652,3,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-12-09T10:16:01.866,2021-11-05T08:47:14.200,,,,,,2020-12-09T10:16:01.867,2021-11-05T08:47:14.200,Arlington St @ Saint James Ave is currently closed due to construction. Connect at Boylston St @ Berkeley St or Arlington St @ Isabella St for outbound service on the Route 9.,,,,,False,,False,False,False,,,"Affected routes:
+9",eryk.rotondo,2021-11-05T08:47:14.200,True,,past,,False,True,,
+378658,1,One-time,,Bus,Stop Closure,"62, 76; Great Rd @ Masardis St, Great Rd opp Masardis St",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-09T11:05:35.087,further notice,"Route 62: Due to accessibility issues, the stops at Great Rd @ Masardis St & Great Rd opp Masardis St will permanently close on Dec 20.",,,,,False,,True,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-09T11:05:45.837,False,,current,,False,True,,
+378658,2,One-time,,Bus,Stop Closure,"62, 76; Great Rd opp Masardis St, Great Rd @ Masardis St",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-09T11:05:35.087,further notice,"Route 62: Due to accessibility issues, the stops at Great Rd @ Masardis St & Great Rd opp Masardis St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-09T11:12:43.213,False,,current,,False,True,,
+378658,3,One-time,,Bus,Stop Closure,"62, 76; Great Rd opp Masardis St, Great Rd @ Masardis St",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-09T11:05:35.087,2021-01-21T02:30,"Route 62: Due to accessibility issues, the stops at Great Rd @ Masardis St & Great Rd opp Masardis St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-10T07:12:26.190,False,,current,,False,True,,
+378658,4,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T10:57:23.073,,,,,,2020-12-09T11:05:35.087,2020-12-29T10:57:23.073,"Route 62: Due to accessibility issues, the stops at Great Rd @ Masardis St & Great Rd opp Masardis St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-29T10:57:23.073,True,,past,,False,True,,
+378660,1,One-time,,Bus,Stop Closure,"62, 76; Springs Rd @ Nickerson Rd",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-09T11:08:53.337,further notice,"Route 62: Due to accessibility issues, the stop at Springs Rd @ Nickerson Rd will permanently close on Dec 20.",,,,,False,,True,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-09T11:09:11.447,False,,current,,False,True,,
+378660,2,One-time,,Bus,Stop Closure,"62, 76; Springs Rd @ Nickerson Rd",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-09T11:08:53.337,2021-01-21T02:30,"Route 62: Due to accessibility issues, the stop at Springs Rd @ Nickerson Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-10T07:12:01.673,False,,current,,False,True,,
+378660,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T10:58:59.947,,,,,,2020-12-09T11:08:53.337,2020-12-29T10:58:59.947,"Route 62: Due to accessibility issues, the stop at Springs Rd @ Nickerson Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-29T10:58:59.947,True,,past,,False,True,,
+378662,1,One-time,,Bus,Stop Closure,"62, 76, 78; East Service Rd @ Stairway to Radcliffe Rd",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-09T11:16:41.267,further notice,"Routes 62, 76 & 78: Due to accessibility issues, the stop at East Service Rd @ Stairway to Radcliffe Rd will permanently close on Dec 20.",,,,,False,,True,False,False,,,"Affected routes:
+62
+76
+78",eryk.rotondo,2020-12-09T11:16:54.573,False,,current,,False,True,,
+378662,2,One-time,,Bus,Stop Closure,"62, 76, 78; East Service Rd @ Stairway to Radcliffe Rd",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-09T11:16:41.267,2021-01-21T02:30,"Routes 62, 76 & 78: Due to accessibility issues, the stop at East Service Rd @ Stairway to Radcliffe Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76
+78",eryk.rotondo,2020-12-10T07:11:35.360,False,,current,,False,True,,
+378662,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:01:03.337,,,,,,2020-12-09T11:16:41.267,2020-12-29T11:01:03.337,"Routes 62, 76 & 78: Due to accessibility issues, the stop at East Service Rd @ Stairway to Radcliffe Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76
+78",eryk.rotondo,2020-12-29T11:01:03.337,True,,past,,False,True,,
+378663,1,One-time,,Bus,Stop Closure,"62, 76, 78; West Service Rd @ Spring St",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-09T11:21:02.620,further notice,"Routes 62, 76 & 78: Due to accessibility issues, the stop at West Service Rd @ Spring St will permanently close on Dec 20.",,,,,False,,True,False,False,,,"Affected routes:
+62
+76
+78",eryk.rotondo,2020-12-09T11:21:15.390,False,,current,,False,True,,
+378663,2,One-time,,Bus,Stop Closure,"62, 76, 78; West Service Rd @ Spring St",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-09T11:21:02.620,2021-01-21T02:30,"Routes 62, 76 & 78: Due to accessibility issues, the stop at West Service Rd @ Spring St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76
+78",eryk.rotondo,2020-12-10T07:11:12.517,False,,current,,False,True,,
+378663,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:02:42.447,,,,,,2020-12-09T11:21:02.620,2020-12-29T11:02:42.447,"Routes 62, 76 & 78: Due to accessibility issues, the stop at West Service Rd @ Spring St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76
+78",eryk.rotondo,2020-12-29T11:02:42.447,True,,past,,False,True,,
+378759,1,One-time,,Bus,Stop Closure,"350, 354; Cambridge St @ Anna Rd",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-10T06:45:58.613,further notice,"Routes 350 & 354: Due to accessibility issues, the stop at Cambridge St @ Anna Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+354",eryk.rotondo,2020-12-10T06:46:04.617,False,,current,,False,True,,
+378759,2,One-time,,Bus,Stop Closure,"350, 354; Cambridge St @ Anna Rd",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T06:45:58.613,2021-01-21T02:30,"Routes 350 & 354: Due to accessibility issues, the stop at Cambridge St @ Anna Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+354",eryk.rotondo,2020-12-10T07:10:47.407,False,,current,,False,True,,
+378759,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:13:18.813,,,,,,2020-12-10T06:45:58.613,2020-12-29T11:13:18.813,"Routes 350 & 354: Due to accessibility issues, the stop at Cambridge St @ Anna Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+354",eryk.rotondo,2020-12-29T11:13:18.813,True,,past,,False,True,,
+378760,1,One-time,,Bus,Stop Closure,"350, 354; Cambridge St @ Edwards Rd",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-10T06:47:21.890,further notice,"Routes 350 & 354: Due to accessibility issues, the stop at Cambridge St @ Edwards Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+354",eryk.rotondo,2020-12-10T06:47:37.663,False,,current,,False,True,,
+378760,2,One-time,,Bus,Stop Closure,"350, 354; Cambridge St @ Edwards Rd",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T06:47:21.890,2021-01-21T02:30,"Routes 350 & 354: Due to accessibility issues, the stop at Cambridge St @ Edwards Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+354",eryk.rotondo,2020-12-10T07:10:22.753,False,,current,,False,True,,
+378760,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:16:31.407,,,,,,2020-12-10T06:47:21.890,2020-12-29T11:16:31.407,"Routes 350 & 354: Due to accessibility issues, the stop at Cambridge St @ Edwards Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+354",eryk.rotondo,2020-12-29T11:16:31.407,True,,past,,False,True,,
+378762,1,One-time,,Bus,Stop Closure,"62, 76; Wood St @ Holton Rd, Wood St opp Holton Rd",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-10T06:49:50.757,further notice,"Routes 62 & 76: Due to accessibility issues, the stops at Wood St @ Holton Rd & Wood St opp Holton Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-10T06:49:53.790,False,,current,,False,True,,
+378762,2,One-time,,Bus,Stop Closure,"62, 76; Wood St @ Holton Rd, Wood St opp Holton Rd",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T06:49:50.757,2021-01-21T02:30,"Routes 62 & 76: Due to accessibility issues, the stops at Wood St @ Holton Rd & Wood St opp Holton Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-10T07:09:58.033,False,,current,,False,True,,
+378762,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:18:46.360,,,,,,2020-12-10T06:49:50.757,2020-12-29T11:18:46.360,"Routes 62 & 76: Due to accessibility issues, the stops at Wood St @ Holton Rd & Wood St opp Holton Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-29T11:18:46.360,True,,past,,False,True,,
+378763,1,One-time,,Bus,Stop Closure,"62, 76; Hartwell Ave @ Wood St - AFB Hartwell Gate (outbound)",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-10T07:02:05.603,further notice,"Route 62: Due to accessibility issues, the stop at Hartwell Ave @ Wood St - AFB Hartwell Gate will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-10T07:02:13.687,False,,current,,False,True,,
+378763,2,One-time,,Bus,Stop Closure,"62, 76; Hartwell Ave @ Wood St - AFB Hartwell Gate",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:02:05.603,2021-01-21T02:30,"Route 62: Due to accessibility issues, the stop at Hartwell Ave @ Wood St - AFB Hartwell Gate will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-10T07:09:23.190,False,,current,,False,True,,
+378763,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:21:19.927,,,,,,2020-12-10T07:02:05.603,2020-12-29T11:21:19.927,"Route 62: Due to accessibility issues, the stop at Hartwell Ave @ Wood St - AFB Hartwell Gate will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-29T11:21:19.927,True,,past,,False,True,,
+378764,1,One-time,,Bus,Stop Closure,"62, 76; Old Mass Ave @ Bonair Ave, Old Mass Ave opp Bonair Ave",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-10T07:05:06.593,further notice,"Routes 62 & 76: Due to accessibility issues, the stops at Old Mass Ave @ Bonair Ave & Old Mass Ave opp Bonair Ave will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-10T07:05:14.953,False,,current,,False,True,,
+378764,2,One-time,,Bus,Stop Closure,"62, 76; Old Mass Ave opp Bonair Ave, Old Mass Ave @ Bonair Ave",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:05:06.593,2021-01-21T02:30,"Routes 62 & 76: Due to accessibility issues, the stops at Old Mass Ave @ Bonair Ave & Old Mass Ave opp Bonair Ave will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-10T07:09:02.643,False,,current,,False,True,,
+378764,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:22:31.287,,,,,,2020-12-10T07:05:06.593,2020-12-29T11:22:31.287,"Routes 62 & 76: Due to accessibility issues, the stops at Old Mass Ave @ Bonair Ave & Old Mass Ave opp Bonair Ave will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2020-12-29T11:22:31.287,True,,past,,False,True,,
+378765,1,One-time,,Bus,Stop Closure,"62, 76; Bedford St @ Winter St, Bedford St opp Winter St",,up to 20 minutes,2020-12-20T04:30,further notice,,,,,,2020-12-10T07:07:16.747,further notice,"Route 62: Due to accessibility issues, the stops at Bedford St @ Winter St & Bedford St opp Winter St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-10T07:07:44.500,False,,current,,False,True,,
+378765,2,One-time,,Bus,Stop Closure,"62, 76; Bedford St opp Winter St, Bedford St @ Winter St",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:07:16.747,2021-01-21T02:30,"Route 62: Due to accessibility issues, the stops at Bedford St @ Winter St & Bedford St opp Winter St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-10T07:08:34.080,False,,current,,False,True,,
+378765,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:23:27.240,,,,,,2020-12-10T07:07:16.747,2020-12-29T11:23:27.240,"Route 62: Due to accessibility issues, the stops at Bedford St @ Winter St & Bedford St opp Winter St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+62",eryk.rotondo,2020-12-29T11:23:27.240,True,,past,,False,True,,
+378768,1,One-time,,Bus,Stop Closure,"350; 209 Cambridge St (outbound), 353 Cambridge St (outbound), 354 Cambridge St (inbound), 242 Cambridge St (inbound)",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:17:12.560,2021-01-21T02:30,"Route 350: Due to accessibility issues, the stops at 209 Cambridge St, 242 Cambridge St, 353 Cambridge St and 354 Cambridge St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+
+Affected stops:
+209 Cambridge St (outbound)
+353 Cambridge St (outbound)
+354 Cambridge St (inbound)
+242 Cambridge St (inbound)",eryk.rotondo,2020-12-10T07:17:15.490,False,,current,,False,True,,
+378768,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:24:24.083,,,,,,2020-12-10T07:17:12.560,2020-12-29T11:24:24.083,"Route 350: Due to accessibility issues, the stops at 209 Cambridge St, 242 Cambridge St, 353 Cambridge St and 354 Cambridge St will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350
+
+Affected stops:
+209 Cambridge St (outbound)
+353 Cambridge St (outbound)
+354 Cambridge St (inbound)
+242 Cambridge St (inbound)",eryk.rotondo,2020-12-29T11:24:24.083,True,,past,,False,True,,
+378769,1,One-time,,Bus,Stop Closure,"350; Cambridge St @ Glen Rd (outbound), Cambridge St @ Swan Rd (inbound)",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:20:16.677,2021-01-21T02:30,"Route 350: Due to accessibility issues, the stops at Cambridge St @ Glen Rd and Cambridge St @ Swan Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350",eryk.rotondo,2020-12-10T07:20:26.867,False,,current,,False,True,,
+378769,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:25:28.757,,,,,,2020-12-10T07:20:16.677,2020-12-29T11:25:28.757,"Route 350: Due to accessibility issues, the stops at Cambridge St @ Glen Rd and Cambridge St @ Swan Rd will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350",eryk.rotondo,2020-12-29T11:25:28.757,True,,past,,False,True,,
+378770,1,One-time,,Bus,Stop Closure,"350; 65 Cambridge St @ Winchester Boat Club (outbound), Opp 65 Cambridge St @ Winchester Boat Club (inbound)",,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:22:56.453,2021-01-21T02:30,"Route 350: Due to accessibility issues, the stops at 65 Cambridge St @ Winchester Boat Club & Opp 65 Cambridge St @ Winchester Boat Club will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350",eryk.rotondo,2020-12-10T07:23:05.460,False,,current,,False,True,,
+378770,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:26:38.507,,,,,,2020-12-10T07:22:56.453,2020-12-29T11:26:38.507,"Route 350: Due to accessibility issues, the stops at 65 Cambridge St @ Winchester Boat Club & Opp 65 Cambridge St @ Winchester Boat Club will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350",eryk.rotondo,2020-12-29T11:26:38.507,True,,past,,False,True,,
+378772,1,One-time,,Bus,Stop Closure,350; 376 Cambridge Rd - Woburn Line,,up to 20 minutes,2020-12-20T04:30,2021-01-21T02:30,,,,,,2020-12-10T07:40:31.707,2021-01-21T02:30,"Route 350: Due to accessibility issues, the stop at 376 Cambridge Rd - Woburn Line will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350",eryk.rotondo,2020-12-10T07:40:40.983,False,,current,,False,True,,
+378772,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-12-20T04:30,2020-12-29T11:27:54.117,,,,,,2020-12-10T07:40:31.707,2020-12-29T11:27:54.117,"Route 350: Due to accessibility issues, the stop at 376 Cambridge Rd - Woburn Line will permanently close on Dec 20.",,,,,False,,False,False,False,,,"Affected routes:
+350",eryk.rotondo,2020-12-29T11:27:54.117,True,,past,,False,True,,
+379000,1,One-time,,Bus,Stop Closure,"62, 76; Great Rd @ Masardis St (outbound), Great Rd opp Masardis St (inbound)",,information,2020-12-20T04:30,2021-01-09T02:30,,,,,,2020-12-11T19:04:07.710,2021-01-09T02:30,"Effective December 20, the following Route 62 stops are closed due to accessibility concerns: Great Rd @ Masardis St (outbound) & Great Rd opp Masardis St (inbound)",,,,,False,,True,False,False,,,"Nearest Route 62 connections:
+
+Great Rd @ Perham St - Bedford Line (outbound)
+Great Rd @ Perham St - Lexington Line (inbound)",nicholas.tomkavage,2020-12-11T19:04:12.993,False,,current,,False,True,,
+379000,2,One-time,,Bus,Stop Closure,,,information,2020-12-11T19:08:52.793,2020-12-11T19:08:52.793,,,,,,2020-12-11T19:04:07.710,2020-12-11T19:08:52.793,"Effective December 20, the following Route 62 stops are closed due to accessibility concerns: Great Rd @ Masardis St (outbound) & Great Rd opp Masardis St (inbound)",,,,,False,,False,False,False,,,"Nearest Route 62 connections:
+
+Great Rd @ Perham St - Bedford Line (outbound)
+Great Rd @ Perham St - Lexington Line (inbound)",nicholas.tomkavage,2020-12-11T19:08:52.793,True,,past,,False,True,,
+381518,1,One-time,,Bus,Stop Closure,"455; Congress St @ Shetland Park Industrial Park (outbound), Congress St @ Derby St (outbound)",construction,information,2021-01-19T04:30,2021-04-03T02:30,,,,,,2021-01-14T19:19:07.340,2021-04-03T02:30,"The following Route 455 outbound stops closed, Jan 19 - Apr 2 due to road work: Congress St @ Shetland Park & Congress St @ Derby St. Nearest stops are Harbor St @ Congress St & New Derby St @ Klopp Alley",,,,,False,,True,False,False,,,,nicholas.tomkavage,2021-01-14T19:19:09.733,False,,current,,False,True,,
+381518,2,One-time,,Bus,Stop Closure,,construction,information,2021-01-19T04:30,2021-03-31T07:01:37.057,,,,,,2021-01-14T19:19:07.340,2021-03-31T07:01:37.057,"The following Route 455 outbound stops closed, Jan 19 - Apr 2 due to road work: Congress St @ Shetland Park & Congress St @ Derby St. Nearest stops are Harbor St @ Congress St & New Derby St @ Klopp Alley",,,,,False,,False,False,False,,,,michael.joyce,2021-03-31T07:01:37.057,True,,past,,False,True,,
+382367,1,One-time,,Bus,Stop Closure,134; Laraway Rd @ Winchester Ctr,construction,up to 20 minutes,2021-02-08T04:30,2021-04-10T02:30,,,,,,2021-02-01T14:27:55.993,2021-04-10T02:30,"The stop at Laraway Rd @ Winchester Ctr will be closed from Mon, Feb 8 through Fri, Apr 9 due to the construction on the Winchester Commuter Rail Station. Route 134 service can be obtained 800 feet away at the Main Street @ Vine St stops.",,,,,False,,True,False,False,,,"Affected routes:
+134",eryk.rotondo,2021-02-01T14:28:12.067,False,,current,,False,True,,
+382367,2,One-time,,Bus,Stop Closure,134; Laraway Rd @ Winchester Ctr,construction,up to 20 minutes,2021-02-08T04:30,2021-06-01T02:30,,,,,,2021-02-01T14:27:55.993,2021-06-01T02:30,The stop at Laraway Rd @ Winchester Ctr will be closed through May 31 due to the construction on the Winchester Commuter Rail Station. Route 134 service can be obtained 800 feet away at the Main Street @ Vine St stops.,,,,,False,,False,False,False,,,"Affected routes:
+134",eryk.rotondo,2021-03-05T11:38:15.043,False,,current,,False,True,,
+382367,3,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2021-02-08T04:30,2021-05-22T15:59:01.220,,,,,,2021-02-01T14:27:55.993,2021-05-22T15:59:01.220,The stop at Laraway Rd @ Winchester Ctr will be closed through May 31 due to the construction on the Winchester Commuter Rail Station. Route 134 service can be obtained 800 feet away at the Main Street @ Vine St stops.,,,,,False,,False,False,False,,,"Affected routes:
+134",nicholas.tomkavage,2021-05-22T15:59:01.220,True,,past,,False,True,,
+383799,1,One-time,,Bus,Stop Closure,"116, 117; Broadway @ Green St (outbound)",construction,up to 20 minutes,2021-02-25T08:14:55.226,later today,,,,,,2021-02-25T08:14:55.227,2021-02-26T02:30,The following closed due to construction: Broadway @ Green St (outbound).  Connections made at: Broadway @ Webster Ave (outbound).,,,,,False,,True,False,False,,,"Affected routes:
+116
+117",Michael.Kelly,2021-02-25T08:15:04.347,False,,current,,False,True,,
+383799,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2021-02-25T08:14:55.226,2021-02-25T22:06:21.243,,,,,,2021-02-25T08:14:55.227,2021-02-25T22:06:21.243,The following closed due to construction: Broadway @ Green St (outbound).  Connections made at: Broadway @ Webster Ave (outbound).,,,,,False,,False,False,False,,,"Affected routes:
+116
+117",Charlene.Comma,2021-02-25T22:06:21.243,True,,past,,False,True,,
+384214,1,One-time,,Bus,Stop Closure,32; Hyde Park Ave @ Wolcott Square,,up to 20 minutes,2021-03-14T04:30,further notice,,,,,,2021-03-04T08:40:44.327,further notice,"The stop at Hyde Park Ave @ Wolcott Square will be permanently closed on Sun, Mar 14. Please use the new nearby stops on Hyde Park Ave.",,,,,False,,True,False,False,,,"Affected routes:
+32",eryk.rotondo,2021-03-04T08:41:05.537,False,,current,,False,True,,
+384214,2,One-time,,Bus,Stop Closure,32; Hyde Park Ave @ Wolcott Square,,up to 20 minutes,2021-03-14T04:30,further notice,,,,,,2021-03-04T08:40:44.327,further notice,"The stop at Hyde Park Ave @ Wolcott Square will be closed on Sun, Mar 14. Please use the new nearby stops on Hyde Park Ave.",,,,,False,,False,False,False,,,"Affected routes:
+32",eryk.rotondo,2021-03-04T08:43:06.603,False,,current,,False,True,,
+384214,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2021-03-14T04:30,2021-06-16T05:46:55.857,,,,,,2021-03-04T08:40:44.327,2021-06-16T05:46:55.857,"The stop at Hyde Park Ave @ Wolcott Square will be closed on Sun, Mar 14. Please use the new nearby stops on Hyde Park Ave.",,,,,False,,False,False,False,,,"Affected routes:
+32",eryk.rotondo,2021-06-16T05:46:55.857,True,,past,,False,True,,
+386867,1,One-time,,Bus,Stop Closure,"23, 15, 19, 22, 28, 44, 45, 66; Malcolm X Blvd @ Tremont St (inbound)",,information,2021-04-16T04:30,further notice,,,,,,2021-04-15T22:03:08.020,further notice,"Stop Closure Alert for Routes 15, 19, 23, 28, 44, 45, 66: Effective April 16, Malcolm X Blvd @ Tremont St (inbound) will be temporarily closed until further notice. Please use Malcolm X Blvd @ Madison Park HS as an alternative.",,,,,False,,True,False,False,,,"Affected routes:
+15
+19
+22
+23
+28
+44
+45
+66",nicholas.tomkavage,2021-04-15T22:03:09.093,False,,current,,False,True,,
+386867,2,One-time,,Bus,Stop Closure,,,information,2021-04-16T04:30,2021-11-01T11:22:02.717,,,,,,2021-04-15T22:03:08.020,2021-11-01T11:22:02.717,"Stop Closure Alert for Routes 15, 19, 23, 28, 44, 45, 66: Effective April 16, Malcolm X Blvd @ Tremont St (inbound) will be temporarily closed until further notice. Please use Malcolm X Blvd @ Madison Park HS as an alternative.",,,,,False,,False,False,False,,,"Affected routes:
+15
+19
+22
+23
+28
+44
+45
+66",eryk.rotondo,2021-11-01T11:22:02.717,True,,past,,False,True,,
+387356,1,One-time,,Bus,Stop Closure,59; Walnut St opp Carthay Cir (inbound),,information,2021-06-20T04:30,2021-08-01T02:30,,,,,,2021-04-22T22:33:31.637,2021-08-01T02:30,"Effective June 20, Route 59 stop Walnut St opp Carthay Cir (inbound) is closed. Please use the stop on Walnut St on the opposite side of Beacon St.",,,,,False,,True,False,False,,,"Affected routes:
+59",nicholas.tomkavage,2021-04-22T22:33:38.833,False,,current,,False,True,,
+387356,2,One-time,,Bus,Stop Closure,59; Walnut St @ Beacon St (inbound),,information,2021-06-20T04:30,2021-08-01T02:30,,,,,,2021-04-22T22:33:31.637,2021-08-01T02:30,"Effective June 20, the existing Route 59 stop Walnut St @ Beacon St (located north of Beacon St on the inbound side) is closed.",,,,,False,,False,False,False,,,"Affected routes:
+59",nicholas.tomkavage,2021-04-22T22:40:43.277,False,,current,,False,True,,
+387356,3,One-time,,Bus,Stop Closure,,,information,2021-06-20T04:30,2021-06-28T17:09:28.060,,,,,,2021-04-22T22:33:31.637,2021-06-28T17:09:28.060,"Effective June 20, the existing Route 59 stop Walnut St @ Beacon St (located north of Beacon St on the inbound side) is closed.",,,,,False,,False,False,False,,,"Affected routes:
+59",christopher.delano,2021-06-28T17:09:28.060,True,,past,,False,True,,
+391235,1,One-time,,Bus,Stop Closure,64; Cambridge St @ Mass Pike (outbound),,information,2021-06-18T04:30,2021-08-01T02:30,,,,,,2021-06-03T18:01:41.990,2021-08-01T02:30,"Stop closure alert: Effective June 18, Route 64 outbound stop Cambridge St @ Mass Pike is closed due to accessiblilty concerns. Please use the following stop, Cambridge St @ Seattle St, as an alternative.",,,,,False,,False,False,False,,,"Affected routes:
+64",nicholas.tomkavage,2021-06-03T18:01:43.583,False,,current,,False,True,,
+391235,2,One-time,,Bus,Stop Closure,,,information,2021-06-18T04:30,2021-08-01T02:30,,,,,,2021-06-03T18:01:41.990,2021-08-01T02:30,"Stop closure alert: Effective June 18, Route 64 outbound stop Cambridge St @ Mass Pike is closed due to accessiblilty concerns. Please use the following stop, Cambridge St @ Seattle St, as an alternative.",,,,,False,,False,False,False,,,"Affected routes:
+64",expiry,2021-08-01T02:30:25.917,True,,past,,False,True,,
+393343,1,One-time,,Bus,Stop Closure,"74, 75; Concord Ave @ Leonard St - Belmont Center Sta (outbound)",,information,2021-06-25T04:30,2021-08-01T02:30,,,,,,2021-06-19T16:40:51.537,2021-08-01T02:30,"Route 74 & 75 stop closure: Effective June 25, Concord Ave @ Leonard St - Belmont Center Station will close due to accessiblity concerns. Please use the stop across the street at 396 Concord Ave as an alternative.",,,,,False,,True,False,False,,,"Affected routes:
+74
+75",nicholas.tomkavage,2021-06-19T16:40:53.610,False,,current,,False,True,,
+393343,2,One-time,,Bus,Stop Closure,,,information,2021-06-25T04:30,2021-08-01T02:30,,,,,,2021-06-19T16:40:51.537,2021-08-01T02:30,"Route 74 & 75 stop closure: Effective June 25, Concord Ave @ Leonard St - Belmont Center Station will close due to accessiblity concerns. Please use the stop across the street at 396 Concord Ave as an alternative.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",expiry,2021-08-01T02:30:26.010,True,,past,,False,True,,
+393469,1,One-time,,Bus,Stop Closure,9; W Broadway @ F St,construction,up to 20 minutes,2021-06-23T09:00,2021-06-23T11:00,,,,,,2021-06-21T12:52:43.487,2021-06-23T11:00,"The stop at W Broadway @ F St will be closed on Wed, Jun 23, from 9 - 11 AM due to nearby construction. Customers can use W Broadway @ E St as an alternate.",,,,,False,,True,False,False,,,,eryk.rotondo,2021-06-21T12:53:03.190,False,,current,,False,True,,
+393469,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2021-06-23T09:00,2021-06-23T11:00,,,,,,2021-06-21T12:52:43.487,2021-06-23T11:00,"The stop at W Broadway @ F St will be closed on Wed, Jun 23, from 9 - 11 AM due to nearby construction. Customers can use W Broadway @ E St as an alternate.",,,,,False,,False,False,False,,,,expiry,2021-06-23T11:00:16.710,True,,past,,False,True,,
+393774,1,One-time,,Bus,Stop Closure,1; Massachusetts Ave @ Bigelow St,,up to 20 minutes,2021-06-24T15:30,2021-06-24T20:30,,,,,,2021-06-24T09:39:42.213,2021-06-24T20:30,The stop at Massachusetts Ave @ Bigelow St will be closed today from 3:30 PM - 8:30 PM. Customers can use the stops on Mass Ave at Hancock St or Prospect St.,,,,,False,,True,False,False,,,,eryk.rotondo,2021-06-24T09:39:44.983,False,,current,,False,True,,
+393774,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2021-06-24T15:30,2021-06-24T20:30,,,,,,2021-06-24T09:39:42.213,2021-06-24T20:30,The stop at Massachusetts Ave @ Bigelow St will be closed today from 3:30 PM - 8:30 PM. Customers can use the stops on Mass Ave at Hancock St or Prospect St.,,,,,False,,False,False,False,,,,expiry,2021-06-24T20:30:17.153,True,,past,,False,True,,
+395071,1,One-time,,Bus,Stop Closure,45; Blue Hill Ave @ Devon St,accident,up to 20 minutes,2021-07-06T11:40:10.224,later today,,,,,,2021-07-06T11:40:10.227,2021-07-07T02:30,The service stop on Blue Hill Ave @ Devon St is being omitted temporarily due to an auto accident. Connect on Blue Hill Ave opp Warren St or Blue Hill Ave @ Intervale St.,,,,,False,,True,False,False,,,"Affected routes:
+45",michael.joyce,2021-07-06T11:40:48.997,False,,current,,False,True,,
+395071,2,One-time,,Bus,Stop Closure,,accident,up to 20 minutes,2021-07-06T11:40:10.224,2021-07-06T14:01:53.883,,,,,,2021-07-06T11:40:10.227,2021-07-06T14:01:53.883,The service stop on Blue Hill Ave @ Devon St is being omitted temporarily due to an auto accident. Connect on Blue Hill Ave opp Warren St or Blue Hill Ave @ Intervale St.,,,,,False,,False,False,False,,,"Affected routes:
+45",michael.joyce,2021-07-06T14:01:53.883,True,,past,,False,True,,
+397079,1,Recurring,,Bus,Stop Closure,"69, 83; Hampshire St @ Cambridge St, Hampshire St @ Inman St",construction,up to 20 minutes,2021-07-21T07:00,2021-07-21T16:00,2021-07-21T04:30,2021-08-05T02:30,07:00:00,16:00:00,"Monday, Tuesday, Wednesday, Thursday, Friday",2021-07-21T10:18:05.400,2021-08-04T16:00,"The stops at Hampshire St @ Cambridge St & Hampshire St @ Inman St will be closed on weekdays from 7 AM to 4 PM through Wed, Aug 4 for construction. Temporary stops: OB 193/195 Hampshire Street - IB 192 Hampshire Street",,,,,False,,True,False,False,,,"Affected routes:
+69
+83",eryk.rotondo,2021-07-21T10:20:42.873,False,,current,,False,True,,
+397079,2,Recurring,,Bus,Stop Closure,"69, 83; Hampshire St @ Inman St, Hampshire St @ Cambridge St",construction,up to 20 minutes,2021-07-21T07:00,2021-07-21T16:00,2021-07-21T04:30,2021-08-05T02:30,07:00:00,16:00:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2021-07-21T10:18:05.400,2021-08-04T16:00,"The stops at Hampshire St @ Cambridge St & Hampshire St @ Inman St will be closed on from 7 AM to 4 PM through Wed, Aug 4 for construction. Temporary stops: OB 193/195 Hampshire Street - IB 192 Hampshire Street",,,,,False,,False,False,False,,,"Affected routes:
+69
+83",eryk.rotondo,2021-07-21T10:26:33.393,False,,current,,False,True,,
+397079,3,One-time,,Bus,Stop Closure,"69, 83; Hampshire St @ Inman St, Hampshire St @ Cambridge St",construction,up to 20 minutes,2021-07-21T10:34:06.790,2021-08-05T02:30,,,,,,2021-07-21T10:34:06.790,2021-08-05T02:30,"The stops at Hampshire St @ Cambridge St & Hampshire St @ Inman St will be closed through Wed, Aug 4 for construction. Temporary stops: OB 193/195 Hampshire Street - IB 192 Hampshire Street",,,,,False,,False,False,False,,,"Affected routes:
+69
+83",eryk.rotondo,2021-07-21T10:34:10.070,False,,current,,False,True,,
+397079,4,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2021-07-21T10:34:06.790,2021-08-03T10:08:45.010,,,,,,2021-07-21T10:34:06.790,2021-08-03T10:08:45.010,"The stops at Hampshire St @ Cambridge St & Hampshire St @ Inman St will be closed through Wed, Aug 4 for construction. Temporary stops: OB 193/195 Hampshire Street - IB 192 Hampshire Street",,,,,False,,False,False,False,,,"Affected routes:
+69
+83",eryk.rotondo,2021-08-03T10:08:45.010,True,,past,,False,True,,
+399571,1,One-time,,Bus,Stop Closure,64; Cambridge St @ Mass Pike,,information,2021-08-09T16:56:29.638,later today,,,,,,2021-08-09T16:56:29.657,2021-08-10T02:30,"Stop closure alert: Effective June 18, Route 64 outbound stop Cambridge St @ Mass Pike is closed due to accessiblilty concerns. Please use the following stop, Cambridge St @ Seattle St, as an alternative.",,,,,False,,False,False,False,,,"Affected routes:
+64",christopher.delano,2021-08-09T16:56:34.453,False,,current,,False,True,,
+399571,2,One-time,,Bus,Stop Closure,,,information,2021-08-09T16:56:29.638,2021-08-10T02:25:51.440,,,,,,2021-08-09T16:56:29.657,2021-08-10T02:25:51.440,"Stop closure alert: Effective June 18, Route 64 outbound stop Cambridge St @ Mass Pike is closed due to accessiblilty concerns. Please use the following stop, Cambridge St @ Seattle St, as an alternative.",,,,,False,,False,False,False,,,"Affected routes:
+64",expiry,2021-08-10T02:25:51.440,True,,past,,False,True,,
+402217,1,One-time,,Bus,Stop Closure,"8, 10; Southampton St @ Atkinson St",,up to 20 minutes,2021-08-26T11:28:05.953,2021-11-01T02:30,,,,,,2021-08-26T11:28:05.957,2021-11-01T02:30,The stop at Southampton St @ Atkinson St will be permanently closed on Aug 26 due to safety concerns. Route 8 & 10 inbound passengers can board at Theo Glynn Way @ Newmarket Sq.,,,,,False,,True,False,False,,,"Affected routes:
+8
+10",eryk.rotondo,2021-08-26T11:28:18.680,False,,current,,False,True,,
+402217,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2021-08-26T11:28:05.953,2021-11-01T02:30,,,,,,2021-08-26T11:28:05.957,2021-11-01T02:30,The stop at Southampton St @ Atkinson St will be permanently closed on Aug 26 due to safety concerns. Route 8 & 10 inbound passengers can board at Theo Glynn Way @ Newmarket Sq.,,,,,False,,False,False,False,,,"Affected routes:
+8
+10",expiry,2021-11-01T02:31:42.380,True,,past,,False,True,,
+406983,1,One-time,,Bus,Stop Closure,87; Somerville Ave @ Merriam St,,up to 20 minutes,2021-09-22T04:30,2021-09-25T02:30,,,,,,2021-09-21T12:13:03.313,2021-09-25T02:30,"The stop at Somerville Ave @ Merriam St will be closed from Wed, Sep 22, through Fri, Sep 24, to allow for paving work on Somerville Ave. Passengers can use McGrath Hwy @ Poplar St or Somerville Ave @ Stone Ave as alternatives.",,,,,False,,True,False,False,,,"Affected routes:
+87",eryk.rotondo,2021-09-21T12:13:10.273,False,,current,,False,True,,
+406983,2,One-time,,Bus,Stop Closure,87; Somerville Ave @ Merriam St,,up to 20 minutes,2021-09-27T04:30,2021-09-28T02:30,,,,,,2021-09-21T12:13:03.313,2021-09-28T02:30,"The stop at Somerville Ave @ Merriam St will be closed on Monday 9/27, to allow for paving work on Somerville Ave. Passengers can use McGrath Hwy @ Poplar St or Somerville Ave @ Stone Ave as alternatives.",,,,,False,,False,False,False,,,"Affected routes:
+87",nicholas.tomkavage,2021-09-23T18:53:17.490,False,,current,,False,True,,
+406983,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2021-09-27T04:30,2021-09-28T02:30,,,,,,2021-09-21T12:13:03.313,2021-09-28T02:30,"The stop at Somerville Ave @ Merriam St will be closed on Monday 9/27, to allow for paving work on Somerville Ave. Passengers can use McGrath Hwy @ Poplar St or Somerville Ave @ Stone Ave as alternatives.",,,,,False,,False,False,False,,,"Affected routes:
+87",expiry,2021-09-28T02:31:04.210,True,,past,,False,True,,
+407463,1,One-time,,Bus,Stop Closure,51; Belgrade Ave @ Robert St (outbound),,information,2021-09-23T18:58:28.064,later today,,,,,,2021-09-23T18:58:28.067,2021-09-24T02:30,"Effective Sept 27, Route 51 stop Belgrade Ave @ Robert St (under the Commuter Rail bridge) will permanently close. Service can be had at Robert St @ Belgrade Ave.",,,,,False,,True,False,False,,,"Affected routes:
+51",nicholas.tomkavage,2021-09-23T18:58:29.253,False,,current,,False,True,,
+407463,2,One-time,,Bus,Stop Closure,,,information,2021-09-23T18:58:28.064,2021-09-24T02:25:32.893,,,,,,2021-09-23T18:58:28.067,2021-09-24T02:25:32.893,"Effective Sept 27, Route 51 stop Belgrade Ave @ Robert St (under the Commuter Rail bridge) will permanently close. Service can be had at Robert St @ Belgrade Ave.",,,,,False,,False,False,False,,,"Affected routes:
+51",expiry,2021-09-24T02:25:32.893,True,,past,,False,True,,
+408492,1,One-time,,Bus,Stop Closure,69; Cambridge St @ Springfield St,construction,up to 20 minutes,2021-10-04T04:30,2021-10-16T02:30,,,,,,2021-09-29T10:19:24.373,2021-10-16T02:30,"The stop at Cambridge St @ Springfield St will be closed from Mon, Oct 4 to Fri, Oct 15 due to road work. Riders can use Cambridge St @ Prospect St as an alternative.",,,,,False,,True,False,False,,,,eryk.rotondo,2021-09-29T10:19:33.413,False,,current,,False,True,,
+408492,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2021-10-04T04:30,2021-10-16T02:30,,,,,,2021-09-29T10:19:24.373,2021-10-16T02:30,"The stop at Cambridge St @ Springfield St will be closed from Mon, Oct 4 to Fri, Oct 15 due to road work. Riders can use Cambridge St @ Prospect St as an alternative.",,,,,False,,False,False,False,,,,expiry,2021-10-16T02:30:17.087,True,,past,,False,True,,
+414936,1,One-time,,Bus,Stop Closure,69; Cambridge St opp Fayette St,construction,up to 20 minutes,2021-11-01T04:30,2021-11-13T02:30,,,,,,2021-10-29T11:44:59.517,2021-11-13T02:30,"The stop at Cambridge St opp Fayette St will be closed from Nov 1 - 12, for construction. Customers can use the stops at Cambridge St @ Cambridge Hospital, Cambridge St @ Camelia Ave, and Cambridge St. @ Springfield St.",,,,,False,,True,False,False,,,,eryk.rotondo,2021-10-29T11:45:01.097,False,,current,,False,True,,
+414936,2,One-time,,Bus,Stop Closure,69; Cambridge St opp Fayette St,construction,up to 20 minutes,2021-11-01T04:30,2021-11-13T02:30,,,,,,2021-10-29T11:44:59.517,2021-11-13T02:30,"The stop at Cambridge St opp Fayette St will be closed through Nov 12, for construction. Customers can use the stops at Cambridge St @ Cambridge Hospital, Cambridge St @ Camelia Ave, and Cambridge St. @ Springfield St.",,,,,False,,False,False,False,,,"Affected routes:
+69",eryk.rotondo,2021-11-04T05:33:28.197,False,,current,,False,True,,
+414936,3,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2021-11-01T04:30,2021-11-13T02:30,,,,,,2021-10-29T11:44:59.517,2021-11-13T02:30,"The stop at Cambridge St opp Fayette St will be closed through Nov 12, for construction. Customers can use the stops at Cambridge St @ Cambridge Hospital, Cambridge St @ Camelia Ave, and Cambridge St. @ Springfield St.",,,,,False,,False,False,False,,,"Affected routes:
+69",expiry,2021-11-13T02:30:20.703,True,,past,,False,True,,
+427545,1,One-time,,Bus,Stop Closure,1; Massachusetts Ave @ Prospect St,,up to 20 minutes,2022-01-24T04:30,2022-01-25T02:30,,,,,,2022-01-19T05:54:38.440,2022-01-25T02:30,"The stop at Massachusetts Ave @ Prospect St will be closed all day on Mon, Jan 24, while the city of Cambridge does work on the bus shelter. Riders can use a temporary stop located on the far-side of Prospect Street, between Prospect and Temple.",,,,,False,,False,False,False,,,,eryk.rotondo,2022-01-19T05:54:46.910,False,,current,,False,True,,
+427545,2,One-time,,Bus,Stop Closure,1; Massachusetts Ave @ Prospect St,,up to 20 minutes,2022-01-24T04:30,2022-01-25T02:30,,,,,,2022-01-19T05:54:38.440,2022-01-25T02:30,"The stop at Massachusetts Ave @ Prospect St will be closed all day on Mon, Jan 24, while the city of Cambridge does work on the bus shelter. Riders can use a temporary stop located on the far-side of Prospect Street, between Prospect and Temple.",,,,,False,,False,False,False,,,,autotimeframeupdate,2022-01-23T04:30:17.003,False,,current,,False,True,,
+427545,3,One-time,,Bus,Stop Closure,1; Massachusetts Ave @ Prospect St,,up to 20 minutes,2022-01-24T04:30,2022-01-25T02:30,,,,,,2022-01-19T05:54:38.440,2022-01-25T02:30,"The stop at Massachusetts Ave @ Prospect St will be closed all day on Mon, Jan 24, while the city of Cambridge does work on the bus shelter. Riders can use a temporary stop located on the far-side of Prospect Street, between Prospect and Temple.",,,,,False,,False,False,False,,,,autotimeframeupdate,2022-01-24T04:00:16.340,False,,current,,False,True,,
+427545,4,One-time,,Bus,Stop Closure,1; Massachusetts Ave @ Prospect St,,up to 20 minutes,2022-01-24T04:30,2022-01-25T02:30,,,,,,2022-01-19T05:54:38.440,2022-01-25T02:30,"The stop at Massachusetts Ave @ Prospect St will be closed all day on Mon, Jan 24, while the city of Cambridge does work on the bus shelter. Riders can use a temporary stop located on the far-side of Prospect Street, between Prospect and Temple.",,,,,False,,False,False,False,,,,autotimeframeupdate,2022-01-24T04:30:15.723,False,,current,,False,True,,
+427545,5,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-01-24T04:30,2022-01-25T02:30,,,,,,2022-01-19T05:54:38.440,2022-01-25T02:30,"The stop at Massachusetts Ave @ Prospect St will be closed all day on Mon, Jan 24, while the city of Cambridge does work on the bus shelter. Riders can use a temporary stop located on the far-side of Prospect Street, between Prospect and Temple.",,,,,False,,False,False,False,,,,expiry,2022-01-25T02:30:16.337,True,,past,,False,True,,
+428678,1,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-04T06:30,2022-02-04T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-04T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/4 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates. ,,,,,False,,True,False,False,,,"Affected routes:
+85",nicholas.tomkavage,2022-01-28T15:31:59.737,False,,current,,False,True,,
+428678,2,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-04T06:30,2022-02-04T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-04T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/4 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates. ,,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-01-29T04:30:17.337,False,,current,,False,True,,
+428678,3,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-04T06:30,2022-02-04T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-04T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/4 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates. ,,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-02-03T04:30:15.813,False,,current,,False,True,,
+428678,4,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-11T06:30,2022-02-11T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-11T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/11 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates.,,,,,False,,True,False,False,,,"Affected routes:
+85",nicholas.tomkavage,2022-02-03T19:53:11.357,False,,current,,False,True,,
+428678,5,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-11T06:30,2022-02-11T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-11T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/11 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates.,,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-02-05T04:30:15.597,False,,current,,False,True,,
+428678,6,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-11T06:30,2022-02-11T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-11T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/11 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates.,,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-02-10T04:30:16.687,False,,current,,False,True,,
+428678,7,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-11T06:30,2022-02-11T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-11T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/11 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates.,,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-02-11T04:30:16.730,False,,current,,False,True,,
+428678,8,One-time,,Bus,Stop Closure,85; Summer St @ Vinal Ave,,information,2022-02-11T06:30,2022-02-11T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-11T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/11 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates.,,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-02-11T06:00:15.727,False,,current,,False,True,,
+428678,9,One-time,,Bus,Stop Closure,,,information,2022-02-11T06:30,2022-02-11T16:00,,,,,,2022-01-28T15:31:51.157,2022-02-11T16:00,Route 85 stop Summer St @ Vinal Ave closed on Fri 2/11 from 6:30 AM to 4:00 PM. Use Summer St @ School St or 51 Bow St as alternates.,,,,,False,,False,False,False,,,"Affected routes:
+85",expiry,2022-02-11T16:00:16.253,True,,past,,False,True,,
+428975,1,One-time,,Bus,Stop Closure,"Silver Line - SL4, Silver Line - SL5, 1, 8, 14, 15, 19, 23, 28, 41, 42, 44, 45, 47, 66, 171; Nubian",,up to 20 minutes,2022-01-29T16:33:43.695,later today,,,,,,2022-01-29T16:33:43.697,2022-01-30T02:30,Buses are bypassing Nubian due to the weather. Connections can be made outside of the station. See station personnel for assistance.,,,,,False,,True,False,False,,,"Affected routes:
+Silver Line - SL4
+Silver Line - SL5
+1
+8
+14
+15
+19
+23
+28
+41
+42
+44
+45
+47
+66
+171",nicholas.tomkavage,2022-01-29T16:33:45.797,False,,current,,False,True,,
+428975,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-01-29T16:33:43.695,2022-01-30T02:25:16.567,,,,,,2022-01-29T16:33:43.697,2022-01-30T02:25:16.567,Buses are bypassing Nubian due to the weather. Connections can be made outside of the station. See station personnel for assistance.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL4
+Silver Line - SL5
+1
+8
+14
+15
+19
+23
+28
+41
+42
+44
+45
+47
+66
+171",expiry,2022-01-30T02:25:16.567,True,,past,,False,True,,
+429026,1,One-time,,Bus,Stop Closure,"The D-branch Kenmore-Riverside shuttle, The D-branch Riverside-Newton Highlands shuttle; Newton Highlands (inbound)",,information,2022-01-29T19:18:42.615,later today,,,,,,2022-01-29T19:18:42.617,2022-01-30T02:30,Green Line D Branch shuttle buses are bypassing Newton Highlands due to the weather.,,,,,False,,True,False,False,,,,nicholas.tomkavage,2022-01-29T19:18:43.913,False,,current,,False,True,,
+429026,2,One-time,,Bus,Stop Closure,,,information,2022-01-29T19:18:42.615,2022-01-30T02:25:16.600,,,,,,2022-01-29T19:18:42.617,2022-01-30T02:25:16.600,Green Line D Branch shuttle buses are bypassing Newton Highlands due to the weather.,,,,,False,,False,False,False,,,,expiry,2022-01-30T02:25:16.600,True,,past,,False,True,,
+430759,1,One-time,,Bus,Stop Closure,"210, 211, 217; Hancock St @ Merrymount Rd",,up to 20 minutes,2022-02-07T12:54:41.939,further notice,,,,,,2022-02-07T12:54:41.940,further notice,The City of Quincy has temporarily closed the stop at Hancock St @ Merrymount Rd. Connections can be made at Hancock St @ Greenleaf St.,,,,,False,,True,False,False,,,"Affected routes:
+210
+211
+217",eryk.rotondo,2022-02-07T12:55:00.300,False,,current,,False,True,,
+430759,2,One-time,,Bus,Stop Closure,"210, 211, 217; Hancock St @ Merrymount Rd",,up to 20 minutes,2022-02-07T12:54:41.939,further notice,,,,,,2022-02-07T12:54:41.940,further notice,The City of Quincy has temporarily closed the stop at Hancock St @ Merrymount Rd. Connections can be made at Hancock St @ Greenleaf St.,,,,,False,,False,False,False,,,"Affected routes:
+210
+211
+217",autotimeframeupdate,2022-02-14T12:55:16.520,False,,current,,False,True,,
+430759,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-02-07T12:54:41.939,2022-05-07T08:21:50.583,,,,,,2022-02-07T12:54:41.940,2022-05-07T08:21:50.583,The City of Quincy has temporarily closed the stop at Hancock St @ Merrymount Rd. Connections can be made at Hancock St @ Greenleaf St.,,,,,False,,True,False,False,,,"Affected routes:
+210
+211
+217",christopher.delano,2022-05-07T08:21:50.583,True,,past,,False,True,,
+432553,1,One-time,,Bus,Stop Closure,"86, 66; Eliot St @ Bennett St (inbound)",,up to 20 minutes,2022-02-23T07:30,2022-02-23T14:30,,,,,,2022-02-18T19:55:15.977,2022-02-23T14:30,Route 66 & 86 buses will bypass Eliot St @ Bennett St on Weds 2/23 from 7:30 AM until 2:30 PM due to construction. Please use JFK St @ Eliot St as an alternate.,,,,,False,,True,False,False,,,"Affected routes:
+66
+86",nicholas.tomkavage,2022-02-18T19:55:17.523,False,,current,,False,True,,
+432553,2,One-time,,Bus,Stop Closure,"86, 66; Eliot St @ Bennett St (inbound)",,up to 20 minutes,2022-02-23T07:30,2022-02-23T14:30,,,,,,2022-02-18T19:55:15.977,2022-02-23T14:30,Route 66 & 86 buses will bypass Eliot St @ Bennett St on Weds 2/23 from 7:30 AM until 2:30 PM due to construction. Please use JFK St @ Eliot St as an alternate.,,,,,False,,False,False,False,,,"Affected routes:
+66
+86",autotimeframeupdate,2022-02-22T04:30:17.143,False,,current,,False,True,,
+432553,3,One-time,,Bus,Stop Closure,"86, 66; Eliot St @ Bennett St (inbound)",,up to 20 minutes,2022-02-23T07:30,2022-02-23T14:30,,,,,,2022-02-18T19:55:15.977,2022-02-23T14:30,Route 66 & 86 buses will bypass Eliot St @ Bennett St on Weds 2/23 from 7:30 AM until 2:30 PM due to construction. Please use JFK St @ Eliot St as an alternate.,,,,,False,,False,False,False,,,"Affected routes:
+66
+86",autotimeframeupdate,2022-02-23T04:30:17.717,False,,current,,False,True,,
+432553,4,One-time,,Bus,Stop Closure,"86, 66; Eliot St @ Bennett St (inbound)",,up to 20 minutes,2022-02-23T07:30,2022-02-23T14:30,,,,,,2022-02-18T19:55:15.977,2022-02-23T14:30,Route 66 & 86 buses will bypass Eliot St @ Bennett St on Weds 2/23 from 7:30 AM until 2:30 PM due to construction. Please use JFK St @ Eliot St as an alternate.,,,,,False,,False,False,False,,,"Affected routes:
+66
+86",autotimeframeupdate,2022-02-23T07:00:15.747,False,,current,,False,True,,
+432553,5,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-02-23T07:30,2022-02-23T14:30,,,,,,2022-02-18T19:55:15.977,2022-02-23T14:30,Route 66 & 86 buses will bypass Eliot St @ Bennett St on Weds 2/23 from 7:30 AM until 2:30 PM due to construction. Please use JFK St @ Eliot St as an alternate.,,,,,False,,False,False,False,,,"Affected routes:
+66
+86",expiry,2022-02-23T14:30:16.697,True,,past,,False,True,,
+433121,1,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ World Trade Center opp Seaport Htl (outbound), Seaport Blvd @ Sleeper St (outbound), Seaport Blvd @ Seaport Hotel (inbound)",,information,2022-02-24T17:55:16.635,later today,,,,,,2022-02-24T17:55:16.637,2022-02-25T02:30,"The following Route 4 bus stops are closed, effective immedidately, due to safety concerns: Seaport Blvd @ World Trade Center opp Seaport Htl (outbound) Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound)",,,,,False,,True,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ World Trade Center opp Seaport Htl (outbound)
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",nicholas.tomkavage,2022-02-24T17:55:18.330,False,,current,,False,True,,
+433121,2,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ World Trade Center opp Seaport Htl, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,further notice,,,,,,2022-02-24T17:55:16.637,further notice,"The following Route 4 bus stops are closed, effective immedidately, due to safety concerns: Seaport Blvd @ World Trade Center opp Seaport Htl (outbound) Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ World Trade Center opp Seaport Htl (outbound)
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",nicholas.tomkavage,2022-02-24T22:01:42.553,False,,current,,False,True,,
+433121,3,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ World Trade Center opp Seaport Htl, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,further notice,,,,,,2022-02-24T17:55:16.637,further notice,"The following Route 4 bus stops are closed, effective immediately, due to safety concerns: Seaport Blvd @ World Trade Center opp Seaport Htl (outbound) Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ World Trade Center opp Seaport Htl (outbound)
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",nicholas.tomkavage,2022-02-24T22:50:48.200,False,,current,,False,True,,
+433121,4,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ World Trade Center opp Seaport Htl, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,further notice,,,,,,2022-02-24T17:55:16.637,further notice,"The following Route 4 bus stops are closed, effective immediately, due to safety concerns: Seaport Blvd @ World Trade Center opp Seaport Htl (outbound) Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ World Trade Center opp Seaport Htl (outbound)
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",autotimeframeupdate,2022-03-03T17:55:16.433,False,,current,,False,True,,
+433121,5,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ World Trade Center opp Seaport Htl, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,"The following Route 4 bus stops are closed, effective immediately, due to safety concerns: Seaport Blvd @ World Trade Center opp Seaport Htl (outbound) Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ World Trade Center opp Seaport Htl (outbound)
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",eryk.rotondo,2022-03-04T10:23:05.523,False,,current,,False,True,,
+433121,6,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Seaport Hotel, Seaport Blvd @ Sleeper St",,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,"The following Route 4 bus stops are closed, effective immediately, due to safety concerns: Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",eryk.rotondo,2022-03-22T12:56:48.353,False,,current,,False,True,,
+433121,7,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,The following Route 4 bus stops have permanently closed due to safety concerns: Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound),,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",eryk.rotondo,2022-04-01T05:40:26.817,False,,current,,False,True,,
+433121,8,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,The following Route 4 bus stops have permanently closed due to safety concerns: Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound),,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",autotimeframeupdate,2022-04-16T04:30:16.597,False,,current,,False,True,,
+433121,9,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,The following Route 4 bus stops have permanently closed due to safety concerns: Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound),,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",autotimeframeupdate,2022-04-21T04:30:17.227,False,,current,,False,True,,
+433121,10,One-time,,Bus,Stop Closure,"4; Seaport Blvd @ Sleeper St, Seaport Blvd @ Seaport Hotel",,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,The following Route 4 bus stops have permanently closed due to safety concerns: Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound),,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",autotimeframeupdate,2022-04-22T04:30:17.570,False,,current,,False,True,,
+433121,11,One-time,,Bus,Stop Closure,,,information,2022-02-24T17:55:16.635,2022-04-23T02:30,,,,,,2022-02-24T17:55:16.637,2022-04-23T02:30,The following Route 4 bus stops have permanently closed due to safety concerns: Seaport Blvd @ Sleeper St (outbound) Seaport Blvd @ Seaport Hotel (inbound),,,,,False,,False,False,False,,,"Affected routes:
+4
+
+Affected stops:
+Seaport Blvd @ Sleeper St (outbound)
+Seaport Blvd @ Seaport Hotel (inbound)",expiry,2022-04-23T02:30:15.963,True,,past,,False,True,,
+433159,1,One-time,,Bus,Stop Closure,"429, 426; Boston St @ Waverly St (outbound), Boston St @ Kirtland St (outbound), Holyoke St opp Farrell Rd (outbound), O'Callaghan Way opp Walnut Pk (inbound), O'Callaghan Way @ Walnut St (inbound), Holyoke St @ Farrell Rd (inbound), Boston St opp Kirtlan",,information,2022-03-13T04:30,further notice,,,,,,2022-02-24T22:09:42.167,further notice,"Effective March 13, several Route 426 & Route 429 stops are closed.",,,,,False,,False,False,False,,,"Affected routes:
+426
+429
+
+Affected stops:
+Boston St @ Waverly St (outbound)
+Boston St @ Kirtland St (outbound)
+Holyoke St opp Farrell Rd (outbound)
+O'Callaghan Way opp Walnut Pk (inbound)
+O'Callaghan Way @ Walnut St (inbound)
+Holyoke St @ Farrell Rd (inbound)
+Boston St opp Kirtland St (inbound)
+Boston St @ Strawberry Ave (inbound)",nicholas.tomkavage,2022-02-24T22:09:43.980,False,,current,,False,True,,
+433159,2,One-time,,Bus,Stop Closure,,,information,2022-03-01T15:25:55.900,2022-03-01T15:25:55.900,,,,,,2022-02-24T22:09:42.167,2022-03-01T15:25:55.900,"Effective March 13, several Route 426 & Route 429 stops are closed.",,,,,False,,False,False,False,,,"Affected routes:
+426
+429
+
+Affected stops:
+Boston St @ Waverly St (outbound)
+Boston St @ Kirtland St (outbound)
+Holyoke St opp Farrell Rd (outbound)
+O'Callaghan Way opp Walnut Pk (inbound)
+O'Callaghan Way @ Walnut St (inbound)
+Holyoke St @ Farrell Rd (inbound)
+Boston St opp Kirtland St (inbound)
+Boston St @ Strawberry Ave (inbound)",christopher.delano,2022-03-01T15:25:55.900,True,,past,,False,True,,
+433160,1,One-time,,Bus,Stop Closure,"435; Euclid Ave opp Lakeview Ave (outbound), 232 Euclid Ave (inbound), Euclid Ave @ Lakeview Ave (inbound)",,information,2022-03-13T04:30,further notice,,,,,,2022-02-24T22:09:42.167,further notice,"Effective March 13, the following Route 435 stops are closed: Euclid Ave opp Lakeview Ave (outbound), 232 Euclid Ave (inbound), Euclid Ave @ Lakeview Ave (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+435
+
+Affected stops:
+Euclid Ave opp Lakeview Ave (outbound)
+232 Euclid Ave (inbound)
+Euclid Ave @ Lakeview Ave (inbound)",nicholas.tomkavage,2022-02-24T22:18:11.410,False,,current,,False,True,,
+433160,2,One-time,,Bus,Stop Closure,,,information,2022-03-01T15:25:53.900,2022-03-01T15:25:53.900,,,,,,2022-02-24T22:09:42.167,2022-03-01T15:25:53.900,"Effective March 13, the following Route 435 stops are closed: Euclid Ave opp Lakeview Ave (outbound), 232 Euclid Ave (inbound), Euclid Ave @ Lakeview Ave (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+435
+
+Affected stops:
+Euclid Ave opp Lakeview Ave (outbound)
+232 Euclid Ave (inbound)
+Euclid Ave @ Lakeview Ave (inbound)",christopher.delano,2022-03-01T15:25:53.900,True,,past,,False,True,,
+435159,1,One-time,,Bus,Stop Closure,"9, 10, 39, 55, 57; Boylston St @ Clarendon St",special event,up to 20 minutes,2022-03-12T06:00,2022-03-12T15:00,,,,,,2022-03-10T11:42:36.127,2022-03-12T15:00,"The stop at Boylston St @ Clarendon St will be closed from 6 AM to 3 PM on Sat, Mar 12. Connections can be made at Boylston St @ Clarendon St and Back Bay Station.",,,,,False,,True,False,False,,,"Affected routes:
+9
+10
+39
+55
+57",eryk.rotondo,2022-03-10T11:42:52.267,False,,current,,False,True,,
+435159,2,One-time,,Bus,Stop Closure,"9, 10, 39, 55, 57; Boylston St @ Clarendon St",special event,up to 20 minutes,2022-03-12T06:00,2022-03-12T15:00,,,,,,2022-03-10T11:42:36.127,2022-03-12T15:00,"The stop at Boylston St @ Clarendon St will be closed from 6 AM to 3 PM on Sat, Mar 12. Connections can be made at Boylston St @ Clarendon St and Back Bay Station.",,,,,False,,False,False,False,,,"Affected routes:
+9
+10
+39
+55
+57",autotimeframeupdate,2022-03-11T04:30:15.950,False,,current,,False,True,,
+435159,3,One-time,,Bus,Stop Closure,"9, 10, 39, 55, 57; Boylston St @ Clarendon St",special event,up to 20 minutes,2022-03-12T06:00,2022-03-12T15:00,,,,,,2022-03-10T11:42:36.127,2022-03-12T15:00,"The stop at Boylston St @ Clarendon St will be closed from 6 AM to 3 PM on Sat, Mar 12. Connections can be made at Boylston St @ Clarendon St and Back Bay Station.",,,,,False,,False,False,False,,,"Affected routes:
+9
+10
+39
+55
+57",autotimeframeupdate,2022-03-12T04:30:17.393,False,,current,,False,True,,
+435159,4,One-time,,Bus,Stop Closure,"9, 10, 39, 55, 57; Boylston St @ Clarendon St",special event,up to 20 minutes,2022-03-12T06:00,2022-03-12T15:00,,,,,,2022-03-10T11:42:36.127,2022-03-12T15:00,"The stop at Boylston St @ Clarendon St will be closed from 6 AM to 3 PM on Sat, Mar 12. Connections can be made at Boylston St @ Clarendon St and Back Bay Station.",,,,,False,,False,False,False,,,"Affected routes:
+9
+10
+39
+55
+57",autotimeframeupdate,2022-03-12T05:30:16.333,False,,current,,False,True,,
+435159,5,One-time,,Bus,Stop Closure,,special event,up to 20 minutes,2022-03-12T06:00,2022-03-12T15:00,,,,,,2022-03-10T11:42:36.127,2022-03-12T15:00,"The stop at Boylston St @ Clarendon St will be closed from 6 AM to 3 PM on Sat, Mar 12. Connections can be made at Boylston St @ Clarendon St and Back Bay Station.",,,,,False,,False,False,False,,,"Affected routes:
+9
+10
+39
+55
+57",expiry,2022-03-12T15:00:16.427,True,,past,,False,True,,
+436598,1,One-time,,Bus,Stop Closure,"85; Summer St @ Vinal Ave (inbound), Summer St @ Wesley Park (outbound)",construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,True,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",Eryk.Rotondo,2022-03-22T12:01:35.020,False,,current,,False,True,,
+436598,2,One-time,,Bus,Stop Closure,"85; Summer St @ Vinal Ave (inbound), Summer St @ Wesley Park (outbound)",construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,False,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",autotimeframeupdate,2022-03-23T04:30:16.453,False,,current,,False,True,,
+436598,3,One-time,,Bus,Stop Closure,"85; Summer St @ Vinal Ave (inbound), Summer St @ Wesley Park (outbound)",construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,False,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",autotimeframeupdate,2022-03-28T04:30:15.880,False,,current,,False,True,,
+436598,4,One-time,,Bus,Stop Closure,"85; Summer St @ Vinal Ave (inbound), Summer St @ Wesley Park (outbound)",construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,False,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",autotimeframeupdate,2022-03-29T04:00:16.603,False,,current,,False,True,,
+436598,5,One-time,,Bus,Stop Closure,"85; Summer St @ Vinal Ave (inbound), Summer St @ Wesley Park (outbound)",construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,False,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",autotimeframeupdate,2022-03-29T04:30:17.657,False,,current,,False,True,,
+436598,6,One-time,,Bus,Stop Closure,"85; Summer St @ Vinal Ave (inbound), Summer St @ Wesley Park (outbound)",construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,False,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",autotimeframeupdate,2022-03-30T04:30:15.977,False,,current,,False,True,,
+436598,7,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2022-03-29T04:30,2022-03-31T02:30,,,,,,2022-03-22T12:01:10.097,2022-03-31T02:30,"The following stops are closed from Tue, Mar 29, through Wed, Mar 30, due to construction: Summer St @ Vinal Ave (inbound) and Summer St @ Wesley Park (outbound)",,,,,False,,False,False,False,,,"Connections can be made outbound at Bow St @ Warren Ave or Summer St @ School St and inbound at Summer St @ School St or @ 51 Bow St.
+
+Affected routes:
+85",expiry,2022-03-31T02:30:16.570,True,,past,,False,True,,
+437568,1,One-time,,Bus,Stop Closure,"712, 713; Deer Island - MWRA Gate",,up to 20 minutes,2022-04-11T04:30,further notice,,,,,,2022-03-30T12:48:49,further notice,"The stop at Deer Island - MWRA Gate will be closed beginning Mon, Apr 11 until further notice for the MWRA parking lot project. Beginning on that date routes 712 and 713 will terminate at the Tafts Ave @ Otis St stop.",,,,,False,,True,False,False,,,"Affected routes:
+712
+713",eryk.rotondo,2022-03-30T12:48:50.417,False,,current,,False,True,,
+437568,2,One-time,,Bus,Stop Closure,"712, 713; Deer Island - MWRA Gate",,up to 20 minutes,2022-04-11T04:30,further notice,,,,,,2022-03-30T12:48:49,further notice,"The stop at Deer Island - MWRA Gate will be closed beginning Mon, Apr 11 until further notice for the MWRA parking lot project. Beginning on that date routes 712 and 713 will terminate at the Tafts Ave @ Otis St stop.",,,,,False,,False,False,False,,,"Affected routes:
+712
+713",autotimeframeupdate,2022-04-05T04:30:17.457,False,,current,,False,True,,
+437568,3,One-time,,Bus,Stop Closure,"712, 713; Deer Island - MWRA Gate",,up to 20 minutes,2022-04-11T04:30,further notice,,,,,,2022-03-30T12:48:49,further notice,"The stop at Deer Island - MWRA Gate will be closed beginning Mon, Apr 11 until further notice for the MWRA parking lot project. Beginning on that date routes 712 and 713 will terminate at the Tafts Ave @ Otis St stop.",,,,,False,,False,False,False,,,"Affected routes:
+712
+713",autotimeframeupdate,2022-04-10T04:30:17.680,False,,current,,False,True,,
+437568,4,One-time,,Bus,Stop Closure,"712, 713; Deer Island - MWRA Gate",,up to 20 minutes,2022-04-11T04:30,further notice,,,,,,2022-03-30T12:48:49,further notice,"The stop at Deer Island - MWRA Gate will be closed beginning Mon, Apr 11 until further notice for the MWRA parking lot project. Beginning on that date routes 712 and 713 will terminate at the Tafts Ave @ Otis St stop.",,,,,False,,False,False,False,,,"Affected routes:
+712
+713",autotimeframeupdate,2022-04-11T04:00:17.317,False,,current,,False,True,,
+437568,5,One-time,,Bus,Stop Closure,"712, 713; Deer Island - MWRA Gate",,up to 20 minutes,2022-04-11T04:30,further notice,,,,,,2022-03-30T12:48:49,further notice,"The stop at Deer Island - MWRA Gate will be closed beginning Mon, Apr 11 until further notice for the MWRA parking lot project. Beginning on that date routes 712 and 713 will terminate at the Tafts Ave @ Otis St stop.",,,,,False,,False,False,False,,,"Affected routes:
+712
+713",autotimeframeupdate,2022-04-18T04:30:17.977,False,,current,,False,True,,
+437568,6,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-04-11T04:30,2022-06-21T11:01:04.860,,,,,,2022-03-30T12:48:49,2022-06-21T11:01:04.860,"The stop at Deer Island - MWRA Gate will be closed beginning Mon, Apr 11 until further notice for the MWRA parking lot project. Beginning on that date routes 712 and 713 will terminate at the Tafts Ave @ Otis St stop.",,,,,False,,False,False,False,,,"Affected routes:
+712
+713",eryk.rotondo,2022-06-21T11:01:04.860,True,,past,,False,True,,
+437848,1,One-time,,Bus,Stop Closure,85; Webster Ave @ Columbia St (outbound),,up to 20 minutes,2022-04-08T04:30,2022-06-11T02:30,,,,,,2022-04-01T17:11:46.537,2022-06-11T02:30,The following Route 85 stop is permanently closed due to long-term construction: Webster Ave @ Columbia St (outbound),,,,,False,,True,False,False,,,"Affected routes:
+85",dchoy,2022-04-01T17:12:09.460,False,,current,,False,True,,
+437848,2,One-time,,Bus,Stop Closure,85; Webster Ave @ Columbia St (outbound),,up to 20 minutes,2022-04-08T04:30,2022-06-11T02:30,,,,,,2022-04-01T17:11:46.537,2022-06-11T02:30,The following Route 85 stop is permanently closed due to long-term construction: Webster Ave @ Columbia St (outbound),,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-04-02T04:30:17.453,False,,current,,False,True,,
+437848,3,One-time,,Bus,Stop Closure,85; Webster Ave @ Columbia St (outbound),,up to 20 minutes,2022-04-08T04:30,2022-06-11T02:30,,,,,,2022-04-01T17:11:46.537,2022-06-11T02:30,The following Route 85 stop is permanently closed due to long-term construction: Webster Ave @ Columbia St (outbound),,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-04-07T04:30:18.073,False,,current,,False,True,,
+437848,4,One-time,,Bus,Stop Closure,85; Webster Ave @ Columbia St (outbound),,up to 20 minutes,2022-04-08T04:30,2022-06-11T02:30,,,,,,2022-04-01T17:11:46.537,2022-06-11T02:30,The following Route 85 stop is permanently closed due to long-term construction: Webster Ave @ Columbia St (outbound),,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-04-08T04:00:16.780,False,,current,,False,True,,
+437848,5,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-04-08T04:30,2022-05-20T21:22:00.197,,,,,,2022-04-01T17:11:46.537,2022-05-20T21:22:00.197,The following Route 85 stop is permanently closed due to long-term construction: Webster Ave @ Columbia St (outbound),,,,,False,,False,False,False,,,"Affected routes:
+85",kimberly.lalond,2022-05-20T21:22:00.197,True,,past,,False,True,,
+438976,1,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-11T11:45:29.181,later today,,,,,,2022-04-11T11:45:29.180,2022-04-12T02:30,"The stop at Back Bay will be omitted during the Boston Marathon, April 18. Please use the Orange Line to connect to Route 39 service at Ruggles.",,,,,False,,True,False,False,,,"Affected routes:
+39",eryk.rotondo,2022-04-11T11:45:37.017,False,,current,,False,True,,
+438976,2,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T11:45,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"The stop at Back Bay will be omitted during the Boston Marathon, April 18. Please use the Orange Line to connect to Route 39 service at Ruggles.",,,,,False,,False,False,False,,,"Affected routes:
+39",christopher.delano,2022-04-11T16:00:30.940,False,,current,,False,True,,
+438976,3,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T11:45,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"The stop at Back Bay will be omitted during the Boston Marathon, April 18. Please use the Orange Line to connect to Route 39 service at Ruggles.",,,,,False,,False,False,False,,,"Affected routes:
+39",autotimeframeupdate,2022-04-12T04:30:16.823,False,,current,,False,True,,
+438976,4,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T11:45,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line or Museum of Fine Arts via the Green Line E Branch.",,,,,False,,False,False,False,,,"Affected routes:
+39",christopher.delano,2022-04-13T15:24:07.440,False,,current,,False,True,,
+438976,5,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T11:45,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,False,False,False,,,"Affected routes:
+39",christopher.delano,2022-04-13T16:18:33.407,False,,current,,False,True,,
+438976,6,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T11:45,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,True,False,False,,,"Affected routes:
+39",nicholas.tomkavage,2022-04-14T16:45:37.983,False,,current,,False,True,,
+438976,7,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T07:30,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,False,False,False,,,"Affected routes:
+39",nicholas.tomkavage,2022-04-14T16:53:44.347,False,,current,,False,True,,
+438976,8,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T07:30,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,False,False,False,,,"Affected routes:
+39",autotimeframeupdate,2022-04-17T04:30:17.897,False,,current,,False,True,,
+438976,9,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T07:30,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,False,False,False,,,"Affected routes:
+39",autotimeframeupdate,2022-04-18T04:30:17.850,False,,current,,False,True,,
+438976,10,One-time,,Bus,Stop Closure,39; Back Bay,special event,up to 20 minutes,2022-04-18T07:30,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,False,False,False,,,"Affected routes:
+39",autotimeframeupdate,2022-04-18T07:00:16.950,False,,current,,False,True,,
+438976,11,One-time,,Bus,Stop Closure,,special event,up to 20 minutes,2022-04-18T07:30,2022-04-19T02:30,,,,,,2022-04-11T11:45:29.177,2022-04-19T02:30,"Due to the Boston Marathon, on April 18, there is no Route 39 service between Museum of Fine Arts and Copley Square, including Back Bay. Make connections at Ruggles via the Orange Line.",,,,,False,,False,False,False,,,"Affected routes:
+39",expiry,2022-04-19T02:30:16.647,True,,past,,False,True,,
+439921,1,One-time,,Bus,Stop Closure,Silver Line - SL1; Terminal A (inbound),,up to 20 minutes,2022-04-17T17:06:54.788,later today,,,,,,2022-04-17T17:06:54.787,2022-04-18T02:30,Terminal A (inbound) is currently closed to SL1 service due to police activity. Bus connections can be made at Terminal B.,,,,,False,,True,False,False,,,"Affected routes:
+Silver Line - SL1",dchoy,2022-04-17T17:07:01.140,False,,current,,False,True,,
+439921,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2022-04-17T17:06:54.788,2022-04-18T02:25:16.880,,,,,,2022-04-17T17:06:54.787,2022-04-18T02:25:16.880,Terminal A (inbound) is currently closed to SL1 service due to police activity. Bus connections can be made at Terminal B.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL1",expiry,2022-04-18T02:25:16.880,True,,past,,False,True,,
+440820,1,One-time,,Bus,Stop Closure,"15, 41, 45; 381 Dudley St opp Hampden St (outbound)",construction,information,2022-04-25T10:02:34.003,later today,,,,,,2022-04-25T10:02:34.007,2022-04-26T02:30,"Route 15, 41, 45 stop Dudley St opp Hampden St closed on 5/2 until further notice due to construction. Route 15 & 41 riders should use Dudley St @ Blue Hill Ave. Route 45 riders should use Blue Hill Ave @ Mt Pleasant Ave",,,,,False,,True,False,False,,,"Affected routes:
+15
+41
+45",nicholas.tomkavage,2022-04-25T10:02:35.150,False,,current,,False,True,,
+440820,2,One-time,,Bus,Stop Closure,,construction,information,2022-04-25T10:02:34.003,2022-04-26T02:25:16,,,,,,2022-04-25T10:02:34.007,2022-04-26T02:25:16,"Route 15, 41, 45 stop Dudley St opp Hampden St closed on 5/2 until further notice due to construction. Route 15 & 41 riders should use Dudley St @ Blue Hill Ave. Route 45 riders should use Blue Hill Ave @ Mt Pleasant Ave",,,,,False,,False,False,False,,,"Affected routes:
+15
+41
+45",expiry,2022-04-26T02:25:16,True,,past,,False,True,,
+442835,1,One-time,,Bus,Stop Closure,86; Chestnut Hill Ave opp Wiltshire Rd (outbound),construction,up to 20 minutes,2022-05-09T12:39:19.437,further notice,,,,,,2022-05-09T12:39:19.437,further notice,Route 86 stop closure: Chestnut Hill Ave opp Wiltshire Rd is closed until further notice due to construction.,,,,,False,,True,False,False,,,"Affected routes:
+86",nicholas.tomkavage,2022-05-09T12:39:21.007,False,,current,,False,True,,
+442835,2,One-time,,Bus,Stop Closure,86; Chestnut Hill Ave opp Wiltshire Rd (outbound),construction,up to 20 minutes,2022-05-09T12:39:19.437,further notice,,,,,,2022-05-09T12:39:19.437,further notice,Route 86 stop closure: Chestnut Hill Ave opp Wiltshire Rd is closed until further notice due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+86",autotimeframeupdate,2022-05-16T12:40:16.043,False,,current,,False,True,,
+442835,3,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2022-05-09T12:39:19.437,2022-05-20T21:22:39.840,,,,,,2022-05-09T12:39:19.437,2022-05-20T21:22:39.840,Route 86 stop closure: Chestnut Hill Ave opp Wiltshire Rd is closed until further notice due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+86",kimberly.lalond,2022-05-20T21:22:39.840,True,,past,,False,True,,

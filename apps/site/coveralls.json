@@ -7,6 +7,8 @@
     "lib/green_line/supervisor.ex",
     "lib/green_line/cache_supervisor.ex",
     "lib/mix/tasks",
-    "test/support"
+    "test/support",
+    "lib/site_web/views/bus_stop_change_view.ex",
+    "lib/site_web/controllers/bus_stop_change_controller.ex"
   ]
 }

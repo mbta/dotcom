@@ -17,6 +17,10 @@ defmodule SiteWeb.CMSHelpersTest do
     test "handles custom groups without mode ancestry" do
       assert cms_route_to_class(%{id: "late_night", group: "custom", mode: nil}) == "unknown"
     end
+
+    test "handles nonexistent routes" do
+      assert cms_route_to_class(%{id: "fake-route"}) == "unknown"
+    end
   end
 
   describe "cms_route_to_svg/1" do

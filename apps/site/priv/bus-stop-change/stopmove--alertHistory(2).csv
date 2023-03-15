@@ -1,0 +1,481 @@
+Alert ID,Version No.,Time Type,Image URL,Mode,Effect,Affecting,Cause,Severity,Effect Start,Effect End,Recurrence Start,Recurrence End,Recurrence Start Time,Recurrence End Time,Recurrence Days,Notification From,Notification Until,Header,Note Text,Note Last Modified,Note Last Modified By,Accessibility Information,Send via PA/ESS,PA/ESS,T-Alert Sent to Subscribers,Send to Twitter,Set as Website Banner,Website Banner Text,URL,Additional Information,Last Modified By,Last Modified Date,Closed,Reminders,PCF,Planned Disruption,Send T-Alert on close,Send T-Alert on edit,Text-To-Speech Message Text,Text-To-Speech Description Text
+331699,1,One-time,,Bus,Stop Move,"450, 451, 455, 456, 465; Washington St @ Church St",,information,2019-09-23T04:30,further notice,,,,,,2019-09-10T16:38:57.613,further notice,"Beginning on Monday, September 23, 2019, the bus stop at Washington St @ Church St will shift to the front of Salem Five Bank.",,,,,False,,True,False,False,,,"This bus stop shift is expected to last for about 24 months because of construction.
+
+Affected routes:
+450
+451
+455
+456
+465",john.semerjian,2019-09-10T16:39:42.557,False,2019-09-20T08:00 send bulletin,current,,False,True,,
+331699,2,One-time,,Bus,Stop Move,"450, 451, 455, 456, 465; Washington St @ Church St",,information,2019-10-07T04:30,further notice,,,,,,2019-09-10T16:38:57.613,further notice,"Beginning on Monday, October 7, 2019, the bus stop at Washington St @ Church St will shift to the front of Salem Five Bank.",,,,,False,,True,False,False,,,"This bus stop shift is expected to last for about 24 months because of construction.
+
+Affected routes:
+450
+451
+455
+456
+465",eryk.rotondo,2019-09-26T10:22:20.853,False,,current,,False,True,,
+331699,3,One-time,,Bus,Stop Move,,,information,2019-10-07T04:30,2020-08-09T06:30:47.800,,,,,,2019-09-10T16:38:57.613,2020-08-09T06:30:47.800,"Beginning on Monday, October 7, 2019, the bus stop at Washington St @ Church St will shift to the front of Salem Five Bank.",,,,,False,,False,False,False,,,"This bus stop shift is expected to last for about 24 months because of construction.
+
+Affected routes:
+450
+451
+455
+456
+465",nicholas.tomkavage,2020-08-09T06:30:47.800,True,,past,,False,True,,
+347552,1,One-time,,Bus,Stop Move,64; Hobart St @ Brooks St,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:25:25.600,further notice,"Starting December 22, 2019 Hobart St @ Brooks St serving the 64 is moving to Brooks St @ Gerrish St",,,,,False,,True,False,False,,,Learn more at MBTA.com/betterbus,john.semerjian,2019-12-06T16:25:26.973,False,,current,,False,True,,
+347552,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.487,,,,,,2019-12-06T16:25:25.600,2020-01-06T20:53:40.487,"Starting December 22, 2019 Hobart St @ Brooks St serving the 64 is moving to Brooks St @ Gerrish St",,,,,False,,False,False,False,,,Learn more at MBTA.com/betterbus,john.semerjian,2020-01-06T20:53:40.487,True,,past,,False,True,,
+347553,1,One-time,,Bus,Stop Move,52; Dedham St opp Meadowbrook Rd,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:28:41.987,further notice,"Starting December 22, 2019, Dedham St opp Meadowbrook Rd serving the 52 is moving to the other side of Meadowbrook Rd.",,,,,False,,True,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+52",john.semerjian,2019-12-06T16:28:46.040,False,,current,,False,True,,
+347553,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.457,,,,,,2019-12-06T16:28:41.987,2020-01-06T20:53:40.457,"Starting December 22, 2019, Dedham St opp Meadowbrook Rd serving the 52 is moving to the other side of Meadowbrook Rd.",,,,,False,,False,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+52",john.semerjian,2020-01-06T20:53:40.457,True,,past,,False,True,,
+347554,1,One-time,,Bus,Stop Move,52; Dedham St @ Meadowbrook Rd,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:30:00.170,further notice,"Starting December 22, 2019, Dedham St @ Meadowbrook Rd serving the 52 will be moved to the other side of Meadowbrook Rd.",,,,,False,,True,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+52",john.semerjian,2019-12-06T16:30:00.820,False,,current,,False,True,,
+347554,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.410,,,,,,2019-12-06T16:30:00.170,2020-01-06T20:53:40.410,"Starting December 22, 2019, Dedham St @ Meadowbrook Rd serving the 52 will be moved to the other side of Meadowbrook Rd.",,,,,False,,False,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+52",john.semerjian,2020-01-06T20:53:40.410,True,,past,,False,True,,
+347555,1,One-time,,Bus,Stop Move,52; Parker St opp Wheeler Rd,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:31:27.083,further notice,"Starting December 22, 2019, Parker St opp Wheeler Rd serving the 52 will be moving to Parker St @ Howley Ave.",,,,,False,,True,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+52",john.semerjian,2019-12-06T16:31:27.650,False,,current,,False,True,,
+347555,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.363,,,,,,2019-12-06T16:31:27.083,2020-01-06T20:53:40.363,"Starting December 22, 2019, Parker St opp Wheeler Rd serving the 52 will be moving to Parker St @ Howley Ave.",,,,,False,,False,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+52",john.semerjian,2020-01-06T20:53:40.363,True,,past,,False,True,,
+347557,1,One-time,,Bus,Stop Move,64; Faneuil St @ Brooks St,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:34:34.587,further notice,"Starting December 22, 2019, Faneuil St @ Brooks St serving the 64 will move to the opposite side of Brooks St.",,,,,False,,True,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+64",john.semerjian,2019-12-06T16:34:36.993,False,,current,,False,True,,
+347557,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.330,,,,,,2019-12-06T16:34:34.587,2020-01-06T20:53:40.330,"Starting December 22, 2019, Faneuil St @ Brooks St serving the 64 will move to the opposite side of Brooks St.",,,,,False,,False,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+64",john.semerjian,2020-01-06T20:53:40.330,True,,past,,False,True,,
+347558,1,One-time,,Bus,Stop Move,64; Faneuil St @ Fairbanks St,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:35:56.670,further notice,"Starting December 22, 2019, Faneuil St @ Fairbanks St serving the 64 will move to Brooks St @ Faneuil St.",,,,,False,,True,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+64",john.semerjian,2019-12-06T16:35:57.290,False,,current,,False,True,,
+347558,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.283,,,,,,2019-12-06T16:35:56.670,2020-01-06T20:53:40.283,"Starting December 22, 2019, Faneuil St @ Fairbanks St serving the 64 will move to Brooks St @ Faneuil St.",,,,,False,,False,False,False,,,"Learn more at MBTA.com/betterbus
+
+Affected routes:
+64",john.semerjian,2020-01-06T20:53:40.283,True,,past,,False,True,,
+347559,1,One-time,,Bus,Stop Move,64; Hobart St @ Brooks St,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:41:29.760,further notice,"Starting December 22, 2019, Hobart St @ Brooks St serving the 64 is moving to Brooks St.",,,,,False,,True,False,False,,,"Affected routes:
+64",john.semerjian,2019-12-06T16:41:30.653,False,,current,,False,True,,
+347559,2,One-time,,Bus,Stop Move,,,information,2019-12-22T04:30,2020-01-06T20:53:40.237,,,,,,2019-12-06T16:41:29.760,2020-01-06T20:53:40.237,"Starting December 22, 2019, Hobart St @ Brooks St serving the 64 is moving to Brooks St.",,,,,False,,False,False,False,,,"Affected routes:
+64",john.semerjian,2020-01-06T20:53:40.237,True,,past,,False,True,,
+352897,1,One-time,,Bus,Stop Move,"57, 57A; Brighton Ave @ Linden St (outbound)",,information,2020-01-14T04:30,further notice,,,,,,2020-01-13T19:11:40.417,further notice,"Due to building demolition and ongoing construction at 89 Brighton Ave, Stop 962, Brighton Ave @ Linden St (outbound) is moving to the far side of Linden Street; to the front of 101-111 Brighton Avenue.",,,,,False,,True,False,False,,,"Affected routes:
+57
+57A",christopher.delano,2020-01-13T19:11:52.803,False,,current,,False,True,,
+352897,2,One-time,,Bus,Stop Move,,,information,2020-01-14T04:30,2021-03-05T06:41:05.533,,,,,,2020-01-13T19:11:40.417,2021-03-05T06:41:05.533,"Due to building demolition and ongoing construction at 89 Brighton Ave, Stop 962, Brighton Ave @ Linden St (outbound) is moving to the far side of Linden Street; to the front of 101-111 Brighton Avenue.",,,,,False,,False,False,False,,,"Affected routes:
+57
+57A",eryk.rotondo,2021-03-05T06:41:05.533,True,,past,,False,True,,
+352991,1,One-time,,Bus,Stop Move,87; Broadway @ Massachusetts Ave (inbound),,information,2020-01-15T04:30,further notice,,,,,,2020-01-14T16:34:16.453,further notice,Effective 1/15/2020 bus stop on Broadway @ Mass. Ave in Arlington Ctr will become pick up only for Rte 87 (Lechemre). Rte 87  (Arlington Ctr) will terminate at Broadway @ Franklin St. Broadway @ Franklin St will be the first stop for Route 87 (Lechmere).,,,,,False,,True,False,False,,,"Affected routes:
+87",christopher.delano,2020-01-14T16:34:39.643,False,,current,,False,True,,
+352991,2,One-time,,Bus,Stop Move,,,information,2020-01-15T04:30,2020-12-23T06:26:24.510,,,,,,2020-01-14T16:34:16.453,2020-12-23T06:26:24.510,Effective 1/15/2020 bus stop on Broadway @ Mass. Ave in Arlington Ctr will become pick up only for Rte 87 (Lechemre). Rte 87  (Arlington Ctr) will terminate at Broadway @ Franklin St. Broadway @ Franklin St will be the first stop for Route 87 (Lechmere).,,,,,False,,False,False,False,,,"Affected routes:
+87",eryk.rotondo,2020-12-23T06:26:24.510,True,,past,,False,True,,
+354148,1,Recurring,,Bus,Stop Move,"9, 11, 47; Broadway Station - Red Line",construction,information,2020-01-25T07:00,2020-01-25T16:00,2020-01-25T04:30,2020-02-17T02:30,07:00:00,16:00:00,"Saturday, Sunday",2020-01-24T09:37:39.457,2020-02-16T16:00,The Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th St every Saturday and Sunday from 7 AM  to 4 PM until February 16.,,,,,False,,True,False,False,,,"Affected routes:
+9
+11
+47",eryk.rotondo,2020-01-24T09:38:26.100,False,,current,,False,True,,
+354148,2,Recurring,,Bus,Stop Move,,construction,information,2020-02-16T07:00,2020-02-16T16:00,2020-01-25T04:30,2020-02-16T16:00:15.777,07:00:00,16:00:00,"Saturday, Sunday",2020-01-24T09:37:39.457,2020-02-16T16:00,The Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th St every Saturday and Sunday from 7 AM  to 4 PM until February 16.,,,,,False,,False,False,False,,,"Affected routes:
+9
+11
+47",expiry,2020-02-16T16:00:15.777,True,,past,,False,True,,
+355971,1,One-time,,Bus,Stop Move,"210, 211, 212, 214, 215, 216, 217, 220, 221, 222, 225, 230, 236, 238, 245; Quincy Center",accident,information,2020-02-08T13:24:25.693,later today,,,,,,2020-02-08T13:24:25.697,2020-02-09T02:30,All buses servicing Quincy Center will temporarily pick up and drop off on Hancock Street due to an accident in the Quincy Center bus way.,,,,,False,,True,False,False,,,"Affected routes:
+210
+211
+212
+214
+215
+216
+217
+220
+221
+222
+225
+230
+236
+238
+245
+
+Affected stops:
+Quincy Center
+Quincy Center
+Quincy Center
+Quincy Center
+Quincy Center",christopher.delano,2020-02-08T13:24:38.750,False,,current,,False,True,,
+355971,2,One-time,,Bus,Stop Move,"210, 211, 212, 214, 216, 215, 217, 220, 221, 222, 225, 230, 236, 238, 245; Quincy Center",accident,information,2020-02-08T13:24:25.693,later today,,,,,,2020-02-08T13:24:25.697,2020-02-09T02:30,All buses servicing Quincy Center will temporarily pick up and drop off on Burgin Pkwy due to an accident on Hancock Street.,,,,,False,,True,False,False,,,"Affected routes:
+210
+211
+212
+214
+215
+216
+217
+220
+221
+222
+225
+230
+236
+238
+245
+
+Affected stops:
+Quincy Center
+Quincy Center
+Quincy Center
+Quincy Center
+Quincy Center",christopher.delano,2020-02-08T13:37:55.003,False,,current,,False,True,,
+355971,3,One-time,,Bus,Stop Move,,accident,information,2020-02-08T13:24:25.693,2020-02-08T17:23:21.313,,,,,,2020-02-08T13:24:25.697,2020-02-08T17:23:21.313,All buses servicing Quincy Center will temporarily pick up and drop off on Burgin Pkwy due to an accident on Hancock Street.,,,,,False,,False,False,False,,,"Affected routes:
+210
+211
+212
+214
+215
+216
+217
+220
+221
+222
+225
+230
+236
+238
+245
+
+Affected stops:
+Quincy Center
+Quincy Center
+Quincy Center
+Quincy Center
+Quincy Center",michael.kelly,2020-02-08T17:23:21.313,True,,past,,False,True,,
+357570,1,One-time,,Bus,Stop Move,"28; Ruggles (inbound), Ruggles (outbound)",,information,2020-02-24T04:30,further notice,,,,,,2020-02-22T21:25:11.163,further notice,Route 28 will board and drop off in the Ruggles outer busway until further notice because of construction.,,,,,False,,True,False,False,,,,nicholas.tomkavage,2020-02-22T21:25:21.423,False,,current,,False,True,,
+357570,2,One-time,,Bus,Stop Move,,,information,2020-02-24T04:30,2020-10-23T10:13:30.513,,,,,,2020-02-22T21:25:11.163,2020-10-23T10:13:30.513,Route 28 will board and drop off in the Ruggles outer busway until further notice because of construction.,,,,,False,,True,False,False,,,,eryk.rotondo,2020-10-23T10:13:30.513,True,,past,,False,True,,
+358276,1,One-time,,Bus,Stop Move,"4, 7, 11; Summer St @ South Station - Red Line entrance",construction,information,2020-03-02T04:30,further notice,,,,,,2020-02-28T07:51:25.603,2020-03-10T02:30,"Beginning Monday, March 2, the stop at Summer St @ South Station will be shifting towards Atlantic Avenue due to construction.",,,,,False,,True,False,False,,,"Affected routes:
+4
+7
+11",eryk.rotondo,2020-02-28T07:51:33.713,False,,current,,False,True,,
+358276,2,One-time,,Bus,Stop Move,,construction,information,2020-03-02T04:30,2020-03-10T02:30:16.530,,,,,,2020-02-28T07:51:25.603,2020-03-10T02:30,"Beginning Monday, March 2, the stop at Summer St @ South Station will be shifting towards Atlantic Avenue due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+4
+7
+11",expiry,2020-03-10T02:30:16.530,True,,past,,False,True,,
+358283,1,Recurring,,Bus,Stop Move,"11, 47, 9; Broadway Station - Red Line",construction,information,2020-02-29T07:00,2020-02-29T16:00,2020-02-29T04:30,2020-03-02T02:30,07:00:00,16:00:00,"Saturday, Sunday",2020-02-28T08:32:41.107,2020-03-01T16:00,The Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th St this Saturday and Sunday from 7 AM  to 4 PM for construction.,,,,,False,,True,False,False,,,"Affected routes:
+9
+11
+47",eryk.rotondo,2020-02-28T08:32:45.677,False,,current,,False,True,,
+358283,2,Recurring,,Bus,Stop Move,,construction,information,2020-03-01T07:00,2020-03-01T16:00,2020-02-29T04:30,2020-03-01T16:00:15.927,07:00:00,16:00:00,"Saturday, Sunday",2020-02-28T08:32:41.107,2020-03-01T16:00,The Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th St this Saturday and Sunday from 7 AM  to 4 PM for construction.,,,,,False,,False,False,False,,,"Affected routes:
+9
+11
+47",expiry,2020-03-01T16:00:15.927,True,,past,,False,True,,
+358973,1,Recurring,,Bus,Stop Move,"11, 47, 9; Broadway Station - Red Line",construction,information,2020-03-07T07:00,2020-03-07T16:00,2020-03-04T17:10:12.717,further notice,07:00:00,16:00:00,Saturday,2020-03-04T17:10:12.717,2021-02-27T16:00,"On Saturday, March 7, Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th from 7 AM  to 4 PM for construction.",,,,,False,,True,False,False,,,"Affected routes:
+9
+11
+47",christopher.delano,2020-03-04T17:10:18.773,False,2020-03-07T06:00 send bulletin,current,,False,True,,
+358973,2,Recurring,,Bus,Stop Move,,construction,information,2020-05-04T08:15:03.960,2020-05-04T08:15:03.960,2020-03-04T17:10:12.717,2020-05-04T08:15:03.960,07:00:00,16:00:00,Saturday,2020-03-04T17:10:12.717,2020-05-04T08:15:03.960,"On Saturday, March 7, Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th from 7 AM  to 4 PM for construction.",,,,,False,,False,False,False,,,"Affected routes:
+9
+11
+47",eryk.rotondo,2020-05-04T08:15:03.960,True,,past,,False,True,,
+359006,1,Recurring,,Bus,Stop Move,"11, 47, 9; Broadway Station - Red Line",construction,information,2020-03-07T07:00,2020-03-07T16:00,2020-03-07T04:30,2020-03-08T03:30,07:00:00,16:00:00,Saturday,2020-03-05T05:27:05.833,2020-03-07T16:00,"The Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th St this Saturday, March 7, from 7 AM  to 4 PM for construction.",,,,,False,,True,False,False,,,"Affected routes:
+9
+11
+47",eryk.rotondo,2020-03-05T05:28:04.957,False,,current,,False,True,,
+359006,2,Recurring,,Bus,Stop Move,,construction,information,2020-03-05T05:29:04.630,2020-03-05T05:29:04.630,2020-03-05T05:29:04.630,2020-03-05T05:29:04.630,07:00:00,16:00:00,Saturday,2020-03-05T05:27:05.833,2020-03-05T05:29:04.630,"The Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th St this Saturday, March 7, from 7 AM  to 4 PM for construction.",,,,,False,,False,False,False,,,"Affected routes:
+9
+11
+47",eryk.rotondo,2020-03-05T05:29:04.630,True,,past,,False,True,,
+359643,1,One-time,,Bus,Stop Move,"CT2, 85; Webster Ave @ Cambridge St",,information,2020-03-10T14:31:48.962,further notice,,,,,,2020-03-10T14:31:48.963,further notice,"Effective March 23, 2020, the inbound bus stops on Webster Ave @ Cambridge St (Routes 85 & CT2) will close permanently.",,,,,False,,True,False,False,,,"Affected routes:
+85
+CT2
+
+New Stop Location:
+Inbound Routes 85 and CT2 will board and alight passengers at a new consolidated bus stop on Cambridge St @ Columbia St in front of Dollar General.",christopher.delano,2020-03-10T14:32:14.337,False,,current,,False,True,,
+359643,2,One-time,,Bus,Stop Move,"CT2, 85; Webster Ave @ Cambridge St",,information,2020-03-23T05:00,further notice,,,,,,2020-03-10T14:31:48.963,further notice,"Effective March 23, 2020, the inbound bus stop on Webster Ave @ Cambridge St (Routes 85 & CT2) will close permanently.",,,,,False,,True,False,False,,,"Affected routes:
+85
+CT2
+
+New Stop Location:
+Inbound Routes 85 and CT2 will board and alight passengers at a new consolidated bus stop on Cambridge St @ Columbia St in front of Dollar General.",christopher.delano,2020-03-10T14:42:56.107,False,,current,,False,True,,
+359643,3,One-time,,Bus,Stop Move,,,information,2020-03-23T05:00,2020-04-07T11:00:48.710,,,,,,2020-03-10T14:31:48.963,2020-04-07T11:00:48.710,"Effective March 23, 2020, the inbound bus stop on Webster Ave @ Cambridge St (Routes 85 & CT2) will close permanently.",,,,,False,,False,False,False,,,"Affected routes:
+85
+CT2
+
+New Stop Location:
+Inbound Routes 85 and CT2 will board and alight passengers at a new consolidated bus stop on Cambridge St @ Columbia St in front of Dollar General.",eryk.rotondo,2020-04-07T11:00:48.710,True,,past,,False,True,,
+359645,1,One-time,,Bus,Stop Move,69; Cambridge St @ Windsor St,,information,2020-03-23T04:30,further notice,,,,,,2020-03-10T14:41:44.307,further notice,"Effective March 23, 2020, the inbound bus stop on Cambridge @ Windsor St will permanently close.",,,,,False,,True,False,False,,,"Affected routes:
+69 
+
+New Stop Location:
+Inbound 69 buses will board and alight passengers at a new consolidated stop on Cambridge @ Columbia St, in front of the Dollar General.",christopher.delano,2020-03-10T14:41:58.527,False,,current,,False,True,,
+359645,2,One-time,,Bus,Stop Move,,,information,2020-03-23T04:30,2020-04-07T11:01:02.163,,,,,,2020-03-10T14:41:44.307,2020-04-07T11:01:02.163,"Effective March 23, 2020, the inbound bus stop on Cambridge @ Windsor St will permanently close.",,,,,False,,False,False,False,,,"Affected routes:
+69 
+
+New Stop Location:
+Inbound 69 buses will board and alight passengers at a new consolidated stop on Cambridge @ Columbia St, in front of the Dollar General.",eryk.rotondo,2020-04-07T11:01:02.163,True,,past,,False,True,,
+359729,1,One-time,,Bus,Stop Move,"64, 68, 85; Main St @ Kendall Station - Red Line",construction,information,2020-03-20T04:30,2020-03-23T02:30,,,,,,2020-03-11T11:49:34.767,2020-03-23T02:30,"Due to construction, the bus stop on Main St @ Kendall Station (#2231) will temporarily close, starting on Friday, March 20, through the end of service Sunday, March 22.",,,,,False,,True,False,False,,,"Affected routes:
+64
+68
+85
+Passengers seeking outbound connections on Routes 64, 68, and 85 should board at the temporary stop on Ames St @ Main St (#34579) in front of Sebastians. Regular bus service to/from Main St @ Kendall Station will resume on Monday 3/23/2020. 
+
+Affected stops:
+Main St @ Kendall Station (#2231)
+Ames St @ Broadway (#12231)
+
+Nearest connection:
+Ames St @ Main St (#34579)",christopher.delano,2020-03-11T11:50:13.470,False,,current,,False,True,,
+359729,2,One-time,,Bus,Stop Move,"64, 68, 85; Main St @ Kendall Station - Red Line",construction,information,2020-04-03T04:30,2020-04-06T02:30,,,,,,2020-03-11T11:49:34.767,2020-04-06T02:30,"Due to construction, the bus stop on Main St @ Kendall Station (#2231) will temporarily close, starting on Friday, April 3, through the end of service Sunday, April 5.",,,,,False,,True,False,False,,,"Affected routes:
+64
+68
+85
+Passengers seeking outbound connections on Routes 64, 68, and 85 should board at the temporary stop on Ames St @ Main St (#34579) in front of Sebastians. Regular bus service to/from Main St @ Kendall Station will resume on Monday 3/23/2020. 
+
+Affected stops:
+Main St @ Kendall Station (#2231)
+Ames St @ Broadway (#12231)
+
+Nearest connection:
+Ames St @ Main St (#34579)",nicholas.tomkavage,2020-03-13T20:15:36.317,False,,current,,False,True,,
+359729,3,One-time,,Bus,Stop Move,,construction,information,2020-04-03T04:30,2020-04-06T02:30,,,,,,2020-03-11T11:49:34.767,2020-04-06T02:30,"Due to construction, the bus stop on Main St @ Kendall Station (#2231) will temporarily close, starting on Friday, April 3, through the end of service Sunday, April 5.",,,,,False,,False,False,False,,,"Affected routes:
+64
+68
+85
+Passengers seeking outbound connections on Routes 64, 68, and 85 should board at the temporary stop on Ames St @ Main St (#34579) in front of Sebastians. Regular bus service to/from Main St @ Kendall Station will resume on Monday 3/23/2020. 
+
+Affected stops:
+Main St @ Kendall Station (#2231)
+Ames St @ Broadway (#12231)
+
+Nearest connection:
+Ames St @ Main St (#34579)",expiry,2020-04-06T02:30:16.047,True,,past,,False,True,,
+359750,1,One-time,,Bus,Stop Move,"62, 67, 76; Acorn Park Drive",construction,information,2020-03-14T06:00,2020-03-14T10:00,,,,,,2020-03-11T13:03:02.673,2020-03-14T10:00,"On Saturday March 14, 2020 from 6:00 AM to 10:00 AM, the bus stop opposite 10 Acorn Park Dr (#24791) will be temporarily closed due to construction.",,,,,False,,True,False,False,,,"Affected routes:
+62
+76
+
+Board Route 62/76 at the temporary stop located 200 feet ahead on Alewife Station Access Rd.",christopher.delano,2020-03-11T13:03:14.597,False,,current,,False,True,,
+359750,2,One-time,,Bus,Stop Move,,construction,information,2020-03-14T06:00,2020-03-14T10:00,,,,,,2020-03-11T13:03:02.673,2020-03-14T10:00,"On Saturday March 14, 2020 from 6:00 AM to 10:00 AM, the bus stop opposite 10 Acorn Park Dr (#24791) will be temporarily closed due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+62
+76
+
+Board Route 62/76 at the temporary stop located 200 feet ahead on Alewife Station Access Rd.",expiry,2020-03-14T10:00:16.757,True,,past,,False,True,,
+360594,1,One-time,,Bus,Stop Move,"7, 11; Bedford St @ Chauncy St",,information,2020-03-31T04:30,further notice,,,,,,2020-03-23T14:14:29.823,further notice,"On March 31, 2020, Bedford St @ Chauncy St (stop #16538) will permanently move around the corner to Chauncy St @ Bedford St in front of the Boston Housing Authority.",,,,,False,,True,False,False,,,"Affected routes:
+7
+11",christopher.delano,2020-03-23T14:14:52.950,False,2020-03-31T05:00 send bulletin,current,,False,True,,
+360594,2,One-time,,Bus,Stop Move,,,information,2020-03-31T04:30,2020-06-16T13:49:17.420,,,,,,2020-03-23T14:14:29.823,2020-06-16T13:49:17.420,"On March 31, 2020, Bedford St @ Chauncy St (stop #16538) will permanently move around the corner to Chauncy St @ Bedford St in front of the Boston Housing Authority.",,,,,False,,False,False,False,,,"Affected routes:
+7
+11",eryk.rotondo,2020-06-16T13:49:17.420,True,,past,,False,True,,
+362660,1,One-time,,Bus,Stop Move,"450, 456; 81 Highland Ave @ Salem Hospital",,information,2020-05-06T11:33:52.805,further notice,,,,,,2020-05-06T11:33:52.810,further notice,The stop at 81 Highland Ave @ Salem Hospital will be moving to a new shelter on the other side of the hospital entrance within the next week.,,,,,False,,True,False,False,,,"Affected routes:
+450
+456",eryk.rotondo,2020-05-06T11:34:14.353,False,,current,,False,True,,
+362660,2,One-time,,Bus,Stop Move,,,information,2020-05-06T11:33:52.805,2020-07-16T16:28:56.977,,,,,,2020-05-06T11:33:52.810,2020-07-16T16:28:56.977,The stop at 81 Highland Ave @ Salem Hospital will be moving to a new shelter on the other side of the hospital entrance within the next week.,,,,,False,,False,False,False,,,"Affected routes:
+450
+456",nicholas.tomkavage,2020-07-16T16:28:56.977,True,,past,,False,True,,
+363090,1,Recurring,,Bus,Stop Move,"9, 11, 47; Broadway Station - Red Line",construction,information,2020-05-30T07:30,2020-05-30T16:30,2020-05-30T04:30,2020-05-31T02:30,07:30:00,16:30:00,Saturday,2020-05-18T08:41:16.277,2020-05-30T16:30,"On Saturday, May 30, the Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th from 7:30 AM  to 4:30 PM for construction.",,,,,False,,True,False,False,,,"Affected routes:
+9
+11
+47",eryk.rotondo,2020-05-18T08:41:59.013,False,,current,,False,True,,
+363090,2,Recurring,,Bus,Stop Move,,construction,information,2020-05-30T07:30,2020-05-30T16:30,2020-05-30T04:30,2020-05-30T16:30:15.990,07:30:00,16:30:00,Saturday,2020-05-18T08:41:16.277,2020-05-30T16:30,"On Saturday, May 30, the Broadway Station bus stop will be moving to Dorchester Ave between Silver St & W 4th from 7:30 AM  to 4:30 PM for construction.",,,,,False,,False,False,False,,,"Affected routes:
+9
+11
+47",expiry,2020-05-30T16:30:15.990,True,,past,,False,True,,
+363440,1,One-time,,Bus,Stop Move,86; McGrath Hwy @ Alston St (outbound),,information,2020-05-31T04:30,further notice,,,,,,2020-05-27T16:46:32.667,further notice,"Effective 5/31/20, Routes 86 and 91 will return to their regular routes on Washington St and resume service at the following stops:   Washington St @ McGrath Hwy and Washington St @ Joy St",,,,,False,,True,False,False,,,"Affected routes:
+86
+91",christopher.delano,2020-05-27T16:46:53.707,False,2020-05-31T05:00 send bulletin,current,,False,True,,
+363440,2,One-time,,Bus,Stop Move,,,information,2020-05-27T17:01:53.327,2020-05-27T17:01:53.327,,,,,,2020-05-27T16:46:32.667,2020-05-27T17:01:53.327,"Effective 5/31/20, Routes 86 and 91 will return to their regular routes on Washington St and resume service at the following stops:   Washington St @ McGrath Hwy and Washington St @ Joy St",,,,,False,,False,False,False,,,"Affected routes:
+86
+91",christopher.delano,2020-05-27T17:01:53.327,True,,past,,False,True,,
+363603,1,One-time,,Bus,Stop Move,39; S Huntington Ave @ Moraine St (outbound),,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop Huntington Ave @ Moraine St (outbound) is relocated across Moraine St to the front of the CVS. Route 41 now also serves this stop.",,,,,False,,False,False,False,,,"Affected routes:
+39",nicholas.tomkavage,2020-05-29T19:49:54.200,False,,future,,False,True,,
+363603,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop Huntington Ave @ Moraine St (outbound) is relocated across Moraine St to the front of the CVS. Route 41 now also serves this stop.",,,,,False,,True,False,False,,,"Affected routes:
+39",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363603,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop Huntington Ave @ Moraine St (outbound) is relocated across Moraine St to the front of the CVS. Route 41 now also serves this stop.",,,,,False,,False,False,False,,,"Affected routes:
+39",expiry,2020-07-18T02:30:16.217,True,,past,,False,True,,
+363605,1,One-time,,Bus,Stop Move,39; S Huntington Ave @ Bynner St (outbound),,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop S Huntington Ave @ Bynner St (outbound) relocated across Bynner St.",,,,,False,,False,False,False,,,"Affected routes:
+39",nicholas.tomkavage,2020-05-29T19:52:29.327,False,,future,,False,True,,
+363605,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop S Huntington Ave @ Bynner St (outbound) relocated across Bynner St.",,,,,False,,True,False,False,,,"Affected routes:
+39",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363605,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop S Huntington Ave @ Bynner St (outbound) relocated across Bynner St.",,,,,False,,False,False,False,,,"Affected routes:
+39",expiry,2020-07-18T02:30:16.217,True,,past,,False,True,,
+363607,1,One-time,,Bus,Stop Move,"21, 26; Gallivan Blvd @ Pleasant Hill Ave (outbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 21 & 26 stop Gallivan Blvd @ Pleasant Hill Ave (outbound) is relocated across Pleasant Hill Ave",,,,,False,,False,False,False,,,"Affected routes:
+21
+26",nicholas.tomkavage,2020-05-29T20:07:36.100,False,,future,,False,True,,
+363607,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 21 & 26 stop Gallivan Blvd @ Pleasant Hill Ave (outbound) is relocated across Pleasant Hill Ave",,,,,False,,True,False,False,,,"Affected routes:
+21
+26",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363607,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 21 & 26 stop Gallivan Blvd @ Pleasant Hill Ave (outbound) is relocated across Pleasant Hill Ave",,,,,False,,False,False,False,,,"Affected routes:
+21
+26",expiry,2020-07-18T02:30:16.217,True,,past,,False,True,,
+363608,1,One-time,,Bus,Stop Move,39; Huntington Ave @ Louis Prang St (outbound),,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop Huntington Ave @ Louis Prang St (outbound) relocated across Louis Prang St",,,,,False,,False,False,False,,,"Affected routes:
+39",nicholas.tomkavage,2020-05-29T20:14:33.917,False,,future,,False,True,,
+363608,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop Huntington Ave @ Louis Prang St (outbound) relocated across Louis Prang St",,,,,False,,True,False,False,,,"Affected routes:
+39",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363608,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop Huntington Ave @ Louis Prang St (outbound) relocated across Louis Prang St",,,,,False,,False,False,False,,,"Affected routes:
+39",expiry,2020-07-18T02:30:16.233,True,,past,,False,True,,
+363616,1,One-time,,Bus,Stop Move,66; Harvard Ave @ Commonwealth Ave (outbound),,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 66 stop Harvard Ave @ Commonwealth Ave (outbound - toward Harvard) relocated across Commonwealth Ave",,,,,False,,False,False,False,,,"Affected routes:
+66",nicholas.tomkavage,2020-05-29T20:24:04.983,False,,future,,False,True,,
+363616,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 66 stop Harvard Ave @ Commonwealth Ave (outbound - toward Harvard) relocated across Commonwealth Ave",,,,,False,,True,False,False,,,"Affected routes:
+66",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363616,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 66 stop Harvard Ave @ Commonwealth Ave (outbound - toward Harvard) relocated across Commonwealth Ave",,,,,False,,False,False,False,,,"Affected routes:
+66",expiry,2020-07-18T02:30:16.233,True,,past,,False,True,,
+363622,1,One-time,,Bus,Stop Move,"74, 75; Concord Ave @ Leonard St (inbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Concord Ave @ Leonard St (inbound) is relocated to the front of the Powers Music School and renamed 396 Concord Ave",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",nicholas.tomkavage,2020-05-29T21:17:13.930,False,,future,,False,True,,
+363622,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Concord Ave @ Leonard St (inbound) is relocated to the front of the Powers Music School and renamed 396 Concord Ave",,,,,False,,True,False,False,,,"Affected routes:
+74
+75",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363622,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Concord Ave @ Leonard St (inbound) is relocated to the front of the Powers Music School and renamed 396 Concord Ave",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",expiry,2020-07-18T02:30:16.233,True,,past,,False,True,,
+363626,1,One-time,,Bus,Stop Move,"450, 456; Essex St @ Warren St (outbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 450 & 456 stop Essex St @ Warren St (outbound) relocated approximately 40 feet past crosswalk at Warren St",,,,,False,,False,False,False,,,"Affected routes:
+450
+456",nicholas.tomkavage,2020-05-29T22:07:04.187,False,,future,,False,True,,
+363626,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 450 & 456 stop Essex St @ Warren St (outbound) relocated approximately 40 feet past crosswalk at Warren St",,,,,False,,True,False,False,,,"Affected routes:
+450
+456",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363626,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-16T16:28:38.883,,,,,,2020-06-05T07:00,2020-07-16T16:28:38.883,"Effective June 21, Route 450 & 456 stop Essex St @ Warren St (outbound) relocated approximately 40 feet past crosswalk at Warren St",,,,,False,,False,False,False,,,"Affected routes:
+450
+456",nicholas.tomkavage,2020-07-16T16:28:38.883,True,,past,,False,True,,
+363628,1,One-time,,Bus,Stop Move,21; Morton St @ Wildwood St (outbound),,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 21 stop Morton St @ Wildwood St (outbound) relocated across Wildwood St",,,,,False,,False,False,False,,,"Affected routes:
+21",nicholas.tomkavage,2020-05-29T22:23:58.663,False,,future,,False,True,,
+363628,2,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 21 stop Morton St @ Wildwood St (outbound) relocated across Wildwood St",,,,,False,,True,False,False,,,"Affected routes:
+21",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363628,3,One-time,,Bus,Stop Move,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 21 stop Morton St @ Wildwood St (outbound) relocated across Wildwood St",,,,,False,,False,False,False,,,"Affected routes:
+21",expiry,2020-07-18T02:30:16.233,True,,past,,False,True,,
+364721,1,One-time,,Bus,Stop Move,"7, 11; Chauncy St @ Bedford St",,information,2020-06-18T04:30,further notice,,,,,,2020-06-16T13:48:29.880,further notice,The Route 7 & 11 stop at Chauncy St @ Bedford St (stop #16538) will permanently move to Chauncy St @ Summer St. beginning on Jun 18.,,,,,False,,True,False,False,,,"Affected routes:
+7
+11",eryk.rotondo,2020-06-16T13:48:54.030,False,,current,,False,True,,
+364721,2,One-time,,Bus,Stop Move,,,information,2020-06-18T04:30,2020-12-23T06:11:21.403,,,,,,2020-06-16T13:48:29.880,2020-12-23T06:11:21.403,The Route 7 & 11 stop at Chauncy St @ Bedford St (stop #16538) will permanently move to Chauncy St @ Summer St. beginning on Jun 18.,,,,,False,,False,False,False,,,"Affected routes:
+7
+11",eryk.rotondo,2020-12-23T06:11:21.403,True,,past,,False,True,,
+366745,1,One-time,,Bus,Stop Move,"80, 95; Medford St @ Massachusetts Ave",construction,information,2020-07-15T04:30,2020-08-01T02:30,,,,,,2020-07-13T13:00:48.680,2020-08-01T02:30,"The stop at Medford St @ Massachusetts Ave will be moving west to the front of 15 Medford St from Wed, Jul 15 through Fri, Jul 31 for construction.",,,,,False,,True,False,False,,,"Affected routes:
+80
+95",eryk.rotondo,2020-07-13T13:01:15.800,False,,current,,False,True,,
+366745,2,One-time,,Bus,Stop Move,"80, 95; Medford St @ Massachusetts Ave",construction,information,2020-07-20T04:30,2020-08-01T02:30,,,,,,2020-07-13T13:00:48.680,2020-08-01T02:30,"The stop at Medford St @ Massachusetts Ave will be moving west to the front of 15 Medford St from Mon, Jul 20 through Fri, Jul 31 for construction.",,,,,False,,True,False,False,,,"Affected routes:
+80
+95",christopher.delano,2020-07-13T15:15:00.083,False,,current,,False,True,,
+366745,3,One-time,,Bus,Stop Move,,construction,information,2020-07-20T04:30,2020-08-01T02:30,,,,,,2020-07-13T13:00:48.680,2020-08-01T02:30,"The stop at Medford St @ Massachusetts Ave will be moving west to the front of 15 Medford St from Mon, Jul 20 through Fri, Jul 31 for construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+95",expiry,2020-08-01T02:30:16.803,True,,past,,False,True,,
+366937,1,One-time,,Bus,Stop Move,"57, 57A, 501, 503; Cambridge St opp Elko St",construction,information,2020-07-18T04:30,2020-07-19T02:30,,,,,,2020-07-16T12:24:36,2020-07-19T02:30,"The stop at Cambridge St opp Elko St will be shifted towards Washington St on Sat, Jul 18 due to a crane being set up in front of St Elizabeth's Medical Center.",,,,,False,,False,False,False,,,"Affected routes:
+57",eryk.rotondo,2020-07-16T12:24:48.850,False,,current,,False,True,,
+366937,2,One-time,,Bus,Stop Move,"57, 57A; Cambridge St opp Elko St",construction,information,2020-07-18T04:30,2020-07-19T02:30,,,,,,2020-07-16T12:24:36,2020-07-19T02:30,"The stop at Cambridge St opp Elko St will be shifted towards Washington St on Sat, Jul 18 due to a crane being set up in front of St Elizabeth's Medical Center.",,,,,False,,False,False,False,,,"Affected routes:
+57",nicholas.tomkavage,2020-07-16T16:30:15.993,False,,current,,False,True,,
+366937,3,One-time,,Bus,Stop Move,,construction,information,2020-07-18T04:30,2020-07-19T02:30,,,,,,2020-07-16T12:24:36,2020-07-19T02:30,"The stop at Cambridge St opp Elko St will be shifted towards Washington St on Sat, Jul 18 due to a crane being set up in front of St Elizabeth's Medical Center.",,,,,False,,False,False,False,,,"Affected routes:
+57",expiry,2020-07-19T02:30:16.180,True,,past,,False,True,,
+368494,1,One-time,,Bus,Stop Move,710; Lawrence Memorial Hospital,construction,information,2020-08-04T13:11:01.790,further notice,,,,,,2020-08-04T13:11:01.790,further notice,The Lawrence Memorial Hospital stop has temporarily moved due to hospital construction. Please use the temporary stop by the Urgent Care entrance on the Lawrence Rd. side instead of the Governors Ave side. This change is estimated to last through October.,,,,,False,,True,False,False,,,"Affected routes:
+710",eryk.rotondo,2020-08-04T13:11:16.370,False,,current,,False,True,,
+368494,2,One-time,,Bus,Stop Move,,construction,information,2020-08-04T13:11:01.790,2020-12-02T10:24:08.010,,,,,,2020-08-04T13:11:01.790,2020-12-02T10:24:08.010,The Lawrence Memorial Hospital stop has temporarily moved due to hospital construction. Please use the temporary stop by the Urgent Care entrance on the Lawrence Rd. side instead of the Governors Ave side. This change is estimated to last through October.,,,,,False,,False,False,False,,,"Affected routes:
+710",eryk.rotondo,2020-12-02T10:24:08.010,True,,past,,False,True,,
+370167,1,One-time,,Bus,Stop Move,"22, 29, 44; Columbus Ave @ Amory St (outbound), Columbus Ave @ Dimock St (outbound), Columbus Ave @ W Walnut Pk (outbound), Columbus Ave @ Washington St (outbound), Columbus Ave @ Weld Ave (outbound), Seaver St opp Harold St (outbound), Seaver St @ Harold",,information,2020-08-22T18:46:36.939,later today,,,,,,2020-08-22T18:46:36.940,2020-08-23T02:30,Some bus stops on Columbus Ave between Walnut Ave & Centre St/Ritche St are temporarily relocated as we construct new bus lanes on Columbus Ave. Please look for signage directing you to the nearest temporary bus stop.,,,,,False,,False,False,False,,,"Affected routes:
+22
+29
+44
+
+Affected stops:
+Columbus Ave @ Amory St (outbound)
+Columbus Ave @ Dimock St (outbound)
+Columbus Ave @ W Walnut Pk (outbound)
+Columbus Ave @ Washington St (outbound)
+Columbus Ave @ Weld Ave (outbound)
+Seaver St opp Harold St (outbound)
+Seaver St @ Harold St (inbound)
+1990 Columbus Ave (inbound)
+Columbus Ave @ Dimock St (inbound)
+Columbus Ave @ Ritchie St (inbound)",nicholas.tomkavage,2020-08-22T18:47:02.167,False,,current,,False,True,,
+370167,2,One-time,,Bus,Stop Move,,,information,2020-08-22T18:46:36.939,2020-08-23T02:25:17.357,,,,,,2020-08-22T18:46:36.940,2020-08-23T02:25:17.357,Some bus stops on Columbus Ave between Walnut Ave & Centre St/Ritche St are temporarily relocated as we construct new bus lanes on Columbus Ave. Please look for signage directing you to the nearest temporary bus stop.,,,,,False,,False,False,False,,,"Affected routes:
+22
+29
+44
+
+Affected stops:
+Columbus Ave @ Amory St (outbound)
+Columbus Ave @ Dimock St (outbound)
+Columbus Ave @ W Walnut Pk (outbound)
+Columbus Ave @ Washington St (outbound)
+Columbus Ave @ Weld Ave (outbound)
+Seaver St opp Harold St (outbound)
+Seaver St @ Harold St (inbound)
+1990 Columbus Ave (inbound)
+Columbus Ave @ Dimock St (inbound)
+Columbus Ave @ Ritchie St (inbound)",expiry,2020-08-23T02:25:17.357,True,,past,,False,True,,
+372697,1,One-time,,Bus,Stop Move,"553, 554, 556; Washington St @ Walnut St",,information,2020-10-05T04:30,further notice,,,,,,2020-09-28T13:14:04.537,further notice,"Beginning Mon, Oct 5, the westbound stop at Washington St @ Walnut St will be moving to the other side of Walnut St.",,,,,False,,True,False,False,,,"Affected routes:
+553
+554
+556",eryk.rotondo,2020-09-28T13:14:24.760,False,,current,,False,True,,
+372697,2,One-time,,Bus,Stop Move,"553, 554, 556; Washington St @ Walnut St",,information,2020-10-05T04:30,further notice,,,,,,2020-09-28T13:14:04.537,further notice,The westbound stop at Washington St @ Walnut St has been moved to the other side of Walnut St.,,,,,False,,False,False,False,,,"Affected routes:
+553
+554
+556",eryk.rotondo,2021-03-05T12:12:59.390,False,,current,,False,True,,
+372697,3,One-time,,Bus,Stop Move,,,information,2020-10-05T04:30,2021-06-11T07:01:17.140,,,,,,2020-09-28T13:14:04.537,2021-06-11T07:01:17.140,The westbound stop at Washington St @ Walnut St has been moved to the other side of Walnut St.,,,,,False,,False,False,False,,,"Affected routes:
+553
+554
+556",eryk.rotondo,2021-06-11T07:01:17.140,True,,past,,False,True,,
+374618,1,One-time,,Bus,Stop Move,202; Adams St @ King St,,information,2020-10-23T13:21:06.814,further notice,,,,,,2020-10-23T13:21:06.817,further notice,The Route 202 outbound bus stop at Adams St @ King St has been permanently moved to the far side of King St at the request of the City of Boston.,,,,,False,,True,False,False,,,,eryk.rotondo,2020-10-23T13:21:16.267,False,,current,,False,True,,
+374618,2,One-time,,Bus,Stop Move,,,information,2020-10-23T13:21:06.814,2021-06-11T07:00:59.440,,,,,,2020-10-23T13:21:06.817,2021-06-11T07:00:59.440,The Route 202 outbound bus stop at Adams St @ King St has been permanently moved to the far side of King St at the request of the City of Boston.,,,,,False,,False,False,False,,,,eryk.rotondo,2021-06-11T07:00:59.440,True,,past,,False,True,,
+376421,1,One-time,,Bus,Stop Move,"89, 92, 93, 111; N Washington St @ Thacher St",,information,2020-11-13T08:32:13.534,later today,,,,,,2020-11-13T08:32:13.537,2020-11-14T02:30,The stop at N Washington St @ Thacher St will be moving approximately 280 ft south to Cooper St beginning the week of Nov 16. This is to accommodate the new N Washington St Bus Lane.,,,,,False,,True,False,False,,http://www.mbta.com/buspriority,"Affected routes:
+92
+93
+111",eryk.rotondo,2020-11-13T08:32:27.343,False,,current,,False,True,,
+376421,2,One-time,,Bus,Stop Move,"111, 89, 93, 92; N Washington St @ Thacher St",,information,2020-11-16T04:30,further notice,,,,,,2020-11-13T08:32:13.537,further notice,The stop at N Washington St @ Thacher St will be moving approximately 280 ft south to Cooper St beginning the week of Nov 16. This is to accommodate the new N Washington St Bus Lane.,,,,,False,,False,False,False,,http://www.mbta.com/buspriority,"Affected routes:
+92
+93
+111",eryk.rotondo,2020-11-13T08:33:55.640,False,,current,,False,True,,
+376421,3,One-time,,Bus,Stop Move,,,information,2020-11-16T04:30,2021-01-12T18:19:55.907,,,,,,2020-11-13T08:32:13.537,2021-01-12T18:19:55.907,The stop at N Washington St @ Thacher St will be moving approximately 280 ft south to Cooper St beginning the week of Nov 16. This is to accommodate the new N Washington St Bus Lane.,,,,,False,,False,False,False,,http://www.mbta.com/buspriority,"Affected routes:
+92
+93
+111",christopher.delano,2021-01-12T18:19:55.907,True,,past,,False,True,,
+378295,1,Recurring,,Bus,Stop Move,"89, 90, 92, 95, 101, 104, 105, 109; Sullivan Square",construction,information,2020-12-12T04:30,2020-12-13T02:30,2020-12-12T04:30,2020-12-21T02:30,04:30:00,26:30:00,"Saturday, Sunday",2020-12-06T07:22:08.440,2020-12-21T02:30,"Sullivan Square: On weekends from 12/12 to 12/20, all local bus routes will pick up and drop off in the lower busway.",,,,,False,,True,False,False,,,"This stop move is so shuttle buses from Sullivan to Haymarket can utilize the upper busway to make pick ups and drop offs. Visit MBTA.com/OLwork for more information. 
+
+Affected routes:
+89
+90
+92
+95
+101
+104
+105
+109",christopher.delano,2020-12-06T07:22:28.957,False,2020-12-12T05:00 send bulletin; 2020-12-13T06:00 send bulletin; 2020-12-19T05:00 send bulletin; 2020-12-20T06:00 send bulletin,current,,False,True,,
+378295,2,Recurring,,Bus,Stop Move,,construction,information,2020-12-06T07:32:25.887,2020-12-06T07:32:25.887,2020-12-06T07:32:25.887,2020-12-06T07:32:25.887,04:30:00,26:30:00,"Saturday, Sunday",2020-12-06T07:22:08.440,2020-12-06T07:32:25.887,"Sullivan Square: On weekends from 12/12 to 12/20, all local bus routes will pick up and drop off in the lower busway.",,,,,False,,False,False,False,,,"This stop move is so shuttle buses from Sullivan to Haymarket can utilize the upper busway to make pick ups and drop offs. Visit MBTA.com/OLwork for more information. 
+
+Affected routes:
+89
+90
+92
+95
+101
+104
+105
+109",christopher.delano,2020-12-06T07:32:25.887,True,,past,,False,True,,
+379389,1,One-time,,Bus,Stop Move,9; Broadway Station (inbound),,information,2020-12-20T04:30,further notice,,,,,,2020-12-16T12:58:55.563,further notice,"The Route 9 inbound stop at Broadway Station will be permanently moving to the opposite side of Dorchester Ave beginning on Sunday, Dec 20. The outbound stop at Broadway Station will not change.",,,,,False,,True,False,False,,,"Affected routes:
+9",eryk.rotondo,2020-12-16T13:00:43.373,False,,current,,False,True,,
+379389,2,One-time,,Bus,Stop Move,9; Broadway Station,,information,2020-12-23T04:30,further notice,,,,,,2020-12-16T12:58:55.563,further notice,"The Route 9 inbound stop at Broadway Station will be permanently moving to the opposite side of Dorchester Ave beginning on Wednesday, Dec 23. The outbound stop at Broadway Station will not change.",,,,,False,,False,False,False,,,"Affected routes:
+9",christopher.delano,2020-12-22T15:15:55.377,False,,current,,False,True,,
+379389,3,One-time,,Bus,Stop Move,,,information,2020-12-23T04:30,2021-03-08T07:28:14.523,,,,,,2020-12-16T12:58:55.563,2021-03-08T07:28:14.523,"The Route 9 inbound stop at Broadway Station will be permanently moving to the opposite side of Dorchester Ave beginning on Wednesday, Dec 23. The outbound stop at Broadway Station will not change.",,,,,False,,False,False,False,,,"Affected routes:
+9",eryk.rotondo,2021-03-08T07:28:14.523,True,,past,,False,True,,
+381358,1,One-time,,Bus,Stop Move,"89, 92, 93, 111; N Washington St @ Cooper St",construction,information,2021-01-12T18:13:00.738,further notice,,,,,,2021-01-12T18:13:00.737,further notice,N. Washington St @ Cooper St is temporarily closed due to construction. Customers can use the nearby stop N. Washington @ Thacher St as an alternate option.,,,,,False,,True,False,False,,,"Affected routes:
+89
+92
+93
+111",christopher.delano,2021-01-12T18:13:57.140,False,,current,,False,True,,
+381358,2,One-time,,Bus,Stop Move,,construction,information,2021-01-12T18:13:00.738,2021-06-11T07:25:21.453,,,,,,2021-01-12T18:13:00.737,2021-06-11T07:25:21.453,N. Washington St @ Cooper St is temporarily closed due to construction. Customers can use the nearby stop N. Washington @ Thacher St as an alternate option.,,,,,False,,False,False,False,,,"Affected routes:
+89
+92
+93
+111",eryk.rotondo,2021-06-11T07:25:21.453,True,,past,,False,True,,
+383916,1,One-time,,Bus,Stop Move,CT2; Ruggles St @ Huntington Ave (outbound),,information,2021-03-14T04:30,2021-05-02T02:30,,,,,,2021-02-26T17:04:53.693,2021-05-02T02:30,"Effective March 14, the CT2 outbound stop Ruggles St @ Huntington Ave will move the northwest corner of the intersection at Huntington Ave @ Louis Prang St",,,,,False,,True,False,False,,,,nicholas.tomkavage,2021-02-26T17:04:58.650,False,,current,,False,True,,
+383916,2,One-time,,Bus,Stop Move,CT2; Huntington Ave @ Louis Prang St (outbound),,information,2021-03-14T04:30,2021-05-02T02:30,,,,,,2021-02-26T17:04:53.693,2021-05-02T02:30,"Effective March 14, the CT2 outbound stop Ruggles St @ Huntington Ave will move to the northwest corner of the intersection at Huntington Ave @ Louis Prang St",,,,,False,,False,False,False,,,"Affected routes:
+CT2",nicholas.tomkavage,2021-04-24T20:24:42.797,False,,current,,False,True,,
+383916,3,One-time,,Bus,Stop Move,,,information,2021-03-14T04:30,2021-05-02T02:30,,,,,,2021-02-26T17:04:53.693,2021-05-02T02:30,"Effective March 14, the CT2 outbound stop Ruggles St @ Huntington Ave will move to the northwest corner of the intersection at Huntington Ave @ Louis Prang St",,,,,False,,False,False,False,,,"Affected routes:
+CT2",expiry,2021-05-02T02:30:18.167,True,,past,,False,True,,
+386211,1,One-time,,Bus,Stop Move,40; Margaretta Dr @ Georgetowne Dr (inbound),,information,2021-04-10T04:30,2021-06-01T02:30,,,,,,2021-04-07T13:27:08.777,2021-06-01T02:30,"The Route 40 stop at Margaretta Dr @ Georgetowne Dr (inbound) will be moving to Georgetowne Dr at the pedestrian crosswalk beginning on Sat, April 10.",,,,,False,,True,False,False,,,"Affected routes:
+40",eryk.rotondo,2021-04-07T13:27:22.050,False,,current,,False,True,,
+386211,2,One-time,,Bus,Stop Move,40; Margaretta Dr @ Georgetowne Dr,,information,2021-04-10T04:30,2021-06-01T02:30,,,,,,2021-04-07T13:27:08.777,2021-06-01T02:30,"The stop at Margaretta Dr @ Georgetowne Dr (inbound) will be moving to Georgetowne Dr at the pedestrian crosswalk beginning on Sat, April 10.",,,,,False,,False,False,False,,,"Affected routes:
+40",eryk.rotondo,2021-04-07T13:29:48.673,False,,current,,False,True,,
+386211,3,One-time,,Bus,Stop Move,,,information,2021-04-10T04:30,2021-06-01T02:30,,,,,,2021-04-07T13:27:08.777,2021-06-01T02:30,"The stop at Margaretta Dr @ Georgetowne Dr (inbound) will be moving to Georgetowne Dr at the pedestrian crosswalk beginning on Sat, April 10.",,,,,False,,False,False,False,,,"Affected routes:
+40",expiry,2021-06-01T02:30:20.733,True,,past,,False,True,,

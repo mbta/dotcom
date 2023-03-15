@@ -25,7 +25,13 @@ defmodule SiteWeb.CMSHelpers do
   def cms_route_to_class(%{group: "custom", mode: nil}), do: "unknown"
   def cms_route_to_class(%{group: "custom", mode: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{group: "mode", id: mode}), do: string_to_class(mode)
-  def cms_route_to_class(%{id: id}), do: id |> Repo.get() |> route_to_class()
+
+  def cms_route_to_class(%{id: id}) do
+    case Repo.get(id) do
+      %Route{} = route -> route_to_class(route)
+      _ -> "unknown"
+    end
+  end
 
   @doc """
   Converts CMS-flavored routes to svg, where the route may

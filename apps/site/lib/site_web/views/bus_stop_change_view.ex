@@ -1,6 +1,7 @@
 defmodule SiteWeb.BusStopChangeView do
   use SiteWeb, :view
   alias Alerts.Alert
+  alias Routes.Route
   alias Stops.Stop
 
   @type alerts_by_stop :: [{Stop.t(), [%Alert{}]}]
@@ -11,16 +12,16 @@ defmodule SiteWeb.BusStopChangeView do
       alerts,
       fn %Alert{active_period: [{start_date, _} | _]} ->
         start_date
-      end,
-      Date
+      end
     )
   end
 
   @spec grouped_by_municipality([%Alert{}]) :: %{String.t() => alerts_by_stop}
   def grouped_by_municipality(alerts) do
     grouped_by_stop(alerts)
-    |> Enum.group_by(fn {stop, _alerts} ->
-      stop.municipality
+    |> Enum.group_by(fn
+      {%Stop{municipality: municipality}, _alerts} -> municipality
+      {_stopname, _alerts} -> nil
     end)
   end
 
@@ -33,11 +34,32 @@ defmodule SiteWeb.BusStopChangeView do
       |> Enum.map(&{&1, alert})
     end)
     |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
-    |> Enum.sort_by(fn {stop, _alerts} ->
-      stop.name
+    |> Enum.sort_by(fn
+      {%Stop{name: name}, _alerts} -> name
+      {stopname, _alerts} -> stopname
     end)
     |> Enum.map(fn {stop, alerts} ->
       {stop, sorted_by_start_date(alerts)}
+    end)
+  end
+
+  @spec affected_routes(%Alert{}) :: [Phoenix.HTML.Safe.t()]
+  def affected_routes(%Alert{} = alert) do
+    Alert.get_entity(alert, :route)
+    |> MapSet.delete(nil)
+    |> MapSet.to_list()
+    |> Enum.uniq()
+    |> Enum.map(fn routeIdOrName ->
+      name =
+        case Routes.Repo.get(routeIdOrName) do
+          %Route{name: name} -> name
+          _ -> routeIdOrName
+        end
+
+      content_tag(:span, name,
+        class: "c-icon__bus-pill--small u-bg--bus",
+        style: "margin-right: .25rem;"
+      )
     end)
   end
 
@@ -46,7 +68,12 @@ defmodule SiteWeb.BusStopChangeView do
     Alert.get_entity(alert, :stop)
     |> MapSet.delete(nil)
     |> MapSet.to_list()
-    |> Enum.map(&Stops.Repo.get_parent(&1))
+    |> Enum.map(fn stopIdOrName ->
+      case Stops.Repo.get_parent(stopIdOrName) do
+        %Stop{} = stop -> stop
+        _ -> stopIdOrName
+      end
+    end)
     |> Enum.uniq()
   end
 
@@ -74,9 +101,13 @@ defmodule SiteWeb.BusStopChangeView do
   defp filter_text(:current), do: "Current Changes"
   defp filter_text(:upcoming), do: "Upcoming Changes"
 
-  @spec affected_stop_link(%Plug.Conn{}, %Stop{}) :: Phoenix.HTML.Safe.t() | nil
+  @spec affected_stop_link(%Plug.Conn{}, %Stop{} | String.t()) :: Phoenix.HTML.Safe.t() | nil
+  def affected_stop_link(_conn, stopname) when is_binary(stopname) do
+    content_tag(:div, stopname)
+  end
+
   def affected_stop_link(conn, stop) do
-    link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary")
+    if(stop, do: link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary"))
   end
 
   @spec time_range(%Alert{}) :: Phoenix.HTML.Safe.t()
@@ -87,7 +118,7 @@ defmodule SiteWeb.BusStopChangeView do
         :div,
         [
           fa("calendar", class: "mr-025"),
-          date_tag(start_date),
+          date_tag(start_date) || "N/A",
           " — ",
           date_tag(end_date) || "N/A"
         ],
