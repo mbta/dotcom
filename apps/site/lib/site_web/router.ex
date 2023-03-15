@@ -204,6 +204,8 @@ defmodule SiteWeb.Router do
     get("/alerts", AlertController, :show_by_routes)
 
     get("/stop/:id", StopController, :get)
+
+    get("/map-config", MapConfigController, :get)
   end
 
   scope "/places", SiteWeb do
