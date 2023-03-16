@@ -19,27 +19,36 @@ defmodule Site.Application do
       update_static_url(Application.get_env(:site, SiteWeb.Endpoint))
     )
 
-    children = [
-      # Start the endpoint when the application starts
-      %{
-        id: ConCache,
-        start:
-          {ConCache, :start_link,
-           [
+    children =
+      [
+        # Start the endpoint when the application starts
+        %{
+          id: ConCache,
+          start:
+            {ConCache, :start_link,
              [
-               ttl: :timer.seconds(60),
-               ttl_check: :timer.seconds(5),
-               ets_options: [read_concurrency: true]
-             ],
-             [name: :line_diagram_realtime_cache]
-           ]}
-      },
-      {Site.Stream.Vehicles, name: Site.Stream.Vehicles},
-      {Site.GreenLine.Supervisor, name: Site.GreenLine.Supervisor},
-      {Site.React, name: Site.React},
-      {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
-      {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
-    ]
+               [
+                 ttl: :timer.seconds(60),
+                 ttl_check: :timer.seconds(5),
+                 ets_options: [read_concurrency: true]
+               ],
+               [name: :line_diagram_realtime_cache]
+             ]}
+        }
+      ] ++
+        if Application.get_env(:elixir, :start_data_processes) do
+          [
+            {Site.Stream.Vehicles, name: Site.Stream.Vehicles},
+            {Site.GreenLine.Supervisor, name: Site.GreenLine.Supervisor}
+          ]
+        else
+          []
+        end ++
+        [
+          {Site.React, name: Site.React},
+          {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
+          {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
+        ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options

@@ -3,6 +3,12 @@ defmodule GreenLineTest do
 
   import GreenLine
 
+  setup_all do
+    # Start parent supervisor
+    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
+    :ok
+  end
+
   describe "stops_on_routes/1" do
     test "returns ordered stops on the green line by direction ID" do
       {stops, _} = stops_on_routes(0)
