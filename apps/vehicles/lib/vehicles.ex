@@ -12,9 +12,13 @@ defmodule Vehicles do
 
   defp children do
     streams =
-      "USE_SERVER_SENT_EVENTS"
-      |> System.get_env()
-      |> stream_children()
+      if Application.get_env(:elixir, :start_data_processes) do
+        "USE_SERVER_SENT_EVENTS"
+        |> System.get_env()
+        |> stream_children()
+      else
+        []
+      end
 
     [
       {Phoenix.PubSub.PG2, name: Vehicles.PubSub},
