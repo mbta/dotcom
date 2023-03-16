@@ -56,9 +56,7 @@ const StopPageRedesign = ({
       {/* Route and Map Div */}
       <div className="d-flex">
         <div style={{ minWidth: "50%" }}>
-          <h1 className="route-schedules-heading hidden-sm-down">
-            Route Schedules & Maps
-          </h1>
+          <h2 className="hidden-sm-down">Route Schedules & Maps</h2>
           <div className="d-flex">
             <DeparturesFilters
               departures={departures}
@@ -86,9 +84,7 @@ const StopPageRedesign = ({
         </div>
       </div>
       {/* Station Information Div */}
-      <h1 className="route-schedules-heading">
-        {stop?.["station?"] ? "Station Information" : "Stop Information"}
-      </h1>
+      <h2>{stop?.["station?"] ? "Station Information" : "Stop Information"}</h2>
       <footer>{stop && <StationInformation stop={stop} />}</footer>
     </article>
   );
