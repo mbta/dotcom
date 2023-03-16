@@ -17,14 +17,10 @@ defmodule SiteWeb.BusStopChangeController do
   plug(SiteWeb.Plugs.AlertsByTimeframe)
 
   def show(conn, _params) do
-    if Laboratory.enabled?(conn, :bus_changes) do
-      conn
-      # Don't let Google crawl this page
-      |> put_resp_header("x-robots-tag", "noindex")
-      |> render("index.html")
-    else
-      redirect(conn, to: alert_path(conn, :index))
-    end
+    conn
+    # Don't let Google crawl this page
+    |> put_resp_header("x-robots-tag", "noindex")
+    |> render("index.html")
   end
 
   defp bus_stop_alerts(
@@ -50,6 +46,7 @@ defmodule SiteWeb.BusStopChangeController do
 
   defp get_old_alerts() do
     folder = Application.app_dir(:site) |> Path.join("priv/bus-stop-change")
+
     with {:ok, files} <- File.ls(folder) do
       Enum.reduce(files, [], fn filepath, acc ->
         alert_info =
