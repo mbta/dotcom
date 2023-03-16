@@ -6,6 +6,7 @@ import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
 import { useRoutesByStop } from "../../hooks/useRoute";
 import { StopPageHeaderRedesign } from "./StopPageHeaderRedesign";
+import Loading from "../../components/Loading";
 
 // TODO replace with real data
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -48,9 +49,9 @@ const StopPageRedesign = ({
   const stop = useStop(stopId);
   const routes = useRoutesByStop(stopId);
 
-  // Return nothing while loading
+  // Return loading indicator while waiting on data fetch
   if (!stop || !routes) {
-    return <></>;
+    return <Loading />;
   }
 
   return (
