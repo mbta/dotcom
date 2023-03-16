@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import ModeIcons from "../../../components/icons/ModeIcons";
+import { ModeIcons } from "../../../components/icons/ModeIcons";
 import { Route } from "../../../../__v3api";
 
 describe("ModeIcons", () => {

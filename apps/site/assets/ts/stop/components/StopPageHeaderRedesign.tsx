@@ -2,13 +2,14 @@ import React, { ReactElement } from "react";
 import { Route, Stop } from "../../__v3api";
 import { StopFeatures } from "./icons/StopFeatures";
 import { routesHasBusRoute } from "../../helpers/routes";
+import { isStopAStation } from "../../helpers/stops";
 
 const StopPageHeaderRedesign = ({
   stop,
   routes
 }: {
-  stop: Stop | undefined;
-  routes: Route[] | undefined;
+  stop: Stop;
+  routes: Route[];
 }): ReactElement<HTMLElement> => {
   return (
     <div className="u-bg--gray-bordered-background">
@@ -17,16 +18,14 @@ const StopPageHeaderRedesign = ({
         style={{ alignItems: "center" }}
       >
         <div className="d-flex">
-          <h3>{stop && stop.name}</h3>
+          <h3>{stop.name}</h3>
           <div className="ps-16 mt-12">
-            {stop && routes && <StopFeatures stop={stop} routes={routes} />}
+            <StopFeatures stop={stop} routes={routes} />
           </div>
         </div>
         <div>
-          {stop &&
-            routes &&
-            routesHasBusRoute(routes) &&
-            !stop["station?"] &&
+          {routesHasBusRoute(routes) &&
+            !isStopAStation(stop) &&
             `Stop ${stop.id}`}
         </div>
       </header>

@@ -46,8 +46,12 @@ const StopPageRedesign = ({
   const [filteredDepartures, setFilteredDepartures] = useState<any[]>([]);
   /* eslint-enable @typescript-eslint/no-explicit-any */
   const stop = useStop(stopId);
-  // const typedRoutes = useTypedRoutesByStop(stopId);
   const routes = useRoutesByStop(stopId);
+
+  // Return nothing while loading
+  if (!stop || !routes) {
+    return <></>;
+  }
 
   return (
     <article>
@@ -84,7 +88,9 @@ const StopPageRedesign = ({
           </div>
         </div>
         {/* Station Information Div */}
-        <footer>{stop && <StationInformation stop={stop} />}</footer>
+        <footer>
+          <StationInformation stop={stop} />
+        </footer>
       </div>
       {/* Station Information Div */}
       <h2>{stop?.["station?"] ? "Station Information" : "Stop Information"}</h2>

@@ -8,7 +8,7 @@ import * as useRoute from "../../hooks/useRoute";
 
 describe("StopPageRedesign", () => {
   it("should render", () => {
-    jest.spyOn(useRoute, "useTypedRoutesByStop").mockImplementation(() => {
+    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
       return [];
     });
 

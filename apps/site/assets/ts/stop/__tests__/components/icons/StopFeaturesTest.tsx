@@ -1,26 +1,26 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { Stop } from "../../../../__v3api";
-import StopFeatures from "../../../components/icons/StopFeatures";
+import { StopFeatures } from "../../../components/icons/StopFeatures";
 
 jest.mock("../../../components/icons/ModeIcons", () => ({
   __esModule: true,
-  default: () => <div>ModeIcons</div>
+  ModeIcons: () => <div>ModeIcons</div>
 }));
 
 jest.mock("../../../components/icons/CommuterRailZoneIcon", () => ({
   __esModule: true,
-  default: () => <div>CommuterRailZoneIcon</div>
+  CommuterRailZoneIcon: () => <div>CommuterRailZoneIcon</div>
 }));
 
 jest.mock("../../../components/icons/AccessibilityIcon", () => ({
   __esModule: true,
-  default: () => <div>AccessibilityIcon</div>
+  AccessibilityIcon: () => <div>AccessibilityIcon</div>
 }));
 
 jest.mock("../../../components/icons/ParkingIcon", () => ({
   __esModule: true,
-  default: () => <div>ParkingIcon</div>
+  ParkingIcon: () => <div>ParkingIcon</div>
 }));
 
 describe("StopFeaturesTest", () => {

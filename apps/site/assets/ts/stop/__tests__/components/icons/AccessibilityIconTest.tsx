@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { Route, Stop } from "../../../../__v3api";
-import AccessibilityIcon from "../../../components/icons/AccessibilityIcon";
+import { AccessibilityIcon } from "../../../components/icons/AccessibilityIcon";
 
 describe("AccessibilityIcon", () => {
   it("should return an empty element for non accessilbe stops", () => {
