@@ -16,11 +16,15 @@ defmodule SiteWeb.BusStopChangeController do
   # groups into current & upcoming
   plug(SiteWeb.Plugs.AlertsByTimeframe)
 
-  def show(conn, _params) do
+  def show(%{query_params: %{"alerts_timeframe" => _alerts_timeframe}} = conn, _params) do
     conn
     # Don't let Google crawl this page
     |> put_resp_header("x-robots-tag", "noindex")
     |> render("index.html")
+  end
+
+  def show(conn, params) do
+    redirect(conn, to: bus_stop_change_path(conn, :show, alerts_timeframe: "current"))
   end
 
   defp bus_stop_alerts(
