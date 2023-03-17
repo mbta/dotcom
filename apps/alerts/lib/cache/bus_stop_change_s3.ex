@@ -1,6 +1,7 @@
 defmodule Alerts.Cache.BusStopChangeS3 do
   @moduledoc """
-  Functionality for writing to/reading from S3. Takes %Alert{} converts them into %HistoricalAlert{} before saving.
+  Functionality for writing to/reading from S3. Takes %Alert{} converts them
+  into %HistoricalAlert{} before saving.
   """
   use RepoCache, ttl: :timer.hours(24)
   require Logger
@@ -31,8 +32,9 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   end
 
   @doc """
-   Find alerts that qualify as a bus stop closure or
-   stop move, and copy them to our S3 bucket. This function is invoked in Alerts.Cache.Fetcher.handle_info/2 with two arguments, but we only use the first.
+   Find alerts that qualify as a bus stop closure or stop move, and copy them to
+   our S3 bucket. This function is invoked in Alerts.Cache.Fetcher.handle_info/2
+   with two arguments, but we only use the first.
   """
   @spec copy_alerts_to_s3([%Alert{}], any) :: :ok
   def copy_alerts_to_s3(bus_alerts, _) do

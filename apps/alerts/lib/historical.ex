@@ -1,5 +1,8 @@
 defmodule Alerts.HistoricalAlert do
-  @moduledoc "Module for representation of a historical alert, capturing an alert from the past with some metadata"
+  @moduledoc """
+  Module for representation of a historical alert, capturing an alert from the
+  past with some metadata
+  """
   alias Alerts.Alert
 
   defstruct id: "",
