@@ -17,6 +17,8 @@ const StationInformation = ({
         latitude={stop.latitude}
         longitude={stop.longitude}
       />
+      {/* when amenities are actually fetched there are headings specific to certain amenities */}
+      {stop?.["station?"] ? <h3>Bringing Your Car or Bike</h3> : null}
       <div>Station Status Blocks PLACEHOLDER</div>
       <div className="station-amenities">
         <div className="station-amenity" />
