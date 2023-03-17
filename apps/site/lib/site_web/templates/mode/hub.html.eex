@@ -65,6 +65,11 @@
             <%= SiteWeb.PartialView.render_teasers(@news, @conn) %>
           <% end %>
         </div>
+        <%= if @paragraph do %>
+          <div class="c-cms__sidebar mt-1" style="padding: 0">
+            <%= SiteWeb.CMS.ParagraphView.render_paragraph(@paragraph, @conn) %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
