@@ -3,6 +3,7 @@ import { uniqueId } from "lodash";
 import DeparturesFilters from "./DeparturesFilters";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
+import StopMapRedesign from "./StopMapRedesign";
 
 // TODO replace with real data
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -79,8 +80,8 @@ const StopPageRedesign = ({
           </ul>
           <button type="button">Plan your Trip PLACEHOLDER</button>
         </div>
-        <div className="hidden-sm-down map-container">
-          Map PLACEHOLDER Imageine a pretty map
+        <div className="hidden-sm-down w-100">
+          {stop && <StopMapRedesign stop={stop} />}
         </div>
       </div>
       {/* Station Information Div */}
