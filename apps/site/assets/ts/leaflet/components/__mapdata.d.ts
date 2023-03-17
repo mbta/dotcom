@@ -42,12 +42,12 @@ export interface MapData {
     longitude: number;
     latitude: number;
   };
-  height: number;
+  height?: number;
   markers: MapMarker[];
   stop_markers?: MapMarker[];
   polylines: Polyline[];
   tile_server_url: TileServerUrl;
-  width: number;
+  width?: number;
   zoom: number | null;
 }
 
