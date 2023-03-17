@@ -1,23 +1,29 @@
 defmodule SiteWeb.BusStopChangeView do
   use SiteWeb, :view
-  alias Alerts.Alert
+  alias Alerts.{Alert, HistoricalAlert}
   alias Routes.Route
   alias Stops.Stop
 
-  @type alerts_by_stop :: [{Stop.t(), [%Alert{}]}]
+  @type alerts_by_stop :: [{Stop.t(), [%Alert{} | %HistoricalAlert{}]}]
 
-  @spec sorted_by_start_date([%Alert{}]) :: [%Alert{}]
+  @spec sorted_by_start_date([%Alert{}] | [%HistoricalAlert{}]) :: [%Alert{}]
   def sorted_by_start_date(alerts) do
     Enum.sort_by(
       alerts,
-      fn %Alert{active_period: [{start_date, _} | _]} ->
-        start_date
+      fn
+        %Alert{active_period: [{start_date, _} | _]} ->
+          start_date
+
+        %HistoricalAlert{alert: %Alert{active_period: [{start_date, _} | _]}} ->
+          start_date
       end
     )
   end
 
-  @spec grouped_by_municipality([%Alert{}]) :: %{String.t() => alerts_by_stop}
-  def grouped_by_municipality(alerts) do
+  @spec grouped_by_municipality([%Alert{}] | [%HistoricalAlert{}]) :: %{
+          String.t() => alerts_by_stop
+        }
+  def grouped_by_municipality([%Alert{} | _] = alerts) do
     grouped_by_stop(alerts)
     |> Enum.group_by(fn
       {%Stop{municipality: municipality}, _alerts} -> municipality
@@ -25,12 +31,27 @@ defmodule SiteWeb.BusStopChangeView do
     end)
   end
 
-  @spec grouped_by_stop([%Alert{}]) :: alerts_by_stop
-  def grouped_by_stop(alerts) do
+  def grouped_by_municipality([%HistoricalAlert{} | _] = alerts) do
+    alerts
+    |> Enum.flat_map(fn %HistoricalAlert{stops: stops} = alert ->
+      Enum.map(stops, &{&1, alert})
+    end)
+    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
+    |> Enum.map(fn {stop, alerts} ->
+      {stop, sorted_by_start_date(alerts)}
+    end)
+    |> Enum.group_by(fn {_, [%HistoricalAlert{municipality: muni} | _]} ->
+      muni
+    end)
+  end
+
+  def grouped_by_municipality([]), do: %{}
+
+  @spec grouped_by_stop([%Alert{} | %HistoricalAlert{}]) :: alerts_by_stop
+  def grouped_by_stop(alerts) when is_list(alerts) do
     alerts
     |> Enum.flat_map(fn alert ->
-      alert
-      |> related_stops()
+      related_stops(alert)
       |> Enum.map(&{&1, alert})
     end)
     |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
@@ -43,12 +64,18 @@ defmodule SiteWeb.BusStopChangeView do
     end)
   end
 
-  @spec affected_routes(%Alert{}) :: [Phoenix.HTML.Safe.t()]
-  def affected_routes(%Alert{} = alert) do
-    Alert.get_entity(alert, :route)
-    |> MapSet.delete(nil)
-    |> MapSet.to_list()
-    |> Enum.uniq()
+  @spec affected_routes(%Alert{} | %HistoricalAlert{}) :: [Phoenix.HTML.Safe.t()]
+  def affected_routes(alert) do
+    case alert do
+      %Alert{} ->
+        Alert.get_entity(alert, :route)
+        |> MapSet.delete(nil)
+        |> MapSet.to_list()
+        |> Enum.uniq()
+
+      %HistoricalAlert{routes: routes} ->
+        routes
+    end
     |> Enum.map(fn routeIdOrName ->
       name =
         case Routes.Repo.get(routeIdOrName) do
@@ -63,11 +90,17 @@ defmodule SiteWeb.BusStopChangeView do
     end)
   end
 
-  @spec related_stops(%Alert{}) :: [%Stop{}]
-  def related_stops(%Alert{} = alert) do
-    Alert.get_entity(alert, :stop)
-    |> MapSet.delete(nil)
-    |> MapSet.to_list()
+  @spec related_stops(%Alert{} | %HistoricalAlert{}) :: [%Stop{}]
+  def related_stops(alert) do
+    case alert do
+      %Alert{} ->
+        Alert.get_entity(alert, :stop)
+        |> MapSet.delete(nil)
+        |> MapSet.to_list()
+
+      %HistoricalAlert{stops: stops} ->
+        stops
+    end
     |> Enum.map(fn stopIdOrName ->
       case Stops.Repo.get_parent(stopIdOrName) do
         %Stop{} = stop -> stop
@@ -110,7 +143,7 @@ defmodule SiteWeb.BusStopChangeView do
     if(stop, do: link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary"))
   end
 
-  @spec time_range(%Alert{}) :: Phoenix.HTML.Safe.t()
+  @spec time_range(%Alert{} | %HistoricalAlert{}) :: Phoenix.HTML.Safe.t()
   def time_range(%Alerts.Alert{active_period: active_periods}) do
     active_periods
     |> Enum.map(fn {start_date, end_date} ->
@@ -128,6 +161,8 @@ defmodule SiteWeb.BusStopChangeView do
     |> List.first()
   end
 
+  def time_range(%HistoricalAlert{alert: alert}), do: time_range(alert)
+
   @spec date_tag(DateTime.t() | nil) :: Phoenix.HTML.Safe.t() | nil
   defp date_tag(%DateTime{} = date) do
     with iso <- DateTime.to_iso8601(date),
@@ -137,4 +172,10 @@ defmodule SiteWeb.BusStopChangeView do
   end
 
   defp date_tag(nil), do: nil
+
+  def alert_item(%HistoricalAlert{alert: alert}, conn), do: alert_item(alert, conn)
+
+  def alert_item(alert, conn) do
+    SiteWeb.AlertView.render("_item.html", alert: alert, date_time: conn.assigns.date_time)
+  end
 end

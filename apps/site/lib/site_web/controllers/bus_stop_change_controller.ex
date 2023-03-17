@@ -6,7 +6,7 @@ defmodule SiteWeb.BusStopChangeController do
   """
   use SiteWeb, :controller
 
-  alias Alerts.Alert
+  alias Alerts.{Alert, HistoricalAlert}
   alias Alerts.InformedEntity, as: IE
 
   # Assigns bus stop change alerts to conn.assigns.alerts
@@ -38,16 +38,34 @@ defmodule SiteWeb.BusStopChangeController do
 
   defp bus_stop_alerts(conn, _params) do
     alerts = get_old_alerts()
+
     assign_bus_stop_alerts(conn, alerts)
+    |> assign(:past_alerts, past_stored_alerts())
   end
 
   defp assign_bus_stop_alerts(conn, alerts) do
     assign(conn, :alerts, Enum.filter(alerts, &is_stop_move_or_closure?/1))
   end
 
+  # These are %HistoricalAlert{} structs that we store in AWS S3.
+  # In the future all of our past alerts will come from here.
+  defp past_stored_alerts() do
+    yesterday = Util.service_date() |> Timex.shift(days: -1)
+
+    Alerts.Cache.BusStopChangeS3.get_stored_alerts()
+    # Best guess at which alerts to designate as "past"
+    |> Enum.filter(fn %HistoricalAlert{alert: %Alert{active_period: [{_starting, ending} | _]}} ->
+      has_ended? = ending && Timex.before?(ending, yesterday)
+      is_nil(ending) || has_ended?
+    end)
+  end
+
   defp is_stop_move_or_closure?(%Alert{effect: effect}),
     do: effect in [:stop_closure, :stop_moved]
 
+  # These are alerts exported from the Alerts UI application into
+  # a series of CSV files. These will eventually be phased out in favor
+  # of the alerts we store in S3.
   defp get_old_alerts() do
     folder = Application.app_dir(:site) |> Path.join("priv/bus-stop-change")
 
