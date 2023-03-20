@@ -8,7 +8,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
           {:ok, %{String.t() => String.t()}} | {:error, any}
   def build_params(from, to, opts) do
     opts = configure_walk_distance(from, to, opts)
-    do_build_params(opts, %{"mode" => "TRANSIT,WALK", "walkReluctance" => 2})
+    do_build_params(opts, %{"mode" => "TRANSIT,WALK", "walkReluctance" => 5})
   end
 
   defp configure_walk_distance(from, to, opts) do
@@ -38,6 +38,11 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
 
   defp do_build_params([{:max_walk_distance, meters} | rest], acc) when is_number(meters) do
     acc = put_in(acc["maxWalkDistance"], "#{meters}")
+    do_build_params(rest, acc)
+  end
+
+  defp do_build_params([{:walkBoardCost} | rest], acc) do
+    acc = put_in(acc["walkBoardCost"], "#{1}")
     do_build_params(rest, acc)
   end
 
