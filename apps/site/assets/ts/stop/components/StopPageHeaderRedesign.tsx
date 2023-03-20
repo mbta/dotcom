@@ -22,12 +22,16 @@ const StopPageHeaderRedesign = ({
           style={{ alignItems: "center" }}
         >
           <div className="d-flex">
-            <h1 className="stop-page__header--fontsize">{stop.name}</h1>
-            <div className="ps-16 mt-12">
+            <h1 className="stop-page__header--fontsize mt-16">{stop.name}</h1>
+          </div>
+          <div>
+            <div className="mt-8">
               <StopFeatures stop={stop} routes={routes} />
             </div>
+            <div className="mt-n20 pb-8">
+              {!isStopAStation(stop) && `Stop ${stop.id}`}
+            </div>
           </div>
-          <div>{!isStopAStation(stop) && `Stop ${stop.id}`}</div>
         </header>
       </div>
     </div>
