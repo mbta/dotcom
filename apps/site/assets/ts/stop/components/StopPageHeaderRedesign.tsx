@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 import { Route, Stop } from "../../__v3api";
 import { StopFeatures } from "./icons/StopFeatures";
-import { routesHasBusRoute } from "../../helpers/routes";
 import { isStopAStation } from "../../helpers/stops";
 
 const StopPageHeaderRedesign = ({
@@ -13,22 +12,24 @@ const StopPageHeaderRedesign = ({
 }): ReactElement<HTMLElement> => {
   return (
     <div className="u-bg--gray-bordered-background">
-      <header
-        className="d-flex justify-content-space-between container"
-        style={{ alignItems: "center" }}
-      >
-        <div className="d-flex">
-          <h3>{stop.name}</h3>
-          <div className="ps-16 mt-12">
-            <StopFeatures stop={stop} routes={routes} />
+      {/* Including `container` on the header class causes some weird
+          interactions with the stop.id and justify content
+          Added to a separate dive to get the desired behavior
+       */}
+      <div className="container">
+        <header
+          className="d-flex justify-content-space-between"
+          style={{ alignItems: "center" }}
+        >
+          <div className="d-flex">
+            <h1 className="stop-page__header--fontsize">{stop.name}</h1>
+            <div className="ps-16 mt-12">
+              <StopFeatures stop={stop} routes={routes} />
+            </div>
           </div>
-        </div>
-        <div>
-          {routesHasBusRoute(routes) &&
-            !isStopAStation(stop) &&
-            `Stop ${stop.id}`}
-        </div>
-      </header>
+          <div>{!isStopAStation(stop) && `Stop ${stop.id}`}</div>
+        </header>
+      </div>
     </div>
   );
 };
