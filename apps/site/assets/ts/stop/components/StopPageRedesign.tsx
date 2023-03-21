@@ -5,7 +5,7 @@ import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
 import { useRoutesByStop } from "../../hooks/useRoute";
-import { StopPageHeaderRedesign } from "./StopPageHeaderRedesign";
+import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 
 // TODO replace with real data

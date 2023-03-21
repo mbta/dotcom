@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { ParkingIcon } from "../../../components/icons/ParkingIcon";
+import ParkingIcon from "../../../components/icons/ParkingIcon";
 import { ParkingLot, Stop } from "../../../../__v3api";
 
 describe("ParkingIcon", () => {

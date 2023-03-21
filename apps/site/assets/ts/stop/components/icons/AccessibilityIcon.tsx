@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
+import { some } from "lodash";
 import { Route, Stop } from "../../../__v3api";
 import { accessibleIcon } from "../../../helpers/icon";
-import { some } from "lodash";
 import { isABusRoute } from "../../../models/route";
 
 const AccessibilityIcon = ({
@@ -27,4 +27,4 @@ const AccessibilityIcon = ({
   );
 };
 
-export { AccessibilityIcon };
+export default AccessibilityIcon;

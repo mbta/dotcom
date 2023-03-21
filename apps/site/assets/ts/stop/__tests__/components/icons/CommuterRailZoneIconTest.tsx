@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { CommuterRailZoneIcon } from "../../../components/icons/CommuterRailZoneIcon";
+import CommuterRailZoneIcon from "../../../components/icons/CommuterRailZoneIcon";
 
 describe("CommuterRailZoneIcon", () => {
   it("should return an empty element if there is no zone number", () => {

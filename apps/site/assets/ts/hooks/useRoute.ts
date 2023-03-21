@@ -9,5 +9,5 @@ const useRoutesByStop = (stopId: string): Route[] | undefined => {
   const { data } = useSWR<Route[]>(`/api/routes/by-stop/${stopId}`, fetchData);
   return data;
 };
-
+// eslint-disable-next-line import/prefer-default-export
 export { useRoutesByStop };

@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { uniqBy } from "lodash";
 import { Route } from "../../../__v3api";
 import { modeIcon } from "../../../helpers/icon";
 import {
@@ -7,7 +8,6 @@ import {
   isFerryRoute,
   isSubwayRoute
 } from "../../../models/route";
-import { uniqBy } from "lodash";
 
 const modeType = (route: Route): string => {
   if (isACommuterRailRoute(route)) return "CR";
@@ -46,4 +46,4 @@ const ModeIcons = ({
   return <>{uniqRouteMap}</>;
 };
 
-export { ModeIcons };
+export default ModeIcons;

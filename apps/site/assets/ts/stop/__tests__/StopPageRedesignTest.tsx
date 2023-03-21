@@ -6,6 +6,11 @@ import * as useStop from "../../hooks/useStop";
 import { Stop, ParkingLot } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
 
+jest.mock("../components/StopMapRedesign", () => ({
+  __esModule: true,
+  default: () => <div>StopMap</div>
+}));
+
 describe("StopPageRedesign", () => {
   it("should render", () => {
     jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {

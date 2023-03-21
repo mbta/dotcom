@@ -18,4 +18,4 @@ const CommuterRailZoneIcon = ({
   );
 };
 
-export { CommuterRailZoneIcon };
+export default CommuterRailZoneIcon;

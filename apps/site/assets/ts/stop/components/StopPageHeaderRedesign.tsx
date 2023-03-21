@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Route, Stop } from "../../__v3api";
-import { StopFeatures } from "./icons/StopFeatures";
+import StopFeatures from "./icons/StopFeatures";
 import { isStopAStation } from "../../helpers/stops";
 
 const StopPageHeaderRedesign = ({
@@ -38,4 +38,4 @@ const StopPageHeaderRedesign = ({
   );
 };
 
-export { StopPageHeaderRedesign };
+export default StopPageHeaderRedesign;

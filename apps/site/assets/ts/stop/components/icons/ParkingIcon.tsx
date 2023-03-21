@@ -13,4 +13,4 @@ const ParkingIcon = ({ stop }: { stop: Stop }): ReactElement<HTMLElement> => {
   );
 };
 
-export { ParkingIcon };
+export default ParkingIcon;
