@@ -41,8 +41,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     do_build_params(rest, acc)
   end
 
-  defp do_build_params([{:walkBoardCost} | rest], acc) do
-    acc = put_in(acc["walkBoardCost"], "#{1}")
+  defp do_build_params([{:transitReluctanceForMode, []} | rest], acc) do
+    acc = put_in(acc["SUBWAY"], 5)
     do_build_params(rest, acc)
   end
 

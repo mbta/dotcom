@@ -9,6 +9,7 @@ const render = (): void => {
   rootEl!.innerHTML = ""; // purge server rendered content
   const itineraryData = JSON.parse(itinDataEl.innerHTML)
     .itineraryData as Itinerary[];
+  console.log(itineraryData);
   ReactDOM.render(
     <TripPlannerResults itineraryData={itineraryData} />,
     document.getElementById("react-root")

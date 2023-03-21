@@ -15,6 +15,7 @@ defmodule TripPlan.Api do
           | {:wheelchair_accessible?, boolean}
           | {:optimize_for, :less_walking | :fewest_transfers}
           | {:max_walk_distance, float}
+          | {:transitReluctanceForMode}
   @type plan_opts :: [plan_opt]
   @type error ::
           :outside_bounds
