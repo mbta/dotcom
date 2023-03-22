@@ -16,6 +16,11 @@ defmodule SiteWeb.CustomerSupportController do
       initially_expanded: true
     },
     %{
+      header: %{text: "ADA/Accessibility Complaints", iconSvgText: nil},
+      id: "accessibility",
+      initially_expanded: true
+    },
+    %{
       header: %{text: "Lost and Found", iconSvgText: nil},
       id: "lost_and_found",
       initially_expanded: true
