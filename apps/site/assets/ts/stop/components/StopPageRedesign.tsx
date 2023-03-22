@@ -84,8 +84,8 @@ const StopPageRedesign = ({
             </ul>
             <button type="button">Plan your Trip PLACEHOLDER</button>
           </div>
-          <div className="hidden-sm-down">
-            {stop && <StopMapRedesign stop={stop} />}
+          <div className="hidden-sm-down w-100 mt-16">
+            <StopMapRedesign stop={stop} />
           </div>
         </div>
         {/* Station Information Div */}
@@ -93,9 +93,6 @@ const StopPageRedesign = ({
           <StationInformation stop={stop} />
         </footer>
       </div>
-      {/* Station Information Div */}
-      <h2>{stop?.["station?"] ? "Station Information" : "Stop Information"}</h2>
-      <footer>{stop && <StationInformation stop={stop} />}</footer>
     </article>
   );
 };
