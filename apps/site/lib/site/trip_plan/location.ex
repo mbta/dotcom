@@ -69,6 +69,15 @@ defmodule Site.TripPlan.Location do
     {lat_bin, params} = Map.pop(params, field <> "_latitude")
     {lng_bin, params} = Map.pop(params, field <> "_longitude")
 
+    stop_id =
+      case Map.get(params, field <> "_id", "") do
+        stop_id when is_binary(stop_id) and stop_id != "" ->
+          stop_id
+
+        _ ->
+          nil
+      end
+
     with {lat, ""} <- Float.parse(lat_bin),
          {lng, ""} <- Float.parse(lng_bin) do
       {name, params} = Map.pop(params, field)
@@ -76,7 +85,8 @@ defmodule Site.TripPlan.Location do
       position = %NamedPosition{
         latitude: lat,
         longitude: lng,
-        name: encode_name(name)
+        name: encode_name(name),
+        stop_id: stop_id
       }
 
       query
