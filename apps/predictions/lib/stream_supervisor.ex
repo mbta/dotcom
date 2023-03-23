@@ -34,8 +34,11 @@ defmodule Predictions.StreamSupervisor do
   @spec lookup(PredictionsPubSub.prediction_key()) :: pid() | nil
   defp lookup(route_stop_direction) do
     case Registry.lookup(:prediction_streams_registry, route_stop_direction) do
-      [{pid, _}] -> if Process.alive?(pid), do: pid
-      _ -> nil
+      [{_pid, sses_pid}] ->
+        if Process.alive?(sses_pid), do: sses_pid
+
+      _ ->
+        nil
     end
   end
 

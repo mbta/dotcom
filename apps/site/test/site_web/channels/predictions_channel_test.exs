@@ -6,6 +6,7 @@ defmodule SiteWeb.PredictionsChannelTest do
   alias Phoenix.Socket
   alias Predictions.Prediction
   alias Routes.Route
+  alias Schedules.Trip
   alias Stops.Stop
   alias SiteWeb.{PredictionsChannel, UserSocket}
 
@@ -17,7 +18,9 @@ defmodule SiteWeb.PredictionsChannelTest do
     id: "prediction39",
     direction_id: @direction,
     route: %Route{id: @route_39},
-    stop: %Stop{id: @stop_fh}
+    stop: %Stop{id: @stop_fh},
+    trip: %Trip{},
+    departure_time: Timex.shift(Util.now(), hours: 2)
   }
 
   setup do
@@ -41,21 +44,21 @@ defmodule SiteWeb.PredictionsChannelTest do
          %{
            socket: socket
          } do
-      assert {:ok, %{predictions: predictions}, %Socket{}} =
+      # our join doesn't directly reply with predictions, but calls itself with
+      # the list of predictions via handle_info
+      assert {:ok, %{}, %Socket{}} =
                subscribe_and_join(
                  socket,
                  PredictionsChannel,
                  "predictions:#{@route_39}:#{@stop_fh}:#{@direction}"
                )
 
-      assert predictions == [@prediction39]
+      assert_push("data", %{predictions: [@prediction39]})
     end
   end
 
   describe "handle_info/2" do
     test "pushes new data onto the socket", %{socket: socket} do
-      predictions = [@prediction39]
-
       {:ok, _, socket} =
         subscribe_and_join(
           socket,
@@ -65,11 +68,11 @@ defmodule SiteWeb.PredictionsChannelTest do
 
       assert {:noreply, _socket} =
                PredictionsChannel.handle_info(
-                 {:new_predictions, predictions},
+                 {:new_predictions, [@prediction39]},
                  socket
                )
 
-      assert_push("data", %{predictions: predictions})
+      assert_push("data", %{predictions: [@prediction39]})
     end
   end
 end

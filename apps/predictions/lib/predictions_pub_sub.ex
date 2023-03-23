@@ -68,7 +68,13 @@ defmodule Predictions.PredictionsPubSub do
 
     predictions = predictions_for_key(predictions_by_key, route_stop_direction)
 
-    {:reply, {registry_key, predictions}, state}
+    # add new subscription to state
+    new_state = %__MODULE__{
+      state
+      | predictions_by_key: Map.put(predictions_by_key, route_stop_direction, predictions)
+    }
+
+    {:reply, {registry_key, predictions}, new_state}
   end
 
   @impl GenServer

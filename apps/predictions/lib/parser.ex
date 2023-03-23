@@ -50,10 +50,13 @@ defmodule Predictions.Parser do
   def direction_id(%Item{attributes: %{"direction_id" => direction_id}}), do: direction_id
 
   @spec first_time(Item.t()) :: DateTime.t() | nil
-  def first_time(%Item{
-        attributes: %{"arrival_time" => arrival_time, "departure_time" => departure_time}
-      }),
-      do: first_time_from_arrival_departure([arrival_time, departure_time])
+  def first_time(%Item{attributes: %{"departure_time" => departure_time}})
+      when not is_nil(departure_time),
+      do: parse_time(departure_time)
+
+  def first_time(%Item{attributes: %{"arrival_time" => arrival_time}})
+      when not is_nil(arrival_time),
+      do: parse_time(arrival_time)
 
   def first_time(_), do: nil
 
@@ -90,13 +93,13 @@ defmodule Predictions.Parser do
 
   def track(_), do: nil
 
-  defp first_time_from_arrival_departure(times) do
-    case times
-         |> Enum.reject(&is_nil/1)
-         |> List.first()
-         |> Timex.parse("{ISO:Extended}") do
-      {:ok, time} -> time
-      _ -> nil
+  defp parse_time(prediction_time) do
+    case Timex.parse(prediction_time, "{ISO:Extended}") do
+      {:ok, time} ->
+        time
+
+      _ ->
+        nil
     end
   end
 

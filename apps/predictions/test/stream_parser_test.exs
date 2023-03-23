@@ -64,7 +64,7 @@ defmodule Predictions.StreamParserTest do
       assert %Route{id: "route_id"} = route
       assert %Stop{id: "place-pktrm"} = stop
       assert %Trip{id: "trip_id"} = trip
-      assert time == ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4")
+      assert time == ~N[2016-09-15 19:40:00] |> Timezone.convert("Etc/GMT+4")
       assert track == stop.platform_code
     end
   end

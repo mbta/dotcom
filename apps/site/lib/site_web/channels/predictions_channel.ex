@@ -20,23 +20,30 @@ defmodule SiteWeb.PredictionsChannel do
 
     [route_id, stop_id, direction_id] = String.split(route_stop_direction, ":")
     predictions = predictions_subscribe_fn.(route_id, stop_id, direction_id)
-
-    # remove old predictions
-    future_predictions = Enum.filter(predictions, &is_in_future?/1)
     # immediately push current predictions to socket
-    send(self(), {:new_predictions, future_predictions})
+    send(self(), {:new_predictions, predictions})
     {:ok, socket}
   end
 
   @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
-  def handle_info({:new_predictions, predictions}, socket) do
+  def handle_info({:new_predictions, new_predictions}, socket) do
+    predictions =
+      new_predictions
+      # remove predictions with no trip information
+      |> Enum.reject(&is_nil(&1.trip))
+      # remove predictions with nil departure_times these are likely to be
+      # arrivals to terminals that passengers cannot actually board.
+      |> Enum.reject(&is_nil(&1.departure_time))
+      # remove past predictions
+      |> Enum.filter(&is_in_future?/1)
+
     :ok = push(socket, "data", %{predictions: predictions})
     {:noreply, socket}
   end
 
-  defp is_in_future?(%Prediction{departure_time: %DateTime{} = d}),
-    do: Util.time_is_greater_or_equal?(d, Util.now())
+  defp is_in_future?(%Prediction{departure_time: %DateTime{} = dt}),
+    do: Util.time_is_greater_or_equal?(dt, Util.now())
 
   defp is_in_future?(_), do: false
 end

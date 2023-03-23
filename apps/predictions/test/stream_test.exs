@@ -76,7 +76,7 @@ defmodule Predictions.StreamTest do
                  subscribe_to: mock_api
                )
 
-      assert_receive {:reset, data}
+      assert_receive {:reset, data}, 5_000
       assert [%Prediction{id: "prediction1"}] = data
     end
   end
@@ -102,8 +102,35 @@ defmodule Predictions.StreamTest do
                  subscribe_to: mock_api
                )
 
-      assert_receive {:received_broadcast, {:remove, data}}
+      assert_receive {:received_broadcast, {:remove, data}}, 5_000
       assert [%Prediction{id: "prediction1"}] = data
+    end
+
+    test "can log broadcast errors" do
+      {:ok, mock_api} =
+        GenStage.from_enumerable([
+          %V3Api.Stream.Event{event: :remove, data: @predictions_data}
+        ])
+
+      broadcast_fn = fn Predictions.PubSub, "predictions", _ ->
+        {:error, "something went wrong"}
+      end
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert {:ok, _} =
+                   Stream.start_link(
+                     name: :error_logging_test,
+                     broadcast_fn: broadcast_fn,
+                     subscribe_to: mock_api
+                   )
+
+          refute_receive _
+        end)
+
+      assert log =~ "[error]"
+      assert log =~ "module=Elixir.Predictions.Stream"
+      assert log =~ "something went wrong"
     end
   end
 end

@@ -66,8 +66,6 @@ defmodule Predictions.StreamParser do
 
   defp included_route(_), do: nil
 
-
-
   @spec included_trip(Item.t()) :: Trip.t() | nil
   defp included_trip(%Item{relationships: %{"trip" => [%Item{id: id} | _]}}),
     do: Schedules.Repo.trip(id)
