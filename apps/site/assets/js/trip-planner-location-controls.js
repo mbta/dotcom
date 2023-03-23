@@ -397,10 +397,10 @@ export class TripPlannerLocControls {
     const toStopId = this.getById(TripPlannerLocControls.SELECTORS.to.stopId);
     this.getById("from_latitude").value = toLat;
     this.getById("from_longitude").value = toLng;
-    this.getById(TripPlannerLocControls.SELECTORS.from.stopId).value = toStopId;
+    this.fromStopId = toStopId;
     this.getById("to_latitude").value = fromLat;
     this.getById("to_longitude").value = fromLng;
-    this.getById(TripPlannerLocControls.SELECTORS.to.stopId).value = fromStopId;
+    this.toStopId = fromStopId;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();
