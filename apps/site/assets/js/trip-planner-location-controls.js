@@ -239,12 +239,13 @@ export class TripPlannerLocControls {
     }
   }
 
-  updateMarker(ac, lat, lng, title) {
+  updateMarker(ac, lat, lng, stopId, title) {
     const label = ac._input.getAttribute("data-label");
     const detail = {
       latitude: lat,
       longitude: lng,
       label,
+      stopId: stopId,
       title
     };
     const event = new Event("trip-plan:update-marker");
@@ -279,6 +280,7 @@ export class TripPlannerLocControls {
         from,
         this.getById("from_latitude").value,
         this.getById("from_longitude").value,
+        this.getById("from_id").value,
         fromVal
       );
     } else {
@@ -290,6 +292,7 @@ export class TripPlannerLocControls {
         to,
         this.getById("to_latitude").value,
         this.getById("to_longitude").value,
+        this.getById("to_id").value,
         to
       );
     } else {
@@ -302,7 +305,7 @@ export class TripPlannerLocControls {
       this.getById(ac._selectors.lat).value = lat;
       this.getById(ac._selectors.lng).value = lng;
       const address = ac._input.value;
-      this.updateMarker(ac, lat, lng, address);
+      this.updateMarker(ac, lat, lng, null, address);
     };
   }
 
@@ -365,7 +368,7 @@ export class TripPlannerLocControls {
     if (typeof stopId !== "undefined") {
       stopIdEl.value = stopId;
     }
-    this.updateMarker(ac, lat, lng, name);
+    this.updateMarker(ac, lat, lng, stopId, name);
     this.resetResetButtons();
   }
 
