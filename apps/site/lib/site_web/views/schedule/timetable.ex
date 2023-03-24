@@ -114,4 +114,7 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   @spec is_ferry(Route.t()) :: boolean
   def is_ferry(route), do: Routes.Route.type_atom(route) == :ferry
+
+  @spec is_commuter_rail(Route.t()) :: boolean
+  def is_commuter_rail(route), do: Routes.Route.type_atom(route) == :commuter_rail
 end

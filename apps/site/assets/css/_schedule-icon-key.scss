@@ -5,9 +5,19 @@
     display: flex;
   }
 
-  [class*=c-svg__icon] {
+  [class*=c-svg__icon],
+  [class*=fa] {
     margin-right: $base-spacing;
     top: auto;
+  }
+
+  [class*=fa] {
+    margin-top: .188rem;
+  }
+
+  // Used to remove the margin from the incon in the explainaition text
+  .no-margin-right {
+    margin-right: 0;
   }
 }
 
