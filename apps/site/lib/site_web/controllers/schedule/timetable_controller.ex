@@ -58,6 +58,23 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
+    Enum.map(timetable_schedules, fn sch ->
+      IO.inspect(sch)
+      # Enum.map(sch.stop.child_ids, fn ch_stop_id ->
+      #   child_schs = Schedules.ByStop.SchedulesByStopRepo.schedules_for_stop(ch_stop_id, [])
+      #   IO.inspect(child_schs)
+      # end)
+      # Game plan
+      # Get each child stop with its trip and route info, compare that to the predicted stop/trip/route info
+      # Maybe we can get the from the schedule end point idk
+    end)
+
+    # These schedules appear to be all stations, we need to get the child_ids stop info to compare to the predicted
+    # child_ids because that contains the track names. Veryify that the child stops contain the trip info assigned to
+    # that platform/track
+    IO.inspect("########################")
+    IO.inspect("########################")
+
     conn
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)

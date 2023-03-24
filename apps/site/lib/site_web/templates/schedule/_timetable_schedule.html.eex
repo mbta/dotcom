@@ -4,6 +4,10 @@
   %>
   <span class="m-timetable__schedule">
     <span class="m-timetable__flag-icon">
+      <%= if true do %>
+      <!-- TODO figure out the tool tip and when to display this -->
+        <%= content_tag(:i, "", class: "notranslate fa fa-shuffle no-margin-right", aria: [hidden: "true"]) %>
+      <% end %>
       <%= if @trip_schedule.flag? do %>
         <%= content_tag(:span, svg("icon-flag-stop-default.svg"), aria: [hidden: "true"]) %>
         <%= content_tag(:span, "Flag Stop", class: "sr-only") %>

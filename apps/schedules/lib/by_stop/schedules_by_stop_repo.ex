@@ -10,7 +10,7 @@ defmodule Schedules.ByStop.SchedulesByStopRepo do
     "fields[trip]": "name,headsign,direction_id"
   ]
 
-  @spec departures_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
+  @spec departures_for_stop(Stop.id_t(), Keyword.t()) :: [Departures.t()] | {:error, any}
   def departures_for_stop(stop_id, opts) do
     @default_params
     |> Keyword.merge(opts)
