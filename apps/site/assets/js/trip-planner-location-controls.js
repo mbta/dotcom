@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
 import Algolia from "./algolia-search";
@@ -388,12 +389,16 @@ export class TripPlannerLocControls {
     const to = toAc.getValue();
     const fromLat = this.getById("from_latitude").value;
     const fromLng = this.getById("from_longitude").value;
+    const fromId = this.getById("from_id").value;
     const toLat = this.getById("to_latitude").value;
     const toLng = this.getById("to_longitude").value;
+    const toId = this.getById("from_id").value;
     this.getById("from_latitude").value = toLat;
     this.getById("from_longitude").value = toLng;
+    this.getById("from_id").value = toId;
     this.getById("to_latitude").value = fromLat;
     this.getById("to_longitude").value = fromLng;
+    this.getById("to_id").value = fromId;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();
