@@ -392,7 +392,7 @@ export class TripPlannerLocControls {
     const fromId = this.getById("from_id").value;
     const toLat = this.getById("to_latitude").value;
     const toLng = this.getById("to_longitude").value;
-    const toId = this.getById("from_id").value;
+    const toId = this.getById("to_id").value;
     this.getById("from_latitude").value = toLat;
     this.getById("from_longitude").value = toLng;
     this.getById("from_id").value = toId;
