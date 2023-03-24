@@ -20,12 +20,8 @@ export class TripPlannerLocControls {
     this.fromInput = this.getById(TripPlannerLocControls.SELECTORS.from.input);
     this.toLat = this.getById(TripPlannerLocControls.SELECTORS.to.lat);
     this.toLng = this.getById(TripPlannerLocControls.SELECTORS.to.lng);
-    this.toStopId = this.getById(TripPlannerLocControls.SELECTORS.to.stopId);
     this.fromLat = this.getById(TripPlannerLocControls.SELECTORS.from.lat);
     this.fromLng = this.getById(TripPlannerLocControls.SELECTORS.from.lng);
-    this.fromStopId = this.getById(
-      TripPlannerLocControls.SELECTORS.from.stopId
-    );
     this.controller = null;
     this.toInputDirty = false;
     this.fromInputDirty = false;
@@ -83,8 +79,7 @@ export class TripPlannerLocControls {
       ac.onHitSelected = this.onHitSelected(
         ac,
         this.getById(ac._selectors.lat),
-        this.getById(ac._selectors.lng),
-        this.getById(ac._selectors.stopId)
+        this.getById(ac._selectors.lng)
       );
       ac._resetButton.addEventListener("click", () => {
         this.removeMarker(ac);
@@ -306,7 +301,7 @@ export class TripPlannerLocControls {
     };
   }
 
-  onHitSelected(ac, lat, lng, stopId) {
+  onHitSelected(ac, lat, lng) {
     return ({
       originalEvent: {
         _args: [hit, type]
@@ -320,9 +315,7 @@ export class TripPlannerLocControls {
             lat,
             lng,
             hit._geoloc.lat,
-            hit._geoloc.lng,
-            stopId,
-            hit.stop.id
+            hit._geoloc.lng
           );
           break;
         case "locations":
@@ -358,13 +351,10 @@ export class TripPlannerLocControls {
     };
   }
 
-  setAutocompleteValue(ac, name, latEl, lngEl, lat, lng, stopIdEl, stopId) {
+  setAutocompleteValue(ac, name, latEl, lngEl, lat, lng) {
     ac.setValue(name);
     latEl.value = lat;
     lngEl.value = lng;
-    if (typeof stopId !== "undefined") {
-      stopIdEl.value = stopId;
-    }
     this.updateMarker(ac, lat, lng, name);
     this.resetResetButtons();
   }
@@ -389,18 +379,12 @@ export class TripPlannerLocControls {
     const to = toAc.getValue();
     const fromLat = this.getById("from_latitude").value;
     const fromLng = this.getById("from_longitude").value;
-    const fromStopId = this.getById(
-      TripPlannerLocControls.SELECTORS.from.stopId
-    );
     const toLat = this.getById("to_latitude").value;
     const toLng = this.getById("to_longitude").value;
-    const toStopId = this.getById(TripPlannerLocControls.SELECTORS.to.stopId);
     this.getById("from_latitude").value = toLat;
     this.getById("from_longitude").value = toLng;
-    this.fromStopId = toStopId;
     this.getById("to_latitude").value = fromLat;
     this.getById("to_longitude").value = fromLng;
-    this.toStopId = fromStopId;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();
@@ -430,7 +414,6 @@ TripPlannerLocControls.SELECTORS = {
     input: "to",
     lat: "to_latitude",
     lng: "to_longitude",
-    stopId: "to_id",
     resetButton: "trip-plan__reset--to",
     container: "trip-plan__container--to",
     locationLoadingIndicator: "trip-plan__loading-indicator--to",
@@ -442,7 +425,6 @@ TripPlannerLocControls.SELECTORS = {
     input: "from",
     lat: "from_latitude",
     lng: "from_longitude",
-    stopId: "from_id",
     resetButton: "trip-plan__reset--from",
     container: "trip-plan__container--from",
     locationLoadingIndicator: "trip-plan__loading-indicator--from",
