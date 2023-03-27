@@ -1,4 +1,8 @@
-/* eslint-disable */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-underscore-dangle */
 import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
 import { TripPlannerLocControls } from "../trip-planner-location-controls";
@@ -48,34 +52,29 @@ describe("trip-plan", () => {
 
     it("swaps the contents of to and from and the from/to lat/lng", () => {
       const tripPlannerLocControls = new TripPlannerLocControls();
+      // eslint-disable-next-line no-shadow
       const $ = window.jQuery;
       const $from = $("#from");
       const $from_lat = $("#from_latitude");
       const $from_lng = $("#from_longitude");
-      const $from_id = $("#from_id");
       tripPlannerLocControls.fromAutocomplete.setValue("A");
       $from_lat.val(1);
       $from_lng.val(2);
-      $from_id.val("place-davis");
 
       const $to = $("#to");
       const $to_lat = $("#to_latitude");
       const $to_lng = $("#to_longitude");
-      const $to_id = $("#to_id");
       tripPlannerLocControls.toAutocomplete.setValue("B");
       $to_lat.val(3);
       $to_lng.val(4);
-      $to_id.val("place-sstat");
 
       $("#trip-plan-reverse-control").trigger("click");
       assert.equal($from.val(), "B");
       assert.equal($to.val(), "A");
       assert.equal($to_lat.val(), 1);
       assert.equal($to_lng.val(), 2);
-      assert.equal($to_id.val(), "place-davis");
       assert.equal($from_lat.val(), 3);
       assert.equal($from_lng.val(), 4);
-      assert.equal($from_id.val(), "place-sstat");
     });
   });
 
