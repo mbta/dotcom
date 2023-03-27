@@ -2,7 +2,7 @@
     To submit an ADA/Accessibility complaint or feedback, please call the number listed above (or repeat call center details) or complete the feedback form to the left. The Customer Engagement Coordinator System-Wide Accessibility & Customer Liaison for The RIDE are responsible for coordinating the resolutions of ADA/Accessibility complaints once they are received. To learn more, click here
 </p>
 <p>
-  <%= link to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), class: "c-call-to-action" do %>
+  <%= link to: cms_static_page_path(@conn, "/accessibility/frequently-asked-questions"), class: "c-call-to-action" do %>
     Accessibility FAQS
   <% end %>
 </p>
