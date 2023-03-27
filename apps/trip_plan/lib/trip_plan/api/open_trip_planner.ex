@@ -80,11 +80,6 @@ defmodule TripPlan.Api.OpenTripPlanner do
     "status=error error=#{inspect(error)}"
   end
 
-  defp location(%NamedPosition{stop_id: stop_id}) when is_binary(stop_id) do
-    # 1 is the name for the MBTA's GTFS feed in the OpenTripPlanner instance.
-    "1:#{stop_id}"
-  end
-
   defp location(%NamedPosition{} = np) do
     "#{np.name}::#{Position.latitude(np)},#{Position.longitude(np)}"
   end
