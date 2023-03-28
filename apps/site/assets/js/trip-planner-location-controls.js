@@ -177,8 +177,8 @@ export class TripPlannerLocControls {
   }
 
   onInputChange(ac) {
-    this.getById("to_id").value = nil;
-    this.getById("from_id").value = nil;
+    this.getById("to_id").value = null;
+    this.getById("from_id").value = null;
 
     return () => {
       if (ac && ac._input.id === "to") {
