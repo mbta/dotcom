@@ -172,10 +172,10 @@ export class TripPlannerLocControls {
   }
 
   onInputChange(ac) {
-    if (this.getById("to_id").value == null) {
+    if (this.getById("to_id").value !== null) {
       this.getById("to_id").value = "";
     }
-    if (this.getById("from_id").value == null) {
+    if (this.getById("from_id").value !== null) {
       this.getById("from_id").value = "";
     }
     return () => {
