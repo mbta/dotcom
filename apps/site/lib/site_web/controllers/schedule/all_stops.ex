@@ -3,6 +3,8 @@ defmodule SiteWeb.ScheduleController.AllStops do
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
+  require Logger
+
   @impl true
   def init([]), do: []
 
@@ -37,7 +39,18 @@ defmodule SiteWeb.ScheduleController.AllStops do
     assign(conn, :all_stops, stops)
   end
 
-  defp assign_all_stops(conn, {:error, _error}) do
+  defp assign_all_stops(conn, {:error, error}) do
+    error_log =
+      "module=#{__MODULE__} fun=assign_all_stops error=#{inspect(error)} date=#{inspect(get_date(conn.assigns))}"
+
+    case conn.assigns do
+      %{route: %{id: route_id}, direction_id: direction_id} ->
+        :ok = Logger.warn(error_log <> " route=#{route_id} direction_id=#{direction_id}")
+
+      _ ->
+        :ok = Logger.warn(error_log)
+    end
+
     assign(conn, :all_stops, [])
   end
 

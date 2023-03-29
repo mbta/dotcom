@@ -58,18 +58,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
-    # Log unusual results
-    basic_log =
-      "module=#{__MODULE__} assign_trip_schedules route=#{conn.assigns.route.id} direction_id=#{conn.assigns[:direction_id]}"
-
-    if Enum.empty?(conn.assigns.all_stops) do
-      :ok = Logger.warn(basic_log <> " empty=conn.assigns.all_stops")
-    end
-
-    if Enum.empty?(all_stops) do
-      :ok = Logger.warn(basic_log <> " empty=all_stops")
-    end
-
     conn
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
@@ -124,7 +112,13 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         date: conn.assigns.date
       )
 
-    assign(conn, :all_stops, all_stops)
+    if Enum.empty?(all_stops) do
+      # return conn, all_stops will get assigned later in the
+      # SiteWeb.ScheduleController.Core plug
+      conn
+    else
+      assign(conn, :all_stops, all_stops)
+    end
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
