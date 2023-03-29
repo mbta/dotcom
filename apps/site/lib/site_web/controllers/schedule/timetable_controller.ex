@@ -112,13 +112,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         date: conn.assigns.date
       )
 
-    if Enum.empty?(all_stops) do
-      # return conn, all_stops will get assigned later in the
-      # SiteWeb.ScheduleController.Core plug
-      conn
-    else
-      assign(conn, :all_stops, all_stops)
-    end
+    assign(conn, :all_stops, all_stops)
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
