@@ -172,17 +172,23 @@ export class TripPlannerLocControls {
   }
 
   onInputChange(ac) {
-    if (this.getById("to_id") !== null) {
-      this.getById("to_id").value = null;
-    }
-    if (this.getById("from_id") !== null) {
-      this.getById("from_id").value = null;
-    }
     return () => {
       if (ac && ac._input.id === "to") {
         this.toInputDirty = true;
+        if (this.getById("to_id")) {
+          this.getById("to_id").value = null;
+        }
+        if (this.getById("from_id")) {
+          this.getById("from_id").value = null;
+        }
       } else if (ac && ac._input.id === "from") {
         this.fromInputDirty = true;
+        if (this.getById("to_id")) {
+          this.getById("to_id").value = null;
+        }
+        if (this.getById("from_id")) {
+          this.getById("from_id").value = null;
+        }
       }
       if (ac.error === "invalid") {
         return;
