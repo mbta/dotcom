@@ -88,6 +88,7 @@ export function setup(rootElement: HTMLElement): void {
     .forEach(toggle => {
       toggle.addEventListener("click", event => {
         event.preventDefault(); // don't navigate the <a>
+        setHeaderElementPositions(header, rootElement);
         toggleMenu(event.currentTarget as Element);
       });
     });
