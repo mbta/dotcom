@@ -26,7 +26,7 @@ defmodule Alerts.HistoricalAlert do
     %__MODULE__{
       id: alert.id,
       alert: alert,
-      municipality: municipality(alert),
+      municipality: Alert.municipality(alert),
       routes: get_entity_lists(alert, :route),
       stops: get_entity_lists(alert, :stop)
     }
@@ -42,35 +42,15 @@ defmodule Alerts.HistoricalAlert do
 
   @spec get_name_or_id(String.t(), entity_key) :: String.t()
   defp get_name_or_id(id, key) do
-    # silly but it works. :route becomes our Routes.Repo module
     module =
-      "#{key}s"
-      |> String.capitalize()
-      |> List.wrap()
-      |> List.insert_at(1, "Repo")
-      |> Module.concat()
+      case key do
+        :route -> Routes.Repo
+        :stop -> Stops.Repo
+      end
 
     case apply(module, :get, [id]) do
       %{name: name} when not is_nil(name) -> name
       _ -> id
-    end
-  end
-
-  @spec municipality(%Alert{}) :: String.t() | nil
-  defp municipality(alert) do
-    Alert.get_entity(alert, :stop)
-    |> MapSet.delete(nil)
-    |> MapSet.to_list()
-    |> Enum.map(&maybe_get_stop_muni/1)
-    |> Enum.filter(& &1)
-    |> List.first()
-  end
-
-  @spec maybe_get_stop_muni(Stops.Stop.id_t()) :: String.t() | nil
-  defp maybe_get_stop_muni(stop_id) do
-    case Stops.Repo.get(stop_id) do
-      %Stops.Stop{municipality: municipality} when not is_nil(municipality) -> municipality
-      _ -> nil
     end
   end
 end

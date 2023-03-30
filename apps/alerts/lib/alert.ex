@@ -255,6 +255,19 @@ defmodule Alerts.Alert do
   @spec is_diversion(t) :: boolean()
   def is_diversion(%{effect: effect}),
     do: effect in @diversion_effects
+
+  @spec municipality(t) :: String.t() | nil
+  def municipality(alert) do
+    alert
+    |> get_entity(:stop)
+    |> MapSet.delete(nil)
+    |> Enum.find_value(fn stop_id ->
+      with %Stops.Stop{municipality: municipality} when not is_nil(municipality) <-
+             Stops.Repo.get(stop_id) do
+        municipality
+      end
+    end)
+  end
 end
 
 defimpl Poison.Encoder, for: Alerts.Alert do

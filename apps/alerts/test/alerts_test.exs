@@ -3,7 +3,9 @@ defmodule AlertsTest do
   use Timex
 
   import Alerts.Alert
+  import Mock
   alias Alerts.Alert
+  alias Alerts.InformedEntity, as: IE
 
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
@@ -180,6 +182,23 @@ defmodule AlertsTest do
       refute is_diversion(%Alert{effect: :service_change})
       refute is_diversion(%Alert{effect: :snow_route})
       refute is_diversion(%Alert{effect: :stop_shoveling})
+    end
+  end
+
+  describe "municipality/1" do
+    test "gets municipality from an alert's stops" do
+      alert_with_muni = Alert.new(informed_entity: [%IE{stop: "some-stop"}])
+      alert_no_muni = Alert.new(informed_entity: [%IE{stop: "other-stop"}])
+
+      with_mock(Stops.Repo,
+        get: fn
+          "some-stop" -> %Stops.Stop{municipality: "Metropolis"}
+          _ -> nil
+        end
+      ) do
+        assert "Metropolis" = municipality(alert_with_muni)
+        refute municipality(alert_no_muni)
+      end
     end
   end
 end
