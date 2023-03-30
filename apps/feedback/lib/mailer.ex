@@ -8,6 +8,7 @@ defmodule Feedback.Mailer do
   @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
+    ada_response = if message.ada_response, do: "Yes", else: "No"
 
     _ =
       unless message.no_request_response do
@@ -39,6 +40,7 @@ defmodule Feedback.Mailer do
       <PHONE>#{message.phone}</PHONE>
       <DESCRIPTION>#{ticket_number(message)}#{message.comments}</DESCRIPTION>
       <CUSTREQUIRERESP>#{no_request_response}</CUSTREQUIRERESP>
+      <SWARELATED>#{ada_response}</SWARELATED>
       <MBTASOURCE>Auto Ticket 2</MBTASOURCE>
     </INCIDENT>
     """

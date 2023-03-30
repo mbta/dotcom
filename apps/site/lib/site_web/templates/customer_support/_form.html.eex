@@ -53,8 +53,8 @@
      <div class="form-group">
       <%= SiteWeb.PartialView.render("_checkbox.html", %{
         form: f,
-        field: :ada_complaint,
-        id: "ada_complaint",
+        field: :ada_response,
+        id: "ada_response",
         checked: false,
         label_text: "This is an ADA/accessibility complaint"
       })
