@@ -50,6 +50,16 @@
   <section>
     <h3>Additional Details (optional)</h3>
     <div>Adding more details helps us more effectively respond to your concerns.</div>
+     <div class="form-group">
+      <%= SiteWeb.PartialView.render("_checkbox.html", %{
+        form: f,
+        field: :ada_complaint,
+        id: "ada_complaint",
+        checked: false,
+        label_text: "This is an ADA/accessibility complaint"
+      })
+      %>
+    </div>
     <div class="form-group">
       <%= label f, "Mode", [for: "support_mode", class: "form-control-label"] %>
       <%= select(f, :mode, get_all_modes(), class: "form-control c-select support-form-input support-form-input--small") %>
