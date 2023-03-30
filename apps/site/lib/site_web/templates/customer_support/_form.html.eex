@@ -50,7 +50,7 @@
   <section>
     <h3>Additional Details (optional)</h3>
     <div>Adding more details helps us more effectively respond to your concerns.</div>
-     <div class="form-group">
+     <div class="ada-container form-group">
       <%= SiteWeb.PartialView.render("_checkbox.html", %{
         form: f,
         field: :ada_response,
@@ -59,6 +59,8 @@
         label_text: "This is an ADA/accessibility complaint"
       })
       %>
+      <span aria-hidden="true" class="isa-icon fa fa-wheelchair">
+
     </div>
     <div class="form-group">
       <%= label f, "Mode", [for: "support_mode", class: "form-control-label"] %>
