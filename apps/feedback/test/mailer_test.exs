@@ -52,6 +52,7 @@ defmodule Feedback.MailerTest do
                  <PHONE></PHONE>
                  <DESCRIPTION></DESCRIPTION>
                  <CUSTREQUIRERESP>No</CUSTREQUIRERESP>
+                 <SWARELATED>No</SWARELATED>
                  <MBTASOURCE>Auto Ticket 2</MBTASOURCE>
                </INCIDENT>
                """
@@ -150,6 +151,16 @@ defmodule Feedback.MailerTest do
     test "sets customer requests response to no" do
       Mailer.send_heat_ticket(@base_message, nil)
       assert Test.latest_message()["text"] =~ "<CUSTREQUIRERESP>No</CUSTREQUIRERESP>"
+    end
+
+    test "sets ada_respnse to yes" do
+      Mailer.send_heat_ticket(
+        %{@base_message | ada_response: true},
+        nil
+      )
+
+      assert Test.latest_message()["text"] =~
+               "<SWARELATED>Yes</SWARELATED>"
     end
 
     test "does not log anything when the user doesnt want feedback" do
