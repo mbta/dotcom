@@ -7,8 +7,8 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   require Logger
   alias Alerts.{Alert, HistoricalAlert}
 
-  @ex_aws Application.compile_env(:alerts, [:aws_client], ExAws)
-  @ex_aws_s3 Application.compile_env(:alerts, [:s3_client], ExAws.S3)
+  @ex_aws Application.compile_env(:alerts, [:mock_aws_client], ExAws)
+  @ex_aws_s3 Application.compile_env(:alerts, [:mock_aws_client], ExAws.S3)
   @bucket "mbta-dotcom"
   @bucket_prefix "bus-stop-change"
 
