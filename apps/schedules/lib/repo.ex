@@ -235,8 +235,6 @@ defmodule Schedules.Repo do
     |> Enum.map(fn {route_id, trip_id, stop_id, time, flag?, early_departure?, last_stop?,
                     stop_sequence, pickup_type} ->
       Task.async(fn ->
-        # predicted_schedule = PredictedSchedule.get(route_id, stop_id)
-        # track_change = is_track_change()
         %Schedules.Schedule{
           route: Routes.Repo.get(route_id),
           trip: trip(trip_id),
