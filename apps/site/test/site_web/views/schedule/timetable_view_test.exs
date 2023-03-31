@@ -63,6 +63,7 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
         vehicle_locations: vehicle_locations,
         trip_messages: trip_messages,
         trip_schedules: trip_schedules,
+        track_changes: %{},
         date_time: ~N[2017-03-01T07:29:00],
         direction_name: "Southeastbound",
         formatted_date: "March 1, 2017"
@@ -100,6 +101,29 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
       rendered = SiteWeb.ScheduleView.render("_timetable.html", assigns)
       assert safe_to_string(rendered) =~ "Earlier Trains"
       assert safe_to_string(rendered) =~ "Later Trains"
+    end
+
+    test "should show the track change information if present", %{assigns: assigns} do
+      trip = %Schedules.Trip{name: "Test Trip", id: "Test-Trip-ID"}
+
+      all_stops = [
+        %Stops.Stop{id: "Test-Stop-ID", name: "Stop"}
+      ]
+
+      track_changes = %{{"Test-Trip-ID", "Test-Stop-ID"} => "Track Change"}
+      header_schedules = [%Schedules.Schedule{trip: trip}]
+      trip_schedules = %{{"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{trip: trip}}
+
+      assigns =
+        Keyword.merge(assigns,
+          header_schedules: header_schedules,
+          track_changes: track_changes,
+          all_stops: all_stops,
+          trip_schedules: trip_schedules
+        )
+
+      rendered = SiteWeb.ScheduleView.render("_timetable.html", assigns)
+      assert safe_to_string(rendered) =~ "Track Change"
     end
   end
 end
