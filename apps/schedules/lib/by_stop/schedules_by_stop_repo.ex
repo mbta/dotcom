@@ -2,7 +2,6 @@ defmodule Schedules.ByStop.SchedulesByStopRepo do
   @moduledoc "Repo for getting departure information about all the routes at a given stop"
 
   alias Schedules.ByStop.Departures
-  alias Schedules.Schedule
 
   @default_params [
     include: "trip",

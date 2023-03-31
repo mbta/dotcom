@@ -47,7 +47,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
   end
 
-  def assign_trip_schedules(conn) do
+  def assign_trip_schedules(%{assigns: %{route: route, direction_id: direction_id}} = conn) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
@@ -58,31 +58,63 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
-    Enum.map(timetable_schedules, fn sch ->
-      IO.inspect(sch)
-      # Enum.map(sch.stop.child_ids, fn ch_stop_id ->
-      #   child_schs = Schedules.ByStop.SchedulesByStopRepo.schedules_for_stop(ch_stop_id, [])
-      #   IO.inspect(child_schs)
-      # end)
-      # Game plan
-      # Get each child stop with its trip and route info, compare that to the predicted stop/trip/route info
-      # Maybe we can get the from the schedule end point idk
-    end)
-
-    # These schedules appear to be all stations, we need to get the child_ids stop info to compare to the predicted
-    # child_ids because that contains the track names. Veryify that the child stops contain the trip info assigned to
-    # that platform/track
-    IO.inspect("########################")
-    IO.inspect("########################")
+    track_changes = track_changes(trip_schedules, route, direction_id)
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
     |> assign(:trip_schedules, trip_schedules)
+    |> assign(:track_changes, track_changes)
     |> assign(:vehicle_schedules, vehicle_schedules)
     |> assign(:prior_stops, prior_stops)
-    |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
+    |> assign(:trip_messages, trip_messages(route, direction_id))
     |> assign(:all_stops, all_stops)
+  end
+
+  @spec track_changes(
+          %{required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()},
+          Route.t(),
+          0 | 1
+        ) :: %{
+          required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => String.t() | nil
+        }
+  defp track_changes(trip_schedules, route, direction_id) do
+    Map.new(trip_schedules, fn {{trip_id, stop_id}, sch} ->
+      # Fetches all the predictions on the route in a direction, for a trip
+      predictions =
+        Predictions.Repo.all(
+          route: route.id,
+          trip: trip_id,
+          direction_id: direction_id
+        )
+
+      # Compare the prediction to the schedule
+      track_change = get_track_change(sch, predictions)
+
+      {
+        {trip_id, stop_id},
+        track_change
+      }
+    end)
+  end
+
+  @spec get_track_change(Schedules.Schedule.t(), [Predictions.Prediction.t()]) :: String.t() | nil
+  defp get_track_change(nil, _), do: nil
+  defp get_track_change(_, []), do: nil
+
+  defp get_track_change(schedule, predicted_schedules) do
+    # Comparing stops based off stop sequence
+    prediction =
+      Enum.find(predicted_schedules, fn ps ->
+        ps.stop_sequence == schedule.stop_sequence
+      end)
+
+    # If the prediction stop doesn't match the scheduled stop there has been a track change
+    if prediction != nil and schedule.stop.id != prediction.stop.id do
+      "Track Change"
+    else
+      nil
+    end
   end
 
   # Helper function for obtaining schedule data
