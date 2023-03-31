@@ -41,7 +41,12 @@ const ExternalMapLink = ({
     mapURI = "maps://www.google.com/maps/search/?api=1&";
   }
   return (
-    <a href={`${mapURI}${params}`} target="_blank" rel="noreferrer">
+    <a
+      href={`${mapURI}${params}`}
+      target="_blank"
+      rel="noreferrer"
+      className="c-call-to-action"
+    >
       {displayString}
       {renderFa("ps-5", "fa-solid fa-arrow-up-right-from-square")}
     </a>
