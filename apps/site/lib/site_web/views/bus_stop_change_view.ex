@@ -1,113 +1,42 @@
 defmodule SiteWeb.BusStopChangeView do
   use SiteWeb, :view
   alias Alerts.{Alert, HistoricalAlert}
-  alias Routes.Route
   alias Stops.Stop
 
-  @type alerts_by_stop :: [{Stop.t(), [%Alert{} | %HistoricalAlert{}]}]
+  defdelegate affected_routes(alert), to: AmbiguousAlert
+  defdelegate related_stops(alert), to: AmbiguousAlert
+  defdelegate alert_start_date(alert), to: AmbiguousAlert
+  defdelegate alert_municipality(alert), to: AmbiguousAlert
 
-  @spec sorted_by_start_date([%Alert{}] | [%HistoricalAlert{}]) :: [%Alert{}]
-  def sorted_by_start_date(alerts) do
-    Enum.sort_by(
-      alerts,
-      fn
-        %Alert{active_period: [{start_date, _} | _]} ->
-          start_date
-
-        %HistoricalAlert{alert: %Alert{active_period: [{start_date, _} | _]}} ->
-          start_date
-      end
-    )
-  end
-
-  @spec grouped_by_municipality([%Alert{}] | [%HistoricalAlert{}]) :: %{
-          String.t() => alerts_by_stop
-        }
-  def grouped_by_municipality([%Alert{} | _] = alerts) do
-    grouped_by_stop(alerts)
-    |> Enum.group_by(fn
-      {%Stop{municipality: municipality}, _alerts} -> municipality
-      {_stopname, _alerts} -> nil
-    end)
-  end
-
-  def grouped_by_municipality([%HistoricalAlert{} | _] = alerts) do
+  def grouped_by_stop(alerts) do
     alerts
-    |> Enum.flat_map(fn %HistoricalAlert{stops: stops} = alert ->
-      Enum.map(stops, &{&1, alert})
-    end)
+    |> Enum.flat_map(&alert_with_related_stops/1)
     |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
-    |> Enum.map(fn {stop, alerts} ->
-      {stop, sorted_by_start_date(alerts)}
-    end)
-    |> Enum.group_by(fn {_, [%HistoricalAlert{municipality: muni} | _]} ->
-      muni
+    |> sort_and_group_with_fn(fn alerts_list ->
+      Enum.sort_by(alerts_list, &alert_start_date/1)
     end)
   end
 
-  def grouped_by_municipality([]), do: %{}
+  defp alert_with_related_stops(alert) do
+    alert
+    |> related_stops()
+    |> Enum.map(&{&1, alert})
+  end
 
-  @spec grouped_by_stop([%Alert{} | %HistoricalAlert{}]) :: alerts_by_stop
-  def grouped_by_stop(alerts) when is_list(alerts) do
+  def grouped_by_municipality(alerts) do
     alerts
-    |> Enum.flat_map(fn alert ->
-      related_stops(alert)
-      |> Enum.map(&{&1, alert})
-    end)
-    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
-    |> Enum.sort_by(fn
-      {%Stop{name: name}, _alerts} -> name
-      {stopname, _alerts} -> stopname
-    end)
-    |> Enum.map(fn {stop, alerts} ->
-      {stop, sorted_by_start_date(alerts)}
-    end)
+    |> Enum.group_by(&alert_municipality/1)
+    |> sort_and_group_with_fn(&grouped_by_stop/1)
   end
 
-  @spec affected_routes(%Alert{} | %HistoricalAlert{}) :: [Phoenix.HTML.Safe.t()]
-  def affected_routes(alert) do
-    case alert do
-      %Alert{} ->
-        Alert.get_entity(alert, :route)
-        |> MapSet.delete(nil)
-        |> MapSet.to_list()
-        |> Enum.uniq()
-
-      %HistoricalAlert{routes: routes} ->
-        routes
-    end
-    |> Enum.map(fn routeIdOrName ->
-      name =
-        case Routes.Repo.get(routeIdOrName) do
-          %Route{name: name} -> name
-          _ -> routeIdOrName
-        end
-
-      content_tag(:span, name,
-        class: "c-icon__bus-pill--small u-bg--bus",
-        style: "margin-right: .25rem;"
-      )
+  # Remaps the grouped alerts by a given function, and sorts by group keys.
+  defp sort_and_group_with_fn(grouped_alerts_list, func) do
+    grouped_alerts_list
+    |> Enum.map(fn {key, alerts} ->
+      {key, func.(alerts)}
     end)
-  end
-
-  @spec related_stops(%Alert{} | %HistoricalAlert{}) :: [%Stop{}]
-  def related_stops(alert) do
-    case alert do
-      %Alert{} ->
-        Alert.get_entity(alert, :stop)
-        |> MapSet.delete(nil)
-        |> MapSet.to_list()
-
-      %HistoricalAlert{stops: stops} ->
-        stops
-    end
-    |> Enum.map(fn stopIdOrName ->
-      case Stops.Repo.get_parent(stopIdOrName) do
-        %Stop{} = stop -> stop
-        _ -> stopIdOrName
-      end
-    end)
-    |> Enum.uniq()
+    |> Enum.sort_by(&elem(&1, 0))
+    |> Enum.into(%{})
   end
 
   @spec time_filter_buttons(%Plug.Conn{}) :: Phoenix.HTML.Safe.t()
@@ -144,6 +73,8 @@ defmodule SiteWeb.BusStopChangeView do
   end
 
   @spec time_range(%Alert{} | %HistoricalAlert{}) :: Phoenix.HTML.Safe.t()
+  def time_range(%HistoricalAlert{alert: alert}), do: time_range(alert)
+
   def time_range(%Alerts.Alert{active_period: active_periods}) do
     active_periods
     |> Enum.map(fn {start_date, end_date} ->
@@ -160,8 +91,6 @@ defmodule SiteWeb.BusStopChangeView do
     end)
     |> List.first()
   end
-
-  def time_range(%HistoricalAlert{alert: alert}), do: time_range(alert)
 
   @spec date_tag(DateTime.t() | nil) :: Phoenix.HTML.Safe.t() | nil
   defp date_tag(%DateTime{} = date) do

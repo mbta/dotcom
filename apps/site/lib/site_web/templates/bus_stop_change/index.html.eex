@@ -32,7 +32,11 @@
               <section style="list-style-type: none; margin-bottom: 1.5rem;">
                 <h3 class="mt-0"><%= affected_stop_link(@conn, stop) %></h3>
                 <%= for alert <- alerts do %>
-                  <%= affected_routes(alert)%>
+                  <%= for route <- affected_routes(alert) do %>
+                    <span class="c-icon__bus-pill--small u-bg--bus" style="margin-right: .25rem;">
+                      <%= route %>
+                    </span>
+                  <% end %>
                   <%= time_range(alert) %>
                   <%= alert_item(alert, @conn) %>
                 <% end %>
