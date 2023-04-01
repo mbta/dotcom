@@ -112,7 +112,18 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         date: conn.assigns.date
       )
 
-    assign(conn, :all_stops, all_stops)
+    case all_stops do
+      {:error, error} ->
+        :ok =
+          Logger.warn(
+            "module=#{__MODULE__} fun=all_stops error=#{inspect(error)} route=#{conn.assigns.route.id} direction_id=#{conn.assigns.direction_id} date=#{conn.assigns.date}"
+          )
+
+        conn
+
+      _ ->
+        assign(conn, :all_stops, all_stops)
+    end
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
