@@ -9,11 +9,10 @@ defmodule Alerts.Supervisor do
   """
 
   use Supervisor
-  alias Alerts.Cache.BusStopChangeS3
 
   @api_mfa Application.get_env(:alerts, :api_mfa)
 
-  def start_link do
+  def start_link(_) do
     Supervisor.start_link(__MODULE__, [])
   end
 
@@ -25,11 +24,7 @@ defmodule Alerts.Supervisor do
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [
-            {Alerts.Cache.Fetcher, api_mfa: @api_mfa},
-            BusStopChangeS3,
-            Supervisor.child_spec({Alerts.Cache.Fetcher, BusStopChangeS3.fetcher_opts()},
-              id: :bus_stop_change_worker
-            )
+            {Alerts.Cache.Fetcher, api_mfa: @api_mfa}
           ]
         else
           []
