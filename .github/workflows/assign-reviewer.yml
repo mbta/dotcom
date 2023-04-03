@@ -1,0 +1,26 @@
+# Auto-assigns a team to review newly-opened PRs
+name: Assign PR reviewer
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+
+jobs:
+  assign_reviewer:
+    runs-on: ubuntu-latest
+    name: Assign PR reviewer
+    # Ignore if it's a Dependabot PR
+    if: ${{ !contains(github.head_ref, 'dependabot/') }}
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              team_reviewers: ["dotcom/2023-april-reviewers"]
+            });
+
