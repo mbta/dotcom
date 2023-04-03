@@ -52,7 +52,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "first_name" => "tom",
           "last_name" => "brady",
           "no_request_response" => "off",
-          "ada_response" => "off",
+          "ada_complaint" => "off",
           "service" => "Inquiry",
           "subject" => "Website",
           "date_time" => %{
@@ -75,7 +75,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "subject" => "Website",
           "comments" => "comments",
           "no_request_response" => "on",
-          "ada_response" => "on",
+          "ada_complaint" => "on",
           "service" => "Inquiry",
           "date_time" => %{
             "year" => 2020,

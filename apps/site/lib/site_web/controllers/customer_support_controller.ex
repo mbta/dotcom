@@ -394,7 +394,7 @@ defmodule SiteWeb.CustomerSupportController do
       service: params["service"],
       subject: params["subject"],
       no_request_response: params["no_request_response"] == "on",
-      ada_response: params["ada_response"] == "on",
+      ada_complaint: params["ada_complaint"] == "on",
       incident_date_time: params["date_time"],
       mode: params["mode"],
       line: params["route"],

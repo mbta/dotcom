@@ -155,7 +155,7 @@ defmodule Feedback.MailerTest do
 
     test "sets ada_respnse to yes" do
       Mailer.send_heat_ticket(
-        %{@base_message | ada_response: true},
+        %{@base_message | ada_complaint: true},
         nil
       )
 

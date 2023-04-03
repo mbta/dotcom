@@ -323,7 +323,7 @@ export function setupRequestResponse($) {
 }
 
 export function setupADAResponse($) {
-  $("#ada_response").toggle(!$(this).is(":checked"));
+  $("#ada_complaint").toggle(!$(this).is(":checked"));
 }
 
 const validators = {
