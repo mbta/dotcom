@@ -323,9 +323,7 @@ export function setupRequestResponse($) {
 }
 
 export function setupADAResponse($) {
-  $("#ada_response").change(function() {
-    $("#contactInfoForm").toggle(!$(this).is(":checked"));
-  });
+  $("#ada_response").toggle(!$(this).is(":checked"));
 }
 
 const validators = {
