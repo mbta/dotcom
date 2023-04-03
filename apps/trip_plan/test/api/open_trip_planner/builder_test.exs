@@ -30,7 +30,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "2017-05-22",
            "time" => "12:04pm",
            "arriveBy" => "false",
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -51,7 +51,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "2017-05-22",
            "time" => "12:04pm",
            "arriveBy" => "true",
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -70,7 +70,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "wheelchair" => "true",
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -80,7 +80,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -93,7 +93,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "maxWalkDistance" => "16093",
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -108,7 +108,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -121,7 +121,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "maxWalkDistance" => "1609.5",
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -133,7 +133,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK"
          }}
 
@@ -145,7 +145,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "BUS,SUBWAY,TRAM,WALK"
          }}
 
@@ -169,7 +169,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 2,
            "mode" => "TRANSIT,WALK",
            "transferPenalty" => 100
          }}
