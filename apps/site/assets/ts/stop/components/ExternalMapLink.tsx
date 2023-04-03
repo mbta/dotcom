@@ -26,7 +26,7 @@ const ExternalMapLink = ({
   // Apple uses a combination of `q` and `sll` to pin locations
   const params = `query=${encodedName}&q=${encodedName}&query_place_id=${getPlaceID(
     name
-  )}&sll=${latLongString}`;
+  )}&ll=${latLongString}`;
 
   let displayString = address;
   if (!address) {
