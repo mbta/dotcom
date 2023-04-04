@@ -1,5 +1,5 @@
 defmodule AlertsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   use Timex
 
   import Alerts.Alert

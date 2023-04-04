@@ -262,9 +262,8 @@ defmodule Alerts.Alert do
     |> get_entity(:stop)
     |> MapSet.delete(nil)
     |> Enum.find_value(fn stop_id ->
-      with %Stops.Stop{municipality: municipality} when not is_nil(municipality) <-
-             Stops.Repo.get(stop_id) do
-        municipality
+      with %Stops.Stop{} = stop <- Stops.Repo.get(stop_id) do
+        stop.municipality
       end
     end)
   end

@@ -36,12 +36,11 @@ defmodule Alerts.HistoricalAlert do
   defp get_entity_lists(alert, key) do
     Alert.get_entity(alert, key)
     |> MapSet.delete(nil)
-    |> MapSet.to_list()
-    |> Enum.map(&get_name_or_id(&1, key))
+    |> Enum.map(&get_name(&1, key))
   end
 
-  @spec get_name_or_id(String.t(), entity_key) :: String.t()
-  defp get_name_or_id(id, key) do
+  @spec get_name(String.t(), entity_key) :: String.t()
+  defp get_name(id, key) do
     module =
       case key do
         :route -> Routes.Repo
