@@ -8,6 +8,7 @@ defmodule SiteWeb.BusStopChangeView do
   defdelegate related_stops(alert), to: AmbiguousAlert
   defdelegate alert_start_date(alert), to: AmbiguousAlert
   defdelegate alert_municipality(alert), to: AmbiguousAlert
+  defdelegate time_range(alert), to: AmbiguousAlert
 
   def grouped_by_stop(alerts) do
     alerts
@@ -72,36 +73,6 @@ defmodule SiteWeb.BusStopChangeView do
   def affected_stop_link(conn, stop) do
     if(stop, do: link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary"))
   end
-
-  @spec time_range(%Alert{} | %HistoricalAlert{}) :: Phoenix.HTML.Safe.t()
-  def time_range(%HistoricalAlert{alert: alert}), do: time_range(alert)
-
-  def time_range(%Alerts.Alert{active_period: active_periods}) do
-    active_periods
-    |> Enum.map(fn {start_date, end_date} ->
-      content_tag(
-        :div,
-        [
-          fa("calendar", class: "mr-025"),
-          date_tag(start_date) || "N/A",
-          " — ",
-          date_tag(end_date) || "N/A"
-        ],
-        class: "u-small-caps u-bold mb-1"
-      )
-    end)
-    |> List.first()
-  end
-
-  @spec date_tag(DateTime.t() | nil) :: Phoenix.HTML.Safe.t() | nil
-  defp date_tag(%DateTime{} = date) do
-    with iso <- DateTime.to_iso8601(date),
-         {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do
-      content_tag(:time, readable, datetime: iso)
-    end
-  end
-
-  defp date_tag(nil), do: nil
 
   def alert_item(%HistoricalAlert{alert: alert}, conn), do: alert_item(alert, conn)
 

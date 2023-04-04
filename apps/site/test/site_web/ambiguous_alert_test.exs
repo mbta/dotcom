@@ -5,7 +5,7 @@ defmodule AmbiguousAlertTest do
   import SiteWeb.AmbiguousAlert
   alias Alerts.{Alert, HistoricalAlert}
 
-  @start_date ~D[2018-01-31]
+  @start_datetime ~U[2023-04-05 01:09:08Z]
 
   setup do
     entity = %Alerts.InformedEntity{route_type: 0, route: "Pink"}
@@ -15,7 +15,7 @@ defmodule AmbiguousAlertTest do
         id: "new_alert",
         header: "Wrong Route",
         effect: :delay,
-        active_period: [{@start_date, Timex.shift(@start_date, hours: 3)}],
+        active_period: [{@start_datetime, Timex.shift(@start_datetime, hours: 3)}],
         informed_entity: [entity]
       )
 
@@ -32,11 +32,11 @@ defmodule AmbiguousAlertTest do
 
   describe "alert_start_date/1" do
     test "for Alerts.Alert", %{alert: alert} do
-      assert alert_start_date(alert) == @start_date
+      assert alert_start_date(alert) == @start_datetime
     end
 
     test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
-      assert alert_start_date(historical_alert) == @start_date
+      assert alert_start_date(historical_alert) == @start_datetime
     end
   end
 
@@ -67,6 +67,20 @@ defmodule AmbiguousAlertTest do
 
     test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
       assert related_stops(historical_alert) == ["place-blossom"]
+    end
+  end
+
+  describe "time_range/1" do
+    test "for Alerts.Alert", %{alert: alert} do
+      time_range_div = time_range(alert) |> Phoenix.HTML.safe_to_string()
+      assert time_range_div =~ ~s(<div class=\"u-small-caps)
+      assert time_range_div =~ ~s(<time datetime=\"2023-04-05T01:09:08Z\">Apr 5 2023 01:09</time>)
+    end
+
+    test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
+      time_range_div = time_range(historical_alert) |> Phoenix.HTML.safe_to_string()
+      assert time_range_div =~ ~s(<div class=\"u-small-caps)
+      assert time_range_div =~ ~s(<time datetime=\"2023-04-05T01:09:08Z\">Apr 5 2023 01:09</time>)
     end
   end
 end

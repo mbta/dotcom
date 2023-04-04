@@ -10,6 +10,9 @@ defprotocol SiteWeb.AmbiguousAlert do
 
   @spec related_stops(t) :: [String.t() | Stops.Stop.t()]
   def related_stops(alert)
+
+  @spec time_range(t) :: Phoenix.HTML.Safe.t()
+  def time_range(alert)
 end
 
 defimpl SiteWeb.AmbiguousAlert, for: Alerts.Alert do
@@ -42,6 +45,33 @@ defimpl SiteWeb.AmbiguousAlert, for: Alerts.Alert do
       end
     end)
   end
+
+  def time_range(%Alerts.Alert{active_period: active_periods}) do
+    active_periods
+    |> Enum.map(fn {start_date, end_date} ->
+      Phoenix.HTML.Tag.content_tag(
+        :div,
+        [
+          SiteWeb.ViewHelpers.fa("calendar", class: "mr-025"),
+          date_tag(start_date) || "N/A",
+          " — ",
+          date_tag(end_date) || "N/A"
+        ],
+        class: "u-small-caps u-bold mb-1"
+      )
+    end)
+    |> List.first()
+  end
+
+  @spec date_tag(DateTime.t() | nil) :: Phoenix.HTML.Safe.t() | nil
+  defp date_tag(%DateTime{} = date) do
+    with iso <- DateTime.to_iso8601(date),
+         {:ok, readable} <- Timex.format(date, "{Mshort} {D} {YYYY} {h24}:{m}") do
+      Phoenix.HTML.Tag.content_tag(:time, readable, datetime: iso)
+    end
+  end
+
+  defp date_tag(nil), do: nil
 end
 
 defimpl SiteWeb.AmbiguousAlert, for: Alerts.HistoricalAlert do
@@ -59,5 +89,9 @@ defimpl SiteWeb.AmbiguousAlert, for: Alerts.HistoricalAlert do
 
   def related_stops(%Alerts.HistoricalAlert{stops: stops}) do
     stops
+  end
+
+  def time_range(%Alerts.HistoricalAlert{alert: alert}) do
+    SiteWeb.AmbiguousAlert.time_range(alert)
   end
 end
