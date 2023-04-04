@@ -1,5 +1,5 @@
 defmodule Services.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   alias Services.{Repo, Service}
 
   setup_all do
