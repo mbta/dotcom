@@ -13,7 +13,7 @@ const StopFeatures = ({
   routes: Route[];
 }): ReactElement<HTMLElement> => {
   return (
-    <span className="m-stop-page__header-features">
+    <span className="m-stop-page__header-features mb-6">
       <ModeIcons routes={routes} />
       <CommuterRailZoneIcon zoneNumber={stop.zone} />
       <AccessibilityIcon stop={stop} routes={routes} />
