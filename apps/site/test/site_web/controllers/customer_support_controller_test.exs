@@ -52,6 +52,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "first_name" => "tom",
           "last_name" => "brady",
           "no_request_response" => "off",
+          "ada_complaint" => "off",
           "service" => "Inquiry",
           "subject" => "Website",
           "date_time" => %{
@@ -74,6 +75,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "subject" => "Website",
           "comments" => "comments",
           "no_request_response" => "on",
+          "ada_complaint" => "on",
           "service" => "Inquiry",
           "date_time" => %{
             "year" => 2020,
@@ -104,6 +106,13 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "submits successfully if customer does not want a response", %{conn: conn} do
+      conn = post(conn, customer_support_path(conn, :submit), valid_no_response_data())
+
+      refute conn.assigns["errors"]
+      wait_for_ticket_task(conn)
+    end
+
+    test "submits successfully if ADA Response checked", %{conn: conn} do
       conn = post(conn, customer_support_path(conn, :submit), valid_no_response_data())
 
       refute conn.assigns["errors"]
