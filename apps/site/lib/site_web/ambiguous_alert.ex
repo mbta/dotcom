@@ -13,6 +13,9 @@ defprotocol SiteWeb.AmbiguousAlert do
 
   @spec time_range(t) :: Phoenix.HTML.Safe.t()
   def time_range(alert)
+
+  @spec alert_item(t, %Plug.Conn{}) :: Phoenix.HTML.Safe.t()
+  def alert_item(alert, conn)
 end
 
 defimpl SiteWeb.AmbiguousAlert, for: Alerts.Alert do
@@ -72,6 +75,10 @@ defimpl SiteWeb.AmbiguousAlert, for: Alerts.Alert do
   end
 
   defp date_tag(nil), do: nil
+
+  def alert_item(alert, conn) do
+    SiteWeb.AlertView.render("_item.html", alert: alert, date_time: conn.assigns.date_time)
+  end
 end
 
 defimpl SiteWeb.AmbiguousAlert, for: Alerts.HistoricalAlert do
@@ -93,5 +100,9 @@ defimpl SiteWeb.AmbiguousAlert, for: Alerts.HistoricalAlert do
 
   def time_range(%Alerts.HistoricalAlert{alert: alert}) do
     SiteWeb.AmbiguousAlert.time_range(alert)
+  end
+
+  def alert_item(%Alerts.HistoricalAlert{alert: alert}, conn) do
+    SiteWeb.AmbiguousAlert.alert_item(alert, conn)
   end
 end

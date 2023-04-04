@@ -16,7 +16,8 @@ defmodule AmbiguousAlertTest do
         header: "Wrong Route",
         effect: :delay,
         active_period: [{@start_datetime, Timex.shift(@start_datetime, hours: 3)}],
-        informed_entity: [entity]
+        informed_entity: [entity],
+        updated_at: @start_datetime
       )
 
     historical_alert = %HistoricalAlert{
@@ -81,6 +82,22 @@ defmodule AmbiguousAlertTest do
       time_range_div = time_range(historical_alert) |> Phoenix.HTML.safe_to_string()
       assert time_range_div =~ ~s(<div class=\"u-small-caps)
       assert time_range_div =~ ~s(<time datetime=\"2023-04-05T01:09:08Z\">Apr 5 2023 01:09</time>)
+    end
+  end
+
+  describe "alert_item/2" do
+    test "for Alerts.Alert", %{alert: alert} do
+      conn = %Plug.Conn{assigns: %{date_time: @start_datetime}}
+      alert_item_html = alert_item(alert, conn) |> Phoenix.HTML.safe_to_string()
+      assert alert_item_html =~ ~s(class=\"c-alert-item)
+      assert alert_item_html =~ ~s(<div class=\"c-alert-item__icon\">)
+    end
+
+    test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
+      conn = %Plug.Conn{assigns: %{date_time: @start_datetime}}
+      alert_item_html = alert_item(historical_alert, conn) |> Phoenix.HTML.safe_to_string()
+      assert alert_item_html =~ ~s(class=\"c-alert-item)
+      assert alert_item_html =~ ~s(<div class=\"c-alert-item__icon\">)
     end
   end
 end

@@ -9,6 +9,7 @@ defmodule SiteWeb.BusStopChangeView do
   defdelegate alert_start_date(alert), to: AmbiguousAlert
   defdelegate alert_municipality(alert), to: AmbiguousAlert
   defdelegate time_range(alert), to: AmbiguousAlert
+  defdelegate alert_item(alert, conn), to: AmbiguousAlert
 
   def grouped_by_stop(alerts) do
     alerts
@@ -72,11 +73,5 @@ defmodule SiteWeb.BusStopChangeView do
 
   def affected_stop_link(conn, stop) do
     if(stop, do: link(stop.name, to: stop_path(conn, :show, stop.id), class: "text-primary"))
-  end
-
-  def alert_item(%HistoricalAlert{alert: alert}, conn), do: alert_item(alert, conn)
-
-  def alert_item(alert, conn) do
-    SiteWeb.AlertView.render("_item.html", alert: alert, date_time: conn.assigns.date_time)
   end
 end
