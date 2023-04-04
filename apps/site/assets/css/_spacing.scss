@@ -85,6 +85,10 @@
 }
 
 // Top
+.mt-n5 {
+  margin-top: -.313rem;
+}
+
 .mt-8 {
   margin-top: .5rem;
 }
@@ -93,10 +97,31 @@
   margin-top: .625rem;
 }
 
+.mt-12 {
+  margin-top: .75rem;
+}
+
 .mt-16 {
   margin-top: 1rem;
 }
+
+.mt-n8 {
+  margin-top: -.5rem;
+}
+
+.mt-n16 {
+  margin-top: -1rem;
+}
+
+.mt-n20 {
+  margin-top: -1.25rem;
+}
 // End Top
+
+// Bottom
+.mb-6 {
+  margin-bottom: .375rem;
+}
 
 // End
 .me-5 {

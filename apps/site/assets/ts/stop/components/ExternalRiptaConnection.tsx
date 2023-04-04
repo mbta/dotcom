@@ -2,9 +2,6 @@ import React, { ReactElement } from "react";
 import PillLink from "./PillLink";
 import { Stop } from "../../__v3api";
 
-export const bgClass = (color: string | undefined): string =>
-  color ? `u-bg--${color}` : "";
-
 // Hard code the known stops
 const riptaStopIDs = [
   "place-NEC-1851",

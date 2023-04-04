@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import stopData from "./stopData.json";
 import { StopPageData, TypedRoutes } from "../components/__stop";
 import Header from "../components/Header";
@@ -459,7 +459,7 @@ it("separates bus and silver line pills", () => {
   /* eslint-enable camelcase */
 
   expect(
-    shallow(
+    mount(
       <Header
         stop={data.stop}
         routes={routesWithoutSilverLine}
@@ -474,13 +474,13 @@ it("separates bus and silver line pills", () => {
   ).toEqual(1);
 
   expect(
-    shallow(
+    mount(
       <Header
         stop={data.stop}
         routes={routesWithSilverLine}
         zoneNumber=""
         tabs={[]}
-        dispatch={undefined}
+        dispatch={() => {}}
         selectedTab="info"
       />
     )
@@ -520,7 +520,7 @@ it("dispatches clickRoutePillAction when route pill is clicked", () => {
   ];
   /* eslint-enable camelcase */
   const spy = jest.fn();
-  const wrapper = shallow(
+  const wrapper = mount(
     <Header
       stop={data.stop}
       routes={routes}
@@ -542,7 +542,7 @@ it("dispatches clickRoutePillAction when route pill is clicked", () => {
 
 it("dispatches clickRoutePillAction when zone pill is clicked", () => {
   const spy = jest.fn();
-  const wrapper = shallow(
+  const wrapper = mount(
     <Header
       stop={data.stop}
       routes={data.routes}

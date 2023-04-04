@@ -311,6 +311,13 @@
   }
 }
 
+.stop-page__header--fontsize {
+  font-size: 1.438rem;
+  @include media-breakpoint-down(sm) {
+    font-size: 1.125rem;
+  }
+}
+
 .station-amenity {
   background-color: aqua;
   height: 160px;

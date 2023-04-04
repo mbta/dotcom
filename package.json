@@ -10,6 +10,7 @@
     "ci:unit:exunit": "PORT=4002 mix coveralls.html --umbrella --exclude wallaby",
     "ci:unit:mocha": "npm run --prefix apps/site/assets mocha",
     "ci:unit:jest": "npm run --prefix apps/site/assets jest",
+    "ci:unit:jest:update": "npm run --prefix apps/site/assets jest:update",
     "ci:types:ex": "mix dialyzer --halt-exit-status",
     "ci:types:ts": "npm run --prefix apps/site/assets tsc:check",
     "ci:format:ex": "mix format --check-formatted",
