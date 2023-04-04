@@ -23,7 +23,6 @@ export default function($ = window.jQuery) {
         setupPhotoPreviews($, toUpload);
         setupTextArea();
         setupRequestResponse($);
-        setupADAResponse($);
         setupSubject($);
         setupValidation($);
 
@@ -320,10 +319,6 @@ export function setupRequestResponse($) {
   $("#no_request_response").change(function() {
     $("#contactInfoForm").toggle(!$(this).is(":checked"));
   });
-}
-
-export function setupADAResponse($) {
-  $("#ada_complaint").toggle(!$(this).is(":checked"));
 }
 
 const validators = {
