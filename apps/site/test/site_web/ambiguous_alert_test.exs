@@ -2,7 +2,7 @@ defmodule AmbiguousAlertTest do
   @moduledoc false
   use ExUnit.Case, async: true
 
-  import AmbiguousAlert
+  import SiteWeb.AmbiguousAlert
   alias Alerts.{Alert, HistoricalAlert}
 
   @start_date ~D[2018-01-31]

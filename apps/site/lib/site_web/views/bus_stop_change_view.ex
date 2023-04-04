@@ -1,6 +1,7 @@
 defmodule SiteWeb.BusStopChangeView do
   use SiteWeb, :view
   alias Alerts.{Alert, HistoricalAlert}
+  alias SiteWeb.AmbiguousAlert
   alias Stops.Stop
 
   defdelegate affected_routes(alert), to: AmbiguousAlert

@@ -1,4 +1,4 @@
-defprotocol AmbiguousAlert do
+defprotocol SiteWeb.AmbiguousAlert do
   @spec alert_start_date(t) :: DateTime.t() | nil
   def alert_start_date(alert)
 
@@ -12,7 +12,7 @@ defprotocol AmbiguousAlert do
   def related_stops(alert)
 end
 
-defimpl AmbiguousAlert, for: Alerts.Alert do
+defimpl SiteWeb.AmbiguousAlert, for: Alerts.Alert do
   def alert_start_date(%{active_period: [{start_date, _} | _]}) do
     start_date
   end
@@ -44,7 +44,7 @@ defimpl AmbiguousAlert, for: Alerts.Alert do
   end
 end
 
-defimpl AmbiguousAlert, for: Alerts.HistoricalAlert do
+defimpl SiteWeb.AmbiguousAlert, for: Alerts.HistoricalAlert do
   def alert_start_date(%{
         alert: %{active_period: [{start_date, _} | _]}
       }) do
