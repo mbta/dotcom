@@ -1,5 +1,5 @@
 defmodule HistoricalAlertTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   import Alerts.HistoricalAlert
   import Mock
