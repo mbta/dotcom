@@ -86,9 +86,6 @@ type DataReducerAction = DataFromSocketType & { channel: string };
 type DataReducerType = Reducer<DataReducerState, DataReducerAction>;
 
 export const reducer: DataReducerType = (state, action) => {
-  // ignore changes from other channels
-  if (action.channel !== state.channel) return state;
-
   switch (action.event) {
     case "reset":
       return {
