@@ -3,6 +3,14 @@ defmodule Site.GreenLine.CacheTest do
 
   import Site.GreenLine.Cache
 
+  setup_all do
+    System.put_env("WARM_CACHES", "true")
+
+    on_exit(fn ->
+      System.put_env("WARM_CACHES", "false")
+    end)
+  end
+
   test "it calls the reset function for every date in the range" do
     test_pid = self()
     start_date_fn = fn -> ~D[1985-03-31] end
@@ -85,7 +93,7 @@ defmodule Site.GreenLine.CacheTest do
 
   test "it stops the previous day's agent" do
     yesterday = ~D[1987-03-31]
-    Site.GreenLine.CacheSupervisor.start_child(yesterday)
+    start_supervised({Site.GreenLine.CacheSupervisor, yesterday})
 
     test_pid = self()
     start_date_fn = fn -> ~D[1987-04-01] end

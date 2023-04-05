@@ -160,13 +160,9 @@ describe("ScheduleFinderModal", () => {
         initialOrigin={origin}
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
+        scheduleNote={null}
       />
     );
-
-  it("matches snapshot in origin mode", () => {
-    const wrapper = mountComponent("origin", 0, null, undefined, undefined);
-    expect(wrapper.debug()).toMatchSnapshot();
-  });
 
   it("matches snapshot in origin mode with origin selected", () => {
     const wrapper = mountComponent("origin", 0, null, undefined, undefined);

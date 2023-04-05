@@ -3,6 +3,8 @@ import { Route, RouteType } from "../__v3api";
 const isRouteType = (obj: Route | RouteType): obj is RouteType =>
   typeof obj === "number";
 
+export const isFerryRoute = ({ type }: Route): boolean => type === 4;
+
 export const isABusRoute = ({ type }: Route): boolean => type === 3;
 
 export const isSubwayRoute = ({ type }: Route): boolean =>

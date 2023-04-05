@@ -6,8 +6,6 @@ use Mix.Config
 # https://github.com/rrrene/bunt/issues/4#issuecomment-301350784
 config :elixir, ansi_enabled: true
 
-config :exvcr, filter_request_headers: ["x-api-key"]
-
 # By default, the umbrella project as well as each child
 # application will require this configuration file, ensuring
 # they all use the same configuration. While one could

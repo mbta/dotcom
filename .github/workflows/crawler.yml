@@ -11,7 +11,7 @@ on:
 jobs:
   crawler:
     name: Website Crawler
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     if: github.event.workflow_run.conclusion == 'success'
     steps:
     - uses: erlef/setup-beam@v1
@@ -21,4 +21,4 @@ jobs:
     - name: Run Crawler
       run: |
         mix escript.install --force github mbta/link_checker
-        $HOME/.mix/escripts/crawler https://api-dev.mbtace.com/ --num-workers 3
+        $HOME/.mix/escripts/crawler https://dev.mbtace.com/ --num-workers 3

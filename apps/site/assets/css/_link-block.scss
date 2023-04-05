@@ -30,15 +30,46 @@
   }
 
   &__inner-link {
+    align-items: center;
+    border: 1px solid currentcolor;
+    border-radius: 4.5px;
+    display: inline-flex;
+    flex-basis: content;
+    font-size: 1rem;
+    font-weight: 500;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 10px;
+    padding-right: 20px;
     pointer-events: all;
+    text-align: center;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    svg {
+      display: block;
+      height: .8em;
+      margin-left: 7px;
+      margin-top: 3px;
+      padding-right: 5px;
+    }
   }
 
   &__view-schedule {
     border-bottom: .063rem solid;
     bottom: .125rem;
+    display: inline;
     font-size: 1rem;
     font-weight: 500;
     margin-left: .75rem;
     position: relative;
+    white-space: nowrap;
+    @include media-breakpoint-down(xs) {
+      display: table-cell;
+      margin-left: 0;
+    }
   }
 }

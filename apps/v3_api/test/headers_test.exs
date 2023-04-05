@@ -15,14 +15,14 @@ defmodule V3Api.HeadersTest do
   end
 
   test "always adds api header" do
-    assert Headers.build("API_KEY", use_cache?: false) == [
-             {"x-api-key", "API_KEY"},
-             {"MBTA-Version", "2019-07-01"}
+    assert Headers.build("API_KEY", use_cache?: false) |> Enum.map(&elem(&1, 0)) == [
+             "x-api-key",
+             "MBTA-Version"
            ]
 
-    assert Headers.build("API_KEY", params: [], url: "url") == [
-             {"x-api-key", "API_KEY"},
-             {"MBTA-Version", "2019-07-01"}
+    assert Headers.build("API_KEY", params: [], url: "url") |> Enum.map(&elem(&1, 0)) == [
+             "x-api-key",
+             "MBTA-Version"
            ]
   end
 

@@ -20,7 +20,7 @@ defmodule Routes.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [extra_applications: [:logger], mod: {Routes, []}]
+    [extra_applications: [:logger, :route_patterns], mod: {Routes, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -40,8 +40,7 @@ defmodule Routes.Mixfile do
     [
       {:v3_api, in_umbrella: true},
       {:mock, "~> 0.3.3", only: :test},
-      {:repo_cache, in_umbrella: true},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:repo_cache, in_umbrella: true}
     ]
   end
 end

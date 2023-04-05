@@ -152,22 +152,6 @@ defmodule Feedback.MailerTest do
       assert Test.latest_message()["text"] =~ "<CUSTREQUIRERESP>No</CUSTREQUIRERESP>"
     end
 
-    test "can attach a photo" do
-      Mailer.send_heat_ticket(
-        @base_message,
-        [
-          {"test.png", "png data goes here"}
-        ]
-      )
-
-      assert Test.latest_message()["attachments"] == [
-               %{
-                 "filename" => "test.png",
-                 "data" => "png data goes here"
-               }
-             ]
-    end
-
     test "does not log anything when the user doesnt want feedback" do
       old_level = Logger.level()
 

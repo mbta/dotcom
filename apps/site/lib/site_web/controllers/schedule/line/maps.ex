@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   @moduledoc """
   Handles Map information for the line controller
   """
+  require Logger
 
   alias GoogleMaps.MapData, as: GoogleMapData
   alias GoogleMapData.Marker, as: GoogleMarker
@@ -90,8 +91,22 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
          vehicle_tooltips
        ) do
     stop_ids =
-      Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
-      |> Enum.uniq()
+      try do
+        if is_list(route_patterns) do
+          Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
+          |> Enum.uniq()
+        else
+          []
+        end
+      rescue
+        _error in Protocol.UndefinedError ->
+          _ =
+            Logger.info(
+              "module=#{__MODULE__} dynamic_map_data route_patterns=#{inspect(route_patterns)}"
+            )
+
+          []
+      end
 
     stop_markers =
       stop_ids
@@ -151,7 +166,10 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
 
   @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
-    route_paths = Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
+    route_paths =
+      Enum.filter(route_patterns, &(!is_nil(&1.representative_trip_polyline)))
+      |> Enum.map(&Polyline.new(&1, color: color, weight: 4))
+
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths
   end

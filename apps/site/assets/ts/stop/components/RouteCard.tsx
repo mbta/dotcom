@@ -32,9 +32,7 @@ const RouteCard = ({
   <div className="m-stop-page__departures-route">
     <RouteCardHeader
       route={route}
-      hasAlert={
-        alerts && alerts.filter(isHighSeverityOrHighPriority).length > 0
-      }
+      alerts={alerts.filter(isHighSeverityOrHighPriority)}
     />
     {alertsByStop(alerts.filter(isDiversion), stop.id)
       .filter(uniqueByEffect)

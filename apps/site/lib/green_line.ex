@@ -79,14 +79,6 @@ defmodule GreenLine do
   end
 
   @doc """
-  Returns all the stops on Green Line.
-  """
-  @spec all_stops(stop_routes_pair) :: [Stop.t()] | {:error, any}
-  def all_stops({stops, _}) do
-    stops
-  end
-
-  @doc """
   Returns stops on the specific branch of the line.
   """
   @spec route_stops(branch_name, stop_routes_pair) :: MapSet.t()

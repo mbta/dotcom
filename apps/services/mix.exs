@@ -27,8 +27,7 @@ defmodule Services.MixProject do
   defp deps do
     [
       {:repo_cache, in_umbrella: true},
-      {:v3_api, in_umbrella: true},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      {:v3_api, in_umbrella: true}
     ]
   end
 end

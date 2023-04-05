@@ -59,7 +59,7 @@ defmodule CMS.Repo do
       end)
 
     case news do
-      [record] -> record
+      [record | _] -> record
       [] -> :not_found
     end
   end
@@ -131,9 +131,7 @@ defmodule CMS.Repo do
       error ->
         _ =
           Logger.warn(fn ->
-            "module=#{__MODULE__} Error getting schedule pdfs for route #{route_id}. Using default []. Error: #{
-              inspect(error)
-            }"
+            "module=#{__MODULE__} Error getting schedule pdfs for route #{route_id}. Using default []. Error: #{inspect(error)}"
           end)
 
         []

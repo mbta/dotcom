@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import RouteCardHeader from "../RouteCardHeader";
-import { EnhancedRoute } from "../../__v3api";
+import { Alert, EnhancedRoute } from "../../__v3api";
 
 describe("RouteCardHeader component", () => {
   it("renders", () => {
@@ -14,14 +14,15 @@ describe("RouteCardHeader component", () => {
             type: 3
           } as EnhancedRoute
         }
+        alerts={[]}
       />
     );
     expect(wrapper.debug()).toBeTruthy();
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  describe("with hasAlert", () => {
-    it("shows alert icon when true", () => {
+  describe("with alerts", () => {
+    it("shows alert icon when alerts present", () => {
       const wrapper = shallow(
         <RouteCardHeader
           route={
@@ -31,7 +32,7 @@ describe("RouteCardHeader component", () => {
               type: 3
             } as EnhancedRoute
           }
-          hasAlert={true}
+          alerts={[{} as Alert]}
         />
       );
       expect(wrapper.find(".c-svg__icon-alerts-triangle").length).toBe(1);
@@ -47,7 +48,7 @@ describe("RouteCardHeader component", () => {
               type: 3
             } as EnhancedRoute
           }
-          hasAlert={false}
+          alerts={[]}
         />
       );
       expect(wrapper.find(".c-svg__icon-alerts-triangle").length).toBe(0);

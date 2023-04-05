@@ -3,6 +3,7 @@ import { EnhancedRoute, Route } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 import { breakTextAtSlash } from "../../helpers/text";
 import { routeToCSSClass } from "../../helpers/css";
+import PillLink from "./PillLink";
 
 interface RoutePillListProps {
   routes: TypedRoutes[];
@@ -34,17 +35,11 @@ export const modeBgClass = (route: EnhancedRoute | Route): string =>
   `u-bg--${modeNameForBg(route)}`;
 
 const RoutePill = ({ route }: RoutePillProps): ReactElement<HTMLElement> => (
-  <a
-    href={`/schedules/${route.id}`}
-    className={`
-      m-stop-page__header-feature
-      m-stop-page__header-description
-      u-small-caps
-      ${modeBgClass(route)}
-    `}
-  >
-    {breakTextAtSlash(route.name)}
-  </a>
+  <PillLink
+    displayText={breakTextAtSlash(route.name)}
+    linkURL={`/schedules/${route.id}`}
+    optionalCSS={modeBgClass(route)}
+  />
 );
 
 const RoutePillList = ({

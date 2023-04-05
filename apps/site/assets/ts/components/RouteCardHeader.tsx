@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { EnhancedRoute } from "../__v3api";
+import { Alert, EnhancedRoute } from "../__v3api";
 import { routeBgClass, busClass } from "../helpers/css";
 import { isASilverLineRoute } from "../models/route";
 import { alertIcon } from "../helpers/icon";
@@ -7,10 +7,10 @@ import { breakTextAtSlash } from "../helpers/text";
 
 const RouteCardHeader = ({
   route,
-  hasAlert
+  alerts
 }: {
   route: EnhancedRoute;
-  hasAlert?: boolean;
+  alerts: Alert[];
 }): ReactElement<HTMLElement> => (
   <div
     className={`c-link-block h3 m-tnm-sidebar__route-name ${routeBgClass(
@@ -27,15 +27,19 @@ const RouteCardHeader = ({
             ? `Silver Line ${route.name}`
             : breakTextAtSlash(route.name)}
         </span>
-        <span className="c-link-block__view-schedule">View schedule</span>
+        <div className="c-link-block__view-schedule">View schedule</div>
       </span>
-      {hasAlert && (
+      {alerts?.length > 0 && (
         <a
           className="c-link-block__inner-link"
           href={`/schedules/${route.id}/alerts`}
           title="alert"
         >
           {alertIcon("c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert")}
+          <span>
+            {alerts.length}
+            {alerts.length > 1 ? " alerts" : " alert"}
+          </span>
         </a>
       )}
     </div>

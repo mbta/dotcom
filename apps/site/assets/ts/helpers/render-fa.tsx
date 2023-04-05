@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (
+const FontAwesomeIcon = (
   className: string,
   svgName: string,
   ariaHide: boolean = true
@@ -14,3 +14,5 @@ export default (
     aria-hidden={ariaHide ? "true" : "false"}
   />
 );
+
+export default FontAwesomeIcon;

@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.LineTest do
   use SiteWeb.ConnCase, async: true
+  import Mock
   alias Services.Service
   alias SiteWeb.ScheduleController.Line
 
@@ -283,6 +284,19 @@ defmodule SiteWeb.ScheduleController.LineTest do
   end
 
   describe "services" do
+    setup_with_mocks([
+      {Util, [:passthrough],
+       [
+         now: fn ->
+           {:ok, t} = DateTime.from_naive(~N[2021-01-18T00:00:00], "Etc/UTC")
+           t
+         end,
+         service_date: fn -> Util.now() end
+       ]}
+    ]) do
+      :ok
+    end
+
     test "determines a single, default service for route and date", %{conn: conn} do
       conn =
         conn
@@ -303,10 +317,8 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> get(line_path(conn, :show, "424"))
 
       services_for_route = conn.assigns.schedule_page_data.services
-      default_services = Enum.filter(services_for_route, &(&1.default_service? === true))
-
-      assert length(default_services) == 1
-      assert default_services = [%{id: "WinterWeekday1"}]
+      [default_service] = Enum.filter(services_for_route, &(&1.default_service? === true))
+      assert default_service.id == List.first(@fourtwofour_services) |> Map.get(:id)
     end
   end
 end

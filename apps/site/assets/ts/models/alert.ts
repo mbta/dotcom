@@ -1,3 +1,4 @@
+import { isValid, parseISO } from "date-fns";
 import { StopId } from "../schedule/components/__schedule";
 import { Alert, TimePeriodPairs } from "../__v3api";
 
@@ -24,25 +25,12 @@ export const uniqueByEffect = (
   alerts: Alert[]
 ): boolean => alerts.findIndex(a => a.effect === alert.effect) === index;
 
-const withLeadingZero = (n: string): string => `0${n}`.slice(-2);
-
-const activePeriodToDates = (
-  activePeriod: TimePeriodPairs
-): (Date | null)[] => {
-  const datePattern = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{2})$/;
-
-  return activePeriod.map((d: string): Date | null => {
-    const match = datePattern.exec(d);
-    if (match) {
-      const [, year, rawMonth, rawDay, rawHour, min] = match;
-      return new Date(
-        `${year}-${withLeadingZero(rawMonth)}-${withLeadingZero(
-          rawDay
-        )}T${withLeadingZero(rawHour)}:${min}:00`
-      );
+const activePeriodToDates = (activePeriod: TimePeriodPairs): Date[] => {
+  return activePeriod.map(
+    (d: string): Date => {
+      return parseISO(d);
     }
-    return null;
-  });
+  );
 };
 
 const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
@@ -58,8 +46,8 @@ export const isCurrentAlert = (
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
   const isInARange = dateRanges.some((range): boolean => {
     const [start, end] = range;
-    if (!start) return false; // end might be null for ongoing alerts
-    return currentDate >= start && (end ? currentDate <= end : true);
+    if (!isValid(start)) return false; // end might be null for ongoing alerts
+    return currentDate >= start && (isValid(end) ? currentDate <= end : true);
   });
   return isCurrentLifecycle(alert) && isInARange;
 };

@@ -1,6 +1,7 @@
 defmodule Vehicles.ParserTest do
-  use ExUnit.Case, async: true
-  alias Vehicles.{Parser, Vehicle}
+  use ExUnit.Case
+  alias Vehicles.Vehicle
+  import Vehicles.Parser
   import Mock
 
   @item %JsonApi.Item{
@@ -35,7 +36,7 @@ defmodule Vehicles.ParserTest do
         bearing: 140
       }
 
-      assert Parser.parse(@item) == expected
+      assert parse(@item) == expected
     end
 
     test "can handle a missing trip" do
@@ -54,7 +55,7 @@ defmodule Vehicles.ParserTest do
         bearing: 140
       }
 
-      assert Parser.parse(item) == expected
+      assert parse(item) == expected
     end
 
     test "can handle a missing stop" do
@@ -73,7 +74,7 @@ defmodule Vehicles.ParserTest do
         bearing: 140
       }
 
-      assert Parser.parse(item) == expected
+      assert parse(item) == expected
     end
 
     test "can handle a missing route" do
@@ -94,11 +95,11 @@ defmodule Vehicles.ParserTest do
         bearing: 140
       }
 
-      assert Parser.parse(item) == expected
+      assert parse(item) == expected
     end
 
     test "fetches parent stop if present" do
-      with_mock(Stops.Repo, [:passthrough], get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end) do
+      with_mock(Stops.Repo, [], get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end) do
         expected = %Vehicle{
           id: "y1799",
           route_id: "1",
@@ -112,7 +113,7 @@ defmodule Vehicles.ParserTest do
           bearing: 140
         }
 
-        %Vehicle{} = parsed_vehicle = Parser.parse(@item)
+        %Vehicle{} = parsed_vehicle = parse(@item)
         assert parsed_vehicle == expected, "parsed vehicle is #{inspect(parsed_vehicle)}"
       end
     end
@@ -134,7 +135,7 @@ defmodule Vehicles.ParserTest do
           bearing: 140
         }
 
-        assert Parser.parse(@item) == expected
+        assert parse(@item) == expected
       end
     end
 
@@ -155,7 +156,7 @@ defmodule Vehicles.ParserTest do
         crowding: :some_crowding
       }
 
-      assert Parser.parse(item) == expected
+      assert parse(item) == expected
     end
   end
 end

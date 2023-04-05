@@ -219,7 +219,17 @@ defmodule Fares.FareInfo do
       day_pass_price: "11.00",
       week_pass_price: "22.50"
     },
-    %{mode: :the_ride, ada_ride: "3.35", premium_ride: "5.60"}
+    %{mode: :the_ride, ada_ride: "3.35", premium_ride: "5.60"},
+    # Logan Express Back Bay
+    %{mode: :massport_shuttle, name: "Massport-32511", single_trip: "3.00"},
+    # Logan Express Framingham
+    %{mode: :massport_shuttle, name: "Massport-FH", single_trip: "9.00"},
+    # Logan Express Braintree
+    %{mode: :massport_shuttle, name: "Massport-BT", single_trip: "9.00"},
+    # Logan Express Peabody
+    %{mode: :massport_shuttle, name: "Massport-PB", single_trip: "9.00"},
+    # Logan Express Woburn
+    %{mode: :massport_shuttle, name: "Massport-WO", single_trip: "9.00"}
   ]
 
   @doc "Load fare info from a CSV file."
@@ -654,6 +664,19 @@ defmodule Fares.FareInfo do
         media: [:mticket, :special_event, :cash],
         reduced: nil,
         cents: dollars_to_cents(round_trip)
+      }
+    ]
+  end
+
+  def mapper(%{mode: :massport_shuttle, single_trip: single_trip, name: name}) do
+    [
+      %Fare{
+        mode: :massport_shuttle,
+        name: name,
+        duration: :single_trip,
+        media: [],
+        reduced: nil,
+        cents: dollars_to_cents(single_trip)
       }
     ]
   end

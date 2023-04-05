@@ -25,7 +25,10 @@ config :logster, :allowed_headers, ["referer"]
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [],
+  features: [
+    {:stops_redesign, "Stops Page Redesign (Q1/Q2 2023)",
+     "Revamping of the Stop pages as part of the 🚉 Website - Stops Page Redesign epic"}
+  ],
   cookie: [
     # one month,
     max_age: 3600 * 24 * 30,

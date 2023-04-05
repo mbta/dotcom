@@ -34,7 +34,7 @@ on:
 jobs:
   files:
     name: List changed files
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       js: ${{ steps.changes.outputs.js }}
       ts: ${{ steps.changes.outputs.ts }}
@@ -54,7 +54,7 @@ jobs:
             echo "scss=true" >> $GITHUB_OUTPUT
             echo "ex=true" >> $GITHUB_OUTPUT
           else
-            changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ; }
+            changes () { git diff --name-only --diff-filter=ACDMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ; }
             echo "js=$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)" >> $GITHUB_OUTPUT
             echo "ts=$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)" >> $GITHUB_OUTPUT
             echo "scss=$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)" >> $GITHUB_OUTPUT

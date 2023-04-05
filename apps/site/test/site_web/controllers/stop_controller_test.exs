@@ -8,7 +8,6 @@ defmodule SiteWeb.StopControllerTest do
   test "renders react content server-side", %{conn: conn} do
     assert [{"div", _, content}] =
              conn
-             |> put_req_cookie("stop_page_redesign", "true")
              |> get(stop_path(conn, :show, "place-sstat"))
              |> html_response(200)
              |> Floki.find("#react-root")
@@ -17,14 +16,13 @@ defmodule SiteWeb.StopControllerTest do
   end
 
   test "redirects to subway stops on index", %{conn: conn} do
-    conn = conn |> put_req_cookie("stop_page_redesign", "true") |> get(stop_path(conn, :index))
+    conn = conn |> get(stop_path(conn, :index))
     assert redirected_to(conn) == stop_path(conn, :show, :subway)
   end
 
   test "shows stations by mode", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, :subway))
 
     response = html_response(conn, 200)
@@ -38,7 +36,6 @@ defmodule SiteWeb.StopControllerTest do
     for mode <- [:subway, :ferry, "commuter-rail"] do
       conn =
         conn
-        |> put_req_cookie("stop_page_redesign", "true")
         |> get(stop_path(conn, :show, mode))
 
       assert conn.assigns.stop_info
@@ -48,7 +45,6 @@ defmodule SiteWeb.StopControllerTest do
   test "redirects stations with slashes to the right URL", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get("/stops/Four%20Corners%20/%20Geneva")
 
     assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
@@ -57,7 +53,6 @@ defmodule SiteWeb.StopControllerTest do
   test "assigns routes for this stop", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, "place-sstat"))
 
     assert conn.assigns.routes
@@ -66,17 +61,15 @@ defmodule SiteWeb.StopControllerTest do
   test "assigns ferry routes", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, "Boat-Charlestown"))
 
     assert [ferry] = conn.assigns.routes
-    assert %{group_name: :ferry, routes: [%{route: %Route{id: "Boat-F4"}}]}
+    assert %{group_name: :ferry, routes: [%{route: %{id: "Boat-F4"}}]} = ferry
   end
 
   test "assigns the zone number for the current stop", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, "place-WML-0442"))
 
     assert conn.assigns.zone_number == "8"
@@ -85,7 +78,6 @@ defmodule SiteWeb.StopControllerTest do
   test "sets a custom meta description for stops", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, "place-sstat"))
 
     assert conn.assigns.meta_description
@@ -94,7 +86,6 @@ defmodule SiteWeb.StopControllerTest do
   test "redirects to a parent stop page for a child stop", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, 70_130))
 
     assert redirected_to(conn) == stop_path(conn, :show, "place-harvd")
@@ -103,7 +94,6 @@ defmodule SiteWeb.StopControllerTest do
   test "404s for an unknown stop", %{conn: conn} do
     conn =
       conn
-      |> put_req_cookie("stop_page_redesign", "true")
       |> get(stop_path(conn, :show, "unknown"))
 
     assert Map.fetch!(conn, :status) == 404

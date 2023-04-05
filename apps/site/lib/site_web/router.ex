@@ -131,13 +131,16 @@ defmodule SiteWeb.Router do
     # stop redirects
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
     get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
+
     get("/stops/api", StopController, :api)
+    get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/api/realtime/stops", RealtimeScheduleApi, :stops)
 
     get("/schedules", ModeController, :index)
+    get("/schedules/at_stop/:stop_id", StopController, :schedules_for_stop)
     get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
     get("/schedules/map_api", ScheduleController.MapApi, :show)
     get("/schedules/line_api", ScheduleController.LineApi, :show)
@@ -189,10 +192,22 @@ defmodule SiteWeb.Router do
     get("/search", SearchController, :index)
     post("/search/query", SearchController, :query)
     post("/search/click", SearchController, :click)
+    get("/bus-stop-changes", BusStopChangeController, :show)
 
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
     end
+  end
+
+  scope "/api", SiteWeb do
+    pipe_through([:secure, :browser])
+    get("/alerts", AlertController, :show_by_routes)
+
+    get("/stop/:id", StopController, :get)
+
+    get("/map-config", MapConfigController, :get)
+
+    get("/routes/by-stop/:stop_id", RouteController, :get_by_stop_id)
   end
 
   scope "/places", SiteWeb do

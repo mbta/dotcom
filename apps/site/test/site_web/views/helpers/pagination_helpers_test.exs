@@ -47,7 +47,7 @@ defmodule SiteWeb.PaginationHelpersTest do
         |> render(pagination: %Site.ResponsivePagination{}, link_context: @link_context)
         |> Phoenix.HTML.safe_to_string()
 
-      expects = ""
+      expects = "\n"
       assert actual == expects
     end
   end

@@ -7,7 +7,7 @@ Array [
   <h3
     aria-controls="panel-connections"
     aria-expanded={false}
-    className="c-expandable-block__header"
+    className="c-expandable-block__header "
     id="header-connections"
     onClick={[Function]}
     onKeyPress={[Function]}
@@ -65,9 +65,12 @@ Array [
       m-stop-page__header-feature
       m-stop-page__header-description
       u-small-caps
+      
       u-bg--orange-line
     "
             href="/schedules/Orange"
+            rel="noreferrer"
+            target="_self"
           >
             Orange Line
           </a>

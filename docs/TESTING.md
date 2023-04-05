@@ -3,17 +3,10 @@
 Common test suites developers might want to run:
 
 * `mix test` — Elixir tests
+  * `mix test --exclude wallaby` - Excludes the integration tests
+  * `mix test --only wallaby` - Runs only the integration tests. This depends on having chromedriver installed, which can be installed via `bash scripts/setup_chromedriver.sh`
 * `npm run --prefix apps/site/assets mocha && npm run --prefix apps/site/assets jest` — all of the JavaScript tests
 
-IMPORTANT NOTE: As of June 2020, Lechmere is closed for construction and the E line will be terminating at North Station for now. This is the list of files that have been affected (whose changes will need to be reverted at a later time):
-
-- `apps/site/lib/green_line.ex`
-- `apps/site/test/green_line_test.exs`
-- `apps/site/test/site_web/controllers/schedule/line_test.exs`
-- `apps/site/test/site_web/controllers/schedule_controller_test.exs`
-- `apps/site/test/site_web/excluded_stops_test.exs`
-- `apps/site/test/site_web/views/partial_view_test.exs`
-- `apps/stops/test/route_stops_test.exs`
 
 Dotcom runs its test suite automatically using Github Actions, mainly from the [`tests.yml`](../.github/workflows/tests.yml) workflow.
 
@@ -128,23 +121,6 @@ There is a WIP adding screenshot capturing and visual regression testing using t
 
 ### Performance measurement
 There is an early WIP using the Lighthouse CI service for measuring performance metrics. Eventually this will run on a Github Action too.
-
-## ExVCR and ExVCRHelpers
-
-ExVCR is a library that allows mocking out sequences of HTTP requests and
-responses, so that tests can run without requesting live data from
-third-party services. Since almost everything dotcom does involves requesting
-data from the API and/or CMS, this is a valuable capability for our tests to have.
-
-There is a certain amount of boilerplate involved in working with ExVCR. To
-automate that boilerplate, we have a library called `ExVCRHelpers`. See
-`apps/exvcr_helpers/README.md` for more details on that.
-
-Many tests in the Elixir test suite currently do request live data from the API
-and/or CMS. This practice should be avoided for new tests, and ExVCR or
-another strategy to mock out live data requests should be used. When tests
-using live data break due to changes in that data, that is an opportune time
-to convert those tests to use ExVCR.
 
 ## CrossBrowserTesting
 

@@ -149,7 +149,8 @@
     flex-direction: column;
   }
 
-  .m-route-pills {
+  .m-route-pills,
+  .m-external-connections {
     @include media-breakpoint-up(lg) {
       display: none;
     }
@@ -295,4 +296,29 @@
 .m-stop-page__transfers {
   background-color: $gray-bordered-background;
   padding: $base-spacing * .75;
+}
+
+.station-amenities {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+
+  @include media-breakpoint-down(lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.stop-page__header--fontsize {
+  font-size: 1.438rem;
+  @include media-breakpoint-down(sm) {
+    font-size: 1.125rem;
+  }
+}
+
+.station-amenity {
+  background-color: aqua;
+  height: 160px;
 }

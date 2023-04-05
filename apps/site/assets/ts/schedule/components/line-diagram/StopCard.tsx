@@ -68,8 +68,6 @@ const showPrediction = (
   liveData?: LiveData
 ): boolean => hasLivePredictions(liveData) && !isEndNode(stopTree, stopId);
 
-const byRouteId = (a: Route, b: Route): number => (a.id < b.id ? -1 : 1);
-
 const connectionsFor = (
   routeStop: RouteStop,
   stopTree: StopTree
@@ -83,7 +81,7 @@ const connectionsFor = (
       ...routeStop.route,
       "custom_route?": false
     };
-    return [routeStopRoute, ...connections].sort(byRouteId);
+    return [routeStopRoute, ...connections];
   }
   return connections;
 };

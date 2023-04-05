@@ -5,6 +5,7 @@ import { TypedRoutes } from "./__stop";
 import renderSvg from "../../helpers/render-svg";
 
 import streetViewSvg from "../../../static/images/icon-street-view-default.svg";
+import ExternalRiptaConnection from "./ExternalRiptaConnection";
 
 interface Props {
   routes: TypedRoutes[];
@@ -50,14 +51,14 @@ const LocationBlock = ({
     <div className="m-stop-page__location-links">
       <div className="m-stop-page__location-link">
         <a
-          href={`/trip-planner/to/${latLngString(stop)
+          href={`/trip-planner/from/${latLngString(stop)
             .replace(/\s+/g, "-")
             .toLowerCase()},${stop.name.replace(/\//g, "%2F")}`}
           className="btn btn-primary"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Get directions to this station
+          Plan a trip from this station
         </a>
       </div>
       <div className="m-stop-page__location-link">
@@ -75,6 +76,7 @@ const LocationBlock = ({
       </div>
     </div>
     <RoutePillList routes={routes} />
+    <ExternalRiptaConnection stop={stop} />
   </div>
 );
 

@@ -97,6 +97,7 @@ describe("ScheduleModalContent", () => {
           services={[]}
           routePatternsByDirection={{}}
           today={today}
+          scheduleNote={null}
         />
       );
     });
@@ -118,6 +119,7 @@ describe("ScheduleModalContent", () => {
           services={[]}
           routePatternsByDirection={{}}
           today={today}
+          scheduleNote={null}
         />
       );
       expect(tree.find(DailySchedule)).toEqual({});
@@ -164,6 +166,7 @@ describe("ScheduleModalContent", () => {
           services={[baseTypicalService]}
           routePatternsByDirection={{}}
           today={"2019-07-09"}
+          scheduleNote={null}
         />
       );
 
@@ -187,6 +190,7 @@ describe("ScheduleModalContent", () => {
           services={[baseTypicalService]}
           routePatternsByDirection={{}}
           today={"2018-09-16"}
+          scheduleNote={null}
         />
       );
 
@@ -224,6 +228,7 @@ describe("ScheduleModalContent", () => {
           services={[baseTypicalService]}
           routePatternsByDirection={{}}
           today={"2018-09-16"}
+          scheduleNote={null}
         />
       );
 
@@ -261,6 +266,7 @@ it.each`
           services={[service]}
           routePatternsByDirection={{}}
           today={testToday}
+          scheduleNote={null}
         />
       );
 

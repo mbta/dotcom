@@ -254,6 +254,19 @@ defmodule Fares.FareInfoTest do
                reduced: :any
              } in bus_fares
     end
+
+    test "maps the logan express massport shuttles" do
+      fares = mapper(%{mode: :massport_shuttle, name: "Massport-WO", single_trip: "5.00"})
+
+      assert %Fares.Fare{
+               mode: :massport_shuttle,
+               name: "Massport-WO",
+               duration: :single_trip,
+               media: [],
+               reduced: nil,
+               cents: 500
+             } in fares
+    end
   end
 
   describe "mticket_price/1" do

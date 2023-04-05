@@ -21,7 +21,7 @@ defmodule TripPlan.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger]]
+    [extra_applications: [:fares, :logger]]
   end
 
   # Dependencies can be Hex packages:
@@ -46,7 +46,6 @@ defmodule TripPlan.Mixfile do
       {:location_service, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},
-      {:exvcr_helpers, in_umbrella: true, only: :test},
       {:fast_local_datetime, "~> 0.1.0"}
     ]
   end

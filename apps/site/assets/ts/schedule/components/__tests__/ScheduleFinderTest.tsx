@@ -185,6 +185,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="schedule"
         modalOpen={false}
+        scheduleNote={null}
       />
     );
 
@@ -209,6 +210,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="schedule"
         modalOpen={true}
+        scheduleNote={null}
       />
     );
 
@@ -266,6 +268,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="origin"
         modalOpen={true}
+        scheduleNote={null}
       />
     );
 
@@ -293,6 +296,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="schedule"
         modalOpen={true}
+        scheduleNote={null}
       />
     );
 
@@ -303,7 +307,7 @@ describe("ScheduleFinder", () => {
     // select the last node (i.e. origin drop-down) and choose an option
     wrapper
       .find("SelectContainer")
-      .at(numNodes - 1)
+      .at(numNodes - 2)
       // @ts-ignore -- types for `invoke` seem to be too restrictive
       .invoke("handleClick")();
 

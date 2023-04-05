@@ -32,7 +32,7 @@ export const fetchData = (stopId: string, dispatch: Dispatch): Promise<void> =>
     .then((routes: TypedRoutes[]) => dispatch(updateRoutesAction(routes)))
     .catch(() => {});
 
-export default ({
+const StopPage = ({
   stopPageData,
   mapData,
   mapId
@@ -152,3 +152,5 @@ export default ({
     </>
   );
 };
+
+export default StopPage;

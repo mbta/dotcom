@@ -131,6 +131,134 @@ Array [
       </div>
     </form>
   </div>,
+  <div>
+    <div
+      className="u-highlight-gray m-n24"
+    >
+      <div
+        className="m-24"
+      >
+        <div
+          className="d-flex pt-10"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon schedule__icon-header--size me-8"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+          <div
+            className="fs-18 u-bold"
+          >
+            Malden Center
+          </div>
+        </div>
+        <div
+          className="fs-12 u-bold pb-10"
+        >
+          To 
+          Oak Grove
+        </div>
+      </div>
+    </div>
+    <h3
+      className="pt-18"
+    >
+      Daily Schedule
+    </h3>
+    <div
+      className="pt-8"
+    >
+      <div
+        className="c-select-custom__container "
+        onClick={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <select
+          className="c-select-custom notranslate"
+          onChange={[Function]}
+          value="weekday"
+        >
+          <option
+            value="weekday"
+          >
+            Weekday 
+            (Today)
+          </option>
+          <option
+            value="saturday"
+          >
+            Saturday 
+            
+          </option>
+          <option
+            value="sunday"
+          >
+            Sunday 
+            
+          </option>
+        </select>
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon c-select-custom__arrow"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      aria-live="polite"
+      className="d-flex justify-content-space-between pt-8"
+      style={
+        Object {
+          "gap": "2%",
+        }
+      }
+    >
+      <div
+        className="w-100 u-highlight ps-16 pt-16 pb-16"
+      >
+        <div
+          className="fs-14"
+        >
+          First Train
+        </div>
+        <div
+          className="fs-18 u-bold"
+        />
+      </div>
+      <div
+        className="w-100 u-highlight ps-16 pt-16 pb-16"
+      >
+        <div
+          className="fs-14"
+        >
+          Last Train
+        </div>
+        <div
+          className="fs-18 u-bold"
+        />
+      </div>
+    </div>
+    <div
+      className="d-flex pt-8 pb-18 fs-18"
+    >
+      <a
+        className="btn btn-secondary btn-block mt-8"
+        href="/trip-planner/from/"
+      >
+        Plan Your Trip
+      </a>
+    </div>
+  </div>,
   <div
     className="callout text-center u-bold"
   >

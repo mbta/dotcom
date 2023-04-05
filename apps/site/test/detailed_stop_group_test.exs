@@ -13,7 +13,8 @@ defmodule DetailedStopGroupTest do
     "place-forhl",
     "place-mlmnl",
     "place-north",
-    "place-rugg"
+    "place-rugg",
+    "place-ogmnl"
   ]
 
   describe "from_mode/1" do

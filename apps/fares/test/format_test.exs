@@ -66,6 +66,10 @@ defmodule Fares.FormatTest do
       assert full_name(%Fare{mode: :subway, duration: :month}) == "Monthly LinkPass"
     end
 
+    test "gives a name for monthly Bus passes" do
+      assert full_name(%Fare{mode: :bus, duration: :month}) == "Monthly Local Bus Pass"
+    end
+
     test "gives a name for weekend CR passes" do
       assert full_name(%Fare{mode: :commuter_rail, duration: :weekend}) == "Weekend Pass"
     end

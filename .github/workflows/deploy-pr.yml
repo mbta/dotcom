@@ -41,7 +41,7 @@ jobs:
         PR#${{ github.event.pull_request.number }} failed to deploy to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
 
   cleanup:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [pr]
     steps:
       - name: Unlabel other PRs (if needed)

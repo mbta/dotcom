@@ -4,7 +4,7 @@ defmodule SiteWeb.ScheduleController.PredictionsTest do
   import SiteWeb.ScheduleController.Predictions
   alias Predictions.Prediction
 
-  defmodule PredictionTest do
+  defmodule PredictionsTest do
     # needs to be a separate module so that it's defined before the test uses
     # it
     def all(_) do

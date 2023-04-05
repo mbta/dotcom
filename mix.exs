@@ -28,24 +28,11 @@ defmodule DotCom.Mixfile do
     ]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options.
-  #
-  # Dependencies listed here are available only for this project
-  # and cannot be accessed from applications inside the apps folder
   defp deps do
     [
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:excoveralls, "~> 0.14", only: :test},
       {:ex_doc, "~> 0.18", only: :dev},
-      {:exvcr, "~> 0.11.0", only: [:dev, :test]},
       {:eflame, "~> 1.0", only: :dev},
       # Can replace with release after 2.2.10
       {:ex_aws,

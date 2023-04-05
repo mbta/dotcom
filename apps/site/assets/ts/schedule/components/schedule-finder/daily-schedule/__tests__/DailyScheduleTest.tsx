@@ -199,11 +199,24 @@ const services: ServiceInSelector[] = [
 ];
 
 describe("DailySchedule", () => {
+  it("should return null if there are no services available", () => {
+    const tree = renderer.create(
+      <dailyScheduleModule.DailySchedule
+        selectedOrigin={"stopId"}
+        services={[]}
+        directionId={0}
+        routePatterns={[]}
+        routeId="111"
+        today={"2019-08-31"}
+      />
+    );
+    expect(tree.toJSON()).toEqual(null);
+  });
   it("renders with a date", () => {
     createReactRoot();
     const tree = renderer.create(
       <dailyScheduleModule.DailySchedule
-        stopId="stopId"
+        selectedOrigin={"stopId"}
         services={services}
         directionId={0}
         routePatterns={[]}
@@ -243,7 +256,7 @@ describe("fetchJourneys", () => {
     act(() => {
       const wrapper: ReactWrapper = mount(
         <dailyScheduleModule.DailySchedule
-          stopId="stopId"
+          selectedOrigin={"stopId"}
           services={services}
           directionId={0}
           routePatterns={[]}

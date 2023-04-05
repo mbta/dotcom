@@ -44,7 +44,9 @@ defmodule LocationService.Mixfile do
     [
       {:stops, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
-      {:exvcr_helpers, in_umbrella: true, only: :test}
+      # Can replace with release after 2.2.10
+      {:ex_aws,
+       github: "ex-aws/ex_aws", ref: "08cbbd2aef4ebf52796e48761d1351b5c87c4c5e", override: true}
     ]
   end
 end

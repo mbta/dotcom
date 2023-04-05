@@ -1,4 +1,5 @@
 import React from "react";
+import { sortBy } from "lodash";
 import { RouteStopRoute } from "../__schedule";
 import { TooltipWrapper, modeIcon } from "../../../helpers/icon";
 import { isABusRoute, isACommuterRailRoute } from "../../../models/route";
@@ -6,7 +7,6 @@ import { routeBgClass } from "../../../helpers/css";
 import { Route } from "../../../__v3api";
 
 const filteredConnections = (
-  route_id: string,
   connections: RouteStopRoute[]
 ): RouteStopRoute[] => {
   const firstCRIndex = connections.findIndex(
@@ -16,12 +16,19 @@ const filteredConnections = (
     connection => connection.type === 4
   );
 
-  return connections.filter(
+  // show only 1 CR or Ferry icon
+  const consolidated = connections.filter(
     (connection, index) =>
       (connection.type !== 2 && connection.type !== 4) ||
       (connection.type === 2 && index === firstCRIndex) ||
       (connection.type === 4 && index === firstFerryIndex)
   );
+
+  // sort by type (CR or Ferry icon first), then sort_order
+  return sortBy(consolidated, [
+    ({ type }) => ([2, 4].includes(type) ? -1 : 0),
+    "sort_order"
+  ]);
 };
 
 const connectionName = (connection: Route): string => {
@@ -43,38 +50,36 @@ const StopConnections = (
   connections: RouteStopRoute[]
 ): JSX.Element => (
   <div className="m-schedule-diagram__connections">
-    {filteredConnections(route_id, connections).map(
-      (connectingRoute: Route) => (
-        <TooltipWrapper
-          key={connectingRoute.id}
-          href={`/schedules/${connectingRoute.id}/line`}
-          tooltipText={connectionName(connectingRoute)}
-          tooltipOptions={{
-            placement: "bottom",
-            animation: false
-          }}
-        >
-          {isABusRoute(connectingRoute) ? (
-            <span
-              key={connectingRoute.id}
-              className={`c-icon__bus-pill--small m-schedule-diagram__connection ${routeBgClass(
-                connectingRoute
-              )}`}
-            >
-              {connectingRoute.name}
-            </span>
-          ) : (
-            <span
-              key={connectingRoute.id}
-              className="m-schedule-diagram__connection"
-            >
-              {modeIcon(connectingRoute.id)}
-            </span>
-          )}
-        </TooltipWrapper>
-      )
-    )}
+    {filteredConnections(connections).map((connectingRoute: Route) => (
+      <TooltipWrapper
+        key={connectingRoute.id}
+        href={`/schedules/${connectingRoute.id}/line`}
+        tooltipText={connectionName(connectingRoute)}
+        tooltipOptions={{
+          placement: "bottom",
+          animation: false
+        }}
+      >
+        {isABusRoute(connectingRoute) ? (
+          <span
+            key={connectingRoute.id}
+            className={`c-icon__bus-pill--small m-schedule-diagram__connection ${routeBgClass(
+              connectingRoute
+            )}`}
+          >
+            {connectingRoute.name}
+          </span>
+        ) : (
+          <span
+            key={connectingRoute.id}
+            className="m-schedule-diagram__connection"
+          >
+            {modeIcon(connectingRoute.id)}
+          </span>
+        )}
+      </TooltipWrapper>
+    ))}
   </div>
 );
 
-export default StopConnections;
+export { filteredConnections, StopConnections as default };

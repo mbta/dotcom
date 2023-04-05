@@ -57,14 +57,20 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-24T23:44:00-04:00`,
               first_departure: `2022-10-24T08:54:00-04:00`,
-              is_terminus: false
+              is_terminus: false,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
               last_departure: `2022-10-24T22:45:00-04:00`,
               first_departure: `2022-10-24T07:55:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ],
           [
@@ -73,14 +79,20 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-24T23:35:00-04:00`,
               first_departure: `2022-10-24T08:35:00-04:00`,
-              is_terminus: false
+              is_terminus: false,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
               last_departure: `2022-10-24T23:25:00-04:00`,
               first_departure: `2022-10-24T08:25:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ]
         ],
@@ -91,7 +103,10 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-22T21:15:00-04:00`,
               first_departure: `2022-10-22T08:15:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ],
           [
@@ -100,11 +115,15 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-22T22:15:00-04:00`,
               first_departure: `2022-10-22T07:15:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ]
         ],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
 
@@ -132,7 +151,7 @@ describe("RapidTransitHoursOfOperation", () => {
     expect(treeString).toMatch("Trains depart every 10 minutes");
   });
 
-  it("renders only one time if first and last departure are the same", () => {
+  it("does not render that station if first and last departure are the same", () => {
     jest.spyOn(hours, "default").mockImplementation(() => {
       return {
         week: [
@@ -142,20 +161,27 @@ describe("RapidTransitHoursOfOperation", () => {
               stop_id: "1",
               last_departure: `2022-10-24T08:54:00-04:00`,
               first_departure: `2022-10-24T08:54:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             },
             {
               stop_name: "Test Stop 2",
               stop_id: "2",
               last_departure: `2022-10-24T22:45:00-04:00`,
               first_departure: `2022-10-24T07:55:00-04:00`,
-              is_terminus: true
+              is_terminus: true,
+              parent_stop_id: "1",
+              latitude: 1,
+              longitude: 1
             }
           ],
           []
         ],
         saturday: [[], []],
-        sunday: [[], []]
+        sunday: [[], []],
+        special_service: {}
       };
     });
 
@@ -175,10 +201,10 @@ describe("RapidTransitHoursOfOperation", () => {
     const treeString = JSON.stringify(tree);
     expect(treeString).toMatch("Weekend Schedule");
     expect(treeString).toMatch("Weekday Schedule");
-    expect(treeString).toMatch("Test Stop 1");
+    expect(treeString).not.toMatch("Test Stop 1");
+    expect(treeString).not.toMatch("8:54 AM");
     expect(treeString).toMatch("Test Stop 2");
     expect(treeString).toMatch("7:55 AM – 10:45 PM");
-    expect(treeString).toMatch("8:54 AM");
     expect(treeString).toMatch("Trains depart every 10 minutes");
   });
 });

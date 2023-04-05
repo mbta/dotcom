@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
 import Algolia from "./algolia-search";
@@ -171,6 +172,12 @@ export class TripPlannerLocControls {
   }
 
   onInputChange(ac) {
+    if (this.getById("to_id")) {
+      this.getById("to_id").value = null;
+    }
+    if (this.getById("from_id")) {
+      this.getById("from_id").value = null;
+    }
     return () => {
       if (ac && ac._input.id === "to") {
         this.toInputDirty = true;
@@ -378,12 +385,16 @@ export class TripPlannerLocControls {
     const to = toAc.getValue();
     const fromLat = this.getById("from_latitude").value;
     const fromLng = this.getById("from_longitude").value;
+    const fromId = this.getById("from_id");
     const toLat = this.getById("to_latitude").value;
     const toLng = this.getById("to_longitude").value;
+    const toId = this.getById("to_id");
     this.getById("from_latitude").value = toLat;
     this.getById("from_longitude").value = toLng;
+    fromId ? (this.getById("from_id").value = toId) : null;
     this.getById("to_latitude").value = fromLat;
     this.getById("to_longitude").value = fromLng;
+    toId ? (this.getById("to_id").value = fromId) : null;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();

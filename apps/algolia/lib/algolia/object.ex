@@ -29,24 +29,12 @@ defimpl Algolia.Object, for: Routes.Route do
   def object_id(route), do: "route-" <> route.id
   def url(route), do: Util.site_path(:schedule_path, [:show, route])
 
-  def data(
-        %Routes.Route{
-          direction_names: direction_names,
-          direction_destinations: direction_destinations
-        } = route
-      ) do
-    # Poison can't parse maps with integer keys
-    direction_names = [direction_names[0], direction_names[1]]
-    direction_destinations = [direction_destinations[0], direction_destinations[1]]
+  def data(route) do
     stop_names = Algolia.Routes.get_stop_names(route)
     headsigns = Algolia.Routes.headsigns(route.id)
 
     %{
-      route: %{
-        route
-        | direction_names: direction_names,
-          direction_destinations: direction_destinations
-      },
+      route: route,
       stop_names: stop_names,
       headsigns: headsigns
     }

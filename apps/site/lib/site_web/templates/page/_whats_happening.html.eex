@@ -1,12 +1,13 @@
 <%= if @whats_happening_items do %>
   <% tag = if @promoted do "promoted" else "secondary" end %>
   <div class="m-whats-happening__section m-whats-happening__section--<%= tag %>" id="<%= tag %>">
-    <%= if @promoted do %>
-      <h2 class="sr-only">Featured MBTA Updates and Projects</h2>
-    <% end %>
     <div class="container page-section">
-      <%= unless Enum.empty?(@whats_happening_items) do %>
-        <h2>What's Happening at the MBTA</h2>
+      <%= if @promoted do %>
+        <h2 class="sr-only">Featured MBTA Updates and Projects</h2>
+      <% else %>
+        <%= unless Enum.empty?(@whats_happening_items) do %>
+          <h2>What's Happening at the MBTA</h2>
+        <% end %>
       <% end %>
       <div id="whats-happening-<%= tag %>" class="row m-whats-happening__row m-whats-happening__row--<%= tag %>">
         <%= for {item, counter} <- Enum.with_index(@whats_happening_items) do %>

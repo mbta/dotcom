@@ -556,8 +556,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @other_subway_leg leg_for_route.("Orange")
     @cr_leg leg_for_route.("CR-Lowell")
     @ferry_leg leg_for_route.("Boat-F4")
-    @innerxp_leg leg_for_route.("326")
-    @outerxp_leg leg_for_route.("505")
+    @express_bus_leg leg_for_route.("505")
     @sl_rapid_leg leg_for_route.("741")
     @sl_bus_leg leg_for_route.("751")
 
@@ -586,23 +585,13 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert note |> safe_to_string() =~ @note_text
     end
 
-    test "shows note for inner express bus-subway transfer" do
-      note = %{@base_itinerary | legs: [@innerxp_leg, @subway_leg]} |> transfer_note
+    test "shows note for express bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@express_bus_leg, @subway_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
-    test "shows note for outer express bus-subway transfer" do
-      note = %{@base_itinerary | legs: [@outerxp_leg, @subway_leg]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
-    end
-
-    test "shows note for inner express bus-local bus transfer" do
-      note = %{@base_itinerary | legs: [@innerxp_leg, @bus_leg]} |> transfer_note
-      assert note |> safe_to_string() =~ @note_text
-    end
-
-    test "shows note for outer express bus-local bus transfer" do
-      note = %{@base_itinerary | legs: [@outerxp_leg, @bus_leg]} |> transfer_note
+    test "shows note for express bus-local bus transfer" do
+      note = %{@base_itinerary | legs: [@express_bus_leg, @bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
@@ -724,7 +713,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> safe_to_string()
 
       # two blocks because of the <noscript> block
-      assert [{"div", _, form}, {"div", _, no_script_form}] = Floki.find(html, ".plan-date-time")
+      assert [{"div", _, form}, {"div", _, _no_script_form}] = Floki.find(html, ".plan-date-time")
       assert [{"select", _, _year_opts}] = Floki.find(form, ~s([name="plan[date_time][year]"]))
       assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][month]"]))
       assert [{"select", _, _month_opts}] = Floki.find(form, ~s([name="plan[date_time][day]"]))

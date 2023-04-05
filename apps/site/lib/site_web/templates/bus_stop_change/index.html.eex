@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="page-section">
+    <h1>Bus Stop Changes</h1>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="h3">Filter by type</div>
+        <%= time_filter_buttons(@conn) %>
+      </div>
+      <div class="col-md-10" style="padding-top: 1rem;">
+        <%= if Enum.empty?(@alerts) do %>
+          <div class="callout bg-info">No alerts here.</div>
+        <% else %>
+          <%= for {municipality, muni_alerts} <- grouped_by_municipality(@alerts) do %>
+            <h2 class="mt-0"><%= municipality %></h2>
+            <%= for {stop, alerts} <- muni_alerts do %>
+              <section style="list-style-type: none; margin-bottom: 1.5rem;">
+                <h3 class="mt-0"><%= affected_stop_link(@conn, stop) %></h3>
+                <%= for alert <- alerts do %>
+                  <%= affected_routes(alert)%>
+                  <%= time_range(alert) %>
+                  <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
+                <% end %>
+              </section>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

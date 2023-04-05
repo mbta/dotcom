@@ -1,16 +1,20 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { ReactElement } from "react";
+import useSWR from "swr";
 import StopCard from "../../components/StopCard";
 import {
   Direction,
   StopWithDirections,
-  RouteWithStopsWithDirections
+  RouteWithStopsWithDirections,
+  Alert
 } from "../../__v3api";
 import { Dispatch } from "../state";
 import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import RouteCardHeader from "../../components/RouteCardHeader";
 import { isABusRoute } from "../../models/route";
+import { isHighSeverityOrHighPriority } from "../../models/alert";
+import { fetchJsonOrThrow, isFetchFailed } from "../../helpers/fetch-json";
 
 interface Props {
   route: RouteWithStopsWithDirections;
@@ -19,6 +23,19 @@ interface Props {
 
 const everyDirectionIsEmpty = (directions: Direction[]): boolean =>
   directions.every(directionIsEmpty);
+
+export const fetchAlerts = async (routeId: string): Promise<Alert[]> => {
+  const results = await fetchJsonOrThrow<Alert[]>(
+    `/api/alerts?route_ids=${routeId}`
+  );
+  if (isFetchFailed(results)) {
+    throw new Error(
+      `Failed to fetch Alert information: ${results.status} ${results.statusText}`
+    );
+  }
+
+  return results.filter(isHighSeverityOrHighPriority);
+};
 
 const routeIsEmpty = (route: RouteWithStopsWithDirections): boolean =>
   route.stops_with_directions.every(stop =>
@@ -40,15 +57,15 @@ const RouteCard = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const mode = modeByV3ModeType[route.route.type];
 
+  const { data: alerts } = useSWR<Alert[]>(`${route.route.id}`, fetchAlerts);
+
   if (routeIsEmpty(route)) {
     return null;
   }
 
-  const hasAlert = route.route.alerts?.length > 0;
-
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
-      <RouteCardHeader route={route.route} hasAlert={hasAlert} />
+      <RouteCardHeader route={route.route} alerts={alerts || []} />
       {filterStops(route).map(
         stopWithDirections =>
           !everyDirectionIsEmpty(stopWithDirections.directions) && (

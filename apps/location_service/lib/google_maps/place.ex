@@ -97,9 +97,7 @@ defmodule GoogleMaps.Place do
   defp parse_autocomplete_json(%{"status" => status, "error_message" => error}, _hit_limit, url) do
     _ =
       Logger.info(
-        "module=#{__MODULE__} error=bad_request status_code=200 status=#{status} message=#{error} url=#{
-          url
-        }"
+        "module=#{__MODULE__} error=bad_request status_code=200 status=#{status} message=#{error} url=#{url}"
       )
 
     internal_error()

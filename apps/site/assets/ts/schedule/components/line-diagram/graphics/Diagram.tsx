@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { uniqBy } from "lodash";
 import { routeToModeName } from "../../../../helpers/css";
 import {
   isBranchingNode,
@@ -79,11 +80,11 @@ const LiveVehicleIconSet = ({
   liveData?: LiveDataByStop;
 }): ReactElement<HTMLElement> | null => {
   if (!liveData || !liveData[stopId]) return null;
-
+  const vehicles = uniqBy(liveData[stopId].vehicles, "id");
   // Hide vehicles arriving to the origin from 'off the line'
   const vehicleData = isStartNode(stopTree, stopId)
-    ? liveData[stopId].vehicles.filter(vehicle => vehicle.status === "stopped")
-    : liveData[stopId].vehicles;
+    ? vehicles.filter(vehicle => vehicle.status === "stopped")
+    : vehicles;
 
   return (
     <VehicleIcons
@@ -115,9 +116,9 @@ const Diagram = ({
       role="img"
       aria-labelledby="diagram-title diagram-desc"
       className={`line-diagram-svg ${routeToModeName(route)}`}
-      width={`${diagramWidth(largestSliceSize(stopTree)) + 4}px`}
+      width={`${diagramWidth(1)}px`}
       height="100%"
-      style={{ left: BASE_LINE_WIDTH / 2 }}
+      style={{ left: BASE_LINE_WIDTH / 2, overflow: "visible" }}
     >
       <title id="diagram-title">Line diagram for {routeName(route)}</title>
       <desc id="diagram-desc">

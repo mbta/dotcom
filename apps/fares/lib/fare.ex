@@ -19,7 +19,7 @@ defmodule Fares.Fare do
   @type reduced :: nil | :student | :senior_disabled | :any
   @type duration :: :single_trip | :round_trip | :day | :week | :weekend | :month | :invalid
   @type t :: %__MODULE__{
-          mode: Route.route_type(),
+          mode: Route.route_type() | :massport_shuttle,
           name: fare_name,
           media: [media],
           reduced: reduced,

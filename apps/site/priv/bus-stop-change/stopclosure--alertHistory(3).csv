@@ -1,0 +1,610 @@
+Alert ID,Version No.,Time Type,Image URL,Mode,Effect,Affecting,Cause,Severity,Effect Start,Effect End,Recurrence Start,Recurrence End,Recurrence Start Time,Recurrence End Time,Recurrence Days,Notification From,Notification Until,Header,Note Text,Note Last Modified,Note Last Modified By,Accessibility Information,Send via PA/ESS,PA/ESS,T-Alert Sent to Subscribers,Send to Twitter,Set as Website Banner,Website Banner Text,URL,Additional Information,Last Modified By,Last Modified Date,Closed,Reminders,PCF,Planned Disruption,Send T-Alert on close,Send T-Alert on edit,Text-To-Speech Message Text,Text-To-Speech Description Text
+317667,1,One-time,,Bus,Stop Closure,"71, 73; Waterhouse St @ Massachusetts Ave (inbound)",,information,2019-06-24T04:30,further notice,,,,,,2019-06-19T17:53:48.463,further notice,"Beginning Monday 6/24/2019 until late December 2019, the Waterhouse St. bus stop will not be serviced by Route 71 & 73 due to the Harvard Bus Tunnel Renovation.",,,,,False,,True,False,False,,,"All Route 71 & 73 service will start from Mount Auburn St. and not operate in the Harvard Tunnel. Riders traveling outbound can board Route 72, 74, 75, 77, 78, or 96 inbound to Eliot St. @ Bennett St., then walk a block to Mount Auburn St. @ Story St. to transfer to Route 71 & 73 outbound.
+
+Affected routes:
+71
+73",john.semerjian,2019-06-19T17:53:51.363,False,,current,,False,True,,
+317667,2,One-time,,Bus,Stop Closure,"71, 73; Waterhouse St @ Massachusetts Ave",,information,2019-12-23T04:30,2020-01-04T02:30,,,,,,2019-06-19T17:53:48.463,2020-01-04T02:30,"Route 71 & 73 will again serve Waterhouse St beginning Monday, December 23",,,,,False,,True,False,False,,,,john.semerjian,2019-12-21T16:49:05.427,False,,current,,False,True,,
+317667,3,One-time,,Bus,Stop Closure,,,information,2019-12-23T04:30,2020-01-03T20:56:43.240,,,,,,2019-06-19T17:53:48.463,2020-01-03T20:56:43.240,"Route 71 & 73 will again serve Waterhouse St beginning Monday, December 23",,,,,False,,False,False,False,,,,john.semerjian,2020-01-03T20:56:43.240,True,,past,,False,True,,
+317669,1,One-time,,Bus,Stop Closure,"86, 87, 91; Somerville Ave @ Prospect St (outbound)",,up to 20 minutes,2019-06-19T18:04:39.850,later today,,,,,,2019-06-19T18:04:39.853,2019-06-20T02:30,"Beginning June 24, 2019 until early 2020, the bus stop on Somerville Ave @ Prospect St (#2597) will be closed/missed while service is diverted on Webster Ave and Prospect St due to construction on Somerville Ave in Union Square.",,,,,False,,True,False,False,,,"Missed:
+Somerville Ave @ Prospect St (2597)
+
+86 OB Get On Here:
+Washington St @ Kingman Rd (25713)
+Washington St @ Merriam St (2773)
+30 Prospect St (2351) - Temporary
+
+87 IB Get On Here:
+Somerville Ave @ Union Square (2510)
+Somerville Ave @ Linden St (2598)
+30 Prospect St (2531) - Temporary
+
+91 IB Get On Here:
+Washington St @ Merriam St (2773)
+30 Prospect St (2531) - Temporary
+
+Affected routes:
+86
+87
+91",john.semerjian,2019-06-19T18:04:42.453,False,,current,,False,True,,
+317669,2,One-time,,Bus,Stop Closure,"86, 87, 91; Somerville Ave @ Prospect St",,up to 20 minutes,2019-06-24T04:30,further notice,,,,,,2019-06-19T18:04:39.853,further notice,"Beginning June 24, 2019 until early 2020, the bus stop on Somerville Ave @ Prospect St (2597) will be closed/missed while service is diverted on Webster Ave and Prospect St due to construction on Somerville Ave in Union Square.",,,,,False,,False,False,False,,,"Missed:
+Somerville Ave @ Prospect St (2597)
+
+86 OB Get On Here:
+Washington St @ Kingman Rd (25713)
+Washington St @ Merriam St (2773)
+30 Prospect St (2351) - Temporary
+
+87 IB Get On Here:
+Somerville Ave @ Union Square (2510)
+Somerville Ave @ Linden St (2598)
+30 Prospect St (2531) - Temporary
+
+91 IB Get On Here:
+Washington St @ Merriam St (2773)
+30 Prospect St (2531) - Temporary
+
+Affected routes:
+86
+87
+91",john.semerjian,2019-06-19T18:07:32.117,False,,current,,False,True,,
+317669,3,One-time,,Bus,Stop Closure,"86, 87, 91; Somerville Ave @ Prospect St",,up to 20 minutes,2019-06-24T04:30,further notice,,,,,,2019-06-19T18:04:39.853,further notice,"Beginning June 24, 2019 until early 2020, the bus stop on Somerville Ave @ Prospect St (2597) will be closed/missed while service is diverted on Webster Ave and Prospect St due to construction on Somerville Ave in Union Square.",,,,,False,,True,False,False,,,"Missed:
+Somerville Ave @ Prospect St (2597)
+
+86 OB Get On Here:
+Washington St @ Kingman Rd (25713)
+Washington St @ Merriam St (2773)
+30 Prospect St (2351) - Temporary
+
+87 IB Get On Here:
+Somerville Ave @ Union Square (2510)
+30 Prospect St (2531) - Temporary
+
+91 IB Get On Here:
+Washington St @ Merriam St (2773)
+30 Prospect St (2531) - Temporary
+
+Affected routes:
+86
+87
+91",stephanie.rosario,2019-08-06T19:56:01.530,False,,current,,False,True,,
+317669,4,One-time,,Bus,Stop Closure,"86, 87; Somerville Ave @ Prospect St",,up to 20 minutes,2019-06-24T04:30,further notice,,,,,,2019-06-19T18:04:39.853,further notice,The bus stop at Somerville Ave @ Prospect St (2597) will be closed/missed due to construction on Somerville Ave in Union Square until futher notice.,,,,,False,,False,False,False,,,"Missed:
+Somerville Ave @ Prospect St (2597)
+
+86 OB Get On Here:
+Washington St @ Kingman Rd (25713)
+Washington St @ Merriam St (2773)
+
+87 IB Get On Here:
+Somerville Ave @ Union Square (2510)
+
+91 IB Get On Here:
+Washington St @ Merriam St (2773)
+30 Prospect St (2531) - Temporary
+
+Affected routes:
+86
+87
+91",eryk.rotondo,2020-01-15T05:35:31.493,False,,current,,False,True,,
+317669,5,One-time,,Bus,Stop Closure,,,up to 20 minutes,2019-06-24T04:30,2020-02-14T14:07:13.030,,,,,,2019-06-19T18:04:39.853,2020-02-14T14:07:13.030,The bus stop at Somerville Ave @ Prospect St (2597) will be closed/missed due to construction on Somerville Ave in Union Square until futher notice.,,,,,False,,False,False,False,,,"Missed:
+Somerville Ave @ Prospect St (2597)
+
+86 OB Get On Here:
+Washington St @ Kingman Rd (25713)
+Washington St @ Merriam St (2773)
+
+87 IB Get On Here:
+Somerville Ave @ Union Square (2510)
+
+91 IB Get On Here:
+Washington St @ Merriam St (2773)
+30 Prospect St (2531) - Temporary
+
+Affected routes:
+86
+87
+91",nicholas.tomkavage,2020-02-14T14:07:13.030,True,,past,,False,True,,
+325834,1,One-time,,Bus,Stop Closure,"87; Somerville Ave @ Linden St (inbound), Somerville Ave opp Mansfield St (inbound)",construction,up to 20 minutes,2019-08-12T04:30,further notice,,,,,,2019-08-06T20:14:26.717,further notice,"Beginning August 12, 2019 until early 2020, the bus stop on Somerville Ave @ Linden St and Somerville Ave opp Mansfield St will be closed/missed while service is diverted on Somerville Ave from Prospect St to McGrath Hwy due to construction.",,,,,False,,True,False,False,,,"Affected routes:
+87
+
+Missed Stops: Inbound
+
+Somerville Ave @ Linden St
+Somerville Ave opp Mansfield St
+
+Connections: Inbound
+
+McGrath Hwy @ Medford St,
+Washington St @ Merriam St (temporary)
+
+McGrath Hwy @ Medford St,
+Washington St @ McGrath Hwy (temporary)",stephanie.rosario,2019-08-06T20:14:59.690,False,,current,,False,True,,
+325834,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2019-08-12T04:30,2020-04-02T11:41:18.510,,,,,,2019-08-06T20:14:26.717,2020-04-02T11:41:18.510,"Beginning August 12, 2019 until early 2020, the bus stop on Somerville Ave @ Linden St and Somerville Ave opp Mansfield St will be closed/missed while service is diverted on Somerville Ave from Prospect St to McGrath Hwy due to construction.",,,,,False,,True,False,False,,,"Affected routes:
+87
+
+Missed Stops: Inbound
+
+Somerville Ave @ Linden St
+Somerville Ave opp Mansfield St
+
+Connections: Inbound
+
+McGrath Hwy @ Medford St,
+Washington St @ Merriam St (temporary)
+
+McGrath Hwy @ Medford St,
+Washington St @ McGrath Hwy (temporary)",eryk.rotondo,2020-04-02T11:41:18.510,True,,past,,False,True,,
+340671,1,One-time,,Bus,Stop Closure,"57, 57A; Commonwealth Ave @ St Paul St (inbound)",,up to 20 minutes,2019-10-30T16:40:30.943,further notice,,,,,,2019-10-30T16:40:30.943,further notice,Commonwealth Ave @ St Paul St (inbound) closed until further notice. Use Commonwealth Ave @ Pleasant St or Carlton St as alternates.,,,,,False,,True,False,False,,,"Affected routes:
+57
+57A",john.semerjian,2019-10-30T16:40:32.453,False,,current,,False,True,,
+340671,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2019-10-30T16:40:30.943,2020-08-21T19:55:18.820,,,,,,2019-10-30T16:40:30.943,2020-08-21T19:55:18.820,Commonwealth Ave @ St Paul St (inbound) closed until further notice. Use Commonwealth Ave @ Pleasant St or Carlton St as alternates.,,,,,False,,False,False,False,,,"Affected routes:
+57
+57A",nicholas.tomkavage,2020-08-21T19:55:18.820,True,,past,,False,True,,
+344218,1,One-time,,Bus,Stop Closure,"10, 14, 19, 23, 28, 44; Warren St opp Kearsarge Ave",,information,2019-11-18T14:30:44.460,further notice,,,,,,2019-11-18T14:30:44.460,further notice,Warren St opp Kearsarge Ave is temporally closed because of ongoing construction until spring 2020,,,,,False,,True,False,False,,,"Alternate stops:
+Dudley Station
+Warren St @ Dabney Place
+
+Affected routes:
+10
+14
+19
+23
+28
+44",john.semerjian,2019-11-18T14:30:45.703,False,,current,,False,True,,
+344218,2,One-time,,Bus,Stop Closure,"10, 14, 19, 23, 28, 44; Warren St opp Kearsarge Ave",,information,2019-11-18T14:30:44.460,further notice,,,,,,2019-11-18T14:30:44.460,further notice,Warren St opp Kearsarge Ave is temporarily closed because of ongoing construction until spring 2020,,,,,False,,True,False,False,,,"Alternate stops:
+Dudley Station
+Warren St @ Dabney Place
+
+Affected routes:
+10
+14
+19
+23
+28
+44",michael.joyce,2019-11-21T10:08:15.607,False,,current,,False,True,,
+344218,3,One-time,,Bus,Stop Closure,"10, 14, 19, 23, 28, 44; Warren St @ Kearsarge Ave, Warren St opp Kearsarge Ave",,information,2019-11-18T14:30:44.460,further notice,,,,,,2019-11-18T14:30:44.460,further notice,Warren St opp Kearsarge Ave is temporarily closed because of ongoing construction until spring 2020,,,,,False,,False,False,False,,,"Alternate stops:
+Dudley Station
+Warren St @ Dabney Place
+
+Affected routes:
+10
+14
+19
+23
+28
+44",john.semerjian,2019-11-29T15:08:35.073,False,,current,,False,True,,
+344218,4,One-time,,Bus,Stop Closure,,,information,2019-11-18T14:30:44.460,2020-03-23T11:15:04.317,,,,,,2019-11-18T14:30:44.460,2020-03-23T11:15:04.317,Warren St opp Kearsarge Ave is temporarily closed because of ongoing construction until spring 2020,,,,,False,,False,False,False,,,"Alternate stops:
+Dudley Station
+Warren St @ Dabney Place
+
+Affected routes:
+10
+14
+19
+23
+28
+44",eryk.rotondo,2020-03-23T11:15:04.317,True,,past,,False,True,,
+347562,1,One-time,,Bus,Stop Closure,222; Middle St @ Broad St,,information,2019-12-22T04:30,further notice,,,,,,2019-12-06T16:45:21.027,further notice,"Starting December 22, 2019, Middle St @ Broad St serving the 222 is closing. For service towards Quincy Center, please use Board St @ Middle St.",,,,,False,,True,False,False,,,"Affected routes:
+222",john.semerjian,2019-12-06T16:45:21.623,False,,current,,False,True,,
+347562,2,One-time,,Bus,Stop Closure,,,information,2019-12-22T04:30,2020-01-06T20:53:40.520,,,,,,2019-12-06T16:45:21.027,2020-01-06T20:53:40.520,"Starting December 22, 2019, Middle St @ Broad St serving the 222 is closing. For service towards Quincy Center, please use Board St @ Middle St.",,,,,False,,False,False,False,,,"Affected routes:
+222",john.semerjian,2020-01-06T20:53:40.520,True,,past,,False,True,,
+354616,1,One-time,,Bus,Stop Closure,55; Ipswich St @ Lansdowne St (outbound),,information,2020-02-03T04:30,further notice,,,,,,2020-01-28T22:47:41.807,further notice,The following stop is closed beginning Mon Feb 3: Ipswich St @ Lansdowne St (outbound). Connections can be made at Ipswich St @ Boylston St,,,,,False,,True,False,False,,,"Affected routes:
+55
+
+Connections:
+Ipswich St @ Boylston St",nicholas.tomkavage,2020-01-28T22:47:51.690,False,,current,,False,True,,
+354616,2,One-time,,Bus,Stop Closure,,,information,2020-02-03T04:30,2020-08-21T19:52:57.193,,,,,,2020-01-28T22:47:41.807,2020-08-21T19:52:57.193,The following stop is closed beginning Mon Feb 3: Ipswich St @ Lansdowne St (outbound). Connections can be made at Ipswich St @ Boylston St,,,,,False,,False,False,False,,,"Affected routes:
+55
+
+Connections:
+Ipswich St @ Boylston St",nicholas.tomkavage,2020-08-21T19:52:57.193,True,,past,,False,True,,
+358885,1,One-time,,Bus,Stop Closure,9; W Broadway @ Dorchester St,construction,up to 20 minutes,2020-03-09T04:30,further notice,,,,,,2020-03-04T06:58:20.150,further notice,The bus stop at W Broadway @ Dorchester St will be closed beginning March 9 for construction. Passengers can use Broadway @ F Street or G Street for service.,,,,,False,,True,False,False,,,"Affected routes:
+9",eryk.rotondo,2020-03-04T07:03:36.157,False,,current,,False,True,,
+358885,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-03-09T04:30,2020-03-24T11:41:57.960,,,,,,2020-03-04T06:58:20.150,2020-03-24T11:41:57.960,The bus stop at W Broadway @ Dorchester St will be closed beginning March 9 for construction. Passengers can use Broadway @ F Street or G Street for service.,,,,,False,,False,False,False,,,"Affected routes:
+9",eryk.rotondo,2020-03-24T11:41:57.960,True,,past,,False,True,,
+360029,1,One-time,,Bus,Stop Closure,"14, 15, 19, 23, 28, 41, 42, 44, 45, 66; Dudley Square",fire,up to 30 minutes,2020-03-14T06:23:15.682,later today,,,,,,2020-03-14T06:23:15.683,2020-03-15T02:30,"Due to a working fire in the area, buses are temporarily unable to service Dudley Station.",,,,,False,,True,False,False,,,"Affected routes:
+14
+15
+19
+23
+28
+41
+42
+44
+45
+66",christopher.delano,2020-03-14T06:23:43.923,False,,current,,False,True,,
+360029,2,One-time,,Bus,Stop Closure,,fire,up to 30 minutes,2020-03-14T06:23:15.682,2020-03-14T08:08:15.470,,,,,,2020-03-14T06:23:15.683,2020-03-14T08:08:15.470,"Due to a working fire in the area, buses are temporarily unable to service Dudley Station.",,,,,False,,False,False,False,,,"Affected routes:
+14
+15
+19
+23
+28
+41
+42
+44
+45
+66",Michael.Kelly,2020-03-14T08:08:15.470,True,,past,,False,True,,
+362879,1,One-time,,Bus,Stop Closure,"87; Somerville Ave @ Linden St, Somerville Ave opp Mansfield St",,up to 20 minutes,2020-05-19T04:30,2020-06-13T02:30,,,,,,2020-05-12T12:18:12.600,2020-06-13T02:30,The Route 87 inbound stops at Somerville Ave @ Linden St and Somerville Ave opp Mansfield St will be closed from May 19 through early June to allow for utility work.,,,,,False,,True,False,False,,,"Connections for Somerville Ave @ Linden St can be made at McGrath Hwy @ Medford St or at a temporary stop at Washington St @ Merriam St.
+
+Connections for Somerville Ave opp Mansfield St can be made at McGrath Hwy @ Medford St or at a temporary stop at Washington St @ McGrath Hwy.
+
+Affected routes:
+87",eryk.rotondo,2020-05-12T12:18:43.913,False,,current,,False,True,,
+362879,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-05-19T04:30,2020-06-13T02:30,,,,,,2020-05-12T12:18:12.600,2020-06-13T02:30,The Route 87 inbound stops at Somerville Ave @ Linden St and Somerville Ave opp Mansfield St will be closed from May 19 through early June to allow for utility work.,,,,,False,,False,False,False,,,"Connections for Somerville Ave @ Linden St can be made at McGrath Hwy @ Medford St or at a temporary stop at Washington St @ Merriam St.
+
+Connections for Somerville Ave opp Mansfield St can be made at McGrath Hwy @ Medford St or at a temporary stop at Washington St @ McGrath Hwy.
+
+Affected routes:
+87",expiry,2020-06-13T02:30:16.693,True,,past,,False,True,,
+362999,1,One-time,,Bus,Stop Closure,Silver Line - SL5; Temple Pl @ Washington St (inbound),construction,up to 20 minutes,2020-05-16T07:00,2020-05-16T11:00,,,,,,2020-05-15T13:32:51.863,2020-05-16T11:00,The stop at Temple Pl @ Washington St is scheduled to be closed on May 16 from 7:00 AM to 11:00 AM due to a crane lift. Customers may access SL5 service on West Street.,,,,,False,,True,False,False,,,"Affected routes:
+Silver Line - SL5",eryk.rotondo,2020-05-15T13:34:31.677,False,,current,,False,True,,
+362999,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-05-16T07:00,2020-05-16T11:00,,,,,,2020-05-15T13:32:51.863,2020-05-16T11:00,The stop at Temple Pl @ Washington St is scheduled to be closed on May 16 from 7:00 AM to 11:00 AM due to a crane lift. Customers may access SL5 service on West Street.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL5",expiry,2020-05-16T11:00:17.320,True,,past,,False,True,,
+363441,1,One-time,,Bus,Stop Closure,"80, 86, 88, 90, 91; McGrath Hwy @ Alston St",,information,2020-05-31T04:30,further notice,,,,,,2020-05-27T16:50:14.630,further notice,"Effective 5/31/20, Routes 86 and 91 will no longer serve the following stops due to discontinuation of the Washington St underpass detour and resumption of regular routes on Washington St:",,,,,False,,True,False,False,,,"Affected stops:
+McGrath Hwy @ Alston St 
+Cross St @ Alston St 
+Cross St @ Fountain Ave 
+Cross St @ Oliver St 
+Pearl St @ Cross St 
+
+--Connect to Routes 86 and 91 on Washington St--",christopher.delano,2020-05-27T16:50:46.617,False,2020-05-31T05:00 send bulletin,current,,False,True,,
+363441,2,One-time,,Bus,Stop Closure,86; McGrath Hwy @ Alston St,,information,2020-05-31T04:30,further notice,,,,,,2020-05-27T16:50:14.630,further notice,"Effective 5/31/20, Routes 86 and 91 will no longer serve the following stops due to discontinuation of the Washington St underpass detour and resumption of regular routes on Washington St:",,,,,False,,False,False,False,,,"Affected stops:
+McGrath Hwy @ Alston St 
+Cross St @ Alston St 
+Cross St @ Fountain Ave 
+Cross St @ Oliver St 
+Pearl St @ Cross St 
+
+--Connect to Routes 86 and 91 on Washington St--",christopher.delano,2020-05-27T16:54:41.523,False,2020-05-31T05:00 send bulletin,current,,False,True,,
+363441,3,One-time,,Bus,Stop Closure,,,information,2020-05-27T17:01:50.577,2020-05-27T17:01:50.577,,,,,,2020-05-27T16:50:14.630,2020-05-27T17:01:50.577,"Effective 5/31/20, Routes 86 and 91 will no longer serve the following stops due to discontinuation of the Washington St underpass detour and resumption of regular routes on Washington St:",,,,,False,,False,False,False,,,"Affected stops:
+McGrath Hwy @ Alston St 
+Cross St @ Alston St 
+Cross St @ Fountain Ave 
+Cross St @ Oliver St 
+Pearl St @ Cross St 
+
+--Connect to Routes 86 and 91 on Washington St--",christopher.delano,2020-05-27T17:01:50.577,True,,past,,False,True,,
+363613,1,One-time,,Bus,Stop Closure,39; S Huntington Ave @ Heath St (inbound),,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop S Huntington Ave @ Heath St (inbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+39",nicholas.tomkavage,2020-05-29T20:19:35.170,False,,future,,False,True,,
+363613,2,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 39 stop S Huntington Ave @ Heath St (inbound) is eliminated.",,,,,False,,True,False,False,,,"Affected routes:
+39",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363613,3,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-06-25T09:31:46.117,,,,,,2020-06-05T07:00,2020-06-25T09:31:46.117,"Effective June 21, Route 39 stop S Huntington Ave @ Heath St (inbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+39",eryk.rotondo,2020-06-25T09:31:46.117,True,,past,,False,True,,
+363618,1,One-time,,Bus,Stop Closure,"75, 74; 385 Concord Ave (outbound), Opp 385 Concord Ave (inbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, the following Route 74 & 75 stops are eliminated: 385 Concord Ave (outbound) and Opp 385 Concord Ave (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",nicholas.tomkavage,2020-05-29T20:32:29.630,False,,future,,False,True,,
+363618,2,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, the following Route 74 & 75 stops are eliminated: 385 Concord Ave (outbound) and Opp 385 Concord Ave (inbound)",,,,,False,,True,False,False,,,"Affected routes:
+74
+75",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363618,3,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-06-25T09:32:08.977,,,,,,2020-06-05T07:00,2020-06-25T09:32:08.977,"Effective June 21, the following Route 74 & 75 stops are eliminated: 385 Concord Ave (outbound) and Opp 385 Concord Ave (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",eryk.rotondo,2020-06-25T09:32:08.977,True,,past,,False,True,,
+363623,1,One-time,,Bus,Stop Closure,"74, 75; Leonard St @ Moore St - Belmont Center (inbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Leonard St @ Moore St - Belmont Center (inbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",nicholas.tomkavage,2020-05-29T21:43:32.787,False,,future,,False,True,,
+363623,2,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Leonard St @ Moore St - Belmont Center (inbound) is eliminated.",,,,,False,,True,False,False,,,"Affected routes:
+74
+75",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363623,3,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-06-25T09:32:28.523,,,,,,2020-06-05T07:00,2020-06-25T09:32:28.523,"Effective June 21, Route 74 & 75 stop Leonard St @ Moore St - Belmont Center (inbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",eryk.rotondo,2020-06-25T09:32:28.523,True,,past,,False,True,,
+363624,1,One-time,,Bus,Stop Closure,"74, 75; Alexander Ave @ Leonard St (inbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Alexander Ave @ Leonard St (inbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",nicholas.tomkavage,2020-05-29T21:46:03.177,False,,future,,False,True,,
+363624,2,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Alexander Ave @ Leonard St (inbound) is eliminated.",,,,,False,,True,False,False,,,"Affected routes:
+74
+75",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363624,3,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-06-25T09:32:43.337,,,,,,2020-06-05T07:00,2020-06-25T09:32:43.337,"Effective June 21, Route 74 & 75 stop Alexander Ave @ Leonard St (inbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",eryk.rotondo,2020-06-25T09:32:43.337,True,,past,,False,True,,
+363625,1,One-time,,Bus,Stop Closure,"74, 75; Channing Rd opp Claflin St (outbound)",,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Channing Rd opp Claflin St (outbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",nicholas.tomkavage,2020-05-29T21:53:34.713,False,,future,,False,True,,
+363625,2,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-07-18T02:30,,,,,,2020-06-05T07:00,2020-07-18T02:30,"Effective June 21, Route 74 & 75 stop Channing Rd opp Claflin St (outbound) is eliminated.",,,,,False,,True,False,False,,,"Affected routes:
+74
+75",scheduled,2020-06-05T07:00:23.527,False,,current,,False,True,,
+363625,3,One-time,,Bus,Stop Closure,,,information,2020-06-21T04:30,2020-06-25T09:32:58.007,,,,,,2020-06-05T07:00,2020-06-25T09:32:58.007,"Effective June 21, Route 74 & 75 stop Channing Rd opp Claflin St (outbound) is eliminated.",,,,,False,,False,False,False,,,"Affected routes:
+74
+75",eryk.rotondo,2020-06-25T09:32:58.007,True,,past,,False,True,,
+364858,1,One-time,,Bus,Stop Closure,80; Medford St @ Sycamore St,construction,up to 20 minutes,2020-06-22T04:30,further notice,,,,,,2020-06-18T09:59:53.797,further notice,Medford St @ Sycamore St closes on June 22 for approximately four weeks to allow for sidewalk construction.  Please use adjacent stops on Medford St @ Thurston St or Medford St @ Central St.,,,,,False,,True,False,False,,,"Affected routes:
+80",eryk.rotondo,2020-06-18T10:04:21.980,False,,current,,False,True,,
+364858,2,One-time,,Bus,Stop Closure,80; Medford St @ Sycamore St,construction,up to 20 minutes,2020-06-22T04:30,further notice,,,,,,2020-06-18T09:59:53.797,further notice,Medford St @ Sycamore St closed through August 22 to allow for sidewalk construction.  Please use adjacent stops on Medford St @ Thurston St or Medford St @ Central St.,,,,,False,,True,False,False,,,"Affected routes:
+80",nicholas.tomkavage,2020-08-06T17:30:27.477,False,,current,,False,True,,
+364858,3,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-06-22T04:30,2020-08-21T17:35:44.570,,,,,,2020-06-18T09:59:53.797,2020-08-21T17:35:44.570,Medford St @ Sycamore St closed through August 22 to allow for sidewalk construction.  Please use adjacent stops on Medford St @ Thurston St or Medford St @ Central St.,,,,,False,,False,False,False,,,"Affected routes:
+80",nicholas.tomkavage,2020-08-21T17:35:44.570,True,,past,,False,True,,
+366347,1,One-time,,Bus,Stop Closure,"1, 170; Massachusetts Ave @ Columbus Ave",construction,information,2020-07-31T04:30,further notice,,,,,,2020-07-07T14:55:19.537,further notice,"Effective July 31, Massachusetts Ave @ Columbus Ave will temporarily close due to construction. Nearest connection: Massachusetts Ave @ Tremont St",,,,,False,,True,False,False,,,"Affected routes:
+1
+170",christopher.delano,2020-07-07T14:55:44.307,False,2020-07-31T05:00 send bulletin,current,,False,True,,
+366347,2,One-time,,Bus,Stop Closure,,construction,information,2020-07-31T04:30,2020-09-11T09:05:47.527,,,,,,2020-07-07T14:55:19.537,2020-09-11T09:05:47.527,"Effective July 31, Massachusetts Ave @ Columbus Ave will temporarily close due to construction. Nearest connection: Massachusetts Ave @ Tremont St",,,,,False,,True,False,False,,,"Affected routes:
+1
+170",christopher.delano,2020-09-11T09:05:47.527,True,,past,,False,True,,
+368782,1,One-time,,Bus,Stop Closure,"99; Highland Ave @ Molyneaux Circle (outbound), Woodland Rd @ Molyneaux Circle (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-07T11:45:55.370,further notice,"Route 99: Do to accessibility issues, Highland Ave @ Molyneaux Circle (outbound) and Woodland Rd @ Molyneaux Circle (outbound) will permanently close on Aug. 30th. Nearest connections: Highland Ave @ Sturges St or Highland Ave @ E. Border Rd.",,,,,False,,True,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns:
+
+Route 99: Bus Stop 25059  Highland Ave @ Molyneaux Circle (Outbound). The nearest stop is Highland Ave @ E Border Rd, 670 feet away 
+
+Route 99: Bus Stop 15059  Woodland Rd @ Molyneaux Circle (Outbound). The nearest stop is Highland Ave @ Sturges St, 970 feet away
+
+Nearest connections: Highland Ave @ Sturges St or Highland Ave @ E. Border Rd. 
+
+Affected routes:
+99",christopher.delano,2020-08-07T11:46:11.487,False,,current,,False,True,,
+368782,2,One-time,,Bus,Stop Closure,"99; Woodland Rd @ Molyneaux Circle, Highland Ave @ Molyneaux Circle",,information,2020-08-30T04:30,further notice,,,,,,2020-08-07T11:45:55.367,further notice,"Route 99: Due to accessibility issues, Highland Ave @ Molyneaux Circle (outbound) and Woodland Rd @ Molyneaux Circle (outbound) will permanently close on Aug. 30th. Nearest connections: Highland Ave @ Sturges St or Highland Ave @ E. Border Rd.",,,,,False,,False,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns:
+
+Route 99: Bus Stop 25059  Highland Ave @ Molyneaux Circle (Outbound). The nearest stop is Highland Ave @ E Border Rd, 670 feet away 
+
+Route 99: Bus Stop 15059  Woodland Rd @ Molyneaux Circle (Outbound). The nearest stop is Highland Ave @ Sturges St, 970 feet away
+
+Nearest connections: Highland Ave @ Sturges St or Highland Ave @ E. Border Rd. 
+
+Affected routes:
+99",christopher.delano,2020-08-07T11:48:50.020,False,,current,,False,True,,
+368782,3,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:57.260,,,,,,2020-08-07T11:45:55.367,2020-09-08T10:42:57.260,"Route 99: Due to accessibility issues, Highland Ave @ Molyneaux Circle (outbound) and Woodland Rd @ Molyneaux Circle (outbound) will permanently close on Aug. 30th. Nearest connections: Highland Ave @ Sturges St or Highland Ave @ E. Border Rd.",,,,,False,,False,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns:
+
+Route 99: Bus Stop 25059  Highland Ave @ Molyneaux Circle (Outbound). The nearest stop is Highland Ave @ E Border Rd, 670 feet away 
+
+Route 99: Bus Stop 15059  Woodland Rd @ Molyneaux Circle (Outbound). The nearest stop is Highland Ave @ Sturges St, 970 feet away
+
+Nearest connections: Highland Ave @ Sturges St or Highland Ave @ E. Border Rd. 
+
+Affected routes:
+99",christopher.delano,2020-09-08T10:42:57.260,True,,past,,False,True,,
+368783,1,One-time,,Bus,Stop Closure,"136, 137; 830 Main St (outbound), Main St opp Meriam St (outbound), Main St @ Meriam St (inbound), Opp 830 Main St (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-07T11:57:55.280,further notice,Route 136: Main St @ Meriam and 830 Main Street bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Main St @ Green St or Main St @ Walton Pl.,,,,,False,,True,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+Bus Stop 9245  Main St opp Meriam St (Outbound). The nearest stop is Main St @ Green St.
+
+Bus Stop 9185  Main St @ Meriam St (Inbound). The nearest stop is Main St Opp Green St.
+
+Bus Stop 9244  830 Main St (Outbound). The nearest stop is Main St @ Walton Pl.
+
+Bus Stop 9186  Opp 830 Main St (Inbound). The nearest stop is Main St @ Forest St.",christopher.delano,2020-08-07T11:58:20.777,False,,current,,False,True,,
+368783,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:54.243,,,,,,2020-08-07T11:57:55.280,2020-09-08T10:42:54.243,Route 136: Main St @ Meriam and 830 Main Street bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Main St @ Green St or Main St @ Walton Pl.,,,,,False,,False,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+Bus Stop 9245  Main St opp Meriam St (Outbound). The nearest stop is Main St @ Green St.
+
+Bus Stop 9185  Main St @ Meriam St (Inbound). The nearest stop is Main St Opp Green St.
+
+Bus Stop 9244  830 Main St (Outbound). The nearest stop is Main St @ Walton Pl.
+
+Bus Stop 9186  Opp 830 Main St (Inbound). The nearest stop is Main St @ Forest St.",christopher.delano,2020-09-08T10:42:54.243,True,,past,,False,True,,
+368784,1,One-time,,Bus,Stop Closure,"137; 830 Main St (outbound), Main St opp Meriam St (outbound), Main St @ Meriam St (inbound), Opp 830 Main St (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-07T12:02:13.833,further notice,Route 137: Main St @ Meriam and 830 Main Street bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Main St @ Green St or Main St @ Walton Pl.,,,,,False,,True,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+Bus Stop 9245  Main St opp Meriam St (Outbound). The nearest stop is Main St @ Green St.
+
+Bus Stop 9185  Main St @ Meriam St (Inbound). The nearest stop is Main St Opp Green St.
+
+Bus Stop 9244  830 Main St (Outbound). The nearest stop is Main St @ Walton Pl.
+
+Bus Stop 9186  Opp 830 Main St (Inbound). The nearest stop is Main St @ Forest St.",christopher.delano,2020-08-07T12:02:26.903,False,,current,,False,True,,
+368784,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:51.917,,,,,,2020-08-07T12:02:13.833,2020-09-08T10:42:51.917,Route 137: Main St @ Meriam and 830 Main Street bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Main St @ Green St or Main St @ Walton Pl.,,,,,False,,False,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+Bus Stop 9245  Main St opp Meriam St (Outbound). The nearest stop is Main St @ Green St.
+
+Bus Stop 9185  Main St @ Meriam St (Inbound). The nearest stop is Main St Opp Green St.
+
+Bus Stop 9244  830 Main St (Outbound). The nearest stop is Main St @ Walton Pl.
+
+Bus Stop 9186  Opp 830 Main St (Inbound). The nearest stop is Main St @ Forest St.",christopher.delano,2020-09-08T10:42:51.917,True,,past,,False,True,,
+368787,1,One-time,,Bus,Stop Closure,"350; Cambridge Rd @ Surrey Circle (outbound), 113 Cambridge Rd opp Surrey Circle (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-07T12:40:34.930,further notice,Route 350: 113 Cambridge Rd Opp Surrey Circle bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Cambridge Rd @ Revere Rd.,,,,,False,,True,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+ Bus Stop 8246  113 Cambridge Rd Opp Surrey Circle (Inbound). The nearest stop is Cambridge Rd @ Revere Rd
+
+ Bus Stop 8246  113 Cambridge Rd @ Surrey Circle (Outbound). The nearest stop is Cambridge Rd Opp Revere Rd",christopher.delano,2020-08-07T12:40:48.497,False,2020-08-30T06:00 send bulletin,current,,False,True,,
+368787,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:47.917,,,,,,2020-08-07T12:40:34.930,2020-09-08T10:42:47.917,Route 350: 113 Cambridge Rd Opp Surrey Circle bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Cambridge Rd @ Revere Rd.,,,,,False,,False,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+ Bus Stop 8246  113 Cambridge Rd Opp Surrey Circle (Inbound). The nearest stop is Cambridge Rd @ Revere Rd
+
+ Bus Stop 8246  113 Cambridge Rd @ Surrey Circle (Outbound). The nearest stop is Cambridge Rd Opp Revere Rd",christopher.delano,2020-09-08T10:42:47.917,True,,past,,False,True,,
+368788,1,One-time,,Bus,Stop Closure,"354; Cambridge Rd @ Surrey Circle (outbound), 113 Cambridge Rd opp Surrey Circle (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-07T12:46:55.423,further notice,Route 354:  113 Cambridge Rd Opp Surrey Circle bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Cambridge Rd @ Revere Rd.,,,,,False,,True,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+ 113 Cambridge Rd Opp Surrey Circle (Inbound). The nearest stop is Cambridge Rd @ Revere Rd
+
+ 113 Cambridge Rd @ Surrey Circle (Outbound). The nearest stop is Cambridge Rd Opp Revere Rd
+
+Affected routes:
+354",christopher.delano,2020-08-07T12:46:57.330,False,2020-08-30T06:00 send bulletin,current,,False,True,,
+368788,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:44.070,,,,,,2020-08-07T12:46:55.423,2020-09-08T10:42:44.070,Route 354:  113 Cambridge Rd Opp Surrey Circle bus stops will permanently close on Aug. 30 due to accessibility issues. Nearest connections: Cambridge Rd @ Revere Rd.,,,,,False,,False,False,False,,,"The following stop(s) will be eliminated on August 30, 2020, due to accessibility concerns.
+
+ 113 Cambridge Rd Opp Surrey Circle (Inbound). The nearest stop is Cambridge Rd @ Revere Rd
+
+ 113 Cambridge Rd @ Surrey Circle (Outbound). The nearest stop is Cambridge Rd Opp Revere Rd
+
+Affected routes:
+354",christopher.delano,2020-09-08T10:42:44.070,True,,past,,False,True,,
+368897,1,One-time,,Bus,Stop Closure,"465; Water St @ Riverside St (outbound), Water St @ Rainbow Terr (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T06:28:04.647,further notice,"Effective August 30, the following Route 465 stops are closed due to accessibility concerns: Water St @ Riverside St (outbound) and Water St @ Rainbow Terr (inbound)",,,,,False,,True,False,False,,,"Affected routes:
+465",nicholas.tomkavage,2020-08-09T06:28:05.530,False,,current,,False,True,,
+368897,2,One-time,,Bus,Stop Closure,,,information,2020-08-10T20:02:36.577,2020-08-10T20:02:36.577,,,,,,2020-08-09T06:28:04.647,2020-08-10T20:02:36.577,"Effective August 30, the following Route 465 stops are closed due to accessibility concerns: Water St @ Riverside St (outbound) and Water St @ Rainbow Terr (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+465",christopher.delano,2020-08-10T20:02:36.577,True,,past,,False,True,,
+368898,1,One-time,,Bus,Stop Closure,"451; Opp 55 Tozer Rd (outbound), 16 Tozer Rd (outbound), Opp 16 Tozer Rd (inbound), 55 Tozer Rd (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T06:36:19.383,further notice,"Effective August 30, The following Route 451 stops are closed due to accessibility concerns: Opp 55 Tozer Rd (outbound); 16 Tozer Rd (outbound); Opp 16 Tozer Rd (inbound); 55 Tozer Rd (inbound)",,,,,False,,True,False,False,,,"Affected stops:
+Opp 55 Tozer Rd (outbound)
+16 Tozer Rd (outbound)
+Opp 16 Tozer Rd (inbound)
+55 Tozer Rd (inbound)",nicholas.tomkavage,2020-08-09T06:36:20.783,False,,current,,False,True,,
+368898,2,One-time,,Bus,Stop Closure,,,information,2020-08-10T19:59:32.013,2020-08-10T19:59:32.013,,,,,,2020-08-09T06:36:19.383,2020-08-10T19:59:32.013,"Effective August 30, The following Route 451 stops are closed due to accessibility concerns: Opp 55 Tozer Rd (outbound); 16 Tozer Rd (outbound); Opp 16 Tozer Rd (inbound); 55 Tozer Rd (inbound)",,,,,False,,False,False,False,,,"Affected stops:
+Opp 55 Tozer Rd (outbound)
+16 Tozer Rd (outbound)
+Opp 16 Tozer Rd (inbound)
+55 Tozer Rd (inbound)",christopher.delano,2020-08-10T19:59:32.013,True,,past,,False,True,,
+368900,1,One-time,,Bus,Stop Closure,"450, 456; Highland Ave @ First St (outbound), Highland Ave opp First St (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T07:25:45.270,further notice,"Effective August 30, the following Route 450 & 456 stops are closed due to accessbility concerns: Highland Ave @ First St (outbound) and Highland Ave opp First St (inbound)",,,,,False,,True,False,False,,,"Affected routes:
+450
+456",nicholas.tomkavage,2020-08-09T07:25:48.527,False,,current,,False,True,,
+368900,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:41.523,,,,,,2020-08-09T07:25:45.270,2020-09-08T10:42:41.523,"Effective August 30, the following Route 450 & 456 stops are closed due to accessbility concerns: Highland Ave @ First St (outbound) and Highland Ave opp First St (inbound)",,,,,False,,False,False,False,,,"Affected routes:
+450
+456",christopher.delano,2020-09-08T10:42:41.523,True,,past,,False,True,,
+368901,1,One-time,,Bus,Stop Closure,"441; 212 Salem St (outbound), Salem St opp Stanley Rd (outbound), Salem St opp Harrison Ave (outbound), Salem St @ Harrison Ave (inbound), Salem St @ Stanley Rd (inbound), Opp 212 Salem St (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:20:01.233,further notice,"Effective August 30, the following Route 441 stops are closed due to accessibility concerns. 212 Salem St (OB); Salem St opp Stanley Rd (OB); Salem St opp Harrison Ave (OB); Salem St @ Harrison Ave (IB);Salem St @ Stanley Rd (IB); Opp 212 Salem St (IB)",,,,,False,,True,False,False,,,"Affected stops:
+212 Salem St (outbound)
+Salem St opp Stanley Rd (outbound)
+Salem St opp Harrison Ave (outbound)
+Salem St @ Harrison Ave (inbound)
+Salem St @ Stanley Rd (inbound)
+Opp 212 Salem St (inbound)",nicholas.tomkavage,2020-08-09T08:20:03.437,False,,current,,False,True,,
+368901,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:38.150,,,,,,2020-08-09T08:20:01.233,2020-09-08T10:42:38.150,"Effective August 30, the following Route 441 stops are closed due to accessibility concerns. 212 Salem St (OB); Salem St opp Stanley Rd (OB); Salem St opp Harrison Ave (OB); Salem St @ Harrison Ave (IB);Salem St @ Stanley Rd (IB); Opp 212 Salem St (IB)",,,,,False,,False,False,False,,,"Affected stops:
+212 Salem St (outbound)
+Salem St opp Stanley Rd (outbound)
+Salem St opp Harrison Ave (outbound)
+Salem St @ Harrison Ave (inbound)
+Salem St @ Stanley Rd (inbound)
+Opp 212 Salem St (inbound)",christopher.delano,2020-09-08T10:42:38.150,True,,past,,False,True,,
+368902,1,One-time,,Bus,Stop Closure,"439; Opp 1 Nahant Rd (outbound), 1 Nahant Rd (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:26:31.277,further notice,"Effective August 30, the following Route 439 stops are closed due to accessibilty concerns: Opp 1 Nahant Rd (outbound) and 1 Nahant Rd (inbound)",,,,,False,,True,False,False,,,"Affected stops:
+
+Opp 1 Nahant Rd (outbound)
+1 Nahant Rd (inbound)",nicholas.tomkavage,2020-08-09T08:26:32.953,False,,current,,False,True,,
+368902,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-10T19:57:27.120,2020-08-10T19:57:27.120,,,,,,2020-08-09T08:26:31.277,2020-08-10T19:57:27.120,"Effective August 30, the following Route 439 stops are closed due to accessibilty concerns: Opp 1 Nahant Rd (outbound) and 1 Nahant Rd (inbound)",,,,,False,,False,False,False,,,"Affected stops:
+
+Opp 1 Nahant Rd (outbound)
+1 Nahant Rd (inbound)",christopher.delano,2020-08-10T19:57:27.120,True,,past,,False,True,,
+368903,1,One-time,,Bus,Stop Closure,"435; Lynn St @ Spring Pond Rd (outbound), Lynn St opp Spring Pond Rd (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:36:57.047,further notice,"Effective August 30, the following Route 435 stops are closed due to accessibility concerns: Lynn St @ Spring Pond Rd (outbound) and Lynn St opp Spring Pond Rd (inbound)",,,,,False,,True,False,False,,,"Affected stops:
+
+Lynn St @ Spring Pond Rd (outbound)
+Lynn St opp Spring Pond Rd (inbound)",nicholas.tomkavage,2020-08-09T08:36:58.510,False,,current,,False,True,,
+368903,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-30T04:30,2020-09-08T10:42:35.087,,,,,,2020-08-09T08:36:57.047,2020-09-08T10:42:35.087,"Effective August 30, the following Route 435 stops are closed due to accessibility concerns: Lynn St @ Spring Pond Rd (outbound) and Lynn St opp Spring Pond Rd (inbound)",,,,,False,,False,False,False,,,"Affected stops:
+
+Lynn St @ Spring Pond Rd (outbound)
+Lynn St opp Spring Pond Rd (inbound)",christopher.delano,2020-09-08T10:42:35.087,True,,past,,False,True,,
+368904,1,One-time,,Bus,Stop Closure,"434, 436; Lynnfield St opp Great Woods Rd (outbound), Lynnfield St @ Great Woods Rd (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:39:31.393,further notice,"Effective August 30, the following Route 434 & 436 stops are closed due to accessibility concerns: Lynnfield St opp Great Woods Rd (outbound) and Lynnfield St @ Great Woods Rd (inbound)",,,,,False,,True,False,False,,,,nicholas.tomkavage,2020-08-09T08:39:33.510,False,,current,,False,True,,
+368904,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-30T04:30,2020-09-08T10:42:32.743,,,,,,2020-08-09T08:39:31.393,2020-09-08T10:42:32.743,"Effective August 30, the following Route 434 & 436 stops are closed due to accessibility concerns: Lynnfield St opp Great Woods Rd (outbound) and Lynnfield St @ Great Woods Rd (inbound)",,,,,False,,False,False,False,,,,christopher.delano,2020-09-08T10:42:32.743,True,,past,,False,True,,
+368905,1,One-time,,Bus,Stop Closure,"430; Broadway @ Osprey Rd (outbound), Broadway opp Osprey Rd (inbound)",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:41:43.780,further notice,"Effective August 30, the following Route 430 stops are closed due to accessibility concerns: Broadway @ Osprey Rd (outbound) and Broadway opp Osprey Rd (inbound)",,,,,False,,True,False,False,,,,nicholas.tomkavage,2020-08-09T08:41:52.417,False,,current,,False,True,,
+368905,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:27.913,,,,,,2020-08-09T08:41:43.780,2020-09-08T10:42:27.913,"Effective August 30, the following Route 430 stops are closed due to accessibility concerns: Broadway @ Osprey Rd (outbound) and Broadway opp Osprey Rd (inbound)",,,,,False,,False,False,False,,,,christopher.delano,2020-09-08T10:42:27.913,True,,past,,False,True,,
+368906,1,One-time,,Bus,Stop Closure,"429; Walnut St opp Fairmount Ave (outbound), Walnut St @ Elm St (outbound), Walnut St opp Birchwood Ave (outbound), Walnut St @ Great Woods Rd (outbound), Walnut St opp Great Woods Rd (inbound), Walnut St @ Birchwood Ave (inbound), Walnut St @ Elm St (inb",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:46:59.883,further notice,"Effective August 30, the following Route 429 stops are closed in both directions due to accessibility concens: Walnut/Elm, Walnut/Birchwood, Walnut/Great Woods, Walnut/Fairmount",,,,,False,,True,False,False,,,"Affected stops:
+Walnut St opp Fairmount Ave (outbound)
+Walnut St @ Elm St (outbound)
+Walnut St opp Birchwood Ave (outbound)
+Walnut St @ Great Woods Rd (outbound)
+Walnut St opp Great Woods Rd (inbound)
+Walnut St @ Birchwood Ave (inbound)
+Walnut St @ Elm St (inbound)
+Walnut St @ Fairmount Ave (inbound)",nicholas.tomkavage,2020-08-09T08:47:04.390,False,,current,,False,True,,
+368906,2,One-time,,Bus,Stop Closure,,,information,2020-08-30T04:30,2020-09-08T10:42:24.523,,,,,,2020-08-09T08:46:59.883,2020-09-08T10:42:24.523,"Effective August 30, the following Route 429 stops are closed in both directions due to accessibility concens: Walnut/Elm, Walnut/Birchwood, Walnut/Great Woods, Walnut/Fairmount",,,,,False,,False,False,False,,,"Affected stops:
+Walnut St opp Fairmount Ave (outbound)
+Walnut St @ Elm St (outbound)
+Walnut St opp Birchwood Ave (outbound)
+Walnut St @ Great Woods Rd (outbound)
+Walnut St opp Great Woods Rd (inbound)
+Walnut St @ Birchwood Ave (inbound)
+Walnut St @ Elm St (inbound)
+Walnut St @ Fairmount Ave (inbound)",christopher.delano,2020-09-08T10:42:24.523,True,,past,,False,True,,
+368908,1,One-time,,Bus,Stop Closure,"428; 60 Winter St (outbound), Winter St @ Riverside Pk (outbound), Opp 153 Winter St (outbound), Opp 190 Main St (outbound), 221 Main St (outbound), 190 Main St (inbound), 153 Winter St (inbound), Winter St opp Riverside Pk (inbound), Winter St @ Johnson ",,information,2020-08-30T04:30,further notice,,,,,,2020-08-09T08:54:58.810,further notice,"Effective August 30, several Route 428 stops on Winter St and Main St are closed for accessibilty concerns.",,,,,False,,True,False,False,,,"Affected stops:
+60 Winter St (outbound)
+Winter St @ Riverside Pk (outbound)
+Opp 153 Winter St (outbound)
+Opp 190 Main St (outbound)
+221 Main St (outbound)
+190 Main St (inbound)
+153 Winter St (inbound)
+Winter St opp Riverside Pk (inbound)
+Winter St @ Johnson Rd (inbound)",nicholas.tomkavage,2020-08-09T08:55:01.563,False,,current,,False,True,,
+368908,2,One-time,,Bus,Stop Closure,,,information,2020-08-10T19:57:07.777,2020-08-10T19:57:07.777,,,,,,2020-08-09T08:54:58.810,2020-08-10T19:57:07.777,"Effective August 30, several Route 428 stops on Winter St and Main St are closed for accessibilty concerns.",,,,,False,,False,False,False,,,"Affected stops:
+60 Winter St (outbound)
+Winter St @ Riverside Pk (outbound)
+Opp 153 Winter St (outbound)
+Opp 190 Main St (outbound)
+221 Main St (outbound)
+190 Main St (inbound)
+153 Winter St (inbound)
+Winter St opp Riverside Pk (inbound)
+Winter St @ Johnson Rd (inbound)",christopher.delano,2020-08-10T19:57:07.777,True,,past,,False,True,,
+369021,1,One-time,,Bus,Stop Closure,"55; Ipswich St @ Charlesgate East (outbound), Ipswich St @ Charlesgate East (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-10T13:01:43.110,further notice,"Route 55: Due to accessibility issues, Ipswich St @ Charlesgate East (inbound and outbound) will permanently close on Aug. 30th. Nearest stop is at Ipswich St @ Boylston St. which is 700 feet away.",,,,,False,,True,False,False,,,"Affected routes:
+55",eryk.rotondo,2020-08-10T13:02:49.287,False,,current,,False,True,,
+369021,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-30T04:30,2020-09-08T10:42:21.697,,,,,,2020-08-10T13:01:43.110,2020-09-08T10:42:21.697,"Route 55: Due to accessibility issues, Ipswich St @ Charlesgate East (inbound and outbound) will permanently close on Aug. 30th. Nearest stop is at Ipswich St @ Boylston St. which is 700 feet away.",,,,,False,,False,False,False,,,"Affected routes:
+55",christopher.delano,2020-09-08T10:42:21.697,True,,past,,False,True,,
+369022,1,One-time,,Bus,Stop Closure,"505; Commonwealth Ave @ Windermere Rd (outbound), Commonwealth Ave @ Windermere Rd (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-10T13:01:43.110,further notice,"Route 505: Due to accessibility issues, Commonwealth Ave @ Windermere (inbound and outbound) will permanently close on Aug. 30th.",,,,,False,,True,False,False,,,"Effective August 30, 2020 the following stops will be permanently closed due to accessibility issues:
+
+Route 505: Commonwealth Ave @ Windermere (Inbound). The nearest stop is Commonwealth Ave @ Cheswick Rd which is 550 away.
+
+Route 505: Commonwealth Ave @ Windermere (Outbound). The nearest stop is Commonwealth Ave opposite Cheswick Rd which is 550 away.
+
+
+Affected routes:
+505",eryk.rotondo,2020-08-10T13:15:46.197,False,,current,,False,True,,
+369022,2,One-time,,Bus,Stop Closure,505; Commonwealth Ave @ Windermere Rd,,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-10T13:01:43.110,further notice,"Route 505: Due to accessibility issues, Commonwealth Ave @ Windermere (inbound and outbound) will permanently close on Aug. 30th.",,,,,False,,False,False,False,,,"Effective August 30, 2020 the following stops will be permanently closed due to accessibility issues:
+
+Route 505: Commonwealth Ave @ Windermere (Inbound). The nearest stop is Commonwealth Ave @ Cheswick Rd which is 550 feet away.
+
+Route 505: Commonwealth Ave @ Windermere (Outbound). The nearest stop is Commonwealth Ave opposite Cheswick Rd which is 550 feet away.
+
+
+Affected routes:
+505",eryk.rotondo,2020-08-10T13:24:40.407,False,,current,,False,True,,
+369022,3,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-10T20:02:26.920,2020-08-10T20:02:26.920,,,,,,2020-08-10T13:01:43.110,2020-08-10T20:02:26.920,"Route 505: Due to accessibility issues, Commonwealth Ave @ Windermere (inbound and outbound) will permanently close on Aug. 30th.",,,,,False,,False,False,False,,,"Effective August 30, 2020 the following stops will be permanently closed due to accessibility issues:
+
+Route 505: Commonwealth Ave @ Windermere (Inbound). The nearest stop is Commonwealth Ave @ Cheswick Rd which is 550 feet away.
+
+Route 505: Commonwealth Ave @ Windermere (Outbound). The nearest stop is Commonwealth Ave opposite Cheswick Rd which is 550 feet away.
+
+
+Affected routes:
+505",christopher.delano,2020-08-10T20:02:26.920,True,,past,,False,True,,
+369023,1,One-time,,Bus,Stop Closure,"554; Forest St @ Beaver St (outbound), Forest St @ Beaver St (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-10T13:01:43.110,further notice,"Route 554: Due to accessibility issues, Forest St @ Beaver St (inbound and outbound) will permanently close on Aug. 30th.",,,,,False,,True,False,False,,,"Effective August 30, 2020 the following stops will be permanently closed due to accessibility issues:
+
+Route 554: Forest St @ Beaver St (Inbound). The nearest stop is Beaver St @ Forest St which is 150 feet away.
+
+Route 554: Forest St @ Beaver St (Outbound). The nearest stop is Beaver St opposite Forest St which is 150 feet away.
+
+Affected routes:
+554",eryk.rotondo,2020-08-10T13:24:10.013,False,,current,,False,True,,
+369023,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-10T20:05:35.783,2020-08-10T20:05:35.783,,,,,,2020-08-10T13:01:43.110,2020-08-10T20:05:35.783,"Route 554: Due to accessibility issues, Forest St @ Beaver St (inbound and outbound) will permanently close on Aug. 30th.",,,,,False,,False,False,False,,,"Effective August 30, 2020 the following stops will be permanently closed due to accessibility issues:
+
+Route 554: Forest St @ Beaver St (Inbound). The nearest stop is Beaver St @ Forest St which is 150 feet away.
+
+Route 554: Forest St @ Beaver St (Outbound). The nearest stop is Beaver St opposite Forest St which is 150 feet away.
+
+Affected routes:
+554",christopher.delano,2020-08-10T20:05:35.783,True,,past,,False,True,,
+369082,1,One-time,,Bus,Stop Closure,"24, 27; Metropolitan Ave @ Norris Rd (outbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-10T13:01:43.110,further notice,"Route 24: Due to accessibility issues, Metropolitan Ave @ Norris Rd (Outbound) will permanently close on Aug. 30th. The nearest stop is Metropolitan Ave @ Highland St, 338 feet away.",,,,,False,,True,False,False,,,"Affected routes:
+24",eryk.rotondo,2020-08-11T09:38:54.180,False,,current,,False,True,,
+369082,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-30T04:30,2020-09-08T10:42:18.063,,,,,,2020-08-10T13:01:43.110,2020-09-08T10:42:18.063,"Route 24: Due to accessibility issues, Metropolitan Ave @ Norris Rd (Outbound) will permanently close on Aug. 30th. The nearest stop is Metropolitan Ave @ Highland St, 338 feet away.",,,,,False,,False,False,False,,,"Affected routes:
+24",christopher.delano,2020-09-08T10:42:18.063,True,,past,,False,True,,
+369086,1,One-time,,Bus,Stop Closure,"33, 40; Dedham Pkwy @ Turtle Pond Pkwy (outbound), 302 Turtle Pond Pkwy (outbound), Opp 302 Turtle Pond Pkwy (inbound)",,up to 20 minutes,2020-08-30T04:30,further notice,,,,,,2020-08-10T13:01:43.110,further notice,"Route 33: Due to accessibility issues  the stops at 302 Turtle Pond Pkwy (Outbound), Opp 302 Turtle Pond Pkwy (Inbound), and Dedham Pkwy @ Turtle Pond Pkwy (Outbound) will permanently close on August 30.",,,,,False,,True,False,False,,,"Affected route:
+33
+
+Affected stops: 
+Opp 302 Turtle Pond Pkwy (Inbound). The nearest stop is Baker St @ VFW Pkwy, 600 feet away.
+
+302 Turtle Pond Pkwy (Outbound). The nearest stop is Alwin St @ Stonehill Rd, 850 feet away.
+
+Dedham Pkwy @ Turtle Pond Pkwy (Outbound). The nearest stop is Dedham Pkwy opp Georgetowne Dr, 1,360 feet away.",eryk.rotondo,2020-08-11T10:03:29.037,False,,current,,False,True,,
+369086,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-08-30T04:30,2020-09-08T10:42:14.853,,,,,,2020-08-10T13:01:43.110,2020-09-08T10:42:14.853,"Route 33: Due to accessibility issues  the stops at 302 Turtle Pond Pkwy (Outbound), Opp 302 Turtle Pond Pkwy (Inbound), and Dedham Pkwy @ Turtle Pond Pkwy (Outbound) will permanently close on August 30.",,,,,False,,False,False,False,,,"Affected route:
+33
+
+Affected stops: 
+Opp 302 Turtle Pond Pkwy (Inbound). The nearest stop is Baker St @ VFW Pkwy, 600 feet away.
+
+302 Turtle Pond Pkwy (Outbound). The nearest stop is Alwin St @ Stonehill Rd, 850 feet away.
+
+Dedham Pkwy @ Turtle Pond Pkwy (Outbound). The nearest stop is Dedham Pkwy opp Georgetowne Dr, 1,360 feet away.",christopher.delano,2020-09-08T10:42:14.853,True,,past,,False,True,,
+370002,1,One-time,,Bus,Stop Closure,"80; Medford St @ Thurston St (outbound), Medford St @ Thurston St (inbound)",,information,2020-08-21T17:45:09.676,later today,,,,,,2020-08-21T17:45:09.677,2020-08-22T02:30,"Effective August 8/24, the Route 80 bus stops at Medford St @ Thurston St (inbound & outbound) will close permanently. Please use adjacent stops on Medford St at Sycamore St or School St.",,,,,False,,True,False,False,,,,nicholas.tomkavage,2020-08-21T17:45:36.870,False,,current,,False,True,,
+370002,2,One-time,,Bus,Stop Closure,80; Medford St @ Thurston St,,information,2020-08-24T04:30,further notice,,,,,,2020-08-21T17:48:29.613,further notice,"Effective August 8/24, the Route 80 bus stops at Medford St @ Thurston St (inbound & outbound) will close permanently. Please use adjacent stops on Medford St at Sycamore St or School St.",,,,,False,,False,False,False,,,"Affected routes:
+80",nicholas.tomkavage,2020-08-21T17:48:32.327,False,,current,,False,True,,
+370002,3,One-time,,Bus,Stop Closure,,,information,2020-08-24T04:30,2020-09-08T14:42:51.693,,,,,,2020-08-21T17:48:29.613,2020-09-08T14:42:51.693,"Effective August 8/24, the Route 80 bus stops at Medford St @ Thurston St (inbound & outbound) will close permanently. Please use adjacent stops on Medford St at Sycamore St or School St.",,,,,False,,False,False,False,,,"Affected routes:
+80",nicholas.tomkavage,2020-09-08T14:42:51.693,True,,past,,False,True,,
+372746,1,One-time,,Bus,Stop Closure,"CT3, 9, 10, 16, 17, 18, 171; Andrew",police action,up to 20 minutes,2020-09-29T12:14:03.802,later today,,,,,,2020-09-29T12:14:03.803,2020-09-30T02:30,Andrew Station is currently closed to all bus service due to police activity. Bus connections can be made at JFK/UMass. Subway service is not impacted,,,,,False,,True,False,False,,,"Affected routes:
+CT3
+9
+10
+16
+17
+18
+171",eryk.rotondo,2020-09-29T12:14:11.193,False,,current,,False,True,,
+372746,2,One-time,,Bus,Stop Closure,"10, 16, 17, 171, 18, CT3, 9; Andrew",police action,up to 20 minutes,2020-09-29T12:14:03.802,later today,,,,,,2020-09-29T12:14:03.803,2020-09-30T02:30,Andrew Station is currently closed to all bus service due to police activity. Bus connections can be made at JFK/UMass. Subway service is not impacted,,,,,False,,False,False,False,,,"Affected routes:
+CT3
+10
+16
+17
+18
+171",eryk.rotondo,2020-09-29T12:28:15.073,False,,current,,False,True,,
+372746,3,One-time,,Bus,Stop Closure,,police action,up to 20 minutes,2020-09-29T12:14:03.802,2020-09-29T15:11:47.960,,,,,,2020-09-29T12:14:03.803,2020-09-29T15:11:47.960,Andrew Station is currently closed to all bus service due to police activity. Bus connections can be made at JFK/UMass. Subway service is not impacted,,,,,False,,True,False,False,,,"Affected routes:
+CT3
+10
+16
+17
+18
+171",christopher.delano,2020-09-29T15:11:47.960,True,,past,,False,True,,
+373857,1,One-time,,Bus,Stop Closure,"99, 132; 14 Summer St",,up to 20 minutes,2020-10-14T00:20:58.987,later today,,,,,,2020-10-14T00:20:58.987,2020-10-15T02:30,TEST: The following closed: 14 Summer St,,,,,False,,False,False,False,,,"Affected routes:
+99
+132",test.sysadmin,2020-10-14T00:21:01.620,False,,current,,False,True,,
+373857,2,One-time,,Bus,Stop Closure,,,up to 20 minutes,2020-10-14T00:20:58.987,2020-10-14T00:21:42.260,,,,,,2020-10-14T00:20:58.987,2020-10-14T00:21:42.260,TEST: The following closed: 14 Summer St,,,,,False,,False,False,False,,,"Affected routes:
+99
+132",test.sysadmin,2020-10-14T00:21:42.260,True,,past,,False,True,,
+376557,1,One-time,,Bus,Stop Closure,43; Tremont St @ Boylston Station (outbound),construction,up to 20 minutes,2020-11-14T17:50:41.113,later today,,,,,,2020-11-14T17:50:41.117,2020-11-15T02:30,The following closed due to construction: Tremont St @ Boylston Station (outbound).,,,,,False,,True,False,False,,,"Affected routes:
+43",Michael.Kelly,2020-11-14T17:50:43.460,False,,current,,False,True,,
+376557,2,One-time,,Bus,Stop Closure,,construction,up to 20 minutes,2020-11-14T17:50:41.113,2020-11-14T17:54:36.337,,,,,,2020-11-14T17:50:41.117,2020-11-14T17:54:36.337,The following closed due to construction: Tremont St @ Boylston Station (outbound).,,,,,False,,False,False,False,,,"Affected routes:
+43",Michael.Kelly,2020-11-14T17:54:36.337,True,,past,,False,True,,

@@ -465,4 +465,35 @@ defmodule OneWayTest do
       assert reduced_ferry_fare == reduced_fare(route, nil, origin_id, destination_id, fare_fn)
     end
   end
+
+  describe "Massport" do
+    @massport_fares [
+      %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 500,
+        media: [],
+        duration: :single_trip,
+        mode: :massport_shuttle,
+        name: "Massport-TEST-1",
+        reduced: nil
+      }
+    ]
+    test "returns a base fare based off route" do
+      fare_fn = fn @default_filters ++ [name: "Massport-TEST-1"] ->
+        @massport_fares
+      end
+
+      route = %Route{id: "Massport-TEST-1", type: "Massport-TEST-1"}
+      origin_id = "Test Origin"
+      destination_id = "Test Destination"
+      trip = %Trip{name: "9743"}
+
+      assert %Fares.Fare{
+               cents: 500,
+               duration: :single_trip,
+               name: "Massport-TEST-1",
+               mode: :massport_shuttle
+             } == base_fare(route, trip, origin_id, destination_id, fare_fn)
+    end
+  end
 end

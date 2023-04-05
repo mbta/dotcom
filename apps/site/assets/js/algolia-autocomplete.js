@@ -378,7 +378,7 @@ export default class AlgoliaAutocomplete {
   }
 
   _onResults(callback, index, results) {
-    if (results.error) {
+    if (!results || results.error) {
       return;
     }
     if (results[index] && results[index].hits) {

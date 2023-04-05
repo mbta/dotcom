@@ -79,6 +79,16 @@
   background-color: $brand-primary;
 }
 
+.u-bg--gray {
+  @include bg-text($white);
+  background-color: $gray;
+}
+
+.u-bg--gray-bordered-background {
+  background-color: $gray-bordered-background;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .25);
+}
+
 .u-nowrap {
   white-space: nowrap;
 }
@@ -177,6 +187,10 @@
 
 .u-highlight {
   background-color: $brand-primary-lightest-contrast;
+}
+
+.u-highlight-gray {
+  background-color: $gray-bordered-background;
 }
 
 .u-tabular-nums {

@@ -180,6 +180,7 @@ export interface Stop {
   platform_name?: string | null;
   platform_code?: string | null;
   description?: string | null;
+  zone?: string;
 }
 
 export interface ClosedStopInfo {
@@ -340,18 +341,28 @@ export interface RoutePattern {
 export interface StopHours {
   stop_name: string;
   stop_id: string;
+  parent_stop_id: string;
   last_departure: string;
   first_departure: string;
   is_terminus: boolean;
+  latitude: number;
+  longitude: number;
 }
+
+export interface SpecialServiceHours {
+  [key: string]: [StopHours[], StopHours[]];
+}
+
 export interface RapidTransitHours {
   week: [StopHours[], StopHours[]];
   saturday: [StopHours[], StopHours[]];
   sunday: [StopHours[], StopHours[]];
+  special_service: SpecialServiceHours;
 }
 
 export interface TransitHours {
   week: [StopHours, StopHours];
   saturday: [StopHours, StopHours];
   sunday: [StopHours, StopHours];
+  special_service: {};
 }

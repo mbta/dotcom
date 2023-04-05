@@ -1,0 +1,1070 @@
+Alert ID,Version No.,Time Type,Image URL,Mode,Effect,Affecting,Cause,Severity,Effect Start,Effect End,Recurrence Start,Recurrence End,Recurrence Start Time,Recurrence End Time,Recurrence Days,Notification From,Notification Until,Header,Note Text,Note Last Modified,Note Last Modified By,Accessibility Information,Send via PA/ESS,PA/ESS,T-Alert Sent to Subscribers,Send to Twitter,Set as Website Banner,Website Banner Text,URL,Additional Information,Last Modified By,Last Modified Date,Closed,Reminders,PCF,Planned Disruption,Send T-Alert on close,Send T-Alert on edit,Text-To-Speech Message Text,Text-To-Speech Description Text
+352912,1,One-time,,Bus,Stop Move,"57, 57A; Brighton Ave @ Linden St",construction,information,2020-01-14T05:54:48.210,further notice,,,,,,2020-01-14T05:54:48.213,further notice,Brighton Ave @ Linden St stop will relocate from the near to far side of Linden Street; to the front of 101-111 Brighton Avenue until futher notice due to ongoing construction.,,,,,False,,True,False,False,,,"Affected routes:
+57
+57A",eryk.rotondo,2020-01-14T05:54:58.557,False,,current,,False,True,,
+352912,2,One-time,,Bus,Stop Move,57; Brighton Ave @ Linden St,construction,information,2020-01-14T05:54:48.210,further notice,,,,,,2020-01-14T05:54:48.213,further notice,Brighton Ave @ Linden St stop will relocate from the near to far side of Linden Street; to the front of 101-111 Brighton Avenue until futher notice due to ongoing construction.,,,,,False,,False,False,False,,,"Affected routes:
+57
+57A",Joshua.Fabian,2021-03-22T14:32:01.273,False,,current,,False,True,,
+352912,3,One-time,,Bus,Stop Move,,construction,information,2020-01-14T05:54:48.210,2021-12-15T11:44:04.197,,,,,,2020-01-14T05:54:48.213,2021-12-15T11:44:04.197,Brighton Ave @ Linden St stop will relocate from the near to far side of Linden Street; to the front of 101-111 Brighton Avenue until futher notice due to ongoing construction.,,,,,False,,False,False,False,,,"Affected routes:
+57
+57A",eryk.rotondo,2021-12-15T11:44:04.197,True,,past,,False,True,,
+370913,1,One-time,,Bus,Stop Move,1; Massachusetts Ave @ Newbury St,construction,information,2020-09-11T04:30,further notice,,,,,,2020-09-02T12:49:47.423,further notice,The stop at Massachusetts Ave @ Newbury St will relocate beginning Sept 11 to the far-side of Massachusetts Ave @ Boylston St (in front of Bank of America) due to construction.,,,,,False,,True,False,False,,,"Affected routes:
+1",eryk.rotondo,2020-09-02T12:54:21.417,False,,current,,False,True,,
+370913,2,One-time,,Bus,Stop Move,1; Massachusetts Ave @ Newbury St,construction,information,2020-09-11T04:30,further notice,,,,,,2020-09-02T12:49:47.423,further notice,The stop at Massachusetts Ave @ Newbury St has relocated to the far-side of Massachusetts Ave @ Boylston St (in front of Bank of America) due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+1",eryk.rotondo,2021-03-05T12:11:32.110,False,,current,,False,True,,
+370913,3,One-time,,Bus,Stop Move,,construction,information,2020-09-11T04:30,2021-12-15T11:43:45.117,,,,,,2020-09-02T12:49:47.423,2021-12-15T11:43:45.117,The stop at Massachusetts Ave @ Newbury St has relocated to the far-side of Massachusetts Ave @ Boylston St (in front of Bank of America) due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+1",eryk.rotondo,2021-12-15T11:43:45.117,True,,past,,False,True,,
+372735,1,One-time,,Bus,Stop Move,"108, 109, 119, 411, 426, 429; Lynn St @ Beach St",,information,2020-09-29T09:10:40.814,later today,,,,,,2020-09-29T09:10:40.813,2020-09-30T02:30,Lynn St @ Beach St passengers looking for Route 108 service will use the berth closest to the intersection. Passengers for all other routes will board at the shelter furthest from the intersection.,,,,,False,,True,False,False,,,"Affected routes:
+108
+109
+119
+411
+426
+429",eryk.rotondo,2020-09-29T09:10:52.360,False,,current,,False,True,,
+372735,2,One-time,,Bus,Stop Move,"108, 109, 119, 411, 426, 429; Lynn St @ Beach St",,information,2020-09-29T09:10:40.814,further notice,,,,,,2020-09-29T09:10:40.813,further notice,Lynn St @ Beach St passengers looking for Route 108 service will use the berth closest to the intersection. Passengers for all other routes will board at the shelter furthest from the intersection.,,,,,False,,False,False,False,,,"Affected routes:
+108
+109
+119
+411
+426
+429",eryk.rotondo,2020-09-29T09:11:16.580,False,,current,,False,True,,
+372735,3,One-time,,Bus,Stop Move,"108, 109, 119, 411, 426, 429; Lynn St @ Beach St",,information,2020-09-29T09:10:40.814,2021-06-20T02:30,,,,,,2020-09-29T09:10:40.813,2021-06-20T02:30,Lynn St @ Beach St passengers looking for Route 108 service will use the berth closest to the intersection. Passengers for all other routes will board at the shelter furthest from the intersection.,,,,,False,,False,False,False,,,"Affected routes:
+108
+109
+119
+411
+426
+429",eryk.rotondo,2021-06-11T07:03:15.097,False,,current,,False,True,,
+372735,4,One-time,,Bus,Stop Move,,,information,2020-09-29T09:10:40.814,2021-06-20T02:30,,,,,,2020-09-29T09:10:40.813,2021-06-20T02:30,Lynn St @ Beach St passengers looking for Route 108 service will use the berth closest to the intersection. Passengers for all other routes will board at the shelter furthest from the intersection.,,,,,False,,False,False,False,,,"Affected routes:
+108
+109
+119
+411
+426
+429",expiry,2021-06-20T02:30:23.597,True,,past,,False,True,,
+376418,1,One-time,,Bus,Stop Move,14; American Legion Hwy opp Franklin Hill Ave,,information,2020-11-16T04:30,further notice,,,,,,2020-11-13T08:16:05.543,further notice,The stop at American Legion Hwy opp Franklin Hill Ave will be permanently relocating to the far side of the intersection beginning the week of Nov 16.,,,,,False,,True,False,False,,,"Affected routes:
+14",eryk.rotondo,2020-11-13T08:16:09.917,False,,current,,False,True,,
+376418,2,One-time,,Bus,Stop Move,14; American Legion Hwy opp Franklin Hill Ave,,information,2020-11-16T04:30,2021-06-20T02:30,,,,,,2020-11-13T08:16:05.543,2021-06-20T02:30,The stop at American Legion Hwy opp Franklin Hill Ave will be permanently relocating to the far side of the intersection beginning the week of Nov 16.,,,,,False,,False,False,False,,,"Affected routes:
+14",eryk.rotondo,2021-06-16T07:09:29.453,False,,current,,False,True,,
+376418,3,One-time,,Bus,Stop Move,,,information,2020-11-16T04:30,2021-06-20T02:30,,,,,,2020-11-13T08:16:05.543,2021-06-20T02:30,The stop at American Legion Hwy opp Franklin Hill Ave will be permanently relocating to the far side of the intersection beginning the week of Nov 16.,,,,,False,,False,False,False,,,"Affected routes:
+14",expiry,2021-06-20T02:30:23.707,True,,past,,False,True,,
+384443,1,One-time,,Bus,Stop Move,9; Broadway Station (inbound),,information,2021-03-08T04:30,further notice,,,,,,2021-03-06T19:13:02.137,further notice,"Route 9 Stop Move: Effective Monday, March 8, all Route 9 inbound buses will pick up and drop off on the northbound side of Dorchester Avenue directly next to the Broadway Station entrance.",,,,,False,,True,False,False,,,"Affected routes:
+9",nicholas.tomkavage,2021-03-06T19:13:05.277,False,,current,,False,True,,
+384443,2,One-time,,Bus,Stop Move,9; Broadway Station,,information,2021-03-08T04:30,further notice,,,,,,2021-03-06T19:13:02.137,further notice,"Route 9 Temporary Stop Move: Effective Monday, March 8, all Route 9 inbound buses will pick up and drop off on the northbound side of Dorchester Avenue directly next to the Broadway Station entrance.",,,,,False,,False,False,False,,,"Affected routes:
+9",eryk.rotondo,2021-03-08T10:53:32.460,False,,current,,False,True,,
+384443,3,One-time,,Bus,Stop Move,9; Broadway Station - Red Line,,information,2021-03-08T04:30,further notice,,,,,,2021-03-06T19:13:02.137,further notice,"Route 9 Temporary Stop Move: Effective Monday, March 8, all Route 9 inbound buses will pick up and drop off on the northbound side of Dorchester Avenue directly next to the Broadway Station entrance.",,,,,False,,False,False,False,,,"Affected routes:
+9",nicholas.tomkavage,2021-03-11T16:48:00.990,False,,current,,False,True,,
+384443,4,One-time,,Bus,Stop Move,,,information,2021-03-08T04:30,2021-07-30T08:54:34.057,,,,,,2021-03-06T19:13:02.137,2021-07-30T08:54:34.057,"Route 9 Temporary Stop Move: Effective Monday, March 8, all Route 9 inbound buses will pick up and drop off on the northbound side of Dorchester Avenue directly next to the Broadway Station entrance.",,,,,False,,False,False,False,,,"Affected routes:
+9",eryk.rotondo,2021-07-30T08:54:34.057,True,,past,,False,True,,
+387357,1,One-time,,Bus,Stop Move,59; Walnut St opp Carthay Cir (inbound),,information,2021-06-20T04:30,2021-08-01T02:30,,,,,,2021-04-22T22:42:26.677,2021-08-01T02:30,"Effective June 20, the Route 59 stop Walnut St opp Carthay Cir is being moved one block north and renamed Walnut St @ Beacon St.",,,,,False,,True,False,False,,,"Affected routes:
+59",nicholas.tomkavage,2021-04-22T22:42:29.980,False,,current,,False,True,,
+387357,2,One-time,,Bus,Stop Move,,,information,2021-06-20T04:30,2021-08-01T02:30,,,,,,2021-04-22T22:42:26.677,2021-08-01T02:30,"Effective June 20, the Route 59 stop Walnut St opp Carthay Cir is being moved one block north and renamed Walnut St @ Beacon St.",,,,,False,,False,False,False,,,"Affected routes:
+59",expiry,2021-08-01T02:30:25.293,True,,past,,False,True,,
+389445,1,One-time,,Bus,Stop Move,"450, 455; North St opp Lynde St",construction,information,2021-05-24T04:30,2021-07-31T02:30,,,,,,2021-05-18T15:58:51.283,2021-07-31T02:30,"North St opp Lynde St will temporarily move to 19 North St beginning Mon, May 24 due to construction. This stop is expected to return to Lynde St on August 1.",,,,,False,,True,False,False,,,"Affected routes:
+450
+455",christopher.delano,2021-05-18T15:58:54.883,False,,current,,False,True,,
+389445,2,One-time,,Bus,Stop Move,,construction,information,2021-05-24T04:30,2021-07-31T02:30,,,,,,2021-05-18T15:58:51.283,2021-07-31T02:30,"North St opp Lynde St will temporarily move to 19 North St beginning Mon, May 24 due to construction. This stop is expected to return to Lynde St on August 1.",,,,,False,,False,False,False,,,"Affected routes:
+450
+455",expiry,2021-07-31T02:30:40.403,True,,past,,False,True,,
+392264,1,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 86, 96; Harvard (inbound)",,information,2021-06-20T04:30,2021-09-01T02:30,,,,,,2021-06-10T16:20:44.980,2021-09-01T02:30,"Effective Sun 6/20, the Harvard Upper Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board in the Lower Busway instead. Regular routing is in effect thru Sat 6/19.",,,,,False,,True,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",nicholas.tomkavage,2021-06-10T16:20:46.397,False,,current,,False,True,,
+392264,2,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 86, 96; Harvard",,information,2021-06-20T04:30,2021-09-01T02:30,,,,,,2021-06-10T16:20:44.977,2021-09-01T02:30,"Effective Sun 6/20, the Harvard Upper Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board in the Lower Busway instead.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",nicholas.tomkavage,2021-06-20T08:41:02.133,False,,current,,False,True,,
+392264,3,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 86, 96; Harvard, Mt Auburn St @ Story St",,information,2021-06-20T04:30,2021-09-01T02:30,,,,,,2021-06-10T16:20:44.977,2021-09-01T02:30,"Effective Sun 6/20, the Harvard Upper Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board in the Lower Busway instead.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",Joshua.Fabian,2021-06-30T13:25:50.107,False,,current,,False,True,,
+392264,4,One-time,,Bus,Stop Move,,,information,2021-06-20T04:30,2021-07-30T06:11:43.360,,,,,,2021-06-10T16:20:44.977,2021-07-30T06:11:43.360,"Effective Sun 6/20, the Harvard Upper Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board in the Lower Busway instead.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",eryk.rotondo,2021-07-30T06:11:43.360,True,,past,,False,True,,
+398221,1,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 96; Mt Auburn St @ Story St, Harvard",,information,2021-07-30T04:30,2021-09-01T02:30,,,,,,2021-07-30T04:30,2021-09-01T02:30,"Effective Fri 7/30, the Harvard Lower Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway instead.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",nicholas.tomkavage,2021-07-29T22:58:05.313,False,,future,,False,False,,
+398221,2,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 96; Mt Auburn St @ Story St, Harvard",,information,2021-07-30T04:30,2021-09-01T02:30,,,,,,2021-07-30T04:30,2021-09-01T02:30,"Effective Fri 7/30, the Harvard Lower Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",nicholas.tomkavage,2021-07-29T23:00:52.143,False,,future,,False,True,,
+398221,3,One-time,,Bus,Stop Move,,,information,2021-07-30T04:30,2021-09-01T02:30,,,,,,2021-07-30T04:30,2021-09-01T02:30,"Effective Fri 7/30, the Harvard Lower Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,True,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",nicholas.tomkavage,2021-07-29T23:00:52.143,False,,current,,False,True,,
+398221,4,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 96; Mt Auburn St @ Story St, Harvard",,information,2021-07-30T04:30,2021-08-29T02:30,,,,,,2021-07-30T04:30,2021-08-29T02:30,"Effective Fri 7/30, the Harvard Lower Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",eryk.rotondo,2021-08-26T05:35:12.797,False,,current,,False,True,,
+398221,5,One-time,,Bus,Stop Move,,,information,2021-07-30T04:30,2021-08-29T02:30,,,,,,2021-07-30T04:30,2021-08-29T02:30,"Effective Fri 7/30, the Harvard Lower Busway will close for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",expiry,2021-08-29T02:30:26.343,True,,past,,False,True,,
+398736,1,One-time,,Bus,Stop Move,"350, 62, 67, 76; Alewife (inbound)",construction,information,2021-08-03T10:30,further notice,,,,,,2021-08-03T08:37:41.247,further notice,Route 350 will be using the Route 351 berth at Alewife beginning at 10:30 AM this morning until further notice due to construction.,,,,,False,,True,False,False,,,,eryk.rotondo,2021-08-03T08:37:48.363,False,,current,,False,True,,
+398736,2,One-time,,Bus,Stop Move,,construction,information,2021-08-03T10:30,2021-08-03T11:22:48.910,,,,,,2021-08-03T08:37:41.247,2021-08-03T11:22:48.910,Route 350 will be using the Route 351 berth at Alewife beginning at 10:30 AM this morning until further notice due to construction.,,,,,False,,False,False,False,,,,eryk.rotondo,2021-08-03T11:22:48.910,True,,past,,False,True,,
+398750,1,One-time,,Bus,Stop Move,"69, 83; Hampshire St @ Cambridge St, Hampshire St @ Inman St",,information,2021-08-03T10:08:25.887,2021-08-05T02:30,,,,,,2021-08-03T10:08:25.887,2021-08-05T02:30,"The stops at Hampshire St @ Cambridge St & Hampshire St @ Inman St will be closed through Wed, Aug 4 for construction. Temporary stops: OB 193/195 Hampshire Street - IB 192 Hampshire Street",,,,,False,,False,False,False,,,"Affected routes:
+69
+83",eryk.rotondo,2021-08-03T10:08:33.807,False,,current,,False,True,,
+398750,2,One-time,,Bus,Stop Move,,,information,2021-08-03T10:08:25.887,2021-08-03T13:04:16.213,,,,,,2021-08-03T10:08:25.887,2021-08-03T13:04:16.213,"The stops at Hampshire St @ Cambridge St & Hampshire St @ Inman St will be closed through Wed, Aug 4 for construction. Temporary stops: OB 193/195 Hampshire Street - IB 192 Hampshire Street",,,,,False,,False,False,False,,,"Affected routes:
+69
+83",eryk.rotondo,2021-08-03T13:04:16.213,True,,past,,False,True,,
+400058,1,Recurring,,Bus,Stop Move,"22, 29, 44; Columbus Ave @ Weld Ave, Columbus Ave opp Weld Ave",,information,2021-08-14T07:00,2021-08-14T19:00,2021-08-14T04:30,2021-08-29T02:30,07:00:00,19:00:00,Saturday,2021-08-12T13:10:39.143,2021-08-28T19:00,"The stops at Columbus Ave @ Weld Ave & Columbus Ave opp Weld Ave will be closed from 7:00 AM to 7:00 PM on Saturday, August 14, 21 & 28. Connections can be made at Columbus Ave @ Walnut Ave. This diversion is to allow for paving on Columbus Ave.",,,,,False,,True,False,False,,,"Affected routes:
+22
+29
+44",eryk.rotondo,2021-08-12T13:10:54.340,False,,current,,False,True,,
+400058,2,Recurring,,Bus,Stop Move,,,information,2021-08-28T07:00,2021-08-28T19:00,2021-08-14T04:30,2021-08-28T19:00:17.313,07:00:00,19:00:00,Saturday,2021-08-12T13:10:39.143,2021-08-28T19:00,"The stops at Columbus Ave @ Weld Ave & Columbus Ave opp Weld Ave will be closed from 7:00 AM to 7:00 PM on Saturday, August 14, 21 & 28. Connections can be made at Columbus Ave @ Walnut Ave. This diversion is to allow for paving on Columbus Ave.",,,,,False,,False,False,False,,,"Affected routes:
+22
+29
+44",expiry,2021-08-28T19:00:17.313,True,,past,,False,True,,
+401247,1,One-time,,Bus,Stop Move,"83; Beacon St @ Calvin St, Beacon St @ Smith Ave",,information,2021-08-24T04:30,2021-08-24T17:00,,,,,,2021-08-20T13:14:01.937,2021-08-24T17:00,The stops at Beacon St @ Calvin St & Beacon St @ Smith Ave will be closed on 8/24 until 5:00 PM for utility work. IB connections: Beacon St @ Washington St or Beacon St @ Cooney. OB connections: The temporary stop at 123 Beacon St.,,,,,False,,True,False,False,,,"Affected routes:
+83",eryk.rotondo,2021-08-20T13:15:48.213,False,,current,,False,True,,
+401247,2,One-time,,Bus,Stop Move,,,information,2021-08-24T04:30,2021-08-24T17:00,,,,,,2021-08-20T13:14:01.937,2021-08-24T17:00,The stops at Beacon St @ Calvin St & Beacon St @ Smith Ave will be closed on 8/24 until 5:00 PM for utility work. IB connections: Beacon St @ Washington St or Beacon St @ Cooney. OB connections: The temporary stop at 123 Beacon St.,,,,,False,,False,False,False,,,"Affected routes:
+83",expiry,2021-08-24T17:00:17.063,True,,past,,False,True,,
+411493,1,One-time,,Bus,Stop Move,"505, 553, 554, 556, 558; 113 Crescent St",,information,2021-10-14T23:14:33.882,later today,,,,,,2021-10-14T23:14:33.883,2021-10-15T02:30,TEST: 113 Crescent St stop moving,,,,,False,,False,False,False,,,"Affected routes:
+505
+553
+554
+556
+558",test.IBI.cognito.user,2021-10-14T23:14:40.160,False,,current,,False,True,,
+411493,2,One-time,,Bus,Stop Move,,,information,2021-10-14T23:14:33.882,2021-10-14T23:16:50.053,,,,,,2021-10-14T23:14:33.883,2021-10-14T23:16:50.053,TEST: 113 Crescent St stop moving,,,,,False,,False,False,False,,,"Affected routes:
+505
+553
+554
+556
+558",test.IBI.cognito.user,2021-10-14T23:16:50.053,True,,past,,False,True,,
+414430,1,One-time,,Bus,Stop Move,"88, 90; 125 Highland Ave (outbound)",construction,information,2021-10-27T17:09:08.199,later today,,,,,,2021-10-27T17:09:08.200,2021-10-28T02:30,"Effective Thurs 10/28, through Weds 11/3, Rt 88 & 90 stop at 125 Highland Ave will be temporarily moved to 131 Highland Ave for road work.",,,,,False,,True,False,False,,,"Affected routes:
+88
+90",nicholas.tomkavage,2021-10-27T17:09:10.697,False,,current,,False,True,,
+414430,2,One-time,,Bus,Stop Move,,construction,information,2021-10-27T17:09:08.199,2021-10-28T02:27:02.173,,,,,,2021-10-27T17:09:08.200,2021-10-28T02:27:02.173,"Effective Thurs 10/28, through Weds 11/3, Rt 88 & 90 stop at 125 Highland Ave will be temporarily moved to 131 Highland Ave for road work.",,,,,False,,False,False,False,,,"Affected routes:
+88
+90",expiry,2021-10-28T02:27:02.173,True,,past,,False,True,,
+414594,1,One-time,,Bus,Stop Move,"71, 73; Mt Auburn St @ Story St",,information,2021-10-28T20:45,2021-10-29T02:30,,,,,,2021-10-28T08:16:04.330,2021-10-29T02:30,"On Oct 28 & Nov 3, the Harvard Upper Busway will close beginning 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board in the Lower Busway instead.",,,,,False,,True,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",eryk.rotondo,2021-10-28T08:16:55.393,False,,current,,False,True,,
+414594,2,One-time,,Bus,Stop Move,"71, 73; Mt Auburn St @ Story St",,information,2021-10-28T20:45,2021-10-29T02:30,,,,,,2021-10-28T08:16:04.330,2021-10-29T02:30,"On Oct 28 & Nov 3, the Harvard Upper Busway will close beginning 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board at Johnson Gate.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",eryk.rotondo,2021-10-28T08:21:26.800,False,,current,,False,True,,
+414594,3,One-time,,Bus,Stop Move,"The Red Line Alewife-Harvard shuttle, 71, 73, 74, 75, 77, 78, 86, 96; Harvard, Mt Auburn St @ Story St",,information,2021-10-28T20:45,2021-10-29T02:30,,,,,,2021-10-28T08:16:04.330,2021-10-29T02:30,"On Oct 28 & Nov 3, the Harvard Upper Busway will close beginning 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board at Johnson Gate.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",nicholas.tomkavage,2021-10-28T16:34:10.960,False,,current,,False,True,,
+414594,4,One-time,,Bus,Stop Move,,,information,2021-10-28T20:45,2021-10-29T02:30,,,,,,2021-10-28T08:16:04.330,2021-10-29T02:30,"On Oct 28 & Nov 3, the Harvard Upper Busway will close beginning 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board at Johnson Gate.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",expiry,2021-10-29T02:31:35.457,True,,past,,False,True,,
+414596,1,One-time,,Bus,Stop Move,"71, 73; Mt Auburn St @ Story St",,information,2021-10-28T08:24:29.621,later today,,,,,,2021-10-28T08:24:29.623,2021-10-29T02:30,"On Nov 4, the Harvard Lower Busway will close at 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",eryk.rotondo,2021-10-28T08:24:31.237,False,,current,,False,True,,
+414596,2,One-time,,Bus,Stop Move,"The Red Line Alewife-Harvard shuttle, 71, 73, 74, 75, 77, 78, 96; Harvard, Mt Auburn St @ Story St",,information,2021-10-28T08:24:29.620,later today,,,,,,2021-10-28T08:24:29.623,2021-10-29T02:30,"On Nov 4, the Harvard Lower Busway will close at 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",nicholas.tomkavage,2021-10-28T16:35:08.133,False,,current,,False,True,,
+414596,3,One-time,,Bus,Stop Move,,,information,2021-10-28T08:24:29.620,2021-10-29T02:26:35.653,,,,,,2021-10-28T08:24:29.623,2021-10-29T02:26:35.653,"On Nov 4, the Harvard Lower Busway will close at 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",expiry,2021-10-29T02:26:35.653,True,,past,,False,True,,
+414815,1,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 96, The Red Line Alewife-Harvard shuttle; Mt Auburn St @ Story St, Harvard",,information,2021-11-04T20:45,2021-11-05T02:30,,,,,,2021-10-29T05:14:23.407,2021-11-05T02:30,"On Nov 4, the Harvard Lower Busway will close at 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",eryk.rotondo,2021-10-29T05:14:25.080,False,,current,,False,True,,
+414815,2,One-time,,Bus,Stop Move,,,information,2021-11-04T20:45,2021-11-05T02:30,,,,,,2021-10-29T05:14:23.407,2021-11-05T02:30,"On Nov 4, the Harvard Lower Busway will close at 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, & 96 will board in the Upper Busway.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+96",expiry,2021-11-05T02:30:18.503,True,,past,,False,True,,
+414816,1,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 86, 96, The Red Line Alewife-Harvard shuttle; Mt Auburn St @ Story St, Harvard",,information,2021-11-03T20:45,2021-11-04T02:30,,,,,,2021-10-29T05:16:43.310,2021-11-04T02:30,"On Nov 3, the Harvard Upper Busway will close beginning 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board at Johnson Gate.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",eryk.rotondo,2021-10-29T05:16:50.643,False,,current,,False,True,,
+414816,2,One-time,,Bus,Stop Move,,,information,2021-11-03T20:45,2021-11-04T02:30,,,,,,2021-10-29T05:16:43.310,2021-11-04T02:30,"On Nov 3, the Harvard Upper Busway will close beginning 8:45 PM through the end of service for construction. Routes 71 & 73 will board at Mt Auburn St @ Story St. Routes 74, 75, 77, 78, 86 & 96 will board at Johnson Gate.",,,,,False,,False,False,False,,,"Affected routes:
+71
+73
+74
+75
+77
+78
+86
+96",expiry,2021-11-04T02:30:16.917,True,,past,,False,True,,
+415658,1,One-time,,Bus,Stop Move,69; Cambridge St @ Lambert St,construction,information,2021-11-08T04:30,2022-01-16T02:30,,,,,,2021-11-02T13:00:34.947,2022-01-16T02:30,"The stop at Cambridge St @ Lambert St will be moved to the far side of Warren St from Mon, Nov 8, through Sat, Jan 15, due to sidewalk work.",,,,,False,,True,False,False,,,"Affected routes:
+69",eryk.rotondo,2021-11-02T13:00:47.110,False,,current,,False,True,,
+415658,2,One-time,,Bus,Stop Move,69; Cambridge St @ Lambert St,construction,information,2021-11-08T04:30,2022-01-16T02:30,,,,,,2021-11-02T13:00:34.947,2022-01-16T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Sat, Jan 15, due to sidewalk work.",,,,,False,,False,False,False,,,"Affected routes:
+69",eryk.rotondo,2021-12-15T11:50:27.620,False,,current,,False,True,,
+415658,3,One-time,,Bus,Stop Move,,construction,information,2021-11-08T04:30,2022-01-16T02:30,,,,,,2021-11-02T13:00:34.947,2022-01-16T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Sat, Jan 15, due to sidewalk work.",,,,,False,,False,False,False,,,"Affected routes:
+69",expiry,2022-01-16T02:30:16.327,True,,past,,False,True,,
+416656,1,One-time,,Bus,Stop Move,"86, 91; Washington St @ Mt Vernon St",,information,2021-11-15T04:30,further notice,,,,,,2021-11-08T14:44:04.153,further notice,"Effective Monday, Nov. 15: Washington St @ Mt Vernon St will move between Pickney St and Mt. Vernon St.",,,,,False,,False,False,False,,,"Affected routes:
+86
+91",christopher.delano,2021-11-08T14:44:10.623,False,2021-11-15T05:00 send bulletin; 2021-11-14T09:00 send bulletin,current,,False,True,,
+416656,2,One-time,,Bus,Stop Move,"86, 91; Washington St @ Mt Vernon St",,information,2021-11-15T04:30,2022-01-01T02:30,,,,,,2021-11-08T14:44:04.153,2022-01-01T02:30,"Effective Monday, Nov. 15: Washington St @ Mt Vernon St will move between Pickney St and Mt. Vernon St.",,,,,False,,False,False,False,,,"Affected routes:
+86
+91",eryk.rotondo,2021-11-09T10:42:00.413,False,2021-11-15T05:00 send bulletin; 2021-11-14T09:00 send bulletin,current,,False,True,,
+416656,3,One-time,,Bus,Stop Move,"86, 91; Washington St @ Mt Vernon St",,information,2021-11-15T04:30,2022-01-01T02:30,,,,,,2021-11-08T14:44:04.153,2022-01-01T02:30,The stop at Washington St @ Mt Vernon St has been moved between Pickney St and Mt. Vernon St.,,,,,False,,False,False,False,,,"Affected routes:
+86
+91",eryk.rotondo,2021-12-15T11:46:33.573,False,,current,,False,True,,
+416656,4,One-time,,Bus,Stop Move,,,information,2021-11-15T04:30,2022-01-01T02:30,,,,,,2021-11-08T14:44:04.153,2022-01-01T02:30,The stop at Washington St @ Mt Vernon St has been moved between Pickney St and Mt. Vernon St.,,,,,False,,False,False,False,,,"Affected routes:
+86
+91",expiry,2022-01-01T02:30:16.313,True,,past,,False,True,,
+418746,1,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 96, The Red Line Alewife-Harvard shuttle; Mt Auburn St @ Story St, Harvard",,information,2021-11-19T11:47:00.998,later today,,,,,,2021-11-19T11:47:01,2021-11-20T02:30,On Nov 20 at midnight through the end of service the Harvard Lower Busway will close for construction.,,,,,False,,False,False,False,,,"Routes 71 & 73 inbound will terminate at Mt Auburn St @ University Rd. Outbound will originate at Mt Auburn @ Story St.
+Routes 74, 75, 77, 78, & 96 inbound will terminate at Brattle St @ Palmer St.
+
+Affected routes:
+71
+73
+74
+75
+77
+78
+96",eryk.rotondo,2021-11-19T11:47:02.590,False,,current,,False,True,,
+418746,2,One-time,,Bus,Stop Move,,,information,2021-11-19T11:47:00.998,2021-11-20T02:25:25.483,,,,,,2021-11-19T11:47:01,2021-11-20T02:25:25.483,On Nov 20 at midnight through the end of service the Harvard Lower Busway will close for construction.,,,,,False,,False,False,False,,,"Routes 71 & 73 inbound will terminate at Mt Auburn St @ University Rd. Outbound will originate at Mt Auburn @ Story St.
+Routes 74, 75, 77, 78, & 96 inbound will terminate at Brattle St @ Palmer St.
+
+Affected routes:
+71
+73
+74
+75
+77
+78
+96",expiry,2021-11-20T02:25:25.483,True,,past,,False,True,,
+418881,1,One-time,,Bus,Stop Move,"71, 73, 74, 75, 77, 78, 96, The Red Line Alewife-Harvard shuttle; Mt Auburn St @ Story St, Harvard",construction,information,2021-11-20T09:56:09.134,later today,,,,,,2021-11-20T09:56:09.137,2021-11-21T02:30,On Nov 20 at midnight through the end of service the Harvard Lower Busway will close for construction.,,,,,False,,False,False,False,,,"Routes 71 & 73 inbound will terminate at Mt Auburn St @ University Rd. Outbound will originate at Mt Auburn @ Story St.
+Routes 74, 75, 77, 78, & 96 inbound will terminate at Brattle St @ Palmer St.
+
+Affected routes:
+71
+73
+74
+75
+77
+78
+96",christopher.delano,2021-11-20T09:56:10.737,False,,current,,False,True,,
+418881,2,One-time,,Bus,Stop Move,,construction,information,2021-11-20T09:56:09.134,2021-11-21T02:25:17.390,,,,,,2021-11-20T09:56:09.137,2021-11-21T02:25:17.390,On Nov 20 at midnight through the end of service the Harvard Lower Busway will close for construction.,,,,,False,,False,False,False,,,"Routes 71 & 73 inbound will terminate at Mt Auburn St @ University Rd. Outbound will originate at Mt Auburn @ Story St.
+Routes 74, 75, 77, 78, & 96 inbound will terminate at Brattle St @ Palmer St.
+
+Affected routes:
+71
+73
+74
+75
+77
+78
+96",expiry,2021-11-21T02:25:17.390,True,,past,,False,True,,
+424393,1,One-time,,Bus,Stop Move,33; 1 W Milton St opp Ernest Ave,medical emergency,information,2021-12-22T23:13:08.141,later today,,,,,,2021-12-22T23:13:08.143,2021-12-23T02:30,TEST: 1 W Milton St opp Ernest Ave stop moving due to medical emergency,,,,,False,,False,False,False,,,"Affected routes:
+33",test.supervisor,2021-12-22T23:13:11.690,False,,current,,False,True,,
+424393,2,One-time,,Bus,Stop Move,,medical emergency,information,2021-12-22T23:13:08.141,2021-12-22T23:16:12.130,,,,,,2021-12-22T23:13:08.143,2021-12-22T23:16:12.130,TEST: 1 W Milton St opp Ernest Ave stop moving due to medical emergency,,,,,False,,False,False,False,,,"Affected routes:
+33",test.supervisor,2021-12-22T23:16:12.130,True,,past,,False,True,,
+428949,1,One-time,,Bus,Stop Move,"97, 99, 101, 104, 105, 106, 108, 131, 132, 137, 411, 430; Malden Center",weather,information,2022-01-29T14:56:59.432,later today,,,,,,2022-01-29T14:56:59.433,2022-01-30T02:30,Malden Center Bus Notice: All buses are picking up and dropping off in the east busway.,,,,,False,,True,False,False,,,"Affected routes:
+97
+99
+101
+104
+105
+106
+108
+131
+132
+137
+411
+430
+
+Affected stops:
+Malden Center
+Malden Center
+Malden Center",nicholas.tomkavage,2022-01-29T14:57:03.720,False,,current,,False,True,,
+428949,2,One-time,,Bus,Stop Move,,weather,information,2022-01-29T14:56:59.432,2022-01-30T02:25:16.567,,,,,,2022-01-29T14:56:59.433,2022-01-30T02:25:16.567,Malden Center Bus Notice: All buses are picking up and dropping off in the east busway.,,,,,False,,False,False,False,,,"Affected routes:
+97
+99
+101
+104
+105
+106
+108
+131
+132
+137
+411
+430
+
+Affected stops:
+Malden Center
+Malden Center
+Malden Center",expiry,2022-01-30T02:25:16.567,True,,past,,False,True,,
+430268,1,One-time,,Bus,Stop Move,1; Massachusetts Ave @ Beacon St (outbound),construction,information,2022-02-06T07:00,2022-02-06T15:00,,,,,,2022-02-03T19:49:47.300,2022-02-06T15:00,Route 1 outbound bus stop Massachusetts Ave @ Beacon St temporarily moving to the corner of Mass Ave & Public Alley 414 on Sun 2/6 from 7 AM to 3 PM.,,,,,False,,True,False,False,,,"Affected routes:
+1",nicholas.tomkavage,2022-02-03T19:50:18.793,False,,current,,False,True,,
+430268,2,One-time,,Bus,Stop Move,1; Massachusetts Ave @ Beacon St (outbound),construction,information,2022-02-06T07:00,2022-02-06T15:00,,,,,,2022-02-03T19:49:47.300,2022-02-06T15:00,Route 1 outbound bus stop Massachusetts Ave @ Beacon St temporarily moving to the corner of Mass Ave & Public Alley 414 on Sun 2/6 from 7 AM to 3 PM.,,,,,False,,False,False,False,,,"Affected routes:
+1",autotimeframeupdate,2022-02-05T04:30:16.923,False,,current,,False,True,,
+430268,3,One-time,,Bus,Stop Move,1; Massachusetts Ave @ Beacon St (outbound),construction,information,2022-02-06T07:00,2022-02-06T15:00,,,,,,2022-02-03T19:49:47.300,2022-02-06T15:00,Route 1 outbound bus stop Massachusetts Ave @ Beacon St temporarily moving to the corner of Mass Ave & Public Alley 414 on Sun 2/6 from 7 AM to 3 PM.,,,,,False,,False,False,False,,,"Affected routes:
+1",autotimeframeupdate,2022-02-06T04:30:17.553,False,,current,,False,True,,
+430268,4,One-time,,Bus,Stop Move,1; Massachusetts Ave @ Beacon St (outbound),construction,information,2022-02-06T07:00,2022-02-06T15:00,,,,,,2022-02-03T19:49:47.300,2022-02-06T15:00,Route 1 outbound bus stop Massachusetts Ave @ Beacon St temporarily moving to the corner of Mass Ave & Public Alley 414 on Sun 2/6 from 7 AM to 3 PM.,,,,,False,,False,False,False,,,"Affected routes:
+1",autotimeframeupdate,2022-02-06T06:30:15.633,False,,current,,False,True,,
+430268,5,One-time,,Bus,Stop Move,,construction,information,2022-02-06T07:00,2022-02-06T15:00,,,,,,2022-02-03T19:49:47.300,2022-02-06T15:00,Route 1 outbound bus stop Massachusetts Ave @ Beacon St temporarily moving to the corner of Mass Ave & Public Alley 414 on Sun 2/6 from 7 AM to 3 PM.,,,,,False,,False,False,False,,,"Affected routes:
+1",expiry,2022-02-06T15:00:16.440,True,,past,,False,True,,
+431103,1,One-time,,Bus,Stop Move,42; Washington St @ Green St (outbound),construction,information,2022-02-28T04:30,further notice,,,,,,2022-02-09T16:36:56.323,further notice,Route 42 stop Washington St @ Green St (outbound) moving to the area of 3377-3381 Washington St due to construction.,,,,,False,,True,False,False,,,"Affected routes:
+42",nicholas.tomkavage,2022-02-09T16:36:57.483,False,,current,,False,True,,
+431103,2,One-time,,Bus,Stop Move,42; Washington St @ Green St (outbound),construction,information,2022-02-28T04:30,further notice,,,,,,2022-02-09T16:36:56.323,further notice,Route 42 stop Washington St @ Green St (outbound) moving to the area of 3377-3381 Washington St due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+42",autotimeframeupdate,2022-02-22T04:30:16.940,False,,current,,False,True,,
+431103,3,One-time,,Bus,Stop Move,42; Washington St @ Green St (outbound),construction,information,2022-02-28T04:30,further notice,,,,,,2022-02-09T16:36:56.323,further notice,Route 42 stop Washington St @ Green St (outbound) moving to the area of 3377-3381 Washington St due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+42",autotimeframeupdate,2022-02-27T04:30:17.570,False,,current,,False,True,,
+431103,4,One-time,,Bus,Stop Move,42; Washington St @ Green St (outbound),construction,information,2022-02-28T04:30,further notice,,,,,,2022-02-09T16:36:56.323,further notice,Route 42 stop Washington St @ Green St (outbound) moving to the area of 3377-3381 Washington St due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+42",autotimeframeupdate,2022-02-28T04:00:16.013,False,,current,,False,True,,
+431103,5,One-time,,Bus,Stop Move,42; Washington St @ Green St (outbound),construction,information,2022-02-28T04:30,further notice,,,,,,2022-02-09T16:36:56.323,further notice,Route 42 stop Washington St @ Green St (outbound) moving to the area of 3377-3381 Washington St due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+42",autotimeframeupdate,2022-03-07T04:30:16.957,False,,current,,False,True,,
+431103,6,One-time,,Bus,Stop Move,,construction,information,2022-02-28T04:30,2022-05-23T20:50:11.250,,,,,,2022-02-09T16:36:56.323,2022-05-23T20:50:11.250,Route 42 stop Washington St @ Green St (outbound) moving to the area of 3377-3381 Washington St due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+42",kimberly.lalond,2022-05-23T20:50:11.250,True,,past,,False,True,,
+434347,1,One-time,,Bus,Stop Move,"34, 34E, 35; 106 Washington St (on bridge)",,information,2022-03-13T04:30,2022-05-14T02:30,,,,,,2022-03-04T11:02:43.437,2022-05-14T02:30,"The stop at 106 Washington St (on bridge) will be permanently moving to Washington St @ East St beginning Sun, Mar 13.",,,,,False,,True,False,False,,,"Affected routes:
+34
+34E
+35",eryk.rotondo,2022-03-04T11:02:50.743,False,,current,,False,True,,
+434347,2,One-time,,Bus,Stop Move,"34, 34E, 35; 106 Washington St (on bridge)",,information,2022-03-13T04:30,2022-05-14T02:30,,,,,,2022-03-04T11:02:43.437,2022-05-14T02:30,"The stop at 106 Washington St (on bridge) will be permanently moving to Washington St @ East St beginning Sun, Mar 13.",,,,,False,,False,False,False,,,"Affected routes:
+34
+34E
+35",autotimeframeupdate,2022-03-07T04:30:17.067,False,,current,,False,True,,
+434347,3,One-time,,Bus,Stop Move,"34, 34E, 35; 106 Washington St (on bridge)",,information,2022-03-13T04:30,2022-05-14T02:30,,,,,,2022-03-04T11:02:43.437,2022-05-14T02:30,"The stop at 106 Washington St (on bridge) will be permanently moving to Washington St @ East St beginning Sun, Mar 13.",,,,,False,,False,False,False,,,"Affected routes:
+34
+34E
+35",autotimeframeupdate,2022-03-12T04:30:17.517,False,,current,,False,True,,
+434347,4,One-time,,Bus,Stop Move,"34, 34E, 35; 106 Washington St (on bridge)",,information,2022-03-13T04:30,2022-05-14T02:30,,,,,,2022-03-04T11:02:43.437,2022-05-14T02:30,"The stop at 106 Washington St (on bridge) will be permanently moving to Washington St @ East St beginning Sun, Mar 13.",,,,,False,,False,False,False,,,"Affected routes:
+34
+34E
+35",autotimeframeupdate,2022-03-13T04:00:16.990,False,,current,,False,True,,
+434347,5,One-time,,Bus,Stop Move,,,information,2022-03-13T04:30,2022-03-20T13:00:46.350,,,,,,2022-03-04T11:02:43.437,2022-03-20T13:00:46.350,"The stop at 106 Washington St (on bridge) will be permanently moving to Washington St @ East St beginning Sun, Mar 13.",,,,,False,,False,False,False,,,"Affected routes:
+34
+34E
+35",christopher.delano,2022-03-20T13:00:46.350,True,,past,,False,True,,
+436553,1,One-time,,Bus,Stop Move,66; Harvard Ave @ Commonwealth Ave (outbound),,information,2022-04-04T04:30,2022-06-04T02:30,,,,,,2022-03-22T06:41:08.377,2022-06-04T02:30,"Effective Monday, April 4, the stop at Harvard Ave @ Commonwealth Ave (outbound) will be moved from far side (next to the McDonalds) to nearside (next to the existing shelter).",,,,,False,,True,False,False,,,"Affected routes:
+66",Eryk.Rotondo,2022-03-22T06:41:13.233,False,,current,,False,True,,
+436553,2,One-time,,Bus,Stop Move,66; Harvard Ave @ Commonwealth Ave (outbound),,information,2022-04-04T04:30,2022-06-04T02:30,,,,,,2022-03-22T06:41:08.377,2022-06-04T02:30,"Effective Monday, April 4, the stop at Harvard Ave @ Commonwealth Ave (outbound) will be moved from far side (next to the McDonalds) to nearside (next to the existing shelter).",,,,,False,,False,False,False,,,"Affected routes:
+66",autotimeframeupdate,2022-03-29T04:30:17.407,False,,current,,False,True,,
+436553,3,One-time,,Bus,Stop Move,66; Harvard Ave @ Commonwealth Ave (outbound),,information,2022-04-04T04:30,2022-06-04T02:30,,,,,,2022-03-22T06:41:08.377,2022-06-04T02:30,"Effective Monday, April 4, the stop at Harvard Ave @ Commonwealth Ave (outbound) will be moved from far side (next to the McDonalds) to nearside (next to the existing shelter).",,,,,False,,False,False,False,,,"Affected routes:
+66",autotimeframeupdate,2022-04-03T04:30:16.847,False,,current,,False,True,,
+436553,4,One-time,,Bus,Stop Move,66; Harvard Ave @ Commonwealth Ave (outbound),,information,2022-04-04T04:30,2022-06-04T02:30,,,,,,2022-03-22T06:41:08.377,2022-06-04T02:30,"Effective Monday, April 4, the stop at Harvard Ave @ Commonwealth Ave (outbound) will be moved from far side (next to the McDonalds) to nearside (next to the existing shelter).",,,,,False,,False,False,False,,,"Affected routes:
+66",autotimeframeupdate,2022-04-04T04:00:17.537,False,,current,,False,True,,
+436553,5,One-time,,Bus,Stop Move,66; Harvard Ave @ Commonwealth Ave,,information,2022-04-04T04:30,2022-06-04T02:30,,,,,,2022-03-22T06:41:08.377,2022-06-04T02:30,The stop at Harvard Ave @ Commonwealth Ave (outbound) has been moved from the far side (next to the McDonalds) to nearside (next to the existing shelter).,,,,,False,,False,False,False,,,"Affected routes:
+66",eryk.rotondo,2022-05-23T11:41:01.963,False,,current,,False,True,,
+436553,6,One-time,,Bus,Stop Move,,,information,2022-04-04T04:30,2022-05-24T20:23:33.553,,,,,,2022-03-22T06:41:08.377,2022-05-24T20:23:33.553,The stop at Harvard Ave @ Commonwealth Ave (outbound) has been moved from the far side (next to the McDonalds) to nearside (next to the existing shelter).,,,,,False,,False,False,False,,,"Affected routes:
+66",kimberly.lalond,2022-05-24T20:23:33.553,True,,past,,False,True,,
+436557,1,One-time,,Bus,Stop Move,85; Avon St @ Central St (inbound),construction,information,2022-03-22T07:02:49.649,later today,,,,,,2022-03-22T07:02:49.650,2022-03-23T02:30,"On Tuesday, March 22, Thursday, March 24 and Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,True,False,False,,,"Affected routes:
+85",Eryk.Rotondo,2022-03-22T07:03:03.793,False,,current,,False,True,,
+436557,2,One-time,,Bus,Stop Move,85; Avon St @ Central St,construction,information,2022-03-22T07:02,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"On Tuesday, March 22, Thursday, March 24 and Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,False,False,False,,,"Affected routes:
+85",Eryk.Rotondo,2022-03-22T07:09:08.627,False,,current,,False,True,,
+436557,3,One-time,,Bus,Stop Move,85; Avon St @ Central St,construction,information,2022-03-23T04:30,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"From Wednesday, March 23, to Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,True,False,False,,,"Affected routes:
+85",Eryk.Rotondo,2022-03-22T11:40:22.143,False,,current,,False,True,,
+436557,4,One-time,,Bus,Stop Move,85; Avon St @ Central St,construction,information,2022-03-23T04:30,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"From Wednesday, March 23, to Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,False,False,False,,,"Affected routes:
+85",Eryk.Rotondo,2022-03-22T11:41:09.267,False,,current,,False,True,,
+436557,5,One-time,,Bus,Stop Move,85; Avon St @ Central St,construction,information,2022-03-23T04:30,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"From Wednesday, March 23, to Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-03-23T04:00:16.433,False,,current,,False,True,,
+436557,6,One-time,,Bus,Stop Move,85; Avon St @ Central St,construction,information,2022-03-23T04:30,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"From Wednesday, March 23, to Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-03-24T04:30:17.157,False,,current,,False,True,,
+436557,7,One-time,,Bus,Stop Move,85; Avon St @ Central St,construction,information,2022-03-23T04:30,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"From Wednesday, March 23, to Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,False,False,False,,,"Affected routes:
+85",autotimeframeupdate,2022-03-25T04:30:17.010,False,,current,,False,True,,
+436557,8,One-time,,Bus,Stop Move,,construction,information,2022-03-23T04:30,2022-03-26T02:30,,,,,,2022-03-22T07:02,2022-03-26T02:30,"From Wednesday, March 23, to Friday, March 25, the stop at Avon St @ Central St will be moved just north of Avon St, on Central St. due to roadwork. ",,,,,False,,False,False,False,,,"Affected routes:
+85",expiry,2022-03-26T02:30:15.903,True,,past,,False,True,,
+436602,1,One-time,,Bus,Stop Move,4; Seaport Blvd @ World Trade Center opp Seaport Htl (outbound),,information,2022-04-04T04:30,2022-07-02T02:30,,,,,,2022-03-22T13:01:53.040,2022-07-02T02:30,"The stop at Seaport Blvd @ World Trade Center opposite of the Seaport Htl (outbound) will be permanently moving to the nearside of Pier 4 Blvd beginning Monday, April 4.",,,,,False,,True,False,False,,,"Affected routes:
+4",Eryk.Rotondo,2022-03-22T13:02:35.123,False,,current,,False,True,,
+436602,2,One-time,,Bus,Stop Move,4; Seaport Blvd @ World Trade Center opp Seaport Htl (outbound),,information,2022-04-04T04:30,2022-07-02T02:30,,,,,,2022-03-22T13:01:53.040,2022-07-02T02:30,"The stop at Seaport Blvd @ World Trade Center opposite of the Seaport Htl (outbound) will be permanently moving to the nearside of Pier 4 Blvd beginning Monday, April 4.",,,,,False,,False,False,False,,,"Affected routes:
+4",autotimeframeupdate,2022-03-29T04:30:17.453,False,,current,,False,True,,
+436602,3,One-time,,Bus,Stop Move,4; Seaport Blvd @ World Trade Center opp Seaport Htl (outbound),,information,2022-04-04T04:30,2022-07-02T02:30,,,,,,2022-03-22T13:01:53.040,2022-07-02T02:30,"The stop at Seaport Blvd @ World Trade Center opposite of the Seaport Htl (outbound) will be permanently moving to the nearside of Pier 4 Blvd beginning Monday, April 4.",,,,,False,,False,False,False,,,"Affected routes:
+4",autotimeframeupdate,2022-04-03T04:30:16.940,False,,current,,False,True,,
+436602,4,One-time,,Bus,Stop Move,4; Seaport Blvd @ World Trade Center opp Seaport Htl (outbound),,information,2022-04-04T04:30,2022-07-02T02:30,,,,,,2022-03-22T13:01:53.040,2022-07-02T02:30,"The stop at Seaport Blvd @ World Trade Center opposite of the Seaport Htl (outbound) will be permanently moving to the nearside of Pier 4 Blvd beginning Monday, April 4.",,,,,False,,False,False,False,,,"Affected routes:
+4",autotimeframeupdate,2022-04-04T04:00:17.583,False,,current,,False,True,,
+436602,5,One-time,,Bus,Stop Move,4; Seaport Blvd @ Pier 4 Blvd,,information,2022-04-04T04:30,2022-07-02T02:30,,,,,,2022-03-22T13:01:53.040,2022-07-02T02:30,The stop at Seaport Blvd @ World Trade Center opposite of the Seaport Hotel (outbound) has permanently moved to the nearside of Pier 4 Blvd.,,,,,False,,False,False,False,,,"Affected routes:
+4",eryk.rotondo,2022-06-16T07:55:53.117,False,,current,,False,True,,
+436602,6,One-time,,Bus,Stop Move,,,information,2022-04-04T04:30,2022-06-18T00:10:50.647,,,,,,2022-03-22T13:01:53.040,2022-06-18T00:10:50.647,The stop at Seaport Blvd @ World Trade Center opposite of the Seaport Hotel (outbound) has permanently moved to the nearside of Pier 4 Blvd.,,,,,False,,False,False,False,,,"Affected routes:
+4",Nicole.Brightman,2022-06-18T00:10:50.647,True,,past,,False,True,,
+438321,1,One-time,,Bus,Stop Move,69; Cambridge St @ Lambert St,construction,information,2022-04-06T05:47:12.789,2022-04-26T02:30,,,,,,2022-04-06T05:47:12.790,2022-04-26T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Mon, Apr 25, due to sidewalk reconstruction.",,,,,False,,False,False,False,,,"Affected routes:
+69",eryk.rotondo,2022-04-06T05:47:14.253,False,,current,,False,True,,
+438321,2,One-time,,Bus,Stop Move,69; Cambridge St @ Lambert St,construction,information,2022-04-06T05:47:12.789,2022-04-26T02:30,,,,,,2022-04-06T05:47:12.790,2022-04-26T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Mon, Apr 25, due to sidewalk reconstruction.",,,,,False,,False,False,False,,,"Affected routes:
+69",autotimeframeupdate,2022-04-19T04:30:17.627,False,,current,,False,True,,
+438321,3,One-time,,Bus,Stop Move,69; Cambridge St @ Lambert St,construction,information,2022-04-06T05:47:12.789,2022-04-26T02:30,,,,,,2022-04-06T05:47:12.790,2022-04-26T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Mon, Apr 25, due to sidewalk reconstruction.",,,,,False,,False,False,False,,,"Affected routes:
+69",autotimeframeupdate,2022-04-24T04:30:17.260,False,,current,,False,True,,
+438321,4,One-time,,Bus,Stop Move,69; Cambridge St @ Lambert St,construction,information,2022-04-06T05:47:12.789,2022-04-26T02:30,,,,,,2022-04-06T05:47:12.790,2022-04-26T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Mon, Apr 25, due to sidewalk reconstruction.",,,,,False,,False,False,False,,,"Affected routes:
+69",autotimeframeupdate,2022-04-25T04:30:16.990,False,,current,,False,True,,
+438321,5,One-time,,Bus,Stop Move,,construction,information,2022-04-06T05:47:12.789,2022-04-26T02:30,,,,,,2022-04-06T05:47:12.790,2022-04-26T02:30,"The stop at Cambridge St @ Lambert St has been moved to the far side of Warren St through Mon, Apr 25, due to sidewalk reconstruction.",,,,,False,,False,False,False,,,"Affected routes:
+69",expiry,2022-04-26T02:30:16.063,True,,past,,False,True,,
+440291,1,One-time,,Bus,Stop Move,"88, 87; Holland St @ Paulina St (outbound)",,information,2022-04-20T19:08:14.701,later today,,,,,,2022-04-20T19:08:14.700,2022-04-21T02:30,Route 87 & 88: The bus stop Holland St @ Paulina St has been moved 200ft south to Holland St at Simpson Ave.,,,,,False,,True,False,False,,,"Affected routes:
+87
+88",nicholas.tomkavage,2022-04-20T19:08:16.117,False,,current,,False,True,,
+440291,2,One-time,,Bus,Stop Move,,,information,2022-04-20T19:08:14.701,2022-04-21T02:25:16.613,,,,,,2022-04-20T19:08:14.700,2022-04-21T02:25:16.613,Route 87 & 88: The bus stop Holland St @ Paulina St has been moved 200ft south to Holland St at Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",expiry,2022-04-21T02:25:16.613,True,,past,,False,True,,
+441049,1,One-time,,Bus,Stop Move,"87, 88; Holland St @ Paulina St (outbound)",,information,2022-04-26T17:34:39.688,further notice,,,,,,2022-04-26T17:34:39.687,further notice,Route 87 & 88 stop Holland St @ Paulina St has been moved to the farside of Simpson Ave.,,,,,False,,True,False,False,,,"Affected routes:
+87
+88",nicholas.tomkavage,2022-04-26T17:34:51.373,False,,current,,False,True,,
+441049,2,One-time,,Bus,Stop Move,"87, 88; Holland St @ Paulina St (outbound)",,information,2022-04-26T17:34:39.688,further notice,,,,,,2022-04-26T17:34:39.687,further notice,Route 87 & 88 stop Holland St @ Paulina St has been moved to the farside of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",autotimeframeupdate,2022-05-03T17:35:16.470,False,,current,,False,True,,
+441049,3,One-time,,Bus,Stop Move,"87, 88; Holland St @ Paulina St",,information,2022-04-26T17:34:39.688,2022-06-25T02:30,,,,,,2022-04-26T17:34:39.687,2022-06-25T02:30,Route 87 & 88 stop Holland St @ Paulina St has been moved to the farside of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",eryk.rotondo,2022-05-16T05:20:06.677,False,,current,,False,True,,
+441049,4,One-time,,Bus,Stop Move,"87, 88; Holland St @ Simpson Ave",,information,2022-04-26T17:34:39.688,2022-06-25T02:30,,,,,,2022-04-26T17:34:39.687,2022-06-25T02:30,Route 87 & 88 stop Holland St @ Paulina St has been moved to the far side of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",eryk.rotondo,2022-06-16T07:54:44.850,False,,current,,False,True,,
+441049,5,One-time,,Bus,Stop Move,"87, 88; Holland St @ Simpson Ave",,information,2022-04-26T17:34:39.688,2022-06-25T02:30,,,,,,2022-04-26T17:34:39.687,2022-06-25T02:30,Route 87 & 88 stop Holland St @ Paulina St has been moved to the far side of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",autotimeframeupdate,2022-06-18T04:30:16.483,False,,current,,False,True,,
+441049,6,One-time,,Bus,Stop Move,"87, 88; Holland St @ Simpson Ave",,information,2022-04-26T17:34:39.688,2022-06-25T02:30,,,,,,2022-04-26T17:34:39.687,2022-06-25T02:30,Route 87 & 88 stop Holland St @ Paulina St has been moved to the far side of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",autotimeframeupdate,2022-06-23T04:30:16.390,False,,current,,False,True,,
+441049,7,One-time,,Bus,Stop Move,"87, 88; Holland St @ Simpson Ave",,information,2022-04-26T17:34:39.688,2022-06-25T02:30,,,,,,2022-04-26T17:34:39.687,2022-06-25T02:30,Route 87 & 88 stop Holland St @ Paulina St has been moved to the far side of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",autotimeframeupdate,2022-06-24T04:30:16.800,False,,current,,False,True,,
+441049,8,One-time,,Bus,Stop Move,,,information,2022-04-26T17:34:39.688,2022-06-25T02:30,,,,,,2022-04-26T17:34:39.687,2022-06-25T02:30,Route 87 & 88 stop Holland St @ Paulina St has been moved to the far side of Simpson Ave.,,,,,False,,False,False,False,,,"Affected routes:
+87
+88",expiry,2022-06-25T02:30:16.867,True,,past,,False,True,,
+442996,1,One-time,,Bus,Stop Move,"70, 61; Main St @ Daniels Ct (inbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.620,2022-08-01T02:30,"Route 61 & 70 stop move: Effective June 19, Main St @ Daniels Ct (inbound) stop moving to the nearside of Grant St",,,,,False,,True,False,False,,,"Affected routes:
+61
+70",nicholas.tomkavage,2022-05-10T13:57:42.640,False,,current,,False,True,,
+442996,2,One-time,,Bus,Stop Move,"70, 61; Main St @ Daniels Ct (inbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.620,2022-08-01T02:30,"Route 61 & 70 stop move: Effective June 19, Main St @ Daniels Ct (inbound) stop moving to the nearside of Grant St",,,,,False,,False,False,False,,,"Affected routes:
+61
+70",autotimeframeupdate,2022-06-13T04:30:17.847,False,,current,,False,True,,
+442996,3,One-time,,Bus,Stop Move,"70, 61; Main St @ Daniels Ct (inbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.620,2022-08-01T02:30,"Route 61 & 70 stop move: Effective June 19, Main St @ Daniels Ct (inbound) stop moving to the nearside of Grant St",,,,,False,,False,False,False,,,"Affected routes:
+61
+70",autotimeframeupdate,2022-06-18T04:30:17.763,False,,current,,False,True,,
+442996,4,One-time,,Bus,Stop Move,"70, 61; Main St @ Daniels Ct (inbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.620,2022-08-01T02:30,"Route 61 & 70 stop move: Effective June 19, Main St @ Daniels Ct (inbound) stop moving to the nearside of Grant St",,,,,False,,False,False,False,,,"Affected routes:
+61
+70",autotimeframeupdate,2022-06-19T04:00:17.380,False,,current,,False,True,,
+442996,5,One-time,,Bus,Stop Move,"61, 70; Main St @ Grant St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.617,2022-08-01T02:30,Route 61 & 70 stop move: Main St @ Daniels Ct (inbound) stop has moved to the nearside of Grant St,,,,,False,,False,False,False,,,"Affected routes:
+61
+70",eryk.rotondo,2022-06-26T07:05:05.300,False,,current,,False,True,,
+442996,6,One-time,,Bus,Stop Move,"61, 70; Main St @ Grant St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.617,2022-08-01T02:30,Route 61 & 70 stop move: Main St @ Daniels Ct (inbound) stop has moved to the nearside of Grant St,,,,,False,,False,False,False,,,"Affected routes:
+61
+70",autotimeframeupdate,2022-07-25T04:30:17.693,False,,current,,False,True,,
+442996,7,One-time,,Bus,Stop Move,"61, 70; Main St @ Grant St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.617,2022-08-01T02:30,Route 61 & 70 stop move: Main St @ Daniels Ct (inbound) stop has moved to the nearside of Grant St,,,,,False,,False,False,False,,,"Affected routes:
+61
+70",autotimeframeupdate,2022-07-30T04:30:17.670,False,,current,,False,True,,
+442996,8,One-time,,Bus,Stop Move,"61, 70; Main St @ Grant St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.617,2022-08-01T02:30,Route 61 & 70 stop move: Main St @ Daniels Ct (inbound) stop has moved to the nearside of Grant St,,,,,False,,False,False,False,,,"Affected routes:
+61
+70",autotimeframeupdate,2022-07-31T04:30:16.983,False,,current,,False,True,,
+442996,9,One-time,,Bus,Stop Move,,,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-05-10T13:57:40.617,2022-08-01T02:30,Route 61 & 70 stop move: Main St @ Daniels Ct (inbound) stop has moved to the nearside of Grant St,,,,,False,,False,False,False,,,"Affected routes:
+61
+70",expiry,2022-08-01T02:30:16.047,True,,past,,False,True,,
+443310,1,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St (inbound)",,information,2022-05-16T04:30,further notice,,,,,,2022-05-12T08:21:21.097,further notice,Northern Ave @ Tide St bus stop moving effective May 16 until further notice. The inbound stop has moved to the opposite side of Tide St. The outbound stop has moved approximately 350 feet west on Northern Ave.,,,,,False,,True,False,False,,,"Affected routes:
+Silver Line - SL2
+4",nicholas.tomkavage,2022-05-12T08:21:22.123,False,,current,,False,True,,
+443310,2,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St (inbound)",,information,2022-05-16T04:30,further notice,,,,,,2022-05-12T08:21:21.097,further notice,Northern Ave @ Tide St bus stop moving effective May 16 until further notice. The inbound stop has moved to the opposite side of Tide St. The outbound stop has moved approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",autotimeframeupdate,2022-05-15T04:30:16.997,False,,current,,False,True,,
+443310,3,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St (inbound)",,information,2022-05-16T04:30,further notice,,,,,,2022-05-12T08:21:21.097,further notice,Northern Ave @ Tide St bus stop moving effective May 16 until further notice. The inbound stop has moved to the opposite side of Tide St. The outbound stop has moved approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",autotimeframeupdate,2022-05-16T04:00:17.637,False,,current,,False,True,,
+443310,4,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,further notice,,,,,,2022-05-12T08:21:21.097,further notice,Northern Ave @ Tide St bus stops will be moving from May 23 - Jul 25 for construction. The inbound stop will locate to the opposite side of Tide St. The outbound stop will locate approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",eryk.rotondo,2022-05-18T11:32:54.363,False,,current,,False,True,,
+443310,5,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,further notice,,,,,,2022-05-12T08:21:21.097,further notice,Northern Ave @ Tide St bus stops will be moving from May 23 - Jul 25 for construction. The inbound stop will locate to the opposite side of Tide St. The outbound stop will locate approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",autotimeframeupdate,2022-05-23T04:30:17.547,False,,current,,False,True,,
+443310,6,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,2022-07-26T02:30,,,,,,2022-05-12T08:21:21.097,2022-07-26T02:30,Northern Ave @ Tide St bus stops will be moving from May 23 - Jul 25 for construction. The inbound stop will locate to the opposite side of Tide St. The outbound stop will locate approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",eryk.rotondo,2022-06-16T07:57:49.897,False,,current,,False,True,,
+443310,7,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,2022-07-26T02:30,,,,,,2022-05-12T08:21:21.097,2022-07-26T02:30,Northern Ave @ Tide St bus stops have moved through July 25 for construction. The inbound stop has relocated to the opposite side of Tide St. The outbound stop is approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",eryk.rotondo,2022-07-12T05:06:46.913,False,,current,,False,True,,
+443310,8,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,2022-07-26T02:30,,,,,,2022-05-12T08:21:21.097,2022-07-26T02:30,Northern Ave @ Tide St bus stops have moved through July 25 for construction. The inbound stop has relocated to the opposite side of Tide St. The outbound stop is approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",autotimeframeupdate,2022-07-19T04:30:16.400,False,,current,,False,True,,
+443310,9,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,2022-07-26T02:30,,,,,,2022-05-12T08:21:21.097,2022-07-26T02:30,Northern Ave @ Tide St bus stops have moved through July 25 for construction. The inbound stop has relocated to the opposite side of Tide St. The outbound stop is approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",autotimeframeupdate,2022-07-24T04:30:16.310,False,,current,,False,True,,
+443310,10,One-time,,Bus,Stop Move,"4, Silver Line - SL2; Northern Ave @ Tide St",,information,2022-05-16T04:30,2022-07-26T02:30,,,,,,2022-05-12T08:21:21.097,2022-07-26T02:30,Northern Ave @ Tide St bus stops have moved through July 25 for construction. The inbound stop has relocated to the opposite side of Tide St. The outbound stop is approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",autotimeframeupdate,2022-07-25T04:30:17.740,False,,current,,False,True,,
+443310,11,One-time,,Bus,Stop Move,,,information,2022-05-16T04:30,2022-07-26T02:30,,,,,,2022-05-12T08:21:21.097,2022-07-26T02:30,Northern Ave @ Tide St bus stops have moved through July 25 for construction. The inbound stop has relocated to the opposite side of Tide St. The outbound stop is approximately 350 feet west on Northern Ave.,,,,,False,,False,False,False,,,"Affected routes:
+Silver Line - SL2
+4",expiry,2022-07-26T02:30:16.770,True,,past,,False,True,,
+444427,1,One-time,,Bus,Stop Move,436; 10 Centennial Drive - West,,information,2022-05-19T00:01:06.086,later today,,,,,,2022-05-19T00:01:06.087,2022-05-20T02:30,TEST: 10 Centennial Drive - West stop moving,,,,,False,,False,False,False,,,"Affected routes:
+436",test.supervisor,2022-05-19T00:01:09.553,False,,current,,False,True,,
+444427,2,One-time,,Bus,Stop Move,,,information,2022-05-19T00:01:06.086,2022-05-19T00:01:21.290,,,,,,2022-05-19T00:01:06.087,2022-05-19T00:01:21.290,TEST: 10 Centennial Drive - West stop moving,,,,,False,,False,False,False,,,"Affected routes:
+436",test.supervisor,2022-05-19T00:01:21.290,True,,past,,False,True,,
+446268,1,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd will be permanently moving to the far side of Elena Rd beginning June 20.,,,,,False,,True,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2022-05-31T09:48:47.290,False,,current,,False,True,,
+446268,2,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd will be permanently moving to the far side of Elena Rd beginning June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-06-14T04:30:17.717,False,,current,,False,True,,
+446268,3,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd will be permanently moving to the far side of Elena Rd beginning June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-06-19T04:30:17.293,False,,current,,False,True,,
+446268,4,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd will be permanently moving to the far side of Elena Rd beginning June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-06-20T04:00:15.997,False,,current,,False,True,,
+446268,5,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd permanently moved to the far side of Elena Rd on June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2022-06-26T07:20:30.490,False,,current,,False,True,,
+446268,6,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd permanently moved to the far side of Elena Rd on June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-08-13T04:30:16.547,False,,current,,False,True,,
+446268,7,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd permanently moved to the far side of Elena Rd on June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-08-18T04:30:16.377,False,,current,,False,True,,
+446268,8,One-time,,Bus,Stop Move,"62, 76; Marrett Rd opp Wilson Rd",,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd permanently moved to the far side of Elena Rd on June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-08-19T04:30:16.367,False,,current,,False,True,,
+446268,9,One-time,,Bus,Stop Move,,,information,2022-06-20T04:30,2022-08-20T02:30,,,,,,2022-05-31T09:48:45.397,2022-08-20T02:30,The stop at Marrett Rd opp Wilson Rd permanently moved to the far side of Elena Rd on June 20.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",expiry,2022-08-20T02:30:16.060,True,,past,,False,True,,
+446951,1,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St (outbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,"Route 104 & 109 stop move: Effective June 19, Broadway @ Ferry St (outbound) stop moving. Route 104 buses will board on Ferry St on the far side of Broadway. Route 109 buses will board on Broadway on the far side of Ferry St",,,,,False,,True,False,False,,,"Affected routes:
+104
+109",nicholas.tomkavage,2022-06-03T16:19:49.450,False,,current,,False,True,,
+446951,2,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St (outbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,"Route 104 & 109 stop move: Effective June 19, Broadway @ Ferry St (outbound) stop moving. Route 104 buses will board on Ferry St on the far side of Broadway. Route 109 buses will board on Broadway on the far side of Ferry St",,,,,False,,False,False,False,,,"Affected routes:
+104
+109",autotimeframeupdate,2022-06-13T04:30:18.097,False,,current,,False,True,,
+446951,3,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St (outbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,"Route 104 & 109 stop move: Effective June 19, Broadway @ Ferry St (outbound) stop moving. Route 104 buses will board on Ferry St on the far side of Broadway. Route 109 buses will board on Broadway on the far side of Ferry St",,,,,False,,False,False,False,,,"Affected routes:
+104
+109",autotimeframeupdate,2022-06-18T04:30:17.890,False,,current,,False,True,,
+446951,4,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St (outbound)",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,"Route 104 & 109 stop move: Effective June 19, Broadway @ Ferry St (outbound) stop moving. Route 104 buses will board on Ferry St on the far side of Broadway. Route 109 buses will board on Broadway on the far side of Ferry St",,,,,False,,False,False,False,,,"Affected routes:
+104
+109",autotimeframeupdate,2022-06-19T04:00:17.477,False,,current,,False,True,,
+446951,5,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,Route 104 & 109 stop move: Broadway @ Ferry St (outbound) stop has moved. Route 104 buses board on Ferry St on the far side of Broadway. Route 109 buses board on Broadway on the far side of Ferry St,,,,,False,,False,False,False,,,"Affected routes:
+104
+109",eryk.rotondo,2022-06-26T07:04:28.800,False,,current,,False,True,,
+446951,6,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,Route 104 & 109 stop move: Broadway @ Ferry St (outbound) stop has moved. Route 104 buses board on Ferry St on the far side of Broadway. Route 109 buses board on Broadway on the far side of Ferry St,,,,,False,,False,False,False,,,"Affected routes:
+104
+109",autotimeframeupdate,2022-07-25T04:30:17.803,False,,current,,False,True,,
+446951,7,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,Route 104 & 109 stop move: Broadway @ Ferry St (outbound) stop has moved. Route 104 buses board on Ferry St on the far side of Broadway. Route 109 buses board on Broadway on the far side of Ferry St,,,,,False,,False,False,False,,,"Affected routes:
+104
+109",autotimeframeupdate,2022-07-30T04:30:17.780,False,,current,,False,True,,
+446951,8,One-time,,Bus,Stop Move,"104, 109; Broadway @ Ferry St",,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,Route 104 & 109 stop move: Broadway @ Ferry St (outbound) stop has moved. Route 104 buses board on Ferry St on the far side of Broadway. Route 109 buses board on Broadway on the far side of Ferry St,,,,,False,,False,False,False,,,"Affected routes:
+104
+109",autotimeframeupdate,2022-07-31T04:30:17.030,False,,current,,False,True,,
+446951,9,One-time,,Bus,Stop Move,,,information,2022-06-19T04:30,2022-08-01T02:30,,,,,,2022-06-03T16:19:48.263,2022-08-01T02:30,Route 104 & 109 stop move: Broadway @ Ferry St (outbound) stop has moved. Route 104 buses board on Ferry St on the far side of Broadway. Route 109 buses board on Broadway on the far side of Ferry St,,,,,False,,False,False,False,,,"Affected routes:
+104
+109",expiry,2022-08-01T02:30:16.047,True,,past,,False,True,,
+449333,1,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-16T12:21:41.765,later today,,,,,,2022-06-16T12:21:41.767,2022-06-17T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Tue, Jun 21. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,True,False,False,,,,eryk.rotondo,2022-06-16T12:22:17.263,False,,current,,False,True,,
+449333,2,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-16T12:21:41.765,later today,,,,,,2022-06-16T12:21:41.767,2022-06-17T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Tue, Jun 21. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",eryk.rotondo,2022-06-16T12:50:32.093,False,,current,,False,True,,
+449333,3,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-21T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Tue, Jun 21. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",eryk.rotondo,2022-06-16T13:05:56.137,False,,current,,False,True,,
+449333,4,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-21T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Tue, Jun 21. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",autotimeframeupdate,2022-06-19T04:30:17.637,False,,current,,False,True,,
+449333,5,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-21T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Tue, Jun 21. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",autotimeframeupdate,2022-06-20T04:30:17.297,False,,current,,False,True,,
+449333,6,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-21T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Tue, Jun 21. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",autotimeframeupdate,2022-06-21T03:30:16.263,False,,current,,False,True,,
+449333,7,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-27T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Mon, Jun 27. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",eryk.rotondo,2022-06-23T05:44:52.720,False,,current,,False,True,,
+449333,8,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-27T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Mon, Jun 27. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",autotimeframeupdate,2022-06-25T04:30:18.903,False,,current,,False,True,,
+449333,9,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-27T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Mon, Jun 27. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",autotimeframeupdate,2022-06-26T04:30:18.687,False,,current,,False,True,,
+449333,10,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-27T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,"The inbound and outbound stops at Morton St @ Harvard St will be permanently moving effective Mon, Jun 27. The inbound stop will move to Morton St @ Havelock St and the outbound stop to Morton St @ Courtland Rd.",,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists.
+
+Affected routes:
+21
+31",autotimeframeupdate,2022-06-27T03:30:16.260,False,,current,,False,True,,
+449333,11,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-27T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,The inbound and outbound stops at Morton St @ Harvard St are temporarily moving for construction until July. The temporary inbound stop will be Morton St @ Havelock St and the temporary outbound stop will be Morton St @ Courtland Rd.,,,,,False,,True,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists. These stops will not permanently close as earlier posted. 
+
+Affected routes:
+21
+31",eryk.rotondo,2022-06-29T09:19:32.347,False,,current,,False,True,,
+449333,12,One-time,,Bus,Stop Move,"21, 31; Morton St @ Harvard St",,information,2022-06-27T04:00,2022-08-13T02:30,,,,,,2022-06-16T12:21:41.767,2022-08-13T02:30,The inbound and outbound stops at Morton St @ Harvard St are temporarily moving for construction through July. The temporary inbound stop will be Morton St @ Havelock St and the temporary outbound stop will be Morton St @ Courtland Rd.,,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists. These stops will not permanently close as earlier posted. 
+
+Affected routes:
+21
+31",eryk.rotondo,2022-07-12T05:09:39.947,False,,current,,False,True,,
+449333,13,One-time,,Bus,Stop Move,,,information,2022-06-27T04:00,2022-07-20T07:50:31.153,,,,,,2022-06-16T12:21:41.767,2022-07-20T07:50:31.153,The inbound and outbound stops at Morton St @ Harvard St are temporarily moving for construction through July. The temporary inbound stop will be Morton St @ Havelock St and the temporary outbound stop will be Morton St @ Courtland Rd.,,,,,False,,False,False,False,,,"This is part of a MassDOT project for intersection improvements along Morton St. for pedestrians and cyclists. These stops will not permanently close as earlier posted. 
+
+Affected routes:
+21
+31",eryk.rotondo,2022-07-20T07:50:31.153,True,,past,,False,True,,
+449663,1,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave @ Clarke St",,information,2022-06-17T21:53:55.980,2022-06-29T02:30,,,,,,2022-06-17T21:53:55.980,2022-06-29T02:30,Massachusetts Ave @ Clarke St stop moving in front of the Cary Memorial Library from June 21 - July 15 for construction.,,,,,False,,True,False,False,,,"Affected routes:
+62
+76",dchoy,2022-06-17T21:54:03.153,False,,current,,False,True,,
+449663,2,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave @ Clarke St",,information,2022-06-17T21:53:55.980,2022-06-29T02:30,,,,,,2022-06-17T21:53:55.980,2022-06-29T02:30,Massachusetts Ave @ Clarke St stop moving in front of the Cary Memorial Library from June 21 - July 15 for construction.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-06-22T04:30:17.613,False,,current,,False,True,,
+449663,3,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave @ Clarke St",,information,2022-06-17T21:53:55.980,2022-06-29T02:30,,,,,,2022-06-17T21:53:55.980,2022-06-29T02:30,Massachusetts Ave @ Clarke St stop moving in front of the Cary Memorial Library from June 21 - July 15 for construction.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-06-27T04:30:17.843,False,,current,,False,True,,
+449663,4,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave @ Clarke St",,information,2022-06-17T21:53:55.980,2022-06-29T02:30,,,,,,2022-06-17T21:53:55.980,2022-06-29T02:30,Massachusetts Ave @ Clarke St stop moving in front of the Cary Memorial Library from June 21 - July 15 for construction.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-06-28T04:30:17.283,False,,current,,False,True,,
+449663,5,One-time,,Bus,Stop Move,,,information,2022-06-17T21:53:55.980,2022-06-29T02:30,,,,,,2022-06-17T21:53:55.980,2022-06-29T02:30,Massachusetts Ave @ Clarke St stop moving in front of the Cary Memorial Library from June 21 - July 15 for construction.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",expiry,2022-06-29T02:30:16.373,True,,past,,False,True,,
+451123,1,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave opp Grant St",,information,2022-06-28T04:30,2022-07-27T02:30,,,,,,2022-06-28T12:50:14.130,2022-07-27T02:30,The stop at Massachusetts Ave opp Grant St will be moving 100 feet east to the front of 1666 Massachusetts Ave from Jun 28 - Jul 26 for construction.,,,,,False,,True,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2022-06-28T12:50:44.343,False,,current,,False,True,,
+451123,2,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave opp Grant St",,information,2022-06-28T04:30,2022-07-27T02:30,,,,,,2022-06-28T12:50:14.130,2022-07-27T02:30,The stop at Massachusetts Ave opp Grant St has moved 100 feet east to the front of 1666 Massachusetts Ave. This is for construction and will be through July 26.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",eryk.rotondo,2022-07-12T05:08:42.260,False,,current,,False,True,,
+451123,3,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave opp Grant St",,information,2022-06-28T04:30,2022-07-27T02:30,,,,,,2022-06-28T12:50:14.130,2022-07-27T02:30,The stop at Massachusetts Ave opp Grant St has moved 100 feet east to the front of 1666 Massachusetts Ave. This is for construction and will be through July 26.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-07-20T04:30:15.910,False,,current,,False,True,,
+451123,4,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave opp Grant St",,information,2022-06-28T04:30,2022-07-27T02:30,,,,,,2022-06-28T12:50:14.130,2022-07-27T02:30,The stop at Massachusetts Ave opp Grant St has moved 100 feet east to the front of 1666 Massachusetts Ave. This is for construction and will be through July 26.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-07-25T04:30:17.897,False,,current,,False,True,,
+451123,5,One-time,,Bus,Stop Move,"62, 76; Massachusetts Ave opp Grant St",,information,2022-06-28T04:30,2022-07-27T02:30,,,,,,2022-06-28T12:50:14.130,2022-07-27T02:30,The stop at Massachusetts Ave opp Grant St has moved 100 feet east to the front of 1666 Massachusetts Ave. This is for construction and will be through July 26.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",autotimeframeupdate,2022-07-26T04:30:15.890,False,,current,,False,True,,
+451123,6,One-time,,Bus,Stop Move,,,information,2022-06-28T04:30,2022-07-27T02:30,,,,,,2022-06-28T12:50:14.130,2022-07-27T02:30,The stop at Massachusetts Ave opp Grant St has moved 100 feet east to the front of 1666 Massachusetts Ave. This is for construction and will be through July 26.,,,,,False,,False,False,False,,,"Affected routes:
+62
+76",expiry,2022-07-27T02:30:16.153,True,,past,,False,True,,
+454299,1,One-time,,Bus,Stop Move,"505, 554; Lexington St @ School St",,information,2022-08-03T04:30,further notice,,,,,,2022-07-21T15:18:08.207,further notice,"Starting August 3, the Lexington St @ School St stop will shift approximately 200 feet south on Lexington St, across from the Firehouse.",,,,,False,,True,False,False,,,"Affected routes:
+505
+554",dchoy,2022-07-21T15:18:15,False,,current,,False,True,,
+454299,2,One-time,,Bus,Stop Move,"505, 554; Lexington St @ School St",,information,2022-08-03T04:30,further notice,,,,,,2022-07-21T15:18:08.207,further notice,"Starting August 3, the Lexington St @ School St stop will shift approximately 200 feet south on Lexington St, across from the Firehouse.",,,,,False,,False,False,False,,,"Affected routes:
+505
+554",autotimeframeupdate,2022-07-28T04:30:17.547,False,,current,,False,True,,
+454299,3,One-time,,Bus,Stop Move,"505, 554; Lexington St @ School St",,information,2022-08-03T04:30,further notice,,,,,,2022-07-21T15:18:08.207,further notice,"Starting August 3, the Lexington St @ School St stop will shift approximately 200 feet south on Lexington St, across from the Firehouse.",,,,,False,,False,False,False,,,"Affected routes:
+505
+554",autotimeframeupdate,2022-08-02T04:30:18.047,False,,current,,False,True,,
+454299,4,One-time,,Bus,Stop Move,"505, 554; Lexington St @ School St",,information,2022-08-03T04:30,further notice,,,,,,2022-07-21T15:18:08.207,further notice,"Starting August 3, the Lexington St @ School St stop will shift approximately 200 feet south on Lexington St, across from the Firehouse.",,,,,False,,False,False,False,,,"Affected routes:
+505
+554",autotimeframeupdate,2022-08-03T04:00:16.190,False,,current,,False,True,,
+454299,5,One-time,,Bus,Stop Move,"505, 554; Lexington St @ School St",,information,2022-08-03T04:30,further notice,,,,,,2022-07-21T15:18:08.207,further notice,"Starting August 3, the Lexington St @ School St stop will shift approximately 200 feet south on Lexington St, across from the Firehouse.",,,,,False,,False,False,False,,,"Affected routes:
+505
+554",autotimeframeupdate,2022-08-10T04:30:16.560,False,,current,,False,True,,
+454299,6,One-time,,Bus,Stop Move,,,information,2022-08-03T04:30,2022-10-19T06:39:25.157,,,,,,2022-07-21T15:18:08.207,2022-10-19T06:39:25.157,"Starting August 3, the Lexington St @ School St stop will shift approximately 200 feet south on Lexington St, across from the Firehouse.",,,,,False,,False,False,False,,,"Affected routes:
+505
+554",eryk.rotondo,2022-10-19T06:39:25.157,True,,past,,False,True,,
+455739,1,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,True,False,False,,,"Affected routes:
+7",nicholas.tomkavage,2022-08-01T16:14:08.103,False,,current,,False,True,,
+455739,2,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",autotimeframeupdate,2022-08-02T04:30:18.233,False,,current,,False,True,,
+455739,3,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",autotimeframeupdate,2022-08-07T04:30:17.600,False,,current,,False,True,,
+455739,4,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",autotimeframeupdate,2022-08-08T04:00:17.710,False,,current,,False,True,,
+455739,5,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",autotimeframeupdate,2022-08-15T04:30:17.780,False,,current,,False,True,,
+455739,6,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",autotimeframeupdate,2022-08-20T04:30:17.257,False,,current,,False,True,,
+455739,7,One-time,,Bus,Stop Move,7; L St @ Broadway (outbound),,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",autotimeframeupdate,2022-08-21T04:30:17.497,False,,current,,False,True,,
+455739,8,One-time,,Bus,Stop Move,,,information,2022-08-08T04:30,2022-08-22T02:30,,,,,,2022-08-01T16:14:04.637,2022-08-22T02:30,"Route 7: On August 8, the outbound bus stop at L St @ Broadway will move to L St @ Third St",,,,,False,,False,False,False,,,"Affected routes:
+7",expiry,2022-08-22T02:30:17.120,True,,past,,False,True,,
+457222,1,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,True,False,False,,,"Affected routes:
+47",dchoy,2022-08-10T17:11:37.187,False,,current,,False,True,,
+457222,2,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",autotimeframeupdate,2022-08-22T04:30:17.517,False,,current,,False,True,,
+457222,3,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",autotimeframeupdate,2022-08-27T04:30:24.270,False,,current,,False,True,,
+457222,4,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",autotimeframeupdate,2022-08-28T04:00:17.723,False,,current,,False,True,,
+457222,5,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",autotimeframeupdate,2022-09-22T04:30:16.570,False,,current,,False,True,,
+457222,6,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",autotimeframeupdate,2022-09-27T04:30:16.243,False,,current,,False,True,,
+457222,7,One-time,,Bus,Stop Move,47; Pearl St @ Cottage St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",autotimeframeupdate,2022-09-28T04:30:15.800,False,,current,,False,True,,
+457222,8,One-time,,Bus,Stop Move,,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T17:11:27.930,2022-09-29T02:30,"Pearl St @ Cottage St stop will be permanently moved to the far side of Williams St on the same block, starting August 28.
+",,,,,False,,False,False,False,,,"Affected routes:
+47",expiry,2022-09-29T02:30:16.220,True,,past,,False,True,,
+457263,1,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,True,False,False,,,"Affected routes:
+558",dchoy,2022-08-10T20:16:19.640,False,,current,,False,True,,
+457263,2,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-08-22T04:30:17.563,False,,current,,False,True,,
+457263,3,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-08-27T04:30:24.303,False,,current,,False,True,,
+457263,4,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-08-28T04:00:17.770,False,,current,,False,True,,
+457263,5,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-09-22T04:30:17.630,False,,current,,False,True,,
+457263,6,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-09-27T04:30:17.353,False,,current,,False,True,,
+457263,7,One-time,,Bus,Stop Move,558; Crescent St @ Maple St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-09-28T04:30:16.910,False,,current,,False,True,,
+457263,8,One-time,,Bus,Stop Move,,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:16:18.310,2022-09-29T02:30,"Crescent St @ Maple St stop will be permanently moved to the far side of Maple St, after the gas station at the corner, starting August 28.",,,,,False,,False,False,False,,,"Affected routes:
+558",expiry,2022-09-29T02:30:16.233,True,,past,,False,True,,
+457265,1,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,True,False,False,,,"Affected routes:
+558",dchoy,2022-08-10T20:30:12.827,False,,current,,False,True,,
+457265,2,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-08-22T04:30:17.627,False,,current,,False,True,,
+457265,3,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-08-27T04:30:24.380,False,,current,,False,True,,
+457265,4,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-08-28T04:00:17.833,False,,current,,False,True,,
+457265,5,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-09-22T04:30:17.677,False,,current,,False,True,,
+457265,6,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-09-27T04:30:17.367,False,,current,,False,True,,
+457265,7,One-time,,Bus,Stop Move,558; Crescent St @ Robbins St,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",autotimeframeupdate,2022-09-28T04:30:16.923,False,,current,,False,True,,
+457265,8,One-time,,Bus,Stop Move,,,information,2022-08-28T04:30,2022-09-29T02:30,,,,,,2022-08-10T20:30:11.377,2022-09-29T02:30,"Crescent St @ Robbins St stop will be permanently moved north  about 100 feet and will be renamed Crescent St opp Brown St, starting August 28.
+
+",,,,,False,,False,False,False,,,"Affected routes:
+558",expiry,2022-09-29T02:30:16.233,True,,past,,False,True,,
+457594,1,One-time,,Bus,Stop Move,4; Northern Ave @ Tide St,,information,2022-08-12T15:43:48.522,later today,,,,,,2022-08-12T15:43:48.523,2022-08-13T02:30,Northern Ave @ Tide St stop  will be moved to Drydock Ave @ Harbor St in the AM and Drydock Ave @ Design Center Place in the PM. This is due to a recent city project that has made the Northern Ave @ Tide St stop unworkable.,,,,,False,,True,False,False,,,"Affected routes:
+4",dchoy,2022-08-12T15:43:56.530,False,,current,,False,True,,
+457594,2,One-time,,Bus,Stop Move,,,information,2022-08-12T15:43:48.522,2022-08-13T02:25:16.617,,,,,,2022-08-12T15:43:48.523,2022-08-13T02:25:16.617,Northern Ave @ Tide St stop  will be moved to Drydock Ave @ Harbor St in the AM and Drydock Ave @ Design Center Place in the PM. This is due to a recent city project that has made the Northern Ave @ Tide St stop unworkable.,,,,,False,,False,False,False,,,"Affected routes:
+4",expiry,2022-08-13T02:25:16.617,True,,past,,False,True,,
+458461,1,One-time,,Bus,Stop Move,"Orange Line Shuttle, 354; State St @ Washington Mall - State St Sta",,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,True,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",dchoy,2022-08-19T14:26:22.190,False,,current,,False,True,,
+458461,2,One-time,,Bus,Stop Move,"Orange Line Shuttle, 354; State St @ Washington Mall - State St Sta",,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,False,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",autotimeframeupdate,2022-08-22T04:30:17.813,False,,current,,False,True,,
+458461,3,One-time,,Bus,Stop Move,"Orange Line Shuttle, 354; State St @ Washington Mall - State St Sta",,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,False,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",autotimeframeupdate,2022-08-23T04:00:16.443,False,,current,,False,True,,
+458461,4,One-time,,Bus,Stop Move,"Orange Line Shuttle, 354; State St @ Washington Mall - State St Sta",,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,False,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",autotimeframeupdate,2022-09-13T04:30:16.013,False,,current,,False,True,,
+458461,5,One-time,,Bus,Stop Move,"Orange Line Shuttle, 354; State St @ Washington Mall - State St Sta",,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,False,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",autotimeframeupdate,2022-09-18T04:30:17.897,False,,current,,False,True,,
+458461,6,One-time,,Bus,Stop Move,"Orange Line Shuttle, 354; State St @ Washington Mall - State St Sta",,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,False,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",autotimeframeupdate,2022-09-19T04:30:16.510,False,,current,,False,True,,
+458461,7,One-time,,Bus,Stop Move,,,information,2022-08-23T04:30,2022-09-20T02:30,,,,,,2022-08-19T14:26:21.180,2022-09-20T02:30,"State St @ Washington Mall - State St Station stop will be temporarily moved 140 feet up Court St between August 23 and September 19, due to ensuring ADA accessibility standards are met while the Orange and Green Line shuttles are running.",,,,,False,,False,False,False,,,"Affected routes:
+Orange Line Shuttle
+354",expiry,2022-09-20T02:30:16.693,True,,past,,False,True,,
+459040,1,One-time,,Bus,Stop Move,"CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, 109; Sullivan Square",,information,2022-08-24T10:11:50.774,2022-09-19T02:30,,,,,,2022-08-24T10:11:50.777,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,True,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",eryk.rotondo,2022-08-24T10:12:06.420,False,,current,,False,True,,
+459040,2,One-time,,Bus,Stop Move,"89, 90, 92, 93, 101, 104, 109; Sullivan Square",,information,2022-08-24T10:11,2022-09-19T02:30,,,,,,2022-08-24T10:11,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,False,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",Joshua.Fabian,2022-08-30T09:28:20.450,False,,current,,False,True,,
+459040,3,One-time,,Bus,Stop Move,"89, 90, 92, 93, 101, 104, 109, 86, 91, 95, CT2, 105; Sullivan Square",,information,2022-08-24T10:11,2022-09-19T02:30,,,,,,2022-08-24T10:11,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,False,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",Joshua.Fabian,2022-08-30T10:09:24.850,False,,current,,False,True,,
+459040,4,One-time,,Bus,Stop Move,"89, 90, 92, 93, 101, 104, 109, 86, 91, 95, CT2, 105; Sullivan Square",,information,2022-08-24T10:11,2022-09-19T02:30,,,,,,2022-08-24T10:11,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,False,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",autotimeframeupdate,2022-09-12T04:30:17.430,False,,current,,False,True,,
+459040,5,One-time,,Bus,Stop Move,"89, 90, 92, 93, 101, 104, 109, 86, 91, 95, CT2, 105; Sullivan Square",,information,2022-08-24T10:11,2022-09-19T02:30,,,,,,2022-08-24T10:11,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,False,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",autotimeframeupdate,2022-09-17T04:30:17.840,False,,current,,False,True,,
+459040,6,One-time,,Bus,Stop Move,"89, 90, 92, 93, 101, 104, 109, 86, 91, 95, CT2, 105; Sullivan Square",,information,2022-08-24T10:11,2022-09-19T02:30,,,,,,2022-08-24T10:11,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,False,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",autotimeframeupdate,2022-09-18T04:30:17.913,False,,current,,False,True,,
+459040,7,One-time,,Bus,Stop Move,,,information,2022-08-24T10:11,2022-09-19T02:30,,,,,,2022-08-24T10:11,2022-09-19T02:30,"At Sullivan Square, Orange Line Shuttle buses will be servicing the Upper Busway. All other routes will be using the Lower Busway. This change will be in place through the end of service on Sun, Sep 18.",,,,,False,,False,False,False,,,"Affected routes:
+CT2, 86, 89, 90, 91, 92, 93, 95, 101, 104, 105, & 109",expiry,2022-09-19T02:30:21.970,True,,past,,False,True,,
+459066,1,One-time,,Bus,Stop Move,"435, 436; Liberty Tree Mall @ Best Buy (inbound)",,information,2022-08-24T12:57:51.029,2022-08-27T02:30,,,,,,2022-08-24T12:57:51.030,2022-08-27T02:30,Route 435 & 436: The bus stop at the Liberty Tree Mall is temporarily moved to the front of Target until Fri 8/26.,,,,,False,,True,False,False,,,"Affected routes:
+435
+436",nicholas.tomkavage,2022-08-24T12:57:52.187,False,,current,,False,True,,
+459066,2,One-time,,Bus,Stop Move,"435, 436; Liberty Tree Mall @ Best Buy (inbound)",,information,2022-08-24T12:57:51.029,2022-08-27T02:30,,,,,,2022-08-24T12:57:51.030,2022-08-27T02:30,Route 435 & 436: The bus stop at the Liberty Tree Mall is temporarily moved to the front of Target until Fri 8/26.,,,,,False,,False,False,False,,,"Affected routes:
+435
+436",autotimeframeupdate,2022-08-25T04:30:17.627,False,,current,,False,True,,
+459066,3,One-time,,Bus,Stop Move,"435, 436; Liberty Tree Mall @ Best Buy (inbound)",,information,2022-08-24T12:57:51.029,2022-08-27T02:30,,,,,,2022-08-24T12:57:51.030,2022-08-27T02:30,Route 435 & 436: The bus stop at the Liberty Tree Mall is temporarily moved to the front of Target until Fri 8/26.,,,,,False,,False,False,False,,,"Affected routes:
+435
+436",autotimeframeupdate,2022-08-26T04:30:17.347,False,,current,,False,True,,
+459066,4,One-time,,Bus,Stop Move,,,information,2022-08-24T12:57:51.029,2022-08-27T02:30,,,,,,2022-08-24T12:57:51.030,2022-08-27T02:30,Route 435 & 436: The bus stop at the Liberty Tree Mall is temporarily moved to the front of Target until Fri 8/26.,,,,,False,,False,False,False,,,"Affected routes:
+435
+436",expiry,2022-08-27T02:30:21.330,True,,past,,False,True,,
+461292,1,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-12T04:30,2022-09-13T02:30,,,,,,2022-09-08T16:47:06.357,2022-09-13T02:30,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 12, due to construction.",,,,,False,,True,False,False,,,"Affected routes:
+80
+89",dchoy,2022-09-08T16:47:07.240,False,,current,,False,True,,
+461292,2,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-12T04:30,2022-09-13T02:30,,,,,,2022-09-08T16:47:06.357,2022-09-13T02:30,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 12, due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+89",autotimeframeupdate,2022-09-11T04:30:17.870,False,,current,,False,True,,
+461292,3,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-19T09:00,2022-09-19T15:00,,,,,,2022-09-08T16:47,2022-09-19T15:00,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 19, due to construction.",,,,,False,,True,False,False,,,"Affected routes:
+80
+89",dchoy,2022-09-11T17:43:01.230,False,,current,,False,True,,
+461292,4,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-19T09:00,2022-09-19T15:00,,,,,,2022-09-08T16:47,2022-09-19T15:00,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 19, due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+89",autotimeframeupdate,2022-09-13T04:30:17.233,False,,current,,False,True,,
+461292,5,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-19T09:00,2022-09-19T15:00,,,,,,2022-09-08T16:47,2022-09-19T15:00,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 19, due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+89",autotimeframeupdate,2022-09-18T04:30:17.990,False,,current,,False,True,,
+461292,6,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-19T09:00,2022-09-19T15:00,,,,,,2022-09-08T16:47,2022-09-19T15:00,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 19, due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+89",autotimeframeupdate,2022-09-19T04:30:17.603,False,,current,,False,True,,
+461292,7,One-time,,Bus,Stop Move,"80, 89; Broadway @ Cedar St",,information,2022-09-19T09:00,2022-09-19T15:00,,,,,,2022-09-08T16:47,2022-09-19T15:00,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 19, due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+89",autotimeframeupdate,2022-09-19T08:30:16.900,False,,current,,False,True,,
+461292,8,One-time,,Bus,Stop Move,,,information,2022-09-19T09:00,2022-09-19T15:00,,,,,,2022-09-08T16:47,2022-09-19T15:00,"Broadway @ Cedar St stop will be temporarily moved 100 feet up on Monday September 19, due to construction.",,,,,False,,False,False,False,,,"Affected routes:
+80
+89",expiry,2022-09-19T15:00:16.563,True,,past,,False,True,,
+461455,1,One-time,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave (outbound),construction,information,2022-09-12T04:30,further notice,,,,,,2022-09-09T12:41:47.983,further notice,Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting Mon 9/12 until further notice due to construction.,,,,,False,,True,False,False,,,"Affected routes:
+95",nicholas.tomkavage,2022-09-09T12:41:50.153,False,,current,,False,True,,
+461455,2,One-time,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave (outbound),construction,information,2022-09-12T04:30,further notice,,,,,,2022-09-09T12:41:47.983,further notice,Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting Mon 9/12 until further notice due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-11T04:30:17.903,False,,current,,False,True,,
+461455,3,One-time,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave (outbound),construction,information,2022-09-12T04:30,further notice,,,,,,2022-09-09T12:41:47.983,further notice,Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting Mon 9/12 until further notice due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-12T04:00:17.440,False,,current,,False,True,,
+461455,4,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-13T21:00,2022-09-14T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",nicholas.tomkavage,2022-09-13T14:48:38.343,False,,current,,False,True,,
+461455,5,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-13T21:00,2022-09-14T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-13T20:30:16.247,False,,current,,False,True,,
+461455,6,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-13T21:00,2022-09-14T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-14T02:45:16.730,False,,current,,False,True,,
+461455,7,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-14T21:00,2022-09-15T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-14T04:30:17.970,False,,current,,False,True,,
+461455,8,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-14T21:00,2022-09-15T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-14T20:30:16.563,False,,current,,False,True,,
+461455,9,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-14T21:00,2022-09-15T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-15T02:45:16.130,False,,current,,False,True,,
+461455,10,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-15T21:00,2022-09-16T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-15T04:30:17.347,False,,current,,False,True,,
+461455,11,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-15T21:00,2022-09-16T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-15T20:30:16.220,False,,current,,False,True,,
+461455,12,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-15T21:00,2022-09-16T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-16T02:45:16.757,False,,current,,False,True,,
+461455,13,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-16T21:00,2022-09-17T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-16T04:30:16.757,False,,current,,False,True,,
+461455,14,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-16T21:00,2022-09-17T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-16T20:30:16.207,False,,current,,False,True,,
+461455,15,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-16T21:00,2022-09-17T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-17T02:45:16.633,False,,current,,False,True,,
+461455,16,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-17T21:00,2022-09-18T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-17T04:30:17.950,False,,current,,False,True,,
+461455,17,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-17T21:00,2022-09-18T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-17T20:30:16.300,False,,current,,False,True,,
+461455,18,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-17T21:00,2022-09-18T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-18T02:45:16.717,False,,current,,False,True,,
+461455,19,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-18T21:00,2022-09-19T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-18T04:30:18.037,False,,current,,False,True,,
+461455,20,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-18T21:00,2022-09-19T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-18T20:30:16.183,False,,current,,False,True,,
+461455,21,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-18T21:00,2022-09-19T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-19T02:45:16.367,False,,current,,False,True,,
+461455,22,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-19T21:00,2022-09-20T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-19T04:30:17.620,False,,current,,False,True,,
+461455,23,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-19T21:00,2022-09-20T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-19T20:30:16.007,False,,current,,False,True,,
+461455,24,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-19T21:00,2022-09-20T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-20T02:45:16.690,False,,current,,False,True,,
+461455,25,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-20T21:00,2022-09-21T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-20T04:30:17.810,False,,current,,False,True,,
+461455,26,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-20T21:00,2022-09-21T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-20T20:30:16.397,False,,current,,False,True,,
+461455,27,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-20T21:00,2022-09-21T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-21T02:45:16.793,False,,current,,False,True,,
+461455,28,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-21T21:00,2022-09-22T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-21T04:30:15.890,False,,current,,False,True,,
+461455,29,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-21T21:00,2022-09-22T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-21T20:30:16.007,False,,current,,False,True,,
+461455,30,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-21T21:00,2022-09-22T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-22T02:45:16.177,False,,current,,False,True,,
+461455,31,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-22T21:00,2022-09-23T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-22T04:30:17.820,False,,current,,False,True,,
+461455,32,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-22T21:00,2022-09-23T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-22T20:30:16.700,False,,current,,False,True,,
+461455,33,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-22T21:00,2022-09-23T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-23T02:45:16.647,False,,current,,False,True,,
+461455,34,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-23T21:00,2022-09-24T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-23T04:30:16.327,False,,current,,False,True,,
+461455,35,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-23T21:00,2022-09-24T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-23T20:30:16.273,False,,current,,False,True,,
+461455,36,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-23T21:00,2022-09-24T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-24T02:45:15.993,False,,current,,False,True,,
+461455,37,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-24T21:00,2022-09-25T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-24T04:30:17.283,False,,current,,False,True,,
+461455,38,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-24T21:00,2022-09-25T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-24T20:30:16.500,False,,current,,False,True,,
+461455,39,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-24T21:00,2022-09-25T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-25T02:45:16.050,False,,current,,False,True,,
+461455,40,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-25T21:00,2022-09-26T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-25T04:30:17.307,False,,current,,False,True,,
+461455,41,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-25T21:00,2022-09-26T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-25T20:30:16.703,False,,current,,False,True,,
+461455,42,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-25T21:00,2022-09-26T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-26T02:45:16.210,False,,current,,False,True,,
+461455,43,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-26T21:00,2022-09-27T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-26T04:30:17.587,False,,current,,False,True,,
+461455,44,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-26T21:00,2022-09-27T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-26T20:30:16.490,False,,current,,False,True,,
+461455,45,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-26T21:00,2022-09-27T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-27T02:45:16.167,False,,current,,False,True,,
+461455,46,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-27T21:00,2022-09-28T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-27T04:30:17.460,False,,current,,False,True,,
+461455,47,Recurring,,Bus,Stop Move,95; Mystic Ave opp Kensington Ave,construction,information,2022-09-27T21:00,2022-09-28T02:30,2022-09-13T14:48:36.557,further notice,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,further notice,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",autotimeframeupdate,2022-09-27T14:49:16.040,False,,current,,False,True,,
+461455,48,Recurring,,Bus,Stop Move,,construction,information,2022-12-21T21:00,2022-12-21T12:21:31.763,2022-09-13T14:48:36.557,2022-12-21T12:21:31.763,21:00:00,26:30:00,"Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday",2022-09-13T14:48:36.557,2022-12-21T12:21:31.763,"Route 95 Stop Move: Mystic Ave opp Kensington Ave (outbound) will be temporarily moved to Middlesex Ave @ Foley St starting from 9 PM until the end of service, daily, until further notice.",,,,,False,,False,False,False,,,"Affected routes:
+95",Eryk.Rotondo,2022-12-21T12:21:31.763,True,,past,,False,True,,
+465912,1,One-time,,Bus,Stop Move,"88, 90; Highland Ave @ Vinal Ave",,information,2022-10-06T13:31:25.227,2022-12-04T02:30,,,,,,2022-10-06T13:31:25.227,2022-12-04T02:30,The stop at Highland Ave @ Vinal Ave has been moved to the far side of Vinal Ave. by the city of Somerville.,,,,,False,,True,False,False,,,"Affected routes:
+88
+90",eryk.rotondo,2022-10-06T13:31:32.163,False,,current,,False,True,,
+465912,2,One-time,,Bus,Stop Move,"88, 90; Highland Ave @ Vinal Ave",,information,2022-10-06T13:31:25.227,2022-12-04T02:30,,,,,,2022-10-06T13:31:25.227,2022-12-04T02:30,The stop at Highland Ave @ Vinal Ave has been moved to the far side of Vinal Ave. by the city of Somerville.,,,,,False,,False,False,False,,,"Affected routes:
+88
+90",autotimeframeupdate,2022-11-27T04:30:17.570,False,,current,,False,True,,
+465912,3,One-time,,Bus,Stop Move,"88, 90; Highland Ave @ Vinal Ave",,information,2022-10-06T13:31:25.227,2022-12-04T02:30,,,,,,2022-10-06T13:31:25.227,2022-12-04T02:30,The stop at Highland Ave @ Vinal Ave has been moved to the far side of Vinal Ave. by the city of Somerville.,,,,,False,,False,False,False,,,"Affected routes:
+88
+90",autotimeframeupdate,2022-12-02T04:30:17.010,False,,current,,False,True,,
+465912,4,One-time,,Bus,Stop Move,"88, 90; Highland Ave @ Vinal Ave",,information,2022-10-06T13:31:25.227,2022-12-04T02:30,,,,,,2022-10-06T13:31:25.227,2022-12-04T02:30,The stop at Highland Ave @ Vinal Ave has been moved to the far side of Vinal Ave. by the city of Somerville.,,,,,False,,False,False,False,,,"Affected routes:
+88
+90",autotimeframeupdate,2022-12-03T04:30:16.680,False,,current,,False,True,,
+465912,5,One-time,,Bus,Stop Move,,,information,2022-10-06T13:31:25.227,2022-12-04T02:30,,,,,,2022-10-06T13:31:25.227,2022-12-04T02:30,The stop at Highland Ave @ Vinal Ave has been moved to the far side of Vinal Ave. by the city of Somerville.,,,,,False,,False,False,False,,,"Affected routes:
+88
+90",expiry,2022-12-04T02:30:16.607,True,,past,,False,True,,
+466623,1,One-time,,Bus,Stop Move,"28, 29; Blue Hill Ave @ Morton St",construction,information,2022-10-11T09:33:12.401,later today,,,,,,2022-10-11T09:33:12.400,2022-10-12T02:30,The stop at Blue Hill Ave @ Morton St will be temporarily moving to the far side of Morton St due to construction.,,,,,False,,True,False,False,,,"Affected routes:
+28
+29",eryk.rotondo,2022-10-11T09:33:16.727,False,,current,,False,True,,
+466623,2,One-time,,Bus,Stop Move,,construction,information,2022-10-11T09:33:12.401,2022-10-12T02:25:16.873,,,,,,2022-10-11T09:33:12.400,2022-10-12T02:25:16.873,The stop at Blue Hill Ave @ Morton St will be temporarily moving to the far side of Morton St due to construction.,,,,,False,,False,False,False,,,"Affected routes:
+28
+29",expiry,2022-10-12T02:25:16.873,True,,past,,False,True,,
+469405,1,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32:46.042,2022-12-25T10:32,,,,,,2022-10-26T10:32:46.043,2022-12-25T10:32,The stop at Concord Ave @ Garden St has been moved 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,True,False,False,,,"Affected routes:
+74
+75
+78",dchoy,2022-10-26T10:32:48.113,False,,current,,False,True,,
+469405,2,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,"Beginning Oct 27, the stop at Concord Ave @ Garden St is moved 100 feet south and east. It is to the south of the crosswalk across Garden St.",,,,,False,,True,False,False,,,"Affected routes:
+74
+75
+78",dchoy,2022-10-26T10:33:59.850,False,,current,,False,True,,
+469405,3,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,The stop at Concord Ave @ Garden St has 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,False,False,False,,,"Affected routes:
+74
+75
+78",eryk.rotondo,2022-10-31T12:48:36.457,False,,current,,False,True,,
+469405,4,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,The stop at Concord Ave @ Garden St has moved 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,False,False,False,,,"Affected routes:
+74
+75
+78",eryk.rotondo,2022-11-02T05:55:31.513,False,,current,,False,True,,
+469405,5,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,The stop at Concord Ave @ Garden St has moved 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,False,False,False,,,"Affected routes:
+74
+75
+78",autotimeframeupdate,2022-12-19T04:30:16.450,False,,current,,False,True,,
+469405,6,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,The stop at Concord Ave @ Garden St has moved 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,False,False,False,,,"Affected routes:
+74
+75
+78",autotimeframeupdate,2022-12-24T04:30:15.697,False,,current,,False,True,,
+469405,7,One-time,,Bus,Stop Move,"74, 75, 78; Concord Ave @ Garden St",,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,The stop at Concord Ave @ Garden St has moved 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,False,False,False,,,"Affected routes:
+74
+75
+78",autotimeframeupdate,2022-12-25T04:30:16.180,False,,current,,False,True,,
+469405,8,One-time,,Bus,Stop Move,,,information,2022-10-26T10:32,2022-12-25T10:32,,,,,,2022-10-26T10:32,2022-12-25T10:32,The stop at Concord Ave @ Garden St has moved 100 feet south and east. It is to the south of the crosswalk across Garden St.,,,,,False,,False,False,False,,,"Affected routes:
+74
+75
+78",expiry,2022-12-25T10:32:16.453,True,,past,,False,True,,
+476268,1,One-time,,Bus,Stop Move,236;  Franklin St @ Washington St,construction,information,2022-12-06T20:55:47.310,2022-12-07T05:30,,,,,,2022-12-06T20:55:47.310,2022-12-07T05:30,TEST: Franklin St @ Washington St stop moving from 5:55 PM to end of service due to construction,,,,,False,,False,False,False,,,"Affected routes:
+236",ibi.shared.user,2022-12-06T20:55:49.363,False,,current,,False,True,,
+476268,2,One-time,,Bus,Stop Move,236;  Franklin St @ Washington St,construction,information,2022-12-06T20:55:47.310,2022-12-07T05:30,,,,,,2022-12-06T20:55:47.310,2022-12-07T05:30,TEST: Franklin St @ Washington St stop moving from 5:55 PM to end of service due to construction,,,,,False,,False,False,False,,,"Affected routes:
+236",autotimeframeupdate,2022-12-06T20:56:16.673,False,,current,,False,True,,
+476268,3,One-time,,Bus,Stop Move,,construction,information,2022-12-06T20:55:47.310,2022-12-06T20:56:59.083,,,,,,2022-12-06T20:55:47.310,2022-12-06T20:56:59.083,TEST: Franklin St @ Washington St stop moving from 5:55 PM to end of service due to construction,,,,,False,,False,False,False,,,"Affected routes:
+236",ibi.shared.user,2022-12-06T20:56:59.083,True,,past,,False,True,,
+477287,1,One-time,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2022-12-17T04:30,2022-12-19T02:30,,,,,,2022-12-13T12:02:02.850,2022-12-19T02:30,The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Dec 17 - 18. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ,,,,,False,,True,False,False,,,,Eryk.Rotondo,2022-12-13T12:02:14.933,False,,current,,False,True,,
+477287,2,One-time,,Bus,Stop Move,,construction,information,2022-12-17T04:30,2022-12-16T10:00:26.893,,,,,,2022-12-13T12:02:02.850,2022-12-16T10:00:26.893,The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Dec 17 - 18. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ,,,,,False,,False,False,False,,,,nicholas.tomkavage,2022-12-16T10:00:26.893,True,,past,,False,True,,
+480941,1,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-14T04:30,2023-01-15T02:30,2023-01-14T04:30,2023-01-23T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-10T10:50:03.280,2023-01-23T02:30,The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15 & 21 - 22. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ,,,,,False,,True,False,False,,,,Eryk.Rotondo,2023-01-10T10:50:04.390,False,,current,,False,True,,
+480941,2,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-14T04:30,2023-01-15T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-11T19:12:47.580,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,True,False,False,,,,paul.hathaway,2023-01-11T19:12:48.450,False,,current,,False,True,,
+480941,3,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-14T04:30,2023-01-15T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,Eryk.Rotondo,2023-01-12T06:02:50.510,False,,current,,False,True,,
+480941,4,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-14T04:30,2023-01-15T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-13T04:30:17.607,False,,current,,False,True,,
+480941,5,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-14T04:30,2023-01-15T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-14T04:00:16.060,False,,current,,False,True,,
+480941,6,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-14T04:30,2023-01-15T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-15T02:45:16.660,False,,current,,False,True,,
+480941,7,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-15T04:30,2023-01-16T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-15T04:00:16.247,False,,current,,False,True,,
+480941,8,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-15T04:30,2023-01-16T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-16T02:45:16.457,False,,current,,False,True,,
+480941,9,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-21T04:30,2023-01-22T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-20T04:30:16.220,False,,current,,False,True,,
+480941,10,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-21T04:30,2023-01-22T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-21T04:00:16.563,False,,current,,False,True,,
+480941,11,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-21T04:30,2023-01-22T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-22T02:45:16.090,False,,current,,False,True,,
+480941,12,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-22T04:30,2023-01-23T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-22T04:00:16.300,False,,current,,False,True,,
+480941,13,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-22T04:30,2023-01-23T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-23T02:45:17.070,False,,current,,False,True,,
+480941,14,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-28T04:30,2023-01-29T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-29T02:45:17.627,False,,current,,False,True,,
+480941,15,Recurring,,Bus,Stop Move,"71, 73; Mt Auburn St @ Mt Auburn Hospital",construction,information,2023-01-29T04:30,2023-01-30T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,autotimeframeupdate,2023-01-29T04:30:17.393,False,,current,,False,True,,
+480941,16,Recurring,,Bus,Stop Move,,construction,information,2023-01-29T04:30,2023-01-30T02:30,2023-01-14T04:30,2023-01-30T02:30,04:30:00,26:30:00,"Saturday, Sunday",2023-01-12T06:02:49.247,2023-01-30T02:30,"The Route 71 & 73 stop at Mt Auburn St @ Mt Auburn Hospital will be moving opposite Channing St due to construction on Jan 14 - 15, Jan 21 - 22, and Jan 28 - 29. Riders can use the temporary stop or Mt Auburn St opp Sparks St. ",,,,,False,,False,False,False,,,,expiry,2023-01-30T02:30:16.347,True,,past,,False,True,,
+482055,1,One-time,,Bus,Stop Move,55; Dalton St @ Boylston St,construction,information,2021-06-28T04:30,further notice,,,,,,2021-06-07T17:51,further notice,Dalton St @ Boylston St is closed due to construction. Routes 55 and 193 will board/alight on the far side of Dalton St @ Belvidere St (in front of the Sheraton Hotel).,,,,,False,,True,False,False,,,"Affected routes:
+55",dchoy,2023-01-19T15:47:18.007,False,,current,,False,True,,
+482055,2,One-time,,Bus,Stop Move,,construction,information,2021-06-28T04:30,2023-01-19T15:47:38.870,,,,,,2021-06-07T17:51,2023-01-19T15:47:38.870,Dalton St @ Boylston St is closed due to construction. Routes 55 and 193 will board/alight on the far side of Dalton St @ Belvidere St (in front of the Sheraton Hotel).,,,,,False,,False,False,False,,,"Affected routes:
+55",dchoy,2023-01-19T15:47:38.870,True,,past,,False,True,,

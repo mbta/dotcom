@@ -4,7 +4,8 @@ import {
   SimpleStopMap,
   RoutePatternsByDirection,
   ServiceInSelector,
-  SelectedOrigin
+  SelectedOrigin,
+  ScheduleNote
 } from "../__schedule";
 import Modal from "../../../components/Modal";
 import OriginModalContent from "./OriginModalContent";
@@ -26,6 +27,7 @@ interface Props {
   today: string;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   handleOriginSelectClick: () => void;
+  scheduleNote: ScheduleNote | null;
 }
 
 const ScheduleFinderModal = ({
@@ -41,7 +43,8 @@ const ScheduleFinderModal = ({
   stops,
   today,
   updateURL,
-  handleOriginSelectClick
+  handleOriginSelectClick,
+  scheduleNote
 }: Props): ReactElement => {
   const handleChangeDirection = (newDirection: DirectionId): void => {
     if (directionChanged) directionChanged(newDirection);
@@ -78,6 +81,7 @@ const ScheduleFinderModal = ({
       services={services}
       stops={stops}
       today={today}
+      scheduleNote={scheduleNote}
     />
   );
 

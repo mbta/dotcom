@@ -1,5 +1,6 @@
 /* eslint-disable */
 import Filter from "bad-words";
+import * as Sentry from "@sentry/browser";
 
 // Some FormData methods like .set or .get are not supported in IE:
 // (https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility)
@@ -114,8 +115,8 @@ export function clearFallbacks($) {
 function setupPhotoPreviews($, toUpload) {
   const $container = $(".photo-preview-container");
   $("#photo").change(function() {
-    if (this.files.length >= 1) {
-      resizeAndHandleUploadedFile($, this.files[0], $container, toUpload);
+    for (const file of this.files) {
+      resizeAndHandleUploadedFile($, file, $container, toUpload);
     }
   });
 }
@@ -545,7 +546,12 @@ export function handleSubmitClick($, toUpload) {
         reactivateSubmitButton($);
         $("#support-form").remove();
       },
-      error: () => {
+      error: (xhr, errorString, errorObject) => {
+        console.error(errorString);
+        Sentry.captureException(errorObject, {
+          tags: { "dotcom.application": "frontend", "support.form": true },
+          extra: { errorStatus: errorString, formData: formData }
+        });
         $(".support-confirmation--error")
           .removeClass("hidden-xs-up")
           .focus();

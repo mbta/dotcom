@@ -79,7 +79,7 @@
       <div class="photo-preview-container <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
       </div>
       <a id="upload-photo-link" class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload photo</a>
-      <%= file_input f, :photo, accept: "image/*", id: "photo" %>
+      <%= file_input f, :photo, accept: "image/*", id: "photo", multiple: true %>
     </div>
   </section>
   <section>

@@ -26,49 +26,22 @@ defmodule SiteWeb.ScheduleViewTest do
     end
   end
 
-  describe "reverse_direction_opts/4" do
-    test "reverses direction when the stop exists in the other direction" do
+  describe "reverse_direction_opts/1" do
+    test "reverses direction" do
       expected = [
         trip: nil,
         schedule_direction: %{
-          direction_id: "1",
-          destination: "place-harsq",
-          origin: "place-davis"
+          direction_id: "1"
         }
       ]
 
-      actual =
-        reverse_direction_opts(
-          %Stops.Stop{id: "place-harsq"},
-          %Stops.Stop{id: "place-davis"},
-          "1"
-        )
+      actual = reverse_direction_opts("1")
 
-      assert Enum.sort(expected) == Enum.sort(actual)
-    end
-
-    test "reverses direction when origin and destination aren't selected" do
-      expected = [
-        trip: nil,
-        schedule_direction: %{direction_id: "1", destination: nil, origin: nil}
-      ]
-
-      actual = reverse_direction_opts(nil, nil, "1")
-      assert Enum.sort(expected) == Enum.sort(actual)
-    end
-
-    test "maintains origin when there's no destination selected" do
-      expected = [
-        trip: nil,
-        schedule_direction: %{direction_id: "1", destination: nil, origin: "place-davis"}
-      ]
-
-      actual = reverse_direction_opts(%Stops.Stop{id: "place-davis"}, nil, "1")
       assert Enum.sort(expected) == Enum.sort(actual)
     end
   end
 
-  describe "no_trips_message/5" do
+  describe "no_trips_message/3" do
     test "when a no service error is provided" do
       error = %JsonApi.Error{
         code: "no_service",
@@ -77,7 +50,7 @@ defmodule SiteWeb.ScheduleViewTest do
 
       result =
         error
-        |> no_trips_message(nil, nil, nil, ~D[2017-01-01])
+        |> no_trips_message(nil, ~D[2017-01-01])
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary()
 
@@ -89,34 +62,32 @@ defmodule SiteWeb.ScheduleViewTest do
       result =
         no_trips_message(
           nil,
-          %Stops.Stop{name: "The Start"},
-          %Stops.Stop{name: "The End"},
           nil,
           ~D[2017-03-05]
         )
 
       assert IO.iodata_to_binary(result) ==
-               "There are no scheduled trips between The Start and The End on March 5, 2017."
+               "There are no scheduled trips on March 5, 2017."
     end
 
     test "when a direction is provided" do
-      result = no_trips_message(nil, nil, nil, "Inbound", ~D[2017-03-05])
+      result = no_trips_message(nil, "Inbound", ~D[2017-03-05])
 
       assert IO.iodata_to_binary(result) ==
                "There are no scheduled inbound trips on March 5, 2017."
     end
 
     test "fallback when nothing is available" do
-      result = no_trips_message(nil, nil, nil, nil, nil)
+      result = no_trips_message(nil, nil, nil)
       assert IO.iodata_to_binary(result) == "There are no scheduled trips."
     end
 
     test "does not downcase non-traditional directions" do
-      error = origin = destination = nil
+      error = nil
       # CR-Foxboro
       direction = "TF Green Airport"
       date = ~D[2017-11-01]
-      result = no_trips_message(error, origin, destination, direction, date)
+      result = no_trips_message(error, direction, date)
 
       assert IO.iodata_to_binary(result) ==
                "There are no scheduled TF Green Airport trips on November 1, 2017."
@@ -462,6 +433,16 @@ defmodule SiteWeb.ScheduleViewTest do
                  date: ~D[2019-10-20]
                })
              )
+    end
+  end
+
+  describe "is_station?" do
+    test "returns true if stop is station" do
+      assert is_station?(%Stop{id: "place-north", station?: true}) == true
+    end
+
+    test "returns false if stop is not a station" do
+      assert is_station?(%Stop{id: "11257", station?: false}) == false
     end
   end
 end

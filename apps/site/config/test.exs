@@ -27,9 +27,9 @@ config :recaptcha, http_client: Recaptcha.Http.MockClient
 
 config :wallaby,
   screenshot_on_failure: false,
-  driver: Wallaby.Experimental.Chrome,
+  driver: Wallaby.Chrome,
   max_wait_time: 5_000,
-  chrome: [
+  chromedriver: [
     headless: true
   ],
   js_errors: true

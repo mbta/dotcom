@@ -13,9 +13,7 @@ defmodule Fares.ProposedLocations do
   @spec by_lat_lon(%LocationService.Address{}) :: [Location.t()] | nil
   def by_lat_lon(%{latitude: lat, longitude: lon}) do
     url =
-      "#{@base_url}&where=1%3D1&geometry=#{lon}%2C+#{lat}&geometryType=esriGeometryPoint&distance=#{
-        @distance_in_miles
-      }&units=esriSRUnit_StatuteMile"
+      "#{@base_url}&where=1%3D1&geometry=#{lon}%2C+#{lat}&geometryType=esriGeometryPoint&distance=#{@distance_in_miles}&units=esriSRUnit_StatuteMile"
 
     get_parsed_proposed_locations(url)
   end

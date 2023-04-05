@@ -17,13 +17,10 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(SiteWeb.Plugs.AlertsByTimeframe)
   plug(SiteWeb.ScheduleController.Defaults)
   plug(:stops_on_routes)
-  plug(:all_stops)
-  plug(SiteWeb.ScheduleController.OriginDestination)
   plug(:validate_direction)
   plug(:vehicle_locations)
   plug(:predictions)
   plug(SiteWeb.ScheduleController.VehicleTooltips)
-  plug(SiteWeb.ScheduleController.ExcludedStops)
   plug(SiteWeb.ScheduleController.Journeys)
   plug(:validate_journeys)
   plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
@@ -54,7 +51,6 @@ defmodule SiteWeb.ScheduleController.Green do
       "MBTA Green Line trolley stations and schedules, including maps, real-time updates, " <>
         "parking and accessibility information, and connections."
     )
-    |> call_plug(SiteWeb.ScheduleController.HoursOfOperation)
     |> call_plug(SiteWeb.ScheduleController.Holidays)
     |> call_plug(SiteWeb.ScheduleController.Line)
     |> call_plug(SiteWeb.ScheduleController.CMS)
@@ -73,16 +69,6 @@ defmodule SiteWeb.ScheduleController.Green do
         _opts
       ) do
     assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
-  end
-
-  def all_stops(%Plug.Conn{assigns: %{stops_on_routes: stops_on_routes}} = conn, _params) do
-    case GreenLine.all_stops(stops_on_routes) do
-      {:error, _} ->
-        assign(conn, :all_stops, [])
-
-      stops ->
-        assign(conn, :all_stops, stops)
-    end
   end
 
   def predictions(conn, opts) do

@@ -1,6 +1,6 @@
 import React, { ReactElement, Reducer, useRef } from "react";
 import { SocketEvent } from "../../app/channels";
-import Map from "../../leaflet/components/Map";
+import LeafletMap from "../../leaflet/components/Map";
 import getBounds from "../../leaflet/bounds";
 import {
   MapData,
@@ -142,7 +142,7 @@ export const reducer: DataReducerType = (state, action) => {
   }
 };
 
-export default ({
+const Map = ({
   data,
   channel,
   currentShapes,
@@ -173,7 +173,9 @@ export default ({
   const bounds = useRef(getBounds(stopMarkers));
   return (
     <div className="m-schedule__map">
-      <Map bounds={bounds.current} mapData={mapData} />
+      <LeafletMap bounds={bounds.current} mapData={mapData} />
     </div>
   );
 };
+
+export default Map;

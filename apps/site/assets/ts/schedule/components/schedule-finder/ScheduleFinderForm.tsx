@@ -20,7 +20,7 @@ interface Props {
   stopsByDirection: SimpleStopMap;
 }
 
-export default ({
+const ScheduleFinderForm = ({
   onDirectionChange,
   onOriginChange,
   onSubmit = () => {},
@@ -135,3 +135,5 @@ export default ({
     </>
   );
 };
+
+export default ScheduleFinderForm;

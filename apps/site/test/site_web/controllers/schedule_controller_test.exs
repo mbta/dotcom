@@ -89,6 +89,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert List.last(stops).stop_features == [
                :red_line,
                :silver_line,
+               :bus,
                :commuter_rail,
                :access,
                :parking_lot
@@ -159,16 +160,23 @@ defmodule SiteWeb.ScheduleControllerTest do
       conn = get(conn, line_path(conn, :show, "Green", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Green Line"
 
-      # stops are in West order, Union Square -> Boston College (last stop on B)
-      {_, first_stop} = List.first(conn.assigns.all_stops)
-      {_, last_stop} = List.last(conn.assigns.all_stops)
+      assert [
+               %RouteStops{branch: "Green-E", stops: e_stops},
+               %RouteStops{branch: "Green-D", stops: _d_stops},
+               %RouteStops{branch: "Green-C", stops: _c_stops},
+               %RouteStops{branch: "Green-B", stops: b_stops}
+             ] = conn.assigns.branches
 
-      assert first_stop.id == "place-unsqu"
+      # stops are in West order, Medford/Tufts -> Boston College (last stop on B)
+      first_stop = List.first(e_stops)
+      last_stop = List.last(b_stops)
+
+      assert first_stop.id == "place-mdftf"
 
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert first_stop.stop_features == [:access]
+      assert first_stop.stop_features == [:bus, :access]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
@@ -216,7 +224,7 @@ defmodule SiteWeb.ScheduleControllerTest do
           )
         )
 
-      assert %RoutePattern{stop_ids: [_ | _] = stop_ids} =
+      assert %RoutePattern{stop_ids: [_ | _] = _stop_ids} =
                Enum.find(
                  conn.assigns.route_patterns[Integer.to_string(direction)],
                  &(&1.shape_id == variant)

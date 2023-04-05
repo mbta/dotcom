@@ -132,6 +132,7 @@
   align-items: center;
   display: inline-flex;
   font-weight: $font-weight-medium;
+  justify-content: space-between;
 }
 
 .m-timetable__stop-link {
@@ -142,26 +143,25 @@
 }
 
 .m-timetable__stop-icons {
-  flex: 0 0 25%;
-  text-align: right;
+  display: flex;
+  gap: .125em;
+  line-height: initial;
+
+  // tweak size to be closer to the non-FA icons
+  .fa {
+    font-size: calc(1em + 1.45px);
+  }
 }
 
 .m-timetable__stop-alert,
 .m-timetable__access-icon,
 .m-timetable__parking-icon {
+  align-self: stretch;
+  display: inline-flex; // better alignment in Edge
+
   @include media-breakpoint-down(sm) {
     font-size: 12px;
   }
-}
-
-.m-timetable__parking-icon .fa-square-parking {
-  font-size: calc(1em + 1.5px);
-  position: relative;
-  top: .04em;
-}
-
-.m-timetable__access-icon {
-  margin-left: .1em; // Forces word split of Stops at small breakpoints
 }
 
 .m-timetable__row,
@@ -270,8 +270,9 @@
   width: $base-spacing;
 }
 
-.m-timetable__time {
-  width: $base-spacing * 3.25;
+.js-train-icon {
+  display: inline-flex;
+  transform: translate(0, -10%);
 }
 
 .m-timetable__key-and-pdfs {

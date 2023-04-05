@@ -1,5 +1,6 @@
 defmodule Routes.RepoTest do
   use ExUnit.Case, async: true
+  import Mock
   alias Routes.{Repo, Route}
 
   @routes_repo_api Application.get_env(:routes, :routes_repo_api)
@@ -103,6 +104,18 @@ defmodule Routes.RepoTest do
              } = @routes_repo_api.get("Red")
     end
 
+    test "should return a generated route for Massport Routes" do
+      assert %Route{
+               description: "Massport Generated Route",
+               id: "Massport-TEST",
+               long_name: "Massport-TEST",
+               name: "Massport-TEST",
+               type: "Massport-TEST",
+               custom_route?: true,
+               color: "000000"
+             } = Repo.get("Massport-TEST")
+    end
+
     test "returns nil for an unknown route" do
       refute @routes_repo_api.get("_unknown_route")
     end
@@ -133,6 +146,19 @@ defmodule Routes.RepoTest do
 
     test "returns no routes on nonexistant station" do
       assert [] = @routes_repo_api.by_stop("thisstopdoesntexist")
+    end
+
+    test "can include additional routes via stop connections" do
+      with_mock V3Api.Routes, [],
+        by_stop: &mock_routes_by_stop/1,
+        by_stop: &mock_routes_by_stop/2 do
+        routes = Routes.Repo.by_stop("initial-stop-id")
+        more_routes = Routes.Repo.by_stop("initial-stop-id", include: "stop.connecting_stops")
+        assert ["initial-route-id"] = Enum.map(routes, & &1.id)
+
+        assert ["connecting-route-id-1", "connecting-route-id-2", "initial-route-id"] =
+                 Enum.map(more_routes, & &1.id)
+      end
     end
   end
 
@@ -260,5 +286,69 @@ defmodule Routes.RepoTest do
     green_line = Repo.green_line()
     assert green_line.id == "Green"
     assert green_line.name == "Green Line"
+  end
+
+  defp mock_routes_by_stop("connecting-stop-id") do
+    %JsonApi{
+      data: [
+        %JsonApi.Item{
+          id: "connecting-route-id-1",
+          attributes: %{
+            "direction_names" => ["Outbound", "Inbound"],
+            "direction_destinations" => ["Start", "End"],
+            "long_name" => "Connecting route at this stop"
+          }
+        },
+        %JsonApi.Item{
+          id: "connecting-route-id-2",
+          attributes: %{
+            "direction_names" => ["Outbound", "Inbound"],
+            "direction_destinations" => ["Start", "End"],
+            "long_name" => "Another connecting route at this stop"
+          }
+        }
+      ]
+    }
+  end
+
+  defp mock_routes_by_stop("initial-stop-id", include: "stop.connecting_stops") do
+    %JsonApi{
+      data: [
+        %JsonApi.Item{
+          id: "initial-route-id",
+          attributes: %{
+            "direction_names" => ["Outbound", "Inbound"],
+            "direction_destinations" => ["Start", "End"],
+            "long_name" => "Route with stops and connections"
+          },
+          relationships: %{
+            "stop" => [
+              %JsonApi.Item{
+                id: "initial-stop-id",
+                relationships: %{
+                  "connecting_stops" => [%JsonApi.Item{id: "connecting-stop-id"}]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  end
+
+  defp mock_routes_by_stop("initial-stop-id", _opts) do
+    %JsonApi{
+      data: [
+        %JsonApi.Item{
+          id: "initial-route-id",
+          attributes: %{
+            "direction_names" => ["Outbound", "Inbound"],
+            "direction_destinations" => ["Start", "End"],
+            "long_name" => "Route with stops and connections"
+          },
+          relationships: %{}
+        }
+      ]
+    }
   end
 end

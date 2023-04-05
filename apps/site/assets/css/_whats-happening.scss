@@ -12,6 +12,11 @@
   }
 
   width: 100%;
+
+  .c-banner + &--promoted,
+  .c-banner + &--promoted .page-section {
+    margin-top: 0;
+  }
 }
 
 .m-whats-happening__row {

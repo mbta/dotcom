@@ -4,6 +4,7 @@ defmodule SiteWeb.StopController do
   """
   use SiteWeb, :controller
   alias Alerts.Alert
+  alias Alerts.Match
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
@@ -52,7 +53,32 @@ defmodule SiteWeb.StopController do
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(%Plug.Conn{query_params: query_params} = conn, %{"id" => stop}) do
+  def show(conn, %{"id" => stop_id} = params) do
+    if Laboratory.enabled?(conn, :stops_redesign) do
+      # TODO: Render relevant template with relevant data!
+      # SHOULD return a Plug.Conn, via a template. See:
+      # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/2
+      # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/3
+      conn
+      |> render("show-redesign.html", %{
+        stop_id: stop_id,
+        routes_by_stop: Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+      })
+    else
+      show_old(conn, params)
+    end
+  end
+
+  def schedules_for_stop(conn, %{"stop_id" => stop_id}) do
+    # we should only cache figure out what, and how long to cache
+    # Real time should be a separate request (this is only scheduled)
+    # Should not return past schedules by default
+    schedules = Schedules.ByStop.SchedulesByStopRepo.departures_for_stop(stop_id, [])
+    json(conn, schedules)
+  end
+
+  @spec show_old(Plug.Conn.t(), map()) :: Plug.Conn.t()
+  def show_old(%Plug.Conn{query_params: query_params} = conn, %{"id" => stop}) do
     stop =
       stop
       |> URI.decode_www_form()
@@ -91,7 +117,8 @@ defmodule SiteWeb.StopController do
 
             alerts =
               all_alerts
-              |> Enum.filter(&(Alerts.Match.match([&1], entity) == [&1]))
+              |> Enum.filter(&(Match.match([&1], entity) == [&1]))
+              |> Enum.filter(&Match.any_time_match?(&1, conn.assigns.date_time))
               |> json_safe_alerts(conn.assigns.date_time)
 
             {route.id, alerts}
@@ -138,6 +165,11 @@ defmodule SiteWeb.StopController do
   @spec tab_value(String.t() | nil) :: String.t()
   defp tab_value("alerts"), do: "alerts"
   defp tab_value(_), do: "info"
+
+  @spec get(Conn.t(), map) :: Conn.t()
+  def get(conn, %{"id" => stop_id}) do
+    json(conn, Repo.get(stop_id))
+  end
 
   @spec api(Conn.t(), map) :: Conn.t()
   def api(conn, %{"id" => stop_id}) do

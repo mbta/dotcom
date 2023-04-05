@@ -8,6 +8,7 @@ import crTripDataWithDelays from "../../__tests__/test-data/crTripInfoWithDelays
 import tripData from "../../__tests__/test-data/tripInfo.json";
 import tripDataWithPredictions from "../../__tests__/test-data/tripInfoWithPredictions.json";
 import TripDetails from "../TripDetails";
+import { render, screen } from "@testing-library/react";
 
 const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
 const crTripInfo: TripInfo = (crTripData as unknown) as TripInfo;
@@ -15,6 +16,16 @@ const tripInfoWithPredictions: TripInfo = (tripDataWithPredictions as unknown) a
 const crTripInfoWithDelays: TripInfo = (crTripDataWithDelays as unknown) as TripInfo;
 
 describe("TripDetails", () => {
+  it("should return null if there is no trip info", () => {
+    const journey = { realtime: { prediction: null } } as any;
+    render(
+      <div data-testid="should-be-empty">
+        <TripDetails tripInfo={null} showFare={false} />
+      </div>
+    );
+    expect(screen.getByTestId("should-be-empty")).toBeEmptyDOMElement();
+  });
+
   it("it renders trip details for a bus trip", () => {
     createReactRoot();
     const tree = renderer.create(

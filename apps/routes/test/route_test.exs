@@ -164,11 +164,8 @@ defmodule Routes.RouteTest do
 
   describe "silver_line?/1" do
     test "returns true if a route id is in @silver_line" do
-      for id <- silver_line() do
-        assert id |> Repo.get() |> silver_line?()
-      end
-
-      refute "352" |> Repo.get() |> silver_line?()
+      assert %Routes.Route{id: "741"} |> silver_line?()
+      refute %Routes.Route{id: "747"} |> silver_line?()
     end
   end
 

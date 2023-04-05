@@ -1,6 +1,11 @@
 defmodule Services.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   alias Services.{Repo, Service}
+
+  setup_all do
+    _ = RepoCache.Application.start(:permanent, [])
+    :ok
+  end
 
   test "by_route_id fetches services for a route" do
     assert [%Service{} | _] = Repo.by_route_id("Red")

@@ -31,7 +31,21 @@ defmodule Routes.Repo do
     end
   end
 
+  # Used to spoof any Massport route as the data doesn't exist in the API
+  # But is in the GTFS data
   @impl Routes.RepoApi
+  def get("Massport-" <> id) do
+    %Route{
+      description: "Massport Generated Route",
+      id: "Massport-" <> id,
+      long_name: "Massport-" <> id,
+      name: "Massport-" <> id,
+      type: "Massport-" <> id,
+      custom_route?: true,
+      color: "000000"
+    }
+  end
+
   def get(id) when is_binary(id) do
     opts = @default_opts
 
@@ -163,8 +177,11 @@ defmodule Routes.Repo do
   def handle_response(%{data: data}) do
     {:ok,
      data
+     |> Enum.flat_map(&fetch_connecting_routes_via_stop/1)
      |> Enum.reject(&Route.hidden?/1)
-     |> Enum.map(&parse_route/1)}
+     |> Enum.map(&parse_route/1)
+     |> Enum.uniq()
+     |> Enum.sort_by(& &1.sort_order)}
   end
 
   @impl Routes.RepoApi
@@ -180,4 +197,23 @@ defmodule Routes.Repo do
       color: "00843D"
     }
   end
+
+  @spec fetch_connecting_routes_via_stop(JsonApi.Item.t()) ::
+          [JsonApi.Item.t()] | JsonApi.Item.t()
+  defp fetch_connecting_routes_via_stop(
+         %JsonApi.Item{
+           relationships: %{
+             "stop" => [%JsonApi.Item{relationships: %{"connecting_stops" => connecting_stops}}]
+           }
+         } = route
+       ) do
+    Enum.flat_map(connecting_stops, fn %JsonApi.Item{id: stop_id} ->
+      case V3Api.Routes.by_stop(stop_id) do
+        %JsonApi{data: data} -> data
+        _ -> []
+      end
+    end) ++ [route]
+  end
+
+  defp fetch_connecting_routes_via_stop(route), do: [route]
 end

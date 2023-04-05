@@ -1,3 +1,8 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-underscore-dangle */
 import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
 import { TripPlannerLocControls } from "../trip-planner-location-controls";
@@ -47,6 +52,7 @@ describe("trip-plan", () => {
 
     it("swaps the contents of to and from and the from/to lat/lng", () => {
       const tripPlannerLocControls = new TripPlannerLocControls();
+      // eslint-disable-next-line no-shadow
       const $ = window.jQuery;
       const $from = $("#from");
       const $from_lat = $("#from_latitude");

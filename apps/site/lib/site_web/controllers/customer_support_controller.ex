@@ -5,6 +5,9 @@ defmodule SiteWeb.CustomerSupportController do
   require Logger
 
   @allowed_attachment_types ~w(image/bmp image/gif image/jpeg image/png image/tiff image/webp)
+  # Max 6 files per ticket, max 2 MB for single attachment
+  @file_count_limit 6
+  @file_size_limit 2_097_152
 
   @content_blocks [
     %{
@@ -105,6 +108,8 @@ defmodule SiteWeb.CustomerSupportController do
         do_submit(conn, params)
 
       errors ->
+        _ = Logger.warn("#{__MODULE__} form validation failed: #{inspect(errors)}")
+
         conn
         |> put_status(400)
         |> render_form(%{errors: errors, comments: Map.get(params, "comments")})
@@ -157,7 +162,8 @@ defmodule SiteWeb.CustomerSupportController do
 
     case Hammer.check_rate("submit-feedback:#{ip}", rate_limit_interval, 1) do
       {:allow, _count} ->
-        {:ok, pid} = Task.start(__MODULE__, :send_ticket, [data])
+        attachments = photo_attachments(data["photos"])
+        {:ok, pid} = Task.start(__MODULE__, :send_ticket, [data, attachments])
         conn = Plug.Conn.put_private(conn, :ticket_task, pid)
         redirect(conn, to: customer_support_path(conn, :thanks))
 
@@ -169,6 +175,35 @@ defmodule SiteWeb.CustomerSupportController do
         |> render_form(%{errors: ["rate limit"]})
     end
   end
+
+  @spec photo_attachments([Plug.Upload.t()]) :: [%{path: String.t(), filename: String.t()}] | nil
+  defp photo_attachments([%Plug.Upload{} | _rest] = photos) do
+    attachments =
+      Enum.reduce(photos, [], fn %Plug.Upload{path: path, filename: filename}, acc ->
+        with {:ok, uploaded_file} <- File.read(path),
+             {:ok, %File.Stat{size: size}} when size <= @file_size_limit <- File.stat(path) do
+          [{simple_filename(filename), uploaded_file} | acc]
+        else
+          {:error, file_error} ->
+            # Sometimes a file isn't successfully uploaded. Ignore it here so that we can still send the email
+            _ =
+              Logger.warn(
+                "module=#{__MODULE__} error=#{:file.format_error(file_error)} failed_photo_attachment"
+              )
+
+            acc
+
+          _ ->
+            acc
+        end
+      end)
+
+    if Enum.empty?(attachments), do: nil, else: Enum.take(attachments, @file_count_limit)
+  end
+
+  defp photo_attachments(nil), do: nil
+
+  defp simple_filename(name), do: String.replace(name, ~r/(\s)+/, "-")
 
   defp render_form(conn, %{errors: errors, comments: comments}) do
     render(
@@ -316,6 +351,10 @@ defmodule SiteWeb.CustomerSupportController do
       {:error, [error]} when error in @expected_recaptcha_errors ->
         _ = Logger.warn("recaptcha failed_validation=#{error}")
         "recaptcha"
+
+      {:error, [:invalid_keys]} ->
+        _ = Logger.error("recaptcha invalid_keys")
+        "recaptcha"
     end
   end
 
@@ -344,9 +383,9 @@ defmodule SiteWeb.CustomerSupportController do
     end
   end
 
-  def send_ticket(params) do
+  def send_ticket(params, attachments) do
     Feedback.Repo.send_ticket(%Feedback.Message{
-      photos: params["photos"],
+      photos: attachments,
       email: params["email"],
       phone: params["phone"],
       first_name: params["first_name"],

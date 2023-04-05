@@ -3,7 +3,6 @@ defmodule Site.VehicleHelpersTest do
   TODO: Mock the underlying trip fetching
   """
   use ExUnit.Case, async: true
-  use ExVCRHelpers
 
   import VehicleHelpers
 
@@ -35,7 +34,7 @@ defmodule Site.VehicleHelpersTest do
   @tooltip_base @tooltips["place-sstat"]
 
   describe "build_tooltip_index/3" do
-    test_vcr "verify the Vehicle tooltip data" do
+    test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
       assert Map.has_key?(@tooltips, {"CR-554466-501", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
@@ -46,7 +45,7 @@ defmodule Site.VehicleHelpersTest do
       assert @tooltip_base.vehicle.status == :stopped
     end
 
-    test_vcr "it does not return a tooltip if a vehicle has a null stop_id" do
+    test "it does not return a tooltip if a vehicle has a null stop_id" do
       null_location = %{{"trip-1", nil} => %Vehicles.Vehicle{}}
       tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
 
@@ -150,7 +149,7 @@ defmodule Site.VehicleHelpersTest do
       assert result =~ "now boarding on track 4"
     end
 
-    test_vcr "Displays text based on vehicle status" do
+    test "Displays text based on vehicle status" do
       tooltip1 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :incoming}}
       tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
       tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
@@ -160,7 +159,7 @@ defmodule Site.VehicleHelpersTest do
       assert tooltip(tooltip3) =~ "Worcester train 501 is on the way to"
     end
 
-    test_vcr "does not include vehicle status if we don't have the name of the next stop" do
+    test "does not include vehicle status if we don't have the name of the next stop" do
       tooltip = %{
         @tooltip_base
         | vehicle: %Vehicles.Vehicle{status: :in_transit},
@@ -196,7 +195,7 @@ defmodule Site.VehicleHelpersTest do
   end
 
   describe "prediction_for_stop/2" do
-    test_vcr "do not crash if vehicle prediction does not contain a trip" do
+    test "do not crash if vehicle prediction does not contain a trip" do
       predictions = [
         %Predictions.Prediction{
           departing?: true,

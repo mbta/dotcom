@@ -107,14 +107,23 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   defp all_stops(conn, _) do
-    # we override the default fetch of all_stops to not use the date. We will
-    # use the date to fetch the actual schedule data.
     all_stops =
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
         date: conn.assigns.date
       )
 
-    assign(conn, :all_stops, all_stops)
+    case all_stops do
+      {:error, error} ->
+        :ok =
+          Logger.warn(
+            "module=#{__MODULE__} fun=all_stops error=#{inspect(error)} route=#{conn.assigns.route.id} direction_id=#{conn.assigns.direction_id} date=#{conn.assigns.date}"
+          )
+
+        conn
+
+      _ ->
+        assign(conn, :all_stops, all_stops)
+    end
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
@@ -145,9 +154,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   defp trip_schedule(schedule) do
     :ok =
       Logger.warn(
-        "module=#{__MODULE__} trip_schedule schedule=#{inspect(schedule)} #{
-          if is_nil(schedule.trip), do: "no_trip"
-        } #{if is_nil(schedule.stop), do: "no_stop"}"
+        "module=#{__MODULE__} trip_schedule schedule=#{inspect(schedule)} #{if is_nil(schedule.trip), do: "no_trip"} #{if is_nil(schedule.stop), do: "no_stop"}"
       )
 
     {{nil, nil}, schedule}
