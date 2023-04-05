@@ -9,6 +9,12 @@ defmodule SiteWeb.ScheduleController.GreenTest do
 
   @green_line @routes_repo_api.green_line()
 
+  setup_all do
+    # Start parent supervisor
+    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
+    :ok
+  end
+
   describe "schedule_path/3" do
     test "renders line tab without redirect when query_params doesn't include :tab", %{conn: conn} do
       conn = get(conn, schedule_path(conn, :show, "Green"))

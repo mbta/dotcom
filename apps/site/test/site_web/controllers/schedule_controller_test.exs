@@ -11,6 +11,12 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   @routes_repo_api Application.get_env(:routes, :routes_repo_api)
 
+  setup_all do
+    # Start parent supervisor
+    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
+    :ok
+  end
+
   describe "Bus" do
     test "uses a direction id to determine which stops to show", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "1", "schedule_direction[direction_id]": 0))

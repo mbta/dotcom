@@ -18,10 +18,17 @@ defmodule Alerts.Supervisor do
 
   @impl Supervisor
   def init(_arg) do
-    children = [
-      Alerts.Cache.Store,
-      {Alerts.Cache.Fetcher, api_mfa: @api_mfa}
-    ]
+    children =
+      [
+        Alerts.Cache.Store
+      ] ++
+        if Application.get_env(:elixir, :start_data_processes) do
+          [
+            {Alerts.Cache.Fetcher, api_mfa: @api_mfa}
+          ]
+        else
+          []
+        end
 
     Supervisor.init(children, strategy: :rest_for_one)
   end

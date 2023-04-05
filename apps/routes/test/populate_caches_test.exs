@@ -26,7 +26,7 @@ defmodule Routes.PopulateCachesTest do
   alias __MODULE__.FakeRepo
 
   setup do
-    {:ok, _} = Agent.start_link(&MapSet.new/0, name: FakeRepo)
+    _ = Agent.start_link(&MapSet.new/0, name: FakeRepo)
     :ok
   end
 

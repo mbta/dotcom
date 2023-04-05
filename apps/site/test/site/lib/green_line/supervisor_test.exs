@@ -4,6 +4,12 @@ defmodule Site.GreenLine.CacheSupervisorTest do
 
   import Site.GreenLine.CacheSupervisor
 
+  setup_all do
+    # Start parent supervisor
+    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
+    :ok
+  end
+
   test "CacheSupervisor is started along with registry" do
     assert {:error, {:already_started, _}} = start_link([])
 

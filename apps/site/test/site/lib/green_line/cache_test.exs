@@ -5,6 +5,8 @@ defmodule Site.GreenLine.CacheTest do
 
   setup_all do
     System.put_env("WARM_CACHES", "true")
+    # start parent supervisor
+    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
 
     on_exit(fn ->
       System.put_env("WARM_CACHES", "false")

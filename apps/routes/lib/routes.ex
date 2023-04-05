@@ -13,7 +13,8 @@ defmodule Routes do
     ]
 
     children =
-      if Application.get_env(:routes, :populate_caches?) do
+      if Application.get_env(:routes, :populate_caches?) and
+           Application.get_env(:elixir, :start_data_processes) do
         children ++
           [
             Routes.PopulateCaches
