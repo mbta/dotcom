@@ -6,12 +6,9 @@
   end
 
   alerts_grouped_by_municipality = if assigns[:past_alerts] do
-    grouped_by_municipality(@past_alerts)
-    |> Map.merge(grouped_by_municipality(@alerts), fn _muni, past_alerts, alerts ->
-      past_alerts ++ alerts
-    end)
+    keyed_by_municipality(@past_alerts ++ @alerts)
   else
-    grouped_by_municipality(@alerts)
+    keyed_by_municipality(@alerts)
   end
  %>
 <div class="container">

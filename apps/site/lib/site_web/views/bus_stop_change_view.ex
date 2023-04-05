@@ -1,8 +1,11 @@
 defmodule SiteWeb.BusStopChangeView do
   use SiteWeb, :view
-  alias Alerts.{Alert, HistoricalAlert}
   alias SiteWeb.AmbiguousAlert
   alias Stops.Stop
+
+  @type keyname :: String.t()
+  @type alerts_with_keys :: [{keyname, AmbiguiousAlert.t()}]
+  @type alerts_by_key :: [{keyname, [AmbiguiousAlert.t()]}]
 
   defdelegate affected_routes(alert), to: AmbiguousAlert
   defdelegate related_stops(alert), to: AmbiguousAlert
@@ -11,35 +14,57 @@ defmodule SiteWeb.BusStopChangeView do
   defdelegate time_range(alert), to: AmbiguousAlert
   defdelegate alert_item(alert, conn), to: AmbiguousAlert
 
-  def grouped_by_stop(alerts) do
+  def keyed_by_municipality(alerts) do
     alerts
+    |> Enum.map(&{alert_municipality(&1), &1})
+    |> sort_and_adjust_values(&keyed_by_stop/1)
+  end
+
+  @spec keyed_by_stop(alerts_with_keys) :: alerts_by_key
+  defp keyed_by_stop(keyed_alerts) do
+    keyed_alerts
     |> Enum.flat_map(&alert_with_related_stops/1)
-    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
-    |> sort_and_group_with_fn(fn alerts_list ->
+    |> sort_and_adjust_values(fn alerts_list ->
       Enum.sort_by(alerts_list, &alert_start_date/1)
     end)
   end
 
+  @spec alert_with_related_stops(AmbiguousAlert.t()) :: alerts_with_keys
   defp alert_with_related_stops(alert) do
     alert
     |> related_stops()
     |> Enum.map(&{&1, alert})
   end
 
-  def grouped_by_municipality(alerts) do
-    alerts
-    |> Enum.group_by(&alert_municipality/1)
-    |> sort_and_group_with_fn(&grouped_by_stop/1)
+  @spec sort_and_adjust_values(
+          alerts_by_key,
+          ([AmbiguiousAlert.t()] -> [AmbiguiousAlert.t()])
+        ) :: alerts_by_key
+  defp sort_and_adjust_values(keyed_alerts_list, alerts_func) do
+    keyed_alerts_list
+    |> Enum.reduce([], &collect_by_group/2)
+    |> Enum.map(fn {key, alerts} ->
+      # Apply function to the values
+      {key, alerts_func.(alerts)}
+    end)
+    # Sort whole list by keys
+    |> Enum.sort_by(&elem(&1, 0))
   end
 
-  # Remaps the grouped alerts by a given function, and sorts by group keys.
-  defp sort_and_group_with_fn(grouped_alerts_list, func) do
-    grouped_alerts_list
-    |> Enum.map(fn {key, alerts} ->
-      {key, func.(alerts)}
-    end)
-    |> Enum.sort_by(&elem(&1, 0))
-    |> Enum.into(%{})
+  @spec collect_by_group({keyname(), AmbiguousAlert.t()}, alerts_by_key()) :: alerts_by_key()
+  defp collect_by_group({group_key, alert}, alerts_with_group_keys) do
+    group_index =
+      alerts_with_group_keys
+      |> Enum.find_index(&(elem(&1, 0) == group_key))
+
+    if is_nil(group_index) do
+      [{group_key, [alert]} | alerts_with_group_keys]
+    else
+      alerts_with_group_keys
+      |> List.update_at(group_index, fn {gk, alerts} ->
+        {gk, [alert | alerts]}
+      end)
+    end
   end
 
   @spec time_filter_buttons(%Plug.Conn{}) :: Phoenix.HTML.Safe.t()
