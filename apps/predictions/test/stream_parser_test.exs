@@ -1,5 +1,5 @@
 defmodule Predictions.StreamParserTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   import Mock
   alias JsonApi.Item
   alias Predictions.{Prediction, StreamParser}
