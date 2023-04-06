@@ -7,8 +7,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
-  alias Schedules.Repo, as: SchedulesRepo
-  alias Schedules.Trip
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -272,29 +270,28 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
   list with a single RouteStops struct.
   """
-  @spec get_branches([Shape.t()], stops_by_route, Route.t(), direction_id) :: [
+  @spec get_branches([RoutePattern.t()], Route.t(), direction_id) :: [
           RouteStops.t()
         ]
-  def get_branches(_, stops, _, _) when stops == %{}, do: []
+  def get_branches([], _, _), do: []
 
-  def get_branches(shapes, stops, %Route{id: "Green"}, direction_id) do
+  def get_branches(route_patterns, %Route{id: "Green"}, direction_id) do
     GreenLine.branch_ids()
-    |> Enum.map(&get_green_branch(&1, stops[&1], shapes, direction_id))
+    |> Enum.map(&get_green_branch(&1, route_patterns, direction_id))
     |> Enum.reverse()
   end
 
-  def get_branches(shapes, stops, route, direction_id) do
-    RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
+  def get_branches(route_patterns, route, direction_id) do
+    RouteStops.by_direction(route_patterns, route, direction_id)
   end
 
   @spec get_green_branch(
           GreenLine.branch_name(),
-          [Stop.t()],
-          [Shape.t()],
+          [RoutePattern.t()],
           direction_id
         ) :: RouteStops.t()
-  defp get_green_branch(branch_id, stops, shapes, direction_id) do
-    shape_name =
+  defp get_green_branch(branch_id, route_patterns, direction_id) do
+    route_pattern_name =
       branch_id
       |> RoutesRepo.get()
       |> Map.get(:direction_destinations)
@@ -302,10 +299,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       |> Enum.join(" - ")
 
     branch =
-      shapes
+      route_patterns
       |> Enum.reject(&is_nil(&1.name))
-      |> Enum.filter(&(&1.name =~ shape_name))
-      |> get_branches(%{branch_id => stops}, %Route{id: branch_id, type: 0}, direction_id)
+      |> Enum.filter(&(&1.name =~ route_pattern_name))
+      |> get_branches(%Route{id: branch_id, type: 0}, direction_id)
       |> List.first()
 
     %{
@@ -330,32 +327,16 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp do_update_green_branch_stop(false, stop, branch_id), do: %{stop | branch: branch_id}
 
   @spec stops_for_route_pattern(RoutePattern.t()) :: {RoutePattern.t(), [Stop.t()]}
-  defp stops_for_route_pattern(route_pattern) do
+  defp stops_for_route_pattern(
+         %RoutePattern{representative_trip_id: representative_trip_id} = route_pattern
+       ) do
     stops =
-      route_pattern
-      |> trip_for_route_pattern()
-      |> shape_for_trip()
-      |> stops_for_shape()
+      representative_trip_id
+      |> Stops.Repo.by_trip()
+      |> Enum.map(&Stops.Repo.get_parent/1)
 
     {route_pattern, stops}
   end
-
-  @spec trip_for_route_pattern(RoutePattern.t()) :: Trip.t() | nil
-  defp trip_for_route_pattern(%RoutePattern{representative_trip_id: representative_trip_id}),
-    do: SchedulesRepo.trip(representative_trip_id)
-
-  @spec shape_for_trip(Trip.t() | nil) :: Shape.t() | nil
-  defp shape_for_trip(nil), do: nil
-
-  defp shape_for_trip(%Trip{shape_id: shape_id}) do
-    shape_id
-    |> RoutesRepo.get_shape()
-    |> List.first()
-  end
-
-  @spec stops_for_shape(Shape.t() | nil) :: [Stop.t()]
-  defp stops_for_shape(nil), do: []
-  defp stops_for_shape(%Shape{stop_ids: stop_ids}), do: Enum.map(stop_ids, &StopsRepo.get!/1)
 
   @spec get_line_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
           RoutePattern.t()

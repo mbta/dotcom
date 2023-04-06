@@ -3,8 +3,8 @@ defmodule Stops.RouteStops do
   Helpers for assembling a list of RouteStops.
   """
 
-  alias Routes.{Route, Shape}
-  alias Stops.{RouteStop, Stop}
+  alias Routes.Route
+  alias Stops.RouteStop
 
   defstruct [:branch, :stops]
 
@@ -21,16 +21,18 @@ defmodule Stops.RouteStops do
     Enum.map(route_stop_groups, &from_list/1)
   end
 
+  # Replace this logic to use route patterns in place of r, because RouteStop.list_from_shapes, should be lowkey impossible to accomplish now.
   @doc """
   Builds a list of all stops (as %RouteStop{}) on a route in a single direction.
   """
-  @spec by_direction([Stop.t()], [Shape.t()], Route.t(), direction_id_t) :: [
+  @spec by_direction([RoutePattern.t()], Route.t(), direction_id_t) :: [
           t()
         ]
-  def by_direction(stops, shapes, %Route{} = route, direction_id)
+  def by_direction(route_patterns, %Route{} = route, direction_id)
       when is_integer(direction_id) do
-    shapes
-    |> RouteStop.list_from_shapes(stops, route, direction_id)
+    route_patterns
+    |> with_stops()
+    |> RouteStop.list_from_route_patterns(route, direction_id)
     |> Task.async_stream(fn route_stop ->
       route_stop
       |> RouteStop.fetch_zone()
@@ -43,6 +45,11 @@ defmodule Stops.RouteStops do
     end)
     |> Enum.chunk_by(& &1.branch)
     |> Enum.map(&from_list/1)
+  end
+
+  defp with_stops(route_patterns) do
+    route_patterns
+    |> Enum.map(&{&1, Stops.Repo.by_trip(&1.representative_trip_id)})
   end
 
   @spec from_list([RouteStop.t()]) :: t()

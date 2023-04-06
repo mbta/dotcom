@@ -115,7 +115,7 @@ defmodule SiteWeb.ScheduleController.Line do
     # This is for rendering static map, as well as the CR dynamic map
     basic_shapes = LineHelpers.get_shapes_by_direction(route.id, route.type, direction_id)
 
-    static_branches = LineHelpers.get_branches(basic_shapes, route_stops, route, direction_id)
+    static_branches = LineHelpers.get_branches(route_patterns, route, direction_id)
 
     static_map_stops = Maps.map_stops(static_branches)
 

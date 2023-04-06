@@ -18,7 +18,7 @@ defmodule Stops.RouteStop do
   ```
 
   """
-  alias Routes.{Route, Shape}
+  alias Routes.Route
   alias RoutePatterns.RoutePattern
   alias Stops.{Repo, Stop}
 
@@ -153,115 +153,6 @@ defmodule Stops.RouteStop do
   defp branch_name(%RoutePattern{name: name}, false), do: name
 
   @doc """
-  Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
-  the branched stops appear grouped together in order as part of the list.
-  """
-  @spec list_from_shapes([Shape.t()], [Stop.t()], Route.t(), direction_id_t) ::
-          [RouteStop.t()]
-  # Can't build route stops if there are no stops or shapes
-  def list_from_shapes([], [], _route, _direction_id), do: []
-
-  def list_from_shapes([], [%Stop{} | _] = stops, route, _direction_id) do
-    # if the repo doesn't have any shapes, just fake one since we only need the name and stop_ids.
-
-    stops
-    |> List.last()
-    |> Map.get(:id)
-    |> do_list_from_shapes(Enum.map(stops, & &1.id), stops, route)
-  end
-
-  def list_from_shapes(
-        [%Shape{} = shape],
-        [%Stop{} | _] = stops,
-        route,
-        _direction_id
-      ) do
-    # If there is only one route shape, we know that we won't need to deal with merging branches so
-    # we just return whatever the list of stops is without calling &merge_branch_list/2.
-    do_list_from_shapes(shape.name, shape.stop_ids, stops, route)
-  end
-
-  def list_from_shapes(
-        [%Shape{} = shape | _],
-        stops,
-        %Route{type: 4} = route,
-        _direction_id
-      ) do
-    # for the ferry, for now, just return a single branch
-    do_list_from_shapes(shape.name, Enum.map(stops, & &1.id), stops, route)
-  end
-
-  def list_from_shapes(shapes, stops, %Route{id: "CR-Fairmount"} = route, 0) do
-    mainline = Enum.find(shapes, &(&1.name == "South Station - Readville via Fairmount"))
-    foxboro_extension = Enum.find(shapes, &(&1.name == "South Station - Foxboro via Fairmount"))
-
-    distinct_stop_ids =
-      if foxboro_extension do
-        mainline.stop_ids |> Enum.concat(foxboro_extension.stop_ids) |> Enum.uniq()
-      else
-        mainline.stop_ids
-      end
-
-    [do_list_from_shapes(mainline.name, distinct_stop_ids, stops, route)]
-    |> merge_branch_list(0)
-  end
-
-  def list_from_shapes(shapes, stops, %Route{id: "CR-Fairmount"} = route, 1) do
-    mainline = Enum.find(shapes, &(&1.name == "Readville - South Station via Fairmount"))
-
-    foxboro_extension =
-      Enum.find(shapes, &(&1.name == "Forge Park/495 - South Station via Fairmount"))
-
-    distinct_stop_ids =
-      if foxboro_extension do
-        ["place-FS-0049" | foxboro_extension.stop_ids]
-        |> Enum.concat(mainline.stop_ids)
-        |> Enum.uniq()
-      else
-        mainline.stop_ids
-      end
-
-    [do_list_from_shapes(foxboro_extension.name, distinct_stop_ids, stops, route)]
-    |> merge_branch_list(1)
-  end
-
-  def list_from_shapes(shapes, stops, route, direction_id) do
-    shapes
-    |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
-    |> merge_branch_list(direction_id)
-  end
-
-  @spec do_list_from_shapes(String.t(), [Stop.id_t()], [Stop.t()], Route.t()) ::
-          [RouteStop.t()]
-  defp do_list_from_shapes(shape_name, stop_ids, [%Stop{} | _] = stops, route) do
-    stops = Map.new(stops, &{&1.id, &1})
-
-    stop_ids
-    |> Enum.flat_map(fn stop_id ->
-      parent_stop_id =
-        stop_id
-        |> Repo.get_parent()
-        |> Map.fetch!(:id)
-
-      case Map.fetch(stops, parent_stop_id) do
-        {:ok, stop} -> [stop]
-        :error -> []
-      end
-    end)
-    |> Util.EnumHelpers.with_first_last()
-    |> Enum.with_index()
-    |> Enum.map(fn {{stop, first_or_last?}, idx} ->
-      first? = idx == 0
-      last? = first_or_last? and idx > 0
-      build_route_stop(stop, route, first?: first?, last?: last?, branch: shape_name)
-    end)
-  end
-
-  defp do_list_from_shapes(_name, _stop_ids, _stops, _route) do
-    []
-  end
-
-  @doc """
   Builds a RouteStop from information about a stop.
   """
   @spec build_route_stop(Stop.t(), Route.t(), Keyword.t()) :: RouteStop.t()
@@ -292,11 +183,15 @@ defmodule Stops.RouteStop do
     end
   end
 
+  def fetch_zone(route_stop), do: route_stop
+
   @spec fetch_stop_features(t) :: t
   def fetch_stop_features(%__MODULE__{stop_features: {:error, :not_fetched}} = route_stop) do
     features = route_stop_features(route_stop)
     %{route_stop | stop_features: features}
   end
+
+  def fetch_stop_features(route_stop), do: route_stop
 
   def fetch_connections(
         %__MODULE__{route: %Route{}, connections: {:error, :not_fetched}} = route_stop
@@ -308,6 +203,8 @@ defmodule Stops.RouteStop do
 
     %{route_stop | connections: connections}
   end
+
+  def fetch_connections(route_stop), do: route_stop
 
   @spec route_stop_features(t) :: [Repo.stop_feature()]
   defp route_stop_features(%__MODULE__{station_info: %Stop{}} = route_stop) do
