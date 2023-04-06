@@ -6,14 +6,14 @@ import { updateInLocation } from "use-query-params";
 import Map from "./components/Map";
 import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
-import { DirectionId } from "../__v3api";
+import { DirectionId, Route } from "../__v3api";
 import ScheduleLoader from "./components/ScheduleLoader";
 import {
   store,
   createScheduleStore,
   getCurrentState
 } from "./store/ScheduleStore";
-import { isABusRoute } from "../models/route";
+import { isABusRoute, isFerryRoute } from "../models/route";
 
 const renderMap = ({
   route_patterns: routePatternsByDirection,
@@ -124,6 +124,40 @@ const renderDirectionAndMap = (
   }
 };
 
+const getScheduleFinder = (
+  schedulePageData: SchedulePageData
+): JSX.Element | undefined => {
+  return (
+    <Provider store={store}>
+      <ScheduleLoader
+        component="SCHEDULE_FINDER"
+        schedulePageData={schedulePageData}
+        updateURL={updateURL}
+      />
+    </Provider>
+  );
+};
+
+// TODO figure out return type
+const getDirectionAndMap = (
+  schedulePageData: SchedulePageData
+): JSX.Element | undefined => {
+  const currentState = getCurrentState();
+  if (!!currentState && Object.keys(currentState).length !== 0) {
+    return (
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_DIRECTION"
+          schedulePageData={schedulePageData}
+          updateURL={updateURL}
+        />
+      </Provider>
+    );
+  } else {
+    <></>;
+  }
+};
+
 export const renderDirectionOrMap = (
   schedulePageData: SchedulePageData
 ): void => {
@@ -146,16 +180,175 @@ const render = (): void => {
     route_patterns: routePatterns
   } = schedulePageData;
 
-  createScheduleStore(directionId);
-  renderAdditionalLineInformation(schedulePageData);
+  // createScheduleStore(directionId);
+  // renderAdditionalLineInformation(schedulePageData);
 
-  if (!isEmpty(routePatterns)) {
-    renderDirectionOrMap(schedulePageData);
-  }
+  ReactDOM.render(
+    fun(schedulePageData),
+    document.getElementById("react-root-new")
+  );
+
+  // if (!isEmpty(routePatterns)) {
+  //   renderDirectionOrMap(schedulePageData);
+  // }
 };
 
 const onLoad = (): void => {
   render();
+};
+
+const getTitle = (route: Route): string | null => {
+  switch (route.type) {
+    case 0:
+    case 1:
+      return "Stataions & Departures";
+    case 4:
+      return null;
+    case 2:
+    default:
+      return "Schedules & Maps";
+  }
+};
+
+const getLineMap = (
+  channel: string,
+  mapImgSrc: string,
+  dynamicMapData: any,
+  schedulePageData: SchedulePageData
+): JSX.Element => {
+  const directionId = schedulePageData.direction_id;
+  const routePatterns = schedulePageData.route_patterns[directionId];
+  const defaultRoutePattern = routePatterns.slice(0, 1)[0];
+  const currentShapes = isABusRoute(schedulePageData.route)
+    ? [defaultRoutePattern.shape_id]
+    : routePatterns.map(pattern => pattern.shape_id);
+  const currentStops = defaultRoutePattern.stop_ids;
+  if (!channel) throw new Error("data-channel-id attribute not set");
+  const mapData: MapData = dynamicMapData as MapData;
+  return (
+    <>
+      <Map
+        data={mapData}
+        channel={channel}
+        currentShapes={currentShapes}
+        currentStops={currentStops}
+      />
+      <noscript>
+        <div className="line-map map m-schedule-line__map-static">
+          <img className="map-static map-static-img" srcSet={mapImgSrc}></img>
+        </div>
+      </noscript>
+    </>
+  );
+};
+
+const getScheduleNote = (schedulePageData: SchedulePageData): JSX.Element => {
+  return (
+    <Provider store={store}>
+      <ScheduleLoader
+        component="SCHEDULE_NOTE"
+        schedulePageData={schedulePageData}
+        updateURL={updateURL}
+      />
+    </Provider>
+  );
+};
+
+const getAdditionalLineInfo = (
+  schedulePageData: SchedulePageData
+): JSX.Element => {
+  return (
+    <Provider store={store}>
+      <ScheduleLoader
+        component="ADDITIONAL_LINE_INFORMATION"
+        schedulePageData={schedulePageData}
+        updateURL={updateURL}
+      />
+    </Provider>
+  );
+};
+
+const getMetaJSON = (id: string): any => {
+  const metaContentString = getMetaString(id);
+  if (metaContentString) {
+    return JSON.parse(metaContentString);
+  }
+  return null;
+};
+
+const getMetaString = (id: string): string | undefined | null => {
+  const metaContent = document
+    .querySelector(`meta[name=${id}]`)
+    ?.getAttribute("content");
+
+  return metaContent;
+};
+
+// <meta name="branches" content="<%= @branches %>" />
+// <meta name="mapChannel" content="<%= @channel %>" />
+// <meta name="dynamicMapData" content="<%= @dynamic_map_data %>" />
+// <meta name="mapPdfUrl" content="<%= @map_pdf_url %>" />
+// <meta name="mapImageSrc" content="<%= @map_img_src %>" />
+
+const fun = (schedulePageData: SchedulePageData): any => {
+  // TODO figure out where to get these fields
+  const branches = getMetaJSON("branches");
+  const mapChannel = getMetaString("mapChannel");
+  const dynamicMapData = getMetaJSON("dynamicMapData");
+  const mapPdfUrl = getMetaString("mapPdfUrl");
+  const mapImageSrc = getMetaString("mapImageSrc");
+  // const route = {type: ""};
+
+  const route = schedulePageData.route;
+
+  const width = branches.length > 0 ? "col-md-12" : "col-md-7";
+  const min_size =
+    branches.length > 0 ? "" : "m-schedule-page__main-content__min-size";
+  const offset =
+    branches.length > 0 ? "col-md-offset-7 col-lg-offset-8" : "col-lg-offset-1";
+  const ferry = isFerryRoute(route) ? "ferry" : "";
+  const title = getTitle(route);
+
+  return (
+    <>
+      <div className={width + " m-schedule-page__main-content " + min_size}>
+        <div className={"m-schedule-line__main-content " + ferry}>
+          {/* TODO add empty branches rendering */}
+          {/* IF branches not empty continue rendering */}
+          {title && <h2>{title}</h2>}
+          {getDirectionAndMap(schedulePageData)}
+          {isFerryRoute(route) && getScheduleFinder(schedulePageData)}
+          <div className="line-map-container">
+            {!isFerryRoute(route) &&
+              mapChannel &&
+              mapImageSrc &&
+              getLineMap(
+                mapChannel,
+                mapImageSrc,
+                dynamicMapData,
+                schedulePageData
+              )}
+          </div>
+          {/* END branchs not empty rendering 8*/}
+        </div>
+      </div>
+      <div className="col-md-5 col-lg-4 col-lg-offset-1 m-schedule-page__schedule-finder-or-note">
+        {/* IF branches not empty continue rendering */}
+        {getScheduleNote(schedulePageData)}
+        {schedulePageData.schedule_note === null &&
+          !isFerryRoute(route) &&
+          getScheduleFinder(schedulePageData)}
+        {/* END branches not empty continue rendering */}
+      </div>
+      <div
+        className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}
+      >
+        <div className="m-schedule-line__side-content">
+          {getAdditionalLineInfo(schedulePageData)}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default onLoad;

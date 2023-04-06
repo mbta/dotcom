@@ -29,3 +29,6 @@ export const RAPID_TRANSIT = "rapid_transit";
 export const isRapidTransit = ({ description }: Route): boolean =>
   description === RAPID_TRANSIT;
 export const isGreenLine = ({ id }: Route): boolean => id === "Green";
+
+// TODO figure out correct value
+export const isFerryRoute = ({ type }: Route): boolean => type === 4;
