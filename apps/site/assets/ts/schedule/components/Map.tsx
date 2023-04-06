@@ -79,16 +79,12 @@ interface EventData {
 
 type DataFromSocketType = SocketEvent<EventData[]>;
 interface DataReducerState {
-  channel: string;
   markers: Marker[];
 }
-type DataReducerAction = DataFromSocketType & { channel: string };
+type DataReducerAction = DataFromSocketType;
 type DataReducerType = Reducer<DataReducerState, DataReducerAction>;
 
 export const reducer: DataReducerType = (state, action) => {
-  // ignore changes from other channels
-  if (action.channel !== state.channel) return state;
-
   switch (action.event) {
     case "reset":
       return {
@@ -151,10 +147,7 @@ const Map = ({
   const state = useChannel<DataFromSocketType, DataReducerType>(
     channel,
     reducer,
-    {
-      channel,
-      markers: []
-    }
+    { markers: [] }
   );
 
   const stopMarkers = data.stop_markers
