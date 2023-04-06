@@ -1,4 +1,7 @@
 defmodule Stops.RepoTest do
+  @moduledoc """
+  TODO: Mock API data in this whole file
+  """
   use ExUnit.Case
 
   import Stops.Repo
@@ -113,6 +116,17 @@ defmodule Stops.RepoTest do
 
       # doesn't include non-CR stops
       refute Enum.find(response, &(&1.id == "place-boyls"))
+    end
+  end
+
+  describe "by_trip/2" do
+    test "can return stops from a trip" do
+      assert response = by_trip("55947544")
+      assert [%Stop{} | _] = response
+    end
+
+    test "returns empty list if no trip matches" do
+      assert [] = by_trip("made up trip id")
     end
   end
 
