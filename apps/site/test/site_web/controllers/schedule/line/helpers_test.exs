@@ -782,33 +782,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  id: "010090",
                  name: "Nubian Station - Harvard Square",
                  polyline: "polyline",
-                 priority: 3,
-                 stop_ids: [
-                   "place-nubn",
-                   "1",
-                   "2",
-                   "6",
-                   "10003",
-                   "57",
-                   "58",
-                   "10590",
-                   "87",
-                   "188",
-                   "89",
-                   "91",
-                   "93",
-                   "95",
-                   "97",
-                   "99",
-                   "101",
-                   "102",
-                   "104",
-                   "106",
-                   "107",
-                   "108",
-                   "109",
-                   "110"
-                 ]
+                 priority: 3
                }
              ]
     end

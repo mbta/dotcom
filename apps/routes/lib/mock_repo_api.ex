@@ -208,9 +208,8 @@ defmodule Routes.MockRepoApi do
         direction_id: 0,
         id: "903_0018",
         name: "name",
-        polyline: "polyline",
+        polyline: "polyline"
         # priority: 2,
-        stop_ids: []
       }
     ]
   end
@@ -224,26 +223,7 @@ defmodule Routes.MockRepoApi do
         name: "Alewife - Ashmont",
         polyline:
           "}nwaG~|eqLGyNIqAAc@S_CAEWu@g@}@u@k@u@Wu@OMGIMISQkAOcAGw@SoDFkCf@sUXcJJuERwHPkENqCJmB^mDn@}D??D[TeANy@\\iAt@qB`AwBl@cAl@m@b@Yn@QrBEtCKxQ_ApMT??R?`m@hD`Np@jAF|@C`B_@hBi@n@s@d@gA`@}@Z_@RMZIl@@fBFlB\\tAP??~@L^?HCLKJWJ_@vC{NDGLQvG}HdCiD`@e@Xc@b@oAjEcPrBeGfAsCvMqVl@sA??jByD`DoGd@cAj@cBJkAHqBNiGXeHVmJr@kR~@q^HsB@U??NgDr@gJTcH`@aMFyCF}AL}DN}GL}CXkILaD@QFmA@[??DaAFiBDu@BkA@UB]Fc@Jo@BGJ_@Lc@\\}@vJ_OrCyDj@iAb@_AvBuF`@gA`@aAv@qBVo@Xu@??bDgI??Tm@~IsQj@cAr@wBp@kBj@kB??HWtDcN`@g@POl@UhASh@Eb@?t@FXHl@Px@b@he@h[pCC??bnAm@h@T??xF|BpBp@^PLBXAz@Yl@]l@e@|B}CT[p@iA|A}BZi@zDuF\\c@n@s@VObAw@^Sl@Yj@U\\O|@WdAUxAQRCt@E??xAGrBQZAhAGlAEv@Et@E~@AdAAbCGpCA|BEjCMr@?nBDvANlARdBb@nDbA~@XnBp@\\JRH??|Al@`AZbA^jA^lA\\h@P|@TxAZ|@J~@LN?fBXxHhApDt@b@JXFtAVhALx@FbADtAC`B?z@BHBH@|@f@RN^^T\\h@hANb@HZH`@H^LpADlA@dD@jD@x@@b@Bp@HdAFd@Ll@F^??n@rDBRl@vD^pATp@Rb@b@z@\\l@`@j@p@t@j@h@n@h@n@`@hAh@n@\\t@PzANpAApBGtE}@xBa@??xB_@nOmB`OgBb@IrC[p@MbEmARCV@d@LH?tDyAXM",
-        priority: 2,
-        stop_ids: [
-          "place-alfcl",
-          "place-davis",
-          "place-portr",
-          "place-harsq",
-          "place-cntsq",
-          "place-knncl",
-          "place-chmnl",
-          "place-pktrm",
-          "place-dwnxg",
-          "place-sstat",
-          "place-brdwy",
-          "place-andrw",
-          "place-jfk",
-          "place-shmnl",
-          "place-fldcr",
-          "place-smmnl",
-          "place-asmnl"
-        ]
+        priority: 2
       },
       %Routes.Shape{
         direction_id: 0,
@@ -251,27 +231,7 @@ defmodule Routes.MockRepoApi do
         name: "Alewife - Braintree",
         polyline:
           "}nwaG~|eqLGyNIqAAc@S_CAEWu@g@}@u@k@u@Wu@OMGIMISQkAOcAGw@SoDFkCf@sUXcJJuERwHPkENqCJmB^mDn@}D??D[TeANy@\\iAt@qB`AwBl@cAl@m@b@Yn@QrBEtCKxQ_ApMT??R?`m@hD`Np@jAF|@C`B_@hBi@n@s@d@gA`@}@Z_@RMZIl@@fBFlB\\tAP??~@L^?HCLKJWJ_@vC{NDGLQvG}HdCiD`@e@Xc@b@oAjEcPrBeGfAsCvMqVl@sA??jByD`DoGd@cAj@cBJkAHqBNiGXeHVmJr@kR~@q^HsB@U??NgDr@gJTcH`@aMFyCF}AL}DN}GL}CXkILaD@QFmA@[??DaAFiBDu@BkA@UB]Fc@Jo@BGJ_@Lc@\\}@vJ_OrCyDj@iAb@_AvBuF`@gA`@aAv@qBVo@Xu@??bDgI??Tm@~IsQj@cAr@wBp@kBj@kB??HWtDcN`@g@POl@UhASh@Eb@?t@FXHl@Px@b@he@h[pCC??bnAm@h@T??xF|BpBp@^PLBXAz@Yl@]l@e@|B}CT[p@iA|A}BZi@jBeDnAiBz@iAf@k@l@g@dAs@fAe@|@WpCe@l@GTCRE\\G??~@O`@ELA|AGf@A\\CjCGrEKz@AdEAxHY|BD~@JjB^fF~AdDbA|InCxCv@zD|@rWfEXDpB`@tANvAHx@AjBIx@M~@S~@a@fAi@HEnA{@fA{@|HuI|DwEbDqDpLkNhCyClEiFhLaN`@c@f@o@RURUbDsDbAiA`AgAv@_AHKHI~E}FdBoBfAgAfD{DxDoE~DcF|BkClAwALODEJOJK|@gATWvAoA`Au@fAs@hAk@n@QpAa@vDeAhA[x@Yh@Wv@a@b@YfAaAjCgCz@aAtByBz@{@??|FaGtCaDbL{LhI{IzHgJdAuAjC{CVYvAwA??JIl@a@NMNM\\[|AuArF_GlPyQrD_ErAwAd@e@nE{ErDuD\\a@nE_FZYPSRUvL{Mv@}@Z[JILKv@m@z@i@fCkAlBmAl@[t@[??h@WxBeAp@]dAi@p@YXIPEXKDALENEbAQl@Gz@ChADtAL~ARnCZbGx@xB`@TDL@PBzAVjIvA^FVDVB|@NjHlAlPnCnCd@vBXhBNv@JtAPL@|BXrAN??`@FRBj@Bp@FbADz@?dAIp@I|@Mx@Q`AWhAYlBs@pDaBzAs@nBgAZQJGJGhAs@RKVMNKTMf@YdHcEzBmApAw@`GmDLI@AHGlEwClAi@hA_@v@Up@ObB]z@Kr@Ir@EZCpA?dCRf@DpAHvANrE`@bDTr@DfMdA`CJvBRn@DnCLnBPfAFV@",
-        priority: 1,
-        stop_ids: [
-          "place-alfcl",
-          "place-davis",
-          "place-portr",
-          "place-harsq",
-          "place-cntsq",
-          "place-knncl",
-          "place-chmnl",
-          "place-pktrm",
-          "place-dwnxg",
-          "place-sstat",
-          "place-brdwy",
-          "place-andrw",
-          "place-jfk",
-          "place-nqncy",
-          "place-wlsta",
-          "place-qnctr",
-          "place-qamnl",
-          "place-brntn"
-        ]
+        priority: 1
       }
     ]
   end
@@ -284,53 +244,14 @@ defmodule Routes.MockRepoApi do
         id: "931_0010",
         name: "Ashmont - Alewife",
         polyline: "po",
-        priority: 2,
-        stop_ids: [
-          "place-asmnl",
-          "place-smmnl",
-          "place-fldcr",
-          "place-shmnl",
-          "place-jfk",
-          "place-andrw",
-          "place-brdwy",
-          "place-sstat",
-          "place-dwnxg",
-          "place-pktrm",
-          "place-chmnl",
-          "place-knncl",
-          "place-cntsq",
-          "place-harsq",
-          "place-portr",
-          "place-davis",
-          "place-alfcl"
-        ]
+        priority: 2
       },
       %Routes.Shape{
         direction_id: 1,
         id: "933_0010",
         name: "Braintree - Alewife",
         polyline: "po",
-        priority: 1,
-        stop_ids: [
-          "place-brntn",
-          "place-qamnl",
-          "place-qnctr",
-          "place-wlsta",
-          "place-nqncy",
-          "place-jfk",
-          "place-andrw",
-          "place-brdwy",
-          "place-sstat",
-          "place-dwnxg",
-          "place-pktrm",
-          "place-chmnl",
-          "place-knncl",
-          "place-cntsq",
-          "place-harsq",
-          "place-portr",
-          "place-davis",
-          "place-alfcl"
-        ]
+        priority: 1
       }
     ]
   end
@@ -343,27 +264,7 @@ defmodule Routes.MockRepoApi do
         id: "881_0014",
         name: "North Station - Heath Street",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "place-north",
-          "place-haecl",
-          "place-gover",
-          "place-pktrm",
-          "place-boyls",
-          "place-armnl",
-          "place-coecl",
-          "place-prmnl",
-          "place-symcl",
-          "place-nuniv",
-          "place-mfa",
-          "place-lngmd",
-          "place-brmnl",
-          "place-fenwd",
-          "place-mispk",
-          "place-rvrwy",
-          "place-bckhl",
-          "place-hsmnl"
-        ]
+        priority: 3
       }
     ]
   end
@@ -376,33 +277,7 @@ defmodule Routes.MockRepoApi do
         id: "813_0006",
         name: "Park Street - Boston College",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "place-pktrm",
-          "place-boyls",
-          "place-armnl",
-          "place-coecl",
-          "place-hymnl",
-          "place-kencl",
-          "place-bland",
-          "place-buest",
-          "place-bucen",
-          "place-buwst",
-          "place-stplb",
-          "place-plsgr",
-          "place-babck",
-          "place-brico",
-          "place-harvd",
-          "place-grigg",
-          "place-alsgr",
-          "place-wrnst",
-          "place-wascm",
-          "place-sthld",
-          "place-chswk",
-          "place-chill",
-          "place-sougr",
-          "place-lake"
-        ]
+        priority: 3
       }
     ]
   end
@@ -415,28 +290,7 @@ defmodule Routes.MockRepoApi do
         id: "852_0018",
         name: "Government Center - Riverside",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "place-gover",
-          "place-pktrm",
-          "place-boyls",
-          "place-armnl",
-          "place-coecl",
-          "place-hymnl",
-          "place-kencl",
-          "place-fenwy",
-          "place-longw",
-          "place-bvmnl",
-          "place-bcnfd",
-          "place-rsmnl",
-          "place-chhil",
-          "place-newto",
-          "place-newtn",
-          "place-eliot",
-          "place-waban",
-          "place-woodl",
-          "place-river"
-        ]
+        priority: 3
       }
     ]
   end
@@ -449,20 +303,7 @@ defmodule Routes.MockRepoApi do
         id: "9790004",
         name: "South Station - Plymouth via Kingston",
         polyline: "polyline",
-        priority: 2,
-        stop_ids: [
-          "place-sstat",
-          "place-jfk",
-          "place-qnctr",
-          "place-brntn",
-          "place-PB-0158",
-          "place-PB-0194",
-          "place-PB-0212",
-          "place-PB-0245",
-          "place-PB-0281",
-          "place-KB-0351",
-          "place-PB-0356"
-        ]
+        priority: 2
       }
     ]
   end
@@ -475,39 +316,14 @@ defmodule Routes.MockRepoApi do
         id: "9890008",
         name: "Wickford Junction - South Station",
         polyline: "polyline",
-        priority: 2,
-        stop_ids: [
-          "place-NEC-1659",
-          "place-NEC-1768",
-          "place-NEC-1851",
-          "place-NEC-1919",
-          "place-NEC-1969",
-          "place-NEC-2040",
-          "place-NEC-2108",
-          "place-NEC-2139",
-          "place-NEC-2173",
-          "place-NEC-2203",
-          "place-rugg",
-          "place-bbsta",
-          "place-sstat"
-        ]
+        priority: 2
       },
       %Routes.Shape{
         direction_id: 1,
         id: "9890003",
         name: "Stoughton - South Station",
         polyline: "polyline",
-        priority: 0,
-        stop_ids: [
-          "place-SB-0189",
-          "place-SB-0156",
-          "place-NEC-2139",
-          "place-NEC-2173",
-          "place-NEC-2203",
-          "place-rugg",
-          "place-bbsta",
-          "place-sstat"
-        ]
+        priority: 0
       }
     ]
   end
@@ -520,33 +336,7 @@ defmodule Routes.MockRepoApi do
         id: "010090",
         name: "Nubian Station - Harvard Square",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "place-nubn",
-          "1",
-          "2",
-          "6",
-          "10003",
-          "57",
-          "58",
-          "10590",
-          "87",
-          "188",
-          "89",
-          "91",
-          "93",
-          "95",
-          "97",
-          "99",
-          "101",
-          "102",
-          "104",
-          "106",
-          "107",
-          "108",
-          "109",
-          "110"
-        ]
+        priority: 3
       }
     ]
   end
@@ -559,33 +349,7 @@ defmodule Routes.MockRepoApi do
         id: "010091",
         name: "Harvard Square - Nubian Station",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "110",
-          "66",
-          "67",
-          "68",
-          "69",
-          "71",
-          "72",
-          "73",
-          "74",
-          "75",
-          "77",
-          "79",
-          "80",
-          "82",
-          "187",
-          "84",
-          "59",
-          "854",
-          "856",
-          "10100",
-          "10101",
-          "62",
-          "63",
-          "place-nubn"
-        ]
+        priority: 3
       }
     ]
   end
@@ -599,8 +363,7 @@ defmodule Routes.MockRepoApi do
         name: "Long Wharf - Charlestown Navy Yard",
         polyline:
           "qipaGl`tpLUeCUiCOuEs@kDSu@e@_@c@S}JgBcDW{CIcBB}BPmB\\cBh@aBt@qAbAeA`AmBtB{P~PiGpFqC`C",
-        priority: 3,
-        stop_ids: ["Boat-Long-South", "Boat-Charlestown"]
+        priority: 3
       }
     ]
   end
@@ -616,176 +379,28 @@ defmodule Routes.MockRepoApi do
         id: "360291",
         name: "VA Hospital, West Roxbury - Forest Hills Station",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "10820",
-          "775",
-          "776",
-          "777",
-          "10777",
-          "778",
-          "779",
-          "780",
-          "781",
-          "782",
-          "783",
-          "784",
-          "785",
-          "786",
-          "787",
-          "788",
-          "789",
-          "790",
-          "791",
-          "792",
-          "793",
-          "795",
-          "636",
-          "637",
-          "638",
-          "639",
-          "640",
-          "641",
-          "642",
-          "place-forhl"
-        ]
+        priority: 3
       },
       %Routes.Shape{
         direction_id: 1,
         id: "360290",
         name: "Millennium Park - Forest Hills Station",
         polyline: "polyline",
-        priority: 1,
-        stop_ids: [
-          "67120",
-          "10821",
-          "774",
-          "775",
-          "776",
-          "777",
-          "10777",
-          "778",
-          "779",
-          "780",
-          "781",
-          "782",
-          "783",
-          "784",
-          "785",
-          "786",
-          "787",
-          "788",
-          "789",
-          "790",
-          "791",
-          "792",
-          "793",
-          "795",
-          "636",
-          "637",
-          "638",
-          "639",
-          "640",
-          "641",
-          "642",
-          "place-forhl"
-        ]
+        priority: 1
       },
       %Routes.Shape{
         direction_id: 1,
         id: "360288",
         name: "Charles River Loop - Townsend & Humboldt via Forest Hills",
         polyline: "polyline",
-        priority: 0,
-        stop_ids: [
-          "774",
-          "775",
-          "776",
-          "777",
-          "10777",
-          "778",
-          "779",
-          "780",
-          "781",
-          "782",
-          "783",
-          "784",
-          "785",
-          "786",
-          "787",
-          "788",
-          "789",
-          "790",
-          "791",
-          "792",
-          "793",
-          "795",
-          "636",
-          "637",
-          "638",
-          "639",
-          "640",
-          "641",
-          "642",
-          "place-forhl",
-          "520",
-          "522",
-          "10522",
-          "2922",
-          "383",
-          "9448",
-          "1739",
-          "1740",
-          "1325",
-          "1326",
-          "1327",
-          "1328",
-          "1330",
-          "1331",
-          "1332"
-        ]
+        priority: 0
       },
       %Routes.Shape{
         direction_id: 1,
         id: "360292",
         name: "Rivermoor Industrial Park - Forest Hills Station",
         polyline: "polyline",
-        priority: 0,
-        stop_ids: [
-          "120",
-          "129",
-          "10821",
-          "774",
-          "775",
-          "776",
-          "777",
-          "10777",
-          "778",
-          "779",
-          "780",
-          "781",
-          "782",
-          "783",
-          "784",
-          "785",
-          "786",
-          "787",
-          "788",
-          "789",
-          "790",
-          "791",
-          "792",
-          "793",
-          "795",
-          "636",
-          "637",
-          "638",
-          "639",
-          "640",
-          "641",
-          "642",
-          "place-forhl"
-        ]
+        priority: 0
       }
     ]
   end
@@ -798,34 +413,14 @@ defmodule Routes.MockRepoApi do
         id: "1000032",
         name: "Elm St - Wellington Station",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "8302",
-          "8303",
-          "8304",
-          "48304",
-          "8305",
-          "8306",
-          "8307",
-          "5264",
-          "5265",
-          "5266",
-          "5268",
-          "5267",
-          "5269",
-          "5270",
-          "9042",
-          "9043",
-          "place-welln"
-        ]
+        priority: 3
       },
       %Routes.Shape{
         direction_id: 1,
         id: "1000048",
         name: "Elm St - Fellsway Garage",
         polyline: "polyline",
-        priority: 0,
-        stop_ids: ["8302", "8303", "8304", "48304", "8305", "8306", "8307", "8308", "5333"]
+        priority: 0
       }
     ]
   end
@@ -838,59 +433,21 @@ defmodule Routes.MockRepoApi do
         id: "1000032",
         name: "Elm St - Wellington Station",
         polyline: "polyline",
-        priority: 3,
-        stop_ids: [
-          "8302",
-          "8303",
-          "8304",
-          "48304",
-          "8305",
-          "8306",
-          "8307",
-          "5264",
-          "5265",
-          "5266",
-          "5268",
-          "5267",
-          "5269",
-          "5270",
-          "9042",
-          "9043",
-          "place-welln"
-        ]
+        priority: 3
       },
       %Routes.Shape{
         direction_id: 1,
         id: "1000048",
         name: "Elm St - Fellsway Garage",
         polyline: "polyline",
-        priority: 0,
-        stop_ids: ["8302", "8303", "8304", "48304", "8305", "8306", "8307", "8308", "5333"]
+        priority: 0
       },
       %Routes.Shape{
         direction_id: 1,
         id: "1000034",
         name: "Roosevelt Circle - Wellington Station",
         polyline: "polyline",
-        priority: -1,
-        stop_ids: [
-          "8303",
-          "8304",
-          "48304",
-          "8305",
-          "8306",
-          "8307",
-          "5264",
-          "5265",
-          "5266",
-          "5268",
-          "5267",
-          "5269",
-          "5270",
-          "9042",
-          "9043",
-          "place-welln"
-        ]
+        priority: -1
       }
     ]
   end

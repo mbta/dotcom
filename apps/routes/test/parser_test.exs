@@ -166,39 +166,13 @@ defmodule Routes.ParserTest do
           "direction_id" => 1,
           "polyline" => "polyline",
           "priority" => -1
-        },
-        relationships: %{"stops" => [%Item{id: "1"}, %Item{id: "2"}]}
+        }
       }
 
       assert parse_shape(item) == [
                %Shape{
                  id: "shape_id",
                  name: "name",
-                 stop_ids: ["1", "2"],
-                 direction_id: 1,
-                 polyline: "polyline",
-                 priority: -1
-               }
-             ]
-    end
-
-    test "handles a response with no stops" do
-      item = %Item{
-        id: "shape_id",
-        attributes: %{
-          "name" => "name",
-          "direction_id" => 1,
-          "polyline" => "polyline",
-          "priority" => -1
-        },
-        relationships: %{}
-      }
-
-      assert parse_shape(item) == [
-               %Shape{
-                 id: "shape_id",
-                 name: "name",
-                 stop_ids: [],
                  direction_id: 1,
                  polyline: "polyline",
                  priority: -1

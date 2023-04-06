@@ -262,7 +262,6 @@ defmodule Routes.RepoTest do
 
       assert Enum.count(shapes) >= 2
       assert is_binary(shape.id)
-      assert Enum.count(shape.stop_ids) >= 26
     end
 
     test "get different number of shapes from same route depending on filtering" do

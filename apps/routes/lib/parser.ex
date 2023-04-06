@@ -78,20 +78,15 @@ defmodule Routes.Parser do
   defp parse_gtfs_desc(_), do: :unknown
 
   @spec parse_shape(Item.t()) :: [Shape.t()]
-  def parse_shape(%Item{id: id, attributes: attributes, relationships: relationships}) do
+  def parse_shape(%Item{id: id, attributes: attributes}) do
     [
       %Shape{
         id: id,
         name: attributes["name"],
-        stop_ids: stop_ids(relationships),
         direction_id: attributes["direction_id"],
         polyline: attributes["polyline"],
         priority: attributes["priority"]
       }
     ]
   end
-
-  @spec stop_ids(%{String.t() => list(JsonApi.Item.t())}) :: [Stops.Stop.id_t()]
-  defp stop_ids(%{"stops" => stops}), do: Enum.map(stops, & &1.id)
-  defp stop_ids(_), do: []
 end
