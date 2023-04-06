@@ -7,17 +7,24 @@ defmodule SiteWeb.Plugs.RemoteIp do
   The plug sets the Conn's remote_ip field, and adds an `:ip` to the `Logger.metadata`.
 
   [0] http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/x-forwarded-headers.html
+  [1] https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/x-forwarded-headers.html
 
   """
 
   @behaviour Plug
   @forward_header "x-forwarded-for"
+  @forward_port "x-forwarded-port"
+  # load balancer ip address
+  @forward_proto "x-forwarded-proto"
 
   @impl true
   def init(opts), do: opts
 
   @impl true
   def call(conn, _opts) do
+    Logger.metadata(load_balancer_ip: format(Plug.Conn.get_req_header(conn, @forward_proto)))
+    Logger.metadata(port: format(Plug.Conn.get_req_header(conn, @forward_port)))
+
     with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_header),
          {:ok, ip} <- remote_ip(ips) do
       Logger.metadata(ip: format(ip))

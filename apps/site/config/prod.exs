@@ -56,7 +56,7 @@ config :logger,
 config :logger, :console,
   level: :info,
   format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-  metadata: [:request_id, :ip]
+  metadata: [:request_id, :ip, :load_balancer_ip, :port]
 
 # ## SSL Support
 #
