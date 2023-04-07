@@ -1,9 +1,10 @@
-import { Route, RouteType } from "../../__v3api";
+import { Mode, Route, RouteType } from "../../__v3api";
 import {
   isABusRoute,
   isACommuterRailRoute,
   isAGreenLineRoute,
-  isASilverLineRoute
+  isASilverLineRoute,
+  modeForRoute
 } from "../route";
 
 describe("isABusRoute", () => {
@@ -76,5 +77,16 @@ describe("isASilverLineRoute", () => {
       id: "1"
     } as Route;
     expect(isASilverLineRoute(route)).toEqual(false);
+  });
+});
+
+describe("modeForRoute", () => {
+  it("returns a name of type Mode", () => {
+    const route = {
+      type: 1
+    } as Route;
+    const mode = modeForRoute(route);
+    expect(mode).toEqual("subway");
+    expect(mode).toStrictEqual("subway" as Mode);
   });
 });

@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StopPageDepartures renders with data 1`] = `
+<DocumentFragment>
+  <div
+    class="d-flex"
+  >
+    <div
+      class="d-flex"
+    >
+      <button
+        class="
+      u-pill
+      u-small-caps
+      pe-5 ps-5 me-5
+      u-bg--gray
+      
+      
+    "
+        type="button"
+      >
+        All
+      </button>
+      <button
+        class="
+      u-pill
+      u-small-caps
+      pe-5 ps-5 me-5
+      
+      
+      
+    "
+        type="button"
+      >
+        Bus
+      </button>
+      <button
+        class="
+      u-pill
+      u-small-caps
+      pe-5 ps-5 me-5
+      
+      
+      
+    "
+        type="button"
+      >
+        Subway
+      </button>
+    </div>
+  </div>
+  <ul
+    class="list-unstyled"
+    style="max-height: 550px; overflow-y: auto;"
+  >
+    <li>
+      <div
+        class="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
+      >
+        <div
+          class="c-link-block__inner"
+        >
+          <span
+            class="bus-route-sign"
+          >
+            4B Route
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-flex justify-content-space-between mb-05"
+        style="border: 1px solid whitesmoke; padding: 1rem;"
+      >
+        <div>
+          <div
+            class="fs-18"
+          >
+            Somewhere there
+          </div>
+          [Times here]
+        </div>
+        <button
+          aria-label="Open upcoming departures to Somewhere there"
+          class="btn btn-sm"
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-chevron-right notranslate"
+          />
+        </button>
+      </div>
+      <div
+        class="d-flex justify-content-space-between mb-05"
+        style="border: 1px solid whitesmoke; padding: 1rem;"
+      >
+        <div>
+          <div
+            class="fs-18"
+          >
+            Over yonder
+          </div>
+          [Times here]
+        </div>
+        <button
+          aria-label="Open upcoming departures to Over yonder"
+          class="btn btn-sm"
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-chevron-right notranslate"
+          />
+        </button>
+      </div>
+    </li>
+    <li>
+      <div
+        class="c-link-block h3 m-tnm-sidebar__route-name u-bg--unknown"
+      >
+        <div
+          class="c-link-block__inner"
+        >
+          <span
+            class=""
+          >
+            Magenta Route
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-flex justify-content-space-between mb-05"
+        style="border: 1px solid whitesmoke; padding: 1rem;"
+      >
+        <div>
+          <div
+            class="fs-18"
+          >
+            Somewhere there
+          </div>
+          [Times here]
+        </div>
+        <button
+          aria-label="Open upcoming departures to Somewhere there"
+          class="btn btn-sm"
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-chevron-right notranslate"
+          />
+        </button>
+      </div>
+      <div
+        class="d-flex justify-content-space-between mb-05"
+        style="border: 1px solid whitesmoke; padding: 1rem;"
+      >
+        <div>
+          <div
+            class="fs-18"
+          >
+            Over yonder
+          </div>
+          [Times here]
+        </div>
+        <button
+          aria-label="Open upcoming departures to Over yonder"
+          class="btn btn-sm"
+          type="button"
+        >
+          <i
+            aria-hidden="true"
+            class="fa fa-chevron-right notranslate"
+          />
+        </button>
+      </div>
+    </li>
+  </ul>
+</DocumentFragment>
+`;
+
+exports[`StopPageDepartures renders with no data 1`] = `
+<DocumentFragment>
+  <ul
+    class="list-unstyled"
+    style="max-height: 550px; overflow-y: auto;"
+  />
+</DocumentFragment>
+`;
