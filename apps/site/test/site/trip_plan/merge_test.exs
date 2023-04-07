@@ -1,6 +1,6 @@
 defmodule Site.TripPlan.MergeTest do
   @moduledoc false
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   use Quixir
 
   import Site.TripPlan.Merge

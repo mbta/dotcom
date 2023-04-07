@@ -23,7 +23,7 @@ defmodule SiteWeb.BusStopChangeController do
     |> render("index.html")
   end
 
-  def show(conn, params) do
+  def show(conn, _params) do
     redirect(conn, to: bus_stop_change_path(conn, :show, alerts_timeframe: "current"))
   end
 
