@@ -76,7 +76,12 @@ defmodule V3Api.Stream do
     path = Keyword.fetch!(opts, :path)
     base_url = Keyword.fetch!(opts, :base_url)
 
-    Keyword.put(opts, :url, Path.join(base_url, path))
+    encoded_url =
+      base_url
+      |> Path.join(path)
+      |> URI.encode()
+
+    Keyword.put(opts, :url, encoded_url)
   end
 
   @spec set_headers(Keyword.t()) :: Keyword.t()
