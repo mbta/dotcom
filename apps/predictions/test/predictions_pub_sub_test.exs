@@ -142,10 +142,20 @@ defmodule Predictions.PredictionsPubSubTest do
     end
 
     test "updates the predictions", %{pid: pid} do
-      send(pid, {:update, [@prediction39]})
+      modified_prediction = %{
+        @prediction39
+        | status: "Now boarding"
+      }
 
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_key) ==
-               %{"#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]}
+      send(pid, {:update, [modified_prediction]})
+
+      [prediction] =
+        pid
+        |> :sys.get_state()
+        |> Map.get(:predictions_by_key)
+        |> Map.get("#{@route_39}:#{@stop_id}:#{@direction_id}")
+
+      assert prediction.status == "Now boarding"
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
