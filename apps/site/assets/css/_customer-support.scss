@@ -258,9 +258,11 @@ body {
 }
 
 .ada-container {
+  display: flex;
   padding-top: 1rem;
 }
 
 .isa-icon {
-  transform: translate(6px, -6px);
+  padding-left: .313rem;
+  padding-top: .188rem;
 }
