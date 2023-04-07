@@ -1,7 +1,8 @@
 defmodule Predictions.PredictionsPubSub do
   @moduledoc """
   Allow channels to subscribe to prediction streams, which are collected into a
-  Map with keys representing route-stop pairs as "<route-id>@<parent-stop-id>"
+  Map with keys representing route-stop-direction triads as
+  "<route-id>-<parent-stop-id>-<direction-id>"
   """
 
   use GenServer
