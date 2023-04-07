@@ -118,13 +118,10 @@ describe("reducer", () => {
 
   it("resets markers", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1" },
+      { markers: data.markers },
       {
-        action: {
-          event: "reset",
-          data: [{ marker: newMarker }]
-        },
-        channel: "vehicle:1:1"
+        event: "reset",
+        data: [{ marker: newMarker }]
       }
     );
 
@@ -136,10 +133,10 @@ describe("reducer", () => {
 
   it("adds vehicles", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1" },
+      { markers: data.markers },
       {
-        action: { event: "add", data: [{ marker: newMarker }] },
-        channel: "vehicle:1:1"
+        event: "add",
+        data: [{ marker: newMarker }]
       }
     );
     expect(result.markers.map(m => m.id)).toEqual(
@@ -149,13 +146,10 @@ describe("reducer", () => {
 
   it("updates markers", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1" },
+      { markers: data.markers },
       {
-        action: {
-          event: "update",
-          data: [{ marker: { ...data.markers[0], latitude: 43.0 } }]
-        },
-        channel: "vehicle:1:1"
+        event: "update",
+        data: [{ marker: { ...data.markers[0], latitude: 43.0 } }]
       }
     );
 
@@ -164,26 +158,13 @@ describe("reducer", () => {
     expect(result.markers[0].latitude).toEqual(43.0);
   });
 
-  it("ignores markers from other channels", () => {
-    const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1" },
-      {
-        action: { event: "update", data: [{ marker: data.markers[0] }] },
-        channel: "vehicle:1:0"
-      }
-    );
-
-    expect(result.markers).toEqual(data.markers);
-  });
-
   it("doesn't handle unknown events empty data actions", () => {
     expect(() =>
       reducer(
-        { markers: data.markers, channel: "vehicle:1:1" },
+        { markers: data.markers },
         {
           // @ts-ignore
-          action: { event: "unsupported", data: [] },
-          channel: "vehicle:1:1"
+          action: { event: "unsupported", data: [] }
         }
       )
     ).toThrowError();
@@ -191,11 +172,8 @@ describe("reducer", () => {
 
   it("handles empty data actions", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1" },
-      {
-        action: { event: "update", data: [] },
-        channel: "vehicle:1:1"
-      }
+      { markers: data.markers },
+      { event: "update", data: [] }
     );
 
     expect(result.markers).toEqual(data.markers);
@@ -203,10 +181,10 @@ describe("reducer", () => {
 
   it("removes markers", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1" },
+      { markers: data.markers },
       {
-        action: { event: "remove", data: [data.markers[0].id!] },
-        channel: "vehicle:1:1"
+        event: "remove",
+        data: [data.markers[0].id!]
       }
     );
 

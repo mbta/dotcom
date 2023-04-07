@@ -1,8 +1,4 @@
-import {
-  CRTimetableTrainIcons,
-  removeTrain,
-  allTrainsClass
-} from "./cr-timetable-train-icons";
+import { CRTimetableTrainIcons, removeTrain } from "./cr-timetable-train-icons";
 
 /* eslint-disable class-methods-use-this */
 export const channelDataId = "js-cr-vehicle-data";
@@ -62,8 +58,8 @@ export class CRTimetableTrains {
   }
 
   addEventListeners() {
-    window.$(document).on(this.channelId, this.onVehicles);
-    window.$(document).on("vehicles:remove", this.onRemoveVehicles);
+    document.addEventListener(this.channelId, this.onVehicles);
+    document.addEventListener("vehicles:remove", this.onRemoveVehicles);
     document.addEventListener(
       "turbolinks:before-render",
       this.teardown.bind(this),
@@ -74,16 +70,17 @@ export class CRTimetableTrains {
   }
 
   removeEventListeners() {
-    window.$(document).off(this.channelId, this.onVehicles);
-    window.$(document).off("vehicles:remove", this.onRemoveVehicles);
+    document.removeEventListener(this.channelId, this.onVehicles);
+    document.removeEventListener("vehicles:remove", this.onRemoveVehicles);
   }
 
-  onVehicles(ev, { data }) {
-    // eslint-disable-next-line no-shadow
+  onVehicles(ev) {
+    const { data } = ev.detail;
     data.forEach(vehicle => this.icons.addOrUpdateTrain(vehicle));
   }
 
-  onRemoveVehicles(ev, { data }) {
+  onRemoveVehicles(ev) {
+    const { data } = ev.detail;
     data.forEach(d => removeTrain(d.toString().split("-")[1]));
   }
 
@@ -92,7 +89,7 @@ export class CRTimetableTrains {
   }
 }
 
-export default function() {
+export default function CRTrains() {
   document.addEventListener(
     "turbolinks:load",
     () => {

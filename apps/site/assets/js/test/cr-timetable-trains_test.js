@@ -1,5 +1,4 @@
 import jsdom from "mocha-jsdom";
-import sinon from "sinon";
 import { expect } from "chai";
 import { CRTimetableTrains, channelDataId } from "../cr-timetable-trains";
 import { trainIcon } from "../cr-timetable-train-icons";
@@ -95,23 +94,25 @@ describe("CRTimetableTrains", () => {
       const trains = new CRTimetableTrains(
         document.getElementById(channelDataId)
       );
-      trains.onVehicles("", {
-        data: [
-          {
-            data: {
-              stop_name: "Holbrook/Randolph",
-              vehicle: {
-                id: "vehicle-1234",
-                trip_id: "CR-Weekday-Fall-18-028",
-                status: "in_transit"
+      trains.onVehicles({
+        detail: {
+          data: [
+            {
+              data: {
+                stop_name: "Holbrook/Randolph",
+                vehicle: {
+                  id: "vehicle-1234",
+                  trip_id: "CR-Weekday-Fall-18-028",
+                  status: "in_transit"
+                }
+              },
+              marker: {
+                tooltip_text:
+                  "Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph"
               }
-            },
-            marker: {
-              tooltip_text:
-                "Middleborough/Lakeville train 028 is on the way to Holbrook/Randolph"
             }
-          }
-        ]
+          ]
+        }
       });
       expect(
         document
@@ -141,23 +142,25 @@ describe("CRTimetableTrains", () => {
       const trains = new CRTimetableTrains(
         document.getElementById(channelDataId)
       );
-      trains.onVehicles("", {
-        data: [
-          {
-            data: {
-              stop_name: "Brockton",
-              vehicle: {
-                id: "vehicle-1234",
-                trip_id: "CR-Weekday-Fall-18-028",
-                status: "stopped"
+      trains.onVehicles({
+        detail: {
+          data: [
+            {
+              data: {
+                stop_name: "Brockton",
+                vehicle: {
+                  id: "vehicle-1234",
+                  trip_id: "CR-Weekday-Fall-18-028",
+                  status: "stopped"
+                }
+              },
+              marker: {
+                tooltip_text:
+                  "Middleborough/Lakeville train 028 has arrived at Brockton"
               }
-            },
-            marker: {
-              tooltip_text:
-                "Middleborough/Lakeville train 028 has arrived at Brockton"
             }
-          }
-        ]
+          ]
+        }
       });
       expect(
         document
@@ -198,7 +201,7 @@ describe("CRTimetableTrains", () => {
       expect(document.getElementsByClassName("1234")[0].innerHTML).to.not.equal(
         "&nbsp;"
       );
-      trains.onRemoveVehicles("", { data: ["vehicle-1234"] });
+      trains.onRemoveVehicles({ detail: { data: ["vehicle-1234"] } });
       const noVehicle = document.getElementsByClassName("1234")[0];
       expect(noVehicle.innerHTML).to.equal("&nbsp;");
       expect(
