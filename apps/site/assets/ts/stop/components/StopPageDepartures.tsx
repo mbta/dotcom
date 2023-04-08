@@ -1,11 +1,9 @@
 import { groupBy } from "lodash";
 import React, { ReactElement, useState } from "react";
-import renderFa from "../../helpers/render-fa";
 import { Route } from "../../__v3api";
-import { modeForRoute, isASilverLineRoute } from "../../models/route";
-import { busClass, routeBgClass } from "../../helpers/css";
-import { breakTextAtSlash } from "../../helpers/text";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
+import { modeForRoute } from "../../models/route";
+import DepartureCard from "./DepartureCard";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -32,47 +30,9 @@ const StopPageDepartures = ({
           />
         </div>
       )}
-      <ul
-        className="list-unstyled"
-        style={{ maxHeight: "550px", overflowY: "auto" }}
-      >
+      <ul className="stop-departures list-unstyled">
         {filteredRoutes.map(route => (
-          <li key={route.id}>
-            <div
-              className={`c-link-block h3 m-tnm-sidebar__route-name ${routeBgClass(
-                route
-              )}`}
-            >
-              <div className="c-link-block__inner">
-                <span className={busClass(route)}>
-                  {isASilverLineRoute(route.id)
-                    ? `Silver Line ${route.name}`
-                    : breakTextAtSlash(route.name)}
-                </span>
-              </div>
-            </div>
-            {Object.entries(route.direction_destinations).map(
-              ([direction_id, headsign]) => (
-                <div
-                  key={`${route.id}-${direction_id}-${headsign}`}
-                  className="d-flex justify-content-space-between mb-05"
-                  style={{ border: "1px solid whitesmoke", padding: "1rem" }}
-                >
-                  <div>
-                    <div className="fs-18">{headsign}</div>
-                    [Times here]
-                  </div>
-                  <button
-                    type="button"
-                    className="btn btn-sm"
-                    aria-label={`Open upcoming departures to ${headsign}`}
-                  >
-                    {renderFa("", "fa-chevron-right")}
-                  </button>
-                </div>
-              )
-            )}
-          </li>
+          <DepartureCard key={route.id} route={route} />
         ))}
       </ul>
     </div>
