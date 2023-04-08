@@ -1,4 +1,4 @@
-import { groupBy } from "lodash";
+import { groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
 import { Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
@@ -8,6 +8,17 @@ import DepartureCard from "./DepartureCard";
 interface StopPageDeparturesProps {
   routes: Route[];
 }
+
+// Commuter Rail, then Subway, then Bus
+const modeSortFn = ({ type }: Route): number => {
+  if (type === 2) {
+    return 1;
+  }
+  if (type in [0, 1]) {
+    return 2;
+  }
+  return type;
+};
 
 const StopPageDepartures = ({
   routes
@@ -31,7 +42,7 @@ const StopPageDepartures = ({
         </div>
       )}
       <ul className="stop-departures list-unstyled">
-        {filteredRoutes.map(route => (
+        {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => (
           <DepartureCard key={route.id} route={route} />
         ))}
       </ul>
