@@ -25,15 +25,9 @@ const StopPageRedesign = ({
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       {/* Route and Map Div */}
       <div className="container">
-        <div className="d-flex">
-          <div style={{ minWidth: "50%" }}>
-            <h2 className="hidden-sm-down">Route Schedules & Maps</h2>
-            <StopPageDepartures routes={routes} />
-            <button type="button">Plan your Trip PLACEHOLDER</button>
-          </div>
-          <div className="hidden-sm-down w-100 mt-16">
-            <StopMapRedesign stop={stop} />
-          </div>
+        <div className="stop-routes-and-map">
+          <StopPageDepartures routes={routes} />
+          <StopMapRedesign stop={stop} />
         </div>
         {/* Station Information Div */}
         <footer>

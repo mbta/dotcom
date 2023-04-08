@@ -1,7 +1,7 @@
 import { groupBy } from "lodash";
 import React, { ReactElement, useState } from "react";
 import renderFa from "../../helpers/render-fa";
-import { Mode, Route } from "../../__v3api";
+import { Route } from "../../__v3api";
 import { modeForRoute, isASilverLineRoute } from "../../models/route";
 import { busClass, routeBgClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
@@ -22,7 +22,7 @@ const StopPageDepartures = ({
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
 
   return (
-    <>
+    <div className="routes">
       {modesList.length > 1 && (
         <div className="d-flex">
           <DeparturesFilters
@@ -75,7 +75,7 @@ const StopPageDepartures = ({
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 

@@ -16,10 +16,10 @@ describe("DeparturesFilters", () => {
     expect(screen.getByText("Bus")).toBeDefined();
     expect(screen.getByText("Subway")).toBeDefined();
     expect(screen.getByText("Ferry")).toBeDefined();
-    expect(screen.getByText("Commuter Rail")).toBeDefined();
+    expect(screen.getByText("Rail")).toBeDefined();
   });
 
-  it("renders no pills if the departures is an empty array", () => {
+  it("renders no button if the departures is an empty array", () => {
     render(
       <DeparturesFilters
         modesList={[]}
@@ -30,7 +30,7 @@ describe("DeparturesFilters", () => {
     expect(screen.queryByText("All")).toBeNull();
   });
 
-  it("renders only needed pills", () => {
+  it("renders only needed button", () => {
     render(
       <DeparturesFilters
         modesList={["bus", "subway", "ferry"]}
@@ -42,7 +42,7 @@ describe("DeparturesFilters", () => {
     expect(screen.getByText("Bus")).toBeDefined();
     expect(screen.getByText("Subway")).toBeDefined();
     expect(screen.getByText("Ferry")).toBeDefined();
-    expect(screen.queryByText("Commuter Rail")).toBeNull();
+    expect(screen.queryByText("Rail")).toBeNull();
   });
 
   it("clicking a filter should call the setSelectedMode with the selected mode", async () => {

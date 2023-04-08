@@ -32,16 +32,13 @@ const StopMapRedesign = ({ stop }: Props): ReactElement<HTMLElement> => {
   } as MapData;
 
   return (
-    <div>
-      <h3 className="sr-only">Map</h3>
-      <div
-        id={stop.id}
-        role="application"
-        aria-label="Map with stop"
-        className="m-stop-page__hero-map-container"
-      >
-        <Map mapData={mapData} />
-      </div>
+    <div
+      id={stop.id}
+      role="application"
+      aria-label="Map with stop"
+      className="hidden-sm-down map"
+    >
+      <Map mapData={mapData} />
     </div>
   );
 };

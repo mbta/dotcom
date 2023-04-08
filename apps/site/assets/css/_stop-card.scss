@@ -56,3 +56,58 @@
 .c-stop-card__icon-container {
   display: flex;
 }
+
+$radius: 4px;
+
+.stop-routes-and-map {
+  background-color: $gray-bordered-background;
+  border: .25px solid $gray-lighter;
+  border-radius: $radius;
+  display: grid;
+  gap: .5rem;
+  grid-template-columns: 5fr 7fr;
+  padding: .75rem;
+
+  @include media-breakpoint-down(sm) {
+    border-radius: 0;
+    display: block;
+    margin-left: -$base-spacing;
+    margin-right: -$base-spacing;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-top: 1rem;
+  }
+
+  .map {
+    height: 100%;
+  }
+
+  .departure-filters {
+    margin-bottom: .5rem;
+
+    [class*='c-svg__icon'] {
+      height: 1em;
+      position: relative;
+      top: .125em;
+      width: 1em;
+    }
+  }
+
+  .departure-filters button {
+    padding: .125em .5em;
+
+    & + button {
+      margin-left: .5rem;
+    }
+
+    &.active {
+      background-color: $brand-primary-lightest;
+    }
+
+    &:focus,
+    &.active:focus {
+      outline-offset: 0;
+    }
+  }
+}
