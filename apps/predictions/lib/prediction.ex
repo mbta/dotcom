@@ -10,6 +10,8 @@ defmodule Predictions.Prediction do
             stop: nil,
             route: nil,
             direction_id: nil,
+            arrival_time: nil,
+            departure_time: nil,
             time: nil,
             stop_sequence: 0,
             schedule_relationship: nil,
@@ -22,9 +24,12 @@ defmodule Predictions.Prediction do
   @type t :: %__MODULE__{
           id: id_t,
           trip: Schedules.Trip.t() | nil,
-          stop: Stops.Stop.t(),
+          stop: Stops.Stop.t() | nil,
           route: Routes.Route.t(),
           direction_id: 0 | 1,
+          arrival_time: DateTime.t() | nil,
+          departure_time: DateTime.t() | nil,
+          # TODO: Deprecated, should be removed in favor of arrival_time and departure_time -- MSS 2022-09-22
           time: DateTime.t() | nil,
           stop_sequence: non_neg_integer,
           schedule_relationship: schedule_relationship,

@@ -13,6 +13,7 @@ defmodule Site.RealtimeScheduleTest do
   alias Stops.Stop
 
   @now DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")
+  @now_departure Timex.shift(@now, minutes: 2)
 
   @stop %Stop{id: "place-ogmnl"}
 
@@ -91,6 +92,8 @@ defmodule Site.RealtimeScheduleTest do
       status: nil,
       stop: @stop,
       stop_sequence: 190,
+      arrival_time: @now,
+      departure_time: @now_departure,
       time: @now,
       track: nil,
       trip: %Schedules.Trip{
@@ -112,6 +115,8 @@ defmodule Site.RealtimeScheduleTest do
       status: nil,
       stop_sequence: 190,
       stop: @stop,
+      arrival_time: @now,
+      departure_time: @now_departure,
       time: @now,
       track: nil,
       trip: @trip
@@ -184,6 +189,8 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
+                  arrival_time: @now,
+                  departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove"
@@ -199,6 +206,8 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
+                  arrival_time: @now,
+                  departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove"
@@ -219,6 +228,8 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
+                  arrival_time: @now,
+                  departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove"
@@ -234,6 +245,8 @@ defmodule Site.RealtimeScheduleTest do
                   schedule_relationship: nil,
                   status: nil,
                   stop_sequence: 190,
+                  arrival_time: @now,
+                  departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove"

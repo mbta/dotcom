@@ -1,9 +1,10 @@
 defmodule Predictions.Parser do
-  alias Predictions.Prediction
-
   @moduledoc """
   Functions for parsing predictions from their JSON:API format.
   """
+
+  alias JsonApi.Item
+  alias Predictions.Prediction
 
   @type record :: {
           Prediction.id_t() | nil,
@@ -13,57 +14,93 @@ defmodule Predictions.Parser do
           0 | 1,
           DateTime.t() | nil,
           non_neg_integer,
-          Prediction.schedule_relationship(),
+          Prediction.schedule_relationship() | nil,
           String.t() | nil,
           String.t() | nil,
           boolean
         }
 
-  @spec parse(JsonApi.Item.t()) :: record
-  def parse(%JsonApi.Item{attributes: attributes} = item) do
+  @spec parse(Item.t()) :: record
+  def parse(%Item{} = item) do
     {
       item.id,
       trip_id(item),
       stop_id(item),
       route_id(item),
-      attributes["direction_id"],
-      [attributes["arrival_time"], attributes["departure_time"]] |> first_time,
-      attributes["stop_sequence"] || 0,
-      schedule_relationship(attributes["schedule_relationship"]),
+      direction_id(item),
+      first_time(item),
+      stop_sequence(item),
+      schedule_relationship(item),
       track(item),
-      attributes["status"],
-      departing?(attributes)
+      status(item),
+      departing?(item)
     }
   end
 
-  defp first_time(times) do
-    case times
-         |> Enum.reject(&is_nil/1)
-         |> List.first()
-         |> Timex.parse("{ISO:Extended}") do
-      {:ok, time} -> time
-      _ -> nil
-    end
-  end
+  @spec departing?(Item.t()) :: boolean()
+  def departing?(%Item{attributes: %{"departure_time" => binary}}) when is_binary(binary),
+    do: true
 
-  @spec track(JsonApi.Item.t()) :: String.t() | nil
-  defp track(%{attributes: %{"track" => track}}), do: track
+  def departing?(%Item{attributes: %{"status" => binary}}) when is_binary(binary),
+    do: upcoming_status?(binary)
 
-  defp track(%{relationships: %{"stop" => [%{attributes: %{"platform_code" => track}} | _]}}),
+  def departing?(_), do: false
+
+  @spec direction_id(Item.t()) :: 0 | 1
+  def direction_id(%Item{attributes: %{"direction_id" => direction_id}}), do: direction_id
+
+  @spec first_time(Item.t()) :: DateTime.t() | nil
+  def first_time(%Item{attributes: %{"departure_time" => departure_time}})
+      when not is_nil(departure_time),
+      do: parse_time(departure_time)
+
+  def first_time(%Item{attributes: %{"arrival_time" => arrival_time}})
+      when not is_nil(arrival_time),
+      do: parse_time(arrival_time)
+
+  def first_time(_), do: nil
+
+  @spec schedule_relationship(Item.t()) :: Prediction.schedule_relationship() | nil
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "ADDED"}}), do: :added
+
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "UNSCHEDULED"}}),
+    do: :unscheduled
+
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "CANCELLED"}}),
+    do: :cancelled
+
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "SKIPPED"}}),
+    do: :skipped
+
+  def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "NO_DATA"}}),
+    do: :no_data
+
+  def schedule_relationship(_), do: nil
+
+  @spec status(Item.t()) :: String.t() | nil
+  def status(%Item{attributes: %{"status" => status}}), do: status
+  def status(_), do: nil
+
+  @spec stop_sequence(Item.t()) :: non_neg_integer()
+  def stop_sequence(%Item{attributes: %{"stop_sequence" => stop_sequence}}), do: stop_sequence
+  def stop_sequence(_), do: 0
+
+  @spec track(Item.t()) :: String.t() | nil
+  def track(%{attributes: %{"track" => track}}), do: track
+
+  def track(%{relationships: %{"stop" => [%{attributes: %{"platform_code" => track}} | _]}}),
     do: track
 
-  defp track(_), do: nil
+  def track(_), do: nil
 
-  defp departing?(%{"departure_time" => binary}) when is_binary(binary) do
-    true
-  end
+  defp parse_time(prediction_time) do
+    case Timex.parse(prediction_time, "{ISO:Extended}") do
+      {:ok, time} ->
+        time
 
-  defp departing?(%{"status" => binary}) when is_binary(binary) do
-    upcoming_status?(binary)
-  end
-
-  defp departing?(_) do
-    false
+      _ ->
+        nil
+    end
   end
 
   @spec upcoming_status?(String.t()) :: boolean
@@ -71,31 +108,23 @@ defmodule Predictions.Parser do
   defp upcoming_status?("Boarding"), do: true
   defp upcoming_status?(status), do: String.ends_with?(status, "away")
 
-  @spec schedule_relationship(String.t()) :: Prediction.schedule_relationship()
-  defp schedule_relationship("ADDED"), do: :added
-  defp schedule_relationship("UNSCHEDULED"), do: :unscheduled
-  defp schedule_relationship("CANCELLED"), do: :cancelled
-  defp schedule_relationship("SKIPPED"), do: :skipped
-  defp schedule_relationship("NO_DATA"), do: :no_data
-  defp schedule_relationship(_), do: nil
-
-  defp stop_id(%JsonApi.Item{relationships: %{"stop" => [%{id: id} | _]}}) do
+  defp stop_id(%Item{relationships: %{"stop" => [%{id: id} | _]}}) do
     id
   end
 
-  defp stop_id(%JsonApi.Item{relationships: %{"stop" => []}}) do
+  defp stop_id(%Item{relationships: %{"stop" => []}}) do
     nil
   end
 
-  defp trip_id(%JsonApi.Item{relationships: %{"trip" => [%{id: id} | _]}}) do
+  defp trip_id(%Item{relationships: %{"trip" => [%{id: id} | _]}}) do
     id
   end
 
-  defp trip_id(%JsonApi.Item{relationships: %{"trip" => []}}) do
+  defp trip_id(%Item{relationships: %{"trip" => []}}) do
     nil
   end
 
-  defp route_id(%JsonApi.Item{relationships: %{"route" => [%{id: id} | _]}}) do
+  defp route_id(%Item{relationships: %{"route" => [%{id: id} | _]}}) do
     id
   end
 end

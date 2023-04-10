@@ -38,6 +38,8 @@ defmodule Predictions.Mixfile do
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},
       {:repo_cache, in_umbrella: true},
+      {:phoenix_pubsub, "~> 1.0"},
+      {:server_sent_event_stage, "~> 1.0"},
       {:schedules, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true}

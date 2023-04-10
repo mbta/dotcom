@@ -109,7 +109,8 @@ defmodule Predictions.RepoTest do
                       "type": "prediction",
                       "id": "1",
                       "attributes": {
-                        "arrival_time": "2016-01-01T00:00:00-05:00"
+                        "arrival_time": "2016-01-01T00:00:00-05:00",
+                        "direction_id": 0
                       },
                       "relationships": {
                         "route": {"data": {"type": "route", "id": "Red"}},
@@ -121,7 +122,8 @@ defmodule Predictions.RepoTest do
                       "type": "prediction",
                       "id": "1",
                       "attributes": {
-                        "arrival_time": "#{in_five_mins}"
+                        "arrival_time": "#{in_five_mins}",
+                        "direction_id": 0
                       },
                       "relationships": {
                         "route": {"data": {"type": "route", "id": "Red"}},
@@ -177,7 +179,8 @@ defmodule Predictions.RepoTest do
                   "type": "prediction",
                   "id": "1",
                   "attributes": {
-                    "arrival_time": "2016-01-01T00:00:00-05:00"
+                    "arrival_time": "2016-01-01T00:00:00-05:00",
+                    "direction_id": 0
                   },
                   "relationships": {
                     "route": {"data": {"type": "route", "id": "Red"}},
@@ -188,7 +191,8 @@ defmodule Predictions.RepoTest do
                   "type": "prediction",
                   "id": "2",
                   "attributes": {
-                    "arrival_time": "#{in_five_mins}"
+                    "arrival_time": "#{in_five_mins}",
+                    "direction_id": 0
                   },
                   "relationships": {
                     "route": {"data": {"type": "route", "id": "Red"}},
