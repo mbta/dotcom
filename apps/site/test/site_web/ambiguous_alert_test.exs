@@ -1,4 +1,4 @@
-defmodule AmbiguousAlertTest do
+defmodule SiteWeb.AmbiguousAlertTest do
   @moduledoc false
   use ExUnit.Case, async: true
 

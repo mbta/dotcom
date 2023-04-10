@@ -25,7 +25,7 @@ defmodule SiteWeb.BusStopChangeView do
     keyed_alerts
     |> Enum.flat_map(&alert_with_related_stops/1)
     |> sort_and_adjust_values(fn alerts_list ->
-      Enum.sort_by(alerts_list, &alert_start_date/1)
+      Enum.sort_by(alerts_list, &alert_start_date/1, DateTime)
     end)
   end
 
@@ -42,29 +42,13 @@ defmodule SiteWeb.BusStopChangeView do
         ) :: alerts_by_key
   defp sort_and_adjust_values(keyed_alerts_list, alerts_func) do
     keyed_alerts_list
-    |> Enum.reduce([], &collect_by_group/2)
+    |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
     |> Enum.map(fn {key, alerts} ->
       # Apply function to the values
       {key, alerts_func.(alerts)}
     end)
     # Sort whole list by keys
-    |> Enum.sort_by(&elem(&1, 0))
-  end
-
-  @spec collect_by_group({keyname(), AmbiguousAlert.t()}, alerts_by_key()) :: alerts_by_key()
-  defp collect_by_group({group_key, alert}, alerts_with_group_keys) do
-    group_index =
-      alerts_with_group_keys
-      |> Enum.find_index(&(elem(&1, 0) == group_key))
-
-    if is_nil(group_index) do
-      [{group_key, [alert]} | alerts_with_group_keys]
-    else
-      alerts_with_group_keys
-      |> List.update_at(group_index, fn {gk, alerts} ->
-        {gk, [alert | alerts]}
-      end)
-    end
+    |> Enum.sort()
   end
 
   @spec time_filter_buttons(%Plug.Conn{}) :: Phoenix.HTML.Safe.t()

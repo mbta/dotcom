@@ -1,4 +1,4 @@
-defmodule HistoricalAlertTest do
+defmodule Alerts.HistoricalAlertTest do
   use ExUnit.Case
 
   import Alerts.HistoricalAlert
