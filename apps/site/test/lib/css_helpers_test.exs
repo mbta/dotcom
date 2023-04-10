@@ -15,11 +15,12 @@ defmodule CSSHelpersTest do
   end
 
   describe "atom_to_class/1" do
-    test "converts the atom to a dash delimted string" do
+    test "converts the atom to a dash delimited string" do
       assert atom_to_class(:the_ride) == "the-ride"
       assert atom_to_class(:subway) == "subway"
       assert atom_to_class(:commuter_rail) == "commuter-rail"
       assert atom_to_class(:has_multiple_words) == "has-multiple-words"
+      assert atom_to_class([:another_example]) == "another-example"
     end
   end
 end
