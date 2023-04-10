@@ -44,16 +44,12 @@ defmodule SiteWeb.PredictionsChannelTest do
          %{
            socket: socket
          } do
-      # our join doesn't directly reply with predictions, but calls itself with
-      # the list of predictions via handle_info
-      assert {:ok, %{}, %Socket{}} =
+      assert {:ok, %{predictions: [@prediction39]}, %Socket{}} =
                subscribe_and_join(
                  socket,
                  PredictionsChannel,
                  "predictions:#{@route_39}:#{@stop_fh}:#{@direction}"
                )
-
-      assert_push("data", %{predictions: [@prediction39]})
     end
   end
 

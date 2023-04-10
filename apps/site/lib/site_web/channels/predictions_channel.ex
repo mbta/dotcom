@@ -20,26 +20,25 @@ defmodule SiteWeb.PredictionsChannel do
 
     [route_id, stop_id, direction_id] = String.split(route_stop_direction, ":")
     predictions = predictions_subscribe_fn.(route_id, stop_id, direction_id)
-    # immediately push current predictions to socket
-    send(self(), {:new_predictions, predictions})
-    {:ok, socket}
+    {:ok, %{predictions: filter_new(predictions)}, socket}
   end
 
   @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
-  def handle_info({:new_predictions, new_predictions}, socket) do
-    predictions =
-      new_predictions
-      # remove predictions with no trip information
-      |> Enum.reject(&is_nil(&1.trip))
-      # remove predictions with nil departure_times these are likely to be
-      # arrivals to terminals that passengers cannot actually board.
-      |> Enum.reject(&is_nil(&1.departure_time))
-      # remove past predictions
-      |> Enum.filter(&is_in_future?/1)
-
-    :ok = push(socket, "data", %{predictions: predictions})
+  def handle_info({:new_predictions, predictions}, socket) do
+    :ok = push(socket, "data", %{predictions: filter_new(predictions)})
     {:noreply, socket}
+  end
+
+  defp filter_new(predictions) do
+    predictions
+    # remove predictions with no trip information
+    |> Enum.reject(&is_nil(&1.trip))
+    # remove predictions with nil departure_times these are likely to be
+    # arrivals to terminals that passengers cannot actually board.
+    |> Enum.reject(&is_nil(&1.departure_time))
+    # remove past predictions
+    |> Enum.filter(&is_in_future?/1)
   end
 
   defp is_in_future?(%Prediction{departure_time: %DateTime{} = dt}),
