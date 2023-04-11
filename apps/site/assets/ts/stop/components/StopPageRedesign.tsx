@@ -26,7 +26,7 @@ const StopPageRedesign = ({
       {/* Route and Map Div */}
       <div className="container">
         <div className="stop-routes-and-map">
-          <StopPageDepartures routes={routes} />
+          <StopPageDepartures routes={routes} stop={stop} />
           <StopMapRedesign stop={stop} />
         </div>
         {/* Station Information Div */}

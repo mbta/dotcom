@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import StopPageDepartures from "../components/StopPageDepartures";
-import { Route, RouteType } from "../../__v3api";
+import { Route, RouteType, Stop } from "../../__v3api";
 
 const baseRoute = (name: string, type: RouteType): Route =>
   ({
@@ -10,23 +10,27 @@ const baseRoute = (name: string, type: RouteType): Route =>
     name: `${name} Route`,
     type
   } as Route);
-
+const stop = {} as Stop;
 const routeData: Route[] = [baseRoute("4B", 3), baseRoute("Magenta", 1)];
 
 describe("StopPageDepartures", () => {
   it("renders with no data", () => {
-    const { asFragment } = render(<StopPageDepartures routes={[]} />);
+    const { asFragment } = render(
+      <StopPageDepartures routes={[]} stop={stop} />
+    );
     expect(asFragment()).toMatchSnapshot();
     expect(screen.getByRole("list")).toBeEmptyDOMElement();
   });
 
   it("renders with data", () => {
-    const { asFragment } = render(<StopPageDepartures routes={routeData} />);
+    const { asFragment } = render(
+      <StopPageDepartures routes={routeData} stop={stop} />
+    );
     expect(asFragment()).toMatchSnapshot();
     expect(screen.getAllByRole("list")[0]).not.toBeEmptyDOMElement();
     ["All", "Bus", "Subway"].forEach(name => {
       expect(
-        screen.getByRole("button", { name: new RegExp(name, "g") })
+        screen.getByRole("button", { name: new RegExp(name) })
       ).toBeDefined();
     });
   });
