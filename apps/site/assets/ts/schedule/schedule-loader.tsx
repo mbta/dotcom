@@ -128,13 +128,11 @@ const getScheduleFinder = (
   schedulePageData: SchedulePageData
 ): JSX.Element | undefined => {
   return (
-    <Provider store={store}>
-      <ScheduleLoader
-        component="SCHEDULE_FINDER"
-        schedulePageData={schedulePageData}
-        updateURL={updateURL}
-      />
-    </Provider>
+    <ScheduleLoader
+      component="SCHEDULE_FINDER"
+      schedulePageData={schedulePageData}
+      updateURL={updateURL}
+    />
   );
 };
 
@@ -145,13 +143,11 @@ const getDirectionAndMap = (
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {
     return (
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_DIRECTION"
-          schedulePageData={schedulePageData}
-          updateURL={updateURL}
-        />
-      </Provider>
+      <ScheduleLoader
+        component="SCHEDULE_DIRECTION"
+        schedulePageData={schedulePageData}
+        updateURL={updateURL}
+      />
     );
   } else {
     <></>;
@@ -244,13 +240,11 @@ const getLineMap = (
 
 const getScheduleNote = (schedulePageData: SchedulePageData): JSX.Element => {
   return (
-    <Provider store={store}>
-      <ScheduleLoader
-        component="SCHEDULE_NOTE"
-        schedulePageData={schedulePageData}
-        updateURL={updateURL}
-      />
-    </Provider>
+    <ScheduleLoader
+      component="SCHEDULE_NOTE"
+      schedulePageData={schedulePageData}
+      updateURL={updateURL}
+    />
   );
 };
 
@@ -258,13 +252,11 @@ const getAdditionalLineInfo = (
   schedulePageData: SchedulePageData
 ): JSX.Element => {
   return (
-    <Provider store={store}>
-      <ScheduleLoader
-        component="ADDITIONAL_LINE_INFORMATION"
-        schedulePageData={schedulePageData}
-        updateURL={updateURL}
-      />
-    </Provider>
+    <ScheduleLoader
+      component="ADDITIONAL_LINE_INFORMATION"
+      schedulePageData={schedulePageData}
+      updateURL={updateURL}
+    />
   );
 };
 
@@ -311,42 +303,44 @@ const fun = (schedulePageData: SchedulePageData): any => {
 
   return (
     <>
-      <div className={width + " m-schedule-page__main-content " + min_size}>
-        <div className={"m-schedule-line__main-content " + ferry}>
-          {/* TODO add empty branches rendering */}
-          {/* IF branches not empty continue rendering */}
-          {title && <h2>{title}</h2>}
-          {getDirectionAndMap(schedulePageData)}
-          {isFerryRoute(route) && getScheduleFinder(schedulePageData)}
-          <div className="line-map-container">
-            {!isFerryRoute(route) &&
-              mapChannel &&
-              mapImageSrc &&
-              getLineMap(
-                mapChannel,
-                mapImageSrc,
-                dynamicMapData,
-                schedulePageData
-              )}
+      <Provider store={store}>
+        <div className={width + " m-schedule-page__main-content " + min_size}>
+          <div className={"m-schedule-line__main-content " + ferry}>
+            {/* TODO add empty branches rendering */}
+            {/* IF branches not empty continue rendering */}
+            {title && <h2>{title}</h2>}
+            {getDirectionAndMap(schedulePageData)}
+            {isFerryRoute(route) && getScheduleFinder(schedulePageData)}
+            <div className="line-map-container">
+              {!isFerryRoute(route) &&
+                mapChannel &&
+                mapImageSrc &&
+                getLineMap(
+                  mapChannel,
+                  mapImageSrc,
+                  dynamicMapData,
+                  schedulePageData
+                )}
+            </div>
+            {/* END branchs not empty rendering 8*/}
           </div>
-          {/* END branchs not empty rendering 8*/}
         </div>
-      </div>
-      <div className="col-md-5 col-lg-4 col-lg-offset-1 m-schedule-page__schedule-finder-or-note">
-        {/* IF branches not empty continue rendering */}
-        {getScheduleNote(schedulePageData)}
-        {schedulePageData.schedule_note === null &&
-          !isFerryRoute(route) &&
-          getScheduleFinder(schedulePageData)}
-        {/* END branches not empty continue rendering */}
-      </div>
-      <div
-        className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}
-      >
-        <div className="m-schedule-line__side-content">
-          {getAdditionalLineInfo(schedulePageData)}
+        <div className="col-md-5 col-lg-4 col-lg-offset-1 m-schedule-page__schedule-finder-or-note">
+          {/* IF branches not empty continue rendering */}
+          {getScheduleNote(schedulePageData)}
+          {schedulePageData.schedule_note === null &&
+            !isFerryRoute(route) &&
+            getScheduleFinder(schedulePageData)}
+          {/* END branches not empty continue rendering */}
         </div>
-      </div>
+        <div
+          className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}
+        >
+          <div className="m-schedule-line__side-content">
+            {getAdditionalLineInfo(schedulePageData)}
+          </div>
+        </div>
+      </Provider>
     </>
   );
 };
