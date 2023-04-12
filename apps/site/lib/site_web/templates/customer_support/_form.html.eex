@@ -56,10 +56,10 @@
         field: :ada_complaint,
         id: "ada_complaint",
         checked: false,
-        label_text: "This is an ADA/accessibility complaint"
+        label_text: "This is an ADA/accessibility complaint/feedback"
       })
       %>
-      <span aria-hidden="true" class="isa-icon fa fa-wheelchair">
+      <span aria-hidden="true" class="ada-icon fa fa-wheelchair">
 
     </div>
     <div class="form-group">
