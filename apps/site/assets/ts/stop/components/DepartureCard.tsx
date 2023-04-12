@@ -11,7 +11,7 @@ import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TypeToModeIcon = (route: Route): any => {
+const routeToModeIcon = (route: Route): any => {
   switch (route.type) {
     case 0:
     case 1:
@@ -36,7 +36,7 @@ const DepartureCard = ({
 }: {
   route: Route;
 }): ReactElement<HTMLElement> => {
-  const RouteName = (
+  const routeName = (
     <span className={busClass(route)}>
       {isASilverLineRoute(route.id)
         ? `Silver Line ${route.name}`
@@ -46,7 +46,7 @@ const DepartureCard = ({
   return (
     <li className="departure-card">
       <div className={`departure-card__route ${routeBgClass(route)}`}>
-        {renderSvg("c-svg__icon", TypeToModeIcon(route), true)} {RouteName}
+        {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
       </div>
       {Object.entries(route.direction_destinations).map(
         ([direction_id, headsign]) => (
