@@ -4,8 +4,7 @@ import {
   isACommuterRailRoute,
   isAGreenLineRoute,
   isASilverLineRoute,
-  modeForRoute,
-  iconForMode
+  modeForRoute
 } from "../route";
 
 describe("isABusRoute", () => {
@@ -89,19 +88,5 @@ describe("modeForRoute", () => {
     const mode = modeForRoute(route);
     expect(mode).toEqual("subway");
     expect(mode).toStrictEqual("subway" as Mode);
-  });
-});
-
-describe("iconForMode", () => {
-  it.each`
-    mode
-    ${"subway"}
-    ${"commuter_rail"}
-    ${"bus"}
-    ${"ferry"}
-  `("returns an icon for each mode", ({ mode }) => {
-    const icon = iconForMode(mode);
-    expect(icon).toBeTruthy();
-    expect(icon.props.className).toEqual("notranslate c-svg__icon");
   });
 });

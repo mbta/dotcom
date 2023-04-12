@@ -1,7 +1,11 @@
-import { sortBy, startCase } from "lodash";
 import React, { ReactElement } from "react";
 import { Mode } from "../../__v3api";
-import { iconForMode } from "../../models/route";
+import {
+  commuterRailIcon,
+  genericSubwayIcon,
+  busIcon,
+  ferryIcon
+} from "../../helpers/icon";
 
 export type ModeChoice = "all" | Mode;
 interface ModeDisplay {
@@ -10,26 +14,32 @@ interface ModeDisplay {
   mode: ModeChoice;
 }
 
-const buttonNameForMode = (mode: Mode): string => {
-  if (mode === "commuter_rail") {
-    return "Rail";
+const ALL_MODE_BUTTONS: ModeDisplay[] = [
+  {
+    mode: "all",
+    displayText: "All"
+  },
+  {
+    mode: "commuter_rail",
+    displayText: "Rail",
+    displayIcon: commuterRailIcon("c-svg__icon")
+  },
+  {
+    mode: "subway",
+    displayText: "Subway",
+    displayIcon: genericSubwayIcon("c-svg__icon")
+  },
+  {
+    mode: "bus",
+    displayText: "Bus",
+    displayIcon: busIcon("c-svg__icon")
+  },
+  {
+    mode: "ferry",
+    displayText: "Ferry",
+    displayIcon: ferryIcon("c-svg__icon")
   }
-  return startCase(mode);
-};
-
-// Commuter Rail, then Subway, then Bus
-const buttonSortFn = (mode: Mode): number => {
-  if (mode === "commuter_rail") {
-    return 1;
-  }
-  if (mode === "subway") {
-    return 2;
-  }
-  if (mode === "bus") {
-    return 3;
-  }
-  return 4;
-};
+];
 
 const DeparturesFilters = ({
   modesList,
@@ -42,17 +52,8 @@ const DeparturesFilters = ({
 }): ReactElement<HTMLElement> | null => {
   if (!modesList.length) return null;
   // Create filter list
-  const displayedModes: ModeDisplay[] = [
-    {
-      displayText: "All",
-      mode: "all" as ModeChoice
-    }
-  ].concat(
-    sortBy(modesList, [buttonSortFn]).map(mode => ({
-      displayText: buttonNameForMode(mode as Mode),
-      displayIcon: iconForMode(mode as Mode),
-      mode: mode as ModeChoice
-    }))
+  const displayedModes: ModeDisplay[] = ALL_MODE_BUTTONS.filter(
+    ({ mode }) => mode === "all" || modesList.includes(mode)
   );
   return (
     <div className="d-flex departure-filters">

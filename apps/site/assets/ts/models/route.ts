@@ -1,10 +1,4 @@
 import { Mode, Route, RouteType } from "../__v3api";
-import {
-  ferryIcon,
-  commuterRailIcon,
-  busIcon,
-  genericSubwayIcon
-} from "../helpers/icon";
 
 const isRouteType = (obj: Route | RouteType): obj is RouteType =>
   typeof obj === "number";
@@ -49,19 +43,3 @@ const routeTypesToMode: {
 };
 
 export const modeForRoute = ({ type }: Route): Mode => routeTypesToMode[type];
-
-export const iconForMode = (mode: Mode): JSX.Element => {
-  switch (mode) {
-    case "ferry":
-      return ferryIcon("c-svg__icon");
-
-    case "commuter_rail":
-      return commuterRailIcon("c-svg__icon");
-
-    case "bus":
-      return busIcon("c-svg__icon");
-
-    default:
-      return genericSubwayIcon("c-svg__icon");
-  }
-};
