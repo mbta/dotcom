@@ -56,4 +56,29 @@ defmodule Alerts.Cache.StoreTest do
     assert Store.all_alerts(@now) == [alert1, alert2]
     assert Store.alerts(["123", "456"], @now) == [alert1, alert2]
   end
+
+  test "gets the alerts by the stop" do
+    alert1 = %Alerts.Alert{
+      id: "123",
+      effect: :station_closure,
+      informed_entity: %Alerts.InformedEntitySet{stop: MapSet.new(["543", "654"])}
+    }
+
+    alert2 = %Alerts.Alert{
+      id: "124",
+      effect: :station_closure,
+      informed_entity: %Alerts.InformedEntitySet{stop: MapSet.new(["543"])}
+    }
+
+    alert3 = %Alerts.Alert{
+      id: "125",
+      effect: :station_closure,
+      informed_entity: %Alerts.InformedEntitySet{stop: MapSet.new(["987", "333"])}
+    }
+
+    alert4 = %Alerts.Alert{id: "126", effect: :cancellation}
+
+    Store.update([alert1, alert2, alert3, alert4], nil)
+    assert Store.alert_ids_for_stop_id("543") == ["123", "124"]
+  end
 end

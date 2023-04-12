@@ -30,7 +30,6 @@ defmodule SiteWeb.AlertController do
     check_cms_or_404(conn)
   end
 
-  # TODO revisit this later to see if it is used/needed
   @spec show_by_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show_by_stop(conn, %{"stop_id" => stop_id}) do
     alerts = Repo.by_stop_id(stop_id)

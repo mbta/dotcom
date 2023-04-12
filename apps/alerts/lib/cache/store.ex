@@ -121,6 +121,7 @@ defmodule Alerts.Cache.Store do
         read_concurrency: true
       ])
 
+    # no cover
     _ = :ets.new(:stop_id_to_alert_ids, [:bag, :protected, :named_table, read_concurrency: true])
 
     # no cover
@@ -142,12 +143,7 @@ defmodule Alerts.Cache.Store do
 
     stop_inserts =
       Enum.flat_map(alerts, fn alert ->
-        non_nil_stops =
-          Enum.filter(alert.informed_entity, fn %Alerts.InformedEntity{stop: stop_id} ->
-            stop_id != nil
-          end)
-
-        Enum.map(non_nil_stops, fn stop_id ->
+        Enum.map(alert.informed_entity.stop, fn stop_id ->
           {
             stop_id,
             alert.id
