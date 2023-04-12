@@ -28,7 +28,6 @@ const TypeToModeIcon = (route: Route): any => {
 
     default:
       return null;
-      break;
   }
 };
 

@@ -54,17 +54,14 @@ export const iconForMode = (mode: Mode): JSX.Element => {
   switch (mode) {
     case "ferry":
       return ferryIcon("c-svg__icon");
-      break;
 
     case "commuter_rail":
       return commuterRailIcon("c-svg__icon");
-      break;
 
     case "bus":
       return busIcon("c-svg__icon");
 
     default:
       return genericSubwayIcon("c-svg__icon");
-      break;
   }
 };
