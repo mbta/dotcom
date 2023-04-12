@@ -12,18 +12,31 @@ defmodule SiteWeb.Plugs.RemoteIp do
   """
 
   @behaviour Plug
-  @forward_header "x-forwarded-for"
-  @forward_port "x-forwarded-port"
+  @forward_header "X-Forwarded-For"
+  @forward_port "X-Forwarded-Port"
   # load balancer ip address
-  @forward_proto "x-forwarded-proto"
+  @forward_proto "X-Forwarded-Proto"
 
   @impl true
   def init(opts), do: opts
 
   @impl true
   def call(conn, _opts) do
-    Logger.metadata(load_balancer_ip: format(Plug.Conn.get_req_header(conn, @forward_proto)))
-    Logger.metadata(port: format(Plug.Conn.get_req_header(conn, @forward_port)))
+    with [ports] when is_binary(ports) <- Plug.Conn.get_req_header(conn, @forward_port),
+         {:ok, port} <- remote_ip(ports) do
+      Logger.metadata(port: format(port))
+      %{conn | port: port}
+    else
+      _ -> conn
+    end
+
+    with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_proto),
+         {:ok, ip} <- remote_ip(ips) do
+      Logger.metadata(load_balancer: format(ip))
+      %{conn | remote_ip: ip}
+    else
+      _ -> conn
+    end
 
     with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_header),
          {:ok, ip} <- remote_ip(ips) do
@@ -32,6 +45,8 @@ defmodule SiteWeb.Plugs.RemoteIp do
     else
       _ -> conn
     end
+
+    conn
   end
 
   @spec remote_ip(String.t()) :: {:ok, {0..255, 0..255, 0..255, 0..255}} | {:error, :einval}
