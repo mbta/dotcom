@@ -16,6 +16,11 @@ defmodule SiteWeb.CustomerSupportController do
       initially_expanded: true
     },
     %{
+      header: %{text: "ADA/Accessibility Complaints", iconSvgText: nil},
+      id: "accessibility",
+      initially_expanded: true
+    },
+    %{
       header: %{text: "Lost and Found", iconSvgText: nil},
       id: "lost_and_found",
       initially_expanded: true
@@ -394,6 +399,7 @@ defmodule SiteWeb.CustomerSupportController do
       service: params["service"],
       subject: params["subject"],
       no_request_response: params["no_request_response"] == "on",
+      ada_complaint: params["ada_complaint"] == "on",
       incident_date_time: params["date_time"],
       mode: params["mode"],
       line: params["route"],

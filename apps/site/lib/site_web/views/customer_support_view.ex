@@ -40,7 +40,7 @@ defmodule SiteWeb.CustomerSupportView do
       [
         content_tag(
           :p,
-          "You can expect a response to most tickets within 5 business days. Accessibility complaints require a full investigation, which may take up to 30 days."
+          "You can expect a response to most tickets within 5 business days. Certain complaints may require longer investigations, up to 30 days."
         ),
         content_tag(:p, "All fields with an asterisk* are required.")
       ]
