@@ -56,7 +56,7 @@ const DeparturesFilters = ({
     ({ mode }) => mode === "all" || modesList.includes(mode)
   );
   return (
-    <div className="d-flex departure-filters">
+    <div className="departure-filters">
       {displayedModes.map(option => (
         <button
           key={option.mode}

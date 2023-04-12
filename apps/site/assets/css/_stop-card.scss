@@ -84,6 +84,8 @@ $radius: 4px;
   }
 
   .departure-filters {
+    display: flex;
+    gap: .5rem;
     margin-bottom: .5rem;
 
     [class*='c-svg__icon'] {
@@ -96,10 +98,6 @@ $radius: 4px;
 
   .departure-filters button {
     padding: .125em .5em;
-
-    & + button {
-      margin-left: .5rem;
-    }
 
     &.active {
       background-color: $brand-primary-lightest;

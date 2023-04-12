@@ -33,13 +33,11 @@ const StopPageDepartures = ({
   return (
     <div className="routes">
       {modesList.length > 1 && (
-        <div className="d-flex">
-          <DeparturesFilters
-            modesList={modesList}
-            selectedMode={selectedMode}
-            setSelectedMode={setSelectedMode}
-          />
-        </div>
+        <DeparturesFilters
+          modesList={modesList}
+          selectedMode={selectedMode}
+          setSelectedMode={setSelectedMode}
+        />
       )}
       <ul className="stop-departures list-unstyled">
         {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => (

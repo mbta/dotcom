@@ -6,48 +6,44 @@ exports[`StopPageDepartures renders with data 1`] = `
     class="routes"
   >
     <div
-      class="d-flex"
+      class="departure-filters"
     >
-      <div
-        class="d-flex departure-filters"
-      >
-        <button
-          class="
+      <button
+        class="
             btn btn-secondary active
         "
-          type="button"
-        >
-           All
-        </button>
-        <button
-          class="
+        type="button"
+      >
+         All
+      </button>
+      <button
+        class="
             btn btn-secondary inactive
         "
-          type="button"
+        type="button"
+      >
+        <span
+          aria-hidden="false"
+          class="notranslate c-svg__icon"
         >
-          <span
-            aria-hidden="false"
-            class="notranslate c-svg__icon"
-          >
-            SVG
-          </span>
-           Subway
-        </button>
-        <button
-          class="
+          SVG
+        </span>
+         Subway
+      </button>
+      <button
+        class="
             btn btn-secondary inactive
         "
-          type="button"
+        type="button"
+      >
+        <span
+          aria-hidden="false"
+          class="notranslate c-svg__icon"
         >
-          <span
-            aria-hidden="false"
-            class="notranslate c-svg__icon"
-          >
-            SVG
-          </span>
-           Bus
-        </button>
-      </div>
+          SVG
+        </span>
+         Bus
+      </button>
     </div>
     <ul
       class="stop-departures list-unstyled"
