@@ -10,7 +10,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @ex_aws Application.compile_env(:alerts, [:mock_aws_client], ExAws)
   @ex_aws_s3 Application.compile_env(:alerts, [:mock_aws_client], ExAws.S3)
   @bucket "mbta-dotcom"
-  @bucket_prefix "bus-stop-change"
+  @bucket_prefix Application.compile_env!(:alerts, [:bus_stop_change_bucket])
 
   @doc """
   Arguments for the Alerts.Cache.Fetcher process, Fetches current bus alerts
