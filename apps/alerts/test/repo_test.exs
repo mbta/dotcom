@@ -1,6 +1,6 @@
 defmodule Alerts.RepoTest do
   use ExUnit.Case
-  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, Repo}
+  alias Alerts.{Alert, Banner, Cache.Store, InformedEntity, Repo, InformedEntitySet}
 
   @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
 
@@ -64,11 +64,16 @@ defmodule Alerts.RepoTest do
     test "returns the list of alerts from the store with the given types" do
       commuter_rail_alert = %Alert{
         id: "commuter_rail_alert",
-        informed_entity: [@commuter_rail_entity]
+        informed_entity: InformedEntitySet.new([@commuter_rail_entity])
       }
 
-      bus_alert = %Alert{id: "bus_alert", informed_entity: [@bus_entity]}
-      subway_alert = %Alert{id: "subway_alert", informed_entity: [@subway_entity]}
+      bus_alert = %Alert{id: "bus_alert", informed_entity: InformedEntitySet.new([@bus_entity])}
+
+      subway_alert = %Alert{
+        id: "subway_alert",
+        informed_entity: InformedEntitySet.new([@subway_entity])
+      }
+
       Store.update([commuter_rail_alert, bus_alert, subway_alert], nil)
       alerts = Repo.by_route_types([2, 0], @now)
 
@@ -86,13 +91,13 @@ defmodule Alerts.RepoTest do
     @subway_entity2 %InformedEntity{route_type: 0}
 
     test "returns all alerts with given route_id, or route_type when route_id is nil" do
-      cr_alert1 = %Alert{id: "cr1", informed_entity: [@cr_entity1]}
-      cr_alert2 = %Alert{id: "cr2", informed_entity: [@cr_entity2]}
-      bus_alert = %Alert{id: "bus", informed_entity: [@bus_entity]}
+      cr_alert1 = %Alert{id: "cr1", informed_entity: InformedEntitySet.new([@cr_entity1])}
+      cr_alert2 = %Alert{id: "cr2", informed_entity: InformedEntitySet.new([@cr_entity2])}
+      bus_alert = %Alert{id: "bus", informed_entity: InformedEntitySet.new([@bus_entity])}
 
       subway_alert = %Alert{
         id: "subway",
-        informed_entity: [@subway_entity, @subway_entity2]
+        informed_entity: InformedEntitySet.new([@subway_entity, @subway_entity2])
       }
 
       Store.update([cr_alert1, cr_alert2, bus_alert, subway_alert], nil)

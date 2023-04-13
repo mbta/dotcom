@@ -121,6 +121,7 @@ defmodule Alerts.Cache.Store do
         read_concurrency: true
       ])
 
+    # no cover
     _ = :ets.new(:stop_id_to_alert_ids, [:bag, :protected, :named_table, read_concurrency: true])
 
     # no cover
@@ -131,28 +132,16 @@ defmodule Alerts.Cache.Store do
 
   @impl true
   def handle_call({:update, alerts, banner}, _from, state) do
-    {alert_inserts, route_inserts} =
-      Enum.reduce(alerts, {[], []}, fn alert, {alert_inserts_acc, route_inserts_acc} ->
+    {alert_inserts, route_inserts, stop_inserts} =
+      Enum.reduce(alerts, {[], [], []}, fn alert,
+                                           {alert_inserts_acc, route_inserts_acc,
+                                            stop_inserts_acc} ->
         {
           [{alert.id, alert} | alert_inserts_acc],
           Enum.map(alert.informed_entity, &{&1.route, &1.route_type, alert.id}) ++
-            route_inserts_acc
+            route_inserts_acc,
+          Enum.map(alert.informed_entity.stop, &{&1, alert.id}) ++ stop_inserts_acc
         }
-      end)
-
-    stop_inserts =
-      Enum.flat_map(alerts, fn alert ->
-        non_nil_stops =
-          Enum.filter(alert.informed_entity, fn %Alerts.InformedEntity{stop: stop_id} ->
-            stop_id != nil
-          end)
-
-        Enum.map(non_nil_stops, fn stop_id ->
-          {
-            stop_id,
-            alert.id
-          }
-        end)
       end)
 
     :ets.delete_all_objects(:alert_id_to_alert)
