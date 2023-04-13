@@ -30,7 +30,7 @@ jobs:
       # If it's a Dependabot PR, or a push to master, we want to run every test
       force: ${{ github.event_name == 'push' || contains(github.head_ref, 'dependabot/hex') || contains(github.head_ref, 'dependabot/npm_and_yarn') }}
 
-  tslint:
+  eslintts:
     name: Linting / TypeScript
     runs-on: ubuntu-20.04
     needs: file_changes

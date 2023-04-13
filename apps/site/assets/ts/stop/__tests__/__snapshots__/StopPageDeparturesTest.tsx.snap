@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StopPageDepartures renders with data 1`] = `
+<DocumentFragment>
+  <div
+    class="routes"
+  >
+    <div
+      class="departure-filters"
+    >
+      <button
+        class="
+            btn btn-secondary active
+        "
+        type="button"
+      >
+         All
+      </button>
+      <button
+        class="
+            btn btn-secondary inactive
+        "
+        type="button"
+      >
+        <span
+          aria-hidden="false"
+          class="notranslate c-svg__icon"
+        >
+          SVG
+        </span>
+         Subway
+      </button>
+      <button
+        class="
+            btn btn-secondary inactive
+        "
+        type="button"
+      >
+        <span
+          aria-hidden="false"
+          class="notranslate c-svg__icon"
+        >
+          SVG
+        </span>
+         Bus
+      </button>
+    </div>
+    <ul
+      class="stop-departures list-unstyled"
+    >
+      <li
+        class="departure-card"
+      >
+        <div
+          class="departure-card__route u-bg--unknown"
+        >
+          <span
+            aria-hidden="true"
+            class="notranslate c-svg__icon"
+          >
+            SVG
+          </span>
+           
+          <span
+            class=""
+          >
+            Magenta Route
+          </span>
+        </div>
+        <div
+          class="departure-card__headsign"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Somewhere there
+          </div>
+          <div
+            class="departure-card__times"
+          >
+            [Times here]
+          </div>
+          <button
+            aria-label="Open upcoming departures to Somewhere there"
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate"
+            />
+          </button>
+        </div>
+        <div
+          class="departure-card__headsign"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Over yonder
+          </div>
+          <div
+            class="departure-card__times"
+          >
+            [Times here]
+          </div>
+          <button
+            aria-label="Open upcoming departures to Over yonder"
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate"
+            />
+          </button>
+        </div>
+      </li>
+      <li
+        class="departure-card"
+      >
+        <div
+          class="departure-card__route u-bg--bus"
+        >
+          <span
+            aria-hidden="true"
+            class="notranslate c-svg__icon"
+          >
+            SVG
+          </span>
+           
+          <span
+            class="bus-route-sign"
+          >
+            4B Route
+          </span>
+        </div>
+        <div
+          class="departure-card__headsign"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Somewhere there
+          </div>
+          <div
+            class="departure-card__times"
+          >
+            [Times here]
+          </div>
+          <button
+            aria-label="Open upcoming departures to Somewhere there"
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate"
+            />
+          </button>
+        </div>
+        <div
+          class="departure-card__headsign"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Over yonder
+          </div>
+          <div
+            class="departure-card__times"
+          >
+            [Times here]
+          </div>
+          <button
+            aria-label="Open upcoming departures to Over yonder"
+            type="button"
+          >
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate"
+            />
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`StopPageDepartures renders with no data 1`] = `
+<DocumentFragment>
+  <div
+    class="routes"
+  >
+    <ul
+      class="stop-departures list-unstyled"
+    />
+  </div>
+</DocumentFragment>
+`;

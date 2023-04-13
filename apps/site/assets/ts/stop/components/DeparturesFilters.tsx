@@ -1,79 +1,75 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { each, startCase, uniqueId } from "lodash";
-import Pill from "./Pill";
+import React, { ReactElement } from "react";
 import { Mode } from "../../__v3api";
+import {
+  commuterRailIcon,
+  genericSubwayIcon,
+  busIcon,
+  ferryIcon
+} from "../../helpers/icon";
 
-export const ALL = "all";
-export const BUS: Mode = "bus";
-export const SUBWAY: Mode = "subway";
-export const FERRY: Mode = "ferry";
-export const COMMUTER_RAIL: Mode = "commuter_rail";
+export type ModeChoice = "all" | Mode;
+interface ModeDisplay {
+  displayText: string;
+  displayIcon?: JSX.Element;
+  mode: ModeChoice;
+}
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const filterDeparturesByMode = (
-  departuresArray: any[],
-  mode: Mode | typeof ALL
-): any[] => {
-  if (mode === ALL) {
-    return departuresArray;
+const ALL_MODE_BUTTONS: ModeDisplay[] = [
+  {
+    mode: "all",
+    displayText: "All"
+  },
+  {
+    mode: "commuter_rail",
+    displayText: "Rail",
+    displayIcon: commuterRailIcon("c-svg__icon")
+  },
+  {
+    mode: "subway",
+    displayText: "Subway",
+    displayIcon: genericSubwayIcon("c-svg__icon")
+  },
+  {
+    mode: "bus",
+    displayText: "Bus",
+    displayIcon: busIcon("c-svg__icon")
+  },
+  {
+    mode: "ferry",
+    displayText: "Ferry",
+    displayIcon: ferryIcon("c-svg__icon")
   }
-  return departuresArray.filter(d => d.mode === mode);
-};
+];
 
 const DeparturesFilters = ({
-  departures,
-  onModeChange
+  modesList,
+  selectedMode,
+  setSelectedMode
 }: {
-  departures: any[];
-  onModeChange: (val: any[]) => void;
-}): ReactElement<HTMLElement> => {
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-
-  const [selectedMode, setSelectedMode] = useState<typeof ALL | Mode>(ALL);
-  const [filterOptions, setFilterOptions] = useState<
-    { displayText: string; mode: typeof ALL | Mode }[]
-  >([]);
-
+  modesList: ModeChoice[];
+  selectedMode: ModeChoice;
+  setSelectedMode: (val: ModeChoice) => void;
+}): ReactElement<HTMLElement> | null => {
+  if (!modesList.length) return null;
   // Create filter list
-  useEffect(() => {
-    if (departures.length === 0) {
-      setFilterOptions([]);
-    } else {
-      const filterOptionsArray: {
-        displayText: string;
-        mode: typeof ALL | Mode;
-      }[] = [
-        {
-          displayText: startCase(ALL),
-          mode: ALL
-        }
-      ];
-      each([BUS, SUBWAY, COMMUTER_RAIL, FERRY], arrayMode => {
-        if (filterDeparturesByMode(departures, arrayMode).length > 0) {
-          filterOptionsArray.push({
-            displayText: startCase(arrayMode),
-            mode: arrayMode
-          });
-        }
-      });
-      setFilterOptions(filterOptionsArray);
-    }
-  }, [departures]);
-
-  useEffect(() => {
-    onModeChange(filterDeparturesByMode(departures, selectedMode));
-  }, [departures, selectedMode, onModeChange]);
-
+  const displayedModes: ModeDisplay[] = ALL_MODE_BUTTONS.filter(
+    ({ mode }) => mode === "all" || modesList.includes(mode)
+  );
   return (
-    <div className="d-flex">
-      {filterOptions.map(option => (
-        <Pill
+    <div className="departure-filters">
+      {displayedModes.map(option => (
+        <button
+          key={option.mode}
+          type="button"
           onClick={() => setSelectedMode(option.mode)}
-          selected={selectedMode === option.mode}
-          key={uniqueId()}
+          className={`
+            btn btn-secondary ${
+              selectedMode === option.mode ? "active" : "inactive"
+            }
+        `}
         >
-          {option.displayText}
-        </Pill>
+          {option.displayIcon} {option.displayText}
+        </button>
       ))}
     </div>
   );

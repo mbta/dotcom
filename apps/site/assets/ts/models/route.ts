@@ -1,4 +1,4 @@
-import { Route, RouteType } from "../__v3api";
+import { Mode, Route, RouteType } from "../__v3api";
 
 const isRouteType = (obj: Route | RouteType): obj is RouteType =>
   typeof obj === "number";
@@ -31,3 +31,15 @@ export const RAPID_TRANSIT = "rapid_transit";
 export const isRapidTransit = ({ description }: Route): boolean =>
   description === RAPID_TRANSIT;
 export const isGreenLine = ({ id }: Route): boolean => id === "Green";
+
+const routeTypesToMode: {
+  [key in RouteType]: Mode;
+} = {
+  0: "subway",
+  1: "subway",
+  2: "commuter_rail",
+  3: "bus",
+  4: "ferry"
+};
+
+export const modeForRoute = ({ type }: Route): Mode => routeTypesToMode[type];
