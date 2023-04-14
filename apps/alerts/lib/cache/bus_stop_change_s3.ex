@@ -97,7 +97,13 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     end)
     |> Task.async_stream(
       fn {id, contents} ->
-        @ex_aws_s3.put_object(@bucket, "#{@bucket_prefix}/#{id}", contents)
+        aws_operation = @ex_aws_s3.put_object(@bucket, "#{@bucket_prefix}/#{id}", contents)
+
+        Logger.info(fn ->
+          "module=#{__MODULE__} func=write_alerts operation=#{inspect(aws_operation)}"
+        end)
+
+        aws_operation
         |> @ex_aws.request()
         |> log_result(id, "write_alerts")
       end,
