@@ -13,7 +13,7 @@ defmodule Fares do
   @silver_line_rapid_transit ~w(741 742 743 746)
   @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
 
-  @express_routes ~w(170 325 326 351 352 354 426 428 434 450 459 501 502 503 504 505)
+  @express_routes ~w(170 325 326 352 354 426 428 434 450 459 501 502 503 504 505)
   @express_route_set MapSet.new(@express_routes)
 
   @foxboro_reverse_commute ~w(741 743 745 750 752 754 756)
