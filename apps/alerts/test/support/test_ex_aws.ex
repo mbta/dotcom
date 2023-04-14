@@ -6,7 +6,7 @@ defmodule Alerts.TestExAws do
   alias Alerts.{Alert, HistoricalAlert}
 
   def put_object(_bucket, path, _object) do
-    [_bucket, alert_id] = String.split(path, "/")
+    alert_id = String.split(path, "/") |> List.last()
     alert_id
   end
 

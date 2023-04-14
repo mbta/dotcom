@@ -9,7 +9,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
 
   setup_all do
     # starts RepoCache
-    {:ok, _} = BusStopChangeS3.start_link()
+    _ = BusStopChangeS3.start_link()
     :ok
   end
 
