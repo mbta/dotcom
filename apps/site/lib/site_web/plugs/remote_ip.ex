@@ -21,22 +21,10 @@ defmodule SiteWeb.Plugs.RemoteIp do
   def init(opts), do: opts
 
   @impl true
+  @spec call(Plug.Conn.t(), any) :: Plug.Conn.t()
   def call(conn, _opts) do
-    with [ports] when is_binary(ports) <- Plug.Conn.get_req_header(conn, @forward_port),
-         {:ok, port} <- remote_ip(ports) do
-      Logger.metadata(port: format(port))
-      %{conn | port: port}
-    else
-      _ -> conn
-    end
-
-    with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_proto),
-         {:ok, ip} <- remote_ip(ips) do
-      Logger.metadata(load_balancer: format(ip))
-      %{conn | remote_ip: ip}
-    else
-      _ -> conn
-    end
+    Logger.metadata(port: Plug.Conn.get_req_header(conn, @forward_port))
+    Logger.metadata(load_balancer: Plug.Conn.get_req_header(conn, @forward_proto))
 
     with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_header),
          {:ok, ip} <- remote_ip(ips) do
@@ -45,8 +33,6 @@ defmodule SiteWeb.Plugs.RemoteIp do
     else
       _ -> conn
     end
-
-    conn
   end
 
   @spec remote_ip(String.t()) :: {:ok, {0..255, 0..255, 0..255, 0..255}} | {:error, :einval}
