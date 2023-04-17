@@ -1,4 +1,4 @@
-import { chain } from "lodash";
+import { groupBy, mapValues, pick, sortBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
 import { Reducer, useCallback } from "react";
 import {
@@ -34,22 +34,45 @@ interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
 }
 
-interface PredictionsByHeadsign {
-  [headsign: string]: StreamPrediction[];
+export interface Prediction {
+  id: string;
+  time: Date;
+  route: Route;
+  stop: Stop;
+  trip: Trip;
+  direction_id: DirectionId;
+  schedule_relationship: ScheduleRelationship;
+  track: string | null;
+  status: string | null;
 }
 
-const groupByHeadsignFunc = (numPredictions?: number) => {
-  return (predictions: StreamPrediction[]): PredictionsByHeadsign =>
-    chain(predictions)
-      .groupBy("trip.headsign")
-      .mapValues(headsignPredictions =>
-        chain(headsignPredictions)
-          .sortBy("time", Date)
-          .uniqBy("id")
-          .value()
-          .slice(0, numPredictions)
-      )
-      .value();
+interface PredictionsByHeadsign {
+  [headsign: string]: Prediction[];
+}
+
+// Parses departure time into Date(), ignores arrival time
+export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
+  ...pick(prediction, [
+    "id",
+    "route",
+    "stop",
+    "trip",
+    "direction_id",
+    "schedule_relationship",
+    "track",
+    "status"
+  ]),
+  time: new Date(prediction.departure_time!)
+});
+
+export const groupByHeadsigns = (
+  predictions: Prediction[],
+  numPredictions?: number
+): PredictionsByHeadsign => {
+  const byHeadsign = groupBy(predictions, "trip.headsign");
+  return mapValues(byHeadsign, headsignPredictions =>
+    sortBy(headsignPredictions, "time").slice(0, numPredictions)
+  );
 };
 
 /**
@@ -73,9 +96,11 @@ const usePredictionsChannel = (
     PredictionsByHeadsign,
     ChannelPredictionResponse
   > = useCallback(
-    (oldGroupedPredictions, newStreamedPredictions) => {
-      const newGroupedPredictions = groupByHeadsignFunc(numPredictions)(
-        newStreamedPredictions.predictions
+    (oldGroupedPredictions, { predictions }) => {
+      const parsedPredictions = predictions.map(parsePrediction);
+      const newGroupedPredictions = groupByHeadsigns(
+        parsedPredictions,
+        numPredictions
       );
       // don't attempt to reconcile with prior predictions, just replace state with
       // all the new predictions from the channel if there are any changes.
