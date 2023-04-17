@@ -11,6 +11,29 @@ interface DepartureTimesProps {
   directionId: DirectionId;
 }
 
+const departureTimeRow = (
+  headsignName: string,
+  formattedTimes?: string[]
+): JSX.Element => {
+  return (
+    <div key={headsignName} className="departure-card__headsign">
+      <div className="departure-card__headsign-name">{headsignName}</div>
+      <div>
+        {formattedTimes && formattedTimes.length > 0
+          ? formattedTimes.map(t => <div key={t}>{t}</div>)
+          : "No times."}
+      </div>
+      {/* TODO: Navigate to Realtime Tracking view */}
+      <button
+        type="button"
+        aria-label={`Open upcoming departures to ${headsignName}`}
+      >
+        {renderFa("", "fa-angle-right")}
+      </button>
+    </div>
+  );
+};
+
 /* istanbul ignore next */
 /**
  * A proof-of-concept component illustrating a usage of the
@@ -30,46 +53,18 @@ const DepartureTimes = (
     isCR ? 1 : 2
   );
 
+  // TODO: Show schedules when we don't have predictions, and implement logic
+  // for various states of next departute time.
+
   if (!Object.keys(predictionsByHeadsign).length) {
-    return (
-      <div className="departure-card__headsign">
-        <div className="departure-card__headsign-name">
-          {route.direction_destinations[directionId]}
-        </div>
-        <div>No predictions.</div>
-        <button
-          type="button"
-          aria-label={`Open upcoming departures to ${route.direction_destinations[directionId]}`}
-        >
-          {renderFa("", "fa-angle-right")}
-        </button>
-      </div>
-    );
+    return departureTimeRow(route.direction_destinations[directionId]!);
   }
   return (
     <>
       {Object.entries(predictionsByHeadsign).map(([headsign, predictions]) => {
-        return (
-          <div key={headsign} className="departure-card__headsign">
-            <div className="departure-card__headsign-name">{headsign}</div>
-            <div>
-              {predictions.length ? (
-                predictions.map(p => {
-                  return (
-                    <div key={p.id}>{formatDepartureTime(p.time!, isCR)}</div>
-                  );
-                })
-              ) : (
-                <div>No predictions.</div>
-              )}
-            </div>
-            <button
-              type="button"
-              aria-label={`Open upcoming departures to ${headsign}`}
-            >
-              {renderFa("", "fa-angle-right")}
-            </button>
-          </div>
+        return departureTimeRow(
+          headsign,
+          predictions.map(p => formatDepartureTime(p.time, isCR))
         );
       })}
     </>

@@ -3,7 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
 import { Route, RouteType, Stop } from "../../__v3api";
 
-const baseRoute = (name: string, type: RouteType): Route =>
+export const baseRoute = (name: string, type: RouteType): Route =>
   ({
     id: name,
     direction_destinations: { 0: "Somewhere there", 1: "Over yonder" },
