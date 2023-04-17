@@ -24,7 +24,11 @@ export type SocketEvent<DataType> = UpdateEvent<DataType> | RemoveEvent;
 const isVehicleChannel = (channelId: string): boolean =>
   channelId.includes("vehicles:") && channelId !== "vehicles:remove";
 
-const joinChannel = <T>(channelId: string, handleJoin?: Function): void => {
+const joinChannel = <T>(
+  channelId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleJoin?: (event: any) => void
+): void => {
   if (!window.socket) return;
 
   if (!window.channels[channelId]) {
