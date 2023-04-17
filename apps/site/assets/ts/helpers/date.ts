@@ -1,4 +1,4 @@
-import { getMinutes, parseISO } from "date-fns";
+import { formatDistanceToNow, getMinutes, parseISO } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
 // this returns a Date() in the browser time zone, unlike new Date(unformatted)
@@ -68,6 +68,14 @@ export const formatToBostonTime = (dateTimeString: string): string => {
     formatString = "h aa"; // 5 AM
   }
   return formatInTimeZone(dateTime, "America/New_York", formatString);
+};
+
+/** WIP human-readable predicted or scheduled time on the stop page */
+export const formatDepartureTime = (date: Date, isCR: boolean): string => {
+  if (isCR) {
+    return date.toLocaleTimeString();
+  }
+  return formatDistanceToNow(date, { addSuffix: true });
 };
 
 export default formattedDate;

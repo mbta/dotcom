@@ -1,23 +1,15 @@
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import React, { ReactElement } from "react";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { isACommuterRailRoute } from "../../models/route";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
+import { formatDepartureTime } from "../../helpers/date";
 
 interface DepartureTimesProps {
   route: Route;
   stop: Stop;
   directionId: DirectionId;
 }
-
-const formatTime = (timeString: string, isCR: boolean): string => {
-  const d = new Date(timeString);
-  if (isCR) {
-    return d.toLocaleTimeString();
-  }
-  return formatDistanceToNow(d, { addSuffix: true });
-};
 
 /* istanbul ignore next */
 /**
@@ -63,7 +55,9 @@ const DepartureTimes = (
             <div>
               {predictions.length ? (
                 predictions.map(p => {
-                  return <div key={p.id}>{formatTime(p.time!, isCR)}</div>;
+                  return (
+                    <div key={p.id}>{formatDepartureTime(p.time!, isCR)}</div>
+                  );
                 })
               ) : (
                 <div>No predictions.</div>
