@@ -35,7 +35,7 @@ function useChannel<
   const [state, dispatch] = useReducer<OnDataReducerType>(reducer, initialData);
 
   useEffect(() => {
-    joinChannel<OnDataEventType[]>(channelId);
+    joinChannel<OnDataEventType[]>(channelId, dispatch);
 
     return () => {
       leaveChannel(channelId);

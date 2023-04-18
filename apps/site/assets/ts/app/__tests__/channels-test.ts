@@ -1,5 +1,5 @@
 import { Channel, Socket } from "phoenix";
-import setupChannels from "../channels";
+import setupChannels, { joinChannel } from "../channels";
 
 const mockOnLoadEventListener = () => {
   // because the turbolinks:load event doesn't fire outside the browser, run in manually here
@@ -90,5 +90,17 @@ describe("setupChannels", () => {
     expect(console.log).toHaveBeenCalledWith("success joining vehicles:Red:0");
 
     consoleMock.mockRestore();
+  });
+});
+
+describe("joinChannel", () => {
+  it("can handle data dispatched on join", () => {
+    const mockHandleJoin = jest.fn();
+    const channelName = "some:channel";
+    window.channels[channelName] = window.socket.channel(channelName, {});
+    joinChannel(channelName, mockHandleJoin);
+    // @ts-ignore
+    window.channels[channelName].joinPush.trigger("ok", { some: "data" });
+    expect(mockHandleJoin).toHaveBeenCalledWith({ some: "data" });
   });
 });

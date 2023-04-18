@@ -75,10 +75,8 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             Somewhere there
           </div>
-          <div
-            class="departure-card__times"
-          >
-            [Times here]
+          <div>
+            No times.
           </div>
           <button
             aria-label="Open upcoming departures to Somewhere there"
@@ -98,10 +96,8 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             Over yonder
           </div>
-          <div
-            class="departure-card__times"
-          >
-            [Times here]
+          <div>
+            No times.
           </div>
           <button
             aria-label="Open upcoming departures to Over yonder"
@@ -141,10 +137,8 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             Somewhere there
           </div>
-          <div
-            class="departure-card__times"
-          >
-            [Times here]
+          <div>
+            No times.
           </div>
           <button
             aria-label="Open upcoming departures to Somewhere there"
@@ -164,10 +158,8 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             Over yonder
           </div>
-          <div
-            class="departure-card__times"
-          >
-            [Times here]
+          <div>
+            No times.
           </div>
           <button
             aria-label="Open upcoming departures to Over yonder"

@@ -24,7 +24,11 @@ export type SocketEvent<DataType> = UpdateEvent<DataType> | RemoveEvent;
 const isVehicleChannel = (channelId: string): boolean =>
   channelId.includes("vehicles:") && channelId !== "vehicles:remove";
 
-const joinChannel = <T>(channelId: string): void => {
+const joinChannel = <T>(
+  channelId: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleJoin?: (event: any) => void
+): void => {
   if (!window.socket) return;
 
   if (!window.channels[channelId]) {
@@ -40,8 +44,11 @@ const joinChannel = <T>(channelId: string): void => {
         /* eslint-disable no-console */
         console.error(`failed to join ${channelId}`, reason)
       )
-      .receive("ok", () => {
+      .receive("ok", event => {
         console.log(`success joining ${channelId}`);
+        if (handleJoin) {
+          handleJoin(event);
+        }
         /* eslint-enable no-console */
         if (isVehicleChannel(channelId)) {
           const [, route_id, direction_id] = channelId.split(":");
