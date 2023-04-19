@@ -1,5 +1,5 @@
 defmodule Routes.RepoTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   import Mock
   alias Routes.{Repo, Route}
 
