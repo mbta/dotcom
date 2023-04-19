@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { MapData } from "../../leaflet/components/__mapdata";
+import { MapData, Polyline } from "../../leaflet/components/__mapdata";
 import { Stop } from "../../__v3api";
 import StopMapRedesign from "../components/StopMapRedesign";
 
@@ -14,7 +14,12 @@ jest.mock("../../leaflet/components/Map", () => ({
 
 describe("StopMapRedesign", () => {
   it("should render the map", () => {
-    render(<StopMapRedesign stop={{ id: "Test Stop ID" } as Stop} />);
+    render(
+      <StopMapRedesign
+        stop={{ id: "Test Stop ID" } as Stop}
+        lines={[{} as Polyline]}
+      />
+    );
     expect(screen.queryByText("Map Component"));
   });
 });

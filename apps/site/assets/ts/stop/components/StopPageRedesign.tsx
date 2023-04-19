@@ -6,6 +6,7 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import StopPageDepartures from "./StopPageDepartures";
+import { isASilverLineRoute } from "../../models/route";
 
 const StopPageRedesign = ({
   stopId
@@ -13,12 +14,17 @@ const StopPageRedesign = ({
   stopId: string;
 }): ReactElement<HTMLElement> => {
   const stop = useStop(stopId);
-  const routes = useRoutesByStop(stopId);
-
+  const routesWithPolylines = useRoutesByStop(stopId);
   // Return loading indicator while waiting on data fetch
-  if (!stop || !routes) {
+  if (!stop || !routesWithPolylines) {
     return <Loading />;
   }
+  const routes = routesWithPolylines.map(([route]) => route);
+  const polylines = routesWithPolylines
+    .filter(
+      ([route]) => [0, 1, 2].includes(route.type) || isASilverLineRoute(route)
+    )
+    .flatMap(([, polyline]) => polyline);
 
   return (
     <article>
@@ -27,7 +33,7 @@ const StopPageRedesign = ({
       <div className="container">
         <div className="stop-routes-and-map">
           <StopPageDepartures routes={routes} stop={stop} />
-          <StopMapRedesign stop={stop} />
+          <StopMapRedesign stop={stop} lines={polylines} />
         </div>
         {/* Station Information Div */}
         <footer>
