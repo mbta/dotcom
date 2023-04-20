@@ -52,6 +52,7 @@ defmodule SiteWeb.Schedule.LineControllerTest do
       refute Enum.member?(services, past_service)
     end
 
+    @tag skip: "Stopped omitting these, might restore one day"
     test "omits no-school weekday services" do
       service_date = ~D[2019-12-11]
 
