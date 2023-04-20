@@ -45,7 +45,8 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
       children
       |> Floki.attribute(".media", "class")
       |> List.first()
-      |> String.split()
+
+    media_classes = if(media_classes, do: String.split(media_classes), else: [])
 
     %__MODULE__{
       alignment: get_alignment(attributes),
