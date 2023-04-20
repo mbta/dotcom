@@ -134,7 +134,8 @@ export const reducer: DataReducerType = (state, action) => {
       };
     default:
       /* istanbul ignore next */
-      throw new Error(`unexpected event: ${action}`);
+      console.error("unexpected event", action);
+      return state;
   }
 };
 

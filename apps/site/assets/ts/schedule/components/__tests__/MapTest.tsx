@@ -159,15 +159,20 @@ describe("reducer", () => {
   });
 
   it("doesn't handle unknown events empty data actions", () => {
-    expect(() =>
-      reducer(
-        { markers: data.markers },
-        {
-          // @ts-ignore
-          action: { event: "unsupported", data: [] }
-        }
-      )
-    ).toThrowError();
+    const spy = jest
+      .spyOn(global.console, "error")
+      .mockImplementation(() => {});
+    const state = reducer(
+      { markers: data.markers },
+      {
+        // @ts-ignore
+        action: { event: "unsupported", data: [] }
+      }
+    );
+    expect(state).toEqual({ markers: data.markers });
+    expect(spy).toHaveBeenCalledWith("unexpected event", {
+      action: { data: [], event: "unsupported" }
+    });
   });
 
   it("handles empty data actions", () => {

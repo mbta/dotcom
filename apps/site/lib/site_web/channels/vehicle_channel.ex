@@ -10,7 +10,8 @@ defmodule SiteWeb.VehicleChannel do
 
   @impl Phoenix.Channel
   def join("vehicles:" <> _params, %{}, socket) do
-    {:ok, socket}
+    # return nil response to avoid returning an empty object
+    {:ok, nil, socket}
   end
 
   @impl Phoenix.Channel

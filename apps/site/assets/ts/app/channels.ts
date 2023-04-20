@@ -46,7 +46,7 @@ const joinChannel = <T>(
       )
       .receive("ok", event => {
         console.log(`success joining ${channelId}`);
-        if (handleJoin) {
+        if (handleJoin && event) {
           handleJoin(event);
         }
         /* eslint-enable no-console */
