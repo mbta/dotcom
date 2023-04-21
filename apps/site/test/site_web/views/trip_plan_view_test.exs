@@ -1252,6 +1252,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert format_mode(subway) == "Subway"
     end
 
+    @tag skip: "Stopped supporting Trip Planner transfer fares for now."
     test "gets the highest one-way fare correctly with subway -> subway xfer" do
       subway_leg_for_route =
         &%Leg{
