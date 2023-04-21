@@ -3,7 +3,7 @@ import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { Route } from "../__v3api";
 import { Polyline } from "../leaflet/components/__mapdata";
 
-type RoutesWithPolylines = [Route, Polyline[]];
+export type RoutesWithPolylines = [Route, Polyline[]];
 
 const fetchData = async (url: string): Promise<RoutesWithPolylines[]> =>
   fetchJsonOrThrow(url);

@@ -1,10 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { faker } from "@faker-js/faker";
-import { Polyline } from "../../leaflet/components/__mapdata";
 import { Stop } from "../../__v3api";
 import StopMapRedesign from "../components/StopMapRedesign";
-import { uniqueId } from "lodash";
+import { newLatOrLon, newPolyline } from "./helpers";
 
 jest.mock("../../hooks/useMapConfig", () => ({
   __esModule: true,
@@ -12,16 +10,6 @@ jest.mock("../../hooks/useMapConfig", () => ({
     tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
   })
 }));
-
-const newLatOrLon = (): number => +faker.random.numeric(2);
-const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];
-const newPolyline = (): Polyline => ({
-  color: faker.color.rgb({ prefix: "#" }),
-  "dotted?": false,
-  id: uniqueId(),
-  positions: [newPosition(), newPosition(), newPosition()],
-  weight: 2
-});
 
 const testStop = {
   id: "Test Stop ID",
