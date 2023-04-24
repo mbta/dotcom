@@ -143,11 +143,11 @@ defmodule Services.Service do
   defp type("Sunday"), do: :sunday
   defp type("Other"), do: :other
 
-  defp typicality(nil), do: :unknown
   defp typicality(0), do: :unknown
   defp typicality(1), do: :typical_service
   defp typicality(2), do: :extra_service
   defp typicality(3), do: :holiday_service
   defp typicality(4), do: :planned_disruption
   defp typicality(5), do: :unplanned_disruption
+  defp typicality(_), do: :unknown
 end
