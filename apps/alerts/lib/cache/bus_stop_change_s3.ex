@@ -10,7 +10,6 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @ex_aws Application.compile_env(:alerts, [:mock_aws_client], ExAws)
   @ex_aws_s3 Application.compile_env(:alerts, [:mock_aws_client], ExAws.S3)
   @bucket "mbta-dotcom"
-  @bucket_prefix Application.fetch_env!(:alerts, :bus_stop_change_bucket)
 
   @doc """
   Arguments for the Alerts.Cache.Fetcher process, Fetches current bus alerts
@@ -66,14 +65,14 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   def get_stored_alerts do
     cache(Util.service_date(), fn _ ->
       keys =
-        @ex_aws_s3.list_objects(@bucket, prefix: @bucket_prefix)
+        @ex_aws_s3.list_objects(@bucket, prefix: bucket_prefix())
         |> @ex_aws.stream!
         |> Stream.map(& &1.key)
         |> Enum.to_list()
 
       Enum.map(keys, fn key ->
         result =
-          @ex_aws_s3.get_object(@bucket, key, prefix: @bucket_prefix)
+          @ex_aws_s3.get_object(@bucket, key, prefix: bucket_prefix())
           |> @ex_aws.request()
 
         case result do
@@ -97,7 +96,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     end)
     |> Task.async_stream(
       fn {id, contents} ->
-        aws_operation = @ex_aws_s3.put_object(@bucket, "#{@bucket_prefix}/#{id}", contents)
+        aws_operation = @ex_aws_s3.put_object(@bucket, "#{bucket_prefix()}/#{id}", contents)
 
         Logger.info(fn ->
           "module=#{__MODULE__} func=write_alerts operation=#{inspect(aws_operation)}"
@@ -130,5 +129,9 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     Logger.warn(fn ->
       "module=#{__MODULE__} func=#{func_name} alert=#{alert_id} error=#{inspect(reason)}"
     end)
+  end
+
+  defp bucket_prefix() do
+    Application.fetch_env!(:alerts, :bus_stop_change_bucket)
   end
 end
