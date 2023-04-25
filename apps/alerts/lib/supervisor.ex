@@ -12,7 +12,7 @@ defmodule Alerts.Supervisor do
 
   @api_mfa Application.get_env(:alerts, :api_mfa)
 
-  def start_link do
+  def start_link(_) do
     Supervisor.start_link(__MODULE__, [])
   end
 

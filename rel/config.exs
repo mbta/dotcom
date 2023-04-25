@@ -17,6 +17,18 @@ environment :prod do
   set(include_src: false)
 
   set(
+    config_providers: [
+      {Distillery.Releases.Config.Providers.Elixir, ["${RELEASE_ROOT_DIR}/etc/runtime.exs"]}
+    ]
+  )
+
+  set(
+    overlays: [
+      {:copy, "apps/alerts/config/runtime.exs", "etc/runtime.exs"}
+    ]
+  )
+
+  set(
     cookie: "NODE_COOKIE" |> System.get_env() |> Kernel.||("prod_web_cookie") |> String.to_atom()
   )
 end

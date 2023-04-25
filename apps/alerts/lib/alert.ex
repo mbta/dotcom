@@ -50,8 +50,9 @@ defmodule Alerts.Alert do
 
   @type severity :: 0..10
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
+  @type id_t :: String.t()
   @type t :: %Alerts.Alert{
-          id: String.t(),
+          id: id_t(),
           header: String.t(),
           informed_entity: IESet.t(),
           active_period: [period_pair],
@@ -254,6 +255,18 @@ defmodule Alerts.Alert do
   @spec is_diversion(t) :: boolean()
   def is_diversion(%{effect: effect}),
     do: effect in @diversion_effects
+
+  @spec municipality(t) :: String.t() | nil
+  def municipality(alert) do
+    alert
+    |> get_entity(:stop)
+    |> MapSet.delete(nil)
+    |> Enum.find_value(fn stop_id ->
+      with %Stops.Stop{} = stop <- Stops.Repo.get(stop_id) do
+        stop.municipality
+      end
+    end)
+  end
 end
 
 defimpl Poison.Encoder, for: Alerts.Alert do

@@ -1,3 +1,5 @@
-use Mix.Config
+import Config
 
-config :alerts, api_mfa: {JsonApi, :empty, []}
+config :alerts,
+  api_mfa: {JsonApi, :empty, []},
+  mock_aws_client: Alerts.TestExAws

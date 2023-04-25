@@ -1,3 +1,16 @@
+<%
+  all_alerts = if assigns[:past_alerts] do
+    Enum.concat(@past_alerts, @alerts)
+  else
+    @alerts
+  end
+
+  alerts_grouped_by_municipality = if assigns[:past_alerts] do
+    keyed_by_municipality(@past_alerts ++ @alerts)
+  else
+    keyed_by_municipality(@alerts)
+  end
+ %>
 <div class="container">
   <div class="page-section">
     <h1>Bus Stop Changes</h1>
@@ -7,18 +20,22 @@
         <%= time_filter_buttons(@conn) %>
       </div>
       <div class="col-md-10" style="padding-top: 1rem;">
-        <%= if Enum.empty?(@alerts) do %>
+        <%= if Enum.empty?(all_alerts) do %>
           <div class="callout bg-info">No alerts here.</div>
         <% else %>
-          <%= for {municipality, muni_alerts} <- grouped_by_municipality(@alerts) do %>
+          <%= for {municipality, muni_alerts} <- alerts_grouped_by_municipality do %>
             <h2 class="mt-0"><%= municipality %></h2>
             <%= for {stop, alerts} <- muni_alerts do %>
               <section style="list-style-type: none; margin-bottom: 1.5rem;">
                 <h3 class="mt-0"><%= affected_stop_link(@conn, stop) %></h3>
                 <%= for alert <- alerts do %>
-                  <%= affected_routes(alert)%>
+                  <%= for route <- affected_routes(alert) do %>
+                    <span class="c-icon__bus-pill--small u-bg--bus" style="margin-right: .25rem;">
+                      <%= route %>
+                    </span>
+                  <% end %>
                   <%= time_range(alert) %>
-                  <%= SiteWeb.AlertView.render "_item.html", alert: alert, date_time: @conn.assigns.date_time %>
+                  <%= alert_item(alert, @conn) %>
                 <% end %>
               </section>
             <% end %>
