@@ -1,3 +1,4 @@
+import { uniqBy } from "lodash";
 import React, { ReactElement } from "react";
 import Map from "../../leaflet/components/Map";
 import { Stop } from "../../__v3api";
@@ -31,7 +32,7 @@ const StopMapRedesign = ({ stop, lines }: Props): ReactElement<HTMLElement> => {
         tooltip: null
       } as MapMarker
     ],
-    polylines: lines,
+    polylines: uniqBy(lines, "id"),
     tile_server_url: mapConfig?.tile_server_url,
     zoom: 16
   } as MapData;
