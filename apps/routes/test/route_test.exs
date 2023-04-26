@@ -268,4 +268,14 @@ defmodule Routes.RouteTest do
       end
     end
   end
+
+  describe "is_rail_route?/1" do
+    test "returns true if a route is on rails" do
+      assert %Routes.Route{type: 0} |> is_rail_route?()
+      assert %Routes.Route{type: 1} |> is_rail_route?()
+      assert %Routes.Route{type: 2} |> is_rail_route?()
+      refute %Routes.Route{type: 3} |> is_rail_route?()
+      refute %Routes.Route{type: 4} |> is_rail_route?()
+    end
+  end
 end

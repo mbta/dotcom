@@ -20,7 +20,7 @@ defmodule SiteWeb.RouteController do
   end
 
   defp route_polylines(route, stop_id) do
-    if is_rail_route?(route) or Route.silver_line?(route) do
+    if Route.is_rail_route?(route) or Route.silver_line?(route) do
       route.id
       |> RoutePatterns.Repo.by_route_id(stop: stop_id)
       |> Enum.map(fn %RoutePattern{shape_id: id, representative_trip_polyline: polyline} ->
@@ -40,9 +40,5 @@ defmodule SiteWeb.RouteController do
     else
       []
     end
-  end
-
-  defp is_rail_route?(route) do
-    Route.type_atom(route) in [:subway, :commuter_rail]
   end
 end
