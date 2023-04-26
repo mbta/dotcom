@@ -20,7 +20,7 @@ defmodule SiteWeb.RouteController do
   end
 
   defp route_polylines(route, stop_id) do
-    if Route.is_rail_route?(route) or Route.silver_line?(route) do
+    if Route.rail?(route) or Route.silver_line?(route) do
       route.id
       |> RoutePatterns.Repo.by_route_id(stop: stop_id)
       |> Enum.map(fn %RoutePattern{shape_id: id, representative_trip_polyline: polyline} ->

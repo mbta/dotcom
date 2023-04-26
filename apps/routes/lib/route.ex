@@ -235,8 +235,8 @@ defmodule Routes.Route do
   def combined_route?(%{id: "627"}), do: true
   def combined_route?(_), do: false
 
-  @spec is_rail_route?(t()) :: boolean
-  def is_rail_route?(route) do
+  @spec rail?(t()) :: boolean
+  def rail?(route) do
     type_atom(route) in [:subway, :commuter_rail]
   end
 
