@@ -11,6 +11,8 @@ defmodule SiteWeb.Plugs.RemoteIp do
 
   """
 
+  require Logger
+
   @behaviour Plug
   @forward_header "X-Forwarded-For"
   @forward_port "X-Forwarded-Port"
@@ -23,8 +25,9 @@ defmodule SiteWeb.Plugs.RemoteIp do
   @impl true
   @spec call(Plug.Conn.t(), any) :: Plug.Conn.t()
   def call(conn, _opts) do
-    Logger.metadata(port: Plug.Conn.get_req_header(conn, @forward_port))
-    Logger.metadata(load_balancer: Plug.Conn.get_req_header(conn, @forward_proto))
+    Enum.each(conn.req_headers, fn {header, value} ->
+      Logger.info("  Header: #{header} - #{value}")
+    end)
 
     with [ips] when is_binary(ips) <- Plug.Conn.get_req_header(conn, @forward_header),
          {:ok, ip} <- remote_ip(ips) do
