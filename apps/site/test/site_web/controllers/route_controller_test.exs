@@ -2,13 +2,20 @@ defmodule SiteWeb.RouteControllerTest do
   use SiteWeb.ConnCase, async: false
   import Mock
   alias Routes.{Route, Shape}
+  alias RoutePatterns.RoutePattern
 
   setup_with_mocks([
-    {Routes.Repo, [],
+    {Routes.Repo, [:passthrough],
      [
-       by_stop: fn _ -> [%Route{id: "route", color: "ADFF2F"}] end,
-       get_shapes: fn _, _ ->
-         [%Shape{id: "1", polyline: "safsadfasds"}, %Shape{id: "2", polyline: "werwqetrewq"}]
+       by_stop: fn _ -> [%Route{id: "route", color: "ADFF2F"}] end
+     ]},
+    {RoutePatterns.Repo, [],
+     [
+       by_route_id: fn _, _ ->
+         [
+           %RoutePattern{shape_id: "1", representative_trip_polyline: "safsadfasds"},
+           %RoutePattern{shape_id: "2", representative_trip_polyline: "werwqetrewq"}
+         ]
        end
      ]},
     {Polyline, [], [decode: fn _ -> [{1, 2}, {3, 4}, {5, 6}] end]}
