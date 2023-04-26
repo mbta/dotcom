@@ -50,7 +50,7 @@ interface PredictionsByHeadsign {
   [headsign: string]: Prediction[];
 }
 
-// Parses departure time into Date(), ignores arrival time
+// Parses departure time into Date()
 export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
   ...pick(prediction, [
     "id",
@@ -62,7 +62,10 @@ export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
     "track",
     "status"
   ]),
-  time: new Date(prediction.departure_time!)
+  // can arrival time also be null?  What then?
+  time: prediction.departure_time
+    ? new Date(prediction.departure_time)
+    : new Date(prediction.arrival_time!)
 });
 
 export const groupByHeadsigns = (

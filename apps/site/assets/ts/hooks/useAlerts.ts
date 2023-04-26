@@ -5,9 +5,10 @@ import { Alert } from "../__v3api";
 const fetchData = async (url: string): Promise<Alert[]> =>
   fetchJsonOrThrow(url);
 
-const useAlertsForStop = (stopId: string): Alert[] | undefined => {
+const useAlertsByStop = (stopId: string): Alert[] | undefined => {
   const { data } = useSWR<Alert[]>(`/api/stops/${stopId}/alerts`, fetchData);
   return data;
 };
 
-export default useAlertsForStop;
+// eslint-disable-next-line import/prefer-default-export
+export { useAlertsByStop };

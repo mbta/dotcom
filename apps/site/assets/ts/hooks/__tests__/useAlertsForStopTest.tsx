@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import { SWRConfig } from "swr";
-import useAlertsForStop from "../useAlertsForStop";
+import useAlertsForStop from "../useAlerts";
 
 const unmockedFetch = global.fetch;
 const HookWrapper: React.FC = ({ children }) => (

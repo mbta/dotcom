@@ -306,7 +306,8 @@ export interface Schedule {
   route: Route;
   trip: Trip;
   stop: Stop;
-  time: string[];
+  // TODO Figure out if the string array was use anywhere
+  time: string;
   "flag?": boolean;
   "early_departure?": boolean;
   "last_stop?": boolean;

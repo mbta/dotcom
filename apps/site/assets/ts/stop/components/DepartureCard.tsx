@@ -2,13 +2,21 @@ import React, { ReactElement } from "react";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
-import { Route, Stop } from "../../__v3api";
+import { Route, Stop, Schedule, DirectionId } from "../../__v3api";
 import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
 import Bussvg from "../../../static/images/icon-bus-default.svg";
 import SubwaySvg from "../../../static/images/icon-subway-default.svg";
 import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
+import renderFa from "../../helpers/render-fa";
 import DepartureTimes from "./DepartureTimes";
+import { groupBy } from "lodash";
+
+// NEW GAME PLAN
+// Use Predictions over Scheduled data (if exists)
+// Update the data every minute
+// - fetch new realtime data
+// - fetch the next (1 or 2) schedules (could just recall the same schedule endpoint)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeToModeIcon = (route: Route): any => {
@@ -33,9 +41,11 @@ const routeToModeIcon = (route: Route): any => {
 
 const DepartureCard = ({
   route,
-  stop
+  stop,
+  schedulesForRoute
 }: {
   route: Route;
+  schedulesForRoute: Schedule[];
   stop: Stop;
 }): ReactElement<HTMLElement> => {
   const routeName = (
@@ -45,22 +55,30 @@ const DepartureCard = ({
         : breakTextAtSlash(route.name)}
     </span>
   );
+  const schedulesByDirection = groupBy(
+    schedulesForRoute,
+    (sch: Schedule) => sch.trip.direction_id
+  );
+
   return (
     <li className="departure-card">
       <div className={`departure-card__route ${routeBgClass(route)}`}>
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
       </div>
+      {/* TODO can we avoid hard coding the direction ids? */}
       <DepartureTimes
         key={`${route.id}-0`}
         route={route}
         stop={stop}
         directionId={0}
+        schedulesForDirection={schedulesByDirection[0]}
       />
       <DepartureTimes
         key={`${route.id}-1`}
         route={route}
         stop={stop}
         directionId={1}
+        schedulesForDirection={schedulesByDirection[1]}
       />
     </li>
   );

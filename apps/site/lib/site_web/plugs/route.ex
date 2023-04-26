@@ -20,4 +20,9 @@ defmodule SiteWeb.Plugs.Route do
         assign(conn, :route, route)
     end
   end
+
+  def call(conn, []) do
+    # Do nothing, there is no route to add
+    conn
+  end
 end

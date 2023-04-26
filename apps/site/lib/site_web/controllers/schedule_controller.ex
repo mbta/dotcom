@@ -43,4 +43,11 @@ defmodule SiteWeb.ScheduleController do
     |> redirect(to: path)
     |> halt()
   end
+
+  @spec schedules_for_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def schedules_for_stop(conn, %{"stop_id" => stop_id}) do
+    schedules = Schedules.Repo.schedule_for_stop(stop_id, [])
+    # MIGHT NEED TO LIMIT TO NEXT 2 - 4 trips (per route)
+    json(conn, schedules)
+  end
 end

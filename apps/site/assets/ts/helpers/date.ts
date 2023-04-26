@@ -1,4 +1,9 @@
-import { formatDistanceToNow, getMinutes, parseISO } from "date-fns";
+import {
+  differenceInSeconds,
+  formatDistanceToNow,
+  getMinutes,
+  parseISO
+} from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
 // this returns a Date() in the browser time zone, unlike new Date(unformatted)
@@ -61,20 +66,50 @@ export const compareStringTimes = (
   return comparison;
 };
 
-export const formatToBostonTime = (dateTimeString: string): string => {
-  const dateTime = parseISO(dateTimeString);
+export const formatToBostonTime = (
+  dateTimeString: string | Date,
+  overrideFormat?: string
+): string => {
+  const dateTime =
+    typeof dateTimeString === "string"
+      ? parseISO(dateTimeString)
+      : dateTimeString;
   let formatString = "h:mm aa"; // 5:00 AM
   if (getMinutes(dateTime) === 0) {
     formatString = "h aa"; // 5 AM
   }
+  formatString = overrideFormat ? overrideFormat : formatString;
   return formatInTimeZone(dateTime, "America/New_York", formatString);
 };
 
 /** WIP human-readable predicted or scheduled time on the stop page */
-export const formatDepartureTime = (date: Date, isCR: boolean): string => {
+export const formatDepartureTime = (
+  date: Date | undefined,
+  isCR: boolean
+): string => {
+  if (!date) {
+    return "UNDEF";
+  }
   if (isCR) {
+    // CR should always display one time in HH:mm format.  Display a second time only if there is a cancelled trip
+    // The time should always be in Boston time
     return date.toLocaleTimeString();
   }
+
+  // TODO make new date a param
+  const diffInSeconds = differenceInSeconds(date, new Date());
+
+  if (diffInSeconds < 3600 && diffInSeconds > 60) {
+    // State 1
+    return `${Math.floor(diffInSeconds / 60)} min`;
+  }
+
+  if (diffInSeconds > 3600) {
+    return "";
+  }
+
+  // Going to have to write some custom code here to get the right string format
+  // Use difference in seconds between input time and now (which is optionally passed in)
   return formatDistanceToNow(date, { addSuffix: true });
 };
 
