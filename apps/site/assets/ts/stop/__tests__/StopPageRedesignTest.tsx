@@ -3,10 +3,10 @@ import { screen, within } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
 import * as useStop from "../../hooks/useStop";
-import { Stop, ParkingLot, Route } from "../../__v3api";
+import { Stop, ParkingLot } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
-import { baseRoute, newLatOrLon, newPolyline } from "./helpers";
-import { RoutesWithPolylines } from "../../hooks/useRoute";
+import { newLatOrLon, routeWithPolylines } from "./helpers";
+import { RouteWithPolylines } from "../../hooks/useRoute";
 
 test("StopPageRedesign shows Loading without stop or routes", () => {
   jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
@@ -43,18 +43,15 @@ describe("StopPageRedesign", () => {
     expect(screen.queryByText("Test Stop")).not.toBeNull();
   });
 
-  it("filters lines to show on the map", () => {
-    const testRoutesWithPolylines: RoutesWithPolylines[] = [
-      [baseRoute("SomeBus", 3), [newPolyline(), newPolyline(), newPolyline()]],
-      [baseRoute("741", 3), [newPolyline(), newPolyline()]],
-      [baseRoute("AnotherBus", 3), [newPolyline()]],
-      [baseRoute("Train1", 1), [newPolyline(), newPolyline(), newPolyline()]],
-      [
-        baseRoute("Train2", 1),
-        [newPolyline(), newPolyline(), newPolyline(), newPolyline()]
-      ],
-      [baseRoute("Train3", 1), [newPolyline()]],
-      [baseRoute("FerryRoute", 4), [newPolyline(), newPolyline()]]
+  it("gets lines to show on the map", () => {
+    const testRoutesWithPolylines: RouteWithPolylines[] = [
+      routeWithPolylines("SomeBus", 3, 0),
+      routeWithPolylines("741", 3, 2),
+      routeWithPolylines("AnotherBus", 0, 0),
+      routeWithPolylines("Train1", 1, 3),
+      routeWithPolylines("Train2", 1, 4),
+      routeWithPolylines("Train3", 1),
+      routeWithPolylines("FerryRoute", 4, 0)
     ];
     jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
       return testRoutesWithPolylines;
@@ -66,7 +63,7 @@ describe("StopPageRedesign", () => {
     const routeList = container.querySelector<HTMLElement>(
       "ul.stop-departures"
     )!;
-    const routeNames = testRoutesWithPolylines.flatMap(([route]) => route.name);
+    const routeNames = testRoutesWithPolylines.map(route => route.name);
     routeNames.forEach(name => {
       expect(within(routeList).getByText(name, { exact: false })).toBeTruthy();
     });

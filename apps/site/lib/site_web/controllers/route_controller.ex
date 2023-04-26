@@ -10,7 +10,11 @@ defmodule SiteWeb.RouteController do
     routesWithPolylines =
       stop_id
       |> Repo.by_stop()
-      |> Enum.map(&[&1, route_polylines(&1)])
+      |> Enum.map(fn route ->
+        route
+        |> Route.to_json_safe()
+        |> Map.put(:polylines, route_polylines(route, stop_id))
+      end)
 
     json(conn, routesWithPolylines)
   end

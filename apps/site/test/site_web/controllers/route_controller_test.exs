@@ -1,8 +1,8 @@
 defmodule SiteWeb.RouteControllerTest do
   use SiteWeb.ConnCase, async: false
   import Mock
-  alias Routes.{Route, Shape}
   alias RoutePatterns.RoutePattern
+  alias Routes.Route
 
   setup_with_mocks([
     {Routes.Repo, [:passthrough],
@@ -27,8 +27,7 @@ defmodule SiteWeb.RouteControllerTest do
     test "returns routes with polyline data", %{conn: conn} do
       conn = get(conn, route_path(conn, :get_by_stop_id, "stop_id"))
       response = json_response(conn, 200)
-      assert [[route, polylines]] = response
-      assert %{"id" => "route", "color" => "ADFF2F"} = route
+      assert [%{"id" => "route", "color" => "ADFF2F", "polylines" => polylines}] = response
 
       assert [
                %{

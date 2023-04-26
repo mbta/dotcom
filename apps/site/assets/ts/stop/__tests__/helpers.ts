@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { uniqueId } from "lodash";
 import { Polyline } from "../../leaflet/components/__mapdata";
 import { Route, RouteType } from "../../__v3api";
+import { RouteWithPolylines } from "../../hooks/useRoute";
 
 export const newLatOrLon = (): number => +faker.random.numeric(2);
 const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];
@@ -20,3 +21,18 @@ export const baseRoute = (name: string, type: RouteType): Route =>
     name: `${name} Route`,
     type
   } as Route);
+
+export const routeWithPolylines = (
+  name: string,
+  type: RouteType,
+  numPolylines: number = 1
+): RouteWithPolylines => {
+  const route = baseRoute(name, type);
+  const polylines = Array.from({ length: numPolylines }, (x, i) =>
+    newPolyline()
+  );
+  return {
+    ...route,
+    polylines
+  };
+};

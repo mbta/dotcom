@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { compact, omit } from "lodash";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
@@ -6,7 +7,7 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import StopPageDepartures from "./StopPageDepartures";
-import { isASilverLineRoute } from "../../models/route";
+import { Route } from "../../__v3api";
 
 const StopPageRedesign = ({
   stopId
@@ -19,23 +20,19 @@ const StopPageRedesign = ({
   if (!stop || !routesWithPolylines) {
     return <Loading />;
   }
-  const routes = routesWithPolylines.map(([route]) => route);
-  const polylines = routesWithPolylines
-    .filter(
-      ([route]) => [0, 1, 2].includes(route.type) || isASilverLineRoute(route)
-    )
-    .flatMap(([, polyline]) => polyline);
+  const routes: Route[] = routesWithPolylines.map(rwp =>
+    omit(rwp, "polylines")
+  );
+  const polylines = compact(routesWithPolylines.flatMap(rwp => rwp.polylines));
 
   return (
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routes} />
-      {/* Route and Map Div */}
       <div className="container">
         <div className="stop-routes-and-map">
           <StopPageDepartures routes={routes} stop={stop} />
           <StopMapRedesign stop={stop} lines={polylines} />
         </div>
-        {/* Station Information Div */}
         <footer>
           <StationInformation stop={stop} />
         </footer>
