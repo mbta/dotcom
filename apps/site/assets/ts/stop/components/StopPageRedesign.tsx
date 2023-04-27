@@ -6,6 +6,8 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import StopPageDepartures from "./StopPageDepartures";
+import useAlertsForStop from "../../hooks/useAlertsForStop";
+import Alerts from "../../components/Alerts";
 
 const StopPageRedesign = ({
   stopId
@@ -14,6 +16,7 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const stop = useStop(stopId);
   const routes = useRoutesByStop(stopId);
+  const alerts = useAlertsForStop(stopId);
 
   // Return loading indicator while waiting on data fetch
   if (!stop || !routes) {
@@ -25,6 +28,7 @@ const StopPageRedesign = ({
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       {/* Route and Map Div */}
       <div className="container">
+        <Alerts alerts={alerts || []} />
         <div className="stop-routes-and-map">
           <StopPageDepartures routes={routes} stop={stop} />
           <StopMapRedesign stop={stop} />
