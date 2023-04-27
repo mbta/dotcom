@@ -55,4 +55,11 @@ describe("StopPageRedesign", () => {
       screen.queryByText("There is construction at this station.")
     ).not.toBeNull();
   });
+
+  it("should render page when alerts undefined", () => {
+    jest.spyOn(useAlertsForStop, "default").mockImplementation(() => undefined);
+
+    render(<StopPageRedesign stopId="123" />);
+    expect(screen.queryByText("Test Stop")).not.toBeNull();
+  });
 });
