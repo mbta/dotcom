@@ -36,11 +36,7 @@ defmodule RoutePatterns.Repo do
 
   def by_route_id(route_id, opts) do
     opts
-    |> Keyword.get(:direction_id)
-    |> case do
-      nil -> [route: route_id]
-      direction_id -> [route: route_id, direction_id: direction_id]
-    end
+    |> Keyword.put(:route, route_id)
     |> Keyword.put(:sort, "typicality,sort_order")
     |> Keyword.put(:include, "representative_trip.shape")
     |> cache(&api_all/1)

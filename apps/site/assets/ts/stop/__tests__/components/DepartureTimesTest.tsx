@@ -1,8 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import DepartureTimes from "../../components/DepartureTimes";
-import { baseRoute } from "../DepartureCardTest";
 import { Stop } from "../../../__v3api";
+import { baseRoute } from "../helpers";
 
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;

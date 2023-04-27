@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { chain, omit } from "lodash";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import StopMapRedesign from "./StopMapRedesign";
@@ -6,6 +7,7 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import StopPageDepartures from "./StopPageDepartures";
+import { Route } from "../../__v3api";
 
 const StopPageRedesign = ({
   stopId
@@ -13,23 +15,28 @@ const StopPageRedesign = ({
   stopId: string;
 }): ReactElement<HTMLElement> => {
   const stop = useStop(stopId);
-  const routes = useRoutesByStop(stopId);
-
+  const routesWithPolylines = useRoutesByStop(stopId);
   // Return loading indicator while waiting on data fetch
-  if (!stop || !routes) {
+  if (!stop || !routesWithPolylines) {
     return <Loading />;
   }
+  const routes: Route[] = routesWithPolylines.map(rwp =>
+    omit(rwp, "polylines")
+  );
+  const polylines = chain(routesWithPolylines)
+    .orderBy("sort_order", "desc")
+    .flatMap("polylines")
+    .uniqBy("id")
+    .value();
 
   return (
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routes} />
-      {/* Route and Map Div */}
       <div className="container">
         <div className="stop-routes-and-map">
           <StopPageDepartures routes={routes} stop={stop} />
-          <StopMapRedesign stop={stop} />
+          <StopMapRedesign stop={stop} lines={polylines} />
         </div>
-        {/* Station Information Div */}
         <footer>
           <StationInformation stop={stop} />
         </footer>
