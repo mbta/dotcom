@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "repository": {},
   "dependencies": {
+    "@algolia/autocomplete-core": "^1.8.3",
+    "@algolia/autocomplete-js": "^1.8.3",
+    "@algolia/autocomplete-theme-classic": "^1.9.2",
+    "@algolia/client-search": "^4.17.0",
     "@babel/polyfill": "^7.12.1",
     "@sentry/react": "^7.0.0",
     "@types/dot-prop-immutable": "^1.5.0",
@@ -33,6 +37,7 @@
     "phoenix": "file:../../../deps/phoenix",
     "phoenix_html": "file:../../../deps/phoenix_html",
     "places.js": "^1.6.0",
+    "preact": "^10.13.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-leaflet": "^2.7.0",
