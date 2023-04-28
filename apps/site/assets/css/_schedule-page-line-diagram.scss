@@ -260,6 +260,11 @@
     font-size: $font-size-sm;
     text-align: right;
 
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
     // Disallow line breaks in the middle of each prediction detail item
     span {
       white-space: nowrap;
