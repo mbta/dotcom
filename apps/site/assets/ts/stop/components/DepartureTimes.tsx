@@ -1,9 +1,13 @@
 import React, { ReactElement } from "react";
-import usePredictionsChannel, {
-  Prediction
-} from "../../hooks/usePredictionsChannel";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { isACommuterRailRoute } from "../../models/route";
-import { DirectionId, Route, Schedule, Stop } from "../../__v3api";
+import {
+  DirectionId,
+  PredictionForStop,
+  Route,
+  ScheduleForStop,
+  Stop
+} from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import { formatToBostonTime } from "../../helpers/date";
 import { filter, find, groupBy, slice } from "lodash";
@@ -21,7 +25,7 @@ interface DepartureTimesProps {
   route: Route;
   stop: Stop;
   directionId: DirectionId;
-  schedulesForDirection: Schedule[];
+  schedulesForDirection: ScheduleForStop[];
 }
 
 // This interface is used to tell the front end
@@ -44,26 +48,26 @@ interface ScheduleInfoModel {
   track?: string | null;
 }
 
-const isCancelled = (prediction: Prediction): boolean => {
+const isCancelled = (prediction: PredictionForStop): boolean => {
   return prediction.schedule_relationship === "cancelled";
 };
 
 // Finds the corresponding schedule to the prediction and compares the times
 // If the prediction an schedule are more than 60 seconds apart it is delayed
 const isDelayed = (
-  prediction: Prediction,
-  schedules: Schedule[],
+  prediction: PredictionForStop,
+  schedules: ScheduleForStop[],
   delay: number = 60
 ): boolean => {
   const schedule = find(
     schedules,
-    (sch: Schedule) => sch.trip.id === prediction.trip.id
+    (sch: ScheduleForStop) => sch.trip.id === prediction.trip.id
   );
 
   return (
     !!schedule &&
     // Is the prediction meaningfully after the schedule
-    differenceInSeconds(prediction.time, new Date(schedule.time)) > delay
+    differenceInSeconds(prediction.time, schedule.time) > delay
   );
 };
 
@@ -72,8 +76,8 @@ const isDelayed = (
 // It will return 2 predictions if there are more than 2 predictions that are not cancelled,
 // If the first prediction is cancelled, the 2nd prediction will not be cancelled
 const filterPredictions = (
-  predictions: Prediction[]
-): Array<Prediction | undefined> => {
+  predictions: PredictionForStop[]
+): Array<PredictionForStop | undefined> => {
   if (predictions.length === 0) {
     return predictions;
   }
@@ -92,8 +96,8 @@ const filterPredictions = (
 // This function returns time info in a consisten format.
 // Returns the time from the predictions if they exist
 const getNextTwoTimes = (
-  schedules: Schedule[],
-  predictions: Prediction[]
+  schedules: ScheduleForStop[],
+  predictions: PredictionForStop[]
 ): [boolean, ScheduleInfoModel | undefined, ScheduleInfoModel | undefined] => {
   // it appears schedules are in chronological order (make sure this is true)
   // slice an array of 2 to safely get undefined if array is smaller than 2
@@ -105,7 +109,7 @@ const getNextTwoTimes = (
     const schedule = find(schedules, sch => sch.trip.id === prd1.trip.id);
     return [
       true,
-      { time: new Date(schedule!.time), isDelayed: true },
+      { time: schedule!.time, isDelayed: true },
       { time: prd1.time }
     ];
   }
@@ -132,11 +136,11 @@ const getNextTwoTimes = (
   }
 
   if (!prd1 && sch1) {
-    time1 = { time: new Date(sch1.time) };
+    time1 = { time: sch1.time };
   }
 
   if (!prd2 && sch2) {
-    time2 = { time: new Date(sch2.time) };
+    time2 = { time: sch2.time };
   }
 
   return [isPrediction, time1, time2];
@@ -246,8 +250,8 @@ const infoToDisplayTime = (
 };
 
 const toDisplayTime = (
-  schedules: Schedule[],
-  predictions: Prediction[]
+  schedules: ScheduleForStop[],
+  predictions: PredictionForStop[]
 ): DisplayTimeConfig[] => {
   // TODO this should be short cutted by alerts
   const [isPrediction, time1, time2] = getNextTwoTimes(schedules, predictions);
@@ -256,8 +260,8 @@ const toDisplayTime = (
   return infoToDisplayTime(time1, time2, isPrediction);
 };
 
-const schedulesByHeadsign = (schedules: Schedule[]) => {
-  return groupBy(schedules, (sch: Schedule) => {
+const schedulesByHeadsign = (schedules: ScheduleForStop[]) => {
+  return groupBy(schedules, (sch: ScheduleForStop) => {
     return sch.trip.headsign;
   });
 };

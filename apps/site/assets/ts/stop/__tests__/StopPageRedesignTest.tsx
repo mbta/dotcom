@@ -7,7 +7,8 @@ import { Stop, ParkingLot, InformedEntitySet, Alert } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
 import { newLatOrLon, routeWithPolylines } from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
-import * as useAlertsForStop from "../../hooks/useAlertsForStop";
+import * as useSchedules from "../../hooks/useSchedules";
+import * as useAlerts from "../../hooks/useAlerts";
 
 test("StopPageRedesign shows Loading without stop or routes", () => {
   jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
@@ -23,6 +24,18 @@ test("StopPageRedesign shows Loading without stop or routes", () => {
 
 describe("StopPageRedesign", () => {
   beforeAll(() => {
+    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
+      return [];
+    });
+
+    jest.spyOn(useSchedules, "useSchedulesByStop").mockImplementation(() => {
+      return [];
+    });
+
+    jest.spyOn(useAlerts, "useAlertsByStop").mockImplementation(() => {
+      return [];
+    });
+
     jest.spyOn(useStop, "default").mockImplementation(() => {
       return {
         id: "123",
@@ -36,10 +49,6 @@ describe("StopPageRedesign", () => {
   });
 
   it("should render", () => {
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [];
-    });
-
     render(<StopPageRedesign stopId="123" />);
     expect(screen.queryByText("Test Stop")).not.toBeNull();
   });

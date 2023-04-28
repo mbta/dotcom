@@ -2,13 +2,12 @@ import React, { ReactElement } from "react";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
-import { Route, Stop, Schedule, DirectionId } from "../../__v3api";
+import { Route, ScheduleForStop, Stop } from "../../__v3api";
 import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
 import Bussvg from "../../../static/images/icon-bus-default.svg";
 import SubwaySvg from "../../../static/images/icon-subway-default.svg";
 import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
-import renderFa from "../../helpers/render-fa";
 import DepartureTimes from "./DepartureTimes";
 import { groupBy } from "lodash";
 
@@ -45,7 +44,7 @@ const DepartureCard = ({
   schedulesForRoute
 }: {
   route: Route;
-  schedulesForRoute: Schedule[];
+  schedulesForRoute: ScheduleForStop[];
   stop: Stop;
 }): ReactElement<HTMLElement> => {
   const routeName = (
@@ -57,7 +56,7 @@ const DepartureCard = ({
   );
   const schedulesByDirection = groupBy(
     schedulesForRoute,
-    (sch: Schedule) => sch.trip.direction_id
+    (sch: ScheduleForStop) => sch.trip.direction_id
   );
 
   return (

@@ -3,6 +3,7 @@ import deepEqual from "fast-deep-equal/react";
 import { Reducer, useCallback } from "react";
 import {
   DirectionId,
+  PredictionForStop,
   Route,
   ScheduleRelationship,
   Stop,
@@ -34,25 +35,14 @@ interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
 }
 
-// TODO merge this with the existing prediction interface
-export interface Prediction {
-  id: string;
-  time: Date;
-  route: Route;
-  stop: Stop;
-  trip: Trip;
-  direction_id: DirectionId;
-  schedule_relationship: ScheduleRelationship;
-  track: string | null;
-  status: string | null;
-}
-
 interface PredictionsByHeadsign {
-  [headsign: string]: Prediction[];
+  [headsign: string]: PredictionForStop[];
 }
 
 // Parses departure time into Date()
-export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
+export const parsePrediction = (
+  prediction: StreamPrediction
+): PredictionForStop => ({
   ...pick(prediction, [
     "id",
     "route",
@@ -69,7 +59,7 @@ export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
 });
 
 export const groupByHeadsigns = (
-  predictions: Prediction[],
+  predictions: PredictionForStop[],
   numPredictions?: number
 ): PredictionsByHeadsign => {
   const byHeadsign = groupBy(predictions, "trip.headsign");

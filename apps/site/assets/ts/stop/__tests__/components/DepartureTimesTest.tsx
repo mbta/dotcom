@@ -5,10 +5,14 @@ import DepartureTimes, {
   infoToDisplayTime,
   isDelayed
 } from "../../components/DepartureTimes";
-import { Schedule, Stop, Trip } from "../../../__v3api";
-import { Prediction } from "../../../hooks/usePredictionsChannel";
-import { compareAsc } from "date-fns";
 import { baseRoute } from "../helpers";
+import {
+  PredictionForStop,
+  ScheduleForStop,
+  Stop,
+  Trip
+} from "../../../__v3api";
+import { compareAsc, differenceInSeconds } from "date-fns";
 
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;
@@ -44,17 +48,17 @@ describe("(WIP) DepartureTimes", () => {
         schedule_relationship: null,
         track: null,
         status: null
-      } as Prediction;
+      } as PredictionForStop;
       const schedules = [
         {
           stop: {} as any,
           route: {} as any,
           trip: { id: "1" } as Trip,
-          time: "2022-04-26T11:15:00-04:00",
+          time: new Date("2022-04-26T11:15:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         }
-      ] as Schedule[];
+      ] as ScheduleForStop[];
       expect(isDelayed(prd1, schedules)).toBeTruthy();
     });
   });
@@ -66,7 +70,7 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "1" } as Trip,
-          time: "2022-04-26T11:15:00-04:00",
+          time: new Date("2022-04-26T11:15:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         },
@@ -74,11 +78,11 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "2" } as Trip,
-          time: "2022-04-26T11:26:00-04:00",
+          time: new Date("2022-04-26T11:26:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         }
-      ] as Schedule[];
+      ] as ScheduleForStop[];
       const predictions = [
         {
           id: "p1",
@@ -102,7 +106,7 @@ describe("(WIP) DepartureTimes", () => {
           track: null,
           status: null
         }
-      ] as Prediction[];
+      ] as PredictionForStop[];
 
       const [isPrediction, info1, info2] = getNextTwoTimes(
         schedules,
@@ -120,7 +124,7 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "1" } as Trip,
-          time: "2022-04-26T11:15:00-04:00",
+          time: new Date("2022-04-26T11:15:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         },
@@ -128,11 +132,11 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "2" } as Trip,
-          time: "2022-04-26T11:26:00-04:00",
+          time: new Date("2022-04-26T11:26:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         }
-      ] as Schedule[];
+      ] as ScheduleForStop[];
       const predictions = [
         {
           id: "p1",
@@ -145,7 +149,7 @@ describe("(WIP) DepartureTimes", () => {
           track: null,
           status: null
         }
-      ] as Prediction[];
+      ] as PredictionForStop[];
       const [isPrediction, info1, info2] = getNextTwoTimes(
         schedules,
         predictions
@@ -165,7 +169,7 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "1" } as Trip,
-          time: "2022-04-26T11:15:00-04:00",
+          time: new Date("2022-04-26T11:15:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         },
@@ -173,11 +177,11 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "2" } as Trip,
-          time: "2022-04-26T11:26:00-04:00",
+          time: new Date("2022-04-26T11:26:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         }
-      ] as Schedule[];
+      ] as ScheduleForStop[];
       const [isPrediction, info1, info2] = getNextTwoTimes(schedules, []);
       expect(isPrediction).toBeFalsy();
       // return one prediction and one schedule (because there is only one prediction for some reason)
@@ -192,18 +196,18 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "1" } as Trip,
-          time: "2022-04-26T11:15:00-04:00",
+          time: new Date("2022-04-26T11:15:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         }
-      ] as Schedule[];
+      ] as ScheduleForStop[];
       const [isPrediction, info1, info2] = getNextTwoTimes(schedules, []);
       expect(isPrediction).toBeFalsy();
       expect(compareAsc(info1!.time, new Date(schedules[0].time))).toEqual(0);
       expect(info2).toBeUndefined();
     });
     it("should return one non cancelled prediction and one cancelled prediction", () => {
-      const schedules = [] as Schedule[];
+      const schedules = [] as ScheduleForStop[];
       const predictions = [
         {
           id: "p1",
@@ -238,7 +242,7 @@ describe("(WIP) DepartureTimes", () => {
           track: null,
           status: null
         }
-      ] as Prediction[];
+      ] as PredictionForStop[];
       const [isPrediction, info1, info2] = getNextTwoTimes(
         schedules,
         predictions
@@ -256,11 +260,11 @@ describe("(WIP) DepartureTimes", () => {
           stop: {} as any,
           route: {} as any,
           trip: { id: "1" } as Trip,
-          time: "2022-04-26T11:15:00-04:00",
+          time: new Date("2022-04-26T11:15:00-04:00"),
           stop_sequence: 1,
           pickup_type: 1
         }
-      ] as Schedule[];
+      ] as ScheduleForStop[];
       const predictions = [
         {
           id: "p2",
@@ -273,7 +277,7 @@ describe("(WIP) DepartureTimes", () => {
           track: null,
           status: null
         }
-      ] as Prediction[];
+      ] as PredictionForStop[];
       const [isPrediction, info1, info2] = getNextTwoTimes(
         schedules,
         predictions

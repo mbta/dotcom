@@ -67,48 +67,6 @@ exports[`StopPageDepartures renders with data 1`] = `
             Magenta Route
           </span>
         </div>
-        <div
-          class="departure-card__headsign"
-        >
-          <div
-            class="departure-card__headsign-name"
-          >
-            Somewhere there
-          </div>
-          <div>
-            No times.
-          </div>
-          <button
-            aria-label="Open upcoming departures to Somewhere there"
-            type="button"
-          >
-            <i
-              aria-hidden="true"
-              class="fa fa-angle-right notranslate"
-            />
-          </button>
-        </div>
-        <div
-          class="departure-card__headsign"
-        >
-          <div
-            class="departure-card__headsign-name"
-          >
-            Over yonder
-          </div>
-          <div>
-            No times.
-          </div>
-          <button
-            aria-label="Open upcoming departures to Over yonder"
-            type="button"
-          >
-            <i
-              aria-hidden="true"
-              class="fa fa-angle-right notranslate"
-            />
-          </button>
-        </div>
       </li>
       <li
         class="departure-card"
@@ -128,48 +86,6 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             4B Route
           </span>
-        </div>
-        <div
-          class="departure-card__headsign"
-        >
-          <div
-            class="departure-card__headsign-name"
-          >
-            Somewhere there
-          </div>
-          <div>
-            No times.
-          </div>
-          <button
-            aria-label="Open upcoming departures to Somewhere there"
-            type="button"
-          >
-            <i
-              aria-hidden="true"
-              class="fa fa-angle-right notranslate"
-            />
-          </button>
-        </div>
-        <div
-          class="departure-card__headsign"
-        >
-          <div
-            class="departure-card__headsign-name"
-          >
-            Over yonder
-          </div>
-          <div>
-            No times.
-          </div>
-          <button
-            aria-label="Open upcoming departures to Over yonder"
-            type="button"
-          >
-            <i
-              aria-hidden="true"
-              class="fa fa-angle-right notranslate"
-            />
-          </button>
         </div>
       </li>
     </ul>

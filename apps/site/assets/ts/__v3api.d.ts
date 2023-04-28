@@ -104,6 +104,15 @@ export interface Prediction {
   schedule_relationship?: ScheduleRelationship;
 }
 
+export interface PredictionForStop extends Omit<Prediction, "time"> {
+  id: string;
+  time: Date;
+  route: Route;
+  stop: Stop;
+  trip: Trip;
+  direction_id: DirectionId;
+}
+
 export interface Route {
   color?: string;
   description: string;
@@ -306,14 +315,17 @@ export interface Schedule {
   route: Route;
   trip: Trip;
   stop: Stop;
-  // TODO Figure out if the string array was use anywhere
-  time: string;
+  time: string[];
   "flag?": boolean;
   "early_departure?": boolean;
   "last_stop?": boolean;
   stop_sequence: number;
   pickup_type: number;
   train_number?: string;
+}
+
+export interface ScheduleForStop extends Omit<Schedule, "time"> {
+  time: Date;
 }
 
 export interface Shape {

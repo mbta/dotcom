@@ -130,7 +130,7 @@ const buildHeadsign = (
             }
           : null;
         // TODO figure out how/when this data becomes an array
-        const scheduledTime = schedule ? [schedule.time] : null;
+        const scheduledTime = schedule ? schedule.time : null;
         const delay = 0;
 
         return {
