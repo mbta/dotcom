@@ -34,6 +34,7 @@ interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
 }
 
+// TODO merge this with the existing prediction interface
 export interface Prediction {
   id: string;
   time: Date;
@@ -62,10 +63,9 @@ export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
     "track",
     "status"
   ]),
-  // can arrival time also be null?  What then?
-  time: prediction.departure_time
-    ? new Date(prediction.departure_time)
-    : new Date(prediction.arrival_time!)
+  // backend removes all predictions with a null departure_time
+  // so this is always populated
+  time: new Date(prediction.departure_time!)
 });
 
 export const groupByHeadsigns = (
@@ -91,28 +91,21 @@ export const groupByHeadsigns = (
 const usePredictionsChannel = (
   routeId: string,
   stopId: string,
-  directionId: 0 | 1,
-  numPredictions?: number
+  directionId: 0 | 1
 ): PredictionsByHeadsign => {
   const channelName = `predictions:${routeId}:${stopId}:${directionId}`;
-  const reducer: Reducer<
-    PredictionsByHeadsign,
-    ChannelPredictionResponse
-  > = useCallback(
-    (oldGroupedPredictions, { predictions }) => {
-      const parsedPredictions = predictions.map(parsePrediction);
-      const newGroupedPredictions = groupByHeadsigns(
-        parsedPredictions,
-        numPredictions
-      );
-      // don't attempt to reconcile with prior predictions, just replace state with
-      // all the new predictions from the channel if there are any changes.
-      return deepEqual(oldGroupedPredictions, newGroupedPredictions)
-        ? oldGroupedPredictions
-        : newGroupedPredictions;
-    },
-    [numPredictions]
-  );
+  const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
+    oldGroupedPredictions,
+    { predictions }
+  ) => {
+    const parsedPredictions = predictions.map(parsePrediction);
+    const newGroupedPredictions = groupByHeadsigns(parsedPredictions);
+    // don't attempt to reconcile with prior predictions, just replace state with
+    // all the new predictions from the channel if there are any changes.
+    return deepEqual(oldGroupedPredictions, newGroupedPredictions)
+      ? oldGroupedPredictions
+      : newGroupedPredictions;
+  };
   const initialState: PredictionsByHeadsign = {};
   const state = useChannel(channelName, reducer, initialState);
   return state;
