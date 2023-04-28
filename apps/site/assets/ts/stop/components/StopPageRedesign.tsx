@@ -7,6 +7,8 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import StopPageDepartures from "./StopPageDepartures";
+import useAlertsForStop from "../../hooks/useAlertsForStop";
+import Alerts from "../../components/Alerts";
 import { Route } from "../../__v3api";
 
 const StopPageRedesign = ({
@@ -16,6 +18,7 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const stop = useStop(stopId);
   const routesWithPolylines = useRoutesByStop(stopId);
+  const alerts = useAlertsForStop(stopId);
   // Return loading indicator while waiting on data fetch
   if (!stop || !routesWithPolylines) {
     return <Loading />;
@@ -33,6 +36,7 @@ const StopPageRedesign = ({
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       <div className="container">
+        <Alerts alerts={alerts || []} />
         <div className="stop-routes-and-map">
           <StopPageDepartures routes={routes} stop={stop} />
           <StopMapRedesign stop={stop} lines={polylines} />

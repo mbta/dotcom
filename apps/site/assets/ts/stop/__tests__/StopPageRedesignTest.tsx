@@ -3,10 +3,11 @@ import { screen, within } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
 import * as useStop from "../../hooks/useStop";
-import { Stop, ParkingLot } from "../../__v3api";
+import { Stop, ParkingLot, InformedEntitySet, Alert } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
 import { newLatOrLon, routeWithPolylines } from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
+import * as useAlertsForStop from "../../hooks/useAlertsForStop";
 
 test("StopPageRedesign shows Loading without stop or routes", () => {
   jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
@@ -73,5 +74,37 @@ describe("StopPageRedesign", () => {
       "[aria-label='Map with stop'] .leaflet-overlay-pane path"
     );
     expect(mapPolylines).toHaveLength(10);
+  });
+
+  it("should render alerts", () => {
+    const lowAlert: Alert = {
+      updated_at: "Updated: 4/11/2019 09:33A",
+      severity: 7,
+      priority: "low",
+      lifecycle: "upcoming",
+      active_period: [],
+      informed_entity: {} as InformedEntitySet,
+      id: "00005",
+      header: "There is construction at this station.",
+      effect: "other",
+      description: "",
+      url: "https://www.mbta.com"
+    };
+
+    jest
+      .spyOn(useAlertsForStop, "default")
+      .mockImplementation(() => [lowAlert]);
+
+    render(<StopPageRedesign stopId="123" />);
+    expect(
+      screen.queryByText("There is construction at this station.")
+    ).not.toBeNull();
+  });
+
+  it("should render page when alerts undefined", () => {
+    jest.spyOn(useAlertsForStop, "default").mockImplementation(() => undefined);
+
+    render(<StopPageRedesign stopId="123" />);
+    expect(screen.queryByText("Test Stop")).not.toBeNull();
   });
 });
