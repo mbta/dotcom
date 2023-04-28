@@ -235,6 +235,11 @@ defmodule Routes.Route do
   def combined_route?(%{id: "627"}), do: true
   def combined_route?(_), do: false
 
+  @spec rail?(t()) :: boolean
+  def rail?(route) do
+    type_atom(route) in [:subway, :commuter_rail]
+  end
+
   @spec to_json_safe(t) :: map
   def to_json_safe(%__MODULE__{
         id: id,

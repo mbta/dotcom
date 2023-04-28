@@ -1,14 +1,19 @@
 import React, { ReactElement } from "react";
 import Map from "../../leaflet/components/Map";
 import { Stop } from "../../__v3api";
-import { MapData, MapMarker } from "../../leaflet/components/__mapdata";
+import {
+  MapData,
+  MapMarker,
+  Polyline
+} from "../../leaflet/components/__mapdata";
 import useMapConfig from "../../hooks/useMapConfig";
 
 interface Props {
   stop: Stop;
+  lines: Polyline[];
 }
 
-const StopMapRedesign = ({ stop }: Props): ReactElement<HTMLElement> => {
+const StopMapRedesign = ({ stop, lines }: Props): ReactElement<HTMLElement> => {
   const mapConfig = useMapConfig();
 
   const mapData = {
@@ -26,7 +31,7 @@ const StopMapRedesign = ({ stop }: Props): ReactElement<HTMLElement> => {
         tooltip: null
       } as MapMarker
     ],
-    polylines: [],
+    polylines: lines,
     tile_server_url: mapConfig?.tile_server_url,
     zoom: 16
   } as MapData;

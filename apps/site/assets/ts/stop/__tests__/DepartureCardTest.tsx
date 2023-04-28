@@ -1,15 +1,9 @@
 import React from "react";
 import { render, screen, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
-import { Route, RouteType, Stop } from "../../__v3api";
+import { RouteType, Stop } from "../../__v3api";
+import { baseRoute } from "./helpers";
 
-export const baseRoute = (name: string, type: RouteType): Route =>
-  ({
-    id: name,
-    direction_destinations: { 0: "Somewhere there", 1: "Over yonder" },
-    name: `${name} Route`,
-    type
-  } as Route);
 const stop = {} as Stop;
 
 describe("DepartureCard", () => {

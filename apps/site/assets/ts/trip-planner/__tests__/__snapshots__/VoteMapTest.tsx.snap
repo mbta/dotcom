@@ -106,7 +106,28 @@ exports[`VoteMap renders a Map by default 1`] = `
                 href="https://leafletjs.com"
                 title="A JavaScript library for interactive maps"
               >
-                Leaflet
+                <svg
+                  aria-hidden="true"
+                  class="leaflet-attribution-flag"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  width="12"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0 0h12v4H0z"
+                    fill="#4C7BE1"
+                  />
+                  <path
+                    d="M0 4h12v3H0z"
+                    fill="#FFD500"
+                  />
+                  <path
+                    d="M0 7h12v1H0z"
+                    fill="#E0BC00"
+                  />
+                </svg>
+                 Leaflet
               </a>
                
               <span
