@@ -4,6 +4,7 @@
   .aa-Autocomplete {
     --aa-icon-color-rgb: 22, 92, 150; // $brand-primary;
     --aa-primary-color-rgb: 22, 92, 150; // $brand-primary;
+    --aa-search-input-height: 2.25rem;
   }
 
   .aa-Item {
@@ -46,6 +47,11 @@
 
   .aa-Label {
     margin-bottom: unset;
+  }
+
+  .aa-Input {
+    /* stylelint-disable-next-line declaration-no-important */
+    height: var(--aa-search-input-height) !important;
   }
 
   .aa-InputWrapperPrefix {
@@ -108,5 +114,11 @@
 
   .aa-GradientBottom,
   .aa-GradientTop { all: unset; }
+
+  // special, for the top nav position
+  .aa-Panel.shift-up {
+    // stylelint-disable-next-line declaration-no-important
+    top: 3.25rem !important;
+  }
 }
 

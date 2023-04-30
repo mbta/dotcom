@@ -47,15 +47,25 @@ function setupAlgoliaAutocomplete(
 ): void | AutocompleteApi<SourceItem> {
   const dataset = checkConfiguration(container);
   const searchType = dataset.autocomplete as ValidSearchType;
+  const shouldMoveUp = container.id === "header-desktop";
   const options: AutocompleteOptions<SourceItem> = {
     container,
     panelContainer: container,
     detachedMediaQuery: "none",
     classNames: {
+      panel: shouldMoveUp ? "shift-up" : "",
       input: "c-form__input-container"
     },
     openOnFocus: true,
     placeholder: placeholderForType(searchType),
+    onStateChange({ state }) {
+      if (container.id === "header-desktop") {
+        // toggle att state.isOpen data-nav-open=true
+        if (state.isOpen || state.query)
+          document.documentElement.dataset.navOpen = "true";
+        else delete document.documentElement.dataset.navOpen;
+      }
+    },
     getSources({ query, setIsOpen }) {
       if (!query) {
         if (searchType === "locations")
