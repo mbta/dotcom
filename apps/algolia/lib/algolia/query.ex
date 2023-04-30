@@ -13,6 +13,19 @@ defmodule Algolia.Query do
   end
 
   @spec build_query(map) :: map
+  defp build_query(%{"indexName" => index, "params" => params, "query" => query, "attributesToHighlight" => attributes}) do
+    %{
+      "indexName" => index,
+      "query" => query,
+      "params" => encode_params(params),
+      # The highlight tag values are needed for compatibility with Algolia's
+      # autocomplete.js library v1+
+      "highlightPreTag" => "__aa-highlight__",
+      "highlightPostTag" => "__/aa-highlight__",
+      "attributesToHighlight" => attributes
+    }
+  end
+
   defp build_query(%{"indexName" => index, "params" => params, "query" => query}) do
     %{
       "indexName" => index,
