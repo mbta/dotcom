@@ -47,8 +47,10 @@ import pslPageSetup from "./psl-page-setup.js";
 import tabbedNav from "./tabbed-nav.js";
 import setupAccordion from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
+import setupAutocomplete from "../ts/ui/autocomplete/index";
 
 initializeSentry();
+setupAutocomplete();
 
 document.body.className = document.body.className.replace("no-js", "js");
 

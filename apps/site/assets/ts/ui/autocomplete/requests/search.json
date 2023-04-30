@@ -1,0 +1,124 @@
+{
+  "requests": [
+    {
+      "indexName": "routes",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          []
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "route.name"
+    },
+    {
+      "indexName": "stops",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          []
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "stop.name"
+    },
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          [
+            "_content_type:project",
+            "_content_type:project_update"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "content_title"
+    },
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          [
+            "_content_type:page",
+            "_content_type:diversion",
+            "_content_type:search_result",
+            "_content_type:landing_page",
+            "_content_type:person"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "content_title"
+    },
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          [
+            "search_api_datasource:entity:file"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "file_name_raw"
+    },
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "_content_type"
+        ],
+        "facetFilters": [
+          [
+            "_content_type:event"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "content_title"
+    },
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "_content_type"
+        ],
+        "facetFilters": [
+          [
+            "_content_type:news_entry"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "content_title"
+    }
+  ]
+}

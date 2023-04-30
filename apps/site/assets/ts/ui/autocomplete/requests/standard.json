@@ -1,0 +1,57 @@
+{
+  "requests": [
+    {
+      "indexName": "routes",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          []
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": ["route.name", "route.long_name"]
+    },
+    {
+      "indexName": "stops",
+      "query": null,
+      "params": {
+        "hitsPerPage": 2,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          []
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "stop.name"
+    },
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 2,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          [
+            "_content_type:page",
+            "_content_type:search_result",
+            "_content_type:diversion",
+            "_content_type:landing_page",
+            "_content_type:person",
+            "_content_type:project",
+            "_content_type:project_update"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "content_title"
+    }
+  ]
+}

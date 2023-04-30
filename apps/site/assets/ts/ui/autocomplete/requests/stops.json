@@ -1,0 +1,19 @@
+{
+  "requests": [
+    {
+      "indexName": "stops",
+      "query": null,
+      "params": {
+        "hitsPerPage": 3,
+        "facets": [
+          "*"
+        ],
+        "facetFilters": [
+          []
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "stop.name"
+    }
+  ]
+}

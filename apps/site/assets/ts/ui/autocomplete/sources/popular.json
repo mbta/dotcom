@@ -1,0 +1,35 @@
+[
+  {
+    "icon": "airplane",
+    "name": "Boston Logan Airport",
+    "features": [],
+    "latitude": 42.365396,
+    "longitude": -71.017547
+  },
+  {
+    "icon": "station",
+    "name": "South Station",
+    "features": [
+      "red_line",
+      "bus",
+      "commuter_rail",
+      "access"
+    ],
+    "latitude": 42.352271,
+    "longitude": -71.055242
+  },
+  {
+    "icon": "station",
+    "name": "North Station",
+    "features": [
+      "orange_line",
+      "green_line_d",
+      "green_line_e",
+      "bus",
+      "commuter_rail",
+      "access"
+    ],
+    "latitude": 42.365577,
+    "longitude": -71.06129
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "requests": [
+    {
+      "indexName": "drupal",
+      "query": null,
+      "params": {
+        "hitsPerPage": 5,
+        "facets": [
+          "projects"
+        ],
+        "facetFilters": [
+          [
+            "_content_type:project",
+            "_content_type:project_update"
+          ]
+        ],
+        "clickAnalytics": true
+      },
+      "attributesToHighlight": "content_title"
+    }
+  ]
+}
