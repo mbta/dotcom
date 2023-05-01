@@ -129,7 +129,6 @@ const buildHeadsign = (
               schedule_relationship: prediction.schedule_relationship
             }
           : null;
-        // TODO figure out how/when this data becomes an array
         const scheduledTime = schedule ? schedule.time : null;
         const delay = 0;
 

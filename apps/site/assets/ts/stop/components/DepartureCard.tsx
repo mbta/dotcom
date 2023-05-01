@@ -11,12 +11,6 @@ import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { groupBy } from "lodash";
 
-// NEW GAME PLAN
-// Use Predictions over Scheduled data (if exists)
-// Update the data every minute
-// - fetch new realtime data
-// - fetch the next (1 or 2) schedules (could just recall the same schedule endpoint)
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeToModeIcon = (route: Route): any => {
   switch (route.type) {

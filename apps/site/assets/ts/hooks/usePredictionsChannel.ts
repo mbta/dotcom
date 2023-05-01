@@ -1,6 +1,6 @@
 import { groupBy, mapValues, pick, sortBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
-import { Reducer, useCallback } from "react";
+import { Reducer } from "react";
 import {
   DirectionId,
   PredictionForStop,

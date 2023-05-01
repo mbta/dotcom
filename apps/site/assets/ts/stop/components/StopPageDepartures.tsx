@@ -30,7 +30,6 @@ const StopPageDepartures = ({
   schedules,
   alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
-  // console.log(routes)
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);

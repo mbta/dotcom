@@ -114,6 +114,7 @@ describe("(WIP) DepartureTimes", () => {
       );
       expect(isPrediction).toBeTruthy();
       // The times returned should be the prediction times
+      // TODO remove all uses of compareAsc and just use equals
       expect(compareAsc(info1!.time, predictions[0].time)).toEqual(0);
       expect(compareAsc(info2!.time, predictions[1].time)).toEqual(0);
     });
