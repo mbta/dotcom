@@ -55,8 +55,8 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  @spec schedule_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
-  def schedule_for_stop(stop_id, opts) do
+  @spec schedules_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
+  def schedules_for_stop(stop_id, opts) do
     @default_params
     |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:stop, stop_id)

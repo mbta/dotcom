@@ -6,6 +6,9 @@ defmodule SiteWeb.ScheduleControllerTest do
   alias RoutePatterns.RoutePattern
   alias Schedules.Sort
   alias Stops.RouteStops
+  alias SiteWeb.ScheduleController
+
+  import Mock
 
   @moduletag :external
 
@@ -296,5 +299,21 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     assert first_route_pattern_0.direction_id == 0
     assert first_route_pattern_1.direction_id == 1
+  end
+
+  describe "schedules_for_stop/2" do
+    test "should return an array of schedules", %{conn: conn} do
+      with_mock(Schedules.Repo,
+        schedules_for_stop: fn
+          "TEST 1234", [] -> [%Schedules.Schedule{stop: %Stops.Stop{id: "TEST 1234"}}]
+          _, _ -> nil
+        end
+      ) do
+        conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+        body = json_response(conn, 200)
+        assert Kernel.length(body) == 1
+        assert %{"stop" => %{"id" => "TEST 1234"}} = Enum.at(body, 0)
+      end
+    end
   end
 end

@@ -2,7 +2,7 @@ defmodule SiteWeb.ScheduleController do
   use SiteWeb, :controller
   alias Routes.Route
 
-  plug(SiteWeb.Plugs.Route)
+  plug(SiteWeb.Plugs.Route when action not in [:schedules_for_stop])
 
   @spec show(Plug.Conn.t(), map) :: Phoenix.HTML.Safe.t()
   def show(%{query_params: %{"tab" => "timetable"} = query_params} = conn, _params) do
@@ -42,5 +42,11 @@ defmodule SiteWeb.ScheduleController do
     conn
     |> redirect(to: path)
     |> halt()
+  end
+
+  @spec schedules_for_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def schedules_for_stop(conn, %{"stop_id" => stop_id}) do
+    schedules = Schedules.Repo.schedules_for_stop(stop_id, [])
+    json(conn, schedules)
   end
 end
