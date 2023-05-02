@@ -91,7 +91,7 @@ defmodule Schedules.RepoTest do
 
   describe "schedule_for_trip/2" do
     @trip_id "place-WML-0442"
-             |> schedule_for_stop(direction_id: 1)
+             |> schedules_for_stop(direction_id: 1)
              |> List.first()
              |> Map.get(:trip)
              |> Map.get(:id)

@@ -75,7 +75,7 @@ defmodule Site.TransitNearMe do
 
   @default_opts [
     stops_nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
-    schedules_fn: &Schedules.Repo.schedule_for_stop/2
+    schedules_fn: &Schedules.Repo.schedules_for_stop/2
   ]
 
   @stops_without_predictions [
