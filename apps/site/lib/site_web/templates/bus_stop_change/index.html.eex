@@ -21,9 +21,8 @@
       </div>
       <div class="col-lg-8 col-lg-offset-1" style="padding-top: 1rem;">
         <%= if Enum.empty?(all_alerts) do %>
-          <div class="callout bg-info">No alerts here.</div>
+          <div class="class m-alerts__notice--no-alerts">No alerts here.</div>
         <% else %>
-          <div class="class m-alerts__notice--no-alerts">
           <%= for {municipality, muni_alerts} <- alerts_grouped_by_municipality do %>
             <h2 class="mt-0"><%= municipality %></h2>
             <%= for {stop, alerts} <- muni_alerts do %>
@@ -41,7 +40,6 @@
               </section>
             <% end %>
           <% end %>
-          </div>
         <% end %>
       </div>
     </div>
