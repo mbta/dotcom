@@ -1,13 +1,17 @@
-import { groupBy, sortBy } from "lodash";
+import { filter, groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
-import { Route, Stop } from "../../__v3api";
+import { Route, Stop, Alert } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
+import { isPast } from "date-fns";
+import { ScheduleWithTimestamp } from "../../models/schedules";
 
 interface StopPageDeparturesProps {
   routes: Route[];
   stop: Stop;
+  schedules: ScheduleWithTimestamp[];
+  alerts: Alert[];
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -23,11 +27,20 @@ const modeSortFn = ({ type }: Route): number => {
 
 const StopPageDepartures = ({
   routes,
-  stop
+  stop,
+  schedules,
+  alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
+  // console.log(routes)
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
+  // This filtering should be done on the backend
+  const currentSchedules = filter(
+    schedules,
+    (s: ScheduleWithTimestamp) => !isPast(s.time)
+  );
+  const groupedSchedules = groupBy(currentSchedules, s => s.route.id);
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
@@ -43,7 +56,12 @@ const StopPageDepartures = ({
       )}
       <ul className="stop-departures list-unstyled">
         {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => (
-          <DepartureCard key={route.id} route={route} stop={stop} />
+          <DepartureCard
+            key={route.id}
+            route={route}
+            stop={stop}
+            schedulesForRoute={groupedSchedules[route.id]}
+          />
         ))}
       </ul>
     </div>

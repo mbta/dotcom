@@ -6,7 +6,6 @@ import {
   EnhancedRoute,
   DirectionId,
   Service,
-  Schedule,
   RoutePattern,
   Shape,
   Stop,
@@ -117,30 +116,6 @@ export interface RouteStop {
 
 export interface SimpleStopMap {
   [key: string]: SimpleStop[];
-}
-
-export interface ServiceSchedule {
-  [key: string]: ServiceScheduleInfo;
-}
-
-export interface ScheduleInfo {
-  schedules: ScheduleWithFare[];
-  duration: string;
-  route_pattern_id: string;
-}
-
-export interface ScheduleWithFare extends Schedule {
-  price: string;
-  fare_link: string;
-}
-
-export interface ServiceScheduleByTrip {
-  [key: string]: ScheduleInfo;
-}
-
-export interface ServiceScheduleInfo {
-  by_trip: ServiceScheduleByTrip;
-  trip_order: string[];
 }
 
 export interface ScheduleNote {

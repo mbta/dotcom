@@ -124,6 +124,10 @@ $base-line-height: 1.275;
 
 .font-small { @include font-small(); }
 
+.fs-10 {
+  font-size: .625rem;
+}
+
 .fs-12 {
   font-size: .75rem;
 }
