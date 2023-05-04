@@ -29,6 +29,7 @@ export interface StreamPrediction {
   track: string | null;
   status: string | null;
   "departing?": boolean;
+  vehicle_id: string | null;
 }
 
 interface ChannelPredictionResponse {
@@ -51,7 +52,8 @@ export const parsePrediction = (
     "direction_id",
     "schedule_relationship",
     "track",
-    "status"
+    "status",
+    "vehicle_id"
   ]),
   // backend removes all predictions with a null departure_time
   // so this is always populated

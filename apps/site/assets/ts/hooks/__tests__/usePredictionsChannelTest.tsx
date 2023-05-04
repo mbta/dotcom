@@ -19,7 +19,8 @@ const predictionsFromStream = [
     stop: { id: "place-somewhere" } as Stop,
     departure_time: "2022-12-15 00:46:04.576744Z",
     track: "7",
-    trip: { id: "123", headsign: "Destination One" } as Trip
+    trip: { id: "123", headsign: "Destination One" } as Trip,
+    vehicle_id: "v1"
   } as StreamPrediction,
   {
     id: "2",
@@ -28,7 +29,8 @@ const predictionsFromStream = [
     stop: { id: "place-somewhere" } as Stop,
     departure_time: "2022-12-15 00:48:04.576744Z",
     track: "2",
-    trip: { id: "600", headsign: "Destination Two" } as Trip
+    trip: { id: "600", headsign: "Destination Two" } as Trip,
+    vehicle_id: "v2"
   } as StreamPrediction,
   {
     id: "3",
@@ -36,7 +38,8 @@ const predictionsFromStream = [
     direction_id: 0,
     stop: { id: "place-somewhere" } as Stop,
     departure_time: "2022-12-15 00:55:04.576744Z",
-    trip: { id: "20", headsign: "Destination One" } as Trip
+    trip: { id: "20", headsign: "Destination One" } as Trip,
+    vehicle_id: null
   } as StreamPrediction
 ];
 
@@ -131,7 +134,8 @@ test("usePredictionsChannel parsePrediction modifies the streamed prediction", (
     arrival_time: "2022-12-15 00:54:59.576744Z",
     departure_time: "2022-12-15 00:55:04.576744Z",
     time: "2022-12-15 00:54:59.576744Z",
-    trip: { id: "999", headsign: "Final Destination" } as Trip
+    trip: { id: "999", headsign: "Final Destination" } as Trip,
+    vehicle_id: "v1"
   } as StreamPrediction;
   const parsed = parsePrediction(streamPrediction);
 
@@ -139,6 +143,7 @@ test("usePredictionsChannel parsePrediction modifies the streamed prediction", (
   expect(parsed.time).toEqual(new Date(streamPrediction.departure_time!));
   expect(parsed.time).not.toEqual(new Date(streamPrediction.arrival_time!));
   expect(parsed.time).not.toEqual(new Date(streamPrediction.time!));
+  expect(parsed.vehicle_id).toEqual("v1");
 });
 
 test("usePredictionsChannel groupByHeadsigns groups and sorts", () => {
