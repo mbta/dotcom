@@ -52,16 +52,18 @@ defimpl SiteWeb.AmbiguousAlert, for: Alerts.Alert do
   def time_range(%Alerts.Alert{active_period: active_periods}) do
     active_periods
     |> Enum.map(fn {start_date, end_date} ->
-      Phoenix.HTML.Tag.content_tag(
-        :div,
-        [
-          SiteWeb.ViewHelpers.fa("calendar", class: "mr-025"),
-          date_tag(start_date) || "N/A",
-          " — ",
-          date_tag(end_date) || "N/A"
-        ],
-        class: "u-small-caps u-bold mb-1"
-      )
+      if start_date || end_date do
+        Phoenix.HTML.Tag.content_tag(
+          :div,
+          [
+            SiteWeb.ViewHelpers.fa("calendar", class: "mr-025"),
+            date_tag(start_date) || "Present",
+            " — ",
+            date_tag(end_date) || "Present"
+          ],
+          class: "u-small-caps u-bold mb-1"
+        )
+      end
     end)
     |> List.first()
   end

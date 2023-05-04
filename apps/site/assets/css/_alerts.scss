@@ -253,6 +253,7 @@
   border-width: 0 1px 1px;
   color: $brand-primary;
   flex: 1 1 auto;
+  font-size: 1rem;
   padding: $base-spacing * .75 $base-spacing;
 
   @include media-breakpoint-between(sm, md) {
