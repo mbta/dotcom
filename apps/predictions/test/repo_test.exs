@@ -128,7 +128,8 @@ defmodule Predictions.RepoTest do
                       "relationships": {
                         "route": {"data": {"type": "route", "id": "Red"}},
                         "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
-                        "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
+                        "stop": {"data": {"type": "stop", "id": "place-pktrm"}},
+                        "vehicle": {"data": {"type": "vehicle", "id": "vehicle_id"}}
                       }
                     }
                   ]
@@ -197,7 +198,8 @@ defmodule Predictions.RepoTest do
                   "relationships": {
                     "route": {"data": {"type": "route", "id": "Red"}},
                     "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
-                    "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
+                    "stop": {"data": {"type": "stop", "id": "place-pktrm"}},
+                    "vehicle": {"data": {"type": "vehicle", "id": "vehicle_id"}}
                   }
                 }
               ]
@@ -264,7 +266,8 @@ defmodule Predictions.RepoTest do
         :schedule_relationship,
         1,
         :on_time,
-        false
+        false,
+        "vehicle_id"
       }
 
       assert [
@@ -297,7 +300,8 @@ defmodule Predictions.RepoTest do
       :schedule_relationship,
       1,
       :on_time,
-      false
+      false,
+      "vehicle_id"
     }
 
     assert Predictions.Repo.load_from_other_repos([prediction]) == []
@@ -315,7 +319,8 @@ defmodule Predictions.RepoTest do
       :schedule_relationship,
       1,
       :on_time,
-      false
+      false,
+      "vehicle_id"
     }
 
     log =
@@ -338,7 +343,8 @@ defmodule Predictions.RepoTest do
       :schedule_relationship,
       1,
       :on_time,
-      false
+      false,
+      "vehicle_id"
     }
 
     in_15_min = Util.now() |> Timex.shift(minutes: 15)
@@ -354,7 +360,8 @@ defmodule Predictions.RepoTest do
       :schedule_relationship,
       1,
       :on_time,
-      false
+      false,
+      "vehicle_id"
     }
 
     # Prediction in the past gets discarded:
@@ -390,7 +397,8 @@ defmodule Predictions.RepoTest do
       :schedule_relationship,
       1,
       :on_time,
-      false
+      false,
+      "vehicle_id"
     }
 
     total_predictions = Predictions.Repo.load_from_other_repos([bus_prediction_in_the_past])

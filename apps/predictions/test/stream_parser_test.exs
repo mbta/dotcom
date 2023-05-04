@@ -41,6 +41,9 @@ defmodule Predictions.StreamParserTest do
           "trip" => [
             %Item{id: "trip_id"},
             %Item{id: "wrong"}
+          ],
+          "vehicle" => [
+            %Item{id: "vehicle_id"}
           ]
         },
         type: "prediction"
@@ -58,7 +61,8 @@ defmodule Predictions.StreamParserTest do
                stop_sequence: 0,
                time: time,
                track: track,
-               trip: trip
+               trip: trip,
+               vehicle_id: vehicle_id
              } = StreamParser.parse(item)
 
       assert %Route{id: "route_id"} = route
@@ -66,6 +70,7 @@ defmodule Predictions.StreamParserTest do
       assert %Trip{id: "trip_id"} = trip
       assert time == ~N[2016-09-15 19:40:00] |> Timezone.convert("Etc/GMT+4")
       assert track == stop.platform_code
+      assert "vehicle_id" = vehicle_id
     end
   end
 end

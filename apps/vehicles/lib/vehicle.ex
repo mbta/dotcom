@@ -17,8 +17,10 @@ defmodule Vehicles.Vehicle do
   @type status :: :in_transit | :stopped | :incoming
   @type crowding :: :not_crowded | :some_crowding | :crowded
 
+  @type id_t :: String.t()
+
   @type t :: %__MODULE__{
-          id: String.t(),
+          id: id_t(),
           route_id: String.t() | nil,
           trip_id: String.t() | nil,
           shape_id: String.t() | nil,
