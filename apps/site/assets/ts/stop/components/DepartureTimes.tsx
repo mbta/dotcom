@@ -249,15 +249,6 @@ const departureTimeRow = (
   );
 };
 
-// const parseToDepartueInfo = (predictedSchedules: PredictedSchedule[]): DepartureInfo[] => {
-//   return predictedSchedules.map(ps => {
-//     return {
-//       schedule: {...ps.schedule, time: new Date(ps.schedule.time)}
-//       prediction: {...ps.prediction, time: new Date(ps.prediction.time)}
-//     } as DepartureInfo;
-//   })
-// }
-
 interface DepartureTimesProps {
   route: Route;
   stop: Stop;

@@ -2,14 +2,14 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import DepartureTimes, {
   getNextTwoTimes,
-  infoToDisplayTime,
-  isDelayed
+  infoToDisplayTime
 } from "../../components/DepartureTimes";
 import { baseRoute } from "../helpers";
 import { Stop, Trip } from "../../../__v3api";
 import { compareAsc, differenceInSeconds } from "date-fns";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/perdictions";
+import { isDelayed } from "../../../helpers/prediction-helpers";
 
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;
@@ -39,13 +39,11 @@ describe("(WIP) DepartureTimes", () => {
         trip: { id: "1" } as Trip,
         time: new Date("2022-04-26T11:17:15-04:00")
       } as PredictionWithTimestamp;
-      const schedules = [
-        {
-          trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26T11:15:00-04:00")
-        }
-      ] as ScheduleWithTimestamp[];
-      expect(isDelayed(prd1, schedules)).toBeTruthy();
+      const schedule = {
+        trip: { id: "1" } as Trip,
+        time: new Date("2022-04-26T11:15:00-04:00")
+      } as ScheduleWithTimestamp;
+      expect(isDelayed(prd1, schedule)).toBeTruthy();
     });
 
     it("should return false if the prediction is less than 60 seconds after the schedule", () => {
@@ -53,17 +51,11 @@ describe("(WIP) DepartureTimes", () => {
         trip: { id: "2" } as Trip,
         time: new Date("2022-04-26T11:15:45-04:00")
       } as PredictionWithTimestamp;
-      const schedules = [
-        {
-          trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26-11:14:00-04:00")
-        },
-        {
-          trip: { id: "2" } as Trip,
-          time: new Date("2022-04-26-11:15:00-04:00")
-        }
-      ] as ScheduleWithTimestamp[];
-      expect(isDelayed(prd1, schedules)).toBeFalsy();
+      const schedule = {
+        trip: { id: "2" } as Trip,
+        time: new Date("2022-04-26-11:15:00-04:00")
+      } as ScheduleWithTimestamp;
+      expect(isDelayed(prd1, schedule)).toBeFalsy();
     });
 
     it("should return false if the prediction is 60 seconds before the schedule", () => {
