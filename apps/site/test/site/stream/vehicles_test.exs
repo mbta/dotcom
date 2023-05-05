@@ -56,4 +56,18 @@ defmodule Site.Stream.VehiclesTest do
       ]
     })
   end
+
+  test "broadcasts to the configured topic" do
+    SiteWeb.Endpoint.subscribe("vehicles-v2:Green:1")
+    assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, topic: "vehicles-v2")
+
+    send(pid, {:reset, @vehicles})
+
+    assert_broadcast("reset", %{
+      data: [
+        %Vehicle{route_id: "Green-B", direction_id: 1},
+        %Vehicle{route_id: "Green-C", direction_id: 1}
+      ]
+    })
+  end
 end

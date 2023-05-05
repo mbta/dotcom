@@ -3,6 +3,7 @@ defmodule SiteWeb.UserSocket do
 
   ## Channels
   channel("vehicles:*", SiteWeb.VehicleChannel)
+  channel("vehicles-v2:*", SiteWeb.VehiclesV2Channel)
   channel("predictions:*", SiteWeb.PredictionsChannel)
 
   # Socket params are passed from the client and can
