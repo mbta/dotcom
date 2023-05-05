@@ -31,7 +31,6 @@ const StopPageDepartures = ({
   schedules,
   alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
-  // console.log(routes)
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
@@ -44,6 +43,8 @@ const StopPageDepartures = ({
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
+
+  console.log(groupedSchedules);
 
   return (
     <div className="routes">
@@ -61,6 +62,7 @@ const StopPageDepartures = ({
             route={route}
             stop={stop}
             schedulesForRoute={groupedSchedules[route.id]}
+            // This list should only have one value, is there another way to do this?
           />
         ))}
       </ul>

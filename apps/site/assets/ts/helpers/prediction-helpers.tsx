@@ -1,8 +1,12 @@
 import React, { ReactElement } from "react";
-import { PredictedOrScheduledTime } from "../__v3api";
+import { PredictedOrScheduledTime, Prediction } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
 import { TripPrediction } from "../schedule/components/__trips";
 import { compareStringTimes } from "./date";
+import { PredictionWithTimestamp } from "../models/perdictions";
+import { ScheduleWithTimestamp } from "../models/schedules";
+import { find } from "lodash";
+import { differenceInSeconds } from "date-fns";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -73,3 +77,9 @@ export const trackForCommuterRail = ({
   prediction
 }: PredictedOrScheduledTime): string =>
   prediction && prediction.track ? ` track ${prediction.track}` : "";
+
+export const isCancelled = (
+  prediction: PredictionWithTimestamp | undefined
+): boolean => {
+  return !!prediction && prediction.schedule_relationship === "cancelled";
+};

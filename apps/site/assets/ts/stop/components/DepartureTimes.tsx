@@ -1,10 +1,9 @@
 import React, { ReactElement } from "react";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { isACommuterRailRoute } from "../../models/route";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import { formatToBostonTime } from "../../helpers/date";
-import { filter, find, groupBy, slice } from "lodash";
+import { find, groupBy, slice, some } from "lodash";
 import {
   differenceInSeconds,
   isSameDay,
@@ -16,13 +15,11 @@ import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { PredictionWithTimestamp } from "../../models/perdictions";
-
-interface DepartureTimesProps {
-  route: Route;
-  stop: Stop;
-  directionId: DirectionId;
-  schedulesForDirection: ScheduleWithTimestamp[];
-}
+import {
+  departureInfoToTime,
+  mergeIntoDepartureInfo
+} from "../../helpers/departureInfo";
+import { DepartureInfo } from "../../models/departureInfo";
 
 // This interface is used to tell the front end
 // how to display the ScheduleInfoModel data
@@ -35,151 +32,69 @@ interface DisplayTimeConfig {
   isStikethrough?: boolean;
 }
 
-// This interface is used to combine the information from the schedules
-// and predictions into one model
-interface ScheduleInfoModel {
-  time: Date;
-  isCancelled?: boolean;
-  isDelayed?: boolean;
-  track?: string | null;
-}
-
-const isCancelled = (prediction: PredictionWithTimestamp): boolean => {
-  return prediction.schedule_relationship === "cancelled";
-};
-
-// Finds the corresponding schedule to the prediction and compares the times
-// If the prediction an schedule are more than 60 seconds apart it is delayed
-const isDelayed = (
-  prediction: PredictionWithTimestamp,
-  schedules: ScheduleWithTimestamp[],
-  delay: number = 60
-): boolean => {
-  const schedule = find(
-    schedules,
-    (sch: ScheduleWithTimestamp) => sch.trip.id === prediction.trip.id
-  );
-
-  return (
-    !!schedule &&
-    // Is the prediction meaningfully after the schedule
-    differenceInSeconds(prediction.time, schedule.time) > delay
-  );
-};
-
-// Assuming there are predictions
-// This function will return an array containing at least one predcition.
-// It will return 2 predictions if there are more than 2 predictions that are not cancelled,
-// If the first prediction is cancelled, the 2nd prediction will not be cancelled
-const getAtLeastOneUncancelledPrediction = (
-  predictions: PredictionWithTimestamp[]
-): Array<PredictionWithTimestamp> => {
-  if (predictions.length === 0) {
-    return predictions;
-  }
-
-  const prediction1 = predictions[0];
-  if (isCancelled(prediction1)) {
-    const regPrediction = find(predictions, p => !isCancelled(p));
-    return regPrediction ? [prediction1, regPrediction] : [prediction1];
-  }
-
-  // The first prediction in this list should not cancelled (as that case is handeled above)
-  const regPredictions = filter(predictions, p => !isCancelled(p));
-  return regPredictions.slice(0, 2);
+const getNextUnCancelledDeparture = (
+  departureInfos: DepartureInfo[]
+): DepartureInfo | undefined => {
+  return find(departureInfos, (di: DepartureInfo) => !di.isCancelled);
 };
 
 // This function returns time info in a consisten format.
-// Returns the time from the predictions if they exist
+// Returns the time from the predictions if they exist, or the schdule
 const getNextTwoTimes = (
-  schedules: ScheduleWithTimestamp[],
-  predictions: PredictionWithTimestamp[]
-): [boolean, ScheduleInfoModel | undefined, ScheduleInfoModel | undefined] => {
-  // it appears schedules are in chronological order (make sure this is true)
-  // slice an array of 2 to safely get undefined if array is smaller than 2
-  const [prd1, prd2] = getAtLeastOneUncancelledPrediction(predictions);
-  const [sch1, sch2] = slice(schedules, 0, 2);
+  departureInfos: DepartureInfo[]
+): [boolean, DepartureInfo | undefined, DepartureInfo | undefined] => {
+  const departure1 = departureInfos[0];
+  const departure2 = getNextUnCancelledDeparture(slice(departureInfos, 1));
 
-  // only predictions can be delayed so return the old time, and the new time
-  if (prd1 && isDelayed(prd1, schedules)) {
-    const schedule = find(schedules, sch => sch.trip.id === prd1.trip.id);
-    return [
-      true,
-      { time: schedule!.time, isDelayed: true },
-      { time: prd1.time }
-    ];
-  }
+  // TODO is this needed to calculate
+  const areAnyPredictions = some(
+    [departure1, departure2],
+    (d: DepartureInfo | undefined) => d && d.prediction
+  );
 
-  let time1: ScheduleInfoModel | undefined;
-  let time2: ScheduleInfoModel | undefined;
-  // Only set to true if first time is a prediction
-  let isPrediction = false;
-  if (prd1) {
-    time1 = {
-      time: prd1.time,
-      isCancelled: isCancelled(prd1),
-      track: prd1.track
-    };
-    isPrediction = true;
-  }
-
-  // Only prd1 should be cancelled, prd2 shouldn't be cancelled (if it exists)
-  if (prd2) {
-    time2 = {
-      time: prd2.time,
-      track: prd2.track
-    };
-  }
-
-  if (!prd1 && sch1) {
-    time1 = { time: sch1.time };
-  }
-
-  if (!prd2 && sch2) {
-    time2 = { time: sch2.time };
-  }
-
-  return [isPrediction, time1, time2];
+  return [areAnyPredictions, departure1, departure2];
 };
 
 const infoToDisplayTime = (
-  time1: ScheduleInfoModel | undefined,
-  time2: ScheduleInfoModel | undefined,
+  time1: DepartureInfo | undefined,
+  time2: DepartureInfo | undefined,
   isPrediction: boolean,
   targetDate: Date = new Date()
 ): DisplayTimeConfig[] => {
   const defaultState = [{ displayString: "Error retrieving data" }];
-  // If there is not input time1 then a schedule or un-cancelled prediction could not be found
+  // If there is not input time1 then a schedule or prediction could not be found
   if (!time1) {
     return defaultState;
   }
 
-  const diffInSeconds1 = differenceInSeconds(time1.time, targetDate);
-  const diffInSeconds2 = time2
-    ? differenceInSeconds(time2.time, targetDate)
-    : -1;
-
+  const departure1Time = departureInfoToTime(time1);
   const formatOverride = "h:mm aa";
 
   if (time2 && (time1.isCancelled || time1.isDelayed)) {
+    const departure2Time = departureInfoToTime(time2);
     // State 7
     // State 8
     // If trip1 is cancelled/delayed, then trip2 should not be cancelled/delayed
     // Display trip2 in the first time spot (and its track info in the second)
     return [
       {
-        displayString: `${formatToBostonTime(time2.time, formatOverride)}`,
+        displayString: `${formatToBostonTime(departure2Time, formatOverride)}`,
         isBolded: true,
         // Only predictions can be deleayed or cancelled
         isPrediction: true
       },
       {
-        displayString: `${formatToBostonTime(time1.time, formatOverride)}`,
+        displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
         isStikethrough: true,
-        trackName: time2.track
+        trackName: time2.prediction?.track
       }
     ];
   }
+
+  const diffInSeconds1 = differenceInSeconds(departure1Time, targetDate);
+  const diffInSeconds2 = time2
+    ? differenceInSeconds(departureInfoToTime(time2), targetDate)
+    : -1;
 
   if (diffInSeconds1 <= secondsInMinute) {
     // State 9
@@ -227,12 +142,12 @@ const infoToDisplayTime = (
     // State 6
     return [
       {
-        displayString: `${formatToBostonTime(time1.time, formatOverride)}`,
+        displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
         // If the days are not the same, then one must be tomorrow
-        isTomorrow: !isSameDay(time1.time, targetDate),
+        isTomorrow: !isSameDay(departure1Time, targetDate),
         isPrediction: isPrediction,
         isBolded: true,
-        trackName: time1.track
+        trackName: time1.prediction?.track
       }
     ];
   }
@@ -252,13 +167,17 @@ const toDisplayTime = (
   predictions: PredictionWithTimestamp[]
 ): DisplayTimeConfig[] => {
   // TODO this should be short cutted by alerts
-  const [isPrediction, time1, time2] = getNextTwoTimes(schedules, predictions);
+  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
+
+  const [isPrediction, time1, time2] = getNextTwoTimes(departureInfos);
 
   // time 2 should always be after time 1 (TODO maybe sort the inputs?)
   return infoToDisplayTime(time1, time2, isPrediction);
 };
 
-const schedulesByHeadsign = (schedules: ScheduleWithTimestamp[]) => {
+const schedulesByHeadsign = (
+  schedules: ScheduleWithTimestamp[] | undefined
+) => {
   return groupBy(schedules, (sch: ScheduleWithTimestamp) => {
     return sch.trip.headsign;
   });
@@ -330,6 +249,22 @@ const departureTimeRow = (
   );
 };
 
+// const parseToDepartueInfo = (predictedSchedules: PredictedSchedule[]): DepartureInfo[] => {
+//   return predictedSchedules.map(ps => {
+//     return {
+//       schedule: {...ps.schedule, time: new Date(ps.schedule.time)}
+//       prediction: {...ps.prediction, time: new Date(ps.prediction.time)}
+//     } as DepartureInfo;
+//   })
+// }
+
+interface DepartureTimesProps {
+  route: Route;
+  stop: Stop;
+  directionId: DirectionId;
+  schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+}
+
 /* istanbul ignore next */
 /**
  * A proof-of-concept component illustrating a usage of the
@@ -351,6 +286,12 @@ const DepartureTimes = ({
 
   const schedules = schedulesByHeadsign(schedulesForDirection);
 
+  if (!schedulesForDirection || schedulesForDirection.length === 0) {
+    console.log("adsf");
+    console.log(predictionsByHeadsign);
+    console.log(route);
+  }
+
   return (
     <>
       {Object.entries(schedules).map(([headsign, schs]) => {
@@ -364,9 +305,4 @@ const DepartureTimes = ({
   );
 };
 
-export {
-  DepartureTimes as default,
-  infoToDisplayTime,
-  getNextTwoTimes,
-  isDelayed
-};
+export { DepartureTimes as default, infoToDisplayTime, getNextTwoTimes };

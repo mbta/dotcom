@@ -34,29 +34,54 @@ describe("(WIP) DepartureTimes", () => {
   });
 
   describe("isDelayed", () => {
-    it("should return true if there is larger than a 60 second gap between the schedule and prediction", () => {
+    it("should return true if the prediction is more than 60 seconds after the schedule", () => {
       const prd1 = {
-        id: "p1",
-        stop: {} as any,
-        route: {} as any,
         trip: { id: "1" } as Trip,
-        time: new Date("2022-04-26T11:17:15-04:00"),
-        direction_id: 0,
-        schedule_relationship: null,
-        track: null,
-        status: null
+        time: new Date("2022-04-26T11:17:15-04:00")
       } as PredictionWithTimestamp;
       const schedules = [
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26T11:15:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:15:00-04:00")
         }
       ] as ScheduleWithTimestamp[];
       expect(isDelayed(prd1, schedules)).toBeTruthy();
+    });
+
+    it("should return false if the prediction is less than 60 seconds after the schedule", () => {
+      const prd1 = {
+        trip: { id: "2" } as Trip,
+        time: new Date("2022-04-26T11:15:45-04:00")
+      } as PredictionWithTimestamp;
+      const schedules = [
+        {
+          trip: { id: "1" } as Trip,
+          time: new Date("2022-04-26-11:14:00-04:00")
+        },
+        {
+          trip: { id: "2" } as Trip,
+          time: new Date("2022-04-26-11:15:00-04:00")
+        }
+      ] as ScheduleWithTimestamp[];
+      expect(isDelayed(prd1, schedules)).toBeFalsy();
+    });
+
+    it("should return false if the prediction is 60 seconds before the schedule", () => {
+      const prd1 = {
+        trip: { id: "1" } as Trip,
+        time: new Date("2022-04-26T11:13:45-04:00")
+      } as PredictionWithTimestamp;
+      const schedules = [
+        {
+          trip: { id: "1" } as Trip,
+          time: new Date("2022-04-26-11:15:00-04:00")
+        },
+        {
+          trip: { id: "2" } as Trip,
+          time: new Date("2022-04-26-11:11:00-04:00")
+        }
+      ] as ScheduleWithTimestamp[];
+      expect(isDelayed(prd1, schedules)).toBeFalsy();
     });
   });
 
@@ -64,44 +89,22 @@ describe("(WIP) DepartureTimes", () => {
     it("should return the next 2 predictions times over schedules", () => {
       const schedules = [
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26T11:15:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:15:00-04:00")
         },
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "2" } as Trip,
-          time: new Date("2022-04-26T11:26:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:26:00-04:00")
         }
       ] as ScheduleWithTimestamp[];
       const predictions = [
         {
-          id: "p1",
           time: new Date("2022-04-26T11:15:15-04:00"),
-          route: {} as any,
-          stop: {} as any,
-          trip: { id: "1" } as Trip,
-          direction_id: 0,
-          schedule_relationship: null,
-          track: null,
-          status: null
+          trip: { id: "1" } as Trip
         },
         {
-          id: "p2",
           time: new Date("2022-04-26T11:26:15-04:00"),
-          route: {} as any,
-          stop: {} as any,
-          trip: { id: "2" } as Trip,
-          direction_id: 0,
-          schedule_relationship: null,
-          track: null,
-          status: null
+          trip: { id: "2" } as Trip
         }
       ] as PredictionWithTimestamp[];
 
@@ -118,33 +121,18 @@ describe("(WIP) DepartureTimes", () => {
     it("should return the prediction and schedule", () => {
       const schedules = [
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26T11:15:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:15:00-04:00")
         },
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "2" } as Trip,
-          time: new Date("2022-04-26T11:26:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:26:00-04:00")
         }
       ] as ScheduleWithTimestamp[];
       const predictions = [
         {
-          id: "p1",
           time: new Date("2022-04-26T11:15:15-04:00"),
-          route: {} as any,
-          stop: {} as any,
-          trip: { id: "1" } as Trip,
-          direction_id: 0,
-          schedule_relationship: null,
-          track: null,
-          status: null
+          trip: { id: "1" } as Trip
         }
       ] as PredictionWithTimestamp[];
       const [isPrediction, info1, info2] = getNextTwoTimes(
@@ -163,20 +151,12 @@ describe("(WIP) DepartureTimes", () => {
       // If all predictions are cancelled something else should happen (most likely returning empty or some state indicator)
       const schedules = [
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26T11:15:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:15:00-04:00")
         },
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "2" } as Trip,
-          time: new Date("2022-04-26T11:26:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:26:00-04:00")
         }
       ] as ScheduleWithTimestamp[];
       const [isPrediction, info1, info2] = getNextTwoTimes(schedules, []);
@@ -190,12 +170,8 @@ describe("(WIP) DepartureTimes", () => {
     it("should return only one schedule if there is only one", () => {
       const schedules = [
         {
-          stop: {} as any,
-          route: {} as any,
           trip: { id: "1" } as Trip,
-          time: new Date("2022-04-26T11:15:00-04:00"),
-          stop_sequence: 1,
-          pickup_type: 1
+          time: new Date("2022-04-26T11:15:00-04:00")
         }
       ] as ScheduleWithTimestamp[];
       const [isPrediction, info1, info2] = getNextTwoTimes(schedules, []);
@@ -207,26 +183,12 @@ describe("(WIP) DepartureTimes", () => {
       const schedules = [] as ScheduleWithTimestamp[];
       const predictions = [
         {
-          id: "p1",
           time: new Date("2022-04-26T11:15:15-04:00"),
-          route: {} as any,
-          stop: {} as any,
-          trip: { id: "1" } as Trip,
-          direction_id: 0,
-          schedule_relationship: "cancelled",
-          track: null,
-          status: null
+          trip: { id: "1" } as Trip
         },
         {
-          id: "p2",
           time: new Date("2022-04-26T11:16:15-04:00"),
-          route: {} as any,
-          stop: {} as any,
-          trip: { id: "2" } as Trip,
-          direction_id: 0,
-          schedule_relationship: "cancelled",
-          track: null,
-          status: null
+          trip: { id: "2" } as Trip
         },
         {
           id: "p2",
@@ -279,7 +241,6 @@ describe("(WIP) DepartureTimes", () => {
         schedules,
         predictions
       );
-      console.log(info1);
       expect(isPrediction).toBeTruthy();
       expect(info1!.isDelayed).toBeTruthy();
       expect(info1!.time).toEqual(new Date(schedules[0].time));
