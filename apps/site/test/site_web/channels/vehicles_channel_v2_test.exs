@@ -29,7 +29,7 @@ defmodule SiteWeb.VehiclesV2ChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleChannelTest")
+             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleMapMarkerChannelTest")
 
     broadcast_from(socket, "reset", %{data: @vehicles})
 
@@ -44,7 +44,7 @@ defmodule SiteWeb.VehiclesV2ChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleChannelTest")
+             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleMapMarkerChannelTest")
 
     broadcast_from(socket, "add", %{data: @vehicles})
 
@@ -59,7 +59,7 @@ defmodule SiteWeb.VehiclesV2ChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleChannelTest")
+             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleMapMarkerChannelTest")
 
     broadcast_from(socket, "update", %{data: @vehicles})
 
@@ -72,7 +72,7 @@ defmodule SiteWeb.VehiclesV2ChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleChannelTest2")
+             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleMapMarkerChannelTest2")
 
     broadcast_from(socket, "remove", %{data: ["vehicle_id"]})
 
@@ -85,7 +85,7 @@ defmodule SiteWeb.VehiclesV2ChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleChannelTest3")
+             |> subscribe_and_join(VehiclesV2Channel, "vehicles-v2:VehicleMapMarkerChannelTest3")
 
     push(socket, "init", %{"route_id" => "route_id", "direction_id" => "0"})
 

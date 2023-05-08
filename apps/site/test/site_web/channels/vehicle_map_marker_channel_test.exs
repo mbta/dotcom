@@ -1,8 +1,8 @@
-defmodule SiteWeb.VehicleChannelTest do
+defmodule SiteWeb.VehicleMapMarkerChannelTest do
   use SiteWeb.ChannelCase
 
   alias Leaflet.MapData.Marker
-  alias SiteWeb.{VehicleChannel, UserSocket}
+  alias SiteWeb.{VehicleMapMarkerChannel, UserSocket}
   alias Vehicles.Vehicle
   import Mock
 
@@ -23,12 +23,15 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest")
+             |> subscribe_and_join(
+               VehicleMapMarkerChannel,
+               "vehicles:VehicleMapMarkerChannelTest"
+             )
 
     [vehicle | _] = @vehicles
 
     assert {:noreply, %Phoenix.Socket{}} =
-             VehicleChannel.handle_out("reset", %{data: @vehicles}, socket)
+             VehicleMapMarkerChannel.handle_out("reset", %{data: @vehicles}, socket)
 
     assert_push("data", vehicles)
 
@@ -44,10 +47,13 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest2")
+             |> subscribe_and_join(
+               VehicleMapMarkerChannel,
+               "vehicles:VehicleMapMarkerChannelTest2"
+             )
 
     assert {:noreply, %Phoenix.Socket{}} =
-             VehicleChannel.handle_out("remove", %{data: ["vehicle_id"]}, socket)
+             VehicleMapMarkerChannel.handle_out("remove", %{data: ["vehicle_id"]}, socket)
 
     assert_push("data", vehicles)
 
@@ -58,10 +64,13 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest3")
+             |> subscribe_and_join(
+               VehicleMapMarkerChannel,
+               "vehicles:VehicleMapMarkerChannelTest3"
+             )
 
     assert {:noreply, %Phoenix.Socket{}} =
-             VehicleChannel.handle_in(
+             VehicleMapMarkerChannel.handle_in(
                "init",
                %{"route_id" => "route_id", "direction_id" => "0"},
                socket
@@ -99,11 +108,14 @@ defmodule SiteWeb.VehicleChannelTest do
       assert {:ok, _, socket} =
                UserSocket
                |> socket("", %{some: :assign})
-               |> subscribe_and_join(VehicleChannel, "vehicles:VehicleChannelTest4")
+               |> subscribe_and_join(
+                 VehicleMapMarkerChannel,
+                 "vehicles:VehicleMapMarkerChannelTest4"
+               )
 
       [vehicle | _] = @vehicles
 
-      VehicleChannel.handle_out("reset", %{data: @vehicles}, socket)
+      VehicleMapMarkerChannel.handle_out("reset", %{data: @vehicles}, socket)
 
       assert_push("data", vehicles)
 

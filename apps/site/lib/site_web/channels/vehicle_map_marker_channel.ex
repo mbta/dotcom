@@ -1,6 +1,6 @@
-defmodule SiteWeb.VehicleChannel do
+defmodule SiteWeb.VehicleMapMarkerChannel do
   @moduledoc """
-  Channel allowing clients to subscribe to streams of vehicles
+  Channel allowing clients to subscribe to streams of vehicle map markers
   """
   use SiteWeb, :channel
   alias Leaflet.MapData.Marker

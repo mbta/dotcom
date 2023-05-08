@@ -2,7 +2,7 @@ defmodule SiteWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel("vehicles:*", SiteWeb.VehicleChannel)
+  channel("vehicles:*", SiteWeb.VehicleMapMarkerChannel)
   channel("vehicles-v2:*", SiteWeb.VehiclesV2Channel)
   channel("predictions:*", SiteWeb.PredictionsChannel)
 
