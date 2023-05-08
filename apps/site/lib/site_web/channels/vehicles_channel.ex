@@ -1,4 +1,4 @@
-defmodule SiteWeb.VehiclesV2Channel do
+defmodule SiteWeb.VehicleChannel do
   @moduledoc """
   Channel allowing clients to subscribe to streams of vehicles
   """
