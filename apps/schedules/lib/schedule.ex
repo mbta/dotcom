@@ -13,18 +13,23 @@ defmodule Schedules.Schedule do
             early_departure?: false,
             last_stop?: false,
             stop_sequence: 0,
-            pickup_type: 0
+            pickup_type: 0,
+            raw_stop_id: nil
+
+  @typedoc "The parent stop (station) for the schedule record. If this schedule record is for a child stop (platform/track), then that child stop id can be found on the `raw_stop_id` field."
+  @type stop :: Stops.Stop.t()
 
   @type t :: %Schedules.Schedule{
           route: Routes.Route.t(),
           trip: Schedules.Trip.t(),
-          stop: Stops.Stop.t(),
+          stop: stop,
           time: DateTime.t(),
           flag?: boolean,
           early_departure?: boolean,
           last_stop?: boolean,
           stop_sequence: non_neg_integer,
-          pickup_type: integer
+          pickup_type: integer,
+          raw_stop_id: Stops.Stop.id_t()
         }
 
   def flag?(%Schedules.Schedule{flag?: value}), do: value
