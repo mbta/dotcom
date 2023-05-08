@@ -115,7 +115,7 @@ defmodule Predictions.RepoTest do
                       "relationships": {
                         "route": {"data": {"type": "route", "id": "Red"}},
                         "trip": {"data": {"type": "trip", "id": "trip"}},
-                        "stop": null
+                        "stop": null,
                       }
                     },
                     {
@@ -199,7 +199,7 @@ defmodule Predictions.RepoTest do
                     "route": {"data": {"type": "route", "id": "Red"}},
                     "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
                     "stop": {"data": {"type": "stop", "id": "place-pktrm"}},
-                    "vehicle": {"data": {"type": "vehicle", "id": "vehicle_id"}}
+                    "vehicle": {"data": null}
                   }
                 }
               ]
