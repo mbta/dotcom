@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import StopPageDepartures from "../components/StopPageDepartures";
-import { Alert, Route, RouteType, Stop } from "../../__v3api";
+import { Route, RouteType, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 
 const baseRoute = (name: string, type: RouteType): Route =>
@@ -14,12 +14,11 @@ const baseRoute = (name: string, type: RouteType): Route =>
 const stop = {} as Stop;
 const routeData: Route[] = [baseRoute("4B", 3), baseRoute("Magenta", 1)];
 const scheduleData = [] as ScheduleWithTimestamp[];
-const alertData = [] as Alert[];
 
 describe("StopPageDepartures", () => {
   it("renders with no data", () => {
     const { asFragment } = render(
-      <StopPageDepartures routes={[]} stop={stop} schedules={[]} alerts={[]} />
+      <StopPageDepartures routes={[]} stop={stop} schedules={[]} />
     );
     expect(asFragment()).toMatchSnapshot();
     expect(screen.getByRole("list")).toBeEmptyDOMElement();
@@ -31,7 +30,6 @@ describe("StopPageDepartures", () => {
         routes={routeData}
         stop={stop}
         schedules={scheduleData}
-        alerts={alertData}
       />
     );
     expect(asFragment()).toMatchSnapshot();

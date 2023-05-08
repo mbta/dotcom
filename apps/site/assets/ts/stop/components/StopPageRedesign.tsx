@@ -41,13 +41,12 @@ const StopPageRedesign = ({
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       <div className="container">
-        <Alerts alerts={alerts || []} />
+        <Alerts alerts={alerts} />
         <div className="stop-routes-and-map">
           <StopPageDepartures
             routes={routes}
             stop={stop}
             schedules={schedules}
-            alerts={alerts}
           />
           <StopMapRedesign stop={stop} lines={polylines} />
         </div>

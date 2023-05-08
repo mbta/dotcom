@@ -11,7 +11,6 @@ interface StopPageDeparturesProps {
   routes: Route[];
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
-  alerts: Alert[];
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -28,8 +27,7 @@ const modeSortFn = ({ type }: Route): number => {
 const StopPageDepartures = ({
   routes,
   stop,
-  schedules,
-  alerts
+  schedules
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
