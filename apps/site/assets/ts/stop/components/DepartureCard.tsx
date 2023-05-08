@@ -54,11 +54,6 @@ const DepartureCard = ({
     (sch: ScheduleWithTimestamp) => sch.trip.direction_id
   );
 
-  console.log("**********************");
-  console.log(route);
-  console.log(schedulesByDirection);
-  console.log("^^^^^^^^^^^^^^^^^^^^^^");
-
   return (
     <li className="departure-card">
       <div className={`departure-card__route ${routeBgClass(route)}`}>

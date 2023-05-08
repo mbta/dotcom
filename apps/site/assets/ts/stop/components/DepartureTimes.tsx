@@ -3,7 +3,7 @@ import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import { formatToBostonTime } from "../../helpers/date";
-import { find, groupBy, slice, some } from "lodash";
+import { groupBy, slice } from "lodash";
 import {
   differenceInSeconds,
   isSameDay,
@@ -17,6 +17,8 @@ import { ScheduleWithTimestamp } from "../../models/schedules";
 import { PredictionWithTimestamp } from "../../models/perdictions";
 import {
   departureInfoToTime,
+  displayInfoContainsPrediction,
+  getNextUnCancelledDeparture,
   mergeIntoDepartureInfo
 } from "../../helpers/departureInfo";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -32,36 +34,23 @@ interface DisplayTimeConfig {
   isStikethrough?: boolean;
 }
 
-const getNextUnCancelledDeparture = (
-  departureInfos: DepartureInfo[]
-): DepartureInfo | undefined => {
-  return find(departureInfos, (di: DepartureInfo) => !di.isCancelled);
-};
-
-// This function returns time info in a consisten format.
-// Returns the time from the predictions if they exist, or the schdule
+// Returns 2 times from the departureInfo array
+// ensuring that upto one returned time is cancelled
 const getNextTwoTimes = (
   departureInfos: DepartureInfo[]
-): [boolean, DepartureInfo | undefined, DepartureInfo | undefined] => {
+): [DepartureInfo | undefined, DepartureInfo | undefined] => {
   const departure1 = departureInfos[0];
   const departure2 = getNextUnCancelledDeparture(slice(departureInfos, 1));
 
-  // TODO is this needed to calculate
-  const areAnyPredictions = some(
-    [departure1, departure2],
-    (d: DepartureInfo | undefined) => d && d.prediction
-  );
-
-  return [areAnyPredictions, departure1, departure2];
+  return [departure1, departure2];
 };
 
 const infoToDisplayTime = (
   time1: DepartureInfo | undefined,
   time2: DepartureInfo | undefined,
-  isPrediction: boolean,
   targetDate: Date = new Date()
 ): DisplayTimeConfig[] => {
-  const defaultState = [{ displayString: "Error retrieving data" }];
+  const defaultState = [{ displayString: "Updates unavailable" }];
   // If there is not input time1 then a schedule or prediction could not be found
   if (!time1) {
     return defaultState;
@@ -70,18 +59,36 @@ const infoToDisplayTime = (
   const departure1Time = departureInfoToTime(time1);
   const formatOverride = "h:mm aa";
 
-  if (time2 && (time1.isCancelled || time1.isDelayed)) {
+  if (time1.isDelayed) {
+    // is delayed can only be true if both a prediction and schedule exist
+    const scheduleTime = time1.schedule!.time;
+    const predictionTime = time1.prediction!.time;
+    return [
+      {
+        displayString: `${formatToBostonTime(predictionTime, formatOverride)}`,
+        isBolded: true,
+        // only predictions can be delayed
+        isPrediction: true
+      },
+      {
+        displayString: `${formatToBostonTime(scheduleTime, formatOverride)}`,
+        isStikethrough: true,
+        trackName: time1.prediction!.track
+      }
+    ];
+  }
+
+  if (time2 && time1.isCancelled) {
     const departure2Time = departureInfoToTime(time2);
     // State 7
     // State 8
-    // If trip1 is cancelled/delayed, then trip2 should not be cancelled/delayed
+    // If trip1 is cancelled, then trip2 should not be cancelled
     // Display trip2 in the first time spot (and its track info in the second)
     return [
       {
         displayString: `${formatToBostonTime(departure2Time, formatOverride)}`,
         isBolded: true,
-        // Only predictions can be deleayed or cancelled
-        isPrediction: true
+        isPrediction: displayInfoContainsPrediction(time2)
       },
       {
         displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
@@ -99,7 +106,11 @@ const infoToDisplayTime = (
   if (diffInSeconds1 <= secondsInMinute) {
     // State 9
     return [
-      { displayString: "Arriving", isPrediction: isPrediction, isBolded: true }
+      {
+        displayString: "Arriving",
+        isPrediction: displayInfoContainsPrediction(time1),
+        isBolded: true
+      }
     ];
   }
 
@@ -113,7 +124,7 @@ const infoToDisplayTime = (
     return [
       {
         displayString: `${Math.floor(diffInSeconds1 / secondsInMinute)} min`,
-        isPrediction: isPrediction,
+        isPrediction: displayInfoContainsPrediction(time1),
         isBolded: true
       },
       { displayString: `${Math.floor(diffInSeconds2 / secondsInMinute)} min` }
@@ -130,7 +141,7 @@ const infoToDisplayTime = (
       {
         displayString: `${Math.floor(diffInSeconds1 / secondsInMinute)} min`,
         isBolded: true,
-        isPrediction: isPrediction
+        isPrediction: displayInfoContainsPrediction(time1)
       }
     ];
   }
@@ -145,7 +156,7 @@ const infoToDisplayTime = (
         displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
         // If the days are not the same, then one must be tomorrow
         isTomorrow: !isSameDay(departure1Time, targetDate),
-        isPrediction: isPrediction,
+        isPrediction: displayInfoContainsPrediction(time1),
         isBolded: true,
         trackName: time1.prediction?.track
       }
@@ -154,7 +165,7 @@ const infoToDisplayTime = (
 
   if (diffInSeconds1 >= secondsInDay) {
     // State 11
-    return [{ displayString: "No departures within 24 hours" }];
+    return [{ displayString: "No upcoming trips" }];
   }
 
   // Default state is error
@@ -164,15 +175,15 @@ const infoToDisplayTime = (
 
 const toDisplayTime = (
   schedules: ScheduleWithTimestamp[],
-  predictions: PredictionWithTimestamp[]
+  predictions: PredictionWithTimestamp[],
+  targetDate = new Date()
 ): DisplayTimeConfig[] => {
   // TODO this should be short cutted by alerts
   const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
 
-  const [isPrediction, time1, time2] = getNextTwoTimes(departureInfos);
+  const [time1, time2] = getNextTwoTimes(departureInfos);
 
-  // time 2 should always be after time 1 (TODO maybe sort the inputs?)
-  return infoToDisplayTime(time1, time2, isPrediction);
+  return infoToDisplayTime(time1, time2, targetDate);
 };
 
 const schedulesByHeadsign = (
@@ -254,6 +265,7 @@ interface DepartureTimesProps {
   stop: Stop;
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+  overrideDate?: Date;
 }
 
 /* istanbul ignore next */
@@ -267,7 +279,8 @@ const DepartureTimes = ({
   route,
   stop,
   directionId,
-  schedulesForDirection
+  schedulesForDirection,
+  overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
@@ -277,18 +290,15 @@ const DepartureTimes = ({
 
   const schedules = schedulesByHeadsign(schedulesForDirection);
 
-  if (!schedulesForDirection || schedulesForDirection.length === 0) {
-    console.log("adsf");
-    console.log(predictionsByHeadsign);
-    console.log(route);
-  }
-
   return (
     <>
       {Object.entries(schedules).map(([headsign, schs]) => {
         const formattedTimes = toDisplayTime(
           schs,
-          predictionsByHeadsign[headsign] ? predictionsByHeadsign[headsign] : []
+          predictionsByHeadsign[headsign]
+            ? predictionsByHeadsign[headsign]
+            : [],
+          overrideDate
         );
         return departureTimeRow(headsign, formattedTimes);
       })}

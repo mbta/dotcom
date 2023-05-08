@@ -1,4 +1,4 @@
-import { concat, difference, keyBy, keys, map, sortBy } from "lodash";
+import { concat, difference, find, keyBy, keys, map, sortBy } from "lodash";
 import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
 import { isCancelled, isDelayed } from "./prediction-helpers";
@@ -9,6 +9,18 @@ const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
   return departureInfo.prediction
     ? departureInfo.prediction.time
     : departureInfo.schedule!.time;
+};
+
+const getNextUnCancelledDeparture = (
+  departureInfos: DepartureInfo[]
+): DepartureInfo | undefined => {
+  return find(departureInfos, (di: DepartureInfo) => !di.isCancelled);
+};
+
+const displayInfoContainsPrediction = (
+  departureInfo: DepartureInfo
+): boolean => {
+  return !!departureInfo.prediction;
 };
 
 const mergeIntoDepartureInfo = (
@@ -64,4 +76,9 @@ const mergeIntoDepartureInfo = (
   return sortedDepartureInfo;
 };
 
-export { mergeIntoDepartureInfo, departureInfoToTime };
+export {
+  mergeIntoDepartureInfo,
+  departureInfoToTime,
+  displayInfoContainsPrediction,
+  getNextUnCancelledDeparture
+};

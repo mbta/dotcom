@@ -44,8 +44,6 @@ const StopPageDepartures = ({
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
 
-  console.log(groupedSchedules);
-
   return (
     <div className="routes">
       {modesList.length > 1 && (
