@@ -38,7 +38,7 @@ defmodule Site.Application do
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [
-            {Site.Stream.Vehicles, name: Site.Stream.Vehicles},
+            {Site.Stream.Vehicles, name: Site.Stream.Vehicles, topic: "vehicles"},
             {Site.Stream.Vehicles, name: Site.Stream.Vehicles, topic: "vehicles-v2"},
             {Site.GreenLine.Supervisor, name: Site.GreenLine.Supervisor}
           ]
