@@ -256,7 +256,7 @@ defmodule Predictions.RepoTest do
       prediction = {
         "prediction_id",
         "trip_id",
-        "place-sstat",
+        "70079",
         "Red",
         0,
         Util.now() |> Timex.shift(minutes: 5),
@@ -272,6 +272,7 @@ defmodule Predictions.RepoTest do
                  id: "prediction_id",
                  trip: nil,
                  stop: %Stop{id: "place-sstat"},
+                 raw_stop_id: "70079",
                  route: %Route{id: "Red"},
                  direction_id: 0,
                  time: %DateTime{},

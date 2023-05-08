@@ -177,7 +177,7 @@ defmodule Predictions.Repo do
 
   defp do_record_to_structs(
          %Stop{} = stop,
-         {id, trip_id, _stop_id, route_id, direction_id, time, stop_sequence,
+         {id, trip_id, raw_stop_id, route_id, direction_id, time, stop_sequence,
           schedule_relationship, track, status, departing?}
        ) do
     trip =
@@ -192,6 +192,7 @@ defmodule Predictions.Repo do
         id: id,
         trip: trip,
         stop: stop,
+        raw_stop_id: raw_stop_id,
         route: route,
         direction_id: direction_id,
         time: time,
