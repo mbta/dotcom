@@ -31,8 +31,9 @@ defmodule Schedules.RepoTest do
       assert Enum.any?(response, &(&1.route.id == "9"))
     end
 
-    test "returns the parent station as the stop" do
-      response =
+    test "returns the parent station as the stop and keeps raw stop id" do
+      [first_schedule | _rest] =
+        response =
         by_route_ids(
           ["Red"],
           date: Util.service_date(),
@@ -41,7 +42,11 @@ defmodule Schedules.RepoTest do
         )
 
       assert response != []
-      assert %{id: "place-alfcl", name: "Alewife"} = List.first(response).stop
+
+      assert %{stop: %{id: "place-alfcl", name: "Alewife"}, raw_stop_id: raw_stop_id} =
+               first_schedule
+
+      assert "place-alfcl" != raw_stop_id
     end
 
     test "filters by min_time when provided" do
