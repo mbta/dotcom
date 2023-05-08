@@ -40,8 +40,8 @@ const mergeIntoDepartureInfo = (
       // prediction could be undefined
       const prediction = predictionsByTripId[tripId];
       return {
-        prediction: prediction,
-        schedule: schedule,
+        prediction,
+        schedule,
         isCancelled: isCancelled(prediction),
         isDelayed: isDelayed(prediction, schedule)
       };
@@ -58,7 +58,7 @@ const mergeIntoDepartureInfo = (
     (tripId: string): DepartureInfo => {
       const prediction = predictionsByTripId[tripId];
       return {
-        prediction: prediction,
+        prediction,
         isCancelled: isCancelled(prediction)
       } as DepartureInfo;
     }

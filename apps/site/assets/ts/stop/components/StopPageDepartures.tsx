@@ -1,10 +1,10 @@
 import { filter, groupBy, sortBy } from "lodash";
+import { isPast } from "date-fns";
 import React, { ReactElement, useState } from "react";
 import { Route, Stop, Alert } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
-import { isPast } from "date-fns";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 
 interface StopPageDeparturesProps {

@@ -1,9 +1,5 @@
 import React, { ReactElement } from "react";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { DirectionId, Route, Stop } from "../../__v3api";
-import renderFa from "../../helpers/render-fa";
-import { formatToBostonTime } from "../../helpers/date";
-import { groupBy, slice } from "lodash";
+import { Dictionary, groupBy, slice } from "lodash";
 import {
   differenceInSeconds,
   isSameDay,
@@ -11,6 +7,10 @@ import {
   secondsInHour,
   secondsInMinute
 } from "date-fns";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { DirectionId, Route, Stop } from "../../__v3api";
+import renderFa from "../../helpers/render-fa";
+import { formatToBostonTime } from "../../helpers/date";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
 import { ScheduleWithTimestamp } from "../../models/schedules";
@@ -188,7 +188,7 @@ const toDisplayTime = (
 
 const schedulesByHeadsign = (
   schedules: ScheduleWithTimestamp[] | undefined
-) => {
+): Dictionary<ScheduleWithTimestamp[]> => {
   return groupBy(schedules, (sch: ScheduleWithTimestamp) => {
     return sch.trip.headsign;
   });
@@ -208,7 +208,7 @@ const departureTimeClasses = (
   }
   if (index === 1) {
     // All secondary times should be smaller
-    customClasses += " fs-12 pt-4 ";
+    customClasses += " fs-14 pt-4 ";
   }
   return customClasses;
 };
@@ -230,11 +230,14 @@ const departureTimeRow = (
             return (
               <>
                 {time.isPrediction && (
-                  <div className="me-8">
+                  <div className="me-4">
                     {SVGIcon("c-svg__icon fs-10", realtimeIcon)}
                   </div>
                 )}
-                <div key={`${index}-departure-times`} className={`me-8`}>
+                <div
+                  key={`${time.displayString}-departure-times`}
+                  className="me-8"
+                >
                   <div className={`${classes} u-nowrap`}>
                     {time.displayString}
                   </div>

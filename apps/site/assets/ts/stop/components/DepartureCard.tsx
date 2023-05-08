@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { groupBy } from "lodash";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
@@ -9,7 +10,6 @@ import SubwaySvg from "../../../static/images/icon-subway-default.svg";
 import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
-import { find, groupBy } from "lodash";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

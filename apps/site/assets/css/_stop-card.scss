@@ -151,7 +151,7 @@ $radius: 4px;
   .c-svg__icon {
     fill: currentColor;
     height: .9em;
-    top: .1em;
+    top: 1em;
     width: .9em;
   }
 
@@ -164,8 +164,8 @@ $radius: 4px;
     @include h4();
     flex-grow: 1;
     margin: 0;
-    max-width: 16.25rem;
-    padding-left: 1rem;
+    max-width: 15.75rem;
+    padding-left: .5rem;
   }
 
   .departure-card__times {

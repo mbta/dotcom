@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
+import { differenceInSeconds } from "date-fns";
 import { PredictedOrScheduledTime } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
 import { TripPrediction } from "../schedule/components/__trips";
 import { compareStringTimes } from "./date";
 import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
-import { differenceInSeconds } from "date-fns";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,

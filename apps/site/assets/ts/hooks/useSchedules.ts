@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { pick } from "lodash";
+import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { ScheduleWithTimestamp } from "../models/schedules";
 
 interface ScheduleData extends Omit<ScheduleWithTimestamp, "time"> {

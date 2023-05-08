@@ -73,7 +73,7 @@ export const formatToBostonTime = (
   if (getMinutes(dateTime) === 0) {
     formatString = "h aa"; // 5 AM
   }
-  formatString = overrideFormat ? overrideFormat : formatString;
+  formatString = overrideFormat !== undefined ? overrideFormat : formatString;
   return formatInTimeZone(dateTime, "America/New_York", formatString);
 };
 
