@@ -16,7 +16,7 @@ defmodule Schedules.Schedule do
             pickup_type: 0,
             raw_stop_id: nil
 
-  @typedoc "The parent stop (station) for the schedule record. If this schedule record is for a child stop (platform/track), then that child stop id can be found on the `raw_stop_id` field."
+  @typedoc "If the schedule record is for a child (platform) stop, the stop field will contain the parent (station) stop. If the schedule record is for a parent stop, then the stop field is populated with that parent stop record. The unmodified stop_id for the schedule record can be found in the raw_stop_id field."
   @type stop :: Stops.Stop.t()
 
   @type t :: %Schedules.Schedule{
