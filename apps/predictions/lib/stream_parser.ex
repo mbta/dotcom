@@ -35,7 +35,7 @@ defmodule Predictions.StreamParser do
       time: Parser.first_time(item),
       route: route,
       stop: Stops.Repo.get_parent(stop),
-      raw_stop_id: stop_id(item),
+      platform_stop_id: stop_id(item),
       trip: trip,
       schedule_relationship: Parser.schedule_relationship(item),
       status: Parser.status(item),

@@ -14,9 +14,9 @@ defmodule Schedules.Schedule do
             last_stop?: false,
             stop_sequence: 0,
             pickup_type: 0,
-            raw_stop_id: nil
+            platform_stop_id: nil
 
-  @typedoc "If the scheduled stop has a parent stop (station), then the `stop` field will contain that parent stop. Otherwise it will contain the stop for the scheduled stop_id. The unmodified stop_id for the schedule record can be found in the raw_stop_id field."
+  @typedoc "If the scheduled stop has a parent stop (station), then the `stop` field will contain that parent stop. Otherwise it will contain the scheduled platform stop. Whether or not the stop has a parent, the unmodified stop id can be found in platform_stop_id field."
   @type stop :: Stops.Stop.t()
 
   @type t :: %Schedules.Schedule{
@@ -29,7 +29,7 @@ defmodule Schedules.Schedule do
           last_stop?: boolean,
           stop_sequence: non_neg_integer,
           pickup_type: integer,
-          raw_stop_id: Stops.Stop.id_t()
+          platform_stop_id: Stops.Stop.id_t()
         }
 
   def flag?(%Schedules.Schedule{flag?: value}), do: value
