@@ -89,7 +89,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         )
 
       # Compare the prediction to the schedule
-      track_change = get_track_change(sch, predictions)
+      track_change = track_change_for_schedule(sch, predictions)
 
       {
         {trip_id, stop_id},
@@ -98,19 +98,19 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end)
   end
 
-  @spec get_track_change(Schedules.Schedule.t(), [Predictions.Prediction.t()]) :: String.t() | nil
-  defp get_track_change(nil, _), do: nil
-  defp get_track_change(_, []), do: nil
+  @spec track_change_for_schedule(Schedules.Schedule.t(), [Predictions.Prediction.t()]) ::
+          String.t() | nil
+  def track_change_for_schedule(nil, _), do: nil
+  def track_change_for_schedule(_, []), do: nil
 
-  defp get_track_change(schedule, predicted_schedules) do
-    # Comparing stops based off stop sequence
-    prediction =
-      Enum.find(predicted_schedules, fn ps ->
-        ps.stop_sequence == schedule.stop_sequence
+  def track_change_for_schedule(schedule, predicted_schedules) do
+    has_prediction_for_scheduled_stop =
+      Enum.any?(predicted_schedules, fn ps ->
+        ps.platform_stop_id == schedule.platform_stop_id
       end)
 
     # If the prediction stop doesn't match the scheduled stop there has been a track change
-    if prediction != nil and schedule.stop.id != prediction.stop.id do
+    if !has_prediction_for_scheduled_stop do
       "Track Change"
     else
       nil
