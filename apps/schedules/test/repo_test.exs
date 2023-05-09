@@ -43,10 +43,10 @@ defmodule Schedules.RepoTest do
 
       assert response != []
 
-      assert %{stop: %{id: "place-alfcl", name: "Alewife"}, raw_stop_id: raw_stop_id} =
+      assert %{stop: %{id: "place-alfcl", name: "Alewife"}, platform_stop_id: platform_stop_id} =
                first_schedule
 
-      assert "place-alfcl" != raw_stop_id
+      assert "place-alfcl" != platform_stop_id
     end
 
     test "filters by min_time when provided" do

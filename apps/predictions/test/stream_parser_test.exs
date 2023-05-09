@@ -58,7 +58,7 @@ defmodule Predictions.StreamParserTest do
                route: route,
                status: "On Time",
                stop: stop,
-               raw_stop_id: "place-pktrm",
+               platform_stop_id: "place-pktrm",
                stop_sequence: 0,
                time: time,
                track: track,
