@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { groupBy } from "lodash";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
@@ -9,6 +10,7 @@ import SubwaySvg from "../../../static/images/icon-subway-default.svg";
 import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
+import { ScheduleWithTimestamp } from "../../models/schedules";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeToModeIcon = (route: Route): any => {
@@ -33,9 +35,11 @@ const routeToModeIcon = (route: Route): any => {
 
 const DepartureCard = ({
   route,
-  stop
+  stop,
+  schedulesForRoute
 }: {
   route: Route;
+  schedulesForRoute: ScheduleWithTimestamp[];
   stop: Stop;
 }): ReactElement<HTMLElement> => {
   const routeName = (
@@ -45,22 +49,30 @@ const DepartureCard = ({
         : breakTextAtSlash(route.name)}
     </span>
   );
+  const schedulesByDirection = groupBy(
+    schedulesForRoute,
+    (sch: ScheduleWithTimestamp) => sch.trip.direction_id
+  );
+
   return (
     <li className="departure-card">
       <div className={`departure-card__route ${routeBgClass(route)}`}>
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
       </div>
+      {/* TODO can we avoid hard coding the direction ids? */}
       <DepartureTimes
         key={`${route.id}-0`}
         route={route}
         stop={stop}
         directionId={0}
+        schedulesForDirection={schedulesByDirection[0]}
       />
       <DepartureTimes
         key={`${route.id}-1`}
         route={route}
         stop={stop}
         directionId={1}
+        schedulesForDirection={schedulesByDirection[1]}
       />
     </li>
   );

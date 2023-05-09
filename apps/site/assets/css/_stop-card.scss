@@ -153,19 +153,24 @@ $radius: 4px;
     height: .9em;
     top: .1em;
     width: .9em;
+
+    &--realtime {
+      top: 0;
+    }
+
   }
 
   .departure-card__headsign {
     border: .25px solid $gray-lightest;
-    display: flex;
     padding: .5rem;
   }
 
   .departure-card__headsign-name {
     @include h4();
     flex-grow: 1;
-    margin: 0;
-    padding-left: 1rem;
+    margin: 0 .5rem 0 0;
+    max-width: 16.25rem;
+    padding-left: .5rem;
   }
 
   .departure-card__times {

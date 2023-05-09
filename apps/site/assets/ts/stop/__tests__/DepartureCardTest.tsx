@@ -8,7 +8,13 @@ const stop = {} as Stop;
 
 describe("DepartureCard", () => {
   it("renders a list item with route name", () => {
-    render(<DepartureCard route={baseRoute("749", 3)} stop={stop} />);
+    render(
+      <DepartureCard
+        route={baseRoute("749", 3)}
+        stop={stop}
+        schedulesForRoute={[]}
+      />
+    );
     const listItem = screen.getByRole("listitem");
     expect(listItem).toBeDefined();
     expect(within(listItem).getByText("Silver Line 749 Route")).toBeDefined();
@@ -18,7 +24,11 @@ describe("DepartureCard", () => {
     const iconElements = [0, 1, 2, 3, 4]
       .map(type =>
         render(
-          <DepartureCard route={baseRoute("", type as RouteType)} stop={stop} />
+          <DepartureCard
+            route={baseRoute("", type as RouteType)}
+            stop={stop}
+            schedulesForRoute={[]}
+          />
         )
       )
       .map(({ container }) => container.querySelector(".c-svg__icon"));
@@ -39,7 +49,9 @@ describe("DepartureCard", () => {
     ${baseRoute("", 3)}         | ${".u-bg--bus"}
     ${baseRoute("", 4)}         | ${".u-bg--ferry"}
   `("renders different colors for routes/modes", ({ route, expectedClass }) => {
-    const { container } = render(<DepartureCard route={route} stop={stop} />);
+    const { container } = render(
+      <DepartureCard route={route} stop={stop} schedulesForRoute={[]} />
+    );
     expect(container.querySelector(expectedClass)).toBeInTheDocument();
   });
 });

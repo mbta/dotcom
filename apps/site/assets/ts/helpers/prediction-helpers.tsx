@@ -1,8 +1,11 @@
 import React, { ReactElement } from "react";
+import { differenceInSeconds } from "date-fns";
 import { PredictedOrScheduledTime } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
 import { TripPrediction } from "../schedule/components/__trips";
 import { compareStringTimes } from "./date";
+import { PredictionWithTimestamp } from "../models/perdictions";
+import { ScheduleWithTimestamp } from "../models/schedules";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -73,3 +76,24 @@ export const trackForCommuterRail = ({
   prediction
 }: PredictedOrScheduledTime): string =>
   prediction && prediction.track ? ` track ${prediction.track}` : "";
+
+export const isCancelled = (
+  prediction: PredictionWithTimestamp | undefined
+): boolean => {
+  return !!prediction && prediction.schedule_relationship === "cancelled";
+};
+
+// Finds the corresponding schedule to the prediction and compares the times
+// If the prediction and schedule are more than 60 seconds apart it is delayed
+export const isDelayed = (
+  prediction: PredictionWithTimestamp | undefined,
+  schedule: ScheduleWithTimestamp | undefined,
+  maxDifferenceInSeconds: number = 60
+): boolean => {
+  return (
+    !!schedule &&
+    !!prediction &&
+    // Is the prediction meaningfully after the schedule
+    differenceInSeconds(prediction.time, schedule.time) > maxDifferenceInSeconds
+  );
+};

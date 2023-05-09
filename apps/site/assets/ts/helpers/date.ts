@@ -1,4 +1,4 @@
-import { formatDistanceToNow, getMinutes, parseISO } from "date-fns";
+import { getMinutes, parseISO } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
 // this returns a Date() in the browser time zone, unlike new Date(unformatted)
@@ -61,21 +61,20 @@ export const compareStringTimes = (
   return comparison;
 };
 
-export const formatToBostonTime = (dateTimeString: string): string => {
-  const dateTime = parseISO(dateTimeString);
+export const formatToBostonTime = (
+  dateTimeString: string | Date,
+  overrideFormat?: string
+): string => {
+  const dateTime =
+    typeof dateTimeString === "string"
+      ? parseISO(dateTimeString)
+      : dateTimeString;
   let formatString = "h:mm aa"; // 5:00 AM
   if (getMinutes(dateTime) === 0) {
     formatString = "h aa"; // 5 AM
   }
+  formatString = overrideFormat !== undefined ? overrideFormat : formatString;
   return formatInTimeZone(dateTime, "America/New_York", formatString);
-};
-
-/** WIP human-readable predicted or scheduled time on the stop page */
-export const formatDepartureTime = (date: Date, isCR: boolean): string => {
-  if (isCR) {
-    return date.toLocaleTimeString();
-  }
-  return formatDistanceToNow(date, { addSuffix: true });
 };
 
 export default formattedDate;
