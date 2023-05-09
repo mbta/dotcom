@@ -58,7 +58,16 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
-    track_changes = track_changes(trip_schedules, route, direction_id)
+    canonical_rps =
+      route.id
+      |> RoutePatterns.Repo.by_route_id(direction_id: direction_id, canonical: true)
+
+    canonical_stops =
+      canonical_rps
+      |> Enum.flat_map(& &1.stop_ids)
+      |> MapSet.new()
+
+    track_changes = track_changes(trip_schedules, route, direction_id, canonical_stops)
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
@@ -74,11 +83,12 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec track_changes(
           %{required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()},
           Route.t(),
-          0 | 1
+          0 | 1,
+          MapSet.t(Stops.Stop.id_t())
         ) :: %{
           required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => String.t() | nil
         }
-  defp track_changes(trip_schedules, route, direction_id) do
+  defp track_changes(trip_schedules, route, direction_id, canonical_stops) do
     Map.new(trip_schedules, fn {{trip_id, stop_id}, sch} ->
       # Fetches all the predictions on the route in a direction, for a trip
       predictions =
@@ -89,7 +99,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         )
 
       # Compare the prediction to the schedule
-      track_change = track_change_for_schedule(sch, predictions)
+      track_change = track_change_for_schedule(sch, predictions, canonical_stops)
 
       {
         {trip_id, stop_id},
@@ -98,22 +108,33 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end)
   end
 
-  @spec track_change_for_schedule(Schedules.Schedule.t(), [Predictions.Prediction.t()]) ::
-          String.t() | nil
-  def track_change_for_schedule(nil, _), do: nil
-  def track_change_for_schedule(_, []), do: nil
-
-  def track_change_for_schedule(schedule, predicted_schedules) do
+  @spec track_change_for_schedule(
+          Schedules.Schedule.t(),
+          [
+            Predictions.Prediction.t()
+          ],
+          MapSet.t(Stops.Stop.id_t())
+        ) :: String.t() | nil
+  def track_change_for_schedule(schedule, predicted_schedules, canonical_stops) do
     has_prediction_for_scheduled_stop =
       Enum.any?(predicted_schedules, fn ps ->
         ps.platform_stop_id == schedule.platform_stop_id
       end)
 
-    # If the prediction stop doesn't match the scheduled stop there has been a track change
-    if !has_prediction_for_scheduled_stop do
+    # If the scheduled stop doesn't match a predicted stop there has been a track change
+    if !Enum.empty?(predicted_schedules) && !has_prediction_for_scheduled_stop do
+      # TODO - surface predicted track?
       "Track Change"
     else
-      nil
+      # if the scheduled stop matches the predicted stop but doesn't match a canonical stop
+      # there has been a track change
+      if MapSet.size(canonical_stops) > 0 &&
+           !MapSet.member?(canonical_stops, schedule.platform_stop_id) do
+        # TODO - surface predicted track?
+        "Track Change"
+      else
+        nil
+      end
     end
   end
 

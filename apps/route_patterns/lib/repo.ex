@@ -35,10 +35,13 @@ defmodule RoutePatterns.Repo do
   end
 
   def by_route_id(route_id, opts) do
+    opts =
+      opts
+      |> Keyword.put(:route, route_id)
+      |> Keyword.put(:sort, "typicality,sort_order")
+      |> Keyword.put(:include, "representative_trip.stops")
+
     opts
-    |> Keyword.put(:route, route_id)
-    |> Keyword.put(:sort, "typicality,sort_order")
-    |> Keyword.put(:include, "representative_trip.shape")
     |> cache(&api_all/1)
     |> Enum.sort(&reorder_mrts(&1, &2, route_id))
   end

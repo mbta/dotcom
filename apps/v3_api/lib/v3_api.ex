@@ -42,6 +42,8 @@ defmodule V3Api do
   defp timed_get(url, params, opts) do
     api_key = Keyword.fetch!(opts, :api_key)
     base_url = Keyword.fetch!(opts, :base_url)
+    require Logger
+    Logger.debug("timed_get #{inspect(params)}")
 
     headers =
       V3Api.Headers.build(
