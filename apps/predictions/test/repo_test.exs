@@ -116,6 +116,7 @@ defmodule Predictions.RepoTest do
                         "route": {"data": {"type": "route", "id": "Red"}},
                         "trip": {"data": {"type": "trip", "id": "trip"}},
                         "stop": null,
+                        "vehicle": {"data": {"type": "vehicle", "id": "vehicle_id"}}
                       }
                     },
                     {
