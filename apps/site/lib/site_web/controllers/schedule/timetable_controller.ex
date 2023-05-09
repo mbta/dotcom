@@ -122,13 +122,13 @@ defmodule SiteWeb.ScheduleController.TimetableController do
           MapSet.t(Stops.Stop.id_t())
         ) :: String.t() | nil
   def track_change_for_schedule(schedule, predicted_schedules, canonical_stops) do
-    has_prediction_for_scheduled_stop =
-      Enum.any?(predicted_schedules, fn ps ->
-        ps.platform_stop_id == schedule.platform_stop_id
+    prediction_for_stop =
+      Enum.find(predicted_schedules, fn ps ->
+        ps.stop.id == schedule.stop.id
       end)
 
-    # If the scheduled stop doesn't match a predicted stop there has been a track change
-    if !Enum.empty?(predicted_schedules) && !has_prediction_for_scheduled_stop do
+    # If there is a prediction for the scheduled stop but the platform_stop_ids don't match, then there has been a track change
+    if prediction_for_stop && prediction_for_stop.platform_stop_id != schedule.platform_stop_id do
       # TODO - surface predicted track?
       "Track Change"
     else

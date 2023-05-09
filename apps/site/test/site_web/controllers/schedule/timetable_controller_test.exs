@@ -156,7 +156,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       assert nil == track_change_for_schedule(schedule_1, [], MapSet.new())
     end
 
-    test "when there is no prediction matching the scheduled stop, then detects track change" do
+    test "when there is no prediction matching the scheduled stop with a different platform, then detects track change" do
       [schedule_1 | _others] = @schedules
 
       assert "Track Change" ==
