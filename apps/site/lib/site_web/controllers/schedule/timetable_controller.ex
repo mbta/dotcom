@@ -62,11 +62,17 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       route.id
       |> RoutePatterns.Repo.by_route_id(direction_id: direction_id, canonical: true)
 
+    # Don't use the stop ids set on the route pattern - those are mapped to the parent stops.
+    # Get the stops directly for the canonical trips
+
     canonical_stops =
       canonical_rps
-      |> Enum.flat_map(& &1.stop_ids)
+      |> Enum.flat_map(&Stops.Repo.by_trip(&1.representative_trip_id))
+      |> Enum.map(& &1.id)
       |> MapSet.new()
 
+    require Logger
+    Logger.error("CANONICAL STOPS: #{inspect(canonical_stops)}")
     track_changes = track_changes(trip_schedules, route, direction_id, canonical_stops)
 
     conn
