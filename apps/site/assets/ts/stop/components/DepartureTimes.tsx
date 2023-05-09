@@ -208,7 +208,7 @@ const departureTimeClasses = (
   }
   if (index === 1) {
     // All secondary times should be smaller
-    customClasses += " fs-14 pt-4 ";
+    customClasses += " fs-14 pt-2 ";
   }
   return customClasses;
 };
@@ -231,7 +231,7 @@ const departureTimeRow = (
               <>
                 {time.isPrediction && (
                   <div className="me-4">
-                    {SVGIcon("c-svg__icon fs-10", realtimeIcon)}
+                    {SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
                   </div>
                 )}
                 <div

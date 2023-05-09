@@ -151,8 +151,13 @@ $radius: 4px;
   .c-svg__icon {
     fill: currentColor;
     height: .9em;
-    top: 1em;
+    top: .1em;
     width: .9em;
+
+    &--realtime {
+      top: 0;
+    }
+
   }
 
   .departure-card__headsign {
@@ -163,8 +168,8 @@ $radius: 4px;
   .departure-card__headsign-name {
     @include h4();
     flex-grow: 1;
-    margin: 0;
-    max-width: 15.75rem;
+    margin: 0 .5rem 0 0;
+    max-width: 16.25rem;
     padding-left: .5rem;
   }
 
