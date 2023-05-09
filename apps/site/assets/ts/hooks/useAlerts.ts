@@ -10,5 +10,14 @@ const useAlertsByStop = (stopId: string): Alert[] | undefined => {
   return data;
 };
 
+const useAlertsByRoute = (routeId: string | string[]): Alert[] | undefined => {
+  let route_id_array = Array.isArray(routeId) ? routeId : [routeId];
+  const { data } = useSWR<Alert[]>(
+    `/api/alerts?route_ids=${route_id_array.join(",")}`,
+    fetchData
+  );
+  return data;
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { useAlertsByStop };
+export { useAlertsByStop, useAlertsByRoute };
