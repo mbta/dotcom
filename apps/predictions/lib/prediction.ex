@@ -23,7 +23,7 @@ defmodule Predictions.Prediction do
   @type id_t :: String.t()
   @type schedule_relationship :: nil | :added | :unscheduled | :cancelled | :skipped | :no_data
 
-  @typedoc "Stop may be the child stop (platform) of the prediction or the parent stop (station) of that child stop. The unmodified stop_id for the prediction can be found in the raw_stop_id field."
+  @typedoc "If the predicted stop has a parent stop (station), then that *may* be the stop set on the `stop` field. In some cases, it may contain a platform stop when the stop has a parent. The unmodified stop_id for the prediction can be found in the raw_stop_id field."
   @type stop :: Stops.Stop.t() | nil
 
   @type t :: %__MODULE__{
