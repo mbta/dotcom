@@ -16,19 +16,22 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       stop_sequence: 1,
       time: DateTime.from_unix!(500),
       stop: %Stop{id: "1", name: "name1"},
-      trip: %Trip{id: "trip-1", name: "123"}
+      trip: %Trip{id: "trip-1", name: "123"},
+      platform_stop_id: "stop-1-platform-1"
     },
     %Schedule{
       stop_sequence: 2,
       time: DateTime.from_unix!(5000),
       stop: %Stop{id: "2", name: "name2"},
-      trip: %Trip{id: "trip-2", name: "456"}
+      trip: %Trip{id: "trip-2", name: "456"},
+      platform_stop_id: "stop-2-platform-1"
     },
     %Schedule{
       stop_sequence: 3,
       time: DateTime.from_unix!(50_000),
       stop: %Stop{id: "3", name: "name3"},
-      trip: %Trip{id: "trip-3", name: "789"}
+      trip: %Trip{id: "trip-3", name: "789"},
+      platform_stop_id: "stop-3-platform-1"
     }
   ]
 
@@ -144,6 +147,43 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "trip-5-5" => "name3-trip-5"
              } ==
                stops
+    end
+  end
+
+  describe "track_change_for_schedule/2" do
+    test "when there are no predictions or canonical routes, then no track change" do
+      [schedule_1 | _others] = @schedules
+      assert nil == track_change_for_schedule(schedule_1, [])
+    end
+
+    test "when there is no prediction matching the scheduled stop, then detects track change" do
+      [schedule_1 | _others] = @schedules
+
+      assert "Track Change" ==
+               track_change_for_schedule(schedule_1, [
+                 %Predictions.Prediction{
+                   id: "p1",
+                   stop: schedule_1.stop,
+                   platform_stop_id: "stop-1-other-platform"
+                 }
+               ])
+    end
+
+    test "when there is a prediction matching the scheduled stop, then no track change" do
+      [schedule_1 | _others] = @schedules
+
+      assert nil ==
+               track_change_for_schedule(schedule_1, [
+                 %Predictions.Prediction{
+                   id: "p1",
+                   stop: schedule_1.stop,
+                   platform_stop_id: schedule_1.platform_stop_id
+                 }
+               ])
+    end
+
+    @tag skip: "TODO once canonical patterns are incorporated"
+    test "when there is a prediction matching the scheduled stop, but the scheduled stop doesn't match the canonical pattern stops, then track change detected" do
     end
   end
 end
