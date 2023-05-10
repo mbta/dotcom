@@ -1,16 +1,18 @@
 import React, { ReactElement, useState } from "react";
 import { Route, Stop } from "../../__v3api";
 import Modal from "../../components/Modal";
-import StopPageDepartures from "./StopPageDepartures";
+import { ScheduleWithTimestamp } from "../../models/schedules";
 
 interface StopPageOverlayProps {
   routes: Route[];
   stop: Stop;
+  schedules: ScheduleWithTimestamp[];
 }
 
 const StopPageOverlay = ({
   routes,
-  stop
+  stop,
+  schedules
 }: StopPageOverlayProps): ReactElement<HTMLElement> => {
   const [modalOpen, toggleModal] = useState(false);
 
@@ -30,7 +32,9 @@ const StopPageOverlay = ({
           closeModal={modalClick}
         >
           <div className="placeholder-map">imagine a map here</div>
-          <div className="placeholder-departures"></div>
+          <div className="placeholder-departures">
+            imagine stop departures here
+          </div>
         </Modal>
       )}
     </div>
