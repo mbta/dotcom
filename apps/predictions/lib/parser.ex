@@ -17,7 +17,8 @@ defmodule Predictions.Parser do
           Prediction.schedule_relationship() | nil,
           String.t() | nil,
           String.t() | nil,
-          boolean
+          boolean,
+          Vehicles.Vehicle.id_t() | nil
         }
 
   @spec parse(Item.t()) :: record
@@ -33,7 +34,8 @@ defmodule Predictions.Parser do
       schedule_relationship(item),
       track(item),
       status(item),
-      departing?(item)
+      departing?(item),
+      vehicle_id(item)
     }
   end
 
@@ -126,5 +128,13 @@ defmodule Predictions.Parser do
 
   defp route_id(%Item{relationships: %{"route" => [%{id: id} | _]}}) do
     id
+  end
+
+  defp vehicle_id(%Item{relationships: %{"vehicle" => [%{id: id} | _]}}) do
+    id
+  end
+
+  defp vehicle_id(%Item{relationships: %{"vehicle" => []}}) do
+    nil
   end
 end

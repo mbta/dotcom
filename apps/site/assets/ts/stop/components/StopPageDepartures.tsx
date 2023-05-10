@@ -1,13 +1,16 @@
-import { groupBy, sortBy } from "lodash";
+import { filter, groupBy, sortBy } from "lodash";
+import { isPast } from "date-fns";
 import React, { ReactElement, useState } from "react";
 import { Route, Stop } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
+import { ScheduleWithTimestamp } from "../../models/schedules";
 
 interface StopPageDeparturesProps {
   routes: Route[];
   stop: Stop;
+  schedules: ScheduleWithTimestamp[];
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -23,11 +26,18 @@ const modeSortFn = ({ type }: Route): number => {
 
 const StopPageDepartures = ({
   routes,
-  stop
+  stop,
+  schedules
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
+  // This filtering should be done on the backend
+  const currentSchedules = filter(
+    schedules,
+    (s: ScheduleWithTimestamp) => !isPast(s.time)
+  );
+  const groupedSchedules = groupBy(currentSchedules, s => s.route.id);
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
@@ -43,7 +53,13 @@ const StopPageDepartures = ({
       )}
       <ul className="stop-departures list-unstyled">
         {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => (
-          <DepartureCard key={route.id} route={route} stop={stop} />
+          <DepartureCard
+            key={route.id}
+            route={route}
+            stop={stop}
+            schedulesForRoute={groupedSchedules[route.id]}
+            // This list should only have one value, is there another way to do this?
+          />
         ))}
       </ul>
     </div>

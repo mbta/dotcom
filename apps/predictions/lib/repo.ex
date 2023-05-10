@@ -118,7 +118,8 @@ defmodule Predictions.Repo do
            _schedule_relationship,
            _track,
            _status,
-           _departing?
+           _departing?,
+           _vehicle_id
          },
          %DateTime{}
        ) do
@@ -137,7 +138,8 @@ defmodule Predictions.Repo do
            _schedule_relationship,
            _track,
            _status,
-           _departing?
+           _departing?,
+           _vehicle_id
          },
          min_time
        ) do
@@ -154,19 +156,19 @@ defmodule Predictions.Repo do
     |> Enum.flat_map(fn {:ok, prediction} -> prediction end)
   end
 
-  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _}) do
+  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _}) do
     # no stop ID
     []
   end
 
-  defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
+  defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _} = record) do
     stop_id
     |> Stops.Repo.get_parent()
     |> do_record_to_structs(record)
     |> discard_if_subway_past_prediction()
   end
 
-  defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
+  defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _} = record) do
     :ok =
       Logger.error(
         "Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{inspect(record)}"
@@ -178,7 +180,7 @@ defmodule Predictions.Repo do
   defp do_record_to_structs(
          %Stop{} = stop,
          {id, trip_id, _stop_id, route_id, direction_id, time, stop_sequence,
-          schedule_relationship, track, status, departing?}
+          schedule_relationship, track, status, departing?, vehicle_id}
        ) do
     trip =
       if trip_id do
@@ -199,7 +201,8 @@ defmodule Predictions.Repo do
         schedule_relationship: schedule_relationship,
         track: track,
         status: status,
-        departing?: departing?
+        departing?: departing?,
+        vehicle_id: vehicle_id
       }
     ]
   end

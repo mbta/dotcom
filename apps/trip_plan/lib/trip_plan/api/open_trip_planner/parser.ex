@@ -161,12 +161,14 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
 
   defp parse_absolute_direction(nil), do: nil
 
-  defp id_after_colon(agency_colon_id) do
-    [agency, id] = String.split(agency_colon_id, ":", parts: 2)
-    # agency is either 1 (MBTA) or 2 (Massport)
-    case agency do
-      "1" -> id
-      "2" <> _ -> "Massport-" <> id
+  defp id_after_colon(feed_colon_id) do
+    [feed, id] = String.split(feed_colon_id, ":", parts: 2)
+
+    # feed id is either mbta-ma-us (MBTA) or 22722274 (Massport), if it's neither, assume it's MBTA
+    case feed do
+      "mbta-ma-us" -> id
+      "22722274" -> "Massport-" <> id
+      _ -> id
     end
   end
 end

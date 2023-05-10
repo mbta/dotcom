@@ -1,6 +1,6 @@
 import { groupBy, mapValues, pick, sortBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
-import { Reducer, useCallback } from "react";
+import { Reducer } from "react";
 import {
   DirectionId,
   Route,
@@ -9,6 +9,7 @@ import {
   Trip
 } from "../__v3api";
 import useChannel from "./useChannel";
+import { PredictionWithTimestamp } from "../models/perdictions";
 
 /**
  * The format of a prediction emitted via websockets from
@@ -34,24 +35,14 @@ interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
 }
 
-export interface Prediction {
-  id: string;
-  time: Date;
-  route: Route;
-  stop: Stop;
-  trip: Trip;
-  direction_id: DirectionId;
-  schedule_relationship: ScheduleRelationship;
-  track: string | null;
-  status: string | null;
-}
-
 interface PredictionsByHeadsign {
-  [headsign: string]: Prediction[];
+  [headsign: string]: PredictionWithTimestamp[];
 }
 
-// Parses departure time into Date(), ignores arrival time
-export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
+// Parses departure time into Date()
+export const parsePrediction = (
+  prediction: StreamPrediction
+): PredictionWithTimestamp => ({
   ...pick(prediction, [
     "id",
     "route",
@@ -62,11 +53,13 @@ export const parsePrediction = (prediction: StreamPrediction): Prediction => ({
     "track",
     "status"
   ]),
+  // backend removes all predictions with a null departure_time
+  // so this is always populated
   time: new Date(prediction.departure_time!)
 });
 
 export const groupByHeadsigns = (
-  predictions: Prediction[],
+  predictions: PredictionWithTimestamp[],
   numPredictions?: number
 ): PredictionsByHeadsign => {
   const byHeadsign = groupBy(predictions, "trip.headsign");
@@ -88,28 +81,21 @@ export const groupByHeadsigns = (
 const usePredictionsChannel = (
   routeId: string,
   stopId: string,
-  directionId: 0 | 1,
-  numPredictions?: number
+  directionId: 0 | 1
 ): PredictionsByHeadsign => {
   const channelName = `predictions:${routeId}:${stopId}:${directionId}`;
-  const reducer: Reducer<
-    PredictionsByHeadsign,
-    ChannelPredictionResponse
-  > = useCallback(
-    (oldGroupedPredictions, { predictions }) => {
-      const parsedPredictions = predictions.map(parsePrediction);
-      const newGroupedPredictions = groupByHeadsigns(
-        parsedPredictions,
-        numPredictions
-      );
-      // don't attempt to reconcile with prior predictions, just replace state with
-      // all the new predictions from the channel if there are any changes.
-      return deepEqual(oldGroupedPredictions, newGroupedPredictions)
-        ? oldGroupedPredictions
-        : newGroupedPredictions;
-    },
-    [numPredictions]
-  );
+  const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
+    oldGroupedPredictions,
+    { predictions }
+  ) => {
+    const parsedPredictions = predictions.map(parsePrediction);
+    const newGroupedPredictions = groupByHeadsigns(parsedPredictions);
+    // don't attempt to reconcile with prior predictions, just replace state with
+    // all the new predictions from the channel if there are any changes.
+    return deepEqual(oldGroupedPredictions, newGroupedPredictions)
+      ? oldGroupedPredictions
+      : newGroupedPredictions;
+  };
   const initialState: PredictionsByHeadsign = {};
   const state = useChannel(channelName, reducer, initialState);
   return state;

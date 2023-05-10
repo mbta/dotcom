@@ -30,9 +30,7 @@ const StopPageOverlay = ({
           closeModal={modalClick}
         >
           <div className="placeholder-map">imagine a map here</div>
-          <div className="placeholder-departures">
-            <StopPageDepartures routes={routes} stop={stop} />
-          </div>
+          <div className="placeholder-departures"></div>
         </Modal>
       )}
     </div>

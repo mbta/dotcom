@@ -1,6 +1,5 @@
 import { act, renderHook } from "@testing-library/react-hooks";
 import usePredictionsChannel, {
-  Prediction,
   StreamPrediction,
   groupByHeadsigns,
   parsePrediction
@@ -10,6 +9,7 @@ import {
   makeMockSocket
 } from "../../helpers/socketTestHelpers";
 import { Route, Stop, Trip } from "../../__v3api";
+import { PredictionWithTimestamp } from "../../models/perdictions";
 
 const predictionsFromStream = [
   {
@@ -146,35 +146,35 @@ test("usePredictionsChannel groupByHeadsigns groups and sorts", () => {
     {
       trip: { headsign: "A" },
       time: new Date("2023-04-17T10:10:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "B" },
       time: new Date("2023-04-17T09:14:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "A" },
       time: new Date("2023-04-17T08:54:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "B" },
       time: new Date("2023-04-17T09:00:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "A" },
       time: new Date("2023-04-17T07:33:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "C" },
       time: new Date("2023-04-17T09:25:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "C" },
       time: new Date("2023-04-17T09:24:00")
-    } as Prediction,
+    } as PredictionWithTimestamp,
     {
       trip: { headsign: "A" },
       time: new Date("2023-04-17T09:24:00")
-    } as Prediction
+    } as PredictionWithTimestamp
   ];
   const grouped = groupByHeadsigns(predictions);
   expect(Object.keys(grouped)).toContain("A");

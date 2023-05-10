@@ -78,7 +78,7 @@ const leaveChannel = (id: string): void => {
   }
 };
 
-function setupChannels(): void {
+const setupChannels = (): void => {
   window.socket = new Socket("/socket", {});
   window.socket.connect();
   window.channels = {};
@@ -91,12 +91,12 @@ function setupChannels(): void {
   });
 
   // leave subscribed channels when navigating away from a page.
-  function leaveAllChannels(): void {
+  const leaveAllChannels = (): void => {
     Object.keys(window.channels).forEach(id => leaveChannel(id));
-  }
+  };
   document.addEventListener("turbolinks:before-render", leaveAllChannels);
   window.addEventListener("beforeunload", leaveAllChannels);
-}
+};
 
 export { joinChannel, leaveChannel };
 export default setupChannels;

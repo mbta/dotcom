@@ -7,9 +7,10 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import StopPageDepartures from "./StopPageDepartures";
-import useAlertsForStop from "../../hooks/useAlertsForStop";
 import Alerts from "../../components/Alerts";
 import { Route } from "../../__v3api";
+import { useSchedulesByStop } from "../../hooks/useSchedules";
+import { useAlertsByStop } from "../../hooks/useAlerts";
 import StopPageOverlay from "./StopPageOverlay";
 
 const StopPageRedesign = ({
@@ -19,10 +20,13 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const stop = useStop(stopId);
   const routesWithPolylines = useRoutesByStop(stopId);
-  const alerts = useAlertsForStop(stopId);
+  // TODO maybe move to the StopDeparturesPage (or keep it here for loading indicator)
+  const schedules = useSchedulesByStop(stopId);
+  const alerts = useAlertsByStop(stopId);
+  //
 
   // Return loading indicator while waiting on data fetch
-  if (!stop || !routesWithPolylines) {
+  if (!stop || !routesWithPolylines || !schedules || !alerts) {
     return <Loading />;
   }
   const routes: Route[] = routesWithPolylines.map(rwp =>
@@ -38,11 +42,15 @@ const StopPageRedesign = ({
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       <div className="container">
-        <Alerts alerts={alerts || []} />
+        <Alerts alerts={alerts} />
         {/* this is the mobile version */}
         <StopPageOverlay routes={routes} stop={stop} />
         <div className="stop-routes-and-map xs-hide">
-          <StopPageDepartures routes={routes} stop={stop} />
+          <StopPageDepartures
+            routes={routes}
+            stop={stop}
+            schedules={schedules}
+          />
           <StopMapRedesign stop={stop} lines={polylines} />
         </div>
         <footer>
