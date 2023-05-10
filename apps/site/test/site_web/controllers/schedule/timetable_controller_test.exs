@@ -151,59 +151,23 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
   end
 
   describe "track_change_for_schedule/2" do
-    test "when there are no predictions or canonical routes, then no track change" do
-      [schedule_1 | _others] = @schedules
-      assert nil == track_change_for_schedule(schedule_1, [], MapSet.new())
-    end
-
-    test "when there is no prediction matching the scheduled stop with a different platform, then detects track change" do
-      [schedule_1 | _others] = @schedules
-
-      assert "Track Change" ==
-               track_change_for_schedule(
-                 schedule_1,
-                 [
-                   %Predictions.Prediction{
-                     id: "p1",
-                     stop: schedule_1.stop,
-                     platform_stop_id: "stop-1-other-platform"
-                   }
-                 ],
-                 MapSet.new([schedule_1.platform_stop_id])
-               )
-    end
-
-    test "when there is a prediction matching the scheduled stop and canonical stop, then no track change" do
+    test "when there are no canonical routes, then no track change" do
       [schedule_1 | _others] = @schedules
 
       assert nil ==
-               track_change_for_schedule(
-                 schedule_1,
-                 [
-                   %Predictions.Prediction{
-                     id: "p1",
-                     stop: schedule_1.stop,
-                     platform_stop_id: schedule_1.platform_stop_id
-                   }
-                 ],
-                 MapSet.new([schedule_1.platform_stop_id])
-               )
+               track_change_for_schedule(schedule_1, MapSet.new(), fn _platform_stop_id ->
+                 %{platform_code: "new-platform"}
+               end)
     end
 
-    test "when there is a prediction matching the scheduled stop, but the scheduled stop doesn't match the canonical pattern stops, then track change detected" do
+    test "when the scheduled stop doesn't match the canonical pattern stops, then track change detected" do
       [schedule_1 | _others] = @schedules
 
-      assert "Track Change" ==
+      assert "new-platform" ==
                track_change_for_schedule(
                  schedule_1,
-                 [
-                   %Predictions.Prediction{
-                     id: "p1",
-                     stop: schedule_1.stop,
-                     platform_stop_id: schedule_1.platform_stop_id
-                   }
-                 ],
-                 MapSet.new(["stop-1-other-patform"])
+                 MapSet.new(["stop-1-other-patform"]),
+                 fn _platform_stop_id -> %{platform_code: "new-platform"} end
                )
     end
   end
