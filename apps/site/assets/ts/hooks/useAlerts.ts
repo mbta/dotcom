@@ -11,9 +11,11 @@ const useAlertsByStop = (stopId: string): Alert[] | undefined => {
 };
 
 const useAlertsByRoute = (routeId: string | string[]): Alert[] | undefined => {
-  let route_id_array = Array.isArray(routeId) ? routeId : [routeId];
+  const route_id_array = Array.isArray(routeId) ? routeId : [routeId];
   const { data } = useSWR<Alert[]>(
-    `/api/alerts?route_ids=${route_id_array.join(",")}`,
+    route_id_array.length === 0
+      ? null
+      : `/api/alerts?route_ids=${route_id_array.join(",")}`,
     fetchData
   );
   return data;
