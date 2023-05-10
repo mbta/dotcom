@@ -6,8 +6,11 @@
     <span class="m-timetable__left-icons">
       <span class="m-timetable__track-change-icon">
         <%= if @track_change != nil do %>
-          <%= content_tag(:i, "", class: "icon-track-change notranslate fa fa-shuffle no-margin-right", aria: [hidden: "true"], data: [toggle: "tooltip"], title: "Train will board from Track #{@track_change}") %>
-            <%= content_tag(:span, "Train will board from Track #{@track_change}", class: "sr-only") %>
+          <%
+            track_change_tooltip = "Train will board from Track #{@track_change}"
+          %>
+          <%= content_tag(:i, "", class: "icon-track-change notranslate fa fa-shuffle no-margin-right", aria: [hidden: "true"], data: [toggle: "tooltip"], title: track_change_tooltip) %>
+            <%= content_tag(:span, track_change_tooltip, class: "sr-only") %>
 
           <% else %>
             &nbsp;
