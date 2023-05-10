@@ -28,7 +28,7 @@ const StopPageOverlay = ({
       {modalOpen && (
         <Modal
           className={"m-stop-routes-and-map"}
-          ariaLabel={{ label: "yeet" }}
+          ariaLabel={{ label: "schedules overlay" }}
           closeModal={modalClick}
         >
           <div className="placeholder-map">imagine a map here</div>
