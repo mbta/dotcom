@@ -10,24 +10,25 @@ interface StopPageOverlayProps {
 }
 
 const StopPageOverlay = ({
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   routes,
   stop,
   schedules
-}: StopPageOverlayProps): ReactElement<HTMLElement> => {
+}: /* eslint-enable @typescript-eslint/no-unused-vars */
+StopPageOverlayProps): ReactElement<HTMLElement> => {
   const [modalOpen, toggleModal] = useState(false);
 
-  const modalClick = () => {
+  const modalClick: () => void = () =>
     modalOpen ? toggleModal(false) : toggleModal(true);
-  };
 
   return (
     <div className="sm-up-hide">
-      <button className="overlay-open" onClick={modalClick}>
+      <button type="button" className="overlay-open" onClick={modalClick}>
         open overlay
       </button>
       {modalOpen && (
         <Modal
-          className={"m-stop-routes-and-map"}
+          className="m-stop-routes-and-map"
           ariaLabel={{ label: "schedules overlay" }}
           closeModal={modalClick}
         >
