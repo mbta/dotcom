@@ -38,7 +38,8 @@ defmodule Predictions.StreamParser do
       trip: trip,
       schedule_relationship: Parser.schedule_relationship(item),
       status: Parser.status(item),
-      track: track
+      track: track,
+      vehicle_id: vehicle_id(item)
     }
   end
 
@@ -59,6 +60,11 @@ defmodule Predictions.StreamParser do
     {:ok, dt, _} = DateTime.from_iso8601(time)
     dt
   end
+
+  @spec vehicle_id(Item.t()) :: Vehicles.Vehicle.id_t() | nil
+  defp vehicle_id(%Item{relationships: %{"vehicle" => [%Item{id: id}]}}), do: id
+
+  defp vehicle_id(_), do: nil
 
   @spec included_route(Item.t()) :: Route.t() | nil
   defp included_route(%Item{relationships: %{"route" => [%Item{id: id} | _]}}),

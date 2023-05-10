@@ -104,7 +104,8 @@ defmodule Site.RealtimeScheduleTest do
         name: "",
         route_pattern_id: "Orange-3-1",
         shape_id: "903_0017"
-      }
+      },
+      vehicle_id: "vehicle_id"
     },
     %Prediction{
       departing?: false,
@@ -119,7 +120,8 @@ defmodule Site.RealtimeScheduleTest do
       departure_time: @now_departure,
       time: @now,
       track: nil,
-      trip: @trip
+      trip: @trip,
+      vehicle_id: nil
     }
   ]
 
@@ -193,7 +195,8 @@ defmodule Site.RealtimeScheduleTest do
                   departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
-                  headsign: "Oak Grove"
+                  headsign: "Oak Grove",
+                  vehicle_id: "vehicle_id"
                 },
                 schedule: nil
               },
@@ -210,7 +213,8 @@ defmodule Site.RealtimeScheduleTest do
                   departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
-                  headsign: "Oak Grove"
+                  headsign: "Oak Grove",
+                  vehicle_id: nil
                 },
                 schedule: nil
               }
@@ -232,7 +236,8 @@ defmodule Site.RealtimeScheduleTest do
                   departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
-                  headsign: "Oak Grove"
+                  headsign: "Oak Grove",
+                  vehicle_id: "vehicle_id"
                 },
                 schedule: nil
               },
@@ -249,7 +254,8 @@ defmodule Site.RealtimeScheduleTest do
                   departure_time: @now_departure,
                   time: ["arriving"],
                   track: nil,
-                  headsign: "Oak Grove"
+                  headsign: "Oak Grove",
+                  vehicle_id: nil
                 },
                 schedule: nil
               }

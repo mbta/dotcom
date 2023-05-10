@@ -49,6 +49,11 @@ defmodule Predictions.ParserTest do
                 "headsign" => "trip_headsign"
               }
             }
+          ],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
           ]
         }
       }
@@ -64,7 +69,8 @@ defmodule Predictions.ParserTest do
         nil,
         "5",
         "On Time",
-        true
+        true,
+        "vehicle_id"
       }
 
       assert parse(item) == expected
@@ -111,6 +117,11 @@ defmodule Predictions.ParserTest do
                 "direction_id" => "0",
                 "headsign" => "trip_headsign"
               }
+            }
+          ],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
             }
           ]
         }
@@ -164,6 +175,11 @@ defmodule Predictions.ParserTest do
                 "headsign" => "trip_headsign"
               }
             }
+          ],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
           ]
         }
       }
@@ -211,6 +227,11 @@ defmodule Predictions.ParserTest do
                 "direction_id" => "0",
                 "headsign" => "trip_headsign"
               }
+            }
+          ],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
             }
           ]
         }
@@ -263,6 +284,11 @@ defmodule Predictions.ParserTest do
                 "headsign" => "trip_headsign"
               }
             }
+          ],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
           ]
         }
       }
@@ -308,12 +334,47 @@ defmodule Predictions.ParserTest do
             }
           ],
           "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
-          "trip" => []
+          "trip" => [],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
+          ]
         }
       }
 
       parsed = parse(item)
       assert elem(parsed, 1) == nil
+    end
+
+    test "can handle empty vehicle relationship" do
+      item = %Item{
+        attributes: %{
+          "track" => nil,
+          "status" => "On Time",
+          "direction_id" => 0,
+          "departure_time" => "2016-09-15T15:40:00-04:00",
+          "arrival_time" => "2016-01-01T00:00:00-04:00"
+        },
+        relationships: %{
+          "route" => [
+            %Item{
+              id: "route_id",
+              attributes: %{
+                "long_name" => "Route",
+                "direction_names" => ["East", "West"],
+                "type" => 5
+              }
+            }
+          ],
+          "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
+          "trip" => [],
+          "vehicle" => []
+        }
+      }
+
+      parsed = parse(item)
+      assert elem(parsed, 11) == nil
     end
 
     test "departing status is determined by prediction status if no time is given" do
@@ -337,7 +398,12 @@ defmodule Predictions.ParserTest do
             }
           ],
           "stop" => [%Item{id: "place-pktrm", attributes: %{"name" => "Stop"}}],
-          "trip" => []
+          "trip" => [],
+          "vehicle" => [
+            %Item{
+              id: "vehicle_id"
+            }
+          ]
         }
       }
 
