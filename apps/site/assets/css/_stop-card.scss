@@ -179,33 +179,29 @@ $radius: 4px;
 }
 
 .m-stop-routes-and-map {
-  // background-color: $gray-bordered-background;
-  // height: 200px;
-  // border: .25px solid $gray-lighter;
-  // border-radius: $radius;
-  // display: grid;
-  // gap: .5rem;
-  // grid-template-columns: 5fr 7fr;
-  // padding: .75rem;
   display: none;
-
   @include media-breakpoint-down(xs) {
+    display: block;
     padding: 0 !important;
-    z-index: 1;
   }
-}
-
-.placeholder-departures {
-  background-color: $crowding-crowded-bg;
+  .c-modal__content {
+    height: calc(100% - 50px);
+    margin-top: 50px;
+  }
 }
 
 .placeholder-map {
   background-color: $crowding-some-crowding-bg;
-  height: 100px;
+  height: 50%;
 }
 
-.xs-hide {
-  @include media-breakpoint-down(xs) {
+.placeholder-departures {
+  height: 50%;
+}
+
+.sm-up-hide {
+  display: block;
+  @include media-breakpoint-up(sm) {
     display: none;
   }
 }
