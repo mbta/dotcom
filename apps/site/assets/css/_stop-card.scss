@@ -183,7 +183,7 @@ $radius: 4px;
   }
 }
 
-.m-stop-routes-and-map {
+.m-stop-route-and-map {
   display: none;
   @include media-breakpoint-down(xs) {
     display: block;

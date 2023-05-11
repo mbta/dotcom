@@ -28,7 +28,7 @@ StopPageOverlayProps): ReactElement<HTMLElement> => {
       </button>
       {modalOpen && (
         <Modal
-          className="m-stop-routes-and-map"
+          className="m-stop-route-and-map"
           ariaLabel={{ label: "schedules overlay" }}
           closeModal={modalClick}
         >
