@@ -9,23 +9,27 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   @type vehicle_tooltip_key :: {Schedules.Trip.id_t(), Stops.Stop.id_t()}
 
-  @spec stop_tooltip(Schedule.t()) :: nil | Phoenix.HTML.Safe.t()
-  def stop_tooltip(%Schedule{} = schedule) do
-    schedule
-    |> stop_type
-    |> do_stop_tooltip
+  @spec stop_tooltip(Schedule.t(), track_change :: String.t() | nil) ::
+          nil | [Phoenix.HTML.Safe.t()]
+  def stop_tooltip(%Schedule{} = schedule, track_change) do
+    stop_type_description = stop_type(schedule)
+    track_change_tooltip = track_change_description(track_change)
+
+    [stop_type_description, track_change_tooltip]
+    |> Enum.reject(&is_nil(&1))
+    |> do_stop_tooltip()
   end
 
-  def stop_tooltip(nil) do
+  def stop_tooltip(nil, nil) do
     nil
   end
 
-  def do_stop_tooltip(nil) do
+  defp do_stop_tooltip([]) do
     nil
   end
 
-  def do_stop_tooltip(type) do
-    content_tag(:p, type, class: "stop-tooltip")
+  defp do_stop_tooltip(contents) do
+    content_tag(:p, Enum.join(contents, "<br>"), class: "stop-tooltip")
     |> safe_to_string
     |> String.replace(~s("), ~s('))
   end
@@ -41,6 +45,13 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   def stop_type(_) do
     nil
+  end
+
+  @spec track_change_description(String.t() | nil) :: String.t() | nil
+  def track_change_description(nil), do: nil
+
+  def track_change_description(track) do
+    "Train will board from Track #{track}"
   end
 
   @spec stop_parking_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]

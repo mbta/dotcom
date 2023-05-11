@@ -5,24 +5,36 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
   import Phoenix.ConnTest, only: [build_conn: 0]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  describe "stop_tooltip/4" do
+  describe "stop_tooltip/2" do
     @expected_flag "Flag Stop"
     @expected_delayed "Early Departure Stop"
+    @expected_track_change "Train will board from Track 1"
 
     test "returns nil when there are no matches" do
-      assert nil == stop_tooltip(%Schedule{})
+      assert nil == stop_tooltip(%Schedule{}, nil)
     end
 
     test "returns only a flag stop" do
-      actual = stop_tooltip(%Schedule{flag?: true})
+      actual = stop_tooltip(%Schedule{flag?: true}, nil)
       assert actual =~ @expected_flag
       refute actual =~ @expected_delayed
     end
 
     test "returns only an early departure" do
-      actual = stop_tooltip(%Schedule{early_departure?: true})
+      actual = stop_tooltip(%Schedule{early_departure?: true}, nil)
       refute actual =~ @expected_flag
       assert actual =~ @expected_delayed
+    end
+
+    test "returns only a track change" do
+      actual = stop_tooltip(%Schedule{}, "1")
+      assert actual =~ @expected_track_change
+    end
+
+    test "returns flag stop and track change" do
+      actual = stop_tooltip(%Schedule{flag?: true}, "1")
+      assert actual =~ @expected_track_change
+      assert actual =~ @expected_flag
     end
   end
 
@@ -107,10 +119,10 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
       trip = %Schedules.Trip{name: "Test Trip", id: "Test-Trip-ID"}
 
       all_stops = [
-        %Stops.Stop{id: "Test-Stop-ID", name: "Stop"}
+        %Stops.Stop{id: "Test-Stop-ID", name: "Stop", platform_code: "Original Track"}
       ]
 
-      track_changes = %{{"Test-Trip-ID", "Test-Stop-ID"} => "Track Change"}
+      track_changes = %{{"Test-Trip-ID", "Test-Stop-ID"} => "New Track"}
       header_schedules = [%Schedules.Schedule{trip: trip}]
       trip_schedules = %{{"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{trip: trip}}
 
@@ -123,7 +135,7 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
         )
 
       rendered = SiteWeb.ScheduleView.render("_timetable.html", assigns)
-      assert safe_to_string(rendered) =~ "Track Change"
+      assert safe_to_string(rendered) =~ "New Track"
     end
   end
 end

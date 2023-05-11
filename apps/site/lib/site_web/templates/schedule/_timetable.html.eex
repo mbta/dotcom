@@ -111,7 +111,7 @@
                 trip_id = schedule.trip.id
                 trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
                 track_change = @track_changes[{trip_id, stop.id} || nil]
-                tooltip = stop_tooltip(trip_schedule)
+                tooltip = stop_tooltip(trip_schedule, track_change)
                 full_trip_message = @trip_messages[{schedule.trip.name}]
                 trip_message = @trip_messages[{schedule.trip.name, stop.id}]
                 tooltip_attrs = [html: true, toggle: "tooltip"]
