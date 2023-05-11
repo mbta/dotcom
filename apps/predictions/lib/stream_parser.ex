@@ -35,6 +35,7 @@ defmodule Predictions.StreamParser do
       time: Parser.first_time(item),
       route: route,
       stop: Stops.Repo.get_parent(stop),
+      platform_stop_id: stop_id(item),
       trip: trip,
       schedule_relationship: Parser.schedule_relationship(item),
       status: Parser.status(item),
@@ -77,6 +78,11 @@ defmodule Predictions.StreamParser do
     do: Schedules.Repo.trip(id)
 
   defp included_trip(_), do: nil
+
+  @spec stop_id(Item.t()) :: Stops.Stop.id_t() | nil
+  defp stop_id(%Item{relationships: %{"stop" => [%Item{id: id}]}}), do: id
+
+  defp stop_id(_), do: nil
 
   # note: likely to be a child stop
   @spec included_stop(Item.t()) :: Stops.Stop.t() | nil

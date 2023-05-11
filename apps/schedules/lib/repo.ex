@@ -238,6 +238,7 @@ defmodule Schedules.Repo do
         %Schedules.Schedule{
           route: Routes.Repo.get(route_id),
           trip: trip(trip_id),
+          platform_stop_id: stop_id,
           stop: Stops.Repo.get_parent(stop_id),
           time: time,
           flag?: flag?,

@@ -13,18 +13,23 @@ defmodule Schedules.Schedule do
             early_departure?: false,
             last_stop?: false,
             stop_sequence: 0,
-            pickup_type: 0
+            pickup_type: 0,
+            platform_stop_id: nil
+
+  @typedoc "If the scheduled stop has a parent stop (station), then the `stop` field will contain that parent stop. Otherwise it will contain the scheduled platform stop. Whether or not the stop has a parent, the unmodified stop id can be found in platform_stop_id field."
+  @type stop :: Stops.Stop.t()
 
   @type t :: %Schedules.Schedule{
           route: Routes.Route.t(),
           trip: Schedules.Trip.t(),
-          stop: Stops.Stop.t(),
+          stop: stop,
           time: DateTime.t(),
           flag?: boolean,
           early_departure?: boolean,
           last_stop?: boolean,
           stop_sequence: non_neg_integer,
-          pickup_type: integer
+          pickup_type: integer,
+          platform_stop_id: Stops.Stop.id_t()
         }
 
   def flag?(%Schedules.Schedule{flag?: value}), do: value

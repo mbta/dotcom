@@ -92,6 +92,7 @@ defmodule Site.RealtimeScheduleTest do
       status: nil,
       stop: @stop,
       stop_sequence: 190,
+      platform_stop_id: "70036",
       arrival_time: @now,
       departure_time: @now_departure,
       time: @now,
@@ -116,6 +117,7 @@ defmodule Site.RealtimeScheduleTest do
       status: nil,
       stop_sequence: 190,
       stop: @stop,
+      platform_stop_id: "70036",
       arrival_time: @now,
       departure_time: @now_departure,
       time: @now,
@@ -133,6 +135,7 @@ defmodule Site.RealtimeScheduleTest do
       pickup_type: 0,
       route: @route,
       stop: @stop,
+      platform_stop_id: "70036",
       stop_sequence: 1,
       time: @now,
       trip: @trip
@@ -196,7 +199,8 @@ defmodule Site.RealtimeScheduleTest do
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove",
-                  vehicle_id: "vehicle_id"
+                  vehicle_id: "vehicle_id",
+                  platform_stop_id: "70036"
                 },
                 schedule: nil
               },
@@ -214,7 +218,8 @@ defmodule Site.RealtimeScheduleTest do
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove",
-                  vehicle_id: nil
+                  vehicle_id: nil,
+                  platform_stop_id: "70036"
                 },
                 schedule: nil
               }
@@ -237,7 +242,8 @@ defmodule Site.RealtimeScheduleTest do
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove",
-                  vehicle_id: "vehicle_id"
+                  vehicle_id: "vehicle_id",
+                  platform_stop_id: "70036"
                 },
                 schedule: nil
               },
@@ -255,7 +261,8 @@ defmodule Site.RealtimeScheduleTest do
                   time: ["arriving"],
                   track: nil,
                   headsign: "Oak Grove",
-                  vehicle_id: nil
+                  vehicle_id: nil,
+                  platform_stop_id: "70036"
                 },
                 schedule: nil
               }
