@@ -183,3 +183,31 @@ $radius: 4px;
   }
 }
 
+.m-stop-route-and-map {
+  display: none;
+  @include media-breakpoint-down(xs) {
+    display: block;
+    padding: 0 !important;
+  }
+  .c-modal__content {
+    height: calc(100% - 50px);
+    margin-top: 50px;
+  }
+}
+
+.placeholder-map {
+  background-color: $crowding-some-crowding-bg;
+  height: 50%;
+}
+
+.placeholder-departures {
+  background-color: $crowding-crowded-bg;
+  height: 50%;
+}
+
+.sm-up-hide {
+  display: block;
+  @include media-breakpoint-up(sm) {
+    display: none;
+  }
+}
