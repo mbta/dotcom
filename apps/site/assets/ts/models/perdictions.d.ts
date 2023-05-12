@@ -7,4 +7,5 @@ export interface PredictionWithTimestamp extends Omit<Prediction, "time"> {
   stop: Stop;
   trip: Trip;
   direction_id: DirectionId;
+  vehicle_id: string | null;
 }
