@@ -6,12 +6,10 @@
     <span class="m-timetable__left-icons">
       <span class="m-timetable__track-change-icon">
         <%= if @track_change != nil do %>
-
           <%= content_tag(:i, "", class: "track-change-icon notranslate fa fa-shuffle no-margin-right", aria: [hidden: "true"]) %>
-            <%= content_tag(:span, @track_change, class: "sr-only") %>
-
-          <% else %>
-            &nbsp;
+          <%= content_tag(:span, @track_change, class: "sr-only") %>
+        <% else %>
+          &nbsp;
         <% end %>
       </span>
       <span class="m-timetable__flag-icon">

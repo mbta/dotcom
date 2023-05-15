@@ -126,7 +126,8 @@
                   <div class="sr-only"><%= full_trip_message %></div>
                   <div aria-hidden="true"><%= trip_message %></div>
                 <% else %>
-                  <%= render "_timetable_schedule.html", Map.merge(assigns, %{trip_schedule: trip_schedule, schedule: schedule, stop: stop, track_change: track_change}) %>
+                  <%= render "_timetable_schedule.html",
+                  Map.merge(assigns, %{trip_schedule: trip_schedule, schedule: schedule, stop: stop, track_change: track_change}) %>
                 <% end %>
               <% end %>
             <% end %>

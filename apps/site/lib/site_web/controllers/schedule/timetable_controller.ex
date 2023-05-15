@@ -59,8 +59,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
     canonical_rps =
-      route.id
-      |> RoutePatterns.Repo.by_route_id(direction_id: direction_id, canonical: true)
+      RoutePatterns.Repo.by_route_id(route.id, direction_id: direction_id, canonical: true)
 
     # Don't use the stop ids set on the route pattern - those are mapped to the parent stops.
     # Get the stops directly for the canonical trips
