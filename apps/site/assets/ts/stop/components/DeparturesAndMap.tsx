@@ -3,7 +3,7 @@ import { chain } from "lodash";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
-import StopMapRedesign from "./StopMapRedesign";
+import StopMapRedesign, { StopMapForRoute } from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
@@ -21,7 +21,7 @@ const DeparturesAndMap = ({
   stop,
   schedules,
   routesWithPolylines,
-  alerts
+  alerts,
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
@@ -30,7 +30,7 @@ const DeparturesAndMap = ({
   }>({
     departureRoute: null,
     departureDirectionId: null,
-    departureSchedules: null
+    departureSchedules: null,
   });
 
   const setDepartureVariables: (
@@ -41,7 +41,7 @@ const DeparturesAndMap = ({
     setDepartureInfo({
       departureRoute: route,
       departureDirectionId: directionId,
-      departureSchedules: allDepartures
+      departureSchedules: allDepartures,
     });
   };
 
@@ -80,14 +80,14 @@ const DeparturesAndMap = ({
                 setDepartureInfo({
                   departureRoute: null,
                   departureDirectionId: null,
-                  departureSchedules: null
+                  departureSchedules: null,
                 })
               }
               onKeyDown={() =>
                 setDepartureInfo({
                   departureRoute: null,
                   departureDirectionId: null,
-                  departureSchedules: null
+                  departureSchedules: null,
                 })
               }
               aria-label={`Back to all ${stop.name} routes`}
@@ -115,7 +115,7 @@ const DeparturesAndMap = ({
         </div>
       )}
       <div>
-        <StopMapRedesign stop={stop} lines={polylines} />
+        <StopMapForRoute stop={stop} line={null} selectedVehicleId={null} />
       </div>
     </div>
   );

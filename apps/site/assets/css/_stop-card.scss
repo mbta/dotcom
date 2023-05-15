@@ -61,12 +61,12 @@ $radius: 4px;
 
 .stop-routes-and-map {
   background-color: $gray-bordered-background;
-  border: .25px solid $gray-lighter;
+  border: 0.25px solid $gray-lighter;
   border-radius: $radius;
   display: grid;
-  gap: .5rem;
+  gap: 0.5rem;
   grid-template-columns: 5fr 7fr;
-  padding: .75rem;
+  padding: 0.75rem;
 
   @include media-breakpoint-down(sm) {
     border-radius: 0;
@@ -85,20 +85,20 @@ $radius: 4px;
 
   .departure-filters {
     display: flex;
-    gap: .5rem;
+    gap: 0.5rem;
     height: 1.875;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 
-    [class*='c-svg__icon'] {
+    [class*="c-svg__icon"] {
       height: 1em;
       position: relative;
-      top: .125em;
+      top: 0.125em;
       width: 1em;
     }
   }
 
   .departure-filters button {
-    padding: .125em .5em;
+    padding: 0.125em 0.5em;
 
     &.active {
       background-color: $brand-primary-lightest;
@@ -113,12 +113,12 @@ $radius: 4px;
 
 .stop-departures {
   background: $white;
-  border: .25px solid $gray-lighter;
+  border: 0.25px solid $gray-lighter;
   height: 21.875rem;
   list-style: none;
   margin: 0;
   overflow-y: auto;
-  padding: .5rem;
+  padding: 0.5rem;
 
   @include media-breakpoint-down(sm) {
     height: unset;
@@ -128,10 +128,10 @@ $radius: 4px;
   .departure-card {
     background-color: $white;
     border-radius: $radius;
-    box-shadow: 0 2px 4px rgba(176, 181, 192, .5);
+    box-shadow: 0 2px 4px rgba(176, 181, 192, 0.5);
 
     & + .departure-card {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
     }
   }
 
@@ -140,8 +140,8 @@ $radius: 4px;
     display: flex;
     font-family: $headings-font-family;
     font-weight: $headings-font-weight;
-    gap: .5rem;
-    padding: .25rem .5rem;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
 
     &:hover {
       text-decoration: none;
@@ -155,9 +155,9 @@ $radius: 4px;
 
   .c-svg__icon {
     fill: currentColor;
-    height: .9em;
-    top: .1em;
-    width: .9em;
+    height: 0.9em;
+    top: 0.1em;
+    width: 0.9em;
 
     &--realtime {
       top: 0;
@@ -165,17 +165,17 @@ $radius: 4px;
   }
 
   .departure-card__headsign {
-    border: .25px solid $gray-lightest;
+    border: 0.25px solid $gray-lightest;
     cursor: pointer;
-    padding: .5rem;
+    padding: 0.5rem;
   }
 
   .departure-card__headsign-name {
     @include h4();
     flex-grow: 1;
-    margin: 0 .5rem 0 0;
+    margin: 0 0.5rem 0 0;
     max-width: 16.25rem;
-    padding-left: .5rem;
+    padding-left: 0.5rem;
   }
 
   .departure-card__times {
@@ -195,12 +195,38 @@ $radius: 4px;
     display: block;
     height: 50%;
   }
+
+  .stop_map--route-selected {
+    height: 50%;
+
+    // style similarly to the Bootstrap tooltip
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background-color: $tooltip-bg;
+      border: 0;
+      color: $tooltip-color;
+    }
+    .leaflet-popup-content {
+      max-width: $tooltip-width;
+      padding: calc(#{$base-spacing} / 4) $base-spacing * 1.5
+        calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
+
+      @include media-breakpoint-down(xs) {
+        max-width: 70vw;
+      }
+    }
+
+    .leaflet-popup-close-button {
+      right: calc(#{$base-spacing} / 4);
+      top: calc(#{$base-spacing} / 4);
+    }
+  }
 }
 
 .placeholder-departures {
   background-color: $white;
   height: 19.2rem;
-  margin: .5rem;
+  margin: 0.5rem;
   overflow-y: scroll;
   @include media-breakpoint-down(sm) {
     height: 50%;
@@ -217,17 +243,17 @@ $radius: 4px;
 
 .departures-container {
   background-color: $white;
-  margin: .5rem;
+  margin: 0.5rem;
   @include media-breakpoint-down(sm) {
     box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
     height: 100vh;
-    left: -.5rem;
+    left: -0.5rem;
     max-height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
     padding: 0;
     position: fixed;
-    top: -.5rem;
+    top: -0.5rem;
     width: 100%;
   }
 }
@@ -235,12 +261,12 @@ $radius: 4px;
 .back-to-routes {
   align-items: center;
   background-color: $gray-bordered-background;
-  border: .25px solid $gray-lighter;
+  border: 0.25px solid $gray-lighter;
   color: $brand-primary;
   display: flex;
   font-size: 1rem;
   height: 3.125rem;
-  padding-left: .625rem;
+  padding-left: 0.625rem;
   text-decoration: underline;
   :first-child {
     cursor: pointer;
@@ -248,7 +274,7 @@ $radius: 4px;
     font-weight: 400;
     :first-child {
       font-weight: 900;
-      padding-right: .5rem;
+      padding-right: 0.5rem;
     }
   }
 }

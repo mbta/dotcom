@@ -12,7 +12,7 @@ import DeparturesAndMap from "./DeparturesAndMap";
 import { isCurrentAlert, routeWideAlerts } from "../../models/alert";
 
 const StopPageRedesign = ({
-  stopId
+  stopId,
 }: {
   stopId: string;
 }): ReactElement<HTMLElement> => {
@@ -20,9 +20,9 @@ const StopPageRedesign = ({
   const routesWithPolylines = useRoutesByStop(stopId);
 
   const routes = routesWithPolylines
-    ? routesWithPolylines.map(rwp => omit(rwp, "polylines"))
+    ? routesWithPolylines.map((rwp) => omit(rwp, "polylines"))
     : [];
-  const routeIds = routes.map(r => r.id);
+  const routeIds = routes.map((r) => r.id);
 
   // TODO maybe move to the StopDeparturesPage (or keep it here for loading indicator)
   const schedules = useSchedulesByStop(stopId);
@@ -38,7 +38,7 @@ const StopPageRedesign = ({
   // Get only alerts that are current
   const currentAlerts = filter(
     alertsStopArray.concat(routeWideAlertsArray),
-    alert => isCurrentAlert(alert)
+    (alert) => isCurrentAlert(alert)
   );
 
   // Return loading indicator while waiting on data fetch
@@ -58,6 +58,7 @@ const StopPageRedesign = ({
           routesWithPolylines={routesWithPolylines}
           alerts={currentAlerts}
         />
+
         <footer>
           <StationInformation stop={stop} />
         </footer>
