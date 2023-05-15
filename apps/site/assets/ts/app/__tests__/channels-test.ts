@@ -1,11 +1,28 @@
 import { Channel, Socket } from "phoenix";
-import setupChannels, { joinChannel } from "../channels";
+import setupChannels, { isVehicleChannel, joinChannel } from "../channels";
 
 const mockOnLoadEventListener = () => {
   // because the turbolinks:load event doesn't fire outside the browser, run in manually here
   const ev = new CustomEvent("turbolinks:load");
   document.dispatchEvent(ev);
 };
+
+describe("isVehicleChannel", () => {
+  test("true for vehicle marker channel topic", () => {
+    expect(isVehicleChannel("vehicles:39:1")).toBe(true);
+  });
+  test("true for vehicles channel topic", () => {
+    expect(isVehicleChannel("vehicles-v2:39:1")).toBe(true);
+  });
+  test("false for remove vehicles topic", () => {
+    expect(isVehicleChannel("vehicles:remove")).toBe(false);
+
+    expect(isVehicleChannel("vehicles-v2:remove")).toBe(false);
+  });
+  test("false for other topics", () => {
+    expect(isVehicleChannel("predictions:39:1:0")).toBe(false);
+  });
+});
 
 describe("setupChannels", () => {
   beforeAll(() => {

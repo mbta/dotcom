@@ -21,8 +21,9 @@ interface RemoveEvent {
 
 export type SocketEvent<DataType> = UpdateEvent<DataType> | RemoveEvent;
 
-const isVehicleChannel = (channelId: string): boolean =>
-  channelId.includes("vehicles:") && channelId !== "vehicles:remove";
+export const isVehicleChannel = (channelId: string): boolean =>
+  (channelId.includes("vehicles:") || channelId.includes("vehicles-v2")) &&
+  !channelId.includes(":remove");
 
 const joinChannel = <T>(
   channelId: string,
