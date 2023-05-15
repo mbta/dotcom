@@ -11,7 +11,7 @@ import Alerts from "../../components/Alerts";
 import { Route } from "../../__v3api";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByStop } from "../../hooks/useAlerts";
-import StopPageOverlay from "./StopPageOverlay";
+import DeparturesAndMap from "./DeparturesAndMap";
 
 const StopPageRedesign = ({
   stopId
@@ -43,12 +43,12 @@ const StopPageRedesign = ({
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       <div className="container">
         <Alerts alerts={alerts} />
-        {/* this is the mobile version */}
-        <div className="stop-routes-and-map">
-          <StopPageOverlay routes={routes} stop={stop} schedules={schedules} />
-
-          <StopMapRedesign stop={stop} lines={polylines} />
-        </div>
+        <DeparturesAndMap
+          routes={routes}
+          stop={stop}
+          schedules={schedules}
+          lines={polylines}
+        />
         <footer>
           <StationInformation stop={stop} />
         </footer>

@@ -183,27 +183,23 @@ $radius: 4px;
   }
 }
 
-.m-stop-route-and-map {
-  display: none;
-  @include media-breakpoint-down(xs) {
-    display: block;
-    padding: 0 !important;
-  }
-  .c-modal__content {
-    height: calc(100% - 50px);
-    margin-top: 50px;
-  }
-}
-
 .placeholder-map {
-  background-color: $crowding-some-crowding-bg;
-  height: 50%;
+  display: none;
+  @include media-breakpoint-down(sm) {
+    background-color: $crowding-some-crowding-bg;
+    display: block;
+    height: 50%;
+  }
 }
 
 .placeholder-departures {
   background-color: $crowding-crowded-bg;
-  height: 400px;
-  // height: 50%;
+  height: 350px;
+  margin-top: 8px;
+  @include media-breakpoint-down(sm) {
+    height: 50%;
+    margin-top: 0;
+  }
 }
 
 .sm-up-hide {
@@ -218,4 +214,23 @@ $radius: 4px;
   @include media-breakpoint-up(sm) {
     display: block;
   }
+}
+
+.departures-container {
+  @include media-breakpoint-down(sm) {
+    background-color: $white;
+    box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
+    height: 100vh;
+    left: 0;
+    max-height: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.back-to-routes {
+  height: 50px;
 }
