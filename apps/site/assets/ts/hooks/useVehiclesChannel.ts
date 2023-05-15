@@ -83,7 +83,7 @@ export const vehiclesReducer = (
     case "add":
       return initialState.concat(channelMessage.data.map(parseVehicle));
 
-    case "update":
+    case "update": {
       if (channelMessage.data.length === 0) {
         return initialState;
       }
@@ -96,14 +96,15 @@ export const vehiclesReducer = (
       return initialState.map(oldVehicle => {
         if (oldVehicle.id in vehiclesToUpdate) {
           return parseVehicle(vehiclesToUpdate[oldVehicle.id]);
-        } else {
-          return oldVehicle;
         }
+        return oldVehicle;
       });
+    }
 
-    case "remove":
+    case "remove": {
       const ids_to_remove = new Set(channelMessage.data);
       return initialState.filter(vehicle => !ids_to_remove.has(vehicle.id));
+    }
     default:
       /* istanbul ignore next */
       // eslint-disable-next-line no-console
