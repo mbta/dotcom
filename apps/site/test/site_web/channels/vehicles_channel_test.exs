@@ -29,7 +29,7 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehicleMapMarkerChannelTest")
+             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehiclesChannelTest")
 
     broadcast_from(socket, "reset", %{data: @vehicles})
 
@@ -44,7 +44,7 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehicleMapMarkerChannelTest")
+             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehiclesChannelTest")
 
     broadcast_from(socket, "add", %{data: @vehicles})
 
@@ -59,7 +59,7 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehicleMapMarkerChannelTest")
+             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehiclesChannelTest1")
 
     broadcast_from(socket, "update", %{data: @vehicles})
 
@@ -72,7 +72,7 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehicleMapMarkerChannelTest2")
+             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehiclesChannelTest2")
 
     broadcast_from(socket, "remove", %{data: ["vehicle_id"]})
 
@@ -85,7 +85,7 @@ defmodule SiteWeb.VehicleChannelTest do
     assert {:ok, _, socket} =
              UserSocket
              |> socket("", %{some: :assign})
-             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehicleMapMarkerChannelTest3")
+             |> subscribe_and_join(VehicleChannel, "vehicles-v2:VehiclesChannelTest3")
 
     push(socket, "init", %{"route_id" => "route_id", "direction_id" => "0"})
 
