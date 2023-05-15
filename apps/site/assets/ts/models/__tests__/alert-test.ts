@@ -84,6 +84,13 @@ const alert7: Alert = {
   lifecycle: "new",
   active_period: [["2020-09-10 08:00", null as any]]
 } as Alert;
+// Legacy Data format
+const alert8: Alert = {
+  severity: 7,
+  priority: "high",
+  lifecycle: "new",
+  active_period: [["2020-5-9 13:52", null as any]]
+} as Alert;
 
 describe("isHighSeverityOrHighPriority", () => {
   test.each`
@@ -125,6 +132,7 @@ describe("isCurrentAlert", () => {
     ${alert5} | ${false}
     ${alert6} | ${false}
     ${alert7} | ${true}
+    ${alert8} | ${true}
   `(
     "isCurrentAlert returns whether alert is current based on lifecycle and active period",
     ({ alert, isCurrent }) => {
