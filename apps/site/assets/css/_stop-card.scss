@@ -202,12 +202,20 @@ $radius: 4px;
 
 .placeholder-departures {
   background-color: $crowding-crowded-bg;
-  height: 50%;
+  height: 400px;
+  // height: 50%;
 }
 
 .sm-up-hide {
   display: block;
   @include media-breakpoint-up(sm) {
     display: none;
+  }
+}
+
+.sm-down-hide {
+  display: none;
+  @include media-breakpoint-up(sm) {
+    display: block;
   }
 }

@@ -36,11 +36,13 @@ const routeToModeIcon = (route: Route): any => {
 const DepartureCard = ({
   route,
   stop,
-  schedulesForRoute
+  schedulesForRoute,
+  onClick
 }: {
   route: Route;
   schedulesForRoute: ScheduleWithTimestamp[];
   stop: Stop;
+  onClick?: any;
 }): ReactElement<HTMLElement> => {
   const routeName = (
     <span className={busClass(route)}>
@@ -66,6 +68,7 @@ const DepartureCard = ({
         stop={stop}
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
+        onClick={onClick}
       />
       <DepartureTimes
         key={`${route.id}-1`}
@@ -73,6 +76,7 @@ const DepartureCard = ({
         stop={stop}
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
+        onClick={onClick}
       />
     </li>
   );

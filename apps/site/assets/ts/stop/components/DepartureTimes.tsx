@@ -269,6 +269,7 @@ interface DepartureTimesProps {
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
   overrideDate?: Date;
+  onClick?: any;
 }
 
 /* istanbul ignore next */
@@ -283,7 +284,8 @@ const DepartureTimes = ({
   stop,
   directionId,
   schedulesForDirection,
-  overrideDate
+  overrideDate,
+  onClick
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
@@ -294,18 +296,38 @@ const DepartureTimes = ({
   const schedules = schedulesByHeadsign(schedulesForDirection);
 
   return (
-    <>
-      {Object.entries(schedules).map(([headsign, schs]) => {
-        const formattedTimes = toDisplayTime(
-          schs,
-          predictionsByHeadsign[headsign]
-            ? predictionsByHeadsign[headsign]
-            : [],
-          overrideDate
-        );
-        return departureTimeRow(headsign, formattedTimes);
-      })}
-    </>
+    <div>
+      {onClick ? (
+        <div
+          className="testSample"
+          onClick={() => onClick(route, directionId, schedulesForDirection)}
+        >
+          {Object.entries(schedules).map(([headsign, schs]) => {
+            const formattedTimes = toDisplayTime(
+              schs,
+              predictionsByHeadsign[headsign]
+                ? predictionsByHeadsign[headsign]
+                : [],
+              overrideDate
+            );
+            return departureTimeRow(headsign, formattedTimes);
+          })}
+        </div>
+      ) : (
+        <div>
+          {Object.entries(schedules).map(([headsign, schs]) => {
+            const formattedTimes = toDisplayTime(
+              schs,
+              predictionsByHeadsign[headsign]
+                ? predictionsByHeadsign[headsign]
+                : [],
+              overrideDate
+            );
+            return departureTimeRow(headsign, formattedTimes);
+          })}
+        </div>
+      )}
+    </div>
   );
 };
 

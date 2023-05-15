@@ -11,6 +11,7 @@ interface StopPageDeparturesProps {
   routes: Route[];
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
+  onClick?: any;
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -27,7 +28,8 @@ const modeSortFn = ({ type }: Route): number => {
 const StopPageDepartures = ({
   routes,
   stop,
-  schedules
+  schedules,
+  onClick
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
@@ -58,6 +60,7 @@ const StopPageDepartures = ({
             route={route}
             stop={stop}
             schedulesForRoute={groupedSchedules[route.id]}
+            onClick={onClick}
             // This list should only have one value, is there another way to do this?
           />
         ))}

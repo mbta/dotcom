@@ -44,13 +44,9 @@ const StopPageRedesign = ({
       <div className="container">
         <Alerts alerts={alerts} />
         {/* this is the mobile version */}
-        <StopPageOverlay routes={routes} stop={stop} schedules={schedules} />
         <div className="stop-routes-and-map">
-          <StopPageDepartures
-            routes={routes}
-            stop={stop}
-            schedules={schedules}
-          />
+          <StopPageOverlay routes={routes} stop={stop} schedules={schedules} />
+
           <StopMapRedesign stop={stop} lines={polylines} />
         </div>
         <footer>
