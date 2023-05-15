@@ -1,11 +1,11 @@
 import React, { ReactElement, useState } from "react";
+import { Polyline } from "leaflet";
+import { chain } from "lodash";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
-import { Polyline } from "leaflet";
 import StopMapRedesign from "./StopMapRedesign";
 import { useRoutesByStop } from "../../hooks/useRoute";
-import { chain } from "lodash";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -22,7 +22,16 @@ const DeparturesAndMap = ({
   lines
 }: /* eslint-enable @typescript-eslint/no-unused-vars */
 DeparturesAndMapProps): ReactElement<HTMLElement> => {
-  const [departureInfo, setDepartureInfo] = useState<any | any | any>({
+  const [state, setState] = useState<{
+    email: null | string;
+    password: null | string;
+  }>({ email: null, password: null });
+
+  const [departureInfo, setDepartureInfo] = useState<{
+    departureRoute: Route | null;
+    departureDirectionId: DirectionId | null;
+    departureSchedules: ScheduleWithTimestamp[] | null;
+  }>({
     departureRoute: null,
     departureDirectionId: null,
     departureSchedules: null
@@ -39,12 +48,12 @@ DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const setDepartureVariables: (
     route: Route,
     directionId: DirectionId,
-    schedules: ScheduleWithTimestamp
-  ) => void = (route, directionId, schedules) => {
+    routeSchedules: ScheduleWithTimestamp[]
+  ) => void = (route, directionId, routeSchedules) => {
     setDepartureInfo({
       departureRoute: route,
       departureDirectionId: directionId,
-      departureSchedules: schedules
+      departureSchedules: routeSchedules
     });
   };
   const clearDepartureVariables: () => void = () => {
@@ -79,13 +88,12 @@ DeparturesAndMapProps): ReactElement<HTMLElement> => {
         />
       ) : (
         <div className="departures-container">
-          <button onClick={clearDepartureVariables}>
-            {" "}
-            Back to all {stop.name}
+          <button type="button" onClick={clearDepartureVariables}>
+            {`Back to all ${stop.name}`}
           </button>
           <div className="placeholder-map">imagine a nap</div>
           <div className="placeholder-departures">
-            {"Route " + departureInfo.departureRoute.id}
+            {`Route ${departureInfo.departureRoute?.id}`}
           </div>
         </div>
       )}

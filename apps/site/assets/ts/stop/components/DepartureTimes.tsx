@@ -301,6 +301,8 @@ const DepartureTimes = ({
         <div
           className="testSample"
           onClick={() => onClick(route, directionId, schedulesForDirection)}
+          onKeyDown={() => onClick(route, directionId, schedulesForDirection)}
+          role="presentation"
         >
           {Object.entries(schedules).map(([headsign, schs]) => {
             const formattedTimes = toDisplayTime(

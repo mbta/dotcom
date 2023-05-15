@@ -42,7 +42,7 @@ const DepartureCard = ({
   route: Route;
   schedulesForRoute: ScheduleWithTimestamp[];
   stop: Stop;
-  onClick?: any;
+  onClick?: () => any;
 }): ReactElement<HTMLElement> => {
   const routeName = (
     <span className={busClass(route)}>
