@@ -2,7 +2,8 @@ defmodule SiteWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel("vehicles:*", SiteWeb.VehicleChannel)
+  channel("vehicles:*", SiteWeb.VehicleMapMarkerChannel)
+  channel("vehicles-v2:*", SiteWeb.VehicleChannel)
   channel("predictions:*", SiteWeb.PredictionsChannel)
 
   # Socket params are passed from the client and can

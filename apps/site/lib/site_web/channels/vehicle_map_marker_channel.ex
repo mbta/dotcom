@@ -1,6 +1,6 @@
-defmodule SiteWeb.VehicleChannel do
+defmodule SiteWeb.VehicleMapMarkerChannel do
   @moduledoc """
-  VehicleChannel module
+  Channel allowing clients to subscribe to streams of vehicle map markers
   """
   use SiteWeb, :channel
   alias Leaflet.MapData.Marker
@@ -10,8 +10,7 @@ defmodule SiteWeb.VehicleChannel do
 
   @impl Phoenix.Channel
   def join("vehicles:" <> _params, %{}, socket) do
-    # return nil response to avoid returning an empty object
-    {:ok, nil, socket}
+    {:ok, socket}
   end
 
   @impl Phoenix.Channel

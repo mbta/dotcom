@@ -10,12 +10,13 @@ defmodule Site.Stream.Vehicles do
 
   def init(opts) do
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
+    topic = Keyword.get(opts, :topic, "vehicles")
     subscribe_fn.(Vehicles.PubSub, "vehicles")
-    {:ok, %{}}
+    {:ok, %{topic: topic}}
   end
 
   def handle_info({:remove, ids}, state) do
-    _ = broadcast_vehicles("vehicles:remove", :remove, ids)
+    _ = broadcast_vehicles("#{state.topic}:remove", :remove, ids)
     {:noreply, state}
   end
 
@@ -26,50 +27,51 @@ defmodule Site.Stream.Vehicles do
       |> Enum.reject(fn {route_id, _} -> route_id == nil end)
       |> Map.new()
 
-    _ = send_green_line(by_route, event)
+    _ = send_green_line(by_route, event, state.topic)
 
-    _ = Enum.each(by_route, &send_vehicles(&1, event))
+    _ = Enum.each(by_route, &send_vehicles(&1, event, state.topic))
 
     {:noreply, state}
   end
 
   @type vehicle_map :: %{optional(Routes.Route.id_t()) => [Vehicle.t()]}
 
-  @spec send_green_line(vehicle_map, atom) :: :ok
-  defp send_green_line(by_route, event) do
+  @spec send_green_line(vehicle_map, atom, String.t()) :: :ok
+  defp send_green_line(by_route, event, topic) do
     Enum.each([0, 1], fn direction_id ->
       GreenLine.branch_ids()
       |> Enum.flat_map(&Map.get(by_route, {&1, direction_id}, []))
-      |> do_send_green_line(direction_id, event)
+      |> do_send_green_line(direction_id, event, topic)
     end)
   end
 
-  @spec do_send_green_line([Vehicle.t()], 0 | 1, atom) :: :ok
-  defp do_send_green_line([], _direction_id, _event) do
+  @spec do_send_green_line([Vehicle.t()], 0 | 1, atom, String.t()) :: :ok
+  defp do_send_green_line([], _direction_id, _event, _topic) do
     :ok
   end
 
-  defp do_send_green_line(vehicles, direction_id, event) do
-    send_vehicles({{"Green", direction_id}, vehicles}, event)
+  defp do_send_green_line(vehicles, direction_id, event, topic) do
+    send_vehicles({{"Green", direction_id}, vehicles}, event, topic)
   end
 
-  @spec send_vehicles({{Routes.Route.id_t(), 0 | 1}, [Vehicle.t()]}, atom) :: :ok
+  @spec send_vehicles({{Routes.Route.id_t(), 0 | 1}, [Vehicle.t()]}, atom, String.t()) :: :ok
   defp send_vehicles(
          {
            {<<route_id::binary>>, direction_id},
            vehicles
          },
-         event
+         event,
+         topic
        )
        when direction_id in [0, 1] do
     broadcast_vehicles(
-      "vehicles:" <> route_id <> ":" <> Integer.to_string(direction_id),
+      "#{topic}:" <> route_id <> ":" <> Integer.to_string(direction_id),
       event,
       vehicles
     )
   end
 
-  defp send_vehicles(_, _) do
+  defp send_vehicles(_, _, _) do
     :ok
   end
 

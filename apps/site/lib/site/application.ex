@@ -38,7 +38,15 @@ defmodule Site.Application do
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [
-            {Site.Stream.Vehicles, name: Site.Stream.Vehicles},
+            Supervisor.child_spec(
+              {Site.Stream.Vehicles,
+               name: :vehicle_marker_channel_broadcaster, topic: "vehicles"},
+              id: :vehicle_marker_channel_broadcaster
+            ),
+            Supervisor.child_spec(
+              {Site.Stream.Vehicles, name: :vehicles_channel_broadcaster, topic: "vehicles-v2"},
+              id: :vehicles_channel_broadcaster
+            ),
             {Site.GreenLine.Supervisor, name: Site.GreenLine.Supervisor}
           ]
         else
