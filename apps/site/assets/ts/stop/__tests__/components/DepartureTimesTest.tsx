@@ -14,6 +14,7 @@ import { PredictionWithTimestamp } from "../../../models/perdictions";
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;
 const destinationText = route.direction_destinations[0]!;
+const mockClickAction = jest.fn();
 
 describe("DepartureTimes", () => {
   describe("DepartureTimes component", () => {});
@@ -24,6 +25,7 @@ describe("DepartureTimes", () => {
         stop={stop}
         directionId={0}
         schedulesForDirection={[]}
+        onClick={mockClickAction}
       />
     );
     expect(screen.findByText(destinationText)).toBeDefined();
@@ -77,6 +79,7 @@ describe("DepartureTimes", () => {
         directionId={0}
         schedulesForDirection={schedules}
         overrideDate={dateToCompare}
+        onClick={mockClickAction}
       />
     );
     expect(screen.getByText("Test 1"));

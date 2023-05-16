@@ -2,15 +2,22 @@ import React from "react";
 import DeparturesAndMap from "../components/DeparturesAndMap";
 import { Stop } from "../../__v3api";
 import { mount } from "enzyme";
+import { RouteWithPolylines } from "../../hooks/useRoute";
+import { routeWithPolylines } from "./helpers";
 
 const stop = {} as Stop;
+const testRoutesWithPolylines: RouteWithPolylines[] = [];
 
 describe("DeparturesAndMap", () => {
-  it("opens on click", () => {
+  it("should render", () => {
     const wrapper = mount(
-      <DeparturesAndMap routes={[]} stop={stop} schedules={[]} lines={[]} />
+      <DeparturesAndMap
+        routes={[]}
+        stop={stop}
+        schedules={[]}
+        routesWithPolylines={testRoutesWithPolylines}
+      />
     );
-    wrapper.find(".overlay-open").simulate("click");
-    expect(wrapper.find(".m-stop-route-and-map").exists()).toBeTruthy();
+    expect(wrapper.find(".stop-routes-and-map").exists()).toBeTruthy();
   });
 });
