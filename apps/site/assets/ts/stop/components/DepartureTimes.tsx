@@ -298,7 +298,6 @@ const DepartureTimes = ({
 
   const schedules = schedulesByHeadsign(schedulesForDirection);
   let departures: DepartureInfo[] = [];
-  let id: number = 0;
   return (
     <>
       {Object.entries(schedules).map(([headsign, schs]) => {
@@ -307,10 +306,9 @@ const DepartureTimes = ({
           : [];
         const formattedTimes = toDisplayTime(schs, preds, overrideDate);
         departures = mergeIntoDepartureInfo(schs, preds);
-        id += 1;
         return (
           <div
-            key={`${headsign}-${id}`}
+            key={`${headsign}-${route.id}`}
             onClick={() => onClick(route, directionId, departures)}
             onKeyDown={() => onClick(route, directionId, departures)}
             role="presentation"
