@@ -7,7 +7,13 @@ defmodule SiteWeb.RouteControllerTest do
   setup_with_mocks([
     {Routes.Repo, [:passthrough],
      [
-       by_stop: fn _ -> [%Route{id: "route", color: "ADFF2F"}] end
+       by_stop: fn _ ->
+         [
+           %Route{id: "route", color: "ADFF2F"},
+           %Route{id: "subway_route", color: "ADFF2F", type: 0},
+           %Route{id: "746", name: "SL route", color: "ADFF2F", type: 3}
+         ]
+       end
      ]},
     {RoutePatterns.Repo, [],
      [
@@ -27,7 +33,12 @@ defmodule SiteWeb.RouteControllerTest do
     test "returns routes with polyline data", %{conn: conn} do
       conn = get(conn, route_path(conn, :get_by_stop_id, "stop_id"))
       response = json_response(conn, 200)
-      assert [%{"id" => "route", "color" => "ADFF2F", "polylines" => polylines}] = response
+
+      assert [
+               %{"id" => "route", "color" => "ADFF2F", "polylines" => polylines},
+               %{"id" => "subway_route", "color" => "ADFF2F", "polylines" => subway_polylines},
+               %{"id" => "746", "color" => "ADFF2F", "polylines" => sl_polylines}
+             ] = response
 
       assert [
                %{
@@ -37,6 +48,9 @@ defmodule SiteWeb.RouteControllerTest do
                }
                | _
              ] = polylines
+
+      assert Enum.count(subway_polylines) > 0
+      assert Enum.count(sl_polylines) > 0
     end
   end
 end
