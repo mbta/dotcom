@@ -3,7 +3,7 @@ import { groupBy } from "lodash";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
-import { Route, Stop } from "../../__v3api";
+import { DirectionId, Route, Stop } from "../../__v3api";
 import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
 import Bussvg from "../../../static/images/icon-bus-default.svg";
 import SubwaySvg from "../../../static/images/icon-subway-default.svg";
@@ -42,7 +42,11 @@ const DepartureCard = ({
   route: Route;
   schedulesForRoute: ScheduleWithTimestamp[];
   stop: Stop;
-  onClick?: () => any;
+  onClick: (
+    route: Route,
+    directionId: DirectionId,
+    routeSchedules: ScheduleWithTimestamp[]
+  ) => void;
 }): ReactElement<HTMLElement> => {
   const routeName = (
     <span className={busClass(route)}>

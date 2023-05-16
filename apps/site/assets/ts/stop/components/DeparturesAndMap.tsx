@@ -22,11 +22,6 @@ const DeparturesAndMap = ({
   lines
 }: /* eslint-enable @typescript-eslint/no-unused-vars */
 DeparturesAndMapProps): ReactElement<HTMLElement> => {
-  const [state, setState] = useState<{
-    email: null | string;
-    password: null | string;
-  }>({ email: null, password: null });
-
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
     departureDirectionId: DirectionId | null;

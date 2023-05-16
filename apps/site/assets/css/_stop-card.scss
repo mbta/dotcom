@@ -194,11 +194,9 @@ $radius: 4px;
 
 .placeholder-departures {
   background-color: $crowding-crowded-bg;
-  height: 350px;
-  margin-top: 8px;
+  height: 300px;
   @include media-breakpoint-down(sm) {
     height: 50%;
-    margin-top: 0;
   }
 }
 

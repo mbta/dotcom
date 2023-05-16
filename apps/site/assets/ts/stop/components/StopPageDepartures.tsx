@@ -1,7 +1,7 @@
 import { filter, groupBy, sortBy } from "lodash";
 import { isPast } from "date-fns";
 import React, { ReactElement, useState } from "react";
-import { Route, Stop } from "../../__v3api";
+import { DirectionId, Route, Stop } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
@@ -11,7 +11,11 @@ interface StopPageDeparturesProps {
   routes: Route[];
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
-  onClick?: any;
+  onClick: (
+    route: Route,
+    directionId: DirectionId,
+    routeSchedules: ScheduleWithTimestamp[]
+  ) => void;
 }
 
 // Commuter Rail, then Subway, then Bus

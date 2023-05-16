@@ -269,7 +269,11 @@ interface DepartureTimesProps {
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
   overrideDate?: Date;
-  onClick?: any;
+  onClick: (
+    route: Route,
+    directionId: DirectionId,
+    routeSchedules: ScheduleWithTimestamp[]
+  ) => void;
 }
 
 /* istanbul ignore next */
@@ -297,38 +301,28 @@ const DepartureTimes = ({
 
   return (
     <div>
-      {onClick ? (
-        <div
-          className="testSample"
-          onClick={() => onClick(route, directionId, schedulesForDirection)}
-          onKeyDown={() => onClick(route, directionId, schedulesForDirection)}
-          role="presentation"
-        >
-          {Object.entries(schedules).map(([headsign, schs]) => {
-            const formattedTimes = toDisplayTime(
-              schs,
-              predictionsByHeadsign[headsign]
-                ? predictionsByHeadsign[headsign]
-                : [],
-              overrideDate
-            );
-            return departureTimeRow(headsign, formattedTimes);
-          })}
-        </div>
-      ) : (
-        <div>
-          {Object.entries(schedules).map(([headsign, schs]) => {
-            const formattedTimes = toDisplayTime(
-              schs,
-              predictionsByHeadsign[headsign]
-                ? predictionsByHeadsign[headsign]
-                : [],
-              overrideDate
-            );
-            return departureTimeRow(headsign, formattedTimes);
-          })}
-        </div>
-      )}
+      <>
+        {Object.entries(schedules).map(([headsign, schs]) => {
+          const formattedTimes = toDisplayTime(
+            schs,
+            predictionsByHeadsign[headsign]
+              ? predictionsByHeadsign[headsign]
+              : [],
+            overrideDate
+          );
+          return (
+            <div
+              onClick={() => onClick(route, directionId, schedulesForDirection)}
+              onKeyDown={() =>
+                onClick(route, directionId, schedulesForDirection)
+              }
+              role="presentation"
+            >
+              {departureTimeRow(headsign, formattedTimes)}
+            </div>
+          );
+        })}
+      </>
     </div>
   );
 };
