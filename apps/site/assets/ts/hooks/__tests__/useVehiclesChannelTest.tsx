@@ -5,7 +5,6 @@ import {
 } from "../../helpers/socketTestHelpers";
 import { DirectionId } from "../../__v3api";
 import useVehiclesChannel, {
-  Vehicle,
   VehicleData,
   vehiclesReducer
 } from "../useVehiclesChannel";
@@ -112,10 +111,10 @@ describe("vehiclesReducer", () => {
 });
 
 describe("useVehiclesChannel hook", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     const mockSocket = makeMockSocket();
     const mockChannel = makeMockChannel("ok");
-    mockSocket.channel.mockImplementationOnce(() => mockChannel);
+    mockSocket.channel.mockImplementation(() => mockChannel);
 
     // mock setup global variables on page load
     window.socket = mockSocket;
