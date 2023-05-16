@@ -72,25 +72,18 @@ const StopMapRedesign = ({ stop, lines }: Props): ReactElement<HTMLElement> => {
 
 export const StopMapForRoute = ({
   stop,
-  line,
-  selectedVehicleId
+  line
 }: {
   stop: Stop;
   line: Polyline | null;
-  selectedVehicleId: string | null;
 }): ReactElement<HTMLElement> => {
   const mapConfig = useMapConfig();
 
   // TODO: Don't hardcode the route & direction
   const vehicles = useVehiclesChannel("39", 1);
-  const selectedVehicle = vehicles.find(v => v.id === selectedVehicleId);
   const mapData = {
-    default_center: selectedVehicle
-      ? {
-          longitude: selectedVehicle.longitude,
-          latitude: selectedVehicle.latitude
-        }
-      : { longitude: stop.longitude, latitude: stop.latitude },
+    // TODO: Default center on the selected vehicle
+    default_center: { longitude: stop.longitude, latitude: stop.latitude },
     markers: [...vehicles.map(mapMarkerFromVehicle), mapMarkerFromStop(stop)],
     polylines: line ? [line] : [],
     tile_server_url: mapConfig?.tile_server_url,

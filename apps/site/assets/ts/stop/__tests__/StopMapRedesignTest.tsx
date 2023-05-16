@@ -84,8 +84,5 @@ describe("StopMapRedesign", () => {
 
     it("should render the stop marker", () => {});
     it("should render the route shape", () => {});
-
-    it("when a vehicle is selected, centers on that vehicle if it exists", () => {});
-    it("if the selected vehicle doesn't exist, centers on the stop marker", () => {});
   });
 });
