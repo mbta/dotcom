@@ -46,6 +46,9 @@ const mapMarkerFromStop = (stop: Stop): MapMarker => {
   } as MapMarker;
 };
 
+const polylineClassName = (polyline: Polyline): string =>
+  `stop-map_line stop-map_line--${polyline.id}`;
+
 const StopMapRedesign = ({ stop, lines }: Props): ReactElement<HTMLElement> => {
   const mapConfig = useMapConfig();
 
@@ -55,7 +58,10 @@ const StopMapRedesign = ({ stop, lines }: Props): ReactElement<HTMLElement> => {
       latitude: stop.latitude
     },
     markers: [mapMarkerFromStop(stop)],
-    polylines: lines,
+    polylines: lines.map(line => ({
+      ...line,
+      className: polylineClassName(line)
+    })),
     tile_server_url: mapConfig?.tile_server_url,
     zoom: 16
   } as MapData;
@@ -87,7 +93,7 @@ export const StopMapForRoute = ({
     // TODO: Default center on the selected vehicle
     default_center: { longitude: stop.longitude, latitude: stop.latitude },
     markers: [...vehicles.map(mapMarkerFromVehicle), mapMarkerFromStop(stop)],
-    polylines: line ? [line] : [],
+    polylines: line ? [{ ...line, className: polylineClassName(line) }] : [],
     tile_server_url: mapConfig?.tile_server_url,
     zoom: 16
   } as MapData;

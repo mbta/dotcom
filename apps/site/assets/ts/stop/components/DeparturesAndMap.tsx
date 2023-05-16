@@ -7,6 +7,11 @@ import StopMapRedesign, { StopMapForRoute } from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
+import {
+  isASilverLineRoute,
+  isSubwayRoute,
+  isACommuterRailRoute,
+} from "../../models/route";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -62,6 +67,18 @@ const DeparturesAndMap = ({
     return false;
   };
 
+  const defaultPolylines = chain(routesWithPolylines)
+    .filter(
+      (route) =>
+        isASilverLineRoute(route) ||
+        isSubwayRoute(route) ||
+        isACommuterRailRoute(route)
+    )
+    .orderBy("sort_order", "desc")
+    .flatMap("polylines")
+    .uniqBy("id")
+    .value();
+
   return (
     <div className="stop-routes-and-map">
       {viewAllRoutes() ? (
@@ -115,7 +132,8 @@ const DeparturesAndMap = ({
         </div>
       )}
       <div>
-        <StopMapForRoute stop={stop} line={null} selectedVehicleId={null} />
+        <StopMapRedesign stop={stop} lines={defaultPolylines} />
+        <StopMapForRoute stop={stop} line={null} />
       </div>
     </div>
   );

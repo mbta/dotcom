@@ -58,7 +58,6 @@ const StopPageRedesign = ({
           routesWithPolylines={routesWithPolylines}
           alerts={currentAlerts}
         />
-
         <footer>
           <StationInformation stop={stop} />
         </footer>
