@@ -20,6 +20,7 @@ const mapMarkerFromVehicle = (vehicle: Vehicle): MapMarker => {
   const iconName = "vehicle-bordered-expanded";
   return {
     id: vehicle.id,
+    alt: `vehicle ${vehicle.id} marker`,
     icon: iconName,
     latitude: vehicle.latitude,
     longitude: vehicle.longitude,
@@ -37,6 +38,7 @@ const mapMarkerFromStop = (stop: Stop): MapMarker => {
   return {
     icon: "map-station-marker",
     id: stop.id,
+    alt: `stop ${stop.name} marker`,
     longitude: stop.longitude,
     latitude: stop.latitude,
     rotation_angle: 0,
