@@ -215,6 +215,7 @@ $radius: 4px;
 }
 
 .departures-container {
+  padding: .5rem;
   @include media-breakpoint-down(sm) {
     background-color: $white;
     box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
@@ -223,6 +224,7 @@ $radius: 4px;
     max-height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
+    padding: 0;
     position: fixed;
     top: 0;
     width: 100%;

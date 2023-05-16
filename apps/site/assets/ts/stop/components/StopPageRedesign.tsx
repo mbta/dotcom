@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { chain, omit } from "lodash";
+import { omit } from "lodash";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutesByStop } from "../../hooks/useRoute";
@@ -30,11 +30,6 @@ const StopPageRedesign = ({
   const routes: Route[] = routesWithPolylines.map(rwp =>
     omit(rwp, "polylines")
   );
-  const polylines = chain(routesWithPolylines)
-    .orderBy("sort_order", "desc")
-    .flatMap("polylines")
-    .uniqBy("id")
-    .value();
 
   return (
     <article>
@@ -45,7 +40,7 @@ const StopPageRedesign = ({
           routes={routes}
           stop={stop}
           schedules={schedules}
-          lines={polylines}
+          routesWithPolylines={routesWithPolylines}
         />
         <footer>
           <StationInformation stop={stop} />

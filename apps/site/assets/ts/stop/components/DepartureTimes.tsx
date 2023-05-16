@@ -180,7 +180,6 @@ const toDisplayTime = (
 ): DisplayTimeConfig[] => {
   // TODO this should be short cutted by alerts
   const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
-
   const [time1, time2] = getNextTwoTimes(departureInfos);
 
   return infoToDisplayTime(time1, time2, targetDate);
@@ -272,7 +271,7 @@ interface DepartureTimesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    routeSchedules: ScheduleWithTimestamp[]
+    departures: DepartureInfo[] | null | undefined
   ) => void;
 }
 
@@ -298,32 +297,29 @@ const DepartureTimes = ({
   );
 
   const schedules = schedulesByHeadsign(schedulesForDirection);
-
+  let departures: DepartureInfo[] = [];
+  let id: number = 0;
   return (
-    <div>
-      <>
-        {Object.entries(schedules).map(([headsign, schs]) => {
-          const formattedTimes = toDisplayTime(
-            schs,
-            predictionsByHeadsign[headsign]
-              ? predictionsByHeadsign[headsign]
-              : [],
-            overrideDate
-          );
-          return (
-            <div
-              onClick={() => onClick(route, directionId, schedulesForDirection)}
-              onKeyDown={() =>
-                onClick(route, directionId, schedulesForDirection)
-              }
-              role="presentation"
-            >
-              {departureTimeRow(headsign, formattedTimes)}
-            </div>
-          );
-        })}
-      </>
-    </div>
+    <>
+      {Object.entries(schedules).map(([headsign, schs]) => {
+        const preds = predictionsByHeadsign[headsign]
+          ? predictionsByHeadsign[headsign]
+          : [];
+        const formattedTimes = toDisplayTime(schs, preds, overrideDate);
+        departures = mergeIntoDepartureInfo(schs, preds);
+        id += 1;
+        return (
+          <div
+            key={`${headsign}-${id}`}
+            onClick={() => onClick(route, directionId, departures)}
+            onKeyDown={() => onClick(route, directionId, departures)}
+            role="presentation"
+          >
+            {departureTimeRow(headsign, formattedTimes)}
+          </div>
+        );
+      })}
+    </>
   );
 };
 

@@ -1,38 +1,46 @@
 import React, { ReactElement, useState } from "react";
-import { Polyline } from "leaflet";
 import { chain } from "lodash";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
-import { useRoutesByStop } from "../../hooks/useRoute";
+import { RouteWithPolylines } from "../../hooks/useRoute";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface DeparturesAndMapProps {
   routes: Route[];
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
-  lines: Polyline[];
+  routesWithPolylines: RouteWithPolylines[];
 }
 
 const DeparturesAndMap = ({
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   routes,
   stop,
   schedules,
-  lines
-}: /* eslint-enable @typescript-eslint/no-unused-vars */
-DeparturesAndMapProps): ReactElement<HTMLElement> => {
+  routesWithPolylines
+}: DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
     departureDirectionId: DirectionId | null;
-    departureSchedules: ScheduleWithTimestamp[] | null;
+    departures: DepartureInfo[] | null | undefined;
   }>({
     departureRoute: null,
     departureDirectionId: null,
-    departureSchedules: null
+    departures: null
   });
 
-  const routesWithPolylines = useRoutesByStop(stop.id);
+  const setDepartureVariables: (
+    route: Route,
+    directionId: DirectionId,
+    departures: DepartureInfo[] | null | undefined
+  ) => void = (route, directionId, allDepartures) => {
+    setDepartureInfo({
+      departureRoute: route,
+      departureDirectionId: directionId,
+      departures: allDepartures
+    });
+  };
 
   const polylines = chain(routesWithPolylines)
     .orderBy("sort_order", "desc")
@@ -40,32 +48,11 @@ DeparturesAndMapProps): ReactElement<HTMLElement> => {
     .uniqBy("id")
     .value();
 
-  const setDepartureVariables: (
-    route: Route,
-    directionId: DirectionId,
-    routeSchedules: ScheduleWithTimestamp[]
-  ) => void = (route, directionId, routeSchedules) => {
-    setDepartureInfo({
-      departureRoute: route,
-      departureDirectionId: directionId,
-      departureSchedules: routeSchedules
-    });
-  };
-  const clearDepartureVariables: () => void = () => {
-    setDepartureInfo({
-      departureRoute: null,
-      departureDirectionId: null,
-      departureSchedules: null
-    });
-  };
-
   const viewAllRoutes: () => boolean = () => {
     if (
-      [
-        departureInfo.departureRoute,
-        departureInfo.departureDirectionId,
-        departureInfo.departureSchedules
-      ].includes(null)
+      !departureInfo.departureRoute &&
+      !departureInfo.departureDirectionId &&
+      !departureInfo.departures
     ) {
       return true;
     }
@@ -83,7 +70,16 @@ DeparturesAndMapProps): ReactElement<HTMLElement> => {
         />
       ) : (
         <div className="departures-container">
-          <button type="button" onClick={clearDepartureVariables}>
+          <button
+            type="button"
+            onClick={() =>
+              setDepartureInfo({
+                departureRoute: null,
+                departureDirectionId: null,
+                departures: null
+              })
+            }
+          >
             {`Back to all ${stop.name}`}
           </button>
           <div className="placeholder-map">imagine a nap</div>
@@ -92,7 +88,7 @@ DeparturesAndMapProps): ReactElement<HTMLElement> => {
           </div>
         </div>
       )}
-      <div className="">
+      <div>
         <StopMapRedesign stop={stop} lines={polylines} />
       </div>
     </div>
