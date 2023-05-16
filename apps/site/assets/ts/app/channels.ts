@@ -64,7 +64,8 @@ const joinChannel = <T>(
   });
 
   if (isVehicleChannel(channelId)) {
-    joinChannel("vehicles:remove");
+    const [baseChannel] = channelId.split(":");
+    joinChannel(`${baseChannel}:remove`);
   }
 };
 

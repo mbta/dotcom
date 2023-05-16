@@ -108,7 +108,7 @@ export const vehiclesReducer = (
     default:
       /* istanbul ignore next */
       // eslint-disable-next-line no-console
-      console.error("unexpected event", channelMessage);
+      console.error("unexpected event: vehiclesChannel", channelMessage);
       return initialState;
   }
 };

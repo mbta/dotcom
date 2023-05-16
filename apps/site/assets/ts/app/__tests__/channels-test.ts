@@ -1,5 +1,9 @@
 import { Channel, Socket } from "phoenix";
 import setupChannels, { isVehicleChannel, joinChannel } from "../channels";
+import {
+  makeMockSocket,
+  makeMockChannel
+} from "../../helpers/socketTestHelpers";
 
 const mockOnLoadEventListener = () => {
   // because the turbolinks:load event doesn't fire outside the browser, run in manually here
@@ -119,5 +123,19 @@ describe("joinChannel", () => {
     // @ts-ignore
     window.channels[channelName].joinPush.trigger("ok", { some: "data" });
     expect(mockHandleJoin).toHaveBeenCalledWith({ some: "data" });
+  });
+
+  it("joins remove channel for vehicles channel", () => {
+    const mockSocket = makeMockSocket();
+    const mockChannel = makeMockChannel("ok");
+    mockSocket.channel.mockImplementation(() => mockChannel);
+
+    // mock setup global variables on page load
+    window.socket = mockSocket;
+    window.channels = {};
+
+    expect(window.channels["vehicles:remove"]).toBeUndefined();
+    joinChannel("vehicles:routeId:directionId");
+    expect(window.channels["vehicles:remove"]).toBeDefined();
   });
 });
