@@ -8,7 +8,7 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
   describe "stop_tooltip/2" do
     @expected_flag "Flag Stop"
     @expected_delayed "Early Departure Stop"
-    @expected_track_change "Train will board from Track 1"
+    @expected_track_change "Train scheduled to board from Track 1 at Back Bay"
 
     test "returns nil when there are no matches" do
       assert nil == stop_tooltip(%Schedule{}, nil)
@@ -27,12 +27,27 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
     end
 
     test "returns only a track change" do
-      actual = stop_tooltip(%Schedule{}, "1")
+      actual =
+        stop_tooltip(%Schedule{stop: %Stops.Stop{id: "1", name: "Back Bay"}}, %Stops.Stop{
+          id: "2",
+          platform_name: "Track 1",
+          platform_code: "1"
+        })
+
       assert actual =~ @expected_track_change
     end
 
     test "returns flag stop and track change" do
-      actual = stop_tooltip(%Schedule{flag?: true}, "1")
+      actual =
+        stop_tooltip(
+          %Schedule{flag?: true, stop: %Stops.Stop{id: "1", name: "Back Bay"}},
+          %Stops.Stop{
+            id: "2",
+            platform_name: "Track 1",
+            platform_code: "1"
+          }
+        )
+
       assert actual =~ @expected_track_change
       assert actual =~ @expected_flag
     end
@@ -118,19 +133,26 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
     test "should show the track change information if present", %{assigns: assigns} do
       trip = %Schedules.Trip{name: "Test Trip", id: "Test-Trip-ID"}
 
-      all_stops = [
-        %Stops.Stop{id: "Test-Stop-ID", name: "Stop", platform_code: "Original Track"}
-      ]
+      original_stop = %Stops.Stop{
+        id: "Test-Stop-ID",
+        name: "Stop",
+        platform_name: "Original Track"
+      }
 
-      track_changes = %{{"Test-Trip-ID", "Test-Stop-ID"} => "New Track"}
+      new_platform_stop = %Stops.Stop{platform_name: "New Track"}
+
+      track_changes = %{{"Test-Trip-ID", "Test-Stop-ID"} => new_platform_stop}
       header_schedules = [%Schedules.Schedule{trip: trip}]
-      trip_schedules = %{{"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{trip: trip}}
+
+      trip_schedules = %{
+        {"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{trip: trip, stop: original_stop}
+      }
 
       assigns =
         Keyword.merge(assigns,
           header_schedules: header_schedules,
           track_changes: track_changes,
-          all_stops: all_stops,
+          all_stops: [original_stop],
           trip_schedules: trip_schedules
         )
 

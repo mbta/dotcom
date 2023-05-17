@@ -86,7 +86,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
           %{required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()},
           MapSet.t(Stops.Stop.id_t())
         ) :: %{
-          required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => String.t() | nil
+          required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Stops.Stop.t() | nil
         }
   defp track_changes(trip_schedules, canonical_stop_ids) do
     Map.new(trip_schedules, fn {{trip_id, stop_id}, sch} ->
@@ -102,13 +102,15 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec track_change_for_schedule(
           Schedules.Schedule.t(),
           MapSet.t(Stops.Stop.id_t())
-        ) :: String.t() | nil
+        ) :: Stops.Stop.t() | nil
+  @doc """
+  If the scheduled platform stop is not canonical, then return the stop of that track change.
+  """
   def track_change_for_schedule(schedule, canonical_stop_ids, stop_get_fn \\ &Stops.Repo.get/1) do
     # if the scheduled stop doesn't match a canonical stop, there has been a track change
     if MapSet.size(canonical_stop_ids) > 0 &&
          !MapSet.member?(canonical_stop_ids, schedule.platform_stop_id) do
-      scheduled_platform_stop = stop_get_fn.(schedule.platform_stop_id)
-      (scheduled_platform_stop && scheduled_platform_stop.platform_code) || nil
+      stop_get_fn.(schedule.platform_stop_id)
     else
       nil
     end

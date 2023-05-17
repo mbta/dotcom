@@ -156,18 +156,43 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
 
       assert nil ==
                track_change_for_schedule(schedule_1, MapSet.new(), fn _platform_stop_id ->
-                 %{platform_code: "new-platform"}
+                 %Stop{id: 101, platform_code: "new-platform", platform_name: "New Platform"}
                end)
     end
 
-    test "when the scheduled stop doesn't match the canonical pattern stops, then track change detected" do
+    test "when the scheduled platform stop matches the canonical pattern stops, then no track change detected" do
       [schedule_1 | _others] = @schedules
+      scheduled_platform_stop_id = schedule_1.platform_stop_id
 
-      assert "new-platform" ==
+      platform_stop = %Stop{
+        id: scheduled_platform_stop_id,
+        platform_code: "new-platform",
+        platform_name: "New Platform"
+      }
+
+      assert nil ==
+               track_change_for_schedule(
+                 schedule_1,
+                 MapSet.new([schedule_1.platform_stop_id]),
+                 fn _platform_stop_id -> platform_stop end
+               )
+    end
+
+    test "when the scheduled platform stop doesn't match the canonical pattern stops, then track change detected" do
+      [schedule_1 | _others] = @schedules
+      scheduled_platform_stop_id = schedule_1.platform_stop_id
+
+      platform_stop = %Stop{
+        id: scheduled_platform_stop_id,
+        platform_code: "new-platform",
+        platform_name: "New Platform"
+      }
+
+      assert platform_stop ==
                track_change_for_schedule(
                  schedule_1,
                  MapSet.new(["stop-1-other-patform"]),
-                 fn _platform_stop_id -> %{platform_code: "new-platform"} end
+                 fn _platform_stop_id -> platform_stop end
                )
     end
   end
