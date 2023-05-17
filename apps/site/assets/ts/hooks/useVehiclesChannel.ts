@@ -1,26 +1,9 @@
-import { pick, keyBy } from "lodash";
+import { keyBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
 import { Reducer } from "react";
 import { DirectionId } from "../__v3api";
 import useChannel from "./useChannel";
 import { CrowdingType } from "../schedule/components/__schedule";
-
-/**
- * The format of a vehicle emitted by the VehiclesChannel
- */
-export interface VehicleData {
-  id: string;
-  route_id: string | null;
-  trip_id: string | null;
-  shape_id: string | null;
-  stop_id: string | null;
-  direction_id: DirectionId;
-  longitude: number;
-  latitude: number;
-  bearing: number;
-  status: string;
-  crowding: CrowdingType | null;
-}
 
 export interface Vehicle {
   id: string;
@@ -36,34 +19,18 @@ export interface Vehicle {
   crowding: CrowdingType | null;
 }
 
-// Parses departure time into Date()
-export const parseVehicle = (vehicle: VehicleData): Vehicle =>
-  pick(vehicle, [
-    "id",
-    "route_id",
-    "trip_id",
-    "shape_id",
-    "stop_id",
-    "direction_id",
-    "longitude",
-    "latitude",
-    "bearing",
-    "status",
-    "crowding"
-  ]);
-
 interface AddEvent {
-  event: "add" | "update" | "reset";
-  data: VehicleData[];
+  event: "add";
+  data: Vehicle[];
 }
 interface UpdateEvent {
   event: "update";
-  data: VehicleData[];
+  data: Vehicle[];
 }
 
 interface ResetEvent {
   event: "reset";
-  data: VehicleData[];
+  data: Vehicle[];
 }
 
 interface RemoveEvent {
@@ -78,10 +45,10 @@ export const vehiclesReducer = (
 ): Vehicle[] => {
   switch (channelMessage.event) {
     case "reset":
-      return channelMessage.data.map(parseVehicle);
+      return channelMessage.data;
 
     case "add":
-      return initialState.concat(channelMessage.data.map(parseVehicle));
+      return initialState.concat(channelMessage.data);
 
     case "update": {
       if (channelMessage.data.length === 0) {
@@ -93,12 +60,11 @@ export const vehiclesReducer = (
         vehicleData => vehicleData.id
       );
 
-      return initialState.map(oldVehicle => {
-        if (oldVehicle.id in vehiclesToUpdate) {
-          return parseVehicle(vehiclesToUpdate[oldVehicle.id]);
-        }
-        return oldVehicle;
-      });
+      return initialState.map(oldVehicle =>
+        oldVehicle.id in vehiclesToUpdate
+          ? vehiclesToUpdate[oldVehicle.id]
+          : oldVehicle
+      );
     }
 
     case "remove": {

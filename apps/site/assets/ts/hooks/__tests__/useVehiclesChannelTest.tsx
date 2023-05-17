@@ -5,11 +5,11 @@ import {
 } from "../../helpers/socketTestHelpers";
 import { DirectionId } from "../../__v3api";
 import useVehiclesChannel, {
-  VehicleData,
+  Vehicle,
   vehiclesReducer
 } from "../useVehiclesChannel";
 
-const vehiclesData: VehicleData[] = [
+const vehiclesData: Vehicle[] = [
   {
     id: "y1799",
     route_id: "39",
@@ -135,7 +135,7 @@ describe("useVehiclesChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         event: "add";
-        data: VehicleData[];
+        data: Vehicle[];
       }>("vehicles-v2:39:1", {
         detail: {
           event: "add",
@@ -157,7 +157,7 @@ describe("useVehiclesChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         event: "reset";
-        data: VehicleData[];
+        data: Vehicle[];
       }>("vehicles-v2:39:1", {
         detail: {
           event: "reset",
@@ -174,7 +174,7 @@ describe("useVehiclesChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         event: "reset";
-        data: VehicleData[];
+        data: Vehicle[];
       }>("vehicles-v2:39:1", {
         detail: {
           event: "reset",
