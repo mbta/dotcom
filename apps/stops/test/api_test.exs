@@ -164,7 +164,7 @@ defmodule Stops.ApiTest do
     Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
     Bypass.expect(bypass, fn conn ->
-      Plug.Conn.resp(conn, 200, "")
+      Plug.Conn.resp(conn, 500, "")
     end)
 
     assert [] = by_trip("1")
