@@ -25,6 +25,7 @@ const DepartureList = ({
   );
 
   let departures: DepartureInfo[] = [];
+  // TODO: debug
   return (
     <>
       {schedules.map((schs, idx) => {
@@ -35,10 +36,12 @@ const DepartureList = ({
         departures = mergeIntoDepartureInfo(schedules, preds);
         const prediction = departures.at(idx)?.prediction;
         const predictionOrSchedule = prediction || departures.at(idx)?.schedule;
-        return (
+        return predictionOrSchedule ? (
           <div key={`${predictionOrSchedule?.trip.id}`}>
             {predictionOrSchedule?.time.toString()}
           </div>
+        ) : (
+          <div>No upcoming trips today</div>
         );
       })}
     </>

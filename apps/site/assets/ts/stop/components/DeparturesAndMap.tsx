@@ -85,7 +85,7 @@ const DeparturesAndMap = ({
           <div className="placeholder-map">imagine a nap</div>
           <div className="placeholder-departures">
             {`Route ${departureInfo.departureRoute?.id}`}
-            {departureInfo.departureDirectionId &&
+            {departureInfo.departureDirectionId != null &&
             departureInfo.departureSchedules &&
             departureInfo.departureRoute ? (
               <DepartureList
