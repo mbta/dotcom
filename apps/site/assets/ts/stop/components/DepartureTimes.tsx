@@ -297,7 +297,6 @@ const DepartureTimes = ({
   );
 
   const schedules = schedulesByHeadsign(schedulesForDirection);
-  let departures: DepartureInfo[] = [];
   return (
     <>
       {Object.entries(schedules).map(([headsign, schs]) => {
@@ -305,7 +304,6 @@ const DepartureTimes = ({
           ? predictionsByHeadsign[headsign]
           : [];
         const formattedTimes = toDisplayTime(schs, preds, overrideDate);
-        departures = mergeIntoDepartureInfo(schs, preds);
         return (
           <div
             key={`${headsign}-${route.id}`}

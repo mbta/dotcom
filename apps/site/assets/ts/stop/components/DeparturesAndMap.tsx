@@ -5,7 +5,6 @@ import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import DepartureList from "./DepartureList";
 
 interface DeparturesAndMapProps {
@@ -86,15 +85,18 @@ const DeparturesAndMap = ({
           <div className="placeholder-map">imagine a nap</div>
           <div className="placeholder-departures">
             {`Route ${departureInfo.departureRoute?.id}`}
-
-            {
+            {departureInfo.departureDirectionId &&
+            departureInfo.departureSchedules &&
+            departureInfo.departureRoute ? (
               <DepartureList
                 route={departureInfo.departureRoute}
                 stop={stop}
                 schedules={departureInfo.departureSchedules}
                 directionId={departureInfo.departureDirectionId}
               />
-            }
+            ) : (
+              <div>No upcoming trips today</div>
+            )}
           </div>
         </div>
       )}

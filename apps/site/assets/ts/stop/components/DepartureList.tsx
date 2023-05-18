@@ -7,10 +7,10 @@ import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 
 interface DepartureListProps {
-  route: Route | null;
+  route: Route;
   stop: Stop;
-  schedules: Dictionary<ScheduleWithTimestamp[]> | null | undefined;
-  directionId: DirectionId | null;
+  schedules: Dictionary<ScheduleWithTimestamp[]>;
+  directionId: DirectionId;
 }
 
 const DepartureList = ({
@@ -19,27 +19,28 @@ const DepartureList = ({
   schedules,
   directionId
 }: DepartureListProps): ReactElement<HTMLElement> => {
-  if (directionId && schedules && route) {
-    const predictionsByHeadsign = usePredictionsChannel(
-      route.id,
-      stop.id,
-      directionId
-    );
+  const predictionsByHeadsign = usePredictionsChannel(
+    route.id,
+    stop.id,
+    directionId
+  );
 
-    let departures: DepartureInfo[] = [];
-    return (
-      <>
-        {Object.entries(schedules).map(([headsign, schs]) => {
-          const preds = predictionsByHeadsign[headsign]
-            ? predictionsByHeadsign[headsign]
-            : [];
-          departures = mergeIntoDepartureInfo(schs, preds);
-          return <div>{departures.at(0)?.prediction?.time.toString()}</div>;
-        })}
-      </>
-    );
-  }
-  return <div>No upcoming trips today</div>;
+  let departures: DepartureInfo[] = [];
+  return (
+    <>
+      {Object.entries(schedules).map(([headsign, schs]) => {
+        const preds = predictionsByHeadsign[headsign]
+          ? predictionsByHeadsign[headsign]
+          : [];
+        departures = mergeIntoDepartureInfo(schs, preds);
+        return (
+          <div key={`${departures.at(0)?.prediction?.id}`}>
+            {departures.at(0)?.prediction?.time.toString()}
+          </div>
+        );
+      })}
+    </>
+  );
 };
 
 export default DepartureList;

@@ -6,17 +6,16 @@ import { routeWithPolylines } from "./helpers";
 import * as useRoute from "../../hooks/useRoute";
 import { getByRole, render } from "@testing-library/react";
 
-const stop = {} as Stop;
+const stop = {
+  id: "test-stop",
+  name: "Test Stop",
+  latitude: 42.3519,
+  longitude: 71.0552
+} as Stop;
 describe("DeparturesAndMap", () => {
   it("should render", () => {
     const testRoutesWithPolylines: RouteWithPolylines[] = [
-      routeWithPolylines("SomeBus", 3, 0),
-      routeWithPolylines("741", 3, 2),
-      routeWithPolylines("AnotherBus", 0, 0),
-      routeWithPolylines("Train1", 1, 3),
-      routeWithPolylines("Train2", 1, 4),
-      routeWithPolylines("Train3", 1),
-      routeWithPolylines("FerryRoute", 4, 0)
+      routeWithPolylines("SomeBus", 3, 0)
     ];
     jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
       return testRoutesWithPolylines;
@@ -29,7 +28,7 @@ describe("DeparturesAndMap", () => {
         routesWithPolylines={testRoutesWithPolylines}
       />
     );
-    const div = getByRole(departuresAndMap.baseElement, "div");
-    expect(div).toBeInTheDocument();
+    const list = getByRole(departuresAndMap.baseElement, "list");
+    expect(list).toBeInTheDocument();
   });
 });
