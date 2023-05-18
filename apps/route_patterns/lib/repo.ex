@@ -35,7 +35,10 @@ defmodule RoutePatterns.Repo do
   end
 
   def by_route_id(route_id, opts) do
-    opts
+    default_opts = [{:canonical, false}]
+
+    default_opts
+    |> Keyword.merge(opts)
     |> Keyword.put(:route, route_id)
     |> Keyword.put(:sort, "typicality,sort_order")
     |> Keyword.put(:include, "representative_trip.shape")

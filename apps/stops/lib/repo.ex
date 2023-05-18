@@ -121,6 +121,11 @@ defmodule Stops.Repo do
     )
   end
 
+  @spec by_trip(Trip.id_t()) :: [Stop.t()]
+  def by_trip(trip_id) do
+    cache(trip_id, &Api.by_trip/1)
+  end
+
   def stop_exists_on_route?(stop_id, route, direction_id) do
     route
     |> by_route(direction_id)

@@ -5,24 +5,51 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
   import Phoenix.ConnTest, only: [build_conn: 0]
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  describe "stop_tooltip/4" do
+  describe "stop_tooltip/2" do
     @expected_flag "Flag Stop"
     @expected_delayed "Early Departure Stop"
+    @expected_track_change "Train scheduled to board from Track 1 at Back Bay"
 
     test "returns nil when there are no matches" do
-      assert nil == stop_tooltip(%Schedule{})
+      assert nil == stop_tooltip(%Schedule{}, nil)
     end
 
     test "returns only a flag stop" do
-      actual = stop_tooltip(%Schedule{flag?: true})
+      actual = stop_tooltip(%Schedule{flag?: true}, nil)
       assert actual =~ @expected_flag
       refute actual =~ @expected_delayed
     end
 
     test "returns only an early departure" do
-      actual = stop_tooltip(%Schedule{early_departure?: true})
+      actual = stop_tooltip(%Schedule{early_departure?: true}, nil)
       refute actual =~ @expected_flag
       assert actual =~ @expected_delayed
+    end
+
+    test "returns only a track change" do
+      actual =
+        stop_tooltip(%Schedule{stop: %Stops.Stop{id: "1", name: "Back Bay"}}, %Stops.Stop{
+          id: "2",
+          platform_name: "Track 1",
+          platform_code: "1"
+        })
+
+      assert actual =~ @expected_track_change
+    end
+
+    test "returns flag stop and track change" do
+      actual =
+        stop_tooltip(
+          %Schedule{flag?: true, stop: %Stops.Stop{id: "1", name: "Back Bay"}},
+          %Stops.Stop{
+            id: "2",
+            platform_name: "Track 1",
+            platform_code: "1"
+          }
+        )
+
+      assert actual =~ @expected_track_change
+      assert actual =~ @expected_flag
     end
   end
 
@@ -63,6 +90,7 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
         vehicle_locations: vehicle_locations,
         trip_messages: trip_messages,
         trip_schedules: trip_schedules,
+        track_changes: %{},
         date_time: ~N[2017-03-01T07:29:00],
         direction_name: "Southeastbound",
         formatted_date: "March 1, 2017"
@@ -100,6 +128,36 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
       rendered = SiteWeb.ScheduleView.render("_timetable.html", assigns)
       assert safe_to_string(rendered) =~ "Earlier Trains"
       assert safe_to_string(rendered) =~ "Later Trains"
+    end
+
+    test "should show the track change information if present", %{assigns: assigns} do
+      trip = %Schedules.Trip{name: "Test Trip", id: "Test-Trip-ID"}
+
+      original_stop = %Stops.Stop{
+        id: "Test-Stop-ID",
+        name: "Stop",
+        platform_name: "Original Track"
+      }
+
+      new_platform_stop = %Stops.Stop{platform_name: "New Track"}
+
+      track_changes = %{{"Test-Trip-ID", "Test-Stop-ID"} => new_platform_stop}
+      header_schedules = [%Schedules.Schedule{trip: trip}]
+
+      trip_schedules = %{
+        {"Test-Trip-ID", "Test-Stop-ID"} => %Schedules.Schedule{trip: trip, stop: original_stop}
+      }
+
+      assigns =
+        Keyword.merge(assigns,
+          header_schedules: header_schedules,
+          track_changes: track_changes,
+          all_stops: [original_stop],
+          trip_schedules: trip_schedules
+        )
+
+      rendered = SiteWeb.ScheduleView.render("_timetable.html", assigns)
+      assert safe_to_string(rendered) =~ "New Track"
     end
   end
 end

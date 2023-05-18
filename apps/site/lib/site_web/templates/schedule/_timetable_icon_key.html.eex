@@ -49,7 +49,7 @@
     title: [safe_to_string(svg("icon-bikes-default.svg")), "Bikes Allowed"],
     prefix: "bikes-allowed"
   }
-  core_key = [
+  core_keys = [
     %{
       content: flag_stop,
       title: [safe_to_string(svg("icon-flag-stop-default.svg")), "Flag Stop"],
@@ -66,6 +66,16 @@
     title: [safe_to_string(svg("icon-crowding.svg")), "Seat Availability"],
     prefix: "crowding"
   }
+
+  cr_track_boarding_change_key = %{
+    content: ["At stations with multiple tracks outside of North, South, Back Bay, and Ruggles Stations, inbound trains board from Track 2, and outbound trains board from Track 1 unless otherwise specified. Scheduled track changes will be denoted by the ",
+    content_tag(:i, "", class: "notranslate track-change-icon fa fa-shuffle no-margin-right", aria: [hidden: "true"]),
+    " symbol. Check ",
+    content_tag(:a, "T-Alerts", href: "https://alerts.mbta.com", class: "c-call-to-action"),
+    " for real-time track changes."],
+    title: [safe_to_string(fa("shuffle", class: "track-change-icon")), "Track Boarding Change"],
+    prefix: "cr-track-change"
+  }
 %>
 <div class="m-schedule-icon-key-container">
   <h2 class="m-schedule-icon-key-header">Icon Key</h2>
@@ -74,9 +84,12 @@
       multiselectable: false,
       sections: (
         cond do
-          @show_crowding -> [cr_crowding_key] ++ [bike_key] ++ core_key
-          is_ferry(@route) -> core_key
-          true -> [bike_key | core_key]
+          # Show crowding is for commuter rail trains so also show the track boarding change
+          @show_crowding -> [cr_crowding_key] ++ [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
+          # Commuter rails could also not have crowding info so show commuter rail specific keys
+          is_commuter_rail(@route) -> [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
+          is_ferry(@route) -> core_keys
+          true -> [bike_key | core_keys]
         end
       )
     }))

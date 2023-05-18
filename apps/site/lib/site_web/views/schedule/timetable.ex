@@ -9,23 +9,34 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   @type vehicle_tooltip_key :: {Schedules.Trip.id_t(), Stops.Stop.id_t()}
 
-  @spec stop_tooltip(Schedule.t()) :: nil | Phoenix.HTML.Safe.t()
-  def stop_tooltip(%Schedule{} = schedule) do
-    schedule
-    |> stop_type
-    |> do_stop_tooltip
+  @spec stop_tooltip(Schedule.t(), Stop.t() | nil) ::
+          nil | [Phoenix.HTML.Safe.t()]
+  def stop_tooltip(%Schedule{} = schedule, track_change_stop) do
+    stop_type_description = stop_type(schedule)
+
+    track_change_tooltip =
+      if track_change_stop do
+        station_name = schedule.stop.name
+        track_change_description(station_name, track_change_stop)
+      else
+        nil
+      end
+
+    [stop_type_description, track_change_tooltip]
+    |> Enum.reject(&is_nil(&1))
+    |> do_stop_tooltip()
   end
 
-  def stop_tooltip(nil) do
+  def stop_tooltip(nil, nil) do
     nil
   end
 
-  def do_stop_tooltip(nil) do
+  defp do_stop_tooltip([]) do
     nil
   end
 
-  def do_stop_tooltip(type) do
-    content_tag(:p, type, class: "stop-tooltip")
+  defp do_stop_tooltip(contents) do
+    content_tag(:p, Enum.join(contents, "<br>"), class: "stop-tooltip")
     |> safe_to_string
     |> String.replace(~s("), ~s('))
   end
@@ -41,6 +52,11 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   def stop_type(_) do
     nil
+  end
+
+  @spec track_change_description(String.t(), String.t() | nil) :: String.t() | nil
+  def track_change_description(station_name, track_change_stop) do
+    "Train scheduled to board from #{track_change_stop.platform_name} at #{station_name}"
   end
 
   @spec stop_parking_icon(Stop.t()) :: [Phoenix.HTML.Safe.t()]
@@ -114,4 +130,7 @@ defmodule SiteWeb.ScheduleView.Timetable do
 
   @spec is_ferry(Route.t()) :: boolean
   def is_ferry(route), do: Routes.Route.type_atom(route) == :ferry
+
+  @spec is_commuter_rail(Route.t()) :: boolean
+  def is_commuter_rail(route), do: Routes.Route.type_atom(route) == :commuter_rail
 end

@@ -16,19 +16,22 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       stop_sequence: 1,
       time: DateTime.from_unix!(500),
       stop: %Stop{id: "1", name: "name1"},
-      trip: %Trip{id: "trip-1", name: "123"}
+      trip: %Trip{id: "trip-1", name: "123"},
+      platform_stop_id: "stop-1-platform-1"
     },
     %Schedule{
       stop_sequence: 2,
       time: DateTime.from_unix!(5000),
       stop: %Stop{id: "2", name: "name2"},
-      trip: %Trip{id: "trip-2", name: "456"}
+      trip: %Trip{id: "trip-2", name: "456"},
+      platform_stop_id: "stop-2-platform-1"
     },
     %Schedule{
       stop_sequence: 3,
       time: DateTime.from_unix!(50_000),
       stop: %Stop{id: "3", name: "name3"},
-      trip: %Trip{id: "trip-3", name: "789"}
+      trip: %Trip{id: "trip-3", name: "789"},
+      platform_stop_id: "stop-3-platform-1"
     }
   ]
 
@@ -144,6 +147,71 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "trip-5-5" => "name3-trip-5"
              } ==
                stops
+    end
+  end
+
+  describe "track_change_for_schedule/2" do
+    test "when there are no canonical routes, then no track change" do
+      [schedule_1 | _others] = @schedules
+
+      assert nil ==
+               track_change_for_schedule(schedule_1, MapSet.new(), fn _platform_stop_id ->
+                 %Stop{id: 101, platform_code: "new-platform", platform_name: "New Platform"}
+               end)
+    end
+
+    test "when the scheduled platform stop matches the canonical pattern stops, then no track change detected" do
+      [schedule_1 | _others] = @schedules
+      scheduled_platform_stop_id = schedule_1.platform_stop_id
+
+      platform_stop = %Stop{
+        id: scheduled_platform_stop_id,
+        platform_code: "new-platform",
+        platform_name: "New Platform"
+      }
+
+      assert nil ==
+               track_change_for_schedule(
+                 schedule_1,
+                 MapSet.new([schedule_1.platform_stop_id]),
+                 fn _platform_stop_id -> platform_stop end
+               )
+    end
+
+    test "when the scheduled platform stop doesn't match the canonical pattern stops, then track change detected" do
+      [schedule_1 | _others] = @schedules
+      scheduled_platform_stop_id = schedule_1.platform_stop_id
+
+      platform_stop = %Stop{
+        id: scheduled_platform_stop_id,
+        platform_code: "new-platform",
+        platform_name: "New Platform"
+      }
+
+      assert platform_stop ==
+               track_change_for_schedule(
+                 schedule_1,
+                 MapSet.new(["stop-1-other-patform"]),
+                 fn _platform_stop_id -> platform_stop end
+               )
+    end
+
+    test "when the scheduled platform stop isn't canonical but doesn't have a platform code, then no track change detected" do
+      [schedule_1 | _others] = @schedules
+      scheduled_platform_stop_id = schedule_1.platform_stop_id
+
+      platform_stop = %Stop{
+        id: scheduled_platform_stop_id,
+        platform_code: nil,
+        platform_name: "Generic Platform Name"
+      }
+
+      assert nil ==
+               track_change_for_schedule(
+                 schedule_1,
+                 MapSet.new(["stop-1-other-patform"]),
+                 fn _platform_stop_id -> platform_stop end
+               )
     end
   end
 end

@@ -74,6 +74,26 @@ defmodule Stops.Api do
     |> parse_v3_multiple()
   end
 
+  def by_trip(trip_id) do
+    case V3Api.Trips.by_id(trip_id, include: "stops") do
+      %JsonApi{
+        data: [
+          %JsonApi.Item{
+            relationships: %{
+              "stops" => stops
+            }
+          }
+        ]
+      } ->
+        stops
+        |> Enum.map(&parse_v3_response/1)
+        |> Enum.map(fn {:ok, stop} -> stop end)
+
+      _ ->
+        []
+    end
+  end
+
   @spec parse_v3_multiple(JsonApi.t() | {:error, any}) :: [Stop.t()] | {:error, any}
   defp parse_v3_multiple({:error, _} = error) do
     error

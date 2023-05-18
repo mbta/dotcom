@@ -47,7 +47,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
   end
 
-  def assign_trip_schedules(conn) do
+  def assign_trip_schedules(%{assigns: %{route: route, direction_id: direction_id}} = conn) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
@@ -58,14 +58,71 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
+    canonical_rps =
+      RoutePatterns.Repo.by_route_id(route.id, direction_id: direction_id, canonical: true)
+
+    # Don't use the stop ids set on the route pattern - those are mapped to the parent stops.
+    # Get the stops directly for the canonical trips
+    canonical_stop_ids =
+      canonical_rps
+      |> Enum.flat_map(&Stops.Repo.by_trip(&1.representative_trip_id))
+      |> Enum.map(& &1.id)
+      |> MapSet.new()
+
+    track_changes = track_changes(trip_schedules, canonical_stop_ids)
+
     conn
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
     |> assign(:trip_schedules, trip_schedules)
+    |> assign(:track_changes, track_changes)
     |> assign(:vehicle_schedules, vehicle_schedules)
     |> assign(:prior_stops, prior_stops)
-    |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
+    |> assign(:trip_messages, trip_messages(route, direction_id))
     |> assign(:all_stops, all_stops)
+  end
+
+  @spec track_changes(
+          %{required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()},
+          MapSet.t(Stops.Stop.id_t())
+        ) :: %{
+          required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Stops.Stop.t() | nil
+        }
+  defp track_changes(trip_schedules, canonical_stop_ids) do
+    Map.new(trip_schedules, fn {{trip_id, stop_id}, sch} ->
+      track_change = track_change_for_schedule(sch, canonical_stop_ids)
+
+      {
+        {trip_id, stop_id},
+        track_change
+      }
+    end)
+  end
+
+  @spec track_change_for_schedule(
+          Schedules.Schedule.t(),
+          MapSet.t(Stops.Stop.id_t())
+        ) :: Stops.Stop.t() | nil
+  @doc """
+  If the scheduled platform stop is not canonical, then return the stop of that track change.
+  """
+  def track_change_for_schedule(schedule, canonical_stop_ids, stop_get_fn \\ &Stops.Repo.get/1) do
+    if has_scheduled_track_change(schedule, canonical_stop_ids) do
+      case stop_get_fn.(schedule.platform_stop_id) do
+        nil -> nil
+        # If there is no platform code for the scheduled platform stop, treat as no track change
+        %{platform_code: nil} -> nil
+        platform_stop -> platform_stop
+      end
+    else
+      nil
+    end
+  end
+
+  defp has_scheduled_track_change(schedule, canonical_stop_ids) do
+    # if the scheduled stop doesn't match a canonical stop, there has been a track change
+    MapSet.size(canonical_stop_ids) > 0 &&
+      !MapSet.member?(canonical_stop_ids, schedule.platform_stop_id)
   end
 
   # Helper function for obtaining schedule data

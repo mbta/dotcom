@@ -152,4 +152,21 @@ defmodule Stops.ApiTest do
   test "pretty payment falls back to empty string" do
     assert pretty_payment("invalid") == ""
   end
+
+  test "by_trip returns an empty list if the V3 API returns an error" do
+    bypass = Bypass.open()
+    v3_url = Application.get_env(:v3_api, :base_url)
+
+    on_exit(fn ->
+      Application.put_env(:v3_api, :base_url, v3_url)
+    end)
+
+    Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+
+    Bypass.expect(bypass, fn conn ->
+      Plug.Conn.resp(conn, 500, "")
+    end)
+
+    assert [] = by_trip("1")
+  end
 end
