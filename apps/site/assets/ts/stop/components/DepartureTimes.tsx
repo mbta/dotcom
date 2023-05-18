@@ -271,7 +271,7 @@ interface DepartureTimesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: DepartureInfo[] | null | undefined
+    departures: Dictionary<ScheduleWithTimestamp[]> | null | undefined
   ) => void;
 }
 
@@ -309,8 +309,8 @@ const DepartureTimes = ({
         return (
           <div
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, departures)}
-            onKeyDown={() => onClick(route, directionId, departures)}
+            onClick={() => onClick(route, directionId, schedules)}
+            onKeyDown={() => onClick(route, directionId, schedules)}
             role="presentation"
           >
             {departureTimeRow(headsign, formattedTimes)}

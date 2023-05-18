@@ -1,11 +1,12 @@
 import React, { ReactElement, useState } from "react";
-import { chain } from "lodash";
+import { Dictionary, chain } from "lodash";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
-import { DepartureInfo } from "../../models/departureInfo";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import DepartureList from "./DepartureList";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -23,22 +24,22 @@ const DeparturesAndMap = ({
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
     departureDirectionId: DirectionId | null;
-    departures: DepartureInfo[] | null | undefined;
+    departureSchedules: Dictionary<ScheduleWithTimestamp[]> | null | undefined;
   }>({
     departureRoute: null,
     departureDirectionId: null,
-    departures: null
+    departureSchedules: null
   });
 
   const setDepartureVariables: (
     route: Route,
     directionId: DirectionId,
-    departures: DepartureInfo[] | null | undefined
+    departures: Dictionary<ScheduleWithTimestamp[]> | null | undefined
   ) => void = (route, directionId, allDepartures) => {
     setDepartureInfo({
       departureRoute: route,
       departureDirectionId: directionId,
-      departures: allDepartures
+      departureSchedules: allDepartures
     });
   };
 
@@ -52,7 +53,7 @@ const DeparturesAndMap = ({
     if (
       !departureInfo.departureRoute &&
       !departureInfo.departureDirectionId &&
-      !departureInfo.departures
+      !departureInfo.departureSchedules
     ) {
       return true;
     }
@@ -76,7 +77,7 @@ const DeparturesAndMap = ({
               setDepartureInfo({
                 departureRoute: null,
                 departureDirectionId: null,
-                departures: null
+                departureSchedules: null
               })
             }
           >
@@ -85,6 +86,15 @@ const DeparturesAndMap = ({
           <div className="placeholder-map">imagine a nap</div>
           <div className="placeholder-departures">
             {`Route ${departureInfo.departureRoute?.id}`}
+
+            {
+              <DepartureList
+                route={departureInfo.departureRoute}
+                stop={stop}
+                schedules={departureInfo.departureSchedules}
+                directionId={departureInfo.departureDirectionId}
+              />
+            }
           </div>
         </div>
       )}

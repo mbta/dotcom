@@ -1,4 +1,4 @@
-import { filter, groupBy, sortBy } from "lodash";
+import { Dictionary, filter, groupBy, sortBy } from "lodash";
 import { isPast } from "date-fns";
 import React, { ReactElement, useState } from "react";
 import { DirectionId, Route, Stop } from "../../__v3api";
@@ -15,7 +15,7 @@ interface StopPageDeparturesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: DepartureInfo[] | null | undefined
+    departures: Dictionary<ScheduleWithTimestamp[]> | null | undefined
   ) => void;
 }
 
