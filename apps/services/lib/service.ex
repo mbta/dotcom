@@ -30,6 +30,8 @@ defmodule Services.Service do
           | :planned_disruption
           # Major reductions in service for weather events or other atypical situations
           | :unplanned_disruption
+          # Not actively scheduled. Holds reference trips showing a route's canonical set of stops
+          | :canonical
 
   @type type :: :weekday | :saturday | :sunday | :other
 
@@ -149,5 +151,6 @@ defmodule Services.Service do
   defp typicality(3), do: :holiday_service
   defp typicality(4), do: :planned_disruption
   defp typicality(5), do: :unplanned_disruption
+  defp typicality(6), do: :canonical
   defp typicality(_), do: :unknown
 end

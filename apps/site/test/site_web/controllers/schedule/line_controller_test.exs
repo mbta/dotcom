@@ -139,7 +139,7 @@ defmodule SiteWeb.Schedule.LineControllerTest do
       }
 
       canonical_service = %Service{
-        id: "canonical",
+        typicality: :canonical,
         start_date: ~D[2019-05-02],
         end_date: ~D[2019-05-02]
       }
