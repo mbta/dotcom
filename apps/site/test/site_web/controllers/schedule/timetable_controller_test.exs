@@ -195,5 +195,23 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                  fn _platform_stop_id -> platform_stop end
                )
     end
+
+    test "when the scheduled platform stop isn't canonical but doesn't have a platform code, then no track change detected" do
+      [schedule_1 | _others] = @schedules
+      scheduled_platform_stop_id = schedule_1.platform_stop_id
+
+      platform_stop = %Stop{
+        id: scheduled_platform_stop_id,
+        platform_code: nil,
+        platform_name: "Generic Platform Name"
+      }
+
+      assert nil ==
+               track_change_for_schedule(
+                 schedule_1,
+                 MapSet.new(["stop-1-other-patform"]),
+                 fn _platform_stop_id -> platform_stop end
+               )
+    end
   end
 end

@@ -107,13 +107,22 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   If the scheduled platform stop is not canonical, then return the stop of that track change.
   """
   def track_change_for_schedule(schedule, canonical_stop_ids, stop_get_fn \\ &Stops.Repo.get/1) do
-    # if the scheduled stop doesn't match a canonical stop, there has been a track change
-    if MapSet.size(canonical_stop_ids) > 0 &&
-         !MapSet.member?(canonical_stop_ids, schedule.platform_stop_id) do
-      stop_get_fn.(schedule.platform_stop_id)
+    if has_scheduled_track_change(schedule, canonical_stop_ids) do
+      case stop_get_fn.(schedule.platform_stop_id) do
+        nil -> nil
+        # If there is no platform code for the scheduled platform stop, treat as no track change
+        %{platform_code: nil} -> nil
+        platform_stop -> platform_stop
+      end
     else
       nil
     end
+  end
+
+  defp has_scheduled_track_change(schedule, canonical_stop_ids) do
+    # if the scheduled stop doesn't match a canonical stop, there has been a track change
+    MapSet.size(canonical_stop_ids) > 0 &&
+      !MapSet.member?(canonical_stop_ids, schedule.platform_stop_id)
   end
 
   # Helper function for obtaining schedule data
