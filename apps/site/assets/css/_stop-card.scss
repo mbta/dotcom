@@ -162,6 +162,7 @@ $radius: 4px;
 
   .departure-card__headsign {
     border: .25px solid $gray-lightest;
+    cursor: pointer;
     padding: .5rem;
   }
 
@@ -195,6 +196,7 @@ $radius: 4px;
 .placeholder-departures {
   background-color: $crowding-crowded-bg;
   height: 300px;
+  overflow: scroll;
   @include media-breakpoint-down(sm) {
     height: 50%;
   }

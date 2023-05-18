@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Dictionary, groupBy } from "lodash";
+import { groupBy } from "lodash";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
@@ -45,7 +45,7 @@ const DepartureCard = ({
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: Dictionary<ScheduleWithTimestamp[]> | null | undefined
+    departures: ScheduleWithTimestamp[] | null | undefined
   ) => void;
 }): ReactElement<HTMLElement> => {
   const routeName = (

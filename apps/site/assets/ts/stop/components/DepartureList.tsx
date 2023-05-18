@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { Dictionary } from "lodash";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -9,7 +8,7 @@ import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 interface DepartureListProps {
   route: Route;
   stop: Stop;
-  schedules: Dictionary<ScheduleWithTimestamp[]>;
+  schedules: ScheduleWithTimestamp[];
   directionId: DirectionId;
 }
 
@@ -28,14 +27,17 @@ const DepartureList = ({
   let departures: DepartureInfo[] = [];
   return (
     <>
-      {Object.entries(schedules).map(([headsign, schs]) => {
+      {schedules.map((schs, idx) => {
+        const { headsign } = schs.trip;
         const preds = predictionsByHeadsign[headsign]
           ? predictionsByHeadsign[headsign]
           : [];
-        departures = mergeIntoDepartureInfo(schs, preds);
+        departures = mergeIntoDepartureInfo(schedules, preds);
+        const prediction = departures.at(idx)?.prediction;
+        const predictionOrSchedule = prediction || departures.at(idx)?.schedule;
         return (
-          <div key={`${departures.at(0)?.prediction?.id}`}>
-            {departures.at(0)?.prediction?.time.toString()}
+          <div key={`${predictionOrSchedule?.trip.id}`}>
+            {predictionOrSchedule?.time.toString()}
           </div>
         );
       })}

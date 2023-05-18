@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Dictionary, chain } from "lodash";
+import { chain } from "lodash";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
@@ -23,7 +23,7 @@ const DeparturesAndMap = ({
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
     departureDirectionId: DirectionId | null;
-    departureSchedules: Dictionary<ScheduleWithTimestamp[]> | null | undefined;
+    departureSchedules: ScheduleWithTimestamp[] | null | undefined;
   }>({
     departureRoute: null,
     departureDirectionId: null,
@@ -33,7 +33,7 @@ const DeparturesAndMap = ({
   const setDepartureVariables: (
     route: Route,
     directionId: DirectionId,
-    departures: Dictionary<ScheduleWithTimestamp[]> | null | undefined
+    departures: ScheduleWithTimestamp[] | null | undefined
   ) => void = (route, directionId, allDepartures) => {
     setDepartureInfo({
       departureRoute: route,
@@ -95,7 +95,7 @@ const DeparturesAndMap = ({
                 directionId={departureInfo.departureDirectionId}
               />
             ) : (
-              <div>No upcoming trips today</div>
+              <div />
             )}
           </div>
         </div>
