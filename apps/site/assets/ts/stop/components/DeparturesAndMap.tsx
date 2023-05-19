@@ -6,6 +6,7 @@ import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
+import renderFa from "../../helpers/render-fa";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -70,18 +71,29 @@ const DeparturesAndMap = ({
         />
       ) : (
         <div className="departures-container">
-          <button
-            type="button"
-            onClick={() =>
-              setDepartureInfo({
-                departureRoute: null,
-                departureDirectionId: null,
-                departureSchedules: null
-              })
-            }
-          >
-            {`Back to all ${stop.name}`}
-          </button>
+          <div className="back-to-routes">
+            <div
+              onClick={() =>
+                setDepartureInfo({
+                  departureRoute: null,
+                  departureDirectionId: null,
+                  departureSchedules: null
+                })
+              }
+              onKeyDown={() =>
+                setDepartureInfo({
+                  departureRoute: null,
+                  departureDirectionId: null,
+                  departureSchedules: null
+                })
+              }
+              aria-label={`Back to all ${stop.name} routes`}
+              role="presentation"
+            >
+              {renderFa("", "fa-angle-left")}
+              {`Back to all ${stop.name} routes`}
+            </div>
+          </div>
           <div className="placeholder-map">imagine a nap</div>
           <div className="placeholder-departures">
             {`Route ${departureInfo.departureRoute?.id}`}

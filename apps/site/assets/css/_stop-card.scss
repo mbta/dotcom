@@ -86,6 +86,7 @@ $radius: 4px;
   .departure-filters {
     display: flex;
     gap: .5rem;
+    height: 1.875;
     margin-bottom: .5rem;
 
     [class*='c-svg__icon'] {
@@ -113,7 +114,7 @@ $radius: 4px;
 .stop-departures {
   background: $white;
   border: .25px solid $gray-lighter;
-  height: 350px;
+  height: 21.875rem;
   list-style: none;
   margin: 0;
   overflow-y: auto;
@@ -195,8 +196,9 @@ $radius: 4px;
 
 .placeholder-departures {
   background-color: $crowding-crowded-bg;
-  height: 300px;
-  overflow: scroll;
+  height: 20.188rem;
+  margin: .5rem;
+  overflow-y: scroll;
   @include media-breakpoint-down(sm) {
     height: 50%;
   }
@@ -209,17 +211,9 @@ $radius: 4px;
   }
 }
 
-.sm-down-hide {
-  display: none;
-  @include media-breakpoint-up(sm) {
-    display: block;
-  }
-}
-
 .departures-container {
-  padding: .5rem;
+  background-color: $white;
   @include media-breakpoint-down(sm) {
-    background-color: $white;
     box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
     height: 100vh;
     left: 0;
@@ -234,5 +228,22 @@ $radius: 4px;
 }
 
 .back-to-routes {
-  height: 50px;
+  align-items: center;
+  background-color: $gray-bordered-background;
+  border: .25px solid $gray-lighter;
+  color: $brand-primary;
+  display: flex;
+  font-size: 1rem;
+  height: 3.125rem;
+  padding-left: .625rem;
+  text-decoration: underline;
+  :first-child {
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 400;
+    :first-child {
+      font-weight: 900;
+      padding-right: .5rem;
+    }
+  }
 }
