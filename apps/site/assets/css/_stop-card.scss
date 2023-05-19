@@ -201,6 +201,7 @@ $radius: 4px;
   overflow-y: scroll;
   @include media-breakpoint-down(sm) {
     height: 50%;
+    margin: 0;
   }
 }
 
