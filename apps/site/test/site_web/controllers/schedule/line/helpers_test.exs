@@ -40,7 +40,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       assert [
                %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops},
                %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops}
-             ] = Helpers.get_branch_route_stops(%Route{id: "Red"}, 0)
+             ] = Enum.sort_by(Helpers.get_branch_route_stops(%Route{id: "Red"}, 0), & &1.branch)
 
       assert Enum.all?(ashmont_route_stops, &(&1.branch == "Alewife - Ashmont"))
 

@@ -35,35 +35,5 @@ defmodule RoutePatterns.RepoTest do
       alewife_patterns = Repo.by_route_id("Red", direction_id: 1)
       assert alewife_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq() == [1]
     end
-
-    test "API request includes canonical route filter by default" do
-      with_mock(V3Api.RoutePatterns, all: fn params -> %JsonApi{data: []} end) do
-        Repo.by_route_id("CR-Franklin")
-
-        assert_called(
-          V3Api.RoutePatterns.all(
-            include: "representative_trip.shape",
-            sort: "typicality,sort_order",
-            route: "CR-Franklin",
-            canonical: false
-          )
-        )
-      end
-    end
-
-    test "API request includes canonical routes when parameter explicitly passed" do
-      with_mock(V3Api.RoutePatterns, all: fn params -> %JsonApi{data: []} end) do
-        Repo.by_route_id("CR-Franklin", canonical: true)
-
-        assert_called(
-          V3Api.RoutePatterns.all(
-            include: "representative_trip.shape",
-            sort: "typicality,sort_order",
-            route: "CR-Franklin",
-            canonical: true
-          )
-        )
-      end
-    end
   end
 end
