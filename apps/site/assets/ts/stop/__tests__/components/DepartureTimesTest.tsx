@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import DepartureTimes, {
   getNextTwoTimes,
   infoToDisplayTime
@@ -399,5 +399,43 @@ describe("DepartureTimes", () => {
       expect(displayTime1.isPrediction).toBe(false);
       expect(displayTime2.displayString).toEqual("30 min");
     });
+  });
+
+  it("should display a default", () => {
+    const stop = {
+      id: "test-stop",
+      name: "Test Stop",
+      latitude: 42.3519,
+      longitude: 71.0552
+    } as Stop;
+
+    const schedules = [
+      {
+        trip: { id: "1" },
+        time: new Date("2022-04-27T11:15:00-04:00")
+      },
+      {
+        trip: { id: "2" },
+        time: new Date("2022-04-27T11:18:00-04:00")
+      },
+      {
+        trip: { id: "4" },
+        time: new Date("2022-04-27T11:40:00-04:00")
+      }
+    ] as ScheduleWithTimestamp[];
+
+    let departureTimes = render(
+      <DepartureTimes
+        route={route}
+        stop={stop}
+        directionId={0}
+        schedulesForDirection={schedules}
+        onClick={mockClickAction}
+      />
+    );
+
+    expect(departureTimes.container.querySelector(".test")).toBeDefined();
+    fireEvent.click(departureTimes.baseElement.querySelector(".test")!);
+    expect(mockClickAction).toHaveBeenCalledTimes(1);
   });
 });
