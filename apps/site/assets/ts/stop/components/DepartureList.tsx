@@ -8,34 +8,21 @@ import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 interface DepartureListProps {
   route: Route;
   stop: Stop;
-  schedules: ScheduleWithTimestamp[];
+  departures: DepartureInfo[];
   directionId: DirectionId;
 }
 
 const DepartureList = ({
   route,
   stop,
-  schedules,
+  departures,
   directionId
 }: DepartureListProps): ReactElement<HTMLElement> => {
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
-    directionId
-  );
-
-  let departures: DepartureInfo[] = [];
   // TODO: debug
   return (
     <>
-      {schedules.map((schs, idx) => {
-        const { headsign } = schs.trip;
-        const preds = predictionsByHeadsign[headsign]
-          ? predictionsByHeadsign[headsign]
-          : [];
-        departures = mergeIntoDepartureInfo(schedules, preds);
-        const prediction = departures.at(idx)?.prediction;
-        const predictionOrSchedule = prediction || departures.at(idx)?.schedule;
+      {departures.map((dep, idx) => {
+        const predictionOrSchedule = dep.prediction || dep.schedule;
         return predictionOrSchedule ? (
           <div key={`${predictionOrSchedule?.trip.id}`}>
             {predictionOrSchedule?.time.toString()}

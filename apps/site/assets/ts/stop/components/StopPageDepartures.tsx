@@ -6,6 +6,7 @@ import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -14,7 +15,7 @@ interface StopPageDeparturesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void;
 }
 

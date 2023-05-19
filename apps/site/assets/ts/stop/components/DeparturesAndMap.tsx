@@ -6,6 +6,7 @@ import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -23,7 +24,7 @@ const DeparturesAndMap = ({
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
     departureDirectionId: DirectionId | null;
-    departureSchedules: ScheduleWithTimestamp[] | null | undefined;
+    departureSchedules: DepartureInfo[] | null | undefined;
   }>({
     departureRoute: null,
     departureDirectionId: null,
@@ -33,7 +34,7 @@ const DeparturesAndMap = ({
   const setDepartureVariables: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void = (route, directionId, allDepartures) => {
     setDepartureInfo({
       departureRoute: route,
@@ -91,7 +92,7 @@ const DeparturesAndMap = ({
               <DepartureList
                 route={departureInfo.departureRoute}
                 stop={stop}
-                schedules={departureInfo.departureSchedules}
+                departures={departureInfo.departureSchedules}
                 directionId={departureInfo.departureDirectionId}
               />
             ) : (

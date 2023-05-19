@@ -174,12 +174,10 @@ const infoToDisplayTime = (
 };
 
 const toDisplayTime = (
-  schedules: ScheduleWithTimestamp[],
-  predictions: PredictionWithTimestamp[],
+  departureInfos: DepartureInfo[],
   targetDate = new Date()
 ): DisplayTimeConfig[] => {
   // TODO this should be short cutted by alerts
-  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
   const [time1, time2] = getNextTwoTimes(departureInfos);
 
   return infoToDisplayTime(time1, time2, targetDate);
@@ -271,7 +269,7 @@ interface DepartureTimesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void;
 }
 
@@ -303,13 +301,14 @@ const DepartureTimes = ({
         const preds = predictionsByHeadsign[headsign]
           ? predictionsByHeadsign[headsign]
           : [];
-        const formattedTimes = toDisplayTime(schs, preds, overrideDate);
+        const departureInfos = mergeIntoDepartureInfo(schs, preds);
+        const formattedTimes = toDisplayTime(departureInfos, overrideDate);
         return (
           <div
             className="test"
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, schs)}
-            onKeyDown={() => onClick(route, directionId, schs)}
+            onClick={() => onClick(route, directionId, departureInfos)}
+            onKeyDown={() => onClick(route, directionId, departureInfos)}
             role="presentation"
           >
             {departureTimeRow(headsign, formattedTimes)}

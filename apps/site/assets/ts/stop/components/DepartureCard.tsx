@@ -11,6 +11,7 @@ import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import { DepartureInfo } from "../../models/departureInfo";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeToModeIcon = (route: Route): any => {
@@ -45,7 +46,7 @@ const DepartureCard = ({
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void;
 }): ReactElement<HTMLElement> => {
   const routeName = (
