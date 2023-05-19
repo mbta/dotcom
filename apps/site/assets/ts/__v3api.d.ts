@@ -259,7 +259,8 @@ type ServiceTypicality =
   | "extra_service"
   | "holiday_service"
   | "planned_disruption"
-  | "unplanned_disruption";
+  | "unplanned_disruption"
+  | "canonical";
 
 type DayInteger =
   | 1 // Monday

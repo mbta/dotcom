@@ -129,6 +129,32 @@ defmodule SiteWeb.Schedule.LineControllerTest do
         assert length(services) == 1
       end
     end
+
+    test "does not include canonical services" do
+      service_date = ~D[2019-05-01]
+
+      current_service = %Service{
+        start_date: ~D[2019-05-01],
+        end_date: ~D[2019-05-01]
+      }
+
+      canonical_service = %Service{
+        typicality: :canonical,
+        start_date: ~D[2019-05-02],
+        end_date: ~D[2019-05-02]
+      }
+
+      repo_fn = fn _ ->
+        [
+          current_service,
+          canonical_service
+        ]
+      end
+
+      services = LineController.services("1", service_date, repo_fn)
+      assert length(services) == 1
+      refute Enum.member?(services, canonical_service)
+    end
   end
 
   describe "with old-style query params" do

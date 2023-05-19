@@ -201,6 +201,7 @@ const serviceTypeOrder: { [key in ServiceType]: number } = {
 /* eslint-disable camelcase */
 // sort the service typicalities
 const serviceTypicalityOrder: { [key in ServiceTypicality]: number } = {
+  canonical: 6,
   unplanned_disruption: 4,
   planned_disruption: 3,
   holiday_service: 2,
