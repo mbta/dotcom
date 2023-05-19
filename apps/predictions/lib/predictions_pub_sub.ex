@@ -212,8 +212,8 @@ defmodule Predictions.PredictionsPubSub do
 
   @spec prediction_key(Routes.Route.id_t(), Stops.Stop.id_t(), direction_id_t()) ::
           String.t()
-  defp prediction_key(route_id, stop_id, direction_id),
-    do: "#{route_id}:#{stop_id}:#{direction_id}"
+  defp prediction_key(_route_id, stop_id, _direction_id),
+    do: "1:#{stop_id}:1"
 
   @spec predictions_for_key(predictions_by_key(), prediction_key()) :: [Prediction.t()]
   defp predictions_for_key(predictions_by_key, route_stop_direction) do

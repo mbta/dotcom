@@ -66,6 +66,7 @@ const DepartureCard = ({
         stop={stop}
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
+        predictionsByHeadsign={{}}
       />
       <DepartureTimes
         key={`${route.id}-1`}
@@ -73,6 +74,7 @@ const DepartureCard = ({
         stop={stop}
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
+        predictionsByHeadsign={{}}
       />
     </li>
   );

@@ -7,7 +7,9 @@ import {
   secondsInHour,
   secondsInMinute
 } from "date-fns";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import usePredictionsChannel, {
+  PredictionsByHeadsign
+} from "../../hooks/usePredictionsChannel";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import { formatToBostonTime } from "../../helpers/date";
@@ -268,6 +270,7 @@ interface DepartureTimesProps {
   stop: Stop;
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+  predictionsByHeadsign: PredictionsByHeadsign;
   overrideDate?: Date;
 }
 
@@ -283,14 +286,9 @@ const DepartureTimes = ({
   stop,
   directionId,
   schedulesForDirection,
-  overrideDate
+  overrideDate,
+  predictionsByHeadsign
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
-    directionId
-  );
-
   const schedules = schedulesByHeadsign(schedulesForDirection);
 
   return (

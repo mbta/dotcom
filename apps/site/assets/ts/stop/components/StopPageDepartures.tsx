@@ -6,6 +6,7 @@ import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -29,6 +30,8 @@ const StopPageDepartures = ({
   stop,
   schedules
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
+  const predictions = usePredictionsChannel("1", stop.id, 1);
+
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
@@ -41,6 +44,8 @@ const StopPageDepartures = ({
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
+
+  console.log(predictions);
 
   return (
     <div className="routes">

@@ -72,10 +72,9 @@ defmodule Predictions.StreamSupervisor do
 
   @spec sses_opts(PredictionsPubSub.prediction_key()) :: Keyword.t()
   defp sses_opts(route_stop_direction) do
-    [route_id, stop_id, direction_id] = String.split(route_stop_direction, ":")
+    [_route_id, stop_id, _direction_id] = String.split(route_stop_direction, ":")
 
-    filters =
-      "filter[route]=#{route_id}&filter[stop]=#{stop_id}&filter[direction_id]=#{direction_id}"
+    filters = "filter[stop]=#{stop_id}"
 
     path =
       "/predictions?#{filters}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"

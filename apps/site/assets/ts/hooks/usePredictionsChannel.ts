@@ -36,7 +36,7 @@ interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
 }
 
-interface PredictionsByHeadsign {
+export interface PredictionsByHeadsign {
   [headsign: string]: PredictionWithTimestamp[];
 }
 
@@ -92,6 +92,9 @@ const usePredictionsChannel = (
   ) => {
     const parsedPredictions = predictions.map(parsePrediction);
     const newGroupedPredictions = groupByHeadsigns(parsedPredictions);
+
+    console.log(parsedPredictions);
+
     // don't attempt to reconcile with prior predictions, just replace state with
     // all the new predictions from the channel if there are any changes.
     return deepEqual(oldGroupedPredictions, newGroupedPredictions)
