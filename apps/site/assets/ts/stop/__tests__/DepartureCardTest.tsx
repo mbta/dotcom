@@ -5,6 +5,7 @@ import { RouteType, Stop } from "../../__v3api";
 import { baseRoute } from "./helpers";
 
 const stop = {} as Stop;
+const mockClickAction = jest.fn();
 
 describe("DepartureCard", () => {
   it("renders a list item with route name", () => {
@@ -13,6 +14,7 @@ describe("DepartureCard", () => {
         route={baseRoute("749", 3)}
         stop={stop}
         schedulesForRoute={[]}
+        onClick={mockClickAction}
       />
     );
     const listItem = screen.getByRole("listitem");
@@ -28,6 +30,7 @@ describe("DepartureCard", () => {
             route={baseRoute("", type as RouteType)}
             stop={stop}
             schedulesForRoute={[]}
+            onClick={mockClickAction}
           />
         )
       )
@@ -50,7 +53,12 @@ describe("DepartureCard", () => {
     ${baseRoute("", 4)}         | ${".u-bg--ferry"}
   `("renders different colors for routes/modes", ({ route, expectedClass }) => {
     const { container } = render(
-      <DepartureCard route={route} stop={stop} schedulesForRoute={[]} />
+      <DepartureCard
+        route={route}
+        stop={stop}
+        schedulesForRoute={[]}
+        onClick={mockClickAction}
+      />
     );
     expect(container.querySelector(expectedClass)).toBeInTheDocument();
   });

@@ -180,7 +180,6 @@ const toDisplayTime = (
 ): DisplayTimeConfig[] => {
   // TODO this should be short cutted by alerts
   const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
-
   const [time1, time2] = getNextTwoTimes(departureInfos);
 
   return infoToDisplayTime(time1, time2, targetDate);
@@ -269,6 +268,11 @@ interface DepartureTimesProps {
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
   overrideDate?: Date;
+  onClick: (
+    route: Route,
+    directionId: DirectionId,
+    departures: ScheduleWithTimestamp[] | null | undefined
+  ) => void;
 }
 
 /* istanbul ignore next */
@@ -283,7 +287,8 @@ const DepartureTimes = ({
   stop,
   directionId,
   schedulesForDirection,
-  overrideDate
+  overrideDate,
+  onClick
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
@@ -292,18 +297,24 @@ const DepartureTimes = ({
   );
 
   const schedules = schedulesByHeadsign(schedulesForDirection);
-
   return (
     <>
       {Object.entries(schedules).map(([headsign, schs]) => {
-        const formattedTimes = toDisplayTime(
-          schs,
-          predictionsByHeadsign[headsign]
-            ? predictionsByHeadsign[headsign]
-            : [],
-          overrideDate
+        const preds = predictionsByHeadsign[headsign]
+          ? predictionsByHeadsign[headsign]
+          : [];
+        const formattedTimes = toDisplayTime(schs, preds, overrideDate);
+        return (
+          <div
+            className="departure-row-click-test"
+            key={`${headsign}-${route.id}`}
+            onClick={() => onClick(route, directionId, schs)}
+            onKeyDown={() => onClick(route, directionId, schs)}
+            role="presentation"
+          >
+            {departureTimeRow(headsign, formattedTimes)}
+          </div>
         );
-        return departureTimeRow(headsign, formattedTimes);
       })}
     </>
   );

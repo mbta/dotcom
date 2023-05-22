@@ -1,17 +1,15 @@
 import React, { ReactElement } from "react";
-import { chain, omit } from "lodash";
+import { omit } from "lodash";
 import useStop from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
-import StopMapRedesign from "./StopMapRedesign";
 import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
-import StopPageDepartures from "./StopPageDepartures";
 import Alerts from "../../components/Alerts";
 import { Route } from "../../__v3api";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByStop } from "../../hooks/useAlerts";
-import StopPageOverlay from "./StopPageOverlay";
+import DeparturesAndMap from "./DeparturesAndMap";
 
 const StopPageRedesign = ({
   stopId
@@ -32,27 +30,18 @@ const StopPageRedesign = ({
   const routes: Route[] = routesWithPolylines.map(rwp =>
     omit(rwp, "polylines")
   );
-  const polylines = chain(routesWithPolylines)
-    .orderBy("sort_order", "desc")
-    .flatMap("polylines")
-    .uniqBy("id")
-    .value();
 
   return (
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routes} />
       <div className="container">
         <Alerts alerts={alerts} />
-        {/* this is the mobile version */}
-        <StopPageOverlay routes={routes} stop={stop} schedules={schedules} />
-        <div className="stop-routes-and-map">
-          <StopPageDepartures
-            routes={routes}
-            stop={stop}
-            schedules={schedules}
-          />
-          <StopMapRedesign stop={stop} lines={polylines} />
-        </div>
+        <DeparturesAndMap
+          routes={routes}
+          stop={stop}
+          schedules={schedules}
+          routesWithPolylines={routesWithPolylines}
+        />
         <footer>
           <StationInformation stop={stop} />
         </footer>

@@ -3,7 +3,7 @@ import { groupBy } from "lodash";
 import { routeBgClass, busClass } from "../../helpers/css";
 import { breakTextAtSlash } from "../../helpers/text";
 import { isASilverLineRoute } from "../../models/route";
-import { Route, Stop } from "../../__v3api";
+import { DirectionId, Route, Stop } from "../../__v3api";
 import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
 import Bussvg from "../../../static/images/icon-bus-default.svg";
 import SubwaySvg from "../../../static/images/icon-subway-default.svg";
@@ -36,11 +36,17 @@ const routeToModeIcon = (route: Route): any => {
 const DepartureCard = ({
   route,
   stop,
-  schedulesForRoute
+  schedulesForRoute,
+  onClick
 }: {
   route: Route;
   schedulesForRoute: ScheduleWithTimestamp[];
   stop: Stop;
+  onClick: (
+    route: Route,
+    directionId: DirectionId,
+    departures: ScheduleWithTimestamp[] | null | undefined
+  ) => void;
 }): ReactElement<HTMLElement> => {
   const routeName = (
     <span className={busClass(route)}>
@@ -66,6 +72,7 @@ const DepartureCard = ({
         stop={stop}
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
+        onClick={onClick}
       />
       <DepartureTimes
         key={`${route.id}-1`}
@@ -73,6 +80,7 @@ const DepartureCard = ({
         stop={stop}
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
+        onClick={onClick}
       />
     </li>
   );

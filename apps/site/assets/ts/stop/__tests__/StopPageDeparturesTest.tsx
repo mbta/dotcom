@@ -14,11 +14,17 @@ const baseRoute = (name: string, type: RouteType): Route =>
 const stop = {} as Stop;
 const routeData: Route[] = [baseRoute("4B", 3), baseRoute("Magenta", 1)];
 const scheduleData = [] as ScheduleWithTimestamp[];
+const mockClickAction = jest.fn();
 
 describe("StopPageDepartures", () => {
   it("renders with no data", () => {
     const { asFragment } = render(
-      <StopPageDepartures routes={[]} stop={stop} schedules={[]} />
+      <StopPageDepartures
+        routes={[]}
+        stop={stop}
+        schedules={[]}
+        onClick={mockClickAction}
+      />
     );
     expect(asFragment()).toMatchSnapshot();
     expect(screen.getByRole("list")).toBeEmptyDOMElement();
@@ -30,6 +36,7 @@ describe("StopPageDepartures", () => {
         routes={routeData}
         stop={stop}
         schedules={scheduleData}
+        onClick={mockClickAction}
       />
     );
     expect(asFragment()).toMatchSnapshot();

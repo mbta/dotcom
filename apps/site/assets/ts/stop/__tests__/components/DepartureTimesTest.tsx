@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import DepartureTimes, {
   getNextTwoTimes,
   infoToDisplayTime
@@ -14,6 +14,7 @@ import { PredictionWithTimestamp } from "../../../models/perdictions";
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;
 const destinationText = route.direction_destinations[0]!;
+const mockClickAction = jest.fn();
 
 describe("DepartureTimes", () => {
   describe("DepartureTimes component", () => {});
@@ -24,6 +25,7 @@ describe("DepartureTimes", () => {
         stop={stop}
         directionId={0}
         schedulesForDirection={[]}
+        onClick={mockClickAction}
       />
     );
     expect(screen.findByText(destinationText)).toBeDefined();
@@ -77,6 +79,7 @@ describe("DepartureTimes", () => {
         directionId={0}
         schedulesForDirection={schedules}
         overrideDate={dateToCompare}
+        onClick={mockClickAction}
       />
     );
     expect(screen.getByText("Test 1"));
@@ -396,5 +399,47 @@ describe("DepartureTimes", () => {
       expect(displayTime1.isPrediction).toBe(false);
       expect(displayTime2.displayString).toEqual("30 min");
     });
+  });
+
+  it("should display a default", () => {
+    const stop = {
+      id: "test-stop",
+      name: "Test Stop",
+      latitude: 42.3519,
+      longitude: 71.0552
+    } as Stop;
+
+    const schedules = [
+      {
+        trip: { id: "1" },
+        time: new Date("2022-04-27T11:15:00-04:00")
+      },
+      {
+        trip: { id: "2" },
+        time: new Date("2022-04-27T11:18:00-04:00")
+      },
+      {
+        trip: { id: "4" },
+        time: new Date("2022-04-27T11:40:00-04:00")
+      }
+    ] as ScheduleWithTimestamp[];
+
+    let departureTimes = render(
+      <DepartureTimes
+        route={route}
+        stop={stop}
+        directionId={0}
+        schedulesForDirection={schedules}
+        onClick={mockClickAction}
+      />
+    );
+
+    expect(
+      departureTimes.container.querySelector(".departure-row-click-test")
+    ).toBeDefined();
+    fireEvent.click(
+      departureTimes.baseElement.querySelector(".departure-row-click-test")!
+    );
+    expect(mockClickAction).toHaveBeenCalledTimes(1);
   });
 });
