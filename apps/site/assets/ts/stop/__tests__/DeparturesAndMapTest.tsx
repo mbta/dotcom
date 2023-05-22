@@ -52,6 +52,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         schedules={[]}
         routesWithPolylines={testRoutesWithPolylines}
+        alerts={[]}
       />
     );
 
@@ -68,6 +69,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         schedules={schedules}
         routesWithPolylines={testRoutesWithPolylines}
+        alerts={[]}
       />
     );
 
@@ -93,6 +95,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         schedules={schedules}
         routesWithPolylines={testRoutesWithPolylines}
+        alerts={[]}
       />
     );
 

@@ -181,23 +181,24 @@ const DepartureTimes = ({
   const schedules = schedulesByHeadsign(schedulesForDirection);
   return (
     <>
-      {Object.entries(schedules).map(([headsign, schs]) => {
+      {Object.entries(schedules).map(([headsign, schedules]) => {
         const predictions = predictionsByHeadsign[headsign] || [];
-        const formattedTimes = toDisplayTime(schs, predictions, overrideDate);
         return (
           <div
+            // TODO remove this class name in favor of test ids
             className="departure-row-click-test"
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, schs)}
-            onKeyDown={() => onClick(route, directionId, schs)}
+            onClick={() => onClick(route, directionId, schedules)}
+            onKeyDown={() => onClick(route, directionId, schedules)}
             role="presentation"
           >
             {getRow(
-          headsign,
-          schs,
-          predictions,
-          alertsForDirection,
-          overrideDate)}
+              headsign,
+              schedules,
+              predictions,
+              alertsForDirection,
+              overrideDate
+            )}
           </div>
         );
       })}

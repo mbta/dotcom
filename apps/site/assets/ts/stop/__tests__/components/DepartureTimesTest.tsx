@@ -122,6 +122,7 @@ describe("DepartureTimes", () => {
           directionId={0}
           schedulesForDirection={schedules}
           alertsForDirection={alerts}
+          onClick={() => {}}
         />
       );
       expect(screen.getByText(expectedBadge)).toBeDefined();
@@ -467,6 +468,7 @@ describe("DepartureTimes", () => {
         directionId={0}
         schedulesForDirection={schedules}
         onClick={mockClickAction}
+        alertsForDirection={[]}
       />
     );
 

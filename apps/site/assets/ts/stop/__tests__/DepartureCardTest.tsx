@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
-import * as DepartureTimes from "../components/DepartureTimes";
 import { Alert, RouteType, Stop } from "../../__v3api";
 import { baseRoute } from "./helpers";
 import { ScheduleWithTimestamp } from "../../models/schedules";
@@ -31,6 +30,7 @@ describe("DepartureCard", () => {
         route={baseRoute("749", 3)}
         stop={stop}
         schedulesForRoute={[]}
+        alertsForRoute={[]}
         onClick={() => {}}
       />
     );
@@ -128,6 +128,7 @@ describe("DepartureCard", () => {
         stop={stop}
         schedulesForRoute={schedules}
         alertsForRoute={alerts}
+        onClick={() => {}}
       />
     );
 
