@@ -42,7 +42,6 @@ export const routeWideAlerts = (alerts: Alert[]): Alert[] =>
     entities.some(entity => !entity.stop && !entity.trip)
   );
 
-// Can there be alerts that don't affect routes
 export const alertsByRoute = (alerts: Alert[]): { [key: string]: Alert[] } => {
   return reduce(
     alerts,
