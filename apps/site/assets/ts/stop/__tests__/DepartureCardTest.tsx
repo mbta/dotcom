@@ -20,6 +20,19 @@ describe("DepartureCard", () => {
     expect(within(listItem).getByText("Silver Line 749 Route")).toBeDefined();
   });
 
+  it("route card header links to schedule page for route", () => {
+    render(
+      <DepartureCard
+        route={baseRoute("749", 3)}
+        stop={stop}
+        schedulesForRoute={[]}
+      />
+    );
+    expect(
+      screen.getByRole("link", { name: "Silver Line 749 Route" })
+    ).toHaveAttribute("href", "/schedules/749");
+  });
+
   it("renders icons for modes", () => {
     const iconElements = [0, 1, 2, 3, 4]
       .map(type =>

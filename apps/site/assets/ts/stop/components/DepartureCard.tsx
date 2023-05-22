@@ -56,9 +56,12 @@ const DepartureCard = ({
 
   return (
     <li className="departure-card">
-      <div className={`departure-card__route ${routeBgClass(route)}`}>
+      <a
+        className={`departure-card__route ${routeBgClass(route)}`}
+        href={`/schedules/${route.id}`}
+      >
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
-      </div>
+      </a>
       {/* TODO can we avoid hard coding the direction ids? */}
       <DepartureTimes
         key={`${route.id}-0`}
