@@ -28,6 +28,7 @@ describe("DepartureCard", () => {
         route={baseRoute("749", 3)}
         stop={stop}
         schedulesForRoute={[]}
+        onClick={() => {}}
       />
     );
     expect(
