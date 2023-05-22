@@ -33,15 +33,15 @@ const getNextTwoTimes = (
 
 const toAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (isSuspension(alerts)) {
-    return <Badge text="Stop Closed" />;
+    return <Badge text="Stop Closed" contextText="Route Status" />;
   }
 
   if (isShuttleService(alerts)) {
-    return <Badge text="Shuttle Service" />;
+    return <Badge text="Shuttle Service" contextText="Route Status" />;
   }
 
   if (isDetour(alerts)) {
-    return <Badge text="Detour" />;
+    return <Badge text="Detour" contextText="Route Status" />;
   }
   return undefined;
 };
