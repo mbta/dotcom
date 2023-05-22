@@ -33,7 +33,7 @@ const getNextTwoTimes = (
 
 const toAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (isSuspension(alerts)) {
-    return <Badge text="Suspension" />;
+    return <Badge text="Stop Closed" />;
   }
 
   if (isShuttleService(alerts)) {
@@ -182,9 +182,7 @@ const DepartureTimes = ({
   return (
     <>
       {Object.entries(schedules).map(([headsign, schs]) => {
-        const predictions = predictionsByHeadsign[headsign]
-          ? predictionsByHeadsign[headsign]
-          : [];
+        const predictions = predictionsByHeadsign[headsign] || [];
         const formattedTimes = toDisplayTime(schs, predictions, overrideDate);
         return (
           <div

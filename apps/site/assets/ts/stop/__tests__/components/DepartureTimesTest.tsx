@@ -95,7 +95,7 @@ describe("DepartureTimes", () => {
 
   it.each`
     alertEffect     | expectedBadge
-    ${"suspension"} | ${"Suspension"}
+    ${"suspension"} | ${"Stop Closed"}
     ${"shuttle"}    | ${"Shuttle Service"}
     ${"detour"}     | ${"Detour"}
   `(
