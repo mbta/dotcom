@@ -217,4 +217,31 @@ describe("StopPageRedesign", () => {
     expect(screen.queryByText("The Walkway has spillage")).toBeNull();
     expect(screen.queryByText("Elevator is Malfunctioning")).toBeDefined();
   });
+
+  it("should not render past alerts", () => {
+    const now = new Date();
+    const past1 = add(now, { days: -1 });
+    const past2 = add(now, { days: -3 });
+
+    const alertsForStop: Alert[] = [
+      {
+        informed_entity: {
+          entities: [{ stop: "Test 1" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(past2), dateFormatter(past1)]],
+        lifecycle: "new",
+        id: "000001",
+        header: "Test Alert The Road Is Closed",
+        effect: "1"
+      }
+    ] as Alert[];
+
+    jest
+      .spyOn(useAlerts, "useAlertsByStop")
+      .mockImplementation(() => alertsForStop);
+
+    render(<StopPageRedesign stopId="Test 1" />);
+
+    expect(screen.queryByText("Road Is Closed")).toBeNull();
+  });
 });
