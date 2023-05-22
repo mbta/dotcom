@@ -51,8 +51,9 @@ exports[`StopPageDepartures renders with data 1`] = `
       <li
         class="departure-card"
       >
-        <div
+        <a
           class="departure-card__route u-bg--unknown"
+          href="/schedules/Magenta"
         >
           <span
             aria-hidden="true"
@@ -66,13 +67,14 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             Magenta Route
           </span>
-        </div>
+        </a>
       </li>
       <li
         class="departure-card"
       >
-        <div
+        <a
           class="departure-card__route u-bg--bus"
+          href="/schedules/4B"
         >
           <span
             aria-hidden="true"
@@ -86,7 +88,7 @@ exports[`StopPageDepartures renders with data 1`] = `
           >
             4B Route
           </span>
-        </div>
+        </a>
       </li>
     </ul>
   </div>
