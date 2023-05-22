@@ -79,7 +79,8 @@ $radius: 4px;
     margin-top: 1rem;
   }
 
-  .map {
+  .stop-map,
+  .stop_map--route-selected {
     height: 100%;
   }
 
@@ -195,32 +196,6 @@ $radius: 4px;
     display: block;
     height: 50%;
   }
-
-  .stop_map--route-selected {
-    height: 50%;
-
-    // style similarly to the Bootstrap tooltip
-    .leaflet-popup-content-wrapper,
-    .leaflet-popup-tip {
-      background-color: $tooltip-bg;
-      border: 0;
-      color: $tooltip-color;
-    }
-    .leaflet-popup-content {
-      max-width: $tooltip-width;
-      padding: calc(#{$base-spacing} / 4) $base-spacing * 1.5
-        calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
-
-      @include media-breakpoint-down(xs) {
-        max-width: 70vw;
-      }
-    }
-
-    .leaflet-popup-close-button {
-      right: calc(#{$base-spacing} / 4);
-      top: calc(#{$base-spacing} / 4);
-    }
-  }
 }
 
 .placeholder-departures {
@@ -238,6 +213,30 @@ $radius: 4px;
   display: block;
   @include media-breakpoint-up(sm) {
     display: none;
+  }
+}
+
+.stop_map--route-selected {
+  // style similarly to the Bootstrap tooltip
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background-color: $tooltip-bg;
+    border: 0;
+    color: $tooltip-color;
+  }
+  .leaflet-popup-content {
+    max-width: $tooltip-width;
+    padding: calc(#{$base-spacing} / 4) $base-spacing * 1.5
+      calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
+
+    @include media-breakpoint-down(xs) {
+      max-width: 70vw;
+    }
+  }
+
+  .leaflet-popup-close-button {
+    right: calc(#{$base-spacing} / 4);
+    top: calc(#{$base-spacing} / 4);
   }
 }
 

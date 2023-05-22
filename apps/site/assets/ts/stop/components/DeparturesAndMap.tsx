@@ -3,7 +3,7 @@ import { chain } from "lodash";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
-import StopMapRedesign, { StopMapForRoute } from "./StopMapRedesign";
+import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
@@ -12,6 +12,8 @@ import {
   isSubwayRoute,
   isACommuterRailRoute,
 } from "../../models/route";
+import useVehiclesChannel from "../../hooks/useVehiclesChannel";
+import { Polyline } from "../../leaflet/components/__mapdata";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -65,6 +67,50 @@ const DeparturesAndMap = ({
       return true;
     }
     return false;
+  };
+
+  const MapForSelection = () => {
+    const vehiclesForSelectedRoute = useVehiclesChannel(
+      departureInfo.departureRoute && departureInfo.departureDirectionId != null
+        ? {
+            routeId: departureInfo.departureRoute.id,
+            directionId: departureInfo.departureDirectionId,
+          }
+        : null
+    );
+    let lines: Polyline[] = [];
+    if (viewAllRoutes()) {
+      lines = defaultPolylines;
+    } else {
+      const selectedRoute:
+        | RouteWithPolylines
+        | undefined = departureInfo.departureRoute
+        ? routesWithPolylines.find(
+            (route) => route.id === departureInfo.departureRoute!.id
+          )
+        : undefined;
+      const shapeIdForSelection: string | undefined =
+        ((departureInfo.departureSchedules || []).length > 0 &&
+          departureInfo.departureSchedules![0].trip.shape_id) ||
+        undefined;
+
+      const selectedLine =
+        selectedRoute && shapeIdForSelection
+          ? selectedRoute.polylines.find(
+              (line) => line.id === shapeIdForSelection
+            )
+          : undefined;
+
+      lines = selectedLine ? [selectedLine] : [];
+    }
+
+    return (
+      <StopMapRedesign
+        stop={stop}
+        lines={lines}
+        vehicles={vehiclesForSelectedRoute}
+      />
+    );
   };
 
   const defaultPolylines = chain(routesWithPolylines)
@@ -132,8 +178,7 @@ const DeparturesAndMap = ({
         </div>
       )}
       <div>
-        <StopMapRedesign stop={stop} lines={defaultPolylines} />
-        <StopMapForRoute stop={stop} line={null} />
+        <MapForSelection />
       </div>
     </div>
   );
