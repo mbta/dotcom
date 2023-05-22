@@ -1,11 +1,32 @@
 import { Channel, Socket } from "phoenix";
-import setupChannels, { joinChannel } from "../channels";
+import setupChannels, { isVehicleChannel, joinChannel } from "../channels";
+import {
+  makeMockSocket,
+  makeMockChannel
+} from "../../helpers/socketTestHelpers";
 
 const mockOnLoadEventListener = () => {
   // because the turbolinks:load event doesn't fire outside the browser, run in manually here
   const ev = new CustomEvent("turbolinks:load");
   document.dispatchEvent(ev);
 };
+
+describe("isVehicleChannel", () => {
+  test("true for vehicle marker channel topic", () => {
+    expect(isVehicleChannel("vehicles:39:1")).toBe(true);
+  });
+  test("true for vehicles channel topic", () => {
+    expect(isVehicleChannel("vehicles-v2:39:1")).toBe(true);
+  });
+  test("false for remove vehicles topic", () => {
+    expect(isVehicleChannel("vehicles:remove")).toBe(false);
+
+    expect(isVehicleChannel("vehicles-v2:remove")).toBe(false);
+  });
+  test("false for other topics", () => {
+    expect(isVehicleChannel("predictions:39:1:0")).toBe(false);
+  });
+});
 
 describe("setupChannels", () => {
   beforeAll(() => {
@@ -102,5 +123,19 @@ describe("joinChannel", () => {
     // @ts-ignore
     window.channels[channelName].joinPush.trigger("ok", { some: "data" });
     expect(mockHandleJoin).toHaveBeenCalledWith({ some: "data" });
+  });
+
+  it("joins remove channel for vehicles channel", () => {
+    const mockSocket = makeMockSocket();
+    const mockChannel = makeMockChannel("ok");
+    mockSocket.channel.mockImplementation(() => mockChannel);
+
+    // mock setup global variables on page load
+    window.socket = mockSocket;
+    window.channels = {};
+
+    expect(window.channels["vehicles:remove"]).toBeUndefined();
+    joinChannel("vehicles:routeId:directionId");
+    expect(window.channels["vehicles:remove"]).toBeDefined();
   });
 });
