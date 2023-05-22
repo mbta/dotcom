@@ -78,7 +78,9 @@ describe("DeparturesAndMap", () => {
     expect(
       departuresAndMapContainer.querySelector("departures-container")
     ).toBeNull();
-    fireEvent.click(departuresAndMapContainer.querySelector(".test")!);
+    fireEvent.click(
+      departuresAndMapContainer.querySelector(".departure-row-click-test")!
+    );
     expect(
       departuresAndMapContainer.querySelector("departures-container")
     ).toBeDefined();
@@ -95,7 +97,9 @@ describe("DeparturesAndMap", () => {
     );
 
     const departuresAndMapContainer = departuresAndMap.container;
-    fireEvent.click(departuresAndMapContainer.querySelector(".test")!);
+    fireEvent.click(
+      departuresAndMapContainer.querySelector(".departure-row-click-test")!
+    );
     expect(
       departuresAndMapContainer.querySelector("departures-container")
     ).toBeDefined();
