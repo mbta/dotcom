@@ -44,7 +44,7 @@ const predictionsFromStream = [
 ];
 
 describe("usePredictionsChannel hook", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     const mockSocket = makeMockSocket();
     const mockChannel = makeMockChannel("ok");
     mockSocket.channel.mockImplementationOnce(() => mockChannel);

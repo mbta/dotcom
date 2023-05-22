@@ -52,12 +52,6 @@ const DeparturesAndMap = ({
     });
   };
 
-  const polylines = chain(routesWithPolylines)
-    .orderBy("sort_order", "desc")
-    .flatMap("polylines")
-    .uniqBy("id")
-    .value();
-
   const viewAllRoutes: () => boolean = () => {
     if (
       !departureInfo.departureRoute &&
@@ -69,7 +63,19 @@ const DeparturesAndMap = ({
     return false;
   };
 
-  const MapForSelection = () => {
+  const defaultPolylines = chain(routesWithPolylines)
+    .filter(
+      (route) =>
+        isASilverLineRoute(route) ||
+        isSubwayRoute(route) ||
+        isACommuterRailRoute(route)
+    )
+    .orderBy("sort_order", "desc")
+    .flatMap("polylines")
+    .uniqBy("id")
+    .value();
+
+  const MapForSelection = (): JSX.Element => {
     const vehiclesForSelectedRoute = useVehiclesChannel(
       departureInfo.departureRoute && departureInfo.departureDirectionId != null
         ? {
@@ -112,18 +118,6 @@ const DeparturesAndMap = ({
       />
     );
   };
-
-  const defaultPolylines = chain(routesWithPolylines)
-    .filter(
-      (route) =>
-        isASilverLineRoute(route) ||
-        isSubwayRoute(route) ||
-        isACommuterRailRoute(route)
-    )
-    .orderBy("sort_order", "desc")
-    .flatMap("polylines")
-    .uniqBy("id")
-    .value();
 
   return (
     <div className="stop-routes-and-map">
