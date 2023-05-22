@@ -434,8 +434,12 @@ describe("DepartureTimes", () => {
       />
     );
 
-    expect(departureTimes.container.querySelector(".test")).toBeDefined();
-    fireEvent.click(departureTimes.baseElement.querySelector(".test")!);
+    expect(
+      departureTimes.container.querySelector(".departure-row-click-test")
+    ).toBeDefined();
+    fireEvent.click(
+      departureTimes.baseElement.querySelector(".departure-row-click-test")!
+    );
     expect(mockClickAction).toHaveBeenCalledTimes(1);
   });
 });

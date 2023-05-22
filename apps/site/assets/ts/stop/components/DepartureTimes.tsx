@@ -306,7 +306,7 @@ const DepartureTimes = ({
         const formattedTimes = toDisplayTime(schs, preds, overrideDate);
         return (
           <div
-            className="test"
+            className="departure-row-click-test"
             key={`${headsign}-${route.id}`}
             onClick={() => onClick(route, directionId, schs)}
             onKeyDown={() => onClick(route, directionId, schs)}
