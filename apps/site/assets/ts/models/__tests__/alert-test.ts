@@ -9,7 +9,8 @@ import {
   isActiveDiversion,
   hasAnActiveDiversion,
   alertsByRoute,
-  alertsByDirectionId
+  alertsByDirectionId,
+  alertsAffectingBothDirections
 } from "../alert";
 
 const zeroPadded = (num: number): string => `${num}`.padStart(2, "0");
@@ -275,7 +276,7 @@ describe("alertsByRoute", () => {
 });
 
 describe("alertsByDirectionId", () => {
-  test("it should group alerts by directionId", () => {
+  test("it should group alerts by directionId, filtering out both directions", () => {
     const alerts = [
       {
         id: "1234",
@@ -300,5 +301,47 @@ describe("alertsByDirectionId", () => {
     expect(Object.keys(result).length).toBe(2);
     expect(result[1].length).toBe(1);
     expect(result[0].length).toBe(1);
+  });
+});
+
+describe("alertsAffectingBothDirections", () => {
+  test("should return only the alerts that affect both directions", () => {
+    const alerts = [
+      {
+        id: "1234",
+        informed_entity: {
+          direction_id: [0]
+        }
+      },
+      {
+        id: "3333",
+        informed_entity: {
+          direction_id: [null]
+        }
+      },
+      {
+        id: "0987",
+        informed_entity: {
+          direction_id: [1]
+        }
+      },
+      {
+        id: "4444",
+        informed_entity: {
+          direction_id: []
+        }
+      },
+      {
+        id: "5555",
+        informed_entity: {
+          direction_id: null
+        }
+      }
+    ] as Alert[];
+    const result = alertsAffectingBothDirections(alerts);
+    expect(result.length).toBe(3);
+    expect(result[0].id).toBe("3333");
+    expect(result[1].id).toBe("4444");
+    expect(result[2].id).toBe("5555");
   });
 });
