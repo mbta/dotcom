@@ -94,9 +94,8 @@ const DeparturesAndMap = ({
               {`Back to all ${stop.name} routes`}
             </div>
           </div>
-          <div className="placeholder-map">imagine a nap</div>
+          <div className="placeholder-map">imagine a map</div>
           <div className="placeholder-departures">
-            {`Route ${departureInfo.departureRoute?.id}`}
             {departureInfo.departureDirectionId != null &&
             departureInfo.departureSchedules &&
             departureInfo.departureRoute ? (
