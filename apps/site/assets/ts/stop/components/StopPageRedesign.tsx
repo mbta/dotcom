@@ -6,7 +6,7 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
-import { Alert, Route } from "../../__v3api";
+import { Route } from "../../__v3api";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
@@ -19,7 +19,6 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const [routeIdState, setRouteIdState] = useState<string[]>([]);
   const [routeState, setRouteState] = useState<Route[]>([]);
-  const [alertState, setAlertState] = useState<Alert[]>([]);
 
   const stop = useStop(stopId);
   const routesWithPolylines = useRoutesByStop(stopId);
@@ -30,41 +29,30 @@ const StopPageRedesign = ({
   //
 
   useEffect(() => {
-    setRouteState(
-      routesWithPolylines
-        ? routesWithPolylines.map(rwp => omit(rwp, "polylines"))
-        : []
-    );
+    const routes = routesWithPolylines
+      ? routesWithPolylines.map(rwp => omit(rwp, "polylines"))
+      : [];
+    setRouteState(routes);
   }, [routesWithPolylines]);
 
   useEffect(() => {
     setRouteIdState(routeState.map(route => route.id));
   }, [routeState]);
 
-  useEffect(() => {
-    // alerts contains all the alerts affecting the stop in question
-    const alertsArray = alerts !== undefined ? alerts : [];
-    const alertsRouteArray =
-      alertsForRoutes !== undefined ? alertsForRoutes : [];
-    // routeWideAlertsArray are all the alerts that affect the whole route
-    // not just specific stops
-    const routeWideAlertsArray = routeWideAlerts(alertsRouteArray);
-    // Get only alerts that are current
-    const currentAlerts = filter(
-      alertsArray.concat(routeWideAlertsArray),
-      alert => isCurrentAlert(alert)
-    );
-    setAlertState(currentAlerts);
-  }, [alerts, alertsForRoutes]);
+  // alerts contains all the alerts affecting the stop in question
+  const alertsArray = alerts !== undefined ? alerts : [];
+  const alertsRouteArray = alertsForRoutes !== undefined ? alertsForRoutes : [];
+  // routeWideAlertsArray are all the alerts that affect the whole route
+  // not just specific stops
+  const routeWideAlertsArray = routeWideAlerts(alertsRouteArray);
+  // Get only alerts that are current
+  const currentAlerts = filter(
+    alertsArray.concat(routeWideAlertsArray),
+    alert => isCurrentAlert(alert)
+  );
 
   // Return loading indicator while waiting on data fetch
-  if (
-    !stop ||
-    !routesWithPolylines ||
-    !schedules ||
-    !alerts ||
-    !alertsForRoutes
-  ) {
+  if (!stop || !routesWithPolylines || !schedules) {
     return <Loading />;
   }
 
@@ -72,13 +60,13 @@ const StopPageRedesign = ({
     <article>
       <StopPageHeaderRedesign stop={stop} routes={routeState} />
       <div className="container">
-        <Alerts alerts={alertState} />
+        <Alerts alerts={currentAlerts} />
         <DeparturesAndMap
           routes={routeState}
           stop={stop}
           schedules={schedules}
           routesWithPolylines={routesWithPolylines}
-          alerts={alertState}
+          alerts={currentAlerts}
         />
         <footer>
           <StationInformation stop={stop} />
