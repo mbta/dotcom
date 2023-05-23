@@ -1,5 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import DepartureTimes, {
   getNextTwoTimes,
   infoToDisplayTime
@@ -438,7 +439,11 @@ describe("DepartureTimes", () => {
     });
   });
 
-  it("should display a default", () => {
+  it("should allow the clicking of rows", async () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {};
+    });
+    const compareTime = new Date("2022-04-24T11:15:00-04:00");
     const stop = {
       id: "test-stop",
       name: "Test Stop",
@@ -448,20 +453,21 @@ describe("DepartureTimes", () => {
 
     const schedules = [
       {
-        trip: { id: "1" },
+        trip: { id: "1", headsign: "Test 1" },
         time: new Date("2022-04-27T11:15:00-04:00")
       },
       {
-        trip: { id: "2" },
+        trip: { id: "2", headsign: "Test 1" },
         time: new Date("2022-04-27T11:18:00-04:00")
       },
       {
-        trip: { id: "4" },
+        trip: { id: "4", headsign: "Test 2" },
         time: new Date("2022-04-27T11:40:00-04:00")
       }
     ] as ScheduleWithTimestamp[];
 
-    let departureTimes = render(
+    const user = userEvent.setup();
+    render(
       <DepartureTimes
         route={route}
         stop={stop}
@@ -469,15 +475,14 @@ describe("DepartureTimes", () => {
         schedulesForDirection={schedules}
         onClick={mockClickAction}
         alertsForDirection={[]}
+        overrideDate={compareTime}
       />
     );
 
-    expect(
-      departureTimes.container.querySelector(".departure-row-click-test")
-    ).toBeDefined();
-    fireEvent.click(
-      departureTimes.baseElement.querySelector(".departure-row-click-test")!
-    );
+    const row = screen.getByText("Test 1");
+    expect(row).toBeDefined();
+
+    await user.click(row);
     expect(mockClickAction).toHaveBeenCalledTimes(1);
   });
 });
