@@ -1,4 +1,5 @@
 import { isValid, parseISO } from "date-fns";
+import { isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
 import { Alert, TimePeriodPairs } from "../__v3api";
 
@@ -18,6 +19,92 @@ export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
     ({ informed_entity: entities }: Alert): boolean =>
       !!entities.stop && entities.stop!.some((id: StopId) => id === stopId)
   );
+
+const hasEffect = (alerts: Alert[], effect: string): boolean =>
+  some(alerts, alert => alert.effect === effect);
+
+export const hasSuspension = (alerts: Alert[]): boolean =>
+  hasEffect(alerts, "suspension");
+
+export const hasShuttleService = (alerts: Alert[]): boolean =>
+  hasEffect(alerts, "shuttle");
+
+export const hasDetour = (alerts: Alert[]): boolean =>
+  hasEffect(alerts, "detour");
+
+export const alertsWithStop = (alerts: Alert[]): Alert[] =>
+  alerts.filter(
+    ({ informed_entity: entites }: Alert): boolean => !!entites.stop
+  );
+
+export const routeWideAlerts = (alerts: Alert[]): Alert[] =>
+  alerts.filter(({ informed_entity: { entities } }: Alert): boolean =>
+    entities.some(entity => !entity.stop && !entity.trip)
+  );
+
+export const alertsByRoute = (alerts: Alert[]): { [key: string]: Alert[] } => {
+  return reduce(
+    alerts,
+    (acc, alert) => {
+      // create a map of every route id to the alert
+      const explodedAlerts = reduce(
+        alert.informed_entity.route,
+        (innerAcc, routeId) => {
+          return { ...innerAcc, [routeId]: [alert] };
+        },
+        {}
+      );
+
+      return mergeWith(acc, explodedAlerts, (objValue, srcValue) => {
+        if (isArray(objValue)) {
+          return objValue.concat(srcValue);
+        }
+        return srcValue;
+      });
+    },
+    {}
+  );
+};
+
+// This will only return alerts with direction id specified (aka affecting a single direction)
+export const alertsByDirectionId = (
+  alerts: Alert[]
+): { [key: number]: Alert[] } => {
+  return reduce(
+    alerts,
+    (acc, alert) => {
+      const explodedAlerts = reduce(
+        alert.informed_entity.direction_id,
+        (innerAcc, directionId) => {
+          // only include specified directions
+          if (directionId !== null) {
+            return { ...innerAcc, [directionId]: [alert] };
+          }
+          return innerAcc;
+        },
+        {}
+      );
+
+      return mergeWith(acc, explodedAlerts, (objValue, srcValue) => {
+        if (isArray(objValue)) {
+          return objValue.concat(srcValue);
+        }
+        return srcValue;
+      });
+    },
+    {}
+  );
+};
+
+export const alertsAffectingBothDirections = (alerts: Alert[]): Alert[] => {
+  return alerts.filter(alert => {
+    return (
+      alert.informed_entity.direction_id === null ||
+      alert.informed_entity.direction_id.length === 0 ||
+      alert.informed_entity.direction_id[0] === null
+    );
+  });
+};
 
 export const uniqueByEffect = (
   alert: Alert,

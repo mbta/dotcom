@@ -5,7 +5,7 @@ import DepartureTimes, {
   infoToDisplayTime
 } from "../../components/DepartureTimes";
 import { baseRoute } from "../helpers";
-import { Stop } from "../../../__v3api";
+import { Alert, Stop } from "../../../__v3api";
 import { DepartureInfo } from "../../../models/departureInfo";
 import * as predictionsChannel from "../../../hooks/usePredictionsChannel";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
@@ -17,7 +17,6 @@ const destinationText = route.direction_destinations[0]!;
 const mockClickAction = jest.fn();
 
 describe("DepartureTimes", () => {
-  describe("DepartureTimes component", () => {});
   it("should display a default", () => {
     render(
       <DepartureTimes
@@ -26,6 +25,7 @@ describe("DepartureTimes", () => {
         directionId={0}
         schedulesForDirection={[]}
         onClick={mockClickAction}
+        alertsForDirection={[]}
       />
     );
     expect(screen.findByText(destinationText)).toBeDefined();
@@ -80,6 +80,7 @@ describe("DepartureTimes", () => {
         schedulesForDirection={schedules}
         overrideDate={dateToCompare}
         onClick={mockClickAction}
+        alertsForDirection={[]}
       />
     );
     expect(screen.getByText("Test 1"));
@@ -91,6 +92,42 @@ describe("DepartureTimes", () => {
     // expect(screen.getByText("Test 3"))
     // expect(screen.getByText("11:45 AM"))
   });
+
+  it.each`
+    alertEffect     | expectedBadge
+    ${"suspension"} | ${"Stop Closed"}
+    ${"shuttle"}    | ${"Shuttle Service"}
+    ${"detour"}     | ${"Detour"}
+  `(
+    `displays $expectedBadge when alert has effect $alertEffect`,
+    ({ alertEffect, expectedBadge }) => {
+      const schedules = [
+        { trip: { direction_id: 0 } }
+      ] as ScheduleWithTimestamp[];
+
+      const alerts = [
+        {
+          id: "1234",
+          informed_entity: {
+            direction_id: [0]
+          },
+          effect: alertEffect
+        }
+      ] as Alert[];
+
+      render(
+        <DepartureTimes
+          route={route}
+          stop={stop}
+          directionId={0}
+          schedulesForDirection={schedules}
+          alertsForDirection={alerts}
+          onClick={() => {}}
+        />
+      );
+      expect(screen.getByText(expectedBadge)).toBeDefined();
+    }
+  );
 
   describe("getNextTwoTimes", () => {
     it("should return the next 2 departure infos times", () => {
@@ -431,6 +468,7 @@ describe("DepartureTimes", () => {
         directionId={0}
         schedulesForDirection={schedules}
         onClick={mockClickAction}
+        alertsForDirection={[]}
       />
     );
 

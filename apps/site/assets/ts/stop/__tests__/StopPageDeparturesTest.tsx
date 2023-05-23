@@ -24,6 +24,7 @@ describe("StopPageDepartures", () => {
         stop={stop}
         schedules={[]}
         onClick={mockClickAction}
+        alerts={[]}
       />
     );
     expect(asFragment()).toMatchSnapshot();
@@ -37,6 +38,7 @@ describe("StopPageDepartures", () => {
         stop={stop}
         schedules={scheduleData}
         onClick={mockClickAction}
+        alerts={[]}
       />
     );
     expect(asFragment()).toMatchSnapshot();
@@ -46,5 +48,20 @@ describe("StopPageDepartures", () => {
         screen.getByRole("button", { name: new RegExp(name) })
       ).toBeDefined();
     });
+  });
+
+  it("doesn't show the filters if there is 1 mode present", () => {
+    render(
+      <StopPageDepartures
+        routes={[routeData[0]]}
+        stop={stop}
+        schedules={scheduleData}
+        onClick={() => {}}
+        alerts={[]}
+      />
+    );
+    expect(
+      screen.queryByRole("button", { name: new RegExp("All") })
+    ).toBeNull();
   });
 });

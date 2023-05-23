@@ -125,6 +125,10 @@
   padding: calc(#{$base-spacing} / 2);
 }
 
+.u-error-background {
+  background-color: $form-error-message;
+}
+
 .u-full-bleed {
   // Disable upper margin collapse since we want the bg color here.
   @include margin-clearance;

@@ -36,7 +36,7 @@ interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
 }
 
-interface PredictionsByHeadsign {
+export interface PredictionsByHeadsign {
   [headsign: string]: PredictionWithTimestamp[];
 }
 
