@@ -10,7 +10,7 @@ import renderFa from "../../helpers/render-fa";
 import {
   isASilverLineRoute,
   isSubwayRoute,
-  isACommuterRailRoute,
+  isACommuterRailRoute
 } from "../../models/route";
 import useVehiclesChannel from "../../hooks/useVehiclesChannel";
 
@@ -27,7 +27,7 @@ const DeparturesAndMap = ({
   stop,
   schedules,
   routesWithPolylines,
-  alerts,
+  alerts
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
@@ -36,7 +36,7 @@ const DeparturesAndMap = ({
   }>({
     departureRoute: null,
     departureDirectionId: null,
-    departureSchedules: null,
+    departureSchedules: null
   });
 
   const setDepartureVariables: (
@@ -47,7 +47,7 @@ const DeparturesAndMap = ({
     setDepartureInfo({
       departureRoute: route,
       departureDirectionId: directionId,
-      departureSchedules: allDepartures,
+      departureSchedules: allDepartures
     });
   };
 
@@ -64,7 +64,7 @@ const DeparturesAndMap = ({
 
   const defaultPolylines = chain(routesWithPolylines)
     .filter(
-      (route) =>
+      route =>
         isASilverLineRoute(route) ||
         isSubwayRoute(route) ||
         isACommuterRailRoute(route)
@@ -85,7 +85,7 @@ const DeparturesAndMap = ({
       departureInfo.departureRoute && departureInfo.departureDirectionId != null
         ? {
             routeId: departureInfo.departureRoute.id,
-            directionId: departureInfo.departureDirectionId,
+            directionId: departureInfo.departureDirectionId
           }
         : null
     );
@@ -94,7 +94,7 @@ const DeparturesAndMap = ({
       | RouteWithPolylines
       | undefined = departureInfo.departureRoute
       ? routesWithPolylines.find(
-          (route) => route.id === departureInfo.departureRoute!.id
+          route => route.id === departureInfo.departureRoute!.id
         )
       : undefined;
     const shapeIdForSelection: string | undefined =
@@ -104,9 +104,7 @@ const DeparturesAndMap = ({
 
     const selectedLine =
       selectedRoute && shapeIdForSelection
-        ? selectedRoute.polylines.find(
-            (line) => line.id === shapeIdForSelection
-          )
+        ? selectedRoute.polylines.find(line => line.id === shapeIdForSelection)
         : undefined;
 
     return (
@@ -141,14 +139,14 @@ const DeparturesAndMap = ({
                 setDepartureInfo({
                   departureRoute: null,
                   departureDirectionId: null,
-                  departureSchedules: null,
+                  departureSchedules: null
                 })
               }
               onKeyDown={() =>
                 setDepartureInfo({
                   departureRoute: null,
                   departureDirectionId: null,
-                  departureSchedules: null,
+                  departureSchedules: null
                 })
               }
               aria-label={`Back to all ${stop.name} routes`}
@@ -158,10 +156,11 @@ const DeparturesAndMap = ({
               {`Back to all ${stop.name} routes`}
             </div>
           </div>
-          <div className="placeholder-map">
+          <div className="stop-routes__map stop-routes__map--selected-route">
             <SelectedRoutePatternMap />
           </div>
-          <div className="placeholder-departures">
+          <div className="stop-routes__departures stop-routes__departures--selected-route">
+            {`Route ${departureInfo.departureRoute?.id}`}
             {departureInfo.departureDirectionId != null &&
             departureInfo.departureSchedules &&
             departureInfo.departureRoute ? (

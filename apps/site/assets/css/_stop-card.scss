@@ -195,16 +195,7 @@ $radius: 4px;
   }
 }
 
-.placeholder-map {
-  height: 100%;
-  @include media-breakpoint-down(sm) {
-    background-color: $crowding-some-crowding-bg;
-    display: block;
-    height: 50%;
-  }
-}
-
-.placeholder-departures {
+.stop-routes__departures--selected-route {
   background-color: $white;
   height: 19.2rem;
   margin: 0.5rem;
@@ -260,12 +251,12 @@ $radius: 4px;
     grid-area: back-button;
   }
 
-  .placeholder-map {
+  .stop-routes__map.stop-routes__map--selected-route {
     grid-area: map;
     height: 100%;
   }
 
-  .placeholder-departures {
+  .stop-routes__departures--selected-route {
     grid-area: departures;
   }
 
