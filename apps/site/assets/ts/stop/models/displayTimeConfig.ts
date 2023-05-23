@@ -11,6 +11,7 @@ import {
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
+import { ScheduleWithTimestamp } from "../../models/schedules";
 
 // This interface is used to tell the front end
 // how to display the ScheduleInfoModel data
@@ -21,6 +22,7 @@ interface DisplayTimeConfig {
   isTomorrow?: boolean;
   isBolded?: boolean;
   isStikethrough?: boolean;
+  key: string;
 }
 
 const infoToDisplayTime = (
@@ -28,7 +30,9 @@ const infoToDisplayTime = (
   time2: DepartureInfo | undefined,
   targetDate: Date = new Date()
 ): DisplayTimeConfig[] => {
-  const defaultState = [{ displayString: "Updates unavailable" }];
+  const defaultState = [
+    { displayString: "Updates unavailable", key: "unavail" }
+  ];
   // If there is not input time1 then a schedule or prediction could not be found
   if (!time1) {
     return defaultState;
@@ -46,12 +50,15 @@ const infoToDisplayTime = (
         displayString: `${formatToBostonTime(predictionTime, formatOverride)}`,
         isBolded: true,
         // only predictions can be delayed
-        isPrediction: true
+        isPrediction: true,
+        // keys only need to be unique in the list
+        key: "time1"
       },
       {
         displayString: `${formatToBostonTime(scheduleTime, formatOverride)}`,
         isStikethrough: true,
-        trackName: time1.prediction!.track
+        trackName: time1.prediction!.track,
+        key: `time1-delayed`
       }
     ];
   }
@@ -66,12 +73,14 @@ const infoToDisplayTime = (
       {
         displayString: `${formatToBostonTime(departure2Time, formatOverride)}`,
         isBolded: true,
-        isPrediction: displayInfoContainsPrediction(time2)
+        isPrediction: displayInfoContainsPrediction(time2),
+        key: "time2"
       },
       {
         displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
         isStikethrough: true,
-        trackName: time2.prediction?.track
+        trackName: time2.prediction?.track,
+        key: "time1"
       }
     ];
   }
@@ -87,7 +96,8 @@ const infoToDisplayTime = (
       {
         displayString: "Arriving",
         isPrediction: displayInfoContainsPrediction(time1),
-        isBolded: true
+        isBolded: true,
+        key: "time1"
       }
     ];
   }
@@ -103,9 +113,13 @@ const infoToDisplayTime = (
       {
         displayString: `${Math.floor(diffInSeconds1 / secondsInMinute)} min`,
         isPrediction: displayInfoContainsPrediction(time1),
-        isBolded: true
+        isBolded: true,
+        key: "time1"
       },
-      { displayString: `${Math.floor(diffInSeconds2 / secondsInMinute)} min` }
+      {
+        displayString: `${Math.floor(diffInSeconds2 / secondsInMinute)} min`,
+        key: "time2"
+      }
     ];
   }
 
@@ -119,7 +133,8 @@ const infoToDisplayTime = (
       {
         displayString: `${Math.floor(diffInSeconds1 / secondsInMinute)} min`,
         isBolded: true,
-        isPrediction: displayInfoContainsPrediction(time1)
+        isPrediction: displayInfoContainsPrediction(time1),
+        key: "time1"
       }
     ];
   }
@@ -136,14 +151,15 @@ const infoToDisplayTime = (
         isTomorrow: !isSameDay(departure1Time, targetDate),
         isPrediction: displayInfoContainsPrediction(time1),
         isBolded: true,
-        trackName: time1.prediction?.track
+        trackName: time1.prediction?.track,
+        key: "time1"
       }
     ];
   }
 
   if (diffInSeconds1 >= secondsInDay) {
     // State 11
-    return [{ displayString: "No upcoming trips" }];
+    return [{ displayString: "No upcoming trips", key: "notrip" }];
   }
 
   // Default state is error

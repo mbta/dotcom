@@ -77,7 +77,7 @@ const displayFormattedTimes = (
       {formattedTimes.map((time, index) => {
         const classes = departureTimeClasses(time, index);
         return (
-          <div className="d-flex" key={`${time.displayString}-departure-times`}>
+          <div className="d-flex" key={`${time.key}-departure-times`}>
             {time.isPrediction && (
               <div className="me-4">
                 {SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
