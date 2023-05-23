@@ -93,7 +93,9 @@ describe("DepartureList", () => {
         directionId={0}
       />
     );
-    expect(screen.getByRole("link")).toHaveAttribute(
+    expect(
+      screen.getByRole("link", { name: "Open full schedule" })
+    ).toHaveAttribute(
       "href",
       "../schedules/TestRoute/line?schedule_direction[direction_id]=0&schedule_direction[variant]=Blue-6-1"
     );
