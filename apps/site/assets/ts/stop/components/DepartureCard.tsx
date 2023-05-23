@@ -1,13 +1,8 @@
 import React, { ReactElement } from "react";
 import { concat, groupBy } from "lodash";
-import { routeBgClass, busClass } from "../../helpers/css";
-import { breakTextAtSlash } from "../../helpers/text";
-import { isASilverLineRoute } from "../../models/route";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
-import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
-import Bussvg from "../../../static/images/icon-bus-default.svg";
-import SubwaySvg from "../../../static/images/icon-subway-default.svg";
-import FerrySvg from "../../../static/images/icon-ferry-default.svg";
+import { routeName, routeToModeIcon } from "../../helpers/route-headers";
+import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
@@ -17,25 +12,6 @@ import {
 } from "../../models/alert";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const routeToModeIcon = (route: Route): any => {
-  switch (route.type) {
-    case 0:
-    case 1:
-      return SubwaySvg;
-
-    case 2:
-      return CRsvg;
-
-    case 3:
-      return Bussvg;
-
-    case 4:
-      return FerrySvg;
-
-    default:
-      return null;
-  }
-};
 
 const DepartureCard = ({
   route,
@@ -54,13 +30,6 @@ const DepartureCard = ({
   ) => void;
   alertsForRoute: Alert[];
 }): ReactElement<HTMLElement> => {
-  const routeName = (
-    <span className={busClass(route)}>
-      {isASilverLineRoute(route.id)
-        ? `Silver Line ${route.name}`
-        : breakTextAtSlash(route.name)}
-    </span>
-  );
   const schedulesByDirection = groupBy(
     schedulesForRoute,
     (sch: ScheduleWithTimestamp) => sch.trip.direction_id
@@ -84,7 +53,8 @@ const DepartureCard = ({
         className={`departure-card__route ${routeBgClass(route)}`}
         href={`/schedules/${route.id}`}
       >
-        {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
+        {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+        {routeName(route)}
       </a>
       {/* TODO can we avoid hard coding the direction ids? */}
       <DepartureTimes

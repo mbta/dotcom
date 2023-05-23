@@ -198,8 +198,8 @@ $radius: 4px;
 }
 
 .placeholder-departures {
-  background-color: $crowding-crowded-bg;
-  height: 20.188rem;
+  background-color: $white;
+  height: 19.2rem;
   margin: .5rem;
   overflow-y: scroll;
   @include media-breakpoint-down(sm) {
@@ -217,16 +217,17 @@ $radius: 4px;
 
 .departures-container {
   background-color: $white;
+  margin: .5rem;
   @include media-breakpoint-down(sm) {
     box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
     height: 100vh;
-    left: 0;
+    left: -.5rem;
     max-height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
     padding: 0;
     position: fixed;
-    top: 0;
+    top: -.5rem;
     width: 100%;
   }
 }
@@ -249,5 +250,19 @@ $radius: 4px;
       font-weight: 900;
       padding-right: .5rem;
     }
+  }
+}
+
+.open-schedule {
+  float: right;
+  text-decoration: underline;
+}
+
+.departure-list-header {
+  border: none;
+  height: 2rem;
+  padding: 0;
+  .departure-card__route {
+    justify-content: space-between;
   }
 }

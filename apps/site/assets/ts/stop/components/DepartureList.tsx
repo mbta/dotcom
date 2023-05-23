@@ -4,6 +4,9 @@ import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { routeBgClass } from "../../helpers/css";
+import { routeName, routeToModeIcon } from "../../helpers/route-headers";
+import renderSvg from "../../helpers/render-svg";
 
 interface DepartureListProps {
   route: Route;
@@ -25,9 +28,26 @@ const DepartureList = ({
   );
 
   let departures: DepartureInfo[] = [];
+
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
+      {schedules.length && (
+        <div className="stop-departures departure-list-header">
+          <div className={`departure-card__route ${routeBgClass(route)}`}>
+            <div>
+              {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+              {routeName(route)}
+            </div>
+            <a
+              className="open-schedule"
+              href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${schedules[0].trip.route_pattern_id}`}
+            >
+              View all schedules
+            </a>
+          </div>
+        </div>
+      )}
       {schedules.map((schs, idx) => {
         const { headsign } = schs.trip;
         const preds = predictionsByHeadsign[headsign]

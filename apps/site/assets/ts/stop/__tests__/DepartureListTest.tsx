@@ -20,7 +20,12 @@ const schedules = [
   {
     route: route,
     stop: stop,
-    trip: { id: "1", headsign: "TestRoute Route", direction_id: 1 },
+    trip: {
+      id: "1",
+      headsign: "TestRoute Route",
+      direction_id: 1,
+      route_pattern_id: "Blue-6-1"
+    },
     time: add(Date.now(), { minutes: 10 })
   },
   {
@@ -77,5 +82,22 @@ describe("DepartureList", () => {
       />
     );
     expect(screen.getByText(predictionTime.toString())).toBeDefined();
+  });
+
+  it("header has link to schedule page variant ", () => {
+    render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+      />
+    );
+    expect(
+      screen.getByRole("link", { name: "View all schedules" })
+    ).toHaveAttribute(
+      "href",
+      "../schedules/TestRoute/line?schedule_direction[direction_id]=0&schedule_direction[variant]=Blue-6-1"
+    );
   });
 });
