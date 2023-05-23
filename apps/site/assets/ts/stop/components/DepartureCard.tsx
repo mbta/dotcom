@@ -2,35 +2,12 @@ import React, { ReactElement } from "react";
 import { groupBy } from "lodash";
 import { routeBgClass } from "../../helpers/css";
 import { DirectionId, Route, Stop } from "../../__v3api";
-import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
-import Bussvg from "../../../static/images/icon-bus-default.svg";
-import SubwaySvg from "../../../static/images/icon-subway-default.svg";
-import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
-import routeName from "../../helpers/route-headers";
+import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const routeToModeIcon = (route: Route): any => {
-  switch (route.type) {
-    case 0:
-    case 1:
-      return SubwaySvg;
-
-    case 2:
-      return CRsvg;
-
-    case 3:
-      return Bussvg;
-
-    case 4:
-      return FerrySvg;
-
-    default:
-      return null;
-  }
-};
 
 const DepartureCard = ({
   route,

@@ -5,7 +5,8 @@ import { DepartureInfo } from "../../models/departureInfo";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { routeBgClass } from "../../helpers/css";
-import routeName from "../../helpers/route-headers";
+import { routeName, routeToModeIcon } from "../../helpers/route-headers";
+import renderSvg from "../../helpers/render-svg";
 
 interface DepartureListProps {
   route: Route;
@@ -34,12 +35,15 @@ const DepartureList = ({
       {schedules.length && (
         <div className="stop-departures departure-list-header">
           <div className={`departure-card__route ${routeBgClass(route)}`}>
-            {routeName(route)}
+            <div>
+              {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+              {routeName(route)}
+            </div>
             <a
               className="open-schedule"
               href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${schedules[0].trip.route_pattern_id}`}
             >
-              Open full schedule
+              View all schedules
             </a>
           </div>
         </div>
