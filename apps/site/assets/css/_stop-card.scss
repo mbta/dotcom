@@ -266,3 +266,22 @@ $radius: 4px;
     justify-content: space-between;
   }
 }
+
+.departure-list__sub-header {
+  height: min-content;
+  margin-top: .5rem;
+  .departure-list__origin-stop-name {
+    font-size: $font-size-base;
+    font-weight: normal;
+    line-height: 1.46;
+    @include media-breakpoint-down(sm) {
+      font-size: $font-size-base-xs;
+      line-height: 1.95;
+    }
+  }
+  .departure-list__headsign {
+    @include heading-4();
+    font-weight: bold;
+    margin: 0;
+  }
+}
