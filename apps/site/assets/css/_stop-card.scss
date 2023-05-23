@@ -63,10 +63,16 @@ $radius: 4px;
   background-color: $gray-bordered-background;
   border: 0.25px solid $gray-lighter;
   border-radius: $radius;
-  display: grid;
   gap: 0.5rem;
-  grid-template-columns: 5fr 7fr;
   padding: 0.75rem;
+
+  .stop-routes__all {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    @include media-breakpoint-down(sm) {
+      grid-template-columns: 1fr;
+    }
+  }
 
   @include media-breakpoint-down(sm) {
     border-radius: 0;
@@ -190,7 +196,7 @@ $radius: 4px;
 }
 
 .placeholder-map {
-  display: none;
+  height: 100%;
   @include media-breakpoint-down(sm) {
     background-color: $crowding-some-crowding-bg;
     display: block;
@@ -243,8 +249,34 @@ $radius: 4px;
 .departures-container {
   background-color: $white;
   margin: 0.5rem;
+  display: grid;
+  grid-template-areas:
+    "back-button map"
+    "departures map"
+    "departures map";
+  grid-template-columns: 5fr 7fr;
+  width: 100%;
+  .back-to-routes {
+    grid-area: back-button;
+  }
+
+  .placeholder-map {
+    grid-area: map;
+    height: 100%;
+  }
+
+  .placeholder-departures {
+    grid-area: departures;
+  }
+
   @include media-breakpoint-down(sm) {
     box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
+    grid-template:
+      "back-button"
+      "map"
+      "departures";
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 1fr 1fr;
     height: 100vh;
     left: -0.5rem;
     max-height: 100%;
