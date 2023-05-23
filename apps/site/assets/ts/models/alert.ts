@@ -23,13 +23,13 @@ export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
 const hasEffect = (alerts: Alert[], effect: string): boolean =>
   some(alerts, alert => alert.effect === effect);
 
-export const isSuspension = (alerts: Alert[]): boolean =>
+export const hasSuspension = (alerts: Alert[]): boolean =>
   hasEffect(alerts, "suspension");
 
-export const isShuttleService = (alerts: Alert[]): boolean =>
+export const hasShuttleService = (alerts: Alert[]): boolean =>
   hasEffect(alerts, "shuttle");
 
-export const isDetour = (alerts: Alert[]): boolean =>
+export const hasDetour = (alerts: Alert[]): boolean =>
   hasEffect(alerts, "detour");
 
 export const alertsWithStop = (alerts: Alert[]): Alert[] =>

@@ -11,7 +11,11 @@ import {
   mergeIntoDepartureInfo
 } from "../../helpers/departureInfo";
 import { DepartureInfo } from "../../models/departureInfo";
-import { isDetour, isShuttleService, isSuspension } from "../../models/alert";
+import {
+  hasDetour,
+  hasShuttleService,
+  hasSuspension
+} from "../../models/alert";
 import Badge from "../../components/Badge";
 import {
   DisplayTimeConfig,
@@ -32,15 +36,15 @@ const getNextTwoTimes = (
 };
 
 const toAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
-  if (isSuspension(alerts)) {
+  if (hasSuspension(alerts)) {
     return <Badge text="Stop Closed" contextText="Route Status" />;
   }
 
-  if (isShuttleService(alerts)) {
+  if (hasShuttleService(alerts)) {
     return <Badge text="Shuttle Service" contextText="Route Status" />;
   }
 
-  if (isDetour(alerts)) {
+  if (hasDetour(alerts)) {
     return <Badge text="Detour" contextText="Route Status" />;
   }
   return undefined;

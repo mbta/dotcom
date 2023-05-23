@@ -13,7 +13,7 @@ const Badge = ({
       style={{ borderRadius: "0.75rem" }}
     >
       {/* The purpose of this block is to have invisble text for screen readers*/}
-      {contextText && <span className="u-display-none">{contextText}</span>}
+      {contextText && <span className="sr-only">{contextText}</span>}
       {text}
     </div>
   );

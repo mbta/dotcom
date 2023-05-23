@@ -293,14 +293,14 @@ describe("alertsByDirectionId", () => {
       {
         id: "0987",
         informed_entity: {
-          direction_id: [1]
+          direction_id: [0, 1]
         }
       }
     ] as Alert[];
     const result = alertsByDirectionId(alerts);
     expect(Object.keys(result).length).toBe(2);
     expect(result[1].length).toBe(1);
-    expect(result[0].length).toBe(1);
+    expect(result[0].length).toBe(2);
   });
 });
 
