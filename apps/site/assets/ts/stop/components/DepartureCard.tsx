@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
+import { concat, groupBy } from "lodash";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
-import { concat, groupBy } from "lodash";
 import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
@@ -53,7 +53,8 @@ const DepartureCard = ({
         className={`departure-card__route ${routeBgClass(route)}`}
         href={`/schedules/${route.id}`}
       >
-        {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
+        {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+        {routeName(route)}
       </a>
       {/* TODO can we avoid hard coding the direction ids? */}
       <DepartureTimes
