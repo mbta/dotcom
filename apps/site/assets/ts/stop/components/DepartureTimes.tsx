@@ -182,10 +182,10 @@ const DepartureTimes = ({
     directionId
   );
 
-  const schedules = schedulesByHeadsign(schedulesForDirection);
+  const groupedSchedules = schedulesByHeadsign(schedulesForDirection);
   return (
     <>
-      {Object.entries(schedules).map(([headsign, schedules]) => {
+      {Object.entries(groupedSchedules).map(([headsign, schedules]) => {
         const predictions = predictionsByHeadsign[headsign] || [];
         return (
           <div

@@ -12,7 +12,7 @@ const Badge = ({
       className="u-error-background font-weight-bold ps-8 pe-8 fs-14"
       style={{ borderRadius: "0.75rem" }}
     >
-      {/* The purpose of this block is to have invisble text for screen readers*/}
+      {/* The purpose of this block is to have invisble text for screen readers */}
       {contextText && <span className="sr-only">{contextText}</span>}
       {text}
     </div>
