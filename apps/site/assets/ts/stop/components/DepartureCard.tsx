@@ -1,8 +1,6 @@
 import React, { ReactElement } from "react";
 import { groupBy } from "lodash";
-import { routeBgClass, busClass } from "../../helpers/css";
-import { breakTextAtSlash } from "../../helpers/text";
-import { isASilverLineRoute } from "../../models/route";
+import { routeBgClass } from "../../helpers/css";
 import { DirectionId, Route, Stop } from "../../__v3api";
 import CRsvg from "../../../static/images/icon-commuter-rail-default.svg";
 import Bussvg from "../../../static/images/icon-bus-default.svg";
@@ -11,6 +9,7 @@ import FerrySvg from "../../../static/images/icon-ferry-default.svg";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import routeName from "../../helpers/route-headers";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const routeToModeIcon = (route: Route): any => {
@@ -48,13 +47,6 @@ const DepartureCard = ({
     departures: ScheduleWithTimestamp[] | null | undefined
   ) => void;
 }): ReactElement<HTMLElement> => {
-  const routeName = (
-    <span className={busClass(route)}>
-      {isASilverLineRoute(route.id)
-        ? `Silver Line ${route.name}`
-        : breakTextAtSlash(route.name)}
-    </span>
-  );
   const schedulesByDirection = groupBy(
     schedulesForRoute,
     (sch: ScheduleWithTimestamp) => sch.trip.direction_id
@@ -63,7 +55,8 @@ const DepartureCard = ({
   return (
     <li className="departure-card">
       <div className={`departure-card__route ${routeBgClass(route)}`}>
-        {renderSvg("c-svg__icon", routeToModeIcon(route), true)} {routeName}
+        {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+        {routeName(route)}
       </div>
       {/* TODO can we avoid hard coding the direction ids? */}
       <DepartureTimes

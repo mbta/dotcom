@@ -4,9 +4,8 @@ import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { busClass, routeBgClass } from "../../helpers/css";
-import { isASilverLineRoute } from "../../models/route";
-import { breakTextAtSlash } from "../../helpers/text";
+import { routeBgClass } from "../../helpers/css";
+import routeName from "../../helpers/route-headers";
 
 interface DepartureListProps {
   route: Route;
@@ -29,20 +28,13 @@ const DepartureList = ({
 
   let departures: DepartureInfo[] = [];
 
-  const routeName = (
-    <span className={busClass(route)}>
-      {isASilverLineRoute(route.id)
-        ? `Silver Line ${route.name}`
-        : breakTextAtSlash(route.name)}
-    </span>
-  );
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
       {schedules.length && (
         <div className="stop-departures departure-list-header">
           <div className={`departure-card__route ${routeBgClass(route)}`}>
-            {routeName}
+            {routeName(route)}
             <a
               className="open-schedule"
               href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${schedules[0].trip.route_pattern_id}`}
