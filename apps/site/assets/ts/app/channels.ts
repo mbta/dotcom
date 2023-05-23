@@ -75,8 +75,10 @@ const leaveChannel = (id: string): void => {
     window.channels[id].leave();
     delete window.channels[id];
   }
-  if (id.includes("vehicles:") && id !== "vehicles:remove") {
-    leaveChannel("vehicles:remove");
+
+  if (isVehicleChannel(id)) {
+    const [baseChannel] = id.split(":");
+    leaveChannel(`${baseChannel}:remove`);
   }
 };
 
