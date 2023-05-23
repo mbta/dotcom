@@ -29,9 +29,7 @@ const DepartureList = ({
 
   let departures: DepartureInfo[] = [];
 
-  const tripForSelectedRoutePattern: Trip | null = schedules.length
-    ? schedules[0].trip
-    : null;
+  const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
