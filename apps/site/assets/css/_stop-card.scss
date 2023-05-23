@@ -196,7 +196,7 @@ $radius: 4px;
 
 .placeholder-departures {
   background-color: $white;
-  height: 19.563rem;
+  height: 19.2rem;
   margin: .5rem;
   overflow-y: scroll;
   @include media-breakpoint-down(sm) {
@@ -257,7 +257,7 @@ $radius: 4px;
 
 .departure-list-header {
   border: none;
-  height: auto;
+  height: 2rem;
   padding: 0;
   .departure-card__route {
     justify-content: space-between;
