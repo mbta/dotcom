@@ -11,7 +11,6 @@ import {
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 
 // This interface is used to tell the front end
 // how to display the ScheduleInfoModel data
@@ -25,7 +24,7 @@ interface DisplayTimeConfig {
   reactKey: string;
 }
 
-const getInfoKey = (departureInfo: DepartureInfo) => {
+const getInfoKey = (departureInfo: DepartureInfo): string => {
   const trip = departureInfo.prediction
     ? departureInfo.prediction.trip
     : departureInfo.schedule!.trip;
