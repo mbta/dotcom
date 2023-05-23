@@ -166,6 +166,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         schedules={schedules}
         routesWithPolylines={allRoutes}
+        alerts={[]}
       />
     );
 
@@ -216,6 +217,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         schedules={busSchedules}
         routesWithPolylines={allRoutes}
+        alerts={[]}
       />
     );
 

@@ -160,7 +160,6 @@ const DeparturesAndMap = ({
             <SelectedRoutePatternMap />
           </div>
           <div className="stop-routes__departures stop-routes__departures--selected-route">
-            {`Route ${departureInfo.departureRoute?.id}`}
             {departureInfo.departureDirectionId != null &&
             departureInfo.departureSchedules &&
             departureInfo.departureRoute ? (

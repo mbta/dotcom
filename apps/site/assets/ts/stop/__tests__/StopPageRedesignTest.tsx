@@ -2,7 +2,7 @@ import React from "react";
 import {
   screen,
   waitForElementToBeRemoved,
-  within,
+  within
 } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
@@ -41,7 +41,7 @@ describe("StopPageRedesign", () => {
         parking_lots: [] as ParkingLot[],
         accessibility: ["ramp"],
         latitude: newLatOrLon(),
-        longitude: newLatOrLon(),
+        longitude: newLatOrLon()
       } as Stop;
     });
   });
@@ -87,7 +87,7 @@ describe("StopPageRedesign", () => {
       routeWithPolylines("Train1", 1, 3),
       routeWithPolylines("Train2", 1, 4),
       routeWithPolylines("Train3", 1),
-      routeWithPolylines("FerryRoute", 4, 1),
+      routeWithPolylines("FerryRoute", 4, 1)
     ];
     jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
       return testRoutesWithPolylines;
@@ -99,8 +99,8 @@ describe("StopPageRedesign", () => {
     const routeList = container.querySelector<HTMLElement>(
       "ul.stop-departures"
     )!;
-    const routeNames = testRoutesWithPolylines.map((route) => route.name);
-    routeNames.forEach((name) => {
+    const routeNames = testRoutesWithPolylines.map(route => route.name);
+    routeNames.forEach(name => {
       expect(within(routeList).getByText(name, { exact: false })).toBeTruthy();
     });
   });
@@ -118,7 +118,7 @@ describe("StopPageRedesign", () => {
     const { container } = render(<StopPageRedesign stopId="123" />);
 
     [subwayRoute, crRoute, slRoute]
-      .flatMap((route) => route.polylines)
+      .flatMap(route => route.polylines)
       .forEach(({ id }) => {
         expect(container.querySelector(`.stop-map_line--${id}`)).toBeDefined();
       });
@@ -147,8 +147,8 @@ describe("StopPageRedesign", () => {
         header: "There is construction at this station.",
         effect: "other",
         description: "",
-        url: "https://www.mbta.com",
-      },
+        url: "https://www.mbta.com"
+      }
     ];
 
     jest
@@ -169,47 +169,47 @@ describe("StopPageRedesign", () => {
     const alertsForStop: Alert[] = [
       {
         informed_entity: {
-          entities: [{ stop: "Test 1" }],
+          entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
-        effect: "1",
+        effect: "1"
       },
       {
         informed_entity: {
-          entities: [{ stop: "Test 1" }],
+          entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
         active_period: [[dateFormatter(future1), dateFormatter(future2)]],
         lifecycle: "new",
         id: "000002",
         header: "Test Alert The Road Is Open",
-        effect: "2",
-      },
+        effect: "2"
+      }
     ] as Alert[];
 
     const alertsForRoute: Alert[] = [
       {
         informed_entity: {
-          entities: [{ route: "Test Route 2" }],
+          entities: [{ route: "Test Route 2" }]
         } as InformedEntitySet,
         active_period: [[dateFormatter(future1), dateFormatter(future2)]],
         lifecycle: "new",
         id: "000003",
         header: "Test Alert The Walkway has spillage",
-        effect: "3",
+        effect: "3"
       },
       {
         informed_entity: {
-          entities: [{ route: "Test Route 3" }],
+          entities: [{ route: "Test Route 3" }]
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future2)]],
         lifecycle: "new",
         id: "000004",
         header: "Test Alert The Elevator is Malfunctioning",
-        effect: "4",
-      },
+        effect: "4"
+      }
     ] as Alert[];
 
     jest
@@ -236,14 +236,14 @@ describe("StopPageRedesign", () => {
     const alertsForStop: Alert[] = [
       {
         informed_entity: {
-          entities: [{ stop: "Test 1" }],
+          entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
         active_period: [[dateFormatter(past2), dateFormatter(past1)]],
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
-        effect: "1",
-      },
+        effect: "1"
+      }
     ] as Alert[];
 
     jest
