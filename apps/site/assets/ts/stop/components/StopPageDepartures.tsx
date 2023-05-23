@@ -1,11 +1,12 @@
 import { filter, groupBy, sortBy } from "lodash";
 import { isPast } from "date-fns";
 import React, { ReactElement, useState } from "react";
-import { DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import { alertsByRoute } from "../../models/alert";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -16,6 +17,7 @@ interface StopPageDeparturesProps {
     directionId: DirectionId,
     departures: ScheduleWithTimestamp[] | null | undefined
   ) => void;
+  alerts: Alert[];
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -33,7 +35,8 @@ const StopPageDepartures = ({
   routes,
   stop,
   schedules,
-  onClick
+  onClick,
+  alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
@@ -47,6 +50,7 @@ const StopPageDepartures = ({
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
+  const groupedAlerts = alertsByRoute(alerts);
 
   return (
     <div className="routes">
@@ -66,6 +70,7 @@ const StopPageDepartures = ({
             schedulesForRoute={groupedSchedules[route.id]}
             onClick={onClick}
             // This list should only have one value, is there another way to do this?
+            alertsForRoute={groupedAlerts[route.id]}
           />
         ))}
       </ul>

@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { chain } from "lodash";
-import { DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
@@ -13,13 +13,15 @@ interface DeparturesAndMapProps {
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
   routesWithPolylines: RouteWithPolylines[];
+  alerts: Alert[];
 }
 
 const DeparturesAndMap = ({
   routes,
   stop,
   schedules,
-  routesWithPolylines
+  routesWithPolylines,
+  alerts
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
@@ -68,6 +70,7 @@ const DeparturesAndMap = ({
           stop={stop}
           schedules={schedules}
           onClick={setDepartureVariables}
+          alerts={alerts}
         />
       ) : (
         <div className="departures-container">

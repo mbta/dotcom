@@ -1,38 +1,28 @@
 import React, { ReactElement } from "react";
-import { Dictionary, groupBy, slice } from "lodash";
-import {
-  differenceInSeconds,
-  isSameDay,
-  secondsInDay,
-  secondsInHour,
-  secondsInMinute
-} from "date-fns";
+import { slice } from "lodash";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
-import { formatToBostonTime } from "../../helpers/date";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
 import { ScheduleWithTimestamp } from "../../models/schedules";
-import { PredictionWithTimestamp } from "../../models/perdictions";
 import {
-  departureInfoToTime,
-  displayInfoContainsPrediction,
   getNextUnCancelledDeparture,
   mergeIntoDepartureInfo
 } from "../../helpers/departureInfo";
 import { DepartureInfo } from "../../models/departureInfo";
-
-// This interface is used to tell the front end
-// how to display the ScheduleInfoModel data
-interface DisplayTimeConfig {
-  isPrediction?: boolean;
-  displayString: string;
-  trackName?: string | null;
-  isTomorrow?: boolean;
-  isBolded?: boolean;
-  isStikethrough?: boolean;
-}
+import {
+  hasDetour,
+  hasShuttleService,
+  hasSuspension
+} from "../../models/alert";
+import Badge from "../../components/Badge";
+import {
+  DisplayTimeConfig,
+  infoToDisplayTime
+} from "../models/displayTimeConfig";
+import { schedulesByHeadsign } from "../../models/schedule";
+import { PredictionWithTimestamp } from "../../models/perdictions";
 
 // Returns 2 times from the departureInfo array
 // ensuring that upto one returned time is cancelled
@@ -45,152 +35,19 @@ const getNextTwoTimes = (
   return [departure1, departure2];
 };
 
-const infoToDisplayTime = (
-  time1: DepartureInfo | undefined,
-  time2: DepartureInfo | undefined,
-  targetDate: Date = new Date()
-): DisplayTimeConfig[] => {
-  const defaultState = [{ displayString: "Updates unavailable" }];
-  // If there is not input time1 then a schedule or prediction could not be found
-  if (!time1) {
-    return defaultState;
+const toAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
+  if (hasSuspension(alerts)) {
+    return <Badge text="Stop Closed" contextText="Route Status" />;
   }
 
-  const departure1Time = departureInfoToTime(time1);
-  const formatOverride = "h:mm aa";
-
-  if (time1.isDelayed) {
-    // is delayed can only be true if both a prediction and schedule exist
-    const scheduleTime = time1.schedule!.time;
-    const predictionTime = time1.prediction!.time;
-    return [
-      {
-        displayString: `${formatToBostonTime(predictionTime, formatOverride)}`,
-        isBolded: true,
-        // only predictions can be delayed
-        isPrediction: true
-      },
-      {
-        displayString: `${formatToBostonTime(scheduleTime, formatOverride)}`,
-        isStikethrough: true,
-        trackName: time1.prediction!.track
-      }
-    ];
+  if (hasShuttleService(alerts)) {
+    return <Badge text="Shuttle Service" contextText="Route Status" />;
   }
 
-  if (time2 && time1.isCancelled) {
-    const departure2Time = departureInfoToTime(time2);
-    // State 7
-    // State 8
-    // If trip1 is cancelled, then trip2 should not be cancelled
-    // Display trip2 in the first time spot (and its track info in the second)
-    return [
-      {
-        displayString: `${formatToBostonTime(departure2Time, formatOverride)}`,
-        isBolded: true,
-        isPrediction: displayInfoContainsPrediction(time2)
-      },
-      {
-        displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
-        isStikethrough: true,
-        trackName: time2.prediction?.track
-      }
-    ];
+  if (hasDetour(alerts)) {
+    return <Badge text="Detour" contextText="Route Status" />;
   }
-
-  const diffInSeconds1 = differenceInSeconds(departure1Time, targetDate);
-  const diffInSeconds2 = time2
-    ? differenceInSeconds(departureInfoToTime(time2), targetDate)
-    : -1;
-
-  if (diffInSeconds1 <= secondsInMinute) {
-    // State 9
-    return [
-      {
-        displayString: "Arriving",
-        isPrediction: displayInfoContainsPrediction(time1),
-        isBolded: true
-      }
-    ];
-  }
-
-  if (
-    diffInSeconds1 < secondsInHour &&
-    diffInSeconds1 > secondsInMinute &&
-    diffInSeconds2 < secondsInHour &&
-    diffInSeconds2 > secondsInMinute
-  ) {
-    // State 1
-    return [
-      {
-        displayString: `${Math.floor(diffInSeconds1 / secondsInMinute)} min`,
-        isPrediction: displayInfoContainsPrediction(time1),
-        isBolded: true
-      },
-      { displayString: `${Math.floor(diffInSeconds2 / secondsInMinute)} min` }
-    ];
-  }
-
-  if (
-    diffInSeconds1 < secondsInHour &&
-    diffInSeconds1 > secondsInMinute &&
-    diffInSeconds2 >= secondsInHour
-  ) {
-    // State 2
-    return [
-      {
-        displayString: `${Math.floor(diffInSeconds1 / secondsInMinute)} min`,
-        isBolded: true,
-        isPrediction: displayInfoContainsPrediction(time1)
-      }
-    ];
-  }
-
-  if (diffInSeconds1 >= secondsInHour && diffInSeconds1 < secondsInDay) {
-    // State 3
-    // State 4
-    // State 5
-    // State 6
-    return [
-      {
-        displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
-        // If the days are not the same, then one must be tomorrow
-        isTomorrow: !isSameDay(departure1Time, targetDate),
-        isPrediction: displayInfoContainsPrediction(time1),
-        isBolded: true,
-        trackName: time1.prediction?.track
-      }
-    ];
-  }
-
-  if (diffInSeconds1 >= secondsInDay) {
-    // State 11
-    return [{ displayString: "No upcoming trips" }];
-  }
-
-  // Default state is error
-  // State 10
-  return defaultState;
-};
-
-const toDisplayTime = (
-  schedules: ScheduleWithTimestamp[],
-  predictions: PredictionWithTimestamp[],
-  targetDate = new Date()
-): DisplayTimeConfig[] => {
-  // TODO this should be short cutted by alerts
-  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
-  const [time1, time2] = getNextTwoTimes(departureInfos);
-
-  return infoToDisplayTime(time1, time2, targetDate);
-};
-
-const schedulesByHeadsign = (
-  schedules: ScheduleWithTimestamp[] | undefined
-): Dictionary<ScheduleWithTimestamp[]> => {
-  return groupBy(schedules, (sch: ScheduleWithTimestamp) => {
-    return sch.trip.headsign;
-  });
+  return undefined;
 };
 
 const departureTimeClasses = (
@@ -212,9 +69,39 @@ const departureTimeClasses = (
   return customClasses;
 };
 
+const displayFormattedTimes = (
+  formattedTimes: DisplayTimeConfig[]
+): JSX.Element => {
+  return (
+    <div className="d-flex justify-content-space-between">
+      {formattedTimes.map((time, index) => {
+        const classes = departureTimeClasses(time, index);
+        return (
+          <div className="d-flex" key={`${time.reactKey}`}>
+            {time.isPrediction && (
+              <div className="me-4">
+                {SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
+              </div>
+            )}
+            <div className="me-8">
+              <div className={`${classes} u-nowrap`}>{time.displayString}</div>
+              <div className="fs-12">
+                {/* Prioritize displaying Tomorrow over track name if both are present */}
+                {time.isTomorrow && "Tomorrow"}
+                {!time.isTomorrow && !!time.trackName && time.trackName}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const departureTimeRow = (
   headsignName: string,
-  formattedTimes: DisplayTimeConfig[]
+  formattedTimes: DisplayTimeConfig[],
+  alertBadge?: JSX.Element
 ): JSX.Element => {
   return (
     <div
@@ -223,33 +110,8 @@ const departureTimeRow = (
     >
       <div className="departure-card__headsign-name">{headsignName}</div>
       <div className="d-flex align-items-center">
-        <div className="d-flex justify-content-space-between">
-          {formattedTimes.map((time, index) => {
-            const classes = departureTimeClasses(time, index);
-            return (
-              <>
-                {time.isPrediction && (
-                  <div className="me-4">
-                    {SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
-                  </div>
-                )}
-                <div
-                  key={`${time.displayString}-departure-times`}
-                  className="me-8"
-                >
-                  <div className={`${classes} u-nowrap`}>
-                    {time.displayString}
-                  </div>
-                  <div className="fs-12">
-                    {/* Prioritize displaying Tomorrow over track name if both are present */}
-                    {time.isTomorrow && "Tomorrow"}
-                    {!time.isTomorrow && !!time.trackName && time.trackName}
-                  </div>
-                </div>
-              </>
-            );
-          })}
-        </div>
+        {formattedTimes.length > 0 && displayFormattedTimes(formattedTimes)}
+        {alertBadge}
         {/* TODO: Navigate to Realtime Tracking view (whole row should be clickable) */}
         <button
           type="button"
@@ -262,11 +124,34 @@ const departureTimeRow = (
   );
 };
 
+const getRow = (
+  headsign: string,
+  schedules: ScheduleWithTimestamp[],
+  predictions: PredictionWithTimestamp[],
+  alerts: Alert[],
+  overrideDate?: Date
+): JSX.Element => {
+  const alertBadge = toAlertBadge(alerts);
+  if (alertBadge) {
+    return departureTimeRow(headsign, [], alertBadge);
+  }
+
+  // Merging should happen after alert processing incase a route is cancelled
+  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
+
+  const [time1, time2] = getNextTwoTimes(departureInfos);
+  const formattedTimes = infoToDisplayTime(time1, time2, overrideDate);
+
+  return departureTimeRow(headsign, formattedTimes);
+};
+
 interface DepartureTimesProps {
   route: Route;
   stop: Stop;
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+  alertsForDirection: Alert[];
+  // override date primarily used for testing
   overrideDate?: Date;
   onClick: (
     route: Route,
@@ -287,8 +172,9 @@ const DepartureTimes = ({
   stop,
   directionId,
   schedulesForDirection,
-  overrideDate,
-  onClick
+  onClick,
+  alertsForDirection,
+  overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
@@ -296,23 +182,27 @@ const DepartureTimes = ({
     directionId
   );
 
-  const schedules = schedulesByHeadsign(schedulesForDirection);
+  const groupedSchedules = schedulesByHeadsign(schedulesForDirection);
   return (
     <>
-      {Object.entries(schedules).map(([headsign, schs]) => {
-        const preds = predictionsByHeadsign[headsign]
-          ? predictionsByHeadsign[headsign]
-          : [];
-        const formattedTimes = toDisplayTime(schs, preds, overrideDate);
+      {Object.entries(groupedSchedules).map(([headsign, schedules]) => {
+        const predictions = predictionsByHeadsign[headsign] || [];
         return (
           <div
+            // TODO remove this class name in favor of test ids
             className="departure-row-click-test"
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, schs)}
-            onKeyDown={() => onClick(route, directionId, schs)}
+            onClick={() => onClick(route, directionId, schedules)}
+            onKeyDown={() => onClick(route, directionId, schedules)}
             role="presentation"
           >
-            {departureTimeRow(headsign, formattedTimes)}
+            {getRow(
+              headsign,
+              schedules,
+              predictions,
+              alertsForDirection,
+              overrideDate
+            )}
           </div>
         );
       })}
