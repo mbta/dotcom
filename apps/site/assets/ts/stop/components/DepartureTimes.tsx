@@ -77,13 +77,13 @@ const displayFormattedTimes = (
       {formattedTimes.map((time, index) => {
         const classes = departureTimeClasses(time, index);
         return (
-          <>
+          <div className="d-flex" key={`${time.reactKey}`}>
             {time.isPrediction && (
               <div className="me-4">
                 {SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
               </div>
             )}
-            <div key={`${time.displayString}-departure-times`} className="me-8">
+            <div className="me-8">
               <div className={`${classes} u-nowrap`}>{time.displayString}</div>
               <div className="fs-12">
                 {/* Prioritize displaying Tomorrow over track name if both are present */}
@@ -91,7 +91,7 @@ const displayFormattedTimes = (
                 {!time.isTomorrow && !!time.trackName && time.trackName}
               </div>
             </div>
-          </>
+          </div>
         );
       })}
     </div>

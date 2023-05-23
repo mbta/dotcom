@@ -246,10 +246,10 @@ describe("DepartureTimes", () => {
     it("should return 2 times in number of minutes remaining because both times are less than an hour out", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
-        prediction: { time: new Date("2022-04-24T11:35:00-04:00") }
+        prediction: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} }
       } as DepartureInfo;
       const info2 = {
-        prediction: { time: new Date("2022-04-24T11:45:00-04:00") }
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
         info1,
@@ -266,10 +266,10 @@ describe("DepartureTimes", () => {
     it("should return one time in number of minutes remaining because 2nd info time is greater than an hour", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
-        prediction: { time: new Date("2022-04-24T11:35:00-04:00") }
+        prediction: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} }
       } as DepartureInfo;
       const info2 = {
-        prediction: { time: new Date("2022-04-24T12:45:00-04:00") }
+        prediction: { time: new Date("2022-04-24T12:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
         info1,
@@ -288,11 +288,12 @@ describe("DepartureTimes", () => {
       const info1 = {
         prediction: {
           time: new Date("2022-04-24T12:35:00-04:00"),
-          track: "Test Track"
+          track: "Test Track",
+          trip: {}
         }
       } as DepartureInfo;
       const info2 = {
-        prediction: { time: new Date("2022-04-24T12:45:00-04:00") }
+        prediction: { time: new Date("2022-04-24T12:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1] = infoToDisplayTime(info1, info2, compareTime);
 
@@ -305,7 +306,7 @@ describe("DepartureTimes", () => {
     it("should return the display time as tomorrow", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
-        prediction: { time: new Date("2022-04-25T02:01:00-04:00") }
+        prediction: { time: new Date("2022-04-25T02:01:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [tomorrowTime1, tomorrowTime2] = infoToDisplayTime(
         info1,
@@ -320,7 +321,7 @@ describe("DepartureTimes", () => {
     it("should display arriving if the next time is less than a minute away", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
-        prediction: { time: new Date("2022-04-24T11:14:45-04:00") }
+        prediction: { time: new Date("2022-04-24T11:14:45-04:00"), trip: {} }
       } as DepartureInfo;
       const [tomorrowTime1, tomorrowTime2] = infoToDisplayTime(
         info1,
@@ -355,18 +356,14 @@ describe("DepartureTimes", () => {
 
     it("should strike out the time for delayed info", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
-      // NOTES FOR MONDAY
-      // This infoToDisplayTime needs to be reworked
-      //  - The is delayed case needs to read both the predictions and schedule from the same info object
-      //  - is cancelled object should read the next 2 and I think be left alone
-      //  - Respond to kayla's feedback
-      //  - Also prediction should only be true if its the first time (so rework tests and code)
       const info1 = {
         prediction: {
-          time: new Date("2022-04-24T11:35:00-04:00")
+          time: new Date("2022-04-24T11:35:00-04:00"),
+          trip: {}
         },
         schedule: {
-          time: new Date("2022-04-24T11:33:00-04:00")
+          time: new Date("2022-04-24T11:33:00-04:00"),
+          trip: {}
         },
         isDelayed: true
       } as DepartureInfo;
@@ -389,17 +386,20 @@ describe("DepartureTimes", () => {
       const info1 = {
         prediction: {
           time: new Date("2022-04-24T11:35:00-04:00"),
-          schedule_relationship: "cancelled"
+          schedule_relationship: "cancelled",
+          trip: {}
         },
         schedule: {
-          time: new Date("2022-04-24T11:33:00-04:00")
+          time: new Date("2022-04-24T11:33:00-04:00"),
+          trip: {}
         },
         isCancelled: true
       } as DepartureInfo;
       const info2 = {
         prediction: {
           time: new Date("2022-04-24T11:45:00-04:00"),
-          track: "Test Track"
+          track: "Test Track",
+          trip: {}
         }
       } as DepartureInfo;
 
@@ -420,10 +420,10 @@ describe("DepartureTimes", () => {
     it("should not set the isPrediction if first info is from schedule", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
-        schedule: { time: new Date("2022-04-24T11:35:00-04:00") }
+        schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} }
       } as DepartureInfo;
       const info2 = {
-        prediction: { time: new Date("2022-04-24T11:45:00-04:00") }
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
         info1,
