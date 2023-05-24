@@ -108,6 +108,11 @@ const departureTimeRow = (
   formattedTimes: DisplayTimeConfig[],
   alertBadge?: JSX.Element
 ): JSX.Element => {
+  let alertClass = "";
+  if (alertBadge && formattedTimes.length > 0) {
+    // Informative badges need more padding between them and the time
+    alertClass = "pt-4";
+  }
   return (
     <div
       key={headsignName}
@@ -117,7 +122,9 @@ const departureTimeRow = (
       <div className="d-flex align-items-center">
         <div>
           {formattedTimes.length > 0 && displayFormattedTimes(formattedTimes)}
-          <div style={{ float: "right" }}>{alertBadge}</div>
+          <div className={alertClass} style={{ float: "right" }}>
+            {alertBadge}
+          </div>
         </div>
         {/* TODO: Navigate to Realtime Tracking view (whole row should be clickable) */}
         <button
