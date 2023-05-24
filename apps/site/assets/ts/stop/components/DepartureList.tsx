@@ -15,6 +15,14 @@ interface DepartureListProps {
   directionId: DirectionId;
 }
 
+const displayNoUpcomingTrips = (): JSX.Element => {
+  return (
+    <div className="c-alert-item--low m-8 d-flex justify-content-center align-items-center pb-40 pt-40">
+      No upcoming trips today
+    </div>
+  );
+};
+
 const DepartureList = ({
   route,
   stop,
@@ -33,6 +41,7 @@ const DepartureList = ({
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
+      {schedules.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && (
         <>
           <div className="stop-departures departure-list-header">
