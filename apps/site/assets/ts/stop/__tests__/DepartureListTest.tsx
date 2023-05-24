@@ -116,6 +116,9 @@ describe("DepartureList", () => {
   });
 
   it("should render `No upcoming trips today` if there are no schedules", () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {};
+    });
     render(
       <DepartureList route={route} stop={stop} schedules={[]} directionId={0} />
     );
