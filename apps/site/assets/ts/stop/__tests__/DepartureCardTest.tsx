@@ -13,8 +13,8 @@ describe("DepartureCard", () => {
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
-        stop={stop}
         schedulesForRoute={[]}
+        predictionsForRoute={[]}
         onClick={mockClickAction}
         alertsForRoute={[]}
       />
@@ -28,8 +28,8 @@ describe("DepartureCard", () => {
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
-        stop={stop}
         schedulesForRoute={[]}
+        predictionsForRoute={[]}
         alertsForRoute={[]}
         onClick={() => {}}
       />
@@ -45,8 +45,8 @@ describe("DepartureCard", () => {
         render(
           <DepartureCard
             route={baseRoute("", type as RouteType)}
-            stop={stop}
             schedulesForRoute={[]}
+            predictionsForRoute={[]}
             onClick={mockClickAction}
             alertsForRoute={[]}
           />
@@ -73,8 +73,8 @@ describe("DepartureCard", () => {
     const { container } = render(
       <DepartureCard
         route={route}
-        stop={stop}
         schedulesForRoute={[]}
+        predictionsForRoute={[]}
         onClick={mockClickAction}
         alertsForRoute={[]}
       />
@@ -125,8 +125,8 @@ describe("DepartureCard", () => {
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
-        stop={stop}
         schedulesForRoute={schedules}
+        predictionsForRoute={[]}
         alertsForRoute={alerts}
         onClick={() => {}}
       />

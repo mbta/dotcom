@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { concat, groupBy } from "lodash";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
@@ -10,19 +10,18 @@ import {
   alertsAffectingBothDirections,
   alertsByDirectionId
 } from "../../models/alert";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+import { PredictionWithTimestamp } from "../../models/perdictions";
 
 const DepartureCard = ({
   route,
-  stop,
   schedulesForRoute,
+  predictionsForRoute,
   onClick,
   alertsForRoute = []
 }: {
   route: Route;
   schedulesForRoute: ScheduleWithTimestamp[];
-  stop: Stop;
+  predictionsForRoute: PredictionWithTimestamp[];
   onClick: (
     route: Route,
     directionId: DirectionId,
@@ -33,6 +32,10 @@ const DepartureCard = ({
   const schedulesByDirection = groupBy(
     schedulesForRoute,
     (sch: ScheduleWithTimestamp) => sch.trip.direction_id
+  );
+  const predictionsByDirection = groupBy(
+    predictionsForRoute,
+    p => p.trip.direction_id
   );
 
   const alertsByDirectionObj = alertsByDirectionId(alertsForRoute);
@@ -60,9 +63,9 @@ const DepartureCard = ({
       <DepartureTimes
         key={`${route.id}-0`}
         route={route}
-        stop={stop}
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
+        predictionsForDirection={predictionsByDirection[0]}
         onClick={onClick}
         alertsForDirection={concat(
           alertsAffectingBothDirectionsArray,
@@ -72,9 +75,9 @@ const DepartureCard = ({
       <DepartureTimes
         key={`${route.id}-1`}
         route={route}
-        stop={stop}
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
+        predictionsForDirection={predictionsByDirection[1]}
         onClick={onClick}
         alertsForDirection={concat(
           alertsAffectingBothDirectionsArray,

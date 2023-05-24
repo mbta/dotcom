@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { chain } from "lodash";
+import { chain, each, flatten } from "lodash";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
@@ -7,6 +7,8 @@ import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { PredictionWithTimestamp } from "../../models/perdictions";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -31,6 +33,20 @@ const DeparturesAndMap = ({
     departureRoute: null,
     departureDirectionId: null,
     departureSchedules: null
+  });
+
+  let allPredictions: PredictionWithTimestamp[] = [];
+  each(routes, route => {
+    each([0, 1], (directionId: DirectionId) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const predictionsByHeadsign = usePredictionsChannel(
+        route.id,
+        stop.id,
+        directionId
+      );
+      const predictions = flatten(Object.values(predictionsByHeadsign));
+      allPredictions = allPredictions.concat(predictions);
+    });
   });
 
   const setDepartureVariables: (
@@ -67,8 +83,8 @@ const DeparturesAndMap = ({
       {viewAllRoutes() ? (
         <StopPageDepartures
           routes={routes}
-          stop={stop}
           schedules={schedules}
+          predictions={allPredictions}
           onClick={setDepartureVariables}
           alerts={alerts}
         />

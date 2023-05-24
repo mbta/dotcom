@@ -21,9 +21,9 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
         schedulesForDirection={[]}
+        predictionsForDirection={[]}
         onClick={mockClickAction}
         alertsForDirection={[]}
       />
@@ -38,26 +38,20 @@ describe("DepartureTimes", () => {
 
   it("should render rows if there are schedules", () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "Test 1": [
-          {
-            time: new Date("2022-04-27T11:15:00-04:00"),
-            trip: { id: "1", headsign: "Test 1" }
-          },
-          {
-            trip: { id: "2", headsign: "Test 1" },
-            time: new Date("2022-04-27T11:20:00-04:00")
-          }
-        ] as PredictionWithTimestamp[],
-        "Test 3": [
-          {
-            trip: { id: "3", headsign: "Test 3" },
-            time: new Date("2022-04-27T11:45:00-04:00")
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
+    const predictions = [
+      {
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        trip: { id: "1", headsign: "Test 1" }
+      },
+      {
+        trip: { id: "2", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:20:00-04:00")
+      },
+      {
+        trip: { id: "3", headsign: "Test 3" },
+        time: new Date("2022-04-27T11:45:00-04:00")
+      }
+    ] as PredictionWithTimestamp[];
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
@@ -75,9 +69,9 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
         schedulesForDirection={schedules}
+        predictionsForDirection={predictions}
         overrideDate={dateToCompare}
         onClick={mockClickAction}
         alertsForDirection={[]}
@@ -118,9 +112,9 @@ describe("DepartureTimes", () => {
       render(
         <DepartureTimes
           route={route}
-          stop={stop}
           directionId={0}
           schedulesForDirection={schedules}
+          predictionsForDirection={[]}
           alertsForDirection={alerts}
           onClick={() => {}}
         />
@@ -464,9 +458,9 @@ describe("DepartureTimes", () => {
     let departureTimes = render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
         schedulesForDirection={schedules}
+        predictionsForDirection={[]}
         onClick={mockClickAction}
         alertsForDirection={[]}
       />

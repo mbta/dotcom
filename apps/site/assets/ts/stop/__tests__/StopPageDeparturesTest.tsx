@@ -21,8 +21,8 @@ describe("StopPageDepartures", () => {
     const { asFragment } = render(
       <StopPageDepartures
         routes={[]}
-        stop={stop}
         schedules={[]}
+        predictions={[]}
         onClick={mockClickAction}
         alerts={[]}
       />
@@ -35,8 +35,8 @@ describe("StopPageDepartures", () => {
     const { asFragment } = render(
       <StopPageDepartures
         routes={routeData}
-        stop={stop}
         schedules={scheduleData}
+        predictions={[]}
         onClick={mockClickAction}
         alerts={[]}
       />
@@ -54,8 +54,8 @@ describe("StopPageDepartures", () => {
     render(
       <StopPageDepartures
         routes={[routeData[0]]}
-        stop={stop}
         schedules={scheduleData}
+        predictions={[]}
         onClick={() => {}}
         alerts={[]}
       />

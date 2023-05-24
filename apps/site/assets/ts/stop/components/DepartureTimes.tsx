@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
-import { slice } from "lodash";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { groupBy, slice } from "lodash";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
@@ -147,9 +146,9 @@ const getRow = (
 
 interface DepartureTimesProps {
   route: Route;
-  stop: Stop;
   directionId: DirectionId;
   schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+  predictionsForDirection: PredictionWithTimestamp[];
   alertsForDirection: Alert[];
   // override date primarily used for testing
   overrideDate?: Date;
@@ -161,25 +160,18 @@ interface DepartureTimesProps {
 }
 
 /* istanbul ignore next */
-/**
- * A proof-of-concept component illustrating a usage of the
- * usePredictionsChannel hook to fetch live predictions for a specific
- * route/stop/direction, sorted by date.
- *
- */
 const DepartureTimes = ({
   route,
-  stop,
   directionId,
   schedulesForDirection,
+  predictionsForDirection,
   onClick,
   alertsForDirection,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
-    directionId
+  const predictionsByHeadsign = groupBy(
+    predictionsForDirection,
+    p => p.trip.headsign
   );
 
   const groupedSchedules = schedulesByHeadsign(schedulesForDirection);
