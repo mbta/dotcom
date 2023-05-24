@@ -13,6 +13,7 @@ import {
   isACommuterRailRoute
 } from "../../models/route";
 import useVehiclesChannel from "../../hooks/useVehiclesChannel";
+import { Polyline } from "../../leaflet/components/__mapdata";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -74,6 +75,30 @@ const DeparturesAndMap = ({
     .uniqBy("id")
     .value();
 
+  const findShapeForSelection = (): Polyline | undefined => {
+    if (
+      departureInfo.departureRoute === null ||
+      departureInfo.departureDirectionId === null ||
+      !departureInfo.departureSchedules
+    ) {
+      return undefined;
+    }
+
+    const selectedRoute = routesWithPolylines.find(
+      route => route.id === departureInfo.departureRoute!.id
+    );
+
+    const shapeIdForSelection =
+      departureInfo.departureSchedules[0]?.trip.shape_id;
+
+    if (selectedRoute && shapeIdForSelection) {
+      return selectedRoute.polylines.find(
+        line => line.id === shapeIdForSelection
+      );
+    }
+    return undefined;
+  };
+
   const DefaultRoutesMap = (): JSX.Element => {
     return (
       <StopMapRedesign stop={stop} lines={defaultPolylines} vehicles={[]} />
@@ -82,7 +107,8 @@ const DeparturesAndMap = ({
 
   const SelectedRoutePatternMap = (): JSX.Element => {
     const vehiclesForSelectedRoute = useVehiclesChannel(
-      departureInfo.departureRoute && departureInfo.departureDirectionId != null
+      departureInfo.departureRoute &&
+        departureInfo.departureDirectionId !== null
         ? {
             routeId: departureInfo.departureRoute.id,
             directionId: departureInfo.departureDirectionId
@@ -90,27 +116,11 @@ const DeparturesAndMap = ({
         : null
     );
 
-    const selectedRoute:
-      | RouteWithPolylines
-      | undefined = departureInfo.departureRoute
-      ? routesWithPolylines.find(
-          route => route.id === departureInfo.departureRoute!.id
-        )
-      : undefined;
-    const shapeIdForSelection: string | undefined =
-      ((departureInfo.departureSchedules || []).length > 0 &&
-        departureInfo.departureSchedules![0].trip.shape_id) ||
-      undefined;
-
-    const selectedLine =
-      selectedRoute && shapeIdForSelection
-        ? selectedRoute.polylines.find(line => line.id === shapeIdForSelection)
-        : undefined;
-
+    const shapeForSelection = findShapeForSelection();
     return (
       <StopMapRedesign
         stop={stop}
-        lines={selectedLine ? [selectedLine] : []}
+        lines={shapeForSelection ? [shapeForSelection] : []}
         vehicles={vehiclesForSelectedRoute}
       />
     );

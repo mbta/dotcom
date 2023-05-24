@@ -27,11 +27,7 @@ const mapMarkerFromVehicle = (vehicle: Vehicle): MapMarker => {
     longitude: vehicle.longitude,
     rotation_angle: vehicle.bearing,
     icon_opts: iconOpts(iconName),
-    tooltip: (
-      <>
-        <CrowdingPill crowding={vehicle.crowding} />
-      </>
-    )
+    tooltip: <CrowdingPill crowding={vehicle.crowding} />
   };
 };
 

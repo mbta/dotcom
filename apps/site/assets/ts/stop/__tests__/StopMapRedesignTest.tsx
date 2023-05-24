@@ -3,7 +3,6 @@ import React from "react";
 import { DirectionId, Stop } from "../../__v3api";
 import StopMapRedesign from "../components/StopMapRedesign";
 import { newLatOrLon, newPolyline } from "./helpers";
-import { Vehicle } from "../../hooks/useVehiclesChannel";
 
 jest.mock("../../hooks/useMapConfig", () => ({
   __esModule: true,
@@ -53,11 +52,9 @@ const v2 = {
 
 describe("StopMapRedesign", () => {
   it("should render the Map component with a marker", () => {
-    const { getByRole } = render(
-      <StopMapRedesign stop={testStop} lines={[]} />
-    );
+    render(<StopMapRedesign stop={testStop} lines={[]} />);
     expect(screen.queryByLabelText("Map with stop")).not.toBeNull();
-    const image = getByRole("img", {
+    const image = screen.getByRole("img", {
       name: new RegExp(testStop.name)
     });
     expect(image).toHaveAttribute("src", "/images/icon-map-station-marker.svg");

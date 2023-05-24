@@ -145,7 +145,7 @@ describe("joinChannel", () => {
 });
 
 describe("leaveChannel", () => {
-  it("leaves only the channel with the given id", () => {
+  it("leaves the channel with the given id", () => {
     const mockSocket = makeMockSocket();
     const mockChannel = makeMockChannel("ok");
     mockSocket.channel.mockImplementation(() => mockChannel);
