@@ -269,13 +269,12 @@ $radius: 4px;
 
 .departure-list__sub-header {
   height: min-content;
-  margin-top: .5rem;
+  margin: .5rem;
   .departure-list__origin-stop-name {
-    font-size: $font-size-base;
+    font-size: .875rem;
     font-weight: normal;
     line-height: 1.46;
     @include media-breakpoint-down(sm) {
-      font-size: $font-size-base-xs;
       line-height: 1.95;
     }
   }
