@@ -128,6 +128,42 @@ describe("DepartureTimes", () => {
     }
   );
 
+  it("should display the high priority alert badge over the information alert badge", () => {
+    const schedules = [
+      { trip: { direction_id: 0 } }
+    ] as ScheduleWithTimestamp[];
+
+    const alerts = [
+      {
+        id: "1234",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "suspension"
+      },
+      {
+        id: "123",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "detour"
+      }
+    ] as Alert[];
+
+    render(
+      <DepartureTimes
+        route={route}
+        stop={stop}
+        directionId={0}
+        schedulesForDirection={schedules}
+        alertsForDirection={alerts}
+        onClick={() => {}}
+      />
+    );
+    expect(screen.getByText("Stop Closed")).toBeDefined();
+    expect(screen.queryByText("Detour")).toBeNull();
+  });
+
   it("should display the detour badge with times if detour alert is present", () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
     jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
