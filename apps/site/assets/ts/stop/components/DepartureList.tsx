@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { DirectionId, Route, Stop } from "../../__v3api";
+import { concat } from "lodash";
+import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
@@ -7,19 +8,27 @@ import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
+import {
+  alertsAffectingBothDirections,
+  alertsByDirectionId,
+  alertsByRoute
+} from "../../models/alert";
+import Alerts from "../../components/Alerts";
 
 interface DepartureListProps {
   route: Route;
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
   directionId: DirectionId;
+  alerts: Alert[];
 }
 
 const DepartureList = ({
   route,
   stop,
   schedules,
-  directionId
+  directionId,
+  alerts
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
@@ -28,10 +37,28 @@ const DepartureList = ({
   );
 
   let departures: DepartureInfo[] = [];
+  const groupedAlerts = alertsByRoute(alerts);
+  const alertsForRoute = groupedAlerts[route.id] || [];
 
+  const alertsByDirectionObj = alertsByDirectionId(alertsForRoute);
+  const alertsAffectingBothDirectionsArray = alertsAffectingBothDirections(
+    alertsForRoute
+  );
+
+  const alertsDirectionArray = alertsByDirectionObj[directionId]
+    ? alertsByDirectionObj[directionId]
+    : [];
+
+  const allAlerts = concat(
+    alertsAffectingBothDirectionsArray,
+    alertsDirectionArray
+  ).filter(alert => {
+    return ["detour", "suspension", "shuttle"].includes(alert.effect);
+  });
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
+      <Alerts alerts={allAlerts} />
       {schedules.length && (
         <div className="stop-departures departure-list-header">
           <div className={`departure-card__route ${routeBgClass(route)}`}>

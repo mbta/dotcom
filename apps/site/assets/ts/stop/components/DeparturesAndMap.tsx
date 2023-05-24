@@ -107,6 +107,7 @@ const DeparturesAndMap = ({
                 stop={stop}
                 schedules={departureInfo.departureSchedules}
                 directionId={departureInfo.departureDirectionId}
+                alerts={alerts}
               />
             ) : (
               <div />

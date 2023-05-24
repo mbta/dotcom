@@ -2,7 +2,7 @@ import { add } from "date-fns";
 import React from "react";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { baseRoute } from "./helpers";
-import { Stop } from "../../__v3api";
+import { Alert, Stop } from "../../__v3api";
 import DepartureList from "../components/DepartureList";
 import { render, screen } from "@testing-library/react";
 import * as predictionsChannel from "../../hooks/usePredictionsChannel";
@@ -66,6 +66,7 @@ describe("DepartureList", () => {
         stop={stop}
         schedules={schedules}
         directionId={0}
+        alerts={[]}
       />
     );
 
@@ -79,6 +80,7 @@ describe("DepartureList", () => {
         stop={stop}
         schedules={schedules}
         directionId={0}
+        alerts={[]}
       />
     );
     expect(screen.getByText(predictionTime.toString())).toBeDefined();
@@ -91,6 +93,7 @@ describe("DepartureList", () => {
         stop={stop}
         schedules={schedules}
         directionId={0}
+        alerts={[]}
       />
     );
     expect(
@@ -99,5 +102,54 @@ describe("DepartureList", () => {
       "href",
       "../schedules/TestRoute/line?schedule_direction[direction_id]=0&schedule_direction[variant]=Blue-6-1"
     );
+  });
+
+  it("renders alert cards when alert is detour, suspension, or shuttle", () => {
+    const alerts = [
+      {
+        id: "1234",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "shuttle"
+      },
+      {
+        id: "4321",
+        informed_entity: {
+          direction_id: [null]
+        },
+        effect: "suspension"
+      },
+      {
+        id: "0987",
+        informed_entity: {
+          direction_id: [1]
+        },
+        effect: "detour"
+      },
+      {
+        id: "1234",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "delay"
+      }
+    ] as Alert[];
+    render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+        alerts={alerts}
+      />
+    );
+
+    screen.debug();
+
+    expect(screen.queryByText("Shuttle Service")).toBeDefined();
+    expect(screen.queryByText("Detour")).toBeDefined();
+    expect(screen.queryByText("Suspension")).toBeDefined();
+    expect(screen.queryByText("Delay")).toBeNull();
   });
 });
