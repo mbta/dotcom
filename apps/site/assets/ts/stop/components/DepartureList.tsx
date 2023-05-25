@@ -9,10 +9,10 @@ import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
 import {
-  alertsAffectingBothDirections,
-  alertsByDirectionId,
-  alertsByRoute,
-  hasSuspension
+  alertsByStop,
+  allRouteAlertsForDirection,
+  hasSuspension,
+  isHighPriorityAlert
 } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 
@@ -38,28 +38,19 @@ const DepartureList = ({
   );
 
   let departures: DepartureInfo[] = [];
-  const groupedAlerts = alertsByRoute(alerts);
-  const alertsForRoute = groupedAlerts[route.id] || [];
-
-  const alertsByDirectionObj = alertsByDirectionId(alertsForRoute);
-  const alertsAffectingBothDirectionsArray = alertsAffectingBothDirections(
-    alertsForRoute
-  );
-
-  const alertsDirectionArray = alertsByDirectionObj[directionId]
-    ? alertsByDirectionObj[directionId]
-    : [];
-
-  const allAlerts = concat(
-    alertsAffectingBothDirectionsArray,
-    alertsDirectionArray
+  const routeAlerts = allRouteAlertsForDirection(
+    alerts,
+    route.id,
+    directionId
   ).filter(alert => {
-    return ["detour", "suspension", "shuttle"].includes(alert.effect);
+    return isHighPriorityAlert(alert) && alert.lifecycle === "ongoing";
   });
+  const stopAlerts = alertsByStop(alerts, stop.id);
+  const allAlerts = concat(routeAlerts, stopAlerts);
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
-      <Alerts alerts={allAlerts} />
+      {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
       {schedules.length && !hasSuspension(allAlerts) && (
         <div>
           <div className="stop-departures departure-list-header">
