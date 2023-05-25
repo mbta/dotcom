@@ -100,4 +100,18 @@ describe("DepartureList", () => {
       "../schedules/TestRoute/line?schedule_direction[direction_id]=0&schedule_direction[variant]=Blue-6-1"
     );
   });
+
+  it("subheading includes stop + headsign name", () => {
+    render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+      />
+    );
+    expect(
+      screen.getByRole("heading", { name: `${stop.name} to TestRoute Route` })
+    ).toBeDefined();
+  });
 });
