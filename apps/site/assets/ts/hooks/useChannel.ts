@@ -28,17 +28,20 @@ function useChannel<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   OnDataReducerType extends Reducer<any, any>
 >(
-  channelId: string,
+  channelId: string | null,
   reducer: OnDataReducerType,
   initialData: State<OnDataReducerType>
 ): State<OnDataReducerType> {
   const [state, dispatch] = useReducer<OnDataReducerType>(reducer, initialData);
 
   useEffect(() => {
-    joinChannel<OnDataEventType[]>(channelId, dispatch);
-
+    if (channelId !== null) {
+      joinChannel<OnDataEventType[]>(channelId, dispatch);
+    }
     return () => {
-      leaveChannel(channelId);
+      if (channelId !== null) {
+        leaveChannel(channelId);
+      }
     };
   }, [channelId]);
 
@@ -48,10 +51,13 @@ function useChannel<
     const onChannelData = (
       event: CustomEvent<Action<OnDataReducerType>>
     ): void => dispatch(event.detail);
-    document.addEventListener(channelId, onChannelData as EventListener);
-
+    if (channelId) {
+      document.addEventListener(channelId, onChannelData as EventListener);
+    }
     return () => {
-      document.removeEventListener(channelId, onChannelData as EventListener);
+      if (channelId) {
+        document.removeEventListener(channelId, onChannelData as EventListener);
+      }
     };
   }, [channelId, dispatch]);
 

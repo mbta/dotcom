@@ -1,12 +1,15 @@
 import React from "react";
 import DeparturesAndMap from "../components/DeparturesAndMap";
-import { Stop } from "../../__v3api";
+import { DirectionId, Stop } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import { baseRoute, routeWithPolylines } from "./helpers";
 import * as useRoute from "../../hooks/useRoute";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
+import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
+import userEvent from "@testing-library/user-event";
+import { Route } from "../../__v3api";
 
 const stop = {
   id: "test-stop",
@@ -37,11 +40,42 @@ const schedules = [
   }
 ] as ScheduleWithTimestamp[];
 
+const v1 = {
+  id: "y1799",
+  route_id: "39",
+  stop_id: "72",
+  trip_id: "25",
+  shape_id: "shape_1",
+  direction_id: 1 as DirectionId,
+  status: "STOPPED",
+  latitude: 2.2,
+  longitude: 1.1,
+  bearing: 140,
+  crowding: null
+};
+const v2 = {
+  id: "y1800",
+  route_id: "39",
+  stop_id: "73",
+  trip_id: "25",
+  shape_id: "shape_1",
+  direction_id: 1 as DirectionId,
+  status: "STOPPED",
+  latitude: 2.4,
+  longitude: 1.3,
+  bearing: 141,
+  crowding: null
+};
+
 const testRoutesWithPolylines: RouteWithPolylines[] = [
   routeWithPolylines("SomeBus", 3, 0)
 ];
 jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
   return testRoutesWithPolylines;
+});
+
+beforeEach(() => {
+  jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
 });
 
 describe("DeparturesAndMap", () => {
@@ -112,5 +146,132 @@ describe("DeparturesAndMap", () => {
     expect(
       departuresAndMapContainer.querySelector("departures-container")
     ).toBeNull();
+  });
+
+  it("shows cr, subway, SL map routes by default", () => {
+    const subwayRoute = routeWithPolylines("TrainRoute", 1, 3);
+    const crRoute = routeWithPolylines("CRRoute", 2, 3);
+    const slRoute = routeWithPolylines("741", 2, 3);
+    const busRoute = routeWithPolylines("ABus", 3, 3);
+
+    const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
+
+    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
+      return [subwayRoute, crRoute, slRoute, busRoute];
+    });
+
+    const { container } = render(
+      <DeparturesAndMap
+        routes={[route]}
+        stop={stop}
+        schedules={schedules}
+        routesWithPolylines={allRoutes}
+        alerts={[]}
+      />
+    );
+
+    [subwayRoute, crRoute, slRoute]
+      .flatMap(route => route.polylines)
+      .forEach(({ id }) => {
+        expect(container.querySelector(`.stop-map_line--${id}`)).toBeDefined();
+      });
+
+    busRoute.polylines.forEach(({ id }) => {
+      expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
+    });
+  });
+
+  it("when a row is clicked, vehicles for that route and the line for the selection are rendered", async () => {
+    const subwayRoute = routeWithPolylines("TrainRoute", 1, 3);
+    const crRoute = routeWithPolylines("CRRoute", 2, 3);
+    const slRoute = routeWithPolylines("741", 2, 3);
+    const busRoute = routeWithPolylines("ABus", 3, 3);
+
+    const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
+
+    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
+      return [subwayRoute, crRoute, slRoute, busRoute];
+    });
+
+    jest
+      .spyOn(useVehiclesChannel, "default")
+      .mockImplementation(routeSpec => (routeSpec === null ? [] : [v1, v2]));
+
+    const busSchedules = [
+      {
+        route: busRoute as Route,
+        stop: stop,
+        trip: {
+          id: "1",
+          headsign: "BusRoute Headsign 1",
+          direction_id: 1,
+          shape_id: "testing"
+        },
+        time: add(Date.now(), { minutes: 10 })
+      }
+    ] as ScheduleWithTimestamp[];
+
+    const { container } = render(
+      <DeparturesAndMap
+        routes={allRoutes}
+        stop={stop}
+        schedules={busSchedules}
+        routesWithPolylines={allRoutes}
+        alerts={[]}
+      />
+    );
+
+    await userEvent.click(screen.getByText("BusRoute Headsign 1"));
+
+    [subwayRoute, crRoute, slRoute]
+      .flatMap(route => route.polylines)
+      .forEach(({ id }) => {
+        expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
+      });
+
+    // Only the polyline for the selected bus route pattern is shown
+    expect(
+      container.querySelector(`.stop-map_line--${busRoute.polylines[0].id}`)
+    ).toBeDefined();
+    busRoute.polylines.slice(1).forEach(({ id }) => {
+      expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
+    });
+
+    // vehicles are shown
+    expect(
+      screen.getByRole("img", {
+        name: new RegExp(v1.id)
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", {
+        name: new RegExp(v2.id)
+      })
+    ).toBeInTheDocument();
+
+    // clicking back button
+    await userEvent.click(screen.getByText(`Back to all ${stop.name} routes`));
+
+    // default route shapes shown
+    [subwayRoute, crRoute, slRoute]
+      .flatMap(route => route.polylines)
+      .forEach(({ id }) => {
+        expect(container.querySelector(`.stop-map_line--${id}`)).toBeDefined();
+      });
+
+    // selected bus shape cleared & no bus routes shown
+
+    busRoute.polylines.forEach(({ id }) => {
+      expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
+    });
+
+    // vehicles for selected bus shape cleared
+    [v1, v2].forEach(({ id }) => {
+      expect(
+        screen.queryByRole("img", {
+          name: new RegExp(id)
+        })
+      ).toBeNull();
+    });
   });
 });

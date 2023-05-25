@@ -1,5 +1,9 @@
 import { Channel, Socket } from "phoenix";
-import setupChannels, { isVehicleChannel, joinChannel } from "../channels";
+import setupChannels, {
+  isVehicleChannel,
+  joinChannel,
+  leaveChannel
+} from "../channels";
 import {
   makeMockSocket,
   makeMockChannel
@@ -137,5 +141,40 @@ describe("joinChannel", () => {
     expect(window.channels["vehicles:remove"]).toBeUndefined();
     joinChannel("vehicles:routeId:directionId");
     expect(window.channels["vehicles:remove"]).toBeDefined();
+  });
+});
+
+describe("leaveChannel", () => {
+  it("leaves the channel with the given id", () => {
+    const mockSocket = makeMockSocket();
+    const mockChannel = makeMockChannel("ok");
+    mockSocket.channel.mockImplementation(() => mockChannel);
+    window.socket = mockSocket;
+    window.channels = {};
+    const mockHandleJoin = jest.fn();
+    const channelName = "some:channel";
+
+    joinChannel(channelName, mockHandleJoin);
+    expect(window.channels[channelName]).toBeDefined();
+    leaveChannel(channelName);
+    expect(window.channels[channelName]).toBeUndefined();
+  });
+
+  it("also leaves vehicles:remove channel for vehicles channel", () => {
+    const mockSocket = makeMockSocket();
+    const mockChannel = makeMockChannel("ok");
+    mockSocket.channel.mockImplementation(() => mockChannel);
+    window.socket = mockSocket;
+    window.channels = {};
+
+    const vehicleChannelName = "vehicles:routeId:directionId";
+    joinChannel(vehicleChannelName);
+
+    expect(window.channels[vehicleChannelName]).toBeDefined();
+    expect(window.channels["vehicles:remove"]).toBeDefined();
+
+    leaveChannel(vehicleChannelName);
+    expect(window.channels[vehicleChannelName]).toBeUndefined();
+    expect(window.channels["vehicles:remove"]).toBeUndefined();
   });
 });
