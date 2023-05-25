@@ -145,8 +145,6 @@ describe("DepartureList", () => {
       />
     );
 
-    screen.debug();
-
     expect(screen.queryByText("Shuttle Service")).toBeDefined();
     expect(screen.queryByText("Detour")).toBeDefined();
     expect(screen.queryByText("Suspension")).toBeDefined();

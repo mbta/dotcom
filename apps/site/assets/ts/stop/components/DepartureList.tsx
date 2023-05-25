@@ -11,7 +11,8 @@ import renderSvg from "../../helpers/render-svg";
 import {
   alertsAffectingBothDirections,
   alertsByDirectionId,
-  alertsByRoute
+  alertsByRoute,
+  hasSuspension
 } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 
@@ -59,36 +60,39 @@ const DepartureList = ({
   return (
     <>
       <Alerts alerts={allAlerts} />
-      {schedules.length && (
-        <div className="stop-departures departure-list-header">
-          <div className={`departure-card__route ${routeBgClass(route)}`}>
-            <div>
-              {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
-              {routeName(route)}
+      {schedules.length && !hasSuspension(allAlerts) && (
+        <div>
+          <div className="stop-departures departure-list-header">
+            <div className={`departure-card__route ${routeBgClass(route)}`}>
+              <div>
+                {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+                {routeName(route)}
+              </div>
+              <a
+                className="open-schedule"
+                href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${schedules[0].trip.route_pattern_id}`}
+              >
+                View all schedules
+              </a>
             </div>
-            <a
-              className="open-schedule"
-              href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${schedules[0].trip.route_pattern_id}`}
-            >
-              View all schedules
-            </a>
           </div>
+          {schedules.map((schs, idx) => {
+            const { headsign } = schs.trip;
+            const preds = predictionsByHeadsign[headsign]
+              ? predictionsByHeadsign[headsign]
+              : [];
+            departures = mergeIntoDepartureInfo(schedules, preds);
+            const prediction = departures[idx]?.prediction;
+            const predictionOrSchedule =
+              prediction || departures[idx]?.schedule;
+            return (
+              <div key={`${predictionOrSchedule?.trip.id}`}>
+                {predictionOrSchedule?.time.toString()}
+              </div>
+            );
+          })}
         </div>
       )}
-      {schedules.map((schs, idx) => {
-        const { headsign } = schs.trip;
-        const preds = predictionsByHeadsign[headsign]
-          ? predictionsByHeadsign[headsign]
-          : [];
-        departures = mergeIntoDepartureInfo(schedules, preds);
-        const prediction = departures[idx]?.prediction;
-        const predictionOrSchedule = prediction || departures[idx]?.schedule;
-        return (
-          <div key={`${predictionOrSchedule?.trip.id}`}>
-            {predictionOrSchedule?.time.toString()}
-          </div>
-        );
-      })}
     </>
   );
 };
