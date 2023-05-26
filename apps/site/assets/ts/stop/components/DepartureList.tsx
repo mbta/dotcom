@@ -37,8 +37,10 @@ const DepartureList = ({
         <>
           <div className="stop-departures departure-list-header">
             <div className={`departure-card__route ${routeBgClass(route)}`}>
-              {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
-              {routeName(route)}
+              <div>
+                {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
+                {routeName(route)}
+              </div>
               <a
                 className="open-schedule"
                 href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern.route_pattern_id}`}
