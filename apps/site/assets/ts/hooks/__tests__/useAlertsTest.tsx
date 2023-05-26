@@ -127,6 +127,18 @@ describe("useAlertsByRoute", () => {
     });
   });
 
+  it("should return an empty list if no routeIds passed", async () => {
+    const { result, waitFor } = renderHook(() => useAlertsByRoute([]), {
+      wrapper: HookWrapper
+    });
+    await waitFor(() =>
+      expect(result.current.status).toEqual(FetchStatus.Data)
+    );
+    await waitFor(() => {
+      expect(result.current.data).toEqual([]);
+    });
+  });
+
   it("returns error status if API returns an error", async () => {
     global.fetch = jest.fn(
       () =>
