@@ -106,6 +106,8 @@ module.exports = (env, argv) => {
             { from: "static/favicon.ico", to: "favicon.ico" },
             { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
             { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
+            { from: "static/images/mbta-logo-t-180.png", to: "images/mbta-logo-t-180.png" },
+            { from: "static/images/mbta-logo-t-favicon.png", to: "images/mbta-logo-t-favicon.png" },
           ]}),
 
       // purge CSS based on HTML
