@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  screen,
-  waitForElementToBeRemoved,
-  within
-} from "@testing-library/dom";
+import { screen, within } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
 import * as useStop from "../../hooks/useStop";
@@ -13,36 +9,36 @@ import { newLatOrLon, routeWithPolylines } from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add, format } from "date-fns";
+import { FetchStatus } from "../../helpers/use-fetch";
 
 describe("StopPageRedesign", () => {
   beforeEach(() => {
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [];
-    });
+    jest
+      .spyOn(useRoute, "useRoutesByStop")
+      .mockReturnValue({ status: FetchStatus.Data, data: [] });
 
-    jest.spyOn(useSchedules, "useSchedulesByStop").mockImplementation(() => {
-      return [];
-    });
+    jest
+      .spyOn(useSchedules, "useSchedulesByStop")
+      .mockReturnValue({ status: FetchStatus.Data, data: [] });
 
-    jest.spyOn(useAlerts, "useAlertsByStop").mockImplementation(() => {
-      return [];
-    });
+    jest
+      .spyOn(useAlerts, "useAlertsByStop")
+      .mockReturnValue({ status: FetchStatus.Data, data: [] });
+    jest
+      .spyOn(useAlerts, "useAlertsByRoute")
+      .mockReturnValue({ status: FetchStatus.Data, data: [] });
 
-    jest.spyOn(useAlerts, "useAlertsByRoute").mockImplementation(() => {
-      return [];
-    });
-
-    jest.spyOn(useStop, "default").mockImplementation(() => {
-      return {
+    jest.spyOn(useStop, "default").mockReturnValue({
+      status: FetchStatus.Data,
+      data: {
         id: "123",
         name: "Test Stop",
         parking_lots: [] as ParkingLot[],
         accessibility: ["ramp"],
         latitude: newLatOrLon(),
         longitude: newLatOrLon()
-      } as Stop;
+      } as Stop
     });
   });
 
@@ -56,27 +52,27 @@ describe("StopPageRedesign", () => {
   });
 
   it("shows Loading without stop or routes", () => {
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return undefined;
-    });
-    jest.spyOn(useStop, "default").mockImplementation(() => {
-      return undefined;
-    });
+    jest
+      .spyOn(useRoute, "useRoutesByStop")
+      .mockReturnValue({ status: FetchStatus.Data, data: undefined });
+    jest
+      .spyOn(useStop, "default")
+      .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
     render(<StopPageRedesign stopId="123" />);
-    expect(screen.queryByText("Loading...")).toBeDefined();
+    expect(screen.getByText("Loading...")).toBeDefined();
   });
 
   it("shows Loading without alerts", () => {
     jest
       .spyOn(useAlerts, "useAlertsByStop")
-      .mockImplementation(() => undefined);
+      .mockReturnValue({ status: FetchStatus.Data, data: undefined });
     jest
       .spyOn(useAlerts, "useAlertsByRoute")
-      .mockImplementation(() => undefined);
+      .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
     render(<StopPageRedesign stopId="123" />);
-    expect(screen.queryByText("Loading...")).toBeDefined();
+    expect(screen.getByText("Loading...")).toBeDefined();
   });
 
   it("all modes show up in departure list", () => {
@@ -89,8 +85,9 @@ describe("StopPageRedesign", () => {
       routeWithPolylines("Train3", 1),
       routeWithPolylines("FerryRoute", 4, 1)
     ];
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return testRoutesWithPolylines;
+    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+      status: FetchStatus.Data,
+      data: testRoutesWithPolylines
     });
 
     const { container } = render(<StopPageRedesign stopId="123" />);
@@ -111,8 +108,9 @@ describe("StopPageRedesign", () => {
     const slRoute = routeWithPolylines("741", 2, 3);
     const busRoute = routeWithPolylines("ABus", 3, 3);
 
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [subwayRoute, crRoute, slRoute, busRoute];
+    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+      status: FetchStatus.Data,
+      data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
     const { container } = render(<StopPageRedesign stopId="123" />);
@@ -153,7 +151,7 @@ describe("StopPageRedesign", () => {
 
     jest
       .spyOn(useAlerts, "useAlertsByStop")
-      .mockImplementation(() => lowAlerts);
+      .mockReturnValue({ status: FetchStatus.Data, data: lowAlerts });
 
     render(<StopPageRedesign stopId="123" />);
     expect(
@@ -214,11 +212,11 @@ describe("StopPageRedesign", () => {
 
     jest
       .spyOn(useAlerts, "useAlertsByStop")
-      .mockImplementation(() => alertsForStop);
+      .mockReturnValue({ status: FetchStatus.Data, data: alertsForStop });
 
     jest
       .spyOn(useAlerts, "useAlertsByRoute")
-      .mockImplementation(() => alertsForRoute);
+      .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
     render(<StopPageRedesign stopId="Test 1" />);
 
@@ -248,7 +246,7 @@ describe("StopPageRedesign", () => {
 
     jest
       .spyOn(useAlerts, "useAlertsByStop")
-      .mockImplementation(() => alertsForStop);
+      .mockReturnValue({ status: FetchStatus.Data, data: alertsForStop });
 
     render(<StopPageRedesign stopId="Test 1" />);
 

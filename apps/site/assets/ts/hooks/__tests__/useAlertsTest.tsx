@@ -2,6 +2,7 @@ import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import { SWRConfig } from "swr";
 import { useAlertsByRoute, useAlertsByStop } from "../useAlerts";
+import { FetchStatus } from "../../helpers/use-fetch";
 
 const unmockedFetch = global.fetch;
 const HookWrapper: React.FC = ({ children }) => (
@@ -35,7 +36,7 @@ const twoAlertsPromise: Promise<Response> = new Promise((resolve: Function) =>
 );
 
 describe("useAlertsByStop", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     // provide mocked network response
     global.fetch = jest.fn(
       () =>
@@ -54,7 +55,29 @@ describe("useAlertsByStop", () => {
     const { result, waitFor } = renderHook(() => useAlertsByStop("stop-id"), {
       wrapper: HookWrapper
     });
-    await waitFor(() => expect(result.current).toEqual([testAlert]));
+    await waitFor(() =>
+      expect(result.current.status).toEqual(FetchStatus.Data)
+    );
+
+    await waitFor(() => expect(result.current.data).toEqual([testAlert]));
+  });
+
+  it("returns error status if API returns an error", async () => {
+    global.fetch = jest.fn(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => [],
+            ok: false,
+            status: 500,
+            statusText: "ERROR"
+          })
+        )
+    );
+    const { result, waitFor } = renderHook(() => useAlertsByStop("stop-id"), {
+      wrapper: HookWrapper
+    });
+    await waitFor(() => expect(result.current.status).toBe(FetchStatus.Error));
   });
 
   afterAll(() => {
@@ -63,7 +86,7 @@ describe("useAlertsByStop", () => {
 });
 
 describe("useAlertsByRoute", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     // provide mocked network response
     global.fetch = jest.fn(url => {
       if (url === "/api/alerts?route_ids=route-id") {
@@ -82,7 +105,11 @@ describe("useAlertsByRoute", () => {
     const { result, waitFor } = renderHook(() => useAlertsByRoute("route-id"), {
       wrapper: HookWrapper
     });
-    await waitFor(() => expect(result.current).toEqual([testAlert]));
+    await waitFor(() =>
+      expect(result.current.status).toEqual(FetchStatus.Data)
+    );
+
+    await waitFor(() => expect(result.current.data).toEqual([testAlert]));
   });
 
   it("should return an alert array for multiple route id", async () => {
@@ -92,8 +119,36 @@ describe("useAlertsByRoute", () => {
         wrapper: HookWrapper
       }
     );
+    await waitFor(() =>
+      expect(result.current.status).toEqual(FetchStatus.Data)
+    );
     await waitFor(() => {
-      expect(result.current).toEqual([testAlert, testAlertTwo]);
+      expect(result.current.data).toEqual([testAlert, testAlertTwo]);
     });
+  });
+
+  it("returns error status if API returns an error", async () => {
+    global.fetch = jest.fn(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => [],
+            ok: false,
+            status: 500,
+            statusText: "ERROR"
+          })
+        )
+    );
+    const { result, waitFor } = renderHook(
+      () => useAlertsByRoute("bad-route"),
+      {
+        wrapper: HookWrapper
+      }
+    );
+    await waitFor(() => expect(result.current.status).toBe(FetchStatus.Error));
+  });
+
+  afterAll(() => {
+    global.fetch = unmockedFetch;
   });
 });

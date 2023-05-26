@@ -2,6 +2,7 @@ import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import { SWRConfig } from "swr";
 import { RouteWithPolylines, useRoutesByStop } from "../useRoute";
+import { FetchStatus } from "../../helpers/use-fetch";
 
 const unmockedFetch = global.fetch;
 const HookWrapper: React.FC = ({ children }) => (
@@ -92,7 +93,7 @@ const testData = [
 ] as RouteWithPolylines[];
 
 describe("useRoute", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     // provide mocked network response
     global.fetch = jest.fn(
       () =>
@@ -112,12 +113,36 @@ describe("useRoute", () => {
       const { result, waitFor } = renderHook(() => useRoutesByStop("stop-id"), {
         wrapper: HookWrapper
       });
-      await waitFor(() => expect(result.current).toEqual(testData));
-      const routeWithPolylines = result.current![0];
+      await waitFor(() =>
+        expect(result.current.status).toEqual(FetchStatus.Data)
+      );
+
+      await waitFor(() => expect(result.current.data).toEqual(testData));
+      const routeWithPolylines = result.current.data![0];
       expect(typeof routeWithPolylines).toBe("object");
       expect(routeWithPolylines.polylines[0]).toHaveProperty("color");
       expect(routeWithPolylines.polylines[0]).toHaveProperty("weight");
       expect(routeWithPolylines.polylines[0]).toHaveProperty("positions");
+    });
+
+    it("returns error status if API returns an error", async () => {
+      global.fetch = jest.fn(
+        () =>
+          new Promise((resolve: Function) =>
+            resolve({
+              json: () => [],
+              ok: false,
+              status: 500,
+              statusText: "ERROR"
+            })
+          )
+      );
+      const { result, waitFor } = renderHook(() => useRoutesByStop("stop-id"), {
+        wrapper: HookWrapper
+      });
+      await waitFor(() =>
+        expect(result.current.status).toBe(FetchStatus.Error)
+      );
     });
   });
 

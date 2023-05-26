@@ -2,6 +2,7 @@ import { renderHook } from "@testing-library/react-hooks";
 import React from "react";
 import { SWRConfig } from "swr";
 import useStop from "../useStop";
+import { FetchStatus } from "../../helpers/use-fetch";
 
 const unmockedFetch = global.fetch;
 const HookWrapper: React.FC = ({ children }) => (
@@ -13,7 +14,7 @@ const testStop = {
 };
 
 describe("useStop", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     // provide mocked network response
     global.fetch = jest.fn(
       () =>
@@ -32,7 +33,26 @@ describe("useStop", () => {
     const { result, waitFor } = renderHook(() => useStop("stop-id"), {
       wrapper: HookWrapper
     });
-    await waitFor(() => expect(result.current).toEqual(testStop));
+    await waitFor(() => expect(result.current.status).toBe(FetchStatus.Data));
+    await waitFor(() => expect(result.current.data).toEqual(testStop));
+  });
+
+  it("returns error status if API returns an error", async () => {
+    global.fetch = jest.fn(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => testStop,
+            ok: false,
+            status: 500,
+            statusText: "ERROR"
+          })
+        )
+    );
+    const { result, waitFor } = renderHook(() => useStop("stop-id"), {
+      wrapper: HookWrapper
+    });
+    await waitFor(() => expect(result.current.status).toBe(FetchStatus.Error));
   });
 
   afterAll(() => {
