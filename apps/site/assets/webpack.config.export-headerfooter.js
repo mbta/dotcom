@@ -1,7 +1,7 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const PurgecssPlugin = require("purgecss-webpack-plugin");
+const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 
 const path = require("path");
@@ -112,7 +112,7 @@ module.exports = (env, argv) => {
 
       // purge CSS based on HTML
       // depends on header.html and footer.html already being present at the outputPath.
-      new PurgecssPlugin({
+      new PurgeCSSPlugin({
         fontFace: true, // remove unused @font-face
         keyframes: true, // remove unused keyframes
         paths: glob.sync(`${outputPath}/*.html`, { nodir: true }),
