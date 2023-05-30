@@ -52,14 +52,12 @@ const StopPageRedesign = ({
     omit(rwp, "polylines")
   );
 
-  const alertsStopArray = alertsForStopResult.data || [];
-  const alertsRouteArray = alertsForRoutesResult.data || [];
   // routeWideAlertsArray are all the alerts that affect the whole route
   // not just specific stops or trips
-  const routeWideAlertsArray = routeWideAlerts(alertsRouteArray);
+  const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
   // Get only alerts that are current
   const currentAlerts = filter(
-    alertsStopArray.concat(routeWideAlertsArray),
+    alertsForStopResult.data.concat(routeWideAlertsArray),
     alert => isCurrentAlert(alert)
   );
 

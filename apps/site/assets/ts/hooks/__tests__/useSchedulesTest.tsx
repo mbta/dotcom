@@ -54,29 +54,27 @@ describe("useSchedulesByStop", () => {
         new Date(testSchedule2.time)
       );
     });
+  });
 
-    it("returns error status if API returns an error", async () => {
-      global.fetch = jest.fn(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              json: () => [testSchedule1, testSchedule2],
-              ok: false,
-              status: 500,
-              statusText: "ERROR"
-            })
-          )
-      );
-      const { result, waitFor } = renderHook(
-        () => useSchedulesByStop("stop-id"),
-        {
-          wrapper: HookWrapper
-        }
-      );
-      await waitFor(() =>
-        expect(result.current.status).toBe(FetchStatus.Error)
-      );
-    });
+  it("returns error status if API returns an error", async () => {
+    global.fetch = jest.fn(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => [testSchedule1, testSchedule2],
+            ok: false,
+            status: 500,
+            statusText: "ERROR"
+          })
+        )
+    );
+    const { result, waitFor } = renderHook(
+      () => useSchedulesByStop("stop-id"),
+      {
+        wrapper: HookWrapper
+      }
+    );
+    await waitFor(() => expect(result.current.status).toBe(FetchStatus.Error));
   });
 
   afterAll(() => {
