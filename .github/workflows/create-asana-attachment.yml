@@ -1,19 +1,16 @@
 on:
   pull_request:
-    types: [ready_for_review, review_requested]
+    types: [closed, edited, opened, review_requested, ready_for_review, reopened]
 
 jobs:
-  create-asana-attachment-job:
-    runs-on: ubuntu-latest
-    name: Add PR to Asana task when PR is available for review
-    steps:
-      - name: Create pull request attachments
-        uses: Asana/create-app-attachment-github-action@latest
-        id: postAttachment
-        with:
-          asana-secret: ${{ secrets.ASANA_SECRET }}
-          # Website - Sprint
-          allowed-projects: |
-            555089885850811
-      - name: Log output status
-        run: echo "Status is ${{ steps.postAttachment.outputs.status }}"
+  call-workflow:
+    uses: mbta/workflows/.github/workflows/asana.yml@main
+    with:
+      complete-on-merge: false
+      review-section: "Code Review"
+      merged-section: "To Be Released"
+      attach-pr: true
+      trigger-phrase: "\\*\\*Asana Ticket:\\*\\*"
+    secrets:
+      asana-token: ${{ secrets.ASANA_PERSONAL_ACCESS_TOKEN }}
+      github-secret: ${{ secrets.ASANA_SECRET }}
