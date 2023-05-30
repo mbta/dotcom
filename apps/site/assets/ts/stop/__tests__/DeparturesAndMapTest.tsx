@@ -10,6 +10,7 @@ import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
 import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { Route } from "../../__v3api";
+import { FetchStatus } from "../../helpers/use-fetch";
 
 const stop = {
   id: "test-stop",
@@ -71,9 +72,9 @@ const v2 = {
 const testRoutesWithPolylines: RouteWithPolylines[] = [
   routeWithPolylines("SomeBus", 3, 0)
 ];
-jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-  return testRoutesWithPolylines;
-});
+jest
+  .spyOn(useRoute, "useRoutesByStop")
+  .mockReturnValue({ status: FetchStatus.Data, data: testRoutesWithPolylines });
 
 beforeEach(() => {
   jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
@@ -149,8 +150,9 @@ describe("DeparturesAndMap", () => {
 
     const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
 
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [subwayRoute, crRoute, slRoute, busRoute];
+    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+      status: FetchStatus.Data,
+      data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
     const { container } = render(
@@ -182,8 +184,9 @@ describe("DeparturesAndMap", () => {
 
     const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
 
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [subwayRoute, crRoute, slRoute, busRoute];
+    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+      status: FetchStatus.Data,
+      data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
     jest
