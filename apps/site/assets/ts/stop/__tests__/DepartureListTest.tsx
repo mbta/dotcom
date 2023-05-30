@@ -114,4 +114,14 @@ describe("DepartureList", () => {
       screen.getByRole("heading", { name: `${stop.name} to TestRoute Route` })
     ).toBeDefined();
   });
+
+  it("should render `No upcoming trips today` if there are no schedules", () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {};
+    });
+    render(
+      <DepartureList route={route} stop={stop} schedules={[]} directionId={0} />
+    );
+    expect(screen.getByText("No upcoming trips today")).toBeDefined();
+  });
 });
