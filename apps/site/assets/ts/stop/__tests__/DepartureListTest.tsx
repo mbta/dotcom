@@ -171,7 +171,13 @@ describe("DepartureList", () => {
       return {};
     });
     render(
-      <DepartureList route={route} stop={stop} schedules={[]} directionId={0} />
+      <DepartureList
+        alerts={[]}
+        route={route}
+        stop={stop}
+        schedules={[]}
+        directionId={0}
+      />
     );
     expect(screen.getByText("No upcoming trips today")).toBeDefined();
   });
