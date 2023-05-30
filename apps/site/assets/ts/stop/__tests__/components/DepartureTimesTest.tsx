@@ -495,7 +495,7 @@ describe("DepartureTimes", () => {
         compareTime
       );
 
-      expect(displayTime2.isStikethrough).toBe(true);
+      expect(displayTime2.isStrikethrough).toBe(true);
       expect(displayTime2.displayString).toEqual("11:35 AM");
       expect(displayTime2.trackName).toEqual("Test Track");
       expect(displayTime1.displayString).toEqual("11:45 AM");

@@ -20,7 +20,7 @@ interface DisplayTimeConfig {
   trackName?: string | null;
   isTomorrow?: boolean;
   isBolded?: boolean;
-  isStikethrough?: boolean;
+  isStrikethrough?: boolean;
   reactKey: string;
 }
 
@@ -64,7 +64,7 @@ const infoToDisplayTime = (
       },
       {
         displayString: `${formatToBostonTime(scheduleTime, formatOverride)}`,
-        isStikethrough: true,
+        isStrikethrough: true,
         trackName: time1.prediction!.track,
         reactKey: `${getInfoKey(time1)}-delayed`
       }
@@ -86,7 +86,7 @@ const infoToDisplayTime = (
       },
       {
         displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
-        isStikethrough: true,
+        isStrikethrough: true,
         trackName: time2.prediction?.track,
         reactKey: getInfoKey(time1)
       }
