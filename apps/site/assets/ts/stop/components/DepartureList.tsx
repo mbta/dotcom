@@ -12,6 +12,7 @@ import {
   alertsByStop,
   allRouteAlertsForDirection,
   hasSuspension,
+  isCurrentAlert,
   isHighPriorityAlert
 } from "../../models/alert";
 import Alerts from "../../components/Alerts";
@@ -38,15 +39,11 @@ const DepartureList = ({
   );
 
   let departures: DepartureInfo[] = [];
-  const routeAlerts = allRouteAlertsForDirection(
-    alerts,
-    route.id,
-    directionId
-  ).filter(alert => {
-    return isHighPriorityAlert(alert) && alert.lifecycle === "ongoing";
-  });
+  const routeAlerts = allRouteAlertsForDirection(alerts, route.id, directionId);
   const stopAlerts = alertsByStop(alerts, stop.id);
-  const allAlerts = concat(routeAlerts, stopAlerts);
+  const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
+    return isHighPriorityAlert(alert) && isCurrentAlert(alert);
+  });
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
