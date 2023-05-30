@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    types: [ready_for_review, review_requested]
+
+jobs:
+  create-asana-attachment-job:
+    runs-on: ubuntu-latest
+    name: Add PR to Asana task when PR is available for review
+    steps:
+      - name: Create pull request attachments
+        uses: Asana/create-app-attachment-github-action@latest
+        id: postAttachment
+        with:
+          asana-secret: ${{ secrets.ASANA_SECRET }}
+          # Website - Sprint
+          allowed-projects: |
+            555089885850811
+      - name: Log output status
+        run: echo "Status is ${{ steps.postAttachment.outputs.status }}"
