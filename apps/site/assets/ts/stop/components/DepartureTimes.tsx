@@ -189,8 +189,6 @@ const DepartureTimes = ({
         const predictions = predictionsByHeadsign[headsign] || [];
         return (
           <div
-            // TODO remove this class name in favor of test ids
-            className="departure-row-click-test"
             key={`${headsign}-${route.id}`}
             onClick={() => onClick(route, directionId, schedules)}
             onKeyDown={() => onClick(route, directionId, schedules)}
