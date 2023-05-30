@@ -63,10 +63,16 @@ $radius: 4px;
   background-color: $gray-bordered-background;
   border: .25px solid $gray-lighter;
   border-radius: $radius;
-  display: grid;
   gap: .5rem;
-  grid-template-columns: 5fr 7fr;
   padding: .75rem;
+
+  .stop-routes__all {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    @include media-breakpoint-down(sm) {
+      grid-template-columns: 1fr;
+    }
+  }
 
   @include media-breakpoint-down(sm) {
     border-radius: 0;
@@ -79,7 +85,7 @@ $radius: 4px;
     margin-top: 1rem;
   }
 
-  .map {
+  .stop-map {
     height: 100%;
   }
 
@@ -188,16 +194,7 @@ $radius: 4px;
   }
 }
 
-.placeholder-map {
-  display: none;
-  @include media-breakpoint-down(sm) {
-    background-color: $crowding-some-crowding-bg;
-    display: block;
-    height: 50%;
-  }
-}
-
-.placeholder-departures {
+.stop-routes__departures--selected-route {
   background-color: $white;
   height: 19.2rem;
   margin: .5rem;
@@ -215,11 +212,59 @@ $radius: 4px;
   }
 }
 
+.stop-map {
+  // style similarly to the Bootstrap tooltip
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background-color: $tooltip-bg;
+    border: 0;
+    color: $tooltip-color;
+  }
+  .leaflet-popup-content {
+    max-width: $tooltip-width;
+    padding: calc(#{$base-spacing} / 4) $base-spacing * 1.5
+      calc(#{$base-spacing} / 4) calc(#{$base-spacing} / 2);
+
+    @include media-breakpoint-down(xs) {
+      max-width: 70vw;
+    }
+  }
+
+  .leaflet-popup-close-button {
+    right: calc(#{$base-spacing} / 4);
+    top: calc(#{$base-spacing} / 4);
+  }
+}
+
 .departures-container {
   background-color: $white;
+  display: grid;
+  grid-template-areas: 'back-button map'
+    'departures map'
+    'departures map';
+  grid-template-columns: 5fr 7fr;
   margin: .5rem;
+  width: 100%;
+  .back-to-routes {
+    grid-area: back-button;
+  }
+
+  .stop-routes__map.stop-routes__map--selected-route {
+    grid-area: map;
+    height: 100%;
+  }
+
+  .stop-routes__departures--selected-route {
+    grid-area: departures;
+  }
+
   @include media-breakpoint-down(sm) {
     box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
+    grid-template: 'back-button'
+      'map'
+      'departures';
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 1fr 1fr;
     height: 100vh;
     left: -.5rem;
     max-height: 100%;
@@ -266,5 +311,23 @@ $radius: 4px;
   padding: 0;
   .departure-card__route {
     justify-content: space-between;
+  }
+}
+
+.departure-list__sub-header {
+  height: min-content;
+  margin: .5rem;
+  .departure-list__origin-stop-name {
+    font-size: .875rem;
+    font-weight: normal;
+    line-height: 1.46;
+    @include media-breakpoint-down(sm) {
+      line-height: 1.95;
+    }
+  }
+  .departure-list__headsign {
+    @include heading-4();
+    font-weight: bold;
+    margin: 0;
   }
 }

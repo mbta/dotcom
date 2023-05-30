@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { concat } from "lodash";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
@@ -44,12 +44,13 @@ const DepartureList = ({
   const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
     return isHighPriorityAlert(alert) && isCurrentAlert(alert);
   });
+  const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
       {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
-      {schedules.length && !hasSuspension(allAlerts) && (
-        <div>
+      {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
+        <>
           <div className="stop-departures departure-list-header">
             <div className={`departure-card__route ${routeBgClass(route)}`}>
               <div>
@@ -58,12 +59,20 @@ const DepartureList = ({
               </div>
               <a
                 className="open-schedule"
-                href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${schedules[0].trip.route_pattern_id}&schedule_finder[direction_id]=${directionId}&schedule_finder[origin]=${stop.id}`}
+                href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern.route_pattern_id}&schedule_finder[direction_id]=${directionId}&schedule_finder[origin]=${stop.id}`}
               >
                 View all schedules
               </a>
             </div>
           </div>
+          <h2 className="departure-list__sub-header">
+            <div className="departure-list__origin-stop-name">
+              {stop.name} to
+            </div>
+            <div className="departure-list__headsign">
+              {tripForSelectedRoutePattern.headsign}
+            </div>
+          </h2>
           {schedules.map((schs, idx) => {
             const { headsign } = schs.trip;
             const preds = predictionsByHeadsign[headsign]
@@ -79,7 +88,7 @@ const DepartureList = ({
               </div>
             );
           })}
-        </div>
+        </>
       )}
     </>
   );

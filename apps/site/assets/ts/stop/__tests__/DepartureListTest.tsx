@@ -150,4 +150,19 @@ describe("DepartureList", () => {
     expect(screen.queryByText("Suspension")).toBeDefined();
     expect(screen.queryByText("Delay")).toBeNull();
   });
+
+  it("subheading includes stop + headsign name", () => {
+    render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+        alerts={[]}
+      />
+    );
+    expect(
+      screen.getByRole("heading", { name: `${stop.name} to TestRoute Route` })
+    ).toBeDefined();
+  });
 });

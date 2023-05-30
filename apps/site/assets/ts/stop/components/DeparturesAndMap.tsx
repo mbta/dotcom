@@ -7,6 +7,13 @@ import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
+import {
+  isASilverLineRoute,
+  isSubwayRoute,
+  isACommuterRailRoute
+} from "../../models/route";
+import useVehiclesChannel from "../../hooks/useVehiclesChannel";
+import { Polyline } from "../../leaflet/components/__mapdata";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -45,12 +52,6 @@ const DeparturesAndMap = ({
     });
   };
 
-  const polylines = chain(routesWithPolylines)
-    .orderBy("sort_order", "desc")
-    .flatMap("polylines")
-    .uniqBy("id")
-    .value();
-
   const viewAllRoutes: () => boolean = () => {
     if (
       !departureInfo.departureRoute &&
@@ -62,16 +63,84 @@ const DeparturesAndMap = ({
     return false;
   };
 
+  const defaultPolylines = chain(routesWithPolylines)
+    .filter(
+      route =>
+        isASilverLineRoute(route) ||
+        isSubwayRoute(route) ||
+        isACommuterRailRoute(route)
+    )
+    .orderBy("sort_order", "desc")
+    .flatMap("polylines")
+    .uniqBy("id")
+    .value();
+
+  const findShapeForSelection = (): Polyline | undefined => {
+    if (
+      departureInfo.departureRoute === null ||
+      departureInfo.departureDirectionId === null ||
+      !departureInfo.departureSchedules
+    ) {
+      return undefined;
+    }
+
+    const selectedRoute = routesWithPolylines.find(
+      route => route.id === departureInfo.departureRoute!.id
+    );
+
+    const shapeIdForSelection =
+      departureInfo.departureSchedules[0]?.trip.shape_id;
+
+    if (selectedRoute && shapeIdForSelection) {
+      return selectedRoute.polylines.find(
+        line => line.id === shapeIdForSelection
+      );
+    }
+    return undefined;
+  };
+
+  const DefaultRoutesMap = (): JSX.Element => {
+    return (
+      <StopMapRedesign stop={stop} lines={defaultPolylines} vehicles={[]} />
+    );
+  };
+
+  const SelectedRoutePatternMap = (): JSX.Element => {
+    const vehiclesForSelectedRoute = useVehiclesChannel(
+      departureInfo.departureRoute &&
+        departureInfo.departureDirectionId !== null
+        ? {
+            routeId: departureInfo.departureRoute.id,
+            directionId: departureInfo.departureDirectionId
+          }
+        : null
+    );
+
+    const shapeForSelection = findShapeForSelection();
+    return (
+      <StopMapRedesign
+        stop={stop}
+        lines={shapeForSelection ? [shapeForSelection] : []}
+        vehicles={vehiclesForSelectedRoute}
+      />
+    );
+  };
+
   return (
     <div className="stop-routes-and-map">
       {viewAllRoutes() ? (
-        <StopPageDepartures
-          routes={routes}
-          stop={stop}
-          schedules={schedules}
-          onClick={setDepartureVariables}
-          alerts={alerts}
-        />
+        <div className="stop-routes__all">
+          <StopPageDepartures
+            routes={routes}
+            stop={stop}
+            schedules={schedules}
+            onClick={setDepartureVariables}
+            alerts={alerts}
+          />
+          <div className="hidden-sm-down">
+            <DefaultRoutesMap />
+          </div>
+        </div>
       ) : (
         <div className="departures-container">
           <div className="back-to-routes">
@@ -97,8 +166,10 @@ const DeparturesAndMap = ({
               {`Back to all ${stop.name} routes`}
             </div>
           </div>
-          <div className="placeholder-map">imagine a map</div>
-          <div className="placeholder-departures">
+          <div className="stop-routes__map stop-routes__map--selected-route">
+            <SelectedRoutePatternMap />
+          </div>
+          <div className="stop-routes__departures stop-routes__departures--selected-route">
             {departureInfo.departureDirectionId != null &&
             departureInfo.departureSchedules &&
             departureInfo.departureRoute ? (
@@ -115,9 +186,6 @@ const DeparturesAndMap = ({
           </div>
         </div>
       )}
-      <div>
-        <StopMapRedesign stop={stop} lines={polylines} />
-      </div>
     </div>
   );
 };

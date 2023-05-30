@@ -6,7 +6,7 @@ import {
   makeMockSocket
 } from "../../helpers/socketTestHelpers";
 import { waitFor } from "@testing-library/dom";
-import { Channel } from "phoenix";
+import { Channel, Socket } from "phoenix";
 
 interface MockData {
   thing: string;
@@ -39,9 +39,16 @@ const mockReducer: MockReducer = (state, action) => {
 const initialState = { things: ["apple", "banana", "citrus"] };
 
 describe("useChannel", () => {
-  beforeAll(() => {
-    const mockSocket = makeMockSocket();
-    const mockChannel = makeMockChannel("ok");
+  let mockSocket: Socket & { channel: jest.Mock };
+  let mockChannel: {
+    join: jest.Mock<any, any>;
+    leave: jest.Mock<any, any>;
+    on: jest.Mock<any, any>;
+    receive: jest.Mock<any, any>;
+  };
+  beforeEach(() => {
+    mockSocket = makeMockSocket();
+    mockChannel = makeMockChannel("ok");
     mockSocket.channel.mockImplementationOnce(() => mockChannel);
 
     // mock setup global variables on page load
@@ -88,5 +95,40 @@ describe("useChannel", () => {
     expect(result.current.things.filter(t => t !== "durian")).toEqual(
       initialState.things
     ); // still has original things
+  });
+
+  test("when passed null topic, channel is not joined", () => {
+    expect(window.channels["mock-channel"]).toBeUndefined();
+    renderHook(() =>
+      useChannel<MockData, MockReducer>(null, mockReducer, initialState)
+    );
+    expect(mockChannel!.join).not.toHaveBeenCalled();
+  });
+
+  test("when passed null topic then string topic, the topic is joined", () => {
+    expect(window.channels["mock-channel"]).toBeUndefined();
+    const { rerender } = renderHook<string | null, MockState>(
+      channelId =>
+        useChannel<MockData, MockReducer>(channelId, mockReducer, initialState),
+      { initialProps: null }
+    );
+    expect(mockChannel!.join).not.toHaveBeenCalled();
+    rerender("mock-channel");
+    expect(mockChannel!.join).toHaveBeenCalled();
+    expect(window.channels["mock-channel"]).toBeDefined();
+  });
+
+  test("when passed string topic then null topic, the topic is left", () => {
+    expect(window.channels["mock-channel"]).toBeUndefined();
+    const { rerender } = renderHook<string | null, MockState>(
+      channelId =>
+        useChannel<MockData, MockReducer>(channelId, mockReducer, initialState),
+      { initialProps: "mock-channel" }
+    );
+
+    expect(mockChannel!.join).toHaveBeenCalled();
+    rerender(null);
+    expect(mockChannel.leave).toHaveBeenCalled();
+    expect(window.channels["mock-channel"]).not.toBeDefined();
   });
 });

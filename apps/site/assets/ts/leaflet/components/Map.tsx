@@ -97,6 +97,7 @@ const Component = ({
           /* istanbul ignore next */
           polyline => (
             <Polyline
+              className={polyline.className}
               key={
                 polyline.id || `polyline-${Math.floor(Math.random() * 1000)}`
               }
@@ -118,6 +119,7 @@ const Component = ({
                 Math.random() * 1000
               )}`
             }
+            alt={marker.alt || "Marker"}
             position={[marker.latitude, marker.longitude]}
             ref={ref => ref && rotateMarker(ref.leafletElement, marker)}
             zIndexOffset={marker.z_index}
