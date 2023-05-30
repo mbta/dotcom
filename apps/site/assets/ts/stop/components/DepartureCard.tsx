@@ -6,7 +6,7 @@ import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
-import { allRouteAlertsForDirection } from "../../models/alert";
+import { allAlertsForDirection } from "../../models/alert";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -49,11 +49,7 @@ const DepartureCard = ({
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
         onClick={onClick}
-        alertsForDirection={allRouteAlertsForDirection(
-          alertsForRoute,
-          route.id,
-          0
-        )}
+        alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
       />
       <DepartureTimes
         key={`${route.id}-1`}
@@ -62,11 +58,7 @@ const DepartureCard = ({
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
         onClick={onClick}
-        alertsForDirection={allRouteAlertsForDirection(
-          alertsForRoute,
-          route.id,
-          1
-        )}
+        alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
       />
     </li>
   );

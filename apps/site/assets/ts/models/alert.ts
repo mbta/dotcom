@@ -109,16 +109,13 @@ export const alertsAffectingBothDirections = (alerts: Alert[]): Alert[] => {
   });
 };
 
-export const allRouteAlertsForDirection = (
+export const allAlertsForDirection = (
   alerts: Alert[],
-  route_id: string,
   direction_id: number
 ): Alert[] => {
-  const groupedAlerts = alertsByRoute(alerts);
-  const alertsForRoute = groupedAlerts[route_id] || [];
-  const alertsByDirectionObj = alertsByDirectionId(alertsForRoute);
+  const alertsByDirectionObj = alertsByDirectionId(alerts);
   const alertsAffectingBothDirectionsArray = alertsAffectingBothDirections(
-    alertsForRoute
+    alerts
   );
   const alertsDirectionArray = alertsByDirectionObj[direction_id]
     ? alertsByDirectionObj[direction_id]

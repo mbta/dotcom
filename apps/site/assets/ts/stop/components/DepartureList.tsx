@@ -9,8 +9,9 @@ import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
 import {
+  alertsByRoute,
   alertsByStop,
-  allRouteAlertsForDirection,
+  allAlertsForDirection,
   hasSuspension,
   isCurrentAlert,
   isHighPriorityAlert
@@ -39,7 +40,11 @@ const DepartureList = ({
   );
 
   let departures: DepartureInfo[] = [];
-  const routeAlerts = allRouteAlertsForDirection(alerts, route.id, directionId);
+
+  const groupedAlerts = alertsByRoute(alerts);
+  const alertsForRoute = groupedAlerts[route.id] || [];
+
+  const routeAlerts = allAlertsForDirection(alertsForRoute, directionId);
   const stopAlerts = alertsByStop(alerts, stop.id);
   const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
     return isHighPriorityAlert(alert) && isCurrentAlert(alert);
