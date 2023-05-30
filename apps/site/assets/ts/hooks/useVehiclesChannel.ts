@@ -84,10 +84,14 @@ export const vehiclesReducer = (
  * websockets + Phoenix channels.
  */
 const useVehiclesChannel = (
-  routeId: string,
-  directionId: DirectionId
+  routeAndDirection: {
+    routeId: string;
+    directionId: DirectionId;
+  } | null
 ): Vehicle[] => {
-  const channelName = `vehicles-v2:${routeId}:${directionId}`;
+  const channelName = routeAndDirection
+    ? `vehicles-v2:${routeAndDirection.routeId}:${routeAndDirection.directionId}`
+    : null;
   const reducer: Reducer<Vehicle[], ChannelMessage> = (
     oldVehicles,
     incomingMessage

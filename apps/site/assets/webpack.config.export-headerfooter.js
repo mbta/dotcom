@@ -1,7 +1,7 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const PurgecssPlugin = require("purgecss-webpack-plugin");
+const { PurgeCSSPlugin } = require("purgecss-webpack-plugin");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 
 const path = require("path");
@@ -106,11 +106,13 @@ module.exports = (env, argv) => {
             { from: "static/favicon.ico", to: "favicon.ico" },
             { from: "static/images/mbta-logo.svg", to: "images/mbta-logo.svg" },
             { from: "static/images/mbta-name-and-logo.svg", to: "images/mbta-name-and-logo.svg" },
+            { from: "static/images/mbta-logo-t-180.png", to: "images/mbta-logo-t-180.png" },
+            { from: "static/images/mbta-logo-t-favicon.png", to: "images/mbta-logo-t-favicon.png" },
           ]}),
 
       // purge CSS based on HTML
       // depends on header.html and footer.html already being present at the outputPath.
-      new PurgecssPlugin({
+      new PurgeCSSPlugin({
         fontFace: true, // remove unused @font-face
         keyframes: true, // remove unused keyframes
         paths: glob.sync(`${outputPath}/*.html`, { nodir: true }),

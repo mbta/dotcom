@@ -122,13 +122,22 @@ describe("useVehiclesChannel hook", () => {
   });
 
   test("initializes connection to appropriate channel", () => {
-    const { result } = renderHook(() => useVehiclesChannel("39", 1));
+    const { result } = renderHook(() =>
+      useVehiclesChannel({ routeId: "39", directionId: 1 })
+    );
     expect(result.current).toEqual([]);
     expect(window.channels["vehicles-v2:39:1"]).toBeTruthy();
   });
 
+  test("when passed null for route/direction, returns empty list", () => {
+    const { result } = renderHook(() => useVehiclesChannel(null));
+    expect(result.current).toEqual([]);
+  });
+
   test("gets and outputs data", () => {
-    const { result } = renderHook(() => useVehiclesChannel("39", 1));
+    const { result } = renderHook(() =>
+      useVehiclesChannel({ routeId: "39", directionId: 1 })
+    );
     const [v1, v2] = vehiclesData;
 
     /* pretend this is the channel emitting new vehicles */
@@ -151,7 +160,9 @@ describe("useVehiclesChannel hook", () => {
   });
 
   test("doesn't output data if same as new data", () => {
-    const { result } = renderHook(() => useVehiclesChannel("39", 1));
+    const { result } = renderHook(() =>
+      useVehiclesChannel({ routeId: "39", directionId: 1 })
+    );
 
     /* pretend this is the channel emitting new vehicles */
     act(() => {

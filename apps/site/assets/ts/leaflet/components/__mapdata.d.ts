@@ -15,6 +15,7 @@ export interface IconOpts {
 export interface MapMarker {
   icon: string | null;
   icon_opts?: IconOpts;
+  alt?: string;
   id: string | null;
   longitude: number;
   latitude: number;
@@ -34,6 +35,7 @@ export interface Polyline {
   id: string;
   positions: [number, number][];
   weight: number;
+  className?: string;
 }
 
 export interface MapData {

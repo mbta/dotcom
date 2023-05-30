@@ -117,6 +117,7 @@ defmodule Stops.Repo do
         stop
         |> Stops.Api.by_route_type()
         |> Enum.map(&get_parent/1)
+        |> Enum.uniq_by(& &1.id)
       end
     )
   end
