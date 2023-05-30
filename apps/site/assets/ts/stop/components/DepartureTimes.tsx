@@ -35,7 +35,7 @@ const getNextTwoTimes = (
   return [departure1, departure2];
 };
 
-const toAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
+const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
     return <Badge text="Stop Closed" contextText="Route Status" />;
   }
@@ -44,9 +44,14 @@ const toAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
     return <Badge text="Shuttle Service" contextText="Route Status" />;
   }
 
+  return undefined;
+};
+
+const toInformativeAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasDetour(alerts)) {
     return <Badge text="Detour" contextText="Route Status" />;
   }
+
   return undefined;
 };
 
@@ -103,6 +108,11 @@ const departureTimeRow = (
   formattedTimes: DisplayTimeConfig[],
   alertBadge?: JSX.Element
 ): JSX.Element => {
+  let alertClass = "";
+  if (alertBadge && formattedTimes.length > 0) {
+    // Informative badges need more padding between them and the time
+    alertClass = "pt-4";
+  }
   return (
     <div
       key={headsignName}
@@ -110,8 +120,12 @@ const departureTimeRow = (
     >
       <div className="departure-card__headsign-name">{headsignName}</div>
       <div className="d-flex align-items-center">
-        {formattedTimes.length > 0 && displayFormattedTimes(formattedTimes)}
-        {alertBadge}
+        <div>
+          {formattedTimes.length > 0 && displayFormattedTimes(formattedTimes)}
+          <div className={alertClass} style={{ float: "right" }}>
+            {alertBadge}
+          </div>
+        </div>
         {/* TODO: Navigate to Realtime Tracking view (whole row should be clickable) */}
         <button
           type="button"
@@ -131,10 +145,14 @@ const getRow = (
   alerts: Alert[],
   overrideDate?: Date
 ): JSX.Element => {
-  const alertBadge = toAlertBadge(alerts);
+  // High priority badges override the displaying of times
+  const alertBadge = toHighPriorityAlertBadge(alerts);
   if (alertBadge) {
     return departureTimeRow(headsign, [], alertBadge);
   }
+
+  // informative badges compliment the times being shown
+  const informativeAlertBadge = toInformativeAlertBadge(alerts);
 
   // Merging should happen after alert processing incase a route is cancelled
   const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
@@ -142,7 +160,7 @@ const getRow = (
   const [time1, time2] = getNextTwoTimes(departureInfos);
   const formattedTimes = infoToDisplayTime(time1, time2, overrideDate);
 
-  return departureTimeRow(headsign, formattedTimes);
+  return departureTimeRow(headsign, formattedTimes, informativeAlertBadge);
 };
 
 interface DepartureTimesProps {
@@ -189,8 +207,6 @@ const DepartureTimes = ({
         const predictions = predictionsByHeadsign[headsign] || [];
         return (
           <div
-            // TODO remove this class name in favor of test ids
-            className="departure-row-click-test"
             key={`${headsign}-${route.id}`}
             onClick={() => onClick(route, directionId, schedules)}
             onKeyDown={() => onClick(route, directionId, schedules)}

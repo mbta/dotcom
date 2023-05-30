@@ -1,5 +1,6 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import DepartureTimes, {
   getNextTwoTimes,
   infoToDisplayTime
@@ -97,9 +98,8 @@ describe("DepartureTimes", () => {
     alertEffect     | expectedBadge
     ${"suspension"} | ${"Stop Closed"}
     ${"shuttle"}    | ${"Shuttle Service"}
-    ${"detour"}     | ${"Detour"}
   `(
-    `displays $expectedBadge when alert has effect $alertEffect`,
+    `displays $expectedBadge when high priority alert has effect $alertEffect`,
     ({ alertEffect, expectedBadge }) => {
       const schedules = [
         { trip: { direction_id: 0 } }
@@ -128,6 +128,92 @@ describe("DepartureTimes", () => {
       expect(screen.getByText(expectedBadge)).toBeDefined();
     }
   );
+
+  it("should display the high priority alert badge over the information alert badge", () => {
+    const schedules = [
+      { trip: { direction_id: 0 } }
+    ] as ScheduleWithTimestamp[];
+
+    const alerts = [
+      {
+        id: "1234",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "suspension"
+      },
+      {
+        id: "123",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "detour"
+      }
+    ] as Alert[];
+
+    render(
+      <DepartureTimes
+        route={route}
+        stop={stop}
+        directionId={0}
+        schedulesForDirection={schedules}
+        alertsForDirection={alerts}
+        onClick={() => {}}
+      />
+    );
+    expect(screen.getByText("Stop Closed")).toBeDefined();
+    expect(screen.queryByText("Detour")).toBeNull();
+  });
+
+  it("should display the detour badge with times if detour alert is present", () => {
+    const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "Test 1": [
+          {
+            time: new Date("2022-04-27T11:15:00-04:00"),
+            trip: { id: "1", headsign: "Test 1" }
+          },
+          {
+            trip: { id: "2", headsign: "Test 1" },
+            time: new Date("2022-04-27T11:20:00-04:00")
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+    const schedules = [
+      {
+        trip: { id: "1", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:15:00-04:00")
+      },
+      {
+        trip: { id: "2", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:18:00-04:00")
+      }
+    ] as ScheduleWithTimestamp[];
+    const detourAlert = {
+      id: "123",
+      informed_entity: {
+        direction_id: [0]
+      },
+      effect: "detour"
+    };
+
+    render(
+      <DepartureTimes
+        route={route}
+        stop={stop}
+        directionId={0}
+        schedulesForDirection={schedules}
+        alertsForDirection={[detourAlert] as Alert[]}
+        overrideDate={dateToCompare}
+        onClick={() => {}}
+      />
+    );
+
+    expect(screen.getByText("Detour")).toBeDefined();
+    expect(screen.getByText("45 min")).toBeDefined();
+  });
 
   describe("getNextTwoTimes", () => {
     it("should return the next 2 departure infos times", () => {
@@ -438,7 +524,11 @@ describe("DepartureTimes", () => {
     });
   });
 
-  it("should display a default", () => {
+  it("should allow the clicking of rows", async () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {};
+    });
+    const compareTime = new Date("2022-04-24T11:15:00-04:00");
     const stop = {
       id: "test-stop",
       name: "Test Stop",
@@ -448,20 +538,21 @@ describe("DepartureTimes", () => {
 
     const schedules = [
       {
-        trip: { id: "1" },
+        trip: { id: "1", headsign: "Test 1" },
         time: new Date("2022-04-27T11:15:00-04:00")
       },
       {
-        trip: { id: "2" },
+        trip: { id: "2", headsign: "Test 1" },
         time: new Date("2022-04-27T11:18:00-04:00")
       },
       {
-        trip: { id: "4" },
+        trip: { id: "4", headsign: "Test 2" },
         time: new Date("2022-04-27T11:40:00-04:00")
       }
     ] as ScheduleWithTimestamp[];
 
-    let departureTimes = render(
+    const user = userEvent.setup();
+    render(
       <DepartureTimes
         route={route}
         stop={stop}
@@ -469,15 +560,14 @@ describe("DepartureTimes", () => {
         schedulesForDirection={schedules}
         onClick={mockClickAction}
         alertsForDirection={[]}
+        overrideDate={compareTime}
       />
     );
 
-    expect(
-      departureTimes.container.querySelector(".departure-row-click-test")
-    ).toBeDefined();
-    fireEvent.click(
-      departureTimes.baseElement.querySelector(".departure-row-click-test")!
-    );
+    const row = screen.getByText("Test 1");
+    expect(row).toBeDefined();
+
+    await user.click(row);
     expect(mockClickAction).toHaveBeenCalledTimes(1);
   });
 });

@@ -26,6 +26,14 @@ interface DepartureListProps {
   alerts: Alert[];
 }
 
+const displayNoUpcomingTrips = (): JSX.Element => {
+  return (
+    <div className="c-alert-item--low m-8 d-flex justify-content-center align-items-center pb-40 pt-40">
+      No upcoming trips today
+    </div>
+  );
+};
+
 const DepartureList = ({
   route,
   stop,
@@ -54,6 +62,7 @@ const DepartureList = ({
   return (
     <>
       {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
+      {schedules.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
         <>
           <div className="stop-departures departure-list-header">

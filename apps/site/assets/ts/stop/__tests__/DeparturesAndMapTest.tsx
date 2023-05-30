@@ -1,15 +1,16 @@
 import React from "react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
 import { DirectionId, Stop } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import { baseRoute, routeWithPolylines } from "./helpers";
 import * as useRoute from "../../hooks/useRoute";
-import { fireEvent, render, screen } from "@testing-library/react";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
 import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
-import userEvent from "@testing-library/user-event";
 import { Route } from "../../__v3api";
+import { FetchStatus } from "../../helpers/use-fetch";
 
 const stop = {
   id: "test-stop",
@@ -18,25 +19,26 @@ const stop = {
   longitude: 71.0552
 } as Stop;
 const route = baseRoute("TestRoute", 3);
+const now = Date.now();
 
 const schedules = [
   {
     route: route,
     stop: stop,
     trip: { id: "1", headsign: "TestRoute Route", direction_id: 1 },
-    time: add(Date.now(), { minutes: 10 })
+    time: add(now, { minutes: 10 })
   },
   {
     route: route,
     stop: stop,
     trip: { id: "2", headsign: "TestRoute Route", direction_id: 0 },
-    time: add(Date.now(), { minutes: 15 })
+    time: add(now, { minutes: 15 })
   },
   {
     route: route,
     stop: stop,
     trip: { id: "4", headsign: "TestRoute Route", direction_id: 1 },
-    time: add(Date.now(), { minutes: 20 })
+    time: add(now, { minutes: 20 })
   }
 ] as ScheduleWithTimestamp[];
 
@@ -70,9 +72,9 @@ const v2 = {
 const testRoutesWithPolylines: RouteWithPolylines[] = [
   routeWithPolylines("SomeBus", 3, 0)
 ];
-jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-  return testRoutesWithPolylines;
-});
+jest
+  .spyOn(useRoute, "useRoutesByStop")
+  .mockReturnValue({ status: FetchStatus.Data, data: testRoutesWithPolylines });
 
 beforeEach(() => {
   jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
@@ -96,8 +98,9 @@ describe("DeparturesAndMap", () => {
     expect(arr).toBeDefined();
   });
 
-  it("opens departure list on click", () => {
-    let departuresAndMap = render(
+  it("opens departure list on click", async () => {
+    const user = userEvent.setup();
+    render(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -107,23 +110,17 @@ describe("DeparturesAndMap", () => {
       />
     );
 
-    const departuresAndMapContainer = departuresAndMap.container;
-    expect(
-      departuresAndMapContainer.querySelector(".departure-card__headsign")
-    ).toBeDefined();
-    expect(
-      departuresAndMapContainer.querySelector("departures-container")
-    ).toBeNull();
-    fireEvent.click(
-      departuresAndMapContainer.querySelector(".departure-row-click-test")!
-    );
-    expect(
-      departuresAndMapContainer.querySelector("departures-container")
-    ).toBeDefined();
+    const headSigns = screen.getAllByText(/TestRoute Route/);
+    expect(headSigns.length).toBe(3);
+    // The 2nd headsign instance is a clickable route
+    await user.click(headSigns[1]);
+
+    expect(screen.getByText("Back to all Test Stop routes")).toBeDefined();
   });
 
-  it("closes departure list on click", () => {
-    let departuresAndMap = render(
+  it("closes departure list on click", async () => {
+    const user = userEvent.setup();
+    render(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -133,19 +130,16 @@ describe("DeparturesAndMap", () => {
       />
     );
 
-    const departuresAndMapContainer = departuresAndMap.container;
-    fireEvent.click(
-      departuresAndMapContainer.querySelector(".departure-row-click-test")!
-    );
-    expect(
-      departuresAndMapContainer.querySelector("departures-container")
-    ).toBeDefined();
-    fireEvent.click(
-      departuresAndMapContainer.querySelector(".back-to-routes")!
-    );
-    expect(
-      departuresAndMapContainer.querySelector("departures-container")
-    ).toBeNull();
+    const headSigns = screen.getAllByText(/TestRoute Route/);
+    expect(headSigns.length).toBe(3);
+    // The 2nd headsign instance is a clickable route
+    await user.click(headSigns[1]);
+
+    const back = screen.getByText("Back to all Test Stop routes");
+    expect(back).toBeDefined();
+    await user.click(back);
+
+    expect(screen.queryByText("Back to all Test Stop routes")).toBeNull();
   });
 
   it("shows cr, subway, SL map routes by default", () => {
@@ -156,8 +150,9 @@ describe("DeparturesAndMap", () => {
 
     const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
 
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [subwayRoute, crRoute, slRoute, busRoute];
+    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+      status: FetchStatus.Data,
+      data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
     const { container } = render(
@@ -189,8 +184,9 @@ describe("DeparturesAndMap", () => {
 
     const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
 
-    jest.spyOn(useRoute, "useRoutesByStop").mockImplementation(() => {
-      return [subwayRoute, crRoute, slRoute, busRoute];
+    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+      status: FetchStatus.Data,
+      data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
     jest

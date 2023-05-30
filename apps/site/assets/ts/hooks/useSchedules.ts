@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { pick } from "lodash";
 import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { ScheduleWithTimestamp } from "../models/schedules";
+import { FetchState, FetchStatus } from "../helpers/use-fetch";
 
 interface ScheduleData extends Omit<ScheduleWithTimestamp, "time"> {
   time: string;
@@ -28,13 +29,16 @@ const fetchData = async (url: string): Promise<ScheduleData[]> =>
 
 const useSchedulesByStop = (
   stopId: string
-): ScheduleWithTimestamp[] | undefined => {
-  const { data } = useSWR<ScheduleData[]>(
+): FetchState<ScheduleWithTimestamp[]> => {
+  const { data, error } = useSWR<ScheduleData[]>(
     `/api/stops/${stopId}/schedules`,
     fetchData
   );
+  if (error) {
+    return { status: FetchStatus.Error };
+  }
   const parsedData = data?.map(d => parse(d));
-  return parsedData;
+  return { status: FetchStatus.Data, data: parsedData };
 };
 // eslint-disable-next-line import/prefer-default-export
 export { useSchedulesByStop };

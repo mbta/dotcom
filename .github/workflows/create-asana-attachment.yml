@@ -1,0 +1,16 @@
+on:
+  pull_request:
+    types: [closed, edited, opened, review_requested, ready_for_review, reopened]
+
+jobs:
+  call-workflow:
+    uses: mbta/workflows/.github/workflows/asana.yml@main
+    with:
+      complete-on-merge: false
+      review-section: "Code Review"
+      merged-section: "To Be Released"
+      attach-pr: true
+      trigger-phrase: "\\*\\*Asana Ticket:\\*\\*"
+    secrets:
+      asana-token: ${{ secrets.ASANA_PERSONAL_ACCESS_TOKEN }}
+      github-secret: ${{ secrets.ASANA_SECRET }}
