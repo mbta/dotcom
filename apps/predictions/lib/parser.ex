@@ -52,13 +52,13 @@ defmodule Predictions.Parser do
   def direction_id(%Item{attributes: %{"direction_id" => direction_id}}), do: direction_id
 
   @spec first_time(Item.t()) :: DateTime.t() | nil
-  def first_time(%Item{attributes: %{"departure_time" => departure_time}})
-      when not is_nil(departure_time),
-      do: parse_time(departure_time)
-
   def first_time(%Item{attributes: %{"arrival_time" => arrival_time}})
       when not is_nil(arrival_time),
       do: parse_time(arrival_time)
+
+  def first_time(%Item{attributes: %{"departure_time" => departure_time}})
+      when not is_nil(departure_time),
+      do: parse_time(departure_time)
 
   def first_time(_), do: nil
 

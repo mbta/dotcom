@@ -64,7 +64,7 @@ defmodule Predictions.ParserTest do
         "place-pktrm",
         "route_id",
         0,
-        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
+        ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4"),
         5,
         nil,
         "5",
