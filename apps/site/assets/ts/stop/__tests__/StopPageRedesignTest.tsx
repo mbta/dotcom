@@ -173,7 +173,7 @@ describe("StopPageRedesign", () => {
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
-        effect: "1"
+        effect: "supension"
       },
       {
         informed_entity: {
