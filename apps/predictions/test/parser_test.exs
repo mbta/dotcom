@@ -64,6 +64,8 @@ defmodule Predictions.ParserTest do
         "place-pktrm",
         "route_id",
         0,
+        ~N[2016-01-01T04:00:00] |> Timezone.convert("Etc/GMT+4"),
+        ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         ~N[2016-09-15T19:40:00] |> Timezone.convert("Etc/GMT+4"),
         5,
         nil,
@@ -186,8 +188,8 @@ defmodule Predictions.ParserTest do
 
       parsed = parse(item)
 
-      assert elem(parsed, 5) == nil
-      refute elem(parsed, 10)
+      assert elem(parsed, 7) == nil
+      refute elem(parsed, 12)
     end
 
     test "can parse a prediction where the track is part of the stop" do
@@ -239,7 +241,7 @@ defmodule Predictions.ParserTest do
 
       parsed = parse(item)
 
-      assert elem(parsed, 8) == "11"
+      assert elem(parsed, 10) == "11"
     end
 
     test "can parse possible schedule relationships" do
@@ -309,7 +311,7 @@ defmodule Predictions.ParserTest do
         }
 
         parsed = parse(item)
-        assert elem(parsed, 7) == expected
+        assert elem(parsed, 9) == expected
       end
     end
 
@@ -374,7 +376,7 @@ defmodule Predictions.ParserTest do
       }
 
       parsed = parse(item)
-      assert elem(parsed, 11) == nil
+      assert elem(parsed, 13) == nil
     end
 
     test "departing status is determined by prediction status if no time is given" do
@@ -408,7 +410,7 @@ defmodule Predictions.ParserTest do
       }
 
       parsed = parse(json_item)
-      assert elem(parsed, 10)
+      assert elem(parsed, 12)
     end
   end
 end

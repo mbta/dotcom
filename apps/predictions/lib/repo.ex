@@ -113,6 +113,8 @@ defmodule Predictions.Repo do
            _stop_id,
            _route_id,
            _direction_id,
+           _arrival_time,
+           _departure_time,
            nil,
            _stop_sequence,
            _schedule_relationship,
@@ -133,6 +135,8 @@ defmodule Predictions.Repo do
            _stop_id,
            _route_id,
            _direction_id,
+           _arrival_time,
+           _departure_time,
            %DateTime{} = prediction_time,
            _stop_sequence,
            _schedule_relationship,
@@ -156,19 +160,22 @@ defmodule Predictions.Repo do
     |> Enum.flat_map(fn {:ok, prediction} -> prediction end)
   end
 
-  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _}) do
+  defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _, _, _, _}) do
     # no stop ID
     []
   end
 
-  defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _} = record) do
+  defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record) do
     stop_id
     |> Stops.Repo.get_parent()
     |> do_record_to_structs(record)
     |> discard_if_subway_past_prediction()
   end
 
-  defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _} = record) do
+  defp do_record_to_structs(
+         nil,
+         {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record
+       ) do
     :ok =
       Logger.error(
         "Discarding prediction because stop #{inspect(stop_id)} does not exist. Prediction: #{inspect(record)}"
@@ -179,8 +186,8 @@ defmodule Predictions.Repo do
 
   defp do_record_to_structs(
          %Stop{} = stop,
-         {id, trip_id, platform_stop_id, route_id, direction_id, time, stop_sequence,
-          schedule_relationship, track, status, departing?, vehicle_id}
+         {id, trip_id, platform_stop_id, route_id, direction_id, arrival_time, departure_time,
+          time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id}
        ) do
     trip =
       if trip_id do
@@ -197,6 +204,8 @@ defmodule Predictions.Repo do
         platform_stop_id: platform_stop_id,
         route: route,
         direction_id: direction_id,
+        arrival_time: arrival_time,
+        departure_time: departure_time,
         time: time,
         stop_sequence: stop_sequence,
         schedule_relationship: schedule_relationship,
