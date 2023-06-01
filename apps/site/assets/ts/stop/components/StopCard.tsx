@@ -73,7 +73,7 @@ const StopCard = ({
         {accessible(stop, allAreBusStops)}
         {stop.parking_lots.length > 0 ? (
           <span className="c-stop-page__icon">
-            {parkingIcon("c-svg__icon-parking-default")}
+            {parkingIcon("c-svg__icon-parking-default u-color-gray-light")}
           </span>
         ) : null}
       </div>

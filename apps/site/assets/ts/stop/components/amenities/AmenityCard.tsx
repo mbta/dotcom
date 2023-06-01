@@ -11,8 +11,8 @@ const AmenityCard = ({
   return (
     <div className="d-flex card justify-content-space-between">
       <div className="m-16">
-        <div className="d-flex u-color-brand-primary">
-          <div>{icon}</div>
+        <div className="d-flex text-primary">
+          <div className="">{icon}</div>
           <div className="u-bold fs-18 ps-8">{headerText}</div>
         </div>
         <div>

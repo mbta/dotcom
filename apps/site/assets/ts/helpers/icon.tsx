@@ -20,6 +20,11 @@ import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.svg";
 import searchIconSvg from "../../static/images/icon-search-reverse-default.svg";
 import crowdingIconSvg from "../../static/images/icon-crowding.svg";
+import bikeIconSvg from "../../static/images/icon-bike.svg";
+import escalatorIconSvg from "../../static/images/icon-escalator.svg";
+import elevatorIconSvg from "../../static/images/icon-elevator.svg";
+import faresIconSvg from "../../static/images/icon-fares.svg";
+
 import renderFa from "./render-fa";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
@@ -78,6 +83,15 @@ export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
 
 export const searchIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, searchIconSvg, false);
+
+export const bikeIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, bikeIconSvg, false);
+export const escalatorIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, escalatorIconSvg, false);
+export const elevatorIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, elevatorIconSvg, false);
+export const faresIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, faresIconSvg, false);
 
 export const modeIcon = (routeId: string): JSX.Element | undefined => {
   if (routeId.startsWith("CR-")) return commuterRailIcon("c-svg__icon");

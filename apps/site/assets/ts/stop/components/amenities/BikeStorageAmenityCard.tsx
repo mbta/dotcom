@@ -1,10 +1,10 @@
 import React from "react";
 import AmenityCard from "./AmenityCard";
-import renderFa from "../../../helpers/render-fa";
+import { bikeIcon } from "../../../helpers/icon";
 
 const BikeStorageAmenityCard = (): JSX.Element => {
   const icon = (
-    <span className="m-stop-page__icon">{renderFa("", "fa-bicycle")}</span>
+    <span className="m-stop-page__icon">{bikeIcon("c-svg__icon")}</span>
   );
 
   return <AmenityCard headerText="Bike Storage" icon={icon} />;
