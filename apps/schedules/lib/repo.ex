@@ -145,15 +145,15 @@ defmodule Schedules.Repo do
       data
       |> Stream.map(&Parser.parse/1)
       |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
+      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 5)))
     end
   end
 
-  def has_trip?({_, trip_id, _, _, _, _, _, _, _}) when is_nil(trip_id) do
+  def has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 
-  def has_trip?({_, _, _, _, _, _, _, _, _}) do
+  def has_trip?({_, _, _, _, _, _, _, _, _, _, _}) do
     true
   end
 
@@ -215,6 +215,8 @@ defmodule Schedules.Repo do
                                 _route_id,
                                 _trip_id,
                                 _stop_id,
+                                _arrival_time,
+                                _departure_time,
                                 %DateTime{} = schedule_time,
                                 _flag?,
                                 _early_departure?,
@@ -232,14 +234,16 @@ defmodule Schedules.Repo do
 
   defp load_from_other_repos(schedules) do
     schedules
-    |> Enum.map(fn {route_id, trip_id, stop_id, time, flag?, early_departure?, last_stop?,
-                    stop_sequence, pickup_type} ->
+    |> Enum.map(fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?,
+                    early_departure?, last_stop?, stop_sequence, pickup_type} ->
       Task.async(fn ->
         %Schedules.Schedule{
           route: Routes.Repo.get(route_id),
           trip: trip(trip_id),
           platform_stop_id: stop_id,
           stop: Stops.Repo.get_parent(stop_id),
+          arrival_time: arrival_time,
+          departure_time: departure_time,
           time: time,
           flag?: flag?,
           early_departure?: early_departure?,

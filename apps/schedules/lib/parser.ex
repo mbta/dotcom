@@ -7,6 +7,8 @@ defmodule Schedules.Parser do
           route_id :: Route.id_t(),
           trip_id :: String.t(),
           stop_id :: Stop.id_t(),
+          arrival_time :: DateTime.t() | nil,
+          departure_time :: DateTime.t() | nil,
           time :: DateTime.t(),
           flag? :: boolean,
           early_departure? :: boolean,
@@ -21,6 +23,8 @@ defmodule Schedules.Parser do
       route_id(item),
       trip_id(item),
       stop_id(item),
+      arrival_time(item),
+      departure_time(item),
       time(item),
       flag?(item),
       early_departure?(item),
@@ -103,6 +107,19 @@ defmodule Schedules.Parser do
       }) do
     id
   end
+
+  defp arrival_time(%JsonApi.Item{attributes: %{"arrival_time" => time}}) when not is_nil(time) do
+    Timex.parse!(time, "{ISO:Extended}")
+  end
+
+  defp arrival_time(_), do: nil
+
+  defp departure_time(%JsonApi.Item{attributes: %{"departure_time" => time}})
+       when not is_nil(time) do
+    Timex.parse!(time, "{ISO:Extended}")
+  end
+
+  defp departure_time(_), do: nil
 
   defp time(%JsonApi.Item{attributes: %{"departure_time" => nil, "arrival_time" => time}}) do
     Timex.parse!(time, "{ISO:Extended}")
