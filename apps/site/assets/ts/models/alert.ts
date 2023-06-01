@@ -1,4 +1,4 @@
-import { isValid, parseISO } from "date-fns";
+import { isValid, parseISO, add } from "date-fns";
 import { isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
 import { Alert, TimePeriodPairs } from "../__v3api";
@@ -141,24 +141,34 @@ const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "ongoing" ||
   lifecycle === "ongoing_upcoming";
 
-export const isCurrentAlert = (
+export const isInNextXDays = (
   alert: Alert,
+  days: number,
   currentDate: Date = new Date()
 ): boolean => {
+  const xDays = add(Date.now(), { days });
+  xDays.setHours(24, 0, 0, 0); // set to midnight
   if (!alert.active_period) return false;
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
   const isInARange = dateRanges.some((range): boolean => {
     const [start, end] = range;
     if (!start || !isValid(start)) return false; // end might be null for ongoing alerts
+
     return (
-      currentDate >= start && (end && isValid(end) ? currentDate <= end : true)
+      currentDate >= start &&
+      // eslint-disable-next-line
+      (end && isValid(end)
+        ? days === 0
+          ? currentDate <= end
+          : currentDate <= xDays
+        : true)
     );
   });
-  return isCurrentLifecycle(alert) && isInARange;
+  return days === 0 ? isCurrentLifecycle(alert) && isInARange : isInARange;
 };
 
 export const isActiveDiversion = (alert: Alert): boolean =>
-  isDiversion(alert) && isCurrentAlert(alert);
+  isDiversion(alert) && isInNextXDays(alert, 0);
 
 export const hasAnActiveDiversion = (
   stopId: StopId,

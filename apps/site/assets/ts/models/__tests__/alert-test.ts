@@ -2,7 +2,7 @@ import { StopId } from "../../schedule/components/__schedule";
 import { Alert, InformedEntitySet, TimePeriodPairs } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
-  isCurrentAlert,
+  isInNextXDays,
   alertsByStop,
   uniqueByEffect,
   isDiversion,
@@ -12,6 +12,7 @@ import {
   alertsByDirectionId,
   alertsAffectingBothDirections
 } from "../alert";
+import { add } from "date-fns";
 
 const zeroPadded = (num: number): string => `${num}`.padStart(2, "0");
 
@@ -40,6 +41,17 @@ export const beforeNow = () => {
     [
       activePeriodDateFormatted(now - 2 * five_minutes),
       activePeriodDateFormatted(now - five_minutes)
+    ] as TimePeriodPairs
+  ];
+};
+
+export const threeDaysFromNow = () => {
+  const now = Date.now();
+  const five_minutes = 300_000;
+  return [
+    [
+      activePeriodDateFormatted(now - five_minutes),
+      activePeriodDateFormatted(add(now, { days: 3 }).getMilliseconds())
     ] as TimePeriodPairs
   ];
 };
@@ -125,7 +137,7 @@ describe("isDiversion", () => {
   });
 });
 
-describe("isCurrentAlert", () => {
+describe("isInNextXDays", () => {
   test.each`
     alert     | isCurrent
     ${alert1} | ${true}
@@ -137,15 +149,25 @@ describe("isCurrentAlert", () => {
     ${alert7} | ${true}
     ${alert8} | ${true}
   `(
-    "isCurrentAlert returns whether alert is current based on lifecycle and active period",
+    "isInNextXDays returns whether alert is current based on lifecycle and active period given days from now is 0",
     ({ alert, isCurrent }) => {
       if (isCurrent) {
-        expect(isCurrentAlert(alert, testDate)).toBeTruthy();
+        expect(isInNextXDays(alert, 0, testDate)).toBeTruthy();
       } else {
-        expect(isCurrentAlert(alert, testDate)).toBeFalsy();
+        expect(isInNextXDays(alert, 0, testDate)).toBeFalsy();
       }
     }
   );
+
+  test("true if the alert is in the next 7 days", () => {
+    const alert: Alert = {
+      active_period: threeDaysFromNow(),
+      lifecycle: "new",
+      effect: "shuttle"
+    } as Alert;
+
+    expect(isInNextXDays(alert, 7)).toBeTruthy();
+  });
 });
 
 describe("alertsByStop", () => {
