@@ -130,7 +130,7 @@ describe("StopPageRedesign", () => {
     return format(date, "yyyy-M-d HH:mm");
   };
 
-  it("should render alerts", () => {
+  it("should render shuttle alerts", () => {
     const now = new Date();
     const future1 = add(now, { days: 1 });
     const lowAlerts: Alert[] = [
@@ -143,7 +143,7 @@ describe("StopPageRedesign", () => {
         informed_entity: {} as InformedEntitySet,
         id: "00005",
         header: "There is construction at this station.",
-        effect: "other",
+        effect: "shuttle",
         description: "",
         url: "https://www.mbta.com"
       }
