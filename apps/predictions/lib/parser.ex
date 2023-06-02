@@ -13,6 +13,8 @@ defmodule Predictions.Parser do
           Routes.Route.id_t(),
           0 | 1,
           DateTime.t() | nil,
+          DateTime.t() | nil,
+          DateTime.t() | nil,
           non_neg_integer,
           Prediction.schedule_relationship() | nil,
           String.t() | nil,
@@ -29,6 +31,8 @@ defmodule Predictions.Parser do
       stop_id(item),
       route_id(item),
       direction_id(item),
+      arrival_time(item),
+      departure_time(item),
       first_time(item),
       stop_sequence(item),
       schedule_relationship(item),
@@ -50,6 +54,20 @@ defmodule Predictions.Parser do
 
   @spec direction_id(Item.t()) :: 0 | 1
   def direction_id(%Item{attributes: %{"direction_id" => direction_id}}), do: direction_id
+
+  @spec departure_time(Item.t()) :: DateTime.t() | nil
+  def departure_time(%Item{attributes: %{"departure_time" => departure_time}})
+      when not is_nil(departure_time),
+      do: parse_time(departure_time)
+
+  def departure_time(_), do: nil
+
+  @spec arrival_time(Item.t()) :: DateTime.t() | nil
+  def arrival_time(%Item{attributes: %{"arrival_time" => arrival_time}})
+      when not is_nil(arrival_time),
+      do: parse_time(arrival_time)
+
+  def arrival_time(_), do: nil
 
   @spec first_time(Item.t()) :: DateTime.t() | nil
   def first_time(%Item{attributes: %{"departure_time" => departure_time}})
