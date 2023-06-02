@@ -1,4 +1,10 @@
-import { getMinutes, parseISO } from "date-fns";
+import {
+  differenceInSeconds,
+  getMinutes,
+  parseISO,
+  secondsInHour,
+  secondsInMinute
+} from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
 // this returns a Date() in the browser time zone, unlike new Date(unformatted)
@@ -75,6 +81,24 @@ export const formatToBostonTime = (
   }
   formatString = overrideFormat !== undefined ? overrideFormat : formatString;
   return formatInTimeZone(dateTime, "America/New_York", formatString);
+};
+
+export const formatRelativeTime = (
+  time: Date,
+  targetDate: Date = new Date()
+): string => {
+  const seconds = differenceInSeconds(time, targetDate);
+  if (seconds <= 30) {
+    return "Arriving";
+  }
+  if (seconds <= 60) {
+    return "Approaching";
+  }
+  if (seconds < secondsInHour) {
+    return `${Math.floor(seconds / secondsInMinute)} min`;
+  }
+
+  return formatToBostonTime(time, "h:mm aa");
 };
 
 export default formattedDate;
