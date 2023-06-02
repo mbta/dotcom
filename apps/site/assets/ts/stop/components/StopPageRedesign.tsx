@@ -15,7 +15,6 @@ import {
   routeWideAlerts
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
-import { Alert } from "../../__v3api";
 
 const StopPageRedesign = ({
   stopId
