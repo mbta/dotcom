@@ -161,10 +161,70 @@ describe("StopPageRedesign", () => {
     ).not.toBeNull();
   });
 
-  it("should only render current alerts and not future alerts", () => {
+  it("should only render closures, shuttles, and supensions", () => {
+    const now = new Date();
+    const future1 = add(now, { days: 1 });
+    const alertsForRoute: Alert[] = [
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000003",
+        header: "Test Alert The Walkway has spillage",
+        effect: "detour"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000004",
+        header: "Road Closed",
+        effect: "shuttle"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000005",
+        header: "Stop Closed",
+        effect: "stop_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000006",
+        header: "Station Closed",
+        effect: "station_closure"
+      }
+    ] as Alert[];
+
+    jest
+      .spyOn(useAlerts, "useAlertsByRoute")
+      .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
+
+    render(<StopPageRedesign stopId="Test 1" />);
+
+    expect(screen.getByText(/Road Closed/)).toBeInTheDocument();
+    expect(screen.getByText(/Stop Closed/)).toBeInTheDocument();
+    expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
+    expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
+  });
+
+  it("should only render current stop alerts and route alerts within 7 days", () => {
     const now = new Date();
     const future1 = add(now, { days: 1 });
     const future2 = add(now, { days: 3 });
+    const future3 = add(now, { days: 8 });
+    const future4 = add(now, { days: 9 });
 
     const alertsForStop: Alert[] = [
       {
@@ -175,13 +235,13 @@ describe("StopPageRedesign", () => {
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
-        effect: "supension"
+        effect: "stop_closure"
       },
       {
         informed_entity: {
           entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(future1), dateFormatter(future2)]],
+        active_period: [[dateFormatter(future3), dateFormatter(future4)]],
         lifecycle: "new",
         id: "000002",
         header: "Test Alert The Road Is Open",
@@ -194,21 +254,21 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ route: "Test Route 2" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(future1), dateFormatter(future2)]],
+        active_period: [[dateFormatter(future3), dateFormatter(future4)]],
         lifecycle: "new",
         id: "000003",
         header: "Test Alert The Walkway has spillage",
-        effect: "3"
+        effect: "stop_closure"
       },
       {
         informed_entity: {
           entities: [{ route: "Test Route 3" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(now), dateFormatter(future2)]],
+        active_period: [[dateFormatter(future1), dateFormatter(future2)]],
         lifecycle: "new",
         id: "000004",
         header: "Test Alert The Elevator is Malfunctioning",
-        effect: "4"
+        effect: "stop_closure"
       }
     ] as Alert[];
 
@@ -242,7 +302,7 @@ describe("StopPageRedesign", () => {
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
-        effect: "1"
+        effect: "stop_closure"
       }
     ] as Alert[];
 

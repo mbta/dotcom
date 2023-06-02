@@ -59,16 +59,15 @@ const StopPageRedesign = ({
   // routeWideAlertsArray are all the alerts that affect the whole route
   // not just specific stops or trips
   const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
-  // Get only alerts that are current
+
+  const allAlerts = alertsForStopResult.data.concat(routeWideAlertsArray);
+
   const alertsWithinSevenDays = filter(
-    alertsForStopResult.data.concat(routeWideAlertsArray),
+    allAlerts,
     alert => isInNextXDays(alert, 7) && isBannerAlert(alert)
   );
 
-  const currentAlerts = filter(
-    alertsForStopResult.data.concat(routeWideAlertsArray),
-    alert => isInNextXDays(alert, 0)
-  );
+  const currentAlerts = filter(allAlerts, alert => isInNextXDays(alert, 0));
 
   return (
     <article>

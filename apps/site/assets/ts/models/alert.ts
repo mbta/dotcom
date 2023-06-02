@@ -173,17 +173,13 @@ export const isInNextXDays = (
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
   const isInARange = dateRanges.some((range): boolean => {
     const [start, end] = range;
-    if (!start || !isValid(start)) return false; // end might be null for ongoing alerts
+    if (!start || !isValid(start)) return false; // start might be null for ongoing alerts
+    if (!end || !isValid(end)) return true; // end might be null for ongoing alerts
 
-    return (
-      currentDate >= start &&
-      // eslint-disable-next-line
-      (end && isValid(end)
-        ? days === 0
-          ? currentDate <= end
-          : currentDate <= xDays
-        : true)
-    );
+    if (days === 0) {
+      return start <= currentDate && end >= currentDate;
+    }
+    return start <= xDays && end >= currentDate && end <= xDays;
   });
   return days === 0 ? isCurrentLifecycle(alert) && isInARange : isInARange;
 };
