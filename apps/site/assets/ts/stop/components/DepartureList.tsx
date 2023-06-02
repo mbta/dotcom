@@ -37,6 +37,15 @@ const displayNoUpcomingTrips = (): JSX.Element => {
   );
 };
 
+const getCancelledDisplay = (timeString: string): JSX.Element => {
+  return (
+    <div className="d-flex justify-content-space-between text-danger">
+      <s>{timeString}</s>
+      <div>Cancelled</div>
+    </div>
+  );
+};
+
 const DepartureList = ({
   route,
   stop,

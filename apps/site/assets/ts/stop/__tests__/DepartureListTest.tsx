@@ -43,22 +43,29 @@ const schedules = [
 ] as ScheduleWithTimestamp[];
 
 const predictionTime = add(Date.now(), { minutes: 11 });
-jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-  return {
-    "TestRoute Route": [
-      {
-        time: new Date("2022-04-27T11:15:00-04:00"),
-        trip: schedules[0].trip
-      },
-      {
-        trip: schedules[1].trip,
-        time: predictionTime
-      }
-    ] as PredictionWithTimestamp[]
-  };
-});
 
 describe("DepartureList", () => {
+  beforeEach(() => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "TestRoute Route": [
+          {
+            time: new Date("2022-04-27T11:15:00-04:00"),
+            trip: schedules[0].trip
+          },
+          {
+            trip: schedules[1].trip,
+            time: predictionTime
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it("should render a schedule when no predictions available", () => {
     jest.spyOn(predictionsChannel, "default").mockImplementationOnce(() => {
       return { "TestRoute Route": [] };
@@ -191,5 +198,36 @@ describe("DepartureList", () => {
       />
     );
     expect(screen.getByText("No upcoming trips today")).toBeDefined();
+  });
+
+  it("should display cancelled if the trip has been cancelled", () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "TestRoute Route": [
+          {
+            time: new Date("2022-04-27T11:15:00-04:00"),
+            trip: { id: "1" },
+            schedule_relationship: "cancelled"
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+
+    const schedules = [
+      {
+        trip: { id: "1", headsign: "TestRoute Route" }
+      }
+    ] as ScheduleWithTimestamp[];
+
+    render(
+      <DepartureList
+        alerts={[]}
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+      />
+    );
+    expect(screen.getByText("Cancelled")).toBeInTheDocument();
   });
 });
