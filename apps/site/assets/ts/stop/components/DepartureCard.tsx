@@ -1,15 +1,12 @@
 import React, { ReactElement } from "react";
-import { concat, groupBy } from "lodash";
+import { groupBy } from "lodash";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
-import {
-  alertsAffectingBothDirections,
-  alertsByDirectionId
-} from "../../models/alert";
+import { allAlertsForDirection } from "../../models/alert";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -35,18 +32,6 @@ const DepartureCard = ({
     (sch: ScheduleWithTimestamp) => sch.trip.direction_id
   );
 
-  const alertsByDirectionObj = alertsByDirectionId(alertsForRoute);
-  const alertsAffectingBothDirectionsArray = alertsAffectingBothDirections(
-    alertsForRoute
-  );
-
-  const alertsZeroDirectionArray = alertsByDirectionObj[0]
-    ? alertsByDirectionObj[0]
-    : [];
-  const alertsOneDirectionArray = alertsByDirectionObj[1]
-    ? alertsByDirectionObj[1]
-    : [];
-
   return (
     <li className="departure-card">
       <a
@@ -64,10 +49,7 @@ const DepartureCard = ({
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
         onClick={onClick}
-        alertsForDirection={concat(
-          alertsAffectingBothDirectionsArray,
-          alertsZeroDirectionArray
-        )}
+        alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
       />
       <DepartureTimes
         key={`${route.id}-1`}
@@ -76,10 +58,7 @@ const DepartureCard = ({
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
         onClick={onClick}
-        alertsForDirection={concat(
-          alertsAffectingBothDirectionsArray,
-          alertsOneDirectionArray
-        )}
+        alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
       />
     </li>
   );
