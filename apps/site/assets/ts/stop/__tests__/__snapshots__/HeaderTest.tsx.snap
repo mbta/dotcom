@@ -112,7 +112,7 @@ exports[`renders 1`] = `
         >
           <i
             aria-hidden="false"
-            className="fa fa-square-parking notranslate"
+            className="fa fa-square-parking notranslate u-color-gray-light"
           />
         </span>
       </a>
@@ -235,7 +235,7 @@ exports[`renders a ferry route 1`] = `
         >
           <i
             aria-hidden="false"
-            className="fa fa-square-parking notranslate"
+            className="fa fa-square-parking notranslate u-color-gray-light"
           />
         </span>
       </a>
@@ -415,7 +415,7 @@ exports[`renders all subway routes 1`] = `
         >
           <i
             aria-hidden="false"
-            className="fa fa-square-parking notranslate"
+            className="fa fa-square-parking notranslate u-color-gray-light"
           />
         </span>
       </a>
@@ -614,7 +614,7 @@ exports[`renders with green line routes 1`] = `
         >
           <i
             aria-hidden="false"
-            className="fa fa-square-parking notranslate"
+            className="fa fa-square-parking notranslate u-color-gray-light"
           />
         </span>
       </a>
