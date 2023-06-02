@@ -183,7 +183,7 @@ describe("StopPageRedesign", () => {
         lifecycle: "new",
         id: "000002",
         header: "Test Alert The Road Is Open",
-        effect: "2"
+        effect: "stop_closure"
       }
     ] as Alert[];
 

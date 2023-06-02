@@ -141,13 +141,16 @@ const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "ongoing" ||
   lifecycle === "ongoing_upcoming";
 
+export const isBannerAlert = ({ effect }: Alert): boolean =>
+  ["suspension", "stop_closure", "station_closure", "shuttle"].includes(effect);
+
 export const isInNextXDays = (
   alert: Alert,
   days: number,
   currentDate: Date = new Date()
 ): boolean => {
   const xDays = add(Date.now(), { days });
-  xDays.setHours(24, 0, 0, 0); // set to midnight
+  xDays.setHours(23, 59, 59); // set to end of X day
   if (!alert.active_period) return false;
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
   const isInARange = dateRanges.some((range): boolean => {

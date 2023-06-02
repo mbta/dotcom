@@ -16,8 +16,7 @@ import { add } from "date-fns";
 
 const zeroPadded = (num: number): string => `${num}`.padStart(2, "0");
 
-const activePeriodDateFormatted = (ms: number): string => {
-  const date = new Date(ms);
+const activePeriodDateFormatted = (date: Date): string => {
   return `${date.getFullYear()}-${zeroPadded(date.getMonth() + 1)}-${zeroPadded(
     date.getDate()
   )} ${zeroPadded(date.getHours())}:${zeroPadded(date.getMinutes())}`;
@@ -28,8 +27,8 @@ export const aroundNow = () => {
   const five_minutes = 300_000;
   return [
     [
-      activePeriodDateFormatted(now - five_minutes),
-      activePeriodDateFormatted(now + five_minutes)
+      activePeriodDateFormatted(add(now, { minutes: -5 })),
+      activePeriodDateFormatted(add(now, { minutes: +5 }))
     ] as TimePeriodPairs
   ];
 };
@@ -39,19 +38,18 @@ export const beforeNow = () => {
   const five_minutes = 300_000;
   return [
     [
-      activePeriodDateFormatted(now - 2 * five_minutes),
-      activePeriodDateFormatted(now - five_minutes)
+      activePeriodDateFormatted(add(now, { days: -2 })),
+      activePeriodDateFormatted(add(now, { minutes: -5 }))
     ] as TimePeriodPairs
   ];
 };
 
 export const threeDaysFromNow = () => {
   const now = Date.now();
-  const five_minutes = 300_000;
   return [
     [
-      activePeriodDateFormatted(now - five_minutes),
-      activePeriodDateFormatted(add(now, { days: 3 }).getMilliseconds())
+      activePeriodDateFormatted(add(now, { minutes: -5 })),
+      activePeriodDateFormatted(add(now, { days: 3 }))
     ] as TimePeriodPairs
   ];
 };

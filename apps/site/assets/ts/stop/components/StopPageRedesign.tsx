@@ -9,8 +9,13 @@ import Alerts from "../../components/Alerts";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import { isInNextXDays, routeWideAlerts } from "../../models/alert";
+import {
+  isBannerAlert,
+  isInNextXDays,
+  routeWideAlerts
+} from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
+import { Alert } from "../../__v3api";
 
 const StopPageRedesign = ({
   stopId
@@ -56,20 +61,21 @@ const StopPageRedesign = ({
   // not just specific stops or trips
   const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
   // Get only alerts that are current
+  const alertsWithinSevenDays = filter(
+    alertsForStopResult.data.concat(routeWideAlertsArray),
+    alert => isInNextXDays(alert, 7) && isBannerAlert(alert)
+  );
+
   const currentAlerts = filter(
     alertsForStopResult.data.concat(routeWideAlertsArray),
-    alert =>
-      isInNextXDays(alert, 7) &&
-      ["suspension", "stop_closure", "station_closure", "shuttle"].includes(
-        alert.effect
-      )
+    alert => isInNextXDays(alert, 0)
   );
 
   return (
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
       <div className="container">
-        <Alerts alerts={currentAlerts} />
+        <Alerts alerts={alertsWithinSevenDays} />
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
