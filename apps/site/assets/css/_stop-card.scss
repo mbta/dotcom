@@ -302,7 +302,9 @@ $radius: 4px;
 
 .open-schedule {
   float: right;
+  font-weight: 400;
   text-decoration: underline;
+  text-underline-offset: .2rem;
 }
 
 .departure-list-header {

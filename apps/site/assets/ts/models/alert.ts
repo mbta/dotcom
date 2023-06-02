@@ -1,5 +1,5 @@
 import { isValid, parseISO, add } from "date-fns";
-import { isArray, mergeWith, reduce, some } from "lodash";
+import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
 import { Alert, TimePeriodPairs } from "../__v3api";
 
@@ -13,6 +13,9 @@ export const isDiversion = ({ effect }: Alert): boolean =>
   effect === "stop_closure" ||
   effect === "station_closure" ||
   effect === "detour";
+
+export const isHighPriorityAlert = ({ effect }: Alert): boolean =>
+  effect === "detour" || effect === "suspension" || effect === "shuttle";
 
 export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
   alerts.filter(
@@ -104,6 +107,21 @@ export const alertsAffectingBothDirections = (alerts: Alert[]): Alert[] => {
       alert.informed_entity.direction_id[0] === null
     );
   });
+};
+
+export const allAlertsForDirection = (
+  alerts: Alert[],
+  direction_id: number
+): Alert[] => {
+  const alertsByDirectionObj = alertsByDirectionId(alerts);
+  const alertsAffectingBothDirectionsArray = alertsAffectingBothDirections(
+    alerts
+  );
+  const alertsDirectionArray = alertsByDirectionObj[direction_id]
+    ? alertsByDirectionObj[direction_id]
+    : [];
+
+  return concat(alertsAffectingBothDirectionsArray, alertsDirectionArray);
 };
 
 export const uniqueByEffect = (

@@ -48,16 +48,16 @@ defmodule Schedules.RepoCondensed do
       data
       |> Stream.map(&Parser.parse/1)
       |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
+      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 5)))
       |> build_structs()
     end
   end
 
-  defp has_trip?({_, trip_id, _, _, _, _, _, _, _}) when is_nil(trip_id) do
+  defp has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
     false
   end
 
-  defp has_trip?({_, _, _, _, _, _, _, _, _}) do
+  defp has_trip?({_, _, _, _, _, _, _, _, _, _, _}) do
     true
   end
 
@@ -117,7 +117,7 @@ defmodule Schedules.RepoCondensed do
 
   defp build_structs(schedules) do
     schedules
-    |> Enum.map(fn {_, trip_id, stop_id, time, _, _, _, stop_sequence, _} ->
+    |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _} ->
       Task.async(fn ->
         trip = Repo.trip(trip_id)
         stop = StopsRepo.get!(stop_id)

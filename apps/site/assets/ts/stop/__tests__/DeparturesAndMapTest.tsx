@@ -95,7 +95,7 @@ describe("DeparturesAndMap", () => {
     const arr = departuresAndMap.baseElement.querySelector(
       ".stop-routes-and-map"
     );
-    expect(arr).toBeDefined();
+    expect(arr).toBeInTheDocument();
   });
 
   it("opens departure list on click", async () => {
@@ -168,7 +168,9 @@ describe("DeparturesAndMap", () => {
     [subwayRoute, crRoute, slRoute]
       .flatMap(route => route.polylines)
       .forEach(({ id }) => {
-        expect(container.querySelector(`.stop-map_line--${id}`)).toBeDefined();
+        expect(
+          container.querySelector(`.stop-map_line--${id}`)
+        ).toBeInTheDocument();
       });
 
     busRoute.polylines.forEach(({ id }) => {
@@ -201,7 +203,7 @@ describe("DeparturesAndMap", () => {
           id: "1",
           headsign: "BusRoute Headsign 1",
           direction_id: 1,
-          shape_id: "testing"
+          shape_id: busRoute.polylines[0].id
         },
         time: add(Date.now(), { minutes: 10 })
       }
@@ -228,7 +230,7 @@ describe("DeparturesAndMap", () => {
     // Only the polyline for the selected bus route pattern is shown
     expect(
       container.querySelector(`.stop-map_line--${busRoute.polylines[0].id}`)
-    ).toBeDefined();
+    ).toBeInTheDocument();
     busRoute.polylines.slice(1).forEach(({ id }) => {
       expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
     });
@@ -252,7 +254,9 @@ describe("DeparturesAndMap", () => {
     [subwayRoute, crRoute, slRoute]
       .flatMap(route => route.polylines)
       .forEach(({ id }) => {
-        expect(container.querySelector(`.stop-map_line--${id}`)).toBeDefined();
+        expect(
+          container.querySelector(`.stop-map_line--${id}`)
+        ).toBeInTheDocument();
       });
 
     // selected bus shape cleared & no bus routes shown

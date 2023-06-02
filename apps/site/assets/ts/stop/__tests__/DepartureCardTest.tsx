@@ -20,8 +20,10 @@ describe("DepartureCard", () => {
       />
     );
     const listItem = screen.getByRole("listitem");
-    expect(listItem).toBeDefined();
-    expect(within(listItem).getByText("Silver Line 749 Route")).toBeDefined();
+    expect(listItem).toBeInTheDocument();
+    expect(
+      within(listItem).getByText("Silver Line 749 Route")
+    ).toBeInTheDocument();
   });
 
   it("route card header links to schedule page for route", () => {
@@ -53,7 +55,7 @@ describe("DepartureCard", () => {
         )
       )
       .map(({ container }) => container.querySelector(".c-svg__icon"));
-    iconElements.forEach(el => expect(el).toBeDefined());
+    iconElements.forEach(el => expect(el).toBeInTheDocument());
     expect(iconElements[0]).toEqual(iconElements[1]); // both use the subway icon
   });
 

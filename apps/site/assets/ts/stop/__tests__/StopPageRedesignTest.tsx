@@ -118,7 +118,9 @@ describe("StopPageRedesign", () => {
     [subwayRoute, crRoute, slRoute]
       .flatMap(route => route.polylines)
       .forEach(({ id }) => {
-        expect(container.querySelector(`.stop-map_line--${id}`)).toBeDefined();
+        expect(
+          container.querySelector(`.stop-map_line--${id}`)
+        ).toBeInTheDocument();
       });
 
     busRoute.polylines.forEach(({ id }) => {
@@ -220,10 +222,10 @@ describe("StopPageRedesign", () => {
 
     render(<StopPageRedesign stopId="Test 1" />);
 
-    expect(screen.queryByText("Road Is Closed")).toBeDefined();
-    expect(screen.queryByText("Road Is Open")).toBeNull();
-    expect(screen.queryByText("The Walkway has spillage")).toBeNull();
-    expect(screen.queryByText("Elevator is Malfunctioning")).toBeDefined();
+    expect(screen.getByText(/Road Is Closed/)).toBeInTheDocument();
+    expect(screen.queryByText(/Road Is Open/)).toBeNull();
+    expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
+    expect(screen.getByText(/Elevator is Malfunctioning/)).toBeInTheDocument();
   });
 
   it("should not render past alerts", () => {

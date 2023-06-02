@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
-import { DirectionId, Route, Stop, Trip } from "../../__v3api";
+import { concat } from "lodash";
+import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
@@ -7,12 +8,22 @@ import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
+import {
+  alertsByRoute,
+  alertsByStop,
+  allAlertsForDirection,
+  hasSuspension,
+  isCurrentAlert,
+  isHighPriorityAlert
+} from "../../models/alert";
+import Alerts from "../../components/Alerts";
 
 interface DepartureListProps {
   route: Route;
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
   directionId: DirectionId;
+  alerts: Alert[];
 }
 
 const displayNoUpcomingTrips = (): JSX.Element => {
@@ -27,7 +38,8 @@ const DepartureList = ({
   route,
   stop,
   schedules,
-  directionId
+  directionId,
+  alerts
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
@@ -37,12 +49,21 @@ const DepartureList = ({
 
   let departures: DepartureInfo[] = [];
 
+  const groupedAlerts = alertsByRoute(alerts);
+  const alertsForRoute = groupedAlerts[route.id] || [];
+
+  const routeAlerts = allAlertsForDirection(alertsForRoute, directionId);
+  const stopAlerts = alertsByStop(alerts, stop.id);
+  const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
+    return isHighPriorityAlert(alert) && isCurrentAlert(alert);
+  });
   const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
+      {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
       {schedules.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern && (
+      {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
         <>
           <div className="stop-departures departure-list-header">
             <div className={`departure-card__route ${routeBgClass(route)}`}>
@@ -52,7 +73,7 @@ const DepartureList = ({
               </div>
               <a
                 className="open-schedule"
-                href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern.route_pattern_id}`}
+                href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern.route_pattern_id}&schedule_finder[direction_id]=${directionId}&schedule_finder[origin]=${stop.id}`}
               >
                 View all schedules
               </a>
@@ -66,22 +87,23 @@ const DepartureList = ({
               {tripForSelectedRoutePattern.headsign}
             </div>
           </h2>
+          {schedules.map((schs, idx) => {
+            const { headsign } = schs.trip;
+            const preds = predictionsByHeadsign[headsign]
+              ? predictionsByHeadsign[headsign]
+              : [];
+            departures = mergeIntoDepartureInfo(schedules, preds);
+            const prediction = departures[idx]?.prediction;
+            const predictionOrSchedule =
+              prediction || departures[idx]?.schedule;
+            return (
+              <div key={`${predictionOrSchedule?.trip.id}`}>
+                {predictionOrSchedule?.time.toString()}
+              </div>
+            );
+          })}
         </>
       )}
-      {schedules.map((schs, idx) => {
-        const { headsign } = schs.trip;
-        const preds = predictionsByHeadsign[headsign]
-          ? predictionsByHeadsign[headsign]
-          : [];
-        departures = mergeIntoDepartureInfo(schedules, preds);
-        const prediction = departures[idx]?.prediction;
-        const predictionOrSchedule = prediction || departures[idx]?.schedule;
-        return (
-          <div key={`${predictionOrSchedule?.trip.id}`}>
-            {predictionOrSchedule?.time.toString()}
-          </div>
-        );
-      })}
     </>
   );
 };
