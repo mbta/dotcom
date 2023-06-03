@@ -37,8 +37,9 @@ import BasicTime from "./BasicTime";
 interface DisplayTimeProps {
   departure: DepartureInfo;
   isCR: boolean;
+  targetDate?: Date | undefined;
 }
-interface DepartureContextProps extends DisplayTimeProps {
+export interface DepartureContextProps extends DisplayTimeProps {
   time: Date | undefined;
   isLessThanHourAway: boolean | undefined;
 }
@@ -47,20 +48,29 @@ interface DepartureContextProps extends DisplayTimeProps {
  * This context is meant to capture some of the values that affect the UI design
  * so we populate it with a few extra values to avoid recalculation
  */
-const DepartureContext = createContext<DepartureContextProps>({
+export const DepartureContext = createContext<DepartureContextProps>({
   departure: {},
   time: undefined,
   isCR: false,
-  isLessThanHourAway: false
+  isLessThanHourAway: false,
+  targetDate: new Date()
 });
 
 function TimeCountdown(): JSX.Element {
-  const { time, isCR } = useContext(DepartureContext);
-  return <BasicTime displayType={isCR ? "absolute" : "relative"} time={time} />;
+  const { time, isCR, targetDate } = useContext(DepartureContext);
+  return (
+    <BasicTime
+      displayType={isCR ? "absolute" : "relative"}
+      time={time}
+      targetDate={targetDate}
+    />
+  );
 }
 
 function DelayedTimeCountdown(): JSX.Element {
-  const { time, isCR, isLessThanHourAway } = useContext(DepartureContext);
+  const { time, isCR, isLessThanHourAway, targetDate } = useContext(
+    DepartureContext
+  );
   return (
     <>
       {!isLessThanHourAway && "Delayed "}
@@ -68,6 +78,7 @@ function DelayedTimeCountdown(): JSX.Element {
         displayType={isCR ? "absolute" : "relative"}
         time={time}
         strikethrough={false}
+        targetDate={targetDate}
       />
     </>
   );
@@ -83,17 +94,28 @@ function BaseTimeDetails(): JSX.Element {
 }
 
 function DelayedTimeDetails(): JSX.Element {
-  const { departure, isLessThanHourAway, isCR } = useContext(DepartureContext);
+  const { departure, isLessThanHourAway, isCR, targetDate } = useContext(
+    DepartureContext
+  );
   const { prediction, schedule } = departure;
   const strikedthroughSchedule = (
-    <BasicTime displayType="absolute" time={schedule!.time} strikethrough />
+    <BasicTime
+      displayType="absolute"
+      time={schedule!.time}
+      targetDate={targetDate}
+      strikethrough
+    />
   );
   if (isLessThanHourAway && isCR) return strikedthroughSchedule;
   if (!isLessThanHourAway) return strikedthroughSchedule;
   return (
     <>
       {"Delayed "}
-      <BasicTime displayType="absolute" time={prediction!.time} />{" "}
+      <BasicTime
+        displayType="absolute"
+        time={prediction!.time}
+        targetDate={targetDate}
+      />{" "}
       {strikedthroughSchedule}
     </>
   );
@@ -111,7 +133,8 @@ function DelayedTimeDetails(): JSX.Element {
  */
 const DisplayTime = ({
   departure,
-  isCR
+  isCR,
+  targetDate
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
   const time = departureInfoToTime(departure);
   const isDelayed = departure?.isDelayed;
@@ -120,7 +143,7 @@ const DisplayTime = ({
     : undefined;
   return (
     <DepartureContext.Provider
-      value={{ time, isLessThanHourAway, departure, isCR }}
+      value={{ time, isLessThanHourAway, departure, isCR, targetDate }}
     >
       <div>
         {displayInfoContainsPrediction(departure) &&

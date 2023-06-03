@@ -17,6 +17,9 @@ import {
   isHighPriorityAlert
 } from "../../models/alert";
 import Alerts from "../../components/Alerts";
+import { getInfoKey } from "../models/displayTimeConfig";
+import DisplayTime from "./DisplayTime";
+import { isACommuterRailRoute } from "../../models/route";
 
 interface DepartureListProps {
   route: Route;
@@ -47,12 +50,14 @@ const DepartureList = ({
     stop.id,
     directionId
   );
-  const { headsign } = tripForSelectedRoutePattern;
-  const preds = predictionsByHeadsign[headsign]
-    ? predictionsByHeadsign[headsign]
-    : [];
+  const headsign = tripForSelectedRoutePattern?.headsign || null;
+  const preds =
+    headsign && predictionsByHeadsign[headsign]
+      ? predictionsByHeadsign[headsign]
+      : [];
   const departures: DepartureInfo[] = mergeIntoDepartureInfo(schedules, preds);
 
+  const isCR = isACommuterRailRoute(route);
   const groupedAlerts = alertsByRoute(alerts);
   const alertsForRoute = groupedAlerts[route.id] || [];
 

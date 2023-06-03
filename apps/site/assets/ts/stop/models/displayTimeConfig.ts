@@ -176,4 +176,4 @@ const infoToDisplayTime = (
   return defaultState;
 };
 
-export { DisplayTimeConfig, infoToDisplayTime };
+export { DisplayTimeConfig, infoToDisplayTime, getInfoKey };

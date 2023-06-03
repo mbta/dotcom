@@ -60,7 +60,7 @@ jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
 
 describe("DepartureList", () => {
   it("should render a schedule when no predictions available", () => {
-    render(
+    const { container } = render(
       <DepartureList
         route={route}
         stop={stop}
@@ -70,11 +70,15 @@ describe("DepartureList", () => {
       />
     );
 
-    expect(screen.getByText(schedules[2].time.toString())).toBeDefined();
+    expect(container.querySelector("time")).toBeDefined();
+    expect(container.querySelectorAll("time")[2]).toHaveAttribute(
+      "datetime",
+      schedules[2].time.toISOString()
+    );
   });
 
   it("should render a prediction time if available", () => {
-    render(
+    const { container } = render(
       <DepartureList
         route={route}
         stop={stop}
@@ -83,7 +87,11 @@ describe("DepartureList", () => {
         alerts={[]}
       />
     );
-    expect(screen.getByText(predictionTime.toString())).toBeDefined();
+    expect(container.querySelector("time")).toBeDefined();
+    const datetimes = Array.from(container.querySelectorAll("time")).map(el =>
+      el.getAttribute("datetime")
+    );
+    expect(datetimes).toContain(predictionTime.toISOString());
   });
 
   it("header has link to schedule page variant ", () => {
