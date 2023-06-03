@@ -41,13 +41,17 @@ const DepartureList = ({
   directionId,
   alerts
 }: DepartureListProps): ReactElement<HTMLElement> => {
+  const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
   const predictionsByHeadsign = usePredictionsChannel(
     route.id,
     stop.id,
     directionId
   );
-
-  let departures: DepartureInfo[] = [];
+  const { headsign } = tripForSelectedRoutePattern;
+  const preds = predictionsByHeadsign[headsign]
+    ? predictionsByHeadsign[headsign]
+    : [];
+  const departures: DepartureInfo[] = mergeIntoDepartureInfo(schedules, preds);
 
   const groupedAlerts = alertsByRoute(alerts);
   const alertsForRoute = groupedAlerts[route.id] || [];
@@ -57,7 +61,7 @@ const DepartureList = ({
   const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
     return isHighPriorityAlert(alert) && isCurrentAlert(alert);
   });
-  const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
+
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
@@ -85,15 +89,8 @@ const DepartureList = ({
       {schedules.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
         <>
-          {schedules.map((schs, idx) => {
-            const { headsign } = schs.trip;
-            const preds = predictionsByHeadsign[headsign]
-              ? predictionsByHeadsign[headsign]
-              : [];
-            departures = mergeIntoDepartureInfo(schedules, preds);
-            const prediction = departures[idx]?.prediction;
-            const predictionOrSchedule =
-              prediction || departures[idx]?.schedule;
+          {departures.map(({ prediction, schedule }) => {
+            const predictionOrSchedule = prediction || schedule;
             return (
               <div key={`${predictionOrSchedule?.trip.id}`}>
                 {predictionOrSchedule?.time.toString()}
