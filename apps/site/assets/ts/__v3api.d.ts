@@ -102,6 +102,11 @@ export interface Prediction {
   status: string | null;
   track: string | null;
   schedule_relationship?: ScheduleRelationship;
+  route?: Route;
+  trip?: Trip | null;
+  stop?: Stop;
+  arrival_time?: Date | null;
+  departure_time?: Date | null;
 }
 
 export interface Route {
@@ -314,6 +319,8 @@ export interface Schedule {
   stop_sequence: number;
   pickup_type: number;
   train_number?: string;
+  arrival_time?: Date | null;
+  departure_time?: Date | null;
 }
 
 export interface Shape {
