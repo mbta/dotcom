@@ -223,17 +223,16 @@ describe("StopPageRedesign", () => {
     const now = new Date();
     const past1 = add(now, { days: -1 });
     const past2 = add(now, { days: -5 });
-    const future1 = add(now, { days: 1 });
-    const future2 = add(now, { days: 3 });
-    const future3 = add(now, { days: 8 });
-    const future4 = add(now, { days: 9 });
+    const future1 = add(now, { days: 3 });
+    const future2 = add(now, { days: 8 });
+    const future3 = add(now, { days: 9 });
 
     const alertsForStop: Alert[] = [
       {
         informed_entity: {
           entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(past1), dateFormatter(future2)]],
+        active_period: [[dateFormatter(past1), dateFormatter(future1)]],
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
@@ -253,7 +252,7 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(future3), dateFormatter(future4)]],
+        active_period: [[dateFormatter(past1), dateFormatter(future3)]],
         lifecycle: "new",
         id: "000002",
         header: "Test Alert The Road Is Open",
@@ -266,7 +265,7 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ route: "Test Route 2" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(future3), dateFormatter(future4)]],
+        active_period: [[dateFormatter(future2), dateFormatter(future3)]],
         lifecycle: "new",
         id: "000003",
         header: "Test Alert The Walkway has spillage",
@@ -276,7 +275,7 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ route: "Test Route 3" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(future1), dateFormatter(future4)]],
+        active_period: [[dateFormatter(past1), dateFormatter(future3)]],
         lifecycle: "new",
         id: "000004",
         header: "Test Alert The Elevator is Malfunctioning",
@@ -295,7 +294,7 @@ describe("StopPageRedesign", () => {
     render(<StopPageRedesign stopId="Test 1" />);
 
     expect(screen.getByText(/Road Is Closed/)).toBeInTheDocument();
-    expect(screen.queryByText(/Road Is Open/)).toBeNull();
+    expect(screen.queryByText(/Road Is Open/)).toBeInTheDocument();
     expect(screen.queryByText(/Test Alert The Station is Closed/)).toBeNull();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
     expect(screen.getByText(/Elevator is Malfunctioning/)).toBeInTheDocument();
