@@ -65,7 +65,7 @@ const getSpecialServiceMaps = (
       return {
         date: parse(addedDate, "yyyy-MM-dd", new Date()),
         dateString: addedDate,
-        name: service.added_dates_notes[addedDate]
+        name: service.added_dates_notes[addedDate] || service.name
       };
     })
   );
