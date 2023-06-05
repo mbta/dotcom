@@ -7,14 +7,7 @@ const EscalatorsAmenityCard = (): JSX.Element => {
     <span className="m-stop-page__icon">{escalatorIcon("c-svg__icon")}</span>
   );
 
-  return (
-    <AmenityCard headerText="Escalators" icon={icon}>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mattis
-        faucibus erat.
-      </div>
-    </AmenityCard>
-  );
+  return <AmenityCard headerText="Escalators" icon={icon} />;
 };
 
 export default EscalatorsAmenityCard;

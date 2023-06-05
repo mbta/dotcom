@@ -7,14 +7,7 @@ const FareSalesAmenityCard = (): JSX.Element => {
     <span className="m-stop-page__icon">{faresIcon("c-svg__icon")}</span>
   );
 
-  return (
-    <AmenityCard headerText="Fare Sales" icon={icon}>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mattis
-        faucibus erat.
-      </div>
-    </AmenityCard>
-  );
+  return <AmenityCard headerText="Fare Sales" icon={icon} />;
 };
 
 export default FareSalesAmenityCard;

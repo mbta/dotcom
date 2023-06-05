@@ -7,14 +7,7 @@ const BikeStorageAmenityCard = (): JSX.Element => {
     <span className="m-stop-page__icon">{bikeIcon("c-svg__icon")}</span>
   );
 
-  return (
-    <AmenityCard headerText="Bike Storage" icon={icon}>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mattis
-        faucibus erat.
-      </div>
-    </AmenityCard>
-  );
+  return <AmenityCard headerText="Bike Storage" icon={icon} />;
 };
 
 export default BikeStorageAmenityCard;

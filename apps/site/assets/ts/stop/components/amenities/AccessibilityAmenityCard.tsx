@@ -9,14 +9,7 @@ const AccessibilityAmenityCard = (): JSX.Element => {
     </span>
   );
 
-  return (
-    <AmenityCard headerText="Accessibility" icon={icon}>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mattis
-        faucibus erat.
-      </div>
-    </AmenityCard>
-  );
+  return <AmenityCard headerText="Accessibility" icon={icon} />;
 };
 
 export default AccessibilityAmenityCard;

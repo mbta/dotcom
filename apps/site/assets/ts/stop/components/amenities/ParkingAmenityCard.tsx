@@ -5,14 +5,7 @@ import { parkingIcon } from "../../../helpers/icon";
 const ParkingAmenityCard = (): JSX.Element => {
   const icon = <span className="m-stop-page__icon">{parkingIcon()}</span>;
 
-  return (
-    <AmenityCard headerText="Parking" icon={icon}>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mattis
-        faucibus erat.
-      </div>
-    </AmenityCard>
-  );
+  return <AmenityCard headerText="Parking" icon={icon} />;
 };
 
 export default ParkingAmenityCard;
