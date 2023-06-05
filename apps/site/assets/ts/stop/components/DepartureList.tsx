@@ -54,16 +54,16 @@ const DepartureList = ({
 
   const routeAlerts = allAlertsForDirection(alertsForRoute, directionId);
   const stopAlerts = alertsByStop(alerts, stop.id);
-  const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
+  const allCurrentAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
     return isHighPriorityAlert(alert) && isInNextXDays(alert, 0);
   });
   const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
   // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
-      {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
+      {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
       {schedules.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
+      {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
         <>
           <div className="stop-departures departure-list-header">
             <div className={`departure-card__route ${routeBgClass(route)}`}>

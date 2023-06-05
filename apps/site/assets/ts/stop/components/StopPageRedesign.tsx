@@ -9,12 +9,9 @@ import Alerts from "../../components/Alerts";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import {
-  isBannerAlert,
-  isInNextXDays,
-  routeWideAlerts
-} from "../../models/alert";
+import { isInNextXDays, routeWideAlerts } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
+import { Alert } from "../../__v3api";
 
 const StopPageRedesign = ({
   stopId
@@ -51,6 +48,11 @@ const StopPageRedesign = ({
   ) {
     return <Loading />;
   }
+
+  const isBannerAlert = ({ effect }: Alert): boolean =>
+    ["suspension", "stop_closure", "station_closure", "shuttle"].includes(
+      effect
+    );
 
   const routes = routesWithPolylinesResult.data.map(rwp =>
     omit(rwp, "polylines")

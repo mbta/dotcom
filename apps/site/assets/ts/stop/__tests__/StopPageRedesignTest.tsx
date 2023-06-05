@@ -221,6 +221,8 @@ describe("StopPageRedesign", () => {
 
   it("should only render current stop alerts and route alerts within 7 days", () => {
     const now = new Date();
+    const past1 = add(now, { days: -1 });
+    const past2 = add(now, { days: -5 });
     const future1 = add(now, { days: 1 });
     const future2 = add(now, { days: 3 });
     const future3 = add(now, { days: 8 });
@@ -231,11 +233,21 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        active_period: [[dateFormatter(past1), dateFormatter(future2)]],
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
-        effect: "stop_closure"
+        effect: "suspension"
+      },
+      {
+        informed_entity: {
+          entities: [{ stop: "Test 1" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(past2), dateFormatter(past1)]],
+        lifecycle: "new",
+        id: "000009",
+        header: "Test Alert The Station is Closed",
+        effect: "station_closure"
       },
       {
         informed_entity: {
@@ -264,7 +276,7 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ route: "Test Route 3" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(future1), dateFormatter(future2)]],
+        active_period: [[dateFormatter(future1), dateFormatter(future4)]],
         lifecycle: "new",
         id: "000004",
         header: "Test Alert The Elevator is Malfunctioning",
@@ -284,6 +296,7 @@ describe("StopPageRedesign", () => {
 
     expect(screen.getByText(/Road Is Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/Road Is Open/)).toBeNull();
+    expect(screen.queryByText(/Test Alert The Station is Closed/)).toBeNull();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
     expect(screen.getByText(/Elevator is Malfunctioning/)).toBeInTheDocument();
   });
