@@ -135,7 +135,7 @@ const buildHeadsign = (
         return {
           prediction: shortPrediction,
           // eslint-disable-next-line camelcase
-          scheduled_time: scheduledTime,
+          scheduled_time: scheduledTime || null,
           delay
         };
       }

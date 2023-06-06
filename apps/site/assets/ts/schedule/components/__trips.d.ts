@@ -32,7 +32,7 @@ export interface TripDeparture {
 }
 
 export interface TripDepartureWithPrediction extends TripDeparture {
-  prediction: Prediction;
+  prediction: TripPrediction;
 }
 
 export interface TripInfo {

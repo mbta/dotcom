@@ -55,6 +55,12 @@ export const parsePrediction = (
     "status",
     "vehicle_id"
   ]),
+  arrival_time: prediction.arrival_time
+    ? new Date(prediction.arrival_time)
+    : null,
+  departure_time: prediction.departure_time
+    ? new Date(prediction.departure_time)
+    : null,
   // backend removes all predictions with a null departure_time
   // so this is always populated
   time: new Date(prediction.departure_time!)
