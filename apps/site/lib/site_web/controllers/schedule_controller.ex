@@ -46,7 +46,15 @@ defmodule SiteWeb.ScheduleController do
 
   @spec schedules_for_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def schedules_for_stop(conn, %{"stop_id" => stop_id}) do
-    schedules = Schedules.Repo.schedules_for_stop(stop_id, [])
+    schedules =
+      Schedules.Repo.schedules_for_stop(stop_id, [])
+      # Only list schedules with departure_time in the future
+      |> Enum.filter(fn %Schedules.Schedule{departure_time: dt} ->
+        dt && Util.time_is_greater_or_equal?(dt, Util.now())
+      end)
+      # Don't list schedules departing from the last stop
+      |> Enum.reject(fn %Schedules.Schedule{last_stop?: is_last_stop} -> is_last_stop end)
+
     json(conn, schedules)
   end
 end
