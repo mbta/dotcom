@@ -26,7 +26,7 @@ const StationInformation = ({
         latitude={stop.latitude}
         longitude={stop.longitude}
       />
-      <div className="station-amenities mt-8">
+      <div className="station-amenities mt-24">
         <ParkingAmenityCard />
         <BikeStorageAmenityCard />
         <ElevatorsAmenityCard />
