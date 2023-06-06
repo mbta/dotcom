@@ -92,7 +92,7 @@ export const formatRelativeTime = (
     return "Arriving";
   }
   if (seconds <= 60) {
-    return "Approaching";
+    return "<1 minute away";
   }
   if (seconds < secondsInHour) {
     return `${Math.floor(seconds / secondsInMinute)} min`;

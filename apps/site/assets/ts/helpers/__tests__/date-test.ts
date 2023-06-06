@@ -36,7 +36,9 @@ describe("formatRelativeTime", () => {
     expect(formatRelativeTime(arrivingDate, baseDate)).toBe("Arriving");
 
     const approachingDate = addSeconds(baseDate, 45);
-    expect(formatRelativeTime(approachingDate, baseDate)).toBe("Approaching");
+    expect(formatRelativeTime(approachingDate, baseDate)).toBe(
+      "<1 minute away"
+    );
 
     const soonDate = addMinutes(baseDate, 50);
     expect(formatRelativeTime(soonDate, baseDate)).toBe("50 min");
