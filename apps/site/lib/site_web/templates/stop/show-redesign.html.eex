@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
 <div>
-  <div id="react-stop-redesign-root"></div>
+  <div id="react-stop-redesign-root" data-stop-id="<%= @stop_id %>"></div>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>
