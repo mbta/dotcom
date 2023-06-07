@@ -62,14 +62,16 @@ const StopPageRedesign = ({
   // Get only alerts that are current
   const currentAlerts = filter(
     alertsForStopResult.data.concat(routeWideAlertsArray),
-    alert => isCurrentAlert(alert) && !isGlobalBannerAlert(alert)
+    alert => isCurrentAlert(alert)
   );
 
   return (
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
       <div className="container">
-        <Alerts alerts={currentAlerts} />
+        <Alerts
+          alerts={currentAlerts.filter(alert => !isGlobalBannerAlert(alert))}
+        />
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
