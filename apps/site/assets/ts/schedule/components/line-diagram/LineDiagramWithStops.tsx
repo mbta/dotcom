@@ -14,6 +14,7 @@ import useTreeStopPositions, { RefMap } from "./graphics/useTreeStopPositions";
 import ExpandableBranch from "./ExpandableBranch";
 import StopCard from "./StopCard";
 import { LiveDataByStop } from "./__line-diagram";
+import { alertsByStop } from "../../../models/alert";
 
 interface Props {
   stopTree: StopTree;
@@ -93,7 +94,7 @@ const NextStopOrBranch = ({
         key={`stop-card-${terminalStopId}`}
         stopTree={stopTree}
         stopId={terminalStopId}
-        alerts={alerts}
+        alerts={alertsByStop(alerts, terminalStopId)}
         onClick={handleStopClick}
         liveData={liveData?.[terminalStopId]}
       />,
@@ -146,7 +147,7 @@ const NextStopOrBranch = ({
         key={`stop-card-${startingId}`}
         stopTree={stopTree}
         stopId={startingId}
-        alerts={alerts}
+        alerts={alertsByStop(alerts, startingId)}
         onClick={handleStopClick}
         liveData={liveData?.[startingId]}
       />,
@@ -181,7 +182,7 @@ const NextStopOrBranch = ({
           key={stopId}
           stopTree={stopTree}
           stopId={stopId}
-          alerts={alerts}
+          alerts={alertsByStop(alerts, stopId)}
           onClick={handleStopClick}
           liveData={liveData?.[stopId]}
         />,
@@ -210,7 +211,7 @@ const NextStopOrBranch = ({
         key={stopId}
         stopTree={stopTree}
         stopId={stopId}
-        alerts={alerts}
+        alerts={alertsByStop(alerts, stopId)}
         onClick={handleStopClick}
         liveData={liveData?.[stopId]}
       />,
@@ -234,7 +235,7 @@ const NextStopOrBranch = ({
       key={stopId}
       stopTree={stopTree}
       stopId={stopId}
-      alerts={alerts}
+      alerts={alertsByStop(alerts, stopId)}
       onClick={handleStopClick}
       liveData={liveData?.[stopId]}
     />

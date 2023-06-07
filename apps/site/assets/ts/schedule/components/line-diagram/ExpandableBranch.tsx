@@ -14,6 +14,7 @@ import { branchPosition, diagramWidth } from "./line-diagram-helpers";
 import { StopRefContext } from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
 import { LiveDataByStop } from "./__line-diagram";
+import { alertsByStop } from "../../../models/alert";
 
 interface Props {
   stopTree: StopTree;
@@ -100,7 +101,7 @@ const ExpandableBranch = ({
               key={stopId}
               stopTree={stopTree}
               stopId={stopId}
-              alerts={alerts}
+              alerts={alertsByStop(alerts, stopId)}
               onClick={handleStopClick}
               liveData={liveData?.[stopId]}
             />
