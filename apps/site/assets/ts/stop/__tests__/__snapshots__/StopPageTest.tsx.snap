@@ -146,7 +146,7 @@ Array [
           >
             <i
               aria-hidden="false"
-              className="fa fa-square-parking notranslate"
+              className="fa fa-square-parking notranslate u-color-gray-light"
             />
           </span>
         </a>
