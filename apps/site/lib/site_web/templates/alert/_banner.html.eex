@@ -11,7 +11,7 @@
           content_tag(:span, [label], class: BannerAlert.label_class(@alert))
         end %>
       </div>
-      <div>
+      <div id="global-banner-description">
         <%= replace_urls_with_links(BannerAlert.header(@alert)) %>
         <%= if @alert.url != nil && @alert.url != "" && @alert.url_parsed_out_of_title == false do %>
           <span>&nbsp;</span>

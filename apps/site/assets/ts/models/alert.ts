@@ -182,3 +182,10 @@ export const hasAnActiveDiversion = (
   stopId: StopId,
   alerts: Alert[]
 ): boolean => alertsByStop(alerts, stopId).some(isActiveDiversion);
+
+export const isGlobalBannerAlert = (alert: Alert): boolean => {
+  return (
+    alert.header.split("\n").join(" ") ===
+    document.getElementById("global-banner-description")?.innerText
+  );
+};
