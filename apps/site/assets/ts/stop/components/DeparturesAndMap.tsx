@@ -106,7 +106,11 @@ const DeparturesAndMap = ({
   );
 
   return (
-    <div className="stop-routes-and-map">
+    <div
+      className={`stop-routes-and-map ${
+        viewSelectedDeparture ? "selected-departure" : ""
+      }`}
+    >
       {viewSelectedDeparture && BackToRoutes}
       <div className="stop-routes">
         {viewSelectedDeparture ? (

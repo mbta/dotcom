@@ -63,20 +63,58 @@ $radius: 4px;
   background-color: $gray-bordered-background;
   border: .25px solid $gray-lighter;
   border-radius: $radius;
+  display: grid;
   gap: .5rem;
+  grid-template-columns: 5fr 7fr;
   padding: .75rem;
 
+  .back-to-routes {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
   .stop-routes {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+  }
+
+  .back-to-routes + .stop-routes {
+    grid-row: 2 / 3;
+  }
+
+  .stop-map {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+  }
+
+  &.selected-departure {
+    z-index: 2;
+    // on mobile, adopt a full-screen "app" view,
+    // with map above departure list
     @include media-breakpoint-down(sm) {
-      grid-template-columns: 1fr;
+      bottom: 0;
+      grid-template-rows: min-content 1fr 1fr;
+      left: 0;
+      padding-bottom: 0;
+      padding-top: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+
+      .stop-map {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
+
+      .stop-routes {
+        grid-row: 3 / 4;
+      }
     }
   }
 
   @include media-breakpoint-down(sm) {
     border-radius: 0;
-    display: block;
+    grid-template-columns: 1fr;
     margin-left: -$base-spacing;
     margin-right: -$base-spacing;
   }
