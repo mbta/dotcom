@@ -1,5 +1,6 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useLayoutEffect, useRef, useState } from "react";
 import { chain, isUndefined, some } from "lodash";
+import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
@@ -13,6 +14,7 @@ import {
   isACommuterRailRoute
 } from "../../models/route";
 import useVehiclesChannel from "../../hooks/useVehiclesChannel";
+import { useSMDown } from "../../helpers/media-breakpoints-react";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -55,6 +57,21 @@ const DeparturesAndMap = ({
     Object.values(departureInfo),
     isUndefined
   );
+
+  const isSmallBreakpoint = useSMDown();
+  const refEl = useRef<HTMLDivElement>(null);
+
+  // prevent scrolling the page when in fullscreen "app" view
+  useLayoutEffect(() => {
+    if (isSmallBreakpoint && viewSelectedDeparture && refEl.current) {
+      disableBodyScroll(refEl.current);
+    } else {
+      clearAllBodyScrollLocks();
+    }
+    return () => {
+      clearAllBodyScrollLocks();
+    };
+  }, [viewSelectedDeparture, isSmallBreakpoint]);
 
   const defaultPolylines = chain(routesWithPolylines)
     .filter(
@@ -114,7 +131,7 @@ const DeparturesAndMap = ({
       {viewSelectedDeparture && BackToRoutes}
       <div className="stop-routes">
         {viewSelectedDeparture ? (
-          <div className="stop-departures">
+          <div ref={refEl} className="stop-departures">
             <DepartureList
               route={departureInfo.departureRoute!}
               stop={stop}
