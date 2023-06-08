@@ -60,7 +60,11 @@ jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
 
 describe("DepartureList", () => {
   it("should render a schedule when no predictions available", () => {
-    const { container } = render(
+    jest.spyOn(predictionsChannel, "default").mockImplementationOnce(() => {
+      return { "TestRoute Route": [] };
+    });
+
+    render(
       <DepartureList
         route={route}
         stop={stop}
@@ -70,15 +74,14 @@ describe("DepartureList", () => {
       />
     );
 
-    expect(container.querySelector("time")).toBeDefined();
-    expect(container.querySelectorAll("time")[2]).toHaveAttribute(
-      "datetime",
-      schedules[2].time.toISOString()
-    );
+    expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
+    expect(screen.queryByText("9 min")).toBeTruthy();
+    expect(screen.queryByText("14 min")).toBeTruthy();
+    expect(screen.queryByText("19 min")).toBeTruthy();
   });
 
   it("should render a prediction time if available", () => {
-    const { container } = render(
+    render(
       <DepartureList
         route={route}
         stop={stop}
@@ -87,11 +90,11 @@ describe("DepartureList", () => {
         alerts={[]}
       />
     );
-    expect(container.querySelector("time")).toBeDefined();
-    const datetimes = Array.from(container.querySelectorAll("time")).map(el =>
-      el.getAttribute("datetime")
-    );
-    expect(datetimes).toContain(predictionTime.toISOString());
+
+    expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
+    expect(screen.queryByText("Arriving")).toBeTruthy();
+    expect(screen.queryByText("10 min")).toBeTruthy();
+    expect(screen.queryByText("19 min")).toBeTruthy();
   });
 
   it("header has link to schedule page variant ", () => {
