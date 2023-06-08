@@ -14,7 +14,7 @@ interface StopPageDeparturesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: ScheduleWithTimestamp[] | undefined
   ) => void;
   alerts: Alert[];
 }

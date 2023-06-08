@@ -23,7 +23,7 @@ const DepartureCard = ({
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: ScheduleWithTimestamp[] | undefined
   ) => void;
   alertsForRoute: Alert[];
 }): ReactElement<HTMLElement> => {
