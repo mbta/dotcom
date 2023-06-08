@@ -202,6 +202,16 @@ describe("StopPageRedesign", () => {
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
         id: "000006",
+        header: "Route Suspended",
+        effect: "suspension"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000009",
         header: "Station Closed",
         effect: "station_closure"
       }
@@ -215,6 +225,7 @@ describe("StopPageRedesign", () => {
 
     expect(screen.getByText(/Road Closed/)).toBeInTheDocument();
     expect(screen.getByText(/Stop Closed/)).toBeInTheDocument();
+    expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
     expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
   });
@@ -232,7 +243,7 @@ describe("StopPageRedesign", () => {
         informed_entity: {
           entities: [{ stop: "Test 1" }]
         } as InformedEntitySet,
-        active_period: [[dateFormatter(past1), dateFormatter(future1)]],
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
         id: "000001",
         header: "Test Alert The Road Is Closed",
