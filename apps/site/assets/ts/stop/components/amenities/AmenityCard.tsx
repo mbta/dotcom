@@ -11,13 +11,22 @@ const AmenityCard = ({
   icon: JSX.Element;
 }): JSX.Element => {
   return (
-    <div className="c-descriptive-link card justify-content-space-between">
-      <div className="m-16">
+    <div
+      className="c-descriptive-link justify-content-space-between"
+      style={{ height: "fit-content" }}
+    >
+      <div className="p-16">
         <div className="d-flex text-primary">
           {icon}
-          <div className="c-descriptive-link__title ps-8">{headerText}</div>
+          <div className="c-descriptive-link__title ps-8 mb-0">
+            {headerText}
+          </div>
         </div>
-        <div className="c-descriptive-link__text">{children}</div>
+        {children && (
+          <div className="c-descriptive-link__text hidden-sm-down">
+            {children}
+          </div>
+        )}
       </div>
       <div className="c-descriptive-link__caret-wrapper">
         {renderFa("c-descriptive-link__caret", "fa-angle-right")}
