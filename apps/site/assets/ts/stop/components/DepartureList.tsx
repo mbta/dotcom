@@ -69,7 +69,7 @@ const DepartureList = ({
           </div>
           <a
             className="open-schedule"
-            href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern.route_pattern_id}&schedule_finder[direction_id]=${directionId}&schedule_finder[origin]=${stop.id}`}
+            href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern?.route_pattern_id}&schedule_finder[direction_id]=${directionId}&schedule_finder[origin]=${stop.id}`}
           >
             View all schedules
           </a>
@@ -78,7 +78,7 @@ const DepartureList = ({
       <h2 className="departure-list__sub-header">
         <div className="departure-list__origin-stop-name">{stop.name} to</div>
         <div className="departure-list__headsign">
-          {tripForSelectedRoutePattern.headsign}
+          {tripForSelectedRoutePattern?.headsign}
         </div>
       </h2>
       {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
