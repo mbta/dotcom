@@ -347,7 +347,12 @@ defmodule SiteWeb.ScheduleControllerTest do
             nil
         end
       ) do
-        conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+        conn =
+          ScheduleController.schedules_for_stop(conn, %{
+            "stop_id" => "TEST 1234",
+            "future_departures" => "true"
+          })
+
         body = json_response(conn, 200)
         assert Kernel.length(body) == 2
         assert %{"stop" => %{"id" => "TEST 1234"}} = Enum.at(body, 0)
@@ -381,7 +386,13 @@ defmodule SiteWeb.ScheduleControllerTest do
             nil
         end
       ) do
-        conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+        conn =
+          ScheduleController.schedules_for_stop(conn, %{
+            "stop_id" => "TEST 1234",
+            "future_departures" => "true",
+            "last_stop_departures" => "false"
+          })
+
         body = json_response(conn, 200)
         assert Kernel.length(body) == 2
       end
