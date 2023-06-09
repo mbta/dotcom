@@ -92,7 +92,7 @@ describe("DepartureList", () => {
     );
 
     expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
-    expect(screen.queryByText("Arriving")).toBeTruthy();
+    expect(screen.queryByText("<1 minute away")).toBeTruthy();
     expect(screen.queryByText("10 min")).toBeTruthy();
     expect(screen.queryByText("19 min")).toBeTruthy();
   });

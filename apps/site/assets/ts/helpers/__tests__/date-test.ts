@@ -32,9 +32,6 @@ describe("formatRelativeTime", () => {
   it("should format a time relative to another time to indicate arrival", () => {
     const baseDate = new Date("2020-02-28T10:00:00");
 
-    const arrivingDate = addSeconds(baseDate, 20);
-    expect(formatRelativeTime(arrivingDate, baseDate)).toBe("Arriving");
-
     const approachingDate = addSeconds(baseDate, 45);
     expect(formatRelativeTime(approachingDate, baseDate)).toBe(
       "<1 minute away"

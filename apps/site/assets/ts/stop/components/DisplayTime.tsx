@@ -152,7 +152,7 @@ const DisplayTime = ({
       <div className="stop-routes__departures-time">
         {isDelayed ? <DelayedTimeCountdown /> : <TimeCountdown />}
       </div>
-      <div className="stop-routes__departures-details fs-12">
+      <div className="stop-routes__departures-details fs-14">
         {isDelayed && <DelayedTimeDetails />} <BaseTimeDetails />
       </div>
     </DepartureContext.Provider>

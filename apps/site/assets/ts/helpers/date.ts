@@ -88,9 +88,6 @@ export const formatRelativeTime = (
   targetDate: Date = new Date()
 ): string => {
   const seconds = differenceInSeconds(time, targetDate);
-  if (seconds <= 30) {
-    return "Arriving";
-  }
   if (seconds <= 60) {
     return "<1 minute away";
   }
