@@ -60,6 +60,7 @@ defmodule Alerts.ParserTest do
                    {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
                     ~N[2016-06-06T19:53:51] |> Timex.to_datetime("Etc/GMT+4")}
                  ],
+                 banner: "Test banner copy",
                  severity: 3,
                  lifecycle: :ongoing,
                  effect: :delay,
