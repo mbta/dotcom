@@ -12,6 +12,7 @@ import { RouteStop, SelectedOrigin, StopTree } from "../__schedule";
 import { createStopTreeCoordStore } from "./graphics/useTreeStopPositions";
 import LineDiagramWithStops from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
+import { alertsByStop } from "../../../models/alert";
 
 interface Props {
   stopTree: StopTree;
@@ -96,7 +97,7 @@ const LineDiagram = ({
                 key={stop.id}
                 stopTree={stopTree}
                 stopId={stop.id}
-                alerts={alerts}
+                alerts={alertsByStop(alerts, stop.id)}
                 onClick={handleStopClick}
                 liveData={liveData?.[stop.id]}
                 searchQuery={query}
