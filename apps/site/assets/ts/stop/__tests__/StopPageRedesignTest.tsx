@@ -9,8 +9,9 @@ import { newLatOrLon, routeWithPolylines } from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
-import { add, format } from "date-fns";
+import { add } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
+import { dateFormatter } from "../../tnm/__tests__/helpers/testUtils";
 
 describe("StopPageRedesign", () => {
   beforeEach(() => {
@@ -127,10 +128,6 @@ describe("StopPageRedesign", () => {
       expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
     });
   });
-
-  const dateFormatter = (date: Date): string => {
-    return format(date, "yyyy-M-d HH:mm");
-  };
 
   it("should render shuttle alerts", () => {
     const now = new Date();

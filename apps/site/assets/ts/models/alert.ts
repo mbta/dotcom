@@ -159,6 +159,12 @@ const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "ongoing" ||
   lifecycle === "ongoing_upcoming";
 
+export const isPastAlert = (alert: Alert): boolean => {
+  const endDate = alert.active_period.map(ap => activePeriodToDates(ap))[0][1];
+  const today = new Date();
+  return endDate ? endDate < today : false;
+};
+
 export const isInNextXDays = (
   alert: Alert,
   days: number,
