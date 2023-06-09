@@ -93,16 +93,15 @@ const DepartureList = ({
       {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
       {schedules.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
-        <>
-          {departures.map(({ prediction, schedule }) => {
-            const predictionOrSchedule = prediction || schedule;
+        <ul className="list-unstyled">
+          {departures.map(departure => {
             return (
-              <div key={`${predictionOrSchedule?.trip.id}`}>
-                {predictionOrSchedule?.time.toString()}
-              </div>
+              <li key={getInfoKey(departure)}>
+                <DisplayTime departure={departure} isCR={isCR} />
+              </li>
             );
           })}
-        </>
+        </ul>
       )}
     </>
   );
