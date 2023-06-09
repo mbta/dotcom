@@ -310,6 +310,12 @@
     grid-gap: unset;
     grid-template-columns: repeat(1, 1fr);
   }
+
+  .c-descriptive-link {
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .stop-page__header--fontsize {
