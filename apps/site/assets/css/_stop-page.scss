@@ -316,6 +316,10 @@
       margin-bottom: 1rem;
     }
   }
+
+  h3:first-of-type {
+    margin-top: 0;
+  }
 }
 
 .stop-page__header--fontsize {
