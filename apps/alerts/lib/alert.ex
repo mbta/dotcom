@@ -13,7 +13,8 @@ defmodule Alerts.Alert do
             updated_at: Timex.now(),
             description: "",
             priority: :low,
-            url: ""
+            url: "",
+            banner: ""
 
   @type period_pair :: {DateTime.t() | nil, DateTime.t() | nil}
 
@@ -62,7 +63,8 @@ defmodule Alerts.Alert do
           updated_at: DateTime.t(),
           description: String.t() | nil,
           priority: Priority.priority_level(),
-          url: String.t() | nil
+          url: String.t() | nil,
+          banner: String.t() | nil
         }
 
   @type icon_type :: :alert | :cancel | :none | :shuttle | :snow
