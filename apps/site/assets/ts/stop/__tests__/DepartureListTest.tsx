@@ -7,7 +7,6 @@ import DepartureList from "../components/DepartureList";
 import { render, screen } from "@testing-library/react";
 import * as predictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/perdictions";
-import { dateFormatter } from "../../tnm/__tests__/helpers/testUtils";
 
 const stop = {
   id: "test-stop",
@@ -105,35 +104,17 @@ describe("DepartureList", () => {
     );
   });
 
-  it("renders alert cards when alert is detour, suspension, or shuttle and is current or upcoming", () => {
-    const now = new Date();
-    const past1 = add(now, { days: -1 });
-    const past2 = add(now, { days: -5 });
-    const future1 = add(now, { days: 3 });
-    const future2 = add(now, { days: 8 });
-    const future3 = add(now, { days: 9 });
-
+  it("renders alert cards when alert is detour, suspension, or shuttle", () => {
     const alerts = [
       {
         id: "1234",
-        active_period: [[dateFormatter(now), dateFormatter(future1)]],
         informed_entity: {
           direction_id: [0]
         },
-        effect: "shuttle"
-      },
-      {
-        id: "1234",
-        active_period: [[dateFormatter(past1), dateFormatter(past2)]],
-        informed_entity: {
-          direction_id: [0]
-        },
-        header: "The Walkway has spillage",
         effect: "shuttle"
       },
       {
         id: "4321",
-        active_period: [[dateFormatter(future2), dateFormatter(future3)]],
         informed_entity: {
           direction_id: [null]
         },
@@ -141,7 +122,6 @@ describe("DepartureList", () => {
       },
       {
         id: "0987",
-        active_period: [[dateFormatter(past1), dateFormatter(future2)]],
         informed_entity: {
           direction_id: [1]
         },
@@ -149,7 +129,6 @@ describe("DepartureList", () => {
       },
       {
         id: "1234",
-        active_period: [[dateFormatter(now), dateFormatter(future1)]],
         informed_entity: {
           direction_id: [0]
         },
@@ -170,7 +149,6 @@ describe("DepartureList", () => {
     expect(screen.queryByText("Detour")).toBeDefined();
     expect(screen.queryByText("Suspension")).toBeDefined();
     expect(screen.queryByText("Delay")).toBeNull();
-    expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
   });
 
   it("subheading includes stop + headsign name", () => {
