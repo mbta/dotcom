@@ -37,7 +37,7 @@ exports[`it renders 1`] = `
     >
       <i
         aria-hidden="false"
-        className="fa fa-square-parking notranslate c-svg__icon-parking-default"
+        className="fa fa-square-parking notranslate c-svg__icon-parking-default u-color-gray-light"
       />
     </span>
   </div>
@@ -105,7 +105,7 @@ exports[`it renders with distance formatted 1`] = `
     >
       <i
         aria-hidden="false"
-        className="fa fa-square-parking notranslate c-svg__icon-parking-default"
+        className="fa fa-square-parking notranslate c-svg__icon-parking-default u-color-gray-light"
       />
     </span>
   </div>

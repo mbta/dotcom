@@ -8,7 +8,9 @@ const ParkingIcon = ({ stop }: { stop: Stop }): ReactElement<HTMLElement> => {
   }
   return (
     <div className="m-stop-page__header-feature">
-      <span className="m-stop-page__icon">{parkingIcon()}</span>
+      <span className="m-stop-page__icon">
+        {parkingIcon("u-color-gray-light")}
+      </span>
     </div>
   );
 };

@@ -200,7 +200,6 @@ $radius: 4px;
   margin: .5rem;
   overflow-y: scroll;
   @include media-breakpoint-down(sm) {
-    height: 50%;
     margin: 0;
   }
 }
@@ -248,6 +247,7 @@ $radius: 4px;
   margin: 0;
   top: 0;
   width: 100%;
+  z-index: 2;
   .back-to-routes {
     grid-area: back-button;
   }

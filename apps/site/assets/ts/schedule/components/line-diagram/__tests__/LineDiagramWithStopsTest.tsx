@@ -1,13 +1,14 @@
 import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
+import { render, screen } from "@testing-library/react";
 import LineDiagramWithStops from "../LineDiagramWithStops";
 import { CrowdingType, RouteStop, StopTree } from "../../__schedule";
 import * as UseTreeStopPositions from "../graphics/useTreeStopPositions";
 import { cloneDeep } from "lodash";
 import * as simpleLiveData from "./lineDiagramData/live-data.json";
 import { LiveDataByStop } from "../__line-diagram";
-import { RouteType } from "../../../../__v3api";
+import { Alert, InformedEntitySet, RouteType } from "../../../../__v3api";
 
 const stopTree: StopTree = {
   byId: {
@@ -223,5 +224,34 @@ describe("LineDiagramWithStops", () => {
 
     expect(wrapper.exists(".u-no-crowding-data")).toBeFalsy();
     expect(wrapperWithoutCrowding.exists(".u-no-crowding-data")).toBeTruthy();
+  });
+
+  it("doesn't show one stop's diversions for whole route", () => {
+    const year = new Date().getFullYear();
+    const currentDiversionAlert = {
+      id: "alert",
+      informed_entity: { stop: ["b2"] } as InformedEntitySet,
+      effect: "shuttle",
+      lifecycle: "ongoing",
+      active_period: [[`${year}-01-01 12:00`, `${year}-12-31 23:59`]]
+    } as Alert;
+    const { container } = render(
+      <redux.Provider store={store}>
+        <LineDiagramWithStops
+          stopTree={stopTree}
+          route={route}
+          directionId={1}
+          alerts={[currentDiversionAlert]}
+          handleStopClick={handleStopClick}
+        />
+      </redux.Provider>
+    );
+    const stopDetails = container.querySelectorAll(
+      ".m-schedule-diagram__stop-details"
+    );
+    const stopAlerts = container.querySelectorAll(".m-schedule-diagram__alert");
+    expect(stopAlerts.length).toBeLessThan(stopDetails.length);
+    expect(stopAlerts.length).toEqual(1);
+    expect(stopAlerts[0].textContent).toContain("Shuttle");
   });
 });

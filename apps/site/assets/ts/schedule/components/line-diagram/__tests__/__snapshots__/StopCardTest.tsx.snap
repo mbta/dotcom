@@ -24,7 +24,7 @@ exports[`StopCard renders and matches snapshot 1`] = `
           <div className=\\"m-schedule-diagram__features\\">
             <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
               <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\">
-                <i className=\\"fa fa-square-parking notranslate m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
+                <i className=\\"fa fa-square-parking notranslate u-color-gray-light m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" />
               </span>
             </TooltipWrapper>
           </div>

@@ -354,8 +354,8 @@ describe("DailyScheduleSubway", () => {
         "default_service?": false
       },
       {
-        added_dates: ["2022-12-26"],
-        added_dates_notes: { "2022-12-26": "Holiday 1" },
+        added_dates: ["2022-12-26", "2022-12-28"],
+        added_dates_notes: { "2022-12-26": "Holiday 1", "2022-12-28": null },
         description: "descr",
         end_date: "2022-12-31",
         id: "1",
@@ -386,7 +386,8 @@ describe("DailyScheduleSubway", () => {
     );
 
     expect(wrapper.html()).toContain("Special Service");
-    expect(wrapper.html()).toContain("Holiday");
+    expect(wrapper.html()).toContain("Holiday 1, Dec 26");
+    expect(wrapper.html()).toContain("name, Dec 28");
   });
   it("should set special service date as today if date is today", () => {
     const specialServices = [

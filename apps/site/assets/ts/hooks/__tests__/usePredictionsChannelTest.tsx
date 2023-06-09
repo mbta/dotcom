@@ -123,27 +123,50 @@ describe("usePredictionsChannel hook", () => {
   });
 });
 
-test("usePredictionsChannel parsePrediction modifies the streamed prediction", () => {
-  const streamPrediction = {
-    id: "1",
-    direction_id: 0,
-    route: { id: "Silver" } as Route,
-    stop: { id: "place-somewhere" } as Stop,
-    schedule_relationship: "added",
-    track: null,
-    arrival_time: "2022-12-15 00:54:59.576744Z",
-    departure_time: "2022-12-15 00:55:04.576744Z",
-    time: "2022-12-15 00:54:59.576744Z",
-    trip: { id: "999", headsign: "Final Destination" } as Trip,
-    vehicle_id: "v1"
-  } as StreamPrediction;
-  const parsed = parsePrediction(streamPrediction);
+const streamPrediction = {
+  id: "1",
+  direction_id: 0,
+  route: { id: "Silver" } as Route,
+  stop: { id: "place-somewhere" } as Stop,
+  schedule_relationship: "added",
+  track: null,
+  arrival_time: "2022-12-15 00:54:59.576744Z",
+  departure_time: "2022-12-15 00:55:04.576744Z",
+  time: "2022-12-15 00:54:59.576744Z",
+  trip: { id: "999", headsign: "Final Destination" } as Trip,
+  vehicle_id: "v1"
+} as StreamPrediction;
 
-  expect(parsed).toBeTruthy();
-  expect(parsed.time).toEqual(new Date(streamPrediction.departure_time!));
-  expect(parsed.time).not.toEqual(new Date(streamPrediction.arrival_time!));
-  expect(parsed.time).not.toEqual(new Date(streamPrediction.time!));
-  expect(parsed.vehicle_id).toEqual("v1");
+describe("usePredictionsChannel parsePrediction", () => {
+  test("modifies the streamed prediction", () => {
+    const parsed = parsePrediction(streamPrediction);
+    expect(parsed).toBeTruthy();
+    expect(parsed.time).toEqual(new Date(streamPrediction.departure_time!));
+    expect(parsed.time).not.toEqual(new Date(streamPrediction.arrival_time!));
+    expect(parsed.time).not.toEqual(new Date(streamPrediction.time!));
+    expect(parsed.vehicle_id).toEqual("v1");
+  });
+
+  test("handles no departure", () => {
+    const parsed = parsePrediction({
+      ...streamPrediction,
+      departure_time: null
+    });
+    expect(parsed).toBeTruthy();
+    expect(parsed.departure_time).toBeNull();
+    expect(parsed.arrival_time).toEqual(
+      new Date(streamPrediction.arrival_time!)
+    );
+  });
+
+  test("handles no arrival", () => {
+    const parsed = parsePrediction({ ...streamPrediction, arrival_time: null });
+    expect(parsed).toBeTruthy();
+    expect(parsed.arrival_time).toBeNull();
+    expect(parsed.departure_time).toEqual(
+      new Date(streamPrediction.departure_time!)
+    );
+  });
 });
 
 test("usePredictionsChannel groupByHeadsigns groups and sorts", () => {

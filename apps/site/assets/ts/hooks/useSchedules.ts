@@ -21,7 +21,13 @@ const parse = (schedule: ScheduleData): ScheduleWithTimestamp =>
       "pickup_type: number",
       "train_number?: string"
     ]),
-    time: new Date(schedule.time)
+    time: new Date(schedule.time),
+    arrival_time: schedule.arrival_time
+      ? new Date(schedule.arrival_time)
+      : null,
+    departure_time: schedule.departure_time
+      ? new Date(schedule.departure_time)
+      : null
   } as ScheduleWithTimestamp);
 
 const fetchData = async (url: string): Promise<ScheduleData[]> =>
