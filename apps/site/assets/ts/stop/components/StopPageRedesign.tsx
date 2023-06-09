@@ -49,7 +49,7 @@ const StopPageRedesign = ({
     return <Loading />;
   }
 
-  const isBannerAlert = ({ effect }: Alert): boolean =>
+  const isStopPageAlert = ({ effect }: Alert): boolean =>
     ["suspension", "stop_closure", "station_closure", "shuttle"].includes(
       effect
     );
@@ -66,7 +66,7 @@ const StopPageRedesign = ({
 
   const alertsWithinSevenDays = filter(
     allAlerts,
-    alert => isInNextXDays(alert, 7) && isBannerAlert(alert)
+    alert => isInNextXDays(alert, 7) && isStopPageAlert(alert)
   );
 
   const currentAlerts = filter(allAlerts, alert => isInNextXDays(alert, 0));
