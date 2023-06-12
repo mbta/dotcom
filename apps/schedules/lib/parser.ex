@@ -1,4 +1,5 @@
 defmodule Schedules.Parser do
+  require Routes.Route
   alias JsonApi.Item
   alias Routes.Route
   alias Stops.Stop
@@ -19,13 +20,17 @@ defmodule Schedules.Parser do
 
   @spec parse(Item.t()) :: record
   def parse(item) do
+    arrival = arrival_time(item)
+    departure = departure_time(item)
+    route_id = route_id(item)
+
     {
       route_id(item),
       trip_id(item),
       stop_id(item),
-      arrival_time(item),
-      departure_time(item),
-      time(item),
+      arrival,
+      departure,
+      display_time(arrival, departure, route_id),
       flag?(item),
       early_departure?(item),
       last_stop?(item),
@@ -120,12 +125,23 @@ defmodule Schedules.Parser do
 
   defp departure_time(_), do: nil
 
-  defp time(%JsonApi.Item{attributes: %{"departure_time" => nil, "arrival_time" => time}}) do
-    Timex.parse!(time, "{ISO:Extended}")
+  @doc """
+  Prefer arrival times for subway and bus, and departure times for all other modes.
+  """
+  @spec display_time(DateTime.t() | nil, DateTime.t() | nil, Route.id_t() | Route.t() | nil) ::
+          DateTime.t() | nil
+  def display_time(arrival_time, departure_time, %Route{id: route_id, type: route_type})
+      when Route.subway?(route_type, route_id) or route_type === 3 do
+    if(arrival_time, do: arrival_time, else: departure_time)
   end
 
-  defp time(%JsonApi.Item{attributes: %{"departure_time" => time}}) do
-    Timex.parse!(time, "{ISO:Extended}")
+  def display_time(arrival_time, departure_time, route_id) when is_binary(route_id) do
+    route = Routes.Repo.get(route_id)
+    display_time(arrival_time, departure_time, route)
+  end
+
+  def display_time(arrival_time, departure_time, _) do
+    if(departure_time, do: departure_time, else: arrival_time)
   end
 
   defp flag?(%JsonApi.Item{
