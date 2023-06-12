@@ -157,14 +157,17 @@ describe("isInNextXDays", () => {
     }
   );
 
+  const alert: Alert = {
+    active_period: threeDaysFromNow(),
+    lifecycle: "new",
+    effect: "shuttle"
+  } as Alert;
   test("true if the alert is in the next 7 days", () => {
-    const alert: Alert = {
-      active_period: threeDaysFromNow(),
-      lifecycle: "new",
-      effect: "shuttle"
-    } as Alert;
-
     expect(isInNextXDays(alert, 7)).toBeTruthy();
+  });
+
+  test("true if the alert is in the next 7 days from a given date", () => {
+    expect(isInNextXDays(alert, 7, add(Date.now(), { days: -3 }))).toBeTruthy();
   });
 });
 

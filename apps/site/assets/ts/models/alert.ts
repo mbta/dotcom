@@ -162,9 +162,9 @@ const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
 export const isInNextXDays = (
   alert: Alert,
   days: number,
-  currentDate: Date = new Date()
+  selectedDate: Date = new Date()
 ): boolean => {
-  const xDays = add(Date.now(), { days });
+  const xDays = add(selectedDate, { days });
   xDays.setHours(23, 59, 59); // set to end of X day
   if (!alert.active_period) return false;
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
@@ -174,9 +174,9 @@ export const isInNextXDays = (
     if (!end || !isValid(end)) return true;
 
     if (days === 0) {
-      return start <= currentDate && end >= currentDate;
+      return start <= selectedDate && end >= selectedDate;
     }
-    return start <= xDays && end >= currentDate;
+    return start <= xDays && end >= selectedDate;
   });
   return days === 0 ? isCurrentLifecycle(alert) && isInARange : isInARange;
 };
