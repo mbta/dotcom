@@ -8,12 +8,15 @@ import ElevatorsAmenityCard from "./amenities/ElevatorsAmenityCard";
 import EscalatorsAmenityCard from "./amenities/EscalatorsAmenityCard";
 import AccessibilityAmenityCard from "./amenities/AccessibilityAmenityCard";
 import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
+import { useAlertsByStopAmenities } from "../../hooks/useAlerts";
 
 const StationInformation = ({
   stop
 }: {
   stop: Stop;
 }): ReactElement<HTMLElement> => {
+  const alertsForAmenities = useAlertsByStopAmenities(stop.id);
+  console.log(alertsForAmenities);
   return (
     <div>
       <h2>
