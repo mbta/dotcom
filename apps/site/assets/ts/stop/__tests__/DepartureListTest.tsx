@@ -60,6 +60,10 @@ jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
 
 describe("DepartureList", () => {
   it("should render a schedule when no predictions available", () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementationOnce(() => {
+      return { "TestRoute Route": [] };
+    });
+
     render(
       <DepartureList
         route={route}
@@ -70,7 +74,10 @@ describe("DepartureList", () => {
       />
     );
 
-    expect(screen.getByText(schedules[2].time.toString())).toBeDefined();
+    expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
+    expect(screen.queryByText("9 min")).toBeTruthy();
+    expect(screen.queryByText("14 min")).toBeTruthy();
+    expect(screen.queryByText("19 min")).toBeTruthy();
   });
 
   it("should render a prediction time if available", () => {
@@ -83,7 +90,11 @@ describe("DepartureList", () => {
         alerts={[]}
       />
     );
-    expect(screen.getByText(predictionTime.toString())).toBeDefined();
+
+    expect(screen.queryAllByRole("listitem")).toHaveLength(schedules.length);
+    expect(screen.queryByText("<1 minute away")).toBeTruthy();
+    expect(screen.queryByText("10 min")).toBeTruthy();
+    expect(screen.queryByText("19 min")).toBeTruthy();
   });
 
   it("header has link to schedule page variant ", () => {
