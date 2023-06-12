@@ -47,7 +47,8 @@ const lowAlert: Alert = {
   header: "There is construction at this station.",
   effect: "other",
   description: "",
-  url: "https://www.mbta.com"
+  url: "https://www.mbta.com",
+  banner: null
 };
 /* eslint-enable camelcase */
 

@@ -9,7 +9,11 @@ import Alerts from "../../components/Alerts";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
-import { isCurrentAlert, routeWideAlerts } from "../../models/alert";
+import {
+  isCurrentAlert,
+  isGlobalBannerAlert,
+  routeWideAlerts
+} from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 
 const StopPageRedesign = ({
@@ -65,7 +69,9 @@ const StopPageRedesign = ({
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
       <div className="container">
-        <Alerts alerts={currentAlerts} />
+        <Alerts
+          alerts={currentAlerts.filter(alert => !isGlobalBannerAlert(alert))}
+        />
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}

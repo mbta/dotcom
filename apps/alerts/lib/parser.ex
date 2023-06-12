@@ -18,7 +18,8 @@ defmodule Alerts.Parser do
         lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
         description: description(attributes["description"]),
-        url: description(attributes["url"])
+        url: description(attributes["url"]),
+        banner: description(attributes["banner"])
       )
     end
 
