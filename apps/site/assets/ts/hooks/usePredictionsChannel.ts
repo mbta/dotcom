@@ -63,7 +63,7 @@ export const parsePrediction = (
     : null,
   // backend removes all predictions with a null departure_time
   // so this is always populated
-  time: new Date(prediction.departure_time!)
+  time: new Date(prediction.time!)
 });
 
 export const groupByHeadsigns = (
