@@ -13,7 +13,7 @@ import {
   alertsByStop,
   allAlertsForDirection,
   hasSuspension,
-  isCurrentAlert,
+  isInNextXDays,
   isHighPriorityAlert
 } from "../../models/alert";
 import Alerts from "../../components/Alerts";
@@ -63,8 +63,8 @@ const DepartureList = ({
 
   const routeAlerts = allAlertsForDirection(alertsForRoute, directionId);
   const stopAlerts = alertsByStop(alerts, stop.id);
-  const allAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
-    return isHighPriorityAlert(alert) && isCurrentAlert(alert);
+  const allCurrentAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
+    return isHighPriorityAlert(alert) && isInNextXDays(alert, 0);
   });
 
   // TODO: handle no predictions or schedules case and predictions only case
@@ -90,9 +90,9 @@ const DepartureList = ({
           {tripForSelectedRoutePattern?.headsign}
         </div>
       </h2>
-      {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
+      {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
       {schedules.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
+      {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
         <ul className="list-unstyled">
           {departures.map(departure => {
             return (

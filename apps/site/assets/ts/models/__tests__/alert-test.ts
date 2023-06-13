@@ -2,7 +2,7 @@ import { StopId } from "../../schedule/components/__schedule";
 import { Alert, InformedEntitySet, TimePeriodPairs } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
-  isCurrentAlert,
+  isInNextXDays,
   alertsByStop,
   uniqueByEffect,
   isDiversion,
@@ -12,11 +12,11 @@ import {
   alertsByDirectionId,
   alertsAffectingBothDirections
 } from "../alert";
+import { add } from "date-fns";
 
 const zeroPadded = (num: number): string => `${num}`.padStart(2, "0");
 
-const activePeriodDateFormatted = (ms: number): string => {
-  const date = new Date(ms);
+const activePeriodDateFormatted = (date: Date): string => {
   return `${date.getFullYear()}-${zeroPadded(date.getMonth() + 1)}-${zeroPadded(
     date.getDate()
   )} ${zeroPadded(date.getHours())}:${zeroPadded(date.getMinutes())}`;
@@ -27,8 +27,8 @@ export const aroundNow = () => {
   const five_minutes = 300_000;
   return [
     [
-      activePeriodDateFormatted(now - five_minutes),
-      activePeriodDateFormatted(now + five_minutes)
+      activePeriodDateFormatted(add(now, { minutes: -5 })),
+      activePeriodDateFormatted(add(now, { minutes: +5 }))
     ] as TimePeriodPairs
   ];
 };
@@ -38,8 +38,18 @@ export const beforeNow = () => {
   const five_minutes = 300_000;
   return [
     [
-      activePeriodDateFormatted(now - 2 * five_minutes),
-      activePeriodDateFormatted(now - five_minutes)
+      activePeriodDateFormatted(add(now, { days: -2 })),
+      activePeriodDateFormatted(add(now, { minutes: -5 }))
+    ] as TimePeriodPairs
+  ];
+};
+
+export const threeDaysFromNow = () => {
+  const now = Date.now();
+  return [
+    [
+      activePeriodDateFormatted(add(now, { minutes: -5 })),
+      activePeriodDateFormatted(add(now, { days: 3 }))
     ] as TimePeriodPairs
   ];
 };
@@ -125,7 +135,7 @@ describe("isDiversion", () => {
   });
 });
 
-describe("isCurrentAlert", () => {
+describe("isInNextXDays", () => {
   test.each`
     alert     | isCurrent
     ${alert1} | ${true}
@@ -137,15 +147,28 @@ describe("isCurrentAlert", () => {
     ${alert7} | ${true}
     ${alert8} | ${true}
   `(
-    "isCurrentAlert returns whether alert is current based on lifecycle and active period",
+    "isInNextXDays returns whether alert is current based on lifecycle and active period given days from now is 0",
     ({ alert, isCurrent }) => {
       if (isCurrent) {
-        expect(isCurrentAlert(alert, testDate)).toBeTruthy();
+        expect(isInNextXDays(alert, 0, testDate)).toBeTruthy();
       } else {
-        expect(isCurrentAlert(alert, testDate)).toBeFalsy();
+        expect(isInNextXDays(alert, 0, testDate)).toBeFalsy();
       }
     }
   );
+
+  const alert: Alert = {
+    active_period: threeDaysFromNow(),
+    lifecycle: "new",
+    effect: "shuttle"
+  } as Alert;
+  test("true if the alert is in the next 7 days", () => {
+    expect(isInNextXDays(alert, 7)).toBeTruthy();
+  });
+
+  test("true if the alert is in the next 7 days from a given date", () => {
+    expect(isInNextXDays(alert, 7, add(Date.now(), { days: -3 }))).toBeTruthy();
+  });
 });
 
 describe("alertsByStop", () => {
