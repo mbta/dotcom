@@ -93,7 +93,7 @@ const DepartureList = ({
       {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
       {schedules.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
-        <ul className="list-unstyled">
+        <ul className="stop-routes__departures list-unstyled">
           {departures.map(departure => {
             return (
               <li key={getInfoKey(departure)}>
