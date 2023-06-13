@@ -107,7 +107,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ./.github/actions/build-app
-    - run: npm run ci:unit:jest
+    - run: TZ="America/New_York" npm run ci:unit:jest
 
   type_dialyzer:
     name: Type checks / Elixir

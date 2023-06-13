@@ -37,7 +37,7 @@ const useSchedulesByStop = (
   stopId: string
 ): FetchState<ScheduleWithTimestamp[]> => {
   const { data, error } = useSWR<ScheduleData[]>(
-    `/api/stops/${stopId}/schedules`,
+    `/api/stops/${stopId}/schedules?last_stop_departures=false&future_departures=true`,
     fetchData
   );
   if (error) {

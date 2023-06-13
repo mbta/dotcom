@@ -250,6 +250,7 @@ export interface Alert {
   description: string;
   priority: Priority;
   url: string | null;
+  banner: string | null;
 }
 
 interface DatesNotes {

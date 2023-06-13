@@ -11,6 +11,8 @@ import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
 import { add, format } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
+import { gl } from "date-fns/locale";
+import ReactDOMServer from "react-dom/server";
 
 describe("StopPageRedesign", () => {
   beforeEach(() => {
@@ -147,7 +149,8 @@ describe("StopPageRedesign", () => {
         header: "There is construction at this station.",
         effect: "shuttle",
         description: "",
-        url: "https://www.mbta.com"
+        url: "https://www.mbta.com",
+        banner: null
       }
     ];
 
@@ -336,5 +339,51 @@ describe("StopPageRedesign", () => {
     render(<StopPageRedesign stopId="Test 1" />);
 
     expect(screen.queryByText("Road Is Closed")).toBeNull();
+  });
+
+  it("should only render alerts with no banner", () => {
+    const now = new Date();
+    const future1 = add(now, { days: 3 });
+    const alertsForRoute: Alert[] = [
+      {
+        informed_entity: {
+          entities: [{ route: "CT6" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(future1), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000003",
+        header:
+          "Route 110 service suspended beginning at 12:51 PM Testing - Route 110 Suspended on all stops",
+        effect: "suspension",
+        banner:
+          "Route 110 service suspended beginning at 12:51 PM Testing - Route 110 Suspended on all stops"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "SL9" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000004",
+        header: "Test Alert The Elevator is Malfunctioning",
+        effect: "stop_closure",
+        banner: null
+      }
+    ] as Alert[];
+
+    jest
+      .spyOn(useAlerts, "useAlertsByRoute")
+      .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
+
+    render(<StopPageRedesign stopId="Test 1" />);
+
+    expect(
+      screen.getByText(/Test Alert The Elevator is Malfunctioning/)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /Route 110 service suspended beginning at 12:51 PM Testing - Route 110 Suspended on all stops/
+      )
+    ).toBeNull();
   });
 });

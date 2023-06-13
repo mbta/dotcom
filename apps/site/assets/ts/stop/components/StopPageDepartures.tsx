@@ -1,5 +1,4 @@
-import { filter, groupBy, sortBy } from "lodash";
-import { isPast } from "date-fns";
+import { groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
@@ -41,12 +40,7 @@ const StopPageDepartures = ({
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
-  // This filtering should be done on the backend
-  const currentSchedules = filter(
-    schedules,
-    (s: ScheduleWithTimestamp) => !isPast(s.time)
-  );
-  const groupedSchedules = groupBy(currentSchedules, s => s.route.id);
+  const groupedSchedules = groupBy(schedules, s => s.route.id);
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];

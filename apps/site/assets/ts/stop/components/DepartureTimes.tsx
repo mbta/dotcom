@@ -63,7 +63,7 @@ const departureTimeClasses = (
   if (time.isBolded) {
     customClasses += " font-weight-bold ";
   }
-  if (time.isStikethrough) {
+  if (time.isStrikethrough) {
     // TODO keep original font color
     customClasses += " strikethrough ";
   }

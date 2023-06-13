@@ -1,3 +1,5 @@
+name: Asana Workflow
+
 on:
   pull_request:
     types: [closed, edited, opened, review_requested, ready_for_review, reopened]
@@ -7,7 +9,7 @@ jobs:
     uses: mbta/workflows/.github/workflows/asana.yml@main
     with:
       complete-on-merge: false
-      review-section: "Code Review"
+      review-section: "Code/Design Review"
       merged-section: "To Be Released"
       attach-pr: true
       trigger-phrase: "\\*\\*Asana Ticket:\\*\\*"

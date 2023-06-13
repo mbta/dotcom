@@ -194,8 +194,37 @@ $radius: 4px;
   }
 }
 
+.stop-routes__departures {
+  font-family: $headings-font-family;
+
+  ul {
+    margin: 0;
+  }
+
+  li {
+    border-top: .25px solid $gray-lightest;
+    display: grid;
+    grid-template-columns: 1em auto;
+    padding: .5rem;
+  }
+
+  .c-svg__icon--realtime {
+    top: 0;
+  }
+
+  .stop-routes__departures-time {
+    font-weight: 500;
+  }
+
+  .stop-routes__departures-details {
+    grid-column: 2;
+  }
+}
+
 .stop-routes__departures--selected-route {
   background-color: $white;
+  border-radius: calc(#{$base-spacing} / 4);
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
   height: 20.75rem;
   margin: .5rem;
   overflow-y: scroll;

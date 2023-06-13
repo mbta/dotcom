@@ -19,7 +19,8 @@ const highAlert: Alert = {
   effect: "detour",
   description:
     "<strong>Affected direction:</strong><br />Inbound<br />\r<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
-  url: "https://www.mbta.com"
+  url: "https://www.mbta.com",
+  banner: null
 };
 
 const lowAlert: Alert = {
@@ -33,7 +34,8 @@ const lowAlert: Alert = {
   header: "There is construction at this station.",
   effect: "other",
   description: "",
-  url: "https://www.mbta.com"
+  url: "https://www.mbta.com",
+  banner: null
 };
 
 const alertsTab: AlertsTabType = {
