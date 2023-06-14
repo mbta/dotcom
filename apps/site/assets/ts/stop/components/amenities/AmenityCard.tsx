@@ -3,12 +3,12 @@ import renderFa from "../../../helpers/render-fa";
 
 const AmenityCard = ({
   headerText,
-  children,
-  icon
+  icon,
+  content
 }: {
   headerText: string;
-  children?: JSX.Element[] | JSX.Element;
   icon: JSX.Element;
+  content?: JSX.Element[] | JSX.Element;
 }): JSX.Element => {
   return (
     <div
@@ -22,9 +22,9 @@ const AmenityCard = ({
             {headerText}
           </div>
         </div>
-        {children && (
-          <div className="c-descriptive-link__text hidden-sm-down">
-            {children}
+        {content && (
+          <div className="c-descriptive-link__text pt-8 hidden-sm-down">
+            {content}
           </div>
         )}
       </div>
