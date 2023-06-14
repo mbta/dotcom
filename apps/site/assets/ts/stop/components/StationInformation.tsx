@@ -33,15 +33,15 @@ const StationInformation = ({
             <BikeStorageAmenityCard />
           </>
         )}
-        <h3 className="hidden-md-up">Getting Around the Station</h3>
         {isStation && (
           <>
+            <h3 className="hidden-md-up">Getting Around the Station</h3>
             <ElevatorsAmenityCard />
             <EscalatorsAmenityCard />
           </>
         )}
         <AccessibilityAmenityCard />
-        <h3 className="hidden-md-up">Purchasing Fares</h3>
+        {isStation && <h3 className="hidden-md-up">Purchasing Fares</h3>}
         <FareSalesAmenityCard />
       </div>
     </div>

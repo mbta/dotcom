@@ -33,9 +33,9 @@ describe("StationInformation", () => {
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("heading", { name: "Getting Around the Station" })
-    ).toBeInTheDocument();
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByRole("heading", { name: "Purchasing Fares" })
-    ).toBeInTheDocument();
+    ).not.toBeInTheDocument();
   });
 });
