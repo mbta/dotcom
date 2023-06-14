@@ -6,10 +6,7 @@ import renderFa from "../../helpers/render-fa";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
 import { ScheduleWithTimestamp } from "../../models/schedules";
-import {
-  getNextUnCancelledDeparture,
-  mergeIntoDepartureInfo
-} from "../../helpers/departureInfo";
+import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import { DepartureInfo } from "../../models/departureInfo";
 import {
   hasDetour,
@@ -23,17 +20,6 @@ import {
 } from "../models/displayTimeConfig";
 import { schedulesByHeadsign } from "../../models/schedule";
 import { PredictionWithTimestamp } from "../../models/perdictions";
-
-// Returns 2 times from the departureInfo array
-// ensuring that upto one returned time is cancelled
-const getNextTwoTimes = (
-  departureInfos: DepartureInfo[]
-): [DepartureInfo | undefined, DepartureInfo | undefined] => {
-  const departure1 = departureInfos[0];
-  const departure2 = getNextUnCancelledDeparture(slice(departureInfos, 1));
-
-  return [departure1, departure2];
-};
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -126,7 +112,6 @@ const departureTimeRow = (
             {alertBadge}
           </div>
         </div>
-        {/* TODO: Navigate to Realtime Tracking view (whole row should be clickable) */}
         <button
           type="button"
           aria-label={`Open upcoming departures to ${headsignName}`}
@@ -157,8 +142,7 @@ const getRow = (
   // Merging should happen after alert processing incase a route is cancelled
   const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
 
-  const [time1, time2] = getNextTwoTimes(departureInfos);
-  const formattedTimes = infoToDisplayTime(time1, time2, overrideDate);
+  const formattedTimes = infoToDisplayTime(departureInfos, overrideDate);
 
   return departureTimeRow(headsign, formattedTimes, informativeAlertBadge);
 };
@@ -226,4 +210,4 @@ const DepartureTimes = ({
   );
 };
 
-export { DepartureTimes as default, infoToDisplayTime, getNextTwoTimes };
+export { DepartureTimes as default, infoToDisplayTime };

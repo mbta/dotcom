@@ -3,6 +3,7 @@ import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
 import { isCancelled, isDelayed } from "./prediction-helpers";
 import { DepartureInfo } from "../models/departureInfo";
+import { isSubwayRoute } from "../models/route";
 
 const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
   // If there isn't a prediction there should be a schedule
@@ -43,7 +44,8 @@ const mergeIntoDepartureInfo = (
         prediction,
         schedule,
         isCancelled: isCancelled(prediction),
-        isDelayed: isDelayed(prediction, schedule)
+        isDelayed: isDelayed(prediction, schedule),
+        isSubway: isSubwayRoute(schedule.route)
       };
     }
   );
@@ -59,7 +61,8 @@ const mergeIntoDepartureInfo = (
       const prediction = predictionsByTripId[tripId];
       return {
         prediction,
-        isCancelled: isCancelled(prediction)
+        isCancelled: isCancelled(prediction),
+        isSubway: isSubwayRoute(prediction.route)
       } as DepartureInfo;
     }
   );

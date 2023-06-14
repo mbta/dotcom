@@ -8,4 +8,7 @@ export interface DepartureInfo {
   schedule?: ScheduleWithTimestamp;
   isCancelled?: boolean;
   isDelayed?: boolean;
+  // Ferry, CR, and Bus all share requirements for display
+  // subway is the only exception, so check if it is subway
+  isSubway?: boolean;
 }
