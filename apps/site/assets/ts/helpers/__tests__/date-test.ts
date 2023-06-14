@@ -30,7 +30,7 @@ describe("formatToBostonTime", () => {
 
 describe("formatRelativeTime", () => {
   it("should format a time relative to another time to indicate arrival", () => {
-    const baseDate = new Date("2020-02-28T10:00:00-05:00");
+    const baseDate = new Date("2020-02-28T10:00:00");
 
     const approachingDate = addSeconds(baseDate, 45);
     expect(formatRelativeTime(approachingDate, baseDate)).toBe(
