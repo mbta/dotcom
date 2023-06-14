@@ -28,9 +28,9 @@ const AmenityCard = ({
           </div>
         )}
       </div>
-      <div className="c-descriptive-link__caret-wrapper">
+      <button type="button" className="c-descriptive-link__caret-wrapper">
         {renderFa("c-descriptive-link__caret", "fa-angle-right")}
-      </div>
+      </button>
     </div>
   );
 };

@@ -317,6 +317,13 @@
     }
   }
 
+  button.c-descriptive-link__caret-wrapper {
+    background: none;
+    border: none;
+    font-size: $font-size-sm;
+    padding: 0;
+  }
+
   h3:first-of-type {
     margin-top: 0;
   }
