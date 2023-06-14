@@ -10,11 +10,12 @@ import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
 import {
-  isCurrentAlert,
   isGlobalBannerAlert,
-  routeWideAlerts
+  routeWideAlerts,
+  isInNextXDays
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
+import { Alert } from "../../__v3api";
 
 const StopPageRedesign = ({
   stopId
@@ -52,6 +53,11 @@ const StopPageRedesign = ({
     return <Loading />;
   }
 
+  const isStopPageAlert = ({ effect }: Alert): boolean =>
+    ["suspension", "stop_closure", "station_closure", "shuttle"].includes(
+      effect
+    );
+
   const routes = routesWithPolylinesResult.data.map(rwp =>
     omit(rwp, "polylines")
   );
@@ -59,18 +65,24 @@ const StopPageRedesign = ({
   // routeWideAlertsArray are all the alerts that affect the whole route
   // not just specific stops or trips
   const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
-  // Get only alerts that are current
-  const currentAlerts = filter(
-    alertsForStopResult.data.concat(routeWideAlertsArray),
-    alert => isCurrentAlert(alert)
+
+  const allAlerts = alertsForStopResult.data.concat(routeWideAlertsArray);
+
+  const alertsWithinSevenDays = filter(
+    allAlerts,
+    alert => isInNextXDays(alert, 7) && isStopPageAlert(alert)
   );
+
+  const currentAlerts = filter(allAlerts, alert => isInNextXDays(alert, 0));
 
   return (
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
       <div className="container">
         <Alerts
-          alerts={currentAlerts.filter(alert => !isGlobalBannerAlert(alert))}
+          alerts={alertsWithinSevenDays.filter(
+            alert => !isGlobalBannerAlert(alert)
+          )}
         />
         <DeparturesAndMap
           routes={routes}
