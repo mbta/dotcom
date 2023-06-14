@@ -17,6 +17,15 @@ export const isDiversion = ({ effect }: Alert): boolean =>
 export const isHighPriorityAlert = ({ effect }: Alert): boolean =>
   effect === "detour" || effect === "suspension" || effect === "shuttle";
 
+export const isAmenityAlert = ({ effect }: Alert): boolean =>
+  [
+    "elevator_closure",
+    "escalator_closure",
+    "parking_closure",
+    "parking_issue",
+    "bike_issue"
+  ].includes(effect);
+
 export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
   alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>

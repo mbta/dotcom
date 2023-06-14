@@ -13,7 +13,13 @@ defmodule Alerts.Cache.Fetcher do
   alias Alerts.{Cache, Parser}
 
   @default_opts [
-    api_mfa: {V3Api.Alerts, :all, []},
+    api_mfa:
+      {V3Api.Alerts, :all,
+       [
+         [
+           "filter[activity]": "ALL"
+         ]
+       ]},
     repeat_ms: 60_000,
     update_fn: &Cache.Store.update/2
   ]

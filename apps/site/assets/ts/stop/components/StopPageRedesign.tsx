@@ -12,7 +12,8 @@ import DeparturesAndMap from "./DeparturesAndMap";
 import {
   isGlobalBannerAlert,
   routeWideAlerts,
-  isInNextXDays
+  isInNextXDays,
+  isAmenityAlert
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
@@ -66,7 +67,14 @@ const StopPageRedesign = ({
   // not just specific stops or trips
   const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
 
-  const allAlerts = alertsForStopResult.data.concat(routeWideAlertsArray);
+  const allAlerts = filter(
+    alertsForStopResult.data.concat(routeWideAlertsArray),
+    alert => !isAmenityAlert(alert)
+  );
+
+  const alertsForAmenities = filter(alertsForStopResult.data, alert =>
+    isAmenityAlert(alert)
+  );
 
   const alertsWithinSevenDays = filter(
     allAlerts,
@@ -92,7 +100,10 @@ const StopPageRedesign = ({
           alerts={currentAlerts}
         />
         <footer>
-          <StationInformation stop={stopResult.data} />
+          <StationInformation
+            stop={stopResult.data}
+            alerts={alertsForAmenities}
+          />
         </footer>
       </div>
     </article>

@@ -37,16 +37,5 @@ const useAlertsByRoute = (routeId: string | string[]): FetchState<Alert[]> => {
   return { status: FetchStatus.Data, data };
 };
 
-const useAlertsByStopAmenities = (stopId: string): FetchState<Alert[]> => {
-  const { data, error } = useSWR<Alert[]>(
-    `/api/alerts?filter[stop]=${stopId}&filter[activity]=ALL`,
-    fetchData
-  );
-  if (error) {
-    return { status: FetchStatus.Error };
-  }
-  return { status: FetchStatus.Data, data };
-};
-
 // eslint-disable-next-line import/prefer-default-export
-export { useAlertsByStop, useAlertsByRoute, useAlertsByStopAmenities };
+export { useAlertsByStop, useAlertsByRoute };
