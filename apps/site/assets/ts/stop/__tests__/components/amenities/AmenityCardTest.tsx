@@ -10,12 +10,13 @@ describe("AmenityCard", () => {
       <AmenityCard
         headerText={"Amenity Title"}
         icon={<span data-testid="icon"></span>}
-        content={<div>Outer content</div>}
-      />
+      >
+        <div>Card content</div>
+      </AmenityCard>
     );
     expect(screen.getByText("Amenity Title")).toBeDefined();
     expect(screen.getByTestId("icon")).toBeDefined();
-    expect(screen.getByText("Outer content")).toBeDefined();
+    expect(screen.getByText("Card content")).toBeDefined();
   });
 
   it("should toggle children elements in a modal", () => {
@@ -23,22 +24,24 @@ describe("AmenityCard", () => {
       <AmenityCard
         headerText={""}
         icon={<span></span>}
-        content={<div>Outer content</div>}
+        modalContent={
+          <AmenityModal headerText="Inner header">
+            <div>
+              <div>Modal content</div>
+            </div>
+          </AmenityModal>
+        }
       >
-        <AmenityModal headerText="Inner header">
-          <div>
-            <div>Inner content</div>
-          </div>
-        </AmenityModal>
+        <div>Card content</div>
       </AmenityCard>
     );
     expect(screen.queryByText("Inner header")).toBeNull();
-    expect(screen.queryByText("Inner content")).toBeNull();
+    expect(screen.queryByText("Modal content")).toBeNull();
     screen.getByRole("button").click();
     expect(screen.queryByText("Inner header")).toBeDefined();
-    expect(screen.queryByText("Inner content")).toBeDefined();
+    expect(screen.queryByText("Modal content")).toBeDefined();
     screen.getByRole("button", { name: "Close" }).click();
     expect(screen.queryByText("Inner header")).toBeNull();
-    expect(screen.queryByText("Inner content")).toBeNull();
+    expect(screen.queryByText("Modal content")).toBeNull();
   });
 });

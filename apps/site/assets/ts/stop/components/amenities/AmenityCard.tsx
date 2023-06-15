@@ -32,12 +32,12 @@ export const AmenityModal = ({
 const AmenityCard = ({
   headerText,
   icon,
-  content,
+  modalContent,
   children
 }: {
   headerText: string;
   icon: JSX.Element;
-  content?: JSX.Element[] | JSX.Element;
+  modalContent?: JSX.Element[] | JSX.Element;
   children?: JSX.Element[] | JSX.Element;
 }): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -53,9 +53,9 @@ const AmenityCard = ({
             {headerText}
           </div>
         </div>
-        {content && (
+        {children && (
           <div className="c-descriptive-link__text pt-8 hidden-sm-down">
-            {content}
+            {children}
           </div>
         )}
       </div>
@@ -63,14 +63,14 @@ const AmenityCard = ({
         type="button"
         className="c-descriptive-link__caret-wrapper"
         onClick={() => setModalOpen(true)}
-        disabled={!children}
+        disabled={!modalContent}
       >
         {renderFa("c-descriptive-link__caret", "fa-angle-right")}
       </button>
       <AmenityModalContext.Provider
         value={{ closeModal: () => setModalOpen(false) }}
       >
-        {modalOpen && children}
+        {modalOpen && modalContent}
       </AmenityModalContext.Provider>
     </div>
   );
