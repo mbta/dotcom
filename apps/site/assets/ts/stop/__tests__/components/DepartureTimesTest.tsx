@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DepartureTimes, {
-  getNextTwoTimes,
   infoToDisplayTime
 } from "../../components/DepartureTimes";
 import { baseRoute } from "../helpers";
@@ -11,6 +10,7 @@ import { DepartureInfo } from "../../../models/departureInfo";
 import * as predictionsChannel from "../../../hooks/usePredictionsChannel";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/perdictions";
+import { getNextTwoTimes } from "../../models/displayTimeConfig";
 
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;
@@ -62,15 +62,18 @@ describe("DepartureTimes", () => {
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:15:00-04:00")
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        route: { type: 2 }
       },
       {
         trip: { id: "2", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:18:00-04:00")
+        time: new Date("2022-04-27T11:18:00-04:00"),
+        route: { type: 2 }
       },
       {
         trip: { id: "4", headsign: "Test 2" },
-        time: new Date("2022-04-27T11:40:00-04:00")
+        time: new Date("2022-04-27T11:40:00-04:00"),
+        route: { type: 2 }
       }
     ] as ScheduleWithTimestamp[];
     render(
@@ -172,11 +175,13 @@ describe("DepartureTimes", () => {
         "Test 1": [
           {
             time: new Date("2022-04-27T11:15:00-04:00"),
-            trip: { id: "1", headsign: "Test 1" }
+            trip: { id: "1", headsign: "Test 1" },
+            route: { type: 2 }
           },
           {
             trip: { id: "2", headsign: "Test 1" },
-            time: new Date("2022-04-27T11:20:00-04:00")
+            time: new Date("2022-04-27T11:20:00-04:00"),
+            route: { type: 2 }
           }
         ] as PredictionWithTimestamp[]
       };
@@ -184,11 +189,13 @@ describe("DepartureTimes", () => {
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:15:00-04:00")
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        route: { type: 2 }
       },
       {
         trip: { id: "2", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:18:00-04:00")
+        time: new Date("2022-04-27T11:18:00-04:00"),
+        route: { type: 2 }
       }
     ] as ScheduleWithTimestamp[];
     const detourAlert = {
@@ -338,8 +345,7 @@ describe("DepartureTimes", () => {
         prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
-        info1,
-        info2,
+        [info1, info2],
         compareTime
       );
 
@@ -358,8 +364,7 @@ describe("DepartureTimes", () => {
         prediction: { time: new Date("2022-04-24T12:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
-        info1,
-        info2,
+        [info1, info2],
         compareTime
       );
 
@@ -381,7 +386,7 @@ describe("DepartureTimes", () => {
       const info2 = {
         prediction: { time: new Date("2022-04-24T12:45:00-04:00"), trip: {} }
       } as DepartureInfo;
-      const [displayTime1] = infoToDisplayTime(info1, info2, compareTime);
+      const [displayTime1] = infoToDisplayTime([info1, info2], compareTime);
 
       expect(displayTime1.displayString).toEqual("12:35 PM");
       expect(displayTime1.isBolded).toBe(true);
@@ -395,8 +400,7 @@ describe("DepartureTimes", () => {
         prediction: { time: new Date("2022-04-25T02:01:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [tomorrowTime1, tomorrowTime2] = infoToDisplayTime(
-        info1,
-        undefined,
+        [info1],
         compareTime
       );
       expect(tomorrowTime1.displayString).toEqual("2:01 AM");
@@ -410,8 +414,7 @@ describe("DepartureTimes", () => {
         prediction: { time: new Date("2022-04-24T11:14:45-04:00"), trip: {} }
       } as DepartureInfo;
       const [tomorrowTime1, tomorrowTime2] = infoToDisplayTime(
-        info1,
-        undefined,
+        [info1],
         compareTime
       );
       expect(tomorrowTime1.displayString).toEqual("<1 minute away");
@@ -424,18 +427,14 @@ describe("DepartureTimes", () => {
       const info1 = {
         prediction: { time: new Date("2022-04-26T11:16:00-04:00") }
       } as DepartureInfo;
-      const [time1, time2] = infoToDisplayTime(info1, undefined, compareTime);
+      const [time1, time2] = infoToDisplayTime([info1], compareTime);
       expect(time1.displayString).toEqual("No upcoming trips");
       expect(time2).toBeUndefined();
     });
 
     it("should return `updates unavailable` if no data is present", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
-      const [time1, time2] = infoToDisplayTime(
-        undefined,
-        undefined,
-        compareTime
-      );
+      const [time1, time2] = infoToDisplayTime([], compareTime);
       expect(time1.displayString).toEqual("Updates unavailable");
       expect(time2).toBeUndefined();
     });
@@ -451,14 +450,14 @@ describe("DepartureTimes", () => {
           time: new Date("2022-04-24T11:33:00-04:00"),
           trip: {}
         },
-        isDelayed: true
+        isDelayed: true,
+        isSubway: false
       } as DepartureInfo;
       const info2 = {
         prediction: { time: new Date("2022-04-24T11:45:00-04:00") }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
-        info1,
-        info2,
+        [info1, info2],
         compareTime
       );
 
@@ -479,7 +478,8 @@ describe("DepartureTimes", () => {
           time: new Date("2022-04-24T11:33:00-04:00"),
           trip: {}
         },
-        isCancelled: true
+        isCancelled: true,
+        isSubway: false
       } as DepartureInfo;
       const info2 = {
         prediction: {
@@ -490,8 +490,7 @@ describe("DepartureTimes", () => {
       } as DepartureInfo;
 
       const [displayTime1, displayTime2] = infoToDisplayTime(
-        info1,
-        info2,
+        [info1, info2],
         compareTime
       );
 
@@ -512,8 +511,7 @@ describe("DepartureTimes", () => {
         prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} }
       } as DepartureInfo;
       const [displayTime1, displayTime2] = infoToDisplayTime(
-        info1,
-        info2,
+        [info1, info2],
         compareTime
       );
 
@@ -521,6 +519,27 @@ describe("DepartureTimes", () => {
       expect(displayTime1.isBolded).toBe(true);
       expect(displayTime1.isPrediction).toBe(false);
       expect(displayTime2.displayString).toEqual("30 min");
+    });
+
+    it("should display a single time for cancelled subway trips", () => {
+      const compareTime = new Date("2022-04-24T11:15:00-04:00");
+      const info1 = {
+        schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} },
+        isCancelled: true,
+        isSubway: true
+      } as DepartureInfo;
+      const info2 = {
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
+        isSubway: true
+      } as DepartureInfo;
+
+      const [displayTime1, displayTime2] = infoToDisplayTime(
+        [info1, info2],
+        compareTime
+      );
+
+      expect(displayTime1.displayString).toEqual("30 min");
+      expect(displayTime2).toBeUndefined();
     });
   });
 
@@ -539,15 +558,18 @@ describe("DepartureTimes", () => {
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:15:00-04:00")
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        route: { type: 2 }
       },
       {
         trip: { id: "2", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:18:00-04:00")
+        time: new Date("2022-04-27T11:18:00-04:00"),
+        route: { type: 2 }
       },
       {
         trip: { id: "4", headsign: "Test 2" },
-        time: new Date("2022-04-27T11:40:00-04:00")
+        time: new Date("2022-04-27T11:40:00-04:00"),
+        route: { type: 2 }
       }
     ] as ScheduleWithTimestamp[];
 
