@@ -42,37 +42,35 @@ const AmenityCard = ({
 }): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false);
   return (
-    <div
-      className="c-descriptive-link justify-content-space-between"
-      style={{ height: "fit-content" }}
-    >
-      <div className="p-16">
-        <div className="d-flex text-primary">
-          {icon}
-          <div className="c-descriptive-link__title ps-8 mb-0">
-            {headerText}
-          </div>
-        </div>
-        {children && (
-          <div className="c-descriptive-link__text pt-8 hidden-sm-down">
-            {children}
-          </div>
-        )}
-      </div>
+    <>
       <button
         type="button"
-        className="c-descriptive-link__caret-wrapper"
+        className="c-descriptive-link justify-content-space-between"
         onClick={() => setModalOpen(true)}
-        disabled={!modalContent}
       >
-        {renderFa("c-descriptive-link__caret", "fa-angle-right")}
+        <div className="p-16">
+          <div className="d-flex text-primary">
+            {icon}
+            <div className="c-descriptive-link__title ps-8 mb-0">
+              {headerText}
+            </div>
+          </div>
+          {children && (
+            <div className="c-descriptive-link__text pt-8 hidden-sm-down">
+              {children}
+            </div>
+          )}
+        </div>
+        <div className="c-descriptive-link__caret-wrapper">
+          {renderFa("c-descriptive-link__caret", "fa-angle-right")}
+        </div>
       </button>
       <AmenityModalContext.Provider
         value={{ closeModal: () => setModalOpen(false) }}
       >
         {modalOpen && modalContent}
       </AmenityModalContext.Provider>
-    </div>
+    </>
   );
 };
 
