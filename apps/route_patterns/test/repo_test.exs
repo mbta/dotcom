@@ -1,5 +1,4 @@
 defmodule RoutePatterns.RepoTest do
-  import Mock
   use ExUnit.Case, async: true
   alias RoutePatterns.{Repo, RoutePattern}
 

@@ -5,6 +5,11 @@ defmodule Alerts.Cache.StoreTest do
 
   @now Timex.parse!("2017-06-08T10:00:00-05:00", "{ISO:Extended}")
 
+  setup_all do
+    _ = start_supervised(Alerts.Cache.Store)
+    :ok
+  end
+
   test "updating and fetching without a banner" do
     alert1 =
       Alerts.Alert.new(
