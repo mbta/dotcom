@@ -404,7 +404,7 @@ describe("DepartureTimes", () => {
       expect(tomorrowTime2).toBeUndefined();
     });
 
-    it("should display arriving if the next time is less than a minute away", () => {
+    it("should display <1 minute away if the next time is less than a minute away", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
         prediction: { time: new Date("2022-04-24T11:14:45-04:00"), trip: {} }
@@ -414,7 +414,7 @@ describe("DepartureTimes", () => {
         undefined,
         compareTime
       );
-      expect(tomorrowTime1.displayString).toEqual("Arriving");
+      expect(tomorrowTime1.displayString).toEqual("<1 minute away");
       expect(tomorrowTime1.isPrediction).toBe(true);
       expect(tomorrowTime2).toBeUndefined();
     });
