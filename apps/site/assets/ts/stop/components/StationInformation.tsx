@@ -11,6 +11,7 @@ import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
 
 const StationInformation = ({
   stop,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   alerts
 }: {
   stop: Stop;
