@@ -375,3 +375,14 @@ export interface TransitHours {
   sunday: [StopHours, StopHours];
   special_service: {};
 }
+
+export interface FacilityAttributes {
+  long_name: string;
+  short_name: string;
+  type: string;
+}
+
+export interface Facility {
+  attributes: FacilityAttributes;
+  id: string;
+}

@@ -480,4 +480,12 @@ defmodule SiteWeb.StopController do
 
     %{conn | assigns: assigns}
   end
+
+  def get_facilities(conn, %{"stop_id" => stop_id}) do
+    res =
+      [{"stop", stop_id}]
+      |> V3Api.Facilities.filter_by()
+
+    json(conn, res.data)
+  end
 end

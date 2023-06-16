@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { filter, omit } from "lodash";
-import useStop from "../../hooks/useStop";
+import { useStop, useFacilitysByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
@@ -26,6 +26,7 @@ const StopPageRedesign = ({
   const routesWithPolylinesResult = useRoutesByStop(stopId);
   const schedulesResult = useSchedulesByStop(stopId);
   const alertsForStopResult = useAlertsByStop(stopId);
+  const facilities = useFacilitysByStop(stopId);
   const alertsForRoutesResult = useAlertsByRoute(
     routesWithPolylinesResult.status === FetchStatus.Data
       ? routesWithPolylinesResult.data?.map(r => r.id) || []
@@ -92,7 +93,10 @@ const StopPageRedesign = ({
           alerts={currentAlerts}
         />
         <footer>
-          <StationInformation stop={stopResult.data} />
+          <StationInformation
+            stop={stopResult.data}
+            facilities={facilities.data}
+          />
         </footer>
       </div>
     </article>
