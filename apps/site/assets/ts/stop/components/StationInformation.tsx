@@ -43,10 +43,20 @@ const StationInformation = ({
         longitude={stop.longitude}
       />
       <div className="station-amenities mt-24">
-        <ParkingAmenityCard />
-        <BikeStorageAmenityCard />
-        <ElevatorsAmenityCard />
-        <EscalatorsAmenityCard />
+        {isStation && (
+          <>
+            <h3 className="hidden-md-up">Bringing Your Car or Bike</h3>
+            <ParkingAmenityCard />
+            <BikeStorageAmenityCard />
+          </>
+        )}
+        {isStation && (
+          <>
+            <h3 className="hidden-md-up">Getting Around the Station</h3>
+            <ElevatorsAmenityCard />
+            <EscalatorsAmenityCard />
+          </>
+        )}
         <AccessibilityAmenityCard />
         {isStation && <h3 className="hidden-md-up">Purchasing Fares</h3>}
         <FareSalesAmenityCard />
