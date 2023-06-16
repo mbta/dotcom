@@ -4,7 +4,8 @@ import { shortDate, stringToDateObject } from "../../../../helpers/date";
 import {
   ServiceGroupNames,
   serviceDays,
-  dedupeServices
+  dedupeServices,
+  isInCurrentService
 } from "../../../../helpers/service";
 
 interface Props {
@@ -67,7 +68,19 @@ const ServiceOptGroup = ({
         }
 
         if (service.id === todayServiceId) {
-          optionText += " (now)";
+          // if it's the only service this rating, this service might not
+          // technically be now - adjust text for that
+          const now = Date.now();
+          if (isInCurrentService(service, new Date(now))) {
+            optionText += " (now)";
+          } else {
+            optionText += ` (Starting ${startDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              timeZone: "UTC"
+            })})`;
+          }
         }
 
         return (

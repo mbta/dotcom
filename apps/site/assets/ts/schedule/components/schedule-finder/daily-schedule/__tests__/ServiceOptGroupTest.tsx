@@ -80,6 +80,31 @@ describe("ServiceOptGroup", () => {
   ];
 
   it("adds (now) to today's service based on todayServiceId prop", () => {
+    jest
+      .spyOn(Date, "now")
+      .mockImplementation(() => new Date("2019-09-07").getTime());
+    const wrapper = mount(
+      <ServiceOptGroup
+        label={"Test services"}
+        services={servicesList.concat(
+          makeSimpleService(
+            ["2019-09-06", "2019-10-01"],
+            ["2019-09-01", "2019-11-01"],
+            "Current Summer",
+            "n"
+          )
+        )}
+        multipleWeekdays={false}
+        todayServiceId="n"
+      />
+    );
+    expect(wrapper.text()).toContain(
+      "Current Summer schedule, Test Rating (now)"
+    );
+    jest.resetAllMocks();
+  });
+
+  it("adds (starting date) to today's service based on todayServiceId prop if service hasn't yet started", () => {
     const wrapper = mount(
       <ServiceOptGroup
         label={"Test services"}
@@ -89,7 +114,7 @@ describe("ServiceOptGroup", () => {
       />
     );
     expect(wrapper.text()).toContain(
-      "First Summer schedule, Test Rating (now)"
+      "First Summer schedule, Test Rating (Starting June 1, 2019)"
     );
   });
 
