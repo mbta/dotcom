@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { filter, omit } from "lodash";
-import { useStop, useFacilitysByStop } from "../../hooks/useStop";
+import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
@@ -12,7 +12,8 @@ import DeparturesAndMap from "./DeparturesAndMap";
 import {
   isGlobalBannerAlert,
   routeWideAlerts,
-  isInNextXDays
+  isInNextXDays,
+  isAmenityAlert
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
@@ -26,7 +27,7 @@ const StopPageRedesign = ({
   const routesWithPolylinesResult = useRoutesByStop(stopId);
   const schedulesResult = useSchedulesByStop(stopId);
   const alertsForStopResult = useAlertsByStop(stopId);
-  const facilities = useFacilitysByStop(stopId);
+  const facilities = useFacilitiesByStop(stopId);
   const alertsForRoutesResult = useAlertsByRoute(
     routesWithPolylinesResult.status === FetchStatus.Data
       ? routesWithPolylinesResult.data?.map(r => r.id) || []
@@ -37,7 +38,8 @@ const StopPageRedesign = ({
     [
       stopResult.status,
       routesWithPolylinesResult.status,
-      schedulesResult.status
+      schedulesResult.status,
+      facilities.status
     ].includes(FetchStatus.Error)
   ) {
     return <p>Page could not be loaded. Please try refreshing the page.</p>;
@@ -49,7 +51,8 @@ const StopPageRedesign = ({
     !routesWithPolylinesResult.data ||
     !schedulesResult.data ||
     !alertsForRoutesResult.data ||
-    !alertsForStopResult.data
+    !alertsForStopResult.data ||
+    !facilities.data
   ) {
     return <Loading />;
   }
@@ -67,7 +70,14 @@ const StopPageRedesign = ({
   // not just specific stops or trips
   const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
 
-  const allAlerts = alertsForStopResult.data.concat(routeWideAlertsArray);
+  const allAlerts = filter(
+    alertsForStopResult.data.concat(routeWideAlertsArray),
+    alert => !isAmenityAlert(alert)
+  );
+
+  const alertsForAmenities = filter(alertsForStopResult.data, alert =>
+    isAmenityAlert(alert)
+  );
 
   const alertsWithinSevenDays = filter(
     allAlerts,
@@ -96,6 +106,7 @@ const StopPageRedesign = ({
           <StationInformation
             stop={stopResult.data}
             facilities={facilities.data}
+            alerts={alertsForAmenities}
           />
         </footer>
       </div>

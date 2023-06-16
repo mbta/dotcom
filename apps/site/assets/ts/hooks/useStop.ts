@@ -4,7 +4,7 @@ import { Facility, Stop } from "../__v3api";
 import { FetchState, FetchStatus } from "../helpers/use-fetch";
 
 const fetchData = async (url: string): Promise<Stop> => fetchJsonOrThrow(url);
-const fetchFacilityData = async (url: string): Promise<Facility> =>
+const fetchFacilityData = async (url: string): Promise<Facility[]> =>
   fetchJsonOrThrow(url);
 
 const useStop = (stopId: string): FetchState<Stop> => {
@@ -15,8 +15,8 @@ const useStop = (stopId: string): FetchState<Stop> => {
   return { status: FetchStatus.Data, data };
 };
 
-const useFacilitysByStop = (stopId: string): FetchState<Facility> => {
-  const { data, error } = useSWR<Facility>(
+const useFacilitiesByStop = (stopId: string): FetchState<Facility[]> => {
+  const { data, error } = useSWR<Facility[]>(
     `/api/facilities/${stopId}`,
     fetchFacilityData
   );
@@ -26,4 +26,4 @@ const useFacilitysByStop = (stopId: string): FetchState<Facility> => {
   return { status: FetchStatus.Data, data };
 };
 
-export { useStop, useFacilitysByStop };
+export { useStop, useFacilitiesByStop };

@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { isStopAStation } from "../../helpers/stops";
-import { Facility, Stop } from "../../__v3api";
+import { Alert, Facility, Stop } from "../../__v3api";
 import ExternalMapLink from "./ExternalMapLink";
 import ParkingAmenityCard from "./amenities/ParkingAmenityCard";
 import BikeStorageAmenityCard from "./amenities/BikeStorageAmenityCard";
@@ -11,17 +11,20 @@ import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
 
 const StationInformation = ({
   stop,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  alerts,
   facilities
 }: {
   stop: Stop;
-  facilities: any;
+  alerts: Alert[];
+  facilities: Facility[];
 }): ReactElement<HTMLElement> => {
   const isStation = isStopAStation(stop);
 
   const facilitiesByType = new Map<string, Facility[]>();
 
   facilities.forEach((facility: Facility) => {
-    const type: string = facility.attributes.type;
+    const { type } = facility.attributes;
     if (facilitiesByType.has(type)) {
       facilitiesByType.get(type)?.push(facility);
     } else {
