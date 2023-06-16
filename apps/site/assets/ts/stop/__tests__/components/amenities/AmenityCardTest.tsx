@@ -20,9 +20,11 @@ describe("AmenityCard", () => {
   });
 
   it("should toggle children elements in a modal", () => {
+    const cardName = "Amenity Title";
+    const cardContent = "Card content";
     render(
       <AmenityCard
-        headerText={""}
+        headerText={cardName}
         icon={<span></span>}
         modalContent={
           <AmenityModal headerText="Inner header">
@@ -32,12 +34,12 @@ describe("AmenityCard", () => {
           </AmenityModal>
         }
       >
-        <div>Card content</div>
+        <div>{cardContent}</div>
       </AmenityCard>
     );
     expect(screen.queryByText("Inner header")).toBeNull();
     expect(screen.queryByText("Modal content")).toBeNull();
-    screen.getByRole("button").click();
+    screen.getByRole("button", { name: `${cardName} ${cardContent}` }).click();
     expect(screen.queryByText("Inner header")).toBeDefined();
     expect(screen.queryByText("Modal content")).toBeDefined();
     screen.getByRole("button", { name: "Close" }).click();
