@@ -184,6 +184,16 @@ describe("StopPageRedesign", () => {
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
+        id: "000013",
+        header: "The Elevator Is Closed",
+        effect: "elevator_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
         id: "000004",
         header: "Road Closed",
         effect: "shuttle"
@@ -231,6 +241,7 @@ describe("StopPageRedesign", () => {
     expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
     expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
+    expect(screen.queryByText(/The Elevator Is Closed/)).toBeNull();
   });
 
   it("should only render current stop alerts and route alerts within 7 days", () => {

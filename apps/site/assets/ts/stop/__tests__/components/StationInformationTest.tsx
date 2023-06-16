@@ -8,7 +8,7 @@ const busStop = { "station?": false } as Stop;
 
 describe("StationInformation", () => {
   it("should have headings", () => {
-    render(<StationInformation stop={stationStop} />);
+    render(<StationInformation stop={stationStop} alerts={[]} />);
     expect(
       screen.queryByRole("heading", { name: "Station Information" })
     ).toBeInTheDocument();
@@ -24,7 +24,7 @@ describe("StationInformation", () => {
   });
 
   it("hides unneeded headings for bus stops", () => {
-    render(<StationInformation stop={busStop} />);
+    render(<StationInformation stop={busStop} alerts={[]} />);
     expect(
       screen.queryByRole("heading", { name: "Stop Information" })
     ).toBeInTheDocument();

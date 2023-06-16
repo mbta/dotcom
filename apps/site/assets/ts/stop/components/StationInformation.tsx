@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { isStopAStation } from "../../helpers/stops";
-import { Stop } from "../../__v3api";
+import { Alert, Stop } from "../../__v3api";
 import ExternalMapLink from "./ExternalMapLink";
 import ParkingAmenityCard from "./amenities/ParkingAmenityCard";
 import BikeStorageAmenityCard from "./amenities/BikeStorageAmenityCard";
@@ -10,9 +10,12 @@ import AccessibilityAmenityCard from "./amenities/AccessibilityAmenityCard";
 import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
 
 const StationInformation = ({
-  stop
+  stop,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  alerts
 }: {
   stop: Stop;
+  alerts: Alert[];
 }): ReactElement<HTMLElement> => {
   const isStation = isStopAStation(stop);
   return (
