@@ -102,7 +102,7 @@ const infoToDisplayTime = (
     // State 9
     return [
       {
-        displayString: "Arriving",
+        displayString: "<1 minute away",
         isPrediction: displayInfoContainsPrediction(time1),
         isBolded: true,
         reactKey: getInfoKey(time1)

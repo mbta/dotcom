@@ -17,11 +17,10 @@ const StationInformation = ({
   stop: Stop;
   alerts: Alert[];
 }): ReactElement<HTMLElement> => {
+  const isStation = isStopAStation(stop);
   return (
     <div>
-      <h2>
-        {isStopAStation(stop) ? "Station Information" : "Stop Information"}
-      </h2>
+      <h2>{isStation ? "Station Information" : "Stop Information"}</h2>
       <ExternalMapLink
         address={stop.address}
         municipality={stop.municipality}
@@ -30,11 +29,22 @@ const StationInformation = ({
         longitude={stop.longitude}
       />
       <div className="station-amenities mt-24">
-        <ParkingAmenityCard />
-        <BikeStorageAmenityCard />
-        <ElevatorsAmenityCard />
-        <EscalatorsAmenityCard />
+        {isStation && (
+          <>
+            <h3 className="hidden-md-up">Bringing Your Car or Bike</h3>
+            <ParkingAmenityCard />
+            <BikeStorageAmenityCard />
+          </>
+        )}
+        {isStation && (
+          <>
+            <h3 className="hidden-md-up">Getting Around the Station</h3>
+            <ElevatorsAmenityCard />
+            <EscalatorsAmenityCard />
+          </>
+        )}
         <AccessibilityAmenityCard />
+        {isStation && <h3 className="hidden-md-up">Purchasing Fares</h3>}
         <FareSalesAmenityCard />
       </div>
     </div>
