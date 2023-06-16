@@ -4,35 +4,14 @@
   h1 {
     background-color: $brand-primary-lightest-contrast;
     margin: -.75rem -1rem 1rem;
-    padding: .75rem;
-  }
-
-  &.c-modal,
-  .c-modal__content {
-    @media (min-width: 800px) {
-      min-height: unset;
-    }
-  }
-
-  &.c-modal {
-    width: unset;
+    padding: 1rem;
   }
 
   .c-modal__content {
     padding-bottom: 1rem;
   }
 
-
   .c-modal__close {
-    font-size: $font-size-sm;
-    margin: .5rem;
-    padding: .125rem .5rem;
-
-    &::before {
-      @extend %fa-icon;
-      @extend .fa-solid;
-      content: fa-content($fa-var-xmark);
-      margin-right: .25em;
-    }
+    margin: .65rem;
   }
 }
