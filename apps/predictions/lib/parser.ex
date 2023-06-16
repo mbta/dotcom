@@ -25,15 +25,19 @@ defmodule Predictions.Parser do
 
   @spec parse(Item.t()) :: record
   def parse(%Item{} = item) do
+    arrival = arrival_time(item)
+    departure = departure_time(item)
+    route_id = route_id(item)
+
     {
       item.id,
       trip_id(item),
       stop_id(item),
-      route_id(item),
+      route_id,
       direction_id(item),
-      arrival_time(item),
-      departure_time(item),
-      first_time(item),
+      arrival,
+      departure,
+      Schedules.Parser.display_time(arrival, departure, route_id),
       stop_sequence(item),
       schedule_relationship(item),
       track(item),
@@ -68,17 +72,6 @@ defmodule Predictions.Parser do
       do: parse_time(arrival_time)
 
   def arrival_time(_), do: nil
-
-  @spec first_time(Item.t()) :: DateTime.t() | nil
-  def first_time(%Item{attributes: %{"departure_time" => departure_time}})
-      when not is_nil(departure_time),
-      do: parse_time(departure_time)
-
-  def first_time(%Item{attributes: %{"arrival_time" => arrival_time}})
-      when not is_nil(arrival_time),
-      do: parse_time(arrival_time)
-
-  def first_time(_), do: nil
 
   @spec schedule_relationship(Item.t()) :: Prediction.schedule_relationship() | nil
   def schedule_relationship(%Item{attributes: %{"schedule_relationship" => "ADDED"}}), do: :added

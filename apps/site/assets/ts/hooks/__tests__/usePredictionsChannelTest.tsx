@@ -17,7 +17,7 @@ const predictionsFromStream = [
     "departing?": true,
     direction_id: 0,
     stop: { id: "place-somewhere" } as Stop,
-    departure_time: "2022-12-15 00:46:04.576744Z",
+    time: "2022-12-15 00:46:04.576744Z",
     track: "7",
     trip: { id: "123", headsign: "Destination One" } as Trip,
     vehicle_id: "v1"
@@ -27,7 +27,7 @@ const predictionsFromStream = [
     "departing?": true,
     direction_id: 0,
     stop: { id: "place-somewhere" } as Stop,
-    departure_time: "2022-12-15 00:48:04.576744Z",
+    time: "2022-12-15 00:48:04.576744Z",
     track: "2",
     trip: { id: "600", headsign: "Destination Two" } as Trip,
     vehicle_id: "v2"
@@ -37,7 +37,7 @@ const predictionsFromStream = [
     "departing?": false,
     direction_id: 0,
     stop: { id: "place-somewhere" } as Stop,
-    departure_time: "2022-12-15 00:55:04.576744Z",
+    time: "2022-12-15 00:55:04.576744Z",
     trip: { id: "20", headsign: "Destination One" } as Trip,
     vehicle_id: null
   } as StreamPrediction
@@ -141,9 +141,9 @@ describe("usePredictionsChannel parsePrediction", () => {
   test("modifies the streamed prediction", () => {
     const parsed = parsePrediction(streamPrediction);
     expect(parsed).toBeTruthy();
-    expect(parsed.time).toEqual(new Date(streamPrediction.departure_time!));
-    expect(parsed.time).not.toEqual(new Date(streamPrediction.arrival_time!));
-    expect(parsed.time).not.toEqual(new Date(streamPrediction.time!));
+    expect(parsed.time).toEqual(new Date(streamPrediction.time!));
+    expect(parsed.time).toEqual(new Date(streamPrediction.arrival_time!));
+    expect(parsed.time).not.toEqual(new Date(streamPrediction.departure_time!));
     expect(parsed.vehicle_id).toEqual("v1");
   });
 
