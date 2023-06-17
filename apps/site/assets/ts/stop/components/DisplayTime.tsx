@@ -124,18 +124,21 @@ function DelayedTimeDetails(): JSX.Element {
 const CancelledTimeDetails = (): JSX.Element => {
   const { departure, time, isCR, targetDate } = useContext(DepartureContext);
 
-
   return (
     <>
       <div className="d-flex justify-content-space-between text-danger">
-        <s><BasicTime displayType="absolute" time={time} targetDate={targetDate} /></s>
+        <s>
+          <BasicTime
+            displayType="absolute"
+            time={time}
+            targetDate={targetDate}
+          />
+        </s>
         <div>Cancelled</div>
       </div>
     </>
-  )
-  
-
-} 
+  );
+};
 
 /**
  * Renders a UI element composing several different aspects of a "departure"
@@ -166,17 +169,17 @@ const DisplayTime = ({
         {displayInfoContainsPrediction(departure) &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
-      <div>
-        {isCancelled && <CancelledTimeDetails />}
-      </div>
-      {!isCancelled &&
-        (<><div className="stop-routes__departures-time">
-          {isDelayed ? <DelayedTimeCountdown /> : <TimeCountdown />}
-        </div>
-        <div className="stop-routes__departures-details fs-14">
-          {isDelayed && <DelayedTimeDetails />} <BaseTimeDetails />
-        </div></>)
-      }
+      <div>{isCancelled && <CancelledTimeDetails />}</div>
+      {!isCancelled && (
+        <>
+          <div className="stop-routes__departures-time">
+            {isDelayed ? <DelayedTimeCountdown /> : <TimeCountdown />}
+          </div>
+          <div className="stop-routes__departures-details fs-14">
+            {isDelayed && <DelayedTimeDetails />} <BaseTimeDetails />
+          </div>
+        </>
+      )}
     </DepartureContext.Provider>
   );
 };
