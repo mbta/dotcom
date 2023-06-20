@@ -157,7 +157,7 @@ const DisplayTime = ({
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
   const time = departureInfoToTime(departure);
   const isDelayed = departure?.isDelayed;
-  const isCancelled = true; //departure?.isCancelled;
+  const isCancelled = departure?.isCancelled;
   const isLessThanHourAway = time
     ? differenceInSeconds(time, new Date()) < secondsInHour
     : undefined;
