@@ -60,7 +60,9 @@ describe("usePredictionsChannel hook", () => {
     );
     expect(result.current).toEqual({});
     expect(
-      window.channels["predictions:Purple:place-somewhere:0"]
+      window.channels[
+        "predictions:route=Purple:stop=place-somewhere:direction_id=0"
+      ]
     ).toBeTruthy();
   });
 
@@ -73,7 +75,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:Purple:place-somewhere:0", {
+      }>("predictions:route=Purple:stop=place-somewhere:direction_id=0", {
         detail: {
           predictions: predictionsFromStream
         }
@@ -96,7 +98,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:Purple:place-somewhere:0", {
+      }>("predictions:route=Purple:stop=place-somewhere:direction_id=0", {
         detail: {
           predictions: predictionsFromStream
         }
@@ -111,7 +113,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:Purple:place-somewhere:0", {
+      }>("predictions:route=Purple:stop=place-somewhere:direction_id=0", {
         detail: {
           predictions: predictionsFromStream
         }
