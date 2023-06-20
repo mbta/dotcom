@@ -1,0 +1,17 @@
+.c-amenity-modal {
+  padding: .5rem 1rem;
+
+  h1 {
+    background-color: $brand-primary-lightest-contrast;
+    margin: -.75rem -1rem 1rem;
+    padding: 1rem;
+  }
+
+  .c-modal__content {
+    padding-bottom: 1rem;
+  }
+
+  .c-modal__close {
+    margin: .65rem;
+  }
+}
