@@ -1,5 +1,9 @@
 <div class="callout schedule-empty">
-  <%= no_trips_message(@error, @direction, @date) %>
+  <%= if @conn.assigns.route.id == "Boat-Lynn" and Timex.before?(@date, ~D[2023-06-26]) do %>
+    Next trip on June 26, 2023
+  <% else %>
+    <%= no_trips_message(@error, @direction, @date) %>
+  <% end %>
   <%= if @date && @date != Util.service_date() && @direction do %>
     <div>
       <%= link "View #{String.downcase(@direction)} trips for today", to: update_url(@conn, date: nil) %>
