@@ -5,9 +5,14 @@ import {
   secondsInHour,
   secondsInMinute
 } from "date-fns";
+import { slice } from "lodash";
 import {
+  BUS,
+  COMMUTER_RAIL,
+  FERRY,
   departureInfoToTime,
-  displayInfoContainsPrediction
+  displayInfoContainsPrediction,
+  getNextUnCancelledDeparture
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -24,6 +29,36 @@ interface DisplayTimeConfig {
   reactKey: string;
 }
 
+// Cancelled or Delayed times should only show up for the Bus, Commuter Rail, and Ferry modes.
+// The bus mode should only show if the time is >= 1 hour out
+const showCancelledOrDelayed = (
+  departureInfo: DepartureInfo,
+  targetDate: Date
+): boolean => {
+  const departureTimeDiffInSeconds = differenceInSeconds(
+    departureInfoToTime(departureInfo),
+    targetDate
+  );
+
+  return (
+    departureInfo.routeMode === FERRY ||
+    departureInfo.routeMode === COMMUTER_RAIL ||
+    (departureInfo.routeMode === BUS &&
+      departureTimeDiffInSeconds >= secondsInHour)
+  );
+};
+
+// Returns 3 times from the departureInfo array
+// ensuring that at most time is cancelled
+const getNextTwoTimes = (
+  departureInfos: DepartureInfo[]
+): [DepartureInfo | undefined, DepartureInfo | undefined] => {
+  const departure1 = departureInfos[0];
+  const departure2 = getNextUnCancelledDeparture(slice(departureInfos, 1));
+
+  return [departure1, departure2];
+};
+
 const getInfoKey = (departureInfo: DepartureInfo): string => {
   const trip = departureInfo.prediction
     ? departureInfo.prediction.trip
@@ -34,25 +69,31 @@ const getInfoKey = (departureInfo: DepartureInfo): string => {
 };
 
 const infoToDisplayTime = (
-  time1: DepartureInfo | undefined,
-  time2: DepartureInfo | undefined,
+  departureInfos: DepartureInfo[],
   targetDate: Date = new Date()
 ): DisplayTimeConfig[] => {
   const defaultState = [
     { displayString: "Updates unavailable", reactKey: "unavail" }
   ];
-  // If there is not input time1 then a schedule or prediction could not be found
-  if (!time1) {
+
+  const [departureInfo1, departureInfo2] = getNextTwoTimes(departureInfos);
+
+  // If there is not a departureInfo1 then a schedule or prediction could not be found
+  if (!departureInfo1) {
     return defaultState;
   }
 
-  const departure1Time = departureInfoToTime(time1);
+  const departure1Time = departureInfoToTime(departureInfo1);
   const formatOverride = "h:mm aa";
 
-  if (time1.isDelayed) {
+  // Only shown for Bus, CR, and Ferry (if there were predictions)
+  if (
+    departureInfo1.isDelayed &&
+    showCancelledOrDelayed(departureInfo1, targetDate)
+  ) {
     // is delayed can only be true if both a prediction and schedule exist
-    const scheduleTime = time1.schedule!.time;
-    const predictionTime = time1.prediction!.time;
+    const scheduleTime = departureInfo1.schedule!.time;
+    const predictionTime = departureInfo1.prediction!.time;
     return [
       {
         displayString: `${formatToBostonTime(predictionTime, formatOverride)}`,
@@ -60,19 +101,23 @@ const infoToDisplayTime = (
         // only predictions can be delayed
         isPrediction: true,
         // keys only need to be unique in the list
-        reactKey: getInfoKey(time1)
+        reactKey: getInfoKey(departureInfo1)
       },
       {
         displayString: `${formatToBostonTime(scheduleTime, formatOverride)}`,
         isStrikethrough: true,
-        trackName: time1.prediction!.track,
-        reactKey: `${getInfoKey(time1)}-delayed`
+        trackName: departureInfo1.prediction!.track,
+        reactKey: `${getInfoKey(departureInfo1)}-delayed`
       }
     ];
   }
 
-  if (time2 && time1.isCancelled) {
-    const departure2Time = departureInfoToTime(time2);
+  if (
+    departureInfo1.isCancelled &&
+    departureInfo2 &&
+    showCancelledOrDelayed(departureInfo1, targetDate)
+  ) {
+    const departure2Time = departureInfoToTime(departureInfo2);
     // State 7
     // State 8
     // If trip1 is cancelled, then trip2 should not be cancelled
@@ -81,19 +126,34 @@ const infoToDisplayTime = (
       {
         displayString: `${formatToBostonTime(departure2Time, formatOverride)}`,
         isBolded: true,
-        isPrediction: displayInfoContainsPrediction(time2),
-        reactKey: getInfoKey(time2)
+        isPrediction: displayInfoContainsPrediction(departureInfo2),
+        reactKey: getInfoKey(departureInfo2)
       },
       {
         displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
         isStrikethrough: true,
-        trackName: time2.prediction?.track,
-        reactKey: getInfoKey(time1)
+        trackName: departureInfo2.prediction?.track,
+        reactKey: getInfoKey(departureInfo1)
       }
     ];
   }
 
-  const diffInSeconds1 = differenceInSeconds(departure1Time, targetDate);
+  // Reorder the times for subway
+  // Effectively ignoring the delayed / cancelled time
+  let time1 = departureInfo1;
+  let time2 = departureInfo2;
+  if (
+    (departureInfo1.isCancelled || departureInfo1.isDelayed) &&
+    departureInfo2
+  ) {
+    time1 = departureInfo2;
+    time2 = undefined;
+  }
+
+  const diffInSeconds1 = differenceInSeconds(
+    departureInfoToTime(time1),
+    targetDate
+  );
   const diffInSeconds2 = time2
     ? differenceInSeconds(departureInfoToTime(time2), targetDate)
     : -1;
@@ -135,7 +195,8 @@ const infoToDisplayTime = (
   if (
     diffInSeconds1 < secondsInHour &&
     diffInSeconds1 > secondsInMinute &&
-    diffInSeconds2 >= secondsInHour
+    // if there is no second time just display the first
+    (diffInSeconds2 >= secondsInHour || diffInSeconds2 === -1)
   ) {
     // State 2
     return [
@@ -176,4 +237,4 @@ const infoToDisplayTime = (
   return defaultState;
 };
 
-export { DisplayTimeConfig, infoToDisplayTime, getInfoKey };
+export { DisplayTimeConfig, infoToDisplayTime, getInfoKey, getNextTwoTimes };

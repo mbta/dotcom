@@ -8,4 +8,5 @@ export interface DepartureInfo {
   schedule?: ScheduleWithTimestamp;
   isCancelled?: boolean;
   isDelayed?: boolean;
+  routeMode?: "subway" | "bus" | "commuter_rail" | "ferry";
 }
