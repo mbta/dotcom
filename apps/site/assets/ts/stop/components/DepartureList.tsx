@@ -47,11 +47,11 @@ const DepartureList = ({
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
+  const predictionsByHeadsign = usePredictionsChannel({
+    routeId: route.id,
+    stopId: stop.id,
     directionId
-  );
+  });
   const headsign = tripForSelectedRoutePattern?.headsign || null;
   const preds =
     headsign && predictionsByHeadsign[headsign]

@@ -177,13 +177,6 @@ interface DepartureTimesProps {
   ) => void;
 }
 
-/* istanbul ignore next */
-/**
- * A proof-of-concept component illustrating a usage of the
- * usePredictionsChannel hook to fetch live predictions for a specific
- * route/stop/direction, sorted by date.
- *
- */
 const DepartureTimes = ({
   route,
   stop,
@@ -193,11 +186,11 @@ const DepartureTimes = ({
   alertsForDirection,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
+  const predictionsByHeadsign = usePredictionsChannel({
+    routeId: route.id,
+    stopId: stop.id,
     directionId
-  );
+  });
 
   const groupedSchedules = schedulesByHeadsign(schedulesForDirection);
   return (

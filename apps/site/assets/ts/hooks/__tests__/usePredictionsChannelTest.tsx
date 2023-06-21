@@ -56,7 +56,11 @@ describe("usePredictionsChannel hook", () => {
 
   test("initializes connection to appropriate channel", () => {
     const { result } = renderHook(() =>
-      usePredictionsChannel("Purple", "place-somewhere", 0)
+      usePredictionsChannel({
+        routeId: "Purple",
+        stopId: "place-somewhere",
+        directionId: 0
+      })
     );
     expect(result.current).toEqual({});
     expect(
@@ -68,7 +72,11 @@ describe("usePredictionsChannel hook", () => {
 
   test("gets and outputs data", () => {
     const { result } = renderHook(() =>
-      usePredictionsChannel("Purple", "place-somewhere", 0)
+      usePredictionsChannel({
+        routeId: "Purple",
+        stopId: "place-somewhere",
+        directionId: 0
+      })
     );
 
     /* pretend this is the channel emitting new predictions */
@@ -91,7 +99,11 @@ describe("usePredictionsChannel hook", () => {
 
   test("doesn't output data if same as new data", () => {
     const { result } = renderHook(() =>
-      usePredictionsChannel("Purple", "place-somewhere", 0)
+      usePredictionsChannel({
+        routeId: "Purple",
+        stopId: "place-somewhere",
+        directionId: 0
+      })
     );
 
     /* pretend this is the channel emitting new predictions */

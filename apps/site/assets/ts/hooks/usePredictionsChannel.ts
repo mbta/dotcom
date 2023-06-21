@@ -76,6 +76,29 @@ export const groupByHeadsigns = (
   );
 };
 
+interface PredictionsChannelArgs {
+  routeId?: string;
+  stopId?: string;
+  directionId?: 0 | 1;
+}
+
+function channelFromArgs(channelArgs: PredictionsChannelArgs): string {
+  const keysWithValues = Object.entries({
+    route: "routeId",
+    stop: "stopId",
+    direction_id: "directionId"
+  })
+    .map(([key, arg]) => {
+      const value = channelArgs[arg as keyof PredictionsChannelArgs];
+      if (value !== undefined) {
+        return `:${key}=${value}`;
+      }
+      return "";
+    })
+    .join("");
+  return `predictions${keysWithValues}`;
+}
+
 /**
  * Subscribes to updates on predictions for a specific route/stop/direction via
  * websockets + Phoenix channels. The channel updates very frequently, so this
@@ -87,11 +110,9 @@ export const groupByHeadsigns = (
  *   used to truncate to a certain number of predictions per headsign.
  */
 const usePredictionsChannel = (
-  routeId: string,
-  stopId: string,
-  directionId: 0 | 1
+  args: PredictionsChannelArgs
 ): PredictionsByHeadsign => {
-  const channelName = `predictions:route=${routeId}:stop=${stopId}:direction_id=${directionId}`;
+  const channelName = channelFromArgs(args);
   const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
     oldGroupedPredictions,
     { predictions }
