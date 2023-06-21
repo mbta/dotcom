@@ -1,5 +1,4 @@
-import { groupBy, mapValues, pick, sortBy } from "lodash";
-import deepEqual from "fast-deep-equal/react";
+import { pick, sortBy } from "lodash";
 import { Reducer } from "react";
 import {
   DirectionId,
@@ -66,16 +65,6 @@ export const parsePrediction = (
   time: new Date(prediction.time!)
 });
 
-export const groupByHeadsigns = (
-  predictions: PredictionWithTimestamp[],
-  numPredictions?: number
-): PredictionsByHeadsign => {
-  const byHeadsign = groupBy(predictions, "trip.headsign");
-  return mapValues(byHeadsign, headsignPredictions =>
-    sortBy(headsignPredictions, "time").slice(0, numPredictions)
-  );
-};
-
 interface PredictionsChannelArgs {
   routeId?: string;
   stopId?: string;
@@ -104,28 +93,18 @@ function channelFromArgs(channelArgs: PredictionsChannelArgs): string {
  * websockets + Phoenix channels. The channel updates very frequently, so this
  * function takes care to only emit updated predictions if they are different
  * from the previous set of predictions.
- * - Transforms the predictions via a reducer function that groups the
- *   predictions by trip headsign, sorting the lists of predictions by time.
- * - Default behavior will keep all predictions, but `numPredictions` can be
- *   used to truncate to a certain number of predictions per headsign.
  */
 const usePredictionsChannel = (
   args: PredictionsChannelArgs
-): PredictionsByHeadsign => {
+): PredictionWithTimestamp[] => {
   const channelName = channelFromArgs(args);
-  const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
-    oldGroupedPredictions,
-    { predictions }
-  ) => {
-    const parsedPredictions = predictions.map(parsePrediction);
-    const newGroupedPredictions = groupByHeadsigns(parsedPredictions);
-    // don't attempt to reconcile with prior predictions, just replace state with
-    // all the new predictions from the channel if there are any changes.
-    return deepEqual(oldGroupedPredictions, newGroupedPredictions)
-      ? oldGroupedPredictions
-      : newGroupedPredictions;
+  const reducer: Reducer<
+    PredictionWithTimestamp[],
+    ChannelPredictionResponse
+  > = (_oldGroupedPredictions, { predictions }) => {
+    return sortBy(predictions.map(parsePrediction), "time");
   };
-  const initialState: PredictionsByHeadsign = {};
+  const initialState: PredictionWithTimestamp[] = [];
   const state = useChannel(channelName, reducer, initialState);
   return state;
 };

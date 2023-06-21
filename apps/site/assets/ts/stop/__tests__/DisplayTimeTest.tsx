@@ -4,11 +4,17 @@ import { render, screen } from "@testing-library/react";
 import { PredictionWithTimestamp } from "../../models/perdictions";
 import { DepartureInfo } from "../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import { Route, Trip } from "../../__v3api";
+import { set } from "lodash";
 
 const schedule = {} as ScheduleWithTimestamp;
 const prediction = {} as PredictionWithTimestamp;
-const departureWithoutPrediction: DepartureInfo = { schedule };
-const departureWithPrediction: DepartureInfo = { prediction, schedule };
+const departureWithoutPrediction: DepartureInfo = {
+  schedule,
+  route: {} as Route,
+  trip: {} as Trip
+};
+const departureWithPrediction: DepartureInfo = { ...schedule, prediction };
 
 describe("DisplayTime", () => {
   it("shows predictions with realtime icon", () => {
@@ -30,7 +36,11 @@ describe("DisplayTime", () => {
       const dateNow = new Date();
       render(
         <DisplayTime
-          departure={{ schedule: { time: dateNow } as ScheduleWithTimestamp }}
+          departure={set(
+            { ...departureWithoutPrediction },
+            "schedule.time",
+            dateNow
+          )}
           isCR={false}
         />
       );
@@ -40,9 +50,11 @@ describe("DisplayTime", () => {
       dateTomorrow.setDate(dateTomorrow.getDate() + 1);
       render(
         <DisplayTime
-          departure={{
-            schedule: { time: dateTomorrow } as ScheduleWithTimestamp
-          }}
+          departure={set(
+            { ...departureWithoutPrediction },
+            "schedule.time",
+            dateTomorrow
+          )}
           isCR={false}
         />
       );
@@ -51,7 +63,11 @@ describe("DisplayTime", () => {
     it("with track name", () => {
       render(
         <DisplayTime
-          departure={{ prediction: { track: "9" } as PredictionWithTimestamp }}
+          departure={set(
+            { ...departureWithPrediction },
+            "prediction.track",
+            "9"
+          )}
           isCR={true}
         />
       );
@@ -61,12 +77,13 @@ describe("DisplayTime", () => {
       const scheduledDateTime = new Date("2023-06-01T09:24:00-04:00");
       const withSchedule: DepartureInfo = {
         schedule: { time: scheduledDateTime } as ScheduleWithTimestamp
-      };
-      const predictedDateTime = new Date("2023-06-01T09:27:00-04:00");
-      const withScheduleAndPrediction: DepartureInfo = {
-        schedule,
-        prediction: { time: predictedDateTime } as PredictionWithTimestamp
-      };
+      } as DepartureInfo;
+      const predictedDateTime = new Date("2023-06-01T09:27:00");
+      const withScheduleAndPrediction: DepartureInfo = set(
+        { ...withSchedule },
+        "prediction.time",
+        predictedDateTime
+      );
 
       render(<DisplayTime departure={withScheduleAndPrediction} isCR={true} />);
       expect(screen.queryByText("9:27 AM")).toBeTruthy();
@@ -77,15 +94,12 @@ describe("DisplayTime", () => {
   });
   describe("shows delayed", () => {
     it("predictions with scheduled time with strikethrough (<1 hour away)", () => {
-      const nowTime = new Date("2023-06-01T09:10:00-04:00");
-      const departure: DepartureInfo = {
+      const nowTime = new Date("2023-06-01T09:10:00");
+      const departure = {
         isDelayed: true,
-        schedule: { ...schedule, time: new Date("2023-06-01T09:13:00-04:00") },
-        prediction: {
-          ...prediction,
-          time: new Date("2023-06-01T09:19:00-04:00")
-        }
-      };
+        schedule: { ...schedule, time: new Date("2023-06-01T09:13:00") },
+        prediction: { ...prediction, time: new Date("2023-06-01T09:19:00") }
+      } as DepartureInfo;
       render(
         <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
       );
@@ -94,15 +108,12 @@ describe("DisplayTime", () => {
       expect(screen.getByText("9:13 AM")).toHaveClass("strikethrough");
     });
     it("predictions with scheduled time with strikethrough (<1 hour away) (CR)", () => {
-      const nowTime = new Date("2023-06-01T09:10:00-04:00");
-      const departure: DepartureInfo = {
+      const nowTime = new Date("2023-06-01T09:10:00");
+      const departure = {
         isDelayed: true,
-        schedule: { ...schedule, time: new Date("2023-06-01T09:13:00-04:00") },
-        prediction: {
-          ...prediction,
-          time: new Date("2023-06-01T09:19:00-04:00")
-        }
-      };
+        schedule: { ...schedule, time: new Date("2023-06-01T09:13:00") },
+        prediction: { ...prediction, time: new Date("2023-06-01T09:19:00") }
+      } as DepartureInfo;
       render(
         <DisplayTime departure={departure} isCR={true} targetDate={nowTime} />
       );
@@ -112,15 +123,12 @@ describe("DisplayTime", () => {
       expect(screen.getByText("9:19 AM")).not.toHaveClass("strikethrough");
     });
     it("predictions with scheduled time with strikethrough (1+ hour away)", () => {
-      const nowTime = new Date("2023-06-01T09:10:00-04:00");
-      const departure: DepartureInfo = {
+      const nowTime = new Date("2023-06-01T09:10:00");
+      const departure = {
         isDelayed: true,
-        schedule: { ...schedule, time: new Date("2023-06-01T11:38:00-04:00") },
-        prediction: {
-          ...prediction,
-          time: new Date("2023-06-01T11:43:00-04:00")
-        }
-      };
+        schedule: { ...schedule, time: new Date("2023-06-01T11:38:00") },
+        prediction: { ...prediction, time: new Date("2023-06-01T11:43:00") }
+      } as DepartureInfo;
       render(
         <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
       );

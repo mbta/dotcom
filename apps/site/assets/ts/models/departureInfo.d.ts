@@ -1,3 +1,4 @@
+import { Route, Trip } from "../__v3api";
 import { PredictionWithTimestamp } from "./perdictions";
 import { ScheduleWithTimestamp } from "./schedules";
 
@@ -6,6 +7,8 @@ import { ScheduleWithTimestamp } from "./schedules";
 export interface DepartureInfo {
   prediction?: PredictionWithTimestamp;
   schedule?: ScheduleWithTimestamp;
+  route: Route;
+  trip: Trip;
   isCancelled?: boolean;
   isDelayed?: boolean;
   routeMode?: "subway" | "bus" | "commuter_rail" | "ferry";

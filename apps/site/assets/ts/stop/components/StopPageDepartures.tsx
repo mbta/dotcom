@@ -6,6 +6,9 @@ import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { alertsByRoute } from "../../models/alert";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -14,7 +17,7 @@ interface StopPageDeparturesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void;
   alerts: Alert[];
 }
@@ -37,10 +40,14 @@ const StopPageDepartures = ({
   onClick,
   alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
+  // get predictions and merge with schedules.
+  const predictions = usePredictionsChannel({ stopId: stop.id });
+  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
+
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
-  const groupedSchedules = groupBy(schedules, s => s.route.id);
+  const groupedDepartures = groupBy(departureInfos, "route.id");
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
@@ -60,8 +67,7 @@ const StopPageDepartures = ({
           <DepartureCard
             key={route.id}
             route={route}
-            stop={stop}
-            schedulesForRoute={groupedSchedules[route.id]}
+            departuresForRoute={groupedDepartures[route.id]}
             onClick={onClick}
             // This list should only have one value, is there another way to do this?
             alertsForRoute={groupedAlerts[route.id]}

@@ -1,10 +1,8 @@
 import React, { ReactElement } from "react";
 import { concat, filter } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
-import { SUBWAY, mergeIntoDepartureInfo } from "../../helpers/departureInfo";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { SUBWAY } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
@@ -24,7 +22,7 @@ import { isACommuterRailRoute } from "../../models/route";
 interface DepartureListProps {
   route: Route;
   stop: Stop;
-  schedules: ScheduleWithTimestamp[];
+  departures: DepartureInfo[];
   directionId: DirectionId;
   alerts: Alert[];
   targetDate?: Date | undefined;
@@ -41,24 +39,12 @@ const displayNoUpcomingTrips = (): JSX.Element => {
 const DepartureList = ({
   route,
   stop,
-  schedules,
+  departures,
   directionId,
   alerts,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
-  const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
-  const predictionsByHeadsign = usePredictionsChannel({
-    routeId: route.id,
-    stopId: stop.id,
-    directionId
-  });
-  const headsign = tripForSelectedRoutePattern?.headsign || null;
-  const preds =
-    headsign && predictionsByHeadsign[headsign]
-      ? predictionsByHeadsign[headsign]
-      : [];
-  const departures: DepartureInfo[] = mergeIntoDepartureInfo(schedules, preds);
-
+  const tripForSelectedRoutePattern: Trip | undefined = departures[0]?.trip;
   const isCR = isACommuterRailRoute(route);
   const groupedAlerts = alertsByRoute(alerts);
   const alertsForRoute = groupedAlerts[route.id] || [];
@@ -75,7 +61,6 @@ const DepartureList = ({
     (d: DepartureInfo) => !(d.isCancelled && d.routeMode === SUBWAY)
   );
 
-  // TODO: handle no predictions or schedules case and predictions only case
   return (
     <>
       <div className="stop-departures departure-list-header">
@@ -99,7 +84,7 @@ const DepartureList = ({
         </div>
       </h2>
       {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
-      {schedules.length === 0 && displayNoUpcomingTrips()}
+      {departures.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
         <ul className="stop-routes__departures list-unstyled">
           {modeSpecificDepartures.map(departure => {

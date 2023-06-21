@@ -1,11 +1,11 @@
 import React from "react";
 import { render, screen, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
-import { Alert, RouteType, Stop } from "../../__v3api";
+import { Alert, RouteType } from "../../__v3api";
 import { baseRoute } from "./helpers";
 import { ScheduleWithTimestamp } from "../../models/schedules";
+import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 
-const stop = {} as Stop;
 const mockClickAction = jest.fn();
 
 describe("DepartureCard", () => {
@@ -13,8 +13,7 @@ describe("DepartureCard", () => {
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
-        stop={stop}
-        schedulesForRoute={[]}
+        departuresForRoute={[]}
         onClick={mockClickAction}
         alertsForRoute={[]}
       />
@@ -30,8 +29,7 @@ describe("DepartureCard", () => {
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
-        stop={stop}
-        schedulesForRoute={[]}
+        departuresForRoute={[]}
         alertsForRoute={[]}
         onClick={() => {}}
       />
@@ -47,8 +45,7 @@ describe("DepartureCard", () => {
         render(
           <DepartureCard
             route={baseRoute("", type as RouteType)}
-            stop={stop}
-            schedulesForRoute={[]}
+            departuresForRoute={[]}
             onClick={mockClickAction}
             alertsForRoute={[]}
           />
@@ -75,8 +72,7 @@ describe("DepartureCard", () => {
     const { container } = render(
       <DepartureCard
         route={route}
-        stop={stop}
-        schedulesForRoute={[]}
+        departuresForRoute={[]}
         onClick={mockClickAction}
         alertsForRoute={[]}
       />
@@ -125,12 +121,12 @@ describe("DepartureCard", () => {
         trip: { direction_id: 1 }
       }
     ] as ScheduleWithTimestamp[];
+    const departures = mergeIntoDepartureInfo(schedules, []);
 
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
-        stop={stop}
-        schedulesForRoute={schedules}
+        departuresForRoute={departures}
         alertsForRoute={alerts}
         onClick={() => {}}
       />

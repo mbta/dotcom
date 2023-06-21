@@ -1,11 +1,9 @@
+import { groupBy } from "lodash";
 import React, { ReactElement } from "react";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
-import { ScheduleWithTimestamp } from "../../models/schedules";
-import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import {
   hasDetour,
   hasShuttleService,
@@ -16,6 +14,7 @@ import {
   DisplayTimeConfig,
   infoToDisplayTime
 } from "../models/displayTimeConfig";
+import { DepartureInfo } from "../../models/departureInfo";
 import { schedulesByHeadsign } from "../../models/schedule";
 import { PredictionWithTimestamp } from "../../models/perdictions";
 import { isACommuterRailRoute } from "../../models/route";
@@ -130,8 +129,7 @@ const departureTimeRow = (
 
 const getRow = (
   headsign: string,
-  schedules: ScheduleWithTimestamp[],
-  predictions: PredictionWithTimestamp[],
+  departures: DepartureInfo[],
   alerts: Alert[],
   overrideDate?: Date
 ): JSX.Element => {
@@ -150,9 +148,7 @@ const getRow = (
   const informativeAlertBadge = toInformativeAlertBadge(alerts);
 
   // Merging should happen after alert processing incase a route is cancelled
-  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
-
-  const formattedTimes = infoToDisplayTime(departureInfos, overrideDate);
+  const formattedTimes = infoToDisplayTime(departures, overrideDate);
 
   return departureTimeRow(
     headsign,
@@ -164,53 +160,38 @@ const getRow = (
 
 interface DepartureTimesProps {
   route: Route;
-  stop: Stop;
   directionId: DirectionId;
-  schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+  departuresForDirection: DepartureInfo[];
   alertsForDirection: Alert[];
   // override date primarily used for testing
   overrideDate?: Date;
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void;
 }
 
 const DepartureTimes = ({
   route,
-  stop,
   directionId,
-  schedulesForDirection,
+  departuresForDirection,
   onClick,
   alertsForDirection,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
-  const predictionsByHeadsign = usePredictionsChannel({
-    routeId: route.id,
-    stopId: stop.id,
-    directionId
-  });
-
-  const groupedSchedules = schedulesByHeadsign(schedulesForDirection);
+  const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
   return (
     <>
-      {Object.entries(groupedSchedules).map(([headsign, schedules]) => {
-        const predictions = predictionsByHeadsign[headsign] || [];
+      {Object.entries(groupedDepartures).map(([headsign, departures]) => {
         return (
           <div
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, schedules)}
-            onKeyDown={() => onClick(route, directionId, schedules)}
+            onClick={() => onClick(route, directionId, departures)}
+            onKeyDown={() => onClick(route, directionId, departures)}
             role="presentation"
           >
-            {getRow(
-              headsign,
-              schedules,
-              predictions,
-              alertsForDirection,
-              overrideDate
-            )}
+            {getRow(headsign, departures, alertsForDirection, overrideDate)}
           </div>
         );
       })}

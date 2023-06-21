@@ -15,6 +15,8 @@ import {
 } from "../../models/route";
 import useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { useSMDown } from "../../helpers/media-breakpoints-react";
+import { Polyline } from "../../leaflet/components/__mapdata";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -32,24 +34,24 @@ const DeparturesAndMap = ({
   alerts
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const [departureInfo, setDepartureInfo] = useState<{
-    departureRoute: Route | undefined;
-    departureDirectionId: DirectionId | undefined;
-    departureSchedules: ScheduleWithTimestamp[] | undefined;
+    departureRoute: Route | null;
+    departureDirectionId: DirectionId | null;
+    departures: DepartureInfo[] | null | undefined;
   }>({
-    departureRoute: undefined,
-    departureDirectionId: undefined,
-    departureSchedules: undefined
+    departureRoute: null,
+    departureDirectionId: null,
+    departures: null
   });
 
   const setDepartureVariables: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | undefined
+    departures: DepartureInfo[] | null | undefined
   ) => void = (route, directionId, allDepartures) => {
     setDepartureInfo({
       departureRoute: route,
       departureDirectionId: directionId,
-      departureSchedules: allDepartures
+      departures: allDepartures
     });
   };
 

@@ -10,6 +10,7 @@ import { DepartureInfo } from "../../../models/departureInfo";
 import * as predictionsChannel from "../../../hooks/usePredictionsChannel";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/perdictions";
+import { mergeIntoDepartureInfo } from "../../../helpers/departureInfo";
 import { getNextTwoTimes } from "../../models/displayTimeConfig";
 import { BUS, COMMUTER_RAIL, SUBWAY } from "../../../helpers/departureInfo";
 import { Route } from "@sentry/react/types/reactrouterv3";
@@ -24,9 +25,8 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
-        schedulesForDirection={[]}
+        departuresForDirection={[]}
         onClick={mockClickAction}
         alertsForDirection={[]}
       />
@@ -41,26 +41,20 @@ describe("DepartureTimes", () => {
 
   it("should render rows if there are schedules", () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "Test 1": [
-          {
-            time: new Date("2022-04-27T11:15:00-04:00"),
-            trip: { id: "1", headsign: "Test 1" }
-          },
-          {
-            trip: { id: "2", headsign: "Test 1" },
-            time: new Date("2022-04-27T11:20:00-04:00")
-          }
-        ] as PredictionWithTimestamp[],
-        "Test 3": [
-          {
-            trip: { id: "3", headsign: "Test 3" },
-            time: new Date("2022-04-27T11:45:00-04:00")
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
+    const predictions = [
+      {
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        trip: { id: "1", headsign: "Test 1" }
+      },
+      {
+        trip: { id: "2", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:20:00-04:00")
+      },
+      {
+        trip: { id: "3", headsign: "Test 3" },
+        time: new Date("2022-04-27T11:45:00-04:00")
+      }
+    ] as PredictionWithTimestamp[];
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
@@ -81,9 +75,8 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
-        schedulesForDirection={schedules}
+        departuresForDirection={mergeIntoDepartureInfo(schedules, predictions)}
         overrideDate={dateToCompare}
         onClick={mockClickAction}
         alertsForDirection={[]}
@@ -126,9 +119,8 @@ describe("DepartureTimes", () => {
       render(
         <DepartureTimes
           route={route}
-          stop={stop}
           directionId={0}
-          schedulesForDirection={schedules}
+          departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
           alertsForDirection={alerts}
           onClick={() => {}}
         />
@@ -165,9 +157,8 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
-        schedulesForDirection={schedules}
+        departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={alerts}
         onClick={() => {}}
       />
@@ -178,22 +169,18 @@ describe("DepartureTimes", () => {
 
   it("should display the detour badge with times if detour alert is present", () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "Test 1": [
-          {
-            time: new Date("2022-04-27T11:15:00-04:00"),
-            trip: { id: "1", headsign: "Test 1" },
-            route: { type: 2 }
-          },
-          {
-            trip: { id: "2", headsign: "Test 1" },
-            time: new Date("2022-04-27T11:20:00-04:00"),
-            route: { type: 2 }
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
+    const predictions = [
+      {
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        trip: { id: "1", headsign: "Test 1" },
+        route: { type: 2 }
+      },
+      {
+        trip: { id: "2", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:20:00-04:00"),
+        route: { type: 2 }
+      }
+    ] as PredictionWithTimestamp[];
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
@@ -217,9 +204,8 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
-        schedulesForDirection={schedules}
+        departuresForDirection={mergeIntoDepartureInfo(schedules, predictions)}
         alertsForDirection={[detourAlert] as Alert[]}
         overrideDate={dateToCompare}
         onClick={() => {}}
@@ -594,17 +580,7 @@ describe("DepartureTimes", () => {
   });
 
   it("should allow the clicking of rows", async () => {
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {};
-    });
     const compareTime = new Date("2022-04-24T11:15:00-04:00");
-    const stop = {
-      id: "test-stop",
-      name: "Test Stop",
-      latitude: 42.3519,
-      longitude: 71.0552
-    } as Stop;
-
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
@@ -627,9 +603,8 @@ describe("DepartureTimes", () => {
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
-        schedulesForDirection={schedules}
+        departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
         onClick={mockClickAction}
         alertsForDirection={[]}
         overrideDate={compareTime}
