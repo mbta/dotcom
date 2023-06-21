@@ -169,7 +169,11 @@ const DisplayTime = ({
         {displayInfoContainsPrediction(departure) &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
-      <div>{isCancelled && <CancelledTimeDetails />}</div>
+      {isCancelled && (
+        <div>
+          <CancelledTimeDetails />
+        </div>
+      )}
       {!isCancelled && (
         <>
           <div className="stop-routes__departures-time">
