@@ -4,6 +4,7 @@ defmodule SiteWeb.StopControllerTest do
   alias SiteWeb.StopController
   alias Stops.Stop
   alias Util.Breadcrumb
+  import Mock
 
   test "renders react content server-side", %{conn: conn} do
     assert [{"div", _, content}] =
@@ -141,6 +142,60 @@ defmodule SiteWeb.StopControllerTest do
       for item <- response do
         assert %{"group_name" => _, "routes" => _} = item
       end
+    end
+  end
+
+  describe "get_facilities/1" do
+    setup_with_mocks([
+      {SiteWeb.StopController, [:passthrough],
+       [
+         get_facilities: fn "stop_id" ->
+           [
+             %{
+               id: "123",
+               attributes: %{
+                 long_name: "the elevator at Davis",
+                 short_name: "Davis Elevator",
+                 type: "ELEVATOR"
+               }
+             },
+             %{
+               id: "256",
+               attributes: %{
+                 long_name: "Davis bike storage on east side",
+                 short_name: "Davis bike storage east",
+                 type: "BIKE_STORAGE"
+               }
+             }
+           ]
+         end
+       ]}
+    ]) do
+      :ok
+    end
+
+    test "returns facilities data", %{conn: conn} do
+      conn = get(conn, stop_path(conn, :get_facilities, "stop_id"))
+      response = json_response(conn, 200)
+
+      assert [
+               %{
+                 id: "123",
+                 attributes: %{
+                   long_name: "the elevator at Davis",
+                   short_name: "Davis Elevator",
+                   type: "ELEVATOR"
+                 }
+               },
+               %{
+                 id: "256",
+                 attributes: %{
+                   long_name: "Davis bike storage on east side",
+                   short_name: "Davis bike storage east",
+                   type: "BIKE_STORAGE"
+                 }
+               }
+             ] = response
     end
   end
 end
