@@ -486,6 +486,12 @@ defmodule SiteWeb.StopController do
       [{"stop", stop_id}]
       |> V3Api.Facilities.filter_by()
 
-    json(conn, res.data)
+    case res do
+      {:error, _x} ->
+        json(conn, res)
+
+      _ ->
+        json(conn, res.data)
+    end
   end
 end
