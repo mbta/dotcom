@@ -207,7 +207,8 @@ describe("DepartureList", () => {
           {
             time: new Date("2022-04-27T11:15:00-04:00"),
             trip: { id: "1" },
-            schedule_relationship: "cancelled"
+            schedule_relationship: "cancelled",
+            route: { type: 2 }
           }
         ] as PredictionWithTimestamp[]
       };
@@ -215,7 +216,8 @@ describe("DepartureList", () => {
 
     const schedules = [
       {
-        trip: { id: "1", headsign: "TestRoute Route" }
+        trip: { id: "1", headsign: "TestRoute Route" },
+        route: { type: 2 }
       }
     ] as ScheduleWithTimestamp[];
 
@@ -243,9 +245,8 @@ describe("DepartureList", () => {
           },
           {
             time: new Date("2022-04-27T11:25:00-04:00"),
-            route: { type: 0 },
-            trip: { id: "2" },
-            schedule_relationship: "cancelled"
+            route: { type: 2 },
+            trip: { id: "2" }
           }
         ] as PredictionWithTimestamp[]
       };
@@ -258,7 +259,7 @@ describe("DepartureList", () => {
       },
       {
         trip: { id: "2", headsign: "TestRoute Route" },
-        route: { type: 0 }
+        route: { type: 2 }
       }
     ] as ScheduleWithTimestamp[];
 

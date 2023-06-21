@@ -122,7 +122,7 @@ function DelayedTimeDetails(): JSX.Element {
 }
 
 const CancelledTimeDetails = (): JSX.Element => {
-  const { departure, time, isCR, targetDate } = useContext(DepartureContext);
+  const { time, targetDate } = useContext(DepartureContext);
 
   return (
     <>
