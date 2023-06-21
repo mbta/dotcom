@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { slice } from "lodash";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
@@ -7,7 +6,6 @@ import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
-import { DepartureInfo } from "../../models/departureInfo";
 import {
   hasDetour,
   hasShuttleService,

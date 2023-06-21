@@ -5,6 +5,7 @@ import {
   secondsInHour,
   secondsInMinute
 } from "date-fns";
+import { slice } from "lodash";
 import {
   BUS,
   COMMUTER_RAIL,
@@ -15,7 +16,6 @@ import {
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
-import { slice } from "lodash";
 
 // This interface is used to tell the front end
 // how to display the ScheduleInfoModel data
@@ -39,7 +39,7 @@ const showCancelledOrDelayed = (
     departureInfoToTime(departureInfo),
     targetDate
   );
-  console.log(departureTimeDiffInSeconds);
+
   return (
     departureInfo.routeMode === FERRY ||
     departureInfo.routeMode === COMMUTER_RAIL ||
@@ -112,7 +112,6 @@ const infoToDisplayTime = (
     ];
   }
 
-  console.log(showCancelledOrDelayed(departureInfo1, targetDate));
   if (
     departureInfo1.isCancelled &&
     departureInfo2 &&

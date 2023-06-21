@@ -20,13 +20,14 @@ const toRouteMode = (
 ): typeof SUBWAY | typeof BUS | typeof COMMUTER_RAIL | typeof FERRY => {
   if (isSubwayRoute(route)) {
     return SUBWAY;
-  } else if (isABusRoute(route)) {
-    return BUS;
-  } else if (isACommuterRailRoute(route)) {
-    return COMMUTER_RAIL;
-  } else {
-    return FERRY;
   }
+  if (isABusRoute(route)) {
+    return BUS;
+  }
+  if (isACommuterRailRoute(route)) {
+    return COMMUTER_RAIL;
+  }
+  return FERRY;
 };
 
 const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
