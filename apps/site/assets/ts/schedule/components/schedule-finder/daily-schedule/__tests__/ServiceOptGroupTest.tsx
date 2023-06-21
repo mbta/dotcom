@@ -80,9 +80,6 @@ describe("ServiceOptGroup", () => {
   ];
 
   it("adds (now) to today's service based on todayServiceId prop", () => {
-    jest
-      .spyOn(Date, "now")
-      .mockImplementation(() => new Date("2019-09-07").getTime());
     const wrapper = mount(
       <ServiceOptGroup
         label={"Test services"}
@@ -96,12 +93,12 @@ describe("ServiceOptGroup", () => {
         )}
         multipleWeekdays={false}
         todayServiceId="n"
+        nowDate={new Date("2019-09-07")}
       />
     );
     expect(wrapper.text()).toContain(
       "Current Summer schedule, Test Rating (now)"
     );
-    jest.resetAllMocks();
   });
 
   it("adds (starting date) to today's service based on todayServiceId prop if service hasn't yet started", () => {
