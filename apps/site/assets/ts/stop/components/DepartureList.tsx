@@ -69,6 +69,7 @@ const DepartureList = ({
     return isHighPriorityAlert(alert) && isInNextXDays(alert, 0);
   });
 
+  // don's show cancelled departures for subway
   const modeSpecificDepartures: DepartureInfo[] = filter(
     departures,
     (d: DepartureInfo) => !(d.isCancelled && d.routeMode === SUBWAY)
