@@ -201,7 +201,7 @@ $radius: 4px;
     margin: 0;
   }
 
-  li {
+  li:not(.c-alert-item) {
     border-top: .25px solid $gray-lightest;
     display: grid;
     grid-template-columns: 1em auto;
