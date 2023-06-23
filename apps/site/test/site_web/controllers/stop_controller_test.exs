@@ -4,6 +4,7 @@ defmodule SiteWeb.StopControllerTest do
   alias SiteWeb.StopController
   alias Stops.Stop
   alias Util.Breadcrumb
+  import Mock
 
   test "renders react content server-side", %{conn: conn} do
     assert [{"div", _, content}] =
@@ -141,6 +142,83 @@ defmodule SiteWeb.StopControllerTest do
       for item <- response do
         assert %{"group_name" => _, "routes" => _} = item
       end
+    end
+  end
+
+  describe "get_facilities/1" do
+    setup_with_mocks([
+      {V3Api.Facilities, [],
+       [
+         filter_by: fn _x ->
+           %{
+             data: [
+               %{
+                 attributes: %{
+                   long_name: "the elevator at Davis",
+                   short_name: "Davis Elevator",
+                   type: "ELEVATOR"
+                 },
+                 id: "123"
+               },
+               %{
+                 attributes: %{
+                   long_name: "Davis bike storage on east side",
+                   short_name: "Davis bike storage east",
+                   type: "BIKE_STORAGE"
+                 },
+                 id: "256"
+               }
+             ],
+             links: %{}
+           }
+         end
+       ]}
+    ]) do
+      :ok
+    end
+
+    test "returns facilities data", %{conn: conn} do
+      conn = get(conn, stop_path(conn, :get_facilities, "stop_id"))
+      response = json_response(conn, 200)
+
+      assert [
+               %{
+                 "attributes" => %{
+                   "long_name" => "the elevator at Davis",
+                   "short_name" => "Davis Elevator",
+                   "type" => "ELEVATOR"
+                 },
+                 "id" => "123"
+               },
+               %{
+                 "attributes" => %{
+                   "long_name" => "Davis bike storage on east side",
+                   "short_name" => "Davis bike storage east",
+                   "type" => "BIKE_STORAGE"
+                 },
+                 "id" => "256"
+               }
+             ] = response
+    end
+  end
+
+  describe "get_facilities/2" do
+    setup_with_mocks([
+      {V3Api.Facilities, [],
+       [
+         filter_by: fn x ->
+           {:error, x}
+         end
+       ]}
+    ]) do
+      :ok
+    end
+
+    test "returns object with no data when no match", %{conn: conn} do
+      conn = get(conn, stop_path(conn, :get_facilities, "stop_id"))
+      response = json_response(conn, 200)
+
+      assert ["error", [["stop", "stop_id"]]] = response
     end
   end
 end
