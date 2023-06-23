@@ -2,10 +2,8 @@ defmodule Predictions.StreamSupervisor do
   @moduledoc """
   DynamicSupervisor managing streams of predictions from the API.
   """
-
+  import Predictions.PredictionsPubSub, only: [table_keys: 1]
   use DynamicSupervisor
-
-  alias Predictions.PredictionsPubSub
 
   @spec start_link(keyword()) :: Supervisor.on_start()
   def start_link(opts), do: DynamicSupervisor.start_link(__MODULE__, opts, name: __MODULE__)
@@ -15,25 +13,25 @@ defmodule Predictions.StreamSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  @spec ensure_stream_is_started(PredictionsPubSub.prediction_key()) :: {:ok, pid()} | :bypassed
-  def ensure_stream_is_started(route_stop_direction),
-    do: ensure_stream_is_started(route_stop_direction, System.get_env("USE_SERVER_SENT_EVENTS"))
+  @spec ensure_stream_is_started(String.t()) :: {:ok, pid()} | :bypassed
+  def ensure_stream_is_started(keys),
+    do: ensure_stream_is_started(keys, System.get_env("USE_SERVER_SENT_EVENTS"))
 
-  defp ensure_stream_is_started(_route_stop_direction, "false"), do: :bypassed
+  defp ensure_stream_is_started(_keys, "false"), do: :bypassed
 
-  defp ensure_stream_is_started(route_stop_direction, _) do
-    case lookup(route_stop_direction) do
+  defp ensure_stream_is_started(keys, _) do
+    case lookup(keys) do
       nil ->
-        start_stream(route_stop_direction)
+        start_stream(keys)
 
       pid ->
         {:ok, pid}
     end
   end
 
-  @spec lookup(PredictionsPubSub.prediction_key()) :: pid() | nil
-  defp lookup(route_stop_direction) do
-    case Registry.lookup(:prediction_streams_registry, route_stop_direction) do
+  @spec lookup(String.t()) :: pid() | nil
+  defp lookup(key) do
+    case Registry.lookup(:prediction_streams_registry, key) do
       [{_pid, sses_pid}] ->
         if Process.alive?(sses_pid), do: sses_pid
 
@@ -42,16 +40,16 @@ defmodule Predictions.StreamSupervisor do
     end
   end
 
-  @spec start_stream(PredictionsPubSub.prediction_key()) :: {:ok, pid()}
-  defp start_stream(route_stop_direction) do
+  @spec start_stream(String.t()) :: {:ok, pid()}
+  defp start_stream(keys) do
     with {:ok, sses_pid} <-
            DynamicSupervisor.start_child(
              __MODULE__,
-             {ServerSentEventStage, sses_opts(route_stop_direction)}
+             {ServerSentEventStage, sses_opts(keys)}
            ),
-         api_stream_name <- api_stream_name(route_stop_direction),
-         sses_stream_name <- sses_stream_name(route_stop_direction),
-         prediction_stream_name <- prediction_stream_name(route_stop_direction),
+         api_stream_name <- api_stream_name(keys),
+         sses_stream_name <- sses_stream_name(keys),
+         prediction_stream_name <- prediction_stream_name(keys),
          {:ok, _api_stream_pid} <-
            DynamicSupervisor.start_child(
              __MODULE__,
@@ -62,7 +60,7 @@ defmodule Predictions.StreamSupervisor do
              __MODULE__,
              {Predictions.Stream, name: prediction_stream_name, subscribe_to: api_stream_name}
            ) do
-      Registry.register(:prediction_streams_registry, route_stop_direction, sses_pid)
+      Registry.register(:prediction_streams_registry, keys, sses_pid)
       {:ok, sses_pid}
     else
       {:error, {:already_started, pid}} ->
@@ -70,34 +68,37 @@ defmodule Predictions.StreamSupervisor do
     end
   end
 
-  @spec sses_opts(PredictionsPubSub.prediction_key()) :: Keyword.t()
-  defp sses_opts(route_stop_direction) do
-    [route_id, stop_id, direction_id] = String.split(route_stop_direction, ":")
-
+  # Parses the argument from the channel name, expecting a name formatted with
+  # `:` delimiters and `=` separators, e.g.
+  # `route=Red:direction_id=1:stop=place-sstat`
+  @spec sses_opts(String.t()) :: Keyword.t()
+  defp sses_opts(keys) do
     filters =
-      "filter[route]=#{route_id}&filter[stop]=#{stop_id}&filter[direction_id]=#{direction_id}"
+      table_keys(keys)
+      |> Enum.map(fn {k, v} -> "filter[#{k}]=#{v}&" end)
+      |> Enum.join()
 
     path =
-      "/predictions?#{filters}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
+      "/predictions?#{filters}fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
 
     sses_opts =
       V3Api.Stream.build_options(
-        name: sses_stream_name(route_stop_direction),
+        name: sses_stream_name(keys),
         path: path
       )
 
     sses_opts
   end
 
-  @spec sses_stream_name(PredictionsPubSub.prediction_key()) :: atom()
-  defp sses_stream_name(route_stop_direction),
-    do: :"predictions_sses_stream_#{route_stop_direction}"
+  @spec sses_stream_name(String.t()) :: atom()
+  defp sses_stream_name(keys),
+    do: :"predictions_sses_stream_#{keys}"
 
-  @spec api_stream_name(PredictionsPubSub.prediction_key()) :: atom()
-  defp api_stream_name(route_stop_direction),
-    do: :"predictions_api_stream_#{route_stop_direction}"
+  @spec api_stream_name(String.t()) :: atom()
+  defp api_stream_name(keys),
+    do: :"predictions_api_stream_#{keys}"
 
-  @spec prediction_stream_name(PredictionsPubSub.prediction_key()) :: atom()
-  defp prediction_stream_name(route_stop_direction),
-    do: :"predictions_data_stream_#{route_stop_direction}"
+  @spec prediction_stream_name(String.t()) :: atom()
+  defp prediction_stream_name(keys),
+    do: :"predictions_data_stream_#{keys}"
 end
