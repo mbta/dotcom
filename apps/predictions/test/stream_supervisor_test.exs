@@ -34,12 +34,12 @@ defmodule Predictions.StreamSupervisorTest do
 
   describe "ensure_stream_is_started/1" do
     test "starts a stream if not already started" do
-      prediction_key = "Purple:awesome-station:1"
+      prediction_key = "route=Purple:stop=awesome-station:direction=1"
       assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
     end
 
     test "returns existing stream from registry" do
-      prediction_key = "Pink:place:1"
+      prediction_key = "route=Pink:stop=place:direction=0"
       {:ok, pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
       assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
     end

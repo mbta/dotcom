@@ -91,7 +91,7 @@ const usePredictionsChannel = (
   stopId: string,
   directionId: 0 | 1
 ): PredictionsByHeadsign => {
-  const channelName = `predictions:${routeId}:${stopId}:${directionId}`;
+  const channelName = `predictions:route=${routeId}:stop=${stopId}:direction_id=${directionId}`;
   const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
     oldGroupedPredictions,
     { predictions }

@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
-import { concat } from "lodash";
+import { concat, filter } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
-import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
+import { SUBWAY, mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
@@ -27,6 +27,7 @@ interface DepartureListProps {
   schedules: ScheduleWithTimestamp[];
   directionId: DirectionId;
   alerts: Alert[];
+  targetDate?: Date | undefined;
 }
 
 const displayNoUpcomingTrips = (): JSX.Element => {
@@ -42,7 +43,8 @@ const DepartureList = ({
   stop,
   schedules,
   directionId,
-  alerts
+  alerts,
+  targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
   const predictionsByHeadsign = usePredictionsChannel(
@@ -66,6 +68,12 @@ const DepartureList = ({
   const allCurrentAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
     return isHighPriorityAlert(alert) && isInNextXDays(alert, 0);
   });
+
+  // don's show cancelled departures for subway
+  const modeSpecificDepartures: DepartureInfo[] = filter(
+    departures,
+    (d: DepartureInfo) => !(d.isCancelled && d.routeMode === SUBWAY)
+  );
 
   // TODO: handle no predictions or schedules case and predictions only case
   return (
@@ -94,10 +102,14 @@ const DepartureList = ({
       {schedules.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
         <ul className="stop-routes__departures list-unstyled">
-          {departures.map(departure => {
+          {modeSpecificDepartures.map(departure => {
             return (
               <li key={getInfoKey(departure)}>
-                <DisplayTime departure={departure} isCR={isCR} />
+                <DisplayTime
+                  departure={departure}
+                  isCR={isCR}
+                  targetDate={targetDate}
+                />
               </li>
             );
           })}
