@@ -11,7 +11,7 @@ export const AmenityModal = ({
   children
 }: {
   headerText: string;
-  children?: JSX.Element[] | JSX.Element;
+  children?: React.ReactNode;
 }): ReactElement => {
   const elementId = headerText.toLowerCase().replace(/[ _]/g, "-");
   const { closeModal } = useContext(AmenityModalContext);
@@ -37,8 +37,8 @@ const AmenityCard = ({
 }: {
   headerText: string;
   icon: JSX.Element;
-  modalContent?: JSX.Element[] | JSX.Element;
-  children?: JSX.Element[] | JSX.Element;
+  modalContent?: React.ReactNode;
+  children?: React.ReactNode;
 }): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false);
   return (
