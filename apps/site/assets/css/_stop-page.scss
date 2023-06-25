@@ -317,6 +317,12 @@
     @include media-breakpoint-down(sm) {
       margin-bottom: 1rem;
     }
+
+    &[disabled] {
+      background-color: $gray-lightest;
+      border-color: $gray-light;
+      color: $body-color;
+    }
   }
 
   .c-descriptive-link__caret-wrapper {

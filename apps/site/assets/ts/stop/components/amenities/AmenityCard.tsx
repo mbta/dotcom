@@ -47,6 +47,7 @@ const AmenityCard = ({
         type="button"
         className="c-descriptive-link justify-content-space-between"
         onClick={() => setModalOpen(true)}
+        disabled={!modalContent}
       >
         <div className="p-16">
           <div className="d-flex text-primary">
@@ -61,9 +62,11 @@ const AmenityCard = ({
             </div>
           )}
         </div>
-        <div className="c-descriptive-link__caret-wrapper">
-          {renderFa("c-descriptive-link__caret", "fa-angle-right")}
-        </div>
+        {modalContent && (
+          <div className="c-descriptive-link__caret-wrapper">
+            {renderFa("c-descriptive-link__caret", "fa-angle-right")}
+          </div>
+        )}
       </button>
       <AmenityModalContext.Provider
         value={{ closeModal: () => setModalOpen(false) }}
