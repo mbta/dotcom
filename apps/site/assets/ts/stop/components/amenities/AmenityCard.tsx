@@ -32,11 +32,13 @@ export const AmenityModal = ({
 const AmenityCard = ({
   headerText,
   icon,
+  badge,
   modalContent,
   children
 }: {
   headerText: string;
   icon: JSX.Element;
+  badge?: React.ReactNode;
   modalContent?: React.ReactNode;
   children?: React.ReactNode;
 }): JSX.Element => {
@@ -56,6 +58,7 @@ const AmenityCard = ({
               {headerText}
             </div>
           </div>
+          {badge && <div style={{ display: "inline-block" }}>{badge}</div>}
           {children && (
             <div className="c-descriptive-link__text pt-8 hidden-sm-down">
               {children}

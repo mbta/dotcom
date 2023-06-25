@@ -5,17 +5,19 @@ import AmenityCard, {
 } from "../../../components/amenities/AmenityCard";
 
 describe("AmenityCard", () => {
-  it("should render the icon, title, content", () => {
+  it("should render the icon, title, content, badge", () => {
     render(
       <AmenityCard
         headerText={"Amenity Title"}
         icon={<span data-testid="icon"></span>}
+        badge={<span data-testid="badge"></span>}
       >
         <div>Card content</div>
       </AmenityCard>
     );
     expect(screen.getByText("Amenity Title")).toBeDefined();
     expect(screen.getByTestId("icon")).toBeDefined();
+    expect(screen.getByTestId("badge")).toBeDefined();
     expect(screen.getByText("Card content")).toBeDefined();
   });
 
