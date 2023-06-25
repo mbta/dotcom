@@ -29,6 +29,20 @@ export const AmenityModal = ({
   );
 };
 
+export const AmenityLink = ({
+  url,
+  text
+}: {
+  url: string;
+  text: string;
+}): JSX.Element => (
+  <p>
+    <a href={url} className="c-call-to-action">
+      {text}
+    </a>
+  </p>
+);
+
 const AmenityCard = ({
   headerText,
   icon,
