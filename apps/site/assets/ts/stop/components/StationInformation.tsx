@@ -32,6 +32,8 @@ const StationInformation = ({
     }
   });
 
+  console.log(alerts);
+
   return (
     <div>
       <h2>{isStation ? "Station Information" : "Stop Information"}</h2>
@@ -53,7 +55,10 @@ const StationInformation = ({
         {isStation && (
           <>
             <h3 className="hidden-md-up">Getting Around the Station</h3>
-            <ElevatorsAmenityCard />
+            <ElevatorsAmenityCard
+              alerts={alerts}
+              facilities={facilitiesByType.get("ELEVATOR")}
+            />
             <EscalatorsAmenityCard />
           </>
         )}

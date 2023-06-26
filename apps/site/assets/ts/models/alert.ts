@@ -1,7 +1,7 @@
 import { isValid, parseISO, add } from "date-fns";
 import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
-import { Alert, TimePeriodPairs } from "../__v3api";
+import { Alert, Facility, TimePeriodPairs } from "../__v3api";
 
 export const isHighSeverityOrHighPriority = ({
   priority,
@@ -200,4 +200,11 @@ export const hasAnActiveDiversion = (
 
 export const isGlobalBannerAlert = (alert: Alert): boolean => {
   return alert.banner != null;
+};
+
+export const hasFacilityAlert = (
+  facilityId: string,
+  alerts: Alert[]
+): boolean => {
+  return true;
 };
