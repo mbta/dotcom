@@ -1,10 +1,12 @@
 import React, { ReactElement } from "react";
+import { format } from "date-fns";
 import { Service } from "../../../../__v3api";
 import { shortDate, stringToDateObject } from "../../../../helpers/date";
 import {
   ServiceGroupNames,
   serviceDays,
-  dedupeServices
+  dedupeServices,
+  isInCurrentService
 } from "../../../../helpers/service";
 
 interface Props {
@@ -12,13 +14,15 @@ interface Props {
   services: Service[];
   multipleWeekdays: boolean;
   todayServiceId: string;
+  nowDate?: Date;
 }
 
 const ServiceOptGroup = ({
   label,
   services,
   multipleWeekdays,
-  todayServiceId
+  todayServiceId,
+  nowDate = new Date()
 }: Props): ReactElement<HTMLElement> | null =>
   services.length === 0 ? null : (
     <optgroup label={label}>
@@ -67,7 +71,13 @@ const ServiceOptGroup = ({
         }
 
         if (service.id === todayServiceId) {
-          optionText += " (now)";
+          // if it's the only service this rating, this service might not
+          // technically be now - adjust text for that
+          if (isInCurrentService(service, nowDate)) {
+            optionText += " (now)";
+          } else {
+            optionText += ` (Starting ${format(startDate, "MMMM d, y")})`;
+          }
         }
 
         return (
