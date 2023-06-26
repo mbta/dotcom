@@ -46,7 +46,7 @@ const StationInformation = ({
         {isStation && (
           <>
             <h3 className="hidden-md-up">Bringing Your Car or Bike</h3>
-            <ParkingAmenityCard />
+            <ParkingAmenityCard stop={stop} />
             <BikeStorageAmenityCard
               stopName={stop.name}
               bikeStorage={stop.bike_storage}
