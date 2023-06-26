@@ -60,12 +60,14 @@ defmodule SiteWeb.StopControllerTest do
   end
 
   test "assigns ferry routes", %{conn: conn} do
-    conn =
-      conn
-      |> get(stop_path(conn, :show, "Boat-Charlestown"))
+    with_mock(Laboratory, [], enabled?: fn _, :stops_redesign -> false end) do
+      conn =
+        conn
+        |> get(stop_path(conn, :show, "Boat-Charlestown"))
 
-    assert [ferry] = conn.assigns.routes
-    assert %{group_name: :ferry, routes: [%{route: %{id: "Boat-F4"}}]} = ferry
+      assert [ferry] = conn.assigns.routes
+      assert %{group_name: :ferry, routes: [%{route: %{id: "Boat-F4"}}]} = ferry
+    end
   end
 
   test "assigns the zone number for the current stop", %{conn: conn} do

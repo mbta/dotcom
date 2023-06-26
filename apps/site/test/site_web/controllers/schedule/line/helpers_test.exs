@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleController.Line.HelpersTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias Routes.{Route}
   alias SiteWeb.ScheduleController.Line.Helpers

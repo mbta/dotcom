@@ -1,6 +1,6 @@
 defmodule AWSLocation.RequestTest do
   @moduledoc false
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   import Mock
   import AWSLocation.Request
 
