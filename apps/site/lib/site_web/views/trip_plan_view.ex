@@ -447,8 +447,10 @@ defmodule SiteWeb.TripPlanView do
     |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
   end
 
-  @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}) :: [any]
-  def itinerary_html(itineraries, %{conn: conn, expanded: expanded}) do
+  @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}, Date.t()) :: [
+          any
+        ]
+  def itinerary_html(itineraries, %{conn: conn, expanded: expanded}, date \\ DateTime.utc_now()) do
     for {i, routes, map, links, itinerary_row_list, index} <-
           Enum.zip([
             itineraries,
@@ -473,8 +475,19 @@ defmodule SiteWeb.TripPlanView do
 
       itinerary_is_from_or_to_airport = itinerary_satisfies_property?(i, :is_from_or_to_airport)
 
+      itinerary_contains_blue_line = itinerary_satisfies_property?(i, :contains_blue_line)
+
+      itinerary_contains_east_boston_ferry =
+        itinerary_satisfies_property?(i, :contains_east_boston_ferry)
+
+      itinerary_contains_newburyport_rockport_line =
+        itinerary_satisfies_property?(i, :contains_newburyport_rockport_line)
+
       show_fares =
         !itinerary_satisfies_property?(i, :contains_capeflyer) || one_way_total_fare != 0
+
+      is_sumner_tunnel_closed_period =
+        Date.compare(date, ~D[2023-07-05]) != :lt && Date.compare(date, ~D[2023-08-31]) != :gt
 
       fares_estimate_html =
         "_itinerary_fares.html"
@@ -483,7 +496,12 @@ defmodule SiteWeb.TripPlanView do
           show_fares: show_fares,
           itinerary_is_from_or_to_airport: itinerary_is_from_or_to_airport,
           one_way_total: Format.price(one_way_total_fare),
-          round_trip_total: Format.price(one_way_total_fare * 2)
+          round_trip_total: Format.price(one_way_total_fare * 2),
+          itinerary_contains_blue_line: itinerary_contains_blue_line,
+          itinerary_contains_east_boston_ferry: itinerary_contains_east_boston_ferry,
+          itinerary_contains_newburyport_rockport_line:
+            itinerary_contains_newburyport_rockport_line,
+          is_sumner_tunnel_closed_period: is_sumner_tunnel_closed_period
         )
 
       fares = get_calculated_fares(i)
@@ -705,6 +723,15 @@ defmodule SiteWeb.TripPlanView do
 
       :contains_capeflyer ->
         transit_legs |> Enum.any?(fn leg -> leg.name == "CapeFLYER" end)
+
+      :contains_blue_line ->
+        transit_legs |> Enum.any?(fn leg -> leg.name == "Blue Line" end)
+
+      :contains_east_boston_ferry ->
+        transit_legs |> Enum.any?(fn leg -> leg.name == "East Boston Ferry" end)
+
+      :contains_newburyport_rockport_line ->
+        transit_legs |> Enum.any?(fn leg -> leg.name == "Newburyport/Rockport Line" end)
 
       _ ->
         false
