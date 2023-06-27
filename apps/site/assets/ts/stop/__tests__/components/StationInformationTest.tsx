@@ -3,8 +3,16 @@ import { render, screen } from "@testing-library/react";
 import StationInformation from "../../components/StationInformation";
 import { Stop } from "../../../__v3api";
 
-const stationStop = { "station?": true } as Stop;
-const busStop = { "station?": false } as Stop;
+const stationStop = {
+  name: "First Station",
+  "station?": true,
+  bike_storage: ["bike_storage_rack"]
+} as Stop;
+const busStop = {
+  name: "Second Pl",
+  "station?": false,
+  bike_storage: ["bike_storage_rack"]
+} as Stop;
 
 describe("StationInformation", () => {
   it("should have headings", () => {
