@@ -28,6 +28,8 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
           | :ferry_cross_harbor
           | :ferry_inner_harbor
           | :ferry_east_boston
+          | :ferry_lynn
+          | :ferry_winthrop
           | :foxboro
           | :express_bus
           | :local_bus
@@ -64,6 +66,8 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     "ferry_cross_harbor",
     "ferry_inner_harbor",
     "ferry_east_boston",
+    "ferry_lynn",
+    "ferry_winthrop",
     "foxboro",
     "express_bus",
     "local_bus",

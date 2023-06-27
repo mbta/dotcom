@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleController.LineTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase, async: false
   import Mock
   alias Services.Service
   alias SiteWeb.ScheduleController.Line

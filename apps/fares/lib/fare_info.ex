@@ -212,6 +212,8 @@ defmodule Fares.FareInfo do
       inner_harbor_month_price_reduced: "30.00",
       cross_harbor_price: "9.75",
       east_boston_price: "2.40",
+      lynn_price: "2.40",
+      winthrop_price: "2.40",
       commuter_ferry_price: "9.75",
       commuter_ferry_month_price: "329.00",
       commuter_ferry_month_price_reduced: "164.00",
@@ -483,6 +485,8 @@ defmodule Fares.FareInfo do
         inner_harbor_month_price_reduced: inner_harbor_month_price_reduced,
         cross_harbor_price: cross_harbor_price,
         east_boston_price: east_boston_price,
+        lynn_price: lynn_price,
+        winthrop_price: winthrop_price,
         commuter_ferry_price: commuter_ferry_price,
         commuter_ferry_month_price_reduced: commuter_ferry_month_price_reduced,
         commuter_ferry_month_price: commuter_ferry_month_price,
@@ -562,6 +566,38 @@ defmodule Fares.FareInfo do
         media: [:mticket],
         reduced: nil,
         cents: dollars_to_cents(east_boston_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_lynn,
+        duration: :single_trip,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(lynn_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_lynn,
+        duration: :round_trip,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(lynn_price) * 2
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_winthrop,
+        duration: :single_trip,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(winthrop_price)
+      },
+      %Fare{
+        mode: :ferry,
+        name: :ferry_winthrop,
+        duration: :round_trip,
+        media: [:mticket],
+        reduced: nil,
+        cents: dollars_to_cents(winthrop_price) * 2
       },
       %Fare{
         mode: :ferry,

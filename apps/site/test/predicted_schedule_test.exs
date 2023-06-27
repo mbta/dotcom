@@ -1,5 +1,5 @@
 defmodule PredictedScheduleTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   alias Schedules.{Schedule, ScheduleCondensed, Trip}
   alias Stops.Stop
   alias Predictions.Prediction

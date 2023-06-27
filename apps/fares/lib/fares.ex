@@ -21,10 +21,15 @@ defmodule Fares do
 
   @terminus_stops ["place-sstat", "place-north", "North Station", "South Station"]
 
+  # For the time being, these stops are ONLY served by the Winthrop Ferry
+  @winthrop_ferry_stops ["Boat-Aquarium", "Boat-Fan", "Boat-Quincy", "Boat-Winthrop"]
+
   @type ferry_name ::
           :ferry_cross_harbor
           | :ferry_inner_harbor
           | :ferry_east_boston
+          | :ferry_lynn
+          | :ferry_winthrop
           | :commuter_ferry_logan
           | :commuter_ferry
           | :ferry_george
@@ -122,6 +127,16 @@ defmodule Fares do
   defp calculate_ferry(origin, destination)
        when "Boat-George" in [origin, destination] do
     :ferry_george
+  end
+
+  defp calculate_ferry(origin, destination)
+       when "Boat-Blossom" in [origin, destination] do
+    :ferry_lynn
+  end
+
+  defp calculate_ferry(origin, destination)
+       when origin in @winthrop_ferry_stops or destination in @winthrop_ferry_stops do
+    :ferry_winthrop
   end
 
   defp calculate_ferry(origin, destination)
