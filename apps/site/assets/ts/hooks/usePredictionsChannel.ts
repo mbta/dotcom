@@ -86,25 +86,41 @@ export const groupByHeadsigns = (
  * - Default behavior will keep all predictions, but `numPredictions` can be
  *   used to truncate to a certain number of predictions per headsign.
  */
-const usePredictionsChannel = (
-  routeId: string,
-  stopId: string,
-  directionId: 0 | 1
-): PredictionsByHeadsign => {
-  const channelName = `predictions:route=${routeId}:stop=${stopId}:direction_id=${directionId}`;
-  const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
-    oldGroupedPredictions,
-    { predictions }
-  ) => {
+interface PredictionKey {
+  routeId?: string;
+  stopId?: string;
+  directionId?: 0 | 1;
+}
+const usePredictionsChannel = ({
+  routeId,
+  stopId,
+  directionId
+}: PredictionKey): PredictionWithTimestamp[] => {
+  let channelName = `predictions`;
+
+  if (routeId) {
+    channelName += `:route=${routeId}`;
+  }
+
+  if (stopId) {
+    channelName += `:stop=${stopId}`;
+  }
+
+  if (directionId) {
+    channelName += `:direction_id=${directionId}`;
+  }
+  const reducer: Reducer<
+    PredictionWithTimestamp[],
+    ChannelPredictionResponse
+  > = (oldPredictions, { predictions }) => {
     const parsedPredictions = predictions.map(parsePrediction);
-    const newGroupedPredictions = groupByHeadsigns(parsedPredictions);
     // don't attempt to reconcile with prior predictions, just replace state with
     // all the new predictions from the channel if there are any changes.
-    return deepEqual(oldGroupedPredictions, newGroupedPredictions)
-      ? oldGroupedPredictions
-      : newGroupedPredictions;
+    return deepEqual(oldPredictions, parsedPredictions)
+      ? oldPredictions
+      : parsedPredictions;
   };
-  const initialState: PredictionsByHeadsign = {};
+  const initialState: PredictionWithTimestamp[] = [];
   const state = useChannel(channelName, reducer, initialState);
   return state;
 };

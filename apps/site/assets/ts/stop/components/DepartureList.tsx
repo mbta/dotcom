@@ -1,10 +1,9 @@
 import React, { ReactElement } from "react";
-import { concat, filter } from "lodash";
+import { concat, filter, groupBy } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { DepartureInfo } from "../../models/departureInfo";
 import { SUBWAY, mergeIntoDepartureInfo } from "../../helpers/departureInfo";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
@@ -20,11 +19,14 @@ import Alerts from "../../components/Alerts";
 import { getInfoKey } from "../models/displayTimeConfig";
 import DisplayTime from "./DisplayTime";
 import { isACommuterRailRoute } from "../../models/route";
+import { PredictionWithTimestamp } from "../../models/perdictions";
+import { predictionsByHeadsign } from "../../models/prediction";
 
 interface DepartureListProps {
   route: Route;
   stop: Stop;
   schedules: ScheduleWithTimestamp[];
+  predictions: PredictionWithTimestamp[];
   directionId: DirectionId;
   alerts: Alert[];
   targetDate?: Date | undefined;
@@ -42,22 +44,27 @@ const DepartureList = ({
   route,
   stop,
   schedules,
+  predictions,
   directionId,
   alerts,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const tripForSelectedRoutePattern: Trip | undefined = schedules[0]?.trip;
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
-    directionId
-  );
   const headsign = tripForSelectedRoutePattern?.headsign || null;
-  const preds =
-    headsign && predictionsByHeadsign[headsign]
-      ? predictionsByHeadsign[headsign]
-      : [];
-  const departures: DepartureInfo[] = mergeIntoDepartureInfo(schedules, preds);
+
+  const predictionsByRoute = groupBy(predictions, p => p.route.id);
+  const predictionsByDirection = groupBy(
+    predictionsByRoute[route.id],
+    p => p.trip.direction_id
+  );
+  const predictionsByHeadsignDict = predictionsByHeadsign(
+    predictionsByDirection[directionId]
+  );
+  const safePredictions = headsign ? predictionsByHeadsignDict[headsign] : [];
+  const departures: DepartureInfo[] = mergeIntoDepartureInfo(
+    schedules,
+    safePredictions
+  );
 
   const isCR = isACommuterRailRoute(route);
   const groupedAlerts = alertsByRoute(alerts);

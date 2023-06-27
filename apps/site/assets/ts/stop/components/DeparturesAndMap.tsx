@@ -14,6 +14,7 @@ import {
 } from "../../models/route";
 import useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { Polyline } from "../../leaflet/components/__mapdata";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -39,6 +40,8 @@ const DeparturesAndMap = ({
     departureDirectionId: null,
     departureSchedules: null
   });
+
+  const predictions = usePredictionsChannel({ stopId: stop.id });
 
   const setDepartureVariables: (
     route: Route,
@@ -132,8 +135,8 @@ const DeparturesAndMap = ({
         <div className="stop-routes__all">
           <StopPageDepartures
             routes={routes}
-            stop={stop}
             schedules={schedules}
+            predictions={predictions}
             onClick={setDepartureVariables}
             alerts={alerts}
           />
@@ -177,6 +180,7 @@ const DeparturesAndMap = ({
                 route={departureInfo.departureRoute}
                 stop={stop}
                 schedules={departureInfo.departureSchedules}
+                predictions={predictions}
                 directionId={departureInfo.departureDirectionId}
                 alerts={alerts}
               />

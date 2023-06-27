@@ -1,25 +1,26 @@
 import React, { ReactElement } from "react";
 import { groupBy } from "lodash";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { allAlertsForDirection } from "../../models/alert";
+import { PredictionWithTimestamp } from "../../models/perdictions";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 const DepartureCard = ({
   route,
-  stop,
   schedulesForRoute,
+  predictionsForRoute,
   onClick,
   alertsForRoute = []
 }: {
   route: Route;
   schedulesForRoute: ScheduleWithTimestamp[];
-  stop: Stop;
+  predictionsForRoute: PredictionWithTimestamp[];
   onClick: (
     route: Route,
     directionId: DirectionId,
@@ -30,6 +31,10 @@ const DepartureCard = ({
   const schedulesByDirection = groupBy(
     schedulesForRoute,
     (sch: ScheduleWithTimestamp) => sch.trip.direction_id
+  );
+  const predictionsByDirection = groupBy(
+    predictionsForRoute,
+    p => p.trip.direction_id
   );
 
   return (
@@ -45,18 +50,18 @@ const DepartureCard = ({
       <DepartureTimes
         key={`${route.id}-0`}
         route={route}
-        stop={stop}
         directionId={0}
         schedulesForDirection={schedulesByDirection[0]}
+        predictionsForDirection={predictionsByDirection[0]}
         onClick={onClick}
         alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
       />
       <DepartureTimes
         key={`${route.id}-1`}
         route={route}
-        stop={stop}
         directionId={1}
         schedulesForDirection={schedulesByDirection[1]}
+        predictionsForDirection={predictionsByDirection[1]}
         onClick={onClick}
         alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
       />

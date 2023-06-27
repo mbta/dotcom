@@ -1,5 +1,7 @@
+import { Dictionary, groupBy } from "lodash";
 import { TripPrediction } from "../schedule/components/__trips";
-import { HeadsignWithCrowding } from "../__v3api";
+import { HeadsignWithCrowding, Prediction } from "../__v3api";
+import { PredictionWithTimestamp } from "./perdictions";
 
 // eslint-disable-next-line import/prefer-default-export
 export const isSkippedOrCancelled = (
@@ -20,3 +22,13 @@ export const hasPredictionTime = ({
     timeDataList[0].time_data.prediction &&
     timeDataList[0].time_data.prediction.time
   );
+
+export const predictionsByHeadsign = <
+  T extends Prediction | PredictionWithTimestamp
+>(
+  predictions: T[] | undefined
+): Dictionary<T[]> => {
+  return groupBy<T>(predictions, (p: T) => {
+    return p.trip!.headsign;
+  });
+};
