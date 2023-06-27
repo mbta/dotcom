@@ -49,15 +49,7 @@ describe("AmenityCard", () => {
     expect(screen.queryByText("Modal content")).toBeNull();
   });
 
-  it("should support a disabled state if there's no modal", () => {
-    render(
-      <AmenityCard headerText="Card" icon={<span></span>}>
-        Card content
-      </AmenityCard>
-    );
-    expect(
-      screen.getByRole("button", { name: "Card Card content" })
-    ).toBeDisabled();
+  it("should support an enabled state if is a modal", () => {
     render(
       <AmenityCard
         headerText="Card"
@@ -70,5 +62,16 @@ describe("AmenityCard", () => {
     expect(
       screen.getByRole("button", { name: "Card Card content" })
     ).not.toBeDisabled();
+  });
+
+  it("should support a disabled state if there's no modal", () => {
+    render(
+      <AmenityCard headerText="Card" icon={<span></span>}>
+        Card content
+      </AmenityCard>
+    );
+    expect(
+      screen.getByRole("button", { name: "Card Card content" })
+    ).toBeDisabled();
   });
 });

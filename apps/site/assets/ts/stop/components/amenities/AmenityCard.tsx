@@ -65,19 +65,13 @@ const AmenityCard = ({
         onClick={() => setModalOpen(true)}
         disabled={!modalContent}
       >
-        <div className="p-16">
-          <div className="d-flex text-primary">
+        <div className="c-descriptive-link__text">
+          <div className="c-descriptive-link__header">
             {icon}
-            <div className="c-descriptive-link__title ps-8 mb-0">
-              {headerText}
-            </div>
+            <div className="c-descriptive-link__title mb-0">{headerText}</div>
+            {badge && <div className="c-descriptive-link__badge">{badge}</div>}
           </div>
-          {badge && <div style={{ display: "inline-block" }}>{badge}</div>}
-          {children && (
-            <div className="c-descriptive-link__text pt-8 hidden-sm-down">
-              {children}
-            </div>
-          )}
+          {children && <div className="mt-8 hidden-sm-down">{children}</div>}
         </div>
         {modalContent && (
           <div className="c-descriptive-link__caret-wrapper">
