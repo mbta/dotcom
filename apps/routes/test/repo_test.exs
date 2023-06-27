@@ -113,7 +113,7 @@ defmodule Routes.RepoTest do
                type: "Massport-TEST",
                custom_route?: true,
                color: "000000"
-             } = Repo.get("Massport-TEST")
+             } = @routes_repo_api.get("Massport-TEST")
     end
 
     test "returns nil for an unknown route" do
@@ -276,14 +276,14 @@ defmodule Routes.RepoTest do
   describe "get_shape/1" do
     shape =
       "903_0018"
-      |> Repo.get_shape()
+      |> @routes_repo_api.get_shape()
       |> List.first()
 
     assert shape.id == "903_0018"
   end
 
   describe "green_line" do
-    green_line = Repo.green_line()
+    green_line = @routes_repo_api.green_line()
     assert green_line.id == "Green"
     assert green_line.name == "Green Line"
   end

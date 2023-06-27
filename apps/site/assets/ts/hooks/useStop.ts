@@ -17,7 +17,7 @@ const useStop = (stopId: string): FetchState<Stop> => {
 
 const useFacilitiesByStop = (stopId: string): FetchState<Facility[]> => {
   const { data, error } = useSWR<Facility[]>(
-    `/api/facilities/${stopId}`,
+    `/api/stop/${stopId}/facilities`,
     fetchFacilityData
   );
   if (error) {

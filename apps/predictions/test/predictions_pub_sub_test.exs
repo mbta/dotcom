@@ -22,100 +22,61 @@ defmodule Predictions.PredictionsPubSubTest do
     stop: %Stop{id: @stop_id}
   }
 
-  describe "start_link/1" do
-    test "starts the server" do
-      subscribe_fn = fn _, _ -> :ok end
+  @channel_args "route=#{@route_39}:stop=#{@stop_id}:direction_id=#{@direction_id}"
 
-      assert {:ok, _pid} =
-               PredictionsPubSub.start_link(name: :start_link, subscribe_fn: subscribe_fn)
-    end
+  setup_all do
+    start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
+
+    subscribe_fn = fn _, _ -> :ok end
+    {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
+
+    {:ok, pid: pid}
   end
 
   describe "subscribe/2" do
-    setup do
-      start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
-
-      subscribe_fn = fn _, _ -> :ok end
-      {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
-
-      {:ok, pid: pid}
-    end
-
     test "clients get existing predictions upon subscribing", %{pid: pid} do
       predictions = [@prediction39]
-
-      :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_key, %{
-          "#{@route_39}:#{@stop_id}:#{@direction_id}" => predictions
-        })
-      end)
-
-      assert PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid) == predictions
+      replace_state(pid, predictions)
+      assert PredictionsPubSub.subscribe(@channel_args, pid) == predictions
     end
   end
 
   describe "handle_info/2 - {:reset, predictions}" do
-    setup do
-      start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
-
-      subscribe_fn = fn _, _ -> :ok end
-      {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
-
-      :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_key, %{
-          "#{@route_39}:#{@stop_id}:#{@direction_id}" => [1, 2, 3]
-        })
-      end)
-
+    setup %{pid: pid} do
+      reset_table(pid)
       {:ok, pid: pid}
     end
 
     test "resets the predictions", %{pid: pid} do
+      PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:reset, [@prediction39]})
-
-      assert pid
-             |> :sys.get_state()
-             |> Map.get(:predictions_by_key)
-             |> Map.get("#{@route_39}:#{@stop_id}:#{@direction_id}") ==
-               [
-                 @prediction39
-               ]
+      assert_receive {:new_predictions, [@prediction39]}
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
-
+      PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:reset, [@prediction66]})
       send(pid, {:reset, [@prediction39]})
-
       assert_receive {:new_predictions, [@prediction39]}
+      # we're not subscribed to this
       refute_receive {:new_predictions, [@prediction66]}
     end
   end
 
   describe "handle_info/2 - {:add, predictions}" do
-    setup do
-      start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
-
-      subscribe_fn = fn _, _ -> :ok end
-      {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
-
-      :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_key, %{})
-      end)
-
+    setup %{pid: pid} do
+      reset_table(pid)
       {:ok, pid: pid}
     end
 
     test "adds the new predictions by route ID", %{pid: pid} do
+      PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:add, [@prediction39]})
-
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_key) ==
-               %{"#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]}
+      assert_receive {:new_predictions, [@prediction39]}
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
+      PredictionsPubSub.subscribe(@channel_args, pid)
 
       send(pid, {:add, [@prediction66]})
       send(pid, {:add, [@prediction39]})
@@ -125,19 +86,9 @@ defmodule Predictions.PredictionsPubSubTest do
     end
   end
 
-  describe "handle_info/2 - {:update, predictions}" do
-    setup do
-      start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
-
-      subscribe_fn = fn _, _ -> :ok end
-      {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
-
-      :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_key, %{
-          "#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]
-        })
-      end)
-
+  describe "handle_info/2 - :update and :remove" do
+    setup %{pid: pid} do
+      replace_state(pid, [@prediction39])
       {:ok, pid: pid}
     end
 
@@ -147,19 +98,16 @@ defmodule Predictions.PredictionsPubSubTest do
         | status: "Now boarding"
       }
 
+      PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:update, [modified_prediction]})
 
-      [prediction] =
-        pid
-        |> :sys.get_state()
-        |> Map.get(:predictions_by_key)
-        |> Map.get("#{@route_39}:#{@stop_id}:#{@direction_id}")
+      assert_receive {:new_predictions, [prediction]}
 
       assert prediction.status == "Now boarding"
     end
 
     test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
+      PredictionsPubSub.subscribe(@channel_args, pid)
 
       send(pid, {:update, [@prediction66]})
       send(pid, {:update, [@prediction39]})
@@ -167,38 +115,28 @@ defmodule Predictions.PredictionsPubSubTest do
       assert_receive {:new_predictions, [@prediction39]}
       refute_receive {:new_predictions, [@prediction66]}
     end
-  end
 
-  describe "handle_info/2 - {:remove, prediction_ids}" do
-    setup do
-      start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
-
-      subscribe_fn = fn _, _ -> :ok end
-      {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
-
-      :sys.replace_state(pid, fn state ->
-        Map.put(state, :predictions_by_key, %{
-          "#{@route_39}:#{@stop_id}:#{@direction_id}" => [@prediction39]
-        })
-      end)
-
-      {:ok, pid: pid}
-    end
-
-    test "removes the given predictions", %{pid: pid} do
+    test "removes the given predictions and broadcasts new predictions lists to subscribers", %{
+      pid: pid
+    } do
+      PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:remove, [@prediction39]})
-
-      assert pid |> :sys.get_state() |> Map.get(:predictions_by_key) == %{
-               "#{@route_39}:#{@stop_id}:#{@direction_id}" => []
-             }
-    end
-
-    test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@route_39, @stop_id, @direction_id, pid)
-
-      send(pid, {:remove, [@prediction39]})
-
       assert_receive {:new_predictions, []}
     end
+  end
+
+  defp reset_table(pid) do
+    :sys.replace_state(pid, fn %{ets: table} = state ->
+      :ets.delete_all_objects(table)
+      state
+    end)
+  end
+
+  defp replace_state(pid, predictions) do
+    _ =
+      :sys.replace_state(pid, fn %{ets: table} = state ->
+        _ = :ets.insert(table, Enum.map(predictions, &PredictionsPubSub.to_record/1))
+        state
+      end)
   end
 end

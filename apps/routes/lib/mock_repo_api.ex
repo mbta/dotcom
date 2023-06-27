@@ -120,6 +120,19 @@ defmodule Routes.MockRepoApi do
   end
 
   @impl Routes.RepoApi
+  def get("Massport-TEST") do
+    %Routes.Route{
+      description: "Massport Generated Route",
+      id: "Massport-TEST",
+      long_name: "Massport-TEST",
+      name: "Massport-TEST",
+      type: "Massport-TEST",
+      custom_route?: true,
+      color: "000000"
+    }
+  end
+
+  @impl Routes.RepoApi
   def get("Red") do
     %Routes.Route{
       id: "Red",

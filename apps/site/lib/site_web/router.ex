@@ -207,7 +207,7 @@ defmodule SiteWeb.Router do
     get("/alerts", AlertController, :show_by_routes)
     get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
     get("/stops/:stop_id/schedules", ScheduleController, :schedules_for_stop)
-    get("/facilities/:stop_id", StopController, :get_facilities)
+    get("/stop/:stop_id/facilities", StopController, :get_facilities)
   end
 
   scope "/api", SiteWeb do

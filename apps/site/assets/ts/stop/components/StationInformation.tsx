@@ -32,8 +32,6 @@ const StationInformation = ({
     }
   });
 
-  console.log(alerts);
-
   return (
     <div>
       <h2>{isStation ? "Station Information" : "Stop Information"}</h2>

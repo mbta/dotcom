@@ -43,22 +43,29 @@ const schedules = [
 ] as ScheduleWithTimestamp[];
 
 const predictionTime = add(Date.now(), { minutes: 11 });
-jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-  return {
-    "TestRoute Route": [
-      {
-        time: new Date("2022-04-27T11:15:00-04:00"),
-        trip: schedules[0].trip
-      },
-      {
-        trip: schedules[1].trip,
-        time: predictionTime
-      }
-    ] as PredictionWithTimestamp[]
-  };
-});
 
 describe("DepartureList", () => {
+  beforeEach(() => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "TestRoute Route": [
+          {
+            time: new Date("2022-04-27T11:15:00-04:00"),
+            trip: schedules[0].trip
+          },
+          {
+            trip: schedules[1].trip,
+            time: predictionTime
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it("should render a schedule when no predictions available", () => {
     jest.spyOn(predictionsChannel, "default").mockImplementationOnce(() => {
       return { "TestRoute Route": [] };
@@ -191,5 +198,82 @@ describe("DepartureList", () => {
       />
     );
     expect(screen.getByText("No upcoming trips today")).toBeDefined();
+  });
+
+  it("should display cancelled if the trip has been cancelled", () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "TestRoute Route": [
+          {
+            time: new Date("2022-04-27T11:15:00-04:00"),
+            trip: { id: "1" },
+            schedule_relationship: "cancelled",
+            route: { type: 2 }
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+
+    const schedules = [
+      {
+        trip: { id: "1", headsign: "TestRoute Route" },
+        route: { type: 2 }
+      }
+    ] as ScheduleWithTimestamp[];
+
+    render(
+      <DepartureList
+        alerts={[]}
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+      />
+    );
+    expect(screen.getByText("Cancelled")).toBeInTheDocument();
+  });
+
+  it("should not display cancelled if the trip is a subway trip", () => {
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "TestRoute Route": [
+          {
+            time: new Date("2022-04-27T11:15:00-04:00"),
+            route: { type: 0 },
+            trip: { id: "1" },
+            schedule_relationship: "cancelled"
+          },
+          {
+            time: new Date("2022-04-27T11:25:00-04:00"),
+            route: { type: 2 },
+            trip: { id: "2" }
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+
+    const schedules = [
+      {
+        trip: { id: "1", headsign: "TestRoute Route" },
+        route: { type: 0 }
+      },
+      {
+        trip: { id: "2", headsign: "TestRoute Route" },
+        route: { type: 2 }
+      }
+    ] as ScheduleWithTimestamp[];
+
+    render(
+      <DepartureList
+        alerts={[]}
+        route={route}
+        stop={stop}
+        schedules={schedules}
+        directionId={0}
+        targetDate={new Date("2022-04-27T11:00:00-04:00")}
+      />
+    );
+    expect(screen.queryByText("Cancelled")).not.toBeInTheDocument();
+    expect(screen.getByText("25 min")).toBeInTheDocument();
   });
 });

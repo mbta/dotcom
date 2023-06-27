@@ -10,16 +10,15 @@ defmodule SiteWeb.PredictionsChannel do
   @impl Channel
   @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
           {:ok, %{predictions: [Prediction.t()]}, Socket.t()}
-  def join("predictions:" <> route_stop_direction, _message, socket) do
+  def join("predictions:" <> opts, _message, socket) do
     predictions_subscribe_fn =
       Application.get_env(
         :site,
         :predictions_subscribe_fn,
-        &PredictionsPubSub.subscribe/3
+        &PredictionsPubSub.subscribe/1
       )
 
-    [route_id, stop_id, direction_id] = String.split(route_stop_direction, ":")
-    predictions = predictions_subscribe_fn.(route_id, stop_id, direction_id)
+    predictions = predictions_subscribe_fn.(opts)
     {:ok, %{predictions: filter_new(predictions)}, socket}
   end
 

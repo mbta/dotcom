@@ -1,5 +1,5 @@
 defmodule LocationService.WrappersTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   import LocationService.Wrappers
   import Mock

@@ -23,15 +23,11 @@ defmodule SiteWeb.PredictionsChannelTest do
     departure_time: Timex.shift(Util.now(), hours: 2)
   }
 
-  setup do
-    reassign_env(:site, :predictions_subscribe_fn, fn route_id, _, _ ->
-      case route_id do
-        @route_39 ->
-          [@prediction39]
+  @channel_name "predictions:route=#{@route_39}:stop=#{@stop_fh}:direction_id=#{@direction}"
 
-        _ ->
-          []
-      end
+  setup do
+    reassign_env(:site, :predictions_subscribe_fn, fn _ ->
+      [@prediction39]
     end)
 
     socket = socket(UserSocket, "", %{})
@@ -48,7 +44,7 @@ defmodule SiteWeb.PredictionsChannelTest do
                subscribe_and_join(
                  socket,
                  PredictionsChannel,
-                 "predictions:#{@route_39}:#{@stop_fh}:#{@direction}"
+                 @channel_name
                )
     end
   end
@@ -59,7 +55,7 @@ defmodule SiteWeb.PredictionsChannelTest do
         subscribe_and_join(
           socket,
           PredictionsChannel,
-          "predictions:#{@route_39}:#{@stop_fh}:#{@direction}"
+          @channel_name
         )
 
       assert {:noreply, _socket} =

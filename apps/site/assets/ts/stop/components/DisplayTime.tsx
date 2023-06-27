@@ -121,6 +121,25 @@ function DelayedTimeDetails(): JSX.Element {
   );
 }
 
+const CancelledTimeDetails = (): JSX.Element => {
+  const { time, targetDate } = useContext(DepartureContext);
+
+  return (
+    <>
+      <div className="d-flex justify-content-space-between text-danger">
+        <s>
+          <BasicTime
+            displayType="absolute"
+            time={time}
+            targetDate={targetDate}
+          />
+        </s>
+        <div>Cancelled</div>
+      </div>
+    </>
+  );
+};
+
 /**
  * Renders a UI element composing several different aspects of a "departure"
  * time.
@@ -138,6 +157,7 @@ const DisplayTime = ({
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
   const time = departureInfoToTime(departure);
   const isDelayed = departure?.isDelayed;
+  const isCancelled = departure?.isCancelled;
   const isLessThanHourAway = time
     ? differenceInSeconds(time, new Date()) < secondsInHour
     : undefined;
@@ -149,12 +169,21 @@ const DisplayTime = ({
         {displayInfoContainsPrediction(departure) &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
-      <div className="stop-routes__departures-time">
-        {isDelayed ? <DelayedTimeCountdown /> : <TimeCountdown />}
-      </div>
-      <div className="stop-routes__departures-details fs-14">
-        {isDelayed && <DelayedTimeDetails />} <BaseTimeDetails />
-      </div>
+      {isCancelled && (
+        <div>
+          <CancelledTimeDetails />
+        </div>
+      )}
+      {!isCancelled && (
+        <>
+          <div className="stop-routes__departures-time">
+            {isDelayed ? <DelayedTimeCountdown /> : <TimeCountdown />}
+          </div>
+          <div className="stop-routes__departures-details fs-14">
+            {isDelayed && <DelayedTimeDetails />} <BaseTimeDetails />
+          </div>
+        </>
+      )}
     </DepartureContext.Provider>
   );
 };

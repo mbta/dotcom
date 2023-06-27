@@ -19,7 +19,7 @@ defmodule FaresTest do
 
   describe "fare_for_stops/3" do
     # a subset of possible ferry stops
-    @ferries ~w(Boat-Hingham Boat-Charlestown Boat-Logan Boat-Long-South Boat-Lewis)
+    @ferries ~w(Boat-Hingham Boat-Charlestown Boat-Logan Boat-Long-South Boat-Lewis Boat-Blossom Boat-Winthrop)
 
     test "returns the name of the commuter rail fare given the origin and destination" do
       zone_1a = "place-north"
@@ -44,18 +44,23 @@ defmodule FaresTest do
         has_long? = "Boat-Long" in both
         has_long_south? = "Boat-Long-South" in both
         has_east_boston? = "Boat-Lewis" in both
+        has_lynn? = "Boat-Blossom" in both
+        has_winthrop? = "Boat-Winthrop" in both
 
         expected_name =
           cond do
             has_logan? and has_charlestown? -> :ferry_cross_harbor
             has_long? and has_logan? -> :ferry_cross_harbor
             has_long_south? and has_charlestown? -> :ferry_inner_harbor
-            has_logan? -> :commuter_ferry_logan
             has_long? and has_east_boston? -> :ferry_east_boston
+            has_lynn? -> :ferry_lynn
+            has_winthrop? -> :ferry_winthrop
+            has_logan? -> :commuter_ferry_logan
             true -> :commuter_ferry
           end
 
-        assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name}
+        assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name},
+               "Unexpected result for #{origin_id} to #{destination_id}"
       end
     end
 
