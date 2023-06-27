@@ -17,14 +17,17 @@ const ElevatorsAmenityCard = ({
 
   return (
     <AmenityCard headerText="Elevators" icon={icon}>
-      <AmenityModal headerText="Elevators at">
-        <Alerts alerts={alerts} />
-        <h2 className="h3">Eleavator Status</h2>
-        {/* loop over facilities and render circle and icon on status based on if facility has alert */}
+      modalContent=
+      {
+        <AmenityModal headerText="Elevators at">
+          <Alerts alerts={alerts} />
+          <h2 className="h3">Eleavator Status</h2>
+          {/* loop over facilities and render circle and icon on status based on if facility has alert */}
 
-        <a href="/accessibility/trip-planning">Plan an accessible trip</a>
-        <a href="/customer-support">Report an elevator issue</a>
-      </AmenityModal>
+          <a href="/accessibility/trip-planning">Plan an accessible trip</a>
+          <a href="/customer-support">Report an elevator issue</a>
+        </AmenityModal>
+      }
     </AmenityCard>
   );
 };
