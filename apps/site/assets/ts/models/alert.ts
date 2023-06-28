@@ -206,5 +206,13 @@ export const hasFacilityAlert = (
   facilityId: string,
   alerts: Alert[]
 ): boolean => {
-  return true;
+  let hasAlert = false;
+  alerts.forEach(alert => {
+    if (alert.informed_entity.facility) {
+      if (alert.informed_entity.facility[0] === facilityId) {
+        hasAlert = true;
+      }
+    }
+  });
+  return hasAlert;
 };

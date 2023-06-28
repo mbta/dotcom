@@ -54,8 +54,9 @@ const StationInformation = ({
           <>
             <h3 className="hidden-md-up">Getting Around the Station</h3>
             <ElevatorsAmenityCard
+              stopName={stop.name}
               alerts={alerts}
-              facilities={facilitiesByType.get("ESCALATOR")}
+              facilities={facilitiesByType.get("ELEVATOR")}
             />
             <EscalatorsAmenityCard />
           </>

@@ -15,3 +15,49 @@
     margin: .65rem;
   }
 }
+
+.facilities-list-header {
+  background: $brand-primary-darkest;
+  color: $white;
+  height: 60px;
+  padding-top: 0 !important;
+}
+
+
+.facilities-list {
+  border: solid 1px $gray-lightest;
+  list-style-type: none;
+  .elevator-row:nth-child(2n) {
+    background: $gray-lightest;
+  }
+}
+
+.elevator-row {
+  display: grid;
+  grid-template-columns: 66.667% 33.334%;
+  height: 80px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-top: 20px;
+}
+
+.elevator-name {
+  padding-right: 50px;
+}
+
+.elevator-text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.amenity-status {
+  padding-right: 10px;
+}
+
+.amenity-working {
+  color: green;
+}
+
+.amenity-out {
+  color: red;
+}
