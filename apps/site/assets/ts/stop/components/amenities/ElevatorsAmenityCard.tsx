@@ -1,5 +1,5 @@
 import React from "react";
-import AmenityCard, { AmenityModal } from "./AmenityCard";
+import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
 import { elevatorIcon } from "../../../helpers/icon";
 import { Alert, Facility } from "../../../__v3api";
 import Alerts from "../../../components/Alerts";
@@ -59,13 +59,14 @@ const ElevatorsAmenityCard = ({
               })}
             </div>
 
-            <a className="c-call-to-action" href="/accessibility/trip-planning">
-              Plan an accessible trip
-            </a>
-            <br />
-            <a className="c-call-to-action" href="/customer-support">
-              Report an elevator issue
-            </a>
+            <AmenityLink
+              url="/accessibility/trip-planning"
+              text="Plan an accessible trip"
+            />
+            <AmenityLink
+              url="/customer-support"
+              text="Report an elevator issue"
+            />
           </AmenityModal>
         )
       }
