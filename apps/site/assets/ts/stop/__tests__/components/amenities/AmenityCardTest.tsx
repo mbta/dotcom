@@ -5,17 +5,19 @@ import AmenityCard, {
 } from "../../../components/amenities/AmenityCard";
 
 describe("AmenityCard", () => {
-  it("should render the icon, title, content", () => {
+  it("should render the icon, title, content, badge", () => {
     render(
       <AmenityCard
         headerText={"Amenity Title"}
         icon={<span data-testid="icon"></span>}
+        badge={<span data-testid="badge"></span>}
       >
         <div>Card content</div>
       </AmenityCard>
     );
     expect(screen.getByText("Amenity Title")).toBeDefined();
     expect(screen.getByTestId("icon")).toBeDefined();
+    expect(screen.getByTestId("badge")).toBeDefined();
     expect(screen.getByText("Card content")).toBeDefined();
   });
 
@@ -45,5 +47,31 @@ describe("AmenityCard", () => {
     screen.getByRole("button", { name: "Close" }).click();
     expect(screen.queryByText("Inner header")).toBeNull();
     expect(screen.queryByText("Modal content")).toBeNull();
+  });
+
+  it("should support an enabled state if is a modal", () => {
+    render(
+      <AmenityCard
+        headerText="Card"
+        icon={<span></span>}
+        modalContent={"More to come!"}
+      >
+        Card content
+      </AmenityCard>
+    );
+    expect(
+      screen.getByRole("button", { name: "Card Card content" })
+    ).not.toBeDisabled();
+  });
+
+  it("should support a disabled state if there's no modal", () => {
+    render(
+      <AmenityCard headerText="Card" icon={<span></span>}>
+        Card content
+      </AmenityCard>
+    );
+    expect(
+      screen.getByRole("button", { name: "Card Card content" })
+    ).toBeDisabled();
   });
 });

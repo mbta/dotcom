@@ -29,14 +29,30 @@ export const AmenityModal = ({
   );
 };
 
+export const AmenityLink = ({
+  url,
+  text
+}: {
+  url: string;
+  text: string;
+}): JSX.Element => (
+  <p>
+    <a href={url} className="c-call-to-action">
+      {text}
+    </a>
+  </p>
+);
+
 const AmenityCard = ({
   headerText,
   icon,
+  badge,
   modalContent,
   children
 }: {
   headerText: string;
   icon: JSX.Element;
+  badge?: React.ReactNode;
   modalContent?: React.ReactNode;
   children?: React.ReactNode;
 }): JSX.Element => {
@@ -47,23 +63,21 @@ const AmenityCard = ({
         type="button"
         className="c-descriptive-link justify-content-space-between"
         onClick={() => setModalOpen(true)}
+        disabled={!modalContent}
       >
-        <div className="p-16">
-          <div className="d-flex text-primary">
+        <div className="c-descriptive-link__text">
+          <div className="c-descriptive-link__header">
             {icon}
-            <div className="c-descriptive-link__title ps-8 mb-0">
-              {headerText}
-            </div>
+            <div className="c-descriptive-link__title mb-0">{headerText}</div>
+            {badge && <div className="c-descriptive-link__badge">{badge}</div>}
           </div>
-          {children && (
-            <div className="c-descriptive-link__text pt-8 hidden-sm-down">
-              {children}
-            </div>
-          )}
+          {children && <div className="mt-8 hidden-sm-down">{children}</div>}
         </div>
-        <div className="c-descriptive-link__caret-wrapper">
-          {renderFa("c-descriptive-link__caret", "fa-angle-right")}
-        </div>
+        {modalContent && (
+          <div className="c-descriptive-link__caret-wrapper">
+            {renderFa("c-descriptive-link__caret", "fa-angle-right")}
+          </div>
+        )}
       </button>
       <AmenityModalContext.Provider
         value={{ closeModal: () => setModalOpen(false) }}

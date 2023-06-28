@@ -317,6 +317,38 @@
     @include media-breakpoint-down(sm) {
       margin-bottom: 1rem;
     }
+
+    &[disabled] {
+      background-color: $gray-lightest;
+      border-color: $gray-light;
+      color: $body-color;
+
+      // override set .c-descriptive-link title
+      .c-descriptive-link__title,
+      // override SVG components that have a hard-coded fill
+      [class*='c-svg__icon'] :where(path, rect)[fill] {
+        color: inherit;
+        fill: currentColor;
+      }
+    }
+  }
+
+  .c-descriptive-link__header {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+  }
+
+  .c-descriptive-link__title,
+  .c-descriptive-link__badge {
+    font-family: $font-family-sans-serif;
+    white-space: nowrap;
+  }
+
+  .c-descriptive-link__text {
+    padding: 1rem;
+    text-align: left;
   }
 
   .c-descriptive-link__caret-wrapper {
