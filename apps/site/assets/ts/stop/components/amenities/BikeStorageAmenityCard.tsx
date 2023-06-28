@@ -62,6 +62,7 @@ const BikeStorageAmenityCard = ({
                 className="img-fluid mt-8 mb-1"
                 src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2020-07/bike-parking-back-bay.jpg"
                 alt="MBTA Pedal and Park bike storage"
+                style={{ maxHeight: "250px" }}
               />
             )}
             <ul>
