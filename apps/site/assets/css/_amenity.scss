@@ -19,13 +19,13 @@
 .facilities-list-header {
   background: $brand-primary-darkest;
   color: $white;
-  height: 60px;
+  height: 3.75rem;
   padding-top: 0 !important;
 }
 
 
 .facilities-list {
-  border: solid 1px $gray-lightest;
+  border: solid .063rem $gray-lightest;
   list-style-type: none;
   .elevator-row:nth-child(2n) {
     background: $gray-lightest;
@@ -35,23 +35,23 @@
 .elevator-row {
   display: grid;
   grid-template-columns: 66.667% 33.334%;
-  height: 80px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-top: 20px;
+  height: 5rem;
+  padding-bottom: .625rem;
+  padding-left: .625rem;
+  padding-top: 1.25rem;
 }
 
 .elevator-name {
-  padding-right: 50px;
+  padding-right: 3.125rem;
 }
 
 .elevator-text {
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 400;
 }
 
 .amenity-status {
-  padding-right: 10px;
+  padding-right: .625rem;
 }
 
 .amenity-working {
