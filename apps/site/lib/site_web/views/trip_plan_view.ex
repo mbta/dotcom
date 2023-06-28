@@ -460,20 +460,8 @@ defmodule SiteWeb.TripPlanView do
             conn.assigns.itinerary_row_lists,
             Stream.iterate(1, &(&1 + 1))
           ]) do
-      tab_html =
-        "_itinerary_tab.html"
-        |> render_to_string(
-          itinerary: i,
-          index: index,
-          routes: routes,
-          itinerary_row_list: itinerary_row_list
-        )
-
-      access_html = i |> accessibility_icon() |> HTML.safe_to_string()
-
-      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
-
-      itinerary_is_from_or_to_airport = itinerary_satisfies_property?(i, :is_from_or_to_airport)
+      is_sumner_tunnel_closed_period =
+        Timex.between?(i.start, ~D[2023-07-05], ~D[2023-08-31], inclusive: true)
 
       itinerary_contains_blue_line = itinerary_satisfies_property?(i, :contains_blue_line)
 
@@ -483,11 +471,28 @@ defmodule SiteWeb.TripPlanView do
       itinerary_contains_newburyport_rockport_line =
         itinerary_satisfies_property?(i, :contains_newburyport_rockport_line)
 
+      tab_html =
+        "_itinerary_tab.html"
+        |> render_to_string(
+          itinerary: i,
+          index: index,
+          routes: routes,
+          itinerary_row_list: itinerary_row_list,
+          itinerary_contains_blue_line: itinerary_contains_blue_line,
+          itinerary_contains_east_boston_ferry: itinerary_contains_east_boston_ferry,
+          itinerary_contains_newburyport_rockport_line:
+            itinerary_contains_newburyport_rockport_line,
+          is_sumner_tunnel_closed_period: is_sumner_tunnel_closed_period
+        )
+
+      access_html = i |> accessibility_icon() |> HTML.safe_to_string()
+
+      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
+
+      itinerary_is_from_or_to_airport = itinerary_satisfies_property?(i, :is_from_or_to_airport)
+
       show_fares =
         !itinerary_satisfies_property?(i, :contains_capeflyer) || one_way_total_fare != 0
-
-      is_sumner_tunnel_closed_period =
-        Date.compare(date, ~D[2023-07-05]) != :lt && Date.compare(date, ~D[2023-08-31]) != :gt
 
       fares_estimate_html =
         "_itinerary_fares.html"
@@ -496,12 +501,7 @@ defmodule SiteWeb.TripPlanView do
           show_fares: show_fares,
           itinerary_is_from_or_to_airport: itinerary_is_from_or_to_airport,
           one_way_total: Format.price(one_way_total_fare),
-          round_trip_total: Format.price(one_way_total_fare * 2),
-          itinerary_contains_blue_line: itinerary_contains_blue_line,
-          itinerary_contains_east_boston_ferry: itinerary_contains_east_boston_ferry,
-          itinerary_contains_newburyport_rockport_line:
-            itinerary_contains_newburyport_rockport_line,
-          is_sumner_tunnel_closed_period: is_sumner_tunnel_closed_period
+          round_trip_total: Format.price(one_way_total_fare * 2)
         )
 
       fares = get_calculated_fares(i)
