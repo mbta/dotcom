@@ -4,7 +4,7 @@ import ElevatorsAmenityCard from "../../../components/amenities/ElevatorsAmenity
 
 describe("ElevatorsAmenityCard", () => {
   it("should render the title", () => {
-    render(<ElevatorsAmenityCard />);
+    render(<ElevatorsAmenityCard stopName="" alerts={[]} facilities={[]} />);
     expect(screen.getByText("Elevators")).toBeDefined();
   });
 });

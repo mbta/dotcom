@@ -1,7 +1,7 @@
 import { isValid, parseISO, add } from "date-fns";
 import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
-import { Alert, Facility, TimePeriodPairs } from "../__v3api";
+import { Alert, TimePeriodPairs } from "../__v3api";
 
 export const isHighSeverityOrHighPriority = ({
   priority,
@@ -208,7 +208,7 @@ export const hasFacilityAlert = (
 ): boolean => {
   let hasAlert = false;
   alerts.forEach(alert => {
-    if (alert.informed_entity.facility) {
+    if (alert.informed_entity?.facility) {
       if (alert.informed_entity.facility[0] === facilityId) {
         hasAlert = true;
       }

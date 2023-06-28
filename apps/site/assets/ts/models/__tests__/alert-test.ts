@@ -10,7 +10,8 @@ import {
   hasAnActiveDiversion,
   alertsByRoute,
   alertsByDirectionId,
-  alertsAffectingBothDirections
+  alertsAffectingBothDirections,
+  hasFacilityAlert
 } from "../alert";
 import { add } from "date-fns";
 
@@ -366,5 +367,20 @@ describe("alertsAffectingBothDirections", () => {
     expect(result[0].id).toBe("3333");
     expect(result[1].id).toBe("4444");
     expect(result[2].id).toBe("5555");
+  });
+});
+
+describe("hasFacilityAlert", () => {
+  test("should return true when facilityId matches facility in alert else false", () => {
+    let facilityId = "ele-125";
+    const facilityAlert = {
+      ...alert1,
+      informed_entity: {
+        facility: ["ele-125"]
+      } as InformedEntitySet
+    };
+
+    expect(hasFacilityAlert(facilityId, [facilityAlert])).toBeTruthy();
+    expect(hasFacilityAlert(facilityId, [alert2])).toBeFalsy();
   });
 });
