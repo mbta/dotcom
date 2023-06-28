@@ -225,6 +225,10 @@
   color: $brand-primary-light;
 }
 
+.u-flex-align-self-end {
+  align-self: end;
+}
+
 // quick margin utilities loosely based off Bootstrap v4
 /* stylelint-disable declaration-no-important */
 .mb-0 {

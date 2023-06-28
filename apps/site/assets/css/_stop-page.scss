@@ -312,6 +312,7 @@
   }
 
   .c-descriptive-link {
+    height: auto;
     padding: 0;
 
     @include media-breakpoint-down(sm) {
@@ -352,7 +353,7 @@
   }
 
   .c-descriptive-link__caret-wrapper {
-    height: inherit;
+    height: 100%;
   }
 
   h3:first-of-type {
