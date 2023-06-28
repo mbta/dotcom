@@ -156,7 +156,7 @@ interface DepartureTimesProps {
   onClick: (
     route: Route,
     directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | null | undefined
+    departures: ScheduleWithTimestamp[] | undefined
   ) => void;
 }
 
