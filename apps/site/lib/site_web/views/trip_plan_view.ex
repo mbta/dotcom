@@ -447,10 +447,8 @@ defmodule SiteWeb.TripPlanView do
     |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
   end
 
-  @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}, Date.t()) :: [
-          any
-        ]
-  def itinerary_html(itineraries, %{conn: conn, expanded: expanded}, date \\ DateTime.utc_now()) do
+  @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}) :: [any]
+  def itinerary_html(itineraries, %{conn: conn, expanded: expanded}) do
     for {i, routes, map, links, itinerary_row_list, index} <-
           Enum.zip([
             itineraries,
