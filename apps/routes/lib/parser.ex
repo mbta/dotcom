@@ -18,7 +18,8 @@ defmodule Routes.Parser do
         direction_attrs(attributes["direction_names"], parse_route_patterns(relationships)),
       direction_destinations:
         direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
-      description: parse_gtfs_desc(attributes["description"])
+      description: parse_gtfs_desc(attributes["description"]),
+      fare_class: parse_gtfs_fare_class(attributes["fare_class"])
     }
   end
 
@@ -76,6 +77,18 @@ defmodule Routes.Parser do
   defp parse_gtfs_desc("Commuter Bus"), do: :commuter_bus
   defp parse_gtfs_desc("Community Bus"), do: :community_bus
   defp parse_gtfs_desc(_), do: :unknown
+
+  @spec parse_gtfs_fare_class(String.t()) :: Route.gtfs_fare_class()
+  defp parse_gtfs_fare_class(fare_class) when fare_class in ["Inner Express", "Outer Express"],
+    do: :express_bus_fare
+
+  defp parse_gtfs_fare_class("Local Bus"), do: :local_bus_fare
+  defp parse_gtfs_fare_class("Rapid Transit"), do: :rapid_transit_fare
+  defp parse_gtfs_fare_class("Commuter Rail"), do: :commuter_rail_fare
+  defp parse_gtfs_fare_class("Ferry"), do: :ferry_fare
+  defp parse_gtfs_fare_class("Free"), do: :free_fare
+  defp parse_gtfs_fare_class("Special"), do: :special_fare
+  defp parse_gtfs_fare_class(_), do: :unknown_fare
 
   @spec parse_shape(Item.t()) :: [Shape.t()]
   def parse_shape(%Item{id: id, attributes: attributes, relationships: relationships}) do

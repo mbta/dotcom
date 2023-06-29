@@ -14,6 +14,7 @@ defmodule Routes.Route do
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
             direction_destinations: :unknown,
             description: :unknown,
+            fare_class: :unknown_fare,
             custom_route?: false
 
   @type id_t :: String.t()
@@ -27,6 +28,7 @@ defmodule Routes.Route do
           direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc,
+          fare_class: gtfs_fare_class,
           custom_route?: boolean
         }
   @type gtfs_route_type ::
@@ -43,6 +45,15 @@ defmodule Routes.Route do
           | :commuter_bus
           | :community_bus
           | :unknown
+  @type gtfs_fare_class ::
+          :local_bus_fare
+          | :express_bus_fare
+          | :rapid_transit_fare
+          | :commuter_rail_fare
+          | :ferry_fare
+          | :free_fare
+          | :special_fare
+          | :unknown_fare
   @type route_type :: gtfs_route_type | :the_ride
   @type type_int :: 0..4
   @type subway_lines_type :: :orange_line | :red_line | :green_line | :blue_line | :mattapan_line
@@ -251,6 +262,7 @@ defmodule Routes.Route do
         direction_names: direction_names,
         direction_destinations: direction_destinations,
         description: description,
+        fare_class: fare_class,
         custom_route?: custom_route?
       }) do
     direction_destinations_value =
@@ -274,6 +286,7 @@ defmodule Routes.Route do
       },
       direction_destinations: direction_destinations_value,
       description: description,
+      fare_class: fare_class,
       custom_route?: custom_route?
     }
   end
