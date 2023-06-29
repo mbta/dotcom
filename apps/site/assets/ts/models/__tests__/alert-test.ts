@@ -1,5 +1,10 @@
 import { StopId } from "../../schedule/components/__schedule";
-import { Alert, InformedEntitySet, TimePeriodPairs } from "../../__v3api";
+import {
+  Activity,
+  Alert,
+  InformedEntitySet,
+  TimePeriodPairs
+} from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
   isInNextXDays,
@@ -11,7 +16,8 @@ import {
   alertsByRoute,
   alertsByDirectionId,
   alertsAffectingBothDirections,
-  hasFacilityAlert
+  hasFacilityAlert,
+  alertsByActivity
 } from "../alert";
 import { add } from "date-fns";
 
@@ -60,42 +66,49 @@ const alert1: Alert = {
   severity: 7,
   priority: "high",
   lifecycle: "new",
+  informed_entity: {},
   active_period: [["2020-09-10 08:00", "2020-09-10 20:00"]]
 } as Alert;
 const alert2: Alert = {
   severity: 3,
   priority: "high",
   lifecycle: "ongoing",
+  informed_entity: {},
   active_period: [["2020-09-08 12:00", "2020-09-11 20:00"]]
 } as Alert;
 const alert3: Alert = {
   severity: 7,
   priority: "low",
   lifecycle: "ongoing_upcoming",
+  informed_entity: {},
   active_period: [["2020-09-10 12:00", "2020-09-10 20:00"]]
 } as Alert;
 const alert4: Alert = {
   severity: 3,
   priority: "low",
   lifecycle: "upcoming",
+  informed_entity: {},
   active_period: [["2020-09-10 12:00", "2020-09-10 20:00"]]
 } as Alert;
 const alert5: Alert = {
   severity: 7,
   priority: "high",
   lifecycle: "ongoing",
+  informed_entity: {},
   active_period: null as any
 } as Alert;
 const alert6: Alert = {
   severity: 7,
   priority: "high",
   lifecycle: "ongoing",
+  informed_entity: {},
   active_period: [[null as any, "2020-09-10 20:00"]]
 } as Alert;
 const alert7: Alert = {
   severity: 7,
   priority: "high",
   lifecycle: "new",
+  informed_entity: {},
   active_period: [["2020-09-10 08:00", null as any]]
 } as Alert;
 // Legacy Data format
@@ -103,6 +116,7 @@ const alert8: Alert = {
   severity: 7,
   priority: "high",
   lifecycle: "new",
+  informed_entity: {},
   active_period: [["2020-5-9 13:52", null as any]]
 } as Alert;
 
@@ -191,6 +205,17 @@ describe("alertsByStop", () => {
     const alertsForStop = alertsByStop(alerts, "place-sstat");
     expect(alertsForStop).toEqual([alert_two, alert_three]);
   });
+});
+
+test("alertsByActivity finds alerts for a certain activity", () => {
+  const alertWithMatch = {
+    ...alert1,
+    informed_entity: {
+      activities: ["bringing_bike"] as Activity[]
+    } as InformedEntitySet
+  };
+  const alerts = [alert1, alert2, alertWithMatch, alert3, alert4];
+  expect(alertsByActivity(alerts, "bringing_bike")).toEqual([alertWithMatch]);
 });
 
 describe("uniqueByEffect", () => {

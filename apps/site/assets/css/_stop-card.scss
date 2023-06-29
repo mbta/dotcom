@@ -63,20 +63,58 @@ $radius: 4px;
   background-color: $gray-bordered-background;
   border: .25px solid $gray-lighter;
   border-radius: $radius;
+  display: grid;
   gap: .5rem;
+  grid-template-columns: 5fr 7fr;
   padding: .75rem;
 
-  .stop-routes__all {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
+  .back-to-routes {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .stop-routes {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+  }
+
+  .back-to-routes + .stop-routes {
+    grid-row: 2 / 3;
+  }
+
+  .stop-map {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+  }
+
+  &.selected-departure {
+    z-index: 2;
+    // on mobile, adopt a full-screen "app" view,
+    // with map above departure list
     @include media-breakpoint-down(sm) {
-      grid-template-columns: 1fr;
+      bottom: 0;
+      grid-template-rows: min-content 1fr 1fr;
+      left: 0;
+      padding-bottom: 0;
+      padding-top: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+
+      .stop-map {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+      }
+
+      .stop-routes {
+        grid-row: 3 / 4;
+      }
     }
   }
 
   @include media-breakpoint-down(sm) {
     border-radius: 0;
-    display: block;
+    grid-template-columns: 1fr;
     margin-left: -$base-spacing;
     margin-right: -$base-spacing;
   }
@@ -128,7 +166,7 @@ $radius: 4px;
 
   @include media-breakpoint-down(sm) {
     height: unset;
-    max-height: 350px;
+    max-height: 425px;
   }
 
   .departure-card {
@@ -261,49 +299,6 @@ $radius: 4px;
   .leaflet-popup-close-button {
     right: calc(#{$base-spacing} / 4);
     top: calc(#{$base-spacing} / 4);
-  }
-}
-
-.departures-container {
-  background-color: $white;
-  display: grid;
-  grid-template-areas: 'back-button map'
-    'departures map'
-    'departures map';
-  grid-template-columns: 5fr 7fr;
-  grid-template-rows: min-content 1fr 1.5 fr;
-  left: 0;
-  margin: 0;
-  top: 0;
-  width: 100%;
-  z-index: 2;
-  .back-to-routes {
-    grid-area: back-button;
-  }
-
-  .stop-routes__map.stop-routes__map--selected-route {
-    grid-area: map;
-    height: 100%;
-  }
-
-  .stop-routes__departures--selected-route {
-    grid-area: departures;
-  }
-
-  @include media-breakpoint-down(sm) {
-    box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
-    grid-template: 'back-button'
-      'map'
-      'departures';
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content 1fr 1fr;
-    height: 100vh;
-    max-height: 100%;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
-    padding: 0;
-    position: fixed;
-    width: 100%;
   }
 }
 
