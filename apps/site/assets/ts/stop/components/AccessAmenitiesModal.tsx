@@ -13,7 +13,7 @@ const AccessAmenitiesModal = ({
   stopName: string;
   alerts: Alert[];
   facilities: Facility[];
-  facilityType: string;
+  facilityType: "Elevators" | "Escalators";
 }): JSX.Element => {
   const hasFacilities = facilities ? facilities.length > 0 : false;
   const linkText =

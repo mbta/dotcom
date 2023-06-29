@@ -210,5 +210,6 @@ export const hasFacilityAlert = (
     if (alert.informed_entity?.facility) {
       return alert.informed_entity.facility.includes(facilityId);
     }
+    return false;
   });
 };

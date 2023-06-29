@@ -1,9 +1,7 @@
 import React from "react";
-import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
+import AmenityCard from "./AmenityCard";
 import { elevatorIcon } from "../../../helpers/icon";
 import { Alert, Facility } from "../../../__v3api";
-import Alerts from "../../../components/Alerts";
-import { hasFacilityAlert } from "../../../models/alert";
 import AccessAmenitiesModal from "../AccessAmenitiesModal";
 
 const ElevatorsAmenityCard = ({
