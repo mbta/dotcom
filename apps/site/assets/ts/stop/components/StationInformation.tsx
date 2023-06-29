@@ -56,7 +56,7 @@ const StationInformation = ({
             <ElevatorsAmenityCard
               stopName={stop.name}
               alerts={alerts}
-              facilities={facilitiesByType.get("ELEVATOR")}
+              elevatorFacilities={facilitiesByType.get("ELEVATOR")!}
             />
             <EscalatorsAmenityCard />
           </>

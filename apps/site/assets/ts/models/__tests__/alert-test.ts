@@ -380,7 +380,7 @@ describe("hasFacilityAlert", () => {
       } as InformedEntitySet
     };
 
-    expect(hasFacilityAlert(facilityId, [facilityAlert])).toBeTruthy();
-    expect(hasFacilityAlert(facilityId, [alert2])).toBeFalsy();
+    expect(hasFacilityAlert(facilityId, [facilityAlert])).toBe(true);
+    expect(hasFacilityAlert(facilityId, [alert2])).toBe(false);
   });
 });

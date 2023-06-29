@@ -5,7 +5,6 @@ defmodule SiteWeb.StopControllerTest do
   alias Stops.Stop
   alias Util.Breadcrumb
   import Mock
-  import Mock
 
   test "renders react content server-side", %{conn: conn} do
     assert [{"div", _, content}] =

@@ -206,13 +206,9 @@ export const hasFacilityAlert = (
   facilityId: string,
   alerts: Alert[]
 ): boolean => {
-  let hasAlert = false;
-  alerts.forEach(alert => {
+  return alerts.some(alert => {
     if (alert.informed_entity?.facility) {
-      if (alert.informed_entity.facility[0] === facilityId) {
-        hasAlert = true;
-      }
+      return alert.informed_entity.facility.includes(facilityId);
     }
   });
-  return hasAlert;
 };

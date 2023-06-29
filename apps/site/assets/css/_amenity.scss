@@ -24,15 +24,14 @@
 }
 
 
-.facilities-list {
+.access-amenities-container {
   border: solid .063rem $gray-lightest;
-  list-style-type: none;
-  .elevator-row:nth-child(2n) {
+  .access-amenities-row:nth-child(2n) {
     background: $gray-lightest;
   }
 }
 
-.elevator-row {
+.access-amenities-row {
   display: grid;
   grid-template-columns: 66.667% 33.334%;
   height: 5rem;
@@ -41,11 +40,11 @@
   padding-top: 1.25rem;
 }
 
-.elevator-name {
+.access-amenities-name {
   padding-right: 3.125rem;
 }
 
-.elevator-text {
+.access-amenities-text {
   font-size: .875rem;
   font-weight: 400;
 }
