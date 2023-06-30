@@ -74,7 +74,7 @@ const StationInformation = ({
           isStation={isStation}
         />
         {isStation && <h3 className="hidden-md-up">Purchasing Fares</h3>}
-        <FareSalesAmenityCard />
+        <FareSalesAmenityCard stop={stop} />
       </div>
     </div>
   );

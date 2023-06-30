@@ -72,12 +72,17 @@ const v2 = {
 const testRoutesWithPolylines: RouteWithPolylines[] = [
   routeWithPolylines("SomeBus", 3, 0)
 ];
-jest
-  .spyOn(useRoute, "useRoutesByStop")
-  .mockReturnValue({ status: FetchStatus.Data, data: testRoutesWithPolylines });
 
-beforeEach(() => {
+beforeAll(() => {
   jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
+  jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
+    status: FetchStatus.Data,
+    data: testRoutesWithPolylines
+  });
+});
+
+afterAll(() => {
+  jest.resetAllMocks();
 });
 
 describe("DeparturesAndMap", () => {
