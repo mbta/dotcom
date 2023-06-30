@@ -7,29 +7,31 @@ const getPlaceID = (stationName: string | undefined): string => {
   return stationName === "Wonderland" ? "ChIJSbu0PwZu44kRLxNeyhVE0oI" : "";
 };
 
+// Creates a Map URI that supports both Apple and Google Maps
+// given name, latitude, and longitude exact locations can (usually) be pinned
+// given just a latitude and longitude a rough marker can be placed
 const getExternalMapURI = (
-  longitude?: number,
-  latitude?: number,
+  latitude: number,
+  longitude: number,
   name?: string
 ): string => {
   let params = "";
 
+  // Apple uses a combination of `q` and `sll` to pin locations
+  // Google uses a combination of the `query` and `query_place_id` to pin locations
   if (name) {
+    const latLongString = `${latitude},${longitude}`;
     const encodedName = encodeURIComponent(name);
     params += `&query=${encodedName}&q=${encodedName}&query_place_id=${getPlaceID(
       name
-    )}`;
+    )}&sll=${latLongString}`;
   }
 
-  if (latitude && longitude && !name) {
-    params += "q=";
-  }
-
-  // Google uses a combination of the `query` and `query_place_id` pin locations
-  // Apple uses a combination of `q` and `sll` to pin locations
-  if (latitude && longitude && name) {
+  // google searches lat long via the `query` param
+  // apple searches lat long via the `q` param
+  if (!name) {
     const latLongString = `${latitude},${longitude}`;
-    params += `&sll=${latLongString}`;
+    params += `&query=${latLongString}&q=${latLongString}`;
   }
 
   // TODO figure out query_place_id for each station

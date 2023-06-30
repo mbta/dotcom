@@ -1,72 +1,63 @@
 import React from "react";
 import AmenityCard, { AmenityModal } from "./AmenityCard";
 import { parkingIcon } from "../../../helpers/icon";
-import { Stop } from "../../../__v3api";
-import { includes, split } from "lodash";
+import { Alert, Stop } from "../../../__v3api";
+import { includes } from "lodash";
 import { getExternalMapURI } from "../ExternalMapLink";
+import Alerts from "../../../components/Alerts";
 
-const getModalContent = (stop: Stop): JSX.Element => {
-  // TODO figure out the alerts stuff
+const getModalContent = (
+  stop: Stop,
+  alertsForParking: Alert[]
+): JSX.Element => {
   return (
     <AmenityModal headerText={"Parking at " + stop.name}>
+      <Alerts alerts={alertsForParking} />
       <div>
         {stop.parking_lots.map(
           (park): JSX.Element => {
-            const mobileAppId = park.payment.mobile_app?.id;
             const mobileAppURL = park.payment.mobile_app?.url;
             const supportsMobileApp = includes(
               park.payment.methods,
               "Mobile App"
             );
             const supportsInvoice = includes(park.payment.methods, "Invoice");
-            const payTokens = split(park.payment.daily_rate, "|");
-            let weekdayRate = park.payment.daily_rate;
-            let weekendRate = park.payment.daily_rate;
-            if (payTokens.length > 1) {
-              // String is most likely of the format `Mon-Fri $5 | Sat-Sun $3`
-              // so parse out the rates
-              weekdayRate = split(payTokens[0], " ")[1];
-              weekendRate = split(payTokens[1], " ")[2];
-            }
-            const supportsOvernight =
-              park.capacity.overnight === "Available" ? "Yes" : "No";
-            const totalSpots = park.capacity.total;
-            const accessibleSpots = park.capacity.accessible;
 
-            const externalMapURI = getExternalMapURI(
-              park.longitude,
-              park.latitude
-            );
+            let externalMapURI = null;
+            if (park.latitude && park.longitude) {
+              externalMapURI = getExternalMapURI(park.latitude, park.longitude);
+            }
 
             return (
               <div key={park.name}>
                 <h2>{park.name}</h2>
-                <table className="table table-striped">
-                  <thead>
-                    <tr>
-                      <td>Weekday rate</td>
-                      <td>Weekend rate</td>
-                      <td>Overnight parking</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{weekdayRate}</td>
-                      <td>{weekendRate}</td>
-                      <td>{supportsOvernight}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <h3>Parking Rates</h3>
+                <ul>
+                  <li>
+                    <b>Daily:</b>
+                    <span className="ps-8">{park.payment.daily_rate}</span>
+                  </li>
+                  <li>
+                    <b>Monthly:</b>
+                    <span className="ps-8">{park.payment.monthly_rate}</span>
+                  </li>
+                  <li>
+                    <b>Overnight:</b>
+                    <span className="ps-8">{park.capacity.overnight}</span>
+                  </li>
+                </ul>
                 <h3>Facility Information</h3>
                 <ul>
-                  <li>{totalSpots} total parking spots</li>
-                  <li>{accessibleSpots} accessible spots</li>
+                  <li>{park.capacity.total} total parking spots</li>
+                  <li>{park.capacity.accessible} accessible spots</li>
                 </ul>
-                <div>
-                  <a href={externalMapURI} className="c-call-to-action">
-                    Get directions to this parking facility
-                  </a>
-                </div>
+                {externalMapURI && (
+                  <div>
+                    <a href={externalMapURI} className="c-call-to-action">
+                      Get directions to this parking facility
+                    </a>
+                  </div>
+                )}
 
                 {park.payment.methods.length > 0 && (
                   <>
@@ -75,7 +66,7 @@ const getModalContent = (stop: Stop): JSX.Element => {
                       {supportsMobileApp && mobileAppURL && (
                         <li>
                           <a href={mobileAppURL}>PayByPhone</a> (Location{" "}
-                          {mobileAppId}). Use the:
+                          {park.payment.mobile_app?.id}). Use the:
                           <ul>
                             <li>App</li>
                             <li>Website</li>
@@ -108,10 +99,15 @@ const getModalContent = (stop: Stop): JSX.Element => {
   );
 };
 
-const ParkingAmenityCard = ({ stop }: { stop: Stop }): JSX.Element => {
+const ParkingAmenityCard = ({
+  stop,
+  alertsForParking
+}: {
+  stop: Stop;
+  alertsForParking: Alert[];
+}): JSX.Element => {
   const icon = <span className="m-stop-page__icon">{parkingIcon()}</span>;
-  console.log(stop);
-  const modalContent = getModalContent(stop);
+  const modalContent = getModalContent(stop, alertsForParking);
 
   return (
     <AmenityCard headerText="Parking" icon={icon} modalContent={modalContent} />

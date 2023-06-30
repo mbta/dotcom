@@ -10,6 +10,10 @@ import AccessibilityAmenityCard from "./amenities/AccessibilityAmenityCard";
 import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
 import { alertsByActivity } from "../../models/alert";
 
+const getParkingAlerts = (alerts: Alert[]): Alert[] => {
+  return alerts.filter(a => a.effect === "parking_issue");
+};
+
 const StationInformation = ({
   stop,
   alerts,
@@ -46,7 +50,10 @@ const StationInformation = ({
         {isStation && (
           <>
             <h3 className="hidden-md-up">Bringing Your Car or Bike</h3>
-            <ParkingAmenityCard stop={stop} />
+            <ParkingAmenityCard
+              stop={stop}
+              alertsForParking={getParkingAlerts(alerts)}
+            />
             <BikeStorageAmenityCard
               stopName={stop.name}
               bikeStorage={stop.bike_storage}
