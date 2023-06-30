@@ -10,18 +10,21 @@ const getModalContent = (
   stop: Stop,
   alertsForParking: Alert[]
 ): JSX.Element => {
+  // If there is no parking lot information then this modal should never show
+  if (!stop.parking_lots || stop.parking_lots.length === 0) {
+    return <></>;
+  }
   return (
     <AmenityModal headerText={`Parking at ${stop.name}`}>
       <Alerts alerts={alertsForParking} />
       <div>
         {stop.parking_lots.map(
           (park): JSX.Element => {
-            const mobileAppURL = park.payment.mobile_app?.url;
-            const supportsMobileApp = includes(
-              park.payment.methods,
-              "Mobile App"
-            );
-            const supportsInvoice = includes(park.payment.methods, "Invoice");
+            const mobileAppURL = park.payment?.mobile_app?.url;
+            const paymentMethods =
+              park.payment && park.payment.methods ? park.payment.methods : [];
+            const supportsMobileApp = includes(paymentMethods, "Mobile App");
+            const supportsInvoice = includes(paymentMethods, "Invoice");
 
             let externalMapURI = null;
             if (park.latitude && park.longitude) {
@@ -35,21 +38,21 @@ const getModalContent = (
                 <ul>
                   <li>
                     <b>Daily:</b>
-                    <span className="ps-8">{park.payment.daily_rate}</span>
+                    <span className="ps-8">{park.payment?.daily_rate}</span>
                   </li>
                   <li>
                     <b>Monthly:</b>
-                    <span className="ps-8">{park.payment.monthly_rate}</span>
+                    <span className="ps-8">{park.payment?.monthly_rate}</span>
                   </li>
                   <li>
                     <b>Overnight:</b>
-                    <span className="ps-8">{park.capacity.overnight}</span>
+                    <span className="ps-8">{park.capacity?.overnight}</span>
                   </li>
                 </ul>
                 <h3>Facility Information</h3>
                 <ul>
-                  <li>{park.capacity.total} total parking spots</li>
-                  <li>{park.capacity.accessible} accessible spots</li>
+                  <li>{park.capacity?.total} total parking spots</li>
+                  <li>{park.capacity?.accessible} accessible spots</li>
                 </ul>
                 {externalMapURI && (
                   <div>
@@ -59,14 +62,14 @@ const getModalContent = (
                   </div>
                 )}
 
-                {park.payment.methods.length > 0 && (
+                {paymentMethods.length > 0 && (
                   <>
                     <h2>Payment Methods</h2>
                     <ul>
                       {supportsMobileApp && mobileAppURL && (
                         <li>
                           <a href={mobileAppURL}>PayByPhone</a> (Location{" "}
-                          {park.payment.mobile_app?.id}). Use the:
+                          {park.payment?.mobile_app?.id}). Use the:
                           <ul>
                             <li>App</li>
                             <li>Website</li>

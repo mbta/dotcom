@@ -42,8 +42,8 @@ export type Mode = "commuter_rail" | "subway" | "bus" | "ferry";
 export interface ParkingLot {
   name: string;
   address: string | null;
-  capacity: ParkingLotCapacity;
-  payment: ParkingLotPayment;
+  capacity: ParkingLotCapacity | null;
+  payment: ParkingLotPayment | null;
   manager: ParkingLotManager | null;
   utilization?: ParkingLotUtilization | null;
   note?: string | null;
