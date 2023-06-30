@@ -1,8 +1,8 @@
 import React from "react";
+import { includes } from "lodash";
 import AmenityCard, { AmenityModal } from "./AmenityCard";
 import { parkingIcon } from "../../../helpers/icon";
 import { Alert, Stop } from "../../../__v3api";
-import { includes } from "lodash";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
 
@@ -11,7 +11,7 @@ const getModalContent = (
   alertsForParking: Alert[]
 ): JSX.Element => {
   return (
-    <AmenityModal headerText={"Parking at " + stop.name}>
+    <AmenityModal headerText={`Parking at ${stop.name}`}>
       <Alerts alerts={alertsForParking} />
       <div>
         {stop.parking_lots.map(
