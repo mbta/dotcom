@@ -1,7 +1,15 @@
 import { faker } from "@faker-js/faker";
 import { uniqueId } from "lodash";
 import { Polyline } from "../../leaflet/components/__mapdata";
-import { Route, RouteType } from "../../__v3api";
+import {
+  AccessibilityType,
+  BikeStorageType,
+  FareFacilityType,
+  ParkingLot,
+  Route,
+  RouteType,
+  Stop
+} from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 
 export const newLatOrLon = (): number => +faker.string.numeric(2);
@@ -36,3 +44,25 @@ export const routeWithPolylines = (
     polylines
   };
 };
+
+const defaultStop: Stop = {
+  accessibility: [] as AccessibilityType[],
+  address: faker.location.streetAddress(),
+  bike_storage: [] as BikeStorageType[],
+  closed_stop_info: null,
+  "has_charlie_card_vendor?": false,
+  "has_fare_machine?": false,
+  fare_facilities: [] as FareFacilityType[],
+  id: "stopId",
+  "is_child?": false,
+  latitude: 42.460574,
+  longitude: -71.457804,
+  municipality: "Boston",
+  name: "Stop Name",
+  note: null,
+  parking_lots: [] as ParkingLot[],
+  "station?": false,
+  type: "stop"
+};
+export const customStop = (args: Partial<Stop>): Stop =>
+  Object.assign({}, defaultStop, args);
