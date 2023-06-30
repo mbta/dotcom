@@ -4,7 +4,7 @@ import { Polyline } from "../../leaflet/components/__mapdata";
 import { Route, RouteType } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 
-export const newLatOrLon = (): number => +faker.random.numeric(2);
+export const newLatOrLon = (): number => +faker.string.numeric(2);
 const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];
 export const newPolyline = (): Polyline => ({
   color: faker.color.rgb({ prefix: "#" }),
