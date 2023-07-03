@@ -25,7 +25,7 @@ const AccessAmenitiesModal = ({
       {hasFacilities && (
         <AmenityModal headerText={`${facilityType} at ${stopName}`}>
           <Alerts alerts={alerts} />
-          <h2>Eleavator Status</h2>
+          <h2>Elevator Status</h2>
 
           <table className="access-amenities-table">
             <tr className="access-amenities-header access-amenities-row">
