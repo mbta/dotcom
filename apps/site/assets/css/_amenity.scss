@@ -16,32 +16,26 @@
   }
 }
 
-.facilities-list-header {
+.access-amenities-header {
   background: $brand-primary-darkest;
   color: $white;
   height: 3.75rem;
-  padding-top: 0 !important;
 }
 
-
-.access-amenities-container {
-  border: solid .063rem $gray-lightest;
-  .access-amenities-row:nth-child(2n) {
-    background: $gray-lightest;
-  }
+tr:nth-child(2n+3) {
+  background-color: $gray-lightest;
 }
 
 .access-amenities-row {
-  display: grid;
-  grid-template-columns: 66.667% 33.334%;
   height: 5rem;
-  padding-bottom: .625rem;
-  padding-left: .625rem;
-  padding-top: 1.25rem;
+}
+
+.status {
+  padding-right: 3.125rem;
 }
 
 .access-amenities-name {
-  padding-right: 3.125rem;
+  padding-left: 1rem;
 }
 
 .access-amenities-text {
@@ -59,4 +53,9 @@
 
 .amenity-out {
   color: red;
+}
+
+.access-amenities-table {
+  border: solid .063rem $gray-lightest;
+  width: 100%;
 }
