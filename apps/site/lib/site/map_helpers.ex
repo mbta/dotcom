@@ -71,7 +71,7 @@ defmodule Site.MapHelpers do
   def image(:ferry) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/media/2023-06/2023-06-28-ferry-map.png"
+      "/sites/default/files/media/2023-06/2023-6-29-ferry-map.png"
     )
   end
 
