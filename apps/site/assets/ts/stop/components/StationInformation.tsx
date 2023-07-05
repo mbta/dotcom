@@ -8,7 +8,7 @@ import ElevatorsAmenityCard from "./amenities/ElevatorsAmenityCard";
 import EscalatorsAmenityCard from "./amenities/EscalatorsAmenityCard";
 import AccessibilityAmenityCard from "./amenities/AccessibilityAmenityCard";
 import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
-import { alertsByActivity } from "../../models/alert";
+import { alertsByActivity, alertsByFacility } from "../../models/alert";
 
 const StationInformation = ({
   stop,
@@ -31,6 +31,9 @@ const StationInformation = ({
       facilitiesByType.set(type, [facility]);
     }
   });
+
+  const elevators = facilitiesByType.get("ELEVATOR")!;
+  const escalators = facilitiesByType.get("ESCALATOR")!;
 
   return (
     <div>
@@ -59,10 +62,20 @@ const StationInformation = ({
             <h3 className="hidden-md-up">Getting Around the Station</h3>
             <ElevatorsAmenityCard
               stopName={stop.name}
-              alerts={alerts}
-              elevatorFacilities={facilitiesByType.get("ELEVATOR")!}
+              alerts={alertsByFacility(
+                elevators !== undefined ? elevators : [],
+                alerts
+              )}
+              elevatorFacilities={elevators !== undefined ? elevators : []}
             />
-            <EscalatorsAmenityCard />
+            <EscalatorsAmenityCard
+              stopName={stop.name}
+              alerts={alertsByFacility(
+                elevators !== undefined ? elevators : [],
+                alerts
+              )}
+              escalatorFacilities={escalators !== undefined ? elevators : []}
+            />
           </>
         )}
         <AccessibilityAmenityCard />
