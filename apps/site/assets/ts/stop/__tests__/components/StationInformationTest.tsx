@@ -6,12 +6,14 @@ import { Stop } from "../../../__v3api";
 const stationStop = {
   name: "First Station",
   "station?": true,
-  bike_storage: ["bike_storage_rack"]
+  bike_storage: ["bike_storage_rack"],
+  accessibility: ["accessible", "ramp"]
 } as Stop;
 const busStop = {
   name: "Second Pl",
   "station?": false,
-  bike_storage: ["bike_storage_rack"]
+  bike_storage: ["bike_storage_rack"],
+  accessibility: ["accessible", "ramp"]
 } as Stop;
 
 describe("StationInformation", () => {
