@@ -28,33 +28,35 @@ const AccessAmenitiesModal = ({
           <h2>Elevator Status</h2>
 
           <table className="access-amenities-table">
-            <tr className="access-amenities-header access-amenities-row">
-              <th className="access-amenities-name">Elevator</th>
-              <th className="status">Status</th>
-            </tr>
-            {facilities?.map(facility => {
-              return (
-                <tr
-                  key={facility.id}
-                  className="access-amenities-row access-amenities-text"
-                >
-                  <td className="access-amenities-name">
-                    {facility.attributes.short_name}
-                  </td>
-                  {hasFacilityAlert(facility.id, alerts) ? (
-                    <td className="status">
-                      <i className="fa-solid fa-circle amenity-status amenity-out" />
-                      Out of Order
+            <tbody>
+              <tr className="access-amenities-header access-amenities-row">
+                <th className="access-amenities-name">Elevator</th>
+                <th className="status">Status</th>
+              </tr>
+              {facilities?.map(facility => {
+                return (
+                  <tr
+                    key={facility.id}
+                    className="access-amenities-row access-amenities-text"
+                  >
+                    <td className="access-amenities-name">
+                      {facility.attributes.short_name}
                     </td>
-                  ) : (
-                    <td className="status">
-                      <i className="fa-solid fa-circle amenity-status amenity-working" />
-                      Working
-                    </td>
-                  )}
-                </tr>
-              );
-            })}
+                    {hasFacilityAlert(facility.id, alerts) ? (
+                      <td className="status">
+                        <i className="fa-solid fa-circle amenity-status amenity-out" />
+                        Out of Order
+                      </td>
+                    ) : (
+                      <td className="status">
+                        <i className="fa-solid fa-circle amenity-status amenity-working" />
+                        Working
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
           <AmenityLink
             url="/accessibility/trip-planning"
