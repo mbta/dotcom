@@ -14,7 +14,8 @@ defmodule Routes.Route do
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
             direction_destinations: :unknown,
             description: :unknown,
-            custom_route?: false
+            custom_route?: false,
+            fare_class: ""
 
   @type id_t :: String.t()
   @type t :: %__MODULE__{
@@ -27,7 +28,8 @@ defmodule Routes.Route do
           direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc,
-          custom_route?: boolean
+          custom_route?: boolean,
+          fare_class: String.t()
         }
   @type gtfs_route_type ::
           :subway | :commuter_rail | :bus | :ferry | :logan_express | :massport_shuttle
@@ -297,7 +299,8 @@ defimpl Poison.Encoder, for: Routes.Route do
           direction_names: direction_names,
           direction_destinations: direction_destinations,
           description: description,
-          custom_route?: custom_route?
+          custom_route?: custom_route?,
+          fare_class: fare_class
         },
         options
       ) do
@@ -317,7 +320,8 @@ defimpl Poison.Encoder, for: Routes.Route do
         direction_names: encoded_directions(direction_names),
         direction_destinations: direction_destinations_value,
         description: description,
-        custom_route?: custom_route?
+        custom_route?: custom_route?,
+        fare_class: fare_class
       },
       options
     )

@@ -7,6 +7,8 @@ defmodule Routes.Parser do
 
   @spec parse_route(Item.t()) :: Route.t()
   def parse_route(%Item{id: id, attributes: attributes, relationships: relationships}) do
+    IO.inspect(attributes)
+
     %Route{
       id: id,
       type: attributes["type"],
@@ -18,7 +20,8 @@ defmodule Routes.Parser do
         direction_attrs(attributes["direction_names"], parse_route_patterns(relationships)),
       direction_destinations:
         direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
-      description: parse_gtfs_desc(attributes["description"])
+      description: parse_gtfs_desc(attributes["description"]),
+      fare_class: attributes["fare_class"]
     }
   end
 

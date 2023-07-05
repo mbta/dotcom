@@ -377,6 +377,11 @@ defmodule SiteWeb.ViewHelpers do
   @doc "Return the fare summaries for the given mode"
   def mode_summaries(mode_atom, name \\ nil, url \\ nil)
 
+  def mode_summaries(:free, nil, _url) do
+    # hack
+    [[mode: :bus, name: :free_fare]] |> summaries_for_filters(:bus_subway)
+  end
+
   def mode_summaries(mode, nil, _url) when mode in [:commuter_rail, :ferry] do
     mode
     |> mode_filters(nil)

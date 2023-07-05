@@ -340,6 +340,10 @@ defmodule SiteWeb.ScheduleView do
 
   @spec single_trip_fares(Route.t()) :: [{String.t(), String.t() | iolist}]
   def single_trip_fares(route) do
+    IO.inspect(route)
+    IO.inspect(route |> to_fare_summary_atom() |> mode_summaries())
+    IO.inspect(:free |> mode_summaries())
+
     summary =
       route
       |> to_fare_summary_atom()
@@ -350,6 +354,8 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom
+  def to_fare_summary_atom(%Route{fare_class: "Free"}), do: :free
+
   def to_fare_summary_atom(%Route{type: 3, id: id}) do
     cond do
       Fares.silver_line_rapid_transit?(id) -> :subway
