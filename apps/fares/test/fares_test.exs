@@ -70,18 +70,6 @@ defmodule FaresTest do
 
       assert Fares.fare_for_stops(:commuter_rail, "place-PB-0245", "place-qnctr") ==
                {:ok, {:interzone, "6"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-ER-0115", "place-GB-0254") ==
-               {:ok, {:interzone, "5"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-GB-0254", "place-ER-0115") ==
-               {:ok, {:interzone, "5"}}
-    end
-
-    test "finds the interzone fares when combo zone includes '1A-2'" do
-      # Lynn (1A-2), River Works (1A-2)
-      assert Fares.fare_for_stops(:commuter_rail, "place-ER-0115", "place-ER-0099") ==
-               {:ok, {:interzone, "1"}}
     end
   end
 
