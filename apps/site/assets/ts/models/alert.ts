@@ -17,6 +17,15 @@ export const isDiversion = ({ effect }: Alert): boolean =>
 export const isHighPriorityAlert = ({ effect }: Alert): boolean =>
   effect === "detour" || effect === "suspension" || effect === "shuttle";
 
+export const alertsForEffects = (alerts: Alert[], effects: string[]): Alert[] =>
+  alerts.filter(a => effects.includes(a.effect));
+
+export const alertsForEffect = (alerts: Alert[], effect: string): Alert[] =>
+  alertsForEffects(alerts, [effect]);
+
+export const filterParkingAlerts = (alerts: Alert[]): Alert[] =>
+  alertsForEffects(alerts, ["parking_closure", "parking_issue"]);
+
 export const isAmenityAlert = ({ effect }: Alert): boolean =>
   [
     "elevator_closure",

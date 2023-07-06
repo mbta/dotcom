@@ -44,6 +44,12 @@ const testLots = [
   }
 ] as ParkingLot[];
 
+const noPaymentLot = {
+  name: "No Payment Lot",
+  capacity: null,
+  payment: null
+} as ParkingLot;
+
 describe("ParkingAmenityCard", () => {
   it("should render the title", () => {
     render(<ParkingAmenityCard stop={testStop} alertsForParking={[]} />);
@@ -79,6 +85,16 @@ describe("ParkingAmenityCard", () => {
     expect(screen.getByText("$100")).toBeInTheDocument();
   });
 
+  it("should list unknown for costs if there are none", async () => {
+    const user = userEvent.setup();
+    const localTestStop = { ...testStop, parking_lots: [noPaymentLot] };
+    render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
+    await user.click(screen.getByRole("button"));
+
+    const unknowns = screen.getAllByText(/Unknown/);
+    expect(unknowns.length).toBe(3);
+  });
+
   it("should list each parking lots overnight status", async () => {
     const user = userEvent.setup();
     const localTestStop = { ...testStop, parking_lots: testLots };
@@ -100,6 +116,15 @@ describe("ParkingAmenityCard", () => {
     expect(screen.getByText("0 accessible spots")).toBeInTheDocument();
   });
 
+  it("should hide the Facility Information if there is no cpacity", async () => {
+    const user = userEvent.setup();
+    const localTestStop = { ...testStop, parking_lots: [noPaymentLot] };
+    render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
+    await user.click(screen.getByRole("button"));
+
+    expect(screen.queryByText("Facility Information")).toBeNull();
+  });
+
   it("should only list payment methods if each lot supports it", async () => {
     const user = userEvent.setup();
     const localTestStop = { ...testStop, parking_lots: testLots };
@@ -116,6 +141,15 @@ describe("ParkingAmenityCard", () => {
     expect(screen.getByText(/Location 1234/)).toBeInTheDocument();
   });
 
+  it("should hide the payment methods if there are non supported", async () => {
+    const user = userEvent.setup();
+    const localTestStop = { ...testStop, parking_lots: [noPaymentLot] };
+    render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
+    await user.click(screen.getByRole("button"));
+
+    expect(screen.queryByText("Payment Methods")).toBeNull();
+  });
+
   it("should only show a location link if the parking lot has a latitude and longitude", async () => {
     const user = userEvent.setup();
     const localTestStop = { ...testStop, parking_lots: testLots };
@@ -126,7 +160,7 @@ describe("ParkingAmenityCard", () => {
     expect(directionLinks[0]).toBeInTheDocument();
   });
 
-  it("shuold show alerts in the modal", async () => {
+  it("should show alerts in the modal", async () => {
     const alerts = [
       {
         id: "1",
@@ -144,5 +178,13 @@ describe("ParkingAmenityCard", () => {
     await user.click(screen.getByRole("button"));
 
     expect(screen.getByText(/Test Alert/)).toBeInTheDocument();
+  });
+
+  it("should not launch the modal if there is no modal content", async () => {
+    const user = userEvent.setup();
+    const localTestStop = { ...testStop, parking_lots: [] };
+    render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
+    await user.click(screen.getByRole("button"));
+    expect(screen.queryByText(/Parking at/)).toBeNull();
   });
 });

@@ -2,17 +2,58 @@ import React from "react";
 import { includes } from "lodash";
 import AmenityCard, { AmenityModal } from "./AmenityCard";
 import { parkingIcon } from "../../../helpers/icon";
-import { Alert, Stop } from "../../../__v3api";
+import { Alert, ParkingLot, Stop } from "../../../__v3api";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
+
+const undefinedToUnknown = (
+  str: string | undefined | number
+): string | number => (str !== undefined ? str : "Unknown");
+
+const getPaymentElement = (park: ParkingLot): JSX.Element => {
+  const paymentMethods =
+    park.payment && park.payment.methods ? park.payment.methods : [];
+
+  if (paymentMethods.length === 0) {
+    return <></>;
+  }
+
+  const mobileAppURL = park.payment?.mobile_app?.url;
+  const supportsMobileApp = includes(paymentMethods, "Mobile App");
+  const supportsInvoice = includes(paymentMethods, "Invoice");
+  const supportsCash = includes(paymentMethods, "Cash");
+  const supportsCreditDebitCard = includes(paymentMethods, "Credit/Debit Card");
+
+  return (
+    <>
+      <h3>Payment Methods</h3>
+      <ul>
+        {supportsMobileApp && mobileAppURL && (
+          <li>
+            <a href={mobileAppURL}>PayByPhone</a> (Location{" "}
+            {park.payment?.mobile_app?.id}). Use the:
+            <ul>
+              <li>App</li>
+              <li>Website</li>
+              <li>Or call 866-234-7275</li>
+            </ul>
+          </li>
+        )}
+        {supportsCreditDebitCard && <li>Credit/Debit Card</li>}
+        {supportsCash && <li>Cash</li>}
+        {supportsInvoice && <li>Invoice in the mail ($1 surcharge)</li>}
+      </ul>
+    </>
+  );
+};
 
 const getModalContent = (
   stop: Stop,
   alertsForParking: Alert[]
-): JSX.Element => {
+): JSX.Element | undefined => {
   // If there is no parking lot information then this modal should never show
   if (!stop.parking_lots || stop.parking_lots.length === 0) {
-    return <></>;
+    return undefined;
   }
   return (
     <AmenityModal headerText={`Parking at ${stop.name}`}>
@@ -20,12 +61,6 @@ const getModalContent = (
       <div>
         {stop.parking_lots.map(
           (park): JSX.Element => {
-            const mobileAppURL = park.payment?.mobile_app?.url;
-            const paymentMethods =
-              park.payment && park.payment.methods ? park.payment.methods : [];
-            const supportsMobileApp = includes(paymentMethods, "Mobile App");
-            const supportsInvoice = includes(paymentMethods, "Invoice");
-
             let externalMapURI = null;
             if (park.latitude && park.longitude) {
               externalMapURI = getExternalMapURI(park.latitude, park.longitude);
@@ -33,27 +68,37 @@ const getModalContent = (
 
             return (
               <div key={park.name}>
-                <h2>{park.name}</h2>
+                <h2 className="mt-6">{park.name}</h2>
                 <h3>Parking Rates</h3>
                 <ul>
                   <li>
                     <b>Daily:</b>
-                    <span className="ps-8">{park.payment?.daily_rate}</span>
+                    <span className="ps-8">
+                      {undefinedToUnknown(park.payment?.daily_rate)}
+                    </span>
                   </li>
                   <li>
                     <b>Monthly:</b>
-                    <span className="ps-8">{park.payment?.monthly_rate}</span>
+                    <span className="ps-8">
+                      {undefinedToUnknown(park.payment?.monthly_rate)}
+                    </span>
                   </li>
                   <li>
                     <b>Overnight:</b>
-                    <span className="ps-8">{park.capacity?.overnight}</span>
+                    <span className="ps-8">
+                      {undefinedToUnknown(park.capacity?.overnight)}
+                    </span>
                   </li>
                 </ul>
-                <h3>Facility Information</h3>
-                <ul>
-                  <li>{park.capacity?.total} total parking spots</li>
-                  <li>{park.capacity?.accessible} accessible spots</li>
-                </ul>
+                {park.capacity && (
+                  <>
+                    <h3>Facility Information</h3>
+                    <ul>
+                      <li>{park.capacity.total} total parking spots</li>
+                      <li>{park.capacity.accessible} accessible spots</li>
+                    </ul>
+                  </>
+                )}
                 {externalMapURI && (
                   <div>
                     <a href={externalMapURI} className="c-call-to-action">
@@ -61,39 +106,18 @@ const getModalContent = (
                     </a>
                   </div>
                 )}
-
-                {paymentMethods.length > 0 && (
-                  <>
-                    <h2>Payment Methods</h2>
-                    <ul>
-                      {supportsMobileApp && mobileAppURL && (
-                        <li>
-                          <a href={mobileAppURL}>PayByPhone</a> (Location{" "}
-                          {park.payment?.mobile_app?.id}). Use the:
-                          <ul>
-                            <li>App</li>
-                            <li>Website</li>
-                            <li>Or call 866-234-7275</li>
-                          </ul>
-                        </li>
-                      )}
-                      {supportsInvoice && (
-                        <li>Invoice in the mail ($1 surcharge)</li>
-                      )}
-                    </ul>
-                  </>
-                )}
+                {getPaymentElement(park)}
               </div>
             );
           }
         )}
       </div>
-      <div>
+      <div className="mb-8">
         <a href="/parking/pay-day" className="c-call-to-action">
           View more payment information
         </a>
       </div>
-      <div>
+      <div className="mb-8">
         <a href="/parking" className="c-call-to-action">
           Learn more about parking at the T
         </a>
