@@ -5,7 +5,6 @@ import { parkingIcon } from "../../../helpers/icon";
 import { Alert, ParkingLot, Stop } from "../../../__v3api";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
-import Badge from "../../../components/Badge";
 
 const undefinedToUnknown = (
   str: string | undefined | number
