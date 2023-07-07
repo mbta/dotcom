@@ -24,14 +24,12 @@ const ElevatorsAmenityCard = ({
       badge={cardBadge(elevatorFacilities, alerts)}
       icon={icon}
       modalContent={
-        elevatorFacilities.length > 0 && (
-          <AccessAmenitiesModal
-            stopName={stopName}
-            alerts={alerts}
-            facilities={elevatorFacilities}
-            facilityType="Elevators"
-          />
-        )
+        <AccessAmenitiesModal
+          stopName={stopName}
+          alerts={alerts}
+          facilities={elevatorFacilities}
+          facilityType="Elevator"
+        />
       }
     >
       {availabilityMessage(
