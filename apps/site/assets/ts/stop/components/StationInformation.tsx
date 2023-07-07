@@ -71,10 +71,10 @@ const StationInformation = ({
             <EscalatorsAmenityCard
               stopName={stop.name}
               alerts={alertsByFacility(
-                elevators !== undefined ? elevators : [],
+                escalators !== undefined ? escalators : [],
                 alerts
               )}
-              escalatorFacilities={escalators !== undefined ? elevators : []}
+              escalatorFacilities={escalators !== undefined ? escalators : []}
             />
           </>
         )}
