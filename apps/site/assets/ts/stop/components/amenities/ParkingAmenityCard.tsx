@@ -1,10 +1,11 @@
 import React from "react";
 import { includes } from "lodash";
-import AmenityCard, { AmenityModal } from "./AmenityCard";
+import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
 import { parkingIcon } from "../../../helpers/icon";
 import { Alert, ParkingLot, Stop } from "../../../__v3api";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
+import Badge from "../../../components/Badge";
 
 const undefinedToUnknown = (
   str: string | undefined | number
@@ -112,16 +113,11 @@ const getModalContent = (
           }
         )}
       </div>
-      <div className="mb-8">
-        <a href="/parking/pay-day" className="c-call-to-action">
-          View more payment information
-        </a>
-      </div>
-      <div className="mb-8">
-        <a href="/parking" className="c-call-to-action">
-          Learn more about parking at the T
-        </a>
-      </div>
+      <AmenityLink
+        url="/parking/pay-day"
+        text="View more payment information"
+      />
+      <AmenityLink url="/parking" text="Learn more about parking at the T" />
     </AmenityModal>
   );
 };
