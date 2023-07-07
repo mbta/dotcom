@@ -13,12 +13,6 @@ defmodule SiteWeb.RouteControllerTest do
            %Route{id: "subway_route", color: "ADFF2F", type: 0},
            %Route{id: "746", name: "SL route", color: "ADFF2F", type: 3}
          ]
-       end,
-       by_stop: fn _, _ ->
-         [
-           %Route{fare_class: :ferry_fare},
-           %Route{fare_class: :local_bus_fare}
-         ]
        end
      ]},
     {RoutePatterns.Repo, [],
@@ -38,13 +32,13 @@ defmodule SiteWeb.RouteControllerTest do
   describe "get_by_stop_id/2" do
     test "returns routes with polyline data and fares", %{conn: conn} do
       conn = get(conn, route_path(conn, :get_by_stop_id, "stop_id"))
-      %{"routes" => routes_response, "fares" => fares_response} = json_response(conn, 200)
+      response = json_response(conn, 200)
 
       assert [
                %{"id" => "route", "color" => "ADFF2F", "polylines" => polylines},
                %{"id" => "subway_route", "color" => "ADFF2F", "polylines" => subway_polylines},
                %{"id" => "746", "color" => "ADFF2F", "polylines" => sl_polylines}
-             ] = routes_response
+             ] = response
 
       assert [
                %{
@@ -57,11 +51,6 @@ defmodule SiteWeb.RouteControllerTest do
 
       assert Enum.count(subway_polylines) > 0
       assert Enum.count(sl_polylines) > 0
-
-      assert fares_response == [
-               ["Local bus one-way", "$1.70"],
-               ["Ferry one-way", "$2.40 – $9.75"]
-             ]
     end
   end
 end
