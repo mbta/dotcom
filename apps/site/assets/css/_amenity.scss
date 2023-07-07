@@ -19,6 +19,7 @@
 .access-amenities-header {
   background: $brand-primary-darkest;
   color: $white;
+  font-size: .875rem;
   height: 3.75rem;
 }
 
@@ -27,15 +28,18 @@ tr:nth-child(2n+3) {
 }
 
 .access-amenities-row {
-  height: 5rem;
+  height: 4rem;
 }
 
 .status {
-  padding-right: 3.125rem;
+  padding-right: 1rem;
+  white-space: nowrap;
 }
 
 .amenity-status {
+  font-size: .5rem;
   padding-right: .625rem;
+  vertical-align: middle;
 }
 
 .amenity-working {
@@ -48,5 +52,6 @@ tr:nth-child(2n+3) {
 
 .access-amenities-table {
   border: solid .063rem $gray-lightest;
+  margin-bottom: 1rem;
   width: 100%;
 }

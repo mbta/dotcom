@@ -25,8 +25,7 @@ const AccessAmenitiesModal = ({
       {hasFacilities && (
         <AmenityModal headerText={`${facilityType}s at ${stopName}`}>
           <Alerts alerts={alerts} />
-          <h2>{facilityType} Status</h2>
-
+          {facilityType} Status
           <table className="access-amenities-table">
             <tbody>
               <tr className="access-amenities-header access-amenities-row">
@@ -36,7 +35,7 @@ const AccessAmenitiesModal = ({
               {facilities?.map(facility => {
                 return (
                   <tr key={facility.id} className="access-amenities-row fs-14">
-                    <td className="ps-16">{facility.attributes.short_name}</td>
+                    <td className="pe-16">{facility.attributes.short_name}</td>
                     {hasFacilityAlert(facility.id, alerts) ? (
                       <td className="status">
                         <i className="fa-solid fa-circle amenity-status amenity-out" />
