@@ -34,25 +34,16 @@ tr:nth-child(2n+3) {
   padding-right: 3.125rem;
 }
 
-.access-amenities-name {
-  padding-left: 1rem;
-}
-
-.access-amenities-text {
-  font-size: .875rem;
-  font-weight: 400;
-}
-
 .amenity-status {
   padding-right: .625rem;
 }
 
 .amenity-working {
-  color: green;
+  color: $brand-success;
 }
 
 .amenity-out {
-  color: red;
+  color: $error-text;
 }
 
 .access-amenities-table {

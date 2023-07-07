@@ -27,7 +27,7 @@ describe("AccessAmenitiesModal", () => {
         stopName={"Davis"}
         alerts={[]}
         facilities={[elevatorFacility]}
-        facilityType="Elevators"
+        facilityType="Elevator"
       />
     );
 
@@ -42,7 +42,7 @@ describe("AccessAmenitiesModal", () => {
         stopName={"Bowdin"}
         alerts={[]}
         facilities={[escalatorFacility]}
-        facilityType="Escalators"
+        facilityType="Escalator"
       />
     );
 

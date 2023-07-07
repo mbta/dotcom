@@ -13,35 +13,30 @@ const AccessAmenitiesModal = ({
   stopName: string;
   alerts: Alert[];
   facilities: Facility[];
-  facilityType: "Elevators" | "Escalators";
+  facilityType: "Elevator" | "Escalator";
 }): JSX.Element => {
   const hasFacilities = facilities ? facilities.length > 0 : false;
   const linkText =
-    facilityType === "Elevators"
+    facilityType === "Elevator"
       ? "Report an elevator issue"
       : "Report an escalator issue";
   return (
     <>
       {hasFacilities && (
-        <AmenityModal headerText={`${facilityType} at ${stopName}`}>
+        <AmenityModal headerText={`${facilityType}s at ${stopName}`}>
           <Alerts alerts={alerts} />
-          <h2>Elevator Status</h2>
+          <h2>{facilityType} Status</h2>
 
           <table className="access-amenities-table">
             <tbody>
               <tr className="access-amenities-header access-amenities-row">
-                <th className="access-amenities-name">Elevator</th>
+                <th className="ps-16">{facilityType}</th>
                 <th className="status">Status</th>
               </tr>
               {facilities?.map(facility => {
                 return (
-                  <tr
-                    key={facility.id}
-                    className="access-amenities-row access-amenities-text"
-                  >
-                    <td className="access-amenities-name">
-                      {facility.attributes.short_name}
-                    </td>
+                  <tr key={facility.id} className="access-amenities-row fs-14">
+                    <td className="ps-16">{facility.attributes.short_name}</td>
                     {hasFacilityAlert(facility.id, alerts) ? (
                       <td className="status">
                         <i className="fa-solid fa-circle amenity-status amenity-out" />

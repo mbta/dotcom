@@ -26,7 +26,7 @@ const ElevatorsAmenityCard = ({
           stopName={stopName}
           alerts={alerts}
           facilities={elevatorFacilities}
-          facilityType="Elevators"
+          facilityType="Elevator"
         />
       }
     />
