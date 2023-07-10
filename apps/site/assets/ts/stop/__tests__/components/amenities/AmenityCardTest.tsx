@@ -49,7 +49,7 @@ describe("AmenityCard", () => {
     expect(screen.queryByText("Modal content")).toBeNull();
   });
 
-  it("should support an enabled state if is a modal", () => {
+  it("should support an enabled state if there is a modal", () => {
     render(
       <AmenityCard
         headerText="Card"

@@ -38,9 +38,22 @@ defmodule Site.IcalendarGenerator do
     end
   end
 
-  defp full_address(event) do
-    event.location <> " " <> event.street_address <> " " <> event.city <> ", " <> event.state
+  defp full_address(%Event{
+         location: location,
+         street_address: street_address,
+         city: city,
+         state: state
+       })
+       when nil not in [location, street_address, city, state] do
+    location <> " " <> street_address <> " " <> city <> ", " <> state
   end
+
+  defp full_address(%Event{location: location, street_address: street_address})
+       when nil not in [location, street_address] do
+    location <> " " <> street_address
+  end
+
+  defp full_address(event), do: event.location
 
   defp imported_address(%Event{imported_address: {:safe, address}}) do
     decode_ampersand_entity(address)

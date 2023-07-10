@@ -65,7 +65,11 @@ const StationInformation = ({
             <EscalatorsAmenityCard />
           </>
         )}
-        <AccessibilityAmenityCard />
+        <AccessibilityAmenityCard
+          accessibleFeatures={stop.accessibility}
+          stopName={stop.name}
+          isStation={isStation}
+        />
         {isStation && <h3 className="hidden-md-up">Purchasing Fares</h3>}
         <FareSalesAmenityCard />
       </div>
