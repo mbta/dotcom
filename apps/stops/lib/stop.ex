@@ -103,6 +103,7 @@ defmodule Stops.Stop.ParkingLot do
   @derive Jason.Encoder
 
   defstruct [
+    :id,
     :name,
     :address,
     :capacity,
@@ -115,6 +116,7 @@ defmodule Stops.Stop.ParkingLot do
   ]
 
   @type t :: %Stops.Stop.ParkingLot{
+          id: String.t(),
           name: String.t(),
           address: String.t(),
           capacity: Stops.Stop.ParkingLot.Capacity.t() | nil,
