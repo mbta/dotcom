@@ -121,6 +121,7 @@ defmodule SiteWeb.Router do
     get("/events/*path_params", EventController, :show)
 
     get("/news", NewsEntryController, :index)
+    get("/news/rss.xml", StaticFileController, :index)
     get("/news/*path_params", NewsEntryController, :show)
 
     get("/projects", ProjectController, :index)
