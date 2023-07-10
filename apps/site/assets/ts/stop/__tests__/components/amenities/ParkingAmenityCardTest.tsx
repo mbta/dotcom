@@ -85,14 +85,15 @@ describe("ParkingAmenityCard", () => {
     expect(screen.getByText("$100")).toBeInTheDocument();
   });
 
-  it("should list unknown for costs if there are none", async () => {
+  it("should hide costs if there are none", async () => {
     const user = userEvent.setup();
     const localTestStop = { ...testStop, parking_lots: [noPaymentLot] };
     render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
     await user.click(screen.getByRole("button"));
 
-    const unknowns = screen.getAllByText(/Unknown/);
-    expect(unknowns.length).toBe(3);
+    expect(screen.queryByText(/Daily:/)).toBeNull();
+    expect(screen.queryByText(/Monthly:/)).toBeNull();
+    expect(screen.queryByText(/Overnight:/)).toBeNull();
   });
 
   it("should list each parking lots overnight status", async () => {

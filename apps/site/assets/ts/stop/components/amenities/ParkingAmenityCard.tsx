@@ -6,10 +6,6 @@ import { Alert, ParkingLot, Stop } from "../../../__v3api";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
 
-const undefinedToUnknown = (
-  str: string | undefined | number
-): string | number => (str !== undefined ? str : "Unknown");
-
 const getPaymentElement = (park: ParkingLot): JSX.Element => {
   const paymentMethods =
     park.payment && park.payment.methods ? park.payment.methods : [];
@@ -71,24 +67,24 @@ const getModalContent = (
                 <h2 className="mt-6">{park.name}</h2>
                 <h3>Parking Rates</h3>
                 <ul>
-                  <li>
-                    <b>Daily:</b>
-                    <span className="ps-8">
-                      {undefinedToUnknown(park.payment?.daily_rate)}
-                    </span>
-                  </li>
-                  <li>
-                    <b>Monthly:</b>
-                    <span className="ps-8">
-                      {undefinedToUnknown(park.payment?.monthly_rate)}
-                    </span>
-                  </li>
-                  <li>
-                    <b>Overnight:</b>
-                    <span className="ps-8">
-                      {undefinedToUnknown(park.capacity?.overnight)}
-                    </span>
-                  </li>
+                  {park.payment?.daily_rate && (
+                    <li>
+                      <b>Daily:</b>
+                      <span className="ps-8">{park.payment?.daily_rate}</span>
+                    </li>
+                  )}
+                  {park.payment?.monthly_rate && (
+                    <li>
+                      <b>Monthly:</b>
+                      <span className="ps-8">{park.payment?.monthly_rate}</span>
+                    </li>
+                  )}
+                  {park.capacity?.overnight && (
+                    <li>
+                      <b>Overnight:</b>
+                      <span className="ps-8">{park.capacity?.overnight}</span>
+                    </li>
+                  )}
                 </ul>
                 {park.capacity && (
                   <>
