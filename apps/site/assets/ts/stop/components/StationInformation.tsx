@@ -8,7 +8,7 @@ import ElevatorsAmenityCard from "./amenities/ElevatorsAmenityCard";
 import EscalatorsAmenityCard from "./amenities/EscalatorsAmenityCard";
 import AccessibilityAmenityCard from "./amenities/AccessibilityAmenityCard";
 import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
-import { alertsByActivity } from "../../models/alert";
+import { alertsByActivity, filterParkingAlerts } from "../../models/alert";
 
 const StationInformation = ({
   stop,
@@ -46,7 +46,10 @@ const StationInformation = ({
         {isStation && (
           <>
             <h3 className="hidden-md-up">Bringing Your Car or Bike</h3>
-            <ParkingAmenityCard />
+            <ParkingAmenityCard
+              stop={stop}
+              alertsForParking={filterParkingAlerts(alerts)}
+            />
             <BikeStorageAmenityCard
               stopName={stop.name}
               bikeStorage={stop.bike_storage}
