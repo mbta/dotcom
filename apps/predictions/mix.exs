@@ -41,7 +41,8 @@ defmodule Predictions.Mixfile do
       {:server_sent_event_stage, "~> 1.0"},
       {:schedules, in_umbrella: true},
       {:stops, in_umbrella: true},
-      {:routes, in_umbrella: true}
+      {:routes, in_umbrella: true},
+      {:phoenix_pubsub, "~> 2.1.3"}
     ]
   end
 end

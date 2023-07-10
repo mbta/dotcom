@@ -46,14 +46,14 @@ defmodule Site.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 1.6"},
-      {:phoenix_html, "~> 3.0"},
+      {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_live_view, "~> 0.16.4"},
-      {:phoenix_live_dashboard, "~> 0.5"},
+      {:phoenix_live_view, "~> 0.19"},
+      {:phoenix_live_dashboard, "~> 0.8"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:gettext, "~> 0.9"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.6.1"},
       {:timex, ">= 2.0.0"},
       {:ehmon, github: "mbta/ehmon", only: :prod},
       {:distillery, "~> 2.0"},
