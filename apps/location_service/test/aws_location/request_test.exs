@@ -38,7 +38,7 @@ defmodule AWSLocation.RequestTest do
                body: %{
                  Position: [-71.214, 42.124]
                },
-               path: "/places/v0/indexes/dotcom-dev-here/search/position"
+               path: "/places/v0/indexes/dotcom-dev-esri/search/position"
              } = operation
     end
 
@@ -78,7 +78,7 @@ defmodule AWSLocation.RequestTest do
                  Text: ^search_text,
                  MaxResults: 1
                },
-               path: "/places/v0/indexes/dotcom-dev-here/search/suggestions"
+               path: "/places/v0/indexes/dotcom-dev-esri/search/suggestions"
              } = operation
     end
 
@@ -107,7 +107,7 @@ defmodule AWSLocation.RequestTest do
       operation = autocomplete("Everywhere", 1)
 
       assert %ExAws.Operation.RestQuery{
-               path: "/places/v0/indexes/dotcom-prod-here/search/suggestions"
+               path: "/places/v0/indexes/dotcom-prod-esri/search/suggestions"
              } = operation
     end
   end

@@ -56,9 +56,9 @@ defmodule AWSLocation.Request do
 
   defp place_index_path(:text), do: place_index_base("esri") <> "/search/text"
 
-  defp place_index_path(:position), do: place_index_base("here") <> "/search/position"
+  defp place_index_path(:position), do: place_index_base("esri") <> "/search/position"
 
-  defp place_index_path(:suggestions), do: place_index_base("here") <> "/search/suggestions"
+  defp place_index_path(:suggestions), do: place_index_base("esri") <> "/search/suggestions"
 
   defp place_index_base(data_provider) when data_provider in ["esri", "here"] do
     {:system, env_var, default} = Application.get_env(:location_service, :aws_index_prefix)

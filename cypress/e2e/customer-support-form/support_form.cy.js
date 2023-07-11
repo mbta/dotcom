@@ -63,7 +63,7 @@ describe("Customer Support Form", () => {
       first_name = faker.name.firstName();
       last_name = faker.name.lastName();
       email = faker.internet.email();
-      phone = faker.phone.phoneNumber();
+      phone = faker.phone.number();
     });
 
     it("With basic info", () => {

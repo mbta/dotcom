@@ -29,8 +29,8 @@ defmodule Site.ScheduleNote do
 
   def schedule_note(%Route{id: "Red"}) do
     %__MODULE__{
-      peak_service: "8 \u2013 15 minutes",
-      offpeak_service: "8 \u2013 15 minutes"
+      peak_service: "9 \u2013 18 minutes",
+      offpeak_service: "11 \u2013 22 minutes"
     }
   end
 
@@ -49,22 +49,22 @@ defmodule Site.ScheduleNote do
 
   def schedule_note(%Route{id: "Orange"}) do
     %__MODULE__{
-      peak_service: "6 \u2013 11 minutes",
-      offpeak_service: "9 \u2013 13 minutes"
+      peak_service: "10 \u2013 12 minutes",
+      offpeak_service: "9 \u2013 11 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Blue"}) do
     %__MODULE__{
-      peak_service: "7 \u2013 9 minutes",
-      offpeak_service: "9 \u2013 15 minutes"
+      peak_service: "5 \u2013 10 minutes",
+      offpeak_service: "10 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Green"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "6 \u2013 12 minutes"
+      offpeak_service: "8 \u2013 12 minutes"
     }
   end
 

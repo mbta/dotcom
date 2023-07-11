@@ -117,9 +117,11 @@ describe("DepartureCard", () => {
 
     const schedules = [
       {
+        route: baseRoute("749", 3),
         trip: { direction_id: 0 }
       },
       {
+        route: baseRoute("749", 3),
         trip: { direction_id: 1 }
       }
     ] as ScheduleWithTimestamp[];
