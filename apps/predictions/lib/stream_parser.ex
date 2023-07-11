@@ -25,14 +25,17 @@ defmodule Predictions.StreamParser do
         _ -> nil
       end
 
+    arrival = arrival_time(item)
+    departure = departure_time(item)
+
     %Prediction{
       id: item.id,
-      arrival_time: arrival_time(item),
+      arrival_time: arrival,
       departing?: Parser.departing?(item),
-      departure_time: departure_time(item),
+      departure_time: departure,
       direction_id: Parser.direction_id(item),
       stop_sequence: Parser.stop_sequence(item),
-      time: Parser.first_time(item),
+      time: Schedules.Parser.display_time(arrival, departure, route),
       route: route,
       stop: Stops.Repo.get_parent(stop),
       platform_stop_id: stop_id(item),

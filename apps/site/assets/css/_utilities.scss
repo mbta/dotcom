@@ -84,6 +84,10 @@
   background-color: $gray;
 }
 
+.u-bg--gray-lighter {
+  background-color: $gray-lighter;
+}
+
 .u-bg--gray-bordered-background {
   background-color: $gray-bordered-background;
   box-shadow: 0 0 4px rgba(0, 0, 0, .25);
@@ -127,6 +131,10 @@
 
 .u-error-background {
   background-color: $form-error-message;
+}
+
+.u-success-background {
+  background-color: $form-success-message;
 }
 
 .u-full-bleed {
@@ -219,6 +227,10 @@
 
 .u-color-brand-primary-light {
   color: $brand-primary-light;
+}
+
+.u-flex-align-self-end {
+  align-self: end;
 }
 
 // quick margin utilities loosely based off Bootstrap v4

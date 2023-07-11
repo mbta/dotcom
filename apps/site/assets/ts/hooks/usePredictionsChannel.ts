@@ -63,7 +63,7 @@ export const parsePrediction = (
     : null,
   // backend removes all predictions with a null departure_time
   // so this is always populated
-  time: new Date(prediction.departure_time!)
+  time: new Date(prediction.time!)
 });
 
 export const groupByHeadsigns = (
@@ -91,7 +91,7 @@ const usePredictionsChannel = (
   stopId: string,
   directionId: 0 | 1
 ): PredictionsByHeadsign => {
-  const channelName = `predictions:${routeId}:${stopId}:${directionId}`;
+  const channelName = `predictions:route=${routeId}:stop=${stopId}:direction_id=${directionId}`;
   const reducer: Reducer<PredictionsByHeadsign, ChannelPredictionResponse> = (
     oldGroupedPredictions,
     { predictions }

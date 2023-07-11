@@ -1,7 +1,15 @@
 import hogan from "hogan.js";
 import * as AlgoliaResult from "./algolia-result";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
+// eslint-disable-next-line import/extensions
 import * as QueryHelpers from "../ts/helpers/query";
+
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable eqeqeq */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable no-console */
 
 const TEMPLATES = {
   contentResults: hogan.compile(`
@@ -39,14 +47,14 @@ export class AlgoliaResults {
   constructor(id, parent) {
     this._parent = parent;
     this._groups = [
-      "locations",
       "routes",
       "stops",
-      "projects",
       "pages",
+      "projects",
       "documents",
       "events",
-      "news"
+      "news",
+      "locations"
     ];
     this._container = document.getElementById(id);
     this._googleLogo = document.getElementById(
@@ -67,8 +75,8 @@ export class AlgoliaResults {
   }
 
   _addLocationListeners(results) {
-    if (results["locations"]) {
-      results["locations"].hits.forEach((hit, idx) => {
+    if (results.locations) {
+      results.locations.hits.forEach((hit, idx) => {
         const elem = document.getElementById(`hit-location-${idx}`);
         if (elem) {
           elem.addEventListener("click", this._locationSearch(hit.address));
@@ -95,7 +103,7 @@ export class AlgoliaResults {
   }
 
   _addShowMoreListener(groupName) {
-    const el = document.getElementById("show-more--" + groupName);
+    const el = document.getElementById(`show-more--${groupName}`);
     if (el) {
       el.removeEventListener("click", this.onClickShowMore);
       el.addEventListener("click", this.onClickShowMore);
@@ -226,7 +234,7 @@ export class AlgoliaResults {
       nbHits: results[group].nbHits,
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
-      group: group,
+      group,
       googleLogo: AlgoliaResult.autocompleteByGoogle()
         ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
             logo: document.getElementById("powered-by-google-logo").innerHTML

@@ -1,6 +1,6 @@
 defmodule Schedules.HoursOfOperationTest do
   @moduledoc false
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   import Mock
   import Schedules.HoursOfOperation
   alias Schedules.{HoursOfOperation, Departures}

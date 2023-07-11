@@ -11,6 +11,8 @@ import * as predictionsChannel from "../../../hooks/usePredictionsChannel";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/perdictions";
 import { getNextTwoTimes } from "../../models/displayTimeConfig";
+import { BUS, COMMUTER_RAIL, SUBWAY } from "../../../helpers/departureInfo";
+import { Route } from "@sentry/react/types/reactrouterv3";
 
 const route = baseRoute("TestRoute", 1);
 const stop = {} as Stop;
@@ -105,7 +107,10 @@ describe("DepartureTimes", () => {
     `displays $expectedBadge when high priority alert has effect $alertEffect`,
     ({ alertEffect, expectedBadge }) => {
       const schedules = [
-        { trip: { direction_id: 0 } }
+        {
+          route: { type: 2 },
+          trip: { direction_id: 0 }
+        }
       ] as ScheduleWithTimestamp[];
 
       const alerts = [
@@ -134,7 +139,10 @@ describe("DepartureTimes", () => {
 
   it("should display the high priority alert badge over the information alert badge", () => {
     const schedules = [
-      { trip: { direction_id: 0 } }
+      {
+        route: { type: 1 },
+        trip: { direction_id: 0 }
+      }
     ] as ScheduleWithTimestamp[];
 
     const alerts = [
@@ -190,12 +198,12 @@ describe("DepartureTimes", () => {
       {
         trip: { id: "1", headsign: "Test 1" },
         time: new Date("2022-04-27T11:15:00-04:00"),
-        route: { type: 2 }
+        route: { type: 2 } as Route
       },
       {
         trip: { id: "2", headsign: "Test 1" },
         time: new Date("2022-04-27T11:18:00-04:00"),
-        route: { type: 2 }
+        route: { type: 2 } as Route
       }
     ] as ScheduleWithTimestamp[];
     const detourAlert = {
@@ -408,7 +416,7 @@ describe("DepartureTimes", () => {
       expect(tomorrowTime2).toBeUndefined();
     });
 
-    it("should display arriving if the next time is less than a minute away", () => {
+    it("should display <1 minute away if the next time is less than a minute away", () => {
       const compareTime = new Date("2022-04-24T11:15:00-04:00");
       const info1 = {
         prediction: { time: new Date("2022-04-24T11:14:45-04:00"), trip: {} }
@@ -417,7 +425,7 @@ describe("DepartureTimes", () => {
         [info1],
         compareTime
       );
-      expect(tomorrowTime1.displayString).toEqual("Arriving");
+      expect(tomorrowTime1.displayString).toEqual("<1 minute away");
       expect(tomorrowTime1.isPrediction).toBe(true);
       expect(tomorrowTime2).toBeUndefined();
     });
@@ -451,7 +459,7 @@ describe("DepartureTimes", () => {
           trip: {}
         },
         isDelayed: true,
-        isSubway: false
+        routeMode: COMMUTER_RAIL
       } as DepartureInfo;
       const info2 = {
         prediction: { time: new Date("2022-04-24T11:45:00-04:00") }
@@ -479,7 +487,7 @@ describe("DepartureTimes", () => {
           trip: {}
         },
         isCancelled: true,
-        isSubway: false
+        routeMode: COMMUTER_RAIL
       } as DepartureInfo;
       const info2 = {
         prediction: {
@@ -526,11 +534,11 @@ describe("DepartureTimes", () => {
       const info1 = {
         schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} },
         isCancelled: true,
-        isSubway: true
+        routeMode: SUBWAY
       } as DepartureInfo;
       const info2 = {
         prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
-        isSubway: true
+        routeMode: SUBWAY
       } as DepartureInfo;
 
       const [displayTime1, displayTime2] = infoToDisplayTime(
@@ -540,6 +548,48 @@ describe("DepartureTimes", () => {
 
       expect(displayTime1.displayString).toEqual("30 min");
       expect(displayTime2).toBeUndefined();
+    });
+
+    it("should not return the cancelled time for a bus route if it is less than an hour away", () => {
+      const compareTime = new Date("2022-04-24T11:15:00-04:00");
+      const info1 = {
+        schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} },
+        isCancelled: true,
+        routeMode: BUS
+      } as DepartureInfo;
+      const info2 = {
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
+        routeMode: BUS
+      } as DepartureInfo;
+
+      const [displayTime1, displayTime2] = infoToDisplayTime(
+        [info1, info2],
+        compareTime
+      );
+
+      expect(displayTime1.displayString).toEqual("30 min");
+      expect(displayTime2).toBeUndefined();
+    });
+
+    it("should return the cancelled time for a bus route if it is more than an hour away", () => {
+      const compareTime = new Date("2022-04-24T10:15:00-04:00");
+      const info1 = {
+        schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} },
+        isCancelled: true,
+        routeMode: BUS
+      } as DepartureInfo;
+      const info2 = {
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
+        routeMode: BUS
+      } as DepartureInfo;
+
+      const [displayTime1, displayTime2] = infoToDisplayTime(
+        [info1, info2],
+        compareTime
+      );
+
+      expect(displayTime1.displayString).toEqual("11:45 AM");
+      expect(displayTime2.displayString).toEqual("11:35 AM");
     });
   });
 
@@ -591,5 +641,66 @@ describe("DepartureTimes", () => {
 
     await user.click(row);
     expect(mockClickAction).toHaveBeenCalledTimes(1);
+  });
+
+  it("should render `Track [Track Name] if commuter rail", () => {
+    const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
+    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
+      return {
+        "Test 1": [
+          {
+            time: new Date("2022-04-27T11:19:00-04:00"),
+            trip: { id: "1", headsign: "Test 1" },
+            route: { type: 2 },
+            track: "3"
+          },
+          {
+            trip: { id: "2", headsign: "Test 1" },
+            time: new Date("2022-04-27T11:30:00-04:00"),
+            route: { type: 1 },
+            track: "1"
+          }
+        ] as PredictionWithTimestamp[],
+        "Test 3": [
+          {
+            trip: { id: "3", headsign: "Test 3" },
+            time: new Date("2022-04-27T11:45:00-04:00")
+          }
+        ] as PredictionWithTimestamp[]
+      };
+    });
+    const schedules = [
+      {
+        trip: { id: "1", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        route: { type: 2 }
+      },
+      {
+        trip: { id: "2", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:18:00-04:00"),
+        route: { type: 2 }
+      },
+      {
+        trip: { id: "4", headsign: "Test 2" },
+        time: new Date("2022-04-27T11:40:00-04:00"),
+        route: { type: 2 }
+      }
+    ] as ScheduleWithTimestamp[];
+
+    render(
+      <DepartureTimes
+        route={route}
+        stop={stop}
+        directionId={0}
+        schedulesForDirection={schedules}
+        overrideDate={dateToCompare}
+        onClick={mockClickAction}
+        alertsForDirection={[]}
+      />
+    );
+
+    expect(screen.getByText("Track 3")).toBeDefined();
+    const notCRTrack = screen.queryByText("Track 1");
+    expect(notCRTrack).not.toBeInTheDocument();
   });
 });

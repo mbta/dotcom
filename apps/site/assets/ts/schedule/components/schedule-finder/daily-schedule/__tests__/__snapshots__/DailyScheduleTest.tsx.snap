@@ -49,10 +49,10 @@ Array [
               Friday schedule, Test
             </option>
             <option
-              aria-label="Current Schedules (Test, ends Oct 25) Saturday schedule, Test (now)"
+              aria-label="Current Schedules (Test, ends Oct 25) Saturday schedule, Test (Starting July 6, 2019)"
               value="BUS319-P-Sa-02"
             >
-              Saturday schedule, Test (now)
+              Saturday schedule, Test (Starting July 6, 2019)
             </option>
             <option
               aria-label="Current Schedules (Test, ends Oct 25) Sunday schedule, Test"

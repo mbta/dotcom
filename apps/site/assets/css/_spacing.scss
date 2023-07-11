@@ -3,6 +3,9 @@
 }
 
 //// PADDING
+.p-16 {
+  padding: 1rem;
+}
 
 // Top
 .pt-2 {
@@ -121,6 +124,10 @@
   margin-top: -.313rem;
 }
 
+.mt-6 {
+  margin-top: .375rem;
+}
+
 .mt-8 {
   margin-top: .5rem;
 }
@@ -157,6 +164,10 @@
 // Bottom
 .mb-6 {
   margin-bottom: .375rem;
+}
+
+.mb-8 {
+  margin-bottom: .5rem;
 }
 
 // End

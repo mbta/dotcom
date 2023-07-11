@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleControllerTest do
-  use SiteWeb.ConnCase
+  use SiteWeb.ConnCase, async: false
 
   alias CMS.Partial.Teaser
   alias Plug.Conn

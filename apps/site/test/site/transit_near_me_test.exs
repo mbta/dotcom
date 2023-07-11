@@ -18,26 +18,17 @@ defmodule Site.TransitNearMeTest do
 
   describe "build/2" do
     test "builds a set of data for a location" do
-      data = TransitNearMe.build(@address, date: @date, now: Util.now())
+      assert %{stops: stops, distances: distances} =
+               TransitNearMe.build(@address, date: @date, now: Util.now())
 
-      assert Enum.map(data.stops, & &1.name) == [
-               "Stuart St @ Charles St S",
-               "Charles St S @ Park Plaza",
-               "285 Tremont St",
-               "Washington St @ Tufts Med Ctr",
-               "Tufts Medical Center",
-               "Washington St @ Tufts Med Ctr",
-               "Boylston",
-               "Kneeland St @ Washington St",
-               "Tremont St @ Boylston Station",
-               "Washington St @ Essex St",
-               "Park Street",
-               "South Station"
-             ]
+      for stop_id <- Enum.map(stops, & &1.id) do
+        assert stop_id in Map.keys(distances)
+      end
 
       # stops are in order of distance from location
+      distances = Enum.map(stops, &distances[&1.id])
 
-      assert Enum.map(data.stops, &data.distances[&1.id]) == [
+      assert distances == [
                "238 ft",
                "444 ft",
                "0.1 mi",

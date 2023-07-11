@@ -132,5 +132,23 @@ defmodule IcalendarGeneratorTest do
 
       assert result =~ "LOCATION:MassDot"
     end
+
+    test "can handle location without details", %{conn: conn} do
+      event =
+        event_factory(
+          0,
+          location: "Virtual",
+          street_address: "Zoom",
+          city: nil,
+          state: nil
+        )
+
+      result =
+        conn
+        |> IcalendarGenerator.to_ical(event)
+        |> IO.iodata_to_binary()
+
+      assert result =~ "LOCATION:Virtual Zoom"
+    end
   end
 end

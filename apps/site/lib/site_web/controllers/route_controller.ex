@@ -3,7 +3,7 @@ defmodule SiteWeb.RouteController do
   Endpoints for getting route data.
   """
   use SiteWeb, :controller
-  alias RoutePatterns.RoutePattern
+  alias Leaflet.MapData.Polyline
   alias Routes.{Repo, Route}
 
   @spec get_by_stop_id(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -23,19 +23,7 @@ defmodule SiteWeb.RouteController do
   defp route_polylines(route, stop_id) do
     route.id
     |> RoutePatterns.Repo.by_route_id(stop: stop_id)
-    |> Enum.map(fn %RoutePattern{shape_id: id, representative_trip_polyline: polyline} ->
-      positions =
-        polyline
-        |> Polyline.decode()
-        |> Enum.map(fn {lng, lat} -> [lat, lng] end)
-
-      %Leaflet.MapData.Polyline{
-        id: id,
-        color: "#" <> route.color,
-        dotted?: false,
-        positions: positions,
-        weight: 4
-      }
-    end)
+    |> Enum.filter(&(!is_nil(&1.representative_trip_polyline)))
+    |> Enum.map(&Polyline.new(&1, color: "#" <> route.color, weight: 4))
   end
 end

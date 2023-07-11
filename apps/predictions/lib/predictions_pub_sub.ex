@@ -1,26 +1,22 @@
 defmodule Predictions.PredictionsPubSub do
   @moduledoc """
-  Allow channels to subscribe to prediction streams, which are collected into a
-  Map with keys representing route-stop-direction triads as
-  "<route-id>:<parent-stop-id>:<direction-id>"
+  Allow channels to subscribe to prediction streams, which are collected into an
+  ETS table keyed by prediction ID, route ID, stop ID, direction ID, trip ID,
+  and vehicle ID for easy retrieval.
   """
 
   use GenServer
 
   alias Predictions.{Prediction, StreamSupervisor}
   alias Routes.Route
+  alias Schedules.Trip
   alias Stops.Stop
 
-  defstruct predictions_by_key: %{}
-
-  @type t :: %__MODULE__{
-          predictions_by_key: predictions_by_key()
-        }
+  @valid_filters ["route", "stop", "direction", "trip"]
 
   @type direction_id_t :: 0 | 1
-  @type prediction_key :: String.t()
-  @type predictions_by_key :: %{prediction_key => [Prediction.t()]}
-
+  @type table_t :: :ets.table()
+  @type state :: %{ets: table_t}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
 
   # Client
@@ -37,12 +33,9 @@ defmodule Predictions.PredictionsPubSub do
     )
   end
 
-  @spec subscribe(Route.id_t(), Stop.id_t(), direction_id_t()) :: [Prediction.t()]
-  @spec subscribe(Route.id_t(), Stop.id_t(), direction_id_t(), GenServer.server()) :: [
-          Prediction.t()
-        ]
-  def subscribe(route_id, stop_id, direction_id, server \\ __MODULE__) do
-    key = prediction_key(route_id, stop_id, direction_id)
+  @spec subscribe(String.t()) :: [Prediction.t()]
+  @spec subscribe(String.t(), GenServer.server()) :: [Prediction.t()]
+  def subscribe(key, server \\ __MODULE__) do
     StreamSupervisor.ensure_stream_is_started(key)
     {registry_key, predictions} = GenServer.call(server, {:subscribe, key})
     Registry.register(:prediction_subscriptions_registry, registry_key, key)
@@ -52,175 +45,76 @@ defmodule Predictions.PredictionsPubSub do
   # Server
 
   @impl GenServer
-  @spec init(keyword) :: {:ok, t()}
+  @spec init(keyword) :: {:ok, state}
   def init(opts) do
+    table = :ets.new(:predictions_store, [:public])
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
     subscribe_fn.(Predictions.PubSub, "predictions")
-    {:ok, %__MODULE__{}}
+    {:ok, %{ets: table}}
   end
 
   @impl GenServer
-  def handle_call(
-        {:subscribe, route_stop_direction},
-        _from,
-        %__MODULE__{predictions_by_key: predictions_by_key} = state
-      ) do
+  def handle_call({:subscribe, keys}, _from, %{ets: table}) do
     registry_key = self()
+    predictions = predictions_for_keys(table, keys)
 
-    predictions = predictions_for_key(predictions_by_key, route_stop_direction)
-
-    # add new subscription to state
-    new_state = %__MODULE__{
-      state
-      | predictions_by_key: Map.put(predictions_by_key, route_stop_direction, predictions)
-    }
-
-    {:reply, {registry_key, predictions}, new_state}
+    {:reply, {registry_key, predictions}, %{ets: table}}
   end
 
   @impl GenServer
-  def handle_info(
-        {:reset,
-         [
-           %Predictions.Prediction{
-             direction_id: direction_id,
-             route: %Routes.Route{id: route_id},
-             stop: %Stop{id: stop_id}
-           }
-           | _
-         ] = predictions},
-        %__MODULE__{predictions_by_key: predictions_by_key} = state
-      ) do
-    key = prediction_key(route_id, stop_id, direction_id)
+  def handle_info({event, predictions}, %{ets: table}) when event in [:add, :update, :reset] do
+    # inserts will overwrite existing matching prediction IDs
+    _ = :ets.insert(table, Enum.map(predictions, &to_record/1))
+    broadcast(%{ets: table})
+    {:noreply, %{ets: table}}
+  end
 
-    new_state = %__MODULE__{
-      state
-      | predictions_by_key: Map.put(predictions_by_key, key, predictions)
+  def handle_info({:remove, predictions_to_remove}, %{ets: table}) do
+    for id <- Enum.map(predictions_to_remove, & &1.id) do
+      :ets.delete(table, id)
+    end
+
+    broadcast(%{ets: table})
+    {:noreply, %{ets: table}}
+  end
+
+  @spec table_keys(String.t()) :: [
+          route: Route.id_t(),
+          stop: Stop.id_t(),
+          direction: 0 | 1,
+          trip: Trip.id_t()
+        ]
+  def table_keys(keys) when is_binary(keys) do
+    keys
+    |> String.split(":")
+    |> Enum.map(&String.split(&1, "="))
+    |> Enum.filter(fn key_value ->
+      length(key_value) == 2 and List.first(key_value) in @valid_filters
+    end)
+    |> Enum.into([], fn
+      ["direction", v] -> {:direction, String.to_integer(v)}
+      [k, v] -> {String.to_existing_atom(k), v}
+    end)
+  end
+
+  @spec predictions_for_keys(table_t(), String.t()) :: [Prediction.t()]
+  def predictions_for_keys(table, keys) do
+    opts = table_keys(keys)
+    # turn opts into ETS match
+    match_pattern = {
+      Keyword.get(opts, :prediction_id, :_) || :_,
+      Keyword.get(opts, :route, :_) || :_,
+      Keyword.get(opts, :stop, :_) || :_,
+      Keyword.get(opts, :direction, :_) || :_,
+      Keyword.get(opts, :trip, :_) || :_,
+      Keyword.get(opts, :vehicle_id, :_) || :_,
+      :"$1"
     }
 
-    broadcast(new_state)
-
-    {:noreply, new_state}
+    :ets.select(table, [{match_pattern, [], [:"$1"]}])
   end
 
-  def handle_info(
-        {:add,
-         [
-           %Predictions.Prediction{
-             direction_id: direction_id,
-             route: %Routes.Route{id: route_id},
-             stop: %Stop{id: stop_id}
-           }
-           | _
-         ] = new_predictions},
-        %__MODULE__{predictions_by_key: predictions_by_key} = state
-      ) do
-    key = prediction_key(route_id, stop_id, direction_id)
-
-    new_predictions_by_key =
-      Map.put(
-        predictions_by_key,
-        key,
-        predictions_for_key(
-          predictions_by_key,
-          key
-        ) ++
-          new_predictions
-      )
-
-    new_state = %__MODULE__{
-      state
-      | predictions_by_key: new_predictions_by_key
-    }
-
-    broadcast(new_state)
-
-    {:noreply, new_state}
-  end
-
-  def handle_info(
-        {:update,
-         [
-           %Predictions.Prediction{
-             direction_id: direction_id,
-             route: %Routes.Route{id: route_id},
-             stop: %Stop{id: stop_id}
-           }
-           | _
-         ] = updated_predictions},
-        %__MODULE__{predictions_by_key: predictions_by_key} = state
-      ) do
-    key = prediction_key(route_id, stop_id, direction_id)
-    updated_prediction_ids = Enum.map(updated_predictions, & &1.id)
-
-    predictions_sans_old =
-      predictions_for_key(predictions_by_key, key)
-      |> Enum.reject(&Enum.member?(updated_prediction_ids, &1.id))
-
-    new_predictions_by_key =
-      Map.put(
-        predictions_by_key,
-        key,
-        predictions_sans_old ++ updated_predictions
-      )
-
-    new_state = %__MODULE__{
-      state
-      | predictions_by_key: new_predictions_by_key
-    }
-
-    broadcast(new_state)
-
-    {:noreply, new_state}
-  end
-
-  def handle_info(
-        {:remove,
-         [
-           %Predictions.Prediction{
-             direction_id: direction_id,
-             route: %Routes.Route{id: route_id},
-             stop: %Stop{id: stop_id}
-           }
-           | _
-         ] = predictions_to_remove},
-        %__MODULE__{predictions_by_key: predictions_by_key} = state
-      ) do
-    key = prediction_key(route_id, stop_id, direction_id)
-    prediction_ids_to_remove = Enum.map(predictions_to_remove, & &1.id)
-
-    predictions_sans_removed =
-      predictions_for_key(predictions_by_key, key)
-      |> Enum.reject(&Enum.member?(prediction_ids_to_remove, &1.id))
-
-    new_predictions_by_key =
-      Map.put(
-        predictions_by_key,
-        key,
-        predictions_sans_removed
-      )
-
-    new_state = %__MODULE__{
-      state
-      | predictions_by_key: new_predictions_by_key
-    }
-
-    broadcast(new_state)
-
-    {:noreply, new_state}
-  end
-
-  @spec prediction_key(Routes.Route.id_t(), Stops.Stop.id_t(), direction_id_t()) ::
-          String.t()
-  defp prediction_key(route_id, stop_id, direction_id),
-    do: "#{route_id}:#{stop_id}:#{direction_id}"
-
-  @spec predictions_for_key(predictions_by_key(), prediction_key()) :: [Prediction.t()]
-  defp predictions_for_key(predictions_by_key, route_stop_direction) do
-    Map.get(predictions_by_key, route_stop_direction, [])
-  end
-
-  @spec broadcast(t()) :: :ok
+  @spec broadcast(state()) :: :ok
   defp broadcast(state) do
     registry_key = self()
 
@@ -229,11 +123,15 @@ defmodule Predictions.PredictionsPubSub do
     end)
   end
 
-  @spec send_data({pid, prediction_key()}, t()) :: broadcast_message()
-  defp send_data({pid, route_stop_direction}, %__MODULE__{
-         predictions_by_key: predictions_by_key
-       }) do
-    new_predictions = predictions_for_key(predictions_by_key, route_stop_direction)
+  @spec send_data({pid, String.t()}, state) :: broadcast_message()
+  defp send_data({pid, keys}, %{ets: table}) do
+    new_predictions = predictions_for_keys(table, keys)
     send(pid, {:new_predictions, new_predictions})
+  end
+
+  def to_record(prediction) do
+    {prediction.id, prediction.route.id, prediction.stop.id,
+     if(is_integer(prediction.direction_id), do: Integer.to_string(prediction.direction_id)),
+     if(prediction.trip, do: prediction.trip.id, else: nil), prediction.vehicle_id, prediction}
   end
 end

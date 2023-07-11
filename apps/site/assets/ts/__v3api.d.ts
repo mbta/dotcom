@@ -224,6 +224,7 @@ export interface InformedEntity {
   stop: string | null;
   trip: string | null;
   direction_id: DirectionId | null;
+  facility: string | null;
   activities: Activity[];
 }
 export interface InformedEntitySet {
@@ -232,6 +233,7 @@ export interface InformedEntitySet {
   stop: string[] | null;
   trip: string[] | null;
   direction_id: DirectionId[] | null;
+  facility: string[] | null;
   activities: Activity[];
   entities: InformedEntity[];
 }
@@ -374,4 +376,15 @@ export interface TransitHours {
   saturday: [StopHours, StopHours];
   sunday: [StopHours, StopHours];
   special_service: {};
+}
+
+export interface FacilityAttributes {
+  long_name: string;
+  short_name: string;
+  type: string;
+}
+
+export interface Facility {
+  attributes: FacilityAttributes;
+  id: string;
 }

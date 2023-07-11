@@ -3,7 +3,32 @@ import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
 import { isCancelled, isDelayed } from "./prediction-helpers";
 import { DepartureInfo } from "../models/departureInfo";
-import { isSubwayRoute } from "../models/route";
+import {
+  isABusRoute,
+  isACommuterRailRoute,
+  isSubwayRoute
+} from "../models/route";
+import { Route } from "../__v3api";
+
+export const SUBWAY = "subway";
+export const BUS = "bus";
+export const COMMUTER_RAIL = "commuter_rail";
+export const FERRY = "ferry";
+
+const toRouteMode = (
+  route: Route
+): typeof SUBWAY | typeof BUS | typeof COMMUTER_RAIL | typeof FERRY => {
+  if (isSubwayRoute(route)) {
+    return SUBWAY;
+  }
+  if (isABusRoute(route)) {
+    return BUS;
+  }
+  if (isACommuterRailRoute(route)) {
+    return COMMUTER_RAIL;
+  }
+  return FERRY;
+};
 
 const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
   // If there isn't a prediction there should be a schedule
@@ -45,7 +70,7 @@ const mergeIntoDepartureInfo = (
         schedule,
         isCancelled: isCancelled(prediction),
         isDelayed: isDelayed(prediction, schedule),
-        isSubway: isSubwayRoute(schedule.route)
+        routeMode: toRouteMode(schedule.route)
       };
     }
   );
@@ -62,7 +87,7 @@ const mergeIntoDepartureInfo = (
       return {
         prediction,
         isCancelled: isCancelled(prediction),
-        isSubway: isSubwayRoute(prediction.route)
+        routeMode: toRouteMode(prediction.route)
       } as DepartureInfo;
     }
   );

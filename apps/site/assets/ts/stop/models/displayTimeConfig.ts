@@ -5,14 +5,17 @@ import {
   secondsInHour,
   secondsInMinute
 } from "date-fns";
+import { slice } from "lodash";
 import {
+  BUS,
+  COMMUTER_RAIL,
+  FERRY,
   departureInfoToTime,
   displayInfoContainsPrediction,
   getNextUnCancelledDeparture
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
-import { slice } from "lodash";
 
 // This interface is used to tell the front end
 // how to display the ScheduleInfoModel data
@@ -25,6 +28,25 @@ interface DisplayTimeConfig {
   isStrikethrough?: boolean;
   reactKey: string;
 }
+
+// Cancelled or Delayed times should only show up for the Bus, Commuter Rail, and Ferry modes.
+// The bus mode should only show if the time is >= 1 hour out
+const showCancelledOrDelayed = (
+  departureInfo: DepartureInfo,
+  targetDate: Date
+): boolean => {
+  const departureTimeDiffInSeconds = differenceInSeconds(
+    departureInfoToTime(departureInfo),
+    targetDate
+  );
+
+  return (
+    departureInfo.routeMode === FERRY ||
+    departureInfo.routeMode === COMMUTER_RAIL ||
+    (departureInfo.routeMode === BUS &&
+      departureTimeDiffInSeconds >= secondsInHour)
+  );
+};
 
 // Returns 3 times from the departureInfo array
 // ensuring that at most time is cancelled
@@ -65,7 +87,10 @@ const infoToDisplayTime = (
   const formatOverride = "h:mm aa";
 
   // Only shown for Bus, CR, and Ferry (if there were predictions)
-  if (!departureInfo1.isSubway && departureInfo1.isDelayed) {
+  if (
+    departureInfo1.isDelayed &&
+    showCancelledOrDelayed(departureInfo1, targetDate)
+  ) {
     // is delayed can only be true if both a prediction and schedule exist
     const scheduleTime = departureInfo1.schedule!.time;
     const predictionTime = departureInfo1.prediction!.time;
@@ -87,11 +112,10 @@ const infoToDisplayTime = (
     ];
   }
 
-  // Only shown for Bus, CR, and Ferry (if there were predictions)
   if (
-    !departureInfo1.isSubway &&
+    departureInfo1.isCancelled &&
     departureInfo2 &&
-    departureInfo1.isCancelled
+    showCancelledOrDelayed(departureInfo1, targetDate)
   ) {
     const departure2Time = departureInfoToTime(departureInfo2);
     // State 7
@@ -138,7 +162,7 @@ const infoToDisplayTime = (
     // State 9
     return [
       {
-        displayString: "Arriving",
+        displayString: "<1 minute away",
         isPrediction: displayInfoContainsPrediction(time1),
         isBolded: true,
         reactKey: getInfoKey(time1)

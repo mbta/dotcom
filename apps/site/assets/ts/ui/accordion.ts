@@ -74,3 +74,9 @@ export default function setupAccordion(rootElement: HTMLElement): void {
     });
   });
 }
+
+export function accordionInit(): void {
+  document.addEventListener("turbolinks:load", () => {
+    setupAccordion(document.documentElement);
+  });
+}

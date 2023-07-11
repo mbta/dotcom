@@ -1,5 +1,10 @@
 defmodule Schedules.ParserTest do
   use ExUnit.Case, async: true
+  import Schedules.Parser
+  alias Routes.Route
+
+  @arrival_time ~U[2023-06-13 10:00:00Z]
+  @departure_time ~U[2023-06-13 10:55:00Z]
 
   test "parse converts a JsonApi.Item into a tuple" do
     api_item = %JsonApi.Item{
@@ -49,7 +54,7 @@ defmodule Schedules.ParserTest do
       type: "schedule"
     }
 
-    actual = Schedules.Parser.parse(api_item)
+    actual = parse(api_item)
 
     assert {"CR-Lowell", "31174458-CR_MAY2016-hxl16011-Weekday-01", "Lowell", nil,
             Timex.to_datetime({{2016, 6, 8}, {5, 35, 0}}, "Etc/GMT-4"),
@@ -91,7 +96,7 @@ defmodule Schedules.ParserTest do
         links: %{}
       }
 
-      assert Schedules.Parser.trip(api_item) == %Schedules.Trip{
+      assert trip(api_item) == %Schedules.Trip{
                direction_id: 1,
                headsign: "Alewife",
                id: "31562821",
@@ -163,7 +168,7 @@ defmodule Schedules.ParserTest do
         type: "schedule"
       }
 
-      assert Schedules.Parser.trip(api_item) == %Schedules.Trip{
+      assert trip(api_item) == %Schedules.Trip{
                direction_id: 1,
                headsign: "North Station",
                id: "31174458-CR_MAY2016-hxl16011-Weekday-01",
@@ -215,7 +220,7 @@ defmodule Schedules.ParserTest do
         type: "schedule"
       }
 
-      assert Schedules.Parser.trip(api_item) == nil
+      assert trip(api_item) == nil
     end
 
     test "interprets a trip with relationships of an empty list as nil" do
@@ -253,7 +258,29 @@ defmodule Schedules.ParserTest do
         type: "schedule"
       }
 
-      assert Schedules.Parser.trip(api_item) == nil
+      assert trip(api_item) == nil
+    end
+  end
+
+  describe "display_time/3" do
+    test "chooses time for bus and subway" do
+      for type <- [0, 1, 3] do
+        route = %Route{type: type}
+        assert display_time(@arrival_time, @departure_time, route) == @arrival_time
+        assert display_time(@arrival_time, nil, route) == @arrival_time
+        assert display_time(nil, @departure_time, route) == @departure_time
+        assert display_time(nil, nil, route) == nil
+      end
+    end
+
+    test "chooses time for other modes" do
+      for type <- [2, 4] do
+        route = %Route{type: type}
+        assert display_time(@arrival_time, @departure_time, route) == @departure_time
+        assert display_time(@arrival_time, nil, route) == @arrival_time
+        assert display_time(nil, @departure_time, route) == @departure_time
+        assert display_time(nil, nil, route) == nil
+      end
     end
   end
 end

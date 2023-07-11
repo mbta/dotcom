@@ -1,6 +1,12 @@
 import { FacetBar } from "./facet-bar";
 import * as Icons from "./icons";
 
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable eqeqeq */
+/* eslint-disable import/prefer-default-export */
+
 export class AlgoliaFacets {
   constructor(selectors, search, parent) {
     this.selectors = selectors;
@@ -10,15 +16,6 @@ export class AlgoliaFacets {
     this._facetsContainer = null;
     this._bind();
     const facets = {
-      locations: {
-        queryId: "locations",
-        item: {
-          id: "locations",
-          name: "Locations",
-          cls: "FacetLocationGroup",
-          icon: this._faIcon("fa-map-marker")
-        }
-      },
       routes: {
         queryId: "routes",
         facetName: "route.type",
@@ -75,16 +72,6 @@ export class AlgoliaFacets {
           ]
         }
       },
-      projects: {
-        queryId: "projects",
-        facetName: "_content_type",
-        item: {
-          id: "projects",
-          name: "Projects",
-          facets: ["project", "project_update"],
-          icon: this._faIcon("fa-info")
-        }
-      },
       pages: {
         queryId: "pages",
         facetName: "_content_type",
@@ -101,6 +88,17 @@ export class AlgoliaFacets {
           icon: this._faIcon("fa-info")
         }
       },
+      projects: {
+        queryId: "projects",
+        facetName: "_content_type",
+        item: {
+          id: "projects",
+          name: "Projects",
+          facets: ["project", "project_update"],
+          icon: this._faIcon("fa-info")
+        }
+      },
+
       documents: {
         queryId: "documents",
         facetName: "_content_type",
@@ -131,8 +129,18 @@ export class AlgoliaFacets {
           icon: this._faIcon("fa-newspaper-o"),
           facets: ["news_entry"]
         }
+      },
+      locations: {
+        queryId: "locations",
+        item: {
+          id: "locations",
+          name: "Locations",
+          cls: "FacetLocationGroup",
+          icon: this._faIcon("fa-map-marker")
+        }
       }
     };
+
     this._facetBar = new FacetBar("search-facets", search, facets, this);
   }
 
@@ -188,7 +196,7 @@ export class AlgoliaFacets {
     const facetResults = {};
     Object.keys(results).forEach(key => {
       if (key.startsWith("facets-")) {
-        const facets = results[key].facets;
+        const { facets } = results[key];
         Object.keys(facets).forEach(prefix => {
           const values = facets[prefix];
           Object.keys(values).forEach(facet => {
@@ -196,7 +204,7 @@ export class AlgoliaFacets {
           });
         });
       } else if (key == "locations") {
-        facetResults["locations"] = results["locations"].hits.length;
+        facetResults.locations = results.locations.hits.length;
       }
     });
 

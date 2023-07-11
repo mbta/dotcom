@@ -31,7 +31,11 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: [] });
 
-    jest.spyOn(useStop, "default").mockReturnValue({
+    jest
+      .spyOn(useStop, "useFacilitiesByStop")
+      .mockReturnValue({ status: FetchStatus.Data, data: [] });
+
+    jest.spyOn(useStop, "useStop").mockReturnValue({
       status: FetchStatus.Data,
       data: {
         id: "123",
@@ -58,7 +62,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useRoute, "useRoutesByStop")
       .mockReturnValue({ status: FetchStatus.Data, data: undefined });
     jest
-      .spyOn(useStop, "default")
+      .spyOn(useStop, "useStop")
       .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
     render(<StopPageRedesign stopId="123" />);
@@ -184,6 +188,16 @@ describe("StopPageRedesign", () => {
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
+        id: "000013",
+        header: "The Elevator Is Closed",
+        effect: "elevator_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
         id: "000004",
         header: "Road Closed",
         effect: "shuttle"
@@ -231,6 +245,7 @@ describe("StopPageRedesign", () => {
     expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
     expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
+    expect(screen.queryByText(/The Elevator Is Closed/)).toBeNull();
   });
 
   it("should only render current stop alerts and route alerts within 7 days", () => {
