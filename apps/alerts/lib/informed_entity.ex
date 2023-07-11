@@ -1,5 +1,5 @@
 defmodule Alerts.InformedEntity do
-  @fields [:route, :route_type, :stop, :trip, :direction_id, :activities]
+  @fields [:route, :route_type, :stop, :trip, :direction_id, :facility, :activities]
   @empty_activities MapSet.new()
   defstruct route: nil,
             route_type: nil,
