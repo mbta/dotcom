@@ -224,6 +224,7 @@ export interface InformedEntity {
   stop: string | null;
   trip: string | null;
   direction_id: DirectionId | null;
+  facility: string | null;
   activities: Activity[];
 }
 export interface InformedEntitySet {
@@ -232,6 +233,7 @@ export interface InformedEntitySet {
   stop: string[] | null;
   trip: string[] | null;
   direction_id: DirectionId[] | null;
+  facility: string[] | null;
   activities: Activity[];
   entities: InformedEntity[];
 }

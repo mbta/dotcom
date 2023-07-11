@@ -15,3 +15,43 @@
     margin: .65rem;
   }
 }
+
+.access-amenities-header {
+  background: $brand-primary-darkest;
+  color: $white;
+  font-size: .875rem;
+  height: 3.75rem;
+}
+
+tr:nth-child(2n+3) {
+  background-color: $gray-lightest;
+}
+
+.access-amenities-row {
+  height: 4rem;
+}
+
+.status {
+  padding-right: 1rem;
+  white-space: nowrap;
+}
+
+.amenity-status {
+  font-size: .5rem;
+  padding-right: .625rem;
+  vertical-align: middle;
+}
+
+.amenity-working {
+  color: $brand-success;
+}
+
+.amenity-out {
+  color: $error-text;
+}
+
+.access-amenities-table {
+  border: solid .063rem $gray-lightest;
+  margin-bottom: 1rem;
+  width: 100%;
+}

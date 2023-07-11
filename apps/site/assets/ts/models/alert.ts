@@ -219,3 +219,15 @@ export const hasAnActiveDiversion = (
 export const isGlobalBannerAlert = (alert: Alert): boolean => {
   return alert.banner != null;
 };
+
+export const hasFacilityAlert = (
+  facilityId: string,
+  alerts: Alert[]
+): boolean => {
+  return alerts.some(alert => {
+    if (alert.informed_entity?.facility) {
+      return alert.informed_entity.facility.includes(facilityId);
+    }
+    return false;
+  });
+};
