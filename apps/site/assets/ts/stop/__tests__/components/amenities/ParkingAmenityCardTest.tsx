@@ -11,6 +11,7 @@ const testStop = {
 
 const testLots = [
   {
+    id: "test1",
     name: "Test Lot 1",
     capacity: {
       accessible: 123,
@@ -28,6 +29,7 @@ const testLots = [
     }
   },
   {
+    id: "test2",
     name: "Test Lot 2",
     capacity: {
       accessible: 0,
@@ -50,10 +52,33 @@ const noPaymentLot = {
   payment: null
 } as ParkingLot;
 
+const closedAlerts = [
+  {
+    effect: "parking_closure",
+    informed_entity: {
+      facility: ["test1"]
+    }
+  },
+  {
+    effect: "parking_closure",
+    informed_entity: {
+      facility: ["test2"]
+    }
+  }
+] as Alert[];
+
 describe("ParkingAmenityCard", () => {
-  it("should render the title", () => {
-    render(<ParkingAmenityCard stop={testStop} alertsForParking={[]} />);
+  it("should render the title and description", () => {
+    render(
+      <ParkingAmenityCard
+        stop={{ ...testStop, parking_lots: testLots }}
+        alertsForParking={[]}
+      />
+    );
     expect(screen.getByText("Parking")).toBeDefined();
+    expect(
+      screen.getByText("View daily rates and facility information")
+    ).toBeInTheDocument();
   });
 
   it("should render a modal on click", async () => {
@@ -187,5 +212,23 @@ describe("ParkingAmenityCard", () => {
     render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
     await user.click(screen.getByRole("button"));
     expect(screen.queryByText(/Parking at/)).toBeNull();
+  });
+
+  it("should display all parking is temporarily closed if all lots are closed", () => {
+    const localTestStop = { ...testStop, parking_lots: [...testLots] };
+    render(
+      <ParkingAmenityCard
+        stop={localTestStop}
+        alertsForParking={closedAlerts}
+      />
+    );
+    expect(screen.getByText("Temporarily closed")).toBeInTheDocument();
+  });
+
+  it("should say if there are no parking lots available at station", () => {
+    const localTestStop = { ...testStop, parking_lots: [] };
+    render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
+    expect(screen.getByText("This station does not have parking"));
+    expect(screen.getByText("Not available"));
   });
 });

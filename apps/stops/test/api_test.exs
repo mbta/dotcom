@@ -1,5 +1,6 @@
 defmodule Stops.ApiTest do
   use ExUnit.Case
+  import Mock
   import Stops.Api
   alias Stops.Stop
 

@@ -1,10 +1,12 @@
 import React from "react";
-import { includes } from "lodash";
+import { difference, includes } from "lodash";
 import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
 import { parkingIcon } from "../../../helpers/icon";
 import { Alert, ParkingLot, Stop } from "../../../__v3api";
 import { getExternalMapURI } from "../ExternalMapLink";
 import Alerts from "../../../components/Alerts";
+import Badge from "../../../components/Badge";
+import { alertsForEffect } from "../../../models/alert";
 
 const getPaymentElement = (park: ParkingLot): JSX.Element => {
   const paymentMethods =
@@ -117,6 +119,38 @@ const getModalContent = (
   );
 };
 
+const getBadge = (
+  parkingLots: ParkingLot[],
+  areAllParkingLotsClosed: boolean
+): JSX.Element => {
+  if (parkingLots.length === 0) {
+    return <Badge text="Not available" bgClass="u-bg--gray-lighter" />;
+  }
+  if (areAllParkingLotsClosed) {
+    return <Badge text="Temporarily closed" />;
+  }
+  return <></>;
+};
+
+const allParkingLotsClosed = (
+  alerts: Alert[],
+  parkingLots: ParkingLot[]
+): boolean => {
+  if (parkingLots.length === 0) {
+    return false;
+  }
+  const parkingClosuresIDs = alertsForEffect(alerts, "parking_closure").flatMap(
+    a => a.informed_entity.facility
+  );
+  const parkingLotIDs = parkingLots.map(p => p.id);
+
+  // if both arrays have the same ids in them then all lots are closed
+  // meaning `openParkingLotIDs` should be empty if all lots are closed
+  const openParkingLotIDs = difference(parkingLotIDs, parkingClosuresIDs);
+
+  return openParkingLotIDs.length === 0;
+};
+
 const ParkingAmenityCard = ({
   stop,
   alertsForParking
@@ -124,11 +158,32 @@ const ParkingAmenityCard = ({
   stop: Stop;
   alertsForParking: Alert[];
 }): JSX.Element => {
-  const icon = <span className="m-stop-page__icon">{parkingIcon()}</span>;
+  const icon = (
+    <span className="m-stop-page__icon u-color-brand-primary">
+      {parkingIcon()}
+    </span>
+  );
   const modalContent = getModalContent(stop, alertsForParking);
+  const allParkingClosed = allParkingLotsClosed(
+    alertsForParking,
+    stop.parking_lots
+  );
+  const badge = getBadge(stop.parking_lots, allParkingClosed);
 
   return (
-    <AmenityCard headerText="Parking" icon={icon} modalContent={modalContent} />
+    <AmenityCard
+      headerText="Parking"
+      icon={icon}
+      modalContent={modalContent}
+      badge={badge}
+    >
+      {stop.parking_lots.length === 0 && (
+        <div>This station does not have parking</div>
+      )}
+      {!allParkingClosed && stop.parking_lots.length !== 0 && (
+        <div>View daily rates and facility information</div>
+      )}
+    </AmenityCard>
   );
 };
 
