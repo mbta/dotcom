@@ -15,7 +15,7 @@ defmodule Stops.Api do
 
   @default_params [
     include: "parent_station,facilities,child_stops",
-    "fields[facility]": "long_name,type,properties,latitude,longitude",
+    "fields[facility]": "long_name,type,properties,latitude,longitude,id",
     "fields[stop]":
       "address,name,latitude,longitude,address," <>
         "municipality,wheelchair_boarding,location_type," <>
@@ -293,12 +293,14 @@ defmodule Stops.Api do
     |> Map.put("name", parking_area.attributes["long_name"])
     |> Map.put("latitude", parking_area.attributes["latitude"])
     |> Map.put("longitude", parking_area.attributes["longitude"])
+    |> Map.put("id", parking_area.id)
     |> to_parking_lot
   end
 
   @spec to_parking_lot(map) :: Stop.ParkingLot.t()
   defp to_parking_lot(props) do
     %Stop.ParkingLot{
+      id: Map.get(props, "id"),
       name: Map.get(props, "name"),
       address: Map.get(props, "address"),
       capacity: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Capacity.parse(props)),
