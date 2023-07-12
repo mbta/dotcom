@@ -1,24 +1,20 @@
 import { groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 import { alertsByRoute } from "../../models/alert";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import { DepartureInfo } from "../../models/departureInfo";
 
 interface StopPageDeparturesProps {
   routes: Route[];
-  stop: Stop;
-  schedules: ScheduleWithTimestamp[];
   onClick: (
     route: Route,
     directionId: DirectionId,
     departures: DepartureInfo[] | null | undefined
   ) => void;
+  departureInfos: DepartureInfo[];
   alerts: Alert[];
 }
 
@@ -35,15 +31,10 @@ const modeSortFn = ({ type }: Route): number => {
 
 const StopPageDepartures = ({
   routes,
-  stop,
-  schedules,
+  departureInfos,
   onClick,
   alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
-  // get predictions and merge with schedules.
-  const predictions = usePredictionsChannel({ stopId: stop.id });
-  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
-
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);

@@ -86,7 +86,6 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={[]}
         stop={stop}
-        schedules={[]}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
       />
@@ -104,7 +103,6 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        schedules={schedules}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
       />
@@ -124,7 +122,6 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        schedules={schedules}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
       />
@@ -159,7 +156,6 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        schedules={schedules}
         routesWithPolylines={allRoutes}
         alerts={[]}
       />
@@ -213,7 +209,6 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={allRoutes}
         stop={stop}
-        schedules={busSchedules}
         routesWithPolylines={allRoutes}
         alerts={[]}
       />

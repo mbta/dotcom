@@ -2,7 +2,6 @@ import React, { ReactElement, useLayoutEffect, useRef, useState } from "react";
 import { chain, isUndefined, some } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
@@ -17,11 +16,13 @@ import useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { useSMDown } from "../../helpers/media-breakpoints-react";
 import { Polyline } from "../../leaflet/components/__mapdata";
 import { DepartureInfo } from "../../models/departureInfo";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { useSchedulesByStop } from "../../hooks/useSchedules";
+import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 
 interface DeparturesAndMapProps {
   routes: Route[];
   stop: Stop;
-  schedules: ScheduleWithTimestamp[];
   routesWithPolylines: RouteWithPolylines[];
   alerts: Alert[];
 }
@@ -29,10 +30,12 @@ interface DeparturesAndMapProps {
 const DeparturesAndMap = ({
   routes,
   stop,
-  schedules,
   routesWithPolylines,
   alerts
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
+  const { data: schedules } = useSchedulesByStop(stop.id);
+  const predictions = usePredictionsChannel({ stopId: stop.id });
+  const departureInfos = mergeIntoDepartureInfo(schedules || [], predictions);
   const [departureInfo, setDepartureInfo] = useState<{
     departureRoute: Route | null;
     departureDirectionId: DirectionId | null;
@@ -145,8 +148,7 @@ const DeparturesAndMap = ({
         ) : (
           <StopPageDepartures
             routes={routes}
-            stop={stop}
-            schedules={schedules}
+            departureInfos={departureInfos}
             onClick={setDepartureVariables}
             alerts={alerts}
           />

@@ -5,18 +5,15 @@ import DepartureTimes, {
   infoToDisplayTime
 } from "../../components/DepartureTimes";
 import { baseRoute } from "../helpers";
-import { Alert, Stop } from "../../../__v3api";
+import { Alert, Route } from "../../../__v3api";
 import { DepartureInfo } from "../../../models/departureInfo";
-import * as predictionsChannel from "../../../hooks/usePredictionsChannel";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/perdictions";
 import { mergeIntoDepartureInfo } from "../../../helpers/departureInfo";
 import { getNextTwoTimes } from "../../models/displayTimeConfig";
 import { BUS, COMMUTER_RAIL, SUBWAY } from "../../../helpers/departureInfo";
-import { Route } from "@sentry/react/types/reactrouterv3";
 
 const route = baseRoute("TestRoute", 1);
-const stop = {} as Stop;
 const destinationText = route.direction_destinations[0]!;
 const mockClickAction = jest.fn();
 
@@ -44,17 +41,22 @@ describe("DepartureTimes", () => {
     const predictions = [
       {
         time: new Date("2022-04-27T11:15:00-04:00"),
-        trip: { id: "1", headsign: "Test 1" }
+        route: { type: 2 } as Route,
+        trip: { id: "1", headsign: "Test 1" },
+        track: "3"
       },
       {
         trip: { id: "2", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:20:00-04:00")
+        route: { type: 1 } as Route,
+        time: new Date("2022-04-27T11:20:00-04:00"),
+        track: "1"
       },
       {
         trip: { id: "3", headsign: "Test 3" },
-        time: new Date("2022-04-27T11:45:00-04:00")
-      }
-    ] as PredictionWithTimestamp[];
+        time: new Date("2022-04-27T11:45:00-04:00"),
+        route: { type: 3 } as Route
+      } as PredictionWithTimestamp
+    ];
     const schedules = [
       {
         trip: { id: "1", headsign: "Test 1" },
@@ -76,7 +78,10 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
-        departuresForDirection={mergeIntoDepartureInfo(schedules, predictions)}
+        departuresForDirection={mergeIntoDepartureInfo(
+          schedules,
+          predictions as PredictionWithTimestamp[]
+        )}
         overrideDate={dateToCompare}
         onClick={mockClickAction}
         alertsForDirection={[]}
@@ -620,54 +625,70 @@ describe("DepartureTimes", () => {
 
   it("should render `Track [Track Name] if commuter rail", () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "Test 1": [
-          {
-            time: new Date("2022-04-27T11:19:00-04:00"),
-            trip: { id: "1", headsign: "Test 1" },
-            route: { type: 2 },
-            track: "3"
-          },
-          {
-            trip: { id: "2", headsign: "Test 1" },
-            time: new Date("2022-04-27T11:30:00-04:00"),
-            route: { type: 1 },
-            track: "1"
-          }
-        ] as PredictionWithTimestamp[],
-        "Test 3": [
-          {
-            trip: { id: "3", headsign: "Test 3" },
-            time: new Date("2022-04-27T11:45:00-04:00")
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
-    const schedules = [
+    const departures = [
       {
+        schedule: {
+          trip: { id: "1", headsign: "Test 1" },
+          time: new Date("2022-04-27T11:15:00-04:00"),
+          route: { type: 2 }
+        },
+        prediction: {
+          time: new Date("2022-04-27T11:19:00-04:00"),
+          trip: { id: "1", headsign: "Test 1" },
+          route: { type: 2 },
+          track: "3"
+        },
+        routeMode: "commuter_rail",
         trip: { id: "1", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:15:00-04:00"),
-        route: { type: 2 }
+        isCancelled: false,
+        isDelayed: true
       },
       {
+        schedule: {
+          trip: { id: "2", headsign: "Test 1" },
+          time: new Date("2022-04-27T11:18:00-04:00"),
+          route: { type: 1 }
+        },
+        prediction: {
+          trip: { id: "2", headsign: "Test 1" },
+          time: new Date("2022-04-27T11:30:00-04:00"),
+          route: { type: 1 },
+          track: "1"
+        },
+        routeMode: "subway",
         trip: { id: "2", headsign: "Test 1" },
-        time: new Date("2022-04-27T11:18:00-04:00"),
-        route: { type: 2 }
+        isCancelled: false,
+        isDelayed: true
       },
       {
+        schedule: {
+          trip: { id: "4", headsign: "Test 2" },
+          time: new Date("2022-04-27T11:40:00-04:00"),
+          route: { type: 2 }
+        },
+        routeMode: "commuter_rail",
         trip: { id: "4", headsign: "Test 2" },
-        time: new Date("2022-04-27T11:40:00-04:00"),
-        route: { type: 2 }
+        isCancelled: false,
+        isDelayed: false
+      },
+      {
+        prediction: {
+          trip: { id: "3", headsign: "Test 3" },
+          time: new Date("2022-04-27T11:45:00-04:00"),
+          route: { type: 3 }
+        },
+        routeMode: "bus",
+        trip: { id: "3", headsign: "Test 3" },
+        isCancelled: false,
+        isDelayed: false
       }
-    ] as ScheduleWithTimestamp[];
+    ] as DepartureInfo[];
 
     render(
       <DepartureTimes
         route={route}
-        stop={stop}
         directionId={0}
-        schedulesForDirection={schedules}
+        departuresForDirection={departures}
         overrideDate={dateToCompare}
         onClick={mockClickAction}
         alertsForDirection={[]}
