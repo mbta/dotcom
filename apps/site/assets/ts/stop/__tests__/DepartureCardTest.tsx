@@ -114,11 +114,11 @@ describe("DepartureCard", () => {
     const schedules = [
       {
         route: baseRoute("749", 3),
-        trip: { direction_id: 0 }
+        trip: { id: "1", direction_id: 0, headsign: "Way 0" }
       },
       {
         route: baseRoute("749", 3),
-        trip: { direction_id: 1 }
+        trip: { id: "2", direction_id: 1, headsign: "Way 1" }
       }
     ] as ScheduleWithTimestamp[];
     const departures = mergeIntoDepartureInfo(schedules, []);
