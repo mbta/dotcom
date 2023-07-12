@@ -159,9 +159,7 @@ const ParkingAmenityCard = ({
   alertsForParking: Alert[];
 }): JSX.Element => {
   const icon = (
-    <span className="m-stop-page__icon u-color-brand-primary">
-      {parkingIcon()}
-    </span>
+    <span className="m-stop-page__icon text-primary">{parkingIcon()}</span>
   );
   const modalContent = getModalContent(stop, alertsForParking);
   const allParkingClosed = allParkingLotsClosed(
