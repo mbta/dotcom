@@ -9,12 +9,8 @@ import { DepartureInfo } from "../../models/departureInfo";
 
 interface StopPageDeparturesProps {
   routes: Route[];
-  onClick: (
-    route: Route,
-    directionId: DirectionId,
-    departures: DepartureInfo[] | null | undefined
-  ) => void;
   departureInfos: DepartureInfo[];
+  onClick: (route: Route, directionId: DirectionId) => void;
   alerts: Alert[];
 }
 

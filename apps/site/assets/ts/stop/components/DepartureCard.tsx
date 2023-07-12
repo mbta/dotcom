@@ -16,11 +16,7 @@ const DepartureCard = ({
 }: {
   route: Route;
   departuresForRoute: DepartureInfo[];
-  onClick: (
-    route: Route,
-    directionId: DirectionId,
-    departures: DepartureInfo[] | null | undefined
-  ) => void;
+  onClick: (route: Route, directionId: DirectionId) => void;
   alertsForRoute: Alert[];
 }): ReactElement<HTMLElement> => {
   const departuresByDirection = groupBy(

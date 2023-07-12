@@ -160,11 +160,7 @@ interface DepartureTimesProps {
   alertsForDirection: Alert[];
   // override date primarily used for testing
   overrideDate?: Date;
-  onClick: (
-    route: Route,
-    directionId: DirectionId,
-    departures: DepartureInfo[] | null | undefined
-  ) => void;
+  onClick: (route: Route, directionId: DirectionId) => void;
 }
 
 const DepartureTimes = ({
@@ -182,8 +178,8 @@ const DepartureTimes = ({
         return (
           <div
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, departures)}
-            onKeyDown={() => onClick(route, directionId, departures)}
+            onClick={() => onClick(route, directionId)}
+            onKeyDown={() => onClick(route, directionId)}
             role="presentation"
           >
             {getRow(headsign, departures, alertsForDirection, overrideDate)}
