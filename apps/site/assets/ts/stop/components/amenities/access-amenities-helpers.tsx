@@ -27,7 +27,7 @@ export const cardBadge = (
       backgroundClass = "u-error-background";
     }
     if (workingFacilities > 0 && workingFacilities < accessFacilities.length) {
-      backgroundClass = "gray-lightest";
+      backgroundClass = "u-bg--gray-lightest";
     }
     return (
       <Badge
