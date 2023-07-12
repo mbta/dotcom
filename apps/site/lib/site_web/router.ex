@@ -38,6 +38,10 @@ defmodule SiteWeb.Router do
     plug(:accepts, ["json"])
   end
 
+  pipeline :cached_hourly do
+    plug(SiteWeb.Plugs.CacheControl, max_age: 3_600)
+  end
+
   pipeline :cached_daily do
     plug(SiteWeb.Plugs.CacheControl, max_age: 86_400)
   end
@@ -207,8 +211,13 @@ defmodule SiteWeb.Router do
 
     get("/alerts", AlertController, :show_by_routes)
     get("/stops/:stop_id/alerts", AlertController, :show_by_stop)
-    get("/stops/:stop_id/schedules", ScheduleController, :schedules_for_stop)
     get("/stop/:stop_id/facilities", StopController, :get_facilities)
+  end
+
+  scope "/api", SiteWeb do
+    pipe_through([:secure, :browser, :cached_hourly])
+
+    get("/stops/:stop_id/schedules", ScheduleController, :schedules_for_stop)
   end
 
   scope "/api", SiteWeb do
