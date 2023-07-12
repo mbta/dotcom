@@ -3,14 +3,14 @@ import { Alert, Facility } from "../../../__v3api";
 import Badge from "../../../components/Badge";
 
 export const availabilityMessage = (
-  brokenElevators: number,
-  totalElevators: number,
-  facilityType: string
+  brokenFacilities: number,
+  totalFacilities: number,
+  facilityType: "elevators" | "escalators"
 ): string => {
-  if (brokenElevators === totalElevators && totalElevators > 0) {
+  if (brokenFacilities === totalFacilities && totalFacilities > 0) {
     return `All ${facilityType} are currently out of order.`;
   }
-  if (totalElevators === 0) {
+  if (totalFacilities === 0) {
     return `This station does not have ${facilityType}.`;
   }
   return `View available ${facilityType}.`;

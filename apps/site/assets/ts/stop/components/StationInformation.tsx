@@ -36,8 +36,8 @@ const StationInformation = ({
     }
   });
 
-  const elevators = facilitiesByType.get("ELEVATOR")!;
-  const escalators = facilitiesByType.get("ESCALATOR")!;
+  const elevators = facilitiesByType.get("ELEVATOR") || [];
+  const escalators = facilitiesByType.get("ESCALATOR") || [];
 
   return (
     <div>
@@ -73,7 +73,7 @@ const StationInformation = ({
                 elevators !== undefined ? elevators : [],
                 alerts
               )}
-              elevatorFacilities={elevators !== undefined ? elevators : []}
+              elevatorFacilities={elevators}
             />
             <EscalatorsAmenityCard
               stopName={stop.name}
@@ -81,7 +81,7 @@ const StationInformation = ({
                 escalators !== undefined ? escalators : [],
                 alerts
               )}
-              escalatorFacilities={escalators !== undefined ? escalators : []}
+              escalatorFacilities={escalators}
             />
           </>
         )}

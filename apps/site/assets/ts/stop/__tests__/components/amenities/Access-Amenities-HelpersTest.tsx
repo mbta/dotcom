@@ -31,7 +31,7 @@ const alert1: Alert = {
 } as Alert;
 
 describe("availabilityMessage", () => {
-  it("should renturn 'View available facilityType' if at least one is available", () => {
+  it("should return 'View available facilityType' if at least one is available", () => {
     expect(availabilityMessage(1, 2, "elevators")).toEqual(
       "View available elevators."
     );
