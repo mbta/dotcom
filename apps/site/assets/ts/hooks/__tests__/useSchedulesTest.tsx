@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react-hooks/dom";
 import React from "react";
 import { SWRConfig } from "swr";
 import { useSchedulesByStop } from "../useSchedules";
@@ -36,23 +36,44 @@ describe("useSchedulesByStop", () => {
   });
 
   it("should return an array of parsed schedules", async () => {
-    const { result, waitFor } = renderHook(
-      () => useSchedulesByStop("stop-id"),
-      {
-        wrapper: HookWrapper
-      }
-    );
-    await waitFor(() => {
-      expect(result.current.status).toBe(FetchStatus.Data);
-      expect(result.current.data?.length).toEqual(2);
-      expect(result.current.data![0].trip.id).toEqual("0");
-      expect(result.current.data![1].trip.id).toEqual("1");
-      expect(result.current.data![0].time).toEqual(
-        new Date(testSchedule1.time)
+    await act(async () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2022-04-30T11:14:00-04:00"));
+
+      const { result, waitFor } = renderHook(
+        () => useSchedulesByStop("stop-id"),
+        { wrapper: HookWrapper }
       );
-      expect(result.current.data![1].time).toEqual(
-        new Date(testSchedule2.time)
-      );
+      await waitFor(() => {
+        expect(result.current.status).toBe(FetchStatus.Data);
+        expect(result.current.data).toBeDefined();
+        expect(result.current.data!.length).toEqual(2);
+        expect(result.current.data![0].trip.id).toEqual("0");
+        expect(result.current.data![1].trip.id).toEqual("1");
+        expect(result.current.data![0].time).toEqual(
+          new Date(testSchedule1.time)
+        );
+        expect(result.current.data![1].time).toEqual(
+          new Date(testSchedule2.time)
+        );
+      });
+
+      // advance clock past first schedule but before second
+      jest.advanceTimersByTime(240000); // 4 minutes later
+
+      // time continues! next interval should make first schedule in the past,
+      // leaving only one to display
+      await waitFor(() => {
+        expect(result.current.status).toBe(FetchStatus.Data);
+        expect(result.current.data).toBeDefined();
+        expect(result.current.data!.length).toEqual(1);
+        expect(result.current.data![0].trip.id).toEqual("1");
+        expect(result.current.data![0].time).toEqual(
+          new Date(testSchedule2.time)
+        );
+      });
+
+      jest.useRealTimers();
     });
   });
 

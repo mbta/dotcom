@@ -1,4 +1,6 @@
 import useSWR from "swr";
+import useInterval from "use-interval";
+import { useState } from "react";
 import { pick } from "lodash";
 import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { ScheduleWithTimestamp } from "../models/schedules";
@@ -36,6 +38,11 @@ const fetchData = async (url: string): Promise<ScheduleData[]> =>
 const useSchedulesByStop = (
   stopId: string
 ): FetchState<ScheduleWithTimestamp[]> => {
+  const [updateDate, setUpdateDate] = useState(Date.now());
+  useInterval(() => {
+    setUpdateDate(Date.now());
+  }, 15000);
+
   const { data, error } = useSWR<ScheduleData[]>(
     `/api/stops/${stopId}/schedules?last_stop_departures=false&future_departures=true`,
     fetchData
@@ -43,7 +50,9 @@ const useSchedulesByStop = (
   if (error) {
     return { status: FetchStatus.Error };
   }
-  const parsedData = data?.map(d => parse(d));
+  const parsedData = data
+    ?.map(d => parse(d))
+    .filter(d => d.time.getTime() >= updateDate);
   return { status: FetchStatus.Data, data: parsedData };
 };
 // eslint-disable-next-line import/prefer-default-export
