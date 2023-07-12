@@ -15,9 +15,6 @@ import {
   infoToDisplayTime
 } from "../models/displayTimeConfig";
 import { DepartureInfo } from "../../models/departureInfo";
-import { schedulesByHeadsign } from "../../models/schedule";
-import { PredictionWithTimestamp } from "../../models/perdictions";
-import { isACommuterRailRoute } from "../../models/route";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -135,13 +132,11 @@ const getRow = (
 ): JSX.Element => {
   // High priority badges override the displaying of times
   const alertBadge = toHighPriorityAlertBadge(alerts);
+  const isCR = departures[0]
+    ? departures[0].routeMode === "commuter_rail"
+    : false;
   if (alertBadge) {
-    return departureTimeRow(
-      headsign,
-      [],
-      schedules[0] ? isACommuterRailRoute(schedules[0].route.type) : false,
-      alertBadge
-    );
+    return departureTimeRow(headsign, [], isCR, alertBadge);
   }
 
   // informative badges compliment the times being shown
@@ -153,7 +148,7 @@ const getRow = (
   return departureTimeRow(
     headsign,
     formattedTimes,
-    schedules[0] ? isACommuterRailRoute(schedules[0].route.type) : false,
+    isCR,
     informativeAlertBadge
   );
 };
