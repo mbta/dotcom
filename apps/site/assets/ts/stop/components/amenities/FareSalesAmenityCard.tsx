@@ -16,8 +16,8 @@ const FareRetailLocations = (stop: Stop): JSX.Element => (
         href={`/fares/retail-sales-locations?location[address]=${stop.address}&location[latitude]=${stop.latitude}&location[longitude]=${stop.longitude}`}
       >
         nearby retail location
-      </a>
-      .
+      </a>{" "}
+      or pay with cash on any bus.
     </p>
   </>
 );
@@ -25,6 +25,12 @@ const FareRetailLocations = (stop: Stop): JSX.Element => (
 const FareVendingMachines = (): JSX.Element => (
   <>
     <h2 className="h3 mb-8">Fare Vending Machines</h2>
+    <img
+      className="img-fluid mt-1 mb-1"
+      src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2021-11/Fare-Transformation-new-fvms-Nov2021.jpg"
+      alt="MBTA fare vending machines"
+      style={{ maxHeight: "250px" }}
+    />
     <p className="mt-0 mb-0">At fare vending machines, you can:</p>
     <ul>
       <li>Purchase a CharlieCard or reload an existing one</li>
