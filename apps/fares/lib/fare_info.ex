@@ -571,7 +571,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_lynn,
         duration: :single_trip,
-        media: [:mticket],
+        media: [:mticket, :paper_ferry, :cash],
         reduced: nil,
         cents: dollars_to_cents(lynn_price)
       },
@@ -579,7 +579,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_lynn,
         duration: :round_trip,
-        media: [:mticket],
+        media: [:mticket, :paper_ferry, :cash],
         reduced: nil,
         cents: dollars_to_cents(lynn_price) * 2
       },
@@ -587,7 +587,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_winthrop,
         duration: :single_trip,
-        media: [:mticket],
+        media: [:mticket, :paper_ferry, :cash],
         reduced: nil,
         cents: dollars_to_cents(winthrop_price)
       },
@@ -595,7 +595,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_winthrop,
         duration: :round_trip,
-        media: [:mticket],
+        media: [:mticket, :paper_ferry, :cash],
         reduced: nil,
         cents: dollars_to_cents(winthrop_price) * 2
       },
