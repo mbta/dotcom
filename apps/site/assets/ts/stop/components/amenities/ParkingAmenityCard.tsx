@@ -151,6 +151,14 @@ const allParkingLotsClosed = (
   return openParkingLotIDs.length === 0;
 };
 
+const iconColorOverride = (isDisabled: boolean): string => {
+  if (isDisabled) {
+    return "u-color-gray-dark";
+  }
+
+  return "text-primary";
+};
+
 const ParkingAmenityCard = ({
   stop,
   alertsForParking
@@ -158,14 +166,17 @@ const ParkingAmenityCard = ({
   stop: Stop;
   alertsForParking: Alert[];
 }): JSX.Element => {
-  const icon = (
-    <span className="m-stop-page__icon text-primary">{parkingIcon()}</span>
-  );
-  const modalContent = getModalContent(stop, alertsForParking);
   const allParkingClosed = allParkingLotsClosed(
     alertsForParking,
     stop.parking_lots
   );
+
+  const modalContent = getModalContent(stop, alertsForParking);
+  const iconColor = iconColorOverride(modalContent === undefined);
+  const icon = (
+    <span className={`m-stop-page__icon ${iconColor}`}>{parkingIcon()}</span>
+  );
+
   const badge = getBadge(stop.parking_lots, allParkingClosed);
 
   return (
@@ -176,10 +187,10 @@ const ParkingAmenityCard = ({
       badge={badge}
     >
       {stop.parking_lots.length === 0 && (
-        <div>This station does not have parking</div>
+        <div>This station does not have parking.</div>
       )}
       {!allParkingClosed && stop.parking_lots.length !== 0 && (
-        <div>View daily rates and facility information</div>
+        <div>View daily rates and facility information.</div>
       )}
     </AmenityCard>
   );

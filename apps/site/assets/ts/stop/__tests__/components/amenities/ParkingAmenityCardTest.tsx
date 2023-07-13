@@ -77,7 +77,7 @@ describe("ParkingAmenityCard", () => {
     );
     expect(screen.getByText("Parking")).toBeDefined();
     expect(
-      screen.getByText("View daily rates and facility information")
+      screen.getByText("View daily rates and facility information.")
     ).toBeInTheDocument();
   });
 
@@ -228,7 +228,9 @@ describe("ParkingAmenityCard", () => {
   it("should say if there are no parking lots available at station", () => {
     const localTestStop = { ...testStop, parking_lots: [] };
     render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
-    expect(screen.getByText("This station does not have parking"));
-    expect(screen.getByText("Not available"));
+    expect(
+      screen.getByText("This station does not have parking.")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Not available")).toBeInTheDocument();
   });
 });
