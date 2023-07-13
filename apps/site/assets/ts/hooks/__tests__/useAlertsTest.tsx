@@ -102,9 +102,12 @@ describe("useAlertsByRoute", () => {
   });
 
   it("should return an alert array for one route id", async () => {
-    const { result, waitFor } = renderHook(() => useAlertsByRoute("route-id"), {
-      wrapper: HookWrapper
-    });
+    const { result, waitFor } = renderHook(
+      () => useAlertsByRoute(["route-id"]),
+      {
+        wrapper: HookWrapper
+      }
+    );
     await waitFor(() =>
       expect(result.current.status).toEqual(FetchStatus.Data)
     );
@@ -152,7 +155,7 @@ describe("useAlertsByRoute", () => {
         )
     );
     const { result, waitFor } = renderHook(
-      () => useAlertsByRoute("bad-route"),
+      () => useAlertsByRoute(["bad-route"]),
       {
         wrapper: HookWrapper
       }

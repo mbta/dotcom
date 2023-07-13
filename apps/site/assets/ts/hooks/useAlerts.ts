@@ -17,22 +17,13 @@ const useAlertsByStop = (stopId: string): FetchState<Alert[]> => {
   return { status: FetchStatus.Data, data };
 };
 
-const useAlertsByRoute = (routeId: string | string[]): FetchState<Alert[]> => {
-  const route_id_array = Array.isArray(routeId) ? routeId : [routeId];
+const useAlertsByRoute = (routeIds: string[]): FetchState<Alert[]> => {
   const { data, error } = useSWR<Alert[]>(
-    route_id_array.length === 0
-      ? null
-      : `/api/alerts?route_ids=${route_id_array.join(",")}`,
+    `/api/alerts?route_ids=${routeIds.join(",")}`,
     fetchData
   );
-
   if (error) {
     return { status: FetchStatus.Error };
-  }
-  if (route_id_array.length === 0) {
-    // no alerts to return if there were no route ids passed
-    // don't return the value of data directly because it will be undefined
-    return { status: FetchStatus.Data, data: [] };
   }
   return { status: FetchStatus.Data, data };
 };

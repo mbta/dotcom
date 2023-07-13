@@ -29,9 +29,7 @@ const StopPageRedesign = ({
   const alertsForStopResult = useAlertsByStop(stopId);
   const facilities = useFacilitiesByStop(stopId);
   const alertsForRoutesResult = useAlertsByRoute(
-    routesWithPolylinesResult.status === FetchStatus.Data
-      ? routesWithPolylinesResult.data?.map(r => r.id) || []
-      : []
+    routesWithPolylinesResult.data?.map(r => r.id) || []
   );
 
   if (
