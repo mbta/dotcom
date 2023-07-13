@@ -1,31 +1,13 @@
-import useSWR from "swr";
-import { fetchJsonOrThrow } from "../helpers/fetch-json";
 import { Alert } from "../__v3api";
-import { FetchState, FetchStatus } from "../helpers/use-fetch";
-
-const fetchData = async (url: string): Promise<Alert[]> =>
-  fetchJsonOrThrow(url);
+import { FetchState } from "../helpers/use-fetch";
+import useFetch from "./useFetch";
 
 const useAlertsByStop = (stopId: string): FetchState<Alert[]> => {
-  const { data, error } = useSWR<Alert[]>(
-    `/api/stops/${stopId}/alerts`,
-    fetchData
-  );
-  if (error) {
-    return { status: FetchStatus.Error };
-  }
-  return { status: FetchStatus.Data, data };
+  return useFetch<Alert[]>(`/api/stops/${stopId}/alerts`);
 };
 
 const useAlertsByRoute = (routeIds: string[]): FetchState<Alert[]> => {
-  const { data, error } = useSWR<Alert[]>(
-    `/api/alerts?route_ids=${routeIds.join(",")}`,
-    fetchData
-  );
-  if (error) {
-    return { status: FetchStatus.Error };
-  }
-  return { status: FetchStatus.Data, data };
+  return useFetch<Alert[]>(`/api/alerts?route_ids=${routeIds.join(",")}`);
 };
 
 // eslint-disable-next-line import/prefer-default-export

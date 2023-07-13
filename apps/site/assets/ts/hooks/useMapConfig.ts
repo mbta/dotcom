@@ -1,15 +1,13 @@
-import useSWR from "swr";
-import { fetchJsonOrThrow } from "../helpers/fetch-json";
+import useFetch from "./useFetch";
 
-const fetchData = async (url: string): Promise<MapConfig> =>
-  fetchJsonOrThrow(url);
-
-export interface MapConfig {
-  tile_server_url: string;
-}
-
-const useMapConfig = (): MapConfig | undefined => {
-  const { data } = useSWR<MapConfig>(`/api/map-config`, fetchData);
+const useMapConfig = ():
+  | {
+      tile_server_url: string;
+    }
+  | undefined => {
+  const { data } = useFetch<{
+    tile_server_url: string;
+  }>("/api/map-config");
   return data;
 };
 
