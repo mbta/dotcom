@@ -92,7 +92,7 @@ defmodule SiteWeb.FareControllerTest do
           ]
         end
       ) do
-        conn = get(conn, fare_path(conn, :one_way_by_stop_id, "stop_id"))
+        conn = get(conn, fare_path(conn, :one_way_by_stop_id, %{"stop_id" => "stop_id"}))
         fares_response = json_response(conn, 200)
 
         assert fares_response == [
