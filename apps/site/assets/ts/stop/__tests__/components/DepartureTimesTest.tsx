@@ -65,17 +65,17 @@ describe("DepartureTimes", () => {
       {
         trip: { id: "1", headsign: "Test 1" },
         time: new Date("2022-04-27T11:15:00-04:00"),
-        route: { type: 2 }
+        route: { type: 3 }
       },
       {
         trip: { id: "2", headsign: "Test 1" },
         time: new Date("2022-04-27T11:18:00-04:00"),
-        route: { type: 2 }
+        route: { type: 3 }
       },
       {
         trip: { id: "4", headsign: "Test 2" },
         time: new Date("2022-04-27T11:40:00-04:00"),
-        route: { type: 2 }
+        route: { type: 3 }
       }
     ] as ScheduleWithTimestamp[];
     render(
@@ -184,12 +184,12 @@ describe("DepartureTimes", () => {
           {
             time: new Date("2022-04-27T11:15:00-04:00"),
             trip: { id: "1", headsign: "Test 1" },
-            route: { type: 2 }
+            route: { type: 3 }
           },
           {
             trip: { id: "2", headsign: "Test 1" },
             time: new Date("2022-04-27T11:20:00-04:00"),
-            route: { type: 2 }
+            route: { type: 3 }
           }
         ] as PredictionWithTimestamp[]
       };
@@ -198,12 +198,12 @@ describe("DepartureTimes", () => {
       {
         trip: { id: "1", headsign: "Test 1" },
         time: new Date("2022-04-27T11:15:00-04:00"),
-        route: { type: 2 } as Route
+        route: { type: 3 } as Route
       },
       {
         trip: { id: "2", headsign: "Test 1" },
         time: new Date("2022-04-27T11:18:00-04:00"),
-        route: { type: 2 } as Route
+        route: { type: 3 } as Route
       }
     ] as ScheduleWithTimestamp[];
     const detourAlert = {
@@ -590,6 +590,26 @@ describe("DepartureTimes", () => {
 
       expect(displayTime1.displayString).toEqual("11:45 AM");
       expect(displayTime2.displayString).toEqual("11:35 AM");
+    });
+
+    it("should return hh:mm format for commuter rail always", () => {
+      const compareTime = new Date("2022-04-24T11:15:00-04:00");
+      const info1 = {
+        schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} },
+        isCancelled: true,
+        routeMode: COMMUTER_RAIL
+      } as DepartureInfo;
+      const info2 = {
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
+        routeMode: COMMUTER_RAIL
+      } as DepartureInfo;
+
+      const [displayTime1, _displayTime2] = infoToDisplayTime(
+        [info1, info2],
+        compareTime
+      );
+
+      expect(displayTime1.displayString).toEqual("11:45 AM");
     });
   });
 

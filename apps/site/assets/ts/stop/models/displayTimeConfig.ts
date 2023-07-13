@@ -77,6 +77,9 @@ const infoToDisplayTime = (
   ];
 
   const [departureInfo1, departureInfo2] = getNextTwoTimes(departureInfos);
+  const isCr =
+    departureInfo1?.routeMode === "commuter_rail" ||
+    departureInfo2?.routeMode === "commuter_rail";
 
   // If there is not a departureInfo1 then a schedule or prediction could not be found
   if (!departureInfo1) {
@@ -148,6 +151,18 @@ const infoToDisplayTime = (
   ) {
     time1 = departureInfo2;
     time2 = undefined;
+  }
+
+  if (isCr) {
+    // if commuter rail always dispaly in hh:mm format
+    return [
+      {
+        displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
+        isPrediction: displayInfoContainsPrediction(time1),
+        isBolded: true,
+        reactKey: getInfoKey(time1)
+      }
+    ];
   }
 
   const diffInSeconds1 = differenceInSeconds(
