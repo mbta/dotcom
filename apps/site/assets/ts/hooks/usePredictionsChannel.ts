@@ -71,7 +71,7 @@ interface PredictionsChannelArgs {
   directionId?: 0 | 1;
 }
 
-function channelFromArgs(channelArgs: PredictionsChannelArgs): string {
+function channelFromArgs(channelArgs: PredictionsChannelArgs): string | null {
   const keysWithValues = Object.entries({
     route: "routeId",
     stop: "stopId",
@@ -85,7 +85,7 @@ function channelFromArgs(channelArgs: PredictionsChannelArgs): string {
       return "";
     })
     .join("");
-  return `predictions${keysWithValues}`;
+  return keysWithValues === "" ? null : `predictions${keysWithValues}`;
 }
 
 /**

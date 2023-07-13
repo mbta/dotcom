@@ -8,6 +8,7 @@ import {
   makeMockSocket
 } from "../../helpers/socketTestHelpers";
 import { Route, Stop, Trip } from "../../__v3api";
+import * as useChannel from "../useChannel";
 
 const predictionsFromStream = [
   {
@@ -129,6 +130,17 @@ describe("usePredictionsChannel hook", () => {
     });
     expect(result.current).toBeTruthy();
     expect(result.current).toEqual(results);
+  });
+
+  test("handles no arguments", () => {
+    const useChannelSpy = jest.spyOn(useChannel, "default");
+    const { result } = renderHook(() => usePredictionsChannel({}));
+    expect(useChannelSpy).toHaveBeenCalledWith(
+      null,
+      expect.anything(),
+      expect.anything()
+    );
+    expect(result.current).toEqual([]);
   });
 });
 
