@@ -93,6 +93,28 @@ describe("usePredictionsChannel hook", () => {
     expect(result.current).toHaveLength(predictionsFromStream.length);
   });
 
+  test("gets and outputs data for just a stop", () => {
+    const { result } = renderHook(() =>
+      usePredictionsChannel({
+        stopId: "place-overthere"
+      })
+    );
+
+    /* pretend this is the channel emitting new predictions */
+    act(() => {
+      const event = new CustomEvent<{
+        predictions: StreamPrediction[];
+      }>("predictions:stop=place-overthere", {
+        detail: {
+          predictions: predictionsFromStream
+        }
+      });
+      document.dispatchEvent(event);
+    });
+
+    expect(result.current).toHaveLength(predictionsFromStream.length);
+  });
+
   test("doesn't output data if same as new data", () => {
     const { result } = renderHook(() =>
       usePredictionsChannel({
