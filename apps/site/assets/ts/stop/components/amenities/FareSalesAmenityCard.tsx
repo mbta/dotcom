@@ -89,7 +89,7 @@ const FareSalesAmenityCard = ({ stop }: { stop: Stop }): JSX.Element => {
   const icon = faresIcon("c-svg__icon");
   const hasFareVendingMachine = stop["has_fare_machine?"];
   const faresData = useFetch<[string, string][]>(
-    `/api/fares/one-way/by-stop/${stop.id}`
+    `/api/fares/one-way?stop_id=${stop.id}`
   );
 
   return (
