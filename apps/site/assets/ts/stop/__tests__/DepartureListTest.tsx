@@ -44,10 +44,12 @@ const schedules = [
 
 const predictions = [
   {
+    route: route,
     time: new Date("2022-04-27T11:15:00-04:00"),
     trip: schedules[0].trip
   },
   {
+    route: route,
     trip: schedules[1].trip,
     time: add(Date.now(), { minutes: 11 })
   }
@@ -56,6 +58,21 @@ const predictions = [
 const departures = mergeIntoDepartureInfo(schedules, predictions);
 
 describe("DepartureList", () => {
+  it("should render predictions even when no schedules available", () => {
+    const { container } = render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        departures={mergeIntoDepartureInfo([], predictions)}
+        directionId={0}
+        alerts={[]}
+      />
+    );
+    expect(screen.queryAllByRole("listitem")).toHaveLength(predictions.length);
+    expect(container.querySelector(".c-svg__icon--realtime")).toBeTruthy();
+    expect(screen.queryByText("10 min")).toBeTruthy();
+  });
+
   it("should render a schedule when no predictions available", () => {
     render(
       <DepartureList
