@@ -40,6 +40,7 @@ export interface PredictedSchedule {
 export type Mode = "commuter_rail" | "subway" | "bus" | "ferry";
 
 export interface ParkingLot {
+  id: string;
   name: string;
   address: string | null;
   capacity: ParkingLotCapacity | null;

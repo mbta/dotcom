@@ -53,6 +53,7 @@ const capacity: ParkingLotCapacity = {
 };
 
 const parkingLot: ParkingLot = {
+  id: "1",
   utilization,
   payment,
   note: "An example note",
