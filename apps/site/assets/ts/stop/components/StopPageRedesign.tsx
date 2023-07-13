@@ -6,7 +6,6 @@ import { useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
-import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
 import DeparturesAndMap from "./DeparturesAndMap";
 import {
@@ -25,7 +24,6 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const stopResult = useStop(stopId);
   const routesWithPolylinesResult = useRoutesByStop(stopId);
-  const schedulesResult = useSchedulesByStop(stopId);
   const alertsForStopResult = useAlertsByStop(stopId);
   const facilities = useFacilitiesByStop(stopId);
   const alertsForRoutesResult = useAlertsByRoute(
@@ -38,7 +36,6 @@ const StopPageRedesign = ({
     [
       stopResult.status,
       routesWithPolylinesResult.status,
-      schedulesResult.status,
       facilities.status
     ].includes(FetchStatus.Error)
   ) {
@@ -49,7 +46,6 @@ const StopPageRedesign = ({
   if (
     !stopResult.data ||
     !routesWithPolylinesResult.data ||
-    !schedulesResult.data ||
     !alertsForRoutesResult.data ||
     !alertsForStopResult.data ||
     !facilities.data
@@ -98,7 +94,6 @@ const StopPageRedesign = ({
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
-          schedules={schedulesResult.data}
           routesWithPolylines={routesWithPolylinesResult.data}
           alerts={currentAlerts}
         />

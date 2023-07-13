@@ -53,9 +53,8 @@ const mergeIntoDepartureInfo = (
   schedules: ScheduleWithTimestamp[],
   predictions: PredictionWithTimestamp[]
 ): DepartureInfo[] => {
-  const schedulesByTripId = keyBy(schedules, sch => sch.trip.id);
-  const predictionsByTripId = keyBy(predictions, prd => prd.trip.id);
-
+  const schedulesByTripId = keyBy(schedules, "trip.id");
+  const predictionsByTripId = keyBy(predictions, "trip.id");
   const scheduleTripIds = keys(schedulesByTripId);
   const predictionTripIds = keys(predictionsByTripId);
 
@@ -68,6 +67,8 @@ const mergeIntoDepartureInfo = (
       return {
         prediction,
         schedule,
+        route: schedule.route,
+        trip: schedule.trip,
         isCancelled: isCancelled(prediction),
         isDelayed: isDelayed(prediction, schedule),
         routeMode: toRouteMode(schedule.route)
@@ -86,6 +87,8 @@ const mergeIntoDepartureInfo = (
       const prediction = predictionsByTripId[tripId];
       return {
         prediction,
+        route: prediction.route,
+        trip: prediction.trip,
         isCancelled: isCancelled(prediction),
         routeMode: toRouteMode(prediction.route)
       } as DepartureInfo;

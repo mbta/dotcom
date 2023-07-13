@@ -1,7 +1,6 @@
 import { act, renderHook } from "@testing-library/react-hooks";
 import usePredictionsChannel, {
   StreamPrediction,
-  groupByHeadsigns,
   parsePrediction
 } from "../usePredictionsChannel";
 import {
@@ -9,7 +8,7 @@ import {
   makeMockSocket
 } from "../../helpers/socketTestHelpers";
 import { Route, Stop, Trip } from "../../__v3api";
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import * as useChannel from "../useChannel";
 
 const predictionsFromStream = [
   {
@@ -56,9 +55,13 @@ describe("usePredictionsChannel hook", () => {
 
   test("initializes connection to appropriate channel", () => {
     const { result } = renderHook(() =>
-      usePredictionsChannel("Purple", "place-somewhere", 0)
+      usePredictionsChannel({
+        routeId: "Purple",
+        stopId: "place-somewhere",
+        directionId: 0
+      })
     );
-    expect(result.current).toEqual({});
+    expect(result.current).toEqual([]);
     expect(
       window.channels[
         "predictions:route=Purple:stop=place-somewhere:direction_id=0"
@@ -68,7 +71,11 @@ describe("usePredictionsChannel hook", () => {
 
   test("gets and outputs data", () => {
     const { result } = renderHook(() =>
-      usePredictionsChannel("Purple", "place-somewhere", 0)
+      usePredictionsChannel({
+        routeId: "Purple",
+        stopId: "place-somewhere",
+        directionId: 0
+      })
     );
 
     /* pretend this is the channel emitting new predictions */
@@ -83,15 +90,38 @@ describe("usePredictionsChannel hook", () => {
       document.dispatchEvent(event);
     });
 
-    expect(result.current).toHaveProperty("Destination One");
-    expect(result.current).toHaveProperty("Destination Two");
-    expect(result.current["Destination One"]).toHaveLength(2);
-    expect(result.current["Destination Two"]).toHaveLength(1);
+    expect(result.current).toHaveLength(predictionsFromStream.length);
+  });
+
+  test("gets and outputs data for just a stop", () => {
+    const { result } = renderHook(() =>
+      usePredictionsChannel({
+        stopId: "place-overthere"
+      })
+    );
+
+    /* pretend this is the channel emitting new predictions */
+    act(() => {
+      const event = new CustomEvent<{
+        predictions: StreamPrediction[];
+      }>("predictions:stop=place-overthere", {
+        detail: {
+          predictions: predictionsFromStream
+        }
+      });
+      document.dispatchEvent(event);
+    });
+
+    expect(result.current).toHaveLength(predictionsFromStream.length);
   });
 
   test("doesn't output data if same as new data", () => {
     const { result } = renderHook(() =>
-      usePredictionsChannel("Purple", "place-somewhere", 0)
+      usePredictionsChannel({
+        routeId: "Purple",
+        stopId: "place-somewhere",
+        directionId: 0
+      })
     );
 
     /* pretend this is the channel emitting new predictions */
@@ -122,6 +152,17 @@ describe("usePredictionsChannel hook", () => {
     });
     expect(result.current).toBeTruthy();
     expect(result.current).toEqual(results);
+  });
+
+  test("handles no arguments", () => {
+    const useChannelSpy = jest.spyOn(useChannel, "default");
+    const { result } = renderHook(() => usePredictionsChannel({}));
+    expect(useChannelSpy).toHaveBeenCalledWith(
+      null,
+      expect.anything(),
+      expect.anything()
+    );
+    expect(result.current).toEqual([]);
   });
 });
 
@@ -169,51 +210,4 @@ describe("usePredictionsChannel parsePrediction", () => {
       new Date(streamPrediction.departure_time!)
     );
   });
-});
-
-test("usePredictionsChannel groupByHeadsigns groups and sorts", () => {
-  const predictions = [
-    {
-      trip: { headsign: "A" },
-      time: new Date("2023-04-17T10:10:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "B" },
-      time: new Date("2023-04-17T09:14:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "A" },
-      time: new Date("2023-04-17T08:54:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "B" },
-      time: new Date("2023-04-17T09:00:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "A" },
-      time: new Date("2023-04-17T07:33:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "C" },
-      time: new Date("2023-04-17T09:25:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "C" },
-      time: new Date("2023-04-17T09:24:00")
-    } as PredictionWithTimestamp,
-    {
-      trip: { headsign: "A" },
-      time: new Date("2023-04-17T09:24:00")
-    } as PredictionWithTimestamp
-  ];
-  const grouped = groupByHeadsigns(predictions);
-  expect(Object.keys(grouped)).toContain("A");
-  expect(Object.keys(grouped)).toContain("B");
-  expect(Object.keys(grouped)).toContain("C");
-  expect(grouped["A"].map(p => p.time.toLocaleTimeString())).toEqual([
-    "7:33:00 AM",
-    "8:54:00 AM",
-    "9:24:00 AM",
-    "10:10:00 AM"
-  ]);
 });
