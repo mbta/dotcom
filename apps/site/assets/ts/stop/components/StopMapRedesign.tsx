@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import Map from "../../leaflet/components/Map";
-import { Stop } from "../../__v3api";
+import { Route, Stop } from "../../__v3api";
 import {
   MapData,
   MapMarker,
@@ -8,26 +8,61 @@ import {
 } from "../../leaflet/components/__mapdata";
 import useMapConfig from "../../hooks/useMapConfig";
 import { Vehicle } from "../../hooks/useVehiclesChannel";
-import CrowdingPill from "../../schedule/components/line-diagram/CrowdingPill";
-import { iconOpts } from "../../schedule/components/Map";
+import {
+  isABusRoute,
+  isACommuterRailRoute,
+  isAGreenLineRoute,
+  isASilverLineRoute,
+  isFerryRoute
+} from "../../models/route";
 
 interface Props {
   stop: Stop;
   lines: Polyline[];
-  vehicles?: Vehicle[];
+  vehicles: Vehicle[];
+  selectedRoute: Route | null;
 }
 
-const mapMarkerFromVehicle = (vehicle: Vehicle): MapMarker => {
-  const iconName = "vehicle-bordered-expanded";
+const routeToModeIconName = (route: Route | null): string => {
+  if (route) {
+    if (isACommuterRailRoute(route)) return "mode-commuter-rail-small";
+    if (isASilverLineRoute(route)) return "mode-bus-silver";
+    if (isABusRoute(route)) return "mode-bus-small";
+    if (isFerryRoute(route)) return "mode-ferry-small";
+    if (isAGreenLineRoute(route)) return "mode-subway-green";
+    switch (route.id) {
+      case "Mattapan":
+        return "mode-trolley-small";
+      case "Blue":
+        return "mode-subway-blue";
+      case "Red":
+        return "mode-subway-red";
+      case "Orange":
+        return "mode-subway-orange";
+      default:
+        return "mode-subway-small";
+    }
+  }
+
+  return "vehicle-bordered-expanded";
+};
+
+const mapMarkerFromVehicle = (
+  vehicle: Vehicle,
+  iconName: string
+): MapMarker => {
   return {
     id: vehicle.id,
     alt: `vehicle ${vehicle.id} marker`,
     icon: iconName,
     latitude: vehicle.latitude,
     longitude: vehicle.longitude,
-    rotation_angle: vehicle.bearing,
-    icon_opts: iconOpts(iconName),
-    tooltip: <CrowdingPill crowding={vehicle.crowding} />
+    rotation_angle: 0,
+    icon_opts: {
+      icon_size: [26, 26],
+      icon_anchor: [13, 13]
+    },
+    tooltip: null
   };
 };
 
@@ -49,15 +84,16 @@ const polylineClassName = (polyline: Polyline): string =>
 const StopMapRedesign = ({
   stop,
   lines,
-  vehicles
+  vehicles,
+  selectedRoute
 }: Props): ReactElement<HTMLElement> => {
   const mapConfig = useMapConfig();
-
+  const iconName = routeToModeIconName(selectedRoute);
   const mapData = {
     // TODO: Default center on the selected vehicle
     default_center: { longitude: stop.longitude, latitude: stop.latitude },
     markers: [
-      ...(vehicles || []).map(mapMarkerFromVehicle),
+      ...vehicles.map(vehicle => mapMarkerFromVehicle(vehicle, iconName)),
       mapMarkerFromStop(stop)
     ],
     polylines: lines.map(line => ({

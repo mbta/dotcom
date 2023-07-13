@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { DirectionId, Stop } from "../../__v3api";
+import { DirectionId, Route, Stop } from "../../__v3api";
 import StopMapRedesign from "../components/StopMapRedesign";
 import { newLatOrLon, newPolyline } from "./helpers";
 
@@ -52,7 +52,14 @@ const v2 = {
 
 describe("StopMapRedesign", () => {
   it("should render the Map component with a marker", () => {
-    render(<StopMapRedesign stop={testStop} lines={[]} />);
+    render(
+      <StopMapRedesign
+        stop={testStop}
+        lines={[]}
+        vehicles={[]}
+        selectedRoute={null}
+      />
+    );
     expect(screen.queryByLabelText("Map with stop")).not.toBeNull();
     const image = screen.getByRole("img", {
       name: new RegExp(testStop.name)
@@ -63,7 +70,12 @@ describe("StopMapRedesign", () => {
   it("should display lines", () => {
     const lines = [newPolyline(), newPolyline(), newPolyline(), newPolyline()];
     const { container } = render(
-      <StopMapRedesign stop={testStop} lines={lines} />
+      <StopMapRedesign
+        stop={testStop}
+        lines={lines}
+        vehicles={[]}
+        selectedRoute={null}
+      />
     );
 
     const mapPolylines = container
@@ -73,7 +85,14 @@ describe("StopMapRedesign", () => {
   });
 
   it("should render markers for each vehicle", () => {
-    render(<StopMapRedesign stop={testStop} lines={[]} vehicles={[v1, v2]} />);
+    render(
+      <StopMapRedesign
+        stop={testStop}
+        lines={[]}
+        vehicles={[v1, v2]}
+        selectedRoute={{ id: "FakeRoute" } as Route}
+      />
+    );
     expect(
       screen.getByRole("img", {
         name: new RegExp(v1.id)
@@ -83,13 +102,6 @@ describe("StopMapRedesign", () => {
       screen.getByRole("img", {
         name: new RegExp(v2.id)
       })
-    ).toBeInTheDocument();
-  });
-
-  it("should render the stop marker", () => {
-    render(<StopMapRedesign stop={testStop} lines={[]} vehicles={[v1, v2]} />);
-    expect(
-      screen.getByRole("img", { name: new RegExp(testStop.name) })
     ).toBeInTheDocument();
   });
 });
