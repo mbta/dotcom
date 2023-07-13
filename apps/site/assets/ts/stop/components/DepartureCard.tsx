@@ -34,22 +34,28 @@ const DepartureCard = ({
         {routeName(route)}
       </a>
       {/* TODO can we avoid hard coding the direction ids? */}
-      <DepartureTimes
-        key={`${route.id}-0`}
-        route={route}
-        directionId={0}
-        departuresForDirection={departuresByDirection[0]}
-        onClick={onClick}
-        alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
-      />
-      <DepartureTimes
-        key={`${route.id}-1`}
-        route={route}
-        directionId={1}
-        departuresForDirection={departuresByDirection[1]}
-        onClick={onClick}
-        alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
-      />
+      {!departuresByDirection[0] && !departuresByDirection[1] ? (
+        <div className="departure-card__headsign-name">No upcoming trips</div>
+      ) : (
+        <>
+          <DepartureTimes
+            key={`${route.id}-0`}
+            route={route}
+            directionId={0}
+            departuresForDirection={departuresByDirection[0]}
+            onClick={onClick}
+            alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
+          />
+          <DepartureTimes
+            key={`${route.id}-1`}
+            route={route}
+            directionId={1}
+            departuresForDirection={departuresByDirection[1]}
+            onClick={onClick}
+            alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
+          />
+        </>
+      )}
     </li>
   );
 };

@@ -137,4 +137,16 @@ describe("DepartureCard", () => {
     expect(screen.queryByText("Shuttle Service")).toBeNull();
     expect(screen.queryByText("Detour")).toBeNull();
   });
+
+  it("renders 'No upcoming trips' when no predictions or schedules", () => {
+    render(
+      <DepartureCard
+        route={baseRoute("749", 3)}
+        departuresForRoute={[]}
+        onClick={mockClickAction}
+        alertsForRoute={[]}
+      />
+    );
+    expect(screen.getByText("No upcoming trips")).toBeDefined();
+  });
 });
