@@ -178,4 +178,9 @@ defmodule Fares.Format do
 
   defp price_range_summary_name(fare, :commuter_rail), do: "Commuter Rail " <> duration(fare)
   defp price_range_summary_name(fare, :ferry), do: "Ferry " <> duration(fare)
+
+  @spec mode_type_for_fare_class(Routes.Route.gtfs_fare_class()) :: mode_type | :unknown
+  def mode_type_for_fare_class(:ferry_fare), do: :ferry
+  def mode_type_for_fare_class(:commuter_rail_fare), do: :commuter_rail
+  def mode_type_for_fare_class(_), do: :bus_subway
 end

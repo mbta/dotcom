@@ -110,11 +110,22 @@ export interface Prediction {
   departure_time?: Date | null;
 }
 
+export type FareClassType =
+  | "local_bus_fare"
+  | "express_bus_fare"
+  | "rapid_transit_fare"
+  | "commuter_rail_fare"
+  | "ferry_fare"
+  | "free_fare"
+  | "special_fare"
+  | "unknown_fare";
+
 export interface Route {
   color?: string;
   description: string;
   direction_destinations: DirectionInfo;
   direction_names: DirectionInfo;
+  fare_class?: FareClassType;
   id: string;
   long_name: string;
   name: string;

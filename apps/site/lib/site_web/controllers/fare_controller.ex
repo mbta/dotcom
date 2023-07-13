@@ -15,6 +15,14 @@ defmodule SiteWeb.FareController do
     nearby_fn: &Fares.RetailLocations.get_nearby/1
   }
 
+  @display_fare_classes [
+    :local_bus_fare,
+    :express_bus_fare,
+    :rapid_transit_fare,
+    :commuter_rail_fare,
+    :ferry_fare
+  ]
+
   def show(conn, %{"id" => "retail-sales-locations"} = params) do
     search_location(conn, params)
   end
@@ -69,6 +77,63 @@ defmodule SiteWeb.FareController do
   def fare_sales_locations(%{}, _nearby_fn) do
     []
   end
+
+  def one_way_by_stop_id(conn, %{"stop_id" => stop_id} = _params) do
+    one_way_fares =
+      stop_id
+      # Get fare_class for all routes at this stop and at connecting stops
+      |> Routes.Repo.by_stop(include: "stop.connecting_stops")
+      |> Enum.map(&display_fare_class/1)
+      |> Enum.uniq()
+      # Sort in same order as @display_fare_classes
+      |> Enum.sort_by(&Enum.find_index(@display_fare_classes, fn fc -> fc == &1 end))
+      |> Enum.flat_map(fn fare_class ->
+        fare_class
+        |> Fares.Repo.for_fare_class(duration: :single_trip, reduced: nil)
+        |> Fares.Format.summarize(Fares.Format.mode_type_for_fare_class(fare_class))
+        |> Enum.map(fn summary ->
+          name =
+            if is_binary(summary.name) do
+              summary.name
+            else
+              Enum.join(summary.name)
+            end
+
+          {String.capitalize(name), Fares.Summary.price_range(summary)}
+        end)
+      end)
+
+    json(conn, one_way_fares)
+  end
+
+  # Use the route mode to determine the display fare. e.g. instead of the 23 bus
+  # showing the free fare, show the bus fare
+  defp display_fare_class(%Routes.Route{id: id, fare_class: fare_class} = route)
+       when fare_class not in @display_fare_classes do
+    if Fares.express?(id) do
+      :express_bus_fare
+    else
+      case Routes.Route.type_atom(route) do
+        :subway ->
+          :rapid_transit_fare
+
+        :bus ->
+          :local_bus_fare
+
+        :commuter_rail ->
+          :commuter_rail_fare
+
+        :ferry ->
+          :ferry_fare
+
+        # probably a shuttle??
+        _ ->
+          :local_bus_fare
+      end
+    end
+  end
+
+  defp display_fare_class(%Routes.Route{fare_class: fare_class}), do: fare_class
 
   defp meta_description(conn, _) do
     conn

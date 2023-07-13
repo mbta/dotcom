@@ -30,7 +30,7 @@ defmodule SiteWeb.RouteControllerTest do
   end
 
   describe "get_by_stop_id/2" do
-    test "returns routes with polyline data", %{conn: conn} do
+    test "returns routes with polyline data and fares", %{conn: conn} do
       conn = get(conn, route_path(conn, :get_by_stop_id, "stop_id"))
       response = json_response(conn, 200)
 

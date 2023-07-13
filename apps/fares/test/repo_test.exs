@@ -254,4 +254,26 @@ defmodule Fares.RepoTest do
                ]
     end
   end
+
+  describe "for_fare_class/1" do
+    test "sets appropriate opts for each fare class" do
+      rapid_transit_fares = Repo.for_fare_class(:rapid_transit_fare)
+      assert Enum.all?(rapid_transit_fares, &(&1.mode == :subway))
+
+      free_fares = Repo.for_fare_class(:free_fare)
+      assert Enum.all?(free_fares, &(&1.name == :free_fare))
+
+      express_bus_fares = Repo.for_fare_class(:express_bus_fare)
+      assert Enum.all?(express_bus_fares, &(&1.name == :express_bus))
+
+      local_bus_fares = Repo.for_fare_class(:local_bus_fare)
+      assert Enum.all?(local_bus_fares, &(&1.name == :local_bus))
+
+      ferry_fares = Repo.for_fare_class(:ferry_fare)
+      assert Enum.all?(ferry_fares, &(&1.mode == :ferry))
+
+      cr_fares = Repo.for_fare_class(:commuter_rail_fare)
+      assert Enum.all?(cr_fares, &(&1.mode == :commuter_rail))
+    end
+  end
 end
