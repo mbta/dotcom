@@ -1,8 +1,7 @@
 import React, { ReactElement, useLayoutEffect, useRef, useState } from "react";
-import { chain, isUndefined, some } from "lodash";
+import { chain, isNull, some } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
@@ -15,11 +14,13 @@ import {
 } from "../../models/route";
 import useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { useSMDown } from "../../helpers/media-breakpoints-react";
+import usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { useSchedulesByStop } from "../../hooks/useSchedules";
+import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 
 interface DeparturesAndMapProps {
   routes: Route[];
   stop: Stop;
-  schedules: ScheduleWithTimestamp[];
   routesWithPolylines: RouteWithPolylines[];
   alerts: Alert[];
 }
@@ -27,36 +28,41 @@ interface DeparturesAndMapProps {
 const DeparturesAndMap = ({
   routes,
   stop,
-  schedules,
   routesWithPolylines,
   alerts
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
-  const [departureInfo, setDepartureInfo] = useState<{
-    departureRoute: Route | undefined;
-    departureDirectionId: DirectionId | undefined;
-    departureSchedules: ScheduleWithTimestamp[] | undefined;
+  const { data: schedules } = useSchedulesByStop(stop.id);
+  const predictions = usePredictionsChannel({ stopId: stop.id });
+  const departureInfos = mergeIntoDepartureInfo(schedules || [], predictions);
+  const [departureFilters, setDepartureFilters] = useState<{
+    departureRoute: Route | null;
+    departureDirectionId: DirectionId | null;
   }>({
-    departureRoute: undefined,
-    departureDirectionId: undefined,
-    departureSchedules: undefined
+    departureRoute: null,
+    departureDirectionId: null
   });
 
   const setDepartureVariables: (
     route: Route,
-    directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | undefined
-  ) => void = (route, directionId, allDepartures) => {
-    setDepartureInfo({
+    directionId: DirectionId
+  ) => void = (route, directionId) => {
+    setDepartureFilters({
       departureRoute: route,
-      departureDirectionId: directionId,
-      departureSchedules: allDepartures
+      departureDirectionId: directionId
     });
   };
 
-  const viewSelectedDeparture = !some(
-    Object.values(departureInfo),
-    isUndefined
-  );
+  const viewSelectedDeparture = !some(Object.values(departureFilters), isNull);
+  // filter by chosen route and direction
+  const filteredDepartures = viewSelectedDeparture
+    ? departureInfos.filter(departure => {
+        const { route, trip } = departure;
+        return (
+          route.id === departureFilters.departureRoute!.id &&
+          trip.direction_id === departureFilters.departureDirectionId
+        );
+      })
+    : departureInfos;
 
   const isSmallBreakpoint = useSMDown();
   const refEl = useRef<HTMLDivElement>(null);
@@ -86,26 +92,26 @@ const DeparturesAndMap = ({
     .value();
 
   const shapeForSelection = routesWithPolylines
-    .find(route => route.id === departureInfo.departureRoute?.id)
+    .find(route => route.id === departureFilters.departureRoute?.id)
     ?.polylines.find(
-      line => line.id === departureInfo.departureSchedules?.[0]?.trip.shape_id
+      line => line.id === filteredDepartures?.[0]?.trip.shape_id
     );
 
   const vehiclesForSelectedRoute = useVehiclesChannel(
-    departureInfo.departureRoute &&
-      departureInfo.departureDirectionId !== undefined
+    departureFilters.departureRoute &&
+      departureFilters.departureDirectionId &&
+      departureFilters.departureDirectionId in [0, 1]
       ? {
-          routeId: departureInfo.departureRoute.id,
-          directionId: departureInfo.departureDirectionId
+          routeId: departureFilters.departureRoute.id,
+          directionId: departureFilters.departureDirectionId
         }
       : null
   );
 
   const unsetDepartureInfo = (): void =>
-    setDepartureInfo({
-      departureRoute: undefined,
-      departureDirectionId: undefined,
-      departureSchedules: undefined
+    setDepartureFilters({
+      departureRoute: null,
+      departureDirectionId: null
     });
 
   const BackToRoutes = (
@@ -133,18 +139,17 @@ const DeparturesAndMap = ({
         {viewSelectedDeparture ? (
           <div ref={refEl} className="stop-departures">
             <DepartureList
-              route={departureInfo.departureRoute!}
+              route={departureFilters.departureRoute!}
               stop={stop}
-              schedules={departureInfo.departureSchedules!}
-              directionId={departureInfo.departureDirectionId!}
+              departures={filteredDepartures}
+              directionId={departureFilters.departureDirectionId!}
               alerts={alerts}
             />
           </div>
         ) : (
           <StopPageDepartures
             routes={routes}
-            stop={stop}
-            schedules={schedules}
+            departureInfos={departureInfos}
             onClick={setDepartureVariables}
             alerts={alerts}
           />

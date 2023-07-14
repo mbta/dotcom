@@ -217,6 +217,7 @@ defmodule SiteWeb.Router do
     get("/stop/:id", StopController, :get)
     get("/map-config", MapConfigController, :get)
     get("/routes/by-stop/:stop_id", RouteController, :get_by_stop_id)
+    get("/fares/one-way", FareController, :one_way_by_stop_id)
   end
 
   scope "/places", SiteWeb do

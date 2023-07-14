@@ -1,19 +1,21 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import StationInformation from "../../components/StationInformation";
-import { Stop } from "../../../__v3api";
+import { ParkingLot, Stop } from "../../../__v3api";
 
 const stationStop = {
   name: "First Station",
   "station?": true,
   bike_storage: ["bike_storage_rack"],
-  accessibility: ["accessible", "ramp"]
+  accessibility: ["accessible", "ramp"],
+  parking_lots: [] as ParkingLot[]
 } as Stop;
 const busStop = {
   name: "Second Pl",
   "station?": false,
   bike_storage: ["bike_storage_rack"],
-  accessibility: ["accessible", "ramp"]
+  accessibility: ["accessible", "ramp"],
+  parking_lots: [] as ParkingLot[]
 } as Stop;
 
 describe("StationInformation", () => {

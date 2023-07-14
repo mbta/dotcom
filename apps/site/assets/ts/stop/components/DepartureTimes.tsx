@@ -1,11 +1,9 @@
+import { groupBy } from "lodash";
 import React, { ReactElement } from "react";
-import usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
-import { ScheduleWithTimestamp } from "../../models/schedules";
-import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import {
   hasDetour,
   hasShuttleService,
@@ -16,9 +14,7 @@ import {
   DisplayTimeConfig,
   infoToDisplayTime
 } from "../models/displayTimeConfig";
-import { schedulesByHeadsign } from "../../models/schedule";
-import { PredictionWithTimestamp } from "../../models/perdictions";
-import { isACommuterRailRoute } from "../../models/route";
+import { DepartureInfo } from "../../models/departureInfo";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -130,94 +126,63 @@ const departureTimeRow = (
 
 const getRow = (
   headsign: string,
-  schedules: ScheduleWithTimestamp[],
-  predictions: PredictionWithTimestamp[],
+  departures: DepartureInfo[],
   alerts: Alert[],
   overrideDate?: Date
 ): JSX.Element => {
   // High priority badges override the displaying of times
   const alertBadge = toHighPriorityAlertBadge(alerts);
+  const isCR = departures[0]
+    ? departures[0].routeMode === "commuter_rail"
+    : false;
   if (alertBadge) {
-    return departureTimeRow(
-      headsign,
-      [],
-      schedules[0] ? isACommuterRailRoute(schedules[0].route.type) : false,
-      alertBadge
-    );
+    return departureTimeRow(headsign, [], isCR, alertBadge);
   }
 
   // informative badges compliment the times being shown
   const informativeAlertBadge = toInformativeAlertBadge(alerts);
 
   // Merging should happen after alert processing incase a route is cancelled
-  const departureInfos = mergeIntoDepartureInfo(schedules, predictions);
-
-  const formattedTimes = infoToDisplayTime(departureInfos, overrideDate);
+  const formattedTimes = infoToDisplayTime(departures, overrideDate);
 
   return departureTimeRow(
     headsign,
     formattedTimes,
-    schedules[0] ? isACommuterRailRoute(schedules[0].route.type) : false,
+    isCR,
     informativeAlertBadge
   );
 };
 
 interface DepartureTimesProps {
   route: Route;
-  stop: Stop;
   directionId: DirectionId;
-  schedulesForDirection: ScheduleWithTimestamp[] | undefined;
+  departuresForDirection: DepartureInfo[];
   alertsForDirection: Alert[];
   // override date primarily used for testing
   overrideDate?: Date;
-  onClick: (
-    route: Route,
-    directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | undefined
-  ) => void;
+  onClick: (route: Route, directionId: DirectionId) => void;
 }
 
-/* istanbul ignore next */
-/**
- * A proof-of-concept component illustrating a usage of the
- * usePredictionsChannel hook to fetch live predictions for a specific
- * route/stop/direction, sorted by date.
- *
- */
 const DepartureTimes = ({
   route,
-  stop,
   directionId,
-  schedulesForDirection,
+  departuresForDirection,
   onClick,
   alertsForDirection,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
-  const predictionsByHeadsign = usePredictionsChannel(
-    route.id,
-    stop.id,
-    directionId
-  );
-
-  const groupedSchedules = schedulesByHeadsign(schedulesForDirection);
+  const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
   return (
     <>
-      {Object.entries(groupedSchedules).map(([headsign, schedules]) => {
-        const predictions = predictionsByHeadsign[headsign] || [];
+      {Object.entries(groupedDepartures).map(([headsign, departures]) => {
         return (
           <div
             key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId, schedules)}
-            onKeyDown={() => onClick(route, directionId, schedules)}
+            onClick={() => onClick(route, directionId)}
+            onKeyDown={() => onClick(route, directionId)}
             role="presentation"
           >
-            {getRow(
-              headsign,
-              schedules,
-              predictions,
-              alertsForDirection,
-              overrideDate
-            )}
+            {getRow(headsign, departures, alertsForDirection, overrideDate)}
           </div>
         );
       })}

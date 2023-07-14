@@ -5,8 +5,8 @@ import { baseRoute } from "./helpers";
 import { Alert, Stop } from "../../__v3api";
 import DepartureList from "../components/DepartureList";
 import { render, screen } from "@testing-library/react";
-import * as predictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/perdictions";
+import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 
 const stop = {
   id: "test-stop",
@@ -42,40 +42,43 @@ const schedules = [
   }
 ] as ScheduleWithTimestamp[];
 
-const predictionTime = add(Date.now(), { minutes: 11 });
+const predictions = [
+  {
+    route: route,
+    time: new Date("2022-04-27T11:15:00-04:00"),
+    trip: schedules[0].trip
+  },
+  {
+    route: route,
+    trip: schedules[1].trip,
+    time: add(Date.now(), { minutes: 11 })
+  }
+] as PredictionWithTimestamp[];
+
+const departures = mergeIntoDepartureInfo(schedules, predictions);
 
 describe("DepartureList", () => {
-  beforeEach(() => {
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "TestRoute Route": [
-          {
-            time: new Date("2022-04-27T11:15:00-04:00"),
-            trip: schedules[0].trip
-          },
-          {
-            trip: schedules[1].trip,
-            time: predictionTime
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
-  });
-
-  afterAll(() => {
-    jest.restoreAllMocks();
+  it("should render predictions even when no schedules available", () => {
+    const { container } = render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        departures={mergeIntoDepartureInfo([], predictions)}
+        directionId={0}
+        alerts={[]}
+      />
+    );
+    expect(screen.queryAllByRole("listitem")).toHaveLength(predictions.length);
+    expect(container.querySelector(".c-svg__icon--realtime")).toBeTruthy();
+    expect(screen.queryByText("10 min")).toBeTruthy();
   });
 
   it("should render a schedule when no predictions available", () => {
-    jest.spyOn(predictionsChannel, "default").mockImplementationOnce(() => {
-      return { "TestRoute Route": [] };
-    });
-
     render(
       <DepartureList
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={mergeIntoDepartureInfo(schedules, [])}
         directionId={0}
         alerts={[]}
       />
@@ -92,7 +95,7 @@ describe("DepartureList", () => {
       <DepartureList
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={departures}
         directionId={0}
         alerts={[]}
       />
@@ -109,7 +112,7 @@ describe("DepartureList", () => {
       <DepartureList
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={departures}
         directionId={0}
         alerts={[]}
       />
@@ -157,7 +160,7 @@ describe("DepartureList", () => {
       <DepartureList
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={departures}
         directionId={0}
         alerts={alerts}
       />
@@ -174,7 +177,7 @@ describe("DepartureList", () => {
       <DepartureList
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={departures}
         directionId={0}
         alerts={[]}
       />
@@ -185,15 +188,12 @@ describe("DepartureList", () => {
   });
 
   it("should render `No upcoming trips today` if there are no schedules", () => {
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {};
-    });
     render(
       <DepartureList
         alerts={[]}
         route={route}
         stop={stop}
-        schedules={[]}
+        departures={[]}
         directionId={0}
       />
     );
@@ -201,18 +201,14 @@ describe("DepartureList", () => {
   });
 
   it("should display cancelled if the trip has been cancelled", () => {
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "TestRoute Route": [
-          {
-            time: new Date("2022-04-27T11:15:00-04:00"),
-            trip: { id: "1" },
-            schedule_relationship: "cancelled",
-            route: { type: 2 }
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
+    const predictions = [
+      {
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        trip: { id: "1" },
+        schedule_relationship: "cancelled",
+        route: { type: 2 }
+      }
+    ] as PredictionWithTimestamp[];
 
     const schedules = [
       {
@@ -226,7 +222,7 @@ describe("DepartureList", () => {
         alerts={[]}
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={mergeIntoDepartureInfo(schedules, predictions)}
         directionId={0}
       />
     );
@@ -234,23 +230,19 @@ describe("DepartureList", () => {
   });
 
   it("should not display cancelled if the trip is a subway trip", () => {
-    jest.spyOn(predictionsChannel, "default").mockImplementation(() => {
-      return {
-        "TestRoute Route": [
-          {
-            time: new Date("2022-04-27T11:15:00-04:00"),
-            route: { type: 0 },
-            trip: { id: "1" },
-            schedule_relationship: "cancelled"
-          },
-          {
-            time: new Date("2022-04-27T11:25:00-04:00"),
-            route: { type: 2 },
-            trip: { id: "2" }
-          }
-        ] as PredictionWithTimestamp[]
-      };
-    });
+    const predictions = [
+      {
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        route: { type: 0 },
+        trip: { id: "1" },
+        schedule_relationship: "cancelled"
+      },
+      {
+        time: new Date("2022-04-27T11:25:00-04:00"),
+        route: { type: 2 },
+        trip: { id: "2" }
+      }
+    ] as PredictionWithTimestamp[];
 
     const schedules = [
       {
@@ -268,7 +260,7 @@ describe("DepartureList", () => {
         alerts={[]}
         route={route}
         stop={stop}
-        schedules={schedules}
+        departures={mergeIntoDepartureInfo(schedules, predictions)}
         directionId={0}
         targetDate={new Date("2022-04-27T11:00:00-04:00")}
       />

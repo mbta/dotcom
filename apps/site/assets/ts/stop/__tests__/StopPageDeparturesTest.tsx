@@ -1,8 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import StopPageDepartures from "../components/StopPageDepartures";
-import { Route, RouteType, Stop } from "../../__v3api";
-import { ScheduleWithTimestamp } from "../../models/schedules";
+import { Route, RouteType } from "../../__v3api";
 
 const baseRoute = (name: string, type: RouteType): Route =>
   ({
@@ -11,9 +10,7 @@ const baseRoute = (name: string, type: RouteType): Route =>
     name: `${name} Route`,
     type
   } as Route);
-const stop = {} as Stop;
 const routeData: Route[] = [baseRoute("4B", 3), baseRoute("Magenta", 1)];
-const scheduleData = [] as ScheduleWithTimestamp[];
 const mockClickAction = jest.fn();
 
 describe("StopPageDepartures", () => {
@@ -21,10 +18,9 @@ describe("StopPageDepartures", () => {
     const { asFragment } = render(
       <StopPageDepartures
         routes={[]}
-        stop={stop}
-        schedules={[]}
         onClick={mockClickAction}
         alerts={[]}
+        departureInfos={[]}
       />
     );
     expect(asFragment()).toMatchSnapshot();
@@ -35,10 +31,9 @@ describe("StopPageDepartures", () => {
     const { asFragment } = render(
       <StopPageDepartures
         routes={routeData}
-        stop={stop}
-        schedules={scheduleData}
         onClick={mockClickAction}
         alerts={[]}
+        departureInfos={[]}
       />
     );
     expect(asFragment()).toMatchSnapshot();
@@ -54,10 +49,9 @@ describe("StopPageDepartures", () => {
     render(
       <StopPageDepartures
         routes={[routeData[0]]}
-        stop={stop}
-        schedules={scheduleData}
         onClick={() => {}}
         alerts={[]}
+        departureInfos={[]}
       />
     );
     expect(

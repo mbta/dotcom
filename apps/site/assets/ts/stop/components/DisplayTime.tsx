@@ -49,7 +49,7 @@ export interface DepartureContextProps extends DisplayTimeProps {
  * so we populate it with a few extra values to avoid recalculation
  */
 export const DepartureContext = createContext<DepartureContextProps>({
-  departure: {},
+  departure: {} as DepartureInfo,
   time: undefined,
   isCR: false,
   isLessThanHourAway: false,

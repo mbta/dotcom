@@ -1,21 +1,16 @@
 import { groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, DirectionId, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
-import { ScheduleWithTimestamp } from "../../models/schedules";
 import { alertsByRoute } from "../../models/alert";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface StopPageDeparturesProps {
   routes: Route[];
-  stop: Stop;
-  schedules: ScheduleWithTimestamp[];
-  onClick: (
-    route: Route,
-    directionId: DirectionId,
-    departures: ScheduleWithTimestamp[] | undefined
-  ) => void;
+  departureInfos: DepartureInfo[];
+  onClick: (route: Route, directionId: DirectionId) => void;
   alerts: Alert[];
 }
 
@@ -32,15 +27,14 @@ const modeSortFn = ({ type }: Route): number => {
 
 const StopPageDepartures = ({
   routes,
-  stop,
-  schedules,
+  departureInfos,
   onClick,
   alerts
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
   const groupedRoutes = groupBy(routes, modeForRoute);
-  const groupedSchedules = groupBy(schedules, s => s.route.id);
+  const groupedDepartures = groupBy(departureInfos, "route.id");
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
@@ -60,8 +54,7 @@ const StopPageDepartures = ({
           <DepartureCard
             key={route.id}
             route={route}
-            stop={stop}
-            schedulesForRoute={groupedSchedules[route.id]}
+            departuresForRoute={groupedDepartures[route.id]}
             onClick={onClick}
             // This list should only have one value, is there another way to do this?
             alertsForRoute={groupedAlerts[route.id]}
