@@ -12,7 +12,8 @@ import {
   FERRY,
   departureInfoToTime,
   displayInfoContainsPrediction,
-  getNextUnCancelledDeparture
+  getNextUnCancelledDeparture,
+  isCommuterRail
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -77,9 +78,6 @@ const infoToDisplayTime = (
   ];
 
   const [departureInfo1, departureInfo2] = getNextTwoTimes(departureInfos);
-  const isCr =
-    departureInfo1?.routeMode === "commuter_rail" ||
-    departureInfo2?.routeMode === "commuter_rail";
 
   // If there is not a departureInfo1 then a schedule or prediction could not be found
   if (!departureInfo1) {
@@ -153,13 +151,14 @@ const infoToDisplayTime = (
     time2 = undefined;
   }
 
-  if (isCr) {
+  if (isCommuterRail(departureInfo1)) {
     // if commuter rail always dispaly in hh:mm format
     return [
       {
         displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
         isPrediction: displayInfoContainsPrediction(time1),
         isBolded: true,
+        trackName: time1.prediction?.track,
         reactKey: getInfoKey(time1)
       }
     ];
