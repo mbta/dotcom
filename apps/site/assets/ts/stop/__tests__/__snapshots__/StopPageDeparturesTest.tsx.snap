@@ -68,6 +68,11 @@ exports[`StopPageDepartures renders with data 1`] = `
             Magenta Route
           </span>
         </a>
+        <div
+          class="departure-card__headsign-name"
+        >
+          No upcoming trips
+        </div>
       </li>
       <li
         class="departure-card"
@@ -89,6 +94,11 @@ exports[`StopPageDepartures renders with data 1`] = `
             4B Route
           </span>
         </a>
+        <div
+          class="departure-card__headsign-name"
+        >
+          No upcoming trips
+        </div>
       </li>
     </ul>
   </div>
