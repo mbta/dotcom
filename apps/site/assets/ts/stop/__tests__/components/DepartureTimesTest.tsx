@@ -23,6 +23,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
+        stopName=""
         departuresForDirection={[]}
         onClick={mockClickAction}
         alertsForDirection={[]}
@@ -78,6 +79,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
+        stopName=""
         departuresForDirection={mergeIntoDepartureInfo(
           schedules,
           predictions as PredictionWithTimestamp[]
@@ -125,6 +127,7 @@ describe("DepartureTimes", () => {
         <DepartureTimes
           route={route}
           directionId={0}
+          stopName=""
           departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
           alertsForDirection={alerts}
           onClick={() => {}}
@@ -163,6 +166,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
+        stopName=""
         departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={alerts}
         onClick={() => {}}
@@ -210,6 +214,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
+        stopName=""
         departuresForDirection={mergeIntoDepartureInfo(schedules, predictions)}
         alertsForDirection={[detourAlert] as Alert[]}
         overrideDate={dateToCompare}
@@ -609,6 +614,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
+        stopName=""
         departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
         onClick={mockClickAction}
         alertsForDirection={[]}
@@ -688,6 +694,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
+        stopName=""
         departuresForDirection={departures}
         overrideDate={dateToCompare}
         onClick={mockClickAction}
@@ -698,5 +705,22 @@ describe("DepartureTimes", () => {
     expect(screen.getByText("Track 3")).toBeDefined();
     const notCRTrack = screen.queryByText("Track 1");
     expect(notCRTrack).not.toBeInTheDocument();
+  });
+
+  it("renders 'No upcoming trips' when no predictions or schedules", () => {
+    const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
+
+    render(
+      <DepartureTimes
+        route={route}
+        directionId={0}
+        stopName=""
+        departuresForDirection={[]}
+        overrideDate={dateToCompare}
+        onClick={mockClickAction}
+        alertsForDirection={[]}
+      />
+    );
+    expect(screen.getByText("No upcoming trips")).toBeDefined();
   });
 });

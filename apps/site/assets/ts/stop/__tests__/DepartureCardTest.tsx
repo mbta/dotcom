@@ -14,6 +14,7 @@ describe("DepartureCard", () => {
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={[]}
+        stopName=""
         onClick={mockClickAction}
         alertsForRoute={[]}
       />
@@ -30,6 +31,7 @@ describe("DepartureCard", () => {
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={[]}
+        stopName=""
         alertsForRoute={[]}
         onClick={() => {}}
       />
@@ -46,6 +48,7 @@ describe("DepartureCard", () => {
           <DepartureCard
             route={baseRoute("", type as RouteType)}
             departuresForRoute={[]}
+            stopName=""
             onClick={mockClickAction}
             alertsForRoute={[]}
           />
@@ -73,6 +76,7 @@ describe("DepartureCard", () => {
       <DepartureCard
         route={route}
         departuresForRoute={[]}
+        stopName=""
         onClick={mockClickAction}
         alertsForRoute={[]}
       />
@@ -127,6 +131,7 @@ describe("DepartureCard", () => {
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={departures}
+        stopName=""
         alertsForRoute={alerts}
         onClick={() => {}}
       />
@@ -136,17 +141,5 @@ describe("DepartureCard", () => {
     expect(suspensionBadges.length).toBe(2);
     expect(screen.queryByText("Shuttle Service")).toBeNull();
     expect(screen.queryByText("Detour")).toBeNull();
-  });
-
-  it("renders 'No upcoming trips' when no predictions or schedules", () => {
-    render(
-      <DepartureCard
-        route={baseRoute("749", 3)}
-        departuresForRoute={[]}
-        onClick={mockClickAction}
-        alertsForRoute={[]}
-      />
-    );
-    expect(screen.getByText("No upcoming trips")).toBeDefined();
   });
 });

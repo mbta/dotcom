@@ -1,4 +1,4 @@
-import { groupBy, head } from "lodash";
+import { groupBy } from "lodash";
 import React, { ReactElement } from "react";
 import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
@@ -205,7 +205,7 @@ const DepartureTimes = ({
           {!isAtDestination(stopId, route, directionId) ? (
             departureTimeRow(
               route.direction_destinations[directionId]
-                ? route.direction_destinations[directionId]
+                ? route.direction_destinations[directionId]!
                 : "",
               [],
               route.type === 2
