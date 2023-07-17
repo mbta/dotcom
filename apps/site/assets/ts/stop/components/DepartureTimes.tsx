@@ -108,8 +108,11 @@ const departureTimeRow = (
       <div className="departure-card__headsign-name">{headsignName}</div>
       <div className="d-flex align-items-center">
         <div>
+          {/* eslint-disable-next-line no-nested-ternary */}
           {formattedTimes.length > 0 ? (
             displayFormattedTimes(formattedTimes, isCR)
+          ) : alertBadge ? (
+            <></>
           ) : (
             <div>No upcoming trips</div>
           )}
@@ -178,6 +181,7 @@ const DepartureTimes = ({
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
+  const destination = route.direction_destinations[directionId];
   return (
     <>
       {Object.keys(groupedDepartures).length > 0 ? (
@@ -202,14 +206,8 @@ const DepartureTimes = ({
           onKeyDown={() => onClick(route, directionId)}
           role="presentation"
         >
-          {!isAtDestination(stopId, route, directionId) ? (
-            departureTimeRow(
-              route.direction_destinations[directionId]
-                ? route.direction_destinations[directionId]!
-                : "",
-              [],
-              route.type === 2
-            )
+          {!isAtDestination(stopId, route, directionId) && destination ? (
+            departureTimeRow(destination || "", [], route.type === 2)
           ) : (
             <></>
           )}
