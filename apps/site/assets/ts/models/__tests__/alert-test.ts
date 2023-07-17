@@ -2,6 +2,7 @@ import { StopId } from "../../schedule/components/__schedule";
 import {
   Activity,
   Alert,
+  Facility,
   InformedEntitySet,
   TimePeriodPairs
 } from "../../__v3api";
@@ -17,7 +18,8 @@ import {
   alertsByDirectionId,
   alertsAffectingBothDirections,
   hasFacilityAlert,
-  alertsByActivity
+  alertsByActivity,
+  alertsByFacility
 } from "../alert";
 import { add } from "date-fns";
 
@@ -407,5 +409,33 @@ describe("hasFacilityAlert", () => {
 
     expect(hasFacilityAlert(facilityId, [facilityAlert])).toBe(true);
     expect(hasFacilityAlert(facilityId, [alert2])).toBe(false);
+  });
+});
+
+describe("alertsByFacility", () => {
+  test("it should return alerts associated with facility", () => {
+    const alert1 = {
+      id: "1234",
+      informed_entity: {
+        facility: ["ele-125"]
+      } as InformedEntitySet
+    };
+    const alerts = [
+      alert1,
+      {
+        id: "4321",
+        informed_entity: {
+          facility: ["ele-234", "ele-123"]
+        } as InformedEntitySet
+      }
+    ] as Alert[];
+
+    const facilities = [
+      {
+        id: "ele-125"
+      } as Facility
+    ] as Facility[];
+
+    expect(alertsByFacility(facilities, alerts)).toEqual([alert1]);
   });
 });
