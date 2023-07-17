@@ -708,15 +708,12 @@ describe("DepartureTimes", () => {
   });
 
   it("renders 'No upcoming trips' when no predictions or schedules", () => {
-    const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
-
     render(
       <DepartureTimes
         route={route}
         directionId={0}
-        stopName=""
+        stopName="Alewife"
         departuresForDirection={[]}
-        overrideDate={dateToCompare}
         onClick={mockClickAction}
         alertsForDirection={[]}
       />

@@ -1,4 +1,3 @@
-import { Route } from "@sentry/react/types/reactrouterv3";
 import { PredictionWithTimestamp } from "../../models/perdictions";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import {

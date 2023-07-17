@@ -70,74 +70,10 @@ exports[`StopPageDepartures renders with data 1`] = `
         </a>
         <div
           role="presentation"
-        >
-          <div
-            class="departure-card__headsign d-flex justify-content-space-between"
-          >
-            <div
-              class="departure-card__headsign-name"
-            >
-              Somewhere there
-            </div>
-            <div
-              class="d-flex align-items-center"
-            >
-              <div>
-                <div>
-                  No upcoming trips
-                </div>
-                <div
-                  class=""
-                  style="float: right;"
-                />
-              </div>
-              <button
-                aria-label="Open upcoming departures to Somewhere there"
-                type="button"
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-angle-right notranslate"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
+        />
         <div
           role="presentation"
-        >
-          <div
-            class="departure-card__headsign d-flex justify-content-space-between"
-          >
-            <div
-              class="departure-card__headsign-name"
-            >
-              Over yonder
-            </div>
-            <div
-              class="d-flex align-items-center"
-            >
-              <div>
-                <div>
-                  No upcoming trips
-                </div>
-                <div
-                  class=""
-                  style="float: right;"
-                />
-              </div>
-              <button
-                aria-label="Open upcoming departures to Over yonder"
-                type="button"
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-angle-right notranslate"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
+        />
       </li>
       <li
         class="departure-card"
@@ -161,74 +97,10 @@ exports[`StopPageDepartures renders with data 1`] = `
         </a>
         <div
           role="presentation"
-        >
-          <div
-            class="departure-card__headsign d-flex justify-content-space-between"
-          >
-            <div
-              class="departure-card__headsign-name"
-            >
-              Somewhere there
-            </div>
-            <div
-              class="d-flex align-items-center"
-            >
-              <div>
-                <div>
-                  No upcoming trips
-                </div>
-                <div
-                  class=""
-                  style="float: right;"
-                />
-              </div>
-              <button
-                aria-label="Open upcoming departures to Somewhere there"
-                type="button"
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-angle-right notranslate"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
+        />
         <div
           role="presentation"
-        >
-          <div
-            class="departure-card__headsign d-flex justify-content-space-between"
-          >
-            <div
-              class="departure-card__headsign-name"
-            >
-              Over yonder
-            </div>
-            <div
-              class="d-flex align-items-center"
-            >
-              <div>
-                <div>
-                  No upcoming trips
-                </div>
-                <div
-                  class=""
-                  style="float: right;"
-                />
-              </div>
-              <button
-                aria-label="Open upcoming departures to Over yonder"
-                type="button"
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-angle-right notranslate"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
+        />
       </li>
     </ul>
   </div>

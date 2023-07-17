@@ -114,7 +114,7 @@ const isAtDestination = (
 ): boolean => {
   const destination = route.direction_destinations[directionId];
   if (destination) {
-    return stopName === destination.replace(" Station", "");
+    return destination.includes(stopName) && !destination.includes("or");
   }
   return false;
 };
