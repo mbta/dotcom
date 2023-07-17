@@ -8,7 +8,7 @@ import {
   isACommuterRailRoute,
   isSubwayRoute
 } from "../models/route";
-import { Route } from "../__v3api";
+import { DirectionId, Route } from "../__v3api";
 
 export const SUBWAY = "subway";
 export const BUS = "bus";
@@ -107,9 +107,21 @@ const mergeIntoDepartureInfo = (
   return sortedDepartureInfo;
 };
 
+const isAtDestination = (
+  stopName: string,
+  route: Route,
+  directionId: DirectionId
+): boolean => {
+  return (
+    stopName ===
+    route.direction_destinations[directionId]?.replace(" Station", "")
+  );
+};
+
 export {
   mergeIntoDepartureInfo,
   departureInfoToTime,
   displayInfoContainsPrediction,
-  getNextUnCancelledDeparture
+  getNextUnCancelledDeparture,
+  isAtDestination
 };

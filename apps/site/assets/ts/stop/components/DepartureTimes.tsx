@@ -1,4 +1,4 @@
-import { groupBy } from "lodash";
+import { groupBy, head } from "lodash";
 import React, { ReactElement } from "react";
 import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
@@ -15,6 +15,7 @@ import {
   infoToDisplayTime
 } from "../models/displayTimeConfig";
 import { DepartureInfo } from "../../models/departureInfo";
+import { isAtDestination } from "../../helpers/departureInfo";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -107,8 +108,11 @@ const departureTimeRow = (
       <div className="departure-card__headsign-name">{headsignName}</div>
       <div className="d-flex align-items-center">
         <div>
-          {formattedTimes.length > 0 &&
-            displayFormattedTimes(formattedTimes, isCR)}
+          {formattedTimes.length > 0 ? (
+            displayFormattedTimes(formattedTimes, isCR)
+          ) : (
+            <div>No upcoming trips</div>
+          )}
           <div className={alertClass} style={{ float: "right" }}>
             {alertBadge}
           </div>
@@ -158,6 +162,7 @@ interface DepartureTimesProps {
   directionId: DirectionId;
   departuresForDirection: DepartureInfo[];
   alertsForDirection: Alert[];
+  stopName: string;
   // override date primarily used for testing
   overrideDate?: Date;
   onClick: (route: Route, directionId: DirectionId) => void;
@@ -169,23 +174,47 @@ const DepartureTimes = ({
   departuresForDirection,
   onClick,
   alertsForDirection,
+  stopName: stopId,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
   return (
     <>
-      {Object.entries(groupedDepartures).map(([headsign, departures]) => {
-        return (
-          <div
-            key={`${headsign}-${route.id}`}
-            onClick={() => onClick(route, directionId)}
-            onKeyDown={() => onClick(route, directionId)}
-            role="presentation"
-          >
-            {getRow(headsign, departures, alertsForDirection, overrideDate)}
-          </div>
-        );
-      })}
+      {Object.keys(groupedDepartures).length > 0 ? (
+        <>
+          {Object.entries(groupedDepartures).map(([headsign, departures]) => {
+            return (
+              <div
+                key={`${headsign}-${route.id}`}
+                onClick={() => onClick(route, directionId)}
+                onKeyDown={() => onClick(route, directionId)}
+                role="presentation"
+              >
+                {getRow(headsign, departures, alertsForDirection, overrideDate)}
+              </div>
+            );
+          })}
+        </>
+      ) : (
+        <div
+          key={`${route.direction_destinations[directionId]}-${route.id}`}
+          onClick={() => onClick(route, directionId)}
+          onKeyDown={() => onClick(route, directionId)}
+          role="presentation"
+        >
+          {!isAtDestination(stopId, route, directionId) ? (
+            departureTimeRow(
+              route.direction_destinations[directionId]
+                ? route.direction_destinations[directionId]
+                : "",
+              [],
+              route.type === 2
+            )
+          ) : (
+            <></>
+          )}
+        </div>
+      )}
     </>
   );
 };

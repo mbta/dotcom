@@ -151,6 +151,7 @@ const DeparturesAndMap = ({
             routes={routes}
             departureInfos={departureInfos}
             onClick={setDepartureVariables}
+            stopName={stop.name}
             alerts={alerts}
           />
         )}
