@@ -12,7 +12,8 @@ import {
   FERRY,
   departureInfoToTime,
   displayInfoContainsPrediction,
-  getNextUnCancelledDeparture
+  getNextUnCancelledDeparture,
+  isCommuterRail
 } from "../../helpers/departureInfo";
 import { formatToBostonTime } from "../../helpers/date";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -148,6 +149,19 @@ const infoToDisplayTime = (
   ) {
     time1 = departureInfo2;
     time2 = undefined;
+  }
+
+  if (isCommuterRail(departureInfo1)) {
+    // if commuter rail always dispaly in hh:mm format
+    return [
+      {
+        displayString: `${formatToBostonTime(departure1Time, formatOverride)}`,
+        isPrediction: displayInfoContainsPrediction(time1),
+        isBolded: true,
+        trackName: time1.prediction?.track,
+        reactKey: getInfoKey(time1)
+      }
+    ];
   }
 
   const diffInSeconds1 = differenceInSeconds(

@@ -107,9 +107,14 @@ const mergeIntoDepartureInfo = (
   return sortedDepartureInfo;
 };
 
+const isCommuterRail = (departureInfo: DepartureInfo): boolean => {
+  return departureInfo?.routeMode === "commuter_rail";
+};
+
 export {
   mergeIntoDepartureInfo,
   departureInfoToTime,
   displayInfoContainsPrediction,
-  getNextUnCancelledDeparture
+  getNextUnCancelledDeparture,
+  isCommuterRail
 };
