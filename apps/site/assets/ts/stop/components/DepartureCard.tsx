@@ -1,12 +1,13 @@
 import React, { ReactElement } from "react";
 import { groupBy } from "lodash";
-import { Alert, DirectionId, Route } from "../../__v3api";
+import { Alert, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { allAlertsForDirection } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
+import { DepartureFilterFn } from "./DeparturesAndMap";
 
 const DepartureCard = ({
   route,
@@ -17,7 +18,7 @@ const DepartureCard = ({
 }: {
   route: Route;
   departuresForRoute: DepartureInfo[];
-  onClick: (route: Route, directionId: DirectionId) => void;
+  onClick: DepartureFilterFn;
   alertsForRoute: Alert[];
   stopName: string;
 }): ReactElement<HTMLElement> => {

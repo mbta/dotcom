@@ -1,16 +1,17 @@
 import { groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
-import { Alert, DirectionId, Route } from "../../__v3api";
+import { Alert, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { alertsByRoute } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
+import { DepartureFilterFn } from "./DeparturesAndMap";
 
 interface StopPageDeparturesProps {
   routes: Route[];
   departureInfos: DepartureInfo[];
-  onClick: (route: Route, directionId: DirectionId) => void;
+  onClick: DepartureFilterFn;
   alerts: Alert[];
   stopName: string;
 }
