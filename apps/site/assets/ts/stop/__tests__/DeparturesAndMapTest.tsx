@@ -6,6 +6,7 @@ import { DirectionId, Stop } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import { baseRoute, routeWithPolylines } from "./helpers";
 import * as useRoute from "../../hooks/useRoute";
+import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
 import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
@@ -73,12 +74,15 @@ const testRoutesWithPolylines: RouteWithPolylines[] = [
   routeWithPolylines("SomeBus", 3, 0)
 ];
 
-beforeAll(() => {
-  jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
+beforeEach(() => {
+  jest
+    .spyOn(useSchedules, "useSchedulesByStop")
+    .mockReturnValue({ status: FetchStatus.Data, data: schedules });
   jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
     status: FetchStatus.Data,
     data: testRoutesWithPolylines
   });
+  jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
 });
 
 afterAll(() => {
