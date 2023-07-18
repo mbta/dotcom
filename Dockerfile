@@ -26,6 +26,9 @@ RUN mix deps.get --only prod
 # 2) Build the frontend assets within a node.js container instead of installing node/npm
 FROM node:14.20.0-buster as assets-builder
 
+# Stop cypress from downloading it's massive binary.
+ENV CYPRESS_INSTALL_BINARY=0
+
 ARG SENTRY_DSN=""
 
 # copy in Elixir deps required to build node modules for Phoenix
