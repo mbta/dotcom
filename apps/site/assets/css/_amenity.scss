@@ -14,6 +14,24 @@
   .c-modal__close {
     margin: .65rem;
   }
+
+  .fare-sales-table {
+    border: $border;
+    width: 100%;
+
+    thead tr {
+      @extend %table-header;
+    }
+
+    th,
+    td {
+      padding: $base-spacing calc(#{$grid-gutter-width} / 2);
+    }
+
+    tbody tr:nth-of-type(even) {
+      background-color: $gray-bordered-background;
+    }
+  }
 }
 
 .access-amenities-header {
@@ -23,12 +41,12 @@
   height: 3.75rem;
 }
 
-tr:nth-child(2n+3) {
-  background-color: $gray-lightest;
-}
-
 .access-amenities-row {
   height: 4rem;
+
+  &:nth-child(2n+3) {
+    background-color: $gray-lightest;
+  }
 }
 
 .status {

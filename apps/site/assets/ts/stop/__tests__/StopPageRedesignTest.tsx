@@ -3,16 +3,14 @@ import { screen, within } from "@testing-library/dom";
 import { render } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
 import * as useStop from "../../hooks/useStop";
-import { Stop, ParkingLot, InformedEntitySet, Alert } from "../../__v3api";
+import { InformedEntitySet, Alert } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
-import { newLatOrLon, routeWithPolylines } from "./helpers";
+import { customStop, newLatOrLon, routeWithPolylines } from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
 import { add, format } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
-import { gl } from "date-fns/locale";
-import ReactDOMServer from "react-dom/server";
 
 describe("StopPageRedesign", () => {
   beforeEach(() => {
@@ -37,14 +35,13 @@ describe("StopPageRedesign", () => {
 
     jest.spyOn(useStop, "useStop").mockReturnValue({
       status: FetchStatus.Data,
-      data: {
+      data: customStop({
         id: "123",
         name: "Test Stop",
-        parking_lots: [] as ParkingLot[],
         accessibility: ["ramp"],
         latitude: newLatOrLon(),
         longitude: newLatOrLon()
-      } as Stop
+      })
     });
   });
 

@@ -1,22 +1,22 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import StationInformation from "../../components/StationInformation";
-import { ParkingLot, Stop } from "../../../__v3api";
+import { customStop } from "../helpers";
 
-const stationStop = {
+const stationStop = customStop({
   name: "First Station",
   "station?": true,
   bike_storage: ["bike_storage_rack"],
   accessibility: ["accessible", "ramp"],
-  parking_lots: [] as ParkingLot[]
-} as Stop;
-const busStop = {
+  "has_fare_machine?": true
+});
+const busStop = customStop({
   name: "Second Pl",
   "station?": false,
   bike_storage: ["bike_storage_rack"],
-  accessibility: ["accessible", "ramp"],
-  parking_lots: [] as ParkingLot[]
-} as Stop;
+  accessibility: ["accessible"],
+  "has_fare_machine?": false
+});
 
 describe("StationInformation", () => {
   it("should have headings", () => {

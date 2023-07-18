@@ -43,6 +43,23 @@ export const AmenityLink = ({
   </p>
 );
 
+export const AmenityImage = ({
+  src,
+  altText,
+  className = "mt-1 mb-1"
+}: {
+  src: string;
+  altText: string;
+  className?: string;
+}): JSX.Element => (
+  <img
+    className={`img-fluid ${className}`}
+    src={src}
+    alt={altText}
+    style={{ maxHeight: "250px" }}
+  />
+);
+
 const AmenityCard = ({
   headerText,
   icon,
