@@ -99,7 +99,7 @@ const DeparturesAndMap = ({
 
   const vehiclesForSelectedRoute = useVehiclesChannel(
     departureFilters.departureRoute &&
-      departureFilters.departureDirectionId &&
+      departureFilters.departureDirectionId !== null &&
       departureFilters.departureDirectionId in [0, 1]
       ? {
           routeId: departureFilters.departureRoute.id,
@@ -166,6 +166,7 @@ const DeparturesAndMap = ({
               : defaultPolylines
           }
           vehicles={viewSelectedDeparture ? vehiclesForSelectedRoute : []}
+          selectedRoute={departureFilters.departureRoute}
         />
       </div>
     </div>
