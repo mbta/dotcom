@@ -1,5 +1,9 @@
 import React from "react";
-import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
+import AmenityCard, {
+  AmenityImage,
+  AmenityLink,
+  AmenityModal
+} from "./AmenityCard";
 import { faresIcon } from "../../../helpers/icon";
 import { Stop } from "../../../__v3api";
 import useFetch from "../../../hooks/useFetch";
@@ -25,11 +29,9 @@ const FareRetailLocations = (stop: Stop): JSX.Element => (
 const FareVendingMachines = (): JSX.Element => (
   <>
     <h2 className="h3 mb-8">Fare Vending Machines</h2>
-    <img
-      className="img-fluid mt-1 mb-1"
+    <AmenityImage
       src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2021-11/Fare-Transformation-new-fvms-Nov2021.jpg"
-      alt="MBTA fare vending machines"
-      style={{ maxHeight: "250px" }}
+      altText="MBTA fare vending machines"
     />
     <p className="mt-0 mb-0">At fare vending machines, you can:</p>
     <ul>
