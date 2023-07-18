@@ -12,7 +12,6 @@ import {
   allAlertsForDirection,
   hasSuspension,
   isInNextXDays,
-  isHighPriorityAlert,
   alertsForEffects,
   isUpcomingOrCurrentLifecycle
 } from "../../models/alert";
