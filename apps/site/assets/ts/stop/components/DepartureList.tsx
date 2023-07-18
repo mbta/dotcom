@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { concat, filter } from "lodash";
+import { concat, filter, uniqBy } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { DepartureInfo } from "../../models/departureInfo";
 import { SUBWAY } from "../../helpers/departureInfo";
@@ -56,6 +56,7 @@ const DepartureList = ({
     "shuttle"
   ]);
 
+  // Only show routewide ongoing alerts
   const groupedAlerts = alertsByRoute(filteredAlerts);
   const alertsForRoute = groupedAlerts[route.id] || [];
   const currentAlertsForRoute = filter(alertsForRoute, a =>
@@ -63,11 +64,15 @@ const DepartureList = ({
   );
   const routeAlerts = allAlertsForDirection(currentAlertsForRoute, directionId);
 
+  // show all upcoming and ongoing stop alerts
   const stopAlerts = alertsByStop(filteredAlerts, stop.id);
   const upcomingAndCurrentStopAlerts = filter(stopAlerts, a =>
     isUpcomingOrCurrentLifecycle(a)
   );
-  const allAlerts = concat(routeAlerts, upcomingAndCurrentStopAlerts);
+  const allAlerts = uniqBy(
+    concat(routeAlerts, upcomingAndCurrentStopAlerts),
+    a => a.id
+  );
 
   // don's show cancelled departures for subway
   const modeSpecificDepartures: DepartureInfo[] = filter(
