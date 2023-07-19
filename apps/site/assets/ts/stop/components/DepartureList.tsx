@@ -24,6 +24,7 @@ interface DepartureListProps {
   stop: Stop;
   departures: DepartureInfo[];
   directionId: DirectionId;
+  headsign: string;
   alerts: Alert[];
   targetDate?: Date | undefined;
 }
@@ -41,6 +42,7 @@ const DepartureList = ({
   stop,
   departures,
   directionId,
+  headsign,
   alerts,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
@@ -79,9 +81,7 @@ const DepartureList = ({
       </div>
       <h2 className="departure-list__sub-header">
         <div className="departure-list__origin-stop-name">{stop.name} to</div>
-        <div className="departure-list__headsign">
-          {tripForSelectedRoutePattern?.headsign}
-        </div>
+        <div className="departure-list__headsign">{headsign}</div>
       </h2>
       {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
       {departures.length === 0 && displayNoUpcomingTrips()}

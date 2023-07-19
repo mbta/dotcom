@@ -16,6 +16,7 @@ import {
 } from "../models/displayTimeConfig";
 import { DepartureInfo } from "../../models/departureInfo";
 import { isAtDestination } from "../../helpers/departureInfo";
+import { DepartureFilterFn } from "./DeparturesAndMap";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -163,7 +164,7 @@ interface DepartureTimesProps {
   stopName: string;
   // override date primarily used for testing
   overrideDate?: Date;
-  onClick: (route: Route, directionId: DirectionId) => void;
+  onClick: DepartureFilterFn;
 }
 
 const DepartureTimes = ({
@@ -185,8 +186,8 @@ const DepartureTimes = ({
             return (
               <div
                 key={`${headsign}-${route.id}`}
-                onClick={() => onClick(route, directionId)}
-                onKeyDown={() => onClick(route, directionId)}
+                onClick={() => onClick({ route, directionId, headsign })}
+                onKeyDown={() => onClick({ route, directionId, headsign })}
                 role="presentation"
               >
                 {getRow(headsign, departures, alertsForDirection, overrideDate)}
@@ -197,8 +198,12 @@ const DepartureTimes = ({
       ) : (
         <div
           key={`${route.direction_destinations[directionId]}-${route.id}`}
-          onClick={() => onClick(route, directionId)}
-          onKeyDown={() => onClick(route, directionId)}
+          onClick={() =>
+            onClick({ route, directionId, headsign: destination! })
+          }
+          onKeyDown={() =>
+            onClick({ route, directionId, headsign: destination! })
+          }
           role="presentation"
         >
           {!isAtDestination(stopName, route, directionId) &&

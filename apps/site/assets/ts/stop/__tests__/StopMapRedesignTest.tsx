@@ -57,7 +57,7 @@ describe("StopMapRedesign", () => {
         stop={testStop}
         lines={[]}
         vehicles={[]}
-        selectedRoute={null}
+        selectedRoute={undefined}
       />
     );
     expect(screen.queryByLabelText("Map with stop")).not.toBeNull();
@@ -74,7 +74,7 @@ describe("StopMapRedesign", () => {
         stop={testStop}
         lines={lines}
         vehicles={[]}
-        selectedRoute={null}
+        selectedRoute={undefined}
       />
     );
 

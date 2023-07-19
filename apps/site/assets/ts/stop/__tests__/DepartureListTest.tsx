@@ -65,6 +65,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={mergeIntoDepartureInfo([], predictions)}
         directionId={0}
+        headsign={"Cucamonga"}
         alerts={[]}
       />
     );
@@ -80,6 +81,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={mergeIntoDepartureInfo(schedules, [])}
         directionId={0}
+        headsign={"Atlantis"}
         alerts={[]}
       />
     );
@@ -97,6 +99,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={departures}
         directionId={0}
+        headsign={"Disney"}
         alerts={[]}
       />
     );
@@ -114,6 +117,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={departures}
         directionId={0}
+        headsign={"Bermuda"}
         alerts={[]}
       />
     );
@@ -162,6 +166,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={departures}
         directionId={0}
+        headsign={"San Fransokyo"}
         alerts={alerts}
       />
     );
@@ -179,11 +184,12 @@ describe("DepartureList", () => {
         stop={stop}
         departures={departures}
         directionId={0}
+        headsign={"Gotham"}
         alerts={[]}
       />
     );
     expect(
-      screen.getByRole("heading", { name: `${stop.name} to TestRoute Route` })
+      screen.getByRole("heading", { name: `${stop.name} to Gotham` })
     ).toBeDefined();
   });
 
@@ -195,6 +201,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={[]}
         directionId={0}
+        headsign="Riverdale"
       />
     );
     expect(screen.getByText("No upcoming trips today")).toBeDefined();
@@ -224,6 +231,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={mergeIntoDepartureInfo(schedules, predictions)}
         directionId={0}
+        headsign="Smallville"
       />
     );
     expect(screen.getByText("Cancelled")).toBeInTheDocument();
@@ -262,6 +270,7 @@ describe("DepartureList", () => {
         stop={stop}
         departures={mergeIntoDepartureInfo(schedules, predictions)}
         directionId={0}
+        headsign="Emerald City"
         targetDate={new Date("2022-04-27T11:00:00-04:00")}
       />
     );
