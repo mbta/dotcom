@@ -12,12 +12,14 @@ const DepartureCard = ({
   route,
   departuresForRoute,
   onClick,
-  alertsForRoute = []
+  alertsForRoute = [],
+  stopName
 }: {
   route: Route;
   departuresForRoute: DepartureInfo[];
   onClick: (route: Route, directionId: DirectionId) => void;
   alertsForRoute: Alert[];
+  stopName: string;
 }): ReactElement<HTMLElement> => {
   const departuresByDirection = groupBy(
     departuresForRoute,
@@ -34,22 +36,26 @@ const DepartureCard = ({
         {routeName(route)}
       </a>
       {/* TODO can we avoid hard coding the direction ids? */}
-      <DepartureTimes
-        key={`${route.id}-0`}
-        route={route}
-        directionId={0}
-        departuresForDirection={departuresByDirection[0]}
-        onClick={onClick}
-        alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
-      />
-      <DepartureTimes
-        key={`${route.id}-1`}
-        route={route}
-        directionId={1}
-        departuresForDirection={departuresByDirection[1]}
-        onClick={onClick}
-        alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
-      />
+      <>
+        <DepartureTimes
+          key={`${route.id}-0`}
+          route={route}
+          directionId={0}
+          stopName={stopName}
+          departuresForDirection={departuresByDirection[0]}
+          onClick={onClick}
+          alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
+        />
+        <DepartureTimes
+          key={`${route.id}-1`}
+          route={route}
+          directionId={1}
+          stopName={stopName}
+          departuresForDirection={departuresByDirection[1]}
+          onClick={onClick}
+          alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
+        />
+      </>
     </li>
   );
 };

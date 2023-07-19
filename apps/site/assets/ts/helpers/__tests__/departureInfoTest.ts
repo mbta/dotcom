@@ -3,8 +3,10 @@ import { ScheduleWithTimestamp } from "../../models/schedules";
 import {
   COMMUTER_RAIL,
   SUBWAY,
+  isAtDestination,
   mergeIntoDepartureInfo
 } from "../departureInfo";
+import { baseRoute } from "../../stop/__tests__/helpers";
 
 describe("departureInfo", () => {
   describe("mergeIntoDepartureInfo", () => {
@@ -74,6 +76,18 @@ describe("departureInfo", () => {
 
       // Checking subway check
       expect(departureInfos[4].routeMode).toBe(SUBWAY);
+    });
+  });
+
+  describe("isAtDestination", () => {
+    it("should return true if at destination else false", () => {
+      const route = baseRoute("Blue", 2);
+      route.direction_destinations = [
+        "Wonderland Station",
+        "Inbound Destination"
+      ];
+      expect(isAtDestination("Wonderland", route, 0)).toBe(true);
+      expect(isAtDestination("Airport", route, 0)).toBe(false);
     });
   });
 });

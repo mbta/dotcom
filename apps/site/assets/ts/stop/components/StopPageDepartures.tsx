@@ -12,6 +12,7 @@ interface StopPageDeparturesProps {
   departureInfos: DepartureInfo[];
   onClick: (route: Route, directionId: DirectionId) => void;
   alerts: Alert[];
+  stopName: string;
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -29,7 +30,8 @@ const StopPageDepartures = ({
   routes,
   departureInfos,
   onClick,
-  alerts
+  alerts,
+  stopName
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
@@ -55,6 +57,7 @@ const StopPageDepartures = ({
             key={route.id}
             route={route}
             departuresForRoute={groupedDepartures[route.id]}
+            stopName={stopName}
             onClick={onClick}
             // This list should only have one value, is there another way to do this?
             alertsForRoute={groupedAlerts[route.id]}

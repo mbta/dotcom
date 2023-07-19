@@ -19,6 +19,7 @@ describe("StopPageDepartures", () => {
       <StopPageDepartures
         routes={[]}
         onClick={mockClickAction}
+        stopName=""
         alerts={[]}
         departureInfos={[]}
       />
@@ -32,6 +33,7 @@ describe("StopPageDepartures", () => {
       <StopPageDepartures
         routes={routeData}
         onClick={mockClickAction}
+        stopName=""
         alerts={[]}
         departureInfos={[]}
       />
@@ -50,6 +52,7 @@ describe("StopPageDepartures", () => {
       <StopPageDepartures
         routes={[routeData[0]]}
         onClick={() => {}}
+        stopName=""
         alerts={[]}
         departureInfos={[]}
       />
