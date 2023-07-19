@@ -719,5 +719,22 @@ describe("DepartureTimes", () => {
       />
     );
     expect(screen.getByText("No upcoming trips")).toBeDefined();
+    expect(screen.getByText("Somewhere there")).toBeDefined();
+  });
+
+  it("doesn't render when current stop is same as destination", () => {
+    render(
+      <DepartureTimes
+        route={route}
+        directionId={0}
+        stopName="Somewhere there"
+        departuresForDirection={[]}
+        onClick={mockClickAction}
+        alertsForDirection={[]}
+      />
+    );
+
+    expect(screen.queryByText("No upcoming trips")).not.toBeInTheDocument();
+    expect(screen.queryByText("Somewhere there")).not.toBeInTheDocument();
   });
 });
