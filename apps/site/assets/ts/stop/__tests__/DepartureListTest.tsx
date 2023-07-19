@@ -187,6 +187,19 @@ describe("DepartureList", () => {
     ).toBeDefined();
   });
 
+  it("should render `Updates unavailable` if there are no departures", () => {
+    render(
+      <DepartureList
+        alerts={[]}
+        route={route}
+        stop={stop}
+        departures={null}
+        directionId={0}
+      />
+    );
+    expect(screen.getByText("Updates unavailable")).toBeDefined();
+  });
+
   it("should render `No upcoming trips today` if there are no schedules", () => {
     render(
       <DepartureList
@@ -197,7 +210,7 @@ describe("DepartureList", () => {
         directionId={0}
       />
     );
-    expect(screen.getByText("No upcoming trips today")).toBeDefined();
+    expect(screen.queryByText("No upcoming trips today")).toBeDefined();
   });
 
   it("should display cancelled if the trip has been cancelled", () => {

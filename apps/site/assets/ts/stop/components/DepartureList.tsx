@@ -44,7 +44,9 @@ const DepartureList = ({
   alerts,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
-  const tripForSelectedRoutePattern: Trip | undefined = departures[0]?.trip;
+  const tripForSelectedRoutePattern: Trip | undefined = departures?.length
+    ? departures[0].trip
+    : undefined;
   const isCR = isACommuterRailRoute(route);
   const groupedAlerts = alertsByRoute(alerts);
   const alertsForRoute = groupedAlerts[route.id] || [];
