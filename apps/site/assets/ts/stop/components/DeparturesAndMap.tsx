@@ -161,6 +161,7 @@ const DeparturesAndMap = ({
               : defaultPolylines
           }
           vehicles={departureFilters ? vehiclesForSelectedRoute : []}
+          selectedRoute={departureFilters?.route}
         />
       </div>
     </div>

@@ -20,10 +20,10 @@ interface Props {
   stop: Stop;
   lines: Polyline[];
   vehicles: Vehicle[];
-  selectedRoute: Route | null;
+  selectedRoute?: Route;
 }
 
-const routeToModeIconName = (route: Route | null): string => {
+const routeToModeIconName = (route?: Route): string => {
   if (route) {
     if (isACommuterRailRoute(route)) return "mode-commuter-rail-small";
     if (isASilverLineRoute(route)) return "mode-bus-silver";

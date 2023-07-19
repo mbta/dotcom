@@ -198,8 +198,12 @@ const DepartureTimes = ({
       ) : (
         <div
           key={`${route.direction_destinations[directionId]}-${route.id}`}
-          onClick={() => onClick({ route, directionId, headsign })}
-          onKeyDown={() => onClick({ route, directionId, headsign })}
+          onClick={() =>
+            onClick({ route, directionId, headsign: destination! })
+          }
+          onKeyDown={() =>
+            onClick({ route, directionId, headsign: destination! })
+          }
           role="presentation"
         >
           {!isAtDestination(stopName, route, directionId) &&
