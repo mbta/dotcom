@@ -141,7 +141,7 @@ const DeparturesAndMap = ({
             <DepartureList
               route={departureFilters.departureRoute!}
               stop={stop}
-              departures={filteredDepartures}
+              departures={viewSelectedDeparture ? filteredDepartures : null}
               directionId={departureFilters.departureDirectionId!}
               alerts={alerts}
             />

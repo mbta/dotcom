@@ -22,16 +22,16 @@ import { isACommuterRailRoute } from "../../models/route";
 interface DepartureListProps {
   route: Route;
   stop: Stop;
-  departures: DepartureInfo[];
+  departures: DepartureInfo[] | null;
   directionId: DirectionId;
   alerts: Alert[];
   targetDate?: Date | undefined;
 }
 
-const displayNoUpcomingTrips = (): JSX.Element => {
+const displayDeparturesStateMessage = (message: string): JSX.Element => {
   return (
     <div className="c-alert-item--low m-8 d-flex justify-content-center align-items-center pb-40 pt-40">
-      No upcoming trips today
+      {message}
     </div>
   );
 };
@@ -84,7 +84,10 @@ const DepartureList = ({
         </div>
       </h2>
       {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
-      {departures.length === 0 && displayNoUpcomingTrips()}
+      {departures &&
+        departures.length === 0 &&
+        displayDeparturesStateMessage("No upcoming trips")}
+      {!departures && displayDeparturesStateMessage("Updates unavailable")}
       {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
         <ul className="stop-routes__departures list-unstyled">
           {modeSpecificDepartures.map(departure => {
