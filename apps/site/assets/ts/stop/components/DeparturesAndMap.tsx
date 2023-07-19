@@ -91,15 +91,15 @@ const DeparturesAndMap = ({
     .uniqBy("id")
     .value();
 
-  const shapeForSelection = routesWithPolylines
-    .find(route => route.id === departureFilters.departureRoute?.id)
-    ?.polylines.find(
-      line => line.id === filteredDepartures?.[0]?.trip.shape_id
-    );
+  /** TODO: Filter by selected trip. Blocked by being unable to match
+   * schedule/prediction shape IDs with route canonical shape IDs */
+  const shapeForSelection = routesWithPolylines.find(
+    route => route.id === departureFilters.departureRoute?.id
+  )?.polylines;
 
   const vehiclesForSelectedRoute = useVehiclesChannel(
     departureFilters.departureRoute &&
-      departureFilters.departureDirectionId &&
+      departureFilters.departureDirectionId !== null &&
       departureFilters.departureDirectionId in [0, 1]
       ? {
           routeId: departureFilters.departureRoute.id,
@@ -163,10 +163,11 @@ const DeparturesAndMap = ({
           stop={stop}
           lines={
             viewSelectedDeparture && shapeForSelection
-              ? [shapeForSelection]
+              ? shapeForSelection
               : defaultPolylines
           }
           vehicles={viewSelectedDeparture ? vehiclesForSelectedRoute : []}
+          selectedRoute={departureFilters.departureRoute}
         />
       </div>
     </div>

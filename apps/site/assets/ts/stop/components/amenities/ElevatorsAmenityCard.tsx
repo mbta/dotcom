@@ -3,6 +3,7 @@ import AmenityCard from "./AmenityCard";
 import { elevatorIcon } from "../../../helpers/icon";
 import { Alert, Facility } from "../../../__v3api";
 import AccessAmenitiesModal from "../AccessAmenitiesModal";
+import { availabilityMessage, cardBadge } from "./access-amenities-helpers";
 
 const ElevatorsAmenityCard = ({
   stopName,
@@ -20,16 +21,25 @@ const ElevatorsAmenityCard = ({
   return (
     <AmenityCard
       headerText="Elevators"
+      badge={cardBadge(elevatorFacilities, alerts)}
       icon={icon}
       modalContent={
-        <AccessAmenitiesModal
-          stopName={stopName}
-          alerts={alerts}
-          facilities={elevatorFacilities}
-          facilityType="Elevator"
-        />
+        elevatorFacilities.length > 0 && (
+          <AccessAmenitiesModal
+            stopName={stopName}
+            alerts={alerts}
+            facilities={elevatorFacilities}
+            facilityType="Elevator"
+          />
+        )
       }
-    />
+    >
+      {availabilityMessage(
+        alerts.length,
+        elevatorFacilities.length,
+        "elevators"
+      )}
+    </AmenityCard>
   );
 };
 

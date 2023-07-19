@@ -1,5 +1,9 @@
 import React from "react";
-import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
+import AmenityCard, {
+  AmenityImage,
+  AmenityLink,
+  AmenityModal
+} from "./AmenityCard";
 import { bikeIcon } from "../../../helpers/icon";
 import { Alert, BikeStorageType } from "../../../__v3api";
 import Alerts from "../../../components/Alerts";
@@ -58,11 +62,10 @@ const BikeStorageAmenityCard = ({
             {hasBikeFacilityAlert && <Alerts alerts={alerts} />}
             <h2 className="h3 mt-8">Facility Information</h2>
             {hasPedalAndPark && (
-              <img
-                className="img-fluid mt-8 mb-1"
+              <AmenityImage
+                className="mt-8 mb-1"
                 src="https://cdn.mbta.com/sites/default/files/styles/max_2600x2600/public/media/2020-07/bike-parking-back-bay.jpg"
-                alt="MBTA Pedal and Park bike storage"
-                style={{ maxHeight: "250px" }}
+                altText="MBTA Pedal and Park bike storage"
               />
             )}
             <ul>

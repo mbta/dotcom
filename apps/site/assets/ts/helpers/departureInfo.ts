@@ -119,10 +119,15 @@ const isAtDestination = (
   return false;
 };
 
+const isCommuterRail = (departureInfo: DepartureInfo): boolean => {
+  return departureInfo?.routeMode === "commuter_rail";
+};
+
 export {
   mergeIntoDepartureInfo,
   departureInfoToTime,
   displayInfoContainsPrediction,
   getNextUnCancelledDeparture,
-  isAtDestination
+  isAtDestination,
+  isCommuterRail
 };

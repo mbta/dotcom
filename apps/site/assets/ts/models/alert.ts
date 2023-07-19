@@ -1,7 +1,7 @@
 import { isValid, parseISO, add } from "date-fns";
 import { concat, isArray, mergeWith, reduce, some } from "lodash";
 import { StopId } from "../schedule/components/__schedule";
-import { Activity, Alert, TimePeriodPairs } from "../__v3api";
+import { Activity, Alert, Facility, TimePeriodPairs } from "../__v3api";
 
 export const isHighSeverityOrHighPriority = ({
   priority,
@@ -227,6 +227,19 @@ export const hasFacilityAlert = (
   return alerts.some(alert => {
     if (alert.informed_entity?.facility) {
       return alert.informed_entity.facility.includes(facilityId);
+    }
+    return false;
+  });
+};
+
+export const alertsByFacility = (
+  facilities: Facility[],
+  alerts: Alert[]
+): Alert[] => {
+  const facilityIds = facilities.map(facility => facility.id);
+  return alerts.filter(({ informed_entity: { facility } }: Alert): boolean => {
+    if (facility) {
+      return facility.some(facilityId => facilityIds.includes(facilityId));
     }
     return false;
   });
