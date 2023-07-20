@@ -607,6 +607,28 @@ describe("DepartureTimes", () => {
 
       expect(displayTime1.displayString).toEqual("11:45 AM");
     });
+
+    it("should return delayed subway times as normal times (no strikethrough or hidding it)", () => {
+      const compareTime = new Date("2022-04-24T11:15:00-04:00");
+      const info1 = {
+        schedule: { time: new Date("2022-04-24T11:35:00-04:00"), trip: {} },
+        prediction: { time: new Date("2022-04-24T11:36:10-04:00"), trip: {} },
+        isDelayed: true,
+        routeMode: SUBWAY
+      } as DepartureInfo;
+      const info2 = {
+        schedule: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
+        prediction: { time: new Date("2022-04-24T11:45:00-04:00"), trip: {} },
+        routeMode: SUBWAY
+      } as DepartureInfo;
+
+      const [displayTime1, _displayTime2] = infoToDisplayTime(
+        [info1, info2],
+        compareTime
+      );
+
+      expect(displayTime1.displayString).toEqual("21 min");
+    });
   });
 
   it("should allow the clicking of rows", async () => {
