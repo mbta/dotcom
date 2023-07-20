@@ -628,6 +628,7 @@ describe("DepartureTimes", () => {
       );
 
       expect(displayTime1.displayString).toEqual("21 min");
+      expect(displayTime1.isStrikethrough).toBeUndefined();
     });
   });
 
