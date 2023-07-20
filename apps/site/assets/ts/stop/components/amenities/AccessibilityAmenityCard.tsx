@@ -4,7 +4,23 @@ import AmenityCard, { AmenityLink, AmenityModal } from "./AmenityCard";
 import { accessibleIcon } from "../../../helpers/icon";
 import { AccessibilityType } from "../../../__v3api";
 import Badge from "../../../components/Badge";
-import { accessibilityNames } from "../sidebar/Accessibility";
+
+/* eslint-disable camelcase */
+const accessibilityNames: {
+  [accessibilityName in AccessibilityType]: string;
+} = {
+  tty_phone: "TTY Phone",
+  escalator_both: "Escalator (up and down)",
+  escalator_up: "Escalator (up only)",
+  escalator_down: "Escalator (down only)",
+  ramp: "Long ramp",
+  fully_elevated_platform:
+    "Full high level platform to provide level boarding to every car in a train set",
+  elevated_subplatform:
+    "Mini high level platform to provide level boarding to certain cars in a train set",
+  elevator: "Elevator",
+  portable_boarding_lift: "Portable boarding lift"
+};
 
 const StationFeatures = (features: AccessibilityType[]): JSX.Element => (
   <>
