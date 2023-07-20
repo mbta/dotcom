@@ -1,10 +1,10 @@
-import { groupBy, sortBy } from "lodash";
+import { filter, groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
 import { Alert, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
-import { alertsByRoute } from "../../models/alert";
+import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
 import { DepartureFilterFn } from "./DeparturesAndMap";
 
@@ -41,7 +41,8 @@ const StopPageDepartures = ({
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
     selectedMode === "all" ? routes : groupedRoutes[selectedMode];
-  const groupedAlerts = alertsByRoute(alerts);
+  const currentAlerts = filter(alerts, a => isInNextXDays(a, 0));
+  const groupedAlerts = alertsByRoute(currentAlerts);
 
   return (
     <div className="routes">

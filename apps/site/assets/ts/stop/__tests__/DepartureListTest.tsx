@@ -318,6 +318,7 @@ describe("DepartureList", () => {
         departures={departures}
         directionId={0}
         alerts={alerts}
+        headsign="Test"
       />
     );
 

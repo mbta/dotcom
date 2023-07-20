@@ -80,8 +80,6 @@ const StopPageRedesign = ({
     alert => isInNextXDays(alert, 7) && isStopPageAlert(alert)
   );
 
-  const currentAlerts = filter(allAlerts, alert => isInNextXDays(alert, 0));
-
   return (
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
@@ -95,7 +93,7 @@ const StopPageRedesign = ({
           routes={routes}
           stop={stopResult.data}
           routesWithPolylines={routesWithPolylinesResult.data}
-          alerts={currentAlerts}
+          alerts={allAlerts}
         />
         <footer>
           <StationInformation
