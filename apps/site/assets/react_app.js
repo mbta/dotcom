@@ -3,7 +3,6 @@ import React from "react";
 import readline from "readline";
 
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
-import StopPage from "../assets/ts/stop/components/StopPage";
 import AdditionalLineInfo from "../assets/ts/schedule/components/AdditionalLineInfo";
 import ScheduleNote from "../assets/ts/schedule/components/ScheduleNote";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
@@ -59,7 +58,6 @@ const Components = {
   ScheduleFinder,
   ScheduleNote,
   AdditionalLineInfo,
-  StopPage,
   TransitNearMe,
   TripPlannerResults,
   ProjectsPage,

@@ -8,7 +8,6 @@ defmodule SiteWeb.StopView do
   alias Phoenix.HTML
   alias Phoenix.HTML.Safe
   alias Stops.{Stop, Repo}
-  alias Site.React
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias SiteWeb.AlertView
   alias Routes.Route
@@ -51,26 +50,5 @@ defmodule SiteWeb.StopView do
     for feature <- features do
       stop_feature_icon(feature, :small)
     end
-  end
-
-  @spec render_react(map) :: HTML.safe()
-  def render_react(assigns) do
-    Util.log_duration(__MODULE__, :do_render_react, [assigns])
-  end
-
-  @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{
-        stop_page_data: stop_page_data,
-        map_data: map_data,
-        map_id: map_id
-      }) do
-    React.render(
-      "StopPage",
-      %{
-        stopPageData: stop_page_data,
-        mapData: map_data,
-        mapId: map_id
-      }
-    )
   end
 end

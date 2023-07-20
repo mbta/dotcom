@@ -23,12 +23,6 @@ export interface RouteWithDirection {
   route: EnhancedRoute;
 }
 
-export interface SuggestedTransfer {
-  stop: Stop;
-  distance: number;
-  routes_with_direction: RouteWithDirection[];
-}
-
 export interface StopPageData {
   stop: Stop;
   street_view_url: string | null;
@@ -37,24 +31,14 @@ export interface StopPageData {
   tabs: Tab[];
   zone_number: string;
   alerts: Alert[];
-  suggested_transfers: SuggestedTransfer[];
   retail_locations: RetailLocationWithDistance[];
   tab: string;
-  alerts_tab: AlertsTab;
   routes_and_alerts: { [key: string]: Alert[] };
 }
 
 interface AlertData {
   alerts: Alert[];
   empty_message: string;
-}
-
-export interface AlertsTab {
-  [key: string]: AlertData | string;
-  upcoming: AlertData;
-  current: AlertData;
-  all: AlertData;
-  initial_selected: string;
 }
 
 export interface Tab {
