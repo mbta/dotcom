@@ -1,2 +1,4 @@
-locust==2.1.0
+locust==2.15.1
 pyquery==1.4.0
+# locust-plugins==2.6.9
+websocket-client
