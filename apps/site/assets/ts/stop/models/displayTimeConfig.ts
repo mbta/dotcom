@@ -140,13 +140,10 @@ const infoToDisplayTime = (
   }
 
   // Reorder the times for subway
-  // Effectively ignoring the delayed / cancelled time
+  // Effectively ignoring the cancelled time
   let time1 = departureInfo1;
   let time2 = departureInfo2;
-  if (
-    (departureInfo1.isCancelled || departureInfo1.isDelayed) &&
-    departureInfo2
-  ) {
+  if (departureInfo1.isCancelled && departureInfo2) {
     time1 = departureInfo2;
     time2 = undefined;
   }
