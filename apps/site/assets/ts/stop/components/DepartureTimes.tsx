@@ -101,12 +101,21 @@ const departureTimeRow = (
     // Informative badges need more padding between them and the time
     alertClass = "pt-4";
   }
+  const headsingnArray = headsignName.split("/");
   return (
     <div
       key={headsignName}
       className="departure-card__headsign d-flex justify-content-space-between"
     >
-      <div className="departure-card__headsign-name">{headsignName}</div>
+      <div className="departure-card__headsign-name">
+        {headsingnArray.length === 2 ? (
+          <>
+            {headsingnArray[0]}/&#8203;{headsingnArray[1]}
+          </>
+        ) : (
+          headsignName
+        )}
+      </div>
       <div className="d-flex align-items-center">
         <div>
           {formattedTimes.length > 0
