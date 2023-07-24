@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { filter, omit } from "lodash";
+import { chain, concat, filter, omit } from "lodash";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutesByStop } from "../../hooks/useRoute";
@@ -16,6 +16,9 @@ import {
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
+
+const isStopPageAlert = ({ effect }: Alert): boolean =>
+  ["suspension", "stop_closure", "station_closure", "shuttle"].includes(effect);
 
 const StopPageRedesign = ({
   stopId
@@ -53,31 +56,17 @@ const StopPageRedesign = ({
     return <Loading />;
   }
 
-  const isStopPageAlert = ({ effect }: Alert): boolean =>
-    ["suspension", "stop_closure", "station_closure", "shuttle"].includes(
-      effect
-    );
-
   const routes = routesWithPolylinesResult.data.map(rwp =>
     omit(rwp, "polylines")
   );
 
-  // routeWideAlertsArray are all the alerts that affect the whole route
-  // not just specific stops or trips
-  const routeWideAlertsArray = routeWideAlerts(alertsForRoutesResult.data);
+  const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
+  const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
+  const allAmenityAlerts = filter(allAlerts, a => isAmenityAlert(a));
+  const allStopPageAlerts = filter(allAlerts, a => isStopPageAlert(a));
 
-  const allAlerts = filter(
-    alertsForStopResult.data.concat(routeWideAlertsArray),
-    alert => !isAmenityAlert(alert)
-  );
-
-  const alertsForAmenities = filter(alertsForStopResult.data, alert =>
-    isAmenityAlert(alert)
-  );
-
-  const alertsWithinSevenDays = filter(
-    allAlerts,
-    alert => isInNextXDays(alert, 7) && isStopPageAlert(alert)
+  const alertsWithinSevenDays = filter(allStopPageAlerts, alert =>
+    isInNextXDays(alert, 7)
   );
 
   return (
@@ -93,18 +82,21 @@ const StopPageRedesign = ({
           routes={routes}
           stop={stopResult.data}
           routesWithPolylines={routesWithPolylinesResult.data}
-          alerts={allAlerts}
+          alerts={allStopPageAlerts}
         />
         <footer>
           <StationInformation
             stop={stopResult.data}
             facilities={facilities.data}
-            alerts={alertsForAmenities}
+            alerts={allAmenityAlerts}
           />
         </footer>
       </div>
     </article>
   );
 };
+
+//
+// alerts banners should be the specific alert types, and only ongoing or upcoming in 7 days
 
 export default StopPageRedesign;

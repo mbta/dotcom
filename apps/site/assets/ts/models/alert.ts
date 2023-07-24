@@ -35,6 +35,29 @@ export const isAmenityAlert = ({ effect }: Alert): boolean =>
     "bike_issue"
   ].includes(effect);
 
+export const alertsForStopAndRoute = (
+  alerts: Alert[],
+  stopId: StopId,
+  routeId: string
+): Alert[] => {
+  return alerts.filter(
+    ({ informed_entity: informedEntities }: Alert): boolean =>
+      !!(
+        informedEntities.stop &&
+        informedEntities.stop.some((id: StopId) => id === stopId) &&
+        informedEntities.route &&
+        informedEntities.route.some((id: string) => id === routeId)
+      )
+  );
+};
+
+export const alertsForRoute = (alerts: Alert[], routeId: string): Alert[] => {
+  return alerts.filter(
+    ({ informed_entity: entities }: Alert): boolean =>
+      !!(entities.route && entities.route.some((id: string) => id === routeId))
+  );
+};
+
 export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
   alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>

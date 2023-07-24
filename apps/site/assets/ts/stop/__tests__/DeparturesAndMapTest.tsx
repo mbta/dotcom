@@ -1,8 +1,8 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
-import { DirectionId, Stop } from "../../__v3api";
+import { Alert, DirectionId, Stop } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import { baseRoute, routeWithPolylines } from "./helpers";
 import * as useRoute from "../../hooks/useRoute";
@@ -280,5 +280,125 @@ describe("DeparturesAndMap", () => {
         })
       ).toBeNull();
     });
+  });
+
+  it("should only display the alerts that affect the selected route, or route/stop", async () => {
+    const alerts = [
+      {
+        id: "1",
+        informed_entity: {
+          route: ["TestRoute"],
+          stop: ["test-stop"],
+          entities: [{ stop: "test-stop", route: "TestRoute" }]
+        },
+        header: "This affects the stop and route",
+        lifecycle: "ongoing",
+        effect: "Effect"
+      },
+      {
+        id: "2",
+        informed_entity: {
+          route: ["TestRoute"],
+          entities: [{ route: "TestRoute" }]
+        },
+        header: "This affects the whole route",
+        lifecycle: "ongoing",
+        effect: "Effect"
+      },
+      {
+        id: "3",
+        informed_entity: {
+          route: ["TestRoute"],
+          stop: ["test-stop-2"],
+          entities: [{ stop: "test-stop-2", route: "TestRoute" }]
+        },
+        header: "This affects the and route, but a different stop",
+        lifecycle: "ongoing",
+        effect: "Effect"
+      },
+      {
+        id: "4",
+        informed_entity: {
+          route: ["TestRoute-2"],
+          entities: [{ route: "TestRoute-2" }]
+        },
+        header: "This should not show",
+        lifecycle: "ongoing",
+        effect: "Effect"
+      }
+    ] as Alert[];
+
+    const user = userEvent.setup();
+    render(
+      <DeparturesAndMap
+        routes={[route]}
+        stop={stop}
+        routesWithPolylines={testRoutesWithPolylines}
+        alerts={alerts}
+      />
+    );
+
+    const headSigns = screen.getAllByText(/TestRoute Route/);
+    expect(headSigns.length).toBe(3);
+    // The 2nd headsign instance is a clickable route
+    await user.click(headSigns[1]);
+
+    expect(
+      screen.getByText("This affects the stop and route")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("This affects the whole route")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("This affects the and route, but a different stop")
+    ).toBeNull();
+    expect(screen.queryByText("This should not show")).toBeNull();
+  });
+
+  it("should hide alerts of an unknown lifecycle", async () => {
+    const alerts = [
+      {
+        id: "1",
+        informed_entity: {
+          route: ["TestRoute"],
+          stop: ["test-stop"],
+          entities: [{ stop: "test-stop", route: "TestRoute" }]
+        },
+        header: "This affects the stop and route",
+        lifecycle: "ongoing",
+        effect: "Effect"
+      },
+      {
+        id: "2",
+        informed_entity: {
+          route: ["TestRoute"],
+          stop: ["test-stop"],
+          entities: [{ stop: "test-stop", route: "TestRoute" }]
+        },
+        header: "This should not show",
+        lifecycle: "unknown",
+        effect: "Effect"
+      }
+    ] as Alert[];
+
+    const user = userEvent.setup();
+    render(
+      <DeparturesAndMap
+        routes={[route]}
+        stop={stop}
+        routesWithPolylines={testRoutesWithPolylines}
+        alerts={alerts}
+      />
+    );
+
+    const headSigns = screen.getAllByText(/TestRoute Route/);
+    expect(headSigns.length).toBe(3);
+    // The 2nd headsign instance is a clickable route
+    await user.click(headSigns[1]);
+
+    expect(
+      screen.getByText("This affects the stop and route")
+    ).toBeInTheDocument();
+    expect(screen.queryByText("This should not show")).toBeNull();
   });
 });

@@ -129,7 +129,7 @@ describe("DepartureList", () => {
     );
   });
 
-  it("renders alert cards when alert is detour, suspension, or shuttle", () => {
+  it("renders alert cards", () => {
     const alerts = [
       {
         id: "1234",
@@ -151,13 +151,6 @@ describe("DepartureList", () => {
           direction_id: [1]
         },
         effect: "detour"
-      },
-      {
-        id: "1234",
-        informed_entity: {
-          direction_id: [0]
-        },
-        effect: "delay"
       }
     ] as Alert[];
     render(
@@ -276,54 +269,5 @@ describe("DepartureList", () => {
     );
     expect(screen.queryByText("Cancelled")).not.toBeInTheDocument();
     expect(screen.getByText("25 min")).toBeInTheDocument();
-  });
-
-  it("should hide upcoming alerts on other parts of the route", () => {
-    const alerts = [
-      {
-        id: "1234",
-        informed_entity: {
-          direction_id: [0],
-          route: ["TestRoute"],
-          stop: ["test-stop"]
-        },
-        lifecycle: "ongoing",
-        effect: "shuttle"
-      },
-      {
-        id: "4321",
-        informed_entity: {
-          direction_id: [0],
-          route: ["TestRoute"],
-          stop: ["test-stop-2"]
-        },
-        lifecycle: "upcoming",
-        effect: "suspension"
-      },
-      {
-        id: "5678",
-        informed_entity: {
-          direction_id: [0],
-          route: ["TestRoute"],
-          stop: ["test-stop-2"]
-        },
-        lifecycle: "ongoing",
-        effect: "detour"
-      }
-    ] as Alert[];
-    render(
-      <DepartureList
-        route={route}
-        stop={stop}
-        departures={departures}
-        directionId={0}
-        alerts={alerts}
-        headsign="Test"
-      />
-    );
-
-    expect(screen.queryByText("Shuttle Service")).toBeDefined();
-    expect(screen.queryByText("Detour")).toBeDefined();
-    expect(screen.queryByText("Suspension")).toBeNull();
   });
 });

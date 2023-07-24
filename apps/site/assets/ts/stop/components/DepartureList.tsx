@@ -49,29 +49,29 @@ const DepartureList = ({
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const tripForSelectedRoutePattern: Trip | undefined = departures[0]?.trip;
   const isCR = isACommuterRailRoute(route);
-  const filteredAlerts = alertsForEffects(alerts, [
-    "detour",
-    "suspension",
-    "shuttle"
-  ]);
+  // const filteredAlerts = alertsForEffects(alerts, [
+  //   "detour",
+  //   "suspension",
+  //   "shuttle"
+  // ]);
 
-  // Only show routewide ongoing alerts
-  const groupedAlerts = alertsByRoute(filteredAlerts);
-  const alertsForRoute = groupedAlerts[route.id] || [];
-  const currentAlertsForRoute = filter(alertsForRoute, a =>
-    isInNextXDays(a, 0)
-  );
-  const routeAlerts = allAlertsForDirection(currentAlertsForRoute, directionId);
+  // // Only show routewide ongoing alerts
+  // const groupedAlerts = alertsByRoute(filteredAlerts);
+  // const alertsForRoute = groupedAlerts[route.id] || [];
+  // const currentAlertsForRoute = filter(alertsForRoute, a =>
+  //   isInNextXDays(a, 0)
+  // );
+  // const routeAlerts = allAlertsForDirection(currentAlertsForRoute, directionId);
 
-  // show all upcoming and ongoing stop alerts
-  const stopAlerts = alertsByStop(filteredAlerts, stop.id);
-  const upcomingAndCurrentStopAlerts = filter(stopAlerts, a =>
-    isUpcomingOrCurrentLifecycle(a)
-  );
-  const allAlerts = uniqBy(
-    concat(routeAlerts, upcomingAndCurrentStopAlerts),
-    a => a.id
-  );
+  // // show all upcoming and ongoing stop alerts
+  // const stopAlerts = alertsByStop(filteredAlerts, stop.id);
+  // const upcomingAndCurrentStopAlerts = filter(stopAlerts, a =>
+  //   isUpcomingOrCurrentLifecycle(a)
+  // );
+  // const allAlerts = uniqBy(
+  //   concat(routeAlerts, upcomingAndCurrentStopAlerts),
+  //   a => a.id
+  // );
 
   // don's show cancelled departures for subway
   const modeSpecificDepartures: DepartureInfo[] = filter(
@@ -99,9 +99,9 @@ const DepartureList = ({
         <div className="departure-list__origin-stop-name">{stop.name} to</div>
         <div className="departure-list__headsign">{headsign}</div>
       </h2>
-      {allAlerts.length ? <Alerts alerts={allAlerts} /> : null}
+      {alerts.length ? <Alerts alerts={alerts} /> : null}
       {departures.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern && !hasSuspension(allAlerts) && (
+      {tripForSelectedRoutePattern && !hasSuspension(alerts) && (
         <ul className="stop-routes__departures list-unstyled">
           {modeSpecificDepartures.map(departure => {
             return (
