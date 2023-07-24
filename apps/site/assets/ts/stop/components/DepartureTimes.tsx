@@ -17,6 +17,7 @@ import {
 import { DepartureInfo } from "../../models/departureInfo";
 import { isAtDestination } from "../../helpers/departureInfo";
 import { DepartureFilterFn } from "./DeparturesAndMap";
+import { breakTextAtSlash } from "../../helpers/text";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -106,7 +107,9 @@ const departureTimeRow = (
       key={headsignName}
       className="departure-card__headsign d-flex justify-content-space-between"
     >
-      <div className="departure-card__headsign-name">{headsignName}</div>
+      <div className="departure-card__headsign-name">
+        {breakTextAtSlash(headsignName)}
+      </div>
       <div className="d-flex align-items-center">
         <div>
           {formattedTimes.length > 0
