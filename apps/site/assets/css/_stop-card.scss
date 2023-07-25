@@ -204,7 +204,7 @@ $radius: 4px;
     width: .9em;
 
     &--realtime {
-      top: 0;
+      top: .075em;
     }
   }
 
@@ -310,10 +310,6 @@ $radius: 4px;
     display: grid;
     grid-template-columns: 1em auto;
     padding: .5rem;
-  }
-
-  .c-svg__icon--realtime {
-    top: 0;
   }
 
   .stop-routes__departures-details {
