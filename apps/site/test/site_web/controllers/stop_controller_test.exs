@@ -226,7 +226,7 @@ defmodule SiteWeb.StopControllerTest do
 
   describe "show/2" do
     test "should set the title and meta description of the page", %{conn: conn} do
-      with_mock(Laboratory, [], enabled?: fn _, :stops_redesign -> false end) do
+      with_mock(Laboratory, [], enabled?: fn _, :stops_redesign -> true end) do
         conn =
           conn
           |> get(stop_path(conn, :show, "place-wondl"))
