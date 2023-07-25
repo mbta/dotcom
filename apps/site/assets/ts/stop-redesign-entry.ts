@@ -1,3 +1,3 @@
-import onLoad from "./stop/stop-loader-redesign";
+import onLoad from "./stop/stop-redesign-loader";
 // This is technically the onLoad() function
 onLoad();
