@@ -110,6 +110,23 @@ describe("DisplayTime", () => {
       expect(screen.findByText("Delayed 9:19 AM")).toBeTruthy();
       expect(screen.getByText("9:13 AM")).toHaveClass("strikethrough");
     });
+    it("predictions only (<1 hour away) (subway)", () => {
+      const nowTime = new Date("2023-06-01T09:10:00-04:00");
+      const departure = {
+        isDelayed: true,
+        schedule: { ...schedule, time: new Date("2023-06-01T09:13:00-04:00") },
+        prediction: {
+          ...prediction,
+          time: new Date("2023-06-01T09:19:00-04:00")
+        },
+        routeMode: "subway"
+      } as DepartureInfo;
+      render(
+        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+      );
+      expect(screen.queryByText("9 min")).toBeTruthy();
+      expect(screen.queryByText("9:13 AM")).toBeNull();
+    });
     it("predictions with scheduled time with strikethrough (<1 hour away) (CR)", () => {
       const nowTime = new Date("2023-06-01T09:10:00-04:00");
       const departure = {
@@ -143,6 +160,23 @@ describe("DisplayTime", () => {
       );
       expect(screen.findByText("Delayed 11:43 AM")).toBeTruthy();
       expect(screen.getByText("11:38 AM")).toHaveClass("strikethrough");
+    });
+    it("(for subway) shows only predicted time (1+ hour away)", () => {
+      const nowTime = new Date("2023-06-01T09:10:00-04:00");
+      const departure = {
+        isDelayed: true,
+        schedule: { ...schedule, time: new Date("2023-06-01T11:38:00-04:00") },
+        prediction: {
+          ...prediction,
+          time: new Date("2023-06-01T11:43:00-04:00")
+        },
+        routeMode: "subway"
+      } as DepartureInfo;
+      render(
+        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+      );
+      expect(screen.getByText("11:43 AM")).toBeDefined();
+      expect(screen.queryByText("11:38 AM")).toBeNull();
     });
   });
 });

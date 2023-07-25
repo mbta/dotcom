@@ -156,7 +156,8 @@ const DisplayTime = ({
   targetDate
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
   const time = departureInfoToTime(departure);
-  const isDelayed = departure?.isDelayed;
+  const isDelayedAndDisplayed =
+    departure.isDelayed && departure.routeMode !== "subway";
   const isCancelled = departure?.isCancelled;
   const isLessThanHourAway = time
     ? differenceInSeconds(time, new Date()) < secondsInHour
@@ -177,10 +178,15 @@ const DisplayTime = ({
       {!isCancelled && (
         <>
           <div className="stop-routes__departures-time">
-            {isDelayed ? <DelayedTimeCountdown /> : <TimeCountdown />}
+            {isDelayedAndDisplayed ? (
+              <DelayedTimeCountdown />
+            ) : (
+              <TimeCountdown />
+            )}
           </div>
           <div className="stop-routes__departures-details fs-14">
-            {isDelayed && <DelayedTimeDetails />} <BaseTimeDetails />
+            {isDelayedAndDisplayed && <DelayedTimeDetails />}{" "}
+            <BaseTimeDetails />
           </div>
         </>
       )}
