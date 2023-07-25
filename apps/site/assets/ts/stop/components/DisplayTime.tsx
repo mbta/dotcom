@@ -67,23 +67,6 @@ function TimeCountdown(): JSX.Element {
   );
 }
 
-function DelayedTimeCountdown(): JSX.Element {
-  const { time, isCR, isLessThanHourAway, targetDate } = useContext(
-    DepartureContext
-  );
-  return (
-    <>
-      {!isLessThanHourAway && "Delayed "}
-      <BasicTime
-        displayType={isCR ? "absolute" : "relative"}
-        time={time}
-        strikethrough={false}
-        targetDate={targetDate}
-      />
-    </>
-  );
-}
-
 function BaseTimeDetails(): JSX.Element {
   const { departure, time, isCR } = useContext(DepartureContext);
   const track = departure?.prediction?.track;
@@ -94,29 +77,17 @@ function BaseTimeDetails(): JSX.Element {
 }
 
 function DelayedTimeDetails(): JSX.Element {
-  const { departure, isLessThanHourAway, isCR, targetDate } = useContext(
-    DepartureContext
-  );
-  const { prediction, schedule } = departure;
-  const strikedthroughSchedule = (
-    <BasicTime
-      displayType="absolute"
-      time={schedule!.time}
-      targetDate={targetDate}
-      strikethrough
-    />
-  );
-  if (isLessThanHourAway && isCR) return strikedthroughSchedule;
-  if (!isLessThanHourAway) return strikedthroughSchedule;
+  const { departure, targetDate } = useContext(DepartureContext);
+  const scheduledTime = departure.schedule!.time;
   return (
     <>
-      {"Delayed "}
+      Delayed{" "}
       <BasicTime
         displayType="absolute"
-        time={prediction!.time}
+        time={scheduledTime}
         targetDate={targetDate}
-      />{" "}
-      {strikedthroughSchedule}
+        strikethrough
+      />
     </>
   );
 }
@@ -173,11 +144,7 @@ const DisplayTime = ({
       ) : (
         <>
           <div className="stop-routes__departures-time">
-            {isDelayedAndDisplayed ? (
-              <DelayedTimeCountdown />
-            ) : (
-              <TimeCountdown />
-            )}
+            <TimeCountdown />
           </div>
           <div className="stop-routes__departures-details fs-14">
             {isDelayedAndDisplayed && <DelayedTimeDetails />}{" "}
