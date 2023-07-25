@@ -122,21 +122,18 @@ function DelayedTimeDetails(): JSX.Element {
 }
 
 const CancelledTimeDetails = (): JSX.Element => {
-  const { time, targetDate } = useContext(DepartureContext);
-
+  const { departure, targetDate } = useContext(DepartureContext);
+  const scheduledTime = departure.schedule!.time;
   return (
-    <>
-      <div className="d-flex justify-content-space-between text-danger">
-        <s>
-          <BasicTime
-            displayType="absolute"
-            time={time}
-            targetDate={targetDate}
-          />
-        </s>
-        <div>Cancelled</div>
-      </div>
-    </>
+    <div className="fs-14">
+      Cancelled{" "}
+      <BasicTime
+        displayType="absolute"
+        time={scheduledTime}
+        targetDate={targetDate}
+        strikethrough
+      />
+    </div>
   );
 };
 
@@ -168,14 +165,12 @@ const DisplayTime = ({
     >
       <div>
         {displayInfoContainsPrediction(departure) &&
+          !isCancelled &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
-      {isCancelled && (
-        <div>
-          <CancelledTimeDetails />
-        </div>
-      )}
-      {!isCancelled && (
+      {isCancelled ? (
+        <CancelledTimeDetails />
+      ) : (
         <>
           <div className="stop-routes__departures-time">
             {isDelayedAndDisplayed ? (
