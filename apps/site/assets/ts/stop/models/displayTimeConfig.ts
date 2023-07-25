@@ -69,6 +69,7 @@ const getInfoKey = (departureInfo: DepartureInfo): string => {
   return `${trip.id}-${departureInfo.prediction?.vehicle_id}`;
 };
 
+/** @deprecated Being phased out in favor of using a combination of logic in <DisplayTime /> component and CSS styling */
 const infoToDisplayTime = (
   departureInfos: DepartureInfo[],
   targetDate: Date = new Date()
