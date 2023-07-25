@@ -40,15 +40,8 @@ export const alertsForStopAndRoute = (
   stopId: StopId,
   routeId: string
 ): Alert[] => {
-  return alerts.filter(
-    ({ informed_entity: informedEntities }: Alert): boolean =>
-      !!(
-        informedEntities.stop &&
-        informedEntities.stop.some((id: StopId) => id === stopId) &&
-        informedEntities.route &&
-        informedEntities.route.some((id: string) => id === routeId)
-      )
-  );
+  const stopAlerts = alertsByStop(alerts, stopId);
+  return alertsForRoute(stopAlerts, routeId);
 };
 
 export const alertsForRoute = (alerts: Alert[], routeId: string): Alert[] => {
@@ -61,7 +54,7 @@ export const alertsForRoute = (alerts: Alert[], routeId: string): Alert[] => {
 export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
   alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>
-      !!entities.stop && entities.stop!.some((id: StopId) => id === stopId)
+      !!(entities.stop && entities.stop.some((id: StopId) => id === stopId))
   );
 
 export const alertsByActivity = (

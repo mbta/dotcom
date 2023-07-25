@@ -1,20 +1,12 @@
 import React, { ReactElement } from "react";
-import { concat, filter, uniqBy } from "lodash";
+import { filter } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { DepartureInfo } from "../../models/departureInfo";
 import { SUBWAY } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
-import {
-  alertsByRoute,
-  alertsByStop,
-  allAlertsForDirection,
-  hasSuspension,
-  isInNextXDays,
-  alertsForEffects,
-  isUpcomingOrCurrentLifecycle
-} from "../../models/alert";
+import { hasSuspension } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 import { getInfoKey } from "../models/displayTimeConfig";
 import DisplayTime from "./DisplayTime";
@@ -49,29 +41,6 @@ const DepartureList = ({
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const tripForSelectedRoutePattern: Trip | undefined = departures[0]?.trip;
   const isCR = isACommuterRailRoute(route);
-  // const filteredAlerts = alertsForEffects(alerts, [
-  //   "detour",
-  //   "suspension",
-  //   "shuttle"
-  // ]);
-
-  // // Only show routewide ongoing alerts
-  // const groupedAlerts = alertsByRoute(filteredAlerts);
-  // const alertsForRoute = groupedAlerts[route.id] || [];
-  // const currentAlertsForRoute = filter(alertsForRoute, a =>
-  //   isInNextXDays(a, 0)
-  // );
-  // const routeAlerts = allAlertsForDirection(currentAlertsForRoute, directionId);
-
-  // // show all upcoming and ongoing stop alerts
-  // const stopAlerts = alertsByStop(filteredAlerts, stop.id);
-  // const upcomingAndCurrentStopAlerts = filter(stopAlerts, a =>
-  //   isUpcomingOrCurrentLifecycle(a)
-  // );
-  // const allAlerts = uniqBy(
-  //   concat(routeAlerts, upcomingAndCurrentStopAlerts),
-  //   a => a.id
-  // );
 
   // don's show cancelled departures for subway
   const modeSpecificDepartures: DepartureInfo[] = filter(
