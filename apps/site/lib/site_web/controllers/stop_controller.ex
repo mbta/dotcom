@@ -59,10 +59,20 @@ defmodule SiteWeb.StopController do
       # SHOULD return a Plug.Conn, via a template. See:
       # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/2
       # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/3
+
+      stop =
+        stop_id
+        |> URI.decode_www_form()
+        |> Repo.get()
+
+      routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+
       conn
+      |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
+      |> meta_description(stop, routes_by_stop)
       |> render("show-redesign.html", %{
         stop_id: stop_id,
-        routes_by_stop: Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+        routes_by_stop: routes_by_stop
       })
     else
       show_old(conn, params)
