@@ -68,7 +68,7 @@ defmodule SiteWeb.StopController do
       routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
 
       conn
-      |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
+      |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
       |> meta_description(stop, routes_by_stop)
       |> render("show-redesign.html", %{
         stop_id: stop_id,
