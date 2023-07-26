@@ -20,7 +20,7 @@ defmodule SiteWeb.PredictionsChannelTest do
     route: %Route{id: @route_39},
     stop: %Stop{id: @stop_fh},
     trip: %Trip{},
-    departure_time: Timex.shift(Util.now(), hours: 2)
+    time: Timex.shift(Util.now(), hours: 2)
   }
 
   @channel_name "predictions:route=#{@route_39}:stop=#{@stop_fh}:direction_id=#{@direction}"
