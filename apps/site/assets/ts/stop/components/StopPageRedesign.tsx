@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { chain, concat, filter, omit } from "lodash";
+import { concat, filter, omit } from "lodash";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutesByStop } from "../../hooks/useRoute";

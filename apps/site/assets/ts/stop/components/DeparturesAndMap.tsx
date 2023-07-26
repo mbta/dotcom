@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState
 } from "react";
-import { chain, concat, filter, uniqBy } from "lodash";
+import { chain, concat, filter } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import StopPageDepartures from "./StopPageDepartures";
@@ -24,9 +24,6 @@ import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 import {
-  alertsByRoute,
-  alertsByStop,
-  alertsForEffects,
   alertsForRoute,
   alertsForStopAndRoute,
   isUpcomingOrCurrentLifecycle,
@@ -69,7 +66,6 @@ const DeparturesAndMap = ({
   };
 
   useEffect(() => {
-    console.log(departureFilters);
     if (departureFilters && departureFilters.route) {
       // grab all the alerts that are current or upcoming
       const currentAndUpcomingAlerts = filter(alerts, a =>
