@@ -83,6 +83,12 @@ export const isCancelled = (
   return !!prediction && prediction.schedule_relationship === "cancelled";
 };
 
+export const isSkipped = (
+  prediction: PredictionWithTimestamp | undefined
+): boolean => {
+  return !!prediction && prediction.schedule_relationship === "skipped";
+};
+
 // Finds the corresponding schedule to the prediction and compares the times
 // If the prediction and schedule are more than 60 seconds apart it is delayed
 export const isDelayed = (

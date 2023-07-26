@@ -11,7 +11,7 @@ import {
 } from "lodash";
 import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
-import { isCancelled, isDelayed } from "./prediction-helpers";
+import { isCancelled, isDelayed, isSkipped } from "./prediction-helpers";
 import { DepartureInfo } from "../models/departureInfo";
 import {
   isABusRoute,
@@ -82,6 +82,7 @@ const mergeIntoDepartureInfo = (
         route: schedule.route,
         trip: schedule.trip,
         isCancelled: isCancelled(prediction),
+        isSkipped: isSkipped(prediction),
         isDelayed: isDelayed(prediction, schedule),
         routeMode: toRouteMode(schedule.route)
       };
@@ -102,6 +103,7 @@ const mergeIntoDepartureInfo = (
         route: prediction.route,
         trip: prediction.trip,
         isCancelled: isCancelled(prediction),
+        isSkipped: isSkipped(prediction),
         routeMode: toRouteMode(prediction.route)
       } as DepartureInfo;
     }

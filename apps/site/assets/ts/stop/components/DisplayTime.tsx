@@ -55,7 +55,14 @@ const DisplayTime = ({
   isCR,
   targetDate
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
-  const { isCancelled, isDelayed, routeMode, schedule, prediction } = departure;
+  const {
+    isCancelled,
+    isDelayed,
+    isSkipped,
+    routeMode,
+    schedule,
+    prediction
+  } = departure;
   const isDelayedAndDisplayed = isDelayed && routeMode !== "subway";
   const time = departureInfoToTime(departure);
   const track = prediction?.track;
@@ -66,10 +73,21 @@ const DisplayTime = ({
     <>
       <div>
         {displayInfoContainsPrediction(departure) &&
-          !isCancelled &&
+          !(isCancelled || isSkipped) &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
-      {isCancelled && schedule ? (
+      {isSkipped && schedule && (
+        <div className="fs-14">
+          Skipped{" "}
+          <BasicTime
+            displayType="absolute"
+            time={schedule.time}
+            targetDate={targetDate}
+            strikethrough
+          />
+        </div>
+      )}
+      {isCancelled && schedule && (
         <div className="fs-14">
           Cancelled{" "}
           <BasicTime
@@ -79,7 +97,8 @@ const DisplayTime = ({
             strikethrough
           />
         </div>
-      ) : (
+      )}
+      {!(isCancelled || isSkipped) && (
         <>
           <div className="stop-routes__departures-time">
             <BasicTime

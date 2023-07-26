@@ -135,13 +135,14 @@ describe("DisplayTime", () => {
         prediction: {
           ...prediction,
           time: new Date("2023-06-01T09:19:00-04:00")
-        }
+        },
+        routeMode: "commuter_rail"
       } as DepartureInfo;
       render(
         <DisplayTime departure={departure} isCR={true} targetDate={nowTime} />
       );
       expect(screen.queryByText("9 min")).toBeFalsy();
-      expect(screen.queryByText("Delayed")).toBeFalsy();
+      expect(screen.queryByText("Delayed")).toBeTruthy();
       expect(screen.getByText("9:13 AM")).toHaveClass("strikethrough");
       expect(screen.getByText("9:19 AM")).not.toHaveClass("strikethrough");
     });
