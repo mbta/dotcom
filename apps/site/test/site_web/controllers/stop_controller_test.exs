@@ -231,7 +231,7 @@ defmodule SiteWeb.StopControllerTest do
           conn
           |> get(stop_path(conn, :show, "place-wondl"))
 
-        [_stations, station_name] = conn.assigns.breadcrumbs_title
+        [_stations, station_name] = conn.assigns.breadcrumbs
 
         assert "Wonderland" = station_name.text
 

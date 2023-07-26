@@ -47,18 +47,6 @@ defmodule Util.BreadcrumbHTMLTest do
       assert breadcrumbs == "First | MBTA"
     end
 
-    test "also returns breadcrumb title text when breadscrumbs_title is set", %{conn: conn} do
-      breadcrumbs = [
-        %Util.Breadcrumb{text: "Home", url: "/"},
-        %Util.Breadcrumb{text: "First", url: "/first"}
-      ]
-
-      conn = Conn.assign(conn, :breadcrumbs_title, breadcrumbs)
-
-      breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
-      assert breadcrumbs == "First | MBTA"
-    end
-
     test "returns the MBTA's full name when breadcrumbs are empty", %{conn: conn} do
       conn = Conn.assign(conn, :breadcrumbs, [])
       breadcrumbs = conn |> title_breadcrumbs |> IO.iodata_to_binary()
