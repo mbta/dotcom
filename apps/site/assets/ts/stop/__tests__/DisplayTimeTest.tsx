@@ -5,16 +5,19 @@ import { PredictionWithTimestamp } from "../../models/perdictions";
 import { DepartureInfo } from "../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { Route, Trip } from "../../__v3api";
-import { set } from "lodash";
 
-const schedule = {} as ScheduleWithTimestamp;
+const schedule = { time: new Date() } as ScheduleWithTimestamp;
 const prediction = {} as PredictionWithTimestamp;
 const departureWithoutPrediction: DepartureInfo = {
   schedule,
   route: {} as Route,
   trip: {} as Trip
 };
-const departureWithPrediction: DepartureInfo = { ...schedule, prediction };
+const departureWithPrediction: DepartureInfo = Object.assign(
+  {},
+  departureWithoutPrediction,
+  { prediction }
+);
 
 describe("DisplayTime", () => {
   it("shows predictions with realtime icon", () => {
@@ -34,27 +37,22 @@ describe("DisplayTime", () => {
   describe("shows times", () => {
     it("with tomorrow indication", () => {
       const dateNow = new Date();
-      render(
-        <DisplayTime
-          departure={set(
-            { ...departureWithoutPrediction },
-            "schedule.time",
-            dateNow
-          )}
-          isCR={false}
-        />
-      );
+      render(<DisplayTime departure={departureWithPrediction} isCR={false} />);
       expect(screen.queryByText("Tomorrow")).toBeFalsy();
 
       const dateTomorrow = new Date(dateNow);
       dateTomorrow.setDate(dateTomorrow.getDate() + 1);
       render(
         <DisplayTime
-          departure={set(
-            { ...departureWithoutPrediction },
-            "schedule.time",
-            dateTomorrow
-          )}
+          departure={
+            {
+              ...departureWithPrediction,
+              schedule: {
+                ...departureWithPrediction.schedule,
+                time: dateTomorrow
+              }
+            } as DepartureInfo
+          }
           isCR={false}
         />
       );
@@ -63,11 +61,12 @@ describe("DisplayTime", () => {
     it("with track name", () => {
       render(
         <DisplayTime
-          departure={set(
-            { ...departureWithPrediction },
-            "prediction.track",
-            "9"
-          )}
+          departure={
+            {
+              ...departureWithPrediction,
+              prediction: { ...departureWithPrediction.prediction, track: "9" }
+            } as DepartureInfo
+          }
           isCR={true}
         />
       );
@@ -79,12 +78,10 @@ describe("DisplayTime", () => {
         schedule: { time: scheduledDateTime } as ScheduleWithTimestamp
       } as DepartureInfo;
       const predictedDateTime = new Date("2023-06-01T09:27:00-04:00");
-      const withScheduleAndPrediction: DepartureInfo = set(
-        { ...withSchedule },
-        "prediction.time",
-        predictedDateTime
-      );
-
+      const withScheduleAndPrediction = {
+        ...withSchedule,
+        prediction: { time: predictedDateTime }
+      } as DepartureInfo;
       render(<DisplayTime departure={withScheduleAndPrediction} isCR={true} />);
       expect(screen.queryByText("9:27 AM")).toBeTruthy();
       expect(screen.queryByText("9:24 AM")).toBeFalsy();

@@ -44,7 +44,7 @@ const toRouteMode = (
 
 const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
   // If there isn't a prediction there should be a schedule
-  return departureInfo.prediction
+  return departureInfo.prediction && departureInfo.prediction.time
     ? departureInfo.prediction.time
     : departureInfo.schedule!.time;
 };
@@ -112,7 +112,7 @@ const mergeIntoDepartureInfo = (
   const departureInfos = concat(scheduleDirectionInfo, predictionDirectionInfo);
   const sortedDepartureInfo = sortBy(departureInfos, di => {
     // prioritize sorting by predictions
-    if (di.prediction) {
+    if (di.prediction && di.prediction.time) {
       return di.prediction.time;
     }
     return di.schedule?.time;

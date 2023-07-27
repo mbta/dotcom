@@ -99,6 +99,7 @@ export const isDelayed = (
   return (
     !!schedule &&
     !!prediction &&
+    !!prediction.time &&
     // Is the prediction meaningfully after the schedule
     differenceInSeconds(prediction.time, schedule.time) > maxDifferenceInSeconds
   );

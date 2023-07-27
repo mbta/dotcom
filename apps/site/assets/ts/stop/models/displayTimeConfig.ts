@@ -97,7 +97,7 @@ const infoToDisplayTime = (
     const predictionTime = departureInfo1.prediction!.time;
     return [
       {
-        displayString: `${formatToBostonTime(predictionTime, formatOverride)}`,
+        displayString: `${formatToBostonTime(predictionTime!, formatOverride)}`,
         isBolded: true,
         // only predictions can be delayed
         isPrediction: true,

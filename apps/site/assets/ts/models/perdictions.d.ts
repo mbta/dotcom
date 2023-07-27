@@ -2,7 +2,7 @@ import { DirectionId, Prediction, Route, Stop, Trip } from "../__v3api";
 
 export interface PredictionWithTimestamp extends Omit<Prediction, "time"> {
   id: string;
-  time: Date;
+  time: Date | null;
   route: Route;
   stop: Stop;
   trip: Trip;

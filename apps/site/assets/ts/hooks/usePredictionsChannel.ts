@@ -60,9 +60,7 @@ export const parsePrediction = (
   departure_time: prediction.departure_time
     ? new Date(prediction.departure_time)
     : null,
-  // backend removes all predictions with a null departure_time
-  // so this is always populated
-  time: new Date(prediction.time!)
+  time: prediction.time ? new Date(prediction.time) : null
 });
 
 interface PredictionsChannelArgs {
