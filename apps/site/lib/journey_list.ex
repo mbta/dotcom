@@ -70,8 +70,26 @@ defmodule JourneyList do
       |> Enum.filter(&Journey.has_departure_prediction?/1)
       |> from_journeys(:predictions_then_schedules, nil, true)
 
-    %{journey_list | journeys: Enum.take(journey_list.journeys, 5)}
+    next_five =
+      journey_list.journeys
+      |> Enum.reject(&(&1.departure.prediction.schedule_relationship in [:cancelled, :skipped]))
+      |> Enum.reject(&missing_prediction_time_unless_recent_departure/1)
+      |> Enum.take(5)
+
+    %{journey_list | journeys: next_five}
   end
+
+  # nil prediction times usually mean vehicles having departed in the past, but
+  # we can still show them if they're marked with the "Departed" status
+  defp missing_prediction_time_unless_recent_departure(%Journey{
+         departure: %{
+           prediction: %{time: nil, status: status}
+         }
+       }) do
+    status !== "Departed"
+  end
+
+  defp missing_prediction_time_unless_recent_departure(_), do: false
 
   @spec build_journeys([schedule_or_pair], [Prediction.t()], opt_string, opt_string) :: [
           Journey.t()

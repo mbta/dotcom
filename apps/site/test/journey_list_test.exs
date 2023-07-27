@@ -916,13 +916,21 @@ defmodule JourneyListTest do
 
     test "handles predictions not associated with a trip on different routes" do
       stop = %Stop{id: "stop1"}
-      prediction = %Prediction{id: "pred", route: @route, stop: stop, status: "2 stops away"}
+
+      prediction = %Prediction{
+        id: "pred",
+        route: @route,
+        stop: stop,
+        status: "2 stops away",
+        time: Util.now() |> Timex.shift(minutes: 15)
+      }
 
       other_prediction = %Prediction{
         id: "other pred",
         route: %Route{id: "other"},
         stop: stop,
-        status: "1 stop away"
+        status: "1 stop away",
+        time: Util.now() |> Timex.shift(minutes: 7)
       }
 
       result =
