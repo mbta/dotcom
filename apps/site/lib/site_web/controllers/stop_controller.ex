@@ -68,7 +68,7 @@ defmodule SiteWeb.StopController do
       routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
 
       conn
-      |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
+      |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
       |> meta_description(stop, routes_by_stop)
       |> render("show-redesign.html", %{
         stop_id: stop_id,
@@ -134,7 +134,7 @@ defmodule SiteWeb.StopController do
         |> assign(:routes_with_direction, json_safe_route_with_direction)
         |> assign(:routes_and_alerts, routes_and_alerts)
         |> assign(:zone_number, stop.zone)
-        |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
+        |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
         |> assign(:tab, tab_value(query_params["tab"]))
         |> async_assign_default(
           :retail_locations,

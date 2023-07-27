@@ -53,11 +53,6 @@ defmodule Util.BreadcrumbHTML do
   end
 
   @spec title_breadcrumbs(%Plug.Conn{}) :: Phoenix.HTML.Safe.t()
-  def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs_title: title}})
-      when length(title) > 0 do
-    do_title_breadcrumbs(title)
-  end
-
   def title_breadcrumbs(%Plug.Conn{assigns: %{breadcrumbs: breadcrumbs}})
       when length(breadcrumbs) > 0 do
     do_title_breadcrumbs(breadcrumbs)
