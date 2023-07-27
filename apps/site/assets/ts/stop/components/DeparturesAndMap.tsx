@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState
 } from "react";
-import { chain, concat, filter } from "lodash";
+import { chain, concat, filter, uniqBy } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { Alert, DirectionId, Route, Stop } from "../../__v3api";
 import StopPageDepartures from "./StopPageDepartures";
@@ -133,8 +133,12 @@ const DeparturesAndMap = ({
   /** TODO: Filter by selected trip. Blocked by being unable to match
    * schedule/prediction shape IDs with route canonical shape IDs */
   const shapeForSelection = departureFilters
-    ? routesWithPolylines.find(route => route.id === departureFilters.route.id)
-        ?.polylines
+    ? uniqBy(
+        routesWithPolylines.find(
+          route => route.id === departureFilters.route.id
+        )?.polylines,
+        "id"
+      )
     : [];
 
   const vehiclesForSelectedRoute = useVehiclesChannel(
