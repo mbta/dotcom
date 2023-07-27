@@ -35,11 +35,27 @@ export const isAmenityAlert = ({ effect }: Alert): boolean =>
     "bike_issue"
   ].includes(effect);
 
+export const alertsForRoute = (alerts: Alert[], routeId: string): Alert[] => {
+  return alerts.filter(
+    ({ informed_entity: entities }: Alert): boolean =>
+      !!(entities.route && entities.route.some((id: string) => id === routeId))
+  );
+};
+
 export const alertsByStop = (alerts: Alert[], stopId: StopId): Alert[] =>
   alerts.filter(
     ({ informed_entity: entities }: Alert): boolean =>
-      !!entities.stop && entities.stop!.some((id: StopId) => id === stopId)
+      !!(entities.stop && entities.stop.some((id: StopId) => id === stopId))
   );
+
+export const alertsForStopAndRoute = (
+  alerts: Alert[],
+  stopId: StopId,
+  routeId: string
+): Alert[] => {
+  const stopAlerts = alertsByStop(alerts, stopId);
+  return alertsForRoute(stopAlerts, routeId);
+};
 
 export const alertsByActivity = (
   alerts: Alert[],
@@ -185,6 +201,9 @@ const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "new" ||
   lifecycle === "ongoing" ||
   lifecycle === "ongoing_upcoming";
+
+export const isUpcomingOrCurrentLifecycle = (alert: Alert): boolean =>
+  alert.lifecycle === "upcoming" || isCurrentLifecycle(alert);
 
 export const isInNextXDays = (
   alert: Alert,

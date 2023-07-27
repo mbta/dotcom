@@ -129,7 +129,7 @@ describe("DepartureList", () => {
     );
   });
 
-  it("renders alert cards when alert is detour, suspension, or shuttle", () => {
+  it("renders alert cards", () => {
     const alerts = [
       {
         id: "1234",
@@ -151,13 +151,6 @@ describe("DepartureList", () => {
           direction_id: [1]
         },
         effect: "detour"
-      },
-      {
-        id: "1234",
-        informed_entity: {
-          direction_id: [0]
-        },
-        effect: "delay"
       }
     ] as Alert[];
     render(

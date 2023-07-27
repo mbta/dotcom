@@ -1,19 +1,12 @@
 import React, { ReactElement } from "react";
-import { concat, filter } from "lodash";
+import { filter } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { DepartureInfo } from "../../models/departureInfo";
 import { SUBWAY } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
-import {
-  alertsByRoute,
-  alertsByStop,
-  allAlertsForDirection,
-  hasSuspension,
-  isInNextXDays,
-  isHighPriorityAlert
-} from "../../models/alert";
+import { hasSuspension } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 import { getInfoKey } from "../models/displayTimeConfig";
 import DisplayTime from "./DisplayTime";
@@ -48,14 +41,6 @@ const DepartureList = ({
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const tripForSelectedRoutePattern: Trip | undefined = departures[0]?.trip;
   const isCR = isACommuterRailRoute(route);
-  const groupedAlerts = alertsByRoute(alerts);
-  const alertsForRoute = groupedAlerts[route.id] || [];
-
-  const routeAlerts = allAlertsForDirection(alertsForRoute, directionId);
-  const stopAlerts = alertsByStop(alerts, stop.id);
-  const allCurrentAlerts = concat(routeAlerts, stopAlerts).filter(alert => {
-    return isHighPriorityAlert(alert) && isInNextXDays(alert, 0);
-  });
 
   // don's show cancelled departures for subway
   const modeSpecificDepartures: DepartureInfo[] = filter(
@@ -83,9 +68,9 @@ const DepartureList = ({
         <div className="departure-list__origin-stop-name">{stop.name} to</div>
         <div className="departure-list__headsign">{headsign}</div>
       </h2>
-      {allCurrentAlerts.length ? <Alerts alerts={allCurrentAlerts} /> : null}
+      {alerts.length ? <Alerts alerts={alerts} /> : null}
       {departures.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern && !hasSuspension(allCurrentAlerts) && (
+      {tripForSelectedRoutePattern && !hasSuspension(alerts) && (
         <ul className="stop-routes__departures list-unstyled">
           {modeSpecificDepartures.map(departure => {
             return (
