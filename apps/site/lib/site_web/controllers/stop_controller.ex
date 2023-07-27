@@ -65,15 +65,19 @@ defmodule SiteWeb.StopController do
         |> URI.decode_www_form()
         |> Repo.get()
 
-      routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+      if stop do
+        routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
 
-      conn
-      |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
-      |> meta_description(stop, routes_by_stop)
-      |> render("show-redesign.html", %{
-        stop_id: stop_id,
-        routes_by_stop: routes_by_stop
-      })
+        conn
+        |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
+        |> meta_description(stop, routes_by_stop)
+        |> render("show-redesign.html", %{
+          stop_id: stop_id,
+          routes_by_stop: routes_by_stop
+        })
+      else
+        check_cms_or_404(conn)
+      end
     else
       show_old(conn, params)
     end
