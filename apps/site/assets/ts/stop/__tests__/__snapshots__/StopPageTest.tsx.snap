@@ -3,39 +3,6 @@
 exports[`it renders 1`] = `
 Array [
   <div
-    className="breadcrumb-container"
-  >
-    <div
-      className="container"
-    >
-      <span
-        className="focusable-sm-down"
-      >
-        <a
-          href="/"
-        >
-          Home
-        </a>
-        <i
-          aria-hidden="true"
-          className="fa fa-angle-right"
-        />
-      </span>
-      <span>
-        <a
-          href="/stops/subway"
-        >
-          Stations
-        </a>
-        <i
-          aria-hidden="true"
-          className="fa fa-angle-right"
-        />
-      </span>
-      South Station
-    </div>
-  </div>,
-  <div
     className="m-stop-page__header"
   >
     <div
