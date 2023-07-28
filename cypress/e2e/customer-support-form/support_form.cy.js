@@ -58,7 +58,7 @@ describe("Customer Support Form", () => {
     let comment, first_name, last_name, email, phone;
 
     beforeEach(() => {
-      cy.intercept("POST", "/customer-support").as("submitForm");
+      cy.intercept("POST", "/customer-support").as("submitForm", { type: "static" });
       comment = faker.hacker.phrase();
       first_name = faker.name.firstName();
       last_name = faker.name.lastName();

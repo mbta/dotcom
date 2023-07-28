@@ -61,10 +61,10 @@ Cypress.Commands.add("selectRandomServiceAndSubject", () => {
       cy.get("#support_subject").select(subject);
       cy.get('[name="support[service]"]:checked')
         .invoke("val")
-        .as("selectedService");
+        .as("selectedService", { type: "static" });
       cy.get("#support_subject option:selected")
         .invoke("text")
-        .as("selectedSubject");
+        .as("selectedSubject", { type: "static" });
     });
 });
 
