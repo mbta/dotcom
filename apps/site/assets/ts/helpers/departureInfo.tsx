@@ -158,11 +158,12 @@ const departuresListFromInfos = (
   const predictionTimeCutoff = chain(departureInfos)
     .filter(d => d.routeMode === SUBWAY)
     .maxBy("prediction.time")
-    .value()?.prediction?.time;
+    .value()?.prediction!.time;
 
   return chain(departureInfos)
     .omitBy(
       ({ prediction, schedule }) =>
+        // omit schedule-only departures that are before latest prediction time
         predictionTimeCutoff &&
         !prediction &&
         schedule &&
