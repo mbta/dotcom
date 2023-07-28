@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useLayoutEffect } from "react";
 import { uniqBy } from "lodash";
 import deepEqual from "fast-deep-equal/react";
 import {
@@ -59,6 +59,15 @@ const Component = ({
     zoom
   }
 }: Props): ReactElement<HTMLElement> | null => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mapRef = React.createRef<any>();
+  useLayoutEffect(() => {
+    if (mapRef.current && mapRef.current.leafletElement) {
+      // tells Leaflet to redraw the map
+      mapRef.current.leafletElement.invalidateSize();
+    }
+  }, [mapRef]);
+
   if (typeof window !== "undefined" && tileServerUrl !== "") {
     /* eslint-disable */
     const leaflet: typeof Leaflet = require("react-leaflet");
@@ -74,8 +83,7 @@ const Component = ({
     const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
     const position = mapCenter(markers, defaultCenter);
     const nonNullZoom = zoom === null ? undefined : zoom;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const mapRef = React.createRef<any>();
+
     const onTilesLoaded = (): void => {
       mapRef.current.container.parentElement.classList += " map--loaded";
     };
