@@ -1,4 +1,5 @@
 import { Channel, Socket } from "phoenix";
+import { waitFor } from "@testing-library/react";
 import setupChannels, {
   isVehicleChannel,
   joinChannel,
@@ -10,7 +11,7 @@ import {
 } from "../../helpers/socketTestHelpers";
 
 const mockOnLoadEventListener = () => {
-  // because the turbolinks:load event doesn't fire outside the browser, run in manually here
+  // because the turbolinks:load event doesn't fire outside the browser, run it manually here
   const ev = new CustomEvent("turbolinks:load");
   document.dispatchEvent(ev);
 };
@@ -115,6 +116,33 @@ describe("setupChannels", () => {
     expect(console.log).toHaveBeenCalledWith("success joining vehicles:Red:0");
 
     consoleMock.mockRestore();
+  });
+
+  it("responds to socket being closed", async () => {
+    // needed to suppress JSDOM Not implemented error
+    Object.defineProperty(global.window, "location", {
+      get: () => ({
+        protocol: "http:", // avoid throwing error in phoenix.js
+        reload: reloadMock
+      })
+    });
+
+    const reloadMock = jest.fn();
+    const consoleMock = jest.spyOn(console, "log").mockImplementation(() => {});
+
+    setupChannels();
+    //@ts-ignore: phoenix.js isn't properly typed. and technically this is a
+    //private property. force the WebSocket closed!
+    window.socket.conn.close();
+
+    await waitFor(() => {
+      expect(reloadMock).toHaveBeenCalled();
+      expect(consoleMock).toHaveBeenCalledWith(
+        "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
+      );
+    });
+
+    jest.restoreAllMocks();
   });
 });
 

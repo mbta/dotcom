@@ -84,6 +84,15 @@ const leaveChannel = (id: string): void => {
 
 const setupChannels = (): void => {
   window.socket = new Socket("/socket", {});
+  window.socket.onClose(event => {
+    if (event.type === "close" && !event.wasClean) {
+      // eslint-disable-next-line no-console
+      console.log(
+        "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
+      );
+      window.location.reload();
+    }
+  });
   window.socket.connect();
   window.channels = {};
 
