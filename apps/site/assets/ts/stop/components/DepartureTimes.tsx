@@ -132,9 +132,10 @@ const departureTimeRow = (
             formattedTimes.length > 0 &&
             alertBadgeWrapper(alertClass, alertBadge!)}
           {(hasShuttleService(alerts) ||
+            hasSuspension(alerts) ||
             (hasDetour(alerts) && formattedTimes.length === 0)) && (
             <>
-              <div style={{ float: "right" }}>See Alternatives</div>
+              <div style={{ float: "right" }}>See alternatives</div>
               <br />
               {alertBadgeWrapper(alertClass, alertBadge!)}
             </>

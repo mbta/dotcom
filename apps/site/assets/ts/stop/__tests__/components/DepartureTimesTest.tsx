@@ -134,6 +134,7 @@ describe("DepartureTimes", () => {
         />
       );
       expect(screen.getByText(expectedBadge)).toBeDefined();
+      expect(screen.getByText("See alternatives")).toBeDefined();
     }
   );
 
@@ -174,6 +175,7 @@ describe("DepartureTimes", () => {
     );
     expect(screen.getByText("No Service")).toBeDefined();
     expect(screen.queryByText("Detour")).toBeNull();
+    expect(screen.getByText("See alternatives")).toBeDefined();
   });
 
   it("should display the detour badge with times if detour alert is present", () => {
@@ -224,6 +226,7 @@ describe("DepartureTimes", () => {
 
     expect(screen.getByText("Detour")).toBeDefined();
     expect(screen.getByText("45 min")).toBeDefined();
+    expect(screen.queryByText("See alternatives")).toBeNull();
   });
 
   describe("getNextTwoTimes", () => {
