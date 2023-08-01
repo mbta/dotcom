@@ -4,7 +4,7 @@ Common test suites developers might want to run:
 
 * `mix test` — Elixir tests
   * `mix test --exclude wallaby` - Excludes the integration tests
-  * `mix test --only wallaby` - Runs only the integration tests. This depends on having chromedriver installed, which can be installed via `bash scripts/setup_chromedriver.sh`
+  * `mix test --only wallaby` - Runs only the integration tests. This depends on having chromedriver and Google Chrome installed.
 * `npm run --prefix apps/site/assets mocha && npm run --prefix apps/site/assets jest` — all of the JavaScript tests
 
 
