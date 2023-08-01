@@ -13,6 +13,7 @@ defmodule Predictions.PredictionsPubSub do
   alias Stops.Stop
 
   @valid_filters ["route", "stop", "direction", "trip"]
+  @broadcast_interval_ms Application.compile_env!(:predictions, [:broadcast_interval_ms])
 
   @type direction_id_t :: 0 | 1
   @type table_t :: :ets.table()
@@ -50,6 +51,7 @@ defmodule Predictions.PredictionsPubSub do
     table = :ets.new(:predictions_store, [:public])
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
     subscribe_fn.(Predictions.PubSub, "predictions")
+    broadcast_timer(@broadcast_interval_ms)
     {:ok, %{ets: table}}
   end
 
@@ -57,7 +59,6 @@ defmodule Predictions.PredictionsPubSub do
   def handle_call({:subscribe, keys}, _from, %{ets: table}) do
     registry_key = self()
     predictions = predictions_for_keys(table, keys)
-
     {:reply, {registry_key, predictions}, %{ets: table}}
   end
 
@@ -65,7 +66,6 @@ defmodule Predictions.PredictionsPubSub do
   def handle_info({event, predictions}, %{ets: table}) when event in [:add, :update, :reset] do
     # inserts will overwrite existing matching prediction IDs
     _ = :ets.insert(table, Enum.map(predictions, &to_record/1))
-    broadcast(%{ets: table})
     {:noreply, %{ets: table}}
   end
 
@@ -74,8 +74,18 @@ defmodule Predictions.PredictionsPubSub do
       :ets.delete(table, id)
     end
 
-    broadcast(%{ets: table})
     {:noreply, %{ets: table}}
+  end
+
+  def handle_info(:broadcast, state) do
+    registry_key = self()
+
+    Registry.dispatch(:prediction_subscriptions_registry, registry_key, fn entries ->
+      Enum.each(entries, &send_data(&1, state))
+    end)
+
+    broadcast_timer(@broadcast_interval_ms)
+    {:noreply, state}
   end
 
   @spec table_keys(String.t()) :: [
@@ -114,15 +124,6 @@ defmodule Predictions.PredictionsPubSub do
     :ets.select(table, [{match_pattern, [], [:"$1"]}])
   end
 
-  @spec broadcast(state()) :: :ok
-  defp broadcast(state) do
-    registry_key = self()
-
-    Registry.dispatch(:prediction_subscriptions_registry, registry_key, fn entries ->
-      Enum.each(entries, &send_data(&1, state))
-    end)
-  end
-
   @spec send_data({pid, String.t()}, state) :: broadcast_message()
   defp send_data({pid, keys}, %{ets: table}) do
     new_predictions = predictions_for_keys(table, keys)
@@ -133,5 +134,9 @@ defmodule Predictions.PredictionsPubSub do
     {prediction.id, prediction.route.id, prediction.stop.id,
      if(is_integer(prediction.direction_id), do: Integer.to_string(prediction.direction_id)),
      if(prediction.trip, do: prediction.trip.id, else: nil), prediction.vehicle_id, prediction}
+  end
+
+  defp broadcast_timer(interval) do
+    Process.send_after(self(), :broadcast, interval)
   end
 end
