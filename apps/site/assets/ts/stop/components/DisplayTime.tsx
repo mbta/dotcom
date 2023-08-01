@@ -23,8 +23,8 @@
   |------|--------------------|    |------|-----------------------------|
  */
 
-import React, { ReactElement, createContext, useContext } from "react";
-import { differenceInSeconds, isTomorrow, secondsInHour } from "date-fns";
+import React, { ReactElement } from "react";
+import { isTomorrow } from "date-fns";
 import { DepartureInfo } from "../../models/departureInfo";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
@@ -39,106 +39,6 @@ interface DisplayTimeProps {
   isCR: boolean;
   targetDate?: Date | undefined;
 }
-export interface DepartureContextProps extends DisplayTimeProps {
-  time: Date | undefined;
-  isLessThanHourAway: boolean | undefined;
-}
-
-/**
- * This context is meant to capture some of the values that affect the UI design
- * so we populate it with a few extra values to avoid recalculation
- */
-export const DepartureContext = createContext<DepartureContextProps>({
-  departure: {} as DepartureInfo,
-  time: undefined,
-  isCR: false,
-  isLessThanHourAway: false,
-  targetDate: new Date()
-});
-
-function TimeCountdown(): JSX.Element {
-  const { time, isCR, targetDate } = useContext(DepartureContext);
-  return (
-    <BasicTime
-      displayType={isCR ? "absolute" : "relative"}
-      time={time}
-      targetDate={targetDate}
-    />
-  );
-}
-
-function DelayedTimeCountdown(): JSX.Element {
-  const { time, isCR, isLessThanHourAway, targetDate } = useContext(
-    DepartureContext
-  );
-  return (
-    <>
-      {!isLessThanHourAway && "Delayed "}
-      <BasicTime
-        displayType={isCR ? "absolute" : "relative"}
-        time={time}
-        strikethrough={false}
-        targetDate={targetDate}
-      />
-    </>
-  );
-}
-
-function BaseTimeDetails(): JSX.Element {
-  const { departure, time, isCR } = useContext(DepartureContext);
-  const track = departure?.prediction?.track;
-  const trackName = isCR && !!track && `Track ${track}`;
-  const tomorrow = !!time && isTomorrow(time);
-  // Prioritize displaying Tomorrow over track name if both are present
-  return <>{tomorrow ? "Tomorrow" : trackName || null}</>;
-}
-
-function DelayedTimeDetails(): JSX.Element {
-  const { departure, isLessThanHourAway, isCR, targetDate } = useContext(
-    DepartureContext
-  );
-  const { prediction, schedule } = departure;
-  const strikedthroughSchedule = (
-    <BasicTime
-      displayType="absolute"
-      time={schedule!.time}
-      targetDate={targetDate}
-      strikethrough
-    />
-  );
-  if (isLessThanHourAway && isCR) return strikedthroughSchedule;
-  if (!isLessThanHourAway) return strikedthroughSchedule;
-  return (
-    <>
-      {"Delayed "}
-      <BasicTime
-        displayType="absolute"
-        time={prediction!.time}
-        targetDate={targetDate}
-      />{" "}
-      {strikedthroughSchedule}
-    </>
-  );
-}
-
-const CancelledTimeDetails = (): JSX.Element => {
-  const { time, targetDate } = useContext(DepartureContext);
-
-  return (
-    <>
-      <div className="d-flex justify-content-space-between text-danger">
-        <s>
-          <BasicTime
-            displayType="absolute"
-            time={time}
-            targetDate={targetDate}
-          />
-        </s>
-        <div>Cancelled</div>
-      </div>
-    </>
-  );
-};
 
 /**
  * Renders a UI element composing several different aspects of a "departure"
@@ -155,42 +55,57 @@ const DisplayTime = ({
   isCR,
   targetDate
 }: DisplayTimeProps): ReactElement<HTMLElement> | null => {
+  const { isCancelled, isDelayed, routeMode, schedule, prediction } = departure;
+  const isDelayedAndDisplayed = isDelayed && routeMode !== "subway";
   const time = departureInfoToTime(departure);
-  const isDelayedAndDisplayed =
-    departure.isDelayed && departure.routeMode !== "subway";
-  const isCancelled = departure?.isCancelled;
-  const isLessThanHourAway = time
-    ? differenceInSeconds(time, new Date()) < secondsInHour
-    : undefined;
+  const track = prediction?.track;
+  const trackName = isCR && !!track && `Track ${track}`;
+  const tomorrow = !!time && isTomorrow(time);
+
   return (
-    <DepartureContext.Provider
-      value={{ time, isLessThanHourAway, departure, isCR, targetDate }}
-    >
+    <>
       <div>
         {displayInfoContainsPrediction(departure) &&
+          !isCancelled &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
       </div>
-      {isCancelled && (
-        <div>
-          <CancelledTimeDetails />
+      {isCancelled && schedule ? (
+        <div className="fs-14">
+          Cancelled{" "}
+          <BasicTime
+            displayType="absolute"
+            time={schedule.time}
+            targetDate={targetDate}
+            strikethrough
+          />
         </div>
-      )}
-      {!isCancelled && (
+      ) : (
         <>
           <div className="stop-routes__departures-time">
-            {isDelayedAndDisplayed ? (
-              <DelayedTimeCountdown />
-            ) : (
-              <TimeCountdown />
-            )}
+            <BasicTime
+              displayType={isCR ? "absolute" : "relative"}
+              time={time}
+              targetDate={targetDate}
+            />
           </div>
           <div className="stop-routes__departures-details fs-14">
-            {isDelayedAndDisplayed && <DelayedTimeDetails />}{" "}
-            <BaseTimeDetails />
+            {isDelayedAndDisplayed && schedule && (
+              <>
+                Delayed{" "}
+                <BasicTime
+                  displayType="absolute"
+                  time={schedule.time}
+                  targetDate={targetDate}
+                  strikethrough
+                />
+              </>
+            )}{" "}
+            {/* Prioritize displaying Tomorrow over track name if both are present */}
+            {tomorrow ? "Tomorrow" : trackName || null}
           </div>
         </>
       )}
-    </DepartureContext.Provider>
+    </>
   );
 };
 
