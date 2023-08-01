@@ -144,6 +144,39 @@ describe("setupChannels", () => {
 
     jest.restoreAllMocks();
   });
+
+  describe("responds to visibilitychange event", () => {
+    beforeEach(() => {
+      setupChannels();
+      mockOnLoadEventListener();
+    });
+
+    it("joins channels when visible", () => {
+      window.channels = {};
+      // mock document.hidden = false
+      Object.defineProperty(document, "hidden", {
+        configurable: true,
+        get: function() {
+          return false;
+        }
+      });
+      document.dispatchEvent(new Event("visibilitychange"));
+      expect(window.channels["vehicles:Red:0"]).toBeDefined();
+    });
+
+    it("leaves channels when not visible", () => {
+      expect(window.channels["vehicles:Red:0"]).toBeDefined();
+      // mock document.hidden = true
+      Object.defineProperty(document, "hidden", {
+        configurable: true,
+        get: function() {
+          return true;
+        }
+      });
+      document.dispatchEvent(new Event("visibilitychange"));
+      expect(window.channels["vehicles:Red:0"]).toBeUndefined();
+    });
+  });
 });
 
 describe("joinChannel", () => {

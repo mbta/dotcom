@@ -1,5 +1,6 @@
-import { useReducer, useEffect, Reducer } from "react";
+import { useReducer, useEffect, Reducer, useLayoutEffect } from "react";
 import { joinChannel, leaveChannel } from "../app/channels";
+import { usePageVisibility } from "./usePageVisibility";
 
 // extract the state and action types from the given reducer
 // is there a way to do this without using "any"?
@@ -44,6 +45,22 @@ function useChannel<
       }
     };
   }, [channelId]);
+
+  const isVisible = usePageVisibility();
+  useLayoutEffect(() => {
+    if (channelId !== null) {
+      if (!isVisible) {
+        leaveChannel(channelId);
+      } else {
+        joinChannel<OnDataEventType[]>(channelId, dispatch);
+      }
+    }
+    return () => {
+      if (channelId !== null) {
+        leaveChannel(channelId);
+      }
+    };
+  }, [isVisible, channelId]);
 
   useEffect(() => {
     // Set up an event listener to listen to the channel's custom event
