@@ -166,7 +166,7 @@ $radius: 4px;
 
   @include media-breakpoint-down(sm) {
     height: unset;
-    max-height: 425px;
+    max-height: 36vh;
   }
 
   .departure-card {
