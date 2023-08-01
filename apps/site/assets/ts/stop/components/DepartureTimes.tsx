@@ -21,7 +21,7 @@ import { breakTextAtSlash } from "../../helpers/text";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
-    return <Badge text="Stop Closed" contextText="Route Status" />;
+    return <Badge text="No Service" contextText="Route Status" />;
   }
 
   if (hasShuttleService(alerts)) {
@@ -37,6 +37,17 @@ const toInformativeAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   }
 
   return undefined;
+};
+
+const alertBadgeWrapper = (
+  alertClass: string,
+  alertBadge: JSX.Element
+): JSX.Element => {
+  return (
+    <div className={alertClass} style={{ float: "right" }}>
+      {alertBadge}
+    </div>
+  );
 };
 
 const departureTimeClasses = (
@@ -95,6 +106,7 @@ const departureTimeRow = (
   headsignName: string,
   formattedTimes: DisplayTimeConfig[],
   isCR: Boolean,
+  alerts: Alert[],
   alertBadge?: JSX.Element
 ): JSX.Element => {
   let alertClass = "";
@@ -110,14 +122,23 @@ const departureTimeRow = (
       <div className="departure-card__headsign-name">
         {breakTextAtSlash(headsignName)}
       </div>
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-baseline">
         <div>
           {formattedTimes.length > 0
             ? displayFormattedTimes(formattedTimes, isCR)
             : !alertBadge && <div>No upcoming trips</div>}
-          <div className={alertClass} style={{ float: "right" }}>
-            {alertBadge}
-          </div>
+
+          {hasDetour(alerts) &&
+            formattedTimes.length > 0 &&
+            alertBadgeWrapper(alertClass, alertBadge!)}
+          {(hasShuttleService(alerts) ||
+            (hasDetour(alerts) && formattedTimes.length === 0)) && (
+            <>
+              <div style={{ float: "right" }}>See Alternatives</div>
+              <br />
+              {alertBadgeWrapper(alertClass, alertBadge!)}
+            </>
+          )}
         </div>
         <button
           type="button"
@@ -142,7 +163,7 @@ const getRow = (
     ? departures[0].routeMode === "commuter_rail"
     : false;
   if (alertBadge) {
-    return departureTimeRow(headsign, [], isCR, alertBadge);
+    return departureTimeRow(headsign, [], isCR, alerts, alertBadge);
   }
 
   // informative badges compliment the times being shown
@@ -155,6 +176,7 @@ const getRow = (
     headsign,
     formattedTimes,
     isCR,
+    alerts,
     informativeAlertBadge
   );
 };
@@ -211,7 +233,12 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
-            departureTimeRow(destination, [], route.type === 2)}
+            departureTimeRow(
+              destination,
+              [],
+              route.type === 2,
+              alertsForDirection
+            )}
         </div>
       )}
     </>

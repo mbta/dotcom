@@ -137,7 +137,7 @@ describe("DepartureCard", () => {
       />
     );
 
-    const suspensionBadges = screen.getAllByText("Stop Closed");
+    const suspensionBadges = screen.getAllByText("No Service");
     expect(suspensionBadges.length).toBe(2);
     expect(screen.queryByText("Shuttle Service")).toBeNull();
     expect(screen.queryByText("Detour")).toBeNull();

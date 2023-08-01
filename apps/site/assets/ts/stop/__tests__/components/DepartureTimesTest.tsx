@@ -101,7 +101,7 @@ describe("DepartureTimes", () => {
 
   it.each`
     alertEffect     | expectedBadge
-    ${"suspension"} | ${"Stop Closed"}
+    ${"suspension"} | ${"No Service"}
     ${"shuttle"}    | ${"Shuttle Service"}
   `(
     `displays $expectedBadge when high priority alert has effect $alertEffect`,
@@ -172,7 +172,7 @@ describe("DepartureTimes", () => {
         onClick={() => {}}
       />
     );
-    expect(screen.getByText("Stop Closed")).toBeDefined();
+    expect(screen.getByText("No Service")).toBeDefined();
     expect(screen.queryByText("Detour")).toBeNull();
   });
 
