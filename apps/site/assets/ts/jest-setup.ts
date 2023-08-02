@@ -1,1 +1,3 @@
-import "@testing-library/jest-dom"; // eslint-disable-line
+/* eslint-disable */
+import "@testing-library/jest-dom";
+import "jest-extended/all";
