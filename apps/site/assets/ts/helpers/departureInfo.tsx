@@ -11,7 +11,7 @@ import {
 } from "lodash";
 import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
-import { isCancelled, isDelayed } from "./prediction-helpers";
+import { isCancelled, isDelayed, isSkipped } from "./prediction-helpers";
 import { DepartureInfo } from "../models/departureInfo";
 import {
   isABusRoute,
@@ -44,7 +44,7 @@ const toRouteMode = (
 
 const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
   // If there isn't a prediction there should be a schedule
-  return departureInfo.prediction
+  return departureInfo.prediction && departureInfo.prediction.time
     ? departureInfo.prediction.time
     : departureInfo.schedule!.time;
 };
@@ -82,6 +82,7 @@ const mergeIntoDepartureInfo = (
         route: schedule.route,
         trip: schedule.trip,
         isCancelled: isCancelled(prediction),
+        isSkipped: isSkipped(prediction),
         isDelayed: isDelayed(prediction, schedule),
         routeMode: toRouteMode(schedule.route)
       };
@@ -102,6 +103,7 @@ const mergeIntoDepartureInfo = (
         route: prediction.route,
         trip: prediction.trip,
         isCancelled: isCancelled(prediction),
+        isSkipped: isSkipped(prediction),
         routeMode: toRouteMode(prediction.route)
       } as DepartureInfo;
     }
@@ -110,7 +112,7 @@ const mergeIntoDepartureInfo = (
   const departureInfos = concat(scheduleDirectionInfo, predictionDirectionInfo);
   const sortedDepartureInfo = sortBy(departureInfos, di => {
     // prioritize sorting by predictions
-    if (di.prediction) {
+    if (di.prediction && di.prediction.time) {
       return di.prediction.time;
     }
     return di.schedule?.time;
