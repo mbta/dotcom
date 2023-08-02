@@ -72,7 +72,7 @@ const BikeStorageAmenityCard = ({
               {hasPedalAndPark && (
                 <li>
                   Free Pedal and Park secured parking (requires{" "}
-                  <a href="https://www.mbta.com/fares/charliecard-and-charlieticket-online-services">
+                  <a href="/fares/charliecard-and-charlieticket-online-services">
                     CharlieCard{" "}
                   </a>
                   registration in advance)
