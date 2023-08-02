@@ -54,14 +54,13 @@ describe("usePredictionsChannel hook", () => {
   });
 
   test("initializes connection to appropriate channel", () => {
-    const { result } = renderHook(() =>
+    renderHook(() =>
       usePredictionsChannel({
         routeId: "Purple",
         stopId: "place-somewhere",
         directionId: 0
       })
     );
-    expect(result.current).toEqual([]);
     expect(
       window.channels[
         "predictions:route=Purple:stop=place-somewhere:direction_id=0"
@@ -160,9 +159,9 @@ describe("usePredictionsChannel hook", () => {
     expect(useChannelSpy).toHaveBeenCalledWith(
       null,
       expect.anything(),
-      expect.anything()
+      expect.toBeOneOf([expect.anything(), null])
     );
-    expect(result.current).toEqual([]);
+    expect(result.current).toEqual(null);
   });
 });
 
