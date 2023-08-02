@@ -35,6 +35,7 @@ interface DeparturesAndMapProps {
   stop: Stop;
   routesWithPolylines: RouteWithPolylines[];
   alerts: Alert[];
+  setPredictionError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type DepartureFilter = {
@@ -48,11 +49,18 @@ const DeparturesAndMap = ({
   routes,
   stop,
   routesWithPolylines,
-  alerts
+  alerts,
+  setPredictionError
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
   const { data: schedules } = useSchedulesByStop(stop.id);
   const predictions = usePredictionsChannel({ stopId: stop.id });
-  const departureInfos = mergeIntoDepartureInfo(schedules || [], predictions);
+  const departureInfos = mergeIntoDepartureInfo(
+    schedules || [],
+    predictions || []
+  );
+  useEffect(() => {
+    setPredictionError(predictions === null);
+  }, [setPredictionError, predictions]);
   const [realtimeAlerts, setRealtimeAlerts] = useState<Alert[]>([]);
   const [
     departureFilters,
