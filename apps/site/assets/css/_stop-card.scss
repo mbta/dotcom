@@ -303,24 +303,22 @@ $radius: 4px;
 }
 
 .back-to-routes {
-  align-items: center;
   background-color: $gray-bordered-background;
   border: .25px solid $gray-lighter;
   color: $brand-primary;
-  display: flex;
-  font-size: 1rem;
-  height: 2.5rem;
-  padding-left: .625rem;
-  text-decoration: underline;
-  text-underline-offset: .2rem;
-  :first-child {
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 400;
-    :first-child {
-      font-weight: 900;
-      padding-right: .5rem;
-    }
+
+  .btn {
+    align-items: baseline;
+    display: flex;
+    gap: .5em;
+    padding: $base-spacing-sm;
+    white-space: unset;
+  }
+
+  span {
+    text-align: left;
+    text-decoration: underline;
+    text-underline-offset: .2rem;
   }
 }
 
