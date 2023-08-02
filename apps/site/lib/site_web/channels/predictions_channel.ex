@@ -35,6 +35,8 @@ defmodule SiteWeb.PredictionsChannel do
     |> Enum.reject(&is_nil(&1.trip))
     # remove past predictions
     |> Enum.filter(&is_in_future?/1)
+    # remove predictions from terminal stops
+    |> Enum.reject(&is_at_terminal_stop?/1)
   end
 
   defp is_in_future?(%Prediction{time: %DateTime{} = dt}),
@@ -57,4 +59,21 @@ defmodule SiteWeb.PredictionsChannel do
   end
 
   defp is_in_future?(_), do: false
+
+  defp is_at_terminal_stop?(%Prediction{
+         arrival_time: arrival,
+         departure_time: departure,
+         stop_sequence: seq,
+         trip: %Schedules.Trip{id: trip_id}
+       }) do
+    case Schedules.Repo.schedule_for_trip(trip_id, stop_sequence: seq) do
+      [%Schedules.Schedule{last_stop?: is_last_stop}] ->
+        is_last_stop
+
+      [] ->
+        # This is a prediction without a schedule. Predictions for terminal
+        # stops likely have an arrival time but no departure
+        arrival && is_nil(departure)
+    end
+  end
 end
