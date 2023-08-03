@@ -1,4 +1,4 @@
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import { PredictionWithTimestamp } from "../../models/predictions";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import {
   COMMUTER_RAIL,

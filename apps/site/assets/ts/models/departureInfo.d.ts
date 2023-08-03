@@ -1,5 +1,5 @@
 import { Route, Trip } from "../__v3api";
-import { PredictionWithTimestamp } from "./perdictions";
+import { PredictionWithTimestamp } from "./predictions";
 import { ScheduleWithTimestamp } from "./schedules";
 
 // Represents a schedule with its linked prediction

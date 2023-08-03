@@ -6,7 +6,7 @@ import { baseRoute } from "../helpers";
 import { Alert, Route } from "../../../__v3api";
 import { DepartureInfo } from "../../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
-import { PredictionWithTimestamp } from "../../../models/perdictions";
+import { PredictionWithTimestamp } from "../../../models/predictions";
 import { mergeIntoDepartureInfo } from "../../../helpers/departureInfo";
 import { getNextTwoTimes } from "../../models/displayTimeConfig";
 

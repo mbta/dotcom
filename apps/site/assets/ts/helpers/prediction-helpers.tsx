@@ -4,7 +4,7 @@ import { PredictedOrScheduledTime } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
 import { TripPrediction } from "../schedule/components/__trips";
 import { compareStringTimes } from "./date";
-import { PredictionWithTimestamp } from "../models/perdictions";
+import { PredictionWithTimestamp } from "../models/predictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
 
 const delayForCommuterRail = (

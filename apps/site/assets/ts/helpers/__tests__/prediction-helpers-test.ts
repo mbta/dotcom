@@ -1,6 +1,6 @@
 import { isDelayed, statusForCommuterRail } from "../prediction-helpers";
 import { PredictedOrScheduledTime, Trip } from "../../__v3api";
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import { PredictionWithTimestamp } from "../../models/predictions";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 
 describe("statusForCommuterRail", () => {

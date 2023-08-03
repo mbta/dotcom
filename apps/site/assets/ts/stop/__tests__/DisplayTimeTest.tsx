@@ -1,7 +1,7 @@
 import React from "react";
 import DisplayTime from "../components/DisplayTime";
 import { render, screen } from "@testing-library/react";
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import { PredictionWithTimestamp } from "../../models/predictions";
 import { DepartureInfo } from "../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { Route, Trip } from "../../__v3api";

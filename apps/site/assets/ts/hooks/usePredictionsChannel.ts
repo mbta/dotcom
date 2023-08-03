@@ -8,7 +8,7 @@ import {
   Trip
 } from "../__v3api";
 import useChannel from "./useChannel";
-import { PredictionWithTimestamp } from "../models/perdictions";
+import { PredictionWithTimestamp } from "../models/predictions";
 
 /**
  * The format of a prediction emitted via websockets from
@@ -52,7 +52,8 @@ export const parsePrediction = (
     "schedule_relationship",
     "track",
     "status",
-    "vehicle_id"
+    "vehicle_id",
+    "stop_sequence"
   ]),
   arrival_time: prediction.arrival_time
     ? new Date(prediction.arrival_time)

@@ -9,7 +9,7 @@ import {
   map,
   sortBy
 } from "lodash";
-import { PredictionWithTimestamp } from "../models/perdictions";
+import { PredictionWithTimestamp } from "../models/predictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
 import { isCancelled, isDelayed, isSkipped } from "./prediction-helpers";
 import { DepartureInfo } from "../models/departureInfo";

@@ -5,7 +5,7 @@ import { baseRoute } from "./helpers";
 import { Alert, Stop } from "../../__v3api";
 import DepartureList from "../components/DepartureList";
 import { render, screen } from "@testing-library/react";
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import { PredictionWithTimestamp } from "../../models/predictions";
 import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
 
 const stop = {
