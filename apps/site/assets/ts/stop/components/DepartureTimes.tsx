@@ -2,20 +2,17 @@ import { groupBy } from "lodash";
 import React, { ReactElement } from "react";
 import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
-import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
-import SVGIcon from "../../helpers/render-svg";
 import {
   hasDetour,
   hasShuttleService,
   hasSuspension
 } from "../../models/alert";
 import Badge from "../../components/Badge";
-import {
-  DisplayTimeConfig,
-  infoToDisplayTime
-} from "../models/displayTimeConfig";
 import { DepartureInfo } from "../../models/departureInfo";
-import { isAtDestination } from "../../helpers/departureInfo";
+import {
+  departuresListFromInfos,
+  isAtDestination
+} from "../../helpers/departureInfo";
 import { DepartureFilterFn } from "./DeparturesAndMap";
 import { breakTextAtSlash } from "../../helpers/text";
 
@@ -44,76 +41,38 @@ const alertBadgeWrapper = (
   alertBadge: JSX.Element
 ): JSX.Element => {
   return (
-    <div className={alertClass} style={{ float: "right" }}>
+    <div
+      className={alertClass}
+      style={{ float: "right", whiteSpace: "nowrap" }}
+    >
       {alertBadge}
-    </div>
-  );
-};
-
-const departureTimeClasses = (
-  time: DisplayTimeConfig,
-  index: number
-): string => {
-  let customClasses = "";
-  if (time.isBolded) {
-    customClasses += " font-weight-bold ";
-  }
-  if (time.isStrikethrough) {
-    // TODO keep original font color
-    customClasses += " strikethrough ";
-  }
-  if (index === 1) {
-    // All secondary times should be smaller
-    customClasses += " fs-14 pt-2 ";
-  }
-  return customClasses;
-};
-
-const displayFormattedTimes = (
-  formattedTimes: DisplayTimeConfig[],
-  isCR: Boolean
-): JSX.Element => {
-  return (
-    <div className="d-flex justify-content-space-between">
-      {formattedTimes.map((time, index) => {
-        const classes = departureTimeClasses(time, index);
-        return (
-          <div className="d-flex" key={`${time.reactKey}`}>
-            {time.isPrediction && (
-              <div className="me-4">
-                {SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
-              </div>
-            )}
-            <div className="me-8">
-              <div className={`${classes} u-nowrap`}>{time.displayString}</div>
-              <div className="fs-12">
-                {/* Prioritize displaying Tomorrow over track name if both are present */}
-                {time.isTomorrow && "Tomorrow"}
-                {!time.isTomorrow &&
-                  isCR &&
-                  !!time.trackName &&
-                  `Track ${time.trackName}`}
-              </div>
-            </div>
-          </div>
-        );
-      })}
     </div>
   );
 };
 
 const departureTimeRow = (
   headsignName: string,
-  formattedTimes: DisplayTimeConfig[],
-  isCR: Boolean,
+  departures: DepartureInfo[],
+  isCR: boolean,
   alerts: Alert[],
-  alertBadge?: JSX.Element
+  alertBadge?: JSX.Element,
+  targetDate?: Date
 ): JSX.Element => {
-  let alertClass = "";
-  if (alertBadge && formattedTimes.length > 0) {
+  let alertClass = "departure-card__alert";
+  if (alertBadge && departures.length > 0) {
     // Informative badges need more padding between them and the time
-    alertClass = "pt-4";
+    alertClass += " pt-4";
   }
+
+  const timeList = departuresListFromInfos(
+    departures,
+    isCR,
+    targetDate,
+    isCR ? 1 : 2,
+    ({ children }) => (
+      <div className="stop-routes__departures-group">{children}</div>
+    )
+  );
   return (
     <div
       key={headsignName}
@@ -122,32 +81,33 @@ const departureTimeRow = (
       <div className="departure-card__headsign-name">
         {breakTextAtSlash(headsignName)}
       </div>
-      <div className="d-flex align-items-baseline">
-        <div>
-          {formattedTimes.length > 0
-            ? displayFormattedTimes(formattedTimes, isCR)
-            : !alertBadge && <div>No upcoming trips</div>}
+      <div className="departure-card__content">
+        {timeList.length > 0 ? (
+          <div className="departure-card__times">{timeList}</div>
+        ) : (
+          !alertBadge && <div>No upcoming trips</div>
+        )}
 
-          {hasDetour(alerts) &&
-            formattedTimes.length > 0 &&
-            alertBadgeWrapper(alertClass, alertBadge!)}
-          {(hasShuttleService(alerts) ||
-            hasSuspension(alerts) ||
-            (hasDetour(alerts) && formattedTimes.length === 0)) && (
-            <>
-              <div style={{ float: "right" }}>See alternatives</div>
-              <br />
-              {alertBadgeWrapper(alertClass, alertBadge!)}
-            </>
-          )}
-        </div>
-        <button
-          type="button"
-          aria-label={`Open upcoming departures to ${headsignName}`}
-        >
-          {renderFa("", "fa-angle-right")}
-        </button>
+        {hasDetour(alerts) &&
+          timeList.length > 0 &&
+          alertBadgeWrapper(alertClass, alertBadge!)}
+        {(hasShuttleService(alerts) ||
+          hasSuspension(alerts) ||
+          (hasDetour(alerts) && timeList.length === 0)) && (
+          <>
+            <div style={{ float: "right" }}>See alternatives</div>
+            <br />
+            {alertBadgeWrapper(alertClass, alertBadge!)}
+          </>
+        )}
       </div>
+
+      <button
+        type="button"
+        aria-label={`Open upcoming departures to ${headsignName}`}
+      >
+        {renderFa("", "fa-angle-right")}
+      </button>
     </div>
   );
 };
@@ -170,15 +130,13 @@ const getRow = (
   // informative badges compliment the times being shown
   const informativeAlertBadge = toInformativeAlertBadge(alerts);
 
-  // Merging should happen after alert processing incase a route is cancelled
-  const formattedTimes = infoToDisplayTime(departures, overrideDate);
-
   return departureTimeRow(
     headsign,
-    formattedTimes,
+    departures,
     isCR,
     alerts,
-    informativeAlertBadge
+    informativeAlertBadge,
+    overrideDate
   );
 };
 
@@ -246,4 +204,4 @@ const DepartureTimes = ({
   );
 };
 
-export { DepartureTimes as default, infoToDisplayTime };
+export { DepartureTimes as default };

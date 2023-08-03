@@ -154,15 +154,15 @@ const DeparturesAndMap = ({
 
   const BackToRoutes = (
     <div className="back-to-routes">
-      <div
+      <button
+        className="btn"
         onClick={unsetDepartureInfo}
         onKeyDown={unsetDepartureInfo}
-        aria-label={`Back to all ${stop.name} routes`}
-        role="presentation"
+        type="button"
       >
-        {renderFa("", "fa-angle-left")}
-        {`Back to all ${stop.name} routes`}
-      </div>
+        {renderFa("", "fa-fw fa-angle-left")}
+        <span className="btn-link">{`Back to all ${stop.name} routes`}</span>
+      </button>
     </div>
   );
 

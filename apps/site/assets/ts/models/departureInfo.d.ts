@@ -11,5 +11,6 @@ export interface DepartureInfo {
   trip: Trip;
   isCancelled?: boolean;
   isDelayed?: boolean;
+  isSkipped?: boolean;
   routeMode?: "subway" | "bus" | "commuter_rail" | "ferry";
 }

@@ -166,7 +166,7 @@ $radius: 4px;
 
   @include media-breakpoint-down(sm) {
     height: unset;
-    max-height: 425px;
+    max-height: 36vh;
   }
 
   .departure-card {
@@ -204,11 +204,12 @@ $radius: 4px;
     width: .9em;
 
     &--realtime {
-      top: 0;
+      top: .075em;
     }
   }
 
   .departure-card__headsign {
+    align-items: baseline;
     border: .25px solid $gray-lightest;
     cursor: pointer;
     padding: .5rem;
@@ -222,14 +223,79 @@ $radius: 4px;
     padding-left: .5rem;
   }
 
+  .departure-card__content {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .departure-card__alert {
+    display: inline-flex;
+    flex-basis: 100%;
+    justify-content: flex-end;
+  }
+
+  // times shown in departure cards on the landing page
   .departure-card__times {
-    font-family: $headings-font-family;
+    display: inline-flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+
+    .stop-routes__departures-details {
+      text-align: right;
+
+      // if delayed, hide from here
+      .time-details--delayed {
+        display: none;
+      }
+    }
+
+    $singleTime: stop-routes__departures-group;
+
+    .#{$singleTime} {
+      display: grid;
+      grid-template-columns: 1em auto;
+
+      .stop-routes__departures-details {
+        grid-column: 2;
+      }
+    }
+
+    .#{$singleTime}:not(:first-child) {
+      // only show prediction icon on first time, hide others
+      grid-template-columns: 0 auto;
+      .c-svg__icon--realtime {
+        display: none;
+      }
+      // show comma before any time other than the first
+      .stop-routes__departures-time::before {
+        content: ',\00a0';
+      }
+    }
+
+    // :has() is not yet implemented in Firefox, so none of these will be hidden
+    // hide second departure time when (1) first is "<1 minute away" or (2)
+    // second time is formatted absolute (e.g. "4:22 PM"), as it's more than an
+    // hour away
+    .#{$singleTime}:has([data-type="imminent"]) + .#{$singleTime},
+    .#{$singleTime} + .#{$singleTime}:has([data-type="absolute"]) {
+      display: none;
+    }
   }
 
   button {
     background: none;
     border: none;
+    margin-left: $base-spacing * .5;
   }
+}
+
+.stop-routes__departures-time {
+  font-family: $headings-font-family;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .stop-routes__departures {
@@ -244,14 +310,6 @@ $radius: 4px;
     display: grid;
     grid-template-columns: 1em auto;
     padding: .5rem;
-  }
-
-  .c-svg__icon--realtime {
-    top: 0;
-  }
-
-  .stop-routes__departures-time {
-    font-weight: 500;
   }
 
   .stop-routes__departures-details {
@@ -303,24 +361,22 @@ $radius: 4px;
 }
 
 .back-to-routes {
-  align-items: center;
   background-color: $gray-bordered-background;
   border: .25px solid $gray-lighter;
   color: $brand-primary;
-  display: flex;
-  font-size: 1rem;
-  height: 2.5rem;
-  padding-left: .625rem;
-  text-decoration: underline;
-  text-underline-offset: .2rem;
-  :first-child {
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 400;
-    :first-child {
-      font-weight: 900;
-      padding-right: .5rem;
-    }
+
+  .btn {
+    align-items: baseline;
+    display: flex;
+    gap: .5em;
+    padding: $base-spacing-sm;
+    white-space: unset;
+  }
+
+  span {
+    text-align: left;
+    text-decoration: underline;
+    text-underline-offset: .2rem;
   }
 }
 

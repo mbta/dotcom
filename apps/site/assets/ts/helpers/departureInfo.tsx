@@ -1,7 +1,17 @@
-import { concat, difference, find, keyBy, keys, map, sortBy } from "lodash";
+import React from "react";
+import {
+  chain,
+  concat,
+  difference,
+  find,
+  keyBy,
+  keys,
+  map,
+  sortBy
+} from "lodash";
 import { PredictionWithTimestamp } from "../models/perdictions";
 import { ScheduleWithTimestamp } from "../models/schedules";
-import { isCancelled, isDelayed } from "./prediction-helpers";
+import { isCancelled, isDelayed, isSkipped } from "./prediction-helpers";
 import { DepartureInfo } from "../models/departureInfo";
 import {
   isABusRoute,
@@ -9,6 +19,8 @@ import {
   isSubwayRoute
 } from "../models/route";
 import { DirectionId, Route } from "../__v3api";
+import DisplayTime from "../stop/components/DisplayTime";
+import { getInfoKey } from "../stop/models/displayTimeConfig";
 
 export const SUBWAY = "subway";
 export const BUS = "bus";
@@ -32,7 +44,7 @@ const toRouteMode = (
 
 const departureInfoToTime = (departureInfo: DepartureInfo): Date => {
   // If there isn't a prediction there should be a schedule
-  return departureInfo.prediction
+  return departureInfo.prediction && departureInfo.prediction.time
     ? departureInfo.prediction.time
     : departureInfo.schedule!.time;
 };
@@ -70,6 +82,7 @@ const mergeIntoDepartureInfo = (
         route: schedule.route,
         trip: schedule.trip,
         isCancelled: isCancelled(prediction),
+        isSkipped: isSkipped(prediction),
         isDelayed: isDelayed(prediction, schedule),
         routeMode: toRouteMode(schedule.route)
       };
@@ -90,6 +103,7 @@ const mergeIntoDepartureInfo = (
         route: prediction.route,
         trip: prediction.trip,
         isCancelled: isCancelled(prediction),
+        isSkipped: isSkipped(prediction),
         routeMode: toRouteMode(prediction.route)
       } as DepartureInfo;
     }
@@ -98,7 +112,7 @@ const mergeIntoDepartureInfo = (
   const departureInfos = concat(scheduleDirectionInfo, predictionDirectionInfo);
   const sortedDepartureInfo = sortBy(departureInfos, di => {
     // prioritize sorting by predictions
-    if (di.prediction) {
+    if (di.prediction && di.prediction.time) {
       return di.prediction.time;
     }
     return di.schedule?.time;
@@ -123,11 +137,55 @@ const isCommuterRail = (departureInfo: DepartureInfo): boolean => {
   return departureInfo?.routeMode === "commuter_rail";
 };
 
+const DefaultWrapper: React.FunctionComponent<unknown> = ({ children }) => (
+  <li>{children}</li>
+);
+/**
+ * From a list of `DepartureInfo[]`, generate a list of `<DisplayTime />`.
+ * Each `<DisplayTime />` will recieve the `isCR` and `targetDate` props.
+ *
+ * This function can optionally
+ * - wrap each `<DisplayTime />` in a specified wrapper element, `WrapperEl`
+ * - truncate the list to a desired `listLength` value
+ */
+const departuresListFromInfos = (
+  departureInfos: DepartureInfo[],
+  isCR: boolean,
+  targetDate?: Date,
+  listLength?: number,
+  WrapperEl: typeof DefaultWrapper = DefaultWrapper
+): React.ReactElement[] => {
+  // optional cutoff time, before which we won't show schedules.
+  // just used with subway for now.
+  const predictionTimeCutoff = chain(departureInfos)
+    .filter(d => d.routeMode === SUBWAY)
+    .maxBy("prediction.time")
+    .value()?.prediction!.time;
+
+  return chain(departureInfos)
+    .omitBy(
+      ({ prediction, schedule }) =>
+        // omit schedule-only departures that are before latest prediction time
+        predictionTimeCutoff &&
+        !prediction &&
+        schedule &&
+        schedule.time <= predictionTimeCutoff
+    )
+    .map(d => (
+      <WrapperEl key={getInfoKey(d)}>
+        <DisplayTime departure={d} isCR={isCR} targetDate={targetDate} />
+      </WrapperEl>
+    ))
+    .slice(0, listLength)
+    .value();
+};
+
 export {
   mergeIntoDepartureInfo,
   departureInfoToTime,
   displayInfoContainsPrediction,
   getNextUnCancelledDeparture,
   isAtDestination,
-  isCommuterRail
+  isCommuterRail,
+  departuresListFromInfos
 };

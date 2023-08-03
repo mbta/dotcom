@@ -1,6 +1,6 @@
 import React from "react";
 import AmenityCard from "./AmenityCard";
-import { elevatorIcon } from "../../../helpers/icon";
+import { escalatorIcon } from "../../../helpers/icon";
 import { Alert, Facility } from "../../../__v3api";
 import AccessAmenitiesModal from "../AccessAmenitiesModal";
 import { availabilityMessage, cardBadge } from "./access-amenities-helpers";
@@ -15,7 +15,7 @@ const EscalatorsAmenityCard = ({
   escalatorFacilities: Facility[];
 }): JSX.Element => {
   const icon = (
-    <span className="m-stop-page__icon">{elevatorIcon("c-svg__icon")}</span>
+    <span className="m-stop-page__icon">{escalatorIcon("c-svg__icon")}</span>
   );
 
   return (

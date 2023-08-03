@@ -2,14 +2,12 @@ import React, { ReactElement } from "react";
 import { filter } from "lodash";
 import { Alert, DirectionId, Route, Stop, Trip } from "../../__v3api";
 import { DepartureInfo } from "../../models/departureInfo";
-import { SUBWAY } from "../../helpers/departureInfo";
+import { SUBWAY, departuresListFromInfos } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
 import { hasSuspension } from "../../models/alert";
 import Alerts from "../../components/Alerts";
-import { getInfoKey } from "../models/displayTimeConfig";
-import DisplayTime from "./DisplayTime";
 import { isACommuterRailRoute } from "../../models/route";
 
 interface DepartureListProps {
@@ -72,17 +70,7 @@ const DepartureList = ({
       {departures.length === 0 && displayNoUpcomingTrips()}
       {tripForSelectedRoutePattern && !hasSuspension(alerts) && (
         <ul className="stop-routes__departures list-unstyled">
-          {modeSpecificDepartures.map(departure => {
-            return (
-              <li key={getInfoKey(departure)}>
-                <DisplayTime
-                  departure={departure}
-                  isCR={isCR}
-                  targetDate={targetDate}
-                />
-              </li>
-            );
-          })}
+          {departuresListFromInfos(modeSpecificDepartures, isCR, targetDate)}
         </ul>
       )}
     </>
