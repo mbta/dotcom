@@ -18,7 +18,6 @@ import {
   isSubwayRoute,
   isACommuterRailRoute
 } from "../../models/route";
-import useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { useSMDown } from "../../helpers/media-breakpoints-react";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { useSchedulesByStop } from "../../hooks/useSchedules";
@@ -141,15 +140,6 @@ const DeparturesAndMap = ({
       )
     : [];
 
-  const vehiclesForSelectedRoute = useVehiclesChannel(
-    departureFilters
-      ? {
-          routeId: departureFilters.route.id,
-          directionId: departureFilters.directionId
-        }
-      : null
-  );
-
   const unsetDepartureInfo = (): void => setDepartureFilters(null);
 
   const BackToRoutes = (
@@ -203,7 +193,7 @@ const DeparturesAndMap = ({
               ? shapeForSelection
               : defaultPolylines
           }
-          vehicles={departureFilters ? vehiclesForSelectedRoute : []}
+          vehicles={[]}
           selectedRoute={departureFilters?.route}
         />
       </div>
