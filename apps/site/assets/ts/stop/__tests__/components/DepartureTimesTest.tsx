@@ -98,7 +98,7 @@ describe("DepartureTimes", () => {
 
   it.each`
     alertEffect     | expectedBadge
-    ${"suspension"} | ${"Stop Closed"}
+    ${"suspension"} | ${"No Service"}
     ${"shuttle"}    | ${"Shuttle Service"}
   `(
     `displays $expectedBadge when high priority alert has effect $alertEffect`,
@@ -131,6 +131,7 @@ describe("DepartureTimes", () => {
         />
       );
       expect(screen.getByText(expectedBadge)).toBeDefined();
+      expect(screen.getByText("See alternatives")).toBeDefined();
     }
   );
 
@@ -169,8 +170,9 @@ describe("DepartureTimes", () => {
         onClick={() => {}}
       />
     );
-    expect(screen.getByText("Stop Closed")).toBeDefined();
+    expect(screen.getByText("No Service")).toBeDefined();
     expect(screen.queryByText("Detour")).toBeNull();
+    expect(screen.getByText("See alternatives")).toBeDefined();
   });
 
   it("should display the detour badge with times if detour alert is present", () => {
@@ -221,6 +223,7 @@ describe("DepartureTimes", () => {
 
     expect(screen.getByText("Detour")).toBeDefined();
     expect(screen.getByText("45 min")).toBeDefined();
+    expect(screen.queryByText("See alternatives")).toBeNull();
   });
 
   describe("getNextTwoTimes", () => {

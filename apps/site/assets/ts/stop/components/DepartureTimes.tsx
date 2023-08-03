@@ -18,7 +18,7 @@ import { breakTextAtSlash } from "../../helpers/text";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
-    return <Badge text="Stop Closed" contextText="Route Status" />;
+    return <Badge text="No Service" contextText="Route Status" />;
   }
 
   if (hasShuttleService(alerts)) {
@@ -36,10 +36,25 @@ const toInformativeAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   return undefined;
 };
 
+const alertBadgeWrapper = (
+  alertClass: string,
+  alertBadge: JSX.Element
+): JSX.Element => {
+  return (
+    <div
+      className={alertClass}
+      style={{ float: "right", whiteSpace: "nowrap", marginTop: "0.25rem" }}
+    >
+      {alertBadge}
+    </div>
+  );
+};
+
 const departureTimeRow = (
   headsignName: string,
   departures: DepartureInfo[],
   isCR: boolean,
+  alerts: Alert[],
   alertBadge?: JSX.Element,
   targetDate?: Date
 ): JSX.Element => {
@@ -73,7 +88,18 @@ const departureTimeRow = (
           !alertBadge && <div>No upcoming trips</div>
         )}
 
-        <div className={alertClass}>{alertBadge}</div>
+        {hasDetour(alerts) &&
+          timeList.length > 0 &&
+          alertBadgeWrapper(alertClass, alertBadge!)}
+        {(hasShuttleService(alerts) ||
+          hasSuspension(alerts) ||
+          (hasDetour(alerts) && timeList.length === 0)) && (
+          <>
+            <div style={{ float: "right" }}>See alternatives</div>
+            <br />
+            {alertBadgeWrapper(alertClass, alertBadge!)}
+          </>
+        )}
       </div>
 
       <button
@@ -98,7 +124,7 @@ const getRow = (
     ? departures[0].routeMode === "commuter_rail"
     : false;
   if (alertBadge) {
-    return departureTimeRow(headsign, [], isCR, alertBadge);
+    return departureTimeRow(headsign, [], isCR, alerts, alertBadge);
   }
 
   // informative badges compliment the times being shown
@@ -108,6 +134,7 @@ const getRow = (
     headsign,
     departures,
     isCR,
+    alerts,
     informativeAlertBadge,
     overrideDate
   );
@@ -165,7 +192,12 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
-            departureTimeRow(destination, [], route.type === 2)}
+            departureTimeRow(
+              destination,
+              [],
+              route.type === 2,
+              alertsForDirection
+            )}
         </div>
       )}
     </>
