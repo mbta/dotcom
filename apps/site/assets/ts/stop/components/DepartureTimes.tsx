@@ -43,7 +43,7 @@ const alertBadgeWrapper = (
   return (
     <div
       className={alertClass}
-      style={{ float: "right", whiteSpace: "nowrap" }}
+      style={{ float: "right", whiteSpace: "nowrap", marginTop: "0.25rem" }}
     >
       {alertBadge}
     </div>
