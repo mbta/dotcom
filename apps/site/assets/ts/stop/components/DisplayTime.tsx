@@ -4,7 +4,7 @@
  * on the realtime tracking page, but can be further adjusted with CSS.
  *
   |------------|---------------------------------------------------------|
-  | maybe Icon | {maybe "Delayed"} Time1 maybe Time2                     |
+  | maybe Icon | Time1 maybe Time2                     |
   |------------|---------------------------------------------------------|
   |            | {maybe "Delayed"} {maybe Delayed Details} maybe Details |
   |------------|---------------------------------------------------------|
@@ -17,9 +17,9 @@
   |------|-----------|
 
   |------|------------------- |    |------|-----------------------------|
-  | Icon | Delayed 4:24PM     |    | Icon | 28 min                      |
+  | Icon | 4:24PM             |    | Icon | 28 min                      |
   |------|--------------------|    |------|-----------------------------|
-  |      | ~~4:15PM~~ Track 3 |    |      | Delayed 11:14AM ~~11:05AM~~ |
+  |      | ~~4:15PM~~ Track 3 |    |      | Delayed ~~11:05AM~~         |
   |------|--------------------|    |------|-----------------------------|
  */
 
@@ -71,7 +71,7 @@ const DisplayTime = ({
 
   return (
     <>
-      <div>
+      <div className="stop-routes__realtime-icon">
         {displayInfoContainsPrediction(departure) &&
           !(isCancelled || isSkipped) &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
@@ -109,7 +109,7 @@ const DisplayTime = ({
           </div>
           <div className="stop-routes__departures-details fs-14">
             {isDelayedAndDisplayed && schedule && (
-              <>
+              <span className="time-details--delayed">
                 Delayed{" "}
                 <BasicTime
                   displayType="absolute"
@@ -117,10 +117,12 @@ const DisplayTime = ({
                   targetDate={targetDate}
                   strikethrough
                 />
-              </>
+              </span>
             )}{" "}
             {/* Prioritize displaying Tomorrow over track name if both are present */}
-            {tomorrow ? "Tomorrow" : trackName || null}
+            <span className="time-details">
+              {tomorrow ? "Tomorrow" : trackName || null}
+            </span>
           </div>
         </>
       )}
