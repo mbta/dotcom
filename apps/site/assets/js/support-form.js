@@ -280,9 +280,6 @@ export function setupSubject($) {
     document.getElementById("js-subjects-by-service").innerHTML
   );
 
-  // initially hide the choices for subject
-  $("#subject").hide();
-
   // show the field once a category is selected
   $("[name='support[service]']").change(function() {
     const selectedCategory = $("[name='support[service]']:checked").val();
@@ -326,7 +323,8 @@ const validators = {
     return $("#comments").val().length !== 0;
   },
   support_subject: function($) {
-    return $("#support_subject").val().length !== 0;
+    const subject = $("#support_subject").val();
+    return subject && subject.length !== 0;
   },
   service: function($) {
     return !!$("[name='support[service]']:checked").val();
@@ -510,9 +508,28 @@ export function handleSubmitClick($, toUpload) {
     const FormData = window.FormData ? window.FormData : require("form-data"),
       valid = validateForm($);
     event.preventDefault();
+    const errorDisplay = document.getElementById("support-form-errors");
+    const errorList = document.getElementById("support-form-error-list");
+    errorList.innerHTML = "";
     if (!valid) {
+      // A bit of a hack. Get names of all fields marked with error styling.
+      const errors = Array.from(
+        document.querySelectorAll(".has-danger > label, .has-danger > legend")
+      ).map(el => {
+        const text = document.createTextNode(el.innerText.replace("*", ""));
+        const li = document.createElement("li");
+        li.appendChild(text);
+        return li;
+      });
+      if (errors.length) {
+        errors.forEach(err => {
+          errorList.appendChild(err);
+        });
+        errorDisplay.classList.remove("hidden");
+      }
       return;
     }
+    errorDisplay.classList.add("hidden");
     deactivateSubmitButton($);
     const formData = new FormData();
     const filter = new Filter();

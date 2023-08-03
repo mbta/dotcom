@@ -305,6 +305,10 @@ describe("support form", () => {
             <textarea id="g-recaptcha-response" name="g-recaptcha-response"></textarea>
             <button id="support-submit"></button>
             <span class="waiting" hidden>waiting...</span>
+            <div class="error-container form-control-feedback hidden" id="support-form-errors">
+              Please fill out missing fields:
+              <ul id="support-form-error-list"></ul>
+            </div>
           </form>
         </div>
       `);

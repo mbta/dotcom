@@ -25,7 +25,8 @@
     </fieldset>
     <div id="subject" class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
       <%= label f, :subject, "Subject*", [for: "support_subject", class: "form-control-label"] %>
-      <%= select f, :subject, [], prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select" %>
+      <%= select f, :subject, [], prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select", "aria-describedby": "subjectHelp" %>
+      <small id="subjectHelp" class="form-text">Please choose a Category to view available Subject values.</small>
     </div>
     <div id="charlie-card-or-ticket-number" class="form-group">
       <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>
@@ -85,7 +86,7 @@
         </div>
       </div>
     </div>
-    <div class="u-padding-top form-group <%= if @errors do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
+    <div class="u-padding-top form-group <%= if !Enum.empty?(@errors) do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
       <%= support_error_tag @errors, "upload" %>
       <span id="upload-photo-error"></span>
       <div class="photo-preview-container <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
@@ -157,5 +158,19 @@
         <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>
       </button>
     </div>
+    <div class="error-container form-control-feedback p-16 fs-14 hidden" id="support-form-errors" role="alert" aria-live="assertive">
+      Please fill out missing fields:
+      <ul id="support-form-error-list"></ul>
+    </div>
+    <%= if !Enum.empty?(@errors) do %>
+      <div class="error-container form-control-feedback p-16 fs-14" role="alert" aria-live="assertive">
+        Please fill out missing fields:
+        <ul>
+          <%= for err <- @errors do %>
+            <li><%= err %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   </section>
 <% end %>

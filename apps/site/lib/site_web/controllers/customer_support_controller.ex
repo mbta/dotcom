@@ -317,7 +317,7 @@ defmodule SiteWeb.CustomerSupportController do
   defp validate_privacy(_), do: "privacy"
 
   @spec validate_vehicle(map) :: :ok | String.t()
-  defp validate_vehicle(%{"vehicle" => vehicle_number}) do
+  defp validate_vehicle(%{"vehicle" => vehicle_number}) when vehicle_number != "" do
     if Regex.match?(~r/^[0-9]{0,8}$/, vehicle_number),
       do: :ok,
       else: "vehicle"
