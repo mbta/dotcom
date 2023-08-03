@@ -20,7 +20,7 @@ import { Alert } from "../../__v3api";
 const isStopPageAlert = ({ effect }: Alert): boolean =>
   ["suspension", "stop_closure", "station_closure", "shuttle"].includes(effect);
 
-const FullwidthErrorMessage = (
+const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
     <div className="container">
       <p className="c-fullscreen-error__heading u-bold">
@@ -83,7 +83,7 @@ const StopPageRedesign = ({
   return (
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
-      {hasPredictionError && FullwidthErrorMessage}
+      {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
         <Alerts
           alerts={alertsWithinSevenDays.filter(
