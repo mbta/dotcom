@@ -157,32 +157,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: ./.github/actions/build-app
-    - name: Install Chrome and ChromeDriver
-      shell: bash
-      # credits to https://github.com/logikal-io/install-chrome/blob/main/action.yml
-      run: |-
-        # Install Chrome
-        ENDPOINT='https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable'
-        echo 'Installing Chrome'
-        wget "${ENDPOINT}/google-chrome-stable_115.0.5790.110-1_amd64.deb" \
-          --progress=dot:giga -O /tmp/chrome.deb
-        sudo apt-get install --allow-downgrades -y /tmp/chrome.deb
-        rm /tmp/chrome.deb
-
-        # Install ChromeDriver
-        ENDPOINT='https://chromedriver.storage.googleapis.com'
-        RELEASE="$(google-chrome --version | sed -E 's/.* ([0-9]+\.[0-9]+\.[0-9]+).*/\1/')"
-        DRIVER_VERSION="$(wget --no-verbose -O - "${ENDPOINT}/LATEST_RELEASE_${RELEASE}")";
-        echo "Installing ChromeDriver ${DRIVER_VERSION}"
-        wget "${ENDPOINT}/${DRIVER_VERSION}/chromedriver_linux64.zip" \
-          --progress=dot:giga -O /tmp/chromedriver.zip
-
-        sudo rm -rf /opt/chromedriver
-        sudo mkdir -p /opt/chromedriver
-        sudo unzip /tmp/chromedriver.zip -d /opt/chromedriver
-        sudo chmod +x /opt/chromedriver/chromedriver
-        sudo ln -sf /opt/chromedriver/chromedriver /usr/local/bin/chromedriver
-        rm /tmp/chromedriver.zip
+    - uses: mbta/setup-chromedriver
     - env:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
