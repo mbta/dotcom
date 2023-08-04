@@ -270,4 +270,29 @@ describe("DepartureList", () => {
     expect(screen.queryByText("Cancelled")).not.toBeInTheDocument();
     expect(screen.getByText("25 min")).toBeInTheDocument();
   });
+
+  it("should not display schedules/predictions if shuttle alert", () => {
+    const alerts = [
+      {
+        id: "1234",
+        informed_entity: {
+          direction_id: [0]
+        },
+        effect: "shuttle"
+      }
+    ] as Alert[];
+
+    render(
+      <DepartureList
+        alerts={alerts}
+        route={route}
+        stop={stop}
+        departures={departures}
+        directionId={0}
+        headsign="Emerald City"
+        targetDate={new Date("2022-04-27T11:00:00-04:00")}
+      />
+    );
+    expect(screen.queryAllByRole("listitem")).toHaveLength(0);
+  });
 });

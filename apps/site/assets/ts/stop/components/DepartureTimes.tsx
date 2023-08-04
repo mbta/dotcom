@@ -93,13 +93,14 @@ const departureTimeRow = (
           alertBadgeWrapper(alertClass, alertBadge!)}
         {(hasShuttleService(alerts) ||
           hasSuspension(alerts) ||
-          (hasDetour(alerts) && timeList.length === 0)) && (
-          <>
-            <div style={{ float: "right" }}>See alternatives</div>
-            <br />
-            {alertBadgeWrapper(alertClass, alertBadge!)}
-          </>
-        )}
+          (hasDetour(alerts) && timeList.length === 0)) &&
+          alertBadge && (
+            <>
+              <div style={{ float: "right" }}>See alternatives</div>
+              <br />
+              {alertBadgeWrapper(alertClass, alertBadge!)}
+            </>
+          )}
       </div>
 
       <button

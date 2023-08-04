@@ -6,7 +6,7 @@ import { SUBWAY, departuresListFromInfos } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
-import { hasSuspension } from "../../models/alert";
+import { hasShuttleService, hasSuspension } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 import { isACommuterRailRoute } from "../../models/route";
 
@@ -68,11 +68,13 @@ const DepartureList = ({
       </h2>
       {alerts.length ? <Alerts alerts={alerts} /> : null}
       {departures.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern && !hasSuspension(alerts) && (
-        <ul className="stop-routes__departures list-unstyled">
-          {departuresListFromInfos(modeSpecificDepartures, isCR, targetDate)}
-        </ul>
-      )}
+      {tripForSelectedRoutePattern &&
+        !hasSuspension(alerts) &&
+        !hasShuttleService(alerts) && (
+          <ul className="stop-routes__departures list-unstyled">
+            {departuresListFromInfos(modeSpecificDepartures, isCR, targetDate)}
+          </ul>
+        )}
     </>
   );
 };
