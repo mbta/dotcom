@@ -84,15 +84,26 @@ const leaveChannel = (id: string): void => {
 
 const setupChannels = (): void => {
   window.socket = new Socket("/socket", {});
+  window.socket.onClose(event => {
+    if (event.type === "close" && !event.wasClean) {
+      // eslint-disable-next-line no-console
+      console.log(
+        "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
+      );
+      window.location.reload();
+    }
+  });
   window.socket.connect();
   window.channels = {};
 
-  document.addEventListener("turbolinks:load", () => {
+  const joinAllChannels = (): void => {
     document.querySelectorAll("[data-channel]").forEach(el => {
       const channelId = el.getAttribute("data-channel");
       if (channelId) joinChannel(channelId);
     });
-  });
+  };
+
+  document.addEventListener("turbolinks:load", joinAllChannels);
 
   // leave subscribed channels when navigating away from a page.
   const leaveAllChannels = (): void => {
@@ -100,6 +111,14 @@ const setupChannels = (): void => {
   };
   document.addEventListener("turbolinks:before-render", leaveAllChannels);
   window.addEventListener("beforeunload", leaveAllChannels);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      leaveAllChannels();
+    } else {
+      joinAllChannels();
+    }
+  });
 };
 
 export { joinChannel, leaveChannel };

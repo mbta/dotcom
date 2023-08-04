@@ -131,4 +131,45 @@ describe("useChannel", () => {
     expect(mockChannel.leave).toHaveBeenCalled();
     expect(window.channels["mock-channel"]).not.toBeDefined();
   });
+
+  test("leaves channel when not visible, rejoins when visible", () => {
+    expect(window.channels["mock-channel"]).toBeUndefined();
+    renderHook(() =>
+      useChannel<MockData, MockReducer>(
+        "mock-channel",
+        mockReducer,
+        initialState
+      )
+    );
+    expect(window.channels["mock-channel"]).toBeDefined();
+
+    // mock document.hidden = true
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      get: function() {
+        return true;
+      }
+    });
+    act(() => {
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    waitFor(() => {
+      expect(mockChannel.leave).toHaveBeenCalled();
+      expect(window.channels["mock-channel"]).not.toBeDefined();
+    });
+    // mock document.hidden = false
+    Object.defineProperty(document, "hidden", {
+      configurable: true,
+      get: function() {
+        return false;
+      }
+    });
+    act(() => {
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    waitFor(() => {
+      expect(mockChannel.join).toHaveBeenCalled();
+      expect(window.channels["mock-channel"]).toBeDefined();
+    });
+  });
 });
