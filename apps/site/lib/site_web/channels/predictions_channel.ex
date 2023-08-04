@@ -3,7 +3,8 @@ defmodule SiteWeb.PredictionsChannel do
   Channel allowing clients to subscribe to streams of predictions.
   """
   use SiteWeb, :channel
-
+  require Routes.Route
+  alias Routes.Route
   alias Phoenix.{Channel, Socket}
   alias Predictions.{Prediction, PredictionsPubSub}
 
@@ -33,6 +34,10 @@ defmodule SiteWeb.PredictionsChannel do
     predictions
     # remove predictions with no trip information
     |> Enum.reject(&is_nil(&1.trip))
+    # remove skipped and cancelled schedules on subway
+    |> Enum.reject(fn %Prediction{schedule_relationship: sr, route: %Route{type: type, id: id}} ->
+      Route.subway?(type, id) and sr in [:skipped, :cancelled]
+    end)
     # remove past predictions
     |> Enum.filter(&is_in_future?/1)
     # remove predictions from terminal stops

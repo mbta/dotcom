@@ -17,7 +17,7 @@ defmodule SiteWeb.PredictionsChannelTest do
   @prediction39 %Prediction{
     id: "prediction39",
     direction_id: @direction,
-    route: %Route{id: @route_39},
+    route: %Route{id: @route_39, type: 3},
     stop: %Stop{id: @stop_fh},
     trip: %Trip{id: "trip_id"},
     time: Timex.shift(Util.now(), hours: 2)
@@ -79,6 +79,13 @@ defmodule SiteWeb.PredictionsChannelTest do
         @prediction39,
         # Prediction with no trip info - should be removed
         %Prediction{@prediction39 | trip: nil},
+        # Prediction for skipped stop on subway - should be removed
+        %Prediction{
+          @prediction39
+          | time: nil,
+            schedule_relationship: :skipped,
+            route: %Route{id: "Red", type: 1}
+        },
         # Prediction with time in past - should be removed
         %Prediction{@prediction39 | time: Timex.shift(Util.now(), minutes: -1)},
         # Prediction for cancelled schedule in the future
