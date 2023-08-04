@@ -153,6 +153,7 @@ const departuresListFromInfos = (
   isCR: boolean,
   targetDate?: Date,
   listLength?: number,
+  omitCancelledAndSkipped = false,
   WrapperEl: typeof DefaultWrapper = DefaultWrapper
 ): React.ReactElement[] => {
   // optional cutoff time, before which we won't show schedules.
@@ -163,6 +164,11 @@ const departuresListFromInfos = (
     .value()?.prediction!.time;
 
   return chain(departureInfos)
+    .reject(
+      departure =>
+        omitCancelledAndSkipped &&
+        (!!departure.isCancelled || !!departure.isSkipped)
+    )
     .omitBy(
       ({ prediction, schedule }) =>
         // omit schedule-only departures that are before latest prediction time

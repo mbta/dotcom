@@ -123,6 +123,7 @@ describe("departureInfo", () => {
             false,
             undefined,
             undefined,
+            false,
             ({ children }) => (
               <b data-testid="child">{children}</b>
             )

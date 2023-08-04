@@ -69,6 +69,7 @@ const departureTimeRow = (
     isCR,
     targetDate,
     isCR ? 1 : 2,
+    true,
     ({ children }) => (
       <div className="stop-routes__departures-group">{children}</div>
     )
