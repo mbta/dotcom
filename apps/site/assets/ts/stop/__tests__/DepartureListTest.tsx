@@ -125,7 +125,7 @@ describe("DepartureList", () => {
       screen.getByRole("link", { name: "View all schedules" })
     ).toHaveAttribute(
       "href",
-      "../schedules/TestRoute/line?schedule_direction[direction_id]=0&schedule_direction[variant]=Blue-6-1&schedule_finder[direction_id]=0&schedule_finder[origin]=test-stop"
+      "/schedules/TestRoute/line?schedule_direction[direction_id]=0&schedule_direction[variant]=Blue-6-1&schedule_finder[direction_id]=0&schedule_finder[origin]=test-stop"
     );
   });
 
