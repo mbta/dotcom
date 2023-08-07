@@ -57,6 +57,7 @@ const DepartureList = ({
           <a
             className="open-schedule"
             href={`../schedules/${route.id}/line?schedule_direction[direction_id]=${directionId}&schedule_direction[variant]=${tripForSelectedRoutePattern?.route_pattern_id}&schedule_finder[direction_id]=${directionId}&schedule_finder[origin]=${stop.id}`}
+            data-turbolinks="false"
           >
             View all schedules
           </a>
