@@ -98,7 +98,7 @@ const departureTimeRow = (
             <>
               <div style={{ float: "right" }}>See alternatives</div>
               <br />
-              {alertBadgeWrapper(alertClass, alertBadge!)}
+              {alertBadgeWrapper(alertClass, alertBadge)}
             </>
           )}
       </div>
