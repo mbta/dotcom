@@ -12,13 +12,20 @@ import {
   isGlobalBannerAlert,
   routeWideAlerts,
   isInNextXDays,
-  isAmenityAlert
+  isAmenityAlert,
+  hasDetour
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
 
 const isStopPageAlert = ({ effect }: Alert): boolean =>
-  ["suspension", "stop_closure", "station_closure", "shuttle"].includes(effect);
+  [
+    "suspension",
+    "stop_closure",
+    "station_closure",
+    "shuttle",
+    "detour"
+  ].includes(effect);
 
 const FullwidthErrorMessage = (): JSX.Element => (
   <div className="c-fullscreen-error__container">
@@ -87,7 +94,7 @@ const StopPageRedesign = ({
       <div className="container">
         <Alerts
           alerts={alertsWithinSevenDays.filter(
-            alert => !isGlobalBannerAlert(alert)
+            alert => !isGlobalBannerAlert(alert) && !hasDetour([alert])
           )}
         />
         <DeparturesAndMap
