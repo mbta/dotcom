@@ -12,7 +12,7 @@ import * as useAlerts from "../../hooks/useAlerts";
 import { add, format } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import { PredictionWithTimestamp } from "../../models/predictions";
 
 const renderWithAct = (children: React.ReactElement) =>
   act(() => {
