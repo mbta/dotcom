@@ -95,16 +95,17 @@ function channelFromArgs(channelArgs: PredictionsChannelArgs): string | null {
  */
 const usePredictionsChannel = (
   args: PredictionsChannelArgs
-): PredictionWithTimestamp[] => {
+): PredictionWithTimestamp[] | null => {
   const channelName = channelFromArgs(args);
   const reducer: Reducer<
-    PredictionWithTimestamp[],
+    PredictionWithTimestamp[] | null,
     ChannelPredictionResponse
   > = (_oldGroupedPredictions, { predictions }) => {
     return sortBy(predictions.map(parsePrediction), "time");
   };
-  const initialState: PredictionWithTimestamp[] = [];
-  const state = useChannel(channelName, reducer, initialState);
+  // useChannel will return the initialState if the channel can't be joined / if
+  // the channelName is null;
+  const state = useChannel(channelName, reducer, null);
   return state;
 };
 

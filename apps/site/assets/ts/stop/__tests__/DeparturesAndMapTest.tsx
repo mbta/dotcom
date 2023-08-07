@@ -1,5 +1,5 @@
 import React from "react";
-import { act, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
 import { Alert, DirectionId, Stop } from "../../__v3api";
@@ -12,6 +12,8 @@ import { add } from "date-fns";
 import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { Route } from "../../__v3api";
 import { FetchStatus } from "../../helpers/use-fetch";
+import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { PredictionWithTimestamp } from "../../models/perdictions";
 
 const stop = {
   id: "test-stop",
@@ -97,6 +99,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -114,6 +117,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -133,6 +137,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -167,6 +172,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={allRoutes}
         alerts={[]}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -223,6 +229,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={allRoutes}
         alerts={[]}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -335,6 +342,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={alerts}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -388,6 +396,7 @@ describe("DeparturesAndMap", () => {
         stop={stop}
         routesWithPolylines={testRoutesWithPolylines}
         alerts={alerts}
+        setPredictionError={jest.fn()}
       />
     );
 
@@ -400,5 +409,37 @@ describe("DeparturesAndMap", () => {
       screen.getByText("This affects the stop and route")
     ).toBeInTheDocument();
     expect(screen.queryByText("This should not show")).toBeNull();
+  });
+
+  it("should set error state when null predictions", () => {
+    jest.spyOn(usePredictionsChannel, "default").mockReturnValue(null);
+    const mockSetError = jest.fn();
+    render(
+      <DeparturesAndMap
+        routes={[route]}
+        stop={stop}
+        routesWithPolylines={testRoutesWithPolylines}
+        alerts={[]}
+        setPredictionError={mockSetError}
+      />
+    );
+    expect(mockSetError).toHaveBeenCalledWith(true);
+  });
+
+  it("should not set error state when non-null predictions", () => {
+    jest
+      .spyOn(usePredictionsChannel, "default")
+      .mockReturnValue([] as PredictionWithTimestamp[]);
+    const mockSetError = jest.fn();
+    render(
+      <DeparturesAndMap
+        routes={[route]}
+        stop={stop}
+        routesWithPolylines={testRoutesWithPolylines}
+        alerts={[]}
+        setPredictionError={mockSetError}
+      />
+    );
+    expect(mockSetError).toHaveBeenCalledWith(false);
   });
 });

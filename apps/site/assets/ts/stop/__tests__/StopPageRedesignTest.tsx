@@ -1,6 +1,6 @@
 import React from "react";
 import { screen, within } from "@testing-library/dom";
-import { render } from "@testing-library/react";
+import { act, render, RenderResult } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
 import * as useStop from "../../hooks/useStop";
 import { InformedEntitySet, Alert } from "../../__v3api";
@@ -11,6 +11,13 @@ import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
 import { add, format } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
+import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
+import { PredictionWithTimestamp } from "../../models/perdictions";
+
+const renderWithAct = (children: React.ReactElement) =>
+  act(() => {
+    render(children);
+  });
 
 describe("StopPageRedesign", () => {
   beforeEach(() => {
@@ -50,7 +57,7 @@ describe("StopPageRedesign", () => {
   });
 
   it("should render", () => {
-    render(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPageRedesign stopId="123" />);
     expect(screen.queryByText("Test Stop")).not.toBeNull();
   });
 
@@ -62,7 +69,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useStop, "useStop")
       .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
-    render(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPageRedesign stopId="123" />);
     expect(screen.getByText("Loading...")).toBeDefined();
   });
 
@@ -74,7 +81,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
-    render(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPageRedesign stopId="123" />);
     expect(screen.getByText("Loading...")).toBeDefined();
   });
 
@@ -93,8 +100,11 @@ describe("StopPageRedesign", () => {
       data: testRoutesWithPolylines
     });
 
-    const { container } = render(<StopPageRedesign stopId="123" />);
-
+    let renderResult: RenderResult;
+    act(() => {
+      renderResult = render(<StopPageRedesign stopId="123" />);
+    });
+    const { container } = renderResult!;
     // All routes appear in departures list
     const routeList = container.querySelector<HTMLElement>(
       "ul.stop-departures"
@@ -116,11 +126,16 @@ describe("StopPageRedesign", () => {
       data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
-    const { container } = render(<StopPageRedesign stopId="123" />);
+    let renderResult: RenderResult;
+    act(() => {
+      renderResult = render(<StopPageRedesign stopId="123" />);
+    });
+    const { container } = renderResult!;
 
     [subwayRoute, crRoute, slRoute]
       .flatMap(route => route.polylines)
       .forEach(({ id }) => {
+        console.log(id);
         expect(
           container.querySelector(`.stop-map_line--${id}`)
         ).toBeInTheDocument();
@@ -159,7 +174,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByStop")
       .mockReturnValue({ status: FetchStatus.Data, data: lowAlerts });
 
-    render(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPageRedesign stopId="123" />);
     expect(
       screen.queryByText("There is construction at this station.")
     ).not.toBeNull();
@@ -235,7 +250,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
-    render(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPageRedesign stopId="Test 1" />);
 
     expect(screen.getByText(/Road Closed/)).toBeInTheDocument();
     expect(screen.getByText(/Stop Closed/)).toBeInTheDocument();
@@ -317,7 +332,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
-    render(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPageRedesign stopId="Test 1" />);
 
     expect(screen.getByText(/Road Is Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/Road Is Open/)).toBeInTheDocument();
@@ -348,7 +363,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByStop")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForStop });
 
-    render(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPageRedesign stopId="Test 1" />);
 
     expect(screen.queryByText("Road Is Closed")).toBeNull();
   });
@@ -387,7 +402,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
-    render(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPageRedesign stopId="Test 1" />);
 
     expect(
       screen.getByText(/Test Alert The Elevator is Malfunctioning/)
@@ -396,6 +411,24 @@ describe("StopPageRedesign", () => {
       screen.queryByText(
         /Route 110 service suspended beginning at 12:51 PM Testing - Route 110 Suspended on all stops/
       )
+    ).toBeNull();
+  });
+
+  it("should show error message when null predictions", () => {
+    jest.spyOn(usePredictionsChannel, "default").mockReturnValue(null);
+    renderWithAct(<StopPageRedesign stopId="123" />);
+    expect(
+      screen.getByText("Live information could not be loaded.")
+    ).toBeInTheDocument();
+  });
+
+  it("should not show error message when non-null predictions", () => {
+    jest
+      .spyOn(usePredictionsChannel, "default")
+      .mockReturnValue([] as PredictionWithTimestamp[]);
+    renderWithAct(<StopPageRedesign stopId="123" />);
+    expect(
+      screen.queryByText("Live information could not be loaded.")
     ).toBeNull();
   });
 });

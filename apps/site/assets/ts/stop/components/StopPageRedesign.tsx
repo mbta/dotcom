@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { concat, filter, omit } from "lodash";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
@@ -20,11 +20,22 @@ import { Alert } from "../../__v3api";
 const isStopPageAlert = ({ effect }: Alert): boolean =>
   ["suspension", "stop_closure", "station_closure", "shuttle"].includes(effect);
 
+const FullwidthErrorMessage = (): JSX.Element => (
+  <div className="c-fullscreen-error__container">
+    <div className="container">
+      <p className="c-fullscreen-error__heading u-bold">
+        Live information could not be loaded.
+      </p>
+      <p>Please refresh the page to try again.</p>
+    </div>
+  </div>
+);
 const StopPageRedesign = ({
   stopId
 }: {
   stopId: string;
 }): ReactElement<HTMLElement> => {
+  const [hasPredictionError, setPredictionError] = useState(false);
   const stopResult = useStop(stopId);
   const routesWithPolylinesResult = useRoutesByStop(stopId);
   const alertsForStopResult = useAlertsByStop(stopId);
@@ -72,6 +83,7 @@ const StopPageRedesign = ({
   return (
     <article>
       <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
+      {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
         <Alerts
           alerts={alertsWithinSevenDays.filter(
@@ -83,6 +95,7 @@ const StopPageRedesign = ({
           stop={stopResult.data}
           routesWithPolylines={routesWithPolylinesResult.data}
           alerts={allStopPageAlerts}
+          setPredictionError={setPredictionError}
         />
         <footer>
           <StationInformation
