@@ -96,6 +96,12 @@ test("it includes the URL field when it exists", () => {
   expect(wrapper.find("a")).toEqual({});
 });
 
+test("it has no dropdown when alert has no description", () => {
+  const noDescriptionAlert = { ...highAlert, description: "" };
+  const wrapper = mount(<Alerts alerts={[noDescriptionAlert]} />);
+  expect(wrapper.contains("c-alert-item__top-caret-container")).toBeFalsy();
+});
+
 describe("iconForAlert", () => {
   test("renders no icon for low priority alerts", () => {
     expect(iconForAlert(lowAlert)).toBeNull();
