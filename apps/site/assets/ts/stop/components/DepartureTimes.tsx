@@ -194,12 +194,7 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
-            departureTimeRow(
-              destination,
-              [],
-              route.type === 2,
-              alertsForDirection
-            )}
+            getRow(destination, [], alertsForDirection, overrideDate)}
         </div>
       )}
     </>
