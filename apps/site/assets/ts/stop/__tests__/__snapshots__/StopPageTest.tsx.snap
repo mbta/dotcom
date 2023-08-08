@@ -211,9 +211,7 @@ Array [
                     }
                   />
                 </div>
-                <div
-                  className="c-alert-item__top-caret-container"
-                />
+                
               </div>
             </li>
           </ul>

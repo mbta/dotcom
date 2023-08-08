@@ -13,7 +13,7 @@ import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
 import { Route } from "../../__v3api";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
-import { PredictionWithTimestamp } from "../../models/perdictions";
+import { PredictionWithTimestamp } from "../../models/predictions";
 
 const stop = {
   id: "test-stop",
