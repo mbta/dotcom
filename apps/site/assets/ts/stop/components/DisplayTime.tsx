@@ -121,7 +121,10 @@ const DisplayTime = ({
             )}{" "}
             {/* Prioritize displaying Tomorrow over track name if both are present */}
             <span className="time-details">
-              {tomorrow ? "Tomorrow" : trackName || null}
+              {/* Only show tomorrow if time is not displayed in relative time */}
+              {tomorrow && !(!(isCancelled || isSkipped) && isCR)
+                ? "Tomorrow"
+                : trackName || null}
             </span>
           </div>
         </>

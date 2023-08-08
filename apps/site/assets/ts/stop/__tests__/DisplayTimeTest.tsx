@@ -176,5 +176,22 @@ describe("DisplayTime", () => {
       expect(screen.getByText("11:43 AM")).toBeDefined();
       expect(screen.queryByText("11:38 AM")).toBeNull();
     });
+
+    it("should not show Tomorrow if the time is relative", () => {
+      const nowTime = new Date("2023-06-01T23:55:00-04:00");
+      const departure = {
+        schedule: { ...schedule, time: new Date("2023-06-02T00:10:00-04:00") },
+        prediction: {
+          ...prediction,
+          time: new Date("2023-06-02T00:10:00-04:00")
+        },
+        routeMode: "subway"
+      } as DepartureInfo;
+      render(
+        <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
+      );
+      expect(screen.queryByText("Tomorrow")).toBe(null);
+      expect(screen.getByText("15 min")).toBeInTheDocument();
+    });
   });
 });
