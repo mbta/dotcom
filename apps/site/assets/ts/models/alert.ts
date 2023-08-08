@@ -197,7 +197,7 @@ const activePeriodToDates = (
   });
 };
 
-const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
+export const isCurrentLifecycle = ({ lifecycle }: Alert): boolean =>
   lifecycle === "new" ||
   lifecycle === "ongoing" ||
   lifecycle === "ongoing_upcoming";

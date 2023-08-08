@@ -6,7 +6,7 @@ import { SUBWAY, departuresListFromInfos } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
-import { hasShuttleService, hasSuspension } from "../../models/alert";
+import { hasSuspension, isCurrentLifecycle } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 import { isACommuterRailRoute } from "../../models/route";
 
@@ -37,7 +37,6 @@ const DepartureList = ({
   alerts,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
-  const tripForSelectedRoutePattern: Trip | undefined = departures[0]?.trip;
   const isCR = isACommuterRailRoute(route);
 
   // don's show cancelled departures for subway
@@ -45,6 +44,12 @@ const DepartureList = ({
     departures,
     (d: DepartureInfo) => !(d.isCancelled && d.routeMode === SUBWAY)
   );
+  const alertsShouldSuppressDepartures =
+    alerts.some(alert => {
+      return isCurrentLifecycle(alert) && alert.effect === "shuttle";
+    }) || hasSuspension(alerts);
+  const tripForSelectedRoutePattern: Trip | undefined =
+    modeSpecificDepartures[0]?.trip;
 
   return (
     <>
@@ -68,14 +73,17 @@ const DepartureList = ({
         <div className="departure-list__headsign">{headsign}</div>
       </h2>
       {alerts.length ? <Alerts alerts={alerts} /> : null}
-      {departures.length === 0 && displayNoUpcomingTrips()}
-      {tripForSelectedRoutePattern &&
-        !hasSuspension(alerts) &&
-        !hasShuttleService(alerts) && (
-          <ul className="stop-routes__departures list-unstyled">
-            {departuresListFromInfos(modeSpecificDepartures, isCR, targetDate)}
-          </ul>
-        )}
+      {modeSpecificDepartures.length === 0
+        ? displayNoUpcomingTrips()
+        : !alertsShouldSuppressDepartures && (
+            <ul className="stop-routes__departures list-unstyled">
+              {departuresListFromInfos(
+                modeSpecificDepartures,
+                isCR,
+                targetDate
+              )}
+            </ul>
+          )}
     </>
   );
 };
