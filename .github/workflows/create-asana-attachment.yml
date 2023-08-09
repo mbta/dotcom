@@ -6,13 +6,13 @@ on:
 
 jobs:
   call-workflow:
-    uses: mbta/workflows/.github/workflows/asana.yml@main
+    uses: mbta/workflows/.github/workflows/asana.yml@1a9faa1b3fafd168d73ef4a7c0fb06c0e0f546ee
     with:
       complete-on-merge: false
       review-section: "Code/Design Review"
       merged-section: "To Be Released"
       attach-pr: true
-      trigger-phrase: "\\*\\*Asana Ticket:\\*\\*"
+      trigger-phrase: "**Asana Ticket:**"
     secrets:
       asana-token: ${{ secrets.ASANA_PERSONAL_ACCESS_TOKEN }}
       github-secret: ${{ secrets.ASANA_SECRET }}

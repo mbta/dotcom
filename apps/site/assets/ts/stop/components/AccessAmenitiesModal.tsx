@@ -26,11 +26,17 @@ const AccessAmenitiesModal = ({
         <AmenityModal headerText={`${facilityType}s at ${stopName}`}>
           <Alerts alerts={alerts} />
           <table className="access-amenities-table">
-            <tbody>
-              <tr className="access-amenities-header access-amenities-row">
-                <th className="ps-16">{facilityType}</th>
-                <th className="status">Status</th>
+            <thead>
+              <tr className="access-amenities-header">
+                <th scope="col" className="ps-16">
+                  {facilityType}
+                </th>
+                <th scope="col" className="status">
+                  Status
+                </th>
               </tr>
+            </thead>
+            <tbody>
               {facilities?.map(facility => {
                 return (
                   <tr key={facility.id} className="access-amenities-row fs-14">
