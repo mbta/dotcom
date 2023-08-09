@@ -185,9 +185,11 @@ export const Alert = ({
           {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: headerContent }} />
         </div>
-        <div className="c-alert-item__top-caret-container">
-          {caretIcon(alert.description === "", expanded)}
-        </div>
+        {alert.description && (
+          <div className="c-alert-item__top-caret-container">
+            {caretIcon(alert.description === "", expanded)}
+          </div>
+        )}
       </div>
       {expanded && alert.description ? alertDescription(alert) : null}
       {/* No javascript support */}
