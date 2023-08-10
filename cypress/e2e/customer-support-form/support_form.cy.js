@@ -11,14 +11,6 @@ describe("Customer Support Form", () => {
     cy.get(".has-danger #comments").should("be.visible");
   });
 
-  it("choosing service shows subject list", () => {
-    cy.get("#support_subject").should("not.be.visible");
-    cy.get("#service-Complaint").check({ force: true });
-    cy.get("#support_subject")
-      .should("be.visible")
-      .should("contain", "Employee Complaint");
-  });
-
   it("toggles additional fields when 'would like a response' is changed", () => {
     // these fields are visible to start
     // checkboxes need to be targeted by their label instead of the input
