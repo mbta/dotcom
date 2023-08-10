@@ -19,7 +19,8 @@ import {
   alertsAffectingBothDirections,
   hasFacilityAlert,
   alertsByActivity,
-  alertsByFacility
+  alertsByFacility,
+  isSuppressiveAlert
 } from "../alert";
 import { add } from "date-fns";
 
@@ -437,5 +438,58 @@ describe("alertsByFacility", () => {
     ] as Facility[];
 
     expect(alertsByFacility(facilities, alerts)).toEqual([alert1]);
+  });
+});
+
+describe("isSuppressiveAlert", () => {
+  test("for shuttles", () => {
+    const shuttleAlert = {
+      id: "d1",
+      effect: "shuttle",
+      lifecycle: "upcoming"
+    } as Alert;
+    const currentShuttleAlert = {
+      id: "d2",
+      effect: "shuttle",
+      lifecycle: "new"
+    } as Alert;
+    expect(isSuppressiveAlert(shuttleAlert, 0)).toBeFalse();
+    expect(isSuppressiveAlert(shuttleAlert, 3)).toBeFalse();
+    expect(isSuppressiveAlert(currentShuttleAlert, 0)).toBeTrue();
+    expect(isSuppressiveAlert(currentShuttleAlert, 3)).toBeTrue();
+  });
+
+  test("for suspensions", () => {
+    const suspensionAlert = {
+      id: "d1",
+      effect: "suspension",
+      lifecycle: "upcoming"
+    } as Alert;
+    const currentSuspensionAlert = {
+      id: "d2",
+      effect: "suspension",
+      lifecycle: "new"
+    } as Alert;
+    expect(isSuppressiveAlert(suspensionAlert, 0)).toBeFalse();
+    expect(isSuppressiveAlert(suspensionAlert, 3)).toBeFalse();
+    expect(isSuppressiveAlert(currentSuspensionAlert, 0)).toBeTrue();
+    expect(isSuppressiveAlert(currentSuspensionAlert, 3)).toBeFalse();
+  });
+
+  test("for detours", () => {
+    const detourAlert = {
+      id: "d1",
+      effect: "detour",
+      lifecycle: "upcoming"
+    } as Alert;
+    const currentDetourAlert = {
+      id: "d2",
+      effect: "detour",
+      lifecycle: "new"
+    } as Alert;
+    expect(isSuppressiveAlert(detourAlert, 0)).toBeFalse();
+    expect(isSuppressiveAlert(detourAlert, 3)).toBeFalse();
+    expect(isSuppressiveAlert(currentDetourAlert, 0)).toBeFalse();
+    expect(isSuppressiveAlert(currentDetourAlert, 3)).toBeFalse();
   });
 });

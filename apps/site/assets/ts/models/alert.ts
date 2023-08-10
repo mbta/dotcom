@@ -263,3 +263,25 @@ export const alertsByFacility = (
     return false;
   });
 };
+
+/**
+ * Sometimes we want to use the alerts to affect the display of departures. This
+ * is mainly when:
+ * - A shuttle is in service
+ * - A suspension is underway – accounting for the fact that, when a suspension
+ *   applies to a range of stops, the first/last stops in that range might only
+ *   experience the suspension in a single direction. We might not have
+ *   sufficient data in the alert itself to conclusively determine that, but we
+ *   can approximate this by observing whether arrival/departure data is
+ *   present.
+ */
+export const isSuppressiveAlert = (
+  alert: Alert,
+  numDepartures: number
+): boolean => {
+  const { effect } = alert;
+  // is departures are present, then the suspension likely doesn't apply
+  const isRelevantSuspension = effect === "suspension" && numDepartures === 0;
+  const isShuttle = effect === "shuttle";
+  return isCurrentLifecycle(alert) && (isShuttle || isRelevantSuspension);
+};
