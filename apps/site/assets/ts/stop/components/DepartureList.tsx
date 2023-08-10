@@ -6,7 +6,7 @@ import { SUBWAY, departuresListFromInfos } from "../../helpers/departureInfo";
 import { routeBgClass } from "../../helpers/css";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
-import { hasSuspension, isCurrentLifecycle } from "../../models/alert";
+import { isSuppressiveAlert } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 import { isACommuterRailRoute } from "../../models/route";
 
@@ -44,10 +44,9 @@ const DepartureList = ({
     departures,
     (d: DepartureInfo) => !(d.isCancelled && d.routeMode === SUBWAY)
   );
-  const alertsShouldSuppressDepartures =
-    alerts.some(alert => {
-      return isCurrentLifecycle(alert) && alert.effect === "shuttle";
-    }) || hasSuspension(alerts);
+  const alertsShouldSuppressDepartures = alerts.some(alert =>
+    isSuppressiveAlert(alert, modeSpecificDepartures.length)
+  );
   const tripForSelectedRoutePattern: Trip | undefined =
     modeSpecificDepartures[0]?.trip;
 
