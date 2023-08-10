@@ -456,7 +456,7 @@ describe("isSuppressiveAlert", () => {
     expect(isSuppressiveAlert(shuttleAlert, 0)).toBeFalse();
     expect(isSuppressiveAlert(shuttleAlert, 3)).toBeFalse();
     expect(isSuppressiveAlert(currentShuttleAlert, 0)).toBeTrue();
-    expect(isSuppressiveAlert(currentShuttleAlert, 3)).toBeTrue();
+    expect(isSuppressiveAlert(currentShuttleAlert, 3)).toBeFalse();
   });
 
   test("for suspensions", () => {

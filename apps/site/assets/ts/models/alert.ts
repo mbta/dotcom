@@ -280,8 +280,8 @@ export const isSuppressiveAlert = (
   numPredictions: number
 ): boolean => {
   const { effect } = alert;
-  // if predictions are present, then the suspension likely doesn't apply
-  const isRelevantSuspension = effect === "suspension" && numPredictions === 0;
-  const isShuttle = effect === "shuttle";
-  return isCurrentLifecycle(alert) && (isShuttle || isRelevantSuspension);
+  // if predictions are present, suspension or shuttle likely doesn't apply here
+  const isValidSuppressiveAlert =
+    (effect === "suspension" || effect === "shuttle") && numPredictions === 0;
+  return isCurrentLifecycle(alert) && isValidSuppressiveAlert;
 };
