@@ -103,12 +103,15 @@ describe("DepartureTimes", () => {
   `(
     `displays $expectedBadge when high priority alert has effect $alertEffect`,
     ({ alertEffect, expectedBadge }) => {
-      const schedules = [
-        {
-          route: { type: 2 },
-          trip: { direction_id: 0 }
-        }
-      ] as ScheduleWithTimestamp[];
+      const schedules =
+        alertEffect === "suspension"
+          ? []
+          : ([
+              {
+                route: { type: 2 },
+                trip: { direction_id: 0 }
+              }
+            ] as ScheduleWithTimestamp[]);
 
       const alerts = [
         {
@@ -116,7 +119,8 @@ describe("DepartureTimes", () => {
           informed_entity: {
             direction_id: [0]
           },
-          effect: alertEffect
+          effect: alertEffect,
+          lifecycle: "new"
         }
       ] as Alert[];
 
@@ -124,7 +128,7 @@ describe("DepartureTimes", () => {
         <DepartureTimes
           route={route}
           directionId={0}
-          stopName=""
+          stopName="ThatStation"
           departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
           alertsForDirection={alerts}
           onClick={() => {}}
@@ -136,12 +140,7 @@ describe("DepartureTimes", () => {
   );
 
   it("should display the high priority alert badge over the information alert badge", () => {
-    const schedules = [
-      {
-        route: { type: 1 },
-        trip: { direction_id: 0 }
-      }
-    ] as ScheduleWithTimestamp[];
+    const schedules = [] as ScheduleWithTimestamp[];
 
     const alerts = [
       {
@@ -149,14 +148,16 @@ describe("DepartureTimes", () => {
         informed_entity: {
           direction_id: [0]
         },
-        effect: "suspension"
+        effect: "suspension",
+        lifecycle: "new"
       },
       {
         id: "123",
         informed_entity: {
           direction_id: [0]
         },
-        effect: "detour"
+        effect: "detour",
+        lifecycle: "new"
       }
     ] as Alert[];
 
@@ -164,7 +165,7 @@ describe("DepartureTimes", () => {
       <DepartureTimes
         route={route}
         directionId={0}
-        stopName=""
+        stopName="ThisStop"
         departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={alerts}
         onClick={() => {}}
