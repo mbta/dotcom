@@ -44,8 +44,10 @@ const DepartureList = ({
     departures,
     (d: DepartureInfo) => !(d.isCancelled && d.routeMode === SUBWAY)
   );
+  const numPredictions = modeSpecificDepartures.filter(d => !!d.prediction)
+    .length;
   const alertsShouldSuppressDepartures = alerts.some(alert =>
-    isSuppressiveAlert(alert, modeSpecificDepartures.length)
+    isSuppressiveAlert(alert, numPredictions)
   );
   const tripForSelectedRoutePattern: Trip | undefined =
     modeSpecificDepartures[0]?.trip;

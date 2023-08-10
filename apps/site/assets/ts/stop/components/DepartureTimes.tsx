@@ -121,9 +121,10 @@ const getRow = (
   alerts: Alert[],
   overrideDate?: Date
 ): JSX.Element => {
-  // High priority badges override the displaying of times
+  // High priority badges might override the displaying of times
+  const numPredictions = departures.filter(d => !!d.prediction).length;
   const suppressiveAlerts = alerts.filter(alert =>
-    isSuppressiveAlert(alert, departures.length)
+    isSuppressiveAlert(alert, numPredictions)
   );
   const alertBadge = toHighPriorityAlertBadge(suppressiveAlerts);
   const isCR = departures[0]

@@ -277,11 +277,11 @@ export const alertsByFacility = (
  */
 export const isSuppressiveAlert = (
   alert: Alert,
-  numDepartures: number
+  numPredictions: number
 ): boolean => {
   const { effect } = alert;
-  // is departures are present, then the suspension likely doesn't apply
-  const isRelevantSuspension = effect === "suspension" && numDepartures === 0;
+  // if predictions are present, then the suspension likely doesn't apply
+  const isRelevantSuspension = effect === "suspension" && numPredictions === 0;
   const isShuttle = effect === "shuttle";
   return isCurrentLifecycle(alert) && (isShuttle || isRelevantSuspension);
 };
