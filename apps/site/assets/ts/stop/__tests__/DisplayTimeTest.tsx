@@ -38,7 +38,7 @@ describe("DisplayTime", () => {
     it("with tomorrow indication", () => {
       const dateNow = new Date();
       render(<DisplayTime departure={departureWithPrediction} isCR={false} />);
-      expect(screen.queryByText("Tomorrow")).toBeFalsy();
+      expect(screen.queryByText("Tomorrow")).toBeNull();
 
       const dateTomorrow = new Date(dateNow);
       dateTomorrow.setDate(dateTomorrow.getDate() + 1);
@@ -46,7 +46,6 @@ describe("DisplayTime", () => {
         <DisplayTime
           departure={
             {
-              ...departureWithPrediction,
               schedule: {
                 ...departureWithPrediction.schedule,
                 time: dateTomorrow
@@ -56,6 +55,7 @@ describe("DisplayTime", () => {
           isCR={false}
         />
       );
+      screen.debug();
       expect(screen.queryByText("Tomorrow")).toBeTruthy();
     });
     it("with track name", () => {
@@ -190,6 +190,7 @@ describe("DisplayTime", () => {
       render(
         <DisplayTime departure={departure} isCR={false} targetDate={nowTime} />
       );
+
       expect(screen.queryByText("Tomorrow")).toBe(null);
       expect(screen.getByText("15 min")).toBeInTheDocument();
     });
