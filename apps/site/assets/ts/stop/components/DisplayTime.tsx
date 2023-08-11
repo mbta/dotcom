@@ -24,6 +24,7 @@
  */
 
 import React, { ReactElement } from "react";
+import { differenceInSeconds, secondsInHour } from "date-fns";
 import { DepartureInfo } from "../../models/departureInfo";
 import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
@@ -33,12 +34,6 @@ import {
 } from "../../helpers/departureInfo";
 import BasicTime from "./BasicTime";
 import { isSameDayInBoston } from "../../helpers/date";
-import {
-  differenceInMinutes,
-  differenceInSeconds,
-  isTomorrow,
-  secondsInHour
-} from "date-fns";
 
 interface DisplayTimeProps {
   departure: DepartureInfo;

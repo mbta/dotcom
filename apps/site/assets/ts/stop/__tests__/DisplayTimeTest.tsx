@@ -55,7 +55,6 @@ describe("DisplayTime", () => {
           isCR={false}
         />
       );
-      screen.debug();
       expect(screen.queryByText("Tomorrow")).toBeTruthy();
     });
     it("with track name", () => {

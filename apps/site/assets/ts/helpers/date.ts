@@ -1,12 +1,11 @@
 import {
   differenceInSeconds,
   getMinutes,
-  isSameDay,
   parseISO,
   secondsInHour,
   secondsInMinute
 } from "date-fns";
-import { formatInTimeZone, utcToZonedTime } from "date-fns-tz";
+import { formatInTimeZone } from "date-fns-tz";
 
 const BOSTON_TIMEZONE = "America/New_York";
 
