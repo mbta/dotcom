@@ -54,7 +54,7 @@ defmodule SiteWeb.StopController do
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => stop_id} = params) do
-    if Laboratory.enabled?(conn, :stops_redesign) do
+    if !Laboratory.enabled?(conn, :old_stops_redesign) do
       # TODO: Render relevant template with relevant data!
       # SHOULD return a Plug.Conn, via a template. See:
       # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/2
