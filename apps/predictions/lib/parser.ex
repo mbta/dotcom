@@ -37,7 +37,7 @@ defmodule Predictions.Parser do
       direction_id(item),
       arrival,
       departure,
-      Schedules.Parser.display_time(arrival, departure, route_id),
+      get_time(departure, arrival),
       stop_sequence(item),
       schedule_relationship(item),
       track(item),
@@ -147,5 +147,13 @@ defmodule Predictions.Parser do
 
   defp vehicle_id(%Item{relationships: %{"vehicle" => []}}) do
     nil
+  end
+
+  defp get_time(departure_time, nil) do
+    departure_time
+  end
+
+  defp get_time(_departure_time, arrival_time) do
+    arrival_time
   end
 end

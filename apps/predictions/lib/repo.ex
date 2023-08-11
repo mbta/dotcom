@@ -187,7 +187,7 @@ defmodule Predictions.Repo do
   defp do_record_to_structs(
          %Stop{} = stop,
          {id, trip_id, platform_stop_id, route_id, direction_id, arrival_time, departure_time,
-          _time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id}
+          time, stop_sequence, schedule_relationship, track, status, departing?, vehicle_id}
        ) do
     trip =
       if trip_id do
@@ -206,7 +206,7 @@ defmodule Predictions.Repo do
         direction_id: direction_id,
         arrival_time: arrival_time,
         departure_time: departure_time,
-        time: get_time(departure_time, arrival_time),
+        time: time,
         stop_sequence: stop_sequence,
         schedule_relationship: schedule_relationship,
         track: track,
@@ -215,14 +215,6 @@ defmodule Predictions.Repo do
         vehicle_id: vehicle_id
       }
     ]
-  end
-
-  defp get_time(departure_time, nil) do
-    departure_time
-  end
-
-  defp get_time(_departure_time, arrival_time) do
-    arrival_time
   end
 
   @spec discard_if_subway_past_prediction([Predictions.Prediction.t()] | []) ::
