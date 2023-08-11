@@ -12,8 +12,6 @@
     <meta name="author" content="Massachusetts Bay Transportation Authority">
     <meta name="theme-color" content="#165c96">
 
-    <%= Turbolinks.cache_meta @conn %>
-
     <%= # hide any page in /org directory from search engines
     if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
       <meta name="robots" content="noindex, nofollow">
@@ -41,15 +39,15 @@
     <% end %>
 
     <%= if Application.get_env(:site, :dev_server?) do %>
-      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/core.css" %>" data-turbolinks-track="reload">
-      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/app.css" %>" data-turbolinks-track="reload">
-      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/core.js" %>" data-turbolinks-track="reload" ></script>
-      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/app.js" %>" data-turbolinks-track="reload" ></script>
+      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/core.css" %>">
+      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/app.css" %>">
+      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/core.js" %>" ></script>
+      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/app.js" %>" ></script>
     <% else %>
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
-      <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
-      <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
+      <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>">
+      <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>">
+      <script defer src="<%= static_url(@conn, "/js/vendors.js") %>"></script>
+      <script defer src="<%= static_url(@conn, "/js/app.js") %>"></script>
     <% end %>
     <script type="application/javascript">
       locationAutocompleteBacking = "<%= LocationService.active_service(:autocomplete) %>";
@@ -63,7 +61,7 @@
   </head>
   <%= Site.BodyTag.render(@conn) %>
     <div class="body-wrapper" id="body-wrapper">
-      <a href="#main" class="sr-only sr-only-focusable" data-turbolinks="false">Skip to main content</a>
+      <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
       <%= SiteWeb.PartialView.render "_hidden_icons.html", conn: @conn %>
       <%= render "_new_header.html", @conn |> Plug.Conn.assign(:page, get_page_classes(@view_module, @view_template)) |> forward_assigns %>
       <%= if assigns[:banner_template] do %>

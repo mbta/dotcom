@@ -10,7 +10,7 @@
   </div>
   <div class="page-section">
     <span class="u-bold">Please note: suggested trips in the proposed redesigned bus network may not perfectly reflect travel times or transfers between services.</span>
-    The proposed redesign also assumes full implementation of the <a href="https://www.mbta.com/projects/green-line-extension-glx">Green Line Extension</a> to Medford, which is reflected in all of <a href="http://mbta.com/bnrdmap">our maps</a>. 
+    The proposed redesign also assumes full implementation of the <a href="https://www.mbta.com/projects/green-line-extension-glx">Green Line Extension</a> to Medford, which is reflected in all of <a href="http://mbta.com/bnrdmap">our maps</a>.
     Because Green Line schedule to Medford has not been finalized, it will not be included in any suggested itineraries.
   </div>
   <div class="page-section">
@@ -19,7 +19,7 @@
   <div class="trip-plan-container">
     <%= render "_sidebar.html", assigns %>
     <div class="trip-plan-body">
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+      <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
       <%= case assigns[:query] do %>
        <% %{itineraries: {:ok, _}} -> %>
           <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
@@ -38,7 +38,7 @@
           <% %{map_data: map_data } = assigns %>
           <% map_data = Map.put(map_data, :tile_server_url, Application.fetch_env!(:site, :tile_server_url)) %>
           <script id="js-trip-planner-map-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
-          <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+          <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
             <div class="trip-plan-initial-map map" id="react-root"></div>
               <%= if Application.get_env(:site, :dev_server?) do %>
                 <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tripplanner.js" %>"></script>

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
 
 <div class="container">
   <h1>Find Your Polling Location</h1>

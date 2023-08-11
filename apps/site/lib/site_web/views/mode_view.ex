@@ -152,8 +152,7 @@ defmodule SiteWeb.ModeView do
             fa("angle-right", class: "m-mode-hub__map-btn-caret")
           ],
           to: MapHelpers.map_pdf_url(type),
-          class: "m-mode-hub__map-btn",
-          data: [turbolinks: "false"]
+          class: "m-mode-hub__map-btn"
         )
       ],
       class: "m-mode-hub__map-btn-wrapper"
@@ -166,8 +165,7 @@ defmodule SiteWeb.ModeView do
         [
           type |> MapHelpers.image() |> img_tag(class: "m-mode-hub__map-image")
         ],
-        to: MapHelpers.map_pdf_url(type),
-        data: [turbolinks: "false"]
+        to: MapHelpers.map_pdf_url(type)
       )
     ])
   end

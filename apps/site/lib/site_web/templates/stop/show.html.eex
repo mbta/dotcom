@@ -1,7 +1,7 @@
 <script data-for="stop-page" id="js-stop-page-data" type="text/plain">
   <%= raw Poison.encode!(@stop_page_data) %>
 </script>
-<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
 <script data-for="map" id="js-stop-map-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
 
 <div id="react-root">
