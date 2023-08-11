@@ -3,9 +3,6 @@ defmodule Site.BodyTag do
 
   Contains the logic for the className of the <body> element.
 
-  JS: If we can detect from the conn that JavaScript is enabled (via Turbolinks), then we can set
-    the JS header automatically.
-
   Error: We set an error class if we detect that we're rendering an error page.
 
   mTicket: If the request has the configured mTicket header, sets a class which will disable certain
@@ -23,7 +20,7 @@ defmodule Site.BodyTag do
 
   defp class_name(conn) do
     [
-      javascript_class(conn),
+      javascript_class(),
       error_class(conn),
       mticket_class(conn),
       preview_class(conn)
@@ -36,12 +33,9 @@ defmodule Site.BodyTag do
     is_nil(conn.assigns[:disable_turbolinks])
   end
 
-  defp javascript_class(conn) do
-    if Turbolinks.enabled?(conn) do
-      "js"
-    else
-      "no-js"
-    end
+  defp javascript_class do
+    # If enabled, JavaScript will replace this class
+    "no-js"
   end
 
   defp error_class(%{private: %{phoenix_view: view_module}}) do

@@ -78,7 +78,6 @@ defmodule SiteWeb.CustomerSupportController do
     }
   }
 
-  plug(Turbolinks.Plug.NoCache)
   plug(:set_service_options)
   plug(:assign_ip)
   plug(:meta_description)

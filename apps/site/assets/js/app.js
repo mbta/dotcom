@@ -50,12 +50,13 @@ import initializeSentry from "../ts/sentry";
 
 initializeSentry();
 
-document.body.className = document.body.className.replace("no-js", "js");
-
 // Extra steps for non-modular javascript
 Turbolinks.start();
 // Won't work as ProvidePlugin due to above
 window.Turbolinks = Turbolinks;
+window.addEventListener("DOMContentLoaded", () => {
+  document.body.className = document.body.className.replace("no-js", "js");
+});
 
 // Doesn't work with ProvidePlugin due to window.zepto dep
 window.autocomplete = autocomplete;
