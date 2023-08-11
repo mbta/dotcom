@@ -12,7 +12,6 @@ import submitOnEvents from "./submit-on-events";
 import collapse from "./collapse";
 import setupGlobalNavigation from "../ts/app/global-navigation";
 import modal from "./modal";
-import turbolinksMods from "./turbolinks-mods";
 import supportForm from "./support-form";
 import fixedsticky from "./fixedsticky";
 import geoLocation from "./geolocation";
@@ -50,10 +49,6 @@ import initializeSentry from "../ts/sentry";
 
 initializeSentry();
 
-// Extra steps for non-modular javascript
-Turbolinks.start();
-// Won't work as ProvidePlugin due to above
-window.Turbolinks = Turbolinks;
 window.addEventListener("DOMContentLoaded", () => {
   document.body.className = document.body.className.replace("no-js", "js");
 });
@@ -335,7 +330,6 @@ setupGlobalNavigation();
 collapse();
 alertItemLoad();
 modal();
-turbolinksMods();
 supportForm();
 fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
