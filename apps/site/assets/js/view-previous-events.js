@@ -25,8 +25,8 @@ export function setupViewPreviousEventsButton() {
 }
 
 export default function() {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       setupViewPreviousEventsButton();
     },

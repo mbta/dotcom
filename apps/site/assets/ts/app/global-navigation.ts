@@ -321,8 +321,8 @@ export function setup(rootElement: HTMLElement): void {
 }
 
 export default function setupGlobalNavigation(): void {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       setup(document.documentElement);
     },

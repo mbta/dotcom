@@ -6,8 +6,8 @@ export default function search($, breakpoints) {
       .focus();
   });
 
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       setupFilterToggleOnMobile($, breakpoints);
     },

@@ -2,7 +2,7 @@ import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 
 export default function() {
   doWhenGoogleMapsIsReady(() => {
-    document.addEventListener("turbolinks:load", setupAutocomplete, {
+    window.addEventListener("load", setupAutocomplete, {
       passive: true
     });
     setupAutocomplete();

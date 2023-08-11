@@ -155,7 +155,7 @@ export class TimeControls {
 
 export function init() {
   const $ = window.jQuery;
-  $(document).on("turbolinks:load", () => {
+  $(document).on("load", () => {
     const formDataEl = document.getElementById("form-data");
 
     if (!formDataEl) return;

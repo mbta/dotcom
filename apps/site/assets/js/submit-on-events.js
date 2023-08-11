@@ -29,7 +29,7 @@ export default function(events, $) {
 
     $(document).on(event, "[data-submit-on-" + event + "] select", onEvent);
     $(document).on(event, "[data-submit-on-" + event + "] input", onEvent);
-    document.addEventListener("turbolinks:before-cache", hideLoading, {
+    document.addEventListener("DOMContentLoaded", hideLoading, {
       passive: true
     });
     hideSubmits();

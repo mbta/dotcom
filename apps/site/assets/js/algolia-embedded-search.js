@@ -141,7 +141,7 @@ export const initWithoutGoogle = () => {
 export const init = () => {
   PAGE_IDS.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
-    document.addEventListener("turbolinks:load", () => {
+    window.addEventListener("load", () => {
       doWhenGoogleMapsIsReady(
         () =>
           new AlgoliaEmbeddedSearch({

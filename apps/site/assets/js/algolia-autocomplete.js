@@ -165,7 +165,7 @@ export default class AlgoliaAutocomplete {
       .jQuery(document)
       .on("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
 
-    document.addEventListener("turbolink:before-render", () => {
+    document.addEventListener("DOMContentLoaded", () => {
       window
         .jQuery(document)
         .off(

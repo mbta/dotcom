@@ -80,7 +80,7 @@ export default function() {
     );
   }
 
-  document.addEventListener("turbolinks:load", setupLocationInput, {
+  window.addEventListener("load", setupLocationInput, {
     passive: true
   });
   $(document).on(

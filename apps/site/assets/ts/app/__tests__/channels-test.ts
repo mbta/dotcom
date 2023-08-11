@@ -11,9 +11,8 @@ import {
 } from "../../helpers/socketTestHelpers";
 
 const mockOnLoadEventListener = () => {
-  // because the turbolinks:load event doesn't fire outside the browser, run it manually here
-  const ev = new CustomEvent("turbolinks:load");
-  document.dispatchEvent(ev);
+  const ev = new CustomEvent("load");
+  window.dispatchEvent(ev);
 };
 
 describe("isVehicleChannel", () => {
@@ -42,7 +41,7 @@ describe("setupChannels", () => {
 
   afterEach(() => {
     // Will leave channels that are joined
-    const ev = new CustomEvent("turbolinks:before-render");
+    const ev = new CustomEvent("DOMContentLoaded");
     document.dispatchEvent(ev);
   });
 

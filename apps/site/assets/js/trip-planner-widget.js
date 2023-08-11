@@ -7,7 +7,7 @@
 import { TripPlannerLocControls } from "./trip-planner-location-controls";
 
 export default function() {
-  document.addEventListener("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     const widgets = document.getElementsByClassName(
       "c-paragraph--trip-plan-widget"
     );

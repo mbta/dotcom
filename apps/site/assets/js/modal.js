@@ -5,7 +5,7 @@ export default function($) {
     $(".modal.in").modal("hide");
   }
 
-  document.addEventListener("turbolinks:before-cache", closeModals, {
+  document.addEventListener("DOMContentLoaded", closeModals, {
     passive: true
   });
 }

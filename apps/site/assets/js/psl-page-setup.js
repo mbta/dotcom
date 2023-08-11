@@ -56,8 +56,8 @@ export function setupPslFilterButtons() {
 }
 
 export default function() {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       const pslButtons = document.querySelector(".psl-types-buttons");
       if (pslButtons) {

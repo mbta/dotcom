@@ -95,7 +95,7 @@ export const doInit = id => {
 };
 
 export function init() {
-  document.addEventListener("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     [
       "search-homepage",
       "search-header-desktop",

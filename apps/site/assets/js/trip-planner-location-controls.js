@@ -6,7 +6,7 @@ import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
 
 export function init() {
-  document.addEventListener("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     doWhenGoogleMapsIsReady(() => {
       new TripPlannerLocControls();
     });
