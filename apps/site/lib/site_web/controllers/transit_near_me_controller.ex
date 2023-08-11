@@ -10,7 +10,6 @@ defmodule SiteWeb.TransitNearMeController do
   def index(conn, _params) do
     conn
     |> assign(:requires_location_service?, true)
-    |> assign(:disable_turbolinks, true)
     |> assign_location()
     |> assign_stops()
     |> assign_map_data()

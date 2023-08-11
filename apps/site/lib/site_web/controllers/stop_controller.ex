@@ -131,7 +131,6 @@ defmodule SiteWeb.StopController do
           end)
 
         conn
-        |> assign(:disable_turbolinks, true)
         |> alerts(stop)
         |> assign(:stop, stop)
         |> assign(:routes, json_safe_routes)
