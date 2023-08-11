@@ -5,7 +5,8 @@ import renderFa from "../../helpers/render-fa";
 import {
   hasDetour,
   hasShuttleService,
-  hasSuspension
+  hasSuspension,
+  isSuppressiveAlert
 } from "../../models/alert";
 import Badge from "../../components/Badge";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -120,8 +121,12 @@ const getRow = (
   alerts: Alert[],
   overrideDate?: Date
 ): JSX.Element => {
-  // High priority badges override the displaying of times
-  const alertBadge = toHighPriorityAlertBadge(alerts);
+  // High priority badges might override the displaying of times
+  const numPredictions = departures.filter(d => !!d.prediction).length;
+  const suppressiveAlerts = alerts.filter(alert =>
+    isSuppressiveAlert(alert, numPredictions)
+  );
+  const alertBadge = toHighPriorityAlertBadge(suppressiveAlerts);
   const isCR = departures[0]
     ? departures[0].routeMode === "commuter_rail"
     : false;
@@ -194,12 +199,7 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
-            departureTimeRow(
-              destination,
-              [],
-              route.type === 2,
-              alertsForDirection
-            )}
+            getRow(destination, [], alertsForDirection, overrideDate)}
         </div>
       )}
     </>

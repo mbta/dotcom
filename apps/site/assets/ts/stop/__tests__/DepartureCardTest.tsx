@@ -3,8 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
 import { Alert, RouteType } from "../../__v3api";
 import { baseRoute } from "./helpers";
-import { ScheduleWithTimestamp } from "../../models/schedules";
-import { mergeIntoDepartureInfo } from "../../helpers/departureInfo";
+import { DepartureInfo } from "../../models/departureInfo";
 
 const mockClickAction = jest.fn();
 
@@ -97,41 +96,34 @@ describe("DepartureCard", () => {
         informed_entity: {
           direction_id: [0]
         },
-        effect: "shuttle"
+        effect: "shuttle",
+        lifecycle: "new"
       },
       {
         id: "4321",
         informed_entity: {
           direction_id: [null]
         },
-        effect: "suspension"
+        effect: "suspension",
+        lifecycle: "new"
       },
       {
         id: "0987",
         informed_entity: {
           direction_id: [1]
         },
-        effect: "detour"
+        effect: "detour",
+        lifecycle: "new"
       }
     ] as Alert[];
 
-    const schedules = [
-      {
-        route: baseRoute("749", 3),
-        trip: { id: "1", direction_id: 0, headsign: "Way 0" }
-      },
-      {
-        route: baseRoute("749", 3),
-        trip: { id: "2", direction_id: 1, headsign: "Way 1" }
-      }
-    ] as ScheduleWithTimestamp[];
-    const departures = mergeIntoDepartureInfo(schedules, []);
+    const departures = [] as DepartureInfo[];
 
     render(
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={departures}
-        stopName=""
+        stopName="Shining Time Station"
         alertsForRoute={alerts}
         onClick={() => {}}
       />
