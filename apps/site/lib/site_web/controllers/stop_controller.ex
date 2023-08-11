@@ -66,19 +66,26 @@ defmodule SiteWeb.StopController do
         |> Repo.get()
 
       if stop do
-        routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+        if Repo.has_parent?(stop) do
+          conn
+          |> redirect(to: stop_path(conn, :show, Repo.get_parent(stop)))
+          |> halt()
+        else
+          routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
 
-        conn
-        |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
-        |> meta_description(stop, routes_by_stop)
-        |> render("show-redesign.html", %{
-          stop_id: stop_id,
-          routes_by_stop: routes_by_stop
-        })
+          conn
+          |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
+          |> meta_description(stop, routes_by_stop)
+          |> render("show-redesign.html", %{
+            stop_id: stop_id,
+            routes_by_stop: routes_by_stop
+          })
+        end
       else
         check_cms_or_404(conn)
       end
     else
+      # no cover
       show_old(conn, params)
     end
   end
