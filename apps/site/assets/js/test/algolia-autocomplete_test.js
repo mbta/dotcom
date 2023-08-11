@@ -44,8 +44,8 @@ describe("AlgoliaAutocomplete", () => {
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
-    window.Turbolinks = {
-      visit: sinon.spy()
+    window.location = {
+      assign: sinon.spy()
     };
     window.encodeURIComponent = string =>
       string.replace(/\s/g, "%20").replace(/&/g, "%26");
@@ -195,10 +195,10 @@ describe("AlgoliaAutocomplete", () => {
             ]
           }
         };
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.equal(true);
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.assign.called).to.equal(true);
+        expect(window.location.assign.args[0][0]).to.equal(
           "/stops/123?from=stop-search&query="
         );
       });
@@ -225,10 +225,10 @@ describe("AlgoliaAutocomplete", () => {
             ]
           }
         };
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.equal(true);
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.assign.called).to.equal(true);
+        expect(window.location.assign.args[0][0]).to.equal(
           "/schedules/123?from=stop-search&query="
         );
       });
@@ -249,9 +249,9 @@ describe("AlgoliaAutocomplete", () => {
             hits: []
           }
         };
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
       });
     });
 
@@ -265,9 +265,9 @@ describe("AlgoliaAutocomplete", () => {
         });
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
       });
     });
   });
@@ -290,10 +290,10 @@ describe("AlgoliaAutocomplete", () => {
             }
           }
         };
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
         ac.clickHighlightedOrFirstResult();
-        expect(window.Turbolinks.visit.called).to.equal(true);
-        expect(window.Turbolinks.visit.args[0][0]).to.equal(
+        expect(window.location.assign.called).to.equal(true);
+        expect(window.location.assign.args[0][0]).to.equal(
           "/stops/123?from=stop-search&query="
         );
       });
@@ -328,10 +328,10 @@ describe("AlgoliaAutocomplete", () => {
             }
           };
           expect(ac._highlightedHit).to.equal(null);
-          expect(window.Turbolinks.visit.called).to.equal(false);
+          expect(window.location.assign.called).to.equal(false);
           ac.clickHighlightedOrFirstResult();
-          expect(window.Turbolinks.visit.called).to.equal(true);
-          expect(window.Turbolinks.visit.args[0][0]).to.equal(
+          expect(window.location.assign.called).to.equal(true);
+          expect(window.location.assign.args[0][0]).to.equal(
             "/stops/123?from=stop-search&query="
           );
         });
@@ -349,9 +349,9 @@ describe("AlgoliaAutocomplete", () => {
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(ac._highlightedHit).to.equal(null);
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
         ac.clickHighlightedOrFirstResult();
-        expect(window.Turbolinks.visit.called).to.equal(false);
+        expect(window.location.assign.called).to.equal(false);
       });
     });
   });

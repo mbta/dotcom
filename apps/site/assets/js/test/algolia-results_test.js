@@ -23,8 +23,8 @@ describe("AlgoliaResults", () => {
       <div id="search-results"></div>
     `;
     window.jQuery = jsdom.rerequire("jquery");
-    window.Turbolinks = {
-      visit: sinon.spy()
+    window.location = {
+      assign: sinon.spy()
     };
     window.encodeURIComponent = string => {
       return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
@@ -470,7 +470,7 @@ describe("AlgoliaResults", () => {
     it("updates the href with parameters", () => {
       const target = document.createElement("a");
       search.onClickResultCallback("/link")({});
-      expect(window.Turbolinks.visit.args[0][0]).to.equal(
+      expect(window.location.assign.args[0][0]).to.equal(
         "/link?from=global-search"
       );
     });
@@ -480,13 +480,13 @@ describe("AlgoliaResults", () => {
     it("adds query parameters for analytics", () => {
       // eslint-disable-next-line no-underscore-dangle
       search._showLocation("42.0", "-71.0", "10 Park Plaza, Boston, MA");
-      expect(window.Turbolinks.visit.called).to.equal(true);
-      expect(window.Turbolinks.visit.args[0][0]).to.contain(
+      expect(window.location.assign.called).to.equal(true);
+      expect(window.location.assign.args[0][0]).to.contain(
         "from=global-search"
       );
-      expect(window.Turbolinks.visit.args[0][0]).to.contain("latitude=42.0");
-      expect(window.Turbolinks.visit.args[0][0]).to.contain("longitude=-71.0");
-      expect(window.Turbolinks.visit.args[0][0]).to.contain(
+      expect(window.location.assign.args[0][0]).to.contain("latitude=42.0");
+      expect(window.location.assign.args[0][0]).to.contain("longitude=-71.0");
+      expect(window.location.assign.args[0][0]).to.contain(
         "address=10%20Park%20Plaza,%20Boston,%20MA"
       );
     });

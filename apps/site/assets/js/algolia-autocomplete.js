@@ -327,7 +327,7 @@ export default class AlgoliaAutocomplete {
   }
 
   onHitSelectedCallback(hit, type, params) {
-    window.Turbolinks.visit(
+    window.location.assign(
       AlgoliaResult.getUrl(hit, type) +
         QueryHelpers.paramsToString(params, window.encodeURIComponent)
     );

@@ -95,7 +95,7 @@ export class AlgoliaEmbeddedSearch {
   }
 
   onClickGoBtn() {
-    return window.Turbolinks.visit(`/search${this.buildSearchParams()}`);
+    return window.location.assign(`/search${this.buildSearchParams()}`);
   }
 
   indexNames() {

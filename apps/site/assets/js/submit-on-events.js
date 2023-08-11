@@ -10,7 +10,7 @@ export default function(events, $) {
       const action = form.attr("action");
       const serialized = form.serialize();
 
-      window.Turbolinks.visit(mergeAction(action, serialized));
+      window.location.assign(mergeAction(action, serialized));
     }
 
     function hideLoading(ev) {
