@@ -17,7 +17,7 @@ import {
   alertsByRoute,
   alertsByDirectionId,
   alertsAffectingBothDirections,
-  hasFacilityAlert,
+  hasCurrentFacilityAlert,
   alertsByActivity,
   alertsByFacility,
   isSuppressiveAlert
@@ -398,7 +398,7 @@ describe("alertsAffectingBothDirections", () => {
   });
 });
 
-describe("hasFacilityAlert", () => {
+describe("hasCurrentFacilityAlert", () => {
   test("should return true when facilityId matches facility in alert else false", () => {
     let facilityId = "ele-125";
     const facilityAlert = {
@@ -408,8 +408,8 @@ describe("hasFacilityAlert", () => {
       } as InformedEntitySet
     };
 
-    expect(hasFacilityAlert(facilityId, [facilityAlert])).toBe(true);
-    expect(hasFacilityAlert(facilityId, [alert2])).toBe(false);
+    expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(true);
+    expect(hasCurrentFacilityAlert(facilityId, [alert2])).toBe(false);
   });
 });
 
