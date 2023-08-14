@@ -77,8 +77,7 @@ defmodule SiteWeb.StopController do
           |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
           |> meta_description(stop, routes_by_stop)
           |> render("show-redesign.html", %{
-            stop_id: stop_id,
-            routes_by_stop: routes_by_stop
+            stop_id: stop_id
           })
         end
       else
