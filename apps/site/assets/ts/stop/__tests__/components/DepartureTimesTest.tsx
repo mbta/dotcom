@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DepartureTimes from "../../components/DepartureTimes";
 import { baseRoute } from "../helpers";
-import { Alert, Route } from "../../../__v3api";
+import { Alert, Route, Trip } from "../../../__v3api";
 import { DepartureInfo } from "../../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/predictions";
@@ -459,6 +459,9 @@ describe("DepartureTimes", () => {
   });
 
   it("renders 'No upcoming trips' when no predictions or schedules", () => {
+    const route = baseRoute("TestRoute", 1);
+    route.direction_destinations = ["Test 1", "Test 2"];
+
     render(
       <DepartureTimes
         route={route}
@@ -473,7 +476,41 @@ describe("DepartureTimes", () => {
     expect(screen.getByText("Somewhere there")).toBeDefined();
   });
 
+  it("it doesn't render when headsign isn't present at stop", () => {
+    const route = baseRoute("TestRoute", 1);
+    route.direction_destinations = ["Test 1", "Across Street"];
+    const schedules = [
+      {
+        trip: { id: "1", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:15:00-04:00"),
+        route: route
+      },
+      {
+        trip: { id: "4", headsign: "Test 1" },
+        time: new Date("2022-04-27T11:40:00-04:00"),
+        route: route
+      }
+    ] as ScheduleWithTimestamp[];
+
+    const departureInfo = mergeIntoDepartureInfo(schedules, []);
+
+    render(
+      <DepartureTimes
+        route={route}
+        directionId={0}
+        stopName="Alewife"
+        departuresForDirection={departureInfo}
+        onClick={mockClickAction}
+        alertsForDirection={[]}
+      />
+    );
+    expect(screen.queryByText("Across Street")).not.toBeInTheDocument();
+    expect(screen.queryByText("Test 1")).toBeInTheDocument();
+  });
+
   it("doesn't render when current stop is same as destination", () => {
+    const route = baseRoute("TestRoute", 1);
+    route.direction_destinations = ["Test 1", "Across Street"];
     render(
       <DepartureTimes
         route={route}

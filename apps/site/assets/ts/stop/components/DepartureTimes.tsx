@@ -169,7 +169,6 @@ const DepartureTimes = ({
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
-  console.log(groupedDepartures);
   const destination = route.direction_destinations[directionId];
   return (
     <>
@@ -201,7 +200,8 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
-            (!stopHasHeadsignTrips(groupedDepartures) && alertsForDirection.length > 0) &&
+            !stopHasHeadsignTrips(groupedDepartures) &&
+            alertsForDirection.length > 0 &&
             getRow(destination, [], alertsForDirection, overrideDate)}
         </div>
       )}
