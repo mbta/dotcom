@@ -134,7 +134,7 @@ const isAtDestination = (
   return false;
 };
 
-const stophasHeadsignTrips = (
+const stopHasHeadsignTrips = (
   groupedDepartures: Dictionary<DepartureInfo[]>
 ): boolean => {
   Object.entries(groupedDepartures).map(([headsign, departures]) => {
@@ -204,5 +204,5 @@ export {
   isAtDestination,
   isCommuterRail,
   departuresListFromInfos,
-  stophasHeadsignTrips
+  stopHasHeadsignTrips
 };

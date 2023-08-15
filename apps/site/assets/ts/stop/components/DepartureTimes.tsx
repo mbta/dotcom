@@ -13,7 +13,7 @@ import { DepartureInfo } from "../../models/departureInfo";
 import {
   departuresListFromInfos,
   isAtDestination,
-  stophasHeadsignTrips
+  stopHasHeadsignTrips
 } from "../../helpers/departureInfo";
 import { DepartureFilterFn } from "./DeparturesAndMap";
 import { breakTextAtSlash } from "../../helpers/text";
@@ -169,6 +169,7 @@ const DepartureTimes = ({
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> => {
   const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
+  console.log(groupedDepartures);
   const destination = route.direction_destinations[directionId];
   return (
     <>
@@ -200,7 +201,7 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
-            stophasHeadsignTrips(groupedDepartures) &&
+            (!stopHasHeadsignTrips(groupedDepartures) && alertsForDirection.length > 0) &&
             getRow(destination, [], alertsForDirection, overrideDate)}
         </div>
       )}
