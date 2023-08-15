@@ -54,7 +54,7 @@ defmodule SiteWeb.StopController do
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => stop_id} = params) do
-    if !Laboratory.enabled?(conn, :old_stops_redesign) do
+    if Laboratory.enabled?(conn, :stops_redesign) do
       # TODO: Render relevant template with relevant data!
       # SHOULD return a Plug.Conn, via a template. See:
       # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/2
@@ -66,25 +66,19 @@ defmodule SiteWeb.StopController do
         |> Repo.get()
 
       if stop do
-        if Repo.has_parent?(stop) do
-          conn
-          |> redirect(to: stop_path(conn, :show, Repo.get_parent(stop)))
-          |> halt()
-        else
-          routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
+        routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
 
-          conn
-          |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
-          |> meta_description(stop, routes_by_stop)
-          |> render("show-redesign.html", %{
-            stop_id: stop_id
-          })
-        end
+        conn
+        |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
+        |> meta_description(stop, routes_by_stop)
+        |> render("show-redesign.html", %{
+          stop_id: stop_id,
+          routes_by_stop: routes_by_stop
+        })
       else
         check_cms_or_404(conn)
       end
     else
-      # no cover
       show_old(conn, params)
     end
   end

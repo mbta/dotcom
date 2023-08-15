@@ -6,6 +6,16 @@ defmodule SiteWeb.StopControllerTest do
   alias Util.Breadcrumb
   import Mock
 
+  test "renders react content server-side", %{conn: conn} do
+    assert [{"div", _, content}] =
+             conn
+             |> get(stop_path(conn, :show, "place-sstat"))
+             |> html_response(200)
+             |> Floki.find("#react-root")
+
+    assert [_ | _] = content
+  end
+
   test "redirects to subway stops on index", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :index))
     assert redirected_to(conn) == stop_path(conn, :show, :subway)
@@ -41,10 +51,31 @@ defmodule SiteWeb.StopControllerTest do
     assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
   end
 
-  test "shows a stop ID", %{conn: conn} do
-    conn = conn |> get(stop_path(conn, :show, "place-sstat"))
+  test "assigns routes for this stop", %{conn: conn} do
+    conn =
+      conn
+      |> get(stop_path(conn, :show, "place-sstat"))
 
-    assert conn.assigns.stop_id
+    assert conn.assigns.routes
+  end
+
+  test "assigns ferry routes", %{conn: conn} do
+    with_mock(Laboratory, [], enabled?: fn _, :stops_redesign -> false end) do
+      conn =
+        conn
+        |> get(stop_path(conn, :show, "Boat-Charlestown"))
+
+      assert [ferry] = conn.assigns.routes
+      assert %{group_name: :ferry, routes: [%{route: %{id: "Boat-F4"}}]} = ferry
+    end
+  end
+
+  test "assigns the zone number for the current stop", %{conn: conn} do
+    conn =
+      conn
+      |> get(stop_path(conn, :show, "place-WML-0442"))
+
+    assert conn.assigns.zone_number == "8"
   end
 
   test "sets a custom meta description for stops", %{conn: conn} do
@@ -195,16 +226,18 @@ defmodule SiteWeb.StopControllerTest do
 
   describe "show/2" do
     test "should set the title and meta description of the page", %{conn: conn} do
-      conn =
-        conn
-        |> get(stop_path(conn, :show, "place-wondl"))
+      with_mock(Laboratory, [], enabled?: fn _, :stops_redesign -> true end) do
+        conn =
+          conn
+          |> get(stop_path(conn, :show, "place-wondl"))
 
-      [_stations, station_name] = conn.assigns.breadcrumbs
+        [_stations, station_name] = conn.assigns.breadcrumbs
 
-      assert "Wonderland" = station_name.text
+        assert "Wonderland" = station_name.text
 
-      assert "Station serving MBTA Subway and Bus lines at 1300 North Shore Rd, Revere, MA 02151." =
-               conn.assigns.meta_description
+        assert "Station serving MBTA Subway and Bus lines at 1300 North Shore Rd, Revere, MA 02151." =
+                 conn.assigns.meta_description
+      end
     end
   end
 end
