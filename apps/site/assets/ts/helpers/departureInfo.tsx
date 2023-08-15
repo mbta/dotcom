@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Dictionary,
   chain,
   concat,
   difference,
@@ -133,6 +134,15 @@ const isAtDestination = (
   return false;
 };
 
+const stophasHeadsignTrips = (
+  groupedDepartures: Dictionary<DepartureInfo[]>
+): boolean => {
+  Object.entries(groupedDepartures).map(([headsign, departures]) => {
+    return departures.some(departure => departure.trip.headsign === headsign);
+  });
+  return false;
+};
+
 const isCommuterRail = (departureInfo: DepartureInfo): boolean => {
   return departureInfo?.routeMode === "commuter_rail";
 };
@@ -193,5 +203,6 @@ export {
   getNextUnCancelledDeparture,
   isAtDestination,
   isCommuterRail,
-  departuresListFromInfos
+  departuresListFromInfos,
+  stophasHeadsignTrips
 };

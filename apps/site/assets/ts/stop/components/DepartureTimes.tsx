@@ -12,7 +12,8 @@ import Badge from "../../components/Badge";
 import { DepartureInfo } from "../../models/departureInfo";
 import {
   departuresListFromInfos,
-  isAtDestination
+  isAtDestination,
+  stophasHeadsignTrips
 } from "../../helpers/departureInfo";
 import { DepartureFilterFn } from "./DeparturesAndMap";
 import { breakTextAtSlash } from "../../helpers/text";
@@ -199,6 +200,7 @@ const DepartureTimes = ({
         >
           {!isAtDestination(stopName, route, directionId) &&
             destination &&
+            stophasHeadsignTrips(groupedDepartures) &&
             getRow(destination, [], alertsForDirection, overrideDate)}
         </div>
       )}
