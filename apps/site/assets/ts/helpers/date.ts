@@ -7,6 +7,8 @@ import {
 } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 
+const BOSTON_TIMEZONE = "America/New_York";
+
 // this returns a Date() in the browser time zone, unlike new Date(unformatted)
 export const stringToDateObject = (unformatted: string): Date => {
   const [year, month, day] = unformatted
@@ -80,7 +82,7 @@ export const formatToBostonTime = (
     formatString = "h aa"; // 5 AM
   }
   formatString = overrideFormat !== undefined ? overrideFormat : formatString;
-  return formatInTimeZone(dateTime, "America/New_York", formatString);
+  return formatInTimeZone(dateTime, BOSTON_TIMEZONE, formatString);
 };
 
 export const formatRelativeTime = (
@@ -96,6 +98,25 @@ export const formatRelativeTime = (
   }
 
   return formatToBostonTime(time, "h:mm aa");
+};
+
+export const isSameDayInBoston = (
+  dateTime1: Date | undefined,
+  dateTime2: Date | undefined
+): boolean => {
+  // if there is no day to compare then the it should be the same day
+  if (!dateTime1 || !dateTime2) {
+    return true;
+  }
+  // returns strings in mm/dd/yyyy format
+  const date1InBoston = dateTime1.toLocaleDateString("en-US", {
+    timeZone: BOSTON_TIMEZONE
+  });
+  const date2InBoston = dateTime2.toLocaleDateString("en-US", {
+    timeZone: BOSTON_TIMEZONE
+  });
+
+  return date1InBoston === date2InBoston;
 };
 
 export default formattedDate;
