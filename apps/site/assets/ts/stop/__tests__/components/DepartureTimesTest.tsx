@@ -488,4 +488,26 @@ describe("DepartureTimes", () => {
     expect(screen.queryByText("No upcoming trips")).not.toBeInTheDocument();
     expect(screen.queryByText("Somewhere there")).not.toBeInTheDocument();
   });
+
+  it("should render no service if the station is closed", () => {
+    const closureAlert = {
+      id: "c1",
+      effect: "station_closure",
+      lifecycle: "ongoing"
+    } as Alert;
+
+    render(
+      <DepartureTimes
+        route={route}
+        directionId={0}
+        stopName="asdf"
+        departuresForDirection={[]}
+        onClick={mockClickAction}
+        alertsForDirection={[closureAlert]}
+       />
+    )
+
+    expect(screen.getByText("No Service")).toBeInTheDocument()
+    expect(screen.getByText("See alternatives")).toBeInTheDocument();
+  })
 });

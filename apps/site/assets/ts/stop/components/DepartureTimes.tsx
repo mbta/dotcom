@@ -5,6 +5,7 @@ import renderFa from "../../helpers/render-fa";
 import {
   hasDetour,
   hasShuttleService,
+  hasStationClosure,
   hasSuspension,
   isSuppressiveAlert
 } from "../../models/alert";
@@ -19,7 +20,7 @@ import { breakTextAtSlash } from "../../helpers/text";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
-  if (hasSuspension(alerts)) {
+  if (hasSuspension(alerts) || hasStationClosure(alerts)) {
     return <Badge text="No Service" contextText="Route Status" />;
   }
 
@@ -88,6 +89,7 @@ const departureTimeRow = (
         alertBadgeWrapper(alertClass, alertBadge!)}
       {(hasShuttleService(alerts) ||
         hasSuspension(alerts) ||
+        hasStationClosure(alerts) ||
         (hasDetour(alerts) && timeList.length === 0)) &&
         alertBadge && (
           <>

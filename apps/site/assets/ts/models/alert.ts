@@ -78,6 +78,9 @@ export const hasShuttleService = (alerts: Alert[]): boolean =>
 export const hasDetour = (alerts: Alert[]): boolean =>
   hasEffect(alerts, "detour");
 
+export const hasStationClosure = (alerts: Alert[]): boolean =>
+  hasEffect(alerts, "station_closure")
+
 export const alertsWithStop = (alerts: Alert[]): Alert[] =>
   alerts.filter(
     ({ informed_entity: entites }: Alert): boolean => !!entites.stop
@@ -282,6 +285,6 @@ export const isSuppressiveAlert = (
   const { effect } = alert;
   // if predictions are present, suspension or shuttle likely doesn't apply here
   const isValidSuppressiveAlert =
-    (effect === "suspension" || effect === "shuttle") && numPredictions === 0;
+    ((effect === "suspension" || effect === "shuttle") && numPredictions === 0) || effect === "station_closure";
   return isCurrentLifecycle(alert) && isValidSuppressiveAlert;
 };
