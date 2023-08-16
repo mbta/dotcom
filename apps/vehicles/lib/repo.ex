@@ -38,8 +38,7 @@ defmodule Vehicles.Repo do
         # For simplicity's sake, our repo always returns a single vehicle for a trip.
         # We sort by vehicle id to ensure that all servers will return the same vehicle.
         # See https://github.com/mbta/dotcom/pull/2753 for further details.
-        [vehicle | _] = Enum.sort_by(vehicles, fn %{id: id} -> id end)
-        vehicle
+        Enum.min_by(vehicles, fn %{id: id} -> id end)
     end
   end
 

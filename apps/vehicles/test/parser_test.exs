@@ -1,8 +1,7 @@
 defmodule Vehicles.ParserTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias Vehicles.Vehicle
   import Vehicles.Parser
-  import Mock
 
   @item %JsonApi.Item{
     attributes: %{
@@ -20,6 +19,10 @@ defmodule Vehicles.ParserTest do
     },
     type: "vehicle"
   }
+  @opts [
+    parent_stations: %{"72" => "place-72"},
+    trip_shapes: %{"25" => "25-shape"}
+  ]
 
   describe "parse/1" do
     test "parses an API response into a Vehicle struct" do
@@ -37,6 +40,8 @@ defmodule Vehicles.ParserTest do
       }
 
       assert parse(@item) == expected
+      # does not crash
+      parse(@item, @opts)
     end
 
     test "can handle a missing trip" do
@@ -56,6 +61,8 @@ defmodule Vehicles.ParserTest do
       }
 
       assert parse(item) == expected
+      # does not crash
+      parse(item, @opts)
     end
 
     test "can handle a missing stop" do
@@ -75,6 +82,8 @@ defmodule Vehicles.ParserTest do
       }
 
       assert parse(item) == expected
+      # does not crash
+      parse(item, @opts)
     end
 
     test "can handle a missing route" do
@@ -96,47 +105,18 @@ defmodule Vehicles.ParserTest do
       }
 
       assert parse(item) == expected
+      # does not crash
+      parse(item, @opts)
     end
 
     test "fetches parent stop if present" do
-      with_mock(Stops.Repo, [], get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end) do
-        expected = %Vehicle{
-          id: "y1799",
-          route_id: "1",
-          stop_id: "place-72",
-          trip_id: "25",
-          shape_id: nil,
-          direction_id: 1,
-          status: :stopped,
-          latitude: 2.2,
-          longitude: 1.1,
-          bearing: 140
-        }
-
-        %Vehicle{} = parsed_vehicle = parse(@item)
-        assert parsed_vehicle == expected, "parsed vehicle is #{inspect(parsed_vehicle)}"
-      end
+      assert %Vehicle{stop_id: "place-72"} = parse(@item, @opts)
     end
 
     test "fetches shape if trip is present" do
-      with_mock(Schedules.Repo,
-        trip: fn "25" -> %Schedules.Trip{shape_id: "25-shape"} end
-      ) do
-        expected = %Vehicle{
-          id: "y1799",
-          route_id: "1",
-          stop_id: "72",
-          trip_id: "25",
-          shape_id: "25-shape",
-          direction_id: 1,
-          status: :stopped,
-          latitude: 2.2,
-          longitude: 1.1,
-          bearing: 140
-        }
-
-        assert parse(@item) == expected
-      end
+      assert %Vehicle{
+               shape_id: "25-shape"
+             } = parse(@item, @opts)
     end
 
     test "can handle occupancy status" do

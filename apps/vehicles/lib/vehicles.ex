@@ -39,7 +39,7 @@ defmodule Vehicles do
       V3Api.Stream.build_options(
         name: Vehicles.Api.SSES,
         path:
-          "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status"
+          "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status&fields[stop]=&fields[trip]=&include=stop,trip"
       )
 
     [

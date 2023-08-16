@@ -2,6 +2,38 @@ defmodule Vehicles.StreamTest do
   use ExUnit.Case
   import ExUnit.CaptureLog
 
+  @stops %JsonApi{
+    data: [
+      %JsonApi.Item{
+        type: "stop",
+        id: "stop",
+        relationships: %{
+          "parent_station" => [
+            %JsonApi.Item{
+              type: "stop",
+              id: "place-stop"
+            }
+          ]
+        }
+      }
+    ]
+  }
+  @trips %JsonApi{
+    data: [
+      %JsonApi.Item{
+        type: "trip",
+        id: "trip",
+        relationships: %{
+          "shape" => [
+            %JsonApi.Item{
+              type: "shape",
+              id: "trip-shape"
+            }
+          ]
+        }
+      }
+    ]
+  }
   @vehicles %JsonApi{
     data: [
       %JsonApi.Item{
@@ -23,7 +55,9 @@ defmodule Vehicles.StreamTest do
   setup tags do
     {:ok, mock_api} =
       GenStage.from_enumerable([
-        %V3Api.Stream.Event{event: :reset, data: @vehicles}
+        %V3Api.Stream.Event{event: :add, data: @stops},
+        %V3Api.Stream.Event{event: :add, data: @trips},
+        %V3Api.Stream.Event{event: :add, data: @vehicles}
       ])
 
     name = :"stream_test_#{tags.line}"
@@ -47,7 +81,14 @@ defmodule Vehicles.StreamTest do
                  subscribe_to: mock_api
                )
 
-      assert_receive {:reset, [%Vehicles.Vehicle{id: "vehicle1"}]}
+      assert_receive {:add,
+                      [
+                        %Vehicles.Vehicle{
+                          id: "vehicle1",
+                          stop_id: "place-stop",
+                          shape_id: "trip-shape"
+                        }
+                      ]}
     end
 
     test "publishes :remove events as a list of IDs", %{name: name} do
