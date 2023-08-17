@@ -4,12 +4,74 @@ defmodule Alerts.PriorityTest do
 
   import Alerts.Priority
   alias Alerts.Alert
+  alias Alerts.InformedEntity
 
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
   describe "priority/2" do
-    test "Delay alerts are high" do
-      assert priority(%{effect: :delay}, @now) == :high
+    test "Delay alerts are low if severity is under 5 and the route type is bus" do
+      alert = %Alert{
+        effect: :delay,
+        severity: 4,
+        informed_entity: [
+          %InformedEntity{
+            direction_id: 1,
+            facility: nil,
+            route: "CR-Newburyport",
+            route_type: 2,
+            stop: nil,
+            trip: "CR-597929-148"
+          },
+          %InformedEntity{
+            direction_id: 1,
+            facility: nil,
+            route: "CR-Newburyport",
+            route_type: 3,
+            stop: nil,
+            trip: "CR-597929-148"
+          }
+        ]
+      }
+
+      assert priority(alert, @now) == :low
+    end
+
+    test "Delay alerts are high if type is bus but severity is 5 or over" do
+      alert = %Alert{
+        effect: :delay,
+        severity: 5,
+        informed_entity: [
+          %InformedEntity{
+            direction_id: 1,
+            facility: nil,
+            route: "CR-Newburyport",
+            route_type: 3,
+            stop: nil,
+            trip: "CR-597929-148"
+          }
+        ]
+      }
+
+      assert priority(alert, @now) == :high
+    end
+
+    test "Delay alerts are high for any severity if route type is not bus" do
+      alert = %Alert{
+        effect: :delay,
+        severity: 4,
+        informed_entity: [
+          %InformedEntity{
+            direction_id: 1,
+            facility: nil,
+            route: "CR-Newburyport",
+            route_type: 2,
+            stop: nil,
+            trip: "CR-597929-148"
+          }
+        ]
+      }
+
+      assert priority(alert, @now) == :high
     end
 
     test "Suspension alerts are high" do
