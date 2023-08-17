@@ -46,7 +46,7 @@ defmodule Vehicles.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:server_sent_event_stage, "~> 1.0"},
       {:castore, "~> 0.1.11"},
-      {:gen_stage, "~> 0.14"}
+      {:gen_stage, "~> 1.2"}
     ]
   end
 end
