@@ -1,4 +1,5 @@
 import React from "react";
+import "whatwg-fetch";
 import { mount } from "enzyme";
 import { DirectionId, Route } from "../../../../__v3api";
 import {

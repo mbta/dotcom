@@ -1,4 +1,5 @@
 import React from "react";
+import "whatwg-fetch";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import TransitNearMe, {

@@ -1,4 +1,5 @@
 import React from "react";
+import "whatwg-fetch";
 import renderer, { act } from "react-test-renderer";
 import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";
@@ -74,9 +75,10 @@ describe("ScheduleModalContent", () => {
       () =>
         new Promise((resolve: Function) =>
           resolve({
-            json: () => "Internal Server Error",
-            ok: false,
-            status: 200
+            json: () => [{ trip: { id: "yeah" } }],
+            ok: true,
+            status: 200,
+            statusText: "OK"
           })
         )
     );

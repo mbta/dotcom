@@ -1,4 +1,5 @@
 import React from "react";
+import "whatwg-fetch";
 import { mount } from "enzyme";
 import ScheduleFinder from "../ScheduleFinder";
 import { EnhancedRoute } from "../../../__v3api";
