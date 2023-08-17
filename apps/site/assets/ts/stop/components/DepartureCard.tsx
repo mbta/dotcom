@@ -43,7 +43,7 @@ const DepartureCard = ({
           route={route}
           directionId={0}
           stopName={stopName}
-          departuresForDirection={departuresByDirection[0]}
+          departuresForDirection={departuresByDirection[0] || []}
           onClick={onClick}
           alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
         />
@@ -52,7 +52,7 @@ const DepartureCard = ({
           route={route}
           directionId={1}
           stopName={stopName}
-          departuresForDirection={departuresByDirection[1]}
+          departuresForDirection={departuresByDirection[1] || []}
           onClick={onClick}
           alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
         />

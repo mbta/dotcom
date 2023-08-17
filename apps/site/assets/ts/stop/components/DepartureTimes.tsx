@@ -1,5 +1,5 @@
 import { groupBy } from "lodash";
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import {
@@ -16,6 +16,7 @@ import {
 } from "../../helpers/departureInfo";
 import { DepartureFilterFn } from "./DeparturesAndMap";
 import { breakTextAtSlash } from "../../helpers/text";
+import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts)) {
@@ -52,7 +53,6 @@ const alertBadgeWrapper = (
 };
 
 const departureTimeRow = (
-  headsignName: string,
   departures: DepartureInfo[],
   isCR: boolean,
   alerts: Alert[],
@@ -76,47 +76,31 @@ const departureTimeRow = (
     )
   );
   return (
-    <div
-      key={headsignName}
-      className="departure-card__headsign d-flex justify-content-space-between"
-    >
-      <div className="departure-card__headsign-name">
-        {breakTextAtSlash(headsignName)}
-      </div>
-      <div className="departure-card__content">
-        {timeList.length > 0 ? (
-          <div className="departure-card__times">{timeList}</div>
-        ) : (
-          !alertBadge && <div>No upcoming trips</div>
+    <div className="departure-card__content">
+      {timeList.length > 0 ? (
+        <div className="departure-card__times">{timeList}</div>
+      ) : (
+        !alertBadge && <div>No upcoming trips</div>
+      )}
+
+      {hasDetour(alerts) &&
+        timeList.length > 0 &&
+        alertBadgeWrapper(alertClass, alertBadge!)}
+      {(hasShuttleService(alerts) ||
+        hasSuspension(alerts) ||
+        (hasDetour(alerts) && timeList.length === 0)) &&
+        alertBadge && (
+          <>
+            <div style={{ float: "right" }}>See alternatives</div>
+            <br />
+            {alertBadgeWrapper(alertClass, alertBadge)}
+          </>
         )}
-
-        {hasDetour(alerts) &&
-          timeList.length > 0 &&
-          alertBadgeWrapper(alertClass, alertBadge!)}
-        {(hasShuttleService(alerts) ||
-          hasSuspension(alerts) ||
-          (hasDetour(alerts) && timeList.length === 0)) &&
-          alertBadge && (
-            <>
-              <div style={{ float: "right" }}>See alternatives</div>
-              <br />
-              {alertBadgeWrapper(alertClass, alertBadge)}
-            </>
-          )}
-      </div>
-
-      <button
-        type="button"
-        aria-label={`Open upcoming departures to ${headsignName}`}
-      >
-        {renderFa("", "fa-angle-right")}
-      </button>
     </div>
   );
 };
 
 const getRow = (
-  headsign: string,
   departures: DepartureInfo[],
   alerts: Alert[],
   overrideDate?: Date
@@ -131,14 +115,13 @@ const getRow = (
     ? departures[0].routeMode === "commuter_rail"
     : false;
   if (alertBadge) {
-    return departureTimeRow(headsign, [], isCR, alerts, alertBadge);
+    return departureTimeRow([], isCR, alerts, alertBadge);
   }
 
   // informative badges compliment the times being shown
   const informativeAlertBadge = toInformativeAlertBadge(alerts);
 
   return departureTimeRow(
-    headsign,
     departures,
     isCR,
     alerts,
@@ -158,6 +141,35 @@ interface DepartureTimesProps {
   onClick: DepartureFilterFn;
 }
 
+const ClickableDepartureRow = ({
+  onClick,
+  headsignName,
+  children
+}: {
+  onClick: () => void;
+  headsignName: string;
+  children: ReactNode;
+}): ReactElement<HTMLElement> => {
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={e => handleReactEnterKeyPress(e, onClick)}
+      aria-label={`Open upcoming departures to ${headsignName}`}
+      className="departure-card__headsign d-flex justify-content-space-between"
+    >
+      <div className="departure-card__headsign-name">
+        {breakTextAtSlash(headsignName)}
+      </div>
+      {children}
+      <div style={{ marginLeft: "0.5em" }}>
+        {renderFa("fa-fw", "fa-angle-right")}
+      </div>
+    </div>
+  );
+};
+
 const DepartureTimes = ({
   route,
   directionId,
@@ -166,42 +178,39 @@ const DepartureTimes = ({
   alertsForDirection,
   stopName,
   overrideDate
-}: DepartureTimesProps): ReactElement<HTMLElement> => {
+}: DepartureTimesProps): ReactElement<HTMLElement> | null => {
+  const callback = (headsignText: string) => () =>
+    onClick({ route, directionId, headsign: headsignText });
+  if (!departuresForDirection.length) {
+    // display using route's destination
+    const destination = route.direction_destinations[directionId];
+    return isAtDestination(stopName, route, directionId) ||
+      !destination ? null : (
+      <ClickableDepartureRow
+        key={`${route.direction_destinations[directionId]}-${route.id}`}
+        onClick={callback(destination)}
+        headsignName={destination}
+      >
+        {getRow(departuresForDirection, alertsForDirection, overrideDate)}
+      </ClickableDepartureRow>
+    );
+  }
+
   const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
-  const destination = route.direction_destinations[directionId];
+
   return (
     <>
-      {Object.keys(groupedDepartures).length > 0 ? (
-        <>
-          {Object.entries(groupedDepartures).map(([headsign, departures]) => {
-            return (
-              <div
-                key={`${headsign}-${route.id}`}
-                onClick={() => onClick({ route, directionId, headsign })}
-                onKeyDown={() => onClick({ route, directionId, headsign })}
-                role="presentation"
-              >
-                {getRow(headsign, departures, alertsForDirection, overrideDate)}
-              </div>
-            );
-          })}
-        </>
-      ) : (
-        <div
-          key={`${route.direction_destinations[directionId]}-${route.id}`}
-          onClick={() =>
-            onClick({ route, directionId, headsign: destination! })
-          }
-          onKeyDown={() =>
-            onClick({ route, directionId, headsign: destination! })
-          }
-          role="presentation"
-        >
-          {!isAtDestination(stopName, route, directionId) &&
-            destination &&
-            getRow(destination, [], alertsForDirection, overrideDate)}
-        </div>
-      )}
+      {Object.entries(groupedDepartures).map(([headsign, departures]) => {
+        return (
+          <ClickableDepartureRow
+            key={`${headsign}-${route.id}`}
+            onClick={callback(headsign)}
+            headsignName={headsign}
+          >
+            {getRow(departures, alertsForDirection, overrideDate)}
+          </ClickableDepartureRow>
+        );
+      })}
     </>
   );
 };
