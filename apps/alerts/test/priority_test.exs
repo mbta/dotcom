@@ -36,10 +36,10 @@ defmodule Alerts.PriorityTest do
       assert priority(alert, @now) == :low
     end
 
-    test "Delay alerts are high if type is bus but severity is 5 or over" do
+    test "Delay alerts are high if type is bus but severity is 6 or over" do
       alert = %Alert{
         effect: :delay,
-        severity: 5,
+        severity: 6,
         informed_entity: [
           %InformedEntity{
             direction_id: 1,

@@ -20,8 +20,8 @@ defmodule Alerts.Priority do
         %{effect: :delay, severity: severity, informed_entity: informed_entities},
         _time
       )
-      when severity < 5 do
-    # delay alerts for bus routes under severity 5 are low priority
+      when severity < 6 do
+    # delay alerts for bus routes under severity 6 are low priority
     case length(Enum.filter(informed_entities, &(&1.route_type == 3))) > 0 do
       true -> :low
       false -> :high
