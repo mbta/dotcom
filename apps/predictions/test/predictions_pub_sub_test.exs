@@ -1,7 +1,7 @@
 defmodule Predictions.PredictionsPubSubTest do
   use ExUnit.Case
-
-  alias Predictions.{Prediction, PredictionsPubSub}
+  import Mock
+  alias Predictions.{Prediction, PredictionsPubSub, Store}
   alias Routes.Route
   alias Stops.Stop
 
@@ -26,6 +26,7 @@ defmodule Predictions.PredictionsPubSubTest do
 
   setup_all do
     start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
+    start_supervised(Store)
 
     subscribe_fn = fn _, _ -> :ok end
     {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
@@ -35,18 +36,13 @@ defmodule Predictions.PredictionsPubSubTest do
 
   describe "subscribe/2" do
     test "clients get existing predictions upon subscribing", %{pid: pid} do
-      predictions = [@prediction39]
-      replace_state(pid, predictions)
-      assert PredictionsPubSub.subscribe(@channel_args, pid) == predictions
+      with_mock(Store, [:passthrough], fetch: fn _keys -> [@prediction39] end) do
+        assert PredictionsPubSub.subscribe(@channel_args, pid) == [@prediction39]
+      end
     end
   end
 
   describe "handle_info/2 - {:reset, predictions}" do
-    setup %{pid: pid} do
-      reset_table(pid)
-      {:ok, pid: pid}
-    end
-
     test "resets the predictions", %{pid: pid} do
       PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:reset, [@prediction39]})
@@ -64,11 +60,6 @@ defmodule Predictions.PredictionsPubSubTest do
   end
 
   describe "handle_info/2 - {:add, predictions}" do
-    setup %{pid: pid} do
-      reset_table(pid)
-      {:ok, pid: pid}
-    end
-
     test "adds the new predictions by route ID", %{pid: pid} do
       PredictionsPubSub.subscribe(@channel_args, pid)
       send(pid, {:add, [@prediction39]})
@@ -87,11 +78,6 @@ defmodule Predictions.PredictionsPubSubTest do
   end
 
   describe "handle_info/2 - :update and :remove" do
-    setup %{pid: pid} do
-      replace_state(pid, [@prediction39])
-      {:ok, pid: pid}
-    end
-
     test "updates the predictions", %{pid: pid} do
       modified_prediction = %{
         @prediction39
@@ -123,20 +109,5 @@ defmodule Predictions.PredictionsPubSubTest do
       send(pid, {:remove, [@prediction39]})
       assert_receive {:new_predictions, []}
     end
-  end
-
-  defp reset_table(pid) do
-    :sys.replace_state(pid, fn %{ets: table} = state ->
-      :ets.delete_all_objects(table)
-      state
-    end)
-  end
-
-  defp replace_state(pid, predictions) do
-    _ =
-      :sys.replace_state(pid, fn %{ets: table} = state ->
-        _ = :ets.insert(table, Enum.map(predictions, &PredictionsPubSub.to_record/1))
-        state
-      end)
   end
 end
