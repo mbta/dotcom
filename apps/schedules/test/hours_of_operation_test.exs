@@ -17,8 +17,8 @@ defmodule Schedules.HoursOfOperationTest do
       assert %Departures{} = week_1
       assert %Departures{} = saturday_0
       assert %Departures{} = saturday_1
-      assert %Departures{} = sunday_0
-      assert %Departures{} = sunday_1
+      assert :no_service = sunday_0
+      assert :no_service = sunday_1
     end
 
     test "returns hours for a rapid_transit route" do
@@ -33,8 +33,8 @@ defmodule Schedules.HoursOfOperationTest do
       assert [%Departures{} | _rest] = week_1
       assert [%Departures{} | _rest] = saturday_0
       assert [%Departures{} | _rest] = saturday_1
-      assert [%Departures{} | _rest] = sunday_0
-      assert [%Departures{} | _rest] = sunday_1
+      assert :no_service = sunday_0
+      assert :no_service = sunday_1
     end
 
     test "can take a list of route IDs" do
