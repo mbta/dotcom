@@ -11,6 +11,9 @@ import { ScheduleNote, SchedulePDF } from "./__schedule";
 const getSchedule = (
   dataArray: StopHours[][] | StopHours[]
 ): ReactElement<HTMLElement>[] | ReactElement<HTMLElement> => {
+  if (dataArray.length === 0) {
+    return [];
+  }
   const bothDirectionData = concat(dataArray[0], dataArray[1]);
   const filteredData = filter(
     bothDirectionData,

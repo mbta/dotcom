@@ -135,7 +135,6 @@ describe("StopPageRedesign", () => {
     [subwayRoute, crRoute, slRoute]
       .flatMap(route => route.polylines)
       .forEach(({ id }) => {
-        console.log(id);
         expect(
           container.querySelector(`.stop-map_line--${id}`)
         ).toBeInTheDocument();
