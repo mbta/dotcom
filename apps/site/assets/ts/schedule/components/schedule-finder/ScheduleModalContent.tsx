@@ -36,8 +36,6 @@ export const fetchData = async (
     `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
   );
 
-  console.log(departures);
-
   const enhanced = await Promise.all(
     departures.map(async departure => {
       const res = await fetchJson<TripInfo>(

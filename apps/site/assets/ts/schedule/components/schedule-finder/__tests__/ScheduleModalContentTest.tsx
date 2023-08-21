@@ -1,5 +1,4 @@
 import React from "react";
-import "whatwg-fetch";
 import renderer, { act } from "react-test-renderer";
 import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";

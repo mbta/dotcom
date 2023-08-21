@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import "whatwg-fetch";
+
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
   ServiceInSelector,
@@ -357,7 +357,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Renders ScheduleNote with Schedule modal", () => {
-    // THIS TEST FAILS
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
@@ -434,7 +433,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Shows the modal with pre-populated values", () => {
-    // THIS TEST FAILS
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
@@ -519,7 +517,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Opens the schedule modal", () => {
-    // ?????? fails but actually runs
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -572,7 +569,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Opens the origin modal", () => {
-    // ?????? fails but actually runs
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -632,7 +628,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Shows the schedule modal on load", () => {
-    // This test fails
     window.history.replaceState(
       {},
       "",
@@ -729,7 +724,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Closes the schedule modal", () => {
-    // This one fails
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
@@ -782,7 +776,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Handles change of direction", () => {
-    // ???? runs but fails
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -829,7 +822,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", () => {
-    // This test fails
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
@@ -888,7 +880,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Changes the origin", () => {
-    // This test fails
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -1053,7 +1044,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("it renders with Schedule modal open", () => {
-    // This test fails
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
@@ -1097,7 +1087,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("it handles change in origin", () => {
-    // This test fails
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
