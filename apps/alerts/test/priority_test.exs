@@ -9,9 +9,10 @@ defmodule Alerts.PriorityTest do
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
   describe "priority/2" do
-    test "Delay alerts are low if severity is under 5 and the route type is bus" do
+    test "Delay alerts are low if severity is under 5 and the route type is bus and the cause is traffic" do
       alert = %Alert{
         effect: :delay,
+        cause: :traffic,
         severity: 4,
         informed_entity: [
           %InformedEntity{
@@ -36,9 +37,38 @@ defmodule Alerts.PriorityTest do
       assert priority(alert, @now) == :low
     end
 
-    test "Delay alerts are high if type is bus but severity is 6 or over" do
+    test "Delay alerts are high if severity is under 5 and the route type is bus and the cause is NOT traffic" do
       alert = %Alert{
         effect: :delay,
+        cause: :unknown_cause,
+        severity: 4,
+        informed_entity: [
+          %InformedEntity{
+            direction_id: 1,
+            facility: nil,
+            route: "CR-Newburyport",
+            route_type: 2,
+            stop: nil,
+            trip: "CR-597929-148"
+          },
+          %InformedEntity{
+            direction_id: 1,
+            facility: nil,
+            route: "CR-Newburyport",
+            route_type: 3,
+            stop: nil,
+            trip: "CR-597929-148"
+          }
+        ]
+      }
+
+      assert priority(alert, @now) == :high
+    end
+
+    test "Delay alerts are high if type is bus but severity is 6 or over, regardless of cause" do
+      alert = %Alert{
+        effect: :delay,
+        cause: :traffic,
         severity: 6,
         informed_entity: [
           %InformedEntity{
@@ -58,6 +88,7 @@ defmodule Alerts.PriorityTest do
     test "Delay alerts are high for any severity if route type is not bus" do
       alert = %Alert{
         effect: :delay,
+        cause: :unknown_cause,
         severity: 4,
         informed_entity: [
           %InformedEntity{
