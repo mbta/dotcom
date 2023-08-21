@@ -458,14 +458,13 @@ defmodule SiteWeb.TripPlanView do
             conn.assigns.itinerary_row_lists,
             Stream.iterate(1, &(&1 + 1))
           ]) do
-
       tab_html =
         "_itinerary_tab.html"
         |> render_to_string(
           itinerary: i,
           index: index,
           routes: routes,
-          itinerary_row_list: itinerary_row_list,
+          itinerary_row_list: itinerary_row_list
         )
 
       access_html = i |> accessibility_icon() |> HTML.safe_to_string()
