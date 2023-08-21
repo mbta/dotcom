@@ -210,6 +210,7 @@ defmodule Site.RealtimeSchedule do
           map
   defp do_get_schedules(route_id, stop_id, route_patterns, now, schedules_fn) do
     route_pattern_dictionary = make_route_pattern_dictionary(route_patterns, stop_id)
+
     schedules =
       case schedules_fn.([route_id], min_time: now) do
         {:error, _} -> []
