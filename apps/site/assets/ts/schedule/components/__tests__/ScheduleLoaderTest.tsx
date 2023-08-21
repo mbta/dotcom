@@ -1,6 +1,5 @@
 import React from "react";
 import { Provider } from "react-redux";
-
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
   ServiceInSelector,
