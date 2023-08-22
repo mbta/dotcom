@@ -16,6 +16,12 @@ defmodule TripPlan.Api do
           | {:optimize_for, :less_walking | :fewest_transfers}
           | {:max_walk_distance, float}
   @type plan_opts :: [plan_opt]
+  @type connection_opt ::
+          {:user_id, integer}
+          | {:force_otp1, boolean}
+          | {:force_otp2, boolean}
+  @type connection_opts :: [connection_opt]
+
   @type error ::
           :outside_bounds
           | :timeout
@@ -29,5 +35,10 @@ defmodule TripPlan.Api do
   @doc """
   Plans a trip between two locations.
   """
-  @callback plan(from :: Position.t(), to :: Position.t(), opts :: plan_opts) :: t
+  @callback plan(
+              from :: Position.t(),
+              to :: Position.t(),
+              conn_opts :: connection_opts,
+              opts :: plan_opts
+            ) :: t
 end

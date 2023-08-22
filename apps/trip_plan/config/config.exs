@@ -34,8 +34,9 @@ config :trip_plan, Geocode, module: TripPlan.Geocode.GoogleGeocode
 
 config :trip_plan, OpenTripPlanner,
   timezone: {:system, "OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"},
-  root_url: {:system, "OPEN_TRIP_PLANNER_URL"},
-  root_url_compare: {:system, "OPEN_TRIP_PLANNER_URL_COMPARE"},
+  otp1_url: {:system, "OPEN_TRIP_PLANNER_URL"},
+  otp2_url: {:system, "OPEN_TRIP_PLANNER_2_URL"},
+  otp2_percentage: {:system, "OPEN_TRIP_PLANNER_2_PERCENTAGE"},
   wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 

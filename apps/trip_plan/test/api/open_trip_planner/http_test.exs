@@ -42,7 +42,8 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
         Logger.configure(level: old_level)
       end)
 
-      new_config = put_in(old_config[:root_url], host)
+      new_config = put_in(old_config[:otp1_url], host)
+      new_config = put_in(new_config[:otp2_url], host)
       Application.put_env(:trip_plan, OpenTripPlanner, new_config)
       Logger.configure(level: :info)
 
