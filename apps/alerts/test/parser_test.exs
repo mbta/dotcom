@@ -32,6 +32,7 @@ defmodule Alerts.ParserTest do
                  "severity" => "Minor",
                  "lifecycle" => "Ongoing",
                  "effect_name" => "Delay",
+                 "cause" => "TRAFFIC",
                  "updated_at" => "2016-06-20T16:09:29-04:00",
                  "description" => "Affected routes: 18",
                  "banner" => "Test banner copy",
@@ -64,9 +65,10 @@ defmodule Alerts.ParserTest do
                  severity: 3,
                  lifecycle: :ongoing,
                  effect: :delay,
+                 cause: :traffic,
                  updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
                  description: "Affected routes: 18",
-                 priority: :high,
+                 priority: :low,
                  url: "www.mbta.com"
                }
     end
@@ -239,7 +241,8 @@ defmodule Alerts.ParserTest do
       assert %Alerts.Alert{
                lifecycle: :ongoing,
                severity: 3,
-               effect: :delay
+               effect: :delay,
+               cause: :unknown_cause
              } = alert
     end
 
@@ -263,7 +266,8 @@ defmodule Alerts.ParserTest do
       assert %Alerts.Alert{
                lifecycle: :ongoing,
                severity: 3,
-               effect: :access_issue
+               effect: :access_issue,
+               cause: :unknown_cause
              } = alert
     end
   end

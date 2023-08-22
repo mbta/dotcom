@@ -16,7 +16,21 @@ defmodule Alerts.Priority do
     :low
   end
 
-  def priority(%{effect: :delay}, _) do
+  def priority(
+        %{effect: :delay, severity: severity, informed_entity: informed_entities, cause: cause},
+        _time
+      )
+      when severity < 6 and cause === :traffic do
+    # delay alerts for bus routes with a cause of traffic under severity 6 are low priority
+    is_bus_alert = Enum.any?(informed_entities, &(&1.route_type == 3))
+
+    case is_bus_alert do
+      true -> :low
+      false -> :high
+    end
+  end
+
+  def priority(%{effect: :delay}, _params) do
     # Delays are always high
     :high
   end

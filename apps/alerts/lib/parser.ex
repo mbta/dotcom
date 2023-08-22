@@ -14,6 +14,7 @@ defmodule Alerts.Parser do
         informed_entity: parse_informed_entity(attributes["informed_entity"]),
         active_period: Enum.map(attributes["active_period"], &active_period/1),
         effect: effect(attributes),
+        cause: cause(attributes["cause"]),
         severity: severity(attributes["severity"]),
         lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
@@ -133,6 +134,33 @@ defmodule Alerts.Parser do
     defp do_effect("STOP_SHOVELING"), do: :stop_shoveling
     defp do_effect("SUMMARY"), do: :summary
     defp do_effect(_), do: :unknown
+
+    @spec cause(String.t() | nil) :: Alerts.Alert.cause()
+    def cause(nil), do: :unknown_cause
+
+    def cause(cause) when is_binary(cause) do
+      cause
+      |> String.replace(" ", "_")
+      |> String.upcase()
+      |> do_cause()
+    end
+
+    @spec do_cause(String.t()) :: Alerts.Alert.cause()
+    defp do_cause("TRAFFIC"), do: :traffic
+    defp do_cause("TRACK_WORK"), do: :track_work
+    defp do_cause("OTHER_CAUSE"), do: :other_cause
+    defp do_cause("TECHNICAL_PROBLEM"), do: :technical_problem
+    defp do_cause("STRIKE"), do: :strike
+    defp do_cause("DEMONSTRATION"), do: :demonstration
+    defp do_cause("ACCIDENT"), do: :accident
+    defp do_cause("HOLIDAY"), do: :holiday
+    defp do_cause("WEATHER"), do: :weather
+    defp do_cause("MAINTENANCE"), do: :maintenance
+    defp do_cause("CONSTRUCTION"), do: :construction
+    defp do_cause("POLICE_ACTIVITY"), do: :police_activity
+    defp do_cause("MEDICAL_EMERGENCY"), do: :medical_emergency
+    defp do_cause("UNKNOWN_CAUSE"), do: :unknown_cause
+    defp do_cause(_), do: :unknown_cause
 
     @spec severity(String.t() | integer) :: Alerts.Alert.severity()
     def severity(binary) when is_binary(binary) do
