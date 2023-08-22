@@ -83,7 +83,7 @@ defmodule Site.ReactTest do
         end)
 
       assert log =~
-               ~r/react_renderer component=TransitNearMe Cannot read property 'filter' of undefined/
+               ~s/react_renderer component=TransitNearMe Cannot read properties of undefined (reading 'filter')/
     end
   end
 
