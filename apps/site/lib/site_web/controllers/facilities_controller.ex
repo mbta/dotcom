@@ -9,7 +9,7 @@ defmodule SiteWeb.FacilitiesController do
 
     case res do
       {:error, _x} ->
-        json(conn, res)
+        SiteWeb.ControllerHelpers.return_internal_error(conn)
 
       _ ->
         json(conn, res.data)
