@@ -145,7 +145,7 @@ defmodule Schedules.Repo do
       data
       |> Stream.map(&Parser.parse/1)
       |> Enum.filter(&has_trip?/1)
-      |> Enum.sort_by(&DateTime.to_unix(elem(&1, 5)))
+      |> Enum.sort_by(&date_sorter/1)
     end
   end
 
@@ -155,6 +155,14 @@ defmodule Schedules.Repo do
 
   def has_trip?({_, _, _, _, _, _, _, _, _, _, _}) do
     true
+  end
+
+  defp date_sorter({_, _, _, _, _, %DateTime{} = time, _, _, _, _, _}) do
+    DateTime.to_unix(time)
+  end
+
+  defp date_sorter({_, _, _, _, _, _, _, _, _, _, _}) do
+    0
   end
 
   def valid?(%JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: id} | _]}})
