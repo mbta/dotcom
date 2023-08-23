@@ -239,11 +239,11 @@ export const isGlobalBannerAlert = (alert: Alert): boolean => {
   return alert.banner != null;
 };
 
-export const hasFacilityAlert = (
+export const hasCurrentFacilityAlert = (
   facilityId: string,
   alerts: Alert[]
 ): boolean => {
-  return alerts.some(alert => {
+  return alerts.filter(isCurrentLifecycle).some(alert => {
     if (alert.informed_entity?.facility) {
       return alert.informed_entity.facility.includes(facilityId);
     }
