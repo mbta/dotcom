@@ -4,6 +4,7 @@ import {
   Alert,
   Facility,
   InformedEntitySet,
+  Lifecycle,
   TimePeriodPairs
 } from "../../__v3api";
 import {
@@ -410,6 +411,18 @@ describe("hasCurrentFacilityAlert", () => {
 
     expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(true);
     expect(hasCurrentFacilityAlert(facilityId, [alert2])).toBe(false);
+  });
+
+  test("should only return true if it has current alerts", () => {
+    let facilityId = "ele-125";
+    const facilityAlert = {
+      ...alert1,
+      lifecycle: "upcoming" as Lifecycle,
+      informed_entity: {
+        facility: ["ele-125"]
+      } as InformedEntitySet
+    };
+    expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(false);
   });
 });
 
