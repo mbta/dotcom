@@ -26,6 +26,7 @@ defmodule Predictions do
       },
       {Registry, keys: :unique, name: :prediction_streams_registry},
       {Registry, keys: :duplicate, name: :prediction_subscriptions_registry},
+      Predictions.Store,
       Predictions.StreamSupervisor,
       Predictions.PredictionsPubSub,
       Predictions.Repo

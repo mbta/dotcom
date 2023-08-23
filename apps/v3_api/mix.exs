@@ -47,7 +47,7 @@ defmodule V3Api.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:server_sent_event_stage, "~> 1.0"},
       {:castore, "~> 0.1.11"},
-      {:gen_stage, "~> 0.14"},
+      {:gen_stage, "~> 1.2"},
       {:json_api, in_umbrella: true},
       {:util, in_umbrella: true},
       {:sentry, "~> 7.0"}

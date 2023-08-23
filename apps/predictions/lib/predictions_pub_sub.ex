@@ -7,17 +7,11 @@ defmodule Predictions.PredictionsPubSub do
 
   use GenServer
 
-  alias Predictions.{Prediction, StreamSupervisor}
-  alias Routes.Route
-  alias Schedules.Trip
-  alias Stops.Stop
+  alias Predictions.{Prediction, Store, StreamSupervisor}
 
   @valid_filters ["route", "stop", "direction", "trip"]
   @broadcast_interval_ms Application.compile_env!(:predictions, [:broadcast_interval_ms])
 
-  @type direction_id_t :: 0 | 1
-  @type table_t :: :ets.table()
-  @type state :: %{ets: table_t}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
 
   # Client
@@ -46,45 +40,34 @@ defmodule Predictions.PredictionsPubSub do
   # Server
 
   @impl GenServer
-  @spec init(keyword) :: {:ok, state}
   def init(opts) do
-    table = :ets.new(:predictions_store, [:public])
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
     subscribe_fn.(Predictions.PubSub, "predictions")
     broadcast_timer(@broadcast_interval_ms)
-    {:ok, %{ets: table}}
+    {:ok, %{}}
   end
 
   @impl GenServer
-  def handle_call({:subscribe, keys}, _from, %{ets: table}) do
+  def handle_call({:subscribe, keys}, _from, state) do
     registry_key = self()
-    predictions = predictions_for_keys(table, keys)
-    {:reply, {registry_key, predictions}, %{ets: table}}
+    predictions = keys |> table_keys() |> Store.fetch()
+    {:reply, {registry_key, predictions}, state}
   end
 
   @impl GenServer
-  def handle_info({event, predictions}, %{ets: table}) when event in [:add, :update, :reset] do
-    # inserts will overwrite existing matching prediction IDs
-    _ = :ets.insert(table, Enum.map(predictions, &to_record/1))
-    {:noreply, %{ets: table}}
-  end
-
-  def handle_info({:remove, predictions_to_remove}, %{ets: table}) do
-    for id <- Enum.map(predictions_to_remove, & &1.id) do
-      :ets.delete(table, id)
-    end
-
-    {:noreply, %{ets: table}}
-  end
-
   def handle_info(:broadcast, state) do
     registry_key = self()
 
     Registry.dispatch(:prediction_subscriptions_registry, registry_key, fn entries ->
-      Enum.each(entries, &send_data(&1, state))
+      Enum.each(entries, &send_data(&1))
     end)
 
     broadcast_timer(@broadcast_interval_ms)
+    {:noreply, state}
+  end
+
+  def handle_info({event, predictions}, state) do
+    :ok = Store.update(event, predictions)
     {:noreply, state}
   end
 
@@ -107,33 +90,10 @@ defmodule Predictions.PredictionsPubSub do
     end)
   end
 
-  @spec predictions_for_keys(table_t(), String.t()) :: [Prediction.t()]
-  def predictions_for_keys(table, keys) do
-    opts = table_keys(keys)
-    # turn opts into ETS match
-    match_pattern = {
-      Keyword.get(opts, :prediction_id, :_) || :_,
-      Keyword.get(opts, :route, :_) || :_,
-      Keyword.get(opts, :stop, :_) || :_,
-      Keyword.get(opts, :direction, :_) || :_,
-      Keyword.get(opts, :trip, :_) || :_,
-      Keyword.get(opts, :vehicle_id, :_) || :_,
-      :"$1"
-    }
-
-    :ets.select(table, [{match_pattern, [], [:"$1"]}])
-  end
-
-  @spec send_data({pid, String.t()}, state) :: broadcast_message()
-  defp send_data({pid, keys}, %{ets: table}) do
-    new_predictions = predictions_for_keys(table, keys)
+  @spec send_data({pid, String.t()}) :: broadcast_message()
+  defp send_data({pid, keys}) do
+    new_predictions = keys |> table_keys() |> Store.fetch()
     send(pid, {:new_predictions, new_predictions})
-  end
-
-  def to_record(prediction) do
-    {prediction.id, prediction.route.id, prediction.stop.id,
-     if(is_integer(prediction.direction_id), do: Integer.to_string(prediction.direction_id)),
-     if(prediction.trip, do: prediction.trip.id, else: nil), prediction.vehicle_id, prediction}
   end
 
   defp broadcast_timer(interval) do
