@@ -250,8 +250,8 @@ describe("StopPageRedesign", () => {
         } as InformedEntitySet,
         active_period: [[dateFormatter(now), dateFormatter(future1)]],
         lifecycle: "new",
-        id: "000005",
-        header: "Stop Moved",
+        id: "000008",
+        header: "Stop has Moved",
         effect: "stop_moved"
       }
     ] as Alert[];
@@ -261,10 +261,9 @@ describe("StopPageRedesign", () => {
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
     renderWithAct(<StopPageRedesign stopId="Test 1" />);
-
     expect(screen.getByText(/Road Closed/)).toBeInTheDocument();
     expect(screen.getByText(/Stop Closed/)).toBeInTheDocument();
-    expect(screen.getByText(/Stop Moved/)).toBeInTheDocument();
+    expect(screen.getByText(/Stop has Moved/)).toBeInTheDocument();
     expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
     expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
