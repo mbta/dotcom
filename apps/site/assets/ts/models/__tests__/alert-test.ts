@@ -507,12 +507,18 @@ describe("isSuppressiveAlert", () => {
   });
 
   test("for closures", () => {
-    const closureAlert = {
+    const stationClosureAlert = {
+      id: "c1",
+      effect: "station_closure",
+      lifecycle: "ongoing"
+    } as Alert;
+    const stopClosureAlert = {
       id: "c1",
       effect: "station_closure",
       lifecycle: "ongoing"
     } as Alert;
 
-    expect(isSuppressiveAlert(closureAlert, 3)).toBeTrue()
-  })
+    expect(isSuppressiveAlert(stationClosureAlert, 3)).toBeTrue();
+    expect(isSuppressiveAlert(stopClosureAlert, 3)).toBeTrue();
+  });
 });
