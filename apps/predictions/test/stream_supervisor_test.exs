@@ -44,4 +44,19 @@ defmodule Predictions.StreamSupervisorTest do
       assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
     end
   end
+
+  describe "stop_stream/1" do
+    test "closes a stream by registered key" do
+      prediction_key = "stop=there2000"
+      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
+      assert Process.alive?(pid)
+
+      assert [{_, ^pid, :worker, [Predictions.StreamSupervisor.Worker]}] =
+               DynamicSupervisor.which_children(Predictions.StreamSupervisor)
+
+      :ok = StreamSupervisor.stop_stream(prediction_key)
+      refute Process.alive?(pid)
+      assert [] = DynamicSupervisor.which_children(Predictions.StreamSupervisor)
+    end
+  end
 end

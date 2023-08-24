@@ -110,4 +110,61 @@ defmodule Predictions.PredictionsPubSubTest do
       assert_receive {:new_predictions, []}
     end
   end
+
+  describe "handle_info/2 - :DOWN" do
+    test "can observe when the caller/subscribing task is exited, and remove from state" do
+      {:ok, pid} =
+        PredictionsPubSub.start_link(name: :subscribe_and_down, subscribe_fn: fn _, _ -> :ok end)
+
+      # Seed the state with some subscriptions, each from a different calling
+      # process. Technically these processes will be dead, and not doing
+      # anything, but we're just using it to pre-populate the GenServer state.
+      p1 = spawn(fn -> true end)
+      p2 = spawn(fn -> true end)
+      p3 = spawn(fn -> true end)
+
+      :sys.replace_state(pid, fn state ->
+        state
+        |> Map.put_new(p1, "stop=1")
+        |> Map.put_new(p2, "stop=2")
+        |> Map.put_new(p3, "stop=3")
+      end)
+
+      # A new caller process subscribes, adds its PID and channel name to state
+      {task, ref} =
+        Process.spawn(
+          fn ->
+            PredictionsPubSub.subscribe(@channel_args, pid)
+            this = self()
+
+            assert %{
+                     ^this => @channel_args,
+                     ^p1 => "stop=1",
+                     ^p2 => "stop=2",
+                     ^p3 => "stop=3"
+                   } = :sys.get_state(pid)
+          end,
+          [:monitor]
+        )
+
+      # The caller process is exited for whatever reason.
+      :erlang.trace(pid, true, [:send])
+      Process.exit(task, :normal)
+      assert_receive {:DOWN, ^ref, :process, ^task, :normal}
+
+      # The exited task's key is sent with :stop_stream to
+      # PredictionsPubSub.handle_cast/2
+      assert_receive {:trace, ^pid, :send, {:"$gen_cast", {:stop_stream, @channel_args}},
+                      PredictionsPubSub}
+
+      # The caller process is removed from the state
+      assert task not in Map.keys(:sys.get_state(pid))
+
+      assert %{
+               ^p1 => "stop=1",
+               ^p2 => "stop=2",
+               ^p3 => "stop=3"
+             } = :sys.get_state(pid)
+    end
+  end
 end

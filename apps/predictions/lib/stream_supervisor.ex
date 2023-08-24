@@ -55,4 +55,18 @@ defmodule Predictions.StreamSupervisor do
   defp via_tuple(key) do
     {:via, Registry, {@streams, key}}
   end
+
+  @spec stop_stream(String.t()) :: :ok
+  def stop_stream(key) do
+    case lookup(key) do
+      pid when is_pid(pid) ->
+        DynamicSupervisor.terminate_child(
+          __MODULE__,
+          pid
+        )
+
+      _ ->
+        :ok
+    end
+  end
 end
