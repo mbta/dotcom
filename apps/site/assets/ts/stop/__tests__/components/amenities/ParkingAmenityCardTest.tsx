@@ -26,6 +26,12 @@ const testLots = [
         url: "Test URL",
         id: "1234"
       }
+    },
+    manager: {
+      name: "Keolis",
+      contact: "support page",
+      phone: "866-234-7275",
+      url: "https://mbta.com"
     }
   },
   {
@@ -157,14 +163,14 @@ describe("ParkingAmenityCard", () => {
     render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
     await user.click(screen.getByRole("button"));
     const paymentMethods = screen.queryAllByText("Payment Methods");
-    const payByPhoneArray = screen.queryAllByText("PayByPhone");
-    const invoiceArray = screen.getAllByText(/Invoice/);
+    const payByPhoneArray = screen.queryAllByText(/PayByPhone/);
+    const invoiceArray = screen.getAllByText(/invoice/);
     expect(paymentMethods.length).toBe(2);
-    expect(payByPhoneArray.length).toBe(1);
+    expect(payByPhoneArray.length).toBe(2);
     expect(invoiceArray.length).toBe(1);
     expect(payByPhoneArray[0]).toBeInTheDocument();
     expect(invoiceArray[0]).toBeInTheDocument();
-    expect(screen.getByText(/Location 1234/)).toBeInTheDocument();
+    expect(screen.getByText(/location #1234/)).toBeInTheDocument();
   });
 
   it("should hide the payment methods if there are non supported", async () => {
@@ -232,5 +238,16 @@ describe("ParkingAmenityCard", () => {
       screen.getByText("This station does not have parking.")
     ).toBeInTheDocument();
     expect(screen.getByText("Not available")).toBeInTheDocument();
+  });
+
+  it("should render manager info", async () => {
+    const user = userEvent.setup();
+    const localTestStop = { ...testStop, parking_lots: testLots };
+    render(<ParkingAmenityCard stop={localTestStop} alertsForParking={[]} />);
+    await user.click(screen.getByRole("button"));
+    expect(screen.getByText(/Keolis/)).toBeInTheDocument();
+    const contactArray = screen.getAllByText(/866-234-7275/);
+    expect(contactArray.length).toBeGreaterThan(0);
+    expect(screen.getByText(/support page/)).toBeInTheDocument();
   });
 });
