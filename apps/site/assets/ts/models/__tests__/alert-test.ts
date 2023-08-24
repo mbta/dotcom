@@ -505,4 +505,20 @@ describe("isSuppressiveAlert", () => {
     expect(isSuppressiveAlert(currentDetourAlert, 0)).toBeFalse();
     expect(isSuppressiveAlert(currentDetourAlert, 3)).toBeFalse();
   });
+
+  test("for closures", () => {
+    const stationClosureAlert = {
+      id: "c1",
+      effect: "station_closure",
+      lifecycle: "ongoing"
+    } as Alert;
+    const stopClosureAlert = {
+      id: "c1",
+      effect: "station_closure",
+      lifecycle: "ongoing"
+    } as Alert;
+
+    expect(isSuppressiveAlert(stationClosureAlert, 3)).toBeTrue();
+    expect(isSuppressiveAlert(stopClosureAlert, 3)).toBeTrue();
+  });
 });
