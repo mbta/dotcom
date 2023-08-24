@@ -28,7 +28,7 @@ const stopWithoutVendingMachine = customStop({});
 describe("FareSalesAmenityCard", () => {
   it("should render the title and description", () => {
     render(<FareSalesAmenityCard stop={stopWithVendingMachine} />);
-    expect(screen.getByText("Fare Sales")).toBeDefined();
+    expect(screen.getByText(/^Fare Options$/)).toBeDefined();
     expect(
       screen.getByText("Purchase fares at fare vending machines.")
     ).toBeDefined();
@@ -44,7 +44,7 @@ describe("FareSalesAmenityCard", () => {
 
   it("should render different description for stops without vending machine", () => {
     render(<FareSalesAmenityCard stop={stopWithoutVendingMachine} />);
-    expect(screen.getByText("Fare Sales")).toBeDefined();
+    expect(screen.getByText(/^Fare Options$/)).toBeDefined();
     expect(
       screen.getByText("Purchase fares at nearby retail sales locations.")
     ).toBeDefined();
