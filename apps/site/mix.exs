@@ -90,6 +90,7 @@ defmodule Site.Mixfile do
       {:feedback, in_umbrella: true},
       {:zones, in_umbrella: true},
       {:fares, in_umbrella: true},
+      {:facilities, in_umbrella: true},
       {:cms, in_umbrella: true},
       {:vehicles, in_umbrella: true},
       {:location_service, in_umbrella: true},
