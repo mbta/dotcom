@@ -25,7 +25,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   rescue
     e in FunctionClauseError ->
       _ =
-        Logger.info(fn ->
+        Logger.warn(fn ->
           "#{__MODULE__} exception=FunctionClauseError function=#{e.function} json=#{json_binary}"
         end)
 
@@ -37,7 +37,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     accessible? = params["wheelchair"] == "true"
 
     _ =
-      Logger.info(fn ->
+      Logger.warn(fn ->
         "#{__MODULE__} trip_plan=error message=#{inspect(error_message)}"
       end)
 

@@ -230,7 +230,7 @@ defmodule SiteWeb.TripPlanController do
       rescue
         e in ArgumentError ->
           Logger.warn(fn ->
-            "#{__MODULE__}.pick_url Couldn't parse #{cookie} cookie as an int, using 0. #{cookie}=#{user_cookie} parse_error=#{e.message}"
+            "#{__MODULE__}.get_conn_opts Couldn't parse #{cookie} cookie as an int, using 0. #{cookie}=#{user_cookie} parse_error=#{e.message}"
           end)
 
           0

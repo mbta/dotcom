@@ -64,7 +64,7 @@ defmodule Site.TripPlan.Query do
     query
   end
 
-  @spec fetch_itineraries(t, String.t(), Keyword.t()) :: TripPlan.Api.t()
+  @spec fetch_itineraries(t, TripPlan.Api.connection_opts(), Keyword.t()) :: TripPlan.Api.t()
   defp fetch_itineraries(
          %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
          connection_opts,

@@ -33,15 +33,24 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   def pick_url(connection_opts) do
+    user_id = connection_opts[:user_id]
+
     cond do
       connection_opts[:force_otp2] ->
+        Logger.info(fn ->
+          "#{__MODULE__}.pick_url Force OTP2 flag enabled, skipping random assignment mbta_id=#{user_id}"
+        end)
+
         config(:otp2_url)
 
       connection_opts[:force_otp1] ->
+        Logger.info(fn ->
+          "#{__MODULE__}.pick_url Force OTP1 flag enabled, skipping random assignment mbta_id=#{user_id}"
+        end)
+
         config(:otp1_url)
 
       true ->
-        user_id = connection_opts[:user_id]
         percent_threshold = get_otp2_percentage()
 
         :rand.seed(:exsss, user_id)
@@ -52,7 +61,6 @@ defmodule TripPlan.Api.OpenTripPlanner do
           "#{__MODULE__}.pick_url placement=#{placement} otp2_percentage=#{percent_threshold}% mbta_id=#{user_id} use_otp2=#{use_otp2}"
         end)
 
-        # IO.inspect(" placement=#{placement} otp2_percentage=#{percent_threshold} mbta_id=#{user_id} use_otp2=#{use_otp2}")
         if use_otp2 do
           config(:otp2_url)
         else
@@ -67,7 +75,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
     rescue
       e in ArgumentError ->
         Logger.warn(fn ->
-          "#{__MODULE__}.pick_url Couldn't parse OPEN_TRIP_PLANNER_2_PERCENTAGE env var as an int, using 0. OPEN_TRIP_PLANNER_2_PERCENTAGE=#{config(:otp2_percentage)} parse_error=#{e.message}"
+          "#{__MODULE__}.get_otp2_percentage Couldn't parse OPEN_TRIP_PLANNER_2_PERCENTAGE env var as an int, using 0. OPEN_TRIP_PLANNER_2_PERCENTAGE=#{config(:otp2_percentage)} parse_error=#{e.message}"
         end)
 
         0
