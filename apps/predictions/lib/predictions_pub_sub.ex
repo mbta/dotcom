@@ -62,19 +62,6 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   @impl GenServer
-  def handle_cast({:stop_stream, key}, state) do
-    # By this point, the caller_pid is no longer alive or registered/subscribed.
-    # Here we can check if there are other subscribers for the associated key.
-    # If there are no other subscribers remaining, we stop the associated
-    # predictions data stream.
-    if Registry.count_match(@subscribers, self(), key) == 0 do
-      StreamSupervisor.stop_stream(key)
-    end
-
-    {:noreply, state}
-  end
-
-  @impl GenServer
   def handle_info(:broadcast, state) do
     registry_key = self()
 
@@ -97,8 +84,29 @@ defmodule Predictions.PredictionsPubSub do
       ) do
     Process.demonitor(parent_ref, [:flush])
     {key, new_state} = Map.pop(state, caller_pid)
-    GenServer.cast(__MODULE__, {:stop_stream, key})
+    # Here we can check if there are other subscribers for the associated key.
+    # If there are no other subscribers remaining, we stop the associated
+    # predictions data stream.
+    if other_subscribers(key, caller_pid) == [] do
+      StreamSupervisor.stop_stream(key)
+    end
+
     {:noreply, new_state}
+  end
+
+  # find registrations for this key from processes other than the indicated pid
+  defp other_subscribers(key, pid_to_omit) do
+    registry_key = self()
+    pattern = {:"$1", :"$2", :"$3"}
+
+    guards = [
+      {:==, :"$1", registry_key},
+      {:"=/=", :"$2", pid_to_omit},
+      {:==, :"$3", key}
+    ]
+
+    body = [{{:"$2", :"$3"}}]
+    Registry.select(@subscribers, [{pattern, guards, body}])
   end
 
   @spec table_keys(String.t()) :: [
