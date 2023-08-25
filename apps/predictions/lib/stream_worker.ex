@@ -8,7 +8,7 @@ defmodule Predictions.StreamSupervisor.Worker do
     Supervisor.start_link(__MODULE__, key, name: name)
   end
 
-  @impl true
+  @impl Supervisor
   def init(key) do
     sses_stream_name = sses_stream_name(key)
     api_stream_name = :"predictions_api_stream_#{key}"
