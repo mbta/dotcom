@@ -64,15 +64,9 @@ const fareTable = (tableData: [string, string][]): React.ReactElement => (
       </thead>
       <tbody>
         {tableData.map(([name, price]) => {
-          // Backend lowercases every word after the first word in `name`.  This fixes the one
-          // edge case for Commuter Rail
-          const changedName = name.replace(
-            /Commuter rail/g,
-            () => "Commuter Rail"
-          );
           return (
-            <tr key={changedName}>
-              <td>{changedName}</td>
+            <tr key={name}>
+              <td>{name}</td>
               <td>{price}</td>
             </tr>
           );

@@ -88,7 +88,8 @@ defmodule SiteWeb.FareControllerTest do
         by_stop: fn "stop_id", _ ->
           [
             %Routes.Route{fare_class: :ferry_fare},
-            %Routes.Route{fare_class: :local_bus_fare}
+            %Routes.Route{fare_class: :local_bus_fare},
+            %Routes.Route{fare_class: :commuter_rail_fare}
           ]
         end
       ) do
@@ -97,6 +98,7 @@ defmodule SiteWeb.FareControllerTest do
 
         assert fares_response == [
                  ["Local bus one-way", "$1.70"],
+                 ["Commuter Rail one-way", "$2.40 – $13.25"],
                  ["Ferry one-way", "$2.40 – $9.75"]
                ]
       end

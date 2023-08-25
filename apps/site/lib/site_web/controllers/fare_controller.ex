@@ -99,7 +99,12 @@ defmodule SiteWeb.FareController do
               Enum.join(summary.name)
             end
 
-          {String.capitalize(name), Fares.Summary.price_range(summary)}
+          # capitalize lowercases every word after the first word in `name`.  This fixes the one
+          # edge case for Commuter Rail
+          capitalizedName = String.capitalize(name)
+          changedName = String.replace(capitalizedName, "Commuter rail", "Commuter Rail")
+
+          {changedName, Fares.Summary.price_range(summary)}
         end)
       end)
 
