@@ -37,10 +37,12 @@ defmodule Site.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
 
-      assert_received {:planned_trip, {^from_position, ^to_position, first_opts},
+      assert_received {:planned_trip,
+                       {^from_position, ^to_position, @connection_opts, first_opts},
                        {:ok, accessible_itineraries}}
 
-      assert_received {:planned_trip, {^from_position, ^to_position, second_opts},
+      assert_received {:planned_trip,
+                       {^from_position, ^to_position, @connection_opts, second_opts},
                        {:ok, nonaccessible_itineraries}}
 
       assert length(
@@ -69,7 +71,7 @@ defmodule Site.TripPlan.QueryTest do
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -97,7 +99,7 @@ defmodule Site.TripPlan.QueryTest do
       }
 
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -117,7 +119,7 @@ defmodule Site.TripPlan.QueryTest do
       actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -146,7 +148,10 @@ defmodule Site.TripPlan.QueryTest do
       query = from_query(params, @connection_opts, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
       assert query.wheelchair_accessible?
-      assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
+
+      assert_received {:planned_trip, {_from_position, _to_position, _, opts},
+                       {:ok, _itineraries}}
+
       assert opts[:arrive_by] == @date_time
       assert opts[:wheelchair_accessible?]
     end
@@ -163,7 +168,7 @@ defmodule Site.TripPlan.QueryTest do
       actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
+      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from === from_position
       assert actual.to === to_position
@@ -183,7 +188,7 @@ defmodule Site.TripPlan.QueryTest do
       actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "no results", from_result}
       assert_received {:geocoded_address, "too many results", to_result}
-      refute_received {:planned_trip, _, _}
+      refute_received {:planned_trip, _, _, _}
       assert {:error, :no_results} = from_result
       assert {:error, {:multiple_results, _}} = to_result
       assert %Query{} = actual
@@ -226,8 +231,8 @@ defmodule Site.TripPlan.QueryTest do
         depart_at: @date_time
       ]
 
-      refute_received {:planned_trip, {_from, _to, ^inaccessible_opts}, {:ok, _itineraries}}
-      assert_received {:planned_trip, {_from, _to, opts}, {:ok, itineraries}}
+      refute_received {:planned_trip, {_from, _to, _, ^inaccessible_opts}, {:ok, _itineraries}}
+      assert_received {:planned_trip, {_from, _to, _, opts}, {:ok, itineraries}}
       assert Keyword.get(opts, :wheelchair_accessible?)
       assert Enum.all?(itineraries, & &1.accessible?)
     end

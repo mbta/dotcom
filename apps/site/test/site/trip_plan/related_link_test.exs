@@ -8,7 +8,8 @@ defmodule Site.TripPlan.RelatedLinkTest do
   setup do
     from = MockPlanner.random_stop()
     to = MockPlanner.random_stop()
-    {:ok, [itinerary]} = TripPlan.plan(from, to, [])
+    connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
+    {:ok, [itinerary]} = TripPlan.plan(from, to, connection_opts, [])
     {:ok, %{itinerary: itinerary}}
   end
 
@@ -34,9 +35,11 @@ defmodule Site.TripPlan.RelatedLinkTest do
     end
 
     test "returns a non-empty list for multiple kinds of itineraries" do
+      connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
+
       for _i <- 0..100 do
         {:ok, [itinerary]} =
-          TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), [])
+          TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), connection_opts, [])
 
         assert [_ | _] = links_for_itinerary(itinerary)
       end

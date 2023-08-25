@@ -8,11 +8,12 @@ defmodule Site.TripPlan.AlertsTest do
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
   @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
+  @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
   @date_time ~N[2017-06-27T11:43:00]
 
   describe "filter_for_itinerary/2" do
     setup do
-      {:ok, [itinerary]} = TripPlan.plan(@from, @to, depart_at: @date_time)
+      {:ok, [itinerary]} = TripPlan.plan(@from, @to, @connection_opts, depart_at: @date_time)
       [route_id] = Itinerary.route_ids(itinerary)
       [trip_id] = Itinerary.trip_ids(itinerary)
       {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}}

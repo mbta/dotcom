@@ -60,7 +60,7 @@ defmodule Site.TripPlan.Query do
     end
   end
 
-  defp maybe_fetch_itineraries(%__MODULE__{} = query, _opts) do
+  defp maybe_fetch_itineraries(%__MODULE__{} = query, _conn_opts, _opts) do
     query
   end
 
