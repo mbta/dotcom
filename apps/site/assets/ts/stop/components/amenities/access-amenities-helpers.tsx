@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert, Facility } from "../../../__v3api";
 import Badge from "../../../components/Badge";
+import { isCurrentLifecycle } from "../../../models/alert";
 
 export const availabilityMessage = (
   brokenFacilities: number,
@@ -20,7 +21,8 @@ export const cardBadge = (
   accessFacilities: Facility[],
   alerts: Alert[]
 ): React.ReactNode => {
-  const workingFacilities = accessFacilities.length - alerts.length;
+  const currentAlerts = alerts.filter(isCurrentLifecycle);
+  const workingFacilities = accessFacilities.length - currentAlerts.length;
   if (accessFacilities.length > 0) {
     let backgroundClass = "u-success-background";
     if (workingFacilities === 0) {

@@ -4,6 +4,7 @@ import {
   Alert,
   Facility,
   InformedEntitySet,
+  Lifecycle,
   TimePeriodPairs
 } from "../../__v3api";
 import {
@@ -17,7 +18,7 @@ import {
   alertsByRoute,
   alertsByDirectionId,
   alertsAffectingBothDirections,
-  hasFacilityAlert,
+  hasCurrentFacilityAlert,
   alertsByActivity,
   alertsByFacility,
   isSuppressiveAlert
@@ -398,7 +399,7 @@ describe("alertsAffectingBothDirections", () => {
   });
 });
 
-describe("hasFacilityAlert", () => {
+describe("hasCurrentFacilityAlert", () => {
   test("should return true when facilityId matches facility in alert else false", () => {
     let facilityId = "ele-125";
     const facilityAlert = {
@@ -408,8 +409,20 @@ describe("hasFacilityAlert", () => {
       } as InformedEntitySet
     };
 
-    expect(hasFacilityAlert(facilityId, [facilityAlert])).toBe(true);
-    expect(hasFacilityAlert(facilityId, [alert2])).toBe(false);
+    expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(true);
+    expect(hasCurrentFacilityAlert(facilityId, [alert2])).toBe(false);
+  });
+
+  test("should only return true if it has current alerts", () => {
+    let facilityId = "ele-125";
+    const facilityAlert = {
+      ...alert1,
+      lifecycle: "upcoming" as Lifecycle,
+      informed_entity: {
+        facility: ["ele-125"]
+      } as InformedEntitySet
+    };
+    expect(hasCurrentFacilityAlert(facilityId, [facilityAlert])).toBe(false);
   });
 });
 
@@ -491,5 +504,21 @@ describe("isSuppressiveAlert", () => {
     expect(isSuppressiveAlert(detourAlert, 3)).toBeFalse();
     expect(isSuppressiveAlert(currentDetourAlert, 0)).toBeFalse();
     expect(isSuppressiveAlert(currentDetourAlert, 3)).toBeFalse();
+  });
+
+  test("for closures", () => {
+    const stationClosureAlert = {
+      id: "c1",
+      effect: "station_closure",
+      lifecycle: "ongoing"
+    } as Alert;
+    const stopClosureAlert = {
+      id: "c1",
+      effect: "station_closure",
+      lifecycle: "ongoing"
+    } as Alert;
+
+    expect(isSuppressiveAlert(stationClosureAlert, 3)).toBeTrue();
+    expect(isSuppressiveAlert(stopClosureAlert, 3)).toBeTrue();
   });
 });

@@ -24,7 +24,8 @@ const isStopPageAlert = ({ effect }: Alert): boolean =>
     "stop_closure",
     "station_closure",
     "shuttle",
-    "detour"
+    "detour",
+    "stop_moved"
   ].includes(effect);
 
 const FullwidthErrorMessage = (): JSX.Element => (

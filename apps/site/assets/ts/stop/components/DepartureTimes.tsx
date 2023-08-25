@@ -3,6 +3,7 @@ import React, { ReactElement, ReactNode } from "react";
 import { Alert, DirectionId, Route } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import {
+  hasClosure,
   hasDetour,
   hasShuttleService,
   hasSuspension,
@@ -19,7 +20,7 @@ import { breakTextAtSlash } from "../../helpers/text";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
-  if (hasSuspension(alerts)) {
+  if (hasSuspension(alerts) || hasClosure(alerts)) {
     return <Badge text="No Service" contextText="Route Status" />;
   }
 
@@ -88,6 +89,7 @@ const departureTimeRow = (
         alertBadgeWrapper(alertClass, alertBadge!)}
       {(hasShuttleService(alerts) ||
         hasSuspension(alerts) ||
+        hasClosure(alerts) ||
         (hasDetour(alerts) && timeList.length === 0)) &&
         alertBadge && (
           <>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Facility } from "../../__v3api";
 import Alerts from "../../components/Alerts";
-import { hasFacilityAlert } from "../../models/alert";
+import { hasCurrentFacilityAlert } from "../../models/alert";
 import { AmenityModal, AmenityLink } from "./amenities/AmenityCard";
 
 const AccessAmenitiesModal = ({
@@ -43,7 +43,7 @@ const AccessAmenitiesModal = ({
                     <td className="ps-16 pe-16">
                       {facility.attributes.short_name}
                     </td>
-                    {hasFacilityAlert(facility.id, alerts) ? (
+                    {hasCurrentFacilityAlert(facility.id, alerts) ? (
                       <td className="status">
                         <i className="fa-solid fa-circle amenity-status amenity-out" />
                         Out of Order

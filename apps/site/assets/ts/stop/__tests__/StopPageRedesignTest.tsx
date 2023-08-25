@@ -179,7 +179,7 @@ describe("StopPageRedesign", () => {
     ).not.toBeNull();
   });
 
-  it("should only render closures, shuttles, and supensions", () => {
+  it("should only render closures, shuttles, moved stops, and supensions", () => {
     const now = new Date();
     const future1 = add(now, { days: 1 });
     const alertsForRoute: Alert[] = [
@@ -242,6 +242,16 @@ describe("StopPageRedesign", () => {
         id: "000009",
         header: "Station Closed",
         effect: "station_closure"
+      },
+      {
+        informed_entity: {
+          entities: [{ route: "Test Route 2" }]
+        } as InformedEntitySet,
+        active_period: [[dateFormatter(now), dateFormatter(future1)]],
+        lifecycle: "new",
+        id: "000008",
+        header: "Stop has Moved",
+        effect: "stop_moved"
       }
     ] as Alert[];
 
@@ -250,9 +260,9 @@ describe("StopPageRedesign", () => {
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
     renderWithAct(<StopPageRedesign stopId="Test 1" />);
-
     expect(screen.getByText(/Road Closed/)).toBeInTheDocument();
     expect(screen.getByText(/Stop Closed/)).toBeInTheDocument();
+    expect(screen.getByText(/Stop has Moved/)).toBeInTheDocument();
     expect(screen.getByText(/Route Suspended/)).toBeInTheDocument();
     expect(screen.getByText(/Station Closed/)).toBeInTheDocument();
     expect(screen.queryByText(/The Walkway has spillage/)).toBeNull();
