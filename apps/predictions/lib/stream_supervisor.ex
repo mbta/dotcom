@@ -41,15 +41,7 @@ defmodule Predictions.StreamSupervisor do
 
   @spec start_stream(String.t()) :: {:ok, pid()}
   defp start_stream(key) do
-    DynamicSupervisor.start_child(
-      __MODULE__,
-      %{
-        id: Worker,
-        start: {Worker, :start_link, [key, via_tuple(key)]},
-        restart: :transient,
-        type: :worker
-      }
-    )
+    DynamicSupervisor.start_child(__MODULE__, {Worker, [key, via_tuple(key)]})
   end
 
   defp via_tuple(key) do

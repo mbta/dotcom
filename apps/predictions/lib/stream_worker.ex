@@ -8,6 +8,15 @@ defmodule Predictions.StreamSupervisor.Worker do
     Supervisor.start_link(__MODULE__, key, name: name)
   end
 
+  def child_spec(opts) do
+    %{
+      id: __MODULE__,
+      start: {__MODULE__, :start_link, opts},
+      restart: :transient,
+      type: :supervisor
+    }
+  end
+
   @impl Supervisor
   def init(key) do
     sses_stream_name = sses_stream_name(key)
