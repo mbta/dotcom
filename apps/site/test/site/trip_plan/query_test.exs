@@ -23,10 +23,16 @@ defmodule Site.TripPlan.QueryTest do
       |> DateTime.to_date()
   ]
 
+  @connection_opts [
+    user_id: 1,
+    force_otp1: false,
+    force_otp2: false
+  ]
+
   describe "from_query/1" do
     test "can plan a basic trip with defaults from query params" do
       params = %{"from" => "from address", "to" => "to address"}
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -59,7 +65,7 @@ defmodule Site.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -82,7 +88,7 @@ defmodule Site.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
 
       to_position = %TripPlan.NamedPosition{
         latitude: 42.3428,
@@ -108,7 +114,7 @@ defmodule Site.TripPlan.QueryTest do
         "optimize_for" => "accessibility"
       }
 
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
@@ -120,7 +126,7 @@ defmodule Site.TripPlan.QueryTest do
 
     test "ignores params that are empty strings or missing" do
       params = %{"from" => ""}
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
       assert %Query{} = actual
       assert actual.from == {:error, :required}
       assert actual.to == nil
@@ -137,7 +143,7 @@ defmodule Site.TripPlan.QueryTest do
         "optimize_for" => "accessibility"
       }
 
-      query = from_query(params, @date_opts)
+      query = from_query(params, @connection_opts, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
       assert query.wheelchair_accessible?
       assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
@@ -154,7 +160,7 @@ defmodule Site.TripPlan.QueryTest do
         "optimize_for" => "accessibility"
       }
 
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       assert_received {:planned_trip, {^from_position, ^to_position, _}, {:ok, itineraries}}
@@ -174,7 +180,7 @@ defmodule Site.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @date_opts)
+      actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "no results", from_result}
       assert_received {:geocoded_address, "too many results", to_result}
       refute_received {:planned_trip, _, _}
@@ -196,7 +202,7 @@ defmodule Site.TripPlan.QueryTest do
         "accessible" => "true"
       }
 
-      query = from_query(params, @date_opts)
+      query = from_query(params, @connection_opts, @date_opts)
       assert %Query{} = query
       assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
       assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to
@@ -212,7 +218,7 @@ defmodule Site.TripPlan.QueryTest do
         "optimize_for" => "accessibility"
       }
 
-      assert %Query{} = from_query(params, @date_opts)
+      assert %Query{} = from_query(params, @connection_opts, @date_opts)
 
       inaccessible_opts = [
         max_walk_distance: 805,
@@ -234,7 +240,7 @@ defmodule Site.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      {:ok, itineraries} = from_query(params, @date_opts).itineraries
+      {:ok, itineraries} = from_query(params, @connection_opts, @date_opts).itineraries
       refute Enum.any?(itineraries, & &1.accessible?)
     end
 
@@ -246,7 +252,7 @@ defmodule Site.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      {:ok, itineraries} = from_query(params, @date_opts).itineraries
+      {:ok, itineraries} = from_query(params, @connection_opts, @date_opts).itineraries
       assert Enum.all?(itineraries, & &1.accessible?)
     end
 
@@ -261,7 +267,8 @@ defmodule Site.TripPlan.QueryTest do
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
-          assert %Query{itineraries: {:error, :timeout}} = from_query(params, @date_opts)
+          assert %Query{itineraries: {:error, :timeout}} =
+                   from_query(params, @connection_opts, @date_opts)
         end)
 
       assert log =~ "timed out"
