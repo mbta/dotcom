@@ -4,6 +4,7 @@ defmodule SiteWeb.TripPlanController do
   """
 
   use SiteWeb, :controller
+  require Logger
   alias Fares.{Fare, Month, OneWay}
   alias GoogleMaps.Geocode
   alias Routes.Route
@@ -219,11 +220,35 @@ defmodule SiteWeb.TripPlanController do
     |> render("vote.html")
   end
 
+  def get_conn_opts(conn) do
+    cookie = SiteWeb.Plugs.Cookies.id_cookie_name()
+    user_cookie = Map.get(conn.cookies, cookie, "0")
+
+    user_id =
+      try do
+        String.to_integer(user_cookie)
+      rescue
+        e in ArgumentError ->
+          Logger.warn(fn ->
+            "#{__MODULE__}.get_conn_opts Couldn't parse #{cookie} cookie as an int, using 0. #{cookie}=#{user_cookie} parse_error=#{e.message}"
+          end)
+
+          0
+      end
+
+    [
+      user_id: user_id,
+      force_otp1: Laboratory.enabled?(conn, :force_otp1),
+      force_otp2: Laboratory.enabled?(conn, :force_otp2)
+    ]
+  end
+
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do
     query =
       Query.from_query(
         plan,
+        get_conn_opts(conn),
         now: conn.assigns.date_time,
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
       )

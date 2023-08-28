@@ -23,15 +23,15 @@ defmodule Site.TripPlan.Query do
           itineraries: TripPlan.Api.t() | nil
         }
 
-  @spec from_query(map, Keyword.t()) :: t
-  def from_query(params, date_opts) do
+  @spec from_query(map, TripPlan.Api.connection_opts(), Keyword.t()) :: t
+  def from_query(params, connection_opts, date_opts) do
     opts = get_query_options(params)
 
     %__MODULE__{}
     |> Site.TripPlan.DateTime.validate(params, date_opts)
     |> Site.TripPlan.Location.validate(params)
     |> include_options(opts)
-    |> maybe_fetch_itineraries(opts)
+    |> maybe_fetch_itineraries(connection_opts, opts)
   end
 
   @spec get_query_options(map) :: keyword()
@@ -42,44 +42,46 @@ defmodule Site.TripPlan.Query do
     |> opts_from_query
   end
 
-  @spec maybe_fetch_itineraries(t, Keyword.t()) :: t
+  @spec maybe_fetch_itineraries(t, TripPlan.Api.connection_opts(), Keyword.t()) :: t
   defp maybe_fetch_itineraries(
          %__MODULE__{
            to: %NamedPosition{},
            from: %NamedPosition{}
          } = query,
+         connection_opts,
          opts
        ) do
     if Enum.empty?(query.errors) do
       query
-      |> fetch_itineraries([query.time | opts])
+      |> fetch_itineraries(connection_opts, [query.time | opts])
       |> parse_itinerary_result(query)
     else
       query
     end
   end
 
-  defp maybe_fetch_itineraries(%__MODULE__{} = query, _opts) do
+  defp maybe_fetch_itineraries(%__MODULE__{} = query, _conn_opts, _opts) do
     query
   end
 
-  @spec fetch_itineraries(t, Keyword.t()) :: TripPlan.Api.t()
+  @spec fetch_itineraries(t, TripPlan.Api.connection_opts(), Keyword.t()) :: TripPlan.Api.t()
   defp fetch_itineraries(
          %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
+         connection_opts,
          opts
        ) do
     pid = self()
 
     if Keyword.get(opts, :wheelchair_accessible?) do
-      TripPlan.plan(from, to, opts)
+      TripPlan.plan(from, to, connection_opts, opts)
     else
       accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
 
       [mixed_results, accessible_results] =
         Util.async_with_timeout(
           [
-            fn -> TripPlan.plan(from, to, opts, pid) end,
-            fn -> TripPlan.plan(from, to, accessible_opts, pid) end
+            fn -> TripPlan.plan(from, to, connection_opts, opts, pid) end,
+            fn -> TripPlan.plan(from, to, connection_opts, accessible_opts, pid) end
           ],
           {:error, :timeout},
           __MODULE__

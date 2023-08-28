@@ -5,6 +5,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
   @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
+  @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
   @date_time ~N[2017-06-27T11:43:00]
 
   setup_all do
@@ -15,7 +16,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
 
   describe "from_itinerary" do
     setup do
-      {:ok, [itinerary]} = TripPlan.plan(@from, @to, depart_at: @date_time)
+      {:ok, [itinerary]} = TripPlan.plan(@from, @to, @connection_opts, depart_at: @date_time)
 
       deps = %ItineraryRow.Dependencies{
         route_mapper: &route_mapper/1,
@@ -47,7 +48,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
       from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
       to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
       date_time = ~N[2017-06-27T11:43:00]
-      {:ok, [itinerary]} = TripPlan.plan(from, to, depart_at: date_time)
+      {:ok, [itinerary]} = TripPlan.plan(from, to, @connection_opts, depart_at: date_time)
       itinerary_row_list = from_itinerary(itinerary, deps)
 
       itinerary_destination =
@@ -144,7 +145,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
 
     test "Does not replace to stop_id", %{deps: deps} do
       to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-north")
-      {:ok, [itinerary]} = TripPlan.plan(@from, to, depart_at: @date_time)
+      {:ok, [itinerary]} = TripPlan.plan(@from, to, @connection_opts, depart_at: @date_time)
 
       {name, id, _datetime, _alerts} =
         itinerary |> from_itinerary(deps, to: "Final Destination") |> Map.get(:destination)
@@ -155,7 +156,7 @@ defmodule Site.TripPlan.ItineraryRowListTest do
 
     test "Uses given from name when one is provided", %{deps: deps} do
       from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-      {:ok, [itinerary]} = TripPlan.plan(from, @to, depart_at: @date_time)
+      {:ok, [itinerary]} = TripPlan.plan(from, @to, @connection_opts, depart_at: @date_time)
 
       {name, nil} =
         itinerary |> from_itinerary(deps, from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)

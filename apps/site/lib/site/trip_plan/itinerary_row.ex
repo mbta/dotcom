@@ -201,7 +201,9 @@ defmodule Site.TripPlan.ItineraryRow do
     %IntermediateStop{
       description: [
         Step.human_relative_direction(step.relative_direction),
-        " onto ",
+        " ",
+        Step.human_relative_preposition(step.relative_direction),
+        " ",
         step.street_name
       ]
     }

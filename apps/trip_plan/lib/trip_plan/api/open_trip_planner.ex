@@ -7,12 +7,12 @@ defmodule TripPlan.Api.OpenTripPlanner do
   alias TripPlan.NamedPosition
   alias Util.Position
 
-  def plan(from, to, opts, _parent) do
-    plan(from, to, opts)
+  def plan(from, to, connection_opts, opts, _parent) do
+    plan(from, to, connection_opts, opts)
   end
 
   @impl true
-  def plan(from, to, opts) do
+  def plan(from, to, connection_opts, opts) do
     with {:ok, params} <- build_params(from, to, opts) do
       params =
         Map.merge(
@@ -26,9 +26,59 @@ defmodule TripPlan.Api.OpenTripPlanner do
           }
         )
 
-      root_url = params["root_url"] || config(:root_url)
+      root_url = params["root_url"] || pick_url(connection_opts)
       full_url = "#{root_url}/otp/routers/default/plan"
       send_request(full_url, params, &parse_json/1)
+    end
+  end
+
+  def pick_url(connection_opts) do
+    user_id = connection_opts[:user_id]
+
+    cond do
+      connection_opts[:force_otp2] ->
+        Logger.info(fn ->
+          "#{__MODULE__}.pick_url Force OTP2 flag enabled, skipping random assignment mbta_id=#{user_id}"
+        end)
+
+        config(:otp2_url)
+
+      connection_opts[:force_otp1] ->
+        Logger.info(fn ->
+          "#{__MODULE__}.pick_url Force OTP1 flag enabled, skipping random assignment mbta_id=#{user_id}"
+        end)
+
+        config(:otp1_url)
+
+      true ->
+        percent_threshold = get_otp2_percentage()
+
+        :rand.seed(:exsss, user_id)
+        placement = :rand.uniform()
+        use_otp2 = placement < percent_threshold / 100
+
+        Logger.info(fn ->
+          "#{__MODULE__}.pick_url placement=#{placement} otp2_percentage=#{percent_threshold}% mbta_id=#{user_id} use_otp2=#{use_otp2}"
+        end)
+
+        if use_otp2 do
+          config(:otp2_url)
+        else
+          config(:otp1_url)
+        end
+    end
+  end
+
+  def get_otp2_percentage() do
+    try do
+      String.to_integer(config(:otp2_percentage))
+    rescue
+      e in ArgumentError ->
+        Logger.warn(fn ->
+          "#{__MODULE__}.get_otp2_percentage Couldn't parse OPEN_TRIP_PLANNER_2_PERCENTAGE env var as an int, using 0. OPEN_TRIP_PLANNER_2_PERCENTAGE=#{config(:otp2_percentage)} parse_error=#{e.message}"
+        end)
+
+        0
     end
   end
 
@@ -59,7 +109,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
     _ =
       Logger.info(fn ->
-        "#{__MODULE__}.plan_response url=#{url} params=#{inspect(params)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
+        "#{__MODULE__}.plan_response url=#{url} is_otp2=#{String.contains?(url, config(:otp2_url))} params=#{inspect(params)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
       end)
 
     response

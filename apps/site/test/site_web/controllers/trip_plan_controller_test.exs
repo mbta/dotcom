@@ -835,7 +835,8 @@ defmodule SiteWeb.TripPlanControllerTest do
     setup do
       from = MockPlanner.random_stop()
       to = MockPlanner.random_stop()
-      {:ok, itineraries} = TripPlan.plan(from, to, [])
+      connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
+      {:ok, itineraries} = TripPlan.plan(from, to, connection_opts, [])
       {:ok, %{itineraries: itineraries}}
     end
 

@@ -39,6 +39,9 @@ defmodule TripPlan.PersonalDetail.Step do
           | :elevator
           | :uturn_left
           | :uturn_right
+          | :enter_station
+          | :exit_station
+          | :follow_signs
 
   @type absolute_direction ::
           :north
@@ -64,4 +67,13 @@ defmodule TripPlan.PersonalDetail.Step do
   def human_relative_direction(:elevator), do: "Take the elevator"
   def human_relative_direction(:uturn_left), do: "Make a U-turn"
   def human_relative_direction(:uturn_right), do: "Make a U-turn"
+  def human_relative_direction(:enter_station), do: "Enter the station"
+  def human_relative_direction(:exit_station), do: "Exit the station"
+  def human_relative_direction(:follow_signs), do: "Follow signs"
+
+  @spec human_relative_preposition(relative_direction) :: binary
+  def human_relative_preposition(:follow_signs), do: "for"
+  def human_relative_preposition(:enter_station), do: "through"
+  def human_relative_preposition(:exit_station), do: "towards"
+  def human_relative_preposition(_), do: "onto"
 end

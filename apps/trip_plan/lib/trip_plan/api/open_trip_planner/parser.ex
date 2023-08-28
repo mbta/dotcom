@@ -25,7 +25,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   rescue
     e in FunctionClauseError ->
       _ =
-        Logger.info(fn ->
+        Logger.warn(fn ->
           "#{__MODULE__} exception=FunctionClauseError function=#{e.function} json=#{json_binary}"
         end)
 
@@ -37,7 +37,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     accessible? = params["wheelchair"] == "true"
 
     _ =
-      Logger.info(fn ->
+      Logger.warn(fn ->
         "#{__MODULE__} trip_plan=error message=#{inspect(error_message)}"
       end)
 
@@ -139,18 +139,21 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   # http://dev.opentripplanner.org/apidoc/1.0.0/json_RelativeDirection.html
   for dir <- ~w(
         depart
-        slightly_left
-        left
         hard_left
+        left
+        slightly_left
+        continue
         slightly_right
         right
         hard_right
-        continue
         circle_clockwise
         circle_counterclockwise
         elevator
         uturn_left
-        uturn_right)a do
+        uturn_right
+        enter_station
+        exit_station
+        follow_signs)a do
     defp parse_relative_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
   end
 

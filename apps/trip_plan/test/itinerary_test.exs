@@ -5,17 +5,18 @@ defmodule TripPlan.ItineraryTest do
 
   @from MockPlanner.random_stop()
   @to MockPlanner.random_stop()
+  @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
 
   describe "destination/1" do
     test "returns the final destination of the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
       assert destination(itinerary) == @to
     end
   end
 
   describe "transit_legs/1" do
     test "returns all transit legs excluding personal legs" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
 
       assert Enum.all?(transit_legs(itinerary), &Leg.transit?/1)
     end
@@ -23,7 +24,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "route_ids/1" do
     test "returns all the route IDs from the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
 
       test_calculated_ids =
         Enum.flat_map(itinerary, fn leg ->
@@ -39,7 +40,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "trip_ids/1" do
     test "returns all the trip IDs from the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
 
       test_calculated_ids =
         Enum.flat_map(itinerary, fn leg ->
@@ -55,7 +56,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "route_trip_ids/1" do
     test "returns all the route and trip IDs from the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
 
       test_calculated_ids =
         Enum.flat_map(itinerary.legs, fn leg ->
@@ -71,7 +72,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "positions/1" do
     test "returns all named positions for the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
       [first, second, third] = itinerary.legs
       expected = [first.from, first.to, second.from, second.to, third.from, third.to]
       assert positions(itinerary) == expected
@@ -80,7 +81,7 @@ defmodule TripPlan.ItineraryTest do
 
   describe "stop_ids/1" do
     test "returns all the stop IDs from the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
 
       test_calculated_ids =
         Enum.uniq(Enum.flat_map(itinerary.legs, &[&1.from.stop_id, &1.to.stop_id]))
@@ -107,18 +108,18 @@ defmodule TripPlan.ItineraryTest do
 
   describe "same_itinerary?" do
     test "Same itinerary is the same" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
       assert same_itinerary?(itinerary, itinerary)
     end
 
     test "itineraries with different start times are not the same" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
       later_itinerary = %{itinerary | start: Timex.shift(itinerary.start, minutes: 40)}
       refute same_itinerary?(itinerary, later_itinerary)
     end
 
     test "Itineraries with different accessibility flags are the same" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, @connection_opts, [])
       accessible_itinerary = %{itinerary | accessible?: true}
       assert same_itinerary?(itinerary, accessible_itinerary)
     end
