@@ -92,23 +92,26 @@ defmodule SiteWeb.FareController do
         |> Fares.Repo.for_fare_class(duration: :single_trip, reduced: nil)
         |> Fares.Format.summarize(Fares.Format.mode_type_for_fare_class(fare_class))
         |> Enum.map(fn summary ->
-          name =
-            if is_binary(summary.name) do
-              summary.name
-            else
-              Enum.join(summary.name)
-            end
-
-          # capitalize lowercases every word after the first word in `name`.  This fixes the one
-          # edge case for Commuter Rail
-          capitalizedName = String.capitalize(name)
-          changedName = String.replace(capitalizedName, "Commuter rail", "Commuter Rail")
-
+          changedName = format_name(summary)
           {changedName, Fares.Summary.price_range(summary)}
         end)
       end)
 
     json(conn, one_way_fares)
+  end
+
+  defp format_name(summary) do
+    name =
+      if is_binary(summary.name) do
+        summary.name
+      else
+        Enum.join(summary.name)
+      end
+
+    # capitalize lowercases every word after the first word in `name`.  This fixes the one
+    # edge case for Commuter Rail
+    capitalizedName = String.capitalize(name)
+    String.replace(capitalizedName, "Commuter rail", "Commuter Rail")
   end
 
   # Use the route mode to determine the display fare. e.g. instead of the 23 bus
