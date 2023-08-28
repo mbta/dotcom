@@ -52,7 +52,7 @@ const StationInformation = ({
       <div className="station-amenities mt-24">
         {isStation && (
           <>
-            <h3 className="hidden-md-up">Bringing Your Car or Bike</h3>
+            <h3 className="hidden-md-up">Bringing your car or bike</h3>
             <ParkingAmenityCard
               stop={stop}
               alertsForParking={filterParkingAlerts(alerts)}
@@ -66,7 +66,7 @@ const StationInformation = ({
         )}
         {isStation && (
           <>
-            <h3 className="hidden-md-up">Getting Around the Station</h3>
+            <h3 className="hidden-md-up">Getting around the station</h3>
             <ElevatorsAmenityCard
               stopName={stop.name}
               alerts={alertsByFacility(
@@ -90,7 +90,7 @@ const StationInformation = ({
           stopName={stop.name}
           isStation={isStation}
         />
-        {isStation && <h3 className="hidden-md-up">Purchasing Fares</h3>}
+        {isStation && <h3 className="hidden-md-up">Purchasing fares</h3>}
         <FareSalesAmenityCard stop={stop} />
       </div>
     </div>

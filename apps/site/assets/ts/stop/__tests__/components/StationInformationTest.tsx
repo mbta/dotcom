@@ -27,13 +27,13 @@ describe("StationInformation", () => {
       screen.queryByRole("heading", { name: "Station Information" })
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Bringing Your Car or Bike" })
+      screen.queryByRole("heading", { name: "Bringing your car or bike" })
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Getting Around the Station" })
+      screen.queryByRole("heading", { name: "Getting around the station" })
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Purchasing Fares" })
+      screen.queryByRole("heading", { name: "Purchasing fares" })
     ).toBeInTheDocument();
   });
 
@@ -43,13 +43,13 @@ describe("StationInformation", () => {
       screen.queryByRole("heading", { name: "Stop Information" })
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Bringing Your Car or Bike" })
+      screen.queryByRole("heading", { name: "Bringing your car or bike" })
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Getting Around the Station" })
+      screen.queryByRole("heading", { name: "Getting around the station" })
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Purchasing Fares" })
+      screen.queryByRole("heading", { name: "Purchasing fares" })
     ).not.toBeInTheDocument();
   });
 });
