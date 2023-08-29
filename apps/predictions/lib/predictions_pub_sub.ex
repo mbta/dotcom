@@ -100,7 +100,7 @@ defmodule Predictions.PredictionsPubSub do
     pattern = {registry_key, :"$2", key}
 
     guards = [
-      {:"=/=", :"$2", pid_to_omit},
+      {:"=/=", :"$2", pid_to_omit}
     ]
 
     body = [true]
