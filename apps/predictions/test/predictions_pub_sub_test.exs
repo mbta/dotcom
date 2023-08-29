@@ -152,10 +152,8 @@ defmodule Predictions.PredictionsPubSubTest do
       Process.exit(task, :normal)
       assert_receive {:DOWN, ^ref, :process, ^task, :normal}
 
-      # The exited task's key is sent with :stop_stream to
-      # PredictionsPubSub.handle_cast/2
-      assert_receive {:trace, ^pid, :send, {:"$gen_cast", {:stop_stream, @channel_args}},
-                      PredictionsPubSub}
+      # The exited task triggers call to terminate_child
+      assert_receive {:trace, ^pid, :send, {:"$gen_call", _, {:terminate_child, _}}, _}
 
       # The caller process is removed from the state
       assert task not in Map.keys(:sys.get_state(pid))
