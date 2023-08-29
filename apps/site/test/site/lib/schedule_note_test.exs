@@ -31,14 +31,19 @@ defmodule Site.ScheduleNoteTest do
       |> Enum.map(&ScheduleNote.new/1)
       |> Enum.map(
         assert(fn note ->
-          note.peak_service && note.offpeak_service && is_nil(note.alternate_text)
+          note.peak_service && note.saturday_service && note.sunday_service &&
+            is_nil(note.alternate_text)
         end)
       )
     end
 
     test "handles lines with exceptions to offpeak service" do
       note_for_mattapan = ScheduleNote.new(@mattapan)
-      assert(note_for_mattapan.peak_service && note_for_mattapan.offpeak_service)
+
+      assert(
+        note_for_mattapan.peak_service && note_for_mattapan.saturday_service &&
+          note_for_mattapan.sunday_service
+      )
 
       assert %{
                exceptions: [
