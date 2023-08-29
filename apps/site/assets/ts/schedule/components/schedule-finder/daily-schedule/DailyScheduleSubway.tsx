@@ -143,8 +143,10 @@ const DailyScheduleSubway = ({
   useEffect(() => {
     if (selectedSchedule === "weekday") {
       setScheduleNoteText(scheduleNote ? scheduleNote.peak_service : "");
-    } else {
-      setScheduleNoteText(scheduleNote ? scheduleNote.offpeak_service : "");
+    } else if (selectedSchedule === "saturday") {
+      setScheduleNoteText(scheduleNote ? scheduleNote.saturday_service : "");
+    } else if (selectedSchedule === "sunday") {
+      setScheduleNoteText(scheduleNote ? scheduleNote.sunday_service : "");
     }
   }, [selectedSchedule, scheduleNote]);
 

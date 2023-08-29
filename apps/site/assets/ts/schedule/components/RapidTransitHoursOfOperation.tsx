@@ -91,7 +91,7 @@ const RapidTransitHoursOfOperation = ({
           {regularScheduleHTML()}
           {hours && getSchedule(hours.saturday)}
           {!hideScheduleFrequency &&
-            trainsEveryHTML(scheduleNote?.offpeak_service)}
+            trainsEveryHTML(scheduleNote?.saturday_service)}
           <hr
             style={{
               borderBottomWidth: "1px",
@@ -106,7 +106,7 @@ const RapidTransitHoursOfOperation = ({
           {regularScheduleHTML()}
           {hours && getSchedule(hours.sunday)}
           {!hideScheduleFrequency &&
-            trainsEveryHTML(scheduleNote?.offpeak_service)}
+            trainsEveryHTML(scheduleNote?.sunday_service)}
           {pdfLink(pdfs[0])}
         </div>
       </ExpandableBlock>

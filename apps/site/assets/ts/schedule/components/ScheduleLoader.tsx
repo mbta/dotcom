@@ -4,7 +4,6 @@ import { useQueryParams, StringParam } from "use-query-params";
 import ContentTeasers from "./ContentTeasers";
 import UpcomingHolidays from "./UpcomingHolidays";
 import AdditionalLineInfo from "./AdditionalLineInfo";
-import ScheduleNote from "./ScheduleNote";
 import ScheduleDirection from "./ScheduleDirection";
 import {
   SchedulePageData,
@@ -212,12 +211,6 @@ export const ScheduleLoader = ({
       const { pdfs, hours } = schedulePageData;
       return (
         <>
-          {!routeIsSuspended && !isSubwayRoute(route) ? (
-            <ScheduleNote
-              className="m-schedule-page__schedule-notes--desktop"
-              scheduleNote={scheduleNote}
-            />
-          ) : null}
           {isSubwayRoute(route) ? (
             <HoursOfOperation
               route={route}
