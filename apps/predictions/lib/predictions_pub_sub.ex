@@ -87,7 +87,7 @@ defmodule Predictions.PredictionsPubSub do
     # Here we can check if there are other subscribers for the associated key.
     # If there are no other subscribers remaining, we stop the associated
     # predictions data stream.
-    if other_subscribers(key, caller_pid) == [] do
+    if no_other_subscribers?(key, caller_pid) do
       StreamSupervisor.stop_stream(key)
     end
 
@@ -95,18 +95,16 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   # find registrations for this key from processes other than the indicated pid
-  defp other_subscribers(key, pid_to_omit) do
+  defp no_other_subscribers?(key, pid_to_omit) do
     registry_key = self()
-    pattern = {:"$1", :"$2", :"$3"}
+    pattern = {registry_key, :"$2", key}
 
     guards = [
-      {:==, :"$1", registry_key},
       {:"=/=", :"$2", pid_to_omit},
-      {:==, :"$3", key}
     ]
 
-    body = [{{:"$2", :"$3"}}]
-    Registry.select(@subscribers, [{pattern, guards, body}])
+    body = [true]
+    Registry.select(@subscribers, [{pattern, guards, body}]) == []
   end
 
   @spec table_keys(String.t()) :: [
