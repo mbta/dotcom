@@ -36,7 +36,7 @@ const FareVendingMachines = (): JSX.Element => (
     <p className="mt-0 mb-0">At fare vending machines, you can:</p>
     <ul>
       <li>Purchase a CharlieCard or reload an existing one</li>
-      <li>Purchase tappable CharlieTickets</li>
+      <li>Purchase CharlieTickets</li>
     </ul>
     <p className="mt-0 mb-0">You can pay for your fare with:</p>
     <ul>
@@ -63,12 +63,14 @@ const fareTable = (tableData: [string, string][]): React.ReactElement => (
         </tr>
       </thead>
       <tbody>
-        {tableData.map(([name, price]) => (
-          <tr key={name}>
-            <td>{name}</td>
-            <td>{price}</td>
-          </tr>
-        ))}
+        {tableData.map(([name, price]) => {
+          return (
+            <tr key={name}>
+              <td>{name}</td>
+              <td>{price}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   </>
@@ -96,7 +98,7 @@ const FareSalesAmenityCard = ({ stop }: { stop: Stop }): JSX.Element => {
 
   return (
     <AmenityCard
-      headerText="Fare Sales"
+      headerText="Fare Options"
       icon={icon}
       modalContent={
         <AmenityModal headerText={`Fare Options at ${stop.name}`}>
@@ -107,7 +109,7 @@ const FareSalesAmenityCard = ({ stop }: { stop: Stop }): JSX.Element => {
           <AmenityLink url="/fares" text="Learn more about fares" />
           <AmenityLink
             url="/fares/reduced"
-            text="Learn about reduced fares and eligibility"
+            text="Learn more about reduced fares and eligibility"
           />
         </AmenityModal>
       }
