@@ -14,6 +14,7 @@ defmodule Site.ScheduleNote do
         }
 
   defstruct peak_service: "",
+            offpeak_service: "",
             saturday_service: "",
             sunday_service: "",
             exceptions: [],
@@ -21,6 +22,7 @@ defmodule Site.ScheduleNote do
 
   @type t :: %__MODULE__{
           peak_service: String.t(),
+          offpeak_service: String.t() | nil,
           saturday_service: String.t(),
           sunday_service: String.t(),
           exceptions: [exception],
@@ -45,6 +47,7 @@ defmodule Site.ScheduleNote do
       peak_service: "6 \u2013 12 minutes",
       saturday_service: "12 \u2013 13 minutes",
       sunday_service: "12 \u2013 13 minutes",
+      offpeak_service: "8 \u2013 12 minutes",
       exceptions: [
         %{
           type: "weekend mornings and late night",
@@ -66,7 +69,8 @@ defmodule Site.ScheduleNote do
     %__MODULE__{
       peak_service: "5 \u2013 12 minutes",
       saturday_service: "10 \u2013 11 minutes",
-      sunday_service: "10 \u2013 11 minutes"
+      sunday_service: "10 \u2013 11 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
@@ -74,7 +78,8 @@ defmodule Site.ScheduleNote do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
       saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
@@ -82,7 +87,8 @@ defmodule Site.ScheduleNote do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
       saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
@@ -90,7 +96,8 @@ defmodule Site.ScheduleNote do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
       saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
@@ -98,7 +105,8 @@ defmodule Site.ScheduleNote do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
       saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
@@ -106,7 +114,8 @@ defmodule Site.ScheduleNote do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
       saturday_service: "8 \u2013 12 minutes",
-      sunday_service: "9 \u2013 13 minutes"
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
