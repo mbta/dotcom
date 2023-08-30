@@ -122,7 +122,10 @@ const getModalContent = (
                             <li>
                               Visit{" "}
                               <a href={`${park.manager.url}`}>
-                                {park.manager.contact} website
+                                {park.manager.contact
+                                  ? park.manager.contact
+                                  : null}{" "}
+                                website
                               </a>
                             </li>
                             <li>
