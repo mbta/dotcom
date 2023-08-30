@@ -160,6 +160,7 @@ const scheduleNoteData = {
   saturday_service: "8-12 minutes",
   sunday_service: "8-12 minutes",
   peak_service: "5 minutes",
+  offpeak_service: "12-15 minutes",
   exceptions: [
     { service: "26 minutes", type: "weekend mornings and late night" }
   ],
