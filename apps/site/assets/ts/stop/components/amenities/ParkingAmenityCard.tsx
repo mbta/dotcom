@@ -28,19 +28,37 @@ const getPaymentElement = (park: ParkingLot): JSX.Element => {
       <ul>
         {supportsMobileApp && mobileAppURL && (
           <li>
-            <a href={mobileAppURL}>PayByPhone</a> (Location{" "}
-            {park.payment?.mobile_app?.id}). Use the:
+            Use PayByPhone (location #{park.payment?.mobile_app?.id})
             <ul>
-              <li>App</li>
-              <li>Website</li>
-              <li>Or call 866-234-7275</li>
+              <li>
+                Download on{" "}
+                <a href="https://play.google.com/store/apps/details?id=com.paybyphone&shortlink=72quwtf4&c=Footer_Android&pid=NA_Website&af_xp=custom&source_caller=ui&pli=1">
+                  Google Play
+                </a>
+              </li>
+              <li>
+                Download on{" "}
+                <a href="https://paybyphone.onelink.me/ZQkh/vi3pgnpz">
+                  App Store
+                </a>
+              </li>
+              <li>
+                Visit <a href={mobileAppURL}>PayByPhone website</a>
+              </li>
+              <li>
+                Call <a href="tel:866-234-7275">866-234-7275</a>
+              </li>
             </ul>
           </li>
         )}
         {supportsCreditDebitCard && <li>Credit/Debit Card</li>}
         {supportsCash && <li>Cash</li>}
-        {supportsInvoice && <li>Invoice in the mail ($1 surcharge)</li>}
+        {supportsInvoice && <li>Get an invoice in the mail for a $1 fee</li>}
       </ul>
+      <AmenityLink
+        url="/parking/pay-day"
+        text="View more payment information"
+      />
     </>
   );
 };
@@ -88,12 +106,37 @@ const getModalContent = (
                     </li>
                   )}
                 </ul>
+                {getPaymentElement(park)}
                 {park.capacity && (
                   <>
                     <h3>Facility Information</h3>
                     <ul>
                       <li>{park.capacity.total} total parking spots</li>
                       <li>{park.capacity.accessible} accessible spots</li>
+                      {park.manager && (
+                        <>
+                          {park.manager.name && (
+                            <li>Managed by {park.manager.name}</li>
+                          )}
+                          <ul>
+                            <li>
+                              Visit{" "}
+                              <a href={`${park.manager.url}`}>
+                                {park.manager.contact
+                                  ? park.manager.contact
+                                  : null}{" "}
+                                website
+                              </a>
+                            </li>
+                            <li>
+                              Call{" "}
+                              <a href={`tel:${park.manager.phone}`}>
+                                {park.manager.phone}
+                              </a>
+                            </li>
+                          </ul>
+                        </>
+                      )}
                     </ul>
                   </>
                 )}
@@ -104,16 +147,11 @@ const getModalContent = (
                     </a>
                   </div>
                 )}
-                {getPaymentElement(park)}
               </div>
             );
           }
         )}
       </div>
-      <AmenityLink
-        url="/parking/pay-day"
-        text="View more payment information"
-      />
       <AmenityLink url="/parking" text="Learn more about parking at the T" />
     </AmenityModal>
   );
