@@ -212,7 +212,7 @@ defmodule Predictions.PredictionsPubSubTest do
       assert_receive {:DOWN, ^ref, :process, ^task, :normal}
 
       # The exited task triggers call to terminate_child
-      assert_receive {:trace, ^pid, :send, {:"$gen_call", _, {:terminate_child, _}}, _}
+      assert_receive {:trace, ^pid, :send, {:"$gen_call", _, {:terminate_child, _}}, _}, 2000
 
       # The caller process is removed from the state
       assert task not in Map.keys(:sys.get_state(pid))
