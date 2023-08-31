@@ -13,11 +13,18 @@ defmodule Site.ScheduleNote do
           service: String.t()
         }
 
-  defstruct peak_service: "", offpeak_service: "", exceptions: [], alternate_text: nil
+  defstruct peak_service: "",
+            offpeak_service: "",
+            saturday_service: "",
+            sunday_service: "",
+            exceptions: [],
+            alternate_text: nil
 
   @type t :: %__MODULE__{
           peak_service: String.t(),
-          offpeak_service: String.t(),
+          offpeak_service: String.t() | nil,
+          saturday_service: String.t(),
+          sunday_service: String.t(),
           exceptions: [exception],
           alternate_text: String.t() | nil
         }
@@ -29,15 +36,18 @@ defmodule Site.ScheduleNote do
 
   def schedule_note(%Route{id: "Red"}) do
     %__MODULE__{
-      peak_service: "9 \u2013 18 minutes",
-      offpeak_service: "11 \u2013 22 minutes"
+      peak_service: "7 \u2013 20 minutes",
+      saturday_service: "9 \u2013 20 minutes",
+      sunday_service: "9 \u2013 20 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Mattapan"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "13 minutes",
+      saturday_service: "12 \u2013 13 minutes",
+      sunday_service: "12 \u2013 13 minutes",
+      offpeak_service: "8 \u2013 12 minutes",
       exceptions: [
         %{
           type: "weekend mornings and late night",
@@ -49,57 +59,69 @@ defmodule Site.ScheduleNote do
 
   def schedule_note(%Route{id: "Orange"}) do
     %__MODULE__{
-      peak_service: "10 \u2013 12 minutes",
-      offpeak_service: "9 \u2013 11 minutes"
+      peak_service: "9 \u2013 12 minutes",
+      saturday_service: "10 \u2013 11 minutes",
+      sunday_service: "13 \u2013 15 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Blue"}) do
     %__MODULE__{
-      peak_service: "5 \u2013 10 minutes",
-      offpeak_service: "10 \u2013 12 minutes"
+      peak_service: "5 \u2013 12 minutes",
+      saturday_service: "10 \u2013 11 minutes",
+      sunday_service: "10 \u2013 11 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Green"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "8 \u2013 12 minutes"
+      saturday_service: "8 \u2013 12 minutes",
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Green-B"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "6 \u2013 12 minutes"
+      saturday_service: "8 \u2013 12 minutes",
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Green-C"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "6 \u2013 12 minutes"
+      saturday_service: "8 \u2013 12 minutes",
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Green-D"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "6 \u2013 12 minutes"
+      saturday_service: "8 \u2013 12 minutes",
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "Green-E"}) do
     %__MODULE__{
       peak_service: "6 \u2013 12 minutes",
-      offpeak_service: "6 \u2013 12 minutes"
+      saturday_service: "8 \u2013 12 minutes",
+      sunday_service: "9 \u2013 13 minutes",
+      offpeak_service: "7 \u2013 12 minutes"
     }
   end
 
   def schedule_note(%Route{id: "CR-Foxboro"}) do
     %__MODULE__{
       peak_service: nil,
-      offpeak_service: nil,
       alternate_text:
         HTML.safe_to_string(
           content_tag(:div, [

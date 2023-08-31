@@ -62,11 +62,7 @@
 
     <div class="col-md-5 col-lg-4 col-lg-offset-1 m-schedule-page__schedule-finder-or-note">
       <%= unless Enum.empty?(@branches) do %>
-        <div id="react-schedule-note-root">
-          <%= if @schedule_page_data[:schedule_note] do %>
-            <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--desktop"}) %>
-          <% end %>
-        </div>
+        <div id="react-schedule-note-root"></div>
         <%= if is_nil(@schedule_page_data[:schedule_note]) and Routes.Route.type_atom(@route.type) != :ferry do %>
           <div id="react-schedule-finder-root">
             <%= Site.React.render("ScheduleFinder", %{

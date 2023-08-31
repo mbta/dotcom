@@ -13,7 +13,6 @@ import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
 import ScheduleLoader from "../ScheduleLoader";
 import ScheduleFinder from "../ScheduleFinder";
 import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
-import ScheduleNote from "../ScheduleNote";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as scheduleLoader from "../../schedule-loader";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
@@ -158,8 +157,10 @@ const hours = `<div class="m-schedule-page__sidebar-hours">  <h3 class="hours-pe
 </div>`;
 
 const scheduleNoteData = {
-  offpeak_service: "8-12 minutes",
+  saturday_service: "8-12 minutes",
+  sunday_service: "8-12 minutes",
   peak_service: "5 minutes",
+  offpeak_service: "12-15 minutes",
   exceptions: [
     { service: "26 minutes", type: "weekend mornings and late night" }
   ],
@@ -282,75 +283,6 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
     expect(wrapper.find(ScheduleFinder).exists()).toEqual(true);
-    expect(wrapper.find(ScheduleNote).exists()).toEqual(false);
-
-    wrapper.unmount();
-  });
-
-  it("Renders ScheduleNote", () => {
-    wrapper = mount(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_NOTE"
-          schedulePageData={{
-            schedule_note: scheduleNoteData,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route: routeNotSubway,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-    expect(wrapper.find(ScheduleNote).exists()).toEqual(true);
-    expect(wrapper.find(ScheduleFinder).exists()).toEqual(false);
-
-    wrapper.unmount();
-  });
-
-  it("Does Not Render ScheduleNote", () => {
-    wrapper = mount(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_NOTE"
-          schedulePageData={{
-            alerts: [],
-            schedule_note: scheduleNoteData,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-    expect(wrapper.find(ScheduleNote).exists()).toEqual(false);
-    expect(wrapper.find(ScheduleFinder).exists()).toEqual(false);
 
     wrapper.unmount();
   });

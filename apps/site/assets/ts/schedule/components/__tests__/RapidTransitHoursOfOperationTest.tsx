@@ -30,7 +30,8 @@ describe("RapidTransitHoursOfOperation", () => {
 
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
     const scheduleNote = {
-      offpeak_service: "10 minutes",
+      saturday_service: "10 minutes",
+      sunday_service: "10 minutes",
       peak_service: "5 minutes"
     } as ScheduleNote;
     let tree;
@@ -129,7 +130,8 @@ describe("RapidTransitHoursOfOperation", () => {
 
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
     const scheduleNote = {
-      offpeak_service: "10 minutes",
+      saturday_service: "10 minutes",
+      sunday_service: "10 minutes",
       peak_service: "5 minutes"
     } as ScheduleNote;
     const tree = create(
@@ -187,7 +189,8 @@ describe("RapidTransitHoursOfOperation", () => {
 
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
     const scheduleNote = {
-      offpeak_service: "10 minutes",
+      saturday_service: "10 minutes",
+      sunday_service: "10 minutes",
       peak_service: "5 minutes"
     } as ScheduleNote;
     const tree = create(
