@@ -171,6 +171,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     case feed do
       "mbta-ma-us" -> id
       "22722274" -> "Massport-" <> id
+      "2272_2274" -> "Massport-" <> id
       _ -> id
     end
   end
