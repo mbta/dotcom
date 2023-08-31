@@ -116,4 +116,6 @@ defmodule V3Api.Stream do
     str = Atom.to_string(atom)
     defp event(unquote(str)), do: unquote(atom)
   end
+
+  defp event("error"), do: :unknown
 end

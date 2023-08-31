@@ -11,6 +11,7 @@ defmodule Predictions.PredictionsPubSub do
 
   @valid_filters ["route", "stop", "direction", "trip"]
   @broadcast_interval_ms Application.compile_env!(:predictions, [:broadcast_interval_ms])
+  @subscribers :prediction_subscriptions_registry
 
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
 
@@ -33,7 +34,7 @@ defmodule Predictions.PredictionsPubSub do
   def subscribe(key, server \\ __MODULE__) do
     StreamSupervisor.ensure_stream_is_started(key)
     {registry_key, predictions} = GenServer.call(server, {:subscribe, key})
-    Registry.register(:prediction_subscriptions_registry, registry_key, key)
+    Registry.register(@subscribers, registry_key, key)
     predictions
   end
 
@@ -48,17 +49,23 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   @impl GenServer
-  def handle_call({:subscribe, keys}, _from, state) do
+  def handle_call({:subscribe, keys}, {from_pid, _ref}, state) do
     registry_key = self()
+
+    # Let us detect when the calling process goes down, and save the associated
+    # keys for easier lookup
+    Process.monitor(from_pid)
+    new_state = Map.put_new(state, from_pid, keys)
+
     predictions = keys |> table_keys() |> Store.fetch()
-    {:reply, {registry_key, predictions}, state}
+    {:reply, {registry_key, predictions}, new_state}
   end
 
   @impl GenServer
   def handle_info(:broadcast, state) do
     registry_key = self()
 
-    Registry.dispatch(:prediction_subscriptions_registry, registry_key, fn entries ->
+    Registry.dispatch(@subscribers, registry_key, fn entries ->
       Enum.each(entries, &send_data(&1))
     end)
 
@@ -69,6 +76,35 @@ defmodule Predictions.PredictionsPubSub do
   def handle_info({event, predictions}, state) do
     :ok = Store.update(event, predictions)
     {:noreply, state}
+  end
+
+  def handle_info(
+        {:DOWN, parent_ref, :process, caller_pid, _reason},
+        state
+      ) do
+    Process.demonitor(parent_ref, [:flush])
+    {key, new_state} = Map.pop(state, caller_pid)
+    # Here we can check if there are other subscribers for the associated key.
+    # If there are no other subscribers remaining, we stop the associated
+    # predictions data stream.
+    if no_other_subscribers?(key, caller_pid) do
+      StreamSupervisor.stop_stream(key)
+    end
+
+    {:noreply, new_state}
+  end
+
+  # find registrations for this key from processes other than the indicated pid
+  defp no_other_subscribers?(key, pid_to_omit) do
+    registry_key = self()
+    pattern = {registry_key, :"$2", key}
+
+    guards = [
+      {:"=/=", :"$2", pid_to_omit}
+    ]
+
+    body = [true]
+    Registry.select(@subscribers, [{pattern, guards, body}]) == []
   end
 
   @spec table_keys(String.t()) :: [

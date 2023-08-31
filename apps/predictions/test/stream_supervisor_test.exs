@@ -17,6 +17,16 @@ defmodule Predictions.StreamSupervisorTest do
     :ok
   end
 
+  defp close_active_workers(context) do
+    StreamSupervisor
+    |> DynamicSupervisor.which_children()
+    |> Enum.each(&DynamicSupervisor.terminate_child(StreamSupervisor, elem(&1, 1)))
+
+    context
+  end
+
+  setup :close_active_workers
+
   describe "start_link/1" do
     test "StreamSupervisor is started along with registry" do
       assert {:error, {:already_started, _}} = StreamSupervisor.start_link([])
@@ -42,6 +52,21 @@ defmodule Predictions.StreamSupervisorTest do
       prediction_key = "route=Pink:stop=place:direction=0"
       {:ok, pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
       assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
+    end
+  end
+
+  describe "stop_stream/1" do
+    test "closes a stream by registered key" do
+      prediction_key = "stop=there2000"
+      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
+      assert Process.alive?(pid)
+
+      assert [{_, ^pid, :supervisor, [Predictions.StreamSupervisor.Worker]}] =
+               DynamicSupervisor.which_children(Predictions.StreamSupervisor)
+
+      :ok = StreamSupervisor.stop_stream(prediction_key)
+      refute Process.alive?(pid)
+      assert [] = DynamicSupervisor.which_children(Predictions.StreamSupervisor)
     end
   end
 end

@@ -46,6 +46,15 @@ defmodule Predictions.Stream do
     |> broadcast(type, broadcast_fn)
   end
 
+  defp send_event(
+         %Event{
+           data: {:error, _} = error
+         },
+         _broadcast_fn
+       ) do
+    error
+  end
+
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
   @spec broadcast([Prediction.t() | String.t()], event_type, broadcast_fn) :: :ok
   defp broadcast([], _type, _broadcast_fn), do: :ok
