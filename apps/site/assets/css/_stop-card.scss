@@ -166,7 +166,7 @@ $radius: 4px;
 
   @include media-breakpoint-down(sm) {
     height: unset;
-    max-height: 36vh;
+    max-height: 70vh;
   }
 
   .departure-card {
@@ -385,9 +385,9 @@ $radius: 4px;
 
 .departure-list-header {
   border: none;
+  display: inline;
   height: 2rem;
   padding: 0;
-  display: inline;
   .departure-card__route {
     justify-content: space-between;
   }
