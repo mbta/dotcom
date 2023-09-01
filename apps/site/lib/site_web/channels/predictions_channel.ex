@@ -79,6 +79,9 @@ defmodule SiteWeb.PredictionsChannel do
         # This is a prediction without a schedule. Predictions for terminal
         # stops likely have an arrival time but no departure
         arrival && is_nil(departure)
+
+      _ ->
+        false
     end
   end
 end
