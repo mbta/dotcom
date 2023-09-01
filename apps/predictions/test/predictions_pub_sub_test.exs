@@ -22,7 +22,7 @@ defmodule Predictions.PredictionsPubSubTest do
     stop: %Stop{id: @stop_id}
   }
 
-  @channel_args "route=#{@route_39}:stop=#{@stop_id}:direction_id=#{@direction_id}"
+  @channel_args "stop:#{@stop_id}"
 
   setup_all do
     start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})

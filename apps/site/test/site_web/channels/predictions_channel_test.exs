@@ -23,7 +23,7 @@ defmodule SiteWeb.PredictionsChannelTest do
     time: Timex.shift(Util.now(), hours: 2)
   }
 
-  @channel_name "predictions:route=#{@route_39}:stop=#{@stop_fh}:direction_id=#{@direction}"
+  @channel_name "predictions:stop:#{@stop_fh}"
 
   setup do
     reassign_env(:site, :predictions_subscribe_fn, fn _ ->
