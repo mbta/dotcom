@@ -7,7 +7,7 @@ import React, {
   useRef
 } from "react";
 import { createPortal } from "react-dom";
-import createFocusTrap from "focus-trap";
+import { createFocusTrap } from "focus-trap";
 import { handleReactExitKeyPress } from "../helpers/keyboard-events-react";
 import {
   AriaLabel,
@@ -75,7 +75,8 @@ const ModalContent = ({
     // Activate trap and disable scroll on background body
     const trap = createFocusTrap("#modal-cover", {
       initialFocus: `#${focusElementId}`,
-      clickOutsideDeactivates: true
+      clickOutsideDeactivates: true,
+      preventScroll: true
     });
     trap.activate();
 
