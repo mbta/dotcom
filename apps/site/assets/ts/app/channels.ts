@@ -110,15 +110,6 @@ const setupChannels = (): void => {
     Object.keys(window.channels).forEach(id => leaveChannel(id));
   };
   document.addEventListener("turbolinks:before-render", leaveAllChannels);
-  window.addEventListener("beforeunload", leaveAllChannels);
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      leaveAllChannels();
-    } else {
-      joinAllChannels();
-    }
-  });
 };
 
 export { joinChannel, leaveChannel };
