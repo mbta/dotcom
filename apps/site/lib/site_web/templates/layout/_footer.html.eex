@@ -52,6 +52,9 @@
                 <a href="https://www.instagram.com/thembta/" target="_blank" aria-label="MBTA instagram">
                   <i class="fa-brands fa-instagram fa-xl social-icon"></i>
                 </a>
+                <a href="https://www.threads.net/thembta/" target="_blank" aria-label="MBTA threads">
+                  <i class="fa-brands fa-threads fa-xl social-icon"></i>
+                </a>
                 <a href="https://linkedin.com/company/mbta" target="_blank" aria-label="MBTA linkedin">
                   <i class="fa-brands fa-linkedin fa-xl social-icon"></i>
                 </a>
@@ -59,7 +62,7 @@
                   <i class="fa-brands fa-youtube fa-xl social-icon"></i>
                 </a>
                 <a href="https://twitter.com/MBTA" target="_blank" aria-label="MBTA twitter">
-                  <i class="fa-brands fa-twitter fa-xl social-icon"></i>
+                  <i class="fa-brands fa-x-twitter fa-xl social-icon"></i>
                 </a>
                 <a href="https://www.tiktok.com/@thembta" target="_blank" aria-label="MBTA tiktok">
                   <i class="fa-brands fa-tiktok fa-xl social-icon"></i>
