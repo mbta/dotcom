@@ -173,7 +173,7 @@ const DeparturesAndMap = ({
       {departureFilters && BackToRoutes}
       <div className="stop-routes">
         {departureFilters ? (
-          <div ref={refEl} className="stop-departures">
+          <div ref={refEl} className="stop-departures--realtime">
             <DepartureList
               route={departureFilters.route}
               stop={stop}
