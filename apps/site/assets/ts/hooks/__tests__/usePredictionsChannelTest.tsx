@@ -56,24 +56,16 @@ describe("usePredictionsChannel hook", () => {
   test("initializes connection to appropriate channel", () => {
     renderHook(() =>
       usePredictionsChannel({
-        routeId: "Purple",
-        stopId: "place-somewhere",
-        directionId: 0
+        stopId: "place-somewhere"
       })
     );
-    expect(
-      window.channels[
-        "predictions:route=Purple:stop=place-somewhere:direction_id=0"
-      ]
-    ).toBeTruthy();
+    expect(window.channels["predictions:stop:place-somewhere"]).toBeTruthy();
   });
 
   test("gets and outputs data", () => {
     const { result } = renderHook(() =>
       usePredictionsChannel({
-        routeId: "Purple",
-        stopId: "place-somewhere",
-        directionId: 0
+        stopId: "place-somewhere"
       })
     );
 
@@ -81,7 +73,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:route=Purple:stop=place-somewhere:direction_id=0", {
+      }>("predictions:stop:place-somewhere", {
         detail: {
           predictions: predictionsFromStream
         }
@@ -103,7 +95,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:stop=place-overthere", {
+      }>("predictions:stop:place-overthere", {
         detail: {
           predictions: predictionsFromStream
         }
@@ -117,9 +109,7 @@ describe("usePredictionsChannel hook", () => {
   test("doesn't output data if same as new data", () => {
     const { result } = renderHook(() =>
       usePredictionsChannel({
-        routeId: "Purple",
-        stopId: "place-somewhere",
-        directionId: 0
+        stopId: "place-somewhere"
       })
     );
 
@@ -127,7 +117,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:route=Purple:stop=place-somewhere:direction_id=0", {
+      }>("predictions:stop:place-somewhere", {
         detail: {
           predictions: predictionsFromStream
         }
@@ -142,7 +132,7 @@ describe("usePredictionsChannel hook", () => {
     act(() => {
       const event = new CustomEvent<{
         predictions: StreamPrediction[];
-      }>("predictions:route=Purple:stop=place-somewhere:direction_id=0", {
+      }>("predictions:stop:place-somewhere", {
         detail: {
           predictions: predictionsFromStream
         }

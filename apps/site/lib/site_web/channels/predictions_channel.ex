@@ -10,8 +10,8 @@ defmodule SiteWeb.PredictionsChannel do
 
   @impl Channel
   @spec join(topic :: binary(), payload :: Channel.payload(), socket :: Socket.t()) ::
-          {:ok, %{predictions: [Prediction.t()]}, Socket.t()}
-  def join("predictions:" <> opts, _message, socket) do
+          {:ok, %{predictions: [Prediction.t()]}, Socket.t()} | {:error, map()}
+  def join("predictions:" <> topic, _message, socket) do
     predictions_subscribe_fn =
       Application.get_env(
         :site,
@@ -19,8 +19,17 @@ defmodule SiteWeb.PredictionsChannel do
         &PredictionsPubSub.subscribe/1
       )
 
-    predictions = predictions_subscribe_fn.(opts)
-    {:ok, %{predictions: filter_new(predictions)}, socket}
+    case predictions_subscribe_fn.(topic) do
+      {:error, reason} ->
+        {:error,
+         %{
+           message:
+             "Cannot subscribe to predictions data streams for #{topic} because #{inspect(reason)}"
+         }}
+
+      predictions ->
+        {:ok, %{predictions: filter_new(predictions)}, socket}
+    end
   end
 
   @impl Channel

@@ -44,27 +44,27 @@ defmodule Predictions.StreamSupervisorTest do
 
   describe "ensure_stream_is_started/1" do
     test "starts a stream if not already started" do
-      prediction_key = "route=Purple:stop=awesome-station:direction=1"
-      assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
+      filter_key = "filter[route]=Purple&filter[direction_id]=1"
+      assert {:ok, _pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
     end
 
     test "returns existing stream from registry" do
-      prediction_key = "route=Pink:stop=place:direction=0"
-      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
-      assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
+      filter_key = "filter[route]=Pink&filter[direction_id]=0"
+      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
+      assert {:ok, ^pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
     end
   end
 
   describe "stop_stream/1" do
     test "closes a stream by registered key" do
-      prediction_key = "stop=there2000"
-      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(prediction_key)
+      filter_key = "filter[route]=Teal&filter[direction_id]=1"
+      {:ok, pid} = StreamSupervisor.ensure_stream_is_started(filter_key)
       assert Process.alive?(pid)
 
       assert [{_, ^pid, :supervisor, [Predictions.StreamSupervisor.Worker]}] =
                DynamicSupervisor.which_children(Predictions.StreamSupervisor)
 
-      :ok = StreamSupervisor.stop_stream(prediction_key)
+      :ok = StreamSupervisor.stop_stream(filter_key)
       refute Process.alive?(pid)
       assert [] = DynamicSupervisor.which_children(Predictions.StreamSupervisor)
     end

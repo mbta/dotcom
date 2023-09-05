@@ -7,12 +7,12 @@ defmodule Predictions.PredictionsPubSub do
 
   use GenServer
 
-  alias Predictions.{Prediction, Store, StreamSupervisor}
+  alias Predictions.{Prediction, Store, StreamTopic, StreamSupervisor}
 
-  @valid_filters ["route", "stop", "direction", "trip"]
   @broadcast_interval_ms Application.compile_env!(:predictions, [:broadcast_interval_ms])
   @subscribers :prediction_subscriptions_registry
 
+  @type registry_value :: {Store.fetch_keys(), binary()}
   @type broadcast_message :: {:new_predictions, [Prediction.t()]}
 
   # Client
@@ -30,12 +30,23 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   @spec subscribe(String.t()) :: [Prediction.t()]
-  @spec subscribe(String.t(), GenServer.server()) :: [Prediction.t()]
-  def subscribe(key, server \\ __MODULE__) do
-    StreamSupervisor.ensure_stream_is_started(key)
-    {registry_key, predictions} = GenServer.call(server, {:subscribe, key})
-    Registry.register(@subscribers, registry_key, key)
-    predictions
+  @spec subscribe(String.t(), GenServer.server()) :: [Prediction.t()] | {:error, term()}
+  def subscribe(topic, server \\ __MODULE__) do
+    with %StreamTopic{streams: streams, fetch_keys: fetch_keys} = stream_filter <-
+           StreamTopic.new(topic) do
+      Enum.each(streams, &StreamSupervisor.ensure_stream_is_started/1)
+
+      {registry_key, predictions} = GenServer.call(server, {:subscribe, stream_filter})
+
+      streams
+      |> Enum.map(&{fetch_keys, &1})
+      |> Enum.each(&Registry.register(@subscribers, registry_key, &1))
+
+      predictions
+    else
+      {:error, _} = error ->
+        error
+    end
   end
 
   # Server
@@ -49,15 +60,23 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   @impl GenServer
-  def handle_call({:subscribe, keys}, {from_pid, _ref}, state) do
+  def handle_call(
+        {:subscribe, stream_filter},
+        {from_pid, _ref},
+        state
+      ) do
     registry_key = self()
 
     # Let us detect when the calling process goes down, and save the associated
-    # keys for easier lookup
+    # API params for easier lookup
     Process.monitor(from_pid)
-    new_state = Map.put_new(state, from_pid, keys)
+    new_state = Map.put_new(state, from_pid, stream_filter)
 
-    predictions = keys |> table_keys() |> Store.fetch()
+    predictions =
+      stream_filter
+      |> Map.get(:fetch_keys)
+      |> Store.fetch()
+
     {:reply, {registry_key, predictions}, new_state}
   end
 
@@ -66,7 +85,11 @@ defmodule Predictions.PredictionsPubSub do
     registry_key = self()
 
     Registry.dispatch(@subscribers, registry_key, fn entries ->
-      Enum.each(entries, &send_data(&1))
+      entries
+      |> Enum.uniq_by(fn {pid, {fetch_keys, _}} ->
+        {pid, fetch_keys}
+      end)
+      |> Enum.each(&send_data/1)
     end)
 
     broadcast_timer(@broadcast_interval_ms)
@@ -83,52 +106,32 @@ defmodule Predictions.PredictionsPubSub do
         state
       ) do
     Process.demonitor(parent_ref, [:flush])
-    {key, new_state} = Map.pop(state, caller_pid)
-    # Here we can check if there are other subscribers for the associated key.
-    # If there are no other subscribers remaining, we stop the associated
-    # predictions data stream.
-    if no_other_subscribers?(key, caller_pid) do
-      StreamSupervisor.stop_stream(key)
-    end
+    {%Predictions.StreamTopic{streams: streams}, new_state} = Map.pop(state, caller_pid)
+
+    Enum.each(streams, fn stream ->
+      # Here we can check if there are other subscribers for the associated key.
+      # If there are no other subscribers remaining, we stop the associated
+      # predictions data stream.
+      if no_other_subscribers?(stream, caller_pid) do
+        StreamSupervisor.stop_stream(stream)
+      end
+    end)
 
     {:noreply, new_state}
   end
 
-  # find registrations for this key from processes other than the indicated pid
-  defp no_other_subscribers?(key, pid_to_omit) do
+  # find registrations for this filter from processes other than the indicated pid
+  defp no_other_subscribers?(stream, pid_to_omit) do
     registry_key = self()
-    pattern = {registry_key, :"$2", key}
-
-    guards = [
-      {:"=/=", :"$2", pid_to_omit}
-    ]
-
+    pattern = {registry_key, :"$2", {:_, stream}}
+    guards = [{:"=/=", :"$2", pid_to_omit}]
     body = [true]
     Registry.select(@subscribers, [{pattern, guards, body}]) == []
   end
 
-  @spec table_keys(String.t()) :: [
-          route: Route.id_t(),
-          stop: Stop.id_t(),
-          direction: 0 | 1,
-          trip: Trip.id_t()
-        ]
-  def table_keys(keys) when is_binary(keys) do
-    keys
-    |> String.split(":")
-    |> Enum.map(&String.split(&1, "="))
-    |> Enum.filter(fn key_value ->
-      length(key_value) == 2 and List.first(key_value) in @valid_filters
-    end)
-    |> Enum.into([], fn
-      ["direction", v] -> {:direction, String.to_integer(v)}
-      [k, v] -> {String.to_existing_atom(k), v}
-    end)
-  end
-
-  @spec send_data({pid, String.t()}) :: broadcast_message()
-  defp send_data({pid, keys}) do
-    new_predictions = keys |> table_keys() |> Store.fetch()
+  @spec send_data({pid, registry_value()}) :: broadcast_message()
+  defp send_data({pid, {fetch_keys, _}}) do
+    new_predictions = fetch_keys |> Store.fetch()
     send(pid, {:new_predictions, new_predictions})
   end
 

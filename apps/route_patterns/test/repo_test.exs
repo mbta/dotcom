@@ -35,4 +35,10 @@ defmodule RoutePatterns.RepoTest do
       assert alewife_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq() == [1]
     end
   end
+
+  describe "by_stop_id/2" do
+    test "returns route patterns for a stop" do
+      assert [%RoutePattern{} | _] = Repo.by_stop_id("place-sstat", [])
+    end
+  end
 end

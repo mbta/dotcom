@@ -43,6 +43,12 @@ defmodule RoutePatterns.Repo do
     |> Enum.sort(&reorder_mrts(&1, &2, route_id))
   end
 
+  def by_stop_id(stop_id, opts) do
+    opts
+    |> Keyword.put(:stop, stop_id)
+    |> cache(&api_all/1)
+  end
+
   defp api_all(opts) do
     case RoutePatternsApi.all(opts) do
       {:error, error} ->

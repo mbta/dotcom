@@ -1,11 +1,10 @@
 defmodule Predictions.StreamSupervisor.Worker do
   @moduledoc "Each request to the streaming predictions"
   use Supervisor
-  import Predictions.PredictionsPubSub, only: [table_keys: 1]
 
   @spec start_link(String.t(), Tuple.t()) :: Supervisor.on_start()
-  def start_link(key, name) do
-    Supervisor.start_link(__MODULE__, key, name: name)
+  def start_link(filters, name) do
+    Supervisor.start_link(__MODULE__, filters, name: name)
   end
 
   def child_spec(opts) do
@@ -18,14 +17,16 @@ defmodule Predictions.StreamSupervisor.Worker do
   end
 
   @impl Supervisor
-  def init(key) do
-    sses_stream_name = sses_stream_name(key)
-    api_stream_name = :"predictions_api_stream_#{key}"
-    prediction_stream_name = :"predictions_data_stream_#{key}"
+  @doc "The `filters` argument is a string representing the filter parameters of
+  the resultant API call e.g. 'filter[route]=CR-Foxboro&filter[direction_id]=0'"
+  def init(filters) do
+    sses_stream_name = sses_stream_name(filters)
+    api_stream_name = :"predictions_api_stream_#{filters}"
+    prediction_stream_name = :"predictions_data_stream_#{filters}"
 
     Supervisor.init(
       [
-        {ServerSentEventStage, sses_opts(key)},
+        {ServerSentEventStage, sses_opts(filters)},
         {V3Api.Stream, name: api_stream_name, subscribe_to: sses_stream_name},
         {Predictions.Stream, name: prediction_stream_name, subscribe_to: api_stream_name}
       ],
@@ -33,22 +34,14 @@ defmodule Predictions.StreamSupervisor.Worker do
     )
   end
 
-  # Parses the argument from the channel name, expecting a name formatted with
-  # `:` delimiters and `=` separators, e.g.
-  # `route=Red:direction_id=1:stop=place-sstat`
   @spec sses_opts(String.t()) :: Keyword.t()
-  defp sses_opts(key) do
-    filters =
-      table_keys(key)
-      |> Enum.map(fn {k, v} -> "filter[#{k}]=#{v}&" end)
-      |> Enum.join()
-
+  defp sses_opts(filters) do
     path =
-      "/predictions?#{filters}fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
+      "/predictions?#{filters}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
 
     sses_opts =
       V3Api.Stream.build_options(
-        name: sses_stream_name(key),
+        name: sses_stream_name(filters),
         path: path
       )
 
@@ -56,6 +49,6 @@ defmodule Predictions.StreamSupervisor.Worker do
   end
 
   @spec sses_stream_name(String.t()) :: atom()
-  defp sses_stream_name(key),
-    do: :"predictions_sses_stream_#{key}"
+  defp sses_stream_name(filters),
+    do: :"predictions_sses_stream_#{filters}"
 end
