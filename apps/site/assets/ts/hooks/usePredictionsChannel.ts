@@ -33,6 +33,7 @@ export interface StreamPrediction {
 
 interface ChannelPredictionResponse {
   predictions: StreamPrediction[];
+  error: string;
 }
 
 export interface PredictionsByHeadsign {
@@ -100,12 +101,15 @@ const usePredictionsChannel = (
   const reducer: Reducer<
     PredictionWithTimestamp[] | null,
     ChannelPredictionResponse
-  > = (_oldGroupedPredictions, { predictions }) => {
-    return sortBy(predictions.map(parsePrediction), "time");
+  > = (_oldGroupedPredictions, detail) => {
+    if (detail.error) {
+      return null;
+    }
+    return sortBy(detail.predictions.map(parsePrediction), "time");
   };
   // useChannel will return the initialState if the channel can't be joined / if
   // the channelName is null;
-  const state = useChannel(channelName, reducer, null);
+  const state = useChannel(channelName, reducer, []);
   return state;
 };
 
