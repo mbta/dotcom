@@ -19,30 +19,3 @@
     <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi
   </span>
 </div>
-
-  <%= if @itinerary_contains_blue_line and @is_sumner_tunnel_closed_period do%>
-    <div class="d-flex pt-8">
-      <%= icon_for_route(%Route{id: "Blue"}) %>
-      <span class="ps-8">
-        <b>Fare Change</b>: All Blue Line trips are <b>free</b> from July 5 through August 31, 2023.
-      </span>
-    </div>
-  <% end %>
-
-  <%= if @itinerary_contains_east_boston_ferry and @is_sumner_tunnel_closed_period do%>
-      <div class="d-flex pt-8">
-      <%= icon_for_route(:ferry) %>
-      <span class="ps-8">
-        <b>Fare Change</b>: All East Boston Ferry trips are <b>free</b> from July 5 through August 31, 2023.
-      </span>
-    </div>
-  <% end %>
-
-  <%= if @itinerary_contains_newburyport_rockport_line and @is_sumner_tunnel_closed_period do%>
-    <div class="d-flex pt-8">
-      <%= icon_for_route(:commuter_rail) %>
-      <span class="ps-8">
-        <b>Fare Change</b>: All Newburyport/Rockport Line trips are $2.40 from July 5 through August 31, 2023.
-      </span>
-    </div>
-  <% end %>
