@@ -11,7 +11,7 @@ import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
-const tripPlanForm = `<form id="planner-form">
+const tripPlanForm = `<form id="plan">
         <input class="location-input" data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
         <input type="hidden" id="from_latitude" name="plan[from_latitude]">
         <input type="hidden" id="from_longitude" name="plan[from_longitude]">

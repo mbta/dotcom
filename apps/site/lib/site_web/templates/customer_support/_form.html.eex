@@ -6,7 +6,7 @@
 <%= raw Poison.encode!(subject_map(@service_options)) %>
 </script>
 
-<%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support-form", class: "support-form"], fn f -> %>
+<%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support", class: "support-form"], fn f -> %>
   <h2>Email Us</h2>
   <%= preamble_text() %>
   <section>
