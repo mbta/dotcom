@@ -145,13 +145,14 @@ defmodule SiteWeb.CustomerSupportController do
       view_template = "_#{block.id}.html"
 
       try do
-        SiteWeb.PartialView.render(
-          "_expandable_block.html",
+        Phoenix.View.render(
+          SiteWeb.CustomerSupportView,
+          view_template,
           Map.merge(assigns, %{
             header: block.header,
             id: block.id,
             initially_expanded: block.initially_expanded,
-            view_template: view_template
+            layout: {SiteWeb.PartialView, "_expandable_block.html"}
           })
         )
       rescue

@@ -74,7 +74,7 @@ defmodule SiteWeb.BusStopChangeController do
         alert_info =
           Path.join(folder, filepath)
           |> File.stream!()
-          |> CSV.decode!(headers: true)
+          |> CSV.decode!(headers: true, escape_max_lines: 1000)
           |> Enum.to_list()
 
         [alert_info | acc]
