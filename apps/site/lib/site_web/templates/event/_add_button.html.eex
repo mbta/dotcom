@@ -8,7 +8,7 @@
         <% end %>
     <% end %>
   <% end %>
-  <% if @event_ended do %>
+  <%= if @event_ended do %>
     <%= if @class=="list-version" do %>
       <div class="m-event__ended-message">Ended</div>
     <% else %>

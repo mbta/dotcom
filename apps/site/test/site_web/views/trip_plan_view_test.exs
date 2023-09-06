@@ -355,7 +355,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       [{_transfer_step, [%{class: class, render_type: render_type}]} | _rest] =
         bubble_params(@itinerary_row, 0)
 
-      assert class == ["terminus", " transfer"]
+      assert class == "terminus transfer"
       assert render_type == :terminus
     end
 
@@ -363,7 +363,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       [{_transfer_step, [%{class: class, render_type: render_type}]} | _rest] =
         bubble_params(@itinerary_row, 3)
 
-      assert class == ["stop", " transfer"]
+      assert class == "stop transfer"
       assert render_type == :stop
     end
   end

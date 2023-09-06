@@ -15,10 +15,10 @@ defmodule Site.Stream.VehiclesTest do
   end
 
   test "broadcasts vehicles by route and direction id" do
-    SiteWeb.Endpoint.subscribe("vehicles:Red:0")
-    SiteWeb.Endpoint.subscribe("vehicles:CR-Lowell:1")
-    SiteWeb.Endpoint.subscribe("vehicles:Blue:0")
-    SiteWeb.Endpoint.subscribe("vehicles:Blue:1")
+    Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Red:0")
+    Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:CR-Lowell:1")
+    Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Blue:0")
+    Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Blue:1")
 
     assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, [])
 
@@ -44,7 +44,7 @@ defmodule Site.Stream.VehiclesTest do
   end
 
   test "sends a generic Green broadcast" do
-    SiteWeb.Endpoint.subscribe("vehicles:Green:1")
+    Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Green:1")
     assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, [])
 
     send(pid, {:reset, @vehicles})

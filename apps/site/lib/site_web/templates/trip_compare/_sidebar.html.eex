@@ -8,7 +8,7 @@
     method: :get,
     toggle_element_collapse: itineraries?,
     class: "trip-planner-form",
-    id: "planner-form"
+    id: "plan"
   ]
 
   plan_error = Map.get(assigns, :plan_error, [])
