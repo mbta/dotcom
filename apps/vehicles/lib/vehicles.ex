@@ -21,7 +21,7 @@ defmodule Vehicles do
       end
 
     [
-      {Phoenix.PubSub, name: Vehicles.PubSub},
+      {Phoenix.PubSub.PG2, name: Vehicles.PubSub},
       Vehicles.Repo
       | streams
     ]

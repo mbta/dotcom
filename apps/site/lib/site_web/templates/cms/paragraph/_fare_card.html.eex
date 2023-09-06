@@ -40,11 +40,10 @@
   card_classes =
     ["c-fare-card", "single", CSSHelpers.atom_to_class(mode), link_class]
     |> Enum.intersperse(" c-fare-card--")
-    |> Enum.join("")
 
   card_classes = case @fare_card.link do
     nil -> card_classes
-    _ -> "u-linked-card #{card_classes}"
+    _ -> ["u-linked-card " | card_classes]
   end
 
   card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration]

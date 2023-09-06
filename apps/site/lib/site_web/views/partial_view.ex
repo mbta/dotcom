@@ -83,7 +83,7 @@ defmodule SiteWeb.PartialView do
       ],
       to: news_path(entry, SiteWeb.Endpoint),
       class: news_entry_class(opts),
-      id: "#{entry.id}"
+      id: entry.id
     )
   end
 
@@ -197,15 +197,14 @@ defmodule SiteWeb.PartialView do
        when timeframe in [:current, :upcoming],
        do: Keyword.put(params, :alerts_timeframe, timeframe)
 
-  @spec time_filter_class(atom, atom) :: String.t()
+  @spec time_filter_class(atom, atom) :: [String.t()]
   defp time_filter_class(filter, current_timeframe) do
     ["m-alerts__time-filter" | time_filter_selected_class(filter, current_timeframe)]
-    |> Enum.join(" ")
   end
 
   @spec time_filter_selected_class(atom, atom) :: [String.t()]
   defp time_filter_selected_class(filter, filter) do
-    ["m-alerts__time-filter--selected"]
+    [" ", "m-alerts__time-filter--selected"]
   end
 
   defp time_filter_selected_class(_, _) do

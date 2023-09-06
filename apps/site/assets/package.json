@@ -139,6 +139,9 @@
     "webpack-dev-server": "^4.8.1",
     "webpack-merge": "^5.8.0"
   },
+  "resolutions": {
+    "@types/react": "^16.14.34"
+  },
   "scripts": {
     "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions",
     "eslint:js": "git diff --name-only --diff-filter=dx origin/master... | grep js/.*\\.js | awk -F/js '{print \"js\"$2}' | xargs eslint -c .eslintrc.js",

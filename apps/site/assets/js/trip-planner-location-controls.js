@@ -109,7 +109,7 @@ export class TripPlannerLocControls {
   }
 
   setupFormValidation() {
-    this.getById("plan").addEventListener("submit", this.onSubmit);
+    this.getById("planner-form").addEventListener("submit", this.onSubmit);
 
     this.autocompletes.forEach(ac => {
       this.getById(ac._selectors.input).addEventListener(

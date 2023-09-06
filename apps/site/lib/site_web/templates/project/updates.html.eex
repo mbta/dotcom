@@ -18,7 +18,7 @@
               content_tag(:div, img_tag(
                 update.image.url,
                 alt: update.image.alt,
-                class: "c-content-teaser__image c-content-teaser__image--projects"),
+                class: ["c-content-teaser__image", " ", "c-content-teaser__image--projects"]),
                 class: "m-project-updates__image col-sm-6"),
               content_tag(:div, text_content, class: "m-project-updates__content col-sm-6")
             ], to: update.path, class: "m-project-updates__teaser c-content-teaser row")

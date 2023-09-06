@@ -37,6 +37,8 @@ defmodule Zones.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:csv, "~> 2.3"}
+    ]
   end
 end

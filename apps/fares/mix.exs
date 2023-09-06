@@ -38,7 +38,7 @@ defmodule Fares.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:csv, "~> 3.0.5"},
+      {:csv, "~> 2.3"},
       {:repo_cache, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:schedules, in_umbrella: true},

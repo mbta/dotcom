@@ -10,10 +10,9 @@ config :site, SiteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
   render_errors: [accepts: ~w(html), layout: {SiteWeb.LayoutView, "app.html"}],
-  pubsub_server: Site.PubSub
+  pubsub: [name: Site.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
-config :phoenix, :json_library, Poison
 
 # Configures Elixir's Logger
 config :logger, :console,

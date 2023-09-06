@@ -89,7 +89,9 @@ defmodule BuildCalendar do
         |> Enum.filter(&match?({true, _}, &1))
         |> Enum.map(&elem(&1, 1))
 
-      Enum.join(classes, " ")
+      unless classes == [] do
+        Enum.intersperse(classes, " ")
+      end
     end
   end
 

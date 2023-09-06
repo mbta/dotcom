@@ -30,10 +30,10 @@
       </header>
       <main class="main-container row">
         <%= if has_styleguide_subpages?(@conn) do %>
-          <%= render Phoenix.Controller.view_module(@conn), "_sidebar_nav.html", assigns %>
+          <%= render @view_module, "_sidebar_nav.html", assigns %>
         <% end %>
         <div class="main-content col-sm-12<%= styleguide_main_content_class(assigns) %> <%= Map.get(@conn.params, "section") %>">
-          <%= @inner_content %>
+          <%= render @view_module, @view_template, assigns %>
         </div>
       </main>
       <footer></footer>

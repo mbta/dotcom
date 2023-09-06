@@ -4,7 +4,6 @@ defmodule DotCom.Mixfile do
   def project do
     [
       apps_path: "apps",
-      elixir: "~> 1.12",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],

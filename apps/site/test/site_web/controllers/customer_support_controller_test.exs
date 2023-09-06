@@ -95,7 +95,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       conn = post(conn, customer_support_path(conn, :submit), valid_request_response_data())
 
       response = html_response(conn, 302)
-      refute response =~ "form id=\"support\""
+      refute response =~ "form id=\"support-form\""
       assert redirected_to(conn) == customer_support_path(conn, :thanks)
       wait_for_ticket_task(conn)
 
