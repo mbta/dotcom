@@ -7,10 +7,10 @@
     "c-content-teaser ",
     "c-content-teaser--#{css_type} ",
     "c-content-teaser--#{tag}"
-  ]
+  ] |> Enum.join("")
 %>
 
-<%= content_tag :div, id: @teaser.id, class: wrapper_classes do %>
+<%= content_tag :div, id: "#{@teaser.id}", class: wrapper_classes do %>
   <%=
     # Main link (invisible) is positioned over content using CSS to avoid nested link problems
     link to: cms_static_page_path(@conn, @teaser.path), class: "u-linked-card__primary-link" do

@@ -274,7 +274,7 @@ describe("support form", () => {
       $("#test").html(`
         <div class="form-container">
           <div class="support-confirmation support-confirmation--success hidden-xs-up"></div>
-          <form id="support-form" action="/customer-support">
+          <form id="support" action="/customer-support">
             <div class="support-service-error-container hidden-xs-up" tabindex="-1"><div class="support-service-error"></div></div>
             <input name="support[service]" value="Complaint">Complaint</input>
             <input name="support[service]" value="Suggestion">Comment</input>
@@ -516,7 +516,7 @@ describe("support form", () => {
       assert.isFalse(
         $(".support-confirmation--success").hasClass("hidden-xs-up")
       );
-      assert.equal($("#support-form").length, 0);
+      assert.equal($("#support").length, 0);
     });
 
     it("shows a message on error", () => {

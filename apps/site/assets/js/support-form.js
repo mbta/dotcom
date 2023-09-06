@@ -12,7 +12,7 @@ export default function($ = window.jQuery) {
     "turbolinks:load",
     () => {
       // TODO: create a way to run page-specific JS so that this hack isn't needed.
-      if (!document.getElementById("support-form")) {
+      if (!document.getElementById("support")) {
         return;
       }
 
@@ -533,7 +533,7 @@ export function handleSubmitClick($, toUpload) {
     deactivateSubmitButton($);
     const formData = new FormData();
     const filter = new Filter();
-    $("#support-form")
+    $("#support")
       .serializeArray()
       .forEach(({ name: name, value: value }) => {
         if (name === "support[comments]") {
@@ -550,7 +550,7 @@ export function handleSubmitClick($, toUpload) {
       formData.append("support[photos][]", photo, photo.name);
     });
     $.ajax({
-      url: $("#support-form").attr("action"),
+      url: $("#support").attr("action"),
       method: "POST",
       processData: false,
       data: formData,
@@ -561,7 +561,7 @@ export function handleSubmitClick($, toUpload) {
           .focus();
         $(".support-confirmation--error").addClass("hidden-xs-up");
         reactivateSubmitButton($);
-        $("#support-form").remove();
+        $("#support").remove();
       },
       error: (xhr, errorString, errorObject) => {
         console.error(errorString);
