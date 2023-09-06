@@ -4,7 +4,7 @@ defmodule SiteWeb.Router do
   use SiteWeb, :router
   use Plug.ErrorHandler
   use Sentry.Plug
-
+  import Phoenix.LiveDashboard.Router
   alias SiteWeb.StaticPage
 
   pipeline :secure do
@@ -64,6 +64,10 @@ defmodule SiteWeb.Router do
 
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
+
+    if Mix.env() == :dev do
+      live_dashboard("/dashboard")
+    end
 
     # redirect underscored urls to hyphenated version
     get("/alerts/commuter_rail", Redirector, to: "/alerts/commuter-rail")

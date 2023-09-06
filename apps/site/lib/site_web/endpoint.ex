@@ -3,6 +3,12 @@ defmodule SiteWeb.Endpoint do
 
   use Phoenix.Endpoint, otp_app: :site
 
+  @session_options [
+    store: :cookie,
+    key: "_site_key",
+    signing_salt: "TInvb4GN"
+  ]
+
   @doc """
   Callback invoked for dynamically configuring the endpoint.
 
@@ -17,6 +23,8 @@ defmodule SiteWeb.Endpoint do
 
     {:ok, Keyword.put(config, :secret_key_base, secret_key_base)}
   end
+
+  socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
 
   socket(
     "/socket",
@@ -55,9 +63,7 @@ defmodule SiteWeb.Endpoint do
 
   plug(
     Plug.Session,
-    store: :cookie,
-    key: "_site_key",
-    signing_salt: "TInvb4GN"
+    @session_options
   )
 
   plug(SiteWeb.Plugs.UriChecker)

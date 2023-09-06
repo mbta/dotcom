@@ -11,6 +11,7 @@
     <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
     <meta name="author" content="Massachusetts Bay Transportation Authority">
     <meta name="theme-color" content="#165c96">
+    <meta name="csrf-token" content={Plug.CSRFProtection.get_csrf_token()} />
 
     <%= Turbolinks.cache_meta @conn %>
 

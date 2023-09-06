@@ -57,9 +57,72 @@ defmodule SiteWeb do
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
+      # Include shared imports and aliases for views
+      unquote(view_helpers())
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {SiteWeb.LayoutView, :live}
+
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
+      unquote(view_helpers())
+    end
+  end
+
+  def component do
+    quote do
+      use Phoenix.Component
+
+      unquote(view_helpers())
+    end
+  end
+
+  def router do
+    quote do
+      use Phoenix.Router
+
+      import Plug.Conn
+      import Phoenix.Controller
+      import Phoenix.LiveView.Router
+      import Phoenix.LiveDashboard.Router
+    end
+  end
+
+  def channel do
+    quote do
+      use Phoenix.Channel
+      import SiteWeb.Gettext
+    end
+  end
+
+  defp view_helpers do
+    quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
       use Site.Components.Precompiler
+
+      import Phoenix.Component
+      import Phoenix.LiveComponent
+
+      import Phoenix.LiveView.Helpers
+      # Import basic rendering functionality (render, render_layout, etc)
+      import Phoenix.View
+
+      import SiteWeb.ErrorHelpers
+      import SiteWeb.Gettext
+
+      # uncomment once we start writing components
+      # import SiteWeb.Components
 
       import SiteWeb.Router.Helpers,
         except: [
@@ -83,21 +146,6 @@ defmodule SiteWeb do
       import SiteWeb.Views.Helpers.AlertHelpers
       import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
       import UrlHelpers
-
-      @dialyzer :no_match
-    end
-  end
-
-  def router do
-    quote do
-      use Phoenix.Router
-    end
-  end
-
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import SiteWeb.Gettext
     end
   end
 
