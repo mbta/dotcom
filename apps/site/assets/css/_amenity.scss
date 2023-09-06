@@ -41,9 +41,6 @@
 }
 
 .access-amenities-row {
-  height: 4rem;
-  padding: 1rem;
-
   &:nth-child(2n+3),
   &:first-child {
     background-color: $gray-lightest;
