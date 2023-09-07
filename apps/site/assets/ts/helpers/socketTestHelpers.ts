@@ -16,7 +16,8 @@ export const makeMockChannel = (
     leave: jest.fn(),
     on: jest.fn(),
     off: jest.fn(),
-    receive: jest.fn()
+    receive: jest.fn(),
+    onError: jest.fn()
   };
   result.join.mockImplementation(() => result);
   result.receive.mockImplementation((message, handler) => {

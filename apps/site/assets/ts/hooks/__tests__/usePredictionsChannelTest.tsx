@@ -161,7 +161,7 @@ describe("usePredictionsChannel hook", () => {
       expect.anything(),
       expect.toBeOneOf([expect.anything(), null])
     );
-    expect(result.current).toEqual(null);
+    expect(result.current).toEqual([]);
   });
 });
 

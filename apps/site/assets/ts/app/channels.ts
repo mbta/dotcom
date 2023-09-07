@@ -41,16 +41,19 @@ const joinChannel = <T>(
   if (!["joined", "joining"].includes(channel.state)) {
     channel
       .join()
-      .receive("error", ({ reason }) =>
+      .receive("error", ({ reason }) => {
         /* eslint-disable no-console */
-        console.error(`failed to join ${channelId}`, reason)
-      )
+        console.error(`failed to join ${channelId}`, reason);
+        const errorEvent = new CustomEvent<{ error: string }>(channelId, {
+          detail: { error: reason }
+        });
+        document.dispatchEvent(errorEvent);
+      })
       .receive("ok", event => {
         console.log(`success joining ${channelId}`);
         if (handleJoin && event) {
           handleJoin(event);
         }
-        /* eslint-enable no-console */
         if (isVehicleChannel(channelId)) {
           const [, route_id, direction_id] = channelId.split(":");
           channel.push("init", { route_id, direction_id });
@@ -61,6 +64,15 @@ const joinChannel = <T>(
   channel.on("data", (data: T) => {
     const event = new CustomEvent<T>(channelId, { detail: data });
     document.dispatchEvent(event);
+  });
+
+  channel.onError((reason: string) => {
+    console.error(`error on channel ${channelId} : ${reason}`);
+    /* eslint-enable no-console */
+    const errorEvent = new CustomEvent<{ error: string }>(channelId, {
+      detail: { error: reason }
+    });
+    document.dispatchEvent(errorEvent);
   });
 
   if (isVehicleChannel(channelId)) {
