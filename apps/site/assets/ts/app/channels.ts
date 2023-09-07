@@ -54,7 +54,6 @@ const joinChannel = <T>(
         if (handleJoin && event) {
           handleJoin(event);
         }
-        /* eslint-enable no-console */
         if (isVehicleChannel(channelId)) {
           const [, route_id, direction_id] = channelId.split(":");
           channel.push("init", { route_id, direction_id });
@@ -69,6 +68,7 @@ const joinChannel = <T>(
 
   channel.onError((reason: string) => {
     console.error(`error on channel ${channelId} : ${reason}`);
+    /* eslint-enable no-console */
     const errorEvent = new CustomEvent<{ error: string }>(channelId, {
       detail: { error: reason }
     });

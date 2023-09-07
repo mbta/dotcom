@@ -91,6 +91,8 @@ describe("setupChannels", () => {
     setupChannels();
     mockOnLoadEventListener();
     const channel = window.channels["vehicles:Red:0"];
+    const mockEventListener = jest.fn();
+    document.addEventListener("vehicles:Red:0", mockEventListener);
     const consoleMock = jest
       .spyOn(global.console, "error")
       .mockImplementation(() => {});
@@ -100,6 +102,10 @@ describe("setupChannels", () => {
       "failed to join vehicles:Red:0",
       "bad day"
     );
+    const event = new CustomEvent("vehicles:Red:0", {
+      detail: { error: "bad day" }
+    });
+    expect(mockEventListener).toHaveBeenCalledWith(event);
 
     consoleMock.mockRestore();
   });
@@ -114,6 +120,27 @@ describe("setupChannels", () => {
     // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
     channel.joinPush.trigger("ok");
     expect(console.log).toHaveBeenCalledWith("success joining vehicles:Red:0");
+
+    consoleMock.mockRestore();
+  });
+
+  it("responds to an error", () => {
+    // This should test the onError callback of the channel
+    // TODO write this tomorrow
+    setupChannels();
+    mockOnLoadEventListener();
+    const mockEventListener = jest.fn();
+    document.addEventListener("vehicles:Red:0", mockEventListener);
+    const channel = window.channels["vehicles:Red:0"];
+    const consoleMock = jest
+      .spyOn(global.console, "error")
+      .mockImplementation(() => {});
+    // @ts-ignore... phoenix.js isn't properly typed. and technically this is a private property. how else to trigger a channel event!
+    channel.trigger("phx_error", { reason: "bad data" });
+    const event = new CustomEvent("vehicles:Red:0", {
+      detail: { error: "bad data" }
+    });
+    expect(mockEventListener).toHaveBeenCalledWith(event);
 
     consoleMock.mockRestore();
   });
