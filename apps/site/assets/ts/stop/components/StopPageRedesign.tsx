@@ -54,6 +54,16 @@ const StopPageRedesign = ({
       : []
   );
 
+  const routeAlertsCopy = alertsForRoutesResult.data?.map(data => {
+    let start = data.active_period[0][0];
+    let end = data.active_period[0][1];
+    start = start ? new Date(start).toISOString() : start;
+    end = end ? new Date(end).toISOString() : end;
+    const returnAlert = data;
+    returnAlert.active_period = [[start, end]];
+    return returnAlert;
+  });
+
   if (
     [
       stopResult.status,
@@ -79,7 +89,7 @@ const StopPageRedesign = ({
     omit(rwp, "polylines")
   );
 
-  const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
+  const allRouteWideAlerts = routeWideAlerts(routeAlertsCopy || []);
   const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
   const allAmenityAlerts = filter(allAlerts, a => isAmenityAlert(a));
   const allStopPageAlerts = filter(allAlerts, a => isStopPageAlert(a));
