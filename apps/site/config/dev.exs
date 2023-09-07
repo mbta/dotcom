@@ -20,7 +20,7 @@ static_url =
 webpack_path = "http://#{System.get_env("STATIC_HOST") || host}:#{webpack_port}"
 
 config :site, SiteWeb.Endpoint,
-  http: [port: port],
+  http: [ip: {127, 0, 0, 1}, port: port],
   static_url: static_url,
   debug_errors: true,
   code_reloader: true,
@@ -37,7 +37,7 @@ config :site, SiteWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/site_web/views/.*(ex)$},
+      ~r{lib/site_web/(live|views)/.*(ex)$},
       ~r{lib/site_web/templates/.*(eex)$}
     ]
   ]
