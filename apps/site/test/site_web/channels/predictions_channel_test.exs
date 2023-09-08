@@ -26,25 +26,55 @@ defmodule SiteWeb.PredictionsChannelTest do
   @channel_name "predictions:stop:#{@stop_fh}"
 
   setup do
-    reassign_env(:site, :predictions_subscribe_fn, fn _ ->
-      [@prediction39]
-    end)
-
     socket = socket(UserSocket, "", %{})
-
     {:ok, socket: socket}
   end
 
   describe "join/3" do
-    test "subscribes to predictions for a route ID, stop ID, and direction, and returns the current list of predictions",
-         %{
-           socket: socket
-         } do
+    test "subscribes to predictions for a stop ID and returns the current list of predictions", %{
+      socket: socket
+    } do
+      reassign_env(:site, :predictions_subscribe_fn, fn _ ->
+        [@prediction39]
+      end)
+
       assert {:ok, %{predictions: [@prediction39]}, %Socket{}} =
                subscribe_and_join(
                  socket,
                  PredictionsChannel,
                  @channel_name
+               )
+    end
+
+    test "can't join any topic", %{socket: socket} do
+      assert {:error,
+              %{
+                message: "Cannot subscribe to predictions for route:Orange."
+              }} =
+               subscribe_and_join(
+                 socket,
+                 PredictionsChannel,
+                 "predictions:route:Orange"
+               )
+
+      assert {:error,
+              %{
+                message: "Cannot subscribe to predictions for Red:1."
+              }} =
+               subscribe_and_join(
+                 socket,
+                 PredictionsChannel,
+                 "predictions:Red:1"
+               )
+
+      assert {:error,
+              %{
+                message: "Cannot subscribe to predictions for trip:123456."
+              }} =
+               subscribe_and_join(
+                 socket,
+                 PredictionsChannel,
+                 "predictions:trip:123456"
                )
     end
   end

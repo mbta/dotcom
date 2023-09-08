@@ -20,11 +20,10 @@ defmodule SiteWeb.PredictionsChannel do
       )
 
     case predictions_subscribe_fn.(topic) do
-      {:error, reason} ->
+      {:error, _reason} ->
         {:error,
          %{
-           message:
-             "Cannot subscribe to predictions data streams for #{topic} because #{inspect(reason)}"
+           message: "Cannot subscribe to predictions for #{topic}."
          }}
 
       predictions ->
