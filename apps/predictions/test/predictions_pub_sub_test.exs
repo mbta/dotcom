@@ -170,7 +170,6 @@ defmodule Predictions.PredictionsPubSubTest do
   end
 
   describe "handle_info/2 - :DOWN" do
-    @describetag :skip
     test "can observe when the caller/subscribing task is exited, and remove from state" do
       {:ok, pid} =
         PredictionsPubSub.start_link(name: :subscribe_and_down, subscribe_fn: fn _, _ -> :ok end)
