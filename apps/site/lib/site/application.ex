@@ -55,13 +55,14 @@ defmodule Site.Application do
         [
           {Site.React, name: Site.React},
           {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
+          {Phoenix.PubSub, name: Site.PubSub},
           {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
         ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Site.Supervisor]
-    {:ok, _pid} = Supervisor.start_link(children, opts)
+    Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration

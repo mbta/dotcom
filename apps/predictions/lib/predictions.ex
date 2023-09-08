@@ -16,14 +16,7 @@ defmodule Predictions do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # can update to this syntax after upgrading Phoenix to 1.5+
-      # {Phoenix.PubSub, [name: Predictions.PubSub, adapter: Phoenix.PubSub.PG2]},
-      %{
-        id: Predictions.PubSub,
-        start:
-          {Phoenix.PubSub.PG2, :start_link,
-           [[name: Predictions.PubSub, adapter: Phoenix.PubSub.PG2]]}
-      },
+      {Phoenix.PubSub, [name: Predictions.PubSub]},
       {Registry, keys: :unique, name: :prediction_streams_registry},
       {Registry, keys: :duplicate, name: :prediction_subscriptions_registry},
       Predictions.Store,

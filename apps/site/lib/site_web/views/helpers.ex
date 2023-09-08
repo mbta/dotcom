@@ -43,7 +43,7 @@ defmodule SiteWeb.ViewHelpers do
       content_tag(
         :span,
         [unquote(contents)],
-        class: ["notranslate c-svg", "__", Path.rootname(unquote(name))]
+        class: "notranslate c-svg__#{Path.rootname(unquote(name))}"
       )
     end
   end

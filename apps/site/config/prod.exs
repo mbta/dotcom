@@ -13,9 +13,17 @@ use Mix.Config
 # which you typically run after static files are built.
 config :site, SiteWeb.Endpoint,
   http: [
+    # Enable IPv6 and bind on all interfaces.
+    # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+    # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
+    # for details about using IPv6 vs IPv4 and loopback vs public addresses.
+    ip: {0, 0, 0, 0, 0, 0, 0, 0},
     port: {:system, "PORT"},
-    acceptors: 2_048,
-    max_connections: 32_768,
+    transport_options: [
+      num_acceptors: 2_048,
+      max_connections: 32_768,
+      socket_opts: [:inet6]
+    ],
     compress: true,
     protocol_options: [
       max_header_value_length: 16_384,

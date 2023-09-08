@@ -3,7 +3,7 @@
     as: :plan,
     method: :get,
     class: "c-trip-plan-widget__form",
-    id: "planner-form"
+    id: "plan"
   ]
 
   from_error = ""
