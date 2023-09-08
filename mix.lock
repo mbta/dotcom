@@ -15,7 +15,6 @@
   "csv": {:hex, :csv, "3.0.5", "3c1455127e92de8845806db89554ad7d45e0212974be41dd9c38a5c881861713", [:mix], [], "hexpm", "cbbe5455c93df5f3f2943e995e28b7a8808361ba34cf3e44267d77a01eaf1609"},
   "dialyxir": {:hex, :dialyxir, "1.0.0-rc.4", "71b42f5ee1b7628f3e3a6565f4617dfb02d127a0499ab3e72750455e986df001", [:mix], [{:erlex, "~> 0.1", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm", "4bba10c6f267a0dd127d687d1295f6a11af6a7f160cc0e261c46f1962a98d7d8"},
   "diskusage_logger": {:hex, :diskusage_logger, "0.2.0", "04fc48b538fe4de43153542a71ea94f623d54707d85844123baacfceedf625c3", [:mix], [], "hexpm", "e3f2aed1b0fc4590931c089a6453a4c4eb4c945912aa97bcabcc0cff7851f34d"},
-  "distillery": {:hex, :distillery, "2.1.1", "f9332afc2eec8a1a2b86f22429e068ef35f84a93ea1718265e740d90dd367814", [:mix], [{:artificery, "~> 0.2", [hex: :artificery, repo: "hexpm", optional: false]}], "hexpm", "bbc7008b0161a6f130d8d903b5b3232351fccc9c31a991f8fcbf2a12ace22995"},
   "earmark_parser": {:hex, :earmark_parser, "1.4.15", "b29e8e729f4aa4a00436580dcc2c9c5c51890613457c193cc8525c388ccb2f06", [:mix], [], "hexpm", "044523d6438ea19c1b8ec877ec221b008661d3c27e3b848f4c879f500421ca5c"},
   "eflame": {:hex, :eflame, "1.0.1", "0664d287e39eef3c413749254b3af5f4f8b00be71c1af67d325331c4890be0fc", [:mix], [], "hexpm", "e0b08854a66f9013129de0b008488f3411ae9b69b902187837f994d7a99cf04e"},
   "ehmon": {:git, "https://github.com/mbta/ehmon.git", "1fb603262bd02d74a16183bd8f344dcace9d7561", []},

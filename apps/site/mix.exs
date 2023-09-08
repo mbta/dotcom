@@ -56,7 +56,6 @@ defmodule Site.Mixfile do
       {:plug_cowboy, "~> 2.6.1"},
       {:timex, ">= 2.0.0"},
       {:ehmon, github: "mbta/ehmon", only: :prod},
-      {:distillery, "~> 2.0"},
       {:inflex, "~> 1.8.0"},
       {:html_sanitize_ex, "1.3.0"},
       {:logster, "~> 0.4.0"},

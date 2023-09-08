@@ -56,7 +56,7 @@ COPY --from=assets-builder /root/apps/site/priv/static ./apps/site/priv/static
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
 RUN mix do compile, phx.digest
-RUN mix distillery.release --verbose
+RUN mix release
 
 
 # 4) Use the nodejs container for the runtime environment
@@ -86,4 +86,4 @@ WORKDIR /root/work
 
 # run the application
 ENTRYPOINT ["/usr/bin/dumb-init"]
-CMD ["/root/rel/site/bin/startup", "foreground"]
+CMD ["/root/rel/site/bin/startup", "start"]
