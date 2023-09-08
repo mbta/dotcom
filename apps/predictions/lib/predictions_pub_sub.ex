@@ -32,15 +32,14 @@ defmodule Predictions.PredictionsPubSub do
   @spec subscribe(String.t()) :: [Prediction.t()]
   @spec subscribe(String.t(), GenServer.server()) :: [Prediction.t()] | {:error, term()}
   def subscribe(topic, server \\ __MODULE__) do
-    with %StreamTopic{streams: streams, fetch_keys: fetch_keys} = stream_filter <-
-           StreamTopic.new(topic) do
-      Enum.each(streams, &StreamSupervisor.ensure_stream_is_started/1)
+    with %StreamTopic{} = stream_topic <- StreamTopic.new(topic) do
+      :ok = StreamTopic.start_streams(stream_topic)
 
-      {registry_key, predictions} = GenServer.call(server, {:subscribe, stream_filter})
+      {registry_key, predictions} = GenServer.call(server, {:subscribe, stream_topic})
 
-      streams
-      |> Enum.map(&{fetch_keys, &1})
-      |> Enum.each(&Registry.register(@subscribers, registry_key, &1))
+      for key <- StreamTopic.registration_keys(stream_topic) do
+        Registry.register(@subscribers, registry_key, key)
+      end
 
       predictions
     else

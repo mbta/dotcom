@@ -6,6 +6,7 @@ defmodule Predictions.StreamTopicTest do
   import Predictions.StreamTopic
   import Mock
   alias Predictions.StreamTopic
+  alias RoutePatterns.RoutePattern
 
   setup_with_mocks([
     {RoutePatterns.Repo, [], [by_stop_id: fn id -> mock_route_patterns(id) end]}
@@ -23,11 +24,11 @@ defmodule Predictions.StreamTopicTest do
                streams: streams
              } = new("stop:stopId")
 
-      assert ["filter[route]=Route1&filter[direction_id]=0" | _] = streams
+      assert ["filter[direction_id]=0&filter[route]=Route1" | _] = streams
     end
 
     test "doesn't work for stop without route patterns" do
-      assert {:error, :unsupported_topic} = new("stop:unserved_stop")
+      assert {:error, :no_streams_found} = new("stop:unserved_stop")
     end
 
     test "doesn't work for other topics" do
@@ -48,9 +49,9 @@ defmodule Predictions.StreamTopicTest do
 
   defp mock_route_patterns(_id) do
     [
-      %{route_id: "Route1", direction_id: 0},
-      %{route_id: "Route1", direction_id: 1},
-      %{route_id: "Route2", direction_id: 1}
+      %RoutePattern{route_id: "Route1", direction_id: 0},
+      %RoutePattern{route_id: "Route1", direction_id: 1},
+      %RoutePattern{route_id: "Route2", direction_id: 1}
     ]
   end
 end
