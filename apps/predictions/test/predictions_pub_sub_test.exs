@@ -22,7 +22,7 @@ defmodule Predictions.PredictionsPubSubTest do
   @channel_args "stop:#{@stop_id}"
 
   setup_with_mocks([
-    {RoutePatterns.Repo, [], [by_stop_id: fn _stop_id, [] -> [%RoutePatterns.RoutePattern{}] end]}
+    {RoutePatterns.Repo, [], [by_stop_id: fn _stop_id -> [%RoutePatterns.RoutePattern{}] end]}
   ]) do
     start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
     start_supervised(Store)

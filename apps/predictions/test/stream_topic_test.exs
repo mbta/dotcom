@@ -8,7 +8,7 @@ defmodule Predictions.StreamTopicTest do
   alias Predictions.StreamTopic
 
   setup_with_mocks([
-    {RoutePatterns.Repo, [], [by_stop_id: fn id, [] -> mock_route_patterns(id) end]}
+    {RoutePatterns.Repo, [], [by_stop_id: fn id -> mock_route_patterns(id) end]}
   ]) do
     :ok
   end

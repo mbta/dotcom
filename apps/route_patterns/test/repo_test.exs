@@ -36,9 +36,9 @@ defmodule RoutePatterns.RepoTest do
     end
   end
 
-  describe "by_stop_id/2" do
+  describe "by_stop_id/1" do
     test "returns route patterns for a stop" do
-      assert [%RoutePattern{} | _] = Repo.by_stop_id("place-sstat", [])
+      assert [%RoutePattern{} | _] = Repo.by_stop_id("place-sstat")
     end
   end
 end

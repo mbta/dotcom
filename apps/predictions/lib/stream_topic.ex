@@ -49,8 +49,7 @@ defmodule Predictions.StreamTopic do
 
   @spec filters(Stop.id_t()) :: [api_filter_t()]
   defp filters("stop:" <> stop_id) do
-    stop_id
-    |> RoutePatterns.Repo.by_stop_id([])
+    RoutePatterns.Repo.by_stop_id(stop_id)
     |> Enum.map(
       &%{
         route: &1.route_id,
