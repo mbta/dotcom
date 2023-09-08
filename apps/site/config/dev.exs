@@ -20,7 +20,9 @@ static_url =
 webpack_path = "http://#{System.get_env("STATIC_HOST") || host}:#{webpack_port}"
 
 config :site, SiteWeb.Endpoint,
-  http: [port: port],
+  # Binding to loopback ipv4 address prevents access from other machines.
+  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  http: [ip: {127, 0, 0, 1}, port: port],
   static_url: static_url,
   debug_errors: true,
   code_reloader: true,
