@@ -25,7 +25,17 @@ defmodule DotCom.Mixfile do
       source_url: "https://github.com/mbta/dotcom",
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
-      docs: [main: "Site", logo: "apps/site/assets/static/images/mbta-logo-t.png"]
+      docs: [main: "Site", logo: "apps/site/assets/static/images/mbta-logo-t.png"],
+      default_release: :site,
+      releases: [
+        include_executables_for: [:unix],
+        site: [
+          version: {:from_app, :site},
+          applications: [
+            site: :permanent
+          ]
+        ]
+      ]
     ]
   end
 
