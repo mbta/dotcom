@@ -121,7 +121,7 @@ defmodule Stops.RepoTest do
 
   describe "by_trip/2" do
     test "can return stops from a trip" do
-      assert response = by_trip("57478803")
+      assert response = by_trip("58653355")
       assert [%Stop{} | _] = response
     end
 

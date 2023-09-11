@@ -141,7 +141,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       items
       |> Enum.with_index()
       |> Enum.reduce([], fn {item, index}, acc -> if fun.(item), do: [index | acc], else: acc end)
-      |> Enum.min_max()
+      |> Enum.min_max(fn -> {0, 0} end)
 
     min..max
   end
