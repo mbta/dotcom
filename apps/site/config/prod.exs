@@ -133,6 +133,4 @@ config :site, StaticFileController,
 
 config :site, tile_server_url: "https://cdn.mbta.com"
 
-config :site, :react,
-  source_path: nil,
-  build_path: System.get_env("REACT_BUILD_PATH") || "/root/rel/site/app.js"
+config :site, :react, source_path: nil
