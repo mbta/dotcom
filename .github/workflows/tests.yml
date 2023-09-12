@@ -165,6 +165,21 @@ jobs:
 
   cypress:
     name: Integration tests / Cypress
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-app
+      - uses: cypress-io/github-action@v6
+        env:
+          MIX_ENV: test
+          PORT: 4004
+          RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+          RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+        with:
+          start: mix phx.server
+
+  cypress_initial:
+    name: Integration tests / Cypress
     runs-on: ubuntu-20.04
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex || needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
