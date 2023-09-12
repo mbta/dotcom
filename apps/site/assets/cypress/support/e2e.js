@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable import/no-extraneous-dependencies */
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -13,9 +15,9 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-import "./../../apps/site/assets/node_modules/cypress-file-upload";
-import "./../../apps/site/assets/node_modules/cypress-iframe";
-import "./../../apps/site/assets/node_modules/cypress-axe";
+import "cypress-file-upload";
+import "cypress-iframe";
+import "cypress-axe";
 import "./commands";
 
 Cypress.Screenshot.defaults({
@@ -23,11 +25,12 @@ Cypress.Screenshot.defaults({
   disableTimersAndAnimations: false
 });
 
-Cypress.on('uncaught:exception', (err, runnable) => {
+// eslint-disable-next-line no-unused-vars, consistent-return
+Cypress.on("uncaught:exception", (err, runnable) => {
   // we expect a Google Maps API library error with message 't is not a function' if the tests start up too quickly
   // we don't want to fail the test so we return false
-  if (err.message.includes('t is not a function')) {
-    return false
+  if (err.message.includes("t is not a function")) {
+    return false;
   }
   // we still want to ensure there are no other unexpected
   // errors, so we let them fail the test

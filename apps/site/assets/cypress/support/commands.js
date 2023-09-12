@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -21,7 +22,7 @@
  *    }
  *  })`
  */
-Cypress.Commands.add("mix", cmd => cy.exec(`mix ${cmd}`));
+Cypress.Commands.add("mix", cmd => cy.exec(`cd ../../.. && mix ${cmd}`));
 
 /**
  * Checks the Recaptcha checkbox, verifying checked state before proceeding.
@@ -70,19 +71,19 @@ Cypress.Commands.add("selectRandomServiceAndSubject", () => {
 
 /**
  * Use the same way as cy.screenshot()
- * 
+ *
  * This includes a hack so that full page snapshots can be properly captured.
  */
-Cypress.Commands.add("takeFullScreenshot", (subject, name, options={}) => {
+Cypress.Commands.add("takeFullScreenshot", (subject, name, options = {}) => {
   /**
    * Hack for dealing with screenshots.
    * See Cypress bugs: https://github.com/cypress-io/cypress/issues/2681
    * and https://github.com/cypress-io/cypress/issues/3200
    */
-  cy.get('html')
-    .invoke('css', 'height', 'initial')
-    .invoke('css', 'scrollBehavior', 'initial');
-  cy.get('body').invoke('css', 'height', 'initial');
+  cy.get("html")
+    .invoke("css", "height", "initial")
+    .invoke("css", "scrollBehavior", "initial");
+  cy.get("body").invoke("css", "height", "initial");
 
   cy.wait(100);
   cy.screenshot(subject, name, options);
@@ -92,7 +93,7 @@ Cypress.Commands.add("takeFullScreenshot", (subject, name, options={}) => {
  * Navigates to /_flags to enable a feature.
  * e.g. cy.enableFlaggedFeature("nav_redesign")
  */
-Cypress.Commands.add("enableFlaggedFeature", (featureSelector) => {
+Cypress.Commands.add("enableFlaggedFeature", featureSelector => {
   cy.visit("/_flags");
   cy.get(`form[action="/_flags/enable/${featureSelector}"]`).submit();
 });

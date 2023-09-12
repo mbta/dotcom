@@ -1,4 +1,6 @@
-import { faker } from "../../../apps/site/assets/node_modules/@faker-js/faker/locale/en_US";
+/* eslint-disable no-undef */
+/* eslint-disable import/no-extraneous-dependencies */
+import { faker } from "@faker-js/faker/locale/en_US";
 
 describe("Customer Support Form", () => {
   beforeEach(() => {
@@ -47,10 +49,16 @@ describe("Customer Support Form", () => {
   });
 
   describe("Submits form successfully", () => {
-    let comment, first_name, last_name, email, phone;
+    let comment;
+    let first_name;
+    let last_name;
+    let email;
+    let phone;
 
     beforeEach(() => {
-      cy.intercept("POST", "/customer-support").as("submitForm", { type: "static" });
+      cy.intercept("POST", "/customer-support").as("submitForm", {
+        type: "static"
+      });
       comment = faker.hacker.phrase();
       first_name = faker.name.firstName();
       last_name = faker.name.lastName();
