@@ -18,19 +18,19 @@ jobs:
       - uses: cypress-io/github-action@v6
         with:
           working-directory: apps/site/assets
-          config: baseUrl=${{ github.event.deployment_status.target_url }}
+          config: baseUrl=${{ github.event.deployment_status.environment_url }}
           build: npx cypress info
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
+          path: apps/site/assets/cypress/screenshots
           if-no-files-found: ignore
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-videos
-          path: cypress/videos
+          path: apps/site/assets/cypress/videos
           if-no-files-found: ignore
 
   

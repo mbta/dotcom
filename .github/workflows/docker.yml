@@ -1,11 +1,23 @@
 name: Docker
 
-on: [push]
+on:
+  push:
+    # Don't bother running for certain changes
+    paths-ignore:
+      - ".github/**"
+      - ".husky/**"
+      - "apps/site/assets/cypress/**"
+      - "apps/site/load_tests/**"
+      - "scripts/**"
+      - "docs/**"
+      - "*.md"
+      - AUTHORS
+      - LICENSE
 
 jobs:
   docker:
     name: Build Docker image
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - run: docker build .
