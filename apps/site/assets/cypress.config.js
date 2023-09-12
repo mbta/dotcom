@@ -1,22 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-const port = process.env.PORT;
-if (!port) {
-  throw new Error(`missing PORT environment variable`);
-}
 module.exports = {
-  screenshotsFolder: "cypress/snapshots/actual",
   trashAssetsBeforeRuns: true,
 
   env: {
     failSilently: false
   },
 
-  video: false,
   chromeWebSecurity: false,
 
   e2e: {
-    baseUrl: `http://localhost:${port}`,
+    // can be overridden by the CYPRESS_BASE_URL environment variable
+    // https://docs.cypress.io/guides/references/configuration#Environment-Variables
+    baseUrl: "http://localhost:4002",
 
     setupNodeEvents(on, config) {
       on("task", {

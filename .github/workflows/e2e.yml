@@ -1,0 +1,45 @@
+name: Run end-to-end tests on deployment
+
+on:
+  - deployment_status
+
+jobs:
+  cypress:
+    # only runs this job on successful deploy
+    if: github.event.deployment_status.state == 'success'
+    name: Cypress tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test:
+          - support_form.cy.js
+          - homepage.cy.js
+          - global_navigation.cy.js
+          - screenshots.cy.js
+    # stop the job if it runs over 10 minutes
+    # to prevent a hanging process from using all your CI minutes
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      # will NPM install everything, incl. Cypress & plugins
+      - uses: cypress-io/github-action@v6
+        with:
+          working-directory: apps/site/assets
+          config: baseUrl=${{ github.event.deployment_status.target_url }}
+          build: npx cypress info
+          spec: cypress/e2e/${{ matrix.test }}
+          auto-cancel-after-failures: 2
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
+
+  
