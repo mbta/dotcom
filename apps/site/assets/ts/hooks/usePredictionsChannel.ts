@@ -66,26 +66,15 @@ export const parsePrediction = (
 });
 
 interface PredictionsChannelArgs {
-  routeId?: string;
   stopId?: string;
-  directionId?: 0 | 1;
 }
 
 function channelFromArgs(channelArgs: PredictionsChannelArgs): string | null {
-  const keysWithValues = Object.entries({
-    route: "routeId",
-    stop: "stopId",
-    direction_id: "directionId"
-  })
-    .map(([key, arg]) => {
-      const value = channelArgs[arg as keyof PredictionsChannelArgs];
-      if (value !== undefined) {
-        return `:${key}=${value}`;
-      }
-      return "";
-    })
-    .join("");
-  return keysWithValues === "" ? null : `predictions${keysWithValues}`;
+  const { stopId } = channelArgs;
+  if (stopId) {
+    return `predictions:stop:${stopId}`;
+  }
+  return null;
 }
 
 /**

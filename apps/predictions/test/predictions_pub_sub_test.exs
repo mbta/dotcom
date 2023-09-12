@@ -5,26 +5,25 @@ defmodule Predictions.PredictionsPubSubTest do
   alias Routes.Route
   alias Stops.Stop
 
-  @route_39 "39"
-  @route_66 "66"
   @stop_id "place-where"
-  @direction_id 1
   @prediction39 %Prediction{
     id: "prediction39",
-    direction_id: @direction_id,
-    route: %Route{id: @route_39},
+    direction_id: 1,
+    route: %Route{id: "39"},
     stop: %Stop{id: @stop_id}
   }
   @prediction66 %Prediction{
     id: "prediction66",
-    direction_id: @direction_id,
-    route: %Route{id: @route_66},
-    stop: %Stop{id: @stop_id}
+    direction_id: 1,
+    route: %Route{id: "66"},
+    stop: %Stop{id: "other_stop"}
   }
 
-  @channel_args "route=#{@route_39}:stop=#{@stop_id}:direction_id=#{@direction_id}"
+  @channel_args "stop:#{@stop_id}"
 
-  setup_all do
+  setup_with_mocks([
+    {RoutePatterns.Repo, [], [by_stop_id: fn _stop_id -> [%RoutePatterns.RoutePattern{}] end]}
+  ]) do
     start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
     start_supervised(Store)
 
@@ -197,7 +196,7 @@ defmodule Predictions.PredictionsPubSubTest do
             this = self()
 
             assert %{
-                     ^this => @channel_args,
+                     ^this => _filters,
                      ^p1 => "stop=1",
                      ^p2 => "stop=2",
                      ^p3 => "stop=3"

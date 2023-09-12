@@ -16,15 +16,15 @@ defmodule Predictions.StreamSupervisor do
   end
 
   @spec ensure_stream_is_started(String.t()) :: {:ok, pid()} | :bypassed
-  def ensure_stream_is_started(keys),
-    do: ensure_stream_is_started(keys, System.get_env("USE_SERVER_SENT_EVENTS"))
+  def ensure_stream_is_started(filters),
+    do: ensure_stream_is_started(filters, System.get_env("USE_SERVER_SENT_EVENTS"))
 
-  defp ensure_stream_is_started(_keys, "false"), do: :bypassed
+  defp ensure_stream_is_started(_filters, "false"), do: :bypassed
 
-  defp ensure_stream_is_started(keys, _) do
-    case lookup(keys) do
+  defp ensure_stream_is_started(filters, _) do
+    case lookup(filters) do
       nil ->
-        start_stream(keys)
+        start_stream(filters)
 
       stream_pid ->
         {:ok, stream_pid}
@@ -32,8 +32,8 @@ defmodule Predictions.StreamSupervisor do
   end
 
   @spec lookup(String.t()) :: pid() | nil
-  defp lookup(key) do
-    case Registry.lookup(@streams, key) do
+  defp lookup(filters) do
+    case Registry.lookup(@streams, filters) do
       [{stream_pid, _}] -> stream_pid
       _ -> nil
     end
@@ -44,13 +44,13 @@ defmodule Predictions.StreamSupervisor do
     DynamicSupervisor.start_child(__MODULE__, {Worker, [key, via_tuple(key)]})
   end
 
-  defp via_tuple(key) do
-    {:via, Registry, {@streams, key}}
+  defp via_tuple(filters) do
+    {:via, Registry, {@streams, filters}}
   end
 
   @spec stop_stream(String.t()) :: :ok
-  def stop_stream(key) do
-    case lookup(key) do
+  def stop_stream(filters) do
+    case lookup(filters) do
       pid when is_pid(pid) ->
         DynamicSupervisor.terminate_child(
           __MODULE__,
