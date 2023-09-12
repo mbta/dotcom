@@ -43,6 +43,7 @@ Array [
           >
             <select
               className="c-select-custom notranslate"
+              data-testid="schedule-finder-direction-select"
               onChange={[Function]}
               value={0}
             >

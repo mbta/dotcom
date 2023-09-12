@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { DirectionId, Route } from "../../../__v3api";
 import {
   SimpleStopMap,
@@ -46,13 +46,31 @@ const ScheduleFinderModal = ({
   handleOriginSelectClick,
   scheduleNote
 }: Props): ReactElement => {
+  const [originState, setOriginState] = useState(initialOrigin);
+
+  const getStopIdIfInDirection = (newDirection: DirectionId): string | null => {
+    const directionDestination = route.direction_destinations[newDirection];
+    const stopsForDirection = stops[newDirection];
+    const stopsWithoutTerminal = stopsForDirection.filter(
+      s => s.name !== directionDestination
+    );
+    // This needs to return null if the selected origin is the end of the line in the direction
+    return stopsWithoutTerminal.find(s => s.id === originState)?.id || null;
+  };
+
   const handleChangeDirection = (newDirection: DirectionId): void => {
     if (directionChanged) directionChanged(newDirection);
-    if (originChanged) originChanged(null);
+
+    // return the stop if it is present in the new direction
+    // stops the user from having to reselect an origin on stop change
+    const stop = getStopIdIfInDirection(newDirection);
+
+    if (originChanged) originChanged(stop);
     updateURL(initialOrigin, newDirection);
   };
 
   const handleChangeOrigin = (newOrigin: SelectedOrigin): void => {
+    setOriginState(newOrigin);
     if (originChanged) originChanged(newOrigin);
     updateURL(newOrigin, initialDirection);
   };
@@ -88,6 +106,10 @@ const ScheduleFinderModal = ({
   const direction = initialDirection;
   const origin = initialOrigin;
   const originStop = stops[direction].find(stop => stop.id === origin);
+
+  useEffect(() => {
+    setOriginState(initialOrigin);
+  }, [initialOrigin]);
 
   return (
     <Modal
