@@ -4,22 +4,68 @@ on:
   - deployment_status
 
 jobs:
-  cypress:
-    # only runs this job on successful deploy
-    if: github.event.deployment_status.state == 'success'
-    name: Cypress tests
+  env_check:
+    # only runs this job on successful deploy to a staging server
+    if: github.event.deployment_status.state == 'success' && contains('dev-green dev-blue', github.event.deployment_status.environment)
+    name: Check deployed environment
     runs-on: ubuntu-latest
-    # stop the job if it runs over 10 minutes
-    # to prevent a hanging process from using all your CI minutes
-    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       # will NPM install everything, incl. Cypress & plugins
       - uses: cypress-io/github-action@v6
+        name: Install and setup Cypress
         with:
           working-directory: apps/site/assets
+          runTests: false
+
+  cypress_local:
+    needs: [env_check]
+    name: Cypress tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-app
+      - uses: cypress-io/github-action@v6
+        timeout-minutes: 15
+        with:
+          working-directory: apps/site/assets
+          install: false
+          config: baseUrl=http://localhost:4002
+          start: npm run test-server
+          build: npx cypress info
+          wait-on: 'http://localhost:4002'
+          spec: |
+            apps/site/assets/cypress/e2e/support_form.cy.js
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: apps/site/assets/cypress/screenshots
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: apps/site/assets/cypress/videos
+          if-no-files-found: ignore
+
+  cypress_remote:
+    needs: [env_check]
+    name: Cypress tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cypress-io/github-action@v6
+        timeout-minutes: 10
+        with:
+          working-directory: apps/site/assets
+          install: false
           config: baseUrl=${{ github.event.deployment_status.environment_url }}
           build: npx cypress info
+          spec: |
+            apps/site/assets/cypress/e2e/screenshots.cy.js
+            apps/site/assets/cypress/e2e/homepage.cy.js
+            apps/site/assets/cypress/e2e/global_navigation.cy.js
       - uses: actions/upload-artifact@v3
         if: failure()
         with:

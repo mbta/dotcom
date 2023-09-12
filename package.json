@@ -21,7 +21,8 @@
     "build": "mix compile.assets",
     "postbuild": "mix compile",
     "rebuild": "rm -rf _build apps/site/priv/static apps/site/assets/node_modules; npm run install; npm run build",
-    "dialyzer": "mix dialyzer --halt-exit-status"
+    "dialyzer": "mix dialyzer --halt-exit-status",
+    "test-server": "MIX_ENV=test PORT=4002 mix phx.server"
   },
   "lint-staged": {
     "**/*.{ex,exs}": "mix format"

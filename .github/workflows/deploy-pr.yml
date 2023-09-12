@@ -8,20 +8,12 @@ on:
       - synchronize
       - labeled
 
-env:
-  # deploy only if any PR label is "dev-green" or "dev-blue"
-  DO_DEPLOY: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
-  # really hacky expression because Github Actions
-  # lacks real conditional statements
-  DEPLOY_ENV: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
-
 jobs:
   pr:
-    # env not available for job if
     if: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') || contains(github.event.pull_request.labels.*.name, 'dev-blue') }}
     uses: ./.github/workflows/use-deploy-ecs.yml
     with:
-      deployment-env: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }} # env not valid here either
+      deployment-env: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
     secrets:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -39,24 +31,3 @@ jobs:
         PR#${{ github.event.pull_request.number }} (`${{ github.ref_name }}` branch) deployed to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
       failure-message: |
         PR#${{ github.event.pull_request.number }} failed to deploy to ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
-
-  cleanup:
-    runs-on: ubuntu-20.04
-    needs: [pr]
-    steps:
-      - name: Unlabel other PRs (if needed)
-        if: ${{ env.DO_DEPLOY }}
-        run: |
-          labelled=$(curl -s \
-          "${{ github.event.repository.url }}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
-          | jq -r '.[].url')
-
-          for url in ${labelled};  do
-            echo "${url}"
-            if [[ "${url}" != ${{ github.event.pull_request.issue_url }} && "${url}" != "" ]]; then
-              curl -X DELETE \
-                -H "Accept: application/vnd.github.v3+json" \ 
-                -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                "$url/labels/${{ env.DEPLOY_ENV }}"
-            fi
-          done
