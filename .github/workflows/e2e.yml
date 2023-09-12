@@ -9,13 +9,6 @@ jobs:
     if: github.event.deployment_status.state == 'success'
     name: Cypress tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        test:
-          - support_form.cy.js
-          - homepage.cy.js
-          - global_navigation.cy.js
-          - screenshots.cy.js
     # stop the job if it runs over 10 minutes
     # to prevent a hanging process from using all your CI minutes
     timeout-minutes: 15
@@ -27,8 +20,6 @@ jobs:
           working-directory: apps/site/assets
           config: baseUrl=${{ github.event.deployment_status.target_url }}
           build: npx cypress info
-          spec: cypress/e2e/${{ matrix.test }}
-          auto-cancel-after-failures: 2
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
