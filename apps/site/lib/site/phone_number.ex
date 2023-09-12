@@ -25,7 +25,7 @@ defmodule Site.PhoneNumber do
   @doc """
   Takes a string holding a possibly formatted phone number with optional leading 1.
   Returns a number in the format +1-617-222-3200, suitable for use with <a href="tel:">
-  Returns nil if parsing/formatting fails.
+  Returns the number if parsing/formatting fails for cases like 711.
   """
   @spec machine_format(String.t() | nil) :: String.t() | nil
   def machine_format(nil) do
@@ -38,7 +38,7 @@ defmodule Site.PhoneNumber do
         "+1-#{area_code}-#{prefix}-#{line}"
 
       nil ->
-        nil
+        number
     end
   end
 

@@ -34,10 +34,11 @@ defmodule Site.PhoneNumberTest do
       assert machine_format("345.456.3456") == "+1-345-456-3456"
     end
 
-    test "returns nil if it can't be formatted" do
-      assert machine_format("0118 999 881 999 119 7253") == nil
-      assert machine_format("222 3200") == nil
-      assert machine_format("") == nil
+    test "returns the input if it can't be formatted" do
+      assert machine_format("0118 999 881 999 119 7253") == "0118 999 881 999 119 7253"
+      assert machine_format("222 3200") == "222 3200"
+      assert machine_format("711") == "711"
+      assert machine_format("") == ""
       assert machine_format(nil) == nil
     end
   end
