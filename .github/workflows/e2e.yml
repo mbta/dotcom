@@ -16,9 +16,9 @@ jobs:
           config: baseUrl=${{ github.event.deployment_status.environment_url }}
           build: npx cypress info
           spec: |
-            apps/site/assets/cypress/e2e/screenshots.cy.js
-            apps/site/assets/cypress/e2e/homepage.cy.js
-            apps/site/assets/cypress/e2e/global_navigation.cy.js
+            cypress/e2e/screenshots.cy.js
+            cypress/e2e/homepage.cy.js
+            cypress/e2e/global_navigation.cy.js
       - uses: ./.github/actions/build-app
       - uses: cypress-io/github-action@v6
         timeout-minutes: 15
@@ -30,16 +30,16 @@ jobs:
           build: npx cypress info
           wait-on: 'http://localhost:4002'
           spec: |
-            apps/site/assets/cypress/e2e/support_form.cy.js
+            cypress/e2e/support_form.cy.js
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-screenshots
-          path: apps/site/assets/cypress/screenshots
+          path: cypress/screenshots
           if-no-files-found: ignore
       - uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: cypress-videos
-          path: apps/site/assets/cypress/videos
+          path: cypress/videos
           if-no-files-found: ignore
