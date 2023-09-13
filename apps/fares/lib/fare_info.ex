@@ -555,7 +555,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_east_boston,
         duration: :single_trip,
-        media: [:mticket],
+        media: [:mticket, :paper_ferry],
         reduced: nil,
         cents: dollars_to_cents(east_boston_price)
       },
@@ -563,7 +563,7 @@ defmodule Fares.FareInfo do
         mode: :ferry,
         name: :ferry_east_boston,
         duration: :round_trip,
-        media: [:mticket],
+        media: [:mticket, :paper_ferry],
         reduced: nil,
         cents: dollars_to_cents(east_boston_price) * 2
       },
