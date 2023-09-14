@@ -23,7 +23,6 @@ defmodule SiteWeb.ControllerHelpersTest do
   end
 
   describe "render_not_found/1" do
-    @tag skip: "Temporarily changed during CMS outage"
     test "renders the 404 bus page", %{conn: conn} do
       rendered =
         conn
