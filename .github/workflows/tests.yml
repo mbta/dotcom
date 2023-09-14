@@ -84,7 +84,7 @@ jobs:
       run: npm run ci:unit:exunit
     - name: Upload coverage artifact
       if: ${{ always() && github.event.pull_request }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Elixir test coverage report
         path: cover/

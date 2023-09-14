@@ -1,5 +1,5 @@
 defmodule SiteWeb.VehicleMapMarkerChannelTest do
-  use SiteWeb.ChannelCase
+  use SiteWeb.ChannelCase, async: false
 
   alias Leaflet.MapData.Marker
   alias SiteWeb.{VehicleMapMarkerChannel, UserSocket}

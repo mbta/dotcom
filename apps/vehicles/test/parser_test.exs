@@ -1,5 +1,5 @@
 defmodule Vehicles.ParserTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   alias Vehicles.Vehicle
   import Vehicles.Parser
   import Mock
