@@ -19,5 +19,19 @@ const useRoutesByStop = (stopId: string): FetchState<RouteWithPolylines[]> => {
   }
   return { status: FetchStatus.Data, data };
 };
+
+const useRoutePatternsByStop = (
+  stopId: string
+): FetchState<RouteWithPolylines[]> => {
+  const { data, error } = useSWR<RouteWithPolylines[]>(
+    `/api/routes/route-pattern/by-stop/${stopId}`,
+    fetchData
+  );
+  if (error) {
+    return { status: FetchStatus.Error };
+  }
+  return { status: FetchStatus.Data, data };
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { useRoutesByStop };
+export { useRoutesByStop, useRoutePatternsByStop };

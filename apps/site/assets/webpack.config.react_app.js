@@ -12,7 +12,7 @@ const config = merge(base, {
 
 config["entry"] = {
   app: ["./react_app.js"]
-}
+};
 
 delete config["node"];
 delete config["optimization"];

@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { concat, filter, omit } from "lodash";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
-import { useRoutesByStop } from "../../hooks/useRoute";
+import { useRoutePatternsByStop, useRoutesByStop } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
@@ -45,7 +45,13 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const [hasPredictionError, setPredictionError] = useState(false);
   const stopResult = useStop(stopId);
-  const routesWithPolylinesResult = useRoutesByStop(stopId);
+  const routesWithPolylinesResult = useRoutesByStop(stopId); //useRoutePatternsByStop(stopId);
+  const routePatterns = useRoutePatternsByStop(stopId);
+
+  console.log(routesWithPolylinesResult);
+  console.log(routePatterns);
+
+  console.log(routesWithPolylinesResult);
   const alertsForStopResult = useAlertsByStop(stopId);
   const facilities = useFacilitiesByStop(stopId);
   const alertsForRoutesResult = useAlertsByRoute(
