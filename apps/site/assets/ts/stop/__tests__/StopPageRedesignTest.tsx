@@ -9,7 +9,7 @@ import { customStop, newLatOrLon, routeWithPolylines } from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
-import { add, format } from "date-fns";
+import { add, format, formatISO } from "date-fns";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/predictions";
@@ -146,7 +146,7 @@ describe("StopPageRedesign", () => {
   });
 
   const dateFormatter = (date: Date): string => {
-    return format(date, "yyyy-M-d HH:mm");
+    return formatISO(date);
   };
 
   it("should render shuttle alerts", () => {

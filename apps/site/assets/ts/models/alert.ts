@@ -182,27 +182,11 @@ export const uniqueByEffect = (
   alerts: Alert[]
 ): boolean => alerts.findIndex(a => a.effect === alert.effect) === index;
 
-const withLeadingZero = (n: string): string => `0${n}`.slice(-2);
-
-const legacyDateParsing = (dateString: string): Date | null => {
-  const datePattern = /^(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{2})$/;
-  const match = datePattern.exec(dateString);
-  if (match) {
-    const [, year, rawMonth, rawDay, rawHour, min] = match;
-    return new Date(
-      `${year}-${withLeadingZero(rawMonth)}-${withLeadingZero(
-        rawDay
-      )}T${withLeadingZero(rawHour)}:${min}:00`
-    );
-  }
-  return null;
-};
-
 const activePeriodToDates = (
   activePeriod: TimePeriodPairs
 ): (Date | null)[] => {
   return activePeriod.map((d: string): Date | null => {
-    return isValid(d) ? parseISO(d) : legacyDateParsing(d);
+    return parseISO(d);
   });
 };
 
