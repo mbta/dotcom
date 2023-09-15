@@ -28,10 +28,10 @@ defmodule Fares.Format do
   def media(:charlie_ticket), do: "CharlieTicket"
   def media(:commuter_ticket), do: "CharlieTicket"
   def media(:mticket), do: "mTicket App"
-  def media(:cash), do: "Cash"
+  def media(:cash), do: "cash"
   def media(:senior_card), do: "Senior CharlieCard or TAP ID"
   def media(:student_card), do: "Student CharlieCard"
-  def media(:paper_ferry), do: "Paper Ferry Ticket"
+  def media(:paper_ferry), do: "paper ferry ticket"
   def media(:special_event), do: "Special Event Ticket"
 
   @doc "Formats the duration of the Fare"
