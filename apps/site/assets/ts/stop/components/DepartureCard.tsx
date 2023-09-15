@@ -37,6 +37,10 @@ const DepartureCard = ({
         {routeName(route)}
       </a>
       {/* TODO can we avoid hard coding the direction ids? */}
+
+      {/* add a check here if there is a value in the dictionary array for the given index/directionID(0 or 1)
+            ex. if(routePatternsHeadsigns.get(route.id)[directionId])
+            if null no headsign for that direction don't render DepartureTimes */}
       <>
         <DepartureTimes
           key={`${route.id}-0`}

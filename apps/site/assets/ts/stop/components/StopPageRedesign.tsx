@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { concat, filter, omit } from "lodash";
+import { Dictionary, concat, filter, omit } from "lodash";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutePatternsByStop, useRoutesByStop } from "../../hooks/useRoute";
@@ -45,13 +45,13 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const [hasPredictionError, setPredictionError] = useState(false);
   const stopResult = useStop(stopId);
-  const routesWithPolylinesResult = useRoutesByStop(stopId); //useRoutePatternsByStop(stopId);
+  const routesWithPolylinesResult = useRoutesByStop(stopId);
   const routePatterns = useRoutePatternsByStop(stopId);
 
-  console.log(routesWithPolylinesResult);
-  console.log(routePatterns);
+  //create Map with route_id => [headsign for direction 0, headsign for direction 1] this will be passed to DepartureCard
+  //in departure card
+  let activeHeadsign = new Map<string, [string, string]>();
 
-  console.log(routesWithPolylinesResult);
   const alertsForStopResult = useAlertsByStop(stopId);
   const facilities = useFacilitiesByStop(stopId);
   const alertsForRoutesResult = useAlertsByRoute(

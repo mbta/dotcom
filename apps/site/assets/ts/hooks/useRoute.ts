@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { fetchJsonOrThrow } from "../helpers/fetch-json";
-import { Route } from "../__v3api";
+import { Route, RoutePattern } from "../__v3api";
 import { Polyline } from "../leaflet/components/__mapdata";
 import { FetchState, FetchStatus } from "../helpers/use-fetch";
 
@@ -20,10 +20,8 @@ const useRoutesByStop = (stopId: string): FetchState<RouteWithPolylines[]> => {
   return { status: FetchStatus.Data, data };
 };
 
-const useRoutePatternsByStop = (
-  stopId: string
-): FetchState<RouteWithPolylines[]> => {
-  const { data, error } = useSWR<RouteWithPolylines[]>(
+const useRoutePatternsByStop = (stopId: string): FetchState<RoutePattern[]> => {
+  const { data, error } = useSWR<RoutePattern[]>(
     `/api/routes/route-pattern/by-stop/${stopId}`,
     fetchData
   );
