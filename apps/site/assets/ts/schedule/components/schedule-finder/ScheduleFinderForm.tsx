@@ -83,6 +83,7 @@ const ScheduleFinderForm = ({
             Choose a direction
             <SelectContainer>
               <select
+                data-testid="schedule-finder-direction-select"
                 className="c-select-custom notranslate"
                 value={selectedDirection}
                 onChange={e =>

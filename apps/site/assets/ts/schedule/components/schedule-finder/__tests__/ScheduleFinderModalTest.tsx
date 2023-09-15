@@ -1,5 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { DirectionId, Route } from "../../../../__v3api";
 import {
   RoutePatternsByDirection,
@@ -167,6 +169,7 @@ describe("ScheduleFinderModal", () => {
   it("matches snapshot in origin mode with origin selected", () => {
     const wrapper = mountComponent("origin", 0, null, undefined, undefined);
     expect(wrapper.debug()).toMatchSnapshot();
+    wrapper.unmount();
   });
 
   it("matches snapshot in schedule mode", () => {
@@ -178,6 +181,7 @@ describe("ScheduleFinderModal", () => {
       undefined
     );
     expect(wrapper.debug()).toMatchSnapshot();
+    wrapper.unmount();
   });
 
   it("detects click and keyUp events in OriginListItem elements", () => {
@@ -265,5 +269,89 @@ describe("ScheduleFinderModal", () => {
     expect(
       wrapper.find(".schedule-finder__origin-list").children().length
     ).toEqual(1);
+    wrapper.unmount();
+  });
+
+  it("does not change origin if it exists on direction change", () => {
+    const mode = "schedule";
+    const direction = 0;
+    const origin = "741";
+    const directionChanged = jest.fn();
+    const originChanged = jest.fn();
+    const user = userEvent.setup();
+    render(
+      <ScheduleFinderModal
+        closeModal={() => {}}
+        initialMode={mode}
+        route={route}
+        routePatternsByDirection={routePatternsByDirection}
+        services={services}
+        stops={stops}
+        today={today}
+        updateURL={() => {}}
+        initialDirection={direction}
+        directionChanged={directionChanged}
+        initialOrigin={origin}
+        originChanged={originChanged}
+        handleOriginSelectClick={() => {}}
+        scheduleNote={null}
+      />
+    );
+
+    // makes sure schedule finder is open
+    expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
+
+    const directionSelect = screen.getByTestId(
+      "schedule-finder-direction-select"
+    );
+    // couldn't get userEvent.selectOptions to work as expected
+    fireEvent.click(directionSelect, { target: { value: 1 } });
+
+    // The modal should not change to origin select
+    expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
+    expect(
+      (screen.getByRole("option", {
+        name: "OUTBOUND Forest Hills"
+      }) as HTMLOptionElement).selected
+    ).toBe(true);
+  });
+
+  it("opens the select origin modal if the selected stop does not exist in the new direction", () => {
+    const mode = "schedule";
+    const direction = 0;
+    const origin = "456";
+    const directionChanged = jest.fn();
+    const originChanged = jest.fn();
+    const user = userEvent.setup();
+    render(
+      <ScheduleFinderModal
+        closeModal={() => {}}
+        initialMode={mode}
+        route={route}
+        routePatternsByDirection={routePatternsByDirection}
+        services={services}
+        stops={stops}
+        today={today}
+        updateURL={() => {}}
+        initialDirection={direction}
+        directionChanged={directionChanged}
+        initialOrigin={origin}
+        originChanged={originChanged}
+        handleOriginSelectClick={() => {}}
+        scheduleNote={null}
+      />
+    );
+
+    // makes sure schedule finder is open
+    expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
+
+    const directionSelect = screen.getByTestId(
+      "schedule-finder-direction-select"
+    );
+    // couldn't get userEvent.selectOptions to work as expected
+    fireEvent.click(directionSelect, { target: { value: 1 } });
+
+    // The modal change to origin select
+    expect(screen.getByText("Choose an origin stop")).toBeInTheDocument();
   });
 });
