@@ -154,7 +154,7 @@ describe("isDiversion", () => {
 });
 
 describe("isInNextXDays", () => {
-  test.only.each`
+  test.each`
     alert     | isCurrent
     ${alert1} | ${true}
     ${alert2} | ${true}

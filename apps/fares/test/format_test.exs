@@ -27,7 +27,7 @@ defmodule Fares.FormatTest do
       assert media(%Fare{media: [:charlie_card]}) == "CharlieCard"
       assert media(%Fare{media: [:commuter_ticket]}) == "CharlieTicket"
       assert media(%Fare{media: [:mticket]}) == "mTicket App"
-      assert media(%Fare{media: [:cash]}) == "cash"
+      assert media(%Fare{media: [:cash]}) == "Cash"
       assert media(%Fare{media: [:senior_card]}) == "Senior CharlieCard or TAP ID"
       assert media(%Fare{media: [:student_card]}) == "Student CharlieCard"
     end
