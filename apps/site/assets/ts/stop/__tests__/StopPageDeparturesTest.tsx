@@ -11,14 +11,12 @@ const baseRoute = (name: string, type: RouteType): Route =>
     type
   } as Route);
 const routeData: Route[] = [baseRoute("4B", 3), baseRoute("Magenta", 1)];
-const mockClickAction = jest.fn();
 
 describe("StopPageDepartures", () => {
   it("renders with no data", () => {
     const { asFragment } = render(
       <StopPageDepartures
         routes={[]}
-        onClick={mockClickAction}
         stopName=""
         alerts={[]}
         departureInfos={[]}
@@ -32,7 +30,6 @@ describe("StopPageDepartures", () => {
     const { asFragment } = render(
       <StopPageDepartures
         routes={routeData}
-        onClick={mockClickAction}
         stopName=""
         alerts={[]}
         departureInfos={[]}
@@ -51,7 +48,6 @@ describe("StopPageDepartures", () => {
     render(
       <StopPageDepartures
         routes={[routeData[0]]}
-        onClick={() => {}}
         stopName=""
         alerts={[]}
         departureInfos={[]}

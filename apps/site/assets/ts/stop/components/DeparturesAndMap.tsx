@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { chain, concat, filter, uniqBy } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
-import { Alert, DirectionId, Route, Stop } from "../../__v3api";
+import { Alert, Route, Stop } from "../../__v3api";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
 import { RouteWithPolylines } from "../../hooks/useRoute";
@@ -28,6 +28,7 @@ import {
   isUpcomingOrCurrentLifecycle,
   routeWideAlerts
 } from "../../models/alert";
+import useDepartureRow from "../../hooks/useDepartureRow";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -36,13 +37,6 @@ interface DeparturesAndMapProps {
   alerts: Alert[];
   setPredictionError: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-type DepartureFilter = {
-  route: Route;
-  directionId: DirectionId;
-  headsign: string;
-};
-export type DepartureFilterFn = (filters: DepartureFilter) => void;
 
 const DeparturesAndMap = ({
   routes,
@@ -61,19 +55,10 @@ const DeparturesAndMap = ({
     setPredictionError(predictions === null);
   }, [setPredictionError, predictions]);
   const [realtimeAlerts, setRealtimeAlerts] = useState<Alert[]>([]);
-  const [
-    departureFilters,
-    setDepartureFilters
-  ] = useState<DepartureFilter | null>(null);
 
-  const setDepartureVariables: DepartureFilterFn = (
-    filters: DepartureFilter
-  ) => {
-    setDepartureFilters(filters);
-  };
-
+  const { activeRow, resetRow } = useDepartureRow(routes);
   useEffect(() => {
-    if (departureFilters && departureFilters.route) {
+    if (activeRow && activeRow.route) {
       // grab all the alerts that are current or upcoming
       const currentAndUpcomingAlerts = filter(alerts, a =>
         isUpcomingOrCurrentLifecycle(a)
@@ -83,29 +68,29 @@ const DeparturesAndMap = ({
       // filter all the route wide alerts to the selected route
       const alertsForSelectedRoute = alertsForRoute(
         routeWideAlertsArray,
-        departureFilters.route.id
+        activeRow.route.id
       );
       // all the alerts that affect this stop on the route
       const alertsForStop = alertsForStopAndRoute(
         currentAndUpcomingAlerts,
         stop.id,
-        departureFilters.route.id
+        activeRow.route.id
       );
       // combine route wide, and route stop alerts into a single list for the real time page
       setRealtimeAlerts(concat(alertsForStop, alertsForSelectedRoute));
     } else {
       setRealtimeAlerts([]);
     }
-  }, [departureFilters, alerts, stop]);
+  }, [activeRow, alerts, stop]);
 
   // filter by chosen route and direction
-  const filteredDepartures = departureFilters
+  const filteredDepartures = activeRow
     ? departureInfos.filter(departure => {
         const { route, trip } = departure;
         return (
-          route.id === departureFilters.route.id &&
-          trip.direction_id === departureFilters.directionId &&
-          trip.headsign === departureFilters.headsign
+          route.id === activeRow.route.id &&
+          trip.direction_id === activeRow.directionId &&
+          trip.headsign === activeRow.headsign
         );
       })
     : departureInfos;
@@ -115,7 +100,7 @@ const DeparturesAndMap = ({
 
   // prevent scrolling the page when in fullscreen "app" view
   useLayoutEffect(() => {
-    if (isSmallBreakpoint && departureFilters && refEl.current) {
+    if (isSmallBreakpoint && activeRow && refEl.current) {
       disableBodyScroll(refEl.current);
     } else {
       clearAllBodyScrollLocks();
@@ -123,7 +108,7 @@ const DeparturesAndMap = ({
     return () => {
       clearAllBodyScrollLocks();
     };
-  }, [departureFilters, isSmallBreakpoint]);
+  }, [activeRow, isSmallBreakpoint]);
 
   const defaultPolylines = chain(routesWithPolylines)
     .filter(
@@ -139,23 +124,20 @@ const DeparturesAndMap = ({
 
   /** TODO: Filter by selected trip. Blocked by being unable to match
    * schedule/prediction shape IDs with route canonical shape IDs */
-  const shapeForSelection = departureFilters
+  const shapeForSelection = activeRow
     ? uniqBy(
-        routesWithPolylines.find(
-          route => route.id === departureFilters.route.id
-        )?.polylines,
+        routesWithPolylines.find(route => route.id === activeRow.route.id)
+          ?.polylines,
         "id"
       )
     : [];
-
-  const unsetDepartureInfo = (): void => setDepartureFilters(null);
 
   const BackToRoutes = (
     <div className="back-to-routes">
       <button
         className="btn"
-        onClick={unsetDepartureInfo}
-        onKeyDown={unsetDepartureInfo}
+        onClick={() => resetRow()}
+        onKeyDown={() => resetRow()}
         type="button"
       >
         {renderFa("", "fa-fw fa-angle-left")}
@@ -166,20 +148,18 @@ const DeparturesAndMap = ({
 
   return (
     <div
-      className={`stop-routes-and-map ${
-        departureFilters ? "selected-departure" : ""
-      }`}
+      className={`stop-routes-and-map ${activeRow ? "selected-departure" : ""}`}
     >
-      {departureFilters && BackToRoutes}
+      {activeRow && BackToRoutes}
       <div className="stop-routes">
-        {departureFilters ? (
+        {activeRow ? (
           <div ref={refEl} className="stop-departures--realtime">
             <DepartureList
-              route={departureFilters.route}
+              route={activeRow.route}
               stop={stop}
               departures={filteredDepartures}
-              directionId={departureFilters.directionId}
-              headsign={departureFilters.headsign}
+              directionId={activeRow.directionId}
+              headsign={activeRow.headsign}
               alerts={realtimeAlerts}
             />
           </div>
@@ -187,22 +167,21 @@ const DeparturesAndMap = ({
           <StopPageDepartures
             routes={routes}
             departureInfos={departureInfos}
-            onClick={setDepartureVariables}
             stopName={stop.name}
             alerts={alerts}
           />
         )}
       </div>
-      <div className={`stop-map ${departureFilters ? "" : "hidden-sm-down"}`}>
+      <div className={`stop-map ${activeRow ? "" : "hidden-sm-down"}`}>
         <StopMapRedesign
           stop={stop}
           lines={
-            departureFilters && shapeForSelection
+            activeRow && shapeForSelection
               ? shapeForSelection
               : defaultPolylines
           }
           vehicles={[]}
-          selectedRoute={departureFilters?.route}
+          selectedRoute={activeRow?.route}
         />
       </div>
     </div>

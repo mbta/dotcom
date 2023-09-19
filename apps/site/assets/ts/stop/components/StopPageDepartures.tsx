@@ -6,12 +6,10 @@ import { modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
-import { DepartureFilterFn } from "./DeparturesAndMap";
 
 interface StopPageDeparturesProps {
   routes: Route[];
   departureInfos: DepartureInfo[];
-  onClick: DepartureFilterFn;
   alerts: Alert[];
   stopName: string;
 }
@@ -30,7 +28,6 @@ const modeSortFn = ({ type }: Route): number => {
 const StopPageDepartures = ({
   routes,
   departureInfos,
-  onClick,
   alerts,
   stopName
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
@@ -60,7 +57,6 @@ const StopPageDepartures = ({
             route={route}
             departuresForRoute={groupedDepartures[route.id]}
             stopName={stopName}
-            onClick={onClick}
             // This list should only have one value, is there another way to do this?
             alertsForRoute={groupedAlerts[route.id]}
           />

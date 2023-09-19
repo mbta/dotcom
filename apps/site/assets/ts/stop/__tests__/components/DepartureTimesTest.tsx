@@ -9,10 +9,10 @@ import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/predictions";
 import { mergeIntoDepartureInfo } from "../../../helpers/departureInfo";
 import { getNextTwoTimes } from "../../models/displayTimeConfig";
+import * as useDepartureRow from "../../../hooks/useDepartureRow";
 
 const route = baseRoute("TestRoute", 1);
 const destinationText = route.direction_destinations[0]!;
-const mockClickAction = jest.fn();
 
 describe("DepartureTimes", () => {
   it("should display a default", () => {
@@ -22,7 +22,6 @@ describe("DepartureTimes", () => {
         directionId={0}
         stopName=""
         departuresForDirection={[]}
-        onClick={mockClickAction}
         alertsForDirection={[]}
       />
     );
@@ -82,7 +81,6 @@ describe("DepartureTimes", () => {
           predictions as PredictionWithTimestamp[]
         )}
         overrideDate={dateToCompare}
-        onClick={mockClickAction}
         alertsForDirection={[]}
       />
     );
@@ -131,7 +129,6 @@ describe("DepartureTimes", () => {
           stopName="ThatStation"
           departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
           alertsForDirection={alerts}
-          onClick={() => {}}
         />
       );
       expect(screen.getByText(expectedBadge)).toBeDefined();
@@ -168,7 +165,6 @@ describe("DepartureTimes", () => {
         stopName="ThisStop"
         departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={alerts}
-        onClick={() => {}}
       />
     );
     expect(screen.getByText("No Service")).toBeDefined();
@@ -218,7 +214,6 @@ describe("DepartureTimes", () => {
         departuresForDirection={mergeIntoDepartureInfo(schedules, predictions)}
         alertsForDirection={[detourAlert] as Alert[]}
         overrideDate={dateToCompare}
-        onClick={() => {}}
       />
     );
 
@@ -341,6 +336,12 @@ describe("DepartureTimes", () => {
   });
 
   it("should allow the clicking of rows", async () => {
+    const setRowSpy = jest.fn();
+    jest.spyOn(useDepartureRow, "default").mockReturnValue({
+      setRow: setRowSpy,
+      resetRow: jest.fn(),
+      activeRow: null
+    });
     const compareTime = new Date("2022-04-24T11:15:00-04:00");
     const schedules = [
       {
@@ -367,7 +368,6 @@ describe("DepartureTimes", () => {
         directionId={0}
         stopName=""
         departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
-        onClick={mockClickAction}
         alertsForDirection={[]}
         overrideDate={compareTime}
       />
@@ -377,7 +377,12 @@ describe("DepartureTimes", () => {
     expect(row).toBeDefined();
 
     await user.click(row);
-    expect(mockClickAction).toHaveBeenCalledTimes(1);
+    expect(setRowSpy).toHaveBeenCalledTimes(1);
+    expect(setRowSpy).toHaveBeenCalledWith({
+      directionId: "0",
+      headsign: "Test 1",
+      routeId: "TestRoute"
+    });
   });
 
   it("should render `Track [Track Name] if commuter rail", () => {
@@ -448,7 +453,6 @@ describe("DepartureTimes", () => {
         stopName=""
         departuresForDirection={departures}
         overrideDate={dateToCompare}
-        onClick={mockClickAction}
         alertsForDirection={[]}
       />
     );
@@ -465,7 +469,6 @@ describe("DepartureTimes", () => {
         directionId={0}
         stopName="Alewife"
         departuresForDirection={[]}
-        onClick={mockClickAction}
         alertsForDirection={[]}
       />
     );
@@ -480,7 +483,6 @@ describe("DepartureTimes", () => {
         directionId={0}
         stopName="Somewhere there"
         departuresForDirection={[]}
-        onClick={mockClickAction}
         alertsForDirection={[]}
       />
     );
@@ -502,7 +504,6 @@ describe("DepartureTimes", () => {
         directionId={0}
         stopName="asdf"
         departuresForDirection={[]}
-        onClick={mockClickAction}
         alertsForDirection={[closureAlert]}
       />
     );
@@ -524,7 +525,6 @@ describe("DepartureTimes", () => {
         directionId={0}
         stopName="asdf"
         departuresForDirection={[]}
-        onClick={mockClickAction}
         alertsForDirection={[closureAlert]}
       />
     );

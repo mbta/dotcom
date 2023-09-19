@@ -5,8 +5,6 @@ import { Alert, RouteType } from "../../__v3api";
 import { baseRoute } from "./helpers";
 import { DepartureInfo } from "../../models/departureInfo";
 
-const mockClickAction = jest.fn();
-
 describe("DepartureCard", () => {
   it("renders a list item with route name", () => {
     render(
@@ -14,7 +12,6 @@ describe("DepartureCard", () => {
         route={baseRoute("749", 3)}
         departuresForRoute={[]}
         stopName=""
-        onClick={mockClickAction}
         alertsForRoute={[]}
       />
     );
@@ -32,7 +29,6 @@ describe("DepartureCard", () => {
         departuresForRoute={[]}
         stopName=""
         alertsForRoute={[]}
-        onClick={() => {}}
       />
     );
     expect(
@@ -48,7 +44,6 @@ describe("DepartureCard", () => {
             route={baseRoute("", type as RouteType)}
             departuresForRoute={[]}
             stopName=""
-            onClick={mockClickAction}
             alertsForRoute={[]}
           />
         )
@@ -76,7 +71,6 @@ describe("DepartureCard", () => {
         route={route}
         departuresForRoute={[]}
         stopName=""
-        onClick={mockClickAction}
         alertsForRoute={[]}
       />
     );
@@ -125,7 +119,6 @@ describe("DepartureCard", () => {
         departuresForRoute={departures}
         stopName="Shining Time Station"
         alertsForRoute={alerts}
-        onClick={() => {}}
       />
     );
 

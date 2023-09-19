@@ -7,18 +7,15 @@ import renderSvg from "../../helpers/render-svg";
 import DepartureTimes from "./DepartureTimes";
 import { allAlertsForDirection } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
-import { DepartureFilterFn } from "./DeparturesAndMap";
 
 const DepartureCard = ({
   route,
   departuresForRoute,
-  onClick,
   alertsForRoute = [],
   stopName
 }: {
   route: Route;
   departuresForRoute: DepartureInfo[];
-  onClick: DepartureFilterFn;
   alertsForRoute: Alert[];
   stopName: string;
 }): ReactElement<HTMLElement> => {
@@ -44,7 +41,6 @@ const DepartureCard = ({
           directionId={0}
           stopName={stopName}
           departuresForDirection={departuresByDirection[0] || []}
-          onClick={onClick}
           alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
         />
         <DepartureTimes
@@ -53,7 +49,6 @@ const DepartureCard = ({
           directionId={1}
           stopName={stopName}
           departuresForDirection={departuresByDirection[1] || []}
-          onClick={onClick}
           alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
         />
       </>
