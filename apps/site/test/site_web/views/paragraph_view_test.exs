@@ -363,12 +363,12 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "Subway"
       assert rendered =~ "One-Way"
       assert rendered =~ "$2.40"
-      assert rendered =~ "with CharlieCard, CharlieTicket, or Cash"
+      assert rendered =~ "with CharlieCard, CharlieTicket, or cash"
       assert rendered =~ "/fares/subway"
 
       assert rendered =~ "Local Bus"
       assert rendered =~ "$1.70 with a CharlieCard"
-      refute rendered =~ "with a CharlieTicket or Cash"
+      refute rendered =~ "with a CharlieTicket or cash"
     end
 
     test "renders an unlinked FareCard", %{conn: conn} do

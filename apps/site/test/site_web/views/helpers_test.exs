@@ -156,7 +156,7 @@ defmodule SiteWeb.ViewHelpersTest do
         end)
 
       assert fares == [
-               "mTicket App, Paper Ferry Ticket, or Cash $3.70",
+               "mTicket App, paper ferry ticket, or cash $3.70",
                "CharlieTicket $90.00",
                "mTicket App $80.00"
              ]

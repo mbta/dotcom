@@ -20,14 +20,14 @@ defmodule Fares.FormatTest do
     end
 
     test "returns multiple/summary media when more than one media type applies" do
-      assert media(%Fare{media: [:charlie_ticket, :cash]}) == ["CharlieTicket", " or ", "Cash"]
+      assert media(%Fare{media: [:charlie_ticket, :cash]}) == ["CharlieTicket", " or ", "cash"]
     end
 
     test "returns appropriate media type text based on fare" do
       assert media(%Fare{media: [:charlie_card]}) == "CharlieCard"
       assert media(%Fare{media: [:commuter_ticket]}) == "CharlieTicket"
       assert media(%Fare{media: [:mticket]}) == "mTicket App"
-      assert media(%Fare{media: [:cash]}) == "Cash"
+      assert media(%Fare{media: [:cash]}) == "cash"
       assert media(%Fare{media: [:senior_card]}) == "Senior CharlieCard or TAP ID"
       assert media(%Fare{media: [:student_card]}) == "Student CharlieCard"
     end
@@ -163,7 +163,7 @@ defmodule Fares.FormatTest do
         %Summary{
           name: ["Subway", " ", "One-Way"],
           duration: :single_trip,
-          fares: [{"Cash", "$1.00"}, {"CharlieCard", "$2.00"}],
+          fares: [{"cash", "$1.00"}, {"CharlieCard", "$2.00"}],
           modes: [:subway]
         },
         %Summary{
@@ -264,7 +264,7 @@ defmodule Fares.FormatTest do
       summarized = summarize_one(fare, url: "/link_here?please=yes")
 
       expected = %Summary{
-        fares: [{"Cash", "$12.50"}],
+        fares: [{"cash", "$12.50"}],
         name: ["Zone 6", " ", "One-Way"],
         url: "/link_here?please=yes",
         modes: [:commuter_rail],
