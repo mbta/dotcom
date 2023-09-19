@@ -1,13 +1,13 @@
 import React from "react";
-import { render, screen, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
 import { Alert, RouteType } from "../../__v3api";
-import { baseRoute } from "./helpers";
+import { baseRoute, renderWithRouter } from "./helpers";
 import { DepartureInfo } from "../../models/departureInfo";
 
 describe("DepartureCard", () => {
   it("renders a list item with route name", () => {
-    render(
+    renderWithRouter(
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={[]}
@@ -23,7 +23,7 @@ describe("DepartureCard", () => {
   });
 
   it("route card header links to schedule page for route", () => {
-    render(
+    renderWithRouter(
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={[]}
@@ -39,7 +39,7 @@ describe("DepartureCard", () => {
   it("renders icons for modes", () => {
     const iconElements = [0, 1, 2, 3, 4]
       .map(type =>
-        render(
+        renderWithRouter(
           <DepartureCard
             route={baseRoute("", type as RouteType)}
             departuresForRoute={[]}
@@ -66,7 +66,7 @@ describe("DepartureCard", () => {
     ${baseRoute("", 3)}         | ${".u-bg--bus"}
     ${baseRoute("", 4)}         | ${".u-bg--ferry"}
   `("renders different colors for routes/modes", ({ route, expectedClass }) => {
-    const { container } = render(
+    const { container } = renderWithRouter(
       <DepartureCard
         route={route}
         departuresForRoute={[]}
@@ -113,7 +113,7 @@ describe("DepartureCard", () => {
 
     const departures = [] as DepartureInfo[];
 
-    render(
+    renderWithRouter(
       <DepartureCard
         route={baseRoute("749", 3)}
         departuresForRoute={departures}

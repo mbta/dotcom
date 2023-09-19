@@ -1,8 +1,8 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { screen } from "@testing-library/react";
 import DepartureTimes from "../../components/DepartureTimes";
-import { baseRoute } from "../helpers";
+import { baseRoute, renderWithRouter } from "../helpers";
 import { Alert, Route } from "../../../__v3api";
 import { DepartureInfo } from "../../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
@@ -16,7 +16,7 @@ const destinationText = route.direction_destinations[0]!;
 
 describe("DepartureTimes", () => {
   it("should display a default", () => {
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -71,7 +71,7 @@ describe("DepartureTimes", () => {
         route: { type: 3 }
       }
     ] as ScheduleWithTimestamp[];
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -122,7 +122,7 @@ describe("DepartureTimes", () => {
         }
       ] as Alert[];
 
-      render(
+      renderWithRouter(
         <DepartureTimes
           route={route}
           directionId={0}
@@ -158,7 +158,7 @@ describe("DepartureTimes", () => {
       }
     ] as Alert[];
 
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -206,7 +206,7 @@ describe("DepartureTimes", () => {
       effect: "detour"
     };
 
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -362,7 +362,7 @@ describe("DepartureTimes", () => {
     ] as ScheduleWithTimestamp[];
 
     const user = userEvent.setup();
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -446,7 +446,7 @@ describe("DepartureTimes", () => {
       }
     ] as DepartureInfo[];
 
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -463,7 +463,7 @@ describe("DepartureTimes", () => {
   });
 
   it("renders 'No upcoming trips' when no predictions or schedules", () => {
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -477,7 +477,7 @@ describe("DepartureTimes", () => {
   });
 
   it("doesn't render when current stop is same as destination", () => {
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -498,7 +498,7 @@ describe("DepartureTimes", () => {
       lifecycle: "ongoing"
     } as Alert;
 
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
@@ -519,7 +519,7 @@ describe("DepartureTimes", () => {
       lifecycle: "ongoing"
     } as Alert;
 
-    render(
+    renderWithRouter(
       <DepartureTimes
         route={route}
         directionId={0}
