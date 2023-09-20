@@ -1,32 +1,5 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-use Mix.Config
+import Config
 
-# This configuration is loaded before any dependency and is restricted
-# to this project. If another project depends on this project, this
-# file won't be loaded nor affect the parent project. For this reason,
-# if you want to provide default values for your application for
-# third-party users, it should be done in your "mix.exs" file.
+repo_module = if config_env() == :test, do: RoutePatterns.MockRepo, else: RoutePatterns.Repo
 
-# You can configure your application as:
-#
-#     config :route_patterns, key: :value
-#
-# and access this configuration in your application as:
-#
-#     Application.get_env(:route_patterns, :key)
-#
-# You can also configure a third-party app:
-#
-#     config :logger, level: :info
-#
-
-# It is also possible to import configuration files, relative to this
-# directory. For example, you can emulate configuration per environment
-# by uncommenting the line below and defining dev.exs, test.exs and such.
-# Configuration from the imported file will override the ones defined
-# here (which is why it is important to import them last).
-#
-#     import_config "#{Mix.env()}.exs"
-
-config :route_patterns, :route_patterns_repo_api, RoutePatterns.Repo
+config :route_patterns, :route_patterns_repo_api, repo_module
