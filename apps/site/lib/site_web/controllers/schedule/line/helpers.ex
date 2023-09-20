@@ -166,7 +166,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   def get_map_route_patterns(route_id, type) do
     route_id
-    |> RoutePatternsRepo.by_route_id()
+    |> RoutePatternsRepo.by_route_id(include: "representative_trip.shape")
     |> filter_map_route_patterns(type)
   end
 
