@@ -45,7 +45,7 @@ defmodule RoutePatterns.Repo do
 
   def by_stop_id(stop_id) do
     [stop: stop_id]
-    |> Keyword.put(:include, "representative_trip.shape")
+    |> Keyword.put(:include, "representative_trip.shape,representative_trip.stops")
     |> cache(&api_all/1)
   end
 
