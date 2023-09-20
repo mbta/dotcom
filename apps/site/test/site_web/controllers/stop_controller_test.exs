@@ -163,4 +163,37 @@ defmodule SiteWeb.StopControllerTest do
       end
     end
   end
+
+  describe "endpoints" do
+    test "grouped_route_patterns returns stop's route patterns by route & headsign", %{
+      conn: conn
+    } do
+      with_mock(RoutePatterns.Repo,
+        by_stop_id: fn "place-here" ->
+          [
+            %RoutePatterns.RoutePattern{
+              route_id: "Purple-A",
+              headsign: "Tree Hill",
+              name: "Here Square - Tree Hill"
+            }
+          ]
+        end
+      ) do
+        response =
+          get(conn, stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
+
+        assert %{
+                 "Purple-A" => %{
+                   "Tree Hill" => [
+                     %{
+                       "headsign" => "Tree Hill",
+                       "name" => "Here Square - Tree Hill"
+                     }
+                     | _
+                   ]
+                 }
+               } = response
+      end
+    end
+  end
 end

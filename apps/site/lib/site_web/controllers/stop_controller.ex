@@ -9,8 +9,10 @@ defmodule SiteWeb.StopController do
   alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
+  alias Leaflet.MapData.Polyline
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
+  alias RoutePatterns.RoutePattern
   alias Site.TransitNearMe
   alias SiteWeb.AlertView
   alias SiteWeb.PartialView.HeaderTab
@@ -175,6 +177,44 @@ defmodule SiteWeb.StopController do
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
     json(conn, Repo.get(stop_id))
+  end
+
+  @spec grouped_route_patterns(Conn.t(), map) :: Conn.t()
+  def grouped_route_patterns(conn, %{"id" => stop_id}) do
+    json(conn, route_patterns_by_route_and_headsign(stop_id))
+  end
+
+  @type by_route_and_headsign :: %{Route.id_t() => %{String.t() => [RoutePattern.t()]}}
+  @spec route_patterns_by_route_and_headsign(Stop.id_t()) :: by_route_and_headsign()
+  defp route_patterns_by_route_and_headsign(stop_id) do
+    stop_id
+    |> RoutePatterns.Repo.by_stop_id()
+    |> Enum.reject(&ends_at?(&1, stop_id))
+    |> Enum.map(&add_polyline/1)
+    |> Enum.group_by(& &1.route_id)
+    |> Enum.map(fn {k, v} -> {k, Enum.group_by(v, & &1.headsign)} end)
+    |> Map.new()
+  end
+
+  defp ends_at?(%RoutePattern{stop_ids: stop_ids}, stop_id) when is_list(stop_ids) do
+    with last_stop_id <- List.last(stop_ids),
+         %Stop{child_ids: child_ids} <- Stops.Repo.get(stop_id) do
+      last_stop_id == stop_id || last_stop_id in child_ids
+    else
+      _ ->
+        false
+    end
+  end
+
+  defp ends_at?(_route_pattern, _stop_id), do: false
+
+  defp add_polyline(%RoutePattern{representative_trip_polyline: nil} = route_pattern),
+    do: route_pattern
+
+  defp add_polyline(%RoutePattern{route_id: route_id} = route_pattern) do
+    route = Routes.Repo.get(route_id)
+    polyline = Polyline.new(route_pattern, color: "#" <> route.color, weight: 4)
+    Map.put(route_pattern, :representative_trip_polyline, polyline)
   end
 
   @spec api(Conn.t(), map) :: Conn.t()
