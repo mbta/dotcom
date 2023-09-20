@@ -226,7 +226,7 @@ defmodule SiteWeb.Router do
     get("/stop/:id", StopController, :get)
     get("/stop/:id/route-patterns", StopController, :grouped_route_patterns)
     get("/map-config", MapConfigController, :get)
-    get("/routes/by-stop/:stop_id", RouteController, :get_by_stop_id)
+    get("/routes/:route_ids", RouteController, :get)
     get("/fares/one-way", FareController, :one_way_by_stop_id)
   end
 
