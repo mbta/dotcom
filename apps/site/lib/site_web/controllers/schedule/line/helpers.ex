@@ -77,7 +77,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    get_line_route_patterns(route.id, direction_id, route_pattern_id)
+    get_line_route_patterns(route, direction_id, route_pattern_id)
     |> Enum.map(&stops_for_route_pattern/1)
   end
 
@@ -259,19 +259,26 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     {route_pattern, stops}
   end
 
-  @spec get_line_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
+  @spec get_line_route_patterns(Route.t(), direction_id(), RoutePattern.id_t() | nil) :: [
           RoutePattern.t()
         ]
-  defp get_line_route_patterns(route_id, direction_id, nil),
-    do:
-      RoutePatternsRepo.by_route_id(route_id,
-        direction_id: direction_id,
-        canonical: true,
-        include: "representative_trip.stops"
-      )
-      |> Enum.filter(&(&1.route_id == route_id))
+  defp get_line_route_patterns(%Route{id: route_id, type: route_type}, direction_id, nil) do
+    base_opts = [direction_id: direction_id, include: "representative_trip.stops"]
 
-  defp get_line_route_patterns(_route_id, _direction_id, route_pattern_id) do
+    opts =
+      case route_type do
+        type when type in [0, 1, 2] ->
+          Keyword.put(base_opts, :canonical, true)
+
+        _ ->
+          base_opts
+      end
+
+    RoutePatternsRepo.by_route_id(route_id, opts)
+    |> Enum.filter(&(&1.route_id == route_id))
+  end
+
+  defp get_line_route_patterns(_route, _direction_id, route_pattern_id) do
     case RoutePatternsRepo.get(route_pattern_id,
            include: "representative_trip.stops"
          ) do
