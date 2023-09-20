@@ -91,7 +91,7 @@ const usePredictionsChannel = (
     PredictionWithTimestamp[] | null,
     ChannelPredictionResponse
   > = (_oldGroupedPredictions, detail) => {
-    if (detail.error) {
+    if (detail.error || !detail.predictions) {
       return null;
     }
     return sortBy(detail.predictions.map(parsePrediction), "time");
