@@ -303,6 +303,8 @@ defmodule Stops.RouteStop do
       ) do
     connections =
       route_stop.id
+      |> Stops.Repo.get_parent()
+      |> Map.get(:id)
       |> Routes.Repo.by_stop(include: "stop.connecting_stops")
       |> Enum.reject(&(&1.id == route_stop.route.id))
 
