@@ -1,11 +1,16 @@
 import React from "react";
 import { screen, within } from "@testing-library/dom";
-import { act, render, RenderResult } from "@testing-library/react";
+import { act, RenderResult } from "@testing-library/react";
 import StopPageRedesign from "../components/StopPageRedesign";
 import * as useStop from "../../hooks/useStop";
 import { InformedEntitySet, Alert } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
-import { customStop, newLatOrLon, routeWithPolylines } from "./helpers";
+import {
+  customStop,
+  newLatOrLon,
+  renderWithRouter,
+  routeWithPolylines
+} from "./helpers";
 import { RouteWithPolylines } from "../../hooks/useRoute";
 import * as useSchedules from "../../hooks/useSchedules";
 import * as useAlerts from "../../hooks/useAlerts";
@@ -16,7 +21,7 @@ import { PredictionWithTimestamp } from "../../models/predictions";
 
 const renderWithAct = (children: React.ReactElement) =>
   act(() => {
-    render(children);
+    renderWithRouter(children);
   });
 
 describe("StopPageRedesign", () => {
@@ -102,7 +107,7 @@ describe("StopPageRedesign", () => {
 
     let renderResult: RenderResult;
     act(() => {
-      renderResult = render(<StopPageRedesign stopId="123" />);
+      renderResult = renderWithRouter(<StopPageRedesign stopId="123" />);
     });
     const { container } = renderResult!;
     // All routes appear in departures list
@@ -128,7 +133,7 @@ describe("StopPageRedesign", () => {
 
     let renderResult: RenderResult;
     act(() => {
-      renderResult = render(<StopPageRedesign stopId="123" />);
+      renderResult = renderWithRouter(<StopPageRedesign stopId="123" />);
     });
     const { container } = renderResult!;
 

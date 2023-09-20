@@ -1,10 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
 import { Alert, DirectionId, Stop } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
-import { baseRoute, routeWithPolylines } from "./helpers";
+import { baseRoute, renderWithRouter, routeWithPolylines } from "./helpers";
 import * as useRoute from "../../hooks/useRoute";
 import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
@@ -93,7 +93,7 @@ afterAll(() => {
 
 describe("DeparturesAndMap", () => {
   it("should render", () => {
-    let departuresAndMap = render(
+    let departuresAndMap = renderWithRouter(
       <DeparturesAndMap
         routes={[]}
         stop={stop}
@@ -111,7 +111,7 @@ describe("DeparturesAndMap", () => {
 
   it("opens departure list on click", async () => {
     const user = userEvent.setup();
-    render(
+    renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -131,7 +131,7 @@ describe("DeparturesAndMap", () => {
 
   it("closes departure list on click", async () => {
     const user = userEvent.setup();
-    render(
+    renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -166,7 +166,7 @@ describe("DeparturesAndMap", () => {
       data: [subwayRoute, crRoute, slRoute, busRoute]
     });
 
-    const { container } = render(
+    const { container } = renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -223,7 +223,7 @@ describe("DeparturesAndMap", () => {
     jest
       .spyOn(useSchedules, "useSchedulesByStop")
       .mockReturnValue({ status: FetchStatus.Data, data: busSchedules });
-    const { container } = render(
+    const { container } = renderWithRouter(
       <DeparturesAndMap
         routes={allRoutes}
         stop={stop}
@@ -336,7 +336,7 @@ describe("DeparturesAndMap", () => {
     ] as Alert[];
 
     const user = userEvent.setup();
-    render(
+    renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -390,7 +390,7 @@ describe("DeparturesAndMap", () => {
     ] as Alert[];
 
     const user = userEvent.setup();
-    render(
+    renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -414,7 +414,7 @@ describe("DeparturesAndMap", () => {
   it("should set error state when null predictions", () => {
     jest.spyOn(usePredictionsChannel, "default").mockReturnValue(null);
     const mockSetError = jest.fn();
-    render(
+    renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
@@ -431,7 +431,7 @@ describe("DeparturesAndMap", () => {
       .spyOn(usePredictionsChannel, "default")
       .mockReturnValue([] as PredictionWithTimestamp[]);
     const mockSetError = jest.fn();
-    render(
+    renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}

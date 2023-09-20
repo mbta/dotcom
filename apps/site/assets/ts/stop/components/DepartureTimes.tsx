@@ -15,9 +15,9 @@ import {
   departuresListFromInfos,
   isAtDestination
 } from "../../helpers/departureInfo";
-import { DepartureFilterFn } from "./DeparturesAndMap";
 import { breakTextAtSlash } from "../../helpers/text";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
+import useDepartureRow from "../../hooks/useDepartureRow";
 
 const toHighPriorityAlertBadge = (alerts: Alert[]): JSX.Element | undefined => {
   if (hasSuspension(alerts) || hasClosure(alerts)) {
@@ -140,7 +140,6 @@ interface DepartureTimesProps {
   stopName: string;
   // override date primarily used for testing
   overrideDate?: Date;
-  onClick: DepartureFilterFn;
 }
 
 const ClickableDepartureRow = ({
@@ -176,13 +175,17 @@ const DepartureTimes = ({
   route,
   directionId,
   departuresForDirection,
-  onClick,
   alertsForDirection,
   stopName,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> | null => {
+  const { setRow } = useDepartureRow([route]);
   const callback = (headsignText: string) => () =>
-    onClick({ route, directionId, headsign: headsignText });
+    setRow({
+      routeId: route.id,
+      directionId: `${directionId}`,
+      headsign: headsignText
+    });
   if (!departuresForDirection.length) {
     // display using route's destination
     const destination = route.direction_destinations[directionId];

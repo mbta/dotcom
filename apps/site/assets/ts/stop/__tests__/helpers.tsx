@@ -1,3 +1,4 @@
+import React, { isValidElement } from "react";
 import { faker } from "@faker-js/faker";
 import { uniqueId } from "lodash";
 import { Polyline } from "../../leaflet/components/__mapdata";
@@ -11,6 +12,8 @@ import {
   Stop
 } from "../../__v3api";
 import { RouteWithPolylines } from "../../hooks/useRoute";
+import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import { render } from "@testing-library/react";
 
 export const newLatOrLon = (): number => +faker.string.numeric(2);
 const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];
@@ -66,3 +69,18 @@ const defaultStop: Stop = {
 };
 export const customStop = (args: Partial<Stop>): Stop =>
   Object.assign({}, defaultStop, args);
+
+// via https://webup.org/blog/how-to-avoid-mocking-in-react-router-v6-tests/
+//@ts-ignore
+export function renderWithRouter(children, routes = []) {
+  const options = isValidElement(children)
+    ? { element: children, path: "/" }
+    : children;
+
+  const router = createMemoryRouter([{ ...options }, ...routes], {
+    initialEntries: [options.path],
+    initialIndex: 1
+  });
+
+  return render(<RouterProvider router={router} />);
+}

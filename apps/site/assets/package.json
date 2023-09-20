@@ -37,6 +37,7 @@
     "react-dom": "^16.8.6",
     "react-leaflet": "^2.7.0",
     "react-redux": "^7.2.0",
+    "react-router-dom": "^6.16.0",
     "redux": "^4.0.5",
     "smoothscroll-polyfill": "^0.4.4",
     "stickyfilljs": "^2.1.0",

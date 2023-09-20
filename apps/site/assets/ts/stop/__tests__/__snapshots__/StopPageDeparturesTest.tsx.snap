@@ -53,6 +53,7 @@ exports[`StopPageDepartures renders with data 1`] = `
       >
         <a
           class="departure-card__route u-bg--unknown"
+          data-turbolinks="false"
           href="/schedules/Magenta"
         >
           <span
@@ -74,6 +75,7 @@ exports[`StopPageDepartures renders with data 1`] = `
       >
         <a
           class="departure-card__route u-bg--bus"
+          data-turbolinks="false"
           href="/schedules/4B"
         >
           <span
