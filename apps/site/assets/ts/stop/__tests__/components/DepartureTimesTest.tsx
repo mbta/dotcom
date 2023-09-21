@@ -89,9 +89,8 @@ describe("DepartureTimes", () => {
     expect(screen.getByText("45 min"));
     expect(screen.getByText("50 min"));
     expect(screen.getByText("11:40 AM"));
-    // We don't support predictions without schedules yet
-    // expect(screen.getByText("Test 3"))
-    // expect(screen.getByText("11:45 AM"))
+    expect(screen.getByText("Test 3"));
+    expect(screen.getByText("11:45 AM"));
   });
 
   it.each`
@@ -101,16 +100,6 @@ describe("DepartureTimes", () => {
   `(
     `displays $expectedBadge when high priority alert has effect $alertEffect`,
     ({ alertEffect, expectedBadge }) => {
-      const schedules =
-        alertEffect === "suspension"
-          ? []
-          : ([
-              {
-                route: { type: 2 },
-                trip: { direction_id: 0 }
-              }
-            ] as ScheduleWithTimestamp[]);
-
       const alerts = [
         {
           id: "1234",
@@ -122,12 +111,14 @@ describe("DepartureTimes", () => {
         }
       ] as Alert[];
 
+      // these are special cases that're only valid if there are also no
+      // departures, see doc for isSuppressiveAlert
       renderWithRouter(
         <DepartureTimes
           route={route}
           directionId={0}
           stopName="ThatStation"
-          departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
+          departuresForDirection={[]}
           alertsForDirection={alerts}
         />
       );

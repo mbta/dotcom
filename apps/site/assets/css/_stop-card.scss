@@ -217,23 +217,24 @@ $radius: 4px;
   }
 
   .departure-card__headsign {
-    align-items: baseline;
+    align-items: center;
     border: .25px solid $gray-lightest;
     cursor: pointer;
+    gap: .5rem;
+    justify-content: flex-end;
     padding: .5rem;
   }
 
   .departure-card__headsign-name {
     @include h4();
     flex-grow: 1;
-    margin: 0 .5rem 0 0;
+    margin: 0;
     max-width: 16.25rem;
     padding-left: .5rem;
   }
 
   .departure-card__content {
     align-items: center;
-    align-self: center;
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
@@ -253,6 +254,7 @@ $radius: 4px;
     justify-content: flex-end;
 
     .stop-routes__departures-details {
+      font-family: $headings-font-family;
       text-align: right;
 
       // if delayed, hide from here
