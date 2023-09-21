@@ -10,7 +10,11 @@ module.exports = {
     "!**/*-loader.tsx", // not necessary to test loader files
     "!**/search.ts", // for now,
     "!./app/global-navigation.ts", // tested with Cypress
-    "!./helpers/socketTestHelpers.ts" // more test utilities
+    "!./helpers/socketTestHelpers.ts", // more test utilities
+    "!./components/ErrorPage.tsx",
+    "!./sentry.ts",
+    "!**/*.d.ts",
+    "!./ie-warning/**"
   ],
   coverageReporters: ["html"],
   coverageThreshold: {
