@@ -5,13 +5,20 @@ import {
   RouteObject,
   RouterProvider
 } from "react-router-dom";
+import { ErrorBoundary } from "@sentry/react";
 import StopPageRedesign from "./components/StopPageRedesign";
 import Loading from "../components/Loading";
+import ErrorPage from "../components/ErrorPage";
 
 const routesConfig = (stopId: string): RouteObject[] => [
   {
     path: "/stops/:stopId",
-    element: <StopPageRedesign stopId={stopId} />
+    element: (
+      <ErrorBoundary fallback={ErrorPage}>
+        <StopPageRedesign stopId={stopId} />
+      </ErrorBoundary>
+    ),
+    hasErrorBoundary: true
   }
 ];
 
