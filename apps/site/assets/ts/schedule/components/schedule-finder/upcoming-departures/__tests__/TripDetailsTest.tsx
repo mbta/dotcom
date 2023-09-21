@@ -1,5 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { render, screen } from "@testing-library/react";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import { TripInfo } from "../../../__trips";
 import CrowdingPill from "../../../line-diagram/CrowdingPill";
@@ -8,7 +9,6 @@ import crTripDataWithDelays from "../../__tests__/test-data/crTripInfoWithDelays
 import tripData from "../../__tests__/test-data/tripInfo.json";
 import tripDataWithPredictions from "../../__tests__/test-data/tripInfoWithPredictions.json";
 import TripDetails from "../TripDetails";
-import { render, screen } from "@testing-library/react";
 
 const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
 const crTripInfo: TripInfo = (crTripData as unknown) as TripInfo;
@@ -77,5 +77,40 @@ describe("TripDetails", () => {
     expect(tree.root.findByType(CrowdingPill).props.crowding).toBe(
       "some_crowding"
     );
+  });
+
+  it("does not render a prediction that is skipped", () => {
+    const testInfo = {
+      times: [
+        {
+          schedule: { stop: { id: "TestStop1", name: "Test Stop 1" } },
+          prediction: {
+            stop: { id: "TestStop1", name: "Test Stop 1" },
+            time: "11:25 AM",
+            schedule_relationship: "skipped"
+          }
+        },
+        {
+          schedule: { stop: { id: "TestStop2", name: "Test Stop 2" } },
+          prediction: {
+            stop: { id: "TestStop1", name: "Test Stop 2" },
+            time: "11:35 AM",
+            schedule_relationship: null
+          }
+        }
+      ],
+      route_type: 1,
+      fare: {
+        price: "$2.40",
+        fare_link: "/fares/subway-fares"
+      },
+      duration: 37
+    };
+
+    render(<TripDetails tripInfo={testInfo as any} showFare={false} />);
+
+    expect(screen.queryByText("11:25 AM")).toBeNull();
+    expect(screen.queryByText("11:35 AM")).toBeInTheDocument();
+    expect(screen.queryByText("1 stops"));
   });
 });

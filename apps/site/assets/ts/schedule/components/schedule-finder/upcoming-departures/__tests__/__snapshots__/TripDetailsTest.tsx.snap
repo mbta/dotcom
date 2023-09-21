@@ -19,7 +19,8 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
             Trip length
           </span>
           7
-           stops, 
+           stops,
+           
           56
            minutes total
         </div>
@@ -236,7 +237,8 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
             Trip length
           </span>
           10
-           stops, 
+           stops,
+           
           69
            minutes total
         </div>
@@ -531,7 +533,8 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
             Trip length
           </span>
           11
-           stops, 
+           stops,
+           
           14
            minutes total
         </div>
@@ -788,7 +791,8 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
             Trip length
           </span>
           39
-           stops, 
+           stops,
+           
           32
            minutes total
         </div>
