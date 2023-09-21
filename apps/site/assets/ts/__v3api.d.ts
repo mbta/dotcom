@@ -356,6 +356,7 @@ export interface RoutePattern {
   shape_id: string;
   shape_priority: number;
   stop_ids: string[];
+  headsign: string;
   name: string;
   id: string;
   direction_id: DirectionId;
