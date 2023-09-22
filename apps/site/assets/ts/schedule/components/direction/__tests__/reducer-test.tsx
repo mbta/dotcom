@@ -15,7 +15,8 @@ const routePatternsForInbound: EnhancedRoutePattern[] = [
     shape_id: "1110177",
     shape_priority: 1,
     time_desc: null,
-    typicality: 1
+    typicality: 1,
+    sort_order: 1
   },
   {
     direction_id: 1,
@@ -29,7 +30,8 @@ const routePatternsForInbound: EnhancedRoutePattern[] = [
     shape_id: "1110157",
     shape_priority: 1,
     time_desc: "Weekdays only",
-    typicality: 2
+    typicality: 2,
+    sort_order: 2
   }
 ];
 
@@ -55,7 +57,8 @@ const initialState: State = {
     shape_priority: 1,
     shape_id: "1110180",
     time_desc: null,
-    typicality: 1
+    typicality: 1,
+    sort_order: 3
   },
   directionId: 0,
   routePatternsByDirection: {
@@ -86,7 +89,8 @@ it("menuReducer handles 'toggleDirection'", () => {
       shape_id: "1110177",
       shape_priority: 1,
       time_desc: null,
-      typicality: 1
+      typicality: 1,
+      sort_order: 1
     }
   };
 

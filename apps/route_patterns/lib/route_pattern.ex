@@ -36,7 +36,8 @@ defmodule RoutePatterns.RoutePattern do
     :stop_ids,
     :route_id,
     :time_desc,
-    :typicality
+    :typicality,
+    sort_order: 0
   ]
 
   @type id_t :: String.t()
@@ -53,7 +54,8 @@ defmodule RoutePatterns.RoutePattern do
           stop_ids: [Stop.id_t()],
           route_id: Route.id_t(),
           time_desc: String.t(),
-          typicality: typicality_t()
+          typicality: typicality_t(),
+          sort_order: integer()
         }
 
   def new(%Item{
@@ -62,7 +64,8 @@ defmodule RoutePatterns.RoutePattern do
           "direction_id" => direction_id,
           "name" => name,
           "time_desc" => time_desc,
-          "typicality" => typicality
+          "typicality" => typicality,
+          "sort_order" => sort_order
         },
         relationships: %{
           "representative_trip" => [
@@ -88,7 +91,8 @@ defmodule RoutePatterns.RoutePattern do
       stop_ids: stop_ids(trip_relationships),
       route_id: route_id,
       time_desc: time_desc,
-      typicality: typicality
+      typicality: typicality,
+      sort_order: sort_order
     }
   end
 
@@ -98,7 +102,8 @@ defmodule RoutePatterns.RoutePattern do
           "direction_id" => direction_id,
           "name" => name,
           "time_desc" => time_desc,
-          "typicality" => typicality
+          "typicality" => typicality,
+          "sort_order" => sort_order
         },
         relationships: %{
           "representative_trip" => [%Item{id: representative_trip_id}],
@@ -112,7 +117,8 @@ defmodule RoutePatterns.RoutePattern do
       representative_trip_id: representative_trip_id,
       route_id: route_id,
       time_desc: time_desc,
-      typicality: typicality
+      typicality: typicality,
+      sort_order: sort_order
     }
   end
 

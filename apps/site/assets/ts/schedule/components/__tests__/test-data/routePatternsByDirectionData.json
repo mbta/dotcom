@@ -8,11 +8,17 @@
       "route_id": "route-1",
       "representative_trip_id": "trip-1",
       "representative_trip_polyline": "trip-1-polyline",
-      "stop_ids": ["1", "stop-place-alfcl", "2", "3"],
+      "stop_ids": [
+        "1",
+        "stop-place-alfcl",
+        "2",
+        "3"
+      ],
       "name": "Pattern 1 - Dest",
       "headsign": "Pattern 1",
       "id": "pattern-1",
-      "direction_id": 0
+      "direction_id": 0,
+      "sort_order": 123
     },
     {
       "typicality": 1,
@@ -22,11 +28,17 @@
       "route_id": "route-1",
       "representative_trip_id": "trip-3",
       "representative_trip_polyline": "trip-3-polyline",
-      "stop_ids": ["1", "stop-place-alfcl", "2", "4"],
+      "stop_ids": [
+        "1",
+        "stop-place-alfcl",
+        "2",
+        "4"
+      ],
       "name": "Pattern 3 - Dest",
       "headsign": "Pattern 3",
       "id": "pattern-3",
-      "direction_id": 0
+      "direction_id": 0,
+      "sort_order": 123
     },
     {
       "typicality": 3,
@@ -36,11 +48,17 @@
       "route_id": "route-1",
       "representative_trip_id": "trip-4",
       "representative_trip_polyline": "trip-4-polyline",
-      "stop_ids": ["1", "stop-place-alfcl", "3", "4"],
+      "stop_ids": [
+        "1",
+        "stop-place-alfcl",
+        "3",
+        "4"
+      ],
       "name": "Pattern 4 - Dest",
       "headsign": "Pattern 3",
       "id": "pattern-4",
-      "direction_id": 0
+      "direction_id": 0,
+      "sort_order": 123
     }
   ],
   "1": [
@@ -52,11 +70,17 @@
       "route_id": "route-1",
       "representative_trip_id": "trip-1",
       "representative_trip_polyline": "trip-2-polyline",
-      "stop_ids": ["2", "stop-place-alfcl", "3", "4"],
+      "stop_ids": [
+        "2",
+        "stop-place-alfcl",
+        "3",
+        "4"
+      ],
       "name": "Pattern 2 - Dest",
       "headsign": "Pattern 2",
       "id": "pattern-2",
-      "direction_id": 1
+      "direction_id": 1,
+      "sort_order": 123
     }
   ]
 }
