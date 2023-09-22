@@ -1,4 +1,5 @@
 import {
+  compareAsc,
   differenceInSeconds,
   getMinutes,
   parseISO,
@@ -117,6 +118,32 @@ export const isSameDayInBoston = (
   });
 
   return date1InBoston === date2InBoston;
+};
+
+export const getEarliestTimeString = (
+  dateString1: string,
+  dateString2: string
+): string => {
+  const date1 = parseISO(dateString1);
+  const date2 = parseISO(dateString2);
+
+  if (compareAsc(date1, date2) === -1) {
+    return dateString1;
+  }
+  return dateString2;
+};
+
+export const getLatestTimeString = (
+  dateString1: string,
+  dateString2: string
+): string => {
+  const date1 = parseISO(dateString1);
+  const date2 = parseISO(dateString2);
+
+  if (compareAsc(date1, date2) === 1) {
+    return dateString1;
+  }
+  return dateString2;
 };
 
 export default formattedDate;

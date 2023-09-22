@@ -2,7 +2,9 @@ import { addMinutes, addSeconds } from "date-fns";
 import {
   compareStringTimes,
   formatRelativeTime,
-  formatToBostonTime
+  formatToBostonTime,
+  getEarliestTimeString,
+  getLatestTimeString
 } from "../date";
 
 describe("compareStringTimes", () => {
@@ -42,5 +44,30 @@ describe("formatRelativeTime", () => {
 
     const laterDate = addMinutes(baseDate, 70);
     expect(formatRelativeTime(laterDate, baseDate)).toBe("11:10 AM");
+  });
+
+  describe("getEarliestTimeString", () => {
+    it.each`
+      time1                          | time2                          | expectedString
+      ${"2022-05-23T12:45:00-04:00"} | ${"2022-05-22T12:45:00-04:00"} | ${"2022-05-22T12:45:00-04:00"}
+      ${"2022-05-23T12:45:00-04:00"} | ${"2022-05-23T12:46:00-04:00"} | ${"2022-05-23T12:45:00-04:00"}
+    `(
+      "should return the earliest of 2 times",
+      ({ time1, time2, expectedString }) => {
+        expect(getEarliestTimeString(time1, time2)).toEqual(expectedString);
+      }
+    );
+  });
+  describe("getLatestTimeString", () => {
+    it.each`
+      time1                          | time2                          | expectedString
+      ${"2022-05-23T12:45:00-04:00"} | ${"2022-05-22T12:45:00-04:00"} | ${"2022-05-23T12:45:00-04:00"}
+      ${"2022-05-23T12:45:00-04:00"} | ${"2022-05-23T12:46:00-04:00"} | ${"2022-05-23T12:46:00-04:00"}
+    `(
+      "should return the latest of 2 times",
+      ({ time1, time2, expectedString }) => {
+        expect(getLatestTimeString(time1, time2)).toEqual(expectedString);
+      }
+    );
   });
 });

@@ -1,12 +1,53 @@
 import { isEqual, isWeekend, parseISO } from "date-fns";
-import { map, uniqueId, sortBy, filter, concat } from "lodash";
+import { map, uniqueId, sortBy, filter, concat, isArray, remove } from "lodash";
 import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
-import { formatToBostonTime } from "../../helpers/date";
+import {
+  formatToBostonTime,
+  getEarliestTimeString,
+  getLatestTimeString
+} from "../../helpers/date";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import { EnhancedRoute, StopHours } from "../../__v3api";
 import pdfLink from "../helpers/hoursOfOperationHelpers";
 import { ScheduleNote, SchedulePDF } from "./__schedule";
+
+// Shuttle stops replace some lines during maintanace or shutdowns
+// We want these separate stops to appear as one display
+const collapseOnParentStop = (
+  stopHours: StopHours | StopHours[]
+): StopHours | StopHours[] => {
+  if (!isArray(stopHours)) {
+    return stopHours;
+  }
+
+  const returnHours: StopHours[] = [];
+
+  stopHours.forEach(sh => {
+    // have we seen a stop with this name
+    // array will always be size one
+    const exists = remove(
+      returnHours,
+      rh => rh.parent_stop_id === sh.parent_stop_id
+    );
+
+    if (exists.length === 0) {
+      returnHours.push(sh);
+    } else {
+      exists[0].first_departure = getEarliestTimeString(
+        sh.first_departure,
+        exists[0].first_departure
+      );
+      exists[0].last_departure = getLatestTimeString(
+        sh.last_departure,
+        exists[0].last_departure
+      );
+      returnHours.push(exists[0]);
+    }
+  });
+
+  return returnHours;
+};
 
 const getSchedule = (
   dataArray: StopHours[][] | StopHours[]
@@ -14,15 +55,21 @@ const getSchedule = (
   if (dataArray.length === 0) {
     return [];
   }
-  const bothDirectionData = concat(dataArray[0], dataArray[1]);
+
+  const directionZero = collapseOnParentStop(dataArray[0]);
+  const directionOne = collapseOnParentStop(dataArray[1]);
+
+  const bothDirectionData = concat(directionZero, directionOne);
   const filteredData = filter(
     bothDirectionData,
     (stopData: StopHours) => stopData.is_terminus
   );
+
   const sortedData = sortBy(
     filteredData,
     (stopData: StopHours) => stopData.stop_name
   );
+
   const mappedData = map(sortedData, (stopData: StopHours) => {
     const firstDeparture = parseISO(stopData.first_departure);
     const lastDeparture = parseISO(stopData.last_departure);
