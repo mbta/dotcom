@@ -19,11 +19,11 @@
       <meta name="robots" content="noindex, nofollow">
     <% end %>
     <%= # hide any page in /charlie directory from search engines
-    if @conn.request_path == "/charlie" || String.slice(@conn.request_path, 0..4) == "/charlie/" do %>
+    if @conn.request_path == "/charlie" || String.slice(@conn.request_path, 0..8) == "/charlie/" do %>
       <meta name="robots" content="noindex, nofollow">
     <% end %>
     <%= # hide any page in /policies/terms-use-charlie directory from search engines
-    if @conn.request_path == "/policies/terms-use-charlie" || String.slice(@conn.request_path, 0..4) == "/policies/terms-use-charlie/" do %>
+    if @conn.request_path == "/policies/terms-use-charlie" || String.slice(@conn.request_path, 0..27) == "/policies/terms-use-charlie/" do %>
       <meta name="robots" content="noindex, nofollow">
     <% end %>
     <% title = if Phoenix.Controller.view_template(@conn) == "404.html", do: "Page Not Found | MBTA - Massachusetts Bay Transportation Authority", else: title_breadcrumbs(@conn) %>
