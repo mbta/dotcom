@@ -8,3 +8,7 @@ Disallow: /search?*
 Disallow: /*?*preview*&vid=*
 Disallow: /schedules/*/line?*date*
 Disallow: /org/*
+Disallow: /charlie/*
+Disallow: /policies/terms-use-charlie/*
+Disallow: /charlieapp
+Disallow: /learnmore-transfer

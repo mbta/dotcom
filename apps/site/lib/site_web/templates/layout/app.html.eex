@@ -18,7 +18,14 @@
     if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
       <meta name="robots" content="noindex, nofollow">
     <% end %>
-
+    <%= # hide any page in /charlie directory from search engines
+    if @conn.request_path == "/charlie" || String.slice(@conn.request_path, 0..4) == "/charlie/" do %>
+      <meta name="robots" content="noindex, nofollow">
+    <% end %>
+    <%= # hide any page in /policies/terms-use-charlie directory from search engines
+    if @conn.request_path == "/policies/terms-use-charlie" || String.slice(@conn.request_path, 0..4) == "/policies/terms-use-charlie/" do %>
+      <meta name="robots" content="noindex, nofollow">
+    <% end %>
     <% title = if Phoenix.Controller.view_template(@conn) == "404.html", do: "Page Not Found | MBTA - Massachusetts Bay Transportation Authority", else: title_breadcrumbs(@conn) %>
     <title><%= title %></title>
     <link rel="apple-touch-icon" href="<%= static_url(@conn, "/images/mbta-logo-t-180.png") %>" type="image/png">
