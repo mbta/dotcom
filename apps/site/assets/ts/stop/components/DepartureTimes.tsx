@@ -164,7 +164,7 @@ const ClickableDepartureRow = ({
         {breakTextAtSlash(headsignName)}
       </div>
       {children}
-      <div style={{ marginLeft: "0.5em" }}>
+      <div style={{ marginLeft: "0.5em" }} className="d-flex align-self-center">
         {renderFa("fa-fw", "fa-angle-right")}
       </div>
     </div>
