@@ -1,23 +1,18 @@
-import { groupBy } from "lodash";
 import React, { ReactElement, ReactNode } from "react";
-import { Alert, DirectionId, Route } from "../../__v3api";
+import { Alert } from "../../__v3api";
 import renderFa from "../../helpers/render-fa";
 import DeparturesWithBadge from "./DeparturesWithBadge";
 import { DepartureInfo } from "../../models/departureInfo";
-import {
-  departuresListFromInfos,
-  isAtDestination
-} from "../../helpers/departureInfo";
+import { departuresListFromInfos } from "../../helpers/departureInfo";
 import { breakTextAtSlash } from "../../helpers/text";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events-react";
-import useDepartureRow from "../../hooks/useDepartureRow";
 
 interface DepartureTimesProps {
-  route: Route;
-  directionId: DirectionId;
-  departuresForDirection: DepartureInfo[];
+  departures: DepartureInfo[];
   alertsForDirection: Alert[];
-  stopName: string;
+  headsign: string;
+  onClick: () => void;
+  isCR: boolean;
   // override date primarily used for testing
   overrideDate?: Date;
 }
@@ -50,36 +45,26 @@ const ClickableDepartureRow = ({
 };
 
 const DepartureTimes = ({
-  route,
-  directionId,
-  departuresForDirection,
+  departures,
   alertsForDirection,
-  stopName,
+  headsign,
+  onClick,
+  isCR,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> | null => {
-  const { setRow } = useDepartureRow([route]);
-  const callback = (headsignText: string) => () =>
-    setRow({
-      routeId: route.id,
-      directionId: `${directionId}`,
-      headsign: headsignText
-    });
-  const isCR = departuresForDirection[0]
-    ? departuresForDirection[0].routeMode === "commuter_rail"
-    : false;
+  const timeList = departuresListFromInfos(
+    departures,
+    isCR,
+    overrideDate,
+    isCR ? 1 : 2,
+    true,
+    ({ children }) => (
+      <div className="stop-routes__departures-group">{children}</div>
+    )
+  );
 
-  const rowContent = (departures: DepartureInfo[]): ReactElement => {
-    const timeList = departuresListFromInfos(
-      departures,
-      isCR,
-      overrideDate,
-      isCR ? 1 : 2,
-      true,
-      ({ children }) => (
-        <div className="stop-routes__departures-group">{children}</div>
-      )
-    );
-    return (
+  return (
+    <ClickableDepartureRow onClick={onClick} headsignName={headsign}>
       <div className="departure-card__content">
         <DeparturesWithBadge
           alerts={alertsForDirection}
@@ -94,39 +79,7 @@ const DepartureTimes = ({
           )}
         </DeparturesWithBadge>
       </div>
-    );
-  };
-  if (!departuresForDirection.length) {
-    // display using route's destination
-    const destination = route.direction_destinations[directionId];
-    return isAtDestination(stopName, route, directionId) ||
-      !destination ? null : (
-      <ClickableDepartureRow
-        key={`${route.direction_destinations[directionId]}-${route.id}`}
-        onClick={callback(destination)}
-        headsignName={destination}
-      >
-        {rowContent(departuresForDirection)}
-      </ClickableDepartureRow>
-    );
-  }
-
-  const groupedDepartures = groupBy(departuresForDirection, "trip.headsign");
-
-  return (
-    <>
-      {Object.entries(groupedDepartures).map(([headsign, departures]) => {
-        return (
-          <ClickableDepartureRow
-            key={`${headsign}-${route.id}`}
-            onClick={callback(headsign)}
-            headsignName={headsign}
-          >
-            {rowContent(departures)}
-          </ClickableDepartureRow>
-        );
-      })}
-    </>
+    </ClickableDepartureRow>
   );
 };
 

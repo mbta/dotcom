@@ -1,8 +1,9 @@
 import React, { ReactElement, useState } from "react";
-import { concat, filter, omit } from "lodash";
+import { concat, filter } from "lodash";
+import { useLoaderData } from "react-router-dom";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
-import { useRoutesByStop } from "../../hooks/useRoute";
+import { useRoutes } from "../../hooks/useRoute";
 import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
 import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
@@ -17,6 +18,7 @@ import {
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
+import { GroupedRoutePatterns } from "../stop-redesign-loader";
 
 const isStopPageAlert = ({ effect }: Alert): boolean =>
   [
@@ -45,39 +47,32 @@ const StopPageRedesign = ({
 }): ReactElement<HTMLElement> => {
   const [hasPredictionError, setPredictionError] = useState(false);
   const stopResult = useStop(stopId);
-  const routesWithPolylinesResult = useRoutesByStop(stopId);
+  const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
+  const routesResult = useRoutes(Object.keys(groupedRoutePatterns || []));
   const alertsForStopResult = useAlertsByStop(stopId);
   const facilities = useFacilitiesByStop(stopId);
-  const alertsForRoutesResult = useAlertsByRoute(
-    routesWithPolylinesResult.status === FetchStatus.Data
-      ? routesWithPolylinesResult.data?.map(r => r.id) || []
-      : []
-  );
+  const routes = routesResult.data || [];
+  const alertsForRoutesResult = useAlertsByRoute(routes.map(r => r.id));
 
   if (
-    [
-      stopResult.status,
-      routesWithPolylinesResult.status,
-      facilities.status
-    ].includes(FetchStatus.Error)
+    [stopResult.status, routesResult.status, facilities.status].includes(
+      FetchStatus.Error
+    )
   ) {
-    return <p>Page could not be loaded. Please try refreshing the page.</p>;
+    // TODO: get the actual error message here and/or throw the Error from the
+    // fetching hooks themselves
+    throw new Error();
   }
 
   // Return loading indicator while waiting on data fetch
   if (
     !stopResult.data ||
-    !routesWithPolylinesResult.data ||
     !alertsForRoutesResult.data ||
     !alertsForStopResult.data ||
     !facilities.data
   ) {
     return <Loading />;
   }
-
-  const routes = routesWithPolylinesResult.data.map(rwp =>
-    omit(rwp, "polylines")
-  );
 
   const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
   const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
@@ -101,7 +96,6 @@ const StopPageRedesign = ({
         <DeparturesAndMap
           routes={routes}
           stop={stopResult.data}
-          routesWithPolylines={routesWithPolylinesResult.data}
           alerts={allStopPageAlerts}
           setPredictionError={setPredictionError}
         />

@@ -1,61 +1,49 @@
 import React from "react";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import StopPageDepartures from "../components/StopPageDepartures";
-import { Route, RouteType } from "../../__v3api";
-import { renderWithRouter } from "./helpers";
+import { Route } from "../../__v3api";
+import { baseRoute, renderWithRouter } from "./helpers";
 
-const baseRoute = (name: string, type: RouteType): Route =>
-  ({
-    id: name,
-    direction_destinations: { 0: "Somewhere there", 1: "Over yonder" },
-    name: `${name} Route`,
-    type
-  } as Route);
-const routeData: Route[] = [baseRoute("4B", 3), baseRoute("Magenta", 1)];
+const routeData: Route[] = [baseRoute("16", 3), baseRoute("Red", 1)];
 
 describe("StopPageDepartures", () => {
-  it("renders with no data", () => {
+  it("renders with no data", async () => {
     const { asFragment } = renderWithRouter(
-      <StopPageDepartures
-        routes={[]}
-        stopName=""
-        alerts={[]}
-        departureInfos={[]}
-      />
+      <StopPageDepartures routes={[]} alerts={[]} departureInfos={[]} />
     );
-    expect(asFragment()).toMatchSnapshot();
-    expect(screen.getByRole("list")).toBeEmptyDOMElement();
-  });
-
-  it("renders with data", () => {
-    const { asFragment } = renderWithRouter(
-      <StopPageDepartures
-        routes={routeData}
-        stopName=""
-        alerts={[]}
-        departureInfos={[]}
-      />
-    );
-    expect(asFragment()).toMatchSnapshot();
-    expect(screen.getAllByRole("list")[0]).not.toBeEmptyDOMElement();
-    ["All", "Bus", "Subway"].forEach(name => {
-      expect(
-        screen.getByRole("button", { name: new RegExp(name) })
-      ).toBeDefined();
+    await waitFor(() => {
+      expect(asFragment()).toMatchSnapshot();
+      expect(screen.getByRole("list")).toBeEmptyDOMElement();
     });
   });
 
-  it("doesn't show the filters if there is 1 mode present", () => {
+  it("renders with data", async () => {
+    const { asFragment } = renderWithRouter(
+      <StopPageDepartures routes={routeData} alerts={[]} departureInfos={[]} />
+    );
+    await waitFor(() => {
+      expect(asFragment()).toMatchSnapshot();
+      expect(screen.getAllByRole("list")[0]).not.toBeEmptyDOMElement();
+      ["All", "Bus", "Subway"].forEach(name => {
+        expect(
+          screen.getByRole("button", { name: new RegExp(name) })
+        ).toBeDefined();
+      });
+    });
+  });
+
+  it("doesn't show the filters if there is 1 mode present", async () => {
     renderWithRouter(
       <StopPageDepartures
         routes={[routeData[0]]}
-        stopName=""
         alerts={[]}
         departureInfos={[]}
       />
     );
-    expect(
-      screen.queryByRole("button", { name: new RegExp("All") })
-    ).toBeNull();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole("button", { name: new RegExp("All") })
+      ).toBeNull();
+    });
   });
 });

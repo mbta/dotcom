@@ -1,29 +1,39 @@
-import React, { ReactElement } from "react";
-import { groupBy } from "lodash";
+import React, { ReactElement, useMemo } from "react";
 import { Alert, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import { routeBgClass } from "../../helpers/css";
 import renderSvg from "../../helpers/render-svg";
-import DepartureTimes from "./DepartureTimes";
-import { allAlertsForDirection } from "../../models/alert";
+import useDepartureRow from "../../hooks/useDepartureRow";
 import { DepartureInfo } from "../../models/departureInfo";
+import { allAlertsForDirection } from "../../models/alert";
+import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
+import { isACommuterRailRoute } from "../../models/route";
+import DepartureTimes from "./DepartureTimes";
+import { RoutePatternWithPolyline } from "../stop-redesign-loader";
 
 const DepartureCard = ({
-  route,
+  alertsForRoute,
   departuresForRoute,
-  alertsForRoute = [],
-  stopName
+  routePatternsByHeadsign,
+  route
 }: {
-  route: Route;
-  departuresForRoute: DepartureInfo[];
   alertsForRoute: Alert[];
-  stopName: string;
+  departuresForRoute: DepartureInfo[];
+  routePatternsByHeadsign: Record<string, RoutePatternWithPolyline[]>;
+  route: Route;
 }): ReactElement<HTMLElement> => {
-  const departuresByDirection = groupBy(
-    departuresForRoute,
-    "trip.direction_id"
+  const { setRow } = useDepartureRow([route]);
+  // sort headsigns to reflect the route pattern's sort_order
+  const sortedRoutePatternsByHeadsign = useMemo(
+    () =>
+      Object.entries(routePatternsByHeadsign).sort((entryA, entryB) => {
+        const [orderA, orderB] = [entryA, entryB].map(([, routePatterns]) =>
+          Math.min(...routePatterns.map(rp => rp.sort_order))
+        );
+        return orderA - orderB;
+      }),
+    [routePatternsByHeadsign]
   );
-
   return (
     <li className="departure-card">
       <a
@@ -34,25 +44,31 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {/* TODO can we avoid hard coding the direction ids? */}
-      <>
-        <DepartureTimes
-          key={`${route.id}-0`}
-          route={route}
-          directionId={0}
-          stopName={stopName}
-          departuresForDirection={departuresByDirection[0] || []}
-          alertsForDirection={allAlertsForDirection(alertsForRoute, 0)}
-        />
-        <DepartureTimes
-          key={`${route.id}-1`}
-          route={route}
-          directionId={1}
-          stopName={stopName}
-          departuresForDirection={departuresByDirection[1] || []}
-          alertsForDirection={allAlertsForDirection(alertsForRoute, 1)}
-        />
-      </>
+      {sortedRoutePatternsByHeadsign.map(([headsign, routePatterns]) => {
+        const { direction_id } = routePatterns[0];
+        const onClick = (): void =>
+          setRow({
+            routeId: route.id,
+            directionId: direction_id.toString(),
+            headsign
+          });
+
+        return (
+          <DepartureTimes
+            key={headsign}
+            alertsForDirection={allAlertsForDirection(
+              alertsForRoute,
+              direction_id
+            )}
+            headsign={headsign}
+            departures={departuresForRoute.filter(d =>
+              departureInfoInRoutePatterns(d, routePatterns)
+            )}
+            onClick={onClick}
+            isCR={isACommuterRailRoute(route)}
+          />
+        );
+      })}
     </li>
   );
 };

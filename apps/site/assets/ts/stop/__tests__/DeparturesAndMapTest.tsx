@@ -1,16 +1,13 @@
 import React from "react";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DeparturesAndMap from "../components/DeparturesAndMap";
-import { Alert, DirectionId, Stop } from "../../__v3api";
-import { RouteWithPolylines } from "../../hooks/useRoute";
-import { baseRoute, renderWithRouter, routeWithPolylines } from "./helpers";
-import * as useRoute from "../../hooks/useRoute";
+import { Alert, Stop, Route } from "../../__v3api";
+import { TEST_LOADER_VALUE, baseRoute, renderWithRouter } from "./helpers";
 import * as useSchedules from "../../hooks/useSchedules";
 import { ScheduleWithTimestamp } from "../../models/schedules";
 import { add } from "date-fns";
 import * as useVehiclesChannel from "../../hooks/useVehiclesChannel";
-import { Route } from "../../__v3api";
 import { FetchStatus } from "../../helpers/use-fetch";
 import * as usePredictionsChannel from "../../hooks/usePredictionsChannel";
 import { PredictionWithTimestamp } from "../../models/predictions";
@@ -21,70 +18,42 @@ const stop = {
   latitude: 42.3519,
   longitude: 71.0552
 } as Stop;
-const route = baseRoute("TestRoute", 3);
+const testRoutes: Route[] = [baseRoute("Red", 1)];
+const route = testRoutes[0];
 const now = Date.now();
 
 const schedules = [
   {
     route: route,
     stop: stop,
-    trip: { id: "1", headsign: "TestRoute Route", direction_id: 1 },
+    trip: { id: "1", headsign: "Braintree", direction_id: 1 },
     time: add(now, { minutes: 10 })
   },
   {
     route: route,
     stop: stop,
-    trip: { id: "2", headsign: "TestRoute Route", direction_id: 0 },
+    trip: { id: "2", headsign: "Alewife", direction_id: 0 },
     time: add(now, { minutes: 15 })
   },
   {
     route: route,
     stop: stop,
-    trip: { id: "4", headsign: "TestRoute Route", direction_id: 1 },
+    trip: { id: "4", headsign: "Alewife", direction_id: 1 },
     time: add(now, { minutes: 20 })
   }
 ] as ScheduleWithTimestamp[];
-
-const v1 = {
-  id: "y1799",
-  route_id: "39",
-  stop_id: "72",
-  trip_id: "25",
-  shape_id: "shape_1",
-  direction_id: 1 as DirectionId,
-  status: "STOPPED",
-  latitude: 2.2,
-  longitude: 1.1,
-  bearing: 140,
-  crowding: null
-};
-const v2 = {
-  id: "y1800",
-  route_id: "39",
-  stop_id: "73",
-  trip_id: "25",
-  shape_id: "shape_1",
-  direction_id: 1 as DirectionId,
-  status: "STOPPED",
-  latitude: 2.4,
-  longitude: 1.3,
-  bearing: 141,
-  crowding: null
-};
-
-const testRoutesWithPolylines: RouteWithPolylines[] = [
-  routeWithPolylines("SomeBus", 3, 0)
-];
 
 beforeEach(() => {
   jest
     .spyOn(useSchedules, "useSchedulesByStop")
     .mockReturnValue({ status: FetchStatus.Data, data: schedules });
-  jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
-    status: FetchStatus.Data,
-    data: testRoutesWithPolylines
-  });
   jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
+  jest.mock("react-router-dom", () => ({
+    __esModule: true,
+    useLoaderData: () => {
+      return TEST_LOADER_VALUE;
+    }
+  }));
 });
 
 afterAll(() => {
@@ -92,200 +61,96 @@ afterAll(() => {
 });
 
 describe("DeparturesAndMap", () => {
-  it("should render", () => {
-    let departuresAndMap = renderWithRouter(
+  it("should render", async () => {
+    const { baseElement } = renderWithRouter(
       <DeparturesAndMap
-        routes={[]}
+        routes={testRoutes}
         stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
         setPredictionError={jest.fn()}
       />
     );
 
-    const arr = departuresAndMap.baseElement.querySelector(
-      ".stop-routes-and-map"
-    );
-    expect(arr).toBeInTheDocument();
+    await waitFor(() => {
+      const arr = baseElement.querySelector(".stop-routes-and-map");
+      expect(arr).toBeInTheDocument();
+    });
   });
 
-  it("opens departure list on click", async () => {
+  it("toggles departure list on click", async () => {
     const user = userEvent.setup();
-    renderWithRouter(
+    const { baseElement } = renderWithRouter(
       <DeparturesAndMap
-        routes={[route]}
+        routes={testRoutes}
         stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
         setPredictionError={jest.fn()}
       />
     );
 
-    const headSigns = screen.getAllByText(/TestRoute Route/);
-    expect(headSigns.length).toBe(3);
-    // The 2nd headsign instance is a clickable route
-    await user.click(headSigns[1]);
+    await waitFor(() => {
+      const arr = baseElement.querySelector(".stop-routes-and-map");
+      expect(arr).toBeInTheDocument();
+    });
 
-    expect(screen.getByText("Back to all Test Stop routes")).toBeDefined();
-  });
+    const headsign = screen.getByRole("button", {
+      name: /Open upcoming departures to Alewife/
+    });
+    await user.click(headsign);
 
-  it("closes departure list on click", async () => {
-    const user = userEvent.setup();
-    renderWithRouter(
-      <DeparturesAndMap
-        routes={[route]}
-        stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
-        alerts={[]}
-        setPredictionError={jest.fn()}
-      />
-    );
-
-    const headSigns = screen.getAllByText(/TestRoute Route/);
-    expect(headSigns.length).toBe(3);
-    // The 2nd headsign instance is a clickable route
-    await user.click(headSigns[1]);
-
+    const departureListHeader = screen.getByRole("heading", {
+      name: /Test Stop to Alewife/
+    });
+    const departureList = screen.getByRole("list");
+    expect(departureListHeader).toBeDefined();
+    expect(departureList).toHaveClass("stop-routes__departures");
     const back = screen.getByText("Back to all Test Stop routes");
     expect(back).toBeDefined();
     await user.click(back);
-
     expect(screen.queryByText("Back to all Test Stop routes")).toBeNull();
   });
 
-  it("shows cr, subway, SL map routes by default", () => {
-    const subwayRoute = routeWithPolylines("TrainRoute", 1, 3);
-    const crRoute = routeWithPolylines("CRRoute", 2, 3);
-    const slRoute = routeWithPolylines("741", 2, 3);
-    const busRoute = routeWithPolylines("ABus", 3, 3);
-
-    const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
-
-    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
-      status: FetchStatus.Data,
-      data: [subwayRoute, crRoute, slRoute, busRoute]
-    });
-
-    const { container } = renderWithRouter(
+  it("shows cr, subway, SL map routes by default", async () => {
+    const subwayRoute = baseRoute("Red", 1);
+    const crRoute = baseRoute("CRRoute", 2);
+    const slRoute = baseRoute("741", 2);
+    const busRoute = baseRoute("16", 3);
+    const routes = [subwayRoute, crRoute, slRoute, busRoute];
+    renderWithRouter(
       <DeparturesAndMap
-        routes={[route]}
+        routes={routes}
         stop={stop}
-        routesWithPolylines={allRoutes}
         alerts={[]}
         setPredictionError={jest.fn()}
       />
     );
 
-    [subwayRoute, crRoute, slRoute]
-      .flatMap(route => route.polylines)
-      .forEach(({ id }) => {
-        expect(
-          container.querySelector(`.stop-map_line--${id}`)
-        ).toBeInTheDocument();
+    await waitFor(() => {
+      const map = screen.getByRole("application", { name: "Map with stop" });
+      expect(map).toBeDefined();
+      [subwayRoute, crRoute, slRoute].forEach(({ id }) => {
+        const expectedRP = TEST_LOADER_VALUE[id];
+        Object.values(expectedRP).forEach(routePatterns => {
+          routePatterns.forEach(({ representative_trip_polyline }) => {
+            expect(
+              map.querySelector(
+                `.stop-map_line--${representative_trip_polyline.id}`
+              )
+            ).toBeInTheDocument();
+          });
+        });
       });
 
-    busRoute.polylines.forEach(({ id }) => {
-      expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
-    });
-  });
-
-  /** TODO: implement filtering lines by selected trip  */
-  it.skip("when a row is clicked, vehicles for that route and the line for the selection are rendered", async () => {
-    const subwayRoute = routeWithPolylines("TrainRoute", 1, 3);
-    const crRoute = routeWithPolylines("CRRoute", 2, 3);
-    const slRoute = routeWithPolylines("741", 2, 3);
-    const busRoute = routeWithPolylines("ABus", 3, 3);
-
-    const allRoutes = [subwayRoute, crRoute, slRoute, busRoute];
-
-    jest.spyOn(useRoute, "useRoutesByStop").mockReturnValue({
-      status: FetchStatus.Data,
-      data: [subwayRoute, crRoute, slRoute, busRoute]
-    });
-
-    jest
-      .spyOn(useVehiclesChannel, "default")
-      .mockImplementation(routeSpec => (routeSpec === null ? [] : [v1, v2]));
-
-    const busSchedules = [
-      {
-        route: busRoute as Route,
-        stop: stop,
-        trip: {
-          id: "1",
-          headsign: "BusRoute Headsign 1",
-          direction_id: 1,
-          shape_id: busRoute.polylines[0].id
-        },
-        time: add(Date.now(), { minutes: 10 })
-      }
-    ] as ScheduleWithTimestamp[];
-    jest
-      .spyOn(useSchedules, "useSchedulesByStop")
-      .mockReturnValue({ status: FetchStatus.Data, data: busSchedules });
-    const { container } = renderWithRouter(
-      <DeparturesAndMap
-        routes={allRoutes}
-        stop={stop}
-        routesWithPolylines={allRoutes}
-        alerts={[]}
-        setPredictionError={jest.fn()}
-      />
-    );
-
-    await userEvent.click(screen.getByText("BusRoute Headsign 1"));
-
-    [subwayRoute, crRoute, slRoute]
-      .flatMap(route => route.polylines)
-      .forEach(({ id }) => {
-        expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
+      const busRP = TEST_LOADER_VALUE[busRoute.id];
+      Object.values(busRP).forEach(routePatterns => {
+        routePatterns.forEach(({ representative_trip_polyline }) => {
+          expect(
+            map.querySelector(
+              `.stop-map_line--${representative_trip_polyline.id}`
+            )
+          ).toBeNull();
+        });
       });
-
-    // Only the polyline for the selected bus route pattern is shown
-    expect(
-      container.querySelector(`.stop-map_line--${busRoute.polylines[0].id}`)
-    ).toBeInTheDocument();
-    busRoute.polylines.slice(1).forEach(({ id }) => {
-      expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
-    });
-
-    // vehicles are shown
-    expect(
-      screen.getByRole("img", {
-        name: new RegExp(v1.id)
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("img", {
-        name: new RegExp(v2.id)
-      })
-    ).toBeInTheDocument();
-
-    // clicking back button
-    await userEvent.click(screen.getByText(`Back to all ${stop.name} routes`));
-
-    // default route shapes shown
-    [subwayRoute, crRoute, slRoute]
-      .flatMap(route => route.polylines)
-      .forEach(({ id }) => {
-        expect(
-          container.querySelector(`.stop-map_line--${id}`)
-        ).toBeInTheDocument();
-      });
-
-    // selected bus shape cleared & no bus routes shown
-
-    busRoute.polylines.forEach(({ id }) => {
-      expect(container.querySelector(`.stop-map_line--${id}`)).toBeNull();
-    });
-
-    // vehicles for selected bus shape cleared
-    [v1, v2].forEach(({ id }) => {
-      expect(
-        screen.queryByRole("img", {
-          name: new RegExp(id)
-        })
-      ).toBeNull();
     });
   });
 
@@ -294,9 +159,9 @@ describe("DeparturesAndMap", () => {
       {
         id: "1",
         informed_entity: {
-          route: ["TestRoute"],
+          route: ["Red"],
           stop: ["test-stop"],
-          entities: [{ stop: "test-stop", route: "TestRoute" }]
+          entities: [{ stop: "test-stop", route: "Red" }]
         },
         header: "This affects the stop and route",
         lifecycle: "ongoing",
@@ -305,8 +170,8 @@ describe("DeparturesAndMap", () => {
       {
         id: "2",
         informed_entity: {
-          route: ["TestRoute"],
-          entities: [{ route: "TestRoute" }]
+          route: ["Red"],
+          entities: [{ route: "Ted" }]
         },
         header: "This affects the whole route",
         lifecycle: "ongoing",
@@ -315,9 +180,9 @@ describe("DeparturesAndMap", () => {
       {
         id: "3",
         informed_entity: {
-          route: ["TestRoute"],
+          route: ["Red"],
           stop: ["test-stop-2"],
-          entities: [{ stop: "test-stop-2", route: "TestRoute" }]
+          entities: [{ stop: "test-stop-2", route: "Red" }]
         },
         header: "This affects the and route, but a different stop",
         lifecycle: "ongoing",
@@ -334,22 +199,26 @@ describe("DeparturesAndMap", () => {
         effect: "Effect"
       }
     ] as Alert[];
-
     const user = userEvent.setup();
     renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
         alerts={alerts}
         setPredictionError={jest.fn()}
       />
     );
 
-    const headSigns = screen.getAllByText(/TestRoute Route/);
-    expect(headSigns.length).toBe(3);
-    // The 2nd headsign instance is a clickable route
-    await user.click(headSigns[1]);
+    await waitFor(() => {
+      const headSigns = screen.getAllByText(/Red Route/);
+      expect(headSigns.length).toBe(1);
+    });
+
+    await user.click(
+      screen.getByRole("button", {
+        name: /Open upcoming departures to Alewife/
+      })
+    );
 
     expect(
       screen.getByText("This affects the stop and route")
@@ -368,9 +237,9 @@ describe("DeparturesAndMap", () => {
       {
         id: "1",
         informed_entity: {
-          route: ["TestRoute"],
+          route: ["Red"],
           stop: ["test-stop"],
-          entities: [{ stop: "test-stop", route: "TestRoute" }]
+          entities: [{ stop: "test-stop", route: "Red" }]
         },
         header: "This affects the stop and route",
         lifecycle: "ongoing",
@@ -379,9 +248,9 @@ describe("DeparturesAndMap", () => {
       {
         id: "2",
         informed_entity: {
-          route: ["TestRoute"],
+          route: ["Red"],
           stop: ["test-stop"],
-          entities: [{ stop: "test-stop", route: "TestRoute" }]
+          entities: [{ stop: "test-stop", route: "Red" }]
         },
         header: "This should not show",
         lifecycle: "unknown",
@@ -394,39 +263,44 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
         alerts={alerts}
         setPredictionError={jest.fn()}
       />
     );
 
-    const headSigns = screen.getAllByText(/TestRoute Route/);
-    expect(headSigns.length).toBe(3);
-    // The 2nd headsign instance is a clickable route
-    await user.click(headSigns[1]);
-
-    expect(
-      screen.getByText("This affects the stop and route")
-    ).toBeInTheDocument();
-    expect(screen.queryByText("This should not show")).toBeNull();
+    let headsign: HTMLElement | undefined = undefined;
+    await waitFor(() => {
+      headsign = screen.getByRole("button", {
+        name: /Open upcoming departures to Ashmont/
+      });
+      expect(headsign).toBeDefined();
+    });
+    await user.click(headsign!);
+    await waitFor(() => {
+      expect(
+        screen.getByText("This affects the stop and route")
+      ).toBeInTheDocument();
+      expect(screen.queryByText("This should not show")).toBeNull();
+    });
   });
 
-  it("should set error state when null predictions", () => {
+  it("should set error state when null predictions", async () => {
     jest.spyOn(usePredictionsChannel, "default").mockReturnValue(null);
     const mockSetError = jest.fn();
     renderWithRouter(
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
         setPredictionError={mockSetError}
       />
     );
-    expect(mockSetError).toHaveBeenCalledWith(true);
+    await waitFor(() => {
+      expect(mockSetError).toHaveBeenCalledWith(true);
+    });
   });
 
-  it("should not set error state when non-null predictions", () => {
+  it("should not set error state when non-null predictions", async () => {
     jest
       .spyOn(usePredictionsChannel, "default")
       .mockReturnValue([] as PredictionWithTimestamp[]);
@@ -435,11 +309,12 @@ describe("DeparturesAndMap", () => {
       <DeparturesAndMap
         routes={[route]}
         stop={stop}
-        routesWithPolylines={testRoutesWithPolylines}
         alerts={[]}
         setPredictionError={mockSetError}
       />
     );
-    expect(mockSetError).toHaveBeenCalledWith(false);
+    await waitFor(() => {
+      expect(mockSetError).toHaveBeenCalledWith(false);
+    });
   });
 });

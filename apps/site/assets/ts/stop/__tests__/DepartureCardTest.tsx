@@ -1,56 +1,64 @@
 import React from "react";
-import { screen, within } from "@testing-library/react";
+import { cleanup, screen, waitFor, within } from "@testing-library/react";
 import DepartureCard from "../components/DepartureCard";
 import { Alert, RouteType } from "../../__v3api";
-import { baseRoute, renderWithRouter } from "./helpers";
+import { baseRoute, renderWithRouter, TEST_LOADER_VALUE } from "./helpers";
 import { DepartureInfo } from "../../models/departureInfo";
 
+const testRoute = baseRoute(Object.keys(TEST_LOADER_VALUE)[0], 3);
+const routePatternsByHeadsign = TEST_LOADER_VALUE[testRoute.id];
+
 describe("DepartureCard", () => {
-  it("renders a list item with route name", () => {
+  afterEach(cleanup);
+
+  it("renders a list item with route name", async () => {
     renderWithRouter(
       <DepartureCard
-        route={baseRoute("749", 3)}
+        route={testRoute}
         departuresForRoute={[]}
-        stopName=""
         alertsForRoute={[]}
+        routePatternsByHeadsign={routePatternsByHeadsign}
       />
     );
-    const listItem = screen.getByRole("listitem");
-    expect(listItem).toBeInTheDocument();
-    expect(
-      within(listItem).getByText("Silver Line 749 Route")
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      const listItem = screen.getByRole("listitem");
+      expect(listItem).toBeInTheDocument();
+      expect(within(listItem).getByText(testRoute.name)).toBeInTheDocument();
+    });
   });
 
-  it("route card header links to schedule page for route", () => {
+  it("route card header links to schedule page for route", async () => {
     renderWithRouter(
       <DepartureCard
-        route={baseRoute("749", 3)}
+        route={testRoute}
         departuresForRoute={[]}
-        stopName=""
         alertsForRoute={[]}
+        routePatternsByHeadsign={routePatternsByHeadsign}
       />
     );
-    expect(
-      screen.getByRole("link", { name: "Silver Line 749 Route" })
-    ).toHaveAttribute("href", "/schedules/749");
+    await waitFor(() => {
+      expect(
+        screen.getByRole("link", { name: testRoute.name })
+      ).toHaveAttribute("href", `/schedules/${testRoute.id}`);
+    });
   });
 
-  it("renders icons for modes", () => {
-    const iconElements = [0, 1, 2, 3, 4]
-      .map(type =>
-        renderWithRouter(
-          <DepartureCard
-            route={baseRoute("", type as RouteType)}
-            departuresForRoute={[]}
-            stopName=""
-            alertsForRoute={[]}
-          />
-        )
-      )
-      .map(({ container }) => container.querySelector(".c-svg__icon"));
-    iconElements.forEach(el => expect(el).toBeInTheDocument());
-    expect(iconElements[0]).toEqual(iconElements[1]); // both use the subway icon
+  ([0, 1, 2, 3, 4] as RouteType[]).forEach(type => {
+    it(`renders icons for modes - type ${type}`, async () => {
+      const { container } = renderWithRouter(
+        <DepartureCard
+          route={{ ...testRoute, type }}
+          departuresForRoute={[]}
+          alertsForRoute={[]}
+          routePatternsByHeadsign={routePatternsByHeadsign}
+        />
+      );
+
+      await waitFor(() => {
+        const el = container.querySelector(".c-svg__icon");
+        expect(el).toBeInTheDocument();
+      });
+    });
   });
 
   it.each`
@@ -65,19 +73,24 @@ describe("DepartureCard", () => {
     ${baseRoute("749", 3)}      | ${".u-bg--silver-line"}
     ${baseRoute("", 3)}         | ${".u-bg--bus"}
     ${baseRoute("", 4)}         | ${".u-bg--ferry"}
-  `("renders different colors for routes/modes", ({ route, expectedClass }) => {
-    const { container } = renderWithRouter(
-      <DepartureCard
-        route={route}
-        departuresForRoute={[]}
-        stopName=""
-        alertsForRoute={[]}
-      />
-    );
-    expect(container.querySelector(expectedClass)).toBeInTheDocument();
-  });
+  `(
+    "renders different colors for routes/modes",
+    async ({ route, expectedClass }) => {
+      const { container } = renderWithRouter(
+        <DepartureCard
+          route={route}
+          departuresForRoute={[]}
+          alertsForRoute={[]}
+          routePatternsByHeadsign={routePatternsByHeadsign}
+        />
+      );
+      await waitFor(() => {
+        expect(container.querySelector(expectedClass)).toBeInTheDocument();
+      });
+    }
+  );
 
-  it("passes alerts for both directions to the departure times", () => {
+  it("passes alerts for both directions to the departure times for all headsigns", async () => {
     // Suspension Alerts show up before Shuttle Service and Detour Alerts
     // If the alert that affects that affects both directions is a Suspension alert
     // then it should take any priority over the Shuttle Service Alerts which
@@ -112,19 +125,22 @@ describe("DepartureCard", () => {
     ] as Alert[];
 
     const departures = [] as DepartureInfo[];
-
+    const route = baseRoute("Red", 1);
+    const routePatterns = TEST_LOADER_VALUE["Red"];
     renderWithRouter(
       <DepartureCard
-        route={baseRoute("749", 3)}
+        route={route}
         departuresForRoute={departures}
-        stopName="Shining Time Station"
         alertsForRoute={alerts}
+        routePatternsByHeadsign={routePatterns}
       />
     );
 
-    const suspensionBadges = screen.getAllByText("No Service");
-    expect(suspensionBadges.length).toBe(2);
-    expect(screen.queryByText("Shuttle Service")).toBeNull();
-    expect(screen.queryByText("Detour")).toBeNull();
+    await waitFor(() => {
+      const suspensionBadges = screen.getAllByText("No Service");
+      expect(suspensionBadges.length).toBe(Object.keys(routePatterns).length);
+      expect(screen.queryByText("Shuttle Service")).toBeNull();
+      expect(screen.queryByText("Detour")).toBeNull();
+    });
   });
 });

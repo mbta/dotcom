@@ -11,9 +11,12 @@ import {
   RouteType,
   Stop
 } from "../../__v3api";
-import { RouteWithPolylines } from "../../hooks/useRoute";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
+import {
+  GroupedRoutePatterns,
+  RoutePatternWithPolyline
+} from "../stop-redesign-loader";
 
 export const newLatOrLon = (): number => +faker.string.numeric(2);
 const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];
@@ -32,21 +35,6 @@ export const baseRoute = (name: string, type: RouteType): Route =>
     name: `${name} Route`,
     type
   } as Route);
-
-export const routeWithPolylines = (
-  name: string,
-  type: RouteType,
-  numPolylines: number = 1
-): RouteWithPolylines => {
-  const route = baseRoute(name, type);
-  const polylines = Array.from({ length: numPolylines }, (x, i) =>
-    newPolyline()
-  );
-  return {
-    ...route,
-    polylines
-  };
-};
 
 const defaultStop: Stop = {
   accessibility: [] as AccessibilityType[],
@@ -70,11 +58,64 @@ const defaultStop: Stop = {
 export const customStop = (args: Partial<Stop>): Stop =>
   Object.assign({}, defaultStop, args);
 
+const customRoutePattern = (
+  route_id: string,
+  headsign: string
+): RoutePatternWithPolyline => {
+  const routePatternId = `${route_id}-${faker.helpers.slugify(
+    headsign
+  )}-${faker.number.int()}`;
+  return {
+    headsign,
+    route_id,
+    id: routePatternId,
+    name: `${faker.location.city()} - ${headsign}`,
+    typicality: faker.number.int({ min: 1, max: 4 }),
+    sort_order: faker.number.int(),
+    direction_id: faker.number.int({ min: 0, max: 1 }),
+    representative_trip_polyline: {
+      ...newPolyline(),
+      id: `${routePatternId}--shape`
+    }
+  } as RoutePatternWithPolyline;
+};
+const makeRoutePatternList = (
+  route: string,
+  headsign: string,
+  count: number = 1
+): RoutePatternWithPolyline[] =>
+  faker.helpers.multiple<RoutePatternWithPolyline>(
+    () => customRoutePattern(route, headsign),
+    { count }
+  );
+
+const makeRoutePatternGroup = (route: string, headsign: string[]) => {
+  const routePatternsByHeadsigns = Object.fromEntries(
+    headsign.map(h => [
+      h,
+      makeRoutePatternList(route, h, faker.number.int({ min: 1, max: 4 }))
+    ])
+  );
+  return { [route]: routePatternsByHeadsigns };
+};
+
+const testLoader = () => {
+  const testRoutePatterns = {
+    ...makeRoutePatternGroup("Red", ["Braintree", "Ashmont", "Alewife"]),
+    ...makeRoutePatternGroup("16", ["Harbor Point"]),
+    ...makeRoutePatternGroup("CRRoute", ["South Station", "Kingston"]),
+    ...makeRoutePatternGroup("741", ["South Station"])
+  } as GroupedRoutePatterns;
+  return testRoutePatterns;
+};
+
+export const TEST_LOADER_VALUE = testLoader();
+const loaderMock = jest.fn().mockReturnValue(TEST_LOADER_VALUE);
 // via https://webup.org/blog/how-to-avoid-mocking-in-react-router-v6-tests/
 //@ts-ignore
 export function renderWithRouter(children, routes = []) {
   const options = isValidElement(children)
-    ? { element: children, path: "/" }
+    ? { element: children, path: "/", loader: loaderMock }
     : children;
 
   const router = createMemoryRouter([{ ...options }, ...routes], {
