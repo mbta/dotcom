@@ -22,7 +22,7 @@ defmodule SiteWeb.RouteController do
 
   defp route_polylines(route, stop_id) do
     route.id
-    |> RoutePatterns.Repo.by_route_id(stop: stop_id)
+    |> RoutePatterns.Repo.by_route_id(stop: stop_id, include: "representative_trip.shape")
     |> Enum.filter(&(!is_nil(&1.representative_trip_polyline)))
     |> Enum.map(&Polyline.new(&1, color: "#" <> route.color, weight: 4))
   end

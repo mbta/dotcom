@@ -7,8 +7,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
-  alias Schedules.Repo, as: SchedulesRepo
-  alias Schedules.Trip
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -72,91 +70,15 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     route
     |> do_get_branch_route_stops(direction_id, route_pattern_id)
     |> Enum.map(&RouteStop.list_from_route_pattern(&1, route))
-    |> make_trunks_consistent(route)
     |> RouteStops.from_route_stop_groups()
   end
-
-  @routes_with_trunk_discrepancies ~w(CR-Franklin CR-Providence)
 
   @spec do_get_branch_route_stops(Route.t(), direction_id(), RoutePattern.id_t() | nil) :: [
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route_patterns = get_line_route_patterns(route.id, direction_id, route_pattern_id)
-
-    # code addressing routes_with_trunk_discrepancies depends on this function
-    # returning at least two route patterns, which is not guaranteed when using
-    # filtered_by_typicality()
-    filtered_route_patterns =
-      case route.id do
-        id when id in @routes_with_trunk_discrepancies ->
-          route_patterns
-          |> Enum.sort_by(& &1.typicality)
-          |> Enum.take(2)
-
-        _ ->
-          route_patterns
-          |> filtered_by_typicality()
-      end
-
-    filtered_route_patterns
+    get_line_route_patterns(route, direction_id, route_pattern_id)
     |> Enum.map(&stops_for_route_pattern/1)
-  end
-
-  @spec make_trunks_consistent([[RouteStop.t()]], Route.t()) :: [[RouteStop.t()]]
-  defp make_trunks_consistent(route_stop_lists, %Route{id: route_id})
-       when route_id in @routes_with_trunk_discrepancies do
-    shared_ids = shared_ids(route_stop_lists)
-
-    route_stop_lists_with_trunk_ranges =
-      Enum.map(route_stop_lists, fn route_stop_list ->
-        trunk_range =
-          range(route_stop_list, fn route_stop -> MapSet.member?(shared_ids, route_stop.id) end)
-
-        {route_stop_list, trunk_range}
-      end)
-
-    largest_trunk = largest_trunk(route_stop_lists_with_trunk_ranges)
-
-    Enum.map(route_stop_lists_with_trunk_ranges, fn {route_stops, trunk_range} ->
-      old_trunk = Enum.slice(route_stops, trunk_range)
-
-      if old_trunk == largest_trunk do
-        # No need to replace anything
-        route_stops
-      else
-        route_stops
-        |> Enum.reject(&Enum.member?(old_trunk, &1))
-        |> List.insert_at(trunk_range.first, largest_trunk)
-        |> List.flatten()
-      end
-    end)
-  end
-
-  defp make_trunks_consistent(route_stop_lists, _route), do: route_stop_lists
-
-  @spec range(Enum.t(), (Enum.element() -> as_boolean(term()))) :: Range.t()
-  defp range(items, fun) do
-    {min, max} =
-      items
-      |> Enum.with_index()
-      |> Enum.reduce([], fn {item, index}, acc -> if fun.(item), do: [index | acc], else: acc end)
-      |> Enum.min_max(fn -> {0, 0} end)
-
-    min..max
-  end
-
-  @spec largest_trunk([{[RouteStop.t()], Range.t()}]) :: [RouteStop.t()]
-  defp largest_trunk(route_stop_lists_with_trunk_ranges) do
-    largest_trunk_range =
-      route_stop_lists_with_trunk_ranges
-      |> Enum.map(&elem(&1, 1))
-      |> Enum.max()
-
-    route_stop_lists_with_trunk_ranges
-    |> Enum.find(fn {_, trunk_range} -> trunk_range == largest_trunk_range end)
-    |> elem(0)
-    |> Enum.slice(largest_trunk_range)
   end
 
   @spec get_map_route_patterns(Route.id_t(), Route.type_int()) :: [RoutePattern.t()]
@@ -166,7 +88,9 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   def get_map_route_patterns(route_id, type) do
     route_id
-    |> RoutePatternsRepo.by_route_id()
+    |> RoutePatternsRepo.by_route_id(
+      include: "representative_trip.shape,representative_trip.stops"
+    )
     |> filter_map_route_patterns(type)
   end
 
@@ -330,43 +254,34 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp do_update_green_branch_stop(false, stop, branch_id), do: %{stop | branch: branch_id}
 
   @spec stops_for_route_pattern(RoutePattern.t()) :: {RoutePattern.t(), [Stop.t()]}
-  defp stops_for_route_pattern(route_pattern) do
-    stops =
-      route_pattern
-      |> trip_for_route_pattern()
-      |> shape_for_trip()
-      |> stops_for_shape()
-
+  defp stops_for_route_pattern(%RoutePattern{stop_ids: stop_ids} = route_pattern) do
+    stops = Enum.map(stop_ids, &StopsRepo.get_parent/1)
     {route_pattern, stops}
   end
 
-  @spec trip_for_route_pattern(RoutePattern.t()) :: Trip.t() | nil
-  defp trip_for_route_pattern(%RoutePattern{representative_trip_id: representative_trip_id}),
-    do: SchedulesRepo.trip(representative_trip_id)
-
-  @spec shape_for_trip(Trip.t() | nil) :: Shape.t() | nil
-  defp shape_for_trip(nil), do: nil
-
-  defp shape_for_trip(%Trip{shape_id: shape_id}) do
-    shape_id
-    |> RoutesRepo.get_shape()
-    |> List.first()
-  end
-
-  @spec stops_for_shape(Shape.t() | nil) :: [Stop.t()]
-  defp stops_for_shape(nil), do: []
-  defp stops_for_shape(%Shape{stop_ids: stop_ids}), do: Enum.map(stop_ids, &StopsRepo.get!/1)
-
-  @spec get_line_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
+  @spec get_line_route_patterns(Route.t(), direction_id(), RoutePattern.id_t() | nil) :: [
           RoutePattern.t()
         ]
-  defp get_line_route_patterns(route_id, direction_id, nil),
-    do:
-      RoutePatternsRepo.by_route_id(route_id, direction_id: direction_id)
-      |> Enum.filter(&(&1.route_id == route_id))
+  defp get_line_route_patterns(%Route{id: route_id, type: route_type}, direction_id, nil) do
+    base_opts = [direction_id: direction_id, include: "representative_trip.stops"]
 
-  defp get_line_route_patterns(_route_id, _direction_id, route_pattern_id) do
-    case RoutePatternsRepo.get(route_pattern_id) do
+    opts =
+      case route_type do
+        type when type in [0, 1, 2] ->
+          Keyword.put(base_opts, :canonical, true)
+
+        _ ->
+          base_opts
+      end
+
+    RoutePatternsRepo.by_route_id(route_id, opts)
+    |> Enum.filter(&(&1.route_id == route_id))
+  end
+
+  defp get_line_route_patterns(_route, _direction_id, route_pattern_id) do
+    case RoutePatternsRepo.get(route_pattern_id,
+           include: "representative_trip.stops"
+         ) do
       %RoutePattern{} = route_pattern ->
         [route_pattern]
 

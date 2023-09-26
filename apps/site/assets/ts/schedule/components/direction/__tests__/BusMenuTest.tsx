@@ -23,7 +23,8 @@ const routePatterns: EnhancedRoutePattern[] = [
     shape_id: "660140",
     shape_priority: 1,
     time_desc: null,
-    typicality: 1
+    typicality: 1,
+    sort_order: 5
   },
   {
     typicality: 3,
@@ -37,7 +38,8 @@ const routePatterns: EnhancedRoutePattern[] = [
     name: "Dudley Station - Union Square, Boston",
     id: "66-B-0",
     headsign: "Watertown Yard via Union Square Allston",
-    direction_id: 0
+    direction_id: 0,
+    sort_order: 7
   }
 ];
 const singleRoutePattern = routePatterns.slice(0, 1);

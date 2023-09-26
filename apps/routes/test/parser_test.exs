@@ -140,7 +140,8 @@ defmodule Routes.ParserTest do
                 "direction_id" => 1,
                 "name" => "rp",
                 "time_desc" => "td",
-                "typicality" => 1
+                "typicality" => 1,
+                "sort_order" => 12_132_123
               },
               relationships: %{
                 "representative_trip" => [%Item{id: "id"}],

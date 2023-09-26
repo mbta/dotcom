@@ -36,7 +36,8 @@ defmodule RoutePatterns.RoutePattern do
     :stop_ids,
     :route_id,
     :time_desc,
-    :typicality
+    :typicality,
+    sort_order: 0
   ]
 
   @type id_t :: String.t()
@@ -53,7 +54,8 @@ defmodule RoutePatterns.RoutePattern do
           stop_ids: [Stop.id_t()],
           route_id: Route.id_t(),
           time_desc: String.t(),
-          typicality: typicality_t()
+          typicality: typicality_t(),
+          sort_order: integer()
         }
 
   def new(%Item{
@@ -62,7 +64,8 @@ defmodule RoutePatterns.RoutePattern do
           "direction_id" => direction_id,
           "name" => name,
           "time_desc" => time_desc,
-          "typicality" => typicality
+          "typicality" => typicality,
+          "sort_order" => sort_order
         },
         relationships: %{
           "representative_trip" => [
@@ -71,20 +74,7 @@ defmodule RoutePatterns.RoutePattern do
                 "headsign" => headsign
               },
               id: representative_trip_id,
-              relationships: %{
-                "shape" => [
-                  %Item{
-                    attributes: %{
-                      "polyline" => representative_trip_polyline,
-                      "priority" => shape_priority
-                    },
-                    id: shape_id,
-                    relationships: %{
-                      "stops" => stops
-                    }
-                  }
-                ]
-              }
+              relationships: trip_relationships
             }
           ],
           "route" => [%Item{id: route_id}]
@@ -95,14 +85,14 @@ defmodule RoutePatterns.RoutePattern do
       id: id,
       name: name,
       representative_trip_id: representative_trip_id,
-      representative_trip_polyline: representative_trip_polyline,
-      shape_id: shape_id,
-      shape_priority: shape_priority,
+      representative_trip_polyline: polyline(trip_relationships),
+      shape_id: shape_id(trip_relationships),
       headsign: headsign,
-      stop_ids: Enum.map(stops, fn %JsonApi.Item{id: id} -> id end),
+      stop_ids: stop_ids(trip_relationships),
       route_id: route_id,
       time_desc: time_desc,
-      typicality: typicality
+      typicality: typicality,
+      sort_order: sort_order
     }
   end
 
@@ -112,7 +102,8 @@ defmodule RoutePatterns.RoutePattern do
           "direction_id" => direction_id,
           "name" => name,
           "time_desc" => time_desc,
-          "typicality" => typicality
+          "typicality" => typicality,
+          "sort_order" => sort_order
         },
         relationships: %{
           "representative_trip" => [%Item{id: representative_trip_id}],
@@ -126,7 +117,39 @@ defmodule RoutePatterns.RoutePattern do
       representative_trip_id: representative_trip_id,
       route_id: route_id,
       time_desc: time_desc,
-      typicality: typicality
+      typicality: typicality,
+      sort_order: sort_order
     }
   end
+
+  defp polyline(%{
+         "shape" => [
+           %Item{
+             attributes: %{
+               "polyline" => polyline
+             }
+           }
+         ]
+       }),
+       do: polyline
+
+  defp polyline(_), do: nil
+
+  defp shape_id(%{
+         "shape" => [
+           %Item{
+             id: shape_id
+           }
+         ]
+       }),
+       do: shape_id
+
+  defp shape_id(_), do: nil
+
+  # Note: these are child stop IDs
+  defp stop_ids(%{"stops" => stops}) when is_list(stops) do
+    Enum.map(stops, & &1.id)
+  end
+
+  defp stop_ids(_), do: nil
 end

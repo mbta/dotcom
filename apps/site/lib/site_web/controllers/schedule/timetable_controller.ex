@@ -59,14 +59,15 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
     canonical_rps =
-      RoutePatterns.Repo.by_route_id(route.id, direction_id: direction_id, canonical: true)
+      RoutePatterns.Repo.by_route_id(route.id,
+        direction_id: direction_id,
+        canonical: true,
+        include: "representative_trip.stops"
+      )
 
-    # Don't use the stop ids set on the route pattern - those are mapped to the parent stops.
-    # Get the stops directly for the canonical trips
     canonical_stop_ids =
       canonical_rps
-      |> Enum.flat_map(&Stops.Repo.by_trip(&1.representative_trip_id))
-      |> Enum.map(& &1.id)
+      |> Enum.flat_map(& &1.stop_ids)
       |> MapSet.new()
 
     track_changes = track_changes(trip_schedules, canonical_stop_ids)
