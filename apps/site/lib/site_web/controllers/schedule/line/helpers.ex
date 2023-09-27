@@ -354,4 +354,27 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       [i, j]
     end
   end
+
+  @doc """
+  Skip computing the branched tree structure for non-rail route types, because
+  the website doesn't show these in a branching format.
+  """
+  @spec get_stop_tree_or_lists([RouteStops.t()], Route.type_int()) ::
+          {UnrootedPolytree.t() | nil, [[RouteStop.t()]] | nil}
+
+  def get_stop_tree_or_lists(_, 4), do: {nil, nil}
+
+  def get_stop_tree_or_lists(route_stops_lists, 3),
+    do: {nil, Enum.map(route_stops_lists, & &1.stops)}
+
+  def get_stop_tree_or_lists([], _), do: {nil, []}
+
+  def get_stop_tree_or_lists(route_stops_lists, _) do
+    tree =
+      route_stops_lists
+      |> Enum.map(&Enum.map(&1.stops, fn route_stop -> {route_stop.id, route_stop} end))
+      |> UnrootedPolytree.from_lists()
+
+    {tree, nil}
+  end
 end

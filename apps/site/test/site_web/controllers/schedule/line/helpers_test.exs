@@ -3,7 +3,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
   alias Routes.{Route}
   alias SiteWeb.ScheduleController.Line.Helpers
-  alias Stops.{RouteStops, Stop}
+  alias Stops.{RouteStops, RouteStop, Stop}
 
   doctest Helpers
 
@@ -875,6 +875,48 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  %RoutePatterns.RoutePattern{typicality: 4, shape_priority: 1},
                  %RoutePatterns.RoutePattern{typicality: 5, shape_priority: 1}
                ])
+    end
+  end
+
+  describe "get_stop_tree_or_lists/2" do
+    setup do
+      test_route_stops = [
+        %RouteStops{
+          branch: "Branch-A",
+          stops: [
+            %RouteStop{id: "a"},
+            %RouteStop{id: "b"},
+            %RouteStop{id: "c"},
+            %RouteStop{id: "d"}
+          ]
+        },
+        %RouteStops{
+          branch: "Branch-B",
+          stops: [
+            %RouteStop{id: "a"},
+            %RouteStop{id: "b"},
+            %RouteStop{id: "e"},
+            %RouteStop{id: "f"}
+          ]
+        }
+      ]
+
+      {:ok, route_stops: test_route_stops}
+    end
+
+    test "returns tree for rail route types", %{route_stops: route_stops} do
+      assert {%UnrootedPolytree{}, nil} = Helpers.get_stop_tree_or_lists(route_stops, 0)
+      assert {%UnrootedPolytree{}, nil} = Helpers.get_stop_tree_or_lists(route_stops, 1)
+      assert {%UnrootedPolytree{}, nil} = Helpers.get_stop_tree_or_lists(route_stops, 2)
+    end
+
+    test "returns list for bus route type", %{route_stops: route_stops} do
+      assert {nil, stops_lists} = Helpers.get_stop_tree_or_lists(route_stops, 3)
+      assert [[%RouteStop{} | _], [%RouteStop{} | _]] = stops_lists
+    end
+
+    test "returns neither for ferry route type", %{route_stops: route_stops} do
+      assert {nil, nil} = Helpers.get_stop_tree_or_lists(route_stops, 4)
     end
   end
 
