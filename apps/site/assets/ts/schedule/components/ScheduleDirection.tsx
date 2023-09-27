@@ -3,7 +3,8 @@ import { Alert, DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
   EnhancedRoutePattern,
-  StopTree
+  StopTree,
+  RouteStop
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -26,7 +27,8 @@ export interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   mapData?: MapData;
   staticMapData?: StaticMapData;
-  stopTree: StopTree;
+  stopTree: StopTree | null;
+  routeStopLists: RouteStop[][] | null;
   alerts: Alert[];
   busVariantId: string | null;
 }
@@ -78,11 +80,11 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(({ stop_tree }) => {
-        const stopTree: StopTree = fromStopTreeData(stop_tree);
+      .then(({ stop_tree, route_stop_lists }) => {
+        const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
         dispatch({
           type: "FETCH_COMPLETE",
-          payload: { stopTree }
+          payload: { stopTree, routeStopLists: route_stop_lists }
         });
       })
       // @ts-ignore
@@ -97,6 +99,7 @@ const ScheduleDirection = ({
   mapData,
   staticMapData,
   stopTree: initialStopTree,
+  routeStopLists: initialRouteStopLists,
   alerts,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
@@ -186,7 +189,8 @@ const ScheduleDirection = ({
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: {
-      stopTree: initialStopTree
+      stopTree: initialStopTree,
+      routeStopLists: initialRouteStopLists
     },
     isLoading: false,
     error: false

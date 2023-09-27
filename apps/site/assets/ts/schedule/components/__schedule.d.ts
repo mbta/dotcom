@@ -44,7 +44,8 @@ export interface SchedulePageData {
   stops: SimpleStopMap;
   direction_id: DirectionId;
   route_patterns: RoutePatternsByDirection;
-  stop_tree: StopTreeData;
+  stop_tree: StopTreeData | null;
+  route_stop_lists: RouteStop[][];
   alerts: Alert[];
   today: string;
   variant: string | null;

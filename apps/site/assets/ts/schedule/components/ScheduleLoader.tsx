@@ -137,11 +137,13 @@ export const ScheduleLoader = ({
     schedule_note: scheduleNote,
     today,
     stop_tree,
+    route_stop_lists: routeStopLists,
     alerts,
     variant: busVariantId
   } = schedulePageData;
-  const stopTree: StopTree = fromStopTreeData(stop_tree);
-
+  const stopTree: StopTree | null = stop_tree
+    ? fromStopTreeData(stop_tree)
+    : null;
   const routeIsSuspended = Object.keys(routePatternsByDirection).length === 0;
 
   const currentState = getCurrentState();
@@ -319,6 +321,7 @@ export const ScheduleLoader = ({
           directionId={readjustedDirectionId}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
+          routeStopLists={routeStopLists}
           mapData={mapData}
           staticMapData={staticMapData}
           stopTree={stopTree}

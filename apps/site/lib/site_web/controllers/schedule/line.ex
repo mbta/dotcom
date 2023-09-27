@@ -135,15 +135,14 @@ defmodule SiteWeb.ScheduleController.Line do
 
     branch_route_stops = LineHelpers.get_branch_route_stops(route, direction_id)
 
-    stop_tree =
-      branch_route_stops
-      |> Enum.map(&Enum.map(&1.stops, fn route_stop -> {route_stop.id, route_stop} end))
-      |> UnrootedPolytree.from_lists()
+    {stop_tree, route_stop_lists} =
+      LineHelpers.get_stop_tree_or_lists(branch_route_stops, route.type)
 
     conn
     |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
     |> assign(:stop_tree, stop_tree)
+    |> assign(:route_stop_lists, route_stop_lists)
     |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)

@@ -33,6 +33,7 @@ const { stop_tree } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
 const stopTree: StopTree = fromStopTreeData(stop_tree);
+const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
 
 const route = {
   type: 3,
@@ -170,6 +171,7 @@ const getComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -182,6 +184,7 @@ const getSingleDirectionComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -194,6 +197,7 @@ const getSubwayComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -206,6 +210,7 @@ const getCRComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -218,6 +223,7 @@ const getStaticMapComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -246,6 +252,7 @@ const getGreenLineComponent = () => {
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
       stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
       alerts={[]}
       busVariantId={null}
     />
@@ -259,6 +266,7 @@ const getVariantComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId="pattern-3"
   />

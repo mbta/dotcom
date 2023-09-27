@@ -71,6 +71,9 @@ const stops = {
 const { stop_tree: stopTreeData } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
+const testRouteStopList = Object.values(stopTreeData.by_id).map(
+  node => node.value
+);
 
 const fares = [
   {
@@ -243,6 +246,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -275,6 +279,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -319,6 +324,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -352,6 +358,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -395,6 +402,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -435,6 +443,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -468,6 +477,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -520,6 +530,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -587,6 +598,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -633,6 +645,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -688,6 +701,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -727,6 +741,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -784,6 +799,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -831,6 +847,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -876,6 +893,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routes,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -1006,6 +1024,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
@@ -1049,6 +1068,7 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             today: "2019-12-05",
             stop_tree: stopTreeData,
+            route_stop_lists: [testRouteStopList],
             alerts: [],
             variant: null
           }}
