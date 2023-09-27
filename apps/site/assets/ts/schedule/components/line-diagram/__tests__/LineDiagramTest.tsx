@@ -48,7 +48,7 @@ const stopTree: StopTree = {
   },
   startingNodes: ["a"]
 };
-
+const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
 const route = {
   type: 3 as RouteType,
   name: "route 1",
@@ -80,6 +80,7 @@ describe("LineDiagram", () => {
     wrapper = mount(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={1}
         alerts={[]}
@@ -107,6 +108,7 @@ describe("LineDiagram", () => {
     const subwayWrapper = mount(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={subwayRoute}
         directionId={1}
         alerts={[]}
@@ -146,6 +148,7 @@ describe("LineDiagram", () => {
     render(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={0}
         alerts={[]}
@@ -163,6 +166,7 @@ describe("LineDiagram", () => {
     render(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={0}
         alerts={[]}
@@ -180,6 +184,7 @@ describe("LineDiagram", () => {
     render(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={0}
         alerts={[]}

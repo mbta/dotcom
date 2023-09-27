@@ -19,7 +19,6 @@ import {
 } from "../../models/route";
 import LineDiagram from "./line-diagram/LineDiagram";
 import { fromStopTreeData } from "./ScheduleLoader";
-import { isEmptyTree } from "../../helpers/stop-tree";
 
 export interface Props {
   route: EnhancedRoute;
@@ -204,7 +203,12 @@ const ScheduleDirection = ({
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
 
-  const hasValidTree = lineState.data && !isEmptyTree(lineState.data.stopTree);
+  const routeStopList =
+    lineState.data && lineState.data.routeStopLists
+      ? (lineState.data.routeStopLists as RouteStop[][]).find(
+          rsList => !!rsList.find(rs => rs.branch === state.routePattern.name)
+        ) || []
+      : [];
   return (
     <>
       <div className="m-schedule-direction">
@@ -225,9 +229,10 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute(route) && hasValidTree && (
+      {isSubwayRoute(route) && (
         <LineDiagram
-          stopTree={lineState.data.stopTree}
+          stopTree={lineState.data && lineState.data.stopTree}
+          routeStopList={routeStopList}
           route={route}
           directionId={state.directionId}
           alerts={alerts}
@@ -259,9 +264,10 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!isSubwayRoute(route) && hasValidTree && (
+      {!isSubwayRoute(route) && (
         <LineDiagram
-          stopTree={lineState.data.stopTree}
+          stopTree={lineState.data && lineState.data.stopTree}
+          routeStopList={routeStopList}
           route={route}
           directionId={state.directionId}
           alerts={alerts}

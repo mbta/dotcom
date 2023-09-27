@@ -147,6 +147,8 @@ const stopTree: StopTree = {
   },
   startingNodes: ["a1", "b1", "c1"]
 };
+
+const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
 const store = UseTreeStopPositions.createStopTreeCoordStore(stopTree);
 
 const route = {
@@ -187,6 +189,7 @@ describe("LineDiagramWithStops", () => {
       <redux.Provider store={store}>
         <LineDiagramWithStops
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           route={route}
           directionId={1}
           alerts={[]}
@@ -214,6 +217,7 @@ describe("LineDiagramWithStops", () => {
       <redux.Provider store={store}>
         <LineDiagramWithStops
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           route={route}
           directionId={1}
           alerts={[]}
@@ -239,6 +243,7 @@ describe("LineDiagramWithStops", () => {
       <redux.Provider store={store}>
         <LineDiagramWithStops
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           route={route}
           directionId={1}
           alerts={[currentDiversionAlert]}

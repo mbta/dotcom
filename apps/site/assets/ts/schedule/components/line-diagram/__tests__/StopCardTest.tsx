@@ -90,6 +90,7 @@ const stopTree: StopTree = {
   startingNodes: ["a"]
 };
 const store = createStopTreeCoordStore(stopTree);
+const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
 
 const alertA: Alert = {
   id: "MOCK-ALERT-A",
@@ -124,6 +125,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
@@ -157,6 +159,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[]}
           onClick={handleStopClick}
@@ -185,6 +188,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[]}
           onClick={handleStopClick}
@@ -212,6 +216,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[]}
           onClick={handleStopClick}
@@ -231,6 +236,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
@@ -249,6 +255,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
@@ -277,6 +284,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
@@ -322,6 +330,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"a"}
           alerts={[alertA, alertB]}
           onClick={handleStopClick}
@@ -346,6 +355,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"d"}
           alerts={[]}
           onClick={() => {}}
@@ -361,6 +371,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"e"}
           alerts={[]}
           onClick={() => {}}
@@ -376,6 +387,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"f"}
           alerts={[]}
           onClick={() => {}}
@@ -391,6 +403,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"e"}
           alerts={[]}
           onClick={() => {}}
@@ -409,6 +422,7 @@ describe("StopCard", () => {
       <redux.Provider store={store}>
         <StopCard
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           stopId={"b"}
           alerts={[]}
           onClick={clickSpy}

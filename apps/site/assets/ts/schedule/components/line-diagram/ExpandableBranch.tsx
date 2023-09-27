@@ -100,6 +100,7 @@ const ExpandableBranch = ({
             <StopCard
               key={stopId}
               stopTree={stopTree}
+              routeStopList={[]}
               stopId={stopId}
               alerts={alertsByStop(alerts, stopId)}
               onClick={handleStopClick}

@@ -2,22 +2,22 @@
 
 exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <LineDiagramWithStops stopTree={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+  <LineDiagramWithStops stopTree={{...}} routeStopList={{...}} route={{...}} directionId={1} alerts={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
     <div className=\\"m-schedule-diagram \\">
       <Diagram stopTree={{...}} route={{...}} directionId={1} alerts={{...}} liveData={{...}}>
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"a1\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"a2\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"b1\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"b2\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"b3\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"c1\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"c2\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"m1\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"m2\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"m3\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"x1\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"x2\\" liveData={{...}} />
-        <LiveVehicleIconSet stopTree={{...}} stopId=\\"y1\\" liveData={{...}} />
+        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={true} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet isStart={false} stop={{...}} liveData={{...}} />
         <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"36px\\" height=\\"100%\\" style={{...}}>
           <title id=\\"diagram-title\\">
             Line diagram for 
@@ -111,7 +111,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
       </Diagram>
       <ol>
         <NextStopOrBranch stopTree={{...}} stopId=\\"b1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-          <StopCard stopTree={{...}} stopId=\\"b1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+          <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"b1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b1\\" />
@@ -143,7 +143,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             </li>
           </StopCard>
           <NextStopOrBranch stopTree={{...}} stopId=\\"b2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-            <StopCard stopTree={{...}} stopId=\\"b2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+            <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"b2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                 <section className=\\"m-schedule-diagram__content\\">
                   <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b2\\" />
@@ -175,7 +175,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
               </li>
             </StopCard>
             <NextStopOrBranch stopTree={{...}} stopId=\\"b3\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-              <StopCard stopTree={{...}} stopId=\\"b3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+              <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"b3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                   <section className=\\"m-schedule-diagram__content\\">
                     <GlxOpen pageType=\\"line-diagram\\" stopId=\\"b3\\" />
@@ -207,7 +207,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                 </li>
               </StopCard>
               <NextStopOrBranch stopTree={{...}} stopId=\\"m1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                <StopCard stopTree={{...}} stopId=\\"a1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"a1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                   <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                     <section className=\\"m-schedule-diagram__content\\">
                       <GlxOpen pageType=\\"line-diagram\\" stopId=\\"a1\\" />
@@ -271,7 +271,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </div>
                 </ExpandableBranch>
                 <NextStopOrBranch stopTree={{...}} stopId=\\"m1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                  <StopCard stopTree={{...}} stopId=\\"m1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                  <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"m1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                       <section className=\\"m-schedule-diagram__content\\">
                         <GlxOpen pageType=\\"line-diagram\\" stopId=\\"m1\\" />
@@ -303,7 +303,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </li>
                   </StopCard>
                   <NextStopOrBranch stopTree={{...}} stopId=\\"m2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                    <StopCard stopTree={{...}} stopId=\\"c1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                    <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"c1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                       <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                         <section className=\\"m-schedule-diagram__content\\">
                           <GlxOpen pageType=\\"line-diagram\\" stopId=\\"c1\\" />
@@ -367,7 +367,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                       </div>
                     </ExpandableBranch>
                     <NextStopOrBranch stopTree={{...}} stopId=\\"m2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                      <StopCard stopTree={{...}} stopId=\\"m2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                      <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"m2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                           <section className=\\"m-schedule-diagram__content\\">
                             <GlxOpen pageType=\\"line-diagram\\" stopId=\\"m2\\" />
@@ -399,7 +399,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                         </li>
                       </StopCard>
                       <NextStopOrBranch stopTree={{...}} stopId=\\"m3\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                        <StopCard stopTree={{...}} stopId=\\"m3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                        <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"m3\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                             <section className=\\"m-schedule-diagram__content\\">
                               <GlxOpen pageType=\\"line-diagram\\" stopId=\\"m3\\" />
@@ -431,7 +431,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                           </li>
                         </StopCard>
                         <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                          <StopCard stopTree={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                          <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"y1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                               <section className=\\"m-schedule-diagram__content\\">
                                 <GlxOpen pageType=\\"line-diagram\\" stopId=\\"y1\\" />
@@ -458,7 +458,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                             </li>
                           </StopCard>
                           <NextStopOrBranch stopTree={{...}} stopId=\\"x1\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                            <StopCard stopTree={{...}} stopId=\\"x1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                            <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"x1\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                               <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                 <section className=\\"m-schedule-diagram__content\\">
                                   <GlxOpen pageType=\\"line-diagram\\" stopId=\\"x1\\" />
@@ -490,7 +490,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                               </li>
                             </StopCard>
                             <NextStopOrBranch stopTree={{...}} stopId=\\"x2\\" alerts={{...}} mergingInBranches={{...}} splittingOffBranches={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-                              <StopCard stopTree={{...}} stopId=\\"x2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+                              <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"x2\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
                                 <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
                                   <section className=\\"m-schedule-diagram__content\\">
                                     <GlxOpen pageType=\\"line-diagram\\" stopId=\\"x2\\" />

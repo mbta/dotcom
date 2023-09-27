@@ -16,7 +16,7 @@ import {
   MERGE_RADIUS,
   StopCoord
 } from "./graphic-helpers";
-import Line from "./Line";
+import { Line } from "./Line";
 
 interface Props {
   stopTree: StopTree;
