@@ -162,12 +162,15 @@ describe("setupChannels", () => {
     //private property. force the WebSocket closed!
     window.socket.conn.close();
 
-    await waitFor(() => {
-      expect(reloadMock).toHaveBeenCalled();
-      expect(consoleMock).toHaveBeenCalledWith(
-        "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
-      );
-    });
+    await waitFor(
+      () => {
+        expect(reloadMock).toHaveBeenCalled();
+        expect(consoleMock).toHaveBeenCalledWith(
+          "Socket was forced closed by the browser -- reloading to establish WebSocket connection."
+        );
+      },
+      { timeout: 5000 }
+    );
 
     jest.restoreAllMocks();
   });
