@@ -1,7 +1,8 @@
 import React from "react";
 import {
   createReactRoot,
-  enzymeToJsonWithoutProps
+  enzymeToJsonWithoutProps,
+  testRouteStopListFromStopTree
 } from "../../../app/helpers/testUtils";
 import { mount } from "enzyme";
 import {
@@ -33,7 +34,7 @@ const { stop_tree } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
 const stopTree: StopTree = fromStopTreeData(stop_tree);
-const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
+const testRouteStopList = testRouteStopListFromStopTree(stopTree);
 
 const route = {
   type: 3,
@@ -546,7 +547,7 @@ describe("fetchLineData", () => {
       () =>
         new Promise((resolve: Function) =>
           resolve({
-            json: () => lineDiagramData,
+            json: () => ({ stop_tree, route_stop_lists: [] }),
             ok: true,
             status: 200,
             statusText: "OK"
@@ -563,7 +564,7 @@ describe("fetchLineData", () => {
       });
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_COMPLETE",
-        payload: { stopTree }
+        payload: { stopTree, routeStopLists: [] }
       });
     });
   });

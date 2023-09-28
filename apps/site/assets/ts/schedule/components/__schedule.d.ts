@@ -115,6 +115,10 @@ export interface RouteStop {
   closed_stop_info: ClosedStopInfo | null;
 }
 
+export interface IndexedRouteStop extends RouteStop {
+  routeIndex: number;
+}
+
 export interface SimpleStopMap {
   [key: string]: SimpleStop[];
 }

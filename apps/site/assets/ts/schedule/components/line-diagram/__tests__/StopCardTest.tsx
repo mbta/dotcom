@@ -18,6 +18,7 @@ import StopCard from "../StopCard";
 import { LiveData } from "../__line-diagram";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
 
 const stopTree: StopTree = {
   byId: {
@@ -90,7 +91,7 @@ const stopTree: StopTree = {
   startingNodes: ["a"]
 };
 const store = createStopTreeCoordStore(stopTree);
-const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
+const testRouteStopList = testRouteStopListFromStopTree(stopTree);
 
 const alertA: Alert = {
   id: "MOCK-ALERT-A",

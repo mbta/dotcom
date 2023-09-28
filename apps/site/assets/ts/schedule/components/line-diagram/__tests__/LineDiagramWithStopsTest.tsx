@@ -9,6 +9,7 @@ import { cloneDeep } from "lodash";
 import * as simpleLiveData from "./lineDiagramData/live-data.json";
 import { LiveDataByStop } from "../__line-diagram";
 import { Alert, InformedEntitySet, RouteType } from "../../../../__v3api";
+import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
 
 const stopTree: StopTree = {
   byId: {
@@ -148,7 +149,7 @@ const stopTree: StopTree = {
   startingNodes: ["a1", "b1", "c1"]
 };
 
-const testRouteStopList = Object.values(stopTree.byId).map(node => node.value);
+const testRouteStopList = testRouteStopListFromStopTree(stopTree);
 const store = UseTreeStopPositions.createStopTreeCoordStore(stopTree);
 
 const route = {

@@ -13,7 +13,12 @@ import {
 } from "../../../../helpers/stop-tree";
 import { isAGreenLineRoute } from "../../../../models/route";
 import { Alert, DirectionId, Route } from "../../../../__v3api";
-import { RouteStop, StopId, StopTree } from "../../__schedule";
+import {
+  IndexedRouteStop,
+  RouteStop,
+  StopId,
+  StopTree
+} from "../../__schedule";
 import { diagramWidth } from "../line-diagram-helpers";
 import VehicleIcons from "../VehicleIcons";
 import { LiveDataByStop } from "../__line-diagram";
@@ -97,7 +102,7 @@ const LiveVehicleIconSet = ({
 };
 
 interface SimpleProps {
-  routeStopList: RouteStop[];
+  routeStopList: IndexedRouteStop[];
   route: Route;
   directionId: DirectionId;
   alerts: Alert[];
@@ -114,8 +119,7 @@ const SimpleDiagram = ({
   <>
     {routeStopList.map((routeStop, index) => (
       <LiveVehicleIconSet
-        // eslint-disable-next-line react/no-array-index-key
-        key={`${index}-${routeStop.id}`}
+        key={`vehicle-set-${routeStop.routeIndex}`}
         isStart={index === 0}
         stop={routeStop}
         liveData={liveData}
@@ -150,9 +154,8 @@ const SimpleDiagram = ({
       })}
 
       {/* Draw circles for each stop */
-      routeStopList.map((routeStop, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Stop key={`${index}-${routeStop.id}`} stopId={routeStop.id} />
+      routeStopList.map(routeStop => (
+        <Stop key={`stop-${routeStop.routeIndex}`} stopId={routeStop.id} />
       ))}
     </svg>
   </>

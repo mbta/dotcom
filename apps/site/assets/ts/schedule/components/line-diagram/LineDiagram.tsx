@@ -8,7 +8,12 @@ import { isSubwayRoute } from "../../../models/route";
 import { Alert, DirectionId, Route } from "../../../__v3api";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
 import { changeOrigin } from "../ScheduleLoader";
-import { RouteStop, SelectedOrigin, StopTree } from "../__schedule";
+import {
+  IndexedRouteStop,
+  RouteStop,
+  SelectedOrigin,
+  StopTree
+} from "../__schedule";
 import { createStopTreeCoordStore } from "./graphics/useTreeStopPositions";
 import LineDiagramWithStops from "./LineDiagramWithStops";
 import StopCard from "./StopCard";
@@ -17,7 +22,7 @@ import { alertsByStop } from "../../../models/alert";
 interface Props {
   stopTree: StopTree | null;
   route: Route;
-  routeStopList: RouteStop[];
+  routeStopList: IndexedRouteStop[];
   directionId: DirectionId;
   alerts: Alert[];
 }

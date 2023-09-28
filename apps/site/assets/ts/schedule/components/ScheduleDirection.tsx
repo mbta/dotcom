@@ -4,7 +4,8 @@ import {
   RoutePatternsByDirection,
   EnhancedRoutePattern,
   StopTree,
-  RouteStop
+  RouteStop,
+  IndexedRouteStop
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -81,9 +82,12 @@ export const fetchLineData = (
       })
       .then(({ stop_tree, route_stop_lists }) => {
         const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
+        const routeStopListsWithIndices: IndexedRouteStop[][] = (route_stop_lists as RouteStop[][]).map(
+          rs_list => rs_list.map((rs, index) => ({ ...rs, routeIndex: index }))
+        );
         dispatch({
           type: "FETCH_COMPLETE",
-          payload: { stopTree, routeStopLists: route_stop_lists }
+          payload: { stopTree, routeStopLists: routeStopListsWithIndices }
         });
       })
       // @ts-ignore
@@ -205,7 +209,7 @@ const ScheduleDirection = ({
 
   const routeStopList =
     lineState.data && lineState.data.routeStopLists
-      ? (lineState.data.routeStopLists as RouteStop[][]).find(
+      ? (lineState.data.routeStopLists as IndexedRouteStop[][]).find(
           rsList => !!rsList.find(rs => rs.branch === state.routePattern.name)
         ) || []
       : [];

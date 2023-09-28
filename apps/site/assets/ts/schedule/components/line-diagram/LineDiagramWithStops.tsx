@@ -8,7 +8,7 @@ import {
 } from "../../../helpers/stop-tree";
 import { hasPredictionTime } from "../../../models/prediction";
 import { Alert, DirectionId, Route } from "../../../__v3api";
-import { RouteStop, StopId, StopTree } from "../__schedule";
+import { IndexedRouteStop, RouteStop, StopId, StopTree } from "../__schedule";
 import { Diagram, SimpleDiagram } from "./graphics/Diagram";
 import useTreeStopPositions, { RefMap } from "./graphics/useTreeStopPositions";
 import ExpandableBranch from "./ExpandableBranch";
@@ -18,7 +18,7 @@ import { alertsByStop } from "../../../models/alert";
 
 interface Props {
   stopTree: StopTree | null;
-  routeStopList: RouteStop[];
+  routeStopList: IndexedRouteStop[];
   route: Route;
   directionId: DirectionId;
   alerts: Alert[];
@@ -312,10 +312,9 @@ const LineDiagramWithStops = ({
             />
           ) : (
             <>
-              {routeStopList.map((routeStop, index) => (
+              {routeStopList.map(routeStop => (
                 <StopCard
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`stop-card-${index}-${routeStop.id}`}
+                  key={`stop-card-${routeStop.routeIndex}`}
                   stopTree={null}
                   routeStopList={routeStopList}
                   stopId={routeStop.id}
