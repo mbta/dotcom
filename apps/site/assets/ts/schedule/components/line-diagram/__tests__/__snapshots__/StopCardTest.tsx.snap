@@ -2,7 +2,7 @@
 
 exports[`StopCard renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
-  <StopCard stopTree={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
+  <StopCard stopTree={{...}} routeStopList={{...}} stopId=\\"a\\" alerts={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
     <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
       <section className=\\"m-schedule-diagram__content\\">
         <GlxOpen pageType=\\"line-diagram\\" stopId=\\"a\\" />

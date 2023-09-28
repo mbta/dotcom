@@ -9,6 +9,7 @@ import { cloneDeep } from "lodash";
 import * as simpleLiveData from "./lineDiagramData/live-data.json";
 import { LiveDataByStop } from "../__line-diagram";
 import { Alert, InformedEntitySet, RouteType } from "../../../../__v3api";
+import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
 
 const stopTree: StopTree = {
   byId: {
@@ -147,6 +148,8 @@ const stopTree: StopTree = {
   },
   startingNodes: ["a1", "b1", "c1"]
 };
+
+const testRouteStopList = testRouteStopListFromStopTree(stopTree);
 const store = UseTreeStopPositions.createStopTreeCoordStore(stopTree);
 
 const route = {
@@ -187,6 +190,7 @@ describe("LineDiagramWithStops", () => {
       <redux.Provider store={store}>
         <LineDiagramWithStops
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           route={route}
           directionId={1}
           alerts={[]}
@@ -214,6 +218,7 @@ describe("LineDiagramWithStops", () => {
       <redux.Provider store={store}>
         <LineDiagramWithStops
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           route={route}
           directionId={1}
           alerts={[]}
@@ -239,6 +244,7 @@ describe("LineDiagramWithStops", () => {
       <redux.Provider store={store}>
         <LineDiagramWithStops
           stopTree={stopTree}
+          routeStopList={testRouteStopList}
           route={route}
           directionId={1}
           alerts={[currentDiversionAlert]}

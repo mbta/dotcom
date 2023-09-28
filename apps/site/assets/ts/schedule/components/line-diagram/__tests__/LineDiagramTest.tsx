@@ -10,6 +10,7 @@ import * as ScheduleStore from "../../../store/ScheduleStore";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as store from "../../../store/ScheduleStore";
 import userEvent from "@testing-library/user-event";
+import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
 
 const stopTree: StopTree = {
   byId: {
@@ -48,7 +49,7 @@ const stopTree: StopTree = {
   },
   startingNodes: ["a"]
 };
-
+const testRouteStopList = testRouteStopListFromStopTree(stopTree);
 const route = {
   type: 3 as RouteType,
   name: "route 1",
@@ -80,6 +81,7 @@ describe("LineDiagram", () => {
     wrapper = mount(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={1}
         alerts={[]}
@@ -107,6 +109,7 @@ describe("LineDiagram", () => {
     const subwayWrapper = mount(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={subwayRoute}
         directionId={1}
         alerts={[]}
@@ -146,6 +149,7 @@ describe("LineDiagram", () => {
     render(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={0}
         alerts={[]}
@@ -163,6 +167,7 @@ describe("LineDiagram", () => {
     render(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={0}
         alerts={[]}
@@ -180,6 +185,7 @@ describe("LineDiagram", () => {
     render(
       <LineDiagram
         stopTree={stopTree}
+        routeStopList={testRouteStopList}
         route={route}
         directionId={0}
         alerts={[]}

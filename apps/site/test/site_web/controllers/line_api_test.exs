@@ -1,5 +1,5 @@
 defmodule SiteWeb.LineApiTest do
-  use SiteWeb.ConnCase
+  use SiteWeb.ConnCase, async: true
 
   describe "show" do
     test "success response", %{conn: conn} do

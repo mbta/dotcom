@@ -1,6 +1,18 @@
 /* eslint-disable */
 import toJson, { Json } from "enzyme-to-json";
 import { ReactWrapper } from "enzyme";
+import {
+  IndexedRouteStop,
+  StopTree
+} from "../../schedule/components/__schedule";
+
+export const testRouteStopListFromStopTree = (
+  tree: StopTree
+): IndexedRouteStop[] =>
+  Object.values(tree.byId).map((node, index) => ({
+    ...node.value,
+    routeIndex: index
+  }));
 
 export const createReactRoot = (): void => {
   document.body.innerHTML =

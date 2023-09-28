@@ -1,7 +1,8 @@
 import React from "react";
 import {
   createReactRoot,
-  enzymeToJsonWithoutProps
+  enzymeToJsonWithoutProps,
+  testRouteStopListFromStopTree
 } from "../../../app/helpers/testUtils";
 import { mount } from "enzyme";
 import {
@@ -33,6 +34,7 @@ const { stop_tree } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
 const stopTree: StopTree = fromStopTreeData(stop_tree);
+const testRouteStopList = testRouteStopListFromStopTree(stopTree);
 
 const route = {
   type: 3,
@@ -170,6 +172,7 @@ const getComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -182,6 +185,7 @@ const getSingleDirectionComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -194,6 +198,7 @@ const getSubwayComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -206,6 +211,7 @@ const getCRComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -218,6 +224,7 @@ const getStaticMapComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId={null}
   />
@@ -246,6 +253,7 @@ const getGreenLineComponent = () => {
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
       stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
       alerts={[]}
       busVariantId={null}
     />
@@ -259,6 +267,7 @@ const getVariantComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     mapData={mapData}
     stopTree={stopTree}
+    routeStopLists={[testRouteStopList]}
     alerts={[]}
     busVariantId="pattern-3"
   />
@@ -538,7 +547,7 @@ describe("fetchLineData", () => {
       () =>
         new Promise((resolve: Function) =>
           resolve({
-            json: () => lineDiagramData,
+            json: () => ({ stop_tree, route_stop_lists: [] }),
             ok: true,
             status: 200,
             statusText: "OK"
@@ -555,7 +564,7 @@ describe("fetchLineData", () => {
       });
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_COMPLETE",
-        payload: { stopTree }
+        payload: { stopTree, routeStopLists: [] }
       });
     });
   });

@@ -5,7 +5,7 @@ import { aroundNow } from "../../../../models/__tests__/alert-test";
 import { Alert, InformedEntitySet } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";
 import { BASE_LINE_WIDTH } from "../graphics/graphic-helpers";
-import Line from "../graphics/Line";
+import { Line } from "../graphics/Line";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
 
 const routeStopA: RouteStop = { id: "a" } as RouteStop;

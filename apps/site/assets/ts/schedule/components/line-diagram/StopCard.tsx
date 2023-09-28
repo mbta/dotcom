@@ -30,7 +30,8 @@ import { StopRefContext } from "./LineDiagramWithStops";
 import { LiveData } from "./__line-diagram";
 
 interface Props {
-  stopTree: StopTree;
+  stopTree: StopTree | null;
+  routeStopList: RouteStop[];
   stopId: StopId;
   alerts: Alert[];
   onClick: (stop: RouteStop) => void;
@@ -62,11 +63,6 @@ const lineName = ({ name, route: routeStopRoute }: RouteStop): string => {
 
 const hasLivePredictions = (liveData?: LiveData): boolean =>
   !!liveData && liveData.headsigns.some(hasPredictionTime);
-const showPrediction = (
-  stopTree: StopTree,
-  stopId: StopId,
-  liveData?: LiveData
-): boolean => hasLivePredictions(liveData) && !isEndNode(stopTree, stopId);
 
 const connectionsFor = (
   routeStop: RouteStop,
@@ -107,8 +103,7 @@ const hasUpcomingDeparturesIfSubway = (
   return !!liveData && liveData.headsigns.length > 0;
 };
 
-const schedulesButtonLabel = (stopTree: StopTree, stopId: StopId): string => {
-  const route = routeForStop(stopTree, stopId);
+const schedulesButtonLabel = (route: RouteStopRoute | null): string => {
   return route && isSubwayRoute(route)
     ? "View upcoming departures"
     : "View schedule";
@@ -125,29 +120,40 @@ const Alert = (): JSX.Element => (
 const StopCard = ({
   stopTree,
   stopId,
+  routeStopList,
   alerts,
   onClick,
   liveData,
   searchQuery
 }: Props): ReactElement<HTMLElement> => {
   const refs = useContext(StopRefContext)[0];
-  const routeStop: RouteStop = stopForId(stopTree, stopId);
+  const routeStop = stopTree
+    ? stopForId(stopTree, stopId)
+    : routeStopList.find(rs => rs.id === stopId)!;
+  const routeStopIndex = routeStopList.indexOf(routeStop);
+  const isEnd = stopTree
+    ? isEndNode(stopTree, stopId)
+    : routeStopIndex === routeStopList.length - 1;
 
   const diversionAlert = alerts.find(isActiveDiversion);
   const showDiversion =
-    diversionAlert &&
-    !(hasLivePredictions(liveData) && isEndNode(stopTree, stopId));
+    diversionAlert && !(hasLivePredictions(liveData) && isEnd);
+
+  const left = stopTree ? width(stopTree, stopId) : diagramWidth(1);
+  const connections = stopTree
+    ? connectionsFor(routeStop, stopTree)
+    : routeStop.connections;
 
   return (
     <li
       className="m-schedule-diagram__stop"
       style={{
-        paddingLeft: searchQuery ? "0.5rem" : `${width(stopTree, stopId)}px`
+        paddingLeft: searchQuery ? "0.5rem" : `${left}px`
       }}
     >
       <section className="m-schedule-diagram__content">
         <GlxOpen pageType="line-diagram" stopId={stopId} />
-        {hasBranchLabel(stopTree, stopId) && (
+        {stopTree && hasBranchLabel(stopTree, stopId) && (
           <div className="u-bold u-small-caps">{lineName(routeStop)}</div>
         )}
         <header
@@ -164,8 +170,8 @@ const StopCard = ({
         </header>
 
         <div className="m-schedule-diagram__stop-details">
-          {StopConnections(stopId, connectionsFor(routeStop, stopTree))}
-          {showPrediction(stopTree, stopId, liveData) ? (
+          {StopConnections(stopId, connections)}
+          {hasLivePredictions(liveData) && !isEnd ? (
             <StopPredictions
               headsigns={liveData!.headsigns}
               isCommuterRail={
@@ -181,15 +187,19 @@ const StopCard = ({
           )}
         </div>
 
-        {!isEndNode(stopTree, stopId) &&
-          hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData) && (
+        {!isEnd &&
+          (stopTree
+            ? hasUpcomingDeparturesIfSubway(stopTree, stopId, liveData)
+            : true) && (
             <footer className="m-schedule-diagram__footer">
               <button
                 className="btn btn-link"
                 type="button"
                 onClick={() => onClick(routeStop)}
               >
-                {schedulesButtonLabel(stopTree, stopId)}
+                {schedulesButtonLabel(
+                  stopTree ? routeForStop(stopTree, stopId) : routeStop.route
+                )}
               </button>
             </footer>
           )}

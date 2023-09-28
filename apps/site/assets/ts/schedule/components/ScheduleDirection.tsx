@@ -3,7 +3,9 @@ import { Alert, DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   RoutePatternsByDirection,
   EnhancedRoutePattern,
-  StopTree
+  StopTree,
+  RouteStop,
+  IndexedRouteStop
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -18,7 +20,6 @@ import {
 } from "../../models/route";
 import LineDiagram from "./line-diagram/LineDiagram";
 import { fromStopTreeData } from "./ScheduleLoader";
-import { isEmptyTree } from "../../helpers/stop-tree";
 
 export interface Props {
   route: EnhancedRoute;
@@ -26,7 +27,8 @@ export interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   mapData?: MapData;
   staticMapData?: StaticMapData;
-  stopTree: StopTree;
+  stopTree: StopTree | null;
+  routeStopLists: RouteStop[][] | null;
   alerts: Alert[];
   busVariantId: string | null;
 }
@@ -78,11 +80,14 @@ export const fetchLineData = (
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(({ stop_tree }) => {
-        const stopTree: StopTree = fromStopTreeData(stop_tree);
+      .then(({ stop_tree, route_stop_lists }) => {
+        const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
+        const routeStopListsWithIndices: IndexedRouteStop[][] = (route_stop_lists as RouteStop[][]).map(
+          rs_list => rs_list.map((rs, index) => ({ ...rs, routeIndex: index }))
+        );
         dispatch({
           type: "FETCH_COMPLETE",
-          payload: { stopTree }
+          payload: { stopTree, routeStopLists: routeStopListsWithIndices }
         });
       })
       // @ts-ignore
@@ -97,6 +102,7 @@ const ScheduleDirection = ({
   mapData,
   staticMapData,
   stopTree: initialStopTree,
+  routeStopLists: initialRouteStopLists,
   alerts,
   busVariantId
 }: Props): ReactElement<HTMLElement> => {
@@ -186,7 +192,8 @@ const ScheduleDirection = ({
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: {
-      stopTree: initialStopTree
+      stopTree: initialStopTree,
+      routeStopLists: initialRouteStopLists
     },
     isLoading: false,
     error: false
@@ -200,7 +207,12 @@ const ScheduleDirection = ({
     );
   }, [route, state.directionId, busVariantId, currentRoutePatternIdForData]);
 
-  const hasValidTree = lineState.data && !isEmptyTree(lineState.data.stopTree);
+  const routeStopList =
+    lineState.data && lineState.data.routeStopLists
+      ? (lineState.data.routeStopLists as IndexedRouteStop[][]).find(
+          rsList => !!rsList.find(rs => rs.branch === state.routePattern.name)
+        ) || []
+      : [];
   return (
     <>
       <div className="m-schedule-direction">
@@ -221,9 +233,10 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute(route) && hasValidTree && (
+      {isSubwayRoute(route) && (
         <LineDiagram
-          stopTree={lineState.data.stopTree}
+          stopTree={lineState.data && lineState.data.stopTree}
+          routeStopList={routeStopList}
           route={route}
           directionId={state.directionId}
           alerts={alerts}
@@ -255,9 +268,10 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {!isSubwayRoute(route) && hasValidTree && (
+      {!isSubwayRoute(route) && (
         <LineDiagram
-          stopTree={lineState.data.stopTree}
+          stopTree={lineState.data && lineState.data.stopTree}
+          routeStopList={routeStopList}
           route={route}
           directionId={state.directionId}
           alerts={alerts}

@@ -97,4 +97,37 @@ const Line = ({
   );
 };
 
-export default Line;
+const SimpleLine = ({
+  fromId,
+  toId,
+  alerts
+}: Omit<Props, "stopTree">): ReactElement | null => {
+  const fromCoords: StopCoord | null = useSelector(
+    (state: CoordState) => state[fromId]
+  );
+  const toCoords: StopCoord | null = useSelector(
+    (state: CoordState) => state[toId]
+  );
+  if (!fromCoords || !toCoords) return null;
+
+  const x = BASE_LINE_WIDTH + 1;
+  const [, y1] = fromCoords;
+  const [, y2] = toCoords;
+  const strokeProp =
+    hasAnActiveDiversion(fromId, alerts) && hasAnActiveDiversion(toId, alerts)
+      ? { stroke: "url(#diagonalHatch)" }
+      : {};
+  return (
+    <line
+      className="line-diagram-svg__line"
+      strokeWidth={`${BASE_LINE_WIDTH}px`}
+      x1={`${x}px`}
+      x2={`${x}px`}
+      y1={`${y1}px`}
+      y2={`${y2}px`}
+      {...strokeProp}
+    />
+  );
+};
+
+export { Line, SimpleLine };

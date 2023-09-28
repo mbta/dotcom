@@ -68,6 +68,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
         stop_tree: conn.assigns.stop_tree,
+        route_stop_lists: conn.assigns.route_stop_lists,
         alerts: conn.assigns.alerts,
         today: conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601(),
         variant: conn.assigns.variant

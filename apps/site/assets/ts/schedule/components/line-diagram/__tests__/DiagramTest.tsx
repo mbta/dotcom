@@ -3,7 +3,7 @@ import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { RouteStop, StopTree } from "../../__schedule";
 import { createStopTreeCoordStore } from "../graphics/useTreeStopPositions";
-import Diagram from "../graphics/Diagram";
+import { Diagram } from "../graphics/Diagram";
 import { Route, RouteType } from "../../../../__v3api";
 import Stop from "../graphics/Stop";
 import { LiveDataByStop } from "../__line-diagram";
