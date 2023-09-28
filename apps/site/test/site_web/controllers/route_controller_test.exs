@@ -3,10 +3,10 @@ defmodule SiteWeb.RouteControllerTest do
   import Mock
   alias Routes.{Repo, Route}
 
-  describe "get/2" do
+  describe "get_by_route_ids/2" do
     test "returns routes", %{conn: conn} do
       with_mock Repo, get: fn id -> %Route{id: id} end do
-        conn = get(conn, route_path(conn, :get, "route_id1,route_id2"))
+        conn = get(conn, route_path(conn, :get_by_route_ids, "route_id1,route_id2"))
         response = json_response(conn, 200)
 
         assert [
