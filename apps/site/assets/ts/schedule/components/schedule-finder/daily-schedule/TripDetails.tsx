@@ -105,7 +105,11 @@ const TripDetailsTable = ({
             />
           ))
         ) : (
-          <ErrorLoadingTrip />
+          <tr>
+            <td>
+              <ErrorLoadingTrip />
+            </td>
+          </tr>
         )}
       </tbody>
     </table>

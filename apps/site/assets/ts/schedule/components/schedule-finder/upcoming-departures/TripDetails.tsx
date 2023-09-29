@@ -14,7 +14,9 @@ interface Props {
 
 const hasAPrediction = (
   departure: TripDeparture
-): departure is TripDepartureWithPrediction => departure.prediction !== null;
+): departure is TripDepartureWithPrediction =>
+  departure.prediction !== null &&
+  departure.prediction.schedule_relationship !== "skipped";
 
 const departuresWithPredictions = (
   departures: TripDeparture[]
@@ -31,7 +33,8 @@ const TripSummary = ({
         <span className="trip-details-table__title u-small-caps u-bold">
           Trip length
         </span>
-        {tripInfo.times.length} stops, {tripInfo.duration} minutes total
+        {departuresWithPredictions(tripInfo.times).length} stops,{" "}
+        {tripInfo.duration} minutes total
       </div>
       <div>
         <span className="trip-details-table__title u-small-caps u-bold">
