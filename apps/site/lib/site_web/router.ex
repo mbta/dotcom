@@ -224,8 +224,9 @@ defmodule SiteWeb.Router do
     pipe_through([:secure, :browser, :cached_daily])
 
     get("/stop/:id", StopController, :get)
+    get("/stop/:id/route-patterns", StopController, :grouped_route_patterns)
     get("/map-config", MapConfigController, :get)
-    get("/routes/by-stop/:stop_id", RouteController, :get_by_stop_id)
+    get("/routes/:route_ids", RouteController, :get_by_route_ids)
     get("/fares/one-way", FareController, :one_way_by_stop_id)
   end
 

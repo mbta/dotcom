@@ -1,39 +1,37 @@
 import React from "react";
 import userEvent from "@testing-library/user-event";
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import DepartureTimes from "../../components/DepartureTimes";
-import { baseRoute, renderWithRouter } from "../helpers";
+import { renderWithRouter } from "../helpers";
 import { Alert, Route } from "../../../__v3api";
 import { DepartureInfo } from "../../../models/departureInfo";
 import { ScheduleWithTimestamp } from "../../../models/schedules";
 import { PredictionWithTimestamp } from "../../../models/predictions";
 import { mergeIntoDepartureInfo } from "../../../helpers/departureInfo";
 import { getNextTwoTimes } from "../../models/displayTimeConfig";
-import * as useDepartureRow from "../../../hooks/useDepartureRow";
-
-const route = baseRoute("TestRoute", 1);
-const destinationText = route.direction_destinations[0]!;
 
 describe("DepartureTimes", () => {
-  it("should display a default", () => {
+  it("should display a default", async () => {
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName=""
-        departuresForDirection={[]}
+        headsign="Some place"
+        departures={[]}
         alertsForDirection={[]}
+        isCR={false}
+        onClick={jest.fn()}
       />
     );
-    expect(screen.findByText(destinationText)).toBeDefined();
-    expect(
-      screen.queryByRole("button", {
-        name: `Open upcoming departures to ${destinationText}`
-      })
-    ).toBeDefined();
+    await waitFor(() => {
+      expect(screen.findByText("Some place")).toBeDefined();
+      expect(
+        screen.queryByRole("button", {
+          name: `Open upcoming departures to ${"Some place"}`
+        })
+      ).toBeDefined();
+    });
   });
 
-  it("should render rows if there are schedules", () => {
+  it("should render rows if there are schedules", async () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
     const predictions = [
       {
@@ -73,25 +71,22 @@ describe("DepartureTimes", () => {
     ] as ScheduleWithTimestamp[];
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName=""
-        departuresForDirection={mergeIntoDepartureInfo(
+        headsign="Test 1"
+        departures={mergeIntoDepartureInfo(
           schedules,
           predictions as PredictionWithTimestamp[]
         )}
         overrideDate={dateToCompare}
         alertsForDirection={[]}
+        isCR={false}
+        onClick={jest.fn()}
       />
     );
-    expect(screen.getByText("Test 1"));
-    expect(screen.getByText("Test 2"));
-    expect(screen.getByText("45 min"));
-    expect(screen.getByText("50 min"));
-    expect(screen.getByText("11:40 AM"));
-    // We don't support predictions without schedules yet
-    // expect(screen.getByText("Test 3"))
-    // expect(screen.getByText("11:45 AM"))
+    await waitFor(() => {
+      expect(screen.getByText("Test 1"));
+      expect(screen.getByText("45 min"));
+      expect(screen.getByText("50 min"));
+    });
   });
 
   it.each`
@@ -100,17 +95,7 @@ describe("DepartureTimes", () => {
     ${"shuttle"}    | ${"Shuttle Service"}
   `(
     `displays $expectedBadge when high priority alert has effect $alertEffect`,
-    ({ alertEffect, expectedBadge }) => {
-      const schedules =
-        alertEffect === "suspension"
-          ? []
-          : ([
-              {
-                route: { type: 2 },
-                trip: { direction_id: 0 }
-              }
-            ] as ScheduleWithTimestamp[]);
-
+    async ({ alertEffect, expectedBadge }) => {
       const alerts = [
         {
           id: "1234",
@@ -122,21 +107,25 @@ describe("DepartureTimes", () => {
         }
       ] as Alert[];
 
+      // these are special cases that're only valid if there are also no
+      // departures, see doc for isSuppressiveAlert
       renderWithRouter(
         <DepartureTimes
-          route={route}
-          directionId={0}
-          stopName="ThatStation"
-          departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
+          headsign="ThatStation"
+          departures={[]}
           alertsForDirection={alerts}
+          isCR={false}
+          onClick={jest.fn()}
         />
       );
-      expect(screen.getByText(expectedBadge)).toBeDefined();
-      expect(screen.getByText("See alternatives")).toBeDefined();
+      await waitFor(() => {
+        expect(screen.getByText(expectedBadge)).toBeDefined();
+        expect(screen.getByText("See alternatives")).toBeDefined();
+      });
     }
   );
 
-  it("should display the high priority alert badge over the information alert badge", () => {
+  it("should display the high priority alert badge over the information alert badge", async () => {
     const schedules = [] as ScheduleWithTimestamp[];
 
     const alerts = [
@@ -160,19 +149,21 @@ describe("DepartureTimes", () => {
 
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName="ThisStop"
-        departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
+        headsign="ThisStop"
+        departures={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={alerts}
+        isCR={false}
+        onClick={jest.fn()}
       />
     );
-    expect(screen.getByText("No Service")).toBeDefined();
-    expect(screen.queryByText("Detour")).toBeNull();
-    expect(screen.getByText("See alternatives")).toBeDefined();
+    await waitFor(() => {
+      expect(screen.getByText("No Service")).toBeDefined();
+      expect(screen.queryByText("Detour")).toBeNull();
+      expect(screen.getByText("See alternatives")).toBeDefined();
+    });
   });
 
-  it("should display the detour badge with times if detour alert is present", () => {
+  it("should display the detour badge with times if detour alert is present", async () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
     const predictions = [
       {
@@ -208,18 +199,19 @@ describe("DepartureTimes", () => {
 
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName=""
-        departuresForDirection={mergeIntoDepartureInfo(schedules, predictions)}
+        headsign=""
+        departures={mergeIntoDepartureInfo(schedules, predictions)}
         alertsForDirection={[detourAlert] as Alert[]}
         overrideDate={dateToCompare}
+        isCR={false}
+        onClick={jest.fn()}
       />
     );
-
-    expect(screen.getByText("Detour")).toBeDefined();
-    expect(screen.getByText("45 min")).toBeDefined();
-    expect(screen.queryByText("See alternatives")).toBeNull();
+    await waitFor(() => {
+      expect(screen.getByText("Detour")).toBeDefined();
+      expect(screen.getByText("45 min")).toBeDefined();
+      expect(screen.queryByText("See alternatives")).toBeNull();
+    });
   });
 
   describe("getNextTwoTimes", () => {
@@ -337,11 +329,6 @@ describe("DepartureTimes", () => {
 
   it("should allow the clicking of rows", async () => {
     const setRowSpy = jest.fn();
-    jest.spyOn(useDepartureRow, "default").mockReturnValue({
-      setRow: setRowSpy,
-      resetRow: jest.fn(),
-      activeRow: null
-    });
     const compareTime = new Date("2022-04-24T11:15:00-04:00");
     const schedules = [
       {
@@ -364,28 +351,29 @@ describe("DepartureTimes", () => {
     const user = userEvent.setup();
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName=""
-        departuresForDirection={mergeIntoDepartureInfo(schedules, [])}
+        headsign="Test 1"
+        departures={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={[]}
         overrideDate={compareTime}
+        isCR={false}
+        onClick={setRowSpy}
       />
     );
 
-    const row = screen.getByText("Test 1");
-    expect(row).toBeDefined();
-
-    await user.click(row);
-    expect(setRowSpy).toHaveBeenCalledTimes(1);
-    expect(setRowSpy).toHaveBeenCalledWith({
-      directionId: "0",
-      headsign: "Test 1",
-      routeId: "TestRoute"
+    let btn: HTMLElement;
+    await waitFor(() => {
+      btn = screen.getByRole("button", {
+        name: /Open upcoming departures to Test 1/
+      });
+      expect(btn).toBeDefined();
     });
+    await user.click(
+      screen.getByRole("button", { name: /Open upcoming departures to Test 1/ })
+    );
+    expect(setRowSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("should render `Track [Track Name] if commuter rail", () => {
+  it("should render `Track [Track Name] if commuter rail", async () => {
     const dateToCompare = new Date("2022-04-27T10:30:00-04:00");
     const departures = [
       {
@@ -448,50 +436,39 @@ describe("DepartureTimes", () => {
 
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName=""
-        departuresForDirection={departures}
+        headsign="Test 1"
+        departures={departures}
         overrideDate={dateToCompare}
         alertsForDirection={[]}
+        isCR={true}
+        onClick={jest.fn()}
       />
     );
 
-    expect(screen.getByText("Track 3")).toBeDefined();
-    const notCRTrack = screen.queryByText("Track 1");
-    expect(notCRTrack).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Track 3")).toBeDefined();
+      const notCRTrack = screen.queryByText("Track 1");
+      expect(notCRTrack).not.toBeInTheDocument();
+    });
   });
 
-  it("renders 'No upcoming trips' when no predictions or schedules", () => {
+  it("renders 'No upcoming trips' when no predictions or schedules", async () => {
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName="Alewife"
-        departuresForDirection={[]}
+        headsign="Alewife"
+        departures={[]}
         alertsForDirection={[]}
+        isCR={false}
+        onClick={jest.fn()}
       />
     );
-    expect(screen.getByText("No upcoming trips")).toBeDefined();
-    expect(screen.getByText("Somewhere there")).toBeDefined();
+    await waitFor(() => {
+      expect(screen.getByText("No upcoming trips")).toBeDefined();
+      expect(screen.getByText("Alewife")).toBeDefined();
+    });
   });
 
-  it("doesn't render when current stop is same as destination", () => {
-    renderWithRouter(
-      <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName="Somewhere there"
-        departuresForDirection={[]}
-        alertsForDirection={[]}
-      />
-    );
-
-    expect(screen.queryByText("No upcoming trips")).not.toBeInTheDocument();
-    expect(screen.queryByText("Somewhere there")).not.toBeInTheDocument();
-  });
-
-  it("should render no service if the station is closed", () => {
+  it("should render no service if the station is closed", async () => {
     const closureAlert = {
       id: "c1",
       effect: "station_closure",
@@ -500,19 +477,20 @@ describe("DepartureTimes", () => {
 
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName="asdf"
-        departuresForDirection={[]}
+        headsign="Ashmont"
+        departures={[]}
         alertsForDirection={[closureAlert]}
+        isCR={true}
+        onClick={jest.fn()}
       />
     );
-
-    expect(screen.getByText("No Service")).toBeInTheDocument();
-    expect(screen.getByText("See alternatives")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("No Service")).toBeInTheDocument();
+      expect(screen.getByText("See alternatives")).toBeInTheDocument();
+    });
   });
 
-  it("should render no service if the stop is closed", () => {
+  it("should render no service if the stop is closed", async () => {
     const closureAlert = {
       id: "c1",
       effect: "stop_closure",
@@ -521,15 +499,17 @@ describe("DepartureTimes", () => {
 
     renderWithRouter(
       <DepartureTimes
-        route={route}
-        directionId={0}
-        stopName="asdf"
-        departuresForDirection={[]}
+        headsign="Harbor Point"
+        departures={[]}
         alertsForDirection={[closureAlert]}
+        isCR={false}
+        onClick={jest.fn()}
       />
     );
 
-    expect(screen.getByText("No Service")).toBeInTheDocument();
-    expect(screen.getByText("See alternatives")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("No Service")).toBeInTheDocument();
+      expect(screen.getByText("See alternatives")).toBeInTheDocument();
+    });
   });
 });

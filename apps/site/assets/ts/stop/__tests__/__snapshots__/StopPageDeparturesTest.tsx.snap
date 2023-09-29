@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StopPageDepartures renders with data 1`] = `
+exports[`StopPageDepartures renders with data 1`] = `<DocumentFragment />`;
+
+exports[`StopPageDepartures renders with data 2`] = `
 <DocumentFragment>
   <div
     class="routes"
@@ -52,9 +54,9 @@ exports[`StopPageDepartures renders with data 1`] = `
         class="departure-card"
       >
         <a
-          class="departure-card__route u-bg--unknown"
+          class="departure-card__route u-bg--red-line"
           data-turbolinks="false"
-          href="/schedules/Magenta"
+          href="/schedules/Red"
         >
           <span
             aria-hidden="true"
@@ -66,9 +68,90 @@ exports[`StopPageDepartures renders with data 1`] = `
           <span
             class=""
           >
-            Magenta Route
+            Red Route
           </span>
         </a>
+        <div
+          aria-label="Open upcoming departures to Braintree"
+          class="departure-card__headsign d-flex"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Braintree
+          </div>
+          <div
+            class="departure-card__content"
+          >
+            <div
+              class="font-helvetica-neue fs-14 u-nowrap"
+            >
+              No upcoming trips
+            </div>
+          </div>
+          <div>
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate fa-fw"
+            />
+          </div>
+        </div>
+        <div
+          aria-label="Open upcoming departures to Ashmont"
+          class="departure-card__headsign d-flex"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Ashmont
+          </div>
+          <div
+            class="departure-card__content"
+          >
+            <div
+              class="font-helvetica-neue fs-14 u-nowrap"
+            >
+              No upcoming trips
+            </div>
+          </div>
+          <div>
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate fa-fw"
+            />
+          </div>
+        </div>
+        <div
+          aria-label="Open upcoming departures to Alewife"
+          class="departure-card__headsign d-flex"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Alewife
+          </div>
+          <div
+            class="departure-card__content"
+          >
+            <div
+              class="font-helvetica-neue fs-14 u-nowrap"
+            >
+              No upcoming trips
+            </div>
+          </div>
+          <div>
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate fa-fw"
+            />
+          </div>
+        </div>
       </li>
       <li
         class="departure-card"
@@ -76,7 +159,7 @@ exports[`StopPageDepartures renders with data 1`] = `
         <a
           class="departure-card__route u-bg--bus"
           data-turbolinks="false"
-          href="/schedules/4B"
+          href="/schedules/16"
         >
           <span
             aria-hidden="true"
@@ -88,16 +171,45 @@ exports[`StopPageDepartures renders with data 1`] = `
           <span
             class="bus-route-sign"
           >
-            4B Route
+            16 Route
           </span>
         </a>
+        <div
+          aria-label="Open upcoming departures to Harbor Point"
+          class="departure-card__headsign d-flex"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Harbor Point
+          </div>
+          <div
+            class="departure-card__content"
+          >
+            <div
+              class="font-helvetica-neue fs-14 u-nowrap"
+            >
+              No upcoming trips
+            </div>
+          </div>
+          <div>
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate fa-fw"
+            />
+          </div>
+        </div>
       </li>
     </ul>
   </div>
 </DocumentFragment>
 `;
 
-exports[`StopPageDepartures renders with no data 1`] = `
+exports[`StopPageDepartures renders with no data 1`] = `<DocumentFragment />`;
+
+exports[`StopPageDepartures renders with no data 2`] = `
 <DocumentFragment>
   <div
     class="routes"

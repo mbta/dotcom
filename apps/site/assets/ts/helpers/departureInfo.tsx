@@ -21,6 +21,7 @@ import {
 import { DirectionId, Route } from "../__v3api";
 import DisplayTime from "../stop/components/DisplayTime";
 import { getInfoKey } from "../stop/models/displayTimeConfig";
+import { RoutePatternWithPolyline } from "../stop/stop-redesign-loader";
 
 export const SUBWAY = "subway";
 export const BUS = "bus";
@@ -186,6 +187,24 @@ const departuresListFromInfos = (
     .value();
 };
 
+const departureInfoInRoutePatterns = (
+  departureInfo: DepartureInfo,
+  routePatterns: RoutePatternWithPolyline[]
+): boolean => {
+  const isMatch = !!routePatterns.find(
+    rp => rp.id === departureInfo.trip.route_pattern_id
+  );
+  // This second case is needed for the edge case where the route pattern is
+  // canonical but the schedules/predictions are not serving canonical route
+  // patterns (e.g. due to shuttles or other disruptions)
+  const isSimilar = !!routePatterns.find(
+    rp =>
+      rp.headsign === departureInfo.trip.headsign &&
+      rp.route_id === departureInfo.route.id
+  );
+  return isMatch || isSimilar;
+};
+
 export {
   mergeIntoDepartureInfo,
   departureInfoToTime,
@@ -193,5 +212,6 @@ export {
   getNextUnCancelledDeparture,
   isAtDestination,
   isCommuterRail,
-  departuresListFromInfos
+  departuresListFromInfos,
+  departureInfoInRoutePatterns
 };

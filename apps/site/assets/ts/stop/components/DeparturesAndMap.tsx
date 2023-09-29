@@ -5,12 +5,12 @@ import React, {
   useRef,
   useState
 } from "react";
-import { chain, concat, filter, uniqBy } from "lodash";
+import { concat, filter, orderBy, uniqBy } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
+import { useLoaderData } from "react-router-dom";
 import { Alert, Route, Stop } from "../../__v3api";
 import StopPageDepartures from "./StopPageDepartures";
 import StopMapRedesign from "./StopMapRedesign";
-import { RouteWithPolylines } from "../../hooks/useRoute";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
 import {
@@ -29,11 +29,11 @@ import {
   routeWideAlerts
 } from "../../models/alert";
 import useDepartureRow from "../../hooks/useDepartureRow";
+import { GroupedRoutePatterns } from "../stop-redesign-loader";
 
 interface DeparturesAndMapProps {
   routes: Route[];
   stop: Stop;
-  routesWithPolylines: RouteWithPolylines[];
   alerts: Alert[];
   setPredictionError: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -41,7 +41,6 @@ interface DeparturesAndMapProps {
 const DeparturesAndMap = ({
   routes,
   stop,
-  routesWithPolylines,
   alerts,
   setPredictionError
 }: DeparturesAndMapProps): ReactElement<HTMLElement> => {
@@ -110,27 +109,32 @@ const DeparturesAndMap = ({
     };
   }, [activeRow, isSmallBreakpoint]);
 
-  const defaultPolylines = chain(routesWithPolylines)
-    .filter(
-      route =>
-        isASilverLineRoute(route) ||
-        isSubwayRoute(route) ||
-        isACommuterRailRoute(route)
-    )
-    .orderBy("sort_order", "desc")
-    .flatMap("polylines")
-    .uniqBy("id")
-    .value();
+  const routesForMap = routes.filter(
+    route =>
+      isASilverLineRoute(route) ||
+      isSubwayRoute(route) ||
+      isACommuterRailRoute(route)
+  );
+  const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
+  const defaultPolylines = orderBy(routesForMap, "sort_order", "desc").flatMap(
+    route => {
+      const routePatterns = Object.values(
+        groupedRoutePatterns[route.id]
+      ).flat();
+      return routePatterns.map(rp => rp.representative_trip_polyline);
+    }
+  );
 
   /** TODO: Filter by selected trip. Blocked by being unable to match
    * schedule/prediction shape IDs with route canonical shape IDs */
-  const shapeForSelection = activeRow
-    ? uniqBy(
-        routesWithPolylines.find(route => route.id === activeRow.route.id)
-          ?.polylines,
-        "id"
+  const routePatternsForSelection = activeRow
+    ? groupedRoutePatterns[activeRow.route.id][activeRow.headsign].filter(
+        rp => rp.direction_id === activeRow.directionId
       )
     : [];
+  const shapeForSelection = routePatternsForSelection.map(
+    rp => rp.representative_trip_polyline
+  );
 
   const BackToRoutes = (
     <div className="back-to-routes">
@@ -167,7 +171,6 @@ const DeparturesAndMap = ({
           <StopPageDepartures
             routes={routes}
             departureInfos={departureInfos}
-            stopName={stop.name}
             alerts={alerts}
           />
         )}
@@ -178,7 +181,7 @@ const DeparturesAndMap = ({
           lines={
             activeRow && shapeForSelection
               ? shapeForSelection
-              : defaultPolylines
+              : uniqBy(defaultPolylines, "id")
           }
           vehicles={[]}
           selectedRoute={activeRow?.route}
