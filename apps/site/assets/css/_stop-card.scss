@@ -93,22 +93,13 @@ $radius: 4px;
     // with map above departure list
     @include media-breakpoint-down(sm) {
       bottom: 0;
-      grid-template-rows: min-content 1fr 1fr;
+      display: block;
       left: 0;
       padding-bottom: 0;
       padding-top: 0;
       position: fixed;
       right: 0;
       top: 0;
-
-      .stop-map {
-        grid-column: 1 / 2;
-        grid-row: 2 / 3;
-      }
-
-      .stop-routes {
-        grid-row: 3 / 4;
-      }
     }
   }
 
@@ -173,7 +164,7 @@ $radius: 4px;
     @extend .stop-departures;
     @include media-breakpoint-down(sm) {
       height: unset;
-      max-height: 70vh;
+      max-height: 100vh;
     }
   }
 
@@ -306,6 +297,10 @@ $radius: 4px;
 
   ul {
     margin: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-bottom: 2rem;
   }
 
   li:not(.c-alert-item) {
