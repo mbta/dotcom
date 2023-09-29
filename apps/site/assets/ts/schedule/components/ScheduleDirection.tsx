@@ -82,9 +82,11 @@ export const fetchLineData = (
       })
       .then(({ stop_tree, route_stop_lists }) => {
         const stopTree = stop_tree ? fromStopTreeData(stop_tree) : null;
-        const routeStopListsWithIndices: IndexedRouteStop[][] = (route_stop_lists as RouteStop[][]).map(
-          rs_list => rs_list.map((rs, index) => ({ ...rs, routeIndex: index }))
-        );
+        const routeStopListsWithIndices: IndexedRouteStop[][] = route_stop_lists
+          ? (route_stop_lists as RouteStop[][]).map(rs_list =>
+              rs_list.map((rs, index) => ({ ...rs, routeIndex: index }))
+            )
+          : [];
         dispatch({
           type: "FETCH_COMPLETE",
           payload: { stopTree, routeStopLists: routeStopListsWithIndices }
@@ -233,9 +235,9 @@ const ScheduleDirection = ({
           <ScheduleDirectionButton dispatch={dispatch} />
         ) : null}
       </div>
-      {isSubwayRoute(route) && (
+      {isSubwayRoute(route) && lineState.data && (
         <LineDiagram
-          stopTree={lineState.data && lineState.data.stopTree}
+          stopTree={lineState.data.stopTree}
           routeStopList={routeStopList}
           route={route}
           directionId={state.directionId}
