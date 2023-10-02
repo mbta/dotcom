@@ -6,5 +6,5 @@ config :algolia, :keys,
   write: "${ALGOLIA_WRITE_KEY}"
 
 config :algolia, :click_analytics_url, "https://insights.algolia.io"
-config :algolia, :track_clicks?, false
+config :algolia, :track_clicks?, true
 config :algolia, :track_analytics?, true
