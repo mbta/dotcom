@@ -38,4 +38,8 @@ defmodule Services.Repo do
   defp handle_response(%JsonApi{data: data}) do
     Enum.map(data, &Service.new/1)
   end
+
+  defp handle_response({:error, [%JsonApi.Error{code: "not_found"}]}) do
+    []
+  end
 end
