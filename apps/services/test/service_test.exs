@@ -89,6 +89,52 @@ defmodule Services.ServiceTest do
     end
   end
 
+  describe "serves_date?/2" do
+    test "computes if the date is covered by a Service" do
+      # date in added_dates
+      assert Service.serves_date?(
+               %Service{
+                 added_dates: ["2022-12-15", "2022-12-14"],
+                 start_date: ~D[2022-12-14],
+                 end_date: ~D[2022-12-15],
+                 valid_days: []
+               },
+               ~D[2022-12-15]
+             )
+
+      # date in removed_dates
+      refute Service.serves_date?(
+               %Service{
+                 removed_dates: ["2022-12-15", "2022-12-14"],
+                 start_date: ~D[2022-12-11],
+                 end_date: ~D[2022-12-22],
+                 valid_days: []
+               },
+               ~D[2022-12-15]
+             )
+
+      # date is on right valid_days
+      assert Service.serves_date?(
+               %Service{
+                 start_date: ~D[2022-12-11],
+                 end_date: ~D[2022-12-22],
+                 valid_days: [4, 5, 6]
+               },
+               ~D[2022-12-15]
+             )
+
+      # date not on right valid_days
+      refute Service.serves_date?(
+               %Service{
+                 start_date: ~D[2022-12-11],
+                 end_date: ~D[2022-12-22],
+                 valid_days: [1, 2, 3]
+               },
+               ~D[2022-12-15]
+             )
+    end
+  end
+
   defp test_services(_) do
     [
       %Service{

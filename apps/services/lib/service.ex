@@ -1,6 +1,7 @@
 defmodule Services.Service do
   @moduledoc "Processes Services, including dates and notes"
   alias JsonApi.Item
+  use Timex
 
   defstruct added_dates: [],
             added_dates_notes: [],
@@ -153,4 +154,57 @@ defmodule Services.Service do
   defp typicality(5), do: :unplanned_disruption
   defp typicality(6), do: :canonical
   defp typicality(_), do: :unknown
+
+  @spec serves_date?(t(), Date.t()) :: boolean
+  def serves_date?(service, date) do
+    date in all_valid_dates_for_service(service)
+  end
+
+  @spec all_valid_dates_for_service(t()) :: [Date.t()]
+  defp all_valid_dates_for_service(%__MODULE__{
+         start_date: from,
+         end_date: until,
+         added_dates: added_dates,
+         removed_dates: removed_dates,
+         valid_days: valid_days
+       }) do
+    # fallback to today if either start or end date are nil
+    from = from || Timex.today()
+    until = until || Timex.today()
+
+    dates =
+      if from == until do
+        [from]
+      else
+        [
+          from: from,
+          until: until,
+          right_open: false
+        ]
+        |> Interval.new()
+        |> Enum.map(& &1)
+      end
+
+    removed_dates = parse_listed_dates(removed_dates)
+
+    (dates ++ parse_listed_dates(added_dates))
+    |> Enum.reject(&Enum.member?(removed_dates, &1))
+    |> Enum.reject(fn date ->
+      # if valid_days is an empty array, the service's dates are likely those in
+      # added_dates, so we can ignore evaluating the day of the week here
+      if valid_days != [] do
+        Timex.weekday(date) not in valid_days
+      end
+    end)
+    |> Enum.map(&Timex.to_date/1)
+    |> Enum.uniq()
+  end
+
+  @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
+  defp parse_listed_dates(date_strings) do
+    date_strings
+    |> Enum.map(&Timex.parse(&1, "{YYYY}-{0M}-{D}"))
+    |> Enum.filter(&(elem(&1, 0) == :ok))
+    |> Enum.map(&elem(&1, 1))
+  end
 end
