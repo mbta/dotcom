@@ -37,6 +37,9 @@ defmodule Schedules.Schedule do
         }
 
   def flag?(%Schedules.Schedule{flag?: value}), do: value
+
+  def no_times?(%Schedules.Schedule{arrival_time: at, departure_time: dt}),
+    do: is_nil(at) and is_nil(dt)
 end
 
 defmodule Schedules.ScheduleCondensed do

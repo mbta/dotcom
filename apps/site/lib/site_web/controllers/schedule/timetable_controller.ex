@@ -130,8 +130,12 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
-      {:error, _} -> []
-      schedules -> schedules
+      {:error, _} ->
+        []
+
+      schedules ->
+        schedules
+        |> Enum.reject(&Schedules.Schedule.no_times?/1)
     end
   end
 
