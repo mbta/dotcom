@@ -119,21 +119,25 @@ const getModalContent = (
                             <li>Managed by {park.manager.name}</li>
                           )}
                           <ul>
-                            <li>
-                              Visit{" "}
-                              <a href={`${park.manager.url}`}>
-                                {park.manager.contact
-                                  ? park.manager.contact
-                                  : null}{" "}
-                                website
-                              </a>
-                            </li>
-                            <li>
-                              Call{" "}
-                              <a href={`tel:${park.manager.phone}`}>
-                                {park.manager.phone}
-                              </a>
-                            </li>
+                            {park.manager.url && (
+                              <li>
+                                Visit{" "}
+                                <a href={`${park.manager.url}`}>
+                                  {park.manager.contact
+                                    ? park.manager.contact
+                                    : null}{" "}
+                                  website
+                                </a>
+                              </li>
+                            )}
+                            {park.manager.phone && (
+                              <li>
+                                Call{" "}
+                                <a href={`tel:${park.manager.phone}`}>
+                                  {park.manager.phone}
+                                </a>
+                              </li>
+                            )}
                           </ul>
                         </>
                       )}
