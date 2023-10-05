@@ -424,6 +424,7 @@ defmodule Schedules.HoursOfOperation do
 
       {min, max} =
         x
+        |> Stream.reject(&no_times?(&1.attributes))
         |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
         |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
@@ -444,6 +445,7 @@ defmodule Schedules.HoursOfOperation do
   defp departure(data, _headsigns, _description) do
     {min, max} =
       data
+      |> Stream.reject(&no_times?(&1.attributes))
       |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
       |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
@@ -452,4 +454,12 @@ defmodule Schedules.HoursOfOperation do
       last_departure: max
     }
   end
+
+  defp no_times?(%{
+         "arrival_time" => nil,
+         "departure_time" => nil
+       }),
+       do: true
+
+  defp no_times?(_), do: false
 end
