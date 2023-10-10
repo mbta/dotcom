@@ -55,9 +55,13 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.trip_messages
     end
 
+    @doc """
+    FIXME: The map_size will change whenever the schedule changes the number of trains needing these messages.
+    """
     test "assigns trip messages for a few route/directions", %{conn: conn} do
       for {route_id, direction_id, expected_size} <- [
-            {"CR-Franklin", 0, 5}
+            {"CR-Franklin", 0, 24},
+            {"CR-Franklin", 1, 25}
           ] do
         path =
           timetable_path(conn, :show, route_id, schedule_direction: %{direction_id: direction_id})
