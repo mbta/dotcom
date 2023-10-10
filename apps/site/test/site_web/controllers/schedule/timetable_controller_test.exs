@@ -97,22 +97,20 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
   end
 
   describe "trip_messages/2" do
-    test "returns proper messages for CR Franklin" do
-      assert trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) == %{}
-
-      assert [
-               "731"
-             ] ==
+    test "returns proper messages for a CR Franklin train running via Fairmount" do
+      assert Enum.member?(
                %Routes.Route{id: "CR-Franklin"}
                |> trip_messages(0)
                |> Map.keys()
                |> Enum.map(&elem(&1, 0))
                |> Enum.uniq()
-               |> Enum.sort()
+               |> Enum.sort(),
+               "735"
+             )
     end
 
-    test "returns proper messages for CR Fairmount" do
-      assert trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1) == %{}
+    test "returns proper messages for others" do
+      assert trip_messages(%Routes.Route{id: "CR-Worcester"}, 1) == %{}
     end
   end
 

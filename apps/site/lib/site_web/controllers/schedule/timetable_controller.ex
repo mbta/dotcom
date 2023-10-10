@@ -147,25 +147,45 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   """
   @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    train = "731"
+    ["741", "757", "759", "735"]
+    |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
+    |> Enum.into(%{})
+  end
 
-    [
-      List.duplicate(train, 4),
-      ["place-bbsta", "place-rugg", "place-NEC-2203", "place-DB-0095"],
-      ["Via", "Fair-", "mount", "Line"]
-    ]
-    |> make_via_list()
-    |> Map.put({train}, "Via Fairmount Line")
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
+    ["740", "728", "758", "732", "760"]
+    |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
+    |> Enum.into(%{})
   end
 
   def trip_messages(_, _) do
     %{}
   end
 
+  defp franklin_via_fairmount(train, direction) do
+    stops = stops_for_fairmount(direction)
+
+    [
+      List.duplicate(train, length(stops)),
+      stops,
+      ["Via", "Fair-", "mount", "Line", "-"]
+    ]
+    |> make_via_list()
+    |> Enum.concat([{{train}, "Via Fairmount Line"}])
+  end
+
+  defp stops_for_fairmount(1) do
+    ["place-DB-0095", "place-forhl", "place-rugg", "place-bbsta"]
+  end
+
+  defp stops_for_fairmount(0) do
+    ["place-bbsta", "place-rugg", "place-forhl", "place-NEC-2203", "place-DB-0095"]
+  end
+
   def make_via_list(list) do
     list
     |> List.zip()
-    |> Map.new(fn {train, stop, value} -> {{train, stop}, value} end)
+    |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
   defp all_stops(conn, _) do
