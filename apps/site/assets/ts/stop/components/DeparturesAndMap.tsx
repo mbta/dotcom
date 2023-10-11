@@ -175,7 +175,7 @@ const DeparturesAndMap = ({
           />
         )}
       </div>
-      <div className={`stop-map hidden-sm-down`}>
+      <div className="stop-map hidden-sm-down">
         <StopMapRedesign
           stop={stop}
           lines={
