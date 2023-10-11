@@ -36,7 +36,7 @@ defmodule SiteWeb.ScheduleView.Timetable do
   end
 
   defp do_stop_tooltip(contents) do
-    contents
+    Enum.at(contents, 0)
   end
 
   @spec stop_type(Schedule.t()) :: nil | Phoenix.HTML.Safe.t()
