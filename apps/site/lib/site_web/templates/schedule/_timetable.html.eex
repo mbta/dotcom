@@ -114,7 +114,7 @@
                 tooltip = stop_tooltip(trip_schedule, track_change)
                 full_trip_message = @trip_messages[{schedule.trip.name}]
                 trip_message = @trip_messages[{schedule.trip.name, stop.id}]
-                tooltip_attrs = [html: true, toggle: "tooltip"]
+                tooltip_attrs = [html: "true", toggle: "tooltip"]
               %>
               <%= content_tag :td, [
                 class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
