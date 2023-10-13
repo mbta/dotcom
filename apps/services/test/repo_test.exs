@@ -7,8 +7,16 @@ defmodule Services.RepoTest do
     :ok
   end
 
+  test "by_id fetches service by ID" do
+    assert %Service{} = Repo.by_id("canonical")
+  end
+
   test "by_route_id fetches services for a route" do
     assert [%Service{} | _] = Repo.by_route_id("Red")
+  end
+
+  test "by_route_id fetches services for a list" do
+    assert [%Service{} | _] = Repo.by_route_id(["Red"])
   end
 
   test "by_route_id fetches services for the green line" do

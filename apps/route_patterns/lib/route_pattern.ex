@@ -37,6 +37,7 @@ defmodule RoutePatterns.RoutePattern do
     :route_id,
     :time_desc,
     :typicality,
+    :service_id,
     sort_order: 0
   ]
 
@@ -55,7 +56,8 @@ defmodule RoutePatterns.RoutePattern do
           route_id: Route.id_t(),
           time_desc: String.t(),
           typicality: typicality_t(),
-          sort_order: integer()
+          sort_order: integer(),
+          service_id: String.t()
         }
 
   def new(%Item{
@@ -92,7 +94,8 @@ defmodule RoutePatterns.RoutePattern do
       route_id: route_id,
       time_desc: time_desc,
       typicality: typicality,
-      sort_order: sort_order
+      sort_order: sort_order,
+      service_id: service_id(trip_relationships)
     }
   end
 
@@ -152,4 +155,15 @@ defmodule RoutePatterns.RoutePattern do
   end
 
   defp stop_ids(_), do: nil
+
+  defp service_id(%{
+         "service" => [
+           %Item{
+             id: service_id
+           }
+         ]
+       }),
+       do: service_id
+
+  defp service_id(_), do: nil
 end

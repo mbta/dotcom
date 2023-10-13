@@ -7,6 +7,14 @@ defmodule Services.Repo do
   alias Services.Service
   alias V3Api.Services, as: ServicesApi
 
+  def by_id(id) when is_binary(id) do
+    cache(id, fn _ ->
+      ServicesApi.get(id)
+      |> handle_response()
+    end)
+    |> List.first()
+  end
+
   def by_route_id(route_id, params \\ [])
 
   def by_route_id([route_id] = route, params) when is_list(route) do
@@ -29,5 +37,9 @@ defmodule Services.Repo do
 
   defp handle_response(%JsonApi{data: data}) do
     Enum.map(data, &Service.new/1)
+  end
+
+  defp handle_response({:error, [%JsonApi.Error{code: "not_found"}]}) do
+    []
   end
 end

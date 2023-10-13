@@ -13,6 +13,7 @@ defmodule SiteWeb.StopController do
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias RoutePatterns.RoutePattern
+  alias Services.Service
   alias Site.TransitNearMe
   alias SiteWeb.AlertView
   alias SiteWeb.PartialView.HeaderTab
@@ -189,12 +190,30 @@ defmodule SiteWeb.StopController do
   defp route_patterns_by_route_and_headsign(stop_id) do
     stop_id
     |> RoutePatterns.Repo.by_stop_id()
+    |> Enum.reject(&not_serving_today?/1)
     |> Enum.reject(&ends_at?(&1, stop_id))
     |> Enum.map(&add_polyline/1)
     |> Enum.group_by(& &1.route_id)
     |> Enum.map(fn {k, v} -> {k, Enum.group_by(v, & &1.headsign)} end)
     |> Map.new()
   end
+
+  @spec not_serving_today?(RoutePattern.t()) :: boolean()
+  # Canonical route patterns don't serve any date! Just ignore in this case
+  defp not_serving_today?(%RoutePattern{typicality: :canonical}), do: false
+
+  defp not_serving_today?(%RoutePattern{service_id: service_id})
+       when is_binary(service_id) do
+    case Services.Repo.by_id(service_id) do
+      %Service{} = service ->
+        not Service.serves_date?(service, Timex.today())
+
+      _ ->
+        false
+    end
+  end
+
+  defp not_serving_today?(_), do: false
 
   defp ends_at?(%RoutePattern{stop_ids: stop_ids}, stop_id) when is_list(stop_ids) do
     with last_stop_id <- List.last(stop_ids),
