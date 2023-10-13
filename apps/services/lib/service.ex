@@ -203,7 +203,7 @@ defmodule Services.Service do
   @spec parse_listed_dates([String.t()]) :: [NaiveDateTime.t()]
   defp parse_listed_dates(date_strings) do
     date_strings
-    |> Enum.map(&Timex.parse(&1, "{YYYY}-{0M}-{D}"))
+    |> Enum.map(&Timex.parse(&1, "{ISOdate}"))
     |> Enum.filter(&(elem(&1, 0) == :ok))
     |> Enum.map(&elem(&1, 1))
   end
