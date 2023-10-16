@@ -15,7 +15,8 @@ defmodule Routes.Route do
             direction_destinations: :unknown,
             description: :unknown,
             fare_class: :unknown_fare,
-            custom_route?: false
+            custom_route?: false,
+            line: []
 
   @type id_t :: String.t()
   @type t :: %__MODULE__{
@@ -29,7 +30,8 @@ defmodule Routes.Route do
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc,
           fare_class: gtfs_fare_class,
-          custom_route?: boolean
+          custom_route?: boolean,
+          line: []
         }
   @type gtfs_route_type ::
           :subway | :commuter_rail | :bus | :ferry | :logan_express | :massport_shuttle
@@ -263,7 +265,8 @@ defmodule Routes.Route do
         direction_destinations: direction_destinations,
         description: description,
         fare_class: fare_class,
-        custom_route?: custom_route?
+        custom_route?: custom_route?,
+        line: line
       }) do
     direction_destinations_value =
       if direction_destinations == :unknown,
@@ -287,7 +290,8 @@ defmodule Routes.Route do
       direction_destinations: direction_destinations_value,
       description: description,
       fare_class: fare_class,
-      custom_route?: custom_route?
+      custom_route?: custom_route?,
+      line: line
     }
   end
 end

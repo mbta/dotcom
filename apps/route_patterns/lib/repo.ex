@@ -8,6 +8,7 @@ defmodule RoutePatterns.Repo do
 
   alias RoutePatterns.RoutePattern
   alias V3Api.RoutePatterns, as: RoutePatternsApi
+  alias Routes.Repo, as: RoutesRepo
 
   @doc """
   Returns a single route pattern by ID
@@ -43,7 +44,10 @@ defmodule RoutePatterns.Repo do
   end
 
   def by_stop_id(stop_id) do
-    [stop: stop_id]
+    routes = RoutesRepo.by_stop(stop_id)
+    route_ids = Enum.join(Enum.map(routes, fn r -> r.id end), ",")
+
+    [route: route_ids]
     |> Keyword.put(:include, "representative_trip.shape,representative_trip.stops")
     |> cache(&api_all/1)
   end

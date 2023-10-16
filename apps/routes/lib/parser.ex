@@ -19,9 +19,18 @@ defmodule Routes.Parser do
       direction_destinations:
         direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
       description: parse_gtfs_desc(attributes["description"]),
-      fare_class: parse_gtfs_fare_class(attributes["fare_class"])
+      fare_class: parse_gtfs_fare_class(attributes["fare_class"]),
+      line: parse_line(relationships)
     }
   end
+
+  defp parse_line(%{"line" => [head | _] = _lines}) do
+    # TODO figure out how to make this not an array on parsing
+    # Testing shows this as always a single object from the API that gets parsed into an array for some reason
+    head
+  end
+
+  defp parse_line(_), do: nil
 
   def parse_route_with_route_pattern(%Item{relationships: relationships} = item) do
     {parse_route(item), parse_route_patterns(relationships)}

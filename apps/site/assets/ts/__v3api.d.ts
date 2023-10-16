@@ -120,6 +120,11 @@ export type FareClassType =
   | "special_fare"
   | "unknown_fare";
 
+export interface Line {
+  id: string;
+  type: string;
+}
+
 export interface Route {
   color?: string;
   description: string;
@@ -131,6 +136,7 @@ export interface Route {
   name: string;
   sort_order?: number;
   type: RouteType;
+  line: Line;
 }
 
 export interface EnhancedRoute extends Route {

@@ -16,7 +16,9 @@ import renderFa from "../../helpers/render-fa";
 import {
   isASilverLineRoute,
   isSubwayRoute,
-  isACommuterRailRoute
+  isACommuterRailRoute,
+  isRailReplacementBus,
+  isRapidTransit
 } from "../../models/route";
 import { useSMDown } from "../../helpers/media-breakpoints-react";
 import usePredictionsChannel from "../../hooks/usePredictionsChannel";
@@ -30,6 +32,7 @@ import {
 } from "../../models/alert";
 import useDepartureRow from "../../hooks/useDepartureRow";
 import { GroupedRoutePatterns } from "../stop-redesign-loader";
+import { DepartureInfo } from "../../models/departureInfo";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -37,6 +40,69 @@ interface DeparturesAndMapProps {
   alerts: Alert[];
   setPredictionError: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+interface RouteIdReplacementMap {
+  [key: string]: Route;
+}
+
+// map replacement routes to the routes they replace
+const mapRouteIds = (routes: Route[]): RouteIdReplacementMap => {
+  const railReplacementRoutes = filter(routes, r => isRailReplacementBus(r));
+  // We don't want to display the shuttle information on subway cards so don't map the subway routes
+  const regularRoutesSansSubway = filter(
+    routes,
+    r => !isRailReplacementBus(r) && !isRapidTransit(r)
+  );
+
+  const routeIdMap: RouteIdReplacementMap = {};
+  railReplacementRoutes.forEach(r => {
+    regularRoutesSansSubway.forEach(rr => {
+      if (r.line.id === rr.line.id) {
+        routeIdMap[r.id] = rr;
+      }
+    });
+  });
+
+  return routeIdMap;
+};
+
+const updateDepartureInfos = (
+  departureInfos: DepartureInfo[],
+  routeIdMap: RouteIdReplacementMap
+): DepartureInfo[] => {
+  return departureInfos.map(di => {
+    let updatedRoute = di.route;
+    if (routeIdMap[di.route.id]) {
+      updatedRoute = routeIdMap[di.route.id];
+    }
+    return {
+      ...di,
+      route: updatedRoute
+    };
+  });
+};
+
+// Maps a route pattern from one route to a different route based off the routeIdMap
+// Used to map shuttles to train routes, as to display the same info on the card
+const updateRoutePatterns = (
+  groupedRoutePatterns: GroupedRoutePatterns,
+  routeIdMap: { [key: string]: Route }
+) => {
+  let updatedPatterns = groupedRoutePatterns;
+  Object.keys(groupedRoutePatterns).forEach(key => {
+    if (routeIdMap[key]) {
+      const routeIdToUpdate = routeIdMap[key].id;
+
+      updatedPatterns[routeIdToUpdate] = {
+        ...updatedPatterns[routeIdToUpdate],
+        ...updatedPatterns[key]
+      };
+      // remove the route from the list (we don't want it displayed)
+      delete updatedPatterns[key];
+    }
+  });
+  return updatedPatterns;
+};
 
 const DeparturesAndMap = ({
   routes,
@@ -54,6 +120,13 @@ const DeparturesAndMap = ({
     setPredictionError(predictions === null);
   }, [setPredictionError, predictions]);
   const [realtimeAlerts, setRealtimeAlerts] = useState<Alert[]>([]);
+
+  const mappedRouteIds = mapRouteIds(routes);
+  console.log(routes);
+  const updatedDepartureInfos = updateDepartureInfos(
+    departureInfos,
+    mappedRouteIds
+  );
 
   const { activeRow, resetRow } = useDepartureRow(routes);
   useEffect(() => {
@@ -84,7 +157,7 @@ const DeparturesAndMap = ({
 
   // filter by chosen route and direction
   const filteredDepartures = activeRow
-    ? departureInfos.filter(departure => {
+    ? updatedDepartureInfos.filter(departure => {
         const { route, trip } = departure;
         return (
           route.id === activeRow.route.id &&
@@ -92,7 +165,7 @@ const DeparturesAndMap = ({
           trip.headsign === activeRow.headsign
         );
       })
-    : departureInfos;
+    : updatedDepartureInfos;
 
   const isSmallBreakpoint = useSMDown();
   const refEl = useRef<HTMLDivElement>(null);
@@ -116,10 +189,16 @@ const DeparturesAndMap = ({
       isACommuterRailRoute(route)
   );
   const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
+
+  const updatedGroupedRoutePatterns = updateRoutePatterns(
+    groupedRoutePatterns,
+    mappedRouteIds
+  );
+
   const defaultPolylines = orderBy(routesForMap, "sort_order", "desc").flatMap(
     route => {
       const routePatterns = Object.values(
-        groupedRoutePatterns[route.id]
+        updatedGroupedRoutePatterns[route.id]
       ).flat();
       return routePatterns.map(rp => rp.representative_trip_polyline);
     }
@@ -128,9 +207,9 @@ const DeparturesAndMap = ({
   /** TODO: Filter by selected trip. Blocked by being unable to match
    * schedule/prediction shape IDs with route canonical shape IDs */
   const routePatternsForSelection = activeRow
-    ? groupedRoutePatterns[activeRow.route.id][activeRow.headsign].filter(
-        rp => rp.direction_id === activeRow.directionId
-      )
+    ? updatedGroupedRoutePatterns[activeRow.route.id][
+        activeRow.headsign
+      ].filter(rp => rp.direction_id === activeRow.directionId)
     : [];
   const shapeForSelection = routePatternsForSelection.map(
     rp => rp.representative_trip_polyline
@@ -170,8 +249,9 @@ const DeparturesAndMap = ({
         ) : (
           <StopPageDepartures
             routes={routes}
-            departureInfos={departureInfos}
+            departureInfos={updatedDepartureInfos}
             alerts={alerts}
+            groupedRoutePatterns={updatedGroupedRoutePatterns}
           />
         )}
       </div>

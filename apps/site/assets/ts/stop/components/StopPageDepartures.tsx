@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Alert, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
-import { modeForRoute } from "../../models/route";
+import { isRailReplacementBus, modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
@@ -16,6 +16,7 @@ interface StopPageDeparturesProps {
   routes: Route[];
   departureInfos: DepartureInfo[];
   alerts: Alert[];
+  groupedRoutePatterns: GroupedRoutePatterns;
 }
 
 // Commuter Rail, then Subway, then Bus
@@ -32,17 +33,19 @@ const modeSortFn = ({ type }: Route): number => {
 const StopPageDepartures = ({
   routes,
   departureInfos,
-  alerts
+  alerts,
+  groupedRoutePatterns
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
-  const groupedRoutes = groupBy(routes, modeForRoute);
+  // Filters our all replacement buses that haven't been remapped in the parent component
+  const nonShuttleRoutes = filter(routes, r => !isRailReplacementBus(r));
+  const groupedRoutes = groupBy(nonShuttleRoutes, modeForRoute);
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
-    selectedMode === "all" ? routes : groupedRoutes[selectedMode];
+    selectedMode === "all" ? nonShuttleRoutes : groupedRoutes[selectedMode];
   const currentAlerts = filter(alerts, a => isInNextXDays(a, 0));
   const groupedAlerts = alertsByRoute(currentAlerts);
-  const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
 
   return (
     <div className="routes">
