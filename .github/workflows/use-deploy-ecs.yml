@@ -34,6 +34,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
     environment:
       name: ${{ inputs.deployment-env }}
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}
@@ -93,10 +96,9 @@ jobs:
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
-      - uses: mbta/actions/deploy-ecs@v1
+      - uses: mbta/actions/deploy-ecs@v2
         with:
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
           docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
