@@ -5,10 +5,10 @@ defmodule Algolia.ApiTest do
   @success_response ~s({"message" : "success"})
 
   describe "post" do
-    test "sends a post request to /1/indexes/$INDEX/$ACTION" do
+    test "sends a post request once to /1/indexes/$INDEX/$ACTION" do
       bypass = Bypass.open()
 
-      Bypass.expect(bypass, "POST", "/1/indexes/*/queries", fn conn ->
+      Bypass.expect_once(bypass, "POST", "/1/indexes/*/queries", fn conn ->
         {:ok, body, conn} = Plug.Conn.read_body(conn)
 
         case Poison.decode(body) do
@@ -29,6 +29,8 @@ defmodule Algolia.ApiTest do
 
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = Algolia.Api.post(opts)
       assert body == @success_response
+      # Can be called again with result from cache instead of hitting the API endpoint
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} = Algolia.Api.post(opts)
     end
 
     test "logs a warning if config keys are missing" do

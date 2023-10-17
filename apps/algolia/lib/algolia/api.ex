@@ -4,6 +4,7 @@ defmodule Algolia.Api do
   """
   alias Algolia.Config
   require Logger
+  use RepoCache, ttl: :timer.hours(12)
 
   defstruct [:host, :index, :action, :body]
 
@@ -39,9 +40,20 @@ defmodule Algolia.Api do
       |> hackney_opts()
       |> Keyword.put(:pool, @http_pool)
 
-    opts
-    |> generate_url(config)
-    |> HTTPoison.post(body, headers(config), hackney: hackney)
+    send_post_request = fn {body, config} ->
+      opts
+      |> generate_url(config)
+      |> HTTPoison.post(body, headers(config), hackney: hackney)
+    end
+
+    # If we're making a query for results using the same request body AND same
+    # %Algolia.Config{}, cache the response instead of making extra calls to the
+    # Algolia REST API
+    if action == "queries" do
+      cache({body, config}, send_post_request)
+    else
+      send_post_request.({body, config})
+    end
   end
 
   @spec generate_url(t, Config.t()) :: String.t()
