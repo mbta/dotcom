@@ -25,6 +25,7 @@ defmodule SiteWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: SiteWeb
+      import Phoenix.LiveView.Controller
 
       import SiteWeb.Router.Helpers,
         except: [
@@ -54,6 +55,7 @@ defmodule SiteWeb do
         root: "lib/site_web/templates",
         namespace: SiteWeb
 
+      import Phoenix.LiveView.Helpers
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
@@ -91,6 +93,7 @@ defmodule SiteWeb do
   def router do
     quote do
       use Phoenix.Router
+      import Phoenix.LiveView.Router
     end
   end
 

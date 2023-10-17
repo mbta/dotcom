@@ -16,7 +16,7 @@ defmodule SiteWeb.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
-    plug(:fetch_flash)
+    plug(:fetch_live_flash)
     plug(:fetch_cookies)
     plug(:put_secure_browser_headers)
     plug(SiteWeb.Plugs.CanonicalHostname)
