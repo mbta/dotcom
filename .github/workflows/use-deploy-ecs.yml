@@ -16,6 +16,9 @@ on:
       aws-access-key-id:
         required: true
         description: "AWS_ACCESS_KEY_ID value"
+      aws-role-arn:
+        required: true
+        description: "AWS_ROLE_ARN value"
       aws-secret-access-key:
         required: true
         description: "AWS_SECRET_ACCESS_KEY value"
@@ -98,7 +101,7 @@ jobs:
 
       - uses: mbta/actions/deploy-ecs@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: ${{ secrets.aws-role-arn }}
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
           docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
