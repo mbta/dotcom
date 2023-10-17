@@ -16,15 +16,15 @@ on:
       aws-access-key-id:
         required: true
         description: "AWS_ACCESS_KEY_ID value"
-      aws-role-arn:
-        required: true
-        description: "AWS_ROLE_ARN value"
       aws-secret-access-key:
         required: true
         description: "AWS_SECRET_ACCESS_KEY value"
       docker-repo:
         required: true
         description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
+      role-to-assume:
+        required: true
+        description: "AWS_ROLE_ARN value"
     outputs: 
       deployment-env:
         value: ${{ jobs.deploy.outputs.deployment-env }}
