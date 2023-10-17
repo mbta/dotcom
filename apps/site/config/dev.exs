@@ -40,7 +40,7 @@ config :site, SiteWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/site_web/views/.*(ex)$},
-      ~r{lib/site_web/templates/.*(eex)$}
+      ~r{lib/site_web/templates/.*(heex|eex)$}
     ]
   ]
 
