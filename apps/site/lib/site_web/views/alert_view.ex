@@ -26,6 +26,7 @@ defmodule SiteWeb.AlertView do
       opts
       |> Keyword.fetch!(:alerts)
       |> Enum.filter(&filter_by_priority(priority_filter, &1))
+      |> deduplicate()
 
     case {alerts, show_empty?} do
       {[], true} ->
@@ -40,6 +41,19 @@ defmodule SiteWeb.AlertView do
 
       _ ->
         render(__MODULE__, "group.html", alerts: alerts, route: route, date_time: date_time)
+    end
+  end
+
+  # Workaround handling duplicate Red Line alerts for JFK-Ashmont shuttle
+  defp deduplicate(alerts) do
+    alert_ids = Enum.map(alerts, & &1.id)
+    ashmont_shuttle_alert_ids = ["519314", "529291"]
+
+    if Enum.all?(ashmont_shuttle_alert_ids, &Enum.member?(alert_ids, &1)) do
+      # remove the second one
+      Enum.reject(alerts, &(&1.id == "529291"))
+    else
+      alerts
     end
   end
 
