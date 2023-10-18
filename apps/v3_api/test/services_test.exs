@@ -6,8 +6,8 @@ defmodule V3Api.ServicesTest do
   @opts ["page[limit]": 1, sort: "id"]
 
   describe "all/1" do
-    test "gets all services" do
-      assert %JsonApi{data: [%JsonApi.Item{}]} = Services.all(@opts)
+    test "gets all services (for a given filter)" do
+      assert %JsonApi{data: [%JsonApi.Item{}]} = Services.all(Keyword.put(@opts, :route, "Red"))
     end
   end
 

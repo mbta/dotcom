@@ -20,6 +20,17 @@ defmodule V3ApiTest do
       refute response.data == %{}
     end
 
+    test "encodes the URL", %{bypass: bypass, url: url} do
+      Bypass.expect(bypass, fn conn ->
+        assert conn.request_path == "/normal%20response"
+        send_resp(conn, 200, ~s({"data": []}))
+      end)
+
+      response = V3Api.get_json("/normal response", [], base_url: url)
+      assert %JsonApi{} = response
+      refute response.data == %{}
+    end
+
     test "does not add headers normally", %{bypass: bypass, url: url} do
       Bypass.expect(bypass, fn conn ->
         assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) == nil
