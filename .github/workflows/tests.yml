@@ -36,7 +36,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:lint:ts
 
@@ -46,7 +46,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:lint:js
 
@@ -56,7 +56,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.scss }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:lint:scss
 
@@ -66,7 +66,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:lint:ex
 
@@ -76,7 +76,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/build-app
     - env:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
@@ -95,7 +95,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:unit:mocha
 
@@ -105,7 +105,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/build-app
     - run: TZ="America/New_York" npm run ci:unit:jest
 
@@ -115,7 +115,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - uses: mbta/actions/dialyzer@v1
 
@@ -125,7 +125,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:types:ts
 
@@ -135,7 +135,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:format:ex
 
@@ -145,7 +145,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: npm run ci:format:ts
 
@@ -155,7 +155,7 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/build-app
     - uses: mbta/setup-chromedriver@master
     - env:
