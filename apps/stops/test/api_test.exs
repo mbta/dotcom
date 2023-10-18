@@ -50,7 +50,7 @@ defmodule Stops.ApiTest do
                "#{child_id} not found in parent.child_ids"
       end
 
-      assert {:ok, %Stop{} = child} = by_gtfs_id("South Station-01")
+      assert {:ok, %Stop{} = child} = by_gtfs_id("NEC-2287-01")
       assert child.name == "South Station"
       assert child.type == :stop
       assert child.platform_name == "Commuter Rail - Track 1"

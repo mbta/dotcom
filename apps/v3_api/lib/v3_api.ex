@@ -51,7 +51,7 @@ defmodule V3Api do
         use_cache?: true
       )
 
-    url = base_url <> url
+    url = base_url <> URI.encode(url)
     timeout = Keyword.fetch!(opts, :timeout)
 
     {time, response} =
