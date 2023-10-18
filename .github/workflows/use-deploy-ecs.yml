@@ -13,12 +13,9 @@ on:
         required: false
         description: "Additional tag to apply to the docker image"
     secrets:
-      aws-access-key-id:
+      aws-role-arn:
         required: true
-        description: "AWS_ACCESS_KEY_ID value"
-      aws-secret-access-key:
-        required: true
-        description: "AWS_SECRET_ACCESS_KEY value"
+        description: "AWS_ROLE_ARN value"
       docker-repo:
         required: true
         description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
@@ -34,12 +31,20 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
     environment:
       name: ${{ inputs.deployment-env }}
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}
     outputs:
       deployment-env: ${{ inputs.deployment-env }}
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.aws-role-arn }}
+          aws-region: us-east-1
       - run: |
           echo "inputs: ${{ toJson(inputs) }}"
 
@@ -60,8 +65,6 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ secrets.docker-repo }}
-          username: ${{ secrets.aws-access-key-id }}
-          password: ${{ secrets.aws-secret-access-key }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -76,9 +79,6 @@ jobs:
 
       - name: Upload assets from image into s3
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.aws-access-key-id }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.aws-secret-access-key }}
-          AWS_DEFAULT_REGION: us-east-1
           AWS_DEFAULT_OUTPUT: json
         run: |
           bash upload_assets.sh assets-image
@@ -93,10 +93,8 @@ jobs:
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
 
-      - uses: mbta/actions/deploy-ecs@v1
+      - uses: mbta/actions/deploy-ecs@v2
         with:
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
           docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}

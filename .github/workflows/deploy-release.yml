@@ -13,10 +13,9 @@ jobs:
       deployment-env: prod
       extra-docker-tag: ${{ github.event.release.tag_name }}
     secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-role-arn: ${{ secrets.AWS_ROLE_ARN }}
       docker-repo: ${{ secrets.DOCKER_REPO }}
- 
+
   notify:
     needs: [release]
     uses: ./.github/workflows/use-notify-slack.yml
