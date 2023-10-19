@@ -64,7 +64,8 @@ describe("DailyScheduleSubway", () => {
     id: "1",
     long_name: "Route 1",
     name: "Route 1",
-    type: 0 as RouteType
+    type: 0 as RouteType,
+    line_id: null
   };
 
   it("should render", () => {

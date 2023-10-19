@@ -66,7 +66,8 @@ const route: RouteWithStopsWithDirections = {
     header: "Route Header",
     long_name: "Route Long Name",
     description: "Route Description",
-    type: 3
+    type: 3,
+    line_id: null
   },
   stops_with_directions: [{ stop, directions, distance: "238 ft" }]
 };

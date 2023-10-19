@@ -17,7 +17,8 @@ const route: EnhancedRoute = {
   id: "Orange",
   name: "Orange",
   long_name: "Orange Line",
-  type: 1
+  type: 1,
+  line_id: null
 };
 
 const busRoute: EnhancedRoute = {
@@ -29,7 +30,8 @@ const busRoute: EnhancedRoute = {
   id: "1",
   name: "1",
   long_name: "1",
-  type: 3
+  type: 3,
+  line_id: null
 };
 
 const scheduleNoteData = {
@@ -216,7 +218,8 @@ describe("ScheduleModalContent", () => {
         long_name: "Charlestown Ferry",
         name: "Charlestown Ferry",
         sort_order: 30001,
-        type: 4
+        type: 4,
+        line_id: null
       } as Route;
       const wrapper = mount(
         <ScheduleModalContent

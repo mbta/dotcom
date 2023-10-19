@@ -67,7 +67,8 @@ const route = {
   description: "key_bus_route",
   "custom_route?": false,
   header: "",
-  alerts: []
+  alerts: [],
+  line_id: null
 };
 
 const useSWRSpy = jest.spyOn(swr, "default");

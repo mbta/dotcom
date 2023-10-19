@@ -44,7 +44,8 @@ const route: EnhancedRoute = {
   id: "Orange",
   name: "Orange",
   long_name: "Orange Line",
-  type: 1
+  type: 1,
+  line_id: null
 };
 
 const notSubwayRoute: EnhancedRoute = {
@@ -56,7 +57,8 @@ const notSubwayRoute: EnhancedRoute = {
   id: "2",
   name: "Two",
   long_name: "Two",
-  type: 3
+  type: 3,
+  line_id: null
 };
 
 it("it renders", () => {

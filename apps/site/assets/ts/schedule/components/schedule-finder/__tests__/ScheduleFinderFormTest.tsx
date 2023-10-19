@@ -20,7 +20,8 @@ const route: Route = {
   id: "Orange",
   long_name: "Orange Line",
   name: "Orange",
-  type: 1
+  type: 1,
+  line_id: null
 };
 
 const oneDirectionRoute: Route = {
@@ -30,7 +31,8 @@ const oneDirectionRoute: Route = {
   id: "route",
   long_name: "the route",
   name: "Route",
-  type: 1
+  type: 1,
+  line_id: null
 };
 
 const stops: SimpleStopMap = {

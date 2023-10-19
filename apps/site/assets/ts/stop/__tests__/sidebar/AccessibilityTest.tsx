@@ -227,7 +227,8 @@ describe("Accessibility", () => {
                 "1": "Alewife"
               },
               description: "rapid_transit",
-              alerts: []
+              alerts: [],
+              line_id: null
             },
             directions: []
           }

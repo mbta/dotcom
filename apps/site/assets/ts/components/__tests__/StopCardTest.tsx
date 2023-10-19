@@ -63,7 +63,8 @@ const route: EnhancedRoute = {
   header: "Route Header",
   long_name: "Route Long Name",
   description: "Route Description",
-  type: 1
+  type: 1,
+  line_id: null
 };
 
 it("it renders a stop card", () => {
