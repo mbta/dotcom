@@ -34,7 +34,7 @@ const DepartureCard = ({
       }),
     [routePatternsByHeadsign]
   );
-  // console.log(sortedRoutePatternsByHeadsign)
+
   return (
     <li className="departure-card">
       <a

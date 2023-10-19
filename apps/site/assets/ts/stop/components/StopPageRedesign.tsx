@@ -48,14 +48,11 @@ const StopPageRedesign = ({
   const [hasPredictionError, setPredictionError] = useState(false);
   const stopResult = useStop(stopId);
   const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
-  // console.log(groupedRoutePatterns)
   const routesResult = useRoutes(Object.keys(groupedRoutePatterns || []));
   const alertsForStopResult = useAlertsByStop(stopId);
   const facilities = useFacilitiesByStop(stopId);
   const routes = routesResult.data || [];
   const alertsForRoutesResult = useAlertsByRoute(routes.map(r => r.id));
-
-  // console.log(routesResult.data)
 
   if (
     [stopResult.status, routesResult.status, facilities.status].includes(

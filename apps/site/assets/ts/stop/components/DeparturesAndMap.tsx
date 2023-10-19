@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState
 } from "react";
-import { concat, filter, orderBy, uniqBy } from "lodash";
+import { cloneDeep, concat, filter, orderBy, uniqBy } from "lodash";
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { useLoaderData } from "react-router-dom";
 import { Alert, Route, Stop } from "../../__v3api";
@@ -87,8 +87,8 @@ const updateDepartureInfos = (
 const updateRoutePatterns = (
   groupedRoutePatterns: GroupedRoutePatterns,
   routeIdMap: { [key: string]: Route }
-) => {
-  let updatedPatterns = groupedRoutePatterns;
+): GroupedRoutePatterns => {
+  const updatedPatterns = cloneDeep(groupedRoutePatterns);
   Object.keys(groupedRoutePatterns).forEach(key => {
     if (routeIdMap[key]) {
       const routeIdToUpdate = routeIdMap[key].id;
@@ -122,7 +122,6 @@ const DeparturesAndMap = ({
   const [realtimeAlerts, setRealtimeAlerts] = useState<Alert[]>([]);
 
   const mappedRouteIds = mapRouteIds(routes);
-  console.log(routes);
   const updatedDepartureInfos = updateDepartureInfos(
     departureInfos,
     mappedRouteIds
@@ -255,7 +254,7 @@ const DeparturesAndMap = ({
           />
         )}
       </div>
-      <div className={`stop-map hidden-sm-down`}>
+      <div className="stop-map hidden-sm-down">
         <StopMapRedesign
           stop={stop}
           lines={

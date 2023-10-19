@@ -1,6 +1,5 @@
 import { filter, groupBy, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import { Alert, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
 import { isRailReplacementBus, modeForRoute } from "../../models/route";
