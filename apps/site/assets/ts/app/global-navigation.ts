@@ -8,7 +8,6 @@
 
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { handleNativeEscapeKeyPress } from "../helpers/keyboard-events";
-import { isLGDown } from "../helpers/media-breakpoints";
 
 function undoOutline(this: HTMLElement): void {
   this.style.outline = "none";
@@ -100,22 +99,6 @@ export function setup(rootElement: HTMLElement): void {
       toggleMenu(event.currentTarget as Element);
     });
   });
-
-  // Show the modal search veil and disable scrolling when focusing
-  // the search input on tablet
-  const input = rootElement.querySelector("#search-header-desktop__input");
-  if (input) {
-    input.addEventListener("focus", () => {
-      if (isLGDown()) {
-        // eslint-disable-next-line no-param-reassign
-        rootElement.dataset.navOpen = "true";
-      }
-    });
-    input.addEventListener("blur", () => {
-      // eslint-disable-next-line no-param-reassign
-      delete rootElement.dataset.navOpen;
-    });
-  }
 
   // removes focus outline in Safari from open accordions
   rootElement

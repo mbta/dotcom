@@ -177,7 +177,7 @@ function _fileIcon(hit) {
   }
 }
 
-function _contentIcon(hit) {
+export function _contentIcon(hit) {
   let icon;
 
   if (hit.search_api_datasource === "entity:file") {
