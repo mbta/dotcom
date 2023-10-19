@@ -145,11 +145,10 @@ const getModalContent = (
                   </>
                 )}
                 {externalMapURI && (
-                  <div>
-                    <a href={externalMapURI} className="c-call-to-action">
-                      Get directions to this parking facility
-                    </a>
-                  </div>
+                  <AmenityLink
+                    url={externalMapURI}
+                    text="Get directions to this parking facility"
+                  />
                 )}
               </div>
             );
