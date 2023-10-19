@@ -67,5 +67,26 @@ defmodule Algolia.QueryTest do
 
       assert params == Enum.join(["analytics=false" | @encoded_query_params], "&")
     end
+
+    test "can construct and encode a query" do
+      encoded =
+        Query.build(%{
+          "algoliaQuery" => "b",
+          "algoliaIndexes" => ["stops", "routes"]
+        })
+
+      assert {:ok, %{"requests" => multiple_queries}} = Poison.decode(encoded)
+      assert length(multiple_queries) == 2
+
+      assert %{
+               "indexName" => "stops_test",
+               "query" => "b",
+               "attributesToHighlight" => "stop.name",
+               "params" => params
+             } = List.first(multiple_queries)
+
+      assert params ==
+               "analytics=false&clickAnalytics=true&facetFilters=%5B%5B%5D%5D&facets=%5B%22*%22%5D&hitsPerPage=2"
+    end
   end
 end

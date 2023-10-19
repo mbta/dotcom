@@ -5,10 +5,29 @@ defmodule Algolia.Query do
   When this value is set to false, Algolia will not record that query in
   its analytics, so this should only be set to true in Prod.
   """
+  alias Algolia.Query.Request
+
+  @doc "Algolia indexes available to query"
+  def valid_indexes() do
+    suffix = Application.get_env(:algolia, :index_suffix, "")
+    ["routes", "stops", "drupal"] |> Enum.map(&{String.to_atom(&1), &1 <> suffix})
+  end
 
   @spec build(map) :: String.t()
   def build(%{"requests" => queries}) do
     %{"requests" => Enum.map(queries, &build_query/1)}
+    |> Poison.encode!()
+  end
+
+  def build(%{"algoliaQuery" => query, "algoliaIndexes" => indexes}) do
+    requests =
+      Enum.map(indexes, fn idx ->
+        idx
+        |> Request.new(query)
+        |> Request.encode()
+      end)
+
+    %{"requests" => requests}
     |> Poison.encode!()
   end
 
