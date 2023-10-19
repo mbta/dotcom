@@ -193,7 +193,7 @@ $radius: 4px;
 
   .bus-route-sign {
     min-width: 5ch;
-    padding: 0;
+    padding: 0 $base-spacing-sm;
   }
 
   .c-svg__icon {
