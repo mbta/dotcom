@@ -283,7 +283,8 @@ defmodule Site.RealtimeScheduleTest do
           type: 1,
           color: "ED8B00",
           sort_order: 99_999,
-          fare_class: :unknown_fare
+          fare_class: :unknown_fare,
+          line_id: ""
         }
       }
     ]

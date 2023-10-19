@@ -211,7 +211,8 @@ defmodule Routes.RouteTest do
         type: 1,
         color: "DA291C",
         sort_order: 5,
-        fare_class: :unknown_fare
+        fare_class: :unknown_fare,
+        line_id: ""
       }
 
       assert Route.to_json_safe(route) == expected
