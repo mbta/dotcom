@@ -15,7 +15,8 @@ const stop = {
   id: "test-stop",
   name: "Test Stop",
   latitude: 42.3519,
-  longitude: 71.0552
+  longitude: 71.0552,
+  "station?": true
 } as Stop;
 const now = Date.now();
 

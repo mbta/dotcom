@@ -33,6 +33,7 @@ import {
 import useDepartureRow from "../../hooks/useDepartureRow";
 import { GroupedRoutePatterns } from "../stop-redesign-loader";
 import { DepartureInfo } from "../../models/departureInfo";
+import { isStopAStation } from "../../helpers/stops";
 
 interface DeparturesAndMapProps {
   routes: Route[];
@@ -121,11 +122,11 @@ const DeparturesAndMap = ({
   }, [setPredictionError, predictions]);
   const [realtimeAlerts, setRealtimeAlerts] = useState<Alert[]>([]);
 
+  const isStation = isStopAStation(stop);
   const mappedRouteIds = mapRouteIds(routes);
-  const updatedDepartureInfos = updateDepartureInfos(
-    departureInfos,
-    mappedRouteIds
-  );
+  const updatedDepartureInfos = isStation
+    ? updateDepartureInfos(departureInfos, mappedRouteIds)
+    : departureInfos;
 
   const { activeRow, resetRow } = useDepartureRow(routes);
   useEffect(() => {
@@ -247,6 +248,7 @@ const DeparturesAndMap = ({
           </div>
         ) : (
           <StopPageDepartures
+            isStation={isStation}
             routes={routes}
             departureInfos={updatedDepartureInfos}
             alerts={alerts}

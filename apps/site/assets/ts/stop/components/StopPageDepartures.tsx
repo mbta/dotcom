@@ -12,6 +12,7 @@ import {
 } from "../stop-redesign-loader";
 
 interface StopPageDeparturesProps {
+  isStation: boolean;
   routes: Route[];
   departureInfos: DepartureInfo[];
   alerts: Alert[];
@@ -30,6 +31,7 @@ const modeSortFn = ({ type }: Route): number => {
 };
 
 const StopPageDepartures = ({
+  isStation,
   routes,
   departureInfos,
   alerts,
@@ -37,12 +39,14 @@ const StopPageDepartures = ({
 }: StopPageDeparturesProps): ReactElement<HTMLElement> => {
   // default to show all modes.
   const [selectedMode, setSelectedMode] = useState<ModeChoice>("all");
-  // Filters our all replacement buses that haven't been remapped in the parent component
-  const nonShuttleRoutes = filter(routes, r => !isRailReplacementBus(r));
-  const groupedRoutes = groupBy(nonShuttleRoutes, modeForRoute);
+  // Stations only: Filters out all replacement buses that haven't been remapped in the parent component
+  const adjustedRoutes = isStation
+    ? filter(routes, r => !isRailReplacementBus(r))
+    : routes;
+  const groupedRoutes = groupBy(adjustedRoutes, modeForRoute);
   const modesList = Object.keys(groupedRoutes) as ModeChoice[];
   const filteredRoutes =
-    selectedMode === "all" ? nonShuttleRoutes : groupedRoutes[selectedMode];
+    selectedMode === "all" ? adjustedRoutes : groupedRoutes[selectedMode];
   const currentAlerts = filter(alerts, a => isInNextXDays(a, 0));
   const groupedAlerts = alertsByRoute(currentAlerts);
 

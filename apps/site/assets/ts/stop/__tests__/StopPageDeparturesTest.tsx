@@ -10,6 +10,7 @@ describe("StopPageDepartures", () => {
   it("renders with no data", async () => {
     const { asFragment } = renderWithRouter(
       <StopPageDepartures
+        isStation={true}
         routes={[]}
         alerts={[]}
         departureInfos={[]}
@@ -25,6 +26,7 @@ describe("StopPageDepartures", () => {
   it("renders with data", async () => {
     const { asFragment } = renderWithRouter(
       <StopPageDepartures
+        isStation={true}
         routes={routeData}
         alerts={[]}
         departureInfos={[]}
@@ -45,6 +47,7 @@ describe("StopPageDepartures", () => {
   it("doesn't show the filters if there is 1 mode present", async () => {
     renderWithRouter(
       <StopPageDepartures
+        isStation={true}
         routes={[routeData[0]]}
         alerts={[]}
         departureInfos={[]}
