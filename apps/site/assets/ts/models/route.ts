@@ -27,10 +27,13 @@ export const isASilverLineRoute = (routeOrRouteId: Route | string): boolean => {
 };
 
 export const RAPID_TRANSIT = "rapid_transit";
+export const RAIL_REPLACEMENT_BUS = "rail_replacement_bus";
 
 export const isRapidTransit = ({ description }: Route): boolean =>
   description === RAPID_TRANSIT;
 export const isGreenLine = ({ id }: Route): boolean => id === "Green";
+export const isRailReplacementBus = ({ description }: Route): boolean =>
+  description === RAIL_REPLACEMENT_BUS;
 
 const routeTypesToMode: {
   [key in RouteType]: Mode;

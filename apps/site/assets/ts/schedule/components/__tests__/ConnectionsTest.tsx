@@ -19,7 +19,8 @@ const route: EnhancedRoute = {
     "1": "Alewife"
   },
   description: "rapid_transit",
-  alerts: []
+  alerts: [],
+  line_id: null
 };
 /* eslint-enable camelcase */
 

@@ -49,7 +49,8 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -69,7 +70,8 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -89,7 +91,8 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -109,7 +112,8 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -129,7 +133,8 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }
@@ -176,7 +181,8 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -196,7 +202,8 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -216,7 +223,8 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         },
@@ -236,7 +244,8 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }
@@ -277,7 +286,8 @@ it("renders a ferry route", () => {
             direction_names: { "0": "Outbound", "1": "Inbound" },
             direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
             description: "ferry",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }
@@ -324,7 +334,8 @@ it("upcases name of non-bus stops", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }
@@ -349,7 +360,8 @@ it("upcases name of non-bus stops", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }
@@ -394,7 +406,8 @@ it("does not upcase name of bus-only stops", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }
@@ -434,7 +447,8 @@ it("separates bus and silver line pills", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alerts: []
+    alerts: [],
+    line_id: null
   };
 
   const routesWithoutSilverLine: TypedRoutes[] = [
@@ -511,7 +525,8 @@ it("dispatches clickRoutePillAction when route pill is clicked", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alerts: []
+            alerts: [],
+            line_id: null
           },
           directions: []
         }

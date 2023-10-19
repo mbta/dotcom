@@ -2,14 +2,19 @@ import React from "react";
 import { screen, waitFor } from "@testing-library/react";
 import StopPageDepartures from "../components/StopPageDepartures";
 import { Route } from "../../__v3api";
-import { baseRoute, renderWithRouter } from "./helpers";
+import { TEST_LOADER_VALUE, baseRoute, renderWithRouter } from "./helpers";
 
 const routeData: Route[] = [baseRoute("16", 3), baseRoute("Red", 1)];
 
 describe("StopPageDepartures", () => {
   it("renders with no data", async () => {
     const { asFragment } = renderWithRouter(
-      <StopPageDepartures routes={[]} alerts={[]} departureInfos={[]} />
+      <StopPageDepartures
+        routes={[]}
+        alerts={[]}
+        departureInfos={[]}
+        groupedRoutePatterns={TEST_LOADER_VALUE}
+      />
     );
     await waitFor(() => {
       expect(asFragment()).toMatchSnapshot();
@@ -19,7 +24,12 @@ describe("StopPageDepartures", () => {
 
   it("renders with data", async () => {
     const { asFragment } = renderWithRouter(
-      <StopPageDepartures routes={routeData} alerts={[]} departureInfos={[]} />
+      <StopPageDepartures
+        routes={routeData}
+        alerts={[]}
+        departureInfos={[]}
+        groupedRoutePatterns={TEST_LOADER_VALUE}
+      />
     );
     await waitFor(() => {
       expect(asFragment()).toMatchSnapshot();
@@ -38,6 +48,7 @@ describe("StopPageDepartures", () => {
         routes={[routeData[0]]}
         alerts={[]}
         departureInfos={[]}
+        groupedRoutePatterns={TEST_LOADER_VALUE}
       />
     );
     await waitFor(() => {

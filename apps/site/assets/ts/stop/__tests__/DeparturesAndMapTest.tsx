@@ -48,12 +48,6 @@ beforeEach(() => {
     .spyOn(useSchedules, "useSchedulesByStop")
     .mockReturnValue({ status: FetchStatus.Data, data: schedules });
   jest.spyOn(useVehiclesChannel, "default").mockReturnValue([]);
-  jest.mock("react-router-dom", () => ({
-    __esModule: true,
-    useLoaderData: () => {
-      return TEST_LOADER_VALUE;
-    }
-  }));
 });
 
 afterAll(() => {

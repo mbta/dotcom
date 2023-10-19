@@ -95,7 +95,8 @@ const route: EnhancedRoute = {
   id: "Orange",
   name: "Orange",
   long_name: "Orange Line",
-  type: 1
+  type: 1,
+  line_id: null
 };
 
 const routeNotSubway: EnhancedRoute = {
@@ -107,7 +108,8 @@ const routeNotSubway: EnhancedRoute = {
   id: "Silver",
   name: "Silver 1",
   long_name: "Silver Line",
-  type: 2
+  type: 2,
+  line_id: null
 };
 
 const service: ServiceInSelector = {

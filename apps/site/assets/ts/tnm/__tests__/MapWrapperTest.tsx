@@ -45,7 +45,8 @@ const routes: EnhancedRoute[] = [
     direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line camelcase
     description: "rapid_transit",
     alerts: [], // eslint-disable-line camelcase
-    header: ""
+    header: "",
+    line_id: null
   }
 ];
 

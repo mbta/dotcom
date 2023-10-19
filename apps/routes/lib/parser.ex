@@ -19,9 +19,13 @@ defmodule Routes.Parser do
       direction_destinations:
         direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
       description: parse_gtfs_desc(attributes["description"]),
-      fare_class: parse_gtfs_fare_class(attributes["fare_class"])
+      fare_class: parse_gtfs_fare_class(attributes["fare_class"]),
+      line_id: parse_line_id(relationships)
     }
   end
+
+  defp parse_line_id(%{"line" => [head | _] = _lines}), do: head.id
+  defp parse_line_id(_), do: nil
 
   def parse_route_with_route_pattern(%Item{relationships: relationships} = item) do
     {parse_route(item), parse_route_patterns(relationships)}

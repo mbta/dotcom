@@ -131,6 +131,7 @@ export interface Route {
   name: string;
   sort_order?: number;
   type: RouteType;
+  line_id: string | null;
 }
 
 export interface EnhancedRoute extends Route {

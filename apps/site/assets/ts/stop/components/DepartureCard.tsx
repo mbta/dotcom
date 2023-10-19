@@ -34,6 +34,7 @@ const DepartureCard = ({
       }),
     [routePatternsByHeadsign]
   );
+
   return (
     <li className="departure-card">
       <a

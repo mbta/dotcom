@@ -110,10 +110,12 @@ const testLoader = () => {
 };
 
 export const TEST_LOADER_VALUE = testLoader();
-const loaderMock = jest.fn().mockReturnValue(TEST_LOADER_VALUE);
 // via https://webup.org/blog/how-to-avoid-mocking-in-react-router-v6-tests/
 //@ts-ignore
-export function renderWithRouter(children, routes = []) {
+export function renderWithRouter(children, routes = [], loaderData?) {
+  const loaderMock = jest
+    .fn()
+    .mockReturnValue(loaderData ? loaderData : TEST_LOADER_VALUE);
   const options = isValidElement(children)
     ? { element: children, path: "/", loader: loaderMock }
     : children;
