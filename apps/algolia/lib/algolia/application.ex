@@ -8,8 +8,7 @@ defmodule Algolia.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: Algolia.Worker.start_link(arg)
-      # {Algolia.Worker, arg},
+      Algolia.Api
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
