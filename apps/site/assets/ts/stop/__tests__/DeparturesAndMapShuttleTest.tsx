@@ -23,10 +23,7 @@ const crRoute = {
   type: 2,
   name: "Framingham/Worcester Line",
   long_name: "Framingham/Worcester Line",
-  line: {
-    type: "line",
-    id: "line-Worcester"
-  },
+  line_id: "line-Worcester",
   id: "CR-Worcester",
   direction_names: {
     "0": "Outbound",
@@ -42,10 +39,7 @@ const railReplacementRoute = {
   type: 3,
   name: "Worcester Line Shuttle",
   long_name: "Ashland - Framingham",
-  line: {
-    type: "line",
-    id: "line-Worcester"
-  },
+  line_id: "line-Worcester",
   id: "Shuttle-AshlandFramingham",
   direction_names: {
     "0": "Outbound",
@@ -61,10 +55,7 @@ const rapidTransitRoute = {
   type: 1,
   name: "Test Rapid Transit",
   long_name: "Test Rapid Transit Line",
-  line: {
-    type: "line",
-    id: "line-rapid-transit"
-  },
+  line_id: "line-rapid-transit",
   id: "Test-Rapid-Line",
   direction_names: {
     "0": "Outbound",
@@ -81,10 +72,7 @@ const rapidTransitShuttleRoute = {
   type: 3,
   name: "Test Rapid Transit (Shuttle)",
   long_name: "Test Rapid Transit (Shuttle) Line",
-  line: {
-    type: "line",
-    id: "line-rapid-transit"
-  },
+  line_id: "line-rapid-transit",
   id: "Shuttle-Test-Rapid-Line",
   direction_names: {
     "0": "Outbound",

@@ -16,7 +16,7 @@ defmodule Routes.Route do
             description: :unknown,
             fare_class: :unknown_fare,
             custom_route?: false,
-            line: []
+            line_id: ""
 
   @type id_t :: String.t()
   @type t :: %__MODULE__{
@@ -31,7 +31,7 @@ defmodule Routes.Route do
           description: gtfs_route_desc,
           fare_class: gtfs_fare_class,
           custom_route?: boolean,
-          line: []
+          line_id: String.t() | nil
         }
   @type gtfs_route_type ::
           :subway | :commuter_rail | :bus | :ferry | :logan_express | :massport_shuttle
@@ -266,7 +266,7 @@ defmodule Routes.Route do
         description: description,
         fare_class: fare_class,
         custom_route?: custom_route?,
-        line: line
+        line_id: line_id
       }) do
     direction_destinations_value =
       if direction_destinations == :unknown,
@@ -291,7 +291,7 @@ defmodule Routes.Route do
       description: description,
       fare_class: fare_class,
       custom_route?: custom_route?,
-      line: line
+      line_id: line_id
     }
   end
 end

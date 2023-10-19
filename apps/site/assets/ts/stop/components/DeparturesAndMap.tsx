@@ -57,7 +57,7 @@ const mapRouteIds = (routes: Route[]): RouteIdReplacementMap => {
   const routeIdMap: RouteIdReplacementMap = {};
   railReplacementRoutes.forEach(r => {
     regularRoutesSansSubway.forEach(rr => {
-      if (r.line.id === rr.line.id) {
+      if (r.line_id === rr.line_id) {
         routeIdMap[r.id] = rr;
       }
     });
