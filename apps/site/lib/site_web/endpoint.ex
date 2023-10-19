@@ -3,6 +3,10 @@ defmodule SiteWeb.Endpoint do
 
   use Phoenix.Endpoint, otp_app: :site
 
+  @session_options store: :cookie,
+                   key: "_site_key",
+                   signing_salt: "TInvb4GN"
+
   @doc """
   Callback invoked for dynamically configuring the endpoint.
 
@@ -24,6 +28,8 @@ defmodule SiteWeb.Endpoint do
     websocket: [check_origin: Application.get_env(:site, :websocket_check_origin, false)],
     longpoll: [check_origin: Application.get_env(:site, :websocket_check_origin, false)]
   )
+
+  socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -55,9 +61,7 @@ defmodule SiteWeb.Endpoint do
 
   plug(
     Plug.Session,
-    store: :cookie,
-    key: "_site_key",
-    signing_salt: "TInvb4GN"
+    @session_options
   )
 
   plug(SiteWeb.Plugs.UriChecker)

@@ -10,7 +10,10 @@ config :site, SiteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
   render_errors: [accepts: ~w(html), layout: {SiteWeb.LayoutView, "app.html"}],
-  pubsub_server: Site.PubSub
+  pubsub_server: Site.PubSub,
+  live_view: [
+    signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
+  ]
 
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :phoenix, :json_library, Poison
