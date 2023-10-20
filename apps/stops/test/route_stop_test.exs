@@ -1,7 +1,8 @@
 defmodule Stops.RouteStopTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   import Stops.RouteStop
+  import Mock
   alias Routes.{Route, Shape}
   alias RoutePatterns.RoutePattern
   alias Stops.{RouteStop, Stop}
@@ -618,9 +619,23 @@ defmodule Stops.RouteStopTest do
     test "builds a list of connecting routes at a stop" do
       route_stop = build_route_stop(@stop, @red_route)
       assert route_stop.connections == {:error, :not_fetched}
-      fetched = fetch_connections(route_stop)
-      assert [%Route{} | _] = fetched.connections
-      assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
+      stop_id = @stop.id
+
+      with_mock(Routes.Repo,
+        by_stop: fn ^stop_id, [include: "stop.connecting_stops"] ->
+          [
+            %Route{id: @red_route.id},
+            %Route{id: "one", type: 2},
+            %Route{id: "another", type: 3},
+            %Route{id: "shuttle", description: :rail_replacement_bus, type: 3}
+          ]
+        end
+      ) do
+        fetched = fetch_connections(route_stop)
+        assert [%Route{}, %Route{}] = fetched.connections
+        assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
+        assert Enum.find(fetched.connections, &(&1.description == :rail_replacement_bus)) == nil
+      end
     end
   end
 
