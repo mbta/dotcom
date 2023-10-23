@@ -30,8 +30,8 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
-    {:stops_redesign, "Stops Page Redesign (Q1/Q2 2023)",
-     "Revamping of the Stop pages as part of the 🚉 Website - Stops Page Redesign epic"},
+    {:old_stops_redesign, "Stops Page Redesign (2023)",
+     "Enable this to revert back to the old version."},
     {:force_otp1, "Force OpenTripPlanner v1",
      "Override randomized assignment between OTP instances and force OTP1."},
     {:force_otp2, "Force OpenTripPlanner v2",
