@@ -493,8 +493,12 @@ address {
 
 .m-footer__policy-links {
   display: block;
-  font-size: $font-size-base-xs;
-  margin-left: 3.5rem;
+  font-size: .9rem;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 1rem;
+    margin-left: 3.5rem;
+  }
 
   a {
     color: $brand-primary-light-contrast;
