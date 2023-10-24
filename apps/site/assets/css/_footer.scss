@@ -500,6 +500,10 @@ address {
     margin-left: 3.5rem;
   }
 
+  @include media-breakpoint-down(xs) {
+    margin-left: 1rem;
+  }
+
   a {
     color: $brand-primary-light-contrast;
   }
