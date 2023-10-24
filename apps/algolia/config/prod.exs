@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :algolia, :keys,
   app_id: "${ALGOLIA_APP_ID}",
