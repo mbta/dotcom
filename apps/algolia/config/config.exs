@@ -16,7 +16,7 @@ config :algolia, :indexes, [
 
 config :algolia, :track_clicks?, false
 
-config :algolia, :index_suffix, ""
+config :algolia, :index_suffix, "_test"
 
 config :algolia, :http_pool, :algolia_http_pool
 

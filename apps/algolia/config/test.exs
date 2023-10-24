@@ -14,5 +14,3 @@ config :algolia, :indexes, [
 ]
 
 config :algolia, :click_analytics_url, :not_set
-
-config :algolia, :index_suffix, "_test"
