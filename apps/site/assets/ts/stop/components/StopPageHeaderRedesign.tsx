@@ -25,7 +25,7 @@ const StopPageHeaderRedesign = ({
             <h1 className="stop-page__header--fontsize mt-8">{stop.name}</h1>
           </div>
           <div>
-            <div className="mt-8">
+            <div className="mt-8 d-flex justify-content-end">
               <StopFeatures stop={stop} routes={routes} />
             </div>
             <div className="mt-n8 pb-8 fs-14" style={{ float: "right" }}>
