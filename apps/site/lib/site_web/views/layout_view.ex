@@ -157,7 +157,7 @@ defmodule SiteWeb.LayoutView do
               {"Financials", "/financials", :internal_link},
               {"Public Meetings", "/events", :internal_link},
               {"Press Releases", "/news", :internal_link},
-              {"MBTA Gift Shop", "http://www.mbtagifts.com/", :external_link},
+              {"MBTA Gift Shop", "https://www.mbtagifts.com", :external_link},
               {"Policies & Civil Rights", "/policies", :internal_link},
               {"Safety", "/safety", :internal_link},
               {"Quality, Compliance & Oversight", "/quality-compliance-oversight", :internal_link}
