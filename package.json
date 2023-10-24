@@ -22,10 +22,10 @@
     "postbuild": "mix compile",
     "rebuild": "rm -rf _build apps/site/priv/static apps/site/assets/node_modules; npm run install; npm run build",
     "dialyzer": "mix dialyzer --halt-exit-status",
-    "cypress:run": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress run",
-    "cypress:open": "PORT=4004 $(npm bin --prefix apps/site/assets)/cypress open",
-    "test:cypress:run": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
-    "test:cypress:open": "$(npm bin --prefix apps/site/assets)/start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
+    "cypress:run": "PORT=4004 npx --prefix apps/site/assets cypress run",
+    "cypress:open": "PORT=4004 npx --prefix apps/site/assets cypress open",
+    "test:cypress:run": "npx --prefix apps/site/assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
+    "test:cypress:open": "npx --prefix apps/site/assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
   },
   "lint-staged": {
     "**/*.{ex,exs}": "mix format"
