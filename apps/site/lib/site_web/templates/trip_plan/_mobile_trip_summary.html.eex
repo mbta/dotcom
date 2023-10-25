@@ -6,7 +6,7 @@
     <div class="planner-location-box-location">
       <strong>End here: </strong><%= Query.location_name(assigns[:query], :to) %>
     </div>
-      <a class="btn btn-primary trip-planner-edit-btn" data-toggle="collapse" href="#planner-form">
+      <a class="btn btn-primary trip-planner-edit-btn" data-toggle="collapse" href="#plan">
         Edit trip
       </a>
   </div>
