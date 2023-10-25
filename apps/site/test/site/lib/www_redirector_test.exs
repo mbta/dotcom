@@ -9,6 +9,11 @@ defmodule SiteWeb.WwwRedirectorTest do
     assert_conn_redirected_halted(conn, SiteWeb.Endpoint.url() <> "/news")
   end
 
+  test "call with host option", %{conn: conn} do
+    conn = WwwRedirector.call(%{conn | request_path: "/news"}, host: "https://myfakedomain.xyz")
+    assert_conn_redirected_halted(conn, "https://myfakedomain.xyz/news")
+  end
+
   describe "redirect" do
     test "top level redirected", %{conn: conn} do
       check_redirect_to_www_mbta(conn, "/", nil, "https://www.mbta.com/")

@@ -6,10 +6,13 @@ defmodule SiteWeb.WwwRedirector do
   alias Plug.Conn
 
   @impl true
-  def init([]), do: []
+  def init(options), do: options
 
   @impl true
-  def call(conn, _options), do: site_redirect(SiteWeb.Endpoint.url(), conn)
+  def call(conn, options) do
+    url = Keyword.get(options, :host, SiteWeb.Endpoint.url())
+    site_redirect(url, conn)
+  end
 
   @spec site_redirect(String.t(), Conn.t()) :: Plug.Conn.t()
   def site_redirect(site_url, conn) do
