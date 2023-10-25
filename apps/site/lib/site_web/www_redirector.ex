@@ -24,12 +24,22 @@ defmodule SiteWeb.WwwRedirector do
     |> halt()
   end
 
-  defp redirect_url(site_url, %Conn{request_path: path, query_string: query})
+  # If path_params are matched via SiteWeb.Router, use that to determine path
+  defp redirect_url(site_url, %Conn{path_params: %{"path" => path}, query_string: query}) do
+    revised_path = "/" <> Enum.join(path, "/")
+    do_redirect_url(site_url, revised_path, query)
+  end
+
+  defp redirect_url(site_url, %Conn{request_path: path, query_string: query}) do
+    do_redirect_url(site_url, path, query)
+  end
+
+  defp do_redirect_url(site_url, path, query)
        when is_binary(query) and query != "" do
     "#{site_url}#{path}?#{query}"
   end
 
-  defp redirect_url(site_url, %Conn{request_path: path}) do
+  defp do_redirect_url(site_url, path, _) do
     "#{site_url}#{path}"
   end
 end
