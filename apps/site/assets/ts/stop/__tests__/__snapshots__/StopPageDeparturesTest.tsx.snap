@@ -72,6 +72,33 @@ exports[`StopPageDepartures renders with data 2`] = `
           </span>
         </a>
         <div
+          aria-label="Open upcoming departures to Braintree"
+          class="departure-card__headsign d-flex"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="departure-card__headsign-name"
+          >
+            Braintree
+          </div>
+          <div
+            class="departure-card__content"
+          >
+            <div
+              class="font-helvetica-neue fs-14 u-nowrap"
+            >
+              No upcoming trips
+            </div>
+          </div>
+          <div>
+            <i
+              aria-hidden="true"
+              class="fa fa-angle-right notranslate fa-fw"
+            />
+          </div>
+        </div>
+        <div
           aria-label="Open upcoming departures to Ashmont"
           class="departure-card__headsign d-flex"
           role="button"
@@ -108,33 +135,6 @@ exports[`StopPageDepartures renders with data 2`] = `
             class="departure-card__headsign-name"
           >
             Alewife
-          </div>
-          <div
-            class="departure-card__content"
-          >
-            <div
-              class="font-helvetica-neue fs-14 u-nowrap"
-            >
-              No upcoming trips
-            </div>
-          </div>
-          <div>
-            <i
-              aria-hidden="true"
-              class="fa fa-angle-right notranslate fa-fw"
-            />
-          </div>
-        </div>
-        <div
-          aria-label="Open upcoming departures to Braintree"
-          class="departure-card__headsign d-flex"
-          role="button"
-          tabindex="0"
-        >
-          <div
-            class="departure-card__headsign-name"
-          >
-            Braintree
           </div>
           <div
             class="departure-card__content"
