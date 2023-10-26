@@ -99,7 +99,7 @@ exports[`StopPageDepartures renders with data 2`] = `
           </div>
         </div>
         <div
-          aria-label="Open upcoming departures to Ashmont"
+          aria-label="Open upcoming departures to Braintree"
           class="departure-card__headsign d-flex"
           role="button"
           tabindex="0"
@@ -107,7 +107,7 @@ exports[`StopPageDepartures renders with data 2`] = `
           <div
             class="departure-card__headsign-name"
           >
-            Ashmont
+            Braintree
           </div>
           <div
             class="departure-card__content"
