@@ -60,7 +60,8 @@ export const customStop = (args: Partial<Stop>): Stop =>
 
 const customRoutePattern = (
   route_id: string,
-  headsign: string
+  headsign: string,
+  index: number
 ): RoutePatternWithPolyline => {
   const routePatternId = `${route_id}-${faker.helpers.slugify(
     headsign
@@ -71,7 +72,7 @@ const customRoutePattern = (
     id: routePatternId,
     name: `${faker.location.city()} - ${headsign}`,
     typicality: faker.number.int({ min: 1, max: 4 }),
-    sort_order: faker.number.int(),
+    sort_order: index,
     direction_id: faker.number.int({ min: 0, max: 1 }),
     representative_trip_polyline: {
       ...newPolyline(),
@@ -82,18 +83,19 @@ const customRoutePattern = (
 const makeRoutePatternList = (
   route: string,
   headsign: string,
+  index: number,
   count: number = 1
 ): RoutePatternWithPolyline[] =>
   faker.helpers.multiple<RoutePatternWithPolyline>(
-    () => customRoutePattern(route, headsign),
+    () => customRoutePattern(route, headsign, index),
     { count }
   );
 
 const makeRoutePatternGroup = (route: string, headsign: string[]) => {
   const routePatternsByHeadsigns = Object.fromEntries(
-    headsign.map(h => [
+    headsign.map((h, i) => [
       h,
-      makeRoutePatternList(route, h, faker.number.int({ min: 1, max: 4 }))
+      makeRoutePatternList(route, h, i, faker.number.int({ min: 1, max: 4 }))
     ])
   );
   return { [route]: routePatternsByHeadsigns };

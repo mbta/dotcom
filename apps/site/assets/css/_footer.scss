@@ -490,3 +490,21 @@ address {
     border-radius: 40px 40px 0 0;
   }
 }
+
+.m-footer__policy-links {
+  display: block;
+  font-size: .9rem;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 1rem;
+    margin-left: 3.5rem;
+  }
+
+  @include media-breakpoint-down(xs) {
+    margin-left: 1rem;
+  }
+
+  a {
+    color: $brand-primary-light-contrast;
+  }
+}
