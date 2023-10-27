@@ -177,7 +177,7 @@ function _fileIcon(hit) {
   }
 }
 
-export function _contentIcon(hit) {
+export function contentIcon(hit) {
   let icon;
 
   if (hit.search_api_datasource === "entity:file") {
@@ -238,7 +238,7 @@ function getPopularIcon(icon) {
 export function getIcon(hit, type) {
   switch (type) {
     case "locations":
-      return _contentIcon({ ...hit, _content_type: "locations" });
+      return contentIcon({ ...hit, _content_type: "locations" });
     case "stops":
       return _getStopOrStationIcon(hit);
 
@@ -257,7 +257,7 @@ export function getIcon(hit, type) {
     case "documents":
     case "events":
     case "news":
-      return _contentIcon(hit);
+      return contentIcon(hit);
 
     case "usemylocation":
       return "";

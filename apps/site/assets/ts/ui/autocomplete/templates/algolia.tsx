@@ -4,7 +4,7 @@ import { SourceTemplates } from "@algolia/autocomplete-js";
 import { AutocompleteItem, Item } from "../__autocomplete";
 import { getTitleAttribute, isContentItem, isRouteItem } from "../helpers";
 import {
-  _contentIcon,
+  contentIcon,
   getFeatureIcons,
   getIcon
 } from "../../../../js/algolia-result";
@@ -19,7 +19,7 @@ const AlgoliaItemTemplate: SourceTemplates<Item>["item"] = ({
   // eslint-disable-next-line no-underscore-dangle
   const url = isContentItem(item) ? item._content_url : item.url;
   const iconHtml = isContentItem(item)
-    ? _contentIcon(item)
+    ? contentIcon(item)
     : getIcon(item, index);
   return (
     <a href={url} className="aa-ItemLink">
