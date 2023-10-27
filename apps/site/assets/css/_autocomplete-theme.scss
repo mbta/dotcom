@@ -15,7 +15,6 @@
     border-bottom: $border;
     border-radius: 0;
     font-weight: normal;
-    padding: calc(#{$base-spacing} / 2) $base-spacing;
 
     &:hover {
       background-color: $brand-primary-lightest;
@@ -33,6 +32,7 @@
       font-weight: inherit;
       gap: .25rem;
       min-width: 0;
+      padding: calc(#{$base-spacing} / 2) $base-spacing;
     }
 
     a:hover {
