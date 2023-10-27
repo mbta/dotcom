@@ -116,7 +116,7 @@ defmodule SiteWeb.TripPlanView do
     outside_bounds: "We can only plan trips inside the MBTA transitshed.",
     no_transit_times: "We were unable to plan a trip at the time you selected.",
     same_address: "You must enter two different locations.",
-    location_not_accessible: "We were unable to plan an accessible trip between those locations.",
+    location_not_accessible: "We were unable to plan a trip between those locations.",
     path_not_found: "We were unable to plan a trip between those locations.",
     too_close: "We were unable to plan a trip between those locations.",
     unknown: "An unknown error occurred. Please try again, or try a different address.",
@@ -142,6 +142,7 @@ defmodule SiteWeb.TripPlanView do
 
   @spec show_plan_error?([atom]) :: boolean
   def show_plan_error?(errors) do
+    IO.inspect(errors)
     Enum.any?(errors, &Map.has_key?(@plan_errors, &1))
   end
 
