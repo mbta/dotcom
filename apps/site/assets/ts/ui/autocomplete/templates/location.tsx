@@ -1,5 +1,4 @@
-/** @jsx h */
-import { h } from "preact";
+import React from "react";
 import { SourceTemplates } from "@algolia/autocomplete-js";
 import { Item, LocationItem } from "../__autocomplete";
 import { highlightText } from "../../../helpers/text";

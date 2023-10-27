@@ -1,5 +1,4 @@
-/** @jsx h */
-import { h } from "preact";
+import React from "react";
 import { uniqueId } from "lodash";
 import { SourceTemplates } from "@algolia/autocomplete-js";
 import { AutocompleteItem, Item } from "../__autocomplete";

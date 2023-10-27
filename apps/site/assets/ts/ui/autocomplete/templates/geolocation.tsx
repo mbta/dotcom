@@ -1,7 +1,5 @@
-/** @jsx h */
-import { VNode, h } from "preact";
+import React, { useState, useEffect } from "react";
 import { StateUpdater } from "@algolia/autocomplete-core";
-import { useState, useEffect } from "preact/hooks";
 import { SourceTemplates } from "@algolia/autocomplete-js";
 import geolocationPromise from "../../../../js/geolocation-promise";
 import { transitNearMeURL } from "../helpers";
@@ -9,7 +7,7 @@ import { Item } from "../__autocomplete";
 
 function GeolocationComponent(props: {
   setIsOpen: StateUpdater<boolean>;
-}): VNode {
+}): React.ReactElement {
   const { setIsOpen } = props;
   const [loading, setLoading] = useState<string>();
   const [position, setPosition] = useState<GeolocationPosition>();

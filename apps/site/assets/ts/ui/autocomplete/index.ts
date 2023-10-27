@@ -1,7 +1,16 @@
 import { AutocompleteOptions, autocomplete } from "@algolia/autocomplete-js";
+import { createElement, Fragment } from "react";
+import { render } from "react-dom";
 import getSources from "./sources";
 import { Item } from "./__autocomplete";
 import { onStateChange } from "./helpers";
+
+// replace the default Preact-based renderer used by AutocompleteJS
+const reactRenderer = {
+  createElement,
+  Fragment,
+  render
+} as AutocompleteOptions<Item>["renderer"];
 
 /**
  * Creates the Algolia Autocomplete instances for various search experiences on
@@ -18,7 +27,8 @@ function setupAlgoliaAutocomplete(container: HTMLElement): void {
     openOnFocus: true,
     onStateChange,
     placeholder: "Search for routes, info, and more",
-    getSources: params => getSources(container.dataset, params)
+    getSources: params => getSources(container.dataset, params),
+    renderer: reactRenderer
   };
   autocomplete(options);
 }
