@@ -142,7 +142,6 @@ defmodule SiteWeb.TripPlanView do
 
   @spec show_plan_error?([atom]) :: boolean
   def show_plan_error?(errors) do
-    IO.inspect(errors)
     Enum.any?(errors, &Map.has_key?(@plan_errors, &1))
   end
 
