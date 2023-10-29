@@ -209,11 +209,13 @@ defmodule SiteWeb.StopController do
   # Canonical route patterns don't serve any date! Just ignore in this case
   defp not_serving_today?(%RoutePattern{typicality: :canonical}), do: false
 
-  defp not_serving_today?(%RoutePattern{service_id: service_id})
-       when is_binary(service_id) do
-    case Services.Repo.by_id(service_id) do
-      %Service{} = service ->
-        not Service.serves_date?(service, Timex.today())
+  defp not_serving_today?(%RoutePattern{route_id: route_id})
+       when is_binary(route_id) do
+    case Services.Repo.by_route_id(route_id) do
+      [%Service{} | _] = services ->
+        services
+        |> Enum.filter(&Service.serves_date?(&1, Timex.today()))
+        |> Enum.empty?()
 
       _ ->
         false
