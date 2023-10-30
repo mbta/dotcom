@@ -2,7 +2,8 @@ import { addMinutes, addSeconds } from "date-fns";
 import {
   compareStringTimes,
   formatRelativeTime,
-  formatToBostonTime
+  formatToBostonTime,
+  todayDateString
 } from "../date";
 
 describe("compareStringTimes", () => {
@@ -42,5 +43,20 @@ describe("formatRelativeTime", () => {
 
     const laterDate = addMinutes(baseDate, 70);
     expect(formatRelativeTime(laterDate, baseDate)).toBe("11:10 AM");
+  });
+});
+
+describe("todayDateString", () => {
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2012-10-10T09:00:00.000+04:00"));
+  });
+
+  it("returns formatted today date", () => {
+    expect(todayDateString()).toEqual("Oct 10");
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
   });
 });
