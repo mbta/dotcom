@@ -14,13 +14,6 @@ export function isContentItem(x: Item): x is ContentItem {
   return Object.keys(x).includes("_content_type");
 }
 
-export const getItemType = (item: Item): string => {
-  if (isStopItem(item)) return "stops";
-  if (isRouteItem(item)) return "routes";
-  if (isContentItem(item)) return "drupal";
-  return "locations";
-};
-
 export const getTitleAttribute = (item: Item): string[] => {
   if (isStopItem(item)) {
     return ["stop", "name"];

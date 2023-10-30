@@ -3,12 +3,10 @@ import { Route, Stop } from "../../__v3api";
 import {
   ContentItem,
   Item,
-  LocationItem,
   RouteItem,
   StopItem
 } from "../autocomplete/__autocomplete";
 import {
-  getItemType,
   getTitleAttribute,
   transitNearMeURL,
   onStateChange
@@ -22,14 +20,6 @@ import {
 const testRouteItem = { route: {} as Route } as RouteItem;
 const testStopItem = { stop: {} as Stop } as StopItem;
 const testContentItem = { _content_type: "events" } as ContentItem;
-const testLocationItem = { address: "" } as LocationItem;
-
-test("getItemType infers type from the item's properties", () => {
-  expect(getItemType(testRouteItem)).toEqual("routes");
-  expect(getItemType(testStopItem)).toEqual("stops");
-  expect(getItemType(testContentItem)).toEqual("drupal");
-  expect(getItemType(testLocationItem)).toEqual("locations");
-});
 
 test("getTitleAttribute indicates name to highlight", () => {
   expect(getTitleAttribute(testRouteItem as Hit<Item>)).toEqual([
