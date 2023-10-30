@@ -73,6 +73,7 @@ const DepartureCard = ({
               )}
               onClick={onClick}
               isCR={isACommuterRailRoute(route)}
+              hasService={routePatterns.length !== 0}
             />
           );
         }

@@ -13,6 +13,7 @@ interface DepartureTimesProps {
   headsign: string;
   onClick: () => void;
   isCR: boolean;
+  hasService: boolean;
   // override date primarily used for testing
   overrideDate?: Date;
 }
@@ -50,6 +51,7 @@ const DepartureTimes = ({
   headsign,
   onClick,
   isCR,
+  hasService,
   overrideDate
 }: DepartureTimesProps): ReactElement<HTMLElement> | null => {
   const timeList = departuresListFromInfos(
@@ -66,18 +68,24 @@ const DepartureTimes = ({
   return (
     <ClickableDepartureRow onClick={onClick} headsignName={headsign}>
       <div className="departure-card__content">
-        <DeparturesWithBadge
-          alerts={alertsForDirection}
-          departuresLength={departures.length}
-        >
-          {timeList.length > 0 ? (
-            <div className="departure-card__times">{timeList}</div>
-          ) : (
-            <div className="font-helvetica-neue fs-14 u-nowrap">
-              No upcoming trips
-            </div>
-          )}
-        </DeparturesWithBadge>
+        {hasService ? (
+          <DeparturesWithBadge
+            alerts={alertsForDirection}
+            departuresLength={departures.length}
+          >
+            {timeList.length > 0 ? (
+              <div className="departure-card__times">{timeList}</div>
+            ) : (
+              <div className="font-helvetica-neue fs-14 u-nowrap">
+                No upcoming trips
+              </div>
+            )}
+          </DeparturesWithBadge>
+        ) : (
+          <div className="font-helvetica-neue fs-14 u-nowrap">
+            No service today
+          </div>
+        )}
       </div>
     </ClickableDepartureRow>
   );

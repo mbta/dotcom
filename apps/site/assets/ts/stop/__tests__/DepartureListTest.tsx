@@ -67,6 +67,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign={"Cucamonga"}
         alerts={[]}
+        hasService={true}
       />
     );
     expect(screen.queryAllByRole("listitem")).toHaveLength(predictions.length);
@@ -83,6 +84,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign={"Atlantis"}
         alerts={[]}
+        hasService={true}
       />
     );
 
@@ -101,6 +103,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign={"Disney"}
         alerts={[]}
+        hasService={true}
       />
     );
 
@@ -119,6 +122,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign={"Bermuda"}
         alerts={[]}
+        hasService={true}
       />
     );
     expect(
@@ -161,6 +165,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign={"San Fransokyo"}
         alerts={alerts}
+        hasService={true}
       />
     );
 
@@ -179,6 +184,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign={"Gotham"}
         alerts={[]}
+        hasService={true}
       />
     );
     expect(
@@ -195,6 +201,7 @@ describe("DepartureList", () => {
         departures={[]}
         directionId={0}
         headsign="Riverdale"
+        hasService={true}
       />
     );
     expect(screen.getByText("No upcoming trips today")).toBeDefined();
@@ -225,6 +232,7 @@ describe("DepartureList", () => {
         departures={mergeIntoDepartureInfo(schedules, predictions)}
         directionId={0}
         headsign="Smallville"
+        hasService={true}
       />
     );
     expect(screen.getByText("Cancelled")).toBeInTheDocument();
@@ -265,6 +273,7 @@ describe("DepartureList", () => {
         directionId={0}
         headsign="Emerald City"
         targetDate={new Date("2022-04-27T11:00:00-04:00")}
+        hasService={true}
       />
     );
     expect(screen.queryByText("Cancelled")).not.toBeInTheDocument();
@@ -292,8 +301,26 @@ describe("DepartureList", () => {
         directionId={0}
         headsign="Emerald City"
         targetDate={new Date("2022-04-27T11:00:00-04:00")}
+        hasService={true}
       />
     );
     expect(screen.queryAllByRole("listitem")).toHaveLength(departures.length);
+  });
+
+  it("can show no service message", () => {
+    const expectedMessage = "No service today";
+    render(
+      <DepartureList
+        route={route}
+        stop={stop}
+        departures={mergeIntoDepartureInfo(schedules, [])}
+        directionId={0}
+        headsign={"Atlantis"}
+        alerts={[]}
+        hasService={false}
+      />
+    );
+
+    expect(screen.findByText(expectedMessage)).toBeDefined();
   });
 });

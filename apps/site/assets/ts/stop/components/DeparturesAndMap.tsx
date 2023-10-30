@@ -240,6 +240,7 @@ const DeparturesAndMap = ({
               directionId={activeRow.directionId}
               headsign={activeRow.headsign}
               alerts={realtimeAlerts}
+              hasService={routePatternsForSelection.length !== 0}
             />
           </div>
         ) : (
