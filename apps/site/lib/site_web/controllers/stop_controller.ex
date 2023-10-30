@@ -192,27 +192,42 @@ defmodule SiteWeb.StopController do
     json(conn, route_patterns_by_route_and_headsign(stop_id))
   end
 
-  @type by_route_and_headsign :: %{Route.id_t() => %{String.t() => [RoutePattern.t()]}}
+  @type headsign_info :: %{
+          required(:direction_id) => 0 | 1,
+          required(:route_patterns) => [RoutePattern.t()]
+        }
+  @type by_route_and_headsign :: %{Route.id_t() => %{String.t() => headsign_info}}
   @spec route_patterns_by_route_and_headsign(Stop.id_t()) :: by_route_and_headsign()
   defp route_patterns_by_route_and_headsign(stop_id) do
     stop_id
     |> RoutePatterns.Repo.by_stop_id()
-    |> Stream.reject(&not_serving_today?/1)
     |> Stream.reject(&ends_at?(&1, stop_id))
-    |> Stream.map(&add_polyline/1)
     |> Stream.chunk_by(& &1.route_id)
     |> Stream.map(fn [%RoutePattern{route_id: route_id} | _] = route_route_patterns ->
       by_headsign =
         route_route_patterns
         |> Stream.chunk_by(& &1.headsign)
         |> Stream.map(fn [%RoutePattern{headsign: headsign} | _] = headsign_route_patterns ->
-          {headsign, headsign_route_patterns}
+          {headsign, with_headsign_info(headsign_route_patterns)}
         end)
         |> Map.new()
 
       {route_id, by_headsign}
     end)
     |> Map.new()
+  end
+
+  @spec with_headsign_info([RoutePattern.t()]) :: headsign_info
+  defp with_headsign_info(headsign_route_patterns) do
+    [%RoutePattern{direction_id: direction_id} | _] = headsign_route_patterns
+
+    %{
+      direction_id: direction_id,
+      route_patterns:
+        headsign_route_patterns
+        |> Enum.reject(&not_serving_today?/1)
+        |> Enum.map(&add_polyline/1)
+    }
   end
 
   @spec not_serving_today?(RoutePattern.t()) :: boolean()

@@ -141,7 +141,8 @@ defmodule SiteWeb.StopControllerTest do
             %RoutePatterns.RoutePattern{
               route_id: "Purple-A",
               headsign: "Tree Hill",
-              name: "Here Square - Tree Hill"
+              name: "Here Square - Tree Hill",
+              direction_id: 0
             }
           ]
         end
@@ -151,13 +152,16 @@ defmodule SiteWeb.StopControllerTest do
 
         assert %{
                  "Purple-A" => %{
-                   "Tree Hill" => [
-                     %{
-                       "headsign" => "Tree Hill",
-                       "name" => "Here Square - Tree Hill"
-                     }
-                     | _
-                   ]
+                   "Tree Hill" => %{
+                     "direction_id" => 0,
+                     "route_patterns" => [
+                       %{
+                         "headsign" => "Tree Hill",
+                         "name" => "Here Square - Tree Hill"
+                       }
+                       | _
+                     ]
+                   }
                  }
                } = response
       end
