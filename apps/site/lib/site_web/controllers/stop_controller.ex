@@ -239,6 +239,7 @@ defmodule SiteWeb.StopController do
     case Services.Repo.by_route_id(route_id) do
       [%Service{} | _] = services ->
         services
+        |> Enum.reject(&(&1.id === "canonical"))
         |> Enum.filter(&Service.serves_date?(&1, Timex.today()))
         |> Enum.empty?()
 
