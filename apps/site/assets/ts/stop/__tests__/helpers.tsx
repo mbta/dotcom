@@ -93,10 +93,16 @@ const makeRoutePatternList = (
 
 const makeRoutePatternGroup = (route: string, headsign: string[]) => {
   const routePatternsByHeadsigns = Object.fromEntries(
-    headsign.map((h, i) => [
-      h,
-      makeRoutePatternList(route, h, i, faker.number.int({ min: 1, max: 4 }))
-    ])
+    headsign.map((h, i) => {
+      const route_patterns = makeRoutePatternList(
+        route,
+        h,
+        i,
+        faker.number.int({ min: 1, max: 4 })
+      );
+      const direction_id = route_patterns[0].direction_id;
+      return [h, { route_patterns, direction_id }];
+    })
   );
   return { [route]: routePatternsByHeadsigns };
 };

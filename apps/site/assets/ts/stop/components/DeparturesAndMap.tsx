@@ -198,17 +198,14 @@ const DeparturesAndMap = ({
     route => {
       const routePatterns = Object.values(
         updatedGroupedRoutePatterns[route.id]
-      ).flat();
+      ).flatMap(obj => obj.route_patterns);
       return routePatterns.map(rp => rp.representative_trip_polyline);
     }
   );
 
-  /** TODO: Filter by selected trip. Blocked by being unable to match
-   * schedule/prediction shape IDs with route canonical shape IDs */
   const routePatternsForSelection = activeRow
-    ? updatedGroupedRoutePatterns[activeRow.route.id][
-        activeRow.headsign
-      ].filter(rp => rp.direction_id === activeRow.directionId)
+    ? updatedGroupedRoutePatterns[activeRow.route.id][activeRow.headsign]
+        .route_patterns
     : [];
   const shapeForSelection = routePatternsForSelection.map(
     rp => rp.representative_trip_polyline
