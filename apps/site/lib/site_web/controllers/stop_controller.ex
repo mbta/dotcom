@@ -197,11 +197,21 @@ defmodule SiteWeb.StopController do
   defp route_patterns_by_route_and_headsign(stop_id) do
     stop_id
     |> RoutePatterns.Repo.by_stop_id()
-    |> Enum.reject(&not_serving_today?/1)
-    |> Enum.reject(&ends_at?(&1, stop_id))
-    |> Enum.map(&add_polyline/1)
-    |> Enum.group_by(& &1.route_id)
-    |> Enum.map(fn {k, v} -> {k, Enum.group_by(v, & &1.headsign)} end)
+    |> Stream.reject(&not_serving_today?/1)
+    |> Stream.reject(&ends_at?(&1, stop_id))
+    |> Stream.map(&add_polyline/1)
+    |> Stream.chunk_by(& &1.route_id)
+    |> Stream.map(fn [%RoutePattern{route_id: route_id} | _] = route_route_patterns ->
+      by_headsign =
+        route_route_patterns
+        |> Stream.chunk_by(& &1.headsign)
+        |> Stream.map(fn [%RoutePattern{headsign: headsign} | _] = headsign_route_patterns ->
+          {headsign, headsign_route_patterns}
+        end)
+        |> Map.new()
+
+      {route_id, by_headsign}
+    end)
     |> Map.new()
   end
 
