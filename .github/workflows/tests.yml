@@ -117,7 +117,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
-    - uses: mbta/actions/dialyzer@v1
+    - uses: mbta/actions/dialyzer@v2
 
   type_typescript:
     name: Type checks / TypeScript
