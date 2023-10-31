@@ -46,7 +46,8 @@ defmodule TripPlan.Mixfile do
       {:location_service, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},
-      {:fast_local_datetime, "~> 0.1.0"}
+      {:fast_local_datetime, "~> 0.1.0"},
+      {:absinthe_client, "~> 0.1.0"}
     ]
   end
 end
