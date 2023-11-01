@@ -97,7 +97,8 @@ const groupedRoutePatterns = {
           direction_id: 1,
           representative_trip_polyline: {
             id: "1"
-          }
+          },
+          canonical: false
         }
       ]
     }
@@ -113,7 +114,8 @@ const groupedRoutePatterns = {
           direction_id: 1,
           representative_trip_polyline: {
             id: "2"
-          }
+          },
+          canonical: false
         }
       ]
     },
@@ -127,7 +129,8 @@ const groupedRoutePatterns = {
           direction_id: 1,
           representative_trip_polyline: {
             id: "3"
-          }
+          },
+          canonical: false
         }
       ]
     }
@@ -146,7 +149,8 @@ const groupedRapidTransitRoutePatterns = {
           direction_id: 1,
           representative_trip_polyline: {
             id: "1"
-          }
+          },
+          canonical: false
         }
       ]
     }
@@ -162,7 +166,8 @@ const groupedRapidTransitRoutePatterns = {
           direction_id: 1,
           representative_trip_polyline: {
             id: "2"
-          }
+          },
+          canonical: true
         }
       ]
     }

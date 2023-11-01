@@ -77,7 +77,8 @@ const customRoutePattern = (
     representative_trip_polyline: {
       ...newPolyline(),
       id: `${routePatternId}--shape`
-    }
+    },
+    canonical: route_id === "Red"
   } as RoutePatternWithPolyline;
 };
 const makeRoutePatternList = (

@@ -362,6 +362,7 @@ export interface RoutePattern {
   id: string;
   direction_id: DirectionId;
   sort_order: number;
+  canonical: boolean;
 }
 
 export interface StopHours {
