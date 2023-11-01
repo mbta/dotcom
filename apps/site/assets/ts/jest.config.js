@@ -14,7 +14,8 @@ module.exports = {
     "!./components/ErrorPage.tsx",
     "!./sentry.ts",
     "!**/*.d.ts",
-    "!./ie-warning/**"
+    "!./ie-warning/**",
+    "!./ui/autocomplete/templates/**"
   ],
   coverageReporters: ["html"],
   coverageThreshold: {

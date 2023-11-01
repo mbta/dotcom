@@ -2,7 +2,7 @@
 <header class="header--new">
   <div class="container new">
     <div class="header-navbar new">
-      <a class="font-body font-white m-menu__toggle u-bold hidden-js" data-nav="toggle-mobile-nav" href="<%= static_page_path(@conn, :menu) %>">Menu</a>
+      <a class="font-body font-white m-menu__toggle u-bold hidden-js" data-nav="toggle-mobile-nav" href={static_page_path(@conn, :menu)}>Menu</a>
       <button class="font-body m-menu__toggle u-bold hidden-no-js" data-nav="toggle-mobile-nav" type="button" aria-expanded="false" aria-controls="navmenu">Menu</button>
       <a class="navbar-logo" href="/" data-nav="logo">
         <span class="sr-only">MBTA Home Page</span>
@@ -14,11 +14,14 @@
 
       <%= render "_new_nav_desktop.html", assigns %>
       <div class="search-wrapper">
-        <%= render SiteWeb.PageView, "_search_bar.html",
-            conn: @conn,
-            id: "header-desktop",
-            placeholder: "Search for routes, info, and more"
-        %>
+        <div class="search" style="justify-content: end;">
+          <.algolia_autocomplete
+            id="header-desktop"
+            geolocation={true}
+            locations={true}
+            algolia_indexes={[:stops, :routes, :drupal]}
+          />
+        </div>
       </div>
 
       <button class="header-search__toggle" data-nav="toggle-nav-search" type="button" aria-expanded="false" aria-controls="search-header-mobile__container" aria-label="Search MBTA.com">

@@ -63,6 +63,8 @@ defmodule SiteWeb do
       use Phoenix.HTML
       use Site.Components.Precompiler
 
+      import SiteWeb.Components
+
       import SiteWeb.Router.Helpers,
         except: [
           news_entry_path: 2,

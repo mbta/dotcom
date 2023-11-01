@@ -6,7 +6,7 @@
 export const breakTextAtSlash = (str: string): string =>
   str.replace(/\//g, "/​");
 
-interface HighlightedSpan {
+export interface HighlightedSpan {
   offset: number;
   length: number;
 }

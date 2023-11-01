@@ -47,6 +47,7 @@ import pslPageSetup from "./psl-page-setup.js";
 import tabbedNav from "./tabbed-nav.js";
 import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
+import setupAlgoliaAutocomplete from "../ts/ui/autocomplete/index";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
@@ -56,6 +57,11 @@ let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let Hooks = {};
+Hooks.AlgoliaAutocomplete = {
+  mounted() {
+    setupAlgoliaAutocomplete(this.el);
+  }
+};
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: Hooks

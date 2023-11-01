@@ -14,8 +14,8 @@ const SELECTORS = {
   mobileMenu: "[data-nav='mobile-content']",
   mobileMenuButton: "button[data-nav='toggle-mobile-nav']",
   searchButton: "[data-nav='toggle-nav-search']",
-  searchBarDesktop: "header #search-header-desktop__container",
-  searchInputDesktop: "header #search-header-desktop__input",
+  searchBarDesktop: "#header-desktop .aa-Autocomplete",
+  searchInputDesktop: "#header-desktop .aa-Input",
   searchBarMobile: "header #search-header-mobile__container"
 }
 
@@ -72,14 +72,14 @@ describe("Header navigation", () => {
         switch (viewport) {
           case "macbook-16":
             cy.get(SELECTORS.desktopMenuButton).first().should("be.visible");
-            cy.get(SELECTORS.searchBarDesktop).should("be.visible").get("input.c-search-bar__-input").should("have.attr", "placeholder", searchPlaceholderText);
+            cy.get(SELECTORS.searchBarDesktop).should("be.visible").get("input").should("have.attr", "placeholder", searchPlaceholderText);
             cy.get(SELECTORS.mobileMenuButton).should("not.be.visible");
             cy.get(SELECTORS.searchButton).should("not.be.visible");
             break;
 
           case "ipad-2":
             cy.get(SELECTORS.desktopMenuButton).first().should("not.be.visible");
-            cy.get(SELECTORS.searchBarDesktop).should("be.visible").get("input.c-search-bar__-input").should("have.attr", "placeholder", searchPlaceholderText);
+            cy.get(SELECTORS.searchBarDesktop).should("be.visible").get("input").should("have.attr", "placeholder", searchPlaceholderText);
             cy.get(SELECTORS.mobileMenuButton).should("be.visible");
             cy.get(SELECTORS.searchButton).should("not.be.visible");
             break;
@@ -129,10 +129,14 @@ describe("Header navigation", () => {
           cy.get(SELECTORS.mobileMenuButton).should("contain", "Menu");
         });
 
-        it ("Veil should be shown when search input is focused, and hidden when blurred", () => {
+        it("Veil should be shown when search input is focused, and hidden on ESC key or external click", () => {
           cy.get(SELECTORS.searchInputDesktop).focus();
           cy.get(SELECTORS.veil).should("be.visible");
-          cy.get(SELECTORS.searchInputDesktop).blur();
+          cy.get("body").click();
+          cy.get(SELECTORS.veil).should("not.be.visible");
+          cy.get(SELECTORS.searchInputDesktop).focus();
+          cy.get(SELECTORS.veil).should("be.visible");
+          cy.get("body").type("{esc}");
           cy.get(SELECTORS.veil).should("not.be.visible");
         });
       } else if (viewport == "macbook-16") {

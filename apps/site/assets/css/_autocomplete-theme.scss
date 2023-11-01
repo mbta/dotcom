@@ -1,0 +1,131 @@
+@import '@algolia/autocomplete-theme-classic';
+
+// right now #header-desktop is the only search using the new library, so it's
+// the only one styled here. the #header-desktop can be removed once we migrate
+// the rest over
+.c-search-bar__autocomplete#header-desktop {
+  .aa-Autocomplete {
+    --aa-icon-color-rgb: 22, 92, 150; // $brand-primary;
+    --aa-primary-color-rgb: 22, 92, 150; // $brand-primary;
+    --aa-search-input-height: 2.25rem;
+  }
+
+  .aa-Item {
+    @include icon-size-inline(1em);
+    border-bottom: $border;
+    border-radius: 0;
+    font-weight: normal;
+
+    &:hover {
+      background-color: $brand-primary-lightest;
+    }
+
+    em {
+      font-style: inherit;
+      font-weight: bold;
+    }
+
+    > a,
+    > button {
+      color: currentColor;
+      display: flex;
+      font-weight: inherit;
+      gap: .25rem;
+      min-width: 0;
+      padding: calc(#{$base-spacing} / 2) $base-spacing;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  .aa-ItemContent,
+  .aa-ItemContentBody {
+    display: unset;
+  }
+
+  .aa-ItemContent {
+    mark {
+      padding: 0;
+    }
+    > * {
+      margin-right: .25rem;
+    }
+  }
+
+  .aa-ItemContentTitle {
+    display: unset;
+    margin: unset;
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+  }
+
+  .aa-PanelLayout {
+    padding: unset;
+  }
+
+  .aa-Panel {
+    // stylelint-disable-next-line declaration-no-important
+    top: 3.25rem !important;
+    z-index: var(--aa-base-z-index);
+  }
+
+  .aa-Label {
+    margin-bottom: unset;
+  }
+
+  .aa-Input {
+    // stylelint-disable-next-line declaration-no-important
+    height: var(--aa-search-input-height) !important;
+  }
+
+  .aa-InputWrapperPrefix {
+    order: 3; // move search icon to end.
+  }
+
+  .aa-InputWrapper {
+    order: 1;
+    padding-left: 1rem;
+  }
+
+  .aa-InputWrapperSuffix {
+    order: 2;
+  }
+
+  .aa-Form {
+    border: 3px solid $brand-primary;
+    border-radius: .5rem;
+
+    &:focus-within {
+      border-color: $brand-primary-lightest;
+      box-shadow: unset;
+    }
+  }
+
+  .aa-LoadingIndicator,
+  .aa-SubmitButton {
+    padding-left: var(--aa-spacing-half);
+    width: calc(var(--aa-spacing) * 1.25 + var(--aa-icon-size) - 1px);
+  }
+
+  .aa-ClearButton {
+    @include fa-icon-solid($fa-var-times-circle);
+    color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
+    padding-right: var(--aa-spacing-half);
+    // hide default icon
+    .aa-ClearIcon { display: none; }
+  }
+
+  .aa-SubmitButton {
+    @include fa-icon-solid($fa-var-search);
+    color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
+    // hide default icon
+    .aa-SubmitIcon { display: none; }
+  }
+
+  .aa-GradientBottom,
+  .aa-GradientTop { all: unset; }
+}
+

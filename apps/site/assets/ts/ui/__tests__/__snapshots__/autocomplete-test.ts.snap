@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Algolia v1 autocomplete matches snapshot 1`] = `
+<div
+  class="c-search-bar__autocomplete"
+  data-algolia="routes,stops,drupal"
+  data-geolocation=""
+  data-locations=""
+  data-turbolinks-permanent=""
+  id="test-autocomplete"
+>
+  <div
+    aria-expanded="false"
+    aria-haspopup="listbox"
+    aria-labelledby="autocomplete-1-label"
+    class="aa-Autocomplete"
+    role="combobox"
+  >
+    <form
+      action=""
+      class="aa-Form"
+      novalidate=""
+      role="search"
+    >
+      <div
+        class="aa-InputWrapperPrefix"
+      >
+        <label
+          class="aa-Label"
+          for="autocomplete-1-input"
+          id="autocomplete-1-label"
+        >
+          <button
+            class="aa-SubmitButton"
+            title="Submit"
+            type="submit"
+          >
+            <svg
+              class="aa-SubmitIcon"
+              fill="currentColor"
+              height="20"
+              viewBox="0 0 24 24"
+              width="20"
+            >
+              <path
+                d="M16.041 15.856c-0.034 0.026-0.067 0.055-0.099 0.087s-0.060 0.064-0.087 0.099c-1.258 1.213-2.969 1.958-4.855 1.958-1.933 0-3.682-0.782-4.95-2.050s-2.050-3.017-2.050-4.95 0.782-3.682 2.050-4.95 3.017-2.050 4.95-2.050 3.682 0.782 4.95 2.050 2.050 3.017 2.050 4.95c0 1.886-0.745 3.597-1.959 4.856zM21.707 20.293l-3.675-3.675c1.231-1.54 1.968-3.493 1.968-5.618 0-2.485-1.008-4.736-2.636-6.364s-3.879-2.636-6.364-2.636-4.736 1.008-6.364 2.636-2.636 3.879-2.636 6.364 1.008 4.736 2.636 6.364 3.879 2.636 6.364 2.636c2.125 0 4.078-0.737 5.618-1.968l3.675 3.675c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414z"
+              />
+            </svg>
+          </button>
+        </label>
+        <div
+          class="aa-LoadingIndicator"
+          hidden=""
+        >
+          <svg
+            class="aa-LoadingIcon"
+            height="20"
+            viewBox="0 0 100 100"
+            width="20"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              fill="none"
+              r="35"
+              stroke="currentColor"
+              stroke-dasharray="164.93361431346415 56.97787143782138"
+              stroke-width="6"
+            >
+              
+  
+              <animatetransform
+                attributeName="transform"
+                dur="1s"
+                keyTimes="0;0.40;0.65;1"
+                repeatCount="indefinite"
+                type="rotate"
+                values="0 50 50;90 50 50;180 50 50;360 50 50"
+              />
+              
+
+            </circle>
+          </svg>
+        </div>
+      </div>
+      <div
+        class="aa-InputWrapper"
+      >
+        <input
+          aria-autocomplete="both"
+          aria-labelledby="autocomplete-1-label"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          class="aa-Input c-form__input-container"
+          enterkeyhint="search"
+          id="autocomplete-1-input"
+          maxlength="512"
+          placeholder="Search for routes, info, and more"
+          spellcheck="false"
+          type="search"
+        />
+      </div>
+      <div
+        class="aa-InputWrapperSuffix"
+      >
+        <button
+          class="aa-ClearButton"
+          hidden=""
+          title="Clear"
+          type="reset"
+        >
+          <svg
+            class="aa-ClearIcon"
+            fill="currentColor"
+            height="18"
+            viewBox="0 0 24 24"
+            width="18"
+          >
+            <path
+              d="M5.293 6.707l5.293 5.293-5.293 5.293c-0.391 0.391-0.391 1.024 0 1.414s1.024 0.391 1.414 0l5.293-5.293 5.293 5.293c0.391 0.391 1.024 0.391 1.414 0s0.391-1.024 0-1.414l-5.293-5.293 5.293-5.293c0.391-0.391 0.391-1.024 0-1.414s-1.024-0.391-1.414 0l-5.293 5.293-5.293-5.293c-0.391-0.391-1.024-0.391-1.414 0s-0.391 1.024 0 1.414z"
+            />
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
