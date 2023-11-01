@@ -38,6 +38,7 @@ defmodule RoutePatterns.RoutePattern do
     :time_desc,
     :typicality,
     :service_id,
+    :canonical,
     sort_order: 0
   ]
 
@@ -57,6 +58,7 @@ defmodule RoutePatterns.RoutePattern do
           time_desc: String.t(),
           typicality: typicality_t(),
           sort_order: integer(),
+          canonical: boolean(),
           service_id: String.t()
         }
 
@@ -67,6 +69,7 @@ defmodule RoutePatterns.RoutePattern do
           "name" => name,
           "time_desc" => time_desc,
           "typicality" => typicality,
+          "canonical" => canonical,
           "sort_order" => sort_order
         },
         relationships: %{
@@ -95,6 +98,7 @@ defmodule RoutePatterns.RoutePattern do
       time_desc: time_desc,
       typicality: typicality,
       sort_order: sort_order,
+      canonical: canonical,
       service_id: service_id(trip_relationships)
     }
   end
@@ -106,6 +110,7 @@ defmodule RoutePatterns.RoutePattern do
           "name" => name,
           "time_desc" => time_desc,
           "typicality" => typicality,
+          "canonical" => canonical,
           "sort_order" => sort_order
         },
         relationships: %{
@@ -121,6 +126,7 @@ defmodule RoutePatterns.RoutePattern do
       route_id: route_id,
       time_desc: time_desc,
       typicality: typicality,
+      canonical: canonical,
       sort_order: sort_order
     }
   end

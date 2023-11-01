@@ -141,7 +141,8 @@ defmodule Routes.ParserTest do
                 "name" => "rp",
                 "time_desc" => "td",
                 "typicality" => 1,
-                "sort_order" => 12_132_123
+                "sort_order" => 12_132_123,
+                "canonical" => false
               },
               relationships: %{
                 "representative_trip" => [%Item{id: "id"}],
