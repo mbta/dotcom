@@ -9,8 +9,7 @@ import { allAlertsForDirection } from "../../models/alert";
 import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
 import { isACommuterRailRoute } from "../../models/route";
 import DepartureTimes from "./DepartureTimes";
-import { GroupedRoutePatterns } from "../stop-redesign-loader";
-import { sortedGroupedRoutePatterns } from "../../models/route-patterns";
+import { RoutePatternGroupEntries } from "../../models/route-patterns";
 
 const DepartureCard = ({
   alertsForRoute,
@@ -20,13 +19,10 @@ const DepartureCard = ({
 }: {
   alertsForRoute: Alert[];
   departuresForRoute: DepartureInfo[];
-  routePatternsByHeadsign: GroupedRoutePatterns[keyof GroupedRoutePatterns];
+  routePatternsByHeadsign: RoutePatternGroupEntries;
   route: Route;
 }): ReactElement<HTMLElement> => {
   const { setRow } = useDepartureRow([route]);
-  const sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
-    routePatternsByHeadsign
-  );
 
   return (
     <li className="departure-card">
@@ -38,7 +34,7 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {sortedRoutePatternsByHeadsign.map(
+      {routePatternsByHeadsign.map(
         ([
           headsign,
           { direction_id: directionId, route_patterns: routePatterns }

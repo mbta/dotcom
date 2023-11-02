@@ -7,6 +7,7 @@ import DepartureCard from "./DepartureCard";
 import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
 import { GroupedRoutePatterns } from "../stop-redesign-loader";
+import { sortedGroupedRoutePatterns } from "../../models/route-patterns";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -55,11 +56,14 @@ const StopPageDepartures = ({
       <ul className="stop-departures list-unstyled">
         {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => {
           const groupedByHeadsign = groupedRoutePatterns[route.id];
+          const sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
+            groupedByHeadsign
+          );
           return (
             <DepartureCard
               key={route.id}
               route={route}
-              routePatternsByHeadsign={groupedByHeadsign}
+              routePatternsByHeadsign={sortedRoutePatternsByHeadsign}
               alertsForRoute={groupedAlerts[route.id] || []}
               departuresForRoute={departureInfos.filter(
                 d => d.route.id === route.id

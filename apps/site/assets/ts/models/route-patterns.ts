@@ -1,7 +1,7 @@
 import { GroupedRoutePatterns } from "../stop/stop-redesign-loader";
 
 type RoutePatternGroup = GroupedRoutePatterns[keyof GroupedRoutePatterns];
-type RoutePatternGroupEntries = [
+export type RoutePatternGroupEntries = [
   keyof RoutePatternGroup,
   RoutePatternGroup[keyof RoutePatternGroup]
 ][];
