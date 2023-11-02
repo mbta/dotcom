@@ -26,6 +26,9 @@ function setupAlgoliaAutocomplete(container: HTMLElement): void {
     },
     openOnFocus: true,
     onStateChange,
+    onSubmit({ state }) {
+      window.Turbolinks.visit(`/search?query=${state.query}`);
+    },
     placeholder: "Search for routes, info, and more",
     getSources: params => getSources(container.dataset, params),
     renderer: reactRenderer
