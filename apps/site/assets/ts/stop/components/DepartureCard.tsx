@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from "react";
+import React, { ReactElement } from "react";
 import { Alert, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import { routeBgClass } from "../../helpers/css";
@@ -10,6 +10,7 @@ import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
 import { isACommuterRailRoute } from "../../models/route";
 import DepartureTimes from "./DepartureTimes";
 import { GroupedRoutePatterns } from "../stop-redesign-loader";
+import { sortedGroupedRoutePatterns } from "../../models/route-patterns";
 
 const DepartureCard = ({
   alertsForRoute,
@@ -23,19 +24,8 @@ const DepartureCard = ({
   route: Route;
 }): ReactElement<HTMLElement> => {
   const { setRow } = useDepartureRow([route]);
-  // sort headsigns to reflect the route pattern's sort_order
-  const sortedRoutePatternsByHeadsign = useMemo(
-    () =>
-      Object.entries(routePatternsByHeadsign).sort((entryA, entryB) => {
-        const [orderA, orderB] = [
-          entryA,
-          entryB
-        ].map(([, { route_patterns: routePatterns }]) =>
-          Math.min(...routePatterns.map(rp => rp.sort_order))
-        );
-        return orderA - orderB;
-      }),
-    [routePatternsByHeadsign]
+  const sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
+    routePatternsByHeadsign
   );
 
   return (
