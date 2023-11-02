@@ -1,4 +1,8 @@
-import { GroupedRoutePatterns } from "../stop/stop-redesign-loader";
+import {
+  GroupedRoutePatterns,
+  RoutePatternWithPolyline
+} from "../stop/stop-redesign-loader";
+import { DepartureInfo } from "./departureInfo";
 
 type RoutePatternGroup = GroupedRoutePatterns[keyof GroupedRoutePatterns];
 export type RoutePatternGroupEntries = [
@@ -21,5 +25,13 @@ const sortedGroupedRoutePatterns = (
   });
 };
 
+const isNoncanonicalAndNoDepartures = (
+  routePatterns: RoutePatternWithPolyline[],
+  departures: DepartureInfo[]
+): boolean => {
+  const isNonCanonical = !routePatterns.find(rp => !!rp.canonical);
+  return isNonCanonical && departures.length === 0;
+};
+
 // eslint-disable-next-line import/prefer-default-export
-export { sortedGroupedRoutePatterns };
+export { sortedGroupedRoutePatterns, isNoncanonicalAndNoDepartures };

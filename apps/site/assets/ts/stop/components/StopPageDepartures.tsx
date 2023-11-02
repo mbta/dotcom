@@ -1,13 +1,21 @@
-import { filter, groupBy, sortBy } from "lodash";
+import { filter, groupBy, reject, sortBy } from "lodash";
 import React, { ReactElement, useState } from "react";
 import { Alert, Route } from "../../__v3api";
 import DeparturesFilters, { ModeChoice } from "./DeparturesFilters";
-import { isRailReplacementBus, modeForRoute } from "../../models/route";
+import {
+  isRailReplacementBus,
+  isSubwayRoute,
+  modeForRoute
+} from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
 import { GroupedRoutePatterns } from "../stop-redesign-loader";
-import { sortedGroupedRoutePatterns } from "../../models/route-patterns";
+import {
+  isNoncanonicalAndNoDepartures,
+  sortedGroupedRoutePatterns
+} from "../../models/route-patterns";
+import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -56,18 +64,35 @@ const StopPageDepartures = ({
       <ul className="stop-departures list-unstyled">
         {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => {
           const groupedByHeadsign = groupedRoutePatterns[route.id];
-          const sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
+          let sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
             groupedByHeadsign
           );
+          const departuresForRoute = departureInfos.filter(
+            d => d.route.id === route.id
+          );
+          if (isSubwayRoute(route)) {
+            // remove certain headsigns based on route pattern and departures
+            sortedRoutePatternsByHeadsign = reject(
+              sortedRoutePatternsByHeadsign,
+              entry => {
+                const [, { route_patterns: routePatterns }] = entry;
+                const departures = departuresForRoute.filter(d =>
+                  departureInfoInRoutePatterns(d, routePatterns)
+                );
+                return isNoncanonicalAndNoDepartures(routePatterns, departures);
+              }
+            );
+            // don't render a route card if there's no headsigns left to show
+            if (sortedRoutePatternsByHeadsign.length === 0) return null;
+          }
+
           return (
             <DepartureCard
               key={route.id}
               route={route}
               routePatternsByHeadsign={sortedRoutePatternsByHeadsign}
               alertsForRoute={groupedAlerts[route.id] || []}
-              departuresForRoute={departureInfos.filter(
-                d => d.route.id === route.id
-              )}
+              departuresForRoute={departuresForRoute}
             />
           );
         })}
