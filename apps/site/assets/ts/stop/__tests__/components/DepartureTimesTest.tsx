@@ -459,7 +459,7 @@ describe("DepartureTimes", () => {
     });
   });
 
-  it("renders 'No upcoming trips' when no predictions or schedules", async () => {
+  it("renders 'No more trips' when no predictions or schedules", async () => {
     renderWithRouter(
       <DepartureTimes
         headsign="Alewife"
@@ -471,7 +471,7 @@ describe("DepartureTimes", () => {
       />
     );
     await waitFor(() => {
-      expect(screen.getByText("No upcoming trips")).toBeDefined();
+      expect(screen.getByText("No more trips today")).toBeDefined();
       expect(screen.getByText("Alewife")).toBeDefined();
     });
   });
@@ -524,7 +524,7 @@ describe("DepartureTimes", () => {
   });
 
   it("can show no service message", async () => {
-    const expectedMessage = "No service today";
+    const expectedMessage = "No trips today";
     renderWithRouter(
       <DepartureTimes
         headsign="Some place"

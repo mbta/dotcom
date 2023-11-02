@@ -23,7 +23,7 @@ interface DepartureListProps {
 }
 
 const displayNoUpcomingTrips = (
-  message = "No upcoming trips today"
+  message = "No more trips today"
 ): JSX.Element => {
   return (
     <div className="c-alert-item--low m-8 d-flex justify-content-center align-items-center pb-40 pt-40">
@@ -59,9 +59,7 @@ const DepartureList = ({
 
   const noTrips =
     modeSpecificDepartures.length === 0 && displayNoUpcomingTrips();
-  const noService =
-    !hasService &&
-    displayNoUpcomingTrips(`No service today, ${todayDateString()}`);
+  const noService = !hasService && displayNoUpcomingTrips("No trips today");
   const noServiceOrNoTrips = noService || noTrips;
 
   return (

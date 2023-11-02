@@ -192,7 +192,7 @@ describe("DepartureList", () => {
     ).toBeDefined();
   });
 
-  it("should render `No upcoming trips today` if there are no schedules", () => {
+  it("should render `No more trips today` if there are no schedules", () => {
     render(
       <DepartureList
         alerts={[]}
@@ -204,7 +204,7 @@ describe("DepartureList", () => {
         hasService={true}
       />
     );
-    expect(screen.getByText("No upcoming trips today")).toBeDefined();
+    expect(screen.getByText("No more trips today")).toBeDefined();
   });
 
   it("should display cancelled if the trip has been cancelled", () => {
@@ -308,7 +308,7 @@ describe("DepartureList", () => {
   });
 
   it("can show no service message", () => {
-    const expectedMessage = "No service today";
+    const expectedMessage = "No trips today";
     render(
       <DepartureList
         route={route}

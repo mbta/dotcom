@@ -77,13 +77,13 @@ const DepartureTimes = ({
               <div className="departure-card__times">{timeList}</div>
             ) : (
               <div className="font-helvetica-neue fs-14 u-nowrap">
-                No upcoming trips
+                No more trips today
               </div>
             )}
           </DeparturesWithBadge>
         ) : (
           <div className="font-helvetica-neue fs-14 u-nowrap">
-            No service today
+            No trips today
           </div>
         )}
       </div>
