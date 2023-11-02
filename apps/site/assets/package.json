@@ -109,7 +109,7 @@
     "husky": "^8.0.1",
     "jest": "^27.5.1",
     "jest-extended": "^4.0.0",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^15.0.2",
     "mini-css-extract-plugin": "^2.6.0",
     "mocha": "^9.2.2",
     "mocha-jsdom": "2.0.0",
