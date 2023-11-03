@@ -16,10 +16,18 @@ const reactRenderer = {
  * Creates the Algolia Autocomplete instances for various search experiences on
  * MBTA.com.
  */
-function setupAlgoliaAutocomplete(container: HTMLElement): void {
+function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
+  const container = wrapper.querySelector<HTMLElement>(
+    ".c-search-bar__autocomplete"
+  );
+  const panelContainer = wrapper.querySelector<HTMLElement>(
+    ".c-search-bar__autocomplete-results"
+  );
+  if (!container || !panelContainer) throw new Error("container needed");
   const options: AutocompleteOptions<Item> = {
+    id: container.id,
     container,
-    panelContainer: container,
+    panelContainer,
     detachedMediaQuery: "none",
     classNames: {
       input: "c-form__input-container"

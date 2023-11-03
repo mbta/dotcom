@@ -12,11 +12,14 @@ const body = `
   <div
     data-turbolinks-permanent
     id="test-autocomplete"
-    class="c-search-bar__autocomplete"
-    data-geolocation
-    data-locations
-    data-algolia="routes,stops,drupal"
-  ></div>
+  >
+   <div class="c-search-bar__autocomplete"
+      data-geolocation
+      data-locations
+      data-algolia="routes,stops,drupal"
+    ></div>
+    <div class="c-search-bar__autocomplete-results"></div>
+  </div>
   <div id="test-autocomplete-no-attributes"></div>
 `;
 
@@ -46,11 +49,9 @@ describe("Algolia v1 autocomplete", () => {
       "test-autocomplete-no-attributes"
     );
     expect(container).toBeDefined();
-    setupAlgoliaAutocomplete(container!);
-    const generatedAutocompleteSearchForm = within(container!).getByRole(
-      "search"
-    );
-    expect(generatedAutocompleteSearchForm).toBeDefined();
+    expect(() => {
+      setupAlgoliaAutocomplete(container!);
+    }).toThrowWithMessage(Error, "container needed");
   });
 
   it("doesn't instantiate with invalid container", () => {
