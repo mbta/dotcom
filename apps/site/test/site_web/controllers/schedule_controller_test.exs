@@ -421,6 +421,43 @@ defmodule SiteWeb.ScheduleControllerTest do
       end
     end
 
+    test "logs when no schedules returned", %{conn: conn} do
+      with_mock(Schedules.Repo, [:passthrough],
+        schedules_for_stop: fn "TEST 1234", [] ->
+          # will get filtered out
+          [
+            %Schedules.Schedule{
+              route: %Routes.Route{id: "route"},
+              stop: %Stops.Stop{id: "TEST 1234"},
+              departure_time: ~U[2019-05-18 22:25:06.098765Z],
+              last_stop?: true
+            }
+          ]
+        end
+      ) do
+        log =
+          ExUnit.CaptureLog.capture_log(fn ->
+            old_level = Logger.level()
+
+            on_exit(fn ->
+              Logger.configure(level: old_level)
+            end)
+
+            Logger.configure(level: :info)
+
+            conn =
+              ScheduleController.schedules_for_stop(conn, %{
+                "stop_id" => "TEST 1234",
+                "future_departures" => "true",
+                "last_stop_departures" => "false"
+              })
+
+            assert [] = json_response(conn, 200)
+          end)
+
+        assert log =~ "[info] module=Elixir.SiteWeb.ScheduleController"
+        assert log =~ "fun=schedules_for_stop stop=TEST 1234"
+        assert log =~ "no_schedules_returned"
       end
     end
   end

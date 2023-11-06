@@ -64,7 +64,17 @@ defmodule SiteWeb.ScheduleController do
           |> future_departures(conn, params)
           |> omit_last_stop_departures(params)
 
-        json(conn, schedules)
+        case schedules do
+          [%Schedule{} | _] ->
+            json(conn, schedules)
+
+          _ ->
+            Logger.info(
+              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
+            )
+
+            json(conn, [])
+        end
     end
   end
 
