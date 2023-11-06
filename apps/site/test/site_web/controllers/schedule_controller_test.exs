@@ -401,5 +401,27 @@ defmodule SiteWeb.ScheduleControllerTest do
         assert Kernel.length(body) == 2
       end
     end
+
+    test "should report errors", %{conn: conn} do
+      with_mock(Schedules.Repo, [:passthrough],
+        schedules_for_stop: fn "TEST 1234", [] -> {:error, :not_found} end
+      ) do
+        log =
+          ExUnit.CaptureLog.capture_log(fn ->
+            conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
+
+            assert %{
+                     "error" => "Internal error"
+                   } = json_response(conn, 500)
+          end)
+
+        assert log =~ "[error] module=Elixir.SiteWeb.ScheduleController"
+        assert log =~ "fun=schedules_for_stop stop=TEST 1234"
+        assert log =~ "error=:not_found"
+      end
+    end
+
+      end
+    end
   end
 end
