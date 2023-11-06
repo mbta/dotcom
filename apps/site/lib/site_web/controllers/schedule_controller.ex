@@ -63,6 +63,7 @@ defmodule SiteWeb.ScheduleController do
           data
           |> future_departures(conn, params)
           |> omit_last_stop_departures(params)
+          |> trim_response()
 
         case schedules do
           [%Schedule{} | _] ->
@@ -102,4 +103,12 @@ defmodule SiteWeb.ScheduleController do
   end
 
   defp omit_last_stop_departures(schedules, _), do: schedules
+
+  defp trim_response(schedules) do
+    schedules
+    |> Enum.map(&Map.drop(&1, [:stop]))
+    |> Enum.map(fn %Schedule{route: route} = schedule ->
+      %Schedule{schedule | route: Map.take(route, [:id])}
+    end)
+  end
 end
