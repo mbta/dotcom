@@ -2,7 +2,7 @@ name: Asana Workflow
 
 on:
   pull_request:
-    types: [closed, edited, opened, review_requested, ready_for_review, reopened, synchronize]
+    types: [review_requested, closed]
 
 jobs:
   call-workflow:
