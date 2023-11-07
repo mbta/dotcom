@@ -14,6 +14,11 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
 
   @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
 
+  @spec parse_ql(map) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
+  def parse_ql(%{"data" => data}) do
+    parse_map(data)
+  end
+
   @doc """
   Parse the JSON output from the plan endpoint.
   """
@@ -121,9 +126,9 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
 
   defp parse_mode(%{"mode" => mode} = json) when mode in @transit_modes do
     %TransitDetail{
-      route_id: id_after_colon(json["routeId"]),
-      trip_id: id_after_colon(json["tripId"]),
-      intermediate_stop_ids: Enum.map(json["intermediateStops"], &id_after_colon(&1["stopId"]))
+      route_id: id_after_colon(json["route"]["gtfsId"]),
+      trip_id: id_after_colon(json["trip"]["gtfsId"]),
+      intermediate_stop_ids: Enum.map(json["intermediateStops"], &id_after_colon(&1["gtfsId"]))
     }
   end
 

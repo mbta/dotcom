@@ -59,6 +59,7 @@ defmodule TripPlan.Leg do
   def transit?(%__MODULE__{mode: %TransitDetail{}}), do: true
 
   @spec walking_distance(t) :: float
+  def walking_distance(%__MODULE__{mode: %PersonalDetail{distance: nil}}), do: 0.0
   def walking_distance(%__MODULE__{mode: %PersonalDetail{distance: distance}}), do: distance
   def walking_distance(%__MODULE__{mode: %TransitDetail{}}), do: 0.0
 
