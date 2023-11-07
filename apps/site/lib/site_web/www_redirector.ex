@@ -6,10 +6,13 @@ defmodule SiteWeb.WwwRedirector do
   alias Plug.Conn
 
   @impl true
-  def init([]), do: []
+  def init(options), do: options
 
   @impl true
-  def call(conn, _options), do: site_redirect(SiteWeb.Endpoint.url(), conn)
+  def call(conn, options) do
+    url = Keyword.get(options, :host, SiteWeb.Endpoint.url())
+    site_redirect(url, conn)
+  end
 
   @spec site_redirect(String.t(), Conn.t()) :: Plug.Conn.t()
   def site_redirect(site_url, conn) do
@@ -21,12 +24,22 @@ defmodule SiteWeb.WwwRedirector do
     |> halt()
   end
 
-  defp redirect_url(site_url, %Conn{request_path: path, query_string: query})
+  # If path_params are matched via SiteWeb.Router, use that to determine path
+  defp redirect_url(site_url, %Conn{path_params: %{"path" => path}, query_string: query}) do
+    revised_path = "/" <> Enum.join(path, "/")
+    do_redirect_url(site_url, revised_path, query)
+  end
+
+  defp redirect_url(site_url, %Conn{request_path: path, query_string: query}) do
+    do_redirect_url(site_url, path, query)
+  end
+
+  defp do_redirect_url(site_url, path, query)
        when is_binary(query) and query != "" do
     "#{site_url}#{path}?#{query}"
   end
 
-  defp redirect_url(site_url, %Conn{request_path: path}) do
+  defp do_redirect_url(site_url, path, _) do
     "#{site_url}#{path}"
   end
 end
