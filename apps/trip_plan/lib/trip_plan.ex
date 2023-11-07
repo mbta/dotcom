@@ -7,7 +7,6 @@ defmodule TripPlan do
   # Default options for the plans
   @default_opts [
     # ~0.5 miles
-    max_walk_distance: 805
   ]
 
   @doc """

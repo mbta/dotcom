@@ -116,19 +116,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       assert expected == actual
     end
 
-    test "max_walk_distance sets maxWalkDistance in meters" do
-      expected =
-        {:ok,
-         %{
-           "maxWalkDistance" => "1609.5",
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
-         }}
-
-      actual = build_params(@from_inside, @to_inside, max_walk_distance: 1609.5)
-      assert expected == actual
-    end
-
     test ":mode defaults TRANSIT,WALK" do
       expected =
         {:ok,
