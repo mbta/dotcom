@@ -178,6 +178,9 @@ defmodule TripPlan.Api.OpenTripPlanner do
             lon
             departureTime
             arrivalTime
+            stop {
+              gtfsId
+            }
           }
           to {
             name
@@ -185,6 +188,9 @@ defmodule TripPlan.Api.OpenTripPlanner do
             lon
             departureTime
             arrivalTime
+            stop {
+              gtfsId
+            }
           }
           route {
             gtfsId
