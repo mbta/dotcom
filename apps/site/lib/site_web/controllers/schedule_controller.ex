@@ -3,6 +3,8 @@ defmodule SiteWeb.ScheduleController do
   alias Routes.Route
   alias Schedules.Schedule
 
+  require Logger
+
   plug(SiteWeb.Plugs.Route when action not in [:schedules_for_stop])
 
   @spec show(Plug.Conn.t(), map) :: Phoenix.HTML.Safe.t()
@@ -47,20 +49,41 @@ defmodule SiteWeb.ScheduleController do
 
   @spec schedules_for_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def schedules_for_stop(conn, %{"stop_id" => stop_id} = params) do
-    schedules =
-      Schedules.Repo.schedules_for_stop(stop_id, [])
-      |> future_departures(conn, params)
-      |> omit_last_stop_departures(params)
+    case Schedules.Repo.schedules_for_stop(stop_id, []) do
+      {:error, error} ->
+        _ =
+          Logger.error(
+            "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} date_time=#{DateTime.to_string(date_time(conn.assigns))} error=#{inspect(error)}"
+          )
 
-    json(conn, schedules)
+        SiteWeb.ControllerHelpers.return_internal_error(conn)
+
+      data ->
+        schedules =
+          data
+          |> future_departures(conn, params)
+          |> omit_last_stop_departures(params)
+          |> trim_response()
+
+        case schedules do
+          [%Schedule{} | _] ->
+            json(conn, schedules)
+
+          _ ->
+            Logger.info(
+              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
+            )
+
+            json(conn, [])
+        end
+    end
   end
 
+  defp date_time(%{"date_time" => date_time}), do: date_time
+  defp date_time(_), do: Util.now()
+
   defp future_departures(schedules, conn, %{"future_departures" => "true"}) do
-    now =
-      case conn.assigns do
-        %{"date_time" => date_time} -> date_time
-        _ -> Util.now()
-      end
+    now = date_time(conn.assigns)
 
     # Only list schedules with departure_time in the future
     schedules
@@ -80,4 +103,12 @@ defmodule SiteWeb.ScheduleController do
   end
 
   defp omit_last_stop_departures(schedules, _), do: schedules
+
+  defp trim_response(schedules) do
+    schedules
+    |> Enum.map(&Map.drop(&1, [:stop]))
+    |> Enum.map(fn %Schedule{route: route} = schedule ->
+      %Schedule{schedule | route: Map.take(route, [:id])}
+    end)
+  end
 end
