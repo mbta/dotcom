@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :algolia, :config,
   app_id: "ALGOLIA_APP_ID",
@@ -14,5 +14,3 @@ config :algolia, :indexes, [
 ]
 
 config :algolia, :click_analytics_url, :not_set
-
-config :algolia, :index_suffix, "_test"
