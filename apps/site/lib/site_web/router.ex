@@ -62,11 +62,6 @@ defmodule SiteWeb.Router do
     get("/*path", WwwRedirector, [])
   end
 
-  # redirect 'mbta.com/charlie/*'  to 'charlie.mbta.com/*'
-  scope "/charlie", SiteWeb do
-    get("/*path", WwwRedirector, host: "https://charlie.mbta.com")
-  end
-
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
 

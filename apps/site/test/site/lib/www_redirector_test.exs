@@ -9,28 +9,6 @@ defmodule SiteWeb.WwwRedirectorTest do
     assert_conn_redirected_halted(conn, SiteWeb.Endpoint.url() <> "/news")
   end
 
-  test "call with host option", %{conn: conn} do
-    conn = WwwRedirector.call(%{conn | request_path: "/news"}, host: "https://myfakedomain.xyz")
-    assert_conn_redirected_halted(conn, "https://myfakedomain.xyz/news")
-  end
-
-  @doc "Use case: The path_params are populated in the router, and if they're part of a scoped route, the redirected URL should not include the path prefix."
-  test "omits scoped route path prefix", %{conn: conn} do
-    request_path = "/charlie/page/one/two"
-
-    conn = %{
-      conn
-      | request_path: request_path,
-        query_string: nil,
-        path_params: %{"path" => ["page", "one", "two"]}
-    }
-
-    conn = WwwRedirector.call(conn, host: "https://myfakedomain.xyz")
-
-    refute redirected_to(conn, :moved_permanently) == "https://myfakedomain.xyz#{request_path}"
-    assert_conn_redirected_halted(conn, "https://myfakedomain.xyz/page/one/two")
-  end
-
   describe "redirect" do
     test "top level redirected", %{conn: conn} do
       check_redirect_to_www_mbta(conn, "/", nil, "https://www.mbta.com/")
