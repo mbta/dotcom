@@ -24,8 +24,9 @@ header {
 }
 
 [data-nav-open] {
-  body {
-    overflow: hidden; // prevent scrolling
+  .body-wrapper {
+    overflow: inherit; // same value as on body
+    position: relative; // so children elements using `position: absolute` are in the right place
   }
 
   .m-menu--cover {
