@@ -49,7 +49,13 @@
                 "distance": 1995.478514770973,
                 "pathway": false,
                 "mode": "SUBWAY",
-                "route": "Orange Line",
+                "route": {
+                    "gtfsId": "1:Orange",
+                    "longName": "Orange Line"
+                },
+                "trip": {
+                    "gtfsId": "1:33932853"
+                },
                 "agencyName": "MBTA",
                 "agencyUrl": "http://www.mbta.com",
                 "agencyTimeZoneOffset": -14400000,
@@ -61,7 +67,6 @@
                 "tripBlockId": "O903_-12",
                 "headsign": "Forest Hills",
                 "agencyId": "1",
-                "tripId": "1:33932853",
                 "serviceDate": "20170519",
                 "from": {
                     "name": "North Station - Orange Line Inbound",
@@ -97,7 +102,7 @@
                 "duration": 480.0,
                 "intermediateStops": [{
                     "name": "Haymarket - Orange Line Inbound",
-                    "stopId": "1:70024",
+                    "gtfsId": "1:70024",
                     "stopCode": "70024",
                     "lon": -71.05829,
                     "lat": 42.363021,
@@ -108,7 +113,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "State Street - to Forest Hills",
-                    "stopId": "1:70022",
+                    "gtfsId": "1:70022",
                     "stopCode": "70022",
                     "lon": -71.057598,
                     "lat": 42.358978,
@@ -119,7 +124,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "Downtown Crossing - to Forest Hills",
-                    "stopId": "1:70020",
+                    "gtfsId": "1:70020",
                     "stopCode": "70020",
                     "lon": -71.060225,
                     "lat": 42.355518000000004,
@@ -130,7 +135,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "Chinatown - Outbound",
-                    "stopId": "1:70018",
+                    "gtfsId": "1:70018",
                     "stopCode": "70018",
                     "lon": -71.062752,
                     "lat": 42.352547,
@@ -150,7 +155,13 @@
                 "distance": 329.314,
                 "pathway": false,
                 "mode": "WALK",
-                "route": "",
+                "route": {
+                    "gtfsId": "1:Orange",
+                    "longName": "Orange Line"
+                },
+                "trip": {
+                    "gtfsId": "1:33932852"
+                },
                 "agencyTimeZoneOffset": -14400000,
                 "interlineWithPreviousLeg": false,
                 "from": {
@@ -238,7 +249,13 @@
                 "distance": 1995.478514770973,
                 "pathway": false,
                 "mode": "SUBWAY",
-                "route": "Orange Line",
+                "route": {
+                    "gtfsId": "1:Orange",
+                    "longName": "Orange Line"
+                },
+                "trip": {
+                    "gtfsId": "1:33932854"
+                },
                 "agencyName": "MBTA",
                 "agencyUrl": "http://www.mbta.com",
                 "agencyTimeZoneOffset": -14400000,
@@ -286,7 +303,7 @@
                 "duration": 540.0,
                 "intermediateStops": [{
                     "name": "Haymarket - Orange Line Inbound",
-                    "stopId": "1:70024",
+                    "gtfsId": "1:70024",
                     "stopCode": "70024",
                     "lon": -71.05829,
                     "lat": 42.363021,
@@ -297,7 +314,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "State Street - to Forest Hills",
-                    "stopId": "1:70022",
+                    "gtfsId": "1:70022",
                     "stopCode": "70022",
                     "lon": -71.057598,
                     "lat": 42.358978,
@@ -308,7 +325,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "Downtown Crossing - to Forest Hills",
-                    "stopId": "1:70020",
+                    "gtfsId": "1:70020",
                     "stopCode": "70020",
                     "lon": -71.060225,
                     "lat": 42.355518000000004,
@@ -319,7 +336,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "Chinatown - Outbound",
-                    "stopId": "1:70018",
+                    "gtfsId": "1:70018",
                     "stopCode": "70018",
                     "lon": -71.062752,
                     "lat": 42.352547,
@@ -339,7 +356,13 @@
                 "distance": 329.314,
                 "pathway": false,
                 "mode": "WALK",
-                "route": "",
+                "route": {
+                    "gtfsId": "1:Orange",
+                    "longName": "Orange Line"
+                },
+                "trip": {
+                    "gtfsId": "1:33932854"
+                },
                 "agencyTimeZoneOffset": -14400000,
                 "interlineWithPreviousLeg": false,
                 "from": {
@@ -427,19 +450,23 @@
                 "distance": 1995.478514770973,
                 "pathway": false,
                 "mode": "SUBWAY",
-                "route": "Orange Line",
+                "route": {
+                    "gtfsId": "1:Orange",
+                    "longName": "Orange Line"
+                },
+                "trip": {
+                    "gtfsId": "1:33932855"
+                },
                 "agencyName": "MBTA",
                 "agencyUrl": "http://www.mbta.com",
                 "agencyTimeZoneOffset": -14400000,
                 "routeColor": "E87200",
                 "routeType": 1,
-                "routeId": "1:Orange",
                 "routeTextColor": "FFFFFF",
                 "interlineWithPreviousLeg": false,
                 "tripBlockId": "O903_-15",
                 "headsign": "Forest Hills",
                 "agencyId": "1",
-                "tripId": "1:33932855",
                 "serviceDate": "20170519",
                 "from": {
                     "name": "North Station - Orange Line Inbound",
@@ -475,7 +502,7 @@
                 "duration": 540.0,
                 "intermediateStops": [{
                     "name": "Haymarket - Orange Line Inbound",
-                    "stopId": "1:70024",
+                    "gtfsId": "1:70024",
                     "stopCode": "70024",
                     "lon": -71.05829,
                     "lat": 42.363021,
@@ -486,7 +513,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "State Street - to Forest Hills",
-                    "stopId": "1:70022",
+                    "gtfsId": "1:70022",
                     "stopCode": "70022",
                     "lon": -71.057598,
                     "lat": 42.358978,
@@ -497,7 +524,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "Downtown Crossing - to Forest Hills",
-                    "stopId": "1:70020",
+                    "gtfsId": "1:70020",
                     "stopCode": "70020",
                     "lon": -71.060225,
                     "lat": 42.355518000000004,
@@ -508,7 +535,7 @@
                     "vertexType": "TRANSIT"
                 }, {
                     "name": "Chinatown - Outbound",
-                    "stopId": "1:70018",
+                    "gtfsId": "1:70018",
                     "stopCode": "70018",
                     "lon": -71.062752,
                     "lat": 42.352547,
@@ -528,7 +555,13 @@
                 "distance": 329.314,
                 "pathway": false,
                 "mode": "WALK",
-                "route": "",
+                "route": {
+                    "gtfsId": "1:Orange",
+                    "longName": "Orange Line"
+                },
+                "trip": {
+                    "gtfsId": "1:33932856"
+                },
                 "agencyTimeZoneOffset": -14400000,
                 "interlineWithPreviousLeg": false,
                 "from": {

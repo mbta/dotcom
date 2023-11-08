@@ -45,7 +45,6 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
                intermediate_stop_ids: ~w(70024 70022 70020 70018)s
              } = subway_leg.mode
 
-      assert "Orange Line" = subway_leg.name
       assert "Orange Line" = subway_leg.long_name
       assert "1" = subway_leg.type
       assert "http://www.mbta.com" = subway_leg.url

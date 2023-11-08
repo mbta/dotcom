@@ -2,7 +2,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @moduledoc "Fetches data from the OpenTripPlanner API."
   @behaviour TripPlan.Api
   require Logger
-  import __MODULE__.Builder, only: [build_query_params: 3]
+  import __MODULE__.Builder, only: [build_params: 3]
   import __MODULE__.Parser, only: [parse_ql: 1]
 
   def plan(from, to, connection_opts, opts, _parent) do
@@ -11,7 +11,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
   @impl true
   def plan(from, to, connection_opts, opts) do
-    with {:ok, params} <- build_query_params(from, to, opts) do
+    with {:ok, params} <- build_params(from, to, opts) do
       param_string = Enum.map_join(params, "\n", fn {key, val} -> ~s{#{key}: #{val}} end)
 
       graph_ql_query = """
@@ -116,7 +116,8 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   defp status_text({:ok, %{status: code, body: body}}) do
-    "status=#{code} content_length=#{byte_size(body)}"
+    string_body = Poison.encode!(body)
+    "status=#{code} content_length=#{byte_size(string_body)}"
   end
 
   defp status_text({:error, error}) do

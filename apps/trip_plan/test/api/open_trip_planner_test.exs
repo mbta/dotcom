@@ -28,32 +28,5 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
       actual = plan({1, 1}, {2, 2}, connection_opts, bad: :arg)
       assert expected == actual
     end
-
-    test "does not normally add wiremock headers", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) == nil
-        send_resp(conn, 404, ~s({"body": {}}))
-      end)
-
-      connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
-      from = %NamedPosition{name: "a", latitude: "42.13", longitude: "12.12313"}
-      to = %NamedPosition{name: "b", latitude: "42.13", longitude: "12.12313"}
-      plan(from, to, connection_opts, root_url: url)
-    end
-
-    test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
-      System.put_env("WIREMOCK_PROXY", "true")
-
-      Bypass.expect(bypass, fn conn ->
-        assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil
-        send_resp(conn, 404, ~s({"body": {}}))
-      end)
-
-      connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
-      from = %NamedPosition{name: "a", latitude: "42.13", longitude: "12.12313"}
-      to = %NamedPosition{name: "b", latitude: "42.13", longitude: "12.12313"}
-      plan(from, to, connection_opts, root_url: url)
-      System.delete_env("WIREMOCK_PROXY")
-    end
   end
 end

@@ -1,12 +1,12 @@
 defmodule TripPlan.Api.OpenTripPlanner.Builder do
   alias TripPlan.Api.OpenTripPlanner, as: OTP
   alias TripPlan.NamedPosition
-  alias Util.{Polygon, Position}
-  @ten_miles 16_093
+  alias Util.Position
 
-  @spec build_query_params(Position.t(), Position.t(), TripPlan.Api.plan_opts()) ::
+  @doc "Convert general planning options into query params for OTP"
+  @spec build_params(Position.t(), Position.t(), TripPlan.Api.plan_opts()) ::
           {:ok, %{String.t() => String.t()}} | {:error, any}
-  def build_query_params(from, to, opts) do
+  def build_params(from, to, opts) do
     from_string = location(from)
     to_string = location(to)
     default_mode_string = "[{mode: WALK}, {mode: TRANSIT}]"
@@ -28,13 +28,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     "\"#{Position.latitude(position)},#{Position.longitude(position)}\""
   end
 
-  @doc "Convert general planning options into query params for OTP"
-  @spec build_params(Position.t(), Position.t(), TripPlan.Api.plan_opts()) ::
-          {:ok, %{String.t() => String.t()}} | {:error, any}
-  def build_params(from, to, opts) do
-    do_build_params(opts, %{"mode" => "TRANSIT,WALK", "walkReluctance" => 5})
-  end
-
   defp do_build_params([], acc) do
     {:ok, acc}
   end
@@ -51,12 +44,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   end
 
   defp do_build_params([{:depart_at, %DateTime{} = datetime} | rest], acc) do
-    acc = do_date_time(false, datetime, acc)
+    acc = do_date_time("false", datetime, acc)
     do_build_params(rest, acc)
   end
 
   defp do_build_params([{:arrive_by, %DateTime{} = datetime} | rest], acc) do
-    acc = do_date_time(true, datetime, acc)
+    acc = do_date_time("true", datetime, acc)
     do_build_params(rest, acc)
   end
 
@@ -66,7 +59,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
 
   defp do_build_params([{:mode, [_ | _] = modes} | rest], acc) do
     all_modes = Enum.map(modes, fn m -> "{mode: #{m}}" end)
-    joined_modes = "[#{Enum.join(all_modes, ",")}, {mode: WALK}]"
+    joined_modes = "[#{Enum.join(all_modes, ", ")}, {mode: WALK}]"
     do_build_params(rest, Map.put(acc, "transportModes", joined_modes))
   end
 
