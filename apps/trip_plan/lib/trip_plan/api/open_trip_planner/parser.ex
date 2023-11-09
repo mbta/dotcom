@@ -97,14 +97,25 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
       mode: parse_mode(json),
-      from: parse_named_position(json["from"], "stopId"),
-      to: parse_named_position(json["to"], "stopId"),
+      from: parse_named_position(json["from"], "stop"),
+      to: parse_named_position(json["to"], "stop"),
       polyline: json["legGeometry"]["points"],
       name: json["route"],
       long_name: json["routeLongName"],
       type: json["agencyId"],
       url: json["agencyUrl"],
       description: json["mode"]
+    }
+  end
+
+  def parse_named_position(json, "stop") do
+    stop = json["stop"]
+
+    %NamedPosition{
+      name: json["name"],
+      stop_id: if(stop, do: id_after_colon(stop["gtfsId"])),
+      longitude: json["lon"],
+      latitude: json["lat"]
     }
   end
 
