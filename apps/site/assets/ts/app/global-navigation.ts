@@ -154,7 +154,6 @@ export function setup(rootElement: HTMLElement): void {
     if (aMenuIsBeingExpanded) {
       // eslint-disable-next-line no-param-reassign
       rootElement.dataset.navOpen = "true";
-      disableBodyScroll(header);
       if (observedDataAttributes.includes(TOGGLE_NAMES.mobile)) {
         // eslint-disable-next-line no-param-reassign
         header.dataset.navOpen = "true";
@@ -164,6 +163,7 @@ export function setup(rootElement: HTMLElement): void {
       } else if (observedDataAttributes.includes(TOGGLE_NAMES.search)) {
         // eslint-disable-next-line no-param-reassign
         header.dataset.searchOpen = "true";
+        disableBodyScroll(header);
       }
     } else {
       // only do this if no other menu is expanded
@@ -190,6 +190,26 @@ export function setup(rootElement: HTMLElement): void {
       aMenuIsBeingExpanded &&
       observedDataAttributes.includes(TOGGLE_NAMES.desktop)
     ) {
+      // Disable scrolling the page, but accomodate any visible scrollbars in
+      // order to avoid horizontal shift in the layout when scrolling becomes
+      // disabled. This additionally requires adjusting the width of the veil,
+      // to maintain a pleasing appearance.
+      disableBodyScroll(header, { reserveScrollBarGap: true });
+      const cover = rootElement.querySelector<HTMLElement>("[data-nav='veil']");
+      if (
+        cover &&
+        !cover.style.paddingRight &&
+        rootElement.dataset.navOpen === "true"
+      ) {
+        const body = rootElement.querySelector("body");
+        // this was added by { reserveScrollBarGap: true }
+        const paddingRight = body?.style.paddingRight;
+        if (paddingRight && paddingRight !== "") {
+          // add same 'padding' for veil by substracting from width
+          cover.style.width = `calc(100% - ${paddingRight})`;
+        }
+      }
+
       const thisMenu = mutations.map(({ target }) =>
         (target as Element).getAttribute("aria-controls")
       )[0];
