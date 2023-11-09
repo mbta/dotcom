@@ -11,7 +11,7 @@ defmodule Algolia.Routes do
   end
 
   @impl Algolia.Index
-  def index_name, do: "routes"
+  def index_name, do: "routes" <> Application.get_env(:algolia, :index_suffix, "")
 
   @spec get_stop_names(Routes.Route.t()) :: [String.t()]
   def get_stop_names(route) do
