@@ -23,7 +23,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
       }
       """
 
-      root_url = params["root_url"] || pick_url(connection_opts)
+      root_url = Keyword.get(opts, :root_url, nil) || pick_url(connection_opts)
       graphql_url = "#{root_url}/otp/routers/default/index/"
 
       send_request(graphql_url, graph_ql_query, &parse_ql/1)
@@ -98,7 +98,9 @@ defmodule TripPlan.Api.OpenTripPlanner do
   end
 
   defp log_response(url, query) do
-    graphql_req = Req.new(base_url: url) |> AbsintheClient.attach()
+    graphql_req =
+      Req.new(base_url: url, headers: build_headers(config(:wiremock_proxy)))
+      |> AbsintheClient.attach()
 
     {duration, response} =
       :timer.tc(
@@ -114,6 +116,13 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
     response
   end
+
+  defp build_headers("true") do
+    proxy_url = Application.get_env(:trip_plan, OpenTripPlanner)[:wiremock_proxy_url]
+    [{"X-WM-Proxy-Url", proxy_url}]
+  end
+
+  defp build_headers(_), do: []
 
   defp status_text({:ok, %{status: code, body: body}}) do
     string_body = Poison.encode!(body)
