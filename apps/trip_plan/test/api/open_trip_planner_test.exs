@@ -1,7 +1,6 @@
 defmodule TripPlan.Api.OpenTripPlannerTest do
   use ExUnit.Case, async: false
   import TripPlan.Api.OpenTripPlanner
-  alias TripPlan.NamedPosition
 
   import Plug.Conn, only: [send_resp: 3]
 

@@ -4,11 +4,6 @@ defmodule TripPlan do
   """
   alias Util.Position
 
-  # Default options for the plans
-  @default_opts [
-    # ~0.5 miles
-  ]
-
   @doc """
   Tries to describe how to get between two places.
   """
@@ -24,7 +19,7 @@ defmodule TripPlan do
       from,
       to,
       connection_opts,
-      Keyword.merge(@default_opts, opts),
+      opts,
       parent
     ])
   end
