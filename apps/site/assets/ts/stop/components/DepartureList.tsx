@@ -9,7 +9,6 @@ import renderSvg from "../../helpers/render-svg";
 import { isSuppressiveAlert } from "../../models/alert";
 import Alerts from "../../components/Alerts";
 import { isACommuterRailRoute } from "../../models/route";
-import { todayDateString } from "../../helpers/date";
 
 interface DepartureListProps {
   route: Route;

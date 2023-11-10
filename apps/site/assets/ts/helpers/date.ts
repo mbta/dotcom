@@ -119,11 +119,4 @@ export const isSameDayInBoston = (
   return date1InBoston === date2InBoston;
 };
 
-export const todayDateString = (): string =>
-  new Date().toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    timeZone: BOSTON_TIMEZONE
-  });
-
 export default formattedDate;
