@@ -202,23 +202,26 @@ defmodule SiteWeb.StopController do
     stop_id
     |> RoutePatterns.Repo.by_stop_id()
     |> Stream.reject(&ends_at?(&1, stop_id))
-    |> Stream.chunk_by(& &1.route_id)
-    |> Stream.map(fn [%RoutePattern{route_id: route_id} | _] = route_route_patterns ->
-      by_headsign =
-        route_route_patterns
-        |> Stream.chunk_by(& &1.headsign)
-        |> Stream.map(fn [%RoutePattern{headsign: headsign} | _] = headsign_route_patterns ->
-          {headsign, with_headsign_info(headsign_route_patterns)}
-        end)
-        |> Map.new()
-
-      {route_id, by_headsign}
-    end)
+    |> Enum.group_by(& &1.route_id)
+    |> Enum.map(&with_headsign_groups/1)
     |> Map.new()
   end
 
-  @spec with_headsign_info([RoutePattern.t()]) :: headsign_info
-  defp with_headsign_info(headsign_route_patterns) do
+  defp with_headsign_groups({route_id, route_patterns}),
+    do: {route_id, with_headsign_groups(route_patterns)}
+
+  defp with_headsign_groups(route_patterns) do
+    route_patterns
+    |> Enum.group_by(& &1.headsign)
+    |> Enum.map(&with_annotation/1)
+    |> Map.new()
+  end
+
+  defp with_annotation({headsign, route_patterns}),
+    do: {headsign, with_annotation(route_patterns)}
+
+  @spec with_annotation([RoutePattern.t()]) :: headsign_info
+  defp with_annotation(headsign_route_patterns) do
     [%RoutePattern{direction_id: direction_id} | _] = headsign_route_patterns
 
     %{
