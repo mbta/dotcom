@@ -9,7 +9,8 @@ defmodule SiteWeb.ErrorView do
         error_code: "404",
         error_type: "Page not found",
         error_title: "Sorry! We missed your stop.",
-        error_description: "This page is no longer in service.",
+        error_description:
+          "We're experiencing temporary technical difficulties on some of our web pages right now. We're working on it and we'll have this page back online as soon as we can.",
         error_instructions: "Try searching for what you're looking for below."
       })
     )
