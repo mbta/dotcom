@@ -10,11 +10,11 @@ import {
 import DepartureCard from "./DepartureCard";
 import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
-import { GroupedRoutePatterns } from "../stop-redesign-loader";
 import {
-  isNoncanonicalAndNoDepartures,
-  sortedGroupedRoutePatterns
-} from "../../models/route-patterns";
+  GroupedRoutePatterns,
+  RoutePatternWithPolyline
+} from "../stop-redesign-loader";
+import { sortedGroupedRoutePatterns } from "../../models/route-patterns";
 import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
 
 interface StopPageDeparturesProps {
@@ -33,6 +33,14 @@ const modeSortFn = ({ type }: Route): number => {
     return 2;
   }
   return type;
+};
+
+const isNoncanonicalAndNoDepartures = (
+  routePatterns: RoutePatternWithPolyline[],
+  departures: DepartureInfo[]
+): boolean => {
+  const isNonCanonical = !routePatterns.find(rp => !!rp.canonical);
+  return isNonCanonical && departures.length === 0;
 };
 
 const StopPageDepartures = ({
