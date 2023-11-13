@@ -16,7 +16,7 @@ import { render } from "@testing-library/react";
 import {
   GroupedRoutePatterns,
   RoutePatternWithPolyline
-} from "../stop-redesign-loader";
+} from "../../models/route-patterns";
 
 export const newLatOrLon = (): number => +faker.string.numeric(2);
 const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];

@@ -1,7 +1,20 @@
 import { minBy, sortBy } from "lodash";
-import { GroupedRoutePatterns } from "../stop/stop-redesign-loader";
+import { DirectionId, Route, RoutePattern } from "../__v3api";
+import { Polyline } from "../leaflet/components/__mapdata";
 
-type RoutePatternGroup = GroupedRoutePatterns[keyof GroupedRoutePatterns];
+export interface RoutePatternWithPolyline
+  extends Omit<RoutePattern, "representative_trip_polyline"> {
+  representative_trip_polyline: Polyline;
+}
+type RoutePatternGroup = Record<
+  RoutePattern["headsign"],
+  {
+    direction_id: DirectionId;
+    route_patterns: RoutePatternWithPolyline[];
+  }
+>;
+export type GroupedRoutePatterns = Record<Route["id"], RoutePatternGroup>;
+
 export type RoutePatternGroupEntries = [
   keyof RoutePatternGroup,
   RoutePatternGroup[keyof RoutePatternGroup]

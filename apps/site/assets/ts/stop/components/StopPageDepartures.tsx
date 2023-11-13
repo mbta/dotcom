@@ -12,9 +12,9 @@ import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
 import {
   GroupedRoutePatterns,
-  RoutePatternWithPolyline
-} from "../stop-redesign-loader";
-import { sortedGroupedRoutePatterns } from "../../models/route-patterns";
+  RoutePatternWithPolyline,
+  sortedGroupedRoutePatterns
+} from "../../models/route-patterns";
 import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
 
 interface StopPageDeparturesProps {
