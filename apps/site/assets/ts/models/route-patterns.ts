@@ -1,3 +1,4 @@
+import { minBy, sortBy } from "lodash";
 import {
   GroupedRoutePatterns,
   RoutePatternWithPolyline
@@ -13,17 +14,12 @@ export type RoutePatternGroupEntries = [
 // sort headsigns to reflect the route pattern's sort_order
 const sortedGroupedRoutePatterns = (
   groupedByHeadsign: RoutePatternGroup
-): RoutePatternGroupEntries => {
-  return Object.entries(groupedByHeadsign).sort((entryA, entryB) => {
-    const [orderA, orderB] = [
-      entryA,
-      entryB
-    ].map(([, { route_patterns: routePatterns }]) =>
-      Math.min(...routePatterns.map(rp => rp.sort_order))
-    );
-    return orderA - orderB;
-  });
-};
+): RoutePatternGroupEntries =>
+  sortBy(
+    Object.entries(groupedByHeadsign),
+    ([, { route_patterns: routePatterns }]) =>
+      minBy(routePatterns, "sort_order")?.sort_order
+  );
 
 const isNoncanonicalAndNoDepartures = (
   routePatterns: RoutePatternWithPolyline[],
