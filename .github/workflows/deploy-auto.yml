@@ -5,6 +5,10 @@ on:
   push:
     branches: [master]
 
+concurrency:
+  group: dev
+  cancel-in-progress: true
+
 jobs:
   auto:
     uses: ./.github/workflows/use-deploy-ecs.yml

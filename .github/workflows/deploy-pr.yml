@@ -15,6 +15,10 @@ env:
   # lacks real conditional statements
   DEPLOY_ENV: ${{ contains(github.event.pull_request.labels.*.name, 'dev-green') && 'dev-green' || 'dev-blue' }}
 
+concurrency:
+  group: ${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   pr:
     # env not available for job if
@@ -50,12 +54,12 @@ jobs:
           "${{ github.event.repository.url }}/issues?state=all&labels=${{ env.DEPLOY_ENV }}" \
           | jq -r '.[].url')
 
-          for url in ${labelled};  do
+          for url in "${labelled}";  do
             echo "${url}"
             if [[ "${url}" != ${{ github.event.pull_request.issue_url }} && "${url}" != "" ]]; then
               curl -X DELETE \
                 -H "Accept: application/vnd.github.v3+json" \ 
                 -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                "$url/labels/${{ env.DEPLOY_ENV }}"
+                "${url}/labels/${{ env.DEPLOY_ENV }}"
             fi
           done
