@@ -9,30 +9,19 @@ description: "Build Dotcom assets and compile application"
 runs:
   using: "composite"
   steps:
-  - uses: ./.github/actions/setup-all
-  
-  - name: Cache front end assets
-    uses: actions/cache@v3
-    with:
-      path: |
-        apps/site/priv/static
-        apps/site/react_renderer/dist/app.js
-      key: ci-all-assets-cache-${{ hashFiles('apps/site/assets/**', 'apps/site/static/**') }}
-    id: assets-cache
- 
-  - name: Compile front end assets (if needed)
-    run: mix compile.assets
-    shell: bash
-    if: ${{ steps.assets-cache.outputs.cache-hit != 'true' }}
-  
   - name: Cache _build
     uses: actions/cache@v3
     with:
       path: _build
-      key: ci-build-cache-${{ hashFiles('**/lib/**.ex', '**.exs', '**/mix.lock') }}"
+      key: ci-application-cache-${{ github.sha }}
     id: build-cache
-  
+ 
+  - uses: ./.github/actions/setup-all
+    if: steps.build-cache.outputs.cache-hit != 'true'
+
   - name: Compile application (if needed)
-    run: mix compile --all-warnings
     shell: bash
-    if: ${{ steps.build-cache.outputs.cache-hit != 'true' }}
+    run: |
+      mix compile.assets
+      mix compile --all-warnings
+    if: steps.build-cache.outputs.cache-hit != 'true'
