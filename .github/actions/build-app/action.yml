@@ -12,7 +12,9 @@ runs:
   - name: Cache _build
     uses: actions/cache@v3
     with:
-      path: _build
+      path: |
+        _build
+        apps/site/react_renderer/dist/app.js
       key: ci-application-cache-${{ github.sha }}
     id: build-cache
  
