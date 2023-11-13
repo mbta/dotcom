@@ -23,6 +23,8 @@ defmodule TripPlan.Api.OpenTripPlanner do
       }
       """
 
+      IO.inspect(graph_ql_query)
+
       root_url = Keyword.get(opts, :root_url, nil) || pick_url(connection_opts)
       graphql_url = "#{root_url}/otp/routers/default/index/"
 
@@ -114,7 +116,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
         "#{__MODULE__}.plan_response url=#{url} is_otp2=#{String.contains?(url, config(:otp2_url))} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
       end)
 
-    response
+    IO.inspect(response)
   end
 
   defp build_headers("true") do

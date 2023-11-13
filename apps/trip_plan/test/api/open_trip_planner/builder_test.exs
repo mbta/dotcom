@@ -20,7 +20,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "\"2017-05-22\"",
            "time" => "\"12:04pm\"",
            "arriveBy" => "false",
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -44,7 +44,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "\"2017-05-22\"",
            "time" => "\"12:04pm\"",
            "arriveBy" => "true",
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -66,7 +66,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "wheelchair" => "true",
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -79,7 +79,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -94,7 +94,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -109,7 +109,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: BUS}, {mode: SUBWAY}, {mode: TRAM}, {mode: WALK}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -125,7 +125,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
-           "walkReluctance" => 17,
+           "walkReluctance" => 27,
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
            "toPlace" => "\"::42.3636617,-71.0832908\""
@@ -139,7 +139,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
+           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "transferPenalty" => 100,
            "fromPlace" => "\"::42.356365,-71.06092\"",

@@ -82,8 +82,9 @@
                 },
                 "to": {
                     "name": "Tufts Medical Center - Outbound",
-                    "stopId": "1:70016",
-                    "stopCode": "70016",
+                    "stop": {
+                        "gtfsId": "1:70016"
+                    },
                     "lon": -71.063917,
                     "lat": 42.349662,
                     "arrival": 1495216740000,
@@ -166,8 +167,9 @@
                 "interlineWithPreviousLeg": false,
                 "from": {
                     "name": "Tufts Medical Center - Outbound",
-                    "stopId": "1:70016",
-                    "stopCode": "70016",
+                    "stop": {
+                        "gtfsId": "1:70016"
+                    },
                     "lon": -71.063917,
                     "lat": 42.349662,
                     "arrival": 1495216740000,
@@ -283,8 +285,9 @@
                 },
                 "to": {
                     "name": "Tufts Medical Center - Outbound",
-                    "stopId": "1:70016",
-                    "stopCode": "70016",
+                    "stop": {
+                        "gtfsId": "1:70016"
+                    },
                     "lon": -71.063917,
                     "lat": 42.349662,
                     "arrival": 1495217280000,
@@ -367,8 +370,9 @@
                 "interlineWithPreviousLeg": false,
                 "from": {
                     "name": "Tufts Medical Center - Outbound",
-                    "stopId": "1:70016",
-                    "stopCode": "70016",
+                    "stop": {
+                        "gtfsId": "1:70016"
+                    },
                     "lon": -71.063917,
                     "lat": 42.349662,
                     "arrival": 1495217280000,
@@ -482,8 +486,9 @@
                 },
                 "to": {
                     "name": "Tufts Medical Center - Outbound",
-                    "stopId": "1:70016",
-                    "stopCode": "70016",
+                    "stop": {
+                        "gtfsId": "1:70016"
+                    },
                     "lon": -71.063917,
                     "lat": 42.349662,
                     "arrival": 1495217760000,
@@ -566,8 +571,9 @@
                 "interlineWithPreviousLeg": false,
                 "from": {
                     "name": "Tufts Medical Center - Outbound",
-                    "stopId": "1:70016",
-                    "stopCode": "70016",
+                    "stop": {
+                        "gtfsId": "1:70016"
+                    },
                     "lon": -71.063917,
                     "lat": 42.349662,
                     "arrival": 1495217760000,
