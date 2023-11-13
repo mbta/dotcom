@@ -233,9 +233,9 @@ const DeparturesAndMap = ({
       className={`stop-routes-and-map ${activeRow ? "selected-departure" : ""}`}
     >
       {activeRow && BackToRoutes}
-      <div className="stop-routes">
+      <div ref={refEl} className="stop-routes">
         {activeRow ? (
-          <div ref={refEl} className="stop-departures--realtime">
+          <div className="stop-departures--realtime">
             <DepartureList
               route={activeRow.route}
               stop={stop}

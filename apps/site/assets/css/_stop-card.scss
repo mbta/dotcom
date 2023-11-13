@@ -80,6 +80,14 @@ $radius: 4px;
 
   .back-to-routes + .stop-routes {
     grid-row: 2 / 3;
+
+    // on mobile, adopt a full-screen "app" view,
+    // this is the scrollable section
+    @include media-breakpoint-down(sm) {
+      overflow-y: scroll;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
   }
 
   .stop-map {
@@ -93,8 +101,10 @@ $radius: 4px;
     // with map above departure list
     @include media-breakpoint-down(sm) {
       bottom: 0;
-      display: block;
+      display: grid;
       left: 0;
+      gap: 0;
+      grid-template-rows: auto 1fr;
       padding-bottom: 0;
       padding-top: 0;
       position: fixed;
@@ -163,8 +173,8 @@ $radius: 4px;
   &--realtime {
     @extend .stop-departures;
     @include media-breakpoint-down(sm) {
-      height: unset;
-      max-height: 100vh;
+      max-height: unset;
+      overflow-y: unset;
     }
   }
 
