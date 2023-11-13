@@ -30,6 +30,9 @@ on:
       scss: 
         description: "CSS files changed"
         value: ${{ jobs.files.outputs.scss }}
+      any:
+        description: "Any JS, TS, Elixir, or CSS file changes?"
+        value: ${{ jobs.files.outputs.js || jobs.files.outputs.ts || jobs.files.outputs.ex || jobs.files.outputs.scss }}
 
 jobs:
   files:
