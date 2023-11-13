@@ -12,40 +12,48 @@ describe("useAwaitInterval", () => {
 
       const go = async () => {
         callbackState = "started";
-
         await wait(50);
-
         callbackState = "finished";
       };
 
-      renderHook(() => {
+      const { waitFor } = renderHook(() => {
         return useAwaitInterval(go, 50);
       });
 
       // give the hook a chance to settle and kick off the initial callback
       // t = 5
       await wait(5);
-      expect(callbackState).toBe("started");
+      waitFor(() => {
+        expect(callbackState).toBe("started");
+      });
 
       await wait(55);
       // `go` should be finished
       // t = 60
-      expect(callbackState).toBe("finished");
+      waitFor(() => {
+        expect(callbackState).toBe("finished");
+      });
 
       // `go` is requeued, but not started
 
       await wait(30);
       // `go` should not yet have triggered
       // t = 90
-      expect(callbackState).toBe("finished");
+      waitFor(() => {
+        expect(callbackState).toBe("finished");
+      });
 
       await wait(25);
       // at this point, go should have triggered again
       // t = 115
-      expect(callbackState).toBe("started");
+      waitFor(() => {
+        expect(callbackState).toBe("started");
+      });
 
       await wait(50);
-      expect(callbackState).toBe("finished");
+      waitFor(() => {
+        expect(callbackState).toBe("finished");
+      });
     });
   });
 
