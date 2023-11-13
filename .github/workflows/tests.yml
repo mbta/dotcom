@@ -86,6 +86,7 @@ jobs:
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
     - uses: actions/checkout@v4
+    - uses: ./.github/actions/setup-all
     - uses: actions/cache/restore@v3
       with:
         path: _build
@@ -118,6 +119,7 @@ jobs:
     if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
     - uses: actions/checkout@v4
+    - uses: ./.github/actions/setup-all
     - uses: actions/cache/restore@v3
       with:
         path: _build
@@ -171,6 +173,7 @@ jobs:
     if: ${{ needs.file_changes.outputs.any }}
     steps:
     - uses: actions/checkout@v4
+    - uses: ./.github/actions/setup-all
     - uses: actions/cache/restore@v3
       with:
         path: _build
