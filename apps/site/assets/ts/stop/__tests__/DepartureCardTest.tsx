@@ -6,7 +6,7 @@ import { baseRoute, renderWithRouter, TEST_LOADER_VALUE } from "./helpers";
 import { DepartureInfo } from "../../models/departureInfo";
 
 const testRoute = baseRoute(Object.keys(TEST_LOADER_VALUE)[0], 3);
-const routePatternsByHeadsign = Object.entries(TEST_LOADER_VALUE[testRoute.id]);
+const routePatternsByHeadsign = TEST_LOADER_VALUE[testRoute.id];
 
 describe("DepartureCard", () => {
   afterEach(cleanup);
@@ -126,7 +126,7 @@ describe("DepartureCard", () => {
 
     const departures = [] as DepartureInfo[];
     const route = baseRoute("Red", 1);
-    const routePatterns = Object.entries(TEST_LOADER_VALUE["Red"]);
+    const routePatterns = TEST_LOADER_VALUE["Red"];
     renderWithRouter(
       <DepartureCard
         route={route}

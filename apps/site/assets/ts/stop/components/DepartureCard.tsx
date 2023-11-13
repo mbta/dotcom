@@ -1,3 +1,4 @@
+import { reject } from "lodash";
 import React, { ReactElement } from "react";
 import { Alert, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
@@ -7,9 +8,21 @@ import useDepartureRow from "../../hooks/useDepartureRow";
 import { DepartureInfo } from "../../models/departureInfo";
 import { allAlertsForDirection } from "../../models/alert";
 import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
-import { isACommuterRailRoute } from "../../models/route";
+import { isACommuterRailRoute, isSubwayRoute } from "../../models/route";
 import DepartureTimes from "./DepartureTimes";
-import { RoutePatternGroupEntries } from "../../models/route-patterns";
+import {
+  RoutePatternGroup,
+  RoutePatternWithPolyline,
+  sortedGroupedRoutePatterns
+} from "../../models/route-patterns";
+
+const isNoncanonicalAndNoDepartures = (
+  routePatterns: RoutePatternWithPolyline[],
+  departures: DepartureInfo[]
+): boolean => {
+  const isNonCanonical = !routePatterns.find(rp => !!rp.canonical);
+  return isNonCanonical && departures.length === 0;
+};
 
 const DepartureCard = ({
   alertsForRoute,
@@ -19,10 +32,30 @@ const DepartureCard = ({
 }: {
   alertsForRoute: Alert[];
   departuresForRoute: DepartureInfo[];
-  routePatternsByHeadsign: RoutePatternGroupEntries;
+  routePatternsByHeadsign: RoutePatternGroup;
   route: Route;
-}): ReactElement<HTMLElement> => {
+}): ReactElement<HTMLElement> | null => {
   const { setRow } = useDepartureRow([route]);
+
+  let sortedRoutePatternsByHeadsign = sortedGroupedRoutePatterns(
+    routePatternsByHeadsign
+  );
+
+  if (isSubwayRoute(route)) {
+    // remove certain headsigns based on route pattern and departures
+    sortedRoutePatternsByHeadsign = reject(
+      sortedRoutePatternsByHeadsign,
+      entry => {
+        const [, { route_patterns: routePatterns }] = entry;
+        const departures = departuresForRoute.filter(d =>
+          departureInfoInRoutePatterns(d, routePatterns)
+        );
+        return isNoncanonicalAndNoDepartures(routePatterns, departures);
+      }
+    );
+    // don't render a route card if there's no headsigns left to show
+    if (sortedRoutePatternsByHeadsign.length === 0) return null;
+  }
 
   return (
     <li className="departure-card">
@@ -34,7 +67,7 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {routePatternsByHeadsign.map(
+      {sortedRoutePatternsByHeadsign.map(
         ([
           headsign,
           { direction_id: directionId, route_patterns: routePatterns }

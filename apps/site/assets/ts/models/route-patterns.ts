@@ -6,7 +6,7 @@ export interface RoutePatternWithPolyline
   extends Omit<RoutePattern, "representative_trip_polyline"> {
   representative_trip_polyline: Polyline;
 }
-type RoutePatternGroup = Record<
+export type RoutePatternGroup = Record<
   RoutePattern["headsign"],
   {
     direction_id: DirectionId;
@@ -21,7 +21,7 @@ export type RoutePatternGroupEntries = [
 ][];
 
 // sort headsigns to reflect the route pattern's sort_order
-const sortedGroupedRoutePatterns = (
+export const sortedGroupedRoutePatterns = (
   groupedByHeadsign: RoutePatternGroup
 ): RoutePatternGroupEntries =>
   sortBy(
@@ -30,5 +30,4 @@ const sortedGroupedRoutePatterns = (
       minBy(routePatterns, "sort_order")?.sort_order
   );
 
-// eslint-disable-next-line import/prefer-default-export
-export { sortedGroupedRoutePatterns };
+export default { sortedGroupedRoutePatterns };
