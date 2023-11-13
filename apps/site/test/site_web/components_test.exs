@@ -24,11 +24,16 @@ defmodule SiteWeb.ComponentsTest do
     end
 
     test "renders with AlgoliaAutocomplete hook and appropriate data attributes" do
-      assert render_component(
-               &algolia_autocomplete/1,
-               %{id: "testID", locations: true, algolia_indexes: [:stops, :routes]}
-             ) ==
-               ~s(<div phx-hook="AlgoliaAutocomplete" data-turbolinks-permanent id="testID" class="c-search-bar__autocomplete" data-locations data-algolia="routes,stops"></div>)
+      assert """
+             <div phx-hook="AlgoliaAutocomplete" data-turbolinks-permanent id="testID">
+               <div class="c-search-bar__autocomplete" data-locations data-algolia="routes,stops"></div>
+               <div class="c-search-bar__autocomplete-results"></div>
+             </div>
+             """ =~
+               render_component(
+                 &algolia_autocomplete/1,
+                 %{id: "testID", locations: true, algolia_indexes: [:stops, :routes]}
+               )
     end
   end
 end

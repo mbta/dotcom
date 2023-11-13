@@ -65,11 +65,15 @@ defmodule SiteWeb.Components do
       phx-hook="AlgoliaAutocomplete"
       data-turbolinks-permanent
       id={@id}
-      class="c-search-bar__autocomplete"
-      data-geolocation={@geolocation}
-      data-locations={@locations}
-      data-algolia={Enum.join(@valid_indexes, ",")}
-    />
+    >
+      <div
+        class="c-search-bar__autocomplete"
+        data-geolocation={@geolocation}
+        data-locations={@locations}
+        data-algolia={Enum.join(@valid_indexes, ",")}
+      />
+      <div class="c-search-bar__autocomplete-results" />
+    </div>
     """
   end
 end
