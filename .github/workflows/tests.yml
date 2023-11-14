@@ -91,7 +91,7 @@ jobs:
       with:
         path: |
           _build
-          apps/site/assets/static
+          apps/site/priv
           apps/site/react_renderer/dist/app.js
         key: ci-application-cache-${{ github.sha }}
     - env:
@@ -178,7 +178,7 @@ jobs:
       with:
         path: |
           _build
-          apps/site/assets/static
+          apps/site/priv
           apps/site/react_renderer/dist/app.js
         key: ci-application-cache-${{ github.sha }}
     - uses: mbta/setup-chromedriver@master
