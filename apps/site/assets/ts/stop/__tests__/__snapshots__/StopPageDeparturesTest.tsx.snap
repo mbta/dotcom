@@ -88,7 +88,7 @@ exports[`StopPageDepartures renders with data 2`] = `
             <div
               class="font-helvetica-neue fs-14 u-nowrap"
             >
-              No upcoming trips
+              No more trips today
             </div>
           </div>
           <div>
@@ -115,7 +115,7 @@ exports[`StopPageDepartures renders with data 2`] = `
             <div
               class="font-helvetica-neue fs-14 u-nowrap"
             >
-              No upcoming trips
+              No more trips today
             </div>
           </div>
           <div>
@@ -142,7 +142,7 @@ exports[`StopPageDepartures renders with data 2`] = `
             <div
               class="font-helvetica-neue fs-14 u-nowrap"
             >
-              No upcoming trips
+              No more trips today
             </div>
           </div>
           <div>
@@ -191,7 +191,7 @@ exports[`StopPageDepartures renders with data 2`] = `
             <div
               class="font-helvetica-neue fs-14 u-nowrap"
             >
-              No upcoming trips
+              No more trips today
             </div>
           </div>
           <div>

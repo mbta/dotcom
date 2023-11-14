@@ -87,70 +87,85 @@ const rapidTransitShuttleRoute = {
 
 const groupedRoutePatterns = {
   "Shuttle-AshlandFramingham": {
-    "Ashland (Shuttle)": [
-      {
-        headsign: "Ashland (Shuttle)",
-        id: "ashland-shuttle",
-        route_id: railReplacementRoute.id,
-        direction_id: 1,
-        representative_trip_polyline: {
-          id: "1"
+    "Ashland (Shuttle)": {
+      direction_id: 1,
+      route_patterns: [
+        {
+          headsign: "Ashland (Shuttle)",
+          id: "ashland-shuttle",
+          route_id: railReplacementRoute.id,
+          direction_id: 1,
+          representative_trip_polyline: {
+            id: "1"
+          }
         }
-      }
-    ]
+      ]
+    }
   },
   "CR-Worcester": {
-    "North Station": [
-      {
-        headsign: "North Station",
-        id: "north-station",
-        route_id: crRoute.id,
-        direction_id: 1,
-        representative_trip_polyline: {
-          id: "2"
+    "North Station": {
+      direction_id: 1,
+      route_patterns: [
+        {
+          headsign: "North Station",
+          id: "north-station",
+          route_id: crRoute.id,
+          direction_id: 1,
+          representative_trip_polyline: {
+            id: "2"
+          }
         }
-      }
-    ],
-    "South Station": [
-      {
-        headsign: "South Station",
-        id: "south-station",
-        route_id: crRoute.id,
-        direction_id: 1,
-        representative_trip_polyline: {
-          id: "3"
+      ]
+    },
+    "South Station": {
+      direction_id: 1,
+      route_patterns: [
+        {
+          headsign: "South Station",
+          id: "south-station",
+          route_id: crRoute.id,
+          direction_id: 1,
+          representative_trip_polyline: {
+            id: "3"
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };
 
 const groupedRapidTransitRoutePatterns = {
   "Shuttle-Test-Rapid-Line": {
-    "Rapid (Shuttle)": [
-      {
-        headsign: "Rapid (Shuttle)",
-        id: "rapid-shuttle",
-        route_id: rapidTransitShuttleRoute.id,
-        direction_id: 1,
-        representative_trip_polyline: {
-          id: "1"
+    "Rapid (Shuttle)": {
+      direction_id: 1,
+      route_patterns: [
+        {
+          headsign: "Rapid (Shuttle)",
+          id: "rapid-shuttle",
+          route_id: rapidTransitShuttleRoute.id,
+          direction_id: 1,
+          representative_trip_polyline: {
+            id: "1"
+          }
         }
-      }
-    ]
+      ]
+    }
   },
   "Test-Rapid-Line": {
-    "Test North Station": [
-      {
-        headsign: "North Station",
-        id: "north-station",
-        route_id: rapidTransitRoute.id,
-        direction_id: 1,
-        representative_trip_polyline: {
-          id: "2"
+    "Test North Station": {
+      direction_id: 1,
+      route_patterns: [
+        {
+          headsign: "North Station",
+          id: "north-station",
+          route_id: rapidTransitRoute.id,
+          direction_id: 1,
+          representative_trip_polyline: {
+            id: "2"
+          }
         }
-      }
-    ]
+      ]
+    }
   }
 };
 

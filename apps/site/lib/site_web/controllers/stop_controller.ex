@@ -192,17 +192,45 @@ defmodule SiteWeb.StopController do
     json(conn, route_patterns_by_route_and_headsign(stop_id))
   end
 
-  @type by_route_and_headsign :: %{Route.id_t() => %{String.t() => [RoutePattern.t()]}}
+  @type headsign_info :: %{
+          required(:direction_id) => 0 | 1,
+          required(:route_patterns) => [RoutePattern.t()]
+        }
+  @type by_route_and_headsign :: %{Route.id_t() => %{String.t() => headsign_info}}
   @spec route_patterns_by_route_and_headsign(Stop.id_t()) :: by_route_and_headsign()
   defp route_patterns_by_route_and_headsign(stop_id) do
     stop_id
     |> RoutePatterns.Repo.by_stop_id()
-    |> Enum.reject(&not_serving_today?/1)
-    |> Enum.reject(&ends_at?(&1, stop_id))
-    |> Enum.map(&add_polyline/1)
+    |> Stream.reject(&ends_at?(&1, stop_id))
     |> Enum.group_by(& &1.route_id)
-    |> Enum.map(fn {k, v} -> {k, Enum.group_by(v, & &1.headsign)} end)
+    |> Enum.map(&with_headsign_groups/1)
     |> Map.new()
+  end
+
+  defp with_headsign_groups({route_id, route_patterns}),
+    do: {route_id, with_headsign_groups(route_patterns)}
+
+  defp with_headsign_groups(route_patterns) do
+    route_patterns
+    |> Enum.group_by(& &1.headsign)
+    |> Enum.map(&with_annotation/1)
+    |> Map.new()
+  end
+
+  defp with_annotation({headsign, route_patterns}),
+    do: {headsign, with_annotation(route_patterns)}
+
+  @spec with_annotation([RoutePattern.t()]) :: headsign_info
+  defp with_annotation(headsign_route_patterns) do
+    [%RoutePattern{direction_id: direction_id} | _] = headsign_route_patterns
+
+    %{
+      direction_id: direction_id,
+      route_patterns:
+        headsign_route_patterns
+        |> Enum.reject(&not_serving_today?/1)
+        |> Enum.map(&add_polyline/1)
+    }
   end
 
   @spec not_serving_today?(RoutePattern.t()) :: boolean()
@@ -214,6 +242,7 @@ defmodule SiteWeb.StopController do
     case Services.Repo.by_route_id(route_id) do
       [%Service{} | _] = services ->
         services
+        |> Enum.reject(&(&1.id === "canonical"))
         |> Enum.filter(&Service.serves_date?(&1, Timex.today()))
         |> Enum.empty?()
 

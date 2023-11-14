@@ -19,6 +19,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={[]}
         isCR={false}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
     await waitFor(() => {
@@ -80,6 +81,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={[]}
         isCR={false}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
     await waitFor(() => {
@@ -116,6 +118,7 @@ describe("DepartureTimes", () => {
           alertsForDirection={alerts}
           isCR={false}
           onClick={jest.fn()}
+          hasService={true}
         />
       );
       await waitFor(() => {
@@ -154,6 +157,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={alerts}
         isCR={false}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
     await waitFor(() => {
@@ -205,6 +209,7 @@ describe("DepartureTimes", () => {
         overrideDate={dateToCompare}
         isCR={false}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
     await waitFor(() => {
@@ -357,6 +362,7 @@ describe("DepartureTimes", () => {
         overrideDate={compareTime}
         isCR={false}
         onClick={setRowSpy}
+        hasService={true}
       />
     );
 
@@ -442,6 +448,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={[]}
         isCR={true}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
 
@@ -452,7 +459,7 @@ describe("DepartureTimes", () => {
     });
   });
 
-  it("renders 'No upcoming trips' when no predictions or schedules", async () => {
+  it("renders 'No more trips' when no predictions or schedules", async () => {
     renderWithRouter(
       <DepartureTimes
         headsign="Alewife"
@@ -460,10 +467,11 @@ describe("DepartureTimes", () => {
         alertsForDirection={[]}
         isCR={false}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
     await waitFor(() => {
-      expect(screen.getByText("No upcoming trips")).toBeDefined();
+      expect(screen.getByText("No more trips today")).toBeDefined();
       expect(screen.getByText("Alewife")).toBeDefined();
     });
   });
@@ -482,6 +490,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={[closureAlert]}
         isCR={true}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
     await waitFor(() => {
@@ -504,12 +513,30 @@ describe("DepartureTimes", () => {
         alertsForDirection={[closureAlert]}
         isCR={false}
         onClick={jest.fn()}
+        hasService={true}
       />
     );
 
     await waitFor(() => {
       expect(screen.getByText("No Service")).toBeInTheDocument();
       expect(screen.getByText("See alternatives")).toBeInTheDocument();
+    });
+  });
+
+  it("can show no service message", async () => {
+    const expectedMessage = "No trips today";
+    renderWithRouter(
+      <DepartureTimes
+        headsign="Some place"
+        departures={[]}
+        alertsForDirection={[]}
+        isCR={false}
+        onClick={jest.fn()}
+        hasService={false}
+      />
+    );
+    await waitFor(() => {
+      expect(screen.findByText(expectedMessage)).toBeDefined();
     });
   });
 });

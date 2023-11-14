@@ -17,13 +17,16 @@ interface DepartureListProps {
   directionId: DirectionId;
   headsign: string;
   alerts: Alert[];
+  hasService: boolean;
   targetDate?: Date | undefined;
 }
 
-const displayNoUpcomingTrips = (): JSX.Element => {
+const displayNoUpcomingTrips = (
+  message = "No more trips today"
+): JSX.Element => {
   return (
     <div className="c-alert-item--low m-8 d-flex justify-content-center align-items-center pb-40 pt-40">
-      No upcoming trips today
+      {message}
     </div>
   );
 };
@@ -35,6 +38,7 @@ const DepartureList = ({
   directionId,
   headsign,
   alerts,
+  hasService,
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const isCR = isACommuterRailRoute(route);
@@ -51,6 +55,11 @@ const DepartureList = ({
   );
   const tripForSelectedRoutePattern: Trip | undefined =
     modeSpecificDepartures[0]?.trip;
+
+  const noTrips =
+    modeSpecificDepartures.length === 0 && displayNoUpcomingTrips();
+  const noService = !hasService && displayNoUpcomingTrips("No trips today");
+  const noServiceOrNoTrips = noService || noTrips;
 
   return (
     <>
@@ -74,17 +83,12 @@ const DepartureList = ({
         <div className="departure-list__headsign">{headsign}</div>
       </h2>
       {alerts.length ? <Alerts alerts={alerts} /> : null}
-      {modeSpecificDepartures.length === 0
-        ? displayNoUpcomingTrips()
-        : !alertsShouldSuppressDepartures && (
-            <ul className="stop-routes__departures list-unstyled">
-              {departuresListFromInfos(
-                modeSpecificDepartures,
-                isCR,
-                targetDate
-              )}
-            </ul>
-          )}
+      {noServiceOrNoTrips ||
+        (!alertsShouldSuppressDepartures && (
+          <ul className="stop-routes__departures list-unstyled">
+            {departuresListFromInfos(modeSpecificDepartures, isCR, targetDate)}
+          </ul>
+        ))}
     </>
   );
 };

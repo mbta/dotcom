@@ -124,19 +124,21 @@ describe("DeparturesAndMap", () => {
       expect(map).toBeDefined();
       [subwayRoute, crRoute, slRoute].forEach(({ id }) => {
         const expectedRP = TEST_LOADER_VALUE[id];
-        Object.values(expectedRP).forEach(routePatterns => {
-          routePatterns.forEach(({ representative_trip_polyline }) => {
-            expect(
-              map.querySelector(
-                `.stop-map_line--${representative_trip_polyline.id}`
-              )
-            ).toBeInTheDocument();
-          });
-        });
+        Object.values(expectedRP).forEach(
+          ({ route_patterns: routePatterns }) => {
+            routePatterns.forEach(({ representative_trip_polyline }) => {
+              expect(
+                map.querySelector(
+                  `.stop-map_line--${representative_trip_polyline.id}`
+                )
+              ).toBeInTheDocument();
+            });
+          }
+        );
       });
 
       const busRP = TEST_LOADER_VALUE[busRoute.id];
-      Object.values(busRP).forEach(routePatterns => {
+      Object.values(busRP).forEach(({ route_patterns: routePatterns }) => {
         routePatterns.forEach(({ representative_trip_polyline }) => {
           expect(
             map.querySelector(

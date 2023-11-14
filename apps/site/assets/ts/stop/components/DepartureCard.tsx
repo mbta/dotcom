@@ -9,7 +9,7 @@ import { allAlertsForDirection } from "../../models/alert";
 import { departureInfoInRoutePatterns } from "../../helpers/departureInfo";
 import { isACommuterRailRoute } from "../../models/route";
 import DepartureTimes from "./DepartureTimes";
-import { RoutePatternWithPolyline } from "../stop-redesign-loader";
+import { GroupedRoutePatterns } from "../stop-redesign-loader";
 
 const DepartureCard = ({
   alertsForRoute,
@@ -19,7 +19,7 @@ const DepartureCard = ({
 }: {
   alertsForRoute: Alert[];
   departuresForRoute: DepartureInfo[];
-  routePatternsByHeadsign: Record<string, RoutePatternWithPolyline[]>;
+  routePatternsByHeadsign: GroupedRoutePatterns[keyof GroupedRoutePatterns];
   route: Route;
 }): ReactElement<HTMLElement> => {
   const { setRow } = useDepartureRow([route]);
@@ -27,7 +27,10 @@ const DepartureCard = ({
   const sortedRoutePatternsByHeadsign = useMemo(
     () =>
       Object.entries(routePatternsByHeadsign).sort((entryA, entryB) => {
-        const [orderA, orderB] = [entryA, entryB].map(([, routePatterns]) =>
+        const [orderA, orderB] = [
+          entryA,
+          entryB
+        ].map(([, { route_patterns: routePatterns }]) =>
           Math.min(...routePatterns.map(rp => rp.sort_order))
         );
         return orderA - orderB;
@@ -45,31 +48,36 @@ const DepartureCard = ({
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
       </a>
-      {sortedRoutePatternsByHeadsign.map(([headsign, routePatterns]) => {
-        const { direction_id } = routePatterns[0];
-        const onClick = (): void =>
-          setRow({
-            routeId: route.id,
-            directionId: direction_id.toString(),
-            headsign
-          });
+      {sortedRoutePatternsByHeadsign.map(
+        ([
+          headsign,
+          { direction_id: directionId, route_patterns: routePatterns }
+        ]) => {
+          const onClick = (): void =>
+            setRow({
+              routeId: route.id,
+              directionId: directionId.toString(),
+              headsign
+            });
 
-        return (
-          <DepartureTimes
-            key={headsign}
-            alertsForDirection={allAlertsForDirection(
-              alertsForRoute,
-              direction_id
-            )}
-            headsign={headsign}
-            departures={departuresForRoute.filter(d =>
-              departureInfoInRoutePatterns(d, routePatterns)
-            )}
-            onClick={onClick}
-            isCR={isACommuterRailRoute(route)}
-          />
-        );
-      })}
+          return (
+            <DepartureTimes
+              key={headsign}
+              alertsForDirection={allAlertsForDirection(
+                alertsForRoute,
+                directionId
+              )}
+              headsign={headsign}
+              departures={departuresForRoute.filter(d =>
+                departureInfoInRoutePatterns(d, routePatterns)
+              )}
+              onClick={onClick}
+              isCR={isACommuterRailRoute(route)}
+              hasService={routePatterns.length !== 0}
+            />
+          );
+        }
+      )}
     </li>
   );
 };
