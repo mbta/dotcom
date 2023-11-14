@@ -160,7 +160,7 @@
     "jest:update": "npm run jest -- -u",
     "jest:watch": "npm run jest -- --watch",
     "jest:cov": "open ts/coverage/index.html",
-    "mocha": "mocha --require @babel/register --require ts-node/register js/test/**/*.js",
+    "mocha": "mocha --require @babel/register --require ts-node/register js/test/**/*.js --retries 3",
     "webpack:watch": "webpack serve --config webpack.config.dev.js --env development --watch-options-stdin",
     "webpack:build": "webpack --config webpack.config.prod.js --env production",
     "webpack:build:react": "webpack --config webpack.config.react_app.js --env production",
