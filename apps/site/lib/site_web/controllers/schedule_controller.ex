@@ -71,7 +71,7 @@ defmodule SiteWeb.ScheduleController do
 
           _ ->
             Logger.info(
-              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
+              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data.length=#{length(data)} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
             )
 
             json(conn, [])

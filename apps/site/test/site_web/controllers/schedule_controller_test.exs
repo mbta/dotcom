@@ -309,7 +309,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "should return an array of schedules", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
         schedules_for_stop: fn
-          "TEST 1234", [] ->
+          "TEST 1234", _ ->
             [
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
@@ -317,9 +317,6 @@ defmodule SiteWeb.ScheduleControllerTest do
                 departure_time: ~U[2219-05-18 22:25:06.098765Z]
               }
             ]
-
-          _, _ ->
-            nil
         end
       ) do
         conn = ScheduleController.schedules_for_stop(conn, %{"stop_id" => "TEST 1234"})
@@ -332,7 +329,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "should not return past schedules", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
         schedules_for_stop: fn
-          "TEST 1234", [] ->
+          "TEST 1234", _ ->
             [
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
@@ -350,9 +347,6 @@ defmodule SiteWeb.ScheduleControllerTest do
                 departure_time: ~U[2219-05-18 23:25:06.098765Z]
               }
             ]
-
-          _, _ ->
-            nil
         end
       ) do
         conn =
@@ -370,7 +364,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "should not return schedules that are the last stop on its route", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
         schedules_for_stop: fn
-          "TEST 1234", [] ->
+          "TEST 1234", _ ->
             [
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
@@ -391,9 +385,6 @@ defmodule SiteWeb.ScheduleControllerTest do
                 last_stop?: true
               }
             ]
-
-          _, _ ->
-            nil
         end
       ) do
         conn =
@@ -410,7 +401,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "should report errors", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn "TEST 1234", [] -> {:error, :not_found} end
+        schedules_for_stop: fn "TEST 1234", _ -> {:error, :not_found} end
       ) do
         log =
           ExUnit.CaptureLog.capture_log(fn ->
@@ -429,7 +420,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "logs when no schedules returned", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
-        schedules_for_stop: fn "TEST 1234", [] ->
+        schedules_for_stop: fn "TEST 1234", _ ->
           # will get filtered out
           [
             %Schedules.Schedule{
@@ -463,6 +454,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
         assert log =~ "[info] module=Elixir.SiteWeb.ScheduleController"
         assert log =~ "fun=schedules_for_stop stop=TEST 1234"
+        assert log =~ "data.length=1"
         assert log =~ "no_schedules_returned"
       end
     end
