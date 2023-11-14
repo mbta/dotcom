@@ -14,37 +14,22 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
 
   @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
 
-  @doc """
-  Parse the JSON output from the plan endpoint.
-  """
-  @spec parse_json(binary) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
-  def parse_json(json_binary) do
-    with {:ok, json} <- Poison.decode(json_binary) do
-      parse_map(json)
-    end
-  rescue
-    e in FunctionClauseError ->
-      _ =
-        Logger.warn(fn ->
-          "#{__MODULE__} exception=FunctionClauseError function=#{e.function} json=#{json_binary}"
-        end)
-
-      {:error, :invalid_json}
+  @spec parse_ql(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
+  def parse_ql(%{"data" => data}, accessible?) do
+    parse_map(data, accessible?)
   end
 
-  @spec parse_map(map) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
-  defp parse_map(%{"error" => %{"message" => error_message}, "requestParameters" => params}) do
-    accessible? = params["wheelchair"] == "true"
-
+  @spec parse_map(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
+  defp parse_map(%{"plan" => %{"routingErrors" => [head | _]}}, accessible?) do
     _ =
       Logger.warn(fn ->
-        "#{__MODULE__} trip_plan=error message=#{inspect(error_message)}"
+        "#{__MODULE__} trip_plan=error message=#{inspect(head["code"])}"
       end)
 
-    {:error, error_message_atom(error_message, accessible?: accessible?)}
+    {:error, error_message_atom(head["code"], accessible?: accessible?)}
   end
 
-  defp parse_map(json) do
+  defp parse_map(json, _) do
     _ =
       Logger.info(fn ->
         "#{__MODULE__} trip_plan=success count=#{Enum.count(json["plan"]["itineraries"])}"
@@ -54,9 +39,13 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   end
 
   @doc "Test helper which matches off the :ok"
-  def parse_json!(json_binary) do
-    {:ok, itineraries} = parse_json(json_binary)
-    itineraries
+  def parse_json(json_binary, accessible? \\ false) do
+    with {:ok, json} <- Poison.decode(json_binary) do
+      parse_map(json, accessible?)
+    end
+  rescue
+    _e in FunctionClauseError ->
+      {:error, :invalid_json}
   end
 
   @spec error_message_atom(String.t(), Keyword.t()) :: TripPlan.Api.error()
@@ -67,6 +56,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   defp error_message_atom("PATH_NOT_FOUND", accessible?: true), do: :location_not_accessible
   defp error_message_atom("PATH_NOT_FOUND", accessible?: false), do: :path_not_found
   defp error_message_atom("LOCATION_NOT_ACCESSIBLE", _opts), do: :location_not_accessible
+  defp error_message_atom("NO_STOPS_IN_RANGE", _opts), do: :location_not_accessible
   defp error_message_atom(_, _opts), do: :unknown
 
   defp parse_itinerary(json, request_params) do
@@ -92,14 +82,25 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
       mode: parse_mode(json),
-      from: parse_named_position(json["from"], "stopId"),
-      to: parse_named_position(json["to"], "stopId"),
+      from: parse_named_position(json["from"], "stop"),
+      to: parse_named_position(json["to"], "stop"),
       polyline: json["legGeometry"]["points"],
       name: json["route"],
       long_name: json["routeLongName"],
       type: json["agencyId"],
       url: json["agencyUrl"],
       description: json["mode"]
+    }
+  end
+
+  def parse_named_position(json, "stop") do
+    stop = json["stop"]
+
+    %NamedPosition{
+      name: json["name"],
+      stop_id: if(stop, do: id_after_colon(stop["gtfsId"])),
+      longitude: json["lon"],
+      latitude: json["lat"]
     }
   end
 
@@ -121,9 +122,9 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
 
   defp parse_mode(%{"mode" => mode} = json) when mode in @transit_modes do
     %TransitDetail{
-      route_id: id_after_colon(json["routeId"]),
-      trip_id: id_after_colon(json["tripId"]),
-      intermediate_stop_ids: Enum.map(json["intermediateStops"], &id_after_colon(&1["stopId"]))
+      route_id: id_after_colon(json["route"]["gtfsId"]),
+      trip_id: id_after_colon(json["trip"]["gtfsId"]),
+      intermediate_stop_ids: Enum.map(json["intermediateStops"], &id_after_colon(&1["gtfsId"]))
     }
   end
 

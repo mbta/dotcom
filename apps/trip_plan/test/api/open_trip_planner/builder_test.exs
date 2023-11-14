@@ -7,19 +7,9 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
     longitude: -71.060920
   }
 
-  @from_outside %TripPlan.NamedPosition{
-    latitude: 42.314299,
-    longitude: -71.308373
-  }
-
   @to_inside %TripPlan.NamedPosition{
     latitude: 42.3636617,
     longitude: -71.0832908
-  }
-
-  @to_outside %TripPlan.NamedPosition{
-    latitude: 42.4185923,
-    longitude: -71.2184401
   }
 
   describe "build_params/1" do
@@ -27,11 +17,14 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "date" => "2017-05-22",
-           "time" => "12:04pm",
+           "date" => "\"2017-05-22\"",
+           "time" => "\"12:04pm\"",
            "arriveBy" => "false",
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual =
@@ -48,11 +41,14 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "date" => "2017-05-22",
-           "time" => "12:04pm",
+           "date" => "\"2017-05-22\"",
+           "time" => "\"12:04pm\"",
            "arriveBy" => "true",
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual =
@@ -70,8 +66,11 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "wheelchair" => "true",
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: true)
@@ -80,52 +79,14 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: false)
-      assert expected == actual
-    end
-
-    test "maxWalkDistance is increased when searching from outside of subway service area" do
-      expected =
-        {:ok,
-         %{
-           "maxWalkDistance" => "16093",
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
-         }}
-
-      actual = build_params(@from_outside, @to_inside, wheelchair_accessible?: false)
-      assert expected == actual
-
-      actual = build_params(@from_inside, @to_outside, wheelchair_accessible?: false)
-      assert expected == actual
-    end
-
-    test "maxWalkDistance is not increased when searching from inside of subway service area" do
-      expected =
-        {:ok,
-         %{
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
-         }}
-
-      actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: false)
-      assert expected == actual
-    end
-
-    test "max_walk_distance sets maxWalkDistance in meters" do
-      expected =
-        {:ok,
-         %{
-           "maxWalkDistance" => "1609.5",
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
-         }}
-
-      actual = build_params(@from_inside, @to_inside, max_walk_distance: 1609.5)
       assert expected == actual
     end
 
@@ -133,8 +94,11 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK"
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual = build_params(@from_inside, @to_inside, mode: [])
@@ -145,8 +109,11 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
-           "mode" => "BUS,SUBWAY,TRAM,WALK"
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: BUS}, {mode: SUBWAY}, {mode: TRAM}, {mode: WALK}]",
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual = build_params(@from_inside, @to_inside, mode: ["BUS", "SUBWAY", "TRAM"])
@@ -157,8 +124,11 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "mode" => "TRANSIT,WALK",
-           "walkReluctance" => 17
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "walkReluctance" => 27,
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual = build_params(@from_inside, @to_inside, optimize_for: :less_walking)
@@ -169,9 +139,12 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 5,
-           "mode" => "TRANSIT,WALK",
-           "transferPenalty" => 100
+           "walkReluctance" => 15,
+           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+           "transferPenalty" => 100,
+           "fromPlace" => "\"::42.356365,-71.06092\"",
+           "locale" => "\"en\"",
+           "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
       actual = build_params(@from_inside, @to_inside, optimize_for: :fewest_transfers)

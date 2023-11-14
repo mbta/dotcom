@@ -226,7 +226,6 @@ defmodule Site.TripPlan.QueryTest do
       assert %Query{} = from_query(params, @connection_opts, @date_opts)
 
       inaccessible_opts = [
-        max_walk_distance: 805,
         wheelchair_accessible?: false,
         depart_at: @date_time
       ]

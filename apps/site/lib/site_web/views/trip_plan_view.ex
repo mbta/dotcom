@@ -624,7 +624,7 @@ defmodule SiteWeb.TripPlanView do
         acc
       else
         name =
-          if leg.name && leg.name =~ "Shuttle",
+          if leg.long_name && leg.long_name =~ "Shuttle",
             do: Format.name(:shuttle),
             else: Format.name(highest_fare.name)
 

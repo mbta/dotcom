@@ -3,9 +3,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @behaviour TripPlan.Api
   require Logger
   import __MODULE__.Builder, only: [build_params: 3]
-  import __MODULE__.Parser, only: [parse_json: 1]
-  alias TripPlan.NamedPosition
-  alias Util.Position
+  import __MODULE__.Parser, only: [parse_ql: 2]
 
   def plan(from, to, connection_opts, opts, _parent) do
     plan(from, to, connection_opts, opts)
@@ -13,22 +11,24 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
   @impl true
   def plan(from, to, connection_opts, opts) do
-    with {:ok, params} <- build_params(from, to, opts) do
-      params =
-        Map.merge(
-          params,
-          %{
-            "fromPlace" => location(from),
-            "toPlace" => location(to),
-            "showIntermediateStops" => "true",
-            "format" => "json",
-            "locale" => "en"
-          }
-        )
+    accessible? = Keyword.get(opts, :wheelchair_accessible?, false)
 
-      root_url = params["root_url"] || pick_url(connection_opts)
-      full_url = "#{root_url}/otp/routers/default/plan"
-      send_request(full_url, params, &parse_json/1)
+    with {:ok, params} <- build_params(from, to, opts) do
+      param_string = Enum.map_join(params, "\n", fn {key, val} -> ~s{#{key}: #{val}} end)
+
+      graph_ql_query = """
+      {
+        plan(
+          #{param_string}
+        )
+        #{itinerary_shape()}
+      }
+      """
+
+      root_url = Keyword.get(opts, :root_url, nil) || pick_url(connection_opts)
+      graphql_url = "#{root_url}/otp/routers/default/index/"
+
+      send_request(graphql_url, graph_ql_query, accessible?, &parse_ql/2)
     end
   end
 
@@ -86,12 +86,12 @@ defmodule TripPlan.Api.OpenTripPlanner do
     Util.config(:trip_plan, OpenTripPlanner, key)
   end
 
-  defp send_request(url, params, parser) do
-    with {:ok, response} <- log_response(url, params),
-         %{status_code: 200, body: body} <- response do
-      parser.(body)
+  defp send_request(url, query, accessible?, parser) do
+    with {:ok, response} <- log_response(url, query),
+         %{status: 200, body: body} <- response do
+      parser.(body, accessible?)
     else
-      %{status_code: _} = response ->
+      %{status: _} = response ->
         {:error, response}
 
       error ->
@@ -99,17 +99,21 @@ defmodule TripPlan.Api.OpenTripPlanner do
     end
   end
 
-  defp log_response(url, params) do
+  defp log_response(url, query) do
+    graphql_req =
+      Req.new(base_url: url, headers: build_headers(config(:wiremock_proxy)))
+      |> AbsintheClient.attach()
+
     {duration, response} =
       :timer.tc(
-        HTTPoison,
-        :get,
-        [url, build_headers(config(:wiremock_proxy)), [params: params, recv_timeout: 10_000]]
+        Req,
+        :post,
+        [graphql_req, [graphql: query]]
       )
 
     _ =
       Logger.info(fn ->
-        "#{__MODULE__}.plan_response url=#{url} is_otp2=#{String.contains?(url, config(:otp2_url))} params=#{inspect(params)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
+        "#{__MODULE__}.plan_response url=#{url} is_otp2=#{String.contains?(url, config(:otp2_url))} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
       end)
 
     response
@@ -122,19 +126,113 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
   defp build_headers(_), do: []
 
-  defp status_text({:ok, %{status_code: code, body: body}}) do
-    "status=#{code} content_length=#{byte_size(body)}"
+  defp status_text({:ok, %{status: code, body: body}}) do
+    string_body = Poison.encode!(body)
+    "status=#{code} content_length=#{byte_size(string_body)}"
   end
 
   defp status_text({:error, error}) do
     "status=error error=#{inspect(error)}"
   end
 
-  defp location(%NamedPosition{} = np) do
-    "#{np.name}::#{Position.latitude(np)},#{Position.longitude(np)}"
-  end
+  defp itinerary_shape() do
+    """
+    {
+      routingErrors {
+        code
+        description
+      }
+      itineraries {
+        startTime
+        endTime
+        duration
+        legs {
+          mode
+          startTime
+          endTime
+          distance
+          duration
+          intermediateStops {
+            id
+            gtfsId
+            name
+            desc
+            lat
+            lon
+            code
+            locationType
+          }
+          transitLeg
+          headsign
+          realTime
+          realtimeState
+          agency {
+            id
+            gtfsId
+            name
+          }
+          alerts {
+            id
+            alertHeaderText
+            alertDescriptionText
+          }
+          fareProducts {
+            id
+            product {
+              id
+              name
+              riderCategory {
+                id
+                name
 
-  defp location(position) do
-    "#{Position.latitude(position)},#{Position.longitude(position)}"
+              }
+            }
+          }
+          from {
+            name
+            lat
+            lon
+            departureTime
+            arrivalTime
+            stop {
+              gtfsId
+            }
+          }
+          to {
+            name
+            lat
+            lon
+            departureTime
+            arrivalTime
+            stop {
+              gtfsId
+            }
+          }
+          route {
+            gtfsId
+            longName
+            shortName
+            desc
+            color
+            textColor
+          }
+          trip {
+            gtfsId
+          }
+          steps {
+            distance
+            streetName
+            lat
+            lon
+            relativeDirection
+            stayOn
+          }
+          legGeometry {
+            points
+          }
+        }
+      }
+    }
+    """
   end
 end
