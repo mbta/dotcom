@@ -4,9 +4,21 @@ import DepartureCard from "../components/DepartureCard";
 import { Alert, RouteType } from "../../__v3api";
 import { baseRoute, renderWithRouter, TEST_LOADER_VALUE } from "./helpers";
 import { DepartureInfo } from "../../models/departureInfo";
+import { update } from "lodash";
+import { RoutePatternWithPolyline } from "../../models/route-patterns";
 
 const testRoute = baseRoute(Object.keys(TEST_LOADER_VALUE)[0], 3);
 const routePatternsByHeadsign = TEST_LOADER_VALUE[testRoute.id];
+
+// give all canonical: true route patterns to avoid rendering empty cards
+for (const h of Object.keys(routePatternsByHeadsign)) {
+  update(routePatternsByHeadsign, `${h}.route_patterns`, route_patterns =>
+    route_patterns.map((rp: RoutePatternWithPolyline) => ({
+      ...rp,
+      canonical: true
+    }))
+  );
+}
 
 describe("DepartureCard", () => {
   afterEach(cleanup);
