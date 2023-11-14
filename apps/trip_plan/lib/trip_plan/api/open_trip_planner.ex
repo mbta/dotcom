@@ -3,7 +3,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @behaviour TripPlan.Api
   require Logger
   import __MODULE__.Builder, only: [build_params: 3]
-  import __MODULE__.Parser, only: [parse_ql: 1]
+  import __MODULE__.Parser, only: [parse_ql: 2]
 
   def plan(from, to, connection_opts, opts, _parent) do
     plan(from, to, connection_opts, opts)
@@ -11,6 +11,8 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
   @impl true
   def plan(from, to, connection_opts, opts) do
+    accessible? = Keyword.get(opts, :wheelchair_accessible?, false)
+
     with {:ok, params} <- build_params(from, to, opts) do
       param_string = Enum.map_join(params, "\n", fn {key, val} -> ~s{#{key}: #{val}} end)
 
@@ -23,12 +25,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
       }
       """
 
-      IO.inspect(graph_ql_query)
-
       root_url = Keyword.get(opts, :root_url, nil) || pick_url(connection_opts)
       graphql_url = "#{root_url}/otp/routers/default/index/"
 
-      send_request(graphql_url, graph_ql_query, &parse_ql/1)
+      send_request(graphql_url, graph_ql_query, accessible?, &parse_ql/2)
     end
   end
 
@@ -86,10 +86,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
     Util.config(:trip_plan, OpenTripPlanner, key)
   end
 
-  defp send_request(url, query, parser) do
+  defp send_request(url, query, accessible?, parser) do
     with {:ok, response} <- log_response(url, query),
          %{status: 200, body: body} <- response do
-      parser.(body)
+      parser.(body, accessible?)
     else
       %{status: _} = response ->
         {:error, response}
@@ -116,7 +116,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
         "#{__MODULE__}.plan_response url=#{url} is_otp2=#{String.contains?(url, config(:otp2_url))} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
       end)
 
-    IO.inspect(response)
+    response
   end
 
   defp build_headers("true") do
@@ -138,6 +138,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
   defp itinerary_shape() do
     """
     {
+      routingErrors {
+        code
+        description
+      }
       itineraries {
         startTime
         endTime

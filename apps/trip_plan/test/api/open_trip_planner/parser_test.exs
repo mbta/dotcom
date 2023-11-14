@@ -4,7 +4,7 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
   alias TripPlan.{Itinerary, NamedPosition, PersonalDetail, PersonalDetail.Step, TransitDetail}
 
   @fixture File.read!("test/fixture/north_station_to_park_plaza.json")
-  @parsed parse_json!(@fixture)
+  @parsed parse_json(@fixture)
 
   describe "parse_json/1" do
     test "returns an error with invalid JSON" do
@@ -12,11 +12,13 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
     end
 
     test "returns a list of Itinerary structs" do
-      for i <- @parsed do
+      {:ok, parsed} = @parsed
+
+      for i <- parsed do
         assert %Itinerary{} = i
       end
 
-      assert [first, _, _] = @parsed
+      assert [first, _, _] = parsed
       assert first.start == Timex.to_datetime(~N[2017-05-19T13:50:59], "America/New_York")
       assert first.stop == Timex.to_datetime(~N[2017-05-19T14:03:19], "America/New_York")
     end
@@ -36,7 +38,8 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
     end
 
     test "an itinerary has legs" do
-      first = List.first(@parsed)
+      {:ok, parsed} = @parsed
+      first = List.first(parsed)
       [subway_leg, walk_leg] = first.legs
 
       assert %TransitDetail{
@@ -59,14 +62,16 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
     end
 
     test "positions can use stopId instead of stopCode" do
+      {:ok, parsed} = @parsed
       stop_code_regex = ~r/"stopCode": "[^"]",/
       data = String.replace(@fixture, stop_code_regex, "")
-      parsed = parse_json!(data)
-      assert parsed == @parsed
+      {:ok, parsed_data} = parse_json(data)
+      assert parsed_data == parsed
     end
 
     test "walk legs have distance and step plans" do
-      [_, walk_leg] = List.first(@parsed).legs
+      {:ok, parsed} = @parsed
+      [_, walk_leg] = List.first(parsed).legs
       assert walk_leg.mode.distance == 329.314
 
       assert walk_leg.mode.steps == [
@@ -92,7 +97,8 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
     end
 
     test "subway legs have trip information" do
-      [subway_leg, _] = List.first(@parsed).legs
+      {:ok, parsed} = @parsed
+      [subway_leg, _] = List.first(parsed).legs
       assert subway_leg.mode.route_id == "Orange"
       assert subway_leg.mode.trip_id == "33932853"
       assert subway_leg.mode.intermediate_stop_ids == ~w(
@@ -104,18 +110,15 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
     end
 
     test "parses path_not_found error as location_not_accessible when accessiblity is checked" do
-      decoded_json = %{
-        "error" => %{"message" => "PATH_NOT_FOUND"},
-        "requestParameters" => %{"wheelchair" => "true"}
-      }
+      decoded_json = %{"plan" => %{"routingErrors" => [%{"code" => "PATH_NOT_FOUND"}]}}
 
       {:ok, json} = Poison.encode(decoded_json)
-      parsed_json = parse_json(json)
+      parsed_json = parse_json(json, true)
       assert parsed_json == {:error, :location_not_accessible}
     end
 
     test "parses path_not_found error as normally when accessibility is not checked" do
-      decoded_json = %{"error" => %{"message" => "PATH_NOT_FOUND"}, "requestParameters" => %{}}
+      decoded_json = %{"plan" => %{"routingErrors" => [%{"code" => "PATH_NOT_FOUND"}]}}
       {:ok, json} = Poison.encode(decoded_json)
       parsed_json = parse_json(json)
       assert parsed_json == {:error, :path_not_found}
