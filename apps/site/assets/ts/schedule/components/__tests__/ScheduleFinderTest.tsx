@@ -149,7 +149,8 @@ const routePatternsByDirection = {
       headsign: "Wachusett",
       id: "CR-Fitchburg-0-0",
       direction_id: 0,
-      sort_order: 3
+      sort_order: 3,
+      canonical: false
     }
   ],
   "1": [
@@ -166,7 +167,8 @@ const routePatternsByDirection = {
       headsign: "North Station",
       id: "CR-Fitchburg-0-1",
       direction_id: 1,
-      sort_order: 4
+      sort_order: 4,
+      canonical: false
     }
   ]
 } as RoutePatternsByDirection;

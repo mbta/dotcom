@@ -24,7 +24,7 @@ const renderWithAct = (children: React.ReactElement) =>
     renderWithRouter(children);
   });
 
-const testRoutes = Object.keys(TEST_LOADER_VALUE).map(id => baseRoute(id, 1));
+const testRoutes = Object.keys(TEST_LOADER_VALUE).map(id => baseRoute(id, 3));
 
 describe("StopPageRedesign", () => {
   beforeEach(() => {

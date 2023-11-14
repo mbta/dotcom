@@ -16,7 +16,7 @@ import { render } from "@testing-library/react";
 import {
   GroupedRoutePatterns,
   RoutePatternWithPolyline
-} from "../stop-redesign-loader";
+} from "../../models/route-patterns";
 
 export const newLatOrLon = (): number => +faker.string.numeric(2);
 const newPosition = (): [number, number] => [newLatOrLon(), newLatOrLon()];
@@ -77,7 +77,8 @@ const customRoutePattern = (
     representative_trip_polyline: {
       ...newPolyline(),
       id: `${routePatternId}--shape`
-    }
+    },
+    canonical: route_id === "Red"
   } as RoutePatternWithPolyline;
 };
 const makeRoutePatternList = (

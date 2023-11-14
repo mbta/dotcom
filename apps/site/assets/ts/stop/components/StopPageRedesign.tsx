@@ -18,7 +18,7 @@ import {
 } from "../../models/alert";
 import { FetchStatus } from "../../helpers/use-fetch";
 import { Alert } from "../../__v3api";
-import { GroupedRoutePatterns } from "../stop-redesign-loader";
+import { GroupedRoutePatterns } from "../../models/route-patterns";
 
 const isStopPageAlert = ({ effect }: Alert): boolean =>
   [

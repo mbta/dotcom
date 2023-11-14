@@ -31,8 +31,8 @@ import {
   routeWideAlerts
 } from "../../models/alert";
 import useDepartureRow from "../../hooks/useDepartureRow";
-import { GroupedRoutePatterns } from "../stop-redesign-loader";
 import { DepartureInfo } from "../../models/departureInfo";
+import { GroupedRoutePatterns } from "../../models/route-patterns";
 
 interface DeparturesAndMapProps {
   routes: Route[];

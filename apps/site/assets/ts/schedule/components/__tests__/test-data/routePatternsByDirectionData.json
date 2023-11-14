@@ -18,7 +18,8 @@
       "headsign": "Pattern 1",
       "id": "pattern-1",
       "direction_id": 0,
-      "sort_order": 123
+      "sort_order": 123,
+      "canonical": false
     },
     {
       "typicality": 1,
@@ -38,7 +39,8 @@
       "headsign": "Pattern 3",
       "id": "pattern-3",
       "direction_id": 0,
-      "sort_order": 123
+      "sort_order": 123,
+      "canonical": false
     },
     {
       "typicality": 3,
@@ -58,7 +60,8 @@
       "headsign": "Pattern 3",
       "id": "pattern-4",
       "direction_id": 0,
-      "sort_order": 123
+      "sort_order": 123,
+      "canonical": false
     }
   ],
   "1": [
@@ -80,7 +83,8 @@
       "headsign": "Pattern 2",
       "id": "pattern-2",
       "direction_id": 1,
-      "sort_order": 123
+      "sort_order": 123,
+      "canonical": false
     }
   ]
 }

@@ -21,7 +21,7 @@ import {
 import { DirectionId, Route } from "../__v3api";
 import DisplayTime from "../stop/components/DisplayTime";
 import { getInfoKey } from "../stop/models/displayTimeConfig";
-import { RoutePatternWithPolyline } from "../stop/stop-redesign-loader";
+import { RoutePatternWithPolyline } from "../models/route-patterns";
 
 export const SUBWAY = "subway";
 export const BUS = "bus";

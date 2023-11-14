@@ -6,7 +6,7 @@ import { isRailReplacementBus, modeForRoute } from "../../models/route";
 import DepartureCard from "./DepartureCard";
 import { alertsByRoute, isInNextXDays } from "../../models/alert";
 import { DepartureInfo } from "../../models/departureInfo";
-import { GroupedRoutePatterns } from "../stop-redesign-loader";
+import { GroupedRoutePatterns } from "../../models/route-patterns";
 
 interface StopPageDeparturesProps {
   routes: Route[];
@@ -53,20 +53,17 @@ const StopPageDepartures = ({
         />
       )}
       <ul className="stop-departures list-unstyled">
-        {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => {
-          const groupedByHeadsign = groupedRoutePatterns[route.id];
-          return (
-            <DepartureCard
-              key={route.id}
-              route={route}
-              routePatternsByHeadsign={groupedByHeadsign}
-              alertsForRoute={groupedAlerts[route.id] || []}
-              departuresForRoute={departureInfos.filter(
-                d => d.route.id === route.id
-              )}
-            />
-          );
-        })}
+        {sortBy(filteredRoutes, [modeSortFn, "sort_order"]).map(route => (
+          <DepartureCard
+            key={route.id}
+            route={route}
+            routePatternsByHeadsign={groupedRoutePatterns[route.id]}
+            alertsForRoute={groupedAlerts[route.id] || []}
+            departuresForRoute={departureInfos.filter(
+              d => d.route.id === route.id
+            )}
+          />
+        ))}
       </ul>
     </div>
   );

@@ -9,24 +9,8 @@ import { ErrorBoundary } from "@sentry/react";
 import StopPageRedesign from "./components/StopPageRedesign";
 import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
-import { DirectionId, RoutePattern } from "../__v3api";
 import { fetchJson, isFetchFailed } from "../helpers/fetch-json";
-import { Polyline } from "../leaflet/components/__mapdata";
-
-export interface RoutePatternWithPolyline
-  extends Omit<RoutePattern, "representative_trip_polyline"> {
-  representative_trip_polyline: Polyline;
-}
-export type GroupedRoutePatterns = Record<
-  string,
-  Record<
-    string,
-    {
-      direction_id: DirectionId;
-      route_patterns: RoutePatternWithPolyline[];
-    }
-  >
->;
+import { GroupedRoutePatterns } from "../models/route-patterns";
 
 const fetchStopRoutePatterns = async (
   stopId: string

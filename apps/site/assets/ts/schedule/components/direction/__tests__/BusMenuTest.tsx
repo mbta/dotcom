@@ -24,7 +24,8 @@ const routePatterns: EnhancedRoutePattern[] = [
     shape_priority: 1,
     time_desc: null,
     typicality: 1,
-    sort_order: 5
+    sort_order: 5,
+    canonical: false
   },
   {
     typicality: 3,
@@ -39,7 +40,8 @@ const routePatterns: EnhancedRoutePattern[] = [
     id: "66-B-0",
     headsign: "Watertown Yard via Union Square Allston",
     direction_id: 0,
-    sort_order: 7
+    sort_order: 7,
+    canonical: false
   }
 ];
 const singleRoutePattern = routePatterns.slice(0, 1);
