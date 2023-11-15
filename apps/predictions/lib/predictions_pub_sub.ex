@@ -97,6 +97,15 @@ defmodule Predictions.PredictionsPubSub do
 
   def handle_info({event, predictions}, state) do
     :ok = Store.update(event, predictions)
+
+    # The :reset event is usually the first to happen after the stream starts,
+    # but can happen at other points during the stream as well. For reset
+    # events, immediately update subscribers instead of waiting for the next
+    # broadcast interval
+    if event == :reset do
+      send(self(), :broadcast)
+    end
+
     {:noreply, state}
   end
 
@@ -119,7 +128,8 @@ defmodule Predictions.PredictionsPubSub do
     {:noreply, new_state}
   end
 
-  # find registrations for this filter from processes other than the indicated pid
+  # find registrations for this filter from processes other than the indicated
+  # pid
   defp no_other_subscribers?(stream, pid_to_omit) do
     registry_key = self()
     pattern = {registry_key, :"$2", {:_, stream}}
