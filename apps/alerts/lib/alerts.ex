@@ -5,10 +5,17 @@ defmodule Alerts do
     import Supervisor.Spec, warn: false
 
     # Define workers and child supervisors to be supervised
-    children = [
-      Alerts.Supervisor,
-      Alerts.BusStopChangeSupervisor
-    ]
+    children =
+      case Application.get_env(:alerts, :bus_stop_change_bucket) do
+        nil ->
+          [Alerts.Supervisor]
+
+        _ ->
+          [
+            Alerts.Supervisor,
+            Alerts.BusStopChangeSupervisor
+          ]
+      end
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
