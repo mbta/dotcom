@@ -59,11 +59,9 @@ defmodule SiteWeb.ScheduleController do
         SiteWeb.ControllerHelpers.return_internal_error(conn)
 
       data ->
-        schedules =
-          data
-          |> future_departures(conn, params)
-          |> omit_last_stop_departures(params)
-          |> trim_response()
+        data1 = future_departures(data, conn, params)
+        data2 = omit_last_stop_departures(data1, params)
+        schedules = trim_response(data2)
 
         case schedules do
           [%Schedule{} | _] ->
@@ -71,7 +69,7 @@ defmodule SiteWeb.ScheduleController do
 
           _ ->
             Logger.info(
-              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data.length=#{length(data)} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
+              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data_length=#{length(data)} future_length=#{length(data1)} without_last_stop_length=#{length(data2)} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
             )
 
             json(conn, [])

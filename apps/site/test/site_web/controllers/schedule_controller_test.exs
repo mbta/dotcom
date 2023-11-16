@@ -454,7 +454,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
         assert log =~ "[info] module=Elixir.SiteWeb.ScheduleController"
         assert log =~ "fun=schedules_for_stop stop=TEST 1234"
-        assert log =~ "data.length=1"
+        assert log =~ "data_length=1"
         assert log =~ "no_schedules_returned"
       end
     end
