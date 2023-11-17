@@ -59,9 +59,11 @@ defmodule SiteWeb.ScheduleController do
         SiteWeb.ControllerHelpers.return_internal_error(conn)
 
       data ->
-        data1 = future_departures(data, conn, params)
-        data2 = omit_last_stop_departures(data1, params)
-        schedules = trim_response(data2)
+        schedules =
+          data
+          |> future_departures(conn, params)
+          |> omit_last_stop_departures(params)
+          |> trim_response()
 
         case schedules do
           [%Schedule{} | _] ->
@@ -69,7 +71,7 @@ defmodule SiteWeb.ScheduleController do
 
           _ ->
             Logger.info(
-              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data_length=#{length(data)} future_length=#{length(data1)} without_last_stop_length=#{length(data2)} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
+              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data_length=#{length(data)} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
             )
 
             json(conn, [])
@@ -80,24 +82,52 @@ defmodule SiteWeb.ScheduleController do
   defp date_time(%{"date_time" => date_time}), do: date_time
   defp date_time(_), do: Util.now()
 
-  defp future_departures(schedules, conn, %{"future_departures" => "true"}) do
+  defp future_departures(schedules, conn, %{"future_departures" => "true"} = params) do
     now = date_time(conn.assigns)
 
-    # Only list schedules with departure_time in the future
-    schedules
-    |> Enum.filter(fn %Schedule{departure_time: dt} ->
-      dt && Util.time_is_greater_or_equal?(dt, now)
-    end)
+    # Only list schedules with time in the future. The "time" property might be
+    # populated by the departure time or arrival time, depending on the mode
+    {in_schedules, out_schedules} =
+      Enum.split_with(schedules, fn %Schedule{time: t} ->
+        not is_nil(t) and Util.time_is_greater_or_equal?(t, now)
+      end)
+
+    if length(in_schedules) == 0 and length(schedules) > 0 do
+      # Why were so many schedules filtered out? Probably because they're in the
+      # past. But let's log the last five, to uncover other possible issues.
+      log_entries =
+        Enum.map(out_schedules, fn
+          %Schedule{time: t, trip: trip} ->
+            trip_id = if is_nil(trip), do: "nil", else: Map.get(trip, :id)
+
+            time =
+              if is_nil(t) do
+                "nil"
+              else
+                case Timex.format(t, "{h24}:{m}") do
+                  {:ok, t} -> t
+                  {:error, err} -> err
+                end
+              end
+
+            {trip_id, time}
+        end)
+        |> Enum.take(-5)
+
+      _ =
+        Logger.info(
+          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} date_time=#{DateTime.to_string(now)}"
+        )
+    end
+
+    in_schedules
   end
 
   defp future_departures(schedules, _, _), do: schedules
 
   defp omit_last_stop_departures(schedules, %{"last_stop_departures" => "false"}) do
-    # Don't list schedules departing from the last stop
-    schedules
-    |> Enum.reject(fn %Schedule{departure_time: dt, last_stop?: is_last_stop} ->
-      dt && is_last_stop
-    end)
+    # Don't list schedules from the last stop
+    Enum.reject(schedules, & &1.last_stop?)
   end
 
   defp omit_last_stop_departures(schedules, _), do: schedules
