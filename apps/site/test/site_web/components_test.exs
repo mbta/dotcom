@@ -26,7 +26,7 @@ defmodule SiteWeb.ComponentsTest do
     test "renders with AlgoliaAutocomplete hook and appropriate data attributes" do
       assert """
              <div phx-hook="AlgoliaAutocomplete" data-turbolinks-permanent id="testID">
-               <div class="c-search-bar__autocomplete" data-locations data-algolia="routes,stops"></div>
+               <div class="c-search-bar__autocomplete" data-locations data-algolia="routes,stops" data-placeholder="Search for routes, info, and more"></div>
                <div class="c-search-bar__autocomplete-results"></div>
              </div>
              """ =~

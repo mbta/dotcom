@@ -25,6 +25,12 @@ defmodule SiteWeb.Components do
     doc: "Enable prompt for user geolocation."
   )
 
+  attr(:placeholder, :string,
+    required: false,
+    doc: "Placeholder text for empty search bar.",
+    default: "Search for routes, info, and more"
+  )
+
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
   to search our application's Algolia indexes, AWS Location Service, and
@@ -71,6 +77,7 @@ defmodule SiteWeb.Components do
         data-geolocation={@geolocation}
         data-locations={@locations}
         data-algolia={Enum.join(@valid_indexes, ",")}
+        data-placeholder={@placeholder}
       />
       <div class="c-search-bar__autocomplete-results" />
     </div>
