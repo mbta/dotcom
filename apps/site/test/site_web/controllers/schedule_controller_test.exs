@@ -306,6 +306,11 @@ defmodule SiteWeb.ScheduleControllerTest do
   end
 
   describe "schedules_for_stop/2" do
+    setup %{conn: conn} do
+      conn = assign(conn, :date, ~D[2219-05-18])
+      {:ok, conn: conn}
+    end
+
     test "should return an array of schedules", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
         schedules_for_stop: fn

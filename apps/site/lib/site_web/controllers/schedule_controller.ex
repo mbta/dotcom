@@ -49,11 +49,13 @@ defmodule SiteWeb.ScheduleController do
 
   @spec schedules_for_stop(Plug.Conn.t(), map) :: Plug.Conn.t()
   def schedules_for_stop(conn, %{"stop_id" => stop_id} = params) do
-    case Schedules.Repo.schedules_for_stop(stop_id, []) do
+    date = conn.assigns.date
+
+    case Schedules.Repo.schedules_for_stop(stop_id, date: conn.assigns.date) do
       {:error, error} ->
         _ =
           Logger.error(
-            "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} date_time=#{DateTime.to_string(date_time(conn.assigns))} error=#{inspect(error)}"
+            "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} service_date=#{Date.to_string(date)} error=#{inspect(error)}"
           )
 
         SiteWeb.ControllerHelpers.return_internal_error(conn)
@@ -61,7 +63,7 @@ defmodule SiteWeb.ScheduleController do
       data ->
         schedules =
           data
-          |> future_departures(conn, params)
+          |> future_departures(params)
           |> omit_last_stop_departures(params)
           |> trim_response()
 
@@ -71,7 +73,7 @@ defmodule SiteWeb.ScheduleController do
 
           _ ->
             Logger.info(
-              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data_length=#{length(data)} date_time=#{DateTime.to_string(date_time(conn.assigns))} no_schedules_returned"
+              "module=#{__MODULE__} fun=schedules_for_stop stop=#{stop_id} data_length=#{length(data)} service_date=#{Date.to_string(date)} no_schedules_returned"
             )
 
             json(conn, [])
@@ -79,12 +81,8 @@ defmodule SiteWeb.ScheduleController do
     end
   end
 
-  defp date_time(%{"date_time" => date_time}), do: date_time
-  defp date_time(_), do: Util.now()
-
-  defp future_departures(schedules, conn, %{"future_departures" => "true"} = params) do
-    now = date_time(conn.assigns)
-
+  defp future_departures(schedules, %{"future_departures" => "true"} = params) do
+    now = Util.now()
     # Only list schedules with time in the future. The "time" property might be
     # populated by the departure time or arrival time, depending on the mode
     {in_schedules, out_schedules} =
@@ -95,6 +93,13 @@ defmodule SiteWeb.ScheduleController do
     if length(in_schedules) == 0 and length(schedules) > 0 do
       # Why were so many schedules filtered out? Probably because they're in the
       # past. But let's log the last five, to uncover other possible issues.
+      time_fn = fn t ->
+        case Timex.format(t, "{h24}:{m}") do
+          {:ok, t} -> t
+          {:error, err} -> err
+        end
+      end
+
       log_entries =
         Enum.map(out_schedules, fn
           %Schedule{time: t, trip: trip} ->
@@ -104,10 +109,7 @@ defmodule SiteWeb.ScheduleController do
               if is_nil(t) do
                 "nil"
               else
-                case Timex.format(t, "{h24}:{m}") do
-                  {:ok, t} -> t
-                  {:error, err} -> err
-                end
+                time_fn.(t)
               end
 
             {trip_id, time}
@@ -116,14 +118,14 @@ defmodule SiteWeb.ScheduleController do
 
       _ =
         Logger.info(
-          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} date_time=#{DateTime.to_string(now)}"
+          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} time=#{time_fn.(now)}"
         )
     end
 
     in_schedules
   end
 
-  defp future_departures(schedules, _, _), do: schedules
+  defp future_departures(schedules, _), do: schedules
 
   defp omit_last_stop_departures(schedules, %{"last_stop_departures" => "false"}) do
     # Don't list schedules from the last stop
