@@ -37,7 +37,7 @@ export function transitNearMeURL(
   }`;
 }
 
-export const onStateChange: (props: OnStateChangeProps<Item>) => void = ({
+const navStateChange: (props: OnStateChangeProps<Item>) => void = ({
   state
 }) => {
   // grey out the page and disable scrolling when search is open
@@ -48,4 +48,11 @@ export const onStateChange: (props: OnStateChangeProps<Item>) => void = ({
       delete document.documentElement.dataset.navOpen;
     }
   }
+};
+
+export const STATE_CHANGE_HANDLERS: Record<
+  string,
+  (props: OnStateChangeProps<Item>) => void
+> = {
+  nav: navStateChange
 };
