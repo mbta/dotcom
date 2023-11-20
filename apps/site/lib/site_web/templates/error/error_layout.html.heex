@@ -16,7 +16,13 @@
         <strong><%= @error_description %></strong>
         <%= @error_instructions %>
       </p>
-      <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search the MBTA", id: "error-page" %>
+      <.algolia_autocomplete
+        id="error-page"
+        geolocation={true}
+        locations={true}
+        algolia_indexes={[:stops, :routes, :drupal]}
+        placeholder="Search the MBTA"
+      />
       <div class="error-links font-body">Or, go to <a class="font-link" href="/">the MBTA's home page</a> or <a class="font-link" href="/customer-support">report an issue</a>.</div>
     </div>
   </div>
