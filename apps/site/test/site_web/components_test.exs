@@ -35,5 +35,18 @@ defmodule SiteWeb.ComponentsTest do
                  %{id: "testID", locations: true, algolia_indexes: [:stops, :routes]}
                )
     end
+
+    test "can indicate a state change listener by name" do
+      assert """
+             <div phx-hook="AlgoliaAutocomplete" data-turbolinks-permanent id="test_with_listener">
+               <div class="c-search-bar__autocomplete" data-locations data-placeholder="Search for routes, info, and more" data-state-change-listener="nav"></div>
+               <div class="c-search-bar__autocomplete-results"></div>
+             </div>
+             """ =~
+               render_component(
+                 &algolia_autocomplete/1,
+                 %{id: "test_with_listener", locations: true, state_change_listener: "nav"}
+               )
+    end
   end
 end

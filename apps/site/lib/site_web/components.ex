@@ -31,6 +31,11 @@ defmodule SiteWeb.Components do
     default: "Search for routes, info, and more"
   )
 
+  attr(:state_change_listener, :string,
+    doc: "Name of event listener that responds to Autocomplete.js state changes",
+    default: nil
+  )
+
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
   to search our application's Algolia indexes, AWS Location Service, and
@@ -83,6 +88,7 @@ defmodule SiteWeb.Components do
         data-locations={@locations}
         data-algolia={@valid_indexes}
         data-placeholder={@placeholder}
+        data-state-change-listener={@state_change_listener}
       />
       <div class="c-search-bar__autocomplete-results" />
     </div>
