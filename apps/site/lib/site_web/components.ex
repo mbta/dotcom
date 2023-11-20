@@ -64,7 +64,12 @@ defmodule SiteWeb.Components do
       raise "Nothing to search! Please enable at least one search type."
     end
 
-    assigns = assign(assigns, :valid_indexes, valid_algolia_indexes)
+    assigns =
+      assign(
+        assigns,
+        :valid_indexes,
+        if(length(valid_algolia_indexes) > 0, do: Enum.join(valid_algolia_indexes, ","))
+      )
 
     ~H"""
     <div
@@ -76,7 +81,7 @@ defmodule SiteWeb.Components do
         class="c-search-bar__autocomplete"
         data-geolocation={@geolocation}
         data-locations={@locations}
-        data-algolia={Enum.join(@valid_indexes, ",")}
+        data-algolia={@valid_indexes}
         data-placeholder={@placeholder}
       />
       <div class="c-search-bar__autocomplete-results" />
