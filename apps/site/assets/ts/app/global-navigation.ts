@@ -172,7 +172,6 @@ export function setup(rootElement: HTMLElement): void {
       ).find(el => el.getAttribute("aria-expanded") === "true");
 
       if (!anyOpen) {
-        console.log("CLEAR CLEAR CLEAR CLEAR");
         clearAllBodyScrollLocks();
         // eslint-disable-next-line no-param-reassign
         delete rootElement.dataset.navOpen;
