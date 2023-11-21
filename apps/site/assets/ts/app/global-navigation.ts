@@ -125,7 +125,7 @@ export function setup(rootElement: HTMLElement): void {
     if ("searchOpen" in header.dataset) {
       // pass focus to search bar
       (rootElement.querySelector(
-        "[data-nav='search'] #search-header-mobile__input"
+        "[data-nav='search'] #input"
       ) as HTMLElement)!.focus();
     }
   });
@@ -172,6 +172,7 @@ export function setup(rootElement: HTMLElement): void {
       ).find(el => el.getAttribute("aria-expanded") === "true");
 
       if (!anyOpen) {
+        console.log("CLEAR CLEAR CLEAR CLEAR");
         clearAllBodyScrollLocks();
         // eslint-disable-next-line no-param-reassign
         delete rootElement.dataset.navOpen;
