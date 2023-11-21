@@ -68,10 +68,6 @@ const getSources: GetSourcesFn = (
   if (!query) {
     return defaultSources;
   }
-  // Don't search on 1 character unless it's a number
-  if (query.length < 2 && Number.isNaN(parseInt(query, 10))) {
-    return [];
-  }
   if (locations !== undefined) {
     sources.push(locationSource);
   }

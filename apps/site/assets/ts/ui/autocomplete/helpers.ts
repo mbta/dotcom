@@ -44,6 +44,8 @@ export const onStateChange: (props: OnStateChangeProps<Item>) => void = ({
   if (isLGDown()) {
     if (state.isOpen) {
       document.documentElement.dataset.navOpen = "true";
+    } else {
+      delete document.documentElement.dataset.navOpen;
     }
   }
 };
