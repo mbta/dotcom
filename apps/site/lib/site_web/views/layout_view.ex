@@ -178,7 +178,6 @@ defmodule SiteWeb.LayoutView do
             sub_menu_section: "Our Work",
             links: [
               {"Sustainability", "/sustainability", :internal_link},
-              {"Building a Better T", "/projects/building-better-t-2020", :internal_link},
               {"Capital Transformation", "/projects/capital-transformation-programs",
                :internal_link},
               {"Commuter Rail Positive Train Control",
