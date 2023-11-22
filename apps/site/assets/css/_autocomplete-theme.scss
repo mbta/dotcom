@@ -17,7 +17,6 @@
 
   .aa-InputWrapper {
     order: 1;
-    padding-left: 1rem;
   }
 
   .aa-InputWrapperSuffix {
@@ -42,7 +41,6 @@
   .aa-ClearButton {
     @include fa-icon-solid($fa-var-times-circle);
     color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
-    padding-right: var(--aa-spacing-half);
     // hide default icon
     .aa-ClearIcon { display: none; }
   }
@@ -79,6 +77,7 @@
   }
 
   .aa-Panel {
+    margin-top: .25rem;
     z-index: var(--aa-base-z-index);
   }
 
@@ -122,23 +121,19 @@
 }
 
 #header-desktop {
-  @extend %shared-autocomplete;
+  --aa-search-input-height: 2.25rem;
 
-  .aa-Autocomplete {
-    --aa-search-input-height: 2.25rem;
-  }
+  @extend %shared-autocomplete;
 
   .aa-Form {
     border-radius: .5rem;
   }
 
-  .aa-Input {
-    // stylelint-disable-next-line declaration-no-important
-    height: var(--aa-search-input-height) !important;
+  .aa-InputWrapper {
+    padding-left: 1rem;
   }
 
-  .aa-Panel {
-    // stylelint-disable-next-line declaration-no-important
-    top: 3.25rem !important;
+  .aa-ClearButton {
+    padding-right: var(--aa-spacing-half);
   }
 }
