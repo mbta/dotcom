@@ -38,7 +38,9 @@ const renderHeadsignName = ({
       </>
     );
   }
-  return <div className={`${headsignNameClass} notranslate`}>{headsignName}</div>;
+  return (
+    <div className={`${headsignNameClass} notranslate`}>{headsignName}</div>
+  );
 };
 
 const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (
