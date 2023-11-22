@@ -126,7 +126,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -193,7 +195,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Forest Hills
                   </div>
@@ -259,7 +261,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Oak Grove
                   </div>
@@ -329,7 +331,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -396,7 +400,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Haverhill
                   </div>
@@ -449,7 +453,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     North Station
                   </div>
@@ -506,7 +510,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -573,7 +579,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -639,7 +645,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Wellington
                   </div>
@@ -709,7 +715,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -776,7 +784,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Woodland Rd
                   </div>
@@ -842,7 +850,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Wellington
                   </div>
@@ -912,7 +920,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -979,7 +989,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -1045,7 +1055,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Sullivan
                   </div>
@@ -1113,7 +1123,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -1180,7 +1192,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -1246,7 +1258,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Sullivan
                   </div>
@@ -1316,7 +1328,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -1383,7 +1397,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -1449,7 +1463,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Sullivan
                   </div>
@@ -1519,7 +1533,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -1577,7 +1593,7 @@ exports[`render it renders 1`] = `
               Outbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
+              className="m-tnm-sidebar__direction-destination notranslate"
             >
               Lebanon Street, Malden
             </div>
@@ -1591,7 +1607,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Lebanon Loop
                   </div>
@@ -1644,7 +1660,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Lebanon Loop
                   </div>
@@ -1683,7 +1699,7 @@ exports[`render it renders 1`] = `
               Inbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
+              className="m-tnm-sidebar__direction-destination notranslate"
             >
               Wellington
             </div>
@@ -1697,7 +1713,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Wellington
                   </div>
@@ -1750,7 +1766,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Wellington
                   </div>
@@ -1820,7 +1836,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -1887,7 +1905,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Linden Square
                   </div>
@@ -1953,7 +1971,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Wellington
                   </div>
@@ -2023,7 +2041,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -2090,7 +2110,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -2160,7 +2180,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -2227,7 +2249,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Redstone
                   </div>
@@ -2293,7 +2315,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -2363,7 +2385,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -2430,7 +2454,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Reading Depot
                   </div>
@@ -2478,7 +2502,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -2548,7 +2572,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -2615,7 +2641,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Reading Depot
                   </div>
@@ -2681,7 +2707,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Malden
                   </div>
@@ -2751,7 +2777,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -2818,7 +2846,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                   >
                     Kennedy Dr
                   </div>
@@ -2875,7 +2903,7 @@ exports[`render it renders 1`] = `
               Inbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
+              className="m-tnm-sidebar__direction-destination notranslate"
             >
               Malden Center
             </div>
@@ -2889,7 +2917,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Malden
                   </div>
@@ -2942,7 +2970,7 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Malden
                   </div>
@@ -3012,7 +3040,9 @@ exports[`render it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className="bus-route-sign"
               >
@@ -3070,7 +3100,7 @@ exports[`render it renders 1`] = `
               Outbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
+              className="m-tnm-sidebar__direction-destination notranslate"
             >
               Saugus Center
             </div>
@@ -3084,12 +3114,12 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Saugus Center
                   </div>
                   <div
-                    className="m-tnm-sidebar__via"
+                    className="m-tnm-sidebar__via notranslate"
                   >
                     via Kennedy Dr & Square One Mall
                   </div>
@@ -3142,12 +3172,12 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Saugus Center
                   </div>
                   <div
-                    className="m-tnm-sidebar__via"
+                    className="m-tnm-sidebar__via notranslate"
                   >
                     via Square One Mall
                   </div>
@@ -3204,7 +3234,7 @@ exports[`render it renders 1`] = `
               Inbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
+              className="m-tnm-sidebar__direction-destination notranslate"
             >
               Malden Center
             </div>
@@ -3218,12 +3248,12 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Malden
                   </div>
                   <div
-                    className="m-tnm-sidebar__via"
+                    className="m-tnm-sidebar__via notranslate"
                   >
                     via Square One Mall & Kennedy Dr
                   </div>
@@ -3276,12 +3306,12 @@ exports[`render it renders 1`] = `
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                   >
                     Malden
                   </div>
                   <div
-                    className="m-tnm-sidebar__via"
+                    className="m-tnm-sidebar__via notranslate"
                   >
                     via Square One Mall
                   </div>

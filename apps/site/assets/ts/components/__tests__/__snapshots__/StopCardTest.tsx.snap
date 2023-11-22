@@ -64,7 +64,7 @@ exports[`it renders a stop card 1`] = `
           className="m-tnm-sidebar__headsign"
         >
           <div
-            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
           >
             Headsign
           </div>

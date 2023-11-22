@@ -21,7 +21,9 @@ exports[`it renders a stop card 1`] = `
     <div
       className="c-link-block__inner"
     >
-      <span>
+      <span
+        className="notranslate"
+      >
         <span
           className="bus-route-sign"
         >
@@ -98,7 +100,7 @@ exports[`it renders a stop card 1`] = `
             className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
             >
               Headsign
             </div>
@@ -153,7 +155,9 @@ exports[`it renders a stop card for the silver line 1`] = `
     <div
       className="c-link-block__inner"
     >
-      <span>
+      <span
+        className="notranslate"
+      >
         <span
           className=""
         >
@@ -230,7 +234,7 @@ exports[`it renders a stop card for the silver line 1`] = `
             className="m-tnm-sidebar__headsign"
           >
             <div
-              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
             >
               Headsign
             </div>
