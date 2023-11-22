@@ -20,10 +20,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     })
   end
 
-  defp location(%NamedPosition{stop_id: stop_id} = np) when not is_nil(stop_id) do
-    "\"#{np.name}::mbta-ma-us:#{stop_id}\""
-  end
-
   defp location(%NamedPosition{} = np) do
     "\"#{np.name}::#{Position.latitude(np)},#{Position.longitude(np)}\""
   end

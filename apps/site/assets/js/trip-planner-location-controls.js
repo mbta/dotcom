@@ -22,10 +22,6 @@ export class TripPlannerLocControls {
     this.toLng = this.getById(TripPlannerLocControls.SELECTORS.to.lng);
     this.fromLat = this.getById(TripPlannerLocControls.SELECTORS.from.lat);
     this.fromLng = this.getById(TripPlannerLocControls.SELECTORS.from.lng);
-    this.fromStopId = this.getById(
-      TripPlannerLocControls.SELECTORS.from.stop_id
-    );
-    this.toStopId = this.getById(TripPlannerLocControls.SELECTORS.to.stop_id);
     this.controller = null;
     this.toInputDirty = false;
     this.fromInputDirty = false;
@@ -319,7 +315,6 @@ export class TripPlannerLocControls {
     }) => {
       switch (type) {
         case "stops":
-          this.setStopValue(ac, hit);
           this.setAutocompleteValue(
             ac,
             hit.stop.name,
@@ -347,7 +342,6 @@ export class TripPlannerLocControls {
           ac.useMyLocationSearch();
           break;
         case "popular":
-          this.setStopValue(ac, hit);
           this.setAutocompleteValue(
             ac,
             hit.name,
@@ -361,13 +355,6 @@ export class TripPlannerLocControls {
           console.error(`onHitSelected not implemented for ${type}.`);
       }
     };
-  }
-
-  setStopValue(ac, hit) {
-    if (hit.stop?.id) {
-      const stopIdEl = this.getById(ac._selectors.stop_id);
-      stopIdEl.value = hit.stop.id;
-    }
   }
 
   setAutocompleteValue(ac, name, latEl, lngEl, lat, lng) {
@@ -442,8 +429,7 @@ TripPlannerLocControls.SELECTORS = {
     locationLoadingIndicator: "trip-plan__loading-indicator--to",
     required: "trip-plan__required--to",
     locationError: "trip-plan__location-error--to",
-    announcer: "trip-plan__announcer--to",
-    stop_id: "to_stop_id"
+    announcer: "trip-plan__announcer--to"
   },
   from: {
     input: "from",
@@ -454,8 +440,7 @@ TripPlannerLocControls.SELECTORS = {
     locationLoadingIndicator: "trip-plan__loading-indicator--from",
     required: "trip-plan__required--from",
     locationError: "trip-plan__location-error--from",
-    announcer: "trip-plan__announcer--from",
-    stop_id: "from_stop_id"
+    announcer: "trip-plan__announcer--from"
   },
   map: "trip-plan-map--initial"
 };

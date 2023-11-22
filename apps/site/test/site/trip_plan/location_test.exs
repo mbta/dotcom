@@ -8,7 +8,6 @@ defmodule Site.TripPlan.LocationTest do
       params = %{
         "to_latitude" => "42.5678",
         "to_longitude" => "-71.2345",
-        "to_stop_id" => "To_Id",
         "to" => "To Location"
       }
 
@@ -16,7 +15,6 @@ defmodule Site.TripPlan.LocationTest do
                to: %NamedPosition{
                  latitude: 42.5678,
                  longitude: -71.2345,
-                 stop_id: "To_Id",
                  name: "To Location"
                }
              }
@@ -55,7 +53,6 @@ defmodule Site.TripPlan.LocationTest do
       params = %{
         "from_latitude" => "42.5678",
         "from_longitude" => "-71.2345",
-        "from_stop_id" => "From_Id",
         "from" => "From Location"
       }
 
@@ -63,7 +60,6 @@ defmodule Site.TripPlan.LocationTest do
                from: %NamedPosition{
                  latitude: 42.5678,
                  longitude: -71.2345,
-                 stop_id: "From_Id",
                  name: "From Location"
                }
              }

@@ -16,7 +16,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
     with {:ok, params} <- build_params(from, to, opts) do
       param_string = Enum.map_join(params, "\n", fn {key, val} -> ~s{#{key}: #{val}} end)
 
-      graphql_query = """
+      graph_ql_query = """
       {
         plan(
           #{param_string}
@@ -28,7 +28,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
       root_url = Keyword.get(opts, :root_url, nil) || pick_url(connection_opts)
       graphql_url = "#{root_url}/otp/routers/default/index/"
 
-      send_request(graphql_url, graphql_query, accessible?, &parse_ql/2)
+      send_request(graphql_url, graph_ql_query, accessible?, &parse_ql/2)
     end
   end
 

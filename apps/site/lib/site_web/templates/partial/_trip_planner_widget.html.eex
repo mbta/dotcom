@@ -8,8 +8,8 @@
 
   from_error = ""
   to_error = ""
-  from_position = %{name: "", latitude: "", longitude: "", stop_id: ""}
-  to_position = %{name: "", latitude: "", longitude: "", stop_id: ""}
+  from_position = %{name: "", latitude: "", longitude: ""}
+  to_position = %{name: "", latitude: "", longitude: ""}
 
 %>
 <div class="c-trip-plan-widget">
