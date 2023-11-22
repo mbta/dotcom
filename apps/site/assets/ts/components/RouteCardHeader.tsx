@@ -21,7 +21,7 @@ const RouteCardHeader = ({
       <span className="sr-only">Go to route</span>
     </a>
     <div className="c-link-block__inner">
-      <span>
+      <span className="notranslate">
         <span className={busClass(route)}>
           {isASilverLineRoute(route.id)
             ? `Silver Line ${route.name}`
