@@ -48,7 +48,7 @@ defmodule Site.Mixfile do
       {:phoenix, "~> 1.6"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_live_view, "~> 0.19"},
+      {:phoenix_live_view, "~> 0.20"},
       {:phoenix_live_dashboard, "~> 0.8"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
