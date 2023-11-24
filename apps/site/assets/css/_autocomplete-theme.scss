@@ -9,7 +9,8 @@
 // right now #header-desktop is the only search using the new library, so it's
 // the only one styled here. the #header-desktop can be removed once we migrate
 // the rest over
-#header-desktop {
+#header-desktop,
+#header-mobile {
   .c-search-bar__autocomplete {
     .aa-Label {
       margin-bottom: unset;
