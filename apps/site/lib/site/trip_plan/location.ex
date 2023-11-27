@@ -78,7 +78,7 @@ defmodule Site.TripPlan.Location do
         latitude: lat,
         longitude: lng,
         name: encode_name(name),
-        stop_id: stop_id
+        stop_id: nil_if_empty(stop_id)
       }
 
       query
@@ -89,6 +89,9 @@ defmodule Site.TripPlan.Location do
         validate(query, params)
     end
   end
+
+  defp nil_if_empty(""), do: nil
+  defp nil_if_empty(value), do: value
 
   @spec encode_name(String.t()) :: String.t()
   defp encode_name(name) do
