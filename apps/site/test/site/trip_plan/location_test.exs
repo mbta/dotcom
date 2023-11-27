@@ -118,5 +118,17 @@ defmodule Site.TripPlan.LocationTest do
       assert [%NamedPosition{} | _] = suggestions
       assert MapSet.member?(result.errors, :multiple_results)
     end
+
+    test "sets stopID to null if no value in param map" do
+      result =
+        Location.validate(%Query{}, %{
+          "from_latitude" => "42.5678",
+          "from_longitude" => "-71.2345",
+          "from_stop_id" => "",
+          "from" => "From Location"
+        })
+
+      assert nil == result.from.stop_id
+    end
   end
 end
