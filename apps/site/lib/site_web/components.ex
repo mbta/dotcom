@@ -72,7 +72,7 @@ defmodule SiteWeb.Components do
         data-locations={@locations}
         data-algolia={Enum.join(@valid_indexes, ",")}
       />
-      <div class="c-search-bar__autocomplete-results" />
+      <div class="c-search-bar__autocomplete-results notranslate" />
     </div>
     """
   end
