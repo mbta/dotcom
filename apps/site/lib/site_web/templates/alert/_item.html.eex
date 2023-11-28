@@ -24,13 +24,11 @@
       </div>
     </div>
     <%= if @alert.description do %>
-    <div class="c-alert-item__top-caret-container">
-
+      <div class="c-alert-item__top-caret-container">
         <%= fa "angle-up", class: "c-alert-item__caret--up" %>
         <%= fa "angle-down", class: "c-alert-item__caret--down" %>
-
-    </div>
-          <% end %>
+      </div>
+    <% end %>
   </div>
   <%= if @alert.description do %>
     <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
