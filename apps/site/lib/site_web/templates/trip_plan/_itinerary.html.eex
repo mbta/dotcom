@@ -34,6 +34,6 @@
 <div class="trip-plan-related-links">
   <strong>Related Links</strong>
   <%= for link <- @links do %>
-    <div class="trip-plan-related-link"><%= link %></div>
+    <div class="trip-plan-related-link notranslate"><%= link %></div>
   <% end %>
 </div>
