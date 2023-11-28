@@ -55,18 +55,12 @@
 .c-alert-group {
   list-style-type: none;
   padding-left: 0;
-
-  @include media-breakpoint-down(sm) {
-    margin-left: -$half-gutter;
-    margin-right: -$half-gutter;
-  }
 }
 
 // Item
 .c-alert-item {
   background-color: $service-alert-yellow;
   border: 1px solid $service-alert-yellow-darker;
-  overflow: hidden;
   position: relative;
 
   @include media-breakpoint-down(sm) {
@@ -84,6 +78,11 @@
     // when tabbing through, ensure that focus is covered by next item
     z-index: 1;
   }
+}
+
+.c-alert-item__content {
+  width: auto;
+  overflow-wrap: anywhere;
 }
 
 .c-alert-item--expandable {
