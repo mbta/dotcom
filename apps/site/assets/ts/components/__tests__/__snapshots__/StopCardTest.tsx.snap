@@ -17,7 +17,7 @@ exports[`it renders a stop card 1`] = `
     className="m-tnm-sidebar__stop-info"
   >
     <a
-      className="m-tnm-sidebar__stop-name"
+      className="m-tnm-sidebar__stop-name notranslate"
       href="/stops/stop-id"
     >
       <span
