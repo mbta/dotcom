@@ -22,3 +22,6 @@ doc/
 coverage
 /rel/app.js
 cover/
+
+.iex.exs
+package-lock.json
