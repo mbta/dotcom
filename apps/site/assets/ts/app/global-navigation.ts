@@ -67,6 +67,8 @@ export function setHeaderElementPositions(
 }
 
 export function setup(rootElement: HTMLElement): void {
+  // This clears any existing  body locks on page loading
+  clearAllBodyScrollLocks();
   if (!rootElement) return;
 
   const header: HTMLElement = rootElement.querySelector("header")!;
