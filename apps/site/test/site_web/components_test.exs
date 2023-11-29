@@ -27,7 +27,7 @@ defmodule SiteWeb.ComponentsTest do
       assert """
              <div phx-hook="AlgoliaAutocomplete" data-turbolinks-permanent id="testID">
                <div class="c-search-bar__autocomplete" data-locations data-algolia="routes,stops"></div>
-               <div class="c-search-bar__autocomplete-results"></div>
+               <div class="c-search-bar__autocomplete-results notranslate"></div>
              </div>
              """ =~
                render_component(

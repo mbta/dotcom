@@ -100,7 +100,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -132,7 +134,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Ashmont
                 </div>
@@ -185,7 +187,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Braintree
                 </div>
@@ -251,7 +253,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Alewife
                 </div>
@@ -319,7 +321,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -351,7 +355,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -390,7 +394,7 @@ exports[`it renders 1`] = `
             Outbound
           </div>
           <div
-            className="m-tnm-sidebar__direction-destination"
+            className="m-tnm-sidebar__direction-destination notranslate"
           >
             Logan Airport
           </div>
@@ -404,7 +408,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Silver Line Way
                 </div>
@@ -439,7 +443,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Logan Airport
                 </div>
@@ -489,7 +493,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -521,7 +527,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -560,7 +566,7 @@ exports[`it renders 1`] = `
             Outbound
           </div>
           <div
-            className="m-tnm-sidebar__direction-destination"
+            className="m-tnm-sidebar__direction-destination notranslate"
           >
             Design Center
           </div>
@@ -574,7 +580,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Silver Line Way
                 </div>
@@ -609,7 +615,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Drydock
                 </div>
@@ -659,7 +665,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -691,7 +699,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -730,7 +738,7 @@ exports[`it renders 1`] = `
             Outbound
           </div>
           <div
-            className="m-tnm-sidebar__direction-destination"
+            className="m-tnm-sidebar__direction-destination notranslate"
           >
             Chelsea
           </div>
@@ -744,7 +752,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Chelsea
                 </div>
@@ -779,7 +787,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Silver Line Way
                 </div>
@@ -829,7 +837,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -861,7 +871,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -914,7 +924,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Readville
                 </div>
@@ -969,7 +979,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -1001,7 +1013,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Worcester
                 </div>
@@ -1041,7 +1053,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Framingham
                 </div>
@@ -1081,7 +1093,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Ashland
                 </div>
@@ -1134,7 +1146,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -1189,7 +1201,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -1221,7 +1235,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Forge Park/​495
                 </div>
@@ -1261,7 +1275,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Walpole
                 </div>
@@ -1301,7 +1315,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Norwood Central
                 </div>
@@ -1354,7 +1368,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -1409,7 +1423,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -1441,7 +1457,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -1494,7 +1510,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Greenbush
                 </div>
@@ -1549,7 +1565,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -1581,7 +1599,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -1634,7 +1652,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Kingston
                 </div>
@@ -1674,7 +1692,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Plymouth
                 </div>
@@ -1729,7 +1747,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -1761,7 +1781,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -1814,7 +1834,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Middleborough/​Lakeville
                 </div>
@@ -1869,7 +1889,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -1901,7 +1923,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -1954,7 +1976,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Needham Heights
                 </div>
@@ -2009,7 +2031,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -2041,7 +2065,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -2094,7 +2118,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Wickford Junction
                 </div>
@@ -2134,7 +2158,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Providence
                 </div>
@@ -2174,7 +2198,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Stoughton
                 </div>
@@ -2233,7 +2257,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -2265,7 +2291,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Ashmont
                 </div>
@@ -2318,7 +2344,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Braintree
                 </div>
@@ -2384,7 +2410,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Alewife
                 </div>
@@ -2452,7 +2478,9 @@ exports[`it renders 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -2484,7 +2512,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   South Station
                 </div>
@@ -2523,7 +2551,7 @@ exports[`it renders 1`] = `
             Outbound
           </div>
           <div
-            className="m-tnm-sidebar__direction-destination"
+            className="m-tnm-sidebar__direction-destination notranslate"
           >
             Logan Airport
           </div>
@@ -2537,7 +2565,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Silver Line Way
                 </div>
@@ -2572,7 +2600,7 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
                 >
                   Logan Airport
                 </div>
@@ -2717,7 +2745,9 @@ exports[`it renders filtered data 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -2749,7 +2779,7 @@ exports[`it renders filtered data 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Ashmont
                 </div>
@@ -2802,7 +2832,7 @@ exports[`it renders filtered data 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Braintree
                 </div>
@@ -2868,7 +2898,7 @@ exports[`it renders filtered data 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Alewife
                 </div>
@@ -2940,7 +2970,9 @@ exports[`it renders filtered data 1`] = `
           <div
             className="c-link-block__inner"
           >
-            <span>
+            <span
+              className="notranslate"
+            >
               <span
                 className=""
               >
@@ -2972,7 +3004,7 @@ exports[`it renders filtered data 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Ashmont
                 </div>
@@ -3025,7 +3057,7 @@ exports[`it renders filtered data 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Braintree
                 </div>
@@ -3091,7 +3123,7 @@ exports[`it renders filtered data 1`] = `
                 className="m-tnm-sidebar__headsign"
               >
                 <div
-                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
                 >
                   Alewife
                 </div>

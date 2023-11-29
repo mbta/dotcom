@@ -60,7 +60,7 @@ const DepartureCard = ({
   return (
     <li className="departure-card">
       <a
-        className={`departure-card__route ${routeBgClass(route)}`}
+        className={`departure-card__route ${routeBgClass(route)} notranslate`}
         href={`/schedules/${route.id}`}
         data-turbolinks="false"
       >

@@ -303,10 +303,10 @@ defmodule SiteWeb.ScheduleViewTest do
   describe "route_header_description/1" do
     test "Uses long name for bus or Bus Route if it's missing" do
       assert route_header_description(%Route{type: 3, name: "short", long_name: "long"}) ==
-               content_tag(:h2, "long", class: "schedule__description")
+               content_tag(:h2, "long", class: "schedule__description notranslate")
 
       assert route_header_description(%Route{type: 3, name: "short", long_name: ""}) ==
-               content_tag(:h2, "Bus Route", class: "schedule__description")
+               content_tag(:h2, "Bus Route", class: "schedule__description notranslate")
     end
   end
 

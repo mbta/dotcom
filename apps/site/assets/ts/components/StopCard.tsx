@@ -74,7 +74,7 @@ export const StopCard = ({
   return (
     <div className="m-tnm-sidebar__route-stop" {...containerProps}>
       <div className="m-tnm-sidebar__stop-info">
-        <a href={stop.href} className="m-tnm-sidebar__stop-name">
+        <a href={stop.href} className="m-tnm-sidebar__stop-name notranslate">
           {renderStopIcon(stop)}
           {stop.name}
           {// NOTE: Bus stops are always considered accessible, see

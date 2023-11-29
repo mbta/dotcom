@@ -82,7 +82,7 @@ const AlgoliaItemTemplate: SourceTemplates<Item>["item"] = ({
             })}
             &nbsp;
             {isRouteItem(item) && item.route.type === 3 && (
-              <span className="c-search-result__long-name">
+              <span className="c-search-result__long-name notranslate">
                 {components.Highlight({
                   hit: item,
                   attribute: ["route", "long_name"]
