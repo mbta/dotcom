@@ -90,7 +90,7 @@ defmodule SiteWeb.Components do
         data-placeholder={@placeholder}
         data-state-change-listener={@state_change_listener}
       />
-      <div class="c-search-bar__autocomplete-results" />
+      <div class="c-search-bar__autocomplete-results notranslate" />
     </div>
     """
   end

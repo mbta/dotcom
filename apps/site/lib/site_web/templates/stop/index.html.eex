@@ -35,7 +35,7 @@
       <div class="page-section stops-for-route">
         <%= content_tag h_level_route do %>
           <%= if subway?, do: svg_icon_with_circle(%SvgIconWithCircle{icon: Routes.Route.icon_atom(route)})  %>
-          <span><%= route.name %></span>
+          <span class="notranslate"><%= route.name %></span>
         <% end %>
           <%= if @route_hubs[route.id] do %>
             <%= render("_hub_stops.html", hubs: @route_hubs[route.id], conn: @conn)%>

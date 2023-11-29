@@ -54,7 +54,7 @@ exports[`StopPageDepartures renders with data 2`] = `
         class="departure-card"
       >
         <a
-          class="departure-card__route u-bg--red-line"
+          class="departure-card__route u-bg--red-line notranslate"
           data-turbolinks="false"
           href="/schedules/Red"
         >
@@ -78,7 +78,7 @@ exports[`StopPageDepartures renders with data 2`] = `
           tabindex="0"
         >
           <div
-            class="departure-card__headsign-name"
+            class="departure-card__headsign-name notranslate"
           >
             Braintree
           </div>
@@ -105,7 +105,7 @@ exports[`StopPageDepartures renders with data 2`] = `
           tabindex="0"
         >
           <div
-            class="departure-card__headsign-name"
+            class="departure-card__headsign-name notranslate"
           >
             Ashmont
           </div>
@@ -132,7 +132,7 @@ exports[`StopPageDepartures renders with data 2`] = `
           tabindex="0"
         >
           <div
-            class="departure-card__headsign-name"
+            class="departure-card__headsign-name notranslate"
           >
             Alewife
           </div>
@@ -157,7 +157,7 @@ exports[`StopPageDepartures renders with data 2`] = `
         class="departure-card"
       >
         <a
-          class="departure-card__route u-bg--bus"
+          class="departure-card__route u-bg--bus notranslate"
           data-turbolinks="false"
           href="/schedules/16"
         >
@@ -181,7 +181,7 @@ exports[`StopPageDepartures renders with data 2`] = `
           tabindex="0"
         >
           <div
-            class="departure-card__headsign-name"
+            class="departure-card__headsign-name notranslate"
           >
             Harbor Point
           </div>

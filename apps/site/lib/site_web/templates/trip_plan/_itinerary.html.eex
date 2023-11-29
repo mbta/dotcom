@@ -17,7 +17,7 @@
     <%= SiteWeb.PartialView.StopBubbles.render_stop_bubbles([%Site.StopBubble.Params{render_type: :terminus, class: "terminus", show_line?: false, show_checkmark?: true}]) %>
     <div class="itinerary-step">
       <% {destination_name, _destination_id, arrival_time, alerts} = @itinerary_row_list.destination %>
-      <span class="itinerary-instructions itinerary-transfer-row-label">
+      <span class="itinerary-instructions itinerary-transfer-row-label notranslate">
         <%= destination_name %>
       </span>
       <%= render "_itinerary_alert.html",
@@ -34,6 +34,6 @@
 <div class="trip-plan-related-links">
   <strong>Related Links</strong>
   <%= for link <- @links do %>
-    <div class="trip-plan-related-link"><%= link %></div>
+    <div class="trip-plan-related-link notranslate"><%= link %></div>
   <% end %>
 </div>

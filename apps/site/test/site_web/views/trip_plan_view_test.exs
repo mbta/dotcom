@@ -422,7 +422,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       names =
         html
         |> Floki.find(".itinerary-step")
-        |> Enum.map(fn {_elem, _attrs, [name]} -> String.trim(name) end)
+        |> Enum.map(fn {_, _, [{_, _, [name]}]} -> String.trim(name) end)
 
       assert names == ["Tremont and Winter", "Winter and Washington", "Court St. and Washington"]
     end
