@@ -36,7 +36,7 @@ const ClickableDepartureRow = ({
       aria-label={`Open upcoming departures to ${headsignName}`}
       className="departure-card__headsign d-flex"
     >
-      <div className="departure-card__headsign-name">
+      <div className="departure-card__headsign-name notranslate">
         {breakTextAtSlash(headsignName)}
       </div>
       {children}
