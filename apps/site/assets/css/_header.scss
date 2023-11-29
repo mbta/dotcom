@@ -64,14 +64,15 @@
 
   @include media-breakpoint-up(sm) {
     .search-wrapper {
+      align-items: center;
+      display: flex;
       flex-grow: 1;
       height: 100%;
-      > div { height: 100%; }
+      justify-content: flex-end;
     }
   }
 }
 
-.header-navbar.new,
 .m-menu__search {
   .search {
     align-items: center;
@@ -82,7 +83,6 @@
     }
     .c-form__input-container {
       border-radius: 8px;
-      height: 44px;
     }
     button.c-form__submit-btn {
       background-color: unset;
@@ -98,10 +98,10 @@
 }
 
 .header-navbar.new .search {
+  display: block;
   padding-left: 24px;
-  .c-form__input-container {
-    max-width: 350px;
-  }
+  width: 100%;
+
   @include media-breakpoint-only(xs) {
     display: none;
   }

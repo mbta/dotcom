@@ -9,7 +9,7 @@ import {
 import {
   getTitleAttribute,
   transitNearMeURL,
-  onStateChange
+  STATE_CHANGE_HANDLERS
 } from "./../autocomplete/helpers";
 import * as MediaBreakpoints from "../../helpers/media-breakpoints";
 import {
@@ -52,7 +52,9 @@ test("transitNearMeURL maps a lat/lon to a URL", () => {
   );
 });
 
-describe("onStateChange", () => {
+describe("onStateChange handlers - nav", () => {
+  const onStateChange = STATE_CHANGE_HANDLERS["nav"];
+
   beforeEach(() => {
     // reset to default state
     delete document.documentElement.dataset.navOpen;
