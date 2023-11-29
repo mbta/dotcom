@@ -3,7 +3,12 @@ import React from "react";
 import { get, uniqueId } from "lodash";
 import { SourceTemplates } from "@algolia/autocomplete-js";
 import { AutocompleteItem, Item } from "../__autocomplete";
-import { getTitleAttribute, isContentItem, isRouteItem } from "../helpers";
+import {
+  getTitleAttribute,
+  isContentItem,
+  isRouteItem,
+  isStopItem
+} from "../helpers";
 import {
   contentIcon,
   getFeatureIcons,
@@ -76,10 +81,12 @@ const AlgoliaItemTemplate: SourceTemplates<Item>["item"] = ({
           ))}
         <span className="aa-ItemContentBody">
           <span className="aa-ItemContentTitle">
-            {components.Highlight({
-              hit: item,
-              attribute
-            })}
+            <span className={isStopItem(item) ? "notranslate" : undefined}>
+              {components.Highlight({
+                hit: item,
+                attribute
+              })}
+            </span>
             &nbsp;
             {isRouteItem(item) && item.route.type === 3 && (
               <span className="c-search-result__long-name notranslate">
