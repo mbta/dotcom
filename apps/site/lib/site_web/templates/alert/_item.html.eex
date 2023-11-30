@@ -16,20 +16,19 @@
           content_tag(:span, [label], class: alert_label_class(@alert))
         end %>
       </div>
-      <div>
+      <div class="c-alert-item__content">
         <%= replace_urls_with_links(@alert.header) %>
         <%= if @alert.url != nil && @alert.url != "" && !Map.get(assigns, :hide_url, false) do %>
-          <span>&nbsp;</span>
           <%= replace_urls_with_links(@alert.url) %>
         <% end %>
       </div>
     </div>
-    <div class="c-alert-item__top-caret-container">
-      <%= if @alert.description do %>
+    <%= if @alert.description do %>
+      <div class="c-alert-item__top-caret-container">
         <%= fa "angle-up", class: "c-alert-item__caret--up" %>
         <%= fa "angle-down", class: "c-alert-item__caret--down" %>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
   <%= if @alert.description do %>
     <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
