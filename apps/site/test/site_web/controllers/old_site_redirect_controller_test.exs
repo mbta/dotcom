@@ -57,7 +57,7 @@ defmodule SiteWeb.OldSiteRedirectControllerTest do
       old_url = "/schedules_and_maps/rail/lines/stations/?stopId=19"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
-               stop_path(SiteWeb.Endpoint, :show, "Beverly")
+               stop_path(SiteWeb.Endpoint, :show, "place-ER-0183")
     end
 
     test "Other rail routes redirected to commuter rail stops page", %{conn: conn} do
