@@ -2,7 +2,7 @@ import { OnStateChangeProps } from "@algolia/autocomplete-js";
 import { ContentItem, Item, RouteItem, StopItem } from "./__autocomplete";
 import { isLGDown } from "../../helpers/media-breakpoints";
 
-function isStopItem(x: Item): x is StopItem {
+export function isStopItem(x: Item): x is StopItem {
   return Object.keys(x).includes("stop");
 }
 

@@ -19,7 +19,7 @@ exports[`it does not display the direction destination when there is only one he
         className="m-tnm-sidebar__headsign"
       >
         <div
-          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
         >
           Headsign
         </div>
@@ -70,7 +70,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
         className="m-tnm-sidebar__headsign"
       >
         <div
-          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
         >
           Headsign 1
         </div>
@@ -110,7 +110,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
         className="m-tnm-sidebar__headsign"
       >
         <div
-          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
         >
           Headsign 2
         </div>
@@ -166,7 +166,7 @@ exports[`it renders 1`] = `
         className="m-tnm-sidebar__headsign"
       >
         <div
-          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
         >
           Headsign 1
         </div>
@@ -201,7 +201,7 @@ exports[`it renders 1`] = `
         className="m-tnm-sidebar__headsign"
       >
         <div
-          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
         >
           Headsign 2
         </div>
