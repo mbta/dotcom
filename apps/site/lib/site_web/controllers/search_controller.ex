@@ -79,23 +79,24 @@ defmodule SiteWeb.SearchController do
   end
 
   def log_error({:ok, %HTTPoison.Response{} = response}) do
-    response
-    |> Map.from_struct()
-    |> Map.take([:body, :headers, :status_code])
-    |> Keyword.new(fn {k, v} -> {k, v} end)
-    |> Logger.warn()
+    log_struct_keys(response, [:body, :headers, :status_code])
   end
 
   def log_error({:error, %HTTPoison.Error{} = error}) do
-    error
-    |> Map.from_struct()
-    |> Map.take([:reason])
-    |> Keyword.new(fn {k, v} -> {k, v} end)
-    |> Logger.warn()
+    log_struct_keys(error, [:reason])
   end
 
   def log_error({:error, error}) do
     Logger.warn(error: error)
+  end
+
+  defp log_struct_keys(struct, keys) do
+    struct
+    |> Map.from_struct()
+    |> Map.take(keys)
+    |> Map.put(:module, __MODULE__)
+    |> Keyword.new(fn {k, v} -> {k, v} end)
+    |> Logger.warn()
   end
 
   @spec click(Conn.t(), map) :: Conn.t()
