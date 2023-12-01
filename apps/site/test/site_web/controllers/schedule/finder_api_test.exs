@@ -119,7 +119,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       conn = assign(conn, :date, date)
 
       journey =
-        %{id: route_id, direction: "0", stop: "place-boyls"}
+        %{id: route_id, direction: "0", stop: "place-kencl"}
         |> get_valid_journeys(conn)
         |> List.first()
 
