@@ -91,6 +91,11 @@ defmodule Predictions.PredictionsPubSub do
       |> Enum.each(&send_data/1)
     end)
 
+    {:noreply, state}
+  end
+
+  def handle_info(:timed_broadcast, state) do
+    send(self(), :broadcast)
     broadcast_timer()
     {:noreply, state}
   end
@@ -135,6 +140,6 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   defp broadcast_timer(interval \\ @broadcast_interval_ms) do
-    Process.send_after(self(), :broadcast, interval)
+    Process.send_after(self(), :timed_broadcast, interval)
   end
 end
