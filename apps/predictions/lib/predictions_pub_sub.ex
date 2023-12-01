@@ -3,6 +3,8 @@ defmodule Predictions.PredictionsPubSub do
   Allow channels to subscribe to prediction streams, which are collected into an
   ETS table keyed by prediction ID, route ID, stop ID, direction ID, trip ID,
   and vehicle ID for easy retrieval.
+
+  Set up to broadcast predictions periodically, or can be broadcast on-demand.
   """
 
   use GenServer
@@ -97,11 +99,6 @@ defmodule Predictions.PredictionsPubSub do
   def handle_info(:timed_broadcast, state) do
     send(self(), :broadcast)
     broadcast_timer()
-    {:noreply, state}
-  end
-
-  def handle_info({event, predictions}, state) do
-    :ok = Store.update(event, predictions)
     {:noreply, state}
   end
 

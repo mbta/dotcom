@@ -8,7 +8,7 @@ defmodule Predictions.Stream do
 
   alias V3Api.Stream.Event
   alias Phoenix.PubSub
-  alias Predictions.{Prediction, Repo, StreamParser}
+  alias Predictions.{Prediction, Repo, Store, StreamParser}
 
   @type event_type :: :reset | :add | :update | :remove
 
@@ -29,30 +29,20 @@ defmodule Predictions.Stream do
   end
 
   def handle_events(events, _from, state) do
-    :ok = Enum.each(events, &send_event(&1, state.broadcast_fn))
+    batches = Enum.group_by(events, & &1.event, &to_predictions(&1.data))
+    :ok = Enum.each(batches, &Store.update/1)
     {:noreply, [], state}
   end
 
-  defp send_event(
-         %Event{
-           event: type,
-           data: %JsonApi{data: data}
-         },
-         broadcast_fn
-       ) do
+  defp to_predictions(%JsonApi{data: data}) do
     data
     |> Enum.filter(&Repo.has_trip?/1)
     |> Enum.map(&StreamParser.parse/1)
-    |> broadcast(type, broadcast_fn)
   end
 
-  defp send_event(
-         %Event{
-           data: {:error, _} = error
-         },
-         _broadcast_fn
-       ) do
-    error
+  defp to_predictions({:error, _} = error) do
+    _ = log_errors(error)
+    []
   end
 
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})

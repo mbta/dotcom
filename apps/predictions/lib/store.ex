@@ -32,9 +32,9 @@ defmodule Predictions.Store do
     GenServer.call(__MODULE__, {:fetch, keys})
   end
 
-  @spec update(atom, [Prediction.t()]) :: :ok
-  def update(event, predictions) do
-    GenServer.cast(__MODULE__, {event, predictions})
+  @spec update({atom, [[Prediction.t()]]}) :: :ok
+  def update({event, predictions_batches}) do
+    Enum.each(predictions_batches, &GenServer.cast(__MODULE__, {event, &1}))
   end
 
   # Server
@@ -45,6 +45,8 @@ defmodule Predictions.Store do
   end
 
   @impl true
+  def handle_cast({_, []}, table), do: {:noreply, table}
+
   def handle_cast({event, predictions}, table) when event in [:add, :update, :reset] do
     _ = :ets.insert(table, Enum.map(predictions, &to_record/1))
     {:noreply, table}

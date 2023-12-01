@@ -9,7 +9,7 @@ defmodule Predictions.StoreTest do
 
   setup_all do
     _ = start_link(name: :test_store)
-    :ok = Predictions.Store.update(:add, base_predictions())
+    :ok = Predictions.Store.update({:add, [base_predictions()]})
     :ok
   end
 
@@ -32,28 +32,34 @@ defmodule Predictions.StoreTest do
   describe "update/1" do
     test "adds predictions" do
       assert [] = fetch(prediction_id: "added")
-      update(:add, [%Prediction{id: "added"}])
+      update({:add, [[%Prediction{id: "added"}]]})
       assert [%Prediction{id: "added"}] = fetch(prediction_id: "added")
     end
 
     test "updates predictions" do
-      update(:add, [%Prediction{id: "new", stop: %Stop{id: "s1"}}])
+      update({:add, [[%Prediction{id: "new", stop: %Stop{id: "s1"}}]]})
 
       assert [%Prediction{id: "new", stop: %Stop{id: "s1"}}] = fetch(prediction_id: "new")
 
-      update(:update, [%Prediction{id: "new", stop: %Stop{id: "s3"}}])
+      update({:update, [[%Prediction{id: "new", stop: %Stop{id: "s3"}}]]})
 
       assert [%Prediction{id: "new", stop: %Stop{id: "s3"}}] = fetch(prediction_id: "new")
     end
 
     test "resets predictions" do
-      update(:add, [
-        %Prediction{id: "uno", stop: %Stop{id: "s100"}}
-      ])
+      update(
+        {:add,
+         [
+           [%Prediction{id: "uno", stop: %Stop{id: "s100"}}]
+         ]}
+      )
 
-      update(:reset, [
-        %Prediction{id: "uno", trip: %Trip{id: "added-trip"}}
-      ])
+      update(
+        {:reset,
+         [
+           [%Prediction{id: "uno", trip: %Trip{id: "added-trip"}}]
+         ]}
+      )
 
       assert [prediction] = fetch(prediction_id: "uno")
 
@@ -62,9 +68,9 @@ defmodule Predictions.StoreTest do
     end
 
     test "removes predictions" do
-      update(:add, [%Prediction{id: "added"}])
+      update({:add, [[%Prediction{id: "added"}]]})
       assert [%Prediction{id: "added"}] = fetch(prediction_id: "added")
-      update(:remove, [%Prediction{id: "added"}])
+      update({:remove, [[%Prediction{id: "added"}]]})
       assert [] = fetch(prediction_id: "added")
     end
   end
