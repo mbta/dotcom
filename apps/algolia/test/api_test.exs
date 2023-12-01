@@ -1,9 +1,9 @@
 defmodule Algolia.ApiTest do
   use ExUnit.Case, async: false
 
-  @failure_response ~s({"error" : "bad request"})
-  @request ~s({"requests" : [{"indexName" : "success"}]})
-  @success_response ~s({"success" : "success"})
+  @failure_response ~s({"error": "bad request"})
+  @request ~s({"requests": [{"indexName": "*"}]})
+  @success_response ~s({"ok": "success"})
 
   describe "post" do
     setup do
