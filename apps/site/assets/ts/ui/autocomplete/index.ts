@@ -1,4 +1,8 @@
-import { AutocompleteOptions, autocomplete } from "@algolia/autocomplete-js";
+import {
+  AutocompleteApi,
+  AutocompleteOptions,
+  autocomplete
+} from "@algolia/autocomplete-js";
 import { createElement, Fragment } from "react";
 import { render } from "react-dom";
 import getSources from "./sources";
@@ -11,6 +15,13 @@ const reactRenderer = {
   Fragment,
   render
 } as AutocompleteOptions<Item>["renderer"];
+
+// Listens to the veil click to close the autocomplete suggestions
+function setupVeilCloseListener(autocompleteApi: AutocompleteApi<Item>): void {
+  document
+    .querySelector("[data-nav='veil']")
+    ?.addEventListener("click", () => autocompleteApi.setIsOpen(false));
+}
 
 /**
  * Creates the Algolia Autocomplete instances for various search experiences on
@@ -42,7 +53,7 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
     getSources: params => getSources(container.dataset, params),
     renderer: reactRenderer
   };
-  autocomplete(options);
+  setupVeilCloseListener(autocomplete(options));
 }
 
 export default setupAlgoliaAutocomplete;

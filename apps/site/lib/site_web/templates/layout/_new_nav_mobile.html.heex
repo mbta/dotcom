@@ -2,8 +2,8 @@
   <div class="m-menu__content" data-nav="mobile-content">
     <h1 class="m-menu__title heading-2">Main Menu</h1>
     <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content_redesign(@conn)) do %>
-      <nav aria-labelledby="section-heading-<%= menu_section %>" class="m-menu__section">
-        <h2 id="section-heading-<%= menu_section %>" class="m-menu__section-heading"><%= menu_section %></h2>
+      <nav aria-labelledby={"section-heading-#{menu_section}"} class="m-menu__section">
+        <h2 id={"section-heading-#{menu_section}"} class="m-menu__section-heading"><%= menu_section %></h2>
         <%= SiteWeb.PartialView.render("_accordion_ui_no_bootstrap.html",
             Map.merge(assigns, %{
               id: menu_section,
@@ -33,6 +33,11 @@
     <div class="m-menu__language m-menu__section"></div>
   </div>
   <div class="m-menu__search" data-nav="search">
-    <%= render SiteWeb.PageView, "_search_bar.html", conn: @conn, placeholder: "Search for routes, info, and more", id: "header-mobile" %>
+    <.algolia_autocomplete
+      id="header-mobile"
+      geolocation={true}
+      locations={true}
+      algolia_indexes={[:stops, :routes, :drupal]}
+    />
   </div>
 </nav>

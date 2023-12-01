@@ -137,6 +137,10 @@
     padding-right: var(--aa-spacing-half);
   }
 }
+  
+#header-mobile {
+  @extend %shared-autocomplete;
+}
 
 #error-page {
   --aa-search-input-height: 2.5rem;
