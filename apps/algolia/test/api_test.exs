@@ -1,15 +1,18 @@
 defmodule Algolia.ApiTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
-  @failure_request ~s({"requests" : [{"indexName" : "failure"}]})
   @failure_response ~s({"error" : "bad request"})
-  @success_request ~s({"requests" : [{"indexName" : "success"}]})
-  @success_response ~s({"message" : "success"})
+  @request ~s({"requests" : [{"indexName" : "success"}]})
+  @success_response ~s({"success" : "success"})
 
   describe "post" do
-    test "sends a post request once to /1/indexes/$INDEX/$ACTION" do
-      bypass = Bypass.open()
+    setup do
+      ConCache.ets(Algolia.Api) |> :ets.delete_all_objects()
 
+      {:ok, bypass: Bypass.open(), failure: Bypass.open(), success: Bypass.open()}
+    end
+
+    test "sends a post request once to /1/indexes/$INDEX/$ACTION", %{bypass: bypass} do
       Bypass.expect_once(bypass, "POST", "/1/indexes/*/queries", fn conn ->
         Plug.Conn.send_resp(conn, 200, @success_response)
       end)
@@ -18,7 +21,7 @@ defmodule Algolia.ApiTest do
         host: "http://localhost:#{bypass.port}",
         index: "*",
         action: "queries",
-        body: @success_request
+        body: @request
       }
 
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = Algolia.Api.post(opts)
@@ -27,39 +30,41 @@ defmodule Algolia.ApiTest do
       assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} = Algolia.Api.post(opts)
     end
 
-    test "does not cache a failed response" do
-      bypass = Bypass.open()
-
-      opts = %Algolia.Api{
-        host: "http://localhost:#{bypass.port}",
-        index: "*",
-        action: "queries"
-      }
-
-      Bypass.expect(bypass, "POST", "/1/indexes/*/queries", fn conn ->
-        {:ok, body, conn} = Plug.Conn.read_body(conn)
-
-        if body == @success_request do
-          Plug.Conn.send_resp(conn, 200, @success_response)
-        else
-          Plug.Conn.send_resp(conn, 400, @failure_response)
-        end
+    test "does not cache a failed response", %{failure: failure, success: success} do
+      Bypass.expect_once(failure, "POST", "/1/indexes/*/queries", fn conn ->
+        Plug.Conn.send_resp(conn, 400, @failure_response)
       end)
 
+      failure_opts = %Algolia.Api{
+        host: "http://localhost:#{failure.port}",
+        index: "*",
+        action: "queries",
+        body: @request
+      }
+
       assert {:error, %HTTPoison.Response{status_code: 400, body: body}} =
-               Algolia.Api.post(Map.merge(opts, %{body: @failure_request}))
+               Algolia.Api.post(failure_opts)
 
       assert body == @failure_response
 
+      Bypass.expect_once(success, "POST", "/1/indexes/*/queries", fn conn ->
+        Plug.Conn.send_resp(conn, 200, @success_response)
+      end)
+
+      success_opts = %Algolia.Api{
+        host: "http://localhost:#{success.port}",
+        index: "*",
+        action: "queries",
+        body: @request
+      }
+
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.post(Map.merge(opts, %{body: @success_request}))
+               Algolia.Api.post(success_opts)
 
       assert body == @success_response
     end
 
-    test "logs a warning if config keys are missing" do
-      bypass = Bypass.open()
-
+    test "logs a warning if config keys are missing", %{bypass: bypass} do
       opts = %Algolia.Api{
         host: "http://localhost:#{bypass.port}",
         index: "*",
