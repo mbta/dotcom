@@ -91,7 +91,7 @@ defmodule SiteWeb.SearchControllerTest do
       assert log =~ "reason: :econnrefused"
     end
 
-    test "does not log other types of errors" do
+    test "logs generic {:error, _} tuples" do
       log =
         capture_log(fn ->
           SiteWeb.SearchController.log_error({:error, :bad_config})
