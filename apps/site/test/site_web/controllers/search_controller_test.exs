@@ -1,7 +1,10 @@
 defmodule SiteWeb.SearchControllerTest do
   use SiteWeb.ConnCase, async: false
-  alias Alerts.Alert
+
+  import ExUnit.CaptureLog
   import Mock
+
+  alias Alerts.Alert
 
   @params %{"search" => %{"query" => "mbta"}}
 
@@ -74,27 +77,27 @@ defmodule SiteWeb.SearchControllerTest do
   describe "log_error/1" do
     test "logs a bad HTTP response" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert SiteWeb.SearchController.log_error({:ok, %HTTPoison.Response{}}) == :ok
+        capture_log(fn ->
+          SiteWeb.SearchController.log_error({:ok, %HTTPoison.Response{status_code: 400}})
         end)
 
-      assert log =~ "bad response"
+      assert log =~ "status_code: 400"
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert SiteWeb.SearchController.log_error({:error, %HTTPoison.Error{}}) == :ok
+        capture_log(fn ->
+          SiteWeb.SearchController.log_error({:error, %HTTPoison.Error{reason: :econnrefused}})
         end)
 
-      assert log =~ "bad response"
+      assert log =~ "reason: :econnrefused"
     end
 
     test "does not log other types of errors" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert SiteWeb.SearchController.log_error({:error, :bad_config}) == :ok
+        capture_log(fn ->
+          SiteWeb.SearchController.log_error({:error, :bad_config})
         end)
 
-      assert log == ""
+      assert log =~ "error: :bad_config"
     end
   end
 

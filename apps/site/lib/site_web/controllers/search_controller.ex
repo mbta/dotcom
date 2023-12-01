@@ -64,6 +64,7 @@ defmodule SiteWeb.SearchController do
 
   defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do
     {:ok, json} = Poison.decode(body)
+
     json(conn, json)
   end
 
@@ -72,27 +73,29 @@ defmodule SiteWeb.SearchController do
   end
 
   defp do_query(response, conn) do
-    _ = log_error(response)
+    log_error(response)
+
     json(conn, %{error: "bad_response"})
   end
 
-  @spec log_error({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | atom}) ::
-          :ok | {:error, any}
   def log_error({:ok, %HTTPoison.Response{} = response}) do
-    do_log_error(response)
+    response
+    |> Map.from_struct()
+    |> Map.take([:body, :headers, :status_code])
+    |> Keyword.new(fn {k, v} -> {k, v} end)
+    |> Logger.warn()
   end
 
-  def log_error({:error, %HTTPoison.Error{} = response}) do
-    do_log_error(response)
+  def log_error({:error, %HTTPoison.Error{} = error}) do
+    error
+    |> Map.from_struct()
+    |> Map.take([:reason])
+    |> Keyword.new(fn {k, v} -> {k, v} end)
+    |> Logger.warn()
   end
 
-  def log_error(_) do
-    :ok
-  end
-
-  @spec do_log_error(HTTPoison.Response.t() | HTTPoison.Error.t()) :: :ok | {:error, any}
-  defp do_log_error(error) do
-    Logger.warn("Received bad response from Algolia: #{inspect(error)}")
+  def log_error({:error, error}) do
+    Logger.warn(error: error)
   end
 
   @spec click(Conn.t(), map) :: Conn.t()
