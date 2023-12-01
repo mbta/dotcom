@@ -79,7 +79,7 @@ defmodule SiteWeb.SearchController do
   end
 
   def log_error({:ok, %HTTPoison.Response{} = response}) do
-    log_struct_keys(response, [:body, :headers, :status_code])
+    log_struct_keys(response, [:body, :status_code])
   end
 
   def log_error({:error, %HTTPoison.Error{} = error}) do
@@ -87,7 +87,7 @@ defmodule SiteWeb.SearchController do
   end
 
   def log_error({:error, error}) do
-    Logger.warn(error: error)
+    Logger.warn(error: error, module: __MODULE__)
   end
 
   defp log_struct_keys(struct, keys) do
