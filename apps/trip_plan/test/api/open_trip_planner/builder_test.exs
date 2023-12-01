@@ -12,6 +12,16 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
     longitude: -71.0832908
   }
 
+  @from_stop %TripPlan.NamedPosition{
+    name: "FromStop",
+    stop_id: "From_Id"
+  }
+
+  @to_stop %TripPlan.NamedPosition{
+    name: "ToStop",
+    stop_id: "To_Id"
+  }
+
   describe "build_params/1" do
     test "depart_at sets date/time options" do
       expected =
@@ -154,6 +164,22 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
     test "bad options return an error" do
       expected = {:error, {:bad_param, {:bad, :arg}}}
       actual = build_params(@from_inside, @to_inside, bad: :arg)
+      assert expected == actual
+    end
+
+    test "use stop id from to/from location" do
+      expected = {
+        :ok,
+        %{
+          "fromPlace" => "\"FromStop::mbta-ma-us:From_Id\"",
+          "toPlace" => "\"ToStop::mbta-ma-us:To_Id\"",
+          "locale" => "\"en\"",
+          "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
+          "walkReluctance" => 15
+        }
+      }
+
+      actual = build_params(@from_stop, @to_stop, [])
       assert expected == actual
     end
   end
