@@ -61,6 +61,7 @@ defmodule Predictions.PredictionsPubSub do
     {:ok,
      %{
        callers_by_pid: %{},
+       last_dispatched_by_fetch_keys: %{}
      }}
   end
 
@@ -92,11 +93,18 @@ defmodule Predictions.PredictionsPubSub do
     registry_key = self()
 
     Registry.dispatch(@subscribers, registry_key, fn entries ->
-      entries
-      |> Enum.uniq_by(fn {pid, {fetch_keys, _}} ->
-        {pid, fetch_keys}
+      Enum.group_by(
+        entries,
+        fn {_, {fetch_keys, _}} -> fetch_keys end,
+        fn {pid, {_, _}} -> pid end
+      )
+      |> Enum.each(fn {fetch_keys, pids} ->
+        new_predictions = Store.fetch(fetch_keys)
+
+        pids
+        |> Enum.uniq()
+        |> Enum.each(&send(self(), {:dispatch, &1, fetch_keys, new_predictions}))
       end)
-      |> Enum.each(&send_data/1)
     end)
 
     {:noreply, state}
@@ -106,6 +114,25 @@ defmodule Predictions.PredictionsPubSub do
     send(self(), :broadcast)
     broadcast_timer()
     {:noreply, state}
+  end
+
+  def handle_info(
+        {:dispatch, pid, fetch_keys, predictions},
+        %{
+          last_dispatched_by_fetch_keys: last_dispatched
+        } = state
+      ) do
+    if Map.get(last_dispatched, fetch_keys) != predictions do
+      send(pid, {:new_predictions, predictions})
+
+      {:noreply,
+       %{
+         state
+         | last_dispatched_by_fetch_keys: Map.put_new(last_dispatched, fetch_keys, predictions)
+       }}
+    else
+      {:noreply, state}
+    end
   end
 
   def handle_info(
@@ -136,12 +163,6 @@ defmodule Predictions.PredictionsPubSub do
     guards = [{:"=/=", :"$2", pid_to_omit}]
     body = [true]
     Registry.select(@subscribers, [{pattern, guards, body}]) == []
-  end
-
-  @spec send_data({pid, registry_value()}) :: broadcast_message()
-  defp send_data({pid, {fetch_keys, _}}) do
-    new_predictions = fetch_keys |> Store.fetch()
-    send(pid, {:new_predictions, new_predictions})
   end
 
   defp broadcast_timer(interval \\ @broadcast_interval_ms) do
