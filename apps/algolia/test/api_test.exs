@@ -12,7 +12,7 @@ defmodule Algolia.ApiTest do
       {:ok, bypass: Bypass.open(), failure: Bypass.open(), success: Bypass.open()}
     end
 
-    test "sends a post request once to /1/indexes/$INDEX/$ACTION", %{bypass: bypass} do
+    test "caches a successful response", %{bypass: bypass} do
       Bypass.expect_once(bypass, "POST", "/1/indexes/*/queries", fn conn ->
         Plug.Conn.send_resp(conn, 200, @success_response)
       end)
