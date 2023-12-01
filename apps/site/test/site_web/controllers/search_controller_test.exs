@@ -81,14 +81,14 @@ defmodule SiteWeb.SearchControllerTest do
           SiteWeb.SearchController.log_error({:ok, %HTTPoison.Response{status_code: 400}})
         end)
 
-      assert log =~ "status_code: 400"
+      assert log =~ "status_code=400"
 
       log =
         capture_log(fn ->
           SiteWeb.SearchController.log_error({:error, %HTTPoison.Error{reason: :econnrefused}})
         end)
 
-      assert log =~ "reason: :econnrefused"
+      assert log =~ "reason=econnrefused"
     end
 
     test "logs generic {:error, _} tuples" do
@@ -97,7 +97,7 @@ defmodule SiteWeb.SearchControllerTest do
           SiteWeb.SearchController.log_error({:error, :bad_config})
         end)
 
-      assert log =~ "error: :bad_config"
+      assert log =~ "error=bad_config"
     end
   end
 

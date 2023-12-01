@@ -59,6 +59,8 @@ defmodule Site.Application do
           {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
         ]
 
+    :ok = Logster.attach_phoenix_logger()
+
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Site.Supervisor]

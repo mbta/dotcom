@@ -47,7 +47,6 @@ defmodule SiteWeb.Endpoint do
 
   plug(SiteWeb.Plugs.RemoteIp)
   plug(Plug.RequestId)
-  plug(Logster.Plugs.Logger, formatter: Site.Logster.SafeStringFormatter)
 
   plug(
     Plug.Parsers,

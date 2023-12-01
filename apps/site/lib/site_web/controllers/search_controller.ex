@@ -2,8 +2,6 @@ defmodule SiteWeb.SearchController do
   @moduledoc false
   use SiteWeb, :controller
 
-  require Logger
-
   import Site.ResponsivePagination, only: [build: 1]
   import SiteWeb.Router.Helpers, only: [search_path: 2]
 
@@ -87,7 +85,7 @@ defmodule SiteWeb.SearchController do
   end
 
   def log_error({:error, error}) do
-    Logger.warn(error: error, module: __MODULE__)
+    Logster.warning(error: error, module: __MODULE__)
   end
 
   defp log_struct_keys(struct, keys) do
@@ -96,7 +94,7 @@ defmodule SiteWeb.SearchController do
     |> Map.take(keys)
     |> Map.put(:module, __MODULE__)
     |> Keyword.new(fn {k, v} -> {k, v} end)
-    |> Logger.warn()
+    |> Logster.warning()
   end
 
   @spec click(Conn.t(), map) :: Conn.t()

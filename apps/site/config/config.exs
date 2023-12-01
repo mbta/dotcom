@@ -19,12 +19,11 @@ config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :phoenix, :json_library, Poison
 
 # Configures Elixir's Logger
-config :logger, :console,
-  format: "$date $time $metadata[$level] $message\n",
-  metadata: [:request_id]
+config :phoenix, :logger, false
 
 # Include referrer in Logster request log
 config :logster, :allowed_headers, ["referer"]
+config :logster, formatter: :string
 
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 

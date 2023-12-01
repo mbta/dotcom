@@ -59,7 +59,7 @@ defmodule Site.Mixfile do
       {:distillery, "~> 2.0"},
       {:inflex, "~> 1.8.0"},
       {:html_sanitize_ex, "1.3.0"},
-      {:logster, "~> 0.4.0"},
+      {:logster, "2.0.0-rc.3"},
       {:quixir, "~> 0.9", only: :test},
       {:sizeable, "~> 0.1.5"},
       {:poison, "~> 2.2", override: true},
