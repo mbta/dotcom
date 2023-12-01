@@ -7,7 +7,7 @@ import { createElement, Fragment } from "react";
 import { render } from "react-dom";
 import getSources from "./sources";
 import { Item } from "./__autocomplete";
-import { onStateChange } from "./helpers";
+import { STATE_CHANGE_HANDLERS } from "./helpers";
 
 // replace the default Preact-based renderer used by AutocompleteJS
 const reactRenderer = {
@@ -44,11 +44,12 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
       input: "c-form__input-container"
     },
     openOnFocus: true,
-    onStateChange,
+    onStateChange:
+      STATE_CHANGE_HANDLERS[`${container.dataset.stateChangeListener}`],
     onSubmit({ state }) {
       window.Turbolinks.visit(`/search?query=${state.query}`);
     },
-    placeholder: "Search for routes, info, and more",
+    placeholder: container.dataset.placeholder,
     getSources: params => getSources(container.dataset, params),
     renderer: reactRenderer
   };

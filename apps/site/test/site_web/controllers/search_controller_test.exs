@@ -1,5 +1,5 @@
 defmodule SiteWeb.SearchControllerTest do
-  use SiteWeb.ConnCase
+  use SiteWeb.ConnCase, async: false
   alias Alerts.Alert
   import Mock
 
@@ -42,7 +42,15 @@ defmodule SiteWeb.SearchControllerTest do
 
       assert conn
              |> assign(:algolia_host, "http://localhost:#{bypass.port}")
-             |> post(search_path(conn, :query), %{requests: []})
+             |> post(search_path(conn, :query), %{
+               requests: [
+                 %{
+                   indexName: "object",
+                   params: %{},
+                   query: "something"
+                 }
+               ]
+             })
              |> json_response(200) == %{"error" => "bad_response"}
     end
 

@@ -267,7 +267,7 @@ defmodule SiteWeb.ScheduleView do
     if Route.silver_line?(route) do
       ""
     else
-      content_tag :h2, class: "schedule__description" do
+      content_tag :h2, class: "schedule__description notranslate" do
         if route.long_name == "" do
           "Bus Route"
         else

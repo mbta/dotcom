@@ -17,6 +17,7 @@ const body = `
       data-geolocation
       data-locations
       data-algolia="routes,stops,drupal"
+      data-placeholder="Search for routes, info, and more"
     ></div>
     <div class="c-search-bar__autocomplete-results"></div>
   </div>

@@ -1,6 +1,0 @@
-<%= if is_binary(@glx_stations_open) && String.contains?(@glx_stations_open, @stop_id) do %>
-  <div class="glx-open-container">
-    <%= svg("glx-logo.svg") %>
-    <span class="glx-open-message">NOW OPEN</span>
-  </div>
-<% end %>

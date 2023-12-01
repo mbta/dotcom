@@ -6,7 +6,7 @@
       </span>
     <% end %>
 
-    <span class="c-grid-button__name">
+    <span class="c-grid-button__name notranslate">
       <%= grid_button_text(@route) %>
     </span>
 

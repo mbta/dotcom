@@ -8,7 +8,7 @@ exports[`it displays delayed status for CR 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Delayed Train
     </div>
@@ -56,7 +56,7 @@ exports[`it displays on time status with the scheduled time and not the predicti
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Worcester
     </div>
@@ -99,7 +99,7 @@ exports[`it renders 2 predictions 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Watertown
     </div>
@@ -155,7 +155,7 @@ exports[`it renders a status and train name for Commuter Rail 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Framingham
     </div>
@@ -198,7 +198,7 @@ exports[`it renders a status and train name for Commuter Rail with track number 
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Framingham
     </div>
@@ -241,7 +241,7 @@ exports[`it renders in chronological order when first time is later than second 
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Watertown
     </div>
@@ -297,7 +297,7 @@ exports[`it renders in chronological order when second equals arriving 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Watertown
     </div>
@@ -353,7 +353,7 @@ exports[`it renders in chronological order when times are hh:mm format 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Watertown
     </div>
@@ -409,7 +409,7 @@ exports[`it renders scheduled time when prediction is null 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Watertown
     </div>
@@ -447,12 +447,12 @@ exports[`it renders uncondensed bus headsign name as --small 1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small notranslate"
     >
       Watertown
     </div>
     <div
-      className="m-tnm-sidebar__via"
+      className="m-tnm-sidebar__via notranslate"
     >
       via Copley (Express)
     </div>
@@ -508,12 +508,12 @@ exports[`it splits the headsign name when it contains 'via'  1`] = `
     className="m-tnm-sidebar__headsign"
   >
     <div
-      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+      className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large notranslate"
     >
       Watertown
     </div>
     <div
-      className="m-tnm-sidebar__via"
+      className="m-tnm-sidebar__via notranslate"
     >
       via Harvard Square
     </div>

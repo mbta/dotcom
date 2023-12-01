@@ -29,7 +29,7 @@ export const Direction = ({
         {route.direction_names[direction.direction_id]}
       </div>
       {!hideDirectionDestination && (
-        <div className="m-tnm-sidebar__direction-destination">
+        <div className="m-tnm-sidebar__direction-destination notranslate">
           {route.direction_destinations[direction.direction_id]}
         </div>
       )}

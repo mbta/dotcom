@@ -33,12 +33,14 @@ const renderHeadsignName = ({
     const split = headsignName.split(" via ");
     return (
       <>
-        <div className={headsignNameClass}>{split[0]}</div>
-        <div className="m-tnm-sidebar__via">{`via ${split[1]}`}</div>
+        <div className={`${headsignNameClass} notranslate`}>{split[0]}</div>
+        <div className="m-tnm-sidebar__via notranslate">{`via ${split[1]}`}</div>
       </>
     );
   }
-  return <div className={headsignNameClass}>{headsignName}</div>;
+  return (
+    <div className={`${headsignNameClass} notranslate`}>{headsignName}</div>
+  );
 };
 
 const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (

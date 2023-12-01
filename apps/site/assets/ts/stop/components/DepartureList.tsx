@@ -65,7 +65,7 @@ const DepartureList = ({
     <>
       <div className="stop-departures departure-list-header">
         <div className={`departure-card__route ${routeBgClass(route)}`}>
-          <div>
+          <div className="notranslate">
             {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
             {routeName(route)}
           </div>
@@ -79,8 +79,10 @@ const DepartureList = ({
         </div>
       </div>
       <h2 className="departure-list__sub-header">
-        <div className="departure-list__origin-stop-name">{stop.name} to</div>
-        <div className="departure-list__headsign">{headsign}</div>
+        <div className="departure-list__origin-stop-name notranslate">
+          {stop.name} to
+        </div>
+        <div className="departure-list__headsign notranslate">{headsign}</div>
       </h2>
       {alerts.length ? <Alerts alerts={alerts} /> : null}
       {noServiceOrNoTrips ||

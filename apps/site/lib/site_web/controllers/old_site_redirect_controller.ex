@@ -10,6 +10,10 @@ defmodule SiteWeb.OldSiteRedirectController do
     end
   end
 
+  @doc """
+  Google Maps, and probably other places across the internet, often point
+  visitors to old links for stops. This will redirect them to the right page.
+  """
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
     case Stops.Repo.old_id_to_gtfs_id(stop_id) do
       nil -> permanent_redirect(conn, mode_path(conn, :index))

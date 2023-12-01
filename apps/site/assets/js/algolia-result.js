@@ -25,7 +25,7 @@ export const TEMPLATES = {
   locations: hogan.compile(`
     <a id="hit-{{id}}" class="c-search-result__link u-no-underline" url={{hitUrl}}>
       <span>{{{hitIcon}}}</span>
-      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+      <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
     </a>
   `),
   usemylocation: hogan.compile(`
@@ -52,7 +52,7 @@ export const TEMPLATES = {
       {{/hitFeatureIcons}}
       <br/>
     </span>
-      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+      <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
     </a>
     {{#hasDate}}
     </div>
@@ -74,7 +74,7 @@ export const TEMPLATES = {
         {{{.}}}
       {{/hitFeatureIcons}}
     </span>
-      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+      <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
     </a>
     {{#hasDate}}
     </div>

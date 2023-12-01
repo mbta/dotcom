@@ -15,6 +15,15 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
 
   @spec parse_ql(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
+  def parse_ql(%{"data" => %{"plan" => nil}, "errors" => [head | _]}, _accessible?) do
+    _ =
+      Logger.warn(fn ->
+        "#{__MODULE__} trip_plan=error message=#{inspect(head["message"])}"
+      end)
+
+    {:error, :unknown}
+  end
+
   def parse_ql(%{"data" => data}, accessible?) do
     parse_map(data, accessible?)
   end

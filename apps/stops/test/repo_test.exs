@@ -76,8 +76,8 @@ defmodule Stops.RepoTest do
       weekday = today |> Timex.shift(days: 7) |> Timex.beginning_of_week(:fri)
       saturday = weekday |> Timex.shift(days: 1)
 
-      assert by_route("CR-Providence", 1, date: weekday) !=
-               by_route("CR-Providence", 1, date: saturday)
+      assert by_route("351", 1, date: weekday) !=
+               by_route("351", 1, date: saturday)
     end
 
     test "caches per-stop as well" do

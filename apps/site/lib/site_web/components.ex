@@ -25,6 +25,17 @@ defmodule SiteWeb.Components do
     doc: "Enable prompt for user geolocation."
   )
 
+  attr(:placeholder, :string,
+    required: false,
+    doc: "Placeholder text for empty search bar.",
+    default: "Search for routes, info, and more"
+  )
+
+  attr(:state_change_listener, :string,
+    doc: "Name of event listener that responds to Autocomplete.js state changes",
+    default: nil
+  )
+
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
   to search our application's Algolia indexes, AWS Location Service, and
@@ -58,7 +69,12 @@ defmodule SiteWeb.Components do
       raise "Nothing to search! Please enable at least one search type."
     end
 
-    assigns = assign(assigns, :valid_indexes, valid_algolia_indexes)
+    assigns =
+      assign(
+        assigns,
+        :valid_indexes,
+        if(length(valid_algolia_indexes) > 0, do: Enum.join(valid_algolia_indexes, ","))
+      )
 
     ~H"""
     <div
@@ -70,7 +86,9 @@ defmodule SiteWeb.Components do
         class="c-search-bar__autocomplete"
         data-geolocation={@geolocation}
         data-locations={@locations}
-        data-algolia={Enum.join(@valid_indexes, ",")}
+        data-algolia={@valid_indexes}
+        data-placeholder={@placeholder}
+        data-state-change-listener={@state_change_listener}
       />
       <div class="c-search-bar__autocomplete-results" />
     </div>

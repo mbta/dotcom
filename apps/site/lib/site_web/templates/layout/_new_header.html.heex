@@ -14,12 +14,13 @@
 
       <%= render "_new_nav_desktop.html", assigns %>
       <div class="search-wrapper">
-        <div class="search" style="justify-content: end;">
+        <div class="search">
           <.algolia_autocomplete
             id="header-desktop"
             geolocation={true}
             locations={true}
             algolia_indexes={[:stops, :routes, :drupal]}
+            state_change_listener="nav"
           />
         </div>
       </div>

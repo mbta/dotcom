@@ -306,6 +306,11 @@ defmodule SiteWeb.ScheduleControllerTest do
   end
 
   describe "schedules_for_stop/2" do
+    setup %{conn: conn} do
+      conn = assign(conn, :date, ~D[2219-05-18])
+      {:ok, conn: conn}
+    end
+
     test "should return an array of schedules", %{conn: conn} do
       with_mock(Schedules.Repo, [:passthrough],
         schedules_for_stop: fn
@@ -334,17 +339,17 @@ defmodule SiteWeb.ScheduleControllerTest do
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
                 stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2019-05-18 21:25:06.098765Z]
+                time: ~U[2019-05-18 21:25:06.098765Z]
               },
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
                 stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 22:25:06.098765Z]
+                time: ~U[2219-05-18 22:25:06.098765Z]
               },
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
                 stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 23:25:06.098765Z]
+                time: ~U[2219-05-18 23:25:06.098765Z]
               }
             ]
         end
@@ -357,7 +362,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
         body = json_response(conn, 200)
         assert Kernel.length(body) == 2
-        assert %{"departure_time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
+        assert %{"time" => "2219-05-18T22:25:06.098765Z"} = Enum.at(body, 0)
       end
     end
 
@@ -369,19 +374,19 @@ defmodule SiteWeb.ScheduleControllerTest do
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
                 stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 22:25:06.098765Z],
+                time: ~U[2219-05-18 22:25:06.098765Z],
                 last_stop?: false
               },
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
                 stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 22:25:06.098765Z],
+                time: ~U[2219-05-18 22:25:06.098765Z],
                 last_stop?: false
               },
               %Schedules.Schedule{
                 route: %Routes.Route{id: "route"},
                 stop: %Stops.Stop{id: "TEST 1234"},
-                departure_time: ~U[2219-05-18 22:25:06.098765Z],
+                time: ~U[2219-05-18 22:25:06.098765Z],
                 last_stop?: true
               }
             ]
@@ -426,7 +431,7 @@ defmodule SiteWeb.ScheduleControllerTest do
             %Schedules.Schedule{
               route: %Routes.Route{id: "route"},
               stop: %Stops.Stop{id: "TEST 1234"},
-              departure_time: ~U[2019-05-18 22:25:06.098765Z],
+              time: ~U[2019-05-18 22:25:06.098765Z],
               last_stop?: true
             }
           ]
@@ -454,7 +459,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
         assert log =~ "[info] module=Elixir.SiteWeb.ScheduleController"
         assert log =~ "fun=schedules_for_stop stop=TEST 1234"
-        assert log =~ "data.length=1"
+        assert log =~ "data_length=1"
         assert log =~ "no_schedules_returned"
       end
     end
