@@ -6,9 +6,8 @@ defmodule Predictions.Stream do
   use GenStage
   require Logger
 
-  alias V3Api.Stream.Event
   alias Phoenix.PubSub
-  alias Predictions.{Prediction, Repo, Store, StreamParser}
+  alias Predictions.{Repo, Store, StreamParser}
 
   @type event_type :: :reset | :add | :update | :remove
 
@@ -22,17 +21,32 @@ defmodule Predictions.Stream do
     )
   end
 
+  @impl GenStage
   def init(opts) do
     producer_consumer = Keyword.fetch!(opts, :subscribe_to)
-    broadcast_fn = Keyword.get(opts, :broadcast_fn, &PubSub.broadcast/3)
-    {:consumer, %{broadcast_fn: broadcast_fn}, subscribe_to: [producer_consumer]}
+
+    initial_state =
+      Map.new()
+      |> Map.put_new(:broadcast_fn, Keyword.get(opts, :broadcast_fn, &PubSub.broadcast/3))
+      |> Map.put_new(:started?, false)
+
+    {:consumer, initial_state, subscribe_to: [producer_consumer]}
   end
 
+  @impl GenStage
   def handle_events(events, _from, state) do
     batches = Enum.group_by(events, & &1.event, &to_predictions(&1.data))
     :ok = Enum.each(batches, &Store.update/1)
-    {:noreply, [], state}
+    {:noreply, [], initial_broadcast(state)}
   end
+
+  # Broadcast when the first event for this stream is received
+  def initial_broadcast(%{started?: false} = state) do
+    broadcast(state.broadcast_fn)
+    %{state | started?: true}
+  end
+
+  def initial_broadcast(state), do: state
 
   defp to_predictions(%JsonApi{data: data}) do
     data
@@ -46,12 +60,10 @@ defmodule Predictions.Stream do
   end
 
   @typep broadcast_fn :: (atom, String.t(), any -> :ok | {:error, any})
-  @spec broadcast([Prediction.t() | String.t()], event_type, broadcast_fn) :: :ok
-  defp broadcast([], _type, _broadcast_fn), do: :ok
-
-  defp broadcast(data, type, broadcast_fn) do
+  @spec broadcast(broadcast_fn) :: :ok
+  defp broadcast(broadcast_fn) do
     Predictions.PubSub
-    |> broadcast_fn.("predictions", {type, data})
+    |> broadcast_fn.("predictions", :broadcast)
     |> log_errors()
   end
 
