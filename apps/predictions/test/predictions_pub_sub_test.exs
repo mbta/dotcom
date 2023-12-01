@@ -105,11 +105,15 @@ defmodule Predictions.PredictionsPubSubTest do
       p2 = spawn(fn -> true end)
       p3 = spawn(fn -> true end)
 
-      :sys.replace_state(pid, fn state ->
-        state
-        |> Map.put_new(p1, "stop=1")
-        |> Map.put_new(p2, "stop=2")
-        |> Map.put_new(p3, "stop=3")
+      :sys.replace_state(pid, fn %{callers_by_pid: callers} = state ->
+        %{
+          state
+          | callers_by_pid:
+              callers
+              |> Map.put_new(p1, "stop=1")
+              |> Map.put_new(p2, "stop=2")
+              |> Map.put_new(p3, "stop=3")
+        }
       end)
 
       # A new caller process subscribes, adds its PID and channel name to state
@@ -120,10 +124,12 @@ defmodule Predictions.PredictionsPubSubTest do
             this = self()
 
             assert %{
-                     ^this => _filters,
-                     ^p1 => "stop=1",
-                     ^p2 => "stop=2",
-                     ^p3 => "stop=3"
+                     callers_by_pid: %{
+                       ^this => _filters,
+                       ^p1 => "stop=1",
+                       ^p2 => "stop=2",
+                       ^p3 => "stop=3"
+                     }
                    } = :sys.get_state(pid)
           end,
           [:monitor]
@@ -138,12 +144,12 @@ defmodule Predictions.PredictionsPubSubTest do
       assert_receive {:trace, ^pid, :send, {:"$gen_call", _, {:terminate_child, _}}, _}, 2000
 
       # The caller process is removed from the state
-      assert task not in Map.keys(:sys.get_state(pid))
-
       assert %{
-               ^p1 => "stop=1",
-               ^p2 => "stop=2",
-               ^p3 => "stop=3"
+               :callers_by_pid => %{
+                 ^p1 => "stop=1",
+                 ^p2 => "stop=2",
+                 ^p3 => "stop=3"
+               }
              } = :sys.get_state(pid)
     end
   end

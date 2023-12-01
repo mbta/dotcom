@@ -57,21 +57,27 @@ defmodule Predictions.PredictionsPubSub do
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
     subscribe_fn.(Predictions.PubSub, "predictions")
     broadcast_timer(50)
-    {:ok, %{}}
+
+    {:ok,
+     %{
+       callers_by_pid: %{},
+     }}
   end
 
   @impl GenServer
   def handle_call(
         {:subscribe, stream_filter},
         {from_pid, _ref},
-        state
+        %{
+          callers_by_pid: callers
+        } = state
       ) do
     registry_key = self()
 
     # Let us detect when the calling process goes down, and save the associated
     # API params for easier lookup
     Process.monitor(from_pid)
-    new_state = Map.put_new(state, from_pid, stream_filter)
+    new_state = %{state | callers_by_pid: Map.put_new(callers, from_pid, stream_filter)}
 
     predictions =
       stream_filter
@@ -104,10 +110,12 @@ defmodule Predictions.PredictionsPubSub do
 
   def handle_info(
         {:DOWN, parent_ref, :process, caller_pid, _reason},
-        state
+        %{
+          callers_by_pid: callers
+        } = state
       ) do
     Process.demonitor(parent_ref, [:flush])
-    {%Predictions.StreamTopic{streams: streams}, new_state} = Map.pop(state, caller_pid)
+    {%Predictions.StreamTopic{streams: streams}, new_callers} = Map.pop(callers, caller_pid)
 
     Enum.each(streams, fn stream ->
       # Here we can check if there are other subscribers for the associated key.
@@ -118,7 +126,7 @@ defmodule Predictions.PredictionsPubSub do
       end
     end)
 
-    {:noreply, new_state}
+    {:noreply, %{state | callers_by_pid: new_callers}}
   end
 
   # find registrations for this filter from processes other than the indicated pid
