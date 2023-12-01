@@ -54,7 +54,7 @@ defmodule Predictions.PredictionsPubSub do
   def init(opts) do
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
     subscribe_fn.(Predictions.PubSub, "predictions")
-    broadcast_timer(@broadcast_interval_ms)
+    broadcast_timer(50)
     {:ok, %{}}
   end
 
@@ -91,7 +91,7 @@ defmodule Predictions.PredictionsPubSub do
       |> Enum.each(&send_data/1)
     end)
 
-    broadcast_timer(@broadcast_interval_ms)
+    broadcast_timer()
     {:noreply, state}
   end
 
@@ -134,7 +134,7 @@ defmodule Predictions.PredictionsPubSub do
     send(pid, {:new_predictions, new_predictions})
   end
 
-  defp broadcast_timer(interval) do
+  defp broadcast_timer(interval \\ @broadcast_interval_ms) do
     Process.send_after(self(), :broadcast, interval)
   end
 end
