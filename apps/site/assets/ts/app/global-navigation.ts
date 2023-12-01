@@ -301,25 +301,36 @@ export function setup(rootElement: HTMLElement): void {
     });
   }
 
+  function closeVeil(): void {
+    if (document.documentElement.dataset.navOpen === "true") {
+      delete document.documentElement.dataset.navOpen;
+    }
+  }
+
+  function resetPage(): void {
+    closeAllMenus();
+    closeVeil();
+  }
+
   // menu click closes
   const menu_links = rootElement.querySelectorAll("[data-nav='link']");
   for (let i = 0; i < menu_links.length; i += 1) {
-    menu_links[i].addEventListener("click", closeAllMenus);
+    menu_links[i].addEventListener("click", resetPage);
   }
 
   // T logo click closes
   header
     .querySelector("[data-nav='logo']")
-    ?.addEventListener("click", closeAllMenus);
+    ?.addEventListener("click", resetPage);
 
   // Veil click or Esc key closes everything
   rootElement.addEventListener("keydown", e => {
-    handleNativeEscapeKeyPress(e, closeAllMenus);
+    handleNativeEscapeKeyPress(e, resetPage);
   });
 
   rootElement
     .querySelector("[data-nav='veil']")
-    ?.addEventListener("click", closeAllMenus);
+    ?.addEventListener("click", resetPage);
 
   // Closes veil before navigating to search result
   document.addEventListener("autocomplete:selected", closeAllMenus);
