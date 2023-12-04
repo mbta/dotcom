@@ -41,9 +41,15 @@ defmodule Algolia.Api do
       |> Keyword.put(:pool, @http_pool)
 
     send_post_request = fn {body, config} ->
-      opts
-      |> generate_url(config)
-      |> HTTPoison.post(body, headers(config), hackney: hackney)
+      response =
+        opts
+        |> generate_url(config)
+        |> HTTPoison.post(body, headers(config), hackney: hackney)
+
+      case response do
+        {:ok, %HTTPoison.Response{status_code: 200}} -> response
+        {_, invalid_response} -> {:error, invalid_response}
+      end
     end
 
     # If we're making a query for results using the same request body AND same
