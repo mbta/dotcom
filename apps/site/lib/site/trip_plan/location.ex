@@ -68,6 +68,7 @@ defmodule Site.TripPlan.Location do
     field = Atom.to_string(field_atom)
     {lat_bin, params} = Map.pop(params, field <> "_latitude")
     {lng_bin, params} = Map.pop(params, field <> "_longitude")
+    {stop_id, params} = Map.pop(params, field <> "_stop_id")
 
     with {lat, ""} <- Float.parse(lat_bin),
          {lng, ""} <- Float.parse(lng_bin) do
@@ -76,7 +77,8 @@ defmodule Site.TripPlan.Location do
       position = %NamedPosition{
         latitude: lat,
         longitude: lng,
-        name: encode_name(name)
+        name: encode_name(name),
+        stop_id: nil_if_empty(stop_id)
       }
 
       query
@@ -87,6 +89,9 @@ defmodule Site.TripPlan.Location do
         validate(query, params)
     end
   end
+
+  defp nil_if_empty(""), do: nil
+  defp nil_if_empty(value), do: value
 
   @spec encode_name(String.t()) :: String.t()
   defp encode_name(name) do

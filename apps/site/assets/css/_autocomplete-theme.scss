@@ -137,3 +137,31 @@
     padding-right: var(--aa-spacing-half);
   }
 }
+  
+#header-mobile {
+  @extend %shared-autocomplete;
+}
+
+#error-page {
+  --aa-search-input-height: 2.5rem;
+
+  @extend %shared-autocomplete;
+
+  .aa-Form {
+    border-radius: .25rem;
+    padding: .25rem;
+  }
+
+  .aa-InputWrapper {
+    padding-left: .5rem;
+  }
+
+  // Search icon is white, reversed, large, on a blue background.
+  .aa-SubmitButton {
+    @include fa-size($fa-size-scale-lg);
+    background-color: rgba(var(--aa-icon-color-rgb), var(--aa-icon-color-alpha));
+    border-radius: .25rem;
+    color: $white;
+    transform: scale(-1, 1);
+  }
+}
