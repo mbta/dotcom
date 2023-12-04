@@ -6,3 +6,6 @@
 
 # Enable SMP automatically based on availability
 -smp auto
+
+# Make GC run more often
+-env ERL_FULLSWEEP_AFTER 20
