@@ -7,6 +7,8 @@ defmodule Predictions.Store do
   """
   use GenServer
 
+  require Logger
+
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Trip
@@ -46,11 +48,14 @@ defmodule Predictions.Store do
 
   @impl true
   def handle_cast({event, predictions}, table) when event in [:add, :update, :reset] do
-    _ = :ets.insert(table, Enum.map(predictions, &to_record/1))
+    :ets.insert(table, Enum.map(predictions, &to_record/1))
+
     {:noreply, table}
   end
 
   def handle_cast({:remove, predictions}, table) do
+    Logger.info("Remove predictions event: #{inspect(Enum.map(predictions, & &1.id))}")
+
     for id <- Enum.map(predictions, & &1.id) do
       :ets.delete(table, id)
     end
