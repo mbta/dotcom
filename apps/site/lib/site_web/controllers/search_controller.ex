@@ -2,6 +2,8 @@ defmodule SiteWeb.SearchController do
   @moduledoc false
   use SiteWeb, :controller
 
+  require Logger
+
   import Site.ResponsivePagination, only: [build: 1]
   import SiteWeb.Router.Helpers, only: [search_path: 2]
 
@@ -62,7 +64,6 @@ defmodule SiteWeb.SearchController do
 
   defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do
     {:ok, json} = Poison.decode(body)
-
     json(conn, json)
   end
 
@@ -71,30 +72,27 @@ defmodule SiteWeb.SearchController do
   end
 
   defp do_query(response, conn) do
-    log_error(response)
-
+    _ = log_error(response)
     json(conn, %{error: "bad_response"})
   end
 
+  @spec log_error({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | atom}) ::
+          :ok | {:error, any}
   def log_error({:ok, %HTTPoison.Response{} = response}) do
-    log_struct_keys(response, [:body, :status_code])
+    do_log_error(response)
   end
 
-  def log_error({:error, %HTTPoison.Error{} = error}) do
-    log_struct_keys(error, [:reason])
+  def log_error({:error, %HTTPoison.Error{} = response}) do
+    do_log_error(response)
   end
 
-  def log_error({:error, error}) do
-    Logster.warning(error: error, module: __MODULE__)
+  def log_error(_) do
+    :ok
   end
 
-  defp log_struct_keys(struct, keys) do
-    struct
-    |> Map.from_struct()
-    |> Map.take(keys)
-    |> Map.put(:module, __MODULE__)
-    |> Keyword.new(fn {k, v} -> {k, v} end)
-    |> Logster.warning()
+  @spec do_log_error(HTTPoison.Response.t() | HTTPoison.Error.t()) :: :ok | {:error, any}
+  defp do_log_error(error) do
+    Logger.warn("Received bad response from Algolia: #{inspect(error)}")
   end
 
   @spec click(Conn.t(), map) :: Conn.t()

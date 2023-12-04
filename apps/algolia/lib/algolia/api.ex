@@ -28,9 +28,8 @@ defmodule Algolia.Api do
     do_post(opts, config)
   end
 
-  def post(%__MODULE__{}, %Config{}) do
-    Logger.warn("module=#{__MODULE__} missing Algolia config keys")
-
+  def post(%__MODULE__{}, %Config{} = config) do
+    _ = Logger.warn("module=#{__MODULE__} missing Algolia config keys: #{inspect(config)}")
     {:error, :bad_config}
   end
 
