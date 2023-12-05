@@ -8,6 +8,8 @@ defmodule Algolia.Api do
 
   defstruct [:host, :index, :action, :body]
 
+  @type action :: :post | :delete
+
   @http_pool Application.get_env(:algolia, :http_pool)
 
   @type t :: %__MODULE__{
@@ -17,24 +19,33 @@ defmodule Algolia.Api do
           body: String.t() | nil
         }
 
-  @spec post(t) :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | :bad_config}
-  def post(opts, config \\ nil)
+  @spec action(action, t) ::
+          {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | :bad_config}
+  def action(action, opts, config \\ nil)
 
-  def post(%__MODULE__{} = opts, nil) do
-    post(opts, Config.config())
+  def action(action, %__MODULE__{} = opts, nil) do
+    action(action, opts, Config.config())
   end
 
-  def post(%__MODULE__{} = opts, %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config) do
-    do_post(opts, config)
+  def action(
+        action,
+        %__MODULE__{} = opts,
+        %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config
+      ) do
+    do_action(action, opts, config)
   end
 
-  def post(%__MODULE__{}, %Config{} = config) do
+  def action(_action, %__MODULE__{}, %Config{} = config) do
     _ = Logger.warn("module=#{__MODULE__} missing Algolia config keys: #{inspect(config)}")
     {:error, :bad_config}
   end
 
-  defp do_post(%__MODULE__{index: index, action: action, body: body} = opts, %Config{} = config)
-       when is_binary(index) and is_binary(action) and is_binary(body) do
+  defp do_action(
+         action,
+         %__MODULE__{index: index, action: opts_action, body: body} = opts,
+         %Config{} = config
+       )
+       when is_binary(index) and is_binary(opts_action) and is_binary(body) do
     hackney =
       opts
       |> hackney_opts()
@@ -44,7 +55,7 @@ defmodule Algolia.Api do
       response =
         opts
         |> generate_url(config)
-        |> HTTPoison.post(body, headers(config), hackney: hackney)
+        |> send_request(action, body, config, hackney)
 
       case response do
         {:ok, %HTTPoison.Response{status_code: 200}} -> response
@@ -61,6 +72,12 @@ defmodule Algolia.Api do
       send_post_request.({body, config})
     end
   end
+
+  def send_request(url, :post, body, config, hackney),
+    do: HTTPoison.post(url, body, headers(config), hackney: hackney)
+
+  def send_request(url, :delete, _body, config, hackney),
+    do: HTTPoison.delete(url, headers(config), hackney: hackney)
 
   @spec generate_url(t, Config.t()) :: String.t()
   defp generate_url(%__MODULE__{} = opts, %Config{} = config) do

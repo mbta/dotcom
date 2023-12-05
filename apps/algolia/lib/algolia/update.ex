@@ -22,7 +22,7 @@ defmodule Algolia.Update do
     |> Enum.filter(&has_routes?/1)
     |> Enum.map(&build_data_object/1)
     |> build_request_object()
-    |> send_update(base_url, index_module)
+    |> send_delete_and_update(base_url, index_module)
   end
 
   @spec has_routes?(map) :: boolean
@@ -30,6 +30,12 @@ defmodule Algolia.Update do
     data
     |> Algolia.Object.data()
     |> do_has_routes?(data)
+  end
+
+  defp send_delete_and_update(update_object, base_url, index_module) do
+    with :ok <- clear_index(update_object, base_url, index_module) do
+      send_update(update_object, base_url, index_module)
+    end
   end
 
   @spec do_has_routes?(map, Stops.Stop.t() | Routes.Route.t() | map) :: boolean
@@ -49,13 +55,26 @@ defmodule Algolia.Update do
       body: request
     }
 
-    opts
-    |> Api.post()
-    |> parse_response()
+    :post |> Api.action(opts) |> parse_response()
   end
 
   defp send_update({:error, error}, _, _) do
     {:error, {:json_error, error}}
+  end
+
+  defp clear_index({:error, error}, _, _) do
+    {:error, {:json_error, error}}
+  end
+
+  defp clear_index(_obj, base_url, index_module) do
+    opts = %Api{
+      host: base_url,
+      index: index_module.index_name(),
+      action: "clear",
+      body: ""
+    }
+
+    :post |> Api.action(opts) |> parse_response()
   end
 
   @spec parse_response({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}) ::
