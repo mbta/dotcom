@@ -66,7 +66,7 @@ defmodule Algolia.Api do
     # If we're making a query for results using the same request body AND same
     # %Algolia.Config{}, cache the response instead of making extra calls to the
     # Algolia REST API
-    if action == "queries" do
+    if opts_action == "queries" do
       cache({body, config}, send_post_request)
     else
       send_post_request.({body, config})

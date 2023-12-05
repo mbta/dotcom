@@ -5,10 +5,10 @@ defmodule Algolia.ApiTest do
   @request ~s({"requests": [{"indexName": "*"}]})
   @success_response ~s({"ok": "success"})
 
-  describe "post" do
+
+  describe "action" do
     setup do
       ConCache.ets(Algolia.Api) |> :ets.delete_all_objects()
-
       {:ok, bypass: Bypass.open(), failure: Bypass.open(), success: Bypass.open()}
     end
 
@@ -24,10 +24,33 @@ defmodule Algolia.ApiTest do
         body: @request
       }
 
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = Algolia.Api.post(opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+               Algolia.Api.action(:post, opts)
+
       assert body == @success_response
       # Can be called again with result from cache instead of hitting the API endpoint
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} = Algolia.Api.post(opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} =
+               Algolia.Api.action(:post, opts)
+    end
+
+    test "sends a delete request to /1/indexes/$INDEX/$ACTION" do
+      bypass = Bypass.open()
+
+      Bypass.expect_once(bypass, "DELETE", "/1/indexes/*/clear", fn conn ->
+        Plug.Conn.send_resp(conn, 200, @success_response)
+      end)
+
+      opts = %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        index: "*",
+        action: "clear",
+        body: ""
+      }
+
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+               Algolia.Api.action(:delete, opts)
+
+      assert body == @success_response
     end
 
     test "does not cache a failed response", %{failure: failure, success: success} do
@@ -74,7 +97,7 @@ defmodule Algolia.ApiTest do
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
-          assert Algolia.Api.post(opts, %Algolia.Config{}) == {:error, :bad_config}
+          assert Algolia.Api.action(:post, opts, %Algolia.Config{}) == {:error, :bad_config}
         end)
 
       assert log =~ "missing Algolia config keys"

@@ -18,14 +18,19 @@ defmodule Algolia.UpdateTest do
 
       assert result == :ok
       assert_receive {"/1/indexes/objects/batch", headers, body}
+      assert_receive {"/1/indexes/objects/clear", clear_headers, clear_body}
 
       for header <- ["x-algolia-api-key", "x-algolia-application-id"] do
         assert {^header, val} = Enum.find(headers, &(elem(&1, 0) == header))
+        assert {^header, clear_val} = Enum.find(clear_headers, &(elem(&1, 0) == header))
         assert is_binary(val)
+        assert is_binary(clear_val)
       end
 
       assert {:ok, %{requests: [%{action: "addObject", body: obj}]}} =
                Poison.decode(body, keys: :atoms!)
+
+      assert clear_body == ""
 
       assert obj == %{
                data: %{id: "test"},
