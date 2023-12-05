@@ -73,7 +73,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
       legs: Enum.map(json["legs"], &parse_leg/1),
-      accessible?: parse_float(json["accessibilityScore"]) > 0.5
+      accessible?: parse_float(json["accessibilityScore"]) == 1.0
     }
   end
 
