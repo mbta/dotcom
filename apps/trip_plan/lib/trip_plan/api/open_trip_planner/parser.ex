@@ -77,6 +77,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     }
   end
 
+  defp parse_float(fl) when is_float(fl), do: fl
+
   defp parse_float(nil), do: 0.0
 
   defp parse_float(str) do
