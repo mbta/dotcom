@@ -76,21 +76,18 @@ defmodule SiteWeb.SearchController do
     json(conn, %{error: "bad_response"})
   end
 
-  @spec log_error({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | atom}) ::
-          :ok | {:error, any}
   def log_error({:ok, %HTTPoison.Response{} = response}) do
-    do_log_error(response)
+    do_log_error(response.body)
   end
 
   def log_error({:error, %HTTPoison.Error{} = response}) do
-    do_log_error(response)
+    do_log_error(response.reason)
   end
 
   def log_error(_) do
     :ok
   end
 
-  @spec do_log_error(HTTPoison.Response.t() | HTTPoison.Error.t()) :: :ok | {:error, any}
   defp do_log_error(error) do
     Logger.warn("Received bad response from Algolia: #{inspect(error)}")
   end
