@@ -62,7 +62,8 @@ const DisplayTime = ({
     isSkipped,
     routeMode,
     schedule,
-    prediction
+    prediction,
+    trip
   } = departure;
   const isDelayedAndDisplayed = isDelayed && routeMode !== "subway";
   const time = departureInfoToTime(departure);
@@ -75,7 +76,7 @@ const DisplayTime = ({
 
   return (
     <>
-      <div className="stop-routes__realtime-icon">
+      <div className="stop-routes__realtime-icon" data-trip-id={trip?.id}>
         {displayInfoContainsPrediction(departure) &&
           !(isCancelled || isSkipped) &&
           SVGIcon("c-svg__icon--realtime fs-10", realtimeIcon)}
