@@ -49,13 +49,6 @@ div[id*='search-'].c-form__input-container
   font-weight: bold;
 }
 
-.poll-div {
-  display: flex;
-  @include media-breakpoint-down(sm) {
-    display: block;
-  }
-}
-
 .c-search-bar__go-btn--homepage {
   padding: $space-8;
 }

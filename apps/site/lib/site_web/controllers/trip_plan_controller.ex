@@ -215,11 +215,6 @@ defmodule SiteWeb.TripPlanController do
     Enum.map(related_links, fn x -> Enum.uniq_by(x, fn y -> get_route(y) end) end)
   end
 
-  def vote(conn, _params) do
-    conn
-    |> render("vote.html")
-  end
-
   def get_conn_opts(conn) do
     cookie = SiteWeb.Plugs.Cookies.id_cookie_name()
     user_cookie = Map.get(conn.cookies, cookie, "0")

@@ -539,17 +539,6 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
-  def do_render_react(%{
-        pollingLocations: data
-      }) do
-    React.render(
-      "VoteMap",
-      %{
-        pollingLocations: data
-      }
-    )
-  end
-
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
     transit_legs =
