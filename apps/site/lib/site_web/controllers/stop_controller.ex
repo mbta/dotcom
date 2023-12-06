@@ -202,6 +202,7 @@ defmodule SiteWeb.StopController do
     stop_id
     |> RoutePatterns.Repo.by_stop_id()
     |> Stream.reject(&ends_at?(&1, stop_id))
+    |> Stream.reject(&exclusively_drop_offs?(&1, stop_id))
     |> Enum.group_by(& &1.route_id)
     |> Enum.map(&with_headsign_groups/1)
     |> Map.new()
@@ -264,6 +265,20 @@ defmodule SiteWeb.StopController do
   end
 
   defp ends_at?(_route_pattern, _stop_id), do: false
+
+  defp exclusively_drop_offs?(
+         %RoutePattern{route_id: route_id, direction_id: direction_id},
+         stop_id
+       ) do
+    case Schedules.Repo.by_route_ids([route_id], direction_id: direction_id, stop_ids: stop_id) do
+      [%Schedules.Schedule{} | _] = schedules ->
+        # pickup_type=1 indicates that the schedule has no pickup available
+        Enum.all?(schedules, &(&1.pickup_type == 1))
+
+      _ ->
+        false
+    end
+  end
 
   defp add_polyline(%RoutePattern{representative_trip_polyline: nil} = route_pattern),
     do: route_pattern
