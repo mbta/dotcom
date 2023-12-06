@@ -48,7 +48,7 @@ defmodule CMS.Mixfile do
   defp deps do
     [
       {:httpoison, ">= 0.0.0"},
-      {:poison, ">= 0.0.0", override: true},
+      {:poison, "~> 3.0"},
       {:timex, ">= 0.0.0"},
       {:plug, "~> 1.14.2"},
       {:html_sanitize_ex, "1.3.0"},

@@ -33,7 +33,11 @@ defmodule Site.Mixfile do
         extra_apps
       end
 
-    [mod: {Site.Application, []}, included_applications: [:laboratory], extra_apps: extra_apps]
+    [
+      mod: {Site.Application, []},
+      included_applications: [:laboratory],
+      extra_applications: extra_apps
+    ]
   end
 
   # Specifies which paths to compile per environment.
@@ -62,7 +66,7 @@ defmodule Site.Mixfile do
       {:logster, "~> 0.4.0"},
       {:quixir, "~> 0.9", only: :test},
       {:sizeable, "~> 0.1.5"},
-      {:poison, "~> 2.2", override: true},
+      {:poison, "~> 3.0"},
       {:laboratory, github: "paulswartz/laboratory", ref: "cookie_opts"},
       {:parallel_stream, "~> 1.0.5"},
       {:bypass, "~> 1.0", only: :test},

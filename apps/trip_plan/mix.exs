@@ -42,7 +42,7 @@ defmodule TripPlan.Mixfile do
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:schedules, in_umbrella: true},
-      {:poison, "~> 2.2", override: true},
+      {:poison, "~> 3.0"},
       {:location_service, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},

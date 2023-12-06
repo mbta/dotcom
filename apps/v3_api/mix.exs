@@ -42,7 +42,7 @@ defmodule V3Api.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 1.5"},
-      {:poison, "~> 2.2", override: true},
+      {:poison, "~> 3.0"},
       {:hackney, "~> 1.18"},
       {:bypass, "~> 1.0", only: :test},
       {:server_sent_event_stage, "~> 1.0"},

@@ -34,7 +34,7 @@ defmodule Feedback.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:poison, "~> 2.2", override: true},
+      {:poison, "~> 3.0"},
       {:timex, ">= 2.0.0"},
       {:briefly, "~> 0.3"},
       {:plug, "~> 1.14.2"},
