@@ -100,10 +100,7 @@ defmodule Predictions.PredictionsPubSub do
       )
       |> Enum.each(fn {fetch_keys, pids} ->
         new_predictions = Store.fetch(fetch_keys)
-
-        pids
-        |> Enum.uniq()
-        |> Enum.each(&send(self(), {:dispatch, &1, fetch_keys, new_predictions}))
+        send(self(), {:dispatch, Enum.uniq(pids), fetch_keys, new_predictions})
       end)
     end)
 
@@ -117,13 +114,13 @@ defmodule Predictions.PredictionsPubSub do
   end
 
   def handle_info(
-        {:dispatch, pid, fetch_keys, predictions},
+        {:dispatch, pids, fetch_keys, predictions},
         %{
           last_dispatched_by_fetch_keys: last_dispatched
         } = state
       ) do
-    if Map.get(last_dispatched, fetch_keys) != predictions do
-      send(pid, {:new_predictions, predictions})
+    if not_last_dispatched?(last_dispatched, fetch_keys, predictions) do
+      Enum.each(pids, &send(&1, {:new_predictions, predictions}))
 
       {:noreply,
        %{
@@ -154,6 +151,10 @@ defmodule Predictions.PredictionsPubSub do
     end)
 
     {:noreply, %{state | callers_by_pid: new_callers}}
+  end
+
+  defp not_last_dispatched?(last_dispatched, fetch_keys, predictions) do
+    Map.get(last_dispatched, fetch_keys) != predictions
   end
 
   # find registrations for this filter from processes other than the indicated pid
