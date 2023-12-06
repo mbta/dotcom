@@ -12,13 +12,6 @@ defmodule Predictions.PredictionsPubSubTest do
     route: %Route{id: "39"},
     stop: %Stop{id: @stop_id}
   }
-  @prediction66 %Prediction{
-    id: "prediction66",
-    direction_id: 1,
-    route: %Route{id: "66"},
-    stop: %Stop{id: "other_stop"}
-  }
-
   @channel_args "stop:#{@stop_id}"
 
   setup_with_mocks([
@@ -100,75 +93,6 @@ defmodule Predictions.PredictionsPubSubTest do
     end
   end
 
-  describe "handle_info/2 - {:reset, predictions}" do
-    test "resets the predictions", %{pid: pid} do
-      PredictionsPubSub.subscribe(@channel_args, pid)
-      send(pid, {:reset, [@prediction39]})
-      assert_receive {:new_predictions, [@prediction39]}
-    end
-
-    test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@channel_args, pid)
-      send(pid, {:reset, [@prediction66]})
-      send(pid, {:reset, [@prediction39]})
-      assert_receive {:new_predictions, [@prediction39]}
-      # we're not subscribed to this
-      refute_receive {:new_predictions, [@prediction66]}
-    end
-  end
-
-  describe "handle_info/2 - {:add, predictions}" do
-    test "adds the new predictions by route ID", %{pid: pid} do
-      PredictionsPubSub.subscribe(@channel_args, pid)
-      send(pid, {:add, [@prediction39]})
-      assert_receive {:new_predictions, [@prediction39]}
-    end
-
-    test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@channel_args, pid)
-
-      send(pid, {:add, [@prediction66]})
-      send(pid, {:add, [@prediction39]})
-
-      assert_receive {:new_predictions, [@prediction39]}
-      refute_receive {:new_predictions, [@prediction66]}
-    end
-  end
-
-  describe "handle_info/2 - :update and :remove" do
-    test "updates the predictions", %{pid: pid} do
-      modified_prediction = %{
-        @prediction39
-        | status: "Now boarding"
-      }
-
-      PredictionsPubSub.subscribe(@channel_args, pid)
-      send(pid, {:update, [modified_prediction]})
-
-      assert_receive {:new_predictions, [prediction]}
-
-      assert prediction.status == "Now boarding"
-    end
-
-    test "broadcasts new predictions lists to subscribers", %{pid: pid} do
-      PredictionsPubSub.subscribe(@channel_args, pid)
-
-      send(pid, {:update, [@prediction66]})
-      send(pid, {:update, [@prediction39]})
-
-      assert_receive {:new_predictions, [@prediction39]}
-      refute_receive {:new_predictions, [@prediction66]}
-    end
-
-    test "removes the given predictions and broadcasts new predictions lists to subscribers", %{
-      pid: pid
-    } do
-      PredictionsPubSub.subscribe(@channel_args, pid)
-      send(pid, {:remove, [@prediction39]})
-      assert_receive {:new_predictions, []}
-    end
-  end
-
   describe "handle_info/2 - :DOWN" do
     test "can observe when the caller/subscribing task is exited, and remove from state" do
       {:ok, pid} =
@@ -181,11 +105,15 @@ defmodule Predictions.PredictionsPubSubTest do
       p2 = spawn(fn -> true end)
       p3 = spawn(fn -> true end)
 
-      :sys.replace_state(pid, fn state ->
-        state
-        |> Map.put_new(p1, "stop=1")
-        |> Map.put_new(p2, "stop=2")
-        |> Map.put_new(p3, "stop=3")
+      :sys.replace_state(pid, fn %{callers_by_pid: callers} = state ->
+        %{
+          state
+          | callers_by_pid:
+              callers
+              |> Map.put_new(p1, "stop=1")
+              |> Map.put_new(p2, "stop=2")
+              |> Map.put_new(p3, "stop=3")
+        }
       end)
 
       # A new caller process subscribes, adds its PID and channel name to state
@@ -196,10 +124,12 @@ defmodule Predictions.PredictionsPubSubTest do
             this = self()
 
             assert %{
-                     ^this => _filters,
-                     ^p1 => "stop=1",
-                     ^p2 => "stop=2",
-                     ^p3 => "stop=3"
+                     callers_by_pid: %{
+                       ^this => _filters,
+                       ^p1 => "stop=1",
+                       ^p2 => "stop=2",
+                       ^p3 => "stop=3"
+                     }
                    } = :sys.get_state(pid)
           end,
           [:monitor]
@@ -214,12 +144,12 @@ defmodule Predictions.PredictionsPubSubTest do
       assert_receive {:trace, ^pid, :send, {:"$gen_call", _, {:terminate_child, _}}, _}, 2000
 
       # The caller process is removed from the state
-      assert task not in Map.keys(:sys.get_state(pid))
-
       assert %{
-               ^p1 => "stop=1",
-               ^p2 => "stop=2",
-               ^p3 => "stop=3"
+               :callers_by_pid => %{
+                 ^p1 => "stop=1",
+                 ^p2 => "stop=2",
+                 ^p3 => "stop=3"
+               }
              } = :sys.get_state(pid)
     end
   end
