@@ -3,6 +3,8 @@ defmodule Predictions.PredictionsPubSub do
   Allow channels to subscribe to prediction streams, which are collected into an
   ETS table keyed by prediction ID, route ID, stop ID, direction ID, trip ID,
   and vehicle ID for easy retrieval.
+
+  Set up to broadcast predictions periodically, or can be broadcast on-demand.
   """
 
   use GenServer
@@ -54,22 +56,29 @@ defmodule Predictions.PredictionsPubSub do
   def init(opts) do
     subscribe_fn = Keyword.get(opts, :subscribe_fn, &Phoenix.PubSub.subscribe/2)
     subscribe_fn.(Predictions.PubSub, "predictions")
-    broadcast_timer(@broadcast_interval_ms)
-    {:ok, %{}}
+    broadcast_timer(50)
+
+    {:ok,
+     %{
+       callers_by_pid: %{},
+       last_dispatched_by_fetch_keys: %{}
+     }}
   end
 
   @impl GenServer
   def handle_call(
         {:subscribe, stream_filter},
         {from_pid, _ref},
-        state
+        %{
+          callers_by_pid: callers
+        } = state
       ) do
     registry_key = self()
 
     # Let us detect when the calling process goes down, and save the associated
     # API params for easier lookup
     Process.monitor(from_pid)
-    new_state = Map.put_new(state, from_pid, stream_filter)
+    new_state = %{state | callers_by_pid: Map.put_new(callers, from_pid, stream_filter)}
 
     predictions =
       stream_filter
@@ -84,28 +93,56 @@ defmodule Predictions.PredictionsPubSub do
     registry_key = self()
 
     Registry.dispatch(@subscribers, registry_key, fn entries ->
-      entries
-      |> Enum.uniq_by(fn {pid, {fetch_keys, _}} ->
-        {pid, fetch_keys}
+      Enum.group_by(
+        entries,
+        fn {_, {fetch_keys, _}} -> fetch_keys end,
+        fn {pid, {_, _}} -> pid end
+      )
+      |> Enum.each(fn {fetch_keys, pids} ->
+        new_predictions = Store.fetch(fetch_keys)
+
+        pids
+        |> Enum.uniq()
+        |> Enum.each(&send(self(), {:dispatch, &1, fetch_keys, new_predictions}))
       end)
-      |> Enum.each(&send_data/1)
     end)
 
-    broadcast_timer(@broadcast_interval_ms)
     {:noreply, state}
   end
 
-  def handle_info({event, predictions}, state) do
-    :ok = Store.update(event, predictions)
+  def handle_info(:timed_broadcast, state) do
+    send(self(), :broadcast)
+    broadcast_timer()
     {:noreply, state}
   end
 
   def handle_info(
+        {:dispatch, pid, fetch_keys, predictions},
+        %{
+          last_dispatched_by_fetch_keys: last_dispatched
+        } = state
+      ) do
+    if Map.get(last_dispatched, fetch_keys) != predictions do
+      send(pid, {:new_predictions, predictions})
+
+      {:noreply,
+       %{
+         state
+         | last_dispatched_by_fetch_keys: Map.put_new(last_dispatched, fetch_keys, predictions)
+       }}
+    else
+      {:noreply, state}
+    end
+  end
+
+  def handle_info(
         {:DOWN, parent_ref, :process, caller_pid, _reason},
-        state
+        %{
+          callers_by_pid: callers
+        } = state
       ) do
     Process.demonitor(parent_ref, [:flush])
-    {%Predictions.StreamTopic{streams: streams}, new_state} = Map.pop(state, caller_pid)
+    {%Predictions.StreamTopic{streams: streams}, new_callers} = Map.pop(callers, caller_pid)
 
     Enum.each(streams, fn stream ->
       # Here we can check if there are other subscribers for the associated key.
@@ -116,7 +153,7 @@ defmodule Predictions.PredictionsPubSub do
       end
     end)
 
-    {:noreply, new_state}
+    {:noreply, %{state | callers_by_pid: new_callers}}
   end
 
   # find registrations for this filter from processes other than the indicated pid
@@ -128,13 +165,7 @@ defmodule Predictions.PredictionsPubSub do
     Registry.select(@subscribers, [{pattern, guards, body}]) == []
   end
 
-  @spec send_data({pid, registry_value()}) :: broadcast_message()
-  defp send_data({pid, {fetch_keys, _}}) do
-    new_predictions = fetch_keys |> Store.fetch()
-    send(pid, {:new_predictions, new_predictions})
-  end
-
-  defp broadcast_timer(interval) do
-    Process.send_after(self(), :broadcast, interval)
+  defp broadcast_timer(interval \\ @broadcast_interval_ms) do
+    Process.send_after(self(), :timed_broadcast, interval)
   end
 end
