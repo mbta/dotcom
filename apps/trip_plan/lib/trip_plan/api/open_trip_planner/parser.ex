@@ -44,7 +44,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
         "#{__MODULE__} trip_plan=success count=#{Enum.count(json["plan"]["itineraries"])}"
       end)
 
-    {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary(&1, json["requestParameters"]))}
+    {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary(&1))}
   end
 
   @doc "Test helper which matches off the :ok"
@@ -68,13 +68,26 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   defp error_message_atom("NO_STOPS_IN_RANGE", _opts), do: :location_not_accessible
   defp error_message_atom(_, _opts), do: :unknown
 
-  defp parse_itinerary(json, request_params) do
+  defp parse_itinerary(json) do
     %Itinerary{
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
       legs: Enum.map(json["legs"], &parse_leg/1),
-      accessible?: request_params["wheelchair"] == "true"
+      accessible?: parse_float(json["accessibilityScore"]) == 1.0
     }
+  end
+
+  defp parse_float(fl) when is_float(fl), do: fl
+
+  defp parse_float(nil), do: 0.0
+
+  defp parse_float(str) do
+    result = Float.parse(str)
+
+    case result do
+      :error -> 0.0
+      _ -> result
+    end
   end
 
   defp parse_time(ms_after_epoch) do

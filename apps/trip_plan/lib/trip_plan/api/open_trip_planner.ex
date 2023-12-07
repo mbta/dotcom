@@ -143,6 +143,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
         description
       }
       itineraries {
+        accessibilityScore
         startTime
         endTime
         duration
