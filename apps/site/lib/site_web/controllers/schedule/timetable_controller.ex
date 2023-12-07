@@ -128,6 +128,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   # Helper function for obtaining schedule data
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
+  defp timetable_schedules(%{assigns: %{date_in_rating?: false}}), do: []
+
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
       {:error, _} ->
@@ -186,6 +188,10 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     list
     |> List.zip()
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
+  end
+
+  defp all_stops(%Conn{assigns: %{date_in_rating?: false}} = conn, _) do
+    conn
   end
 
   defp all_stops(conn, _) do
