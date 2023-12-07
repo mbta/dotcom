@@ -65,7 +65,7 @@ defmodule Algolia.ApiTest do
       }
 
       assert {:error, %HTTPoison.Response{status_code: 400, body: body}} =
-               Algolia.Api.post(failure_opts)
+               Algolia.Api.action(:post, failure_opts)
 
       assert body == @failure_response
 
@@ -81,7 +81,7 @@ defmodule Algolia.ApiTest do
       }
 
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.post(success_opts)
+               Algolia.Api.action(:post, success_opts)
 
       assert body == @success_response
     end
