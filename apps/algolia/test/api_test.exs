@@ -33,24 +33,24 @@ defmodule Algolia.ApiTest do
                Algolia.Api.action(:post, opts)
     end
 
-    test "sends a delete request to /1/indexes/$INDEX/$ACTION" do
+    test "sends a get request to /1/indexes/$INDEX" do
       bypass = Bypass.open()
 
-      Bypass.expect_once(bypass, "DELETE", "/1/indexes/*/clear", fn conn ->
-        Plug.Conn.send_resp(conn, 200, @success_response)
+      Bypass.expect_once(bypass, "GET", "/1/indexes/*", fn conn ->
+        Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
       end)
 
       opts = %Algolia.Api{
         host: "http://localhost:#{bypass.port}",
         index: "*",
-        action: "clear",
+        action: "",
         body: ""
       }
 
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.action(:delete, opts)
+               Algolia.Api.action(:get, opts)
 
-      assert body == @success_response
+      assert body == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
     end
 
     test "does not cache a failed response", %{failure: failure, success: success} do

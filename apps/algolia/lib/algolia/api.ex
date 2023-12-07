@@ -8,7 +8,7 @@ defmodule Algolia.Api do
 
   defstruct [:host, :index, :action, :body]
 
-  @type action :: :post | :delete
+  @type action :: :post | :get
 
   @http_pool Application.get_env(:algolia, :http_pool)
 
@@ -76,8 +76,8 @@ defmodule Algolia.Api do
   def send_request(url, :post, body, config, hackney),
     do: HTTPoison.post(url, body, headers(config), hackney: hackney)
 
-  def send_request(url, :delete, _body, config, hackney),
-    do: HTTPoison.delete(url, headers(config), hackney: hackney)
+  def send_request(url, :get, _body, config, hackney),
+    do: HTTPoison.get(url, headers(config), hackney: hackney)
 
   @spec generate_url(t, Config.t()) :: String.t()
   defp generate_url(%__MODULE__{} = opts, %Config{} = config) do
