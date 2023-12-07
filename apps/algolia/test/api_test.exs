@@ -5,7 +5,6 @@ defmodule Algolia.ApiTest do
   @request ~s({"requests": [{"indexName": "*"}]})
   @success_response ~s({"ok": "success"})
 
-
   describe "action" do
     setup do
       ConCache.ets(Algolia.Api) |> :ets.delete_all_objects()
