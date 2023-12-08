@@ -76,7 +76,7 @@ defmodule Algolia.Update do
     opts = %Api{
       host: base_url,
       index: index_module.index_name(),
-      action: "",
+      action: "browse",
       body: ""
     }
 
