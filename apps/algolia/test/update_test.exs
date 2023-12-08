@@ -7,7 +7,7 @@ defmodule Algolia.UpdateTest do
 
       proc = self()
 
-      Bypass.expect_once(bypass, "GET", "/1/indexes/objects", fn conn ->
+      Bypass.expect_once(bypass, "GET", "/1/indexes/objects/browse", fn conn ->
         body = "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
         send(proc, {conn.request_path, conn.req_headers, body})
         Plug.Conn.send_resp(conn, 200, body)
@@ -25,7 +25,7 @@ defmodule Algolia.UpdateTest do
       assert result == :ok
       assert_receive {"/1/indexes/objects/batch", delete_headers, delete_body}
       assert_receive {"/1/indexes/objects/batch", add_headers, add_body}
-      assert_receive {"/1/indexes/objects", get_headers, get_body}
+      assert_receive {"/1/indexes/objects/browse", get_headers, get_body}
 
       for header <- ["x-algolia-api-key", "x-algolia-application-id"] do
         assert {^header, delete_val} = Enum.find(delete_headers, &(elem(&1, 0) == header))
