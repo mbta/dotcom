@@ -57,18 +57,21 @@ end
 
 defmodule Holiday.Repo do
   import Holiday.Repo.Helpers
-  # from https://www.sec.state.ma.us/cis/cishol/holidx.htm
-  @start_year 2019
+  # from https://www.sec.state.ma.us/divisions/cis/holiday-info.htm
+  @start_year 2023
   @holidays [
               # { name, [{month, day}, {month, day}, ...]},
-              {"New Years Day", [{1, 1}, {1, 1}, {1, 1}]},
-              {"Martin Luther King Day", [{1, 21}, {1, 20}, {1, 18}]},
-              {"President’s Day", [{2, 18}, {2, 17}, {2, 15}]},
-              {"Patriots’ Day", [{4, 15}, {4, 20}, {4, 19}]},
-              {"Memorial Day", [{5, 27}, {5, 25}, {5, 31}]},
+              {"New Year’s Day", [{1, 1}, {1, 1}, {1, 1}]},
+              {"Martin Luther King, Jr. Day", [{1, 16}, {1, 15}, {1, 20}]},
+              {"Washington’s Birthday", [{2, 20}, {2, 19}, {2, 17}]},
+              {"Patriots’ Day", [{4, 17}, {4, 15}, {4, 21}]},
+              {"Memorial Day", [{5, 29}, {5, 27}, {5, 26}]},
+              {"Juneteenth Independence Day", [{6, 19}, {6, 19}, {6, 19}]},
               {"Independence Day", [{7, 4}, {7, 4}, {7, 4}]},
-              {"Labor Day", [{9, 2}, {9, 7}, {9, 6}]},
-              {"Thanksgiving Day", [{11, 28}, {11, 26}, {11, 25}]},
+              {"Labor Day", [{9, 4}, {9, 2}, {9, 1}]},
+              {"Columbus Day", [{10, 9}, {10, 14}, {10, 13}]},
+              {"Veterans Day", [{11, 11}, {11, 11}, {11, 11}]},
+              {"Thanksgiving Day", [{11, 23}, {11, 28}, {11, 27}]},
               {"Christmas Day", [{12, 25}, {12, 25}, {12, 25}]}
             ]
             |> Enum.flat_map(&make_holiday(&1, @start_year))
