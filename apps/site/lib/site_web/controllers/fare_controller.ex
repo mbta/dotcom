@@ -3,8 +3,6 @@ defmodule SiteWeb.FareController do
   Controller for the Fares section of the website.
   """
   use SiteWeb, :controller
-  alias Fares.RetailLocations
-  alias GoogleMaps.Geocode
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   plug(:meta_description)
@@ -12,7 +10,10 @@ defmodule SiteWeb.FareController do
   @options %{
     geocode_fn: &LocationService.geocode/1,
     reverse_geocode_fn: &LocationService.reverse_geocode/2,
-    nearby_fn: &Fares.RetailLocations.get_nearby/1
+    nearby_fn: %{
+      retail: &Fares.RetailLocations.get_nearby/1,
+      proposed: &Fares.ProposedLocations.get_nearby/1
+    }
   }
 
   @display_fare_classes [
@@ -24,58 +25,97 @@ defmodule SiteWeb.FareController do
   ]
 
   def show(conn, %{"id" => "retail-sales-locations"} = params) do
-    search_location(conn, params)
+    find_locations(conn, params, :retail)
   end
 
   def show(conn, _) do
     check_cms_or_404(conn)
   end
 
-  def search_location(conn, %{"location" => %{"address" => address}} = params) do
-    address = Geocode.check_address(address, @options)
-    params = %{params | "location" => %{"address" => address}}
-
-    {position, _formatted} = Geocode.calculate_position(params, @options.geocode_fn)
-
-    retail_locations = fare_sales_locations(position, @options.nearby_fn)
-
-    render_with_locations(conn, retail_locations, address, position)
+  def show_transformation(conn, params) do
+    find_locations(conn, params, :proposed)
   end
 
-  def search_location(conn, %{"latitude" => lat, "longitude" => lon} = params) do
-    params = Map.put(params, "location", %{"address" => lat <> "," <> lon})
-    search_location(conn, params)
+  @spec find_locations(Conn.t(), map, :proposed | :retail) :: Conn.t()
+  def find_locations(
+        conn,
+        %{
+          "location" => %{
+            "address" => address,
+            "latitude" => latitude,
+            "longitude" => longitude
+          }
+        } = _params,
+        proposed_or_retail
+      ) do
+    case {Float.parse(latitude), Float.parse(longitude)} do
+      {{lat, ""}, {lng, ""}} ->
+        position = %LocationService.Address{
+          formatted: address,
+          latitude: lat,
+          longitude: lng
+        }
+
+        found_locations =
+          @options.nearby_fn
+          |> Map.get(proposed_or_retail)
+          |> apply([position])
+
+        render_with_locations(conn, found_locations, address, position, proposed_or_retail)
+
+      _ ->
+        render_with_locations(conn, [], address, %{}, proposed_or_retail)
+    end
   end
 
-  def search_location(conn, _params) do
-    render_with_locations(conn, nil, "", %{})
+  def find_locations(conn, %{"latitude" => lat, "longitude" => lon} = params, proposed_or_retail) do
+    params =
+      Map.put(params, "location", %{
+        "address" => lat <> "," <> lon,
+        "latitude" => lat,
+        "longitude" => lon
+      })
+
+    find_locations(conn, params, proposed_or_retail)
   end
 
-  def render_with_locations(conn, retail_locations, address, position) do
+  def find_locations(conn, _params, proposed_or_retail) do
+    render_with_locations(conn, [], "", %{}, proposed_or_retail)
+  end
+
+  defp render_with_locations(conn, found_locations, address, position, proposed_or_retail) do
+    opts =
+      [address: address, search_position: position]
+      |> Keyword.put_new(
+        if(proposed_or_retail == :proposed,
+          do: :nearby_proposed_locations,
+          else: :fare_sales_locations
+        ),
+        found_locations
+      )
+
+    do_render_with_locations(conn, opts, proposed_or_retail)
+  end
+
+  defp do_render_with_locations(conn, opts, :proposed) do
+    conn
+    |> assign(:breadcrumbs, [
+      Breadcrumb.build(
+        "Fare Transformation",
+        cms_static_page_path(conn, "/fare-transformation")
+      ),
+      Breadcrumb.build("Proposed Sales Locations")
+    ])
+    |> render("proposed_sales_locations.html", opts)
+  end
+
+  defp do_render_with_locations(conn, opts, :retail) do
     conn
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
       Breadcrumb.build("Retail Sales Locations")
     ])
-    |> render(
-      "retail_sales_locations.html",
-      requires_location_service?: true,
-      fare_sales_locations: retail_locations,
-      address: address,
-      search_position: position
-    )
-  end
-
-  @spec fare_sales_locations(
-          LocationService.Address.t(),
-          (LocationService.Address.t() -> [{RetailLocations.Location.t(), float}])
-        ) :: [{RetailLocations.Location.t(), float}]
-  def fare_sales_locations(%{latitude: _lat, longitude: _long} = position, nearby_fn) do
-    nearby_fn.(position)
-  end
-
-  def fare_sales_locations(%{}, _nearby_fn) do
-    []
+    |> render("retail_sales_locations.html", opts)
   end
 
   def one_way_by_stop_id(conn, %{"stop_id" => stop_id} = _params) do

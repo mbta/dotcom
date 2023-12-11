@@ -1,6 +1,5 @@
 defmodule SiteWeb.FareControllerTest do
   use SiteWeb.ConnCase, async: false
-  import SiteWeb.FareController
   import Mock
 
   describe "show" do
@@ -18,6 +17,36 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Georges Island Fare"
       assert response =~ "Child under 3"
       assert response =~ "Family 4-pack"
+    end
+
+    test "renders the initial proposed sales locations page", %{conn: conn} do
+      conn = get(conn, fare_path(conn, :show_transformation, []))
+      assert html_response(conn, 200) =~ "Proposed Sales Locations"
+    end
+
+    test "renders the proposed sales locations page with results by giving it an address", %{
+      conn: conn
+    } do
+      conn =
+        get(conn, "/fare-transformation/proposed-sales-locations", %{
+          "latitude" => "42.3576135",
+          "location" => %{"address" => "Park Street Place, Boston, MA, USA"},
+          "longitude" => "-71.0625776"
+        })
+
+      assert html_response(conn, 200) =~ "Get Directions"
+    end
+
+    test "renders the proposed sales locations page with results by giving it coordinates", %{
+      conn: conn
+    } do
+      conn =
+        get(conn, "/fare-transformation/proposed-sales-locations", %{
+          "latitude" => "42.3576135",
+          "longitude" => "-71.0625776"
+        })
+
+      assert html_response(conn, 200) =~ "Get Directions"
     end
 
     test "renders a page about retail sale locations", %{conn: conn} do
@@ -59,26 +88,6 @@ defmodule SiteWeb.FareControllerTest do
         })
 
       assert html_response(conn, 200) =~ "Get Directions"
-    end
-  end
-
-  describe "fare_sales_locations/2" do
-    test "calculates nearest retail_sales_locations" do
-      nearby_fn = fn position ->
-        [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}]
-      end
-
-      locations = fare_sales_locations(%{latitude: 42.0, longitude: -71.0}, nearby_fn)
-      assert locations == [{%{latitude: 42.0, longitude: -71.0}, 10.0}]
-    end
-
-    test "when there is no search position, is an empty list of nearby locations" do
-      nearby_fn = fn position ->
-        [{%{latitude: position.latitude, longitude: position.longitude}, 10.0}]
-      end
-
-      locations = fare_sales_locations(%{}, nearby_fn)
-      assert locations == []
     end
   end
 
