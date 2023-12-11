@@ -9,12 +9,8 @@ defmodule CMS.Telemetry do
 
   def init(_arg) do
     children = [
-      # Configure `:telemetry_poller` for reporting the cache stats
       {:telemetry_poller, measurements: periodic_measurements(), period: 30_000},
-
-      # For example, we use the console reporter, but you can change it.
-      # See `:telemetry_metrics` for for information.
-      {Telemetry.Metrics.ConsoleReporter, metrics: metrics()}
+      {TelemetryMetricsStatsd, metrics: metrics()}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
