@@ -29,9 +29,9 @@
         <% end %>
       </div>
       <%= if Application.get_env(:site, :dev_server?) do %>
-        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tnm.js" %>"></script>
+        <script defer src={"#{Application.get_env(:site, :webpack_path)}/tnm.js"}></script>
       <% else %>
-        <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
+        <script defer src={static_url(@conn, "/js/tnm.js")}></script>
       <% end %>
     </div>
     <%= if !is_nil(@fare_sales_locations) do %>

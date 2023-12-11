@@ -37,9 +37,9 @@
         <% end %>
       </div>
       <%= if Application.get_env(:site, :dev_server?) do %>
-        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tnm.js" %>"></script>
+        <script defer src={"#{Application.get_env(:site, :webpack_path)}/tnm.js"}></script>
       <% else %>
-        <script defer src="<%= static_url(@conn, "/js/tnm.js") %>"></script>
+        <script defer src={static_url(@conn, "/js/tnm.js")}></script>
       <% end %>
     </div>
     <%= if !is_nil(@nearby_proposed_locations) do %>
@@ -48,7 +48,7 @@
       <% else %>
         <div class="psl-types-buttons hidden">
           <%= for type <- psl_types do %>
-            <button class="psl-type-button" data-group="<%= type %>"><%= type %></button>
+            <button class="psl-type-button" data-group={type}><%= type %></button>
           <% end %>
         </div>
         <%= render SiteWeb.FareView, "_nearby_locations.html", conn: @conn, address: @address, locations: @nearby_proposed_locations, search_position: @search_position %>
