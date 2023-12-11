@@ -1,4 +1,10 @@
 defmodule Algolia.Update do
+  @moduledoc """
+  Task that pulls all of the latest stops and routes from the API
+  Pulls the current routes and stops from algolia.
+  Removes any routes or stops that are no longer in the API from Algolia
+  Uploads a list of the routes and stops to Algolia to update/add
+  """
   require Logger
   alias Algolia.Api
 
@@ -31,7 +37,7 @@ defmodule Algolia.Update do
 
   @spec clean_index(Enum.t(), atom, String.t()) :: success | error
   def clean_index(new_objects, index_module, base_url) do
-    current_objs = current_objects(base_url, index_module)
+    current_objs = current_objects(base_url, index_module, "")
 
     current_objs
     |> filter_objects(new_objects)
@@ -61,23 +67,30 @@ defmodule Algolia.Update do
     |> do_has_routes?(data)
   end
 
-  defp current_objects(base_url, index_module) do
-    with {:ok, body} <- get_current_objects(base_url, index_module) do
-      response_to_objects(body)
-    end
-  end
-
   @spec do_has_routes?(map, Stops.Stop.t() | Routes.Route.t() | map) :: boolean
   defp do_has_routes?(%{routes: []}, %Stops.Stop{}), do: false
   defp do_has_routes?(_, _), do: true
 
-  @spec get_current_objects(String.t(), atom) :: success | error
-  defp get_current_objects(base_url, index_module) do
+  defp current_objects(_base_url, _index_module, nil), do: []
+
+  defp current_objects(base_url, index_module, cursor) do
+    with {:ok, body} <- get_current_objects(base_url, index_module, cursor),
+         {:ok, json_body} <- Jason.decode(body) do
+      Enum.concat(
+        response_to_objects(json_body),
+        current_objects(base_url, index_module, get_cursor(json_body))
+      )
+    end
+  end
+
+  @spec get_current_objects(String.t(), atom, String.t() | nil) :: success | error
+  defp get_current_objects(base_url, index_module, cursor) do
     opts = %Api{
       host: base_url,
       index: index_module.index_name(),
       action: "browse",
-      body: ""
+      body: "",
+      query_params: %{cursor: cursor}
     }
 
     :get |> Api.action(opts) |> parse_response()
@@ -103,8 +116,10 @@ defmodule Algolia.Update do
     {:error, {:json_error, error}}
   end
 
-  defp response_to_objects(body) do
-    {:ok, json} = Jason.decode(body)
+  defp get_cursor(%{"cursor" => cursor}), do: cursor
+  defp get_cursor(_), do: nil
+
+  defp response_to_objects(json) do
     Enum.map(json["hits"], fn obj -> %{objectID: obj["objectID"]} end)
   end
 

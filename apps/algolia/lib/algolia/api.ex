@@ -6,7 +6,7 @@ defmodule Algolia.Api do
   require Logger
   use RepoCache, ttl: :timer.hours(12)
 
-  defstruct [:host, :index, :action, :body]
+  defstruct [:host, :index, :action, :body, :query_params]
 
   @type action :: :post | :get
 
@@ -16,7 +16,8 @@ defmodule Algolia.Api do
           host: String.t() | nil,
           index: String.t() | nil,
           action: String.t() | nil,
-          body: String.t() | nil
+          body: String.t() | nil,
+          query_params: map | nil
         }
 
   @spec action(action, t) ::
@@ -52,9 +53,11 @@ defmodule Algolia.Api do
       |> Keyword.put(:pool, @http_pool)
 
     send_post_request = fn {body, config} ->
+      query_param_string = generate_query_param_string(opts)
+
       response =
         opts
-        |> generate_url(config)
+        |> generate_url(config, query_param_string)
         |> send_request(action, body, config, hackney)
 
       case response do
@@ -79,9 +82,25 @@ defmodule Algolia.Api do
   def send_request(url, :get, _body, config, hackney),
     do: HTTPoison.get(url, headers(config), hackney: hackney)
 
-  @spec generate_url(t, Config.t()) :: String.t()
-  defp generate_url(%__MODULE__{} = opts, %Config{} = config) do
+  @spec generate_query_param_string(t) :: String.t() | nil
+  defp generate_query_param_string(%{query_params: nil}), do: nil
+
+  defp generate_query_param_string(%{query_params: query_params}),
+    do: URI.encode_query(query_params)
+
+  @spec generate_url(t, Config.t(), String.t() | nil) :: String.t()
+  defp generate_url(%__MODULE__{} = opts, %Config{} = config, nil) do
     Path.join([base_url(opts, config), "1", "indexes", opts.index, opts.action])
+  end
+
+  defp generate_url(%__MODULE__{} = opts, %Config{} = config, query_param_string) do
+    Path.join([
+      base_url(opts, config),
+      "1",
+      "indexes",
+      opts.index,
+      opts.action <> "?" <> query_param_string
+    ])
   end
 
   defp base_url(%__MODULE__{host: nil}, %Config{app_id: <<app_id::binary>>}) do
