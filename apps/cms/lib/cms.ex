@@ -11,7 +11,8 @@ defmodule CMS do
 
     # Define workers and child supervisors to be supervised
     children = [
-      CMS.Repo
+      CMS.Repo,
+      CMS.Telemetry
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

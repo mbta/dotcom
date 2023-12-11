@@ -41,6 +41,7 @@ config :cms, CMS.Repo,
   conn_opts: [
     host: "127.0.0.1",
     port: 6379
-  ]
+  ],
+  stats: true
 
 import_config "#{Mix.env()}.exs"

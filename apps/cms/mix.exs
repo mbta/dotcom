@@ -58,6 +58,9 @@ defmodule CMS.Mixfile do
       {:plug, "~> 1.14.2"},
       {:poison, ">= 0.0.0", override: true},
       {:quixir, "~> 0.9", only: :test},
+      {:telemetry, "0.4.3"},
+      {:telemetry_metrics, "0.6.1"},
+      {:telemetry_poller, "0.5.1"},
       {:timex, ">= 0.0.0"},
       {:util, in_umbrella: true}
     ]
