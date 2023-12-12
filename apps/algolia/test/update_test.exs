@@ -53,6 +53,42 @@ defmodule Algolia.UpdateTest do
                rank: 1
              }
     end
+
+    test "should call until cursor returns empty" do
+      bypass = Bypass.open()
+
+      proc = self()
+
+      Bypass.expect(bypass, "GET", "/1/indexes/objects/browse", fn conn ->
+        cursor_string =
+          if String.contains?(conn.query_string, "TEST_CURSOR"),
+            do: "",
+            else: "\"cursor\": \"TEST_CURSOR\","
+
+        body = "{" <> cursor_string <> "\"hits\": [{\"objectID\": \"test_object_id\"}]}"
+        send(proc, {conn.request_path, conn.req_headers, body})
+        Plug.Conn.send_resp(conn, 200, body)
+      end)
+
+      Bypass.expect(bypass, "POST", "/1/indexes/objects/batch", fn conn ->
+        {:ok, _body, conn} = Plug.Conn.read_body(conn)
+        Plug.Conn.send_resp(conn, 200, "ok")
+      end)
+
+      assert %{Algolia.MockObjects => result} =
+               Algolia.Update.update("http://localhost:#{bypass.port}")
+
+      assert result == :ok
+      assert_receive {"/1/indexes/objects/browse", _get_headers_start, get_body_start}
+      assert_receive {"/1/indexes/objects/browse", _get_headers_end, get_body_end}
+      # The endpoint in question should only have been called twice
+      refute_receive {"/1/indexes/objects/browse", _, _}
+
+      assert get_body_start ==
+               "{\"cursor\": \"TEST_CURSOR\",\"hits\": [{\"objectID\": \"test_object_id\"}]}"
+
+      assert get_body_end == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
+    end
   end
 
   describe "to_data_object/1" do

@@ -32,8 +32,8 @@ defmodule Algolia.ApiTest do
                Algolia.Api.action(:post, opts)
     end
 
-    test "sends a get request to /1/indexes/$INDEX" do
-      bypass = Bypass.open()
+    test "sends a get request to /1/indexes/$INDEX", %{bypass: bypass} do
+      # bypass = Bypass.open()
 
       Bypass.expect_once(bypass, "GET", "/1/indexes/*", fn conn ->
         Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
@@ -84,6 +84,26 @@ defmodule Algolia.ApiTest do
                Algolia.Api.action(:post, success_opts)
 
       assert body == @success_response
+    end
+
+    test "adds the query params to the request url", %{bypass: bypass} do
+      Bypass.expect_once(bypass, "GET", "/1/indexes/test_index/", fn conn ->
+        assert "param_1=test_data" == conn.query_string
+        Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
+      end)
+
+      opts = %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        index: "test_index",
+        action: "",
+        body: "",
+        query_params: %{param_1: "test_data"}
+      }
+
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+               Algolia.Api.action(:get, opts)
+
+      assert body == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
     end
 
     test "logs a warning if config keys are missing", %{bypass: bypass} do
