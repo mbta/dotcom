@@ -36,7 +36,7 @@ defmodule SiteWeb.Redirector do
   end
 
   defp find_record(id, "/news") do
-    Repo.news_entry_by(migration_id: id)
+    Repo.news_entry_by(id)
   end
 
   defp redirect_to_show(conn, to, record) do

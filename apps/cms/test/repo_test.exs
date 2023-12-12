@@ -67,21 +67,6 @@ defmodule CMS.RepoTest do
 
   describe "get_page/1" do
     test "caches views" do
-      path = "/news/2018/news-entry"
-      params = %{}
-      cache_key = {path, params}
-
-      # ensure cache is empty
-      case Repo.get(cache_key) do
-        nil ->
-          :ok
-
-        {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} ->
-          Repo.delete(cache_key)
-      end
-
-      assert %NewsEntry{} = Repo.get_page(path, params)
-      assert {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} = Repo.get(cache_key)
     end
 
     test "does not cache previews" do

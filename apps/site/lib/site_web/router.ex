@@ -51,6 +51,11 @@ defmodule SiteWeb.Router do
     get("/_health", HealthController, :index)
   end
 
+  scope "/cms", SiteWeb do
+    patch("/:object/:id", CMSController, :reset_cache_key)
+    patch("/:id", CMSController, :reset_cache_key)
+  end
+
   # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
   scope "/", SiteWeb, host: "t." do
     # no pipe

@@ -43,6 +43,18 @@ defmodule SiteWeb.CMSController do
     |> handle_page_response(conn)
   end
 
+  def reset_cache_key(conn, %{"object" => object, "id" => id}) do
+    CMS.Repo.delete("/cms/#{object}/#{id}")
+
+    send_resp(conn, 202, "") |> halt()
+  end
+
+  def reset_cache_key(conn, %{"id" => id}) do
+    CMS.Repo.delete("/cms/#{id}")
+
+    send_resp(conn, 202, "") |> halt()
+  end
+
   @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::
           Plug.Conn.t()
   defp handle_page_response(%{__struct__: struct} = page, conn)
