@@ -1,12 +1,5 @@
 import setupAlgoliaAutocomplete from "../autocomplete/index";
 import { within } from "@testing-library/dom";
-import getSources from "../autocomplete/sources";
-import {
-  AutocompleteSource,
-  GetSourcesParams,
-  OnInputParams
-} from "@algolia/autocomplete-core";
-import { Item } from "../autocomplete/__autocomplete";
 
 const body = `
   <div
@@ -64,42 +57,5 @@ describe("Algolia v1 autocomplete", () => {
     expect(() => {
       setupAlgoliaAutocomplete(badContainer!);
     }).toThrow();
-  });
-});
-
-const mockGetSourcesParams = (query: string | undefined) =>
-  ({
-    query,
-    setIsOpen: jest.fn() as GetSourcesParams<Item>["setIsOpen"]
-  } as OnInputParams<Item>);
-describe("getSources", () => {
-  it.each`
-    query
-    ${""}
-    ${"1"}
-    ${"A"}
-    ${"So"}
-  `("returns empty if query ($query) is too short", async ({ query }) => {
-    const sources = await getSources({}, mockGetSourcesParams(query));
-    expect(sources).toEqual([]);
-  });
-
-  it("returns default geolocation source if no query", async () => {
-    const sources = (await getSources(
-      { geolocation: "" },
-      mockGetSourcesParams(undefined)
-    )) as AutocompleteSource<Item>[];
-    expect(sources).toHaveLength(1);
-    const [source] = sources;
-    expect(source.sourceId).toEqual("geolocation");
-  });
-
-  it("returns a list of sources based on a few data attributes", async () => {
-    const sources = (await getSources(
-      { algolia: "routes,stops", locations: "" },
-      mockGetSourcesParams("Something")
-    )) as AutocompleteSource<Item>[];
-    expect(sources).toHaveLength(2);
-    expect(sources.map(s => s.sourceId)).toEqual(["algolia", "locations"]);
   });
 });

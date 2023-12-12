@@ -5,9 +5,9 @@ import {
 } from "@algolia/autocomplete-js";
 import { createElement, Fragment } from "react";
 import { render } from "react-dom";
-import getSources from "./sources";
 import { Item } from "./__autocomplete";
 import { STATE_CHANGE_HANDLERS } from "./helpers";
+import getPlugins from "./plugins";
 
 // replace the default Preact-based renderer used by AutocompleteJS
 const reactRenderer = {
@@ -50,7 +50,7 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
       window.Turbolinks.visit(`/search?query=${state.query}`);
     },
     placeholder: container.dataset.placeholder,
-    getSources: params => getSources(container.dataset, params),
+    plugins: getPlugins(container.dataset),
     renderer: reactRenderer
   };
   setupVeilCloseListener(autocomplete(options));
