@@ -36,26 +36,28 @@ defmodule Algolia.Update do
   end
 
   @spec clean_index(Enum.t(), atom, String.t()) :: success | error
-  def clean_index(new_objects, index_module, base_url) do
+  defp clean_index(new_objects, index_module, base_url) do
     current_objs = current_objects(base_url, index_module, "")
 
     current_objs
     |> filter_objects(new_objects)
-    |> Enum.map(&build_action_object(&1, "deleteObject"))
+    |> Enum.map(&build_action_map(&1, "deleteObject"))
     |> build_request_object()
     |> send_update(base_url, index_module)
   end
 
   defp filter_objects(current_objects, new_objects) do
-    Enum.filter(current_objects, fn co ->
-      Enum.find_index(new_objects, fn no -> no.objectID == co.objectID end) == nil
+    Enum.filter(current_objects, fn current_object ->
+      Enum.find_index(new_objects, fn new_object ->
+        new_object.objectID == current_object.objectID
+      end) == nil
     end)
   end
 
   @spec update_index(Enum.t(), atom, String.t()) :: success | error
-  def update_index(new_objects, index_module, base_url) do
+  defp update_index(new_objects, index_module, base_url) do
     new_objects
-    |> Enum.map(&build_action_object(&1, "addObject"))
+    |> Enum.map(&build_action_map(&1, "addObject"))
     |> build_request_object()
     |> send_update(base_url, index_module)
   end
@@ -120,7 +122,7 @@ defmodule Algolia.Update do
   defp get_cursor(_), do: nil
 
   defp response_to_objects(json) do
-    Enum.map(json["hits"], fn obj -> %{objectID: obj["objectID"]} end)
+    Enum.map(json["hits"], fn object -> %{objectID: object["objectID"]} end)
   end
 
   @spec parse_response({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}) ::
@@ -133,8 +135,8 @@ defmodule Algolia.Update do
     Poison.encode(%{requests: data})
   end
 
-  @spec build_action_object(Algolia.Object.t(), String.t()) :: map
-  def build_action_object(data, action) do
+  @spec build_action_map(Algolia.Object.t(), String.t()) :: map
+  def build_action_map(data, action) do
     %{
       action: action,
       body: data

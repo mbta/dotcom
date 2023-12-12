@@ -102,10 +102,10 @@ defmodule Algolia.UpdateTest do
     end
   end
 
-  describe "&build_action_object/2" do
+  describe "&build_action_map/2" do
     test "builds a Algolia action object" do
       mock = %Algolia.MockObject{id: "place-test"}
-      object = Algolia.Update.build_action_object(mock, "addObject")
+      object = Algolia.Update.build_action_map(mock, "addObject")
 
       assert object.action == "addObject"
       assert object.body == mock
