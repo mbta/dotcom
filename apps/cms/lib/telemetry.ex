@@ -1,7 +1,7 @@
 defmodule CMS.Telemetry do
   use Supervisor
 
-  import Telemetry.Metrics, only: [last_value: 2]
+  alias Telemetry.Metrics
 
   def start_link(arg) do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
@@ -9,7 +9,8 @@ defmodule CMS.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 30_000},
+      {:telemetry_poller, measurements: periodic_measurements(), period: 5_000},
+      {CMS.Telemetry.Reporter, metrics: [Metrics.last_value("cms.repo.stats.updates")]},
       {TelemetryMetricsStatsd, metrics: metrics()}
     ]
 
@@ -18,8 +19,8 @@ defmodule CMS.Telemetry do
 
   defp metrics do
     [
-      last_value("cms.repo.stats.hits", []),
-      last_value("cms.repo.stats.misses", [])
+      Metrics.last_value("cms.repo.stats.hits"),
+      Metrics.last_value("cms.repo.stats.misses")
     ]
   end
 
