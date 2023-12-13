@@ -52,6 +52,8 @@ defmodule SiteWeb.Router do
   end
 
   scope "/cms", SiteWeb do
+    pipe_through([:basic_auth])
+
     patch("/:object/:id", CMSController, :reset_cache_key)
     patch("/:id", CMSController, :reset_cache_key)
   end
@@ -267,6 +269,13 @@ defmodule SiteWeb.Router do
     pipe_through([:secure, :browser])
 
     get("/*path", CMSController, :page)
+  end
+
+  defp basic_auth(conn, _) do
+    username = System.fetch_env!("BASIC_AUTH_USERNAME")
+    password = System.fetch_env!("BASIC_AUTH_PASSWORD")
+
+    Plug.BasicAuth.basic_auth(conn, username: username, password: password)
   end
 
   defp optional_disable_indexing(conn, _) do
