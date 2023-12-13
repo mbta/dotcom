@@ -37,6 +37,12 @@ Array [
               Storm (reduced service)
             </option>
             <option
+              aria-label="Current Schedules (Test, ends Oct 25) Storm (reduced service)"
+              value="BUS319-storm-1"
+            >
+              Storm (reduced service)
+            </option>
+            <option
               aria-label="Current Schedules (Test, ends Oct 25) Weekday schedule, Test"
               value="BUS319-O-Wdy-02"
             >

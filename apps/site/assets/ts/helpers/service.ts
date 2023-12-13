@@ -123,7 +123,8 @@ const areSimilarServices = (service1: Service, service2: Service): boolean => {
     "rating_start_date",
     "rating_end_date",
     "name",
-    "description"
+    "description",
+    "start_date"
   ];
   return _.every(properties, (p: keyof Service) =>
     _.isEqual(service2[p], service1[p])
