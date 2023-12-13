@@ -18,13 +18,8 @@ defmodule CMS.Telemetry do
 
   defp metrics do
     [
-      # Nebulex Stats Metrics
-      last_value("cms.repo.stats.hits", tags: [:cache]),
-      last_value("cms.repo.stats.misses", tags: [:cache]),
-      last_value("cms.repo.stats.writes", tags: [:cache]),
-      last_value("cms.repo.stats.updates", tags: [:cache]),
-      last_value("cms.repo.stats.evictions", tags: [:cache]),
-      last_value("cms.repo.stats.expirations", tags: [:cache])
+      last_value("cms.repo.stats.hits", []),
+      last_value("cms.repo.stats.misses", [])
     ]
   end
 

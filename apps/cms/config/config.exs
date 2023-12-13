@@ -42,6 +42,7 @@ config :cms, CMS.Repo,
     host: "127.0.0.1",
     port: 6379
   ],
-  stats: true
+  stats: true,
+  telemetry: true
 
-import_config "#{Mix.env()}.exs"
+import_config("#{Mix.env()}.exs")
