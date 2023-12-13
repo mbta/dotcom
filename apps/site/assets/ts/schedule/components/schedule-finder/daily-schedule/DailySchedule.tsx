@@ -95,11 +95,11 @@ const SchedulesSelect = ({
   todayDate: Date;
   onSelectService: (service: ServiceInSelector | undefined) => void;
 }): ReactElement<HTMLElement> => {
-  const servicesWithExpandedHoloidays = expandHolidayServices(
+  const servicesWithExpandedHolidays = expandHolidayServices(
     sortedServices
   ).sort(serviceStartDateComparator);
   const servicesByOptGroup: Dictionary<Service[]> = groupServicesByDateRating(
-    servicesWithExpandedHoloidays,
+    servicesWithExpandedHolidays,
     todayDate
   );
 
@@ -114,7 +114,9 @@ const SchedulesSelect = ({
             className="c-select-custom text-center u-bold"
             defaultValue={defaultSelectedServiceId}
             onChange={e =>
-              onSelectService(sortedServices.find(s => s.id === e.target.value))
+              onSelectService(
+                servicesWithExpandedHolidays.find(s => s.id === e.target.value)
+              )
             }
             aria-controls="daily-schedule"
           >
@@ -208,6 +210,7 @@ export const DailySchedule = ({
         todayDate={todayDate}
         onSelectService={chosenService => {
           if (chosenService) {
+            console.log(chosenService);
             setSelectedService(chosenService);
             getJourneysForSelectedService(chosenService);
           }
