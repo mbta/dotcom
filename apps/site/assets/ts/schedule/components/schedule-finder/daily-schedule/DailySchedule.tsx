@@ -210,7 +210,6 @@ export const DailySchedule = ({
         todayDate={todayDate}
         onSelectService={chosenService => {
           if (chosenService) {
-            console.log(chosenService);
             setSelectedService(chosenService);
             getJourneysForSelectedService(chosenService);
           }
