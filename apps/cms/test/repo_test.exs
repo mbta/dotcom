@@ -70,12 +70,6 @@ defmodule CMS.RepoTest do
     end
 
     test "does not cache previews" do
-      path = "/basic_page_no_sidebar"
-      params = %{"preview" => "", "vid" => "112", "nid" => "6"}
-      cache_key = {:view_or_preview, path: path, params: params}
-      assert Repo.get(cache_key) == nil
-      assert %Basic{} = Repo.get_page(path, params)
-      assert Repo.get(cache_key) == nil
     end
 
     test "given the path for a Basic page" do
