@@ -5,10 +5,9 @@ defmodule Algolia.ApiTest do
   @request ~s({"requests": [{"indexName": "*"}]})
   @success_response ~s({"ok": "success"})
 
-  describe "post" do
+  describe "action" do
     setup do
       ConCache.ets(Algolia.Api) |> :ets.delete_all_objects()
-
       {:ok, bypass: Bypass.open(), failure: Bypass.open(), success: Bypass.open()}
     end
 
@@ -24,10 +23,33 @@ defmodule Algolia.ApiTest do
         body: @request
       }
 
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = Algolia.Api.post(opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+               Algolia.Api.action(:post, opts)
+
       assert body == @success_response
       # Can be called again with result from cache instead of hitting the API endpoint
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} = Algolia.Api.post(opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} =
+               Algolia.Api.action(:post, opts)
+    end
+
+    test "sends a get request to /1/indexes/$INDEX", %{bypass: bypass} do
+      # bypass = Bypass.open()
+
+      Bypass.expect_once(bypass, "GET", "/1/indexes/*", fn conn ->
+        Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
+      end)
+
+      opts = %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        index: "*",
+        action: "",
+        body: ""
+      }
+
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+               Algolia.Api.action(:get, opts)
+
+      assert body == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
     end
 
     test "does not cache a failed response", %{failure: failure, success: success} do
@@ -43,7 +65,7 @@ defmodule Algolia.ApiTest do
       }
 
       assert {:error, %HTTPoison.Response{status_code: 400, body: body}} =
-               Algolia.Api.post(failure_opts)
+               Algolia.Api.action(:post, failure_opts)
 
       assert body == @failure_response
 
@@ -59,9 +81,29 @@ defmodule Algolia.ApiTest do
       }
 
       assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.post(success_opts)
+               Algolia.Api.action(:post, success_opts)
 
       assert body == @success_response
+    end
+
+    test "adds the query params to the request url", %{bypass: bypass} do
+      Bypass.expect_once(bypass, "GET", "/1/indexes/test_index/", fn conn ->
+        assert "param_1=test_data" == conn.query_string
+        Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
+      end)
+
+      opts = %Algolia.Api{
+        host: "http://localhost:#{bypass.port}",
+        index: "test_index",
+        action: "",
+        body: "",
+        query_params: %{param_1: "test_data"}
+      }
+
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
+               Algolia.Api.action(:get, opts)
+
+      assert body == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
     end
 
     test "logs a warning if config keys are missing", %{bypass: bypass} do
@@ -74,7 +116,7 @@ defmodule Algolia.ApiTest do
 
       log =
         ExUnit.CaptureLog.capture_log(fn ->
-          assert Algolia.Api.post(opts, %Algolia.Config{}) == {:error, :bad_config}
+          assert Algolia.Api.action(:post, opts, %Algolia.Config{}) == {:error, :bad_config}
         end)
 
       assert log =~ "missing Algolia config keys"

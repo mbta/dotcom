@@ -6,7 +6,9 @@ defmodule Algolia.Api do
   require Logger
   use RepoCache, ttl: :timer.hours(12)
 
-  defstruct [:host, :index, :action, :body]
+  defstruct [:host, :index, :action, :body, :query_params]
+
+  @type action :: :post | :get
 
   @http_pool Application.get_env(:algolia, :http_pool)
 
@@ -14,37 +16,49 @@ defmodule Algolia.Api do
           host: String.t() | nil,
           index: String.t() | nil,
           action: String.t() | nil,
-          body: String.t() | nil
+          body: String.t() | nil,
+          query_params: map | nil
         }
 
-  @spec post(t) :: {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | :bad_config}
-  def post(opts, config \\ nil)
+  @spec action(action, t) ::
+          {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t() | :bad_config}
+  def action(action, opts, config \\ nil)
 
-  def post(%__MODULE__{} = opts, nil) do
-    post(opts, Config.config())
+  def action(action, %__MODULE__{} = opts, nil) do
+    action(action, opts, Config.config())
   end
 
-  def post(%__MODULE__{} = opts, %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config) do
-    do_post(opts, config)
+  def action(
+        action,
+        %__MODULE__{} = opts,
+        %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config
+      ) do
+    do_action(action, opts, config)
   end
 
-  def post(%__MODULE__{}, %Config{} = config) do
+  def action(_action, %__MODULE__{}, %Config{} = config) do
     _ = Logger.warn("module=#{__MODULE__} missing Algolia config keys: #{inspect(config)}")
     {:error, :bad_config}
   end
 
-  defp do_post(%__MODULE__{index: index, action: action, body: body} = opts, %Config{} = config)
-       when is_binary(index) and is_binary(action) and is_binary(body) do
+  defp do_action(
+         action,
+         %__MODULE__{index: index, action: opts_action, body: body} = opts,
+         %Config{} = config
+       )
+       when is_binary(index) and is_binary(opts_action) and is_binary(body) do
     hackney =
       opts
       |> hackney_opts()
       |> Keyword.put(:pool, @http_pool)
 
     send_post_request = fn {body, config} ->
+      query_param_string = generate_query_param_string(opts)
+
       response =
         opts
-        |> generate_url(config)
-        |> HTTPoison.post(body, headers(config), hackney: hackney)
+        |> generate_url(config, query_param_string)
+        |> send_request(action, body, config, hackney)
 
       case response do
         {:ok, %HTTPoison.Response{status_code: 200}} -> response
@@ -55,16 +69,38 @@ defmodule Algolia.Api do
     # If we're making a query for results using the same request body AND same
     # %Algolia.Config{}, cache the response instead of making extra calls to the
     # Algolia REST API
-    if action == "queries" do
+    if opts_action == "queries" do
       cache({body, config}, send_post_request)
     else
       send_post_request.({body, config})
     end
   end
 
-  @spec generate_url(t, Config.t()) :: String.t()
-  defp generate_url(%__MODULE__{} = opts, %Config{} = config) do
+  def send_request(url, :post, body, config, hackney),
+    do: HTTPoison.post(url, body, headers(config), hackney: hackney)
+
+  def send_request(url, :get, _body, config, hackney),
+    do: HTTPoison.get(url, headers(config), hackney: hackney)
+
+  @spec generate_query_param_string(t) :: String.t() | nil
+  defp generate_query_param_string(%{query_params: nil}), do: nil
+
+  defp generate_query_param_string(%{query_params: query_params}),
+    do: URI.encode_query(query_params)
+
+  @spec generate_url(t, Config.t(), String.t() | nil) :: String.t()
+  defp generate_url(%__MODULE__{} = opts, %Config{} = config, nil) do
     Path.join([base_url(opts, config), "1", "indexes", opts.index, opts.action])
+  end
+
+  defp generate_url(%__MODULE__{} = opts, %Config{} = config, query_param_string) do
+    Path.join([
+      base_url(opts, config),
+      "1",
+      "indexes",
+      opts.index,
+      opts.action <> "?" <> query_param_string
+    ])
   end
 
   defp base_url(%__MODULE__{host: nil}, %Config{app_id: <<app_id::binary>>}) do

@@ -52,14 +52,14 @@ defmodule SiteWeb.SearchController do
 
   @spec query(Conn.t(), map) :: Conn.t()
   def query(%Conn{} = conn, params) do
-    %Api{
+    api = %Api{
       host: conn.assigns[:algolia_host],
       index: "*",
       action: "queries",
       body: Query.build(params)
     }
-    |> Api.post()
-    |> do_query(conn)
+
+    Api.action(:post, api) |> do_query(conn)
   end
 
   defp do_query({:ok, %HTTPoison.Response{status_code: 200, body: body}}, conn) do

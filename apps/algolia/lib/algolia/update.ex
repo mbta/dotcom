@@ -1,9 +1,15 @@
 defmodule Algolia.Update do
+  @moduledoc """
+  Task that pulls all of the latest stops and routes from the API
+  Pulls the current routes and stops from algolia.
+  Removes any routes or stops that are no longer in the API from Algolia
+  Uploads a list of the routes and stops to Algolia to update/add
+  """
   require Logger
   alias Algolia.Api
 
   @type t :: %{routes: success | error, stops: success | error}
-  @type success :: :ok
+  @type success :: {:ok, String.t() | nil}
   @type error :: {:error, HTTPoison.Response.t() | HTTPoison.Error.t()}
 
   @indexes Application.get_env(:algolia, :indexes, [])
@@ -13,14 +19,45 @@ defmodule Algolia.Update do
   """
   @spec update(String.t() | nil) :: t
   def update(host \\ nil) do
-    Map.new(@indexes, &{&1, update_index(&1, host)})
+    Map.new(@indexes, &{&1, update_and_clean_index(&1, host)})
   end
 
-  @spec update_index(atom, String.t()) :: success | error
-  def update_index(index_module, base_url) do
-    index_module.all()
-    |> Enum.filter(&has_routes?/1)
-    |> Enum.map(&build_data_object/1)
+  @spec update_and_clean_index(atom, String.t()) :: :ok | error
+  def update_and_clean_index(index_module, base_url) do
+    new_objects =
+      index_module.all()
+      |> Enum.filter(&has_routes?/1)
+      |> Enum.map(&to_data_object/1)
+
+    with {:ok, _body} <- clean_index(new_objects, index_module, base_url),
+         {:ok, _body} <- update_index(new_objects, index_module, base_url) do
+      :ok
+    end
+  end
+
+  @spec clean_index(Enum.t(), atom, String.t()) :: success | error
+  defp clean_index(new_objects, index_module, base_url) do
+    current_objs = current_objects(base_url, index_module, "")
+
+    current_objs
+    |> filter_objects(new_objects)
+    |> Enum.map(&build_action_map(&1, "deleteObject"))
+    |> build_request_object()
+    |> send_update(base_url, index_module)
+  end
+
+  defp filter_objects(current_objects, new_objects) do
+    Enum.filter(current_objects, fn current_object ->
+      Enum.find_index(new_objects, fn new_object ->
+        new_object.objectID == current_object.objectID
+      end) == nil
+    end)
+  end
+
+  @spec update_index(Enum.t(), atom, String.t()) :: success | error
+  defp update_index(new_objects, index_module, base_url) do
+    new_objects
+    |> Enum.map(&build_action_map(&1, "addObject"))
     |> build_request_object()
     |> send_update(base_url, index_module)
   end
@@ -36,6 +73,31 @@ defmodule Algolia.Update do
   defp do_has_routes?(%{routes: []}, %Stops.Stop{}), do: false
   defp do_has_routes?(_, _), do: true
 
+  defp current_objects(_base_url, _index_module, nil), do: []
+
+  defp current_objects(base_url, index_module, cursor) do
+    with {:ok, body} <- get_current_objects(base_url, index_module, cursor),
+         {:ok, json_body} <- Jason.decode(body) do
+      Enum.concat(
+        response_to_objects(json_body),
+        current_objects(base_url, index_module, get_cursor(json_body))
+      )
+    end
+  end
+
+  @spec get_current_objects(String.t(), atom, String.t() | nil) :: success | error
+  defp get_current_objects(base_url, index_module, cursor) do
+    opts = %Api{
+      host: base_url,
+      index: index_module.index_name(),
+      action: "browse",
+      body: "",
+      query_params: %{cursor: cursor}
+    }
+
+    :get |> Api.action(opts) |> parse_response()
+  end
+
   @spec send_update(
           {:ok, Poison.Parser.t()} | {:error, :invalid} | {:error, {:invalid, String.t()}},
           String.t(),
@@ -49,18 +111,23 @@ defmodule Algolia.Update do
       body: request
     }
 
-    opts
-    |> Api.post()
-    |> parse_response()
+    :post |> Api.action(opts) |> parse_response()
   end
 
   defp send_update({:error, error}, _, _) do
     {:error, {:json_error, error}}
   end
 
+  defp get_cursor(%{"cursor" => cursor}), do: cursor
+  defp get_cursor(_), do: nil
+
+  defp response_to_objects(json) do
+    Enum.map(json["hits"], fn object -> %{objectID: object["objectID"]} end)
+  end
+
   @spec parse_response({:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}) ::
           success | error
-  defp parse_response({:ok, %HTTPoison.Response{status_code: 200}}), do: :ok
+  defp parse_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}), do: {:ok, body}
   defp parse_response({:ok, %HTTPoison.Response{} = response}), do: {:error, response}
   defp parse_response({:error, %HTTPoison.Error{} = error}), do: {:error, error}
 
@@ -68,16 +135,16 @@ defmodule Algolia.Update do
     Poison.encode(%{requests: data})
   end
 
-  @spec build_data_object(Algolia.Object.t()) :: map
-  def build_data_object(data) do
+  @spec build_action_map(Algolia.Object.t(), String.t()) :: map
+  def build_action_map(data, action) do
     %{
-      action: "addObject",
-      body: do_build_data_object(data)
+      action: action,
+      body: data
     }
   end
 
-  @spec do_build_data_object(Algolia.Object.t()) :: map
-  defp do_build_data_object(data) do
+  @spec to_data_object(Algolia.Object.t()) :: map
+  def to_data_object(data) do
     data
     |> Algolia.Object.data()
     |> set_rank(data)
