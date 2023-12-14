@@ -25,7 +25,7 @@ interface Props {
 const PDFSchedules = ({ pdfs }: Props): ReactElement<HTMLElement> | null =>
   pdfs.length > 0 ? (
     <ExpandableBlock
-      header={{ text: "PDF Schedules", iconSvgText: null }}
+      header={{ text: "PDF Schedules and Maps", iconSvgText: null }}
       initiallyExpanded
       id="pdfs"
     >

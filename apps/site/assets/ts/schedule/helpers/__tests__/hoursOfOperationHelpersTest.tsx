@@ -10,7 +10,7 @@ describe("hoursOfOperationHelpers", () => {
 
     expect(tree).not.toBeNull();
     const treeString = JSON.stringify(tree);
-    expect(treeString).toMatch("Open full schedule PDF");
+    expect(treeString).toMatch("Open full schedule and map PDF");
   });
 
   it("should return null if no pdf is passed", () => {

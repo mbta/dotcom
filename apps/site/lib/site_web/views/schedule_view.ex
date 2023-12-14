@@ -169,7 +169,7 @@ defmodule SiteWeb.ScheduleView do
     pdf_name =
       cond do
         RoutePdf.custom?(pdf) -> pdf.link_text_override
-        true -> [pretty_route_name(route), " schedule"]
+        true -> [pretty_route_name(route), " schedule and map"]
       end
 
     effective_date_text =
