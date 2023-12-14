@@ -1,5 +1,5 @@
 defmodule Fares.ProposedLocationsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   import Mock
   import Fares.ProposedLocations
@@ -72,7 +72,12 @@ defmodule Fares.ProposedLocationsTest do
     test "by_lat_lon - unsuccessful response due to error in request" do
       with_mock HTTPoison,
         get: fn _url -> {:error, %{}} end do
-        assert by_lat_lon(@location) == nil
+        log =
+          ExUnit.CaptureLog.capture_log(fn ->
+            assert by_lat_lon(@location) == nil
+          end)
+
+        assert log =~ "error in http request"
       end
     end
 
@@ -82,8 +87,21 @@ defmodule Fares.ProposedLocationsTest do
          [get: fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end]},
         {Poison, [], [decode: fn _body -> {:error, nil} end]}
       ]) do
-        assert by_lat_lon(@location) == nil
+        log =
+          ExUnit.CaptureLog.capture_log(fn ->
+            assert by_lat_lon(@location) == nil
+          end)
+
+        assert log =~ "error decoding json"
       end
+    end
+
+    test "returns nearby locations given a lat and a long" do
+      locations =
+        Fares.ProposedLocations.get_nearby(%{latitude: 42.352271, longitude: -71.055242})
+
+      assert is_list(locations)
+      assert length(locations) > 0
     end
   end
 end
