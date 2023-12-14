@@ -12,8 +12,10 @@ import createGeolocationPlugin from "../autocomplete/plugins/geolocation";
 import {
   AutocompleteItem,
   Item,
-  LocationItem
+  LocationItem,
+  PopularItem
 } from "../autocomplete/__autocomplete";
+import createPopularLocationsPlugin from "../autocomplete/plugins/popular";
 
 const mockAlgoliaResponse = {
   results: [
@@ -267,6 +269,47 @@ describe("Algolia v1 plugins", () => {
         expect(window.Turbolinks.visit).toHaveBeenCalledWith(
           "/retail/51.1/45.3"
         );
+      });
+    });
+  });
+
+  describe("popular locations", () => {
+    test("doesn't return source if there's a query", async () => {
+      const params = {
+        query: "looking for something"
+      } as GetSourcesParams<Item>;
+      const { getSources } = createPopularLocationsPlugin();
+      const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
+      expect(sources).toEqual([]);
+    });
+
+    test("returns results with URLs to chosen URL type", async () => {
+      window.fetch = jest.fn().mockImplementation(
+        mockFetch({
+          result: [
+            {
+              icon: "station",
+              name: "South Station",
+              features: ["red_line", "bus", "commuter_rail", "access"],
+              latitude: 42.352271,
+              longitude: -71.055242,
+              urls: {
+                "transit-near-me": "/transit-near-me/42,-71",
+                "retail-sales-locations": "/retail-sales-locations/42,-71",
+                "proposed-sales-locations": "/proposed-sales-locations/42,-71"
+              }
+            }
+          ]
+        })
+      );
+      const params = {} as GetSourcesParams<Item>;
+      const { getSources } = createPopularLocationsPlugin(
+        "proposed-sales-locations"
+      );
+      const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
+      const response = await sources[0].getItems(params);
+      (response as PopularItem[]).forEach(location => {
+        expect(location.url).toContain("/proposed-sales-locations");
       });
     });
   });

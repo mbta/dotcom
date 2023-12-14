@@ -2,6 +2,7 @@ import { Hit } from "@algolia/client-search";
 import { BaseItem } from "@algolia/autocomplete-core";
 import { Route, RouteType, Stop } from "../../__v3api";
 import { HighlightedSpan } from "../../helpers/text";
+import { TripPlannerLocControls } from "../../../js/trip-planner-location-controls";
 
 type AlgoliaItem = Hit<{ index: string }> & BaseItem;
 
@@ -35,5 +36,7 @@ export type LocationItem = {
   url: string;
 };
 
+export type PopularItem = typeof TripPlannerLocControls.POPULAR[number];
+
 export type AutocompleteItem = RouteItem | StopItem | ContentItem;
-export type Item = AutocompleteItem | LocationItem;
+export type Item = AutocompleteItem | LocationItem | PopularItem;

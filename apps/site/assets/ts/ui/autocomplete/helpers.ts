@@ -4,6 +4,7 @@ import {
   ContentItem,
   Item,
   LocationItem,
+  PopularItem,
   RouteItem,
   StopItem
 } from "./__autocomplete";
@@ -58,7 +59,7 @@ export type WithUrls<T> = T & { urls: Record<string, string> };
 
 // The backend returns all possible URLs, use urlType to get the desired one
 export const itemWithUrl = (
-  initialItem: WithUrls<LocationItem>,
+  initialItem: WithUrls<LocationItem | PopularItem>,
   urlType: string
 ): Omit<typeof initialItem, "urls"> => {
   const item = omit(initialItem, "urls");

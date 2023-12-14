@@ -27,6 +27,11 @@ defmodule SiteWeb.Components do
     values: ["transit-near-me", "retail-sales-locations", "proposed-sales-locations"]
   )
 
+  attr(:popular_locations, :boolean,
+    required: false,
+    doc: "Enable display of popular locations on initial focus."
+  )
+
   attr(:geolocation, :boolean,
     required: false,
     doc: "Enable prompt for user geolocation."
@@ -62,6 +67,7 @@ defmodule SiteWeb.Components do
     assigns =
       assigns
       |> assign_new(:algolia_indexes, fn -> [] end)
+      |> assign_new(:popular_locations, fn -> false end)
       |> assign_new(:geolocation, fn -> false end)
       |> assign_new(:locations_count, fn -> false end)
       |> assign_new(:locations_url_type, fn -> false end)
@@ -93,6 +99,7 @@ defmodule SiteWeb.Components do
       <div
         class="c-search-bar__autocomplete"
         data-geolocation={@geolocation}
+        data-popular-locations={@popular_locations}
         data-locations-count={@locations_count}
         data-locations-url-type={@locations_url_type}
         data-algolia={@valid_indexes}
