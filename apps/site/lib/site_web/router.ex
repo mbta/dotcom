@@ -242,6 +242,10 @@ defmodule SiteWeb.Router do
     get("/autocomplete/:input/:hit_limit/:token", PlacesController, :autocomplete)
     get("/details/:address", PlacesController, :details)
     get("/reverse-geocode/:latitude/:longitude", PlacesController, :reverse_geocode)
+
+    get("/search/:query/:hit_limit", PlacesController, :search)
+    get("/popular", PlacesController, :popular)
+    get("/urls", PlacesController, :with_urls)
   end
 
   # static files
