@@ -86,19 +86,55 @@ export const services: Service[] = [
     valid_days: [],
     typicality: "holiday_service",
     type: "sunday",
-    start_date: "2019-07-07",
+    start_date: "2019-07-13",
     removed_dates_notes: {},
     removed_dates: [],
     name: "B",
-    id: "Bastille-Day",
+    id: "BastilleDayEve",
     end_date: "2019-08-25",
     description: "Bastille Day",
     added_dates_notes: {
-      "2019-07-13": "Bastille Day Eve",
-      "2019-07-14": "Bastille Day",
+      "2019-07-13": "Bastille Day Eve"
+    },
+    added_dates: ["2019-07-13"],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test Rating"
+  },
+  {
+    valid_days: [],
+    typicality: "holiday_service",
+    type: "sunday",
+    start_date: "2019-07-14",
+    removed_dates_notes: {},
+    removed_dates: [],
+    name: "B",
+    id: "BastilleDay",
+    end_date: "2019-08-25",
+    description: "Bastille Day",
+    added_dates_notes: {
+      "2019-07-14": "Bastille Day"
+    },
+    added_dates: ["2019-07-14"],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test Rating"
+  },
+  {
+    valid_days: [],
+    typicality: "holiday_service",
+    type: "sunday",
+    start_date: "2019-07-15",
+    removed_dates_notes: {},
+    removed_dates: [],
+    name: "B",
+    id: "2019-07-15",
+    end_date: "2019-08-25",
+    description: "Bastille Day",
+    added_dates_notes: {
       "2019-07-15": ""
     },
-    added_dates: ["2019-07-13", "2019-07-14", "2019-07-15"],
+    added_dates: ["2019-07-15"],
     rating_start_date: "2019-06-25",
     rating_end_date: "2019-10-25",
     rating_description: "Test Rating"
@@ -272,7 +308,7 @@ describe("isCurrentValidService evaluates if date falls within a service's valid
     test                                 | service | date            | result
     ${"date outside service valid_days"} | ${0}    | ${"2019-07-07"} | ${false}
     ${"date in removed_dates"}           | ${0}    | ${"2019-07-04"} | ${false}
-    ${"date in added_dates"}             | ${4}    | ${"2019-07-14"} | ${true}
+    ${"date in added_dates"}             | ${4}    | ${"2019-07-13"} | ${true}
     ${"date outside service dates"}      | ${0}    | ${"2020-01-11"} | ${false}
     ${"actually valid date!"}            | ${0}    | ${"2019-07-02"} | ${true}
   `("$test = $result", ({ date, service, result }) => {
@@ -295,12 +331,12 @@ it("isInCurrentRating evaluates whether date falls within a service's rating dat
 });
 
 it("isInFutureRating evaluates whether date falls within service future rating dates", () => {
-  const futureService = services[6];
+  const futureService = services[8];
   const dateInFutureRating = isInFutureRating(futureService, testDate);
   expect(dateInFutureRating).toBe(true);
   const dateNotInFutureRating = isInFutureRating(services[0], testDate);
   expect(dateNotInFutureRating).toBe(false);
-  const serviceWithoutRating = services[8];
+  const serviceWithoutRating = services[10];
   expect(
     isInFutureRating(serviceWithoutRating, stringToDateObject("2020-08-08"))
   ).toBe(false);

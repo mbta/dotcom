@@ -30,9 +30,21 @@ exports[`ServiceOptGroup renders 1`] = `
   </option>
   <option
     aria-label="Group label Bastille Day Eve, Jul 13"
-    value="Bastille-Day"
+    value="BastilleDayEve"
   >
     Bastille Day Eve, Jul 13
+  </option>
+  <option
+    aria-label="Group label Bastille Day, Jul 14"
+    value="BastilleDay"
+  >
+    Bastille Day, Jul 14
+  </option>
+  <option
+    aria-label="Group label Jul 15"
+    value="2019-07-15"
+  >
+    Jul 15
   </option>
   <option
     aria-label="Group label Storm (reduced service)"

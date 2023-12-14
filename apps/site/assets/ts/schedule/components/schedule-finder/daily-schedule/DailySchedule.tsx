@@ -61,14 +61,14 @@ export const expandHolidayServices = (
       service.typicality === "holiday_service" &&
       service.added_dates.length > 1
     ) {
-      each(service.added_dates, date_string => {
-        const serviceName = service.added_dates_notes[date_string];
+      each(service.added_dates, dateString => {
+        const serviceName = service.added_dates_notes[dateString];
         expandedServices.push({
           ...service,
-          added_dates: [date_string],
-          added_dates_notes: { [date_string]: serviceName },
-          start_date: date_string,
-          id: join(split(serviceName, " "), "")
+          added_dates: [dateString],
+          added_dates_notes: { [dateString]: serviceName },
+          start_date: dateString,
+          id: `${dateString}-${join(split(serviceName, " "), "")}`
         });
       });
     } else {
