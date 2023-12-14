@@ -205,8 +205,8 @@ defmodule SiteWeb.PlacesController do
         name: "North Station",
         features: [
           "orange_line",
-          "green-line-c",
-          "green-line-e",
+          "green_line_c",
+          "green_line_e",
           "bus",
           "commuter_rail",
           "access"
