@@ -15,8 +15,6 @@ import { render, screen } from "@testing-library/react";
 const makeSimpleService = (
   [start_date, end_date]: [string, string],
   [rating_start_date, rating_end_date]: [string, string],
-  name: string,
-  id: string,
   typicality?: ServiceTypicality,
   addedDates?: string[],
   addedDatesNotes?: DatesNotes
@@ -27,8 +25,8 @@ const makeSimpleService = (
   start_date,
   removed_dates_notes: {},
   removed_dates: [],
-  name,
-  id,
+  name: "Test Service Name",
+  id: "Test Service ID",
   end_date,
   description: `${name} schedule`,
   added_dates_notes: addedDatesNotes ? addedDatesNotes : {},
@@ -262,21 +260,15 @@ describe("DailySchedule", () => {
     const localServices = [
       makeSimpleService(
         ["2019-04-01", "2019-05-01"],
-        ["2019-04-01", "2019-08-01"],
-        "Spring",
-        "s"
+        ["2019-04-01", "2019-08-01"]
       ),
       makeSimpleService(
         ["2019-06-01", "2019-07-01"],
-        ["2019-04-01", "2019-08-01"],
-        "First Summer",
-        "fs"
+        ["2019-04-01", "2019-08-01"]
       ),
       makeSimpleService(
         ["2019-08-06", "2019-09-01"],
         ["2019-08-01", "2019-10-01"],
-        "Second Summer",
-        "ss",
         "holiday_service",
         ["2019-08-21", "2019-08-25", "2019-08-30"],
         {
@@ -288,8 +280,6 @@ describe("DailySchedule", () => {
       makeSimpleService(
         ["2019-09-02", "2019-11-30"],
         ["2019-09-01", "2019-12-01"],
-        "Winter Time",
-        "wt",
         "holiday_service",
         ["2019-09-21", "2019-10-25"],
         { "2019-09-21": "Winter Holiday 1", "2019-10-25": "Winter Holiday 2" }
@@ -321,8 +311,6 @@ describe("DailySchedule", () => {
       makeSimpleService(
         ["2019-09-02", "2019-11-30"],
         ["2019-09-01", "2019-12-01"],
-        "Winter Time",
-        "wt",
         "holiday_service",
         ["2019-10-21", "2019-09-25"],
         { "2019-10-21": "Winter Holiday 1", "2019-09-25": "Winter Holiday 2" }
