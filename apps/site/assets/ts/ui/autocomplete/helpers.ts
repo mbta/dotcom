@@ -1,5 +1,12 @@
+import { omit } from "lodash";
 import { OnStateChangeProps } from "@algolia/autocomplete-js";
-import { ContentItem, Item, RouteItem, StopItem } from "./__autocomplete";
+import {
+  ContentItem,
+  Item,
+  LocationItem,
+  RouteItem,
+  StopItem
+} from "./__autocomplete";
 import { isLGDown } from "../../helpers/media-breakpoints";
 
 export function isStopItem(x: Item): x is StopItem {
@@ -27,16 +34,6 @@ export const getTitleAttribute = (item: Item): string[] => {
   return Object.keys(item._highlightResult);
 };
 
-export function transitNearMeURL(
-  latitude: number,
-  longitude: number,
-  extraParams?: string
-): string | null {
-  return `/transit-near-me?latitude=${latitude}&longitude=${longitude}${
-    extraParams ? `&${extraParams}` : ""
-  }`;
-}
-
 const navStateChange: (props: OnStateChangeProps<Item>) => void = ({
   state
 }) => {
@@ -55,4 +52,16 @@ export const STATE_CHANGE_HANDLERS: Record<
   (props: OnStateChangeProps<Item>) => void
 > = {
   nav: navStateChange
+};
+
+export type WithUrls<T> = T & { urls: Record<string, string> };
+
+// The backend returns all possible URLs, use urlType to get the desired one
+export const itemWithUrl = (
+  initialItem: WithUrls<LocationItem>,
+  urlType: string
+): Omit<typeof initialItem, "urls"> => {
+  const item = omit(initialItem, "urls");
+  item.url = initialItem.urls[urlType];
+  return item;
 };

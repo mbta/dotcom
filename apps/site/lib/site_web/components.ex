@@ -15,9 +15,16 @@ defmodule SiteWeb.Components do
       "Enable searching one or more Algolia indexes. Valid indexes are defined in `Algolia.Query.valid_indexes()`."
   )
 
-  attr(:locations, :boolean,
+  attr(:locations_count, :integer,
     required: false,
-    doc: "Enable search of locations via the AWS Location Service."
+    doc:
+      "Number of locations returned via the AWS Location Service. Omitting this will result in no location searching"
+  )
+
+  attr(:locations_url_type, :string,
+    required: false,
+    doc: "Type of URL to request for each location.",
+    values: ["transit-near-me", "retail-sales-locations", "proposed-sales-locations"]
   )
 
   attr(:geolocation, :boolean,
@@ -47,7 +54,7 @@ defmodule SiteWeb.Components do
   error will be raised if no search attributes are set to `true`.
 
   ```elixir
-  <.algolia_autocomplete id="transit-near-me-locations" locations={true} algolia_indexes={[:stops]} />
+  <.algolia_autocomplete id="transit-near-me-locations" locations_count={3} locations_url_type="transit-near-me" algolia_indexes={[:stops]} />
   <.algolia_autocomplete id="cms-search" algolia_indexes={[:drupal]} />
   ```
   """
@@ -56,7 +63,8 @@ defmodule SiteWeb.Components do
       assigns
       |> assign_new(:algolia_indexes, fn -> [] end)
       |> assign_new(:geolocation, fn -> false end)
-      |> assign_new(:locations, fn -> false end)
+      |> assign_new(:locations_count, fn -> false end)
+      |> assign_new(:locations_url_type, fn -> false end)
 
     valid_algolia_indexes =
       Query.valid_indexes()
@@ -65,7 +73,7 @@ defmodule SiteWeb.Components do
 
     if length(valid_algolia_indexes) == 0 and
          !assigns.geolocation and
-         !assigns.locations do
+         !assigns.locations_count do
       raise "Nothing to search! Please enable at least one search type."
     end
 
@@ -85,7 +93,8 @@ defmodule SiteWeb.Components do
       <div
         class="c-search-bar__autocomplete"
         data-geolocation={@geolocation}
-        data-locations={@locations}
+        data-locations-count={@locations_count}
+        data-locations-url-type={@locations_url_type}
         data-algolia={@valid_indexes}
         data-placeholder={@placeholder}
         data-state-change-listener={@state_change_listener}

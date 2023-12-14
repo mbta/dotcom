@@ -28,8 +28,10 @@ type ContentItem = {
 } & AlgoliaItem;
 
 export type LocationItem = {
-  highlighted_spans: HighlightedSpan[];
+  longitude: number;
+  latitude: number;
   address: string;
+  highlighted_spans: HighlightedSpan[];
   url: string;
 };
 
