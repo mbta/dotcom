@@ -43,6 +43,7 @@ defmodule Predictions.Store do
   @impl GenServer
   def init(opts) do
     table = :ets.new(Keyword.get(opts, :name, __MODULE__), [:public])
+    periodic_delete()
     {:ok, table}
   end
 
@@ -73,10 +74,33 @@ defmodule Predictions.Store do
     {:reply, predictions, table}
   end
 
+  @impl true
+  def handle_info(:periodic_delete, table) do
+    now = Util.now() |> DateTime.to_unix()
+
+    # delete predictions with a time earlier than a minute ago
+    :ets.select_delete(table, [
+      {{
+         :_,
+         :"$1",
+         :_,
+         :_,
+         :_,
+         :_,
+         :_,
+         :_
+       }, [{:<, :"$1", now - 60}], [true]}
+    ])
+
+    periodic_delete()
+    {:noreply, table}
+  end
+
   @spec predictions_for_keys(:ets.table(), fetch_keys) :: [Prediction.t()]
   defp predictions_for_keys(table, opts) do
     match_pattern = {
       Keyword.get(opts, :prediction_id, :_) || :_,
+      :_,
       Keyword.get(opts, :route, :_) || :_,
       Keyword.get(opts, :stop, :_) || :_,
       Keyword.get(opts, :direction, :_) || :_,
@@ -91,6 +115,7 @@ defmodule Predictions.Store do
   defp to_record(
          %Prediction{
            id: id,
+           time: time,
            route: route,
            stop: stop,
            direction_id: direction,
@@ -100,6 +125,7 @@ defmodule Predictions.Store do
        ) do
     {
       id,
+      if(time, do: DateTime.to_unix(time)),
       if(route, do: route.id),
       if(stop, do: stop.id),
       direction,
@@ -107,5 +133,9 @@ defmodule Predictions.Store do
       vehicle_id,
       prediction
     }
+  end
+
+  defp periodic_delete() do
+    Process.send_after(self(), :periodic_delete, 300_000)
   end
 end
