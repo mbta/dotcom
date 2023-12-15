@@ -48,7 +48,7 @@ const ServiceOptGroup = ({
         ) {
           const addedDate = service.added_dates[0];
           const addedNote = service.added_dates_notes[addedDate];
-          const addedNoteString = addedNote ? addedNote + ", " : "";
+          const addedNoteString = addedNote ? `${addedNote}, ` : "";
           optionText = `${addedNoteString}${shortDate(
             stringToDateObject(addedDate)
           )}`;
