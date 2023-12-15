@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Dictionary } from "lodash";
+import { Dictionary, each, join, split } from "lodash";
 import { DirectionId, Service } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { stringToDateObject } from "../../../../helpers/date";
@@ -50,6 +50,34 @@ export const fetchJourneys = (
     }&direction=${selectedDirection}&stop=${selectedOrigin}&is_current=${isCurrent}`
   );
 
+// Takes grouped holiday records with the same schedule and flattens them into their own
+// Service entry
+export const expandHolidayServices = (
+  services: ServiceInSelector[]
+): ServiceInSelector[] => {
+  const expandedServices: ServiceInSelector[] = [];
+  each(services, service => {
+    if (
+      service.typicality === "holiday_service" &&
+      service.added_dates.length > 1
+    ) {
+      each(service.added_dates, dateString => {
+        const serviceName = service.added_dates_notes[dateString];
+        expandedServices.push({
+          ...service,
+          added_dates: [dateString],
+          added_dates_notes: { [dateString]: serviceName },
+          start_date: dateString,
+          id: `${dateString}-${join(split(serviceName, " "), "")}`
+        });
+      });
+    } else {
+      expandedServices.push(service);
+    }
+  });
+  return expandedServices;
+};
+
 // Exported solely for testing
 export const parseResults = (json: JSON): Journey[] =>
   (json as unknown) as Journey[];
@@ -67,8 +95,11 @@ const SchedulesSelect = ({
   todayDate: Date;
   onSelectService: (service: ServiceInSelector | undefined) => void;
 }): ReactElement<HTMLElement> => {
+  const servicesWithExpandedHolidays = expandHolidayServices(
+    sortedServices
+  ).sort(serviceStartDateComparator);
   const servicesByOptGroup: Dictionary<Service[]> = groupServicesByDateRating(
-    sortedServices,
+    servicesWithExpandedHolidays,
     todayDate
   );
 
@@ -83,7 +114,9 @@ const SchedulesSelect = ({
             className="c-select-custom text-center u-bold"
             defaultValue={defaultSelectedServiceId}
             onChange={e =>
-              onSelectService(sortedServices.find(s => s.id === e.target.value))
+              onSelectService(
+                servicesWithExpandedHolidays.find(s => s.id === e.target.value)
+              )
             }
             aria-controls="daily-schedule"
           >

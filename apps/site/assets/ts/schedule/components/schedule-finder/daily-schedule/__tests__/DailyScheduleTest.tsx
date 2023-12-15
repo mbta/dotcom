@@ -3,8 +3,38 @@ import renderer, { act } from "react-test-renderer";
 import { ReactWrapper, mount } from "enzyme";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import * as dailyScheduleModule from "../DailySchedule";
-import { DirectionId, Service } from "../../../../../__v3api";
+import {
+  DatesNotes,
+  DirectionId,
+  Service,
+  ServiceTypicality
+} from "../../../../../__v3api";
 import { ServiceInSelector } from "../../../__schedule";
+import { render, screen } from "@testing-library/react";
+
+const makeSimpleService = (
+  [start_date, end_date]: [string, string],
+  [rating_start_date, rating_end_date]: [string, string],
+  typicality?: ServiceTypicality,
+  addedDates?: string[],
+  addedDatesNotes?: DatesNotes
+): Service => ({
+  valid_days: [1, 2, 3, 4, 5],
+  typicality: typicality ? typicality : "typical_service",
+  type: "weekday",
+  start_date,
+  removed_dates_notes: {},
+  removed_dates: [],
+  name: "Test Service Name",
+  id: "Test Service ID",
+  end_date,
+  description: `${name} schedule`,
+  added_dates_notes: addedDatesNotes ? addedDatesNotes : {},
+  added_dates: addedDates ? addedDates : [],
+  rating_start_date,
+  rating_end_date,
+  rating_description: "Test Rating"
+});
 
 jest.mock("../../../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -225,6 +255,83 @@ describe("DailySchedule", () => {
       />
     );
     expect(tree).toMatchSnapshot();
+  });
+  it("expands the holidays that come to it grouped", () => {
+    const localServices = [
+      makeSimpleService(
+        ["2019-04-01", "2019-05-01"],
+        ["2019-04-01", "2019-08-01"]
+      ),
+      makeSimpleService(
+        ["2019-06-01", "2019-07-01"],
+        ["2019-04-01", "2019-08-01"]
+      ),
+      makeSimpleService(
+        ["2019-08-06", "2019-09-01"],
+        ["2019-08-01", "2019-10-01"],
+        "holiday_service",
+        ["2019-08-21", "2019-08-25", "2019-08-30"],
+        {
+          "2019-08-21": "Test Holiday 1",
+          "2019-08-25": "Test Holiday 2",
+          "2019-08-30": "Test Holiday 3"
+        }
+      ),
+      makeSimpleService(
+        ["2019-09-02", "2019-11-30"],
+        ["2019-09-01", "2019-12-01"],
+        "holiday_service",
+        ["2019-09-21", "2019-10-25"],
+        { "2019-09-21": "Winter Holiday 1", "2019-10-25": "Winter Holiday 2" }
+      )
+    ] as ServiceInSelector[];
+
+    render(
+      <dailyScheduleModule.DailySchedule
+        selectedOrigin="stopId"
+        services={localServices}
+        directionId={0}
+        routePatterns={[]}
+        routeId="111"
+        today={"2019-08-31"}
+      />
+    );
+
+    expect(screen.getByText("Test Holiday 2, Aug 25")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Test Holiday 1, Aug 21, Test Holiday 2, Aug 25")
+    ).toBeNull();
+    expect(screen.getByText("Winter Holiday 1, Sep 21")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Winter Holiday 1, Sep 21, Winter Holiday 2, Oct 25")
+    ).toBeNull();
+  });
+  it("sorts the holidays by start date", () => {
+    const localServices = [
+      makeSimpleService(
+        ["2019-09-02", "2019-11-30"],
+        ["2019-09-01", "2019-12-01"],
+        "holiday_service",
+        ["2019-10-21", "2019-09-25"],
+        { "2019-10-21": "Winter Holiday 1", "2019-09-25": "Winter Holiday 2" }
+      )
+    ] as ServiceInSelector[];
+
+    render(
+      <dailyScheduleModule.DailySchedule
+        selectedOrigin="stopId"
+        services={localServices}
+        directionId={0}
+        routePatterns={[]}
+        routeId="111"
+        today={"2019-08-31"}
+      />
+    );
+
+    const firstElement = screen.getByText("Winter Holiday 2, Sep 25");
+    const secondElement = screen.getByText("Winter Holiday 1, Oct 21");
+    // second element follows the first
+    expect(firstElement.compareDocumentPosition(secondElement)).toBe(4);
   });
 });
 

@@ -43,19 +43,15 @@ const ServiceOptGroup = ({
           optionText = service.description;
         } else if (
           service.typicality === "holiday_service" &&
+          service.added_dates &&
           service.added_dates_notes
         ) {
-          optionText = Object.entries(service.added_dates_notes)
-            .map(entry => {
-              const [addedDate, addedNote] = entry;
-              if (addedNote === "") {
-                return `${shortDate(stringToDateObject(addedDate))}`;
-              }
-              return `${addedNote}, ${shortDate(
-                stringToDateObject(addedDate)
-              )}`;
-            })
-            .join(", ");
+          const addedDate = service.added_dates[0];
+          const addedNote = service.added_dates_notes[addedDate];
+          const addedNoteString = addedNote ? `${addedNote}, ` : "";
+          optionText = `${addedNoteString}${shortDate(
+            stringToDateObject(addedDate)
+          )}`;
         } else if (label === ServiceGroupNames.OTHER) {
           optionText = isMultipleWeekday
             ? `${serviceDays(service)} schedule`
