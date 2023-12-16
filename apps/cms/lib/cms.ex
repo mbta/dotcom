@@ -11,6 +11,7 @@ defmodule CMS do
 
     # Define workers and child supervisors to be supervised
     children = [
+      CMS.RedisRepo,
       CMS.Repo
     ]
 
