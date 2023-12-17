@@ -32,6 +32,11 @@ defmodule SiteWeb.PredictionsChannel do
   end
 
   @impl Channel
+  def terminate(_, socket) do
+    GenServer.cast(Predictions.PredictionsPubSub, {:closed_channel, socket.channel_pid})
+  end
+
+  @impl Channel
   @spec handle_info({:new_predictions, [Prediction.t()]}, Socket.t()) :: {:noreply, Socket.t()}
   def handle_info({:new_predictions, predictions}, socket) do
     :ok = push(socket, "data", %{predictions: filter_new(predictions)})
