@@ -23,7 +23,9 @@ defmodule Site.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     extra_apps = [
-      :logger
+      :logger,
+      :runtime_tools,
+      :os_mon
     ]
 
     extra_apps =
