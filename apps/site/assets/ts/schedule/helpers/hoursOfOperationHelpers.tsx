@@ -15,7 +15,7 @@ const pdfLink = (pdf: SchedulePDF | null): ReactElement<HTMLElement> | null => {
         className="c-call-to-action"
         target="_blank"
       >
-        {`Open full schedule PDF`}{" "}
+        {`Open full schedule and map PDF`}{" "}
         {renderFa("fa-arrow-up-right-from-square", "")}
       </a>
     </div>

@@ -112,7 +112,7 @@ defmodule SiteWeb.ScheduleViewTest do
 
       maps = route_pdfs(pdfs, %Routes.Route{name: "1", type: 3}, ~D[2019-01-29])
       assert List.first(maps).url =~ ~r"http://.*/basic-current-url"
-      assert List.first(maps).title =~ "Current Route 1 schedule PDF"
+      assert List.first(maps).title =~ "Current Route 1 schedule and map PDF"
       assert List.last(maps).url =~ ~r"http://.*/custom-url"
       assert List.last(maps).title =~ "Current Custom schedule PDF"
     end
@@ -151,12 +151,12 @@ defmodule SiteWeb.ScheduleViewTest do
 
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "Current Route 1 schedule PDF"
+      assert rendered =~ "Current Route 1 schedule and map PDF"
       assert rendered =~ "basic-current-url"
       # full URL
       assert rendered =~ "http://"
       assert rendered =~ "Current Custom schedule PDF"
-      assert rendered =~ "Upcoming Route 1 schedule PDF — effective Feb 1"
+      assert rendered =~ "Upcoming Route 1 schedule and map PDF — effective Feb 1"
     end
 
     test "does not specify 'current' when all schedules are current" do
@@ -171,7 +171,7 @@ defmodule SiteWeb.ScheduleViewTest do
 
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "Route 1 schedule PDF"
+      assert rendered =~ "Route 1 schedule and map PDF"
       assert rendered =~ "Custom schedule PDF"
     end
 
@@ -179,7 +179,7 @@ defmodule SiteWeb.ScheduleViewTest do
       route_pdfs = [%RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
-      assert rendered =~ "Route 1 schedule PDF"
+      assert rendered =~ "Route 1 schedule and map PDF"
     end
   end
 
