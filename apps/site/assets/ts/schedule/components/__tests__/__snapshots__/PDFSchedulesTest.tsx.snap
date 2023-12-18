@@ -15,7 +15,7 @@ Array [
     <div
       className="c-expandable-block__header-text"
     >
-      PDF Schedules
+      PDF Schedules and Maps
       <span
         className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
@@ -59,7 +59,7 @@ Array [
     <h3
       className="c-expandable-block__header"
     >
-      PDF Schedules
+      PDF Schedules and Maps
       <span
         className="fa c-expandable-block__header-caret"
         dangerouslySetInnerHTML={
