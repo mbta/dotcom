@@ -211,7 +211,7 @@ defmodule SiteWeb.Router do
       import Phoenix.LiveDashboard.Router
 
       pipe_through([:browser])
-      live_dashboard("/dashboard")
+      live_dashboard("/dashboard", metrics: SiteWeb.Telemetry)
     end
   end
 
