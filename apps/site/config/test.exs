@@ -14,7 +14,7 @@ config :site, :secure_pipeline,
   ]
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :info
 
 # Don't fetch tz data in test mode; can cause a race if we're doing TZ
 # operations while it updates.

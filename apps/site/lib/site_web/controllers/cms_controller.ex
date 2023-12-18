@@ -46,7 +46,7 @@ defmodule SiteWeb.CMSController do
   def reset_cache_key(conn, %{"object" => object, "id" => id}) do
     CMS.RedisRepo.delete("/cms/#{object}/#{id}")
 
-    Logger.info("cms.redisrepo.delete path=#{object}/#{id}")
+    Logger.notice("cms.redisrepo.delete path=/cms/#{object}/#{id}")
 
     send_resp(conn, 202, "") |> halt()
   end
@@ -54,7 +54,7 @@ defmodule SiteWeb.CMSController do
   def reset_cache_key(conn, %{"id" => id}) do
     CMS.RedisRepo.delete("/cms/#{id}")
 
-    Logger.info("cms.redisrepo.delete path=#{id}")
+    Logger.notice("cms.redisrepo.delete path=/cms/#{id}")
 
     send_resp(conn, 202, "") |> halt()
   end

@@ -8,8 +8,16 @@ config :cms, CMS.RedisRepo,
   stats: false,
   telemetry: false
 
-config :site, SiteWeb.Router,
-  cms_basic_auth: [
-    username: System.fetch_env!("CMS_BASIC_AUTH_USERNAME"),
-    password: System.fetch_env!("CMS_BASIC_AUTH_PASSWORD")
-  ]
+if config_env() == :test do
+  config :site, SiteWeb.Router,
+    cms_basic_auth: [
+      username: "username",
+      password: "password"
+    ]
+else
+  config :site, SiteWeb.Router,
+    cms_basic_auth: [
+      username: System.fetch_env!("CMS_BASIC_AUTH_USERNAME"),
+      password: System.fetch_env!("CMS_BASIC_AUTH_PASSWORD")
+    ]
+end
