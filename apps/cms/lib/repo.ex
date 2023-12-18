@@ -3,7 +3,7 @@ defmodule CMS.Repo do
   Interface for the content CMS.
   Returns a variety of content related structs, like %Event{} or %Basic{}.
 
-  The repo relies heavily on `CMS.Cache` which implements the Nebulex Redis Adaptor.
+  The repo relies heavily on `CMS.Cache` which implements the Nebulex Redis Adapter.
   The cache is set with `@cache Application.get_env(:cms, :cache)` so that we can easily swap out a local cache during tests.
   The base ttl for the repo is one hour.
   """
