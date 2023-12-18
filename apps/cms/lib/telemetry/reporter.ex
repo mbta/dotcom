@@ -1,6 +1,6 @@
 defmodule CMS.Telemetry.Reporter do
   @moduledoc """
-
+  This custom reporter logs hit rate information for the CMS.Repo.
   """
 
   use GenServer
@@ -26,6 +26,15 @@ defmodule CMS.Telemetry.Reporter do
     {:ok, Map.keys(groups)}
   end
 
+  @impl true
+  def terminate(_, events) do
+    for event <- events do
+      :telemetry.detach({__MODULE__, event, self()})
+    end
+
+    :ok
+  end
+
   def handle_event(_event_name, measurements, metadata, metrics) do
     metrics
     |> Enum.map(&handle_metric(&1, measurements, metadata))
@@ -35,7 +44,7 @@ defmodule CMS.Telemetry.Reporter do
     total = hits + misses
 
     if total > 0 do
-      Logger.info(
+      Logger.notice(
         "cms.repo.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{hits / total}"
       )
     end
@@ -43,14 +52,5 @@ defmodule CMS.Telemetry.Reporter do
 
   defp handle_metric(metric, _measurements, _metadata) do
     Logger.warning("cms.repo.unsupported_metric metric=#{metric.__struct__}")
-  end
-
-  @impl true
-  def terminate(_, events) do
-    for event <- events do
-      :telemetry.detach({__MODULE__, event, self()})
-    end
-
-    :ok
   end
 end
