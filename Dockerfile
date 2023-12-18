@@ -3,7 +3,7 @@
 ###
 
 # 1.) Get the Elixir dependencies within an Elixir container
-FROM hexpm/elixir:1.12.3-erlang-22.3.4.26-debian-buster-20210902 as elixir-builder
+FROM hexpm/elixir:1.12.3-erlang-24.3.4.14-debian-buster-20231009-slim as elixir-builder
 
 ENV LANG="C.UTF-8" MIX_ENV="prod"
 
@@ -37,7 +37,7 @@ COPY --from=elixir-builder /root/deps /root/deps
 ADD apps/site/assets /root/apps/site/assets
 
 WORKDIR /root/apps/site/assets/
-RUN npm ci
+RUN npm ci --ignore-scripts
 # Create apps/site/priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create apps/site/react_renderer/dist/app.js
@@ -61,7 +61,7 @@ RUN mix distillery.release --verbose
 
 # 4) Use the nodejs container for the runtime environment
 # Since we're server-rendering the React templates, we need a Javascript engine running inside the container.
-FROM node:14.20.0-buster-slim
+FROM node:18.17.1-buster-slim
 
 # Set exposed ports
 EXPOSE 4000
