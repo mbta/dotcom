@@ -1,6 +1,6 @@
 defmodule CMS.Telemetry.Reporter do
   @moduledoc """
-  This custom Telemetry Reporter logs hit rate information for the CMS.Repo.
+  This custom Telemetry Reporter logs hit rate information for the `CMS.Cache`.
 
   See https://blog.miguelcoba.com/telemetry-and-metrics-in-elixir#heading-customreporter for more on writing custom reporters.
   """
