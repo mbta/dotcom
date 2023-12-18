@@ -45,6 +45,11 @@ defmodule SiteWeb.CMSController do
     |> handle_page_response(conn)
   end
 
+  @doc """
+  Resets a cache key based on the URL params.
+  PATCH /cms/foo/bar will reset the cache key /cms/foo/bar.
+  This corresponds to the CMS page /foo/bar.
+  """
   def reset_cache_key(conn, %{"object" => object, "id" => id}) do
     Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
 

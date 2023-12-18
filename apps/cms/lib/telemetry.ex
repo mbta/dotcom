@@ -1,4 +1,18 @@
 defmodule CMS.Telemetry do
+  @moduledoc """
+  This supervisor establishes a connection between the telemetry_poller and our telemetry reporters.
+  Cache stats are emitted by the Nebulex Redis Adapter.
+  We poll for them every minute.
+
+  Currently, they are passed to two reporters:
+
+  The Statsd reporter will eventually be hooked up to Splunk metrics.
+  For now, it does no harm to emit them even though nothing is listening.
+
+  The custom reporter logs in a format that can be picked up in Splunk logs.
+  Eventually, this should be removed.
+  """
+
   use Supervisor
 
   alias Telemetry.Metrics
@@ -9,7 +23,7 @@ defmodule CMS.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 30_000},
+      {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
       {CMS.Telemetry.Reporter, metrics: [Metrics.last_value("cms.repo.stats.updates")]},
       {TelemetryMetricsStatsd, metrics: metrics()}
     ]
