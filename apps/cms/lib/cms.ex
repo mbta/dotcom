@@ -11,7 +11,7 @@ defmodule CMS do
 
     # Define workers and child supervisors to be supervised
     children = [
-      CMS.RedisRepo,
+      {Application.get_env(:cms, :cache, CMS.Cache), []},
       CMS.Repo
     ]
 

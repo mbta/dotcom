@@ -34,6 +34,8 @@ defmodule SiteWeb.CMSController do
     Page.ProjectUpdate
   ]
 
+  @cache Application.get_env(:cms, :cache)
+
   @spec page(Conn.t(), map) :: Conn.t()
   def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
     conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
@@ -44,17 +46,17 @@ defmodule SiteWeb.CMSController do
   end
 
   def reset_cache_key(conn, %{"object" => object, "id" => id}) do
-    CMS.RedisRepo.delete("/cms/#{object}/#{id}")
+    @cache.delete("/cms/#{object}/#{id}")
 
-    Logger.notice("cms.redisrepo.delete path=/cms/#{object}/#{id}")
+    Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
 
     send_resp(conn, 202, "") |> halt()
   end
 
   def reset_cache_key(conn, %{"id" => id}) do
-    CMS.RedisRepo.delete("/cms/#{id}")
+    @cache.delete("/cms/#{id}")
 
-    Logger.notice("cms.redisrepo.delete path=/cms/#{id}")
+    Logger.notice("cms.cache.delete path=/cms/#{id}")
 
     send_resp(conn, 202, "") |> halt()
   end

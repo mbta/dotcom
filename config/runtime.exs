@@ -1,6 +1,6 @@
 import Config
 
-config :cms, CMS.RedisRepo,
+config :cms, CMS.Cache,
   conn_opts: [
     host: System.get_env("REDIS_HOST", "127.0.0.1"),
     port: 6379

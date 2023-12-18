@@ -192,7 +192,7 @@ defmodule SiteWeb.CMSControllerTest do
                |> put_req_header("content-type", "application/json")
                |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
                |> patch("/cms/foo/bar")
-             end) =~ "cms.redisrepo.delete"
+             end) =~ "cms.cache.delete"
     end
   end
 end
