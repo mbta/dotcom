@@ -32,9 +32,10 @@ defmodule CMS.RepoTest do
   }
 
   setup do
-    Repo.flush()
+    cache = Application.get_env(:cms, :cache)
+    cache.flush()
 
-    :ok
+    %{cache: cache}
   end
 
   describe "news_entry_by/1" do
@@ -66,10 +67,64 @@ defmodule CMS.RepoTest do
   end
 
   describe "get_page/1" do
-    test "caches views" do
+    test "generates the correct key for /*" do
+      path = "/foo"
+
+      assert Repo.generate(nil, nil, [path, %{}]) == "/cms" <> path
     end
 
-    test "does not cache previews" do
+    test "generates the correct key for /**/*" do
+      path = "/foo/bar"
+
+      assert Repo.generate(nil, nil, [path, %{}]) == "/cms" <> path
+    end
+
+    test "generates the correct key for /**/*?*=*" do
+      path = "/foo/bar"
+      params = %{"baz" => "bop"}
+
+      assert Repo.generate(nil, nil, [path, params]) == "/cms" <> path <> "?baz=bop"
+    end
+
+    test "generates the correct key for /**/*?*=*&*=*" do
+      path = "/foo/bar"
+      params = %{"bam" => "bop", "baz" => "qux"}
+
+      assert Repo.generate(nil, nil, [path, params]) == "/cms" <> path <> "?bam=bop&baz=qux"
+    end
+
+    test "caches views", %{cache: cache} do
+      path = "/news/2018/news-entry"
+      params = %{}
+      key = "/cms" <> path
+
+      assert cache.get(key) == nil
+
+      Repo.get_page(path, params)
+
+      assert cache.get(key) != nil
+    end
+
+    test "sets the ttl to < :infinity", %{cache: cache} do
+      path = "/news/2018/news-entry"
+      params = %{}
+      key = "/cms" <> path
+
+      Repo.get_page(path, params)
+
+      assert cache.ttl(key) != :infinity
+    end
+
+    test "does not cache previews", %{cache: cache} do
+      path = "/news/2018/news-entry"
+      params = %{"preview" => "", "vid" => "112", "nid" => "6"}
+      key = "/cms" <> path
+
+      assert cache.get(key) == nil
+
+      Repo.get_page(path, params)
+
+      assert cache.get(key) == nil
     end
 
     test "given the path for a Basic page" do

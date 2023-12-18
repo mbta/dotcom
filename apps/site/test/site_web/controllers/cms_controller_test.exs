@@ -5,6 +5,8 @@ defmodule SiteWeb.CMSControllerTest do
 
   alias Plug.Conn
 
+  @cache Application.get_env(:cms, :cache)
+
   describe "GET - page" do
     test "renders a basic page when the CMS returns a CMS.Page.Basic", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar")

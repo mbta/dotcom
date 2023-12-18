@@ -25,9 +25,9 @@ defmodule CMS.Repo do
 
   alias Routes.Route
 
-  @cms_api Application.get_env(:cms, :cms_api)
-
   @cache Application.get_env(:cms, :cache)
+
+  @cms_api Application.get_env(:cms, :cms_api)
 
   @ttl :timer.hours(1)
 
@@ -90,7 +90,7 @@ defmodule CMS.Repo do
   end
 
   @spec whats_happening() :: [WhatsHappeningItem.t()]
-  @decorate cacheable(cache: @cache, key: "/cms/whats-happening", ttl: @ttl)
+  @decorate cacheable(cache: @cache, key: "/cms/whats-happening", opts: [ttl: @ttl])
   def whats_happening() do
     case @cms_api.view("/cms/whats-happening", []) do
       {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
@@ -105,7 +105,7 @@ defmodule CMS.Repo do
     if cached_value == :empty || cached_value == :error, do: nil, else: cached_value
   end
 
-  @decorate cacheable(cache: @cache, key: "/cms/important-notices", ttl: @ttl)
+  @decorate cacheable(cache: @cache, key: "/cms/important-notices", opts: [ttl: @ttl])
   def do_banner() do
     case @cms_api.view("/cms/important-notices", []) do
       {:ok, [api_data | _]} -> Banner.from_api(api_data)
@@ -139,7 +139,7 @@ defmodule CMS.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, key: "/cms/schedules/#{route_id}", ttl: @ttl)
+  @decorate cacheable(cache: @cache, key: "/cms/schedules/#{route_id}", opts: [ttl: @ttl])
   defp do_get_schedule_pdfs(route_id) do
     case @cms_api.view("/cms/schedules/#{route_id}", []) do
       {:ok, pdfs} ->
@@ -166,7 +166,7 @@ defmodule CMS.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, key: "/cms/route_pdfs/#{route_id}", ttl: @ttl)
+  @decorate cacheable(cache: @cache, key: "/cms/route_pdfs/#{route_id}", opts: [ttl: @ttl])
   defp do_get_route_pdfs(route_id) do
     case @cms_api.view("/cms/route-pdfs/#{route_id}", []) do
       {:ok, []} ->
@@ -190,14 +190,11 @@ defmodule CMS.Repo do
   @behaviour Nebulex.Caching.KeyGenerator
 
   @impl true
-  def generate(_, _, [path, %{}]) do
-    "/cms/#{String.trim(path, "/")}"
-  end
-
-  @impl true
   def generate(_, _, [path, params]) do
     "/cms/#{String.trim(path, "/")}" <> params_to_string(params)
   end
+
+  defp params_to_string(params) when params == %{}, do: ""
 
   defp params_to_string(params) do
     [head | tail] = Enum.map(params, fn {k, v} -> "#{k}=#{v}" end)
@@ -226,7 +223,7 @@ defmodule CMS.Repo do
     end
   end
 
-  @decorate cacheable(cache: @cache, key_generator: __MODULE__, ttl: @ttl)
+  @decorate cacheable(cache: @cache, key_generator: __MODULE__, opts: [ttl: @ttl])
   defp view_or_preview(path, params) do
     @cms_api.view(path, params)
   end
@@ -371,7 +368,7 @@ defmodule CMS.Repo do
 
   @doc "Get all the events, paginating through results if needed, and caches the result"
   @spec events_for_year(Calendar.year()) :: [%Teaser{}]
-  @decorate cacheable(cache: @cache, ttl: @ttl)
+  @decorate cacheable(cache: @cache, opts: [ttl: @ttl])
   def events_for_year(year) do
     do_events_for_range(
       min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
@@ -381,7 +378,7 @@ defmodule CMS.Repo do
 
   @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [%Teaser{}]) ::
           [%Teaser{}]
-  @decorate cacheable(cache: @cache, ttl: @ttl)
+  @decorate cacheable(cache: @cache, opts: [ttl: @ttl])
   defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
     per_page = 50
 
