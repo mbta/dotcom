@@ -1,8 +1,6 @@
 defmodule SiteWeb.CMSControllerTest do
   use SiteWeb.ConnCase, async: false
 
-  import ExUnit.CaptureLog
-
   alias Plug.Conn
 
   @cache Application.get_env(:cms, :cache)
