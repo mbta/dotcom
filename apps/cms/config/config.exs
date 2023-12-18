@@ -39,4 +39,6 @@ config :cms, :cms_api, CMS.API.HTTPClient
 
 config :cms, :cache, CMS.Cache
 
+config :logger, level: :notice
+
 import_config "#{Mix.env()}.exs"
