@@ -48,6 +48,7 @@ defmodule CMS.Mixfile do
   defp deps do
     [
       {:bypass, "~> 1.0", only: :test},
+      {:decorator, "1.4.0"},
       {:html_sanitize_ex, "1.3.0"},
       {:httpoison, ">= 0.0.0"},
       {:mock, "~> 0.3.3", only: :test},
