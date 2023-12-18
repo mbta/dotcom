@@ -45,7 +45,7 @@ defmodule CMS.Telemetry.Reporter do
 
     if total > 0 do
       Logger.notice(
-        "cms.repo.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{hits / total}"
+        "cms.cache.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{hits / total}"
       )
     end
   end

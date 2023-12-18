@@ -34,6 +34,8 @@ defmodule SiteWeb.CMSController do
     Page.ProjectUpdate
   ]
 
+  @cache Application.get_env(:cms, :cache)
+
   @spec page(Conn.t(), map) :: Conn.t()
   def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
     conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))

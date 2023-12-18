@@ -26,7 +26,7 @@ defmodule CMS.Telemetry do
 
   defp periodic_measurements do
     [
-      {CMS.Repo, :dispatch_stats, []}
+      {CMS.Cache, :dispatch_stats, []}
     ]
   end
 end
