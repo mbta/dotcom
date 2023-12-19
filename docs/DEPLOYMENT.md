@@ -4,7 +4,11 @@
 
 This can be done on GitHub Actions via the following:
 
-- [Create a release](https://github.com/mbta/dotcom/releases). Select a relevant recent commit, follow the naming convention, click "generate release notes", and publish. This will trigger the [Deploy: release](.github/workflows/deploy-release.yml) workflow that will kick off a deploy to production.
+- Create a tag following this format
+  - Pull the latest master locally
+  - Create a tag `git tag year.month.day.release_number` (ex. `2023.12.18.01`)
+  - Push the tag `git push origin --tags`
+- [Create a release](https://github.com/mbta/dotcom/releases). Select a relevant tag, follow the naming convention, click "generate release notes", and publish. This will trigger the [Deploy: release](.github/workflows/deploy-release.yml) workflow that will kick off a deploy to production.
 - [Manually](https://github.com/mbta/dotcom/actions/workflows/deploy-manual.yml). The [Deploy: manual](.github/workflows/deploy-manual.yml) workflow can be used to deploy to production by selecting the "prod" environment.
 
 ![](run_workflow.png)
