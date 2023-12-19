@@ -13,7 +13,6 @@ config :site, :secure_pipeline,
     rewrite_on: [:x_forwarded_proto]
   ]
 
-# Print only warnings and errors during test
 config :logger, level: :notice
 
 # Don't fetch tz data in test mode; can cause a race if we're doing TZ
