@@ -52,7 +52,7 @@ defmodule SiteWeb.Router do
   end
 
   scope "/cms", SiteWeb do
-    pipe_through([:basic_auth])
+    pipe_through([:secure, :basic_auth])
 
     patch("/:object/:id", CMSController, :reset_cache_key)
     patch("/:id", CMSController, :reset_cache_key)
