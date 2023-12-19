@@ -186,13 +186,13 @@ defmodule SiteWeb.CMSControllerTest do
   end
 
   describe "PATCH /cms/*" do
-    test "it logs that it was called", %{conn: conn} do
+    test "it logs that no redis connection was made", %{conn: conn} do
       assert capture_log(fn ->
                conn
                |> put_req_header("content-type", "application/json")
                |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
                |> patch("/cms/foo/bar")
-             end) =~ "cms.cache.delete"
+             end) =~ "cms.cache.delete error=redis-closed"
     end
   end
 end

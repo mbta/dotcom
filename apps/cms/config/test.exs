@@ -5,5 +5,3 @@ config :cms, :drupal,
   static_path: "/sites/default/files"
 
 config :cms, :cms_api, CMS.API.Static
-
-config :cms, :cache, CMS.TestCache

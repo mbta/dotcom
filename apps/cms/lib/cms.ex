@@ -11,7 +11,7 @@ defmodule CMS do
 
     # Define workers and child supervisors to be supervised
     children = [
-      {Application.get_env(:cms, :cache, CMS.Cache), []},
+      CMS.Cache,
       CMS.Repo
     ]
 
