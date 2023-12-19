@@ -46,17 +46,25 @@ defmodule SiteWeb.CMSController do
   end
 
   def reset_cache_key(conn, %{"object" => object, "id" => id}) do
-    @cache.delete("/cms/#{object}/#{id}")
+    try do
+      @cache.delete("/cms/#{object}/#{id}")
 
-    Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
+      Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
+    rescue
+      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis #{e.reason}")
+    end
 
     send_resp(conn, 202, "") |> halt()
   end
 
   def reset_cache_key(conn, %{"id" => id}) do
-    @cache.delete("/cms/#{id}")
+    try do
+      @cache.delete("/cms/#{id}")
 
-    Logger.notice("cms.cache.delete path=/cms/#{id}")
+      Logger.notice("cms.cache.delete path=/cms/#{id}")
+    rescue
+      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis #{e.reason}")
+    end
 
     send_resp(conn, 202, "") |> halt()
   end
