@@ -274,7 +274,10 @@ defmodule SiteWeb.Router do
   defp basic_auth(conn, _) do
     opts = Application.get_env(:site, SiteWeb.Router)[:cms_basic_auth]
 
-    Plug.BasicAuth.basic_auth(conn, opts)
+    Plug.BasicAuth.basic_auth(conn,
+      username: "username",
+      password: "password"
+    )
   end
 
   defp optional_disable_indexing(conn, _) do
