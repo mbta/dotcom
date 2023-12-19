@@ -8,8 +8,20 @@ config :cms, CMS.Cache,
   stats: false,
   telemetry: false
 
-config :site, SiteWeb.Router,
-  cms_basic_auth: [
-    username: System.get_env("CMS_BASIC_AUTH_USERNAME", "username"),
-    password: System.get_env("CMS_BASIC_AUTH_PASSWORD", "password")
-  ]
+if config_env() == :test do
+  config :site, SiteWeb.Router,
+    cms_basic_auth: [
+      username: "username",
+      password: "password"
+    ]
+else
+  config :site, SiteWeb.Router,
+    cms_basic_auth: [
+      username: System.fetch_env!("CMS_BASIC_AUTH_USERNAME"),
+      password: System.fetch_env!("CMS_BASIC_AUTH_PASSWORD")
+    ]
+end
+
+if config_env() == :prod do
+  config :alerts, bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
+end

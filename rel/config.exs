@@ -24,7 +24,7 @@ environment :prod do
 
   set(
     overlays: [
-      {:copy, "apps/alerts/config/runtime.exs", "etc/runtime.exs"}
+      {:copy, "config/runtime.exs", "etc/runtime.exs"}
     ]
   )
 
