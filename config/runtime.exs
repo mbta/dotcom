@@ -8,16 +8,8 @@ config :cms, CMS.Cache,
   stats: false,
   telemetry: false
 
-if config_env() == :test do
-  config :site, SiteWeb.Router,
-    cms_basic_auth: [
-      username: "username",
-      password: "password"
-    ]
-else
-  config :site, SiteWeb.Router,
-    cms_basic_auth: [
-      username: System.fetch_env!("CMS_BASIC_AUTH_USERNAME"),
-      password: System.fetch_env!("CMS_BASIC_AUTH_PASSWORD")
-    ]
-end
+config :site, SiteWeb.Router,
+  cms_basic_auth: [
+    username: System.get_env("CMS_BASIC_AUTH_USERNAME", "username"),
+    password: System.get_env("CMS_BASIC_AUTH_PASSWORD", "password")
+  ]
