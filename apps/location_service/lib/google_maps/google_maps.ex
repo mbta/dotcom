@@ -161,7 +161,7 @@ defmodule GoogleMaps do
 
     uri_string = uri |> URI.to_string()
 
-    binary_hash = :crypto.hmac(:sha, de64ed_key, uri_string)
+    binary_hash = :crypto.mac(:hmac, :sha, de64ed_key, uri_string)
 
     Base.url_encode64(binary_hash)
   end
