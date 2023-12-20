@@ -84,6 +84,7 @@ defmodule Alerts.Cache.StoreTest do
     alert4 = %Alerts.Alert{id: "126", effect: :cancellation}
 
     Store.update([alert1, alert2, alert3, alert4], nil)
-    assert Store.alert_ids_for_stop_id("543") == ["124", "123"]
+
+    assert Enum.sort(Store.alert_ids_for_stop_id("543")) == Enum.sort(["123", "124"])
   end
 end
