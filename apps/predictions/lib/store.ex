@@ -34,9 +34,9 @@ defmodule Predictions.Store do
     GenServer.call(__MODULE__, {:fetch, keys})
   end
 
-  @spec update({atom, [[Prediction.t()]]}) :: :ok
-  def update({event, predictions_batches}) do
-    Enum.each(predictions_batches, &GenServer.cast(__MODULE__, {event, &1}))
+  @spec update({atom, [Prediction.t()]}) :: :ok
+  def update({event, predictions}) do
+    GenServer.cast(__MODULE__, {event, predictions})
   end
 
   # Server
@@ -56,10 +56,10 @@ defmodule Predictions.Store do
     {:noreply, table}
   end
 
-  def handle_cast({:remove, predictions}, table) do
-    Logger.info("Remove predictions event: #{inspect(Enum.map(predictions, & &1.id))}")
+  def handle_cast({:remove, prediction_ids}, table) do
+    Logger.info("Remove predictions event: #{inspect(prediction_ids)}")
 
-    for id <- Enum.map(predictions, & &1.id) do
+    for id <- prediction_ids do
       :ets.delete(table, id)
     end
 

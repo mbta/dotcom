@@ -8,6 +8,7 @@ defmodule Predictions.Stream do
 
   alias Phoenix.PubSub
   alias Predictions.{Repo, Store, StreamParser}
+  alias V3Api.Stream.Event
 
   @type event_type :: :reset | :add | :update | :remove
 
@@ -35,9 +36,33 @@ defmodule Predictions.Stream do
 
   @impl GenStage
   def handle_events(events, _from, state) do
-    batches = Enum.group_by(events, & &1.event, &to_predictions(&1.data))
-    :ok = Enum.each(batches, &Store.update/1)
+    events
+    |> Enum.filter(fn %Event{data: event_data} ->
+      if is_tuple(event_data), do: log_errors(event_data)
+      match?(%JsonApi{}, event_data)
+    end)
+    |> Enum.group_by(& &1.event)
+    |> Enum.each(&handle_by_type/1)
+
     {:noreply, [], initial_broadcast(state)}
+  end
+
+  @spec handle_by_type({Event.event(), [Event.t()]}) :: :ok
+  defp handle_by_type({:remove, events}) do
+    prediction_ids =
+      events
+      |> Enum.flat_map(fn %Event{data: %JsonApi{data: data}} ->
+        data
+        |> Enum.filter(&(&1.type == "prediction"))
+        |> Enum.map(& &1.id)
+      end)
+
+    Store.update({:remove, prediction_ids})
+  end
+
+  defp handle_by_type({event_type, events}) when event_type in [:add, :update] do
+    batch = Enum.flat_map(events, &to_predictions(&1.data))
+    Store.update({event_type, batch})
   end
 
   # Broadcast when the first event for this stream is received
@@ -50,6 +75,7 @@ defmodule Predictions.Stream do
 
   defp to_predictions(%JsonApi{data: data}) do
     data
+    |> Enum.filter(&(&1.type == "prediction"))
     |> Enum.filter(&Repo.has_trip?/1)
     |> Enum.map(&StreamParser.parse/1)
   end
