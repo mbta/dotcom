@@ -1,11 +1,9 @@
 defmodule SiteWeb.Router do
   @moduledoc false
 
-  use Plug.ErrorHandler
   use SiteWeb, :router
+  use Plug.ErrorHandler
   use Sentry.Plug
-
-  require Logger
 
   alias SiteWeb.StaticPage
 
@@ -275,13 +273,6 @@ defmodule SiteWeb.Router do
 
   defp basic_auth(conn, _) do
     opts = Application.get_env(:site, SiteWeb.Router)[:cms_basic_auth]
-
-    conn.req_headers
-    |> Enum.find(fn {k, _} -> k == "authorization" end)
-    |> Kernel.elem(1)
-    |> String.split(" ")
-    |> List.last()
-    |> (fn auth -> Logger.warning("basic.auth key=#{auth}") end).()
 
     Plug.BasicAuth.basic_auth(conn, opts)
   end
