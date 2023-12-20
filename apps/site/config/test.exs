@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
@@ -13,8 +13,7 @@ config :site, :secure_pipeline,
     rewrite_on: [:x_forwarded_proto]
   ]
 
-# Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :notice
 
 # Don't fetch tz data in test mode; can cause a race if we're doing TZ
 # operations while it updates.

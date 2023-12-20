@@ -1,6 +1,8 @@
 defmodule SiteWeb.CMSControllerTest do
   use SiteWeb.ConnCase, async: false
 
+  import ExUnit.CaptureLog
+
   alias Plug.Conn
 
   describe "GET - page" do
@@ -180,6 +182,17 @@ defmodule SiteWeb.CMSControllerTest do
       assert conn.status == 500
 
       assert html_response(conn, 500) =~ "Something went wrong on our end."
+    end
+  end
+
+  describe "PATCH /cms/*" do
+    test "it logs that no redis connection was made", %{conn: conn} do
+      assert capture_log(fn ->
+               conn
+               |> put_req_header("content-type", "application/json")
+               |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
+               |> patch("/cms/foo/bar")
+             end) =~ "cms.cache.delete error=redis-closed"
     end
   end
 end
