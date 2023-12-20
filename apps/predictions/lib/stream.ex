@@ -7,7 +7,7 @@ defmodule Predictions.Stream do
   require Logger
 
   alias Phoenix.PubSub
-  alias Predictions.{Repo, Store, StreamParser}
+  alias Predictions.{Repo, Store, StreamParser, StreamTopic}
   alias V3Api.Stream.Event
 
   @type event_type :: :reset | :add | :update | :remove
@@ -30,6 +30,7 @@ defmodule Predictions.Stream do
       Map.new()
       |> Map.put_new(:broadcast_fn, Keyword.get(opts, :broadcast_fn, &PubSub.broadcast/3))
       |> Map.put_new(:started?, false)
+      |> Map.put_new(:clear_keys, Keyword.fetch!(opts, :clear_keys))
 
     {:consumer, initial_state, subscribe_to: [producer_consumer]}
   end
@@ -42,13 +43,18 @@ defmodule Predictions.Stream do
       match?(%JsonApi{}, event_data)
     end)
     |> Enum.group_by(& &1.event)
-    |> Enum.each(&handle_by_type/1)
+    |> Enum.each(&handle_by_type(&1, state.clear_keys))
 
     {:noreply, [], initial_broadcast(state)}
   end
 
-  @spec handle_by_type({Event.event(), [Event.t()]}) :: :ok
-  defp handle_by_type({:remove, events}) do
+  @spec handle_by_type({Event.event(), [Event.t()]}, StreamTopic.clear_keys()) :: :ok
+  defp handle_by_type({:reset, events}, clear_keys) do
+    Store.clear(clear_keys)
+    handle_by_type({:add, events}, clear_keys)
+  end
+
+  defp handle_by_type({:remove, events}, _) do
     prediction_ids =
       events
       |> Enum.flat_map(fn %Event{data: %JsonApi{data: data}} ->
@@ -60,7 +66,7 @@ defmodule Predictions.Stream do
     Store.update({:remove, prediction_ids})
   end
 
-  defp handle_by_type({event_type, events}) when event_type in [:add, :update] do
+  defp handle_by_type({event_type, events}, _) when event_type in [:add, :update] do
     batch = Enum.flat_map(events, &to_predictions(&1.data))
     Store.update({event_type, batch})
   end

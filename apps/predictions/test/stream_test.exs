@@ -73,7 +73,8 @@ defmodule Predictions.StreamTest do
         Stream.start_link(
           name: :start_link_test,
           broadcast_fn: broadcast_fn,
-          subscribe_to: mock_api
+          subscribe_to: mock_api,
+          clear_keys: [route: "route_id", direction: 0]
         )
 
       :erlang.trace(stream_pid, true, [:receive])
@@ -108,7 +109,8 @@ defmodule Predictions.StreamTest do
                    Stream.start_link(
                      name: :error_logging_api_test,
                      broadcast_fn: fn _, _, _ -> :ok end,
-                     subscribe_to: mock_api
+                     subscribe_to: mock_api,
+                     clear_keys: []
                    )
 
           refute_receive _
@@ -135,7 +137,8 @@ defmodule Predictions.StreamTest do
                    Stream.start_link(
                      name: :error_logging_test,
                      broadcast_fn: broadcast_fn,
-                     subscribe_to: mock_api
+                     subscribe_to: mock_api,
+                     clear_keys: []
                    )
 
           refute_receive _

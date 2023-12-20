@@ -29,6 +29,16 @@ defmodule Predictions.StoreTest do
     end
   end
 
+  describe "clear/1" do
+    test "removes all predictions for a specified route and direction" do
+      predictions = fetch(route: "yellow", direction: 1)
+      assert length(predictions) > 0
+      clear(route: "yellow", direction: 1)
+      new_predictions = fetch(route: "yellow", direction: 1)
+      refute length(new_predictions) > 0
+    end
+  end
+
   describe "update/1" do
     test "adds predictions" do
       assert [] = fetch(prediction_id: "added")
@@ -44,34 +54,6 @@ defmodule Predictions.StoreTest do
       update({:update, [%Prediction{id: "new", stop: %Stop{id: "s3"}}]})
 
       assert [%Prediction{id: "new", stop: %Stop{id: "s3"}}] = fetch(prediction_id: "new")
-    end
-
-    test "resets predictions" do
-      update(
-        {:add,
-         [
-           [%Prediction{id: "uno", stop: %Stop{id: "s100"}}]
-         ]}
-      )
-
-      update(
-        {:reset,
-         [
-           [%Prediction{id: "uno", trip: %Trip{id: "added-trip"}}]
-         ]}
-      )
-
-      assert [prediction] = fetch(prediction_id: "uno")
-
-      assert %Prediction{id: "uno", trip: %Trip{id: "added-trip"}} = prediction
-      refute prediction.stop == %Stop{id: "s100"}
-    end
-
-    test "removes predictions" do
-      update({:add, [[%Prediction{id: "added"}]]})
-      assert [%Prediction{id: "added"}] = fetch(prediction_id: "added")
-      update({:remove, [[%Prediction{id: "added"}]]})
-      assert [] = fetch(prediction_id: "added")
     end
   end
 

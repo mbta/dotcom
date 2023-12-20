@@ -39,6 +39,12 @@ defmodule Predictions.Store do
     GenServer.cast(__MODULE__, {event, predictions})
   end
 
+  @doc "Deletes predictions associated with the input fetch keys, e.g. clear([route: 'Red', direction: 1])"
+  @spec clear(fetch_keys) :: :ok
+  def clear(keys) do
+    GenServer.cast(__MODULE__, {:remove, Enum.map(fetch(keys), & &1.id)})
+  end
+
   # Server
   @impl GenServer
   def init(opts) do
@@ -50,7 +56,7 @@ defmodule Predictions.Store do
   @impl true
   def handle_cast({_, []}, table), do: {:noreply, table}
 
-  def handle_cast({event, predictions}, table) when event in [:add, :update, :reset] do
+  def handle_cast({event, predictions}, table) when event in [:add, :update] do
     :ets.insert(table, Enum.map(predictions, &to_record/1))
 
     {:noreply, table}

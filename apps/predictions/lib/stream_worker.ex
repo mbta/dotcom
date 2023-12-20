@@ -2,9 +2,13 @@ defmodule Predictions.StreamSupervisor.Worker do
   @moduledoc "Each request to the streaming predictions"
   use Supervisor
 
-  @spec start_link(String.t(), Tuple.t()) :: Supervisor.on_start()
-  def start_link(filters, name) do
-    Supervisor.start_link(__MODULE__, filters, name: name)
+  alias Predictions.Store
+  alias Predictions.StreamTopic
+
+  @spec start_link({Store.fetch_keys(), StreamTopic.filter_params()}, Tuple.t()) ::
+          Supervisor.on_start()
+  def start_link({keys, filters}, name) do
+    Supervisor.start_link(__MODULE__, {keys, filters}, name: name)
   end
 
   def child_spec(opts) do
@@ -19,7 +23,7 @@ defmodule Predictions.StreamSupervisor.Worker do
   @impl Supervisor
   @doc "The `filters` argument is a string representing the filter parameters of
   the resultant API call e.g. 'filter[route]=CR-Foxboro&filter[direction_id]=0'"
-  def init(filters) do
+  def init({keys, filters}) do
     sses_stream_name = sses_stream_name(filters)
     api_stream_name = :"predictions_api_stream_#{filters}"
     prediction_stream_name = :"predictions_data_stream_#{filters}"
@@ -28,7 +32,8 @@ defmodule Predictions.StreamSupervisor.Worker do
       [
         {ServerSentEventStage, sses_opts(filters)},
         {V3Api.Stream, name: api_stream_name, subscribe_to: sses_stream_name},
-        {Predictions.Stream, name: prediction_stream_name, subscribe_to: api_stream_name}
+        {Predictions.Stream,
+         name: prediction_stream_name, subscribe_to: api_stream_name, clear_keys: keys}
       ],
       strategy: :rest_for_one
     )

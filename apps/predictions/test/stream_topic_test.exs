@@ -24,7 +24,10 @@ defmodule Predictions.StreamTopicTest do
                streams: streams
              } = new("stop:stopId")
 
-      assert ["filter[direction_id]=0&filter[route]=Route1" | _] = streams
+      assert [
+               {[route: "Route1", direction: 0], "filter[direction_id]=0&filter[route]=Route1"}
+               | _
+             ] = streams
     end
 
     test "doesn't work for stop without route patterns" do
