@@ -186,13 +186,40 @@ defmodule SiteWeb.CMSControllerTest do
   end
 
   describe "PATCH /cms/*" do
-    test "it logs that no redis connection was made", %{conn: conn} do
-      assert capture_log(fn ->
-               conn
-               |> put_req_header("content-type", "application/json")
-               |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
-               |> patch("/cms/foo/bar")
-             end) =~ "cms.cache.delete error=redis-closed"
+    test "it removes an entry from the cache", %{conn: conn} do
+      path = "/cms/foo"
+
+      @cache.put(path, "bar")
+
+      assert @cache.get(path) != nil
+
+      conn =
+        conn
+        |> put_req_header("content-type", "application/json")
+        |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
+        |> patch(path)
+
+      assert @cache.get(path) == nil
+      assert conn.status == 202
+    end
+  end
+
+  describe "PATCH /cms/**/*" do
+    test "it removes an entry from the cache", %{conn: conn} do
+      path = "/cms/foo/bar"
+
+      @cache.put(path, "baz")
+
+      assert @cache.get(path) != nil
+
+      conn =
+        conn
+        |> put_req_header("content-type", "application/json")
+        |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
+        |> patch(path)
+
+      assert @cache.get(path) == nil
+      assert conn.status == 202
     end
   end
 end

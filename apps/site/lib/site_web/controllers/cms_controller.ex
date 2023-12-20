@@ -51,29 +51,13 @@ defmodule SiteWeb.CMSController do
   This corresponds to the CMS page /foo/bar.
   """
   def reset_cache_key(conn, %{"object" => object, "id" => id}) do
-    Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
-
-    try do
-      CMS.Cache.delete("/cms/#{object}/#{id}")
-
-      Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
-    rescue
-      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
-    end
+    @cache.delete("/cms/#{object}/#{id}")
 
     send_resp(conn, 202, "") |> halt()
   end
 
   def reset_cache_key(conn, %{"id" => id}) do
-    Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
-
-    try do
-      CMS.Cache.delete("/cms/#{id}")
-
-      Logger.notice("cms.cache.delete path=/cms/#{id}")
-    rescue
-      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
-    end
+    @cache.delete("/cms/#{id}")
 
     send_resp(conn, 202, "") |> halt()
   end

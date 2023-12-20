@@ -1,5 +1,7 @@
 defmodule CMS.Cache do
-  use Nebulex.Cache,
-    otp_app: :cms,
-    adapter: NebulexRedisAdapter
+  @moduledoc """
+  A standard implementation of Nebulex.
+  """
+
+  use Nebulex.Cache, otp_app: :cms, adapter: NebulexRedisAdapter
 end
