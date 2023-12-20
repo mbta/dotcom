@@ -2,7 +2,7 @@ import Config
 
 config :cms, CMS.Cache,
   conn_opts: [
-    host: System.get_env("REDIS_HOST", "127.0.0.1"),
+    host: "dotcom-dev-blue-elasticache-cluster.yeunjj.0001.use1.cache.amazonaws.com",
     port: 6379
   ],
   stats: false,
