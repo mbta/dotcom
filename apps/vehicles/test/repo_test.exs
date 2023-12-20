@@ -34,13 +34,8 @@ defmodule Vehicles.RepoTest do
 
   describe "route/1" do
     test "given a route ID, finds vehicle statuses for that route", %{name: name} do
-      expected_ids = Enum.filter(@vehicles, &(&1.route_id == "86")) |> Enum.map(& &1.id)
-
-      refute Enum.empty?(expected_ids)
-
-      for result <- Repo.route("86", name: name) do
-        assert Enum.member?(expected_ids, result.id)
-      end
+      assert Enum.sort(Enum.filter(@vehicles, &(&1.route_id == "86"))) ==
+               Enum.sort(Repo.route("86", name: name))
     end
 
     test "if there are no vehicles on the route, returns the empty list", %{name: name} do
