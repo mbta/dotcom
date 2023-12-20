@@ -43,6 +43,34 @@ defmodule SiteWeb.CMSController do
     |> handle_page_response(conn)
   end
 
+  def reset_cache_key(conn, %{"object" => object, "id" => id}) do
+    Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
+
+    try do
+      CMS.Cache.delete("/cms/#{object}/#{id}")
+
+      Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
+    rescue
+      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
+    end
+
+    send_resp(conn, 202, "") |> halt()
+  end
+
+  def reset_cache_key(conn, %{"id" => id}) do
+    Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
+
+    try do
+      CMS.Cache.delete("/cms/#{id}")
+
+      Logger.notice("cms.cache.delete path=/cms/#{id}")
+    rescue
+      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
+    end
+
+    send_resp(conn, 202, "") |> halt()
+  end
+
   @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::
           Plug.Conn.t()
   defp handle_page_response(%{__struct__: struct} = page, conn)

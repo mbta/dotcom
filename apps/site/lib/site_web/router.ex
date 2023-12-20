@@ -51,6 +51,13 @@ defmodule SiteWeb.Router do
     get("/_health", HealthController, :index)
   end
 
+  scope "/cms", SiteWeb do
+    pipe_through([:basic_auth])
+
+    patch("/:object/:id", CMSController, :reset_cache_key)
+    patch("/:id", CMSController, :reset_cache_key)
+  end
+
   # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
   scope "/", SiteWeb, host: "t." do
     # no pipe
@@ -262,6 +269,12 @@ defmodule SiteWeb.Router do
     pipe_through([:secure, :browser])
 
     get("/*path", CMSController, :page)
+  end
+
+  defp basic_auth(conn, _) do
+    opts = Application.get_env(:site, SiteWeb.Router)[:cms_basic_auth]
+
+    Plug.BasicAuth.basic_auth(conn, opts)
   end
 
   defp optional_disable_indexing(conn, _) do
