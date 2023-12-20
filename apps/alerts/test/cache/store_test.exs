@@ -85,8 +85,6 @@ defmodule Alerts.Cache.StoreTest do
 
     Store.update([alert1, alert2, alert3, alert4], nil)
 
-    for id <- ["123", "124"] do
-      assert Enum.member?(Store.alert_ids_for_stop_id("543"), id)
-    end
+    assert Enum.sort(Store.alert_ids_for_stop_id("543")) == Enum.sort(["123", "124"])
   end
 end
