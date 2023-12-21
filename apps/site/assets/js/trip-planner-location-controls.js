@@ -326,6 +326,7 @@ export class TripPlannerLocControls {
         case "locations":
           GoogleMapsHelpers.lookupPlace(hit.address).then(res => {
             const { latitude, longitude } = res;
+            this.setStopValue(ac, hit);
             this.setAutocompleteValue(
               ac,
               hit.address,
@@ -358,12 +359,13 @@ export class TripPlannerLocControls {
   }
 
   setStopValue(ac, hit) {
+    const stopIdEl = this.getById(ac._selectors.stop_id);
     if (hit.stop?.id) {
-      const stopIdEl = this.getById(ac._selectors.stop_id);
       stopIdEl.value = hit.stop.id;
     } else if (hit.stop_id) {
-      const stopIdEl = this.getById(ac._selectors.stop_id);
       stopIdEl.value = hit.stop_id;
+    } else {
+      stopIdEl.value = null;
     }
   }
 
