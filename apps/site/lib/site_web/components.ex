@@ -53,6 +53,11 @@ defmodule SiteWeb.Components do
     default: "to_search_page"
   )
 
+  attr(:initial_state, :boolean,
+    required: false,
+    doc: "Whether to populate the input's initial query state, based on the URL query params"
+  )
+
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
   to search our application's Algolia indexes, AWS Location Service, and
@@ -77,6 +82,7 @@ defmodule SiteWeb.Components do
       |> assign_new(:locations_count, fn -> false end)
       |> assign_new(:locations_url_type, fn -> false end)
       |> assign_new(:submit_handler, fn -> false end)
+      |> assign_new(:initial_state, fn -> false end)
 
     valid_algolia_indexes =
       Query.valid_indexes()
@@ -112,6 +118,7 @@ defmodule SiteWeb.Components do
         data-placeholder={@placeholder}
         data-state-change-listener={@state_change_listener}
         data-submit-handler={@submit_handler}
+        data-initial-state={@initial_state}
       />
       <div class="c-search-bar__autocomplete-results" />
     </div>

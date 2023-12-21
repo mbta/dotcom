@@ -8,6 +8,7 @@ import { render } from "react-dom";
 import { Item } from "./__autocomplete";
 import { STATE_CHANGE_HANDLERS, SUBMIT_HANDLERS } from "./helpers";
 import getPlugins from "./plugins";
+import { parseQuery } from "../../helpers/query";
 
 // replace the default Preact-based renderer used by AutocompleteJS
 const reactRenderer = {
@@ -21,6 +22,14 @@ function setupVeilCloseListener(autocompleteApi: AutocompleteApi<Item>): void {
   document
     .querySelector("[data-nav='veil']")
     ?.addEventListener("click", () => autocompleteApi.setIsOpen(false));
+}
+
+function getLikelyQueryParams(): string | undefined {
+  const searchParams = parseQuery(
+    window.location.search,
+    window.decodeURIComponent
+  );
+  return searchParams.query || searchParams.name || searchParams.address;
 }
 
 /**
@@ -42,6 +51,12 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
     detachedMediaQuery: "none",
     classNames: {
       input: "c-form__input-container"
+    },
+    initialState: {
+      query:
+        container.dataset.initialState === ""
+          ? getLikelyQueryParams()
+          : undefined
     },
     openOnFocus: true,
     onStateChange:
