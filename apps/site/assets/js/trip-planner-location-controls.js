@@ -176,12 +176,6 @@ export class TripPlannerLocControls {
   }
 
   onInputChange(ac) {
-    if (this.getById("to_id")) {
-      this.getById("to_id").value = null;
-    }
-    if (this.getById("from_id")) {
-      this.getById("from_id").value = null;
-    }
     return () => {
       if (ac && ac._input.id === "to") {
         this.toInputDirty = true;
@@ -399,18 +393,22 @@ export class TripPlannerLocControls {
     const toError = toAc.error;
     const from = fromAc.getValue();
     const to = toAc.getValue();
-    const fromLat = this.getById("from_latitude").value;
-    const fromLng = this.getById("from_longitude").value;
-    const fromId = this.getById("from_id");
-    const toLat = this.getById("to_latitude").value;
-    const toLng = this.getById("to_longitude").value;
-    const toId = this.getById("to_id");
-    this.getById("from_latitude").value = toLat;
-    this.getById("from_longitude").value = toLng;
-    fromId ? (this.getById("from_id").value = toId) : null;
-    this.getById("to_latitude").value = fromLat;
-    this.getById("to_longitude").value = fromLng;
-    toId ? (this.getById("to_id").value = fromId) : null;
+    const fromLat = this.fromLat.value;
+    const fromLng = this.fromLng.value;
+    const fromInput = this.fromInput.value;
+    const fromStopId = this.fromStopId.value;
+    const toLat = this.toLat.value;
+    const toLng = this.toLng.value;
+    const toInput = this.toInput.value;
+    const toStopId = this.toStopId.value;
+    this.fromLat.value = toLat;
+    this.fromLng.value = toLng;
+    this.fromInput.value = toInput;
+    this.fromStopId.value = toStopId;
+    this.toLat.value = fromLat;
+    this.toLng.value = fromLng;
+    this.toInput.value = fromInput;
+    this.toStopId.value = fromStopId;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();
