@@ -60,12 +60,6 @@ defmodule CMS.Telemetry.Reporter do
     Logger.warning("#{key} kind=#{kind} reason=#{reason}")
   end
 
-  def handle_exception(event_name, _measurements, _metadata, _config) do
-    key = event_name |> Enum.map(&Atom.to_string/1) |> Enum.join(".")
-
-    Logger.warning(key)
-  end
-
   defp handle_metric(%Metrics.LastValue{}, %{hits: hits, misses: misses}, _metadata) do
     total = hits + misses
 

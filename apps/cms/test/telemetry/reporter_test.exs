@@ -17,7 +17,10 @@ defmodule CMS.Telemetry.ReporterTest do
     CMS.Telemetry.Reporter.start_link(metrics: [])
 
     assert capture_log(fn ->
-             :telemetry.execute([:cms, :cache, :command, :exception], %{duration: 0})
-           end) =~ "cms.cache.command.exception"
+             :telemetry.execute([:cms, :cache, :command, :exception], %{duration: 0}, %{
+               kind: :error,
+               reason: %Redix.ConnectionError{reason: :closed}
+             })
+           end) =~ "cms.cache.command.exception kind=error reason=closed"
   end
 end
