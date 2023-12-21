@@ -367,6 +367,9 @@ export class TripPlannerLocControls {
     if (hit.stop?.id) {
       const stopIdEl = this.getById(ac._selectors.stop_id);
       stopIdEl.value = hit.stop.id;
+    } else if (hit.stop_id) {
+      const stopIdEl = this.getById(ac._selectors.stop_id);
+      stopIdEl.value = hit.stop_id;
     }
   }
 
@@ -483,6 +486,7 @@ TripPlannerLocControls.POPULAR = [
     features: ["red_line", "bus", "commuter_rail", "access"],
     latitude: 42.352271,
     longitude: -71.055242,
+    stop_id: "place-sstat",
     url: "#"
   },
   {
@@ -498,6 +502,7 @@ TripPlannerLocControls.POPULAR = [
     ],
     latitude: 42.365577,
     longitude: -71.06129,
+    stop_id: "place-north",
     url: "#"
   }
 ];
