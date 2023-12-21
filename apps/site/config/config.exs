@@ -23,6 +23,8 @@ config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :logger, level: :notice
+
 # Include referrer in Logster request log
 config :logster, :allowed_headers, ["referer"]
 

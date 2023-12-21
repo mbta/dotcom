@@ -23,24 +23,30 @@ defmodule CMS.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
-      {CMS.Telemetry.Reporter, metrics: [Metrics.last_value("cms.repo.stats.updates")]},
-      {TelemetryMetricsStatsd, metrics: metrics()}
+      {:telemetry_poller, measurements: periodic_measurements(), period: 5_000},
+      {CMS.Telemetry.Reporter, metrics: reporter_metrics()},
+      {TelemetryMetricsStatsd, metrics: statsd_metrics()}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  defp metrics do
+  defp reporter_metrics do
     [
-      Metrics.last_value("cms.repo.stats.hits"),
-      Metrics.last_value("cms.repo.stats.misses")
+      Metrics.last_value("cms.cache.stats.updates")
+    ]
+  end
+
+  defp statsd_metrics do
+    [
+      Metrics.last_value("cms.cache.stats.hits"),
+      Metrics.last_value("cms.cache.stats.misses")
     ]
   end
 
   defp periodic_measurements do
     [
-      {Application.get_env(:cms, :cache), :dispatch_stats, []}
+      {Application.get_env(:cms, :cache, CMS.Cache), :dispatch_stats, []}
     ]
   end
 end

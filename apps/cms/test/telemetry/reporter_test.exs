@@ -5,11 +5,19 @@ defmodule CMS.Telemetry.ReporterTest do
 
   test "the hit rate gets logged" do
     CMS.Telemetry.Reporter.start_link(
-      metrics: [Telemetry.Metrics.last_value("cms.repo.stats.updates")]
+      metrics: [Telemetry.Metrics.last_value("cms.cache.stats.updates")]
     )
 
     assert capture_log(fn ->
-             :telemetry.execute([:cms, :repo, :stats], %{hits: 99, misses: 1})
+             :telemetry.execute([:cms, :cache, :stats], %{hits: 99, misses: 1})
            end) =~ "hit_rate=0.99"
+  end
+
+  test "cache command exceptions get logged" do
+    CMS.Telemetry.Reporter.start_link(metrics: [])
+
+    assert capture_log(fn ->
+             :telemetry.execute([:cms, :cache, :command, :exception], %{duration: 0})
+           end) =~ "cms.cache.command.exception"
   end
 end

@@ -25,6 +25,13 @@ defmodule CMS.Telemetry.Reporter do
       :telemetry.attach({__MODULE__, event, self()}, event, &__MODULE__.handle_event/4, metrics)
     end
 
+    :telemetry.attach(
+      "cache-command-exception",
+      [:cms, :cache, :command, :exception],
+      &__MODULE__.handle_exception/4,
+      nil
+    )
+
     {:ok, Map.keys(groups)}
   end
 
@@ -40,6 +47,23 @@ defmodule CMS.Telemetry.Reporter do
   def handle_event(_event_name, measurements, metadata, metrics) do
     metrics
     |> Enum.map(&handle_metric(&1, measurements, metadata))
+  end
+
+  def handle_exception(
+        event_name,
+        _measurements,
+        %{kind: kind, reason: %Redix.ConnectionError{reason: reason}},
+        _config
+      ) do
+    key = event_name |> Enum.map(&Atom.to_string/1) |> Enum.join(".")
+
+    Logger.warning("#{key} kind=#{kind} reason=#{reason}")
+  end
+
+  def handle_exception(event_name, _measurements, _metadata, _config) do
+    key = event_name |> Enum.map(&Atom.to_string/1) |> Enum.join(".")
+
+    Logger.warning(key)
   end
 
   defp handle_metric(%Metrics.LastValue{}, %{hits: hits, misses: misses}, _metadata) do
