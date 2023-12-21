@@ -135,13 +135,9 @@ defmodule SiteWeb.PartialView do
   """
   @spec paragraph(String.t(), Conn.t()) :: Phoenix.HTML.Safe.t()
   def paragraph(path, conn) do
-    case conn.query_params do
-      %Plug.Conn.Unfetched{aspect: :query_params} ->
-        Repo.get_paragraph(path) |> render_paragraph(conn)
-
-      params ->
-        Repo.get_paragraph(path, params) |> render_paragraph(conn)
-    end
+    path
+    |> Repo.get_paragraph(conn.query_params)
+    |> render_paragraph(conn)
   end
 
   @doc """
