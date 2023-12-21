@@ -1,4 +1,5 @@
 import { omit } from "lodash";
+import { OnSubmitParams } from "@algolia/autocomplete-core";
 import { OnStateChangeProps } from "@algolia/autocomplete-js";
 import {
   ContentItem,
@@ -53,6 +54,15 @@ export const STATE_CHANGE_HANDLERS: Record<
   (props: OnStateChangeProps<Item>) => void
 > = {
   nav: navStateChange
+};
+
+export const SUBMIT_HANDLERS: Record<
+  string,
+  (props: OnSubmitParams<Item>) => void
+> = {
+  to_search_page({ state }) {
+    window.Turbolinks.visit(`/search?query=${state.query}`);
+  }
 };
 
 export type WithUrls<T> = T & { urls: Record<string, string> };

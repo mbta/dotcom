@@ -48,6 +48,11 @@ defmodule SiteWeb.Components do
     default: nil
   )
 
+  attr(:submit_handler, :string,
+    doc: "Name of event handler that responds to Autocomplete.js form submission",
+    default: "to_search_page"
+  )
+
   @doc """
   Instantiates a search box using Algolia's Autocomplete.js library, configured
   to search our application's Algolia indexes, AWS Location Service, and
@@ -71,6 +76,7 @@ defmodule SiteWeb.Components do
       |> assign_new(:geolocation, fn -> false end)
       |> assign_new(:locations_count, fn -> false end)
       |> assign_new(:locations_url_type, fn -> false end)
+      |> assign_new(:submit_handler, fn -> false end)
 
     valid_algolia_indexes =
       Query.valid_indexes()
@@ -105,6 +111,7 @@ defmodule SiteWeb.Components do
         data-algolia={@valid_indexes}
         data-placeholder={@placeholder}
         data-state-change-listener={@state_change_listener}
+        data-submit-handler={@submit_handler}
       />
       <div class="c-search-bar__autocomplete-results" />
     </div>

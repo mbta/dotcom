@@ -6,7 +6,7 @@ import {
 import { createElement, Fragment } from "react";
 import { render } from "react-dom";
 import { Item } from "./__autocomplete";
-import { STATE_CHANGE_HANDLERS } from "./helpers";
+import { STATE_CHANGE_HANDLERS, SUBMIT_HANDLERS } from "./helpers";
 import getPlugins from "./plugins";
 
 // replace the default Preact-based renderer used by AutocompleteJS
@@ -46,9 +46,7 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
     openOnFocus: true,
     onStateChange:
       STATE_CHANGE_HANDLERS[`${container.dataset.stateChangeListener}`],
-    onSubmit({ state }) {
-      window.Turbolinks.visit(`/search?query=${state.query}`);
-    },
+    onSubmit: SUBMIT_HANDLERS[`${container.dataset.submitHandler}`],
     placeholder: container.dataset.placeholder,
     plugins: getPlugins(container.dataset),
     renderer: reactRenderer
