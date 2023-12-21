@@ -194,13 +194,17 @@ defmodule CMS.Repo do
   @behaviour Nebulex.Caching.KeyGenerator
 
   @impl true
+  def generate(_, _, [path, %Plug.Conn.Unfetched{aspect: :query_params}]) do
+    "/cms/#{String.trim(path, "/")}"
+  end
+
   def generate(_, _, [path, params]) do
     "/cms/#{String.trim(path, "/")}" <> params_to_string(params)
   end
 
   defp params_to_string(params) when params == %{}, do: ""
 
-  defp params_to_string(params) do
+  defp params_to_string(params) when is_map(params) do
     [head | tail] = Enum.map(params, fn {k, v} -> "#{k}=#{v}" end)
 
     ["?#{head}", "#{Enum.join(tail, "&")}"]
