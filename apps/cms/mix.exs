@@ -47,16 +47,18 @@ defmodule CMS.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, ">= 0.0.0"},
-      {:poison, "~> 3.0"},
-      {:timex, ">= 0.0.0"},
-      {:plug, "~> 1.14.2"},
-      {:html_sanitize_ex, "1.3.0"},
       {:bypass, "~> 1.0", only: :test},
-      {:quixir, "~> 0.9", only: :test},
+      {:html_sanitize_ex, "1.3.0"},
+      {:httpoison, ">= 0.0.0"},
       {:mock, "~> 0.3.3", only: :test},
+      {:nebulex, "2.5.2"},
+      {:nebulex_redis_adapter, "2.3.1"},
       {:phoenix_html, "~> 3.0"},
+      {:plug, "~> 1.14.2"},
+      {:poison, "~> 3.0"},
+      {:quixir, "~> 0.9", only: :test},
       {:repo_cache, in_umbrella: true},
+      {:timex, ">= 0.0.0"},
       {:util, in_umbrella: true}
     ]
   end
