@@ -18,6 +18,7 @@ defmodule SiteWeb.Router do
     plug(:fetch_session)
     plug(:fetch_live_flash)
     plug(:fetch_cookies)
+    plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug(SiteWeb.Plugs.CanonicalHostname)
     plug(SiteWeb.Plugs.Banner)
@@ -209,6 +210,15 @@ defmodule SiteWeb.Router do
 
     for static_page <- StaticPage.static_pages() do
       get("/#{StaticPage.convert_path(static_page)}", StaticPageController, static_page)
+    end
+  end
+
+  if Mix.env() == :dev do
+    scope "/", SiteWeb do
+      import Phoenix.LiveDashboard.Router
+
+      pipe_through([:browser])
+      live_dashboard("/dashboard")
     end
   end
 

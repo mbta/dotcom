@@ -38,7 +38,7 @@ defmodule JsonApi.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:poison, ">= 0.0.0"},
+      {:poison, "~> 3.0"},
       {:jason, "~> 1.1"},
       {:benchfella, "~> 0.3", only: :dev}
     ]
