@@ -176,12 +176,6 @@ export class TripPlannerLocControls {
   }
 
   onInputChange(ac) {
-    if (this.getById("to_id")) {
-      this.getById("to_id").value = null;
-    }
-    if (this.getById("from_id")) {
-      this.getById("from_id").value = null;
-    }
     return () => {
       if (ac && ac._input.id === "to") {
         this.toInputDirty = true;
@@ -332,6 +326,7 @@ export class TripPlannerLocControls {
         case "locations":
           GoogleMapsHelpers.lookupPlace(hit.address).then(res => {
             const { latitude, longitude } = res;
+            this.setStopValue(ac, hit);
             this.setAutocompleteValue(
               ac,
               hit.address,
@@ -364,9 +359,13 @@ export class TripPlannerLocControls {
   }
 
   setStopValue(ac, hit) {
+    const stopIdEl = this.getById(ac._selectors.stop_id);
     if (hit.stop?.id) {
-      const stopIdEl = this.getById(ac._selectors.stop_id);
       stopIdEl.value = hit.stop.id;
+    } else if (hit.stop_id) {
+      stopIdEl.value = hit.stop_id;
+    } else {
+      stopIdEl.value = null;
     }
   }
 
@@ -396,18 +395,22 @@ export class TripPlannerLocControls {
     const toError = toAc.error;
     const from = fromAc.getValue();
     const to = toAc.getValue();
-    const fromLat = this.getById("from_latitude").value;
-    const fromLng = this.getById("from_longitude").value;
-    const fromId = this.getById("from_id");
-    const toLat = this.getById("to_latitude").value;
-    const toLng = this.getById("to_longitude").value;
-    const toId = this.getById("to_id");
-    this.getById("from_latitude").value = toLat;
-    this.getById("from_longitude").value = toLng;
-    fromId ? (this.getById("from_id").value = toId) : null;
-    this.getById("to_latitude").value = fromLat;
-    this.getById("to_longitude").value = fromLng;
-    toId ? (this.getById("to_id").value = fromId) : null;
+    const fromLat = this.fromLat.value;
+    const fromLng = this.fromLng.value;
+    const fromInput = this.fromInput.value;
+    const fromStopId = this.fromStopId.value;
+    const toLat = this.toLat.value;
+    const toLng = this.toLng.value;
+    const toInput = this.toInput.value;
+    const toStopId = this.toStopId.value;
+    this.fromLat.value = toLat;
+    this.fromLng.value = toLng;
+    this.fromInput.value = toInput;
+    this.fromStopId.value = toStopId;
+    this.toLat.value = fromLat;
+    this.toLng.value = fromLng;
+    this.toInput.value = fromInput;
+    this.toStopId.value = fromStopId;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();
@@ -483,6 +486,7 @@ TripPlannerLocControls.POPULAR = [
     features: ["red_line", "bus", "commuter_rail", "access"],
     latitude: 42.352271,
     longitude: -71.055242,
+    stop_id: "place-sstat",
     url: "#"
   },
   {
@@ -498,6 +502,7 @@ TripPlannerLocControls.POPULAR = [
     ],
     latitude: 42.365577,
     longitude: -71.06129,
+    stop_id: "place-north",
     url: "#"
   }
 ];
