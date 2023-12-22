@@ -16,9 +16,8 @@ defmodule SiteWeb.Router do
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
-    plug(:fetch_live_flash)
+    plug(:fetch_flash)
     plug(:fetch_cookies)
-    plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug(SiteWeb.Plugs.CanonicalHostname)
     plug(SiteWeb.Plugs.Banner)
@@ -33,6 +32,11 @@ defmodule SiteWeb.Router do
     plug(:activate_flag)
     plug(SiteWeb.Plugs.GlxNowOpen)
     plug(SiteWeb.Plugs.LineSuspensions)
+  end
+
+  pipeline :browser_live do
+    plug(:fetch_live_flash)
+    plug(:protect_from_forgery)
   end
 
   pipeline :api do
@@ -217,7 +221,7 @@ defmodule SiteWeb.Router do
     scope "/", SiteWeb do
       import Phoenix.LiveDashboard.Router
 
-      pipe_through([:browser])
+      pipe_through([:browser, :browser_live])
       live_dashboard("/dashboard")
     end
   end
