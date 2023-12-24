@@ -36,7 +36,6 @@ defmodule Stops.Mixfile do
   defp deps do
     [
       {:httpoison, ">= 0.0.0"},
-      {:v3_api, in_umbrella: true},
       {:json_api, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:repo_cache, in_umbrella: true},

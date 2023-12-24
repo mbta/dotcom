@@ -34,7 +34,6 @@ defmodule Predictions.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:v3_api, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},
       {:repo_cache, in_umbrella: true},

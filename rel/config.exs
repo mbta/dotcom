@@ -56,8 +56,7 @@ release :site do
       schedules: :permanent,
       site: :permanent,
       stops: :permanent,
-      trip_plan: :permanent,
-      v3_api: :permanent
+      trip_plan: :permanent
     ]
   )
 end

@@ -38,7 +38,6 @@ defmodule Routes.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:v3_api, in_umbrella: true},
       {:mock, "~> 0.3.3", only: :test},
       {:repo_cache, in_umbrella: true}
     ]

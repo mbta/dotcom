@@ -26,8 +26,7 @@ defmodule Services.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:repo_cache, in_umbrella: true},
-      {:v3_api, in_umbrella: true}
+      {:repo_cache, in_umbrella: true}
     ]
   end
 end

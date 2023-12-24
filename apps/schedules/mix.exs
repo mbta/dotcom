@@ -23,7 +23,6 @@ defmodule Schedules.Mixfile do
     [
       applications: [
         :logger,
-        :v3_api,
         :timex,
         :repo_cache,
         :tzdata,
@@ -50,7 +49,6 @@ defmodule Schedules.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:v3_api, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:repo_cache, in_umbrella: true},
       {:routes, in_umbrella: true},

@@ -7,8 +7,8 @@ defmodule V3Api do
   alias V3Api.Cache
   alias Util
 
-  @default_timeout Application.get_env(:v3_api, :default_timeout)
-  @http_pool Application.get_env(:v3_api, :http_pool)
+  @default_timeout Application.get_env(:site, :v3_api_default_timeout)
+  @http_pool Application.get_env(:site, :v3_api_http_pool)
 
   @spec get_json(String.t(), Keyword.t()) :: JsonApi.t() | {:error, any}
   def get_json(url, params \\ [], opts \\ []) do
@@ -143,13 +143,13 @@ defmodule V3Api do
 
   defp default_options do
     [
-      base_url: config(:base_url),
-      api_key: config(:api_key),
+      base_url: config(:v3_api_base_url),
+      api_key: config(:v3_api_key),
       timeout: @default_timeout
     ]
   end
 
   defp config(key) do
-    Util.config(:v3_api, key)
+    Util.config(:site, key)
   end
 end

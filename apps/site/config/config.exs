@@ -79,6 +79,16 @@ config :site,
   allow_indexing: false,
   enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES", "true"}
 
+config :site,
+  v3_api_base_url: {:system, "V3_URL"},
+  v3_api_key: {:system, "V3_API_KEY"},
+  v3_api_version: {:system, "V3_API_VERSION", "2019-07-01"},
+  v3_api_wiremock_proxy_url: {:system, "WIREMOCK_PROXY_URL"},
+  v3_api_wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
+  v3_api_default_timeout: 5_000,
+  v3_api_cache_size: 10_000,
+  v3_api_http_pool: :v3_api_http_pool
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

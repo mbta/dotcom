@@ -20,7 +20,7 @@ config :logger, level: :notice
 config :tzdata, :autoupdate, :disabled
 
 # Allow more time for API requests on CI
-config :v3_api, default_timeout: 10_000
+config :site, v3_api_default_timeout: 10_000
 
 config :recaptcha, http_client: Recaptcha.Http.MockClient
 

@@ -47,13 +47,13 @@ defmodule Predictions.RepoTest do
 
     @tag :capture_log
     test "returns a list even if the server is down" do
-      v3_url = Application.get_env(:v3_api, :base_url)
+      v3_url = Application.get_env(:site, :v3_api_base_url)
 
       on_exit(fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
+        Application.put_env(:site, :v3_api_base_url, v3_url)
       end)
 
-      Application.put_env(:v3_api, :base_url, "http://localhost:0/")
+      Application.put_env(:site, :v3_api_base_url, "http://localhost:0/")
 
       assert Repo.all(route: "test_down_server") == []
     end
@@ -77,13 +77,13 @@ defmodule Predictions.RepoTest do
       _ = Stops.Repo.get("place-pktrm")
 
       bypass = Bypass.open()
-      v3_url = Application.get_env(:v3_api, :base_url)
+      v3_url = Application.get_env(:site, :v3_api_base_url)
 
       on_exit(fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
+        Application.put_env(:site, :v3_api_base_url, v3_url)
       end)
 
-      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+      Application.put_env(:site, :v3_api_base_url, "http://localhost:#{bypass.port}")
 
       Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
         case request_path do
@@ -151,13 +151,13 @@ defmodule Predictions.RepoTest do
     @tag :capture_log
     test "caches trips that are retrieved" do
       bypass = Bypass.open()
-      v3_url = Application.get_env(:v3_api, :base_url)
+      v3_url = Application.get_env(:site, :v3_api_base_url)
 
       on_exit(fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
+        Application.put_env(:site, :v3_api_base_url, v3_url)
       end)
 
-      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+      Application.put_env(:site, :v3_api_base_url, "http://localhost:#{bypass.port}")
 
       Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
@@ -225,13 +225,13 @@ defmodule Predictions.RepoTest do
       _ = Stops.Repo.get("place-pktrm")
 
       bypass = Bypass.open()
-      v3_url = Application.get_env(:v3_api, :base_url)
+      v3_url = Application.get_env(:site, :v3_api_base_url)
 
       on_exit(fn ->
-        Application.put_env(:v3_api, :base_url, v3_url)
+        Application.put_env(:site, :v3_api_base_url, v3_url)
       end)
 
-      Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
+      Application.put_env(:site, :v3_api_base_url, "http://localhost:#{bypass.port}")
 
       Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop

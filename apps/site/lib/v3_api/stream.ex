@@ -56,8 +56,8 @@ defmodule V3Api.Stream do
 
   @spec default_options :: Keyword.t()
   defp default_options do
-    with base_url when not is_nil(base_url) <- config(:base_url),
-         api_key when not is_nil(api_key) <- config(:api_key) do
+    with base_url when not is_nil(base_url) <- config(:v3_api_base_url),
+         api_key when not is_nil(api_key) <- config(:v3_api_key) do
       [
         base_url: base_url,
         api_key: api_key
@@ -69,7 +69,7 @@ defmodule V3Api.Stream do
   end
 
   @spec config(atom) :: any
-  defp config(key), do: Util.config(:v3_api, key)
+  defp config(key), do: Util.config(:site, key)
 
   @spec set_url(Keyword.t()) :: Keyword.t()
   defp set_url(opts) do

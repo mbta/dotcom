@@ -38,7 +38,6 @@ defmodule Facilities.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:v3_api, in_umbrella: true},
       {:repo_cache, in_umbrella: true}
     ]
   end
