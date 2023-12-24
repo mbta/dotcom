@@ -67,7 +67,6 @@ defmodule Site.Mixfile do
       {:floki, "~> 0.31.0"},
       {:gettext, "~> 0.9"},
       {:hammer, "~> 6.0"},
-      {:holiday, [in_umbrella: true]},
       {:html_sanitize_ex, "1.3.0"},
       {:httpoison, "~> 1.5"},
       {:inflex, "~> 1.8.0"},

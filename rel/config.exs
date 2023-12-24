@@ -50,7 +50,6 @@ release :site do
       fares: :permanent,
       feedback: :permanent,
       location_service: :permanent,
-      holiday: :permanent,
       json_api: :permanent,
       predictions: :permanent,
       repo_cache: :permanent,
