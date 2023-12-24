@@ -56,6 +56,7 @@ defmodule Site.Application do
           {Site.React, name: Site.React},
           {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
           {Phoenix.PubSub, name: Site.PubSub},
+          Fares.Supervisor,
           {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
         ]
 

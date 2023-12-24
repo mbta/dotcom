@@ -47,7 +47,6 @@ release :site do
       :runtime_tools,
       alerts: :permanent,
       cms: :permanent,
-      fares: :permanent,
       feedback: :permanent,
       location_service: :permanent,
       json_api: :permanent,
