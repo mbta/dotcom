@@ -451,29 +451,29 @@ defmodule UtilTest do
   end
 
   test "config/2 returns config values" do
-    Application.put_env(:util, :config_test, {:system, "CONFIG_TEST", "default"})
-    assert Util.config(:util, :config_test) == "default"
+    Application.put_env(:site, :util_config_test, {:system, "CONFIG_TEST", "default"})
+    assert Util.config(:site, :util_config_test) == "default"
     System.put_env("CONFIG_TEST", "env")
-    assert Util.config(:util, :config_test) == "env"
+    assert Util.config(:site, :util_config_test) == "env"
     System.delete_env("CONFIG_TEST")
-    Application.delete_env(:util, :config_test)
+    Application.delete_env(:site, :util_config_test)
   end
 
   test "config/2 doesn't raise if config isn't found" do
-    assert Util.config(:util, :config_test) == nil
+    assert Util.config(:site, :util_config_test) == nil
   end
 
   test "config/3 returns nested config values" do
-    Application.put_env(:util, :config_test, nested: {:system, "CONFIG_TEST", "default"})
-    assert Util.config(:util, :config_test, :nested) == "default"
+    Application.put_env(:site, :util_config_test, nested: {:system, "CONFIG_TEST", "default"})
+    assert Util.config(:site, :util_config_test, :nested) == "default"
     System.put_env("CONFIG_TEST", "env")
-    assert Util.config(:util, :config_test, :nested) == "env"
+    assert Util.config(:site, :util_config_test, :nested) == "env"
     System.delete_env("CONFIG_TEST")
-    Application.delete_env(:util, :config_test)
+    Application.delete_env(:site, :util_config_test)
   end
 
   test "config/3 raises if config isn't found" do
-    assert_raise ArgumentError, fn -> Util.config(:util, :config_test, :nested) end
+    assert_raise ArgumentError, fn -> Util.config(:site, :util_config_test, :nested) end
   end
 
   def log_duration_test(arg_1, arg_2) do

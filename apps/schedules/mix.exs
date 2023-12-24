@@ -27,7 +27,6 @@ defmodule Schedules.Mixfile do
         :timex,
         :repo_cache,
         :tzdata,
-        :util,
         :routes,
         :stops,
         :services
@@ -57,8 +56,8 @@ defmodule Schedules.Mixfile do
       {:routes, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
-      {:benchfella, "~> 0.3", only: :dev},
-      {:util, in_umbrella: true}
+      {:site, in_umbrella: true},
+      {:benchfella, "~> 0.3", only: :dev}
     ]
   end
 end

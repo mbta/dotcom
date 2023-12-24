@@ -51,7 +51,7 @@ defmodule Alerts.Mixfile do
       {:stops, in_umbrella: true},
       {:con_cache, "~> 0.12.0"},
       {:timex, ">= 0.0.0"},
-      {:util, in_umbrella: true},
+      {:site, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
       {:benchfella, "~> 0.3", only: :dev},
       {:ex_aws, "~> 2.4", only: [:prod, :dev]},

@@ -59,7 +59,6 @@ release :site do
       site: :permanent,
       stops: :permanent,
       trip_plan: :permanent,
-      util: :permanent,
       v3_api: :permanent,
       vehicles: :permanent
     ]

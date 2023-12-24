@@ -60,9 +60,9 @@ config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
 
 config :site, StaticFileController, response_fn: {SiteWeb.StaticFileController, :send_file}
 
-config :util,
-  router_helper_module: {:ok, SiteWeb.Router.Helpers},
-  endpoint: {:ok, SiteWeb.Endpoint}
+config :site,
+  util_router_helper_module: {:ok, SiteWeb.Router.Helpers},
+  util_endpoint: {:ok, SiteWeb.Endpoint}
 
 config :hammer,
   backend: {Hammer.Backend.ETS, [expiry_ms: 60_000 * 60 * 4, cleanup_interval_ms: 60_000 * 10]}

@@ -81,6 +81,8 @@ defmodule Site.Mixfile do
       {:phoenix_live_dashboard, "~> 0.8"},
       {:phoenix_live_reload, "~> 1.0", [only: :dev]},
       {:phoenix_live_view, "~> 0.20"},
+      {:phoenix_pubsub, "~> 2.1.3"},
+      {:plug, "~> 1.14.2"},
       {:plug_cowboy, "~> 2.6.1"},
       {:poison, "~> 3.0"},
       {:polyline, [github: "ryan-mahoney/polyline_ex"]},
@@ -107,7 +109,6 @@ defmodule Site.Mixfile do
       {:timex, ">= 2.0.0"},
       {:trip_plan, [in_umbrella: true]},
       {:unrooted_polytree, "~> 0.1.1"},
-      {:util, [in_umbrella: true]},
       {:vehicles, [in_umbrella: true]},
       {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
     ]

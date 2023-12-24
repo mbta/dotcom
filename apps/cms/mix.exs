@@ -58,8 +58,8 @@ defmodule CMS.Mixfile do
       {:poison, "~> 3.0"},
       {:quixir, "~> 0.9", only: :test},
       {:repo_cache, in_umbrella: true},
-      {:timex, ">= 0.0.0"},
-      {:util, in_umbrella: true}
+      {:site, in_umbrella: true},
+      {:timex, ">= 0.0.0"}
     ]
   end
 end

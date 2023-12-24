@@ -21,7 +21,7 @@ defmodule V3Api.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      extra_applications: [:logger, :util],
+      extra_applications: [:logger],
       mod: {V3Api.Application, []}
     ]
   end
@@ -49,7 +49,7 @@ defmodule V3Api.Mixfile do
       {:castore, "~> 0.1.11"},
       {:gen_stage, "~> 1.2"},
       {:json_api, in_umbrella: true},
-      {:util, in_umbrella: true},
+      {:site, in_umbrella: true},
       {:sentry, "~> 7.0"}
     ]
   end
