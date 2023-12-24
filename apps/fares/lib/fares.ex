@@ -8,7 +8,6 @@ defmodule Fares do
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
-  alias Zones.Zone
 
   @silver_line_rapid_transit ~w(741 742 743 746)
   @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
@@ -35,6 +34,7 @@ defmodule Fares do
           | :ferry_george
 
   @type fare_type :: :highest_one_way_fare | :lowest_one_way_fare | :reduced_one_way_fare
+  @type zone :: String.t()
 
   @doc """
   Calculate the fare between a pair of stops.
@@ -58,10 +58,10 @@ defmodule Fares do
         foxboro_pilot?(trip_details) ->
           {:ok, calculate_foxboro_zones(origin_zone, dest_zone)}
 
-        Zone.combo_zone?(origin_zone) ->
+        combo_zone?(origin_zone) ->
           {:ok, calculate_combo(origin_zone, dest_zone, destination)}
 
-        Zone.combo_zone?(dest_zone) ->
+        combo_zone?(dest_zone) ->
           {:ok, calculate_combo(dest_zone, origin_zone, origin)}
 
         true ->
@@ -99,15 +99,15 @@ defmodule Fares do
     {:interzone, "#{total_zones}"}
   end
 
-  @spec calculate_combo(Zone.t(), Zone.t(), Stop.id_t()) :: {:interzone, binary} | {:zone, any}
+  @spec calculate_combo(zone, zone, Stop.id_t()) :: {:interzone, binary} | {:zone, any}
   defp calculate_combo(combo_zone, _other_zone, other_stop_id)
        when other_stop_id in @terminus_stops do
-    {:zone, Zone.terminus_zone(combo_zone)}
+    {:zone, terminus_zone(combo_zone)}
   end
 
   defp calculate_combo(combo_zone, other_zone, _other_stop_id) do
-    general_combo_zone = Zone.general_zone(combo_zone)
-    general_other_zone = Zone.general_zone(other_zone)
+    general_combo_zone = general_zone(combo_zone)
+    general_other_zone = general_zone(other_zone)
     calculate_commuter_rail(general_combo_zone, general_other_zone)
   end
 
@@ -226,5 +226,27 @@ defmodule Fares do
       Access.key(:fares, %{}),
       Access.key(fare_type)
     ])
+  end
+
+  defp combo_zone?(zone), do: String.contains?(zone, "-")
+
+  defp terminus_zone(zone) do
+    if combo_zone?(zone) do
+      zone
+      |> String.split("-")
+      |> List.first()
+    else
+      zone
+    end
+  end
+
+  defp general_zone(zone) do
+    if combo_zone?(zone) do
+      zone
+      |> String.split("-")
+      |> List.last()
+    else
+      zone
+    end
   end
 end

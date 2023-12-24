@@ -61,8 +61,7 @@ release :site do
       trip_plan: :permanent,
       util: :permanent,
       v3_api: :permanent,
-      vehicles: :permanent,
-      zones: :permanent
+      vehicles: :permanent
     ]
   )
 end

@@ -109,8 +109,7 @@ defmodule Site.Mixfile do
       {:unrooted_polytree, "~> 0.1.1"},
       {:util, [in_umbrella: true]},
       {:vehicles, [in_umbrella: true]},
-      {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]},
-      {:zones, [in_umbrella: true]}
+      {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
     ]
   end
 end

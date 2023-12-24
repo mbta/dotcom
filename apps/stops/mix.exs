@@ -43,8 +43,7 @@ defmodule Stops.Mixfile do
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},
       {:csv, "~> 3.0.5"},
-      {:util, in_umbrella: true},
-      {:zones, in_umbrella: true}
+      {:util, in_umbrella: true}
     ]
   end
 end
