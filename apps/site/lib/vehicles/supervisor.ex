@@ -1,13 +1,13 @@
-defmodule Vehicles do
-  use Application
+defmodule Vehicles.Supervisor do
+  use Supervisor
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
-  def start(_type, _args) do
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Vehicles.Supervisor]
-    children() |> Supervisor.start_link(opts)
+  def start_link(_) do
+    Supervisor.start_link(__MODULE__, [])
+  end
+
+  @impl Supervisor
+  def init(_) do
+    Supervisor.init(children(), strategy: :rest_for_one)
   end
 
   defp children do

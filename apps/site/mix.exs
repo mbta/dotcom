@@ -108,7 +108,6 @@ defmodule Site.Mixfile do
       {:timex, ">= 2.0.0"},
       {:trip_plan, [in_umbrella: true]},
       {:unrooted_polytree, "~> 0.1.1"},
-      {:vehicles, [in_umbrella: true]},
       {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
     ]
   end

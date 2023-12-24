@@ -38,6 +38,7 @@ defmodule Site.Application do
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [
+            Vehicles.Supervisor,
             Supervisor.child_spec(
               {Site.Stream.Vehicles,
                name: :vehicle_marker_channel_broadcaster, topic: "vehicles"},
