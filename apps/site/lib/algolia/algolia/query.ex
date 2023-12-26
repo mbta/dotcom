@@ -9,7 +9,7 @@ defmodule Algolia.Query do
 
   @doc "Algolia indexes available to query"
   def valid_indexes() do
-    suffix = Application.get_env(:algolia, :index_suffix, "")
+    suffix = Application.get_env(:site, :algolia_index_suffix, "")
     ["routes", "stops", "drupal"] |> Enum.map(&{String.to_atom(&1), &1 <> suffix})
   end
 
@@ -43,7 +43,7 @@ defmodule Algolia.Query do
   @spec encode_params(map) :: String.t()
   def encode_params(%{} = params) do
     params
-    |> Map.put("analytics", Application.get_env(:algolia, :track_analytics?, false))
+    |> Map.put("analytics", Application.get_env(:site, :algolia_track_analytics?, false))
     |> Enum.map(&encode_param/1)
     |> Enum.join("&")
   end

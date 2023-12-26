@@ -56,6 +56,7 @@ defmodule Site.Application do
         end ++
         [
           {Site.React, name: Site.React},
+          Algolia.Supervisor,
           Routes.Supervisor,
           Stops.Supervisor,
           Facilities.Supervisor,

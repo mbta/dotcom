@@ -126,6 +126,26 @@ else
   config :site, predictions_broadcast_interval_ms: 10_000
 end
 
+config :site, :algolia_config,
+  app_id: {:system, "ALGOLIA_APP_ID"},
+  search: {:system, "ALGOLIA_SEARCH_KEY"},
+  write: {:system, "ALGOLIA_WRITE_KEY"}
+
+config :site, :algolia_repos,
+  stops: Stops.Api,
+  routes: Routes.Repo
+
+config :site, :algolia_indexes, [
+  Algolia.Stops,
+  Algolia.Routes
+]
+
+config :site, :algolia_track_clicks?, false
+
+config :site, :algolia_index_suffix, "_test"
+
+config :site, :algolia_http_pool, :algolia_http_pool
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

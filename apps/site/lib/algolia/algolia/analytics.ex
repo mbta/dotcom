@@ -4,7 +4,7 @@ defmodule Algolia.Analytics do
   """
   require Logger
 
-  @http_pool Application.get_env(:algolia, :http_pool)
+  @http_pool Application.get_env(:site, :algolia_http_pool)
 
   @spec click(%{String.t() => String.t() | integer}) :: :ok | {:error, any}
   def click(%{"position" => <<pos::binary>>} = params) do
@@ -23,7 +23,7 @@ defmodule Algolia.Analytics do
       when is_integer(pos) do
     :algolia
     |> Application.get_env(:click_analytics_url)
-    |> send_click(params, Application.get_env(:algolia, :track_clicks?, false))
+    |> send_click(params, Application.get_env(:site, :algolia_track_clicks?, false))
   end
 
   def click(params) do

@@ -10,7 +10,7 @@ defmodule Algolia.Api do
 
   @type action :: :post | :get
 
-  @http_pool Application.get_env(:algolia, :http_pool)
+  @http_pool Application.get_env(:site, :algolia_http_pool)
 
   @type t :: %__MODULE__{
           host: String.t() | nil,

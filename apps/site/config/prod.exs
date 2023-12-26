@@ -150,3 +150,8 @@ config :site,
   autocomplete: {:system, "LOCATION_SERVICE", :google},
   aws_index_prefix: {:system, "AWS_PLACE_INDEX_PREFIX", "dotcom-prod"}
 
+config :site, :algolia_click_analytics_url, "https://insights.algolia.io"
+config :site, :algolia_track_clicks?, true
+config :site, :algolia_track_analytics?, true
+config :site, :algolia_index_suffix, ""
+

@@ -2,7 +2,7 @@ defmodule Algolia.ObjectTest do
   use ExUnit.Case, async: true
 
   setup do
-    {:ok, Application.get_env(:algolia, :repos)}
+    {:ok, Application.get_env(:site, :algolia_repos)}
   end
 
   describe "Algolia.Object.data" do

@@ -34,10 +34,10 @@ defmodule Algolia.QueryTest do
 
     test "adds analytics param if :track_analytics? is true" do
       on_exit(fn ->
-        Application.delete_env(:algolia, :track_analytics?)
+        Application.delete_env(:site, :algolia_track_analytics?)
       end)
 
-      Application.put_env(:algolia, :track_analytics?, true)
+      Application.put_env(:site, :algolia_track_analytics?, true)
 
       assert Query.encode_params(@decoded_query) ==
                Enum.join(["analytics=true" | @encoded_query_params], "&")

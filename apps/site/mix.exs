@@ -53,7 +53,6 @@ defmodule Site.Mixfile do
     [
       {:absinthe_client, "~> 0.1.0"},
       {:alerts, [in_umbrella: true]},
-      {:algolia, [in_umbrella: true]},
       {:benchfella, "~> 0.3", [only: :dev]},
       {:bypass, "~> 1.0", [only: :test]},
       {:castore, "~> 0.1.11"},

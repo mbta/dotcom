@@ -40,3 +40,19 @@ config :routes, :routes_repo_api, Routes.MockRepoApi
 config :site, TripPlanApi, module: TripPlan.Api.MockPlanner
 
 config :site, TripPlanGeocode, module: TripPlan.Geocode.MockGeocode
+
+config :site, :algolia_config,
+  app_id: "ALGOLIA_APP_ID",
+  search: "ALGOLIA_SEARCH_KEY",
+  write: "ALGOLIA_WRITE_KEY"
+
+config :site, :algolia_repos,
+  stops: Algolia.MockStopsRepo,
+  routes: Algolia.MockRoutesRepo
+
+config :site, :algolia_indexes, [
+  Algolia.MockObjects
+]
+
+config :site, :algolia_click_analytics_url, :not_set
+
