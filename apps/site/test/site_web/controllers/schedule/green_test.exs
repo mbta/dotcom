@@ -11,7 +11,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
 
   setup_all do
     # Start parent supervisor
-    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
+    _ = start_supervised({Site.GreenLine.Supervisor, []})
     :ok
   end
 

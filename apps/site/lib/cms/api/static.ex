@@ -490,7 +490,7 @@ defmodule CMS.API.Static do
   end
 
   defp parse_json(filename) do
-    file_path = [Path.dirname(__ENV__.file), "../../priv/cms/", filename]
+    file_path = [Path.dirname(__ENV__.file), "../../../priv/cms/", filename]
 
     file_path
     |> Path.join()

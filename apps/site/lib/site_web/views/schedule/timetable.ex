@@ -5,7 +5,6 @@ defmodule SiteWeb.ScheduleView.Timetable do
   alias Stops.Stop
 
   import Phoenix.HTML.Tag, only: [content_tag: 3]
-  import Phoenix.HTML, only: [safe_to_string: 1]
 
   @type vehicle_tooltip_key :: {Schedules.Trip.id_t(), Stops.Stop.id_t()}
 

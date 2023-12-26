@@ -15,8 +15,9 @@ defmodule RepoCache.Log do
 
   @table __MODULE__
 
-  def start_link([]) do
-    GenServer.start_link(__MODULE__, [])
+  def start_link(opts \\ []) do
+    name = Keyword.get(opts, :name, __MODULE__)
+    GenServer.start_link(__MODULE__, [], name: name)
   end
 
   def log(hit_or_miss, mod, name) do

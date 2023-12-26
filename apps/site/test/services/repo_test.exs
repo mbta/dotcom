@@ -2,11 +2,6 @@ defmodule Services.RepoTest do
   use ExUnit.Case
   alias Services.{Repo, Service}
 
-  setup_all do
-    _ = RepoCache.Application.start(:permanent, [])
-    :ok
-  end
-
   test "by_id fetches service by ID" do
     assert %Service{} = Repo.by_id("canonical")
   end

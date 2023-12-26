@@ -18,6 +18,14 @@ defmodule SiteWeb.LineApiTest do
   end
 
   describe "realtime" do
+    setup do
+      # needed by an underlying Plug
+      _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+      _ = start_supervised(Vehicles.Repo)
+      :ok
+    end
+
+    @tag :live_data
     test "success response", %{conn: conn} do
       conn =
         get(

@@ -8,7 +8,7 @@ defmodule Alerts.Supervisor do
   @impl Supervisor
   def init(_) do
     children =
-      case Application.get_env(:alerts, :bus_stop_change_bucket) do
+      case Application.get_env(:site, :alerts_bus_stop_change_bucket) do
         nil ->
           [Alerts.CacheSupervisor]
 

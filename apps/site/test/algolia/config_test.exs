@@ -3,8 +3,8 @@ defmodule Algolia.ConfigTest do
 
   describe "Algolia.Config.config/0" do
     test "builds a config object with all values populated" do
-      assert :algolia
-             |> Application.get_env(:config)
+      assert :site
+             |> Application.get_env(:algolia_config)
              |> Keyword.get(:app_id) == "ALGOLIA_APP_ID"
 
       assert %Algolia.Config{

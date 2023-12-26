@@ -10,8 +10,9 @@ defmodule Site.Stream.VehiclesTest do
     %Vehicle{route_id: "Green-C", direction_id: 1}
   ]
 
-  test "start_link/1" do
-    assert {:ok, _} = Site.Stream.Vehicles.start_link(name: __MODULE__)
+  setup do
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    :ok
   end
 
   test "broadcasts vehicles by route and direction id" do
@@ -20,7 +21,7 @@ defmodule Site.Stream.VehiclesTest do
     Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Blue:0")
     Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Blue:1")
 
-    assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, [])
+    assert {:ok, pid} = start_supervised({Site.Stream.Vehicles, []})
 
     send(pid, {:reset, @vehicles})
 
@@ -45,7 +46,7 @@ defmodule Site.Stream.VehiclesTest do
 
   test "sends a generic Green broadcast" do
     Phoenix.PubSub.subscribe(Site.PubSub, "vehicles:Green:1")
-    assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, [])
+    assert {:ok, pid} = start_supervised({Site.Stream.Vehicles, []})
 
     send(pid, {:reset, @vehicles})
 
@@ -59,7 +60,7 @@ defmodule Site.Stream.VehiclesTest do
 
   test "broadcasts to the configured topic" do
     SiteWeb.Endpoint.subscribe("vehicles-v2:Green:1")
-    assert {:ok, pid} = GenServer.start_link(Site.Stream.Vehicles, topic: "vehicles-v2")
+    assert {:ok, pid} = start_supervised({Site.Stream.Vehicles, topic: "vehicles-v2"})
 
     send(pid, {:reset, @vehicles})
 

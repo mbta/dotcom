@@ -9,15 +9,15 @@ defmodule Alerts.BusStopChangeSupervisor do
   use Supervisor
   alias Alerts.Cache.BusStopChangeS3
 
-  def start_link(_) do
-    Supervisor.start_link(__MODULE__, [])
+  def start_link(opts) do
+    Supervisor.start_link(__MODULE__, opts, name: Keyword.get(opts, :name, __MODULE__))
   end
 
   @impl Supervisor
-  def init(_arg) do
+  def init(opts) do
     children =
       [
-        BusStopChangeS3
+        {BusStopChangeS3, opts}
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [

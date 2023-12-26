@@ -14,8 +14,8 @@ defmodule Algolia.Config do
 
   @spec config :: t
   def config do
-    :algolia
-    |> Application.get_env(:config)
+    :site
+    |> Application.get_env(:algolia_config)
     |> Enum.reduce([], &parse_config/2)
     |> __MODULE__.__struct__()
   end

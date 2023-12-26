@@ -1,5 +1,10 @@
 defmodule Site.Application do
-  @moduledoc false
+  @moduledoc """
+  Starts all processes needed to support the Phoenix application for MBTA.com.
+  This includes a variety of caches, Supervisors starting assorted GenServers,
+  and finally the Phoenix Endpoint. These are listed in a particular order, as
+  some processes depend on other processes having started.
+  """
 
   use Application
 
@@ -35,7 +40,11 @@ defmodule Site.Application do
                [name: :line_diagram_realtime_cache]
              ]}
         },
-        RepoCache.Supervisor
+        RepoCache.Supervisor,
+        V3Api.Supervisor,
+        Schedules.Supervisor,
+        Facilities.Supervisor,
+        Stops.Supervisor
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [
@@ -56,26 +65,20 @@ defmodule Site.Application do
         end ++
         [
           {Site.React, name: Site.React},
-          Algolia.Supervisor,
           CMS.Supervisor,
           Routes.Supervisor,
-          Stops.Supervisor,
-          Facilities.Supervisor,
+          Algolia.Supervisor,
           LocationService.Supervisor,
           Services.Supervisor,
-          Schedules.Supervisor,
           RoutePatterns.Supervisor,
           Predictions.Supervisor,
           {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
           {Phoenix.PubSub, name: Site.PubSub},
           Alerts.Supervisor,
-          V3Api.Supervisor,
           Fares.Supervisor,
           {SiteWeb.Endpoint, name: SiteWeb.Endpoint}
         ]
 
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Site.Supervisor]
     Supervisor.start_link(children, opts)
   end

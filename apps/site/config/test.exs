@@ -35,7 +35,7 @@ config :wallaby,
 
 config :site, :react, source_path: nil
 
-config :routes, :routes_repo_api, Routes.MockRepoApi
+config :site, :routes_repo_api, Routes.MockRepoApi
 
 config :site, TripPlanApi, module: TripPlan.Api.MockPlanner
 

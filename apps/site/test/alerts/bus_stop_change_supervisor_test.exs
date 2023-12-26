@@ -1,22 +1,20 @@
 defmodule Alerts.BusStopChangeSupervisorTest do
   use ExUnit.Case, async: true
+  alias Alerts.BusStopChangeSupervisor
 
-  import Alerts.BusStopChangeSupervisor
-
-  setup_all do
+  setup do
     Application.put_env(:elixir, :start_data_processes, true)
-
-    :ok = Application.stop(:alerts)
 
     on_exit(fn ->
       Application.put_env(:elixir, :start_data_processes, false)
     end)
+
+    {:ok, pid} = start_supervised({BusStopChangeSupervisor, name: :test})
+    %{supervisor: pid}
   end
 
   describe "start_link/1" do
-    test "starts with children" do
-      {:ok, supervisor} = start_link([])
-
+    test "started with children", %{supervisor: supervisor} do
       children_ids =
         supervisor
         |> Supervisor.which_children()

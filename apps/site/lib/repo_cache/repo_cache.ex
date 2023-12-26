@@ -62,6 +62,16 @@ defmodule RepoCache do
 
   def server_functions do
     quote do
+      def start_link(opts) do
+        name =
+          case Keyword.get(opts, :name) do
+            nil -> __MODULE__
+            name -> :"#{__MODULE__}:#{name}"
+          end
+
+        ConCache.start_link(opts(), name: name)
+      end
+
       def start_link do
         ConCache.start_link(opts(), name: __MODULE__)
       end
@@ -76,10 +86,10 @@ defmodule RepoCache do
         |> :ets.delete_all_objects()
       end
 
-      def child_spec(_opts) do
+      def child_spec(opts) do
         %{
           id: __MODULE__,
-          start: {__MODULE__, :start_link, []},
+          start: {__MODULE__, :start_link, [opts]},
           type: :worker,
           restart: :permanent,
           shutdown: 500

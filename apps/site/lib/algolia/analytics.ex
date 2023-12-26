@@ -21,8 +21,8 @@ defmodule Algolia.Analytics do
 
   def click(%{"objectID" => _, "position" => pos, "queryID" => _} = params)
       when is_integer(pos) do
-    :algolia
-    |> Application.get_env(:click_analytics_url)
+    :site
+    |> Application.get_env(:algolia_click_analytics_url)
     |> send_click(params, Application.get_env(:site, :algolia_track_clicks?, false))
   end
 

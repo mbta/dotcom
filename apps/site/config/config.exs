@@ -148,7 +148,7 @@ config :site, :algolia_http_pool, :algolia_http_pool
 
 config :site, alerts_api_mfa: {V3Api.Alerts, :all, []}
 
-config :site, alerts_bus_stop_change_bucket: nil
+config :site, alerts_bus_stop_change_bucket: "bus-stop-change/local_development"
 
 config :site,
   support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL") || "test@test.com",

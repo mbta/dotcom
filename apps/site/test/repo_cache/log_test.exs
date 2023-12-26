@@ -22,7 +22,7 @@ defmodule RepoCache.LogTest do
     end)
 
     Logger.configure(level: :info)
-    {:ok, _} = start_link([])
+    _ = start_supervised!({RepoCache.Log, [name: :repo_cache_log_test]})
     reset_table(all())
     {:ok, state}
   end

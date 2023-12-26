@@ -12,7 +12,7 @@ defmodule Routes.Supervisor do
     ]
 
     children =
-      if Application.get_env(:site, :route_populate_caches?) and
+      if Application.get_env(:site, :route_populate_caches?) &&
            Application.get_env(:elixir, :start_data_processes) do
         children ++
           [

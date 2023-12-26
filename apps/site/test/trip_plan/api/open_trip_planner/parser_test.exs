@@ -3,7 +3,7 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
   import TripPlan.Api.OpenTripPlanner.Parser
   alias TripPlan.{Itinerary, NamedPosition, PersonalDetail, PersonalDetail.Step, TransitDetail}
 
-  @fixture File.read!("test/fixture/north_station_to_park_plaza.json")
+  @fixture File.read!("test/trip_plan/fixture/north_station_to_park_plaza.json")
   @parsed parse_json(@fixture)
 
   describe "parse_json/1" do
