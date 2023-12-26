@@ -105,7 +105,6 @@ defmodule Site.Mixfile do
       {:repo_cache, [in_umbrella: true]},
       {:route_patterns, [in_umbrella: true]},
       {:rstar, github: "armon/erl-rstar"},
-      {:schedules, [in_umbrella: true]},
       {:sentry, "~> 7.0"},
       {:server_sent_event_stage, "~> 1.0"},
       {:sizeable, "~> 0.1.5"},

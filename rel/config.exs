@@ -50,7 +50,6 @@ release :site do
       feedback: :permanent,
       predictions: :permanent,
       repo_cache: :permanent,
-      schedules: :permanent,
       site: :permanent
     ]
   )

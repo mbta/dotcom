@@ -38,7 +38,6 @@ defmodule Predictions.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:repo_cache, in_umbrella: true},
       {:server_sent_event_stage, "~> 1.0"},
-      {:schedules, in_umbrella: true},
       {:phoenix_pubsub, "~> 2.1.3"}
     ]
   end
