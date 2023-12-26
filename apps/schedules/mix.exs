@@ -25,8 +25,7 @@ defmodule Schedules.Mixfile do
         :logger,
         :timex,
         :repo_cache,
-        :tzdata,
-        :services
+        :tzdata
       ],
       mod: {Schedules, []}
     ]

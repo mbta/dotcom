@@ -59,6 +59,7 @@ defmodule Site.Application do
           Stops.Supervisor,
           Facilities.Supervisor,
           LocationService.Supervisor,
+          Services.Supervisor,
           {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
           {Phoenix.PubSub, name: Site.PubSub},
           V3Api.Supervisor,

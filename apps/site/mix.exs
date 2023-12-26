@@ -108,7 +108,6 @@ defmodule Site.Mixfile do
       {:schedules, [in_umbrella: true]},
       {:sentry, "~> 7.0"},
       {:server_sent_event_stage, "~> 1.0"},
-      {:services, [in_umbrella: true]},
       {:sizeable, "~> 0.1.5"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
