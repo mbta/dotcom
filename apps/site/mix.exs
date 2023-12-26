@@ -101,7 +101,6 @@ defmodule Site.Mixfile do
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
       {:recon, "~> 2.5.1", [only: :prod]},
-      {:repo_cache, [in_umbrella: true]},
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "~> 7.0"},
       {:server_sent_event_stage, "~> 1.0"},

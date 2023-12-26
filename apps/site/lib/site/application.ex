@@ -34,7 +34,8 @@ defmodule Site.Application do
                ],
                [name: :line_diagram_realtime_cache]
              ]}
-        }
+        },
+        RepoCache.Supervisor
       ] ++
         if Application.get_env(:elixir, :start_data_processes) do
           [

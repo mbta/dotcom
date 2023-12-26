@@ -45,7 +45,6 @@ defmodule Alerts.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:repo_cache, in_umbrella: true},
       {:con_cache, "~> 0.12.0"},
       {:timex, ">= 0.0.0"},
       {:site, in_umbrella: true},

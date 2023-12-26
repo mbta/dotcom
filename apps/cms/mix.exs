@@ -57,7 +57,6 @@ defmodule CMS.Mixfile do
       {:plug, "~> 1.14.2"},
       {:poison, "~> 3.0"},
       {:quixir, "~> 0.9", only: :test},
-      {:repo_cache, in_umbrella: true},
       {:site, in_umbrella: true},
       {:timex, ">= 0.0.0"}
     ]
