@@ -39,7 +39,6 @@ defmodule Predictions.Mixfile do
       {:repo_cache, in_umbrella: true},
       {:server_sent_event_stage, "~> 1.0"},
       {:schedules, in_umbrella: true},
-      {:stops, in_umbrella: true},
       {:phoenix_pubsub, "~> 2.1.3"}
     ]
   end

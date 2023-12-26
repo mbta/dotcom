@@ -54,7 +54,6 @@ release :site do
       repo_cache: :permanent,
       schedules: :permanent,
       site: :permanent,
-      stops: :permanent,
       trip_plan: :permanent
     ]
   )

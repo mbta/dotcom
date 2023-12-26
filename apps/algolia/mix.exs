@@ -30,7 +30,6 @@ defmodule Algolia.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:stops, in_umbrella: true},
       {:site, in_umbrella: true},
       {:httpoison, "~> 1.5"},
       {:plug, "~> 1.14.2"},

@@ -42,7 +42,6 @@ defmodule LocationService.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:stops, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
       # Can replace with release after 2.2.10
       {:ex_aws,

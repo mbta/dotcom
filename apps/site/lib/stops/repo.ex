@@ -19,7 +19,7 @@ defmodule Stops.Repo do
   @type stop_by_route :: (Route.id_t(), 0 | 1, Keyword.t() -> stops_response)
 
   for {old_id, gtfs_id} <-
-        "priv/stop_id_to_gtfs.csv"
+        "priv/stops/stop_id_to_gtfs.csv"
         |> File.stream!()
         |> CSV.decode!(headers: true)
         |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
