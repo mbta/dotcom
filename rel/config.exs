@@ -52,7 +52,6 @@ release :site do
       json_api: :permanent,
       predictions: :permanent,
       repo_cache: :permanent,
-      routes: :permanent,
       schedules: :permanent,
       site: :permanent,
       stops: :permanent,

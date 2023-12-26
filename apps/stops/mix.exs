@@ -37,7 +37,6 @@ defmodule Stops.Mixfile do
     [
       {:httpoison, ">= 0.0.0"},
       {:json_api, in_umbrella: true},
-      {:routes, in_umbrella: true},
       {:repo_cache, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},

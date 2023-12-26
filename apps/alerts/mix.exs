@@ -46,7 +46,6 @@ defmodule Alerts.Mixfile do
   defp deps do
     [
       {:repo_cache, in_umbrella: true},
-      {:routes, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:con_cache, "~> 0.12.0"},
       {:timex, ">= 0.0.0"},

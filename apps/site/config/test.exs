@@ -34,3 +34,5 @@ config :wallaby,
   js_errors: true
 
 config :site, :react, source_path: nil
+
+config :routes, :routes_repo_api, Routes.MockRepoApi

@@ -9,6 +9,8 @@
     "lib/mix/tasks",
     "test/support",
     "lib/site_web/views/bus_stop_change_view.ex",
-    "lib/site_web/controllers/bus_stop_change_controller.ex"
+    "lib/site_web/controllers/bus_stop_change_controller.ex",
+    "lib/routes/routes.ex",
+    "lib/routes/mock_repo_api.ex"
   ]
 }

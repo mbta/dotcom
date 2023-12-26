@@ -4,7 +4,7 @@ defmodule Stops.RouteStopsTest do
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
 
-  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+  @routes_repo_api Application.get_env(:site, :routes_repo_api)
 
   @red %Route{id: "Red", type: 1}
 

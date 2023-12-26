@@ -39,8 +39,6 @@ defmodule TripPlan.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:stops, in_umbrella: true},
-      {:routes, in_umbrella: true},
       {:schedules, in_umbrella: true},
       {:poison, "~> 3.0"},
       {:location_service, in_umbrella: true},

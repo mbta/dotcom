@@ -55,6 +55,7 @@ defmodule Site.Application do
         end ++
         [
           {Site.React, name: Site.React},
+          Routes.Supervisor,
           {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
           {Phoenix.PubSub, name: Site.PubSub},
           V3Api.Supervisor,

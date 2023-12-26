@@ -1,7 +1,7 @@
 defmodule SiteWeb.ScheduleController.HoursOfOperationTest do
   use SiteWeb.ConnCase, async: true
 
-  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+  @routes_repo_api Application.get_env(:site, :routes_repo_api)
 
   test "if route is nil, assigns nothing", %{conn: conn} do
     conn =

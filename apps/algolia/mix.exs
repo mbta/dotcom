@@ -31,7 +31,6 @@ defmodule Algolia.Mixfile do
   defp deps do
     [
       {:stops, in_umbrella: true},
-      {:routes, in_umbrella: true},
       {:site, in_umbrella: true},
       {:httpoison, "~> 1.5"},
       {:plug, "~> 1.14.2"},

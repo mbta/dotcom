@@ -79,6 +79,10 @@ config :site,
   allow_indexing: false,
   enable_experimental_features: {:system, "ENABLE_EXPERIMENTAL_FEATURES", "true"}
 
+config :site, populate_caches?: Mix.env() == :prod
+
+config :site, :routes_repo_api, Routes.Repo
+
 config :site,
   v3_api_base_url: {:system, "V3_URL"},
   v3_api_key: {:system, "V3_API_KEY"},

@@ -12,7 +12,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   @moduletag :external
 
-  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+  @routes_repo_api Application.get_env(:site, :routes_repo_api)
 
   setup_all do
     # Start parent supervisor

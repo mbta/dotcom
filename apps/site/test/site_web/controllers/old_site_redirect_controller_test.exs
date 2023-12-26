@@ -1,7 +1,7 @@
 defmodule SiteWeb.OldSiteRedirectControllerTest do
   use SiteWeb.ConnCase
 
-  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+  @routes_repo_api Application.get_env(:site, :routes_repo_api)
 
   describe "/schedules_and_maps" do
     test "redirects to mode root", %{conn: conn} do
