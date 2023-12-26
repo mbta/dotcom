@@ -46,7 +46,6 @@ release :site do
     applications: [
       :runtime_tools,
       cms: :permanent,
-      feedback: :permanent,
       site: :permanent
     ]
   )

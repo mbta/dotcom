@@ -60,15 +60,14 @@ defmodule Feedback.Mailer do
 
     message =
       message
-      |> Mail.put_to(Application.get_env(:feedback, :support_ticket_to_email))
-      |> Mail.put_from(Application.get_env(:feedback, :support_ticket_from_email))
+      |> Mail.put_to(Application.get_env(:site, :support_ticket_to_email))
+      |> Mail.put_from(Application.get_env(:site, :support_ticket_from_email))
       |> Mail.put_subject("MBTA Customer Comment Form")
       |> Mail.put_text(body)
 
-    exaws_config_fn = Application.get_env(:feedback, :exaws_config_fn, &ExAws.Config.new/1)
+    exaws_config_fn = Application.get_env(:site, :exaws_config_fn, &ExAws.Config.new/1)
 
-    exaws_perform_fn =
-      Application.get_env(:feedback, :exaws_perform_fn, &ExAws.Operation.perform/2)
+    exaws_perform_fn = Application.get_env(:site, :exaws_perform_fn, &ExAws.Operation.perform/2)
 
     message
     |> Mail.Renderers.RFC2822.render()
@@ -102,12 +101,12 @@ defmodule Feedback.Mailer do
   end
 
   defp format_email(nil) do
-    Application.get_env(:feedback, :support_ticket_reply_email)
+    Application.get_env(:site, :support_ticket_reply_email)
   end
 
   defp format_email(email) do
     case String.trim(email) do
-      "" -> Application.get_env(:feedback, :support_ticket_reply_email)
+      "" -> Application.get_env(:site, :support_ticket_reply_email)
       email -> email
     end
   end

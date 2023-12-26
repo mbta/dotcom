@@ -17,3 +17,11 @@ A TripPlan [(OTP data type)](http://dev.opentripplanner.org/apidoc/1.0.0/json_Tr
 An Itinerary contains a sequenced list of Legs [(OTP data type)](http://dev.opentripplanner.org/apidoc/1.0.0/json_Leg.html) [(Elixir module)](lib/trip_plan/leg.ex). Each leg is a portion of the journey on one mode. This could be "Take the Green Line to North Station," or, "Walk to the bus stop at the corner of Porter St. and Garfield Rd."
 
 In addition to the data we get from the API, we also add fare data to each transit leg (base, recommended and reduced). This allows us to display the cost of each leg and an estimation of the total price of the itinerary.
+
+# Feedback
+
+The Feedback app supports customer support submissions. We receive a user's feedback through our customer support form and submit it as a structured XML email to the Customer Experience team's Iris Heat software.
+
+## Development Logging
+
+In development, the application is configured to print the contents of the email to the log instead of sending an actual email. This is logged at the `info` log level, but the default log level is set to `warn`. Add `LOGGER_LEVEL=info` to your `.env` file to see the feedback emails in your logs.

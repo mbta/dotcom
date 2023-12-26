@@ -150,6 +150,13 @@ config :site, alerts_api_mfa: {V3Api.Alerts, :all, []}
 
 config :site, alerts_bus_stop_change_bucket: nil
 
+config :site,
+  support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL") || "test@test.com",
+  support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL") || "from@test.com",
+  support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL") || "reply@test.com",
+  test_mail_file: "/tmp/test_support_email.json",
+  time_fetcher: DateTime
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

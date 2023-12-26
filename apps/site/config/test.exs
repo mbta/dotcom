@@ -60,3 +60,9 @@ config :site,
   alerts_api_mfa: {JsonApi, :empty, []},
   alerts_mock_aws_client: Alerts.TestExAws
 
+config :site,
+  time_fetcher: Feedback.FakeDateTime,
+  exaws_config_fn: &Feedback.Test.mock_config/1,
+  exaws_perform_fn: &Feedback.Test.mock_perform/2,
+  feedback_rate_limit: 1_000
+

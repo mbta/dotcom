@@ -346,13 +346,13 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "logs a warning, returns 429, and shows an error when rate limit reached", %{conn: conn} do
-      rate_limit = Application.get_env(:feedback, :rate_limit)
+      rate_limit = Application.get_env(:site, :feedback_rate_limit)
 
-      # :feedback, :rate_limit isn't on prod
-      Application.delete_env(:feedback, :rate_limit)
+      # :site, :feedback_rate_limit isn't on prod
+      Application.delete_env(:site, :feedback_rate_limit)
 
       on_exit(fn ->
-        Application.put_env(:feedback, :rate_limit, rate_limit)
+        Application.put_env(:site, :feedback_rate_limit, rate_limit)
       end)
 
       path = customer_support_path(conn, :submit)

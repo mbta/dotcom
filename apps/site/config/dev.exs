@@ -55,3 +55,7 @@ config :logger,
 # Do not configure such in production as keeping
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :site,
+  exaws_config_fn: &Feedback.MockAws.config/1,
+  exaws_perform_fn: &Feedback.MockAws.perform/2

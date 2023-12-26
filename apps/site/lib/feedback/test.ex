@@ -2,7 +2,7 @@ defmodule Feedback.Test do
   @moduledoc false
 
   def latest_message do
-    file = Application.get_env(:feedback, :test_mail_file)
+    file = Application.get_env(:site, :test_mail_file)
     body = File.read!(file)
 
     case Poison.decode(body) do
@@ -36,7 +36,7 @@ defmodule Feedback.Test do
       }
       |> Poison.encode!()
 
-    file = Application.get_env(:feedback, :test_mail_file)
+    file = Application.get_env(:site, :test_mail_file)
     File.write!(file, message_json)
 
     {:ok, :status_info_that_gets_ignored_by_caller}

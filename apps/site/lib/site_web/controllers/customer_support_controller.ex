@@ -164,7 +164,7 @@ defmodule SiteWeb.CustomerSupportController do
 
   @spec do_submit(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp do_submit(%Plug.Conn{assigns: %{ip_address: {:ok, ip}}} = conn, data) do
-    rate_limit_interval = Application.get_env(:feedback, :rate_limit, 60_000)
+    rate_limit_interval = Application.get_env(:site, :feedback_rate_limit, 60_000)
 
     case Hammer.check_rate("submit-feedback:#{ip}", rate_limit_interval, 1) do
       {:allow, _count} ->
