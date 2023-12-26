@@ -39,8 +39,8 @@ defmodule SiteWeb.IntegrationCase do
 
     # Setup Bypass to avoid Google Maps calls
     bypass = Bypass.open()
-    old_domain = Application.get_env(:location_service, :domain)
-    Application.put_env(:location_service, :domain, "http://localhost:#{bypass.port}")
+    old_domain = Application.get_env(:site, :domain)
+    Application.put_env(:site, :domain, "http://localhost:#{bypass.port}")
 
     Bypass.stub(bypass, "GET", "/maps/api/place/autocomplete/json", fn conn ->
       Conn.resp(conn, 200, ~s({"status": "OK", "predictions": #{@autocomplete_results}}))
@@ -59,7 +59,7 @@ defmodule SiteWeb.IntegrationCase do
     end)
 
     on_exit(fn ->
-      Application.put_env(:location_service, :domain, old_domain)
+      Application.put_env(:site, :domain, old_domain)
     end)
 
     {:ok, session: session_with_screen_size, bypass: bypass}

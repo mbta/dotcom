@@ -93,6 +93,17 @@ config :site,
   v3_api_cache_size: 10_000,
   v3_api_http_pool: :v3_api_http_pool
 
+config :site, :location_http_pool, :google_http_pool
+
+config :site,
+  google_api_key: System.get_env("GOOGLE_API_KEY"),
+  google_client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
+  google_signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || "",
+  geocode: {:system, "LOCATION_SERVICE", :aws},
+  reverse_geocode: {:system, "LOCATION_SERVICE", :aws},
+  autocomplete: {:system, "LOCATION_SERVICE", :aws},
+  aws_index_prefix: {:system, "AWS_PLACE_INDEX_PREFIX", "dotcom-dev"}
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

@@ -63,6 +63,9 @@ defmodule Site.Mixfile do
       {:diskusage_logger, "~> 0.2.0"},
       {:distillery, "~> 2.0"},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
+      # Can replace with release after 2.2.10
+      {:ex_aws,
+       github: "ex-aws/ex_aws", ref: "08cbbd2aef4ebf52796e48761d1351b5c87c4c5e", override: true},
       {:feedback, [in_umbrella: true]},
       {:floki, "~> 0.31.0"},
       {:gen_stage, "~> 1.2"},
@@ -74,7 +77,6 @@ defmodule Site.Mixfile do
       {:inflex, "~> 1.8.0"},
       {:jason, "~> 1.1"},
       {:laboratory, [github: "paulswartz/laboratory", ref: "cookie_opts"]},
-      {:location_service, [in_umbrella: true]},
       {:logster, "~> 0.4.0"},
       {:mock, "~> 0.3.3", [only: :test]},
       {:parallel_stream, "~> 1.0.5"},

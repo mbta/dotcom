@@ -41,7 +41,6 @@ defmodule TripPlan.Mixfile do
     [
       {:schedules, in_umbrella: true},
       {:poison, "~> 3.0"},
-      {:location_service, in_umbrella: true},
       {:bypass, "~> 1.0", only: :test},
       {:mock, "~> 0.3.3", only: :test},
       {:fast_local_datetime, "~> 0.1.0"},

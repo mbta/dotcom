@@ -140,3 +140,13 @@ config :site, :react,
 config :site,
   v3_api_default_timeout: 10_000,
   v3_api_cache_size: 200_000
+
+config :site,
+  google_api_key: "${GOOGLE_API_KEY}",
+  google_client_id: "${GOOGLE_MAPS_CLIENT_ID}",
+  google_signing_key: "${GOOGLE_MAPS_SIGNING_KEY}",
+  geocode: {:system, "LOCATION_SERVICE", :google},
+  reverse_geocode: {:system, "LOCATION_SERVICE", :google},
+  autocomplete: {:system, "LOCATION_SERVICE", :google},
+  aws_index_prefix: {:system, "AWS_PLACE_INDEX_PREFIX", "dotcom-prod"}
+
