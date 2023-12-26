@@ -52,7 +52,6 @@ defmodule Site.Mixfile do
   defp deps do
     [
       {:absinthe_client, "~> 0.1.0"},
-      {:alerts, [in_umbrella: true]},
       {:benchfella, "~> 0.3", [only: :dev]},
       {:bypass, "~> 1.0", [only: :test]},
       {:castore, "~> 0.1.11"},
@@ -63,9 +62,8 @@ defmodule Site.Mixfile do
       {:diskusage_logger, "~> 0.2.0"},
       {:distillery, "~> 2.0"},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      # Can replace with release after 2.2.10
-      {:ex_aws,
-       github: "ex-aws/ex_aws", ref: "08cbbd2aef4ebf52796e48761d1351b5c87c4c5e", override: true},
+      {:ex_aws, "~> 2.4", only: [:prod, :dev]},
+      {:ex_aws_s3, "~> 2.4", only: [:prod, :dev]},
       {:fast_local_datetime, "~> 0.1.0"},
       {:feedback, [in_umbrella: true]},
       {:floki, "~> 0.31.0"},
@@ -104,6 +102,7 @@ defmodule Site.Mixfile do
       {:sentry, "~> 7.0"},
       {:server_sent_event_stage, "~> 1.0"},
       {:sizeable, "~> 0.1.5"},
+      {:sweet_xml, "~> 0.7.1", only: [:prod, :dev]},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:timex, ">= 2.0.0"},

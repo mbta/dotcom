@@ -146,6 +146,10 @@ config :site, :algolia_index_suffix, "_test"
 
 config :site, :algolia_http_pool, :algolia_http_pool
 
+config :site, alerts_api_mfa: {V3Api.Alerts, :all, []}
+
+config :site, alerts_bus_stop_change_bucket: nil
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

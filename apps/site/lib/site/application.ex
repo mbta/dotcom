@@ -67,6 +67,7 @@ defmodule Site.Application do
           Predictions.Supervisor,
           {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
           {Phoenix.PubSub, name: Site.PubSub},
+          Alerts.Supervisor,
           V3Api.Supervisor,
           Fares.Supervisor,
           {SiteWeb.Endpoint, name: SiteWeb.Endpoint}

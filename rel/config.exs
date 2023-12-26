@@ -45,7 +45,6 @@ release :site do
   set(
     applications: [
       :runtime_tools,
-      alerts: :permanent,
       cms: :permanent,
       feedback: :permanent,
       site: :permanent

@@ -15,6 +15,7 @@
     "lib/trip_plan/api/mock_planner.ex",
     "lib/trip_plan/geocode/mock_geocode.ex",
     "lib/route_patterns/mock_repo.ex",
-    "test/algolia/support"
+    "test/algolia/support",
+    "lib/alerts/supervisor.ex"
   ]
 }

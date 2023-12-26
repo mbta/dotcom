@@ -9,13 +9,6 @@ defmodule AlertsTest do
 
   @now Util.to_local_time(~N[2018-01-15T12:00:00])
 
-  describe "start/2" do
-    test "can start the application" do
-      Application.stop(:alerts)
-      assert {:ok, _} = Application.ensure_all_started(:alerts)
-    end
-  end
-
   describe "new/1" do
     test "with no params, returns a default struct" do
       assert new() == %Alert{}

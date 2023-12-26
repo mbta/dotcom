@@ -1,4 +1,4 @@
-defmodule Alerts.Supervisor do
+defmodule Alerts.CacheSupervisor do
   @moduledoc """
   Supervisor for the alert app's caching processes. One worker is a process
   that maintans a few ETS tables, and the other worker is a process that periodically
@@ -10,7 +10,7 @@ defmodule Alerts.Supervisor do
 
   use Supervisor
 
-  @api_mfa Application.get_env(:alerts, :api_mfa)
+  @api_mfa Application.get_env(:site, :alerts_api_mfa)
 
   def start_link(_) do
     Supervisor.start_link(__MODULE__, [])

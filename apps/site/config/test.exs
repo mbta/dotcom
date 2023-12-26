@@ -56,3 +56,7 @@ config :site, :algolia_indexes, [
 
 config :site, :algolia_click_analytics_url, :not_set
 
+config :site,
+  alerts_api_mfa: {JsonApi, :empty, []},
+  alerts_mock_aws_client: Alerts.TestExAws
+
