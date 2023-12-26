@@ -15,7 +15,7 @@ defmodule TripPlan do
           pid()
         ) :: TripPlan.Api.t()
   def plan(from, to, connection_opts, opts, parent \\ self()) do
-    apply(module(Api), :plan, [
+    apply(module(TripPlanApi), :plan, [
       from,
       to,
       connection_opts,
@@ -35,8 +35,8 @@ defmodule TripPlan do
   end
 
   def geocode(address) when is_binary(address) do
-    apply(module(Geocode), :geocode, [address])
+    apply(module(TripPlanGeocode), :geocode, [address])
   end
 
-  defp module(sub_module), do: Application.fetch_env!(:trip_plan, sub_module)[:module]
+  defp module(sub_module), do: Application.fetch_env!(:site, sub_module)[:module]
 end

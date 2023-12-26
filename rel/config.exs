@@ -51,8 +51,7 @@ release :site do
       predictions: :permanent,
       repo_cache: :permanent,
       schedules: :permanent,
-      site: :permanent,
-      trip_plan: :permanent
+      site: :permanent
     ]
   )
 end

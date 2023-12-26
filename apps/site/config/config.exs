@@ -104,6 +104,18 @@ config :site,
   autocomplete: {:system, "LOCATION_SERVICE", :aws},
   aws_index_prefix: {:system, "AWS_PLACE_INDEX_PREFIX", "dotcom-dev"}
 
+config :site, TripPlanApi, module: TripPlan.Api.OpenTripPlanner
+
+config :site, TripPlanGeocode, module: TripPlan.Geocode.GoogleGeocode
+
+config :site, OpenTripPlanner,
+  timezone: {:system, "OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"},
+  otp1_url: {:system, "OPEN_TRIP_PLANNER_URL"},
+  otp2_url: {:system, "OPEN_TRIP_PLANNER_2_URL"},
+  otp2_percentage: {:system, "OPEN_TRIP_PLANNER_2_PERCENTAGE"},
+  wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
+  wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

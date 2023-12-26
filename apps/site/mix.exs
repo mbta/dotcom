@@ -51,6 +51,7 @@ defmodule Site.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:absinthe_client, "~> 0.1.0"},
       {:alerts, [in_umbrella: true]},
       {:algolia, [in_umbrella: true]},
       {:benchfella, "~> 0.3", [only: :dev]},
@@ -66,6 +67,7 @@ defmodule Site.Mixfile do
       # Can replace with release after 2.2.10
       {:ex_aws,
        github: "ex-aws/ex_aws", ref: "08cbbd2aef4ebf52796e48761d1351b5c87c4c5e", override: true},
+      {:fast_local_datetime, "~> 0.1.0"},
       {:feedback, [in_umbrella: true]},
       {:floki, "~> 0.31.0"},
       {:gen_stage, "~> 1.2"},
@@ -111,7 +113,6 @@ defmodule Site.Mixfile do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
       {:timex, ">= 2.0.0"},
-      {:trip_plan, [in_umbrella: true]},
       {:unrooted_polytree, "~> 0.1.1"},
       {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
     ]
