@@ -73,7 +73,7 @@ defmodule Site.Mixfile do
       {:html_sanitize_ex, "1.3.0"},
       {:httpoison, "~> 1.5"},
       {:inflex, "~> 1.8.0"},
-      {:json_api, [in_umbrella: true]},
+      {:jason, "~> 1.1"},
       {:laboratory, [github: "paulswartz/laboratory", ref: "cookie_opts"]},
       {:location_service, [in_umbrella: true]},
       {:logster, "~> 0.4.0"},

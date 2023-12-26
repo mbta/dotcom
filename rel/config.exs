@@ -49,7 +49,6 @@ release :site do
       cms: :permanent,
       feedback: :permanent,
       location_service: :permanent,
-      json_api: :permanent,
       predictions: :permanent,
       repo_cache: :permanent,
       schedules: :permanent,
