@@ -63,7 +63,6 @@ defmodule Site.Mixfile do
       {:diskusage_logger, "~> 0.2.0"},
       {:distillery, "~> 2.0"},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      {:facilities, [in_umbrella: true]},
       {:feedback, [in_umbrella: true]},
       {:floki, "~> 0.31.0"},
       {:gen_stage, "~> 1.2"},
