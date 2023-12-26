@@ -13,6 +13,7 @@
     "lib/routes/routes.ex",
     "lib/routes/mock_repo_api.ex",
     "lib/trip_plan/api/mock_planner.ex",
-    "lib/trip_plan/geocode/mock_geocode.ex"
+    "lib/trip_plan/geocode/mock_geocode.ex",
+    "lib/route_patterns/mock_repo.ex"
   ]
 }

@@ -103,7 +103,6 @@ defmodule Site.Mixfile do
        ]},
       {:recon, "~> 2.5.1", [only: :prod]},
       {:repo_cache, [in_umbrella: true]},
-      {:route_patterns, [in_umbrella: true]},
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "~> 7.0"},
       {:server_sent_event_stage, "~> 1.0"},

@@ -116,6 +116,10 @@ config :site, OpenTripPlanner,
   wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 
+repo_module = if config_env() == :test, do: RoutePatterns.MockRepo, else: RoutePatterns.Repo
+
+config :site, :route_patterns_repo_api, repo_module
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
