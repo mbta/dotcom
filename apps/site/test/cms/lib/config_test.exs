@@ -8,7 +8,7 @@ defmodule CMS.ConfigTest do
     end
 
     test "prevents duplicates forward slashes when the root and path have a forward slash" do
-      set_drupal_root(%{root: "http://cms.test/"}, fn ->
+      set_drupal_root(%{cms_root: "http://cms.test/"}, fn ->
         assert Config.url("/my-path") == "http://cms.test/my-path"
       end)
     end
@@ -20,7 +20,7 @@ defmodule CMS.ConfigTest do
     test "supports the root url being assessed at runtime" do
       env_var_name = "DRUPAL_ROOT"
 
-      set_drupal_root(%{root: {:system, env_var_name}}, fn ->
+      set_drupal_root(%{cms_root: {:system, env_var_name}}, fn ->
         System.put_env(env_var_name, "http://cms.test")
 
         assert Config.url("my-path") == "http://cms.test/my-path"
@@ -30,13 +30,13 @@ defmodule CMS.ConfigTest do
     end
 
     test "supports the root url being set at build time" do
-      set_drupal_root(%{root: "http://cms.test"}, fn ->
+      set_drupal_root(%{cms_root: "http://cms.test"}, fn ->
         assert Config.url("my-path") == "http://cms.test/my-path"
       end)
     end
 
     test "raises when the root url is not configured" do
-      set_drupal_root(%{root: nil}, fn ->
+      set_drupal_root(%{cms_root: nil}, fn ->
         assert_raise RuntimeError, "Drupal root is not configured", fn ->
           Config.url("will-raise")
         end
@@ -45,9 +45,9 @@ defmodule CMS.ConfigTest do
   end
 
   defp set_drupal_root(value, fun) do
-    original_config = Application.get_env(:cms, :drupal)
-    Application.put_env(:cms, :drupal, value)
+    original_config = Application.get_env(:site, :drupal)
+    Application.put_env(:site, :drupal, value)
     fun.()
-    Application.put_env(:cms, :drupal, original_config)
+    Application.put_env(:site, :drupal, original_config)
   end
 end

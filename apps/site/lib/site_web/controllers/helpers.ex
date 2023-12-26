@@ -11,7 +11,7 @@ defmodule SiteWeb.ControllerHelpers do
   alias SiteWeb.CMSController
   alias Timex.Format.DateTime.Formatters.Strftime
 
-  @content_http_pool Application.get_env(:cms, :http_pool)
+  @content_http_pool Application.get_env(:site, :cms_http_pool)
 
   @valid_resp_headers [
     "content-type",

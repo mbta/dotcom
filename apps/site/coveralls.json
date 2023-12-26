@@ -19,6 +19,8 @@
     "lib/alerts/supervisor.ex",
     "lib/feedback/test.ex",
     "lib/feedback/fake_date_time.ex",
-    "lib/feedback/mock_aws.ex"
+    "lib/feedback/mock_aws.ex",
+    "test/cms/support",
+    "lib/cms/custom_html5_scrubber.ex"
   ]
 }

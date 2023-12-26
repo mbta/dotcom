@@ -22,12 +22,12 @@ defmodule CMS.Config do
   @doc "Returns the path prefix for static content."
   @spec static_path() :: String.t()
   def static_path do
-    Util.config(:cms, :drupal, :static_path)
+    Util.config(:site, :drupal, :cms_static_path)
   end
 
   @doc "Returns the host/domain of Drupal."
   @spec root() :: String.t() | nil
   def root do
-    Util.config(:cms, :drupal, :root)
+    Util.config(:site, :drupal, :cms_root)
   end
 end

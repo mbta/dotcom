@@ -74,7 +74,7 @@ defmodule CMS.API.TimeRequestTest do
   defp params_without__format(params) do
     params
     |> Keyword.delete(:_format)
-    |> Keyword.put(:hackney, pool: Application.get_env(:cms, :http_pool))
+    |> Keyword.put(:hackney, pool: Application.get_env(:site, :cms_http_pool))
     |> (fn params -> "options=#{inspect(params)}" end).()
   end
 end

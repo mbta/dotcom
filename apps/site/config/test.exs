@@ -66,3 +66,8 @@ config :site,
   exaws_perform_fn: &Feedback.Test.mock_perform/2,
   feedback_rate_limit: 1_000
 
+config :site, :drupal,
+  cms_root: "http://cms.test",
+  cms_static_path: "/sites/default/files"
+
+config :site, :cms_api, CMS.API.Static

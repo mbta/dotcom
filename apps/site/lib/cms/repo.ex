@@ -27,7 +27,7 @@ defmodule CMS.Repo do
 
   alias Routes.Route
 
-  @cms_api Application.get_env(:cms, :cms_api)
+  @cms_api Application.get_env(:site, :cms_api)
 
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
   def get_page(path, query_params \\ %{}) do

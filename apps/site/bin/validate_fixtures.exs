@@ -60,7 +60,7 @@ defmodule Fixture do
   end
 
   defp full_path(filename) do
-    [Path.dirname(__ENV__.file), "../priv/", filename]
+    [Path.dirname(__ENV__.file), "../priv/cms/", filename]
     |> Path.join()
   end
 end

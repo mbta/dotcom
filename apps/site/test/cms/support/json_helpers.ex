@@ -9,7 +9,7 @@ defmodule CMS.JsonHelpers do
   end
 
   def parse_json_file("priv" <> filename) do
-    file_path = [Path.dirname(__ENV__.file), "../../priv/", filename]
+    file_path = [Path.dirname(__ENV__.file), "../../priv/cms/", filename]
     parse_file(file_path)
   end
 

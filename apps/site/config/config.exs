@@ -157,6 +157,14 @@ config :site,
   test_mail_file: "/tmp/test_support_email.json",
   time_fetcher: DateTime
 
+config :site,
+  cms_http_pool: :content_http_pool,
+  drupal: [
+    cms_root: {:system, "DRUPAL_ROOT"},
+    cms_static_path: "/sites/default/files"
+  ]
+
+config :site, :cms_api, CMS.API.HTTPClient
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

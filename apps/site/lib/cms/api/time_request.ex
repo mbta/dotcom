@@ -3,7 +3,7 @@ defmodule CMS.API.TimeRequest do
 
   require Logger
 
-  @http_pool Application.get_env(:cms, :http_pool)
+  @http_pool Application.get_env(:site, :cms_http_pool)
 
   @doc """
 
