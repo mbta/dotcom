@@ -11,7 +11,7 @@ defmodule Predictions.PredictionsPubSub do
 
   alias Predictions.{Prediction, Store, StreamTopic, StreamSupervisor}
 
-  @broadcast_interval_ms Application.compile_env!(:predictions, [:broadcast_interval_ms])
+  @broadcast_interval_ms Application.compile_env!(:site, [:predictions_broadcast_interval_ms])
   @subscribers :prediction_subscriptions_registry
 
   @type registry_value :: {Store.fetch_keys(), binary()}

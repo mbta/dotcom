@@ -120,6 +120,12 @@ repo_module = if config_env() == :test, do: RoutePatterns.MockRepo, else: RouteP
 
 config :site, :route_patterns_repo_api, repo_module
 
+if config_env() == :test do
+  config :site, predictions_broadcast_interval_ms: 50
+else
+  config :site, predictions_broadcast_interval_ms: 10_000
+end
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

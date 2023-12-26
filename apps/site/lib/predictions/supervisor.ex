@@ -1,4 +1,4 @@
-defmodule Predictions do
+defmodule Predictions.Supervisor do
   @moduledoc """
   Supervisor for the Predictions application.
 
@@ -7,14 +7,14 @@ defmodule Predictions do
   - Repo: Manages ad-hoc API requests.
   """
 
-  use Application
+  use Supervisor
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
-  def start(_type, _args) do
-    import Supervisor.Spec, warn: false
+  def start_link(_) do
+    Supervisor.start_link(__MODULE__, [])
+  end
 
-    # Define workers and child supervisors to be supervised
+  @impl Supervisor
+  def init(_) do
     children = [
       {Phoenix.PubSub, [name: Predictions.PubSub]},
       {Registry, keys: :unique, name: :prediction_streams_registry},
@@ -25,9 +25,6 @@ defmodule Predictions do
       Predictions.Repo
     ]
 
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Predictions.Supervisor]
-    Supervisor.start_link(children, opts)
+    Supervisor.init(children, strategy: :one_for_one)
   end
 end

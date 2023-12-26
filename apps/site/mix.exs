@@ -93,7 +93,6 @@ defmodule Site.Mixfile do
       {:poison, "~> 3.0"},
       {:polyline, [github: "ryan-mahoney/polyline_ex"]},
       {:poolboy, "~> 1.5"},
-      {:predictions, [in_umbrella: true]},
       {:quixir, "~> 0.9", [only: :test]},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,

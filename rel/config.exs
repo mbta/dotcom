@@ -48,7 +48,6 @@ release :site do
       alerts: :permanent,
       cms: :permanent,
       feedback: :permanent,
-      predictions: :permanent,
       repo_cache: :permanent,
       site: :permanent
     ]
