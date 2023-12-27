@@ -1,5 +1,5 @@
 defmodule SiteWeb.ScheduleController.GreenTest do
-  use SiteWeb.ConnCase, async: true
+  use SiteWeb.ConnCase, async: false
 
   import SiteWeb.ScheduleController.Green
 
@@ -10,6 +10,9 @@ defmodule SiteWeb.ScheduleController.GreenTest do
   @green_line @routes_repo_api.green_line()
 
   setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
     # Start parent supervisor
     _ = start_supervised({Site.GreenLine.Supervisor, []})
     :ok

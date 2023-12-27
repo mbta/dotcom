@@ -17,20 +17,12 @@ defmodule Vehicles.RepoTest do
   ]
 
   setup do
-    num = Enum.random(1..1000)
-    name = String.to_atom("VehiclesRepo#{num}")
-
-    {:ok, _pid} =
-      Repo.start_link(
-        name: name,
-        pubsub_fn: &pubsub_fn/2
-      )
-
-    :ok = Repo.sync_send(name, {:reset, @vehicles})
-    {:ok, name: name}
+    _ = start_supervised({Vehicles.Repo, [pubsub_fn: &pubsub_fn/2]})
+    :ok = Repo.sync_send(Vehicles.Repo, {:reset, @vehicles})
+    {:ok, name: Vehicles.Repo}
   end
 
-  def pubsub_fn(Vehicles.PubSub, "vehicles"), do: :ok
+  def pubsub_fn(_, "vehicles"), do: :ok
 
   describe "route/1" do
     test "given a route ID, finds vehicle statuses for that route", %{name: name} do

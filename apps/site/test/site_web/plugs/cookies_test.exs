@@ -26,6 +26,9 @@ defmodule SiteWeb.Plugs.CookiesTest do
     end
 
     test "adds route to cookie if user visits a schedule page", %{conn: conn} do
+      # needed by SiteWeb.ScheduleController.VehicleLocations plug
+      _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+      _ = start_supervised(Vehicles.Repo)
       with_cookie = get(conn, schedule_path(conn, :show, %Routes.Route{id: "Red"}))
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "Red"
 

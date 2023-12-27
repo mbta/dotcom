@@ -72,7 +72,7 @@ defmodule Site.Application do
           Services.Supervisor,
           RoutePatterns.Supervisor,
           Predictions.Supervisor,
-          {Site.RealtimeSchedule, name: Site.RealtimeSchedule},
+          Site.RealtimeSchedule,
           {Phoenix.PubSub, name: Site.PubSub},
           Alerts.Supervisor,
           Fares.Supervisor,

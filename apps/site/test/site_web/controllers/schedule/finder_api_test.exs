@@ -50,6 +50,13 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     trip: @trip
   }
 
+  setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
+    :ok
+  end
+
   describe "journeys/2" do
     test "gets valid journeys in order to derive trip params", %{conn: conn} do
       route_id = "Red"

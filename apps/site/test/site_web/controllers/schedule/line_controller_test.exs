@@ -4,6 +4,13 @@ defmodule SiteWeb.Schedule.LineControllerTest do
   alias SiteWeb.ScheduleController.LineController
   import Mock
 
+  setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
+    :ok
+  end
+
   describe "show/2" do
     test "sets a custom meta description", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "1"))

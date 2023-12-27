@@ -23,6 +23,14 @@ defmodule SiteWeb.VehicleChannelTest do
     }
   ]
 
+  setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
+
+    :ok
+  end
+
   test "sends vehicles when receives reset event" do
     # subscribes to a random channel name to
     # avoid receiving real data in assert_push

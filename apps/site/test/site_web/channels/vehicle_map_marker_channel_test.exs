@@ -17,6 +17,14 @@ defmodule SiteWeb.VehicleMapMarkerChannelTest do
     }
   ]
 
+  setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
+
+    :ok
+  end
+
   test "sends vehicles and marker data" do
     # subscribes to a random channel name to
     # avoid receiving real data in assert_push

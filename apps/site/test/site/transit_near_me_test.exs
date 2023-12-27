@@ -16,6 +16,14 @@ defmodule Site.TransitNearMeTest do
 
   @date Util.service_date()
 
+  setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
+
+    :ok
+  end
+
   describe "build/2" do
     test "builds a set of data for a location" do
       assert %{stops: stops, distances: distances} =

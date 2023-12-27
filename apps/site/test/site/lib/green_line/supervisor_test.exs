@@ -6,8 +6,11 @@ defmodule Site.GreenLine.CacheSupervisorTest do
   import Mock
 
   setup_all do
+    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
+    _ = start_supervised(Vehicles.Repo)
     # Start parent supervisor
-    {:ok, _pid} = Site.GreenLine.Supervisor.start_link([])
+    _ = start_supervised({Site.GreenLine.Supervisor, []})
     :ok
   end
 

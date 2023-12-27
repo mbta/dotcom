@@ -8,7 +8,7 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
 
   describe "parse_json/1" do
     test "returns an error with invalid JSON" do
-      assert {:error, _} = parse_json("")
+      assert {:error, :invalid, 0} = parse_json("")
     end
 
     test "returns a list of Itinerary structs" do
