@@ -562,15 +562,14 @@ defmodule CMS.RepoTest do
     end
   end
 
-  describe "next_n_event_teasers/1" do
+  describe "next_n_event_teasers/2" do
     test "calls for upcoming specified number of teasers" do
       num = 3
 
       with_mocks [
-        {Static, [], [view: fn "/cms/teasers", _ -> {:ok, []} end]},
-        {Util, [], [convert_to_iso_format: fn _ -> "1999-01-01" end]}
+        {Static, [], [view: fn "/cms/teasers", _ -> {:ok, []} end]}
       ] do
-        _ = Repo.next_n_event_teasers(num)
+        _ = Repo.next_n_event_teasers(~D[1999-01-01], num)
 
         Static.view("/cms/teasers", %{
           date: [value: "1999-01-01"],
