@@ -2,9 +2,9 @@
   mode_name = Routes.Route.vehicle_name(@route) |> String.downcase()
 
   bike = [
-    "Bicycles are allowed on trains with the bicycle symbol below the train number.",
+    "Bicycles are allowed on trains with the bicycle symbol below the train number, subject to restrictions.",
     content_tag(:p, [
-      content_tag(:a, "Learn more about bikes on the T", href: "/bikes", class: "c-call-to-action")], class: "u-padding-top")]
+      content_tag(:a, "Learn more about bikes on Commuter Rail", href: "/bikes/bringing-your-bike-the-train", class: "c-call-to-action")], class: "u-padding-top")]
   early_departure = "The " <> mode_name <> " may leave ahead of schedule at these stops."
   flag_stop = "Passengers must tell " <> (if is_ferry(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
     must be visible on the platform for the " <> mode_name <> " to stop."
