@@ -117,6 +117,8 @@ defmodule Routes.Route do
 
   def icon_atom(%__MODULE__{} = route), do: type_atom(route.type)
 
+  def icon_atom(nil), do: nil
+
   @spec path_atom(t) :: gtfs_route_type
   def path_atom(%__MODULE__{type: 2}), do: :"commuter-rail"
   def path_atom(%__MODULE__{type: type}), do: type_atom(type)
