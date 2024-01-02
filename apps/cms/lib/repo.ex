@@ -384,6 +384,7 @@ defmodule CMS.Repo do
   Paragraphs are stand-alone partials from the CMS. Supports redirects.
   """
   @spec get_paragraph(String.t(), map) :: Paragraph.t() | {:error, any()}
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def get_paragraph(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} ->
