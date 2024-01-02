@@ -7,6 +7,6 @@ At this time, that means adding this to your Workspace Preferences json file (`C
 
 ```
 {
-  "typescript.tsdk": "./apps/site/assets/node_modules/typescript/lib"
+  "typescript.tsdk": "./assets/node_modules/typescript/lib"
 }
 ```

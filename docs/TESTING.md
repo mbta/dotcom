@@ -5,7 +5,7 @@ Common test suites developers might want to run:
 * `mix test` — Elixir tests
   * `mix test --exclude wallaby` - Excludes the integration tests
   * `mix test --only wallaby` - Runs only the integration tests. This depends on having chromedriver and Google Chrome installed.
-* `npm run --prefix apps/site/assets mocha && npm run --prefix apps/site/assets jest` — all of the JavaScript tests
+* `npm run --prefix assets mocha && npm run --prefix assets jest` — all of the JavaScript tests
 
 
 Dotcom runs its test suite automatically using Github Actions, mainly from the [`tests.yml`](../.github/workflows/tests.yml) workflow.
@@ -18,7 +18,7 @@ Each test can be run locally by invoking the corresponding NPM script. All the t
 ```sh
  npm run ci:lint:ts
  # This actually runs the following:
- # cd apps/site/assets/ts
+ # cd assets/ts
  # npx eslint -c .eslintrc.js --ext .ts,.tsx --max-warnings=0 .
  ```
 *Runs only if a file with the `.ts` or `.tsx` extension was changed.*
@@ -26,7 +26,7 @@ Each test can be run locally by invoking the corresponding NPM script. All the t
 ### Linting / JavaScript
 ```sh
  npm run ci:lint:js
- # cd apps/site/assets
+ # cd assets
  # git diff --name-only --diff-filter=dx origin/master... | grep js/.*\\.js | xargs npx eslint -c .eslintrc.js
  ```
 *Runs only if a file with the `.js` extension was changed.*
@@ -34,7 +34,7 @@ Each test can be run locally by invoking the corresponding NPM script. All the t
 ### Linting / CSS
 ```sh
  npm run ci:lint:scss
- # cd apps/site/assets
+ # cd assets
  # npx stylelint css/**/*.scss --ignore-path .stylelintignore
  ```
 *Runs only if a file with the `.scss` extension was changed.*
@@ -58,7 +58,7 @@ The CI task should also report test coverage on the PR.
 ### Unit tests / JavaScript / Mocha
 ```sh
 npm run ci:unit:mocha
-# cd apps/site/assets
+# cd assets
 # npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
 ```
 *Runs only if a file with the `.js` extension was changed.*
@@ -66,7 +66,7 @@ npm run ci:unit:mocha
 ### Unit tests / JavaScript & TypeScript / Jest
 ```sh
 npm run ci:unit:jest
-# cd apps/site/assets
+# cd assets
 # npx jest -c ts/jest.config.js
 ```
 *Runs only if a file with the `.js` or `.ts`/`.tsx` extension was changed.*
@@ -83,7 +83,7 @@ In CI this runs Dialyzer via the `mbta/actions/dialyzer@v1` action. Dialyzer is 
 ### Type checks / TypeScript
 ```sh
 npm run ci:types:ts
-# cd apps/site/assets/ts
+# cd assets/ts
 # npx tsc --noEmit --skipLibCheck
 ```
 *Runs only if a file with the `.ts` or `.tsx` extension was changed.*
@@ -98,12 +98,12 @@ npm run ci:format:ex
 ### Formatting / JavaScript & TypeScript
 ```sh
 npm run ci:format:ts
-# cd apps/site/assets
+# cd assets
 # npx prettier --write "{js,ts}/**/*.{js,ts,tsx}" --list-different
 ```
 *Runs only if a file with the `.js` or `.ts`/`.tsx` extension was changed.*
 
-Frontend code is formatted by Prettier. If using the Prettier plugin for Visual Studio Code, ensure it uses the ignore file `apps/site/assets/.prettierignore`.
+Frontend code is formatted by Prettier. If using the Prettier plugin for Visual Studio Code, ensure it uses the ignore file `assets/.prettierignore`.
 
 ## Coming soon
 
@@ -157,7 +157,7 @@ tunneled to `localhost` on your machine. For example: `http://local:4001/`
   the URLs on your server to find invalid links. This automatically runs as part
   of the [`crawler.yml`](../.github/workflows/crawler.yml) workflow.
 
-* `mix run apps/content/bin/validate_fixtures.exs` - compares the attributes in
+* `mix run bin/validate_fixtures.exs` - compares the attributes in
   our fixture files to production Drupal API endpoints to see if any are
   missing. Note that rather than using this script, it is better to update these
   fixture attributes at the time you are making API changes.

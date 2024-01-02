@@ -17,7 +17,7 @@ defmodule Site.Components.Register do
   end
 
   @doc """
-    Finds all folders within apps/site/lib/site/components, and returns a tuple {:section, [:component...]} for each
+    Finds all folders within lib/site/components, and returns a tuple {:section, [:component...]} for each
   """
   @spec build_component_list :: [{atom, [atom]}]
   def build_component_list do

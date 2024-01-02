@@ -23,9 +23,9 @@ if Mix.env() in [:dev, :test] do
     - styles.1d0bb3f99e53cb784f6b.min.css.map
 
     Depends on these files and configuration:
-    - apps/site/assets/export-headerfooter.ts
-    - apps/site/assets/css/export-headerfooter.scss
-    - apps/site/assets/webpack.config.export-headerfooter.js
+    - assets/export-headerfooter.ts
+    - assets/css/export-headerfooter.scss
+    - assets/webpack.config.export-headerfooter.js
     """
     use Mix.Task
     use Wallaby.DSL
@@ -276,7 +276,7 @@ if Mix.env() in [:dev, :test] do
             "--output-path",
             "../../../export"
           ],
-          cd: "apps/site/assets"
+          cd: "assets"
         )
 
       IO.puts(" * evaluating webpack result")

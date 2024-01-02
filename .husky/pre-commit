@@ -2,4 +2,4 @@
 # shellcheck disable=SC1091
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx --prefix apps/site/assets lint-staged
+npx --prefix assets lint-staged

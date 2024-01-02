@@ -4,7 +4,7 @@ This is a suite of functionality that was created to help ensure that our styleg
 
 ## Architecture
 Calling `use Site.Components.Precompiler` in a view makes all components available to the templates within that view (Precompiler gets called in `SiteWeb.view`, so it's applied by default for all views). The Precompiler adds a macro that runs through these basic steps at compile time:
-- For each top level folder as `component_group` in `apps/site/lib/site/components`, do:
+- For each top level folder as `component_group` in `lib/site/components`, do:
     - For each subfolder as `component` in `component_group`, define:
         - `component`/1 :: html
 
@@ -27,11 +27,11 @@ The controller then uses this list to build out the UI Components page with subp
 - The contents of the moduledoc for the component's module.
 
 The UI Components section of the style guide also has two non-component pages:
-- Typography -- fully static content, editable at `/apps/site/lib/site_web/templates/style-guide/_typography.html`
+- Typography -- fully static content, editable at `/lib/site_web/templates/style-guide/_typography.html`
 - Colors -- dynamically populated with all color variables.
 
 ### Color Variables
-Color variables are read from `apps/site/assets/css/colors.json`. There is no permanent `colors.scss` file. Instead, `apps/site/brunch-config.js` calls `var compiler = require(css-styleguide-compiler-brunch)`, and includes 2 hooks:
+Color variables are read from `assets/css/colors.json`. There is no permanent `colors.scss` file. Instead, `brunch-config.js` calls `var compiler = require(css-styleguide-compiler-brunch)`, and includes 2 hooks:
 1. `preCompile`
     - Runs before the CSS is compiled.
     - Calls `compiler.compile()` -- reads any JSON files in the css folder and writes the variable definitions into SCSS files in the CSS folder, thus making them available to be compiled with the rest of the SCSS files.

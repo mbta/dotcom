@@ -34,13 +34,13 @@ ARG SENTRY_DSN=""
 # copy in Elixir deps required to build node modules for Phoenix
 COPY --from=elixir-builder /root/deps /root/deps
 
-ADD apps/site/assets /root/apps/site/assets
+ADD assets /root/assets
 
-WORKDIR /root/apps/site/assets/
+WORKDIR /root/assets/
 RUN npm ci --ignore-scripts
-# Create apps/site/priv/static
+# Create priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
-# Create apps/site/react_renderer/dist/app.js
+# Create react_renderer/dist/app.js
 RUN npm run webpack:build:react
 
 
@@ -51,7 +51,7 @@ FROM elixir-builder as app-builder
 WORKDIR /root
 
 # Add frontend assets compiled in the node container, required by phx.digest
-COPY --from=assets-builder /root/apps/site/priv/static ./apps/site/priv/static
+COPY --from=assets-builder /root/priv/static ./priv/static
 
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
@@ -76,7 +76,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /root
 
 COPY --from=app-builder /root/_build/prod/rel /root/rel
-COPY --from=assets-builder /root/apps/site/react_renderer/dist/app.js /root/rel/site/app.js
+COPY --from=assets-builder /root/react_renderer/dist/app.js /root/rel/site/app.js
 
 ADD rel/bin/startup /root/rel/site/bin/startup
 

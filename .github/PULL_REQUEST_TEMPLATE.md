@@ -32,6 +32,6 @@
 * [ ] **Other accessibility checks** such as sufficient [color constrast](https://thinkdobecreate.com/articles/4-required-tests-before-shipping-new-features/#color-contrast), or whether the layout holds up at 200% [zoom level](https://thinkdobecreate.com/articles/4-required-tests-before-shipping-new-features/#visible-focus).
 
 #### New endpoints, or non-trivial changes to current endpoints
-* [ ] **Have we load-tested** any new pages or internal API endpoints that will receive significant traffic? [See load testing docs](./../apps/site/load_tests/README.md)
+* [ ] **Have we load-tested** any new pages or internal API endpoints that will receive significant traffic? [See load testing docs](./../load_tests/README.md)
 * [ ] **If this change involves routes,** does it work correctly with pertinent "unusual" routes such as the combined Green Line, Silver Line, Foxboro commuter rail, and single-direction bus routes like the 170?
 

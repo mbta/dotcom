@@ -17,7 +17,7 @@ defmodule Site.Components.Precompiler do
   end
 
   @doc """
-    Finds all folders within apps/site/lib/site/components, identifies those as "sections",
+    Finds all folders within lib/site/components, identifies those as "sections",
     and compiles a module for each folder in every section.
   """
   # not sure if this spec is correct -- does it return a def?

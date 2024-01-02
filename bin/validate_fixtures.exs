@@ -7,7 +7,7 @@
 #
 # Run like:
 #
-# mix run apps/content/bin/validate_fixtures.exs
+# mix run bin/validate_fixtures.exs
 #
 # """
 

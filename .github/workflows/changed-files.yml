@@ -58,9 +58,9 @@ jobs:
             echo "ex=true" >> $GITHUB_OUTPUT
           else
             changes () { git diff --name-only --diff-filter=ACDMRT ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} ; }
-            echo "js=$(changes | grep -E 'apps/site/assets/js/.*\.jsx?' | xargs)" >> $GITHUB_OUTPUT
-            echo "ts=$(changes | grep -E 'apps/site/assets/ts/.*\.tsx?' | xargs)" >> $GITHUB_OUTPUT
-            echo "scss=$(changes | grep -E 'apps/site/assets/css/.*\.scss' | xargs)" >> $GITHUB_OUTPUT
+            echo "js=$(changes | grep -E 'assets/js/.*\.jsx?' | xargs)" >> $GITHUB_OUTPUT
+            echo "ts=$(changes | grep -E 'assets/ts/.*\.tsx?' | xargs)" >> $GITHUB_OUTPUT
+            echo "scss=$(changes | grep -E 'assets/css/.*\.scss' | xargs)" >> $GITHUB_OUTPUT
             echo "ex=$(changes | grep -E '.*(\.exs?|\.eex)' | xargs)" >> $GITHUB_OUTPUT
           fi
       - name: "List changed files:"

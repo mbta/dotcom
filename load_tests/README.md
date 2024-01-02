@@ -10,7 +10,7 @@ Follow the [Locust instructions](https://docs.locust.io/en/2.1.0/installation.ht
 
 Install required libraries:
 
-    cd apps/site/load_tests/
+    cd load_tests/
     pip3 install -r requirements.txt
 
 If using `asdf`, you may have to run `asdf reshim python 3.8.5 locust` before using Locust in your shell.
@@ -18,7 +18,7 @@ If using `asdf`, you may have to run `asdf reshim python 3.8.5 locust` before us
 
 Run Locust from this directory like:
 
-    cd apps/site/load_tests/
+    cd load_tests/
     locust --host=http://localhost:4001
 
 (This assumes you have Dotcom up and running on http://localhost:4001.)

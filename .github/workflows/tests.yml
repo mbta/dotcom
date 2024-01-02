@@ -91,13 +91,13 @@ jobs:
       with:
         path: |
           _build
-          apps/site/priv
-          apps/site/react_renderer/dist/app.js
+          priv
+          react_renderer/dist/app.js
         key: ci-application-cache-${{ github.sha }}
     - env:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-        REACT_BUILD_PATH: apps/site/react_renderer/dist/app.js
+        REACT_BUILD_PATH: react_renderer/dist/app.js
       run: npm run ci:unit:exunit
     - name: Upload coverage artifact
       if: ${{ always() && github.event.pull_request }}
@@ -178,12 +178,12 @@ jobs:
       with:
         path: |
           _build
-          apps/site/priv
-          apps/site/react_renderer/dist/app.js
+          priv
+          react_renderer/dist/app.js
         key: ci-application-cache-${{ github.sha }}
     - uses: mbta/setup-chromedriver@master
     - env:
         RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
         RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-        REACT_BUILD_PATH: apps/site/react_renderer/dist/app.js 
+        REACT_BUILD_PATH: react_renderer/dist/app.js 
       run: npm run ci:integration:ex

@@ -550,10 +550,10 @@ defmodule CMS.RepoTest do
         }
       end
 
-      year = 2018
-      mock_2018_opts = opts.(year)
+      year = 2022
+      mock_2022_opts = opts.(year)
 
-      with_mock Static, view: fn "/cms/teasers", ^mock_2018_opts -> {:ok, []} end do
+      with_mock Static, view: fn "/cms/teasers", ^mock_2022_opts -> {:ok, []} end do
         _events = Repo.events_for_year(year)
 
         Static.view("/cms/teasers", opts.(year))

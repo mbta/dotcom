@@ -6,7 +6,7 @@ set -e
 # Should work both locally and on CI.
 # Runs Dotcom on port 8082 and mocks the API on port 8080 with Wiremock
 # If run with ENABLE_RECORDING=true, it runs Wiremock with --record-mappings,
-# and will overwrite some of the JSON files in apps/site/test/{mappings|__files}
+# and will overwrite some of the JSON files in test/{mappings|__files}
 # with new API responses from the endpoint specified in WIREMOCK_PROXY_URL
 #
 # Run it like
@@ -15,13 +15,13 @@ set -e
 #===============================================================================
 
 # When script exits, clean up processes
-function cleanup () {
+function cleanup() {
   error_code=$?
   printf -- '\033[31m z_z Time to go! Closing the mock server and killing leftover running processes... \033[0m\n'
   pkill -TERM -f "wiremock"
   pkill -TERM -f "mix phx.server"
   pkill -TERM -f "sleep"
-  exit "${error_code}";
+  exit "${error_code}"
 }
 trap cleanup EXIT
 
@@ -60,34 +60,32 @@ export MIX_ENV=prod
 export SENTRY_REPORTING_ENV="test"
 export PORT=8082
 export WARM_CACHES=false # Don't expect cached data in this case
-export REACT_BUILD_PATH=apps/site/react_renderer/dist/app.js 
+export REACT_BUILD_PATH=react_renderer/dist/app.js
 export USE_SERVER_SENT_EVENTS=false # Used to disable events in Vehicles.Stream
 export STATIC_SCHEME=http
-export STATIC_PORT=8082 
+export STATIC_PORT=8082
 export DRUPAL_ROOT="${DRUPAL_ROOT:=http://www.cms.example}"
 
 #===============================================================================
 # Running Wiremock, optionally with recording
 #===============================================================================
 
-cd apps/site
 if [[ "${ENABLE_RECORDING:-}" = "true" ]]; then
   printf -- '\033[33m [Wiremock] Starting (recording responses) \033[0m\n'
   java -jar "${WIREMOCK_PATH}" --root-dir=test --global-response-templating \
-    --record-mappings >> /dev/null 2>&1 &
+    --record-mappings >>/dev/null 2>&1 &
 else
   printf -- '\033[33m [Wiremock] Starting \033[0m\n'
   java -jar "${WIREMOCK_PATH}" --root-dir=test --global-response-templating \
-    >> /dev/null 2>&1 &
+    >>/dev/null 2>&1 &
 fi
-cd - 1>/dev/null
 
 #===============================================================================
 # Running the Phoenix server, supressing the output
 #===============================================================================
 
 printf -- '\033[33m [Phoenix] Starting server \033[0m\n'
-mix phx.server >> /dev/null 2>&1 &
+mix phx.server >>/dev/null 2>&1 &
 
 #===============================================================================
 # Wait for both to be running before proceeding
@@ -96,7 +94,7 @@ wiremock_iterations=0
 printf '\033[34m [Wiremock] Waiting on port 8080 .\033[0m'
 until curl -X GET -H "X-WM-Proxy-Url: ${WIREMOCK_PROXY_URL}" \
   --output /dev/null --silent --head --fail http://localhost:8080/alerts/; do
-  if [ "$wiremock_iterations" -ge 5 ]; then 
+  if [ "$wiremock_iterations" -ge 5 ]; then
     printf -- '\033[31m x_x failed \033[0m\n'
     exit 1
   fi

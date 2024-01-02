@@ -2,14 +2,14 @@
 set -e -x
 
 BUILD_TAG="${1:-dotcom}"
-VERSION=$(grep -o 'version: .*"' apps/site/mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
+VERSION=$(grep -o 'version: .*"' mix.exs | grep -E -o '([0-9]+\.)+[0-9]+')
 TEMP_DIR=$(mktemp -d)
 CACHE_CONTROL="public,max-age=31536000"
 STATIC_DIR=$TEMP_DIR/lib/site-$VERSION/priv/static
 
-pushd "$TEMP_DIR" > /dev/null
+pushd "$TEMP_DIR" >/dev/null
 sh -c "docker run --rm ${BUILD_TAG} tar -c /root/rel/site/lib/site-$VERSION/priv/static" | tar -x --strip-components 3
-popd> /dev/null
+popd >/dev/null
 
 # sync the digested files with a cache control header
 aws s3 sync "$STATIC_DIR/css" s3://mbta-dotcom/css --size-only --exclude "*" --include "*-*" --cache-control=$CACHE_CONTROL

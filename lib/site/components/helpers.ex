@@ -18,9 +18,9 @@ defmodule Site.Components.Helpers do
   @spec components_folder_path :: String.t()
   def components_folder_path do
     File.cwd!()
-    |> String.split("/apps/site")
+    |> String.split("/lib/site")
     |> List.first()
-    |> Path.join("/apps/site/lib/site/components/")
+    |> Path.join("/lib/site/components/")
   end
 
   def components_section_path(section) when is_atom(section) do

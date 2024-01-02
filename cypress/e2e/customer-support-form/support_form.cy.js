@@ -1,4 +1,4 @@
-import { faker } from "../../../apps/site/assets/node_modules/@faker-js/faker/locale/en_US";
+import { faker } from "../../../assets/node_modules/@faker-js/faker/locale/en_US";
 
 describe("Customer Support Form", () => {
   beforeEach(() => {

@@ -28,13 +28,13 @@ jobs:
     - uses: actions/cache/restore@v3
       with:
         path: deps
-        key: ci-mix-cache-${{ hashFiles('**/mix.lock') }}
+        key: ci-mix-cache-${{ hashFiles('mix.lock') }}
         restore-keys: ci-mix-cache-
       # the running application runs Webpack to render React stuff :(, so need NPM too
     - uses: actions/cache/restore@v3
       with:
-        path: apps/site/assets/node_modules
-        key: ci-nodejs-cache-${{ hashFiles('apps/site/assets/package-lock.json') }}
+        path: assets/node_modules
+        key: ci-nodejs-cache-${{ hashFiles('assets/package-lock.json') }}
         restore-keys: ci-nodejs-cache-
     - env:
         ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
