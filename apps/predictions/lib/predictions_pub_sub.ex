@@ -58,34 +58,51 @@ defmodule Predictions.PredictionsPubSub do
     subscribe_fn.(Predictions.PubSub, "predictions")
     broadcast_timer(50)
 
+    callers = :ets.new(:callers_by_pid, [:bag])
+    dispatched = :ets.new(:last_dispatched, [:set])
+
     {:ok,
      %{
-       callers_by_pid: %{},
-       last_dispatched_by_fetch_keys: %{}
+       callers_by_pid: callers,
+       last_dispatched: dispatched
      }}
   end
 
   @impl GenServer
   def handle_call(
-        {:subscribe, stream_filter},
+        {:subscribe,
+         %StreamTopic{
+           fetch_keys: fetch_keys,
+           streams: streams
+         }},
         {from_pid, _ref},
-        %{
-          callers_by_pid: callers
-        } = state
+        state
       ) do
+    filter_names = Enum.map(streams, &elem(&1, 1))
+    :ets.insert(state.callers_by_pid, Enum.map(filter_names, &{from_pid, &1}))
     registry_key = self()
+    {:reply, {registry_key, Store.fetch(fetch_keys)}, state, :hibernate}
+  end
 
-    # Let us detect when the calling process goes down, and save the associated
-    # API params for easier lookup
-    Process.monitor(from_pid)
-    new_state = %{state | callers_by_pid: Map.put_new(callers, from_pid, stream_filter)}
+  @impl GenServer
+  def handle_cast({:closed_channel, caller_pid}, state) do
+    # Here we can check if there are other subscribers for the associated key.
+    # If there are no other subscribers remaining, we stop the associated
+    # predictions data stream.
+    :ets.lookup(state.callers_by_pid, caller_pid)
+    |> Enum.each(fn {_, filter_name} ->
+      other_pids_for_filter =
+        :ets.select(state.callers_by_pid, [
+          {{:"$1", filter_name}, [{:"=/=", :"$1", caller_pid}], [:"$1"]}
+        ])
 
-    predictions =
-      stream_filter
-      |> Map.get(:fetch_keys)
-      |> Store.fetch()
+      if length(other_pids_for_filter) == 0 do
+        StreamSupervisor.stop_stream(filter_name)
+      end
+    end)
 
-    {:reply, {registry_key, predictions}, new_state}
+    :ets.delete(state.callers_by_pid, caller_pid)
+    {:noreply, state, :hibernate}
   end
 
   @impl GenServer
@@ -104,66 +121,25 @@ defmodule Predictions.PredictionsPubSub do
       end)
     end)
 
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
 
   def handle_info(:timed_broadcast, state) do
     send(self(), :broadcast)
     broadcast_timer()
-    {:noreply, state}
+    {:noreply, state, :hibernate}
   end
 
   def handle_info(
         {:dispatch, pids, fetch_keys, predictions},
-        %{
-          last_dispatched_by_fetch_keys: last_dispatched
-        } = state
+        state
       ) do
-    if not_last_dispatched?(last_dispatched, fetch_keys, predictions) do
+    if :ets.lookup(state.last_dispatched, fetch_keys) != predictions do
       Enum.each(pids, &send(&1, {:new_predictions, predictions}))
-
-      {:noreply,
-       %{
-         state
-         | last_dispatched_by_fetch_keys: Map.put_new(last_dispatched, fetch_keys, predictions)
-       }}
-    else
-      {:noreply, state}
+      :ets.insert(state.last_dispatched, {fetch_keys, predictions})
     end
-  end
 
-  def handle_info(
-        {:DOWN, parent_ref, :process, caller_pid, _reason},
-        %{
-          callers_by_pid: callers
-        } = state
-      ) do
-    Process.demonitor(parent_ref, [:flush])
-    {%Predictions.StreamTopic{streams: streams}, new_callers} = Map.pop(callers, caller_pid)
-
-    Enum.each(streams, fn stream ->
-      # Here we can check if there are other subscribers for the associated key.
-      # If there are no other subscribers remaining, we stop the associated
-      # predictions data stream.
-      if no_other_subscribers?(stream, caller_pid) do
-        StreamSupervisor.stop_stream(stream)
-      end
-    end)
-
-    {:noreply, %{state | callers_by_pid: new_callers}}
-  end
-
-  defp not_last_dispatched?(last_dispatched, fetch_keys, predictions) do
-    Map.get(last_dispatched, fetch_keys) != predictions
-  end
-
-  # find registrations for this filter from processes other than the indicated pid
-  defp no_other_subscribers?(stream, pid_to_omit) do
-    registry_key = self()
-    pattern = {registry_key, :"$2", {:_, stream}}
-    guards = [{:"=/=", :"$2", pid_to_omit}]
-    body = [true]
-    Registry.select(@subscribers, [{pattern, guards, body}]) == []
+    {:noreply, state, :hibernate}
   end
 
   defp broadcast_timer(interval \\ @broadcast_interval_ms) do
