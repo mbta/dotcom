@@ -1,30 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StateUpdater } from "@algolia/autocomplete-core";
 import { SourceTemplates } from "@algolia/autocomplete-js";
+import { pick } from "lodash";
 import geolocationPromise from "../../../../js/geolocation-promise";
-import { transitNearMeURL } from "../helpers";
 import { Item } from "../__autocomplete";
+import { fetchJsonOrThrow } from "../../../helpers/fetch-json";
+import { WithUrls } from "../helpers";
+
+const goToPositionURL = async (
+  position: GeolocationPosition,
+  urlType: string = "transit-near-me"
+): Promise<void> => {
+  const latlon = pick(position.coords, ["latitude", "longitude"]);
+  // @ts-ignore
+  const params = new URLSearchParams(latlon);
+  const { result } = await fetchJsonOrThrow<{
+    result: WithUrls<typeof latlon>;
+  }>(`/places/urls?${params.toString()}`);
+  const url = result.urls[urlType];
+  if (url) window.Turbolinks.visit(url);
+};
 
 function GeolocationComponent(props: {
+  urlType: string;
   setIsOpen: StateUpdater<boolean>;
 }): React.ReactElement {
-  const { setIsOpen } = props;
+  const { setIsOpen, urlType } = props;
   const [loading, setLoading] = useState<string>();
-  const [position, setPosition] = useState<GeolocationPosition>();
   const [hasError, setHasError] = useState(false);
-  useEffect(() => {
-    if (position) {
-      setLoading("Redirecting...");
-      const { coords } = position;
-      const { latitude, longitude } = coords;
-      const url = transitNearMeURL(latitude, longitude);
-      if (url) window.Turbolinks.visit(url);
-      setTimeout(() => {
-        setLoading(undefined);
-        setIsOpen(false);
-      }, 3000);
-    }
-  }, [position, setIsOpen]);
 
   if (loading) {
     return (
@@ -48,12 +51,19 @@ function GeolocationComponent(props: {
       className="c-search-bar__my-location"
       type="button"
       onClick={event => {
-        // prevent closing the panel
         event.stopPropagation();
         setIsOpen(true);
         setLoading("Getting your location...");
         geolocationPromise()
-          .then(setPosition)
+          .then(position => {
+            setLoading("Redirecting...");
+            goToPositionURL(position, urlType);
+            setTimeout(() => {
+              setLoading(undefined);
+              setHasError(false);
+              setIsOpen(false);
+            }, 3000);
+          })
           .catch(() => {
             setHasError(true);
             setLoading(undefined);
@@ -67,17 +77,19 @@ function GeolocationComponent(props: {
         />
       </span>
       <span className="aa-ItemContentTitle">
-        Use my location to find transit near me
+        Use my location{" "}
+        {urlType === "transit-near-me" && "to find transit near me"}
       </span>
     </button>
   );
 }
 
 const getGeolocationTemplate = (
-  setIsOpen: StateUpdater<boolean>
+  setIsOpen: StateUpdater<boolean>,
+  urlType: string
 ): SourceTemplates<Item>["item"] =>
   function GeolocationTemplate() {
-    return <GeolocationComponent setIsOpen={setIsOpen} />;
+    return <GeolocationComponent setIsOpen={setIsOpen} urlType={urlType} />;
   };
 
 export default getGeolocationTemplate;

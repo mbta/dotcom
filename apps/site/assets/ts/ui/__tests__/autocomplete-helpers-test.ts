@@ -8,7 +8,6 @@ import {
 } from "../autocomplete/__autocomplete";
 import {
   getTitleAttribute,
-  transitNearMeURL,
   STATE_CHANGE_HANDLERS
 } from "./../autocomplete/helpers";
 import * as MediaBreakpoints from "../../helpers/media-breakpoints";
@@ -41,15 +40,6 @@ test("getTitleAttribute indicates name to highlight", () => {
   expect(getTitleAttribute(contentItemWithHighlightResult)).toEqual([
     "_content_title"
   ]);
-});
-
-test("transitNearMeURL maps a lat/lon to a URL", () => {
-  const urlNoParams = transitNearMeURL(1, 2);
-  expect(urlNoParams).toEqual("/transit-near-me?latitude=1&longitude=2");
-  const urlWithParams = transitNearMeURL(1, 2, "other=params,go,here");
-  expect(urlWithParams).toEqual(
-    "/transit-near-me?latitude=1&longitude=2&other=params,go,here"
-  );
 });
 
 describe("onStateChange handlers - nav", () => {

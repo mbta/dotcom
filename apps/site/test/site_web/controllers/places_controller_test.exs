@@ -164,4 +164,53 @@ defmodule SiteWeb.PlacesControllerTest do
       assert %{"error" => "Zero results"} = json_response(conn, 500)
     end
   end
+
+  test "/places/popular returns a list of popular locations", %{conn: conn} do
+    conn = get(conn, places_path(conn, :popular))
+    assert %{"result" => [location | _]} = json_response(conn, 200)
+    assert %{"name" => "Boston Logan Airport", "icon" => "airplane"} = location
+    assert has_urls?(location)
+  end
+
+  test "/places/urls augments a location", %{conn: conn} do
+    conn = get(conn, places_path(conn, :with_urls, %{"latitude" => 1, "longitude" => 2}))
+    assert %{"result" => location} = json_response(conn, 200)
+    assert has_urls?(location)
+  end
+
+  describe "/places/search/:query/:limit" do
+    @tag :live_data
+    test "returns number of results", %{conn: conn} do
+      hit_limit = 7
+      conn = get(conn, places_path(conn, :search, "s", hit_limit))
+      assert %{"result" => locations} = json_response(conn, 200)
+      assert Enum.count(locations) == hit_limit
+    end
+
+    @tag :live_data
+    test "uses the query to find results", %{conn: conn} do
+      conn = get(conn, places_path(conn, :search, "south", 3))
+      assert %{"result" => locations} = json_response(conn, 200)
+
+      assert Enum.all?(
+               locations,
+               &(String.contains?(&1["address"], "south") ||
+                   String.contains?(&1["address"], "South"))
+             )
+
+      assert Enum.all?(locations, &has_urls?/1)
+    end
+  end
+
+  defp has_urls?(%{
+         "urls" => %{
+           "transit-near-me" => tnm,
+           "retail-sales-locations" => r,
+           "proposed-sales-locations" => p
+         }
+       })
+       when is_binary(tnm) and is_binary(r) and is_binary(p),
+       do: true
+
+  defp has_urls?(_), do: false
 end

@@ -12,8 +12,10 @@ import createGeolocationPlugin from "../autocomplete/plugins/geolocation";
 import {
   AutocompleteItem,
   Item,
-  LocationItem
+  LocationItem,
+  PopularItem
 } from "../autocomplete/__autocomplete";
+import createPopularLocationsPlugin from "../autocomplete/plugins/popular";
 
 const mockAlgoliaResponse = {
   results: [
@@ -32,20 +34,42 @@ const mockAlgoliaResponse = {
   ] as SearchResponse[]
 };
 
-const mockLocationPredictions = {
-  predictions: JSON.stringify([
-    { address: "123 Sesame St", highlighted_spans: {} },
-    { address: "50 Wisteria Lane", highlighted_spans: {} },
-    { address: "1600 Pennsylvania Ave", highlighted_spans: {} }
-  ])
-};
-
-const mockAddressDetails = {
-  result: JSON.stringify({
-    latitude: 1,
-    longitude: 2,
-    formatted: ""
-  })
+const mockLocations = {
+  result: [
+    {
+      address: "123 Sesame St",
+      highlighted_spans: {},
+      latitude: 1,
+      longitude: 2,
+      urls: {
+        "transit-near-me": "/transit-near-me/1/2",
+        "retail-sales-locations": "/retail/1/2",
+        "proposed-sales-locations": "/proposed/1/2"
+      }
+    },
+    {
+      address: "50 Wisteria Lane",
+      highlighted_spans: {},
+      latitude: 3,
+      longitude: 4,
+      urls: {
+        "transit-near-me": "/transit-near-me/3/4",
+        "retail-sales-locations": "/retail/3/4",
+        "proposed-sales-locations": "/proposed/3/4"
+      }
+    },
+    {
+      address: "1600 Pennsylvania Ave",
+      highlighted_spans: {},
+      latitude: 5,
+      longitude: 6,
+      urls: {
+        "transit-near-me": "/transit-near-me/5/6",
+        "retail-sales-locations": "/retail/5/6",
+        "proposed-sales-locations": "/proposed/5/6"
+      }
+    }
+  ]
 };
 
 const mockFetch = (returnedData: unknown) => () =>
@@ -114,16 +138,13 @@ describe("Algolia v1 plugins", () => {
   });
 
   describe("locations", () => {
-    beforeEach(() => {
-      window.fetch = jest
-        .fn()
-        .mockImplementationOnce(mockFetch(mockLocationPredictions))
-        .mockImplementation(mockFetch(mockAddressDetails));
+    beforeAll(() => {
+      window.fetch = jest.fn().mockImplementation(mockFetch(mockLocations));
     });
 
     test("does nothing without a query", () => {
       const params = {} as GetSourcesParams<Item>;
-      const { getSources } = createLocationsPlugin();
+      const { getSources } = createLocationsPlugin(3);
       expect(getSources!(params)).toEqual([]);
     });
 
@@ -131,30 +152,59 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "some area"
       } as GetSourcesParams<Item>;
-      const { getSources } = createLocationsPlugin();
+      const { getSources } = createLocationsPlugin(3);
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       await sources[0].getItems(params);
-      expect(window.fetch).toHaveBeenCalledWith(
-        "/places/autocomplete/some%20area/2/null"
-      );
+      expect(window.fetch).toHaveBeenCalledWith("/places/search/some%20area/3");
     });
 
-    test("returns results with URLs to transit near me", async () => {
+    test("returns results with URLs to chosen URL type", async () => {
       const params = {
         query: "this place"
       } as GetSourcesParams<Item>;
-      const { getSources } = createLocationsPlugin();
+      const { getSources } = createLocationsPlugin(3, "transit-near-me");
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const response = await sources[0].getItems(params);
-      const urls = (response as LocationItem[]).map(r => r.url);
-      urls.forEach(u => {
-        expect(u).toStartWith("/transit-near-me?");
-        expect(u).toContain("&query=this%20place");
+      (response as LocationItem[]).forEach(location => {
+        expect(location.url).toContain("/transit-near-me");
       });
     });
   });
 
   describe("geolocation", () => {
+    beforeAll(() => {
+      window.fetch = jest.fn().mockImplementation(
+        mockFetch({
+          result: {
+            address: "51.1, 45.3",
+            highlighted_spans: {},
+            latitude: 51.1,
+            longitude: 45.3,
+            urls: {
+              "transit-near-me": "/transit-near-me/51.1/45.3",
+              "retail-sales-locations": "/retail/51.1/45.3",
+              "proposed-sales-locations": "/proposed/51.1/45.3"
+            }
+          }
+        })
+      );
+
+      const mockGeolocation = {
+        getCurrentPosition: jest.fn().mockImplementationOnce(success =>
+          Promise.resolve(
+            success({
+              coords: {
+                latitude: 51.1,
+                longitude: 45.3
+              }
+            })
+          )
+        )
+      };
+      (global as any).navigator.geolocation = mockGeolocation;
+      (global as any).Turbolinks = { visit: jest.fn() };
+    });
+
     test("return source defining template", async () => {
       const templateItem = {} as LocationItem;
       const params = {
@@ -196,7 +246,7 @@ describe("Algolia v1 plugins", () => {
       const params = {
         setIsOpen: value => {}
       } as GetSourcesParams<Item>;
-      const { getSources } = createGeolocationPlugin();
+      const { getSources } = createGeolocationPlugin("retail-sales-locations");
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const itemTemplate = sources[0].templates.item as SourceTemplates<
         Item
@@ -211,28 +261,55 @@ describe("Algolia v1 plugins", () => {
           } as AutocompleteState<Item>
         })
       );
-      const mockGeolocation = {
-        getCurrentPosition: jest.fn().mockImplementationOnce(success =>
-          Promise.resolve(
-            success({
-              coords: {
-                latitude: 51.1,
-                longitude: 45.3
-              }
-            })
-          )
-        )
-      };
-      (global as any).navigator.geolocation = mockGeolocation;
-      (global as any).Turbolinks = { visit: jest.fn() };
       fireEvent.click(screen.getByRole("button"));
       await waitFor(() => {
         expect(
           window.navigator.geolocation.getCurrentPosition
         ).toHaveBeenCalled();
         expect(window.Turbolinks.visit).toHaveBeenCalledWith(
-          "/transit-near-me?latitude=51.1&longitude=45.3"
+          "/retail/51.1/45.3"
         );
+      });
+    });
+  });
+
+  describe("popular locations", () => {
+    test("doesn't return source if there's a query", async () => {
+      const params = {
+        query: "looking for something"
+      } as GetSourcesParams<Item>;
+      const { getSources } = createPopularLocationsPlugin();
+      const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
+      expect(sources).toEqual([]);
+    });
+
+    test("returns results with URLs to chosen URL type", async () => {
+      window.fetch = jest.fn().mockImplementation(
+        mockFetch({
+          result: [
+            {
+              icon: "station",
+              name: "South Station",
+              features: ["red_line", "bus", "commuter_rail", "access"],
+              latitude: 42.352271,
+              longitude: -71.055242,
+              urls: {
+                "transit-near-me": "/transit-near-me/42,-71",
+                "retail-sales-locations": "/retail-sales-locations/42,-71",
+                "proposed-sales-locations": "/proposed-sales-locations/42,-71"
+              }
+            }
+          ]
+        })
+      );
+      const params = {} as GetSourcesParams<Item>;
+      const { getSources } = createPopularLocationsPlugin(
+        "proposed-sales-locations"
+      );
+      const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
+      const response = await sources[0].getItems(params);
+      (response as PopularItem[]).forEach(location => {
+        expect(location.url).toContain("/proposed-sales-locations");
       });
     });
   });
