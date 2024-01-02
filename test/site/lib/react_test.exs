@@ -41,6 +41,8 @@ defmodule Site.ReactTest do
          %{
            stopsWithDistances: stopsWithDistances
          } do
+      Logger.configure(level: :info)
+
       log =
         CaptureLog.capture_log(fn ->
           React.render("TransitNearMe", %{
@@ -55,6 +57,11 @@ defmodule Site.ReactTest do
 
       assert log =~
                "node_logging"
+
+      on_exit(fn ->
+        compile_time_level = Application.get_env(:logger, :level)
+        Logger.configure(level: compile_time_level)
+      end)
     end
 
     test "fails with unknown component" do

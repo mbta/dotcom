@@ -31,7 +31,17 @@ defmodule DotCom.Mixfile do
       source_url: "https://github.com/mbta/dotcom",
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
-      docs: [main: "Site", logo: "assets/static/images/mbta-logo-t.png"]
+      docs: [main: "Site", logo: "assets/static/images/mbta-logo-t.png"],
+      default_release: :site,
+      releases: [
+        include_executables_for: [:unix],
+        site: [
+          version: {:from_app, :site},
+          applications: [
+            site: :permanent
+          ]
+        ]
+      ]
     ]
   end
 
@@ -79,7 +89,6 @@ defmodule DotCom.Mixfile do
       {:csv, "~> 3.0.5"},
       {:dialyxir, ">= 1.0.0-rc.4", [only: [:test, :dev], runtime: false]},
       {:diskusage_logger, "~> 0.2.0"},
-      {:distillery, "~> 2.0"},
       {:eflame, "~> 1.0", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
       {:ex_aws, "~> 2.4"},

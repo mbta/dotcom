@@ -59,9 +59,7 @@ defmodule Site.React.Worker do
         |> Enum.find(&(!is_nil(&1)))
       end)
 
-    level = (Mix.env() == :test && :warn) || :info
-
-    _ = Logger.log(level, "node_logging req_time milliseconds=#{time / 1_000}")
+    _ = Logger.info("node_logging req_time milliseconds=#{time / 1_000}")
     result
   end
 

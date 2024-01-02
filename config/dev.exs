@@ -48,7 +48,7 @@ config :site, SiteWeb.Endpoint,
 config :logger, :console, format: "[$level] $message\n"
 
 config :logger,
-  level: String.to_atom(System.get_env("LOGGER_LEVEL") || "warn"),
+  level: :warning,
   colors: [enabled: true]
 
 # Set a higher stacktrace during development.
