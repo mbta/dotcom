@@ -1,12 +1,34 @@
 import Config
 
-config :cms, CMS.Cache,
-  conn_opts: [
-    host: System.get_env("REDIS_HOST", "127.0.0.1"),
-    port: 6379
-  ],
-  stats: false,
-  telemetry: false
+redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
+
+redis_host =
+  if redis_host_env == "",
+    do: "127.0.0.1",
+    else: redis_host_env
+
+if config_env() == :prod do
+  config :cms, CMS.Cache,
+    mode: :redis_cluster,
+    redis_cluster: [
+      configuration_endpoints: [
+        conn_opts: [
+          host: redis_host,
+          port: 6379
+        ]
+      ]
+    ],
+    stats: false,
+    telemetry: false
+else
+  config :cms, CMS.Cache,
+    conn_opts: [
+      host: redis_host,
+      port: 6379
+    ],
+    stats: false,
+    telemetry: false
+end
 
 if config_env() == :test do
   config :site, SiteWeb.Router,
