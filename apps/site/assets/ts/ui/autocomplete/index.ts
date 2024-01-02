@@ -6,8 +6,9 @@ import {
 import { createElement, Fragment } from "react";
 import { render } from "react-dom";
 import { Item } from "./__autocomplete";
-import { STATE_CHANGE_HANDLERS } from "./helpers";
+import { STATE_CHANGE_HANDLERS, SUBMIT_HANDLERS } from "./helpers";
 import getPlugins from "./plugins";
+import { parseQuery } from "../../helpers/query";
 
 // replace the default Preact-based renderer used by AutocompleteJS
 const reactRenderer = {
@@ -21,6 +22,14 @@ function setupVeilCloseListener(autocompleteApi: AutocompleteApi<Item>): void {
   document
     .querySelector("[data-nav='veil']")
     ?.addEventListener("click", () => autocompleteApi.setIsOpen(false));
+}
+
+function getLikelyQueryParams(): string | undefined {
+  const searchParams = parseQuery(
+    window.location.search,
+    window.decodeURIComponent
+  );
+  return searchParams.query || searchParams.name || searchParams.address;
 }
 
 /**
@@ -43,12 +52,16 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
     classNames: {
       input: "c-form__input-container"
     },
+    initialState: {
+      query:
+        container.dataset.initialState === ""
+          ? getLikelyQueryParams()
+          : undefined
+    },
     openOnFocus: true,
     onStateChange:
       STATE_CHANGE_HANDLERS[`${container.dataset.stateChangeListener}`],
-    onSubmit({ state }) {
-      window.Turbolinks.visit(`/search?query=${state.query}`);
-    },
+    onSubmit: SUBMIT_HANDLERS[`${container.dataset.submitHandler}`],
     placeholder: container.dataset.placeholder,
     plugins: getPlugins(container.dataset),
     renderer: reactRenderer

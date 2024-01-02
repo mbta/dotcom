@@ -7,7 +7,8 @@ defmodule Predictions.Stream do
   require Logger
 
   alias Phoenix.PubSub
-  alias Predictions.{Repo, Store, StreamParser}
+  alias Predictions.{Repo, Store, StreamParser, StreamTopic}
+  alias V3Api.Stream.Event
 
   @type event_type :: :reset | :add | :update | :remove
 
@@ -29,15 +30,45 @@ defmodule Predictions.Stream do
       Map.new()
       |> Map.put_new(:broadcast_fn, Keyword.get(opts, :broadcast_fn, &PubSub.broadcast/3))
       |> Map.put_new(:started?, false)
+      |> Map.put_new(:clear_keys, Keyword.fetch!(opts, :clear_keys))
 
     {:consumer, initial_state, subscribe_to: [producer_consumer]}
   end
 
   @impl GenStage
   def handle_events(events, _from, state) do
-    batches = Enum.group_by(events, & &1.event, &to_predictions(&1.data))
-    :ok = Enum.each(batches, &Store.update/1)
+    events
+    |> Enum.filter(fn %Event{data: event_data} ->
+      if is_tuple(event_data), do: log_errors(event_data)
+      match?(%JsonApi{}, event_data)
+    end)
+    |> Enum.group_by(& &1.event)
+    |> Enum.each(&handle_by_type(&1, state.clear_keys))
+
     {:noreply, [], initial_broadcast(state)}
+  end
+
+  @spec handle_by_type({Event.event(), [Event.t()]}, StreamTopic.clear_keys()) :: :ok
+  defp handle_by_type({:reset, events}, clear_keys) do
+    Store.clear(clear_keys)
+    handle_by_type({:add, events}, clear_keys)
+  end
+
+  defp handle_by_type({:remove, events}, _) do
+    prediction_ids =
+      events
+      |> Enum.flat_map(fn %Event{data: %JsonApi{data: data}} ->
+        data
+        |> Enum.filter(&(&1.type == "prediction"))
+        |> Enum.map(& &1.id)
+      end)
+
+    Store.update({:remove, prediction_ids})
+  end
+
+  defp handle_by_type({event_type, events}, _) when event_type in [:add, :update] do
+    batch = Enum.flat_map(events, &to_predictions(&1.data))
+    Store.update({event_type, batch})
   end
 
   # Broadcast when the first event for this stream is received
@@ -50,6 +81,7 @@ defmodule Predictions.Stream do
 
   defp to_predictions(%JsonApi{data: data}) do
     data
+    |> Enum.filter(&(&1.type == "prediction"))
     |> Enum.filter(&Repo.has_trip?/1)
     |> Enum.map(&StreamParser.parse/1)
   end

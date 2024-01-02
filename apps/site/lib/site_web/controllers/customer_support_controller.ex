@@ -361,6 +361,10 @@ defmodule SiteWeb.CustomerSupportController do
       {:error, [:invalid_keys]} ->
         _ = Logger.error("recaptcha invalid_keys")
         "recaptcha"
+
+      {:error, [error]} ->
+        _ = Logger.error("recaptch error=#{error}")
+        "recaptcha"
     end
   end
 

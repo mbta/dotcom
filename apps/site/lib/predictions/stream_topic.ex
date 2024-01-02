@@ -16,20 +16,15 @@ defmodule Predictions.StreamTopic do
   """
 
   alias Predictions.{Store, StreamSupervisor}
-  alias Routes.Route
 
   defstruct [:topic, :fetch_keys, :streams]
 
   @type filter_params :: String.t()
+  @type clear_keys :: Store.fetch_keys()
   @type t :: %__MODULE__{
           topic: String.t(),
           fetch_keys: Store.fetch_keys(),
-          streams: [filter_params]
-        }
-
-  @type api_filter_t :: %{
-          required(:route) => Route.id_t(),
-          required(:direction_id) => 0 | 1
+          streams: [{clear_keys, filter_params}]
         }
 
   @spec new(String.t()) :: t() | {:error, term()}
@@ -59,23 +54,21 @@ defmodule Predictions.StreamTopic do
     end
   end
 
+  @spec streams_from_fetch_keys(Store.fetch_keys()) :: [{clear_keys, filter_params}]
   defp streams_from_fetch_keys(stop: stop_id) do
     RoutePatterns.Repo.by_stop_id(stop_id)
-    |> Enum.map(&to_filter/1)
-    |> Enum.map(&filter_to_string/1)
+    |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
   end
 
-  @spec to_filter(RoutePatterns.RoutePattern.t()) :: api_filter_t()
-  defp to_filter(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
+  defp to_keys(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
+    [route: route_id, direction: direction_id]
+  end
+
+  defp to_filter_name(%RoutePatterns.RoutePattern{route_id: route_id, direction_id: direction_id}) do
     %{
       route: route_id,
       direction_id: direction_id
     }
-  end
-
-  @spec filter_to_string(api_filter_t()) :: filter_params
-  defp filter_to_string(filters) do
-    filters
     |> Enum.map(fn {filter, value} -> "filter[#{filter}]=#{value}" end)
     |> Enum.join("&")
   end

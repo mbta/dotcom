@@ -1,12 +1,14 @@
 import React from "react";
 import { SourceTemplates } from "@algolia/autocomplete-js";
-import { Item, LocationItem } from "../__autocomplete";
+import { LocationItem } from "../__autocomplete";
 import { highlightText } from "../../../helpers/text";
 
-const LocationItemTemplate: SourceTemplates<Item>["item"] = ({ item }) => {
-  const { address, highlighted_spans } = item as LocationItem;
+export const LocationItemTemplate: SourceTemplates<LocationItem>["item"] = ({
+  item
+}) => {
+  const { address, highlighted_spans } = item;
   return (
-    <a href={(item as LocationItem).url}>
+    <a href={item.url} data-turbolinks="false">
       <span
         aria-hidden="true"
         className="c-search-result__content-icon fa fa-map-marker"

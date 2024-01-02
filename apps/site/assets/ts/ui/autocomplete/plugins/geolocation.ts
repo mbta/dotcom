@@ -5,9 +5,11 @@ import getGeolocationTemplate from "../templates/geolocation";
 /**
  * Generates a plugin for Algolia Autocomplete which enables geolocation. This
  * displays a prompt on search input focus to enable geolocation, executes the
- * geolocation, and uses the resulting location to navigate to Transit Near Me.
+ * geolocation, and on selection navigates to a URL.
  */
-export default function createGeolocationPlugin(): AutocompleteJSPlugin {
+export default function createGeolocationPlugin(
+  urlType: string = "transit-near-me"
+): AutocompleteJSPlugin {
   return {
     getSources({ query, setIsOpen }) {
       if (!query) {
@@ -15,7 +17,7 @@ export default function createGeolocationPlugin(): AutocompleteJSPlugin {
           {
             sourceId: "geolocation",
             templates: {
-              item: getGeolocationTemplate(setIsOpen)
+              item: getGeolocationTemplate(setIsOpen, urlType)
             },
             getItems() {
               // a hack to make the template appear, no backend is queried in this case

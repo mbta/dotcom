@@ -1,7 +1,15 @@
 name: Website Crawler
 
 on:
+  # Manually select an env to deploy to
   workflow_dispatch:
+    inputs:
+      deployment-env:
+        description: "Environment"
+        type: environment # will be prod, dev, dev-blue, or dev-green
+        required: true
+        default: dev
+
   workflow_run:
     workflows:
       - "Deploy: master branch"
@@ -11,8 +19,10 @@ on:
 jobs:
   crawler:
     name: Website Crawler
-    runs-on: ubuntu-20.04
-    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env || 'dev') }}
+    
     steps:
     - uses: erlef/setup-beam@v1
       with:
@@ -21,4 +31,4 @@ jobs:
     - name: Run Crawler
       run: |
         mix escript.install --force github mbta/link_checker
-        $HOME/.mix/escripts/crawler https://dev.mbtace.com/ --num-workers 3
+        $HOME/.mix/escripts/crawler ${{ env.url }} --num-workers 3

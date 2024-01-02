@@ -69,9 +69,16 @@ defmodule SiteWeb.FareController do
   end
 
   def find_locations(conn, %{"latitude" => lat, "longitude" => lon} = params, proposed_or_retail) do
+    address =
+      case params do
+        %{"address" => value} -> value
+        %{"name" => value} -> value
+        _ -> lat <> "," <> lon
+      end
+
     params =
       Map.put(params, "location", %{
-        "address" => lat <> "," <> lon,
+        "address" => address,
         "latitude" => lat,
         "longitude" => lon
       })
