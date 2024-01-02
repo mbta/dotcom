@@ -1,5 +1,5 @@
 defmodule SiteWeb.TripPlanControllerTest do
-  use SiteWeb.ConnCase
+  use SiteWeb.ConnCase, async: false
   alias Fares.Fare
   alias Site.TripPlan.Query
   alias SiteWeb.TripPlanController

@@ -120,8 +120,9 @@ defmodule Stops.RepoTest do
   end
 
   describe "by_trip/2" do
+    @tag :live_data
     test "can return stops from a trip" do
-      assert response = by_trip("58653355")
+      assert response = by_trip("60168572")
       assert [%Stop{} | _] = response
     end
 
