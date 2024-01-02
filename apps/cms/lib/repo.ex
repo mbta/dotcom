@@ -69,7 +69,6 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec events(Keyword.t()) :: [Event.t()]
   def events(opts \\ []) do
     case @cms_api.view("/cms/events", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Event.from_api/1)
@@ -93,12 +92,11 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec whats_happening() :: [WhatsHappeningItem.t()]
   @decorate cacheable(
               cache: @cache,
               key: "/cms/whats-happening",
               on_error: :nothing,
-              opts: [ttl: @ttl]
+              opts: [ttl: 60_000]
             )
   def whats_happening() do
     case @cms_api.view("/cms/whats-happening", []) do
@@ -118,7 +116,7 @@ defmodule CMS.Repo do
               cache: @cache,
               key: "/cms/important-notices",
               on_error: :nothing,
-              opts: [ttl: @ttl]
+              opts: [ttl: 60_000]
             )
   def do_banner() do
     case @cms_api.view("/cms/important-notices", []) do
