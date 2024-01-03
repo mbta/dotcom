@@ -71,6 +71,6 @@ defmodule CMS.Telemetry.Reporter do
   end
 
   defp handle_metric(metric, _measurements, _metadata) do
-    Logger.warning("cms.repo.unsupported_metric metric=#{metric.__struct__}")
+    Logger.warning("cms.cache.unsupported_metric metric=#{metric.__struct__}")
   end
 end
