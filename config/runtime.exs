@@ -18,16 +18,16 @@ if config_env() == :prod do
         ]
       ]
     ],
-    stats: false,
-    telemetry: false
+    stats: true,
+    telemetry: true
 else
   config :cms, CMS.Cache,
     conn_opts: [
       host: redis_host,
       port: 6379
     ],
-    stats: false,
-    telemetry: false
+    stats: true,
+    telemetry: true
 end
 
 if config_env() == :test do
