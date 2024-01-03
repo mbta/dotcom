@@ -203,7 +203,7 @@ defmodule DotCom.Mixfile do
 
   defp site_url do
     host = Application.get_env(:site, SiteWeb.Endpoint)[:url][:host]
-    port = Application.get_env(:site, SiteWeb.Endpoint)[:http][:port]
+    port = System.get_env("PORT") || Application.get_env(:site, SiteWeb.Endpoint)[:http][:port]
     "#{host}:#{port}"
   end
 

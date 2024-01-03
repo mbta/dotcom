@@ -1,5 +1,18 @@
 import Config
 
+IO.puts("importing runtime.exs")
+
+default_port = if config_env() == :test, do: "4002", else: "4001"
+port = String.to_integer(System.get_env("PORT") || default_port)
+host = System.get_env("HOST", "localhost")
+webpack_port = String.to_integer(System.get_env("WEBPACK_PORT") || "8090")
+
+static_url =
+  case System.get_env("STATIC_URL") do
+    nil -> [host: System.get_env("STATIC_HOST") || host, port: port]
+    static_url -> [url: static_url]
+  end
+
 # ## Using releases
 #
 # If you use `mix release`, you need to explicitly enable the server
@@ -10,7 +23,9 @@ import Config
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :site, SiteWeb.Endpoint, server: true
+  config :site, SiteWeb.Endpoint,
+    server: true,
+    check_origin: [host]
 end
 
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
@@ -19,6 +34,33 @@ redis_host =
   if redis_host_env == "",
     do: "127.0.0.1",
     else: redis_host_env
+
+if config_env() == :dev do
+  # For development, we disable any cache and enable
+  # debugging and code reloading.
+  #
+  # The watchers configuration can be used to run external
+  # watchers to your application. For example, we use it
+  # with Webpack to recompile .js and .css sources.
+  webpack_path = "http://#{System.get_env("STATIC_HOST") || host}:#{webpack_port}"
+
+  config :site, SiteWeb.Endpoint,
+    # Binding to loopback ipv4 address prevents access from other machines.
+    # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+    http: [ip: {127, 0, 0, 1}, port: port],
+    static_url: static_url
+
+  config :site,
+    dev_server?: true,
+    webpack_path: webpack_path
+
+  unless System.get_env("DRUPAL_ROOT") do
+    # To see CMS content locally, please read the README on how to setup Kalabox.
+    # These instructions will help you run the CMS locally and configure the
+    # correct endpoint for the drupal root.
+    System.put_env("DRUPAL_ROOT", "http://temp-drupal.invalid")
+  end
+end
 
 if config_env() == :prod do
   config :site, CMS.Cache,
@@ -52,19 +94,127 @@ if config_env() == :test do
 else
   config :site, SiteWeb.Router,
     cms_basic_auth: [
-      username: System.fetch_env!("CMS_BASIC_AUTH_USERNAME"),
-      password: System.fetch_env!("CMS_BASIC_AUTH_PASSWORD")
+      username: System.get_env("CMS_BASIC_AUTH_USERNAME"),
+      password: System.get_env("CMS_BASIC_AUTH_PASSWORD")
     ]
 end
+
+config :site,
+  v3_api_base_url: System.get_env("V3_URL"),
+  v3_api_key: System.get_env("V3_API_KEY"),
+  v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01"),
+  v3_api_wiremock_proxy_url: System.get_env("WIREMOCK_PROXY_URL"),
+  v3_api_wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false")
+
+config :site, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-dev")
+
+config :site, :algolia_config,
+  app_id: System.get_env("ALGOLIA_APP_ID"),
+  search: System.get_env("ALGOLIA_SEARCH_KEY"),
+  write: System.get_env("ALGOLIA_WRITE_KEY")
+
+config :site, OpenTripPlanner,
+  timezone: System.get_env("OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"),
+  otp1_url: System.get_env("OPEN_TRIP_PLANNER_URL"),
+  otp2_url: System.get_env("OPEN_TRIP_PLANNER_2_URL"),
+  otp2_percentage: System.get_env("OPEN_TRIP_PLANNER_2_PERCENTAGE"),
+  wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false"),
+  wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
+
+config :site,
+  support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL", "test@test.com"),
+  support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL", "from@test.com"),
+  support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL", "reply@test.com")
+
+config :site,
+  drupal: [
+    cms_root: System.fetch_env!("DRUPAL_ROOT"),
+    cms_static_path: "/sites/default/files"
+  ]
 
 if config_env() == :prod do
   config :site, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
 
   config :site, SiteWeb.Endpoint,
-    url: [host: System.get_env("HOST"), port: System.get_env("PORT")]
+    http: [
+      # Enable IPv6 and bind on all interfaces.
+      # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
+      # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
+      # for details about using IPv6 vs IPv4 and loopback vs public addresses.
+      ip: {0, 0, 0, 0, 0, 0, 0, 0},
+      port: System.get_env("PORT"),
+      transport_options: [
+        num_acceptors: 2_048,
+        max_connections: 32_768,
+        socket_opts: [:inet6]
+      ],
+      compress: true,
+      protocol_options: [
+        max_header_value_length: 16_384,
+        max_request_line_length: 16_384
+      ],
+      # dispatch websockets but don't dispatch any other URLs, to avoid parsing invalid URLs
+      # see https://hexdocs.pm/phoenix/Phoenix.Endpoint.CowboyHandler.html
+      dispatch: [
+        {:_,
+         [
+           {:_, Phoenix.Endpoint.Cowboy2Handler, {SiteWeb.Endpoint, []}}
+         ]}
+      ]
+    ],
+    url: [host: System.get_env("HOST")],
+    static_url: [
+      scheme: System.get_env("STATIC_SCHEME"),
+      host: System.get_env("STATIC_HOST"),
+      port: System.get_env("STATIC_PORT")
+    ]
 
-  config :site, :react, build_path: System.get_env("REACT_BUILD_PATH") || "/root/rel/site/app.js"
+  config :site, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/site/app.js")
+
+  # because this is evaluated at compile time, it won't get used when we're
+  # running the Backstop tests.  It should still be included in the production
+  # build.
+  unless System.get_env("PORT") do
+    config :site, SiteWeb.Endpoint, url: [scheme: "https", port: 443]
+
+    # configured separately so that we can have the health check not require
+    # SSL
+    config :site, :secure_pipeline,
+      force_ssl: [
+        host: nil,
+        rewrite_on: [:x_forwarded_proto]
+      ]
+  end
+
+  config :site,
+    support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL"),
+    support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL"),
+    support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL")
+
+  config :site, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/site/app.js")
 end
+
+config :site, LocationService,
+  google_api_key: System.get_env("GOOGLE_API_KEY"),
+  google_client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
+  google_signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || "",
+  geocode: System.get_env("LOCATION_SERVICE", "aws"),
+  reverse_geocode: System.get_env("LOCATION_SERVICE", "aws"),
+  autocomplete: System.get_env("LOCATION_SERVICE", "aws"),
+  aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
+
+config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
+
+config :site,
+  enable_experimental_features: System.get_env("ENABLE_EXPERIMENTAL_FEATURES")
+
+config :recaptcha,
+  public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),
+  secret: System.get_env("RECAPTCHA_PRIVATE_KEY")
+
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN"),
+  environment_name: System.get_env("SENTRY_ENVIRONMENT")
 
 if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) do
   config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))

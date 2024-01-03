@@ -99,14 +99,7 @@ defmodule GoogleMaps do
   end
 
   defp get_env(key) do
-    case Application.get_env(:site, key) do
-      "${" <> _ ->
-        # relx configuration that wasn't overriden; ignore
-        ""
-
-      value ->
-        value
-    end
+    Application.get_env(:site, LocationService)[key]
   end
 
   defp do_signed_url(uri, "", _, opts) do

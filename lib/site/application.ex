@@ -46,7 +46,7 @@ defmodule Site.Application do
         Facilities.Supervisor,
         Stops.Supervisor
       ] ++
-        if Application.get_env(:elixir, :start_data_processes) do
+        if Application.get_env(:site, :start_data_processes) do
           [
             Vehicles.Supervisor,
             Supervisor.child_spec(

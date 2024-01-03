@@ -22,7 +22,7 @@ defmodule Alerts.CacheSupervisor do
       [
         Alerts.Cache.Store
       ] ++
-        if Application.get_env(:elixir, :start_data_processes) do
+        if Application.get_env(:site, :start_data_processes) do
           [
             {Alerts.Cache.Fetcher, api_mfa: @api_mfa}
           ]

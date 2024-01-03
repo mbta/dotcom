@@ -3,10 +3,10 @@ defmodule Alerts.BusStopChangeSupervisorTest do
   alias Alerts.BusStopChangeSupervisor
 
   setup do
-    Application.put_env(:elixir, :start_data_processes, true)
+    Application.put_env(:site, :start_data_processes, true)
 
     on_exit(fn ->
-      Application.put_env(:elixir, :start_data_processes, false)
+      Application.put_env(:site, :start_data_processes, false)
     end)
 
     {:ok, pid} = start_supervised({BusStopChangeSupervisor, name: :test})
