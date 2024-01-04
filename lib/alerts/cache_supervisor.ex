@@ -10,7 +10,7 @@ defmodule Alerts.CacheSupervisor do
 
   use Supervisor
 
-  @api_mfa Application.fetch_env!(:site, :alerts_api_mfa)
+  @api_mfa Application.compile_env!(:site, :alerts_api_mfa)
 
   def start_link(_) do
     Supervisor.start_link(__MODULE__, [])

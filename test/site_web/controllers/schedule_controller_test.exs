@@ -12,7 +12,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   @moduletag :external
 
-  @routes_repo_api Application.get_env(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
 
   setup_all do
     # needed by SiteWeb.ScheduleController.VehicleLocations plug
@@ -58,20 +58,18 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.trip_messages
     end
 
-    @doc """
-    FIXME: The map_size will change whenever the schedule changes the number of trains needing these messages.
-    """
     test "assigns trip messages for a few route/directions", %{conn: conn} do
-      for {route_id, direction_id, expected_size} <- [
-            {"CR-Franklin", 0, 24},
-            {"CR-Franklin", 1, 25}
-          ] do
-        path =
-          timetable_path(conn, :show, route_id, schedule_direction: %{direction_id: direction_id})
+      franklin_0_path =
+        timetable_path(conn, :show, "CR-Franklin", schedule_direction: %{direction_id: 0})
 
-        conn = get(conn, path)
-        assert map_size(conn.assigns.trip_messages) == expected_size
-      end
+      franklin_1_path =
+        timetable_path(conn, :show, "CR-Franklin", schedule_direction: %{direction_id: 1})
+
+      franklin_0_conn = get(conn, franklin_0_path)
+      franklin_1_conn = get(conn, franklin_1_path)
+
+      assert map_size(franklin_0_conn.assigns.trip_messages) !=
+               map_size(franklin_1_conn.assigns.trip_messages)
     end
 
     test "header schedules are sorted correctly", %{conn: conn} do

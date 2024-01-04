@@ -1,4 +1,8 @@
 defmodule Fares.Supervisor do
+  @moduledoc """
+  Supervisor managing data supporting the display of fare information, such as
+  prices, types of passes, and sales locations.
+  """
   use Supervisor
 
   def start_link(_) do

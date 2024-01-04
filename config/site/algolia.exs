@@ -9,7 +9,6 @@ config :site, :algolia_indexes, [
   Algolia.Routes
 ]
 
-
 config :site, :algolia_index_suffix, "_test"
 
 config :site, :algolia_http_pool, :algolia_http_pool

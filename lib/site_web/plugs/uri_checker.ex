@@ -14,6 +14,7 @@ defmodule SiteWeb.Plugs.UriChecker do
   @impl true
   def call(conn, _) do
     try do
+      # credo:disable-for-next-line Credo.Check.Warning.UnusedEnumOperation
       Enum.map(conn.path_info, &URI.decode/1)
       conn
     catch

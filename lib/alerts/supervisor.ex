@@ -1,4 +1,7 @@
 defmodule Alerts.Supervisor do
+  @moduledoc """
+  Supervisor for loading and caching V3 API alerts.
+  """
   use Supervisor
 
   def start_link(_) do

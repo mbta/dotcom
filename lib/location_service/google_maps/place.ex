@@ -14,7 +14,7 @@ defmodule GoogleMaps.Place do
     "ChIJN0na1RRw44kRRFEtH8OUkww"
   ]
 
-  @http_pool Application.get_env(:site, :location_http_pool)
+  @http_pool Application.compile_env!(:site, :location_http_pool)
 
   @spec autocomplete(AutocompleteQuery.t()) :: t
   def autocomplete(%AutocompleteQuery{hit_limit: hit_limit} = query) do

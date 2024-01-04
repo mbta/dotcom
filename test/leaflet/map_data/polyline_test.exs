@@ -2,7 +2,7 @@ defmodule Leaflet.MapData.PolylineTest do
   use ExUnit.Case, async: true
   alias Leaflet.MapData.Polyline
 
-  @route_patterns_repo_api Application.get_env(:site, :route_patterns_repo_api)
+  @route_patterns_repo_api Application.compile_env!(:site, :route_patterns_repo_api)
 
   describe "new/2" do
     test "turns a polyline into a struct" do

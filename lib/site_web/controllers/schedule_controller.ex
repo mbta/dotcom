@@ -90,7 +90,7 @@ defmodule SiteWeb.ScheduleController do
         not is_nil(t) and Util.time_is_greater_or_equal?(t, now)
       end)
 
-    if length(in_schedules) == 0 and length(schedules) > 0 do
+    if in_schedules == [] and length(schedules) > 0 do
       # Why were so many schedules filtered out? Probably because they're in the
       # past. But let's log the last five, to uncover other possible issues.
       time_fn = fn t ->

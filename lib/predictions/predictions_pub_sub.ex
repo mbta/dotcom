@@ -96,7 +96,7 @@ defmodule Predictions.PredictionsPubSub do
           {{:"$1", filter_name}, [{:"=/=", :"$1", caller_pid}], [:"$1"]}
         ])
 
-      if length(other_pids_for_filter) == 0 do
+      if other_pids_for_filter == [] do
         StreamSupervisor.stop_stream(filter_name)
       end
     end)

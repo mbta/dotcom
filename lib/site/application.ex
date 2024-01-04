@@ -40,11 +40,14 @@ defmodule Site.Application do
                [name: :line_diagram_realtime_cache]
              ]}
         },
-        RepoCache.Supervisor,
-        V3Api.Supervisor,
-        Schedules.Supervisor,
-        Facilities.Supervisor,
-        Stops.Supervisor
+        RepoCache.Log,
+        CMS.Cache,
+        CMS.Repo,
+        V3Api.Cache,
+        Schedules.Repo,
+        Schedules.RepoCondensed,
+        Facilities.Repo,
+        Stops.Repo
       ] ++
         if Application.get_env(:site, :start_data_processes) do
           [
@@ -65,12 +68,13 @@ defmodule Site.Application do
         end ++
         [
           {Site.React, name: Site.React},
-          CMS.Supervisor,
           Routes.Supervisor,
-          Algolia.Supervisor,
-          LocationService.Supervisor,
-          Services.Supervisor,
-          RoutePatterns.Supervisor,
+          Algolia.Api,
+          LocationService,
+          GoogleMaps.Geocode,
+          GoogleMaps.Place,
+          Services.Repo,
+          RoutePatterns.Repo,
           Predictions.Supervisor,
           Site.RealtimeSchedule,
           {Phoenix.PubSub, name: Site.PubSub},

@@ -1,7 +1,7 @@
 defmodule Algolia.Stops do
   @behaviour Algolia.Index
   @repo :site
-        |> Application.get_env(:algolia_repos)
+        |> Application.compile_env!(:algolia_repos)
         |> Keyword.fetch!(:stops)
 
   @impl Algolia.Index

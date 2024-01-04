@@ -2,7 +2,7 @@ defmodule Algolia.Routes do
   @behaviour Algolia.Index
 
   @repo :site
-        |> Application.get_env(:algolia_repos)
+        |> Application.compile_env!(:algolia_repos)
         |> Keyword.fetch!(:routes)
 
   @impl Algolia.Index

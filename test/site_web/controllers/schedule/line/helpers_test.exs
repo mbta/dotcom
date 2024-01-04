@@ -7,7 +7,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
   doctest Helpers
 
-  @routes_repo_api Application.get_env(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
 
   @stop %Stop{
     id: "110",

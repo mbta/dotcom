@@ -1,4 +1,7 @@
 defmodule Routes.Supervisor do
+  @moduledoc """
+  Supervisor for loading and caching V3 API route information.
+  """
   use Supervisor
 
   def start_link(_) do

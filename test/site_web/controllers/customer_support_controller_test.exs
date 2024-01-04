@@ -324,7 +324,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
       wait_for_ticket_task(conn)
       attachments = Feedback.Test.latest_message()["attachments"]
-      assert length(attachments) == 0
+      assert attachments == []
     end
 
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do

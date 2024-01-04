@@ -12,7 +12,7 @@ defmodule Algolia.Update do
   @type success :: {:ok, String.t() | nil}
   @type error :: {:error, HTTPoison.Response.t() | HTTPoison.Error.t()}
 
-  @indexes Application.get_env(:site, :algolia_indexes, [])
+  @indexes Application.compile_env(:site, :algolia_indexes, [])
 
   @doc """
   Updates stops and routes data on Algolia.

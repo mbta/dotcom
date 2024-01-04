@@ -1,4 +1,8 @@
 defmodule Vehicles.Supervisor do
+  @moduledoc """
+  Supervisor for handling streaming vehicle data from the V3 API and publishing
+  updated vehicle data to subscribed processes.
+  """
   use Supervisor
 
   def start_link(_) do

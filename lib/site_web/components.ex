@@ -89,7 +89,7 @@ defmodule SiteWeb.Components do
       |> Keyword.take(assigns.algolia_indexes)
       |> Keyword.keys()
 
-    if length(valid_algolia_indexes) == 0 and
+    if valid_algolia_indexes == [] and
          !assigns.geolocation and
          !assigns.locations_count do
       raise "Nothing to search! Please enable at least one search type."
