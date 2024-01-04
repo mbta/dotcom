@@ -34,9 +34,9 @@ ARG SENTRY_DSN=""
 # copy in Elixir deps required to build node modules for Phoenix
 COPY --from=elixir-builder /root/deps /root/deps
 
-ADD assets /root/assets
+ADD ./assets /root/assets
 
-WORKDIR /root/assets/
+WORKDIR /root/assets
 RUN npm ci --ignore-scripts
 # Create priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
