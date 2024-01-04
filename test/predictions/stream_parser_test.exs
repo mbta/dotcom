@@ -9,10 +9,10 @@ defmodule Predictions.StreamParserTest do
 
   describe "parse/1" do
     setup_with_mocks([
-      {Routes.Repo, [], [get: fn "route_id" -> %Route{id: "route_id"} end]},
+      {Routes.Repo, [:passthrough], [get: fn "route_id" -> %Route{id: "route_id"} end]},
       {Stops.Repo, [:passthrough],
        [get: fn "place-pktrm" -> %Stop{id: "place-pktrm", platform_code: "99"} end]},
-      {Schedules.Repo, [], [trip: fn "trip_id" -> %Trip{id: "trip_id"} end]}
+      {Schedules.Repo, [:passthrough], [trip: fn "trip_id" -> %Trip{id: "trip_id"} end]}
     ]) do
       :ok
     end

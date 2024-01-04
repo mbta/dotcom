@@ -616,6 +616,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     :ok
   end
 
+  defp wait_for_ticket_task(_), do: :ok
+
   defp test_photos do
     Application.app_dir(:site, "priv/test/attachments/*.jpg")
     |> Path.wildcard()

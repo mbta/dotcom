@@ -4,6 +4,7 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
   alias TripPlan.NamedPosition
 
   import Plug.Conn, only: [send_resp: 3]
+  import Test.Support.EnvHelpers
 
   setup _ do
     bypass = Bypass.open()
@@ -42,8 +43,9 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
     plan(from, to, connection_opts, root_url: url)
   end
 
-  test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
-    System.put_env("WIREMOCK_PROXY", "true")
+  test "adds headers when WIREMOCK_PROXY=true via config", %{bypass: bypass, url: url} do
+    config = Application.get_env(:site, OpenTripPlanner)
+    reassign_env(:site, OpenTripPlanner, Keyword.merge(config, wiremock_proxy: "true"))
 
     Bypass.expect(bypass, fn conn ->
       assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil
@@ -54,6 +56,5 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
     from = %NamedPosition{name: "a", latitude: "42.13", longitude: "12.12313"}
     to = %NamedPosition{name: "b", latitude: "42.13", longitude: "12.12313"}
     plan(from, to, connection_opts, root_url: url)
-    System.delete_env("WIREMOCK_PROXY")
   end
 end

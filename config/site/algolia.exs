@@ -9,7 +9,6 @@ config :site, :algolia_indexes, [
   Algolia.Routes
 ]
 
-config :site, :algolia_track_clicks?, false
 
 config :site, :algolia_index_suffix, "_test"
 

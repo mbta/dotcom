@@ -2,7 +2,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
   @moduledoc """
   ExAws and ExAws.S3 are mocked in the Alerts.TestExAws module.
   """
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   import Alerts.Cache.BusStopChangeS3
   alias Alerts.Cache.BusStopChangeS3
   alias Alerts.{Alert, HistoricalAlert, InformedEntity}

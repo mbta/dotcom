@@ -43,8 +43,6 @@ RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create react_renderer/dist/app.js
 RUN npm run webpack:build:react
 
-
-
 # 3) now, build the application back in the Elixir container
 FROM elixir-builder as app-builder
 

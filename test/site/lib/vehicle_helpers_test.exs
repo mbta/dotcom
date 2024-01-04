@@ -42,14 +42,14 @@ defmodule Site.VehicleHelpersTest do
        get: fn id -> %Routes.Route{id: id} end,
        get_shape: fn "9850002" -> [@shape] end
      ]},
-    {Stops.Repo, [],
+    {Stops.Repo, [:passthrough],
      [
        get: fn
          "place-sstat" -> @station
          id -> %Stops.Stop{id: id}
        end
      ]},
-    {Schedules.Repo, [],
+    {Schedules.Repo, [:passthrough],
      [
        trip: fn
          "CR-554466-501" -> @trip

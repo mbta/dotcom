@@ -1,7 +1,5 @@
 import Config
 
-IO.puts("importing runtime.exs")
-
 default_port = if config_env() == :test, do: "4002", else: "4001"
 port = String.to_integer(System.get_env("PORT") || default_port)
 host = System.get_env("HOST", "localhost")
@@ -104,14 +102,21 @@ config :site,
   v3_api_key: System.get_env("V3_API_KEY"),
   v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01"),
   v3_api_wiremock_proxy_url: System.get_env("WIREMOCK_PROXY_URL"),
-  v3_api_wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false")
+  v3_api_wiremock_proxy: System.get_env("WIREMOCK_PROXY") || "false"
 
-config :site, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-dev")
+config :site, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 
-config :site, :algolia_config,
-  app_id: System.get_env("ALGOLIA_APP_ID"),
-  search: System.get_env("ALGOLIA_SEARCH_KEY"),
-  write: System.get_env("ALGOLIA_WRITE_KEY")
+if config_env() != :test do
+  config :site, :algolia_config,
+    app_id: System.get_env("ALGOLIA_APP_ID"),
+    search: System.get_env("ALGOLIA_SEARCH_KEY"),
+    write: System.get_env("ALGOLIA_WRITE_KEY")
+
+  config :site,
+    support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL", "test@test.com"),
+    support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL", "from@test.com"),
+    support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL", "reply@test.com")
+end
 
 config :site, OpenTripPlanner,
   timezone: System.get_env("OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"),
@@ -121,16 +126,13 @@ config :site, OpenTripPlanner,
   wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false"),
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 
-config :site,
-  support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL", "test@test.com"),
-  support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL", "from@test.com"),
-  support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL", "reply@test.com")
-
-config :site,
-  drupal: [
-    cms_root: System.fetch_env!("DRUPAL_ROOT"),
-    cms_static_path: "/sites/default/files"
-  ]
+if config_env() != :test do
+  config :site,
+    drupal: [
+      cms_root: System.fetch_env!("DRUPAL_ROOT"),
+      cms_static_path: "/sites/default/files"
+    ]
+end
 
 if config_env() == :prod do
   config :site, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
@@ -198,9 +200,9 @@ config :site, LocationService,
   google_api_key: System.get_env("GOOGLE_API_KEY"),
   google_client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
   google_signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || "",
-  geocode: System.get_env("LOCATION_SERVICE", "aws"),
-  reverse_geocode: System.get_env("LOCATION_SERVICE", "aws"),
-  autocomplete: System.get_env("LOCATION_SERVICE", "aws"),
+  geocode: System.get_env("LOCATION_SERVICE") || "aws",
+  reverse_geocode: System.get_env("LOCATION_SERVICE") || "aws",
+  autocomplete: System.get_env("LOCATION_SERVICE") || "aws",
   aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
 
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
@@ -216,7 +218,8 @@ config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
   environment_name: System.get_env("SENTRY_ENVIRONMENT")
 
-if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) do
+if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) &&
+     config_env() != :test do
   config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end

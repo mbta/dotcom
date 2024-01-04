@@ -6,7 +6,6 @@ defmodule PageTest do
     Page,
     Page.Project,
     Partial.Paragraph.ContentList,
-    # Partial.Paragraph.CodeEmbed,
     Partial.Teaser
   }
 

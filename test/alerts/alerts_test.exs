@@ -1,5 +1,5 @@
 defmodule AlertsTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   use Timex
 
   import Alerts.Alert
@@ -183,7 +183,7 @@ defmodule AlertsTest do
       alert_with_muni = Alert.new(informed_entity: [%IE{stop: "some-stop"}])
       alert_no_muni = Alert.new(informed_entity: [%IE{stop: "other-stop"}])
 
-      with_mock(Stops.Repo,
+      with_mock(Stops.Repo, [:passthrough],
         get: fn
           "some-stop" -> %Stops.Stop{municipality: "Metropolis"}
           _ -> nil

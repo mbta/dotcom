@@ -1,6 +1,7 @@
 defmodule GoogleMaps.GeocodeTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   import GoogleMaps.Geocode
+  import Test.Support.EnvHelpers
   alias Plug.Conn
 
   @result1 '{
@@ -467,11 +468,7 @@ defmodule GoogleMaps.GeocodeTest do
   end
 
   defp set_domain(new_domain) do
-    old_domain = Application.get_env(:site, :domain)
-    Application.put_env(:site, :domain, new_domain)
-
-    on_exit(fn ->
-      Application.put_env(:site, :domain, old_domain)
-    end)
+    config = Application.get_env(:site, LocationService)
+    reassign_env(:site, LocationService, Keyword.merge(config, domain: new_domain))
   end
 end

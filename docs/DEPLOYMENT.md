@@ -76,5 +76,5 @@ export LOGGER_LEVEL=error
 
 # only needed for pages with server-rendered React
 # run `npm run webpack:build:react` to create this file
-export REACT_BUILD_PATH=apps/site/react_renderer/dist/app.js
+export REACT_BUILD_PATH=react_renderer/dist/app.js
 ```

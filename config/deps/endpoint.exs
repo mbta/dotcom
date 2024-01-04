@@ -44,6 +44,6 @@ end
 
 if config_env() == :test do
   config :site, SiteWeb.Endpoint,
-    http: [port: System.get_env("PORT") || 4002],
+    http: [port: 4002],
     server: true
 end

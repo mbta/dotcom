@@ -143,7 +143,7 @@ defmodule SiteWeb.PredictionsChannelTest do
 
       trip_id = @prediction39.trip.id
 
-      with_mock(Schedules.Repo,
+      with_mock(Schedules.Repo, [:passthrough],
         schedule_for_trip: fn
           ^trip_id, [stop_sequence: 3] ->
             [%Schedule{time: Timex.shift(Util.now(), minutes: 5)}]

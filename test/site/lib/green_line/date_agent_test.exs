@@ -1,5 +1,5 @@
 defmodule Site.GreenLine.DateAgentTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   import Site.GreenLine.DateAgent
 

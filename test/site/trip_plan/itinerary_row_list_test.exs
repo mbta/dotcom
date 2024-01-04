@@ -8,18 +8,10 @@ defmodule Site.TripPlan.ItineraryRowListTest do
   @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
   @date_time ~N[2017-06-27T11:43:00]
 
-  setup_all do
-    # needed by SiteWeb.ScheduleController.VehicleLocations plug
-    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
-    _ = start_supervised(Vehicles.Repo)
-
-    # Start parent supervisor - Site.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.
-    _ = start_supervised({Site.GreenLine.Supervisor, []})
-    :ok
-  end
-
   describe "from_itinerary" do
     setup do
+      # Start parent supervisor - Site.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.
+      _ = start_supervised(Site.GreenLine.Supervisor)
       {:ok, [itinerary]} = TripPlan.plan(@from, @to, @connection_opts, depart_at: @date_time)
 
       deps = %ItineraryRow.Dependencies{

@@ -1,6 +1,7 @@
 defmodule Algolia.QueryTest do
   use ExUnit.Case, async: true
   alias Algolia.Query
+  import Test.Support.EnvHelpers
 
   @encoded_query_params [
     "clickAnalytics=true",
@@ -33,11 +34,7 @@ defmodule Algolia.QueryTest do
     end
 
     test "adds analytics param if :track_analytics? is true" do
-      on_exit(fn ->
-        Application.delete_env(:site, :algolia_track_analytics?)
-      end)
-
-      Application.put_env(:site, :algolia_track_analytics?, true)
+      reassign_env(:site, :algolia_track_analytics?, true)
 
       assert Query.encode_params(@decoded_query) ==
                Enum.join(["analytics=true" | @encoded_query_params], "&")

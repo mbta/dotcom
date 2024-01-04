@@ -3,6 +3,7 @@ defmodule AWSLocation.RequestTest do
   use ExUnit.Case, async: false
   import Mock
   import AWSLocation.Request
+  import Test.Support.EnvHelpers
 
   describe "new/1" do
     setup_with_mocks([
@@ -43,16 +44,7 @@ defmodule AWSLocation.RequestTest do
     end
 
     test "uses config to get request pathname" do
-      old_value = System.get_env("AWS_PLACE_INDEX_PREFIX")
-      System.put_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
-
-      on_exit(fn ->
-        if old_value do
-          System.put_env("AWS_PLACE_INDEX_PREFIX", old_value)
-        else
-          System.delete_env("AWS_PLACE_INDEX_PREFIX")
-        end
-      end)
+      reassign_env(:site, :aws_index_prefix, "dotcom-prod")
 
       operation = new("Everywhere")
 
@@ -93,16 +85,7 @@ defmodule AWSLocation.RequestTest do
     end
 
     test "uses config to get request pathname" do
-      old_value = System.get_env("AWS_PLACE_INDEX_PREFIX")
-      System.put_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
-
-      on_exit(fn ->
-        if old_value do
-          System.put_env("AWS_PLACE_INDEX_PREFIX", old_value)
-        else
-          System.delete_env("AWS_PLACE_INDEX_PREFIX")
-        end
-      end)
+      reassign_env(:site, :aws_index_prefix, "dotcom-prod")
 
       operation = autocomplete("Everywhere", 1)
 

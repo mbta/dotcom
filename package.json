@@ -8,7 +8,7 @@
     "ci:lint:js": "npm run --prefix assets eslint:js",
     "ci:lint:scss": "npm run --prefix assets stylelint -- css/**/*.scss",
     "ci:lint:ex": "mix credo diff master -a",
-    "ci:unit:exunit": "PORT=4002 mix coveralls.html --umbrella --exclude wallaby",
+    "ci:unit:exunit": "mix coveralls.html --exclude wallaby",
     "ci:unit:mocha": "npm run --prefix assets mocha",
     "ci:unit:jest": "npm run --prefix assets jest",
     "ci:unit:jest:update": "npm run --prefix assets jest:update",

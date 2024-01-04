@@ -1,6 +1,6 @@
 defmodule RepoCache.LogTest do
   @moduledoc false
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   import ExUnit.CaptureLog
   import RepoCache.Log
 
@@ -22,7 +22,6 @@ defmodule RepoCache.LogTest do
     end)
 
     Logger.configure(level: :info)
-    _ = start_supervised!({RepoCache.Log, [name: :repo_cache_log_test]})
     reset_table(all())
     {:ok, state}
   end
@@ -40,6 +39,11 @@ defmodule RepoCache.LogTest do
     Repo.always(5)
     reset_table(all())
     {:ok, state}
+  end
+
+  setup do
+    _ = start_supervised!({RepoCache.Log, [name: :repo_cache_log_test]})
+    :ok
   end
 
   describe "init/1" do

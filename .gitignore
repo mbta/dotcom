@@ -48,7 +48,6 @@ node_modules
 
 # compiled js file for react renderer server
 /**/react_renderer/dist
-/rel/app.js
 
 # Since we are building assets from assets,
 # we ignore priv/static. You may want to comment
@@ -68,3 +67,4 @@ node_modules
 
 # Wallaby screenshots
 /screenshots
+.VSCodeCounter

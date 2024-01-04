@@ -1,6 +1,7 @@
 defmodule SiteWeb.IntegrationCase do
   use ExUnit.CaseTemplate
   alias Plug.Conn
+  import Test.Support.EnvHelpers
 
   @autocomplete_results Poison.encode!([
                           %{
@@ -39,8 +40,7 @@ defmodule SiteWeb.IntegrationCase do
 
     # Setup Bypass to avoid Google Maps calls
     bypass = Bypass.open()
-    old_domain = Application.get_env(:site, :domain)
-    Application.put_env(:site, :domain, "http://localhost:#{bypass.port}")
+    reassign_env(:site, :domain, "http://localhost:#{bypass.port}")
 
     Bypass.stub(bypass, "GET", "/maps/api/place/autocomplete/json", fn conn ->
       Conn.resp(conn, 200, ~s({"status": "OK", "predictions": #{@autocomplete_results}}))
@@ -56,10 +56,6 @@ defmodule SiteWeb.IntegrationCase do
 
     Bypass.stub(bypass, "GET", "/maps/api/staticmap", fn conn ->
       Conn.resp(conn, 200, ~s({"status": "OK"}))
-    end)
-
-    on_exit(fn ->
-      Application.put_env(:site, :domain, old_domain)
     end)
 
     {:ok, session: session_with_screen_size, bypass: bypass}

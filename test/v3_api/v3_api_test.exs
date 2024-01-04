@@ -2,6 +2,7 @@ defmodule V3ApiTest do
   use ExUnit.Case, async: true
 
   import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
+  import Test.Support.EnvHelpers
 
   setup _ do
     bypass = Bypass.open()
@@ -41,7 +42,7 @@ defmodule V3ApiTest do
     end
 
     test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
-      System.put_env("WIREMOCK_PROXY", "true")
+      reassign_env(:site, :v3_api_wiremock_proxy, "true")
 
       Bypass.expect(bypass, fn conn ->
         assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil
@@ -49,7 +50,6 @@ defmodule V3ApiTest do
       end)
 
       V3Api.get_json("/normal_response", [], base_url: url)
-      System.delete_env("WIREMOCK_PROXY")
     end
 
     test "missing endpoints return an error", %{bypass: bypass, url: url} do

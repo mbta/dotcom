@@ -2,14 +2,10 @@ defmodule V3Api.HeadersTest do
   alias V3Api.Headers
 
   use ExUnit.Case
+  import Test.Support.EnvHelpers
 
   setup do
-    enabled = Application.get_env(:site, :enable_experimental_features)
-    Application.put_env(:site, :enable_experimental_features, "false")
-
-    on_exit(fn ->
-      Application.put_env(:site, :enable_experimental_features, enabled)
-    end)
+    reassign_env(:site, :enable_experimental_features, "false")
 
     :ok
   end
@@ -26,37 +22,22 @@ defmodule V3Api.HeadersTest do
            ]
   end
 
-  test "uses V3_API_VERSION environment variable" do
-    original_version = System.get_env("V3_API_VERSION")
-    System.put_env("V3_API_VERSION", "3005-01-02")
+  test "uses application config for API key version" do
+    reassign_env(:site, :v3_api_version, "3005-01-02")
 
     assert Headers.build("API_KEY", params: [], url: "url") == [
              {"x-api-key", "API_KEY"},
              {"MBTA-Version", "3005-01-02"}
            ]
-
-    on_exit(fn ->
-      System.put_env("V3_API_VERSION", original_version || "")
-    end)
   end
 
   test "adds wiremock proxy header if env var is set" do
-    original_env = System.get_env()
-    System.put_env("WIREMOCK_PROXY", "true")
-    System.put_env("WIREMOCK_PROXY_URL", "proxy_url")
+    reassign_env(:site, :v3_api_wiremock_proxy_url, "proxy_url")
+    reassign_env(:site, :v3_api_wiremock_proxy, "true")
 
     assert Headers.build("API_KEY", use_cache?: false) |> Keyword.take(["X-WM-Proxy-Url"]) == [
              {"X-WM-Proxy-Url", "proxy_url"}
            ]
-
-    on_exit(fn ->
-      System.delete_env("WIREMOCK_PROXY")
-      System.delete_env("WIREMOCK_PROXY_URL")
-
-      for {key, value} <- original_env do
-        System.put_env(key, value)
-      end
-    end)
   end
 
   test "calls cache header fn if use_cache? is true" do

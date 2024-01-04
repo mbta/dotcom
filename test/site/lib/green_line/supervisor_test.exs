@@ -15,14 +15,14 @@ defmodule Site.GreenLine.CacheSupervisorTest do
   end
 
   setup_with_mocks([
-    {Schedules.Repo, [],
+    {Schedules.Repo, [:passthrough],
      [
        rating_dates: fn ->
          {Timex.shift(Util.service_date(), days: -2), Timex.shift(Util.service_date(), days: 2)}
        end,
        end_of_rating: fn -> Timex.shift(Util.service_date(), days: 2) end
      ]},
-    {Stops.Repo, [],
+    {Stops.Repo, [:passthrough],
      [
        by_route: fn _, _ -> [%Stops.Stop{}] end,
        by_route: fn _, _, _ -> [%Stops.Stop{}] end

@@ -14,12 +14,22 @@ defmodule Predictions.PredictionsPubSubTest do
   }
   @channel_args "stop:#{@stop_id}"
 
-  setup_with_mocks([
-    {RoutePatterns.Repo, [], [by_stop_id: fn _stop_id -> [%RoutePatterns.RoutePattern{}] end]}
-  ]) do
+  setup_all do
+    System.put_env("USE_SERVER_SENT_EVENTS", "true")
     start_supervised({Registry, keys: :duplicate, name: :prediction_subscriptions_registry})
-    start_supervised(Store)
+    start_supervised({Store, name: :pub_sub_test_store})
 
+    on_exit(fn ->
+      System.put_env("USE_SERVER_SENT_EVENTS", "false")
+    end)
+
+    :ok
+  end
+
+  setup_with_mocks([
+    {RoutePatterns.Repo, [:passthrough],
+     [by_stop_id: fn _stop_id -> [%RoutePatterns.RoutePattern{}] end]}
+  ]) do
     subscribe_fn = fn _, _ -> :ok end
     {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
 

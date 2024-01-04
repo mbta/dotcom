@@ -1,5 +1,5 @@
 defmodule Schedules.RepoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   use Timex
   import Schedules.Repo
   alias Schedules.Schedule

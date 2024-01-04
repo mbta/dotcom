@@ -9,7 +9,10 @@ if config_env() == :test do
     time_fetcher: Feedback.FakeDateTime,
     exaws_config_fn: &Feedback.Test.mock_config/1,
     exaws_perform_fn: &Feedback.Test.mock_perform/2,
-    feedback_rate_limit: 1_000
+    feedback_rate_limit: 1_000,
+    support_ticket_to_email: "test@test.com",
+    support_ticket_from_email: "from@test.com",
+    support_ticket_reply_email: "reply@test.com"
 end
 
 if config_env() == :dev do

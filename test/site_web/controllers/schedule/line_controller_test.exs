@@ -119,7 +119,7 @@ defmodule SiteWeb.Schedule.LineControllerTest do
     end
 
     test "does not break even when there's an error getting the current rating" do
-      with_mock(Schedules.Repo, end_of_rating: fn -> nil end) do
+      with_mock(Schedules.Repo, [:passthrough], end_of_rating: fn -> nil end) do
         service_date = ~D[2021-05-01]
 
         repo_fn = fn _ ->

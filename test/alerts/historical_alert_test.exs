@@ -1,5 +1,5 @@
 defmodule Alerts.HistoricalAlertTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   import Alerts.HistoricalAlert
   import Mock
@@ -17,7 +17,7 @@ defmodule Alerts.HistoricalAlertTest do
     test "can include name from related stop" do
       alert_for_stop = Alert.new(informed_entity: [@stop_entity])
 
-      with_mock(Stops.Repo, get: fn id -> %Stops.Stop{name: "Stop #{id}"} end) do
+      with_mock(Stops.Repo, [:passthrough], get: fn id -> %Stops.Stop{name: "Stop #{id}"} end) do
         assert %HistoricalAlert{
                  stops: ["Stop 1"]
                } = from_alert(alert_for_stop)
@@ -27,11 +27,11 @@ defmodule Alerts.HistoricalAlertTest do
     test "can include municipality from related stop" do
       alert_for_stop = Alert.new(informed_entity: [@stop_entity])
 
-      with_mock(Stops.Repo, get: fn _ -> %Stops.Stop{municipality: "Atlantis"} end) do
+      with_mock(Stops.Repo, [:passthrough], get: fn _ -> %Stops.Stop{municipality: "Atlantis"} end) do
         assert %HistoricalAlert{municipality: "Atlantis"} = from_alert(alert_for_stop)
       end
 
-      with_mock(Stops.Repo, get: fn _ -> %Stops.Stop{municipality: nil} end) do
+      with_mock(Stops.Repo, [:passthrough], get: fn _ -> %Stops.Stop{municipality: nil} end) do
         assert %HistoricalAlert{municipality: nil} = from_alert(alert_for_stop)
       end
     end
@@ -39,7 +39,7 @@ defmodule Alerts.HistoricalAlertTest do
     test "can handle missing stop" do
       alert_for_stop = Alert.new(informed_entity: [@stop_entity])
 
-      with_mock(Stops.Repo, get: fn _ -> nil end) do
+      with_mock(Stops.Repo, [:passthrough], get: fn _ -> nil end) do
         assert %HistoricalAlert{stops: ["1"]} = from_alert(alert_for_stop)
       end
     end
@@ -47,7 +47,7 @@ defmodule Alerts.HistoricalAlertTest do
     test "can include name from related routes" do
       alert_for_route = Alert.new(informed_entity: [@route_entity])
 
-      with_mock(Routes.Repo, get: fn id -> %Routes.Route{name: "Route #{id}"} end) do
+      with_mock(Routes.Repo, [:passthrough], get: fn id -> %Routes.Route{name: "Route #{id}"} end) do
         assert %HistoricalAlert{routes: ["Route 627"]} = from_alert(alert_for_route)
       end
     end
@@ -55,7 +55,7 @@ defmodule Alerts.HistoricalAlertTest do
     test "can handle missing route" do
       alert_for_route = Alert.new(informed_entity: [@route_entity])
 
-      with_mock(Routes.Repo, get: fn _ -> nil end) do
+      with_mock(Routes.Repo, [:passthrough], get: fn _ -> nil end) do
         assert %HistoricalAlert{routes: ["627"]} = from_alert(alert_for_route)
       end
     end

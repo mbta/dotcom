@@ -1,5 +1,6 @@
 defmodule Algolia.AnalyticsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
+  import Test.Support.EnvHelpers
 
   @params %{
     "objectID" => "objectID",
@@ -9,14 +10,9 @@ defmodule Algolia.AnalyticsTest do
 
   describe "when click tracking is disabled" do
     test "does not send request" do
-      old_url = Application.get_env(:site, :algolia_click_analytics_url)
-      Application.put_env(:site, :algolia_click_analytics_url, "return_error_if_called")
+      reassign_env(:site, :algolia_click_analytics_url, "return_error_if_called")
 
-      on_exit(fn ->
-        Application.put_env(:site, :algolia_click_analytics_url, old_url)
-      end)
-
-      assert Application.get_env(:site, :algolia_track_clicks?) == false
+      refute Application.get_env(:site, :algolia_track_clicks?) == true
       assert Algolia.Analytics.click(@params) == :ok
     end
   end
@@ -24,14 +20,8 @@ defmodule Algolia.AnalyticsTest do
   describe "when click tracking is enabled" do
     setup do
       bypass = Bypass.open()
-      old_url = Application.get_env(:site, :algolia_click_analytics_url)
-      Application.put_env(:site, :algolia_track_clicks?, true)
-      Application.put_env(:site, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
-
-      on_exit(fn ->
-        Application.put_env(:site, :algolia_track_clicks?, false)
-        Application.put_env(:site, :algolia_click_analytics_url, old_url)
-      end)
+      reassign_env(:site, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
+      reassign_env(:site, :algolia_track_clicks?, true)
 
       {:ok, bypass: bypass}
     end

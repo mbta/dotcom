@@ -32,7 +32,7 @@ defmodule Algolia.Analytics do
 
   defp send_click(url, params, send_to_algolia?)
 
-  defp send_click(_url, _params, false) do
+  defp send_click(_url, _params, send_to_algolia?) when send_to_algolia? != true do
     :ok
   end
 

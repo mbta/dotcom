@@ -99,7 +99,8 @@ defmodule GoogleMaps do
   end
 
   defp get_env(key) do
-    Application.get_env(:site, LocationService)[key]
+    Application.get_env(:site, LocationService)
+    |> Keyword.get(key)
   end
 
   defp do_signed_url(uri, "", _, opts) do

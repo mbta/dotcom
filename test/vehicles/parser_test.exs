@@ -99,7 +99,7 @@ defmodule Vehicles.ParserTest do
     end
 
     test "fetches parent stop if present" do
-      with_mock(Stops.Repo, [], get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end) do
+      with_mock(Stops.Repo, [:passthrough], get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end) do
         expected = %Vehicle{
           id: "y1799",
           route_id: "1",
@@ -119,7 +119,7 @@ defmodule Vehicles.ParserTest do
     end
 
     test "fetches shape if trip is present" do
-      with_mock(Schedules.Repo,
+      with_mock(Schedules.Repo, [:passthrough],
         trip: fn "25" -> %Schedules.Trip{shape_id: "25-shape"} end
       ) do
         expected = %Vehicle{
