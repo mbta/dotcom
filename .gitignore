@@ -23,7 +23,6 @@ coverage
 cover/
 
 .iex.exs
-package-lock.json
 
 # App artifacts
 /_build
