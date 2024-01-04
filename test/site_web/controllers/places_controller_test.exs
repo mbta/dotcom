@@ -1,5 +1,6 @@
 defmodule SiteWeb.PlacesControllerTest do
-  use SiteWeb.ConnCase
+  use SiteWeb.ConnCase, async: false
+  import Mock
 
   setup do
     conn =
@@ -179,25 +180,48 @@ defmodule SiteWeb.PlacesControllerTest do
   end
 
   describe "/places/search/:query/:limit" do
-    @tag :live_data
-    test "returns number of results", %{conn: conn} do
-      hit_limit = 7
-      conn = get(conn, places_path(conn, :search, "s", hit_limit))
-      assert %{"result" => locations} = json_response(conn, 200)
-      assert Enum.count(locations) == hit_limit
+    setup_with_mocks([
+      {AWSLocation, [],
+       [
+         autocomplete: fn search, limit ->
+           result =
+             for i <- 1..limit,
+                 do: %LocationService.Suggestion{
+                   address: "suggestion #{i} for #{search}",
+                   highlighted_spans: []
+                 }
+
+           {:ok, result}
+         end,
+         geocode: fn address ->
+           {:ok, [%LocationService.Address{formatted: address, latitude: 60.4, longitude: 30.8}]}
+         end
+       ]}
+    ]) do
+      :ok
     end
 
-    @tag :live_data
-    test "uses the query to find results", %{conn: conn} do
+    test "errors if hit limit isn't a number", %{conn: conn} do
+      hit_limit = "NaN"
+      conn = get(conn, places_path(conn, :search, "s", hit_limit))
+      assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
+    end
+
+    test "passes query and limit params to AWS autocomplete function", %{conn: conn} do
+      get(conn, places_path(conn, :search, "search term", 14))
+      assert called(AWSLocation.autocomplete("search term", 14))
+    end
+
+    test "geocodes suggested results", %{conn: conn} do
       conn = get(conn, places_path(conn, :search, "south", 3))
       assert %{"result" => locations} = json_response(conn, 200)
+      assert Enum.all?(locations, &Map.has_key?(&1, "latitude"))
+      assert Enum.all?(locations, &Map.has_key?(&1, "longitude"))
+    end
 
-      assert Enum.all?(
-               locations,
-               &(String.contains?(&1["address"], "south") ||
-                   String.contains?(&1["address"], "South"))
-             )
-
+    test "adds URLs to each result", %{conn: conn} do
+      conn = get(conn, places_path(conn, :search, "south", 3))
+      assert %{"result" => locations} = json_response(conn, 200)
       assert Enum.all?(locations, &has_urls?/1)
     end
   end

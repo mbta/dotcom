@@ -21,9 +21,7 @@ static_url =
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :site, SiteWeb.Endpoint,
-    server: true,
-    check_origin: [host]
+  config :site, SiteWeb.Endpoint, server: true
 end
 
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
@@ -144,7 +142,7 @@ if config_env() == :prod do
       # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
       # for details about using IPv6 vs IPv4 and loopback vs public addresses.
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: System.get_env("PORT"),
+      port: port,
       transport_options: [
         num_acceptors: 2_048,
         max_connections: 32_768,
@@ -164,14 +162,12 @@ if config_env() == :prod do
          ]}
       ]
     ],
-    url: [host: System.get_env("HOST")],
+    url: [host: host],
     static_url: [
       scheme: System.get_env("STATIC_SCHEME"),
       host: System.get_env("STATIC_HOST"),
       port: System.get_env("STATIC_PORT")
     ]
-
-  config :site, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/site/app.js")
 
   # because this is evaluated at compile time, it won't get used when we're
   # running the Backstop tests.  It should still be included in the production

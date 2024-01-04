@@ -128,12 +128,4 @@ defmodule SiteWeb.FareView do
       class: "c-call-to-action"
     )
   end
-
-  defp input_value(%Address{formatted: address}) do
-    address
-  end
-
-  defp input_value(_) do
-    ""
-  end
 end
