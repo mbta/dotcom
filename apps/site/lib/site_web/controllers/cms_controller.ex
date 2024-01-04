@@ -57,6 +57,7 @@ defmodule SiteWeb.CMSController do
       Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
     rescue
       e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
+      e in Redix.Error -> Logger.debug("cms.cache.delete error=redis-#{e.message}")
     end
 
     send_resp(conn, 202, "") |> halt()
@@ -69,6 +70,7 @@ defmodule SiteWeb.CMSController do
       Logger.notice("cms.cache.delete path=/cms/#{id}")
     rescue
       e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
+      e in Redix.Error -> Logger.debug("cms.cache.delete error=redis-#{e.message}")
     end
 
     send_resp(conn, 202, "") |> halt()
