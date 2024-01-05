@@ -23,7 +23,7 @@ defmodule CMS.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 5_000},
+      {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
       {CMS.Telemetry.Reporter, metrics: reporter_metrics()},
       {TelemetryMetricsStatsd, metrics: statsd_metrics()}
     ]
