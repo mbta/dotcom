@@ -63,7 +63,7 @@ defmodule CMS.Telemetry.Reporter do
   def handle_exception(
         event_name,
         _measurements,
-        %{kind: kind, reason: %Redix.Error{message: message}} = data,
+        %{kind: kind, reason: %Redix.Error{message: message}},
         _config
       ) do
     key = event_name |> Enum.map(&Atom.to_string/1) |> Enum.join(".")
