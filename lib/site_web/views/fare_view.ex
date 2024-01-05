@@ -12,7 +12,6 @@ defmodule SiteWeb.FareView do
   }
 
   alias Fares.Summary
-  alias LocationService.Address
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.Route

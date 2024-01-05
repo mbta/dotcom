@@ -1,6 +1,5 @@
 %{
   "absinthe_client": {:hex, :absinthe_client, "0.1.0", "a3bafc1dff141073a2a7fd926942fb10afb4d45295f0b6df46f6f1955ececaac", [:mix], [{:castore, ">= 0.0.0", [hex: :castore, repo: "hexpm", optional: false]}, {:req, "~> 0.3.0", [hex: :req, repo: "hexpm", optional: false]}, {:slipstream, "~> 1.0", [hex: :slipstream, repo: "hexpm", optional: false]}], "hexpm", "a7ec3e13da9b463cb024dba4733c2fa31a0690a3bfa897b9df6bdd544a4d6f91"},
-  "artificery": {:hex, :artificery, "0.4.3", "0bc4260f988dcb9dda4b23f9fc3c6c8b99a6220a331534fdf5bf2fd0d4333b02", [:mix], [], "hexpm", "12e95333a30e20884e937abdbefa3e7f5e05609c2ba8cf37b33f000b9ffc0504"},
   "benchfella": {:hex, :benchfella, "0.3.5", "b2122c234117b3f91ed7b43b6e915e19e1ab216971154acd0a80ce0e9b8c05f5", [:mix], [], "hexpm", "23f27cbc482cbac03fc8926441eb60a5e111759c17642bac005c3225f5eb809d"},
   "briefly": {:hex, :briefly, "0.3.0", "16e6b76d2070ebc9cbd025fa85cf5dbaf52368c4bd896fb482b5a6b95a540c2f", [:mix], [], "hexpm", "c6ebf8fc3dcd4950dd10c03e953fb4f553a8bcf0ff4c8c40d71542434cd7e046"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm", "7af5c7e09fe1d40f76c8e4f9dd2be7cebd83909f31fee7cd0e9eadc567da8353"},

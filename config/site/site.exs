@@ -29,7 +29,7 @@ config :site,
 config :site,
   allow_indexing: false
 
-config :site, populate_caches?: config_env() == :prod
+config :site, route_populate_caches?: config_env() == :prod
 
 routes_repo = if config_env() == :test, do: Routes.MockRepoApi, else: Routes.Repo
 config :site, :routes_repo_api, routes_repo
