@@ -34,7 +34,7 @@ defmodule Algolia.QueryTest do
     end
 
     test "adds analytics param if :track_analytics? is true" do
-      reassign_env(:site, :algolia_track_analytics?, true)
+      reassign_env(:dotcom, :algolia_track_analytics?, true)
 
       assert Query.encode_params(@decoded_query) ==
                Enum.join(["analytics=true" | @encoded_query_params], "&")

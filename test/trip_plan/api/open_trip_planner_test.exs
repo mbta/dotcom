@@ -44,8 +44,8 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
   end
 
   test "adds headers when WIREMOCK_PROXY=true via config", %{bypass: bypass, url: url} do
-    config = Application.get_env(:site, OpenTripPlanner)
-    reassign_env(:site, OpenTripPlanner, Keyword.merge(config, wiremock_proxy: "true"))
+    config = Application.get_env(:dotcom, OpenTripPlanner)
+    reassign_env(:dotcom, OpenTripPlanner, Keyword.merge(config, wiremock_proxy: "true"))
 
     Bypass.expect(bypass, fn conn ->
       assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil

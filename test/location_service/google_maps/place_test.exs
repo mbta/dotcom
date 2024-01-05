@@ -212,11 +212,11 @@ defmodule GoogleMaps.PlaceTest do
   end
 
   defp set_domain(new_domain) do
-    old_domain = Application.get_env(:site, :domain)
-    Application.put_env(:site, :domain, new_domain)
+    old_domain = Application.get_env(:dotcom, :domain)
+    Application.put_env(:dotcom, :domain, new_domain)
 
     on_exit(fn ->
-      Application.put_env(:site, :domain, old_domain)
+      Application.put_env(:dotcom, :domain, old_domain)
     end)
   end
 end

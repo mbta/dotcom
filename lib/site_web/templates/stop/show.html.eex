@@ -8,8 +8,8 @@
   <%= Site.React.render("StopPage", %{stopPageData: @stop_page_data, mapData: @map_data, mapId: "map" }) %>
 </div>
 
-<%= if Application.get_env(:site, :dev_server?) do %>
-  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/stop.js" %>"></script>
+<%= if Application.get_env(:dotcom, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/stop.js" %>"></script>
 <% else %>
   <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
   <script defer src="<%= static_url(@conn, "/js/leaflet.js") %>"></script>

@@ -57,17 +57,17 @@ defmodule TripPlan.Api.OpenTripPlanner.HttpTest do
     setup do
       bypass = Bypass.open()
       host = "http://localhost:#{bypass.port}"
-      old_config = Application.get_env(:site, OpenTripPlanner)
+      old_config = Application.get_env(:dotcom, OpenTripPlanner)
       old_level = Logger.level()
 
       on_exit(fn ->
-        Application.put_env(:site, OpenTripPlanner, old_config)
+        Application.put_env(:dotcom, OpenTripPlanner, old_config)
         Logger.configure(level: old_level)
       end)
 
       new_config = put_in(old_config[:otp1_url], host)
       new_config = put_in(new_config[:otp2_url], host)
-      Application.put_env(:site, OpenTripPlanner, new_config)
+      Application.put_env(:dotcom, OpenTripPlanner, new_config)
       Logger.configure(level: :info)
 
       {:ok, %{bypass: bypass, config: new_config}}

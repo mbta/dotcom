@@ -3,7 +3,7 @@ defmodule Site.ContentRewriters.LiquidObjects.RouteTest do
 
   import Site.ContentRewriters.LiquidObjects.Route
 
-  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
   describe "route_request/1" do
     test "it handles route requests for a valid/existing route ID" do

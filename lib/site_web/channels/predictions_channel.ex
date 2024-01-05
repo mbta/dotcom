@@ -14,7 +14,7 @@ defmodule SiteWeb.PredictionsChannel do
   def join("predictions:" <> topic, _message, socket) do
     predictions_subscribe_fn =
       Application.get_env(
-        :site,
+        :dotcom,
         :predictions_subscribe_fn,
         &PredictionsPubSub.subscribe/1
       )

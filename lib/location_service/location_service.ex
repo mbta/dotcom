@@ -70,7 +70,7 @@ defmodule LocationService do
   end
 
   def active_service(key) do
-    Application.get_env(:site, LocationService)
+    Application.get_env(:dotcom, LocationService)
     |> Keyword.get(key)
     |> String.to_atom()
   end

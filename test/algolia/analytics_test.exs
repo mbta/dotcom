@@ -10,9 +10,9 @@ defmodule Algolia.AnalyticsTest do
 
   describe "when click tracking is disabled" do
     test "does not send request" do
-      reassign_env(:site, :algolia_click_analytics_url, "return_error_if_called")
+      reassign_env(:dotcom, :algolia_click_analytics_url, "return_error_if_called")
 
-      refute Application.get_env(:site, :algolia_track_clicks?) == true
+      refute Application.get_env(:dotcom, :algolia_track_clicks?) == true
       assert Algolia.Analytics.click(@params) == :ok
     end
   end
@@ -20,8 +20,8 @@ defmodule Algolia.AnalyticsTest do
   describe "when click tracking is enabled" do
     setup do
       bypass = Bypass.open()
-      reassign_env(:site, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
-      reassign_env(:site, :algolia_track_clicks?, true)
+      reassign_env(:dotcom, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
+      reassign_env(:dotcom, :algolia_track_clicks?, true)
 
       {:ok, bypass: bypass}
     end

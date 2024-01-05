@@ -468,7 +468,7 @@ defmodule GoogleMaps.GeocodeTest do
   end
 
   defp set_domain(new_domain) do
-    config = Application.get_env(:site, LocationService)
-    reassign_env(:site, LocationService, Keyword.merge(config, domain: new_domain))
+    config = Application.get_env(:dotcom, LocationService)
+    reassign_env(:dotcom, LocationService, Keyword.merge(config, domain: new_domain))
   end
 end

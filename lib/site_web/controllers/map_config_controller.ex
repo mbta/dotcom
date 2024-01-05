@@ -7,7 +7,7 @@ defmodule SiteWeb.MapConfigController do
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, _opts) do
     json(conn, %{
-      tile_server_url: Application.fetch_env!(:site, :tile_server_url)
+      tile_server_url: Application.fetch_env!(:dotcom, :tile_server_url)
     })
   end
 end

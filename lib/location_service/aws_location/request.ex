@@ -61,7 +61,7 @@ defmodule AWSLocation.Request do
   defp place_index_path(:suggestions), do: place_index_base("esri") <> "/search/suggestions"
 
   defp place_index_base(data_provider) when data_provider in ["esri", "here"] do
-    prefix = Application.get_env(:site, :aws_index_prefix)
+    prefix = Application.get_env(:dotcom, :aws_index_prefix)
     "/places/v0/indexes/#{prefix}-#{data_provider}"
   end
 end

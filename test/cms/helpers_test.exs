@@ -19,7 +19,7 @@ defmodule CMS.HelpersTest do
     end
 
     test "rewrites static file links" do
-      {:ok, endpoint} = Application.get_env(:site, :util_endpoint)
+      {:ok, endpoint} = Application.get_env(:dotcom, :util_endpoint)
       html = "<img src=\"/sites/default/files/converted.jpg\">"
 
       assert handle_html(html) ==

@@ -343,7 +343,7 @@ defmodule SiteWeb.ViewHelpersTest do
   describe "svg/1" do
     test "wraps svg in span with icon class" do
       svg_name =
-        :site
+        :dotcom
         |> Application.app_dir("priv/static/**/*.svg")
         |> Path.wildcard()
         |> List.first()

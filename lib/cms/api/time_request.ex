@@ -3,7 +3,7 @@ defmodule CMS.API.TimeRequest do
 
   require Logger
 
-  @http_pool Application.compile_env!(:site, :cms_http_pool)
+  @http_pool Application.compile_env!(:dotcom, :cms_http_pool)
 
   @doc """
 

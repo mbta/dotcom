@@ -58,11 +58,11 @@ defmodule SiteWeb.SearchControllerTest do
     test "handles algolia config errors", %{conn: conn} do
       bypass = Bypass.open()
 
-      config = Application.get_env(:site, :algolia_config)
+      config = Application.get_env(:dotcom, :algolia_config)
       bad_config = Keyword.delete(config, :write)
-      Application.put_env(:site, :algolia_config, bad_config)
+      Application.put_env(:dotcom, :algolia_config, bad_config)
 
-      on_exit(fn -> Application.put_env(:site, :algolia_config, config) end)
+      on_exit(fn -> Application.put_env(:dotcom, :algolia_config, config) end)
 
       assert conn
              |> assign(:algolia_host, "http://localhost:#{bypass.port}")
@@ -102,15 +102,15 @@ defmodule SiteWeb.SearchControllerTest do
     setup do
       bypass = Bypass.open()
 
-      url = Application.get_env(:site, :algolia_click_analytics_url)
-      track? = Application.get_env(:site, :algolia_track_clicks?)
+      url = Application.get_env(:dotcom, :algolia_click_analytics_url)
+      track? = Application.get_env(:dotcom, :algolia_track_clicks?)
 
-      Application.put_env(:site, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
-      Application.put_env(:site, :algolia_track_clicks?, true)
+      Application.put_env(:dotcom, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
+      Application.put_env(:dotcom, :algolia_track_clicks?, true)
 
       on_exit(fn ->
-        Application.put_env(:site, :algolia_click_analytics_url, url)
-        Application.put_env(:site, :algolia_track_clicks?, track?)
+        Application.put_env(:dotcom, :algolia_click_analytics_url, url)
+        Application.put_env(:dotcom, :algolia_track_clicks?, track?)
       end)
 
       {:ok, bypass: bypass}

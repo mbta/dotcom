@@ -16,7 +16,7 @@ defmodule Vehicles.Supervisor do
 
   defp children do
     streams =
-      if Application.get_env(:site, :start_data_processes) do
+      if Application.get_env(:dotcom, :start_data_processes) do
         "USE_SERVER_SENT_EVENTS"
         |> System.get_env()
         |> stream_children()

@@ -20,7 +20,7 @@ defmodule Feedback.MailerTest do
       )
 
       assert Test.latest_message()["to"] == [
-               Application.get_env(:site, :support_ticket_to_email)
+               Application.get_env(:dotcom, :support_ticket_to_email)
              ]
     end
 
@@ -48,7 +48,7 @@ defmodule Feedback.MailerTest do
                  <CITY></CITY>
                  <STATE></STATE>
                  <ZIPCODE></ZIPCODE>
-                 <EMAILID>#{Application.get_env(:site, :support_ticket_reply_email)}</EMAILID>
+                 <EMAILID>#{Application.get_env(:dotcom, :support_ticket_reply_email)}</EMAILID>
                  <PHONE></PHONE>
                  <DESCRIPTION></DESCRIPTION>
                  <CUSTREQUIRERESP>No</CUSTREQUIRERESP>
@@ -105,14 +105,14 @@ defmodule Feedback.MailerTest do
       Mailer.send_heat_ticket(@base_message, nil)
 
       assert Test.latest_message()["text"] =~
-               "<EMAILID>#{Application.get_env(:site, :support_ticket_reply_email)}</EMAILID>"
+               "<EMAILID>#{Application.get_env(:dotcom, :support_ticket_reply_email)}</EMAILID>"
     end
 
     test "when the user sets an empty string, the SUPPORT_TICKET_REPLY_EMAIL configuration email is used" do
       Mailer.send_heat_ticket(%{@base_message | email: ""}, nil)
 
       assert Test.latest_message()["text"] =~
-               "<EMAILID>#{Application.get_env(:site, :support_ticket_reply_email)}</EMAILID>"
+               "<EMAILID>#{Application.get_env(:dotcom, :support_ticket_reply_email)}</EMAILID>"
     end
 
     test "the email does not have leading or trailing spaces" do

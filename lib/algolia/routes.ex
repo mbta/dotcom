@@ -1,7 +1,7 @@
 defmodule Algolia.Routes do
   @behaviour Algolia.Index
 
-  @repo :site
+  @repo :dotcom
         |> Application.compile_env!(:algolia_repos)
         |> Keyword.fetch!(:routes)
 

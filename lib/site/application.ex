@@ -12,16 +12,16 @@ defmodule Site.Application do
   # for more information on OTP Applications
   def start(_type, _args) do
     Application.put_env(
-      :site,
+      :dotcom,
       :allow_indexing,
       SiteWeb.ControllerHelpers.environment_allows_indexing?()
     )
 
     # hack to pull the STATIC_SCHEME variable out of the environment
     Application.put_env(
-      :site,
+      :dotcom,
       SiteWeb.Endpoint,
-      update_static_url(Application.get_env(:site, SiteWeb.Endpoint))
+      update_static_url(Application.get_env(:dotcom, SiteWeb.Endpoint))
     )
 
     children =
@@ -49,7 +49,7 @@ defmodule Site.Application do
         Facilities.Repo,
         Stops.Repo
       ] ++
-        if Application.get_env(:site, :start_data_processes) do
+        if Application.get_env(:dotcom, :start_data_processes) do
           [
             Vehicles.Supervisor,
             Supervisor.child_spec(

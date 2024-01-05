@@ -135,17 +135,17 @@ defmodule Phoenix.Router.RoutingTest do
   end
 
   test "Adds noindex x-robots-tag HTTP header if config set", %{conn: conn} do
-    old_value = Application.get_env(:site, :allow_indexing)
+    old_value = Application.get_env(:dotcom, :allow_indexing)
 
     on_exit(fn ->
-      Application.put_env(:site, :allow_indexing, old_value)
+      Application.put_env(:dotcom, :allow_indexing, old_value)
     end)
 
-    Application.put_env(:site, :allow_indexing, false)
+    Application.put_env(:dotcom, :allow_indexing, false)
     conn = get(conn, "/")
     assert Enum.find(conn.resp_headers, &(&1 == {"x-robots-tag", "noindex"}))
 
-    Application.put_env(:site, :allow_indexing, true)
+    Application.put_env(:dotcom, :allow_indexing, true)
     conn = get(conn, "/")
     refute Enum.find(conn.resp_headers, &(&1 == {"x-robots-tag", "noindex"}))
   end

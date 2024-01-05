@@ -38,5 +38,5 @@ defmodule TripPlan do
     apply(module(TripPlanGeocode), :geocode, [address])
   end
 
-  defp module(sub_module), do: Application.fetch_env!(:site, sub_module)[:module]
+  defp module(sub_module), do: Application.fetch_env!(:dotcom, sub_module)[:module]
 end

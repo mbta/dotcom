@@ -30,7 +30,7 @@ defmodule Site.BodyTagTest do
     test "returns mticket if the requisite header is present" do
       conn =
         build_conn()
-        |> put_req_header(Application.get_env(:site, Site.BodyTag)[:mticket_header], "")
+        |> put_req_header(Application.get_env(:dotcom, Site.BodyTag)[:mticket_header], "")
 
       assert safe_to_string(render(conn)) =~ "no-js mticket"
     end

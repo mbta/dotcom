@@ -61,7 +61,7 @@ defmodule Site.BodyTag do
 
   defp mticket_class(conn) do
     case conn
-         |> Plug.Conn.get_req_header(Application.get_env(:site, __MODULE__)[:mticket_header]) do
+         |> Plug.Conn.get_req_header(Application.get_env(:dotcom, __MODULE__)[:mticket_header]) do
       [] -> ""
       _ -> "mticket"
     end

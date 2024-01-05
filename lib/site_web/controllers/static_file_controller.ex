@@ -3,7 +3,7 @@ defmodule SiteWeb.StaticFileController do
 
   alias CMS.Config
 
-  @config Application.compile_env!(:site, StaticFileController)
+  @config Application.compile_env!(:dotcom, StaticFileController)
   @response_fn @config[:response_fn]
 
   def index(conn, _params) do

@@ -4,7 +4,7 @@ defmodule DotCom.Mixfile do
   def project do
     [
       # app and version expected by `mix compile.app`
-      app: :site,
+      app: :dotcom,
       version: "0.0.1",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -192,8 +192,8 @@ defmodule DotCom.Mixfile do
   end
 
   defp site_url do
-    host = Application.get_env(:site, SiteWeb.Endpoint)[:url][:host]
-    port = System.get_env("PORT") || Application.get_env(:site, SiteWeb.Endpoint)[:http][:port]
+    host = Application.get_env(:dotcom, SiteWeb.Endpoint)[:url][:host]
+    port = System.get_env("PORT") || Application.get_env(:dotcom, SiteWeb.Endpoint)[:http][:port]
     "#{host}:#{port}"
   end
 

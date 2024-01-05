@@ -10,7 +10,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
   alias Fares.{Format, Repo}
   alias Routes
 
-  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do

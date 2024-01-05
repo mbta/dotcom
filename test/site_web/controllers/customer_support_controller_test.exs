@@ -346,13 +346,13 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "logs a warning, returns 429, and shows an error when rate limit reached", %{conn: conn} do
-      rate_limit = Application.get_env(:site, :feedback_rate_limit)
+      rate_limit = Application.get_env(:dotcom, :feedback_rate_limit)
 
-      # :site, :feedback_rate_limit isn't on prod
-      Application.delete_env(:site, :feedback_rate_limit)
+      # :dotcom, :feedback_rate_limit isn't on prod
+      Application.delete_env(:dotcom, :feedback_rate_limit)
 
       on_exit(fn ->
-        Application.put_env(:site, :feedback_rate_limit, rate_limit)
+        Application.put_env(:dotcom, :feedback_rate_limit, rate_limit)
       end)
 
       path = customer_support_path(conn, :submit)
@@ -619,7 +619,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
   defp wait_for_ticket_task(_), do: :ok
 
   defp test_photos do
-    Application.app_dir(:site, "priv/test/attachments/*.jpg")
+    Application.app_dir(:dotcom, "priv/test/attachments/*.jpg")
     |> Path.wildcard()
     |> Enum.map(fn path ->
       filename = String.split(path, "/") |> List.last()

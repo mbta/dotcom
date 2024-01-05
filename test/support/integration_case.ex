@@ -40,7 +40,7 @@ defmodule SiteWeb.IntegrationCase do
 
     # Setup Bypass to avoid Google Maps calls
     bypass = Bypass.open()
-    reassign_env(:site, :domain, "http://localhost:#{bypass.port}")
+    reassign_env(:dotcom, :domain, "http://localhost:#{bypass.port}")
 
     Bypass.stub(bypass, "GET", "/maps/api/place/autocomplete/json", fn conn ->
       Conn.resp(conn, 200, ~s({"status": "OK", "predictions": #{@autocomplete_results}}))

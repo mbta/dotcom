@@ -11,7 +11,7 @@ defmodule Mix.Tasks.TestHelpers.FeedbackEmail do
   @impl Mix.Task
   def run(_) do
     email_or_error =
-      case File.read(Application.get_env(:site, :test_mail_file)) do
+      case File.read(Application.get_env(:dotcom, :test_mail_file)) do
         {:ok, email} -> email
         {:error, error} -> error
       end

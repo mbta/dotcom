@@ -63,7 +63,7 @@ defmodule SiteWeb.TransitNearMeController do
       {630, 400}
       |> MapData.new(14)
       |> MapData.add_markers(markers)
-      |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
+      |> Map.put(:tile_server_url, Application.fetch_env!(:dotcom, :tile_server_url))
       |> add_location_marker(conn.assigns)
 
     assign(conn, :map_data, map_data)

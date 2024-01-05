@@ -67,7 +67,7 @@ defmodule SiteWeb.BusStopChangeController do
   # a series of CSV files. These will eventually be phased out in favor
   # of the alerts we store in S3.
   defp get_old_alerts() do
-    folder = Application.app_dir(:site) |> Path.join("priv/bus-stop-change")
+    folder = Application.app_dir(:dotcom) |> Path.join("priv/bus-stop-change")
 
     with {:ok, files} <- File.ls(folder) do
       Enum.reduce(files, [], fn filepath, acc ->

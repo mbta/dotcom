@@ -14,7 +14,7 @@ defmodule GoogleMaps.Place do
     "ChIJN0na1RRw44kRRFEtH8OUkww"
   ]
 
-  @http_pool Application.compile_env!(:site, :location_http_pool)
+  @http_pool Application.compile_env!(:dotcom, :location_http_pool)
 
   @spec autocomplete(AutocompleteQuery.t()) :: t
   def autocomplete(%AutocompleteQuery{hit_limit: hit_limit} = query) do
@@ -28,7 +28,7 @@ defmodule GoogleMaps.Place do
 
   @spec autocomplete_url(AutocompleteQuery.t()) :: String.t()
   defp autocomplete_url(%AutocompleteQuery{input: input, session_token: session_token}) do
-    :site
+    :dotcom
     |> Application.get_env(:domain, "https://maps.googleapis.com")
     |> URI.parse()
     |> URI.merge(%URI{
@@ -39,7 +39,7 @@ defmodule GoogleMaps.Place do
           sessiontoken: session_token,
           location: "42.07295,-70.77845",
           radius: "167600",
-          key: Application.get_env(:site, :google_api_key)
+          key: Application.get_env(:dotcom, :google_api_key)
         )
     })
     |> URI.to_string()

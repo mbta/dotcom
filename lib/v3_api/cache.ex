@@ -98,7 +98,7 @@ defmodule V3Api.Cache do
 
     timeout = Keyword.get(opts, :timeout, 60_000)
     Process.send_after(self(), :expire, timeout)
-    size = Keyword.get(opts, :size, Application.get_env(:site, :v3_api_cache_size))
+    size = Keyword.get(opts, :size, Application.get_env(:dotcom, :v3_api_cache_size))
     {:ok, %{name: name, size: size, timeout: timeout}}
   end
 

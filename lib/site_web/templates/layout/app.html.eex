@@ -48,11 +48,11 @@
       </script>
     <% end %>
 
-    <%= if Application.get_env(:site, :dev_server?) do %>
-      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/core.css" %>" data-turbolinks-track="reload">
-      <link rel="stylesheet" href="<%= "#{Application.get_env(:site, :webpack_path)}/css/app.css" %>" data-turbolinks-track="reload">
-      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/core.js" %>" data-turbolinks-track="reload" ></script>
-      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/app.js" %>" data-turbolinks-track="reload" ></script>
+    <%= if Application.get_env(:dotcom, :dev_server?) do %>
+      <link rel="stylesheet" href="<%= "#{Application.get_env(:dotcom, :webpack_path)}/css/core.css" %>" data-turbolinks-track="reload">
+      <link rel="stylesheet" href="<%= "#{Application.get_env(:dotcom, :webpack_path)}/css/app.css" %>" data-turbolinks-track="reload">
+      <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/core.js" %>" data-turbolinks-track="reload" ></script>
+      <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/app.js" %>" data-turbolinks-track="reload" ></script>
     <% else %>
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/core.css") %>" data-turbolinks-track="reload">
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/app.css") %>" data-turbolinks-track="reload">
@@ -97,8 +97,8 @@
       <%= render __MODULE__, "_footer.html", conn: @conn %>
 
       <%# Show a warning when browser is Internet Explorer %>
-      <%= if Application.get_env(:site, :dev_server?) do %>
-        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/iewarning.js" %>"></script>
+      <%= if Application.get_env(:dotcom, :dev_server?) do %>
+        <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/iewarning.js" %>"></script>
       <% else %>
         <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
         <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
@@ -126,11 +126,11 @@
       try {
         document.querySelector(":focus-visible");
       } catch (e) {
-        loadScript('<%= "#{Application.get_env(:site, :webpack_path)}/js/focus-visible.min.js" %>');
+        loadScript('<%= "#{Application.get_env(:dotcom, :webpack_path)}/js/focus-visible.min.js" %>');
       }
 
       if (!('scrollBehavior' in document.documentElement.style)) {
-        loadScript('<%= "#{Application.get_env(:site, :webpack_path)}/js/smoothscroll.min.js" %>');
+        loadScript('<%= "#{Application.get_env(:dotcom, :webpack_path)}/js/smoothscroll.min.js" %>');
       }
     </script>
     <%= if google_tag_manager_id() do %>

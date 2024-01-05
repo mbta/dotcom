@@ -5,7 +5,7 @@ defmodule SiteWeb.EndpointTest do
   describe "init/2" do
     test "default value" do
       assert expected =
-               :site
+               :dotcom
                |> Application.get_env(SiteWeb.Endpoint)
                |> Keyword.get(:secret_key_base)
 

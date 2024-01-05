@@ -7,7 +7,7 @@ defmodule SiteWeb.Plugs.Static do
   plug(
     Plug.Static,
     at: "/",
-    from: :site,
+    from: :dotcom,
     gzip: true,
     headers: %{"access-control-allow-origin" => "*"},
     cache_control_for_etags: "public, max-age=86400",

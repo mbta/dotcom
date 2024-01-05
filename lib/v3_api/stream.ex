@@ -69,7 +69,7 @@ defmodule V3Api.Stream do
   end
 
   @spec config(atom) :: any
-  defp config(key), do: Util.config(:site, key)
+  defp config(key), do: Util.config(:dotcom, key)
 
   @spec set_url(Keyword.t()) :: Keyword.t()
   defp set_url(opts) do

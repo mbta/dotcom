@@ -45,9 +45,9 @@ defmodule CMS.ConfigTest do
   end
 
   defp set_drupal_root(value, fun) do
-    original_config = Application.get_env(:site, :drupal)
-    Application.put_env(:site, :drupal, value)
+    original_config = Application.get_env(:dotcom, :drupal)
+    Application.put_env(:dotcom, :drupal, value)
     fun.()
-    Application.put_env(:site, :drupal, original_config)
+    Application.put_env(:dotcom, :drupal, original_config)
   end
 end

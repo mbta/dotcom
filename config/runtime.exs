@@ -21,7 +21,7 @@ static_url =
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :site, SiteWeb.Endpoint, server: true
+  config :dotcom, SiteWeb.Endpoint, server: true
 end
 
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
@@ -40,13 +40,13 @@ if config_env() == :dev do
   # with Webpack to recompile .js and .css sources.
   webpack_path = "http://#{System.get_env("STATIC_HOST") || host}:#{webpack_port}"
 
-  config :site, SiteWeb.Endpoint,
+  config :dotcom, SiteWeb.Endpoint,
     # Binding to loopback ipv4 address prevents access from other machines.
     # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
     http: [ip: {127, 0, 0, 1}, port: port],
     static_url: static_url
 
-  config :site,
+  config :dotcom,
     dev_server?: true,
     webpack_path: webpack_path
 
@@ -59,7 +59,7 @@ if config_env() == :dev do
 end
 
 if config_env() == :prod do
-  config :site, CMS.Cache,
+  config :dotcom, CMS.Cache,
     mode: :redis_cluster,
     redis_cluster: [
       configuration_endpoints: [
@@ -72,7 +72,7 @@ if config_env() == :prod do
     stats: false,
     telemetry: false
 else
-  config :site, CMS.Cache,
+  config :dotcom, CMS.Cache,
     conn_opts: [
       host: redis_host,
       port: 6379
@@ -82,41 +82,41 @@ else
 end
 
 if config_env() == :test do
-  config :site, SiteWeb.Router,
+  config :dotcom, SiteWeb.Router,
     cms_basic_auth: [
       username: "username",
       password: "password"
     ]
 else
-  config :site, SiteWeb.Router,
+  config :dotcom, SiteWeb.Router,
     cms_basic_auth: [
       username: System.get_env("CMS_BASIC_AUTH_USERNAME"),
       password: System.get_env("CMS_BASIC_AUTH_PASSWORD")
     ]
 end
 
-config :site,
+config :dotcom,
   v3_api_base_url: System.get_env("V3_URL"),
   v3_api_key: System.get_env("V3_API_KEY"),
   v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01"),
   v3_api_wiremock_proxy_url: System.get_env("WIREMOCK_PROXY_URL"),
   v3_api_wiremock_proxy: System.get_env("WIREMOCK_PROXY") || "false"
 
-config :site, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
+config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 
 if config_env() != :test do
-  config :site, :algolia_config,
+  config :dotcom, :algolia_config,
     app_id: System.get_env("ALGOLIA_APP_ID"),
     search: System.get_env("ALGOLIA_SEARCH_KEY"),
     write: System.get_env("ALGOLIA_WRITE_KEY")
 
-  config :site,
+  config :dotcom,
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL", "test@test.com"),
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL", "from@test.com"),
     support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL", "reply@test.com")
 end
 
-config :site, OpenTripPlanner,
+config :dotcom, OpenTripPlanner,
   timezone: System.get_env("OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"),
   otp1_url: System.get_env("OPEN_TRIP_PLANNER_URL"),
   otp2_url: System.get_env("OPEN_TRIP_PLANNER_2_URL"),
@@ -125,7 +125,7 @@ config :site, OpenTripPlanner,
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 
 if config_env() != :test do
-  config :site,
+  config :dotcom,
     drupal: [
       cms_root: System.fetch_env!("DRUPAL_ROOT"),
       cms_static_path: "/sites/default/files"
@@ -133,9 +133,9 @@ if config_env() != :test do
 end
 
 if config_env() == :prod do
-  config :site, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
+  config :dotcom, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
 
-  config :site, SiteWeb.Endpoint,
+  config :dotcom, SiteWeb.Endpoint,
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
@@ -173,26 +173,26 @@ if config_env() == :prod do
   # running the Backstop tests.  It should still be included in the production
   # build.
   unless System.get_env("PORT") do
-    config :site, SiteWeb.Endpoint, url: [scheme: "https", port: 443]
+    config :dotcom, SiteWeb.Endpoint, url: [scheme: "https", port: 443]
 
     # configured separately so that we can have the health check not require
     # SSL
-    config :site, :secure_pipeline,
+    config :dotcom, :secure_pipeline,
       force_ssl: [
         host: nil,
         rewrite_on: [:x_forwarded_proto]
       ]
   end
 
-  config :site,
+  config :dotcom,
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL"),
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL"),
     support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL")
 
-  config :site, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/site/app.js")
+  config :dotcom, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/site/app.js")
 end
 
-config :site, LocationService,
+config :dotcom, LocationService,
   google_api_key: System.get_env("GOOGLE_API_KEY"),
   google_client_id: System.get_env("GOOGLE_MAPS_CLIENT_ID") || "",
   google_signing_key: System.get_env("GOOGLE_MAPS_SIGNING_KEY") || "",
@@ -201,9 +201,9 @@ config :site, LocationService,
   autocomplete: System.get_env("LOCATION_SERVICE") || "aws",
   aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
 
-config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
+config :dotcom, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
-config :site,
+config :dotcom,
   enable_experimental_features: System.get_env("ENABLE_EXPERIMENTAL_FEATURES")
 
 config :recaptcha,

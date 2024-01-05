@@ -62,7 +62,7 @@ defmodule SiteWeb.StopController.StopMap do
     {width, height}
     |> MapData.new(16)
     |> add_stop_marker(stop, routes)
-    |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
+    |> Map.put(:tile_server_url, Application.fetch_env!(:dotcom, :tile_server_url))
   end
 
   @spec add_stop_marker(MapData.t(), Stop.t(), grouped_routes_map) :: MapData.t()

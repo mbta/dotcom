@@ -4,8 +4,8 @@ defmodule Util do
   require Logger
   use Timex
 
-  {:ok, endpoint} = Application.get_env(:site, :util_endpoint)
-  {:ok, route_helper_module} = Application.get_env(:site, :util_router_helper_module)
+  {:ok, endpoint} = Application.get_env(:dotcom, :util_endpoint)
+  {:ok, route_helper_module} = Application.get_env(:dotcom, :util_router_helper_module)
 
   @endpoint endpoint
   @route_helper_module route_helper_module

@@ -29,7 +29,7 @@ defmodule SiteWeb.StaticFileControllerTest do
   end
 
   defp set_drupal_root(new_domain) do
-    old_config = Application.get_env(:site, :drupal)
+    old_config = Application.get_env(:dotcom, :drupal)
 
     new_config =
       case old_config do
@@ -37,10 +37,10 @@ defmodule SiteWeb.StaticFileControllerTest do
         keywordlist -> Keyword.put(keywordlist, :cms_root, new_domain)
       end
 
-    Application.put_env(:site, :drupal, new_config)
+    Application.put_env(:dotcom, :drupal, new_config)
 
     on_exit(fn ->
-      Application.put_env(:site, :drupal, old_config)
+      Application.put_env(:dotcom, :drupal, old_config)
     end)
   end
 end

@@ -23,5 +23,5 @@ defmodule SiteWeb.Gettext do
   @dialyzer [
     {:nowarn_function, lngettext: 6}
   ]
-  use Gettext, otp_app: :site
+  use Gettext, otp_app: :dotcom
 end

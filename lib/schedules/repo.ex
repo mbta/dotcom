@@ -84,7 +84,7 @@ defmodule Schedules.Repo do
 
   defp fetch_trip(trip_id, trip_by_id_fn) do
     trip_opts =
-      case Util.config(:site, :enable_experimental_features) do
+      case Util.config(:dotcom, :enable_experimental_features) do
         "true" -> [include: "occupancies"]
         _ -> []
       end

@@ -34,7 +34,7 @@ defmodule SiteWeb.PredictionsChannelTest do
     test "subscribes to predictions for a stop ID and returns the current list of predictions", %{
       socket: socket
     } do
-      reassign_env(:site, :predictions_subscribe_fn, fn _ ->
+      reassign_env(:dotcom, :predictions_subscribe_fn, fn _ ->
         [@prediction39]
       end)
 

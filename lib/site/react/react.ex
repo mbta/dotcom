@@ -50,7 +50,7 @@ defmodule Site.React do
   Initialize the pool supervisor
   """
   def init(opts) do
-    config = Application.get_env(:site, :react)
+    config = Application.get_env(:dotcom, :react)
 
     :ok = dev_build(config[:source_path])
 

@@ -99,7 +99,7 @@ defmodule GoogleMaps do
   end
 
   defp get_env(key) do
-    Application.get_env(:site, LocationService)
+    Application.get_env(:dotcom, LocationService)
     |> Keyword.get(key)
   end
 

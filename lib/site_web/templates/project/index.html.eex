@@ -1,5 +1,5 @@
-<%= if Application.get_env(:site, :dev_server?) do %>
-  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/projects.js" %>"></script>
+<%= if Application.get_env(:dotcom, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/projects.js" %>"></script>
 <% else %>
   <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
   <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>

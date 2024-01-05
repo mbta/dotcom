@@ -42,7 +42,7 @@ defmodule V3ApiTest do
     end
 
     test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
-      reassign_env(:site, :v3_api_wiremock_proxy, "true")
+      reassign_env(:dotcom, :v3_api_wiremock_proxy, "true")
 
       Bypass.expect(bypass, fn conn ->
         assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil

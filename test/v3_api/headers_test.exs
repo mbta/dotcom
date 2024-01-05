@@ -5,7 +5,7 @@ defmodule V3Api.HeadersTest do
   import Test.Support.EnvHelpers
 
   setup do
-    reassign_env(:site, :enable_experimental_features, "false")
+    reassign_env(:dotcom, :enable_experimental_features, "false")
 
     :ok
   end
@@ -23,7 +23,7 @@ defmodule V3Api.HeadersTest do
   end
 
   test "uses application config for API key version" do
-    reassign_env(:site, :v3_api_version, "3005-01-02")
+    reassign_env(:dotcom, :v3_api_version, "3005-01-02")
 
     assert Headers.build("API_KEY", params: [], url: "url") == [
              {"x-api-key", "API_KEY"},
@@ -32,8 +32,8 @@ defmodule V3Api.HeadersTest do
   end
 
   test "adds wiremock proxy header if env var is set" do
-    reassign_env(:site, :v3_api_wiremock_proxy_url, "proxy_url")
-    reassign_env(:site, :v3_api_wiremock_proxy, "true")
+    reassign_env(:dotcom, :v3_api_wiremock_proxy_url, "proxy_url")
+    reassign_env(:dotcom, :v3_api_wiremock_proxy, "true")
 
     assert Headers.build("API_KEY", use_cache?: false) |> Keyword.take(["X-WM-Proxy-Url"]) == [
              {"X-WM-Proxy-Url", "proxy_url"}
@@ -60,7 +60,7 @@ defmodule V3Api.HeadersTest do
   end
 
   test "adds experimental features header if application config is set" do
-    Application.put_env(:site, :enable_experimental_features, "true")
+    Application.put_env(:dotcom, :enable_experimental_features, "true")
 
     assert Headers.build("API_KEY",
              url: "URL",
@@ -70,7 +70,7 @@ defmodule V3Api.HeadersTest do
              {"x-enable-experimental-features", "true"}
            ]
 
-    Application.put_env(:site, :enable_experimental_features, nil)
+    Application.put_env(:dotcom, :enable_experimental_features, nil)
 
     assert Headers.build("API_KEY",
              url: "URL",

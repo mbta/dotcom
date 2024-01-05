@@ -6,7 +6,7 @@ defmodule PageControllerBench do
   @endpoint SiteWeb.Endpoint
 
   setup_all do
-    Application.ensure_all_started(:site)
+    Application.ensure_all_started(:dotcom)
     conn = get build_conn(), "/"
     200 = conn.status
     {:ok, nil}

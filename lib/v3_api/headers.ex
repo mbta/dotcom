@@ -23,20 +23,20 @@ defmodule V3Api.Headers do
   defp api_key_header(headers, nil), do: headers
 
   defp api_key_header(headers, <<key::binary>>) do
-    api_version = Util.config(:site, :v3_api_version)
+    api_version = Util.config(:dotcom, :v3_api_version)
     [{"x-api-key", key}, {"MBTA-Version", api_version} | headers]
   end
 
   @spec proxy_headers(header_list) :: header_list
   defp proxy_headers(headers) do
-    :site
+    :dotcom
     |> Util.config(:v3_api_wiremock_proxy)
     |> do_proxy_headers(headers)
   end
 
   @spec do_proxy_headers(String.t() | nil, header_list) :: header_list
   defp do_proxy_headers("true", headers) do
-    proxy_url = Util.config(:site, :v3_api_wiremock_proxy_url)
+    proxy_url = Util.config(:dotcom, :v3_api_wiremock_proxy_url)
     [{"X-WM-Proxy-Url", proxy_url} | headers]
   end
 
@@ -66,7 +66,7 @@ defmodule V3Api.Headers do
 
   @spec extra_headers(header_list) :: header_list
   defp extra_headers(headers) do
-    Util.config(:site, :enable_experimental_features)
+    Util.config(:dotcom, :enable_experimental_features)
     |> do_extra_headers(headers)
   end
 

@@ -5,7 +5,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
 
   @moduletag :external
 
-  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
   @green_line @routes_repo_api.green_line()
 

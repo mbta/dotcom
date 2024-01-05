@@ -19,7 +19,7 @@ defmodule Alerts.BusStopChangeSupervisor do
       [
         {BusStopChangeS3, opts}
       ] ++
-        if Application.get_env(:site, :start_data_processes) do
+        if Application.get_env(:dotcom, :start_data_processes) do
           [
             {Alerts.Cache.Fetcher, BusStopChangeS3.fetcher_opts()}
           ]

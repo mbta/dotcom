@@ -1,11 +1,11 @@
 import Config
 
-config :site, TripPlanApi, module: TripPlan.Api.OpenTripPlanner
+config :dotcom, TripPlanApi, module: TripPlan.Api.OpenTripPlanner
 
-config :site, TripPlanGeocode, module: TripPlan.Geocode.GoogleGeocode
+config :dotcom, TripPlanGeocode, module: TripPlan.Geocode.GoogleGeocode
 
 if config_env() == :test do
-  config :site, TripPlanApi, module: TripPlan.Api.MockPlanner
+  config :dotcom, TripPlanApi, module: TripPlan.Api.MockPlanner
 
-  config :site, TripPlanGeocode, module: TripPlan.Geocode.MockGeocode
+  config :dotcom, TripPlanGeocode, module: TripPlan.Geocode.MockGeocode
 end

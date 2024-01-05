@@ -11,7 +11,7 @@ defmodule Site.React.Worker do
 
   def init(_opts) do
     node = System.find_executable("node") || System.find_executable("nodejs")
-    config = Application.get_env(:site, :react)
+    config = Application.get_env(:dotcom, :react)
     port = Port.open({:spawn_executable, node}, args: [config[:build_path]])
     {:ok, %{port: port}}
   end

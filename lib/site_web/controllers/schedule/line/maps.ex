@@ -127,7 +127,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     |> MapData.add_markers(all_markers)
     |> MapData.add_stop_markers(stop_markers)
     |> MapData.add_polylines(paths)
-    |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
+    |> Map.put(:tile_server_url, Application.fetch_env!(:dotcom, :tile_server_url))
   end
 
   @spec build_stop_marker(Stop.id_t()) :: Marker.t()

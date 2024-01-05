@@ -3,7 +3,7 @@ defmodule Routes.RepoTest do
   import Mock
   alias Routes.{Repo, Route}
 
-  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
   describe "all/0" do
     test "returns something" do

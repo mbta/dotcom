@@ -1,7 +1,7 @@
 defmodule SiteWeb.Endpoint do
   @moduledoc false
 
-  use Phoenix.Endpoint, otp_app: :site
+  use Phoenix.Endpoint, otp_app: :dotcom
 
   @session_options store: :cookie,
                    key: "_site_key",
@@ -17,7 +17,7 @@ defmodule SiteWeb.Endpoint do
   def init(_key, config) do
     secret_key_base =
       System.get_env("SITE_SECRET_KEY_BASE") ||
-        :site |> Application.get_env(SiteWeb.Endpoint) |> Keyword.get(:secret_key_base)
+        :dotcom |> Application.get_env(SiteWeb.Endpoint) |> Keyword.get(:secret_key_base)
 
     {:ok, Keyword.put(config, :secret_key_base, secret_key_base)}
   end
@@ -25,8 +25,8 @@ defmodule SiteWeb.Endpoint do
   socket(
     "/socket",
     SiteWeb.UserSocket,
-    websocket: [check_origin: Application.get_env(:site, :websocket_check_origin, false)],
-    longpoll: [check_origin: Application.get_env(:site, :websocket_check_origin, false)]
+    websocket: [check_origin: Application.get_env(:dotcom, :websocket_check_origin, false)],
+    longpoll: [check_origin: Application.get_env(:dotcom, :websocket_check_origin, false)]
   )
 
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])

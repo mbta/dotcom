@@ -7,7 +7,7 @@ defmodule Stops.NearbyTest do
   alias Util.Distance
   import Stops.Nearby
 
-  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
   @latitude 42.577
   @longitude -71.225

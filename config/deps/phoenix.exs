@@ -4,13 +4,13 @@ config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
 config :phoenix, :json_library, Poison
 
 if config_env() == :prod do
-  config :site, :websocket_check_origin, [
+  config :dotcom, :websocket_check_origin, [
     "http://localhost",
     "https://*.mbta.com",
     "https://*.mbtace.com"
   ]
 
-  config :site,
+  config :dotcom,
     dev_server?: false
 
   # ## Using releases
@@ -23,7 +23,7 @@ if config_env() == :prod do
   # Alternatively, you can configure exactly which server to
   # start per endpoint:
   #
-  #     config :site, SiteWeb.Endpoint, server: true
+  #     config :dotcom, SiteWeb.Endpoint, server: true
   #
   # You will also need to set the application root to `.` in order
   # for the new static assets to be served after a hot upgrade:
@@ -37,7 +37,7 @@ end
 
 if config_env() == :test do
   # Let test requests get routed through the :secure pipeline
-  config :site, :secure_pipeline,
+  config :dotcom, :secure_pipeline,
     force_ssl: [
       host: nil,
       rewrite_on: [:x_forwarded_proto]

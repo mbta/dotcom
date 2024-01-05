@@ -3,8 +3,8 @@
   <div id="react-stop-redesign-root" data-mbta-stop-id="<%= @stop_id %>"></div>
 </div>
 
-<%= if Application.get_env(:site, :dev_server?) do %>
-  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/stopRedesign.js" %>"></script>
+<%= if Application.get_env(:dotcom, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/stopRedesign.js" %>"></script>
 <% else %>
   <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
   <script defer src="<%= static_url(@conn, "/js/leaflet.js") %>"></script>

@@ -8,7 +8,7 @@ defmodule SiteWeb.Router do
   alias SiteWeb.StaticPage
 
   pipeline :secure do
-    if force_ssl = Application.get_env(:site, :secure_pipeline)[:force_ssl] do
+    if force_ssl = Application.get_env(:dotcom, :secure_pipeline)[:force_ssl] do
       plug(Plug.SSL, force_ssl)
     end
   end
@@ -290,13 +290,13 @@ defmodule SiteWeb.Router do
   end
 
   defp basic_auth(conn, _) do
-    opts = Application.get_env(:site, SiteWeb.Router)[:cms_basic_auth]
+    opts = Application.get_env(:dotcom, SiteWeb.Router)[:cms_basic_auth]
 
     Plug.BasicAuth.basic_auth(conn, opts)
   end
 
   defp optional_disable_indexing(conn, _) do
-    if Application.get_env(:site, :allow_indexing) do
+    if Application.get_env(:dotcom, :allow_indexing) do
       conn
     else
       Plug.Conn.put_resp_header(conn, "x-robots-tag", "noindex")

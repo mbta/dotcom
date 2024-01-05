@@ -26,7 +26,7 @@ defmodule SiteWeb.ViewHelpers do
 
   # precompile the SVGs, rather than hitting the filesystem every time
   for path <-
-        :site
+        :dotcom
         |> Application.app_dir()
         |> Kernel.<>("/priv/static/**/*.svg")
         |> Path.wildcard() do
@@ -141,7 +141,7 @@ defmodule SiteWeb.ViewHelpers do
   end
 
   defp env(key) do
-    Application.get_env(:site, __MODULE__)[key]
+    Application.get_env(:dotcom, __MODULE__)[key]
   end
 
   @doc "HTML for a FontAwesome icon, with optional attributes"

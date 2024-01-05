@@ -44,7 +44,7 @@ defmodule AWSLocation.RequestTest do
     end
 
     test "uses config to get request pathname" do
-      reassign_env(:site, :aws_index_prefix, "dotcom-prod")
+      reassign_env(:dotcom, :aws_index_prefix, "dotcom-prod")
 
       operation = new("Everywhere")
 
@@ -85,7 +85,7 @@ defmodule AWSLocation.RequestTest do
     end
 
     test "uses config to get request pathname" do
-      reassign_env(:site, :aws_index_prefix, "dotcom-prod")
+      reassign_env(:dotcom, :aws_index_prefix, "dotcom-prod")
 
       operation = autocomplete("Everywhere", 1)
 

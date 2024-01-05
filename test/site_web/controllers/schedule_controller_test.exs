@@ -12,7 +12,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   @moduletag :external
 
-  @routes_repo_api Application.compile_env!(:site, :routes_repo_api)
+  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 
   setup_all do
     # needed by SiteWeb.ScheduleController.VehicleLocations plug

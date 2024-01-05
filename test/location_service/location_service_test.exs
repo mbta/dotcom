@@ -97,9 +97,9 @@ defmodule LocationServiceTest do
 
   defp set_location_service_config(opts) do
     adjusted_config =
-      Application.get_env(:site, LocationService)
+      Application.get_env(:dotcom, LocationService)
       |> Keyword.merge(opts)
 
-    reassign_env(:site, LocationService, adjusted_config)
+    reassign_env(:dotcom, LocationService, adjusted_config)
   end
 end
