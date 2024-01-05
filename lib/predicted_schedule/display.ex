@@ -1,5 +1,5 @@
 defmodule PredictedSchedule.Display do
-  import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
+  import DotcomWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @doc """
   Returns the HTML to display a time as a differece from

@@ -47,7 +47,7 @@ defmodule CMS.Partial.Paragraph.FareCard do
   end
 
   # Parse the liquid object syntax and remove the "fare:" prefix to get the
-  # token in the format expected by `Site.ContentRewriters.LiquidObjects.Fare`
+  # token in the format expected by `Dotcom.ContentRewriters.LiquidObjects.Fare`
   defp parse_token(input) do
     Regex.replace(~r/\{\{(.*)\}\}/U, input, fn _, str ->
       str

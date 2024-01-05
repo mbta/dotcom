@@ -74,11 +74,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /root
 
 COPY --from=app-builder /root/_build/prod/rel /root/rel
-COPY --from=assets-builder /root/react_renderer/dist/app.js /root/rel/site/app.js
+COPY --from=assets-builder /root/react_renderer/dist/app.js /root/rel/dotcom/app.js
 
 RUN mkdir /root/work
 
 WORKDIR /root/work
 
 # run the application
-CMD ["/root/rel/site/bin/site", "start"]
+CMD ["/root/rel/dotcom/bin/dotcom", "start"]

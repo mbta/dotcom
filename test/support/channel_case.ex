@@ -1,4 +1,4 @@
-defmodule SiteWeb.ChannelCase do
+defmodule DotcomWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,7 +21,7 @@ defmodule SiteWeb.ChannelCase do
       import Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint SiteWeb.Endpoint
+      @endpoint DotcomWeb.Endpoint
     end
   end
 

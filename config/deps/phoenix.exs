@@ -23,7 +23,7 @@ if config_env() == :prod do
   # Alternatively, you can configure exactly which server to
   # start per endpoint:
   #
-  #     config :dotcom, SiteWeb.Endpoint, server: true
+  #     config :dotcom, DotcomWeb.Endpoint, server: true
   #
   # You will also need to set the application root to `.` in order
   # for the new static assets to be served after a hot upgrade:

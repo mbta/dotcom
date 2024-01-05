@@ -308,7 +308,7 @@ defmodule Util do
   end
 
   @doc """
-  Makes SiteWeb.Router.Helpers available to other apps.
+  Makes DotcomWeb.Router.Helpers available to other apps.
   #
   # Examples
 

@@ -12,7 +12,7 @@ import { PredictionWithTimestamp } from "../models/predictions";
 
 /**
  * The format of a prediction emitted via websockets from
- * SiteWeb.PredictionsChannel.
+ * DotcomWeb.PredictionsChannel.
  */
 export interface StreamPrediction {
   id: string;

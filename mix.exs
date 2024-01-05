@@ -31,7 +31,7 @@ defmodule DotCom.Mixfile do
       source_url: "https://github.com/mbta/dotcom",
       homepage_url: "https://www.mbta.com/",
       # The main page in the docs
-      docs: [main: "Site", logo: "assets/static/images/mbta-logo-t.png"]
+      docs: [main: "Dotcom", logo: "assets/static/images/mbta-logo-t.png"]
     ]
   end
 
@@ -56,7 +56,7 @@ defmodule DotCom.Mixfile do
 
     [
       # the module to invoke when the application is started
-      mod: {Site.Application, []},
+      mod: {Dotcom.Application, []},
       # a list of applications that will be included in the application
       included_applications: [:laboratory],
       # a list of OTP applications your application depends on which are not included in :deps
@@ -192,8 +192,11 @@ defmodule DotCom.Mixfile do
   end
 
   defp site_url do
-    host = Application.get_env(:dotcom, SiteWeb.Endpoint)[:url][:host]
-    port = System.get_env("PORT") || Application.get_env(:dotcom, SiteWeb.Endpoint)[:http][:port]
+    host = Application.get_env(:dotcom, DotcomWeb.Endpoint)[:url][:host]
+
+    port =
+      System.get_env("PORT") || Application.get_env(:dotcom, DotcomWeb.Endpoint)[:http][:port]
+
     "#{host}:#{port}"
   end
 

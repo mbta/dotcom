@@ -16,7 +16,7 @@ defmodule GreenLine do
   """
   @spec stops_on_routes(0 | 1, Date.t() | nil) :: stop_routes_pair
   def stops_on_routes(direction_id, date \\ nil) do
-    Site.GreenLine.CacheSupervisor.stops_on_routes(direction_id, date)
+    Dotcom.GreenLine.CacheSupervisor.stops_on_routes(direction_id, date)
   end
 
   @doc """

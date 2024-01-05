@@ -1,4 +1,4 @@
-defmodule Site.SentryFilter do
+defmodule Dotcom.SentryFilter do
   @moduledoc """
   Implement the Sentry.EventFilter behaviour, which allows for preventing
   arbitrary errors to be sent to Sentry.

@@ -2,7 +2,7 @@ defmodule CSSHelpers do
   @moduledoc """
   Provides helpers for working with CSS
 
-  Multiple pieces (SiteWeb and Components) use css,
+  Multiple pieces (DotcomWeb and Components) use css,
   so this module provides helper functions to share between them.
   """
 

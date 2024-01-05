@@ -15,7 +15,7 @@ defmodule CMS.Partial.Paragraph do
   * Add that type to CMS.Partial.Paragraph.t here.
   * Update this module's from_api/1 function to dispatch to the MyPara.from_api
   * Update CMS.ParagraphTest to ensure it is parsed correctly
-  * Update Site.ContentViewTest to ensure it is rendered correctly
+  * Update Dotcom.ContentViewTest to ensure it is rendered correctly
   * After the code is merged and deployed, update /cms/style-guide/paragraphs
     on the live CMS
   """

@@ -1,5 +1,5 @@
 defmodule Alerts.URLParsingHelpersTest do
-  use SiteWeb.ConnCase, async: true
+  use DotcomWeb.ConnCase, async: true
   import Alerts.URLParsingHelpers
 
   describe "get_full_url/1" do

@@ -1,4 +1,4 @@
-defmodule SiteWeb.IntegrationHelpers do
+defmodule DotcomWeb.IntegrationHelpers do
   import Wallaby.Query
   import Wallaby.Browser
 

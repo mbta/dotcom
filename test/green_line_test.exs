@@ -4,11 +4,11 @@ defmodule GreenLineTest do
   import GreenLine
 
   setup_all do
-    # needed by SiteWeb.ScheduleController.VehicleLocations plug
+    # needed by DotcomWeb.ScheduleController.VehicleLocations plug
     _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
     _ = start_supervised(Vehicles.Repo)
     # Start parent supervisor
-    _ = start_supervised({Site.GreenLine.Supervisor, []})
+    _ = start_supervised({Dotcom.GreenLine.Supervisor, []})
     :ok
   end
 

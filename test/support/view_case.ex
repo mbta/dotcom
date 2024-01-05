@@ -1,4 +1,4 @@
-defmodule Site.ViewCase do
+defmodule Dotcom.ViewCase do
   use ExUnit.CaseTemplate
 
   using do
@@ -6,7 +6,7 @@ defmodule Site.ViewCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import Phoenix.View
-      import SiteWeb.Router.Helpers
+      import DotcomWeb.Router.Helpers
       import CMS.Factory
     end
   end

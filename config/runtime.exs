@@ -16,12 +16,12 @@ static_url =
 # If you use `mix release`, you need to explicitly enable the server
 # by passing the PHX_SERVER=true when you start it:
 #
-#     PHX_SERVER=true bin/site start
+#     PHX_SERVER=true bin/dotcom start
 #
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :dotcom, SiteWeb.Endpoint, server: true
+  config :dotcom, DotcomWeb.Endpoint, server: true
 end
 
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
@@ -40,7 +40,7 @@ if config_env() == :dev do
   # with Webpack to recompile .js and .css sources.
   webpack_path = "http://#{System.get_env("STATIC_HOST") || host}:#{webpack_port}"
 
-  config :dotcom, SiteWeb.Endpoint,
+  config :dotcom, DotcomWeb.Endpoint,
     # Binding to loopback ipv4 address prevents access from other machines.
     # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
     http: [ip: {127, 0, 0, 1}, port: port],
@@ -82,13 +82,13 @@ else
 end
 
 if config_env() == :test do
-  config :dotcom, SiteWeb.Router,
+  config :dotcom, DotcomWeb.Router,
     cms_basic_auth: [
       username: "username",
       password: "password"
     ]
 else
-  config :dotcom, SiteWeb.Router,
+  config :dotcom, DotcomWeb.Router,
     cms_basic_auth: [
       username: System.get_env("CMS_BASIC_AUTH_USERNAME"),
       password: System.get_env("CMS_BASIC_AUTH_PASSWORD")
@@ -135,7 +135,7 @@ end
 if config_env() == :prod do
   config :dotcom, alerts_bus_stop_change_bucket: System.get_env("S3_PREFIX_BUSCHANGE")
 
-  config :dotcom, SiteWeb.Endpoint,
+  config :dotcom, DotcomWeb.Endpoint,
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
@@ -158,7 +158,7 @@ if config_env() == :prod do
       dispatch: [
         {:_,
          [
-           {:_, Phoenix.Endpoint.Cowboy2Handler, {SiteWeb.Endpoint, []}}
+           {:_, Phoenix.Endpoint.Cowboy2Handler, {DotcomWeb.Endpoint, []}}
          ]}
       ]
     ],
@@ -173,7 +173,7 @@ if config_env() == :prod do
   # running the Backstop tests.  It should still be included in the production
   # build.
   unless System.get_env("PORT") do
-    config :dotcom, SiteWeb.Endpoint, url: [scheme: "https", port: 443]
+    config :dotcom, DotcomWeb.Endpoint, url: [scheme: "https", port: 443]
 
     # configured separately so that we can have the health check not require
     # SSL
@@ -189,7 +189,8 @@ if config_env() == :prod do
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL"),
     support_ticket_reply_email: System.get_env("SUPPORT_TICKET_REPLY_EMAIL")
 
-  config :dotcom, :react, build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/site/app.js")
+  config :dotcom, :react,
+    build_path: System.get_env("REACT_BUILD_PATH", "/root/rel/dotcom/app.js")
 end
 
 config :dotcom, LocationService,
@@ -201,7 +202,8 @@ config :dotcom, LocationService,
   autocomplete: System.get_env("LOCATION_SERVICE") || "aws",
   aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
 
-config :dotcom, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
+config :dotcom, DotcomWeb.ViewHelpers,
+  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :dotcom,
   enable_experimental_features: System.get_env("ENABLE_EXPERIMENTAL_FEATURES")

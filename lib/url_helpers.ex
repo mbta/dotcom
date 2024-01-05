@@ -1,7 +1,7 @@
 defmodule UrlHelpers do
   alias CMS.Field.Link
   alias CMS.Page.NewsEntry
-  alias SiteWeb.CmsRouterHelpers
+  alias DotcomWeb.CmsRouterHelpers
 
   @spec update_url(Plug.Conn.t(), Enum.t()) :: String.t()
   def update_url(conn, query) do

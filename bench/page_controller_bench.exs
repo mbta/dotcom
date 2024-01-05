@@ -3,17 +3,17 @@ defmodule PageControllerBench do
   import Plug.Conn
   import Phoenix.ConnTest
 
-  @endpoint SiteWeb.Endpoint
+  @endpoint DotcomWeb.Endpoint
 
   setup_all do
     Application.ensure_all_started(:dotcom)
-    conn = get build_conn(), "/"
+    conn = get(build_conn(), "/")
     200 = conn.status
     {:ok, nil}
   end
 
   bench "load homepage", conn: build_conn() do
-    conn = get conn, "/"
+    conn = get(conn, "/")
     200 = conn.status
     :ok
   end

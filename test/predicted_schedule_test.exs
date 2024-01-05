@@ -222,7 +222,7 @@ defmodule PredictedScheduleTest do
       end
     end
 
-    test "works with the schedules returned from Site.RealtimeSchedule" do
+    test "works with the schedules returned from Dotcom.RealtimeSchedule" do
       predicted_condensed_schedules = group(@predictions, Enum.shuffle(@condensed_schedules))
 
       for %PredictedSchedule{schedule: schedule, prediction: prediction} <-

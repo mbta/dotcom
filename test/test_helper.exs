@@ -4,7 +4,7 @@
 {:ok, _} = Application.ensure_all_started(:tzdata)
 {:ok, _} = Application.ensure_all_started(:wallaby)
 _ = Tzdata.ReleaseUpdater.poll_for_update()
-Application.put_env(:wallaby, :base_url, SiteWeb.Endpoint.url())
+Application.put_env(:wallaby, :base_url, DotcomWeb.Endpoint.url())
 
 # Avoid starting unneeded background processing during tests
 System.put_env("USE_SERVER_SENT_EVENTS", "false")

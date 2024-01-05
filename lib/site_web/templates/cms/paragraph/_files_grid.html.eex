@@ -1,4 +1,0 @@
-<%= if @content.title do %>
-  <h3 class="file-grid-section-title"><%= @content.title %></h3>
-<% end %>
-<%= SiteWeb.PartialView.render("_file_columns.html", files: @content.files) %>

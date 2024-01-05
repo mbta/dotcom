@@ -39,7 +39,7 @@ The root (three-stage) `Dockerfile` is responsible for building and running the 
   For the frontend assets, we use a Node container.
 
 - Run:
-  The part of the Dockerfile used to run the application (last stage) runs the script that `mix release` provides for us to run the server (`/root/rel/site/bin/site start`). At startup, the `relx` application looks for configuration values that look like `${VARIABLE}` and replaces them with the `VARIABLE` environment variable. This allows us to make a single build, but use it for different environments by changing the environment variables.
+  The part of the Dockerfile used to run the application (last stage) runs the script that `mix release` provides for us to run the server (`/root/rel/dotcom/bin/dotcom start`). At startup, the `relx` application looks for configuration values that look like `${VARIABLE}` and replaces them with the `VARIABLE` environment variable. This allows us to make a single build, but use it for different environments by changing the environment variables.
 
 Run it locally on port 4000 via `docker run --env-file <filename> -p 4000:4000 dotcom`.
 
@@ -52,7 +52,7 @@ In Elixir, a **release** packages an application into a self-contained directory
 To run the resulting release at http://localhost:4000:
 
 ```shell
-MIX_ENV=prod PHX_SERVER=true HOST=localhost PORT=4000 _build/prod/rel/site/bin/site start
+MIX_ENV=prod PHX_SERVER=true HOST=localhost PORT=4000 _build/prod/rel/dotcom/bin/dotcom start
 ```
 
 > [!Warning]

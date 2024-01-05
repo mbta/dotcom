@@ -5,14 +5,14 @@
 
 # CMS-related code
 cms/                                           @mbta/dotcom @amaisano
-site/content_rewriter.ex                       @mbta/dotcom @amaisano
-site/content_rewriters/                        @mbta/dotcom @amaisano
-site_web/controllers/cms_controller.ex         @mbta/dotcom @amaisano
-site_web/views/cms_view.ex                     @mbta/dotcom @amaisano
-site_web/views/page_content_view.ex            @mbta/dotcom @amaisano
-site_web/views/paragraph_view.ex               @mbta/dotcom @amaisano
-site_web/views/partial_view.ex                 @mbta/dotcom @amaisano
-site_web/views/teaser_view.ex                  @mbta/dotcom @amaisano
-site_web/views/helpers/cms_helpers.ex          @mbta/dotcom @amaisano
-site_web/views/helpers/cms_router_helpers.ex   @mbta/dotcom @amaisano
-site_web/templates/cms/                        @mbta/dotcom @amaisano
+dotcom/content_rewriter.ex                       @mbta/dotcom @amaisano
+dotcom/content_rewriters/                        @mbta/dotcom @amaisano
+dotcom_web/controllers/cms_controller.ex         @mbta/dotcom @amaisano
+dotcom_web/views/cms_view.ex                     @mbta/dotcom @amaisano
+dotcom_web/views/page_content_view.ex            @mbta/dotcom @amaisano
+dotcom_web/views/paragraph_view.ex               @mbta/dotcom @amaisano
+dotcom_web/views/partial_view.ex                 @mbta/dotcom @amaisano
+dotcom_web/views/teaser_view.ex                  @mbta/dotcom @amaisano
+dotcom_web/views/helpers/cms_helpers.ex          @mbta/dotcom @amaisano
+dotcom_web/views/helpers/cms_router_helpers.ex   @mbta/dotcom @amaisano
+dotcom_web/templates/cms/                        @mbta/dotcom @amaisano

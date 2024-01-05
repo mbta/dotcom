@@ -1,4 +1,4 @@
-defmodule SiteWeb.IntegrationCase do
+defmodule DotcomWeb.IntegrationCase do
   use ExUnit.CaseTemplate
   alias Plug.Conn
   import Test.Support.EnvHelpers
@@ -29,7 +29,7 @@ defmodule SiteWeb.IntegrationCase do
     quote do
       use Wallaby.DSL
 
-      import SiteWeb.Router.Helpers
+      import DotcomWeb.Router.Helpers
     end
   end
 

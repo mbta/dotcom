@@ -1,7 +1,7 @@
 import React from "react";
 import { FallbackRender } from "@sentry/react";
 
-// Adapted from the templates in SiteWeb.ErrorView
+// Adapted from the templates in DotcomWeb.ErrorView
 // To be used in an ErrorBoundary
 const ErrorPage: FallbackRender = errorData => {
   // eslint-disable-next-line no-console

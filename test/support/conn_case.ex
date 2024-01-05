@@ -1,4 +1,4 @@
-defmodule SiteWeb.ConnCase do
+defmodule DotcomWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -28,7 +28,7 @@ defmodule SiteWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
 
-      import SiteWeb.Router.Helpers,
+      import DotcomWeb.Router.Helpers,
         except: [
           news_entry_path: 2,
           news_entry_path: 3,
@@ -42,13 +42,13 @@ defmodule SiteWeb.ConnCase do
           project_update_path: 4
         ]
 
-      import SiteWeb.CmsRouterHelpers
+      import DotcomWeb.CmsRouterHelpers
       import CMS.Factory
 
       # The default endpoint for testing
-      @endpoint SiteWeb.Endpoint
+      @endpoint DotcomWeb.Endpoint
 
-      import SiteWeb.ConnCase, only: [default_conn: 0]
+      import DotcomWeb.ConnCase, only: [default_conn: 0]
     end
   end
 

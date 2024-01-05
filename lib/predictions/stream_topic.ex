@@ -1,9 +1,9 @@
 defmodule Predictions.StreamTopic do
   @moduledoc """
-  Translation between `SiteWeb.PredictionsChannel` topics, `Predictions.Store`
+  Translation between `DotcomWeb.PredictionsChannel` topics, `Predictions.Store`
   and `Predictions.Stream`.
 
-  The topic name joined in `SiteWeb.PredictionsChannel` is the input which
+  The topic name joined in `DotcomWeb.PredictionsChannel` is the input which
   determines
   - the appropriate `fetch_keys` needed to get relevant predictions from the
     `Predictions.Store`

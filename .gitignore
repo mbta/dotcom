@@ -13,7 +13,7 @@ erl_crash.dump
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
-/site-build.zip
+/dotcom-build.zip
 ts-build
 stats.json
 npm-debug.log
