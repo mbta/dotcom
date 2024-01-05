@@ -14,8 +14,7 @@ if config_env() == :prod do
       configuration_endpoints: [
         conn_opts: [
           host: redis_host,
-          port: 6379,
-          timeout: 15_000
+          port: 6379
         ]
       ]
     ],

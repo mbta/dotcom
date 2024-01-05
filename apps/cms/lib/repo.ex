@@ -62,6 +62,11 @@ defmodule CMS.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :nothing,
+              opts: [ttl: 60_000]
+            )
   def do_news_entry_by(opts) do
     case @cms_api.view("/cms/news", opts) do
       {:ok, api_data} -> Enum.map(api_data, &NewsEntry.from_api/1)
@@ -69,6 +74,11 @@ defmodule CMS.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :nothing,
+              opts: [ttl: 60_000]
+            )
   def events(opts \\ []) do
     case @cms_api.view("/cms/events", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Event.from_api/1)
