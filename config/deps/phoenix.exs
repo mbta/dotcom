@@ -5,7 +5,6 @@ config :phoenix, :json_library, Poison
 
 if config_env() == :prod do
   config :dotcom, :websocket_check_origin, [
-    "http://localhost",
     "https://*.mbta.com",
     "https://*.mbtace.com"
   ]

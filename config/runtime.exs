@@ -162,19 +162,14 @@ if config_env() == :prod do
          ]}
       ]
     ],
-    url: [host: host],
+    url: [host: host, scheme: "https", port: 443],
     static_url: [
       scheme: System.get_env("STATIC_SCHEME"),
       host: System.get_env("STATIC_HOST"),
       port: System.get_env("STATIC_PORT")
     ]
 
-  # because this is evaluated at compile time, it won't get used when we're
-  # running the Backstop tests.  It should still be included in the production
-  # build.
   unless System.get_env("PORT") do
-    config :dotcom, DotcomWeb.Endpoint, url: [scheme: "https", port: 443]
-
     # configured separately so that we can have the health check not require
     # SSL
     config :dotcom, :secure_pipeline,
