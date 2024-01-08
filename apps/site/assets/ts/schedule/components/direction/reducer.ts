@@ -69,7 +69,7 @@ const updateDirectionAndVariantInURL = (
   // allows navigation between the stop page and the schedule page.  Though an error is breifly seen
   // before the full resolution
   // newLoc is not a true Location, so toString doesn't work
-  window.history.pushState(
+  window.history.replaceState(
     window.history.state,
     "",
     `${newLoc.pathname}${newLoc.search}`
