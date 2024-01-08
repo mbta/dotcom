@@ -323,7 +323,7 @@ it("changes direction and updates the query params", () => {
 
   expect(wrapper.find("#direction-name").text()).toBe("Outbound");
   expect(window.history.replaceState).toBeCalledWith(
-    {},
+    window.history.state,
     "",
     "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
   );
@@ -348,7 +348,7 @@ it("can change route pattern for bus mode, and updates the query params", () => 
   ).toBe("Pattern 1 SVG");
   expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
   expect(window.history.replaceState).toBeCalledWith(
-    {},
+    window.history.state,
     "",
     "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
   );
@@ -361,7 +361,7 @@ it("can change route pattern for bus mode, and updates the query params", () => 
     wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
   ).toBe("Pattern 3 SVG");
   expect(window.history.replaceState).toBeCalledWith(
-    {},
+    window.history.state,
     "",
     "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-3"
   );
