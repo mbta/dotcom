@@ -1,7 +1,4 @@
 const port = process.env.PORT;
-if (!port) {
-  throw new Error(`missing PORT environment variable`)
-}
 module.exports = {
   screenshotsFolder: "cypress/snapshots/actual",
   trashAssetsBeforeRuns: true,
