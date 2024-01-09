@@ -125,7 +125,8 @@ jobs:
       - uses: cypress-io/github-action@v6
         with:
           install: false
-          config: baseUrl=${{ needs.deploy.outputs.deployment-url }}
-          spec: cypress/e2e/smoke.cy.js
+          command: npx --prefix assets cypress run \
+            --config baseUrl=${{ needs.deploy.outputs.deployment-url }} \
+            --spec cypress/e2e/smoke.cy.js
           auto-cancel-after-failures: 2
 
