@@ -130,7 +130,7 @@ defmodule CMS.Repo do
 
       error ->
         _ =
-          Logger.warn(fn ->
+          Logger.warning(fn ->
             "module=#{__MODULE__} Error getting schedule pdfs for route #{route_id}. Using default []. Error: #{inspect(error)}"
           end)
 
@@ -156,7 +156,7 @@ defmodule CMS.Repo do
 
       error ->
         _ =
-          Logger.warn(fn ->
+          Logger.warning(fn ->
             "Error getting pdfs for route #{route_id}. Using default []. Error: #{inspect(error)}"
           end)
 
@@ -319,7 +319,7 @@ defmodule CMS.Repo do
         "opts=#{inspect(opts)}"
       ]
       |> Enum.join(" ")
-      |> Logger.warn()
+      |> Logger.warning()
 
     []
   end

@@ -158,7 +158,7 @@ defmodule Algolia.Update do
 
   @spec set_rank(map, Stops.Stop.t() | Routes.Route.t() | map) :: map
   defp set_rank(%{routes: []} = data, %Stops.Stop{}) do
-    :ok = Logger.warn("stop has no routes: #{inspect(data)}")
+    :ok = Logger.warning("stop has no routes: #{inspect(data)}")
     do_set_rank(4, data)
   end
 

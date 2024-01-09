@@ -89,7 +89,7 @@ defmodule DotcomWeb.SearchController do
   end
 
   defp do_log_error(error) do
-    Logger.warn("Received bad response from Algolia: #{inspect(error)}")
+    Logger.warning("Received bad response from Algolia: #{inspect(error)}")
   end
 
   @spec click(Conn.t(), map) :: Conn.t()

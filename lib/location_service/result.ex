@@ -100,19 +100,19 @@ defmodule LocationService.Result do
     case error do
       %Jason.DecodeError{} ->
         _ =
-          Logger.warn(fn ->
+          Logger.warning(fn ->
             "#{__MODULE__} input=#{inspect(input)} error=\"Error parsing to JSON\" #{extra_messages(extra)}"
           end)
 
       nil ->
         _ =
-          Logger.warn(fn ->
+          Logger.warning(fn ->
             "#{__MODULE__} input=#{inspect(input)} error=\"API error\" #{extra_messages(extra)}"
           end)
 
       _ ->
         _ =
-          Logger.warn(fn ->
+          Logger.warning(fn ->
             "#{__MODULE__} input=#{inspect(input)} error=#{inspect(error)} #{extra_messages(extra)}"
           end)
     end

@@ -113,7 +113,7 @@ defmodule DotcomWeb.CustomerSupportController do
         do_submit(conn, params)
 
       errors ->
-        _ = Logger.warn("#{__MODULE__} form validation failed: #{inspect(errors)}")
+        _ = Logger.warning("#{__MODULE__} form validation failed: #{inspect(errors)}")
 
         conn
         |> put_status(400)
@@ -122,7 +122,7 @@ defmodule DotcomWeb.CustomerSupportController do
   end
 
   def submit(conn, params) do
-    Logger.warn("recaptcha validation missing")
+    Logger.warning("recaptcha validation missing")
 
     comments =
       case params do
@@ -174,7 +174,7 @@ defmodule DotcomWeb.CustomerSupportController do
         redirect(conn, to: customer_support_path(conn, :thanks))
 
       {:deny, _limit} ->
-        _ = Logger.warn("ip=#{ip} Support form rate limit exceeded for IP address")
+        _ = Logger.warning("ip=#{ip} Support form rate limit exceeded for IP address")
 
         conn
         |> put_status(:too_many_requests)
@@ -193,7 +193,7 @@ defmodule DotcomWeb.CustomerSupportController do
           {:error, file_error} ->
             # Sometimes a file isn't successfully uploaded. Ignore it here so that we can still send the email
             _ =
-              Logger.warn(
+              Logger.warning(
                 "module=#{__MODULE__} error=#{:file.format_error(file_error)} failed_photo_attachment"
               )
 
@@ -355,7 +355,7 @@ defmodule DotcomWeb.CustomerSupportController do
         :ok
 
       {:error, [error]} when error in @expected_recaptcha_errors ->
-        _ = Logger.warn("recaptcha failed_validation=#{error}")
+        _ = Logger.warning("recaptcha failed_validation=#{error}")
         "recaptcha"
 
       {:error, [:invalid_keys]} ->

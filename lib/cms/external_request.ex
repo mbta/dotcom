@@ -61,7 +61,7 @@ defmodule CMS.ExternalRequest do
         "CMS request timed out"
       ]
       |> Enum.join(" ")
-      |> Logger.warn()
+      |> Logger.warning()
 
     {:error, :timeout}
   end
@@ -78,7 +78,7 @@ defmodule CMS.ExternalRequest do
       "Bad response response received from CMS: #{inspect(error)}"
     ]
     |> Enum.join(" ")
-    |> Logger.warn()
+    |> Logger.warning()
   end
 
   @spec decode_body(String.t()) :: API.response()
@@ -95,7 +95,7 @@ defmodule CMS.ExternalRequest do
             "#{inspect(error)}"
           ]
           |> Enum.join(" ")
-          |> Logger.warn()
+          |> Logger.warning()
 
         # a malformed JSON response
         {:error, :invalid_response}

@@ -54,7 +54,7 @@ defmodule Algolia.Analytics do
 
   defp handle_click_response({:ok, %HTTPoison.Response{} = response}, body) do
     _ =
-      Logger.warn(
+      Logger.warning(
         "module=#{__MODULE__} Bad response from Algolia: #{inspect(response)} request body: #{body}"
       )
 
@@ -62,7 +62,7 @@ defmodule Algolia.Analytics do
   end
 
   defp handle_click_response({:error, %HTTPoison.Error{} = response}, _) do
-    _ = Logger.warn("module=#{__MODULE__} Error connecting to Algolia: #{inspect(response)}")
+    _ = Logger.warning("module=#{__MODULE__} Error connecting to Algolia: #{inspect(response)}")
     {:error, response}
   end
 

@@ -29,7 +29,7 @@ defmodule DotcomWeb.LayoutView do
     module_class =
       module
       |> Module.split()
-      |> Enum.slice(1..-1)
+      |> Enum.slice(1..-1//1)
       |> Enum.join("-")
       |> String.downcase()
 

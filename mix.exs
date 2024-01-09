@@ -8,7 +8,7 @@ defmodule DotCom.Mixfile do
       version: "0.0.1",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: [:gettext, :yecc, :leex] ++ Mix.compilers(),
       # configures `mix compile` to embed all code and priv content in the _build directory instead of using symlinks
       build_embedded: Mix.env() == :prod,
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
@@ -109,10 +109,11 @@ defmodule DotCom.Mixfile do
       {:phoenix_live_reload, "~> 1.0", [only: :dev]},
       {:phoenix_live_view, "~> 0.20"},
       {:phoenix_pubsub, "~> 2.1.3"},
+      {:phoenix_view, "~> 2.0.3"},
       {:plug, "~> 1.14.2"},
       {:plug_cowboy, "~> 2.6.1"},
       {:poison, "~> 3.0"},
-      {:polyline, [github: "ryan-mahoney/polyline_ex"]},
+      {:polyline, "~> 1.3"},
       {:poolboy, "~> 1.5"},
       {:quixir, "~> 0.9", [only: :test]},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
