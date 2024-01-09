@@ -3,8 +3,6 @@
 Common test suites developers might want to run:
 
 * `mix test` — Elixir tests
-  * `mix test --exclude wallaby` - Excludes the integration tests
-  * `mix test --only wallaby` - Runs only the integration tests. This depends on having chromedriver and Google Chrome installed.
 * `npm run --prefix assets mocha && npm run --prefix assets jest` — all of the JavaScript tests
 
 
@@ -108,13 +106,6 @@ Frontend code is formatted by Prettier. If using the Prettier plugin for Visual 
 ## Coming soon
 
 The following tests need additional fixes or implementation. These might be implemented in the `tests.yml` workflow or added to new workflows.
-
-### Integration tests / Elixir ([job](../.github/workflows/tests.yml#L398))
-```sh
-npm run ci:integration:ex
-# mix test --only wallaby
-```
-*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
 
 ### Visual regression tests
 There is a WIP adding screenshot capturing and visual regression testing using the Percy service. This would replace the use of Backstop (which is at the moment not enabled).
