@@ -88,7 +88,7 @@ defmodule Predictions.Repo do
   end
 
   defp warn_error(item, e) do
-    _ = Logger.warn("error during Prediction (#{inspect(item)}): #{inspect(e)}")
+    _ = Logger.warning("error during Prediction (#{inspect(item)}): #{inspect(e)}")
     []
   end
 

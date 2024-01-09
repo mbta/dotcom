@@ -135,7 +135,7 @@ defmodule Routes.Route do
       |> Atom.to_string()
       |> String.replace("_", " ")
       |> String.split(" ")
-      |> Enum.map(&String.capitalize/1)
+      |> Enum.map(&String.capitalize(&1, :ascii))
       |> Enum.join(" ")
 
     def type_name(unquote(type_atom)), do: unquote(type_string)

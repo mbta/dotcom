@@ -52,7 +52,7 @@ defmodule Routes.PopulateCaches do
   end
 
   def handle_info(msg, state) do
-    _ = Logger.warn("module=#{__MODULE__} error=unexpected_message msg=#{inspect(msg)}")
+    _ = Logger.warning("module=#{__MODULE__} error=unexpected_message msg=#{inspect(msg)}")
     {:noreply, state}
   end
 end

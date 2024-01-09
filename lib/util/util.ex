@@ -4,8 +4,8 @@ defmodule Util do
   require Logger
   use Timex
 
-  {:ok, endpoint} = Application.get_env(:dotcom, :util_endpoint)
-  {:ok, route_helper_module} = Application.get_env(:dotcom, :util_router_helper_module)
+  {:ok, endpoint} = Application.compile_env(:dotcom, :util_endpoint)
+  {:ok, route_helper_module} = Application.compile_env(:dotcom, :util_router_helper_module)
 
   @endpoint endpoint
   @route_helper_module route_helper_module
@@ -214,7 +214,7 @@ defmodule Util do
   Calls all the functions asynchronously, and returns a list of results.
   If a function times out, its result will be the provided default.
   """
-  @spec async_with_timeout([(() -> any)], any, atom, non_neg_integer, non_neg_integer) :: [any]
+  @spec async_with_timeout([(-> any)], any, atom, non_neg_integer, non_neg_integer) :: [any]
   def async_with_timeout(functions, default, module, timeout \\ 5000, retries \\ 0)
       when is_list(functions) and is_atom(module) do
     functions
@@ -277,7 +277,7 @@ defmodule Util do
 
   defp task_result_or_default({:exit, reason}, default, _task, module, key) do
     _ =
-      Logger.warn(
+      Logger.warning(
         "module=#{module} " <>
           "key=#{key} " <>
           "error=async_error " <>
@@ -295,7 +295,7 @@ defmodule Util do
 
       _ ->
         _ =
-          Logger.warn(
+          Logger.warning(
             "module=#{module} " <>
               "key=#{key} " <>
               "error=async_error " <>

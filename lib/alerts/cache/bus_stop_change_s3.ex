@@ -126,7 +126,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   end
 
   defp log_result({:error, reason}, alert_id, func_name) do
-    Logger.warn(fn ->
+    Logger.warning(fn ->
       "module=#{__MODULE__} func=#{func_name} alert=#{alert_id} error=#{inspect(reason)}"
     end)
   end

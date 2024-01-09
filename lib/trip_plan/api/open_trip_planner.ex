@@ -74,7 +74,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
       String.to_integer(config(:otp2_percentage))
     rescue
       e in ArgumentError ->
-        Logger.warn(fn ->
+        Logger.warning(fn ->
           "#{__MODULE__}.get_otp2_percentage Couldn't parse OPEN_TRIP_PLANNER_2_PERCENTAGE env var as an int, using 0. OPEN_TRIP_PLANNER_2_PERCENTAGE=#{config(:otp2_percentage)} parse_error=#{e.message}"
         end)
 

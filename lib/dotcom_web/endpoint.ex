@@ -25,8 +25,8 @@ defmodule DotcomWeb.Endpoint do
   socket(
     "/socket",
     DotcomWeb.UserSocket,
-    websocket: [check_origin: Application.get_env(:dotcom, :websocket_check_origin, false)],
-    longpoll: [check_origin: Application.get_env(:dotcom, :websocket_check_origin, false)]
+    websocket: [check_origin: Application.compile_env(:dotcom, :websocket_check_origin, false)],
+    longpoll: [check_origin: Application.compile_env(:dotcom, :websocket_check_origin, false)]
   )
 
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])

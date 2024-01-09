@@ -35,7 +35,7 @@ defmodule Turbolinks.Plug do
 
   """
   @behaviour Plug
-  import Phoenix.Controller, only: [get_flash: 2, put_flash: 3]
+  import Phoenix.Controller, only: [put_flash: 3]
 
   import Plug.Conn, only: [register_before_send: 2, get_resp_header: 2, put_resp_header: 3]
 
@@ -54,7 +54,7 @@ defmodule Turbolinks.Plug do
   end
 
   def check_flash(conn) do
-    case get_flash(conn, :turbolinks_redirect) do
+    case Phoenix.Flash.get(conn, :turbolinks_redirect) do
       nil -> conn
       location -> conn |> put_resp_header("turbolinks-location", location)
     end
