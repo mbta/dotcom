@@ -117,11 +117,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
-      - uses: cypress-io/github-action@v6
-        with:
-          install: false # already installed in prior step
-          command: npx --prefix assets cypress run \
-            --config baseUrl=${{ needs.deploy.outputs.deployment-url }} \
-            --spec cypress/e2e/smoke.cy.js
-          auto-cancel-after-failures: 2
+      - run: npx --prefix assets cypress run --spec cypress/e2e/smoke.cy.js
+        env:
+          CYPRESS_BASE_URL: ${{ needs.deploy.outputs.deployment-url }}
 
