@@ -116,15 +116,10 @@ jobs:
     name: Run Smoke Tests against new deployment
     steps:
       - uses: actions/checkout@v4
-      - name: Restore Cypress cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/Cypress
-          key: ci-cypress-${{ hashFiles('assets/package-lock.json') }}
-          restore-keys: ci-cypress
+      - uses: ./.github/actions/setup-all
       - uses: cypress-io/github-action@v6
         with:
-          install: false
+          install: false # already installed in prior step
           command: npx --prefix assets cypress run \
             --config baseUrl=${{ needs.deploy.outputs.deployment-url }} \
             --spec cypress/e2e/smoke.cy.js
