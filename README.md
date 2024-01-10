@@ -17,7 +17,7 @@ The new face of https://www.mbta.com/.
 We strive to support all users – but the variety of browsers, operating systems and devices available necessitates a more intentioned approach. Generally speaking, Dotcom supports the stable latest releases of all major web browsers (Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11) and platforms (Windows, MacOS, iOS, Android). 
 Other interfaces using the underlying engines of the aforementioned browsers – that's WebKit, Blink, Gecko – are not explicitly supported but are expected to function correctly.
 
-From a development standpoint, polyfills and code transforms are implemented via [Babel](https://babeljs.io/docs/en/next/babel-preset-env.html#browserslist-integration) with the target browsers noted in [the site .browserslistrc](apps/site/assets/.browserslistrc).
+From a development standpoint, polyfills and code transforms are implemented via [Babel](https://babeljs.io/docs/en/next/babel-preset-env.html#browserslist-integration) with the target browsers noted in [the site .browserslistrc](assets/.browserslistrc).
 
 
 - [Getting Started](#getting-started)
@@ -107,9 +107,9 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
     ```
     npm run install
     ```
-    You won't see a `node_modules` folder at the root of this project -- this installs packages into `apps/site/assets`.
+    You won't see a `node_modules` folder at the root of this project -- this installs packages into `assets`.
 
-    Minor note - you may see a prompt to upgrade `npm`. This isn't needed, and `"lockfileVersion": 1` in our `apps/site/assets/package-lock.json` file means it was generated with an `npm` version prior to 7.
+    Minor note - you may see a prompt to upgrade `npm`. This isn't needed, and `"lockfileVersion": 1` in our `assets/package-lock.json` file means it was generated with an `npm` version prior to 7.
 
 1.  Build the project:
     ```
@@ -165,8 +165,3 @@ New to the team, or looking for further developer resources?
 - [Intro to the V3 API](https://github.com/mbta/wiki/blob/master/api/intro.md): a starter guide to the data model with links to relevant API resources.
 - [Dotcom Engineering Guide](https://docs.google.com/document/d/1Vg-8-APtBk7JYuj0TgWvcrWjU5mEA9vCk58aaJgq02Q/edit): a more comprehensive look at the Dotcom ecosystem, the V3 API Data Model, and other project info.
 - Documentation for some [features that have come and gone](docs/SeasonalFeatures.md).
-
-### Nested Applications
-
-- [Feedback](apps/feedback/README.md)
-- [TripPlan](apps/trip_plan/README.md)

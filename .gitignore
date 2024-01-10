@@ -13,15 +13,57 @@ erl_crash.dump
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
-/site-build.zip
+/dotcom-build.zip
 ts-build
 stats.json
 npm-debug.log
-/apps/news/posts.zip
 doc/
 coverage
 /rel/app.js
 cover/
 
 .iex.exs
-package-lock.json
+
+# App artifacts
+/_build
+/cover
+/db
+/deps
+/*.ez
+/lib/css-styleguide-compiler-brunch/assets/node_modules
+# Generate on crash by the VM
+erl_crash.dump
+
+# Cache files
+/assets/.sass-cache/
+/assets/namespaced_header_footer/.sass-cache/
+
+# Files for compiled header and footer
+/assets/namespaced_header_footer/compiled/
+/priv/compiled_header_footer/*/*
+
+# Static artifacts
+node_modules
+
+# compiled js file for react renderer server
+/**/react_renderer/dist
+
+# Since we are building assets from assets,
+# we ignore priv/static. You may want to comment
+# this depending on your deployment strategy.
+/priv/static/
+
+# The config/prod.secret.exs file by default contains sensitive
+# data and you should not commit it into version control.
+#
+# Alternatively, you may comment the line below and commit the
+# secrets file as long as you replace its contents by environment
+# variables.
+/config/prod.secret.exs
+
+# Benchmark results
+/bench/snapshots
+
+# Wallaby screenshots
+/screenshots
+.VSCodeCounter

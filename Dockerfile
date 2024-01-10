@@ -34,16 +34,14 @@ ARG SENTRY_DSN=""
 # copy in Elixir deps required to build node modules for Phoenix
 COPY --from=elixir-builder /root/deps /root/deps
 
-ADD apps/site/assets /root/apps/site/assets
+ADD ./assets /root/assets
 
-WORKDIR /root/apps/site/assets/
+WORKDIR /root/assets
 RUN npm ci --ignore-scripts
-# Create apps/site/priv/static
+# Create priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
-# Create apps/site/react_renderer/dist/app.js
+# Create react_renderer/dist/app.js
 RUN npm run webpack:build:react
-
-
 
 # 3) now, build the application back in the Elixir container
 FROM elixir-builder as app-builder
@@ -51,12 +49,12 @@ FROM elixir-builder as app-builder
 WORKDIR /root
 
 # Add frontend assets compiled in the node container, required by phx.digest
-COPY --from=assets-builder /root/apps/site/priv/static ./apps/site/priv/static
+COPY --from=assets-builder /root/priv/static ./priv/static
 
 # re-compile the application after the assets are copied, since some of them
 # are built into the application (SVG icons)
 RUN mix do compile, phx.digest
-RUN mix distillery.release --verbose
+RUN mix release
 
 
 # 4) Use the nodejs container for the runtime environment
@@ -66,24 +64,21 @@ FROM node:18.17.1-buster-slim
 # Set exposed ports
 EXPOSE 4000
 
-ENV PORT=4000 MIX_ENV="prod" TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
+ENV PORT=4000 MIX_ENV="prod" PHX_SERVER=true TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
 
 # erlang-crypto requires system library libssl1.1
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	libssl1.1 libsctp1 curl dumb-init \
+	libssl1.1 libsctp1 curl \
 	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 
 COPY --from=app-builder /root/_build/prod/rel /root/rel
-COPY --from=assets-builder /root/apps/site/react_renderer/dist/app.js /root/rel/site/app.js
-
-ADD rel/bin/startup /root/rel/site/bin/startup
+COPY --from=assets-builder /root/react_renderer/dist/app.js /root/rel/dotcom/app.js
 
 RUN mkdir /root/work
 
 WORKDIR /root/work
 
 # run the application
-ENTRYPOINT ["/usr/bin/dumb-init"]
-CMD ["/root/rel/site/bin/startup", "foreground"]
+CMD ["/root/rel/dotcom/bin/dotcom", "start"]

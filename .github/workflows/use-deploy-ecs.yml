@@ -30,7 +30,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
@@ -39,6 +39,7 @@ jobs:
       url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}
     outputs:
       deployment-env: ${{ inputs.deployment-env }}
+      deployment-url: ${{ inputs.deployment-env == 'prod' && 'https://www.mbta.com' || format('https://{0}.mbtace.com', inputs.deployment-env) }}
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -95,6 +96,7 @@ jobs:
 
       - uses: mbta/actions/deploy-ecs@v2
         with:
+          role-to-assume: ${{ secrets.aws-role-arn }}
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
           docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
@@ -108,3 +110,14 @@ jobs:
       #     environment: ${{ inputs.deployment-env }}
       #     projects: mbta-site
       #     version: ${{ needs.app.needs.assets.needs.image.outputs.docker-tag }}
+  smoke:
+    runs-on: ubuntu-latest
+    needs: deploy
+    name: Run Smoke Tests against new deployment
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npx --prefix assets cypress run --spec cypress/e2e/smoke.cy.js
+        env:
+          CYPRESS_BASE_URL: ${{ needs.deploy.outputs.deployment-url }}
+

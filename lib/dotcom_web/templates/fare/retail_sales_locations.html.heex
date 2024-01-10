@@ -1,0 +1,52 @@
+<div class="container m-sales-locations">
+  <div class="col-md-8">
+    <div class="limited-width">
+      <h1>Retail Sales Locations</h1>
+      <p>
+        MBTA riders can purchase tickets and passes for the Commuter Rail, bus, subway, and ferry at stores located throughout the Greater Boston and Providence areas.
+      </p>
+
+      <h2>Find a Store Near You</h2>
+      <p>
+        <.algolia_autocomplete
+          id="sales-locations"
+          geolocation={true}
+          popular_locations={true}
+          locations_count={5}
+          locations_url_type="retail-sales-locations"
+          placeholder="Enter a location"
+          submit_handler={nil}
+          initial_state={true}
+        />
+      </p>
+      <%= if Application.get_env(:dotcom, :dev_server?) do %>
+        <script defer src={"#{Application.get_env(:dotcom, :webpack_path)}/tnm.js"}></script>
+      <% else %>
+        <script defer src={static_url(@conn, "/js/tnm.js")}></script>
+      <% end %>
+    </div>
+    <%= if !is_nil(@fare_sales_locations) do %>
+      <%= if Enum.empty?(@fare_sales_locations) do %>
+        <p class="error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
+      <% else %>
+        <%= render "_nearby_locations.html", conn: @conn, address: @address, locations: @fare_sales_locations, search_position: @search_position %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <div class="m-schedule-page__schedule-notes mt-2">
+      <h3 class="mt-0">MBTA Fares</h3>
+      <p>
+        Learn more about fare prices, pass types, and how to pay your fare on the T.
+      </p>
+      <%= link "Learn more about MBTA fares", to: "https://www.mbta.com/fares", target: "_blank", class: "c-call-to-action" %>
+    </div>
+    <div class="m-schedule-page__schedule-notes mt-2">
+      <h3 class="mt-0">Fares Transformation</h3>
+      <p>
+        Fare Transformation will make it easy for you to tap and board at any door with a fare card, smartphone, or contactless credit card.
+      </p>
+      <%= link "Learn more about Fare Transformation", to: "https://www.mbta.com/fares/fare-transformation", target: "_blank", class: "c-call-to-action" %>
+    </div>
+  </div>
+</div>

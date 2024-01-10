@@ -1,0 +1,31 @@
+<%= if Application.get_env(:dotcom, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/projects.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="page-section">
+        <%= PartialView.paragraph("paragraphs/custom-html/projects-index", @conn) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <%= content_tag(:div, [
+            DotcomWeb.PartialView.render("_search_input.html",
+              Map.merge(assigns, %{
+                placeholder: "Enter keyword(s)",
+                aria_label: "Enter keywords",
+                prefix: "projects"
+            }))
+], id: "projects-search", class: "hidden-no-js c-search-bar c-search-bar--embedded-large") %>
+</div>
+
+<% [banner | featured] = if Enum.empty?(@featured_project_teasers) do [nil] else @featured_project_teasers end %>
+
+<%= render "_all_projects.html", banner: banner, projects: @project_teasers, featured_projects: featured, project_updates: @project_update_teasers, placeholder_image_url: @placeholder_image_url %>

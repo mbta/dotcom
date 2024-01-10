@@ -1,0 +1,44 @@
+<nav class="m-menu--mobile" id="navmenu" aria-label="Navigation Menu">
+  <div class="m-menu__content" data-nav="mobile-content">
+    <h1 class="m-menu__title heading-2">Main Menu</h1>
+    <%= for {%{menu_section: menu_section, sub_menus: sub_menus}, index} <- Enum.with_index(nav_link_content_redesign(@conn)) do %>
+      <nav aria-labelledby={"section-heading-#{menu_section}"} class="m-menu__section">
+        <h2 id={"section-heading-#{menu_section}"} class="m-menu__section-heading"><%= menu_section %></h2>
+        <%= DotcomWeb.PartialView.render("_accordion_ui_no_bootstrap.html",
+            Map.merge(assigns, %{
+              id: menu_section,
+              multiselectable: false,
+              sections:
+                for {%{links: links} = sub_menu, sub_index} <- Enum.with_index(sub_menus) do
+                  %{
+                    content: Enum.map(links, &render_nav_link/1),
+                    title: sub_menu.sub_menu_section,
+                    prefix: String.replace(sub_menu.sub_menu_section, " ", "-"),
+                    expanded?: index === 0 && sub_index === 0
+                  }
+                end
+            })
+          ) %>
+
+        <%= for %{sub_menu_section: sub_menu_section} <- sub_menus do %>
+          <%= if sub_menu_section == "Most popular fares" do %>
+            <%= render "_new_nav_popular_fares.html" %>
+          <% end %>
+          <%= if sub_menu_section == "Contact numbers" do %>
+            <%= render "_new_nav_contact_numbers.html" %>
+          <% end %>
+        <% end %>
+      </nav>
+    <% end %>
+    <div class="m-menu__language m-menu__section"></div>
+  </div>
+  <div class="m-menu__search" data-nav="search">
+    <.algolia_autocomplete
+      id="header-mobile"
+      geolocation={true}
+      locations_count={2}
+      locations_url_type="transit-near-me"
+      algolia_indexes={[:stops, :routes, :drupal]}
+    />
+  </div>
+</nav>

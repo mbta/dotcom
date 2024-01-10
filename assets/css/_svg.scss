@@ -1,0 +1,18 @@
+//
+// SVG CLASSES
+//
+// This file should ONLY be used to manipulate fills and strokes for SVG icons
+// that have been added using &DotcomWeb.ViewHelpers.svg/1. All rules in this file
+// should be namespaced under the ".c-svg__#{ICON-NAME}" class added by that
+// function; inside of those namespaces, you may target elements and breakpoints
+// as needed. Do not use classes or IDs as selectors inside of these namespaces.
+//
+// Be aware that these nested selectors have a higher specificity than our normal
+// selectors, which is why it's very important to limit these rules to only
+// fills and strokes. Any other styling for these SVGs (positioning, width,
+// height, etc.) should be handled elsewhere.
+
+[class*=c-svg__icon] {
+  display: inline-block;
+  pointer-events: none; // prevents click events on SVG paths or shapes
+}

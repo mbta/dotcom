@@ -1,0 +1,7 @@
+<script data-for="projects" id="js-projects-data" type="text/plain">
+  <%= raw Poison.encode!(%{banner: @banner, featuredProjects: @featured_projects, projects: @projects, projectUpdates: @project_updates, placeholderImageUrl: @placeholder_image_url}) %>
+</script>
+
+<div id="react-projects-root">
+  <%= Dotcom.React.render("ProjectsPage", %{banner: @banner, featuredProjects: @featured_projects, projects: @projects, projectUpdates: @project_updates, placeholderImageUrl: @placeholder_image_url}) %>
+</div>

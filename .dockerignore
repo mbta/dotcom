@@ -8,9 +8,9 @@ deps
 erl_crash.dump
 build.sh
 deploy.sh
-apps/site/priv/static
+priv/static
 aws
-site-build.zip
+dotcom-build.zip
 bin
 Dockerfile
 .dockerignore

@@ -1,0 +1,22 @@
+<h2 id="transit-input" class="h5">Find nearby stops and stations</h2>
+<p></p>
+<div class="transit-near-me">
+  <%= form_for @conn, @conn.request_path, [as: :location, method: :get, class: "form m-transit-near-me__input"], fn f -> %>
+    <%=
+      DotcomWeb.PartialView.render(
+        "_search_input.html",
+        form: f,
+        field: :address,
+        autocomplete?: true,
+        prefix: "transit-near-me",
+        aria_label: "",
+        placeholder: "Enter a location",
+        value: input_value(@location)
+      )
+    %>
+    <%= Phoenix.HTML.Form.hidden_input f, :latitude,
+                                       value: assigns[:latitude], id: "search-transit-near-me__latitude" %>
+    <%= Phoenix.HTML.Form.hidden_input f, :longitude,
+                                       value: assigns[:longitude], id: "search-transit-near-me__longitude" %>
+  <% end %>
+</div>

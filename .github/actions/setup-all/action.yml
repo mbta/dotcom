@@ -43,15 +43,15 @@ runs:
   - name: Restore cache of Node dependencies from package-lock.json
     uses: actions/cache@v3
     with:
-      path: apps/site/assets/node_modules
-      key: ci-nodejs-cache-${{ hashFiles('apps/site/assets/package-lock.json') }}
+      path: assets/node_modules
+      key: ci-nodejs-cache-${{ hashFiles('assets/package-lock.json') }}
     id: node-cache
   
   - name: Restore Cypress cache
     uses: actions/cache@v3
     with:
       path: ~/.cache/Cypress
-      key: ci-cypress-${{ hashFiles('apps/site/assets/package-lock.json') }}
+      key: ci-cypress-${{ hashFiles('assets/package-lock.json') }}
   
   - name: Install Node dependencies (if needed)
     if: ${{ steps.node-cache.outputs.cache-hit != 'true' }}

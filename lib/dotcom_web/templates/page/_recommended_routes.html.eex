@@ -1,0 +1,13 @@
+<div class="m-homepage__recommended-routes">
+  <h2 class="h3">
+    <%= fa "star" %>
+    Recently Visited
+  </h2>
+  <%= render DotcomWeb.ModeView, "_grid_buttons.html",
+        conn: @conn,
+        routes: @routes,
+        alerts: @alerts,
+        date_time: @date_time,
+        show_icons?: true
+  %>
+</div>
