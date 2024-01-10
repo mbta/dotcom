@@ -139,6 +139,7 @@ describe("passes smoke test", () => {
   });
 
   it("transit near me", () => {
+    cy.intercept("/api/realtime/stops/*").as("getStops"); // slow request
     const latitude = 42.351693;
     const longitude = -71.066009;
     cy.visit("/transit-near-me", {
@@ -156,8 +157,8 @@ describe("passes smoke test", () => {
       "contain",
       `location%5Blatitude%5D=${latitude}&location%5Blongitude%5D=${longitude}`
     );
-    // results take a while to load
-    cy.contains("Park St & Tremont St", { timeout: 10000 });
+    cy.wait("@getStops");
+    cy.contains("Park St & Tremont St", { timeout: 15000 });
     cy.contains("Silver Line");
     cy.get("img.leaflet-marker-icon").should("have.length.greaterThan", 0);
   });
