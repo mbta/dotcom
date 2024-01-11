@@ -1,5 +1,5 @@
 defmodule TripPlan.Geocode.MockGeocode do
-  @behaviour TripPlan.Geocode
+  @behaviour TripPlan.Geocoder
 
   alias TripPlan.NamedPosition
 
