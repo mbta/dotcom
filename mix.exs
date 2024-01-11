@@ -147,15 +147,10 @@ defmodule DotCom.Mixfile do
   end
 
   defp compile_assets(_) do
-    # starts the Phoenix framework mix phx.digest command, that takes content
-    # from assets/static and processes it into priv/static
-    print("(1/3) mix phx.digest")
-    Mix.Task.run("phx.digest", [])
-
     # builds the node script that lets us render some react components
     # server-side, compiling assets/react_app.js,
     # outputting react_renderer/dist/app.js
-    print("(2/3) webpack --config webpack.config.react_app.js --env.production")
+    print("(1/3) webpack --config webpack.config.react_app.js --env.production")
 
     {_, 0} =
       System.cmd("npm", ["run", "--prefix", "assets", "webpack:build:react"],
@@ -163,7 +158,7 @@ defmodule DotCom.Mixfile do
       )
 
     # 3 - transpiles/builds our typescript/CSS/everything else for production
-    print("(3/3) webpack --config webpack.config.prod.js --env.production (long)")
+    print("2/3) webpack --config webpack.config.prod.js --env.production (long)")
 
     {_, 0} =
       System.cmd("npm", ["run", "--prefix", "assets", "webpack:build"], stderr_to_stdout: true)
