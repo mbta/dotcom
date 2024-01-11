@@ -8,12 +8,12 @@ defmodule DotcomWeb.PlacesController do
   alias DotcomWeb.ControllerHelpers
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
-  def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str, "token" => token}) do
-    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/3)
+  def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str}) do
+    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/2)
 
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
-           autocomplete_fn.(input, hit_limit, token) do
+           autocomplete_fn.(input, hit_limit) do
       json(conn, %{predictions: Poison.encode!(predictions)})
     else
       {:error, :internal_error} ->
@@ -105,7 +105,7 @@ defmodule DotcomWeb.PlacesController do
   """
   def search(conn, %{"query" => query, "hit_limit" => hit_limit_str}) do
     with {hit_limit, ""} <- Integer.parse(hit_limit_str) do
-      case AWSLocation.autocomplete(query, hit_limit) do
+      case LocationService.autocomplete(query, hit_limit) do
         {:ok, suggestions} ->
           json(conn, %{result: with_coordinates(suggestions)})
 
@@ -140,7 +140,7 @@ defmodule DotcomWeb.PlacesController do
         ]
   defp with_coordinates(suggestions) do
     suggestions
-    |> Enum.map(&{&1, AWSLocation.geocode(&1.address)})
+    |> Enum.map(&{&1, LocationService.geocode(&1.address)})
     |> Enum.filter(&match?({_suggestion, {:ok, [%Address{} | _]}}, &1))
     |> Enum.map(fn {suggestion, {:ok, [address | _]}} ->
       address

@@ -117,15 +117,11 @@ defmodule DotcomWeb.ScheduleController.Line do
 
     static_branches = LineHelpers.get_branches(basic_shapes, route_stops, route, direction_id)
 
-    static_map_stops = Maps.map_stops(static_branches)
-
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
 
     {map_img_src, dynamic_map_data} =
       Maps.map_data(
         route,
-        static_map_stops,
-        basic_shapes,
         route_patterns,
         vehicle_tooltips
       )

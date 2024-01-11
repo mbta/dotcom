@@ -109,9 +109,6 @@ defmodule DotcomWeb.ScheduleControllerTest do
                :parking_lot
              ]
 
-      # builds a map
-      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
-
       # assigns holidays
       assert conn.assigns.holidays
     end
@@ -135,9 +132,6 @@ defmodule DotcomWeb.ScheduleControllerTest do
       assert conn.status === 200
       assert List.first(stops).name === "Sullivan Square"
       assert List.last(stops).name === "Reservoir"
-
-      # Map
-      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     test "Red Line data", %{conn: conn} do
@@ -165,9 +159,6 @@ defmodule DotcomWeb.ScheduleControllerTest do
                :access,
                :parking_lot
              ]
-
-      # spider map
-      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     test "Green Line data", %{conn: conn} do
@@ -191,9 +182,6 @@ defmodule DotcomWeb.ScheduleControllerTest do
 
       # includes the stop features
       assert first_stop.stop_features == [:bus, :access]
-
-      # spider map
-      assert conn.assigns.map_img_src =~ "maps.googleapis.com"
     end
 
     defp stop_ids(conn) do

@@ -15,12 +15,12 @@ defmodule DotcomWeb.PlacesControllerTest do
     test "responds with predictions", %{conn: conn} do
       input = "controller1"
 
-      autocomplete_fn = fn _, _, _ ->
+      autocomplete_fn = fn _, _ ->
         {:ok, [%LocationService.Suggestion{address: "123 Sesame Street", highlighted_spans: []}]}
       end
 
       conn = assign(conn, :autocomplete_fn, autocomplete_fn)
-      conn = get(conn, places_path(conn, :autocomplete, input, "3", "123"))
+      conn = get(conn, places_path(conn, :autocomplete, input, "3"))
 
       assert conn.status == 200
       body = json_response(conn, 200)
@@ -31,7 +31,7 @@ defmodule DotcomWeb.PlacesControllerTest do
     end
 
     test "responds with bad request if hit limit isn't an integer", %{conn: conn} do
-      conn = get(conn, places_path(conn, :autocomplete, "controller2", "five", "123"))
+      conn = get(conn, places_path(conn, :autocomplete, "controller2", "five"))
 
       assert conn.status == 400
       body = json_response(conn, 400)
@@ -39,12 +39,12 @@ defmodule DotcomWeb.PlacesControllerTest do
     end
 
     test "responds with 500 error when location service returns an error", %{conn: conn} do
-      autocomplete_fn = fn _, _, _ ->
+      autocomplete_fn = fn _, _ ->
         {:error, :internal_error}
       end
 
       conn = assign(conn, :autocomplete_fn, autocomplete_fn)
-      conn = get(conn, places_path(conn, :autocomplete, "input", "3", "123"))
+      conn = get(conn, places_path(conn, :autocomplete, "input", "3"))
 
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
@@ -181,7 +181,7 @@ defmodule DotcomWeb.PlacesControllerTest do
 
   describe "/places/search/:query/:limit" do
     setup_with_mocks([
-      {AWSLocation, [],
+      {LocationService, [],
        [
          autocomplete: fn search, limit ->
            result =
@@ -209,7 +209,7 @@ defmodule DotcomWeb.PlacesControllerTest do
 
     test "passes query and limit params to AWS autocomplete function", %{conn: conn} do
       get(conn, places_path(conn, :search, "search term", 14))
-      assert called(AWSLocation.autocomplete("search term", 14))
+      assert called(LocationService.autocomplete("search term", 14))
     end
 
     test "geocodes suggested results", %{conn: conn} do

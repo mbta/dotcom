@@ -1,10 +1,10 @@
 defmodule LocationService.Result do
-  @moduledoc "Functions for parsing and logging results from any location data service"
+  @moduledoc "Functions for parsing and logging results from the location data service"
 
   require Logger
 
   @doc """
-  Ingest results from any location service and
+  Ingest results from AWS Location Service and
   - decode JSON
   - process results
   - log results or errors
@@ -24,13 +24,7 @@ defmodule LocationService.Result do
     internal_error(nil, input, %{status_code: code, message: "Unexpected HTTP code"})
   end
 
-  # AWS format of returned results
   def handle_response({:ok, %{"Results" => results}}, input), do: parse_results(input, results)
-
-  # Responses from the GoogleMaps module are already JSON-decoded at this point
-  def handle_response({:ok, %{"status" => "OK", "results" => results}}, input) do
-    parse_results(input, results)
-  end
 
   def handle_response({:ok, %{"status" => "ZERO_RESULTS"}}, input) do
     internal_error(:zero_results, input)
@@ -67,17 +61,6 @@ defmodule LocationService.Result do
             formatted: label,
             latitude: lat,
             longitude: lon
-          }
-
-        # Google format
-        %{
-          "geometry" => %{"location" => %{"lat" => lat, "lng" => lng}},
-          "formatted_address" => address
-        } ->
-          %LocationService.Address{
-            formatted: address,
-            latitude: lat,
-            longitude: lng
           }
       end)
 

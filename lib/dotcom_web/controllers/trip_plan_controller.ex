@@ -6,7 +6,6 @@ defmodule DotcomWeb.TripPlanController do
   use DotcomWeb, :controller
   require Logger
   alias Fares.{Fare, Month, OneWay}
-  alias GoogleMaps.Geocode
   alias Routes.Route
   alias Dotcom.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
@@ -81,7 +80,7 @@ defmodule DotcomWeb.TripPlanController do
 
       do_from(conn, destination)
     else
-      updated_address = Geocode.check_address(address, @options)
+      updated_address = check_address(address, @options)
 
       case TripPlan.geocode(updated_address) do
         {:ok, geocoded_from} ->
@@ -151,7 +150,7 @@ defmodule DotcomWeb.TripPlanController do
 
       do_to(conn, destination)
     else
-      updated_address = Geocode.check_address(address, @options)
+      updated_address = check_address(address, @options)
 
       case TripPlan.geocode(updated_address) do
         {:ok, geocoded_to} ->
@@ -200,6 +199,32 @@ defmodule DotcomWeb.TripPlanController do
     |> assign(:query, query)
     |> assign(:map_data, map_info_for_to_destination)
     |> render(:index)
+  end
+
+  @spec check_address(String.t(), map) :: String.t()
+  defp check_address(address, opts) do
+    # address can be a String containing "lat,lon" so we check for that case
+
+    [lat, lon] =
+      case String.split(address, ",", parts: 2) do
+        [lat, lon] -> [lat, lon]
+        _ -> ["error", "error"]
+      end
+
+    if Float.parse(lat) == :error || Float.parse(lon) == :error do
+      address
+    else
+      {parsed_lat, _} = Float.parse(lat)
+      {parsed_lon, _} = Float.parse(lon)
+
+      case opts.reverse_geocode_fn.(parsed_lat, parsed_lon) do
+        {:ok, [first | _]} ->
+          first.formatted
+
+        _ ->
+          "#{lat}, #{lon}"
+      end
+    end
   end
 
   defp get_route(link) do

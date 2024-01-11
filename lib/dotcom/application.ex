@@ -71,8 +71,6 @@ defmodule Dotcom.Application do
           Routes.Supervisor,
           Algolia.Api,
           LocationService,
-          GoogleMaps.Geocode,
-          GoogleMaps.Place,
           Services.Repo,
           RoutePatterns.Repo,
           Predictions.Supervisor,
