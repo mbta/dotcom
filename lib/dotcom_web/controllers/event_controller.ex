@@ -44,7 +44,7 @@ defmodule DotcomWeb.EventController do
     |> async_assign_default(
       :events,
       fn ->
-        Map.get(events_by_year, conn.assigns.year)
+        Map.get(events_by_year, conn.assigns.year, [])
       end,
       []
     )
