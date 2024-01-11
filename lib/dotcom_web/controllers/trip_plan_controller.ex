@@ -12,7 +12,6 @@ defmodule DotcomWeb.TripPlanController do
   alias Dotcom.TripPlan.Map, as: TripPlanMap
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
-  plug(:require_location_service)
   plug(:assign_initial_map)
   plug(:breadcrumbs)
   plug(:modes)
@@ -272,10 +271,6 @@ defmodule DotcomWeb.TripPlanController do
         ),
       itinerary_row_lists: itinerary_row_lists
     )
-  end
-
-  def require_location_service(conn, _) do
-    assign(conn, :requires_location_service?, true)
   end
 
   @spec assign_datetime_selector_fields(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()

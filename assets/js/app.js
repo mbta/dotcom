@@ -7,7 +7,6 @@ import "bootstrap/dist/js/umd/tooltip";
 import "bootstrap/dist/js/umd/dropdown";
 import objectFitImages from "object-fit-images";
 import googleAnalytics from "./google-analytics";
-import googleMapsLoaded from "./google-maps-loaded";
 import submitOnEvents from "./submit-on-events";
 import collapse from "./collapse";
 import setupGlobalNavigation from "../ts/app/global-navigation";
@@ -357,7 +356,6 @@ const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 
 submitOnEvents(["blur", "change"]);
 googleAnalytics();
-googleMapsLoaded();
 setupGlobalNavigation();
 collapse();
 alertItemLoad();

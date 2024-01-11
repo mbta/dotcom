@@ -1,4 +1,3 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
@@ -142,17 +141,13 @@ export const init = () => {
   PAGE_IDS.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
     document.addEventListener("turbolinks:load", () => {
-      doWhenGoogleMapsIsReady(
-        () =>
-          new AlgoliaEmbeddedSearch({
-            pageId,
-            selectors,
-            params,
-            indices,
-            templates: AlgoliaResult.TEMPLATES_ALT_USE_MY_LOCATION,
-            withGoogle: true
-          })
-      );
+      new AlgoliaEmbeddedSearch({
+        pageId,
+        selectors,
+        params,
+        indices,
+        templates: AlgoliaResult.TEMPLATES_ALT_USE_MY_LOCATION
+      });
     });
   });
 };

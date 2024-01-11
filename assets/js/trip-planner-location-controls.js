@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
@@ -7,9 +6,7 @@ import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => {
-      new TripPlannerLocControls();
-    });
+    new TripPlannerLocControls();
   });
 }
 
