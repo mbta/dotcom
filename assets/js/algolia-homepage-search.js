@@ -79,7 +79,6 @@ export const doInit = id => {
     params: PARAMS,
     selectors: selectors,
     locationParams: LOCATION_PARAMS,
-    withGoogle: true,
     templates: TEMPLATES_ALT_USE_MY_LOCATION
   });
 

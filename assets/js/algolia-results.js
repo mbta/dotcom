@@ -235,11 +235,7 @@ export class AlgoliaResults {
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
       group,
-      googleLogo: AlgoliaResult.autocompleteByGoogle()
-        ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-            logo: document.getElementById("powered-by-google-logo").innerHTML
-          })
-        : null,
+      googleLogo: null,
       hits: results[group].hits.map(this.renderResult(group, results[group]))
     });
   }

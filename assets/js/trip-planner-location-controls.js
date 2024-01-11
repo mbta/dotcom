@@ -75,7 +75,6 @@ export class TripPlannerLocControls {
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
 
     this.autocompletes.forEach(ac => {
-      ac.renderFooterTemplate = this.renderFooterTemplate;
       ac.setError(null);
       ac.onHitSelected = this.onHitSelected(
         ac,
@@ -372,15 +371,6 @@ export class TripPlannerLocControls {
     lngEl.value = lng;
     this.updateMarker(ac, lat, lng, name);
     this.resetResetButtons();
-  }
-
-  renderFooterTemplate(indexName) {
-    if (indexName === "locations" && AlgoliaResult.autocompleteByGoogle()) {
-      return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-        logo: document.getElementById("powered-by-google-logo").innerHTML
-      });
-    }
-    return null;
   }
 
   reverseTrip(e) {

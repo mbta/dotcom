@@ -1,7 +1,6 @@
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
-import AlgoliaAutocomplete from "./algolia-autocomplete";
 // eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
 
@@ -17,14 +16,12 @@ export class AlgoliaEmbeddedSearch {
 
   constructor({
     pageId,
-    withGoogle,
     selectors,
     params,
     indices,
     locationParams,
     templates = AlgoliaResult.TEMPLATES
   }) {
-    this.withGoogle = withGoogle;
     this.pageId = pageId;
     this.selectors = selectors;
     this.params = params;
@@ -52,27 +49,15 @@ export class AlgoliaEmbeddedSearch {
   init() {
     this.input.value = "";
     this.controller = new Algolia(this.indices, this.params);
-    this.autocomplete = this.withGoogle
-      ? new AlgoliaAutocompleteWithGeo({
-          id: this.pageId,
-          selectors: this.selectors,
-          indices: Object.keys(this.indices),
-          locationParams: this.locationParams,
-          popular: [],
-          templates: this.#templates,
-          parent: this
-        })
-      : new AlgoliaAutocomplete({
-          id: this.pageId,
-          selectors: this.selectors,
-          indices: Object.keys(this.indices),
-          locationParams: this.locationParams,
-          popular: [],
-          templates: this.#templates,
-          parent: this
-        });
-    this.autocomplete.renderFooterTemplate =
-      AlgoliaEmbeddedSearch.renderFooterTemplate;
+    this.autocomplete = new AlgoliaAutocompleteWithGeo({
+      id: this.pageId,
+      selectors: this.selectors,
+      indices: Object.keys(this.indices),
+      locationParams: this.locationParams,
+      popular: [],
+      templates: this.#templates,
+      parent: this
+    });
     this.addEventListeners();
     this.controller.addWidget(this.autocomplete);
   }
@@ -111,15 +96,6 @@ export class AlgoliaEmbeddedSearch {
       query: this.input.value
     };
   }
-
-  static renderFooterTemplate(indexName) {
-    if (indexName === "locations" && AlgoliaResult.autocompleteByGoogle()) {
-      return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-        logo: document.getElementById("powered-by-google-logo").innerHTML
-      });
-    }
-    return null;
-  }
 }
 
 export const initWithoutGoogle = () => {
@@ -131,8 +107,7 @@ export const initWithoutGoogle = () => {
       pageId,
       selectors,
       params,
-      indices,
-      withGoogle: false
+      indices
     });
   });
 };
