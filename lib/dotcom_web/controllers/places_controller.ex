@@ -19,6 +19,9 @@ defmodule DotcomWeb.PlacesController do
       {:error, :internal_error} ->
         ControllerHelpers.return_internal_error(conn)
 
+      {:error, :zero_results} ->
+        ControllerHelpers.return_zero_results_error(conn)
+
       _ ->
         ControllerHelpers.return_invalid_arguments_error(conn)
     end
