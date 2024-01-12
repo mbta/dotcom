@@ -1,6 +1,5 @@
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import createGoogleMapsMock from "./helpers/stubs/googleMaps";
 
 configure({ adapter: new Adapter() });
 
@@ -22,10 +21,6 @@ window.autocomplete = require("autocomplete.js");
 window.Turbolinks = require("turbolinks");
 
 document.title = "MBTA";
-
-window.google = {
-  maps: createGoogleMapsMock()
-};
 
 window.matchMedia = jest.fn().mockImplementation(query => {
   return {

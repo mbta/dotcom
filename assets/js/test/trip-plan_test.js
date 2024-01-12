@@ -24,7 +24,6 @@ const tripPlanForm = `<form id="plan">
         <div id="trip-plan__required--from"></div>
         <div id="trip-plan__reset--from"></div>
         <div id="trip-plan__reset--to"></div>
-        <div id="powered-by-google-logo"></div>
         <div id="trip-plan__submit"></div>
         <input type="hidden" id="to_latitude" name="plan[to_latitude]">
         <input type="hidden" id="to_longitude" name="plan[to_longitude]">
@@ -34,10 +33,7 @@ const tripPlanForm = `<form id="plan">
 describe("trip-plan", () => {
   let $;
   jsdom({
-    url: testURL,
-    scripts: [
-      "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
-    ]
+    url: testURL
   });
 
   before(() => {

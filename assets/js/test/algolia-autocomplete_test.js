@@ -38,7 +38,6 @@ describe("AlgoliaAutocomplete", () => {
 
   beforeEach(() => {
     document.body.innerHTML = `
-      <div id="powered-by-google-logo"></div>
       <input id="autocomplete-input"></input>
       <i id="autocomplete-reset"></i>
     `;
@@ -68,7 +67,6 @@ describe("AlgoliaAutocomplete", () => {
     document.body.innerHTML = `
       <input id="autocomplete-input"></input>
       <div id="container">
-        <div id="powered-by-google-logo"></div>
         <input id="autocomplete-input"></input>
         <i id="autocomplete-reset"></i>
       </div>
@@ -403,7 +401,6 @@ describe("AlgoliaAutocomplete", () => {
       document.body.innerHTML = `
         <input id="autocomplete-input"></input>
         <div id="container">
-          <div id="powered-by-google-logo"></div>
           <input id="autocomplete-input"></input>
           <i id="autocomplete-reset"></i>
         </div>

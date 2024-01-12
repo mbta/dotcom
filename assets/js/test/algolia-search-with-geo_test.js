@@ -3,18 +3,13 @@ import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaWithGeo } from "../algolia-search-with-geo";
-import * as GoogleMapsHelpers from "../google-maps-helpers";
+import * as MapsHelpers from "../maps-helpers";
 import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
 describe("AlgoliaWithGeo", function() {
-  jsdom({
-    url: testURL,
-    scripts: [
-      "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
-    ]
-  });
+  jsdom({ url: testURL });
 
   beforeEach(function() {
     window.jQuery = jsdom.rerequire("jquery");
@@ -33,22 +28,11 @@ describe("AlgoliaWithGeo", function() {
     it("searches both indexes and updates widgets when both have returned", function(done) {
       this.algoliaWithGeo.enableLocationSearch(true);
       this.algoliaWithGeo.addActiveQuery("stops");
-      assert.isTrue(!this.algoliaWithGeo.sessionToken);
-      this.algoliaWithGeo.setSessionToken();
-      assert.instanceOf(
-        this.algoliaWithGeo.sessionToken,
-        window.google.maps.places.AutocompleteSessionToken
-      );
-      this.algoliaWithGeo.sessionToken.id = "SESSION_TOKEN";
       const gmsStub = sinon
-        .stub(GoogleMapsHelpers, "autocomplete")
+        .stub(MapsHelpers, "autocomplete")
         .resolves({ locations: "loc" });
       this.algoliaWithGeo.updateWidgets = function(results) {
         assert.equal(gmsStub.getCall(0).args[0].input, "query");
-        assert.equal(
-          gmsStub.getCall(0).args[0].sessionToken.id,
-          "SESSION_TOKEN"
-        );
         assert.deepEqual(results, {
           results: [],
           locations: "loc"

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as MapsHelpers from "./maps-helpers";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
@@ -320,7 +320,7 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.address).then(res => {
+          MapsHelpers.lookupPlace(hit.address).then(res => {
             const { latitude, longitude } = res;
             this.setStopValue(ac, hit);
             this.setAutocompleteValue(

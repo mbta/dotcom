@@ -1,17 +1,11 @@
-const sessionTokenValue = tokenObj => (tokenObj ? tokenObj.Pf : null);
-
-export function autocomplete({ input, hitLimit, sessionToken }) {
+export function autocomplete({ input, hitLimit }) {
   if (input.length === 0) {
     return Promise.resolve({});
   }
 
   return new Promise((resolve, reject) => {
     window.jQuery
-      .getJSON(
-        `/places/autocomplete/${encodeURIComponent(
-          input
-        )}/${hitLimit}/${sessionTokenValue(sessionToken)}`
-      )
+      .getJSON(`/places/autocomplete/${encodeURIComponent(input)}/${hitLimit}`)
       .done(processAutocompleteResults(resolve))
       .fail(reject);
   });

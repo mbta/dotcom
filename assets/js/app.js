@@ -16,7 +16,6 @@ import supportForm from "./support-form";
 import fixedsticky from "./fixedsticky";
 import geoLocation from "./geolocation";
 import addressSearch from "./address-search";
-import autocompleteSetup from "./autocomplete-setup";
 import googleTranslate from "./google-translate";
 import scrollTo from "./scroll-to";
 import stickyTooltip from "./sticky-tooltip";
@@ -367,7 +366,6 @@ objectFitImages(); // Polyfill for IE object-fit support
 inputFocus();
 geoLocation();
 addressSearch();
-autocompleteSetup();
 googleTranslate();
 scrollTo();
 tabbedNav();
