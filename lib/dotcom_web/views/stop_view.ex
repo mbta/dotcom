@@ -4,27 +4,10 @@ defmodule DotcomWeb.StopView do
   """
   use DotcomWeb, :view
 
-  alias Alerts.Alert
-  alias Phoenix.HTML
   alias Phoenix.HTML.Safe
-  alias Stops.{Stop, Repo}
-  alias Dotcom.React
+  alias Stops.Repo
   alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias DotcomWeb.AlertView
   alias Routes.Route
-
-  @spec render_alerts([Alert], DateTime.t(), Stop.t(), Keyword.t()) ::
-          Safe.t() | String.t()
-  def render_alerts(stop_alerts, date_time, stop, opts) do
-    AlertView.group(
-      priority_filter: Keyword.get(opts, :priority_filter, :any),
-      show_empty?: Keyword.get(opts, :show_empty?, false),
-      alerts: stop_alerts,
-      date_time: date_time,
-      stop: %{id: stop.id |> String.replace(" ", "-"), name: stop.name},
-      timeframe: Keyword.get(opts, :timeframe)
-    )
-  end
 
   @doc """
   Returns correct svg Icon for the given feature
@@ -51,26 +34,5 @@ defmodule DotcomWeb.StopView do
     for feature <- features do
       stop_feature_icon(feature, :small)
     end
-  end
-
-  @spec render_react(map) :: HTML.safe()
-  def render_react(assigns) do
-    Util.log_duration(__MODULE__, :do_render_react, [assigns])
-  end
-
-  @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{
-        stop_page_data: stop_page_data,
-        map_data: map_data,
-        map_id: map_id
-      }) do
-    React.render(
-      "StopPage",
-      %{
-        stopPageData: stop_page_data,
-        mapData: map_data,
-        mapId: map_id
-      }
-    )
   end
 end
