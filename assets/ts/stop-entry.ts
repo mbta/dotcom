@@ -1,3 +1,3 @@
-import stop from "./stop/stop-loader";
-
-stop();
+import onLoad from "./stop/stop-loader";
+// This is technically the onLoad() function
+onLoad();

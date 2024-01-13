@@ -1,8 +1,4 @@
-import {
-  isBusRouteStop,
-  routesWithDirectionsAreAllBusStops,
-  typedRoutesHasBusRoute
-} from "../routes";
+import { isBusRouteStop, routesWithDirectionsAreAllBusStops } from "../routes";
 
 test("isBusRouteStop returns false when no route", () => {
   expect(isBusRouteStop({} as any)).toBe(false);
@@ -27,20 +23,5 @@ describe("routesWithDirectionsAreAllBusStops", () => {
         { route: { type: 0 } }
       ] as any[])
     ).toBe(false);
-  });
-});
-
-describe("typedRoutesHasBusRoute", () => {
-  test("returns true when 'bus' group present", () => {
-    expect(
-      typedRoutesHasBusRoute([
-        { group_name: "bus" },
-        { group_name: "subway" }
-      ] as any[])
-    ).toBe(true);
-  });
-
-  test("returns false with empty list", () => {
-    expect(typedRoutesHasBusRoute([] as any[])).toBe(false);
   });
 });

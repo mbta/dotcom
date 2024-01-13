@@ -163,6 +163,8 @@ defmodule DotCom.Mixfile do
 
     {_, 0} =
       System.cmd("npm", ["run", "--prefix", "assets", "webpack:build"], stderr_to_stdout: true)
+
+    Mix.Task.run("phx.digest", [])
   end
 
   defp server_setup(_) do

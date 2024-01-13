@@ -3,13 +3,9 @@ import { mount, ReactWrapper } from "enzyme";
 import StopCard from "../components/StopCard";
 import { EnhancedRoute, DirectionId } from "../../__v3api";
 import stopData from "./stopData.json";
-import {
-  StopPageData,
-  TypedRoutes,
-  RouteWithDirection
-} from "../components/__stop";
+import { TypedRoutes, RouteWithDirection } from "../components/__stop";
 
-const { stop, routes } = JSON.parse(JSON.stringify(stopData)) as StopPageData;
+const { stop, routes } = JSON.parse(JSON.stringify(stopData));
 // mimic the transformation done for the StopMapContainerProp
 const typedRoutes = routes.reduce(
   (accumulator: EnhancedRoute[], groupedRoutes: TypedRoutes): EnhancedRoute[] =>

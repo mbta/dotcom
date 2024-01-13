@@ -34,7 +34,7 @@ interface State {
   focused?: boolean;
 }
 
-export interface ClickExpandableBlockAction {
+interface ClickExpandableBlockAction {
   type: "CLICK_EXPANDABLE_BLOCK";
   payload: {
     expanded: boolean;

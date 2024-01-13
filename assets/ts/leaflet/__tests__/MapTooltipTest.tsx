@@ -3,10 +3,9 @@ import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import MapTooltip from "../components/MapTooltip";
 import stopData from "../../stop/__tests__/stopData.json";
-import { StopPageData } from "../../stop/components/__stop";
 import { EnhancedRoute } from "../../__v3api";
 
-const data: StopPageData = JSON.parse(JSON.stringify(stopData));
+const data = JSON.parse(JSON.stringify(stopData));
 
 const routes: EnhancedRoute[] = [
   {

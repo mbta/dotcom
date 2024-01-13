@@ -1,18 +1,58 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import StopPage from "./components/StopPage";
-import { StopPageData, StopMapData } from "./components/__stop";
+import {
+  createBrowserRouter,
+  RouteObject,
+  RouterProvider
+} from "react-router-dom";
+import { ErrorBoundary } from "@sentry/react";
+import StopPageRedesign from "./components/StopPageRedesign";
+import Loading from "../components/Loading";
+import ErrorPage from "../components/ErrorPage";
+import { fetchJson, isFetchFailed } from "../helpers/fetch-json";
+import { GroupedRoutePatterns } from "../models/route-patterns";
+
+const fetchStopRoutePatterns = async (
+  stopId: string
+): Promise<GroupedRoutePatterns | null> => {
+  const data = await fetchJson<GroupedRoutePatterns>(
+    `/api/stop/${stopId}/route-patterns`
+  );
+  if (isFetchFailed(data)) {
+    // eslint-disable-next-line no-console
+    console.error(
+      `Failed to fetch route pattern information: ${data.status} ${data.statusText}`
+    );
+    return null;
+  }
+  return data;
+};
+
+const routesConfig = (stopId: string): RouteObject[] => [
+  {
+    path: "/stops/:stopId",
+    loader: () => fetchStopRoutePatterns(stopId),
+    shouldRevalidate: () => false,
+    element: (
+      <ErrorBoundary fallback={ErrorPage}>
+        <StopPageRedesign stopId={stopId} />
+      </ErrorBoundary>
+    ),
+    hasErrorBoundary: true
+  }
+];
 
 const render = (): void => {
-  const stopPageDataEl = document.getElementById("js-stop-page-data");
-  const mapDataEl = document.getElementById("js-stop-map-data");
-  if (!stopPageDataEl || !mapDataEl) return;
-  const stopPageData = JSON.parse(stopPageDataEl.innerHTML) as StopPageData;
-  const mapId = stopPageDataEl.getAttribute("data-for") as string;
-  const mapData = JSON.parse(mapDataEl.innerHTML) as StopMapData;
+  const rootEl = document.getElementById("react-stop-redesign-root");
+  const stopId = rootEl?.dataset.mbtaStopId;
+  if (!stopId) return;
+
   ReactDOM.render(
-    <StopPage stopPageData={stopPageData} mapId={mapId} mapData={mapData} />,
-    document.getElementById("react-root")
+    <RouterProvider
+      router={createBrowserRouter(routesConfig(stopId))}
+      fallbackElement={<Loading />}
+    />,
+    rootEl
   );
 };
 
