@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
 import { DirectionId, Route, Stop } from "../../__v3api";
-import StopMapRedesign from "../components/StopMapRedesign";
+import StopMap from "../components/StopMap";
 import { newLatOrLon, newPolyline } from "./helpers";
 
 jest.mock("../../hooks/useMapConfig", () => ({
@@ -50,10 +50,10 @@ const v2 = {
   crowding: null
 };
 
-describe("StopMapRedesign", () => {
+describe("StopMap", () => {
   it("should render the Map component with a marker", () => {
     render(
-      <StopMapRedesign
+      <StopMap
         stop={testStop}
         lines={[]}
         vehicles={[]}
@@ -70,7 +70,7 @@ describe("StopMapRedesign", () => {
   it("should display lines", () => {
     const lines = [newPolyline(), newPolyline(), newPolyline(), newPolyline()];
     const { container } = render(
-      <StopMapRedesign
+      <StopMap
         stop={testStop}
         lines={lines}
         vehicles={[]}
@@ -86,7 +86,7 @@ describe("StopMapRedesign", () => {
 
   it("should render markers for each vehicle", () => {
     render(
-      <StopMapRedesign
+      <StopMap
         stop={testStop}
         lines={[]}
         vehicles={[v1, v2]}

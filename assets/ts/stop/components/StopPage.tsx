@@ -4,7 +4,7 @@ import { useLoaderData } from "react-router-dom";
 import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
 import StationInformation from "./StationInformation";
 import { useRoutes } from "../../hooks/useRoute";
-import StopPageHeaderRedesign from "./StopPageHeaderRedesign";
+import StopPageHeader from "./StopPageHeader";
 import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
 import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
@@ -40,7 +40,7 @@ const FullwidthErrorMessage = (): JSX.Element => (
     </div>
   </div>
 );
-const StopPageRedesign = ({
+const StopPage = ({
   stopId
 }: {
   stopId: string;
@@ -85,7 +85,7 @@ const StopPageRedesign = ({
 
   return (
     <article>
-      <StopPageHeaderRedesign stop={stopResult.data} routes={routes} />
+      <StopPageHeader stop={stopResult.data} routes={routes} />
       {hasPredictionError && FullwidthErrorMessage()}
       <div className="container">
         <Alerts
@@ -114,4 +114,4 @@ const StopPageRedesign = ({
 //
 // alerts banners should be the specific alert types, and only ongoing or upcoming in 7 days
 
-export default StopPageRedesign;
+export default StopPage;

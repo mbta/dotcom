@@ -81,7 +81,7 @@ const mapMarkerFromStop = (stop: Stop): MapMarker => {
 const polylineClassName = (polyline: Polyline): string =>
   `stop-map_line stop-map_line--${polyline.id}`;
 
-const StopMapRedesign = ({
+const StopMap = ({
   stop,
   lines,
   vehicles,
@@ -116,4 +116,4 @@ const StopMapRedesign = ({
   );
 };
 
-export default StopMapRedesign;
+export default StopMap;

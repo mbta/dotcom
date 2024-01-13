@@ -6,7 +6,7 @@ import {
   RouterProvider
 } from "react-router-dom";
 import { ErrorBoundary } from "@sentry/react";
-import StopPageRedesign from "./components/StopPageRedesign";
+import StopPage from "./components/StopPage";
 import Loading from "../components/Loading";
 import ErrorPage from "../components/ErrorPage";
 import { fetchJson, isFetchFailed } from "../helpers/fetch-json";
@@ -35,7 +35,7 @@ const routesConfig = (stopId: string): RouteObject[] => [
     shouldRevalidate: () => false,
     element: (
       <ErrorBoundary fallback={ErrorPage}>
-        <StopPageRedesign stopId={stopId} />
+        <StopPage stopId={stopId} />
       </ErrorBoundary>
     ),
     hasErrorBoundary: true
@@ -43,7 +43,7 @@ const routesConfig = (stopId: string): RouteObject[] => [
 ];
 
 const render = (): void => {
-  const rootEl = document.getElementById("react-stop-redesign-root");
+  const rootEl = document.getElementById("react-stop-root");
   const stopId = rootEl?.dataset.mbtaStopId;
   if (!stopId) return;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { screen, waitFor, within } from "@testing-library/dom";
 import { act, cleanup, RenderResult } from "@testing-library/react";
-import StopPageRedesign from "../components/StopPageRedesign";
+import StopPage from "../components/StopPage";
 import * as useStop from "../../hooks/useStop";
 import { InformedEntitySet, Alert, Route } from "../../__v3api";
 import * as useRoute from "../../hooks/useRoute";
@@ -26,7 +26,7 @@ const renderWithAct = (children: React.ReactElement) =>
 
 const testRoutes = Object.keys(TEST_LOADER_VALUE).map(id => baseRoute(id, 3));
 
-describe("StopPageRedesign", () => {
+describe("StopPage", () => {
   beforeEach(() => {
     jest
       .spyOn(useRoute, "useRoutes")
@@ -64,7 +64,7 @@ describe("StopPageRedesign", () => {
   });
 
   it("should render", async () => {
-    renderWithAct(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPage stopId="123" />);
     await waitFor(() => {
       expect(screen.queryByText("Test Stop")).not.toBeNull();
     });
@@ -75,7 +75,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useStop, "useStop")
       .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
-    renderWithAct(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPage stopId="123" />);
     await waitFor(() => {
       expect(screen.getByText("Loading...")).toBeDefined();
     });
@@ -89,7 +89,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: undefined });
 
-    renderWithAct(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPage stopId="123" />);
     await waitFor(() => {
       expect(screen.getByText("Loading...")).toBeDefined();
     });
@@ -98,7 +98,7 @@ describe("StopPageRedesign", () => {
   it("all modes show up in departure list", async () => {
     let renderResult: RenderResult;
     act(() => {
-      renderResult = renderWithRouter(<StopPageRedesign stopId="123" />);
+      renderResult = renderWithRouter(<StopPage stopId="123" />);
     });
     const { container } = renderResult!;
     await waitFor(() => {
@@ -143,7 +143,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByStop")
       .mockReturnValue({ status: FetchStatus.Data, data: lowAlerts });
 
-    renderWithAct(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPage stopId="123" />);
     await waitFor(() => {
       expect(
         screen.queryByText("There is construction at this station.")
@@ -231,7 +231,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
-    renderWithAct(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPage stopId="Test 1" />);
     await waitFor(() => {
       expect(screen.getByText(/Road Closed/)).toBeInTheDocument();
       expect(screen.getByText(/Stop Closed/)).toBeInTheDocument();
@@ -315,7 +315,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
-    renderWithAct(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPage stopId="Test 1" />);
 
     await waitFor(() => {
       expect(screen.getByText(/Road Is Closed/)).toBeInTheDocument();
@@ -350,7 +350,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByStop")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForStop });
 
-    renderWithAct(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPage stopId="Test 1" />);
 
     expect(screen.queryByText("Road Is Closed")).toBeNull();
   });
@@ -389,7 +389,7 @@ describe("StopPageRedesign", () => {
       .spyOn(useAlerts, "useAlertsByRoute")
       .mockReturnValue({ status: FetchStatus.Data, data: alertsForRoute });
 
-    renderWithAct(<StopPageRedesign stopId="Test 1" />);
+    renderWithAct(<StopPage stopId="Test 1" />);
 
     await waitFor(() => {
       expect(
@@ -405,7 +405,7 @@ describe("StopPageRedesign", () => {
 
   it("should show error message when null predictions", async () => {
     jest.spyOn(usePredictionsChannel, "default").mockReturnValue(null);
-    renderWithAct(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPage stopId="123" />);
     await waitFor(() => {
       expect(
         screen.getByText("Live information could not be loaded.")
@@ -417,7 +417,7 @@ describe("StopPageRedesign", () => {
     jest
       .spyOn(usePredictionsChannel, "default")
       .mockReturnValue([] as PredictionWithTimestamp[]);
-    renderWithAct(<StopPageRedesign stopId="123" />);
+    renderWithAct(<StopPage stopId="123" />);
     await waitFor(() => {
       expect(
         screen.queryByText("Live information could not be loaded.")

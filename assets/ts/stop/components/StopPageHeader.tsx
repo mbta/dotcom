@@ -3,7 +3,7 @@ import { Route, Stop } from "../../__v3api";
 import StopFeatures from "./icons/StopFeatures";
 import { isStopAStation } from "../../helpers/stops";
 
-const StopPageHeaderRedesign = ({
+const StopPageHeader = ({
   stop,
   routes
 }: {
@@ -41,4 +41,4 @@ const StopPageHeaderRedesign = ({
   );
 };
 
-export default StopPageHeaderRedesign;
+export default StopPageHeader;
