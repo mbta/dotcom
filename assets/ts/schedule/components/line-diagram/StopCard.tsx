@@ -1,6 +1,5 @@
 import React, { ReactElement, useContext } from "react";
 import { effectNameForAlert } from "../../../components/Alerts";
-import GlxOpen from "../../../components/GlxOpen";
 import MatchHighlight from "../../../components/MatchHighlight";
 import { alertIcon } from "../../../helpers/icon";
 import {
@@ -152,7 +151,6 @@ const StopCard = ({
       }}
     >
       <section className="m-schedule-diagram__content">
-        <GlxOpen pageType="line-diagram" stopId={stopId} />
         {stopTree && hasBranchLabel(stopTree, stopId) && (
           <div className="u-bold u-small-caps">{lineName(routeStop)}</div>
         )}

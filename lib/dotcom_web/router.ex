@@ -30,7 +30,6 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.Cookies)
     plug(:optional_disable_indexing)
     plug(:activate_flag)
-    plug(DotcomWeb.Plugs.GlxNowOpen)
     plug(DotcomWeb.Plugs.LineSuspensions)
   end
 
