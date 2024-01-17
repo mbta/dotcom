@@ -3,7 +3,7 @@ defmodule DotcomWeb.Router do
 
   use DotcomWeb, :router
   use Plug.ErrorHandler
-  use Sentry.Plug
+  use Sentry.PlugCapture
 
   alias DotcomWeb.StaticPage
 
