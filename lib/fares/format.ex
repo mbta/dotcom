@@ -10,7 +10,6 @@ defmodule Fares.Format do
   @spec price(Fare.t() | non_neg_integer | nil) :: String.t()
   def price(nil), do: ""
   def price(%Fare{cents: +0.0}), do: "FREE"
-  def price(%Fare{cents: -0.0}), do: "FREE"
   def price(%Fare{cents: cents}), do: price(cents)
   def price(cents), do: "$#{:erlang.float_to_binary(cents / 100, decimals: 2)}"
 
