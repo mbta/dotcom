@@ -5,7 +5,7 @@ defmodule RepoCache.LogTest do
   import RepoCache.Log
 
   defmodule Repo do
-    use RepoCache, ttl: :timer.seconds(1)
+    use RepoCache, global_ttl: :timer.seconds(1)
 
     def always(value) do
       cache(value, & &1)

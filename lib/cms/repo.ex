@@ -8,7 +8,7 @@ defmodule CMS.Repo do
 
   """
 
-  use RepoCache, ttl: :timer.minutes(1)
+  use RepoCache, global_ttl: :timer.minutes(1)
 
   import CMS.Helpers, only: [preview_opts: 1]
 

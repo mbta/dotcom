@@ -2,7 +2,7 @@ defmodule Stops.Repo do
   @moduledoc """
   Matches the Ecto API, but fetches Stops from the Stop Info API instead.
   """
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
   alias Stops.{Api, Stop}
   alias Routes.Route
 

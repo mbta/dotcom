@@ -4,7 +4,7 @@ defmodule RoutePatterns.Repo do
   @behaviour RoutePatterns.RepoApi
 
   require Logger
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
 
   alias RoutePatterns.RoutePattern
   alias V3Api.RoutePatterns, as: RoutePatternsApi

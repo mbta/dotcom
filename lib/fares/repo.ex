@@ -1,7 +1,7 @@
 defmodule Fares.Repo do
   @fares Fares.FareInfo.fare_info()
 
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, global_ttl: :timer.hours(24)
 
   alias Fares.Fare
 

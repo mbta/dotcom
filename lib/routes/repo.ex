@@ -4,7 +4,7 @@ defmodule Routes.Repo do
   @behaviour Routes.RepoApi
 
   require Logger
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
 
   import Routes.Parser
 

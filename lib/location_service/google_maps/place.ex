@@ -3,7 +3,7 @@ defmodule GoogleMaps.Place do
   Perform place-related lookups against the Google Maps API.
   """
   require Logger
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, global_ttl: :timer.hours(24)
   alias GoogleMaps.Place.{AutocompleteQuery, Prediction}
 
   @type t ::

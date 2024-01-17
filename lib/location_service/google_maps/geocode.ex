@@ -2,7 +2,7 @@ defmodule GoogleMaps.Geocode do
   @moduledoc """
   Perform geocoding-related lookups against the Google Maps API.
   """
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, global_ttl: :timer.hours(24)
 
   alias LocationService.Result
   alias GoogleMaps.Geocode.Input

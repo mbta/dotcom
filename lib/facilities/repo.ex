@@ -2,7 +2,7 @@ defmodule Facilities.Repo do
   @moduledoc """
   Repo to get facilitiy information.
   """
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
 
   def get_for_stop(stop_id) do
     cache(stop_id, fn stop_id ->

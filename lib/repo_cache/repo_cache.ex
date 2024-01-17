@@ -38,11 +38,11 @@ defmodule RepoCache do
   defp include_defaults(opts) do
     opts =
       opts
-      |> Keyword.put_new(:ttl, :timer.seconds(1))
+      |> Keyword.put_new(:global_ttl, :timer.seconds(1))
       |> Keyword.put(:read_concurrency, true)
       |> Keyword.put(:write_concurrency, true)
 
-    Keyword.put_new(opts, :ttl_check, opts[:ttl])
+    Keyword.put_new(opts, :ttl_check_interval, opts[:global_ttl])
   end
 
   defmacro cache(fun_param, fun, cache_opts \\ []) do
@@ -63,21 +63,17 @@ defmodule RepoCache do
   def server_functions do
     quote do
       def start_link(opts) do
-        name =
-          case Keyword.get(opts, :name) do
-            nil -> __MODULE__
-            name -> :"#{__MODULE__}:#{name}"
-          end
-
-        ConCache.start_link(opts(), name: name)
+        opts_with_name = Keyword.put_new(opts, :name, __MODULE__)
+        ConCache.start_link(Keyword.merge(opts(), opts_with_name))
       end
 
       def start_link do
-        ConCache.start_link(opts(), name: __MODULE__)
+        opts = Keyword.put(opts(), :name, __MODULE__)
+        ConCache.start_link(opts)
       end
 
       def default_ttl do
-        Keyword.get(opts(), :ttl)
+        Keyword.get(opts(), :global_ttl)
       end
 
       def clear_cache do
@@ -133,7 +129,7 @@ defmodule RepoCache do
   end
 
   defp maybe_set_value(value, mod, key, cache_opts) do
-    ttl = Keyword.get(cache_opts, :ttl, mod.default_ttl())
+    ttl = Keyword.get(cache_opts, :global_ttl, mod.default_ttl())
     item = %ConCache.Item{value: value, ttl: ttl}
     ConCache.dirty_put(mod, key, item)
     value
