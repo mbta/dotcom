@@ -3,7 +3,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   Functionality for writing to/reading from S3. Takes %Alert{} converts them
   into %HistoricalAlert{} before saving.
   """
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, global_ttl: :timer.hours(24)
   require Logger
   alias Alerts.{Alert, HistoricalAlert}
 

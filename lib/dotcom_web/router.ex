@@ -8,7 +8,7 @@ defmodule DotcomWeb.Router do
   alias DotcomWeb.StaticPage
 
   pipeline :secure do
-    if force_ssl = Application.get_env(:dotcom, :secure_pipeline)[:force_ssl] do
+    if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
       plug(Plug.SSL, force_ssl)
     end
   end

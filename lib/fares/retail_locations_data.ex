@@ -5,7 +5,7 @@ defmodule Fares.RetailLocations.Data do
   alias Fares.RetailLocations.Location
   alias Util.Position
 
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, global_ttl: :timer.hours(24)
 
   @spec get :: [Location.t()]
   def get do

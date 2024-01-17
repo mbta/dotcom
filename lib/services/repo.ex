@@ -3,7 +3,7 @@ defmodule Services.Repo do
   Retrieves services for a route.
   """
 
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
   alias Services.Service
   alias V3Api.Services, as: ServicesApi
 

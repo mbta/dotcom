@@ -4,7 +4,7 @@ defmodule Algolia.Api do
   """
   alias Algolia.Config
   require Logger
-  use RepoCache, ttl: :timer.hours(12)
+  use RepoCache, global_ttl: :timer.hours(12)
 
   defstruct [:host, :index, :action, :body, :query_params]
 

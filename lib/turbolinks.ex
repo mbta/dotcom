@@ -54,7 +54,8 @@ defmodule Turbolinks.Plug do
   end
 
   def check_flash(conn) do
-    case Phoenix.Flash.get(conn, :turbolinks_redirect) do
+    # TODO fix this (I DON"T THINK THIS WORKS)
+    case Phoenix.Flash.get(conn.flash, :turbolinks_redirect) do
       nil -> conn
       location -> conn |> put_resp_header("turbolinks-location", location)
     end

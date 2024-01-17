@@ -2,7 +2,7 @@ defmodule LocationService do
   @moduledoc """
   Interacts with Amazon's Location Service, specifically its Places service, to perform geocoding, reverse geocoding and place lookups.
   """
-  use RepoCache, ttl: :timer.hours(24)
+  use RepoCache, global_ttl: :timer.hours(24)
 
   require Logger
 

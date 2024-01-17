@@ -8,7 +8,7 @@ defmodule Schedules.RepoCondensed do
 
   """
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
 
   alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}

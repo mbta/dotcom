@@ -1,5 +1,5 @@
 defmodule RepoCacheTest.Repo do
-  use RepoCache, ttl: :timer.seconds(1)
+  use RepoCache, global_ttl: :timer.seconds(1)
 
   def time(value) do
     cache(value, fn _ -> System.monotonic_time() end)

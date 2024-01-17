@@ -1,7 +1,7 @@
 defmodule Predictions.Repo do
   @moduledoc "Predictions repo module"
 
-  use RepoCache, ttl: :timer.seconds(10), ttl_check: :timer.seconds(2)
+  use RepoCache, global_ttl: :timer.seconds(10), ttl_check_interval: :timer.seconds(2)
   require Logger
   require Routes.Route
   alias Routes.Route

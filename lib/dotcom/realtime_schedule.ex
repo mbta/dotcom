@@ -6,7 +6,7 @@ defmodule Dotcom.RealtimeSchedule do
     - predictions and schedules are indexed by route pattern name because we
       are considering route patterns with the same name to be effectively the same
   """
-  use RepoCache, ttl: :timer.seconds(30)
+  use RepoCache, global_ttl: :timer.seconds(30)
 
   alias Predictions.Prediction
   alias Predictions.Repo, as: PredictionsRepo

@@ -1,7 +1,7 @@
 defmodule Schedules.Repo do
   @moduledoc "Repo for V3 API Schedule resources."
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(1)
+  use RepoCache, global_ttl: :timer.hours(1)
 
   alias Schedules.{HoursOfOperation, Parser, Schedule}
   alias Stops.Stop
