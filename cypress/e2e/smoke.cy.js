@@ -122,7 +122,7 @@ describe("passes smoke test", () => {
     const schedule_sections = [
       ["Boat-F1", "timetable"],
       ["CR-Worcester", "timetable"],
-      ["CR-Worcester", "line"],
+      ["CR-Fairmount", "line"],
       ["Green", "line"],
       ["Green-E", "line"],
       ["Red", "line"],
@@ -132,6 +132,9 @@ describe("passes smoke test", () => {
       cy.visit(`/schedules/${route}/${tab}`);
       if (tab == "line") {
         cy.get(".m-schedule-diagram");
+        // test both directions
+        cy.contains("Change Direction").click();
+        cy.url().should("contain", "schedule_direction%5Bdirection_id%5D=1");
       } else {
         cy.get(".m-timetable");
       }
