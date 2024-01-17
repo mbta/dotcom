@@ -94,7 +94,7 @@ defmodule DotCom.Mixfile do
       {:gettext, "~> 0.9"},
       {:hackney, "~> 1.18"},
       {:hammer, "~> 6.0"},
-      {:html_sanitize_ex, "1.3.0"},
+      {:html_sanitize_ex, "~> 1.4.0"},
       {:httpoison, "~> 1.5"},
       {:inflex, "~> 1.8.0"},
       {:jason, "~> 1.1"},
