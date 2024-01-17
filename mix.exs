@@ -75,7 +75,7 @@ defmodule DotCom.Mixfile do
       {:bypass, "~> 1.0", [only: :test]},
       {:castore, "~> 0.1.11"},
       {:con_cache, "~> 0.12.0"},
-      {:credo, "~> 1.5", only: [:dev, :test]},
+      {:credo, "~> 1.7", only: [:dev, :test]},
       {:csv, "~> 3.0.5"},
       {:dialyxir, ">= 1.0.0-rc.4", [only: [:test, :dev], runtime: false]},
       {:diskusage_logger, "~> 0.2.0"},
