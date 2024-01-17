@@ -44,8 +44,8 @@
 
         <h2 class="h2">Fares</h2>
 
-        <%= PartialView.paragraph("paragraphs/multi-column/schedules-page-fares-subway-and-bus", @conn) %>
-        <%= PartialView.paragraph("paragraphs/multi-column/schedule-page-fares-commuter-rail-and-ferry", @conn) %>
+        <%= PartialView.paragraph("/paragraphs/multi-column/subway-and-bus-fares", @conn) %>
+        <%= PartialView.paragraph("/paragraphs/multi-column/commuter-rail-and-ferry-fares", @conn) %>
 
         <p>
           <%= link("View fares overview", to: cms_static_page_path(@conn, "/fares"), class: "c-call-to-action") %>

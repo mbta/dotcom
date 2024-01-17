@@ -31,6 +31,13 @@ defmodule CMS.RepoTest do
     WhatsHappeningItem
   }
 
+  setup do
+    cache = Application.get_env(:dotcom, :cms_cache)
+    cache.flush()
+
+    %{cache: cache}
+  end
+
   describe "news_entry_by/1" do
     test "returns the news entry for the given id" do
       assert %NewsEntry{id: 3519} = Repo.news_entry_by(id: 3519)
@@ -60,31 +67,64 @@ defmodule CMS.RepoTest do
   end
 
   describe "get_page/1" do
-    test "caches views" do
-      path = "/news/2018/news-entry"
-      params = %{}
-      cache_key = {:view_or_preview, path: path, params: params}
+    test "generates the correct key for /*" do
+      path = "/foo"
 
-      # ensure cache is empty
-      case ConCache.get(Repo, cache_key) do
-        nil ->
-          :ok
-
-        {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} ->
-          ConCache.dirty_delete(Repo, cache_key)
-      end
-
-      assert %NewsEntry{} = Repo.get_page(path, params)
-      assert {:ok, %{"type" => [%{"target_id" => "news_entry"}]}} = ConCache.get(Repo, cache_key)
+      assert Repo.generate(nil, nil, [path, %{}]) == "/cms" <> path
     end
 
-    test "does not cache previews" do
-      path = "/basic_page_no_sidebar"
+    test "generates the correct key for /**/*" do
+      path = "/foo/bar"
+
+      assert Repo.generate(nil, nil, [path, %{}]) == "/cms" <> path
+    end
+
+    test "generates the correct key for /**/*?*=*" do
+      path = "/foo/bar"
+      params = %{"baz" => "bop"}
+
+      assert Repo.generate(nil, nil, [path, params]) == "/cms" <> path <> "?baz=bop"
+    end
+
+    test "generates the correct key for /**/*?*=*&*=*" do
+      path = "/foo/bar"
+      params = %{"bam" => "bop", "baz" => "qux"}
+
+      assert Repo.generate(nil, nil, [path, params]) == "/cms" <> path <> "?bam=bop&baz=qux"
+    end
+
+    test "caches views", %{cache: cache} do
+      path = "/news/2018/news-entry"
+      params = %{}
+      key = "/cms" <> path
+
+      assert cache.get(key) == nil
+
+      Repo.get_page(path, params)
+
+      assert cache.get(key) != nil
+    end
+
+    test "sets the ttl to < :infinity", %{cache: cache} do
+      path = "/news/2018/news-entry"
+      params = %{}
+      key = "/cms" <> path
+
+      Repo.get_page(path, params)
+
+      assert cache.ttl(key) != :infinity
+    end
+
+    test "does not cache previews", %{cache: cache} do
+      path = "/news/2018/news-entry"
       params = %{"preview" => "", "vid" => "112", "nid" => "6"}
-      cache_key = {:view_or_preview, path: path, params: params}
-      assert ConCache.get(Repo, cache_key) == nil
-      assert %Basic{} = Repo.get_page(path, params)
-      assert ConCache.get(Repo, cache_key) == nil
+      key = "/cms" <> path
+
+      assert cache.get(key) == nil
+
+      Repo.get_page(path, params)
+
+      assert cache.get(key) == nil
     end
 
     test "given the path for a Basic page" do
@@ -550,11 +590,11 @@ defmodule CMS.RepoTest do
         }
       end
 
-      year = 2022
-      mock_2022_opts = opts.(year)
+      year = 2018
+      mock_2018_opts = opts.(year)
 
-      with_mock Static, view: fn "/cms/teasers", ^mock_2022_opts -> {:ok, []} end do
-        _events = Repo.events_for_year(year)
+      with_mock Static, view: fn "/cms/teasers", ^mock_2018_opts -> {:ok, []} end do
+        Repo.events_for_year(year)
 
         Static.view("/cms/teasers", opts.(year))
         |> assert_called()

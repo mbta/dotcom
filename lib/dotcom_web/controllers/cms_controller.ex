@@ -34,6 +34,8 @@ defmodule DotcomWeb.CMSController do
     Page.ProjectUpdate
   ]
 
+  @cache Application.get_env(:dotcom, :cms_cache)
+
   @spec page(Conn.t(), map) :: Conn.t()
   def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
     conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
@@ -43,29 +45,32 @@ defmodule DotcomWeb.CMSController do
     |> handle_page_response(conn)
   end
 
+  @doc """
+  Resets a cache key based on the URL params.
+  PATCH /cms/foo/bar will reset the cache key /cms/foo/bar.
+  This corresponds to the CMS page /foo/bar.
+  """
   def reset_cache_key(conn, %{"object" => object, "id" => id}) do
-    Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
-
     try do
-      CMS.Cache.delete("/cms/#{object}/#{id}")
+      @cache.delete("/cms/#{object}/#{id}")
 
       Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
     rescue
       e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
+      e in Redix.Error -> Logger.warning("cms.cache.delete error=redis-#{e.message}")
     end
 
     send_resp(conn, 202, "") |> halt()
   end
 
   def reset_cache_key(conn, %{"id" => id}) do
-    Logger.notice("cms.cache.delete redis_host=#{System.get_env("REDIS_HOST")}")
-
     try do
-      CMS.Cache.delete("/cms/#{id}")
+      @cache.delete("/cms/#{id}")
 
       Logger.notice("cms.cache.delete path=/cms/#{id}")
     rescue
       e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
+      e in Redix.Error -> Logger.warning("cms.cache.delete error=redis-#{e.message}")
     end
 
     send_resp(conn, 202, "") |> halt()

@@ -11,12 +11,12 @@ config :logster, :allowed_headers, ["referer"]
 if config_env() == :prod do
   # Do not print debug messages in production
   config :logger,
-    level: :info,
+    level: :notice,
     handle_sasl_reports: true,
     backends: [:console]
 
   config :logger, :console,
-    level: :info,
+    level: :notice,
     format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
     metadata: [:request_id, :ip]
 end
@@ -26,7 +26,7 @@ if config_env() == :dev do
   config :logger, :console, format: "[$level] $message\n"
 
   config :logger,
-    level: :warning,
+    level: :notice,
     colors: [enabled: true]
 end
 
