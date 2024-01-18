@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" role="img" viewBox="0 0 90 90">
+    <title>
+        guide to mbta
+    </title>
+    <g fill="none" fill-rule="evenodd" transform="translate(13 3)">
+        <rect width="60" height="80" x="4" fill="#1C77C3" rx="3"/>
+        <rect width="56" height="80" x="6" y="2" fill="#FFF" rx="3"/>
+        <rect width="60" height="80" y="4" fill="#1C77C3" rx="3"/>
+        <g fill="#FFF">
+            <path d="M30 40c6.627 0 12-5.373 12-12s-5.373-12-12-12-12 5.373-12 12 5.373 12 12 12zm0-1.056c-6.044 0-10.944-4.9-10.944-10.944 0-6.044 4.9-10.944 10.944-10.944 6.044 0 10.944 4.9 10.944 10.944 0 6.044-4.9 10.944-10.944 10.944z"/>
+            <path d="M22.08 22.12h15.84v3.66h-5.88v9.792h-4.056V25.78h-5.88"/>
+        </g>
+        <g fill="#FFF" transform="translate(9 52)">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+            <path d="M6 0h36v4H6zM6 6h36v4H6zM6 12h36v4H6z"/>
+        </g>
+    </g>
+</svg>

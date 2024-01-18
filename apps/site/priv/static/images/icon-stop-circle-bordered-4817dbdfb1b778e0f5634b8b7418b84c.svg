@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" role="img" viewBox="0 0 48 48">
+    <title>
+        circle
+    </title>
+    <defs>
+        <style>
+            .cls-1{fill:#fff;}
+        </style>
+    </defs>
+    <title>
+        icon-stop-circle-bordered
+    </title>
+    <circle cx="24" cy="24" r="23.5" class="cls-1"/>
+    <path d="M24,1A23,23,0,1,1,1,24,23,23,0,0,1,24,1m0-1A24,24,0,1,0,48,24,24,24,0,0,0,24,0Z"/>
+</svg>

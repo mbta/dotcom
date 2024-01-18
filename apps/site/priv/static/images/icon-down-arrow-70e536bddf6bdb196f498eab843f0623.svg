@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-name="Layer 1" role="img" viewBox="0 0 48 48">
+    <title>
+        down arrow
+    </title>
+    <defs>
+        <style>
+            .cls-1{fill:none;clip-rule:evenodd;}.cls-2{clip-path:url(#clip-path);}.cls-3{clip-path:url(#clip-path-2);}.cls-4{clip-path:url(#clip-path-3);}.cls-5{fill:#1c1e23;}
+        </style>
+        <clipPath id="clip-path">
+            <path d="M80.17-26.74q19.32-18,19.32-28.68A19.32,19.32,0,0,0,80.17-74.74,19.32,19.32,0,0,0,60.85-55.42Q60.85-44.75,80.17-26.74Z" class="cls-1"/>
+        </clipPath>
+        <clipPath id="clip-path-2">
+            <path d="M25-26.74q19.32-18,19.32-28.68A19.32,19.32,0,0,0,25-74.74,19.32,19.32,0,0,0,5.64-55.42Q5.64-44.75,25-26.74Z" class="cls-1"/>
+        </clipPath>
+        <clipPath id="clip-path-3">
+            <path d="M-42.62-26.74q19.32-18,19.32-28.68A19.32,19.32,0,0,0-42.62-74.74,19.32,19.32,0,0,0-61.94-55.42Q-61.94-44.75-42.62-26.74Z" class="cls-1"/>
+        </clipPath>
+    </defs>
+    <title>
+        icon-small-arrow-down
+    </title>
+    <path d="M35.55,19.8,25.05,30.3a1.45,1.45,0,0,1-2.1,0L12.45,19.8A1.44,1.44,0,0,1,12,18.75a1.51,1.51,0,0,1,1.5-1.5h21a1.51,1.51,0,0,1,1.5,1.5A1.44,1.44,0,0,1,35.55,19.8Z" class="cls-5"/>
+</svg>

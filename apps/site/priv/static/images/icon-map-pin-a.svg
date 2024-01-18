@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" viewBox="0 0 48 48">
+    <title>
+        map pin A
+    </title>
+    <clipPath id="a">
+        <path d="m25 48q19.28-18 19.28-28.68a19.32 19.32 0 0 0 -38.64 0q0 10.68 19.36 28.68z" clip-rule="evenodd"/>
+    </clipPath>
+    <clipPath id="b">
+        <path d="m-741.28-810.15h1685.85v1198.83h-1685.85z"/>
+    </clipPath>
+    <g clip-path="url(#a)">
+        <g clip-path="url(#b)">
+            <path fill="#165c95" d="m-.21-5.85h50.34v59.71h-50.34z"/>
+        </g>
+    </g>
+    <path fill="#fff" d="m23.3 11.27h4.08l6.12 17.28h-3.92l-1.14-3.55h-6.36l-1.17 3.55h-3.78zm-.24 10.73h4.43l-2.19-6.8z"/>
+</svg>

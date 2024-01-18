@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" role="img" style="enable-background:new 0 0 16 16" version="1.1" viewBox="0 0 16 16" xml:space="preserve">
+    <title>
+        regular service
+    </title>
+    <g id="check" transform="translate(163.000000, 80.000000)">
+        <path id="Fill-1" fill="#028041" d="M-155-64c-4.4,0-8-3.6-8-8c0-4.4,3.6-8,8-8s8,3.6,8,8C-147-67.6-150.6-64-155-64z"/>
+        <path id="Path-8" fill="#FFFFFF" d="M-160.7-70.7l4.4,3.6c0.1,0.1,0.4,0.1,0.5,0c0,0,0,0,0,0l6.1-7.7c0.1-0.1,0.1-0.4-0.1-0.5
+		c0,0,0,0,0,0l-1.5-1.1c-0.1-0.1-0.4-0.1-0.5,0.1l-4.6,6l-2.8-2.3c-0.1-0.1-0.3-0.1-0.5,0l-1.2,1.4
+		C-160.8-71.1-160.8-70.8-160.7-70.7L-160.7-70.7z"/>
+    </g>
+</svg>

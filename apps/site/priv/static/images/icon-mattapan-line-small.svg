@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 16 16">
+    <title>
+        mattapan line
+    </title>
+    <path fill="#da291c" d="m8 0a8 8 0 1 0 8 8 8 8 0 0 0 -8-8"/>
+    <path fill="#fff" d="m6.16836 4 1.871 5.50147h.02188l1.7704-5.50147h2.47609v8h-1.64673v-5.66942h-.023l-1.96071 5.66942h-1.35567l-1.96075-5.61308h-.02187v5.61308h-1.64673v-8z"/>
+</svg>

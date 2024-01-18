@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 48 48">
+    <title>
+        green line E
+    </title>
+    <path fill="#00843d" d="m24.03 0a24 24 0 1 0 24 24 24 24 0 0 0 -24-24"/>
+    <text fill="#fff" font-family="HelveticaNeue-Bold, Helvetica Neue" font-size="29" font-weight="700" transform="translate(13.604 34.56984)">
+        E
+    </text>
+    <path fill="#00843d" d="m24 0a24 24 0 1 0 24 24 24 24 0 0 0 -24-24"/>
+    <path fill="#fff" d="m31.0918 13.86377v3.82812h-10.9336v4.437h10.03321v3.53811h-10.03321v5.0747h11.16407v3.82812h-15.7168v-20.706z"/>
+</svg>

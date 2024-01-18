@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" role="img" style="enable-background:new 0 0 16 16" version="1.1" viewBox="0 0 16 16" xml:space="preserve">
+    <title>
+        storm service
+    </title>
+    <g>
+        <path fill="#FFC222" d="M8.5,1.2c-0.3-0.5-0.7-0.5-1,0L0.2,14.9c-0.2,0.5-0.1,0.8,0.4,0.8h14.9c0.4,0,0.6-0.3,0.4-0.8L8.5,1.2z"/>
+    </g>
+    <rect width="2" height="6" x="7" y="5"/>
+    <rect width="2" height="2" x="7" y="12"/>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" role="img" style="enable-background:new 0 0 16 16" version="1.1" viewBox="0 0 16 16" xml:space="preserve">
+    <title>
+        T
+    </title>
+    <path d="M8,15.3C4,15.3,0.7,12,0.7,8C0.7,4,4,0.7,8,0.7c4,0,7.3,3.3,7.3,7.3C15.3,12,12,15.3,8,15.3
+	C8,15.3,8,15.3,8,15.3" style="fill:#FFFFFF"/>
+    <g>
+        <path d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0 M8,15.3C4,15.3,0.7,12,0.7,8C0.7,4,4,0.7,8,0.7
+		c4,0,7.3,3.3,7.3,7.3C15.3,12,12,15.3,8,15.3C8,15.3,8,15.3,8,15.3" style="fill:#1C1E23"/>
+        <path d="M6.7,13.2h2.5V7h3.8V4.4H2.9V7h3.8L6.7,13.2z" style="fill:#1C1E23"/>
+    </g>
+</svg>
