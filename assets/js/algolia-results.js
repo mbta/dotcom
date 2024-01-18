@@ -1,6 +1,6 @@
 import hogan from "hogan.js";
 import * as AlgoliaResult from "./algolia-result";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as MapsHelpers from "./maps-helpers";
 // eslint-disable-next-line import/extensions
 import * as QueryHelpers from "../ts/helpers/query";
 
@@ -29,9 +29,6 @@ const TEMPLATES = {
           {{#hits}}
               {{{.}}}
           {{/hits}}
-          {{#isLocation}}
-            {{{googleLogo}}}
-          {{/isLocation}}
           {{#showMore}}
             <div id="show-more--{{group}}" class="c-search-results__show-more" data-group="{{group}}">
               Show more
@@ -57,9 +54,6 @@ export class AlgoliaResults {
       "locations"
     ];
     this._container = document.getElementById(id);
-    this._googleLogo = document.getElementById(
-      "powered-by-google-logo"
-    ).innerHTML;
     if (!this._container) {
       console.error(`could not find results container with id: ${id}`);
     }
@@ -153,10 +147,7 @@ export class AlgoliaResults {
   }
 
   _locationSearchByGeo(latitude, longitude) {
-    GoogleMapsHelpers.reverseGeocode(
-      parseFloat(latitude),
-      parseFloat(longitude)
-    )
+    MapsHelpers.reverseGeocode(parseFloat(latitude), parseFloat(longitude))
       .then(result => {
         document.getElementById(
           "search-result__loading-indicator"
@@ -172,9 +163,8 @@ export class AlgoliaResults {
 
   _locationSearch(address) {
     return () => {
-      GoogleMapsHelpers.lookupPlace(address)
+      MapsHelpers.lookupPlace(address)
         .then(result => {
-          this._parent.resetSessionToken();
           this._showLocation(
             result.latitude,
             result.longitude,
@@ -235,11 +225,7 @@ export class AlgoliaResults {
       hasHits: results[group].nbHits > 0,
       showMore: results[group].hits.length < results[group].nbHits,
       group,
-      googleLogo: AlgoliaResult.autocompleteByGoogle()
-        ? AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-            logo: document.getElementById("powered-by-google-logo").innerHTML
-          })
-        : null,
+      googleLogo: null,
       hits: results[group].hits.map(this.renderResult(group, results[group]))
     });
   }

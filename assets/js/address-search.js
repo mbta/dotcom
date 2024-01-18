@@ -47,14 +47,6 @@ export function constructUrl(place, input) {
   return location_url + query_str;
 }
 
-export function addLocationChangedEventListener(autocomplete, input) {
-  function onPlaceChanged() {
-    const locationUrl = constructUrl(autocomplete.getPlace(), input);
-    window.location.href = encodeURI(locationUrl);
-  }
-  google.maps.event.addListener(autocomplete, "place_changed", onPlaceChanged);
-}
-
 function geolocationCallback(ev, location) {
   const path = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
   const qs = `?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`;
@@ -62,10 +54,6 @@ function geolocationCallback(ev, location) {
 }
 
 export default function() {
-  function addLocationChangeCallback(ev, autocomplete) {
-    addLocationChangedEventListener(autocomplete, ev.target);
-  }
-
   function setupLocationInput() {
     const transitNearMeInput = document.getElementById("address-search-input");
 
@@ -83,12 +71,6 @@ export default function() {
   document.addEventListener("turbolinks:load", setupLocationInput, {
     passive: true
   });
-  $(document).on(
-    "autocomplete:added",
-    "#address-search-input",
-    // eslint-disable-next-line no-use-before-define
-    addLocationChangeCallback
-  );
   $(document).on(
     "geolocation:complete",
     "#address-search-input",

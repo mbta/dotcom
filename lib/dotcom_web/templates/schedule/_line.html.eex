@@ -50,8 +50,7 @@
               <%= render "_line_map.html",
                 conn: @conn,
                 channel: @channel,
-                dynamic_map_data: @dynamic_map_data,
-                map_img_src: @map_img_src
+                dynamic_map_data: @dynamic_map_data
               %>
             <% end %>
           </div>

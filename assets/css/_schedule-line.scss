@@ -27,12 +27,6 @@
   margin-left: calc(#{$base-spacing} / 2);
 }
 
-.m-schedule-line__map-static {
-  @include media-breakpoint-up(lg) {
-    height: 600px;
-  }
-}
-
 .m-schedule-line__teaser {
   @include media-breakpoint-up(md) {
     margin-top: $base-spacing * 2;

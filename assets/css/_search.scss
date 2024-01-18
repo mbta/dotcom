@@ -464,12 +464,6 @@
   color: $gray-lighter;
 }
 
-.c-search-result__google {
-  display: flex;
-  justify-content: flex-end;
-  padding: calc(#{$base-spacing} / 2);
-}
-
 .c-search__error {
   background: $form-error-message;
   border-radius: $border-radius;

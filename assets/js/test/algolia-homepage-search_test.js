@@ -21,7 +21,6 @@ describe("HomepageSearch", () => {
     const selectors = buildSelectors("search-homepage");
 
     document.body.innerHTML = `
-      <div id="powered-by-google-logo"></div>
       <div id="${selectors.container}"></div>
       <input id="${selectors.input}"></input>
       <div id="${selectors.resetButton}"></div>

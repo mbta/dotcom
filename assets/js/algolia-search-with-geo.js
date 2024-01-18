@@ -1,5 +1,5 @@
 import Algolia from "./algolia-search";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as MapsHelpers from "./maps-helpers";
 
 export class AlgoliaWithGeo extends Algolia {
   constructor(indices, defaultParams, bounds, hitLimit) {
@@ -21,7 +21,7 @@ export class AlgoliaWithGeo extends Algolia {
    */
   _doSearch(allQueries) {
     let algoliaResults = {};
-    let googleResults = {};
+    let locationResults = {};
     if (!(this._locationEnabled && this._activeQueryIds.length == 0)) {
       algoliaResults = this._sendQueries(allQueries)
         .then(this._processAlgoliaResults())
@@ -29,16 +29,15 @@ export class AlgoliaWithGeo extends Algolia {
     }
 
     if (!(!this._locationEnabled && this._activeQueryIds.length > 0)) {
-      googleResults = GoogleMapsHelpers.autocomplete({
+      locationResults = MapsHelpers.autocomplete({
         input: this._lastQuery,
-        hitLimit: this._hitLimit,
-        sessionToken: this.sessionToken
+        hitLimit: this._hitLimit
       }).catch(error =>
-        console.error("Error while contacting google places API:", error)
+        console.error("Error while contacting AWS Location Service:", error)
       );
     }
 
-    return Promise.all([algoliaResults, googleResults])
+    return Promise.all([algoliaResults, locationResults])
       .then(resultsList => {
         this.updateWidgets(
           resultsList.reduce((acc, res) => Object.assign(acc, res))
@@ -54,15 +53,5 @@ export class AlgoliaWithGeo extends Algolia {
 
   enableLocationSearch(enabled) {
     this._locationEnabled = enabled;
-  }
-
-  setSessionToken() {
-    if (!this.sessionToken) {
-      this.sessionToken = new window.google.maps.places.AutocompleteSessionToken();
-    }
-  }
-
-  resetSessionToken() {
-    this.sessionToken = null;
   }
 }

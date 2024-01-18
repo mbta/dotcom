@@ -534,7 +534,7 @@ describe("AlgoliaResult", () => {
     });
 
     describe("for locations", () => {
-      it("properly highlights search results from google locations", () => {
+      it("properly highlights search results from locations", () => {
         expect(
           AlgoliaResult.getTitle(locationHits.bostonCommon, "locations")
         ).to.equal(

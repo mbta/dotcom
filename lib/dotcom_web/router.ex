@@ -30,7 +30,6 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.Cookies)
     plug(:optional_disable_indexing)
     plug(:activate_flag)
-    plug(DotcomWeb.Plugs.GlxNowOpen)
     plug(DotcomWeb.Plugs.LineSuspensions)
   end
 
@@ -253,7 +252,7 @@ defmodule DotcomWeb.Router do
   scope "/places", DotcomWeb do
     pipe_through([:api])
 
-    get("/autocomplete/:input/:hit_limit/:token", PlacesController, :autocomplete)
+    get("/autocomplete/:input/:hit_limit", PlacesController, :autocomplete)
     get("/details/:address", PlacesController, :details)
     get("/reverse-geocode/:latitude/:longitude", PlacesController, :reverse_geocode)
 

@@ -3,32 +3,22 @@ defmodule DotcomWeb.StopController do
   Page for display of information about in individual stop or station.
   """
   use DotcomWeb, :controller
+
   alias Alerts.Alert
-  alias Alerts.Match
   alias Alerts.Repo, as: AlertsRepo
   alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
-  alias Fares.{RetailLocations, RetailLocations.Location}
   alias Leaflet.MapData.Polyline
   alias Dotcom.JsonHelpers
   alias Routes.{Group, Route}
   alias RoutePatterns.RoutePattern
   alias Services.Service
   alias Dotcom.TransitNearMe
-  alias DotcomWeb.AlertView
-  alias DotcomWeb.PartialView.HeaderTab
-  alias DotcomWeb.StopController.{CuratedStreetView, StopMap}
-  alias DotcomWeb.StopView.Parking
-  alias DotcomWeb.ViewHelpers
-  alias DotcomWeb.Views.Helpers.AlertHelpers
-  alias Stops.{Nearby, Repo, Stop}
+  alias Stops.{Repo, Stop}
   alias Util.AndOr
 
   plug(:alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
-
-  @distance_tenth_of_a_mile 0.002
-  @nearby_stop_limit 3
 
   @type routes_map_t :: %{
           group_name: atom,
@@ -47,7 +37,6 @@ defmodule DotcomWeb.StopController do
     |> async_assign_default(:mode_hubs, fn -> HubStops.mode_hubs(mode_atom, stop_info) end, [])
     |> async_assign_default(:route_hubs, fn -> HubStops.route_hubs(stop_info) end, [])
     |> assign(:stop_info, stop_info)
-    |> assign(:requires_location_service?, true)
     |> assign(:mattapan, mattapan)
     |> assign(:mode, mode_atom)
     |> assign(:breadcrumbs, [Breadcrumb.build("Stations")])
@@ -56,47 +45,9 @@ defmodule DotcomWeb.StopController do
   end
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show(conn, %{"id" => stop_id} = params) do
-    if !Laboratory.enabled?(conn, :old_stops_redesign) do
-      # TODO: Render relevant template with relevant data!
-      # SHOULD return a Plug.Conn, via a template. See:
-      # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/2
-      # https://hexdocs.pm/phoenix/Phoenix.Controller.html#render/3
-
-      stop =
-        stop_id
-        |> URI.decode_www_form()
-        |> Repo.get()
-
-      if stop do
-        if Repo.has_parent?(stop) do
-          conn
-          |> redirect(to: stop_path(conn, :show, Repo.get_parent(stop)))
-          |> halt()
-        else
-          routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
-
-          conn
-          |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
-          |> meta_description(stop, routes_by_stop)
-          |> render("show-redesign.html", %{
-            stop_id: stop_id,
-            routes_by_stop: routes_by_stop
-          })
-        end
-      else
-        check_cms_or_404(conn)
-      end
-    else
-      # no cover
-      show_old(conn, params)
-    end
-  end
-
-  @spec show_old(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def show_old(%Plug.Conn{query_params: query_params} = conn, %{"id" => stop}) do
+  def show(conn, %{"id" => stop_id}) do
     stop =
-      stop
+      stop_id
       |> URI.decode_www_form()
       |> Repo.get()
 
@@ -106,81 +57,20 @@ defmodule DotcomWeb.StopController do
         |> redirect(to: stop_path(conn, :show, Repo.get_parent(stop)))
         |> halt()
       else
-        routes_by_stop = Routes.Repo.by_stop(stop.id)
-        grouped_routes = grouped_routes(routes_by_stop)
-        routes_map = routes_map(grouped_routes, stop.id, conn.assigns.date_time)
-        json_safe_routes = json_safe_routes(routes_map)
-
-        {:ok, routes_with_direction} =
-          Nearby.merge_routes(stop.id, &Routes.Repo.by_stop_and_direction/2)
-
-        json_safe_route_with_direction =
-          routes_with_direction
-          |> Enum.sort_by(fn %{route: route} ->
-            {Group.sorter({Route.type_atom(route), nil}), route.sort_order}
-          end)
-          |> Enum.map(&%{route: Route.to_json_safe(&1.route), direction_id: &1.direction_id})
-
-        all_alerts =
-          routes_by_stop
-          |> Enum.map(& &1.id)
-          |> Alerts.Repo.by_route_ids(conn.assigns.date_time)
-
-        routes_and_alerts =
-          routes_by_stop
-          |> Map.new(fn route ->
-            entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
-
-            alerts =
-              all_alerts
-              |> Enum.filter(&(Match.match([&1], entity) == [&1]))
-              |> Enum.filter(&Match.any_time_match?(&1, conn.assigns.date_time))
-              |> json_safe_alerts(conn.assigns.date_time)
-
-            {route.id, alerts}
-          end)
+        routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
 
         conn
-        |> assign(:disable_turbolinks, true)
-        |> alerts(stop)
-        |> assign(:stop, stop)
-        |> assign(:routes, json_safe_routes)
-        |> assign(:routes_with_direction, json_safe_route_with_direction)
-        |> assign(:routes_and_alerts, routes_and_alerts)
-        |> assign(:zone_number, stop.zone)
         |> assign(:breadcrumbs, breadcrumbs(stop, routes_by_stop))
-        |> assign(:tab, tab_value(query_params["tab"]))
-        |> async_assign_default(
-          :retail_locations,
-          fn ->
-            stop
-            |> RetailLocations.get_nearby()
-            |> Enum.map(&format_retail_location/1)
-          end,
-          []
-        )
-        |> async_assign_default(
-          :suggested_transfers,
-          fn ->
-            nearby_stops(stop)
-          end,
-          []
-        )
-        |> assign(:map_data, StopMap.map_info(stop, routes_map))
-        |> assign_stop_page_data()
-        |> await_assign_all_default(__MODULE__)
-        |> combine_stop_data()
         |> meta_description(stop, routes_by_stop)
-        |> render("show.html")
+        |> render("show.html", %{
+          stop_id: stop_id,
+          routes_by_stop: routes_by_stop
+        })
       end
     else
       check_cms_or_404(conn)
     end
   end
-
-  @spec tab_value(String.t() | nil) :: String.t()
-  defp tab_value("alerts"), do: "alerts"
-  defp tab_value(_), do: "info"
 
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
@@ -325,29 +215,6 @@ defmodule DotcomWeb.StopController do
     end
   end
 
-  @spec nearby_stops(Stop.t()) :: [
-          %{
-            stop: Stop.t(),
-            distance: float,
-            routes_with_direction: [Nearby.route_with_direction()]
-          }
-        ]
-  defp nearby_stops(%{latitude: latitude, longitude: longitude}) do
-    %{latitude: latitude, longitude: longitude}
-    |> Nearby.nearby_with_routes(@distance_tenth_of_a_mile, limit: @nearby_stop_limit)
-    |> Enum.map(fn %{routes_with_direction: routes_with_direction} = nearby_stops ->
-      %{
-        nearby_stops
-        | routes_with_direction:
-            routes_with_direction
-            |> Enum.sort_by(& &1.route.sort_order)
-            |> Enum.map(fn %{route: route} = route_with_direction ->
-              %{route_with_direction | route: JsonHelpers.stringified_route(route)}
-            end)
-      }
-    end)
-  end
-
   @spec grouped_routes([Route.t()]) :: [{Route.gtfs_route_type(), [Route.t()]}]
   defp grouped_routes(routes) do
     routes
@@ -465,69 +332,6 @@ defmodule DotcomWeb.StopController do
     }
   end
 
-  @spec assign_stop_page_data(Conn.t()) :: Conn.t()
-  defp assign_stop_page_data(
-         %{
-           assigns: %{
-             stop: stop,
-             routes: routes,
-             routes_with_direction: routes_with_direction,
-             routes_and_alerts: routes_and_alerts,
-             alerts: alerts,
-             all_alerts_count: all_alerts_count,
-             zone_number: zone_number,
-             tab: tab,
-             date: date
-           }
-         } = conn
-       ) do
-    assign(conn, :stop_page_data, %{
-      stop: %{stop | parking_lots: Enum.map(stop.parking_lots, &Parking.parking_lot(&1))},
-      street_view_url: CuratedStreetView.url(stop.id),
-      routes: routes,
-      routes_with_direction: routes_with_direction,
-      routes_and_alerts: routes_and_alerts,
-      tabs: [
-        %HeaderTab{
-          id: "info",
-          name: "Station Info",
-          href: stop_path(conn, :show, stop.id)
-        },
-        %HeaderTab{
-          id: "alerts",
-          name: "Alerts",
-          class: "header-tab--alert",
-          href: stop_path(conn, :show, stop.id, tab: "alerts"),
-          badge: AlertHelpers.alert_badge(all_alerts_count)
-        }
-      ],
-      tab: tab,
-      alerts_tab: alerts_tab(conn, date),
-      zone_number: zone_number,
-      alerts: json_safe_alerts(alerts, date)
-    })
-  end
-
-  def alerts_tab(conn, date) do
-    stop = conn.assigns.stop
-
-    %{
-      all: %{
-        alerts: json_safe_alerts(conn.assigns.alerts, date),
-        empty_message: IO.iodata_to_binary(AlertView.no_alerts_message(stop, true, nil))
-      },
-      upcoming: %{
-        alerts: json_safe_alerts(conn.assigns.upcoming_alerts, date),
-        empty_message: IO.iodata_to_binary(AlertView.no_alerts_message(stop, true, :upcoming))
-      },
-      current: %{
-        alerts: json_safe_alerts(conn.assigns.current_alerts, date),
-        empty_message: IO.iodata_to_binary(AlertView.no_alerts_message(stop, true, :current))
-      },
-      initial_selected: conn.assigns.alerts_timeframe
-    }
-  end
-
   @spec breadcrumbs(Stop.t(), [Route.t()]) :: [Util.Breadcrumb.t()]
   def breadcrumbs(%Stop{name: name}, []) do
     breadcrumbs_for_station_type(nil, name)
@@ -580,30 +384,5 @@ defmodule DotcomWeb.StopController do
     else
       ""
     end
-  end
-
-  @spec format_retail_location({Location.t(), float}) :: %{
-          distance: String.t(),
-          location: Location.t()
-        }
-  defp format_retail_location({%Location{} = location, distance}) do
-    %{
-      distance: ViewHelpers.round_distance(distance),
-      location: location
-    }
-  end
-
-  defp combine_stop_data(conn) do
-    merged_stop_data =
-      conn.assigns.stop_page_data
-      |> Map.put(:retail_locations, conn.assigns.retail_locations)
-      |> Map.put(:suggested_transfers, conn.assigns.suggested_transfers)
-
-    assigns =
-      conn.assigns
-      |> Map.put(:stop_page_data, merged_stop_data)
-      |> Map.delete(:retail_locations)
-
-    %{conn | assigns: assigns}
   end
 end

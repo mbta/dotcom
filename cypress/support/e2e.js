@@ -22,13 +22,3 @@ Cypress.Screenshot.defaults({
   capture: "fullPage",
   disableTimersAndAnimations: false
 });
-
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // we expect a Google Maps API library error with message 't is not a function' if the tests start up too quickly
-  // we don't want to fail the test so we return false
-  if (err.message.includes('t is not a function')) {
-    return false
-  }
-  // we still want to ensure there are no other unexpected
-  // errors, so we let them fail the test
-});

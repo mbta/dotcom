@@ -1,6 +1,3 @@
-<%
-  location_service_js_url = raw GoogleMaps.unsigned_url("https://maps.googleapis.com/maps/api/js?libraries=places,geometry&callback=mapsCallback")
-%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -59,15 +56,6 @@
       <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
-    <script type="application/javascript">
-      locationAutocompleteBacking = "<%= LocationService.active_service(:autocomplete) %>";
-    </script>
-    <%= if assigns[:requires_location_service?] do %>
-      <script type="application/javascript">if (!window.mapsCallback) { window.mapsCallback = function () { window.isMapReady = true; } }</script>
-      <script async src="<%= location_service_js_url %>"></script>
-    <% else %>
-      <link rel="prefetch" href="<%= location_service_js_url %>" as="script">
-    <% end %>
   </head>
   <%= Dotcom.BodyTag.render(@conn) %>
     <div class="body-wrapper" id="body-wrapper">
@@ -104,9 +92,6 @@
         <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
-      <%= if assigns[:glx_stations_open] do %>
-        <div class="glx-stations-open" style="display: none;" data-opening='<%= assigns[:glx_opening_date] %>' data-stations='<%= assigns[:glx_stations_open] %>' />
-      <% end %>
       <%= if assigns[:line_suspensions] do %>
         <script data-line-suspensions type="text/plain">
           <%= raw Jason.encode!(@line_suspensions) %>

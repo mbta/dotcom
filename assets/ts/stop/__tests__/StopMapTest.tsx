@@ -1,80 +1,107 @@
+import { render, screen } from "@testing-library/react";
 import React from "react";
-import renderer from "react-test-renderer";
+import { DirectionId, Route, Stop } from "../../__v3api";
 import StopMap from "../components/StopMap";
-import { createReactRoot } from "../../app/helpers/testUtils";
-import { StopMapData } from "../components/__stop";
-import { Stop } from "../../__v3api";
-/* eslint-disable camelcase */
+import { newLatOrLon, newPolyline } from "./helpers";
 
-const initialData: StopMapData = {
-  map_data: {
-    default_center: {
-      latitude: 0,
-      longitude: 0
-    },
-    height: 630,
-    markers: [
-      {
-        id: "current-stop",
-        latitude: 25,
-        longitude: 25,
-        icon: null,
-        rotation_angle: 0,
-        size: [25, 25],
-        tooltip: null,
-        tooltip_text: null
-      }
-    ],
-    polylines: [],
-    tile_server_url: "",
-    width: 630,
-    zoom: 14
-  },
-  map_srcset: "",
-  map_url: ""
+jest.mock("../../hooks/useMapConfig", () => ({
+  __esModule: true,
+  default: () => ({
+    tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
+  })
+}));
+
+jest.mock("../../hooks/useVehiclesChannel", () => ({
+  __esModule: true,
+  default: jest.fn(() => [])
+}));
+
+const testStop = {
+  id: "Test Stop ID",
+  name: "Test Stop Name",
+  latitude: newLatOrLon(),
+  longitude: newLatOrLon()
+} as Stop;
+
+const v1 = {
+  id: "y1799",
+  route_id: "39",
+  stop_id: "72",
+  trip_id: "25",
+  shape_id: "shape_1",
+  direction_id: 1 as DirectionId,
+  status: "STOPPED",
+  latitude: 2.2,
+  longitude: 1.1,
+  bearing: 140,
+  crowding: null
+};
+const v2 = {
+  id: "y1800",
+  route_id: "39",
+  stop_id: "73",
+  trip_id: "25",
+  shape_id: "shape_1",
+  direction_id: 1 as DirectionId,
+  status: "STOPPED",
+  latitude: 2.4,
+  longitude: 1.3,
+  bearing: 141,
+  crowding: null
 };
 
-const stop: Stop = {
-  type: "station",
-  "station?": true,
-  parking_lots: [],
-  note: null,
-  name: "South Station",
-  longitude: -71.055242,
-  latitude: 42.352271,
-  "is_child?": false,
-  id: "place-sstat",
-  "has_fare_machine?": true,
-  "has_charlie_card_vendor?": false,
-  closed_stop_info: null,
-  address: "700 Atlantic Ave, Boston, MA 02110",
-  municipality: "Boston",
-  bike_storage: [],
-  fare_facilities: [
-    "fare_vending_machine",
-    "fare_media_assistant",
-    "ticket_window"
-  ],
-  accessibility: [
-    "accessible",
-    "escalator_both",
-    "elevator",
-    "fully_elevated_platform"
-  ]
-};
+describe("StopMap", () => {
+  it("should render the Map component with a marker", () => {
+    render(
+      <StopMap
+        stop={testStop}
+        lines={[]}
+        vehicles={[]}
+        selectedRoute={undefined}
+      />
+    );
+    expect(screen.queryByLabelText("Map with stop")).not.toBeNull();
+    const image = screen.getByRole("img", {
+      name: new RegExp(testStop.name)
+    });
+    expect(image).toHaveAttribute("src", "/images/icon-map-station-marker.svg");
+  });
 
-it("it renders with initial markers", () => {
-  createReactRoot();
-  const tree = renderer
-    .create(<StopMap initialData={initialData} routes={[]} stop={stop} />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
+  it("should display lines", () => {
+    const lines = [newPolyline(), newPolyline(), newPolyline(), newPolyline()];
+    const { container } = render(
+      <StopMap
+        stop={testStop}
+        lines={lines}
+        vehicles={[]}
+        selectedRoute={undefined}
+      />
+    );
 
-it("it doesn't render if it can't find it's mapElement div", () => {
-  createReactRoot();
-  const tree = renderer
-    .create(<StopMap initialData={initialData} routes={[]} stop={stop} />)
-    .toJSON();
-  expect(tree).toEqual(null);
+    const mapPolylines = container
+      .querySelector("[aria-label='Map with stop']")
+      ?.querySelectorAll(".leaflet-overlay-pane path");
+    expect(mapPolylines).toHaveLength(lines.length);
+  });
+
+  it("should render markers for each vehicle", () => {
+    render(
+      <StopMap
+        stop={testStop}
+        lines={[]}
+        vehicles={[v1, v2]}
+        selectedRoute={{ id: "FakeRoute" } as Route}
+      />
+    );
+    expect(
+      screen.getByRole("img", {
+        name: new RegExp(v1.id)
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", {
+        name: new RegExp(v2.id)
+      })
+    ).toBeInTheDocument();
+  });
 });

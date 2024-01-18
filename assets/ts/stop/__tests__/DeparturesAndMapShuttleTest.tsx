@@ -174,7 +174,7 @@ const groupedRapidTransitRoutePatterns = {
   }
 };
 
-jest.mock("../components/StopMapRedesign", () => ({
+jest.mock("../components/StopMap", () => ({
   __esModule: true,
   default: () => <div>Stop Map</div>
 }));

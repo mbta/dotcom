@@ -33,7 +33,6 @@ module.exports = {
     tnm: ["./ts/transit-near-me-entry.ts"],
     tripplanner: ["./ts/trip-planner-entry.ts"],
     stop: ["./ts/stop-entry.ts"],
-    stopRedesign: ["./ts/stop-redesign-entry.ts"],
     leaflet: ["./ts/leaflet-entry.ts"],
     schedule: ["./ts/schedule-entry.ts"],
     tripplanresults: ["./ts/trip-plan-results-entry.ts"],
@@ -89,7 +88,7 @@ module.exports = {
                 {
                   name: "removeTitle",
                   active: "false"
-                }, 
+                },
                 {
                   name: "removeAttrs",
                   params: {
@@ -110,7 +109,7 @@ module.exports = {
           },
           {
             loader: "css-loader",
-            options: { 
+            options: {
               importLoaders: 1,
               url: false
             }
@@ -150,7 +149,7 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           ecma: 5,
-          format : {
+          format: {
             comments: false,
           },
         },

@@ -1,8 +1,6 @@
 // # Map module
 
-// Used for rendering a static/dynamic Google Map.  The dynamic map will be used
-// if JavaScript is available. Otherwise, the static map will be displayed.
-// When printing, the static map will always be displayed.
+// Used for rendering a static/dynamic Map, depending on route mode.
 
 // ## Flags
 

@@ -1,4 +1,3 @@
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaWithGeo } from "./algolia-search-with-geo";
 import { AlgoliaFacets } from "./algolia-facets";
 import { AlgoliaResults } from "./algolia-results";
@@ -9,9 +8,7 @@ export function init() {
   document.addEventListener(
     "turbolinks:load",
     () => {
-      doWhenGoogleMapsIsReady(() => {
-        search.init();
-      });
+      search.init();
     },
     { passive: true }
   );
@@ -31,7 +28,6 @@ export class AlgoliaGlobalSearch {
   _bind() {
     this.reset = this.reset.bind(this);
     this.onKeyup = this.onKeyup.bind(this);
-    this.onFocusInput = this.onFocusInput.bind(this);
   }
 
   init() {
@@ -80,8 +76,6 @@ export class AlgoliaGlobalSearch {
     );
     window.jQuery(document).on("keyup", `#${inputField.id}`, this.onKeyup);
 
-    inputField.addEventListener("focus", this.onFocusInput);
-
     document.addEventListener("turbolinks:before-render", () => {
       window.jQuery(document).off("keyup", `#${inputField.id}`, this.onKeyup);
     });
@@ -128,18 +122,6 @@ export class AlgoliaGlobalSearch {
     this._toggleResetButton(inputField.value != "");
     this.controller.search({ query: this.container.value });
     this.updateHistory();
-  }
-
-  onFocusInput(ev) {
-    this.controller.setSessionToken();
-  }
-
-  getSessionToken() {
-    return this.controller.sessionToken;
-  }
-
-  resetSessionToken() {
-    this.controller.resetSessionToken();
   }
 
   updateHistory() {

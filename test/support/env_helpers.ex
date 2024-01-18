@@ -24,4 +24,15 @@ defmodule Test.Support.EnvHelpers do
       end)
     end
   end
+
+  defmacro set_log_level(new_level) do
+    quote do
+      old_level = Logger.level()
+      Logger.configure(level: unquote(new_level))
+
+      on_exit(fn ->
+        Logger.configure(level: old_level)
+      end)
+    end
+  end
 end

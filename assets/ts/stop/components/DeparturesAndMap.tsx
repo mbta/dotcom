@@ -10,7 +10,7 @@ import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
 import { useLoaderData } from "react-router-dom";
 import { Alert, Route, Stop } from "../../__v3api";
 import StopPageDepartures from "./StopPageDepartures";
-import StopMapRedesign from "./StopMapRedesign";
+import StopMap from "./StopMap";
 import DepartureList from "./DepartureList";
 import renderFa from "../../helpers/render-fa";
 import {
@@ -253,7 +253,7 @@ const DeparturesAndMap = ({
         )}
       </div>
       <div className="stop-map hidden-sm-down">
-        <StopMapRedesign
+        <StopMap
           stop={stop}
           lines={
             activeRow && shapeForSelection

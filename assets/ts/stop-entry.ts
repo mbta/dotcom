@@ -1,5 +1,3 @@
-import googleMapsLoaded from "../js/google-maps-loaded";
-import stop from "./stop/stop-loader";
-
-googleMapsLoaded();
-stop();
+import onLoad from "./stop/stop-loader";
+// This is technically the onLoad() function
+onLoad();

@@ -1,11 +1,6 @@
-<script data-for="stop-page" id="js-stop-page-data" type="text/plain">
-  <%= raw Poison.encode!(@stop_page_data) %>
-</script>
 <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
-<script data-for="map" id="js-stop-map-data" type="text/plain"><%= raw Poison.encode!(@map_data) %></script>
-
-<div id="react-root">
-  <%= Dotcom.React.render("StopPage", %{stopPageData: @stop_page_data, mapData: @map_data, mapId: "map" }) %>
+<div>
+  <div id="react-stop-root" data-mbta-stop-id="<%= @stop_id %>"></div>
 </div>
 
 <%= if Application.get_env(:dotcom, :dev_server?) do %>

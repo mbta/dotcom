@@ -161,36 +161,6 @@
   margin-bottom: $base-spacing;
 }
 
-.line-map {
-  width: 100%;
-
-  // the size of the map varies at different breakpoints, these heights make is a square
-  @include media-breakpoint-only(xxl) {
-    height: 356px;
-  }
-
-  @include media-breakpoint-only(lg) {
-    height: 284px;
-  }
-
-  @include media-breakpoint-only(md) {
-    height: 222px;
-  }
-
-  @include media-breakpoint-only(sm) {
-    height: 300px;
-  }
-
-  @include media-breakpoint-only(xs) {
-    height: 256px;
-  }
-
-  // this hides the close "x" from the info window. This is because we use it like a tooltip (it closes on mouseout)
-  .gm-style-iw + div {
-    display: none;
-  }
-}
-
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 ///// DATE AND DIRECTION FILTER BUTTONS

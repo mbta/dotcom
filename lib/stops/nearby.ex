@@ -3,9 +3,8 @@ defmodule Stops.Nearby do
   import Util.Distance
   alias Routes.Route
   alias Stops.Stop
-  alias Util.{Distance, Position}
+  alias Util.Position
 
-  @default_timeout 10_000
   @mile_in_degrees 0.02
   @total 12
 
@@ -51,105 +50,6 @@ defmodule Stops.Nearby do
     )
     |> Task.async_stream(&opts.fetch_fn.(&1.id))
     |> Enum.map(fn {:ok, result} -> result end)
-  end
-
-  @spec nearby_with_routes(Position.t(), float, keyword) :: [
-          %{stop: Stop.t(), routes_with_direction: [route_with_direction]}
-        ]
-  def nearby_with_routes(position, radius, opts \\ []) do
-    opts =
-      %Options{}
-      |> Map.merge(Map.new(opts))
-
-    stops =
-      position
-      |> opts.api_fn.(radius: radius)
-      |> Task.async_stream(&opts.fetch_fn.(&1.id))
-      |> Enum.map(fn {:ok, result} -> result end)
-
-    stops
-    |> Enum.map(fn stop ->
-      %{
-        stop: stop,
-        distance:
-          Distance.haversine(position, %{longitude: stop.longitude, latitude: stop.latitude})
-      }
-    end)
-    |> Enum.reject(&(&1.distance == 0))
-    |> Enum.take(opts.limit || length(stops))
-    |> Task.async_stream(fn %{stop: stop, distance: distance} ->
-      case merge_routes(stop.id, opts.routes_fn) do
-        {:ok, routes_with_direction} ->
-          %{
-            stop: stop,
-            distance: distance,
-            routes_with_direction: routes_with_direction
-          }
-
-        {:error, :timeout} ->
-          %{
-            stop: stop,
-            distance: distance,
-            routes_with_direction: []
-          }
-      end
-    end)
-    |> Enum.map(fn {:ok, result} -> result end)
-  end
-
-  def routes_for_stop_direction(routes_fn, stop_id, direction_id) do
-    stop_id
-    |> routes_fn.(direction_id)
-    |> do_routes_for_stop_direction(direction_id)
-  end
-
-  def do_routes_for_stop_direction(routes, direction_id) when is_list(routes) do
-    Enum.map(routes, &%{direction_id: direction_id, route: &1})
-  end
-
-  def do_routes_for_stop_direction(_, _), do: :error
-
-  @spec merge_routes(String.t(), fun()) :: {:ok | :error, [route_with_direction] | :timeout}
-  def merge_routes(stop_id, routes_fn) do
-    # Find the routes for a stop in both directions.
-    # Merge the routes such that if a route exists for a stop in both
-    # directions, set the direction_id to nil
-
-    direction_0_task = Task.async(__MODULE__, :routes_for_stop_direction, [routes_fn, stop_id, 0])
-    direction_1_task = Task.async(__MODULE__, :routes_for_stop_direction, [routes_fn, stop_id, 1])
-
-    result =
-      Util.yield_or_default_many(
-        %{
-          direction_0_task => {:direction_0_routes, {:error, :timeout}},
-          direction_1_task => {:direction_1_routes, {:error, :timeout}}
-        },
-        __MODULE__,
-        @default_timeout
-      )
-
-    case result do
-      %{direction_0_routes: direction_0_routes, direction_1_routes: direction_1_routes}
-      when is_list(direction_0_routes) and is_list(direction_1_routes) ->
-        routes =
-          [direction_0_routes | direction_1_routes]
-          |> List.flatten()
-          |> Enum.reduce(%{}, fn %{route: route} = route_with_direction, merged_routes ->
-            # credo:disable-for-lines:4 Credo.Check.Refactor.Nesting
-            direction_id =
-              if Map.has_key?(merged_routes, route.id),
-                do: nil,
-                else: route_with_direction.direction_id
-
-            Map.put(merged_routes, route.id, %{route_with_direction | direction_id: direction_id})
-          end)
-          |> Map.values()
-
-        {:ok, routes}
-
-      _ ->
-        {:error, :timeout}
-    end
   end
 
   def api_task(position, %{api_fn: api_fn}, opts) do

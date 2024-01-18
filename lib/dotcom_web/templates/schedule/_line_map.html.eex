@@ -1,9 +1,4 @@
 <div id="map-root"></div>
-<noscript>
-  <div class="line-map map m-schedule-line__map-static">
-    <img class="map-static map-static-img" srcset="<%= @map_img_src %>"></img>
-  </div>
-</noscript>
 
 <script id="js-map-data"
         data-channel-id="<%= @channel %>"

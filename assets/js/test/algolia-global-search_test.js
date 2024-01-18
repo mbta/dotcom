@@ -12,15 +12,13 @@ const { testURL } = testConfig;
 
 describe("AlgoliaGlobalSearch", function() {
   jsdom({
-    url: testURL,
-    scripts: [
-      "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
-    ]
+    url: testURL
   });
 
   before(() => {
     window.jQuery = jsdom.rerequire("jquery");
     window.$ = window.jQuery;
+    window.decodeURIComponent = string => string;
     window.encodeURIComponent = string =>
       string
         .replace(/\s/g, "%20")
@@ -33,7 +31,6 @@ describe("AlgoliaGlobalSearch", function() {
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
       document.body.innerHTML += `<div id="${AlgoliaGlobalSearch.SELECTORS[key]}"></div>`;
     });
-    document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
     document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;
   });
 
@@ -132,7 +129,6 @@ describe("AlgoliaGlobalSearch", function() {
         const elType = key == "input" ? "input" : "div";
         document.body.innerHTML += `<${elType} id="${AlgoliaGlobalSearch.SELECTORS[key]}"></${elType}>`;
       });
-      document.body.innerHTML += `<div id="powered-by-google-logo"></div>`;
       document.body.innerHTML += `<div id="algolia-error">There was an error</div>`;
       this.globalSearch = new AlgoliaGlobalSearch();
       this.globalSearch.init();

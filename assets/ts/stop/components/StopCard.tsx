@@ -1,9 +1,8 @@
 import React, { ReactElement } from "react";
 import { Stop, EnhancedRoute, DirectionId } from "../../__v3api";
 import { RouteWithDirection } from "./__stop";
-import { modeIcon, parkingIcon } from "../../helpers/icon";
+import { accessibleIcon, modeIcon, parkingIcon } from "../../helpers/icon";
 import { isABusRoute } from "../../models/route";
-import accessible from "./StopAccessibilityIcon";
 import { routesWithDirectionsAreAllBusStops } from "../../helpers/routes";
 
 const formatMilesToFeet = (miles: number): number => Math.floor(miles * 5280.0);
@@ -70,7 +69,13 @@ const StopCard = ({
         {stop.name}
       </a>
       <div className="c-stop-card__icon-container">
-        {accessible(stop, allAreBusStops)}
+        {(allAreBusStops || stop.accessibility.includes("accessible")) && (
+          <a className="m-stop-page__access-icon" href="#header-accessibility">
+            <span className="m-stop-page__icon">
+              {accessibleIcon("c-svg__icon-accessible-default")}
+            </span>
+          </a>
+        )}
         {stop.parking_lots.length > 0 ? (
           <span className="c-stop-page__icon">
             {parkingIcon("c-svg__icon-parking-default u-color-gray-light")}

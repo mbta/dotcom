@@ -2,12 +2,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import stopData from "./stopData.json";
-import { StopPageData, RouteWithDirections } from "../components/__stop";
+import { RouteWithDirections } from "../components/__stop";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import RouteCard from "../components/RouteCard";
 import { EnhancedRoute, Alert } from "../../__v3api";
 
-const data: StopPageData = JSON.parse(JSON.stringify(stopData));
+const data = JSON.parse(JSON.stringify(stopData));
 
 it("it renders", () => {
   const routeWithDirections: RouteWithDirections = data.routes[0].routes[0];

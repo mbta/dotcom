@@ -1,5 +1,5 @@
-defmodule TripPlan.Geocode.GoogleGeocode do
-  @behaviour TripPlan.Geocode
+defmodule TripPlan.Geocode do
+  @behaviour TripPlan.Geocoder
 
   alias TripPlan.NamedPosition
 

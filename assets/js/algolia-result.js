@@ -9,13 +9,7 @@ export const SELECTORS = {
   result: "js-search-result"
 };
 
-export const autocompleteByGoogle = () =>
-  window && window.locationAutocompleteBacking === "google";
-
 export const TEMPLATES = {
-  poweredByGoogleLogo: hogan.compile(
-    `<div class="c-search-result__hit c-search-result__google">{{{logo}}}</div>`
-  ),
   fontAwesomeIcon: hogan.compile(
     `<span aria-hidden="true" class="c-search-result__content-icon fa {{icon}}"></span>`
   ),

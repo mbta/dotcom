@@ -1,7 +1,7 @@
-defmodule TripPlan.Geocode.GoogleGeocodeTest do
-  use ExUnit.Case
+defmodule TripPlan.GeocodeTest do
+  use ExUnit.Case, async: false
   import Mock
-  import TripPlan.Geocode.GoogleGeocode
+  import TripPlan.Geocode
   alias LocationService.Address
   alias TripPlan.NamedPosition
 

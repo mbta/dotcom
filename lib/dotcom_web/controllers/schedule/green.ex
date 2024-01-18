@@ -27,7 +27,6 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:validate_journeys)
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(DotcomWeb.ScheduleController.ScheduleError)
-  plug(:require_map)
   plug(:route_pdfs)
   plug(:channels)
 
@@ -195,8 +194,6 @@ defmodule DotcomWeb.ScheduleController.Green do
   end
 
   defp validate_direction(conn, _), do: conn
-
-  defp require_map(conn, _), do: assign(conn, :requires_location_service?, true)
 
   defp route_pdfs(%{assigns: %{date: date}} = conn, _) do
     pdfs = Dotcom.RoutePdfs.fetch_and_choose_pdfs("Green", date)

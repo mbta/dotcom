@@ -13,7 +13,6 @@ function setup(idx) {
   const id = PAGE_IDS[idx];
   const { selectors, indices, params } = buildOptions(id);
   document.body.innerHTML = `
-    <div id="powered-by-google-logo"></div>
     <input id="${selectors.input}"></input>
     <div id="${selectors.resetButton}"></div>
     <div id="${selectors.container}"></div>
@@ -24,8 +23,7 @@ function setup(idx) {
     pageId: id,
     selectors,
     params,
-    indices,
-    withGoogle: true
+    indices
   });
 }
 

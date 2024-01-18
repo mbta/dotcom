@@ -1,105 +1,129 @@
 defmodule LocationServiceTest do
   use ExUnit.Case, async: false
-
   import LocationService
   import Mock
-  import Test.Support.EnvHelpers
 
-  describe "selects functions based on environment variable" do
-    setup_with_mocks([
-      {AWSLocation, [],
-       [
-         geocode: fn _ -> "i use the amazon one" end,
-         reverse_geocode: fn _, _ -> "i use the amazon one" end,
-         autocomplete: fn _, _ -> "i use the amazon one" end
-       ]},
-      {LocationService.Wrappers, [],
-       [google_autocomplete: fn _, _, _ -> "i use the google one" end]},
-      {GoogleMaps.Geocode, [:passthrough],
-       [
-         geocode: fn _ -> "i use the google one" end,
-         reverse_geocode: fn _, _ -> "i use the google one" end
-       ]}
-    ]) do
-      :ok
-    end
+  alias AWSLocation.Request
 
-    test "selects functions based on system environment variable (google)" do
-      set_location_service_config(
-        geocode: "google",
-        reverse_geocode: "google",
-        autocomplete: "google"
-      )
+  setup do
+    {:ok, body_string} =
+      %{
+        "Results" => [
+          %{
+            "Place" => %{
+              "Label" => "Somewhere",
+              "Geometry" => %{"Point" => [-71.05566, 42.35913]}
+            }
+          }
+        ]
+      }
+      |> Jason.encode()
 
-      assert "i use the google one" = geocode("a thing")
-      assert "i use the google one" = reverse_geocode(71.56890, -68.5285)
-      assert "i use the google one" = autocomplete("a thing", 2, nil)
-    end
-
-    test "selects functions based on system environment variable (aws)" do
-      set_location_service_config(geocode: "aws", reverse_geocode: "aws", autocomplete: "aws")
-      assert "i use the amazon one" = geocode("another thing")
-      assert "i use the amazon one" = reverse_geocode(71.56890, 40.5285)
-      assert "i use the amazon one" = autocomplete("some other thing", 2, nil)
-    end
+    good_response = %{status_code: 200, body: body_string}
+    {:ok, no_results} = Jason.encode(%{"Results" => []})
+    no_results = %{status_code: 200, body: no_results}
+    %{good_response: good_response, no_results: no_results}
   end
 
   describe "geocode/1" do
-    test "uses cache" do
-      # return the input address along with the time the function evaluates.
-      mock_return_address = fn address -> {address, DateTime.utc_now()} end
+    test "can parse a response with results", %{good_response: good_response} do
+      with_mock Request, [], new: fn _ -> {:ok, good_response} end do
+        assert {:ok, body} = geocode("testing with results")
 
-      with_mocks [
-        {AWSLocation, [], [geocode: mock_return_address]}
-      ] do
-        set_location_service_config(geocode: "aws")
-        address1 = "a first place"
-        {^address1, time1} = geocode(address1)
-        :timer.sleep(1000)
-        {^address1, time2} = geocode(address1)
-        # the second call should return the cached result
-        assert DateTime.compare(time1, time2) == :eq
+        assert [
+                 %LocationService.Address{
+                   formatted: "Somewhere",
+                   longitude: -71.05566,
+                   latitude: 42.35913
+                 }
+               ] = body
+      end
+    end
+
+    test "can parse a response with no results", %{no_results: no_results} do
+      with_mock Request, [],
+        new: fn _ ->
+          {:ok, no_results}
+        end do
+        assert {:error, :zero_results} = geocode("test no results")
+      end
+    end
+
+    test "can parse a response with no body" do
+      with_mock Request, [:passthrough],
+        new: fn _ ->
+          {:ok, %{status_code: 412}}
+        end do
+        assert {:error, :internal_error} = geocode("test no body")
+      end
+    end
+
+    test "can parse a response with error" do
+      with_mock Request, [:passthrough],
+        new: fn _ ->
+          {:error, {:http_error, 500, "bad news"}}
+        end do
+        assert {:error, :internal_error} = geocode("test error")
       end
     end
   end
 
-  describe "reverse_geocode/1" do
-    test "uses cache" do
+  describe "reverse_geocode/2" do
+    test "can parse a response with results" do
       # return the input coordinates along with the time the function evaluates.
-      mock_return_coordinates = fn lat, long -> {lat, long, DateTime.utc_now()} end
+      mock_return_coordinates = fn [lat, lon] ->
+        {:ok, body_string} =
+          %{
+            "Results" => [
+              %{
+                "Place" => %{
+                  "Label" => "Geocoded page",
+                  "Geometry" => %{"Point" => [lon, lat]}
+                }
+              }
+            ]
+          }
+          |> Jason.encode()
 
-      with_mocks [
-        {AWSLocation, [], [reverse_geocode: mock_return_coordinates]},
-        {GoogleMaps.Geocode, [], [reverse_geocode: mock_return_coordinates]}
-      ] do
-        set_location_service_config(reverse_geocode: "aws")
+        body_string
+      end
+
+      with_mock Request, [:passthrough],
+        new: fn coordinates ->
+          {:ok, %{status_code: 200, body: mock_return_coordinates.(coordinates)}}
+        end do
         lat1 = 71.596
         long1 = -68.321
-        {^lat1, ^long1, time1} = reverse_geocode(lat1, long1)
-        :timer.sleep(1000)
-        {^lat1, ^long1, time2} = reverse_geocode(lat1, long1)
-        # the second call should return the cached result
-        assert DateTime.compare(time1, time2) == :eq
+        assert {:ok, [%LocationService.Address{}]} = reverse_geocode(lat1, long1)
       end
     end
   end
 
-  describe "autocomplete/3" do
-    test "is cached" do
-      with_mock AWSLocation, [], autocomplete: fn _, _ -> DateTime.utc_now() end do
-        set_location_service_config(autocomplete: "aws")
-        t1 = autocomplete("cached", 2, nil)
-        t2 = autocomplete("cached", 2, nil)
-        assert t1 == t2
+  describe "autocomplete/2" do
+    test "can parse a response with results" do
+      {:ok, body_string} =
+        %{
+          "Results" => [
+            %{
+              "Text" => "Test Location"
+            }
+          ]
+        }
+        |> Jason.encode()
+
+      with_mock ExAws,
+        request: fn _ -> {:ok, %{status_code: 200, body: body_string}} end do
+        assert {:ok, result} = autocomplete("Tes", 2)
+
+        assert [%LocationService.Suggestion{address: "Test Location"}] = result
       end
     end
-  end
 
-  defp set_location_service_config(opts) do
-    adjusted_config =
-      Application.get_env(:dotcom, LocationService)
-      |> Keyword.merge(opts)
-
-    reassign_env(:dotcom, LocationService, adjusted_config)
+    test "can parse a response with error" do
+      with_mock ExAws,
+        request: fn _ -> {:error, {:http_error, 500, "bad news"}} end do
+        assert {:error, :internal_error} = autocomplete("test", 2)
+      end
+    end
   end
 end

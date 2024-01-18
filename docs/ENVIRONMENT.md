@@ -38,11 +38,6 @@ for development since requests without an API key have a very low rate limit.
 The URL for our CMS. You'll need to set this to view any of the static content
 on the site.
 
-### `GOOGLE_API_KEY`
-
-This will ensure any part of the site that uses Google's API will not get rate
-limited. If your work for the MBTA requires a Google API key, you can request one via the [Infrastructure request form](https://form.asana.com/?d=15492006741476&k=yxvoxR2nofLwyXkOpuwrBg).
-
 ### `ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`
 
 These keys are used to interact with the Algolia search api. The values can be found under the `Api Keys` section in Algolia (you'll need to be added as a team member to get access).

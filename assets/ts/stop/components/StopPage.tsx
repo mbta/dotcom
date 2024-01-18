@@ -1,156 +1,117 @@
-import React, { ReactElement, useReducer } from "react";
-import useInterval from "use-interval";
-import StopMapContainer from "./StopMapContainer";
-import { StopPageData, StopMapData, TypedRoutes } from "./__stop";
-import { EnhancedRoute } from "../../__v3api";
+import React, { ReactElement, useState } from "react";
+import { concat, filter } from "lodash";
+import { useLoaderData } from "react-router-dom";
+import { useStop, useFacilitiesByStop } from "../../hooks/useStop";
+import StationInformation from "./StationInformation";
+import { useRoutes } from "../../hooks/useRoute";
 import StopPageHeader from "./StopPageHeader";
-import { reducer, initialState, Dispatch, updateRoutesAction } from "../state";
+import Loading from "../../components/Loading";
 import Alerts from "../../components/Alerts";
-import AlertsTab from "./AlertsTab";
-import Sidebar from "./Sidebar";
-import LocationBlock from "./LocationBlock";
-import Departures from "./Departures";
-import SuggestedTransfers from "./SuggestedTransfers";
-import { isHighSeverityOrHighPriority } from "../../models/alert";
-import useIsGlxOpen from "../../hooks/useIsGlxOpen";
-import { formattedDate } from "../../helpers/date";
+import { useAlertsByRoute, useAlertsByStop } from "../../hooks/useAlerts";
+import DeparturesAndMap from "./DeparturesAndMap";
+import {
+  isGlobalBannerAlert,
+  routeWideAlerts,
+  isInNextXDays,
+  isAmenityAlert,
+  hasDetour
+} from "../../models/alert";
+import { FetchStatus } from "../../helpers/use-fetch";
+import { Alert } from "../../__v3api";
+import { GroupedRoutePatterns } from "../../models/route-patterns";
 
-interface Props {
-  stopPageData: StopPageData;
-  mapData: StopMapData;
-  mapId: string;
-}
+const isStopPageAlert = ({ effect }: Alert): boolean =>
+  [
+    "suspension",
+    "stop_closure",
+    "station_closure",
+    "shuttle",
+    "detour",
+    "stop_moved"
+  ].includes(effect);
 
-export const fetchData = (stopId: string, dispatch: Dispatch): Promise<void> =>
-  window.fetch &&
-  window
-    .fetch(`/stops/api?id=${stopId}`)
-    .then((response: Response) => {
-      if (response.ok) return response.json();
-      throw new Error(response.statusText);
-    })
-    .then((routes: TypedRoutes[]) => dispatch(updateRoutesAction(routes)))
-    .catch(() => {});
-
-const StopPage = ({
-  stopPageData,
-  mapData,
-  mapId
-}: Props): ReactElement<HTMLElement> => {
-  const {
-    stop,
-    street_view_url: streetViewUrl,
-    routes,
-    // eslint-disable-next-line camelcase
-    routes_with_direction: routesWithDirection,
-    // eslint-disable-next-line camelcase
-    retail_locations: retailLocations,
-    // eslint-disable-next-line camelcase
-    suggested_transfers: suggestedTransfers,
-    alerts,
-    alerts_tab: alertsTab,
-    routes_and_alerts: routesAndAlerts,
-    tab
-  } = stopPageData;
-
-  const [state, dispatch] = useReducer(reducer, initialState(tab, routes));
-
-  useInterval(() => {
-    // temporarily disabled while we debug CPU issues
-    // fetchData(stop.id, dispatch);
-  }, 15000);
-
-  const highPriorityAlerts = alerts.filter(isHighSeverityOrHighPriority);
-  const [isGlxOpen, glxOpenDate] = useIsGlxOpen(stop.id);
-  const stationInformation =
-    isGlxOpen && glxOpenDate ? (
-      <p>
-        <strong>Open to riders on {formattedDate(glxOpenDate)}</strong>, this
-        station is one of several to join the Green Line as part of the{" "}
-        <a href="https://www.mbta.com/projects/green-line-extension-glx">
-          Green Line Extension (GLX)
-        </a>
-        .
+const FullwidthErrorMessage = (): JSX.Element => (
+  <div className="c-fullscreen-error__container">
+    <div className="container">
+      <p className="c-fullscreen-error__heading u-bold">
+        Live information could not be loaded.
       </p>
-    ) : (
-      <p>See upcoming departures, maps, and other features at this location.</p>
-    );
+      <p>Please refresh the page to try again.</p>
+    </div>
+  </div>
+);
+const StopPage = ({
+  stopId
+}: {
+  stopId: string;
+}): ReactElement<HTMLElement> => {
+  const [hasPredictionError, setPredictionError] = useState(false);
+  const stopResult = useStop(stopId);
+  const groupedRoutePatterns = useLoaderData() as GroupedRoutePatterns;
+  const routesResult = useRoutes(Object.keys(groupedRoutePatterns || []));
+  const alertsForStopResult = useAlertsByStop(stopId);
+  const facilities = useFacilitiesByStop(stopId);
+  const routes = routesResult.data || [];
+  const alertsForRoutesResult = useAlertsByRoute(routes.map(r => r.id));
+
+  if (
+    [stopResult.status, routesResult.status, facilities.status].includes(
+      FetchStatus.Error
+    )
+  ) {
+    // TODO: get the actual error message here and/or throw the Error from the
+    // fetching hooks themselves
+    throw new Error();
+  }
+
+  // Return loading indicator while waiting on data fetch
+  if (
+    !stopResult.data ||
+    !alertsForRoutesResult.data ||
+    !alertsForStopResult.data ||
+    !facilities.data
+  ) {
+    return <Loading />;
+  }
+
+  const allRouteWideAlerts = routeWideAlerts(alertsForRoutesResult.data);
+  const allAlerts = concat(alertsForStopResult.data, allRouteWideAlerts);
+  const allAmenityAlerts = filter(allAlerts, a => isAmenityAlert(a));
+  const allStopPageAlerts = filter(allAlerts, a => isStopPageAlert(a));
+
+  const alertsWithinSevenDays = filter(allStopPageAlerts, alert =>
+    isInNextXDays(alert, 7)
+  );
+
   return (
-    <>
-      <StopPageHeader
-        stopPageData={stopPageData}
-        dispatch={dispatch}
-        selectedTab={state.selectedTab}
-      />
-      {state.selectedTab === "alerts" ? (
-        <AlertsTab alertsTab={alertsTab} />
-      ) : (
-        <>
-          <div
-            className={`m-stop-page__info-container${
-              isGlxOpen ? " glx-open" : ""
-            }`}
-          >
-            <div className="m-stop-page__info">
-              <Alerts alerts={highPriorityAlerts} />
-              <h2>Station Information</h2>
-              {stationInformation}
-            </div>
-          </div>
-          <div className="m-stop-page__hero">
-            <StopMapContainer
-              initialData={mapData}
-              mapId={mapId}
-              stop={stop}
-              routes={routes.reduce(
-                (
-                  accumulator: EnhancedRoute[],
-                  groupedRoutes: TypedRoutes
-                ): EnhancedRoute[] =>
-                  accumulator.concat(
-                    groupedRoutes.routes.map(typedRoute => typedRoute.route)
-                  ),
-                []
-              )}
-              routesWithDirection={routesWithDirection}
-            />
-            <div className="m-stop-page__hero-photo" />
-          </div>
-          <div className="container">
-            <div className="page-section">
-              <div className="row">
-                <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0">
-                  <LocationBlock
-                    stop={stop}
-                    routes={routes}
-                    streetViewUrl={streetViewUrl}
-                  />
-                  <Departures
-                    routes={state.routes}
-                    routesAndAlerts={routesAndAlerts}
-                    stop={stop}
-                    selectedModes={state.selectedModes}
-                    dispatch={dispatch}
-                  />
-                  <SuggestedTransfers suggestedTransfers={suggestedTransfers} />
-                </div>
-                <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-4 col-lg-offset-1">
-                  <Sidebar
-                    dispatch={dispatch}
-                    expandedBlocks={state.expandedBlocks}
-                    focusedBlock={state.focusedBlock}
-                    stop={stop}
-                    routes={routes}
-                    retailLocations={retailLocations}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-    </>
+    <article>
+      <StopPageHeader stop={stopResult.data} routes={routes} />
+      {hasPredictionError && FullwidthErrorMessage()}
+      <div className="container">
+        <Alerts
+          alerts={alertsWithinSevenDays.filter(
+            alert => !isGlobalBannerAlert(alert) && !hasDetour([alert])
+          )}
+        />
+        <DeparturesAndMap
+          routes={routes}
+          stop={stopResult.data}
+          alerts={allStopPageAlerts}
+          setPredictionError={setPredictionError}
+        />
+        <footer>
+          <StationInformation
+            stop={stopResult.data}
+            facilities={facilities.data}
+            alerts={allAmenityAlerts}
+          />
+        </footer>
+      </div>
+    </article>
   );
 };
+
+//
+// alerts banners should be the specific alert types, and only ongoing or upcoming in 7 days
 
 export default StopPage;

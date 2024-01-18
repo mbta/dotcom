@@ -1,4 +1,4 @@
-defmodule TripPlan.Geocode do
+defmodule TripPlan.Geocoder do
   @type t :: {:ok, result} | {:error, error}
   @type result :: TripPlan.NamedPosition.t()
   @type error :: :no_results | {:multiple_results, nonempty_list(result)} | :required | :unknown

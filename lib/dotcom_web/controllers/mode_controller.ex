@@ -8,7 +8,6 @@ defmodule DotcomWeb.ModeController do
 
   plug(DotcomWeb.Plugs.RecentlyVisited)
   plug(DotcomWeb.Plug.Mticket)
-  plug(:require_location_service)
 
   defdelegate subway(conn, params), to: Mode.SubwayController, as: :index
   defdelegate bus(conn, params), to: Mode.BusController, as: :index
@@ -40,10 +39,6 @@ defmodule DotcomWeb.ModeController do
 
   def json_safe_routes(pred_or_sched) do
     Map.update!(pred_or_sched, :route, fn route -> Route.to_json_safe(route) end)
-  end
-
-  defp require_location_service(conn, _) do
-    assign(conn, :requires_location_service?, true)
   end
 
   @spec guides :: [Teaser.t()]

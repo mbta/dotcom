@@ -4,8 +4,7 @@ import { expect } from "chai";
 import AlgoliaAutocompleteWithGeo, {
   addFilterParam
 } from "../algolia-autocomplete-with-geo";
-import * as GoogleMapsHelpers from "../google-maps-helpers";
-import google from "./google-stubs";
+import * as MapsHelpers from "../maps-helpers";
 import testConfig from "./../../ts/jest.config";
 
 const { testURL } = testConfig;
@@ -27,7 +26,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
 
   beforeEach(function() {
     document.body.innerHTML = `
-      <div id="powered-by-google-logo"></div>
       <div id="${selectors.container}">
         <input id="${selectors.input}" type="text" />
         <div id="${selectors.resetButton}"></div>
@@ -88,30 +86,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
   });
 
   describe("_datasetSource", function() {
-    it('returns a callback that calls google for "location" index', function(done) {
-      this.ac.init(this.client);
-      sinon.stub(GoogleMapsHelpers, "autocomplete").resolves({
-        locations: {
-          hits: [
-            {
-              hitTitle: "location result"
-            }
-          ]
-        }
-      });
-      const source = this.ac._datasetSource("locations");
-      const callback = sinon.spy();
-      const result = source("location query", callback);
-      Promise.resolve(result).then(() => {
-        setTimeout(() => {
-          expect(GoogleMapsHelpers.autocomplete.called).to.be.true;
-          expect(callback.called).to.be.true;
-          GoogleMapsHelpers.autocomplete.restore();
-          done();
-        }, this.ac.debounceInterval + 500);
-      });
-    });
-
     it("returns a callback that returns the popular array that was provided", function() {
       const source = this.ac._datasetSource("popular");
       const callback = sinon.spy();
@@ -140,7 +114,7 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       };
       window.encodeURIComponent = str => str;
       sinon
-        .stub(GoogleMapsHelpers, "reverseGeocode")
+        .stub(MapsHelpers, "reverseGeocode")
         .resolves("10 Park Plaza, Boston MA");
       const result = this.ac.useMyLocationSearch();
       Promise.resolve(result).then(() => {
@@ -175,9 +149,6 @@ describe("AlgoliaAutocompleteWithGeo", function() {
       };
 
       this.client.search = sinon.stub().resolves(this.locationSearchResults);
-
-      window.google = google;
-
       sinon.spy(this.ac, "showLocation");
     });
 

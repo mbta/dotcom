@@ -2,74 +2,13 @@ defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
   doctest Stops.Nearby
 
-  alias Routes.Route
   alias Stops.Stop
   alias Util.Distance
   import Stops.Nearby
 
-  @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
-
   @latitude 42.577
   @longitude -71.225
   @position {@latitude, @longitude}
-
-  describe "nearby_with_routes/3" do
-    test "nearby stop is returned with a list of routes" do
-      stop = %Stop{id: "stop", longitude: -71.103404, latitude: 42.365291}
-      route = %Route{id: "route"}
-
-      api_fn = fn _, _opts -> [%{id: "stop", latitude: 0, longitude: 0}] end
-      fetch_fn = fn _id -> stop end
-      routes_fn = fn _id, _direction -> [route] end
-
-      actual =
-        nearby_with_routes(@position, 0.002,
-          api_fn: api_fn,
-          fetch_fn: fetch_fn,
-          routes_fn: routes_fn
-        )
-
-      expected = [
-        %{
-          stop: stop,
-          distance: 15.886258832510926,
-          routes_with_direction: [
-            %{
-              direction_id: nil,
-              route: route
-            }
-          ]
-        }
-      ]
-
-      assert expected == actual
-    end
-
-    test "handles routes timeout gracefully" do
-      stop = %Stop{id: "stop", longitude: -71.103404, latitude: 42.365291}
-
-      api_fn = fn _, _opts -> [%{id: "stop", latitude: 0, longitude: 0}] end
-      fetch_fn = fn _id -> stop end
-      routes_fn = fn _id, _direction -> :error end
-
-      actual =
-        nearby_with_routes(@position, 0.002,
-          api_fn: api_fn,
-          fetch_fn: fetch_fn,
-          routes_fn: routes_fn
-        )
-
-      expected = [
-        %{
-          distance: 15.886258832510926,
-          routes_with_direction: [],
-          stop: stop
-        }
-      ]
-
-      assert expected == actual
-    end
-  end
 
   describe "nearby_with_varying_radius_by_mode/2" do
     test "gets CR/subway/bus stops, gathers then, and fetches them" do
@@ -313,26 +252,6 @@ defmodule Stops.NearbyTest do
         # no more than 12 items
         assert length(actual) <= 12
       end
-    end
-  end
-
-  describe "merge_routes/2" do
-    test "sets direction_id for routes present in one direction at stop" do
-      stop_id = "1994"
-      routes_fn = &@routes_repo_api.by_stop_and_direction/2
-      {:ok, actual} = merge_routes(stop_id, routes_fn)
-      route_going_1way = Enum.find(actual, &(&1.route.name === "65"))
-
-      refute nil == route_going_1way.direction_id
-    end
-
-    test "sets direction_id to nil for routes present in both directions at stop" do
-      stop_id = "place-kencl"
-      routes_fn = &@routes_repo_api.by_stop_and_direction/2
-      {:ok, actual} = merge_routes(stop_id, routes_fn)
-      route_going_2ways = Enum.find(actual, &(&1.route.name === "57A"))
-
-      assert nil == route_going_2ways.direction_id
     end
   end
 

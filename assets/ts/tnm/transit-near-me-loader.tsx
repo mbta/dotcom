@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { MapData } from "../leaflet/components/__mapdata";
-import { doWhenGoogleMapsIsReady } from "../../js/google-maps-loaded";
 import TransitNearMeSearch from "./search";
 import TransitNearMe from "./components/TransitNearMe";
 import { parseQuery } from "../helpers/query";
@@ -32,9 +31,7 @@ const render = (): void => {
 };
 
 const renderMap = (): void => {
-  doWhenGoogleMapsIsReady(() => {
-    render();
-  });
+  render();
 };
 
 const setupSearch = (): void => {

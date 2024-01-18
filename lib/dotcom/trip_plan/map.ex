@@ -1,7 +1,6 @@
 defmodule Dotcom.TripPlan.Map do
   alias Leaflet.{MapData, MapData.Marker}
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
-  alias GoogleMaps
   alias Routes.Route
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Util.Position

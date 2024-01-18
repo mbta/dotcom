@@ -1,15 +1,12 @@
 /* eslint-disable */
-import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
-import * as GoogleMapsHelpers from "./google-maps-helpers";
+import * as MapsHelpers from "./maps-helpers";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
 
 export function init() {
   document.addEventListener("turbolinks:load", () => {
-    doWhenGoogleMapsIsReady(() => {
-      new TripPlannerLocControls();
-    });
+    new TripPlannerLocControls();
   });
 }
 
@@ -78,7 +75,6 @@ export class TripPlannerLocControls {
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
 
     this.autocompletes.forEach(ac => {
-      ac.renderFooterTemplate = this.renderFooterTemplate;
       ac.setError(null);
       ac.onHitSelected = this.onHitSelected(
         ac,
@@ -324,7 +320,7 @@ export class TripPlannerLocControls {
           );
           break;
         case "locations":
-          GoogleMapsHelpers.lookupPlace(hit.address).then(res => {
+          MapsHelpers.lookupPlace(hit.address).then(res => {
             const { latitude, longitude } = res;
             this.setStopValue(ac, hit);
             this.setAutocompleteValue(
@@ -375,15 +371,6 @@ export class TripPlannerLocControls {
     lngEl.value = lng;
     this.updateMarker(ac, lat, lng, name);
     this.resetResetButtons();
-  }
-
-  renderFooterTemplate(indexName) {
-    if (indexName === "locations" && AlgoliaResult.autocompleteByGoogle()) {
-      return AlgoliaResult.TEMPLATES.poweredByGoogleLogo.render({
-        logo: document.getElementById("powered-by-google-logo").innerHTML
-      });
-    }
-    return null;
   }
 
   reverseTrip(e) {

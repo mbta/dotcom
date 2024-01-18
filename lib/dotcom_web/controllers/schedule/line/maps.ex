@@ -2,17 +2,10 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
   @moduledoc """
   Handles Map information for the line controller
   """
-  require Logger
-
-  alias GoogleMaps.MapData, as: GoogleMapData
-  alias GoogleMapData.Marker, as: GoogleMarker
-  alias GoogleMapData.Path
   alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
-  alias Stops.{RouteStops, RouteStop, Repo, Stop}
+  alias Stops.{Repo, Stop}
   alias RoutePatterns.RoutePattern
-  alias Routes.{Route, Shape}
   alias Dotcom.MapHelpers
-  alias Dotcom.MapHelpers.Markers
 
   @doc """
   Returns a tuple {String.t, MapData.t} where the first element
@@ -21,63 +14,18 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
   """
   @spec map_data(
           Route.t(),
-          [Stops.Stop.t()],
-          [Shape.t()],
           [RoutePattern.t()],
           VehicleHelpers.tooltip_index() | [] | nil
         ) :: {String.t(), MapData.t()}
-  def map_data(route, [], [], route_patterns, []) do
-    dynamic_data = dynamic_map_data(route.color, route_patterns, nil)
-    {nil, dynamic_data}
-  end
+  def map_data(%Routes.Route{type: 4}, _, _), do: {MapHelpers.image(:ferry), nil}
 
   def map_data(
         route,
-        static_map_stops,
-        static_map_polylines,
         route_patterns,
         vehicle_tooltips
       ) do
-    static_data =
-      map_img_src(
-        static_map_stops,
-        Enum.flat_map(static_map_polylines, &PolylineHelpers.condense([&1.polyline])),
-        route
-      )
-
     dynamic_data = dynamic_map_data(route.color, route_patterns, vehicle_tooltips)
-    {static_data, dynamic_data}
-  end
-
-  @doc "Returns the stops that should be displayed on the map"
-  @spec map_stops([RouteStops.t()]) :: [Stops.Stop.t()]
-  def map_stops(branches) do
-    branches
-    |> Enum.flat_map(& &1.stops)
-    |> Enum.uniq_by(& &1.id)
-  end
-
-  @spec map_img_src(any, [Shape.t()], Route.t()) :: String.t()
-  defp map_img_src(_, _, %Route{type: 4}) do
-    MapHelpers.image(:ferry)
-  end
-
-  defp map_img_src(route_stops, polylines, %{color: route_color} = _route) do
-    markers = Enum.map(route_stops, &build_google_stop_marker/1)
-    paths = Enum.map(polylines, &Path.new(&1, color: route_color))
-
-    {600, 600}
-    |> GoogleMapData.new()
-    |> GoogleMapData.add_markers(markers)
-    |> GoogleMapData.add_paths(paths)
-    |> GoogleMaps.static_map_url()
-  end
-
-  @spec build_google_stop_marker(RouteStop.t()) :: GoogleMarker.t()
-  defp build_google_stop_marker(%RouteStop{id: id, is_terminus?: is_terminus?}) do
-    id
-    |> Repo.get()
-    |> Markers.stop(is_terminus?)
+    {nil, dynamic_data}
   end
 
   @spec dynamic_map_data(
@@ -91,21 +39,11 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
          vehicle_tooltips
        ) do
     stop_ids =
-      try do
-        if is_list(route_patterns) do
-          Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
-          |> Enum.uniq()
-        else
-          []
-        end
-      rescue
-        _error in Protocol.UndefinedError ->
-          _ =
-            Logger.info(
-              "module=#{__MODULE__} dynamic_map_data route_patterns=#{inspect(route_patterns)}"
-            )
-
-          []
+      if is_list(route_patterns) do
+        Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
+        |> Enum.uniq()
+      else
+        []
       end
 
     stop_markers =
@@ -114,7 +52,7 @@ defmodule DotcomWeb.ScheduleController.Line.Maps do
       |> Enum.reject(&is_nil/1)
 
     all_markers =
-      if vehicle_tooltips do
+      if is_list(vehicle_tooltips) do
         stop_markers ++ build_vehicle_markers(vehicle_tooltips)
       else
         stop_markers

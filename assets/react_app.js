@@ -3,7 +3,6 @@ import React from "react";
 import readline from "readline";
 
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
-import StopPage from "../assets/ts/stop/components/StopPage";
 import AdditionalLineInfo from "../assets/ts/schedule/components/AdditionalLineInfo";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
@@ -56,7 +55,6 @@ const logMemoryUsage = setInterval(memoryUsage, 60000);
 const Components = {
   ScheduleFinder,
   AdditionalLineInfo,
-  StopPage,
   TransitNearMe,
   TripPlannerResults,
   ProjectsPage,

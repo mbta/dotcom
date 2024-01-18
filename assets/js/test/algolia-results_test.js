@@ -14,7 +14,6 @@ describe("AlgoliaResults", () => {
 
   beforeEach(() => {
     document.body.innerHTML = `
-      <div id="powered-by-google-logo"></div>
       <div id="icon-feature-stop">stop-icon</div>
       <div id="icon-feature-commuter_rail">commuter-rail-icon</div>
       <div id="icon-feature-bus">bus-icon</div>

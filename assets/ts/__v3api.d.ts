@@ -52,34 +52,34 @@ export interface ParkingLot {
   longitude?: number;
 }
 
-export interface ParkingLotCapacity {
+interface ParkingLotCapacity {
   total?: number;
   accessible?: number;
   overnight: string;
   type?: string;
 }
 
-export interface ParkingLotManager {
+interface ParkingLotManager {
   name?: string;
   contact?: string;
   phone: string | null;
   url: string | null;
 }
 
-export interface ParkingLotMobileApp {
+interface ParkingLotMobileApp {
   name?: string;
   id?: string;
   url: string | null;
 }
 
-export interface ParkingLotPayment {
+interface ParkingLotPayment {
   methods: string[];
   mobile_app?: ParkingLotMobileApp | null;
   daily_rate?: string;
   monthly_rate?: string;
 }
 
-export interface ParkingLotUtilization {
+interface ParkingLotUtilization {
   arrive_before?: string;
   typical?: number;
 }
