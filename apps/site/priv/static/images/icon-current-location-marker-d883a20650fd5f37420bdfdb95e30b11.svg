@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 48 48">
-    <title>
-        current location marker
-    </title>
-    <circle cx="24" cy="24" r="24" fill="#5da9e8" opacity=".3"/>
-    <circle cx="24" cy="24.47" r="12" fill="#165c96"/>
-    <path fill="#fff" d="m24 37.47a13 13 0 1 1 13-13 13 13 0 0 1 -13 13zm0-24a11 11 0 1 0 11 11 11 11 0 0 0 -11-11z"/>
-</svg>
