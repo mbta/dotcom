@@ -191,40 +191,6 @@ defmodule Stops.RouteStop do
     do_list_from_shapes(shape.name, Enum.map(stops, & &1.id), stops, route)
   end
 
-  def list_from_shapes(shapes, stops, %Route{id: "CR-Fairmount"} = route, 0) do
-    mainline = Enum.find(shapes, &(&1.name == "South Station - Readville via Fairmount"))
-    foxboro_extension = Enum.find(shapes, &(&1.name == "South Station - Foxboro via Fairmount"))
-
-    distinct_stop_ids =
-      if foxboro_extension do
-        mainline.stop_ids |> Enum.concat(foxboro_extension.stop_ids) |> Enum.uniq()
-      else
-        mainline.stop_ids
-      end
-
-    [do_list_from_shapes(mainline.name, distinct_stop_ids, stops, route)]
-    |> merge_branch_list(0)
-  end
-
-  def list_from_shapes(shapes, stops, %Route{id: "CR-Fairmount"} = route, 1) do
-    mainline = Enum.find(shapes, &(&1.name == "Readville - South Station via Fairmount"))
-
-    foxboro_extension =
-      Enum.find(shapes, &(&1.name == "Forge Park/495 - South Station via Fairmount"))
-
-    distinct_stop_ids =
-      if foxboro_extension do
-        ["place-FS-0049" | foxboro_extension.stop_ids]
-        |> Enum.concat(mainline.stop_ids)
-        |> Enum.uniq()
-      else
-        mainline.stop_ids
-      end
-
-    [do_list_from_shapes(foxboro_extension.name, distinct_stop_ids, stops, route)]
-    |> merge_branch_list(1)
-  end
-
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
     |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
