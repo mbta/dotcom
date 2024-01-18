@@ -29,9 +29,9 @@ defmodule CMS.Repo do
 
   alias Routes.Route
 
-  @cache Application.get_env(:dotcom, :cms_cache)
+  @cache Application.compile_env!(:dotcom, :cms_cache)
 
-  @cms_api Application.get_env(:dotcom, :cms_api)
+  @cms_api Application.compile_env!(:dotcom, :cms_api)
 
   @ttl :timer.hours(1)
 
@@ -394,7 +394,6 @@ defmodule CMS.Repo do
   Paragraphs are stand-alone partials from the CMS. Supports redirects.
   """
   @spec get_paragraph(String.t(), map) :: Paragraph.t() | {:error, any()}
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def get_paragraph(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} ->
@@ -410,7 +409,6 @@ defmodule CMS.Repo do
 
   @doc "Get all the events, paginating through results if needed, and caches the result"
   @spec events_for_year(Calendar.year()) :: [%Teaser{}]
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def events_for_year(year) do
     do_events_for_range(
       min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
