@@ -8,7 +8,7 @@ defmodule DotCom.Mixfile do
       version: "0.0.1",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext, :yecc, :leex] ++ Mix.compilers(),
+      compilers: [:yecc, :leex] ++ Mix.compilers(),
       # configures `mix compile` to embed all code and priv content in the _build directory instead of using symlinks
       build_embedded: Mix.env() == :prod,
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
