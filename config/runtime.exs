@@ -25,11 +25,17 @@ if System.get_env("PHX_SERVER") do
 end
 
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
+redis_port_env = System.get_env("REDIS_PORT", "6379")
 
 redis_host =
   if redis_host_env == "",
     do: "127.0.0.1",
     else: redis_host_env
+
+redis_port =
+  if redis_port_env == "",
+    do: 6379,
+    else: String.to_integer(redis_port_env)
 
 if config_env() == :dev do
   # For development, we disable any cache and enable
@@ -58,28 +64,18 @@ if config_env() == :dev do
   end
 end
 
-if config_env() == :prod do
-  config :dotcom, CMS.Cache,
-    mode: :redis_cluster,
-    redis_cluster: [
-      configuration_endpoints: [
-        conn_opts: [
-          host: redis_host,
-          port: 6379
-        ]
+config :dotcom, CMS.Cache,
+  mode: :redis_cluster,
+  redis_cluster: [
+    configuration_endpoints: [
+      conn_opts: [
+        host: redis_host,
+        port: redis_port
       ]
-    ],
-    stats: false,
-    telemetry: false
-else
-  config :dotcom, CMS.Cache,
-    conn_opts: [
-      host: redis_host,
-      port: 6379
-    ],
-    stats: false,
-    telemetry: false
-end
+    ]
+  ],
+  stats: true,
+  telemetry: true
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,

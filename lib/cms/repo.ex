@@ -1,14 +1,16 @@
 defmodule CMS.Repo do
-  require Logger
-
   @moduledoc """
+  Interface for the content CMS.
+  Returns a variety of content related structs, like %Event{} or %Basic{}.
 
-  Interface for the content CMS. Returns a variety of content
-  related structs, like %Event{} or %Basic{}
-
+  The repo relies heavily on `CMS.Cache` which implements the Nebulex Redis Adapter.
+  The cache is set with `@cache Application.get_env(:cms, :cache)` so that we can easily swap out a local cache during tests.
+  The base ttl for the repo is one hour.
   """
 
-  use RepoCache, ttl: :timer.minutes(1)
+  use Nebulex.Caching.Decorators
+
+  require Logger
 
   import CMS.Helpers, only: [preview_opts: 1]
 
@@ -27,7 +29,11 @@ defmodule CMS.Repo do
 
   alias Routes.Route
 
+  @cache Application.compile_env!(:dotcom, :cms_cache)
+
   @cms_api Application.compile_env!(:dotcom, :cms_api)
+
+  @ttl :timer.hours(1)
 
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
   def get_page(path, query_params \\ %{}) do
@@ -50,21 +56,29 @@ defmodule CMS.Repo do
 
   @spec news_entry_by(Keyword.t()) :: NewsEntry.t() | :not_found
   def news_entry_by(opts) do
-    news =
-      cache(opts, fn _ ->
-        case @cms_api.view("/cms/news", opts) do
-          {:ok, api_data} -> Enum.map(api_data, &NewsEntry.from_api/1)
-          _ -> []
-        end
-      end)
-
-    case news do
+    case do_news_entry_by(opts) do
       [record | _] -> record
       [] -> :not_found
     end
   end
 
-  @spec events(Keyword.t()) :: [Event.t()]
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :nothing,
+              opts: [ttl: 60_000]
+            )
+  def do_news_entry_by(opts) do
+    case @cms_api.view("/cms/news", opts) do
+      {:ok, api_data} -> Enum.map(api_data, &NewsEntry.from_api/1)
+      _ -> []
+    end
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              on_error: :nothing,
+              opts: [ttl: 60_000]
+            )
   def events(opts \\ []) do
     case @cms_api.view("/cms/events", opts) do
       {:ok, api_data} -> Enum.map(api_data, &Event.from_api/1)
@@ -88,29 +102,38 @@ defmodule CMS.Repo do
     end
   end
 
-  @spec whats_happening() :: [WhatsHappeningItem.t()]
-  def whats_happening do
-    cache([], fn _ ->
-      case @cms_api.view("/cms/whats-happening", []) do
-        {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
-        _ -> []
-      end
-    end)
+  @decorate cacheable(
+              cache: @cache,
+              key: "/cms/whats-happening",
+              on_error: :nothing,
+              opts: [ttl: 60_000]
+            )
+  def whats_happening() do
+    case @cms_api.view("/cms/whats-happening", []) do
+      {:ok, api_data} -> Enum.map(api_data, &WhatsHappeningItem.from_api/1)
+      _ -> []
+    end
   end
 
   @spec banner() :: Banner.t() | nil
   def banner do
-    cached_value =
-      cache([], fn _ ->
-        # Banners were previously called Important Notices
-        case @cms_api.view("/cms/important-notices", []) do
-          {:ok, [api_data | _]} -> Banner.from_api(api_data)
-          {:ok, _} -> :empty
-          {:error, _} -> :error
-        end
-      end)
+    cached_value = do_banner()
 
     if cached_value == :empty || cached_value == :error, do: nil, else: cached_value
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              key: "/cms/important-notices",
+              on_error: :nothing,
+              opts: [ttl: 60_000]
+            )
+  def do_banner() do
+    case @cms_api.view("/cms/important-notices", []) do
+      {:ok, [api_data | _]} -> Banner.from_api(api_data)
+      {:ok, _} -> :empty
+      {:error, _} -> :error
+    end
   end
 
   @spec search(String.t(), integer, [String.t()]) :: any
@@ -124,7 +147,7 @@ defmodule CMS.Repo do
 
   @spec get_schedule_pdfs(Route.id_t()) :: [RoutePdf.t()]
   def get_schedule_pdfs(route_id) do
-    case cache(route_id, &do_get_schedule_pdfs/1, timeout: :timer.hours(6)) do
+    case do_get_schedule_pdfs(route_id) do
       {:ok, pdfs} ->
         pdfs
 
@@ -138,6 +161,12 @@ defmodule CMS.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key: "/cms/schedules/#{route_id}",
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp do_get_schedule_pdfs(route_id) do
     case @cms_api.view("/cms/schedules/#{route_id}", []) do
       {:ok, pdfs} ->
@@ -150,7 +179,7 @@ defmodule CMS.Repo do
 
   @spec get_route_pdfs(Route.id_t()) :: [RoutePdf.t()]
   def get_route_pdfs(route_id) do
-    case cache(route_id, &do_get_route_pdfs/1, timeout: :timer.hours(6)) do
+    case do_get_route_pdfs(route_id) do
       {:ok, pdfs} ->
         pdfs
 
@@ -164,6 +193,12 @@ defmodule CMS.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key: "/cms/route_pdfs/#{route_id}",
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp do_get_route_pdfs(route_id) do
     case @cms_api.view("/cms/route-pdfs/#{route_id}", []) do
       {:ok, []} ->
@@ -180,6 +215,29 @@ defmodule CMS.Repo do
       error ->
         error
     end
+  end
+
+  # BEGIN PAGE CACHING #
+
+  @behaviour Nebulex.Caching.KeyGenerator
+
+  @impl true
+  def generate(_, _, [path, %Plug.Conn.Unfetched{aspect: :query_params}]) do
+    "/cms/#{String.trim(path, "/")}"
+  end
+
+  def generate(_, _, [path, params]) do
+    "/cms/#{String.trim(path, "/")}" <> params_to_string(params)
+  end
+
+  defp params_to_string(params) when params == %{}, do: ""
+
+  defp params_to_string(params) when is_map(params) do
+    [head | tail] = Enum.map(params, fn {k, v} -> "#{k}=#{v}" end)
+
+    ["?#{head}", "#{Enum.join(tail, "&")}"]
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.join("&")
   end
 
   @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, API.error()}
@@ -201,9 +259,17 @@ defmodule CMS.Repo do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key_generator: __MODULE__,
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp view_or_preview(path, params) do
-    cache([path: path, params: params], fn _ -> @cms_api.view(path, params) end)
+    @cms_api.view(path, params)
   end
+
+  # END PAGE CACHING #
 
   @spec handle_revision({:error, any} | {:ok, [map]}) :: {:error, String.t()} | {:ok, map}
   defp handle_revision({:error, err}), do: {:error, err}
@@ -344,16 +410,15 @@ defmodule CMS.Repo do
   @doc "Get all the events, paginating through results if needed, and caches the result"
   @spec events_for_year(Calendar.year()) :: [%Teaser{}]
   def events_for_year(year) do
-    range = [
+    do_events_for_range(
       min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
       max: Timex.end_of_year(year) |> Timex.shift(days: 1) |> Util.convert_to_iso_format()
-    ]
-
-    cache([range: range], fn _ -> do_events_for_range(range) end)
+    )
   end
 
   @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [%Teaser{}]) ::
           [%Teaser{}]
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
     per_page = 50
 

@@ -26,7 +26,7 @@ if config_env() == :dev do
   config :logger, :console, format: "[$level] $message\n"
 
   config :logger,
-    level: :warning,
+    level: :notice,
     colors: [enabled: true]
 end
 
