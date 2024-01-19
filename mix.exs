@@ -88,7 +88,7 @@ defmodule DotCom.Mixfile do
       {:ex_aws_ses, "~> 2.1.1"},
       {:ex_doc, "~> 0.31", only: :dev},
       {:excoveralls, "~> 0.16", only: :test},
-      {:fast_local_datetime, "~> 0.1.0"},
+      {:fast_local_datetime, "~> 1.0"},
       {:floki, "~> 0.31.0"},
       {:gen_stage, "~> 1.2"},
       {:gettext, "~> 0.9"},
@@ -134,7 +134,7 @@ defmodule DotCom.Mixfile do
       {:telemetry_metrics, "0.6.1"},
       {:telemetry_metrics_statsd, "0.7.0"},
       {:telemetry_poller, "0.5.1"},
-      {:timex, ">= 2.0.0"},
+      {:timex, "~> 3.7"},
       {:unrooted_polytree, "~> 0.1.1"},
       {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
     ]
