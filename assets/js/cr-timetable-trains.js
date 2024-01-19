@@ -75,13 +75,11 @@ export class CRTimetableTrains {
   }
 
   onVehicles(ev) {
-    const { data } = ev.detail;
-    data.forEach(vehicle => this.icons.addOrUpdateTrain(vehicle));
+    ev.detail?.data?.forEach(vehicle => this.icons.addOrUpdateTrain(vehicle));
   }
 
   onRemoveVehicles(ev) {
-    const { data } = ev.detail;
-    data.forEach(d => removeTrain(d.toString().split("-")[1]));
+    ev.detail?.data?.forEach(d => removeTrain(d.toString().split("-")[1]));
   }
 
   teardown() {
