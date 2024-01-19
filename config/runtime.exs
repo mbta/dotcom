@@ -206,3 +206,9 @@ config :recaptcha,
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
   environment_name: System.get_env("SENTRY_ENVIRONMENT")
+
+if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) &&
+     config_env() != :test do
+  config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
+  config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
+end
