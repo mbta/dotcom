@@ -104,7 +104,7 @@ defmodule DotCom.Mixfile do
       {:mock, "~> 0.3.3", [only: :test]},
       {:nebulex, "2.5.2"},
       {:nebulex_redis_adapter, "2.3.1"},
-      {:parallel_stream, "~> 1.0.5"},
+      {:parallel_stream, "~> 1.1"},
       {:phoenix, "~> 1.6"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_dashboard, "~> 0.8"},
