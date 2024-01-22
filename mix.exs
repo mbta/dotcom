@@ -128,7 +128,7 @@ defmodule DotCom.Mixfile do
       {:rstar, github: "armon/erl-rstar"},
       {:sentry, "~> 10.0"},
       {:server_sent_event_stage, "~> 1.0"},
-      {:sizeable, "~> 0.1.5"},
+      {:sizeable, "~> 1.0"},
       {:sweet_xml, "~> 0.7.1", only: [:prod, :dev]},
       {:telemetry, "0.4.3"},
       {:telemetry_metrics, "0.6.1"},
