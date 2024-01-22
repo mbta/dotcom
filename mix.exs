@@ -79,7 +79,7 @@ defmodule DotCom.Mixfile do
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:csv, "~> 3.0.5"},
       {:decorator, "1.4.0"},
-      {:dialyxir, ">= 1.0.0-rc.4", [only: [:test, :dev], runtime: false]},
+      {:dialyxir, "~> 1.0", [only: [:test, :dev], runtime: false]},
       {:diskusage_logger, "~> 0.2.0"},
       {:eflame, "~> 1.0", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
