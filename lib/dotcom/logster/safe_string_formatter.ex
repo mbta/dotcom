@@ -26,7 +26,7 @@ defmodule Dotcom.Logster.SafeStringFormatter do
   end
 
   defp format_value(value) when is_map(value) do
-    Poison.encode_to_iodata!(value)
+    Poison.encode!(value)
   rescue
     _error ->
       inspect(value)
