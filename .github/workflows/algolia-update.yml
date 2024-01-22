@@ -19,19 +19,19 @@ jobs:
     if: github.repository_owner == 'mbta'
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: ~/.asdf
         key: ci-asdf-cache-${{ hashFiles('.tool-versions') }}
         restore-keys: ci-asdf-cache-
     - uses: mbta/actions/reshim-asdf@v2
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: deps
         key: ci-mix-cache-${{ hashFiles('mix.lock') }}
         restore-keys: ci-mix-cache-
       # the running application runs Webpack to render React stuff :(, so need NPM too
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: assets/node_modules
         key: ci-nodejs-cache-${{ hashFiles('assets/package-lock.json') }}
