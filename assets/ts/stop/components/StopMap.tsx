@@ -88,6 +88,7 @@ const StopMap = ({
   selectedRoute
 }: Props): ReactElement<HTMLElement> => {
   const mapConfig = useMapConfig();
+  if (!mapConfig) return <></>;
   const iconName = routeToModeIconName(selectedRoute);
   const mapData = {
     // TODO: Default center on the selected vehicle

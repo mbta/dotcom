@@ -56,7 +56,7 @@ export class CRTimetableTrainIcons {
       return stop;
     }
     // For vehicles in transit with prior stop data, put the vehicle in the prior stop container
-    const stopSequence = this.schedules[stop].stop_sequence || 1;
+    const stopSequence = this.schedules[stop]?.stop_sequence || 1;
     return this.priorStops[`${vehicle.trip_id}-${stopSequence - 1}`];
   }
 }
