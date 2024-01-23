@@ -163,6 +163,10 @@ defmodule DotCom.Mixfile do
     {_, 0} =
       System.cmd("npm", ["run", "--prefix", "assets", "webpack:build"], stderr_to_stdout: true)
 
+    # starts the Phoenix framework mix phx.digest command, that takes content
+    # from assets/static and processes it into priv/static
+    print("(3/3) mix phx.digest")
+
     Mix.Task.run("phx.digest", [])
   end
 
