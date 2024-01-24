@@ -114,7 +114,7 @@ defmodule DotCom.Mixfile do
       {:phoenix_view, "~> 2.0.3"},
       {:plug, "~> 1.14.2"},
       {:plug_cowboy, "~> 2.6.1"},
-      {:poison, "~> 5.0"},
+      {:poison, "3.1.0"},
       {:polyline, "~> 1.3"},
       {:poolboy, "~> 1.5"},
       {:quixir, "~> 0.9", [only: :test]},
