@@ -58,8 +58,7 @@ defmodule DotcomWeb.Router do
   scope "/cms", DotcomWeb do
     pipe_through([:basic_auth])
 
-    patch("/:object/:id", CMSController, :reset_cache_key)
-    patch("/:id", CMSController, :reset_cache_key)
+    patch("/*path", CMSController, :reset_cache_key)
   end
 
   # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
