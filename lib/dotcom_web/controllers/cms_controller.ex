@@ -47,27 +47,18 @@ defmodule DotcomWeb.CMSController do
 
   @doc """
   Resets a cache key based on the URL params.
-  PATCH /cms/foo/bar will reset the cache key /cms/foo/bar.
-  This corresponds to the CMS page /foo/bar.
+  The path after /cms is joined with / to form the cache key.
+  So, it can be of arbitrary length.
+  PATCH /cms/foo/bar/baz will reset the cache key /cms/foo/bar/baz.
+  This corresponds to the CMS page /foo/bar/baz.
   """
-  def reset_cache_key(conn, %{"object" => object, "id" => id}) do
+  def reset_cache_key(conn, %{"path" => path}) do
+    joined_path = Enum.join(path, "/")
+
     try do
-      @cache.delete("/cms/#{object}/#{id}")
+      @cache.delete("/cms/#{joined_path}")
 
-      Logger.notice("cms.cache.delete path=/cms/#{object}/#{id}")
-    rescue
-      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
-      e in Redix.Error -> Logger.warning("cms.cache.delete error=redis-#{e.message}")
-    end
-
-    send_resp(conn, 202, "") |> halt()
-  end
-
-  def reset_cache_key(conn, %{"id" => id}) do
-    try do
-      @cache.delete("/cms/#{id}")
-
-      Logger.notice("cms.cache.delete path=/cms/#{id}")
+      Logger.notice("cms.cache.delete path=/cms/#{joined_path}")
     rescue
       e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
       e in Redix.Error -> Logger.warning("cms.cache.delete error=redis-#{e.message}")
