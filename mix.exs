@@ -102,7 +102,7 @@ defmodule DotCom.Mixfile do
       {:logster, "~> 1.0"},
       {:mail, "~> 0.3"},
       {:mock, "~> 0.3.3", [only: :test]},
-      {:nebulex, "2.5.2"},
+      {:nebulex, "2.6.0"},
       {:nebulex_redis_adapter, "2.3.1"},
       {:parallel_stream, "~> 1.1"},
       {:phoenix, "~> 1.6"},
