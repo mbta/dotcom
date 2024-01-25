@@ -1,2 +1,0 @@
-locust==2.1.0
-pyquery==1.4.0

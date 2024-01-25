@@ -1,0 +1,15 @@
+config:
+  defaults:
+    headers:
+      User-Agent: artillery
+  engines:
+    playwright: {}
+  phases:
+    - duration: 15
+      arrivalRate: 1
+  plugins:
+    apdex: {}
+  processor: "./all-scenarios.js"
+scenarios:
+  - engine: playwright
+    testFunction: "leadership"
