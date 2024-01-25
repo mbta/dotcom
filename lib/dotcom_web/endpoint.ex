@@ -69,6 +69,5 @@ defmodule DotcomWeb.Endpoint do
     cookie_key: "request_logger"
   )
 
-  plug(DotcomWeb.Plugs.UriChecker)
   plug(DotcomWeb.Router)
 end
