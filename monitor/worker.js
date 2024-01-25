@@ -1,5 +1,5 @@
 const { chromium } = require('playwright');
-const { parentPort } = require('worker_threads');
+const { parentPort, workerData } = require('worker_threads');
 const { performance } = require('node:perf_hooks');
 const StatsD = require('hot-shots');
 
@@ -7,9 +7,9 @@ const client = new StatsD({
     prefix: 'dotcom.monitor.',
 });
 
-parentPort.once('message', (file) => {
+parentPort.on('message', _ => {
     (async () => {
-        const { scenario } = require(file);
+        const { scenario } = require(workerData);
 
         const browser = await chromium.launch();
         const context = await browser.newContext();
