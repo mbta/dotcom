@@ -14,9 +14,9 @@ const workers = fs.readdirSync(filesPath).map((file) => {
 });
 
 cron.schedule('* * * * *', _ => {
-    workers.forEach((worker) => {
+    workers.forEach((worker, index) => {
         setTimeout(_ => {
             worker.postMessage(null);
-        }, 3000);
+        }, (60000 / workers.length) * index);
     });
 });
