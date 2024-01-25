@@ -2125,4 +2125,8 @@ defmodule CMS.CustomHTML5Scrubber do
   def html5(html) do
     html |> HtmlSanitizeEx.Scrubber.scrub(__MODULE__)
   end
+
+  defp scrub_css(text) do
+    HtmlSanitizeEx.Scrubber.CSS.scrub(text)
+  end
 end
