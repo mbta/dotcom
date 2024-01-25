@@ -10,7 +10,7 @@ const files = fs.readdirSync(filesPath);
 const baseURL = process.env.TARGET_URL;
 
 files.forEach((file) => {
-    test.describe('All scenarios', () => {
+    test.describe('All scenarios', _ => {
         const filePath = path.join(filesPath, file);
         const { scenario } = require(filePath);
 
