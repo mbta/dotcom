@@ -4,7 +4,7 @@
   path_fn = fn -> cms_static_page_path(@conn, @event_teaser.path) end
 
   event_is_hidden = if @check_event_ended do
-    Date.compare(@conn.assigns.date, @event_teaser.date) != :lt
+    Date.compare(@conn.assigns.date, @event_teaser.date) == :gt
   else
     false
   end
