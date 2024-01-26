@@ -23,7 +23,7 @@ defmodule Util.EnumHelpersTest do
           _ ->
             assert List.first(actual) == {List.first(l), true}
             assert List.last(actual) == {List.last(l), true}
-            assert Enum.all?(Enum.slice(actual, 1..-2), &(elem(&1, 1) == false))
+            assert Enum.all?(Enum.slice(actual, 1..-2//1), &(elem(&1, 1) == false))
         end
       end
     end

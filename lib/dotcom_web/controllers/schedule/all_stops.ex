@@ -45,10 +45,10 @@ defmodule DotcomWeb.ScheduleController.AllStops do
 
     case conn.assigns do
       %{route: %{id: route_id}, direction_id: direction_id} ->
-        :ok = Logger.warn(error_log <> " route=#{route_id} direction_id=#{direction_id}")
+        :ok = Logger.warning(error_log <> " route=#{route_id} direction_id=#{direction_id}")
 
       _ ->
-        :ok = Logger.warn(error_log)
+        :ok = Logger.warning(error_log)
     end
 
     assign(conn, :all_stops, [])

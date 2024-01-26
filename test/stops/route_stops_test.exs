@@ -483,7 +483,7 @@ defmodule Stops.RouteStopsTest do
       assert is_list(outbound)
       assert Enum.all?(outbound, &(&1.branch == "Nubian Station - Harvard Square"))
       assert outbound |> List.first() |> Map.get(:is_terminus?) == true
-      assert outbound |> Enum.slice(1..-2) |> Enum.all?(&(&1.is_terminus? == false))
+      assert outbound |> Enum.slice(1..-2//1) |> Enum.all?(&(&1.is_terminus? == false))
 
       stops = Stops.Repo.by_route("1", 1)
       shapes = @routes_repo_api.get_shapes("1", direction_id: 1)

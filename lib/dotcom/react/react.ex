@@ -28,7 +28,9 @@ defmodule Dotcom.React do
         |> HTML.raw()
 
       {:error, %{"error" => %{"message" => message}}} ->
-        _ = Logger.warn(fn -> "react_renderer component=#{react_component_name} #{message}" end)
+        _ =
+          Logger.warning(fn -> "react_renderer component=#{react_component_name} #{message}" end)
+
         ""
     end
   end
