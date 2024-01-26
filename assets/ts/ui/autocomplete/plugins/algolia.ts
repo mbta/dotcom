@@ -2,7 +2,6 @@ import { SearchResponse } from "@algolia/client-search";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import AlgoliaItemTemplate from "../templates/algolia";
 import { AutocompleteItem } from "../__autocomplete";
-import { isSearchResultItem } from "../helpers";
 
 /**
  * Generates a plugin for Algolia Autocomplete which enables searching for our
@@ -37,14 +36,7 @@ export default function createAlgoliaBackendPlugin(
                   .then(resp =>
                     (resp.results as SearchResponse[]).flatMap(
                       ({ hits, index }) =>
-                        hits
-                          .map(hit => ({ ...hit, index } as AutocompleteItem))
-                          .filter(
-                            item =>
-                              !isSearchResultItem(item) ||
-                              (isSearchResultItem(item) &&
-                                !/node\//.test(item._search_result_url))
-                          )
+                        hits.map(hit => ({ ...hit, index } as AutocompleteItem))
                     )
                   ),
                 300
