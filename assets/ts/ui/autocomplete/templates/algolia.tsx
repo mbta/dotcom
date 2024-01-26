@@ -28,7 +28,7 @@ export function LinkForItem(props: LinkForItemProps): React.ReactElement {
 
   // Search result items are a subset of content items that point to a different URL
   if (isSearchResultItem(item)) {
-    url = item._search_result_url.replace("internal:", "");
+    url = item._search_result_url.replace(/internal:/, "");
   }
 
   // Special case: When the matching text isn't part of the page title, help the

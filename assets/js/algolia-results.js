@@ -199,9 +199,21 @@ export class AlgoliaResults {
   }
 
   render(results) {
+    // We don't want to render pages where the URL is reference to a node.
+    // That means that the result is a page that has been unpublished.
+    const filtered_pages_hits = results.pages.hits.filter(
+      result => !/node\//.test(result._content_url)
+    );
+    const filtered_pages = Object.assign({}, results.pages, {
+      hits: filtered_pages_hits
+    });
+    const filtered_results = Object.assign({}, results, {
+      pages: filtered_pages
+    });
+
     if (this._container) {
       this._container.innerHTML = this._groups
-        .map(group => this._renderGroup(results, group))
+        .map(group => this._renderGroup(filtered_results, group))
         .join("");
 
       Array.from(
@@ -209,7 +221,7 @@ export class AlgoliaResults {
       ).forEach(this.addResultClickHandler);
 
       this._groups.forEach(group => this._addShowMoreListener(group));
-      this._addLocationListeners(results);
+      this._addLocationListeners(filtered_results);
     }
   }
 
