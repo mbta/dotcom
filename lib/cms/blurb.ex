@@ -33,7 +33,7 @@ defmodule CMS.Blurb do
 
   defp build_blurb(text, max_length) do
     text
-    |> String.replace(~R(<br.*?>), " ")
+    |> String.replace(~r(<br.*?>), " ")
     |> HtmlSanitizeEx.strip_tags()
     |> maybe_add_suffix(max_length)
   end

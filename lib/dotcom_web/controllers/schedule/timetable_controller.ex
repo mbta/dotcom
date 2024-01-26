@@ -203,7 +203,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     case all_stops do
       {:error, error} ->
         :ok =
-          Logger.warn(
+          Logger.warning(
             "module=#{__MODULE__} fun=all_stops error=#{inspect(error)} route=#{conn.assigns.route.id} direction_id=#{conn.assigns.direction_id} date=#{conn.assigns.date}"
           )
 
@@ -241,7 +241,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   defp trip_schedule(schedule) do
     :ok =
-      Logger.warn(
+      Logger.warning(
         "module=#{__MODULE__} trip_schedule schedule=#{inspect(schedule)} #{if is_nil(schedule.trip), do: "no_trip"} #{if is_nil(schedule.stop), do: "no_stop"}"
       )
 

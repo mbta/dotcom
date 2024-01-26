@@ -17,7 +17,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   @spec parse_ql(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
   def parse_ql(%{"data" => %{"plan" => nil}, "errors" => [head | _]}, _accessible?) do
     _ =
-      Logger.warn(fn ->
+      Logger.warning(fn ->
         "#{__MODULE__} trip_plan=error message=#{inspect(head["message"])}"
       end)
 
@@ -31,7 +31,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   @spec parse_map(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
   defp parse_map(%{"plan" => %{"routingErrors" => [head | _]}}, accessible?) do
     _ =
-      Logger.warn(fn ->
+      Logger.warning(fn ->
         "#{__MODULE__} trip_plan=error message=#{inspect(head["code"])}"
       end)
 

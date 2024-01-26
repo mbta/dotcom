@@ -13,7 +13,7 @@
         <div class="page-section">
           <%= Dotcom.ContentRewriter.rewrite(@update.body, @conn) %>
         </div>
-        <%= if !Enum.empty?(@update.photo_gallery), do: render "_photos.html", photos: @update.photo_gallery %>
+        <%= if(!Enum.empty?(@update.photo_gallery), do: render("_photos.html", photos: @update.photo_gallery)) %>
       </div>
     </div>
   </div>

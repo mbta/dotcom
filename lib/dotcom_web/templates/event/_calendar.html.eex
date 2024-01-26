@@ -37,7 +37,7 @@
                   id: event.id,
                   conn: @conn,
                   event: event,
-                  class: if index >= 4, do: "open-left" %>
+                  class: if(index >= 4, do: "open-left") %>
 
                   <noscript>
                     <%= link to: cms_static_page_path(@conn, event.path), class: "m-event-calendar__event m-event-calendar__event-title", title: event.title do %>

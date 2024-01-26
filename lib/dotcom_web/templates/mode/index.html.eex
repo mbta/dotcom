@@ -35,7 +35,7 @@
                                               conn: @conn,
                                               date_time: @date_time,
                                               alerts: @alerts,
-                                              sub_routes: if route_type == :subway, do: @green_routes, else: []
+                                              sub_routes: if(route_type == :subway, do: @green_routes, else: [])
               %>
         </div>
         <% end %>

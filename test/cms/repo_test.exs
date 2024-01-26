@@ -378,9 +378,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(args: ["Guides", "Red"], sticky: 0)
 
-        "/cms/teasers/Guides/Red"
-        |> Static.view(%{sticky: 0})
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers/Guides/Red", %{sticky: 0}))
       end
     end
 
@@ -412,9 +410,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(related_to: 123)
 
-        "/cms/teasers"
-        |> Static.view(%{related_to: 123})
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers", %{related_to: 123}))
       end
     end
 
@@ -426,9 +422,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(except: 123)
 
-        "/cms/teasers"
-        |> Static.view(%{except: 123})
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers", %{except: 123}))
       end
     end
 
@@ -440,9 +434,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(only: 123)
 
-        "/cms/teasers"
-        |> Static.view(%{only: 123})
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers", %{only: 123}))
       end
     end
 
@@ -454,9 +446,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(date: "2018-01-01", date_op: ">=")
 
-        "/cms/teasers"
-        |> Static.view(%{date: "2018-01-01", date_op: ">="})
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers", %{date: "2018-01-01", date_op: ">="}))
       end
     end
 
@@ -469,9 +459,9 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(type: [:page], sort_by: "changed", sort_order: :ASC)
 
-        "/cms/teasers"
-        |> Static.view(%{type: [:page], sort_by: "changed", sort_order: :ASC})
-        |> assert_called()
+        assert_called(
+          Static.view("/cms/teasers", %{type: [:page], sort_by: "changed", sort_order: :ASC})
+        )
       end
     end
 
@@ -490,21 +480,21 @@ defmodule CMS.RepoTest do
         Repo.teasers(type: [:project_update])
         Repo.teasers(type: [:news_entry], sort_order: :ASC)
 
-        "/cms/teasers"
-        |> Static.view(%{
-          type: [:project_update],
-          sort_by: "field_posted_on_value",
-          sort_order: :DESC
-        })
-        |> assert_called()
+        assert_called(
+          Static.view("/cms/teasers", %{
+            type: [:project_update],
+            sort_by: "field_posted_on_value",
+            sort_order: :DESC
+          })
+        )
 
-        "/cms/teasers"
-        |> Static.view(%{
-          type: [:news_entry],
-          sort_by: "field_posted_on_value",
-          sort_order: :ASC
-        })
-        |> assert_called()
+        assert_called(
+          Static.view("/cms/teasers", %{
+            type: [:news_entry],
+            sort_by: "field_posted_on_value",
+            sort_order: :ASC
+          })
+        )
       end
     end
 
@@ -518,9 +508,13 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(type: [:project])
 
-        "/cms/teasers"
-        |> Static.view(%{type: [:project], sort_by: "field_updated_on_value", sort_order: :DESC})
-        |> assert_called()
+        assert_called(
+          Static.view("/cms/teasers", %{
+            type: [:project],
+            sort_by: "field_updated_on_value",
+            sort_order: :DESC
+          })
+        )
       end
     end
 
@@ -533,9 +527,13 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(type: [:event])
 
-        "/cms/teasers"
-        |> Static.view(%{type: [:event], sort_by: "field_start_time_value", sort_order: :DESC})
-        |> assert_called()
+        assert_called(
+          Static.view("/cms/teasers", %{
+            type: [:event],
+            sort_by: "field_start_time_value",
+            sort_order: :DESC
+          })
+        )
       end
     end
 
@@ -548,9 +546,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: mock_view do
         Repo.teasers(type: [:page], sort_by: :ASC)
 
-        "/cms/teasers"
-        |> Static.view(%{type: [:page]})
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers", %{type: [:page]}))
       end
     end
 
@@ -596,8 +592,7 @@ defmodule CMS.RepoTest do
       with_mock Static, view: fn "/cms/teasers", ^mock_2018_opts -> {:ok, []} end do
         Repo.events_for_year(year)
 
-        Static.view("/cms/teasers", opts.(year))
-        |> assert_called()
+        assert_called(Static.view("/cms/teasers", opts.(year)))
       end
     end
   end
@@ -611,15 +606,16 @@ defmodule CMS.RepoTest do
       ] do
         _ = Repo.next_n_event_teasers(~D[1999-01-01], num)
 
-        Static.view("/cms/teasers", %{
-          date: [value: "1999-01-01"],
-          date_op: ">=",
-          items_per_page: num,
-          sort_by: "field_start_time_value",
-          sort_order: :ASC,
-          type: [:event]
-        })
-        |> assert_called()
+        assert_called(
+          Static.view("/cms/teasers", %{
+            date: [value: "1999-01-01"],
+            date_op: ">=",
+            items_per_page: num,
+            sort_by: "field_start_time_value",
+            sort_order: :ASC,
+            type: [:event]
+          })
+        )
       end
     end
   end

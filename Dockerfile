@@ -3,7 +3,7 @@
 ###
 
 # 1.) Get the Elixir dependencies within an Elixir container
-FROM hexpm/elixir:1.12.3-erlang-24.3.4.14-debian-buster-20231009-slim as elixir-builder
+FROM hexpm/elixir:1.16.0-erlang-24.3.4.14-debian-buster-20231009-slim as elixir-builder
 
 ENV LANG="C.UTF-8" MIX_ENV="prod"
 

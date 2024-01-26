@@ -116,6 +116,7 @@ defmodule DotcomWeb.EventControllerTest do
     end
 
     test "includes an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
+      Application.put_env(:dotcom, :allow_indexing, true)
       event = event_factory(0, path_alias: nil)
       path = event_path(conn, :show, event)
 

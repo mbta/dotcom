@@ -398,7 +398,7 @@ defmodule Stops.Api do
     do: :fare_media_assistance_facility
 
   defp facility_atom_from_string(other) do
-    _ = Logger.warn("module=#{__MODULE__} unknown facility type: #{other}")
+    _ = Logger.warning("module=#{__MODULE__} unknown facility type: #{other}")
     :other
   end
 

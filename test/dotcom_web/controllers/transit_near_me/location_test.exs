@@ -21,7 +21,7 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
     {:ok, [@address]}
   end
 
-  def reverse_geocode_fn(0.0, 0.0) do
+  def reverse_geocode_fn(+0.0, +0.0) do
     send(self(), :reverse_geocode)
 
     {:error, :zero_results}
