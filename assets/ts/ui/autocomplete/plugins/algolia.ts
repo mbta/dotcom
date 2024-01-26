@@ -43,7 +43,7 @@ export default function createAlgoliaBackendPlugin(
                             item =>
                               !isSearchResultItem(item) ||
                               (isSearchResultItem(item) &&
-                                !/node\//.test(item._content_url))
+                                !/node\//.test(item._search_result_url))
                           )
                     )
                   ),

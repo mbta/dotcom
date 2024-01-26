@@ -202,7 +202,7 @@ export class AlgoliaResults {
     // We don't want to render pages where the URL is reference to a node.
     // That means that the result is a page that has been unpublished.
     const filtered_pages_hits = results.pages.hits.filter(
-      result => !/node\//.test(result._content_url)
+      result => !/node\//.test(result._search_result_url)
     );
     const filtered_pages = Object.assign({}, results.pages, {
       hits: filtered_pages_hits
