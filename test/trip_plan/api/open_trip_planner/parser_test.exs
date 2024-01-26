@@ -19,8 +19,20 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
       end
 
       assert [first, _, _] = parsed
-      assert first.start == Timex.to_datetime(~N[2017-05-19T13:50:59], "America/New_York")
-      assert first.stop == Timex.to_datetime(~N[2017-05-19T14:03:19], "America/New_York")
+
+      is_equal_time? = fn t1, t2 ->
+        DateTime.compare(t1, t2) == :eq
+      end
+
+      assert is_equal_time?.(
+               first.start,
+               Timex.to_datetime(~N[2017-05-19T13:50:59], "America/New_York")
+             )
+
+      assert is_equal_time?.(
+               first.stop,
+               Timex.to_datetime(~N[2017-05-19T14:03:19], "America/New_York")
+             )
     end
 
     test "allows null absoluteDirection" do

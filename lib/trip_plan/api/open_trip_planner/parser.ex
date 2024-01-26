@@ -93,10 +93,9 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   defp parse_time(ms_after_epoch) do
     {:ok, ms_after_epoch_dt} =
       ms_after_epoch
-      |> Integer.floor_div(1000)
-      |> FastLocalDatetime.unix_to_datetime(OTP.config(:timezone))
+      |> DateTime.from_unix(:millisecond)
 
-    ms_after_epoch_dt
+    Timex.to_datetime(ms_after_epoch_dt, OTP.config(:timezone))
   end
 
   defp parse_leg(json) do
