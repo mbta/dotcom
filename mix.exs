@@ -88,7 +88,6 @@ defmodule DotCom.Mixfile do
       {:ex_aws_ses, "~> 2.1.1"},
       {:ex_doc, "~> 0.18", only: :dev},
       {:excoveralls, "~> 0.16", only: :test},
-      {:fast_local_datetime, "~> 0.1.0"},
       {:floki, "~> 0.31.0"},
       {:gen_stage, "~> 1.2"},
       {:gettext, "~> 0.9"},
