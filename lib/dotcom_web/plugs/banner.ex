@@ -20,7 +20,7 @@ defmodule DotcomWeb.Plugs.Banner do
     defstruct banner_fn: &Alerts.Repo.banner/0
 
     @type t :: %__MODULE__{
-            banner_fn: (() -> Alerts.Banner.t() | nil)
+            banner_fn: (-> Alerts.Banner.t() | nil)
           }
   end
 

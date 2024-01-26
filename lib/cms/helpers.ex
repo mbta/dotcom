@@ -219,7 +219,7 @@ defmodule CMS.Helpers do
     static_path = Config.static_path()
 
     Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
-      ['"', Util.site_path(:static_url, [path]), '"']
+      [~c"\"", Util.site_path(:static_url, [path]), ~c"\""]
     end)
   end
 
