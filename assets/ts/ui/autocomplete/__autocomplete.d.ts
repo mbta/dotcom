@@ -25,6 +25,7 @@ type StopItem = {
 type ContentItem = {
   _content_type: string;
   _content_url: string;
+  _search_result_url: string;
   content_title: string;
 } & AlgoliaItem;
 

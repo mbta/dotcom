@@ -23,6 +23,10 @@ export function isContentItem(x: Item): x is ContentItem {
   return Object.keys(x).includes("_content_type");
 }
 
+export function isSearchResultItem(x: Item): x is ContentItem {
+  return isContentItem(x) && x._content_type == "search_result";
+}
+
 export const getTitleAttribute = (item: Item): string[] => {
   if (isStopItem(item)) {
     return ["stop", "name"];
