@@ -167,7 +167,7 @@ defmodule DotcomWeb.ScheduleController.LineTest do
       start_date: ~D[2020-12-22],
       type: :sunday,
       typicality: :typical_service,
-      valid_days: '\a'
+      valid_days: ~c"\a"
     },
     %Service{
       added_dates: ["2021-02-16", "2021-02-17", "2021-02-18", "2021-02-19"],
