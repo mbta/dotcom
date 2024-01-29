@@ -67,3 +67,6 @@ node_modules
 # Wallaby screenshots
 /screenshots
 .VSCodeCounter
+
+playwright-report
+test-results
