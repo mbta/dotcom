@@ -14,7 +14,6 @@ export const isDiversion = ({ effect }: Alert): boolean =>
     "suspension",
     "stop_closure",
     "station_closure",
-    "suspension",
     "detour"
   ].includes(effect);
 
