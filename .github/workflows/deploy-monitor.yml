@@ -1,11 +1,14 @@
 name: Deploy Monitor
 
 on:
-  workflow_dispatch:
-
-env:
-  ECR_REPOSITORY: monitor
-  GITHUB_OUTPUT: ${{ github.workspace }}/output.txt
+  workflow_call:
+    secrets:
+      aws-role-arn:
+        required: true
+        description: "AWS_ROLE_ARN value"
+      docker-repo:
+        required: true
+        description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
 
 jobs:
   deploy:
@@ -19,25 +22,10 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        id: aws-credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.aws-role-arn }}
-          aws-region: us-east-1
-
-      - name: Login to AWS ECR
-        id: login-ecr
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ secrets.docker-repo }}
-
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f deploy/monitor/Dockerfile .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        uses: mbta/actions/build-push-ecr@v2
+        with:
+          role-to-assume: ${{ secrets.aws-role-arn }}
+          docker-repo: ${{ secrets.docker-repo }}
+          dockerfile-path: deploy/monitor/Dockerfile
