@@ -58,6 +58,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       all_stops: all_stops
     } = build_timetable(conn.assigns.all_stops, timetable_schedules)
 
+    # IO.inspect(all_stops)
+
     canonical_rps =
       RoutePatterns.Repo.by_route_id(route.id,
         direction_id: direction_id,
@@ -195,6 +197,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp all_stops(conn, _) do
+    IO.inspect(conn.assigns.route.id)
+    IO.inspect(conn.assigns.direction_id)
+    IO.inspect(conn.assigns.date)
+
     all_stops =
       Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
         date: conn.assigns.date

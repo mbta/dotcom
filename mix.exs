@@ -74,6 +74,11 @@ defmodule DotCom.Mixfile do
       {:briefly, "~> 0.3"},
       {:bypass, "~> 1.0", [only: :test]},
       {:castore, "~> 0.1.11"},
+      # Upgrading con cache to the latest version (1.0.0) requires a renaming of the config
+      # ttl -> global_ttl
+      # ttl_check -> ttl_check_interval
+      #
+      # name is now part of the config and not its own param to starting the cache
       {:con_cache, "~> 0.12.0"},
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:csv, "~> 3.0.5"},
@@ -92,6 +97,7 @@ defmodule DotCom.Mixfile do
       {:gettext, "~> 0.9"},
       {:hackney, "~> 1.18"},
       {:hammer, "~> 6.0"},
+      # The latest verion of html_sanitize_ex (1.4.3) causes `tel` links to be stripped even when we request it not to
       {:html_sanitize_ex, "1.3.0"},
       {:httpoison, "~> 1.5"},
       {:inflex, "~> 1.8.0"},
@@ -103,6 +109,8 @@ defmodule DotCom.Mixfile do
       {:nebulex, "2.5.2"},
       {:nebulex_redis_adapter, "2.3.1"},
       {:parallel_stream, "~> 1.0.5"},
+      # Upgrading Phoenix to the latest version (1.7.10) requies us to rework how we access
+      # Flash.  This is low lift, but just a minor annoyance.
       {:phoenix, "~> 1.6"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_dashboard, "~> 0.8"},
@@ -110,7 +118,13 @@ defmodule DotCom.Mixfile do
       {:phoenix_live_view, "~> 0.20"},
       {:phoenix_pubsub, "~> 2.1.3"},
       {:plug, "~> 1.14.2"},
+      # Updaing this to the latest version (2.7.0) caused the deploy to ECS to fail
+      # Never got around to really figuring it out, but stuff broke
       {:plug_cowboy, "~> 2.6.1"},
+      # Updating to the latest version of Poison (5.0.0) removes the function encode_to_iodata
+      # in favor of the function encode
+      # This is a problem because the latest version of Pheonix (1.7.10) expects the
+      # JSON encoder to have this function
       {:poison, "~> 3.0"},
       {:polyline, [github: "ryan-mahoney/polyline_ex"]},
       {:poolboy, "~> 1.5"},
@@ -122,13 +136,20 @@ defmodule DotCom.Mixfile do
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
       {:recon, "~> 2.5.1", [only: :prod]},
+      # This library is used in one location and we are on the latest version
+      # Which was last updated 7ish years ago.
+      # This is perfect for being replaced by something else
       {:rstar, github: "armon/erl-rstar"},
+      # Updating sentry to the latest version (10.1.0) Requies updating which plug we use.
+      # and how we configure what environments it is allowed to run in.
+      # Also broke various tests, I never got fully around to figuring out
       {:sentry, "~> 7.0"},
       {:server_sent_event_stage, "~> 1.0"},
       {:sizeable, "~> 0.1.5"},
       {:sweet_xml, "~> 0.7.1", only: [:prod, :dev]},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 0.5"},
+      # Updating Timex to its latest version (3.7.11) caused various tests to fail over timezone issues
       {:timex, ">= 2.0.0"},
       {:unrooted_polytree, "~> 0.1.1"},
       {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
