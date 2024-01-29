@@ -3,6 +3,10 @@ name: Deploy Monitor
 on:
   workflow_dispatch:
 
+env:
+  ECR_REPOSITORY: monitor
+  GITHUB_OUTPUT: ${{ github.workspace }}/output.txt
+
 jobs:
   deploy:
     name: Deploy
@@ -12,6 +16,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v4
       - name: Build, tag, and push image to Amazon ECR
         uses: mbta/actions/build-push-ecr@v2
