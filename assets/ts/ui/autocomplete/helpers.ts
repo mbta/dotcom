@@ -7,6 +7,7 @@ import {
   LocationItem,
   PopularItem,
   RouteItem,
+  SearchResultItem,
   StopItem
 } from "./__autocomplete";
 import { isLGDown } from "../../helpers/media-breakpoints";
@@ -23,7 +24,7 @@ export function isContentItem(x: Item): x is ContentItem {
   return Object.keys(x).includes("_content_type");
 }
 
-export function isSearchResultItem(x: Item): x is ContentItem {
+export function isSearchResultItem(x: Item): x is SearchResultItem {
   return isContentItem(x) && x._content_type == "search_result";
 }
 
