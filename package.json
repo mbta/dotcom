@@ -7,8 +7,6 @@
     "@playwright/test": "1.41.1"
   },
   "scripts": {
-    "install": "npm install --prefix assets --omit=optional",
-    "install:ci": "npm ci --prefix assets --omit=optional",
     "prettier": "npm run --prefix assets prettier",
     "ci:lint:ts": "npm run --prefix assets eslint:ts",
     "ci:lint:js": "npm run --prefix assets eslint:js",
