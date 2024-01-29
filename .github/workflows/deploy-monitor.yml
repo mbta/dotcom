@@ -2,13 +2,6 @@ name: Deploy Monitor
 
 on:
   workflow_call:
-    secrets:
-      aws-role-arn:
-        required: true
-        description: "AWS_ROLE_ARN value"
-      monitor-docker-repo:
-        required: true
-        description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
 
 jobs:
   deploy:
