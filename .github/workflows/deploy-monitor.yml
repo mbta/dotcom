@@ -1,0 +1,19 @@
+name: Deploy Monitor
+
+on:
+  workflow_dispatch:
+
+env:
+  ECR_REPOSITORY: monitor
+  GITHUB_OUTPUT: ${{ github.workspace }}/output.txt
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show environment v1
+        run: env | grep ^GITHUB
+      - name: Show ref v1
+        run: echo "===============> Version from $GITHUB_REF"
