@@ -77,6 +77,7 @@ jobs:
           tags: assets-image
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+          file: deploy/dotcom/Dockerfile
 
       - name: Upload assets from image into s3
         env:
