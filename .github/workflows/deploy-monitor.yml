@@ -6,7 +6,7 @@ on:
       aws-role-arn:
         required: true
         description: "AWS_ROLE_ARN value"
-      docker-repo:
+      monitor-docker-repo:
         required: true
         description: "The Docker repository to upload the docker image to, formatted '....amazonaws.com/<app>'"
 
@@ -24,6 +24,6 @@ jobs:
         id: build-image
         uses: mbta/actions/build-push-ecr@v2
         with:
-          docker-repo: "${{ secrets.docker-repo }}-monitor"
+          docker-repo: "${{ secrets.monitor-docker-repo }}"
           dockerfile-path: ./deploy/monitor/Dockerfile
           role-to-assume: ${{ secrets.aws-role-arn }}
