@@ -19,7 +19,7 @@ defmodule CMS.Page.Event do
     ]
 
   import Util,
-    only: [time_is_greater_or_equal?: 2, date_to_naive_date: 1, to_local_time: 1, now: 0]
+    only: [time_is_greater_or_equal?: 2, date_to_naive_date: 1, now: 0]
 
   alias CMS.Field.File
   alias CMS.Field.Link
@@ -125,34 +125,31 @@ defmodule CMS.Page.Event do
   # Events will always have a start time, but unsure if teasers will. Handle :nil
   def started_status(nil, _), do: nil
 
-  def started_status(%NaiveDateTime{} = start, stop) do
-    started_status(
-      to_local_time(start),
-      if(is_nil(stop), do: nil, else: to_local_time(stop))
-    )
-  end
+  def started_status(%NaiveDateTime{} = start, %NaiveDateTime{} = stop) do
+    now = now() |> DateTime.to_naive()
 
-  def started_status(%Date{} = start, stop) do
-    started_status(
-      date_to_naive_date(start),
-      if(is_nil(stop), do: nil, else: date_to_naive_date(stop))
-    )
-  end
-
-  def started_status(start, nil) do
     cond do
-      Date.compare(now(), start) === :gt -> :ended
-      time_is_greater_or_equal?(now(), start) -> :started
+      time_is_greater_or_equal?(now, stop) -> :ended
+      time_is_greater_or_equal?(now, start) -> :started
+      true -> :not_started
+    end
+  end
+
+  def started_status(%NaiveDateTime{} = start, nil) do
+    now_dt = now()
+
+    cond do
+      Date.compare(now_dt, start) === :gt -> :ended
+      time_is_greater_or_equal?(DateTime.to_naive(now_dt), start) -> :started
       true -> :not_started
     end
   end
 
   def started_status(start, stop) do
-    cond do
-      time_is_greater_or_equal?(now(), stop) -> :ended
-      time_is_greater_or_equal?(now(), start) -> :started
-      true -> :not_started
-    end
+    started_status(
+      date_to_naive_date(start),
+      if(is_nil(stop), do: nil, else: date_to_naive_date(stop))
+    )
   end
 
   @spec parse_optional_html(String.t() | nil) :: HTML.safe() | nil

@@ -27,9 +27,21 @@ defmodule Util do
     now() |> Timex.to_date()
   end
 
-  @spec time_is_greater_or_equal?(DateTime.t(), DateTime.t()) :: boolean
+  @spec time_is_greater_or_equal?(
+          DateTime.t() | NaiveDateTime.t(),
+          DateTime.t() | NaiveDateTime.t()
+        ) :: boolean
   def time_is_greater_or_equal?(time, ref_time) do
-    case DateTime.compare(time, ref_time) do
+    compare_fn =
+      case {time, ref_time} do
+        {%DateTime{}, %DateTime{}} ->
+          &DateTime.compare/2
+
+        {%NaiveDateTime{}, %NaiveDateTime{}} ->
+          &NaiveDateTime.compare/2
+      end
+
+    case compare_fn.(time, ref_time) do
       :gt -> true
       :eq -> true
       :lt -> false
@@ -79,8 +91,10 @@ defmodule Util do
     {:error, :invalid_date}
   end
 
-  @spec date_to_naive_date(Date.t()) :: NaiveDateTime.t()
-  def date_to_naive_date(date), do: NaiveDateTime.new(date, ~T[00:00:00.00]) |> elem(1)
+  @spec date_to_naive_date(NaiveDateTime.t() | DateTime.t() | Date.t()) :: NaiveDateTime.t()
+  def date_to_naive_date(%Date{} = date), do: NaiveDateTime.new(date, ~T[00:00:00.00]) |> elem(1)
+  def date_to_naive_date(%DateTime{} = date), do: DateTime.to_naive(date)
+  def date_to_naive_date(%NaiveDateTime{} = date), do: date
 
   def convert_to_iso_format(date) do
     date
