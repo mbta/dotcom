@@ -3,10 +3,6 @@ name: Deploy Monitor
 on:
   workflow_dispatch:
 
-env:
-  ECR_REPOSITORY: monitor
-  GITHUB_OUTPUT: ${{ github.workspace }}/output.txt
-
 jobs:
   deploy:
     name: Deploy
