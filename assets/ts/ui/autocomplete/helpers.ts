@@ -25,7 +25,8 @@ export function isContentItem(x: Item): x is ContentItem {
 }
 
 export function isSearchResultItem(x: Item): x is SearchResultItem {
-  return isContentItem(x) && x._content_type == "search_result";
+  // eslint-disable-next-line no-underscore-dangle
+  return isContentItem(x) && x._content_type === "search_result";
 }
 
 export const getTitleAttribute = (item: Item): string[] => {
