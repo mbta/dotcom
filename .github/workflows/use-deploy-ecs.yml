@@ -73,11 +73,11 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v5
         with:
-          context: deploy/dotcom
           load: true
           tags: assets-image
           cache-from: type=gha,src=/tmp/.buildx-cache
           cache-to: type=gha,dest=/tmp/.buildx-cache,mode=max
+          file: "{{context}}/deploy/dotcom/Dockerfile"
 
       - name: Upload assets from image into s3
         env:
