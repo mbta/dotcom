@@ -24,9 +24,7 @@ defmodule Dotcom.TripPlan.QueryTest do
   ]
 
   @connection_opts [
-    user_id: 1,
-    force_otp1: false,
-    force_otp2: false
+    user_id: 1
   ]
 
   describe "from_query/1" do

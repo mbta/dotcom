@@ -11,9 +11,7 @@
 
 export DRUPAL_ROOT=https://live-mbta.pantheonsite.io
 # export GOOGLE_API_KEY=
-export OPEN_TRIP_PLANNER_URL=http://otp-local.mbtace.com
-export OPEN_TRIP_PLANNER_2_URL=http://otp2-local.mbtace.com
-export OPEN_TRIP_PLANNER_2_PERCENTAGE=0
+export OPEN_TRIP_PLANNER_URL=http://otp2-local.mbtace.com
 export RECAPTCHA_PUBLIC_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
 export RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
 # export STATIC_HOST=

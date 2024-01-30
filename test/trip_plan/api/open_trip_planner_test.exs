@@ -23,8 +23,7 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
 
   describe "plan/4" do
     test "bad options returns an error" do
-      connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
-
+      connection_opts = [user_id: 1]
       expected = {:error, {:bad_param, {:bad, :arg}}}
       actual = plan({1, 1}, {2, 2}, connection_opts, bad: :arg)
       assert expected == actual
@@ -37,7 +36,7 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
       send_resp(conn, 404, ~s({"body": {}}))
     end)
 
-    connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
+    connection_opts = [user_id: 1]
     from = %NamedPosition{name: "a", latitude: "42.13", longitude: "12.12313"}
     to = %NamedPosition{name: "b", latitude: "42.13", longitude: "12.12313"}
     plan(from, to, connection_opts, root_url: url)
@@ -52,7 +51,7 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
       send_resp(conn, 404, ~s({"body": {}}))
     end)
 
-    connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
+    connection_opts = [user_id: 1]
     from = %NamedPosition{name: "a", latitude: "42.13", longitude: "12.12313"}
     to = %NamedPosition{name: "b", latitude: "42.13", longitude: "12.12313"}
     plan(from, to, connection_opts, root_url: url)

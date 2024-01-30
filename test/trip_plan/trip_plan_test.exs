@@ -15,7 +15,7 @@ defmodule TripPlanTest do
     test "returns {:ok, itineraries} from the api" do
       {:ok, from} = geocode("from")
       {:ok, to} = geocode("to")
-      connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
+      connection_opts = [user_id: 1]
       opts = [depart_at: ~N[2017-07-06T19:20:00]]
       assert {:ok, itineraries} = plan(from, to, connection_opts, opts)
       assert [%TripPlan.Itinerary{}] = itineraries

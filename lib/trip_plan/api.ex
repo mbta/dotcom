@@ -16,7 +16,7 @@ defmodule TripPlan.Api do
           | {:optimize_for, :less_walking | :fewest_transfers}
   @type plan_opts :: [plan_opt]
 
-  @type connection_opts :: [user_id: integer, force_otp1: boolean, force_otp2: boolean]
+  @type connection_opts :: [user_id: integer]
 
   @type error ::
           :outside_bounds
