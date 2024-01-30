@@ -23,6 +23,7 @@ RUN if [ "$(dpkg --print-architecture)" = "arm64" ]; then \
 
 RUN mv ./deploy/monitor/splunk/inputs.conf /opt/splunkforwarder/etc/system/local/inputs.conf
 RUN mv ./deploy/monitor/splunk/user-seed.conf /opt/splunkforwarder/etc/system/local/user-seed.conf
+RUN /opt/splunkforwarder/bin/splunk --version
 
 RUN unzip awscli.zip
 RUN ./aws/install
