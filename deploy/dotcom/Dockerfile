@@ -37,7 +37,7 @@ COPY --from=elixir-builder /root/deps /root/deps
 ADD ./assets /root/assets
 
 WORKDIR /root/assets
-RUN npm ci --prefix assets --omit=optional
+RUN npm ci --omit=optional
 # Create priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create react_renderer/dist/app.js
