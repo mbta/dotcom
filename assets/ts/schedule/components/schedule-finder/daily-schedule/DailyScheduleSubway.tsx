@@ -7,7 +7,7 @@ import {
   isWeekend,
   parse
 } from "date-fns";
-import { concat, find, toLower } from "lodash";
+import { find, toLower } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
 import ExpandableBlock from "../../../../components/ExpandableBlock";
 import {
@@ -16,7 +16,12 @@ import {
 } from "../../../../helpers/date";
 import useHoursOfOperation from "../../../../hooks/useHoursOfOperation";
 import RouteIcon from "../../../../projects/components/RouteIcon";
-import { DirectionId, Route, StopHours } from "../../../../__v3api";
+import {
+  DirectionId,
+  RapidTransitHours,
+  Route,
+  StopHours
+} from "../../../../__v3api";
 import {
   ScheduleNote,
   ServiceInSelector,
@@ -36,13 +41,13 @@ const findStopName = (
 
 const getHoursByStop = (
   stopId: string,
-  hours: StopHours[][] | StopHours[] | undefined
+  directionId: DirectionId,
+  hours: StopHours[][] | undefined
 ): StopHours | undefined => {
   if (!hours) {
     return undefined;
   }
-  const bothDirectionHours = concat(hours[0], hours[1]);
-  const stopHours = find(bothDirectionHours, h => h.parent_stop_id === stopId);
+  const stopHours = find(hours[directionId], h => h.parent_stop_id === stopId);
 
   return stopHours;
 };
@@ -108,7 +113,11 @@ const DailyScheduleSubway = ({
 
   const todayDate = stringToDateObject(today);
   const originStopName = findStopName(stopId, directionId, stops);
-  const hoursOfOperation = useHoursOfOperation(routeId);
+  // Hours will always be rapid transit hours when given a rapid tranist route id
+  // (Which all of the routes passed to this component would be)
+  const hoursOfOperation = useHoursOfOperation(
+    routeId
+  ) as RapidTransitHours | null;
 
   const { direction_destinations: directionDestinations } = route;
 
@@ -153,11 +162,11 @@ const DailyScheduleSubway = ({
   useEffect(() => {
     let hours;
     if (selectedSchedule === "weekday") {
-      hours = getHoursByStop(stopId, hoursOfOperation?.week);
+      hours = getHoursByStop(stopId, directionId, hoursOfOperation?.week);
     } else if (selectedSchedule === "saturday") {
-      hours = getHoursByStop(stopId, hoursOfOperation?.saturday);
+      hours = getHoursByStop(stopId, directionId, hoursOfOperation?.saturday);
     } else if (selectedSchedule === "sunday") {
-      hours = getHoursByStop(stopId, hoursOfOperation?.sunday);
+      hours = getHoursByStop(stopId, directionId, hoursOfOperation?.sunday);
     } else {
       // We need to select a special service
       const specialServiceHours = hoursOfOperation?.special_service;
@@ -165,6 +174,7 @@ const DailyScheduleSubway = ({
       if (specialServiceHours) {
         hours = getHoursByStop(
           stopId,
+          directionId,
           specialServiceHours[
             selectedSchedule as keyof typeof specialServiceHours
           ]
@@ -176,7 +186,7 @@ const DailyScheduleSubway = ({
     );
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
-  }, [selectedSchedule, hoursOfOperation, stopId]);
+  }, [selectedSchedule, hoursOfOperation, stopId, directionId]);
 
   return (
     <div>
