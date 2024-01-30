@@ -7,6 +7,7 @@ import {
   getTitleAttribute,
   isContentItem,
   isRouteItem,
+  isSearchResultItem,
   isStopItem
 } from "../helpers";
 import {
@@ -22,7 +23,13 @@ interface LinkForItemProps {
 }
 export function LinkForItem(props: LinkForItemProps): React.ReactElement {
   const { item, query, children } = props;
-  const url = isContentItem(item) ? item._content_url : item.url;
+
+  let url = isContentItem(item) ? item._content_url : item.url;
+
+  // Search result items are a subset of content items that point to a different URL
+  if (isSearchResultItem(item)) {
+    url = item._search_result_url.replace(/(internal|entity):/g, "/");
+  }
 
   // Special case: When the matching text isn't part of the page title, help the
   // user locate the matching text by linking directly to / scrolling to the

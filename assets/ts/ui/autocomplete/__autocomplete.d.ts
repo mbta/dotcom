@@ -28,6 +28,10 @@ type ContentItem = {
   content_title: string;
 } & AlgoliaItem;
 
+type SearchResultItem = {
+  _search_result_url: string;
+} & ContentItem;
+
 export type LocationItem = {
   longitude: number;
   latitude: number;
