@@ -18,7 +18,7 @@ RUN if [ "$(dpkg --print-architecture)" = "arm64" ]; then \
       tar xvfz splunkforwarder-9.1.3-d95b3299fa65-Linux-x86_64.tgz -C /opt; \
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip"; \
     else \
-      echo "No valid buildplatform specified"; \
+      echo "Architecture $(dpkg --print-architecture) is not supported."; exit 1; \
     fi
 
 RUN mv ./deploy/monitor/splunk/inputs.conf /opt/splunkforwarder/etc/system/local/inputs.conf
