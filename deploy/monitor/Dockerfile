@@ -19,6 +19,7 @@ RUN mv ./deploy/monitor/splunk/user-seed.conf /opt/splunkforwarder/etc/system/lo
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscli.zip"
 RUN unzip awscli.zip
 RUN ./aws/install
+RUN /usr/local/bin/aws --version
 
 ENV TARGET_URL=https://www.mbta.com
 
