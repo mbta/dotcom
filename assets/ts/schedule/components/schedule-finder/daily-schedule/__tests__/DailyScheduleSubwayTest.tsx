@@ -9,6 +9,7 @@ import { ServiceInSelector } from "../../../__schedule";
 import DailyScheduleSubway from "../DailyScheduleSubway";
 import * as hours from "../../../../../hooks/useHoursOfOperation";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
+import { render, screen } from "@testing-library/react";
 
 describe("DailyScheduleSubway", () => {
   beforeEach(() => {
@@ -45,6 +46,14 @@ describe("DailyScheduleSubway", () => {
       {
         id: "1",
         name: "Stop 1",
+        is_closed: false,
+        zone: null
+      }
+    ],
+    "1": [
+      {
+        id: "2",
+        name: "Stop 2",
         is_closed: false,
         zone: null
       }
@@ -444,5 +453,73 @@ describe("DailyScheduleSubway", () => {
 
     expect(wrapper.html()).toContain("Special Service");
     expect(wrapper.html()).toContain("Holiday 1, Dec 26 (Today)");
+  });
+
+  it("should show differt hours based on direction", () => {
+    jest.spyOn(hours, "default").mockImplementation(() => {
+      return {
+        week: [
+          [
+            {
+              stop_name: "Stop 1",
+              stop_id: "123",
+              parent_stop_id: "543",
+              last_departure: "2022-11-28T22:58:00-05:00",
+              first_departure: "2022-11-28T05:58:00-05:00",
+              is_terminus: false,
+              latitude: 1,
+              longitude: 1
+            }
+          ],
+          [
+            {
+              stop_name: "Stop 1",
+              stop_id: "123",
+              parent_stop_id: "543",
+              last_departure: "2022-11-28T20:34:00-05:00",
+              first_departure: "2022-11-28T08:22:00-05:00",
+              is_terminus: false,
+              latitude: 1,
+              longitude: 1
+            }
+          ]
+        ],
+        saturday: [[], []],
+        sunday: [[], []],
+        special_service: {}
+      };
+    });
+
+    render(
+      <DailyScheduleSubway
+        directionId={0}
+        stops={stopMap}
+        stopId={"543"}
+        routeId={"blue"}
+        route={route}
+        scheduleNote={null}
+        today="2022-11-28T14:14:14-05:00"
+        services={services}
+      />
+    );
+
+    expect(screen.getByText("5:58 AM"));
+    expect(screen.getByText("10:58 PM"));
+
+    render(
+      <DailyScheduleSubway
+        directionId={1}
+        stops={stopMap}
+        stopId={"543"}
+        routeId={"blue"}
+        route={route}
+        scheduleNote={null}
+        today="2022-11-28T14:14:14-05:00"
+        services={services}
+      />
+    );
+
+    expect(screen.getByText("8:22 AM"));
+    expect(screen.getByText("8:34 PM"));
   });
 });
