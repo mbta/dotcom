@@ -248,7 +248,7 @@ defmodule DotcomWeb.TripPlanController do
         String.to_integer(user_cookie)
       rescue
         e in ArgumentError ->
-          Logger.warn(fn ->
+          Logger.warning(fn ->
             "#{__MODULE__}.get_conn_opts Couldn't parse #{cookie} cookie as an int, using 0. #{cookie}=#{user_cookie} parse_error=#{e.message}"
           end)
 

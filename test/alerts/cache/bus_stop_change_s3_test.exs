@@ -32,7 +32,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
           assert :ok = copy_alerts_to_s3([alert], nil)
         end)
 
-      refute log =~ "[warn]"
+      refute log =~ "[warning]"
       refute log =~ "module=Elixir.Alerts.Cache.BusStopChangeS3 func=write_alerts alert=one"
     end
 
@@ -46,7 +46,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
           :ok = copy_alerts_to_s3([alert], nil)
         end)
 
-      assert log =~ "[warn]"
+      assert log =~ "[warning]"
 
       assert log =~
                "module=Elixir.Alerts.Cache.BusStopChangeS3 func=write_alerts alert=three error=\"some_problem\""
@@ -60,7 +60,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
           assert [%HistoricalAlert{id: "one"}, %HistoricalAlert{id: "two"}] = get_stored_alerts()
         end)
 
-      assert log =~ "[warn]"
+      assert log =~ "[warning]"
 
       assert log =~
                "module=Elixir.Alerts.Cache.BusStopChangeS3 func=get_stored_alerts alert=three error=\"some_problem\""

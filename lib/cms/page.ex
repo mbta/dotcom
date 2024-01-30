@@ -93,7 +93,7 @@ defmodule CMS.Page do
     struct
   end
 
-  @spec content_list_async(Paragraph.t()) :: (() -> Paragraph.t())
+  @spec content_list_async(Paragraph.t()) :: (-> Paragraph.t())
   def content_list_async(%ContentList{} = content_list) do
     fn -> ContentList.fetch_teasers(content_list) end
   end

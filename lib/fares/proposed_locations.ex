@@ -31,12 +31,12 @@ defmodule Fares.ProposedLocations do
             Enum.map(json["features"], &parse_proposed_location(&1))
 
           {:error, _} ->
-            Logger.warn("error decoding json -> original_request=#{url}")
+            Logger.warning("error decoding json -> original_request=#{url}")
             nil
         end
 
       {:error, _} ->
-        Logger.warn("error in http request -> original_request=#{url}")
+        Logger.warning("error in http request -> original_request=#{url}")
         nil
     end
   end

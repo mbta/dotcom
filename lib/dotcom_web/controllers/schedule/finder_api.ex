@@ -120,7 +120,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       original_query_params = conn.query_params
 
       _ =
-        Logger.warn(
+        Logger.warning(
           "trip_info_not_found original_query_params=#{Jason.encode!(original_query_params)}"
         )
 
@@ -153,7 +153,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       route = Routes.Repo.get(schedule_route_id)
       get_trip_info(conn, trip_id, route, date, direction, origin)
     else
-      _ = Logger.warn("route_id_not_found route_id=#{route_id}, trip_id=#{trip_id}")
+      _ = Logger.warning("route_id_not_found route_id=#{route_id}, trip_id=#{trip_id}")
 
       conn
       |> put_resp_content_type("application/json")
@@ -197,7 +197,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       case schedules_fn.(route_ids, schedule_opts) do
         {:error, error} ->
           _ =
-            Logger.warn(
+            Logger.warning(
               "module=#{__MODULE__} Error getting schedules for #{route_ids}: #{inspect(error)}"
             )
 

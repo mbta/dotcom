@@ -53,7 +53,7 @@ defmodule DotcomWeb.EventController do
   def show(conn, %{"path_params" => path}) do
     case List.last(path) do
       "icalendar" ->
-        redirect(conn, to: Path.join(["/events", "icalendar" | Enum.slice(path, 0..-2)]))
+        redirect(conn, to: Path.join(["/events", "icalendar" | Enum.slice(path, 0..-2//1)]))
 
       _ ->
         conn.request_path

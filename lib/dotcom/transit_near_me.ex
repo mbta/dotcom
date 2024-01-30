@@ -143,7 +143,7 @@ defmodule Dotcom.TransitNearMe do
 
       {:error, error} ->
         _ =
-          Logger.warn(
+          Logger.warning(
             "module=#{__MODULE__} route_id=#{route_id} date=#{Date.to_string(date)} Other error fetching schedule: #{inspect(error)}"
           )
 

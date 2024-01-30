@@ -15,7 +15,9 @@ defmodule V3Api.StopsTest do
       end)
 
       assert %JsonApi{} =
-               V3Api.Stops.by_gtfs_id("123", [include: "parent_station,facilities"], base_url: url)
+               V3Api.Stops.by_gtfs_id("123", [include: "parent_station,facilities"],
+                 base_url: url
+               )
     end
   end
 end

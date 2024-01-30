@@ -27,7 +27,9 @@ defmodule Alerts.HistoricalAlertTest do
     test "can include municipality from related stop" do
       alert_for_stop = Alert.new(informed_entity: [@stop_entity])
 
-      with_mock(Stops.Repo, [:passthrough], get: fn _ -> %Stops.Stop{municipality: "Atlantis"} end) do
+      with_mock(Stops.Repo, [:passthrough],
+        get: fn _ -> %Stops.Stop{municipality: "Atlantis"} end
+      ) do
         assert %HistoricalAlert{municipality: "Atlantis"} = from_alert(alert_for_stop)
       end
 

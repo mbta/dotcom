@@ -56,7 +56,7 @@ defmodule LocationService.ResultTest do
           assert {:error, :internal_error} = result
         end)
 
-      assert log =~ "[warn]"
+      assert log =~ "[warning]"
       assert log =~ "status_code=416"
       assert log =~ "Unexpected HTTP code"
     end
@@ -83,7 +83,7 @@ defmodule LocationService.ResultTest do
                    |> handle_response(@input)
         end)
 
-      assert log =~ "[warn]"
+      assert log =~ "[warning]"
       assert log =~ "Error parsing to JSON"
     end
 
@@ -95,7 +95,7 @@ defmodule LocationService.ResultTest do
                    |> handle_response(@input)
         end)
 
-      assert log =~ "[warn]"
+      assert log =~ "[warning]"
       assert log =~ "something bad"
     end
   end
