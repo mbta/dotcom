@@ -16,8 +16,10 @@ RUN tar xvfz splunkforwarder-9.1.3-d95b3299fa65-Linux-armv8.tgz -C /opt
 RUN mv ./deploy/monitor/splunk/inputs.conf /opt/splunkforwarder/etc/system/local/inputs.conf
 RUN mv ./deploy/monitor/splunk/user-seed.conf /opt/splunkforwarder/etc/system/local/user-seed.conf
 
-RUN mv ./deploy/monitor/entrypoint /home/runner/entrypoint
-RUN chmod +x /home/runner/entrypoint
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscli.zip"
+RUN unzip awscli.zip
+RUN ./aws/install
+RUN /usr/local/bin/aws --version
 
 ENV TARGET_URL=https://www.mbta.com
 
