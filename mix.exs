@@ -19,7 +19,7 @@ defmodule DotCom.Mixfile do
         "coveralls.html": :test
       ],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload, :laboratory, :ex_aws, :ex_aws_ses],
+        plt_add_apps: [:mix, :phoenix_live_reload, :ex_aws, :ex_aws_ses],
         flags: [:race_conditions, :unmatched_returns],
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
@@ -57,8 +57,6 @@ defmodule DotCom.Mixfile do
     [
       # the module to invoke when the application is started
       mod: {Dotcom.Application, []},
-      # a list of applications that will be included in the application
-      included_applications: [:laboratory],
       # a list of OTP applications your application depends on which are not included in :deps
       extra_applications: extra_apps
     ]
@@ -96,7 +94,6 @@ defmodule DotCom.Mixfile do
       {:httpoison, "~> 1.5"},
       {:inflex, "~> 1.8.0"},
       {:jason, "~> 1.1"},
-      {:laboratory, [github: "paulswartz/laboratory", ref: "cookie_opts"]},
       {:logster, "~> 0.4.0"},
       {:mail, "~> 0.2"},
       {:mock, "~> 0.3.3", [only: :test]},
