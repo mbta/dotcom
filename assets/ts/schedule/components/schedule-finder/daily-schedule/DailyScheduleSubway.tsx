@@ -7,7 +7,7 @@ import {
   isWeekend,
   parse
 } from "date-fns";
-import { concat, find, toLower } from "lodash";
+import { find, toLower } from "lodash";
 import React, { ReactElement, useEffect, useState } from "react";
 import ExpandableBlock from "../../../../components/ExpandableBlock";
 import {

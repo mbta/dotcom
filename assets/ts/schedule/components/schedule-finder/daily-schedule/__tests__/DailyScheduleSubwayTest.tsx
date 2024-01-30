@@ -455,7 +455,7 @@ describe("DailyScheduleSubway", () => {
     expect(wrapper.html()).toContain("Holiday 1, Dec 26 (Today)");
   });
 
-  it("should show differt hours based on direction", () => {
+  it("should show different hours based on direction", () => {
     jest.spyOn(hours, "default").mockImplementation(() => {
       return {
         week: [
