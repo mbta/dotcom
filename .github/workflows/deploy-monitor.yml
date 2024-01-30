@@ -20,5 +20,5 @@ jobs:
         uses: mbta/actions/build-push-ecr@v2
         with:
           docker-repo: "${{ secrets.MONITOR_DOCKER_REPO }}"
-          dockerfile-path: ./deploy/monitor/
+          dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
