@@ -29,7 +29,6 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
     plug(:optional_disable_indexing)
-    plug(:activate_flag)
     plug(DotcomWeb.Plugs.LineSuspensions)
   end
 
@@ -275,12 +274,6 @@ defmodule DotcomWeb.Router do
     get("/about_the_mbta/news_events", Redirector, to: "/news")
   end
 
-  scope "/_flags" do
-    pipe_through([:secure, :browser])
-
-    forward("/", Laboratory.Router)
-  end
-
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
@@ -300,22 +293,4 @@ defmodule DotcomWeb.Router do
       Plug.Conn.put_resp_header(conn, "x-robots-tag", "noindex")
     end
   end
-
-  # Activates a feature flag using a url parameter, e.g.
-  # visiting /?active_flag=nav_redesign, using the same cookie settings as
-  # activating via /_flags
-  defp activate_flag(%{query_params: %{"active_flag" => flag}} = conn, _) do
-    # check if it's a known flagged feature
-    known_features =
-      Application.get_env(:laboratory, :features)
-      |> Enum.map(fn {key, _, _} -> Atom.to_string(key) end)
-
-    if Enum.member?(known_features, flag) do
-      Plug.Conn.put_resp_cookie(conn, flag, "true", Application.get_env(:laboratory, :cookie))
-    else
-      conn
-    end
-  end
-
-  defp activate_flag(conn, _), do: conn
 end

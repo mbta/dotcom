@@ -149,18 +149,4 @@ defmodule Phoenix.Router.RoutingTest do
     conn = get(conn, "/")
     refute Enum.find(conn.resp_headers, &(&1 == {"x-robots-tag", "noindex"}))
   end
-
-  test "Assigns cookie for known flagged features via URL params", %{conn: conn} do
-    conn = Plug.Conn.fetch_cookies(conn)
-    refute conn.cookies["some_feature"]
-
-    # add a feature flag
-    Application.put_env(:laboratory, :features, [
-      {:some_feature, "", ""}
-      | Application.get_env(:laboratory, :features)
-    ])
-
-    assert get(conn, "/?active_flag=some_feature") |> Laboratory.enabled?(:some_feature)
-    refute get(conn, "/?active_flag=unknown_feature") |> Laboratory.enabled?(:unknown_feature)
-  end
 end
