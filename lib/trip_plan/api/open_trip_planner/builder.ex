@@ -15,7 +15,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
       "fromPlace" => from_string,
       "toPlace" => to_string,
       "transportModes" => default_mode_string,
-      "walkReluctance" => 15,
       "locale" => "\"en\""
     })
   end
@@ -67,12 +66,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
     do_build_params(rest, Map.put(acc, "transportModes", joined_modes))
   end
 
-  defp do_build_params([{:optimize_for, :less_walking} | rest], acc) do
-    do_build_params(rest, Map.put(acc, "walkReluctance", 27))
-  end
-
-  defp do_build_params([{:optimize_for, :fewest_transfers} | rest], acc) do
-    do_build_params(rest, Map.put(acc, "transferPenalty", 100))
+  defp do_build_params([{:wheelchair, "true"} | rest], acc) do
+    do_build_params(rest, Map.put(acc, "wheelchair", true))
   end
 
   # param is used for testing, ignore

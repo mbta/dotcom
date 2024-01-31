@@ -30,7 +30,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "\"2017-05-22\"",
            "time" => "\"12:04pm\"",
            "arriveBy" => "false",
-           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -54,7 +53,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
            "date" => "\"2017-05-22\"",
            "time" => "\"12:04pm\"",
            "arriveBy" => "true",
-           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -76,7 +74,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
         {:ok,
          %{
            "wheelchair" => "true",
-           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -89,7 +86,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -104,7 +100,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 15,
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -119,7 +114,6 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       expected =
         {:ok,
          %{
-           "walkReluctance" => 15,
            "transportModes" => "[{mode: BUS}, {mode: SUBWAY}, {mode: TRAM}, {mode: WALK}]",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
@@ -130,34 +124,18 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
       assert expected == actual
     end
 
-    test "optimize_for: :less_walking sets walkReluctance value" do
+    test "wheelchair_accessible?: true sets wheelchair value" do
       expected =
         {:ok,
          %{
            "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
-           "walkReluctance" => 27,
+           "wheelchair" => "true",
            "fromPlace" => "\"::42.356365,-71.06092\"",
            "locale" => "\"en\"",
            "toPlace" => "\"::42.3636617,-71.0832908\""
          }}
 
-      actual = build_params(@from_inside, @to_inside, optimize_for: :less_walking)
-      assert expected == actual
-    end
-
-    test "optimize_for: :fewest_transfers sets transferPenalty value" do
-      expected =
-        {:ok,
-         %{
-           "walkReluctance" => 15,
-           "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
-           "transferPenalty" => 100,
-           "fromPlace" => "\"::42.356365,-71.06092\"",
-           "locale" => "\"en\"",
-           "toPlace" => "\"::42.3636617,-71.0832908\""
-         }}
-
-      actual = build_params(@from_inside, @to_inside, optimize_for: :fewest_transfers)
+      actual = build_params(@from_inside, @to_inside, wheelchair_accessible?: true)
       assert expected == actual
     end
 
@@ -174,8 +152,7 @@ defmodule TripPlan.Api.OpenTripPlanner.BuilderTest do
           "fromPlace" => "\"FromStop::mbta-ma-us:From_Id\"",
           "toPlace" => "\"ToStop::mbta-ma-us:To_Id\"",
           "locale" => "\"en\"",
-          "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]",
-          "walkReluctance" => 15
+          "transportModes" => "[{mode: WALK}, {mode: TRANSIT}]"
         }
       }
 

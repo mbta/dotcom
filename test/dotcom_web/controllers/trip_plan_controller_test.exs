@@ -43,7 +43,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       "date_time" => @afternoon,
       "time" => "depart",
       "modes" => @modes,
-      "optimize_for" => "best_route"
+      "wheelchair" => "true"
     }
   }
 
@@ -253,28 +253,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
-    test "assigns.optimize_for defaults to best_route", %{conn: conn} do
-      params = %{
-        "date_time" => @system_time,
-        "plan" => %{
-          "from" => "Your current location",
-          "from_latitude" => "42.3428",
-          "from_longitude" => "-71.0857",
-          "to" => "to address",
-          "to_latitude" => "",
-          "to_longitude" => "",
-          "date_time" => @morning,
-          "modes" => @modes
-        }
-      }
-
-      conn = get(conn, trip_plan_path(conn, :index, params))
-
-      assert html_response(conn, 200) =~ "Trip Planner"
-      assert conn.assigns.optimize_for == "best_route"
-    end
-
-    test "assigns.optimize_for uses value provided in params", %{conn: conn} do
+    test "assigns.wheelchair uses value provided in params", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
         "plan" => %{
@@ -286,14 +265,14 @@ defmodule DotcomWeb.TripPlanControllerTest do
           "to_longitude" => "",
           "date_time" => @morning,
           "modes" => @modes,
-          "optimize_for" => "less_walking"
+          "wheelchair" => "true"
         }
       }
 
       conn = get(conn, trip_plan_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
-      assert conn.assigns.optimize_for == "less_walking"
+      assert conn.assigns.wheelchair == true
     end
 
     test "can use the old date time format", %{conn: conn} do

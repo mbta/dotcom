@@ -14,26 +14,11 @@
 </div>
 
 <div class="form-group m-trip-plan__optimize-for">
-  <%
-    radio_buttons = [
-      {"best_route", "Best route"},
-      {"accessibility", ["Wheelchair accessible", svg_icon_with_circle(%SvgIconWithCircle{icon: :access})]},
-      {"fewest_transfers", "Fewest transfers"},
-      {"less_walking", "Less walking"}
-    ]
-  %>
+  <%=
 
-  <fieldset>
-    <legend class="sr-only">Choose how to optimize your trip:</legend>
-    <%= for {val, text} <- radio_buttons do %>
-      <div class="form-check m-trip-plan__form-check">
-        <label class="form-check-label m-trip-plan__form-label" for="<%= val %>">
-          <%= radio_button @parent_form, :optimize_for, val, id: val, class: "form-check-input c-radio", checked: @optimize_for === val %>
-          <div class="c-radio__label">
-            <%= text %>
-          </div>
-        </label>
-      </div>
-    <% end %>
-  </fieldset>
+      content_tag(:div, [
+        checkbox(@form, :wheelchair, checked: @wheelchair == true, class: "c-checkbox__input"),
+        label(@form, :wheelchair, ["Wheelchair accessible", svg_icon_with_circle(%SvgIconWithCircle{icon: :access})], class: "c-checkbox__label")
+      ], class: "c-checkbox")
+  %>
 </div>

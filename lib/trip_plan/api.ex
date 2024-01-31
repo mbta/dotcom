@@ -13,7 +13,6 @@ defmodule TripPlan.Api do
           {:arrive_by, DateTime.t()}
           | {:depart_at, DateTime.t()}
           | {:wheelchair_accessible?, boolean}
-          | {:optimize_for, :less_walking | :fewest_transfers}
   @type plan_opts :: [plan_opt]
 
   @type connection_opts :: [user_id: integer]

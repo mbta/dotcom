@@ -61,7 +61,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       params = %{
         "from" => "from address",
         "to" => "to address",
-        "optimize_for" => "accessibility",
+        "wheelchair" => "true",
         "date_time" => @date_time_params
       }
 
@@ -84,7 +84,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "Your current location",
         "to_latitude" => "42.3428",
         "to_longitude" => "-71.0857",
-        "optimize_for" => "accessibility",
+        "wheelchair" => "true",
         "date_time" => @date_time_params
       }
 
@@ -111,7 +111,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "from_longitude" => "",
         "to" => "to address",
         "date_time" => @date_time_params,
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
       actual = from_query(params, @connection_opts, @date_opts)
@@ -140,7 +140,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "time" => "arrive",
         "date_time" => @date_time_params,
         "include_car?" => "false",
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
       query = from_query(params, @connection_opts, @date_opts)
@@ -160,7 +160,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "to address",
         "time" => "depart",
         "date_time" => @date_time_params,
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
       actual = from_query(params, @connection_opts, @date_opts)
@@ -218,7 +218,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "to address",
         "time" => "depart",
         "date_time" => @date_time_params,
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
       assert %Query{} = from_query(params, @connection_opts, @date_opts)
@@ -289,40 +289,33 @@ defmodule Dotcom.TripPlan.QueryTest do
              ]
     end
 
-    test "handles optimize_for options" do
+    test "handles wheelchair option" do
       assert opts_from_query(
                %{
-                 "optimize_for" => "accessibility"
+                 "wheelchair" => "true"
                },
                []
              ) == [
                wheelchair_accessible?: true
              ]
+    end
 
-      assert opts_from_query(
-               %{
-                 "optimize_for" => "less_walking"
-               },
-               []
-             ) == [
-               optimize_for: :less_walking
+    test "adds an empty list to opts if all modes are disabled" do
+      assert opts_from_query(%{"modes" => %{"subway" => "false", "bus" => "false"}}, []) == [
+               mode: []
              ]
+    end
 
+    test "adds a list of specific modes if any modes are enabled" do
       assert opts_from_query(
-               %{
-                 "optimize_for" => "fewest_transfers"
-               },
+               %{"modes" => %{"subway" => "false", "bus" => "true", "commuter_rail" => "true"}},
                []
-             ) == [
-               optimize_for: :fewest_transfers
+             ) ==
+               [mode: ["RAIL", "BUS"]]
+
+      assert opts_from_query(%{"modes" => %{"subway" => "true", "ferry" => "true"}}, []) == [
+               mode: ["TRAM", "SUBWAY", "FERRY"]
              ]
-
-      assert opts_from_query(
-               %{
-                 "optimize_for" => "best_route"
-               },
-               []
-             ) == []
     end
   end
 
@@ -383,46 +376,9 @@ defmodule Dotcom.TripPlan.QueryTest do
     end
   end
 
-  describe "get_mode_opts/2" do
-    test "adds an empty list to opts if all modes are disabled" do
-      assert get_mode_opts(%{"subway" => "false", "bus" => "false"}, []) == [mode: []]
-    end
-
-    test "adds a list of specific modes if any modes are enabled" do
-      assert get_mode_opts(%{"subway" => "false", "bus" => "true", "commuter_rail" => "true"}, []) ==
-               [mode: ["RAIL", "BUS"]]
-
-      assert get_mode_opts(%{"subway" => "true", "ferry" => "true"}, []) == [
-               mode: ["TRAM", "SUBWAY", "FERRY"]
-             ]
-    end
-  end
-
-  describe "default_optimize_for/1" do
-    test "adds a default of best route for optimize" do
-      opts = %{"modes" => %{"bus" => "true"}}
-      assert Map.merge(opts, %{"optimize_for" => "best_route"}) == default_optimize_for(opts)
-    end
-  end
-
-  describe "default_mode/1" do
-    test "adds a default of modes" do
-      opts = %{"optimize_for" => "best_route"}
-
-      assert Map.merge(opts, %{
-               "modes" => %{
-                 "bus" => "true",
-                 "commuter_rail" => "true",
-                 "ferry" => "true",
-                 "subway" => "true"
-               }
-             }) == default_mode(opts)
-    end
-  end
-
   describe "get_query_options/1" do
-    test "keeps optimize_for if provided" do
-      opts = %{"optimize_for" => "accessibility"}
+    test "keeps wheelchair if provided" do
+      opts = %{"wheelchair" => "true"}
 
       assert [
                mode: ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"],
