@@ -1,4 +1,4 @@
-name: Push Monitor
+name: Deploy Monitor
 
 on:
   workflow_dispatch:
