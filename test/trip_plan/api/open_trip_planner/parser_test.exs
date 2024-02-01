@@ -8,8 +8,62 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
   @parsed parse_ql(@fixture)
 
   describe "parse_ql/1" do
-    test "returns an error with invalid JSON" do
+    test "returns an error" do
       assert {:error, :invalid} = parse_ql("")
+
+      assert {:error, :graphql_request_error} =
+               parse_ql(%{
+                 "errors" => [
+                   %{
+                     "message" =>
+                       "Variable 'fromPlace' has an invalid value: Variable 'fromPlace' has coerced Null value for NonNull type 'String!'",
+                     "locations" => [
+                       %{
+                         "line" => 1,
+                         "column" => 16
+                       }
+                     ],
+                     "extensions" => %{
+                       "classification" => "ValidationError"
+                     }
+                   }
+                 ]
+               })
+
+      assert {:error, :graphql_field_error} =
+               parse_ql(%{
+                 "data" => nil,
+                 "errors" => [
+                   %{
+                     "message" =>
+                       "Exception while fetching data (/plan) : RoutingError{code: LOCATION_NOT_FOUND, inputField: FROM_PLACE}"
+                   }
+                 ]
+               })
+
+      assert {:error, :graphql_field_error} =
+               parse_ql(%{
+                 "data" => %{"plan" => %{"itineraries" => []}},
+                 "errors" => [
+                   %{"something" => "idk"}
+                 ]
+               })
+
+      assert {:error, :unknown} =
+               parse_ql(%{
+                 "data" => %{
+                   "plan" => %{
+                     "routingErrors" => [
+                       %{
+                         "code" => "WALKING_BETTER_THAN_TRANSIT",
+                         "description" =>
+                           "Origin is within a trivial distance of the destination."
+                       }
+                     ],
+                     "itineraries" => []
+                   }
+                 }
+               })
     end
 
     test "returns a list of Itinerary structs" do
