@@ -27,10 +27,11 @@ defmodule Dotcom.TripPlan.Query do
   def from_query(params, connection_opts, date_opts) do
     opts = get_query_options(params)
 
-    %__MODULE__{}
+    %__MODULE__{
+      wheelchair_accessible?: match?(%{"wheelchair" => "true"}, params)
+    }
     |> Dotcom.TripPlan.DateTime.validate(params, date_opts)
     |> Dotcom.TripPlan.Location.validate(params)
-    |> include_options(opts)
     |> maybe_fetch_itineraries(connection_opts, opts)
   end
 
@@ -70,25 +71,7 @@ defmodule Dotcom.TripPlan.Query do
          connection_opts,
          opts
        ) do
-    pid = self()
-
-    if Keyword.get(opts, :wheelchair_accessible?) do
-      TripPlan.plan(from, to, connection_opts, opts)
-    else
-      accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
-
-      [mixed_results, accessible_results] =
-        Util.async_with_timeout(
-          [
-            fn -> TripPlan.plan(from, to, connection_opts, opts, pid) end,
-            fn -> TripPlan.plan(from, to, connection_opts, accessible_opts, pid) end
-          ],
-          {:error, :timeout},
-          __MODULE__
-        )
-
-      dedup_itineraries(mixed_results, accessible_results)
-    end
+    TripPlan.plan(from, to, connection_opts, opts)
   end
 
   @spec parse_itinerary_result(TripPlan.Api.t(), t) :: t
@@ -102,23 +85,6 @@ defmodule Dotcom.TripPlan.Query do
     |> Map.put(:errors, MapSet.put(query.errors, error))
   end
 
-  @spec dedup_itineraries(TripPlan.Api.t(), TripPlan.Api.t()) :: TripPlan.Api.t()
-  defp dedup_itineraries({:error, _status} = response, {:error, _accessible_response}),
-    do: response
-
-  defp dedup_itineraries(unknown, {:error, _response}), do: unknown
-  defp dedup_itineraries({:error, _response}, {:ok, _itineraries} = accessible), do: accessible
-
-  defp dedup_itineraries({:ok, unknown}, {:ok, accessible}) do
-    merged =
-      Dotcom.TripPlan.Merge.merge_itineraries(
-        accessible,
-        unknown
-      )
-
-    {:ok, merged}
-  end
-
   defp set_default_options(params) do
     Map.put(params, "modes", %{
       "bus" => "true",
@@ -126,10 +92,6 @@ defmodule Dotcom.TripPlan.Query do
       "ferry" => "true",
       "subway" => "true"
     })
-  end
-
-  defp include_options(%__MODULE__{} = query, opts) do
-    %{query | wheelchair_accessible?: opts[:wheelchair_accessible?] == true}
   end
 
   @spec opts_from_query(map, Keyword.t()) :: Keyword.t()

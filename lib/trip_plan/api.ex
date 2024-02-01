@@ -2,7 +2,7 @@ defmodule TripPlan.Api do
   @moduledoc """
   Behaviour for planning modules.
 
-  They must implement the `plan/3` function, which takes an origin, destination and options,
+  They must implement the `plan/4` function, which takes an origin, destination and options,
   and returns either a list of %Itinerary{} or an error.
 
   """

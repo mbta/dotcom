@@ -35,17 +35,8 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
 
-      assert_received {:planned_trip,
-                       {^from_position, ^to_position, @connection_opts, first_opts},
-                       {:ok, accessible_itineraries}}
-
-      assert_received {:planned_trip,
-                       {^from_position, ^to_position, @connection_opts, second_opts},
-                       {:ok, nonaccessible_itineraries}}
-
-      assert length(
-               Enum.filter([first_opts, second_opts], &Keyword.get(&1, :wheelchair_accessible?))
-             ) == 1
+      assert_received {:planned_trip, {^from_position, ^to_position, @connection_opts, _opts},
+                       {:ok, itineraries}}
 
       assert %Query{} = actual
       assert actual.from == from_position
@@ -54,7 +45,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert {:ok, actual_itineraries} = actual.itineraries
 
       assert Enum.sort(actual_itineraries) ==
-               Enum.sort(accessible_itineraries ++ nonaccessible_itineraries)
+               Enum.sort(itineraries)
     end
 
     test "can plan a basic trip from query params" do
@@ -210,70 +201,6 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
       assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to
       assert query.itineraries == {:error, :path_not_found}
-    end
-
-    test "makes single request when accessibility is checked" do
-      params = %{
-        "from" => "from_address",
-        "to" => "to address",
-        "time" => "depart",
-        "date_time" => @date_time_params,
-        "wheelchair" => "true"
-      }
-
-      assert %Query{} = from_query(params, @connection_opts, @date_opts)
-
-      inaccessible_opts = [
-        wheelchair_accessible?: false,
-        depart_at: @date_time
-      ]
-
-      refute_received {:planned_trip, {_from, _to, _, ^inaccessible_opts}, {:ok, _itineraries}}
-      assert_received {:planned_trip, {_from, _to, _, opts}, {:ok, itineraries}}
-      assert Keyword.get(opts, :wheelchair_accessible?)
-      assert Enum.all?(itineraries, & &1.accessible?)
-    end
-
-    test "When accessible trip returns error, all returned trips are marked as not accessible" do
-      params = %{
-        "from" => "Accessible error",
-        "to" => "to address",
-        "time" => "depart",
-        "date_time" => @date_time_params
-      }
-
-      {:ok, itineraries} = from_query(params, @connection_opts, @date_opts).itineraries
-      refute Enum.any?(itineraries, & &1.accessible?)
-    end
-
-    test "When inaccessible trip returns error, all accessible trips are returned" do
-      params = %{
-        "from" => "Inaccessible error",
-        "to" => "to address",
-        "time" => "depart",
-        "date_time" => @date_time_params
-      }
-
-      {:ok, itineraries} = from_query(params, @connection_opts, @date_opts).itineraries
-      assert Enum.all?(itineraries, & &1.accessible?)
-    end
-
-    test "Handles timeout gracefully" do
-      params = %{
-        "from" => "Timeout error",
-        "from_latitude" => "1",
-        "from_longitude" => "1",
-        "to" => "to address",
-        "date_time" => @date_time_params
-      }
-
-      log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert %Query{itineraries: {:error, :timeout}} =
-                   from_query(params, @connection_opts, @date_opts)
-        end)
-
-      assert log =~ "timed out"
     end
   end
 

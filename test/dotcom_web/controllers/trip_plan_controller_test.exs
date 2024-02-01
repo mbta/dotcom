@@ -694,31 +694,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert Map.get(conn.assigns, :plan_error) == []
       refute response =~ "Date is not valid"
     end
-
-    test "destination address has a checkmark in its stop bubble", %{conn: conn} do
-      params = %{
-        "date_time" => @system_time,
-        "plan" => %{"from" => "from address", "to" => "to address", "date_time" => @morning}
-      }
-
-      morning_conn = get(conn, trip_plan_path(conn, :index, params))
-      assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 2
-
-      afternoon_conn =
-        get(
-          conn,
-          trip_plan_path(conn, :index, %{
-            params
-            | "plan" => %{
-                "from" => "from address",
-                "to" => "to address",
-                "date_time" => @afternoon
-              }
-          })
-        )
-
-      assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 2
-    end
   end
 
   describe "/from/ address path" do

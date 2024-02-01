@@ -1,651 +1,1184 @@
 {
-    "requestParameters": {
-        "date": "05-19-2017",
-        "mode": "TRANSIT,WALK",
-        "arriveBy": "false",
-        "wheelchair": "true",
-        "showIntermediateStops": "true",
-        "fromPlace": "stop North Station ::42.365551,-71.061251",
-        "format": "json",
-        "toPlace": "42.348777,-71.066481",
-        "time": "1:46pm",
-        "maxWalkDistance": "804.672",
-        "locale": "en"
-    },
-    "plan": {
-        "date": 1495215960000,
-        "from": {
-            "name": "stop North Station ",
-            "lon": -71.061251,
-            "lat": 42.365551,
-            "orig": "stop North Station ",
-            "vertexType": "NORMAL"
-        },
-        "to": {
-            "name": "Destination",
-            "lon": -71.066481,
-            "lat": 42.348777,
-            "orig": "",
-            "vertexType": "NORMAL"
-        },
-        "itineraries": [{
-            "duration": 740,
-            "startTime": 1495216259000,
-            "endTime": 1495216999000,
-            "walkTime": 258,
-            "transitTime": 480,
-            "waitingTime": 2,
-            "walkDistance": 329.35159398374935,
-            "walkLimitExceeded": false,
-            "elevationLost": 0.0,
-            "elevationGained": 0.0,
-            "transfers": 0,
-            "legs": [{
-                "startTime": 1495216260000,
-                "endTime": 1495216740000,
-                "departureDelay": 0,
-                "arrivalDelay": 0,
-                "realTime": false,
-                "distance": 1995.478514770973,
-                "pathway": false,
-                "mode": "SUBWAY",
-                "route": {
-                    "gtfsId": "1:Orange",
-                    "longName": "Orange Line"
+    "data": {
+        "plan": {
+            "routingErrors": [],
+            "itineraries": [
+                {
+                    "accessibilityScore": 1,
+                    "startTime": 1706813160000,
+                    "endTime": 1706815000000,
+                    "duration": 1840,
+                    "legs": [
+                        {
+                            "mode": "WALK",
+                            "startTime": 1706813160000,
+                            "endTime": 1706815000000,
+                            "distance": 2214.18,
+                            "duration": 1840,
+                            "intermediateStops": null,
+                            "transitLeg": false,
+                            "headsign": null,
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": null,
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "North Station",
+                                "lat": 42.36528,
+                                "lon": -71.060205,
+                                "departureTime": 1706813160000,
+                                "arrivalTime": 1706813160000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70205"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Plaza",
+                                "lat": 42.348777,
+                                "lon": -71.066481,
+                                "departureTime": 1706815000000,
+                                "arrivalTime": 1706815000000,
+                                "stop": null
+                            },
+                            "route": null,
+                            "trip": null,
+                            "steps": [
+                                {
+                                    "distance": 135.06,
+                                    "streetName": "path",
+                                    "lat": 42.365273,
+                                    "lon": -71.0602162,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "DEPART",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 171.32,
+                                    "streetName": "Valenti Way",
+                                    "lat": 42.36439,
+                                    "lon": -71.0598176,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 46.49,
+                                    "streetName": "Merrimac Street",
+                                    "lat": 42.3633781,
+                                    "lon": -71.061373,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 173.38,
+                                    "streetName": "path",
+                                    "lat": 42.3635175,
+                                    "lon": -71.0619065,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 129.27,
+                                    "streetName": "New Chardon Street",
+                                    "lat": 42.3622194,
+                                    "lon": -71.0622102,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 367.72,
+                                    "streetName": "Bowdoin Street",
+                                    "lat": 42.3611913,
+                                    "lon": -71.0628793,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "CONTINUE",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 29.18,
+                                    "streetName": "Beacon Street",
+                                    "lat": 42.3579049,
+                                    "lon": -71.0627487,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 164.93,
+                                    "streetName": "path",
+                                    "lat": 42.3577792,
+                                    "lon": -71.0630605,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 13.12,
+                                    "streetName": "Park Street",
+                                    "lat": 42.3566026,
+                                    "lon": -71.0620827,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 676.37,
+                                    "streetName": "Tremont Street",
+                                    "lat": 42.356511,
+                                    "lon": -71.061982,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 11.88,
+                                    "streetName": "path",
+                                    "lat": 42.3509454,
+                                    "lon": -71.0649625,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 181.29,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3509172,
+                                    "lon": -71.065102,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 114.15,
+                                    "streetName": "path",
+                                    "lat": 42.3493161,
+                                    "lon": -71.0655133,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                }
+                            ],
+                            "legGeometry": {
+                                "points": "_nqaGh}upL@@zBkC@Bf@bAHKHLFNx@zADHFHr@tAFHDLBBNZHNPJ[hBFBlA`@@@t@X`A\\BBB@@DBB@DBJL[DM@AHW??DFRTLNFFFDFFHFJDf@XFBHBB@D@@@@@B?B@B?@@B?D@B?D@D?B?@?B@D?B?D?B?D?T?\\A|BCR?vAALAH@RBH@~@BP?B?V?PADAHAHAlB]B?B?FBFBX~@DGBFDAh@a@DEROhAiA~@eA@A@A?CFLPSd@h@JJp@r@|@~@FH\\^b@^NJBBJHTNx@`@B@pAh@LD\\N\\Lp@TPFD@\\JLD~@XB@h@H`@H^FF@PDNBz@Nt@LLBTDH@PDh@JTHZFDZt@ND@B?|@RD?F@VFr@JfBT?FBJDPHPFNFJBLBJ@L?P?TVBDBP?BAJT"
+                            }
+                        }
+                    ]
                 },
-                "trip": {
-                    "gtfsId": "1:33932853"
+                {
+                    "accessibilityScore": 1,
+                    "startTime": 1706813400000,
+                    "endTime": 1706814466000,
+                    "duration": 1066,
+                    "legs": [
+                        {
+                            "mode": "SUBWAY",
+                            "startTime": 1706813400000,
+                            "endTime": 1706813760000,
+                            "distance": 1611.49,
+                            "duration": 360,
+                            "intermediateStops": [
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMDI0",
+                                    "gtfsId": "mbta-ma-us:70024",
+                                    "name": "Haymarket",
+                                    "desc": "Haymarket - Orange Line - Forest Hills",
+                                    "lat": 42.363021,
+                                    "lon": -71.05829,
+                                    "code": "70024",
+                                    "locationType": "STOP"
+                                },
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMDIy",
+                                    "gtfsId": "mbta-ma-us:70022",
+                                    "name": "State",
+                                    "desc": "State - Orange Line - Forest Hills",
+                                    "lat": 42.358978,
+                                    "lon": -71.057598,
+                                    "code": "70022",
+                                    "locationType": "STOP"
+                                },
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMDIw",
+                                    "gtfsId": "mbta-ma-us:70020",
+                                    "name": "Downtown Crossing",
+                                    "desc": "Downtown Crossing - Orange Line - Forest Hills",
+                                    "lat": 42.355518,
+                                    "lon": -71.060225,
+                                    "code": "70020",
+                                    "locationType": "STOP"
+                                }
+                            ],
+                            "transitLeg": true,
+                            "headsign": "Forest Hills",
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": {
+                                "gtfsId": "mbta-ma-us:1",
+                                "name": "MBTA",
+                                "url": "http://www.mbta.com"
+                            },
+                            "alerts": [
+                                {
+                                    "id": "QWxlcnQ6bWJ0YS1tYS11czo1NDgzNjY",
+                                    "alertHeaderText": "State Elevator 974 (Bowdoin platform to Congress Street, 60 State Street) unavailable",
+                                    "alertDescriptionText": "To exit, travel down the nearby ramp to the Orange Line Oak Grove platform, turn left, then use State Elevator 967 or 802 to access the Wonderland platform. Continue along the Wonderland platform to the 53 State St lobby and use State Elevator 975 to access the street. To board, cross State St, then proceed to the station entrance at 53 State St and use State Elevator 975 to access the Wonderland platform. At the Wonderland platform, turn left and proceed to the end of the platform (follow signs for Orange Line and Government Center/Bowdoin) and use State Elevator 967 or 802 to access the Orange Line Oak Grove platform. At the Oak Grove platform, turn right and travel up the nearby ramp to the Blue Line Bowdoin platform."
+                                }
+                            ],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "North Station",
+                                "lat": 42.36528,
+                                "lon": -71.060205,
+                                "departureTime": 1706813400000,
+                                "arrivalTime": 1706813400000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70026"
+                                }
+                            },
+                            "to": {
+                                "name": "Chinatown",
+                                "lat": 42.352547,
+                                "lon": -71.062752,
+                                "departureTime": 1706813760000,
+                                "arrivalTime": 1706813760000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70018"
+                                }
+                            },
+                            "route": {
+                                "gtfsId": "mbta-ma-us:Orange",
+                                "longName": "Orange Line",
+                                "shortName": null,
+                                "desc": "Rapid Transit",
+                                "color": "ED8B00",
+                                "textColor": "FFFFFF"
+                            },
+                            "trip": {
+                                "gtfsId": "mbta-ma-us:60455419"
+                            },
+                            "steps": [],
+                            "legGeometry": {
+                                "points": "inqaGr|upLdFcE`CuCh@g@b@W??FC??ZQr@GlMg@zG@????R?vC?P@TN`ElDvAvBdBrBrA|A???@@@t@r@hAtAjDdDb@d@t@r@TJj@Lj@@l@Bz@H@?"
+                            }
+                        },
+                        {
+                            "mode": "WALK",
+                            "startTime": 1706813760000,
+                            "endTime": 1706814466000,
+                            "distance": 663.55,
+                            "duration": 706,
+                            "intermediateStops": null,
+                            "transitLeg": false,
+                            "headsign": null,
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": null,
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "Chinatown",
+                                "lat": 42.352547,
+                                "lon": -71.062752,
+                                "departureTime": 1706813760000,
+                                "arrivalTime": 1706813760000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70018"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Plaza",
+                                "lat": 42.348777,
+                                "lon": -71.066481,
+                                "departureTime": 1706814466000,
+                                "arrivalTime": 1706814466000,
+                                "stop": null
+                            },
+                            "route": null,
+                            "trip": null,
+                            "steps": [
+                                {
+                                    "distance": 37.8,
+                                    "streetName": "Washington Street, Essex Street, Silver Line - SL4/SL5",
+                                    "lat": 42.352547,
+                                    "lon": -71.062752,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "FOLLOW_SIGNS",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "pathway",
+                                    "lat": 42.352547,
+                                    "lon": -71.062752,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "CONTINUE",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 31.24,
+                                    "streetName": "Elevator",
+                                    "lat": 42.352547,
+                                    "lon": -71.062752,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "FOLLOW_SIGNS",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "pathway",
+                                    "lat": 42.352456,
+                                    "lon": -71.062935,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "Chinatown - Washington St, Essex St",
+                                    "lat": 42.352405,
+                                    "lon": -71.063087,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "EXIT_STATION",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 21.24,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3523918,
+                                    "lon": -71.0630844,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 5.15,
+                                    "streetName": "alley",
+                                    "lat": 42.352366,
+                                    "lon": -71.0633404,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 66.2,
+                                    "streetName": "Boylston Street",
+                                    "lat": 42.3523198,
+                                    "lon": -71.0633365,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 5.56,
+                                    "streetName": "Tamworth Street",
+                                    "lat": 42.3523286,
+                                    "lon": -71.064141,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 26.87,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3522791,
+                                    "lon": -71.0641506,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 2.23,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3522948,
+                                    "lon": -71.0644769,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 6.77,
+                                    "streetName": "path",
+                                    "lat": 42.3522808,
+                                    "lon": -71.0644964,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 153.18,
+                                    "streetName": "Tremont Street",
+                                    "lat": 42.3522924,
+                                    "lon": -71.0645773,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 11.88,
+                                    "streetName": "path",
+                                    "lat": 42.3509454,
+                                    "lon": -71.0649625,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 181.29,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3509172,
+                                    "lon": -71.065102,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 114.15,
+                                    "streetName": "path",
+                                    "lat": 42.3493161,
+                                    "lon": -71.0655133,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                }
+                            ],
+                            "legGeometry": {
+                                "points": "k~naGfmvpL????Pb@????H\\????@?Bb@@NHA@^Ad@?NAZ?n@H@C~@@BANz@Nt@LLBTDH@PDh@JTHZFDZt@ND@B?|@RD?F@VFr@JfBT?FBJDPHPFNFJBLBJ@L?P?TVBDBP?BAJT"
+                            }
+                        }
+                    ]
                 },
-                "agencyName": "MBTA",
-                "agencyUrl": "http://www.mbta.com",
-                "agencyTimeZoneOffset": -14400000,
-                "routeColor": "E87200",
-                "routeType": 1,
-                "routeId": "1:Orange",
-                "routeTextColor": "FFFFFF",
-                "interlineWithPreviousLeg": false,
-                "tripBlockId": "O903_-12",
-                "headsign": "Forest Hills",
-                "agencyId": "1",
-                "serviceDate": "20170519",
-                "from": {
-                    "name": "North Station - Orange Line Inbound",
-                    "stopId": "1:70026",
-                    "stopCode": "70026",
-                    "lon": -71.06129,
-                    "lat": 42.365577,
-                    "departure": 1495216260000,
-                    "orig": "stop North Station ",
-                    "stopIndex": 6,
-                    "stopSequence": 60,
-                    "vertexType": "TRANSIT"
+                {
+                    "accessibilityScore": 1,
+                    "startTime": 1706813460000,
+                    "endTime": 1706814842000,
+                    "duration": 1382,
+                    "legs": [
+                        {
+                            "mode": "TRAM",
+                            "startTime": 1706813460000,
+                            "endTime": 1706813880000,
+                            "distance": 1163.77,
+                            "duration": 420,
+                            "intermediateStops": [
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMjA0",
+                                    "gtfsId": "mbta-ma-us:70204",
+                                    "name": "Haymarket",
+                                    "desc": "Haymarket - Green Line - Copley & West",
+                                    "lat": 42.363021,
+                                    "lon": -71.05829,
+                                    "code": "70204",
+                                    "locationType": "STOP"
+                                },
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMjAy",
+                                    "gtfsId": "mbta-ma-us:70202",
+                                    "name": "Government Center",
+                                    "desc": "Government Center - Green Line - Copley & West",
+                                    "lat": 42.359705,
+                                    "lon": -71.059215,
+                                    "code": "70202",
+                                    "locationType": "STOP"
+                                }
+                            ],
+                            "transitLeg": true,
+                            "headsign": "Riverside",
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": {
+                                "gtfsId": "mbta-ma-us:1",
+                                "name": "MBTA",
+                                "url": "http://www.mbta.com"
+                            },
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "North Station",
+                                "lat": 42.36528,
+                                "lon": -71.060205,
+                                "departureTime": 1706813460000,
+                                "arrivalTime": 1706813460000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70206"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Street",
+                                "lat": 42.356395,
+                                "lon": -71.062424,
+                                "departureTime": 1706813880000,
+                                "arrivalTime": 1706813880000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70198"
+                                }
+                            },
+                            "route": {
+                                "gtfsId": "mbta-ma-us:Green-D",
+                                "longName": "Green Line D",
+                                "shortName": "D",
+                                "desc": "Rapid Transit",
+                                "color": "00843D",
+                                "textColor": "FFFFFF"
+                            },
+                            "trip": {
+                                "gtfsId": "mbta-ma-us:60564721"
+                            },
+                            "steps": [],
+                            "legGeometry": {
+                                "points": "{mqaGp}upL~FeFvAaBNSh@a@JIZQ??@?LITEXC`@GbGSd@CTBVNrE|DXV??VTRPRPXTZTbElCt@r@vB|Bl@t@b@b@TRTVp@|@HJ"
+                            }
+                        },
+                        {
+                            "mode": "WALK",
+                            "startTime": 1706813880000,
+                            "endTime": 1706814842000,
+                            "distance": 995.92,
+                            "duration": 962,
+                            "intermediateStops": null,
+                            "transitLeg": false,
+                            "headsign": null,
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": null,
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "Park Street",
+                                "lat": 42.356395,
+                                "lon": -71.062424,
+                                "departureTime": 1706813880000,
+                                "arrivalTime": 1706813880000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70198"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Plaza",
+                                "lat": 42.348777,
+                                "lon": -71.066481,
+                                "departureTime": 1706814842000,
+                                "arrivalTime": 1706814842000,
+                                "stop": null
+                            },
+                            "route": null,
+                            "trip": null,
+                            "steps": [
+                                {
+                                    "distance": 26.06,
+                                    "streetName": "Park St, Boston Common",
+                                    "lat": 42.356395,
+                                    "lon": -71.062424,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "FOLLOW_SIGNS",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 7.47,
+                                    "streetName": "pathway",
+                                    "lat": 42.356395,
+                                    "lon": -71.062424,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "CONTINUE",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "Park Street - Elevator, Tremont St",
+                                    "lat": 42.356331,
+                                    "lon": -71.062675,
+                                    "absoluteDirection": "NORTHEAST",
+                                    "relativeDirection": "EXIT_STATION",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 11.72,
+                                    "streetName": "path",
+                                    "lat": 42.3563361,
+                                    "lon": -71.0626702,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 132.7,
+                                    "streetName": "Lafayette Mall",
+                                    "lat": 42.3563207,
+                                    "lon": -71.0625398,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 356.45,
+                                    "streetName": "path",
+                                    "lat": 42.3553359,
+                                    "lon": -71.0634118,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 3.29,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3523266,
+                                    "lon": -71.0646874,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 125.23,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.352305,
+                                    "lon": -71.064666,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 5.89,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3512007,
+                                    "lon": -71.0649653,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 212.98,
+                                    "streetName": "path",
+                                    "lat": 42.3511902,
+                                    "lon": -71.0650356,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 114.15,
+                                    "streetName": "path",
+                                    "lat": 42.3493161,
+                                    "lon": -71.0655133,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                }
+                            ],
+                            "legGeometry": {
+                                "points": "mvoaGdkvpL????Ft@????BC??????BKAOXBd@f@FDb@d@NP|@x@JJDKNLRHhChArAj@lBp@l@Nj@NvAVNJL@F@J@?A@A@?~B`@|@PPB??JB@LTDXJFCt@ND@B?|@RD?F@VFr@JfBT?FBJDPHPFNFJBLBJ@L?P?TVBDBP?BAJT"
+                            }
+                        }
+                    ]
                 },
-                "to": {
-                    "name": "Tufts Medical Center - Outbound",
-                    "stop": {
-                        "gtfsId": "1:70016"
-                    },
-                    "lon": -71.063917,
-                    "lat": 42.349662,
-                    "arrival": 1495216740000,
-                    "departure": 1495216741000,
-                    "stopIndex": 11,
-                    "stopSequence": 110,
-                    "vertexType": "TRANSIT"
+                {
+                    "accessibilityScore": 1,
+                    "startTime": 1706813580000,
+                    "endTime": 1706814995000,
+                    "duration": 1415,
+                    "legs": [
+                        {
+                            "mode": "TRAM",
+                            "startTime": 1706813580000,
+                            "endTime": 1706814000000,
+                            "distance": 1163.77,
+                            "duration": 420,
+                            "intermediateStops": [
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMjA0",
+                                    "gtfsId": "mbta-ma-us:70204",
+                                    "name": "Haymarket",
+                                    "desc": "Haymarket - Green Line - Copley & West",
+                                    "lat": 42.363021,
+                                    "lon": -71.05829,
+                                    "code": "70204",
+                                    "locationType": "STOP"
+                                },
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMjAy",
+                                    "gtfsId": "mbta-ma-us:70202",
+                                    "name": "Government Center",
+                                    "desc": "Government Center - Green Line - Copley & West",
+                                    "lat": 42.359705,
+                                    "lon": -71.059215,
+                                    "code": "70202",
+                                    "locationType": "STOP"
+                                }
+                            ],
+                            "transitLeg": true,
+                            "headsign": "Heath Street",
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": {
+                                "gtfsId": "mbta-ma-us:1",
+                                "name": "MBTA",
+                                "url": "http://www.mbta.com"
+                            },
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "North Station",
+                                "lat": 42.36528,
+                                "lon": -71.060205,
+                                "departureTime": 1706813580000,
+                                "arrivalTime": 1706813580000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70206"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Street",
+                                "lat": 42.356395,
+                                "lon": -71.062424,
+                                "departureTime": 1706814000000,
+                                "arrivalTime": 1706814000000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70199"
+                                }
+                            },
+                            "route": {
+                                "gtfsId": "mbta-ma-us:Green-E",
+                                "longName": "Green Line E",
+                                "shortName": "E",
+                                "desc": "Rapid Transit",
+                                "color": "00843D",
+                                "textColor": "FFFFFF"
+                            },
+                            "trip": {
+                                "gtfsId": "mbta-ma-us:60564790"
+                            },
+                            "steps": [],
+                            "legGeometry": {
+                                "points": "{mqaGp}upL~FeFvAaBNSh@a@JIZQ??@?LITEXC`@GbGSd@CTBVNrE|DXV??VTRPRPXTZTbElCt@r@vB|Bl@t@b@b@TRTVp@|@HJ"
+                            }
+                        },
+                        {
+                            "mode": "WALK",
+                            "startTime": 1706814000000,
+                            "endTime": 1706814995000,
+                            "distance": 1039.81,
+                            "duration": 995,
+                            "intermediateStops": null,
+                            "transitLeg": false,
+                            "headsign": null,
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": null,
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "Park Street",
+                                "lat": 42.356395,
+                                "lon": -71.062424,
+                                "departureTime": 1706814000000,
+                                "arrivalTime": 1706814000000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70199"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Plaza",
+                                "lat": 42.348777,
+                                "lon": -71.066481,
+                                "departureTime": 1706814995000,
+                                "arrivalTime": 1706814995000,
+                                "stop": null
+                            },
+                            "route": null,
+                            "trip": null,
+                            "steps": [
+                                {
+                                    "distance": 69.95,
+                                    "streetName": "Park St, Boston Common",
+                                    "lat": 42.356395,
+                                    "lon": -71.062424,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "FOLLOW_SIGNS",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 7.47,
+                                    "streetName": "pathway",
+                                    "lat": 42.356395,
+                                    "lon": -71.062424,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "CONTINUE",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "Park Street - Elevator, Tremont St",
+                                    "lat": 42.356331,
+                                    "lon": -71.062675,
+                                    "absoluteDirection": "NORTHEAST",
+                                    "relativeDirection": "EXIT_STATION",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 11.72,
+                                    "streetName": "path",
+                                    "lat": 42.3563361,
+                                    "lon": -71.0626702,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 132.7,
+                                    "streetName": "Lafayette Mall",
+                                    "lat": 42.3563207,
+                                    "lon": -71.0625398,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 356.45,
+                                    "streetName": "path",
+                                    "lat": 42.3553359,
+                                    "lon": -71.0634118,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 3.29,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3523266,
+                                    "lon": -71.0646874,
+                                    "absoluteDirection": "SOUTHEAST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 125.23,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.352305,
+                                    "lon": -71.064666,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 5.89,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3512007,
+                                    "lon": -71.0649653,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 212.98,
+                                    "streetName": "path",
+                                    "lat": 42.3511902,
+                                    "lon": -71.0650356,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 114.15,
+                                    "streetName": "path",
+                                    "lat": 42.3493161,
+                                    "lon": -71.0655133,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                }
+                            ],
+                            "legGeometry": {
+                                "points": "mvoaGdkvpL????Ft@????BC??????BKAOXBd@f@FDb@d@NP|@x@JJDKNLRHhChArAj@lBp@l@Nj@NvAVNJL@F@J@?A@A@?~B`@|@PPB??JB@LTDXJFCt@ND@B?|@RD?F@VFr@JfBT?FBJDPHPFNFJBLBJ@L?P?TVBDBP?BAJT"
+                            }
+                        }
+                    ]
                 },
-                "legGeometry": {
-                    "points": "_rqaGz_vpLPOROtHkG`CuCh@g@b@W??FCZQr@GlMg@zG@??R?vC?P@TN`ElDvAvBdBrBrA~A??@@t@r@hAtAjDdDb@d@t@r@TJj@Lj@@l@Bz@H@?P@fD`@|B^XJRLx@`AzBvB^F",
-                    "length": 43
-                },
-                "routeLongName": "Orange Line",
-                "rentedBike": false,
-                "transitLeg": true,
-                "duration": 480.0,
-                "intermediateStops": [{
-                    "name": "Haymarket - Orange Line Inbound",
-                    "gtfsId": "1:70024",
-                    "stopCode": "70024",
-                    "lon": -71.05829,
-                    "lat": 42.363021,
-                    "arrival": 1495216320000,
-                    "departure": 1495216320000,
-                    "stopIndex": 7,
-                    "stopSequence": 70,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "State Street - to Forest Hills",
-                    "gtfsId": "1:70022",
-                    "stopCode": "70022",
-                    "lon": -71.057598,
-                    "lat": 42.358978,
-                    "arrival": 1495216440000,
-                    "departure": 1495216440000,
-                    "stopIndex": 8,
-                    "stopSequence": 80,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "Downtown Crossing - to Forest Hills",
-                    "gtfsId": "1:70020",
-                    "stopCode": "70020",
-                    "lon": -71.060225,
-                    "lat": 42.355518000000004,
-                    "arrival": 1495216560000,
-                    "departure": 1495216560000,
-                    "stopIndex": 9,
-                    "stopSequence": 90,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "Chinatown - Outbound",
-                    "gtfsId": "1:70018",
-                    "stopCode": "70018",
-                    "lon": -71.062752,
-                    "lat": 42.352547,
-                    "arrival": 1495216680000,
-                    "departure": 1495216680000,
-                    "stopIndex": 10,
-                    "stopSequence": 100,
-                    "vertexType": "TRANSIT"
-                }],
-                "steps": []
-            }, {
-                "startTime": 1495216741000,
-                "endTime": 1495216999000,
-                "departureDelay": 0,
-                "arrivalDelay": 0,
-                "realTime": false,
-                "distance": 329.314,
-                "pathway": false,
-                "mode": "WALK",
-                "route": {
-                    "gtfsId": "1:Orange",
-                    "longName": "Orange Line"
-                },
-                "trip": {
-                    "gtfsId": "1:33932852"
-                },
-                "agencyTimeZoneOffset": -14400000,
-                "interlineWithPreviousLeg": false,
-                "from": {
-                    "name": "Tufts Medical Center - Outbound",
-                    "stop": {
-                        "gtfsId": "1:70016"
-                    },
-                    "lon": -71.063917,
-                    "lat": 42.349662,
-                    "arrival": 1495216740000,
-                    "departure": 1495216741000,
-                    "stopIndex": 11,
-                    "stopSequence": 110,
-                    "vertexType": "TRANSIT"
-                },
-                "to": {
-                    "name": "Destination",
-                    "lon": -71.066481,
-                    "lat": 42.348777,
-                    "arrival": 1495216999000,
-                    "orig": "",
-                    "vertexType": "NORMAL"
-                },
-                "legGeometry": {
-                    "points": "clnaGvsvpL@?ZNF@\\Jr@NdB\\PDARa@vF[zD",
-                    "length": 11
-                },
-                "rentedBike": false,
-                "transitLeg": false,
-                "duration": 258.0,
-                "intermediateStops": [],
-                "steps": [{
-                    "distance": 138.02,
-                    "relativeDirection": "DEPART",
-                    "streetName": "Washington Street",
-                    "absoluteDirection": "SOUTH",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.06379006319844,
-                    "lat": 42.34962271200275,
-                    "elevation": []
-                }, {
-                    "distance": 111.909,
-                    "relativeDirection": "RIGHT",
-                    "streetName": "Oak Street West",
-                    "absoluteDirection": "WEST",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.064203,
-                    "lat": 42.348421800000004,
-                    "elevation": []
-                }, {
-                    "distance": 79.385,
-                    "relativeDirection": "CONTINUE",
-                    "streetName": "Tremont Street",
-                    "absoluteDirection": "WEST",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.06554100000001,
-                    "lat": 42.348609,
-                    "elevation": []
-                }]
-            }],
-            "tooSloped": false
-        }, {
-            "duration": 800,
-            "startTime": 1495216739000,
-            "endTime": 1495217539000,
-            "walkTime": 258,
-            "transitTime": 540,
-            "waitingTime": 2,
-            "walkDistance": 329.35159398374935,
-            "walkLimitExceeded": false,
-            "elevationLost": 0.0,
-            "elevationGained": 0.0,
-            "transfers": 0,
-            "legs": [{
-                "startTime": 1495216740000,
-                "endTime": 1495217280000,
-                "departureDelay": 0,
-                "arrivalDelay": 0,
-                "realTime": false,
-                "distance": 1995.478514770973,
-                "pathway": false,
-                "mode": "SUBWAY",
-                "route": {
-                    "gtfsId": "1:Orange",
-                    "longName": "Orange Line"
-                },
-                "trip": {
-                    "gtfsId": "1:33932854"
-                },
-                "agencyName": "MBTA",
-                "agencyUrl": "http://www.mbta.com",
-                "agencyTimeZoneOffset": -14400000,
-                "routeColor": "E87200",
-                "routeType": 1,
-                "routeId": "1:Orange",
-                "routeTextColor": "FFFFFF",
-                "interlineWithPreviousLeg": false,
-                "tripBlockId": "O903_-13",
-                "headsign": "Forest Hills",
-                "agencyId": "1",
-                "tripId": "1:33932854",
-                "serviceDate": "20170519",
-                "from": {
-                    "name": "North Station - Orange Line Inbound",
-                    "stopId": "1:70026",
-                    "stopCode": "70026",
-                    "lon": -71.06129,
-                    "lat": 42.365577,
-                    "departure": 1495216740000,
-                    "orig": "stop North Station ",
-                    "stopIndex": 6,
-                    "stopSequence": 60,
-                    "vertexType": "TRANSIT"
-                },
-                "to": {
-                    "name": "Tufts Medical Center - Outbound",
-                    "stop": {
-                        "gtfsId": "1:70016"
-                    },
-                    "lon": -71.063917,
-                    "lat": 42.349662,
-                    "arrival": 1495217280000,
-                    "departure": 1495217281000,
-                    "stopIndex": 11,
-                    "stopSequence": 110,
-                    "vertexType": "TRANSIT"
-                },
-                "legGeometry": {
-                    "points": "_rqaGz_vpLPOROtHkG`CuCh@g@b@W??FCZQr@GlMg@zG@??R?vC?P@TN`ElDvAvBdBrBrA~A??@@t@r@hAtAjDdDb@d@t@r@TJj@Lj@@l@Bz@H@?P@fD`@|B^XJRLx@`AzBvB^F",
-                    "length": 43
-                },
-                "routeLongName": "Orange Line",
-                "rentedBike": false,
-                "transitLeg": true,
-                "duration": 540.0,
-                "intermediateStops": [{
-                    "name": "Haymarket - Orange Line Inbound",
-                    "gtfsId": "1:70024",
-                    "stopCode": "70024",
-                    "lon": -71.05829,
-                    "lat": 42.363021,
-                    "arrival": 1495216860000,
-                    "departure": 1495216860000,
-                    "stopIndex": 7,
-                    "stopSequence": 70,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "State Street - to Forest Hills",
-                    "gtfsId": "1:70022",
-                    "stopCode": "70022",
-                    "lon": -71.057598,
-                    "lat": 42.358978,
-                    "arrival": 1495216980000,
-                    "departure": 1495216980000,
-                    "stopIndex": 8,
-                    "stopSequence": 80,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "Downtown Crossing - to Forest Hills",
-                    "gtfsId": "1:70020",
-                    "stopCode": "70020",
-                    "lon": -71.060225,
-                    "lat": 42.355518000000004,
-                    "arrival": 1495217100000,
-                    "departure": 1495217100000,
-                    "stopIndex": 9,
-                    "stopSequence": 90,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "Chinatown - Outbound",
-                    "gtfsId": "1:70018",
-                    "stopCode": "70018",
-                    "lon": -71.062752,
-                    "lat": 42.352547,
-                    "arrival": 1495217220000,
-                    "departure": 1495217220000,
-                    "stopIndex": 10,
-                    "stopSequence": 100,
-                    "vertexType": "TRANSIT"
-                }],
-                "steps": []
-            }, {
-                "startTime": 1495217281000,
-                "endTime": 1495217539000,
-                "departureDelay": 0,
-                "arrivalDelay": 0,
-                "realTime": false,
-                "distance": 329.314,
-                "pathway": false,
-                "mode": "WALK",
-                "route": {
-                    "gtfsId": "1:Orange",
-                    "longName": "Orange Line"
-                },
-                "trip": {
-                    "gtfsId": "1:33932854"
-                },
-                "agencyTimeZoneOffset": -14400000,
-                "interlineWithPreviousLeg": false,
-                "from": {
-                    "name": "Tufts Medical Center - Outbound",
-                    "stop": {
-                        "gtfsId": "1:70016"
-                    },
-                    "lon": -71.063917,
-                    "lat": 42.349662,
-                    "arrival": 1495217280000,
-                    "departure": 1495217281000,
-                    "stopIndex": 11,
-                    "stopSequence": 110,
-                    "vertexType": "TRANSIT"
-                },
-                "to": {
-                    "name": "Destination",
-                    "lon": -71.066481,
-                    "lat": 42.348777,
-                    "arrival": 1495217539000,
-                    "orig": "",
-                    "vertexType": "NORMAL"
-                },
-                "legGeometry": {
-                    "points": "clnaGvsvpL@?ZNF@\\Jr@NdB\\PDARa@vF[zD",
-                    "length": 11
-                },
-                "rentedBike": false,
-                "transitLeg": false,
-                "duration": 258.0,
-                "intermediateStops": [],
-                "steps": [{
-                    "distance": 138.02,
-                    "relativeDirection": "DEPART",
-                    "streetName": "Washington Street",
-                    "absoluteDirection": "SOUTH",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.06379006319844,
-                    "lat": 42.34962271200275,
-                    "elevation": []
-                }, {
-                    "distance": 111.909,
-                    "relativeDirection": "RIGHT",
-                    "streetName": "Oak Street West",
-                    "absoluteDirection": "WEST",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.064203,
-                    "lat": 42.348421800000004,
-                    "elevation": []
-                }, {
-                    "distance": 79.385,
-                    "relativeDirection": "CONTINUE",
-                    "streetName": "Tremont Street",
-                    "absoluteDirection": "WEST",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.06554100000001,
-                    "lat": 42.348609,
-                    "elevation": []
-                }]
-            }],
-            "tooSloped": false
-        }, {
-            "duration": 800,
-            "startTime": 1495217219000,
-            "endTime": 1495218019000,
-            "walkTime": 258,
-            "transitTime": 540,
-            "waitingTime": 2,
-            "walkDistance": 329.35159398374935,
-            "walkLimitExceeded": false,
-            "elevationLost": 0.0,
-            "elevationGained": 0.0,
-            "transfers": 0,
-            "legs": [{
-                "startTime": 1495217220000,
-                "endTime": 1495217760000,
-                "departureDelay": 0,
-                "arrivalDelay": 0,
-                "realTime": false,
-                "distance": 1995.478514770973,
-                "pathway": false,
-                "mode": "SUBWAY",
-                "route": {
-                    "gtfsId": "1:Orange",
-                    "longName": "Orange Line"
-                },
-                "trip": {
-                    "gtfsId": "1:33932855"
-                },
-                "agencyName": "MBTA",
-                "agencyUrl": "http://www.mbta.com",
-                "agencyTimeZoneOffset": -14400000,
-                "routeColor": "E87200",
-                "routeType": 1,
-                "routeTextColor": "FFFFFF",
-                "interlineWithPreviousLeg": false,
-                "tripBlockId": "O903_-15",
-                "headsign": "Forest Hills",
-                "agencyId": "1",
-                "serviceDate": "20170519",
-                "from": {
-                    "name": "North Station - Orange Line Inbound",
-                    "stopId": "1:70026",
-                    "stopCode": "70026",
-                    "lon": -71.06129,
-                    "lat": 42.365577,
-                    "departure": 1495217220000,
-                    "orig": "stop North Station ",
-                    "stopIndex": 6,
-                    "stopSequence": 60,
-                    "vertexType": "TRANSIT"
-                },
-                "to": {
-                    "name": "Tufts Medical Center - Outbound",
-                    "stop": {
-                        "gtfsId": "1:70016"
-                    },
-                    "lon": -71.063917,
-                    "lat": 42.349662,
-                    "arrival": 1495217760000,
-                    "departure": 1495217761000,
-                    "stopIndex": 11,
-                    "stopSequence": 110,
-                    "vertexType": "TRANSIT"
-                },
-                "legGeometry": {
-                    "points": "_rqaGz_vpLPOROtHkG`CuCh@g@b@W??FCZQr@GlMg@zG@??R?vC?P@TN`ElDvAvBdBrBrA~A??@@t@r@hAtAjDdDb@d@t@r@TJj@Lj@@l@Bz@H@?P@fD`@|B^XJRLx@`AzBvB^F",
-                    "length": 43
-                },
-                "routeLongName": "Orange Line",
-                "rentedBike": false,
-                "transitLeg": true,
-                "duration": 540.0,
-                "intermediateStops": [{
-                    "name": "Haymarket - Orange Line Inbound",
-                    "gtfsId": "1:70024",
-                    "stopCode": "70024",
-                    "lon": -71.05829,
-                    "lat": 42.363021,
-                    "arrival": 1495217340000,
-                    "departure": 1495217340000,
-                    "stopIndex": 7,
-                    "stopSequence": 70,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "State Street - to Forest Hills",
-                    "gtfsId": "1:70022",
-                    "stopCode": "70022",
-                    "lon": -71.057598,
-                    "lat": 42.358978,
-                    "arrival": 1495217460000,
-                    "departure": 1495217460000,
-                    "stopIndex": 8,
-                    "stopSequence": 80,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "Downtown Crossing - to Forest Hills",
-                    "gtfsId": "1:70020",
-                    "stopCode": "70020",
-                    "lon": -71.060225,
-                    "lat": 42.355518000000004,
-                    "arrival": 1495217580000,
-                    "departure": 1495217580000,
-                    "stopIndex": 9,
-                    "stopSequence": 90,
-                    "vertexType": "TRANSIT"
-                }, {
-                    "name": "Chinatown - Outbound",
-                    "gtfsId": "1:70018",
-                    "stopCode": "70018",
-                    "lon": -71.062752,
-                    "lat": 42.352547,
-                    "arrival": 1495217700000,
-                    "departure": 1495217700000,
-                    "stopIndex": 10,
-                    "stopSequence": 100,
-                    "vertexType": "TRANSIT"
-                }],
-                "steps": []
-            }, {
-                "startTime": 1495217761000,
-                "endTime": 1495218019000,
-                "departureDelay": 0,
-                "arrivalDelay": 0,
-                "realTime": false,
-                "distance": 329.314,
-                "pathway": false,
-                "mode": "WALK",
-                "route": {
-                    "gtfsId": "1:Orange",
-                    "longName": "Orange Line"
-                },
-                "trip": {
-                    "gtfsId": "1:33932856"
-                },
-                "agencyTimeZoneOffset": -14400000,
-                "interlineWithPreviousLeg": false,
-                "from": {
-                    "name": "Tufts Medical Center - Outbound",
-                    "stop": {
-                        "gtfsId": "1:70016"
-                    },
-                    "lon": -71.063917,
-                    "lat": 42.349662,
-                    "arrival": 1495217760000,
-                    "departure": 1495217761000,
-                    "stopIndex": 11,
-                    "stopSequence": 110,
-                    "vertexType": "TRANSIT"
-                },
-                "to": {
-                    "name": "Destination",
-                    "lon": -71.066481,
-                    "lat": 42.348777,
-                    "arrival": 1495218019000,
-                    "orig": "",
-                    "vertexType": "NORMAL"
-                },
-                "legGeometry": {
-                    "points": "clnaGvsvpL@?ZNF@\\Jr@NdB\\PDARa@vF[zD",
-                    "length": 11
-                },
-                "rentedBike": false,
-                "transitLeg": false,
-                "duration": 258.0,
-                "intermediateStops": [],
-                "steps": [{
-                    "distance": 138.02,
-                    "relativeDirection": "DEPART",
-                    "streetName": "Washington Street",
-                    "absoluteDirection": "SOUTH",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.06379006319844,
-                    "lat": 42.34962271200275,
-                    "elevation": []
-                }, {
-                    "distance": 111.909,
-                    "relativeDirection": "RIGHT",
-                    "streetName": "Oak Street West",
-                    "absoluteDirection": "WEST",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.064203,
-                    "lat": 42.348421800000004,
-                    "elevation": []
-                }, {
-                    "distance": 79.385,
-                    "relativeDirection": "CONTINUE",
-                    "streetName": "Tremont Street",
-                    "absoluteDirection": "WEST",
-                    "stayOn": false,
-                    "area": false,
-                    "bogusName": false,
-                    "lon": -71.06554100000001,
-                    "lat": 42.348609,
-                    "elevation": []
-                }]
-            }],
-            "tooSloped": false
-        }]
-    },
-    "debugOutput": {
-        "precalculationTime": 28,
-        "pathCalculationTime": 16,
-        "pathTimes": [5, 6, 4],
-        "renderingTime": 0,
-        "totalTime": 44,
-        "timedOut": false
-    },
-    "elevationMetadata": {
-        "ellipsoidToGeoidDifference": -29.913641103082842,
-        "geoidElevation": false
+                {
+                    "accessibilityScore": 1,
+                    "startTime": 1706813940000,
+                    "endTime": 1706815006000,
+                    "duration": 1066,
+                    "legs": [
+                        {
+                            "mode": "SUBWAY",
+                            "startTime": 1706813940000,
+                            "endTime": 1706814300000,
+                            "distance": 1611.49,
+                            "duration": 360,
+                            "intermediateStops": [
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMDI0",
+                                    "gtfsId": "mbta-ma-us:70024",
+                                    "name": "Haymarket",
+                                    "desc": "Haymarket - Orange Line - Forest Hills",
+                                    "lat": 42.363021,
+                                    "lon": -71.05829,
+                                    "code": "70024",
+                                    "locationType": "STOP"
+                                },
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMDIy",
+                                    "gtfsId": "mbta-ma-us:70022",
+                                    "name": "State",
+                                    "desc": "State - Orange Line - Forest Hills",
+                                    "lat": 42.358978,
+                                    "lon": -71.057598,
+                                    "code": "70022",
+                                    "locationType": "STOP"
+                                },
+                                {
+                                    "id": "U3RvcDptYnRhLW1hLXVzOjcwMDIw",
+                                    "gtfsId": "mbta-ma-us:70020",
+                                    "name": "Downtown Crossing",
+                                    "desc": "Downtown Crossing - Orange Line - Forest Hills",
+                                    "lat": 42.355518,
+                                    "lon": -71.060225,
+                                    "code": "70020",
+                                    "locationType": "STOP"
+                                }
+                            ],
+                            "transitLeg": true,
+                            "headsign": "Forest Hills",
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": {
+                                "gtfsId": "mbta-ma-us:1",
+                                "name": "MBTA",
+                                "url": "http://www.mbta.com"
+                            },
+                            "alerts": [
+                                {
+                                    "id": "QWxlcnQ6bWJ0YS1tYS11czo1NDgzNjY",
+                                    "alertHeaderText": "State Elevator 974 (Bowdoin platform to Congress Street, 60 State Street) unavailable",
+                                    "alertDescriptionText": "To exit, travel down the nearby ramp to the Orange Line Oak Grove platform, turn left, then use State Elevator 967 or 802 to access the Wonderland platform. Continue along the Wonderland platform to the 53 State St lobby and use State Elevator 975 to access the street. To board, cross State St, then proceed to the station entrance at 53 State St and use State Elevator 975 to access the Wonderland platform. At the Wonderland platform, turn left and proceed to the end of the platform (follow signs for Orange Line and Government Center/Bowdoin) and use State Elevator 967 or 802 to access the Orange Line Oak Grove platform. At the Oak Grove platform, turn right and travel up the nearby ramp to the Blue Line Bowdoin platform."
+                                }
+                            ],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "North Station",
+                                "lat": 42.36528,
+                                "lon": -71.060205,
+                                "departureTime": 1706813940000,
+                                "arrivalTime": 1706813940000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70026"
+                                }
+                            },
+                            "to": {
+                                "name": "Chinatown",
+                                "lat": 42.352547,
+                                "lon": -71.062752,
+                                "departureTime": 1706814300000,
+                                "arrivalTime": 1706814300000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70018"
+                                }
+                            },
+                            "route": {
+                                "gtfsId": "mbta-ma-us:Orange",
+                                "longName": "Orange Line",
+                                "shortName": null,
+                                "desc": "Rapid Transit",
+                                "color": "ED8B00",
+                                "textColor": "FFFFFF"
+                            },
+                            "trip": {
+                                "gtfsId": "mbta-ma-us:60455420"
+                            },
+                            "steps": [],
+                            "legGeometry": {
+                                "points": "inqaGr|upLdFcE`CuCh@g@b@W??FC??ZQr@GlMg@zG@????R?vC?P@TN`ElDvAvBdBrBrA|A???@@@t@r@hAtAjDdDb@d@t@r@TJj@Lj@@l@Bz@H@?"
+                            }
+                        },
+                        {
+                            "mode": "WALK",
+                            "startTime": 1706814300000,
+                            "endTime": 1706815006000,
+                            "distance": 663.55,
+                            "duration": 706,
+                            "intermediateStops": null,
+                            "transitLeg": false,
+                            "headsign": null,
+                            "realTime": false,
+                            "realtimeState": null,
+                            "agency": null,
+                            "alerts": [],
+                            "fareProducts": [],
+                            "from": {
+                                "name": "Chinatown",
+                                "lat": 42.352547,
+                                "lon": -71.062752,
+                                "departureTime": 1706814300000,
+                                "arrivalTime": 1706814300000,
+                                "stop": {
+                                    "gtfsId": "mbta-ma-us:70018"
+                                }
+                            },
+                            "to": {
+                                "name": "Park Plaza",
+                                "lat": 42.348777,
+                                "lon": -71.066481,
+                                "departureTime": 1706815006000,
+                                "arrivalTime": 1706815006000,
+                                "stop": null
+                            },
+                            "route": null,
+                            "trip": null,
+                            "steps": [
+                                {
+                                    "distance": 37.8,
+                                    "streetName": "Washington Street, Essex Street, Silver Line - SL4/SL5",
+                                    "lat": 42.352547,
+                                    "lon": -71.062752,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "FOLLOW_SIGNS",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "pathway",
+                                    "lat": 42.352547,
+                                    "lon": -71.062752,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "CONTINUE",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 31.24,
+                                    "streetName": "Elevator",
+                                    "lat": 42.352547,
+                                    "lon": -71.062752,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "FOLLOW_SIGNS",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "pathway",
+                                    "lat": 42.352456,
+                                    "lon": -71.062935,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 0,
+                                    "streetName": "Chinatown - Washington St, Essex St",
+                                    "lat": 42.352405,
+                                    "lon": -71.063087,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "EXIT_STATION",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 21.24,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3523918,
+                                    "lon": -71.0630844,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 5.15,
+                                    "streetName": "alley",
+                                    "lat": 42.352366,
+                                    "lon": -71.0633404,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 66.2,
+                                    "streetName": "Boylston Street",
+                                    "lat": 42.3523198,
+                                    "lon": -71.0633365,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 5.56,
+                                    "streetName": "Tamworth Street",
+                                    "lat": 42.3523286,
+                                    "lon": -71.064141,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 26.87,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3522791,
+                                    "lon": -71.0641506,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 2.23,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3522948,
+                                    "lon": -71.0644769,
+                                    "absoluteDirection": "SOUTHWEST",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 6.77,
+                                    "streetName": "path",
+                                    "lat": 42.3522808,
+                                    "lon": -71.0644964,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 153.18,
+                                    "streetName": "Tremont Street",
+                                    "lat": 42.3522924,
+                                    "lon": -71.0645773,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 11.88,
+                                    "streetName": "path",
+                                    "lat": 42.3509454,
+                                    "lon": -71.0649625,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": false
+                                },
+                                {
+                                    "distance": 181.29,
+                                    "streetName": "sidewalk",
+                                    "lat": 42.3509172,
+                                    "lon": -71.065102,
+                                    "absoluteDirection": "SOUTH",
+                                    "relativeDirection": "LEFT",
+                                    "stayOn": true
+                                },
+                                {
+                                    "distance": 114.15,
+                                    "streetName": "path",
+                                    "lat": 42.3493161,
+                                    "lon": -71.0655133,
+                                    "absoluteDirection": "WEST",
+                                    "relativeDirection": "RIGHT",
+                                    "stayOn": true
+                                }
+                            ],
+                            "legGeometry": {
+                                "points": "k~naGfmvpL????Pb@????H\\????@?Bb@@NHA@^Ad@?NAZ?n@H@C~@@BANz@Nt@LLBTDH@PDh@JTHZFDZt@ND@B?|@RD?F@VFr@JfBT?FBJDPHPFNFJBLBJ@L?P?TVBDBP?BAJT"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
     }
 }

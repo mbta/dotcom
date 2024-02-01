@@ -3,32 +3,55 @@ defmodule TripPlan.Api.OpenTripPlanner do
   @behaviour TripPlan.Api
   require Logger
   import __MODULE__.Builder, only: [build_params: 3]
-  import __MODULE__.Parser, only: [parse_ql: 2]
-
-  def plan(from, to, connection_opts, opts, _parent) do
-    plan(from, to, connection_opts, opts)
-  end
+  import __MODULE__.Parser, only: [parse_ql: 1]
 
   @impl TripPlan.Api
   def plan(from, to, _connection_opts, opts) do
-    accessible? = Keyword.get(opts, :wheelchair_accessible?, false)
-
     with {:ok, params} <- build_params(from, to, opts) do
-      param_string = Enum.map_join(params, "\n", fn {key, val} -> ~s{#{key}: #{val}} end)
+      graphql_query =
+        {"""
+         query TripPlan(
+           $fromPlace: String!
+           $toPlace: String!
+           $date: String
+           $time: String
+           $arriveBy: Boolean
+           $wheelchair: Boolean
+           $transportModes: [TransportMode]
+         ) {
+           plan(
+             fromPlace: $fromPlace
+             toPlace: $toPlace
+             date: $date
+             time: $time
+             arriveBy: $arriveBy
+             wheelchair: $wheelchair
+             transportModes: $transportModes
 
-      graphql_query = """
-      {
-        plan(
-          #{param_string}
-        )
-        #{itinerary_shape()}
-      }
-      """
+             # Increased from 30 minutes, a 1-hour search window accomodates infrequent routes
+             searchWindow: 3600
+
+             # Increased from 3 to offer more itineraries for potential post-processing
+             numItineraries: 5
+
+             # Increased from 2.0 to reduce number of itineraries with significant walking
+             walkReluctance: 5.0
+
+             # Theoretically can be configured in the future for visitors using translation?
+             locale: "en"
+
+             # Proposed future use: prefer MBTA transit legs over Massport or others.
+             # Can't use this until we change the MBTA feed name (GraphQL can't do hyphens)
+             # preferred { agencies: [mbta-ma-us:1] }
+           )
+           #{itinerary_shape()}
+         }
+         """, params}
 
       root_url = Keyword.get(opts, :root_url) || config(:otp_url)
       graphql_url = "#{root_url}/otp/routers/default/index/"
 
-      send_request(graphql_url, graphql_query, accessible?, &parse_ql/2)
+      send_request(graphql_url, graphql_query, &parse_ql/1)
     end
   end
 
@@ -36,10 +59,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
     Util.config(:dotcom, OpenTripPlanner, key)
   end
 
-  defp send_request(url, query, accessible?, parser) do
+  defp send_request(url, query, parser) do
     with {:ok, response} <- log_response(url, query),
          %{status: 200, body: body} <- response do
-      parser.(body, accessible?)
+      parser.(body)
     else
       %{status: _} = response ->
         {:error, response}
@@ -61,10 +84,9 @@ defmodule TripPlan.Api.OpenTripPlanner do
         [graphql_req, [graphql: query]]
       )
 
-    _ =
-      Logger.info(fn ->
-        "#{__MODULE__}.plan_response url=#{url} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
-      end)
+    Logger.info(fn ->
+      "#{__MODULE__}.plan_response url=#{url} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
+    end)
 
     response
   end
@@ -118,9 +140,9 @@ defmodule TripPlan.Api.OpenTripPlanner do
           realTime
           realtimeState
           agency {
-            id
             gtfsId
             name
+            url
           }
           alerts {
             id
@@ -174,6 +196,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
             streetName
             lat
             lon
+            absoluteDirection
             relativeDirection
             stayOn
           }

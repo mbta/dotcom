@@ -14,80 +14,50 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
 
   @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
 
-  @spec parse_ql(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
-  def parse_ql(%{"data" => %{"plan" => nil}, "errors" => [head | _]}, _accessible?) do
-    _ =
-      Logger.warning(fn ->
-        "#{__MODULE__} trip_plan=error message=#{inspect(head["message"])}"
-      end)
+  @spec parse_ql(map()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
+  def parse_ql(%{"errors" => [head | _]}) do
+    Logger.warning(fn ->
+      "#{__MODULE__} trip_plan=error message=#{inspect(head["message"])}"
+    end)
 
     {:error, :unknown}
   end
 
-  def parse_ql(%{"data" => data}, accessible?) do
-    parse_map(data, accessible?)
+  def parse_ql(%{"data" => nil}), do: {:error, :nil_data}
+
+  def parse_ql(%{"data" => %{"plan" => %{"routingErrors" => [head | _]}}}) do
+    {:error, error_message_atom(head["code"])}
   end
 
-  @spec parse_map(map(), boolean()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
-  defp parse_map(%{"plan" => %{"routingErrors" => [head | _]}}, accessible?) do
-    _ =
-      Logger.warning(fn ->
-        "#{__MODULE__} trip_plan=error message=#{inspect(head["code"])}"
-      end)
+  def parse_ql(%{"data" => %{"plan" => %{"itineraries" => itineraries}}}) do
+    Logger.info(fn ->
+      "#{__MODULE__} trip_plan=success count=#{Enum.count(itineraries)}"
+    end)
 
-    {:error, error_message_atom(head["code"], accessible?: accessible?)}
+    {:ok, Enum.map(itineraries, &parse_itinerary(&1))}
   end
 
-  defp parse_map(json, _) do
-    _ =
-      Logger.info(fn ->
-        "#{__MODULE__} trip_plan=success count=#{Enum.count(json["plan"]["itineraries"])}"
-      end)
+  def parse_ql(_), do: {:error, :invalid}
 
-    {:ok, Enum.map(json["plan"]["itineraries"], &parse_itinerary(&1))}
-  end
-
-  @doc "Test helper which matches off the :ok"
-  def parse_json(json_binary, accessible? \\ false) do
-    with {:ok, json} <- Poison.decode(json_binary) do
-      parse_map(json, accessible?)
-    end
-  rescue
-    _e in FunctionClauseError ->
-      {:error, :invalid_json}
-  end
-
-  @spec error_message_atom(String.t(), Keyword.t()) :: TripPlan.Api.error()
-  defp error_message_atom("OUTSIDE_BOUNDS", _opts), do: :outside_bounds
-  defp error_message_atom("REQUEST_TIMEOUT", _opts), do: :timeout
-  defp error_message_atom("NO_TRANSIT_TIMES", _opts), do: :no_transit_times
-  defp error_message_atom("TOO_CLOSE", _opts), do: :too_close
-  defp error_message_atom("PATH_NOT_FOUND", accessible?: true), do: :location_not_accessible
-  defp error_message_atom("PATH_NOT_FOUND", accessible?: false), do: :path_not_found
-  defp error_message_atom("LOCATION_NOT_ACCESSIBLE", _opts), do: :location_not_accessible
-  defp error_message_atom("NO_STOPS_IN_RANGE", _opts), do: :location_not_accessible
-  defp error_message_atom(_, _opts), do: :unknown
+  @spec error_message_atom(String.t()) :: TripPlan.Api.error()
+  defp error_message_atom("OUTSIDE_BOUNDS"), do: :outside_bounds
+  defp error_message_atom("REQUEST_TIMEOUT"), do: :timeout
+  defp error_message_atom("NO_TRANSIT_TIMES"), do: :no_transit_times
+  defp error_message_atom("TOO_CLOSE"), do: :too_close
+  defp error_message_atom("PATH_NOT_FOUND"), do: :path_not_found
+  defp error_message_atom("LOCATION_NOT_ACCESSIBLE"), do: :location_not_accessible
+  defp error_message_atom("NO_STOPS_IN_RANGE"), do: :location_not_accessible
+  defp error_message_atom(_), do: :unknown
 
   defp parse_itinerary(json) do
+    score = json["accessibilityScore"]
+
     %Itinerary{
       start: parse_time(json["startTime"]),
       stop: parse_time(json["endTime"]),
       legs: Enum.map(json["legs"], &parse_leg/1),
-      accessible?: parse_float(json["accessibilityScore"]) == 1.0
+      accessible?: if(score, do: score == 1.0)
     }
-  end
-
-  defp parse_float(fl) when is_float(fl), do: fl
-
-  defp parse_float(nil), do: 0.0
-
-  defp parse_float(str) do
-    result = Float.parse(str)
-
-    case result do
-      :error -> 0.0
-      _ -> result
-    end
   end
 
   defp parse_time(ms_after_epoch) do
@@ -106,10 +76,10 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
       from: parse_named_position(json["from"], "stop"),
       to: parse_named_position(json["to"], "stop"),
       polyline: json["legGeometry"]["points"],
-      name: json["route"],
-      long_name: json["routeLongName"],
-      type: json["agencyId"],
-      url: json["agencyUrl"],
+      name: json["route"]["shortName"],
+      long_name: json["route"]["longName"],
+      type: if(agency = json["agency"], do: id_after_colon(agency["gtfsId"])),
+      url: json["agency"]["url"],
       description: json["mode"]
     }
   end
@@ -120,15 +90,6 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     %NamedPosition{
       name: json["name"],
       stop_id: if(stop, do: id_after_colon(stop["gtfsId"])),
-      longitude: json["lon"],
-      latitude: json["lat"]
-    }
-  end
-
-  def parse_named_position(json, id_field) do
-    %NamedPosition{
-      name: json["name"],
-      stop_id: if(id_str = json[id_field], do: id_after_colon(id_str)),
       longitude: json["lon"],
       latitude: json["lat"]
     }

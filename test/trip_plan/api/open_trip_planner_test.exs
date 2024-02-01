@@ -16,7 +16,7 @@ defmodule TripPlan.Api.OpenTripPlannerTest do
       connection_opts = [user_id: 1, force_otp1: false, force_otp2: false]
 
       expected = {:error, {:bad_param, {:bad, :arg}}}
-      actual = plan({1, 1}, {2, 2}, connection_opts, [bad: :arg], self())
+      actual = plan({1, 1}, {2, 2}, connection_opts, bad: :arg)
       assert expected == actual
     end
   end

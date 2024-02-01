@@ -5,30 +5,29 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
 
   @doc "Convert general planning options into query params for OTP"
   @spec build_params(Position.t(), Position.t(), TripPlan.Api.plan_opts()) ::
-          {:ok, %{String.t() => String.t()}} | {:error, any}
+          {:ok, %{String.t() => String.t() | boolean() | list()}} | {:error, any}
   def build_params(from, to, opts) do
     from_string = location(from)
     to_string = location(to)
-    default_mode_string = "[{mode: WALK}, {mode: TRANSIT}]"
+    default_mode = [%{mode: "WALK"}, %{mode: "TRANSIT"}]
 
     do_build_params(opts, %{
       "fromPlace" => from_string,
       "toPlace" => to_string,
-      "transportModes" => default_mode_string,
-      "locale" => "\"en\""
+      "transportModes" => default_mode
     })
   end
 
   defp location(%NamedPosition{stop_id: stop_id} = np) when not is_nil(stop_id) do
-    "\"#{np.name}::mbta-ma-us:#{stop_id}\""
+    "#{np.name}::mbta-ma-us:#{stop_id}"
   end
 
   defp location(%NamedPosition{} = np) do
-    "\"#{np.name}::#{Position.latitude(np)},#{Position.longitude(np)}\""
+    "#{np.name}::#{Position.latitude(np)},#{Position.longitude(np)}"
   end
 
   defp location(position) do
-    "\"#{Position.latitude(position)},#{Position.longitude(position)}\""
+    "#{Position.latitude(position)},#{Position.longitude(position)}"
   end
 
   defp do_build_params([], acc) do
@@ -38,7 +37,7 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   defp do_build_params([{:wheelchair_accessible?, bool} | rest], acc) when is_boolean(bool) do
     acc =
       if bool do
-        put_in(acc["wheelchair"], "true")
+        put_in(acc["wheelchair"], true)
       else
         acc
       end
@@ -47,12 +46,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   end
 
   defp do_build_params([{:depart_at, %DateTime{} = datetime} | rest], acc) do
-    acc = do_date_time("false", datetime, acc)
+    acc = do_date_time(false, datetime, acc)
     do_build_params(rest, acc)
   end
 
   defp do_build_params([{:arrive_by, %DateTime{} = datetime} | rest], acc) do
-    acc = do_date_time("true", datetime, acc)
+    acc = do_date_time(true, datetime, acc)
     do_build_params(rest, acc)
   end
 
@@ -61,13 +60,10 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
   end
 
   defp do_build_params([{:mode, [_ | _] = modes} | rest], acc) do
-    all_modes = Enum.map(modes, fn m -> "{mode: #{m}}" end)
-    joined_modes = "[#{Enum.join(all_modes, ", ")}, {mode: WALK}]"
-    do_build_params(rest, Map.put(acc, "transportModes", joined_modes))
-  end
-
-  defp do_build_params([{:wheelchair, "true"} | rest], acc) do
-    do_build_params(rest, Map.put(acc, "wheelchair", true))
+    do_build_params(
+      rest,
+      Map.put(acc, "transportModes", [%{mode: "WALK"} | Enum.map(modes, &%{mode: &1})])
+    )
   end
 
   # param is used for testing, ignore
@@ -81,8 +77,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Builder do
 
   defp do_date_time(arriveBy, %DateTime{} = datetime, acc) do
     local = Timex.to_datetime(datetime, OTP.config(:timezone))
-    date = Timex.format!(local, "\"{ISOdate}\"")
-    time = Timex.format!(local, "\"{h12}:{0m}{am}\"")
+    date = Timex.format!(local, "{ISOdate}")
+    time = Timex.format!(local, "{h12}:{0m}{am}")
 
     Map.merge(acc, %{
       "date" => date,
