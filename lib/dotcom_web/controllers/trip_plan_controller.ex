@@ -9,6 +9,7 @@ defmodule DotcomWeb.TripPlanController do
   alias Routes.Route
   alias Dotcom.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
+  alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
   plug(:assign_initial_map)
@@ -239,27 +240,12 @@ defmodule DotcomWeb.TripPlanController do
     Enum.map(related_links, fn x -> Enum.uniq_by(x, fn y -> get_route(y) end) end)
   end
 
-  def get_conn_opts(conn) do
-    cookie = DotcomWeb.Plugs.Cookies.id_cookie_name()
-    user_cookie = Map.get(conn.cookies, cookie, "0")
-
+  defp get_conn_opts(conn) do
     user_id =
-      try do
-        String.to_integer(user_cookie)
-      rescue
-        e in ArgumentError ->
-          Logger.warning(fn ->
-            "#{__MODULE__}.get_conn_opts Couldn't parse #{cookie} cookie as an int, using 0. #{cookie}=#{user_cookie} parse_error=#{e.message}"
-          end)
+      conn.cookies
+      |> Map.get(Cookies.id_cookie_name())
 
-          0
-      end
-
-    [
-      user_id: user_id,
-      force_otp1: Laboratory.enabled?(conn, :force_otp1),
-      force_otp2: Laboratory.enabled?(conn, :force_otp2)
-    ]
+    [user_id: user_id]
   end
 
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()

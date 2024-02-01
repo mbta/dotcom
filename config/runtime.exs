@@ -114,9 +114,7 @@ end
 
 config :dotcom, OpenTripPlanner,
   timezone: System.get_env("OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"),
-  otp1_url: System.get_env("OPEN_TRIP_PLANNER_URL"),
-  otp2_url: System.get_env("OPEN_TRIP_PLANNER_2_URL"),
-  otp2_percentage: System.get_env("OPEN_TRIP_PLANNER_2_PERCENTAGE"),
+  otp_url: System.get_env("OPEN_TRIP_PLANNER_URL"),
   wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false"),
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 

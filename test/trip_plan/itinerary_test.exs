@@ -5,7 +5,7 @@ defmodule TripPlan.ItineraryTest do
 
   @from MockPlanner.random_stop()
   @to MockPlanner.random_stop()
-  @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
+  @connection_opts [user_id: 1]
 
   describe "destination/1" do
     test "returns the final destination of the itinerary" do

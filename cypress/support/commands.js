@@ -73,7 +73,7 @@ Cypress.Commands.add("selectRandomServiceAndSubject", () => {
  * 
  * This includes a hack so that full page snapshots can be properly captured.
  */
-Cypress.Commands.add("takeFullScreenshot", (subject, name, options={}) => {
+Cypress.Commands.add("takeFullScreenshot", (subject, name, options = {}) => {
   /**
    * Hack for dealing with screenshots.
    * See Cypress bugs: https://github.com/cypress-io/cypress/issues/2681
@@ -88,11 +88,3 @@ Cypress.Commands.add("takeFullScreenshot", (subject, name, options={}) => {
   cy.screenshot(subject, name, options);
 });
 
-/**
- * Navigates to /_flags to enable a feature.
- * e.g. cy.enableFlaggedFeature("nav_redesign")
- */
-Cypress.Commands.add("enableFlaggedFeature", (featureSelector) => {
-  cy.visit("/_flags");
-  cy.get(`form[action="/_flags/enable/${featureSelector}"]`).submit();
-});

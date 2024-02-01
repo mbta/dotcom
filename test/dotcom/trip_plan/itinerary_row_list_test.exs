@@ -5,7 +5,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
   @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-  @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
+  @connection_opts [user_id: 1]
   @date_time ~N[2017-06-27T11:43:00]
 
   describe "from_itinerary" do

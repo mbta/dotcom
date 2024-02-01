@@ -9,8 +9,8 @@ defmodule TripPlan.Api.OpenTripPlanner do
     plan(from, to, connection_opts, opts)
   end
 
-  @impl true
-  def plan(from, to, connection_opts, opts) do
+  @impl TripPlan.Api
+  def plan(from, to, _connection_opts, opts) do
     accessible? = Keyword.get(opts, :wheelchair_accessible?, false)
 
     with {:ok, params} <- build_params(from, to, opts) do
@@ -25,60 +25,10 @@ defmodule TripPlan.Api.OpenTripPlanner do
       }
       """
 
-      root_url = Keyword.get(opts, :root_url, nil) || pick_url(connection_opts)
+      root_url = Keyword.get(opts, :root_url) || config(:otp_url)
       graphql_url = "#{root_url}/otp/routers/default/index/"
 
       send_request(graphql_url, graphql_query, accessible?, &parse_ql/2)
-    end
-  end
-
-  def pick_url(connection_opts) do
-    user_id = connection_opts[:user_id]
-
-    cond do
-      connection_opts[:force_otp2] ->
-        Logger.info(fn ->
-          "#{__MODULE__}.pick_url Force OTP2 flag enabled, skipping random assignment mbta_id=#{user_id}"
-        end)
-
-        config(:otp2_url)
-
-      connection_opts[:force_otp1] ->
-        Logger.info(fn ->
-          "#{__MODULE__}.pick_url Force OTP1 flag enabled, skipping random assignment mbta_id=#{user_id}"
-        end)
-
-        config(:otp1_url)
-
-      true ->
-        percent_threshold = get_otp2_percentage()
-
-        :rand.seed(:exsss, user_id)
-        placement = :rand.uniform()
-        use_otp2 = placement < percent_threshold / 100
-
-        Logger.info(fn ->
-          "#{__MODULE__}.pick_url placement=#{placement} otp2_percentage=#{percent_threshold}% mbta_id=#{user_id} use_otp2=#{use_otp2}"
-        end)
-
-        if use_otp2 do
-          config(:otp2_url)
-        else
-          config(:otp1_url)
-        end
-    end
-  end
-
-  def get_otp2_percentage() do
-    try do
-      String.to_integer(config(:otp2_percentage))
-    rescue
-      e in ArgumentError ->
-        Logger.warning(fn ->
-          "#{__MODULE__}.get_otp2_percentage Couldn't parse OPEN_TRIP_PLANNER_2_PERCENTAGE env var as an int, using 0. OPEN_TRIP_PLANNER_2_PERCENTAGE=#{config(:otp2_percentage)} parse_error=#{e.message}"
-        end)
-
-        0
     end
   end
 
@@ -113,7 +63,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
     _ =
       Logger.info(fn ->
-        "#{__MODULE__}.plan_response url=#{url} is_otp2=#{String.contains?(url, config(:otp2_url))} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
+        "#{__MODULE__}.plan_response url=#{url} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
       end)
 
     response
@@ -185,7 +135,6 @@ defmodule TripPlan.Api.OpenTripPlanner do
               riderCategory {
                 id
                 name
-
               }
             }
           }

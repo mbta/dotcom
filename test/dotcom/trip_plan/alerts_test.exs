@@ -8,7 +8,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
   @from TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
   @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-  @connection_opts [user_id: 1, force_otp1: false, force_otp2: false]
+  @connection_opts [user_id: 1]
   @date_time ~N[2017-06-27T11:43:00]
 
   describe "filter_for_itinerary/2" do
