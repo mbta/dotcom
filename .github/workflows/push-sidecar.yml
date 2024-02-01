@@ -1,4 +1,4 @@
-name: Push Monitor
+name: Push Sidecar
 
 on:
   workflow_dispatch:
@@ -16,6 +16,6 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         uses: mbta/actions/build-push-ecr@v2
         with:
-          docker-repo: "${{ secrets.MONITOR_DOCKER_REPO }}"
-          dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
+          docker-repo: "${{ secrets.SIDECAR_DOCKER_REPO }}"
+          dockerfile-path: "-f ./deploy/sidecar/Dockerfile ."
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
