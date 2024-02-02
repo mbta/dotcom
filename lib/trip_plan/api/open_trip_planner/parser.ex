@@ -15,7 +15,9 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
 
   @spec parse_ql(map()) :: {:ok, [Itinerary.t()]} | {:error, TripPlan.Api.error()}
-  # A field error is an error raised during the execution of a particular field which results in partial response data. This may occur due to an internal error during value resolution or failure to coerce the resulting value.
+  # A field error is an error raised during the execution of a particular field
+  # which results in partial response data. This may occur due to an internal
+  # error during value resolution or failure to coerce the resulting value.
   def parse_ql(%{"errors" => [_ | _] = errors, "data" => _}) do
     message = Enum.map_join(errors, ",", & &1["message"])
 
@@ -26,7 +28,11 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     {:error, :graphql_field_error}
   end
 
-  # A request error is an error raised during a request which results in no response data. Typically raised before execution begins, a request error may occur due to a parse grammar or validation error in the Document, an inability to determine which operation to execute, or invalid input values for variables.
+  # A request error is an error raised during a request which results in no
+  # response data. Typically raised before execution begins, a request error may
+  # occur due to a parse grammar or validation error in the Document, an
+  # inability to determine which operation to execute, or invalid input values
+  # for variables.
   def parse_ql(%{"errors" => [_ | _] = errors}) do
     message = Enum.map_join(errors, ",", & &1["message"])
 

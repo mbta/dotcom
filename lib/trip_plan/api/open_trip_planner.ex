@@ -40,9 +40,8 @@ defmodule TripPlan.Api.OpenTripPlanner do
              # Theoretically can be configured in the future for visitors using translation?
              locale: "en"
 
-             # Proposed future use: prefer MBTA transit legs over Massport or others.
-             # Can't use this until we change the MBTA feed name (GraphQL can't do hyphens)
-             # preferred { agencies: [mbta-ma-us:1] }
+             # Prefer MBTA transit legs over Massport or others.
+             preferred: { agencies: "mbta-ma-us:1" }
            )
            #{itinerary_shape()}
          }
