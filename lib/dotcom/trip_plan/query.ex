@@ -27,10 +27,11 @@ defmodule Dotcom.TripPlan.Query do
   def from_query(params, connection_opts, date_opts) do
     opts = get_query_options(params)
 
-    %__MODULE__{}
+    %__MODULE__{
+      wheelchair_accessible?: match?(%{"wheelchair" => "true"}, params)
+    }
     |> Dotcom.TripPlan.DateTime.validate(params, date_opts)
     |> Dotcom.TripPlan.Location.validate(params)
-    |> include_options(opts)
     |> maybe_fetch_itineraries(connection_opts, opts)
   end
 
@@ -70,25 +71,7 @@ defmodule Dotcom.TripPlan.Query do
          connection_opts,
          opts
        ) do
-    pid = self()
-
-    if Keyword.get(opts, :wheelchair_accessible?) do
-      TripPlan.plan(from, to, connection_opts, opts)
-    else
-      accessible_opts = Keyword.put(opts, :wheelchair_accessible?, true)
-
-      [mixed_results, accessible_results] =
-        Util.async_with_timeout(
-          [
-            fn -> TripPlan.plan(from, to, connection_opts, opts, pid) end,
-            fn -> TripPlan.plan(from, to, connection_opts, accessible_opts, pid) end
-          ],
-          {:error, :timeout},
-          __MODULE__
-        )
-
-      dedup_itineraries(mixed_results, accessible_results)
-    end
+    TripPlan.plan(from, to, connection_opts, opts)
   end
 
   @spec parse_itinerary_result(TripPlan.Api.t(), t) :: t
@@ -102,34 +85,7 @@ defmodule Dotcom.TripPlan.Query do
     |> Map.put(:errors, MapSet.put(query.errors, error))
   end
 
-  @spec dedup_itineraries(TripPlan.Api.t(), TripPlan.Api.t()) :: TripPlan.Api.t()
-  defp dedup_itineraries({:error, _status} = response, {:error, _accessible_response}),
-    do: response
-
-  defp dedup_itineraries(unknown, {:error, _response}), do: unknown
-  defp dedup_itineraries({:error, _response}, {:ok, _itineraries} = accessible), do: accessible
-
-  defp dedup_itineraries({:ok, unknown}, {:ok, accessible}) do
-    merged =
-      Dotcom.TripPlan.Merge.merge_itineraries(
-        accessible,
-        unknown
-      )
-
-    {:ok, merged}
-  end
-
   defp set_default_options(params) do
-    params
-    |> default_optimize_for
-    |> default_mode
-  end
-
-  def default_optimize_for(params) do
-    Map.put(params, "optimize_for", "best_route")
-  end
-
-  def default_mode(params) do
     Map.put(params, "modes", %{
       "bus" => "true",
       "commuter_rail" => "true",
@@ -138,30 +94,22 @@ defmodule Dotcom.TripPlan.Query do
     })
   end
 
-  defp include_options(%__MODULE__{} = query, opts) do
-    %{query | wheelchair_accessible?: opts[:wheelchair_accessible?] == true}
-  end
-
   @spec opts_from_query(map, Keyword.t()) :: Keyword.t()
   def opts_from_query(query, opts \\ [])
 
-  def opts_from_query(%{"optimize_for" => val} = query, opts) do
-    # We have seen some rare sentry errors where the page anchor can
-    # get appended to the optimize_for value, so we preemptively
-    # strip it here.
-    val =
-      val
-      |> String.split("#")
-      |> List.first()
-      |> optimize_for(opts)
-
-    opts_from_query(Map.delete(query, "optimize_for"), val)
+  def opts_from_query(%{"wheelchair" => "true"} = query, opts) do
+    opts_from_query(
+      Map.delete(query, "wheelchair"),
+      Keyword.put(opts, :wheelchair_accessible?, true)
+    )
   end
 
   def opts_from_query(%{"modes" => modes} = query, opts) do
+    active_modes = Enum.reduce(modes, [], &get_active_modes/2)
+
     opts_from_query(
       Map.delete(query, "modes"),
-      get_mode_opts(modes, opts)
+      Keyword.put(opts, :mode, active_modes)
     )
   end
 
@@ -174,12 +122,6 @@ defmodule Dotcom.TripPlan.Query do
 
   def opts_from_query(_, opts) do
     opts
-  end
-
-  @spec get_mode_opts(map, Keyword.t()) :: Keyword.t()
-  def get_mode_opts(%{} = modes, opts) do
-    active_modes = Enum.reduce(modes, [], &get_active_modes/2)
-    Keyword.put(opts, :mode, active_modes)
   end
 
   @spec get_active_modes({String.t(), String.t()}, Keyword.t()) :: Keyword.t()
@@ -201,28 +143,6 @@ defmodule Dotcom.TripPlan.Query do
 
   defp get_active_modes({_, "false"}, acc) do
     acc
-  end
-
-  @spec optimize_for(String.t(), Keyword.t()) :: Keyword.t()
-  defp optimize_for("best_route", opts) do
-    opts
-  end
-
-  defp optimize_for("accessibility", opts) do
-    Keyword.put(opts, :wheelchair_accessible?, true)
-  end
-
-  defp optimize_for("fewest_transfers", opts) do
-    Keyword.put(opts, :optimize_for, :fewest_transfers)
-  end
-
-  defp optimize_for("less_walking", opts) do
-    Keyword.put(opts, :optimize_for, :less_walking)
-  end
-
-  # If the query has a typo for this value, just use "best_route"
-  defp optimize_for(_, opts) do
-    opts
   end
 
   @doc "Determines if the given query contains any itineraries"

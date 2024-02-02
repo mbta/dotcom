@@ -15,7 +15,7 @@ defmodule DotcomWeb.TripPlanController do
   plug(:assign_initial_map)
   plug(:breadcrumbs)
   plug(:modes)
-  plug(:optimize_for)
+  plug(:wheelchair)
   plug(:meta_description)
   plug(:assign_datetime_selector_fields)
 
@@ -457,13 +457,14 @@ defmodule DotcomWeb.TripPlanController do
     assign(conn, :breadcrumbs, [Breadcrumb.build("Trip Planner")])
   end
 
-  @spec optimize_for(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
-  def optimize_for(%Plug.Conn{params: %{"plan" => %{"optimize_for" => val}}} = conn, _) do
-    assign(conn, :optimize_for, val)
+  @spec wheelchair(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
+  def wheelchair(%Plug.Conn{params: %{"plan" => %{"wheelchair" => wheelchair}}} = conn, _) do
+    assign(conn, :wheelchair, wheelchair === "true")
   end
 
-  def optimize_for(%Plug.Conn{} = conn, _) do
-    assign(conn, :optimize_for, "best_route")
+  # Initialize to checked state for trip plan accessibility
+  def wheelchair(%Plug.Conn{} = conn, _) do
+    assign(conn, :wheelchair, true)
   end
 
   @spec routes_for_query([Itinerary.t()]) :: route_map

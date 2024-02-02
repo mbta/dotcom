@@ -11,16 +11,14 @@ defmodule TripPlan do
           Position.t(),
           Position.t(),
           TripPlan.Api.connection_opts(),
-          TripPlan.Api.plan_opts(),
-          pid()
+          TripPlan.Api.plan_opts()
         ) :: TripPlan.Api.t()
-  def plan(from, to, connection_opts, opts, parent \\ self()) do
+  def plan(from, to, connection_opts, opts) do
     apply(module(TripPlanApi), :plan, [
       from,
       to,
       connection_opts,
-      opts,
-      parent
+      opts
     ])
   end
 

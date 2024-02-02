@@ -701,7 +701,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       date_time: Util.now(),
       errors: [],
       modes: %{},
-      optimize_for: :best_route,
+      wheelchair: false,
       initial_map_data: Dotcom.TripPlan.Map.initial_map_data(),
       plan_datetime_selector_fields: plan_datetime_selector_fields
     }

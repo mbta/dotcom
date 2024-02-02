@@ -51,10 +51,6 @@ defmodule TripPlan.Api.MockPlanner do
     end
   end
 
-  def plan(%NamedPosition{name: "Timeout error"}, _, _, _, _) do
-    :timer.sleep(:infinity)
-  end
-
   def plan(from, to, connection_opts, opts, parent) do
     start = DateTime.utc_now()
     duration = :rand.uniform(@max_duration)

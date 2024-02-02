@@ -58,8 +58,7 @@ defmodule DotcomWeb.TripPlanView do
   def selected_modes_string(%{} = modes) do
     modes
     |> Enum.filter(fn {_, selected?} -> selected? end)
-    |> Enum.map(fn {key, _} -> key |> mode_name() |> String.downcase() end)
-    |> Enum.join(", ")
+    |> Enum.map_join(", ", fn {key, _} -> key |> mode_name() |> String.downcase() end)
   end
 
   defp time_explanation(%{time: {:arrive_by, _dt}}) do
@@ -311,6 +310,11 @@ defmodule DotcomWeb.TripPlanView do
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 
   @spec accessibility_icon(TripPlan.Itinerary.t()) :: Phoenix.HTML.Safe.t()
+  defp accessibility_icon(%TripPlan.Itinerary{accessible?: nil}) do
+    # Unknown accessibilityScore, so can't show a value
+    {:safe, ""}
+  end
+
   defp accessibility_icon(%TripPlan.Itinerary{accessible?: accessible?}) do
     content_tag(
       :span,

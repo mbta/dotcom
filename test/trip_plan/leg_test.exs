@@ -81,25 +81,6 @@ defmodule TripPlan.LegTest do
     end
   end
 
-  describe "same_leg?/1" do
-    test "same_legs are the same" do
-      leg = MockPlanner.transit_leg(@from, @to, @start, @stop)
-      assert same_leg?(leg, leg)
-    end
-
-    test "same_legs with different steps are the same" do
-      leg = MockPlanner.personal_leg(@from, @to, @start, @stop)
-      modified_leg = %{leg | mode: %{leg.mode | steps: ["different personal steps"]}}
-      assert same_leg?(leg, modified_leg)
-    end
-
-    test "legs with different to and from are different" do
-      leg = MockPlanner.personal_leg(@from, @to, @start, @stop)
-      different_leg = %{leg | from: %{leg.from | name: "New name"}}
-      refute same_leg?(leg, different_leg)
-    end
-  end
-
   describe "stop_is_silver_line_airport?/2" do
     test "stop is not the Silver Line" do
       leg = MockPlanner.transit_leg(@from, @to, @start, @stop)
