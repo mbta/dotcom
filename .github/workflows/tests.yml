@@ -87,7 +87,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       with:
         path: |
           _build
