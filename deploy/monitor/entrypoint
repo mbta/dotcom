@@ -7,4 +7,4 @@
 /opt/splunkforwarder/bin/splunk install app splunkclouduf.spl -auth admin:password > /dev/null
 /opt/splunkforwarder/bin/splunk restart > /dev/null
 
-node ./monitors/all-scenarios.js
+node ./monitor/all-scenarios.js

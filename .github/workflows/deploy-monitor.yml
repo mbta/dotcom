@@ -7,9 +7,16 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: Show environment v1
-        run: env | grep ^GITHUB
-      - name: Show ref v1
-        run: echo "===============> Version from $GITHUB_REF"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build, tag, and push image to Amazon ECR
+        uses: mbta/actions/build-push-ecr@v2
+        with:
+          docker-repo: "${{ secrets.MONITOR_DOCKER_REPO }}"
+          dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
