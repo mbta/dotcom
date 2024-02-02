@@ -58,8 +58,7 @@ defmodule DotcomWeb.TripPlanView do
   def selected_modes_string(%{} = modes) do
     modes
     |> Enum.filter(fn {_, selected?} -> selected? end)
-    |> Enum.map(fn {key, _} -> key |> mode_name() |> String.downcase() end)
-    |> Enum.join(", ")
+    |> Enum.map_join(", ", fn {key, _} -> key |> mode_name() |> String.downcase() end)
   end
 
   defp time_explanation(%{time: {:arrive_by, _dt}}) do

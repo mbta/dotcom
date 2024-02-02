@@ -4,7 +4,7 @@
       for mode <- [:subway, :commuter_rail, :bus, :ferry] do
         active? = Map.get(@modes, mode, true)
         content_tag(:div, [
-          checkbox(mode_f, mode, checked: active?, class: "c-checkbox__input"),
+          checkbox(mode_f, mode, checked: active?, class: "c-checkbox__input", hidden_input: false),
           label(mode_f, mode, class: "c-checkbox__label")
         ],
         class: "c-checkbox")
@@ -17,7 +17,7 @@
   <%=
 
       content_tag(:div, [
-        checkbox(@form, :wheelchair, checked: @wheelchair == true, class: "c-checkbox__input"),
+        checkbox(@form, :wheelchair, checked: @wheelchair == true, class: "c-checkbox__input", hidden_input: false),
         label(@form, :wheelchair, ["Wheelchair accessible", svg_icon_with_circle(%SvgIconWithCircle{icon: :access})], class: "c-checkbox__label")
       ], class: "c-checkbox")
   %>

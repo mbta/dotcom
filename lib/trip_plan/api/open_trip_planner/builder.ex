@@ -1,4 +1,7 @@
 defmodule TripPlan.Api.OpenTripPlanner.Builder do
+  @moduledoc """
+  Handles generating arguments for requests to OpenTripPlanner's plan endpoint.
+  """
   alias TripPlan.Api.OpenTripPlanner, as: OTP
   alias TripPlan.NamedPosition
   alias Util.Position
