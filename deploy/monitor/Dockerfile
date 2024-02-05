@@ -5,8 +5,11 @@ WORKDIR /home/runner
 COPY package*.json .
 COPY monitor /home/runner/monitor
 COPY scenarios /home/runner/scenarios
-COPY deploy/monitor/ /home/runner/deploy/monitor
 
-RUN npm ci
+RUN npm ci --ignore-scripts
 RUN npx playwright install chromium
 RUN npx playwright install-deps
+
+ENV TARGET_URL=https://www.mbta.com
+
+CMD ["node", "monitor/all-scenarios.js"]
