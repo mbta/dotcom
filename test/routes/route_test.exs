@@ -280,4 +280,12 @@ defmodule Routes.RouteTest do
       refute %Routes.Route{type: 4} |> rail?()
     end
   end
+
+  describe "commuter_rail?/1" do
+    test "returns ture if a route is a commuter rail" do
+      assert %Routes.Route{type: 2} |> commuter_rail?()
+      refute %Routes.Route{type: 0} |> commuter_rail?()
+      refute %Routes.Route{type: 1} |> commuter_rail?()
+    end
+  end
 end
