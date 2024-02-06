@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import { format, parseISO } from "date-fns";
 import { Alert as AlertType, Lifecycle } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
@@ -7,7 +8,6 @@ import shuttleIcon from "../../static/images/icon-shuttle-default.svg";
 import cancelIcon from "../../static/images/icon-cancelled-default.svg";
 import snowIcon from "../../static/images/icon-snow-default.svg";
 import alertIcon from "../../static/images/icon-alerts-triangle.svg";
-import { format, parse, parseISO } from "date-fns";
 
 interface Props {
   alerts: AlertType[];
@@ -124,14 +124,6 @@ const caretIcon = (
   return caret("c-expandable-block__header-caret--black", expanded);
 };
 
-const formatAlertDescription = (description: string): string => {
-  const safeDescription = htmlEscape(description);
-
-  const updatedDesc = htmlInsertFormatting(safeDescription);
-
-  return replaceUrlsWithLinks(updatedDesc);
-};
-
 const htmlEscape = (unsafe: string): string => {
   return unsafe
     .replace(/&/g, "&amp;")
@@ -141,17 +133,29 @@ const htmlEscape = (unsafe: string): string => {
     .replace(/'/g, "&#039;");
 };
 
-const htmlInsertFormatting = (str: string) => {
+const htmlInsertFormatting = (str: string): string => {
   return str
     .replace(/^(.*:)\s/, "<strong>$1</strong>\n")
     .replace(/\n(.*:)\s/, "<br /><strong>$1</strong>\n")
     .replace(/\s*\n/g, "<br />");
 };
 
-const replaceUrlsWithLinks = (desc: string): string => {
-  const urlRegex = /(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})([\/\w\.-]*)*\/?/i;
+// Strips off trailing periods of URLs (i guess the regex above matches the period if the URL is at the end of the sentence.)
+const parseUrlAndSuffix = (url: string): [string, string] => {
+  if (url.endsWith(".")) {
+    return [url.substring(0, url.length - 1), "."];
+  }
+  return [url, ""];
+};
 
-  return desc.replace(urlRegex, createUrl);
+const ensureScheme = (url: string): string => {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  if (url.startsWith("mbta.com") || url.startsWith("MBTA.com")) {
+    return `https://${url}`;
+  }
+  return `http://${url}`;
 };
 
 const createUrl = (url: string): string => {
@@ -170,22 +174,18 @@ const createUrl = (url: string): string => {
   return `<a target="_blank" href="${fullUrl}">${capitalStrippedUrl}</a>${suffix}`;
 };
 
-// Strips off trailing periods of URLs (i guess the regex above matches the period if the URL is at the end of the sentence.)
-const parseUrlAndSuffix = (url: string): [string, string] => {
-  if (url.endsWith(".")) {
-    return [url.substring(0, url.length - 1), "."];
-  }
-  return [url, ""];
+const replaceUrlsWithLinks = (desc: string): string => {
+  const urlRegex = /(https?:\/\/)?([\da-z.-]+)\.([a-z]{2,6})([/\w.-]*)*\/?/i;
+
+  return desc.replace(urlRegex, createUrl);
 };
 
-const ensureScheme = (url: string): string => {
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  } else if (url.startsWith("mbta.com") || url.startsWith("MBTA.com")) {
-    return `https://${url}`;
-  } else {
-    return `http://${url}`;
-  }
+const formatAlertDescription = (description: string): string => {
+  const safeDescription = htmlEscape(description);
+
+  const updatedDesc = htmlInsertFormatting(safeDescription);
+
+  return replaceUrlsWithLinks(updatedDesc);
 };
 
 const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
