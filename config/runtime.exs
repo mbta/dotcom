@@ -118,6 +118,11 @@ config :dotcom, OpenTripPlanner,
   wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false"),
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
 
+if config_env() != :test and System.get_env("OTP_URL", "") != "" do
+  config :open_trip_planner_client,
+    otp_url: System.get_env("OTP_URL")
+end
+
 if config_env() != :test do
   config :dotcom,
     drupal: [

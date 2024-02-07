@@ -99,6 +99,11 @@ defmodule DotCom.Mixfile do
       {:mock, "~> 0.3.3", [only: :test]},
       {:nebulex, "2.6.0"},
       {:nebulex_redis_adapter, "2.3.1"},
+      {:open_trip_planner_client,
+       [
+         github: "thecristen/open_trip_planner_client",
+         ref: "v0.2.0"
+       ]},
       {:parallel_stream, "~> 1.0.5"},
       {:phoenix, "~> 1.6"},
       {:phoenix_html, "~> 3.3"},
