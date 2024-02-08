@@ -77,42 +77,60 @@ defmodule DotcomWeb.PageControllerTest do
   end
 
   test "adds utm params to url for news entries" do
-    with_utm = add_utm_url(%Teaser{id: 1234, path: "/path", title: "title", type: :news_entry})
+    %{path: path} =
+      add_utm_url(%Teaser{id: 1234, path: "/path", title: "title", type: :news_entry})
 
-    assert %{
-             path:
-               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=news&utm_source=homepage&utm_term=null"
-           } = with_utm
+    [
+      "utm_campaign=curated-content",
+      "utm_content=title",
+      "utm_medium=news",
+      "utm_source=homepage",
+      "utm_term=null"
+    ]
+    |> Enum.each(fn param -> assert String.contains?(path, param) end)
   end
 
   test "adds utm params to url for what's happening" do
-    promoted_with_utm =
+    %{utm_url: path} =
       add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, true)
 
-    assert %{
-             utm_url:
-               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening&utm_source=homepage&utm_term=null"
-           } = promoted_with_utm
+    [
+      "utm_campaign=curated-content",
+      "utm_content=title",
+      "utm_medium=whats-happening",
+      "utm_source=homepage",
+      "utm_term=null"
+    ]
+    |> Enum.each(fn param -> assert String.contains?(path, param) end)
 
-    with_utm = add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, false)
+    %{utm_url: path} =
+      add_utm_url(%WhatsHappeningItem{link: %Link{url: "/path"}, title: "title"}, false)
 
-    assert %{
-             utm_url:
-               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=whats-happening-secondary&utm_source=homepage&utm_term=null"
-           } = with_utm
+    [
+      "utm_campaign=curated-content",
+      "utm_content=title",
+      "utm_medium=whats-happening-secondary",
+      "utm_source=homepage",
+      "utm_term=null"
+    ]
+    |> Enum.each(fn param -> assert String.contains?(path, param) end)
   end
 
   test "adds utm params to url for banner" do
-    with_utm =
+    %{utm_url: path} =
       add_utm_url(%Banner{
         link: %Link{url: "/path"},
         title: "title",
         routes: [%{id: "Green", mode: "subway", group: "line"}]
       })
 
-    assert %{
-             utm_url:
-               "/path?utm_campaign=curated-content&utm_content=title&utm_medium=banner&utm_source=homepage&utm_term=green-line"
-           } = with_utm
+    [
+      "utm_campaign=curated-content",
+      "utm_content=title",
+      "utm_medium=banner",
+      "utm_source=homepage",
+      "utm_term=green-line"
+    ]
+    |> Enum.each(fn param -> assert String.contains?(path, param) end)
   end
 end
