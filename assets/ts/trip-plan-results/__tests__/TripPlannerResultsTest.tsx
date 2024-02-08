@@ -46,7 +46,8 @@ it("it renders", () => {
           tab_html,
           fare_calculator_html,
           id: 1,
-          map
+          map,
+          tags: []
         }
       ]}
     />
@@ -61,7 +62,8 @@ it("it renders", () => {
           tab_html,
           fare_calculator_html,
           id: 1,
-          map
+          map,
+          tags: []
         }
       ]}
     />
@@ -81,7 +83,8 @@ it("it renders ItineraryBody when clicking to expand", () => {
           tab_html,
           fare_calculator_html,
           id: 1,
-          map
+          map,
+          tags: []
         }
       ]}
     />

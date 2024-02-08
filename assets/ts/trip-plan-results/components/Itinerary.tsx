@@ -76,7 +76,10 @@ const ItineraryAccordion = ({
   <div className="m-trip-plan-results__itinerary">
     <div className="m-trip-plan-results__itinerary-header">
       {itinerary.tags.map(tag => (
-        <div className="m-trip-plan-results__itinerary-tag u-small-caps">
+        <div
+          key={tag}
+          className="m-trip-plan-results__itinerary-tag u-small-caps"
+        >
           {tag}
         </div>
       ))}
