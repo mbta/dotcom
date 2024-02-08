@@ -30,6 +30,20 @@
     }
   }
 
+  &-tag {
+    background-color: $brand-primary-darkest;
+    border-radius: 0 0 8px;
+    color: $white;
+    font-weight: bold;
+    grid-column-end: 3;
+    grid-column-start: 1;
+    margin-bottom: 1rem;
+    margin-left: -1rem;
+    margin-top: -1rem;
+    padding: .5rem 1rem;
+    width: fit-content;
+  }
+
   /* stylelint-disable property-no-vendor-prefix */
   &-header {
     background-color: $brand-primary-lightest-contrast;
@@ -37,7 +51,7 @@
     border-bottom: 0;
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: 1fr 1fr;
+    -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr;
     line-height: 1.5;
     margin-top: 0;

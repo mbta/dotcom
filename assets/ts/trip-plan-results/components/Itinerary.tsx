@@ -75,6 +75,11 @@ const ItineraryAccordion = ({
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-trip-plan-results__itinerary">
     <div className="m-trip-plan-results__itinerary-header">
+      {itinerary.tags.map(tag => (
+        <div className="m-trip-plan-results__itinerary-tag u-small-caps">
+          {tag}
+        </div>
+      ))}
       <div className="m-trip-plan-results__itinerary-header-content">
         <div
           className="m-trip-plan-results__itinerary-summary"
