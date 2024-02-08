@@ -10,6 +10,4 @@ RUN npm ci --ignore-scripts
 RUN npx playwright install chromium
 RUN npx playwright install-deps
 
-ENV TARGET_URL=https://www.mbta.com
-
 CMD ["node", "monitor/all-scenarios.js"]
