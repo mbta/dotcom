@@ -1,6 +1,7 @@
 defmodule Dotcom.TripPlan.Query do
   @moduledoc "Fetch trip plan via OTP and handle response"
 
+  alias OpenTripPlannerClient.ItineraryTag.{EarliestArrival, LeastWalking, ShortestTrip}
   alias TripPlan.{Itinerary, NamedPosition}
 
   defstruct [
@@ -11,6 +12,8 @@ defmodule Dotcom.TripPlan.Query do
     time: :unknown,
     wheelchair: false
   ]
+
+  @otp_tags [EarliestArrival, LeastWalking, ShortestTrip]
 
   @type query_itineraries :: {:ok, [Itinerary.t()]} | {:error, any()}
   @type position_error :: TripPlan.Geocode.error() | :same_address
@@ -70,7 +73,7 @@ defmodule Dotcom.TripPlan.Query do
          %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
          opts
        ) do
-    TripPlan.Api.OpenTripPlanner.plan(from, to, opts)
+    TripPlan.Api.OpenTripPlanner.plan(from, to, Keyword.put_new(opts, :tags, @otp_tags))
   end
 
   @spec parse_itinerary_result(OpenTripPlannerClient.Behaviour.plan(), t) :: t
