@@ -26,9 +26,7 @@ parentPort.on('message', async _ => {
     const metric = scenario.name.toLowerCase().replace(/ /g, '.');
 
     client.gauge(metric, duration);
-    logger.info({metric: metric, duration: duration});
-
-    parentPort.postMessage(`Scenario: "${scenario.name}" took ${duration}ms`);
+    logger.info({metric, duration});
 
     await browser.close();
 });
