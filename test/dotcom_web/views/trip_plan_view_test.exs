@@ -93,7 +93,7 @@ defmodule DotcomWeb.TripPlanViewTest do
       query = %{
         @base_explanation_query
         | time: {:depart_at, @date_time},
-          wheelchair_accessible?: true
+          wheelchair: true
       }
 
       selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
@@ -112,7 +112,7 @@ closest departure to 12:00 AM, Thursday, January 1st."
       query = %{
         @base_explanation_query
         | time: {:arrive_by, @date_time},
-          wheelchair_accessible?: false
+          wheelchair: false
       }
 
       selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}

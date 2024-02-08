@@ -65,7 +65,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert actual.from == from_position
       assert actual.to == to_position
       assert {:depart_at, %DateTime{}} = actual.time
-      assert actual.wheelchair_accessible?
+      assert actual.wheelchair
       assert actual.itineraries == {:ok, itineraries}
     end
 
@@ -130,19 +130,18 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "to address",
         "time" => "arrive",
         "date_time" => @date_time_params,
-        "include_car?" => "false",
         "wheelchair" => "true"
       }
 
       query = from_query(params, @connection_opts, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
-      assert query.wheelchair_accessible?
 
       assert_received {:planned_trip, {_from_position, _to_position, _, opts},
                        {:ok, _itineraries}}
 
+      assert query.wheelchair
       assert opts[:arrive_by] == @date_time
-      assert opts[:wheelchair_accessible?]
+      assert opts[:wheelchair]
     end
 
     test "depart_at time works as expected" do
@@ -162,7 +161,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert actual.from === from_position
       assert actual.to === to_position
       assert actual.time === {:depart_at, @date_time}
-      assert actual.wheelchair_accessible? === true
+      assert actual.wheelchair === true
       assert actual.itineraries == {:ok, itineraries}
     end
 
@@ -192,7 +191,6 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "stops_nearby no_results",
         "time" => "depart",
         "date_time" => @date_time_params,
-        "include_car?" => "false",
         "accessible" => "true"
       }
 
@@ -223,7 +221,7 @@ defmodule Dotcom.TripPlan.QueryTest do
                },
                []
              ) == [
-               wheelchair_accessible?: true
+               wheelchair: true
              ]
     end
 
@@ -309,7 +307,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
       assert [
                mode: ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"],
-               wheelchair_accessible?: true
+               wheelchair: true
              ] == get_query_options(opts)
     end
 

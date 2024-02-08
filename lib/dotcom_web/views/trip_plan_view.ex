@@ -42,11 +42,11 @@ defmodule DotcomWeb.TripPlanView do
     ]
   end
 
-  defp trip_explanation(%{wheelchair_accessible?: false}) do
+  defp trip_explanation(%{wheelchair: false}) do
     "Trips"
   end
 
-  defp trip_explanation(%{wheelchair_accessible?: true}) do
+  defp trip_explanation(%{wheelchair: true}) do
     "Wheelchair accessible trips"
   end
 

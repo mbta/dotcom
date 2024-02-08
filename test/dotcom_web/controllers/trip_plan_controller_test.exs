@@ -137,7 +137,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
   }
 
   setup do
-    conn = default_conn() |> put_req_cookie("tp_redesign", "true")
+    conn = default_conn()
 
     end_of_rating =
       @system_time
