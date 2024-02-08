@@ -97,6 +97,7 @@ defmodule DotCom.Mixfile do
       {:logster, "~> 0.4.0"},
       {:mail, "~> 0.2"},
       {:mock, "~> 0.3.3", [only: :test]},
+      {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.0"},
       {:nebulex_redis_adapter, "2.3.1"},
       {:open_trip_planner_client,
