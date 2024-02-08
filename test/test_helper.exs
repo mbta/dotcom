@@ -8,6 +8,7 @@ _ = Tzdata.ReleaseUpdater.poll_for_update()
 System.put_env("USE_SERVER_SENT_EVENTS", "false")
 System.put_env("WARM_CACHES", "false")
 
+Application.ensure_all_started(:ex_machina)
 Application.ensure_all_started(:mox)
 Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
 

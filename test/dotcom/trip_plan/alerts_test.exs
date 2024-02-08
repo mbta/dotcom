@@ -2,23 +2,29 @@ defmodule Dotcom.TripPlan.AlertsTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import Dotcom.TripPlan.Alerts
+  import Test.Support.Factory
   alias TripPlan.Itinerary
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
 
-  @from TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-  @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-  @connection_opts [user_id: 1]
-  @date_time ~N[2017-06-27T11:43:00]
+  setup_all do
+    itinerary =
+      build(:itinerary,
+        legs: [
+          build(:leg,
+            from: build(:stop_named_position),
+            to: build(:stop_named_position),
+            mode: build(:transit_detail)
+          )
+        ]
+      )
+
+    [route_id] = Itinerary.route_ids(itinerary)
+    [trip_id] = Itinerary.trip_ids(itinerary)
+    {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}}
+  end
 
   describe "filter_for_itinerary/2" do
-    setup do
-      {:ok, [itinerary]} = TripPlan.plan(@from, @to, @connection_opts, depart_at: @date_time)
-      [route_id] = Itinerary.route_ids(itinerary)
-      [trip_id] = Itinerary.trip_ids(itinerary)
-      {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}}
-    end
-
     test "returns an alert if it affects the route", %{itinerary: itinerary, route_id: route_id} do
       good_alert =
         Alert.new(

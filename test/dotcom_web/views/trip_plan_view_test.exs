@@ -7,7 +7,6 @@ defmodule DotcomWeb.TripPlanViewTest do
   alias Fares.Fare
   alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
-  alias TripPlan.Api.MockPlanner
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
@@ -217,7 +216,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
-      from = MockPlanner.random_stop()
+      from = Test.Support.Factory.build(:stop_named_position)
 
       query = %Query{
         from: {:ok, from},
@@ -610,8 +609,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              MockPlanner.personal_leg(nil, nil, nil, nil),
-              MockPlanner.personal_leg(nil, nil, nil, nil)
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail)),
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -624,9 +623,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              MockPlanner.personal_leg(nil, nil, nil, nil),
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail)),
               @bus_leg,
-              MockPlanner.personal_leg(nil, nil, nil, nil)
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail))
             ]
         }
         |> transfer_note
