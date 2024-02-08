@@ -138,11 +138,9 @@ defmodule DotCom.Mixfile do
       {:server_sent_event_stage, "1.1.0"},
       {:sizeable, "1.0.2"},
       {:sweet_xml, "0.7.4", only: [:prod, :dev]},
-      # latest version 1.2.1;
       {:telemetry, "1.2.1", override: true},
       {:telemetry_metrics, "0.6.2"},
       {:telemetry_metrics_statsd, "0.7.0"},
-      # latest version 1.0.0;
       {:telemetry_poller, "1.0.0"},
       # latest version is 3.7.11; cannot upgrade because tests fail
       {:timex, "3.1.24"},
