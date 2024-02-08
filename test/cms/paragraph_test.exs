@@ -1,6 +1,8 @@
 defmodule CMS.ParagraphTest do
   use ExUnit.Case, async: true
 
+  require Dotcom.Assertions
+
   import CMS.Partial.Paragraph
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -372,16 +374,16 @@ defmodule CMS.ParagraphTest do
              sort_order: :DESC
            } == ingredients
 
-    assert [
-             date: [value: "now"],
-             date_op: "<",
-             items_per_page: 2,
-             related_to: 3004,
-             sort_by: "field_updated_on_value",
-             sort_order: :DESC,
-             sticky: "0",
-             type: [:project_update]
-           ] == recipe
+    Dotcom.Assertions.assert_equal_lists(recipe,
+      date: [value: "now"],
+      date_op: "<",
+      items_per_page: 2,
+      related_to: 3004,
+      sort_by: "field_updated_on_value",
+      sort_order: :DESC,
+      sticky: "0",
+      type: [:project_update]
+    )
   end
 
   describe "right_rail?" do
