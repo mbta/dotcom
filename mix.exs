@@ -100,7 +100,7 @@ defmodule DotCom.Mixfile do
       {:hammer, "6.2.0"},
       # latest version 1.4.3; cannot upgrade because it changes how we handle telephone links
       {:html_sanitize_ex, "1.3.0"},
-      # latest version 2.2.1; cannot upgrade because
+      # latest version 2.2.1; cannot upgrade because api has changed
       {:httpoison, "1.8.2"},
       {:inflex, "2.1.0"},
       {:jason, "1.4.1", override: true},
