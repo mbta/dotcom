@@ -1,11 +1,11 @@
-name: Deploy Monitor
+name: Push Monitor
 
 on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy
+  push:
+    name: push-monitor
     runs-on: ubuntu-latest
     permissions:
       id-token: write
