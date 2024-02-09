@@ -7,7 +7,10 @@
 // - menu can be closed by pressing esc key or veil-click
 
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
-import { handleNativeEscapeKeyPress } from "../helpers/keyboard-events";
+import {
+  handleNativeEscapeKeyPress,
+  handleNativeTabKeyPress
+} from "../helpers/keyboard-events";
 
 function undoOutline(this: HTMLElement): void {
   this.style.outline = "none";
@@ -307,9 +310,29 @@ export function setup(rootElement: HTMLElement): void {
     }
   }
 
+  function refocusLastActiveMenu(): void {
+    if (activeMenuElement && activeMenuElement instanceof HTMLElement) {
+      activeMenuElement.focus();
+    }
+  }
+
+  // Save the last focused menu toggle
+  var activeMenuElement: Element | null = null;
+  function saveActiveMenuElement(): void {
+    if (document.activeElement?.className.includes("m-menu--desktop__toggle")) {
+      activeMenuElement = document.activeElement;
+    } else if (
+      document.activeElement?.className.includes("custom-language-selector")
+    ) {
+      // Clear when focusing on something next item outside the menu (language selector)
+      activeMenuElement = null;
+    }
+  }
+
   function resetPage(): void {
     closeAllMenus();
     closeVeil();
+    refocusLastActiveMenu();
   }
 
   // menu click closes
@@ -326,6 +349,11 @@ export function setup(rootElement: HTMLElement): void {
   // Veil click or Esc key closes everything
   rootElement.addEventListener("keydown", e => {
     handleNativeEscapeKeyPress(e, resetPage);
+  });
+
+  rootElement.addEventListener("keyup", e => {
+    // keyup lets us grab the newly higlighted element
+    handleNativeTabKeyPress(e, saveActiveMenuElement);
   });
 
   rootElement
