@@ -80,7 +80,7 @@ defmodule DotCom.Mixfile do
       # rather than upgrading, we should change all caching over to Nebulex
       {:con_cache, "0.12.1"},
       {:crc, "0.10.5"},
-      {:credo, "1.7.3", only: [:dev, :test]},
+      {:credo, "1.7.4", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
