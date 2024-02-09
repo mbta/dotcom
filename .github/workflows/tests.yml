@@ -76,14 +76,8 @@ jobs:
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 2
     - uses: ./.github/actions/setup-all
-    - run: |
-        mix deps.compile
-        mix credo version
-        git fetch origin master
-        mix credo diff --all master
+    - run: npm run ci:lint:ex
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
