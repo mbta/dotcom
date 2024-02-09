@@ -13,7 +13,7 @@
     "ci:lint:ts": "npm run --prefix assets eslint:ts",
     "ci:lint:js": "npm run --prefix assets eslint:js",
     "ci:lint:scss": "npm run --prefix assets stylelint -- css/**/*.scss",
-    "ci:lint:ex": "mix credo diff -a --from-git-ref $(git show-ref master --heads --hash)",
+    "ci:lint:ex": "mix credo diff master -a",
     "ci:unit:exunit": "mix coveralls.html",
     "ci:unit:mocha": "npm run --prefix assets mocha",
     "ci:unit:jest": "npm run --prefix assets jest",
