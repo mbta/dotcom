@@ -8,7 +8,7 @@ defmodule DotCom.Mixfile do
       version: "0.0.1",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: Mix.compilers(),
       # configures `mix compile` to embed all code and priv content in the _build directory instead of using symlinks
       build_embedded: Mix.env() == :prod,
       # used by `mix app.start` to start the application and children in permanent mode, which guarantees the node will shut down if the application terminates (typically because its root supervisor has terminated).
@@ -65,72 +65,89 @@ defmodule DotCom.Mixfile do
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
+  #
+  # You can check the status of each dependency by running `mix hex.outdated`.
   defp deps do
     [
-      {:absinthe_client, "~> 0.1.0"},
-      {:benchfella, "~> 0.3", [only: :dev]},
-      {:bypass, "~> 1.0", [only: :test]},
-      {:castore, "~> 0.1.11"},
-      {:con_cache, "~> 0.12.0"},
+      {:absinthe_client, "0.1.0"},
+      {:benchfella, "0.3.5", [only: :dev]},
+      # latest version 2.1.0; cannot be upgraded because of errors when we use * in the url for tests
+      # rather than fixing tests and upgrading, we should convert the tests to use mox
+      {:bypass, "1.0.0", [only: :test]},
+      # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
+      {:castore, "0.1.22"},
+      # latest version 1.0.0; cannot upgrade because setup appears to have changed
+      # rather than upgrading, we should change all caching over to Nebulex
+      {:con_cache, "0.12.1"},
       {:crc, "0.10.5"},
+      # latest version 1.7.4; cannot upgrade because it causes our ci to fail
+      # this version just came out in the last few days, so it might be a bug that gets fixed soon
       {:credo, "1.7.3", only: [:dev, :test]},
-      {:csv, "~> 3.0.5"},
+      {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
-      {:diskusage_logger, "~> 0.2.0"},
-      {:eflame, "~> 1.0", only: :dev},
+      {:diskusage_logger, "0.2.0"},
+      {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      {:ex_aws, "~> 2.4"},
-      {:ex_aws_s3, "~> 2.4"},
-      {:ex_aws_ses, "~> 2.1.1"},
-      {:ex_doc, "~> 0.18", only: :dev},
-      {:excoveralls, "~> 0.16", only: :test},
-      {:floki, "~> 0.31.0"},
-      {:gen_stage, "~> 1.2"},
-      {:gettext, "~> 0.9"},
-      {:hackney, "~> 1.18"},
-      {:hammer, "~> 6.0"},
+      {:ex_aws, "2.5.1"},
+      {:ex_aws_s3, "2.5.3"},
+      {:ex_aws_ses, "2.4.1"},
+      {:ex_doc, "0.31.1", only: :dev},
+      # latest version 0.18.0; cannot upgrade because expects castore >= 1
+      {:excoveralls, "0.16.1", only: :test},
+      {:floki, "0.35.3"},
+      {:gen_stage, "1.2.1"},
+      {:gettext, "0.24.0"},
+      {:hackney, "1.20.1"},
+      {:hammer, "6.2.0"},
+      # latest version 1.4.3; cannot upgrade because it changes how we handle telephone links
       {:html_sanitize_ex, "1.3.0"},
-      {:httpoison, "~> 1.5"},
-      {:inflex, "~> 1.8.0"},
-      {:jason, "~> 1.1"},
-      {:logster, "~> 0.4.0"},
-      {:mail, "~> 0.2"},
-      {:mock, "~> 0.3.3", [only: :test]},
+      # latest version 2.2.1; cannot upgrade because api has changed
+      {:httpoison, "1.8.2"},
+      {:inflex, "2.1.0"},
+      {:jason, "1.4.1", override: true},
+      {:logster, "1.1.1"},
+      {:mail, "0.3.1"},
+      {:mock, "0.3.8", [only: :test]},
       {:nebulex, "2.6.0"},
       {:nebulex_redis_adapter, "2.3.1"},
-      {:parallel_stream, "~> 1.0.5"},
-      {:phoenix, "~> 1.6"},
-      {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_dashboard, "~> 0.8"},
-      {:phoenix_live_reload, "~> 1.0", [only: :dev]},
-      {:phoenix_live_view, "~> 0.20"},
-      {:phoenix_pubsub, "~> 2.1.3"},
-      {:plug, "~> 1.14.2"},
-      {:plug_cowboy, "~> 2.6.1"},
-      {:poison, "~> 3.0"},
-      {:polyline, "1.3.0"},
-      {:poolboy, "~> 1.5"},
-      {:quixir, "~> 0.9", [only: :test]},
+      {:parallel_stream, "1.1.0"},
+      # latest version 1.7.11
+      {:phoenix, "1.6.16"},
+      # latest version 4.0.0; cannot upgrade because we use Phoenix.HTML
+      {:phoenix_html, "3.3.3"},
+      {:phoenix_live_dashboard, "0.8.3"},
+      {:phoenix_live_reload, "1.4.1", [only: :dev]},
+      {:phoenix_live_view, "0.20.5"},
+      {:phoenix_pubsub, "2.1.3"},
+      {:plug, "1.15.3"},
+      {:plug_cowboy, "2.7.0"},
+      # latest version is 5.0.0; cannot upgrade because we use Poison.Parser.parse!
+      {:poison, "3.1.0"},
+      {:polyline, "1.4.0"},
+      {:poolboy, "1.5.2"},
+      {:quixir, "0.9.3", [only: :test]},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,
        [
          github: "samueljseay/recaptcha",
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
-      {:recon, "~> 2.5.1", [only: :prod]},
+      {:recon, "2.5.4", [only: :prod]},
       {:rstar, github: "armon/erl-rstar"},
-      {:sentry, "~> 7.0"},
-      {:server_sent_event_stage, "~> 1.0"},
-      {:sizeable, "~> 0.1.5"},
-      {:sweet_xml, "~> 0.7.1", only: [:prod, :dev]},
-      {:telemetry, "0.4.3"},
-      {:telemetry_metrics, "0.6.1"},
+      # latest version 10.1.0; cannot upgrade because setup appears to have changed
+      {:sentry, "7.2.5"},
+      {:server_sent_event_stage, "1.1.0"},
+      {:sizeable, "1.0.2"},
+      {:sweet_xml, "0.7.4", only: [:prod, :dev]},
+      {:telemetry, "1.2.1", override: true},
+      {:telemetry_metrics, "0.6.2"},
       {:telemetry_metrics_statsd, "0.7.0"},
-      {:telemetry_poller, "0.5.1"},
-      {:timex, ">= 2.0.0"},
-      {:unrooted_polytree, "~> 0.1.1"},
-      {:wallaby, "~> 0.30", [runtime: false, only: [:test, :dev]]}
+      {:telemetry_poller, "1.0.0"},
+      # latest version is 3.7.11; cannot upgrade because tests fail
+      {:timex, "3.1.24"},
+      {:unrooted_polytree, "0.1.1"},
+      {:wallaby, "0.30.6", [runtime: false, only: [:test, :dev]]}
     ]
   end
 

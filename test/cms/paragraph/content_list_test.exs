@@ -7,6 +7,8 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
 
   use ExUnit.Case, async: true
 
+  require Dotcom.Assertions
+
   alias CMS.Partial.Paragraph.ContentList
 
   describe "from_api/1" do
@@ -176,7 +178,7 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
         sorting_logic: nil
       )
 
-    assert opts == [items_per_page: 5, type: [:event]]
+    Dotcom.Assertions.assert_equal_lists(opts, items_per_page: 5, type: [:event])
   end
 
   test "Only enforces an upper limit for project/update teasers" do
@@ -184,9 +186,9 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
     request_2 = cms_map(content_type: "project", number_of_items: 2)
     request_1 = cms_map(content_type: "project", number_of_items: 1)
 
-    assert request_3 == [items_per_page: 2, type: [:project]]
-    assert request_2 == [items_per_page: 2, type: [:project]]
-    assert request_1 == [items_per_page: 1, type: [:project]]
+    Dotcom.Assertions.assert_equal_lists(request_3, items_per_page: 2, type: [:project])
+    Dotcom.Assertions.assert_equal_lists(request_2, items_per_page: 2, type: [:project])
+    Dotcom.Assertions.assert_equal_lists(request_1, items_per_page: 1, type: [:project])
   end
 
   defp cms_map(fields) do
