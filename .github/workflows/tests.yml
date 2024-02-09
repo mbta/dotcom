@@ -83,8 +83,7 @@ jobs:
         mix deps.compile
         mix credo version
         git fetch origin master
-        git show-ref master --heads --hash
-        mix credo diff --all --from-git-ref $(git show-ref master --heads --hash)
+        mix credo diff --all master
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
