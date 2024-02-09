@@ -78,10 +78,9 @@ jobs:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
     - run: |
-        mix deps.update credo
-        git show-ref master --heads --hash
         mix credo version
-        npm run ci:lint:ex
+        git show-ref master --heads --hash
+        mix credo diff -a --from-git-ref $(git show-ref master --heads --hash)
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
