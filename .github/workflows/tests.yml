@@ -77,7 +77,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
-    - run: npm run ci:lint:ex
+    - run: |
+        git fetch origin master
+        mix deps.get --only test
+        npm run ci:lint:ex
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
