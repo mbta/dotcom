@@ -1,4 +1,5 @@
 // Detects if the page is translated and notifies analyticis
+
 const getNewLanguage = () => {
   const html = document.getElementsByTagName("html")[0];
   return html.getAttribute("lang")?.valueOf();
