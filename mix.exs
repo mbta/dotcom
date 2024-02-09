@@ -82,7 +82,7 @@ defmodule DotCom.Mixfile do
       {:crc, "0.10.5"},
       # latest version 1.7.4; cannot upgrade because it causes our ci to fail
       # this version just came out in the last few days, so it might be a bug that gets fixed soon
-      {:credo, "1.7.3", only: [:dev, :test]},
+      {:credo, "1.7.4", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
