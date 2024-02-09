@@ -76,13 +76,15 @@ jobs:
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
     - uses: ./.github/actions/setup-all
     - run: |
         mix deps.compile
         mix credo version
-        git fetch master
+        git fetch origin master
         git show-ref master --heads --hash
-        mix credo diff -a --from-git-ref $(git show-ref master --heads --hash)
+        mix credo diff --all --from-git-ref $(git show-ref master --heads --hash)
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
