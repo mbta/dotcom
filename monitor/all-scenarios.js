@@ -8,8 +8,6 @@ const filesPath = path.join(__dirname, '..', 'scenarios');
 const workers = fs.readdirSync(filesPath).map((file) => {
     const worker = new Worker(path.join(__dirname, 'worker.js'), { workerData: path.join(filesPath, file) });
 
-    worker.on('message', console.log);
-
     return worker;
 });
 

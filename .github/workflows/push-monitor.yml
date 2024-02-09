@@ -1,22 +1,22 @@
-name: Deploy Monitor
+name: Push Monitor
 
 on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy
+  push:
+    name: push-monitor
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v4
-
       - name: Build, tag, and push image to Amazon ECR
         uses: mbta/actions/build-push-ecr@v2
         with:
-          docker-repo: "${{ secrets.MONITOR_DOCKER_REPO }}"
+          docker-repo: "${{ secrets.TID_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
           dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}

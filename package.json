@@ -4,6 +4,7 @@
     "artillery": "2.0.3",
     "hot-shots": "10.0.0",
     "node-cron": "3.0.3",
+    "node-json-logger": "0.2.0",
     "@playwright/test": "1.41.1"
   },
   "scripts": {
