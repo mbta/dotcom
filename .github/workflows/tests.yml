@@ -79,6 +79,7 @@ jobs:
     - uses: ./.github/actions/setup-all
     - run: |
         mix deps.update credo
+        git show-ref master --heads --hash
         mix credo version
         npm run ci:lint:ex
 
