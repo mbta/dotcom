@@ -1,10 +1,5 @@
 // Detects if the page is translated and notifies analyticis
 
-const getNewLanguage = () => {
-  const html = document.getElementsByTagName("html")[0];
-  return html.getAttribute("lang")?.valueOf();
-};
-
 // adapted from: https://analytical42.com/2022/detect-track-translations-ga4/
 // This code does its best to detect if the user changes the language of the page.
 // Right now it fully supports logging from users changing the page language from the website itself regardless of the browser used
@@ -32,9 +27,10 @@ export default () => {
             // Check for Chrome, Google, and Safari's browser translation lang attribute
             mutationList[i].attributeName === "lang"
           ) {
-            // Send an event to the dataLayer
-            const newLanguage = getNewLanguage();
+            // Grab the new language from the html lang attribute (if available)
+            const newLanguage = mutationList[i].target.getAttribute("lang");
             window.dataLayer = window.dataLayer || [];
+            // Send an event to the dataLayer
             window.dataLayer.push({
               event: "translate"
             });
