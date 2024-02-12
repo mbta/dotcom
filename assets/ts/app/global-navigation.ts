@@ -12,6 +12,8 @@ import {
   handleNativeTabKeyPress
 } from "../helpers/keyboard-events";
 
+let activeMenuElement: Element | null = null;
+
 function undoOutline(this: HTMLElement): void {
   this.style.outline = "none";
 }
@@ -317,7 +319,6 @@ export function setup(rootElement: HTMLElement): void {
   }
 
   // Save the last focused menu toggle
-  var activeMenuElement: Element | null = null;
   function saveActiveMenuElement(): void {
     if (document.activeElement?.className.includes("m-menu--desktop__toggle")) {
       activeMenuElement = document.activeElement;
