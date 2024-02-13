@@ -108,7 +108,8 @@ defmodule DotcomWeb.LayoutView do
               {"Sign up for Auto-pay", "https://mycharlie.mbta.com/", :external_link},
               {"Order Monthly Passes", "https://commerce.mbta.com/", :external_link},
               {"Get a CharlieCard", "/fares/charliecard#getacharliecard", :internal_link},
-              {"Retail Sales Locations", "/fares/retail-sales-locations", :internal_link}
+              {"Retail Sales Locations", "/fares/retail-sales-locations", :internal_link,
+               :disable_turbolinks}
             ]
           },
           # special
@@ -190,7 +191,10 @@ defmodule DotcomWeb.LayoutView do
       }
     ]
 
-  def render_nav_link({link_name, href, link_host}) do
+  def render_nav_link({link_name, href, link_host}),
+    do: render_nav_link({link_name, href, link_host, false})
+
+  def render_nav_link({link_name, href, link_host, disable_turbolinks}) do
     link_content =
       if link_host == :external_link do
         [content_tag(:div, link_name), content_tag(:span, fa("external-link"))]
@@ -198,12 +202,19 @@ defmodule DotcomWeb.LayoutView do
         content_tag(:div, link_name)
       end
 
+    attrs = ["data-nav": "link", href: href, class: "m-menu__link"]
+
+    attrs =
+      if disable_turbolinks === :disable_turbolinks do
+        attrs ++ ["data-turbolinks": "false"]
+      else
+        attrs
+      end
+
     content_tag(
       :a,
       link_content,
-      href: href,
-      class: "m-menu__link",
-      "data-nav": "link"
+      attrs
     )
   end
 end
