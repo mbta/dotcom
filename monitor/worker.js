@@ -10,7 +10,7 @@ const client = new StatsD({
 const logger = new Logger();
 
 parentPort.on('message', async _ => {
-    const { scenario } = require(workerData);
+    const { scenario } = require(workerData.path);
 
     const browser = await chromium.launch();
     const context = await browser.newContext();
@@ -18,15 +18,13 @@ parentPort.on('message', async _ => {
 
     const start = performance.now();
 
-    await scenario.run({ page, baseURL: process.env.TARGET_URL });
+    await scenario({ page, baseURL: process.env.TARGET_URL });
 
     const end = performance.now();
     const duration = Math.floor(end - start);
 
-    const metric = scenario.name.toLowerCase().replace(/ /g, '.');
-
-    client.gauge(metric, duration);
-    logger.info({metric, duration});
+    client.gauge(workerData.name, duration);
+    logger.info({metric: workerData.name, duration});
 
     await browser.close();
 });

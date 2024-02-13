@@ -9,20 +9,24 @@ const files = fs.readdirSync(filesPath);
 
 const baseURL = process.env.TARGET_URL;
 
+const fileToName = (file) => file.replace(/-/g, '.').replace('.js', '').toLowerCase();
+
 files.forEach((file) => {
     test.describe('All scenarios', _ => {
         const filePath = path.join(filesPath, file);
         const { scenario } = require(filePath);
 
-        test(scenario.name, async ({ page }) => {
+        const name = fileToName(file);
+
+        test(name, async ({ page }) => {
             const start = performance.now();
 
-            await scenario.run({ page, baseURL });
+            await scenario({ page, baseURL });
 
             const end = performance.now();
             const duration = Math.floor(end - start);
 
-            test.info().annotations.push({ type: 'Performance', description: `duration: ${duration}ms, threshold: ${scenario.threshold}ms` });
+            test.info().annotations.push({ type: 'performance', description: `duration: ${duration}ms` });
         });
     });
 });
