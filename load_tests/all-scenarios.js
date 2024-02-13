@@ -8,7 +8,7 @@ const fileToName = (file) => file.replace(/-/g, '.').replace('.js', '').toLowerC
 
 files.forEach((file) => {
   const { scenario } = require(path.join(filesPath, file));
-
+console.log(scenario)
   exports[fileToName(file)] = async function(page, context) {
     await scenario({ page, baseURL: context.vars.target });
   };

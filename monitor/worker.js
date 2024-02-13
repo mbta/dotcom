@@ -24,7 +24,7 @@ parentPort.on('message', async _ => {
     const duration = Math.floor(end - start);
 
     client.gauge(workerData.name, duration);
-    logger.info({metric: `${prefix}${workerData.name}`, duration});
+    logger.info({metric: workerData.name, duration});
 
     await browser.close();
 });

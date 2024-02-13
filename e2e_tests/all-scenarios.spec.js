@@ -25,7 +25,7 @@ files.forEach((file) => {
             const end = performance.now();
             const duration = Math.floor(end - start);
 
-            test.info().annotations.push({ type: 'Performance', description: `duration: ${duration}ms, threshold: ${scenario.threshold}ms` });
+            test.info().annotations.push({ type: 'performance', description: `duration: ${duration}ms` });
         });
     });
 });
