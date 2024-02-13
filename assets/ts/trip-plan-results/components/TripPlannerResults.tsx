@@ -5,7 +5,7 @@ import Itinerary from "./Itinerary";
 export interface Itinerary {
   id: number;
   html: string;
-  tags: string[];
+  tag: string | null;
   // eslint-disable-next-line
   map: MapData;
   tab_html: string;

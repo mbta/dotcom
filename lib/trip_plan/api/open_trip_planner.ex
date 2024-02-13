@@ -36,7 +36,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
       stop: parse_time(json["endTime"]),
       legs: Enum.map(json["legs"], &parse_leg/1),
       accessible?: if(score, do: score == 1.0),
-      tags: json["tags"] |> MapSet.to_list()
+      tag: json["tag"] |> MapSet.to_list()
     }
   end
 

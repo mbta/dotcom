@@ -18,9 +18,9 @@ defmodule TripPlan.Itinerary do
     :start,
     :stop,
     :passes,
+    :tag,
     legs: [],
-    accessible?: false,
-    tags: []
+    accessible?: false
   ]
 
   @type t :: %__MODULE__{
@@ -29,7 +29,7 @@ defmodule TripPlan.Itinerary do
           legs: [Leg.t()],
           accessible?: boolean | nil,
           passes: passes(),
-          tags: [OpenTripPlannerClient.ItineraryTag.tag()]
+          tag: OpenTripPlannerClient.ItineraryTag.tag()
         }
 
   @type passes :: %{
