@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { performance } = require('node:perf_hooks');
-
-const { test, expect } = require('@playwright/test');
+const { test } = require('@playwright/test');
 
 const filesPath = path.join(__dirname, '..', 'scenarios');
 const files = fs.readdirSync(filesPath);
