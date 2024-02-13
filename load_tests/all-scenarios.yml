@@ -1,7 +1,7 @@
 config:
   defaults:
     headers:
-      User-Agent: artillery
+      User-Agent: Artillery
   engines:
     playwright: {}
   phases:

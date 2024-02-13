@@ -1,7 +1,7 @@
 const { expect } = require('@playwright/test');
 
 exports.scenario = {
-   name: 'Load the leadership page',
+   name: 'Visit a static page',
    run: async ({ page, baseURL }) => {
     await page.goto(`${baseURL}/`);
 

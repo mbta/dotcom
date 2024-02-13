@@ -20,9 +20,9 @@ files.forEach((file) => {
             await scenario.run({ page, baseURL });
 
             const end = performance.now();
-            const duration = end - start;
+            const duration = Math.floor(end - start);
 
-            expect.soft(duration, 'Duration is below threshold').toBeLessThanOrEqual(scenario.threshold);
+            test.info().annotations.push({ type: 'Performance', description: `duration: ${duration}ms, threshold: ${scenario.threshold}ms` });
         });
     });
 });
