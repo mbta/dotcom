@@ -13,7 +13,8 @@ defmodule Dotcom.TripPlan.Query do
     wheelchair: false
   ]
 
-  @otp_tags [EarliestArrival, LeastWalking, ShortestTrip]
+  @otp_depart_at_tags [EarliestArrival, LeastWalking, ShortestTrip]
+  @otp_arrive_by_tags [LeastWalking, ShortestTrip]
 
   @type query_itineraries :: {:ok, [Itinerary.t()]} | {:error, any()}
   @type position_error :: TripPlan.Geocode.error() | :same_address
@@ -73,7 +74,18 @@ defmodule Dotcom.TripPlan.Query do
          %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
          opts
        ) do
-    TripPlan.Api.OpenTripPlanner.plan(from, to, Keyword.put_new(opts, :tags, @otp_tags))
+    opts =
+      Keyword.put_new(
+        opts,
+        :tags,
+        if Keyword.has_key?(opts, :arrive_by) do
+          @otp_arrive_by_tags
+        else
+          @otp_depart_at_tags
+        end
+      )
+
+    TripPlan.Api.OpenTripPlanner.plan(from, to, opts)
   end
 
   @spec parse_itinerary_result(OpenTripPlannerClient.Behaviour.plan(), t) :: t
