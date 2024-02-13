@@ -12,6 +12,7 @@ exports.scenario = {
 
     await expect(page.getByRole('heading', { name: 'FRAMINGHAM/​WORCESTER' })).toBeVisible();
     await expect.poll(async () => page.locator('a.m-timetable__stop-link').count()).toBeGreaterThan(0);
+
     await expect(page.locator('a.m-timetable__stop-link:first-of-type').first()).toHaveText('Worcester');
     await expect(page.locator('a.m-timetable__stop-link:last-of-type').last()).toHaveText('South Station');
 
