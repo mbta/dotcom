@@ -4,9 +4,6 @@ export const isEnter = (key: number | string): boolean =>
 export const isEscape = (key: number | string): boolean =>
   key === "Escape" || key === 27;
 
-export const isTab = (key: number | string): boolean =>
-  key === "Tab" || key === 9;
-
 // for vanilla JS
 export const handleNativeEnterKeyPress = (
   e: KeyboardEvent,
