@@ -4,9 +4,9 @@ const { parentPort, workerData } = require('worker_threads');
 const { performance } = require('node:perf_hooks');
 const StatsD = require('hot-shots');
 
-const client = new StatsD({
-    prefix: 'dotcom.monitor.',
-});
+const prefix = 'dotcom.monitor.';
+
+const client = new StatsD({ prefix });
 const logger = new Logger();
 
 parentPort.on('message', async _ => {
@@ -24,7 +24,7 @@ parentPort.on('message', async _ => {
     const duration = Math.floor(end - start);
 
     client.gauge(workerData.name, duration);
-    logger.info({metric: workerData.name, duration});
+    logger.info({metric: `${prefix}${workerData.name}`, duration});
 
     await browser.close();
 });
