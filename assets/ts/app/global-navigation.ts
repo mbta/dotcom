@@ -336,8 +336,7 @@ export function setup(rootElement: HTMLElement): void {
   document.addEventListener("autocomplete:selected", closeAllMenus);
 
   // Press Esc within open header should return focus to header
-  header.addEventListener("keyup", e => {
-    console.log(document.activeElement);
+  header.addEventListener("keydown", e => {
     let activeNavButton: HTMLButtonElement | null | undefined;
     const activeNavSection = document.activeElement?.closest(
       "[data-nav='desktop-section']"
