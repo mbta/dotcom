@@ -7,12 +7,7 @@
 // - menu can be closed by pressing esc key or veil-click
 
 import { clearAllBodyScrollLocks, disableBodyScroll } from "body-scroll-lock";
-import {
-  handleNativeEscapeKeyPress,
-  handleNativeTabKeyPress
-} from "../helpers/keyboard-events";
-
-let activeMenuElement: Element | null = null;
+import { handleNativeEscapeKeyPress } from "../helpers/keyboard-events";
 
 function undoOutline(this: HTMLElement): void {
   this.style.outline = "none";
@@ -312,28 +307,9 @@ export function setup(rootElement: HTMLElement): void {
     }
   }
 
-  function refocusLastActiveMenu(): void {
-    if (activeMenuElement && activeMenuElement instanceof HTMLElement) {
-      activeMenuElement.focus();
-    }
-  }
-
-  // Save the last focused menu toggle
-  function saveActiveMenuElement(): void {
-    if (document.activeElement?.className.includes("m-menu--desktop__toggle")) {
-      activeMenuElement = document.activeElement;
-    } else if (
-      document.activeElement?.className.includes("custom-language-selector")
-    ) {
-      // Clear when focusing on something next item outside the menu (language selector)
-      activeMenuElement = null;
-    }
-  }
-
   function resetPage(): void {
     closeAllMenus();
     closeVeil();
-    refocusLastActiveMenu();
   }
 
   // menu click closes
@@ -352,17 +328,35 @@ export function setup(rootElement: HTMLElement): void {
     handleNativeEscapeKeyPress(e, resetPage);
   });
 
-  rootElement.addEventListener("keyup", e => {
-    // keyup lets us grab the newly higlighted element
-    handleNativeTabKeyPress(e, saveActiveMenuElement);
-  });
-
   rootElement
     .querySelector("[data-nav='veil']")
     ?.addEventListener("click", resetPage);
 
   // Closes veil before navigating to search result
   document.addEventListener("autocomplete:selected", closeAllMenus);
+
+  // Press Esc within open header should return focus to header
+  header.addEventListener("keyup", e => {
+    console.log(document.activeElement);
+    let activeNavButton: HTMLButtonElement | null | undefined;
+    const activeNavSection = document.activeElement?.closest(
+      "[data-nav='desktop-section']"
+    );
+    if (activeNavSection) {
+      const openSectionId = activeNavSection.parentElement!.id;
+      activeNavButton = document.querySelector<HTMLButtonElement>(
+        `nav.m-menu--desktop [aria-controls=${openSectionId}]`
+      );
+      handleNativeEscapeKeyPress(e, () => {
+        resetPage();
+        if (activeNavButton) {
+          activeNavButton.focus();
+          // don't bubble up to the rootElement keydown listener
+          e.stopPropagation();
+        }
+      });
+    }
+  });
 }
 
 export default function setupGlobalNavigation(): void {

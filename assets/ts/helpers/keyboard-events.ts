@@ -17,6 +17,3 @@ export const handleNativeEscapeKeyPress = (
   e: KeyboardEvent,
   cb: Function
 ): void => (isEscape(e.key || e.keyCode) ? cb(e) : () => {});
-
-export const handleNativeTabKeyPress = (e: KeyboardEvent, cb: Function): void =>
-  isTab(e.key || e.keyCode) ? cb(e) : () => {};
