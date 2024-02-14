@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
+import { format } from "date-fns-tz";
 import { Alert as AlertType, Lifecycle } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
@@ -206,7 +207,7 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
       />
       {alert.updated_at && (
         <div className="c-alert-item__updated">
-          Updated: {format(parseISO(alert.updated_at), "M/d/yyyy h:mm aa")}
+          Updated: {format(parseISO(alert.updated_at), "M/d/yyyy h:mm aa zzz")}
         </div>
       )}
     </div>
