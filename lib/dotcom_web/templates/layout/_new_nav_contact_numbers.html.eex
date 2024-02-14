@@ -6,7 +6,7 @@
     <strong>Main:</strong> <%= tel_link "617-222-3200" %>
   </div>
   <div class="m-menu__feature_phone">
-    <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
+    711 for TTY callers;  VRS for ASL callers
   </div>
 </div>
 <div class="m-menu__feature emergency-contacts mobile">

@@ -169,6 +169,7 @@ defmodule DotcomWeb.ScheduleView do
     pdf_name =
       cond do
         RoutePdf.custom?(pdf) -> pdf.link_text_override
+        Route.commuter_rail?(route) -> [pretty_route_name(route), " schedule"]
         true -> [pretty_route_name(route), " schedule and map"]
       end
 

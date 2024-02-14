@@ -1,6 +1,8 @@
 defmodule CMS.RepoTest do
   use ExUnit.Case, async: false
 
+  require Dotcom.Assertions
+
   import ExUnit.CaptureLog, only: [capture_log: 1]
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Mock
@@ -327,7 +329,7 @@ defmodule CMS.RepoTest do
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
 
-      assert types == [:event, :news_entry, :project]
+      Dotcom.Assertions.assert_equal_lists(types, [:event, :news_entry, :project])
     end
 
     test "returns all teasers for a topic" do
@@ -337,7 +339,7 @@ defmodule CMS.RepoTest do
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
 
-      assert types == [:event, :news_entry, :project]
+      Dotcom.Assertions.assert_equal_lists(types, [:event, :news_entry, :project])
     end
 
     test "returns all teasers for a mode" do
@@ -347,7 +349,7 @@ defmodule CMS.RepoTest do
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
 
-      assert types == [:event, :news_entry, :project]
+      Dotcom.Assertions.assert_equal_lists(types, [:event, :news_entry, :project])
     end
 
     test "returns all teasers for a mode and topic combined" do
@@ -357,7 +359,7 @@ defmodule CMS.RepoTest do
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
 
-      assert types == [:event, :news_entry, :project]
+      Dotcom.Assertions.assert_equal_lists(types, [:event, :news_entry, :project])
     end
 
     test "returns all teasers for a route_id and topic combined" do
@@ -367,7 +369,7 @@ defmodule CMS.RepoTest do
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
 
-      assert types == [:event, :news_entry, :project]
+      Dotcom.Assertions.assert_equal_lists(types, [:event, :news_entry, :project])
     end
 
     test "converts generic arguments into path parts for API request" do

@@ -9,12 +9,13 @@ import Alerts, {
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
 import { Alert, InformedEntitySet } from "../../__v3api";
 import { isAmenityAlert } from "../../models/alert";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 /* eslint-disable camelcase */
 const body = '<div id="react-root"></div>';
 
 const highAlert: Alert = {
-  updated_at: "Updated: 4/11/2019 09:33A",
+  updated_at: "2019-04-11T09:33:00-05:00",
   severity: 7,
   priority: "high",
   lifecycle: "new",
@@ -25,13 +26,13 @@ const highAlert: Alert = {
     'Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href="https://mbta.com/marathon">mbta.com/marathon</a>',
   effect: "detour",
   description:
-    "<strong>Affected direction:</strong><br />Inbound<br />\r<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
+    "Affected direction:\r\nInbound\r\n\r\nAffected stops:\r\nMeridian St @ West Eagle St",
   url: "https://www.mbta.com",
   banner: null
 };
 
 const lowAlert: Alert = {
-  updated_at: "Updated: 4/11/2019 09:33A",
+  updated_at: "2019-04-11T09:33:00-05:00",
   severity: 7,
   priority: "low",
   lifecycle: "upcoming",
@@ -42,6 +43,23 @@ const lowAlert: Alert = {
   effect: "other",
   description: "",
   url: "https://www.mbta.com",
+  banner: null
+};
+
+const alertUrlDesc: Alert = {
+  updated_at: "2019-04-11T09:33:00-05:00",
+  severity: 7,
+  priority: "high",
+  lifecycle: "new",
+  active_period: [],
+  informed_entity: {} as InformedEntitySet,
+  id: "304666",
+  header:
+    'Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href="https://mbta.com/marathon">mbta.com/marathon</a>',
+  effect: "detour",
+  description:
+    "<strong>Affected direction:</strong><br />Inbound<br />\r<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St \r\n See more: www.mbta.com/help.",
+  url: null,
   banner: null
 };
 
@@ -94,6 +112,14 @@ test("it includes the URL field when it exists", () => {
 
   wrapper.find(highAlertID).simulate("click");
   expect(wrapper.find("a")).toEqual({});
+});
+
+test("it sets the url in the description", () => {
+  render(<Alerts alerts={[alertUrlDesc]} />);
+
+  fireEvent.click(screen.getByText(/Route 170.*/));
+
+  expect(screen.getByText("MBTA.com/help")).toBeInTheDocument();
 });
 
 test("it has no dropdown when alert has no description", () => {

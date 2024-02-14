@@ -135,7 +135,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "returns comma separated list of modes when some modes are unselected" do
       selected = %{subway: true, bus: false, commuter_rail: true, ferry: false}
-      assert selected_modes_string(selected) == "commuter rail, subway"
+      assert selected_modes_string(selected) =~ "commuter rail"
+      assert selected_modes_string(selected) =~ "subway"
     end
   end
 

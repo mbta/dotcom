@@ -4,10 +4,12 @@ const path = require('path');
 const filesPath = path.join(__dirname, '..', 'scenarios');
 const files = fs.readdirSync(filesPath);
 
-files.forEach((file) => {
-    const { scenario } = require(path.join(filesPath, file));
+const fileToName = (file) => file.replace(/-/g, '.').replace('.js', '').toLowerCase();
 
-    exports[`${file.replace('.js', '')}`] = async function(page, context) {
-        await scenario.run({ page, baseURL: context.vars.target });
-    };
+files.forEach((file) => {
+  const { scenario } = require(path.join(filesPath, file));
+
+  exports[fileToName(file)] = async function(page, context) {
+    await scenario({ page, baseURL: context.vars.target });
+  };
 });

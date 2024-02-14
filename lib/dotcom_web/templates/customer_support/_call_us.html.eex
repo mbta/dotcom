@@ -6,7 +6,7 @@
 <p>
   <strong>Main Hotline:</strong> <%= tel_link "617-222-3200" %><br>
   <strong>Toll Free:</strong> <%= tel_link "800-392-6100" %><br>
-  <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
+  711 for TTY callers;  VRS for ASL callers
 </p>
 
 <p>

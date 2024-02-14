@@ -1,14 +1,16 @@
 const { expect } = require('@playwright/test');
 
 exports.scenario = async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/trip-planner`);
+  await page.goto(`${baseURL}/`);
 
-  await page.locator('input#from').pressSequentially('North Station');
+  await page.locator('.m-tabbed-nav__icon-text', { hasText: 'Trip Planner' }).click();
+  
+  await page.locator('input#from').pressSequentially('South Station');
   await page.waitForSelector('div#from-autocomplete-results span.c-search-bar__-dropdown-menu');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.locator('input#to').pressSequentially('South Station');
+  await page.locator('input#to').pressSequentially('North Station');
   await page.waitForSelector('div#to-autocomplete-results span.c-search-bar__-dropdown-menu');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');

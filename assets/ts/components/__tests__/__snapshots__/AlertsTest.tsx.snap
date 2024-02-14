@@ -86,7 +86,8 @@ exports[`it renders 1`] = `
                 <div
                   className="c-alert-item__updated"
                 >
-                  Updated: 4/11/2019 09:33A
+                  Updated: 
+                  4/11/2019 9:33 AM
                 </div>
               </div>
             </div>

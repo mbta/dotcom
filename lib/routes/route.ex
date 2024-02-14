@@ -248,6 +248,11 @@ defmodule Routes.Route do
     type_atom(route) in [:subway, :commuter_rail]
   end
 
+  @spec commuter_rail?(t()) :: boolean
+  def commuter_rail?(route) do
+    type_atom(route) == :commuter_rail
+  end
+
   @spec to_json_safe(t) :: map
   def to_json_safe(%__MODULE__{
         id: id,

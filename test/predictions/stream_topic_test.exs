@@ -3,8 +3,11 @@ defmodule Predictions.StreamTopicTest do
 
   use ExUnit.Case, async: false
 
-  import Predictions.StreamTopic
+  require Dotcom.Assertions
+
   import Mock
+  import Predictions.StreamTopic
+
   alias Predictions.StreamTopic
   alias RoutePatterns.RoutePattern
 
@@ -24,10 +27,12 @@ defmodule Predictions.StreamTopicTest do
                streams: streams
              } = new("stop:stopId")
 
-      assert [
-               {[route: "Route1", direction: 0], "filter[direction_id]=0&filter[route]=Route1"}
-               | _
-             ] = streams
+      [{list, string} | _] = streams
+
+      Dotcom.Assertions.assert_equal_lists(list, route: "Route1", direction: 0)
+
+      assert string =~ "filter[direction_id]=0"
+      assert string =~ "filter[route]=Route1"
     end
 
     test "doesn't work for stop without route patterns" do

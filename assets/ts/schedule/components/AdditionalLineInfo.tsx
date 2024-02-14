@@ -35,7 +35,7 @@ const AdditionalLineInfo = ({
 }: Props): ReactElement<HTMLElement> => (
   <>
     <ContentTeasers teasers={teasers} />
-    <PDFSchedules pdfs={pdfs} />
+    <PDFSchedules pdfs={pdfs} route={route} />
     <Connections connections={connections} />
     <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
     {/* Only show the hours for non subway lines */}

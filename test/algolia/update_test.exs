@@ -1,6 +1,8 @@
 defmodule Algolia.UpdateTest do
   use ExUnit.Case, async: true
 
+  require Dotcom.Assertions
+
   describe "&update/0" do
     test "sends a request to the Algolia api" do
       bypass = Bypass.open()
@@ -96,7 +98,8 @@ defmodule Algolia.UpdateTest do
       mock = %Algolia.MockObject{id: "place-test"}
       object = Algolia.Update.to_data_object(mock)
 
-      assert Map.keys(object) == [:data, :objectID, :rank, :url]
+      Dotcom.Assertions.assert_equal_lists(Map.keys(object), [:data, :objectID, :rank, :url])
+
       assert object.objectID == Algolia.Object.object_id(mock)
       assert object.url == Algolia.Object.url(mock)
     end
