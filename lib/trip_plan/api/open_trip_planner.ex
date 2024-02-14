@@ -61,7 +61,7 @@ defmodule TripPlan.Api.OpenTripPlanner do
       polyline: json["legGeometry"]["points"],
       name: json["route"]["shortName"],
       long_name: json["route"]["longName"],
-      type: if(agency = json["agency"], do: id_after_colon(agency["gtfsId"])),
+      type: json["agency"]["name"],
       url: json["agency"]["url"],
       description: json["mode"]
     }
