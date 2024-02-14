@@ -1,11 +1,19 @@
-const https = require('https');
+const axios = require('axios');
 
-exports.check = function() {
-  https.get('https://www.mbta.com/_health', res => {
-    if (res.statusCode === 200) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+const options = {
+  baseURL: 'https://www.mbta.com',
+  headers: {
+    'User-Agent': 'Node',
+  },
+  method: 'get',
+  url: '/_health',
+}
+
+exports.check = async _ => {
+  try {
+    const res = await axios.request(options);
+    return res.status === 200;
+  } catch (e) {
+    return false;
+  }
 }
