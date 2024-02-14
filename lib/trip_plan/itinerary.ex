@@ -18,6 +18,7 @@ defmodule TripPlan.Itinerary do
     :start,
     :stop,
     :passes,
+    :tag,
     legs: [],
     accessible?: false
   ]
@@ -27,7 +28,8 @@ defmodule TripPlan.Itinerary do
           stop: DateTime.t(),
           legs: [Leg.t()],
           accessible?: boolean | nil,
-          passes: passes()
+          passes: passes(),
+          tag: OpenTripPlannerClient.ItineraryTag.tag()
         }
 
   @type passes :: %{

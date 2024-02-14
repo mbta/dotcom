@@ -22,3 +22,6 @@ if config_env() == :test do
     ],
     js_errors: true
 end
+
+config :open_trip_planner_client,
+  timezone: "America/New_York"

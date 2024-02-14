@@ -17,4 +17,8 @@ defmodule TripPlan.NamedPosition do
     def latitude(%{latitude: latitude}), do: latitude
     def longitude(%{longitude: longitude}), do: longitude
   end
+
+  def to_keywords(%__MODULE__{name: name, stop_id: stop_id, latitude: lat, longitude: lon}) do
+    [name: name, stop_id: stop_id, lat_lon: {lat, lon}]
+  end
 end

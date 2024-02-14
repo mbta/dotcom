@@ -2,10 +2,11 @@ defmodule TripPlan.ItineraryRowTest do
   use ExUnit.Case, async: true
 
   import Dotcom.TripPlan.ItineraryRow
+  import Test.Support.Factory
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
-  alias TripPlan.{Api.MockPlanner, Leg, NamedPosition, PersonalDetail}
+  alias TripPlan.{Leg, NamedPosition, PersonalDetail}
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -312,19 +313,9 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "from_leg/3" do
     @deps %ItineraryRow.Dependencies{stop_mapper: &Stops.Repo.get_parent/1}
-    @leg MockPlanner.personal_leg(MockPlanner.random_stop(), MockPlanner.random_stop(), nil, nil)
-    @personal_leg MockPlanner.personal_leg(
-                    MockPlanner.random_stop(),
-                    MockPlanner.random_stop(),
-                    nil,
-                    nil
-                  )
-    @transit_leg MockPlanner.transit_leg(
-                   MockPlanner.random_stop(),
-                   MockPlanner.random_stop(),
-                   nil,
-                   nil
-                 )
+    @leg build(:leg)
+    @personal_leg build(:leg, mode: build(:personal_detail))
+    @transit_leg build(:leg, mode: build(:transit_detail))
 
     test "returns an itinerary row from a Leg" do
       row = from_leg(@leg, @deps, nil)
@@ -333,11 +324,11 @@ defmodule TripPlan.ItineraryRowTest do
 
     test "formats transfer steps differently based on subsequent Leg" do
       leg = %Leg{
-        @leg
+        @personal_leg
         | mode: %PersonalDetail{
             steps: [
               %PersonalDetail.Step{relative_direction: :depart, street_name: "Transfer"}
-              | @leg.mode.steps
+              | @personal_leg.mode.steps
             ]
           }
       }

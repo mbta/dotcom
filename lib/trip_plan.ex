@@ -2,26 +2,6 @@ defmodule TripPlan do
   @moduledoc """
   Plan transit trips from one place to another.
   """
-  alias Util.Position
-
-  @doc """
-  Tries to describe how to get between two places.
-  """
-  @spec plan(
-          Position.t(),
-          Position.t(),
-          TripPlan.Api.connection_opts(),
-          TripPlan.Api.plan_opts()
-        ) :: TripPlan.Api.t()
-  def plan(from, to, connection_opts, opts) do
-    apply(module(TripPlanApi), :plan, [
-      from,
-      to,
-      connection_opts,
-      opts
-    ])
-  end
-
   @doc """
   Finds the latitude/longitude for a given address.
   """

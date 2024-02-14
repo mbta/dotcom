@@ -1,6 +1,7 @@
 defmodule Dotcom.TripPlan.Query do
   @moduledoc "Fetch trip plan via OTP and handle response"
 
+  alias OpenTripPlannerClient.ItineraryTag.{EarliestArrival, LeastWalking, ShortestTrip}
   alias TripPlan.{Itinerary, NamedPosition}
 
   defstruct [
@@ -9,9 +10,13 @@ defmodule Dotcom.TripPlan.Query do
     :itineraries,
     errors: MapSet.new(),
     time: :unknown,
-    wheelchair_accessible?: false
+    wheelchair: false
   ]
 
+  @otp_depart_at_tags [EarliestArrival, LeastWalking, ShortestTrip]
+  @otp_arrive_by_tags [LeastWalking, ShortestTrip]
+
+  @type query_itineraries :: {:ok, [Itinerary.t()]} | {:error, any()}
   @type position_error :: TripPlan.Geocode.error() | :same_address
   @type position :: NamedPosition.t() | {:error, position_error} | nil
   @type t :: %__MODULE__{
@@ -19,20 +24,20 @@ defmodule Dotcom.TripPlan.Query do
           to: position,
           time: :unknown | Dotcom.TripPlan.DateTime.date_time(),
           errors: MapSet.t(atom),
-          wheelchair_accessible?: boolean,
-          itineraries: TripPlan.Api.t() | nil
+          wheelchair: boolean,
+          itineraries: query_itineraries() | nil
         }
 
-  @spec from_query(map, TripPlan.Api.connection_opts(), Keyword.t()) :: t
-  def from_query(params, connection_opts, date_opts) do
+  @spec from_query(map, Keyword.t(), Keyword.t()) :: t
+  def from_query(params, _connection_opts, date_opts) do
     opts = get_query_options(params)
 
     %__MODULE__{
-      wheelchair_accessible?: match?(%{"wheelchair" => "true"}, params)
+      wheelchair: match?(%{"wheelchair" => "true"}, params)
     }
     |> Dotcom.TripPlan.DateTime.validate(params, date_opts)
     |> Dotcom.TripPlan.Location.validate(params)
-    |> maybe_fetch_itineraries(connection_opts, opts)
+    |> maybe_fetch_itineraries(opts)
   end
 
   @spec get_query_options(map) :: keyword()
@@ -43,38 +48,47 @@ defmodule Dotcom.TripPlan.Query do
     |> opts_from_query
   end
 
-  @spec maybe_fetch_itineraries(t, TripPlan.Api.connection_opts(), Keyword.t()) :: t
+  @spec maybe_fetch_itineraries(t, Keyword.t()) :: t
   defp maybe_fetch_itineraries(
          %__MODULE__{
            to: %NamedPosition{},
            from: %NamedPosition{}
          } = query,
-         connection_opts,
          opts
        ) do
     if Enum.empty?(query.errors) do
       query
-      |> fetch_itineraries(connection_opts, [query.time | opts])
+      |> fetch_itineraries([query.time | opts])
       |> parse_itinerary_result(query)
     else
       query
     end
   end
 
-  defp maybe_fetch_itineraries(%__MODULE__{} = query, _conn_opts, _opts) do
+  defp maybe_fetch_itineraries(%__MODULE__{} = query, _opts) do
     query
   end
 
-  @spec fetch_itineraries(t, TripPlan.Api.connection_opts(), Keyword.t()) :: TripPlan.Api.t()
+  @spec fetch_itineraries(t, Keyword.t()) :: OpenTripPlannerClient.Behaviour.plan()
   defp fetch_itineraries(
          %__MODULE__{from: %NamedPosition{} = from, to: %NamedPosition{} = to},
-         connection_opts,
          opts
        ) do
-    TripPlan.plan(from, to, connection_opts, opts)
+    opts =
+      Keyword.put_new(
+        opts,
+        :tags,
+        if Keyword.has_key?(opts, :arrive_by) do
+          @otp_arrive_by_tags
+        else
+          @otp_depart_at_tags
+        end
+      )
+
+    TripPlan.Api.OpenTripPlanner.plan(from, to, opts)
   end
 
-  @spec parse_itinerary_result(TripPlan.Api.t(), t) :: t
+  @spec parse_itinerary_result(OpenTripPlannerClient.Behaviour.plan(), t) :: t
   defp parse_itinerary_result({:ok, _} = result, %__MODULE__{} = query) do
     %{query | itineraries: result}
   end
@@ -100,7 +114,7 @@ defmodule Dotcom.TripPlan.Query do
   def opts_from_query(%{"wheelchair" => "true"} = query, opts) do
     opts_from_query(
       Map.delete(query, "wheelchair"),
-      Keyword.put(opts, :wheelchair_accessible?, true)
+      Keyword.put(opts, :wheelchair, true)
     )
   end
 

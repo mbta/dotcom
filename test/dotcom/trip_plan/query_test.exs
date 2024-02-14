@@ -2,6 +2,7 @@ defmodule Dotcom.TripPlan.QueryTest do
   use ExUnit.Case, async: true
 
   import Dotcom.TripPlan.Query
+  import Mox
   alias Dotcom.TripPlan.Query
   alias TripPlan.NamedPosition
 
@@ -27,6 +28,13 @@ defmodule Dotcom.TripPlan.QueryTest do
     user_id: 1
   ]
 
+  setup :verify_on_exit!
+
+  setup do
+    stub_with(OpenTripPlannerClient.Mock, Test.Support.OpenTripPlannerClientStub)
+    :ok
+  end
+
   describe "from_query/1" do
     test "can plan a basic trip with defaults from query params" do
       params = %{"from" => "from address", "to" => "to address"}
@@ -35,8 +43,9 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
 
-      assert_received {:planned_trip, {^from_position, ^to_position, @connection_opts, _opts},
-                       {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _opts}, {:ok, itineraries}}
 
       assert %Query{} = actual
       assert actual.from == from_position
@@ -60,12 +69,14 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
       assert {:depart_at, %DateTime{}} = actual.time
-      assert actual.wheelchair_accessible?
+      assert actual.wheelchair
       assert actual.itineraries == {:ok, itineraries}
     end
 
@@ -88,7 +99,9 @@ defmodule Dotcom.TripPlan.QueryTest do
       }
 
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -108,7 +121,9 @@ defmodule Dotcom.TripPlan.QueryTest do
       actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -130,19 +145,15 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "to address",
         "time" => "arrive",
         "date_time" => @date_time_params,
-        "include_car?" => "false",
         "wheelchair" => "true"
       }
 
       query = from_query(params, @connection_opts, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
-      assert query.wheelchair_accessible?
-
-      assert_received {:planned_trip, {_from_position, _to_position, _, opts},
-                       {:ok, _itineraries}}
-
+      assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
+      assert query.wheelchair
       assert opts[:arrive_by] == @date_time
-      assert opts[:wheelchair_accessible?]
+      assert opts[:wheelchair]
     end
 
     test "depart_at time works as expected" do
@@ -157,12 +168,14 @@ defmodule Dotcom.TripPlan.QueryTest do
       actual = from_query(params, @connection_opts, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from === from_position
       assert actual.to === to_position
       assert actual.time === {:depart_at, @date_time}
-      assert actual.wheelchair_accessible? === true
+      assert actual.wheelchair === true
       assert actual.itineraries == {:ok, itineraries}
     end
 
@@ -187,12 +200,17 @@ defmodule Dotcom.TripPlan.QueryTest do
     end
 
     test "keeps original from/to if no trips are found" do
+      error = {:error, :path_not_found}
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _, _, _ ->
+        error
+      end)
+
       params = %{
         "from" => "path_not_found",
         "to" => "stops_nearby no_results",
         "time" => "depart",
         "date_time" => @date_time_params,
-        "include_car?" => "false",
         "accessible" => "true"
       }
 
@@ -200,7 +218,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert %Query{} = query
       assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
       assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to
-      assert query.itineraries == {:error, :path_not_found}
+      assert ^error = query.itineraries
     end
   end
 
@@ -223,7 +241,7 @@ defmodule Dotcom.TripPlan.QueryTest do
                },
                []
              ) == [
-               wheelchair_accessible?: true
+               wheelchair: true
              ]
     end
 
@@ -269,9 +287,19 @@ defmodule Dotcom.TripPlan.QueryTest do
 
   describe "get_itineraries/1" do
     test "returns itineraries if present" do
-      itineraries = [%{}, %{}]
+      itineraries = [
+        %TripPlan.Itinerary{
+          start: Util.now(),
+          stop: Util.now()
+        },
+        %TripPlan.Itinerary{
+          start: Util.now(),
+          stop: Util.now()
+        }
+      ]
+
       query = %Query{itineraries: {:ok, itineraries}, from: nil, to: nil}
-      assert get_itineraries(query) == itineraries
+      assert ^itineraries = get_itineraries(query)
     end
 
     test "returns empty list if no itineraries" do
@@ -309,7 +337,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
       assert [
                mode: ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"],
-               wheelchair_accessible?: true
+               wheelchair: true
              ] == get_query_options(opts)
     end
 

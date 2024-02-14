@@ -42,11 +42,11 @@ defmodule DotcomWeb.TripPlanView do
     ]
   end
 
-  defp trip_explanation(%{wheelchair_accessible?: false}) do
+  defp trip_explanation(%{wheelchair: false}) do
     "Trips"
   end
 
-  defp trip_explanation(%{wheelchair_accessible?: true}) do
+  defp trip_explanation(%{wheelchair: true}) do
     "Wheelchair accessible trips"
   end
 
@@ -519,12 +519,21 @@ defmodule DotcomWeb.TripPlanView do
         tab_html: tab_html,
         id: index,
         map: itinerary_map(map),
+        tag: tag_string(i.tag),
         access_html: access_html,
         fares_estimate_html: fares_estimate_html,
         fare_calculator_html: fare_calculator_html
       }
     end
   end
+
+  defp tag_string(nil), do: nil
+
+  defp tag_string(tag),
+    do:
+      tag
+      |> Atom.to_string()
+      |> String.replace("_", " ")
 
   @spec render_react(map) :: HTML.safe()
   def render_react(assigns) do

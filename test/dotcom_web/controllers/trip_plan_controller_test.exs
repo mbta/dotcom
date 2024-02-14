@@ -3,10 +3,11 @@ defmodule DotcomWeb.TripPlanControllerTest do
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController
-  alias TripPlan.{Api.MockPlanner, Itinerary, PersonalDetail, TransitDetail}
+  alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
   doctest DotcomWeb.TripPlanController
 
   import Mock
+  import Mox
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
@@ -136,8 +137,15 @@ defmodule DotcomWeb.TripPlanControllerTest do
     stop: DateTime.from_unix!(0)
   }
 
+  setup :verify_on_exit!
+
   setup do
-    conn = default_conn() |> put_req_cookie("tp_redesign", "true")
+    stub_with(OpenTripPlannerClient.Mock, Test.Support.OpenTripPlannerClientStub)
+    :ok
+  end
+
+  setup do
+    conn = default_conn()
 
     end_of_rating =
       @system_time
@@ -784,10 +792,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   describe "routes_for_query/1" do
     setup do
-      from = MockPlanner.random_stop()
-      to = MockPlanner.random_stop()
-      connection_opts = [user_id: 1]
-      {:ok, itineraries} = TripPlan.plan(from, to, connection_opts, [])
+      itineraries = Test.Support.Factory.build_list(3, :itinerary)
       {:ok, %{itineraries: itineraries}}
     end
 

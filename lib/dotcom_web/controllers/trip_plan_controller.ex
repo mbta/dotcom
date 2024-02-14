@@ -249,10 +249,10 @@ defmodule DotcomWeb.TripPlanController do
   end
 
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
-  defp render_plan(conn, plan) do
+  defp render_plan(conn, plan_params) do
     query =
       Query.from_query(
-        plan,
+        plan_params,
         get_conn_opts(conn),
         now: conn.assigns.date_time,
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
@@ -266,7 +266,7 @@ defmodule DotcomWeb.TripPlanController do
 
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
+    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan_params)
 
     conn
     |> render(
