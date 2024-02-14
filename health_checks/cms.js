@@ -1,13 +1,13 @@
 const axios = require('axios');
 
 const options = {
-  baseURL: `https://${process.env.HOST}`,
+  baseURL: process.env.DRUPAL_ROOT,
   headers: {
     'User-Agent': 'Node',
   },
   method: 'get',
   timeout: 1000,
-  url: '/_health',
+  url: '/pantheon_healthcheck',
 }
 
 exports.check = async _ => {

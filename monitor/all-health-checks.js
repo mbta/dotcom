@@ -15,14 +15,16 @@ const files = fs.readdirSync(filesPath);
 const fileToName = (file) => file.replace(/-/g, '.').replace('.js', '').toLowerCase();
 
 cron.schedule('* * * * *', _ => {
-  files.forEach(async (file) => {
-    const filePath = path.join(filesPath, file);
-    const { check } = require(filePath);
+  files.forEach(async (file, index) => {
+    setTimeout(async _ => {
+      const filePath = path.join(filesPath, file);
+      const { check } = require(filePath);
 
-    const name = fileToName(file);
-    const value = await check() ? 1 : 0;
+      const name = fileToName(file);
+      const value = await check() ? 1 : 0;
 
-    client.gauge(name, value);
-    logger.info({metric: `${prefix}${name}`, value});
+      client.gauge(name, value);
+      logger.info({metric: `${prefix}${name}`, value});
+    }, (60000 / files.length) * index);
   });
 });

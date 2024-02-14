@@ -1,13 +1,13 @@
 const axios = require('axios');
 
 const options = {
-  baseURL: `https://${process.env.HOST}`,
+  baseURL: process.env.OPEN_TRIP_PLANNER_2_URL,
   headers: {
     'User-Agent': 'Node',
   },
   method: 'get',
   timeout: 1000,
-  url: '/_health',
+  url: '/health',
 }
 
 exports.check = async _ => {

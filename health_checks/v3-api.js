@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const options = {
-  baseURL: `https://${process.env.HOST}`,
+  baseURL: process.env.V3_API_URL,
   headers: {
     'User-Agent': 'Node',
   },

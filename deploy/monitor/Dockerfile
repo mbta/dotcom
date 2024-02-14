@@ -13,4 +13,4 @@ RUN npx playwright install-deps
 
 RUN ./node_modules/pm2/bin/pm2 install pm2-logrotate
 
-CMD ["./node_modules/pm2/bin/pm2-runtime", "./monitor/config.js"]
+CMD ["./node_modules/pm2/bin/pm2-runtime", "./monitor/ecosystem.config.js"]
