@@ -10,6 +10,9 @@
     "pm2": "5.3.1",
     "redis": "4.6.13"
   },
+  "devDependencies": {
+    "prettier": "3.2.5"
+  },
   "scripts": {
     "install": "npm install --prefix assets --omit=optional",
     "install:ci": "npm ci --prefix assets --omit=optional",
