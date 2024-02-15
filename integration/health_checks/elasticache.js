@@ -1,6 +1,6 @@
 const { createCluster } = require("redis");
 
-const url = `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`;
+const url = `redis://${process.env.REDIS_HOST || "127.0.0.1"}:${process.env.REDIS_PORT || "6379"}`;
 
 exports.check = async (_) => {
   const cluster = createCluster({ rootNodes: [{ url }] });

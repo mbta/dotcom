@@ -18,6 +18,8 @@ const status200 = async (options) => {
       healthy = true;
     }
   } catch (e) {
+    console.error({ baseURL: options.baseURL, error: e.message });
+
     healthy = false;
   }
 
