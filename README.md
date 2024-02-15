@@ -156,7 +156,7 @@ make
 When you're done with it:
 
 ```
-./utils/create-cluster/create-cluster start
+./utils/create-cluster/create-cluster stop
 cd $HOME
 rm -rf redis-*
 ```
