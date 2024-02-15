@@ -73,6 +73,10 @@ defmodule Alerts.Parser do
     defp parse_time(str) do
       str
       |> Timex.parse!("{ISO:Extended}")
+      # While the time strings are already notated with -05 Etc/GMT+5 or -04
+      # Etc/GMT+4 time zone, this additional conversion gives the DateTime a
+      # nicer timezone abbreviation (EST or EDT)
+      |> Timex.Timezone.convert("America/New_York")
     end
 
     # remove leading/trailing whitespace from description

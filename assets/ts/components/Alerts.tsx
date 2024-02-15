@@ -1,5 +1,4 @@
 import React, { ReactElement, useState } from "react";
-import { format, parseISO } from "date-fns";
 import { Alert as AlertType, Lifecycle } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
@@ -8,6 +7,7 @@ import shuttleIcon from "../../static/images/icon-shuttle-default.svg";
 import cancelIcon from "../../static/images/icon-cancelled-default.svg";
 import snowIcon from "../../static/images/icon-snow-default.svg";
 import alertIcon from "../../static/images/icon-alerts-triangle.svg";
+import { formatToBostonTime } from "../helpers/date";
 
 interface Props {
   alerts: AlertType[];
@@ -206,7 +206,8 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
       />
       {alert.updated_at && (
         <div className="c-alert-item__updated">
-          Updated: {format(parseISO(alert.updated_at), "M/d/yyyy h:mm aa")}
+          Updated:{" "}
+          {formatToBostonTime(alert.updated_at, "M/d/yyyy h:mm aa zzz")}
         </div>
       )}
     </div>
