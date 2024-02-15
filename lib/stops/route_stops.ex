@@ -31,12 +31,15 @@ defmodule Stops.RouteStops do
       when is_integer(direction_id) do
     shapes
     |> RouteStop.list_from_shapes(stops, route, direction_id)
-    |> Task.async_stream(fn route_stop ->
-      route_stop
-      |> RouteStop.fetch_zone()
-      |> RouteStop.fetch_connections()
-      |> RouteStop.fetch_stop_features()
-    end)
+    |> Task.async_stream(
+      fn route_stop ->
+        route_stop
+        |> RouteStop.fetch_zone()
+        |> RouteStop.fetch_connections()
+        |> RouteStop.fetch_stop_features()
+      end,
+      timeout: 20_000
+    )
     |> Enum.flat_map(fn
       {:ok, route_stop} -> [route_stop]
       _ -> []

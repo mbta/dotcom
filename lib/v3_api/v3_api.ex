@@ -1,7 +1,7 @@
 defmodule V3Api do
   @moduledoc "Handles fetching and caching generic JSON:API responses from the V3 API."
 
-  use HTTPoison.Base
+  # use HTTPoison.Base
   require Logger
   import V3Api.SentryExtra
   alias V3Api.Cache
@@ -11,6 +11,7 @@ defmodule V3Api do
   @http_pool Application.compile_env!(:dotcom, :v3_api_http_pool)
 
   @spec get_json(String.t(), Keyword.t()) :: JsonApi.t() | {:error, any}
+  @spec get_json(binary()) :: {:error, any()} | JsonApi.t()
   def get_json(url, params \\ [], opts \\ []) do
     _ =
       Logger.debug(fn ->
@@ -56,7 +57,7 @@ defmodule V3Api do
 
     {time, response} =
       :timer.tc(fn ->
-        get(url, headers,
+        OpentelemetryHTTPoison.get(url, headers,
           params: params,
           timeout: timeout,
           recv_timeout: timeout,

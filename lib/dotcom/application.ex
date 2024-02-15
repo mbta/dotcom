@@ -11,6 +11,9 @@ defmodule Dotcom.Application do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
+    :opentelemetry_cowboy.setup()
+    OpentelemetryPhoenix.setup(adapter: :cowboy2)
+
     Application.put_env(
       :dotcom,
       :allow_indexing,

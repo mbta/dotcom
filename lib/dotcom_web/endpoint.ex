@@ -47,6 +47,7 @@ defmodule DotcomWeb.Endpoint do
 
   plug(DotcomWeb.Plugs.RemoteIp)
   plug(Plug.RequestId)
+  plug(Plug.Telemetry, event_prefix: [:phoenix, :endpoint])
   plug(Logster.Plugs.Logger, formatter: Dotcom.Logster.SafeStringFormatter)
 
   plug(
