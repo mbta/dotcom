@@ -93,8 +93,10 @@ defmodule DotCom.Mixfile do
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
       {:ex_doc, "0.31.1", only: :dev},
+      {:ex_machina, "2.7.0", only: :test},
       # latest version 0.18.0; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
+      {:faker, "0.17.0", only: :test},
       {:floki, "0.35.3"},
       {:gen_stage, "1.2.1"},
       {:gettext, "0.24.0"},
@@ -109,6 +111,7 @@ defmodule DotCom.Mixfile do
       {:logster, "1.1.1"},
       {:mail, "0.3.1"},
       {:mock, "0.3.8", [only: :test]},
+      {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.0"},
       {:nebulex_redis_adapter, "2.3.1"},
       {:open_trip_planner_client,
