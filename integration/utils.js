@@ -27,7 +27,7 @@ const status200 = async (options) => {
 };
 
 const fileToMetricName = (file) =>
-  file.replace(/-/g, ".").replace(".js", "").toLowerCase();
+  file.replace(/-/g, "_").replace(".js", "").toLowerCase();
 
 module.exports = {
   fileToMetricName,

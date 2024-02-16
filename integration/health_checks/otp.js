@@ -1,7 +1,7 @@
 const { status200 } = require("../utils");
 
 const options = {
-  baseURL: process.env.OPEN_TRIP_PLANNER_2_URL,
+  baseURL: process.env.OPEN_TRIP_PLANNER_URL,
   url: "/health",
 };
 
