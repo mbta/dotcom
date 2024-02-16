@@ -146,7 +146,7 @@ Until then:
 ```
 cd $HOME
 wget https://github.com/redis/redis/archive/7.2.4.tar.gz
-tar redis-7.2.4.tar.gz
+tar xvf 7.2.4.tar.gz
 cd redis-7.2.4
 make
 ./utils/create-cluster/create-cluster start
@@ -158,7 +158,8 @@ When you're done with it:
 ```
 ./utils/create-cluster/create-cluster stop
 cd $HOME
-rm -rf redis-*
+rm 7.2.tar.gz
+rm -rf redis-7.2.4
 ```
 
 Start the server with `mix phx.server`
