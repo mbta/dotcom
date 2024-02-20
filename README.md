@@ -124,7 +124,7 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
 
 1. Set up required environment variables:
     ```
-    cp .envrc.template .envrc
+    cp .env.template .env
     ```
    Then uncomment the `V3_API_KEY` line and fill it in with the key you obtained
    in the first step. If you have [direnv] installed (recommended), it will automatically load
@@ -138,10 +138,16 @@ For details on environment configuration, including optional variables, see
 
 ## Running the Server
 
-You will need to have Redis running in cluster mode.
+The easiest way to develop MBTA dotcom is to use Docker Compose.
+
+```
+docker compose -f deploy/dev.yml up -d
+```
+
+This will set up Redis in cluster mode among other things.
+
+If you choose not to use Docker Compose, you'll still have to run Redis cluster.
 The easiest way to get it running is to download and compile it.
-But, we plan to Dockerize all of our dependencies in the near future.
-Until then:
 
 ```
 cd $HOME

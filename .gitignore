@@ -9,7 +9,6 @@ erl_crash.dump
 .ruby-version
 .vscode
 .elixir_ls
-.envrc
 .env
 
 # Elastic Beanstalk Files
