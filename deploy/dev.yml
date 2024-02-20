@@ -23,7 +23,7 @@ services:
     monitor:
         build:
             context: ../
-            dockerfile: ./deploy/monitor/prod/Dockerfile
+            dockerfile: ./deploy/monitor/Dockerfile
         env_file:
             - ../.env
         command: node /home/runner/integration/monitor/all-health-checks.js
