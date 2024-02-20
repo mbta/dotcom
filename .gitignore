@@ -10,6 +10,7 @@ erl_crash.dump
 .vscode
 .elixir_ls
 .envrc
+.env
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

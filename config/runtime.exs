@@ -36,7 +36,7 @@ if config_env() == :dev do
   config :dotcom, DotcomWeb.Endpoint,
     # Binding to loopback ipv4 address prevents access from other machines.
     # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-    http: [ip: {127, 0, 0, 1}, port: port],
+    http: [ip: {0, 0, 0, 0}, port: port],
     static_url: static_url
 
   config :dotcom,

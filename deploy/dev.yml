@@ -1,0 +1,107 @@
+version: "3"
+services:
+    dotcom:
+        build:
+            context: ../
+            dockerfile: ./deploy/dotcom/dev/Dockerfile
+        env_file:
+            - ../.env
+        depends_on:
+            - redis-cluster-init
+        environment:
+            - MIX_ENV=dev
+        expose:
+            - 4001
+        ports:
+            - 4001:4001
+            - 8090:8090
+        volumes:
+            - ../:/app
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.2
+    monitor:
+        build:
+            context: ../
+            dockerfile: ./deploy/monitor/prod/Dockerfile
+        env_file:
+            - ../.env
+        command: node /home/runner/integration/monitor/all-health-checks.js
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.3
+    redis-cluster-init:
+        image: redis:7.2.4
+        command: redis-cli --cluster create 10.0.0.11:6379 10.0.0.12:6379 10.0.0.13:6379 10.0.0.14:6379 10.0.0.15:6379 10.0.0.16:6379 --cluster-replicas 1 --cluster-yes
+        depends_on:
+            redis-1: 
+                condition: service_healthy
+            redis-2: 
+                condition: service_healthy
+            redis-3: 
+                condition: service_healthy
+            redis-4: 
+                condition: service_healthy
+            redis-5: 
+                condition: service_healthy
+            redis-6: 
+                condition: service_healthy
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.10
+    redis-1: &redis
+        build:
+            context: ../
+            dockerfile: ./deploy/redis/Dockerfile
+        healthcheck:
+            test: [ "CMD", "redis-cli","PING"]
+            timeout: 10s
+            interval: 3s
+            retries: 10
+        environment:
+            - CLUSTER_ANNOUNCE_IP=10.0.0.11
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.11
+    redis-2:
+        <<: *redis
+        environment:
+            - CLUSTER_ANNOUNCE_IP=10.0.0.12
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.12
+    redis-3:
+        <<: *redis
+        environment:
+            - CLUSTER_ANNOUNCE_IP=10.0.0.13
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.13
+    redis-4:
+        <<: *redis
+        environment:
+            - CLUSTER_ANNOUNCE_IP=10.0.0.14
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.14
+    redis-5:
+        <<: *redis
+        environment:
+            - CLUSTER_ANNOUNCE_IP=10.0.0.15
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.15
+    redis-6:
+        <<: *redis
+        environment:
+            - CLUSTER_ANNOUNCE_IP=10.0.0.16
+        networks:
+            redis_network:
+                ipv4_address: 10.0.0.16
+networks:
+    redis_network:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.0.0.0/8
+                  gateway: 10.0.0.1
