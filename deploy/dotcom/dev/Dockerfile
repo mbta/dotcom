@@ -9,11 +9,9 @@ WORKDIR /app
 COPY mix.exs .
 COPY mix.lock .
 COPY package.json .
-COPY package-lock.json .
 COPY assets/package.json ./assets/package.json
-COPY assets/package-lock.json ./assets/package-lock.json
 
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
-CMD mix deps.get && npm install && npm install --ignore-scripts && mix phx.server
+CMD mix deps.get && npm install && npm run build && mix phx.digest && npm install --ignore-scripts && mix phx.server
