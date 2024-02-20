@@ -54,7 +54,7 @@ services:
             context: ../
             dockerfile: ./deploy/redis/Dockerfile
         healthcheck:
-            test: [ "CMD", "redis-cli","PING"]
+            test: [ "CMD", "redis-cli", "PING"]
             timeout: 10s
             interval: 3s
             retries: 10
