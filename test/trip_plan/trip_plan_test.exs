@@ -1,7 +1,16 @@
 defmodule TripPlanTest do
   use ExUnit.Case, async: true
+
   import TripPlan
+
+  alias TripPlan.Api.OpenTripPlanner.{Behaviour, Mock, Stub}
   alias TripPlan.NamedPosition
+
+  setup do
+    Mox.stub_with(Mock, Stub)
+
+    :ok
+  end
 
   describe "geocode/1" do
     test "returns {:ok, position} from the geocoder" do
@@ -17,7 +26,7 @@ defmodule TripPlanTest do
       {:ok, to} = geocode("to")
       connection_opts = [user_id: 1]
       opts = [depart_at: ~N[2017-07-06T19:20:00]]
-      assert {:ok, itineraries} = plan(from, to, connection_opts, opts)
+      assert {:ok, itineraries} = Behaviour.plan(from, to, connection_opts, opts)
       assert [%TripPlan.Itinerary{}] = itineraries
 
       assert_received {:planned_trip, {^from, ^to, ^connection_opts, received_opts},

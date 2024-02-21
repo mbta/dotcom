@@ -1,15 +1,22 @@
 defmodule TripPlan.Api.OpenTripPlanner do
-  @moduledoc "Fetches data from the OpenTripPlanner API."
-  @behaviour TripPlan.Api
+  @moduledoc """
+  Fetches data from the OpenTripPlanner API.
+  """
+
   require Logger
+
   import __MODULE__.Builder, only: [build_params: 3]
   import __MODULE__.Parser, only: [parse_ql: 2]
 
+  alias __MODULE__.Behaviour
+
+  @behaviour Behaviour
+
   def plan(from, to, connection_opts, opts, _parent) do
-    plan(from, to, connection_opts, opts)
+    Behaviour.plan(from, to, connection_opts, opts)
   end
 
-  @impl TripPlan.Api
+  @impl Behaviour
   def plan(from, to, _connection_opts, opts) do
     accessible? = Keyword.get(opts, :wheelchair_accessible?, false)
 

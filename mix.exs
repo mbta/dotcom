@@ -100,6 +100,7 @@ defmodule DotCom.Mixfile do
       {:gettext, "0.24.0"},
       {:hackney, "1.20.1"},
       {:hammer, "6.2.0"},
+      {:hammox, "0.7.0", [only: :test]},
       # latest version 1.4.3; cannot upgrade because it changes how we handle telephone links
       {:html_sanitize_ex, "1.3.0"},
       # latest version 2.2.1; cannot upgrade because api has changed
@@ -109,6 +110,7 @@ defmodule DotCom.Mixfile do
       {:logster, "1.1.1"},
       {:mail, "0.3.1"},
       {:mock, "0.3.8", [only: :test]},
+      {:mox, "1.1.0", [only: :test]},
       {:nebulex, "2.6.0"},
       {:nebulex_redis_adapter, "2.3.1"},
       {:parallel_stream, "1.1.0"},

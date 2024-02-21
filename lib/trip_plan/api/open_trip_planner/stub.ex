@@ -1,10 +1,11 @@
-defmodule TripPlan.Api.MockPlanner do
+defmodule TripPlan.Api.OpenTripPlanner.Stub do
   @moduledoc """
   Used to create trip plans for testing.
   """
-  @behaviour TripPlan.Api
 
-  alias TripPlan.{Itinerary, NamedPosition, Leg, PersonalDetail, TransitDetail}
+  @behaviour TripPlan.Api.OpenTripPlanner.Behaviour
+
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   @max_distance 1000
   @max_duration 30 * 60
@@ -20,7 +21,7 @@ defmodule TripPlan.Api.MockPlanner do
 
   @selected_routes ~w(1 350 Blue Red)s
 
-  @impl true
+  @impl TripPlan.Api.OpenTripPlanner.Behaviour
   def plan(from, to, connection_opts, opts) do
     plan(from, to, connection_opts, opts, self())
   end

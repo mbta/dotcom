@@ -1,11 +1,10 @@
-defmodule TripPlan.Api do
+defmodule TripPlan.Api.OpenTripPlanner.Behaviour do
   @moduledoc """
   Behaviour for planning modules.
 
-  They must implement the `plan/3` function, which takes an origin, destination and options,
-  and returns either a list of %Itinerary{} or an error.
-
+  They must implement the `plan/3` function, which takes an origin, destination and options, and returns either a list of %Itinerary{} or an error.
   """
+
   alias TripPlan.Itinerary
   alias Util.Position
 
@@ -37,4 +36,10 @@ defmodule TripPlan.Api do
               conn_opts :: connection_opts,
               opts :: plan_opts
             ) :: t
+
+  @implementation Application.compile_env!(:dotcom, [:open_trip_planner, :implementation])
+
+  def plan(from, to, conn_opts, opts), do: implementation().plan(from, to, conn_opts, opts)
+
+  defp implementation, do: @implementation
 end
