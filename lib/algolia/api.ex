@@ -5,10 +5,11 @@ defmodule Algolia.Api do
 
   require Logger
 
-  alias Algolia.{Cache, Config}
+  alias Algolia.Config
 
   defstruct [:host, :index, :action, :body, :query_params]
 
+  @cache Application.compile_env(:dotcom, :algolia_cache, Algolia.Cache)
   @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
   @ttl :timer.hours(12)
 
@@ -54,13 +55,13 @@ defmodule Algolia.Api do
     key = :erlang.phash2({body, config})
 
     if opts_action == "queries" do
-      if Cache.has_key?(key) do
-        Cache.get(key)
+      if @cache.has_key?(key) do
+        @cache.get(key)
       else
         result = send_post_request({body, config}, action, hackney, opts)
 
         if Kernel.elem(result, 0) == :ok do
-          Cache.put(key, result, ttl: @ttl)
+          @cache.put(key, result, ttl: @ttl)
         end
 
         result

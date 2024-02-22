@@ -5,8 +5,6 @@ config :dotcom,
 
 config :dotcom, :cms_api, CMS.API.HTTPClient
 
-config :dotcom, :cms_cache, CMS.Cache
-
 if config_env() == :test do
   config :dotcom, :drupal,
     cms_root: "http://cms.test",
@@ -14,5 +12,5 @@ if config_env() == :test do
 
   config :dotcom, :cms_api, CMS.API.Static
 
-  config :dotcom, :cms_cache, CMS.TestCache
+  config :dotcom, :cms_cache, TestCache
 end

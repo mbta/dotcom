@@ -43,6 +43,7 @@ defmodule Dotcom.Application do
         RepoCache.Log,
         {Algolia.Cache, []},
         {CMS.Cache, []},
+        {Predictions.Cache, []},
         CMS.Telemetry,
         V3Api.Cache,
         Schedules.Repo,

@@ -1,4 +1,4 @@
-defmodule CMS.TestCache do
+defmodule TestCache do
   @moduledoc """
   This local Nebulex instance allows us to run tests w/out the need for Redis.
   """

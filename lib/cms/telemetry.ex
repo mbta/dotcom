@@ -46,7 +46,7 @@ defmodule CMS.Telemetry do
 
   defp periodic_measurements do
     [
-      {Application.get_env(:dotcom, :cms_cache, CMS.Cache), :dispatch_stats, []}
+      {CMS.Cache, :dispatch_stats, []}
     ]
   end
 end

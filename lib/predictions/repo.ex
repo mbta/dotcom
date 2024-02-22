@@ -1,12 +1,17 @@
 defmodule Predictions.Repo do
   @moduledoc "Predictions repo module"
 
-  use RepoCache, ttl: :timer.seconds(10), ttl_check: :timer.seconds(2)
   require Logger
   require Routes.Route
-  alias Routes.Route
+
+  use Nebulex.Caching.Decorators
+
   alias Predictions.Parser
+  alias Routes.Route
   alias Stops.Stop
+
+  @cache Application.compile_env(:dotcom, :predictions_cache, Predictions.Cache)
+  @ttl :timer.seconds(10)
 
   @default_params [
     "fields[prediction]":
@@ -21,7 +26,7 @@ defmodule Predictions.Repo do
 
     opts
     |> add_all_optional_params()
-    |> cache(&fetch/1)
+    |> cache_fetch()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
@@ -62,6 +67,11 @@ defmodule Predictions.Repo do
         cache_trips(data)
         Enum.flat_map(data, &parse/1)
     end
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cache_fetch(opts) do
+    fetch(opts)
   end
 
   defp cache_trips(data) do

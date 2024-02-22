@@ -55,6 +55,7 @@ redis_config = [
 # Set caches that use the Redis cluster
 config :dotcom, Algolia.Cache, redis_config
 config :dotcom, CMS.Cache, redis_config
+config :dotcom, Predictions.Cache, redis_config
 
 if config_env() == :dev do
   # For development, we disable any cache and enable

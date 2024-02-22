@@ -8,9 +8,9 @@ defmodule CMS.Repo do
   The base ttl for the repo is one hour.
   """
 
-  use Nebulex.Caching.Decorators
-
   require Logger
+
+  use Nebulex.Caching.Decorators
 
   import CMS.Helpers, only: [preview_opts: 1]
 
@@ -29,10 +29,8 @@ defmodule CMS.Repo do
 
   alias Routes.Route
 
-  @cache Application.compile_env!(:dotcom, :cms_cache)
-
+  @cache Application.compile_env(:dotcom, :cms_cache, CMS.Cache)
   @cms_api Application.compile_env!(:dotcom, :cms_api)
-
   @ttl :timer.hours(1)
 
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
