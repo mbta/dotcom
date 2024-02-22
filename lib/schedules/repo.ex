@@ -1,12 +1,18 @@
 defmodule Schedules.Repo do
-  @moduledoc "Repo for V3 API Schedule resources."
-  import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(1)
+  @moduledoc """
+  Repo for V3 API Schedule resources.
+  """
 
-  alias Schedules.{HoursOfOperation, Parser, Schedule}
-  alias Stops.Stop
+  use Nebulex.Caching.Decorators
+
+  import Kernel, except: [to_string: 1]
+
   alias Routes.Route
+  alias Schedules.{HoursOfOperation, Parser, Schedule}
   alias Util
+
+  @cache Application.compile_env(:dotcom, :schedules_cache, Schedules.Cache)
+  @ttl :timer.hours(1)
 
   @type schedule_pair :: {Schedule.t(), Schedule.t()}
 
@@ -35,9 +41,8 @@ defmodule Schedules.Repo do
 
   # Will almost always use cache, unless the calling function explicitly passes "no_cache"
   defp cache_condition(params, true), do: all_from_params(params)
-  defp cache_condition(params, _), do: cache(params, &all_from_params/1)
+  defp cache_condition(params, _), do: cache_all_from_params(params)
 
-  @spec schedule_for_trip(Schedules.Trip.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
   def schedule_for_trip(trip_id, opts \\ [])
 
   def schedule_for_trip("", _) do
@@ -50,24 +55,21 @@ defmodule Schedules.Repo do
     |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:trip, trip_id)
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
-    |> cache(&all_from_params/1)
+    |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
 
-  @spec schedules_for_stop(Stop.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
   def schedules_for_stop(stop_id, opts) do
     @default_params
     |> Keyword.merge(opts |> Keyword.delete(:min_time))
     |> Keyword.put(:stop, stop_id)
     |> add_optional_param(opts, :trip)
-    |> cache(&all_from_params/1)
+    |> cache_all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
 
-  @spec trip(String.t(), trip_by_id_fn) :: Schedules.Trip.t() | nil
-        when trip_by_id_fn: (String.t() -> JsonApi.t() | {:error, any})
   def trip(trip_id, trip_by_id_fn \\ &V3Api.Trips.by_id/2)
 
   def trip("", _trip_fn) do
@@ -76,12 +78,13 @@ defmodule Schedules.Repo do
   end
 
   def trip(trip_id, trip_by_id_fn) do
-    case cache(trip_id, &fetch_trip(&1, trip_by_id_fn)) do
+    case fetch_trip(trip_id, trip_by_id_fn) do
       {:ok, value} -> value
       {:error, _} -> nil
     end
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp fetch_trip(trip_id, trip_by_id_fn) do
     trip_opts =
       case Util.config(:dotcom, :enable_experimental_features) do
@@ -101,7 +104,6 @@ defmodule Schedules.Repo do
     end
   end
 
-  @spec end_of_rating() :: Date.t() | nil
   def end_of_rating(all_fn \\ &V3Api.Schedules.all/1) do
     case rating_dates(all_fn) do
       {_start_date, end_date} -> end_date
@@ -109,34 +111,23 @@ defmodule Schedules.Repo do
     end
   end
 
-  @spec rating_dates() :: {Date.t(), Date.t()} | :error
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def rating_dates(all_fn \\ &V3Api.Schedules.all/1) do
-    cache(all_fn, fn all_fn ->
-      with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
-           {:ok, start_date} <- Date.from_iso8601(error.meta["start_date"]),
-           {:ok, end_date} <- Date.from_iso8601(error.meta["end_date"]) do
-        {start_date, end_date}
-      else
-        _ -> :error
-      end
-    end)
+    with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
+         {:ok, start_date} <- Date.from_iso8601(error.meta["start_date"]),
+         {:ok, end_date} <- Date.from_iso8601(error.meta["end_date"]) do
+      {start_date, end_date}
+    else
+      _ -> :error
+    end
   end
 
-  @spec hours_of_operation(
-          Routes.Route.id_t() | [Routes.Route.id_t()],
-          Date.t(),
-          Routes.Route.gtfs_route_desc()
-        ) ::
-          HoursOfOperation.t()
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def hours_of_operation(route_id_or_ids, date, description) do
-    {route_id_or_ids, date}
-    |> cache(fn _ ->
-      HoursOfOperation.hours_of_operation(route_id_or_ids, date, description)
-    end)
+    HoursOfOperation.hours_of_operation(route_id_or_ids, date, description)
     |> Util.error_default(%HoursOfOperation{})
   end
 
-  @spec all_from_params(Keyword.t()) :: [Parser.record()] | {:error, any}
   defp all_from_params(params) do
     with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
       data = Enum.filter(data, &valid?/1)
@@ -147,6 +138,11 @@ defmodule Schedules.Repo do
       |> Enum.filter(&has_trip?/1)
       |> Enum.sort_by(&date_sorter/1)
     end
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cache_all_from_params(params) do
+    all_from_params(params)
   end
 
   def has_trip?({_, trip_id, _, _, _, _, _, _, _, _, _}) when is_nil(trip_id) do
@@ -275,7 +271,7 @@ defmodule Schedules.Repo do
     |> Stream.map(&id_and_trip/1)
     |> Stream.uniq_by(&elem(&1, 0))
     |> Enum.each(fn {id, trip} ->
-      ConCache.dirty_put(__MODULE__, {:trip, id}, {:ok, trip})
+      @cache.put({:trip, id}, {:ok, trip}, ttl: @ttl)
     end)
   end
 

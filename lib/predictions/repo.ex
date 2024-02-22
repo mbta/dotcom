@@ -1,5 +1,7 @@
 defmodule Predictions.Repo do
-  @moduledoc "Predictions repo module"
+  @moduledoc """
+  Predictions repo module
+  """
 
   require Logger
   require Routes.Route

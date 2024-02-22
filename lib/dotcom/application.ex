@@ -44,10 +44,9 @@ defmodule Dotcom.Application do
         {Algolia.Cache, []},
         {CMS.Cache, []},
         {Predictions.Cache, []},
+        {Schedules.Cache, []},
         CMS.Telemetry,
         V3Api.Cache,
-        Schedules.Repo,
-        Schedules.RepoCondensed,
         Facilities.Repo,
         Stops.Repo
       ] ++

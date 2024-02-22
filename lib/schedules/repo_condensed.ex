@@ -1,19 +1,22 @@
 defmodule Schedules.RepoCondensed do
   @moduledoc """
-
   An alternate way to fetch schedules that is more light weight and easier to cache.
 
   This uses a longer than usual timeout for initial caching as sometime (especially in dev)
   it may take a long time to warm the cache.
-
   """
+
+  use Nebulex.Caching.Decorators
+
   import Kernel, except: [to_string: 1]
-  use RepoCache, ttl: :timer.hours(1)
 
   alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
   alias Stops.Repo, as: StopsRepo
   alias V3Api.Schedules, as: SchedulesApi
+
+  @cache Application.compile_env(:dotcom, :schedules_cache, Schedules.Cache)
+  @ttl :timer.hours(1)
 
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
@@ -35,11 +38,11 @@ defmodule Schedules.RepoCondensed do
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
-    |> cache(&all_from_params/1, timeout: 10_000)
+    |> all_from_params()
     |> filter_by_min_time(Keyword.get(opts, :min_time))
   end
 
-  @spec all_from_params(Keyword.t()) :: [Parser.record()] | {:error, any}
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp all_from_params(params) do
     with %JsonApi{data: data} <- SchedulesApi.all(params) do
       data = Enum.filter(data, &valid?/1)
