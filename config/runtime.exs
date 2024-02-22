@@ -24,6 +24,7 @@ if System.get_env("PHX_SERVER") do
   config :dotcom, DotcomWeb.Endpoint, server: true
 end
 
+# Redis cluster configuration
 redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
 redis_port_env = System.get_env("REDIS_PORT", "6379")
 
@@ -36,6 +37,24 @@ redis_port =
   if redis_port_env == "",
     do: 6379,
     else: String.to_integer(redis_port_env)
+
+redis_config = [
+  mode: :redis_cluster,
+  redis_cluster: [
+    configuration_endpoints: [
+      conn_opts: [
+        host: redis_host,
+        port: redis_port
+      ]
+    ]
+  ],
+  stats: true,
+  telemetry: true
+]
+
+# Set caches that use the Redis cluster
+config :dotcom, Algolia.Cache, redis_config
+config :dotcom, CMS.Cache, redis_config
 
 if config_env() == :dev do
   # For development, we disable any cache and enable
@@ -63,19 +82,6 @@ if config_env() == :dev do
     System.put_env("DRUPAL_ROOT", "http://temp-drupal.invalid")
   end
 end
-
-config :dotcom, CMS.Cache,
-  mode: :redis_cluster,
-  redis_cluster: [
-    configuration_endpoints: [
-      conn_opts: [
-        host: redis_host,
-        port: redis_port
-      ]
-    ]
-  ],
-  stats: true,
-  telemetry: true
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,

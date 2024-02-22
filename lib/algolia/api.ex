@@ -2,15 +2,17 @@ defmodule Algolia.Api do
   @moduledoc """
   Interact with Algolia via their API.
   """
-  alias Algolia.Config
+
   require Logger
-  use RepoCache, ttl: :timer.hours(12)
+
+  alias Algolia.{Cache, Config}
 
   defstruct [:host, :index, :action, :body, :query_params]
 
-  @type action :: :post | :get
-
   @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
+  @ttl :timer.hours(12)
+
+  @type action :: :post | :get
 
   @type t :: %__MODULE__{
           host: String.t() | nil,
@@ -47,32 +49,38 @@ defmodule Algolia.Api do
          %Config{} = config
        )
        when is_binary(index) and is_binary(opts_action) and is_binary(body) do
-    hackney =
-      opts
-      |> hackney_opts()
-      |> Keyword.put(:pool, @http_pool)
+    hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
 
-    send_post_request = fn {body, config} ->
-      query_param_string = generate_query_param_string(opts)
+    key = :erlang.phash2({body, config})
 
-      response =
-        opts
-        |> generate_url(config, query_param_string)
-        |> send_request(action, body, config, hackney)
-
-      case response do
-        {:ok, %HTTPoison.Response{status_code: 200}} -> response
-        {_, invalid_response} -> {:error, invalid_response}
-      end
-    end
-
-    # If we're making a query for results using the same request body AND same
-    # %Algolia.Config{}, cache the response instead of making extra calls to the
-    # Algolia REST API
     if opts_action == "queries" do
-      cache({body, config}, send_post_request)
+      if Cache.has_key?(key) do
+        Cache.get(key)
+      else
+        result = send_post_request({body, config}, action, hackney, opts)
+
+        if Kernel.elem(result, 0) == :ok do
+          Cache.put(key, result, ttl: @ttl)
+        end
+
+        result
+      end
     else
-      send_post_request.({body, config})
+      send_post_request({body, config}, action, hackney, opts)
+    end
+  end
+
+  defp send_post_request({body, config}, action, hackney, opts) do
+    query_param_string = generate_query_param_string(opts)
+
+    response =
+      opts
+      |> generate_url(config, query_param_string)
+      |> send_request(action, body, config, hackney)
+
+    case response do
+      {:ok, %HTTPoison.Response{status_code: 200}} -> response
+      {_, invalid_response} -> {:error, invalid_response}
     end
   end
 

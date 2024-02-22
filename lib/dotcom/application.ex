@@ -41,7 +41,8 @@ defmodule Dotcom.Application do
              ]}
         },
         RepoCache.Log,
-        {Application.get_env(:dotcom, :cms_cache, CMS.Cache), []},
+        {Algolia.Cache, []},
+        {CMS.Cache, []},
         CMS.Telemetry,
         V3Api.Cache,
         Schedules.Repo,
@@ -69,7 +70,6 @@ defmodule Dotcom.Application do
         [
           {Dotcom.React, name: Dotcom.React},
           Routes.Supervisor,
-          Algolia.Api,
           LocationService,
           Services.Repo,
           RoutePatterns.Repo,
