@@ -3,7 +3,7 @@ defmodule DotcomWeb.CMSControllerTest do
 
   alias Plug.Conn
 
-  @cache Application.compile_env!(:dotcom, :cms_cache)
+  @cache Application.compile_env!(:dotcom, :cache)
 
   describe "GET - page" do
     test "renders a basic page when the CMS returns a CMS.Page.Basic", %{conn: conn} do

@@ -1,4 +1,4 @@
-defmodule CMS.Telemetry.Reporter do
+defmodule Dotcom.Cache.Telemetry.Reporter do
   @moduledoc """
   This custom Telemetry Reporter logs hit rate information for the `CMS.Cache`.
 
@@ -76,12 +76,12 @@ defmodule CMS.Telemetry.Reporter do
 
     if total > 0 do
       Logger.notice(
-        "cms.cache.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{hits / total}"
+        "cache.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{hits / total}"
       )
     end
   end
 
   defp handle_metric(metric, _measurements, _metadata) do
-    Logger.warning("cms.cache.unsupported_metric metric=#{metric.__struct__}")
+    Logger.warning("cache.unsupported_metric metric=#{metric.__struct__}")
   end
 end

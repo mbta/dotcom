@@ -1,4 +1,4 @@
-defmodule CMS.Telemetry do
+defmodule Dotcom.Cache.Telemetry do
   @moduledoc """
   This supervisor establishes a connection between the telemetry_poller and our telemetry reporters.
   Cache stats are emitted by the Nebulex Redis Adapter.
@@ -24,7 +24,7 @@ defmodule CMS.Telemetry do
   def init(_arg) do
     children = [
       {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
-      {CMS.Telemetry.Reporter, metrics: reporter_metrics()},
+      {Dotcom.Cache.Telemetry.Reporter, metrics: reporter_metrics()},
       {TelemetryMetricsStatsd, metrics: statsd_metrics()}
     ]
 
@@ -33,20 +33,20 @@ defmodule CMS.Telemetry do
 
   defp reporter_metrics do
     [
-      Metrics.last_value("cms.cache.stats.updates")
+      Metrics.last_value("cache.stats.updates")
     ]
   end
 
   defp statsd_metrics do
     [
-      Metrics.last_value("cms.cache.stats.hits"),
-      Metrics.last_value("cms.cache.stats.misses")
+      Metrics.last_value("cache.stats.hits"),
+      Metrics.last_value("cache.stats.misses")
     ]
   end
 
   defp periodic_measurements do
     [
-      {CMS.Cache, :dispatch_stats, []}
+      {Dotcom.Cache.Multilevel, :dispatch_stats, []}
     ]
   end
 end

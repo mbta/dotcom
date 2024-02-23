@@ -1,10 +1,17 @@
 defmodule DotcomWeb.ScheduleController.LineApi do
-  @moduledoc "Provides JSON endpoints for retrieving line diagram data."
+  @moduledoc """
+  Provides JSON endpoints for retrieving line diagram data.
+  """
+
   use DotcomWeb, :controller
+  use Nebulex.Caching.Decorators
 
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Vehicles.Vehicle
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(24)
 
   @typep simple_vehicle :: %{
            id: String.t(),
@@ -61,18 +68,14 @@ defmodule DotcomWeb.ScheduleController.LineApi do
           |> assign(:direction_id, String.to_integer(direction_id))
           |> assign_vehicle_tooltips([])
 
-        cache_key = {route_id, direction_id, conn.assigns.date}
-
         payload =
-          ConCache.get_or_store(:line_diagram_realtime_cache, cache_key, fn ->
-            do_realtime(
-              route_id,
-              direction_id,
-              conn.assigns.date,
-              conn.assigns.date_time,
-              conn.assigns.vehicle_tooltips
-            )
-          end)
+          do_realtime(
+            route_id,
+            direction_id,
+            conn.assigns.date,
+            conn.assigns.date_time,
+            conn.assigns.vehicle_tooltips
+          )
 
         conn
         |> put_resp_content_type("application/json")
@@ -83,6 +86,12 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     end
   end
 
+  @decorate cacheable(
+              cache: @cache,
+              key: {route_id, direction_id, date},
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
   defp do_realtime(route_id, direction_id, date, now, tooltips) do
     headsigns_by_stop =
       TransitNearMe.time_data_for_route_by_stop(

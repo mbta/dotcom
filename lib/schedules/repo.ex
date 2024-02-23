@@ -11,7 +11,7 @@ defmodule Schedules.Repo do
   alias Schedules.{HoursOfOperation, Parser, Schedule}
   alias Util
 
-  @cache Application.compile_env(:dotcom, :schedules_cache, Schedules.Cache)
+  @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
   @type schedule_pair :: {Schedule.t(), Schedule.t()}

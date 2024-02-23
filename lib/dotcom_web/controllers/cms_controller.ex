@@ -34,7 +34,7 @@ defmodule DotcomWeb.CMSController do
     Page.ProjectUpdate
   ]
 
-  @cache Application.compile_env(:dotcom, :cms_cache, CMS.Cache)
+  @cache Application.compile_env(:dotcom, :cache, Dotcom.Cache.Multilevel)
 
   @spec page(Conn.t(), map) :: Conn.t()
   def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do

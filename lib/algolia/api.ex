@@ -9,7 +9,7 @@ defmodule Algolia.Api do
 
   defstruct [:host, :index, :action, :body, :query_params]
 
-  @cache Application.compile_env(:dotcom, :algolia_cache, Algolia.Cache)
+  @cache Application.compile_env!(:dotcom, :cache)
   @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
   @ttl :timer.hours(12)
 

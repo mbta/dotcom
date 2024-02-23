@@ -11,6 +11,4 @@ if config_env() == :test do
     cms_static_path: "/sites/default/files"
 
   config :dotcom, :cms_api, CMS.API.Static
-
-  config :dotcom, :cms_cache, TestCache
 end

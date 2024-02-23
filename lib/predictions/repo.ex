@@ -12,7 +12,7 @@ defmodule Predictions.Repo do
   alias Routes.Route
   alias Stops.Stop
 
-  @cache Application.compile_env(:dotcom, :predictions_cache, Predictions.Cache)
+  @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.seconds(10)
 
   @default_params [

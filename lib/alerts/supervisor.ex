@@ -17,8 +17,7 @@ defmodule Alerts.Supervisor do
 
         _ ->
           [
-            Alerts.CacheSupervisor,
-            Alerts.BusStopChangeSupervisor
+            Alerts.CacheSupervisor
           ]
       end
 

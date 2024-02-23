@@ -26,29 +26,9 @@ defmodule Dotcom.Application do
 
     children =
       [
-        # Start the endpoint when the application starts
-        %{
-          id: ConCache,
-          start:
-            {ConCache, :start_link,
-             [
-               [
-                 ttl: :timer.seconds(60),
-                 ttl_check: :timer.seconds(5),
-                 ets_options: [read_concurrency: true]
-               ],
-               [name: :line_diagram_realtime_cache]
-             ]}
-        },
-        RepoCache.Log,
-        {Application.get_env(:dotcom, :cms_cache, Algolia.Cache), :dispatch_stats, []},
-        {Application.get_env(:dotcom, :cms_cache, CMS.Cache), :dispatch_stats, []},
-        {Application.get_env(:dotcom, :cms_cache, Predictions.Cache), :dispatch_stats, []},
-        {Application.get_env(:dotcom, :cms_cache, Schedules.Cache), :dispatch_stats, []},
-        CMS.Telemetry,
-        V3Api.Cache,
-        Facilities.Repo,
-        Stops.Repo
+        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
+        Dotcom.Cache.Telemetry,
+        V3Api.Cache
       ] ++
         if Application.get_env(:dotcom, :start_data_processes) do
           [
@@ -70,14 +50,10 @@ defmodule Dotcom.Application do
         [
           {Dotcom.React, name: Dotcom.React},
           Routes.Supervisor,
-          LocationService,
-          Services.Repo,
-          RoutePatterns.Repo,
           Predictions.Supervisor,
-          Dotcom.RealtimeSchedule,
           {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.Supervisor,
-          Fares.Supervisor,
+          Alerts.BusStopChangeSupervisor,
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
         ]
 

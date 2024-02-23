@@ -15,7 +15,7 @@ defmodule Schedules.RepoCondensed do
   alias Stops.Repo, as: StopsRepo
   alias V3Api.Schedules, as: SchedulesApi
 
-  @cache Application.compile_env(:dotcom, :schedules_cache, Schedules.Cache)
+  @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
   # the long timeout is to address a worst-case scenario of cold schedule cache

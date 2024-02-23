@@ -1,9 +1,6 @@
 defmodule Alerts.BusStopChangeSupervisor do
   @moduledoc """
-  Supervisor for the alert app's processes for the Bus Stop Change page,
-  including fetching and caching alerts. The supervision strategy is rest for
-  one - if the fetcher crashes, restart it, but leave the BusStopChangeS3
-  RepoCache process alone. If the RepoCache process crashes, restart it all.
+  Supervisor for the alert app's processes for the Bus Stop Change page.
   """
 
   use Supervisor
@@ -14,18 +11,13 @@ defmodule Alerts.BusStopChangeSupervisor do
   end
 
   @impl Supervisor
-  def init(opts) do
+  def init(_) do
     children =
-      [
-        {BusStopChangeS3, opts}
-      ] ++
-        if Application.get_env(:dotcom, :start_data_processes) do
-          [
-            {Alerts.Cache.Fetcher, BusStopChangeS3.fetcher_opts()}
-          ]
-        else
-          []
-        end
+      if Application.get_env(:dotcom, :start_data_processes) do
+        [{Alerts.Cache.Fetcher, BusStopChangeS3.fetcher_opts()}]
+      else
+        []
+      end
 
     Supervisor.init(children, strategy: :rest_for_one)
   end

@@ -53,10 +53,18 @@ redis_config = [
 ]
 
 # Set caches that use the Redis cluster
-config :dotcom, Algolia.Cache, redis_config
-config :dotcom, CMS.Cache, redis_config
-config :dotcom, Predictions.Cache, redis_config
-config :dotcom, Schedules.Cache, redis_config
+config :dotcom, Dotcom.Cache.Multilevel,
+  model: :inclusive,
+  levels: [
+    {
+      Dotcom.Cache.Multilevel.Local,
+      gc_interval: :timer.hours(1), backend: :ets
+    },
+    {
+      Dotcom.Cache.Multilevel.Redis,
+      redis_config
+    }
+  ]
 
 if config_env() == :dev do
   # For development, we disable any cache and enable

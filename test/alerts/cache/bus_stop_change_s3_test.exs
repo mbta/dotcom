@@ -7,12 +7,6 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
   alias Alerts.Cache.BusStopChangeS3
   alias Alerts.{Alert, HistoricalAlert, InformedEntity}
 
-  setup_all do
-    # starts RepoCache
-    _ = BusStopChangeS3.start_link()
-    :ok
-  end
-
   describe "fetcher_opts/0" do
     test "returns options for Alerts.Cache.Fetcher" do
       keys = fetcher_opts() |> Keyword.keys()
