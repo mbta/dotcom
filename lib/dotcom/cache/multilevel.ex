@@ -14,4 +14,8 @@ defmodule Dotcom.Cache.Multilevel do
   defmodule Redis do
     use Nebulex.Cache, otp_app: :dotcom, adapter: NebulexRedisAdapter
   end
+
+  defmodule Publisher do
+    use Nebulex.Cache, otp_app: :dotcom, adapter: Dotcom.Cache.Publisher
+  end
 end

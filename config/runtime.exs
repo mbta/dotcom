@@ -52,18 +52,15 @@ redis_config = [
   telemetry: true
 ]
 
+config :dotcom, :redis, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
+
 # Set caches that use the Redis cluster
 config :dotcom, Dotcom.Cache.Multilevel,
   model: :inclusive,
   levels: [
-    {
-      Dotcom.Cache.Multilevel.Local,
-      gc_interval: :timer.hours(1), backend: :ets
-    },
-    {
-      Dotcom.Cache.Multilevel.Redis,
-      redis_config
-    }
+    {Dotcom.Cache.Multilevel.Local, backend: :ets},
+    {Dotcom.Cache.Multilevel.Redis, redis_config},
+    {Dotcom.Cache.Multilevel.Publisher, []}
   ]
 
 if config_env() == :dev do
