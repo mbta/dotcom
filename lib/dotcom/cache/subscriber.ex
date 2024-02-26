@@ -5,46 +5,40 @@ defmodule Dotcom.Cache.Subscriber do
 
   use GenServer
 
+  alias Dotcom.Cache.Publisher
+
   @cache Application.compile_env!(:dotcom, :cache)
-  @channel "cache_buster"
+  @channel Publisher.channel()
 
-  def channel, do: @channel
-
-  def start_link() do
-    GenServer.start_link(__MODULE__, :ok, [])
+  def start_link(uuid) do
+    GenServer.start_link(__MODULE__, uuid, [])
   end
 
   @impl true
-  def init(_) do
+  def init(uuid) do
     Application.get_env(:dotcom, :redis)
     |> Redix.PubSub.start_link()
     |> subscribe(@channel)
 
-    {:ok, %{}}
+    {:ok, uuid}
   end
 
   @impl true
-  def handle_info({:redix_pubsub, _pid, _ref, :subscribed, %{channel: channel}}, state) do
-    IO.inspect(channel, label: "subscribed to channel")
-
-    {:noreply, state}
+  def handle_info({:redix_pubsub, _pid, _ref, :subscribed, %{channel: _}}, uuid) do
+    {:noreply, uuid}
   end
 
   def handle_info(
         {:redix_pubsub, _pid, _ref, :message, %{channel: @channel, payload: message}},
-        state
+        uuid
       ) do
-    IO.inspect(message, label: "deleting key from L1 cache")
+    [sender_id, key] = String.split(message, "|")
 
-    @cache.delete(message, level: 1)
+    if sender_id != uuid do
+      @cache.delete(key, level: 1)
+    end
 
-    {:noreply, state}
-  end
-
-  def handle_message(message, state) do
-    IO.inspect(message, label: "received message")
-
-    {:noreply, state}
+    {:noreply, uuid}
   end
 
   defp subscribe({:ok, pubsub}, channel) do

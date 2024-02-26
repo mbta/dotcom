@@ -145,6 +145,7 @@ defmodule DotCom.Mixfile do
       # latest version is 3.7.11; cannot upgrade because tests fail
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},
+      {:uuid, "1.1.8"},
       {:wallaby, "0.30.6", [runtime: false, only: [:test, :dev]]}
     ]
   end
