@@ -5,7 +5,10 @@ defmodule Dotcom.Cache.Multilevel do
   https://hexdocs.pm/nebulex/Nebulex.Adapters.Multilevel.html
   """
 
-  use Nebulex.Cache, otp_app: :dotcom, adapter: Nebulex.Adapters.Multilevel
+  use Nebulex.Cache,
+    otp_app: :dotcom,
+    adapter: Nebulex.Adapters.Multilevel,
+    default_key_generator: Dotcom.Cache.KeyGenerator
 
   defmodule Local do
     use Nebulex.Cache, otp_app: :dotcom, adapter: Nebulex.Adapters.Local

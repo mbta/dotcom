@@ -88,7 +88,12 @@ defmodule DotcomWeb.ScheduleController.LineApi do
 
   @decorate cacheable(
               cache: @cache,
-              key: {route_id, direction_id, date},
+              key:
+                Dotcom.Cache.KeyGenerator.generate(__MODULE__, :do_realtime, [
+                  route_id,
+                  direction_id,
+                  date
+                ]),
               on_error: :nothing,
               opts: [ttl: @ttl]
             )

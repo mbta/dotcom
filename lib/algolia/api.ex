@@ -5,6 +5,8 @@ defmodule Algolia.Api do
 
   require Logger
 
+  use Nebulex.Caching.Decorators
+
   alias Algolia.Config
 
   defstruct [:host, :index, :action, :body, :query_params]
@@ -46,29 +48,29 @@ defmodule Algolia.Api do
 
   defp do_action(
          action,
+         %__MODULE__{index: index, action: "queries", body: body} = opts,
+         %Config{} = config
+       )
+       when is_binary(index) and is_binary(body) do
+    hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
+
+    cached_send_post_request({body, config}, action, hackney, opts)
+  end
+
+  defp do_action(
+         action,
          %__MODULE__{index: index, action: opts_action, body: body} = opts,
          %Config{} = config
        )
        when is_binary(index) and is_binary(opts_action) and is_binary(body) do
     hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
 
-    key = :erlang.phash2({body, config})
+    send_post_request({body, config}, action, hackney, opts)
+  end
 
-    if opts_action == "queries" do
-      if @cache.has_key?(key) do
-        @cache.get(key)
-      else
-        result = send_post_request({body, config}, action, hackney, opts)
-
-        if Kernel.elem(result, 0) == :ok do
-          @cache.put(key, result, ttl: @ttl)
-        end
-
-        result
-      end
-    else
-      send_post_request({body, config}, action, hackney, opts)
-    end
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cached_send_post_request({body, config}, action, hackney, opts) do
+    send_post_request({body, config}, action, hackney, opts)
   end
 
   defp send_post_request({body, config}, action, hackney, opts) do

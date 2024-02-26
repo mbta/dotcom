@@ -31,7 +31,9 @@ defmodule Routes.Repo do
     result = handle_response(V3Api.Routes.all(opts))
 
     for {:ok, routes} <- [result], route <- routes do
-      @cache.put({:get, route.id}, {:ok, route})
+      key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get, [route.id, opts])
+
+      @cache.put(key, {:ok, route})
     end
 
     result
@@ -85,7 +87,9 @@ defmodule Routes.Repo do
         shapes = Enum.flat_map(data, &parse_shape/1)
 
         for shape <- shapes do
-          @cache.put({:get_shape, shape.id}, [shape])
+          key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get_shape, [shape.id])
+
+          @cache.put(key, [shape])
         end
 
         shapes

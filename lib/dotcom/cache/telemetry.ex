@@ -23,7 +23,7 @@ defmodule Dotcom.Cache.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
+      {:telemetry_poller, measurements: periodic_measurements(), period: 3_000},
       {Dotcom.Cache.Telemetry.Reporter, metrics: reporter_metrics()},
       {TelemetryMetricsStatsd, metrics: statsd_metrics()}
     ]
@@ -33,14 +33,14 @@ defmodule Dotcom.Cache.Telemetry do
 
   defp reporter_metrics do
     [
-      Metrics.last_value("cache.stats.updates")
+      Metrics.last_value("dotcom.cache.stats.updates")
     ]
   end
 
   defp statsd_metrics do
     [
-      Metrics.last_value("cache.stats.hits"),
-      Metrics.last_value("cache.stats.misses")
+      Metrics.last_value("dotcom.cache.stats.hits"),
+      Metrics.last_value("dotcom.cache.stats.misses")
     ]
   end
 

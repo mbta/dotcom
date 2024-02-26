@@ -57,7 +57,12 @@ defmodule Alerts.Cache.BusStopChangeS3 do
 
   @decorate cacheable(
               cache: @cache,
-              key: Enum.map(stop_change_alerts, & &1.id),
+              key:
+                Dotcom.Cache.KeyGenerator.generate(
+                  __MODULE__,
+                  :maybe_write_alerts_to_s3,
+                  Enum.map(stop_change_alerts, & &1.id)
+                ),
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
@@ -73,7 +78,10 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   @spec get_stored_alerts :: [HistoricalAlert.t()]
   @decorate cacheable(
               cache: @cache,
-              key: Util.service_date(),
+              key:
+                Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get_stored_alerts, [
+                  Util.service_date()
+                ]),
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
