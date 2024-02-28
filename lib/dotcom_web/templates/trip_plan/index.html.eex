@@ -12,7 +12,8 @@
           </p>
           <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
           <% itinerary_data = itinerary_html(@itineraries, %{conn: @conn, expanded: @expanded}) %>
-          <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Poison.encode!(%{itineraryData: itinerary_data})) %></script>
+          <% metadata = trip_plan_metadata(@conn) %>
+          <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Jason.encode!(%{itineraryData: itinerary_data, metadata: metadata})) %></script>
           <div id="react-root"></div>
           <%= if Application.get_env(:dotcom, :dev_server?) do %>
             <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/tripplanresults.js" %>"></script>

@@ -15,16 +15,23 @@ export interface Itinerary {
 }
 
 interface Props {
-  // eslint-disable-next-line
   itineraryData: Itinerary[];
+  metadata: Record<string, unknown>;
 }
 
 const TripPlannerResults = ({
-  itineraryData
+  itineraryData,
+  metadata
 }: Props): ReactElement<HTMLElement> => (
   <>
     {itineraryData.map(itinerary => (
-      <Itinerary key={itinerary.id} itinerary={itinerary} />
+      <Itinerary
+        key={itinerary.id}
+        itinerary={itinerary}
+        feedbackCallback={formData => {
+          recordResponse(formData, metadata, itinerary.id);
+        }}
+      />
     ))}
   </>
 );

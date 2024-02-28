@@ -54,7 +54,7 @@ interface FeedbackFormProps {
   commentPromptText: string;
   commentLabel: string;
   commentPlaceholder: string;
-  formDataCallback: (formData: object) => void;
+  formDataCallback: (formData: Record<string, string>) => void;
 }
 /**
  * A compact form featuring upvote/downvote button, optional comment submission,
