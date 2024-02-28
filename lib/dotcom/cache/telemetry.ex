@@ -1,7 +1,7 @@
 defmodule Dotcom.Cache.Telemetry do
   @moduledoc """
   This supervisor establishes a connection between the telemetry_poller and our telemetry reporters.
-  Cache stats are emitted by the Nebulex Redis Adapter.
+  Cache stats are emitted by every level of `Dotcom.Cache.Multilevel`.
   We poll for them every minute.
 
   Currently, they are passed to two reporters:
@@ -34,7 +34,8 @@ defmodule Dotcom.Cache.Telemetry do
   defp reporter_metrics do
     [
       Metrics.last_value("dotcom.cache.multilevel.l1.stats.updates"),
-      Metrics.last_value("dotcom.cache.multilevel.l2.stats.updates")
+      Metrics.last_value("dotcom.cache.multilevel.l2.stats.updates"),
+      Metrics.last_value("dotcom.cache.multilevel.l3.stats.updates")
     ]
   end
 
@@ -43,13 +44,15 @@ defmodule Dotcom.Cache.Telemetry do
       Metrics.last_value("dotcom.cache.multilevel.l1.stats.hits"),
       Metrics.last_value("dotcom.cache.multilevel.l1.stats.misses"),
       Metrics.last_value("dotcom.cache.multilevel.l2.stats.hits"),
-      Metrics.last_value("dotcom.cache.multilevel.l2.stats.misses")
+      Metrics.last_value("dotcom.cache.multilevel.l2.stats.misses"),
+      Metrics.last_value("dotcom.cache.multilevel.l3.stats.evictions")
     ]
   end
 
   defp periodic_measurements do
     [
       {Dotcom.Cache.Multilevel.Local, :dispatch_stats, []},
+      {Dotcom.Cache.Multilevel.Publisher, :dispatch_stats, []},
       {Dotcom.Cache.Multilevel.Redis, :dispatch_stats, []}
     ]
   end

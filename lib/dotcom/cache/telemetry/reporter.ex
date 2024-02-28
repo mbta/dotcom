@@ -71,6 +71,25 @@ defmodule Dotcom.Cache.Telemetry.Reporter do
     Logger.warning("#{name} kind=#{kind} reason=#{message}")
   end
 
+  def handle_exception(
+        event_name,
+        _measurements,
+        %{kind: kind, reason: %ArgumentError{message: message}},
+        _config
+      ) do
+    name = event_name(event_name)
+
+    Logger.warning("#{name} kind=#{kind} reason=#{message}")
+  end
+
+  defp handle_metric(%Metrics.LastValue{}, %{evictions: evictions}, %{
+         cache: Dotcom.Cache.Multilevel.Publisher
+       }) do
+    name = module_name(Dotcom.Cache.Multilevel.Publisher)
+
+    Logger.notice("#{name}.stats evictions=#{evictions}")
+  end
+
   defp handle_metric(%Metrics.LastValue{}, %{hits: hits, misses: misses}, metadata) do
     name = module_name(metadata.cache)
 

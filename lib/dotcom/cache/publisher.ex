@@ -3,10 +3,12 @@ defmodule Dotcom.Cache.Publisher do
   TODO
   """
 
-  # Inherit default transaction implementation
+  # Inherit default implementations
+  use Nebulex.Adapter.Stats
   use Nebulex.Adapter.Transaction
 
   alias Dotcom.Cache.Subscriber
+  alias Nebulex.Adapter.Stats
 
   @channel "cache_buster"
 
@@ -18,12 +20,21 @@ defmodule Dotcom.Cache.Publisher do
   defmacro __before_compile__(_env), do: :ok
 
   @impl Nebulex.Adapter
-  def init(_) do
+  def init(opts) do
     uuid = UUID.uuid4(:hex)
 
     child_spec = %{id: Subscriber, start: {Subscriber, :start_link, [uuid]}}
 
-    {:ok, child_spec, %{uuid: uuid}}
+    stats_counter = Stats.init(opts)
+
+    adapter_meta = %{
+      uuid: uuid,
+      stats_counter: stats_counter,
+      telemetry: Keyword.fetch!(opts, :telemetry),
+      telemetry_prefix: Keyword.fetch!(opts, :telemetry_prefix)
+    }
+
+    {:ok, child_spec, adapter_meta}
   end
 
   @behaviour Nebulex.Adapter.Entry
@@ -43,6 +54,8 @@ defmodule Dotcom.Cache.Publisher do
   @impl Nebulex.Adapter.Entry
   def delete(meta, key, _) do
     Dotcom.Cache.Multilevel.Redis.command(["PUBLISH", @channel, "#{meta.uuid}|#{key}"])
+
+    Stats.incr(meta.stats_counter, :evictions)
 
     :ok
   end
@@ -82,8 +95,18 @@ defmodule Dotcom.Cache.Publisher do
   @impl Nebulex.Adapter.Persistence
   def load(_, _, _), do: :ok
 
-  @behaviour Nebulex.Adapter.Stats
-
   @impl Nebulex.Adapter.Stats
-  def stats(_), do: %Nebulex.Stats{}
+  def stats(meta) do
+    if stats = super(meta) do
+      reset(meta)
+
+      stats
+    end
+  end
+
+  defp reset(meta) do
+    # Reset the counters.
+    # 5 corresponds to the evictions counter.
+    :counters.put(meta.stats_counter, 5, 0)
+  end
 end

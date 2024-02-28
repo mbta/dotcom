@@ -60,7 +60,7 @@ config :dotcom, Dotcom.Cache.Multilevel,
   levels: [
     {Dotcom.Cache.Multilevel.Local, backend: :ets, stats: true, telemetry: true},
     {Dotcom.Cache.Multilevel.Redis, redis_config},
-    {Dotcom.Cache.Multilevel.Publisher, []}
+    {Dotcom.Cache.Multilevel.Publisher, stats: true, telemetry: true}
   ]
 
 if config_env() == :dev do
