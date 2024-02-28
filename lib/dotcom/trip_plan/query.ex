@@ -19,6 +19,41 @@ defmodule Dotcom.TripPlan.Query do
     wheelchair: false
   ]
 
+  defimpl Jason.Encoder, for: __MODULE__ do
+    def encode(value, opts) do
+      value
+      |> Map.take([
+        :from,
+        :to,
+        :errors,
+        :time,
+        :itineraries,
+        :wheelchair
+      ])
+      |> Enum.flat_map(fn
+        {:time, {time_type, %DateTime{} = date_time}} ->
+          [
+            {"time_type", time_type},
+            {"date_time", date_time}
+          ]
+
+        {:errors, mapset} ->
+          [{"errors", MapSet.to_list(mapset)}]
+
+        {:itineraries, {:ok, itineraries}} ->
+          [{"itineraries", itineraries}]
+
+        {:itineraries, {:error, _}} ->
+          []
+
+        {k, v} ->
+          [{k, v}]
+      end)
+      |> Enum.into(%{})
+      |> Jason.Encode.map(opts)
+    end
+  end
+
   @otp_depart_at_tags [EarliestArrival, MostDirect, LeastWalking]
   @otp_arrive_by_tags [ShortestTrip, MostDirect, LeastWalking]
 

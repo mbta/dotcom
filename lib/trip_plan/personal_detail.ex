@@ -2,6 +2,7 @@ defmodule TripPlan.PersonalDetail do
   @moduledoc """
   Additional information for legs which are taken on personal transportation
   """
+  @derive Jason.Encoder
   defstruct distance: 0.0,
             steps: []
 
@@ -15,6 +16,7 @@ defmodule TripPlan.PersonalDetail.Step do
   @moduledoc """
   A turn-by-turn direction
   """
+  @derive Jason.Encoder
   defstruct distance: 0.0,
             relative_direction: :depart,
             absolute_direction: :north,

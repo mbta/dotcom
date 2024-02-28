@@ -5,6 +5,7 @@ defmodule TripPlan.TransitDetail do
 
   alias Fares.Fare
 
+  @derive {Jason.Encoder, except: [:fares]}
   defstruct [:fares, route_id: "", trip_id: "", intermediate_stop_ids: []]
 
   @type t :: %__MODULE__{

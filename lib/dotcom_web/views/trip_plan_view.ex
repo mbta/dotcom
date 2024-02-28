@@ -7,6 +7,7 @@ defmodule DotcomWeb.TripPlanView do
   alias Routes.Route
   alias Dotcom.TripPlan.{ItineraryRow, Query}
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
@@ -533,6 +534,30 @@ defmodule DotcomWeb.TripPlanView do
       tag
       |> Atom.to_string()
       |> String.replace("_", " ")
+
+  @doc """
+  Encodes the trip plan with:
+  - An identifier for who generated the plan
+  - The datetime which the plan was returned
+  - The selected modes
+  - The serialized %Dotcom.TripPlan.Query{} containing:
+    - Wheelchair-only selection
+    - From location (name, coordinates, stop_id)
+    - To location (name, coordinates, stop_id)
+    - Time type (arrive by vs depart at)
+    - List of errors
+    - List of itineraries
+  """
+  def trip_plan_metadata(conn) do
+    query = Jason.encode!(conn.assigns[:query])
+
+    %{
+      "generated_user_id" => Map.get(conn.cookies, Cookies.id_cookie_name()),
+      "generated_time" => Timex.local(),
+      "modes" => conn.assigns[:modes],
+      "query" => Jason.decode!(query)
+    }
+  end
 
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
