@@ -200,6 +200,8 @@ defmodule DotcomWeb.Router do
     get("/trip-planner/from/:address", TripPlanController, :from)
     get("/trip-planner/to/", Redirector, to: "/trip-planner")
     get("/trip-planner/to/:address", TripPlanController, :to)
+    delete("/trip-planner/feedback", TripPlan.Feedback, :delete)
+    post("/trip-planner/feedback", TripPlan.Feedback, :put)
     get("/customer-support", CustomerSupportController, :index)
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)

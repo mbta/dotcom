@@ -42,6 +42,7 @@ defmodule Dotcom.Application do
         },
         RepoCache.Log,
         {Application.get_env(:dotcom, :cms_cache, CMS.Cache), []},
+        TripPlan.Feedback.Cache,
         CMS.Telemetry,
         V3Api.Cache,
         Schedules.Repo,

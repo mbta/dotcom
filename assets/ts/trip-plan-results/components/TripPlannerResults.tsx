@@ -19,6 +19,22 @@ interface Props {
   metadata: Record<string, unknown>;
 }
 
+function recordResponse(
+  formData: Record<string, string>,
+  metadata: Record<string, unknown>,
+  id: number
+): void {
+  const data = Object.assign({ itinerary_index: id }, metadata, formData);
+  const method = formData.feedback_vote === "" ? "DELETE" : "POST";
+  fetch("/trip-planner/feedback", {
+    method,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+}
+
 const TripPlannerResults = ({
   itineraryData,
   metadata
