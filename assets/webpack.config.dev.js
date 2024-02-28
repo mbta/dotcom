@@ -2,6 +2,8 @@ const path = require("path");
 const { merge } = require("webpack-merge");
 const base = require("./webpack.config.base");
 
+const port = process.env.WEBPACK_PORT || 8090;
+
 module.exports = env =>
   merge(base, {
     mode: "development",
@@ -9,13 +11,13 @@ module.exports = env =>
     devtool: "source-map",
 
     output: {
-      publicPath: "http://localhost:8090/",
+      publicPath: `http://localhost:${port}/`,
       path: path.resolve(__dirname, "../priv/static/css")
     },
 
     devServer: {
       host: "0.0.0.0",
-      port: "8090",
+      port: `${port}`,
       headers: {
         "Access-Control-Allow-Origin": "*"
       },

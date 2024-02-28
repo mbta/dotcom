@@ -23,7 +23,7 @@ defmodule Dotcom.Cache.Telemetry do
 
   def init(_arg) do
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 3_000},
+      {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
       {Dotcom.Cache.Telemetry.Reporter, metrics: reporter_metrics()},
       {TelemetryMetricsStatsd, metrics: statsd_metrics()}
     ]
@@ -33,20 +33,24 @@ defmodule Dotcom.Cache.Telemetry do
 
   defp reporter_metrics do
     [
-      Metrics.last_value("dotcom.cache.stats.updates")
+      Metrics.last_value("dotcom.cache.multilevel.l1.stats.updates"),
+      Metrics.last_value("dotcom.cache.multilevel.l2.stats.updates")
     ]
   end
 
   defp statsd_metrics do
     [
-      Metrics.last_value("dotcom.cache.stats.hits"),
-      Metrics.last_value("dotcom.cache.stats.misses")
+      Metrics.last_value("dotcom.cache.multilevel.l1.stats.hits"),
+      Metrics.last_value("dotcom.cache.multilevel.l1.stats.misses"),
+      Metrics.last_value("dotcom.cache.multilevel.l2.stats.hits"),
+      Metrics.last_value("dotcom.cache.multilevel.l2.stats.misses")
     ]
   end
 
   defp periodic_measurements do
     [
-      {Dotcom.Cache.Multilevel, :dispatch_stats, []}
+      {Dotcom.Cache.Multilevel.Local, :dispatch_stats, []},
+      {Dotcom.Cache.Multilevel.Redis, :dispatch_stats, []}
     ]
   end
 end

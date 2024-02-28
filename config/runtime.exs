@@ -58,7 +58,7 @@ config :dotcom, :redis, redis_config[:redis_cluster][:configuration_endpoints][:
 config :dotcom, Dotcom.Cache.Multilevel,
   model: :inclusive,
   levels: [
-    {Dotcom.Cache.Multilevel.Local, backend: :ets},
+    {Dotcom.Cache.Multilevel.Local, backend: :ets, stats: true, telemetry: true},
     {Dotcom.Cache.Multilevel.Redis, redis_config},
     {Dotcom.Cache.Multilevel.Publisher, []}
   ]

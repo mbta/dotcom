@@ -1,6 +1,6 @@
 defmodule Dotcom.Cache.Telemetry.Reporter do
   @moduledoc """
-  This custom Telemetry Reporter logs hit rate information for the `CMS.Cache`.
+  This custom Telemetry Reporter logs hit rate information for `Dotom.Cache.Multilevel`.
 
   See https://blog.miguelcoba.com/telemetry-and-metrics-in-elixir#heading-customreporter for more on writing custom reporters.
   """
@@ -27,7 +27,7 @@ defmodule Dotcom.Cache.Telemetry.Reporter do
 
     :telemetry.attach(
       "cache-command-exception",
-      [:cms, :cache, :command, :exception],
+      [:dotcom, :cache, :multilevel, :l2, :command, :exception],
       &__MODULE__.handle_exception/4,
       nil
     )
@@ -55,9 +55,9 @@ defmodule Dotcom.Cache.Telemetry.Reporter do
         %{kind: kind, reason: %Redix.ConnectionError{reason: reason}},
         _config
       ) do
-    key = event_name |> Enum.map(&Atom.to_string/1) |> Enum.join(".")
+    name = event_name(event_name)
 
-    Logger.warning("#{key} kind=#{kind} reason=#{reason}")
+    Logger.warning("#{name} kind=#{kind} reason=#{reason}")
   end
 
   def handle_exception(
@@ -66,22 +66,41 @@ defmodule Dotcom.Cache.Telemetry.Reporter do
         %{kind: kind, reason: %Redix.Error{message: message}},
         _config
       ) do
-    key = event_name |> Enum.map(&Atom.to_string/1) |> Enum.join(".")
+    name = event_name(event_name)
 
-    Logger.warning("#{key} kind=#{kind} reason=#{message}")
+    Logger.warning("#{name} kind=#{kind} reason=#{message}")
   end
 
-  defp handle_metric(%Metrics.LastValue{}, %{hits: hits, misses: misses}, _metadata) do
-    total = hits + misses
+  defp handle_metric(%Metrics.LastValue{}, %{hits: hits, misses: misses}, metadata) do
+    name = module_name(metadata.cache)
 
-    if total > 0 do
-      Logger.notice(
-        "cache.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{hits / total}"
-      )
+    total = hits + misses
+    rate = if total > 0, do: Float.ceil(hits / total, 4), else: 0
+
+    if rate > 0 do
+      Logger.notice("#{name}.stats hits=#{hits} misses=#{misses} total=#{total} hit_rate=#{rate}")
     end
   end
 
-  defp handle_metric(metric, _measurements, _metadata) do
-    Logger.warning("cache.unsupported_metric metric=#{metric.__struct__}")
+  defp handle_metric(metric, _measurements, metadata) do
+    name = module_name(metadata.cache)
+
+    Logger.warning("#{name}.unsupported_metric metric=#{metric.__struct__}")
+  end
+
+  defp event_name(event) do
+    event
+    |> Enum.map(&Atom.to_string/1)
+    |> Enum.join(".")
+    |> String.downcase()
+  end
+
+  defp module_name(module) do
+    module
+    |> Kernel.to_string()
+    |> String.split(".")
+    |> (fn [_ | tail] -> tail end).()
+    |> Enum.join(".")
+    |> String.downcase()
   end
 end
