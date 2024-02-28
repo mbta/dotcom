@@ -458,8 +458,8 @@ defmodule DotcomWeb.TripPlanController do
   end
 
   @spec wheelchair(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
-  def wheelchair(%Plug.Conn{params: %{"plan" => %{"wheelchair" => wheelchair}}} = conn, _) do
-    assign(conn, :wheelchair, wheelchair === "true")
+  def wheelchair(%Plug.Conn{params: %{"plan" => plan_params}} = conn, _) do
+    assign(conn, :wheelchair, get_in(plan_params, ["wheelchair"]) === "true")
   end
 
   # Initialize to checked state for trip plan accessibility
