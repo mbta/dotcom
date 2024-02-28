@@ -116,7 +116,7 @@ const FeedbackForm = ({
         setShowConfirmation(true);
       }}
     >
-      <div style={{ display: "inline", marginRight: ".5em" }}>
+      <div className="d-inline me-8">
         {vote === null ? promptText : "Thanks for your response!"}
       </div>
       <div className="btn-group">
