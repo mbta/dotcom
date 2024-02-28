@@ -5,7 +5,6 @@ defmodule DotcomWeb.TripPlanView do
   alias Fares.{Fare, Format}
   alias Phoenix.{HTML}
   alias Routes.Route
-  alias Dotcom.React
   alias Dotcom.TripPlan.{ItineraryRow, Query}
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias TripPlan.{Itinerary, Leg, Transfer}
@@ -534,23 +533,6 @@ defmodule DotcomWeb.TripPlanView do
       tag
       |> Atom.to_string()
       |> String.replace("_", " ")
-
-  @spec render_react(map) :: HTML.safe()
-  def render_react(assigns) do
-    Util.log_duration(__MODULE__, :do_render_react, [assigns])
-  end
-
-  @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{
-        itineraryData: data
-      }) do
-    React.render(
-      "TripPlannerResults",
-      %{
-        itineraryData: data
-      }
-    )
-  end
 
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
