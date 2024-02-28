@@ -24,10 +24,6 @@ defmodule Dotcom.TripPlan.QueryTest do
       |> DateTime.to_date()
   ]
 
-  @connection_opts [
-    user_id: 1
-  ]
-
   setup :verify_on_exit!
 
   setup do
@@ -38,7 +34,7 @@ defmodule Dotcom.TripPlan.QueryTest do
   describe "from_query/1" do
     test "can plan a basic trip with defaults from query params" do
       params = %{"from" => "from address", "to" => "to address"}
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -65,7 +61,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
@@ -90,7 +86,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
 
       to_position = %TripPlan.NamedPosition{
         latitude: 42.3428,
@@ -118,7 +114,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "wheelchair" => "true"
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       from = NamedPosition.to_keywords(from_position)
@@ -132,7 +128,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
     test "ignores params that are empty strings or missing" do
       params = %{"from" => ""}
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert %Query{} = actual
       assert actual.from == {:error, :required}
       assert actual.to == nil
@@ -148,7 +144,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "wheelchair" => "true"
       }
 
-      query = from_query(params, @connection_opts, @date_opts)
+      query = from_query(params, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
       assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
       assert query.wheelchair
@@ -165,7 +161,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "wheelchair" => "true"
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
       from = NamedPosition.to_keywords(from_position)
@@ -187,7 +183,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert_received {:geocoded_address, "no results", from_result}
       assert_received {:geocoded_address, "too many results", to_result}
       refute_received {:planned_trip, _, _, _}
@@ -214,7 +210,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "accessible" => "true"
       }
 
-      query = from_query(params, @connection_opts, @date_opts)
+      query = from_query(params, @date_opts)
       assert %Query{} = query
       assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
       assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to

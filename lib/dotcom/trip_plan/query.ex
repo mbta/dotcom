@@ -34,8 +34,8 @@ defmodule Dotcom.TripPlan.Query do
           itineraries: query_itineraries() | nil
         }
 
-  @spec from_query(map, Keyword.t(), Keyword.t()) :: t
-  def from_query(params, _connection_opts, date_opts) do
+  @spec from_query(map, Keyword.t()) :: t
+  def from_query(params, date_opts) do
     opts = get_query_options(params)
 
     %__MODULE__{
