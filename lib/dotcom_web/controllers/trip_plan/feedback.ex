@@ -6,7 +6,7 @@ defmodule DotcomWeb.TripPlan.Feedback do
   use DotcomWeb, :controller
   use Nebulex.Caching
 
-  alias TripPlan.Feedback.Cache.KeyGenerator
+  alias Dotcom.Cache.TripPlanFeedback.KeyGenerator
 
   @cache Application.compile_env!(:dotcom, :trip_plan_feedback_cache)
 

@@ -42,5 +42,4 @@ predictions_broadcast_interval_ms = if config_env() == :test, do: 50, else: 10_0
 
 config :dotcom, predictions_broadcast_interval_ms: predictions_broadcast_interval_ms
 
-feedback_cache = if config_env() == :test, do: TestCache, else: TripPlan.Feedback.Cache
-config :dotcom, :trip_plan_feedback_cache, feedback_cache
+config :dotcom, :trip_plan_feedback_cache, Dotcom.Cache.TripPlanFeedback.Cache

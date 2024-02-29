@@ -1,4 +1,4 @@
-defmodule TripPlan.Feedback.Cache.KeyGenerator do
+defmodule Dotcom.Cache.TripPlanFeedback.KeyGenerator do
   @moduledoc """
   Generate a readable cache key which includes details to identify a unique trip
   planner itinerary feedback form.

@@ -79,7 +79,7 @@ redis_config = [
 ]
 
 config :dotcom, CMS.Cache, redis_config
-config :dotcom, TripPlan.Feedback.Cache, redis_config
+config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
