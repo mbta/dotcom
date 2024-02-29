@@ -87,7 +87,7 @@ defmodule Routes.Repo do
         shapes = Enum.flat_map(data, &parse_shape/1)
 
         for shape <- shapes do
-          key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get_shape, [shape.id])
+          key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get_shape, shape.id)
 
           @cache.put(key, [shape])
         end

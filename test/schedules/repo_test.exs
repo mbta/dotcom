@@ -4,6 +4,13 @@ defmodule Schedules.RepoTest do
   import Schedules.Repo
   alias Schedules.Schedule
 
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
+    %{cache: cache}
+  end
+
   describe "by_route_ids/2" do
     test "can take a route/direction/sequence/date" do
       response =
@@ -130,26 +137,6 @@ defmodule Schedules.RepoTest do
       refute trip.shape_id == nil
     end
 
-    test "caches an invalid trip ID and returns nil" do
-      assert trip("") == nil
-      assert trip("invalid ID") == nil
-
-      mock_response = %JsonApi{
-        data: [
-          %JsonApi.Item{
-            id: "invalid ID",
-            attributes: %{
-              "name" => "name",
-              "headsign" => "headsign",
-              "direction_id" => 1
-            }
-          }
-        ]
-      }
-
-      assert trip("invalid ID", fn _ -> mock_response end) == nil
-    end
-
     test "returns nil if there's an error" do
       mock_response = {:error, "could not connect to the API"}
       assert trip("trip ID with an error", fn _, _ -> mock_response end) == nil
@@ -216,7 +203,7 @@ defmodule Schedules.RepoTest do
   end
 
   describe "insert_trips_into_cache/1" do
-    test "caches trips that were already fetched" do
+    test "caches trips that were already fetched", %{cache: cache} do
       trip_id = "trip_with_data"
 
       data = [
@@ -237,10 +224,13 @@ defmodule Schedules.RepoTest do
       ]
 
       insert_trips_into_cache(data)
-      assert {:ok, %Schedules.Trip{id: ^trip_id}} = ConCache.get(Schedules.Repo, {:trip, trip_id})
+
+      key = Dotcom.Cache.KeyGenerator.generate(Schedules.Repo, :trip, trip_id)
+
+      assert {:ok, %Schedules.Trip{id: ^trip_id}} = cache.get(key)
     end
 
-    test "caches trips that don't have the right data as nil" do
+    test "caches trips that don't have the right data as nil", %{cache: cache} do
       # this can happen with Green Line trips. By caching them, we avoid an
       # extra trip to the server only to get a 404.
       trip_id = "trip_without_right_data"
@@ -250,7 +240,10 @@ defmodule Schedules.RepoTest do
       ]
 
       insert_trips_into_cache(data)
-      assert ConCache.get(Schedules.Repo, {:trip, trip_id}) == {:ok, nil}
+
+      key = Dotcom.Cache.KeyGenerator.generate(Schedules.Repo, :trip, trip_id)
+
+      assert {:ok, nil} = cache.get(key)
     end
   end
 

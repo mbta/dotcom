@@ -5,6 +5,13 @@ defmodule Predictions.RepoTest do
   alias Routes.Route
   alias Plug.Conn
 
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
+    %{cache: cache}
+  end
+
   describe "all/1" do
     test "returns a list" do
       predictions = Repo.all(route: "Red")
@@ -149,7 +156,7 @@ defmodule Predictions.RepoTest do
     end
 
     @tag :capture_log
-    test "caches trips that are retrieved" do
+    test "caches trips that are retrieved", %{cache: cache} do
       bypass = Bypass.open()
       v3_url = Application.get_env(:dotcom, :v3_api_base_url)
 
@@ -215,7 +222,7 @@ defmodule Predictions.RepoTest do
       end)
 
       refute Repo.all(route: "Red", trip: "trip") == []
-      assert {:ok, %Schedules.Trip{id: "trip"}} = ConCache.get(Schedules.Repo, {:trip, "trip"})
+      assert {:ok, %Schedules.Trip{id: "trip"}} = cache.get({:trip, "trip"})
     end
 
     @tag skip: "FIXME: Not sure why this is breaking"

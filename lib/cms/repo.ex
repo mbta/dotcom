@@ -416,7 +416,7 @@ defmodule CMS.Repo do
 
   @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [%Teaser{}]) ::
           [%Teaser{}]
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: 60_000])
   defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
     per_page = 50
 

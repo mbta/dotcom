@@ -34,7 +34,7 @@ defmodule CMS.RepoTest do
   }
 
   setup do
-    cache = Application.get_env(:dotcom, :cms_cache)
+    cache = Application.get_env(:dotcom, :cache)
     cache.flush()
 
     %{cache: cache}

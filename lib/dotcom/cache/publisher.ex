@@ -10,7 +10,7 @@ defmodule Dotcom.Cache.Publisher do
   alias Dotcom.Cache.Subscriber
   alias Nebulex.Adapter.Stats
 
-  @channel "cache_buster"
+  @channel "dotcom:cache:publisher"
 
   def channel, do: @channel
 

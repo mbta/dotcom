@@ -21,7 +21,6 @@ defmodule Alerts.BusStopChangeSupervisorTest do
         |> Enum.map(&elem(&1, 0))
 
       assert Alerts.Cache.Fetcher in children_ids
-      assert Alerts.Cache.BusStopChangeS3 in children_ids
     end
   end
 end

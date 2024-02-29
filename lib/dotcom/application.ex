@@ -27,9 +27,15 @@ defmodule Dotcom.Application do
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
-        Dotcom.Cache.Telemetry,
         V3Api.Cache
       ] ++
+        if Mix.env() != :test do
+          [
+            {Dotcom.Cache.Telemetry, []}
+          ]
+        else
+          []
+        end ++
         if Application.get_env(:dotcom, :start_data_processes) do
           [
             Vehicles.Supervisor,
@@ -58,6 +64,7 @@ defmodule Dotcom.Application do
         ]
 
     opts = [strategy: :one_for_one, name: Dotcom.Supervisor]
+
     Supervisor.start_link(children, opts)
   end
 
