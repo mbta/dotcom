@@ -267,6 +267,10 @@
   margin-top: 0 !important;
 }
 
+.mt-05 {
+  margin-top: calc(#{$base-spacing} / 2) !important;
+}
+
 .mt-1 {
   margin-top: $base-spacing !important;
 }

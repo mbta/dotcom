@@ -100,7 +100,10 @@ const FeedbackForm = ({
 
   if (showConfirmation)
     return (
-      <p>Your feedback has been recorded. Thanks for helping improve the T!</p>
+      <p>
+        Your feedback has been submitted. Thanks for helping us improve the
+        website!
+      </p>
     );
 
   const commentId = uniqueId();
@@ -139,6 +142,7 @@ const FeedbackForm = ({
           <button
             type="button"
             className="btn btn-sm btn-link"
+            style={{ border: 0, paddingInline: "0rem" }}
             aria-controls={commentId}
             aria-expanded={showComment}
             aria-pressed={showComment}
@@ -149,7 +153,7 @@ const FeedbackForm = ({
         )}
       </span>
       {showComment && (
-        <div id={commentId} className="mt-1">
+        <div id={commentId} className="mt-05">
           <div className="form-group">
             <label className="w-100">
               <strong>{commentLabel}</strong>
