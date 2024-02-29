@@ -11,7 +11,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   alias Alerts.{Alert, HistoricalAlert}
 
   @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(1)
+  @ttl :timer.hours(24)
 
   @ex_aws Application.compile_env(:dotcom, [:alerts_mock_aws_client], ExAws)
   @ex_aws_s3 Application.compile_env(:dotcom, [:alerts_mock_aws_client], ExAws.S3)
