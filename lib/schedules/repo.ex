@@ -257,7 +257,7 @@ defmodule Schedules.Repo do
         }
       end)
     end)
-    |> Enum.map(&Task.await(&1, 5_000))
+    |> Enum.map(&Task.await(&1, 60_000))
   end
 
   # Fetching predictions will also insert trips into cache using this function
