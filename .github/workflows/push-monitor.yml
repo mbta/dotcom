@@ -26,7 +26,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-monitor-dev-blue
-          docker-tag: steps.ecr.outputs.docker-tag
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
       - name: Deploy Monitor to Dev Green
         uses: mbta/actions/deploy-ecs@v2
         if: always()
@@ -34,7 +34,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-monitor-dev-green
-          docker-tag: steps.ecr.outputs.docker-tag
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
       - name: Deploy Monitor to Dev
         uses: mbta/actions/deploy-ecs@v2
         if: always()
@@ -42,7 +42,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-monitor-dev
-          docker-tag: steps.ecr.outputs.docker-tag
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
       - name: Deploy Monitor to Prod
         uses: mbta/actions/deploy-ecs@v2
         if: always()
@@ -50,4 +50,4 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
           ecs-service: dotcom-monitor-prod
-          docker-tag: steps.ecr.outputs.docker-tag
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
