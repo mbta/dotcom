@@ -10,8 +10,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    outputs:
-      docker-tag: ${{ steps.ecr.outputs.docker-tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,17 +20,34 @@ jobs:
           docker-repo: "${{ secrets.TID_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
           dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-  deploy:
-    name: Deploy monitor to all environments
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        deploy-env: [dev-green, dev-blue, dev, prod]
-    needs: [push]
-    steps:
-      - uses: mbta/actions/deploy-ecs@v2
+      - name: Deploy Monitor to Dev Blue
+        uses: mbta/actions/deploy-ecs@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           ecs-cluster: dotcom
-          ecs-service: dotcom-monitor-${{ matrix.deploy-env }}
-          docker-tag: needs.push.outputs.docker-tag
+          ecs-service: dotcom-monitor-dev-blue
+          docker-tag: steps.ecr.outputs.docker-tag
+      - name: Deploy Monitor to Dev Green
+        uses: mbta/actions/deploy-ecs@v2
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-dev-green
+          docker-tag: steps.ecr.outputs.docker-tag
+      - name: Deploy Monitor to Dev
+        uses: mbta/actions/deploy-ecs@v2
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-dev
+          docker-tag: steps.ecr.outputs.docker-tag
+      - name: Deploy Monitor to Prod
+        uses: mbta/actions/deploy-ecs@v2
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-prod
+          docker-tag: steps.ecr.outputs.docker-tag
