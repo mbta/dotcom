@@ -19,7 +19,7 @@ defmodule Dotcom.Cache.Subscriber do
   @impl GenServer
   @doc """
   Gets the unique id from the Publisher which starts the Subscriber.
-  Starts a Redix.PubSub process and subscribes to channel given by the Publisher.
+  Starts a Redix.PubSub process and subscribes to the channel given by the Publisher.
   """
   def init(uuid) do
     Application.get_env(:dotcom, :redis)
@@ -34,7 +34,7 @@ defmodule Dotcom.Cache.Subscriber do
   If we get a subscription message, we just return the state.
 
   If we get a cache invalidation message, we check if the message was published from this Elixir node.
-  If not, it invalidates the given key from the Local cache (L1).
+  If not, we invalidate the given key from the Local cache (L1).
   """
   def handle_info({:redix_pubsub, _pid, _ref, :subscribed, %{channel: _}}, uuid) do
     {:noreply, uuid}
@@ -47,7 +47,7 @@ defmodule Dotcom.Cache.Subscriber do
     [sender_id, key] = String.split(message, "|")
 
     if sender_id != uuid do
-      Logger.notice("dotcom.cache.subscriber.eviction uuid=#{uuid} key=#{key}")
+      Logger.notice("dotcom.cache.multilevel.subscriber.eviction uuid=#{sender_id} key=#{key}")
 
       @cache.delete(key, level: 1)
     end

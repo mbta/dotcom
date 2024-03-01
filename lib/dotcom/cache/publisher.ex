@@ -72,7 +72,7 @@ defmodule Dotcom.Cache.Publisher do
   def delete(meta, key, _) do
     Dotcom.Cache.Multilevel.Redis.command(["PUBLISH", @channel, "#{meta.uuid}|#{key}"])
 
-    Logger.notice("dotcom.cache.publisher.eviction uuid=#{meta.uuid} key=#{key}")
+    Logger.notice("dotcom.cache.multilevel.publisher.eviction uuid=#{meta.uuid} key=#{key}")
 
     Stats.incr(meta.stats_counter, :evictions)
 
