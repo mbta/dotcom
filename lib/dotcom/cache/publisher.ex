@@ -1,7 +1,13 @@
 defmodule Dotcom.Cache.Publisher do
   @moduledoc """
-  TODO
+  A Nebulex adapter that publishes cache invalidation messages to a Redis PubSub channel.
+
+  Most of the behaviour defaults are copied from the Nebulex.Adapter.Nil module.
+
+  We only implement the delete/3 function to publish the cache invalidation message and stats/1 to reset the evictions counter.
   """
+
+  require Logger
 
   # Inherit default implementations
   use Nebulex.Adapter.Stats
@@ -20,6 +26,12 @@ defmodule Dotcom.Cache.Publisher do
   defmacro __before_compile__(_env), do: :ok
 
   @impl Nebulex.Adapter
+  @doc """
+  Initializes the adapter with a stats counter and a unique id.
+  The unique id is used to identify the Elixir node that published the message.
+  This allows us to *not* delete from the local cache if the message was published from this Elixir node.
+  Also starts the Subscriber as a child process.
+  """
   def init(opts) do
     uuid = UUID.uuid4(:hex)
 
@@ -52,8 +64,15 @@ defmodule Dotcom.Cache.Publisher do
   def put_all(_, _, _, _, _), do: true
 
   @impl Nebulex.Adapter.Entry
+  @doc """
+  Publishes the cache invalidation message to the Redis PubSub channel.
+  Uses the unique id to identify the Elixir node that published the message.
+  Increments the evictions counter.
+  """
   def delete(meta, key, _) do
     Dotcom.Cache.Multilevel.Redis.command(["PUBLISH", @channel, "#{meta.uuid}|#{key}"])
+
+    Logger.notice("dotcom.cache.publisher.eviction uuid=#{meta.uuid} key=#{key}")
 
     Stats.incr(meta.stats_counter, :evictions)
 
@@ -96,6 +115,10 @@ defmodule Dotcom.Cache.Publisher do
   def load(_, _, _), do: :ok
 
   @impl Nebulex.Adapter.Stats
+  @doc """
+  Reports the adapter stats and resets the evictions counter.
+  Evictions are the only thing we care about; all other stats stay at 0.
+  """
   def stats(meta) do
     if stats = super(meta) do
       reset(meta)

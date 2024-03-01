@@ -1,7 +1,9 @@
 defmodule Dotcom.Cache.Subscriber do
   @moduledoc """
-  TODO
+  A GenServer that listens for cache invalidation messages and invalidates the cache.
   """
+
+  require Logger
 
   use GenServer
 
@@ -14,7 +16,11 @@ defmodule Dotcom.Cache.Subscriber do
     GenServer.start_link(__MODULE__, uuid, [])
   end
 
-  @impl true
+  @impl GenServer
+  @doc """
+  Gets the unique id from the Publisher which starts the Subscriber.
+  Starts a Redix.PubSub process and subscribes to channel given by the Publisher.
+  """
   def init(uuid) do
     Application.get_env(:dotcom, :redis)
     |> Redix.PubSub.start_link()
@@ -23,7 +29,13 @@ defmodule Dotcom.Cache.Subscriber do
     {:ok, uuid}
   end
 
-  @impl true
+  @impl GenServer
+  @doc """
+  If we get a subscription message, we just return the state.
+
+  If we get a cache invalidation message, we check if the message was published from this Elixir node.
+  If not, it invalidates the given key from the Local cache (L1).
+  """
   def handle_info({:redix_pubsub, _pid, _ref, :subscribed, %{channel: _}}, uuid) do
     {:noreply, uuid}
   end
@@ -35,6 +47,8 @@ defmodule Dotcom.Cache.Subscriber do
     [sender_id, key] = String.split(message, "|")
 
     if sender_id != uuid do
+      Logger.notice("dotcom.cache.subscriber.eviction uuid=#{uuid} key=#{key}")
+
       @cache.delete(key, level: 1)
     end
 
