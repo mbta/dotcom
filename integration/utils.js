@@ -1,4 +1,5 @@
 const axios = require("axios");
+const Logger = require('node-json-logger');
 
 const axiosOptions = {
   headers: {
@@ -7,6 +8,7 @@ const axiosOptions = {
   method: "get",
   timeout: 1000,
 };
+const logger = new Logger();
 
 const status200 = async (options) => {
   let healthy = false;
@@ -18,7 +20,7 @@ const status200 = async (options) => {
       healthy = true;
     }
   } catch (e) {
-    console.error({ baseURL: options.baseURL, error: e.message });
+    logger.error({ baseURL: options.baseURL, error: e.message });
 
     healthy = false;
   }
