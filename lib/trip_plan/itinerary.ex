@@ -13,6 +13,7 @@ defmodule TripPlan.Itinerary do
   alias Stops.Stop
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
 
+  @derive {Jason.Encoder, except: [:passes]}
   @enforce_keys [:start, :stop]
   defstruct [
     :start,

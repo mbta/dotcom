@@ -9,7 +9,6 @@ defmodule DotcomWeb.TripPlanController do
   alias Routes.Route
   alias Dotcom.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
-  alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
   plug(:assign_initial_map)
@@ -240,20 +239,11 @@ defmodule DotcomWeb.TripPlanController do
     Enum.map(related_links, fn x -> Enum.uniq_by(x, fn y -> get_route(y) end) end)
   end
 
-  defp get_conn_opts(conn) do
-    user_id =
-      conn.cookies
-      |> Map.get(Cookies.id_cookie_name())
-
-    [user_id: user_id]
-  end
-
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan_params) do
     query =
       Query.from_query(
         plan_params,
-        get_conn_opts(conn),
         now: conn.assigns.date_time,
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
       )

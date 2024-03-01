@@ -1,6 +1,7 @@
 defmodule TripPlan.NamedPosition do
   @moduledoc "Defines a position for a trip plan as a stop and/or lat/lon"
 
+  @derive Jason.Encoder
   defstruct name: "",
             stop_id: nil,
             latitude: nil,

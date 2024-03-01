@@ -46,6 +46,7 @@ export const removeToggleAlertHandlers = (): void => {
 
 interface Props {
   itinerary: Itinerary;
+  feedbackCallback: (formData: Record<string, string>) => void;
 }
 
 const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
@@ -72,7 +73,8 @@ const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
 };
 
 const ItineraryAccordion = ({
-  itinerary
+  itinerary,
+  feedbackCallback
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-trip-plan-results__itinerary">
     <div className="m-trip-plan-results__itinerary-header">
@@ -104,18 +106,7 @@ const ItineraryAccordion = ({
           commentPromptText="Share more details"
           commentLabel="Why is this trip plan not helpful?"
           commentPlaceholder="Ex. too many transfers, would take too long, etc."
-          formDataCallback={formData => {
-            // TBD - submission to backend. stills need a unique ID for this
-            // data, (to identify which itinerary and which submitter).
-            // eslint-disable-next-line
-            window.alert &&
-              // eslint-disable-next-line
-              window.alert(
-                `Not yet implemented! Here's the form's data: \n${JSON.stringify(
-                  formData
-                )}`
-              );
-          }}
+          formDataCallback={feedbackCallback}
         />
       </div>
     </div>

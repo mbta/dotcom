@@ -64,7 +64,7 @@ if config_env() == :dev do
   end
 end
 
-config :dotcom, CMS.Cache,
+redis_config = [
   mode: :redis_cluster,
   redis_cluster: [
     configuration_endpoints: [
@@ -76,6 +76,10 @@ config :dotcom, CMS.Cache,
   ],
   stats: true,
   telemetry: true
+]
+
+config :dotcom, CMS.Cache, redis_config
+config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,

@@ -66,7 +66,7 @@ test("TripPlannerResults shows a number of itineraries", () => {
     }
   ];
   const { container } = render(
-    <TripPlannerResults itineraryData={itineraryData} />
+    <TripPlannerResults itineraryData={itineraryData} metadata={{}} />
   );
   expect(
     container.querySelectorAll(".m-trip-plan-results__itinerary")
@@ -88,6 +88,7 @@ it("it renders ItineraryBody when clicking to expand", () => {
           tag: null
         }
       ]}
+      metadata={{}}
     />
   );
 

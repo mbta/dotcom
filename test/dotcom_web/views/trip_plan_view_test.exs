@@ -7,6 +7,7 @@ defmodule DotcomWeb.TripPlanViewTest do
   alias Fares.Fare
   alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
+  alias Test.Support.Factory
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
@@ -732,6 +733,68 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       # two inputs because of the <noscript> block
       assert [{"input", _, _}, {"input", _, _}] =
                Floki.find(html, ~s(input#plan-date-input[type="text"]))
+    end
+  end
+
+  describe "trip_plan_metadata/1" do
+    test "returns a map repesenting the planned trip", %{conn: conn} do
+      assert result = trip_plan_metadata(conn)
+
+      assert %{
+               "generated_user_id" => _id,
+               "generated_time" => time,
+               "modes" => _modes,
+               "query" => _query
+             } = result
+
+      assert %DateTime{} = time
+    end
+
+    test "returns with encdoded %TripPlan.Query{}", %{conn: conn} do
+      conn =
+        assign(conn, :query, %Query{
+          from: Factory.build(:named_position),
+          to: Factory.build(:stop_named_position),
+          time: {:depart_at, Util.now()},
+          wheelchair: true,
+          itineraries: {:ok, Factory.build_list(3, :itinerary)}
+        })
+
+      assert %{
+               "query" => %{
+                 "errors" => errors,
+                 "from" => %{
+                   "latitude" => _,
+                   "longitude" => _,
+                   "name" => _,
+                   "stop_id" => _
+                 },
+                 "itineraries" => itineraries,
+                 "time_type" => "depart_at",
+                 "date_time" => dt,
+                 "to" => %{
+                   "latitude" => _,
+                   "longitude" => _,
+                   "name" => _,
+                   "stop_id" => _
+                 },
+                 "wheelchair" => true
+               }
+             } = trip_plan_metadata(conn)
+
+      assert errors == []
+      assert is_binary(dt)
+
+      assert [
+               %{
+                 "accessible?" => _,
+                 "legs" => _,
+                 "start" => _,
+                 "stop" => _,
+                 "tag" => _
+               }
+               | _
+             ] = itineraries
     end
   end
 

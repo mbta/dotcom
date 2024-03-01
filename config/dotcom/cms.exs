@@ -14,5 +14,5 @@ if config_env() == :test do
 
   config :dotcom, :cms_api, CMS.API.Static
 
-  config :dotcom, :cms_cache, CMS.TestCache
+  config :dotcom, :cms_cache, Dotcom.Cache.TestCache
 end

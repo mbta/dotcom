@@ -5,7 +5,6 @@ import readline from "readline";
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 import AdditionalLineInfo from "../assets/ts/schedule/components/AdditionalLineInfo";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
-import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
 import LiveCrowdingIcon from "./ts/schedule/components/line-diagram/LiveCrowdingIcon";
 
@@ -56,7 +55,6 @@ const Components = {
   ScheduleFinder,
   AdditionalLineInfo,
   TransitNearMe,
-  TripPlannerResults,
   ProjectsPage,
   LiveCrowdingIcon
 };

@@ -7,6 +7,7 @@ defmodule TripPlan.Leg do
   """
   alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition}
 
+  @derive {Jason.Encoder, only: [:from, :to, :mode]}
   defstruct start: DateTime.from_unix!(-1),
             stop: DateTime.from_unix!(0),
             mode: nil,
