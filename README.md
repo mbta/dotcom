@@ -138,6 +138,30 @@ For details on environment configuration, including optional variables, see
 
 ## Running the Server
 
+You will need to have Redis running in cluster mode.
+The easiest way to get it running is to download and compile it.
+But, we plan to Dockerize all of our dependencies in the near future.
+Until then:
+
+```
+cd $HOME
+wget https://github.com/redis/redis/archive/7.2.4.tar.gz
+tar xvf 7.2.4.tar.gz
+cd redis-7.2.4
+make
+./utils/create-cluster/create-cluster start
+./utils/create-cluster/create-cluster create -f
+```
+
+When you're done with it:
+
+```
+./utils/create-cluster/create-cluster stop
+cd $HOME
+rm 7.2.tar.gz
+rm -rf redis-7.2.4
+```
+
 Start the server with `mix phx.server`
 
 Then, visit the site at http://localhost:4001/
@@ -145,6 +169,27 @@ Then, visit the site at http://localhost:4001/
 ## Algolia
 
 [Algolia](https://www.algolia.com) powers our search features. Sometimes after content updates or GTFS releases we will find that the search results do not contain up-to-date results. When this happens you can re-index the Algolia data by running: `mix algolia.update`.
+
+## Integration Tests
+
+```
+npm install --ignore-scripts
+npx playwright test all-scenarios
+```
+
+## Load Tests
+
+```
+npm install --ignore-scripts
+npx artillery run ./integration/load_tests/all-scenarios.yml --target http://localhost:4001
+```
+
+## Monitoring
+
+```
+npm install --ignore-scripts
+npx pm2-runtime ./integration/monitor/ecosystem.config.js
+```
 
 ## Commiting Code
 

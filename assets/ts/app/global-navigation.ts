@@ -334,6 +334,28 @@ export function setup(rootElement: HTMLElement): void {
 
   // Closes veil before navigating to search result
   document.addEventListener("autocomplete:selected", closeAllMenus);
+
+  // Press Esc within open header should return focus to header
+  header.addEventListener("keydown", e => {
+    let activeNavButton: HTMLButtonElement | null | undefined;
+    const activeNavSection = document.activeElement?.closest(
+      "[data-nav='desktop-section']"
+    );
+    if (activeNavSection) {
+      const openSectionId = activeNavSection.parentElement!.id;
+      activeNavButton = document.querySelector<HTMLButtonElement>(
+        `nav.m-menu--desktop [aria-controls=${openSectionId}]`
+      );
+      handleNativeEscapeKeyPress(e, () => {
+        resetPage();
+        if (activeNavButton) {
+          activeNavButton.focus();
+          // don't bubble up to the rootElement keydown listener
+          e.stopPropagation();
+        }
+      });
+    }
+  });
 }
 
 export default function setupGlobalNavigation(): void {
