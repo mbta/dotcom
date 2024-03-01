@@ -12,11 +12,42 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        id: checkout
         uses: actions/checkout@v4
       - name: Build, tag, and push image to Amazon ECR
+        id: ecr
         uses: mbta/actions/build-push-ecr@v2
         with:
           docker-repo: "${{ secrets.TID_AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/dotcom-monitor"
           dockerfile-path: "-f ./deploy/monitor/Dockerfile ."
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+      - name: Deploy Monitor to Dev Blue
+        uses: mbta/actions/deploy-ecs@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-dev-blue
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
+      - name: Deploy Monitor to Dev Green
+        uses: mbta/actions/deploy-ecs@v2
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-dev-green
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
+      - name: Deploy Monitor to Dev
+        uses: mbta/actions/deploy-ecs@v2
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-dev
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
+      - name: Deploy Monitor to Prod
+        uses: mbta/actions/deploy-ecs@v2
+        if: always()
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          ecs-cluster: dotcom
+          ecs-service: dotcom-monitor-prod
+          docker-tag: ${{ steps.ecr.outputs.docker-tag }}
