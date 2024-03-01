@@ -20,38 +20,31 @@ defmodule Dotcom.TripPlan.Query do
   ]
 
   defimpl Jason.Encoder, for: __MODULE__ do
+    @keys_to_encode [
+      :from,
+      :errors,
+      :itineraries,
+      :time,
+      :to,
+      :wheelchair
+    ]
+
     def encode(value, opts) do
       value
-      |> Map.take([
-        :from,
-        :to,
-        :errors,
-        :time,
-        :itineraries,
-        :wheelchair
-      ])
-      |> Enum.flat_map(fn
-        {:time, {time_type, %DateTime{} = date_time}} ->
-          [
-            {"time_type", time_type},
-            {"date_time", date_time}
-          ]
-
-        {:errors, mapset} ->
-          [{"errors", MapSet.to_list(mapset)}]
-
-        {:itineraries, {:ok, itineraries}} ->
-          [{"itineraries", itineraries}]
-
-        {:itineraries, {:error, _}} ->
-          []
-
-        {k, v} ->
-          [{k, v}]
-      end)
+      |> Map.take(@keys_to_encode)
+      |> Enum.flat_map(&encode_value/1)
       |> Enum.into(%{})
       |> Jason.Encode.map(opts)
     end
+
+    defp encode_value({:time, {type, %DateTime{} = dt}}) do
+      [{"time_type", type}, {"date_time", dt}]
+    end
+
+    defp encode_value({:errors, mapset}), do: [{"errors", MapSet.to_list(mapset)}]
+    defp encode_value({:itineraries, {:error, _}}), do: []
+    defp encode_value({:itineraries, {:ok, itineraries}}), do: [{"itineraries", itineraries}]
+    defp encode_value(values), do: [values]
   end
 
   @otp_depart_at_tags [EarliestArrival, MostDirect, LeastWalking]

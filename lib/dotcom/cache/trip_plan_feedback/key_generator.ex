@@ -8,12 +8,12 @@ defmodule Dotcom.Cache.TripPlanFeedback.KeyGenerator do
   @impl Nebulex.Caching.KeyGenerator
   def generate(mod, _fun, [
         %{
-          "itinerary_index" => index,
-          "generated_user_id" => user_id,
-          "generated_time" => timestamp
+          "itinerary_index" => itinerary_index,
+          "generated_user_id" => generated_user_id,
+          "generated_time" => generated_time
         }
       ]) do
-    "#{clean_mod(mod)}|#{env_name()}|#{user_id}|#{timestamp}|#{index}"
+    "#{clean_mod(mod)}|#{env_name()}|#{generated_user_id}|#{generated_time}|#{itinerary_index}"
   end
 
   defp env_name do

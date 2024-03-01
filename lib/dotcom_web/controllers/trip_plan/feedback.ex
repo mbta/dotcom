@@ -15,7 +15,7 @@ defmodule DotcomWeb.TripPlan.Feedback do
 
   defp cache_and_response(conn, params, action) do
     handle_cache(action, params)
-    send_resp(conn, :ok, "")
+    send_resp(conn, 202, "")
   end
 
   @decorate cache_evict(cache: @cache, key_generator: KeyGenerator)

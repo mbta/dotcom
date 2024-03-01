@@ -24,12 +24,12 @@ defmodule DotcomWeb.TripPlan.FeedbackTest do
   end
 
   describe "delete/2" do
-    test "returns 200 status and deletes from cache", %{conn: conn, cache: cache} do
+    test "returns 202 status and deletes from cache", %{conn: conn, cache: cache} do
       cache.put(@expected_cache_key, :doesnt_matter_whats_here)
       assert cache.get(@expected_cache_key)
       conn = Feedback.delete(conn, @arbitrary_data)
       refute cache.get(@expected_cache_key)
-      assert response(conn, 200)
+      assert response(conn, 202)
     end
 
     test "doesn't work with invalid data", %{conn: conn} do
@@ -40,11 +40,11 @@ defmodule DotcomWeb.TripPlan.FeedbackTest do
   end
 
   describe "put/2" do
-    test "returns 200 status and caches the data", %{conn: conn, cache: cache} do
+    test "returns 202 status and caches the data", %{conn: conn, cache: cache} do
       refute cache.get(@expected_cache_key)
       conn = Feedback.put(conn, @arbitrary_data)
       assert cache.get(@expected_cache_key)
-      assert response(conn, 200)
+      assert response(conn, 202)
     end
 
     test "doesn't work with invalid data", %{conn: conn} do
