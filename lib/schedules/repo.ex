@@ -240,24 +240,21 @@ defmodule Schedules.Repo do
     schedules
     |> Enum.map(fn {route_id, trip_id, stop_id, arrival_time, departure_time, time, flag?,
                     early_departure?, last_stop?, stop_sequence, pickup_type} ->
-      Task.async(fn ->
-        %Schedules.Schedule{
-          route: Routes.Repo.get(route_id),
-          trip: trip(trip_id),
-          platform_stop_id: stop_id,
-          stop: Stops.Repo.get_parent(stop_id),
-          arrival_time: arrival_time,
-          departure_time: departure_time,
-          time: time,
-          flag?: flag?,
-          early_departure?: early_departure?,
-          last_stop?: last_stop?,
-          stop_sequence: stop_sequence,
-          pickup_type: pickup_type
-        }
-      end)
+      %Schedules.Schedule{
+        route: Routes.Repo.get(route_id),
+        trip: trip(trip_id),
+        platform_stop_id: stop_id,
+        stop: Stops.Repo.get_parent(stop_id),
+        arrival_time: arrival_time,
+        departure_time: departure_time,
+        time: time,
+        flag?: flag?,
+        early_departure?: early_departure?,
+        last_stop?: last_stop?,
+        stop_sequence: stop_sequence,
+        pickup_type: pickup_type
+      }
     end)
-    |> Enum.map(&Task.await(&1, 60_000))
   end
 
   # Fetching predictions will also insert trips into cache using this function
