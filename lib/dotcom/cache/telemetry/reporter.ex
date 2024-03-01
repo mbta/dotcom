@@ -1,6 +1,8 @@
 defmodule Dotcom.Cache.Telemetry.Reporter do
   @moduledoc """
   This custom Telemetry Reporter logs hit rate information for `Dotom.Cache.Multilevel`.
+  It also logs exceptions for `Redix.ConnectionError`, `Redix.Error`, and `ArgumentError`.
+  And, finally, it logs evictions for `Dotcom.Cache.Multilevel.Publisher`.
 
   See https://blog.miguelcoba.com/telemetry-and-metrics-in-elixir#heading-customreporter for more on writing custom reporters.
   """
