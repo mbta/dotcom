@@ -22,7 +22,8 @@
     // This fixes an issue with @types/core-js, see thread https://github.com/DefinitelyTyped/DefinitelyTyped/issues/15140 -  MH
     "lib": [
       "es2017",
-      "dom"
+      "dom",
+      "dom.iterable"
     ],
     /* Strict Type-Checking Options */
     "strict": true, /* Enable all strict type-checking options. */
