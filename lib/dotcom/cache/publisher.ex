@@ -64,7 +64,15 @@ defmodule Dotcom.Cache.Publisher do
   def get_all(_, _, _), do: %{}
 
   @impl Nebulex.Adapter.Entry
-  def put(_, key, _, ttl, _, _), do: true
+  def put(_, key, _, ttl, _, _) do
+    [mod, func, key] = String.split(key, "|")
+
+    Logger.notice(
+      "dotcom.cache.multilevel.publisher.put mod=#{mod} func=#{func} key=#{key} ttl=#{ttl}"
+    )
+
+    true
+  end
 
   @impl Nebulex.Adapter.Entry
   def put_all(_, _, _, _, _), do: true

@@ -268,7 +268,8 @@ defmodule Schedules.Repo do
     |> Stream.map(&id_and_trip/1)
     |> Stream.uniq_by(&elem(&1, 0))
     |> Enum.each(fn {id, trip} ->
-      key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :trip, [id, &V3Api.Trips.by_id/2])
+      key =
+        Dotcom.Cache.KeyGenerator.generate(__MODULE__, :fetch_trip, [id, &V3Api.Trips.by_id/2])
 
       @cache.put(key, {:ok, trip}, ttl: @ttl)
     end)
