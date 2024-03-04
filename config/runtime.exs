@@ -90,7 +90,7 @@ config :dotcom, Dotcom.Cache.Multilevel,
 
 config :dotcom,
        Dotcom.Cache.TripPlanFeedback.Cache,
-       redis_config[:redis_cluster][:configuration_endpoints]
+       redis_config
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
