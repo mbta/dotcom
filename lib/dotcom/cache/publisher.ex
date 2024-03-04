@@ -53,7 +53,9 @@ defmodule Dotcom.Cache.Publisher do
 
   @impl Nebulex.Adapter.Entry
   def get(_, key, _) do
-    Logger.notice("dotcom.cache.multilevel.publisher.get key=#{key}")
+    [mod, func, key] = String.split(key, "|")
+
+    Logger.notice("dotcom.cache.multilevel.publisher.get mod=#{mod} func=#{func} key=#{key}")
 
     nil
   end
