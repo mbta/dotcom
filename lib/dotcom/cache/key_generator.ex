@@ -13,18 +13,10 @@ defmodule Dotcom.Cache.KeyGenerator do
   end
 
   def generate(mod, fun, [arg]) do
-    Logger.notice(
-      "dotcom.cache.key_generator mod=#{inspect(mod)} fun=#{inspect(fun)} args=[#{inspect(arg)}]"
-    )
-
     "#{clean_mod(mod)}|#{fun}|#{:erlang.phash2(arg)}"
   end
 
   def generate(mod, fun, args) do
-    Logger.notice(
-      "dotcom.cache.key_generator mod=#{inspect(mod)} fun=#{inspect(fun)} args=#{inspect(args)}"
-    )
-
     "#{clean_mod(mod)}|#{fun}|#{:erlang.phash2(args)}"
   end
 

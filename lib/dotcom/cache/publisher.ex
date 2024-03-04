@@ -65,7 +65,11 @@ defmodule Dotcom.Cache.Publisher do
 
   @impl Nebulex.Adapter.Entry
   def put(_, key, _, ttl, _, _) do
-    Logger.notice("dotcom.cache.multilevel.publisher.put key=#{key} ttl=#{ttl}")
+    [mod, func, key] = String.split(key, "|")
+
+    Logger.notice(
+      "dotcom.cache.multilevel.publisher.put mod=#{mod} func=#{func} key=#{key} ttl=#{ttl}"
+    )
 
     true
   end
