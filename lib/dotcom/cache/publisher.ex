@@ -52,13 +52,21 @@ defmodule Dotcom.Cache.Publisher do
   @behaviour Nebulex.Adapter.Entry
 
   @impl Nebulex.Adapter.Entry
-  def get(_, _, _), do: nil
+  def get(_, key, _) do
+    Logger.notice("dotcom.cache.multilevel.publisher.get key=#{key}")
+
+    nil
+  end
 
   @impl Nebulex.Adapter.Entry
   def get_all(_, _, _), do: %{}
 
   @impl Nebulex.Adapter.Entry
-  def put(_, _, _, _, _, _), do: true
+  def put(_, key, _, ttl, _, _) do
+    Logger.notice("dotcom.cache.multilevel.publisher.put key=#{key} ttl=#{ttl}")
+
+    true
+  end
 
   @impl Nebulex.Adapter.Entry
   def put_all(_, _, _, _, _), do: true
