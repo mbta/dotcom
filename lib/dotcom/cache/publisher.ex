@@ -52,27 +52,13 @@ defmodule Dotcom.Cache.Publisher do
   @behaviour Nebulex.Adapter.Entry
 
   @impl Nebulex.Adapter.Entry
-  def get(_, key, _) do
-    [mod, func, key] = String.split(key, "|")
-
-    Logger.notice("dotcom.cache.multilevel.publisher.get mod=#{mod} func=#{func} key=#{key}")
-
-    nil
-  end
+  def get(_, _, _), do: nil
 
   @impl Nebulex.Adapter.Entry
   def get_all(_, _, _), do: %{}
 
   @impl Nebulex.Adapter.Entry
-  def put(_, key, _, ttl, _, _) do
-    [mod, func, key] = String.split(key, "|")
-
-    Logger.notice(
-      "dotcom.cache.multilevel.publisher.put mod=#{mod} func=#{func} key=#{key} ttl=#{ttl}"
-    )
-
-    true
-  end
+  def put(_, _, _, _, _, _), do: true
 
   @impl Nebulex.Adapter.Entry
   def put_all(_, _, _, _, _), do: true

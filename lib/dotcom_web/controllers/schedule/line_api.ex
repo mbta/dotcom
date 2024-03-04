@@ -11,7 +11,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   alias Vehicles.Vehicle
 
   @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(24)
+  @ttl :timer.minutes(1)
 
   @typep simple_vehicle :: %{
            id: String.t(),
