@@ -74,7 +74,6 @@ if Mix.env() in [:dev, :test] do
               |> click(:middle)
               |> find(Query.css("option[data-lang='#{lang_code}']"), fn option ->
                 Element.click(option)
-                # IO.inspect(option, label: "clicked on:")
                 # Translations take so long...
                 :timer.sleep(90_000)
               end)

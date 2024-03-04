@@ -1,6 +1,6 @@
 defmodule Dotcom.Cache.Subscriber do
   @moduledoc """
-  A GenServer that listens for cache invalidation messages and invalidates the cache.
+  A GenServer that listens for messages about cache operations and actions on them.
   """
 
   require Logger
@@ -11,6 +11,9 @@ defmodule Dotcom.Cache.Subscriber do
 
   @cache Application.compile_env!(:dotcom, :cache)
   @channel Publisher.channel()
+  @executions %{
+    "eviction" => :delete
+  }
 
   def start_link(uuid) do
     GenServer.start_link(__MODULE__, uuid, [])
@@ -33,8 +36,8 @@ defmodule Dotcom.Cache.Subscriber do
   @doc """
   If we get a subscription message, we just return the state.
 
-  If we get a cache invalidation message, we check if the message was published from this Elixir node.
-  If not, we invalidate the given key from the Local cache (L1).
+  If we get a cache eviction message, we check if the message was published from this Elixir node.
+  If not, we delete the given key from the Local cache (L1).
   """
   def handle_info({:redix_pubsub, _pid, _ref, :subscribed, %{channel: _}}, uuid) do
     {:noreply, uuid}
@@ -42,17 +45,25 @@ defmodule Dotcom.Cache.Subscriber do
 
   def handle_info(
         {:redix_pubsub, _pid, _ref, :message, %{channel: @channel, payload: message}},
-        uuid
+        publisher_id
       ) do
-    [sender_id, key] = String.split(message, "|")
+    [command, sender_id, key] = String.split(message, "|")
 
-    if sender_id != uuid do
-      Logger.notice("dotcom.cache.multilevel.subscriber.eviction uuid=#{sender_id} key=#{key}")
-
-      @cache.delete(key, level: 1)
+    if sender_id != publisher_id do
+      maybe_execute_command(command, key)
     end
 
-    {:noreply, uuid}
+    {:noreply, publisher_id}
+  end
+
+  defp maybe_execute_command(command, key) do
+    if function = Map.get(@executions, command) do
+      Kernel.apply(@cache, function, [key, [level: 1]])
+
+      Logger.notice("dotcom.cache.multilevel.subscriber.#{command} key=#{key}")
+    else
+      Logger.warning("dotcom.cache.multilevel.subscriber.unknown_command command=#{command}")
+    end
   end
 
   defp subscribe({:ok, pubsub}, channel) do

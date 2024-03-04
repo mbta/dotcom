@@ -29,7 +29,7 @@ defmodule Dotcom.Application do
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
         V3Api.Cache
       ] ++
-        if Mix.env() != :test do
+        if Application.get_env(:dotcom, :env) != :test do
           [
             {Dotcom.Cache.Telemetry, []}
           ]
@@ -58,8 +58,8 @@ defmodule Dotcom.Application do
           Routes.Supervisor,
           Predictions.Supervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
-          Alerts.Supervisor,
           Alerts.BusStopChangeSupervisor,
+          Alerts.CacheSupervisor,
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
         ]
 

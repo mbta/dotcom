@@ -33,14 +33,14 @@ defmodule Dotcom.Cache.Publisher do
   Also starts the Subscriber as a child process.
   """
   def init(opts) do
-    uuid = UUID.uuid4(:hex)
+    publisher_id = UUID.uuid4(:hex)
 
-    child_spec = %{id: Subscriber, start: {Subscriber, :start_link, [uuid]}}
+    child_spec = %{id: Subscriber, start: {Subscriber, :start_link, [publisher_id]}}
 
     stats_counter = Stats.init(opts)
 
     adapter_meta = %{
-      uuid: uuid,
+      publisher_id: publisher_id,
       stats_counter: stats_counter,
       telemetry: Keyword.fetch!(opts, :telemetry),
       telemetry_prefix: Keyword.fetch!(opts, :telemetry_prefix)
@@ -65,14 +65,22 @@ defmodule Dotcom.Cache.Publisher do
 
   @impl Nebulex.Adapter.Entry
   @doc """
-  Publishes the cache invalidation message to the Redis PubSub channel.
-  Uses the unique id to identify the Elixir node that published the message.
+  Publishes cache eviction messages to the Redis PubSub @channel.
+  Gives the command as the first argument, the publisher_id as the second, and the key as the third.
   Increments the evictions counter.
   """
   def delete(meta, key, _) do
-    Dotcom.Cache.Multilevel.Redis.command(["PUBLISH", @channel, "#{meta.uuid}|#{key}"])
+    command = "eviction"
 
-    Logger.notice("dotcom.cache.multilevel.publisher.eviction uuid=#{meta.uuid} key=#{key}")
+    Dotcom.Cache.Multilevel.Redis.command([
+      "PUBLISH",
+      @channel,
+      "#{command}|#{meta.publisher_id}|#{key}"
+    ])
+
+    Logger.notice(
+      "dotcom.cache.multilevel.publisher.#{command} publisher_id=#{meta.publisher_id} key=#{key}"
+    )
 
     Stats.incr(meta.stats_counter, :evictions)
 

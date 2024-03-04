@@ -293,9 +293,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     %{stop_sequence: s, stop_name: headsign, trip_id: ti}
   end
 
-  defp construct_vehicle_data(arg) do
-    IO.inspect(arg)
-
+  defp construct_vehicle_data(_) do
     %{stop_sequence: nil, stop_name: nil, trip_id: nil}
   end
 
