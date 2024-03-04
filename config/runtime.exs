@@ -79,8 +79,6 @@ redis_config = [
   telemetry: true
 ]
 
-config :dotcom, :redis, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
-
 # Set caches that use the Redis cluster
 config :dotcom, Dotcom.Cache.Multilevel,
   model: :inclusive,
@@ -90,7 +88,9 @@ config :dotcom, Dotcom.Cache.Multilevel,
     {Dotcom.Cache.Multilevel.Publisher, stats: true, telemetry: true}
   ]
 
-config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
+config :dotcom,
+       Dotcom.Cache.TripPlanFeedback.Cache,
+       redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
