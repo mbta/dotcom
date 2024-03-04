@@ -27,11 +27,7 @@ defmodule Dotcom.Application do
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
-        {Application.get_env(
-           :dotcom,
-           :trip_plan_feedback_cache,
-           Dotcom.Cache.TripPlanFeedback.Cache
-         ), []},
+        Dotcom.Cache.TripPlanFeedback.Cache,
         V3Api.Cache
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
