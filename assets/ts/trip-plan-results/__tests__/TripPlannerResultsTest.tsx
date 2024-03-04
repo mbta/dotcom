@@ -1,8 +1,6 @@
 import React from "react";
-import renderer, { act } from "react-test-renderer";
-import { createReactRoot } from "../../app/helpers/testUtils";
+import { render, screen } from "@testing-library/react";
 import TripPlannerResults from "../components/TripPlannerResults";
-import Accordion, { AccordionNoJS } from "../../components/Accordion";
 import { TileServerUrl } from "../../leaflet/components/__mapdata";
 
 const html = "<div>Lots of content about the itinerary</div>";
@@ -34,44 +32,49 @@ const map = {
   ]
 };
 
-it("it renders", () => {
-  createReactRoot();
-  const tree = renderer.create(
-    <TripPlannerResults
-      itineraryData={[
-        {
-          html,
-          access_html,
-          fares_estimate_html,
-          tab_html,
-          fare_calculator_html,
-          id: 1,
-          map
-        }
-      ]}
-    />
+test("TripPlannerResults shows a number of itineraries", () => {
+  const itineraryData = [
+    {
+      html,
+      access_html,
+      fares_estimate_html,
+      tab_html,
+      fare_calculator_html,
+      id: 1,
+      map,
+      tag: "best"
+    },
+    {
+      html,
+      access_html,
+      fares_estimate_html,
+      tab_html,
+      fare_calculator_html,
+      id: 2,
+      map,
+      tag: null
+    },
+    {
+      html,
+      access_html,
+      fares_estimate_html,
+      tab_html,
+      fare_calculator_html,
+      id: 3,
+      map,
+      tag: null
+    }
+  ];
+  const { container } = render(
+    <TripPlannerResults itineraryData={itineraryData} metadata={{}} />
   );
-  tree.update(
-    <TripPlannerResults
-      itineraryData={[
-        {
-          html,
-          access_html,
-          fares_estimate_html,
-          tab_html,
-          fare_calculator_html,
-          id: 1,
-          map
-        }
-      ]}
-    />
-  );
-  expect(tree.toJSON()).toMatchSnapshot();
+  expect(
+    container.querySelectorAll(".m-trip-plan-results__itinerary")
+  ).toHaveLength(itineraryData.length);
 });
 
 it("it renders ItineraryBody when clicking to expand", () => {
-  createReactRoot();
-  const tree = renderer.create(
+  render(
     <TripPlannerResults
       itineraryData={[
         {
@@ -81,22 +84,16 @@ it("it renders ItineraryBody when clicking to expand", () => {
           tab_html,
           fare_calculator_html,
           id: 1,
-          map
+          map,
+          tag: null
         }
       ]}
+      metadata={{}}
     />
   );
 
-  const button = tree.root.findAllByType("button")[0];
-
-  act(button.props.onClick);
-
-  expect(tree.root.findAllByType(Accordion).length).toBe(2);
-  expect(tree.root.findAllByType(AccordionNoJS).length).toBe(2);
-
+  screen.getByRole("button", { name: "Show map and trip details" }).click();
   expect(
-    tree.root.findAllByProps({
-      html: "<div>Lots of content about the itinerary</div>"
-    }).length
-  ).toBe(2);
+    screen.getByText("Lots of content about the itinerary")
+  ).toBeInTheDocument();
 });

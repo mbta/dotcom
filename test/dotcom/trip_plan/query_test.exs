@@ -2,6 +2,7 @@ defmodule Dotcom.TripPlan.QueryTest do
   use ExUnit.Case, async: true
 
   import Dotcom.TripPlan.Query
+  import Mox
   alias Dotcom.TripPlan.Query
   alias TripPlan.NamedPosition
 
@@ -23,29 +24,24 @@ defmodule Dotcom.TripPlan.QueryTest do
       |> DateTime.to_date()
   ]
 
-  @connection_opts [
-    user_id: 1
-  ]
+  setup :verify_on_exit!
+
+  setup do
+    stub_with(OpenTripPlannerClient.Mock, Test.Support.OpenTripPlannerClientStub)
+    :ok
+  end
 
   describe "from_query/1" do
     test "can plan a basic trip with defaults from query params" do
       params = %{"from" => "from address", "to" => "to address"}
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
 
-      assert_received {:planned_trip,
-                       {^from_position, ^to_position, @connection_opts, first_opts},
-                       {:ok, accessible_itineraries}}
-
-      assert_received {:planned_trip,
-                       {^from_position, ^to_position, @connection_opts, second_opts},
-                       {:ok, nonaccessible_itineraries}}
-
-      assert length(
-               Enum.filter([first_opts, second_opts], &Keyword.get(&1, :wheelchair_accessible?))
-             ) == 1
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _opts}, {:ok, itineraries}}
 
       assert %Query{} = actual
       assert actual.from == from_position
@@ -54,27 +50,29 @@ defmodule Dotcom.TripPlan.QueryTest do
       assert {:ok, actual_itineraries} = actual.itineraries
 
       assert Enum.sort(actual_itineraries) ==
-               Enum.sort(accessible_itineraries ++ nonaccessible_itineraries)
+               Enum.sort(itineraries)
     end
 
     test "can plan a basic trip from query params" do
       params = %{
         "from" => "from address",
         "to" => "to address",
-        "optimize_for" => "accessibility",
+        "wheelchair" => "true",
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert actual.errors == MapSet.new([])
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
       assert {:depart_at, %DateTime{}} = actual.time
-      assert actual.wheelchair_accessible?
+      assert actual.wheelchair
       assert actual.itineraries == {:ok, itineraries}
     end
 
@@ -84,11 +82,11 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "Your current location",
         "to_latitude" => "42.3428",
         "to_longitude" => "-71.0857",
-        "optimize_for" => "accessibility",
+        "wheelchair" => "true",
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
 
       to_position = %TripPlan.NamedPosition{
         latitude: 42.3428,
@@ -97,7 +95,9 @@ defmodule Dotcom.TripPlan.QueryTest do
       }
 
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -111,13 +111,15 @@ defmodule Dotcom.TripPlan.QueryTest do
         "from_longitude" => "",
         "to" => "to address",
         "date_time" => @date_time_params,
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from == from_position
       assert actual.to == to_position
@@ -126,7 +128,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
     test "ignores params that are empty strings or missing" do
       params = %{"from" => ""}
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert %Query{} = actual
       assert actual.from == {:error, :required}
       assert actual.to == nil
@@ -139,19 +141,15 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "to address",
         "time" => "arrive",
         "date_time" => @date_time_params,
-        "include_car?" => "false",
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
-      query = from_query(params, @connection_opts, @date_opts)
+      query = from_query(params, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
-      assert query.wheelchair_accessible?
-
-      assert_received {:planned_trip, {_from_position, _to_position, _, opts},
-                       {:ok, _itineraries}}
-
+      assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
+      assert query.wheelchair
       assert opts[:arrive_by] == @date_time
-      assert opts[:wheelchair_accessible?]
+      assert opts[:wheelchair]
     end
 
     test "depart_at time works as expected" do
@@ -160,18 +158,20 @@ defmodule Dotcom.TripPlan.QueryTest do
         "to" => "to address",
         "time" => "depart",
         "date_time" => @date_time_params,
-        "optimize_for" => "accessibility"
+        "wheelchair" => "true"
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert_received {:geocoded_address, "from address", {:ok, from_position}}
       assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      assert_received {:planned_trip, {^from_position, ^to_position, _, _}, {:ok, itineraries}}
+      from = NamedPosition.to_keywords(from_position)
+      to = NamedPosition.to_keywords(to_position)
+      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
       assert actual.from === from_position
       assert actual.to === to_position
       assert actual.time === {:depart_at, @date_time}
-      assert actual.wheelchair_accessible? === true
+      assert actual.wheelchair === true
       assert actual.itineraries == {:ok, itineraries}
     end
 
@@ -183,7 +183,7 @@ defmodule Dotcom.TripPlan.QueryTest do
         "date_time" => @date_time_params
       }
 
-      actual = from_query(params, @connection_opts, @date_opts)
+      actual = from_query(params, @date_opts)
       assert_received {:geocoded_address, "no results", from_result}
       assert_received {:geocoded_address, "too many results", to_result}
       refute_received {:planned_trip, _, _, _}
@@ -196,84 +196,25 @@ defmodule Dotcom.TripPlan.QueryTest do
     end
 
     test "keeps original from/to if no trips are found" do
+      error = {:error, :path_not_found}
+
+      expect(OpenTripPlannerClient.Mock, :plan, fn _, _, _ ->
+        error
+      end)
+
       params = %{
         "from" => "path_not_found",
         "to" => "stops_nearby no_results",
         "time" => "depart",
         "date_time" => @date_time_params,
-        "include_car?" => "false",
         "accessible" => "true"
       }
 
-      query = from_query(params, @connection_opts, @date_opts)
+      query = from_query(params, @date_opts)
       assert %Query{} = query
       assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
       assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to
-      assert query.itineraries == {:error, :path_not_found}
-    end
-
-    test "makes single request when accessibility is checked" do
-      params = %{
-        "from" => "from_address",
-        "to" => "to address",
-        "time" => "depart",
-        "date_time" => @date_time_params,
-        "optimize_for" => "accessibility"
-      }
-
-      assert %Query{} = from_query(params, @connection_opts, @date_opts)
-
-      inaccessible_opts = [
-        wheelchair_accessible?: false,
-        depart_at: @date_time
-      ]
-
-      refute_received {:planned_trip, {_from, _to, _, ^inaccessible_opts}, {:ok, _itineraries}}
-      assert_received {:planned_trip, {_from, _to, _, opts}, {:ok, itineraries}}
-      assert Keyword.get(opts, :wheelchair_accessible?)
-      assert Enum.all?(itineraries, & &1.accessible?)
-    end
-
-    test "When accessible trip returns error, all returned trips are marked as not accessible" do
-      params = %{
-        "from" => "Accessible error",
-        "to" => "to address",
-        "time" => "depart",
-        "date_time" => @date_time_params
-      }
-
-      {:ok, itineraries} = from_query(params, @connection_opts, @date_opts).itineraries
-      refute Enum.any?(itineraries, & &1.accessible?)
-    end
-
-    test "When inaccessible trip returns error, all accessible trips are returned" do
-      params = %{
-        "from" => "Inaccessible error",
-        "to" => "to address",
-        "time" => "depart",
-        "date_time" => @date_time_params
-      }
-
-      {:ok, itineraries} = from_query(params, @connection_opts, @date_opts).itineraries
-      assert Enum.all?(itineraries, & &1.accessible?)
-    end
-
-    test "Handles timeout gracefully" do
-      params = %{
-        "from" => "Timeout error",
-        "from_latitude" => "1",
-        "from_longitude" => "1",
-        "to" => "to address",
-        "date_time" => @date_time_params
-      }
-
-      log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert %Query{itineraries: {:error, :timeout}} =
-                   from_query(params, @connection_opts, @date_opts)
-        end)
-
-      assert log =~ "timed out"
+      assert ^error = query.itineraries
     end
   end
 
@@ -289,40 +230,33 @@ defmodule Dotcom.TripPlan.QueryTest do
              ]
     end
 
-    test "handles optimize_for options" do
+    test "handles wheelchair option" do
       assert opts_from_query(
                %{
-                 "optimize_for" => "accessibility"
+                 "wheelchair" => "true"
                },
                []
              ) == [
-               wheelchair_accessible?: true
+               wheelchair: true
              ]
+    end
 
-      assert opts_from_query(
-               %{
-                 "optimize_for" => "less_walking"
-               },
-               []
-             ) == [
-               optimize_for: :less_walking
+    test "adds an empty list to opts if all modes are disabled" do
+      assert opts_from_query(%{"modes" => %{"subway" => "false", "bus" => "false"}}, []) == [
+               mode: []
              ]
+    end
 
+    test "adds a list of specific modes if any modes are enabled" do
       assert opts_from_query(
-               %{
-                 "optimize_for" => "fewest_transfers"
-               },
+               %{"modes" => %{"subway" => "false", "bus" => "true", "commuter_rail" => "true"}},
                []
-             ) == [
-               optimize_for: :fewest_transfers
+             ) ==
+               [mode: ["RAIL", "BUS"]]
+
+      assert opts_from_query(%{"modes" => %{"subway" => "true", "ferry" => "true"}}, []) == [
+               mode: ["TRAM", "SUBWAY", "FERRY"]
              ]
-
-      assert opts_from_query(
-               %{
-                 "optimize_for" => "best_route"
-               },
-               []
-             ) == []
     end
   end
 
@@ -349,9 +283,19 @@ defmodule Dotcom.TripPlan.QueryTest do
 
   describe "get_itineraries/1" do
     test "returns itineraries if present" do
-      itineraries = [%{}, %{}]
+      itineraries = [
+        %TripPlan.Itinerary{
+          start: Util.now(),
+          stop: Util.now()
+        },
+        %TripPlan.Itinerary{
+          start: Util.now(),
+          stop: Util.now()
+        }
+      ]
+
       query = %Query{itineraries: {:ok, itineraries}, from: nil, to: nil}
-      assert get_itineraries(query) == itineraries
+      assert ^itineraries = get_itineraries(query)
     end
 
     test "returns empty list if no itineraries" do
@@ -383,50 +327,13 @@ defmodule Dotcom.TripPlan.QueryTest do
     end
   end
 
-  describe "get_mode_opts/2" do
-    test "adds an empty list to opts if all modes are disabled" do
-      assert get_mode_opts(%{"subway" => "false", "bus" => "false"}, []) == [mode: []]
-    end
-
-    test "adds a list of specific modes if any modes are enabled" do
-      assert get_mode_opts(%{"subway" => "false", "bus" => "true", "commuter_rail" => "true"}, []) ==
-               [mode: ["RAIL", "BUS"]]
-
-      assert get_mode_opts(%{"subway" => "true", "ferry" => "true"}, []) == [
-               mode: ["TRAM", "SUBWAY", "FERRY"]
-             ]
-    end
-  end
-
-  describe "default_optimize_for/1" do
-    test "adds a default of best route for optimize" do
-      opts = %{"modes" => %{"bus" => "true"}}
-      assert Map.merge(opts, %{"optimize_for" => "best_route"}) == default_optimize_for(opts)
-    end
-  end
-
-  describe "default_mode/1" do
-    test "adds a default of modes" do
-      opts = %{"optimize_for" => "best_route"}
-
-      assert Map.merge(opts, %{
-               "modes" => %{
-                 "bus" => "true",
-                 "commuter_rail" => "true",
-                 "ferry" => "true",
-                 "subway" => "true"
-               }
-             }) == default_mode(opts)
-    end
-  end
-
   describe "get_query_options/1" do
-    test "keeps optimize_for if provided" do
-      opts = %{"optimize_for" => "accessibility"}
+    test "keeps wheelchair if provided" do
+      opts = %{"wheelchair" => "true"}
 
       assert [
                mode: ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"],
-               wheelchair_accessible?: true
+               wheelchair: true
              ] == get_query_options(opts)
     end
 

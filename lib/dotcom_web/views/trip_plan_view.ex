@@ -5,9 +5,9 @@ defmodule DotcomWeb.TripPlanView do
   alias Fares.{Fare, Format}
   alias Phoenix.{HTML}
   alias Routes.Route
-  alias Dotcom.React
   alias Dotcom.TripPlan.{ItineraryRow, Query}
   alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
@@ -42,11 +42,11 @@ defmodule DotcomWeb.TripPlanView do
     ]
   end
 
-  defp trip_explanation(%{wheelchair_accessible?: false}) do
+  defp trip_explanation(%{wheelchair: false}) do
     "Trips"
   end
 
-  defp trip_explanation(%{wheelchair_accessible?: true}) do
+  defp trip_explanation(%{wheelchair: true}) do
     "Wheelchair accessible trips"
   end
 
@@ -58,8 +58,7 @@ defmodule DotcomWeb.TripPlanView do
   def selected_modes_string(%{} = modes) do
     modes
     |> Enum.filter(fn {_, selected?} -> selected? end)
-    |> Enum.map(fn {key, _} -> key |> mode_name() |> String.downcase() end)
-    |> Enum.join(", ")
+    |> Enum.map_join(", ", fn {key, _} -> key |> mode_name() |> String.downcase() end)
   end
 
   defp time_explanation(%{time: {:arrive_by, _dt}}) do
@@ -311,6 +310,11 @@ defmodule DotcomWeb.TripPlanView do
   defp format_green_line_name("Green Line " <> branch), do: "Green Line (#{branch})"
 
   @spec accessibility_icon(TripPlan.Itinerary.t()) :: Phoenix.HTML.Safe.t()
+  defp accessibility_icon(%TripPlan.Itinerary{accessible?: nil}) do
+    # Unknown accessibilityScore, so can't show a value
+    {:safe, ""}
+  end
+
   defp accessibility_icon(%TripPlan.Itinerary{accessible?: accessible?}) do
     content_tag(
       :span,
@@ -515,6 +519,7 @@ defmodule DotcomWeb.TripPlanView do
         tab_html: tab_html,
         id: index,
         map: itinerary_map(map),
+        tag: tag_string(i.tag),
         access_html: access_html,
         fares_estimate_html: fares_estimate_html,
         fare_calculator_html: fare_calculator_html
@@ -522,21 +527,36 @@ defmodule DotcomWeb.TripPlanView do
     end
   end
 
-  @spec render_react(map) :: HTML.safe()
-  def render_react(assigns) do
-    Util.log_duration(__MODULE__, :do_render_react, [assigns])
-  end
+  defp tag_string(nil), do: nil
 
-  @spec do_render_react(map) :: HTML.safe()
-  def do_render_react(%{
-        itineraryData: data
-      }) do
-    React.render(
-      "TripPlannerResults",
-      %{
-        itineraryData: data
-      }
-    )
+  defp tag_string(tag),
+    do:
+      tag
+      |> Atom.to_string()
+      |> String.replace("_", " ")
+
+  @doc """
+  Encodes the trip plan with:
+  - An identifier for who generated the plan
+  - The datetime which the plan was returned
+  - The selected modes
+  - The serialized %Dotcom.TripPlan.Query{} containing:
+    - Wheelchair-only selection
+    - From location (name, coordinates, stop_id)
+    - To location (name, coordinates, stop_id)
+    - Time type (arrive by vs depart at)
+    - List of errors
+    - List of itineraries
+  """
+  def trip_plan_metadata(conn) do
+    query = Jason.encode!(conn.assigns[:query])
+
+    %{
+      "generated_user_id" => Map.get(conn.cookies, Cookies.id_cookie_name()),
+      "generated_time" => Timex.local(),
+      "modes" => conn.assigns[:modes],
+      "query" => Jason.decode!(query)
+    }
   end
 
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer

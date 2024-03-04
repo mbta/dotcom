@@ -1,188 +1,144 @@
 defmodule TripPlan.Api.OpenTripPlanner do
   @moduledoc "Fetches data from the OpenTripPlanner API."
-  @behaviour TripPlan.Api
-  require Logger
-  import __MODULE__.Builder, only: [build_params: 3]
-  import __MODULE__.Parser, only: [parse_ql: 2]
+  alias TripPlan.{
+    Itinerary,
+    Leg,
+    NamedPosition,
+    PersonalDetail,
+    PersonalDetail.Step,
+    TransitDetail
+  }
 
-  def plan(from, to, connection_opts, opts, _parent) do
-    plan(from, to, connection_opts, opts)
+  @transit_modes ~w(SUBWAY TRAM BUS RAIL FERRY)s
+
+  def plan(%NamedPosition{} = from, %NamedPosition{} = to, opts) do
+    plan(NamedPosition.to_keywords(from), NamedPosition.to_keywords(to), opts)
   end
 
-  @impl TripPlan.Api
-  def plan(from, to, _connection_opts, opts) do
-    accessible? = Keyword.get(opts, :wheelchair_accessible?, false)
-
-    with {:ok, params} <- build_params(from, to, opts) do
-      param_string = Enum.map_join(params, "\n", fn {key, val} -> ~s{#{key}: #{val}} end)
-
-      graphql_query = """
-      {
-        plan(
-          #{param_string}
-        )
-        #{itinerary_shape()}
-      }
-      """
-
-      root_url = Keyword.get(opts, :root_url) || config(:otp_url)
-      graphql_url = "#{root_url}/otp/routers/default/index/"
-
-      send_request(graphql_url, graphql_query, accessible?, &parse_ql/2)
-    end
+  def plan(from, to, opts) do
+    otp_impl().plan(from, to, opts)
+    |> parse()
   end
 
-  def config(key) do
-    Util.config(:dotcom, OpenTripPlanner, key)
+  defp otp_impl, do: Application.get_env(:dotcom, :trip_planner, OpenTripPlannerClient)
+
+  defp parse({:error, _} = error), do: error
+
+  defp parse({:ok, itineraries}) do
+    {:ok, Enum.map(itineraries, &parse_itinerary/1)}
   end
 
-  defp send_request(url, query, accessible?, parser) do
-    with {:ok, response} <- log_response(url, query),
-         %{status: 200, body: body} <- response do
-      parser.(body, accessible?)
-    else
-      %{status: _} = response ->
-        {:error, response}
+  defp parse_itinerary(json) do
+    score = json["accessibilityScore"]
 
-      error ->
-        error
-    end
-  end
-
-  defp log_response(url, query) do
-    graphql_req =
-      Req.new(base_url: url, headers: build_headers(config(:wiremock_proxy)))
-      |> AbsintheClient.attach()
-
-    {duration, response} =
-      :timer.tc(
-        Req,
-        :post,
-        [graphql_req, [graphql: query]]
-      )
-
-    _ =
-      Logger.info(fn ->
-        "#{__MODULE__}.plan_response url=#{url} query=#{inspect(query)} #{status_text(response)} duration=#{duration / :timer.seconds(1)}"
-      end)
-
-    response
-  end
-
-  defp build_headers("true") do
-    proxy_url = Application.get_env(:dotcom, OpenTripPlanner)[:wiremock_proxy_url]
-    [{"X-WM-Proxy-Url", proxy_url}]
-  end
-
-  defp build_headers(_), do: []
-
-  defp status_text({:ok, %{status: code, body: body}}) do
-    string_body = Poison.encode!(body)
-    "status=#{code} content_length=#{byte_size(string_body)}"
-  end
-
-  defp status_text({:error, error}) do
-    "status=error error=#{inspect(error)}"
-  end
-
-  defp itinerary_shape() do
-    """
-    {
-      routingErrors {
-        code
-        description
-      }
-      itineraries {
-        accessibilityScore
-        startTime
-        endTime
-        duration
-        legs {
-          mode
-          startTime
-          endTime
-          distance
-          duration
-          intermediateStops {
-            id
-            gtfsId
-            name
-            desc
-            lat
-            lon
-            code
-            locationType
-          }
-          transitLeg
-          headsign
-          realTime
-          realtimeState
-          agency {
-            id
-            gtfsId
-            name
-          }
-          alerts {
-            id
-            alertHeaderText
-            alertDescriptionText
-          }
-          fareProducts {
-            id
-            product {
-              id
-              name
-              riderCategory {
-                id
-                name
-              }
-            }
-          }
-          from {
-            name
-            lat
-            lon
-            departureTime
-            arrivalTime
-            stop {
-              gtfsId
-            }
-          }
-          to {
-            name
-            lat
-            lon
-            departureTime
-            arrivalTime
-            stop {
-              gtfsId
-            }
-          }
-          route {
-            gtfsId
-            longName
-            shortName
-            desc
-            color
-            textColor
-          }
-          trip {
-            gtfsId
-          }
-          steps {
-            distance
-            streetName
-            lat
-            lon
-            relativeDirection
-            stayOn
-          }
-          legGeometry {
-            points
-          }
-        }
-      }
+    %Itinerary{
+      start: parse_time(json["startTime"]),
+      stop: parse_time(json["endTime"]),
+      legs: Enum.map(json["legs"], &parse_leg/1),
+      accessible?: if(score, do: score == 1.0),
+      tag: json["tag"]
     }
-    """
+  end
+
+  defp parse_time(ms_after_epoch) do
+    {:ok, ms_after_epoch_dt} =
+      ms_after_epoch
+      |> DateTime.from_unix(:millisecond)
+
+    Timex.to_datetime(
+      ms_after_epoch_dt,
+      Application.fetch_env!(:open_trip_planner_client, :timezone)
+    )
+  end
+
+  defp parse_leg(json) do
+    %Leg{
+      start: parse_time(json["startTime"]),
+      stop: parse_time(json["endTime"]),
+      mode: parse_mode(json),
+      from: parse_named_position(json["from"], "stop"),
+      to: parse_named_position(json["to"], "stop"),
+      polyline: json["legGeometry"]["points"],
+      name: json["route"]["shortName"],
+      long_name: json["route"]["longName"],
+      type: json["agency"]["name"],
+      url: json["agency"]["url"],
+      description: json["mode"]
+    }
+  end
+
+  def parse_named_position(json, "stop") do
+    stop = json["stop"]
+
+    %NamedPosition{
+      name: json["name"],
+      stop_id: if(stop, do: id_after_colon(stop["gtfsId"])),
+      longitude: json["lon"],
+      latitude: json["lat"]
+    }
+  end
+
+  defp parse_mode(%{"mode" => "WALK"} = json) do
+    %PersonalDetail{
+      distance: json["distance"],
+      steps: Enum.map(json["steps"], &parse_step/1)
+    }
+  end
+
+  defp parse_mode(%{"mode" => mode} = json) when mode in @transit_modes do
+    %TransitDetail{
+      route_id: id_after_colon(json["route"]["gtfsId"]),
+      trip_id: id_after_colon(json["trip"]["gtfsId"]),
+      intermediate_stop_ids: Enum.map(json["intermediateStops"], &id_after_colon(&1["gtfsId"]))
+    }
+  end
+
+  defp parse_step(json) do
+    %Step{
+      distance: json["distance"],
+      relative_direction: parse_relative_direction(json["relativeDirection"]),
+      absolute_direction: parse_absolute_direction(json["absoluteDirection"]),
+      street_name: json["streetName"]
+    }
+  end
+
+  # http://dev.opentripplanner.org/apidoc/1.0.0/json_RelativeDirection.html
+  for dir <- ~w(
+        depart
+        hard_left
+        left
+        slightly_left
+        continue
+        slightly_right
+        right
+        hard_right
+        circle_clockwise
+        circle_counterclockwise
+        elevator
+        uturn_left
+        uturn_right
+        enter_station
+        exit_station
+        follow_signs)a do
+    defp parse_relative_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
+  end
+
+  # http://dev.opentripplanner.org/apidoc/1.0.0/json_AbsoluteDirection.html
+  for dir <- ~w(north northeast east southeast south southwest west northwest)a do
+    defp parse_absolute_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
+  end
+
+  defp parse_absolute_direction(nil), do: nil
+
+  defp id_after_colon(feed_colon_id) do
+    [feed, id] = String.split(feed_colon_id, ":", parts: 2)
+
+    # feed id is either mbta-ma-us (MBTA) or 22722274 (Massport), if it's neither, assume it's MBTA
+    case feed do
+      "mbta-ma-us" -> id
+      "22722274" -> "Massport-" <> id
+      "2272_2274" -> "Massport-" <> id
+      _ -> id
+    end
   end
 end

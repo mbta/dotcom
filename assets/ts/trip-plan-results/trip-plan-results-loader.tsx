@@ -7,10 +7,13 @@ const render = (): void => {
   if (!itinDataEl) return;
   const rootEl = document.getElementById("react-root");
   rootEl!.innerHTML = ""; // purge server rendered content
-  const itineraryData = JSON.parse(itinDataEl.innerHTML)
-    .itineraryData as Itinerary[];
+  const data = JSON.parse(itinDataEl.innerHTML);
+  const itineraryData = data.itineraryData as Itinerary[];
   ReactDOM.render(
-    <TripPlannerResults itineraryData={itineraryData} />,
+    <TripPlannerResults
+      itineraryData={itineraryData}
+      metadata={data.metadata}
+    />,
     document.getElementById("react-root")
   );
 };
