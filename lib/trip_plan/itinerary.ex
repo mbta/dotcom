@@ -13,11 +13,13 @@ defmodule TripPlan.Itinerary do
   alias Stops.Stop
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
 
+  @derive {Jason.Encoder, except: [:passes]}
   @enforce_keys [:start, :stop]
   defstruct [
     :start,
     :stop,
     :passes,
+    :tag,
     legs: [],
     accessible?: false
   ]
@@ -26,8 +28,9 @@ defmodule TripPlan.Itinerary do
           start: DateTime.t(),
           stop: DateTime.t(),
           legs: [Leg.t()],
-          accessible?: boolean,
-          passes: passes()
+          accessible?: boolean | nil,
+          passes: passes(),
+          tag: OpenTripPlannerClient.ItineraryTag.tag()
         }
 
   @type passes :: %{
@@ -85,13 +88,6 @@ defmodule TripPlan.Itinerary do
     |> Enum.sum()
   end
 
-  @doc "Determines if two itineraries represent the same sequence of legs at the same time"
-  @spec same_itinerary?(t, t) :: boolean
-  def same_itinerary?(itinerary_1, itinerary_2) do
-    itinerary_1.start == itinerary_2.start && itinerary_1.stop == itinerary_2.stop &&
-      same_legs?(itinerary_2, itinerary_2)
-  end
-
   @doc "Return a lost of all of the "
   @spec intermediate_stop_ids(t) :: [Stop.id_t()]
   def intermediate_stop_ids(itinerary) do
@@ -104,12 +100,6 @@ defmodule TripPlan.Itinerary do
     for leg <- legs, {:ok, value} <- leg |> mapper.() |> List.wrap() do
       value
     end
-  end
-
-  @spec same_legs?(t, t) :: boolean
-  defp same_legs?(%__MODULE__{legs: legs_1}, %__MODULE__{legs: legs_2}) do
-    Enum.count(legs_1) == Enum.count(legs_2) &&
-      legs_1 |> Enum.zip(legs_2) |> Enum.all?(fn {l1, l2} -> Leg.same_leg?(l1, l2) end)
   end
 
   defp leg_intermediate(%Leg{mode: %TransitDetail{intermediate_stop_ids: ids}}) do

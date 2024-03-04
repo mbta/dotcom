@@ -3,10 +3,11 @@ defmodule DotcomWeb.TripPlanControllerTest do
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController
-  alias TripPlan.{Api.MockPlanner, Itinerary, PersonalDetail, TransitDetail}
+  alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
   doctest DotcomWeb.TripPlanController
 
   import Mock
+  import Mox
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
@@ -43,7 +44,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       "date_time" => @afternoon,
       "time" => "depart",
       "modes" => @modes,
-      "optimize_for" => "best_route"
+      "wheelchair" => "true"
     }
   }
 
@@ -136,8 +137,15 @@ defmodule DotcomWeb.TripPlanControllerTest do
     stop: DateTime.from_unix!(0)
   }
 
+  setup :verify_on_exit!
+
   setup do
-    conn = default_conn() |> put_req_cookie("tp_redesign", "true")
+    stub_with(OpenTripPlannerClient.Mock, Test.Support.OpenTripPlannerClientStub)
+    :ok
+  end
+
+  setup do
+    conn = default_conn()
 
     end_of_rating =
       @system_time
@@ -253,28 +261,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert %Query{} = conn.assigns.query
     end
 
-    test "assigns.optimize_for defaults to best_route", %{conn: conn} do
-      params = %{
-        "date_time" => @system_time,
-        "plan" => %{
-          "from" => "Your current location",
-          "from_latitude" => "42.3428",
-          "from_longitude" => "-71.0857",
-          "to" => "to address",
-          "to_latitude" => "",
-          "to_longitude" => "",
-          "date_time" => @morning,
-          "modes" => @modes
-        }
-      }
-
-      conn = get(conn, trip_plan_path(conn, :index, params))
-
-      assert html_response(conn, 200) =~ "Trip Planner"
-      assert conn.assigns.optimize_for == "best_route"
-    end
-
-    test "assigns.optimize_for uses value provided in params", %{conn: conn} do
+    test "assigns.wheelchair uses value provided in params", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
         "plan" => %{
@@ -286,14 +273,14 @@ defmodule DotcomWeb.TripPlanControllerTest do
           "to_longitude" => "",
           "date_time" => @morning,
           "modes" => @modes,
-          "optimize_for" => "less_walking"
+          "wheelchair" => "true"
         }
       }
 
       conn = get(conn, trip_plan_path(conn, :index, params))
 
       assert html_response(conn, 200) =~ "Trip Planner"
-      assert conn.assigns.optimize_for == "less_walking"
+      assert conn.assigns.wheelchair == true
     end
 
     test "can use the old date time format", %{conn: conn} do
@@ -715,31 +702,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
       assert Map.get(conn.assigns, :plan_error) == []
       refute response =~ "Date is not valid"
     end
-
-    test "destination address has a checkmark in its stop bubble", %{conn: conn} do
-      params = %{
-        "date_time" => @system_time,
-        "plan" => %{"from" => "from address", "to" => "to address", "date_time" => @morning}
-      }
-
-      morning_conn = get(conn, trip_plan_path(conn, :index, params))
-      assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 2
-
-      afternoon_conn =
-        get(
-          conn,
-          trip_plan_path(conn, :index, %{
-            params
-            | "plan" => %{
-                "from" => "from address",
-                "to" => "to address",
-                "date_time" => @afternoon
-              }
-          })
-        )
-
-      assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 2
-    end
   end
 
   describe "/from/ address path" do
@@ -830,10 +792,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   describe "routes_for_query/1" do
     setup do
-      from = MockPlanner.random_stop()
-      to = MockPlanner.random_stop()
-      connection_opts = [user_id: 1]
-      {:ok, itineraries} = TripPlan.plan(from, to, connection_opts, [])
+      itineraries = Test.Support.Factory.build_list(3, :itinerary)
       {:ok, %{itineraries: itineraries}}
     end
 

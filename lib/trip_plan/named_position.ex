@@ -1,6 +1,7 @@
 defmodule TripPlan.NamedPosition do
   @moduledoc "Defines a position for a trip plan as a stop and/or lat/lon"
 
+  @derive Jason.Encoder
   defstruct name: "",
             stop_id: nil,
             latitude: nil,
@@ -16,5 +17,9 @@ defmodule TripPlan.NamedPosition do
   defimpl Util.Position do
     def latitude(%{latitude: latitude}), do: latitude
     def longitude(%{longitude: longitude}), do: longitude
+  end
+
+  def to_keywords(%__MODULE__{name: name, stop_id: stop_id, latitude: lat, longitude: lon}) do
+    [name: name, stop_id: stop_id, lat_lon: {lat, lon}]
   end
 end

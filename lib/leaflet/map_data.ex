@@ -13,6 +13,7 @@ defmodule Leaflet.MapData do
 
   @type lat_lng :: %{latitude: float, longitude: float}
 
+  @derive Jason.Encoder
   defstruct default_center: %{latitude: 42.360718, longitude: -71.05891},
             height: 0,
             markers: [],

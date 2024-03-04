@@ -6,6 +6,7 @@ import {
   addAlertItemEventHandlers,
   removeAlertItemEventHandlers
 } from "../../../js/alert-item";
+import FeedbackForm from "../../components/FeedbackForm";
 
 /*
 The following ignored functions are vanilla JS event handlers
@@ -45,6 +46,7 @@ export const removeToggleAlertHandlers = (): void => {
 
 interface Props {
   itinerary: Itinerary;
+  feedbackCallback: (formData: Record<string, string>) => void;
 }
 
 const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
@@ -71,10 +73,16 @@ const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
 };
 
 const ItineraryAccordion = ({
-  itinerary
+  itinerary,
+  feedbackCallback
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-trip-plan-results__itinerary">
     <div className="m-trip-plan-results__itinerary-header">
+      {itinerary.tag && (
+        <div className="m-trip-plan-results__itinerary-tag u-small-caps">
+          {itinerary.tag}
+        </div>
+      )}
       <div className="m-trip-plan-results__itinerary-header-content">
         <div
           className="m-trip-plan-results__itinerary-summary"
@@ -89,6 +97,18 @@ const ItineraryAccordion = ({
         className="m-trip-plan-results__itinerary-fares"
         dangerouslySetInnerHTML={{ __html: itinerary.fares_estimate_html }} // eslint-disable-line react/no-danger
       />
+      <div style={{ gridColumn: "1 / -1" }}>
+        <hr />
+        <FeedbackForm
+          promptText="Is this trip plan helpful?"
+          upLabel="Yes, it is helpful"
+          downLabel="No, it is not helpful"
+          commentPromptText="Share more details"
+          commentLabel="Why is this trip plan not helpful?"
+          commentPlaceholder="Ex. too many transfers, would take too long, etc."
+          formDataCallback={feedbackCallback}
+        />
+      </div>
     </div>
     <Accordion
       id={`itinerary-${itinerary.id}`}

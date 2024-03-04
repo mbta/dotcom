@@ -3,7 +3,7 @@ defmodule Leaflet.MapData.Polyline do
   Builds a struct for rendering a polyline on a Leaflet map.
   """
   alias RoutePatterns.RoutePattern
-
+  @derive Jason.Encoder
   defstruct color: "#000000",
             dotted?: false,
             id: "",

@@ -7,7 +7,7 @@ defmodule DotcomWeb.TripPlanViewTest do
   alias Fares.Fare
   alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
-  alias TripPlan.Api.MockPlanner
+  alias Test.Support.Factory
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   @highest_one_way_fare %Fares.Fare{
@@ -93,7 +93,7 @@ defmodule DotcomWeb.TripPlanViewTest do
       query = %{
         @base_explanation_query
         | time: {:depart_at, @date_time},
-          wheelchair_accessible?: true
+          wheelchair: true
       }
 
       selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
@@ -112,7 +112,7 @@ closest departure to 12:00 AM, Thursday, January 1st."
       query = %{
         @base_explanation_query
         | time: {:arrive_by, @date_time},
-          wheelchair_accessible?: false
+          wheelchair: false
       }
 
       selected = %{subway: true, bus: true, commuter_rail: true, ferry: true}
@@ -218,7 +218,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
-      from = MockPlanner.random_stop()
+      from = Test.Support.Factory.build(:stop_named_position)
 
       query = %Query{
         from: {:ok, from},
@@ -611,8 +611,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              MockPlanner.personal_leg(nil, nil, nil, nil),
-              MockPlanner.personal_leg(nil, nil, nil, nil)
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail)),
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -625,9 +625,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              MockPlanner.personal_leg(nil, nil, nil, nil),
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail)),
               @bus_leg,
-              MockPlanner.personal_leg(nil, nil, nil, nil)
+              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -702,7 +702,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       date_time: Util.now(),
       errors: [],
       modes: %{},
-      optimize_for: :best_route,
+      wheelchair: false,
       initial_map_data: Dotcom.TripPlan.Map.initial_map_data(),
       plan_datetime_selector_fields: plan_datetime_selector_fields
     }
@@ -733,6 +733,68 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       # two inputs because of the <noscript> block
       assert [{"input", _, _}, {"input", _, _}] =
                Floki.find(html, ~s(input#plan-date-input[type="text"]))
+    end
+  end
+
+  describe "trip_plan_metadata/1" do
+    test "returns a map repesenting the planned trip", %{conn: conn} do
+      assert result = trip_plan_metadata(conn)
+
+      assert %{
+               "generated_user_id" => _id,
+               "generated_time" => time,
+               "modes" => _modes,
+               "query" => _query
+             } = result
+
+      assert %DateTime{} = time
+    end
+
+    test "returns with encdoded %TripPlan.Query{}", %{conn: conn} do
+      conn =
+        assign(conn, :query, %Query{
+          from: Factory.build(:named_position),
+          to: Factory.build(:stop_named_position),
+          time: {:depart_at, Util.now()},
+          wheelchair: true,
+          itineraries: {:ok, Factory.build_list(3, :itinerary)}
+        })
+
+      assert %{
+               "query" => %{
+                 "errors" => errors,
+                 "from" => %{
+                   "latitude" => _,
+                   "longitude" => _,
+                   "name" => _,
+                   "stop_id" => _
+                 },
+                 "itineraries" => itineraries,
+                 "time_type" => "depart_at",
+                 "date_time" => dt,
+                 "to" => %{
+                   "latitude" => _,
+                   "longitude" => _,
+                   "name" => _,
+                   "stop_id" => _
+                 },
+                 "wheelchair" => true
+               }
+             } = trip_plan_metadata(conn)
+
+      assert errors == []
+      assert is_binary(dt)
+
+      assert [
+               %{
+                 "accessible?" => _,
+                 "legs" => _,
+                 "start" => _,
+                 "stop" => _,
+                 "tag" => _
+               }
+               | _
+             ] = itineraries
     end
   end
 

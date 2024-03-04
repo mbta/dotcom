@@ -90,6 +90,33 @@ if config_env() == :dev do
   end
 end
 
+redis_config = [
+  mode: :redis_cluster,
+  redis_cluster: [
+    configuration_endpoints: [
+      conn_opts: [
+        host: redis_host,
+        port: redis_port
+      ]
+    ]
+  ],
+  stats: true,
+  telemetry: true
+]
+
+config :dotcom, :redis, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
+
+# Set caches that use the Redis cluster
+config :dotcom, Dotcom.Cache.Multilevel,
+  model: :inclusive,
+  levels: [
+    {Dotcom.Cache.Multilevel.Local, backend: :ets, stats: true, telemetry: true},
+    {Dotcom.Cache.Multilevel.Redis, redis_config},
+    {Dotcom.Cache.Multilevel.Publisher, stats: true, telemetry: true}
+  ]
+
+config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
+
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
     cms_basic_auth: [
@@ -130,6 +157,11 @@ config :dotcom, OpenTripPlanner,
   otp_url: System.get_env("OPEN_TRIP_PLANNER_URL"),
   wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false"),
   wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
+
+if config_env() != :test and System.get_env("OPEN_TRIP_PLANNER_URL") != "" do
+  config :open_trip_planner_client,
+    otp_url: System.get_env("OPEN_TRIP_PLANNER_URL")
+end
 
 if config_env() != :test do
   config :dotcom,

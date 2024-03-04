@@ -9,13 +9,12 @@ defmodule DotcomWeb.TripPlanController do
   alias Routes.Route
   alias Dotcom.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Dotcom.TripPlan.Map, as: TripPlanMap
-  alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
   plug(:assign_initial_map)
   plug(:breadcrumbs)
   plug(:modes)
-  plug(:optimize_for)
+  plug(:wheelchair)
   plug(:meta_description)
   plug(:assign_datetime_selector_fields)
 
@@ -240,20 +239,11 @@ defmodule DotcomWeb.TripPlanController do
     Enum.map(related_links, fn x -> Enum.uniq_by(x, fn y -> get_route(y) end) end)
   end
 
-  defp get_conn_opts(conn) do
-    user_id =
-      conn.cookies
-      |> Map.get(Cookies.id_cookie_name())
-
-    [user_id: user_id]
-  end
-
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
-  defp render_plan(conn, plan) do
+  defp render_plan(conn, plan_params) do
     query =
       Query.from_query(
-        plan,
-        get_conn_opts(conn),
+        plan_params,
         now: conn.assigns.date_time,
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
       )
@@ -266,7 +256,7 @@ defmodule DotcomWeb.TripPlanController do
 
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
+    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan_params)
 
     conn
     |> render(
@@ -457,13 +447,14 @@ defmodule DotcomWeb.TripPlanController do
     assign(conn, :breadcrumbs, [Breadcrumb.build("Trip Planner")])
   end
 
-  @spec optimize_for(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
-  def optimize_for(%Plug.Conn{params: %{"plan" => %{"optimize_for" => val}}} = conn, _) do
-    assign(conn, :optimize_for, val)
+  @spec wheelchair(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
+  def wheelchair(%Plug.Conn{params: %{"plan" => plan_params}} = conn, _) do
+    assign(conn, :wheelchair, get_in(plan_params, ["wheelchair"]) === "true")
   end
 
-  def optimize_for(%Plug.Conn{} = conn, _) do
-    assign(conn, :optimize_for, "best_route")
+  # Initialize to checked state for trip plan accessibility
+  def wheelchair(%Plug.Conn{} = conn, _) do
+    assign(conn, :wheelchair, true)
   end
 
   @spec routes_for_query([Itinerary.t()]) :: route_map

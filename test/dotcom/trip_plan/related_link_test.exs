@@ -2,14 +2,18 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
   use ExUnit.Case, async: true
   import Dotcom.TripPlan.RelatedLink
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
+  import Test.Support.Factory
   alias Routes.Route
-  alias TripPlan.{Itinerary, Api.MockPlanner}
+  alias TripPlan.Itinerary
 
-  setup do
-    from = MockPlanner.random_stop()
-    to = MockPlanner.random_stop()
-    connection_opts = [user_id: 1]
-    {:ok, [itinerary]} = TripPlan.plan(from, to, connection_opts, [])
+  setup_all do
+    itinerary =
+      build(:itinerary,
+        legs: [
+          build(:leg, mode: build(:transit_detail))
+        ]
+      )
+
     {:ok, %{itinerary: itinerary}}
   end
 
@@ -35,11 +39,14 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
     end
 
     test "returns a non-empty list for multiple kinds of itineraries" do
-      connection_opts = [user_id: 1]
-
       for _i <- 0..100 do
-        {:ok, [itinerary]} =
-          TripPlan.plan(MockPlanner.random_stop(), MockPlanner.random_stop(), connection_opts, [])
+        itinerary =
+          build(:itinerary,
+            legs: [
+              build(:leg, mode: build(:transit_detail)),
+              build(:leg, mode: build(:transit_detail))
+            ]
+          )
 
         assert [_ | _] = links_for_itinerary(itinerary)
       end
@@ -49,10 +56,12 @@ defmodule Dotcom.TripPlan.RelatedLinkTest do
       itinerary: itinerary
     } do
       for _i <- 0..10 do
-        itinerary =
-          itinerary
-          |> MockPlanner.add_transit_leg()
-          |> MockPlanner.add_transit_leg()
+        leg =
+          build(:leg, %{
+            mode: build(:transit_detail)
+          })
+
+        itinerary = %Itinerary{itinerary | legs: [leg | itinerary.legs]}
 
         links = links_for_itinerary(itinerary)
         # for each leg, we build the expected test along with the URL later, if

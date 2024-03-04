@@ -7,6 +7,11 @@ _ = Tzdata.ReleaseUpdater.poll_for_update()
 # Avoid starting unneeded background processing during tests
 System.put_env("USE_SERVER_SENT_EVENTS", "false")
 System.put_env("WARM_CACHES", "false")
+
+Application.ensure_all_started(:ex_machina)
+Application.ensure_all_started(:mox)
+Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
+
 # Ensure the deps are all started
 Application.ensure_all_started(:dotcom)
 ExUnit.start(capture_log: true)

@@ -2,7 +2,7 @@ defmodule Leaflet.MapData.Marker do
   @moduledoc """
   Represents a leaflet map marker.
   """
-
+  @derive Jason.Encoder
   defstruct id: nil,
             icon: nil,
             icon_opts: nil,

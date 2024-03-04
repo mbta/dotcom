@@ -2,17 +2,41 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
   alias Dotcom.TripPlan.ItineraryRow
   import Dotcom.TripPlan.ItineraryRowList
+  import Test.Support.Factory
 
-  @from TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
-  @to TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-  @connection_opts [user_id: 1]
   @date_time ~N[2017-06-27T11:43:00]
+  @from build(:stop_named_position, stop_id: "place-sstat")
+  @to build(:named_position)
 
   describe "from_itinerary" do
     setup do
       # Start parent supervisor - Dotcom.TripPlan.ItineraryRow.get_additional_routes/5 needs this to be running.
       _ = start_supervised(Dotcom.GreenLine.Supervisor)
-      {:ok, [itinerary]} = TripPlan.plan(@from, @to, @connection_opts, depart_at: @date_time)
+
+      # these rows depend on the itinerary having some sort of logic more
+      # advanced than randomly generated data. so here we make sure the legs are
+      # timed in sequence.
+      itinerary =
+        build(:itinerary,
+          start: @date_time,
+          stop: Timex.shift(@date_time, minutes: 60),
+          legs: [
+            build(:leg,
+              from: @from,
+              start: Timex.shift(@date_time, minutes: 10),
+              stop: Timex.shift(@date_time, minutes: 20)
+            ),
+            build(:leg,
+              start: Timex.shift(@date_time, minutes: 30),
+              stop: Timex.shift(@date_time, minutes: 40)
+            ),
+            build(:leg,
+              to: @to,
+              start: Timex.shift(@date_time, minutes: 50),
+              stop: Timex.shift(@date_time, minutes: 60)
+            )
+          ]
+        )
 
       deps = %ItineraryRow.Dependencies{
         route_mapper: &route_mapper/1,
@@ -41,10 +65,16 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "ItineraryRow contains given stop name when no stop_id present", %{deps: deps} do
-      from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-      to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-sstat")
+      from = build(:stop_named_position, stop_id: nil)
+      to = build(:stop_named_position, stop_id: "place-sstat")
       date_time = ~N[2017-06-27T11:43:00]
-      {:ok, [itinerary]} = TripPlan.plan(from, to, @connection_opts, depart_at: date_time)
+
+      itinerary =
+        build(:itinerary,
+          start: date_time,
+          legs: [build(:leg, from: from)] ++ build_list(3, :leg) ++ [build(:leg, to: to)]
+        )
+
       itinerary_row_list = from_itinerary(itinerary, deps)
 
       itinerary_destination =
@@ -108,12 +138,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
     test "Distance is given with personal steps", %{itinerary: itinerary, deps: deps} do
       leg =
-        TripPlan.Api.MockPlanner.personal_leg(
-          @from,
-          @to,
-          @date_time,
-          Timex.shift(@date_time, minutes: 15)
-        )
+        build(:leg, mode: build(:personal_detail))
 
       personal_itinerary = %{itinerary | legs: [leg]}
       row_list = from_itinerary(personal_itinerary, deps)
@@ -140,8 +165,13 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "Does not replace to stop_id", %{deps: deps} do
-      to = TripPlan.Api.MockPlanner.random_stop(stop_id: "place-north")
-      {:ok, [itinerary]} = TripPlan.plan(@from, to, @connection_opts, depart_at: @date_time)
+      to = build(:stop_named_position, stop_id: "place-north")
+
+      itinerary =
+        build(:itinerary,
+          start: @date_time,
+          legs: [build(:leg, from: @from)] ++ build_list(3, :leg) ++ [build(:leg, to: to)]
+        )
 
       {name, id, _datetime, _alerts} =
         itinerary |> from_itinerary(deps, to: "Final Destination") |> Map.get(:destination)
@@ -151,8 +181,13 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
     end
 
     test "Uses given from name when one is provided", %{deps: deps} do
-      from = TripPlan.Api.MockPlanner.random_stop(stop_id: nil)
-      {:ok, [itinerary]} = TripPlan.plan(from, @to, @connection_opts, depart_at: @date_time)
+      from = build(:named_position)
+
+      itinerary =
+        build(:itinerary,
+          start: @date_time,
+          legs: [build(:leg, from: from)] ++ build_list(3, :leg) ++ [build(:leg, to: @to)]
+        )
 
       {name, nil} =
         itinerary |> from_itinerary(deps, from: "Starting Point") |> Enum.at(0) |> Map.get(:stop)
