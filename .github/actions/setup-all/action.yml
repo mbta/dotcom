@@ -11,7 +11,7 @@ runs:
   using: "composite"
   steps:
   - name: Restore cache of languages from .tool-versions
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: ~/.asdf
       key: ci-asdf-cache-${{ hashFiles('.tool-versions') }}
@@ -29,7 +29,7 @@ runs:
   - uses: mbta/actions/reshim-asdf@v1
 
   - name: Restore cache of Elixir dependencies from mix.lock
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: deps
       key: ci-mix-cache-${{ hashFiles('**/mix.lock') }}
@@ -41,14 +41,14 @@ runs:
     shell: bash
 
   - name: Restore cache of Node dependencies from package-lock.json
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: assets/node_modules
       key: ci-nodejs-cache-${{ hashFiles('assets/package-lock.json') }}
     id: node-cache
   
   - name: Restore Cypress cache
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: ~/.cache/Cypress
       key: ci-cypress-${{ hashFiles('assets/package-lock.json') }}

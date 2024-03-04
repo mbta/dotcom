@@ -113,9 +113,11 @@ jobs:
   smoke:
     runs-on: ubuntu-latest
     needs: deploy
-    name: Run Smoke Tests against new deployment
+    name: Run Smoke Tests against ${{ inputs.deployment-env }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup-all
       - run: npx --prefix assets cypress run --spec cypress/e2e/smoke.cy.js
         env:
@@ -132,3 +134,33 @@ jobs:
           name: cypress-videos
           path: cypress/videos
           if-no-files-found: ignore
+  cuj:
+    runs-on: ubuntu-latest
+    needs: deploy
+    name: Run Critical User Journeys against ${{ inputs.deployment-env }}
+    timeout-minutes: 30
+    container:
+      image: mcr.microsoft.com/playwright:v1.42.1-jammy
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .tool-versions
+        cache: npm
+        cache-dependency-path: package-lock.json
+    - run: npm install --ignore-scripts
+    - run: npx playwright install --with-deps chromium
+    - run: npx playwright test all-scenarios
+      env:
+        CI: true
+        HOME: /root
+        PLAYWRIGHT_TEST_BASE_URL: ${{ needs.deploy.outputs.deployment-url }}
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: critical-user-journey-report-${{ github.event.deployment_status.environment }}-${{ github.sha }}
+        path: playwright-report
+        retention-days: 30
+
