@@ -24,19 +24,6 @@ if System.get_env("PHX_SERVER") do
   config :dotcom, DotcomWeb.Endpoint, server: true
 end
 
-redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
-redis_port_env = System.get_env("REDIS_PORT", "6379")
-
-redis_host =
-  if redis_host_env == "",
-    do: "127.0.0.1",
-    else: redis_host_env
-
-redis_port =
-  if redis_port_env == "",
-    do: 6379,
-    else: String.to_integer(redis_port_env)
-
 if config_env() == :dev do
   # For development, we disable any cache and enable
   # debugging and code reloading.
@@ -64,6 +51,20 @@ if config_env() == :dev do
   end
 end
 
+# Redis cluster configuration
+redis_host_env = System.get_env("REDIS_HOST", "127.0.0.1")
+redis_port_env = System.get_env("REDIS_PORT", "6379")
+
+redis_host =
+  if redis_host_env == "",
+    do: "127.0.0.1",
+    else: redis_host_env
+
+redis_port =
+  if redis_port_env == "",
+    do: 6379,
+    else: String.to_integer(redis_port_env)
+
 redis_config = [
   mode: :redis_cluster,
   redis_cluster: [
@@ -78,7 +79,18 @@ redis_config = [
   telemetry: true
 ]
 
-config :dotcom, CMS.Cache, redis_config
+# This is used by PubSub, we only use the first node in the cluster
+config :dotcom, :redis, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
+
+# Set caches that use the Redis cluster
+config :dotcom, Dotcom.Cache.Multilevel,
+  model: :inclusive,
+  levels: [
+    {Dotcom.Cache.Multilevel.Local, backend: :ets, stats: true, telemetry: true},
+    {Dotcom.Cache.Multilevel.Redis, redis_config},
+    {Dotcom.Cache.Multilevel.Publisher, stats: true, telemetry: true}
+  ]
+
 config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
 
 if config_env() == :test do
@@ -210,6 +222,8 @@ config :recaptcha,
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
   environment_name: System.get_env("SENTRY_ENVIRONMENT")
+
+config :dotcom, env: config_env()
 
 if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning notice info debug all none) &&
      config_env() != :test do

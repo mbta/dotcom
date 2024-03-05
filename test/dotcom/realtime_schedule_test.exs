@@ -167,6 +167,13 @@ defmodule Dotcom.RealtimeScheduleTest do
     }
   ]
 
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
+    %{cache: cache}
+  end
+
   test "stop_data/3 returns stop" do
     opts = [
       stops_fn: fn _ -> @stop end,
@@ -289,7 +296,6 @@ defmodule Dotcom.RealtimeScheduleTest do
       }
     ]
 
-    RealtimeSchedule.clear_cache()
     actual = RealtimeSchedule.stop_data(stops, @now, opts)
     assert actual == expected
   end
@@ -307,7 +313,6 @@ defmodule Dotcom.RealtimeScheduleTest do
 
     expected = []
 
-    RealtimeSchedule.clear_cache()
     actual = RealtimeSchedule.stop_data(stops, @now, opts)
 
     assert actual == expected

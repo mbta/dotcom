@@ -7,7 +7,6 @@ defmodule Algolia.ApiTest do
 
   describe "action" do
     setup do
-      ConCache.ets(Algolia.Api) |> :ets.delete_all_objects()
       {:ok, bypass: Bypass.open(), failure: Bypass.open(), success: Bypass.open()}
     end
 

@@ -280,7 +280,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjects.Fare do
   @spec filter_insert([repo_arg], [{fare_key, String.t()}]) :: [repo_arg]
   defp filter_insert(old_args, new_args) do
     Enum.reduce(new_args, old_args, fn {k, v}, args ->
-      Keyword.put(args, k, String.to_existing_atom(v))
+      Keyword.put(args, k, String.to_atom(v))
     end)
   end
 

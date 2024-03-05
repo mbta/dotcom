@@ -7,6 +7,13 @@ defmodule Stops.RepoTest do
   import Stops.Repo
   alias Stops.Stop
 
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+    cache.flush()
+
+    %{cache: cache}
+  end
+
   describe "get/1" do
     test "returns nil if the stop doesn't exist" do
       assert get("get test: stop doesn't exist") == nil
@@ -80,12 +87,15 @@ defmodule Stops.RepoTest do
                by_route("351", 1, date: saturday)
     end
 
-    test "caches per-stop as well" do
-      ConCache.delete(Stops.Repo, {:by_route, {"Red", 1, []}})
-      ConCache.put(Stops.Repo, {:stop, "place-brntn"}, {:ok, "to-be-overwritten"})
+    test "caches per-stop as well", %{cache: cache} do
+      key = Dotcom.Cache.KeyGenerator.generate(Stops.Repo, :stop, "place-brntn")
+
+      cache.put(key, {:ok, "to-be-overwritten"})
+
       assert get("place-brntn") == "to-be-overwritten"
 
       by_route("Red", 1, [])
+
       assert %Stops.Stop{} = get("place-brntn")
     end
   end

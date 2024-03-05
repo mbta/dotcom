@@ -293,6 +293,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     %{stop_sequence: s, stop_name: headsign, trip_id: ti}
   end
 
+  defp construct_vehicle_data(_) do
+    %{stop_sequence: nil, stop_name: nil, trip_id: nil}
+  end
+
   @spec prior_stops(map) :: map
   def prior_stops(vehicle_schedules) do
     vehicle_schedules

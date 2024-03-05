@@ -1,10 +1,9 @@
 defmodule Routes.Repo do
   @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
 
-  @behaviour Routes.RepoApi
-
   require Logger
-  use RepoCache, ttl: :timer.hours(1)
+
+  use Nebulex.Caching.Decorators
 
   import Routes.Parser
 
@@ -12,23 +11,32 @@ defmodule Routes.Repo do
   alias Routes.{Route, Shape}
   alias V3Api.{Shapes}
 
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(1)
+
   @default_opts [include: "route_patterns"]
+
+  @behaviour Routes.RepoApi
 
   @impl Routes.RepoApi
   def all do
-    case cache(@default_opts, fn _ ->
-           result = handle_response(V3Api.Routes.all(@default_opts))
-
-           for {:ok, routes} <- [result],
-               route <- routes do
-             ConCache.put(__MODULE__, {:get, route.id}, {:ok, route})
-           end
-
-           result
-         end) do
+    case cached_all(@default_opts) do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cached_all(opts) do
+    result = handle_response(V3Api.Routes.all(opts))
+
+    for {:ok, routes} <- [result], route <- routes do
+      key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :cached_get, [route.id, opts])
+
+      @cache.put(key, {:ok, route})
+    end
+
+    result
   end
 
   # Used to spoof any Massport route as the data doesn't exist in the API
@@ -49,38 +57,43 @@ defmodule Routes.Repo do
   def get(id) when is_binary(id) do
     opts = @default_opts
 
-    case cache({id, opts}, fn {id, opts} ->
-           with %{data: [route]} <- V3Api.Routes.get(id, opts) do
-             {:ok, parse_route(route)}
-           end
-         end) do
+    case cached_get(id, opts) do
       {:ok, route} -> route
       {:error, _} -> nil
     end
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cached_get(id, opts) do
+    with %{data: [route]} <- V3Api.Routes.get(id, opts) do
+      {:ok, parse_route(route)}
+    end
+  end
+
   @impl Routes.RepoApi
   def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
-    opts = Keyword.put(opts, :route, route_id)
-
-    shapes =
-      cache(Enum.sort(opts), fn _ ->
-        case Shapes.all(opts) do
-          {:error, _} ->
-            []
-
-          %JsonApi{data: data} ->
-            shapes = Enum.flat_map(data, &parse_shape/1)
-
-            for shape <- shapes do
-              ConCache.put(__MODULE__, {:get_shape, shape.id}, [shape])
-            end
-
-            shapes
-        end
-      end)
+    shapes = Keyword.put(opts, :route, route_id) |> cached_get_shapes()
 
     filter_shapes_by_priority(shapes, filter_negative_priority?)
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cached_get_shapes(opts) do
+    case Shapes.all(opts) do
+      {:error, _} ->
+        []
+
+      %JsonApi{data: data} ->
+        shapes = Enum.flat_map(data, &parse_shape/1)
+
+        for shape <- shapes do
+          key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get_shape, shape.id)
+
+          @cache.put(key, [shape])
+        end
+
+        shapes
+    end
   end
 
   @spec filter_shapes_by_priority([Shape.t()], boolean) :: [Shape.t()]
@@ -96,23 +109,22 @@ defmodule Routes.Repo do
   end
 
   @impl Routes.RepoApi
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def get_shape(shape_id) do
-    cache(shape_id, fn _ ->
-      case Shapes.by_id(shape_id) do
-        {:error, _} ->
-          []
+    case Shapes.by_id(shape_id) do
+      {:error, _} ->
+        []
 
-        %JsonApi{data: data} ->
-          Enum.flat_map(data, &parse_shape/1)
-      end
-    end)
+      %JsonApi{data: data} ->
+        Enum.flat_map(data, &parse_shape/1)
+    end
   end
 
   @impl Routes.RepoApi
   def by_type(types) when is_list(types) do
     types = Enum.sort(types)
 
-    case cache(types, &by_type_uncached/1) do
+    case by_type_cached(types) do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
@@ -130,40 +142,48 @@ defmodule Routes.Repo do
     end
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp by_type_cached(types) do
+    by_type_uncached(types)
+  end
+
   @impl Routes.RepoApi
   def by_stop(stop_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
-    case cache({stop_id, opts}, fn {stop_id, opts} ->
-           stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
-         end) do
+    case cached_by_stop(stop_id, opts) do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
+  end
+
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cached_by_stop(stop_id, opts) do
+    stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
   end
 
   @impl Routes.RepoApi
   def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
-    case cache({stop_id, direction_id, opts}, fn {stop_id, direction_id, opts} ->
-           stop_id
-           |> V3Api.Routes.by_stop_and_direction(direction_id, opts)
-           |> handle_response
-         end) do
+    case cached_by_stop_and_direction(stop_id, direction_id, opts) do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  defp cached_by_stop_and_direction(stop_id, direction_id, opts) do
+    stop_id |> V3Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
+  end
+
   @impl Routes.RepoApi
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_stop_with_route_pattern(stop_id) do
-    cache({stop_id, [include: "route_patterns"]}, fn {stop_id, _opts} ->
-      [stop: stop_id, include: "route_patterns"]
-      |> V3Api.Routes.all()
-      |> Map.get(:data, [])
-      |> Enum.map(&parse_route_with_route_pattern/1)
-    end)
+    [stop: stop_id, include: "route_patterns"]
+    |> V3Api.Routes.all()
+    |> Map.get(:data, [])
+    |> Enum.map(&parse_route_with_route_pattern/1)
   end
 
   @doc """

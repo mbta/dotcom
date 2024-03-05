@@ -2,10 +2,14 @@ defmodule Fares.RetailLocations.Data do
   @doc """
     Parses json from the existing data file and returns it.
   """
+
+  use Nebulex.Caching.Decorators
+
   alias Fares.RetailLocations.Location
   alias Util.Position
 
-  use RepoCache, ttl: :timer.hours(24)
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(24)
 
   @spec get :: [Location.t()]
   def get do
@@ -15,12 +19,11 @@ defmodule Fares.RetailLocations.Data do
   end
 
   @spec build_r_tree :: :rstar.rtree()
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def build_r_tree do
-    cache([], fn _ ->
-      get()
-      |> Enum.map(&build_point_from_location/1)
-      |> Enum.reduce(:rstar.new(2), fn l, t -> :rstar.insert(t, l) end)
-    end)
+    get()
+    |> Enum.map(&build_point_from_location/1)
+    |> Enum.reduce(:rstar.new(2), fn l, t -> :rstar.insert(t, l) end)
   end
 
   @spec k_nearest_neighbors(:rstar.rtree(), Position.t(), integer) :: [Location.t()]

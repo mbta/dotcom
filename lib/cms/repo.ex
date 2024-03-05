@@ -4,13 +4,13 @@ defmodule CMS.Repo do
   Returns a variety of content related structs, like %Event{} or %Basic{}.
 
   The repo relies heavily on `CMS.Cache` which implements the Nebulex Redis Adapter.
-  The cache is set with `@cache Application.get_env(:cms, :cache)` so that we can easily swap out a local cache during tests.
+  The cache is set with `@cache Application.compile_env!(:dotcom, :cache)` so that we can easily swap out a local cache during tests.
   The base ttl for the repo is one hour.
   """
 
-  use Nebulex.Caching.Decorators
-
   require Logger
+
+  use Nebulex.Caching.Decorators
 
   import CMS.Helpers, only: [preview_opts: 1]
 
@@ -29,10 +29,8 @@ defmodule CMS.Repo do
 
   alias Routes.Route
 
-  @cache Application.compile_env!(:dotcom, :cms_cache)
-
+  @cache Application.compile_env!(:dotcom, :cache)
   @cms_api Application.compile_env!(:dotcom, :cms_api)
-
   @ttl :timer.hours(1)
 
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
@@ -418,7 +416,7 @@ defmodule CMS.Repo do
 
   @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [%Teaser{}]) ::
           [%Teaser{}]
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: 60_000])
   defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
     per_page = 50
 

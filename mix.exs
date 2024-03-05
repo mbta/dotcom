@@ -76,9 +76,6 @@ defmodule DotCom.Mixfile do
       {:bypass, "1.0.0", [only: :test]},
       # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
-      # latest version 1.0.0; cannot upgrade because setup appears to have changed
-      # rather than upgrading, we should change all caching over to Nebulex
-      {:con_cache, "0.12.1"},
       {:crc, "0.10.5"},
       # latest version 1.7.4; cannot upgrade because it causes our ci to fail
       # this version just came out in the last few days, so it might be a bug that gets fixed soon
@@ -142,6 +139,7 @@ defmodule DotCom.Mixfile do
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
       {:recon, "2.5.4", [only: :prod]},
+      {:redix, "1.3.0"},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
@@ -155,6 +153,7 @@ defmodule DotCom.Mixfile do
       # latest version is 3.7.11; cannot upgrade because tests fail
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},
+      {:uuid, "1.1.8"},
       {:wallaby, "0.30.6", [runtime: false, only: [:test, :dev]]}
     ]
   end
