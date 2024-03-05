@@ -20,15 +20,21 @@ parentPort.on("message", async (_) => {
   const context = await browser.newContext();
   const page = await context.newPage();
 
+  const metric = `${prefix}${workerData.name}`;
+
   const start = performance.now();
 
-  await scenario({ page, baseURL });
+  try {
+    await scenario({ page, baseURL });
+  } catch(e) {
+    logger.error({ metric, error: e.message });
+  }
 
   const end = performance.now();
   const duration = Math.floor(end - start);
 
   client.gauge(workerData.name, duration);
-  logger.info({ metric: `${prefix}${workerData.name}`, duration });
+  logger.info({ metric, duration });
 
   await browser.close();
 });
