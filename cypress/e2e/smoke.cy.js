@@ -3,6 +3,9 @@
  * fail if the page responds in a server error or a 404 error, or if any of the
  * endpoints called in the background during the test fail. This group of tests
  * is intended to be shallow, with more in-depth functionality tested elsewhere.
+ * 
+ * More testing done on critical user journeys, in the Playwright end-to-end
+ * testing scenarios.
  */
 describe("passes smoke test", () => {
   /**
@@ -141,31 +144,6 @@ describe("passes smoke test", () => {
     }
   });
 
-  it("transit near me", () => {
-    cy.intercept("/api/realtime/stops/*").as("getStops"); // slow request
-    const latitude = 42.351693;
-    const longitude = -71.066009;
-    cy.visit("/transit-near-me", {
-      onBeforeLoad({ navigator }) {
-        cy.stub(navigator.geolocation, "getCurrentPosition").callsArgWith(0, {
-          coords: { latitude, longitude }
-        });
-      }
-    });
-    // find the transit nearby
-    cy.get('input[placeholder="Enter a location"]').focus();
-    cy.get(".c-search-bar__my-location").click();
-    // redirects to results
-    cy.url().should(
-      "contain",
-      `location%5Blatitude%5D=${latitude}&location%5Blongitude%5D=${longitude}`
-    );
-    cy.wait("@getStops");
-    cy.contains("Park St & Tremont St", { timeout: 15000 });
-    cy.contains("Silver Line");
-    cy.get("img.leaflet-marker-icon").should("have.length.greaterThan", 0);
-  });
-
   it("trip planner", () => {
     cy.visit("/trip-planner");
 
@@ -195,28 +173,6 @@ describe("passes smoke test", () => {
     cy.visit("/trip-planner/to/South+Station");
     cy.get('img.leaflet-marker-icon[src="/images/icon-map-pin-b.svg"]');
   });
-
-  // enable retries, since it times out sometimes
-  it(
-    "makes trip plans",
-    {
-      retries: 3
-    },
-    () => {
-      cy.visit("/trip-planner");
-      cy.get("#from").click();
-      cy.contains(".c-search-bar__-suggestion", "South Station").click();
-      cy.get("#to").click();
-      cy.contains(".c-search-bar__-suggestion", "Boston Logan Airport").click();
-      cy.contains("Get trip suggestions").click();
-      cy.url({ timeout: 10000 }).should("contain", "plan%5Bfrom%5D");
-      cy.contains("Trips shown are based on your selections");
-      cy.get(".m-trip-plan-results__itinerary").should(
-        "have.length.greaterThan",
-        0
-      );
-    }
-  );
 
   it("alerts page", () => {
     cy.visit("/alerts");

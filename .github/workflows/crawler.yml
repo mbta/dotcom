@@ -26,8 +26,7 @@ jobs:
     steps:
     - uses: erlef/setup-beam@v1
       with:
-        otp-version: '24'
-        elixir-version: '1.12'
+        version-file: .tool-versions
     - name: Run Crawler
       run: |
         mix escript.install --force github mbta/link_checker

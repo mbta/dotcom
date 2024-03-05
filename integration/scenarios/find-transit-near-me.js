@@ -14,4 +14,7 @@ exports.scenario = async ({ page, baseURL }) => {
   await expect
     .poll(async () => page.locator("div.m-tnm-sidebar__route").count())
     .toBeGreaterThan(0);
+  await expect
+    .poll(async () => page.locator("img.leaflet-marker-icon").count())
+    .toBeGreaterThan(0);
 };
