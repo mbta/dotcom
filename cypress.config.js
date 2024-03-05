@@ -1,6 +1,5 @@
 const port = process.env.PORT;
 module.exports = {
-  screenshotsFolder: "cypress/snapshots/actual",
   trashAssetsBeforeRuns: true,
 
   env: {

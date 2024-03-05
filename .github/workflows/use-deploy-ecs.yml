@@ -120,4 +120,15 @@ jobs:
       - run: npx --prefix assets cypress run --spec cypress/e2e/smoke.cy.js
         env:
           CYPRESS_BASE_URL: ${{ needs.deploy.outputs.deployment-url }}
-
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          if-no-files-found: ignore
