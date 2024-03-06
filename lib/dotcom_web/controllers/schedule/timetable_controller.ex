@@ -11,7 +11,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:tab_name)
   plug(:direction_id)
-  plug(:all_stops)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
   plug(DotcomWeb.ScheduleController.Core)
   plug(:do_assign_trip_schedules)
@@ -53,11 +52,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
     prior_stops = prior_stops(vehicle_schedules)
 
-    %{
-      trip_schedules: trip_schedules,
-      all_stops: all_stops
-    } = build_timetable(conn.assigns.all_stops, timetable_schedules)
-
     canonical_rps =
       RoutePatterns.Repo.by_route_id(route.id,
         direction_id: direction_id,
@@ -69,6 +63,20 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       canonical_rps
       |> Enum.flat_map(& &1.stop_ids)
       |> MapSet.new()
+
+    all_canonical_stops =
+      if direction_id == 1 do
+        Enum.reverse(canonical_stop_ids)
+      else
+        canonical_stop_ids
+      end
+      |> Enum.map(&Stops.Repo.get_parent/1)
+      |> Enum.uniq()
+
+    %{
+      trip_schedules: trip_schedules,
+      all_stops: all_stops
+    } = build_timetable(all_canonical_stops, timetable_schedules)
 
     track_changes = track_changes(trip_schedules, canonical_stop_ids)
 
@@ -188,30 +196,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     list
     |> List.zip()
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
-  end
-
-  defp all_stops(%Conn{assigns: %{date_in_rating?: false}} = conn, _) do
-    conn
-  end
-
-  defp all_stops(conn, _) do
-    all_stops =
-      Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
-        date: conn.assigns.date
-      )
-
-    case all_stops do
-      {:error, error} ->
-        :ok =
-          Logger.warning(
-            "module=#{__MODULE__} fun=all_stops error=#{inspect(error)} route=#{conn.assigns.route.id} direction_id=#{conn.assigns.direction_id} date=#{conn.assigns.date}"
-          )
-
-        conn
-
-      _ ->
-        assign(conn, :all_stops, all_stops)
-    end
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
