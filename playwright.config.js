@@ -20,7 +20,8 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     userAgent: 'Playwright',
   },
-
+  /* set the expect timeout to 10s */
+  expect: { timeout: 10000 },
   /* Configure projects for major browsers */
   projects: [
     {
