@@ -68,23 +68,18 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     canonical_stop_ids =
       canonical_rps
       |> Enum.flat_map(& &1.stop_ids)
-      |> MapSet.new()
+      |> Enum.uniq()
 
     all_canonical_stops =
-      if direction_id == 1 do
-        Enum.reverse(canonical_stop_ids)
-      else
-        canonical_stop_ids
-      end
+      canonical_stop_ids
       |> Enum.map(&Stops.Repo.get_parent/1)
-      |> Enum.uniq()
 
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
     } = build_timetable(all_canonical_stops, timetable_schedules)
 
-    track_changes = track_changes(trip_schedules, canonical_stop_ids)
+    track_changes = track_changes(trip_schedules, MapSet.new(canonical_stop_ids))
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
