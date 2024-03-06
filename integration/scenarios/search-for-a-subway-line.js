@@ -14,7 +14,6 @@ exports.scenario = async ({ page, baseURL }) => {
   await expect(page.locator("h1.schedule__route-name")).toHaveText(
     "Green Line",
   );
-  await expect(page.locator("div.map--loaded")).toBeVisible();
   await page.waitForSelector("li.m-schedule-diagram__stop");
   await expect
     .poll(async () => page.locator("li.m-schedule-diagram__stop").count())

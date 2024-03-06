@@ -13,13 +13,13 @@ const baseURL = process.env.HOST
   : "http://localhost:4001";
 
 files.forEach((file) => {
-  test.describe("All scenarios", (_) => {
+  test.describe("All scenarios", {tag: "@scenarios"}, (_) => {
     const filePath = path.join(filesPath, file);
     const { scenario } = require(filePath);
 
     const name = fileToMetricName(file);
 
-    test(name, async ({ page }) => {
+    test(name, {tag: `@${name}`}, async ({ page }) => {
       const start = performance.now();
 
       await scenario({ page, baseURL });
