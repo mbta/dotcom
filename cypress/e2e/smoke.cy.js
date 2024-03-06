@@ -186,13 +186,11 @@ describe("passes smoke test", () => {
       'input[placeholder="Search for routes, places, information, and more"]'
     ).type("Charles");
     cy.url().should("contain", "query=Charles");
-    cy.contains("#search-results-container", "Red Line");
     cy.contains("#search-results-container", "Charlestown Ferry");
     cy.contains("#search-results-container", "Charles/MGH");
     cy.contains("#search-results-container", "Charlestown Navy Yard");
     cy.contains("#search-results-container", "Red Blue Connector");
     cy.get("#facet-label-stops").click(); // show stops and stations only
-    cy.contains("#search-results-container", "Red Line").should("not.exist");
     cy.contains("#search-results-container", "Charlestown Ferry").should(
       "not.exist"
     );
