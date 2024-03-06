@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   alias Routes.Route
   alias DotcomWeb.ScheduleView
 
+  import DotcomWeb.ControllerHelpers, only: [assign_alerts: 2]
+
   require Logger
 
   plug(DotcomWeb.Plugs.Route)
@@ -12,7 +14,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(:tab_name)
   plug(:direction_id)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
-  plug(DotcomWeb.ScheduleController.Core)
+  plug(DotcomWeb.ScheduleController.DatePicker)
+  plug(DotcomWeb.ScheduleController.Defaults)
+  plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
+  plug(DotcomWeb.ScheduleController.VehicleLocations)
   plug(:do_assign_trip_schedules)
   plug(DotcomWeb.ScheduleController.Offset)
   plug(DotcomWeb.ScheduleController.ScheduleError)
@@ -37,6 +42,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     )
     |> assign(:direction_name, direction_name)
     |> assign(:formatted_date, formatted_date)
+    |> assign_alerts([])
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end
