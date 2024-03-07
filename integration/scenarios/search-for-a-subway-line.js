@@ -44,5 +44,9 @@ exports.scenario = async ({ page, baseURL }) => {
   const end5 = performance.now();
   const duration5 = Math.floor(end5 - start5);
 
-  logger.info([duration1, duration2, duration3, duration4, duration5]);
+  const duration = Math.floor(
+    duration1 + duration2 + duration3 + duration4 + duration5,
+  );
+
+  logger.info({ durations: [duration1, duration2, duration3, duration4, duration5], duration });
 };
