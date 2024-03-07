@@ -3,6 +3,9 @@ defmodule DotcomWeb.TripPlan.Feedback do
   Handle submission of the feedback form given with each itinerary returned by
   the trip planner. Saves to the Redis cache with the default TTL of :infinity.
   """
+
+  require Logger
+
   use DotcomWeb, :controller
   use Nebulex.Caching
 
@@ -14,6 +17,8 @@ defmodule DotcomWeb.TripPlan.Feedback do
   def put(conn, params), do: cache_and_response(conn, params, :put)
 
   defp cache_and_response(conn, params, action) do
+    Logger.info("dotcom_web.trip_plan.feedback action=#{action}")
+
     handle_cache(action, params)
     send_resp(conn, 202, "")
   end
