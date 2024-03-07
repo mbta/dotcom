@@ -14,7 +14,7 @@ import {
   formatToBostonTime,
   stringToDateObject
 } from "../../../../helpers/date";
-import useHoursOfOperation from "../../../../hooks/useHoursOfOperation";
+import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation";
 import RouteIcon from "../../../../projects/components/RouteIcon";
 import {
   DirectionId,
@@ -28,6 +28,7 @@ import {
   SimpleStopMap
 } from "../../__schedule";
 import SelectContainer from "../SelectContainer";
+import { useStop } from "../../../../hooks/useStop";
 
 const findStopName = (
   stopId: string,
@@ -110,12 +111,13 @@ const DailyScheduleSubway = ({
   const [lastTrainHours, setLastTrainHours] = useState<string | undefined>();
   const [stopLatLong, setStopLatLong] = useState<string>("");
   const [scheduleNoteText, setScheduleNoteText] = useState<string>("");
+  const stop = useStop(stopId);
 
   const todayDate = stringToDateObject(today);
   const originStopName = findStopName(stopId, directionId, stops);
   // Hours will always be rapid transit hours when given a rapid tranist route id
   // (Which all of the routes passed to this component would be)
-  const hoursOfOperation = useHoursOfOperation(
+  const hoursOfOperation = useHoursOfOperationByStop(
     routeId
   ) as RapidTransitHours | null;
 
@@ -136,6 +138,14 @@ const DailyScheduleSubway = ({
   const isTodayAWeekday = !isWeekend(todayDate) && !isTodaySpecialService;
 
   const hideScheduleFrequency = route.id === "Orange";
+
+  useEffect(() => {
+    if (stop.data) {
+      setStopLatLong(`${stop.data.latitude},${stop.data.longitude}`);
+    } else {
+      setStopLatLong("");
+    }
+  }, [stop.data]);
 
   useEffect(() => {
     if (isTodayAWeekday) {
@@ -181,9 +191,7 @@ const DailyScheduleSubway = ({
         );
       }
     }
-    setStopLatLong(
-      hours?.latitude ? `${hours.latitude},${hours.longitude}` : ""
-    );
+
     setFirstTrainHours(hours?.first_departure);
     setLastTrainHours(hours?.last_departure);
   }, [selectedSchedule, hoursOfOperation, stopId, directionId]);

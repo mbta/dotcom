@@ -11,6 +11,15 @@ const fetchData = async (
     )}`
   );
 
+const fetchDataByStop = async (
+  routeIdString: string
+): Promise<RapidTransitHours | TransitHours> =>
+  fetchJsonOrThrow(
+    `/schedules/${routeIdString}/line/hours-by-stop?${window.location.search.substring(
+      1
+    )}`
+  );
+
 const useHoursOfOperation = (
   routeId: string
 ): RapidTransitHours | TransitHours | null => {
@@ -25,4 +34,18 @@ const useHoursOfOperation = (
   return hoursOfOperation;
 };
 
-export default useHoursOfOperation;
+const useHoursOfOperationByStop = (
+  routeId: string
+): RapidTransitHours | TransitHours | null => {
+  const [hoursOfOperation, setHoursOfOperation] = useState<
+    RapidTransitHours | TransitHours | null
+  >(null);
+
+  useEffect(() => {
+    fetchDataByStop(routeId).then(result => setHoursOfOperation(result));
+  }, [routeId]);
+
+  return hoursOfOperation;
+};
+
+export { useHoursOfOperation as default, useHoursOfOperationByStop };

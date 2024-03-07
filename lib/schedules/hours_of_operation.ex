@@ -36,10 +36,23 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
+    hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
+  end
+
+  def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
+    hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
+  end
+
+  def hours_of_operation_call(
+        route_id_or_ids,
+        date \\ Util.service_date(),
+        description,
+        departure_fn
+      ) do
     route_id_list = List.wrap(route_id_or_ids)
 
     special_service_dates = Enum.flat_map(route_id_list, &Service.special_service_dates(&1))
-    params = api_params(route_id_list, date, description, special_service_dates)
+    params = api_params(route_id_list, date, special_service_dates)
 
     params
     |> Task.async_stream(&V3Api.Schedules.all/1, on_timeout: :kill_task)
@@ -48,7 +61,7 @@ defmodule Schedules.HoursOfOperation do
     # Every 6 + (2 * n) responses is a single route
     # Calling Enum here makes the code wait for a response, as it is not an async function.
     |> Enum.chunk_every(6 + 2 * Kernel.length(special_service_dates))
-    |> Enum.map(&parse_responses(&1, description, params))
+    |> Enum.map(&parse_responses(&1, description, params, departure_fn))
     |> join_hours(description)
   end
 
@@ -68,9 +81,9 @@ defmodule Schedules.HoursOfOperation do
   * special_service_2, direction 0,
   * ...
   """
-  @spec api_params([Routes.Route.id_t()], Date.t(), atom(), [Date.t()]) ::
+  @spec api_params([Routes.Route.id_t()], Date.t(), [Date.t()]) ::
           Keyword.t()
-  def api_params(route_ids, today, :rapid_transit, special_service_dates) do
+  def api_params(route_ids, today, special_service_dates) do
     # This does some fancy math so its week_0, week_1, saturday_0, saturday_1
     # Basically this order defines how we need to parse the data futher on
     for route_id <- route_ids,
@@ -83,18 +96,6 @@ defmodule Schedules.HoursOfOperation do
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
-      ]
-    end
-  end
-
-  def api_params(route_ids, today, _, _) do
-    for route_id <- route_ids, date <- week_dates(today, []), direction_id <- [0, 1] do
-      [
-        route: route_id,
-        date: date,
-        direction_id: direction_id,
-        stop_sequence: "first,last",
-        "fields[schedule]": "departure_time,arrival_time"
       ]
     end
   end
@@ -169,18 +170,21 @@ defmodule Schedules.HoursOfOperation do
           | special_service_responses
         ],
         description,
-        params
+        params,
+        departure_fn
       ) do
     [_week_0, _week_1, _saturday_0, _saturday_1, _sunday_0, _sunday_1 | special_service_params] =
       params
 
     with {:ok, headsigns} <- get_headsigns(week_response_0, week_response_1, description),
-         {:ok, week_0} <- departure(week_response_0, headsigns, description),
-         {:ok, week_1} <- departure(week_response_1, headsigns, description),
-         {:ok, saturday_0} <- departure(saturday_response_0, headsigns, description),
-         {:ok, saturday_1} <- departure(saturday_response_1, headsigns, description),
-         {:ok, sunday_0} <- departure(sunday_response_0, headsigns, description),
-         {:ok, sunday_1} <- departure(sunday_response_1, headsigns, description),
+         {:ok, week_0} <- departure(week_response_0, headsigns, description, departure_fn),
+         {:ok, week_1} <- departure(week_response_1, headsigns, description, departure_fn),
+         {:ok, saturday_0} <-
+           departure(saturday_response_0, headsigns, description, departure_fn),
+         {:ok, saturday_1} <-
+           departure(saturday_response_1, headsigns, description, departure_fn),
+         {:ok, sunday_0} <- departure(sunday_response_0, headsigns, description, departure_fn),
+         {:ok, sunday_1} <- departure(sunday_response_1, headsigns, description, departure_fn),
          {:ok, special_service} <-
            special_service_departures(
              special_service_responses,
@@ -188,6 +192,8 @@ defmodule Schedules.HoursOfOperation do
              description,
              special_service_params
            ) do
+      IO.inspect(week_0)
+
       %__MODULE__{
         week: {week_0, week_1},
         saturday: {saturday_0, saturday_1},
@@ -383,19 +389,19 @@ defmodule Schedules.HoursOfOperation do
   defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
   defp time(%{"departure_time" => time}), do: time
 
-  defp departure(%JsonApi{data: data}, headsigns, description) do
-    {:ok, departure(data, headsigns, description)}
+  defp departure(%JsonApi{data: data}, headsigns, description, departure_fn) do
+    {:ok, departure_fn.(data, headsigns, description)}
   end
 
-  defp departure({:error, [%JsonApi.Error{code: "no_service"}]}, _, _) do
+  defp departure({:error, [%JsonApi.Error{code: "no_service"}]}, _, _, _) do
     {:ok, :no_service}
   end
 
-  defp departure({:error, _} = error, _, _) do
+  defp departure({:error, _} = error, _, _, _) do
     error
   end
 
-  defp departure([], _, _) do
+  defp departure([], _, _, _) do
     :no_service
   end
 
@@ -429,8 +435,6 @@ defmodule Schedules.HoursOfOperation do
         |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
       %Departures{
-        latitude: stop.latitude,
-        longitude: stop.longitude,
         stop_id: id,
         first_departure: min,
         last_departure: max,
@@ -441,7 +445,7 @@ defmodule Schedules.HoursOfOperation do
     end)
   end
 
-  # This returns a single hours map
+  # This returns a single hours map (for non rapid transit routes)
   defp departure(data, _headsigns, _description) do
     {min, max} =
       data
@@ -452,6 +456,18 @@ defmodule Schedules.HoursOfOperation do
     %Departures{
       first_departure: min,
       last_departure: max
+    }
+  end
+
+  # This returns a single hours map for rapid transit routes
+  defp departure_overall(data, headsigns, :rapid_transit) do
+    departures = departure(data, headsigns, :rapid_transit)
+    first_departure = Enum.min_by(departures, &DateTime.to_unix(&1.first_departure, :nanosecond))
+    last_departure = Enum.min_by(departures, &DateTime.to_unix(&1.last_departure, :nanosecond))
+
+    %Departures{
+      first_departure: first_departure.first_departure,
+      last_departure: last_departure.last_departure
     }
   end
 
