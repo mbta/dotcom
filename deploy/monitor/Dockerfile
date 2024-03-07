@@ -5,8 +5,7 @@ WORKDIR /home/runner
 COPY package*.json .
 
 RUN npm ci --ignore-scripts
-RUN npx playwright install chromium
-RUN npx playwright install-deps
+RUN npx playwright install chromium --with-deps
 
 RUN ./node_modules/pm2/bin/pm2 install pm2-logrotate
 RUN ./node_modules/pm2/bin/pm2 set pm2-logrotate:max_size 1M
