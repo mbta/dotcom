@@ -27,12 +27,14 @@ defmodule Dotcom.Application do
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
-        Dotcom.Cache.TripPlanFeedback.Cache,
         V3Api.Cache
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
-            {Dotcom.Cache.Telemetry, []}
+            # We can't run telemetry in the test environment because none of the levels are running
+            {Dotcom.Cache.Telemetry, []},
+            # We don't need to run this cache because we are using the local cache for tests
+            {Dotcom.Cache.TripPlanFeedback.Cache, []}
           ]
         else
           []
