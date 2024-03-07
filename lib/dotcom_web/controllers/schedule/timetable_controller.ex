@@ -47,7 +47,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     Util.log_duration(__MODULE__, :assign_trip_schedules, [conn])
   end
 
-  def assign_trip_schedules(%{assigns: %{route: route, direction_id: direction_id}} = conn) do
+  def assign_trip_schedules(
+        %{assigns: %{route: route, direction_id: direction_id, date_in_rating?: true}} = conn
+      ) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
@@ -81,6 +83,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> assign(:prior_stops, prior_stops)
     |> assign(:trip_messages, trip_messages(route, direction_id))
     |> assign(:all_stops, all_stops)
+  end
+
+  def assign_trip_schedules(conn) do
+    conn
+    |> assign(:timetable_schedules, [])
+    |> assign(:header_schedules, [])
+    |> assign(:vehicle_schedules, [])
+    |> assign(:prior_stops, %{})
   end
 
   @spec track_changes(
