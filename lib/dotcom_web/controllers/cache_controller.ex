@@ -37,9 +37,7 @@ defmodule DotcomWeb.CacheController do
   end
 
   defp flush_cache_function(cache) do
-    functions = cache.__info__(:functions)
-
-    if Keyword.has_key?(functions, :flush_keys) do
+    if cache.__info__(:functions) |> Keyword.has_key?(:flush_keys) do
       :flush_keys
     else
       :delete
