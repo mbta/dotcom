@@ -6,11 +6,6 @@ defmodule Dotcom.RealtimeSchedule do
     - predictions and schedules are indexed by route pattern name because we
       are considering route patterns with the same name to be effectively the same
   """
-
-  require Logger
-
-  use Nebulex.Caching.Decorators
-
   import DotcomWeb.StopController, only: [json_safe_alerts: 2]
 
   alias Dotcom.JsonHelpers
@@ -25,8 +20,6 @@ defmodule Dotcom.RealtimeSchedule do
   alias Stops.Repo, as: StopsRepo
   alias Stops.Stop
 
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.seconds(30)
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
 
@@ -48,9 +41,10 @@ defmodule Dotcom.RealtimeSchedule do
 
   @type route_pattern_name_t :: String.t()
 
-  @decorate cacheable(cache: @cache, key: stop_ids, on_error: :nothing, opts: [ttl: @ttl])
   def stop_data(stop_ids, now, opts \\ []) do
-    do_stop_data(stop_ids, now, opts)
+    stop_ids
+    |> Enum.sort()
+    |> do_stop_data(now, opts)
   end
 
   @spec do_stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
