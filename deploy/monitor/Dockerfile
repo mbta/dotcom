@@ -1,5 +1,7 @@
 FROM mcr.microsoft.com/playwright:v1.42.1-jammy
 
+RUN apt install dumb-init -y
+
 RUN useradd -m runner
 USER runner
 WORKDIR /home/runner
