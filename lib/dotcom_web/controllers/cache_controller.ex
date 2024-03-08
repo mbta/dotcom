@@ -13,6 +13,7 @@ defmodule DotcomWeb.CacheController do
   @doc """
   Flushes the cache given a key in the path.
   Simply use a / in the path where you would use a | in the key.
+  Wildcards are supported.
 
   Examples:
 

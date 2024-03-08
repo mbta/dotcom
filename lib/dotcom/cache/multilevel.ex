@@ -42,12 +42,12 @@ defmodule Dotcom.Cache.Multilevel do
   """
   def flush_keys(pattern \\ "*") do
     case Application.get_env(:dotcom, :redis) |> Redix.start_link() do
-      {:ok, conn} -> flush_redis_keys(conn, pattern)
+      {:ok, conn} -> delete_redis_keys(conn, pattern)
       {:error, _} -> :error
     end
   end
 
-  defp flush_redis_keys(conn, pattern) do
+  defp delete_redis_keys(conn, pattern) do
     case stream_keys(conn, pattern) |> Enum.to_list() |> List.flatten() do
       [] -> :ok
       keys -> delete_keys(conn, keys)
@@ -59,12 +59,14 @@ defmodule Dotcom.Cache.Multilevel do
 
     result = Redix.stop(conn)
 
-    if Enum.all?([result | results], fn
-         :ok -> true
-         _ -> false
-       end),
-       do: :ok,
-       else: :error
+    if all_ok?([result | results]), do: :ok, else: :error
+  end
+
+  defp all_ok?(list) do
+    Enum.all?(list, fn
+      :ok -> true
+      _ -> false
+    end)
   end
 
   defp stream_keys(conn, pattern) do
