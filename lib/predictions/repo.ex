@@ -43,11 +43,8 @@ defmodule Predictions.Repo do
   defp add_all_optional_params(opts) do
     @default_params
     |> add_optional_param(opts, :route)
-    |> add_optional_param(opts, :stop)
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :trip)
-    |> add_optional_param(opts, :route_pattern)
-    |> add_optional_param(opts, :"page[limit]")
     |> add_optional_param(opts, :sort)
   end
 

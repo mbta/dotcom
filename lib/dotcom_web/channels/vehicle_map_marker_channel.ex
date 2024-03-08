@@ -48,11 +48,9 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
     prediction =
       Predictions.Repo.all(
         route: vehicle.route_id,
-        stop: vehicle.stop_id,
-        trip: vehicle.trip_id,
         direction_id: vehicle.direction_id
       )
-      |> List.first()
+      |> Enum.find(&(&1.vehicle_id == vehicle.id))
 
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},

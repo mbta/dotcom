@@ -189,49 +189,6 @@ defmodule Dotcom.RealtimeScheduleTest do
       %{
         stop: %{accessibility: [], address: nil, id: "place-ogmnl", name: nil, parking_lots: []},
         predicted_schedules_by_route_pattern: %{
-          "Forest Hills" => %{
-            direction_id: 0,
-            predicted_schedules: [
-              %{
-                prediction: %{
-                  __struct__: Predictions.Prediction,
-                  departing?: false,
-                  direction_id: 1,
-                  id: "prediction-40709316-70036-190",
-                  schedule_relationship: nil,
-                  status: nil,
-                  stop_sequence: 190,
-                  arrival_time: @now,
-                  departure_time: @now_departure,
-                  time: ["arriving"],
-                  track: nil,
-                  headsign: "Oak Grove",
-                  vehicle_id: "vehicle_id",
-                  platform_stop_id: "70036"
-                },
-                schedule: nil
-              },
-              %{
-                prediction: %{
-                  __struct__: Predictions.Prediction,
-                  departing?: false,
-                  direction_id: 1,
-                  id: "prediction-40709317-70036-190",
-                  schedule_relationship: nil,
-                  status: nil,
-                  stop_sequence: 190,
-                  arrival_time: @now,
-                  departure_time: @now_departure,
-                  time: ["arriving"],
-                  track: nil,
-                  headsign: "Oak Grove",
-                  vehicle_id: nil,
-                  platform_stop_id: "70036"
-                },
-                schedule: nil
-              }
-            ]
-          },
           "Oak Grove" => %{
             direction_id: 1,
             predicted_schedules: [

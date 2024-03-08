@@ -64,14 +64,25 @@ defmodule DotcomWeb.ScheduleController.Predictions do
         predictions_fn
       )
       when not is_nil(origin) do
-    [{:route, route_id} | prediction_query(origin, destination, direction_id)]
-    |> predictions_fn.()
+    destination_id = if destination, do: Map.get(destination, :id)
+
+    opts =
+      if destination_id do
+        [route: route_id]
+      else
+        [route: route_id, direction_id: direction_id]
+      end
+
+    predictions_fn.(opts)
     |> case do
       {:error, _} ->
         []
 
       list ->
         list
+        |> Enum.filter(fn prediction ->
+          prediction.stop && prediction.stop.id in [origin.id, destination_id]
+        end)
         |> filter_stop_at_origin(origin.id)
         |> filter_missing_trip
     end
@@ -79,14 +90,6 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   def predictions(_conn, _) do
     []
-  end
-
-  defp prediction_query(origin, nil, direction_id) do
-    [stop: origin.id, direction_id: direction_id]
-  end
-
-  defp prediction_query(origin, destination, _) do
-    [stop: "#{origin.id},#{destination.id}"]
   end
 
   @spec filter_stop_at_origin([Prediction.t()], Stops.Stop.id_t()) :: [Prediction.t()]
@@ -108,17 +111,20 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   @spec vehicle_predictions(Plug.Conn.t(), predictions_fn) :: [Prediction.t()]
   def vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}, predictions_fn) do
-    {trips, stops} =
+    {trip_ids, stop_ids} =
       vehicle_locations
       |> Map.keys()
       |> Enum.unzip()
 
-    stops = stops |> Enum.reject(&is_nil/1) |> Enum.uniq() |> Enum.join(",")
-    trips = trips |> Enum.reject(&is_nil/1) |> Enum.join(",")
+    trip_ids = trip_ids |> Enum.reject(&is_nil/1) |> Enum.join(",")
 
-    case predictions_fn.(trip: trips, stop: stops) do
-      {:error, _} -> []
-      list -> list
+    case predictions_fn.(trip: trip_ids) do
+      {:error, _} ->
+        []
+
+      list ->
+        list
+        |> Enum.filter(&(&1.stop && &1.stop.id in stop_ids))
     end
   end
 

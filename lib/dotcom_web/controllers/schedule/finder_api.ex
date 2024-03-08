@@ -212,12 +212,15 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     # special, added-in predictions w/o normal schedules attached to them (bus).
     prediction_opts = [
       route: Enum.join(route_ids, ","),
-      stop: stop_id,
       direction_id: direction_id
     ]
 
     predictions_fn = Map.get(conn.assigns, :predictions_fn, &Predictions.Repo.all/1)
-    predictions = if current_service?, do: predictions_fn.(prediction_opts), else: []
+
+    predictions =
+      if current_service?,
+        do: predictions_fn.(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id)),
+        else: []
 
     {schedules, predictions}
   end

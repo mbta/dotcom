@@ -52,8 +52,9 @@ defmodule PredictedSchedule do
       end
 
     predicted_schedules =
-      [route: route_id, stop: stop_id, direction_id: direction_id]
+      [route: route_id, direction_id: direction_id]
       |> predictions_fn.()
+      |> Enum.filter(&(&1.stop.id == stop_id))
       |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
       |> filter_predicted_schedules(now)
 

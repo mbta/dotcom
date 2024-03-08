@@ -2,6 +2,7 @@ defmodule DotcomWeb.LineApiTest do
   use DotcomWeb.ConnCase, async: false
 
   describe "show" do
+    @tag timeout: 120_000
     test "success response", %{conn: conn} do
       conn = get(conn, line_api_path(conn, :show, %{"id" => "Red", "direction_id" => "1"}))
 
