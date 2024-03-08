@@ -30,4 +30,28 @@ defmodule Dotcom.Cache.Multilevel do
   defmodule Publisher do
     use Nebulex.Cache, otp_app: :dotcom, adapter: Dotcom.Cache.Publisher
   end
+
+  @doc """
+  To flush the cache, we get all *shared* keys in Redis and delete them.
+  These deletes will be published to the Publisher, which will then delete the keys in the Local caches.
+  """
+  def flush_keys(pattern \\ "*") do
+    case Application.get_env(:dotcom, :redis) |> Redix.start_link() do
+      {:ok, conn} -> flush_redis_keys(conn, pattern)
+      {:error, _} -> :error
+    end
+  end
+
+  defp flush_redis_keys(conn, pattern) do
+    case Redix.command(conn, ["KEYS", pattern]) do
+      {:ok, keys} -> delete_keys(conn, keys)
+      {:error, _} -> :error
+    end
+  end
+
+  defp delete_keys(conn, keys) do
+    Enum.each(keys, fn key -> __MODULE__.delete(key) end)
+
+    Redix.stop(conn)
+  end
 end
