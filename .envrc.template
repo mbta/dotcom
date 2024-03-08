@@ -35,7 +35,7 @@ export WIREMOCK_TRIP_PLAN_PROXY_URL=http://otp-local.mbtace.com
 # export REDIS_HOST=
 # export REDIS_PORT=
 
-# These credentials control access to resetting cache entries for the CMS.
-# You can set them to be whatever you want, but they'll need to match those on the Drupal side.
+# These credentials control access to resetting cache entries.
+# You can set them to be whatever you want, but they'll need to match external users like Drupal.
 # export BASIC_AUTH_USERNAME=
 # export BASIC_AUTH_PASSWORD=
