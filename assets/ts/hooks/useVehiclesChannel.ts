@@ -9,7 +9,6 @@ export interface Vehicle {
   id: string;
   route_id: string | null;
   trip_id: string | null;
-  shape_id: string | null;
   stop_id: string | null;
   direction_id: DirectionId;
   longitude: number;
