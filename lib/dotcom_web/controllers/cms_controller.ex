@@ -34,8 +34,6 @@ defmodule DotcomWeb.CMSController do
     Page.ProjectUpdate
   ]
 
-  @cache Application.compile_env!(:dotcom, :cache)
-
   @spec page(Conn.t(), map) :: Conn.t()
   def page(%Conn{request_path: path, query_params: query_params} = conn, _params) do
     conn = Conn.assign(conn, :try_encoded_on_404?, Map.has_key?(query_params, "id"))
@@ -43,28 +41,6 @@ defmodule DotcomWeb.CMSController do
     path
     |> Repo.get_page(query_params)
     |> handle_page_response(conn)
-  end
-
-  @doc """
-  Resets a cache key based on the URL params.
-  The path after /cms is joined with / to form the cache key.
-  So, it can be of arbitrary length.
-  PATCH /cms/foo/bar/baz will reset the cache key /cms/foo/bar/baz.
-  This corresponds to the CMS page /foo/bar/baz.
-  """
-  def reset_cache_key(conn, %{"path" => path}) do
-    joined_path = Enum.join(path, "/")
-
-    try do
-      @cache.delete("/cms/#{joined_path}")
-
-      Logger.notice("cms.cache.delete path=/cms/#{joined_path}")
-    rescue
-      e in Redix.ConnectionError -> Logger.warning("cms.cache.delete error=redis-#{e.reason}")
-      e in Redix.Error -> Logger.warning("cms.cache.delete error=redis-#{e.message}")
-    end
-
-    send_resp(conn, 202, "") |> halt()
   end
 
   @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::

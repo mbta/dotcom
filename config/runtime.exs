@@ -95,15 +95,15 @@ config :dotcom, Dotcom.Cache.TripPlanFeedback.Cache, redis_config
 
 if config_env() == :test do
   config :dotcom, DotcomWeb.Router,
-    cms_basic_auth: [
+    basic_auth: [
       username: "username",
       password: "password"
     ]
 else
   config :dotcom, DotcomWeb.Router,
-    cms_basic_auth: [
-      username: System.get_env("CMS_BASIC_AUTH_USERNAME"),
-      password: System.get_env("CMS_BASIC_AUTH_PASSWORD")
+    basic_auth: [
+      username: System.get_env("BASIC_AUTH_USERNAME"),
+      password: System.get_env("BASIC_AUTH_PASSWORD")
     ]
 end
 
