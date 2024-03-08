@@ -109,7 +109,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     tooltips_by_stop =
       tooltips
       |> Map.values()
-      |> Enum.group_by(& &1.vehicle.stop_id)
+      |> Enum.group_by(&(Stops.Repo.get_parent(&1.vehicle.stop_id) |> Map.get(:id)))
 
     combined_data_by_stop =
       Map.keys(headsigns_by_stop)

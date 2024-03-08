@@ -8,7 +8,7 @@ defmodule Vehicles.Parser do
       id: id,
       route_id: optional_id(relationships["route"]),
       trip_id: optional_id(relationships["trip"]),
-      stop_id: stop_id(relationships["stop"]),
+      stop_id: optional_id(relationships["stop"]),
       direction_id: attributes["direction_id"],
       status: status(attributes["current_status"]),
       longitude: attributes["longitude"],
@@ -26,18 +26,6 @@ defmodule Vehicles.Parser do
   @spec optional_id([JsonApi.Item.t()]) :: String.t() | nil
   defp optional_id([]), do: nil
   defp optional_id([%JsonApi.Item{id: id}]), do: id
-
-  @spec stop_id([JsonApi.Item.t()]) :: Stops.Stop.id_t() | nil
-  defp stop_id([%JsonApi.Item{id: stop_id}]) do
-    case Stops.Repo.get_parent(stop_id) do
-      %Stops.Stop{id: id} -> id
-      _ -> nil
-    end
-  end
-
-  defp stop_id(_) do
-    nil
-  end
 
   @spec crowding(String.t()) :: Vehicle.crowding() | nil
   defp crowding("MANY_SEATS_AVAILABLE"), do: :not_crowded
