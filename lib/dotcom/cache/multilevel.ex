@@ -32,8 +32,13 @@ defmodule Dotcom.Cache.Multilevel do
   end
 
   @doc """
-  To flush the cache, we get all *shared* keys in Redis and delete them.
-  These deletes will be published to the Publisher, which will then delete the keys in the Local caches.
+  Delete all entries where the key matches the pattern.
+
+  First, we make sure we can get a connection to Redis.
+  Then, we get all the keys in Redis that match the pattern.
+  We use a cursor to stream the keys in batches of 100 using the SCAN command.
+  Finally, we delete all the keys with the default delete/1 function.
+  That way we'll delete from the Local, Redis, and publish the delete on the Publisher.
   """
   def flush_keys(pattern \\ "*") do
     case Application.get_env(:dotcom, :redis) |> Redix.start_link() do
@@ -43,15 +48,36 @@ defmodule Dotcom.Cache.Multilevel do
   end
 
   defp flush_redis_keys(conn, pattern) do
-    case Redix.command(conn, ["KEYS", pattern]) do
-      {:ok, keys} -> delete_keys(conn, keys)
-      {:error, _} -> :error
+    case stream_keys(conn, pattern) |> Enum.to_list() |> List.flatten() do
+      [] -> :ok
+      keys -> delete_keys(conn, keys)
     end
   end
 
   defp delete_keys(conn, keys) do
-    Enum.each(keys, fn key -> __MODULE__.delete(key) end)
+    results = Enum.map(keys, fn key -> __MODULE__.delete(key) end)
 
-    Redix.stop(conn)
+    result = Redix.stop(conn)
+
+    if Enum.all?([result | results], fn
+         :ok -> true
+         _ -> false
+       end),
+       do: :ok,
+       else: :error
+  end
+
+  defp stream_keys(conn, pattern) do
+    Stream.unfold("0", fn
+      :stop -> nil
+      cursor -> scan_for_keys(conn, pattern, cursor)
+    end)
+  end
+
+  defp scan_for_keys(conn, pattern, cursor) do
+    case Redix.command(conn, ["SCAN", cursor, "MATCH", pattern, "COUNT", 100]) do
+      {:ok, [new_cursor, keys]} -> {keys, if(new_cursor == "0", do: :stop, else: new_cursor)}
+      {:error, _} -> {[], :stop}
+    end
   end
 end
