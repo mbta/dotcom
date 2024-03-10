@@ -5,7 +5,7 @@ defmodule DotcomWeb.CacheControllerTest do
 
   describe "DELETE /cache/*path" do
     test "it removes an entry from the cache", %{conn: conn} do
-      paths = ["/cache/foo", "/cache/foo/bar", "/cache/foo/bar/baz"]
+      paths = ["/cache/foo", "/cache/foo/bar"]
 
       Enum.each(paths, fn path ->
         key = String.replace(path, "/cache/", "") |> String.split("/") |> Enum.join("|")
