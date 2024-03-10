@@ -10,7 +10,7 @@ defmodule Dotcom.Cache.Subscriber do
   alias Dotcom.Cache.Publisher
 
   @cache Application.compile_env!(:dotcom, :cache)
-  @channel Publisher.channel()
+  @channel "noop" || Publisher.channel()
   @executions %{
     "eviction" => :delete
   }
