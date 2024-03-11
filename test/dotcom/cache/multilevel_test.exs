@@ -16,8 +16,8 @@ defmodule Dotcom.Cache.MultilevelTest do
       @cache.put("bar|foo", "baz")
 
       expect(Redix.Mock, :start_link, fn _ -> {:ok, 0} end)
-      expect(Redix.Mock, :command, fn _, _ -> {:ok, [1, ["foo|bar"]]} end)
-      expect(Redix.Mock, :command, fn _, _ -> {:ok, [:stop, ["foo|baz"]]} end)
+      expect(Redix.Mock, :command, fn _, _ -> {:ok, ["1", ["foo|bar"]]} end)
+      expect(Redix.Mock, :command, fn _, _ -> {:ok, ["0", ["foo|baz"]]} end)
       expect(Redix.Mock, :stop, fn _ -> :ok end)
 
       assert Dotcom.Cache.Multilevel.flush_keys("foo|*") == :ok
