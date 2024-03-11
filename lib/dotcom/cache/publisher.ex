@@ -17,6 +17,7 @@ defmodule Dotcom.Cache.Publisher do
   alias Nebulex.Adapter.Stats
 
   @channel "dotcom:cache:publisher"
+  @redis Application.compile_env!(:dotcom, :redis)
 
   def channel, do: @channel
 
@@ -72,7 +73,7 @@ defmodule Dotcom.Cache.Publisher do
   def delete(meta, key, _) do
     command = "eviction"
 
-    Dotcom.Cache.Multilevel.Redis.command([
+    @redis.command([
       "PUBLISH",
       @channel,
       "#{command}|#{meta.publisher_id}|#{key}"

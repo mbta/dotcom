@@ -80,7 +80,7 @@ redis_config = [
 ]
 
 # This is used by PubSub, we only use the first node in the cluster
-config :dotcom, :redis, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
+config :dotcom, :redis_config, redis_config[:redis_cluster][:configuration_endpoints][:conn_opts]
 
 # Set caches that use the Redis cluster
 config :dotcom, Dotcom.Cache.Multilevel,

@@ -31,6 +31,9 @@ defmodule Dotcom.Cache.Multilevel do
     use Nebulex.Cache, otp_app: :dotcom, adapter: Dotcom.Cache.Publisher
   end
 
+  @cache Application.compile_env!(:dotcom, :cache)
+  @redix Application.compile_env!(:dotcom, :redix)
+
   @doc """
   Delete all entries where the key matches the pattern.
 
@@ -41,7 +44,7 @@ defmodule Dotcom.Cache.Multilevel do
   That way we'll delete from the Local, Redis, and publish the delete on the Publisher.
   """
   def flush_keys(pattern \\ "*") do
-    case Application.get_env(:dotcom, :redis) |> Redix.start_link() do
+    case Application.get_env(:dotcom, :redis_config) |> @redix.start_link() do
       {:ok, conn} -> delete_redis_keys(conn, pattern)
       {:error, _} -> :error
     end
@@ -55,9 +58,9 @@ defmodule Dotcom.Cache.Multilevel do
   end
 
   defp delete_keys(conn, keys) do
-    results = Enum.map(keys, fn key -> __MODULE__.delete(key) end)
+    results = Enum.map(keys, fn key -> @cache.delete(key) end)
 
-    result = Redix.stop(conn)
+    result = @redix.stop(conn)
 
     if all_ok?([result | results]), do: :ok, else: :error
   end
@@ -77,7 +80,7 @@ defmodule Dotcom.Cache.Multilevel do
   end
 
   defp scan_for_keys(conn, pattern, cursor) do
-    case Redix.command(conn, ["SCAN", cursor, "MATCH", pattern, "COUNT", 100]) do
+    case @redix.command(conn, ["SCAN", cursor, "MATCH", pattern, "COUNT", 100]) do
       {:ok, [new_cursor, keys]} -> {keys, if(new_cursor == "0", do: :stop, else: new_cursor)}
       {:error, _} -> {[], :stop}
     end
