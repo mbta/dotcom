@@ -15,12 +15,21 @@ defmodule Dotcom.Cache.MultilevelTest do
       @cache.put("foo|baz", "bar")
       @cache.put("bar|foo", "baz")
 
+      pattern = "foo|*"
+
       expect(Redix.Mock, :start_link, fn _ -> {:ok, 0} end)
-      expect(Redix.Mock, :command, fn _, _ -> {:ok, ["1", ["foo|bar"]]} end)
-      expect(Redix.Mock, :command, fn _, _ -> {:ok, ["0", ["foo|baz"]]} end)
+
+      expect(Redix.Mock, :command, fn _, ["SCAN", "0", "MATCH", ^pattern, _, _] ->
+        {:ok, ["1", ["foo|bar"]]}
+      end)
+
+      expect(Redix.Mock, :command, fn _, ["SCAN", "1", "MATCH", ^pattern, _, _] ->
+        {:ok, ["0", ["foo|baz"]]}
+      end)
+
       expect(Redix.Mock, :stop, fn _ -> :ok end)
 
-      assert Dotcom.Cache.Multilevel.flush_keys("foo|*") == :ok
+      assert Dotcom.Cache.Multilevel.flush_keys(pattern) == :ok
 
       assert @cache.get("foo|bar") == nil
       assert @cache.get("foo|baz") == nil
