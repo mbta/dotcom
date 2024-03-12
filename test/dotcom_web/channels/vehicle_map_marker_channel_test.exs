@@ -104,6 +104,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
       direction_id: 0,
       status: "All aboard",
       track: "20",
+      vehicle_id: List.first(@vehicles) |> Map.get(:id),
       departing?: true
     }
 

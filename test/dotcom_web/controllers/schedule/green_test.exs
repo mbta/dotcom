@@ -82,9 +82,9 @@ defmodule DotcomWeb.ScheduleController.GreenTest do
           predictions_fn: fn params ->
             case Enum.into(params, Map.new()) do
               # vehicle predictions
-              %{trip: trip_ids, stop: stop_ids} ->
+              %{trip: trip_ids} ->
                 Enum.map(
-                  cartesian_product(trip_ids, stop_ids),
+                  cartesian_product(trip_ids, "stop_1,stop_3"),
                   fn {trip_id, stop_id} ->
                     %Predictions.Prediction{
                       id: "vehicle_predictions",
@@ -95,12 +95,20 @@ defmodule DotcomWeb.ScheduleController.GreenTest do
                 )
 
               # predictions
-              %{stop: _stop_id} ->
+              value
+              when value in [
+                     %{direction_id: 0, route: "Green-E"},
+                     %{direction_id: 0, route: "Green-D"},
+                     %{direction_id: 0, route: "Green-C"},
+                     %{direction_id: 0, route: "Green-B"}
+                   ] ->
                 [
                   %Predictions.Prediction{
                     id: "predictions",
                     trip: 1234,
-                    route: %Routes.Route{id: params[:route]}
+                    route: %Routes.Route{id: value[:route]},
+                    stop: %Stops.Stop{id: "place-north"},
+                    departing?: true
                   }
                 ]
             end

@@ -49,9 +49,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(
-          predictions_fn: fn [route: "4", stop: "place-sstat", direction_id: "0"] -> @empty end
-        )
+        |> call(predictions_fn: fn [route: "4", direction_id: "0"] -> @empty end)
 
       assert conn.assigns[:predictions] == []
     end
@@ -78,10 +76,10 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "does not ignore predictions which have a trip id but not status", %{conn: conn} do
       prediction = %Predictions.Prediction{
         time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "destination"},
+        stop: %Stops.Stop{id: "origin"},
         status: nil,
         trip: 1234,
-        departing?: false
+        departing?: true
       }
 
       conn =
@@ -98,10 +96,10 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "does not ignore predictions which have a status but not a trip id", %{conn: conn} do
       prediction = %Predictions.Prediction{
         time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "destination"},
+        stop: %Stops.Stop{id: "origin"},
         status: "On Time",
         trip: nil,
-        departing?: false
+        departing?: true
       }
 
       conn =
@@ -118,10 +116,10 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "ignores predictions which do not have a trip id or a status", %{conn: conn} do
       prediction = %Predictions.Prediction{
         time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "destination"},
+        stop: %Stops.Stop{id: "origin"},
         status: nil,
         trip: nil,
-        departing?: false
+        departing?: true
       }
 
       conn =
@@ -139,7 +137,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       prediction = %Predictions.Prediction{
         stop: %Stops.Stop{id: "origin"},
         trip: 1234,
-        departing?: false
+        status: "",
+        departing?: true
       }
 
       conn =
@@ -168,7 +167,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, %Stops.Stop{id: "21148"})
         |> assign(:route, %{id: "66"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn [route: "66", stop: "1148,21148"] -> @empty end)
+        |> call(predictions_fn: fn [route: "66"] -> @empty end)
 
       assert conn.assigns[:predictions] == []
     end
@@ -198,16 +197,22 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:vehicle_locations, vehicle_locations)
         |> call(
           predictions_fn: fn
-            [route: "66", stop: "1148,21148"] ->
+            [route: "66"] ->
               []
 
             # we transform the data into this form so that we only need to make one repo call
-            [trip: "1,2", stop: "place-sstat,place-north"] ->
-              @empty
+            [trip: "1,2"] ->
+              [
+                %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
+                %Prediction{stop: %Stops.Stop{id: "place-north"}}
+              ]
           end
         )
 
-      assert conn.assigns.vehicle_predictions == @empty
+      assert conn.assigns.vehicle_predictions == [
+               %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
+               %Prediction{stop: %Stops.Stop{id: "place-north"}}
+             ]
     end
 
     test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
@@ -233,16 +238,18 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:vehicle_locations, vehicle_locations)
         |> call(
           predictions_fn: fn
-            [route: "66", stop: "1148,21148"] ->
+            [route: "66"] ->
               []
 
             # we transform the data into this form so that we only need to make one repo call
-            [trip: "1,2", stop: "place-sstat"] ->
-              @empty
+            [trip: "1,2"] ->
+              [%Prediction{stop: %Stops.Stop{id: "place-sstat"}}]
           end
         )
 
-      assert conn.assigns.vehicle_predictions == @empty
+      assert conn.assigns.vehicle_predictions == [
+               %Prediction{stop: %Stops.Stop{id: "place-sstat"}}
+             ]
     end
 
     test "assigns empty lists if the predictions return an error", %{conn: conn} do

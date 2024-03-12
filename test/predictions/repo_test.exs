@@ -18,22 +18,6 @@ defmodule Predictions.RepoTest do
       assert is_list(predictions)
     end
 
-    test "can filter by route / stop" do
-      stops = Repo.all(route: "Red", stop: "place-sstat")
-
-      for stop <- stops do
-        assert %{route: %Routes.Route{id: "Red"}, stop: %Stop{id: "place-sstat"}} = stop
-      end
-    end
-
-    test "can filter by stop / direction" do
-      directions = Repo.all(stop: "place-sstat", direction_id: 1)
-
-      for direction <- directions do
-        assert %{stop: %Stop{id: "place-sstat"}, direction_id: 1} = direction
-      end
-    end
-
     test "can filter by trip" do
       trips = Repo.all(trip: "32542509")
 

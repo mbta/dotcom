@@ -21,8 +21,7 @@ defmodule Dotcom.VehicleHelpersTest do
       status: :stopped,
       route_id: @route.id,
       stop_id: @station.id,
-      trip_id: @trip.id,
-      shape_id: @shape.id
+      trip_id: @trip.id
     }
   }
 

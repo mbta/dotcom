@@ -1,8 +1,7 @@
 defmodule Vehicles.ParserTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
   alias Vehicles.Vehicle
   import Vehicles.Parser
-  import Mock
 
   @item %JsonApi.Item{
     attributes: %{
@@ -28,7 +27,6 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: "72",
         trip_id: "25",
-        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -47,7 +45,6 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: "72",
         trip_id: nil,
-        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -66,7 +63,6 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: nil,
         trip_id: "25",
-        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -87,7 +83,6 @@ defmodule Vehicles.ParserTest do
         route_id: nil,
         stop_id: "72",
         trip_id: nil,
-        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,
@@ -98,49 +93,6 @@ defmodule Vehicles.ParserTest do
       assert parse(item) == expected
     end
 
-    test "fetches parent stop if present" do
-      with_mock(Stops.Repo, [:passthrough],
-        get_parent: fn "72" -> %Stops.Stop{id: "place-72"} end
-      ) do
-        expected = %Vehicle{
-          id: "y1799",
-          route_id: "1",
-          stop_id: "place-72",
-          trip_id: "25",
-          shape_id: nil,
-          direction_id: 1,
-          status: :stopped,
-          latitude: 2.2,
-          longitude: 1.1,
-          bearing: 140
-        }
-
-        %Vehicle{} = parsed_vehicle = parse(@item)
-        assert parsed_vehicle == expected, "parsed vehicle is #{inspect(parsed_vehicle)}"
-      end
-    end
-
-    test "fetches shape if trip is present" do
-      with_mock(Schedules.Repo, [:passthrough],
-        trip: fn "25" -> %Schedules.Trip{shape_id: "25-shape"} end
-      ) do
-        expected = %Vehicle{
-          id: "y1799",
-          route_id: "1",
-          stop_id: "72",
-          trip_id: "25",
-          shape_id: "25-shape",
-          direction_id: 1,
-          status: :stopped,
-          latitude: 2.2,
-          longitude: 1.1,
-          bearing: 140
-        }
-
-        assert parse(@item) == expected
-      end
-    end
-
     test "can handle occupancy status" do
       item = put_in(@item.attributes["occupancy_status"], "FEW_SEATS_AVAILABLE")
 
@@ -149,7 +101,6 @@ defmodule Vehicles.ParserTest do
         route_id: "1",
         stop_id: "72",
         trip_id: "25",
-        shape_id: nil,
         direction_id: 1,
         status: :stopped,
         latitude: 2.2,

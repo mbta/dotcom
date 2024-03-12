@@ -126,7 +126,7 @@ defmodule DotcomWeb.ScheduleController.FinderApiTest do
       conn = assign(conn, :date, date)
 
       journey =
-        %{id: route_id, direction: "0", stop: "place-kencl"}
+        %{id: route_id, direction: "0", stop: "place-armnl"}
         |> get_valid_journeys(conn)
         |> List.first()
 

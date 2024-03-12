@@ -98,10 +98,12 @@ defmodule VehicleHelpers do
 
   @spec vehicle_shape_ids(VehicleLocations.t()) :: MapSet.t()
   defp vehicle_shape_ids(locations) do
-    for {_, value} <- locations,
-        is_binary(value.shape_id),
+    for {_, vehicle} <- locations,
+        is_binary(vehicle.trip_id),
+        trip = Schedules.Repo.trip(vehicle.trip_id),
+        not is_nil(trip),
         into: MapSet.new() do
-      value.shape_id
+      trip.shape_id
     end
   end
 

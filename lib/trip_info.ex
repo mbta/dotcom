@@ -56,7 +56,8 @@ defmodule TripInfo do
 
     starting_stop_ids =
       if opts[:vehicle] do
-        [origin_id, opts[:vehicle].stop_id]
+        vehicle_stop = Stops.Repo.get_parent(opts[:vehicle].stop_id)
+        [origin_id, if(vehicle_stop, do: Map.get(vehicle_stop, :id))]
       else
         [origin_id]
       end
