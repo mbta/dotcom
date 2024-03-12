@@ -27,6 +27,7 @@ jobs:
     - uses: erlef/setup-beam@v1
       with:
         version-file: .tool-versions
+        version-type: strict
     - name: Run Crawler
       run: |
         mix escript.install --force github mbta/link_checker
