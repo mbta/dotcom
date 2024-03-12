@@ -25,6 +25,7 @@ defmodule Dotcom.Cache.TripPlanFeedback.KeyGenerator do
     |> Kernel.to_string()
     |> String.split(".")
     |> (fn [_ | tail] -> tail end).()
+    |> Enum.map(&Recase.to_snake/1)
     |> Enum.join(".")
     |> String.downcase()
   end

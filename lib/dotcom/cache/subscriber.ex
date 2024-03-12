@@ -47,10 +47,10 @@ defmodule Dotcom.Cache.Subscriber do
         {:redix_pubsub, _pid, _ref, :message, %{channel: @channel, payload: message}},
         publisher_id
       ) do
-    [command, sender_id, key] = String.split(message, "|")
+    [command, sender_id | key] = String.split(message, "|")
 
     if sender_id != publisher_id do
-      maybe_execute_command(command, key)
+      maybe_execute_command(command, Enum.join(key, "|"))
     end
 
     {:noreply, publisher_id}

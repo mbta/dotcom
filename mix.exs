@@ -77,7 +77,7 @@ defmodule DotCom.Mixfile do
       # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},
-      # latest version 1.7.4; cannot upgrade because it causes our ci to fail
+      # latest version 1.7.5; cannot upgrade because it causes our ci to fail
       # this version just came out in the last few days, so it might be a bug that gets fixed soon
       {:credo, "1.7.3", only: [:dev, :test]},
       {:csv, "3.2.1"},
@@ -89,16 +89,16 @@ defmodule DotCom.Mixfile do
       {:ex_aws, "2.5.1"},
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
-      {:ex_doc, "0.31.1", only: :dev},
+      {:ex_doc, "0.31.2", only: :dev},
       {:ex_machina, "2.7.0", only: :test},
       # latest version 0.18.0; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
-      {:faker, "0.17.0", only: :test},
-      {:floki, "0.35.3"},
+      {:faker, "0.18.0", only: :test},
+      {:floki, "0.36.0"},
       {:gen_stage, "1.2.1"},
       {:gettext, "0.24.0"},
       {:hackney, "1.20.1"},
-      {:hammer, "6.2.0"},
+      {:hammer, "6.2.1"},
       # latest version 1.4.3; cannot upgrade because it changes how we handle telephone links
       {:html_sanitize_ex, "1.3.0"},
       # latest version 2.2.1; cannot upgrade because api has changed
@@ -109,8 +109,8 @@ defmodule DotCom.Mixfile do
       {:mail, "0.3.1"},
       {:mock, "0.3.8", [only: :test]},
       {:mox, "1.1.0", [only: :test]},
-      {:nebulex, "2.6.0"},
-      {:nebulex_redis_adapter, "2.3.1"},
+      {:nebulex, "2.6.1"},
+      {:nebulex_redis_adapter, "2.4.0"},
       {:open_trip_planner_client,
        [
          github: "thecristen/open_trip_planner_client",
@@ -119,7 +119,7 @@ defmodule DotCom.Mixfile do
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.11
       {:phoenix, "1.6.16"},
-      # latest version 4.0.0; cannot upgrade because we use Phoenix.HTML
+      # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.3"},
       {:phoenix_live_reload, "1.4.1", [only: :dev]},
@@ -138,8 +138,9 @@ defmodule DotCom.Mixfile do
          github: "samueljseay/recaptcha",
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
+      {:recase, "0.7.0"},
       {:recon, "2.5.4", [only: :prod]},
-      {:redix, "1.3.0"},
+      {:redix, "1.4.0"},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
