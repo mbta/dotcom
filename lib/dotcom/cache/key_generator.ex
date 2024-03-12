@@ -9,7 +9,7 @@ defmodule Dotcom.Cache.KeyGenerator do
 
   @impl Nebulex.Caching.KeyGenerator
   def generate(mod, fun, []) do
-    "#{mod}|#{fun}"
+    "#{clean_mod(mod)}|#{fun}"
   end
 
   def generate(mod, fun, [arg]) do
@@ -25,6 +25,7 @@ defmodule Dotcom.Cache.KeyGenerator do
     |> Kernel.to_string()
     |> String.split(".")
     |> (fn [_ | tail] -> tail end).()
+    |> Enum.map(&Recase.to_snake/1)
     |> Enum.join(".")
     |> String.downcase()
   end
