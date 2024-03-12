@@ -31,7 +31,7 @@ defmodule CMS.Repo do
 
   @cache Application.compile_env!(:dotcom, :cache)
   @cms_api Application.compile_env!(:dotcom, :cms_api)
-  @ttl :timer.hours(1)
+  @ttl :timer.hours(4)
 
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
   def get_page(path, query_params \\ %{}) do
@@ -74,8 +74,9 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
+              key: "cms.repo|events",
               on_error: :nothing,
-              opts: [ttl: 60_000]
+              opts: [ttl: @ttl]
             )
   def events(opts \\ []) do
     case @cms_api.view("/cms/events", opts) do
@@ -104,7 +105,7 @@ defmodule CMS.Repo do
               cache: @cache,
               key: "/cms/whats-happening",
               on_error: :nothing,
-              opts: [ttl: 60_000]
+              opts: [ttl: @ttl]
             )
   def whats_happening() do
     case @cms_api.view("/cms/whats-happening", []) do
@@ -124,7 +125,7 @@ defmodule CMS.Repo do
               cache: @cache,
               key: "/cms/important-notices",
               on_error: :nothing,
-              opts: [ttl: 60_000]
+              opts: [ttl: @ttl]
             )
   def do_banner() do
     case @cms_api.view("/cms/important-notices", []) do
