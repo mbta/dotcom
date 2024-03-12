@@ -1,12 +1,15 @@
-FROM node:21-bookworm
+FROM mcr.microsoft.com/playwright:v1.42.1-jammy
 
+RUN apt-get update
+RUN apt-get install dumb-init -y
+
+RUN useradd -m runner
+USER runner
 WORKDIR /home/runner
 
 COPY package*.json .
 
 RUN npm ci --ignore-scripts
-RUN npx playwright install chromium
-RUN npx playwright install-deps
 
 RUN ./node_modules/pm2/bin/pm2 install pm2-logrotate
 RUN ./node_modules/pm2/bin/pm2 set pm2-logrotate:max_size 1M

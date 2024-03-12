@@ -36,5 +36,7 @@ parentPort.on("message", async (_) => {
   client.gauge(workerData.name, duration);
   logger.info({ metric, duration });
 
+  await page.close();
+  await context.close();
   await browser.close();
 });
