@@ -1,49 +1,11 @@
-import { isEqual, isSaturday, isSunday, parseISO } from "date-fns";
-import { map, uniqueId, sortBy, filter, concat, min } from "lodash";
+import { isSaturday, isSunday, parseISO } from "date-fns";
+import { map, min } from "lodash";
 import React, { ReactElement } from "react";
 import { formatToBostonTime } from "../../helpers/date";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import { EnhancedRoute, StopHours, TransitHours } from "../../__v3api";
-import { ScheduleNote, SchedulePDF } from "./__schedule";
-
-const getSchedule = (
-  dataArray: StopHours[][] | StopHours[]
-): ReactElement<HTMLElement>[] | ReactElement<HTMLElement> => {
-  if (dataArray.length === 0) {
-    return [];
-  }
-  const bothDirectionData = concat(dataArray[0], dataArray[1]);
-  const filteredData = filter(
-    bothDirectionData,
-    (stopData: StopHours) => stopData.is_terminus
-  );
-  const sortedData = sortBy(
-    filteredData,
-    (stopData: StopHours) => stopData.stop_name
-  );
-  const mappedData = map(sortedData, (stopData: StopHours) => {
-    const firstDeparture = parseISO(stopData.first_departure);
-    const lastDeparture = parseISO(stopData.last_departure);
-    if (isEqual(firstDeparture, lastDeparture)) {
-      return <></>;
-    }
-    const timeString = `${formatToBostonTime(
-      stopData.first_departure
-    )} – ${formatToBostonTime(stopData.last_departure)}`;
-    return (
-      <div key={uniqueId()} className="fs-18 font-helvetica-neue">
-        <span className="pe-16">{stopData.stop_name}</span>
-        <span className="font-weight-bold">{timeString}</span>
-      </div>
-    );
-  });
-
-  return mappedData;
-};
-
-const regularScheduleHTML = (): JSX.Element => (
-  <div className="font-weight-bold fs-14 pb-8">Regular schedule</div>
-);
+import { ScheduleNote } from "./__schedule";
+import { storeHandler } from "../store/ScheduleStore";
 
 const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => (
   <div className="fs-14 pt-8">{`Trains depart every ${minuteString}`}</div>
@@ -107,16 +69,23 @@ const getHoursForDate = (hours: TransitHours | null, date: Date) => {
 
 const RapidTransitHoursOfOperation = ({
   route,
-  pdfs,
   scheduleNote,
   date = new Date()
 }: {
   route: EnhancedRoute;
-  pdfs: SchedulePDF[];
   scheduleNote: ScheduleNote | null;
-  date: Date;
+  date?: Date;
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id) as TransitHours | null;
+
+  const openModal = () => {
+    storeHandler({
+      type: "OPEN_MODAL",
+      newStoreValues: {
+        modalMode: "origin"
+      }
+    });
+  };
 
   const todaysHours = getHoursForDate(hours, date);
   const earliestTrain = getEarliestTrain(todaysHours);
@@ -137,14 +106,14 @@ const RapidTransitHoursOfOperation = ({
         {todaysScheduleNoteHtml}
         <br />
         <div>
-          <a
-            key={"key"}
-            href={"?schedule_finder%5Bdirection_id%5D=0"}
-            rel="noopener noreferrer"
-            className="c-call-to-action"
+          <button
+            className="btn btn-link text-decoration-underline"
+            style={{ padding: "0rem" }}
+            type="button"
+            onClick={openModal}
           >
             Find departures from your stop
-          </a>
+          </button>
         </div>
       </div>
     </>

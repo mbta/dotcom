@@ -1,6 +1,7 @@
 defmodule Schedules.HoursOfOperation do
   @moduledoc false
-  alias Schedules.Departures
+  use RepoCache, ttl: :timer.hours(1)
+  alias Schedules.{HoursOfOperation, Departures}
   alias Services.Service
 
   @type departure :: Departures.t() | :no_service
@@ -36,16 +37,30 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
+    {route_id_or_ids, date}
+    |> cache(fn _ ->
+      hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
+    end)
+    |> Util.error_default(%HoursOfOperation{})
   end
 
+  @spec hours_of_operation_by_stop(
+          Routes.Route.id_t() | [Routes.Route.id_t()],
+          Date.t(),
+          Routes.Route.gtfs_route_desc()
+        ) ::
+          t | {:error, any}
   def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
-    hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
+    {route_id_or_ids, date}
+    |> cache(fn _ ->
+      hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
+    end)
+    |> Util.error_default(%HoursOfOperation{})
   end
 
   def hours_of_operation_call(
         route_id_or_ids,
-        date \\ Util.service_date(),
+        date,
         description,
         departure_fn
       ) do
@@ -190,10 +205,9 @@ defmodule Schedules.HoursOfOperation do
              special_service_responses,
              headsigns,
              description,
-             special_service_params
+             special_service_params,
+             departure_fn
            ) do
-      IO.inspect(week_0)
-
       %__MODULE__{
         week: {week_0, week_1},
         saturday: {saturday_0, saturday_1},
@@ -209,27 +223,29 @@ defmodule Schedules.HoursOfOperation do
     {:error, :timeout}
   end
 
-  defp special_service_departures({:error, _} = error, _, _, _) do
+  defp special_service_departures({:error, _} = error, _, _, _, _) do
     error
   end
 
   # No special service
-  defp special_service_departures([], _, _, _) do
+  defp special_service_departures([], _, _, _, _) do
     {:ok, %{}}
   end
 
   defp special_service_departures(
          special_service_responses,
          headsigns,
-         description,
-         special_service_params
+         :rapid_transit,
+         special_service_params,
+         departure_fn
        ) do
     with {:ok, special_service_depature_maps} <-
            special_service_departures_parser(
              special_service_responses,
              headsigns,
-             description,
-             special_service_params
+             :rapid_transit,
+             special_service_params,
+             departure_fn
            ) do
       {
         :ok,
@@ -238,30 +254,42 @@ defmodule Schedules.HoursOfOperation do
     end
   end
 
+  defp special_service_departures(_, _, _, _, _) do
+    {:ok, %{}}
+  end
+
   # These should come in chunks of 2, anything else and its bad data
   defp special_service_departures_parser(
          [{:ok, %JsonApi{data: data_0}}, {:ok, %JsonApi{data: data_1}} | tail],
          headsigns,
          description,
-         [dir_0, _dir_1 | param_tail] = _params
+         [dir_0, _dir_1 | param_tail] = _params,
+         departure_fn
        ) do
     date_key = Date.to_string(dir_0[:date])
 
     direction_tuple =
-      {departure(data_0, headsigns, description), departure(data_1, headsigns, description)}
+      {departure_fn.(data_0, headsigns, description),
+       departure_fn.(data_1, headsigns, description)}
 
     with {:ok, special_service_departures_map} <-
-           special_service_departures_parser(tail, headsigns, description, param_tail) do
+           special_service_departures_parser(
+             tail,
+             headsigns,
+             description,
+             param_tail,
+             departure_fn
+           ) do
       {:ok, Map.put(special_service_departures_map, date_key, direction_tuple)}
     end
   end
 
   # Reached the end of the array, return the map we build on
-  defp special_service_departures_parser([], _, _, _) do
+  defp special_service_departures_parser([], _, _, _, _) do
     {:ok, %{}}
   end
 
-  defp special_service_departures_parser(_, _, _, _) do
+  defp special_service_departures_parser(_, _, _, _, _) do
     {:error, "Unexpected special service hours data"}
   end
 
@@ -445,8 +473,34 @@ defmodule Schedules.HoursOfOperation do
     end)
   end
 
+  # This returns a single hours map for rapid transit routes
+  defp departure_overall(data, headsigns, :rapid_transit) do
+    departures = departure(data, headsigns, :rapid_transit)
+
+    if Enum.empty?(departures) do
+      :no_service
+    else
+      first_departure =
+        if Enum.empty?(departures),
+          do: nil,
+          else: Enum.min_by(departures, &DateTime.to_unix(&1.first_departure, :nanosecond))
+
+      last_departure =
+        if Enum.empty?(departures),
+          do: nil,
+          else: Enum.min_by(departures, &DateTime.to_unix(&1.last_departure, :nanosecond))
+
+      %Departures{
+        first_departure: first_departure.first_departure,
+        last_departure: last_departure.last_departure
+      }
+    end
+  end
+
   # This returns a single hours map (for non rapid transit routes)
-  defp departure(data, _headsigns, _description) do
+  defp departure_overall(data, _headsigns, _description) do
+    IO.inspect(Exception.format_stacktrace())
+
     {min, max} =
       data
       |> Stream.reject(&no_times?(&1.attributes))
@@ -456,18 +510,6 @@ defmodule Schedules.HoursOfOperation do
     %Departures{
       first_departure: min,
       last_departure: max
-    }
-  end
-
-  # This returns a single hours map for rapid transit routes
-  defp departure_overall(data, headsigns, :rapid_transit) do
-    departures = departure(data, headsigns, :rapid_transit)
-    first_departure = Enum.min_by(departures, &DateTime.to_unix(&1.first_departure, :nanosecond))
-    last_departure = Enum.min_by(departures, &DateTime.to_unix(&1.last_departure, :nanosecond))
-
-    %Departures{
-      first_departure: first_departure.first_departure,
-      last_departure: last_departure.last_departure
     }
   end
 

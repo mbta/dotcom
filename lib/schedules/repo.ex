@@ -7,6 +7,7 @@ defmodule Schedules.Repo do
 
   import Kernel, except: [to_string: 1]
 
+  alias Stops.Stop
   alias Routes.Route
   alias Schedules.{HoursOfOperation, Parser, Schedule}
   alias Util
