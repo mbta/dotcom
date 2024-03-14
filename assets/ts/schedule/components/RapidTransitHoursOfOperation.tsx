@@ -33,7 +33,7 @@ const getScheduleNoteForDate = (
   return trainsEveryHTML(scheduleNote.peak_service);
 };
 
-const getEarliestTrain = (dataArray: StopHours[] | undefined) => {
+const getEarliestTrain = (dataArray: StopHours[] | undefined): string => {
   if (!dataArray || dataArray.length === 0) {
     return "";
   }
@@ -43,7 +43,7 @@ const getEarliestTrain = (dataArray: StopHours[] | undefined) => {
   return firstDeparture ? formatToBostonTime(firstDeparture) : "";
 };
 
-const getLatestTrain = (dataArray: StopHours[] | undefined) => {
+const getLatestTrain = (dataArray: StopHours[] | undefined): string => {
   // get the earliest last departure
   if (!dataArray || dataArray.length === 0) {
     return "";
@@ -54,7 +54,10 @@ const getLatestTrain = (dataArray: StopHours[] | undefined) => {
   return lastDeparture ? formatToBostonTime(lastDeparture) : "";
 };
 
-const getHoursForDate = (hours: TransitHours | null, date: Date) => {
+const getHoursForDate = (
+  hours: TransitHours | null,
+  date: Date
+): [StopHours, StopHours] | [] => {
   if (!hours) {
     return [];
   }
@@ -78,7 +81,7 @@ const RapidTransitHoursOfOperation = ({
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id) as TransitHours | null;
 
-  const openModal = () => {
+  const openModal = (): void => {
     storeHandler({
       type: "OPEN_MODAL",
       newStoreValues: {

@@ -5,7 +5,7 @@ defmodule Schedules.HoursOfOperation do
 
   import Kernel, except: [to_string: 1]
 
-  alias Schedules.{HoursOfOperation, Departures}
+  alias Schedules.Departures
   alias Services.Service
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -46,7 +46,7 @@ defmodule Schedules.HoursOfOperation do
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
     hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
-    |> Util.error_default(%HoursOfOperation{})
+    |> Util.error_default(%__MODULE__{})
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
@@ -58,7 +58,7 @@ defmodule Schedules.HoursOfOperation do
           t | {:error, any}
   def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
     hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
-    |> Util.error_default(%HoursOfOperation{})
+    |> Util.error_default(%__MODULE__{})
   end
 
   def hours_of_operation_call(
