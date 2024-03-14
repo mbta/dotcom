@@ -18,4 +18,4 @@ RUN ./node_modules/pm2/bin/pm2 set pm2-logrotate:compress true
 
 COPY integration /home/runner/integration
 
-CMD ["./node_modules/pm2/bin/pm2-runtime", "./integration/monitor/ecosystem.config.js"]
+CMD ["/usr/bin/dumb-init", "./node_modules/pm2/bin/pm2-runtime", "./integration/monitor/ecosystem.config.js"]
