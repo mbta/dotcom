@@ -54,10 +54,10 @@ defmodule DotcomWeb.Router do
     get("/_health", HealthController, :index)
   end
 
-  scope "/cms", DotcomWeb do
+  scope "/cache", DotcomWeb do
     pipe_through([:basic_auth])
 
-    patch("/*path", CMSController, :reset_cache_key)
+    delete("/*path", CacheController, :flush_cache_keys)
   end
 
   # redirect 't.mbta.com' and 'beta.mbta.com' to 'https://www.mbta.com'
@@ -283,7 +283,7 @@ defmodule DotcomWeb.Router do
   end
 
   defp basic_auth(conn, _) do
-    opts = Application.get_env(:dotcom, DotcomWeb.Router)[:cms_basic_auth]
+    opts = Application.get_env(:dotcom, DotcomWeb.Router)[:basic_auth]
 
     Plug.BasicAuth.basic_auth(conn, opts)
   end

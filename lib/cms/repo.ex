@@ -102,7 +102,7 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: "/cms/whats-happening",
+              key: "cms.repo|whats-happening",
               on_error: :nothing,
               opts: [ttl: 60_000]
             )
@@ -122,7 +122,7 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: "/cms/important-notices",
+              key: "cms.repo|important-notices",
               on_error: :nothing,
               opts: [ttl: 60_000]
             )
@@ -161,7 +161,7 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: "/cms/schedules/#{route_id}",
+              key: "cms.repo|schedules|#{route_id}",
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
@@ -193,7 +193,7 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: "/cms/route_pdfs/#{route_id}",
+              key: "cms.repo|route_pdfs|#{route_id}",
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
@@ -221,11 +221,15 @@ defmodule CMS.Repo do
 
   @impl true
   def generate(_, _, [path, %Plug.Conn.Unfetched{aspect: :query_params}]) do
-    "/cms/#{String.trim(path, "/")}"
+    key = path |> String.trim("/") |> String.replace(~r/\//, "|")
+
+    "cms.repo|#{key}"
   end
 
   def generate(_, _, [path, params]) do
-    "/cms/#{String.trim(path, "/")}" <> params_to_string(params)
+    key = path |> String.trim("/") |> String.replace(~r/\//, "|")
+
+    "cms.repo|#{key}" <> params_to_string(params)
   end
 
   defp params_to_string(params) when params == %{}, do: ""

@@ -14,6 +14,7 @@ defmodule Dotcom.Cache.Subscriber do
   @executions %{
     "eviction" => :delete
   }
+  @redix_pub_sub Application.compile_env!(:dotcom, :redix_pub_sub)
 
   def start_link(uuid) do
     GenServer.start_link(__MODULE__, uuid, [])
@@ -25,8 +26,8 @@ defmodule Dotcom.Cache.Subscriber do
   Starts a Redix.PubSub process and subscribes to the channel given by the Publisher.
   """
   def init(uuid) do
-    Application.get_env(:dotcom, :redis)
-    |> Redix.PubSub.start_link()
+    Application.get_env(:dotcom, :redis_config)
+    |> @redix_pub_sub.start_link()
     |> subscribe(@channel)
 
     {:ok, uuid}
@@ -67,6 +68,6 @@ defmodule Dotcom.Cache.Subscriber do
   end
 
   defp subscribe({:ok, pubsub}, channel) do
-    Redix.PubSub.subscribe(pubsub, channel, self())
+    @redix_pub_sub.subscribe(pubsub, channel, self())
   end
 end

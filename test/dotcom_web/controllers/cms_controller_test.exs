@@ -3,8 +3,6 @@ defmodule DotcomWeb.CMSControllerTest do
 
   alias Plug.Conn
 
-  @cache Application.compile_env!(:dotcom, :cache)
-
   describe "GET - page" do
     test "renders a basic page when the CMS returns a CMS.Page.Basic", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar")
@@ -182,27 +180,6 @@ defmodule DotcomWeb.CMSControllerTest do
       assert conn.status == 500
 
       assert html_response(conn, 500) =~ "Something went wrong on our end."
-    end
-  end
-
-  describe "PATCH /cms/*path" do
-    test "it removes an entry from the cache", %{conn: conn} do
-      paths = ["/cms/foo", "/cms/foo/bar", "/cms/foo/bar/baz"]
-
-      Enum.each(paths, fn path ->
-        @cache.put(path, "foo")
-
-        assert @cache.get(path) != nil
-
-        conn =
-          conn
-          |> put_req_header("content-type", "application/json")
-          |> put_req_header("authorization", "Basic " <> Base.encode64("username:password"))
-          |> patch(path)
-
-        assert @cache.get(path) == nil
-        assert conn.status == 202
-      end)
     end
   end
 end
