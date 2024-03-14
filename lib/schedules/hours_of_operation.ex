@@ -1,8 +1,15 @@
 defmodule Schedules.HoursOfOperation do
   @moduledoc false
-  use RepoCache, ttl: :timer.hours(1)
+
+  use Nebulex.Caching.Decorators
+
+  import Kernel, except: [to_string: 1]
+
   alias Schedules.{HoursOfOperation, Departures}
   alias Services.Service
+
+  @cache Application.compile_env!(:dotcom, :cache)
+  @ttl :timer.hours(1)
 
   @type departure :: Departures.t() | :no_service
   @type t :: %__MODULE__{
@@ -30,6 +37,7 @@ defmodule Schedules.HoursOfOperation do
   It's possible for one or more of the ranges to be :no_service, if the route
   does not run on that day.
   """
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @spec hours_of_operation(
           Routes.Route.id_t() | [Routes.Route.id_t()],
           Date.t(),
@@ -37,13 +45,11 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation(route_id_or_ids, date \\ Util.service_date(), description) do
-    {route_id_or_ids, date}
-    |> cache(fn _ ->
-      hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
-    end)
+    hours_of_operation_call(route_id_or_ids, date, description, &departure_overall/3)
     |> Util.error_default(%HoursOfOperation{})
   end
 
+  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   @spec hours_of_operation_by_stop(
           Routes.Route.id_t() | [Routes.Route.id_t()],
           Date.t(),
@@ -51,10 +57,7 @@ defmodule Schedules.HoursOfOperation do
         ) ::
           t | {:error, any}
   def hours_of_operation_by_stop(route_id_or_ids, date \\ Util.service_date(), description) do
-    {route_id_or_ids, date}
-    |> cache(fn _ ->
-      hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
-    end)
+    hours_of_operation_call(route_id_or_ids, date, description, &departure/3)
     |> Util.error_default(%HoursOfOperation{})
   end
 
