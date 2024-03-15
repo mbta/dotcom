@@ -148,6 +148,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       schedules ->
         schedules
         |> Enum.reject(&Schedules.Schedule.no_times?/1)
+        |> Enum.filter(&(&1.route.line_id == route.line_id))
     end
   end
 
