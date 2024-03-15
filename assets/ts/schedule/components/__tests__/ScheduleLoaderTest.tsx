@@ -16,13 +16,16 @@ import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as scheduleLoader from "../../schedule-loader";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
+import * as useStop from "../../../hooks/useStop";
+import { FetchStatus } from "../../../helpers/use-fetch";
 
 jest.mock("../../../helpers/use-fetch", () => ({
   __esModule: true,
   hasData: () => false,
   isLoading: () => true,
   isNotStarted: () => false,
-  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
+  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()]),
+  FetchStatus: { Data: 3 }
 }));
 
 const stops = {
@@ -226,6 +229,17 @@ jest.mock("../ScheduleDirection", () => {
 
 describe("ScheduleLoader", () => {
   let wrapper: ReactWrapper;
+
+  beforeEach(() => {
+    jest.spyOn(useStop, "useStop").mockImplementation(stopId => {
+      return {
+        status: FetchStatus.Data,
+        data: {
+          stopId: stopId
+        } as any
+      };
+    });
+  });
 
   it("Renders additional line information", () => {
     wrapper = mount(

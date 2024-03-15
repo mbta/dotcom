@@ -76,7 +76,6 @@ describe("HoursOfOperation", () => {
       .toJSON();
     expect(tree).not.toBeNull();
     const treeString = JSON.stringify(tree);
-    expect(treeString).toMatch("Weekend Schedule");
-    expect(treeString).toMatch("Weekday Schedule");
+    expect(treeString).toMatch("Today's Service");
   });
 });

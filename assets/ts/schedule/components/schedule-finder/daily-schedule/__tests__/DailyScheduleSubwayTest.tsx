@@ -10,6 +10,8 @@ import DailyScheduleSubway from "../DailyScheduleSubway";
 import * as hours from "../../../../../hooks/useHoursOfOperation";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import { render, screen } from "@testing-library/react";
+import * as useStop from "../../../../../hooks/useStop";
+import { FetchStatus } from "../../../../../helpers/use-fetch";
 
 describe("DailyScheduleSubway", () => {
   beforeEach(() => {
@@ -146,7 +148,7 @@ describe("DailyScheduleSubway", () => {
   });
 
   it("should display the first and last train times", () => {
-    jest.spyOn(hours, "default").mockImplementation(() => {
+    jest.spyOn(hours, "useHoursOfOperationByStop").mockImplementation(() => {
       return {
         week: [
           [
@@ -156,9 +158,7 @@ describe("DailyScheduleSubway", () => {
               parent_stop_id: "543",
               last_departure: "2022-11-28T22:58:00-05:00",
               first_departure: "2022-11-28T05:58:00-05:00",
-              is_terminus: false,
-              latitude: 1,
-              longitude: 1
+              is_terminus: false
             }
           ],
           []
@@ -186,7 +186,7 @@ describe("DailyScheduleSubway", () => {
   });
 
   it("should change the first and last train times when the drop down is changed", () => {
-    jest.spyOn(hours, "default").mockImplementation(() => {
+    jest.spyOn(hours, "useHoursOfOperationByStop").mockImplementation(() => {
       return {
         week: [
           [
@@ -196,9 +196,7 @@ describe("DailyScheduleSubway", () => {
               parent_stop_id: "543",
               last_departure: "2022-11-28T22:58:00-05:00",
               first_departure: "2022-11-28T05:58:00-05:00",
-              is_terminus: false,
-              latitude: 1,
-              longitude: 1
+              is_terminus: false
             }
           ],
           []
@@ -211,9 +209,7 @@ describe("DailyScheduleSubway", () => {
               parent_stop_id: "543",
               last_departure: "2022-11-28T20:37:00-05:00",
               first_departure: "2022-11-28T09:16:00-05:00",
-              is_terminus: false,
-              latitude: 1,
-              longitude: 1
+              is_terminus: false
             }
           ],
           []
@@ -268,7 +264,16 @@ describe("DailyScheduleSubway", () => {
   });
 
   it("should link to plan your trip pre-populated", () => {
-    jest.spyOn(hours, "default").mockImplementation(() => {
+    const stopSpy = jest.spyOn(useStop, "useStop").mockImplementation(() => {
+      return {
+        status: FetchStatus.Data,
+        data: {
+          latitude: 15,
+          longitude: -25
+        } as any
+      };
+    });
+    jest.spyOn(hours, "useHoursOfOperationByStop").mockImplementation(() => {
       return {
         week: [
           [
@@ -278,9 +283,7 @@ describe("DailyScheduleSubway", () => {
               parent_stop_id: "543",
               last_departure: "2022-11-28T22:58:00-05:00",
               first_departure: "2022-11-28T05:58:00-05:00",
-              is_terminus: false,
-              latitude: 15,
-              longitude: -25
+              is_terminus: false
             }
           ],
           []
@@ -305,6 +308,7 @@ describe("DailyScheduleSubway", () => {
     );
 
     expect(wrapper.html()).toContain("/trip-planner/from/15,-25");
+    stopSpy.mockRestore();
   });
 
   it("should link to plan your trip not populated", () => {
@@ -456,7 +460,7 @@ describe("DailyScheduleSubway", () => {
   });
 
   it("should show different hours based on direction", () => {
-    jest.spyOn(hours, "default").mockImplementation(() => {
+    jest.spyOn(hours, "useHoursOfOperationByStop").mockImplementation(() => {
       return {
         week: [
           [
@@ -466,9 +470,7 @@ describe("DailyScheduleSubway", () => {
               parent_stop_id: "543",
               last_departure: "2022-11-28T22:58:00-05:00",
               first_departure: "2022-11-28T05:58:00-05:00",
-              is_terminus: false,
-              latitude: 1,
-              longitude: 1
+              is_terminus: false
             }
           ],
           [
@@ -478,9 +480,7 @@ describe("DailyScheduleSubway", () => {
               parent_stop_id: "543",
               last_departure: "2022-11-28T20:34:00-05:00",
               first_departure: "2022-11-28T08:22:00-05:00",
-              is_terminus: false,
-              latitude: 1,
-              longitude: 1
+              is_terminus: false
             }
           ]
         ],

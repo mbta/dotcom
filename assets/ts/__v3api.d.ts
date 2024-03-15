@@ -366,29 +366,32 @@ export interface RoutePattern {
 }
 
 export interface StopHours {
+  last_departure: string;
+  first_departure: string;
+}
+
+export interface StopHoursByStop extends StopHours {
   stop_name: string;
   stop_id: string;
   parent_stop_id: string;
-  last_departure: string;
-  first_departure: string;
   is_terminus: boolean;
 }
 
 export interface SpecialServiceHours {
-  [key: string]: [StopHours[], StopHours[]];
+  [key: string]: [StopHoursByStop[], StopHoursByStop[]];
 }
 
-export interface RapidTransitHours {
-  week: [StopHours[], StopHours[]];
-  saturday: [StopHours[], StopHours[]];
-  sunday: [StopHours[], StopHours[]];
+export interface TransitHoursByStop {
+  week: [StopHoursByStop[], StopHoursByStop[]] | [];
+  saturday: [StopHoursByStop[], StopHoursByStop[]] | [];
+  sunday: [StopHoursByStop[], StopHoursByStop[]] | [];
   special_service: SpecialServiceHours;
 }
 
 export interface TransitHours {
-  week: [StopHours, StopHours];
-  saturday: [StopHours, StopHours];
-  sunday: [StopHours, StopHours];
+  week: [StopHours, StopHours] | [];
+  saturday: [StopHours, StopHours] | [];
+  sunday: [StopHours, StopHours] | [];
   special_service: {};
 }
 

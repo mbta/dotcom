@@ -26,7 +26,7 @@ const getScheduleNoteForDate = (
     return (
       <>
         <div className="fs-14 pt-8">{`Peak Service: Trains depart every ${scheduleNote.peak_service}`}</div>
-        <div className="fs-14 pt-8">{`Off-Peak Servie: Trains depart every ${scheduleNote.offpeak_service}`}</div>
+        <div className="fs-14 pt-8">{`Off-Peak Service: Trains depart every ${scheduleNote.offpeak_service}`}</div>
       </>
     );
   }

@@ -18,9 +18,9 @@ import { useHoursOfOperationByStop } from "../../../../hooks/useHoursOfOperation
 import RouteIcon from "../../../../projects/components/RouteIcon";
 import {
   DirectionId,
-  RapidTransitHours,
   Route,
-  StopHours
+  StopHours,
+  StopHoursByStop
 } from "../../../../__v3api";
 import {
   ScheduleNote,
@@ -43,7 +43,7 @@ const findStopName = (
 const getHoursByStop = (
   stopId: string,
   directionId: DirectionId,
-  hours: StopHours[][] | undefined
+  hours: StopHoursByStop[][] | undefined
 ): StopHours | undefined => {
   if (!hours) {
     return undefined;
@@ -117,9 +117,7 @@ const DailyScheduleSubway = ({
   const originStopName = findStopName(stopId, directionId, stops);
   // Hours will always be rapid transit hours when given a rapid tranist route id
   // (Which all of the routes passed to this component would be)
-  const hoursOfOperation = useHoursOfOperationByStop(
-    routeId
-  ) as RapidTransitHours | null;
+  const hoursOfOperation = useHoursOfOperationByStop(routeId);
 
   const { direction_destinations: directionDestinations } = route;
 
