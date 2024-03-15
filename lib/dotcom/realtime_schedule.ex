@@ -175,13 +175,13 @@ defmodule Dotcom.RealtimeSchedule do
       Task.async(fn ->
         next_two_predictions =
           [
-            route: route_pattern.route_id,
-            direction_id: route_pattern.direction_id
+            stop: stop_id,
+            route_pattern: route_pattern.id,
+            sort: "time",
+            "page[limit]": @predicted_schedules_per_stop
           ]
           |> predictions_fn.()
           |> Enum.filter(& &1.time)
-          |> Enum.filter(&(&1.stop.id == stop_id && &1.trip.route_pattern_id == route_pattern.id))
-          |> Enum.take(@predicted_schedules_per_stop)
 
         {key, next_two_predictions}
       end)
