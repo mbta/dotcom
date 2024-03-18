@@ -20,9 +20,11 @@ const getScheduleNoteForDate = (
   }
   if (isSaturday(date)) {
     return trainsEveryHTML(scheduleNote.saturday_service);
-  } else if (isSunday(date)) {
+  }
+  if (isSunday(date)) {
     return trainsEveryHTML(scheduleNote.sunday_service);
-  } else if (scheduleNote.offpeak_service && scheduleNote.peak_service) {
+  }
+  if (scheduleNote.offpeak_service && scheduleNote.peak_service) {
     return (
       <>
         <div className="fs-14 pt-8">{`Peak Service: Trains depart every ${scheduleNote.peak_service}`}</div>
@@ -64,7 +66,8 @@ const getHoursForDate = (
 
   if (isSaturday(date)) {
     return hours.saturday;
-  } else if (isSunday(date)) {
+  }
+  if (isSunday(date)) {
     return hours.sunday;
   }
   return hours.week;
@@ -99,7 +102,7 @@ const RapidTransitHoursOfOperation = ({
   return (
     <>
       <div className="u-bg-primary-light-contrast p-16 mt-16">
-        <h3 style={{ marginTop: "0rem" }}>Today's Service</h3>
+        <h3 style={{ marginTop: "0rem" }}>Today&#39;s Service</h3>
         <br />
         <div className="fs-16">First & last trains</div>
         <div className="fs-18">
