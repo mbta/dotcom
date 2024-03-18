@@ -1,16 +1,15 @@
 defmodule MBTA.SentryExtraTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias MBTA.SentryExtra
 
-  import Plug.Conn, only: [send_resp: 3]
+  import Mox
+
+  setup :set_mox_global
+  setup :verify_on_exit!
 
   @process_dictionary_key :sentry_context
-
-  setup _ do
-    bypass = Bypass.open()
-    {:ok, %{bypass: bypass, url: "http://localhost:#{bypass.port}"}}
-  end
+  @url Faker.Internet.url()
 
   describe "log_context/2" do
     test "one message is one entry in process dictionary" do
@@ -33,34 +32,35 @@ defmodule MBTA.SentryExtraTest do
   end
 
   describe "check conditions through MBTA.Api.get_json/3" do
-    test "bad json response", %{bypass: bypass, url: url} do
+    test "bad json response" do
       expects = "MBTA.Api.get_json_response url=\"/bad_json\" params={} response={data: garbage}"
 
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/bad_json"
-        send_resp(conn, 200, ~s({data: garbage}))
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: "{data: garbage}"}}
       end)
 
-      MBTA.Api.get_json("/bad_json", [], base_url: url)
+      MBTA.Api.get_json("/bad_json", [], base_url: @url)
+
       assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
     end
 
-    test "bad server response", %{bypass: bypass, url: url} do
+    test "bad server response" do
       expects = "MBTA.Api.get_json_response url=\"/bad_response\" params={} response="
 
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/bad_response"
-        send_resp(conn, 500, "")
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 500, body: ""}}
       end)
 
-      MBTA.Api.get_json("/bad_response", [], base_url: url)
+      MBTA.Api.get_json("/bad_response", [], base_url: @url)
       assert expects == Process.get(@process_dictionary_key).extra["api-response-error-2"]
     end
 
-    test "can't connect returns an error", %{bypass: bypass, url: url} do
-      Bypass.down(bypass)
+    test "can't connect returns an error" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:error, %HTTPoison.Error{reason: :econnrefused}}
+      end)
 
-      MBTA.Api.get_json("/cant_connect", [], base_url: url)
+      MBTA.Api.get_json("/cant_connect", [], base_url: @url)
 
       assert Process.get(@process_dictionary_key).extra["api-response-1"] =~ "econnrefused"
     end

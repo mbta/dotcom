@@ -1,23 +1,26 @@
 defmodule MBTA.Api.StopsTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
+
+  import Mox
+
+  setup :set_mox_global
+  setup :verify_on_exit!
+
+  @url Faker.Internet.url()
 
   describe "by_gtfs_id/1" do
     test "gets the parent station info" do
-      bypass = Bypass.open()
+      expect(HTTPoison.Mock, :get, fn url, _, opts ->
+        assert url == "#{@url}/stops/123"
+        assert opts[:params] == [include: "parent_station,facilities"]
 
-      url = "http://localhost:#{bypass.port}"
-
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/stops/123"
-        conn = Plug.Conn.fetch_query_params(conn)
-        assert conn.params["include"] == "parent_station,facilities"
-        Plug.Conn.resp(conn, 200, ~s({"data": []}))
+        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      assert %JsonApi{} =
-               MBTA.Api.Stops.by_gtfs_id("123", [include: "parent_station,facilities"],
-                 base_url: url
-               )
+      response =
+        MBTA.Api.Stops.by_gtfs_id("123", [include: "parent_station,facilities"], base_url: @url)
+
+      assert %JsonApi{} = response
     end
   end
 end

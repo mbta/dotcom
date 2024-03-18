@@ -22,7 +22,9 @@ defmodule MBTA.ApiTest do
     end
 
     test "encodes the URL" do
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+      expect(HTTPoison.Mock, :get, fn url, _, _ ->
+        assert url =~ "normal%20response"
+
         {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
@@ -31,14 +33,6 @@ defmodule MBTA.ApiTest do
       assert %JsonApi{} = response
 
       refute response.data == %{}
-    end
-
-    test "does not add headers normally" do
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
-      end)
-
-      Api.get_json("/normal_response")
     end
 
     test "missing endpoints return an error" do
@@ -53,7 +47,7 @@ defmodule MBTA.ApiTest do
 
     test "can't connect returns an error" do
       expect(HTTPoison.Mock, :get, fn _, _, _ ->
-        {:error, %HTTPoison.Error{id: nil, reason: :econnrefused}}
+        {:error, %HTTPoison.Error{reason: :econnrefused}}
       end)
 
       response = Api.get_json("/cant_connect")
@@ -62,15 +56,21 @@ defmodule MBTA.ApiTest do
     end
 
     test "passes an API key if present" do
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+      api_key = Faker.UUID.v4()
+
+      expect(HTTPoison.Mock, :get, fn _, headers, _ ->
+        assert Enum.any?(headers, fn {k, v} -> k == "x-api-key" && v == api_key end)
+
         {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      Api.get_json("/with_api_key", [other: "value"], api_key: "test_key")
+      Api.get_json("/with_api_key", [], api_key: api_key)
     end
 
     test "does not pass an API key if not set" do
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+      expect(HTTPoison.Mock, :get, fn _, headers, _ ->
+        refute Enum.any?(headers, fn {k, _} -> k == "x-api-key" end)
+
         {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
@@ -90,6 +90,7 @@ defmodule MBTA.ApiTest do
       encoded_body = :zlib.gzip(body)
       header = {"Content-Encoding", "gzip"}
       response = %HTTPoison.Response{headers: [header], body: encoded_body}
+
       assert {:ok, ^body} = Api.body(response)
     end
 
