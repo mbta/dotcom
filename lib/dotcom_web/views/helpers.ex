@@ -260,6 +260,8 @@ defmodule DotcomWeb.ViewHelpers do
   def tel_link(number) do
     pretty_formatted = Dotcom.PhoneNumber.pretty_format(number)
 
+    IO.inspect(Dotcom.PhoneNumber.machine_format(number))
+
     case Dotcom.PhoneNumber.machine_format(number) do
       nil ->
         content_tag(:span, pretty_formatted, [])

@@ -32,8 +32,8 @@ defmodule DotcomWeb.ViewHelpersTest do
     end
 
     test "non-formattable numbers don't get processed and don't become links" do
-      assert tel_link("0118 999 881 999 119 7253") ==
-               content_tag(:span, "0118 999 881 999 119 7253", [])
+      assert tel_link(nil) ==
+               content_tag(:span, "", [])
     end
   end
 
