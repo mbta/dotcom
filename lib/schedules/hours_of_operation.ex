@@ -111,6 +111,7 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
+        stop_sequence: "first,last",
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
@@ -174,7 +175,7 @@ defmodule Schedules.HoursOfOperation do
 
   It expects 6 + (2 * n) responses, in the same order specified in `api_params/4`.
   """
-  @spec parse_responses([{:ok, api_response} | {:exit, any}], atom(), Keyword.t()) ::
+  @spec parse_responses([{:ok, api_response} | {:exit, any}], atom(), Keyword.t(), Function.t()) ::
           t | {:error, any}
         when api_response: JsonApi.t() | {:error, any}
   def parse_responses(
@@ -218,11 +219,11 @@ defmodule Schedules.HoursOfOperation do
         special_service: special_service
       }
     else
-      _ -> parse_responses([], description, params)
+      _ -> parse_responses([], description, params, departure_fn)
     end
   end
 
-  def parse_responses(errors, _, _) when is_list(errors) do
+  def parse_responses(errors, _, _, _) when is_list(errors) do
     {:error, :timeout}
   end
 
@@ -432,7 +433,7 @@ defmodule Schedules.HoursOfOperation do
     error
   end
 
-  defp departure([], _, _, _) do
+  def departure([], _, _) do
     :no_service
   end
 
@@ -442,7 +443,7 @@ defmodule Schedules.HoursOfOperation do
   # Example: this will never return Wonderland for east bound blue line departures
   # There are never any trains departing Wonderland headed east bound, they
   # are departing heading west bound (the other direction and will be in the other directions data)
-  defp departure(data, headsigns, :rapid_transit) do
+  def departure(data, headsigns, :rapid_transit) do
     only_departure_times =
       Enum.filter(data, fn x ->
         Map.get(x.attributes, "departure_time") != nil
@@ -477,7 +478,7 @@ defmodule Schedules.HoursOfOperation do
   end
 
   # This returns a single hours map for rapid transit routes
-  defp departure_overall(data, headsigns, :rapid_transit) do
+  def departure_overall(data, headsigns, :rapid_transit) do
     departures = departure(data, headsigns, :rapid_transit)
 
     if Enum.empty?(departures) do
@@ -500,10 +501,12 @@ defmodule Schedules.HoursOfOperation do
     end
   end
 
-  # This returns a single hours map (for non rapid transit routes)
-  defp departure_overall(data, _headsigns, _description) do
-    IO.inspect(Exception.format_stacktrace())
+  def departure_overall([], _, _) do
+    :no_service
+  end
 
+  # This returns a single hours map (for non rapid transit routes)
+  def departure_overall(data, _headsigns, _description) do
     {min, max} =
       data
       |> Stream.reject(&no_times?(&1.attributes))
