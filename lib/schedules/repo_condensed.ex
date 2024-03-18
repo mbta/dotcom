@@ -10,10 +10,10 @@ defmodule Schedules.RepoCondensed do
 
   import Kernel, except: [to_string: 1]
 
+  alias MBTA.Api.Schedules, as: SchedulesApi
   alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
   alias Stops.Repo, as: StopsRepo
-  alias V3Api.Schedules, as: SchedulesApi
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)

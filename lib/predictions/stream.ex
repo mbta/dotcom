@@ -1,14 +1,15 @@
 defmodule Predictions.Stream do
   @moduledoc """
-  Uses V3Api.Stream to subscribe to the V3Api and receive prediction events.
+  Uses MBTA.Api.Stream to subscribe to the MBTA Api and receive prediction events.
   """
 
-  use GenStage
   require Logger
 
+  use GenStage
+
+  alias MBTA.Api.Stream.Event
   alias Phoenix.PubSub
   alias Predictions.{Repo, Store, StreamParser, StreamTopic}
-  alias V3Api.Stream.Event
 
   @type event_type :: :reset | :add | :update | :remove
 

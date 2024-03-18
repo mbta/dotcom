@@ -1,10 +1,10 @@
-defmodule V3Api.StreamTest do
+defmodule MBTA.Api.StreamTest do
   use ExUnit.Case, async: false
   alias Plug.Conn
 
   describe "build_options" do
     test "includes api key" do
-      opts = V3Api.Stream.build_options(path: "/vehicles")
+      opts = MBTA.Api.Stream.build_options(path: "/vehicles")
       assert Keyword.get(opts, :url) == "https://api-dev.mbtace.com/vehicles"
       assert <<_::binary>> = Keyword.get(opts, :api_key)
     end
@@ -21,12 +21,12 @@ defmodule V3Api.StreamTest do
                    include: "stop,trip"
                  ]
                ]
-               |> V3Api.Stream.build_options()
+               |> MBTA.Api.Stream.build_options()
                |> ServerSentEventStage.start_link()
 
-      assert {:ok, pid} = V3Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
+      assert {:ok, pid} = MBTA.Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
 
-      assert [%V3Api.Stream.Event{}] =
+      assert [%MBTA.Api.Stream.Event{}] =
                [pid]
                |> GenStage.stream()
                |> Enum.take(1)
@@ -57,18 +57,18 @@ defmodule V3Api.StreamTest do
                  path: "/vehicles",
                  headers: []
                ]
-               |> V3Api.Stream.build_options()
+               |> MBTA.Api.Stream.build_options()
                |> ServerSentEventStage.start_link()
 
-      assert {:ok, pid} = V3Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
+      assert {:ok, pid} = MBTA.Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
 
       stream = GenStage.stream([pid])
 
       assert [
-               %V3Api.Stream.Event{event: :reset},
-               %V3Api.Stream.Event{event: :update},
-               %V3Api.Stream.Event{event: :add},
-               %V3Api.Stream.Event{event: :remove}
+               %MBTA.Api.Stream.Event{event: :reset},
+               %MBTA.Api.Stream.Event{event: :update},
+               %MBTA.Api.Stream.Event{event: :add},
+               %MBTA.Api.Stream.Event{event: :remove}
              ] = Enum.take(stream, 4)
     end
   end

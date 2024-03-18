@@ -1,12 +1,12 @@
-defmodule V3Api.Headers do
+defmodule MBTA.Headers do
   @moduledoc """
-  Builds headers for calling the V3Api.
+  Builds headers for calling the MBTA.Api.
 
-  Setting `:use_cache?` to `true` will include headers set by V3Api.Cache.cache_headers.
+  Setting `:use_cache?` to `true` will include headers set by MBTA.Cache.cache_headers.
   If `:use_cache?` is set to `true`, you must also include a `:url` and a `:params` option.
   """
 
-  alias V3Api.Cache
+  alias MBTA.Cache
 
   @type header_list :: [{String.t(), String.t()}]
 

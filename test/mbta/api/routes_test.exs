@@ -1,7 +1,7 @@
-defmodule V3Api.RoutesTest do
+defmodule MBTA.Api.RoutesTest do
   use ExUnit.Case
 
-  alias V3Api.Routes
+  alias MBTA.Api.Routes
 
   @opts ["page[limit]": 1, sort: "long_name"]
 

@@ -1,14 +1,16 @@
 defmodule RoutePatterns.Repo do
-  @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
-
-  @behaviour RoutePatterns.RepoApi
+  @moduledoc """
+  Repo for fetching Route resources and their associated data from the MBTA Api.
+  """
 
   require Logger
 
   use Nebulex.Caching.Decorators
 
   alias RoutePatterns.RoutePattern
-  alias V3Api.RoutePatterns, as: RoutePatternsApi
+  alias MBTA.Api.RoutePatterns, as: RoutePatternsApi
+
+  @behaviour RoutePatterns.RepoApi
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)

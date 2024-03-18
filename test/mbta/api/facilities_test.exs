@@ -1,4 +1,4 @@
-defmodule V3Api.FacilitiesTest do
+defmodule MBTA.Api.FacilitiesTest do
   use ExUnit.Case
 
   describe "all" do
@@ -13,7 +13,7 @@ defmodule V3Api.FacilitiesTest do
         Plug.Conn.resp(conn, 200, ~s({"data": []}))
       end)
 
-      assert %JsonApi{} = V3Api.Facilities.all([], base_url: url)
+      assert %JsonApi{} = MBTA.Api.Facilities.all([], base_url: url)
     end
   end
 
@@ -32,7 +32,7 @@ defmodule V3Api.FacilitiesTest do
       end)
 
       assert %JsonApi{} =
-               V3Api.Facilities.filter_by(
+               MBTA.Api.Facilities.filter_by(
                  [
                    {"stop", "place-alfcl"},
                    {"type", "ELEVATOR"}

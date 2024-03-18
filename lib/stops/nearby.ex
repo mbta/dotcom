@@ -72,7 +72,7 @@ defmodule Stops.Nearby do
       |> Keyword.put(:sort, "distance")
 
     opts
-    |> V3Api.Stops.all()
+    |> MBTA.Api.Stops.all()
     |> Map.get(:data)
     |> Enum.map(&item_to_position/1)
     |> Enum.uniq()

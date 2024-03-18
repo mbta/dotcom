@@ -1,7 +1,7 @@
-defmodule V3Api.ServicesTest do
+defmodule MBTA.Api.ServicesTest do
   use ExUnit.Case
 
-  alias V3Api.Services
+  alias MBTA.Api.Services
 
   @opts ["page[limit]": 1, sort: "id"]
 

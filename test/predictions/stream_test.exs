@@ -59,7 +59,7 @@ defmodule Predictions.StreamTest do
     test "starts a GenServer that can recieve stream events and call a broadcast function" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %V3Api.Stream.Event{event: :reset, data: @predictions_data}
+          %MBTA.Api.Stream.Event{event: :reset, data: @predictions_data}
         ])
 
       test_pid = self()
@@ -80,7 +80,7 @@ defmodule Predictions.StreamTest do
       :erlang.trace(stream_pid, true, [:receive])
 
       assert_receive {:trace, ^stream_pid, :receive,
-                      {:"$gen_consumer", _, [%V3Api.Stream.Event{} | _]}}
+                      {:"$gen_consumer", _, [%MBTA.Api.Stream.Event{} | _]}}
 
       assert_receive :broadcast, 5000
     end
@@ -90,7 +90,7 @@ defmodule Predictions.StreamTest do
     test "can log stream errors" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %V3Api.Stream.Event{
+          %MBTA.Api.Stream.Event{
             event: :remove,
             data:
               {:error,
@@ -124,7 +124,7 @@ defmodule Predictions.StreamTest do
     test "can log broadcast errors" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %V3Api.Stream.Event{event: :remove, data: @predictions_data}
+          %MBTA.Api.Stream.Event{event: :remove, data: @predictions_data}
         ])
 
       broadcast_fn = fn Predictions.PubSub, "predictions", _ ->

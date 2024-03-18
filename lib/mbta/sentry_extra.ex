@@ -1,4 +1,4 @@
-defmodule V3Api.SentryExtra do
+defmodule MBTA.SentryExtra do
   @moduledoc """
   log up to 50 messages of "extra context" when using the Sentry error message log service
   """

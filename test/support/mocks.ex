@@ -3,3 +3,5 @@
 Mox.defmock(Redis.Mock, for: Dotcom.Redis.Behaviour)
 Mox.defmock(Redix.Mock, for: Dotcom.Redix.Behaviour)
 Mox.defmock(Redix.PubSub.Mock, for: Dotcom.Redix.PubSub.Behaviour)
+
+Mox.defmock(MBTA.Api.Mock, for: MBTA.Api.Behaviour)

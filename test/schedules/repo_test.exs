@@ -215,7 +215,7 @@ defmodule Schedules.RepoTest do
       key =
         Dotcom.Cache.KeyGenerator.generate(Schedules.Repo, :fetch_trip, [
           trip_id,
-          &V3Api.Trips.by_id/2
+          &MBTA.Api.Trips.by_id/2
         ])
 
       assert {:ok, %Schedules.Trip{id: ^trip_id}} = cache.get(key)
@@ -235,7 +235,7 @@ defmodule Schedules.RepoTest do
       key =
         Dotcom.Cache.KeyGenerator.generate(Schedules.Repo, :fetch_trip, [
           trip_id,
-          &V3Api.Trips.by_id/2
+          &MBTA.Api.Trips.by_id/2
         ])
 
       assert {:ok, nil} = cache.get(key)

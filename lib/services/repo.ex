@@ -7,8 +7,8 @@ defmodule Services.Repo do
 
   use Nebulex.Caching.Decorators
 
+  alias MBTA.Api.Services, as: ServicesApi
   alias Services.Service
-  alias V3Api.Services, as: ServicesApi
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)

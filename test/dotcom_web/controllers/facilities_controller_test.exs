@@ -4,7 +4,7 @@ defmodule DotcomWeb.FacilitiesControllerTest do
 
   describe "get_facilities/1" do
     setup_with_mocks([
-      {V3Api.Facilities, [],
+      {MBTA.Api.Facilities, [],
        [
          filter_by: fn _x ->
            %{
@@ -61,7 +61,7 @@ defmodule DotcomWeb.FacilitiesControllerTest do
 
   describe "get_facilities/2" do
     setup_with_mocks([
-      {V3Api.Facilities, [],
+      {MBTA.Api.Facilities, [],
        [
          filter_by: fn x ->
            {:error, x}

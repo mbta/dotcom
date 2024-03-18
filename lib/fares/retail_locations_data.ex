@@ -14,7 +14,7 @@ defmodule Fares.RetailLocations.Data do
   @spec get :: [Location.t()]
   def get do
     [{"type", "FARE_VENDING_RETAILER"}]
-    |> V3Api.Facilities.filter_by()
+    |> MBTA.Api.Facilities.filter_by()
     |> parse_v3_multiple
   end
 

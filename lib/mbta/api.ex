@@ -1,10 +1,13 @@
-defmodule V3Api do
-  @moduledoc "Handles fetching and caching generic JSON:API responses from the V3 API."
+defmodule MBTA.Api do
+  @moduledoc """
+  Handles fetching and caching generic JSON:API responses from the MBTA API.
+  """
+
+  require Logger
 
   use HTTPoison.Base
-  require Logger
-  import V3Api.SentryExtra
-  alias V3Api.Cache
+
+  alias MBTA.{Cache, SentryExtra}
   alias Util
 
   @default_timeout Application.compile_env!(:dotcom, :v3_api_default_timeout)
@@ -14,7 +17,7 @@ defmodule V3Api do
   def get_json(url, params \\ [], opts \\ []) do
     _ =
       Logger.debug(fn ->
-        "V3Api.get_json url=#{url} params=#{params |> Map.new() |> Poison.encode!()}"
+        "MBTA.Api.get_json url=#{url} params=#{params |> Map.new() |> Poison.encode!()}"
       end)
 
     body = ""
@@ -44,7 +47,7 @@ defmodule V3Api do
     base_url = Keyword.fetch!(opts, :base_url)
 
     headers =
-      V3Api.Headers.build(
+      MBTA.Headers.build(
         api_key,
         params: params,
         url: url,
@@ -81,14 +84,14 @@ defmodule V3Api do
   @spec log_response(String.t(), Keyword.t(), integer, any) :: :ok
   defp log_response(url, params, time, response) do
     entry = fn ->
-      "V3Api.get_json_response url=#{inspect(url)} " <>
+      "MBTA.Api.get_json_response url=#{inspect(url)} " <>
         "params=#{params |> Map.new() |> Poison.encode!()} " <>
         log_body(response) <>
         " duration=#{time / 1000}" <>
         " request_id=#{Logger.metadata() |> Keyword.get(:request_id)}"
     end
 
-    _ = log_context("api-response", entry)
+    _ = SentryExtra.log_context("api-response", entry)
     _ = Logger.info(entry)
     :ok
   end
@@ -96,11 +99,11 @@ defmodule V3Api do
   @spec log_response_error(String.t(), Keyword.t(), String.t()) :: :ok
   defp log_response_error(url, params, body) do
     entry = fn ->
-      "V3Api.get_json_response url=#{inspect(url)} " <>
+      "MBTA.Api.get_json_response url=#{inspect(url)} " <>
         "params=#{params |> Map.new() |> Poison.encode!()} response=" <> body
     end
 
-    _ = log_context("api-response-error", entry)
+    _ = SentryExtra.log_context("api-response-error", entry)
     _ = Logger.info(entry)
     :ok
   end

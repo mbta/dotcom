@@ -24,7 +24,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   def fetcher_opts do
     [
       api_mfa:
-        {V3Api.Alerts, :all,
+        {MBTA.Api.Alerts, :all,
          [
            [
              "filter[route_type]": 3,

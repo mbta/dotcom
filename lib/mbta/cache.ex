@@ -1,14 +1,17 @@
-defmodule V3Api.Cache do
+defmodule MBTA.Cache do
   @moduledoc """
-  Cache HTTP responses from the V3 API.
+  Cache HTTP responses from MBTA.
 
   Static data such as schedules and stops do not change frequently. However,
   we do want to check in with the API periodically to make sure we have the
   most recent data. This module stores the previous HTTP responses, and can
   return them if the server says that the data is unchanged.
   """
-  use GenServer
+
   require Logger
+
+  use GenServer
+
   alias HTTPoison.Response
 
   @type url :: String.t()

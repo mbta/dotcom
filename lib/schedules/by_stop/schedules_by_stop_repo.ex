@@ -19,7 +19,7 @@ defmodule Schedules.ByStop.SchedulesByStopRepo do
 
   @spec all_from_params(Keyword.t()) :: [Departures.t()] | {:error, any}
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
+    with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
       data
       |> Stream.map(&Schedules.ByStop.Departures.parse_from_schedule_json/1)
     end
