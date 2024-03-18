@@ -2,6 +2,8 @@ import Config
 
 config :elixir, ansi_enabled: true
 
+config :dotcom, :httpoison, HTTPoison
+
 config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
 config :dotcom, :redix, Redix
 config :dotcom, :redix_pub_sub, Redix.PubSub

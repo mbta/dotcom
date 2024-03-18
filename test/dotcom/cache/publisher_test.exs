@@ -10,8 +10,8 @@ defmodule Dotcom.Cache.PublisherTest do
   setup :set_mox_global
 
   setup do
-    expect(Redix.PubSub.Mock, :start_link, fn _ -> {:ok, 0} end)
-    expect(Redix.PubSub.Mock, :subscribe, fn _, _, _ -> {:ok, 0} end)
+    expect(Dotcom.Redix.PubSub.Mock, :start_link, fn _ -> {:ok, 0} end)
+    expect(Dotcom.Redix.PubSub.Mock, :subscribe, fn _, _, _ -> {:ok, 0} end)
 
     {:ok, pid} = Cache.start_link(stats: true, telemetry: true)
 
@@ -28,7 +28,7 @@ defmodule Dotcom.Cache.PublisherTest do
 
   describe "delete" do
     test "publishes cache eviction messages to the Redis PubSub channel" do
-      expect(Redis.Mock, :command, fn ["PUBLISH", _, _] -> :ok end)
+      expect(Dotcom.Redis.Mock, :command, fn ["PUBLISH", _, _] -> :ok end)
 
       Cache.delete("foo")
     end
@@ -38,7 +38,7 @@ defmodule Dotcom.Cache.PublisherTest do
     test "increments the evictions counter" do
       assert Cache.stats().measurements.evictions == 0
 
-      expect(Redis.Mock, :command, fn ["PUBLISH", _, _] -> :ok end)
+      expect(Dotcom.Redis.Mock, :command, fn ["PUBLISH", _, _] -> :ok end)
 
       Cache.delete("foo")
 
@@ -48,7 +48,7 @@ defmodule Dotcom.Cache.PublisherTest do
     test "resets the evictions counter" do
       assert Cache.stats().measurements.evictions == 0
 
-      expect(Redis.Mock, :command, fn ["PUBLISH", _, _] -> :ok end)
+      expect(Dotcom.Redis.Mock, :command, fn ["PUBLISH", _, _] -> :ok end)
 
       Cache.delete("foo")
 

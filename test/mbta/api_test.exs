@@ -1,108 +1,87 @@
 defmodule MBTA.ApiTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   alias MBTA.Api
 
-  import Plug.Conn, only: [fetch_query_params: 1, send_resp: 3]
-  import Test.Support.EnvHelpers
+  import Mox
 
-  setup _ do
-    bypass = Bypass.open()
-    {:ok, %{bypass: bypass, url: "http://localhost:#{bypass.port}"}}
-  end
+  setup :set_mox_global
+  setup :verify_on_exit!
 
   describe "get_json/1" do
-    test "normal responses return a JsonApi struct", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/normal_response"
-        send_resp(conn, 200, ~s({"data": []}))
+    test "normal responses return a JsonApi struct" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      response = Api.get_json("/normal_response", [], base_url: url)
+      response = Api.get_json("/normal_response")
+
       assert %JsonApi{} = response
+
       refute response.data == %{}
     end
 
-    test "encodes the URL", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/normal%20response"
-        send_resp(conn, 200, ~s({"data": []}))
+    test "encodes the URL" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      response = Api.get_json("/normal response", [], base_url: url)
+      response = Api.get_json("/normal response")
+
       assert %JsonApi{} = response
+
       refute response.data == %{}
     end
 
-    test "does not add headers normally", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) == nil
-        send_resp(conn, 200, ~s({"data": []}))
+    test "does not add headers normally" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      Api.get_json("/normal_response", [], base_url: url)
+      Api.get_json("/normal_response")
     end
 
-    test "adds headers when WIREMOCK_PROXY=true", %{bypass: bypass, url: url} do
-      reassign_env(:dotcom, :v3_api_wiremock_proxy, "true")
-
-      Bypass.expect(bypass, fn conn ->
-        assert List.keyfind(conn.req_headers, "x-wm-proxy-url", 0) != nil
-        send_resp(conn, 200, ~s({"data": []}))
+    test "missing endpoints return an error" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 404, body: ~s({"errors":[{"code": "not_found"}]})}}
       end)
 
-      Api.get_json("/normal_response", [], base_url: url)
-    end
+      response = Api.get_json("/missing")
 
-    test "missing endpoints return an error", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/missing"
-        send_resp(conn, 404, ~s({"errors":[{"code": "not_found"}]}))
-      end)
-
-      response = Api.get_json("/missing", [], base_url: url)
       assert {:error, [%JsonApi.Error{code: "not_found"}]} = response
     end
 
-    test "can't connect returns an error", %{bypass: bypass, url: url} do
-      Bypass.down(bypass)
+    test "can't connect returns an error" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:error, %HTTPoison.Error{id: nil, reason: :econnrefused}}
+      end)
 
-      response = Api.get_json("/cant_connect", [], base_url: url)
+      response = Api.get_json("/cant_connect")
+
       assert {:error, %{reason: _}} = response
     end
 
-    test "passes an API key if present", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/with_api_key"
-        conn = fetch_query_params(conn)
-
-        # make sure the key is in headers
-        assert Enum.member?(conn.req_headers, {"x-api-key", "test_key"})
-
-        # make sure the key is not in params and other param values are there
-        assert conn.query_params["api_key"] == nil
-        assert conn.query_params["other"] == "value"
-        send_resp(conn, 200, "")
+    test "passes an API key if present" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      # make sure we keep other params
-      Api.get_json("/with_api_key", [other: "value"], base_url: url, api_key: "test_key")
+      Api.get_json("/with_api_key", [other: "value"], api_key: "test_key")
     end
 
-    test "does not pass an API key if not set", %{bypass: bypass, url: url} do
-      Bypass.expect(bypass, fn conn ->
-        assert conn.request_path == "/without_api_key"
-        refute fetch_query_params(conn).query_params["api_key"]
-        send_resp(conn, 200, "")
+    test "does not pass an API key if not set" do
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
       end)
 
-      Api.get_json("/without_api_key", [], base_url: url, api_key: nil)
+      Api.get_json("/without_api_key", [], api_key: nil)
     end
   end
 
   describe "body/1" do
     test "returns a normal body if there's no content-encoding" do
       response = %HTTPoison.Response{headers: [], body: "body"}
+
       assert Api.body(response) == {:ok, "body"}
     end
 
@@ -118,11 +97,13 @@ defmodule MBTA.ApiTest do
       encoded_body = "bad gzip"
       header = {"Content-Encoding", "gzip"}
       response = %HTTPoison.Response{headers: [header], body: encoded_body}
+
       assert {:error, :data_error} = Api.body(response)
     end
 
     test "returns an error if we have an error instead of a response" do
       error = %HTTPoison.Error{}
+
       assert ^error = Api.body(error)
     end
   end

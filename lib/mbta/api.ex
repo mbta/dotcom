@@ -10,10 +10,13 @@ defmodule MBTA.Api do
   alias MBTA.{Cache, SentryExtra}
   alias Util
 
+  @behaviour MBTA.Api.Behaviour
+
   @default_timeout Application.compile_env!(:dotcom, :v3_api_default_timeout)
+  @httpoison Application.compile_env!(:dotcom, :httpoison)
   @http_pool Application.compile_env!(:dotcom, :v3_api_http_pool)
 
-  @spec get_json(String.t(), Keyword.t()) :: JsonApi.t() | {:error, any}
+  @impl MBTA.Api.Behaviour
   def get_json(url, params \\ [], opts \\ []) do
     _ =
       Logger.debug(fn ->
@@ -59,7 +62,7 @@ defmodule MBTA.Api do
 
     {time, response} =
       :timer.tc(fn ->
-        get(url, headers,
+        @httpoison.get(url, headers,
           params: params,
           timeout: timeout,
           recv_timeout: timeout,
