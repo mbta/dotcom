@@ -75,7 +75,9 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
     predictions_fn.(opts)
     |> case do
-      {:error, _} ->
+      {:error, error} ->
+        Logger.error("predictions for opts #{inspect(opts)}: #{inspect(error)}")
+
         []
 
       list ->
@@ -119,7 +121,9 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     trip_ids = trip_ids |> Enum.reject(&is_nil/1) |> Enum.join(",")
 
     case predictions_fn.(trip: trip_ids) do
-      {:error, _} ->
+      {:error, error} ->
+        Logger.error("predictions for trips #{inspect(trip_ids)}: #{inspect(error)}")
+
         []
 
       list ->
