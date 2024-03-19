@@ -73,8 +73,8 @@ defmodule Predictions.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              on_error: :nothing,
               match: fn lst -> lst != [] end,
+              on_error: :nothing,
               opts: [ttl: @ttl]
             )
   defp cache_fetch(opts) do
