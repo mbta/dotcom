@@ -198,7 +198,14 @@ defmodule CMS.Partial.Paragraph do
   end
 
   # "This ¶ type has a single paragraph reference within. Get the nested paragraph."
-  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para, preview_opts) do
+  def from_api(
+        %{
+          "field_reusable_paragraph" => [%{"paragraphs" => paragraphs}],
+          "type" => [%{"target_id" => "from_library"}]
+        } = para,
+        preview_opts
+      )
+      when is_list(paragraphs) and paragraphs != [] do
     parse_library_item(para, preview_opts)
   end
 
