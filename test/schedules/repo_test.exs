@@ -11,6 +11,7 @@ defmodule Schedules.RepoTest do
     %{cache: cache}
   end
 
+  @tag :external
   describe "by_route_ids/2" do
     test "can take a route/direction/sequence/date" do
       response =
@@ -101,29 +102,38 @@ defmodule Schedules.RepoTest do
     end
   end
 
+  @tag :external
   describe "schedule_for_trip/2" do
-    @trip_id "place-WML-0442"
-             |> schedules_for_stop(direction_id: 1)
-             |> List.first()
-             |> Map.get(:trip)
-             |> Map.get(:id)
-
     test "returns stops in order of their stop_sequence for a given trip" do
+      trip_id =
+        "place-WML-0442"
+        |> schedules_for_stop(direction_id: 1)
+        |> List.first()
+        |> Map.get(:trip)
+        |> Map.get(:id)
+
       # find a Worcester CR trip ID
-      response = schedule_for_trip(@trip_id)
-      assert response |> Enum.all?(fn schedule -> schedule.trip.id == @trip_id end)
+      response = schedule_for_trip(trip_id)
+      assert response |> Enum.all?(fn schedule -> schedule.trip.id == trip_id end)
       refute response == []
       assert List.first(response).stop.id == "place-WML-0442"
       assert List.last(response).stop.id == "place-sstat"
     end
 
     test "returns different values for different dates" do
+      trip_id =
+        "place-WML-0442"
+        |> schedules_for_stop(direction_id: 1)
+        |> List.first()
+        |> Map.get(:trip)
+        |> Map.get(:id)
+
       today = Util.service_date()
       tomorrow = Timex.shift(today, days: 1)
-      assert schedule_for_trip(@trip_id) == schedule_for_trip(@trip_id, date: today)
+      assert schedule_for_trip(trip_id) == schedule_for_trip(trip_id, date: today)
 
-      refute schedule_for_trip(@trip_id, date: today) ==
-               schedule_for_trip(@trip_id, date: tomorrow)
+      refute schedule_for_trip(trip_id, date: today) ==
+               schedule_for_trip(trip_id, date: tomorrow)
     end
   end
 

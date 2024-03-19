@@ -1,6 +1,7 @@
 defmodule DotcomWeb.Plugs.CookiesTest do
-  @moduledoc false
   use DotcomWeb.ConnCase
+  @moduletag :external
+
   import DotcomWeb.Plugs.Cookies
 
   describe "call/2" do

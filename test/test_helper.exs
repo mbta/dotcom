@@ -14,4 +14,9 @@ Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
 
 # Ensure the deps are all started
 Application.ensure_all_started(:dotcom)
+
+ExUnitSummary.start(:normal, %ExUnitSummary.Config{filter_results: :failed, print_delay: 100})
+ExUnit.configure(exclude: [external: true])
+ExUnit.configure(formatters: [ExUnit.CLIFormatter, ExUnitSummary.Formatter])
+
 ExUnit.start(capture_log: true)

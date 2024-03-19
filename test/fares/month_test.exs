@@ -1,5 +1,6 @@
 defmodule Fares.MonthTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   alias Fares.{Fare, Month}
   alias Routes.Route

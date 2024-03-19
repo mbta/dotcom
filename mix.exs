@@ -91,6 +91,7 @@ defmodule DotCom.Mixfile do
       {:ex_aws_ses, "2.4.1"},
       {:ex_doc, "0.31.2", only: :dev},
       {:ex_machina, "2.7.0", only: :test},
+      {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.0; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
       {:faker, "0.18.0", only: :test},

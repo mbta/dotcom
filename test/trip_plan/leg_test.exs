@@ -1,5 +1,7 @@
 defmodule TripPlan.LegTest do
   use ExUnit.Case, async: true
+  @moduletag :external
+
   import TripPlan.Leg
 
   @from Test.Support.Factory.build(:stop_named_position)
