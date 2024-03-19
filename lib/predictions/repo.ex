@@ -73,7 +73,7 @@ defmodule Predictions.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              match: fn lst -> lst != [] end,
+              match: fn lst -> is_list(lst) && lst != [] end,
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
