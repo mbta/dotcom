@@ -3,9 +3,9 @@ defmodule MBTA.Api.Schedules do
   Responsible for fetching Schedule data from the V3 API.
   """
 
-  alias MBTA.Api
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   def all(params \\ []) do
-    Api.get_json("/schedules/", params)
+    @mbta_api.get_json("/schedules/", params)
   end
 end

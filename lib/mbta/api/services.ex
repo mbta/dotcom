@@ -1,13 +1,13 @@
 defmodule MBTA.Api.Services do
   @moduledoc false
 
-  alias MBTA.Api
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   def all(params \\ []) do
-    Api.get_json("/services/", params)
+    @mbta_api.get_json("/services/", params)
   end
 
   def get(id, params \\ []) do
-    Api.get_json("/services/#{id}", params)
+    @mbta_api.get_json("/services/#{id}", params)
   end
 end

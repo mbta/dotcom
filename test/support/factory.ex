@@ -121,23 +121,11 @@ defmodule Test.Support.Factory do
   end
 
   def stop_named_position_factory do
-    stop =
-      [
-        "place-sstat",
-        "place-north",
-        "place-bbsta",
-        "place-pktrm",
-        "place-rugg",
-        "place-gover"
-      ]
-      |> Faker.Util.pick()
-      |> Stops.Repo.get!()
-
     %NamedPosition{
-      name: stop.name,
-      stop_id: stop.id,
-      latitude: stop.latitude,
-      longitude: stop.longitude
+      name: Faker.Address.street_name(),
+      stop_id: nil,
+      latitude: Faker.Address.latitude(),
+      longitude: Faker.Address.longitude()
     }
   end
 

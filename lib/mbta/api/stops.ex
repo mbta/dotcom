@@ -3,14 +3,14 @@ defmodule MBTA.Api.Stops do
   Responsible for fetching Stop data from the V3 API.
   """
 
-  alias MBTA.Api
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   def all(params \\ []) do
-    Api.get_json("/stops/", params)
+    @mbta_api.get_json("/stops/", params)
   end
 
   def by_gtfs_id(gtfs_id, params, opts \\ []) do
-    Api.get_json(
+    @mbta_api.get_json(
       "/stops/#{gtfs_id}",
       params,
       opts

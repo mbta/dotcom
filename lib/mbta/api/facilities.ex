@@ -3,15 +3,15 @@ defmodule MBTA.Api.Facilities do
   Responsible for fetching Stop data from the V3 API.
   """
 
-  alias MBTA.Api
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   def all(params \\ [], opts \\ []) do
-    Api.get_json("/facilities/", params, opts)
+    @mbta_api.get_json("/facilities/", params, opts)
   end
 
   def filter_by(filters, opts \\ []) do
     params = Enum.map(filters, fn {k, v} -> {"filter[#{k}]", v} end)
 
-    Api.get_json("/facilities/", params, opts)
+    @mbta_api.get_json("/facilities/", params, opts)
   end
 end

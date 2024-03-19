@@ -3,9 +3,9 @@ defmodule MBTA.Api.Predictions do
   Responsible for fetching Prediction data from the V3 API.
   """
 
-  alias MBTA.Api
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   def all(params) do
-    Api.get_json("/predictions/", params)
+    @mbta_api.get_json("/predictions/", params)
   end
 end

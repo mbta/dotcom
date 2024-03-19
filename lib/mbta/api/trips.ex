@@ -3,15 +3,15 @@ defmodule MBTA.Api.Trips do
   Responsible for fetching Trip data from the MBTA Api.
   """
 
-  alias MBTA.Api
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   def by_id(id, opts \\ []) do
-    Api.get_json("/trips/" <> id, opts)
+    @mbta_api.get_json("/trips/" <> id, opts)
   end
 
   def by_route(route_id, opts \\ []) do
     opts = Kernel.put_in(opts[:route], route_id)
 
-    Api.get_json("/trips/", opts)
+    @mbta_api.get_json("/trips/", opts)
   end
 end
