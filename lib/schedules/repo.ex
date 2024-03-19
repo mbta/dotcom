@@ -7,6 +7,8 @@ defmodule Schedules.Repo do
 
   import Kernel, except: [to_string: 1]
 
+  require Logger
+
   alias Routes.Route
   alias Schedules.{Parser, Schedule}
   alias Util
@@ -79,8 +81,13 @@ defmodule Schedules.Repo do
 
   def trip(trip_id, trip_by_id_fn) do
     case fetch_trip(trip_id, trip_by_id_fn) do
-      {:ok, value} -> value
-      {:error, _} -> nil
+      {:ok, value} ->
+        value
+
+      {:error, error} ->
+        Logger.error("fetch_trip for ID #{trip_id}: #{inspect(error)}")
+
+        nil
     end
   end
 
@@ -226,7 +233,9 @@ defmodule Schedules.Repo do
     end)
   end
 
-  defp load_from_other_repos({:error, _} = error) do
+  defp load_from_other_repos({:error, reason} = error) do
+    Logger.error("load_from_other_repos: #{inspect(reason)}")
+
     error
   end
 
