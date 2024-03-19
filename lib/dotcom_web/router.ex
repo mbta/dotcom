@@ -186,6 +186,12 @@ defmodule DotcomWeb.Router do
     get("/schedules/:route/line", ScheduleController.LineController, :show, as: :line)
     get("/schedules/:route/line/hours", ScheduleController.HoursController, :hours_of_operation)
 
+    get(
+      "/schedules/:route/line/hours-by-stop",
+      ScheduleController.HoursController,
+      :hours_of_operation_by_stop
+    )
+
     get("/schedules/:route", ScheduleController, :show, as: :schedule)
     get("/schedules/:route/pdf", ScheduleController.Pdf, :pdf, as: :route_pdf)
     get("/style-guide", StyleGuideController, :index)

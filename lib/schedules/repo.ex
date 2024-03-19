@@ -8,7 +8,7 @@ defmodule Schedules.Repo do
   import Kernel, except: [to_string: 1]
 
   alias Routes.Route
-  alias Schedules.{HoursOfOperation, Parser, Schedule}
+  alias Schedules.{Parser, Schedule}
   alias Util
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -120,12 +120,6 @@ defmodule Schedules.Repo do
     else
       _ -> :error
     end
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def hours_of_operation(route_id_or_ids, date, description) do
-    HoursOfOperation.hours_of_operation(route_id_or_ids, date, description)
-    |> Util.error_default(%HoursOfOperation{})
   end
 
   defp all_from_params(params) do

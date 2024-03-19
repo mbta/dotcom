@@ -23,7 +23,7 @@ defmodule Schedules.HoursOfOperationTest do
 
     test "returns hours for a rapid_transit route" do
       # does not validate the actual hours, that's in other tests
-      actual = hours_of_operation("47", :rapid_transit)
+      actual = hours_of_operation_by_stop("47", :rapid_transit)
       assert %HoursOfOperation{} = actual
       assert {week_0, week_1} = actual.week
       assert {saturday_0, saturday_1} = actual.saturday
@@ -51,7 +51,7 @@ defmodule Schedules.HoursOfOperationTest do
       date = ~D[2017-12-01]
       route_id = "route_id"
       [week_date, saturday_date, sunday_date] = week_dates(date, [])
-      actual = api_params([route_id], date, :desc, [])
+      actual = api_params([route_id], date, [], :desc)
 
       assert [
                week_query,
@@ -66,6 +66,9 @@ defmodule Schedules.HoursOfOperationTest do
                {:route, ^route_id},
                {:date, ^week_date},
                {:direction_id, 0},
+               {:"fields[schedule]", "departure_time,arrival_time"},
+               {:include, "trip"},
+               {:"fields[trip]", "headsign"},
                {:stop_sequence, "first,last"} | _
              ] = week_query
 
@@ -82,49 +85,12 @@ defmodule Schedules.HoursOfOperationTest do
       assert sunday_query_1[:date] == sunday_date
     end
 
-    test "for rapid transit and a given date, returns a query for each relevant day of the week and direction_id" do
-      date = ~D[2017-12-01]
-      route_id = "route_id"
-      [week_date, saturday_date, sunday_date] = week_dates(date, [])
-      actual = api_params([route_id], date, :rapid_transit, [])
-
-      [
-        week_query,
-        week_query_1,
-        saturday_query,
-        saturday_query_1,
-        sunday_query,
-        sunday_query_1
-      ] = actual
-
-      assert [
-               {:route, ^route_id},
-               {:date, ^week_date},
-               {:direction_id, 0},
-               {:"fields[schedule]", "departure_time,arrival_time"},
-               {:include, "trip"},
-               {:"fields[trip]", "headsign"} | _
-             ] = week_query
-
-      assert week_query_1[:route] == route_id
-      assert week_query_1[:direction_id] == 1
-      assert week_query_1[:date] == week_date
-      assert saturday_query[:route] == route_id
-      assert saturday_query[:date] == saturday_date
-      assert saturday_query_1[:route] == route_id
-      assert saturday_query_1[:date] == saturday_date
-      assert sunday_query[:route] == route_id
-      assert sunday_query[:date] == sunday_date
-      assert sunday_query_1[:route] == route_id
-      assert sunday_query_1[:date] == sunday_date
-    end
-
-    test "for rapid transit and a list of dates, returns a query for generated days, and days in the list" do
+    test "for a list of dates, returns a query for generated days, and days in the list" do
       date = ~D[2022-12-27]
       route_id = "route_id"
       special_service_dates = [~D[2022-12-27], ~D[2022-12-31]]
       [week_date, saturday_date, _sunday_date] = week_dates(date, special_service_dates)
-      actual = api_params([route_id], date, :rapid_transit, special_service_dates)
+      actual = api_params([route_id], date, special_service_dates, :rapid_transit)
 
       assert Kernel.length(actual) == 10
 
@@ -154,7 +120,7 @@ defmodule Schedules.HoursOfOperationTest do
     end
   end
 
-  describe "parse_responses/3" do
+  describe "parse_responses/4" do
     test "returns a timeout error if not all of the tasks complete within the timeout" do
       mock_params = [[], [], [], [], [], []]
 
@@ -170,7 +136,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}}
                  ],
                  :desc,
-                 mock_params
+                 mock_params,
+                 &Schedules.HoursOfOperation.departure/3
                )
     end
 
@@ -192,7 +159,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}}
                  ],
                  :desc,
-                 mock_params
+                 mock_params,
+                 &Schedules.HoursOfOperation.departure/3
                )
     end
 
@@ -210,7 +178,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}}
                  ],
                  :desc,
-                 mock_params
+                 mock_params,
+                 &Schedules.HoursOfOperation.departure_overall/3
                )
     end
 
@@ -228,7 +197,8 @@ defmodule Schedules.HoursOfOperationTest do
                    {:ok, %JsonApi{}}
                  ],
                  :rapid_transit,
-                 mock_params
+                 mock_params,
+                 &Schedules.HoursOfOperation.departure/3
                )
     end
 
@@ -256,7 +226,15 @@ defmodule Schedules.HoursOfOperationTest do
       }
 
       mock_params = [[], [], [], [], [], []]
-      actual = parse_responses(responses, :desc, mock_params)
+
+      actual =
+        parse_responses(
+          responses,
+          :desc,
+          mock_params,
+          &Schedules.HoursOfOperation.departure_overall/3
+        )
+
       assert expected == actual
     end
 
@@ -325,7 +303,15 @@ defmodule Schedules.HoursOfOperationTest do
         }
 
         mock_params = [[], [], [], [], [], []]
-        actual = parse_responses(responses, :rapid_transit, mock_params)
+
+        actual =
+          parse_responses(
+            responses,
+            :rapid_transit,
+            mock_params,
+            &Schedules.HoursOfOperation.departure/3
+          )
+
         assert expected == actual
       end
     end
@@ -385,7 +371,15 @@ defmodule Schedules.HoursOfOperationTest do
         }
 
         mock_params = [[], [], [], [], [], [], [date: stop_2_date], [date: stop_2_date]]
-        actual = parse_responses(responses, :rapid_transit, mock_params)
+
+        actual =
+          parse_responses(
+            responses,
+            :rapid_transit,
+            mock_params,
+            &Schedules.HoursOfOperation.departure/3
+          )
+
         assert expected == actual
       end
     end
@@ -414,7 +408,15 @@ defmodule Schedules.HoursOfOperationTest do
       }
 
       mock_params = [[], [], [], [], [], [], [date: stop_2_date], [date: stop_2_date]]
-      actual = parse_responses(responses, :rapid_transit, mock_params)
+
+      actual =
+        parse_responses(
+          responses,
+          :rapid_transit,
+          mock_params,
+          &Schedules.HoursOfOperation.departure/3
+        )
+
       assert expected == actual
     end
   end
@@ -505,22 +507,6 @@ defmodule Schedules.HoursOfOperationTest do
                ~D[2022-12-31],
                ~D[2023-01-08]
              ]
-    end
-  end
-
-  describe "Enumerable" do
-    test "returns items in week/saturday/sunday order, ignoring no-service dates" do
-      now = DateTime.utc_now()
-      departure = %Departures{first_departure: now, last_departure: now}
-
-      hours = %HoursOfOperation{
-        week: {:no_service, departure},
-        saturday: {:no_service, :no_service},
-        sunday: {departure, :no_service}
-      }
-
-      assert Enum.count(hours) == 2
-      assert Enum.into(hours, []) == [week: hours.week, sunday: hours.sunday]
     end
   end
 

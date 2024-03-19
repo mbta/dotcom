@@ -10,7 +10,8 @@ jest.mock("../../../helpers/use-fetch", () => ({
   hasData: () => false,
   isLoading: () => true,
   isNotStarted: () => false,
-  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
+  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()]),
+  FetchStatus: { Data: 3 }
 }));
 
 const services: ServiceInSelector[] = [

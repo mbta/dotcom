@@ -22,11 +22,7 @@ const HoursOfOperation = ({
   }
   if (isRapidTransit(route)) {
     return (
-      <RapidTransitHoursOfOperation
-        pdfs={pdfs}
-        route={route}
-        scheduleNote={scheduleNote}
-      />
+      <RapidTransitHoursOfOperation route={route} scheduleNote={scheduleNote} />
     );
   }
   return <DefaultHoursOfOperation hours={hours} />;

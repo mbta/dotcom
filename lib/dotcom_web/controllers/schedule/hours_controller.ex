@@ -15,7 +15,29 @@ defmodule DotcomWeb.ScheduleController.HoursController do
     route = Routes.Repo.get(route_id)
 
     hours_of_operation =
-      Schedules.Repo.hours_of_operation(route_id, conn.assigns.date, route.description)
+      Schedules.HoursOfOperation.hours_of_operation(
+        route_id,
+        conn.assigns.date,
+        route.description
+      )
+
+    json(conn, hours_of_operation)
+  end
+
+  def hours_of_operation_by_stop(conn, %{"route" => "Green"}) do
+    # Return an empty object.  Only supports specific routes
+    json(conn, %{})
+  end
+
+  def hours_of_operation_by_stop(conn, %{"route" => route_id}) do
+    route = Routes.Repo.get(route_id)
+
+    hours_of_operation =
+      Schedules.HoursOfOperation.hours_of_operation_by_stop(
+        route_id,
+        conn.assigns.date,
+        route.description
+      )
 
     json(conn, hours_of_operation)
   end
