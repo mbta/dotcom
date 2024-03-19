@@ -3,6 +3,7 @@ defmodule CMS.Helpers do
   Various helper functions that aid in parsing CMS JSON data.
   """
 
+  require Logger
   alias CMS.API
   alias CMS.Config
   alias CMS.CustomHTML5Scrubber
@@ -212,6 +213,14 @@ defmodule CMS.Helpers do
 
   defp show_paragraph?(%{"status" => [%{"value" => value}]}, _) do
     value
+  end
+
+  defp show_paragraph?(data, _) do
+    Logger.warning(
+      "CMS.Helpers.show_paragraph? unsupported paragraph data: #{Kernel.inspect(data)}"
+    )
+
+    false
   end
 
   @spec rewrite_static_file_links(String.t()) :: String.t()
