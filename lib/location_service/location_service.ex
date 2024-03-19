@@ -2,16 +2,12 @@ defmodule LocationService do
   @moduledoc """
   Interacts with Amazon's Location Service, specifically its Places service, to perform geocoding, reverse geocoding and place lookups.
   """
+  use RepoCache, ttl: :timer.hours(24)
 
   require Logger
 
-  use Nebulex.Caching.Decorators
-
   alias AWSLocation.Request
   alias LocationService.Result
-
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(24)
 
   @type result ::
           {:ok, nonempty_list(LocationService.Address.t())}
@@ -23,19 +19,21 @@ defmodule LocationService do
 
   Caches the result using the input address as key."
   @spec geocode(String.t()) :: result
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def geocode(address) when is_binary(address) do
-    Request.new(address)
-    |> Result.handle_response(address)
+    cache(address, fn address ->
+      Request.new(address)
+      |> Result.handle_response(address)
+    end)
   end
 
   @doc "Uses AWS Location Service to perform a
   geocode lookup. Caches the result using the input address as key."
   @spec reverse_geocode(number, number) :: result
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def reverse_geocode(latitude, longitude) when is_float(latitude) and is_float(longitude) do
-    Request.new([latitude, longitude])
-    |> Result.handle_response([latitude, longitude])
+    cache({latitude, longitude}, fn {latitude, longitude} ->
+      Request.new([latitude, longitude])
+      |> Result.handle_response([latitude, longitude])
+    end)
   end
 
   @doc "Uses AWS Location Service to do
@@ -44,10 +42,11 @@ defmodule LocationService do
           LocationService.Suggestion.result()
           | {:error, :invalid_arguments}
           | {:error, :zero_results}
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
-    Request.autocomplete(search, limit)
-    |> Result.handle_response(%{search: search, limit: limit})
+    cache({search, limit}, fn {search, limit} ->
+      Request.autocomplete(search, limit)
+      |> Result.handle_response(%{search: search, limit: limit})
+    end)
   end
 
   def autocomplete(_, _), do: {:error, :invalid_arguments}

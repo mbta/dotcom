@@ -4,6 +4,7 @@ defmodule Predictions.Supervisor do
 
   Children include:
   - StreamSupervisor: Dynamically sets up per-route streams of predictions from the API.
+  - Repo: Manages ad-hoc API requests.
   """
 
   use Supervisor
@@ -20,7 +21,8 @@ defmodule Predictions.Supervisor do
       {Registry, keys: :duplicate, name: :prediction_subscriptions_registry},
       Predictions.Store,
       Predictions.StreamSupervisor,
-      Predictions.PredictionsPubSub
+      Predictions.PredictionsPubSub,
+      Predictions.Repo
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

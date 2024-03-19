@@ -76,6 +76,9 @@ defmodule DotCom.Mixfile do
       {:bypass, "1.0.0", [only: :test]},
       # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
+      # latest version 1.0.0; cannot upgrade because setup appears to have changed
+      # rather than upgrading, we should change all caching over to Nebulex
+      {:con_cache, "0.12.1"},
       {:crc, "0.10.5"},
       # latest version 1.7.5; cannot upgrade because it causes our ci to fail
       # this version just came out in the last few days, so it might be a bug that gets fixed soon

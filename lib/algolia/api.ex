@@ -2,20 +2,15 @@ defmodule Algolia.Api do
   @moduledoc """
   Interact with Algolia via their API.
   """
-
-  require Logger
-
-  use Nebulex.Caching.Decorators
-
   alias Algolia.Config
+  require Logger
+  use RepoCache, ttl: :timer.hours(12)
 
   defstruct [:host, :index, :action, :body, :query_params]
 
-  @cache Application.compile_env!(:dotcom, :cache)
-  @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
-  @ttl :timer.hours(12)
-
   @type action :: :post | :get
+
+  @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
 
   @type t :: %__MODULE__{
           host: String.t() | nil,
@@ -48,42 +43,36 @@ defmodule Algolia.Api do
 
   defp do_action(
          action,
-         %__MODULE__{index: index, action: "queries", body: body} = opts,
-         %Config{} = config
-       )
-       when is_binary(index) and is_binary(body) do
-    hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
-
-    cached_send_post_request({body, config}, action, hackney, opts)
-  end
-
-  defp do_action(
-         action,
          %__MODULE__{index: index, action: opts_action, body: body} = opts,
          %Config{} = config
        )
        when is_binary(index) and is_binary(opts_action) and is_binary(body) do
-    hackney = opts |> hackney_opts() |> Keyword.put(:pool, @http_pool)
-
-    send_post_request({body, config}, action, hackney, opts)
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  defp cached_send_post_request({body, config}, action, hackney, opts) do
-    send_post_request({body, config}, action, hackney, opts)
-  end
-
-  defp send_post_request({body, config}, action, hackney, opts) do
-    query_param_string = generate_query_param_string(opts)
-
-    response =
+    hackney =
       opts
-      |> generate_url(config, query_param_string)
-      |> send_request(action, body, config, hackney)
+      |> hackney_opts()
+      |> Keyword.put(:pool, @http_pool)
 
-    case response do
-      {:ok, %HTTPoison.Response{status_code: 200}} -> response
-      {_, invalid_response} -> {:error, invalid_response}
+    send_post_request = fn {body, config} ->
+      query_param_string = generate_query_param_string(opts)
+
+      response =
+        opts
+        |> generate_url(config, query_param_string)
+        |> send_request(action, body, config, hackney)
+
+      case response do
+        {:ok, %HTTPoison.Response{status_code: 200}} -> response
+        {_, invalid_response} -> {:error, invalid_response}
+      end
+    end
+
+    # If we're making a query for results using the same request body AND same
+    # %Algolia.Config{}, cache the response instead of making extra calls to the
+    # Algolia REST API
+    if opts_action == "queries" do
+      cache({body, config}, send_post_request)
+    else
+      send_post_request.({body, config})
     end
   end
 

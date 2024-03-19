@@ -4,14 +4,10 @@ defmodule RoutePatterns.Repo do
   @behaviour RoutePatterns.RepoApi
 
   require Logger
-
-  use Nebulex.Caching.Decorators
+  use RepoCache, ttl: :timer.hours(1)
 
   alias RoutePatterns.RoutePattern
   alias V3Api.RoutePatterns, as: RoutePatternsApi
-
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(1)
 
   @doc """
   Returns a single route pattern by ID
@@ -19,16 +15,13 @@ defmodule RoutePatterns.Repo do
   @callback get(RoutePattern.id_t()) :: RoutePattern.t() | nil
   @callback get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil
   def get(id, opts \\ []) when is_binary(id) do
-    case get_id(id, opts) do
+    case cache({id, opts}, fn {id, opts} ->
+           with %{data: [route_pattern]} <- RoutePatternsApi.get(id, opts) do
+             {:ok, RoutePattern.new(route_pattern)}
+           end
+         end) do
       {:ok, route_pattern} -> route_pattern
       {:error, _} -> nil
-    end
-  end
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  defp get_id(id, opts) do
-    with %{data: [route_pattern]} <- RoutePatternsApi.get(id, opts) do
-      {:ok, RoutePattern.new(route_pattern)}
     end
   end
 
@@ -45,17 +38,16 @@ defmodule RoutePatterns.Repo do
     opts
     |> Keyword.put(:route, route_id)
     |> Keyword.put(:sort, "typicality,sort_order")
-    |> api_all()
+    |> cache(&api_all/1)
     |> Enum.sort(&reorder_mrts(&1, &2, route_id))
   end
 
   def by_stop_id(stop_id) do
     [stop: stop_id]
     |> Keyword.put(:include, "representative_trip.shape,representative_trip.stops")
-    |> api_all()
+    |> cache(&api_all/1)
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp api_all(opts) do
     case RoutePatternsApi.all(opts) do
       {:error, error} ->

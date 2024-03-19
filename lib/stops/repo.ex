@@ -2,14 +2,9 @@ defmodule Stops.Repo do
   @moduledoc """
   Matches the Ecto API, but fetches Stops from the Stop Info API instead.
   """
-
-  use Nebulex.Caching.Decorators
-
+  use RepoCache, ttl: :timer.hours(1)
   alias Stops.{Api, Stop}
   alias Routes.Route
-
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(1)
 
   @type stop_feature ::
           Route.route_type()
@@ -79,23 +74,26 @@ defmodule Stops.Repo do
     |> get_parent()
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @spec stop(Stop.id_t()) :: {:ok, Stop.t() | nil} | {:error, any}
   defp stop(id) do
-    Api.by_gtfs_id(id)
+    # the `cache` macro uses the function name as part of the key, and :stop
+    # makes more sense for this than :get, since other functions in this
+    # module will be working with those cache rows as well.
+    cache(id, &Api.by_gtfs_id/1)
   end
 
   @spec by_route(Route.id_t(), 0 | 1, Keyword.t()) :: stops_response
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
-    with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
-      for stop <- stops do
-        key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :stop, stop.id)
-
-        @cache.put(key, {:ok, stop})
-
-        stop
+    cache({route_id, direction_id, opts}, fn args ->
+      with stops when is_list(stops) <- Api.by_route(args) do
+        for stop <- stops do
+          # Put the stop in the cache under {:stop, id} key as well so it will
+          # also be cached for Stops.Repo.get/1 calls
+          ConCache.put(__MODULE__, {:stop, stop.id}, {:ok, stop})
+          stop
+        end
       end
-    end
+    end)
   end
 
   @spec by_routes([Route.id_t()], 0 | 1, Keyword.t()) :: stops_response
@@ -111,17 +109,22 @@ defmodule Stops.Repo do
     |> Enum.uniq()
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @spec by_route_type(Route.route_type(), Keyword.t()) :: stops_response
   def by_route_type(route_type, opts \\ []) do
-    {route_type, opts}
-    |> Stops.Api.by_route_type()
-    |> Enum.map(&get_parent/1)
-    |> Enum.uniq_by(& &1.id)
+    cache(
+      {route_type, opts},
+      fn stop ->
+        stop
+        |> Stops.Api.by_route_type()
+        |> Enum.map(&get_parent/1)
+        |> Enum.uniq_by(& &1.id)
+      end
+    )
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
+  @spec by_trip(Trip.id_t()) :: [Stop.t()]
   def by_trip(trip_id) do
-    Api.by_trip(trip_id)
+    cache(trip_id, &Api.by_trip/1)
   end
 
   def stop_exists_on_route?(stop_id, route, direction_id) do

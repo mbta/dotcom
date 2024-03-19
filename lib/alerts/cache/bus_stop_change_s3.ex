@@ -3,15 +3,9 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   Functionality for writing to/reading from S3. Takes %Alert{} converts them
   into %HistoricalAlert{} before saving.
   """
-
+  use RepoCache, ttl: :timer.hours(24)
   require Logger
-
-  use Nebulex.Caching.Decorators
-
   alias Alerts.{Alert, HistoricalAlert}
-
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(24)
 
   @ex_aws Application.compile_env(:dotcom, [:alerts_mock_aws_client], ExAws)
   @ex_aws_s3 Application.compile_env(:dotcom, [:alerts_mock_aws_client], ExAws.S3)
@@ -45,9 +39,18 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   def copy_alerts_to_s3(bus_alerts, _) do
     with stop_change_alerts when stop_change_alerts != [] <-
            Enum.filter(bus_alerts, &(&1.effect in [:stop_closure, :stop_moved])) do
-      stop_change_alerts
-      |> Enum.sort(&(&1.id >= &2.id))
-      |> maybe_write_alerts_to_s3()
+      sorted_alert_ids =
+        stop_change_alerts
+        |> Enum.map(& &1.id)
+        |> Enum.sort()
+
+      # If it's the same set of IDs, don't re-write alerts today.
+      sorted_alert_ids
+      |> cache(fn _ ->
+        stop_change_alerts
+        |> Enum.map(&HistoricalAlert.from_alert/1)
+        |> write_alerts()
+      end)
     else
       [] ->
         # No stop change alerts to write.
@@ -55,61 +58,34 @@ defmodule Alerts.Cache.BusStopChangeS3 do
     end
   end
 
-  @decorate cacheable(
-              cache: @cache,
-              key:
-                Dotcom.Cache.KeyGenerator.generate(
-                  __MODULE__,
-                  :maybe_write_alerts_to_s3,
-                  Enum.map(stop_change_alerts, & &1.id)
-                ),
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
-  defp maybe_write_alerts_to_s3(stop_change_alerts) do
-    stop_change_alerts
-    |> Enum.map(&HistoricalAlert.from_alert/1)
-    |> write_alerts()
-  end
-
   @doc """
   Get bus stop change alerts currently stored on S3. Cached per day.
   """
   @spec get_stored_alerts :: [HistoricalAlert.t()]
-  @decorate cacheable(
-              cache: @cache,
-              key:
-                Dotcom.Cache.KeyGenerator.generate(
-                  __MODULE__,
-                  :get_stored_alerts,
-                  Util.service_date()
-                ),
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
   def get_stored_alerts do
-    keys =
-      @ex_aws_s3.list_objects(@bucket, prefix: bucket_prefix())
-      |> @ex_aws.stream!
-      |> Stream.map(& &1.key)
-      |> Enum.to_list()
+    cache(Util.service_date(), fn _ ->
+      keys =
+        @ex_aws_s3.list_objects(@bucket, prefix: bucket_prefix())
+        |> @ex_aws.stream!
+        |> Stream.map(& &1.key)
+        |> Enum.to_list()
 
-    Enum.map(keys, fn key ->
-      result =
-        @ex_aws_s3.get_object(@bucket, key, prefix: bucket_prefix())
-        |> @ex_aws.request()
+      Enum.map(keys, fn key ->
+        result =
+          @ex_aws_s3.get_object(@bucket, key, prefix: bucket_prefix())
+          |> @ex_aws.request()
 
-      case result do
-        {:ok, %{body: alert_data}} ->
-          decompress_alert(alert_data)
+        case result do
+          {:ok, %{body: alert_data}} ->
+            decompress_alert(alert_data)
 
-        error ->
-          log_result(error, key, "get_stored_alerts")
-
-          nil
-      end
+          error ->
+            log_result(error, key, "get_stored_alerts")
+            nil
+        end
+      end)
+      |> Enum.filter(& &1)
     end)
-    |> Enum.filter(& &1)
   end
 
   @spec write_alerts([HistoricalAlert.t()]) :: :ok

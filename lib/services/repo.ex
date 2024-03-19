@@ -3,20 +3,15 @@ defmodule Services.Repo do
   Retrieves services for a route.
   """
 
-  require Logger
-
-  use Nebulex.Caching.Decorators
-
+  use RepoCache, ttl: :timer.hours(1)
   alias Services.Service
   alias V3Api.Services, as: ServicesApi
 
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(1)
-
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_id(id) when is_binary(id) do
-    ServicesApi.get(id)
-    |> handle_response()
+    cache(id, fn _ ->
+      ServicesApi.get(id)
+      |> handle_response()
+    end)
     |> List.first()
   end
 
@@ -31,21 +26,20 @@ defmodule Services.Repo do
     |> by_route_id(params)
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route_id(route_id, params) when is_binary(route_id) do
-    params
-    |> Keyword.put(:route, route_id)
-    |> ServicesApi.all()
-    |> handle_response()
+    cache({route_id, params}, fn _ ->
+      params
+      |> Keyword.put(:route, route_id)
+      |> ServicesApi.all()
+      |> handle_response()
+    end)
   end
 
   defp handle_response(%JsonApi{data: data}) do
     Enum.map(data, &Service.new/1)
   end
 
-  defp handle_response({:error, [%JsonApi.Error{code: code}]}) do
-    Logger.warning("services_repo_handle_response_error=#{code}")
-
+  defp handle_response({:error, [%JsonApi.Error{code: "not_found"}]}) do
     []
   end
 end

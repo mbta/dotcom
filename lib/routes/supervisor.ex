@@ -10,7 +10,9 @@ defmodule Routes.Supervisor do
 
   @impl Supervisor
   def init(_) do
-    children = []
+    children = [
+      Routes.Repo
+    ]
 
     children =
       if Application.get_env(:dotcom, :route_populate_caches?) &&

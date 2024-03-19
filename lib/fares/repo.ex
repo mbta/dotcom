@@ -1,14 +1,9 @@
 defmodule Fares.Repo do
-  @moduledoc false
+  @fares Fares.FareInfo.fare_info()
 
-  use Nebulex.Caching.Decorators
+  use RepoCache, ttl: :timer.hours(24)
 
   alias Fares.Fare
-
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.hours(24)
-
-  @fares Fares.FareInfo.fare_info()
 
   @spec all() :: [Fare.t()]
   @spec all(Keyword.t()) :: [Fare.t()]
@@ -16,9 +11,11 @@ defmodule Fares.Repo do
     @fares
   end
 
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def all(opts) when is_list(opts) do
-    all() |> filter(opts)
+    cache(opts, fn opts ->
+      all()
+      |> filter(opts)
+    end)
   end
 
   @doc """
@@ -45,7 +42,6 @@ defmodule Fares.Repo do
   @spec for_fare_class(Routes.Route.gtfs_fare_class(), Keyword.t()) :: [Fare.t()]
   def for_fare_class(fare_class, opts \\ []) do
     opts = Keyword.merge(opts, fare_class_opts(fare_class))
-
     all(opts)
   end
 

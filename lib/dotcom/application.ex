@@ -24,6 +24,32 @@ defmodule Dotcom.Application do
       update_static_url(Application.get_env(:dotcom, DotcomWeb.Endpoint))
     )
 
+    to_be_deprecated = [
+      %{
+        id: ConCache,
+        start:
+          {ConCache, :start_link,
+           [
+             [
+               ttl: :timer.seconds(60),
+               ttl_check: :timer.seconds(5),
+               ets_options: [read_concurrency: true]
+             ],
+             [name: :line_diagram_realtime_cache]
+           ]}
+      },
+      RepoCache.Log,
+      Schedules.Repo,
+      Schedules.RepoCondensed,
+      Facilities.Repo,
+      Stops.Repo,
+      Algolia.Api,
+      LocationService,
+      Services.Repo,
+      RoutePatterns.Repo,
+      Dotcom.RealtimeSchedule
+    ]
+
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
@@ -39,6 +65,7 @@ defmodule Dotcom.Application do
         else
           []
         end ++
+        to_be_deprecated ++
         if Application.get_env(:dotcom, :start_data_processes) do
           [
             Vehicles.Supervisor,
@@ -61,8 +88,8 @@ defmodule Dotcom.Application do
           Routes.Supervisor,
           Predictions.Supervisor,
           {Phoenix.PubSub, name: Dotcom.PubSub},
-          Alerts.BusStopChangeSupervisor,
-          Alerts.CacheSupervisor,
+          Alerts.Supervisor,
+          Fares.Supervisor,
           {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
         ]
 

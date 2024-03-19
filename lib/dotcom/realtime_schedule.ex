@@ -6,7 +6,7 @@ defmodule Dotcom.RealtimeSchedule do
     - predictions and schedules are indexed by route pattern name because we
       are considering route patterns with the same name to be effectively the same
   """
-  import DotcomWeb.StopController, only: [json_safe_alerts: 2]
+  use RepoCache, ttl: :timer.seconds(30)
 
   alias Dotcom.JsonHelpers
   alias Dotcom.TransitNearMe
@@ -17,8 +17,14 @@ defmodule Dotcom.RealtimeSchedule do
   alias Routes.Route
   alias Schedules.RepoCondensed, as: SchedulesRepo
   alias Schedules.ScheduleCondensed
+  alias Dotcom.JsonHelpers
+  alias Dotcom.TransitNearMe
   alias Stops.Repo, as: StopsRepo
   alias Stops.Stop
+
+  import DotcomWeb.StopController, only: [json_safe_alerts: 2]
+
+  require Logger
 
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
@@ -41,10 +47,11 @@ defmodule Dotcom.RealtimeSchedule do
 
   @type route_pattern_name_t :: String.t()
 
+  @spec stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
   def stop_data(stop_ids, now, opts \\ []) do
-    stop_ids
-    |> Enum.sort()
-    |> do_stop_data(now, opts)
+    cache(stop_ids, fn _ ->
+      do_stop_data(stop_ids, now, opts)
+    end)
   end
 
   @spec do_stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
