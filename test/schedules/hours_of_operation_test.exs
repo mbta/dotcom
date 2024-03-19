@@ -51,7 +51,7 @@ defmodule Schedules.HoursOfOperationTest do
       date = ~D[2017-12-01]
       route_id = "route_id"
       [week_date, saturday_date, sunday_date] = week_dates(date, [])
-      actual = api_params([route_id], date, [])
+      actual = api_params([route_id], date, [], :desc)
 
       assert [
                week_query,
@@ -66,6 +66,9 @@ defmodule Schedules.HoursOfOperationTest do
                {:route, ^route_id},
                {:date, ^week_date},
                {:direction_id, 0},
+               {:"fields[schedule]", "departure_time,arrival_time"},
+               {:include, "trip"},
+               {:"fields[trip]", "headsign"},
                {:stop_sequence, "first,last"} | _
              ] = week_query
 
@@ -87,7 +90,7 @@ defmodule Schedules.HoursOfOperationTest do
       route_id = "route_id"
       special_service_dates = [~D[2022-12-27], ~D[2022-12-31]]
       [week_date, saturday_date, _sunday_date] = week_dates(date, special_service_dates)
-      actual = api_params([route_id], date, special_service_dates)
+      actual = api_params([route_id], date, special_service_dates, :rapid_transit)
 
       assert Kernel.length(actual) == 10
 

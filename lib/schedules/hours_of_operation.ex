@@ -70,7 +70,7 @@ defmodule Schedules.HoursOfOperation do
     route_id_list = List.wrap(route_id_or_ids)
 
     special_service_dates = Enum.flat_map(route_id_list, &Service.special_service_dates(&1))
-    params = api_params(route_id_list, date, special_service_dates)
+    params = api_params(route_id_list, date, special_service_dates, description)
 
     params
     |> Task.async_stream(&V3Api.Schedules.all/1, on_timeout: :kill_task)
@@ -99,9 +99,9 @@ defmodule Schedules.HoursOfOperation do
   * special_service_2, direction 0,
   * ...
   """
-  @spec api_params([Routes.Route.id_t()], Date.t(), [Date.t()]) ::
+  @spec api_params([Routes.Route.id_t()], Date.t(), [Date.t()], atom()) ::
           Keyword.t()
-  def api_params(route_ids, today, special_service_dates) do
+  def api_params(route_ids, today, special_service_dates, description) do
     # This does some fancy math so its week_0, week_1, saturday_0, saturday_1
     # Basically this order defines how we need to parse the data futher on
     for route_id <- route_ids,
@@ -111,13 +111,15 @@ defmodule Schedules.HoursOfOperation do
         route: route_id,
         date: date,
         direction_id: direction_id,
-        stop_sequence: "first,last",
         "fields[schedule]": "departure_time,arrival_time",
         include: "trip",
         "fields[trip]": "headsign"
-      ]
+      ] ++ stop_sequence(description)
     end
   end
+
+  defp stop_sequence(:rapid_transit), do: []
+  defp stop_sequence(_), do: [stop_sequence: "first,last"]
 
   @doc """
   Returns the a current or upcoming weekday, Saturday, and Sunday.
