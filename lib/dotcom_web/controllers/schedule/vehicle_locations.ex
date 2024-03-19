@@ -126,7 +126,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
           Schedules.Schedule.t()
         ]
   defp parse_schedules_for_trip({:error, reason}) do
-    Logger.error("parse_schedules_for_trip: #{inspect(error)}")
+    Logger.error("parse_schedules_for_trip: #{inspect(reason)}")
 
     []
   end

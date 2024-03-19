@@ -6,6 +6,9 @@ defmodule DotcomWeb.ScheduleController.Predictions do
   """
   @behaviour Plug
   import Plug.Conn
+
+  require Logger
+
   alias Predictions.Prediction
   alias Util.AsyncAssign
 
