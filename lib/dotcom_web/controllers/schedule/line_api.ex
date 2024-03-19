@@ -3,6 +3,8 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   Provides JSON endpoints for retrieving line diagram data.
   """
 
+  require Logger
+
   use DotcomWeb, :controller
   use Nebulex.Caching.Decorators
 
@@ -106,6 +108,10 @@ defmodule DotcomWeb.ScheduleController.LineApi do
         now: now
       )
 
+    if Map.keys(headsigns_by_stop) == [] do
+      Logger.warning("No headsigns for route #{route_id} and direction #{direction_id}")
+    end
+
     tooltips_by_stop =
       tooltips
       |> Map.values()
@@ -116,6 +122,10 @@ defmodule DotcomWeb.ScheduleController.LineApi do
       |> Stream.concat(Map.keys(tooltips_by_stop))
       |> Stream.uniq()
       |> Stream.map(fn stop_id ->
+        if Map.get(headsigns_by_stop, stop_id) == nil do
+          Logger.warning("No headsigns for stop #{stop_id} on route #{route_id}")
+        end
+
         {stop_id,
          %{
            headsigns: Map.get(headsigns_by_stop, stop_id, []),
