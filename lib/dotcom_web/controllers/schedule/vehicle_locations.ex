@@ -4,6 +4,8 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
   """
   import Plug.Conn, only: [assign: 3]
 
+  require Logger
+
   alias Stops.Stop
 
   @default_opts [
@@ -123,7 +125,12 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
   @spec parse_schedules_for_trip({:error, any} | [Schedules.Schedule.t()]) :: [
           Schedules.Schedule.t()
         ]
-  defp parse_schedules_for_trip({:error, _reason}), do: []
+  defp parse_schedules_for_trip({:error, reason}) do
+    Logger.error("parse_schedules_for_trip: #{inspect(error)}")
+
+    []
+  end
+
   defp parse_schedules_for_trip(schedules), do: schedules
 
   defp find_previous_station([], _stop_id), do: nil
