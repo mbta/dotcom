@@ -1,5 +1,7 @@
 defmodule DotcomWeb.PageControllerTest do
   use DotcomWeb.ConnCase
+  @moduletag :external
+
   import DotcomWeb.PageController
 
   alias CMS.{

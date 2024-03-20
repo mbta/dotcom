@@ -70,6 +70,7 @@ defmodule Dotcom.ContentRewriters.LiquidObjectsTest do
                ~s({{ <span class="text-danger">missing mode/name</span> fare:cash }})
     end
 
+    @tag :external
     test "it handles route requests" do
       assert replace(~s(route:83)) == "83" |> @routes_repo_api.get() |> Map.get(:long_name)
     end

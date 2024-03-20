@@ -406,6 +406,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     end
   end
 
+  @tag :external
   test "does assign trips for the subway if the date is today", %{conn: conn} do
     schedules = [
       %Schedule{
@@ -535,6 +536,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
+  @tag :external
   test "assigns a nil trip if there is an error", %{conn: conn} do
     init_default = init([])
 

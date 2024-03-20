@@ -1,5 +1,6 @@
 defmodule Dotcom.ReactTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   alias ExUnit.CaptureLog
   alias LocationService.Address

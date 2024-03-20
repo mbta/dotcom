@@ -124,6 +124,7 @@ defmodule TripInfoTest do
       assert List.last(actual.times) == List.last(@time_list)
     end
 
+    @tag :external
     test "given an origin/destination/vehicle, does not keep stop before the origin if the vehicle is there" do
       actual =
         from_list(
@@ -141,6 +142,7 @@ defmodule TripInfoTest do
       assert actual.duration == 60 * 6
     end
 
+    @tag :external
     test "given an origin/destination/vehicle, does not keep stops before the origin if the vehicle is after the origin" do
       actual =
         from_list(

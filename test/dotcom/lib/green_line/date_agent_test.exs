@@ -3,6 +3,7 @@ defmodule Dotcom.GreenLine.DateAgentTest do
 
   import Dotcom.GreenLine.DateAgent
 
+  @tag :external
   test "Can stop an agent" do
     {:ok, pid} = start_link(nil, :green_line_date_agent_test_stop)
     :ok = stop(pid)

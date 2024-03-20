@@ -417,6 +417,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
     end
   end
 
+  @tag :external
   test "green_routes/0" do
     assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
   end

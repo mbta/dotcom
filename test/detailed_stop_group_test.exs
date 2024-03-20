@@ -1,6 +1,9 @@
 defmodule DetailedStopGroupTest do
   use ExUnit.Case, async: false
+  @moduletag :external
+
   import DetailedStopGroup
+
   alias Routes.Route
 
   @subway_stops_with_cr [

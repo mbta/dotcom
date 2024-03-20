@@ -1,5 +1,6 @@
 defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   use DotcomWeb.ChannelCase, async: false
+  @moduletag :external
 
   alias Leaflet.MapData.Marker
   alias DotcomWeb.{VehicleMapMarkerChannel, UserSocket}

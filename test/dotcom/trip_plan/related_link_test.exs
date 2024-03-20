@@ -1,8 +1,11 @@
 defmodule Dotcom.TripPlan.RelatedLinkTest do
   use ExUnit.Case, async: true
+  @moduletag :external
+
   import Dotcom.TripPlan.RelatedLink
   import DotcomWeb.Router.Helpers, only: [fare_path: 4]
   import Test.Support.Factory
+
   alias Routes.Route
   alias TripPlan.Itinerary
 

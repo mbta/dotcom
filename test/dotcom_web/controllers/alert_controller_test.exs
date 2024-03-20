@@ -1,5 +1,6 @@
 defmodule DotcomWeb.AlertControllerTest do
   use DotcomWeb.ConnCase
+  @moduletag :external
 
   use Phoenix.Controller
   alias Alerts.Alert

@@ -317,6 +317,7 @@ defmodule TripPlan.ItineraryRowTest do
     @personal_leg build(:leg, mode: build(:personal_detail))
     @transit_leg build(:leg, mode: build(:transit_detail))
 
+    @tag :external
     test "returns an itinerary row from a Leg" do
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row

@@ -1,6 +1,6 @@
 defmodule DotcomWeb.ScheduleController.GreenTerminiApiTest do
-  use ExUnit.Case, async: true
   use DotcomWeb.ConnCase, async: true
+  @moduletag :external
 
   describe "show/2" do
     test "returns green line stop data formatted as json", %{conn: conn} do

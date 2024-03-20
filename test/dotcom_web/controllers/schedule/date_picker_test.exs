@@ -1,5 +1,6 @@
 defmodule DotcomWeb.ScheduleController.DatePickerTest do
   use DotcomWeb.ConnCase, async: true
+  @moduletag :external
 
   import DotcomWeb.ScheduleController.DatePicker
 

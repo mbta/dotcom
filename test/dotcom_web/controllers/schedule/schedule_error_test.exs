@@ -40,6 +40,7 @@ defmodule DotcomWeb.ScheduleController.ScheduleErrorTest do
       assert Map.fetch(conn.assigns, :schedule_error) == :error
     end
 
+    @tag :external
     test "assigns schedule_error true when repo call returns error", %{conn: conn} do
       date =
         Util.now()

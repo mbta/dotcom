@@ -64,6 +64,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       end
     end
 
+    @tag :external
     test "ItineraryRow contains given stop name when no stop_id present", %{deps: deps} do
       from = build(:stop_named_position, stop_id: nil)
       to = build(:stop_named_position, stop_id: "place-sstat")
@@ -164,6 +165,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       refute stop_id
     end
 
+    @tag :external
     test "Does not replace to stop_id", %{deps: deps} do
       to = build(:stop_named_position, stop_id: "place-north")
 
@@ -203,6 +205,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       assert id == "place-sstat"
     end
 
+    @tag :external
     test "Returns additional routes for Green Line legs", %{itinerary: itinerary, deps: deps} do
       green_leg = %TripPlan.Leg{
         start: @date_time,
@@ -233,6 +236,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       refute inaccessible_itinerary_rows.accessible?
     end
 
+    @tag :external
     test "Alerts for intermediate steps parsed correctly", %{itinerary: itinerary, deps: deps} do
       red_leg = %TripPlan.Leg{
         start: @date_time,
@@ -257,6 +261,7 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
       assert List.first(intermediate_step.alerts).id == 3
     end
 
+    @tag :external
     test "Alerts for stations mid travel and destination parsed correctly", %{
       itinerary: itinerary,
       deps: deps

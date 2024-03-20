@@ -1,9 +1,12 @@
 defmodule DotcomWeb.TripPlanControllerTest do
   use DotcomWeb.ConnCase, async: false
+  @moduletag :external
+
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController
   alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
+
   doctest DotcomWeb.TripPlanController
 
   import Mock

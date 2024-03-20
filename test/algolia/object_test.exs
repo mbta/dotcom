@@ -6,6 +6,7 @@ defmodule Algolia.ObjectTest do
   end
 
   describe "Algolia.Object.data" do
+    @tag :external
     test "for Stops.Stop", %{stops: repo} do
       stop = repo.get("place-commuter-rail")
       data = Algolia.Object.data(stop)

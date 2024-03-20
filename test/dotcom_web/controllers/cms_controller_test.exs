@@ -16,6 +16,7 @@ defmodule DotcomWeb.CMSControllerTest do
       assert rendered =~ "page-section project-hero-image"
     end
 
+    @tag :external
     test "renders an update page when the CMS returns a CMS.Page.ProjectUpdate with paragraphs",
          %{conn: conn} do
       conn = get(conn, "/projects/project-name/update/update-with-paragraphs")
@@ -23,6 +24,7 @@ defmodule DotcomWeb.CMSControllerTest do
       assert rendered =~ "<p>Here is a custom HTML para.</p>"
     end
 
+    @tag :external
     test "renders an update page even when host project is redirected (update with paragraphs)",
          %{conn: conn} do
       conn = get(conn, "/projects/redirected-project/update/update-with-paragraphs")

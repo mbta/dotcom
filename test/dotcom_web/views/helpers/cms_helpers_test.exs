@@ -1,5 +1,6 @@
 defmodule DotcomWeb.CMSHelpersTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   import DotcomWeb.CMSHelpers
 
