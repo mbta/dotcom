@@ -178,12 +178,28 @@ defmodule Routes.Repo do
   end
 
   @impl Routes.RepoApi
-  @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_stop_with_route_pattern(stop_id) do
-    [stop: stop_id, include: "route_patterns"]
-    |> V3Api.Routes.all()
-    |> Map.get(:data, [])
-    |> Enum.map(&parse_route_with_route_pattern/1)
+    case do_by_stop_with_route_pattern(stop: stop_id, include: "route_patterns") do
+      %{data: data} ->
+        Enum.map(data, &parse_route_with_route_pattern/1)
+
+      error ->
+        Logger.error(
+          "#{__MODULE__} by_stop_with_route_pattern stop_id=#{stop_id} error=#{inspect(error)}"
+        )
+
+        []
+    end
+  end
+
+  @decorate cacheable(
+              cache: @cache,
+              match: fn %{data: data} -> is_list(data) && data != [] end,
+              on_error: :nothing,
+              opts: [ttl: @ttl]
+            )
+  def do_by_stop_with_route_pattern(opts) do
+    V3Api.Routes.all(opts)
   end
 
   @doc """
