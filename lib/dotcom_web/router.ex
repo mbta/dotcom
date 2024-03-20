@@ -222,13 +222,11 @@ defmodule DotcomWeb.Router do
     end
   end
 
-  if Mix.env() == :dev do
-    scope "/", DotcomWeb do
-      import Phoenix.LiveDashboard.Router
+  scope "/", DotcomWeb do
+    import Phoenix.LiveDashboard.Router
 
-      pipe_through([:browser, :browser_live])
-      live_dashboard("/dashboard")
-    end
+    pipe_through([:browser, :browser_live, :basic_auth])
+    live_dashboard("/dashboard")
   end
 
   scope "/api", DotcomWeb do
