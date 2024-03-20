@@ -72,33 +72,33 @@ defmodule CMS.RepoTest do
     test "generates the correct key for /*" do
       path = "/foo"
 
-      assert Repo.generate(nil, nil, [path, %{}]) == "/cms" <> path
+      assert Repo.generate(nil, nil, [path, %{}]) == "cms.repo|foo"
     end
 
     test "generates the correct key for /**/*" do
       path = "/foo/bar"
 
-      assert Repo.generate(nil, nil, [path, %{}]) == "/cms" <> path
+      assert Repo.generate(nil, nil, [path, %{}]) == "cms.repo|foo|bar"
     end
 
     test "generates the correct key for /**/*?*=*" do
       path = "/foo/bar"
       params = %{"baz" => "bop"}
 
-      assert Repo.generate(nil, nil, [path, params]) == "/cms" <> path <> "?baz=bop"
+      assert Repo.generate(nil, nil, [path, params]) == "cms.repo|foo|bar?baz=bop"
     end
 
     test "generates the correct key for /**/*?*=*&*=*" do
       path = "/foo/bar"
       params = %{"bam" => "bop", "baz" => "qux"}
 
-      assert Repo.generate(nil, nil, [path, params]) == "/cms" <> path <> "?bam=bop&baz=qux"
+      assert Repo.generate(nil, nil, [path, params]) == "cms.repo|foo|bar?bam=bop&baz=qux"
     end
 
     test "caches views", %{cache: cache} do
       path = "/news/2018/news-entry"
       params = %{}
-      key = "/cms" <> path
+      key = "cms.repo|news|2018|news-entry"
 
       assert cache.get(key) == nil
 
