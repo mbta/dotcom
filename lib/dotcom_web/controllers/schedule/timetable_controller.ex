@@ -58,7 +58,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
-    } = build_timetable(conn.assigns.all_stops, timetable_schedules)
+    } = build_timetable(conn.assigns.all_stops, timetable_schedules, direction_id)
 
     canonical_rps =
       RoutePatterns.Repo.by_route_id(route.id,
@@ -147,7 +147,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
       schedules ->
         schedules
-        |> Enum.reject(&Schedules.Schedule.no_times?/1)
+        |> Enum.filter(
+          &(&1.route.line_id == route.line_id and not Schedules.Schedule.no_times?(&1))
+        )
     end
   end
 
@@ -226,20 +228,40 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
 
-  @spec build_timetable([Stops.Stop.t()], [Schedules.Schedule.t()]) :: %{
+  @spec build_timetable([Stops.Stop.t()], [Schedules.Schedule.t()], 0 | 1) :: %{
           required(:trip_schedules) => %{
             required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()
           },
           required(:all_stops) => [Stops.Stop.t()]
         }
-  def build_timetable(all_stops, schedules) do
+  def build_timetable(all_stops, schedules, direction_id) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
-    all_stops = remove_unused_stops(all_stops, schedules)
+
+    all_stops =
+      remove_unused_stops(all_stops, schedules)
+      |> Enum.sort_by(fn stop ->
+        {zone_to_sortable(stop.zone, direction_id),
+         trip_schedule_sequence_for_stop(stop, schedules)}
+      end)
 
     %{
       trip_schedules: trip_schedules,
       all_stops: all_stops
     }
+  end
+
+  defp zone_to_sortable("1A", _), do: 0
+  defp zone_to_sortable(zone, 0), do: String.to_integer(zone)
+  defp zone_to_sortable(zone, 1), do: -String.to_integer(zone)
+
+  # translate each stop into a general stop_sequence value a given stop will
+  # have a different value for stop_sequence depending on the other stops in the
+  # trip, so we summarize here by taking the maximum value
+  defp trip_schedule_sequence_for_stop(stop, schedules) do
+    schedules
+    |> Enum.filter(&(&1.stop == stop))
+    |> Enum.map(& &1.stop_sequence)
+    |> Enum.max(fn -> 0 end)
   end
 
   @spec trip_schedule(Schedules.Schedule.t()) ::
