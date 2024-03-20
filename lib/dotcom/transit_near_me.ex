@@ -385,8 +385,13 @@ defmodule Dotcom.TransitNearMe do
     predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
     now = Keyword.fetch!(opts, :now)
 
-    params
-    |> predictions_fn.()
+    predictions = predictions_fn.(params)
+
+    if predictions == [] do
+      Logger.warning("#{__MODULE__} no.predictions.for.schedule #{inspect(params)}")
+    end
+
+    predictions
     |> PredictedSchedule.group(schedules)
     |> Enum.filter(&(!PredictedSchedule.last_stop?(&1) and after_min_time?(&1, now)))
   end

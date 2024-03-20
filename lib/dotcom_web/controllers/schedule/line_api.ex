@@ -6,14 +6,10 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   require Logger
 
   use DotcomWeb, :controller
-  use Nebulex.Caching.Decorators
 
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Vehicles.Vehicle
-
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.minutes(1)
 
   @typep simple_vehicle :: %{
            id: String.t(),
@@ -88,17 +84,6 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     end
   end
 
-  @decorate cacheable(
-              cache: @cache,
-              key:
-                Dotcom.Cache.KeyGenerator.generate(__MODULE__, :do_realtime, [
-                  route_id,
-                  direction_id,
-                  date
-                ]),
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
   defp do_realtime(route_id, direction_id, date, now, tooltips) do
     headsigns_by_stop =
       TransitNearMe.time_data_for_route_by_stop(
