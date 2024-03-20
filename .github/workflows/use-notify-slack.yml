@@ -26,7 +26,7 @@ on:
 
 jobs:
   slack:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: inputs.job-status != 'cancelled'
     steps:
     - uses: mbta/actions/notify-slack-deploy@v2
