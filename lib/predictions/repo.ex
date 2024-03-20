@@ -12,9 +12,6 @@ defmodule Predictions.Repo do
   alias Routes.Route
   alias Stops.Stop
 
-  @cache Application.compile_env!(:dotcom, :cache)
-  @ttl :timer.seconds(10)
-
   @default_params [
     "fields[prediction]":
       "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
@@ -71,12 +68,6 @@ defmodule Predictions.Repo do
     end
   end
 
-  @decorate cacheable(
-              cache: @cache,
-              match: fn lst -> is_list(lst) && lst != [] end,
-              on_error: :nothing,
-              opts: [ttl: @ttl]
-            )
   defp cache_fetch(opts) do
     fetch(opts)
   end
