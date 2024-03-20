@@ -58,15 +58,22 @@ defmodule Alerts.ParserTest do
                      }
                    ]),
                  active_period: [
-                   {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
-                    ~N[2016-06-06T19:53:51] |> Timex.to_datetime("Etc/GMT+4")}
+                   {~N[2016-06-06T14:48:48]
+                    |> Timex.to_datetime("Etc/GMT+4")
+                    |> Timex.Timezone.convert("America/New_York"),
+                    ~N[2016-06-06T19:53:51]
+                    |> Timex.to_datetime("Etc/GMT+4")
+                    |> Timex.Timezone.convert("America/New_York")}
                  ],
                  banner: "Test banner copy",
                  severity: 3,
                  lifecycle: :ongoing,
                  effect: :delay,
                  cause: :traffic,
-                 updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
+                 updated_at:
+                   ~N[2016-06-20T16:09:29]
+                   |> Timex.to_datetime("Etc/GMT+4")
+                   |> Timex.Timezone.convert("America/New_York"),
                  description: "Affected routes: 18",
                  priority: :low,
                  url: "www.mbta.com"

@@ -7,7 +7,7 @@ defmodule DotcomWeb.TripPlan.Feedback do
   require Logger
 
   use DotcomWeb, :controller
-  use Nebulex.Caching
+  use Nebulex.Caching.Decorators
 
   alias Dotcom.Cache.TripPlanFeedback.KeyGenerator
 
