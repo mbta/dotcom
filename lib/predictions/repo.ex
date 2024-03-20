@@ -6,8 +6,6 @@ defmodule Predictions.Repo do
   require Logger
   require Routes.Route
 
-  use Nebulex.Caching.Decorators
-
   alias Predictions.Parser
   alias Routes.Route
   alias Stops.Stop

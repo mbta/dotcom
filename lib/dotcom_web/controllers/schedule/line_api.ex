@@ -6,7 +6,6 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   require Logger
 
   use DotcomWeb, :controller
-  use Nebulex.Caching.Decorators
 
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
