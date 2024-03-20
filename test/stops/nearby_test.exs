@@ -91,6 +91,7 @@ defmodule Stops.NearbyTest do
   end
 
   describe "api_around/2" do
+    @tag :external
     test "returns positions around a lat/long" do
       actual = @position |> api_around(radius: 0.06) |> distance_sort
 
@@ -103,6 +104,7 @@ defmodule Stops.NearbyTest do
       assert expected == actual
     end
 
+    @tag :external
     test "returns the parent station if it exists" do
       # south station
       actual = {42.352271, -71.055242} |> api_around(radius: 0.001) |> distance_sort
@@ -111,6 +113,7 @@ defmodule Stops.NearbyTest do
     end
   end
 
+  @tag :external
   describe "keys/1" do
     test "returns a list of {route_id, direction_id} tuples" do
       actual = %{id: "place-kencl"} |> keys |> Enum.sort()
@@ -138,6 +141,7 @@ defmodule Stops.NearbyTest do
       assert expected == actual
     end
 
+    @tag :external
     test "returns one direction of stops if that's all there is" do
       actual = %{id: "46"} |> keys |> Enum.sort()
       expected = [{"10", 1}]

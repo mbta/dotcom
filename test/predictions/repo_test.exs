@@ -1,9 +1,11 @@
 defmodule Predictions.RepoTest do
   use ExUnit.Case
+  @moduletag :external
+
+  alias Plug.Conn
   alias Predictions.Repo
   alias Stops.Stop
   alias Routes.Route
-  alias Plug.Conn
 
   setup do
     cache = Application.get_env(:dotcom, :cache)

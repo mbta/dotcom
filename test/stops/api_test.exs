@@ -1,6 +1,9 @@
 defmodule Stops.ApiTest do
   use ExUnit.Case
+  @moduletag :external
+
   import Stops.Api
+
   alias Stops.Stop
 
   describe "by_gtfs_id/1" do

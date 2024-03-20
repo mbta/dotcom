@@ -21,6 +21,7 @@ defmodule DotcomWeb.LayoutViewTest do
     end
   end
 
+  @tag :external
   test "renders breadcrumbs in the title", %{conn: conn} do
     conn = get(conn, "/schedules/subway")
     body = html_response(conn, 200)

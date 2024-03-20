@@ -1,7 +1,9 @@
 defmodule Predictions.ParserTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   import Predictions.Parser
+
   alias JsonApi.Item
   alias Timex.Timezone
 

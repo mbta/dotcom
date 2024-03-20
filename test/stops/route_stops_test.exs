@@ -1,5 +1,6 @@
 defmodule Stops.RouteStopsTest do
   use ExUnit.Case
+  @moduletag :external
 
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}

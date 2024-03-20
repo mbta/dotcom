@@ -15,6 +15,7 @@ defmodule DotcomWeb.TeaserViewTest do
   }
 
   describe "transit_tag/1" do
+    @tag :external
     test "provides a CSS class for routes found on teaser" do
       teaser =
         Static.teaser_project_response()

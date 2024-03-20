@@ -1,8 +1,6 @@
 defmodule Stops.RepoTest do
-  @moduledoc """
-  TODO: Mock API data in this whole file
-  """
   use ExUnit.Case
+  @moduletag :external
 
   import Stops.Repo
   alias Stops.Stop

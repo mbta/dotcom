@@ -1,5 +1,7 @@
 defmodule RoutePatterns.RepoTest do
   use ExUnit.Case, async: true
+  @moduletag :external
+
   alias RoutePatterns.{Repo, RoutePattern}
 
   describe "get" do

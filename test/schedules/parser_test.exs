@@ -6,6 +6,7 @@ defmodule Schedules.ParserTest do
   @arrival_time ~U[2023-06-13 10:00:00Z]
   @departure_time ~U[2023-06-13 10:55:00Z]
 
+  @tag :external
   test "parse converts a JsonApi.Item into a tuple" do
     api_item = %JsonApi.Item{
       attributes: %{

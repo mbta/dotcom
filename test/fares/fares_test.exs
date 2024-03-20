@@ -21,6 +21,7 @@ defmodule FaresTest do
     # a subset of possible ferry stops
     @ferries ~w(Boat-Hingham Boat-Charlestown Boat-Logan Boat-Long-South Boat-Lewis Boat-Blossom Boat-Winthrop)
 
+    @tag :external
     test "returns the name of the commuter rail fare given the origin and destination" do
       zone_1a = "place-north"
       zone_4 = "Ballardvale"
@@ -31,6 +32,7 @@ defmodule FaresTest do
       assert Fares.fare_for_stops(:commuter_rail, zone_4, zone_7) == {:ok, {:interzone, "4"}}
     end
 
+    @tag :external
     test "returns an error if the fare doesn't exist" do
       assert Fares.fare_for_stops(:commuter_rail, "place-north", "place-pktrm") == :error
     end
@@ -64,6 +66,7 @@ defmodule FaresTest do
       end
     end
 
+    @tag :external
     test "trips between a 'combo' zone and a non-terminus stop are treated as the general zone" do
       assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-PB-0245") ==
                {:ok, {:interzone, "6"}}
@@ -129,6 +132,7 @@ defmodule FaresTest do
       assert Fares.to_fare_atom(%Route{type: 3, id: "1"}) == :bus
     end
 
+    @tag :external
     test "also works with route IDs" do
       assert Fares.to_fare_atom("Green-B") == :subway
       assert Fares.to_fare_atom("Red") == :subway

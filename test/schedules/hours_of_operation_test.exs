@@ -6,6 +6,7 @@ defmodule Schedules.HoursOfOperationTest do
   alias Schedules.{HoursOfOperation, Departures}
 
   describe "hours_of_operation/2" do
+    @tag :external
     test "returns basic hours for a route" do
       # does not validate the actual hours, that's in other tests
       actual = hours_of_operation("47", :desc)
@@ -21,6 +22,7 @@ defmodule Schedules.HoursOfOperationTest do
       assert %Departures{} = sunday_1
     end
 
+    @tag :external
     test "returns hours for a rapid_transit route" do
       # does not validate the actual hours, that's in other tests
       actual = hours_of_operation_by_stop("47", :rapid_transit)
@@ -37,6 +39,7 @@ defmodule Schedules.HoursOfOperationTest do
       assert [%Departures{} | _rest] = sunday_1
     end
 
+    @tag :external
     test "can take a list of route IDs" do
       empty = %HoursOfOperation{}
       single_route = hours_of_operation(["50"], :desc)

@@ -346,6 +346,7 @@ defmodule DotcomWeb.StopListViewTest do
   end
 
   describe "_cms_teasers.html" do
+    @tag :external
     test "renders featured content and news", %{conn: conn} do
       assert {news, featured} =
                [route_id: "Red", sidebar: 1]
