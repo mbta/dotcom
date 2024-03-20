@@ -37,7 +37,8 @@ if config_env() == :dev do
         ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
         ~r{priv/gettext/.*(po)$},
         ~r{lib/dotcom_web/views/.*(ex)$},
-        ~r{lib/dotcom_web/templates/.*(heex|eex)$}
+        ~r{lib/dotcom_web/templates/.*(heex|eex)$},
+        ~r{lib/dotcom_web/live/.*(heex|ex)$}
       ]
     ]
 end

@@ -232,6 +232,15 @@ defmodule DotcomWeb.Router do
     end
   end
 
+  scope "/admin", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live, :basic_auth])
+
+    live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
+      live("/", Live.Admin)
+    end
+  end
+
   scope "/api", DotcomWeb do
     pipe_through([:secure, :browser])
 
