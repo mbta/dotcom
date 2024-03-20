@@ -31,9 +31,18 @@ defmodule DotcomWeb.ViewHelpersTest do
                )
     end
 
-    test "nil doesn't get processed to a link" do
-      assert tel_link(nil) ==
-               content_tag(:span, "", [])
+    test "three digit numbers become links" do
+      assert tel_link("311") ==
+               content_tag(:a, "311",
+                 href: "tel:311",
+                 class: "no-wrap",
+                 aria: [label: "3 1 1"]
+               )
+    end
+
+    test "words don't get processed to a link" do
+      assert tel_link("Hello") ==
+               content_tag(:span, "Hello", [])
     end
   end
 
