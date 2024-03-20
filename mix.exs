@@ -139,7 +139,7 @@ defmodule DotCom.Mixfile do
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
       {:recase, "0.7.0"},
-      {:recon, "2.5.4", [only: :prod]},
+      {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.4.0"},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
