@@ -66,7 +66,6 @@ defmodule DotcomWeb.CMSController do
   defp handle_page_response(%{__struct__: struct} = page, conn)
        when struct in @generic or struct in @transitional do
     conn
-    |> put_layout({DotcomWeb.LayoutView, :app})
     |> render_page(page)
   end
 

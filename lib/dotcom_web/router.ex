@@ -19,6 +19,7 @@ defmodule DotcomWeb.Router do
     plug(:fetch_flash)
     plug(:fetch_cookies)
     plug(:put_secure_browser_headers)
+    plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.Banner)
     plug(Turbolinks.Plug)
