@@ -1,11 +1,13 @@
 defmodule Dotcom.TripPlan.AlertsTest do
-  @moduledoc false
   use ExUnit.Case, async: true
+  @moduletag :external
+
   import Dotcom.TripPlan.Alerts
   import Test.Support.Factory
-  alias TripPlan.Itinerary
+
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
+  alias TripPlan.Itinerary
 
   setup_all do
     itinerary =
@@ -21,7 +23,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
     [route_id] = Itinerary.route_ids(itinerary)
     [trip_id] = Itinerary.trip_ids(itinerary)
-    {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}}
+    {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}} |> IO.inspect()
   end
 
   describe "filter_for_itinerary/2" do
