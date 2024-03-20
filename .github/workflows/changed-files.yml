@@ -37,7 +37,7 @@ on:
 jobs:
   files:
     name: List changed files
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       js: ${{ steps.changes.outputs.js }}
       ts: ${{ steps.changes.outputs.ts }}
