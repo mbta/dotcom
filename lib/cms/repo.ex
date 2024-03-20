@@ -162,7 +162,7 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: "cms.repo|schedules|#{route_id}",
+              key: "cms.repo|schedules|#{String.downcase(route_id)}",
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
@@ -194,7 +194,7 @@ defmodule CMS.Repo do
 
   @decorate cacheable(
               cache: @cache,
-              key: "cms.repo|route_pdfs|#{route_id}",
+              key: "cms.repo|route-pdfs|#{String.downcase(route_id)}",
               on_error: :nothing,
               opts: [ttl: @ttl]
             )
