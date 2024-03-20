@@ -251,8 +251,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp zone_to_sortable("1A", _), do: 0
-  defp zone_to_sortable(zone, 0), do: String.to_integer(zone)
-  defp zone_to_sortable(zone, 1), do: -String.to_integer(zone)
+  defp zone_to_sortable(zone, 0) when is_binary(zone), do: String.to_integer(zone)
+  defp zone_to_sortable(zone, 1) when is_binary(zone), do: -String.to_integer(zone)
+  defp zone_to_sortable(_, _), do: 0
 
   # translate each stop into a general stop_sequence value a given stop will
   # have a different value for stop_sequence depending on the other stops in the
