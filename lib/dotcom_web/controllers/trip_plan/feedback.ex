@@ -20,6 +20,7 @@ defmodule DotcomWeb.TripPlan.Feedback do
     Logger.info("dotcom_web.trip_plan.feedback action=#{action}")
 
     handle_cache(action, params)
+
     send_resp(conn, 202, "")
   end
 

@@ -19,7 +19,9 @@ defmodule DotcomWeb.TripPlan.FeedbackTest do
 
   setup %{conn: conn} do
     cache = Application.get_env(:dotcom, :trip_plan_feedback_cache)
+
     cache.flush()
+
     {:ok, %{conn: conn, cache: cache}}
   end
 
