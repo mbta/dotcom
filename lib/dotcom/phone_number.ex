@@ -72,8 +72,11 @@ defmodule Dotcom.PhoneNumber do
     end
   end
 
-  # Supports 11, 10 and 3 digit phone numbers.
-  # Does not support 3 digit phone numbers if the leading number is 1 (I don't think these exist)
+  @doc """
+  Parses out the phone number of the string
+  Supports 10 (optional leading 1) and 3 digit phone numbers.
+  Does not support 3 digit phone numbers if the leading number is 1 (I don't think these exist)
+  """
   @spec parse_phone_number(String.t()) :: {String.t(), String.t(), String.t()} | nil
   def parse_phone_number(number) do
     case number |> digits |> without_leading_one do
