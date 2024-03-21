@@ -14,6 +14,9 @@ defmodule Dotcom.PhoneNumber do
 
   def pretty_format(number) do
     case parse_phone_number(number) do
+      {nil, nil, line} ->
+        line
+
       {area_code, prefix, line} ->
         "#{area_code}-#{prefix}-#{line}"
 
@@ -34,11 +37,14 @@ defmodule Dotcom.PhoneNumber do
 
   def machine_format(number) do
     case parse_phone_number(number) do
+      {nil, nil, line} ->
+        line
+
       {area_code, prefix, line} ->
         "+1-#{area_code}-#{prefix}-#{line}"
 
       nil ->
-        number
+        nil
     end
   end
 
@@ -50,6 +56,9 @@ defmodule Dotcom.PhoneNumber do
 
   def aria_format(number) do
     case parse_phone_number(number) do
+      {nil, nil, line} ->
+        line |> String.split("", trim: true) |> Enum.join(" ")
+
       {area_code, prefix, line} ->
         [area_code, prefix, line]
         |> Enum.map(fn num ->
@@ -63,11 +72,19 @@ defmodule Dotcom.PhoneNumber do
     end
   end
 
-  @spec parse_phone_number(String.t()) :: {String.t(), String.t(), String.t()} | nil
+  @doc """
+  Parses out the phone number of the string
+  Supports 10 (optional leading 1) and 3 digit phone numbers.
+  Does not support 3 digit phone numbers if the leading number is 1 (I don't think these exist)
+  """
+  @spec parse_phone_number(String.t()) :: {String.t() | nil, String.t() | nil, String.t()} | nil
   def parse_phone_number(number) do
     case number |> digits |> without_leading_one do
       <<area_code::bytes-size(3), prefix::bytes-size(3), line::bytes-size(4)>> ->
         {area_code, prefix, line}
+
+      <<line::bytes-size(3)>> ->
+        {nil, nil, line}
 
       _ ->
         nil

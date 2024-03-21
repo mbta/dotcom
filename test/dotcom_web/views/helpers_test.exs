@@ -22,7 +22,7 @@ defmodule DotcomWeb.ViewHelpersTest do
   end
 
   describe "tel_link/1" do
-    test "renders formattable numbers as a link" do
+    test "renders numbers as a link" do
       assert tel_link("617-222-3200") ==
                content_tag(:a, "617-222-3200",
                  href: "tel:+1-617-222-3200",
@@ -31,9 +31,18 @@ defmodule DotcomWeb.ViewHelpersTest do
                )
     end
 
-    test "non-formattable numbers don't get processed and don't become links" do
-      assert tel_link("0118 999 881 999 119 7253") ==
-               content_tag(:span, "0118 999 881 999 119 7253", [])
+    test "three digit numbers become links" do
+      assert tel_link("311") ==
+               content_tag(:a, "311",
+                 href: "tel:311",
+                 class: "no-wrap",
+                 aria: [label: "3 1 1"]
+               )
+    end
+
+    test "words don't get processed to a link" do
+      assert tel_link("Hello") ==
+               content_tag(:span, "Hello", [])
     end
   end
 

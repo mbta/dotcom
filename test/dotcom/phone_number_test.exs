@@ -14,6 +14,10 @@ defmodule Dotcom.PhoneNumberTest do
       assert pretty_format("345.456.3456") == "345-456-3456"
     end
 
+    test "formats 3 digit numbers" do
+      assert pretty_format("311") == "311"
+    end
+
     test "returns the orignal if it can't be formatted" do
       assert pretty_format("0118 999 881 999 119 7253") == "0118 999 881 999 119 7253"
       assert pretty_format("(345) 456-3456 x1000") == "(345) 456-3456 x1000"
@@ -34,11 +38,15 @@ defmodule Dotcom.PhoneNumberTest do
       assert machine_format("345.456.3456") == "+1-345-456-3456"
     end
 
-    test "returns the string if it can't be formatted" do
-      assert machine_format("0118 999 881 999 119 7253") == "0118 999 881 999 119 7253"
-      assert machine_format("222 3200") == "222 3200"
-      assert machine_format("string") == "string"
-      assert machine_format("") == ""
+    test "formats 3 digit numbers" do
+      assert machine_format("311") == "311"
+    end
+
+    test "returns nil if it can't be formatted" do
+      assert machine_format("0118 999 881 999 119 7253") == nil
+      assert machine_format("222 3200") == nil
+      assert machine_format("string") == nil
+      assert machine_format("") == nil
       assert machine_format(nil) == nil
     end
   end
@@ -52,6 +60,10 @@ defmodule Dotcom.PhoneNumberTest do
     test "strips other formatting" do
       assert aria_format("(345) 456-3456") == "3 4 5. 4 5 6. 3 4 5 6"
       assert aria_format("345.456.3456") == "3 4 5. 4 5 6. 3 4 5 6"
+    end
+
+    test "formats 3 digit numbers" do
+      assert aria_format("311") == "3 1 1"
     end
 
     test "returns nil if it can't be formatted" do
