@@ -1,15 +1,11 @@
 defmodule Stops.ApiTest do
   use ExUnit.Case
-  @moduletag :external
-
-  import Mox
-
-  alias Stops.Api
+  import Stops.Api
   alias Stops.Stop
 
   describe "by_gtfs_id/1" do
     test "uses the gtfs ID to find a stop" do
-      {:ok, stop} = Stops.Api.by_gtfs_id("place-NHRML-0127")
+      {:ok, stop} = by_gtfs_id("place-NHRML-0127")
 
       assert stop.id == "place-NHRML-0127"
       assert stop.name == "Anderson/Woburn"

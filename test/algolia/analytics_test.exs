@@ -19,9 +19,11 @@ defmodule Algolia.AnalyticsTest do
 
   describe "when click tracking is enabled" do
     setup do
+      bypass = Bypass.open()
+      reassign_env(:dotcom, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
       reassign_env(:dotcom, :algolia_track_clicks?, true)
 
-      :ok
+      {:ok, bypass: bypass}
     end
 
     test "returns :ok when click is successfully logged", %{bypass: bypass} do

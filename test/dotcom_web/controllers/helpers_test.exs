@@ -1,13 +1,13 @@
 defmodule DotcomWeb.ControllerHelpersTest do
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.ControllerHelpers
+  import Mox
 
   import Plug.Conn,
     only: [
       assign: 3,
       get_resp_header: 2,
-      resp: 3,
-      merge_resp_headers: 2,
       put_private: 3
     ]
 
@@ -301,30 +301,24 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
   describe "forward_static_file/2" do
     test "returns a 404 if there's an error" do
-      bypass = Bypass.open()
-
-      Bypass.expect(bypass, fn conn ->
-        assert "/causes/an/error" == conn.request_path
-        resp(conn, 500, "error on remote server")
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:error, %HTTPoison.Response{status_code: 500, body: "error on remote server"}}
       end)
 
       response =
-        forward_static_file(build_conn(), "http://localhost:#{bypass.port}/causes/an/error")
+        forward_static_file(build_conn(), Faker.Internet.url())
 
       assert response.status == 404
       assert response.state == :sent
     end
 
     test "returns a 404 if the remote side returns a 404" do
-      bypass = Bypass.open()
-
-      Bypass.expect(bypass, fn conn ->
-        assert "/does/not/exist" == conn.request_path
-        resp(conn, 404, "not found")
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 404, body: "not found"}}
       end)
 
       response =
-        forward_static_file(build_conn(), "http://localhost:#{bypass.port}/does/not/exist")
+        forward_static_file(build_conn(), Faker.Internet.url())
 
       assert response.status == 404
       assert response.state == :sent
@@ -334,21 +328,16 @@ defmodule DotcomWeb.ControllerHelpersTest do
       headers = [
         {"Content-Type", "text/plain"},
         {"ETag", "tag"},
-        {"Content-Length", "6"}
+        {"Content-Length", "6"},
+        {"Date", "Tue, 13 Nov 2018 00:00:00 EST"}
       ]
 
-      bypass = Bypass.open()
-
-      Bypass.expect(bypass, fn conn ->
-        assert "/this/file/exists" == conn.request_path
-
-        conn
-        |> merge_resp_headers(headers)
-        |> resp(200, "a file")
+      expect(HTTPoison.Mock, :get, fn _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: "a file", headers: headers}}
       end)
 
       response =
-        forward_static_file(build_conn(), "http://localhost:#{bypass.port}/this/file/exists")
+        forward_static_file(build_conn(), Faker.Internet.url())
 
       assert response.status == 200
       assert response.resp_body == "a file"
