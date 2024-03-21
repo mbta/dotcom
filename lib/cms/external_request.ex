@@ -1,15 +1,14 @@
 defmodule CMS.ExternalRequest do
-  import CMS.API.TimeRequest, only: [time_request: 5]
+  @moduledoc """
+  Exposes the function that is used by all requests to simplify testing. This
+  function is not intended for direct use. Please see CMS.HTTPClient to
+  issue a request.
+  """
   require Logger
 
-  @moduledoc """
-    Exposes the function that is used by all requests to simplify testing. This
-    function is not intended for direct use. Please see CMS.HTTPClient to
-    issue a request.
-  """
+  import CMS.API.TimeRequest, only: [time_request: 5]
 
-  alias CMS.API
-  alias CMS.Config
+  alias CMS.{API, Config}
 
   @spec process(atom, String.t(), String.t(), Keyword.t()) :: API.response()
   def process(method, path, body \\ "", opts \\ []) do

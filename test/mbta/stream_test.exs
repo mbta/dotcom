@@ -1,7 +1,12 @@
 defmodule MBTA.Api.StreamTest do
   use ExUnit.Case, async: false
 
+  import Mox
+
   alias Plug.Conn
+
+  setup :set_mox_global
+  setup :verify_on_exit!
 
   describe "build_options" do
     test "includes api key" do
