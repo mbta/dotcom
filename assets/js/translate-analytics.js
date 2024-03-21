@@ -31,15 +31,11 @@ export default () => {
             const newLanguage = mutationList[i].target.getAttribute("lang");
             window.dataLayer = window.dataLayer || [];
             // Send an event to the dataLayer
-            window.dataLayer.push({
-              event: "translate"
-            });
             // Only log if we can detect the new language and it isn't english (the default of the page which some browsers do not update)
-            if (newLanguage && newLanguage !== "en") {
-              window.dataLayer.push({
-                language: newLanguage
-              });
-            }
+            window.dataLayer.push({
+              event: "translate",
+              language: newLanguage && newLanguage !== "en" ? newLanguage : ""
+            });
           }
         }
       }
