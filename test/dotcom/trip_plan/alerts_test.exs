@@ -23,7 +23,7 @@ defmodule Dotcom.TripPlan.AlertsTest do
 
     [route_id] = Itinerary.route_ids(itinerary)
     [trip_id] = Itinerary.trip_ids(itinerary)
-    {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}} |> IO.inspect()
+    {:ok, %{itinerary: itinerary, route_id: route_id, trip_id: trip_id}}
   end
 
   describe "filter_for_itinerary/2" do

@@ -7,8 +7,8 @@ defmodule RoutePatterns.Repo do
 
   use Nebulex.Caching.Decorators
 
-  alias RoutePatterns.RoutePattern
   alias MBTA.Api.RoutePatterns, as: RoutePatternsApi
+  alias RoutePatterns.RoutePattern
 
   @behaviour RoutePatterns.RepoApi
 

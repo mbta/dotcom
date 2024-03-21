@@ -1,9 +1,9 @@
 defmodule MBTA.Api.HeadersTest do
   use ExUnit.Case
 
-  alias MBTA.Headers
-
   import Test.Support.EnvHelpers
+
+  alias MBTA.Headers
 
   setup do
     reassign_env(:dotcom, :enable_experimental_features, "false")
