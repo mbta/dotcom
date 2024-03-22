@@ -9,8 +9,6 @@ defmodule Algolia.ApiTest do
   @success_response Poison.encode!(%{"ok" => "success"})
   @url "http://localhost:9999"
 
-  setup :set_mox_global
-
   setup do
     cache = Application.get_env(:dotcom, :cache)
 

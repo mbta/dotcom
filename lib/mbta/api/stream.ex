@@ -55,6 +55,16 @@ defmodule MBTA.Api.Stream do
     |> set_headers()
   end
 
+  def init(opts) do
+    producer = Keyword.fetch!(opts, :subscribe_to)
+
+    {:producer_consumer, %{}, subscribe_to: [producer]}
+  end
+
+  def handle_events(events, _from, state) do
+    {:noreply, Enum.map(events, &parse_event/1), state}
+  end
+
   @spec default_options :: Keyword.t()
   defp default_options do
     with base_url when not is_nil(base_url) <- config(:v3_api_base_url),
@@ -93,15 +103,6 @@ defmodule MBTA.Api.Stream do
       |> Headers.build(use_cache?: false)
 
     Keyword.put(opts, :headers, headers)
-  end
-
-  def init(opts) do
-    producer = Keyword.fetch!(opts, :subscribe_to)
-    {:producer_consumer, %{}, subscribe_to: [producer]}
-  end
-
-  def handle_events(events, _from, state) do
-    {:noreply, Enum.map(events, &parse_event/1), state}
   end
 
   @spec parse_event(SSES.Event.t()) :: Event.t()
