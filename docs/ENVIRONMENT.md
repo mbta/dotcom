@@ -33,6 +33,10 @@ for development since requests without an API key have a very low rate limit.
 
 ## Optional
 
+### Amazon Web Services credentials
+
+Some background processes, along with the ability to search and locate places, require AWS authentication. Developers can configure this locally using AWS CLI in conjunction with storage in 1Password, as [recommended by TID in this doc](https://www.notion.so/mbta-downtown-crossing/Storing-Access-Keys-Securely-in-1Password-b89310bc67784722a5a218500f34443d?pvs=4).
+
 ### `DRUPAL_ROOT`
 
 The URL for our CMS. You'll need to set this to view any of the static content
@@ -48,7 +52,11 @@ These keys are used to interact with the Algolia search api. The values can be f
 
 ### `OPEN_TRIP_PLANNER_URL`
 
-This variable is used to specify which Open Trip Planner URL to use. For our deployments this variable is configured to point to a designated internal load balancer instance on AWS. For local development, the `http://otp-local.mbtace.com` can be used when logged into the MBTA VPN. Optionally, if not logged into the VPN, you could also point this URL to a [locally running instance of Open Trip Planner](./OTHER.md).
+This variable is used to specify which Open Trip Planner URL to use. For our deployments this variable is configured to point to a designated internal load balancer instance on AWS. For local development, the `http://otp2-local.mbtace.com` can be used when logged into the MBTA VPN. Optionally, if not logged into the VPN, you could also set up OTP locally via the guidance at [mbta/otp-deploy](https://github.com/mbta/otp-deploy/tree/master?tab=readme-ov-file#setup).
+
+### `REDIS_HOST` and `REDIS_PORT`
+
+Should point to running Redis service that will contain the application cache.
 
 ### `STATIC_HOST`
 
