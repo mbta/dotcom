@@ -8,6 +8,7 @@ defmodule DotcomWeb.FareControllerTest do
       assert html_response(conn, 200) =~ "Proposed Sales Locations"
     end
 
+    @tag :external
     test "renders the proposed sales locations page with results by giving it an address", %{
       conn: conn
     } do
@@ -21,6 +22,7 @@ defmodule DotcomWeb.FareControllerTest do
       assert html_response(conn, 200) =~ "Get Directions"
     end
 
+    @tag :external
     test "renders the proposed sales locations page with results by giving it coordinates", %{
       conn: conn
     } do

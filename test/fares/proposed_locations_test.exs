@@ -96,6 +96,7 @@ defmodule Fares.ProposedLocationsTest do
       end
     end
 
+    @tag :external
     test "returns nearby locations given a lat and a long" do
       locations =
         Fares.ProposedLocations.get_nearby(%{latitude: 42.352271, longitude: -71.055242})

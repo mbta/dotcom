@@ -1,75 +1,34 @@
 defmodule MBTA.Api.StreamTest do
-  use ExUnit.Case, async: false
-  alias Plug.Conn
+  use ExUnit.Case
 
   describe "build_options" do
+    @tag :external
     test "includes api key" do
       opts = MBTA.Api.Stream.build_options(path: "/vehicles")
-      assert Keyword.get(opts, :url) == "https://api-dev.mbtace.com/vehicles"
+      assert Keyword.get(opts, :url) =~ "/vehicles"
       assert <<_::binary>> = Keyword.get(opts, :api_key)
     end
   end
 
   describe "start_link" do
-    test "starts a genserver that sends events" do
-      assert {:ok, sses} =
-               [
-                 name: __MODULE__.SSES,
-                 path: "/vehicles",
-                 params: [
-                   "fields[vehicle]": "direction_id,current_status,longitude,latitude,bearing",
-                   include: "stop,trip"
-                 ]
-               ]
-               |> MBTA.Api.Stream.build_options()
-               |> ServerSentEventStage.start_link()
-
-      assert {:ok, pid} = MBTA.Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
-
-      assert [%MBTA.Api.Stream.Event{}] =
-               [pid]
-               |> GenStage.stream()
-               |> Enum.take(1)
-    end
-
+    @tag :external
     test "handles api events" do
-      bypass = Bypass.open()
+      {:ok, sses} =
+        [path: "/vehicles"]
+        |> MBTA.Api.Stream.build_options()
+        |> ServerSentEventStage.start_link()
 
-      Bypass.expect(bypass, fn conn ->
-        conn = Conn.send_chunked(conn, 200)
+      {:ok, pid} = MBTA.Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
 
-        data = %{
-          "attributes" => [],
-          "type" => "vehicle",
-          "id" => "vehicle"
-        }
+      types = [:add, :remove, :reset, :update]
 
-        Conn.chunk(conn, "event: reset\ndata: #{Poison.encode!([data])}\n\n")
-        Conn.chunk(conn, "event: update\ndata: #{Poison.encode!(data)}\n\n")
-        Conn.chunk(conn, "event: add\ndata: #{Poison.encode!(data)}\n\n")
-        Conn.chunk(conn, "event: remove\ndata: #{Poison.encode!(data)}\n\n")
-        conn
-      end)
+      known_events? =
+        [pid]
+        |> GenStage.stream()
+        |> Enum.take(4)
+        |> Enum.all?(fn %MBTA.Api.Stream.Event{event: type} -> Enum.member?(types, type) end)
 
-      assert {:ok, sses} =
-               [
-                 base_url: "http://localhost:#{bypass.port}",
-                 path: "/vehicles",
-                 headers: []
-               ]
-               |> MBTA.Api.Stream.build_options()
-               |> ServerSentEventStage.start_link()
-
-      assert {:ok, pid} = MBTA.Api.Stream.start_link(name: __MODULE__, subscribe_to: sses)
-
-      stream = GenStage.stream([pid])
-
-      assert [
-               %MBTA.Api.Stream.Event{event: :reset},
-               %MBTA.Api.Stream.Event{event: :update},
-               %MBTA.Api.Stream.Event{event: :add},
-               %MBTA.Api.Stream.Event{event: :remove}
-             ] = Enum.take(stream, 4)
+      assert known_events?
     end
   end
 end

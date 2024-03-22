@@ -56,6 +56,7 @@ defmodule Predictions.StreamTest do
   }
 
   describe "start_link/1" do
+    @tag :external
     test "starts a GenServer that can recieve stream events and call a broadcast function" do
       {:ok, mock_api} =
         GenStage.from_enumerable([
