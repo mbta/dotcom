@@ -4,10 +4,21 @@ defmodule Algolia.ApiTest do
   import ExUnit.CaptureLog
   import Mox
 
+  setup :set_mox_global
+  setup :verify_on_exit!
+
   @failure_response Poison.encode!(%{"error" => "failure"})
   @request Poison.encode!(%{"requests" => [indexName: "*"]})
   @success_response Poison.encode!(%{"ok" => "success"})
   @url "http://localhost:9999"
+
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+
+    cache.flush()
+
+    :ok
+  end
 
   describe "action" do
     test "caches a successful response" do
