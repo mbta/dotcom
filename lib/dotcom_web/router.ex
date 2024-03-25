@@ -209,7 +209,6 @@ defmodule DotcomWeb.Router do
     get("/trip-planner/to/:address", TripPlanController, :to)
     delete("/trip-planner/feedback", TripPlan.Feedback, :delete)
     post("/trip-planner/feedback", TripPlan.Feedback, :put)
-    get("/trip-planner/feedback/download", TripPlan.Feedback, :download)
     get("/customer-support", CustomerSupportController, :index)
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)
@@ -238,6 +237,7 @@ defmodule DotcomWeb.Router do
     pipe_through([:browser, :browser_live, :basic_auth])
 
     live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
+      get("/trip-planner/feedback/download", TripPlan.Feedback, :download)
       live("/", Live.Admin)
       live("/trip-plan-feedback", Live.Admin.TripPlanFeedback)
     end
