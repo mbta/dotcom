@@ -438,8 +438,10 @@ defmodule DotcomWeb.TripPlanController do
     )
   end
 
-  # if other plan params are filled, such as from or to, but no modes, set all
-  # modes to true. this can happen when getting trip plans from the homepage.
+  @doc """
+  if other plan params are filled, such as from or to, but no modes, set all
+  modes to true. this can happen when getting trip plans from the homepage.
+  """
   def modes(%Plug.Conn{params: %{"plan" => _}} = conn, _) do
     assign(
       conn,
