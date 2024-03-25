@@ -41,7 +41,7 @@ defmodule DotcomWeb.ControllerHelpers do
   def render_not_found(conn) do
     conn
     |> put_status(:not_found)
-    |> put_layout({DotcomWeb.LayoutView, "app.html"})
+    |> put_layout({DotcomWeb.LayoutView, "root.html"})
     |> put_view(DotcomWeb.ErrorView)
     |> render("404.html", [])
     |> halt()

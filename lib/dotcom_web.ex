@@ -55,12 +55,9 @@ defmodule DotcomWeb do
         root: "lib/dotcom_web/templates",
         namespace: DotcomWeb
 
-      import Phoenix.LiveView.Helpers
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
       use Dotcom.Components.Precompiler
 
       import DotcomWeb.Components
@@ -80,21 +77,48 @@ defmodule DotcomWeb do
         ]
 
       import DotcomWeb.CmsRouterHelpers
-      import DotcomWeb.ErrorHelpers
-      import DotcomWeb.Gettext
       import DotcomWeb.ViewHelpers
       import DotcomWeb.Views.Helpers.StopHelpers
       import DotcomWeb.Views.Helpers.AlertHelpers
       import DotcomWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
       import UrlHelpers
 
+      # Include shared imports and aliases for views
+      unquote(view_helpers())
+
       @dialyzer :no_match
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView
+
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
+      unquote(view_helpers())
+    end
+  end
+
+  def component do
+    quote do
+      use Phoenix.Component
+
+      unquote(view_helpers())
     end
   end
 
   def router do
     quote do
       use Phoenix.Router
+      import Plug.Conn
+      import Phoenix.Controller
       import Phoenix.LiveView.Router
     end
   end
@@ -103,6 +127,25 @@ defmodule DotcomWeb do
     quote do
       use Phoenix.Channel
       import DotcomWeb.Gettext
+    end
+  end
+
+  defp view_helpers do
+    quote do
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+
+      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
+      import Phoenix.LiveView.Helpers
+
+      # Import basic rendering functionality (render, render_layout, etc)
+      import Phoenix.View
+
+      import DotcomWeb.ErrorHelpers
+      import DotcomWeb.Gettext
+      alias DotcomWeb.Router.Helpers
+
+      import DotcomWeb.Components
     end
   end
 

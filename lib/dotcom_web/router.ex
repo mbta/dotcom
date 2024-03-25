@@ -19,6 +19,7 @@ defmodule DotcomWeb.Router do
     plug(:fetch_flash)
     plug(:fetch_cookies)
     plug(:put_secure_browser_headers)
+    plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.Banner)
     plug(Turbolinks.Plug)
@@ -227,6 +228,17 @@ defmodule DotcomWeb.Router do
 
     pipe_through([:browser, :browser_live, :basic_auth])
     live_dashboard("/dashboard")
+  end
+
+  scope "/admin", DotcomWeb do
+    import Phoenix.LiveView.Router
+    pipe_through([:browser, :browser_live, :basic_auth])
+
+    live_session :admin, layout: {DotcomWeb.LayoutView, :admin} do
+      get("/trip-planner/feedback/download", TripPlan.Feedback, :download)
+      live("/", Live.Admin)
+      live("/trip-plan-feedback", Live.Admin.TripPlanFeedback)
+    end
   end
 
   scope "/api", DotcomWeb do

@@ -30,7 +30,6 @@ defmodule DotcomWeb.ErrorViewTest do
       conn
       |> accepts(["html"])
       |> put_private(:phoenix_endpoint, DotcomWeb.Endpoint)
-      |> put_layout({DotcomWeb.LayoutView, "app.html"})
       |> put_view(DotcomWeb.ErrorView)
       |> put_status(500)
 

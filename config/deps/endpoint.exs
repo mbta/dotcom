@@ -4,7 +4,7 @@ import Config
 config :dotcom, DotcomWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
-  render_errors: [accepts: ~w(html), layout: {DotcomWeb.LayoutView, "app.html"}],
+  render_errors: [accepts: ~w(html), layout: {DotcomWeb.LayoutView, "root.html"}],
   pubsub_server: Dotcom.PubSub,
   live_view: [
     signing_salt: "gsQiz0LdGqVmqDOR4snAgelIAAphhdfm"
@@ -37,7 +37,8 @@ if config_env() == :dev do
         ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
         ~r{priv/gettext/.*(po)$},
         ~r{lib/dotcom_web/views/.*(ex)$},
-        ~r{lib/dotcom_web/templates/.*(heex|eex)$}
+        ~r{lib/dotcom_web/templates/.*(heex|eex)$},
+        ~r{lib/dotcom_web/live/.*(heex|ex)$}
       ]
     ]
 end
