@@ -1,8 +1,14 @@
 import Config
 
 config :ex_aws,
-  access_key_id: [{:awscli, "default", 30000}],
-  secret_access_key: [{:awscli, "default", 30000}]
+  access_key_id: [
+    {:system, "AWS_ACCESS_KEY_ID"},
+    {:awscli, "default", 30000}
+  ],
+  secret_access_key: [
+    {:system, "AWS_SECRET_ACCESS_KEY"},
+    {:awscli, "default", 30000}
+  ]
 
 config :hammer,
   backend: {Hammer.Backend.ETS, [expiry_ms: 60_000 * 60 * 4, cleanup_interval_ms: 60_000 * 10]}

@@ -6,6 +6,9 @@
 # export ALGOLIA_SEARCH_KEY=
 # export ALGOLIA_WRITE_KEY=
 
+# exports AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY
+$(aws configure export-credentials --profile default --format env)
+
 export DRUPAL_ROOT=https://live-mbta.pantheonsite.io
 # export GOOGLE_API_KEY=
 export OPEN_TRIP_PLANNER_URL=http://otp2-local.mbtace.com
