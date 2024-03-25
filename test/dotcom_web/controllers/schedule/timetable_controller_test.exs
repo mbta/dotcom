@@ -2,11 +2,15 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import DotcomWeb.ScheduleController.TimetableController
-  import Test.Support.Factory
   alias Routes.Route
   alias Stops.Stop
   alias Schedules.{Schedule, Trip}
 
+  @stops [
+    %Stop{id: "1"},
+    %Stop{id: "2"},
+    %Stop{id: "3"}
+  ]
   @schedules [
     %Schedule{
       stop_sequence: 1,
@@ -42,7 +46,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
       stop_sequence: 5,
       time: DateTime.from_unix!(50_000),
       route: %Route{description: :rail_replacement_bus},
-      stop: %Stop{id: "5", name: "name3", zone: "5"},
+      stop: %Stop{id: "5", name: "name3"},
       trip: %Trip{id: "trip-5", headsign: "shuttle", name: "789"}
     }
   ]
@@ -66,60 +70,29 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     "shuttle-trip-4" => %{stop_name: "shuttle", stop_sequence: 4, trip_id: "trip-4"}
   }
 
-  setup_all do
-    stops = build_list(3, :stop)
-    trips = build_list(6, :trip, %{direction_id: 0})
-    route = build(:route)
+  describe "build_timetable/2" do
+    test "trip_schedules: a map from trip_id/stop_id to a schedule" do
+      %{trip_schedules: trip_schedules} = build_timetable(@stops, @schedules)
 
-    schedules =
-      for trip <- trips do
-        build(:schedule, %{
-          route: route,
-          trip: trip,
-          stop: Faker.Util.pick(stops)
-        })
-      end
-
-    {:ok,
-     %{
-       stops: stops,
-       schedules: schedules
-     }}
-  end
-
-  describe "build_timetable/3" do
-    test "trip_schedules: a map from trip_id/stop_id to a schedule", %{
-      stops: stops,
-      schedules: schedules
-    } do
-      %{trip_schedules: trip_schedules} = build_timetable(stops, schedules, 0)
-
-      for schedule <- schedules do
+      for schedule <- @schedules do
         assert trip_schedules[{schedule.trip.id, schedule.stop.id}] == schedule
       end
 
-      assert map_size(trip_schedules) == length(schedules)
+      assert map_size(trip_schedules) == length(@schedules)
     end
 
-    test "all_stops: list of the stops gets reordered by schedules/stop zone", %{
-      stops: stops,
-      schedules: schedules
-    } do
-      # stops are already in the "ideal" order; make it wrong here
-      stops = Enum.reverse(stops)
-      %{all_stops: all_stops} = build_timetable(stops, schedules, 0)
-      refute all_stops == stops
+    test "all_stops: list of the stops in the same order" do
+      %{all_stops: all_stops} = build_timetable(@stops, @schedules)
+
+      assert all_stops == @stops
     end
 
-    test "all_stops: if a stop isn't used, it's removed from the list", %{
-      stops: stops,
-      schedules: schedules
-    } do
-      [%Schedules.Schedule{stop: stop_to_remove} | _] = schedules
-      schedules = schedules |> Enum.reject(&(&1.stop == stop_to_remove))
+    test "all_stops: if a stop isn't used, it's removed from the list" do
+      schedules = Enum.take(@schedules, 1)
 
-      %{all_stops: all_stops} = build_timetable(stops, schedules, 0)
-      refute stop_to_remove in all_stops
+      %{all_stops: all_stops} = build_timetable(@stops, schedules)
+      # other two stops were removed
+      assert [%{id: "1"}] = all_stops
     end
   end
 
