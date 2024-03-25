@@ -48,6 +48,18 @@ defmodule Dotcom.Cache.Multilevel do
   That way we'll delete from the Local, Redis, and publish the delete on the Publisher.
   """
   def flush_keys(pattern \\ "*") do
+    if String.contains?(pattern, "*") do
+      flush_multiple_keys(pattern)
+    else
+      flush_single_key(pattern)
+    end
+  end
+
+  def flush_single_key(key) do
+    @cache.delete(key)
+  end
+
+  def flush_multiple_keys(pattern) do
     case Application.get_env(:dotcom, :redis_config) |> @redix.start_link() do
       {:ok, conn} -> (delete_from_nodes(conn, pattern) ++ [@redix.stop(conn)]) |> all_ok()
       {:error, _} -> :error
