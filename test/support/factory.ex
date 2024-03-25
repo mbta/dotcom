@@ -4,47 +4,7 @@ defmodule Test.Support.Factory do
   """
   use ExMachina
 
-  alias Routes.Route
-  alias Schedules.{Schedule, Trip}
-  alias Stops.Stop
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
-
-  def stop_factory do
-    %Stop{
-      id: sequence(:id, &"stop-#{&1}"),
-      address: Faker.Address.street_address(),
-      municipality: Faker.Address.city(),
-      latitude: Faker.Address.latitude(),
-      longitude: Faker.Address.longitude(),
-      type: :stop,
-      zone: sequence(:zone, ["1A", "1", "2", "3", "4", "5", "6", "7", "8"])
-    }
-  end
-
-  def route_factory do
-    %Route{
-      id: sequence(:id, &"route-#{&1}"),
-      direction_destinations: %{
-        0 => Faker.Address.street_name(),
-        1 => Faker.Address.street_name()
-      }
-    }
-  end
-
-  def trip_factory do
-    %Trip{
-      id: sequence(:id, &"trip-#{&1}")
-    }
-  end
-
-  def schedule_factory do
-    %Schedule{
-      trip: build(:trip),
-      stop: build(:stop),
-      route: build(:route),
-      stop_sequence: Faker.random_between(0, 10) * 10
-    }
-  end
 
   def itinerary_factory do
     start = Faker.DateTime.forward(1)
