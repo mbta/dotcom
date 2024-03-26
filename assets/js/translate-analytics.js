@@ -7,8 +7,8 @@
 // change the language.
 // Chrome - Full support, we can detect when the user translates the page, and what language the page is translated to
 // Safari - Full support, we can detect when the user translates the page, and what language the page is translated to
-// Edge - Half support, we can detect whne the user translates the page, just not what language they changed it to
-// Firefox - No support, we cannot detect when the user translates the page
+// Edge - Half support, we can detect when the user translates the page, just not what language they changed it to
+// Firefox - Full Suuport, we can detect when the user translates the page and what language the page is translated to
 export default () => {
   // Start by checking if the MutationObserver API is available
   if (typeof MutationObserver === "function") {
