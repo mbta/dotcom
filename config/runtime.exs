@@ -210,7 +210,9 @@ config :dotcom, LocationService,
   aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX", "dotcom-prod")
 
 config :dotcom, DotcomWeb.ViewHelpers,
-  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
+  google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
+  google_tag_manager_auth: System.get_env("GOOGLE_TAG_MANAGER_AUTH"),
+  google_tag_manager_preview: System.get_env("GOOGLE_TAG_MANAGER_PREVIEW")
 
 config :dotcom,
   enable_experimental_features: System.get_env("ENABLE_EXPERIMENTAL_FEATURES")

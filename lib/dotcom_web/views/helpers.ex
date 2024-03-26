@@ -140,6 +140,20 @@ defmodule DotcomWeb.ViewHelpers do
     end
   end
 
+  def google_tag_manager_auth do
+    case env(:google_tag_manager_auth) do
+      "" -> nil
+      id -> id
+    end
+  end
+
+  def google_tag_manager_preview do
+    case env(:google_tag_manager_preview) do
+      "" -> nil
+      id -> id
+    end
+  end
+
   defp env(key) do
     Application.get_env(:dotcom, __MODULE__)[key]
   end
