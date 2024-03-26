@@ -4,7 +4,8 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/search`);
 
   // We should be able to use down arrow and enter to select the first result.
-  // But, the enter key does not load the page. So, we have to click the first result.
+  // But, the down arrow does not do anything.
+  // The tab button takes me to the left side nav rather than the search results :(.
   await page
     .locator("input#search-global__input")
     .pressSequentially("Blue Line");
