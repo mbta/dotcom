@@ -1,15 +1,15 @@
 const { expect } = require("@playwright/test");
 
 exports.scenario = async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/`);
+  await page.goto(`${baseURL}/search`);
 
   // We should be able to use down arrow and enter to select the first result.
   // But, the enter key does not load the page. So, we have to click the first result.
   await page
-    .locator("div.search-wrapper input#search-input")
+    .locator("input#search-global__input")
     .pressSequentially("Blue Line");
-  await page.waitForSelector("ul#search-algolia-list");
-  await page.locator("ul#search-algolia-list li:first-child a").click();
+  await page.waitForSelector("div#search-results-container");
+  await page.locator("div.c-search-result__hit a").first().click();
 
   await expect(page.locator("h1.schedule__route-name")).toHaveText(
     "Blue Line",

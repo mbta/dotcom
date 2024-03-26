@@ -177,6 +177,12 @@ npm install --ignore-scripts
 npx playwright test all-scenarios
 ```
 
+You can run a single test (and optionally use `--debug` or `--ui`):
+
+```
+npx playwright test all-scenarios --grep @search_for_a_subway_line
+```
+
 ## Load Tests
 
 ```
