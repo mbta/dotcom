@@ -1,6 +1,12 @@
 defmodule Algolia.AnalyticsTest do
   use ExUnit.Case, async: false
+
+  import ExUnit.CaptureLog
+  import Mox
   import Test.Support.EnvHelpers
+
+  setup :set_mox_global
+  setup :verify_on_exit!
 
   @params %{
     "objectID" => "objectID",
@@ -19,25 +25,27 @@ defmodule Algolia.AnalyticsTest do
 
   describe "when click tracking is enabled" do
     setup do
-      bypass = Bypass.open()
-      reassign_env(:dotcom, :algolia_click_analytics_url, "http://localhost:#{bypass.port}")
+      reassign_env(:dotcom, :algolia_click_analytics_url, Faker.Internet.url())
       reassign_env(:dotcom, :algolia_track_clicks?, true)
 
-      {:ok, bypass: bypass}
+      :ok
     end
 
-    test "returns :ok when click is successfully logged", %{bypass: bypass} do
-      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
+    test "returns :ok when click is successfully logged" do
+      expect(HTTPoison.Mock, :post, fn _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200}}
+      end)
 
       assert Algolia.Analytics.click(@params) == :ok
     end
 
-    test "returns {:error, %HTTPoison.Response{}} and logs a warning when response code is not 200",
-         %{bypass: bypass} do
-      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 401, "Feature not available") end)
+    test "returns {:error, %HTTPoison.Response{}} and logs a warning when response code is not 200" do
+      expect(HTTPoison.Mock, :post, fn _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 401}}
+      end)
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert {:error, %HTTPoison.Response{status_code: 401}} =
                    Algolia.Analytics.click(@params)
         end)
@@ -45,12 +53,13 @@ defmodule Algolia.AnalyticsTest do
       assert log =~ "Bad response"
     end
 
-    test "returns {:error, %HTTPoison.Error{}} and logs a warning when unable to connect to Algolia",
-         %{bypass: bypass} do
-      Bypass.down(bypass)
+    test "returns {:error, %HTTPoison.Error{}} and logs a warning when unable to connect to Algolia" do
+      expect(HTTPoison.Mock, :post, fn _, _, _, _ ->
+        {:error, %HTTPoison.Error{reason: :econnrefused}}
+      end)
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert {:error, %HTTPoison.Error{}} = Algolia.Analytics.click(@params)
         end)
 

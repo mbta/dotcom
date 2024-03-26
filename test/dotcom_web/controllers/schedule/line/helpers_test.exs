@@ -1,5 +1,6 @@
 defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: false
+  @moduletag :external
 
   alias Routes.{Route}
   alias DotcomWeb.ScheduleController.Line.Helpers

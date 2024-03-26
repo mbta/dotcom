@@ -2,19 +2,20 @@ defmodule Alerts.Cache.Fetcher do
   @moduledoc """
   A fetcher process which periodically hits an API and updates a cache store.
   The fetcher uses DI to allow swapping in different API and store functions, but the
-  default functions are V3Api.Alerts.all() and Alerts.Cache.Store.update().
+  default functions are MBTA.Api.Alerts.all() and Alerts.Cache.Store.update().
 
   If an API call fails, then the store is not modified.
   """
 
-  use GenServer
   require Logger
+
+  use GenServer
 
   alias Alerts.{Cache, Parser}
 
   @default_opts [
     api_mfa:
-      {V3Api.Alerts, :all,
+      {MBTA.Api.Alerts, :all,
        [
          [
            "filter[activity]": "ALL"

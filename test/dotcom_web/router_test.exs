@@ -134,6 +134,7 @@ defmodule Phoenix.Router.RoutingTest do
     end
   end
 
+  @tag :external
   test "Adds noindex x-robots-tag HTTP header if config set", %{conn: conn} do
     old_value = Application.get_env(:dotcom, :allow_indexing)
 

@@ -1,5 +1,6 @@
 defmodule DotcomWeb.ScheduleController.HoursOfOperationTest do
   use DotcomWeb.ConnCase, async: true
+  @moduletag :external
 
   @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
 

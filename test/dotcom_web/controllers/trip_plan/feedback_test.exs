@@ -11,7 +11,7 @@ defmodule DotcomWeb.TripPlan.FeedbackTest do
       %{"things" => "are in here"}
     ]
   }
-  @expected_cache_key "dotcomweb.tripplan.feedback|local|123|2024-02-28T12:01:23|2"
+  @expected_cache_key "dotcom_web.trip_plan.feedback|local|123|2024-02-28T12:01:23|2"
 
   @bad_data %{
     "incorrect" => "keys"
@@ -19,7 +19,9 @@ defmodule DotcomWeb.TripPlan.FeedbackTest do
 
   setup %{conn: conn} do
     cache = Application.get_env(:dotcom, :trip_plan_feedback_cache)
+
     cache.flush()
+
     {:ok, %{conn: conn, cache: cache}}
   end
 

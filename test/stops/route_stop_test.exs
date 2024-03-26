@@ -1,8 +1,10 @@
 defmodule Stops.RouteStopTest do
   use ExUnit.Case, async: false
+  @moduletag :external
 
-  import Stops.RouteStop
   import Mock
+  import Stops.RouteStop
+
   alias Routes.{Route, Shape}
   alias RoutePatterns.RoutePattern
   alias Stops.{RouteStop, Stop}

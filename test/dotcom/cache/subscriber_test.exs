@@ -7,8 +7,8 @@ defmodule Dotcom.Cache.SubscriberTest do
   setup :set_mox_global
 
   setup do
-    expect(Redix.PubSub.Mock, :start_link, fn _ -> {:ok, 0} end)
-    expect(Redix.PubSub.Mock, :subscribe, fn _, _, _ -> {:ok, 0} end)
+    expect(Dotcom.Redix.PubSub.Mock, :start_link, fn _ -> {:ok, 0} end)
+    expect(Dotcom.Redix.PubSub.Mock, :subscribe, fn _, _, _ -> {:ok, 0} end)
 
     uuid = UUID.uuid4()
 

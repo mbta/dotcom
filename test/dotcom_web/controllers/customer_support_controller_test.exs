@@ -1,5 +1,6 @@
 defmodule DotcomWeb.CustomerSupportControllerTest do
   use DotcomWeb.ConnCase
+  @moduletag :external
 
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   import DotcomWeb.CustomerSupportController

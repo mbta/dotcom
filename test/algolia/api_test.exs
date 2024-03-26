@@ -1,120 +1,139 @@
 defmodule Algolia.ApiTest do
   use ExUnit.Case, async: false
 
-  @failure_response ~s({"error": "bad request"})
-  @request ~s({"requests": [{"indexName": "*"}]})
-  @success_response ~s({"ok": "success"})
+  import ExUnit.CaptureLog
+  import Mox
+
+  @failure_response Poison.encode!(%{"error" => "failure"})
+  @request Poison.encode!(%{"requests" => [indexName: "*"]})
+  @success_response Poison.encode!(%{"ok" => "success"})
+  @url "http://localhost:9999"
+
+  setup do
+    cache = Application.get_env(:dotcom, :cache)
+
+    cache.flush()
+
+    :ok
+  end
+
+  setup :verify_on_exit!
 
   describe "action" do
-    setup do
-      {:ok, bypass: Bypass.open(), failure: Bypass.open(), success: Bypass.open()}
-    end
-
-    test "caches a successful response", %{bypass: bypass} do
-      Bypass.expect_once(bypass, "POST", "/1/indexes/*/queries", fn conn ->
-        Plug.Conn.send_resp(conn, 200, @success_response)
+    test "caches a successful response" do
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: @success_response}}
       end)
 
       opts = %Algolia.Api{
-        host: "http://localhost:#{bypass.port}",
+        host: @url,
         index: "*",
         action: "queries",
         body: @request
       }
 
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.action(:post, opts)
+      response = Algolia.Api.action(:post, opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = response
 
       assert body == @success_response
+
       # Can be called again with result from cache instead of hitting the API endpoint
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} =
-               Algolia.Api.action(:post, opts)
+      response = Algolia.Api.action(:post, opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: ^body}} = response
     end
 
-    test "sends a get request to /1/indexes/$INDEX", %{bypass: bypass} do
-      # bypass = Bypass.open()
+    test "sends a get request to /1/indexes/$INDEX" do
+      index = "foo"
+      response_body = Poison.encode!(%{"hits" => [%{"objectID" => "foo"}]})
 
-      Bypass.expect_once(bypass, "GET", "/1/indexes/*", fn conn ->
-        Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
+      expect(HTTPoison.Mock, :get, fn url, _headers, _opts ->
+        assert url == @url <> "/1/indexes/#{index}"
+
+        {:ok, %HTTPoison.Response{status_code: 200, body: response_body}}
       end)
 
       opts = %Algolia.Api{
-        host: "http://localhost:#{bypass.port}",
-        index: "*",
+        host: @url,
+        index: index,
         action: "",
         body: ""
       }
 
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.action(:get, opts)
+      response = Algolia.Api.action(:get, opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = response
 
-      assert body == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
+      assert body == response_body
     end
 
-    test "does not cache a failed response", %{failure: failure, success: success} do
-      Bypass.expect_once(failure, "POST", "/1/indexes/*/queries", fn conn ->
-        Plug.Conn.send_resp(conn, 400, @failure_response)
+    test "does not cache a failed response" do
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:error, %HTTPoison.Response{status_code: 400, body: @failure_response}}
       end)
 
       failure_opts = %Algolia.Api{
-        host: "http://localhost:#{failure.port}",
+        host: @url,
         index: "*",
         action: "queries",
         body: @request
       }
 
-      assert {:error, %HTTPoison.Response{status_code: 400, body: body}} =
-               Algolia.Api.action(:post, failure_opts)
+      response = Algolia.Api.action(:post, failure_opts)
+      assert {:error, %HTTPoison.Response{status_code: 400, body: body}} = response
 
       assert body == @failure_response
 
-      Bypass.expect_once(success, "POST", "/1/indexes/*/queries", fn conn ->
-        Plug.Conn.send_resp(conn, 200, @success_response)
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: @success_response}}
       end)
 
       success_opts = %Algolia.Api{
-        host: "http://localhost:#{success.port}",
+        host: @url,
         index: "*",
         action: "queries",
         body: @request
       }
 
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.action(:post, success_opts)
+      response = Algolia.Api.action(:post, success_opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = response
 
       assert body == @success_response
     end
 
-    test "adds the query params to the request url", %{bypass: bypass} do
-      Bypass.expect_once(bypass, "GET", "/1/indexes/test_index/", fn conn ->
-        assert "param_1=test_data" == conn.query_string
-        Plug.Conn.send_resp(conn, 200, "{\"hits\": [{\"objectID\": \"test_object_id\"}]}")
+    test "adds the query params to the request url" do
+      params = %{"foo" => "bar"}
+      response_body = Poison.encode!(%{"hits" => [%{"objectID" => "foo"}]})
+
+      expect(HTTPoison.Mock, :get, fn url, _headers, _opts ->
+        query_params = URI.decode_query(URI.parse(url).query)
+        assert query_params == params
+
+        {:ok, %HTTPoison.Response{status_code: 200, body: response_body}}
       end)
 
       opts = %Algolia.Api{
-        host: "http://localhost:#{bypass.port}",
-        index: "test_index",
+        host: @url,
+        index: "foo",
         action: "",
         body: "",
-        query_params: %{param_1: "test_data"}
+        query_params: params
       }
 
-      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} =
-               Algolia.Api.action(:get, opts)
+      response = Algolia.Api.action(:get, opts)
+      assert {:ok, %HTTPoison.Response{status_code: 200, body: body}} = response
 
-      assert body == "{\"hits\": [{\"objectID\": \"test_object_id\"}]}"
+      assert body == response_body
     end
 
-    test "logs a warning if config keys are missing", %{bypass: bypass} do
+    test "logs a warning if config keys are missing" do
       opts = %Algolia.Api{
-        host: "http://localhost:#{bypass.port}",
+        host: @url,
         index: "*",
         action: "queries",
         body: @request
       }
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert Algolia.Api.action(:post, opts, %Algolia.Config{}) == {:error, :bad_config}
         end)
 

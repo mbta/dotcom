@@ -1,15 +1,15 @@
-defmodule V3Api.Stream do
+defmodule MBTA.Api.Stream do
   @moduledoc """
-  A GenStage for connecting to the V3Api's Server-Sent Event Stream
+  A GenStage for connecting to the MBTA's Server-Sent Event Stream
   capability. Receives events from the API and parses their data.
-  Subscribers receive events as `%V3Api.Stream.Event{}` structs, which
+  Subscribers receive events as `%MBTA.Api.Stream.Event{}` structs, which
   include the event name and the data as a `%JsonApi{}` struct.
 
   Required options:
   `:path` (e.g. "/vehicles")
   `:name` -- name of module
   `:subscribe_to` -- pid or name of a ServerSentEventStage
-  for the V3Api.Stream to subscribe to. This should be
+  for the MBTA.Api.Stream to subscribe to. This should be
   started as part of a supervision tree.
 
   Other options are made available for tests, and can include:
@@ -19,12 +19,13 @@ defmodule V3Api.Stream do
   """
 
   use GenStage
+
+  alias MBTA.Headers
   alias ServerSentEventStage, as: SSES
-  alias V3Api.Headers
 
   defmodule Event do
     @moduledoc """
-    Struct representing a parsed V3Api server-sent event.
+    Struct representing a parsed MBTA.Api server-sent event.
     """
     defstruct data: nil, event: :unknown
     @type event :: :reset | :add | :update | :remove
@@ -42,7 +43,7 @@ defmodule V3Api.Stream do
 
   @doc """
   Builds an option list for a ServerSentEventStage
-  which a V3Api.Stream will subscribe to.
+  which a MBTA.Api.Stream will subscribe to.
   Each app's ServerSentEventStage should be started
   inside the application's supervision tree.
   """
@@ -52,6 +53,16 @@ defmodule V3Api.Stream do
     |> Keyword.merge(opts)
     |> set_url()
     |> set_headers()
+  end
+
+  def init(opts) do
+    producer = Keyword.fetch!(opts, :subscribe_to)
+
+    {:producer_consumer, %{}, subscribe_to: [producer]}
+  end
+
+  def handle_events(events, _from, state) do
+    {:noreply, Enum.map(events, &parse_event/1), state}
   end
 
   @spec default_options :: Keyword.t()
@@ -92,15 +103,6 @@ defmodule V3Api.Stream do
       |> Headers.build(use_cache?: false)
 
     Keyword.put(opts, :headers, headers)
-  end
-
-  def init(opts) do
-    producer = Keyword.fetch!(opts, :subscribe_to)
-    {:producer_consumer, %{}, subscribe_to: [producer]}
-  end
-
-  def handle_events(events, _from, state) do
-    {:noreply, Enum.map(events, &parse_event/1), state}
   end
 
   @spec parse_event(SSES.Event.t()) :: Event.t()

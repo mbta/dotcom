@@ -1,14 +1,16 @@
 defmodule DotcomWeb.PredictionsChannelTest do
   use DotcomWeb.ChannelCase, async: false
+  @moduletag :external
 
-  import Test.Support.EnvHelpers
   import Mock
+  import Test.Support.EnvHelpers
+
+  alias DotcomWeb.{PredictionsChannel, UserSocket}
   alias Phoenix.Socket
   alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
-  alias DotcomWeb.{PredictionsChannel, UserSocket}
 
   @route_39 "39"
   @stop_fh "place-forhl"

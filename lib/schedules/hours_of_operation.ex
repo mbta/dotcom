@@ -73,7 +73,7 @@ defmodule Schedules.HoursOfOperation do
     params = api_params(route_id_list, date, special_service_dates, description)
 
     params
-    |> Task.async_stream(&V3Api.Schedules.all/1, on_timeout: :kill_task)
+    |> Task.async_stream(&MBTA.Api.Schedules.all/1, on_timeout: :kill_task)
     # 3 dates * 2 directions == 6 responses per route
     # 2 directions for each special service day = 2 * n
     # Every 6 + (2 * n) responses is a single route

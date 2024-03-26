@@ -56,7 +56,7 @@ defmodule Predictions.Repo do
   defp fetch(params) do
     _ = Logger.info("predictions_repo_all_cache=cache_miss")
 
-    case V3Api.Predictions.all(params) do
+    case MBTA.Api.Predictions.all(params) do
       {:error, error} ->
         warn_error(params, error)
 

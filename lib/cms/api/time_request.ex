@@ -4,15 +4,11 @@ defmodule CMS.API.TimeRequest do
   require Logger
 
   @http_pool Application.compile_env!(:dotcom, :cms_http_pool)
+  @httpoison Application.compile_env!(:dotcom, :httpoison)
 
   @doc """
-
   Wraps an HTTP call and times how long the request takes.  Returns the HTTP response.
-
   """
-  @spec time_request(atom, String.t(), String.t(), Keyword.t(), Keyword.t()) ::
-          {:ok, HTTPoison.Response.t()}
-          | {:error, HTTPoison.Error.t()}
   def time_request(method, url, body \\ "", headers \\ [], opts \\ []) do
     opts =
       opts
@@ -20,7 +16,7 @@ defmodule CMS.API.TimeRequest do
       |> Keyword.update!(:hackney, &Keyword.put(&1, :pool, @http_pool))
 
     {time, response} =
-      :timer.tc(HTTPoison, :request, [
+      :timer.tc(@httpoison, :request, [
         method,
         url,
         body,

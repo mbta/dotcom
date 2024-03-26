@@ -65,39 +65,23 @@ defmodule Test.Support.Factory do
   end
 
   def transit_detail_factory do
-    route_id = Faker.Util.pick(~w(1 350 Blue Red)s)
-    schedules = Schedules.Repo.by_route_ids([route_id], stop_sequences: :first)
-    trip_id = List.first(schedules).trip.id
-
     %TransitDetail{
-      route_id: route_id,
-      trip_id: trip_id,
+      route_id: "Blue",
+      trip_id: "59736724",
       intermediate_stop_ids:
         Enum.random([
-          [List.first(schedules).stop.id],
+          ["place-orhte"],
           []
         ])
     }
   end
 
   def stop_named_position_factory do
-    stop =
-      [
-        "place-sstat",
-        "place-north",
-        "place-bbsta",
-        "place-pktrm",
-        "place-rugg",
-        "place-gover"
-      ]
-      |> Faker.Util.pick()
-      |> Stops.Repo.get!()
-
     %NamedPosition{
-      name: stop.name,
-      stop_id: stop.id,
-      latitude: stop.latitude,
-      longitude: stop.longitude
+      name: Faker.Address.street_name(),
+      stop_id: nil,
+      latitude: Faker.Address.latitude(),
+      longitude: Faker.Address.longitude()
     }
   end
 

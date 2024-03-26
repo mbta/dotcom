@@ -40,7 +40,7 @@ defmodule Vehicles.Supervisor do
 
   defp stream_children(_) do
     sses_opts =
-      V3Api.Stream.build_options(
+      MBTA.Api.Stream.build_options(
         name: Vehicles.Api.SSES,
         path:
           "/vehicles?fields[vehicle]=direction_id,current_status,longitude,latitude,bearing,occupancy_status"
@@ -48,7 +48,7 @@ defmodule Vehicles.Supervisor do
 
     [
       {ServerSentEventStage, sses_opts},
-      {V3Api.Stream, name: Vehicles.Api, subscribe_to: Vehicles.Api.SSES},
+      {MBTA.Api.Stream, name: Vehicles.Api, subscribe_to: Vehicles.Api.SSES},
       {Vehicles.Stream, subscribe_to: Vehicles.Api}
     ]
   end

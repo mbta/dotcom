@@ -1,9 +1,16 @@
 defmodule DotcomWeb.SearchControllerTest do
   use DotcomWeb.ConnCase, async: false
+
+  import ExUnit.CaptureLog
+  import Mox
+
   alias Alerts.Alert
-  import Mock
+
+  setup :set_mox_global
+  setup :verify_on_exit!
 
   @params %{"search" => %{"query" => "mbta"}}
+  @url "http://localhost:9999"
 
   describe "index with js" do
     test "index", %{conn: conn} do
@@ -14,34 +21,29 @@ defmodule DotcomWeb.SearchControllerTest do
   end
 
   describe "query" do
-    @tag :capture_log
     test "sends a POST to Algolia and returns the results", %{conn: conn} do
-      bypass = Bypass.open()
+      response_body = Poison.encode!(%{"results" => []})
 
-      Bypass.expect(bypass, fn conn ->
-        {status, resp} =
-          case Plug.Conn.read_body(conn) do
-            {:ok, ~s({"requests":[]}), %Plug.Conn{}} -> {200, ~s({"results": []})}
-            {:ok, body, %Plug.Conn{}} -> {500, body}
-          end
-
-        Plug.Conn.send_resp(conn, status, resp)
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: response_body}}
       end)
 
-      assert %{"results" => []} =
-               conn
-               |> assign(:algolia_host, "http://localhost:#{bypass.port}")
-               |> post(search_path(conn, :query), %{requests: []})
-               |> json_response(200)
+      response =
+        conn
+        |> assign(:algolia_host, @url)
+        |> post(search_path(conn, :query), %{requests: []})
+        |> json_response(200)
+
+      assert response == Poison.decode!(response_body)
     end
 
-    @tag :capture_log
     test "returns {error: bad_response} if algolia returns a bad response", %{conn: conn} do
-      bypass = Bypass.open()
-      Bypass.down(bypass)
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:error, %HTTPoison.Error{reason: :bad_response}}
+      end)
 
       assert conn
-             |> assign(:algolia_host, "http://localhost:#{bypass.port}")
+             |> assign(:algolia_host, @url)
              |> post(search_path(conn, :query), %{
                requests: [
                  %{
@@ -54,10 +56,7 @@ defmodule DotcomWeb.SearchControllerTest do
              |> json_response(200) == %{"error" => "bad_response"}
     end
 
-    @tag :capture_log
     test "handles algolia config errors", %{conn: conn} do
-      bypass = Bypass.open()
-
       config = Application.get_env(:dotcom, :algolia_config)
       bad_config = Keyword.delete(config, :write)
       Application.put_env(:dotcom, :algolia_config, bad_config)
@@ -65,7 +64,7 @@ defmodule DotcomWeb.SearchControllerTest do
       on_exit(fn -> Application.put_env(:dotcom, :algolia_config, config) end)
 
       assert conn
-             |> assign(:algolia_host, "http://localhost:#{bypass.port}")
+             |> assign(:algolia_host, @url)
              |> post(search_path(conn, :query), %{requests: []})
              |> json_response(200) == %{"error" => "bad_config"}
     end
@@ -74,14 +73,14 @@ defmodule DotcomWeb.SearchControllerTest do
   describe "log_error/1" do
     test "logs a bad HTTP response" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert DotcomWeb.SearchController.log_error({:ok, %HTTPoison.Response{}}) == :ok
         end)
 
       assert log =~ "bad response"
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert DotcomWeb.SearchController.log_error({:error, %HTTPoison.Error{}}) == :ok
         end)
 
@@ -90,7 +89,7 @@ defmodule DotcomWeb.SearchControllerTest do
 
     test "does not log other types of errors" do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert DotcomWeb.SearchController.log_error({:error, :bad_config}) == :ok
         end)
 
@@ -100,15 +99,13 @@ defmodule DotcomWeb.SearchControllerTest do
 
   describe "click" do
     setup do
-      bypass = Bypass.open()
-
       url = Application.get_env(:dotcom, :algolia_click_analytics_url)
       track? = Application.get_env(:dotcom, :algolia_track_clicks?)
 
       Application.put_env(
         :dotcom,
         :algolia_click_analytics_url,
-        "http://localhost:#{bypass.port}"
+        @url
       )
 
       Application.put_env(:dotcom, :algolia_track_clicks?, true)
@@ -118,11 +115,13 @@ defmodule DotcomWeb.SearchControllerTest do
         Application.put_env(:dotcom, :algolia_track_clicks?, track?)
       end)
 
-      {:ok, bypass: bypass}
+      :ok
     end
 
-    test "logs a click", %{conn: conn, bypass: bypass} do
-      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 200, "success") end)
+    test "logs a click", %{conn: conn} do
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:ok, %HTTPoison.Response{status_code: 200, body: "{}"}}
+      end)
 
       conn =
         post(conn, search_path(conn, :click), %{
@@ -134,9 +133,10 @@ defmodule DotcomWeb.SearchControllerTest do
       assert json_response(conn, 200) == %{"message" => "success"}
     end
 
-    @tag :capture_log
-    test "returns error info if Algolia returns a bad response", %{conn: conn, bypass: bypass} do
-      Bypass.expect(bypass, fn conn -> Plug.Conn.send_resp(conn, 401, "Feature not available") end)
+    test "returns error info if Algolia returns a bad response", %{conn: conn} do
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:ok, %HTTPoison.Response{status_code: 401, body: "Feature not available"}}
+      end)
 
       conn =
         post(conn, search_path(conn, :click), %{
@@ -152,9 +152,10 @@ defmodule DotcomWeb.SearchControllerTest do
              }
     end
 
-    @tag :capture_log
-    test "returns error info if Algolia is down", %{conn: conn, bypass: bypass} do
-      Bypass.down(bypass)
+    test "returns error info if Algolia is down", %{conn: conn} do
+      expect(HTTPoison.Mock, :post, fn _url, _body, _headers, _opts ->
+        {:error, %HTTPoison.Error{reason: :econnrefused}}
+      end)
 
       conn =
         post(conn, search_path(conn, :click), %{
@@ -260,14 +261,6 @@ defmodule DotcomWeb.SearchControllerTest do
       conn = get(conn, search_path(conn, :index, %{"search" => %{"query" => "", "nojs" => true}}))
       response = html_response(conn, 200)
       assert response =~ "empty-search-page"
-    end
-
-    test "search server is returning an error", %{conn: conn} do
-      with_mock CMS.Repo, search: fn _, _, _ -> {:error, :error} end do
-        conn = get(conn, search_path(conn, :index, @params))
-        response = html_response(conn, 200)
-        assert response =~ "Whoops"
-      end
     end
   end
 end

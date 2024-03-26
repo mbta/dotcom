@@ -1,6 +1,6 @@
 defmodule TransferTest do
-  @moduledoc false
   use ExUnit.Case
+  @moduletag :external
 
   import TripPlan.Transfer
   alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}

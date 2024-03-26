@@ -25,6 +25,7 @@ defmodule Dotcom.TransitNearMeTest do
   end
 
   describe "build/2" do
+    @tag :external
     test "builds a set of data for a location" do
       assert %{stops: stops, distances: distances} =
                TransitNearMe.build(@address, date: @date, now: Util.now())

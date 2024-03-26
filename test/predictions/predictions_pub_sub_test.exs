@@ -1,6 +1,9 @@
 defmodule Predictions.PredictionsPubSubTest do
   use ExUnit.Case, async: false
+  @moduletag :external
+
   import Mock
+
   alias Predictions.{Prediction, PredictionsPubSub, Store}
   alias Routes.Route
   alias Stops.Stop

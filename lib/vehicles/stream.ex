@@ -1,6 +1,6 @@
 defmodule Vehicles.Stream do
   @moduledoc """
-  Uses V3Api.Stream to subscribe to the V3Api and receive events.
+  Uses MBTA.Api.Stream to subscribe to the MBTA Api and receive events.
   """
 
   use GenStage
@@ -32,7 +32,7 @@ defmodule Vehicles.Stream do
   end
 
   defp send_event(
-         %V3Api.Stream.Event{
+         %MBTA.Api.Stream.Event{
            event: :remove,
            data: %JsonApi{data: data}
          },
@@ -44,7 +44,7 @@ defmodule Vehicles.Stream do
   end
 
   defp send_event(
-         %V3Api.Stream.Event{
+         %MBTA.Api.Stream.Event{
            event: type,
            data: %JsonApi{data: data}
          },

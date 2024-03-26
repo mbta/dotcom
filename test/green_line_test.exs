@@ -1,5 +1,6 @@
 defmodule GreenLineTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   import GreenLine
 

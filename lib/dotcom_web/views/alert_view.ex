@@ -177,7 +177,7 @@ defmodule DotcomWeb.AlertView do
         Timex.format!(updated_at, "{M}/{D}/{YYYY}")
       end
 
-    time = Timex.format!(updated_at, "{h12}:{m} {AM} {Zabbr}")
+    time = Timex.format!(updated_at, "{h12}:{m} {AM} {Zabbr}") |> String.trim()
 
     ["Updated: ", date, 32, time]
   end

@@ -1,13 +1,12 @@
-defmodule V3Api.Alerts do
+defmodule MBTA.Api.Alerts do
   @moduledoc """
-
   Responsible for fetching Alert data from the V3 API.
-
   """
-  import V3Api
+
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
 
   @spec all() :: JsonApi.t() | {:error, any}
   def all(params \\ []) do
-    get_json("/alerts/", params)
+    @mbta_api.get_json("/alerts/", params)
   end
 end

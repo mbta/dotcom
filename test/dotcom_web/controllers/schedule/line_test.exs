@@ -1,6 +1,9 @@
 defmodule DotcomWeb.ScheduleController.LineTest do
   use DotcomWeb.ConnCase, async: false
+  @moduletag :external
+
   import Mock
+
   alias Services.Service
   alias DotcomWeb.ScheduleController.Line
 

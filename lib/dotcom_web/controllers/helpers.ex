@@ -12,6 +12,7 @@ defmodule DotcomWeb.ControllerHelpers do
   alias Timex.Format.DateTime.Formatters.Strftime
 
   @content_http_pool Application.compile_env!(:dotcom, :cms_http_pool)
+  @httpoison Application.compile_env!(:dotcom, :httpoison)
 
   @valid_resp_headers [
     "content-type",
@@ -123,7 +124,7 @@ defmodule DotcomWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case HTTPoison.get(url, [], hackney: [pool: @content_http_pool]) do
+    case @httpoison.get(url, [], hackney: [pool: @content_http_pool]) do
       {:ok, %{status_code: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)

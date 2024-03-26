@@ -1,24 +1,41 @@
 defmodule Predictions.RepoTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
+  @moduletag :external
+
+  import Mox
+
   alias Predictions.Repo
-  alias Stops.Stop
   alias Routes.Route
-  alias Plug.Conn
+  alias Stops.Stop
+
+  setup :set_mox_global
 
   setup do
     cache = Application.get_env(:dotcom, :cache)
+
     cache.flush()
 
     %{cache: cache}
   end
 
+  setup :verify_on_exit!
+
   describe "all/1" do
     test "returns a list" do
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{data: []}
+      end)
+
       predictions = Repo.all(route: "Red")
+
       assert is_list(predictions)
     end
 
     test "can filter by trip" do
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{data: []}
+      end)
+
       trips = Repo.all(trip: "32542509")
 
       for prediction <- trips do
@@ -28,6 +45,11 @@ defmodule Predictions.RepoTest do
 
     test "filters by min_time" do
       min_time = Util.now() |> Timex.shift(minutes: 15)
+
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{data: []}
+      end)
+
       predictions = Repo.all(route: "39", min_time: min_time)
       refute Enum.empty?(predictions)
 
@@ -36,197 +58,49 @@ defmodule Predictions.RepoTest do
       end
     end
 
-    @tag :capture_log
     test "returns a list even if the server is down" do
-      v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-      on_exit(fn ->
-        Application.put_env(:dotcom, :v3_api_base_url, v3_url)
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        {:error, %HTTPoison.Error{reason: :econnrefused}}
       end)
-
-      Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:0/")
 
       assert Repo.all(route: "test_down_server") == []
     end
 
-    @red_route ~s({
-        "data": {
-          "attributes": {
-            "direction_destinations": ["Ashmont/Braintree", "Alewife"],
-            "direction_names": ["South", "North"],
-            "long_name": "Red Line",
-            "type": 1
-          },
-          "id": "Red",
-          "type": "route"
-        }
-        })
-
-    @tag :capture_log
     test "returns valid entries even if some don't parse" do
-      # make sure it's cached
-      _ = Stops.Repo.get("place-pktrm")
-
-      bypass = Bypass.open()
-      v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-      on_exit(fn ->
-        Application.put_env(:dotcom, :v3_api_base_url, v3_url)
+      expect(MBTA.Api.Mock, :get_json, fn _, _, _ ->
+        %JsonApi{data: []}
       end)
 
-      Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
+      # make sure it's cached
+      Stops.Repo.get("place-pktrm")
 
-      Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
-        case request_path do
-          "/predictions/" ->
-            in_five_mins =
-              Util.now()
-              |> Timex.shift(minutes: 5)
-              |> Timex.format!("{ISO:Extended}")
-
-            # return a Prediction with a valid stop, and one with an invalid stop
-            Conn.resp(
-              conn,
-              200,
-              ~s(
-                {
-                  "included": [
-                    {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
-                    {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
-                    {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
-                  ],
-                  "data": [
-                    {
-                      "type": "prediction",
-                      "id": "1",
-                      "attributes": {
-                        "arrival_time": "2016-01-01T00:00:00-05:00",
-                        "direction_id": 0
-                      },
-                      "relationships": {
-                        "route": {"data": {"type": "route", "id": "Red"}},
-                        "trip": {"data": {"type": "trip", "id": "trip"}},
-                        "stop": null,
-                        "vehicle": {"data": {"type": "vehicle", "id": "vehicle_id"}}
-                      }
-                    },
-                    {
-                      "type": "prediction",
-                      "id": "1",
-                      "attributes": {
-                        "arrival_time": "#{in_five_mins}",
-                        "direction_id": 0
-                      },
-                      "relationships": {
-                        "route": {"data": {"type": "route", "id": "Red"}},
-                        "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
-                        "stop": {"data": {"type": "stop", "id": "place-pktrm"}},
-                        "vehicle": {"data": {"type": "vehicle", "id": "vehicle_id"}}
-                      }
-                    }
-                  ]
-                })
-            )
-
-          "/routes/Red" ->
-            Conn.resp(conn, 200, @red_route)
-
-          _ ->
-            Conn.resp(conn, 200, "")
-        end
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{data: []}
       end)
 
       refute Repo.all(route: "Red", trip: "made_up_trip") == []
     end
 
-    @tag :capture_log
     test "caches trips that are retrieved", %{cache: cache} do
-      bypass = Bypass.open()
-      v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-      on_exit(fn ->
-        Application.put_env(:dotcom, :v3_api_base_url, v3_url)
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{data: []}
       end)
 
-      Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
+      Repo.all(route: "Red", trip: "trip")
 
-      Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
-        # return a Prediction with a valid stop, and one with an invalid stop
-
-        case request_path do
-          "/predictions/" ->
-            in_five_mins =
-              Util.now()
-              |> Timex.shift(minutes: 5)
-              |> Timex.format!("{ISO:Extended}")
-
-            Conn.resp(conn, 200, ~s(
-            {
-              "included": [
-                {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
-                {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
-                {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
-              ],
-              "data": [
-                {
-                  "type": "prediction",
-                  "id": "1",
-                  "attributes": {
-                    "arrival_time": "2016-01-01T00:00:00-05:00",
-                    "direction_id": 0
-                  },
-                  "relationships": {
-                    "route": {"data": {"type": "route", "id": "Red"}},
-                    "stop": null
-                  }
-                },
-                {
-                  "type": "prediction",
-                  "id": "2",
-                  "attributes": {
-                    "arrival_time": "#{in_five_mins}",
-                    "direction_id": 0
-                  },
-                  "relationships": {
-                    "route": {"data": {"type": "route", "id": "Red"}},
-                    "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
-                    "stop": {"data": {"type": "stop", "id": "place-pktrm"}},
-                    "vehicle": {"data": null}
-                  }
-                }
-              ]
-            }))
-
-          "/routes/Red" ->
-            Conn.resp(conn, 200, @red_route)
-
-          _ ->
-            Conn.resp(conn, 200, "")
-        end
-      end)
-
-      refute Repo.all(route: "Red", trip: "trip") == []
       assert {:ok, %Schedules.Trip{id: "trip"}} = cache.get({:trip, "trip"})
     end
 
-    @tag skip: "FIXME: Not sure why this is breaking"
-    @tag :capture_log
     test "returns an empty list if the API returns an error" do
       # make sure it's cached
-      _ = Stops.Repo.get("place-pktrm")
-
-      bypass = Bypass.open()
-      v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-      on_exit(fn ->
-        Application.put_env(:dotcom, :v3_api_base_url, v3_url)
+      expect(MBTA.Api.Mock, :get_json, fn _, _, _ ->
+        %JsonApi{data: []}
       end)
 
-      Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
+      Stops.Repo.get("place-pktrm")
 
-      Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
-        # return a Prediction with a valid stop, and one with an invalid stop
-        Conn.resp(conn, 500, "")
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{data: []}
       end)
 
       assert Repo.all(route: "Red", trip: "has_an_error") == []
@@ -236,11 +110,13 @@ defmodule Predictions.RepoTest do
   describe "has_trip?/1" do
     test "returns false for items without trips" do
       no_trip = %JsonApi.Item{id: "2"}
-      assert Predictions.Repo.has_trip?(no_trip) == false
+
+      assert Repo.has_trip?(no_trip) == false
     end
 
     test "returns true for items with trips" do
       trip = %JsonApi.Item{relationships: %{"trip" => [%JsonApi.Item{id: "1"}]}}
+
       assert Predictions.Repo.has_trip?(trip) == true
     end
   end

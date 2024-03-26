@@ -52,10 +52,12 @@ defmodule DotcomWeb.AmbiguousAlertTest do
   end
 
   describe "affected_routes/1" do
+    @tag :external
     test "for Alerts.Alert", %{alert: alert} do
       assert affected_routes(alert) == ["Pink"]
     end
 
+    @tag :external
     test "for Alerts.HistoricalAlert", %{historical_alert: historical_alert} do
       assert affected_routes(historical_alert) == ["Pink"]
     end

@@ -1,140 +1,122 @@
 defmodule CMS.ExternaRequestTest do
   use ExUnit.Case
-  import Mock
+
   import CMS.ExternalRequest
-  alias CMS.API.TimeRequest
+  import ExUnit.CaptureLog
+  import Mox
+
+  setup :set_mox_global
+  setup :verify_on_exit!
+
+  @headers [{"content-type", "application/json"}]
 
   describe "process/4" do
     test "issues a request with the provided information" do
-      bypass = bypass_cms()
+      expected = [param: Faker.Pizza.style()]
 
-      Bypass.expect(bypass, fn conn ->
-        assert "GET" = conn.method
-        assert "/get" == conn.request_path
-        assert Plug.Conn.fetch_query_params(conn).params["cake"] == "is the best"
+      expect(HTTPoison.Mock, :request, fn method, _, _, _, opts ->
+        assert method == :get
+        [_, {:params, param}] = opts
+        assert param == expected
 
-        conn
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(200, "[]")
+        {:ok, %HTTPoison.Response{status_code: 200, headers: @headers, body: "[]"}}
       end)
 
-      assert process(:get, "/get", "", params: [cake: "is the best"]) == {:ok, []}
+      assert process(:get, "/get", "", params: expected) == {:ok, []}
     end
 
     test "handles a request with a body" do
-      bypass = bypass_cms()
+      expected = Faker.Pizza.style()
 
-      Bypass.expect(bypass, fn conn ->
-        {:ok, body, %Plug.Conn{}} = Plug.Conn.read_body(conn)
-        assert body == "what about pie?"
-        Plug.Conn.resp(conn, 201, "{}")
+      expect(HTTPoison.Mock, :request, fn method, _, body, _, _ ->
+        assert method == :post
+        assert body == expected
+
+        {:ok, %HTTPoison.Response{status_code: 201, headers: @headers, body: "[]"}}
       end)
 
-      process(:post, "/post", "what about pie?")
+      process(:post, "/post", expected)
     end
 
     test "sets headers for GET requests" do
-      bypass = bypass_cms()
+      expect(HTTPoison.Mock, :request, fn method, _, _, headers, _ ->
+        assert method == :get
+        assert headers == ["Content-Type": "application/json"]
 
-      Bypass.expect(bypass, fn conn ->
-        assert Plug.Conn.get_req_header(conn, "content-type") == ["application/json"]
-        assert Plug.Conn.get_req_header(conn, "authorization") == []
-        Plug.Conn.resp(conn, 200, "[]")
+        {:ok, %HTTPoison.Response{status_code: 200, headers: @headers, body: "[]"}}
       end)
 
       process(:get, "/get")
     end
 
     test "sets auth headers for non-GET requests" do
-      bypass = bypass_cms()
+      expect(HTTPoison.Mock, :request, fn method, _, _, headers, _ ->
+        assert method != :get
+        assert headers == ["Content-Type": "application/json", Authorization: "Basic Og=="]
 
-      Bypass.expect(bypass, fn conn ->
-        [basic_auth_header] = Plug.Conn.get_req_header(conn, "authorization")
-        assert basic_auth_header =~ "Basic"
-        assert Plug.Conn.get_req_header(conn, "content-type") == ["application/json"]
-        Plug.Conn.resp(conn, 201, "{}")
+        {:ok, %HTTPoison.Response{status_code: 201, headers: @headers, body: "[]"}}
       end)
 
       process(:post, "/post", "body")
     end
 
-    test "returns the HTTP response as an error if the request is not successful" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(404, "{\"message\":\"No page found\"}")
+    test "forbidden is :not_found" do
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 401, headers: @headers}}
       end)
 
       assert process(:get, "/page") == {:error, :not_found}
     end
 
-    test "returns the HTTP response as an error if the request is unauthenticated" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(401, "{\"message\":\"Access Denied\"}")
+    test "unauthorized is :not_found" do
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 403, headers: @headers}}
       end)
 
       assert process(:get, "/page") == {:error, :not_found}
     end
 
-    test "returns an unauthorized HTTP response as an error" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(403, "{\"message\":\"Access Denied\"}")
+    test "not found is :not_found" do
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 404, headers: @headers}}
       end)
 
       assert process(:get, "/page") == {:error, :not_found}
     end
 
-    test "Logs a warning and returns {:error, :invalid_response} if the request returns an exception" do
-      bypass = bypass_cms()
-
-      Bypass.down(bypass)
+    test "Logs a warning and returns {:error, _} if the request returns an exception" do
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:error, %HTTPoison.Error{reason: :timeout}}
+      end)
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
+          assert process(:get, "/page") == {:error, :timeout}
+        end)
+
+      assert log =~ "request timed out"
+    end
+
+    test "Logs a warning and returns {:error, _} if the request returns an unhandled error" do
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 500, headers: @headers}}
+      end)
+
+      log =
+        capture_log(fn ->
           assert process(:get, "/page") == {:error, :invalid_response}
         end)
 
       assert log =~ "Bad response"
     end
 
-    test "Logs a warning and returns {:error, :invalid_response} if the request returns an unhandled error" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(418, "I'm a teapot")
+    test "Logs a warning and returns {:error, _} if the JSON cannot be parsed" do
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:ok, %HTTPoison.Response{status_code: 200, headers: @headers, body: "not json"}}
       end)
 
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
-          assert process(:get, "/page") == {:error, :invalid_response}
-        end)
-
-      assert log =~ "Bad response"
-    end
-
-    test "Logs a warning and returns {:error, :invalid_response} if the JSON cannot be parsed" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(200, "{invalid")
-      end)
-
-      log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert process(:get, "/page") == {:error, :invalid_response}
         end)
 
@@ -142,44 +124,27 @@ defmodule CMS.ExternaRequestTest do
     end
 
     test "returns {:error, {:redirect, status, path}} when CMS issues a native redirect and removes _format=json" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn = Plug.Conn.fetch_query_params(conn)
-        redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
-
-        conn
-        |> Plug.Conn.put_resp_header("location", redirected_path)
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(302, "redirecting")
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        headers = [{"location", "/redirect"}, {"content-type", "application/json"}]
+        {:ok, %HTTPoison.Response{status_code: 302, headers: headers}}
       end)
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json")
       assert url == [to: "/redirect"]
     end
 
-    def mock_timeout(_method, _url, _body, _headers, _opts) do
-      {:error, %HTTPoison.Error{reason: :timeout}}
-    end
-
-    @tag :capture_log
     test "returns {:error, :timeout} when CMS times out" do
-      Mock.with_mock TimeRequest, time_request: &mock_timeout/5 do
-        assert process(:get, "/path?_format=json", "", recv_timeout: 100) == {:error, :timeout}
-      end
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        {:error, %HTTPoison.Error{reason: :timeout}}
+      end)
+
+      assert process(:get, "/path?_format=json", "", recv_timeout: 100) == {:error, :timeout}
     end
 
     test "path retains query params and removes _format=json when CMS issues a native redirect" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn = Plug.Conn.fetch_query_params(conn)
-        redirected_path = "/redirect?" <> URI.encode_query(conn.query_params)
-
-        conn
-        |> Plug.Conn.put_resp_header("location", redirected_path)
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(302, "redirecting")
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        headers = [{"location", "/redirect?foo=bar"}, {"content-type", "application/json"}]
+        {:ok, %HTTPoison.Response{status_code: 302, headers: headers}}
       end)
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path?_format=json&foo=bar")
@@ -187,16 +152,9 @@ defmodule CMS.ExternaRequestTest do
     end
 
     test "path retains fragment identifiers when CMS issues a native redirect" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn = Plug.Conn.fetch_query_params(conn)
-        redirected_path = "/redirect#fragment"
-
-        conn
-        |> Plug.Conn.put_resp_header("location", redirected_path)
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(302, "redirecting")
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        headers = [{"location", "/redirect#fragment"}, {"content-type", "application/json"}]
+        {:ok, %HTTPoison.Response{status_code: 302, headers: headers}}
       end)
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path#fragment")
@@ -204,16 +162,9 @@ defmodule CMS.ExternaRequestTest do
     end
 
     test "Drupal content redirects returned as absolute paths are counted as internal and not external" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn = Plug.Conn.fetch_query_params(conn)
-        redirected_path = "http://localhost:#{bypass.port}/redirect"
-
-        conn
-        |> Plug.Conn.put_resp_header("location", redirected_path)
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(302, "redirecting")
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        headers = [{"location", "/redirect"}, {"content-type", "application/json"}]
+        {:ok, %HTTPoison.Response{status_code: 302, headers: headers}}
       end)
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path")
@@ -221,39 +172,13 @@ defmodule CMS.ExternaRequestTest do
     end
 
     test "External redirects result in an absolute destination for Phoenix to follow" do
-      bypass = bypass_cms()
-
-      Bypass.expect(bypass, fn conn ->
-        conn = Plug.Conn.fetch_query_params(conn)
-        redirected_path = "https://www.google.com/"
-
-        conn
-        |> Plug.Conn.put_resp_header("location", redirected_path)
-        |> Plug.Conn.put_resp_header("content-type", "application/json")
-        |> Plug.Conn.resp(302, "redirecting")
+      expect(HTTPoison.Mock, :request, fn _, _, _, _, _ ->
+        headers = [{"location", "https://www.google.com/"}, {"content-type", "application/json"}]
+        {:ok, %HTTPoison.Response{status_code: 302, headers: headers}}
       end)
 
       assert {:error, {:redirect, 302, url}} = process(:get, "/path")
       assert url == [external: "https://www.google.com/"]
     end
-  end
-
-  def bypass_cms do
-    original_drupal_config = Application.get_env(:dotcom, :drupal)
-
-    bypass = Bypass.open()
-    bypass_url = "http://localhost:#{bypass.port}/"
-
-    Application.put_env(
-      :dotcom,
-      :drupal,
-      put_in(original_drupal_config[:cms_root], bypass_url)
-    )
-
-    on_exit(fn ->
-      Application.put_env(:dotcom, :drupal, original_drupal_config)
-    end)
-
-    bypass
   end
 end

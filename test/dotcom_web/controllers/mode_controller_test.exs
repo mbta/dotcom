@@ -1,5 +1,7 @@
 defmodule DotcomWeb.ModeControllerTest do
   use DotcomWeb.ConnCase
+  @moduletag :external
+
   alias Routes.Route
 
   for mode <- ~W(index subway bus ferry commuter_rail)a do

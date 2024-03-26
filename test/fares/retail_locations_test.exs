@@ -1,5 +1,6 @@
 defmodule Fares.RetailLocationsTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   @with_nearby %{latitude: 42.352271, longitude: -71.055242}
 

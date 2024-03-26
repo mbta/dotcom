@@ -31,7 +31,7 @@ defmodule Predictions.StreamSupervisor.Worker do
     Supervisor.init(
       [
         {ServerSentEventStage, sses_opts(filters)},
-        {V3Api.Stream, name: api_stream_name, subscribe_to: sses_stream_name},
+        {MBTA.Api.Stream, name: api_stream_name, subscribe_to: sses_stream_name},
         {Predictions.Stream,
          name: prediction_stream_name, subscribe_to: api_stream_name, clear_keys: keys}
       ],
@@ -45,7 +45,7 @@ defmodule Predictions.StreamSupervisor.Worker do
       "/predictions?#{filters}&fields[prediction]=status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence&include=route,trip,trip.occupancies,stop&fields[route]=long_name,short_name,type&fields[trip]=direction_id,headsign,name,bikes_allowed&fields[stop]=platform_code"
 
     sses_opts =
-      V3Api.Stream.build_options(
+      MBTA.Api.Stream.build_options(
         name: sses_stream_name(filters),
         path: path
       )

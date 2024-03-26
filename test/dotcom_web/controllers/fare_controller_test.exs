@@ -3,27 +3,12 @@ defmodule DotcomWeb.FareControllerTest do
   import Mock
 
   describe "show" do
-    @tag skip:
-           "Commenting out this test temporarily. As of Summer 2020 the limited service does not include this ferry."
-    test "renders Georges Island ferry when present in the data", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          fare_path(conn, :show, :ferry, origin: "Boat-George", destination: "Boat-Logan")
-        )
-
-      response = html_response(conn, 200)
-
-      assert response =~ "Georges Island Fare"
-      assert response =~ "Child under 3"
-      assert response =~ "Family 4-pack"
-    end
-
     test "renders the initial proposed sales locations page", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show_transformation, []))
       assert html_response(conn, 200) =~ "Proposed Sales Locations"
     end
 
+    @tag :external
     test "renders the proposed sales locations page with results by giving it an address", %{
       conn: conn
     } do
@@ -37,6 +22,7 @@ defmodule DotcomWeb.FareControllerTest do
       assert html_response(conn, 200) =~ "Get Directions"
     end
 
+    @tag :external
     test "renders the proposed sales locations page with results by giving it coordinates", %{
       conn: conn
     } do
@@ -65,6 +51,7 @@ defmodule DotcomWeb.FareControllerTest do
       assert conn.assigns.meta_description
     end
 
+    @tag :external
     test "renders the retail sales locations page with results by giving it an address", %{
       conn: conn
     } do
@@ -78,6 +65,7 @@ defmodule DotcomWeb.FareControllerTest do
       assert html_response(conn, 200) =~ "Get Directions"
     end
 
+    @tag :external
     test "renders the retail sales locations page with results by giving it coordinates", %{
       conn: conn
     } do

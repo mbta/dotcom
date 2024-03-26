@@ -149,7 +149,7 @@ defmodule Routes.RepoTest do
     end
 
     test "can include additional routes via stop connections" do
-      with_mock V3Api.Routes, [],
+      with_mock MBTA.Api.Routes, [],
         by_stop: &mock_routes_by_stop/1,
         by_stop: &mock_routes_by_stop/2 do
         routes = Routes.Repo.by_stop("initial-stop-id")

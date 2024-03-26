@@ -44,14 +44,14 @@ defmodule Stops.Api do
   @spec by_gtfs_id(String.t()) :: {:ok, Stop.t() | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
     gtfs_id
-    |> V3Api.Stops.by_gtfs_id(@default_params)
+    |> MBTA.Api.Stops.by_gtfs_id(@default_params)
     |> extract_v3_response()
     |> parse_v3_response()
   end
 
   def all do
     @default_params
-    |> V3Api.Stops.all()
+    |> MBTA.Api.Stops.all()
     |> parse_v3_multiple()
   end
 
@@ -61,7 +61,7 @@ defmodule Stops.Api do
     |> Keyword.put(:route, route_id)
     |> Keyword.put(:direction_id, direction_id)
     |> Keyword.merge(opts)
-    |> V3Api.Stops.all()
+    |> MBTA.Api.Stops.all()
     |> parse_v3_multiple()
   end
 
@@ -70,12 +70,12 @@ defmodule Stops.Api do
     @default_params
     |> Keyword.put(:route_type, route_type)
     |> Keyword.merge(opts)
-    |> V3Api.Stops.all()
+    |> MBTA.Api.Stops.all()
     |> parse_v3_multiple()
   end
 
   def by_trip(trip_id) do
-    case V3Api.Trips.by_id(trip_id, include: "stops") do
+    case MBTA.Api.Trips.by_id(trip_id, include: "stops") do
       %JsonApi{
         data: [
           %JsonApi.Item{

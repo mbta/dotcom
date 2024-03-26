@@ -82,6 +82,7 @@ defmodule DotcomWeb.PageViewTest do
     alias Alerts.InformedEntitySet, as: IESet
     alias Alerts.Alert
 
+    @tag :external
     test "renders properly" do
       alerts = [
         # Filtered

@@ -1,9 +1,16 @@
 defmodule Stops.ApiTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
+
+  import Mox
   import Stops.Api
+
   alias Stops.Stop
 
+  setup :set_mox_global
+  setup :verify_on_exit!
+
   describe "by_gtfs_id/1" do
+    @tag :external
     test "uses the gtfs ID to find a stop" do
       {:ok, stop} = by_gtfs_id("place-NHRML-0127")
 
@@ -21,6 +28,7 @@ defmodule Stops.ApiTest do
       end
     end
 
+    @tag :external
     test "parses parent_id and child_ids" do
       assert {:ok, %Stop{} = parent} = by_gtfs_id("place-sstat")
       assert parent.parent_id == nil
@@ -61,6 +69,7 @@ defmodule Stops.ApiTest do
       assert child.is_child? == true
     end
 
+    @tag :external
     test "parses fare facilities" do
       assert {:ok, north_station} = by_gtfs_id("place-north")
 
@@ -78,15 +87,18 @@ defmodule Stops.ApiTest do
       refute bu_east.has_charlie_card_vendor?
     end
 
+    @tag :external
     test "can use the GTFS accessibility data" do
       {:ok, stop} = by_gtfs_id("Yawkey")
       assert ["accessible" | _] = stop.accessibility
     end
 
+    @tag :external
     test "returns nil if stop is not found" do
       assert by_gtfs_id("-1") == {:ok, nil}
     end
 
+    @tag :external
     test "returns a stop even if the stop is not a station" do
       {:ok, stop} = by_gtfs_id("411")
 
@@ -98,17 +110,8 @@ defmodule Stops.ApiTest do
     end
 
     test "returns an error if the API returns an error" do
-      bypass = Bypass.open()
-      v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-      on_exit(fn ->
-        Application.put_env(:dotcom, :v3_api_base_url, v3_url)
-      end)
-
-      Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
-
-      Bypass.expect(bypass, fn conn ->
-        Plug.Conn.resp(conn, 200, "")
+      expect(MBTA.Api.Mock, :get_json, fn _, _, _ ->
+        {:error, %HTTPoison.Error{reason: :econnrefused}}
       end)
 
       assert {:error, _} = by_gtfs_id("error stop")
@@ -116,34 +119,16 @@ defmodule Stops.ApiTest do
   end
 
   test "all/0 returns error if API returns error" do
-    bypass = Bypass.open()
-    v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-    on_exit(fn ->
-      Application.put_env(:dotcom, :v3_api_base_url, v3_url)
-    end)
-
-    Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
-
-    Bypass.expect(bypass, fn conn ->
-      Plug.Conn.resp(conn, 200, "")
+    expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      {:error, %HTTPoison.Error{reason: :econnrefused}}
     end)
 
     assert {:error, _} = all()
   end
 
   test "by_route returns an error tuple if the V3 API returns an error" do
-    bypass = Bypass.open()
-    v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-    on_exit(fn ->
-      Application.put_env(:dotcom, :v3_api_base_url, v3_url)
-    end)
-
-    Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
-
-    Bypass.expect(bypass, fn conn ->
-      Plug.Conn.resp(conn, 200, "")
+    expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      {:error, %HTTPoison.Error{reason: :econnrefused}}
     end)
 
     assert {:error, _} = by_route({"1", 0, []})
@@ -154,17 +139,8 @@ defmodule Stops.ApiTest do
   end
 
   test "by_trip returns an empty list if the V3 API returns an error" do
-    bypass = Bypass.open()
-    v3_url = Application.get_env(:dotcom, :v3_api_base_url)
-
-    on_exit(fn ->
-      Application.put_env(:dotcom, :v3_api_base_url, v3_url)
-    end)
-
-    Application.put_env(:dotcom, :v3_api_base_url, "http://localhost:#{bypass.port}")
-
-    Bypass.expect(bypass, fn conn ->
-      Plug.Conn.resp(conn, 500, "")
+    expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      {:ok, %HTTPoison.Response{status_code: 500, body: ""}}
     end)
 
     assert [] = by_trip("1")

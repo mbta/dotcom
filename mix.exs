@@ -71,9 +71,6 @@ defmodule DotCom.Mixfile do
     [
       {:absinthe_client, "0.1.0"},
       {:benchfella, "0.3.5", [only: :dev]},
-      # latest version 2.1.0; cannot be upgraded because of errors when we use * in the url for tests
-      # rather than fixing tests and upgrading, we should convert the tests to use mox
-      {:bypass, "1.0.0", [only: :test]},
       # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},
@@ -91,6 +88,7 @@ defmodule DotCom.Mixfile do
       {:ex_aws_ses, "2.4.1"},
       {:ex_doc, "0.31.2", only: :dev},
       {:ex_machina, "2.7.0", only: :test},
+      {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.0; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
       {:faker, "0.18.0", only: :test},

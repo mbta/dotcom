@@ -166,6 +166,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "plan_error_description" do
+    @tag :external
     test "renders too_future error" do
       end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
 
@@ -178,6 +179,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert error =~ end_of_rating
     end
 
+    @tag :external
     test "renders past error" do
       end_of_rating = end_of_rating() |> Timex.format!("{M}/{D}/{YY}")
 
@@ -444,6 +446,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "format_additional_route/2" do
+    @tag :external
     test "Correctly formats Green Line route" do
       route = %Route{name: "Green Line B", id: "Green-B", direction_names: %{1 => "Eastbound"}}
       actual = route |> format_additional_route(1) |> IO.iodata_to_binary()
@@ -561,46 +564,55 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @sl_rapid_leg leg_for_route.("741")
     @sl_bus_leg leg_for_route.("751")
 
+    @tag :external
     test "shows note for subway-bus transfer" do
       note = %{@base_itinerary | legs: [@subway_leg, @bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "shows note for bus-subway transfer" do
       note = %{@base_itinerary | legs: [@bus_leg, @subway_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "shows note for bus-bus transfer" do
       note = %{@base_itinerary | legs: [@bus_leg, @other_bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "shows note for SL4-bus transfer" do
       note = %{@base_itinerary | legs: [@sl_bus_leg, @bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "shows note for SL1-bus transfer" do
       note = %{@base_itinerary | legs: [@sl_rapid_leg, @bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "shows note for express bus-subway transfer" do
       note = %{@base_itinerary | legs: [@express_bus_leg, @subway_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "shows note for express bus-local bus transfer" do
       note = %{@base_itinerary | legs: [@express_bus_leg, @bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
+    @tag :external
     test "no note when transfer involves ferry" do
       note = %{@base_itinerary | legs: [@ferry_leg, @bus_leg]} |> transfer_note
       refute note
     end
 
+    @tag :external
     test "no note when transfer involves commuter rail" do
       note = %{@base_itinerary | legs: [@cr_leg, @bus_leg]} |> transfer_note
       refute note
@@ -635,6 +647,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       refute note
     end
 
+    @tag :external
     test "no note for subway-subway transfer - handles parent stops" do
       leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "place-dwnxg"}}
       leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "place-dwnxg"}}
@@ -642,6 +655,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       refute note
     end
 
+    @tag :external
     test "no note for subway-subway transfer - handles child stops" do
       leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "70020"}}
       leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "70021"}}
@@ -707,6 +721,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       plan_datetime_selector_fields: plan_datetime_selector_fields
     }
 
+    @tag :external
     test "renders the form with all fields", %{conn: conn} do
       html =
         "_sidebar.html"
@@ -724,6 +739,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
                Floki.find(form, ~s([name="plan[date_time][minute]"]))
     end
 
+    @tag :external
     test "includes a text field for the javascript datepicker to attach to", %{conn: conn} do
       html =
         "_sidebar.html"
@@ -1315,6 +1331,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert format_mode(subway) == "Subway"
     end
 
+    @tag :external
     test "gets the highest one-way fare correctly with subway -> subway xfer" do
       subway_leg_for_route =
         &%Leg{
@@ -1440,6 +1457,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 0
     end
 
+    @tag :external
     test "shows a transfer note", %{conn: conn} do
       fares_with_transfer =
         Map.put(@fares_assigns, :itinerary, %{
@@ -1507,6 +1525,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert transfer_note == []
     end
 
+    @tag :external
     test "renders the Fare Calculator", %{conn: conn} do
       leg_for_route =
         &%Leg{

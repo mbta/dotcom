@@ -1,19 +1,21 @@
-defmodule V3Api.RoutePatterns do
+defmodule MBTA.Api.RoutePatterns do
   @moduledoc """
   Responsible for fetching Route Pattern data from the V3 API.
   """
 
   alias Routes.Route
 
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
+
   @type api_response_t() :: JsonApi.t() | {:error, any}
 
   @spec all(Keyword.t()) :: api_response_t()
   def all(params \\ []) do
-    V3Api.get_json("/route_patterns/", params)
+    @mbta_api.get_json("/route_patterns/", params)
   end
 
   @spec get(Route.id_t(), keyword()) :: api_response_t()
   def get(id, opts \\ []) do
-    V3Api.get_json("/route_patterns/#{id}", opts)
+    @mbta_api.get_json("/route_patterns/#{id}", opts)
   end
 end

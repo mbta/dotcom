@@ -4,6 +4,7 @@ defmodule DotcomWeb.ScheduleController.AlertsControllerTest do
   alias Routes.Route
 
   describe "show" do
+    @tag :external
     test "adds meta description for a line", %{conn: conn} do
       conn = get(conn, alerts_path(conn, :show, "Red"))
 

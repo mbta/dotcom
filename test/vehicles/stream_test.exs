@@ -23,7 +23,7 @@ defmodule Vehicles.StreamTest do
   setup tags do
     {:ok, mock_api} =
       GenStage.from_enumerable([
-        %V3Api.Stream.Event{event: :reset, data: @vehicles}
+        %MBTA.Api.Stream.Event{event: :reset, data: @vehicles}
       ])
 
     name = :"stream_test_#{tags.line}"
@@ -53,7 +53,7 @@ defmodule Vehicles.StreamTest do
     test "publishes :remove events as a list of IDs", %{name: name} do
       {:ok, mock_api} =
         GenStage.from_enumerable([
-          %V3Api.Stream.Event{event: :remove, data: @vehicles}
+          %MBTA.Api.Stream.Event{event: :remove, data: @vehicles}
         ])
 
       test_pid = self()

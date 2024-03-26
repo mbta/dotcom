@@ -92,6 +92,7 @@ defmodule DotcomWeb.ViewHelpersTest do
       assert link == ~s(<a href="/stops/place-sstat">South Station</a>)
     end
 
+    @tag :external
     test "given a stop ID, returns a link to that stop" do
       link =
         "place-sstat"
@@ -293,6 +294,7 @@ defmodule DotcomWeb.ViewHelpersTest do
       assert actual =~ "headsign"
     end
 
+    @tag :external
     test "uses route's direction_destination if the headsign is empty" do
       route = Repo.get("1")
 

@@ -1,7 +1,11 @@
 defmodule Schedules.RepoCondensedTest do
   use ExUnit.Case
+  @moduletag :external
+
   use Timex
+
   import Schedules.RepoCondensed
+
   alias Schedules.ScheduleCondensed
 
   describe "by_route_ids/2" do

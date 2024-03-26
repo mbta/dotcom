@@ -3,12 +3,14 @@ defmodule Fares.RetailLocationsDataTest do
   alias Fares.RetailLocations.{Data, Location}
 
   describe "Fares.RetailLocationsData" do
+    @tag :external
     test "get/1 retrieves an array of retail locations data" do
       data = Data.get()
       assert is_list(data)
       refute data == []
     end
 
+    @tag :external
     test "all locations have latitude & longitude values" do
       for %Location{latitude: lat, longitude: lng} <- Data.get() do
         assert lat > 41
@@ -20,6 +22,7 @@ defmodule Fares.RetailLocationsDataTest do
       end
     end
 
+    @tag :external
     test "build_r_tree returns a tree with all location data" do
       tree = Data.build_r_tree()
 

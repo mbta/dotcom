@@ -1,5 +1,6 @@
 defmodule OneWayTest do
   use ExUnit.Case, async: true
+  @moduletag :external
 
   alias Routes.Route
   alias Schedules.Trip

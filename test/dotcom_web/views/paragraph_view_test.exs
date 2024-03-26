@@ -918,6 +918,7 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
   end
 
   describe "setup_list_cta/2" do
+    @tag :external
     test "renders automatic CTA for news content lists", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
@@ -954,6 +955,7 @@ defmodule DotcomWeb.CMS.ParagraphViewTest do
       assert rendered =~ "/events"
     end
 
+    @tag :external
     test "renders automatic CTA for project content lists", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{

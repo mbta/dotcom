@@ -18,6 +18,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
   end
 
   describe "copy_alerts_to_s3/2" do
+    @tag :external
     test "works" do
       alert =
         Alert.new(id: "one", effect: :stop_moved, informed_entity: [%InformedEntity{stop: "1"}])
@@ -31,6 +32,7 @@ defmodule Alerts.Cache.BusStopChangeS3Test do
       refute log =~ "module=Elixir.Alerts.Cache.BusStopChangeS3 func=write_alerts alert=one"
     end
 
+    @tag :external
     test "logs if AWS has a problem" do
       # This alert ID has been configured to raise an issue in the mocked AWS module
       alert =

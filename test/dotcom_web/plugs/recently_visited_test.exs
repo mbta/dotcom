@@ -1,5 +1,7 @@
 defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
   use DotcomWeb.ConnCase, async: true
+  @moduletag :external
+
   alias DotcomWeb.Plugs.{RecentlyVisited, Cookies}
   alias Routes.Route
 

@@ -1,10 +1,13 @@
 defmodule DotcomWeb.StopControllerTest do
   use DotcomWeb.ConnCase, async: false
-  alias Routes.Route
+  @moduletag :external
+
+  import Mock
+
   alias DotcomWeb.StopController
+  alias Routes.Route
   alias Stops.Stop
   alias Util.Breadcrumb
-  import Mock
 
   test "redirects to subway stops on index", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :index))

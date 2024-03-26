@@ -1,5 +1,6 @@
 defmodule Dotcom.GreenLine.CacheTest do
   use ExUnit.Case
+  @moduletag :external
 
   import Dotcom.GreenLine.Cache
 

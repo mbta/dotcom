@@ -8,8 +8,8 @@ defmodule Routes.Repo do
   import Routes.Parser
 
   alias JsonApi
+  alias MBTA.Api.{Shapes}
   alias Routes.{Route, Shape}
-  alias V3Api.{Shapes}
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
@@ -28,7 +28,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_all(opts) do
-    result = handle_response(V3Api.Routes.all(opts))
+    result = handle_response(MBTA.Api.Routes.all(opts))
 
     for {:ok, routes} <- [result], route <- routes do
       key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :cached_get, [route.id, opts])
@@ -65,7 +65,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_get(id, opts) do
-    with %{data: [route]} <- V3Api.Routes.get(id, opts) do
+    with %{data: [route]} <- MBTA.Api.Routes.get(id, opts) do
       {:ok, parse_route(route)}
     end
   end
@@ -159,7 +159,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_by_stop(stop_id, opts) do
-    stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
+    stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end
 
   @impl Routes.RepoApi
@@ -174,7 +174,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_by_stop_and_direction(stop_id, direction_id, opts) do
-    stop_id |> V3Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
+    stop_id |> MBTA.Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
   end
 
   @impl Routes.RepoApi
@@ -199,7 +199,7 @@ defmodule Routes.Repo do
               opts: [ttl: @ttl]
             )
   def do_by_stop_with_route_pattern(opts) do
-    V3Api.Routes.all(opts)
+    MBTA.Api.Routes.all(opts)
   end
 
   @doc """
@@ -244,7 +244,7 @@ defmodule Routes.Repo do
          } = route
        ) do
     Enum.flat_map(connecting_stops, fn %JsonApi.Item{id: stop_id} ->
-      case V3Api.Routes.by_stop(stop_id) do
+      case MBTA.Api.Routes.by_stop(stop_id) do
         %JsonApi{data: data} -> data
         _ -> []
       end

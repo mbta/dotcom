@@ -13,6 +13,7 @@ defmodule Algolia.Api do
 
   @cache Application.compile_env!(:dotcom, :cache)
   @http_pool Application.compile_env!(:dotcom, :algolia_http_pool)
+  @httpoison Application.compile_env!(:dotcom, :httpoison)
   @ttl :timer.hours(12)
 
   @type action :: :post | :get
@@ -88,10 +89,10 @@ defmodule Algolia.Api do
   end
 
   def send_request(url, :post, body, config, hackney),
-    do: HTTPoison.post(url, body, headers(config), hackney: hackney)
+    do: @httpoison.post(url, body, headers(config), hackney: hackney)
 
   def send_request(url, :get, _body, config, hackney),
-    do: HTTPoison.get(url, headers(config), hackney: hackney)
+    do: @httpoison.get(url, headers(config), hackney: hackney)
 
   @spec generate_query_param_string(t) :: String.t() | nil
   defp generate_query_param_string(%{query_params: nil}), do: nil

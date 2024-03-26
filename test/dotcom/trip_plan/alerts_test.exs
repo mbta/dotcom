@@ -1,11 +1,13 @@
 defmodule Dotcom.TripPlan.AlertsTest do
-  @moduledoc false
   use ExUnit.Case, async: true
+  @moduletag :external
+
   import Dotcom.TripPlan.Alerts
   import Test.Support.Factory
-  alias TripPlan.Itinerary
+
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
+  alias TripPlan.Itinerary
 
   setup_all do
     itinerary =

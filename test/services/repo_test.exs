@@ -1,5 +1,7 @@
 defmodule Services.RepoTest do
   use ExUnit.Case
+  @moduletag :external
+
   alias Services.{Repo, Service}
 
   test "by_id fetches service by ID" do
