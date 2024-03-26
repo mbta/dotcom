@@ -73,6 +73,7 @@ defmodule DotCom.Mixfile do
       {:benchfella, "0.3.5", [only: :dev]},
       # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
+      {:configparser_ex, "4.0.0"},
       {:crc, "0.10.5"},
       # latest version 1.7.5; cannot upgrade because it causes our ci to fail
       # this version just came out in the last few days, so it might be a bug that gets fixed soon
