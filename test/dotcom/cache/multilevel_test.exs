@@ -46,4 +46,18 @@ defmodule Dotcom.Cache.MultilevelTest do
       assert @cache.get("bar|foo") == "baz"
     end
   end
+
+  test "deletes a single key when not given an asterisk" do
+    @cache.put("foo|bar", "baz")
+    @cache.put("foo|baz", "bar")
+    @cache.put("bar|foo", "baz")
+
+    key = "foo|bar"
+
+    assert Dotcom.Cache.Multilevel.flush_keys(key) == :ok
+
+    assert @cache.get("foo|bar") == nil
+    assert @cache.get("foo|baz") == "bar"
+    assert @cache.get("bar|foo") == "baz"
+  end
 end

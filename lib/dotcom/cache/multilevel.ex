@@ -35,6 +35,29 @@ defmodule Dotcom.Cache.Multilevel do
   @redix Application.compile_env!(:dotcom, :redix)
 
   @doc """
+  If the pattern contains an asterisk, we flush multiple keys.
+  We have to do so by scanning Redis for all keys that match the pattern.
+
+  If the pattern is just a single key, we can flush it directly.
+  """
+  def flush_keys(pattern \\ "*") do
+    if String.contains?(pattern, "*") do
+      flush_multiple_keys(pattern)
+    else
+      flush_single_key(pattern)
+    end
+  end
+
+  @doc """
+  Flush a single key from the cache.
+
+  This is especially helpful when the key doesn't exist in Redis, but does in the Local cache.
+  """
+  def flush_single_key(key) do
+    @cache.delete(key)
+  end
+
+  @doc """
   Delete all entries where the key matches the pattern.
 
   First, we make sure we can get a connection to Redis.
@@ -47,7 +70,7 @@ defmodule Dotcom.Cache.Multilevel do
   Finally, we delete all the keys with the default delete/1 function.
   That way we'll delete from the Local, Redis, and publish the delete on the Publisher.
   """
-  def flush_keys(pattern \\ "*") do
+  def flush_multiple_keys(pattern) do
     case Application.get_env(:dotcom, :redis_config) |> @redix.start_link() do
       {:ok, conn} -> (delete_from_nodes(conn, pattern) ++ [@redix.stop(conn)]) |> all_ok()
       {:error, _} -> :error
