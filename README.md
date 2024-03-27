@@ -164,13 +164,13 @@ When you're done with it:
 ```
 ./utils/create-cluster/create-cluster stop
 cd $HOME
-rm 7.2.tar.gz
+rm 7.2.4.tar.gz
 rm -rf redis-7.2.4
 ```
 
-Start the server with `mix phx.server`
+Start the server with `iex -S mix phx.server`
 
-Then, visit the site at http://localhost:4001/
+Then, visit the site at http://localhost:4001.
 
 ## Algolia
 

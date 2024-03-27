@@ -10,6 +10,8 @@ services:
             - redis-cluster-init
         environment:
             - MIX_ENV=dev
+            - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
         expose:
             - 4001
         ports:
