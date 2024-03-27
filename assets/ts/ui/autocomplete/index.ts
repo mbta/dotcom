@@ -45,7 +45,7 @@ function setupAlgoliaAutocomplete(wrapper: HTMLElement): void {
   );
   if (!container || !panelContainer) throw new Error("container needed");
   const options: AutocompleteOptions<Item> = {
-    id: container.id,
+    id: container.id || "search",
     container,
     panelContainer,
     detachedMediaQuery: "none",
