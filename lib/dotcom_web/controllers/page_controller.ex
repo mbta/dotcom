@@ -48,8 +48,11 @@ defmodule DotcomWeb.PageController do
   @spec fares(map) :: Paragraph.t() | nil
   defp fares(query_params) do
     case Repo.get_paragraph("paragraphs/multi-column/homepage-fares", query_params) do
-      {:error, _} -> nil
-      result -> result
+      {:error, _} ->
+        nil
+
+      %{columns: columns} = result ->
+        if Enum.all?(columns, &(&1.paragraphs == [])), do: nil, else: result
     end
   end
 

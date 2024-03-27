@@ -31,6 +31,18 @@ defmodule CMS.Field.Image do
     }
   end
 
+  def from_api(%{"url" => url} = data) do
+    %__MODULE__{
+      url: rewrite_url(url),
+      alt: "",
+      caption: data |> field_value("field_image_caption") |> handle_caption()
+    }
+  end
+
+  def from_api(_) do
+    %__MODULE__{}
+  end
+
   @spec handle_caption(String.t() | nil) :: HTML.safe() | nil
   defp handle_caption(nil), do: nil
   defp handle_caption(caption), do: handle_html(caption)

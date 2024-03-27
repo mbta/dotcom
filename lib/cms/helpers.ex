@@ -3,6 +3,8 @@ defmodule CMS.Helpers do
   Various helper functions that aid in parsing CMS JSON data.
   """
 
+  require Logger
+
   alias CMS.API
   alias CMS.Config
   alias CMS.CustomHTML5Scrubber
@@ -195,10 +197,15 @@ defmodule CMS.Helpers do
   # Reusable paragraphs are not directly renderable since they act as instance containers.
   # However, these instances can be unpublished. If unpublished, stop and return false.
   # If published, continue checking the nested child paragraph for publish status.
-  defp show_paragraph?(%{"field_reusable_paragraph" => [child]} = parent, preview_opts) do
-    %{"status" => [parent_status]} = parent
-    %{"paragraphs" => [paragraph]} = child
-
+  defp show_paragraph?(
+         %{
+           "status" => [parent_status],
+           "field_reusable_paragraph" => [
+             %{"paragraphs" => [paragraph]}
+           ]
+         },
+         preview_opts
+       ) do
     case parent_status do
       %{"value" => false} -> false
       _ -> show_paragraph?(paragraph, preview_opts)
@@ -210,8 +217,18 @@ defmodule CMS.Helpers do
     true
   end
 
+  defp show_paragraph?(%{"type" => [%{"target_id" => "from_library"}]}, _), do: false
+
   defp show_paragraph?(%{"status" => [%{"value" => value}]}, _) do
     value
+  end
+
+  defp show_paragraph?(data, _) do
+    Logger.warning(
+      "CMS.Helpers.show_paragraph? unsupported paragraph data: #{Kernel.inspect(data)}"
+    )
+
+    false
   end
 
   @spec rewrite_static_file_links(String.t()) :: String.t()
