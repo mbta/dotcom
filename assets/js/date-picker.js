@@ -70,7 +70,7 @@ export default function($) {
 
   // events
   setupDatePicker();
-  document.addEventListener("turbolinks:load", displayOnLoad, {
+  window.addEventListener("load", displayOnLoad, {
     passive: true
   });
 }

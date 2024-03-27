@@ -1,7 +1,7 @@
 const ITEM_SELECTOR = "js-toggle-alert";
 
 export const onload = () =>
-  document.addEventListener("turbolinks:load", addAlertItemEventHandlers, {
+  window.addEventListener("load", addAlertItemEventHandlers, {
     passive: true
   });
 

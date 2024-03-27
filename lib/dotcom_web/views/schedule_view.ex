@@ -149,7 +149,7 @@ defmodule DotcomWeb.ScheduleView do
         url = static_url(DotcomWeb.Endpoint, pdf.path)
 
         content_tag :div, class: "schedules-pdf-link" do
-          link(to: url, target: "_blank", data: [turbolinks: "false"]) do
+          link(to: url, target: "_blank") do
             text_for_route_pdf(pdf, route, today, all_current?)
           end
         end

@@ -122,7 +122,7 @@ const setUp = () => {
 };
 
 export default () => {
-  document.addEventListener("turbolinks:load", setUp, {
+  window.addEventListener("load", setUp, {
     passive: true
   });
 };

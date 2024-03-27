@@ -5,8 +5,8 @@ import * as QueryHelpers from "../ts/helpers/query";
 
 export function init() {
   const search = new AlgoliaGlobalSearch();
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       search.init();
     },
@@ -76,7 +76,7 @@ export class AlgoliaGlobalSearch {
     );
     window.jQuery(document).on("keyup", `#${inputField.id}`, this.onKeyup);
 
-    document.addEventListener("turbolinks:before-render", () => {
+    document.addEventListener("DOMContentLoaded", () => {
       window.jQuery(document).off("keyup", `#${inputField.id}`, this.onKeyup);
     });
   }

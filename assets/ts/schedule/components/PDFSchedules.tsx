@@ -12,7 +12,6 @@ const link = (pdf: SchedulePDF): ReactElement<HTMLElement> => (
     href={pdf.url}
     rel="noopener noreferrer"
     target="_blank"
-    data-turbolinks="false"
     className="m-schedule-page__sidebar-pdfs"
   >
     {renderSvg("c-svg__icon-pdf", pdfIcon)}

@@ -79,7 +79,7 @@ export class AlgoliaEmbeddedSearch {
   }
 
   onClickGoBtn() {
-    return window.Turbolinks.visit(`/search${this.buildSearchParams()}`);
+    return window.location.assign(`/search${this.buildSearchParams()}`);
   }
 
   indexNames() {
@@ -115,7 +115,7 @@ export const initWithoutGoogle = () => {
 export const init = () => {
   PAGE_IDS.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
-    document.addEventListener("turbolinks:load", () => {
+    window.addEventListener("load", () => {
       new AlgoliaEmbeddedSearch({
         pageId,
         selectors,

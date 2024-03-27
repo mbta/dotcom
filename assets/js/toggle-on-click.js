@@ -1,7 +1,7 @@
 export default function($) {
   $ = $ || window.jQuery;
 
-  $(document).on("turbolinks:load", function() {
+  $(document).on("load", function() {
     $("[toggle-element-collapse]").addClass("collapse");
   });
   $(document).on("click", "[data-toggle-collapse]", function() {

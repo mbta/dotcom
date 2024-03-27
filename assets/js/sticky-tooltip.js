@@ -87,8 +87,8 @@ export default function($) {
     $(".tooltip").remove();
   }
 
-  document.addEventListener("turbolinks:before-cache", clearTooltips, {
+  document.addEventListener("DOMContentLoaded", clearTooltips, {
     passive: true
   });
-  document.addEventListener("turbolinks:load", initTooltip, { passive: true });
+  window.addEventListener("load", initTooltip, { passive: true });
 }

@@ -115,13 +115,13 @@ const setupChannels = (): void => {
     });
   };
 
-  document.addEventListener("turbolinks:load", joinAllChannels);
+  window.addEventListener("load", joinAllChannels);
 
   // leave subscribed channels when navigating away from a page.
   const leaveAllChannels = (): void => {
     Object.keys(window.channels).forEach(id => leaveChannel(id));
   };
-  document.addEventListener("turbolinks:before-render", leaveAllChannels);
+  document.addEventListener("DOMContentLoaded", leaveAllChannels);
 };
 
 export { joinChannel, leaveChannel };

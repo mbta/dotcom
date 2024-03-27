@@ -4,7 +4,7 @@ export default function(
   navigator = window.navigator
 ) {
   if ("geolocation" in navigator) {
-    doc.addEventListener("turbolinks:before-visit", beforeVisit($), {
+    doc.addEventListener("DOMContentLoaded", beforeVisit($), {
       passive: true
     });
     $(document).on(

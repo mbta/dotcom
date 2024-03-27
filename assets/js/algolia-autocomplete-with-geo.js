@@ -195,7 +195,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
       addFilterParam(params, window.location.pathname),
       window.encodeURIComponent
     );
-    window.Turbolinks.visit(`/transit-near-me${qs}`);
+    window.location.assign(`/transit-near-me${qs}`);
   }
 }
 

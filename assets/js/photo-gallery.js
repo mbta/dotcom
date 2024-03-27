@@ -4,7 +4,7 @@ const PAGE_SIZE = 10;
 
 export default function photoGallery($) {
   $ = $ || window.jQuery;
-  document.addEventListener("turbolinks:load", () => handlePageLoad($), {
+  window.addEventListener("load", () => handlePageLoad($), {
     passive: true
   });
 

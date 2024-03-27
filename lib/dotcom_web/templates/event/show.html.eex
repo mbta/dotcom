@@ -32,7 +32,7 @@
               <h3>Related Files</h3>
               <%= if @event.agenda_file do %>
                 <div>
-                  <%= link to: @event.agenda_file.url, target: "_blank", data: [turbolinks: false] do %>
+                  <%= link to: @event.agenda_file.url, target: "_blank" do %>
                     <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
                     <%= file_description(@event.agenda_file) %>
                   <% end %>
@@ -40,7 +40,7 @@
               <% end %>
               <%= if @event.minutes_file do %>
                 <div>
-                  <%= link to: @event.minutes_file.url, target: "_blank", data: [turbolinks: false] do %>
+                  <%= link to: @event.minutes_file.url, target: "_blank" do %>
                     <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
                     <%= file_description(@event.minutes_file) %>
                   <% end %>
@@ -49,7 +49,7 @@
               <%= unless Enum.empty?(@event.files) do %>
                 <%= for file <- @event.files do %>
                   <div>
-                    <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
+                    <%= link to: file.url, target: "_blank" do %>
                       <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
                       <%= file_description(file) %>
                     <% end %>
@@ -102,8 +102,7 @@
               <span class="event-info-label">Date:</span> <%= render_duration(@event.start_time, @event.end_time) %>
             </div>
             <div class="event-inline-block">
-              <%= link to: event_icalendar_path(@conn, :show, @event),
-                data: [turbolinks: false] do %>
+              <%= link to: event_icalendar_path(@conn, :show, @event) do %>
                 <%= fa "calendar" %> Add to Calendar
               <% end %>
             </div>
@@ -143,7 +142,7 @@
               <div class="page-section">
                 <h3>Agenda</h3>
                 <div>
-                  <%= link to: @event.agenda_file.url, target: "_blank", data: [turbolinks: false] do %>
+                  <%= link to: @event.agenda_file.url, target: "_blank" do %>
                     <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
                     <%= file_description(@event.agenda_file) %>
                   <% end %>
@@ -155,7 +154,7 @@
               <div class="page-section">
                 <h3>Minutes</h3>
                 <div>
-                  <%= link to: @event.minutes_file.url, target: "_blank", data: [turbolinks: false] do %>
+                  <%= link to: @event.minutes_file.url, target: "_blank" do %>
                     <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
                     <%= file_description(@event.minutes_file) %>
                   <% end %>
@@ -168,7 +167,7 @@
                 <h3>Related Files</h3>
                 <%= for file <- @event.files do %>
                   <div>
-                    <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
+                    <%= link to: file.url, target: "_blank" do %>
                       <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
                       <%= file_description(file) %>
                     <% end %>
