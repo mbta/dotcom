@@ -1,6 +1,20 @@
 version: "3"
 services:
-    dotcom:
+    nginx:
+        image: nginx:stable-alpine3.17-slim
+        depends_on:
+            - dotcom-1
+            - dotcom-2
+        volumes:
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        expose:
+            - 4001
+        ports:
+            - "4001:4001"
+        networks:
+            dotcom_network:
+                ipv4_address: 10.0.0.1
+    dotcom-1:
         build:
             context: ../
             dockerfile: ./deploy/dotcom/dev/Dockerfile
@@ -12,26 +26,56 @@ services:
             - MIX_ENV=dev
             - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
             - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            - PORT=4002
+            - WEBPACK_PORT=8092
         expose:
-            - 4001
+            - 4002
         ports:
-            - 4001:4001
-            - 8090:8090
+            - 4002:4002
+            - 8092:8092
         volumes:
             - ../:/app
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.2
+    dotcom-2:
+        build:
+            context: ../
+            dockerfile: ./deploy/dotcom/dev/Dockerfile
+        depends_on:
+            - redis-cluster-init
+        env_file:
+            - ../.env
+        environment:
+            - MIX_ENV=dev
+            - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+            - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+            - PORT=4003
+            - WEBPACK_PORT=8093
+        expose:
+            - 4003
+        ports:
+            - 4003:4003
+            - 8093:8093
+        volumes:
+            - ../:/app
+        networks:
+            dotcom_network:
+                ipv4_address: 10.0.0.3
     monitor:
         build:
             context: ../
             dockerfile: ./deploy/monitor/Dockerfile
+        depends_on:
+            - nginx
         env_file:
             - ../.env
+        environment:
+            - DOTCOM_URL=http://10.0.0.1:4001
         command: node /home/runner/integration/monitor/all-health-checks.js
         networks:
-            redis_network:
-                ipv4_address: 10.0.0.3
+            dotcom_network:
+                ipv4_address: 10.0.0.4
     redis-cluster-init:
         image: redis:7.2.4
         command: redis-cli --cluster create 10.0.0.11:6379 10.0.0.12:6379 10.0.0.13:6379 10.0.0.14:6379 10.0.0.15:6379 10.0.0.16:6379 --cluster-replicas 1 --cluster-yes
@@ -49,7 +93,7 @@ services:
             redis-6: 
                 condition: service_healthy
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.10
     redis-1: &redis
         build:
@@ -63,47 +107,47 @@ services:
         environment:
             - CLUSTER_ANNOUNCE_IP=10.0.0.11
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.11
     redis-2:
         <<: *redis
         environment:
             - CLUSTER_ANNOUNCE_IP=10.0.0.12
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.12
     redis-3:
         <<: *redis
         environment:
             - CLUSTER_ANNOUNCE_IP=10.0.0.13
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.13
     redis-4:
         <<: *redis
         environment:
             - CLUSTER_ANNOUNCE_IP=10.0.0.14
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.14
     redis-5:
         <<: *redis
         environment:
             - CLUSTER_ANNOUNCE_IP=10.0.0.15
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.15
     redis-6:
         <<: *redis
         environment:
             - CLUSTER_ANNOUNCE_IP=10.0.0.16
         networks:
-            redis_network:
+            dotcom_network:
                 ipv4_address: 10.0.0.16
 networks:
-    redis_network:
+    dotcom_network:
         driver: bridge
         ipam:
             config:
-                - subnet: 10.0.0.0/8
-                  gateway: 10.0.0.1
+                - subnet: 10.0.0.0/24
+                  gateway: 10.0.0.0
