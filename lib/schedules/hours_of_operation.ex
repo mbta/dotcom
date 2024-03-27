@@ -483,18 +483,19 @@ defmodule Schedules.HoursOfOperation do
   def departure_overall(data, headsigns, :rapid_transit) do
     departures = departure(data, headsigns, :rapid_transit)
 
-    if Enum.empty?(departures) do
+    departures_filtered =
+      Enum.filter(departures, fn x ->
+        x.first_departure != x.last_departure
+      end)
+
+    if Enum.empty?(departures_filtered) do
       :no_service
     else
       first_departure =
-        if Enum.empty?(departures),
-          do: nil,
-          else: Enum.min_by(departures, &DateTime.to_unix(&1.first_departure, :nanosecond))
+        Enum.min_by(departures_filtered, &DateTime.to_unix(&1.first_departure, :nanosecond))
 
       last_departure =
-        if Enum.empty?(departures),
-          do: nil,
-          else: Enum.min_by(departures, &DateTime.to_unix(&1.last_departure, :nanosecond))
+        Enum.min_by(departures_filtered, &DateTime.to_unix(&1.last_departure, :nanosecond))
 
       %Departures{
         first_departure: first_departure.first_departure,
