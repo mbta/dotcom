@@ -1,7 +1,7 @@
 const { status200 } = require("../utils");
 
 const options = {
-  baseURL: process.env.HOST ? `https://${process.env.HOST}` : 'http://localhost:4001',
+  baseURL: process.env.HOST ? `https://${process.env.HOST}` : process.env.DOTCOM_URL,
   url: "/_health",
 };
 

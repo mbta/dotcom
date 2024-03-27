@@ -1,1 +1,1 @@
-deploy/dotcom/Dockerfile
+deploy/dotcom/prod/Dockerfile
