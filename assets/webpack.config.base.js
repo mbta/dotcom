@@ -93,6 +93,10 @@ module.exports = {
                   params: {
                     "attrs": ["id"]
                   }
+                },
+                {
+                  name: "sortAttrs",
+                  active: false
                 }
               ]
             }
@@ -119,7 +123,8 @@ module.exports = {
               postcssOptions: {
                 plugins: [
                   postcssPresetEnv({
-                    autoprefixer: { grid: true }
+                    autoprefixer: { grid: true },
+                    enableClientSidePolyfills: true
                   })
                 ]
               }
