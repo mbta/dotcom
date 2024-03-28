@@ -77,8 +77,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        include: path.resolve(__dirname, 'static/'),
-        exclude: [path.resolve(__dirname, 'static/fonts/')],
+        include: path.resolve(__dirname, "../priv/static/icon-svg"),
         use: [
           { loader: "svg-inline-loader" },
           {

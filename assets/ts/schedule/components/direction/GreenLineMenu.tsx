@@ -7,13 +7,13 @@ import { DirectionId, EnhancedRoute } from "../../../__v3api";
 import { MenuAction, toggleRoutePatternMenuAction } from "./reducer";
 import renderSvg from "../../../helpers/render-svg";
 import handleNavigation from "./menu-helpers";
-import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
-import checkIcon from "../../../../static/images/icon-checkmark.svg";
-import iconGreenB from "../../../../static/images/icon-green-line-b-small.svg";
-import iconGreenC from "../../../../static/images/icon-green-line-c-small.svg";
-import iconGreenD from "../../../../static/images/icon-green-line-d-small.svg";
-import iconGreenE from "../../../../static/images/icon-green-line-e-small.svg";
-import iconGreen from "../../../../static/images/icon-green-line-small.svg";
+import arrowIcon from "../../../../../priv/static/icon-svg/icon-down-arrow.svg";
+import checkIcon from "../../../../../priv/static/icon-svg/icon-checkmark.svg";
+import iconGreenB from "../../../../../priv/static/icon-svg/icon-green-line-b-small.svg";
+import iconGreenC from "../../../../../priv/static/icon-svg/icon-green-line-c-small.svg";
+import iconGreenD from "../../../../../priv/static/icon-svg/icon-green-line-d-small.svg";
+import iconGreenE from "../../../../../priv/static/icon-svg/icon-green-line-e-small.svg";
+import iconGreen from "../../../../../priv/static/icon-svg/icon-green-line-small.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

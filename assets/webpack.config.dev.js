@@ -22,7 +22,7 @@ module.exports = env =>
         "Access-Control-Allow-Origin": "*"
       },
       devMiddleware: {
-        writeToDisk: path => /\.css$/.test(path)
+        writeToDisk: true
       },
       static: {
         directory: path.resolve(__dirname, "../priv/static/")

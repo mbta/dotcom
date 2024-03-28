@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
 import renderSvg from "../../../helpers/render-svg";
-import checkIcon from "../../../../static/images/icon-checkmark.svg";
+import checkIcon from "../../../../../priv/static/icon-svg/icon-checkmark.svg";
 import { SimpleStop, SelectedOrigin } from "../__schedule";
 
 interface OriginListItemProps {

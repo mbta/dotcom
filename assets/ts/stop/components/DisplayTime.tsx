@@ -26,7 +26,7 @@
 import React, { ReactElement } from "react";
 import { differenceInSeconds, secondsInHour } from "date-fns";
 import { DepartureInfo } from "../../models/departureInfo";
-import realtimeIcon from "../../../static/images/icon-realtime-tracking.svg";
+import realtimeIcon from "../../../../priv/static/icon-svg/icon-realtime-tracking.svg";
 import SVGIcon from "../../helpers/render-svg";
 import {
   departureInfoToTime,

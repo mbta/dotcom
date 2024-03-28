@@ -3,10 +3,10 @@ import { Alert as AlertType } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
 import renderSVG from "../helpers/render-svg";
-import shuttleIcon from "../../static/images/icon-shuttle-default.svg";
-import cancelIcon from "../../static/images/icon-cancelled-default.svg";
-import snowIcon from "../../static/images/icon-snow-default.svg";
-import alertIcon from "../../static/images/icon-alerts-triangle.svg";
+import shuttleIcon from "../../../priv/static/icon-svg/icon-shuttle-default.svg";
+import cancelIcon from "../../../priv/static/icon-svg/icon-cancelled-default.svg";
+import snowIcon from "../../../priv/static/icon-svg/icon-snow-default.svg";
+import alertIcon from "../../../priv/static/icon-svg/icon-alerts-triangle.svg";
 import { formatToBostonTime } from "../helpers/date";
 
 interface Props {
