@@ -33,6 +33,8 @@ ARG SENTRY_DSN=""
 
 # copy in Elixir deps required to build node modules for Phoenix
 COPY --from=elixir-builder /root/deps /root/deps
+# copy in static assets
+COPY --from=elixir-builder /root/priv/static /root/priv/static
 
 ADD ./assets /root/assets
 
