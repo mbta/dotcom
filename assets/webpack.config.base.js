@@ -6,7 +6,6 @@ const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
-const sass = require("sass");
 
 const babelLoader = {
   loader: "babel-loader",
@@ -65,13 +64,17 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        include: path.resolve(__dirname, 'ts/'),
-        exclude: [/__tests__/, path.resolve(__dirname, "ts/coverage"), path.resolve(__dirname, "ts/ts-build/")],
+        include: path.resolve(__dirname, "ts/"),
+        exclude: [
+          /__tests__/,
+          path.resolve(__dirname, "ts/coverage"),
+          path.resolve(__dirname, "ts/ts-build/")
+        ],
         use: [babelLoader, tsLoader]
       },
       {
         test: /\.(js)$/,
-        include: path.resolve(__dirname, 'js/'),
+        include: path.resolve(__dirname, "js/"),
         exclude: [path.resolve(__dirname, "js/test/")],
         use: babelLoader
       },
@@ -86,12 +89,12 @@ module.exports = {
               plugins: [
                 {
                   name: "removeTitle",
-                  active: "false"
+                  active: false
                 },
                 {
                   name: "removeAttrs",
                   params: {
-                    "attrs": ["id"]
+                    attrs: ["id"]
                   }
                 },
                 {
@@ -105,7 +108,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        include: path.resolve(__dirname, 'css/'),
+        include: path.resolve(__dirname, "css/"),
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -154,8 +157,8 @@ module.exports = {
         terserOptions: {
           ecma: 5,
           format: {
-            comments: false,
-          },
+            comments: false
+          }
         },
         extractComments: false
       }),
@@ -164,10 +167,10 @@ module.exports = {
           preset: [
             "default",
             {
-              discardComments: { removeAll: true },
-            },
-          ],
-        },
+              discardComments: { removeAll: true }
+            }
+          ]
+        }
       })
     ]
   },
@@ -175,9 +178,15 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        { from: "static/**/*", to: "../../" },
-        { from: "node_modules/focus-visible/dist/focus-visible.min.js", to: "../js" },
-        { from: "node_modules/smoothscroll-polyfill/dist/smoothscroll.min.js", to: "../js" },
+        { from: "static/**/*", to: "../.." },
+        {
+          from: "node_modules/focus-visible/dist/focus-visible.min.js",
+          to: "../js"
+        },
+        {
+          from: "node_modules/smoothscroll-polyfill/dist/smoothscroll.min.js",
+          to: "../js"
+        }
       ]
     }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),

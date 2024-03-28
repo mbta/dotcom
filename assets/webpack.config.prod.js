@@ -1,7 +1,7 @@
 const path = require("path");
 const { merge } = require("webpack-merge");
-const base = require("./webpack.config.base");
 const webpack = require("webpack");
+const base = require("./webpack.config.base");
 
 module.exports = env =>
   merge(base, {

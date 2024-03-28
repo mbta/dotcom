@@ -38,7 +38,7 @@ ADD ./assets /root/assets
 
 WORKDIR /root/assets
 RUN npm ci --ignore-scripts
-# Create priv/static
+# Compile JS/CSS, copy images and fonts to priv/static
 RUN npm run webpack:build -- --env SENTRY_DSN=$SENTRY_DSN
 # Create react_renderer/dist/app.js
 RUN npm run webpack:build:react
@@ -48,7 +48,7 @@ FROM elixir-builder as app-builder
 
 WORKDIR /root
 
-# Add frontend assets compiled in the node container, required by phx.digest
+# Add frontend assets, required by phx.digest
 COPY --from=assets-builder /root/priv/static ./priv/static
 
 # re-compile the application after the assets are copied, since some of them

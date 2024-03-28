@@ -28,11 +28,11 @@ module.exports = env =>
         directory: path.resolve(__dirname, "../priv/static/")
       },
       watchFiles: {
-        paths: ['ts/**/*', 'js/**/*', 'css/**/*', 'vendor/**/*'],
+        paths: ["ts/**/*", "js/**/*", "css/**/*", "vendor/**/*"],
         options: {
           usePolling: false,
           ignored: "/node_modules/"
-        },
+        }
       },
       client: {
         logging: "warn",
