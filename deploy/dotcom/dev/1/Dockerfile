@@ -16,7 +16,5 @@ RUN mix local.rebar --force
 
 CMD mix deps.get \
     && npm install --no-save \
-    && npm run build \
-    && mix phx.digest \
     && npm install --ignore-scripts --no-save \
     && elixir --sname dotcom1 --cookie foobarbaz -S mix phx.server

@@ -25,6 +25,5 @@ runs:
   - name: Compile application (if needed)
     shell: bash
     run: |
-      MIX_ENV=test mix compile.assets
       MIX_ENV=test mix compile --all-warnings
     if: steps.build-cache.outputs.cache-hit != 'true'

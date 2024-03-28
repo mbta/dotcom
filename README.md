@@ -110,16 +110,6 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
 
     Minor note - you may see a prompt to upgrade `npm`. This isn't needed, and `"lockfileVersion": 1` in our `assets/package-lock.json` file means it was generated with an `npm` version prior to 7.
 
-1.  Build the project:
-    ```
-    npm run build
-    ```
-    * If this fails try adding the following line to `defp deps` section in `mix.exs`:
-    ```
-    {:fs, git: "https://github.com/synrc/fs.git", override: true}
-    ```
-
-  `npm run build` does several things: builds the Phoenix application assets, builds all the front-end assets, and then compiles the entire Elixir application.
 
 1. Set up required environment variables:
     ```
