@@ -2,7 +2,6 @@
 
 exports[`Algolia v1 autocomplete matches snapshot 1`] = `
 <div
-  data-turbolinks-permanent=""
   id="test-autocomplete"
 >
   

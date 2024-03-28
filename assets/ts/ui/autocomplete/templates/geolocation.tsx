@@ -18,7 +18,7 @@ const goToPositionURL = async (
     result: WithUrls<typeof latlon>;
   }>(`/places/urls?${params.toString()}`);
   const url = result.urls[urlType];
-  if (url) window.Turbolinks.visit(url);
+  if (url) window.location.assign(url);
 };
 
 function GeolocationComponent(props: {

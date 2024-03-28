@@ -67,7 +67,7 @@ export const SUBMIT_HANDLERS: Record<
   (props: OnSubmitParams<Item>) => void
 > = {
   to_search_page({ state }) {
-    window.Turbolinks.visit(`/search?query=${state.query}`);
+    window.location.assign(`/search?query=${state.query}`);
   }
 };
 

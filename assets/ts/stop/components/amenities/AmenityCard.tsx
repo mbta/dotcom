@@ -37,7 +37,7 @@ export const AmenityLink = ({
   text: string;
 }): JSX.Element => (
   <p>
-    <a href={url} className="c-call-to-action" data-turbolinks="false">
+    <a href={url} className="c-call-to-action">
       {text}
     </a>
   </p>

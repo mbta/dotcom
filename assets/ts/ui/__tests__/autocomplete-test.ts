@@ -3,7 +3,6 @@ import { within } from "@testing-library/dom";
 
 const body = `
   <div
-    data-turbolinks-permanent
     id="test-autocomplete"
   >
    <div class="c-search-bar__autocomplete"

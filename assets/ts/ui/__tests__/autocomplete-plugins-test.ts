@@ -202,7 +202,7 @@ describe("Algolia v1 plugins", () => {
         )
       };
       (global as any).navigator.geolocation = mockGeolocation;
-      (global as any).Turbolinks = { visit: jest.fn() };
+      (global as any).location = { assign: jest.fn() };
     });
 
     test("return source defining template", async () => {
@@ -266,7 +266,7 @@ describe("Algolia v1 plugins", () => {
         expect(
           window.navigator.geolocation.getCurrentPosition
         ).toHaveBeenCalled();
-        expect(window.Turbolinks.visit).toHaveBeenCalledWith(
+        expect(window.location.assign).toHaveBeenCalledWith(
           "/retail/51.1/45.3"
         );
       });

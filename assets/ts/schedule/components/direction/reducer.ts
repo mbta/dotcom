@@ -65,10 +65,6 @@ const updateDirectionAndVariantInURL = (
     "schedule_direction[variant]": routePatternId
   };
   const newLoc = updateInLocation(query, window.location);
-  // Turbolinks and react router do not get along.  Setting the state to the existing turbo links state
-  // allows navigation between the stop page and the schedule page.  Though an error is breifly seen
-  // before the full resolution
-  // newLoc is not a true Location, so toString doesn't work
   window.history.replaceState(
     window.history.state,
     "",

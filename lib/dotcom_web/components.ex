@@ -105,7 +105,6 @@ defmodule DotcomWeb.Components do
     ~H"""
     <div
       phx-hook="AlgoliaAutocomplete"
-      data-turbolinks-permanent
       id={@id}
     >
       <div
