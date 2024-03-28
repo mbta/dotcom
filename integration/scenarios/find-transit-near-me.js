@@ -7,8 +7,7 @@ exports.scenario = async ({ page, baseURL }) => {
     .locator("input#search-transit-near-me__input")
     .pressSequentially("Boston City Hall");
   await page.waitForSelector("div.c-search-bar__-dataset-locations");
-  await page.keyboard.press("ArrowDown");
-  await page.keyboard.press("Enter");
+  await page.locator("a.c-search-result__link").first().click();
 
   await page.waitForSelector("div.m-tnm-sidebar__route");
   await expect
