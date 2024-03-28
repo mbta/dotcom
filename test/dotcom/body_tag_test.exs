@@ -3,7 +3,7 @@ defmodule Dotcom.BodyTagTest do
   import Dotcom.BodyTag
   import Phoenix.ConnTest, only: [build_conn: 0]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Plug.Conn, only: [put_req_header: 3, put_private: 3]
+  import Plug.Conn, only: [put_req_header: 3]
 
   describe "render/1" do
     test "returns mticket if the requisite header is present" do
