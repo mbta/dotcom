@@ -166,7 +166,6 @@ defmodule DotcomWeb.ModeView do
           type |> MapHelpers.image() |> img_tag(class: "m-mode-hub__map-image")
         ],
         to: MapHelpers.map_pdf_url(type)
-
       )
     ])
   end
