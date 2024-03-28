@@ -67,8 +67,7 @@ const ModalContent = ({
       passive: true
     });
 
-    return () =>
-      document.removeEventListener("DOMContentLoaded", closeModal);
+    return () => document.removeEventListener("DOMContentLoaded", closeModal);
   }, [closeModal]);
 
   useLayoutEffect(() => {
