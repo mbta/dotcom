@@ -483,6 +483,8 @@ defmodule Schedules.HoursOfOperation do
   def departure_overall(data, headsigns, :rapid_transit) do
     departures = departure(data, headsigns, :rapid_transit)
 
+    # Remove single trip schedules (have the same first_departure and last_departure)
+    # from the overall calculation
     departures_filtered =
       Enum.filter(departures, fn x ->
         x.first_departure != x.last_departure
