@@ -202,7 +202,11 @@ describe("Algolia v1 plugins", () => {
         )
       };
       (global as any).navigator.geolocation = mockGeolocation;
-      (global as any).location = { assign: jest.fn() };
+      Object.defineProperty(window, "location", {
+        value: {
+          assign: jest.fn()
+        }
+      });
     });
 
     test("return source defining template", async () => {
