@@ -33,9 +33,11 @@ describe("AlgoliaEmbeddedSearch", () => {
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.encodeURIComponent = str => str;
-    window.location = {
-      assign: sinon.spy()
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: sinon.spy()
+      }
+    });
   });
 
   describe("constructor", () => {

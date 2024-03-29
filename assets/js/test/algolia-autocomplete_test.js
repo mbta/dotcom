@@ -43,9 +43,11 @@ describe("AlgoliaAutocomplete", () => {
     `;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.jQuery = jsdom.rerequire("jquery");
-    window.location = {
-      assign: sinon.spy()
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: sinon.spy()
+      }
+    });
     window.encodeURIComponent = string =>
       string.replace(/\s/g, "%20").replace(/&/g, "%26");
   });

@@ -14,9 +14,11 @@ describe("HomepageSearch", () => {
     window.$ = window.jQuery;
     window.autocomplete = jsdom.rerequire("autocomplete.js");
     window.encodeURIComponent = str => str;
-    window.location = {
-      assign: sinon.spy()
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: sinon.spy()
+      }
+    });
 
     const selectors = buildSelectors("search-homepage");
 

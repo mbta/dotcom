@@ -22,9 +22,11 @@ describe("AlgoliaResults", () => {
       <div id="search-results"></div>
     `;
     window.jQuery = jsdom.rerequire("jquery");
-    window.location = {
-      assign: sinon.spy()
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: sinon.spy()
+      }
+    });
     window.encodeURIComponent = string => {
       return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
     };
