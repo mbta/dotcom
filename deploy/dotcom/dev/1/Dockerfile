@@ -14,4 +14,4 @@ COPY assets/package.json ./assets/package.json
 RUN mix local.hex --force
 RUN mix local.rebar --force
 
-CMD mix deps.get && npm install && npm run build && mix phx.digest && npm install --ignore-scripts && mix phx.server
+CMD mix deps.get && npm install --no-save && npm run build && mix phx.digest && npm install --ignore-scripts --no-save && mix phx.server
