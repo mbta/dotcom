@@ -1,5 +1,5 @@
 export default () => {
-  document.addEventListener("turbolinks:load", scrollTo, { passive: true });
+  window.addEventListener("load", scrollTo, { passive: true });
 };
 
 const scrollTo = () => {

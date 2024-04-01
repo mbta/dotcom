@@ -74,7 +74,7 @@ const eventsHubCalendarViewHTML = `
                      </div>
                      <div class="u-flex-container">
                         <div class="m-event__status-message popup-version">
-                           <a class="btn btn-secondary btn-lg" data-turbolinks="false" href="/events/icalendar/2021-05-06/east-cottage-street-and-norfolk-avenue-bridges-replacement-project-virtual-public"><i aria-hidden="true" class="notranslate fa fa-calendar-plus-o "></i></a>
+                           <a class="btn btn-secondary btn-lg" href="/events/icalendar/2021-05-06/east-cottage-street-and-norfolk-avenue-bridges-replacement-project-virtual-public"><i aria-hidden="true" class="notranslate fa fa-calendar-plus-o "></i></a>
                         </div>
                         <div class="u-flex-one">
                            <strong>Thursday, May 6, 2021</strong>

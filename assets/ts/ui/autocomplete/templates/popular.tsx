@@ -10,7 +10,7 @@ const PopularItemTemplate: SourceTemplates<PopularItem>["item"] = ({
   const iconHtml = getPopularIcon(item.icon);
   const featureIcons = getFeatureIcons(item, "popular");
   return (
-    <a href={item.url} className="aa-ItemLink" data-turbolinks="false">
+    <a href={item.url} className="aa-ItemLink">
       <div className="aa-ItemContent">
         <span
           // eslint-disable-next-line react/no-danger

@@ -7,5 +7,5 @@ const track = () => {
 };
 
 export default () => {
-  document.addEventListener("turbolinks:load", track);
+  window.addEventListener("load", track);
 };

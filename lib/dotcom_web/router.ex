@@ -22,7 +22,6 @@ defmodule DotcomWeb.Router do
     plug(:put_root_layout, {DotcomWeb.LayoutView, :root})
     plug(DotcomWeb.Plugs.CanonicalHostname)
     plug(DotcomWeb.Plugs.Banner)
-    plug(Turbolinks.Plug)
     plug(DotcomWeb.Plugs.CommonFares)
     plug(DotcomWeb.Plugs.Date)
     plug(DotcomWeb.Plugs.DateTime)

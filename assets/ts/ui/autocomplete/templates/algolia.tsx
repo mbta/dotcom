@@ -41,10 +41,10 @@ export function LinkForItem(props: LinkForItemProps): React.ReactElement {
     highlightedResult.matchedWords.length === 0
   ) {
     // link directly to queried text via URL fragment text directive, supported
-    // in most browsers, ignored by the others. works with Turbolinks disabled.
+    // in most browsers, ignored by the others.
     const urlToQuery = `${url}#:~:text=${encodeURIComponent(query)}`;
     return (
-      <a href={urlToQuery} className="aa-ItemLink" data-turbolinks="false">
+      <a href={urlToQuery} className="aa-ItemLink">
         {children}
       </a>
     );

@@ -7,8 +7,8 @@ export default function($) {
     $(".fixedsticky").fixedsticky("destroy");
     $(".fixedsticky").fixedsticky();
   }
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => window.nextTick(fixedsticky),
     { passive: true }
   );

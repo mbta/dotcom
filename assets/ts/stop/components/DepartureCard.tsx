@@ -62,7 +62,6 @@ const DepartureCard = ({
       <a
         className={`departure-card__route ${routeBgClass(route)} notranslate`}
         href={`/schedules/${route.id}`}
-        data-turbolinks="false"
       >
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}

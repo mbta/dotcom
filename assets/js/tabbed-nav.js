@@ -31,7 +31,7 @@ const tabbedNavSetup = () => {
 };
 
 export default function init() {
-  document.addEventListener("turbolinks:load", () => {
+  window.addEventListener("load", () => {
     tabbedNavSetup();
   });
 }

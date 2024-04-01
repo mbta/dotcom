@@ -17,13 +17,13 @@
         <div class="page-section">
           <div class="pagination">
             <%= if previous_page_available?(@page) do %>
-              <%= link to: news_entry_path(@conn, :index, page: @page - 1), class: "button", data: [turbolinks: false] do %>
+              <%= link to: news_entry_path(@conn, :index, page: @page - 1), class: "button" do %>
                 <i class="fa fa-caret-left"></i><span class="label">Previous</span>
               <% end %>
             <% end %>
 
             <%= if next_page_available?(@upcoming_news_entries) do %>
-              <%= link to: news_entry_path(@conn, :index, page: @page + 1), class: "button", data: [turbolinks: false] do %>
+              <%= link to: news_entry_path(@conn, :index, page: @page + 1), class: "button" do %>
                 <span class="label">Next</span><i class="fa fa-caret-right"></i>
               <% end %>
             <% end %>

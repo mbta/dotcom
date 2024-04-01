@@ -17,7 +17,7 @@ export const TEMPLATES = {
     `<span class="c-search-result__event-date">{{date}}</span>`
   ),
   locations: hogan.compile(`
-    <a id="hit-{{id}}" class="c-search-result__link u-no-underline" url={{hitUrl}}>
+    <a id="hit-{{id}}" class="c-search-result__link u-no-underline" href={{hitUrl}}>
       <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name notranslate">{{{hitTitle}}}</span>
     </a>
@@ -309,7 +309,8 @@ export function getUrl(hit, index) {
       return _contentUrl(hit);
 
     case "locations":
-      return "";
+      return `transit-near-me?address=${encodeURIComponent(hit.address)}`;
+
     case "usemylocation":
       return "#";
 

@@ -60,13 +60,9 @@ export class CRTimetableTrains {
   addEventListeners() {
     document.addEventListener(this.channelId, this.onVehicles);
     document.addEventListener("vehicles:remove", this.onRemoveVehicles);
-    document.addEventListener(
-      "turbolinks:before-render",
-      this.teardown.bind(this),
-      {
-        passive: true
-      }
-    );
+    document.addEventListener("DOMContentLoaded", this.teardown.bind(this), {
+      passive: true
+    });
   }
 
   removeEventListeners() {
@@ -88,8 +84,8 @@ export class CRTimetableTrains {
 }
 
 export default function CRTrains() {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       const dataEls = document.getElementById(channelDataId);
       if (dataEls) {

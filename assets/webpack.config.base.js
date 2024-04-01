@@ -178,7 +178,6 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
     new webpack.ProvidePlugin({
-      Turbolinks: "turbolinks",
       Tether: "tether",
       "window.Tether": "tether",
       $: "jquery",

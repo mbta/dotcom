@@ -1,7 +1,7 @@
 let scrollCallback = false;
 
 export default () => {
-  document.addEventListener("turbolinks:load", adjustTimetableStyle, {
+  window.addEventListener("load", adjustTimetableStyle, {
     passive: true
   });
   window.addEventListener("resize", resizeRows);

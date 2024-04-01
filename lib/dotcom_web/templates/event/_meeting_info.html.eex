@@ -5,8 +5,7 @@
   <div><%= date %></div>
   <div><%= time %></div>
   <%= if !has_started?(@event) do %>
-    <%= link to: event_icalendar_path(@conn, :show, @event),
-      data: [turbolinks: false], class: "add-to-calendar-link" do %>
+    <%= link to: event_icalendar_path(@conn, :show, @event), class: "add-to-calendar-link" do %>
       <%= fa "calendar-plus-o" %> Add to Calendar
     <% end %>
   <% end %>

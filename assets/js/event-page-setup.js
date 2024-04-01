@@ -93,7 +93,7 @@ export function setupEventPopups() {
       }
     };
     document.addEventListener("click", hideDialogLogicListener);
-    document.addEventListener("turbolinks:before-render", () =>
+    document.addEventListener("DOMContentLoaded", () =>
       document.removeEventListener("click", hideDialogLogicListener)
     );
   }
@@ -193,8 +193,8 @@ export function setupEventsListing() {
 }
 
 export default function() {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       const viewPreviousEventsLink = document.querySelector(
         ".m-view-previous-events"

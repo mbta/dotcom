@@ -123,7 +123,7 @@ export class AlgoliaResults {
   onClickResultCallback(href) {
     return response => {
       this.reset();
-      window.Turbolinks.visit(
+      window.location.assign(
         href +
           QueryHelpers.paramsToString(
             this._parent.getParams(),
@@ -143,7 +143,7 @@ export class AlgoliaResults {
     params.longitude = longitude;
     params.address = address;
     const qs = QueryHelpers.paramsToString(params, window.encodeURIComponent);
-    window.Turbolinks.visit(`/transit-near-me${qs}`);
+    window.location.assign(`/transit-near-me${qs}`);
   }
 
   _locationSearchByGeo(latitude, longitude) {

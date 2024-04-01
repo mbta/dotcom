@@ -68,6 +68,11 @@ defmodule DotcomWeb.TransitNearMeController.Location do
     geocode_fn.(address)
   end
 
+  defp do_get(%{"address" => address}, opts) do
+    geocode_fn = Keyword.fetch!(opts, :geocode_fn)
+    geocode_fn.(address)
+  end
+
   defp do_get(%{}, _opts) do
     :no_address
   end

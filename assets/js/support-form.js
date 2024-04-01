@@ -8,8 +8,8 @@ import * as Sentry from "@sentry/browser";
 import FormData from "formdata-polyfill";
 
 export default function($ = window.jQuery) {
-  document.addEventListener(
-    "turbolinks:load",
+  window.addEventListener(
+    "load",
     () => {
       // TODO: create a way to run page-specific JS so that this hack isn't needed.
       if (!document.getElementById("support")) {

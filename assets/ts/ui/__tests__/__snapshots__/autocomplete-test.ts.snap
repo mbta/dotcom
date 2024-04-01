@@ -2,7 +2,6 @@
 
 exports[`Algolia v1 autocomplete matches snapshot 1`] = `
 <div
-  data-turbolinks-permanent=""
   id="test-autocomplete"
 >
   
@@ -17,7 +16,7 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
     <div
       aria-expanded="false"
       aria-haspopup="listbox"
-      aria-labelledby="label"
+      aria-labelledby="search-label"
       class="aa-Autocomplete"
       role="combobox"
     >
@@ -32,8 +31,8 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
         >
           <label
             class="aa-Label"
-            for="input"
-            id="label"
+            for="search-input"
+            id="search-label"
           >
             <button
               class="aa-SubmitButton"
@@ -93,13 +92,13 @@ exports[`Algolia v1 autocomplete matches snapshot 1`] = `
         >
           <input
             aria-autocomplete="both"
-            aria-labelledby="label"
+            aria-labelledby="search-label"
             autocapitalize="off"
             autocomplete="off"
             autocorrect="off"
             class="aa-Input c-form__input-container"
             enterkeyhint="search"
-            id="input"
+            id="search-input"
             maxlength="512"
             placeholder="Search for routes, info, and more"
             spellcheck="false"

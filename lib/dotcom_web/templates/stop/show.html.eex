@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
 <div>
   <div id="react-stop-root" data-mbta-stop-id="<%= @stop_id %>"></div>
 </div>

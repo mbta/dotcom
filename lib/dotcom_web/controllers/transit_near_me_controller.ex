@@ -9,7 +9,6 @@ defmodule DotcomWeb.TransitNearMeController do
 
   def index(conn, _params) do
     conn
-    |> assign(:disable_turbolinks, true)
     |> assign_location()
     |> assign_stops()
     |> assign_map_data()

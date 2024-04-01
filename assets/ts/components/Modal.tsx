@@ -63,12 +63,11 @@ const ModalContent = ({
   }, [children]);
 
   useEffect(() => {
-    document.addEventListener("turbolinks:before-visit", closeModal, {
+    document.addEventListener("DOMContentLoaded", closeModal, {
       passive: true
     });
 
-    return () =>
-      document.removeEventListener("turbolinks:before-visit", closeModal);
+    return () => document.removeEventListener("DOMContentLoaded", closeModal);
   }, [closeModal]);
 
   useLayoutEffect(() => {

@@ -23,7 +23,6 @@ describe("submit-on-event", () => {
 
   afterEach(() => {
     $("#test").remove();
-    window.Turbolinks = undefined;
   });
 
   it("hides submit button", () => {
@@ -31,23 +30,29 @@ describe("submit-on-event", () => {
   });
 
   it("submits the form if the input changes", done => {
-    window.Turbolinks = {
-      visit: () => done()
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: () => done()
+      }
+    });
     $("#test input").change();
   });
 
   it("submits the form if the select is changed", done => {
-    window.Turbolinks = {
-      visit: () => done()
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: done()
+      }
+    });
     $("#test select").change();
   });
 
   it("displays a loading indicator", () => {
-    window.Turbolinks = {
-      visit: () => true
-    };
+    Object.defineProperty(window, "location", {
+      value: {
+        assign: () => true
+      }
+    });
     assert($(".loading-indicator").hasClass("hidden-xs-up"));
     $("#test select").change();
     assert.isNotTrue($(".loading-indicator").hasClass("hidden-xs-up"));

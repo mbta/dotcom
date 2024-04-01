@@ -7,7 +7,6 @@ export {};
 declare global {
   interface Window {
     /* eslint-disable @typescript-eslint/no-explicit-any */
-    Turbolinks: any;
     decodeURIComponent(component: string): string;
     encodeURIComponent(component: string): string;
     autocomplete: any;
@@ -18,7 +17,6 @@ declare global {
 }
 window.jQuery = require("jquery");
 window.autocomplete = require("autocomplete.js");
-window.Turbolinks = require("turbolinks");
 
 document.title = "MBTA";
 

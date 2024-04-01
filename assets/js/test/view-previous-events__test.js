@@ -32,7 +32,7 @@ const pendingEventContent = `
     </div>
   </div>
   <div>
-    <a data-turbolinks="false" href="/events/icalendar/">
+    <a href="/events/icalendar/">
       <div class="btn btn-secondary m-event__calendar-add">
         <i aria-hidden="true" class="notranslate fa fa-calendar-plus-o "></i>                    <span class="m-event__add-text">Add</span>
       </div>

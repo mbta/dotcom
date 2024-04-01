@@ -28,7 +28,7 @@ const languages = [
 ];
 
 export default () =>
-  document.addEventListener("turbolinks:load", handleTranslation);
+  window.addEventListener("load", handleTranslation);
 
 // await reading the google translate component
 const handleTranslation = () =>

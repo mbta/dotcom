@@ -8,7 +8,7 @@ export const LocationItemTemplate: SourceTemplates<LocationItem>["item"] = ({
 }) => {
   const { address, highlighted_spans } = item;
   return (
-    <a href={item.url} data-turbolinks="false">
+    <a href={item.url}>
       <span
         aria-hidden="true"
         className="c-search-result__content-icon fa fa-map-marker"
