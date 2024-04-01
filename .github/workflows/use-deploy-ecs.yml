@@ -164,3 +164,11 @@ jobs:
         path: playwright-report
         retention-days: 30
 
+  monitor:
+    runs-on: ubuntu-latest
+    needs: deploy
+    name: Redeploy Dotcom Monitor ${{ inputs.deployment-env }} if needed
+    steps:
+     -  uses: ./.github/workflows/push-monitor.yml
+        with:
+          deployment-env: ${{ inputs.deployment-env }}
