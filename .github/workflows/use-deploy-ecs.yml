@@ -169,6 +169,17 @@ jobs:
     needs: deploy
     name: Redeploy Dotcom Monitor ${{ inputs.deployment-env }} if needed
     steps:
-     -  uses: ./.github/workflows/push-monitor.yml
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            monitor:
+              - 'deploy/monitor/**'
+              - 'integration/**'
+      - uses: ./.github/workflows/push-monitor.yml
+        if: steps.changes.outputs.monitor == 'true'
         with:
           deployment-env: ${{ inputs.deployment-env }}
