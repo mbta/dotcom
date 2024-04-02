@@ -3,6 +3,8 @@ defmodule Dotcom.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
+  require Logger
+
   alias Dotcom.ContentRewriters.{EmbeddedMedia, Links, LiquidObjects, ResponsiveTables}
   alias Dotcom.FlokiHelpers
 
@@ -15,6 +17,8 @@ defmodule Dotcom.ContentRewriter do
   them to the modules and functions responsible. See the Dotcom.FlokiHelpers.traverse
   docs for more information about how the visitor function should work to
   traverse and manipulate the tree.
+
+  If the content cannot be rewritten, we log a warning and return an empty string.
   """
   @spec rewrite(Phoenix.HTML.safe() | String.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
   def rewrite({:safe, content}, conn) do
@@ -32,6 +36,12 @@ defmodule Dotcom.ContentRewriter do
 
   def rewrite(content, conn) when is_list(content) do
     rewrite(Enum.join(content), conn)
+  end
+
+  def rewrite(content, _conn) do
+    Logger.warning("#{__MODULE__} Cannot rewrite content: #{inspect(content)}")
+
+    {:safe, ""}
   end
 
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up
