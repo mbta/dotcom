@@ -29,6 +29,7 @@ class RateLimiter {
       return false;
     }
   }
+
 }
 
 module.exports = RateLimiter;
