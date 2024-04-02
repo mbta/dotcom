@@ -7,6 +7,7 @@
     "node-cron": "3.0.3",
     "node-json-logger": "0.2.1",
     "@playwright/test": "1.42.1",
+    "@sentry/node": "7.109.0",
     "pm2": "5.3.1",
     "redis": "4.6.13"
   },

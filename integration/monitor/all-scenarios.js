@@ -22,7 +22,7 @@ Sentry.init({
   dsn: process.env.SENTRY_DSN,
   environment: process.env.SENTRY_ENVIRONMENT,
   beforeSend(event) {
-    rateLimiter.lease() ? event : null;
+    process.env.SENTRY_ENVIRONMENT == "prod" && rateLimiter.lease() ? event : null;
   }
 });
 
