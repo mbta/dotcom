@@ -1,7 +1,7 @@
 import { SearchResponse } from "@algolia/client-search";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import AlgoliaItemTemplate from "../templates/algolia";
-import { AutocompleteItem } from "../__autocomplete";
+import { AutocompleteItem, Item } from "../__autocomplete";
 
 /**
  * Generates a plugin for Algolia Autocomplete which enables searching for our
@@ -22,6 +22,10 @@ export default function createAlgoliaBackendPlugin(
             sourceId: "algolia",
             templates: {
               item: AlgoliaItemTemplate
+            },
+            getItemUrl({ item }) {
+              const { url, _content_url } = item as AutocompleteItem;
+              return (url || _content_url) as string;
             },
             getItems() {
               return debounced(

@@ -19,6 +19,9 @@ export default function createGeolocationPlugin(
             templates: {
               item: getGeolocationTemplate(setIsOpen, urlType)
             },
+            getItemUrl({ item }) {
+              return item.url as string;
+            },
             getItems() {
               // a hack to make the template appear, no backend is queried in this case
               return [{} as LocationItem];

@@ -1,5 +1,5 @@
 import { fetchJsonOrThrow } from "../../../helpers/fetch-json";
-import { LocationItem } from "../__autocomplete";
+import { Item, LocationItem } from "../__autocomplete";
 import { WithUrls, itemWithUrl } from "../helpers";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import LocationItemTemplate from "../templates/location";
@@ -22,6 +22,9 @@ export default function createLocationsPlugin(
             sourceId: "locations",
             templates: {
               item: LocationItemTemplate
+            },
+            getItemUrl({ item }: { item: Item }) {
+              return item.url as string;
             },
             async getItems() {
               const { result: locations } = await fetchJsonOrThrow<{
