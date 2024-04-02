@@ -1,11 +1,11 @@
 {
   "name": "dotcom",
   "dependencies": {
-    "artillery": "2.0.3",
-    "axios": "1.6.7",
+    "artillery": "2.0.8",
+    "axios": "1.6.8",
     "hot-shots": "10.0.0",
     "node-cron": "3.0.3",
-    "node-json-logger": "0.2.0",
+    "node-json-logger": "0.2.1",
     "@playwright/test": "1.42.1",
     "pm2": "5.3.1",
     "redis": "4.6.13"
@@ -36,6 +36,7 @@
     "dialyzer": "mix dialyzer --ignore-exit-status",
     "cypress:run": "PORT=4004 npx --prefix assets cypress run",
     "cypress:open": "PORT=4004 npx --prefix assets cypress open",
+    "test:integration": "node --test integration/tests/**/*.test.js",
     "test:cypress:run": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
     "test:cypress:open": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
   },

@@ -26,8 +26,11 @@ parentPort.on("message", async (_) => {
 
   try {
     await scenario({ page, baseURL });
-  } catch(e) {
-    logger.error({ metric, error: e.message });
+  } catch(exception) {
+    const screenshot = await page.screenshot({quality: 50, type: "jpeg"});
+
+    parentPort.postMessage({exception, metric, screenshot});
+    logger.error({ metric, error: exception.message });
   }
 
   const end = performance.now();
