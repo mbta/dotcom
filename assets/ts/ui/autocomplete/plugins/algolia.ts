@@ -1,7 +1,7 @@
 import { SearchResponse } from "@algolia/client-search";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import AlgoliaItemTemplate from "../templates/algolia";
-import { AutocompleteItem, Item } from "../__autocomplete";
+import { AutocompleteItem } from "../__autocomplete";
 
 /**
  * Generates a plugin for Algolia Autocomplete which enables searching for our
