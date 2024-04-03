@@ -1,6 +1,6 @@
 import { fetchJsonOrThrow } from "../../../helpers/fetch-json";
 import { Item, LocationItem } from "../__autocomplete";
-import { WithUrls, itemWithUrl } from "../helpers";
+import { STATE_CHANGE_HANDLERS, WithUrls, itemWithUrl } from "../helpers";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import LocationItemTemplate from "../templates/location";
 
@@ -12,9 +12,17 @@ import LocationItemTemplate from "../templates/location";
  */
 export default function createLocationsPlugin(
   numResults: number,
-  urlType: string = "transit_near_me"
+  urlType: string = "transit_near_me",
+  stateChangeListener: string | undefined
 ): AutocompleteJSPlugin {
   return {
+    subscribe({ onActive }) {
+      onActive(props => {
+        if (stateChangeListener) {
+          STATE_CHANGE_HANDLERS[`${stateChangeListener}`](props);
+        }
+      });
+    },
     getSources({ query }) {
       if (query) {
         return debounced([

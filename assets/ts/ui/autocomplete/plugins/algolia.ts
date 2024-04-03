@@ -2,6 +2,7 @@ import { SearchResponse } from "@algolia/client-search";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import AlgoliaItemTemplate from "../templates/algolia";
 import { AutocompleteItem } from "../__autocomplete";
+import { STATE_CHANGE_HANDLERS } from "../helpers";
 
 /**
  * Generates a plugin for Algolia Autocomplete which enables searching for our
@@ -12,9 +13,17 @@ import { AutocompleteItem } from "../__autocomplete";
  * the source URL for the selected data type.
  */
 export default function createAlgoliaBackendPlugin(
-  algoliaIndexes: string[]
+  algoliaIndexes: string[],
+  stateChangeListener: string | undefined
 ): AutocompleteJSPlugin {
   return {
+    subscribe({ onActive }) {
+      onActive(props => {
+        if (stateChangeListener) {
+          STATE_CHANGE_HANDLERS[`${stateChangeListener}`](props);
+        }
+      });
+    },
     getSources({ query }) {
       if (query) {
         return [

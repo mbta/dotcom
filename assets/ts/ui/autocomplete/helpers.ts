@@ -1,5 +1,5 @@
 import { omit } from "lodash";
-import { OnSubmitParams } from "@algolia/autocomplete-core";
+import { OnActiveParams, OnSubmitParams } from "@algolia/autocomplete-core";
 import { OnStateChangeProps } from "@algolia/autocomplete-js";
 import {
   ContentItem,
@@ -42,9 +42,9 @@ export const getTitleAttribute = (item: Item): string[] => {
   return Object.keys(item._highlightResult);
 };
 
-const navStateChange: (props: OnStateChangeProps<Item>) => void = ({
-  state
-}) => {
+const navStateChange: (
+  props: OnStateChangeProps<Item> | OnActiveParams<Item>
+) => void = ({ state }) => {
   // grey out the page and disable scrolling when search is open
   if (isLGDown()) {
     if (state.isOpen) {
@@ -57,7 +57,7 @@ const navStateChange: (props: OnStateChangeProps<Item>) => void = ({
 
 export const STATE_CHANGE_HANDLERS: Record<
   string,
-  (props: OnStateChangeProps<Item>) => void
+  (props: OnStateChangeProps<Item> | OnActiveParams<Item>) => void
 > = {
   nav: navStateChange
 };

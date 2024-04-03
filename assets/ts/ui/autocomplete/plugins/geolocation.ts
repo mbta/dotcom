@@ -1,4 +1,5 @@
 import { LocationItem } from "../__autocomplete";
+import { STATE_CHANGE_HANDLERS } from "../helpers";
 import { AutocompleteJSPlugin } from "../plugins";
 import getGeolocationTemplate from "../templates/geolocation";
 
@@ -8,9 +9,17 @@ import getGeolocationTemplate from "../templates/geolocation";
  * geolocation, and on selection navigates to a URL.
  */
 export default function createGeolocationPlugin(
-  urlType: string = "transit-near-me"
+  urlType: string = "transit-near-me",
+  stateChangeListener: string | undefined
 ): AutocompleteJSPlugin {
   return {
+    subscribe({ onActive }) {
+      onActive(props => {
+        if (stateChangeListener) {
+          STATE_CHANGE_HANDLERS[`${stateChangeListener}`](props);
+        }
+      });
+    },
     getSources({ query, setIsOpen }) {
       if (!query) {
         return [
