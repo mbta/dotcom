@@ -43,7 +43,7 @@ const workers = fs.readdirSync(filesPath).map((file) => {
 });
 
 /*
- * A task runs every minute on the minute.
+ * A task runs every minute on the minute between the hours of 6am and midnight EST.
  * Spread out the worker runs over the minute to avoid overwhelming the system.
  * If we receive a message from a worker, it means that there was a failure.
  * Capture the exception with Sentry and attach a screenshot to the event.
