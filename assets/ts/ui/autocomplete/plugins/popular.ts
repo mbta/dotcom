@@ -1,5 +1,5 @@
 import { fetchJsonOrThrow } from "../../../helpers/fetch-json";
-import { PopularItem } from "../__autocomplete";
+import { Item, PopularItem } from "../__autocomplete";
 import { WithUrls, itemWithUrl } from "../helpers";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import PopularItemTemplate from "../templates/popular";
@@ -19,6 +19,9 @@ export default function createPopularLocationsPlugin(
             sourceId: "popular",
             templates: {
               item: PopularItemTemplate
+            },
+            getItemUrl({ item }: { item: Item }) {
+              return item.url as string;
             },
             async getItems() {
               const { result: locations } = await fetchJsonOrThrow<{

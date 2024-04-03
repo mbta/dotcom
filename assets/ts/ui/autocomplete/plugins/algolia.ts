@@ -23,6 +23,10 @@ export default function createAlgoliaBackendPlugin(
             templates: {
               item: AlgoliaItemTemplate
             },
+            getItemUrl({ item }) {
+              const { url, _content_url } = item as AutocompleteItem;
+              return (url || _content_url) as string;
+            },
             getItems() {
               return debounced(
                 fetch("/search/query", {
