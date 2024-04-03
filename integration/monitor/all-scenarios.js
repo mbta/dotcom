@@ -48,7 +48,7 @@ const workers = fs.readdirSync(filesPath).map((file) => {
  * If we receive a message from a worker, it means that there was a failure.
  * Capture the exception with Sentry and attach a screenshot to the event.
  */
-cron.schedule("* * * * *", (_) => {
+cron.schedule("* 5-23 * * *", (_) => {
   workers.forEach((worker, index) => {
     setTimeout(
       (_) => {
