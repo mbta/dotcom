@@ -92,10 +92,10 @@ describe("Algolia v1 plugins", () => {
 
     test("does nothing without a query", () => {
       const params = {} as GetSourcesParams<Item>;
-      const { getSources } = createAlgoliaBackendPlugin([
-        "anAlgoliaIndex",
-        "anotherAlgoliaIndex"
-      ]);
+      const { getSources } = createAlgoliaBackendPlugin(
+        ["anAlgoliaIndex", "anotherAlgoliaIndex"],
+        undefined
+      );
       expect(getSources!(params)).toEqual([]);
     });
 
@@ -103,10 +103,10 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "doesn't matter"
       } as GetSourcesParams<Item>;
-      const { getSources } = createAlgoliaBackendPlugin([
-        "anAlgoliaIndex",
-        "anotherAlgoliaIndex"
-      ]);
+      const { getSources } = createAlgoliaBackendPlugin(
+        ["anAlgoliaIndex", "anotherAlgoliaIndex"],
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       await sources[0].getItems(params);
       expect(window.fetch).toHaveBeenCalledWith("/search/query", {
@@ -121,10 +121,10 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "doesn't matter"
       } as GetSourcesParams<Item>;
-      const { getSources } = createAlgoliaBackendPlugin([
-        "anAlgoliaIndex",
-        "anotherAlgoliaIndex"
-      ]);
+      const { getSources } = createAlgoliaBackendPlugin(
+        ["anAlgoliaIndex", "anotherAlgoliaIndex"],
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const hits = (await sources[0].getItems(params)) as AutocompleteItem[];
       expect(hits.map(hit => hit.index)).toEqual([
@@ -144,7 +144,11 @@ describe("Algolia v1 plugins", () => {
 
     test("does nothing without a query", () => {
       const params = {} as GetSourcesParams<Item>;
-      const { getSources } = createLocationsPlugin(3);
+      const { getSources } = createLocationsPlugin(
+        3,
+        "transit-near-me",
+        undefined
+      );
       expect(getSources!(params)).toEqual([]);
     });
 
@@ -152,7 +156,11 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "some area"
       } as GetSourcesParams<Item>;
-      const { getSources } = createLocationsPlugin(3);
+      const { getSources } = createLocationsPlugin(
+        3,
+        "transit-near-me",
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       await sources[0].getItems(params);
       expect(window.fetch).toHaveBeenCalledWith("/places/search/some%20area/3");
@@ -162,7 +170,11 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "this place"
       } as GetSourcesParams<Item>;
-      const { getSources } = createLocationsPlugin(3, "transit-near-me");
+      const { getSources } = createLocationsPlugin(
+        3,
+        "transit-near-me",
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const response = await sources[0].getItems(params);
       (response as LocationItem[]).forEach(location => {
@@ -214,7 +226,10 @@ describe("Algolia v1 plugins", () => {
       const params = {
         setIsOpen: value => {}
       } as GetSourcesParams<Item>;
-      const { getSources } = createGeolocationPlugin();
+      const { getSources } = createGeolocationPlugin(
+        "transit-near-me",
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const item = await sources[0].getItems(params);
       expect(item).toEqual([{}]); // it's a noop
@@ -241,7 +256,10 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "looking for something"
       } as GetSourcesParams<Item>;
-      const { getSources } = createGeolocationPlugin();
+      const { getSources } = createGeolocationPlugin(
+        "transit-near-me",
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       expect(sources).toEqual([]);
     });
@@ -250,7 +268,10 @@ describe("Algolia v1 plugins", () => {
       const params = {
         setIsOpen: value => {}
       } as GetSourcesParams<Item>;
-      const { getSources } = createGeolocationPlugin("retail-sales-locations");
+      const { getSources } = createGeolocationPlugin(
+        "retail-sales-locations",
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const itemTemplate = sources[0].templates.item as SourceTemplates<
         Item
@@ -282,7 +303,10 @@ describe("Algolia v1 plugins", () => {
       const params = {
         query: "looking for something"
       } as GetSourcesParams<Item>;
-      const { getSources } = createPopularLocationsPlugin();
+      const { getSources } = createPopularLocationsPlugin(
+        "transit-near-me",
+        undefined
+      );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       expect(sources).toEqual([]);
     });
@@ -308,7 +332,8 @@ describe("Algolia v1 plugins", () => {
       );
       const params = {} as GetSourcesParams<Item>;
       const { getSources } = createPopularLocationsPlugin(
-        "proposed-sales-locations"
+        "proposed-sales-locations",
+        undefined
       );
       const sources = (await getSources!(params)) as AutocompleteSource<Item>[];
       const response = await sources[0].getItems(params);

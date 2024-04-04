@@ -23,21 +23,34 @@ export default function getPlugins(
     popularLocations,
     locationsCount,
     locationsUrlType,
-    algolia
+    algolia,
+    stateChangeListener
   } = dataset;
   if (geolocation !== undefined) {
-    plugins.push(createGeolocationPlugin(locationsUrlType));
+    plugins.push(
+      createGeolocationPlugin(locationsUrlType, stateChangeListener)
+    );
   }
   if (locationsCount !== undefined) {
     const numberOfLocations = parseInt(locationsCount, 10) || 3;
-    plugins.push(createLocationsPlugin(numberOfLocations, locationsUrlType));
+    plugins.push(
+      createLocationsPlugin(
+        numberOfLocations,
+        locationsUrlType,
+        stateChangeListener
+      )
+    );
   }
   if (popularLocations !== undefined) {
-    plugins.push(createPopularLocationsPlugin(locationsUrlType));
+    plugins.push(
+      createPopularLocationsPlugin(locationsUrlType, stateChangeListener)
+    );
   }
   const algoliaIndexes = algolia ? algolia.split(",") : [];
   if (algoliaIndexes.length) {
-    plugins.unshift(createAlgoliaBackendPlugin(algoliaIndexes));
+    plugins.unshift(
+      createAlgoliaBackendPlugin(algoliaIndexes, stateChangeListener)
+    );
   }
   return plugins;
 }

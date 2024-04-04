@@ -1,6 +1,6 @@
 import { fetchJsonOrThrow } from "../../../helpers/fetch-json";
 import { Item, PopularItem } from "../__autocomplete";
-import { WithUrls, itemWithUrl } from "../helpers";
+import { STATE_CHANGE_HANDLERS, WithUrls, itemWithUrl } from "../helpers";
 import { AutocompleteJSPlugin, debounced } from "../plugins";
 import PopularItemTemplate from "../templates/popular";
 
@@ -9,9 +9,17 @@ import PopularItemTemplate from "../templates/popular";
  * locations on search input focus, and on selection navigates to a URL.
  */
 export default function createPopularLocationsPlugin(
-  urlType: string = "transit-near-me"
+  urlType: string = "transit-near-me",
+  stateChangeListener: string | undefined
 ): AutocompleteJSPlugin {
   return {
+    subscribe({ onActive }) {
+      onActive(props => {
+        if (stateChangeListener) {
+          STATE_CHANGE_HANDLERS[`${stateChangeListener}`](props);
+        }
+      });
+    },
     getSources({ query }) {
       if (!query) {
         return debounced([
