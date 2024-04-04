@@ -74,16 +74,14 @@ defmodule DotCom.Mixfile do
       # latest version 1.0.5; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},
-      # latest version 1.7.5; cannot upgrade because it causes our ci to fail
-      # this version just came out in the last few days, so it might be a bug that gets fixed soon
-      {:credo, "1.7.3", only: [:dev, :test]},
+      {:credo, "1.7.5", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
       {:diskusage_logger, "0.2.0"},
       {:eflame, "1.0.1", only: :dev},
       {:ehmon, [github: "mbta/ehmon", only: :prod]},
-      {:ex_aws, "2.5.1"},
+      {:ex_aws, "2.5.3"},
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
       {:ex_doc, "0.31.2", only: :dev},
@@ -92,7 +90,7 @@ defmodule DotCom.Mixfile do
       # latest version 0.18.0; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
       {:faker, "0.18.0", only: :test},
-      {:floki, "0.36.0"},
+      {:floki, "0.36.1"},
       {:gen_stage, "1.2.1"},
       {:gettext, "0.24.0"},
       {:hackney, "1.20.1"},
@@ -120,11 +118,11 @@ defmodule DotCom.Mixfile do
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.3"},
-      {:phoenix_live_reload, "1.4.1", [only: :dev]},
-      {:phoenix_live_view, "0.20.5"},
+      {:phoenix_live_reload, "1.5.3", [only: :dev]},
+      {:phoenix_live_view, "0.20.14"},
       {:phoenix_pubsub, "2.1.3"},
       {:plug, "1.15.3"},
-      {:plug_cowboy, "2.7.0"},
+      {:plug_cowboy, "2.7.1"},
       # latest version is 5.0.0; cannot upgrade because we use Poison.Parser.parse!
       {:poison, "3.1.0"},
       {:polyline, "1.4.0"},
@@ -137,8 +135,8 @@ defmodule DotCom.Mixfile do
          ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"
        ]},
       {:recase, "0.7.0"},
-      {:recon, "2.5.4", [only: :prod]},
-      {:redix, "1.4.0"},
+      {:recon, "2.5.5", [only: :prod]},
+      {:redix, "1.4.1"},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
