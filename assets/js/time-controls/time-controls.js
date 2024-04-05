@@ -154,8 +154,7 @@ export class TimeControls {
 }
 
 export function init() {
-  const $ = window.jQuery;
-  $(document).on("load", () => {
+  window.addEventListener("load", () => {
     const formDataEl = document.getElementById("form-data");
 
     if (!formDataEl) return;
