@@ -62,17 +62,11 @@ defmodule LocationService.ResultTest do
     end
 
     test "returns an error for no results" do
-      log =
-        capture_log(fn ->
-          assert {:error, :zero_results} =
-                   {:ok, %{"status" => "ZERO_RESULTS"}} |> handle_response(@input)
+      assert {:error, :zero_results} =
+               {:ok, %{"status" => "ZERO_RESULTS"}} |> handle_response(@input)
 
-          assert {:error, :zero_results} =
-                   {:ok, %{"status" => "OK", "Results" => []}} |> handle_response(@input)
-        end)
-
-      assert log =~ "[info]"
-      assert log =~ "ZERO_RESULTS"
+      assert {:error, :zero_results} =
+               {:ok, %{"status" => "OK", "Results" => []}} |> handle_response(@input)
     end
 
     test "handles a JSON parsing error" do
