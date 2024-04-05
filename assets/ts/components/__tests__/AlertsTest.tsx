@@ -1,11 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
-import Alerts, {
-  iconForAlert,
-  alertLabel,
-  humanLabelForAlert
-} from "../Alerts";
+import Alerts, { iconForAlert } from "../Alerts";
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
 import { Alert, InformedEntitySet } from "../../__v3api";
 import { isAmenityAlert } from "../../models/alert";
@@ -170,77 +166,6 @@ describe("iconForAlert", () => {
     expect(JSON.stringify(renderer.create(icon!).toJSON())).toMatch(
       "alerts-triangle"
     );
-  });
-});
-
-describe("alertLabel", () => {
-  test("it returns a system label for system alerts", () => {
-    const label = alertLabel({
-      ...highAlert,
-      priority: "system",
-      lifecycle: "ongoing_upcoming"
-    });
-    const labelComponent = JSON.stringify(renderer.create(label!).toJSON());
-    expect(labelComponent).toMatch("badge--system");
-    expect(labelComponent).toMatch("badge--upcoming");
-  });
-});
-
-describe("humanLabelForAlert", () => {
-  it("returns nothing for levels 0 - 2", () => {
-    let label = humanLabelForAlert({
-      ...highAlert,
-      effect: "delay",
-      severity: 0
-    });
-    expect(label).toBeNull();
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 1 });
-    expect(label).toBeNull();
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 2 });
-    expect(label).toBeNull();
-  });
-
-  it("returns correct value for others", () => {
-    let label = humanLabelForAlert({
-      ...highAlert,
-      effect: "delay",
-      severity: 3
-    });
-    expect(label).toMatch("10");
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 4 });
-    expect(label).toMatch("15");
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 5 });
-    expect(label).toMatch("20");
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 6 });
-    expect(label).toMatch("25");
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 7 });
-    expect(label).toMatch("30");
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 8 });
-    expect(label).toMatch("30+");
-    label = humanLabelForAlert({ ...highAlert, effect: "delay", severity: 9 });
-    expect(label).toMatch("more than an hour");
-    label = humanLabelForAlert({ ...highAlert, severity: 2 });
-    expect(label).toBeNull();
-    label = humanLabelForAlert({
-      ...highAlert,
-      lifecycle: "ongoing",
-      severity: 7
-    });
-    expect(label).toMatch("Ongoing");
-    label = humanLabelForAlert({
-      ...highAlert,
-      effect: "delay",
-      severity: -1
-    });
-    expect(label).toBeNull();
-    label = humanLabelForAlert({
-      ...highAlert,
-      effect: "delay",
-      severity: -1,
-      // @ts-ignore
-      lifecycle: "madeup"
-    });
-    expect(label).toBeNull();
   });
 });
 

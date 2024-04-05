@@ -1,7 +1,6 @@
 defprotocol BannerAlert do
   def header(obj)
   def human_effect(obj)
-  def human_label(obj)
   def icon(obj)
   def label_class(obj)
 end
@@ -9,7 +8,6 @@ end
 defimpl BannerAlert, for: Alerts.Alert do
   def header(alert), do: alert.header
   defdelegate human_effect(alert), to: Alerts.Alert
-  defdelegate human_label(alert), to: Alerts.Alert
   defdelegate icon(alert), to: Alerts.Alert
   def label_class(alert), do: DotcomWeb.AlertView.alert_label_class(alert)
 end
@@ -20,11 +18,6 @@ defimpl BannerAlert, for: Alerts.Banner do
   def human_effect(banner) do
     alert_from_banner(banner)
     |> Alerts.Alert.human_effect()
-  end
-
-  def human_label(banner) do
-    alert_from_banner(banner)
-    |> Alerts.Alert.human_label()
   end
 
   def icon(banner) do

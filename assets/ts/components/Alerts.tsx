@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Alert as AlertType, Lifecycle } from "../__v3api";
+import { Alert as AlertType } from "../__v3api";
 import { handleReactEnterKeyPress } from "../helpers/keyboard-events-react";
 import { caret } from "../helpers/icon";
 import renderSVG from "../helpers/render-svg";
@@ -45,69 +45,6 @@ export const iconForAlert = ({
     default:
       return renderSVG("c-svg__icon-alerts-triangle", alertIcon);
   }
-};
-
-const humanLifecycle = (lifecycle: Lifecycle): string | null => {
-  switch (lifecycle) {
-    case "new":
-    case "unknown":
-      return null;
-    case "upcoming":
-    case "ongoing_upcoming":
-      return "Upcoming";
-    case "ongoing":
-      return "Ongoing";
-    default:
-      return null;
-  }
-};
-
-export const humanLabelForAlert = ({
-  effect,
-  severity,
-  lifecycle
-}: AlertType): string | null => {
-  if (effect === "delay") {
-    switch (severity) {
-      case 0:
-      case 1:
-      case 2:
-        return null;
-      case 3:
-        return "up to 10 minutes";
-      case 4:
-        return "up to 15 minutes";
-      case 5:
-        return "up to 20 minutes";
-      case 6:
-        return "up to 25 minutes";
-      case 7:
-        return "up to 30 minutes";
-      case 8:
-        return "30+ minutes";
-      case 9:
-        return "more than an hour";
-      default:
-        return humanLifecycle(lifecycle);
-    }
-  }
-  return humanLifecycle(lifecycle);
-};
-
-export const alertLabel = (alert: AlertType): ReactElement<HTMLElement> => {
-  const alertClasses = ["u-small-caps", "c-alert-item__badge"];
-  if (alert.priority === "system") {
-    alertClasses.push("c-alert-item__badge--system");
-  }
-  if (
-    alert.lifecycle === "upcoming" ||
-    alert.lifecycle === "ongoing_upcoming"
-  ) {
-    alertClasses.push("c-alert-item__badge--upcoming");
-  }
-  return (
-    <span className={alertClasses.join(" ")}>{humanLabelForAlert(alert)}</span>
-  );
 };
 
 export const effectNameForAlert = (alert: AlertType): string =>
@@ -250,7 +187,6 @@ export const Alert = ({
         <div className="c-alert-item__top-text-container">
           <div className="c-alert-item__effect">
             {`${effectNameForAlert(alert)} `}
-            {humanLabelForAlert(alert) ? alertLabel(alert) : null}
           </div>
           {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: headerContent }} />

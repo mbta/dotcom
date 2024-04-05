@@ -213,33 +213,6 @@ defmodule Alerts.Alert do
   defp do_human_lifecycle(:ongoing), do: "Ongoing"
   defp do_human_lifecycle(_), do: "Unknown"
 
-  @doc """
-  Show a label according to the following mutually exclusive rules:
-    * if it is a delay, show a time estimatation
-    * if now is withing the active period, show "today"
-    * otherwise, show the lifecycle (unless is new or unknown)
-  """
-  @spec human_label(t) :: String.t()
-  def human_label(%__MODULE__{effect: :delay, severity: 0}), do: ""
-  def human_label(%__MODULE__{effect: :delay, severity: 1}), do: ""
-  def human_label(%__MODULE__{effect: :delay, severity: 2}), do: ""
-  def human_label(%__MODULE__{effect: :delay, severity: 3}), do: "up to 10 minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 4}), do: "up to 15 minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 5}), do: "up to 20 minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 6}), do: "up to 25 minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 7}), do: "up to 30 minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 8}), do: "30+ minutes"
-  def human_label(%__MODULE__{effect: :delay, severity: 9}), do: "more than an hour"
-  def human_label(alert), do: do_ongoing_upcoming(alert)
-
-  @spec do_ongoing_upcoming(t) :: String.t()
-  defp do_ongoing_upcoming(%{lifecycle: lifecycle})
-       when lifecycle not in [:new, :unknown] do
-    do_human_lifecycle(lifecycle)
-  end
-
-  defp do_ongoing_upcoming(_), do: ""
-
   @spec icon(t) :: icon_type
   def icon(%{priority: :low}), do: :none
   def icon(%{priority: :high, effect: :suspension}), do: :cancel
