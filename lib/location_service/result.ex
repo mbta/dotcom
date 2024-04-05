@@ -70,12 +70,7 @@ defmodule LocationService.Result do
 
   def internal_error(error, input, extra \\ %{})
 
-  def internal_error(:zero_results, input, extra) do
-    _ =
-      Logger.info(fn ->
-        "#{__MODULE__} input=#{inspect(input)} result=ZERO_RESULTS #{extra_messages(extra)}"
-      end)
-
+  def internal_error(:zero_results, _input, _extra) do
     {:error, :zero_results}
   end
 
