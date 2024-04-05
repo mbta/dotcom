@@ -27,16 +27,6 @@ defmodule BannerAlertTest do
     end
   end
 
-  describe "BannerAlert.human_label" do
-    test "for Alerts.Alert" do
-      assert BannerAlert.human_label(@alert) == "up to 20 minutes"
-    end
-
-    test "for Alerts.Banner" do
-      assert BannerAlert.human_label(@banner) == ""
-    end
-  end
-
   describe "BannerAlert.icon" do
     test "for Alerts.Alert" do
       assert BannerAlert.icon(@alert) == :none
@@ -44,17 +34,6 @@ defmodule BannerAlertTest do
 
     test "for Alerts.Banner" do
       assert BannerAlert.icon(@banner) == :alert
-    end
-  end
-
-  describe "BannerAlert.label_class" do
-    test "for Alerts.Alert" do
-      assert BannerAlert.label_class(@alert) == "u-small-caps c-alert-item__badge"
-    end
-
-    test "for Alerts.Banner" do
-      assert BannerAlert.label_class(@banner) ==
-               "c-alert-item__badge--system u-small-caps c-alert-item__badge"
     end
   end
 end
