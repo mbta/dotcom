@@ -156,7 +156,7 @@ docker exec -it deploy-dotcom-2-1 iex --sname foobarbaz --cookie foobarbaz
 
 iex(foobarbaz@0b061394460f)1> Node.connect(:dotcom2@0b061394460f)
 true
-iex(foobarbaz@0b061394460f)2> 
+iex(foobarbaz@0b061394460f)2> node = Node.list() |> List.first()
 :dotcom2@0b061394460f
 iex> :rpc.call(node, Dotcom.Cache.Multilevel, :get, ["cms.repo|important-notices"])
 ...
