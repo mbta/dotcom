@@ -144,7 +144,27 @@ The easiest way to develop MBTA dotcom is to use Docker Compose.
 docker compose -f deploy/dev.yml up -d
 ```
 
-This will set up Redis in cluster mode among other things.
+This will set up Redis in cluster mode and run two versions of Dotcom with nginx load balancing requests between them.
+Visit http://localhost:4001 to hit the load balancer.
+http://localhost:4002 and http://localhost:4003 will take you directly to either of the two nodes.
+
+You can even connect to individual Elixir nodes in order to run commands.
+Let's say you want to connect to dotcom2 (the one running at http://localhost:4003).
+
+```
+docker exec -it deploy-dotcom-2-1 iex --sname foobarbaz --cookie foobarbaz
+
+iex(foobarbaz@0b061394460f)1> node = :dotcom2@0b061394460f
+:dotcom2@0b061394460f
+iex(foobarbaz@0b061394460f)2> Node.connect(node)
+true
+iex(foobarbaz@0b061394460f)3> :rpc.call(node, Dotcom.Cache.Multilevel, :get, ["cms.repo|important-notices"])
+...
+```
+
+Note that the address (the @... part) will be different every time.
+
+---
 
 If you choose not to use Docker Compose, you'll still have to run Redis cluster.
 The easiest way to get it running is to download and compile it.
