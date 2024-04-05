@@ -154,10 +154,10 @@ Let's say you want to connect to dotcom2 (the one running at http://localhost:40
 ```
 docker exec -it deploy-dotcom-2-1 iex --sname foobarbaz --cookie foobarbaz
 
-iex(foobarbaz@0b061394460f)1> Node.connect(:dotcom2@0b061394460f)
-true
-iex(foobarbaz@0b061394460f)2> node = Node.list() |> List.first()
+iex(foobarbaz@0b061394460f)1> node = :dotcom2@0b061394460f
 :dotcom2@0b061394460f
+iex(foobarbaz@0b061394460f)2> Node.connect(node)
+true
 iex(foobarbaz@0b061394460f)3> :rpc.call(node, Dotcom.Cache.Multilevel, :get, ["cms.repo|important-notices"])
 ...
 ```
