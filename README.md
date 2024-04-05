@@ -152,7 +152,7 @@ You can even connect to individual Elixir nodes in order to run commands.
 Let's say you want to connect to dotcom2 (the one running at http://localhost:4003).
 
 ```
-elixir --sname dotcom2 --cookie foobarbaz -S mix phx.server
+docker exec -it deploy-dotcom-2-1 elixir --sname dotcom2 --cookie foobarbaz -S mix phx.server
 ```
 
 You'll be given an error that says the node has already been started.
