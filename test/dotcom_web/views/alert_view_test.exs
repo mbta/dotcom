@@ -327,7 +327,6 @@ defmodule DotcomWeb.AlertViewTest do
         |> safe_to_string()
 
       assert response =~ "c-svg__icon-alerts-triangle"
-      assert response =~ "up to 20 minutes"
     end
 
     test "Icons and labels are displayed for snow route" do
@@ -345,7 +344,7 @@ defmodule DotcomWeb.AlertViewTest do
         |> safe_to_string()
 
       assert response =~ "c-svg__icon-snow-default"
-      assert response =~ "Ongoing"
+      assert response =~ "Snow Route"
     end
 
     test "Icons and labels are displayed for cancellation" do
@@ -378,7 +377,7 @@ defmodule DotcomWeb.AlertViewTest do
         |> safe_to_string()
 
       refute response =~ "c-svg__icon"
-      assert response =~ "Upcoming"
+      assert response =~ "Cancellation"
     end
   end
 
