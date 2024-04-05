@@ -312,7 +312,6 @@ defmodule DotcomWeb.AlertViewTest do
         |> safe_to_string()
 
       assert response =~ "c-svg__icon-shuttle-default"
-      assert response =~ "c-alert-item__badge"
     end
 
     test "Icons and labels are displayed for delay" do

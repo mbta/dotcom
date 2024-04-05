@@ -61,8 +61,8 @@
 .c-alert-item {
   background-color: $service-alert-yellow;
   border: 1px solid $service-alert-yellow-darker;
-  position: relative;
   overflow: hidden;
+  position: relative;
 
   @include media-breakpoint-down(sm) {
     border-left: 0;
@@ -82,8 +82,8 @@
 }
 
 .c-alert-item__content {
-  width: auto;
   overflow-wrap: anywhere;
+  width: auto;
 }
 
 .c-alert-item--expandable {
@@ -167,20 +167,6 @@
 .c-alert-item__updated {
   font-size: $font-size-sm;
   margin-top: $space-12;
-}
-
-.c-alert-item__badge {
-  background-color: $service-alert-yellow-darker;
-  border-radius: calc(#{$base-spacing} / 4);
-  padding: calc(#{$base-spacing} / 8) calc(#{$base-spacing} / 2);
-}
-
-.c-alert-item__badge--upcoming {
-  background-color: $service-alert-gray-darker;
-}
-
-.c-alert-item__badge--system {
-  background-color: $service-alert-yellow;
 }
 
 .m-alerts__mode-buttons {

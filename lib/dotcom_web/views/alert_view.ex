@@ -145,26 +145,6 @@ defmodule DotcomWeb.AlertView do
     Alert.human_effect(alert)
   end
 
-  def alert_label_class(%Alert{} = alert) do
-    ["u-small-caps", "c-alert-item__badge"]
-    |> do_alert_label_class(alert)
-    |> Enum.join(" ")
-  end
-
-  defp do_alert_label_class(class_list, %Alert{priority: priority})
-       when priority == :system do
-    ["c-alert-item__badge--system" | class_list]
-  end
-
-  defp do_alert_label_class(class_list, %Alert{lifecycle: lifecycle})
-       when lifecycle in [:upcoming, :ongoing_upcoming] do
-    ["c-alert-item__badge--upcoming" | class_list]
-  end
-
-  defp do_alert_label_class(class_list, _) do
-    class_list
-  end
-
   def alert_updated(%Alert{updated_at: updated_at}, relative_to) do
     alert_updated(updated_at, relative_to)
   end
