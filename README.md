@@ -152,19 +152,19 @@ You can even connect to individual Elixir nodes in order to run commands.
 Let's say you want to connect to dotcom2 (the one running at http://localhost:4003).
 
 ```
-docker exec -it deploy-dotcom-2-1 elixir --sname dotcom2 --cookie foobarbaz -S mix phx.server
+docker exec -it deploy-dotcom-2-1 iex --sname foobarbaz --cookie foobarbaz
+
+iex(foobarbaz@0b061394460f)1> Node.connect(:dotcom2@0b061394460f)
+true
+iex(foobarbaz@0b061394460f)2> 
+:dotcom2@0b061394460f
+iex> :rpc.call(node, Dotcom.Cache.Multilevel, :get, ["cms.repo|important-notices"])
+...
 ```
 
-You'll be given an error that says the node has already been started.
-Take the name of the node and use it to connect.
+Note that the address (the @... part) will be different every time.
 
-```
-docker exec -it deploy-dotcom-1-1 iex
-
-iex> Node.connect("...")
-iex> node = Node.list() |> List.first()
-iex> :rpc.call(node, Dotcom.Cache.Multilevel, :get, "cms.repo|important-notices")
-```
+---
 
 If you choose not to use Docker Compose, you'll still have to run Redis cluster.
 The easiest way to get it running is to download and compile it.
