@@ -114,7 +114,7 @@ defmodule DotCom.Mixfile do
        ]},
       {:parallel_stream, "1.1.0"},
       # latest version 1.7.11
-      {:phoenix, "1.6.16"},
+      {:phoenix, "1.7.11"},
       # latest version 4.1.1; cannot upgrade because we use Phoenix.HTML
       {:phoenix_html, "3.3.3"},
       {:phoenix_live_dashboard, "0.8.3"},
