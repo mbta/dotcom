@@ -1,4 +1,4 @@
-![](https://github.com/mbta/dotcom/actions/workflows/tests.yml/badge.svg?branch=master)
+![](https://github.com/mbta/dotcom/actions/workflows/tests.yml/badge.svg?branch=main)
 ![](https://github.com/mbta/dotcom/actions/workflows/deploy-prod.yml/badge.svg)
 ![](https://github.com/mbta/dotcom/actions/workflows/deploy-dev.yml/badge.svg)
 ![](https://github.com/mbta/dotcom/actions/workflows/deploy-dev-blue.yml/badge.svg)

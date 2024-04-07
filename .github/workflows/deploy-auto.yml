@@ -1,9 +1,9 @@
-# Deploy to dev on merge or push into master
-name: "Deploy: master branch"
+# Deploy to dev on merge or push into main
+name: "Deploy: main branch"
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 concurrency:
   group: dev
@@ -27,6 +27,6 @@ jobs:
     with:
       job-status: ${{ needs.auto.result }}
       success-message: |
-        :ballot_box_with_check: `dev` updated to latest commit on master
+        :ballot_box_with_check: `dev` updated to latest commit on main
       failure-message: |
-        :ballot_box_with_check: `dev` not updated to latest commit on master
+        :ballot_box_with_check: `dev` not updated to latest commit on main

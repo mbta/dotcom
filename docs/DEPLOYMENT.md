@@ -5,7 +5,7 @@
 This can be done on GitHub Actions via the following:
 
 - Create a tag following this format
-  - Pull the latest master locally
+  - Pull the latest main locally
   - Create a tag `git tag year.month.day.release_number` (ex. `2023.12.18.01`)
   - Push the tag `git push origin --tags`
 - [Create a release](https://github.com/mbta/dotcom/releases). Select a relevant tag, follow the naming convention, click "generate release notes", and publish. This will trigger the [Deploy: release](.github/workflows/deploy-release.yml) workflow that will kick off a deploy to production.
