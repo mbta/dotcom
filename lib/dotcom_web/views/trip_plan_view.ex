@@ -578,6 +578,8 @@ defmodule DotcomWeb.TripPlanView do
         # If this is part of a free transfer, don't add fare
         cond do
           Transfer.is_maybe_transfer?(three_legs) -> acc
+          # If this is a bus to subway transfer, add the transfer fee of 70 cents
+          Transfer.is_bus_to_subway_transfer?(two_legs) -> acc + 70
           Transfer.is_maybe_transfer?(two_legs) -> acc
           true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
         end
