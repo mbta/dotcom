@@ -513,25 +513,89 @@ defmodule Schedules.HoursOfOperationTest do
     end
   end
 
+  describe "departure_overall/3" do
+    test "it should ignore times with the same departure and arrival, and non-terminus departures when calculating overall" do
+      with_mock(Stops.Repo, [:passthrough], get!: &test_stop_name(&1)) do
+        {stop_1_dep_1, stop_1_dep_1_time} =
+          build_schedule(%{
+            stop_id: "1",
+            departure_time: ~U[2022-12-27 10:45:00Z],
+            arrival_time: ~U[2022-12-27 10:45:00Z],
+            headsign: "Test Stop"
+          })
+
+        {stop_1_dep_2, stop_1_dep_2_time} =
+          build_schedule(%{
+            stop_id: "1",
+            departure_time: ~U[2022-12-27 23:45:00Z],
+            arrival_time: ~U[2022-12-27 23:45:00Z],
+            headsign: "Test Stop"
+          })
+
+        {stop_2_dep_1, _stop_2_dep_1_time} =
+          build_schedule(%{
+            stop_id: "2",
+            departure_time: ~U[2022-12-31 08:45:00Z],
+            arrival_time: ~U[2022-12-31 08:45:00Z],
+            headsign: "Test Stop 2"
+          })
+
+        {stop_2_dep_2, _stop_2_dep_1_time} =
+          build_schedule(%{
+            stop_id: "3",
+            departure_time: ~U[2022-12-31 04:45:00Z],
+            arrival_time: ~U[2022-12-31 11:45:00Z],
+            headsign: "Test Stop 2"
+          })
+
+        departure =
+          departure_overall(
+            [stop_1_dep_1, stop_1_dep_2, stop_2_dep_1, stop_2_dep_2],
+            ["Test Stop", "Test Stop 2"],
+            :rapid_transit
+          )
+
+        expected_departure = %Departures{
+          first_departure: stop_1_dep_1_time,
+          last_departure: stop_1_dep_2_time
+        }
+
+        assert expected_departure == departure
+      end
+    end
+  end
+
   defp test_stop_name("1"), do: %Stops.Stop{name: "Test Stop"}
   defp test_stop_name("2"), do: %Stops.Stop{name: "Test Stop 2"}
+  defp test_stop_name("3"), do: %Stops.Stop{name: "Test Stop 3"}
+
+  defp time(nil), do: nil
+  defp time(time), do: DateTime.to_iso8601(time)
 
   defp build_schedule(
-         %{stop_id: stop_id, departure_time: departure_time} \\ %{
+         data \\ %{
            stop_id: "1",
            departure_time: DateTime.utc_now()
          }
-       ) do
+       )
+
+  defp build_schedule(%{
+         stop_id: stop_id,
+         departure_time: departure_time,
+         arrival_time: arrival_time,
+         headsign: headsign
+       }) do
     item = %JsonApi.Item{
       type: "schedule",
       attributes: %{
-        "departure_time" => DateTime.to_iso8601(departure_time)
+        "departure_time" => time(departure_time),
+        "arrival_time" => time(arrival_time)
       },
       relationships: %{
         "trip" => [
           %{
             attributes: %{
-              "headsign" => "Test Stop"
+              "headsign" => headsign
             }
           }
         ],
@@ -544,5 +608,14 @@ defmodule Schedules.HoursOfOperationTest do
     }
 
     {item, departure_time}
+  end
+
+  defp build_schedule(%{stop_id: stop_id, departure_time: departure_time}) do
+    build_schedule(%{
+      stop_id: stop_id,
+      departure_time: departure_time,
+      arrival_time: nil,
+      headsign: "Test Stop"
+    })
   end
 end

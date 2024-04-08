@@ -479,22 +479,27 @@ defmodule Schedules.HoursOfOperation do
     end)
   end
 
-  # This returns a single hours map for rapid transit routes
+  @doc """
+  This returns a single hours map for rapid transit routes
+  It ignores any departures that have the same start and end time, and are not the
+  terminus departure
+  """
   def departure_overall(data, headsigns, :rapid_transit) do
     departures = departure(data, headsigns, :rapid_transit)
 
-    if Enum.empty?(departures) do
+    departures_filtered =
+      Enum.filter(departures, fn x ->
+        x.first_departure != x.last_departure && x.is_terminus == true
+      end)
+
+    if Enum.empty?(departures_filtered) do
       :no_service
     else
       first_departure =
-        if Enum.empty?(departures),
-          do: nil,
-          else: Enum.min_by(departures, &DateTime.to_unix(&1.first_departure, :nanosecond))
+        Enum.min_by(departures_filtered, &DateTime.to_unix(&1.first_departure, :nanosecond))
 
       last_departure =
-        if Enum.empty?(departures),
-          do: nil,
-          else: Enum.min_by(departures, &DateTime.to_unix(&1.last_departure, :nanosecond))
+        Enum.min_by(departures_filtered, &DateTime.to_unix(&1.last_departure, :nanosecond))
 
       %Departures{
         first_departure: first_departure.first_departure,
