@@ -12,7 +12,7 @@ on:
 
   workflow_run:
     workflows:
-      - "Deploy: master branch"
+      - "Deploy: main branch"
     types:
       - completed
 

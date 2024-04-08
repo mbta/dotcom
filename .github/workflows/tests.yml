@@ -1,7 +1,7 @@
 name: CI
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     # Don't bother running if it's just a script or docs change
     paths-ignore:
@@ -27,7 +27,7 @@ jobs:
     name: File changes
     uses: ./.github/workflows/changed-files.yml
     with:
-      # If it's a Dependabot PR, or a push to master, we want to run every test
+      # If it's a Dependabot PR, or a push to main, we want to run every test
       force: ${{ github.event_name == 'push' || contains(github.head_ref, 'dependabot/hex') || contains(github.head_ref, 'dependabot/npm_and_yarn') }}
 
   build_app:
@@ -77,7 +77,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
-    - run: git fetch origin master:master
+    - run: git fetch origin main:main
     - run: npm run ci:lint:ex
 
   elixir_unit:

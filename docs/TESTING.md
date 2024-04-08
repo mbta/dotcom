@@ -25,7 +25,7 @@ Each test can be run locally by invoking the corresponding NPM script. All the t
 ```sh
  npm run ci:lint:js
  # cd assets
- # git diff --name-only --diff-filter=dx origin/master... | grep js/.*\\.js | xargs npx eslint -c .eslintrc.js
+ # git diff --name-only --diff-filter=dx origin/main... | grep js/.*\\.js | xargs npx eslint -c .eslintrc.js
  ```
 *Runs only if a file with the `.js` extension was changed.*
 
@@ -40,7 +40,7 @@ Each test can be run locally by invoking the corresponding NPM script. All the t
 ### Linting / Elixir
 ```sh
 npm run ci:lint:ex
-# mix credo diff master -a
+# mix credo diff main -a
 ```
 *Runs only if a file with the `.ex` or `.exs` extension was changed.*
 
