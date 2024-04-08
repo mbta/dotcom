@@ -583,7 +583,9 @@ defmodule DotcomWeb.TripPlanView do
         # If this is part of a free transfer, don't add fare
         cond do
           Transfer.bus_to_subway_transfer?(three_legs) ->
-            if acc == 170, do: acc + 70, else: acc
+            if acc == Fares.get_fare_by_type(List.first(three_legs), fare_type) |> fare_cents(),
+              do: acc + 70,
+              else: acc
 
           Transfer.is_maybe_transfer?(three_legs) ->
             acc
