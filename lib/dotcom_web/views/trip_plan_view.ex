@@ -582,11 +582,20 @@ defmodule DotcomWeb.TripPlanView do
         three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
         # If this is part of a free transfer, don't add fare
         cond do
-          Transfer.bus_to_subway_transfer?(three_legs) -> acc + 70
-          Transfer.is_maybe_transfer?(three_legs) -> acc
-          Transfer.bus_to_subway_transfer?(two_legs) -> acc + 70
-          Transfer.is_maybe_transfer?(two_legs) -> acc
-          true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+          Transfer.bus_to_subway_transfer?(three_legs) ->
+            if acc == 170, do: acc + 70, else: acc
+
+          Transfer.is_maybe_transfer?(three_legs) ->
+            acc
+
+          Transfer.bus_to_subway_transfer?(two_legs) ->
+            acc + 70
+
+          Transfer.is_maybe_transfer?(two_legs) ->
+            acc
+
+          true ->
+            acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
         end
       end
     end)
