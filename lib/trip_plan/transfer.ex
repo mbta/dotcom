@@ -77,8 +77,17 @@ defmodule TripPlan.Transfer do
   def is_maybe_transfer?(_), do: false
 
   @doc """
-  Is the first leg a bus ride and the second leg a subway ride?
+  Is there a bus to subway transfer?
   """
+  def bus_to_subway_transfer?([
+        first_leg = %Leg{mode: %TransitDetail{}},
+        middle_leg = %Leg{mode: %TransitDetail{}},
+        last_leg = %Leg{mode: %TransitDetail{}}
+      ]) do
+    bus_to_subway_transfer?([first_leg, middle_leg]) ||
+      bus_to_subway_transfer?([middle_leg, last_leg])
+  end
+
   def bus_to_subway_transfer?([
         %Leg{mode: %TransitDetail{route_id: from_route}},
         %Leg{mode: %TransitDetail{route_id: to_route}}

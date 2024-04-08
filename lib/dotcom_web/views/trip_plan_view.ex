@@ -562,8 +562,7 @@ defmodule DotcomWeb.TripPlanView do
   @doc """
   Gets the total fare for a given itinerary, based on the fare type.
 
-  Note that we have to check if there is a bus to subway transfer and manually add the transfer cost.
-  This is because OTP adds the transfer to the first leg of a subway to bus transfer, but not bus to subway.
+  We have to check if there is a bus to subway transfer and manually add the transfer cost of $0.70.
   """
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
@@ -583,8 +582,8 @@ defmodule DotcomWeb.TripPlanView do
         three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
         # If this is part of a free transfer, don't add fare
         cond do
+          Transfer.bus_to_subway_transfer?(three_legs) -> acc + 70
           Transfer.is_maybe_transfer?(three_legs) -> acc
-          # If this is a bus to subway transfer, add the transfer fee of 70 cents
           Transfer.bus_to_subway_transfer?(two_legs) -> acc + 70
           Transfer.is_maybe_transfer?(two_legs) -> acc
           true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
