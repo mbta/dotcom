@@ -10,6 +10,16 @@ updates:
     schedule:
       interval: "daily"
       time: "09:00"
+    ignore:
+      - dependency-name: "castore"
+      - dependency-name: "excoveralls"
+      - dependency-name: "html_sanitize_ex"
+      - dependency-name: "httpoison"
+      - dependency-name: "phoenix"
+      - dependency-name: "phoenix_html"
+      - dependency-name: "poison"
+      - dependency-name: "sentry"
+      - dependency-name: "timex" 
     open-pull-requests-limit: 1
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "assets" # Location of package manifests

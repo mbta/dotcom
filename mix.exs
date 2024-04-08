@@ -62,11 +62,9 @@ defmodule DotCom.Mixfile do
     ]
   end
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
-  #
   # You can check the status of each dependency by running `mix hex.outdated`.
+  # Dependencies that cannot be updated are noted in comments.
+  # Note that you should also update `.github/dependabot.yml` and remove ignore overrides for any dependencies you update.
   defp deps do
     [
       {:absinthe_client, "0.1.0"},
