@@ -83,8 +83,7 @@ defmodule TripPlan.Transfer do
         %Leg{mode: %TransitDetail{route_id: from_route}},
         %Leg{mode: %TransitDetail{route_id: to_route}}
       ]) do
-    Fares.to_fare_atom(from_route) == :bus and
-      Fares.to_fare_atom(to_route) == :subway
+    Fares.to_fare_atom(from_route) == :bus && Fares.to_fare_atom(to_route) == :subway
   end
 
   def bus_to_subway_transfer?(_), do: false
