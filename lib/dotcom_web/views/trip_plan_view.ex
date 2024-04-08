@@ -559,6 +559,12 @@ defmodule DotcomWeb.TripPlanView do
     }
   end
 
+  @doc """
+  Gets the total fare for a given itinerary, based on the fare type.
+
+  Note that we have to check if there is a bus to subway transfer and manually add the transfer cost.
+  This is because OTP adds the transfer to the first leg of a subway to bus transfer, but not bus to subway.
+  """
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
     transit_legs =
