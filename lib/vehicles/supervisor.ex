@@ -31,12 +31,7 @@ defmodule Vehicles.Supervisor do
     ]
   end
 
-  defp stream_children("false") do
-    # Wiremock does not support server-sent events,
-    # so starting the vehicle stream during tests using Wiremock
-    # causes the server to crash.
-    []
-  end
+  defp stream_children("false"), do: []
 
   defp stream_children(_) do
     sses_opts =

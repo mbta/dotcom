@@ -110,9 +110,7 @@ end
 config :dotcom,
   v3_api_base_url: System.get_env("V3_URL"),
   v3_api_key: System.get_env("V3_API_KEY"),
-  v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01"),
-  v3_api_wiremock_proxy_url: System.get_env("WIREMOCK_PROXY_URL"),
-  v3_api_wiremock_proxy: System.get_env("WIREMOCK_PROXY") || "false"
+  v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01")
 
 config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 
@@ -130,9 +128,7 @@ end
 
 config :dotcom, OpenTripPlanner,
   timezone: System.get_env("OPEN_TRIP_PLANNER_TIMEZONE", "America/New_York"),
-  otp_url: System.get_env("OPEN_TRIP_PLANNER_URL"),
-  wiremock_proxy: System.get_env("WIREMOCK_PROXY", "false"),
-  wiremock_proxy_url: System.get_env("WIREMOCK_TRIP_PLAN_PROXY_URL")
+  otp_url: System.get_env("OPEN_TRIP_PLANNER_URL")
 
 if config_env() != :test and System.get_env("OPEN_TRIP_PLANNER_URL") != "" do
   config :open_trip_planner_client,
