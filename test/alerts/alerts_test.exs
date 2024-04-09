@@ -7,8 +7,6 @@ defmodule AlertsTest do
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
 
-  @now Util.to_local_time(~N[2018-01-15T12:00:00])
-
   describe "new/1" do
     test "with no params, returns a default struct" do
       assert new() == %Alert{}

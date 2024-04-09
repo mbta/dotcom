@@ -41,25 +41,6 @@ defmodule MBTA.Api.HeadersTest do
            ]
   end
 
-  test "calls cache header fn if use_cache? is true" do
-    opts = [
-      use_cache?: true,
-      url: "URL",
-      params: [],
-      cache_headers_fn: fn "URL", [] -> [{"if-modified-since", "LAST_MODIFIED"}] end
-    ]
-
-    actual_opts =
-      Headers.build("API_KEY", opts)
-      |> Keyword.take(["if-modified-since", "x-api-key"])
-
-    assert actual_opts ==
-             [
-               {"if-modified-since", "LAST_MODIFIED"},
-               {"x-api-key", "API_KEY"}
-             ]
-  end
-
   test "adds experimental features header if application config is set" do
     Application.put_env(:dotcom, :enable_experimental_features, "true")
 
