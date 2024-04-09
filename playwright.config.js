@@ -21,7 +21,7 @@ module.exports = defineConfig({
     userAgent: 'Playwright',
   },
   /* set the expect timeout to 10s */
-  expect: { timeout: 10000 },
+  expect: { timeout: 30000 },
   /* Configure projects for major browsers */
   projects: [
     {

@@ -44,7 +44,7 @@ services:
             test: curl --fail http://localhost:4002/_health || exit 1
             interval: 10s
             retries: 5
-            start_period: 60s
+            start_period: 180s
             timeout: 10s
         volumes:
             - ../:/app

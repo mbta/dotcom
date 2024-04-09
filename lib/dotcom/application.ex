@@ -26,8 +26,7 @@ defmodule Dotcom.Application do
 
     children =
       [
-        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
-        MBTA.Cache
+        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []}
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [

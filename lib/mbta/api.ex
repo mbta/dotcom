@@ -7,7 +7,7 @@ defmodule MBTA.Api do
 
   use HTTPoison.Base
 
-  alias MBTA.{Cache, SentryExtra}
+  alias MBTA.SentryExtra
   alias Util
 
   @behaviour MBTA.Api.Behaviour
@@ -29,7 +29,6 @@ defmodule MBTA.Api do
     with {time, response} <- timed_get(url, params, opts),
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
-         {:ok, http_response} <- Cache.cache_response(url, params, http_response),
          {:ok, body} <- body(http_response) do
       body
       |> JsonApi.parse()
