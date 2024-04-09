@@ -14,7 +14,6 @@ defmodule MBTA.Headers do
   def build(api_key, opts) do
     []
     |> api_key_header(api_key)
-    |> proxy_headers()
     |> cache_headers(opts)
     |> extra_headers()
   end
@@ -25,23 +24,6 @@ defmodule MBTA.Headers do
   defp api_key_header(headers, <<key::binary>>) do
     api_version = Util.config(:dotcom, :v3_api_version)
     [{"x-api-key", key}, {"MBTA-Version", api_version} | headers]
-  end
-
-  @spec proxy_headers(header_list) :: header_list
-  defp proxy_headers(headers) do
-    :dotcom
-    |> Util.config(:v3_api_wiremock_proxy)
-    |> do_proxy_headers(headers)
-  end
-
-  @spec do_proxy_headers(String.t() | nil, header_list) :: header_list
-  defp do_proxy_headers("true", headers) do
-    proxy_url = Util.config(:dotcom, :v3_api_wiremock_proxy_url)
-    [{"X-WM-Proxy-Url", proxy_url} | headers]
-  end
-
-  defp do_proxy_headers(_, headers) do
-    headers
   end
 
   @spec cache_headers(header_list, Keyword.t()) :: header_list
