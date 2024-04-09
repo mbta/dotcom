@@ -100,7 +100,7 @@ defmodule MBTA.Api.Stream do
     headers =
       opts
       |> Keyword.fetch!(:api_key)
-      |> Headers.build(use_cache?: false)
+      |> Headers.build()
 
     Keyword.put(opts, :headers, headers)
   end

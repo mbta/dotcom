@@ -48,13 +48,7 @@ defmodule MBTA.Api do
     api_key = Keyword.fetch!(opts, :api_key)
     base_url = Keyword.fetch!(opts, :base_url)
 
-    headers =
-      MBTA.Headers.build(
-        api_key,
-        params: params,
-        url: url,
-        use_cache?: true
-      )
+    headers = MBTA.Headers.build(api_key)
 
     url = base_url <> URI.encode(url)
     timeout = Keyword.fetch!(opts, :timeout)
