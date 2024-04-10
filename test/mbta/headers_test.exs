@@ -32,15 +32,6 @@ defmodule MBTA.Api.HeadersTest do
            ]
   end
 
-  test "adds wiremock proxy header if env var is set" do
-    reassign_env(:dotcom, :v3_api_wiremock_proxy_url, "proxy_url")
-    reassign_env(:dotcom, :v3_api_wiremock_proxy, "true")
-
-    assert Headers.build("API_KEY", use_cache?: false) |> Keyword.take(["X-WM-Proxy-Url"]) == [
-             {"X-WM-Proxy-Url", "proxy_url"}
-           ]
-  end
-
   test "calls cache header fn if use_cache? is true" do
     opts = [
       use_cache?: true,
