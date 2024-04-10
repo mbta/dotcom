@@ -1,3 +1,4 @@
+# credo:disable-for-this-file
 defmodule DotcomWeb.TripPlanView do
   @moduledoc "Contains the logic for the Trip Planner"
   use DotcomWeb, :view
@@ -559,6 +560,11 @@ defmodule DotcomWeb.TripPlanView do
     }
   end
 
+  @doc """
+  Gets the total fare for a given itinerary, based on the fare type.
+
+  We have to check if there is a bus to subway transfer and manually add the transfer cost of $0.70.
+  """
   @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
     transit_legs =
@@ -577,9 +583,22 @@ defmodule DotcomWeb.TripPlanView do
         three_legs = transit_legs |> Enum.slice(leg_index - 2, 3)
         # If this is part of a free transfer, don't add fare
         cond do
-          Transfer.is_maybe_transfer?(three_legs) -> acc
-          Transfer.is_maybe_transfer?(two_legs) -> acc
-          true -> acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
+          Transfer.bus_to_subway_transfer?(three_legs) ->
+            if acc == Fares.get_fare_by_type(List.first(three_legs), fare_type) |> fare_cents(),
+              do: acc + 70,
+              else: acc
+
+          Transfer.is_maybe_transfer?(three_legs) ->
+            acc
+
+          Transfer.bus_to_subway_transfer?(two_legs) ->
+            acc + 70
+
+          Transfer.is_maybe_transfer?(two_legs) ->
+            acc
+
+          true ->
+            acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
         end
       end
     end)

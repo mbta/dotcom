@@ -76,6 +76,27 @@ defmodule TripPlan.Transfer do
 
   def is_maybe_transfer?(_), do: false
 
+  @doc """
+  Is there a bus to subway transfer?
+  """
+  def bus_to_subway_transfer?([
+        first_leg = %Leg{mode: %TransitDetail{}},
+        middle_leg = %Leg{mode: %TransitDetail{}},
+        last_leg = %Leg{mode: %TransitDetail{}}
+      ]) do
+    bus_to_subway_transfer?([first_leg, middle_leg]) ||
+      bus_to_subway_transfer?([middle_leg, last_leg])
+  end
+
+  def bus_to_subway_transfer?([
+        %Leg{mode: %TransitDetail{route_id: from_route}},
+        %Leg{mode: %TransitDetail{route_id: to_route}}
+      ]) do
+    Fares.to_fare_atom(from_route) == :bus && Fares.to_fare_atom(to_route) == :subway
+  end
+
+  def bus_to_subway_transfer?(_), do: false
+
   defp same_station?(from_stop, to_stop) do
     to_parent_stop = Stops.Repo.get_parent(to_stop)
     from_parent_stop = Stops.Repo.get_parent(from_stop)
