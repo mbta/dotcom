@@ -18,7 +18,9 @@ defmodule TripPlan.Leg do
             type: nil,
             description: nil,
             url: nil,
-            polyline: ""
+            polyline: "",
+            distance: 0.0,
+            duration: 0
 
   @type mode :: PersonalDetail.t() | TransitDetail.t()
   @type t :: %__MODULE__{
@@ -32,7 +34,9 @@ defmodule TripPlan.Leg do
           type: String.t(),
           description: String.t(),
           url: String.t(),
-          polyline: String.t()
+          polyline: String.t(),
+          distance: Float.t(),
+          duration: Integer.t()
         }
 
   @doc "Returns the route ID for the leg, if present"

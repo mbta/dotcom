@@ -1,0 +1,26 @@
+<div class="route-branch-stop<%= if @expanded, do: " expanded", else: "" %>">
+    <%=
+    assigns
+    |> walk_row_params()
+    |> DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(false, nil)
+  %>
+  <div class="route-branch-stop-info expand">
+  <div class="d=flex">
+    <% duration_minutes = :erlang.float_to_binary(Timex.Duration.to_minutes(@itinerary_row.duration, :seconds), [decimals: 1]) %>
+    <%= svg "walk.svg" %><span class="u-bold ps-8 pe-8">Walk to <%= @next_stop_name %></span>(<%= display_meters_as_miles(@itinerary_row.distance) %> mi, <%= duration_minutes %> min)
+  </div>
+    <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @next_stop_name)),
+             class: "toggle-stop-list btn btn-link",
+             data: [toggle: "collapse", target: "##{@target_id}"] do %>
+
+      <span class="expand-show-details">
+      <%= if @expanded do
+        "Hide Details"
+      else
+        "Show Details"
+      end %>
+      </span>
+
+    <% end %>
+  </div>
+</div>

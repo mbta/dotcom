@@ -10,6 +10,7 @@ defmodule DotcomWeb.TripPlanView do
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, Transfer}
+  alias Dotcom.StopBubble
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -277,6 +278,26 @@ defmodule DotcomWeb.TripPlanView do
     ]
   end
 
+  @spec walk_row_params(map()) :: [StopBubble.Params.t()]
+  def walk_row_params(assigns) do
+    [
+      %StopBubble.Params{
+        render_type: :empty,
+        class: "",
+        direction_id: assigns[:direction_id],
+        merge_indent: nil,
+        route_id: nil,
+        route_type: nil,
+        show_line?: true,
+        vehicle_tooltip: nil,
+        content: "",
+        bubble_branch: nil,
+        show_checkmark?: false
+      }
+    ]
+  end
+
+  # http://localhost:4001/trip-planner?plan%5Bfrom%5D=278+Highland+Avenue%2C+Somerville%2C+MA%2C+02143%2C+USA&plan%5Bfrom_latitude%5D=42.391806646433&plan%5Bfrom_longitude%5D=-71.111907954846&plan%5Bfrom_stop_id%5D=&plan%5Bto%5D=10+Park+Plaza%2C+Boston%2C+MA%2C+02116%2C+USA&plan%5Bto_latitude%5D=42.351517603896&plan%5Bto_longitude%5D=-71.066641738204&plan%5Bto_stop_id%5D=&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=4&plan%5Bdate_time%5D%5Bminute%5D=00&plan%5Bdate_time%5D%5Bam_pm%5D=PM&plan%5Bdate_time%5D%5Bmonth%5D=4&plan%5Bdate_time%5D%5Bday%5D=8&plan%5Bdate_time%5D%5Byear%5D=2024&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Bwheelchair%5D=true#plan_result_focus
   def render_steps(conn, steps, mode_class, itinerary_id, row_id) do
     for {step, bubbles} <- steps do
       render(

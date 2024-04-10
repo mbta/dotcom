@@ -10,7 +10,7 @@
   <div class="route-branch-stop-info expand">
     <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
              class: "toggle-stop-list btn btn-link",
-             data: [toggle: "collapse", target: "##{@target_id}", target_branch: @branch_name] do %>
+             data: [toggle: "collapse", target: "##{@target_id}"] do %>
 
       <span class="expand-link-stop-text">
         <span class="expand-branch-stop-count">

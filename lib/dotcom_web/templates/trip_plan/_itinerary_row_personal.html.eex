@@ -1,11 +1,27 @@
 <%
+   collapse_target_id = "itinerary-#{@itinerary_idx}-#{@row_idx}"
   [{:transfer, transfer_bubbles} | steps] = bubble_params(@itinerary_row, @row_idx)
 %>
 
-<%=
+<div class="itinerary-row-container <%= @mode_class %>">
+  <%=
   render "_itinerary_transfer_stop.html",
     Map.merge(assigns, %{mode: "personal",
                          alerts: @itinerary_row.alerts,
                          bubble_params: transfer_bubbles}) %>
+  <%= render "_walk_list_expand_link.html", Map.merge(
+        assigns,
+        %{
+          branch_name: "hello",
+          target_id: collapse_target_id,
+          expanded: @expanded,
+          bubble_params: transfer_bubbles
+        }
+      ) %>
 
-<%= render_steps(@conn, steps, "personal", @itinerary_idx, @row_idx) %>
+  <%=
+    content_tag :div, DotcomWeb.ScheduleView.StopList.step_bubble_attributes(steps, collapse_target_id, @next_stop_name == @expanded) do
+      render_steps(@conn, steps, @mode_class, @itinerary_idx, @row_idx)
+    end
+  %>
+</div>

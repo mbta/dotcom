@@ -247,7 +247,8 @@ $location-line-width: $space-6;
   }
 }
 
-.expand-branch-stop-count {
+.expand-branch-stop-count,
+.expand-show-details {
   color: $brand-primary;
 
   &:hover {

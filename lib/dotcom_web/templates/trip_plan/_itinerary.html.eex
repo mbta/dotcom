@@ -4,9 +4,12 @@
       <strong>Note:</strong> This trip may be affected by disruptions in service. Check steps with <%= fa "exclamation-triangle" %> for details.
     </div>
   <% end %>
+
   <%= for {row, idx} <- Enum.with_index(@itinerary_row_list) do
+    next_row = Enum.at(@itinerary_row_list, idx + 1, nil)
     render "_itinerary_row.html",
       itinerary_row: row,
+      next_itinerary_row: next_row,
       conn: @conn,
       row_idx: idx,
       stop_id: "stop",
