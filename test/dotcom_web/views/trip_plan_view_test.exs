@@ -1,9 +1,12 @@
 defmodule DotcomWeb.TripPlanViewTest do
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.TripPlanView
+  import Mox
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import UrlHelpers, only: [update_url: 2]
   import Schedules.Repo, only: [end_of_rating: 0]
+  import UrlHelpers, only: [update_url: 2]
+
   alias Fares.Fare
   alias Routes.Route
   alias Dotcom.TripPlan.{IntermediateStop, ItineraryRow, Query}
@@ -72,6 +75,8 @@ defmodule DotcomWeb.TripPlanViewTest do
     },
     reduced_one_way_fare: nil
   }
+
+  setup :verify_on_exit!
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -1286,6 +1291,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         start: nil,
         stop: nil
       }
+
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        {:error, nil}
+      end)
 
       assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
     end
