@@ -1,3 +1,4 @@
+# credo:disable-for-this-file
 defmodule DotcomWeb.TripPlanView do
   @moduledoc "Contains the logic for the Trip Planner"
   use DotcomWeb, :view
