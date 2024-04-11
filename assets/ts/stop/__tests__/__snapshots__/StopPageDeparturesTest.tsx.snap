@@ -157,7 +157,7 @@ exports[`StopPageDepartures renders with data 2`] = `
       >
         <a
           class="departure-card__route u-bg--bus notranslate"
-          href="/schedules/16"
+          href="/schedules/16?schedule_direction[direction_id]=0"
         >
           <span
             aria-hidden="true"

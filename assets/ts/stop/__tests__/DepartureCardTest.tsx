@@ -50,8 +50,8 @@ describe("DepartureCard", () => {
     );
     await waitFor(() => {
       expect(
-        screen.getByRole("link", { name: testRoute.name })
-      ).toHaveAttribute("href", `/schedules/${testRoute.id}`);
+        screen.getByRole("link", { name: testRoute.name }).getAttribute("href")
+      ).toStartWith(`/schedules/${testRoute.id}`);
     });
   });
 
