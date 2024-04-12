@@ -32,19 +32,19 @@ const alert1: Alert = {
 
 describe("availabilityMessage", () => {
   it("should return 'View available facilityType' if at least one is available", () => {
-    expect(availabilityMessage(1, 2, "elevators")).toEqual(
+    expect(availabilityMessage(1, 2, "Elevator")).toEqual(
       "View available elevators."
     );
   });
 
   it("should renturn 'This station does not have facilityType' if total facilities is 0", () => {
-    expect(availabilityMessage(0, 0, "escalators")).toEqual(
+    expect(availabilityMessage(0, 0, "Escalator")).toEqual(
       "This station does not have escalators."
     );
   });
 
   it("should renturn 'All facilityType are currently out of order.' if all facilities have alerts", () => {
-    expect(availabilityMessage(2, 2, "elevators")).toEqual(
+    expect(availabilityMessage(2, 2, "Elevator")).toEqual(
       "All elevators are currently out of order."
     );
   });

@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import StationInformation from "../../components/StationInformation";
 import { customStop } from "../helpers";
+import { Facility } from "../../../__v3api";
 
 const stationStop = customStop({
   name: "First Station",
@@ -17,11 +18,25 @@ const busStop = customStop({
   accessibility: ["accessible"],
   "has_fare_machine?": false
 });
+const facilities = [
+  {
+    id: "esc1",
+    attributes: { short_name: "Escalator 1", type: "ESCALATOR" }
+  } as Facility,
+  {
+    id: "elv100",
+    attributes: { short_name: "Elevator 100", type: "ELEVATOR" }
+  } as Facility
+];
 
 describe("StationInformation", () => {
   it("should have headings", () => {
     render(
-      <StationInformation stop={stationStop} alerts={[]} facilities={[]} />
+      <StationInformation
+        stop={stationStop}
+        alerts={[]}
+        facilities={facilities}
+      />
     );
     expect(
       screen.queryByRole("heading", { name: "Station Information" })

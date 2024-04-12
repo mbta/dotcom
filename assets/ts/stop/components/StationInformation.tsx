@@ -4,10 +4,9 @@ import { Alert, Facility, Stop } from "../../__v3api";
 import ExternalMapLink from "./ExternalMapLink";
 import ParkingAmenityCard from "./amenities/ParkingAmenityCard";
 import BikeStorageAmenityCard from "./amenities/BikeStorageAmenityCard";
-import ElevatorsAmenityCard from "./amenities/ElevatorsAmenityCard";
-import EscalatorsAmenityCard from "./amenities/EscalatorsAmenityCard";
 import AccessibilityAmenityCard from "./amenities/AccessibilityAmenityCard";
 import FareSalesAmenityCard from "./amenities/FareSalesAmenityCard";
+import StationAmenityCard from "./amenities/StationAmenityCard";
 import {
   alertsByActivity,
   alertsByFacility,
@@ -24,20 +23,12 @@ const StationInformation = ({
   facilities: Facility[];
 }): ReactElement<HTMLElement> => {
   const isStation = isStopAStation(stop);
-
-  const facilitiesByType = new Map<string, Facility[]>();
-
-  facilities.forEach((facility: Facility) => {
-    const { type } = facility.attributes;
-    if (facilitiesByType.has(type)) {
-      facilitiesByType.get(type)?.push(facility);
-    } else {
-      facilitiesByType.set(type, [facility]);
-    }
-  });
-
-  const elevators = facilitiesByType.get("ELEVATOR") || [];
-  const escalators = facilitiesByType.get("ESCALATOR") || [];
+  const elevators = facilities.filter(
+    ({ attributes }) => attributes.type === "ELEVATOR"
+  );
+  const escalators = facilities.filter(
+    ({ attributes }) => attributes.type === "ESCALATOR"
+  );
 
   return (
     <div>
@@ -67,21 +58,17 @@ const StationInformation = ({
         {isStation && (
           <>
             <h3 className="hidden-md-up">Getting around the station</h3>
-            <ElevatorsAmenityCard
+            <StationAmenityCard
               stopName={stop.name}
-              alerts={alertsByFacility(
-                elevators !== undefined ? elevators : [],
-                alerts
-              )}
-              elevatorFacilities={elevators}
+              alerts={alertsByFacility(elevators, alerts)}
+              facilities={elevators}
+              facilityType="Elevator"
             />
-            <EscalatorsAmenityCard
+            <StationAmenityCard
               stopName={stop.name}
-              alerts={alertsByFacility(
-                escalators !== undefined ? escalators : [],
-                alerts
-              )}
-              escalatorFacilities={escalators}
+              alerts={alertsByFacility(escalators, alerts)}
+              facilities={escalators}
+              facilityType="Escalator"
             />
           </>
         )}

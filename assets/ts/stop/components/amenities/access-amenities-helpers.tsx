@@ -6,15 +6,16 @@ import { isCurrentLifecycle } from "../../../models/alert";
 export const availabilityMessage = (
   brokenFacilities: number,
   totalFacilities: number,
-  facilityType: "elevators" | "escalators"
+  facilityType: "Elevator" | "Escalator"
 ): string => {
+  const formattedNoun = `${facilityType.toLowerCase()}s`;
   if (brokenFacilities === totalFacilities && totalFacilities > 0) {
-    return `All ${facilityType} are currently out of order.`;
+    return `All ${formattedNoun} are currently out of order.`;
   }
   if (totalFacilities === 0) {
-    return `This station does not have ${facilityType}.`;
+    return `This station does not have ${formattedNoun}.`;
   }
-  return `View available ${facilityType}.`;
+  return `View available ${formattedNoun}.`;
 };
 
 export const cardBadge = (
