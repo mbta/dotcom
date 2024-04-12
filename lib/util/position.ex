@@ -1,4 +1,6 @@
 defprotocol Util.Position do
+  @moduledoc "A protocol to map various datatypes to a latitude and longitude"
+
   @doc "The latitude of the item"
   def latitude(item)
 

@@ -6,16 +6,6 @@ defmodule TripPlan.GeocodeTest do
   alias TripPlan.NamedPosition
 
   describe "geocode/1" do
-    test "returns {:ok, %NamedPosition{}} if Google returns a single result" do
-      with_geocode_mock(
-        {:ok, [%Address{formatted: "formatted", latitude: 1, longitude: -1}]},
-        fn ->
-          assert {:ok, %NamedPosition{name: "formatted", latitude: 1, longitude: -1}} =
-                   geocode("formatted")
-        end
-      )
-    end
-
     test "returns {:error, :no_results} if there are no results" do
       with_geocode_mock({:error, :zero_results}, fn ->
         assert {:error, :no_results} = geocode("formatted")

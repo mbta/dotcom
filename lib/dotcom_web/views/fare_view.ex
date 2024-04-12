@@ -11,11 +11,36 @@ defmodule DotcomWeb.FareView do
     DescriptionList
   }
 
+  alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Fares.Summary
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.Route
-  alias DotcomWeb.PartialView.SvgIconWithCircle
+  alias Util.Position
+
+  @doc """
+  Returns the url to view directions to a location on https://maps.google.com.
+  """
+  @spec direction_map_url(Position.t(), Position.t()) :: String.t()
+  def direction_map_url(origin, destination) do
+    origin_lat = Position.latitude(origin)
+    origin_lng = Position.longitude(origin)
+    dest_lat = Position.latitude(destination)
+    dest_lng = Position.longitude(destination)
+
+    path =
+      Path.join([
+        "/",
+        "maps",
+        "dir",
+        URI.encode("#{origin_lat},#{origin_lng}"),
+        URI.encode("#{dest_lat},#{dest_lng}")
+      ])
+
+    URI.parse("https://maps.google.com")
+    |> URI.append_path(path)
+    |> URI.to_string()
+  end
 
   @doc "Renders a summary of fares into HTML"
   @spec summarize([Summary.t()], Keyword.t()) :: HTML.safe()

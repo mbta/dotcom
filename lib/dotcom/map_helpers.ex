@@ -2,9 +2,6 @@ defmodule Dotcom.MapHelpers do
   @moduledoc """
   Map-related helper functions.
   """
-
-  alias GoogleMaps.MapData.Marker
-
   import DotcomWeb.Router.Helpers, only: [static_url: 2]
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
@@ -77,16 +74,4 @@ defmodule Dotcom.MapHelpers do
       "/sites/default/files/media/2024-03/2024-03-22-ferry-map.jpg"
     )
   end
-
-  @doc """
-  Returns the map icon path for the given route. An optional size
-  can be given. A Size of :mid represents the larger stop icons.
-  If no size is specified, the smaller icons are shown
-  """
-  @spec map_stop_icon_path(Marker.size() | nil, boolean) :: String.t()
-  def map_stop_icon_path(size, filled \\ false)
-  def map_stop_icon_path(:mid, false), do: "000000-dot-mid"
-  def map_stop_icon_path(:mid, true), do: "000000-dot-filled-mid"
-  def map_stop_icon_path(_size, true), do: "000000-dot-filled"
-  def map_stop_icon_path(_size, false), do: "000000-dot"
 end

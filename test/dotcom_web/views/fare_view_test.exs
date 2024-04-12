@@ -5,6 +5,29 @@ defmodule DotcomWeb.FareViewTest do
   import DotcomWeb.FareView
   alias Fares.Summary
 
+  @location_1 %{lat: 42.354199, lng: -71.07399}
+  @location_2 %{lat: 42.34735, lng: -71.075727}
+
+  describe "direction_map_url/2" do
+    test "returns a correctly formatted url" do
+      url =
+        direction_map_url(
+          {@location_1.lat, @location_1.lng},
+          {@location_2.lat, @location_2.lng}
+        )
+
+      assert url ==
+               "https://maps.google.com" <>
+                 Path.join([
+                   "/",
+                   "maps",
+                   "dir",
+                   URI.encode("#{@location_1.lat},#{@location_1.lng}"),
+                   URI.encode("#{@location_2.lat},#{@location_2.lng}")
+                 ])
+    end
+  end
+
   describe "summary_url/1" do
     test "links to :mode-fares for bus/subway summaries" do
       expected = DotcomWeb.Router.Helpers.fare_path(DotcomWeb.Endpoint, :show, "bus-fares")
