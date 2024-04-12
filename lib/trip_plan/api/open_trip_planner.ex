@@ -32,29 +32,30 @@ defmodule TripPlan.Api.OpenTripPlanner do
     score = json["accessibilityScore"]
 
     %Itinerary{
-      start: parse_time(json["startTime"]),
-      stop: parse_time(json["endTime"]),
+      start: parse_time(json["start"]),
+      stop: parse_time(json["end"]),
       legs: Enum.map(json["legs"], &parse_leg/1),
       accessible?: if(score, do: score == 1.0),
       tag: json["tag"]
     }
   end
 
-  defp parse_time(ms_after_epoch) do
-    {:ok, ms_after_epoch_dt} =
-      ms_after_epoch
-      |> DateTime.from_unix(:millisecond)
-
-    Timex.to_datetime(
-      ms_after_epoch_dt,
-      Application.fetch_env!(:open_trip_planner_client, :timezone)
-    )
+  defp parse_time(iso8601_formatted_datetime) do
+    Timex.parse!(iso8601_formatted_datetime, "{ISO:Extended}")
   end
 
   defp parse_leg(json) do
+    estimated_or_scheduled = fn key ->
+      if json[key]["estimated"] do
+        json[key]["estimated"]["time"]
+      else
+        json[key]["scheduledTime"]
+      end
+    end
+
     %Leg{
-      start: parse_time(json["startTime"]),
-      stop: parse_time(json["endTime"]),
+      start: parse_time(estimated_or_scheduled.("start")),
+      stop: parse_time(estimated_or_scheduled.("end")),
       mode: parse_mode(json),
       from: parse_named_position(json["from"], "stop"),
       to: parse_named_position(json["to"], "stop"),
