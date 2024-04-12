@@ -43,10 +43,11 @@ const workers = fs.readdirSync(filesPath).map((file) => {
 });
 
 /*
- * A task runs every minute on the minute between the hours of 6am and midnight EST.
- * Spread out the worker runs over the minute to avoid overwhelming the system.
- * If we receive a message from a worker, it means that there was a failure.
- * Capture the exception with Sentry and attach a screenshot to the event.
+ * A task runs every minute on the minute between the hours of 5am and midnight
+ * EST. Spread out the worker runs over the minute to avoid overwhelming the
+ * system. If we receive a message from a worker, it means that there was a
+ * failure. Capture the exception with Sentry and attach a screenshot to the
+ * event.
  */
 cron.schedule("* 5-23 * * *", (_) => {
   workers.forEach((worker, index) => {
@@ -57,7 +58,7 @@ cron.schedule("* 5-23 * * *", (_) => {
       (60000 / workers.length) * index,
     );
 
-    worker.on("message", ({exception, metric, screenshot}) => {
+    worker.on("message", ({ exception, metric, screenshot }) => {
       Sentry.getCurrentScope().addAttachment({
         filename: `${metric}-${Date.now()}.jpeg`,
         data: screenshot,
@@ -68,4 +69,7 @@ cron.schedule("* 5-23 * * *", (_) => {
       Sentry.getCurrentScope().clearAttachments();
     });
   });
+}, {
+  scheduled: true,
+  timezone: "America/New_York"
 });
