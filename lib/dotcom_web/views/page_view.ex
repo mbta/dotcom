@@ -10,14 +10,6 @@ defmodule DotcomWeb.PageView do
 
   use DotcomWeb, :view
 
-  @spec sort_string_number(String.t(), String.t()) :: boolean
-  defp sort_string_number(a, b) do
-    case {Integer.parse(a), Integer.parse(b)} do
-      {{a_int, _}, {b_int, _}} -> a_int <= b_int
-      _ -> a <= b
-    end
-  end
-
   @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
   def get_route(id) do
     case DotcomWeb.ScheduleController.Line.Helpers.get_route(id) do
@@ -26,17 +18,10 @@ defmodule DotcomWeb.PageView do
     end
   end
 
-  @spec get_mode_route_sorter(Routes.Route.gtfs_route_type()) ::
-          (Routes.Route.t(), Routes.Route.t() -> boolean())
-  defp get_mode_route_sorter(:bus), do: &sort_string_number/2
-  defp get_mode_route_sorter(_), do: &<=/2
-
   @spec sort_routes({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) ::
           {Routes.Route.gtfs_route_type(), [Routes.Route.t()]}
   defp sort_routes({mode, routes}) do
-    sorter = get_mode_route_sorter(mode)
-
-    {mode, Enum.sort_by(routes, & &1.name, sorter)}
+    {mode, Enum.sort_by(routes, & &1.sort_order)}
   end
 
   @spec get_mode_order({Routes.Route.gtfs_route_type(), [Routes.Route.t()]}) :: integer()
