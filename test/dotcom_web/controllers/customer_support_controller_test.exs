@@ -1,6 +1,5 @@
 defmodule DotcomWeb.CustomerSupportControllerTest do
   use DotcomWeb.ConnCase
-  @moduletag :external
 
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
   import DotcomWeb.CustomerSupportController
@@ -14,12 +13,14 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
   end
 
   describe "GET" do
+    @tag :external
     test "shows the support form", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
       response = html_response(conn, 200)
       assert response =~ "Customer Support"
     end
 
+    @tag :external
     test "shows the support form and accepts a comment param", %{conn: conn} do
       conn =
         get(conn, customer_support_path(conn, :index, %{comments: "A comment about the MBTA"}))
@@ -29,12 +30,14 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert response =~ "A comment about the MBTA"
     end
 
+    @tag :external
     test "sets the service options on the connection", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
 
       assert conn.assigns.service_options == Feedback.Message.service_options()
     end
 
+    @tag :external
     test "sets a custom meta description", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
 
@@ -92,6 +95,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       }
     end
 
+    @tag :external
     test "shows a thank you message on success and sends an email", %{conn: conn} do
       conn = post(conn, customer_support_path(conn, :submit), valid_request_response_data())
 
@@ -106,6 +110,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
              )
     end
 
+    @tag :external
     test "submits successfully if customer does not want a response", %{conn: conn} do
       conn = post(conn, customer_support_path(conn, :submit), valid_no_response_data())
 
@@ -113,6 +118,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       wait_for_ticket_task(conn)
     end
 
+    @tag :external
     test "submits successfully if ADA Response checked", %{conn: conn} do
       conn = post(conn, customer_support_path(conn, :submit), valid_no_response_data())
 
@@ -120,12 +126,14 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       wait_for_ticket_task(conn)
     end
 
+    @tag :external
     test "sets a custom meta description", %{conn: conn} do
       conn = post(conn, customer_support_path(conn, :submit), valid_request_response_data())
 
       assert conn.assigns.meta_description
     end
 
+    @tag :external
     test "validates presence of comments", %{conn: conn} do
       conn =
         post(
@@ -137,6 +145,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "comments" in conn.assigns.errors
     end
 
+    @tag :external
     test "validates the presence of the service type", %{conn: conn} do
       conn =
         post(
@@ -148,6 +157,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "service" in conn.assigns.errors
     end
 
+    @tag :external
     test "validates that the service is one of the allowed values", %{conn: conn} do
       conn =
         post(
@@ -159,6 +169,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "service" in conn.assigns.errors
     end
 
+    @tag :external
     test "validates that the subject is one of the allowed values for the service", %{conn: conn} do
       conn =
         post(
@@ -170,6 +181,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "subject" in conn.assigns.errors
     end
 
+    @tag :external
     test "validates that the subject is a required field", %{conn: conn} do
       # remove subject from valid_no_response_data:
       form_data = pop_in(valid_no_response_data()["support"]["subject"]) |> elem(1)
@@ -184,6 +196,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "subject" in conn.assigns.errors
     end
 
+    @tag :external
     test "validates that the vehicle number, if filled, is a valid value", %{conn: conn} do
       conn =
         post(
@@ -213,6 +226,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       refute conn.assigns["errors"]
     end
 
+    @tag :external
     test "requires first_name if customer does want a response", %{conn: conn} do
       conn =
         post(
@@ -224,6 +238,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "first_name" in conn.assigns.errors
     end
 
+    @tag :external
     test "requires last_name if customer does want a response", %{conn: conn} do
       conn =
         post(
@@ -235,6 +250,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "last_name" in conn.assigns.errors
     end
 
+    @tag :external
     test "invalid with no email when the customer wants a response", %{conn: conn} do
       conn =
         post(
@@ -246,6 +262,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "email" in conn.assigns.errors
     end
 
+    @tag :external
     test "requires a real email", %{conn: conn} do
       conn =
         post(
@@ -257,6 +274,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "email" in conn.assigns.errors
     end
 
+    @tag :external
     test "invalid with phone but no email when the customer wants a response", %{conn: conn} do
       conn =
         post(
@@ -270,6 +288,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "email" in conn.assigns.errors
     end
 
+    @tag :external
     test "requires privacy checkbox when customer wants a response", %{conn: conn} do
       conn =
         post(
@@ -281,6 +300,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "privacy" in conn.assigns.errors
     end
 
+    @tag :external
     test "attaches photos in params", %{conn: conn} do
       File.write!("/tmp/upload-1", "upload 1 data")
       File.write!("/tmp/upload-2", "upload 2 data")
@@ -302,6 +322,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert %{"filename" => "photo-2.jpg", "data" => Base.encode64("upload 2 data")} in attachments
     end
 
+    @tag :external
     test "doesn't attach more than 6 files", %{conn: conn} do
       params =
         valid_no_response_data()
@@ -313,6 +334,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert length(attachments) <= 6
     end
 
+    @tag :external
     test "doesn't attach a file larger than 2 MB", %{conn: conn} do
       # Oversized test file is ~4 MB
       oversized_file = Enum.find(test_photos(), &String.starts_with?(&1.filename, "oversized"))
@@ -328,6 +350,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert attachments == []
     end
 
+    @tag :external
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
       params =
         valid_request_response_data()
@@ -346,6 +369,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "photos" in conn.assigns.errors
     end
 
+    @tag :external
     test "logs a warning, returns 429, and shows an error when rate limit reached", %{conn: conn} do
       rate_limit = Application.get_env(:dotcom, :feedback_rate_limit)
 
@@ -374,6 +398,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert log =~ "rate limit exceeded"
     end
 
+    @tag :external
     test "requires a successful recaptcha response", %{conn: conn} do
       conn =
         post(
@@ -385,6 +410,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    @tag :external
     test "handles invalid response", %{conn: conn} do
       conn =
         post(
@@ -396,6 +422,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    @tag :external
     test "if the submission doesn't carry a recaptcha value, consider it an invalid recaptcha", %{
       conn: conn
     } do
@@ -409,6 +436,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    @tag :external
     test "adds date and time fields if not present in the form", %{conn: conn} do
       conn =
         post(
@@ -478,6 +506,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert rendered == ""
     end
 
+    @tag :external
     test "sets date to today if it's in the future", %{conn: conn} do
       current_year = DateTime.utc_now().year
       m = DateTime.utc_now().month
@@ -518,6 +547,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
              )
     end
 
+    @tag :external
     test "submits the date as is because it's not in the future", %{conn: conn} do
       current_year = DateTime.utc_now().year
       m = DateTime.utc_now().month
@@ -558,6 +588,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
   end
 
   describe "Date and time selector" do
+    @tag :external
     test "renders a date and time selector", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
       rendered = html_response(conn, 200)
@@ -584,6 +615,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
              ]
     end
 
+    @tag :external
     test "get_options_per_mode" do
       options_per_mode = get_options_per_mode()
 
@@ -593,6 +625,7 @@ defmodule DotcomWeb.CustomerSupportControllerTest do
       assert Map.has_key?(options_per_mode, "ferry_options")
     end
 
+    @tag :external
     test "get_routes_for_mode", %{conn: conn} do
       conn = get(conn, customer_support_path(conn, :index))
 

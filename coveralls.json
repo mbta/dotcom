@@ -1,30 +1,35 @@
 {
   "coverage_options": {
-    "minimum_coverage": 60,
+    "minimum_coverage": 62,
     "treat_no_relevant_lines_as_covered": true
   },
   "custom_stop_words": [
     "no cover"
   ],
   "skip_files": [
-    "lib/dotcom.ex",
+    "lib/alerts/supervisor.ex",
+    "lib/cms/custom_html5_scrubber.ex",
+    "lib/dotcom/redis/behaviour.ex",
+    "lib/dotcom/redix/behaviour.ex",
+    "lib/dotcom/redix/pub_sub/behaviour.ex",
+    "lib/dotcom_web.ex",
+    "lib/dotcom_web/live/admin",
+    "lib/dotcom_web/controllers/bus_stop_change_controller.ex",
+    "lib/dotcom_web/views/bus_stop_change_view.ex",
+    "lib/feedback/test.ex",
+    "lib/feedback/fake_date_time.ex",
+    "lib/feedback/mock_aws.ex",
     "lib/green_line/supervisor.ex",
     "lib/green_line/cache_supervisor.ex",
+    "lib/mbta/api/behaviour.ex",
     "lib/mix/tasks",
-    "test/support",
-    "lib/dotcom_web/views/bus_stop_change_view.ex",
-    "lib/dotcom_web/controllers/bus_stop_change_controller.ex",
+    "lib/route_patterns/mock_repo.ex",
     "lib/routes/routes.ex",
     "lib/routes/mock_repo_api.ex",
     "lib/trip_plan/api/mock_planner.ex",
     "lib/trip_plan/geocode/mock_geocode.ex",
-    "lib/route_patterns/mock_repo.ex",
     "test/algolia/support",
-    "lib/alerts/supervisor.ex",
-    "lib/feedback/test.ex",
-    "lib/feedback/fake_date_time.ex",
-    "lib/feedback/mock_aws.ex",
     "test/cms/support",
-    "lib/cms/custom_html5_scrubber.ex"
+    "test/support"
   ]
 }

@@ -1,6 +1,5 @@
 defmodule OneWayTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   alias Routes.Route
   alias Schedules.Trip
@@ -200,6 +199,7 @@ defmodule OneWayTest do
   end
 
   describe "commuter rail" do
+    @tag :external
     test "returns the lowest and highest one-way fare that is not discounted for a trip originating in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "place-north"
@@ -224,6 +224,7 @@ defmodule OneWayTest do
       assert %Fares.Fare{cents: 1050} = base_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
+    @tag :external
     test "returns the lowest and highest one-way fare that is not discounted for a trip terminating in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "Ballardvale"
@@ -248,6 +249,7 @@ defmodule OneWayTest do
       assert %Fares.Fare{cents: 825} = base_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
+    @tag :external
     test "returns an interzone fare that is not discounted for a trip that does not originate/terminate in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "Ballardvale"
@@ -272,6 +274,7 @@ defmodule OneWayTest do
       assert %Fares.Fare{cents: 401} = base_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
+    @tag :external
     test "excludes weekend commuter rail rates" do
       route = %Route{type: 2}
       origin_id = "place-north"
@@ -303,6 +306,7 @@ defmodule OneWayTest do
                base_fare(route, trip, foxboro_id, south_station_id)
     end
 
+    @tag :external
     test "returns zone-based fares for standard trips on Foxboro pilot" do
       route = %Route{type: 2, id: "CR-Franklin"}
       trip_1 = %Trip{name: "751", id: "CR-Weekday-Fall-19-751"}
@@ -315,6 +319,7 @@ defmodule OneWayTest do
                recommended_fare(route, trip_2, "place-FB-0118", "place-PB-0194")
     end
 
+    @tag :external
     test "Zone 1A to 1A reverse commute trips on Foxboro pilot retain original pricing" do
       route = %Route{type: 2, id: "CR-Fairmount"}
       trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
@@ -323,6 +328,7 @@ defmodule OneWayTest do
                recommended_fare(route, trip, "origin=place-DB-2240", "place-DB-2222")
     end
 
+    @tag :external
     test "does not apply pilot/discounted fare for reverse commutes until Fall 2019" do
       route = %Route{type: 2, id: "CR-Franklin"}
       trip = %Trip{name: "743", id: "CR-Weekday-Spring-19-743"}
@@ -331,6 +337,7 @@ defmodule OneWayTest do
                recommended_fare(route, trip, "place-sstat", "place-FB-0148")
     end
 
+    @tag :external
     test "returns interzone fare for reverse commute trips to and from Foxboro" do
       route = %Route{type: 2, id: "CR-Franklin"}
       inbound_trip = %Trip{name: "750", id: "CR-Weekday-Fall-19-750"}
@@ -346,6 +353,7 @@ defmodule OneWayTest do
                recommended_fare(route, outbound_trip, south_station_id, foxboro_id)
     end
 
+    @tag :external
     test "returns nil if no matching fares found" do
       route = %Route{type: 2, id: "CapeFlyer"}
       origin_id = "place-sstat"
@@ -374,6 +382,7 @@ defmodule OneWayTest do
                base_fare(route, nil, origin_id, destination_id)
     end
 
+    @tag :external
     test "returns the reduced fares for commuter rail" do
       route = %Route{type: 2}
       origin_id = "place-north"

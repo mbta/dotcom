@@ -1,11 +1,11 @@
 defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
   use DotcomWeb.ConnCase, async: true
-  @moduletag :external
 
   alias DotcomWeb.Plugs.{RecentlyVisited, Cookies}
   alias Routes.Route
 
   describe "call/2" do
+    @tag :external
     test "assigns list of routes to :recently_visited if cookie has multiple values", %{
       conn: conn
     } do
@@ -29,6 +29,7 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
       assert blue.id == "Blue"
     end
 
+    @tag :external
     test "assigns one route if cookie has a single value", %{conn: conn} do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red")
 
@@ -60,6 +61,7 @@ defmodule DotcomWeb.Plugs.RecentlyVisitedTest do
       assert Map.fetch(conn.assigns, :recently_visited) == :error
     end
 
+    @tag :external
     test "does not crash if cookie includes an invalid route id", %{conn: conn} do
       cookies = Map.put(%{}, Cookies.route_cookie_name(), "Red|fail")
 

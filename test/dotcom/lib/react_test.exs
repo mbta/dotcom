@@ -1,6 +1,5 @@
 defmodule Dotcom.ReactTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   alias ExUnit.CaptureLog
   alias LocationService.Address
@@ -22,6 +21,7 @@ defmodule Dotcom.ReactTest do
       {:ok, %{stopsWithDistances: data}}
     end
 
+    @tag :external
     test "renders a component, even when the component has a lot of data", %{
       stopsWithDistances: stopsWithDistances
     } do
@@ -38,6 +38,7 @@ defmodule Dotcom.ReactTest do
       assert body =~ "m-tnm"
     end
 
+    @tag :external
     test "logs node performance",
          %{
            stopsWithDistances: stopsWithDistances
@@ -65,6 +66,7 @@ defmodule Dotcom.ReactTest do
       end)
     end
 
+    @tag :external
     test "fails with unknown component" do
       log =
         CaptureLog.capture_log(fn ->
@@ -83,6 +85,7 @@ defmodule Dotcom.ReactTest do
                "react_renderer component=TransitNearMeError Unknown component: TransitNearMeError"
     end
 
+    @tag :external
     test "fails with bad data" do
       log =
         CaptureLog.capture_log(fn ->
