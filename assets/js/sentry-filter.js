@@ -162,7 +162,6 @@ const handleUserPromptedError = event => {
 
 const beforeSend = (event, hint) => {
   const exactFetchMessages = [
-    "Load failed", // Safari fetch error
     "Failed to fetch", // Chrome fetch error
     "NetworkError when attempting to fetch resource." // Firefox fetch error
   ];
@@ -171,6 +170,11 @@ const beforeSend = (event, hint) => {
     event?.message === "FetchJSONWithCache Error" &&
     exactFetchMessages.includes(event?.extra?.error?.message)
   ) {
+    return null;
+  }
+
+  // Safari fetch error
+  if (event?.message === "Load failed") {
     return null;
   }
 
