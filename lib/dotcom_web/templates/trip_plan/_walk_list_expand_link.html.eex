@@ -1,3 +1,4 @@
+<!-- Uses stop-bubbles.js to toggle text, and expand collapse list -->
 <div class="route-branch-stop<%= if @expanded, do: " expanded", else: "" %>">
     <%=
     assigns
@@ -14,11 +15,7 @@
              data: [toggle: "collapse", target: "##{@target_id}"] do %>
 
       <span class="expand-show-details">
-      <%= if @expanded do
-        "Hide Details"
-      else
-        "Show Details"
-      end %>
+        <%= if @expanded, do: "Hide Details", else: "Show Details" %>
       </span>
 
     <% end %>
