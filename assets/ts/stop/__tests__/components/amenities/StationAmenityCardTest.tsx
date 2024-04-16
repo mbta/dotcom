@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import EscalatorsAmenityCard from "../../../components/amenities/EscalatorsAmenityCard";
+import StationAmenityCard from "../../../components/amenities/StationAmenityCard";
 import { Facility, Alert, InformedEntity } from "../../../../__v3api";
 
 const facility1: Facility = {
@@ -19,13 +19,14 @@ const alert1: Alert = {
   active_period: [["2020-09-10 08:00", "2020-09-10 20:00"]]
 } as Alert;
 
-describe("EscalatorsAmenityCard", () => {
+describe("StationAmenityCard", () => {
   it("should render the title", () => {
     render(
-      <EscalatorsAmenityCard
+      <StationAmenityCard
         stopName="TestStop"
         alerts={[]}
-        escalatorFacilities={[facility1]}
+        facilities={[facility1]}
+        facilityType="Escalator"
       />
     );
     expect(screen.getByText("Escalators")).toBeDefined();
@@ -33,10 +34,11 @@ describe("EscalatorsAmenityCard", () => {
 
   it("should render 'View available escalators.' if at least one is working", () => {
     render(
-      <EscalatorsAmenityCard
+      <StationAmenityCard
         stopName="TestStop"
         alerts={[]}
-        escalatorFacilities={[facility1]}
+        facilities={[facility1]}
+        facilityType="Escalator"
       />
     );
     expect(screen.getByText("View available escalators.")).toBeDefined();
@@ -45,10 +47,11 @@ describe("EscalatorsAmenityCard", () => {
 
   it("should render 'All escalators are currently out of order.' if none are working", () => {
     render(
-      <EscalatorsAmenityCard
+      <StationAmenityCard
         stopName="TestStop"
         alerts={[alert1]}
-        escalatorFacilities={[facility1]}
+        facilities={[facility1]}
+        facilityType="Escalator"
       />
     );
     expect(
@@ -59,10 +62,11 @@ describe("EscalatorsAmenityCard", () => {
 
   it("should render 'This station does not have escalators.' if there are none", () => {
     render(
-      <EscalatorsAmenityCard
+      <StationAmenityCard
         stopName="TestStop"
         alerts={[]}
-        escalatorFacilities={[]}
+        facilities={[]}
+        facilityType="Escalator"
       />
     );
     expect(
