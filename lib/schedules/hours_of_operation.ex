@@ -485,26 +485,30 @@ defmodule Schedules.HoursOfOperation do
   terminus departure
   """
   def departure_overall(data, headsigns, :rapid_transit) do
-    departures = departure(data, headsigns, :rapid_transit)
+    case departure(data, headsigns, :rapid_transit) do
+      departures when is_list(departures) ->
+        departures_filtered =
+          Enum.filter(departures, fn x ->
+            x.first_departure != x.last_departure && x.is_terminus == true
+          end)
 
-    departures_filtered =
-      Enum.filter(departures, fn x ->
-        x.first_departure != x.last_departure && x.is_terminus == true
-      end)
+        if Enum.empty?(departures_filtered) do
+          :no_service
+        else
+          first_departure =
+            Enum.min_by(departures_filtered, &DateTime.to_unix(&1.first_departure, :nanosecond))
 
-    if Enum.empty?(departures_filtered) do
-      :no_service
-    else
-      first_departure =
-        Enum.min_by(departures_filtered, &DateTime.to_unix(&1.first_departure, :nanosecond))
+          last_departure =
+            Enum.min_by(departures_filtered, &DateTime.to_unix(&1.last_departure, :nanosecond))
 
-      last_departure =
-        Enum.min_by(departures_filtered, &DateTime.to_unix(&1.last_departure, :nanosecond))
+          %Departures{
+            first_departure: first_departure.first_departure,
+            last_departure: last_departure.last_departure
+          }
+        end
 
-      %Departures{
-        first_departure: first_departure.first_departure,
-        last_departure: last_departure.last_departure
-      }
+      _ ->
+        :no_service
     end
   end
 
