@@ -411,7 +411,7 @@ defmodule CMS.Repo do
   end
 
   @doc "Get all the events, paginating through results if needed, and caches the result"
-  @spec events_for_year(Calendar.year()) :: [%Teaser{}]
+  @spec events_for_year(Calendar.year()) :: [Teaser.t()]
   def events_for_year(year) do
     do_events_for_range(
       min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
@@ -419,8 +419,8 @@ defmodule CMS.Repo do
     )
   end
 
-  @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [%Teaser{}]) ::
-          [%Teaser{}]
+  @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [Teaser.t()]) ::
+          [Teaser.t()]
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: 60_000])
   defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
     per_page = 50

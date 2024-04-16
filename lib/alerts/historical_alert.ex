@@ -21,7 +21,7 @@ defmodule Alerts.HistoricalAlert do
 
   @type entity_key :: :route | :stop
 
-  @spec from_alert(%Alert{}) :: t()
+  @spec from_alert(Alert.t()) :: t()
   def from_alert(alert) when not is_nil(alert) do
     %__MODULE__{
       id: alert.id,
@@ -32,7 +32,7 @@ defmodule Alerts.HistoricalAlert do
     }
   end
 
-  @spec get_entity_lists(%Alert{}, entity_key) :: [String.t()]
+  @spec get_entity_lists(Alert.t(), entity_key) :: [String.t()]
   defp get_entity_lists(alert, key) do
     Alert.get_entity(alert, key)
     |> MapSet.delete(nil)

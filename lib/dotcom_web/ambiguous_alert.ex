@@ -14,7 +14,7 @@ defprotocol DotcomWeb.AmbiguousAlert do
   @spec time_range(t) :: Phoenix.HTML.Safe.t()
   def time_range(alert)
 
-  @spec alert_item(t, %Plug.Conn{}) :: Phoenix.HTML.Safe.t()
+  @spec alert_item(t, Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def alert_item(alert, conn)
 end
 

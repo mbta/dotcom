@@ -136,7 +136,7 @@ defmodule DotcomWeb.EventController do
   @doc "Returns a list of years with which we can filter events.
   Defaults to the current datetime if no assigns
   "
-  @spec year_options(Plug.Conn.t()) :: %Range{:first => Calendar.year(), :last => Calendar.year()}
+  @spec year_options(Plug.Conn.t()) :: Range.t(first: Calendar.year(), last: Calendar.year())
   def year_options(%{assigns: %{date: %{year: year}}}) when is_integer(year) do
     do_year_options(year)
   end
@@ -146,9 +146,6 @@ defmodule DotcomWeb.EventController do
     do_year_options(year)
   end
 
-  @spec do_year_options(Calendar.year()) :: %Range{
-          :first => Calendar.year(),
-          :last => Calendar.year()
-        }
+  @spec do_year_options(Calendar.year()) :: Range.t(first: Calendar.year(), last: Calendar.year())
   defp do_year_options(year), do: Range.new(year - 4, year + 1)
 end

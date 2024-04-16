@@ -205,7 +205,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
     {2, Date.to_string(service.start_date)}
   end
 
-  @spec simple_stop_map(%Conn{}) :: map
+  @spec simple_stop_map(Conn.t()) :: map
   defp simple_stop_map(conn) do
     current_direction = Integer.to_string(conn.assigns.direction_id)
     opposite_direction = reverse_direction(current_direction)

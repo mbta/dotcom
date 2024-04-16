@@ -17,7 +17,7 @@ defmodule DotcomWeb.EventView do
   @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
 
   @doc "Returns a pretty format for the event's city and state"
-  @spec city_and_state(%Event{}) :: String.t() | nil
+  @spec city_and_state(Event.t()) :: String.t() | nil
   def city_and_state(%Event{city: city, state: state}) do
     if city && state do
       "#{city}, #{state}"
@@ -32,7 +32,7 @@ defmodule DotcomWeb.EventView do
   def years_for_selection(_), do: []
 
   @doc "Returns a list of event teasers, grouped/sorted by month"
-  @spec grouped_by_month([%Teaser{}], number) :: [{number, [%Teaser{}]}]
+  @spec grouped_by_month([Teaser.t()], number) :: [{number, [Teaser.t()]}]
   def grouped_by_month(events, year) do
     events
     |> Enum.filter(&(&1.date.year == year))
@@ -41,7 +41,7 @@ defmodule DotcomWeb.EventView do
   end
 
   @doc "Returns a list of event teasers, grouped/sorted by day"
-  @spec grouped_by_day([%Teaser{}], number) :: %{number => %Teaser{}}
+  @spec grouped_by_day([Teaser.t()], number) :: %{number => Teaser.t()}
   def grouped_by_day(events, month) do
     events
     |> Enum.filter(&(&1.date.month == month))

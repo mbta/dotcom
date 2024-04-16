@@ -46,7 +46,7 @@ defmodule DotcomWeb.PartialView.LocationCard do
     stop_path(DotcomWeb.Endpoint, :show, stop.id, tab: "schedule")
   end
 
-  @spec route_links([map] | [%Route{}]) :: [HTML.Safe.t()]
+  @spec route_links([map] | [Route.t()]) :: [HTML.Safe.t()]
   defp route_links(routes) do
     routes
     |> Enum.map(&link(&1.name, to: route_link(&1)))
