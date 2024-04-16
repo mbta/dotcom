@@ -41,7 +41,7 @@ defmodule Alerts.Cache.BusStopChangeS3 do
    our S3 bucket. This function is invoked in Alerts.Cache.Fetcher.handle_info/2
    with two arguments, but we only use the first.
   """
-  @spec copy_alerts_to_s3([%Alert{}], any) :: :ok
+  @spec copy_alerts_to_s3([Alert.t()], any) :: :ok
   def copy_alerts_to_s3(bus_alerts, _) do
     with stop_change_alerts when stop_change_alerts != [] <-
            Enum.filter(bus_alerts, &(&1.effect in [:stop_closure, :stop_moved])) do

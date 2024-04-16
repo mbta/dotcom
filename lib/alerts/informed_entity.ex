@@ -37,7 +37,7 @@ defmodule Alerts.InformedEntity do
   InformedEntity.  Additional keys are ignored.
 
   """
-  @spec from_keywords(list) :: %IE{}
+  @spec from_keywords(list) :: IE.t()
   def from_keywords(options) do
     options
     |> Enum.map(&ensure_value_type/1)
@@ -60,7 +60,7 @@ defmodule Alerts.InformedEntity do
   Otherwise the nil can match any value in the other InformedEntity.
 
   """
-  @spec match?(%IE{}, %IE{}) :: boolean
+  @spec match?(IE.t(), IE.t()) :: boolean
   def match?(%IE{} = first, %IE{} = second) do
     share_a_key?(first, second) && do_match?(first, second)
   end
