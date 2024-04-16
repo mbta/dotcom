@@ -3,7 +3,7 @@ import Config
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$date $time $metadata[$level] $message\n",
-  metadata: [:request_id]
+  metadata: [:ip, :request_id]
 
 # Include referrer in Logster request log
 config :logster, :allowed_headers, ["referer"]
