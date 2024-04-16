@@ -77,7 +77,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/setup-all
-    - run: git fetch origin main:main
     - run: npm run ci:lint:ex
 
   elixir_unit:
