@@ -6,6 +6,7 @@ defmodule Predictions.Repo do
   require Logger
   require Routes.Route
 
+  alias MBTA.Api.Predictions, as: ApiPredictions
   alias Predictions.Parser
   alias Routes.Route
   alias Stops.Stop
@@ -56,7 +57,7 @@ defmodule Predictions.Repo do
   defp fetch(params) do
     _ = Logger.info("predictions_repo_all_cache=cache_miss")
 
-    case MBTA.Api.Predictions.all(params) do
+    case ApiPredictions.all(params) do
       {:error, error} ->
         warn_error(params, error)
 

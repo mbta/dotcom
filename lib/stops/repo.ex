@@ -5,6 +5,7 @@ defmodule Stops.Repo do
 
   use Nebulex.Caching.Decorators
 
+  alias Dotcom.Cache.KeyGenerator
   alias Stops.{Api, Stop}
   alias Routes.Route
 
@@ -89,7 +90,7 @@ defmodule Stops.Repo do
   def by_route(route_id, direction_id, opts \\ []) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
       for stop <- stops do
-        key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :stop, stop.id)
+        key = KeyGenerator.generate(__MODULE__, :stop, stop.id)
 
         @cache.put(key, {:ok, stop})
 

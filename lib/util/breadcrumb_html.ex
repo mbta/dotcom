@@ -1,6 +1,8 @@
 defmodule Util.BreadcrumbHTML do
   import Phoenix.HTML, only: [raw: 1]
 
+  alias Phoenix.HTML.Link
+
   @spec breadcrumb_trail(Plug.Conn.t()) :: Phoenix.HTML.safe()
   def breadcrumb_trail(%Plug.Conn{assigns: %{breadcrumbs: []}}), do: raw("")
 
@@ -84,7 +86,7 @@ defmodule Util.BreadcrumbHTML do
   defp breadcrumb_link(breadcrumb) do
     if breadcrumb.url != "" do
       breadcrumb.text
-      |> Phoenix.HTML.Link.link(to: breadcrumb.url)
+      |> Link.link(to: breadcrumb.url)
       |> Phoenix.HTML.safe_to_string()
     else
       breadcrumb.text

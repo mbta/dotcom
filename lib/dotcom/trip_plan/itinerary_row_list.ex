@@ -4,6 +4,7 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
 
   An optional to and from name can be passed in.
   """
+  alias Dotcom.TripPlan.Alerts, as: TripPlanAlerts
   alias Dotcom.TripPlan.ItineraryRow
   alias TripPlan.Itinerary
   alias Stops.Stop
@@ -62,7 +63,7 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
   defp get_alerts(itinerary, deps) do
     itinerary.start
     |> deps.alerts_repo.()
-    |> Dotcom.TripPlan.Alerts.filter_for_itinerary(
+    |> TripPlanAlerts.filter_for_itinerary(
       itinerary,
       route_by_id: deps.route_mapper,
       trip_by_id: deps.trip_mapper

@@ -4,6 +4,7 @@ defmodule Stops.Nearby do
   alias Routes.Route
   alias Stops.Stop
   alias Util.Position
+  alias MBTA.Api.Stops, as: ApiStops
 
   @mile_in_degrees 0.02
   @total 12
@@ -72,7 +73,7 @@ defmodule Stops.Nearby do
       |> Keyword.put(:sort, "distance")
 
     opts
-    |> MBTA.Api.Stops.all()
+    |> ApiStops.all()
     |> Map.get(:data)
     |> Enum.map(&item_to_position/1)
     |> Enum.uniq()

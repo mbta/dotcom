@@ -1,6 +1,7 @@
 defmodule Schedules.ByStop.SchedulesByStopRepo do
   @moduledoc "Repo for getting departure information about all the routes at a given stop"
 
+  alias MBTA.Api.Schedules
   alias Schedules.ByStop.Departures
 
   @default_params [
@@ -19,9 +20,9 @@ defmodule Schedules.ByStop.SchedulesByStopRepo do
 
   @spec all_from_params(Keyword.t()) :: [Departures.t()] | {:error, any}
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
+    with %JsonApi{data: data} <- Schedules.all(params) do
       data
-      |> Stream.map(&Schedules.ByStop.Departures.parse_from_schedule_json/1)
+      |> Stream.map(&Departures.parse_from_schedule_json/1)
     end
   end
 end

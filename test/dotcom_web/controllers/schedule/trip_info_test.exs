@@ -556,22 +556,22 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   describe "show_trips?/4" do
     test "it is false when looking at a future date for subway" do
       next_day = Timex.shift(@time, days: 1)
-      assert DotcomWeb.ScheduleController.TripInfo.show_trips?(next_day, @time, 1, "1") == false
+      assert TripInfo.show_trips?(next_day, @time, 1, "1") == false
     end
 
     test "is true when looking at the subway today" do
-      assert DotcomWeb.ScheduleController.TripInfo.show_trips?(@time, @time, 1, "1") == true
+      assert TripInfo.show_trips?(@time, @time, 1, "1") == true
     end
 
     test "has the same behavior for light rail as for subway" do
       next_day = Timex.shift(@time, days: 1)
-      assert DotcomWeb.ScheduleController.TripInfo.show_trips?(@time, @time, 0, "1") == true
-      assert DotcomWeb.ScheduleController.TripInfo.show_trips?(next_day, @time, 0, "1") == false
+      assert TripInfo.show_trips?(@time, @time, 0, "1") == true
+      assert TripInfo.show_trips?(next_day, @time, 0, "1") == false
     end
 
     test "is true when looking at any non-subway route" do
       next_day = Timex.shift(@time, days: 1)
-      assert DotcomWeb.ScheduleController.TripInfo.show_trips?(next_day, @time, 3, "1") == true
+      assert TripInfo.show_trips?(next_day, @time, 3, "1") == true
     end
   end
 

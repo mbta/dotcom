@@ -4,6 +4,9 @@ defmodule Stops.Api do
   """
   require Logger
   alias JsonApi.Item
+  alias MBTA.Api.Trips
+  alias MBTA.Api.Stops, as: ApiStops
+  alias Stop.ParkingLot.{Capacity, Payment, Utilization, Manager}
   alias Stops.Stop
 
   @type fare_facility ::
@@ -44,14 +47,14 @@ defmodule Stops.Api do
   @spec by_gtfs_id(String.t()) :: {:ok, Stop.t() | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
     gtfs_id
-    |> MBTA.Api.Stops.by_gtfs_id(@default_params)
+    |> ApiStops.by_gtfs_id(@default_params)
     |> extract_v3_response()
     |> parse_v3_response()
   end
 
   def all do
     @default_params
-    |> MBTA.Api.Stops.all()
+    |> ApiStops.all()
     |> parse_v3_multiple()
   end
 
@@ -61,7 +64,7 @@ defmodule Stops.Api do
     |> Keyword.put(:route, route_id)
     |> Keyword.put(:direction_id, direction_id)
     |> Keyword.merge(opts)
-    |> MBTA.Api.Stops.all()
+    |> ApiStops.all()
     |> parse_v3_multiple()
   end
 
@@ -70,12 +73,12 @@ defmodule Stops.Api do
     @default_params
     |> Keyword.put(:route_type, route_type)
     |> Keyword.merge(opts)
-    |> MBTA.Api.Stops.all()
+    |> ApiStops.all()
     |> parse_v3_multiple()
   end
 
   def by_trip(trip_id) do
-    case MBTA.Api.Trips.by_id(trip_id, include: "stops") do
+    case Trips.by_id(trip_id, include: "stops") do
       %JsonApi{
         data: [
           %JsonApi.Item{
@@ -303,11 +306,11 @@ defmodule Stops.Api do
       id: Map.get(props, "id"),
       name: Map.get(props, "name"),
       address: Map.get(props, "address"),
-      capacity: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Capacity.parse(props)),
-      payment: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Payment.parse(props)),
-      utilization: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Utilization.parse(props)),
+      capacity: Stops.Helpers.struct_or_nil(Capacity.parse(props)),
+      payment: Stops.Helpers.struct_or_nil(Payment.parse(props)),
+      utilization: Stops.Helpers.struct_or_nil(Utilization.parse(props)),
       note: Map.get(props, "note"),
-      manager: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Manager.parse(props)),
+      manager: Stops.Helpers.struct_or_nil(Manager.parse(props)),
       latitude: Map.get(props, "latitude"),
       longitude: Map.get(props, "longitude")
     }

@@ -1,6 +1,9 @@
 defmodule Dotcom.Cache.MultilevelTest do
   use ExUnit.Case, async: false
 
+  alias Dotcom.Cache.Multilevel
+  alias Dotcom.Redix.Mock
+
   import Mox
 
   setup :set_mox_global
@@ -18,28 +21,28 @@ defmodule Dotcom.Cache.MultilevelTest do
       pattern = "foo|*"
 
       # We start the link to get the cluster nodes
-      expect(Dotcom.Redix.Mock, :start_link, fn _ -> {:ok, 0} end)
+      expect(Mock, :start_link, fn _ -> {:ok, 0} end)
       # We get the cluster nodes
-      expect(Dotcom.Redix.Mock, :command, fn _, ["CLUSTER", "SLOTS"] ->
+      expect(Mock, :command, fn _, ["CLUSTER", "SLOTS"] ->
         {:ok, [[0, 1, ["127.0.0.1", 6379]]]}
       end)
 
       # One node is returned so we start a link to it
-      expect(Dotcom.Redix.Mock, :start_link, fn _ -> {:ok, 1} end)
+      expect(Mock, :start_link, fn _ -> {:ok, 1} end)
       # The first scan returns one key and gives us a cursor to continue
-      expect(Dotcom.Redix.Mock, :command, fn _, ["SCAN", "0", "MATCH", ^pattern, _, _] ->
+      expect(Mock, :command, fn _, ["SCAN", "0", "MATCH", ^pattern, _, _] ->
         {:ok, ["1", ["foo|bar"]]}
       end)
 
       # The second scan returns one key and gives us a stop cursor "0"
-      expect(Dotcom.Redix.Mock, :command, fn _, ["SCAN", "1", "MATCH", ^pattern, _, _] ->
+      expect(Mock, :command, fn _, ["SCAN", "1", "MATCH", ^pattern, _, _] ->
         {:ok, ["0", ["foo|baz"]]}
       end)
 
       # We stop the connection to the node we got the list of nodes from as well as each node we operated on
-      expect(Dotcom.Redix.Mock, :stop, 2, fn _ -> :ok end)
+      expect(Mock, :stop, 2, fn _ -> :ok end)
 
-      assert Dotcom.Cache.Multilevel.flush_keys(pattern) == :ok
+      assert Multilevel.flush_keys(pattern) == :ok
 
       assert @cache.get("foo|bar") == nil
       assert @cache.get("foo|baz") == nil
@@ -54,7 +57,7 @@ defmodule Dotcom.Cache.MultilevelTest do
 
     key = "foo|bar"
 
-    assert Dotcom.Cache.Multilevel.flush_keys(key) == :ok
+    assert Multilevel.flush_keys(key) == :ok
 
     assert @cache.get("foo|bar") == nil
     assert @cache.get("foo|baz") == "bar"

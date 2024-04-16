@@ -1,6 +1,8 @@
 defmodule Feedback.Test do
   @moduledoc false
 
+  alias Mail.Parsers.RFC2822
+
   def latest_message do
     file = Application.get_env(:dotcom, :test_mail_file)
     body = File.read!(file)
@@ -19,7 +21,7 @@ defmodule Feedback.Test do
   end
 
   def mock_perform(%{params: %{"RawMessage.Data" => raw_message}}, _config) do
-    parsed_message = raw_message |> Base.decode64!() |> Mail.Parsers.RFC2822.parse()
+    parsed_message = raw_message |> Base.decode64!() |> RFC2822.parse()
 
     attachments =
       if parsed_message.multipart do

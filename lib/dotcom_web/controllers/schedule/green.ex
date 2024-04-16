@@ -9,7 +9,8 @@ defmodule DotcomWeb.ScheduleController.Green do
   import DotcomWeb.ControllerHelpers,
     only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
 
-  alias DotcomWeb.ScheduleController.LineController
+  alias DotcomWeb.ScheduleController.{LineController, VehicleLocations}
+  alias DotcomWeb.ScheduleController.Predictions, as: ScheduleControllerPredictions
   alias DotcomWeb.ScheduleView
 
   plug(:route)
@@ -74,7 +75,7 @@ defmodule DotcomWeb.ScheduleController.Green do
 
   def predictions(conn, opts) do
     {predictions, vehicle_predictions} =
-      if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
+      if ScheduleControllerPredictions.should_fetch_predictions?(conn) do
         predictions_fn = opts[:predictions_fn] || (&Predictions.Repo.all/1)
 
         predictions_stream =
@@ -82,14 +83,14 @@ defmodule DotcomWeb.ScheduleController.Green do
           |> conn_with_branches
           |> Task.async_stream(
             fn conn ->
-              DotcomWeb.ScheduleController.Predictions.predictions(conn, predictions_fn)
+              ScheduleControllerPredictions.predictions(conn, predictions_fn)
             end,
             timeout: @task_timeout,
             on_timeout: :kill_task
           )
 
         vehicle_predictions =
-          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn, predictions_fn)
+          ScheduleControllerPredictions.vehicle_predictions(conn, predictions_fn)
 
         {flat_map_results(predictions_stream), vehicle_predictions}
       else
@@ -107,7 +108,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn conn ->
-          call_plug_with_opts(conn, DotcomWeb.ScheduleController.VehicleLocations, opts).assigns.vehicle_locations
+          call_plug_with_opts(conn, VehicleLocations, opts).assigns.vehicle_locations
         end,
         timeout: @task_timeout
       )

@@ -9,9 +9,11 @@ defmodule Dotcom.BodyTag do
     UI elements.
   """
 
+  alias Phoenix.HTML.Tag
+
   @spec render(Plug.Conn.t()) :: Phoenix.HTML.Safe.t()
   def render(conn) do
-    Phoenix.HTML.Tag.tag(
+    Tag.tag(
       :body,
       class: class_name(conn)
     )

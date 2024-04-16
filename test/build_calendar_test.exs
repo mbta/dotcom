@@ -3,6 +3,7 @@ defmodule BuildCalendarTest do
 
   import BuildCalendar
   alias BuildCalendar.{Calendar, Day}
+  alias Holiday.Repo.Helpers
 
   import Phoenix.HTML, only: [safe_to_string: 1]
 
@@ -275,7 +276,7 @@ defmodule BuildCalendarTest do
             {"Ghost of Christmas Present", [{12, 25}]},
             {"Ghost of Christmas Future", [{12, 27}]}
           ],
-          fn day -> Holiday.Repo.Helpers.make_holiday(day, 1843) end
+          fn day -> Helpers.make_holiday(day, 1843) end
         )
 
       today = ~D[1843-12-25]

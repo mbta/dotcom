@@ -1,5 +1,8 @@
 defmodule Fares.RetailLocationsTest do
   use ExUnit.Case, async: true
+
+  alias Fares.RetailLocations.Data
+
   @moduletag :external
 
   @with_nearby %{latitude: 42.352271, longitude: -71.055242}
@@ -19,7 +22,7 @@ defmodule Fares.RetailLocationsTest do
     test "returns the closest locations possible" do
       {_, top_distance} = @with_nearby |> Fares.RetailLocations.get_nearby() |> List.first()
 
-      assert Fares.RetailLocations.Data.get()
+      assert Data.get()
              |> Enum.map(&Map.from_struct/1)
              |> Enum.map(&Util.Distance.haversine(&1, @with_nearby))
              |> Enum.sort()

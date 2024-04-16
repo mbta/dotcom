@@ -1,6 +1,9 @@
 defmodule Algolia.Stop.RoutesTest do
   use ExUnit.Case, async: true
 
+  alias Algolia.Stop.Route, as: AlgoliaRoute
+  alias Algolia.Stop.Routes, as: AlgoliaRoutes
+
   describe "&for_stop/2" do
     test "builds a route list for a stop with multiple modes" do
       routes = [
@@ -12,24 +15,24 @@ defmodule Algolia.Stop.RoutesTest do
       ]
 
       assert [light_rail, heavy_rail, commuter_rail, bus, ferry] =
-               Algolia.Stop.Routes.for_stop(routes)
+               AlgoliaRoutes.for_stop(routes)
 
-      assert light_rail == %Algolia.Stop.Route{
+      assert light_rail == %AlgoliaRoute{
                display_name: "Green Line C",
                icon: :green_line_c,
                type: 0
              }
 
-      assert heavy_rail == %Algolia.Stop.Route{display_name: "Red Line", icon: :red_line, type: 1}
+      assert heavy_rail == %AlgoliaRoute{display_name: "Red Line", icon: :red_line, type: 1}
 
-      assert commuter_rail == %Algolia.Stop.Route{
+      assert commuter_rail == %AlgoliaRoute{
                display_name: "Commuter Rail",
                icon: :commuter_rail,
                type: 2
              }
 
-      assert bus == %Algolia.Stop.Route{display_name: "Bus: 1000", icon: :bus, type: 3}
-      assert ferry == %Algolia.Stop.Route{display_name: "Ferry", icon: :ferry, type: 4}
+      assert bus == %AlgoliaRoute{display_name: "Bus: 1000", icon: :bus, type: 3}
+      assert ferry == %AlgoliaRoute{display_name: "Ferry", icon: :ferry, type: 4}
     end
   end
 
@@ -44,7 +47,7 @@ defmodule Algolia.Stop.RoutesTest do
         %Routes.Route{id: "Boat-F1", name: "Ferry", type: 4}
       ]
 
-      branches = Algolia.Stop.Routes.green_line_branches(routes)
+      branches = AlgoliaRoutes.green_line_branches(routes)
       assert branches == ["Green-C", "Green-D"]
     end
   end

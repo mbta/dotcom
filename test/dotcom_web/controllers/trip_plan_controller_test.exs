@@ -5,6 +5,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
   alias DotcomWeb.TripPlanController
+  alias Test.Support.Factory
   alias TripPlan.{Itinerary, PersonalDetail, TransitDetail}
 
   doctest DotcomWeb.TripPlanController
@@ -795,7 +796,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   describe "routes_for_query/1" do
     setup do
-      itineraries = Test.Support.Factory.build_list(3, :itinerary)
+      itineraries = Factory.build_list(3, :itinerary)
       {:ok, %{itineraries: itineraries}}
     end
 

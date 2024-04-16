@@ -1,5 +1,7 @@
 defmodule DotcomWeb.PartialView.SvgIconWithCircle do
+  alias Dotcom.Components.Icons.SvgIcon
   alias DotcomWeb.ViewHelpers, as: Helpers
+  alias Phoenix.HTML.Tag
   alias Routes.Route
 
   defstruct icon: nil,
@@ -8,7 +10,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
             aria_hidden?: false
 
   @type t :: %__MODULE__{
-          icon: Dotcom.Components.Icons.SvgIcon.icon_arg(),
+          icon: SvgIcon.icon_arg(),
           size: :small | :default,
           show_tooltip?: boolean,
           aria_hidden?: boolean
@@ -92,7 +94,7 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
       title: title_attr(args)
     ]
 
-    Phoenix.HTML.Tag.content_tag(:span, [icon], attrs)
+    Tag.content_tag(:span, [icon], attrs)
   end
 
   defp icon_name(:access), do: "accessible"
@@ -140,8 +142,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
 
   def translate(icon) do
     cond do
-      icon in Dotcom.Components.Icons.SvgIcon.mode_icons() -> "10,10"
-      icon in Dotcom.Components.Icons.SvgIcon.transit_type_icons() -> "4,4"
+      icon in SvgIcon.mode_icons() -> "10,10"
+      icon in SvgIcon.transit_type_icons() -> "4,4"
       true -> "5,5"
     end
   end
@@ -156,8 +158,8 @@ defmodule DotcomWeb.PartialView.SvgIconWithCircle do
 
   def scale(icon) do
     cond do
-      icon in Dotcom.Components.Icons.SvgIcon.mode_icons() -> "1.4"
-      icon in Dotcom.Components.Icons.SvgIcon.transit_type_icons() -> "0.7"
+      icon in SvgIcon.mode_icons() -> "1.4"
+      icon in SvgIcon.transit_type_icons() -> "0.7"
       true -> "1"
     end
   end

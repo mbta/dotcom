@@ -1,10 +1,13 @@
 defmodule Dotcom.Cache.Telemetry.ReporterTest do
   use ExUnit.Case, async: true
 
+  alias Dotcom.Cache.Multilevel.Local
+  alias Dotcom.Cache.Telemetry.Reporter
+
   import ExUnit.CaptureLog
 
   test "the hit rate gets logged" do
-    Dotcom.Cache.Telemetry.Reporter.start_link(
+    Reporter.start_link(
       metrics: [Telemetry.Metrics.last_value("dotcom.cache.multilevel.l1.stats.updates")]
     )
 
@@ -12,13 +15,13 @@ defmodule Dotcom.Cache.Telemetry.ReporterTest do
              :telemetry.execute(
                [:dotcom, :cache, :multilevel, :l1, :stats],
                %{hits: 99, misses: 1},
-               %{cache: Dotcom.Cache.Multilevel.Local}
+               %{cache: Local}
              )
            end) =~ "hit_rate=0.99"
   end
 
   test "cache command exceptions get logged" do
-    Dotcom.Cache.Telemetry.Reporter.start_link(metrics: [])
+    Reporter.start_link(metrics: [])
 
     assert capture_log(fn ->
              :telemetry.execute(

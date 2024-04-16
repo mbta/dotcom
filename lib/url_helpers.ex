@@ -2,6 +2,7 @@ defmodule UrlHelpers do
   alias CMS.Field.Link
   alias CMS.Page.NewsEntry
   alias DotcomWeb.CmsRouterHelpers
+  alias Plug.Conn.Query
 
   @spec update_url(Plug.Conn.t(), Enum.t()) :: String.t()
   def update_url(conn, query) do
@@ -16,7 +17,7 @@ defmodule UrlHelpers do
   end
 
   defp do_update_url(updated, conn) do
-    "#{conn.request_path}?#{Plug.Conn.Query.encode(updated)}"
+    "#{conn.request_path}?#{Query.encode(updated)}"
   end
 
   @doc """

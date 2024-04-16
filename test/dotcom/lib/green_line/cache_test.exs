@@ -2,12 +2,15 @@ defmodule Dotcom.GreenLine.CacheTest do
   use ExUnit.Case
   @moduletag :external
 
+  alias Dotcom.GreenLine.CacheSupervisor
+  alias Dotcom.GreenLine.Supervisor
+
   import Dotcom.GreenLine.Cache
 
   setup_all do
     System.put_env("WARM_CACHES", "true")
     # start parent supervisor
-    _ = start_supervised({Dotcom.GreenLine.Supervisor, []})
+    _ = start_supervised({Supervisor, []})
 
     on_exit(fn ->
       System.put_env("WARM_CACHES", "false")
@@ -96,7 +99,7 @@ defmodule Dotcom.GreenLine.CacheTest do
 
   test "it stops the previous day's agent" do
     yesterday = ~D[1987-03-31]
-    start_supervised({Dotcom.GreenLine.CacheSupervisor, yesterday})
+    start_supervised({CacheSupervisor, yesterday})
 
     test_pid = self()
     start_date_fn = fn -> ~D[1987-04-01] end
@@ -112,7 +115,7 @@ defmodule Dotcom.GreenLine.CacheTest do
 
     msgs = receive_dates([nil, ~D[1987-04-01], ~D[1987-04-02]])
     assert msgs == [:ok, :ok, :ok]
-    assert nil == Dotcom.GreenLine.CacheSupervisor.lookup(yesterday)
+    assert nil == CacheSupervisor.lookup(yesterday)
   end
 
   test "reset_cache/1 sends a message if it fails" do
