@@ -1,6 +1,5 @@
 defmodule DotcomWeb.Plugs.CookiesTest do
   use DotcomWeb.ConnCase
-  @moduletag :external
 
   import DotcomWeb.Plugs.Cookies
 
@@ -26,6 +25,7 @@ defmodule DotcomWeb.Plugs.CookiesTest do
       assert conn.cookies[id_cookie_name()] == "123"
     end
 
+    @tag :external
     test "adds route to cookie if user visits a schedule page", %{conn: conn} do
       # needed by DotcomWeb.ScheduleController.VehicleLocations plug
       _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
@@ -44,6 +44,7 @@ defmodule DotcomWeb.Plugs.CookiesTest do
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "CR-Lowell"
     end
 
+    @tag :external
     test "sets green line branch cookies correctly", %{conn: conn} do
       green_b_path = schedule_path(conn, :show, "Green-B")
       assert green_b_path == "/schedules/Green-B"
@@ -51,6 +52,7 @@ defmodule DotcomWeb.Plugs.CookiesTest do
       assert Map.get(with_cookie.cookies, route_cookie_name()) == "Green-B"
     end
 
+    @tag :external
     test "appends new route to cookie if user visits another schedule page", %{conn: conn} do
       conn =
         conn
@@ -62,6 +64,7 @@ defmodule DotcomWeb.Plugs.CookiesTest do
              |> URI.decode() == "Orange|Red"
     end
 
+    @tag :external
     test "route cookie is sorted by most recently visited", %{conn: conn} do
       conn =
         conn
@@ -76,6 +79,7 @@ defmodule DotcomWeb.Plugs.CookiesTest do
              |> URI.decode() == "Blue|Red|Orange"
     end
 
+    @tag :external
     test "only saves 4 most recent cookies", %{conn: conn} do
       conn =
         conn
@@ -91,6 +95,7 @@ defmodule DotcomWeb.Plugs.CookiesTest do
              |> URI.decode() == "Boat-F4|1|CR-Lowell|Orange"
     end
 
+    @tag :external
     test "route cookie is not set when user visits a non-schedule page", %{conn: conn} do
       assert conn
              |> get(schedule_path(conn, :show, "bus"))

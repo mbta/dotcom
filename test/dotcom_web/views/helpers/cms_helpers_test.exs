@@ -1,10 +1,10 @@
 defmodule DotcomWeb.CMSHelpersTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
   import DotcomWeb.CMSHelpers
 
   describe "cms_route_to_class/1" do
+    @tag :external
     test "converts cms route terms to class" do
       assert cms_route_to_class(%{id: "Red", group: "line", mode: "subway"}) == "red-line"
       assert cms_route_to_class(%{id: "mattapan", group: "branch", mode: "subway"}) == "red-line"
@@ -19,12 +19,14 @@ defmodule DotcomWeb.CMSHelpersTest do
       assert cms_route_to_class(%{id: "late_night", group: "custom", mode: nil}) == "unknown"
     end
 
+    @tag :external
     test "handles nonexistent routes" do
       assert cms_route_to_class(%{id: "fake-route"}) == "unknown"
     end
   end
 
   describe "cms_route_to_svg/1" do
+    @tag :external
     test "converts cms route terms to svg atom" do
       assert cms_route_to_svg(%{id: "Red", group: "line", mode: "subway"}) == :red_line
 

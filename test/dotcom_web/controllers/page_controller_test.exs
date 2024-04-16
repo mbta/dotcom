@@ -1,6 +1,5 @@
 defmodule DotcomWeb.PageControllerTest do
   use DotcomWeb.ConnCase
-  @moduletag :external
 
   import DotcomWeb.PageController
 
@@ -11,20 +10,23 @@ defmodule DotcomWeb.PageControllerTest do
     Partial.WhatsHappeningItem
   }
 
-  alias Plug.Test
   alias DotcomWeb.Plugs.Cookies
+  alias Plug.Test
 
+  @tag :external
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
     assert html_response(conn, 200) =~ "Massachusetts Bay Transportation Authority"
     assert response_content_type(conn, :html) =~ "charset=utf-8"
   end
 
+  @tag :external
   test "sets a custom meta description", %{conn: conn} do
     conn = get(conn, "/")
     assert conn.assigns.meta_description
   end
 
+  @tag :external
   test "body gets assigned a js class", %{conn: conn} do
     [body_class] =
       default_conn()
@@ -36,6 +38,7 @@ defmodule DotcomWeb.PageControllerTest do
     assert body_class == "no-js"
   end
 
+  @tag :external
   test "renders recommended routes if route cookie has a value", %{conn: conn} do
     cookie_name = Cookies.route_cookie_name()
 
@@ -63,6 +66,7 @@ defmodule DotcomWeb.PageControllerTest do
     assert [_] = Floki.find(routes_div, ".c-svg__icon-mode-ferry-default")
   end
 
+  @tag :external
   test "does not render recommended routes if route cookie has no value", %{conn: conn} do
     conn = get(conn, page_path(conn, :index))
 
