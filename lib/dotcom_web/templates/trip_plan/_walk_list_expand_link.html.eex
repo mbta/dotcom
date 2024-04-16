@@ -18,6 +18,9 @@
         <%= if @expanded, do: "Hide Details", else: "Show Details" %>
       </span>
 
+      <span class="expand-branch-link-icon">
+        <%= if @expanded, do: fa("angle-up"), else: fa("angle-down") %>
+      </span>
     <% end %>
   </div>
 </div>
