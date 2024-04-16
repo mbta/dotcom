@@ -330,10 +330,6 @@ defmodule DotcomWeb.TripPlanControllerTest do
     test "assigns maps for each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_maps
-
-      for {_map_data, static_map} <- conn.assigns.itinerary_maps do
-        assert static_map =~ "https://maps.googleapis.com/maps/api/staticmap"
-      end
     end
 
     test "gets routes from each itinerary", %{conn: conn} do

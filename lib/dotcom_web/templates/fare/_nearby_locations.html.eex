@@ -39,7 +39,7 @@
             <%= link "View on MBTA Trip Planner", to: trip_plan_path(@conn, :to, url_address), target: "_blank", class: "dropdown-item" %>
           </li>
           <li>
-            <%= link "View on Google Maps", to: GoogleMaps.direction_map_url(@search_position, location), target: "_blank", class: "dropdown-item" %>
+            <%= link "View on Google Maps", to: direction_map_url(@search_position, location), target: "_blank", class: "dropdown-item" %>
           </li>
         </ul>
       </div>

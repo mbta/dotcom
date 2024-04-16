@@ -39,22 +39,4 @@ defmodule MapHelpersTest do
                static_url(DotcomWeb.Endpoint, "/images/map-thumbnail-ferry.jpg")
     end
   end
-
-  describe "map_stop_icon_path" do
-    test "returns correct path when size is not :mid" do
-      assert map_stop_icon_path(:tiny) =~ "000000-dot"
-    end
-
-    test "returns correct path when size is :mid" do
-      assert map_stop_icon_path(:mid) =~ "000000-dot-mid"
-    end
-
-    test "returns correct path when 'filled' is specified and size" do
-      assert map_stop_icon_path(:mid, true) == "000000-dot-filled-mid"
-    end
-
-    test "returns orrect path when 'filled' is true" do
-      assert map_stop_icon_path(:tiny, true) == "000000-dot-filled"
-    end
-  end
 end

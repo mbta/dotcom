@@ -1,11 +1,11 @@
 defmodule DotcomWeb.PlacesController do
   @moduledoc """
-  Routes for requesting data from Google Maps.
+  Routes for requesting data from AWS Location Service
   """
   use DotcomWeb, :controller
+  alias DotcomWeb.ControllerHelpers
   alias LocationService.Address
   alias Plug.Conn
-  alias DotcomWeb.ControllerHelpers
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str}) do

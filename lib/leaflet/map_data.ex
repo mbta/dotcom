@@ -2,10 +2,6 @@ defmodule Leaflet.MapData do
   @moduledoc """
   Represents leaflet map data.
   """
-  alias GoogleMaps.MapData, as: GoogleMapData
-  alias GoogleMaps.MapData.Marker, as: GoogleMapsMarker
-  alias GoogleMaps.MapData.Path, as: GoogleMapsPath
-
   alias Leaflet.MapData.{
     Marker,
     Polyline
@@ -73,38 +69,5 @@ defmodule Leaflet.MapData do
   @spec add_polylines(t, [Polyline.t()]) :: t
   def add_polylines(map_data, polylines) do
     Enum.reduce(polylines, map_data, &add_polyline(&2, &1))
-  end
-
-  def to_google_map_data(%{
-        default_center: default_center,
-        width: width,
-        height: height,
-        zoom: zoom,
-        markers: markers,
-        polylines: polylines
-      }) do
-    %GoogleMapData{
-      default_center: default_center,
-      width: width,
-      height: height,
-      zoom: zoom,
-      scale: 2,
-      markers:
-        Enum.map(markers, fn %{latitude: latitude, longitude: longitude} ->
-          %GoogleMapsMarker{
-            longitude: longitude,
-            latitude: latitude,
-            visible?: false
-          }
-        end),
-      paths:
-        Enum.map(polylines, fn %{color: color, weight: weight, dotted?: dotted?} ->
-          %GoogleMapsPath{
-            color: color,
-            weight: weight,
-            dotted?: dotted?
-          }
-        end)
-    }
   end
 end
