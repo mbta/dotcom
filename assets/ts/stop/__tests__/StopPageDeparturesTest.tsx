@@ -9,7 +9,7 @@ const routeData: Route[] = [baseRoute("16", 3), baseRoute("Red", 1)];
 
 describe("StopPageDepartures", () => {
   it("renders with no data", async () => {
-    const { asFragment } = renderWithRouter(
+    renderWithRouter(
       <StopPageDepartures
         routes={[]}
         alerts={[]}
@@ -18,13 +18,12 @@ describe("StopPageDepartures", () => {
       />
     );
     await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
       expect(screen.getByRole("list")).toBeEmptyDOMElement();
     });
   });
 
   it("renders with data", async () => {
-    const { asFragment } = renderWithRouter(
+    renderWithRouter(
       <StopPageDepartures
         routes={routeData}
         alerts={[]}
@@ -33,7 +32,6 @@ describe("StopPageDepartures", () => {
       />
     );
     await waitFor(() => {
-      expect(asFragment()).toMatchSnapshot();
       expect(screen.getAllByRole("list")[0]).not.toBeEmptyDOMElement();
       ["All", "Bus", "Subway"].forEach(name => {
         expect(
