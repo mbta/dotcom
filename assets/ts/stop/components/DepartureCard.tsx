@@ -1,4 +1,4 @@
-import { reject } from "lodash";
+import { reject, uniq } from "lodash";
 import React, { ReactElement } from "react";
 import { Alert, Route } from "../../__v3api";
 import { routeName, routeToModeIcon } from "../../helpers/route-headers";
@@ -57,11 +57,21 @@ const DepartureCard = ({
     if (sortedRoutePatternsByHeadsign.length === 0) return null;
   }
 
+  const directionIds = uniq(
+    sortedRoutePatternsByHeadsign.map(
+      ([, { direction_id: directionId }]) => directionId
+    )
+  );
+  const routeHref =
+    directionIds.length === 1
+      ? `/schedules/${route.id}?schedule_direction[direction_id]=${directionIds[0]}`
+      : `/schedules/${route.id}`;
+
   return (
     <li className="departure-card">
       <a
         className={`departure-card__route ${routeBgClass(route)} notranslate`}
-        href={`/schedules/${route.id}`}
+        href={routeHref}
       >
         {renderSvg("c-svg__icon", routeToModeIcon(route), true)}{" "}
         {routeName(route)}
