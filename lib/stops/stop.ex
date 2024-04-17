@@ -137,13 +137,15 @@ defmodule Stops.Stop.ParkingLot.Payment do
   :mobile_app - {payment-app, payment-app-id, payment-app-url}
   :rate - {fee-daily, fee-monthly}
   """
+  alias Stops.Stop.ParkingLot.Payment.MobileApp
+
   @derive Jason.Encoder
 
   defstruct [:methods, :mobile_app, :daily_rate, :monthly_rate]
 
   @type t :: %__MODULE__{
           methods: [String.t()],
-          mobile_app: Stops.Stop.ParkingLot.Payment.MobileApp.t() | nil,
+          mobile_app: MobileApp.t() | nil,
           daily_rate: String.t() | nil,
           monthly_rate: String.t() | nil
         }
@@ -152,8 +154,7 @@ defmodule Stops.Stop.ParkingLot.Payment do
   def parse(props) do
     %__MODULE__{
       methods: Map.get(props, "payment-form-accepted", []),
-      mobile_app:
-        Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Payment.MobileApp.parse(props)),
+      mobile_app: Stops.Helpers.struct_or_nil(MobileApp.parse(props)),
       daily_rate: Map.get(props, "fee-daily"),
       monthly_rate: Map.get(props, "fee-monthly")
     }

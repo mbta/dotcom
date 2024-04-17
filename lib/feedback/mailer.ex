@@ -4,6 +4,7 @@ defmodule Feedback.Mailer do
   require Logger
 
   alias Feedback.Message
+  alias Mail.Renderers.RFC2822
 
   @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
@@ -70,7 +71,7 @@ defmodule Feedback.Mailer do
     exaws_perform_fn = Application.get_env(:dotcom, :exaws_perform_fn, &ExAws.Operation.perform/2)
 
     message
-    |> Mail.Renderers.RFC2822.render()
+    |> RFC2822.render()
     |> ExAws.SES.send_raw_email()
     |> exaws_perform_fn.(exaws_config_fn.(:ses))
   end

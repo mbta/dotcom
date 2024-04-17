@@ -9,7 +9,7 @@ defmodule CMS.CustomHTML5Scrubber do
   """
 
   require HtmlSanitizeEx.Scrubber.Meta
-  alias HtmlSanitizeEx.Scrubber.Meta
+  alias HtmlSanitizeEx.Scrubber.{CSS, Meta}
 
   # Removes any CDATA tags before the traverser/scrubber runs.
   Meta.remove_cdata_sections_before_scrub()
@@ -2127,6 +2127,6 @@ defmodule CMS.CustomHTML5Scrubber do
   end
 
   defp scrub_css(text) do
-    HtmlSanitizeEx.Scrubber.CSS.scrub(text)
+    CSS.scrub(text)
   end
 end

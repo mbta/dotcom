@@ -7,6 +7,7 @@ defmodule DotcomWeb.BusStopChangeController do
   use DotcomWeb, :controller
 
   alias Alerts.{Alert, HistoricalAlert}
+  alias Alerts.Cache.BusStopChangeS3
   alias Alerts.InformedEntity, as: IE
 
   # Assigns bus stop change alerts to conn.assigns.alerts
@@ -52,7 +53,7 @@ defmodule DotcomWeb.BusStopChangeController do
   defp past_stored_alerts() do
     yesterday = Util.service_date() |> Timex.shift(days: -1)
 
-    Alerts.Cache.BusStopChangeS3.get_stored_alerts()
+    BusStopChangeS3.get_stored_alerts()
     # Best guess at which alerts to designate as "past"
     |> Enum.filter(fn %HistoricalAlert{alert: %Alert{active_period: [{_starting, ending} | _]}} ->
       has_ended? = ending && Timex.before?(ending, yesterday)

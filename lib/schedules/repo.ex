@@ -9,6 +9,8 @@ defmodule Schedules.Repo do
 
   require Logger
 
+  alias Dotcom.Cache.KeyGenerator
+  alias MBTA.Api.Trips
   alias Routes.Route
   alias Schedules.{Parser, Schedule}
   alias Util
@@ -72,7 +74,7 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  def trip(trip_id, trip_by_id_fn \\ &MBTA.Api.Trips.by_id/2)
+  def trip(trip_id, trip_by_id_fn \\ &Trips.by_id/2)
 
   def trip("", _trip_fn) do
     # short circuit an known invalid trip ID
@@ -272,7 +274,7 @@ defmodule Schedules.Repo do
     |> Stream.uniq_by(&elem(&1, 0))
     |> Enum.each(fn {id, trip} ->
       key =
-        Dotcom.Cache.KeyGenerator.generate(__MODULE__, :fetch_trip, [id, &MBTA.Api.Trips.by_id/2])
+        KeyGenerator.generate(__MODULE__, :fetch_trip, [id, &Trips.by_id/2])
 
       @cache.put(key, {:ok, trip}, ttl: @ttl)
     end)

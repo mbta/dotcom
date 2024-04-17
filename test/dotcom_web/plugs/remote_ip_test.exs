@@ -1,6 +1,8 @@
 defmodule DotcomWeb.Plugs.RemoteIpTest do
   use DotcomWeb.ConnCase, async: true
 
+  alias DotcomWeb.Plugs.RemoteIp
+
   setup %{conn: conn} do
     %{conn: %{conn | remote_ip: {127, 0, 0, 1}}}
   end
@@ -10,7 +12,7 @@ defmodule DotcomWeb.Plugs.RemoteIpTest do
       conn =
         conn
         |> Plug.Conn.put_req_header("x-forwarded-for", "18.0.0.1")
-        |> DotcomWeb.Plugs.RemoteIp.call(init())
+        |> RemoteIp.call(init())
 
       assert conn.remote_ip == {18, 0, 0, 1}
     end
@@ -19,20 +21,20 @@ defmodule DotcomWeb.Plugs.RemoteIpTest do
       conn =
         conn
         |> Plug.Conn.put_req_header("x-forwarded-for", "18.0.0.1, 18.0.0.2")
-        |> DotcomWeb.Plugs.RemoteIp.call(init())
+        |> RemoteIp.call(init())
 
       assert conn.remote_ip == {18, 0, 0, 2}
     end
 
     test "handles when header is missing", %{conn: conn} do
-      assert DotcomWeb.Plugs.RemoteIp.call(conn, init()).remote_ip == {127, 0, 0, 1}
+      assert RemoteIp.call(conn, init()).remote_ip == {127, 0, 0, 1}
     end
 
     test "handles if IP address is malformed", %{conn: conn} do
       conn =
         conn
         |> Plug.Conn.put_req_header("x-forwarded-for", "malformed")
-        |> DotcomWeb.Plugs.RemoteIp.call(init())
+        |> RemoteIp.call(init())
 
       assert conn.remote_ip == {127, 0, 0, 1}
     end
@@ -40,11 +42,11 @@ defmodule DotcomWeb.Plugs.RemoteIpTest do
 
   describe "format/1" do
     test "prints IP address correctly" do
-      assert DotcomWeb.Plugs.RemoteIp.format({127, 0, 0, 1}) == "127.0.0.1"
+      assert RemoteIp.format({127, 0, 0, 1}) == "127.0.0.1"
     end
   end
 
   defp init do
-    DotcomWeb.Plugs.RemoteIp.init([])
+    RemoteIp.init([])
   end
 end

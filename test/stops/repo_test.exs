@@ -3,6 +3,7 @@ defmodule Stops.RepoTest do
   @moduletag :external
 
   import Stops.Repo
+  alias Dotcom.Cache.KeyGenerator
   alias Stops.Stop
 
   setup do
@@ -86,7 +87,7 @@ defmodule Stops.RepoTest do
     end
 
     test "caches per-stop as well", %{cache: cache} do
-      key = Dotcom.Cache.KeyGenerator.generate(Stops.Repo, :stop, "place-brntn")
+      key = KeyGenerator.generate(Stops.Repo, :stop, "place-brntn")
 
       cache.put(key, {:ok, "to-be-overwritten"})
 

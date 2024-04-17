@@ -225,7 +225,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders an empty string if the query has a good value for the field", %{conn: conn} do
-      from = Test.Support.Factory.build(:stop_named_position)
+      from = Factory.build(:stop_named_position)
 
       query = %Query{
         from: {:ok, from},
@@ -628,8 +628,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail)),
-              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail))
+              Factory.build(:leg, mode: Factory.build(:personal_detail)),
+              Factory.build(:leg, mode: Factory.build(:personal_detail))
             ]
         }
         |> transfer_note
@@ -642,9 +642,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         %{
           @base_itinerary
           | legs: [
-              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail)),
+              Factory.build(:leg, mode: Factory.build(:personal_detail)),
               @bus_leg,
-              Test.Support.Factory.build(:leg, mode: Test.Support.Factory.build(:personal_detail))
+              Factory.build(:leg, mode: Factory.build(:personal_detail))
             ]
         }
         |> transfer_note

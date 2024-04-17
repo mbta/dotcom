@@ -2,6 +2,9 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   @moduledoc """
   Deprecated, please add new svgs to the image directory in assets and use the site_web/views/helpers.ex "svg" method
   """
+
+  alias Phoenix.HTML.Tag
+
   defstruct icon: :bus, class: "", show_tooltip?: true
 
   @type t :: %__MODULE__{icon: icon_arg, class: String.t(), show_tooltip?: boolean}
@@ -177,7 +180,7 @@ defmodule Dotcom.Components.Icons.SvgIcon do
   end
 
   def build_path(path) do
-    Phoenix.HTML.Tag.content_tag :path, d: path do
+    Tag.content_tag :path, d: path do
       []
     end
   end

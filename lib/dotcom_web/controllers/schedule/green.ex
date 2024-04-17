@@ -9,7 +9,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   import DotcomWeb.ControllerHelpers,
     only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
 
-  alias DotcomWeb.ScheduleController.LineController
+  alias DotcomWeb.ScheduleController.{LineController, VehicleLocations}
   alias DotcomWeb.ScheduleView
 
   plug(:route)
@@ -107,7 +107,7 @@ defmodule DotcomWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn conn ->
-          call_plug_with_opts(conn, DotcomWeb.ScheduleController.VehicleLocations, opts).assigns.vehicle_locations
+          call_plug_with_opts(conn, VehicleLocations, opts).assigns.vehicle_locations
         end,
         timeout: @task_timeout
       )

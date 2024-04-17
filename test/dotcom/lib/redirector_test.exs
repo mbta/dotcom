@@ -2,6 +2,7 @@ defmodule DotcomWeb.RedirectorTest do
   use DotcomWeb.ConnCase, async: true
   import Phoenix.ConnTest, only: [redirected_to: 2]
 
+  alias DotcomWeb.Router.Helpers
   alias DotcomWeb.Redirector
 
   test "passes along the redirect path when 'to' is defined" do
@@ -37,7 +38,7 @@ defmodule DotcomWeb.RedirectorTest do
     assert conn.halted == true
 
     assert redirected_to(conn, :moved_permanently) ==
-             DotcomWeb.Router.Helpers.event_path(conn, :show, ["3268"])
+             Helpers.event_path(conn, :show, ["3268"])
   end
 
   test "route redirected to /news with a valid id in the params", %{conn: conn} do
@@ -49,7 +50,7 @@ defmodule DotcomWeb.RedirectorTest do
     assert conn.halted == true
 
     assert redirected_to(conn, :moved_permanently) ==
-             DotcomWeb.Router.Helpers.news_entry_path(conn, :show, ["3519"])
+             Helpers.news_entry_path(conn, :show, ["3519"])
   end
 
   test "route redirected with an invalid id renders a 404", %{conn: conn} do

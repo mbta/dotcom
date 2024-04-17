@@ -7,6 +7,8 @@ defmodule DotcomWeb.ScheduleController.LineApi do
 
   use DotcomWeb, :controller
 
+  alias DotcomWeb.Plugs.DateInRating
+  alias DotcomWeb.ScheduleController.{Green, Predictions, VehicleTooltips, VehicleLocations}
   alias Dotcom.TransitNearMe
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Vehicles.Vehicle
@@ -157,25 +159,17 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   @spec assign_vehicle_tooltips(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
   defp assign_vehicle_tooltips(%Plug.Conn{assigns: %{route: %{id: "Green"}}} = conn, opts) do
     conn
-    |> DotcomWeb.Plugs.DateInRating.call(opts)
-    |> DotcomWeb.ScheduleController.Green.vehicle_locations(
-      DotcomWeb.ScheduleController.VehicleLocations.init(opts)
-    )
-    |> DotcomWeb.ScheduleController.Green.predictions(
-      DotcomWeb.ScheduleController.Predictions.init(opts)
-    )
-    |> DotcomWeb.ScheduleController.VehicleTooltips.call(opts)
+    |> DateInRating.call(opts)
+    |> Green.vehicle_locations(VehicleLocations.init(opts))
+    |> Green.predictions(Predictions.init(opts))
+    |> VehicleTooltips.call(opts)
   end
 
   defp assign_vehicle_tooltips(conn, opts) do
     conn
-    |> DotcomWeb.Plugs.DateInRating.call(opts)
-    |> DotcomWeb.ScheduleController.VehicleLocations.call(
-      DotcomWeb.ScheduleController.VehicleLocations.init(opts)
-    )
-    |> DotcomWeb.ScheduleController.Predictions.call(
-      DotcomWeb.ScheduleController.Predictions.init(opts)
-    )
-    |> DotcomWeb.ScheduleController.VehicleTooltips.call(opts)
+    |> DateInRating.call(opts)
+    |> VehicleLocations.call(VehicleLocations.init(opts))
+    |> Predictions.call(Predictions.init(opts))
+    |> VehicleTooltips.call(opts)
   end
 end

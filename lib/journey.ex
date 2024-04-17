@@ -2,6 +2,7 @@ defmodule Journey do
   @moduledoc """
   Represents a schedule at a stop (origin or destination) or a pair of stops (origin and destination)
   """
+  alias Phoenix.HTML.Tag
   alias Predictions.Prediction
   alias Schedules.{Schedule, Trip}
 
@@ -219,15 +220,15 @@ defmodule Journey do
 
     case track do
       nil ->
-        Phoenix.HTML.Tag.content_tag(:span, status)
+        Tag.content_tag(:span, status)
 
       track ->
-        Phoenix.HTML.Tag.content_tag(
+        Tag.content_tag(
           :span,
           [
             status,
             " on ",
-            Phoenix.HTML.Tag.content_tag(:span, ["track ", track], class: "no-wrap")
+            Tag.content_tag(:span, ["track ", track], class: "no-wrap")
           ]
         )
     end
@@ -236,7 +237,7 @@ defmodule Journey do
   def display_status(departure, arrival) do
     case Enum.max([PredictedSchedule.delay(departure), PredictedSchedule.delay(arrival)]) do
       delay when delay > 0 ->
-        Phoenix.HTML.Tag.content_tag(:span, [
+        Tag.content_tag(:span, [
           "Delayed ",
           Integer.to_string(delay),
           " ",

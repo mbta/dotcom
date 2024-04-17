@@ -7,8 +7,9 @@ defmodule Routes.Repo do
 
   import Routes.Parser
 
+  alias Dotcom.Cache.KeyGenerator
   alias JsonApi
-  alias MBTA.Api.{Shapes}
+  alias MBTA.Api.Shapes
   alias Routes.{Route, Shape}
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -31,7 +32,7 @@ defmodule Routes.Repo do
     result = handle_response(MBTA.Api.Routes.all(opts))
 
     for {:ok, routes} <- [result], route <- routes do
-      key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :cached_get, [route.id, opts])
+      key = KeyGenerator.generate(__MODULE__, :cached_get, [route.id, opts])
 
       @cache.put(key, {:ok, route})
     end
@@ -87,7 +88,7 @@ defmodule Routes.Repo do
         shapes = Enum.flat_map(data, &parse_shape/1)
 
         for shape <- shapes do
-          key = Dotcom.Cache.KeyGenerator.generate(__MODULE__, :get_shape, shape.id)
+          key = KeyGenerator.generate(__MODULE__, :get_shape, shape.id)
 
           @cache.put(key, [shape])
         end

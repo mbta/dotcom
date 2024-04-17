@@ -11,6 +11,8 @@ defmodule DotcomWeb.ControllerHelpersTest do
       put_private: 3
     ]
 
+  alias Alerts.Cache.Store
+
   describe "render_404/1" do
     test "renders the 404 bus" do
       rendered =
@@ -199,7 +201,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
     @bus_alert Alerts.Alert.new(id: "bus", informed_entity: [@bus])
 
     setup do
-      Alerts.Cache.Store.update(
+      Store.update(
         [@worcester_alert, @worcester_inbound_alert, @commuter_rail_alert, @bus_alert],
         nil
       )
@@ -273,7 +275,7 @@ defmodule DotcomWeb.ControllerHelpersTest do
           informed_entity: [@worcester_inbound, @worcester]
         )
 
-      Alerts.Cache.Store.update(
+      Store.update(
         [
           @worcester_alert,
           @worcester_inbound_alert,

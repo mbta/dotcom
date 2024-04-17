@@ -8,6 +8,8 @@ defmodule Dotcom.TripPlan.Query do
     ShortestTrip
   }
 
+  alias TripPlan.Api.OpenTripPlanner
+
   alias TripPlan.{Itinerary, NamedPosition}
 
   defstruct [
@@ -119,7 +121,7 @@ defmodule Dotcom.TripPlan.Query do
         end
       )
 
-    TripPlan.Api.OpenTripPlanner.plan(from, to, opts)
+    OpenTripPlanner.plan(from, to, opts)
   end
 
   @spec parse_itinerary_result(OpenTripPlannerClient.Behaviour.plan(), t) :: t

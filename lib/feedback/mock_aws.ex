@@ -4,6 +4,8 @@ defmodule Feedback.MockAws do
   """
   require Logger
 
+  alias Mail.Parsers.RFC2822
+
   def config(:ses) do
     :ok
   end
@@ -12,7 +14,7 @@ defmodule Feedback.MockAws do
     _ =
       raw_message
       |> Base.decode64!()
-      |> Mail.Parsers.RFC2822.parse()
+      |> RFC2822.parse()
       |> log_email()
 
     {:ok, :status_info_that_gets_ignored_by_caller}

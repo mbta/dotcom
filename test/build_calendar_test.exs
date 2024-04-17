@@ -2,9 +2,10 @@ defmodule BuildCalendarTest do
   use ExUnit.Case, async: true
 
   import BuildCalendar
-  alias BuildCalendar.{Calendar, Day}
-
   import Phoenix.HTML, only: [safe_to_string: 1]
+
+  alias BuildCalendar.{Calendar, Day}
+  alias Holiday.Repo.Helpers
 
   defp url_fn(keywords) do
     inspect(keywords)
@@ -275,7 +276,7 @@ defmodule BuildCalendarTest do
             {"Ghost of Christmas Present", [{12, 25}]},
             {"Ghost of Christmas Future", [{12, 27}]}
           ],
-          fn day -> Holiday.Repo.Helpers.make_holiday(day, 1843) end
+          fn day -> Helpers.make_holiday(day, 1843) end
         )
 
       today = ~D[1843-12-25]

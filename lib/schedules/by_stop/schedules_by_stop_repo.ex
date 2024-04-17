@@ -21,7 +21,7 @@ defmodule Schedules.ByStop.SchedulesByStopRepo do
   defp all_from_params(params) do
     with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
       data
-      |> Stream.map(&Schedules.ByStop.Departures.parse_from_schedule_json/1)
+      |> Stream.map(&Departures.parse_from_schedule_json/1)
     end
   end
 end

@@ -2,6 +2,8 @@ defmodule Schedules.RepoTest do
   use ExUnit.Case, async: false
   use Timex
   import Schedules.Repo
+  alias Dotcom.Cache.KeyGenerator
+  alias MBTA.Api.Trips
   alias Schedules.Schedule
 
   setup do
@@ -229,9 +231,9 @@ defmodule Schedules.RepoTest do
       insert_trips_into_cache(data)
 
       key =
-        Dotcom.Cache.KeyGenerator.generate(Schedules.Repo, :fetch_trip, [
+        KeyGenerator.generate(Schedules.Repo, :fetch_trip, [
           trip_id,
-          &MBTA.Api.Trips.by_id/2
+          &Trips.by_id/2
         ])
 
       assert {:ok, %Schedules.Trip{id: ^trip_id}} = cache.get(key)
@@ -249,9 +251,9 @@ defmodule Schedules.RepoTest do
       insert_trips_into_cache(data)
 
       key =
-        Dotcom.Cache.KeyGenerator.generate(Schedules.Repo, :fetch_trip, [
+        KeyGenerator.generate(Schedules.Repo, :fetch_trip, [
           trip_id,
-          &MBTA.Api.Trips.by_id/2
+          &Trips.by_id/2
         ])
 
       assert {:ok, nil} = cache.get(key)

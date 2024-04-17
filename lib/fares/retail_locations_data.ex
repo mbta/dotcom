@@ -6,6 +6,7 @@ defmodule Fares.RetailLocations.Data do
   use Nebulex.Caching.Decorators
 
   alias Fares.RetailLocations.Location
+  alias MBTA.Api.Facilities
   alias Util.Position
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -14,7 +15,7 @@ defmodule Fares.RetailLocations.Data do
   @spec get :: [Location.t()]
   def get do
     [{"type", "FARE_VENDING_RETAILER"}]
-    |> MBTA.Api.Facilities.filter_by()
+    |> Facilities.filter_by()
     |> parse_v3_multiple
   end
 
