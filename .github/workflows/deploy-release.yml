@@ -28,3 +28,14 @@ jobs:
         :t-intensifies: `prod` updated to release `${{ github.event.release.tag_name }}`
       failure-message: |
         release `${{ github.event.release.tag_name }}` failed to update `prod`
+
+  sentry:
+    needs: [release]
+    uses: getsentry/action-release@v1.7.0
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+    with:
+      environment: production
+      version: ${{ github.event.release.tag_name }}

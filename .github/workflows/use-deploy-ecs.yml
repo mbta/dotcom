@@ -100,15 +100,6 @@ jobs:
           ecs-cluster: dotcom
           ecs-service: dotcom-${{ inputs.deployment-env }}
           docker-tag: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
-
-      - uses: getsentry/action-release@v1.7.0
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: mbtace
-          SENTRY_PROJECT: mbta-dotcom
-        with:
-          environment: ${{ inputs.deployment-env }}
-          version: ${{ fromJSON(steps.meta.outputs.json).labels[0] }}
   smoke:
     runs-on: ubuntu-latest
     needs: deploy
