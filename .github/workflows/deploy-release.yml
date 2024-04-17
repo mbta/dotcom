@@ -31,11 +31,17 @@ jobs:
 
   sentry:
     needs: [release]
-    uses: getsentry/action-release@v1.7.0
-    env:
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      SENTRY_ORG: mbtace
-      SENTRY_PROJECT: mbta-dotcom
-    with:
-      environment: production
-      version: ${{ github.event.release.tag_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: getsentry/action-release@v1.7.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: mbtace
+          SENTRY_PROJECT: mbta-dotcom
+        with:
+          environment: prod
+          version: ${{ github.event.release.tag_name }}
