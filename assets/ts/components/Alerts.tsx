@@ -120,7 +120,7 @@ const replaceUrlsWithLinks = (desc: string): string => {
       if (token.includes("@") || !token.match(urlRegex)) {
         return token;
       }
-      return createUrl(token);
+      return token.replace(urlRegex, createUrl);
     })
     .join(" ");
 };

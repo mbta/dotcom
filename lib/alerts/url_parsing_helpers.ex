@@ -30,7 +30,7 @@ defmodule Alerts.URLParsingHelpers do
         if String.contains?(token, "@") || !Regex.match?(@url_regex, token) do
           token
         else
-          create_url(token)
+          Regex.replace(@url_regex, token, &create_url/1)
         end
       end)
 

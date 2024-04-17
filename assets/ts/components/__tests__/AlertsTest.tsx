@@ -118,6 +118,17 @@ test("it sets the url in the description", () => {
   expect(screen.getByText("MBTA.com/help")).toBeInTheDocument();
 });
 
+test("It does not create links out of emails", () => {
+  render(
+    <Alerts alerts={[{ ...alertUrlDesc, description: "test@mbta.com" }]} />
+  );
+
+  fireEvent.click(screen.getByText(/Route 170.*/));
+
+  expect(screen.getByText("test@mbta.com")).toBeInTheDocument();
+  expect(screen.queryByText('"test@mbta.com')).toBeNull();
+});
+
 test("it has no dropdown when alert has no description", () => {
   const noDescriptionAlert = { ...highAlert, description: "" };
   const wrapper = mount(<Alerts alerts={[noDescriptionAlert]} />);
