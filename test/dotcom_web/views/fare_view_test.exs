@@ -3,6 +3,7 @@ defmodule DotcomWeb.FareViewTest do
   use ExUnit.Case, async: true
 
   import DotcomWeb.FareView
+
   alias DotcomWeb.Router.Helpers
   alias Fares.Summary
 

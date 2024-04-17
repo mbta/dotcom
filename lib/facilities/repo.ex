@@ -3,9 +3,9 @@ defmodule Facilities.Repo do
   Repo to get facilitiy information.
   """
 
-  alias MBTA.Api.Facilities
-
   use Nebulex.Caching.Decorators
+
+  alias MBTA.Api.Facilities
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(24)

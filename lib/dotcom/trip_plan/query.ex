@@ -8,8 +8,6 @@ defmodule Dotcom.TripPlan.Query do
     ShortestTrip
   }
 
-  alias Dotcom.TripPlan.DateTime, as: TripPlanDateTime
-  alias Dotcom.TripPlan.Location, as: TripPlanLocation
   alias TripPlan.Api.OpenTripPlanner
 
   alias TripPlan.{Itinerary, NamedPosition}
@@ -60,7 +58,7 @@ defmodule Dotcom.TripPlan.Query do
   @type t :: %__MODULE__{
           from: position,
           to: position,
-          time: :unknown | TripPlanDateTime.date_time(),
+          time: :unknown | Dotcom.TripPlan.DateTime.date_time(),
           errors: MapSet.t(atom),
           wheelchair: boolean,
           itineraries: query_itineraries() | nil
@@ -73,8 +71,8 @@ defmodule Dotcom.TripPlan.Query do
     %__MODULE__{
       wheelchair: match?(%{"wheelchair" => "true"}, params)
     }
-    |> TripPlanDateTime.validate(params, date_opts)
-    |> TripPlanLocation.validate(params)
+    |> Dotcom.TripPlan.DateTime.validate(params, date_opts)
+    |> Dotcom.TripPlan.Location.validate(params)
     |> maybe_fetch_itineraries(opts)
   end
 

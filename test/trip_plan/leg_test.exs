@@ -2,8 +2,9 @@ defmodule TripPlan.LegTest do
   use ExUnit.Case, async: true
   @moduletag :external
 
-  alias Test.Support.Factory
   import TripPlan.Leg
+
+  alias Test.Support.Factory
 
   @from Test.Support.Factory.build(:stop_named_position)
   @to Test.Support.Factory.build(:stop_named_position)

@@ -7,8 +7,8 @@ defmodule DotcomWeb.BusStopChangeController do
   use DotcomWeb, :controller
 
   alias Alerts.{Alert, HistoricalAlert}
-  alias Alerts.InformedEntity, as: IE
   alias Alerts.Cache.BusStopChangeS3
+  alias Alerts.InformedEntity, as: IE
 
   # Assigns bus stop change alerts to conn.assigns.alerts
   plug(:bus_stop_alerts)

@@ -1,9 +1,10 @@
 defmodule Facilities.RepoTest do
   use ExUnit.Case
-  alias Facilities.Repo
-  alias MBTA.Api.Facilities
 
   import Mock
+
+  alias Facilities.Repo
+  alias MBTA.Api.Facilities
 
   describe "get_for_stop/1" do
     test "should call the api" do

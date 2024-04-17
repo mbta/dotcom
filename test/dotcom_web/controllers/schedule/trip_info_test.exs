@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleController.TripInfoTest do
   use DotcomWeb.ConnCase, async: true
   import DotcomWeb.ScheduleController.TripInfo
+  alias DotcomWeb.ScheduleController.TripInfo
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
   alias Predictions.Prediction

@@ -1,10 +1,10 @@
 defmodule Dotcom.Cache.Telemetry.ReporterTest do
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog
+
   alias Dotcom.Cache.Multilevel.Local
   alias Dotcom.Cache.Telemetry.Reporter
-
-  import ExUnit.CaptureLog
 
   test "the hit rate gets logged" do
     Reporter.start_link(

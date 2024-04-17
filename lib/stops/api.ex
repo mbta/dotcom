@@ -4,10 +4,9 @@ defmodule Stops.Api do
   """
   require Logger
   alias JsonApi.Item
-  alias MBTA.Api.Trips
-  alias MBTA.Api.Stops, as: ApiStops
-  alias Stop.ParkingLot.{Capacity, Payment, Utilization, Manager}
+  alias MBTA.Api
   alias Stops.Stop
+  alias Stops.Stop.ParkingLot.{Capacity, Payment, Utilization, Manager}
 
   @type fare_facility ::
           :fare_vending_retailer
@@ -47,14 +46,14 @@ defmodule Stops.Api do
   @spec by_gtfs_id(String.t()) :: {:ok, Stop.t() | nil} | {:error, any}
   def by_gtfs_id(gtfs_id) do
     gtfs_id
-    |> ApiStops.by_gtfs_id(@default_params)
+    |> Api.Stops.by_gtfs_id(@default_params)
     |> extract_v3_response()
     |> parse_v3_response()
   end
 
   def all do
     @default_params
-    |> ApiStops.all()
+    |> Api.Stops.all()
     |> parse_v3_multiple()
   end
 
@@ -64,7 +63,7 @@ defmodule Stops.Api do
     |> Keyword.put(:route, route_id)
     |> Keyword.put(:direction_id, direction_id)
     |> Keyword.merge(opts)
-    |> ApiStops.all()
+    |> Api.Stops.all()
     |> parse_v3_multiple()
   end
 
@@ -73,12 +72,12 @@ defmodule Stops.Api do
     @default_params
     |> Keyword.put(:route_type, route_type)
     |> Keyword.merge(opts)
-    |> ApiStops.all()
+    |> Api.Stops.all()
     |> parse_v3_multiple()
   end
 
   def by_trip(trip_id) do
-    case Trips.by_id(trip_id, include: "stops") do
+    case Api.Trips.by_id(trip_id, include: "stops") do
       %JsonApi{
         data: [
           %JsonApi.Item{

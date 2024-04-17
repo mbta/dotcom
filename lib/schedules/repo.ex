@@ -11,7 +11,6 @@ defmodule Schedules.Repo do
 
   alias Dotcom.Cache.KeyGenerator
   alias MBTA.Api.Trips
-  alias MBTA.Api.Schedules, as: ApiSchedules
   alias Routes.Route
   alias Schedules.{Parser, Schedule}
   alias Util
@@ -114,7 +113,7 @@ defmodule Schedules.Repo do
     end
   end
 
-  def end_of_rating(all_fn \\ &ApiSchedules.all/1) do
+  def end_of_rating(all_fn \\ &MBTA.Api.Schedules.all/1) do
     case rating_dates(all_fn) do
       {_start_date, end_date} -> end_date
       :error -> nil
@@ -122,7 +121,7 @@ defmodule Schedules.Repo do
   end
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
-  def rating_dates(all_fn \\ &ApiSchedules.all/1) do
+  def rating_dates(all_fn \\ &MBTA.Api.Schedules.all/1) do
     with {:error, [%{code: "no_service"} = error]} <- all_fn.(route: "Red", date: "1970-01-01"),
          {:ok, start_date} <- Date.from_iso8601(error.meta["start_date"]),
          {:ok, end_date} <- Date.from_iso8601(error.meta["end_date"]) do
@@ -133,7 +132,7 @@ defmodule Schedules.Repo do
   end
 
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- ApiSchedules.all(params) do
+    with %JsonApi{data: data} <- MBTA.Api.Schedules.all(params) do
       data = Enum.filter(data, &valid?/1)
       insert_trips_into_cache(data)
 

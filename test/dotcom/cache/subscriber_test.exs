@@ -1,12 +1,12 @@
 defmodule Dotcom.Cache.SubscriberTest do
   use ExUnit.Case, async: false
 
+  import ExUnit.CaptureLog
+  import Mox
+
   alias Dotcom.Cache.Publisher
   alias Dotcom.Cache.Subscriber
   alias Dotcom.Redix.PubSub.Mock
-
-  import ExUnit.CaptureLog
-  import Mox
 
   setup :set_mox_global
 

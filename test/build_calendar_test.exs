@@ -2,10 +2,10 @@ defmodule BuildCalendarTest do
   use ExUnit.Case, async: true
 
   import BuildCalendar
+  import Phoenix.HTML, only: [safe_to_string: 1]
+
   alias BuildCalendar.{Calendar, Day}
   alias Holiday.Repo.Helpers
-
-  import Phoenix.HTML, only: [safe_to_string: 1]
 
   defp url_fn(keywords) do
     inspect(keywords)

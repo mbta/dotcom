@@ -1,8 +1,6 @@
 defmodule DotcomWeb.ControllerHelpersTest do
   use DotcomWeb.ConnCase, async: true
 
-  alias Alerts.Cache.Store
-
   import DotcomWeb.ControllerHelpers
   import Mox
 
@@ -12,6 +10,8 @@ defmodule DotcomWeb.ControllerHelpersTest do
       get_resp_header: 2,
       put_private: 3
     ]
+
+  alias Alerts.Cache.Store
 
   describe "render_404/1" do
     test "renders the 404 bus" do

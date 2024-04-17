@@ -1,10 +1,11 @@
 defmodule Stops.Nearby do
   @moduledoc "Functions for retrieving and organizing stops relative to a location."
   import Util.Distance
+
+  alias MBTA.Api
   alias Routes.Route
   alias Stops.Stop
   alias Util.Position
-  alias MBTA.Api.Stops, as: ApiStops
 
   @mile_in_degrees 0.02
   @total 12
@@ -73,7 +74,7 @@ defmodule Stops.Nearby do
       |> Keyword.put(:sort, "distance")
 
     opts
-    |> ApiStops.all()
+    |> Api.Stops.all()
     |> Map.get(:data)
     |> Enum.map(&item_to_position/1)
     |> Enum.uniq()

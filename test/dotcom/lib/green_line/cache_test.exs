@@ -2,10 +2,10 @@ defmodule Dotcom.GreenLine.CacheTest do
   use ExUnit.Case
   @moduletag :external
 
+  import Dotcom.GreenLine.Cache
+
   alias Dotcom.GreenLine.CacheSupervisor
   alias Dotcom.GreenLine.Supervisor
-
-  import Dotcom.GreenLine.Cache
 
   setup_all do
     System.put_env("WARM_CACHES", "true")

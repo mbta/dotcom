@@ -1,10 +1,10 @@
 defmodule Dotcom.Cache.MultilevelTest do
   use ExUnit.Case, async: false
 
+  import Mox
+
   alias Dotcom.Cache.Multilevel
   alias Dotcom.Redix.Mock
-
-  import Mox
 
   setup :set_mox_global
 

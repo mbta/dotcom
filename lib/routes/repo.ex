@@ -10,7 +10,6 @@ defmodule Routes.Repo do
   alias Dotcom.Cache.KeyGenerator
   alias JsonApi
   alias MBTA.Api.Shapes
-  alias MBTA.Api.Routes, as: ApiRoutes
   alias Routes.{Route, Shape}
 
   @cache Application.compile_env!(:dotcom, :cache)
@@ -30,7 +29,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_all(opts) do
-    result = handle_response(ApiRoutes.all(opts))
+    result = handle_response(MBTA.Api.Routes.all(opts))
 
     for {:ok, routes} <- [result], route <- routes do
       key = KeyGenerator.generate(__MODULE__, :cached_get, [route.id, opts])
@@ -67,7 +66,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_get(id, opts) do
-    with %{data: [route]} <- ApiRoutes.get(id, opts) do
+    with %{data: [route]} <- MBTA.Api.Routes.get(id, opts) do
       {:ok, parse_route(route)}
     end
   end
@@ -161,7 +160,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_by_stop(stop_id, opts) do
-    stop_id |> ApiRoutes.by_stop(opts) |> handle_response
+    stop_id |> MBTA.Api.Routes.by_stop(opts) |> handle_response
   end
 
   @impl Routes.RepoApi
@@ -176,7 +175,7 @@ defmodule Routes.Repo do
 
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   defp cached_by_stop_and_direction(stop_id, direction_id, opts) do
-    stop_id |> ApiRoutes.by_stop_and_direction(direction_id, opts) |> handle_response
+    stop_id |> MBTA.Api.Routes.by_stop_and_direction(direction_id, opts) |> handle_response
   end
 
   @impl Routes.RepoApi
@@ -201,7 +200,7 @@ defmodule Routes.Repo do
               opts: [ttl: @ttl]
             )
   def do_by_stop_with_route_pattern(opts) do
-    ApiRoutes.all(opts)
+    MBTA.Api.Routes.all(opts)
   end
 
   @doc """
@@ -246,7 +245,7 @@ defmodule Routes.Repo do
          } = route
        ) do
     Enum.flat_map(connecting_stops, fn %JsonApi.Item{id: stop_id} ->
-      case ApiRoutes.by_stop(stop_id) do
+      case MBTA.Api.Routes.by_stop(stop_id) do
         %JsonApi{data: data} -> data
         _ -> []
       end
