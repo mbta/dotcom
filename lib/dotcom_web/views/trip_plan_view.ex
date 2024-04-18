@@ -318,6 +318,12 @@ defmodule DotcomWeb.TripPlanView do
     :erlang.float_to_binary(meters / @meters_per_mile, decimals: 1)
   end
 
+  @spec display_seconds_as_minutes(integer) :: String.t()
+  def display_seconds_as_minutes(seconds) do
+    minutes = Timex.Duration.to_minutes(seconds, :seconds)
+    :erlang.integer_to_binary(Kernel.max(1, Kernel.round(minutes)))
+  end
+
   def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do
     [
       format_green_line_name(route.name),
