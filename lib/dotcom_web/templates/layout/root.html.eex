@@ -34,10 +34,10 @@
 
     <link rel="alternate" type="application/rss+xml" title="MBTA.com Latest News" href="/news/rss.xml" />
 
-    <%= if Application.get_env(:sentry, :dsn) do %>
+    <%= if Application.get_env(:sentry, :js_dsn) do %>
       <script>
         window.sentry = {
-          dsn: "<%= Application.get_env(:sentry, :dsn) %>",
+          dsn: "<%= Application.get_env(:sentry, :js_dsn) %>",
           environment: "<%= Application.get_env(:sentry, :environment_name) %>"
         }
       </script>

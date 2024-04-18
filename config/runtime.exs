@@ -216,7 +216,8 @@ config :recaptcha,
 
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
-  environment_name: System.get_env("SENTRY_ENVIRONMENT")
+  environment_name: System.get_env("SENTRY_ENVIRONMENT"),
+  js_dsn: System.get_env("SENTRY_JS_DSN")
 
 config :dotcom, env: config_env()
 
