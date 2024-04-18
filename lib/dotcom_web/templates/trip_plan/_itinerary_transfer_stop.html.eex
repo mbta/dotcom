@@ -10,10 +10,6 @@
             <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %> Connect to the <span class="notranslate"><%= transfer_route_name(route) %></span>
           </div>
         <%= if @itinerary_row.trip do %>
-          <span class="itinerary-instruction">
-            Take the <%= route.name %> <%= Routes.Route.direction_name(route, @itinerary_row.trip.direction_id) %>
-            <%= unless @itinerary_row.trip.headsign == "" do %>towards <%= @itinerary_row.trip.headsign %><% end %>
-          </span>
           <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
         <% end %>
       </div>
