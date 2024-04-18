@@ -114,7 +114,15 @@ const createUrl = (url: string): string => {
 const replaceUrlsWithLinks = (desc: string): string => {
   const urlRegex = /(https?:\/\/)?([\da-z.-]+)\.([a-z]{2,6})([/\w.-]*)*\/?/i;
 
-  return desc.replace(urlRegex, createUrl);
+  return desc
+    .split(" ")
+    .map(token => {
+      if (token.includes("@") || !token.match(urlRegex)) {
+        return token;
+      }
+      return token.replace(urlRegex, createUrl);
+    })
+    .join(" ");
 };
 
 const formatAlertDescription = (description: string): string => {

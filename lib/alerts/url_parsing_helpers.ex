@@ -23,9 +23,18 @@ defmodule Alerts.URLParsingHelpers do
 
   @spec replace_urls_with_links(String.t()) :: Phoenix.HTML.safe()
   def replace_urls_with_links(text) do
-    @url_regex
-    |> Regex.replace(text, &create_url/1)
-    |> Phoenix.HTML.raw()
+    tokens = String.split(text, " ")
+
+    mapped_tokens =
+      Enum.map(tokens, fn token ->
+        if String.contains?(token, "@") || !Regex.match?(@url_regex, token) do
+          token
+        else
+          Regex.replace(@url_regex, token, &create_url/1)
+        end
+      end)
+
+    mapped_tokens |> Enum.join(" ") |> Phoenix.HTML.raw()
   end
 
   defp create_url(url) do

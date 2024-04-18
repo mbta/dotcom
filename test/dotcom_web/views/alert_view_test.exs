@@ -170,6 +170,12 @@ defmodule DotcomWeb.AlertViewTest do
       actual = replace_urls_with_links("a.m.")
       assert expected == actual
     end
+
+    test "does not link emails" do
+      expected = raw("test@mbta.com")
+      actual = replace_urls_with_links("test@mbta.com")
+      assert expected == actual
+    end
   end
 
   describe "group.html" do
