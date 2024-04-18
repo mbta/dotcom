@@ -1,7 +1,22 @@
 defmodule DotcomWeb.WwwRedirector do
+  @moduledoc """
+  Enables redirecting obsolete subdomains to www.mbta.com.
+
+  ## Example
+
+  Redirect all paths for `obsolete.mbta.com`:
+
+  ```elixir
+  scope "/", DotcomWeb, host: "obsolete." do
+    get("/*path", WwwRedirector, [])
+  end
+  ```
+  """
+
   @behaviour Plug
-  import Plug.Conn, only: [put_status: 2, halt: 1]
+
   import Phoenix.Controller, only: [redirect: 2]
+  import Plug.Conn, only: [put_status: 2, halt: 1]
 
   alias Plug.Conn
 
