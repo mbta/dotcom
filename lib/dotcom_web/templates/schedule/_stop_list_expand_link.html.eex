@@ -14,7 +14,8 @@
         <%= DotcomWeb.TripPlanView.icon_for_route(@route) %>
       </div>
       <div class="ps-8">
-        <span class="u-bold pe-8">Ride the <%= @branch_display %> </span> (<%= intermediate_stop_count %> stops, <%= duration_minutes %> minutes)
+        <% stop_string = Inflex.inflect("Stop", intermediate_stop_count) %>
+        <span class="u-bold pe-8">Ride the <%= @branch_display %> </span> (<%= intermediate_stop_count %> <%= stop_string %>, <%= duration_minutes %> min)
         <div>
           <% headsign = if @itinerary_row.trip.headsign == "", do: "", else: "towards #{@itinerary_row.trip.headsign}" %>
           <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %> <%= headsign %>
