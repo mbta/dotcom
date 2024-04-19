@@ -23,7 +23,7 @@ defmodule MBTA.Api do
       headers: [
         {"MBTA-Version", config[:version]},
         {"x-api-key", config[:key]},
-        {"x-enable-experimental-features", "true"}
+        {"x-enable-experimental-features", config[:enable_experimental_features]}
       ]
     )
   end

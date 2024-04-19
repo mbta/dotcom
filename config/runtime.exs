@@ -109,6 +109,7 @@ end
 
 config :dotcom, :mbta_api,
   base_url: System.get_env("MBTA_API_BASE_URL"),
+  enable_experimental_features: System.get_env("MBTA_API_ENABLE_EXPERIMENTAL_FEATURES"),
   key: System.get_env("MBTA_API_KEY"),
   version: System.get_env("MBTA_API_VERSION", "2019-07-01")
 
@@ -206,9 +207,6 @@ config :dotcom, DotcomWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
   google_tag_manager_auth: System.get_env("GOOGLE_TAG_MANAGER_AUTH"),
   google_tag_manager_preview: System.get_env("GOOGLE_TAG_MANAGER_PREVIEW")
-
-config :dotcom,
-  enable_experimental_features: System.get_env("ENABLE_EXPERIMENTAL_FEATURES")
 
 config :recaptcha,
   public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),
