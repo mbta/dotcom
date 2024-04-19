@@ -1,7 +1,7 @@
 defmodule MBTA.Api.Services do
   @moduledoc false
 
-  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   def all(params \\ []) do
     @mbta_api.get_json("/services/", params)

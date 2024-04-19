@@ -107,10 +107,10 @@ else
     ]
 end
 
-config :dotcom,
-  v3_api_base_url: System.get_env("V3_URL"),
-  v3_api_key: System.get_env("V3_API_KEY"),
-  v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01")
+config :dotcom, :mbta_api,
+  base_url: System.get_env("MBTA_API_BASE_URL"),
+  key: System.get_env("MBTA_API_KEY"),
+  version: System.get_env("MBTA_API_VERSION", "2019-07-01")
 
 config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 

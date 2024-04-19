@@ -5,7 +5,7 @@ defmodule MBTA.Api.RoutePatterns do
 
   alias Routes.Route
 
-  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   @type api_response_t() :: JsonApi.t() | {:error, any}
 

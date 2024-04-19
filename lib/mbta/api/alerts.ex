@@ -3,7 +3,7 @@ defmodule MBTA.Api.Alerts do
   Responsible for fetching Alert data from the V3 API.
   """
 
-  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   @spec all() :: JsonApi.t() | {:error, any}
   def all(params \\ []) do
