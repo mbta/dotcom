@@ -59,9 +59,14 @@ const StopPage = ({
       FetchStatus.Error
     )
   ) {
-    // TODO: get the actual error message here and/or throw the Error from the
-    // fetching hooks themselves
-    throw new Error();
+    const errorMessage = [
+      stopResult.errorData,
+      routesResult.errorData,
+      facilities.errorData
+    ]
+      .filter(error => error === undefined)
+      .join(" ");
+    throw new Error(errorMessage);
   }
 
   // Return loading indicator while waiting on data fetch

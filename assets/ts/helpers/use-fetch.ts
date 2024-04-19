@@ -44,6 +44,7 @@ export type FetchAction<T> =
 export interface FetchState<T> {
   status: FetchStatus;
   data?: T;
+  errorData?: string;
 }
 
 const createInitialState = <T>(): FetchState<T> => ({

@@ -10,7 +10,7 @@ const fetchFacilityData = async (url: string): Promise<Facility[]> =>
 const useStop = (stopId: string): FetchState<Stop> => {
   const { data, error } = useSWR<Stop>(`/api/stop/${stopId}`, fetchData);
   if (error) {
-    return { status: FetchStatus.Error };
+    return { status: FetchStatus.Error, errorData: error };
   }
   return { status: FetchStatus.Data, data };
 };
