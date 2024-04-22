@@ -25,17 +25,20 @@ defmodule MBTA.Api.FacilitiesTest do
 
   test "filter_by/1 sends filters as query parameters" do
     # Setup
+    stop_id = Faker.Team.creature() |> String.downcase()
+    route_type = Enum.random(["0", "1", "2", "3"])
+
     expect(Mock, :get_json, fn url, params ->
       assert url == "/facilities/"
 
       assert Enum.sort(params) ==
-               Enum.sort([{"filter[stop_id]", "place-sstat"}, {"filter[route_type]", "0"}])
+               Enum.sort([{"filter[stop_id]", stop_id}, {"filter[route_type]", route_type}])
 
       []
     end)
 
     # Exercise
-    facilities = Facilities.filter_by(%{stop_id: "place-sstat", route_type: "0"})
+    facilities = Facilities.filter_by(%{stop_id: stop_id, route_type: route_type})
 
     # Verify
     assert facilities == []
