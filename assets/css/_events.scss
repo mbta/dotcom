@@ -28,8 +28,7 @@
 
 .m-event-listing {
   @include media-breakpoint-down(xs) {
-    /* stylelint-disable-next-line scss/operator-no-unspaced */
-    margin: 0 -$base-spacing;
+    margin: 0 (-$base-spacing);
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { FormEvent, ReactElement, useState } from "react";
 import { DirectionId, DirectionInfo, Route } from "../../../__v3api";
 import { SimpleStopMap, SelectedOrigin } from "../__schedule";
-import icon from "../../../../static/images/icon-schedule-finder.svg";
+import icon from "../../../../../priv/static/icon-svg/icon-schedule-finder.svg";
 import renderSvg from "../../../helpers/render-svg";
 import SelectContainer from "./SelectContainer";
 import { routeToModeName } from "../../../helpers/css";

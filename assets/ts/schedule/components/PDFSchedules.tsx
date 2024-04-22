@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import ExpandableBlock from "../../components/ExpandableBlock";
 import { SchedulePDF } from "./__schedule";
 import renderSvg from "../../helpers/render-svg";
-import pdfIcon from "../../../static/images/icon-pdf-default.svg";
+import pdfIcon from "../../../../priv/static/icon-svg/icon-pdf-default.svg";
 import { Route } from "../../__v3api";
 import { isACommuterRailRoute } from "../../models/route";
 

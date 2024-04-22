@@ -22,17 +22,17 @@ module.exports = env =>
         "Access-Control-Allow-Origin": "*"
       },
       devMiddleware: {
-        writeToDisk: path => /\.css$/.test(path)
+        writeToDisk: true
       },
       static: {
         directory: path.resolve(__dirname, "../priv/static/")
       },
       watchFiles: {
-        paths: ['ts/**/*', 'js/**/*', 'css/**/*', 'vendor/**/*'],
+        paths: ["ts/**/*", "js/**/*", "css/**/*", "vendor/**/*"],
         options: {
           usePolling: false,
           ignored: "/node_modules/"
-        },
+        }
       },
       client: {
         logging: "warn",

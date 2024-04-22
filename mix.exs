@@ -24,7 +24,6 @@ defmodule DotCom.Mixfile do
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
       deps: deps(),
-      aliases: aliases(),
 
       # docs
       name: "MBTA Website",
@@ -152,75 +151,4 @@ defmodule DotCom.Mixfile do
       {:wallaby, "0.30.6", [runtime: false, only: [:test, :dev]]}
     ]
   end
-
-  defp aliases do
-    [
-      "compile.assets": &compile_assets/1,
-      "phx.server": [&server_setup/1, "phx.server"]
-    ]
-  end
-
-  defp compile_assets(_) do
-    # builds the node script that lets us render some react components
-    # server-side, compiling assets/react_app.js,
-    # outputting react_renderer/dist/app.js
-    print("(1/3) webpack --config webpack.config.react_app.js --env.production")
-
-    {_, 0} =
-      System.cmd("npm", ["run", "--prefix", "assets", "webpack:build:react"],
-        stderr_to_stdout: true
-      )
-
-    # 3 - transpiles/builds our typescript/CSS/everything else for production
-    print("2/3) webpack --config webpack.config.prod.js --env.production (long)")
-
-    {_, 0} =
-      System.cmd("npm", ["run", "--prefix", "assets", "webpack:build"], stderr_to_stdout: true)
-
-    # starts the Phoenix framework mix phx.digest command, that takes content
-    # from assets/static and processes it into priv/static
-    print("(3/3) mix phx.digest")
-
-    Mix.Task.run("phx.digest", [])
-  end
-
-  defp server_setup(_) do
-    env = Mix.env()
-
-    # the test environment server needs assets compiled for production,
-    # in the dev environment the dev server would normally serve those
-    if env == :test, do: compile_assets([])
-
-    print_with_bg([
-      "\nCompiling Dotcom for the ",
-      :light_magenta_background,
-      " #{env} ",
-      :white_background,
-      " Mix environment."
-    ])
-
-    Mix.Task.run("compile")
-
-    print_with_bg([
-      "\nReady to start server @ ",
-      :light_green_background,
-      " #{site_url()} ",
-      :white_background,
-      " now."
-    ])
-  end
-
-  defp site_url do
-    host = Application.get_env(:dotcom, DotcomWeb.Endpoint)[:url][:host]
-
-    port =
-      System.get_env("PORT") || Application.get_env(:dotcom, DotcomWeb.Endpoint)[:http][:port]
-
-    "#{host}:#{port}"
-  end
-
-  defp print(text), do: Mix.shell().info([:cyan, text, :reset])
-
-  defp print_with_bg(text_list),
-    do: Mix.shell().info([:white_background, :blue] ++ text_list ++ [:reset])
 end

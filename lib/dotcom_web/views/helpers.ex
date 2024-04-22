@@ -28,7 +28,7 @@ defmodule DotcomWeb.ViewHelpers do
   for path <-
         :dotcom
         |> Application.app_dir()
-        |> Kernel.<>("/priv/static/**/*.svg")
+        |> Kernel.<>("/priv/static/icon-svg/*.svg")
         |> Path.wildcard() do
     name = Path.basename(path)
 

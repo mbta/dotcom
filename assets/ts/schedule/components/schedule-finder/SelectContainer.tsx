@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from "react";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
 import renderSvg from "../../../helpers/render-svg";
-import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
+import arrowIcon from "../../../../../priv/static/icon-svg/icon-down-arrow.svg";
 
 interface SelectContainerProps {
   children: ReactNode;

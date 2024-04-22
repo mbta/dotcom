@@ -64,7 +64,10 @@ describe("StopMap", () => {
     const image = screen.getByRole("img", {
       name: new RegExp(testStop.name)
     });
-    expect(image).toHaveAttribute("src", "/images/icon-map-station-marker.svg");
+    expect(image).toHaveAttribute(
+      "src",
+      "/icon-svg/icon-map-station-marker.svg"
+    );
   });
 
   it("should display lines", () => {

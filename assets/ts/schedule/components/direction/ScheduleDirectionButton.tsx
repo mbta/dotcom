@@ -1,6 +1,6 @@
 import React, { ReactElement, Dispatch } from "react";
 import renderSVG from "../../../helpers/render-svg";
-import icon from "../../../../static/images/icon-change-direction.svg";
+import icon from "../../../../../priv/static/icon-svg/icon-change-direction.svg";
 import { MenuAction, toggleDirectionAction } from "./reducer";
 
 interface Props {
