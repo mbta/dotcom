@@ -22,25 +22,30 @@ defmodule MBTA.Api.Stats do
   end
 
   def dispatch_stats() do
-    Agent.get(__MODULE__, & &1)
-    |> Enum.each(fn {path, stats} ->
-      Enum.each(stats, fn {status, durations} ->
-        count = Enum.count(durations)
-
-        avg =
-          durations
-          |> Enum.sum()
-          |> Kernel.div(count)
-          |> Kernel.div(1000)
-
-        :telemetry.execute([:mbta_api, :request], %{count: count, avg: avg}, %{
-          path: path,
-          status: status
-        })
-      end)
-    end)
+    Enum.each(Agent.get(__MODULE__, & &1), &dispatch_path/1)
 
     Agent.update(__MODULE__, fn _ -> %{} end)
+  end
+
+  defp dispatch_path({path, stats}) do
+    Enum.each(stats, fn {status, durations} ->
+      dispatch_stat(path, status, durations)
+    end)
+  end
+
+  defp dispatch_stat(path, status, durations) do
+    count = Enum.count(durations)
+
+    avg =
+      durations
+      |> Enum.sum()
+      |> Kernel.div(count)
+      |> Kernel.div(1000)
+
+    :telemetry.execute([:mbta_api, :request], %{count: count, avg: avg}, %{
+      path: path,
+      status: status
+    })
   end
 
   defp path_to_atom(path) do
