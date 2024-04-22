@@ -1,18 +1,22 @@
 defmodule MBTA.Api.Stats do
   @moduledoc """
   This Agent attaches to telemetry events emitted by Finch and aggregates them by path and status.
-
-  When `dispatch_stats/0` is called, it sends the aggregated data to the `:mbta_api` telemetry event.
   """
 
   use Agent
 
+  @doc """
+  Starts the Agent and attaches to `[:finch, :recv, :stop]` telemetry events.
+  """
   def start_link(initial_value \\ %{}) do
     :telemetry.attach("finch-recv-stop", [:finch, :recv, :stop], &__MODULE__.handle_event/4, nil)
 
     Agent.start_link(fn -> initial_value end, name: __MODULE__)
   end
 
+  @doc """
+  Handles telemetry events and aggregates them by path and status.
+  """
   def handle_event(_name, measurement, metadata, _config) do
     path = path_to_atom(metadata.request.path)
     status = status_to_atom(metadata.status)
@@ -27,6 +31,11 @@ defmodule MBTA.Api.Stats do
     end)
   end
 
+  @doc """
+  Dispatches the aggregated stats to the `[:mbta_api, :request]` telemetry event.
+
+  Resets the Agent state after dispatching the stats.
+  """
   def dispatch_stats() do
     Enum.each(Agent.get(__MODULE__, & &1), &dispatch_path/1)
 
