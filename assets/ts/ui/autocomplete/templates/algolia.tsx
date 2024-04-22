@@ -31,6 +31,9 @@ export function LinkForItem(props: LinkForItemProps): React.ReactElement {
     url = item._search_result_url.replace(/(internal|entity):/g, "/");
   }
 
+  // Strip extra forward slashes as they break relative links
+  url = url.replace(/\/\//g, "/");
+
   // Special case: When the matching text isn't part of the page title, help the
   // user locate the matching text by linking directly to / scrolling to the
   // matching text on the page.
