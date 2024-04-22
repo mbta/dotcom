@@ -68,7 +68,7 @@ defmodule CMS.RepoTest do
     end
   end
 
-  describe "get_page/1" do
+  describe "generate/3" do
     test "generates the correct key for /*" do
       path = "/foo"
 
@@ -97,6 +97,16 @@ defmodule CMS.RepoTest do
                "cms.repo" <> String.replace(path, "/", "|") <> "?bam=bop&baz=qux"
     end
 
+    test "generates the correct key for a map" do
+      path = "/foo/bar"
+      params = %{"biz" => "bang", "data" => %{"some" => "map"}}
+
+      assert Repo.generate(nil, nil, [path, params]) ==
+               "cms.repo" <> String.replace(path, "/", "|") <> "?biz=bang&data=?some=map"
+    end
+  end
+
+  describe "get_page/1" do
     test "caches views", %{cache: cache} do
       path = "/news/2018/news-entry"
       params = %{}
