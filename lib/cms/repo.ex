@@ -234,6 +234,7 @@ defmodule CMS.Repo do
   end
 
   defp params_to_string(params) when params == %{}, do: ""
+  defp params_to_string(nil), do: ""
   defp params_to_string(params) when is_binary(params), do: params
 
   defp params_to_string(params) when is_map(params) do
