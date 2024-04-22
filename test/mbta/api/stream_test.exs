@@ -1,9 +1,15 @@
 defmodule MBTA.Api.StreamTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
 
   alias MBTA.Api.Stream
 
   describe "build_options" do
+    setup do
+      on_exit(fn ->
+        Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
+      end)
+    end
+
     test "includes api key" do
       Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
 
