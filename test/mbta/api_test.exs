@@ -1,9 +1,9 @@
 defmodule MBTA.ApiTest do
   use ExUnit.Case, async: false
 
-  alias MBTA.Api
-
   import Mox
+
+  alias MBTA.Api
 
   setup :set_mox_global
   setup :verify_on_exit!

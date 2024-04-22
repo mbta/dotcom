@@ -15,7 +15,7 @@ defmodule MBTA.Api.RoutePatterns do
   end
 
   @spec get(Route.id_t(), keyword()) :: api_response_t()
-  def get(id, opts \\ []) do
-    @mbta_api.get_json("/route_patterns/#{id}", opts)
+  def get(id, params \\ []) do
+    @mbta_api.get_json("/route_patterns/#{id}", params)
   end
 end
