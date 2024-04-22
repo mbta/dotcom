@@ -15,7 +15,7 @@ defmodule MBTA.ApiTest do
       end)
 
       expect(Req.Mock, :get, fn _, _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: ~s({"data": []})}}
+        {:ok, %Req.Response{status: 200, body: ~s({"data": []})}}
       end)
 
       response = Api.get_json("/normal_response")
