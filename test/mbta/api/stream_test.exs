@@ -1,5 +1,5 @@
 defmodule MBTA.Api.StreamTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   alias MBTA.Api.Stream
 
