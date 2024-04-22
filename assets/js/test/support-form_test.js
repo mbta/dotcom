@@ -1,7 +1,6 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import { File } from "file-api";
-import "custom-event-autopolyfill";
 import sinon from "sinon";
 import { cloneDeep } from "lodash";
 import {
@@ -83,7 +82,7 @@ describe("support form", () => {
       // convert to Blob because JSDOM?
       const file = new File({
         name: "test-file",
-        buffer: new Buffer("this is a 24 byte string"),
+        buffer: Buffer.from("this is a 24 byte string"),
         type: "image/png"
       });
       const blob = new window.Blob([file], { type: "image/png" });
@@ -118,7 +117,7 @@ describe("support form", () => {
     it("handles multiple uploaded photos", () => {
       const file = new File({
         name: "test-file-2",
-        buffer: new Buffer("this is now a 28 byte string"),
+        buffer: Buffer.from("this is now a 28 byte string"),
         type: "image/png"
       });
       // convert to Blob because JSDOM?
@@ -136,7 +135,7 @@ describe("support form", () => {
     it("stores all the photos to be uploaded in the toUpload array", () => {
       const file = new File({
         name: "test-file-2",
-        buffer: new Buffer("this is now a 28 byte string"),
+        buffer: Buffer.from("this is now a 28 byte string"),
         type: "image/png"
       });
       // convert to Blob because JSDOM?
@@ -145,14 +144,14 @@ describe("support form", () => {
 
       handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
 
-      const fileNames = toUpload.map(file => file.name);
+      const fileNames = toUpload.map(f => f.name);
       assert.deepEqual(fileNames, ["test-file", "test-file-2"]);
     });
 
     it("clears the photo that was clicked; the previews are not hidden if there are any photos left", () => {
       const file = new File({
         name: "test-file-2",
-        buffer: new Buffer("this is now a 28 byte string"),
+        buffer: Buffer.from("this is now a 28 byte string"),
         type: "image/png"
       });
       // convert to Blob because JSDOM?
@@ -177,7 +176,7 @@ describe("support form", () => {
     it("removes the photo that was clicked from the toUpload array", () => {
       const file = new File({
         name: "test-file-2",
-        buffer: new Buffer("this is now a 28 byte string"),
+        buffer: Buffer.from("this is now a 28 byte string"),
         type: "image/png"
       });
       // convert to Blob because JSDOM?
@@ -190,10 +189,9 @@ describe("support form", () => {
 
       const $preview = $(".photo-preview");
       const $first_photo = $preview.first();
-      const $second_photo = $preview.last();
       $first_photo.find(".clear-photo").trigger("click");
 
-      const fileNames = toUpload.map(file => file.name);
+      const fileNames = toUpload.map(f => f.name);
       assert.notInclude(fileNames, "test-file");
     });
   });
@@ -554,12 +552,12 @@ describe("support form", () => {
       $("#no_request_response").click();
       const file_1 = new File({
         name: "test-file",
-        buffer: new Buffer("this is a 24 byte string"),
+        buffer: Buffer.from("this is a 24 byte string"),
         type: "image/png"
       });
       const file_2 = new File({
         name: "test-file-2",
-        buffer: new Buffer("this is now a 28 byte string"),
+        buffer: Buffer.from("this is now a 28 byte string"),
         type: "image/png"
       });
 
@@ -580,6 +578,7 @@ describe("support form", () => {
     });
 
     it("passes comment thru profanity filter", () => {
+      // eslint-disable-next-line global-require
       const Filter = require("bad-words");
       const f = new Filter();
       f.addWords("redsox");

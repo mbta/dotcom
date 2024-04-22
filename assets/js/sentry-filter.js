@@ -59,16 +59,6 @@ const exceptionsByType = [
         function: "global code"
       }
     ]
-  },
-  {
-    type: "RangeError",
-    items: [
-      {
-        // Safari 13 smoothscroll bug
-        value: "Maximum call stack size exceeded.",
-        module: "smoothscroll-polyfill/dist/smoothscroll"
-      }
-    ]
   }
 ];
 

@@ -172,8 +172,6 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: "static/**/*", to: "../../" },
-        { from: "node_modules/focus-visible/dist/focus-visible.min.js", to: "../js" },
-        { from: "node_modules/smoothscroll-polyfill/dist/smoothscroll.min.js", to: "../js" },
       ]
     }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),

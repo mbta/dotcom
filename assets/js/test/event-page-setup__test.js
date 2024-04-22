@@ -1,6 +1,7 @@
 import { assert, expect } from "chai";
 import sinon from "sinon";
 import jsdom from "mocha-jsdom";
+import "custom-event-autopolyfill";
 import { setupEventsListing, setupEventPopups } from "../event-page-setup";
 import testConfig from "../../ts/jest.config";
 
@@ -24,7 +25,7 @@ const eventsHubListViewHTML = `
             .map(
               m => `<section id="${m}-2021" class="m-event-list__month
               ${m === 2 ? "m-event-list__month--active" : ""}">
-                <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+                <button class="c-expandable-block__link sticky-top" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
                   <h2 class="m-event-list__month-header">
                     ${m} 2021<span class="c-expandable-block-caret"></span>
                   </h2>
@@ -159,7 +160,7 @@ describe("setupEventsListing", () => {
       // mock the positions. making these equal triggers the attribute!
       const t = 22;
       getBoundingClientRectSpy.callsFake(() => ({ top: t }));
-      getComputedStyleSpy.callsFake(el => ({ top: `${t}px` }));
+      getComputedStyleSpy.callsFake(() => ({ top: `${t}px` }));
 
       setupEventsListing();
       sinon.assert.notCalled(getComputedStyleSpy);

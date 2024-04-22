@@ -12,7 +12,6 @@
 }
 
 .c-photo-gallery__main-image {
-  font-family: 'object-fit: contain;'; // IE polyfill
   height: 100%;
   left: 0;
   object-fit: contain;
@@ -60,7 +59,6 @@
 }
 
 .c-photo-gallery__thumbnail {
-  font-family: 'object-fit: cover;';  // IE polyfill
   height: 100%;
   left: 0;
   object-fit: cover;
