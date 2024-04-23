@@ -8,16 +8,28 @@
     |> DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(true, stop_branch)
   %>
   <div class="route-branch-stop-info expand">
+    <div class="d-flex">
+      <div>
+        <% duration_minutes = DotcomWeb.TripPlanView.display_seconds_as_minutes(@itinerary_row.duration) %>
+        <%= DotcomWeb.TripPlanView.icon_for_route(@route) %>
+      </div>
+      <div class="ps-8">
+        <% stop_string = Inflex.inflect("Stop", intermediate_stop_count) %>
+        <span class="u-bold pe-8">Ride the <%= @branch_display %> </span> (<%= intermediate_stop_count %> <%= stop_string %>, <%= duration_minutes %> min)
+        <div>
+          <% headsign = if @itinerary_row.trip.headsign == "", do: "", else: "towards #{@itinerary_row.trip.headsign}" %>
+          <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %> <%= headsign %>
+        </div>
+      </div>
+    </div>
     <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
              class: "toggle-stop-list btn btn-link",
              data: [toggle: "collapse", target: "##{@target_id}"] do %>
 
       <span class="expand-link-stop-text">
-        <span class="expand-branch-stop-count">
-          <%= intermediate_stop_count %>
-          <%= Inflex.inflect("stop", intermediate_stop_count) %></span>
-        on the
-        <%= @branch_display %>
+        <span class="expand-branch-stop-count ps-8">
+          Show Details
+        </span>
         <%= if Map.get(assigns, :alerts?, false) do %>
           <span class="itinerary-has-alerts-icon">
             <%= fa "exclamation-triangle" %>
