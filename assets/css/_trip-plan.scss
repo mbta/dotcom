@@ -59,106 +59,8 @@
   padding-top: $space-4;
 }
 
-.trip-plan-itinerary-header {
-  align-items: center;
-  border: $border-width solid $brand-primary;
-  border-radius: $border-radius;
-  display: flex;
-  padding: calc(#{$base-spacing} / 2) $space-16;
-
-  &:not(.collapsed) {
-    background-color: $brand-primary-darkest;
-    border-radius: $border-radius $border-radius 0 0;
-    color: $white;
-  }
-
-  &.collapsed:not(:hover) {
-    .fa-angle-right {
-      color: $gray-light;
-    }
-
-    .itinerary-has-alerts-icon,
-    .trip-plan-itinerary-length-distance {
-      color: $gray-dark;
-    }
-  }
-
-  &:focus {
-    text-decoration: none;
-  }
-
-  &:hover {
-    background-color: $brand-primary-lightest;
-    color: $gray-dark;
-    text-decoration: none;
-  }
-}
-
-.trip-plan-itinerary-summary {
-  display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-}
-
-.trip-plan-itinerary-accessibility {
-  @include icon-size-inline(1em);
-
-  [class*='c-svg__icon'] {
-    margin-right: calc(#{$base-spacing} / 4);
-  }
-}
-
-.trip-plan-itinerary-legs {
-  @include icon-size-inline(1.5em, .1875em);
-  align-items: center;
-  display: flex;
-  flex: 1 1 auto;
-
-  .fa-angle-right {
-    margin-left: calc(#{$base-spacing} / 4);
-    margin-right: calc(#{$base-spacing} / 4);
-  }
-}
-
-.trip-plan-itinerary-length {
-  align-items: center;
-  display: flex;
-  flex: 0 1 auto;
-  margin-right: calc(#{$base-spacing} / 2);
-}
-
-.trip-plan-itinerary-length-time {
-  flex: 0 0 auto;
-  font-weight: bold;
-}
-
-.trip-plan-itinerary-length-distance {
-  flex: 0 0 auto;
-  font-size: .875rem;
-  line-height: 1.125rem;
-  margin-left: $space-12;
-  white-space: nowrap;
-
-  g {
-    fill: currentColor;
-  }
-}
-
 .itinerary-has-alerts-icon {
   margin-left: $space-8;
-}
-
-.trip-plan-itinerary-expand {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.trip-plan-itinerary-body {
-  border: $border;
-  border-radius: 0 0 $border-radius $border-radius;
-  padding: 0 $space-16;
 }
 
 .trip-plan-map {
@@ -188,12 +90,6 @@
   @include media-breakpoint-down(sm) {
     height: $base-spacing * 30;
   }
-}
-
-.itinerary-has-alerts-text {
-  background-color: $gray-lightest;
-  margin-bottom: $base-spacing;
-  padding: $base-spacing;
 }
 
 .trip-plan-related-links {
