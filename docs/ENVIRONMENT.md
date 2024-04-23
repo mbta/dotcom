@@ -21,15 +21,14 @@ There are many ways to set the environment variables described here:
 
 ## Required
 
-### `V3_URL`
+### `MBTA_API_BASE_URL`
 
 The URL of the MBTA V3 API server, e.g. `https://api-dev.mbtace.com`.
 
-### `V3_API_KEY`
+### `MBTA_API_KEY`
 
 The key to use with the MBTA API (see `README`). This is a practical requirement
 for development since requests without an API key have a very low rate limit.
-
 
 ## Optional
 
