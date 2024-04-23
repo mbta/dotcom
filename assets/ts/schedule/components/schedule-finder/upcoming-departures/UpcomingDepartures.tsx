@@ -3,7 +3,7 @@ import { get, isEmpty } from "lodash";
 import { Route } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { caret, modeIcon } from "../../../../helpers/icon";
-import liveClockSvg from "../../../../../static/images/icon-live-clock.svg";
+import liveClockSvg from "../../../../../../priv/static/icon-svg/icon-live-clock.svg";
 import {
   timeForCommuterRail,
   trackForCommuterRail,

@@ -12,8 +12,8 @@ import {
 import { EnhancedRoutePattern } from "../__schedule";
 import handleNavigation from "./menu-helpers";
 import renderSvg from "../../../helpers/render-svg";
-import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
-import checkIcon from "../../../../static/images/icon-checkmark.svg";
+import arrowIcon from "../../../../../priv/static/icon-svg/icon-down-arrow.svg";
+import checkIcon from "../../../../../priv/static/icon-svg/icon-checkmark.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events-react";
 
 interface ExpandedBusMenuProps {

@@ -70,9 +70,9 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     "shuttle-trip-4" => %{stop_name: "shuttle", stop_sequence: 4, trip_id: "trip-4"}
   }
 
-  describe "build_timetable/2" do
+  describe "build_timetable/3" do
     test "trip_schedules: a map from trip_id/stop_id to a schedule" do
-      %{trip_schedules: trip_schedules} = build_timetable(@stops, @schedules)
+      %{trip_schedules: trip_schedules} = build_timetable(@stops, @schedules, 0)
 
       for schedule <- @schedules do
         assert trip_schedules[{schedule.trip.id, schedule.stop.id}] == schedule
@@ -82,7 +82,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
 
     test "all_stops: list of the stops in the same order" do
-      %{all_stops: all_stops} = build_timetable(@stops, @schedules)
+      %{all_stops: all_stops} = build_timetable(@stops, @schedules, 0)
 
       assert all_stops == @stops
     end
@@ -90,7 +90,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     test "all_stops: if a stop isn't used, it's removed from the list" do
       schedules = Enum.take(@schedules, 1)
 
-      %{all_stops: all_stops} = build_timetable(@stops, schedules)
+      %{all_stops: all_stops} = build_timetable(@stops, schedules, 1)
       # other two stops were removed
       assert [%{id: "1"}] = all_stops
     end

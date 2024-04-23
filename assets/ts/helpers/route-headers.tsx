@@ -4,10 +4,10 @@ import { Route } from "../__v3api";
 import { isASilverLineRoute } from "../models/route";
 import { breakTextAtSlash } from "./text";
 import { busClass } from "./css";
-import CRsvg from "../../static/images/icon-commuter-rail-default.svg";
-import Bussvg from "../../static/images/icon-bus-default.svg";
-import SubwaySvg from "../../static/images/icon-subway-default.svg";
-import FerrySvg from "../../static/images/icon-ferry-default.svg";
+import CRsvg from "../../../priv/static/icon-svg/icon-commuter-rail-default.svg";
+import Bussvg from "../../../priv/static/icon-svg/icon-bus-default.svg";
+import SubwaySvg from "../../../priv/static/icon-svg/icon-subway-default.svg";
+import FerrySvg from "../../../priv/static/icon-svg/icon-ferry-default.svg";
 
 export function routeToModeIcon(route: Route): any {
   switch (route.type) {

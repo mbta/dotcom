@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
   - name: Cache _build
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: |
         _build
@@ -25,6 +25,7 @@ runs:
   - name: Compile application (if needed)
     shell: bash
     run: |
-      MIX_ENV=test mix compile.assets
+      npm --prefix assets run webpack:build
+      npm --prefix assets run webpack:build:react
       MIX_ENV=test mix compile --all-warnings
     if: steps.build-cache.outputs.cache-hit != 'true'

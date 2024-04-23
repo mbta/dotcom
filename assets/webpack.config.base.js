@@ -6,7 +6,6 @@ const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
-const sass = require("sass");
 
 const babelLoader = {
   loader: "babel-loader",
@@ -65,20 +64,23 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        include: path.resolve(__dirname, 'ts/'),
-        exclude: [/__tests__/, path.resolve(__dirname, "ts/coverage"), path.resolve(__dirname, "ts/ts-build/")],
+        include: path.resolve(__dirname, "ts/"),
+        exclude: [
+          /__tests__/,
+          path.resolve(__dirname, "ts/coverage"),
+          path.resolve(__dirname, "ts/ts-build/")
+        ],
         use: [babelLoader, tsLoader]
       },
       {
         test: /\.(js)$/,
-        include: path.resolve(__dirname, 'js/'),
+        include: path.resolve(__dirname, "js/"),
         exclude: [path.resolve(__dirname, "js/test/")],
         use: babelLoader
       },
       {
         test: /\.svg$/,
-        include: path.resolve(__dirname, 'static/'),
-        exclude: [path.resolve(__dirname, 'static/fonts/')],
+        include: path.resolve(__dirname, "../priv/static/icon-svg"),
         use: [
           { loader: "svg-inline-loader" },
           {
@@ -87,13 +89,17 @@ module.exports = {
               plugins: [
                 {
                   name: "removeTitle",
-                  active: "false"
+                  active: false
                 },
                 {
                   name: "removeAttrs",
                   params: {
-                    "attrs": ["id"]
+                    attrs: ["id"]
                   }
+                },
+                {
+                  name: "sortAttrs",
+                  active: false
                 }
               ]
             }
@@ -102,7 +108,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        include: path.resolve(__dirname, 'css/'),
+        include: path.resolve(__dirname, "css/"),
         use: [
           {
             loader: MiniCssExtractPlugin.loader
@@ -120,7 +126,8 @@ module.exports = {
               postcssOptions: {
                 plugins: [
                   postcssPresetEnv({
-                    autoprefixer: { grid: true }
+                    autoprefixer: { grid: true },
+                    enableClientSidePolyfills: true
                   })
                 ]
               }
@@ -150,8 +157,8 @@ module.exports = {
         terserOptions: {
           ecma: 5,
           format: {
-            comments: false,
-          },
+            comments: false
+          }
         },
         extractComments: false
       }),
@@ -160,10 +167,10 @@ module.exports = {
           preset: [
             "default",
             {
-              discardComments: { removeAll: true },
-            },
-          ],
-        },
+              discardComments: { removeAll: true }
+            }
+          ]
+        }
       })
     ]
   },
@@ -171,7 +178,7 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        { from: "static/**/*", to: "../../" },
+        { from: "static/**/*", to: "../.." }
       ]
     }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),

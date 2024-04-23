@@ -5,7 +5,7 @@ import Direction from "./Direction";
 import renderSvg from "../helpers/render-svg";
 import { useSMDown } from "../helpers/media-breakpoints-react";
 import { accessibleIcon, alertIcon } from "../helpers/icon";
-import stationSymbol from "../../static/images/icon-circle-t-small.svg";
+import stationSymbol from "../../../priv/static/icon-svg/icon-circle-t-small.svg";
 import { effectNameForAlert } from "./Alerts";
 import { isDiversion, alertsByStop, uniqueByEffect } from "../models/alert";
 import { isABusRoute } from "../models/route";

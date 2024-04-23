@@ -17,8 +17,6 @@ aws s3 sync "$STATIC_DIR/js" s3://mbta-dotcom/js --size-only --exclude "*" --inc
 aws s3 sync "$STATIC_DIR/images" s3://mbta-dotcom/images --size-only --exclude "*" --include "*-*" --cache-control=$CACHE_CONTROL
 
 # font content-types need to be specified manually
-aws s3 sync "$STATIC_DIR/fonts" s3://mbta-dotcom/fonts --size-only --exclude "*" --include "*.eot" --cache-control=$CACHE_CONTROL --content-type "application/vnd.ms-fontobject"
-aws s3 sync "$STATIC_DIR/fonts" s3://mbta-dotcom/fonts --size-only --exclude "*" --include "*.svg" --cache-control=$CACHE_CONTROL --content-type "image/svg+xml"
 aws s3 sync "$STATIC_DIR/fonts" s3://mbta-dotcom/fonts --size-only --exclude "*" --include "*.ttf" --cache-control=$CACHE_CONTROL --content-type "font/ttf"
 aws s3 sync "$STATIC_DIR/fonts" s3://mbta-dotcom/fonts --size-only --exclude "*" --include "*.woff" --cache-control=$CACHE_CONTROL --content-type "font/woff"
 aws s3 sync "$STATIC_DIR/fonts" s3://mbta-dotcom/fonts --size-only --exclude "*" --include "*.woff2" --cache-control=$CACHE_CONTROL --content-type "font/woff2"

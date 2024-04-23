@@ -34,7 +34,7 @@ export default (
     ? undefined
     : new Icon({
         ...iconOpts,
-        iconUrl: `/images/icon-${icon}.svg`,
-        iconRetinaUrl: `/images/icon-${icon}.svg`
+        iconUrl: `/icon-svg/icon-${icon}.svg`,
+        iconRetinaUrl: `/icon-svg/icon-${icon}.svg`
       });
 };

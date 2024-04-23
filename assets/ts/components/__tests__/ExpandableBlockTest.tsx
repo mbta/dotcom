@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
 import ExpandableBlock from "../ExpandableBlock";
-import accessibleIcon from "../../../static/images/icon-accessible-default.svg";
+import accessibleIcon from "../../../../priv/static/icon-svg/icon-accessible-default.svg";
 
 const body = '<div id="react-root"></div>';
 
