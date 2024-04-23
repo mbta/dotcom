@@ -46,23 +46,23 @@ defmodule CMS.API.HTTPClient do
   @safe_keys [:value, :min, :max, "lattitude", "longitude", "type"]
 
   @spec stringify_params({param_key, param_value}, param_list) :: param_list
-  defp stringify_params({key, val}, acc) when is_atom(key) do
+  def stringify_params({key, val}, acc) when is_atom(key) do
     stringify_params({Atom.to_string(key), val}, acc)
   end
 
-  defp stringify_params({key, val}, acc) when is_atom(val) do
+  def stringify_params({key, val}, acc) when is_atom(val) do
     stringify_params({key, Atom.to_string(val)}, acc)
   end
 
-  defp stringify_params({key, val}, acc) when is_integer(val) do
+  def stringify_params({key, val}, acc) when is_integer(val) do
     stringify_params({key, Integer.to_string(val)}, acc)
   end
 
-  defp stringify_params({key, val}, acc) when is_binary(key) and is_binary(val) do
+  def stringify_params({key, val}, acc) when is_binary(key) and is_binary(val) do
     [{key, val} | acc]
   end
 
-  defp stringify_params({key, val}, acc) when is_binary(key) and (is_map(val) or is_list(val)) do
+  def stringify_params({key, val}, acc) when is_binary(key) and (is_map(val) or is_list(val)) do
     val
     # drop original param, add new key/vals for nested params
     |> Enum.reduce(acc, fn nested_param, acc -> list_to_params(key, acc, nested_param) end)
@@ -70,7 +70,7 @@ defmodule CMS.API.HTTPClient do
     |> Enum.reverse()
   end
 
-  defp stringify_params(_, acc) do
+  def stringify_params(_, acc) do
     # drop invalid param
     acc
   end

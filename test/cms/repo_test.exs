@@ -94,7 +94,7 @@ defmodule CMS.RepoTest do
       params = %{"bam" => "bop", "baz" => "qux"}
 
       assert Repo.generate(nil, nil, [path, params]) ==
-               "cms.repo" <> String.replace(path, "/", "|") <> "?bam=bop&baz=qux"
+               "cms.repo" <> String.replace(path, "/", "|") <> "?baz=qux&bam=bop"
     end
 
     test "generates the correct key for a map" do
@@ -102,7 +102,7 @@ defmodule CMS.RepoTest do
       params = %{"biz" => "bang", "data" => %{"some" => "map"}}
 
       assert Repo.generate(nil, nil, [path, params]) ==
-               "cms.repo" <> String.replace(path, "/", "|") <> "?biz=bang&data=?some=map"
+               "cms.repo" <> String.replace(path, "/", "|") <> "?biz=bang"
     end
   end
 

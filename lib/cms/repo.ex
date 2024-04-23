@@ -234,16 +234,20 @@ defmodule CMS.Repo do
   end
 
   defp params_to_string(params) when params == %{}, do: ""
-  defp params_to_string(nil), do: ""
   defp params_to_string(params) when is_binary(params), do: params
 
   defp params_to_string(params) when is_map(params) do
-    [head | tail] = Enum.map(params, fn {k, v} -> "#{k}=#{params_to_string(v)}" end)
+    [head | tail] =
+      params
+      |> Enum.reduce([], &CMS.API.HTTPClient.stringify_params/2)
+      |> Enum.map(fn {k, v} -> "#{k}=#{v}" end)
 
     ["?#{head}", "#{Enum.join(tail, "&")}"]
     |> Enum.reject(&(&1 == ""))
     |> Enum.join("&")
   end
+
+  defp params_to_string(_), do: ""
 
   @spec view_or_preview(String.t(), map) :: {:ok, map} | {:error, API.error()}
   defp view_or_preview(path, %{"preview" => _, "vid" => "latest"} = params) do
