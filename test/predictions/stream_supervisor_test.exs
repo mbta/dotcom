@@ -1,5 +1,6 @@
 defmodule Predictions.StreamSupervisorTest do
   use ExUnit.Case, async: false
+
   alias Predictions.StreamSupervisor
 
   setup_all do

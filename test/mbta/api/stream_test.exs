@@ -4,12 +4,6 @@ defmodule MBTA.Api.StreamTest do
   alias MBTA.Api.Stream
 
   describe "build_options" do
-    setup do
-      on_exit(fn ->
-        Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
-      end)
-    end
-
     test "includes api key" do
       Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
 
@@ -24,6 +18,8 @@ defmodule MBTA.Api.StreamTest do
       assert_raise ArgumentError, "Missing required configuration for MBTA API", fn ->
         Stream.build_options(path: "/vehicles")
       end
+
+      Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
     end
 
     test "throws error if mbta api key is missing" do
@@ -32,6 +28,8 @@ defmodule MBTA.Api.StreamTest do
       assert_raise ArgumentError, "Missing required configuration for MBTA API", fn ->
         Stream.build_options(path: "/vehicles")
       end
+
+      Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
     end
   end
 
