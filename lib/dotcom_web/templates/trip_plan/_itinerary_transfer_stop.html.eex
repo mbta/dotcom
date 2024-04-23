@@ -4,11 +4,6 @@
     <%= render "_itinerary_stop.html", assigns %>
     <%= if @itinerary_row.route do %>
       <div>
-        <% route = @itinerary_row.route %>
-          <div class="callout callout-small">
-            <%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
-            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %> Connect to the <span class="notranslate"><%= transfer_route_name(route) %></span>
-          </div>
         <%= if @itinerary_row.trip do %>
           <div class="pull-right"><%= format_schedule_time(@itinerary_row.departure) %></div>
         <% end %>

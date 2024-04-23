@@ -12,10 +12,10 @@
     <%= svg "walk.svg" %><span class="u-bold ps-8 pe-8">Walk to <%= @next_stop_name %></span>(<%= distance_miles %> mi, <%= duration_minutes %> min)
   </div>
     <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @next_stop_name)),
-             class: "toggle-stop-list btn btn-link",
+             class: "toggle-detail-list btn btn-link",
              data: [toggle: "collapse", target: "##{@target_id}"] do %>
 
-      <span class="expand-show-details">
+      <span class="expand-show-details fs-14">
         <%= if @expanded, do: "Hide Details", else: "Show Details" %>
       </span>
 

@@ -49,15 +49,6 @@
   }
 }
 
-.trip-plan-itinerary-container {
-  margin-top: $space-12;
-
-  .toggle-stop-list {
-    padding-bottom: $space-6;
-    text-decoration: none;
-  }
-}
-
 .itinerary-accessible {
   background-color: $gray-lightest;
   border-radius: $border-radius $border-radius 0 0;
@@ -244,10 +235,6 @@
   width: 100%;
 }
 
-.itinerary-transfer-row-label {
-  font-weight: bold;
-}
-
 .itinerary-instruction {
   display: inline-block;
   max-width: 75%;
@@ -255,7 +242,6 @@
 }
 
 .itinerary-step {
-  border-bottom: $border;
   flex: 1 1 0%;
   margin-bottom: $space-6;
   padding-bottom: $space-6;

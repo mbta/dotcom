@@ -23,11 +23,11 @@
       </div>
     </div>
     <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
-             class: "toggle-stop-list btn btn-link",
+             class: "toggle-detail-list btn btn-link",
              data: [toggle: "collapse", target: "##{@target_id}"] do %>
 
       <span class="expand-link-stop-text">
-        <span class="expand-branch-stop-count ps-8">
+        <span class="expand-show-details ps-8 fs-14">
           Show Details
         </span>
         <%= if Map.get(assigns, :alerts?, false) do %>

@@ -7,17 +7,6 @@ $location-line-width: $space-6;
     .route-branch-indent-start {
       background-color: $color;
     }
-
-    .expand-icon {
-      .horizontal {
-        background-color: rgba($color, .4);
-
-        &::before,
-        &::after {
-          background-color: $color;
-        }
-      }
-    }
   }
 }
 
@@ -27,12 +16,6 @@ $location-line-width: $space-6;
   flex: 1 1 0%;
   overflow: visible; // if set to hidden, site works better in IE10, but then circles are slightly cropped everywhere
   width: 100%;
-
-  &.expanded {
-    .expand-icon {
-      display: none;
-    }
-  }
 }
 
 .route-branch-stop-info-container {
@@ -147,51 +130,6 @@ $location-line-width: $space-6;
   }
 }
 
-.expand-icon {
-  display: flex;
-  flex: 0 0 $base-spacing;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  width: $base-spacing;
-
-  .horizontal {
-    border-radius: $location-line-width * 2;
-    border-width: 0;
-    flex-basis: $location-line-width;
-    flex-grow: 0;
-    flex-shrink: 0;
-    position: relative;
-    width: $base-spacing;
-
-    &::before,
-    &::after {
-      border-radius: $location-line-width * 2;
-      content: '';
-      height: $location-line-width;
-      position: absolute;
-      transform: rotate(-45deg);
-      width: $base-spacing;
-    }
-
-    &::before {
-      transform-origin: 0 $location-line-width;
-    }
-
-    &::after {
-      transform-origin: $base-spacing 0;
-    }
-  }
-
-  + .route-branch-stop-bubble-line {
-    border-radius: $location-line-width * 2 $location-line-width * 2 0 0;
-
-    &.expanded {
-      border-radius: 0;
-    }
-  }
-}
-
 .route-branch-stop-bubble-line {
   border-width: 0;
   display: none; // hide on non-flex browsers
@@ -213,7 +151,6 @@ $location-line-width: $space-6;
   flex: 1 1 0%;
   flex-direction: column;
   margin-bottom: $base-spacing;  // both margin-bottom and padding-bottom are needed on this element
-  padding-bottom: $base-spacing; // to keep the icon properly aligned with the text
   width: 60%; // for non-flex browsers
 }
 
@@ -230,11 +167,12 @@ $location-line-width: $space-6;
   }
 }
 
-.toggle-stop-list {
+.toggle-detail-list {
   align-items: center;
   color: $gray-dark;
   display: flex;
   justify-content: space-between;
+  padding-top: .4rem;
   text-align: left;
   width: 100%;
 
@@ -247,7 +185,6 @@ $location-line-width: $space-6;
   }
 }
 
-.expand-branch-stop-count,
 .expand-show-details {
   color: $brand-primary;
 
