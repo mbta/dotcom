@@ -151,6 +151,7 @@ $location-line-width: $space-6;
   flex: 1 1 0%;
   flex-direction: column;
   margin-bottom: $base-spacing;  // both margin-bottom and padding-bottom are needed on this element
+  margin-top: .813rem;
   width: 60%; // for non-flex browsers
 }
 
@@ -172,7 +173,7 @@ $location-line-width: $space-6;
   color: $gray-dark;
   display: flex;
   justify-content: space-between;
-  padding-top: .4rem;
+  padding-block: .75rem;
   text-align: left;
   width: 100%;
 
