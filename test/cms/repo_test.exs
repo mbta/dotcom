@@ -68,7 +68,7 @@ defmodule CMS.RepoTest do
     end
   end
 
-  describe "get_page/1" do
+  describe "generate/3" do
     test "generates the correct key for /*" do
       path = "/foo"
 
@@ -94,9 +94,27 @@ defmodule CMS.RepoTest do
       params = %{"bam" => "bop", "baz" => "qux"}
 
       assert Repo.generate(nil, nil, [path, params]) ==
-               "cms.repo" <> String.replace(path, "/", "|") <> "?bam=bop&baz=qux"
+               "cms.repo" <> String.replace(path, "/", "|") <> "?baz=qux&bam=bop"
     end
 
+    test "ignores nested maps if it is an unsupported key" do
+      path = "/foo/bar"
+      params = %{"data" => %{"some" => "map"}}
+
+      assert Repo.generate(nil, nil, [path, params]) ==
+               "cms.repo" <> String.replace(path, "/", "|")
+    end
+
+    test "adds nested maps if it is a supported key" do
+      path = "/foo/bar"
+      params = %{"biz" => "bang", "data" => %{"latitude" => "123"}}
+
+      assert Repo.generate(nil, nil, [path, params]) ==
+               "cms.repo" <> String.replace(path, "/", "|") <> "?biz=bang&data[latitude]=123"
+    end
+  end
+
+  describe "get_page/1" do
     test "caches views", %{cache: cache} do
       path = "/news/2018/news-entry"
       params = %{}

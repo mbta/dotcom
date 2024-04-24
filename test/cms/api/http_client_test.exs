@@ -176,7 +176,7 @@ defmodule CMS.API.HTTPClientTest do
         view(
           "/redirect",
           %{
-            "location" => %{"lattitude" => "1234", "longitude" => "5678"},
+            "location" => %{"latitude" => "1234", "longitude" => "5678"},
             "foo" => %{"bad_sub_key" => "bar"},
             "fiz" => "baz"
           }
@@ -190,7 +190,7 @@ defmodule CMS.API.HTTPClientTest do
                    params: [
                      {"_format", "json"},
                      {"fiz", "baz"},
-                     {"location[lattitude]", "1234"},
+                     {"location[latitude]", "1234"},
                      {"location[longitude]", "5678"}
                    ]
                  )
