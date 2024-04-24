@@ -87,7 +87,7 @@ defmodule CMS.API.HTTPClient do
   end
 
   # Drop entire param (key[subkey]=val) completely
-  defp list_to_params(_, acc, val) do
+  defp list_to_params(_, acc, _) do
     acc
   end
 end
