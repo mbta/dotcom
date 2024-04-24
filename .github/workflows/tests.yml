@@ -15,7 +15,7 @@ concurrency:
 
 env:
   MIX_ENV: test
-  MBTA_API_BASE_URLL: ${{ secrets.MBTA_API_BASE_URL }}
+  MBTA_API_BASE_URL: ${{ secrets.MBTA_API_BASE_URL }}
   MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
 
 jobs:
