@@ -237,14 +237,17 @@ defmodule CMS.Repo do
   defp params_to_string(params) when is_binary(params), do: params
 
   defp params_to_string(params) when is_map(params) do
-    [head | tail] =
-      params
-      |> Enum.reduce([], &CMS.API.HTTPClient.stringify_params/2)
-      |> Enum.map(fn {k, v} -> "#{k}=#{v}" end)
+    case params
+         |> Enum.reduce([], &CMS.API.HTTPClient.stringify_params/2)
+         |> Enum.map(fn {k, v} -> "#{k}=#{v}" end) do
+      [head | tail] ->
+        ["?#{head}", "#{Enum.join(tail, "&")}"]
+        |> Enum.reject(&(&1 == ""))
+        |> Enum.join("&")
 
-    ["?#{head}", "#{Enum.join(tail, "&")}"]
-    |> Enum.reject(&(&1 == ""))
-    |> Enum.join("&")
+      _ ->
+        ""
+    end
   end
 
   defp params_to_string(_), do: ""

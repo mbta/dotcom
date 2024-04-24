@@ -99,10 +99,10 @@ defmodule CMS.RepoTest do
 
     test "ignores nested maps if it is an unsupported key" do
       path = "/foo/bar"
-      params = %{"biz" => "bang", "data" => %{"some" => "map"}}
+      params = %{"data" => %{"some" => "map"}}
 
       assert Repo.generate(nil, nil, [path, params]) ==
-               "cms.repo" <> String.replace(path, "/", "|") <> "?biz=bang"
+               "cms.repo" <> String.replace(path, "/", "|")
     end
 
     test "adds nested maps if it is a supported key" do
