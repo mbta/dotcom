@@ -43,7 +43,7 @@ defmodule CMS.API.HTTPClient do
   # Note: when redirecting from CMS, nested params will
   # be shaped as a Map.t() with String.t() keys and values.
   @type safe_key :: :value | :min | :max | String.t()
-  @safe_keys [:value, :min, :max, "lattitude", "longitude", "type"]
+  @safe_keys [:value, :min, :max, "latitude", "longitude", "type"]
 
   @spec stringify_params({param_key, param_value}, param_list) :: param_list
   def stringify_params({key, val}, acc) when is_atom(key) do
@@ -87,7 +87,8 @@ defmodule CMS.API.HTTPClient do
   end
 
   # Drop entire param (key[subkey]=val) completely
-  defp list_to_params(_, acc, _) do
+  defp list_to_params(_, acc, val) do
+    IO.inspect(val)
     acc
   end
 end
