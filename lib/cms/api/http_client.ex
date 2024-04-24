@@ -88,7 +88,6 @@ defmodule CMS.API.HTTPClient do
 
   # Drop entire param (key[subkey]=val) completely
   defp list_to_params(_, acc, val) do
-    IO.inspect(val)
     acc
   end
 end
