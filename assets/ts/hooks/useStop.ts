@@ -21,7 +21,7 @@ const useFacilitiesByStop = (stopId: string): FetchState<Facility[]> => {
     fetchFacilityData
   );
   if (error) {
-    return { status: FetchStatus.Error };
+    return { status: FetchStatus.Error, errorData: error };
   }
   return { status: FetchStatus.Data, data };
 };

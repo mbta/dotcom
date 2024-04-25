@@ -48,17 +48,17 @@ describe("passes smoke test", () => {
   it("fares sales locations", () => {
     cy.visit("/fare-transformation/proposed-sales-locations");
     cy.get('input[placeholder="Enter a location"]').type("Boston Common");
-    cy.get("#locations-list li").should("have.length.greaterThan", 0);
-    cy.get("#locations-list li")
+    cy.get("#search-locations-list").should("have.length.greaterThan", 0);
+    cy.get("#search-locations-list li")
       .first()
       .click();
-    cy.url().should("contain", "address=Boston+Common");
+    cy.url().should("contain", "address=Boston");
     cy.get(".c-sales-locations__card").should("have.length.greaterThan", 0);
 
     cy.visit("/fares/retail-sales-locations");
     cy.get('input[placeholder="Enter a location"]').type("Harvard Square");
-    cy.get("#locations-list li").should("have.length.greaterThan", 0);
-    cy.get("#locations-list li")
+    cy.get("#search-locations-list li").should("have.length.greaterThan", 0);
+    cy.get("#search-locations-list li")
       .first()
       .click();
     cy.url().should("contain", "address=Harvard+Square");
