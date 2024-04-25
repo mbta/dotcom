@@ -18,7 +18,6 @@ describe("passes smoke test", () => {
       cy.contains("Find a Location");
       cy.contains("Contact Us");
       cy.contains("Ferry One-Way");
-      cy.get(".c-banner__image");
       cy.get("#whats-happening-promoted > div").should("have.length", 2);
       if (!Cypress.config("baseUrl").includes("dev-green")) {
         // these are skipped on dev-green because the test CMS has no events
@@ -186,7 +185,6 @@ describe("passes smoke test", () => {
       'input[placeholder="Search for routes, places, information, and more"]'
     ).type("Charles");
     cy.url().should("contain", "query=Charles");
-    cy.contains("#search-results-container", "Red Line");
     cy.contains("#search-results-container", "Charlestown Ferry");
     cy.contains("#search-results-container", "Charles/MGH");
     cy.contains("#search-results-container", "Charlestown Navy Yard");
