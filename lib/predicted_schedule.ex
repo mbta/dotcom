@@ -77,10 +77,14 @@ defmodule PredictedSchedule do
   end
 
   def filter_predicted_schedules(predicted_schedules, now) do
-    predicted_schedules
-    |> Enum.reject(&PredictedSchedule.last_stop?/1)
-    |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
-    |> Enum.reject(&(DateTime.compare(PredictedSchedule.time(&1), now) == :lt))
+    Enum.reject(
+      predicted_schedules,
+      fn predicted_schedule ->
+        last_stop?(predicted_schedule) ||
+          time(predicted_schedule) == nil ||
+          DateTime.compare(time(predicted_schedule), now) == :lt
+      end
+    )
   end
 
   @doc """

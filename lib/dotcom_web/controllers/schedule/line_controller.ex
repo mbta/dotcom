@@ -128,8 +128,10 @@ defmodule DotcomWeb.ScheduleController.LineController do
     |> services_by_route_id_fn.()
     |> dedup_identical_services()
     |> dedup_similar_services()
-    |> Enum.reject(fn service -> service.typicality == :canonical end)
-    |> Enum.reject(&(Date.compare(&1.end_date, service_date) == :lt))
+    |> Enum.reject(fn service ->
+      service.typicality == :canonical ||
+        Date.compare(service.end_date, service_date) == :lt
+    end)
     |> Enum.sort_by(&sort_services_by_date/1)
     |> Enum.map(&Map.put(&1, :service_date, service_date))
     |> tag_default_service()
