@@ -48,10 +48,9 @@ defmodule MBTA.Api.Stream do
   """
   @spec build_options(Keyword.t()) :: Keyword.t()
   def build_options(opts) do
-    default_options()
-    |> Keyword.merge(opts)
-    |> set_url()
-    |> set_headers()
+    opts
+    |> set_url(config(:base_url))
+    |> Keyword.put(:headers, config(:headers))
   end
 
   def init(opts) do
@@ -64,30 +63,15 @@ defmodule MBTA.Api.Stream do
     {:noreply, Enum.map(events, &parse_event/1), state}
   end
 
-  @spec default_options :: Keyword.t()
-  defp default_options do
-    with base_url when not is_nil(base_url) <- config(:base_url),
-         key when not is_nil(key) <- config(:key) do
-      [
-        base_url: base_url,
-        key: key
-      ]
-    else
-      _ ->
-        raise ArgumentError, "Missing required configuration for MBTA API"
-    end
-  end
-
   @spec config(atom) :: any
   defp config(key) do
     config = Application.get_env(:dotcom, :mbta_api)
     config[key]
   end
 
-  @spec set_url(Keyword.t()) :: Keyword.t()
-  defp set_url(opts) do
+  @spec set_url(Keyword.t(), String.t() | nil) :: Keyword.t()
+  defp set_url(opts, base_url) when not is_nil(base_url) do
     path = Keyword.fetch!(opts, :path)
-    base_url = Keyword.fetch!(opts, :base_url)
 
     encoded_url =
       base_url
@@ -95,19 +79,6 @@ defmodule MBTA.Api.Stream do
       |> URI.encode()
 
     Keyword.put(opts, :url, encoded_url)
-  end
-
-  @spec set_headers(Keyword.t()) :: Keyword.t()
-  defp set_headers(opts) do
-    config = Application.get_env(:dotcom, :mbta_api)
-
-    headers = [
-      {"MBTA-Version", config[:version]},
-      {"x-api-key", config[:key]},
-      {"x-enable-experimental-features", config[:enable_experimental_features]}
-    ]
-
-    Keyword.put(opts, :headers, headers)
   end
 
   @spec parse_event(SSES.Event.t()) :: Event.t()
