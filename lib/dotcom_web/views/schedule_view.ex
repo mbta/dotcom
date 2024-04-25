@@ -340,14 +340,26 @@ defmodule DotcomWeb.ScheduleView do
   end
 
   @spec single_trip_fares(Route.t()) :: [{String.t(), String.t() | iolist}]
-  def single_trip_fares(route) do
-    summary =
-      route
-      |> to_fare_summary_atom()
-      |> mode_summaries()
-      |> Enum.find(fn summary -> summary.duration == :single_trip end)
+  @doc """
+  Returns a list of fares for a single trip. If the route is a free fare route, we override the fares with "Free".
+  """
+  def single_trip_fares(%Route{fare_class: :free_fare} = route) do
+    route
+    |> to_fare_summary_atom()
+    |> mode_summaries()
+    |> Enum.find(fn summary -> summary.duration == :single_trip end)
+    |> (&(&1.fares || [])).()
+    |> Enum.map(fn fare ->
+      {elem(fare, 0), "Free"}
+    end)
+  end
 
-    summary.fares
+  def single_trip_fares(route) do
+    route
+    |> to_fare_summary_atom()
+    |> mode_summaries()
+    |> Enum.find(fn summary -> summary.duration == :single_trip end)
+    |> (&(&1.fares || [])).()
   end
 
   @spec to_fare_summary_atom(Route.t()) :: atom

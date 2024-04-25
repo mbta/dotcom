@@ -407,6 +407,10 @@ defmodule DotcomWeb.ScheduleViewTest do
   end
 
   describe "single_trip_fares/1" do
+    test "free routes return free fares" do
+      assert [{_, "Free"}] = single_trip_fares(%Route{fare_class: :free_fare})
+    end
+
     test "only return summary for single_trip fares" do
       assert single_trip_fares(%Route{type: 2, name: "Fitchburg"}) == [
                {"Zones 1A-10", ["$2.40", " – ", "$13.25"]}
