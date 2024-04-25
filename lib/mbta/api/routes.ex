@@ -6,39 +6,39 @@ defmodule MBTA.Api.Routes do
   alias Routes.Route
   alias Stops.Stop
 
-  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   @type api_response_t() :: JsonApi.t() | {:error, any}
 
   @spec all(keyword()) :: api_response_t()
-  def all(opts \\ []) do
-    @mbta_api.get_json("/routes/", opts)
+  def all(params \\ []) do
+    @mbta_api.get_json("/routes/", params)
   end
 
   @spec get(Route.id_t(), keyword()) :: api_response_t()
-  def get(id, opts \\ []) do
-    @mbta_api.get_json("/routes/#{id}", opts)
+  def get(id, params \\ []) do
+    @mbta_api.get_json("/routes/#{id}", params)
   end
 
   @spec by_type(Route.type_int(), keyword()) :: api_response_t()
-  def by_type(type, opts \\ []) do
-    opts = put_in(opts[:type], type)
+  def by_type(type, params \\ []) do
+    params = put_in(params[:type], type)
 
-    @mbta_api.get_json("/routes/", opts)
+    @mbta_api.get_json("/routes/", params)
   end
 
   @spec by_stop(Stop.id_t(), keyword()) :: api_response_t()
-  def by_stop(stop_id, opts \\ []) do
-    opts = put_in(opts[:stop], stop_id)
+  def by_stop(stop_id, params \\ []) do
+    params = put_in(params[:stop], stop_id)
 
-    @mbta_api.get_json("/routes/", opts)
+    @mbta_api.get_json("/routes/", params)
   end
 
   @spec by_stop_and_direction(Stop.id_t(), 0 | 1, keyword()) :: api_response_t()
-  def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
-    opts = put_in(opts[:stop], stop_id)
-    opts = put_in(opts[:direction_id], direction_id)
+  def by_stop_and_direction(stop_id, direction_id, params \\ []) do
+    params = put_in(params[:stop], stop_id)
+    params = put_in(params[:direction_id], direction_id)
 
-    @mbta_api.get_json("/routes/", opts)
+    @mbta_api.get_json("/routes/", params)
   end
 end

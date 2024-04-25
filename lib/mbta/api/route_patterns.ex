@@ -5,7 +5,7 @@ defmodule MBTA.Api.RoutePatterns do
 
   alias Routes.Route
 
-  @mbta_api Application.compile_env!(:dotcom, :mbta_api)
+  @mbta_api Application.compile_env!(:dotcom, :mbta_api_module)
 
   @type api_response_t() :: JsonApi.t() | {:error, any}
 
@@ -15,7 +15,7 @@ defmodule MBTA.Api.RoutePatterns do
   end
 
   @spec get(Route.id_t(), keyword()) :: api_response_t()
-  def get(id, opts \\ []) do
-    @mbta_api.get_json("/route_patterns/#{id}", opts)
+  def get(id, params \\ []) do
+    @mbta_api.get_json("/route_patterns/#{id}", params)
   end
 end

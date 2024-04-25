@@ -107,10 +107,11 @@ else
     ]
 end
 
-config :dotcom,
-  v3_api_base_url: System.get_env("V3_URL"),
-  v3_api_key: System.get_env("V3_API_KEY"),
-  v3_api_version: System.get_env("V3_API_VERSION", "2019-07-01")
+config :dotcom, :mbta_api,
+  base_url: System.get_env("MBTA_API_BASE_URL"),
+  enable_experimental_features: System.get_env("MBTA_API_ENABLE_EXPERIMENTAL_FEATURES"),
+  key: System.get_env("MBTA_API_KEY"),
+  version: System.get_env("MBTA_API_VERSION", "2019-07-01")
 
 config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 
@@ -206,9 +207,6 @@ config :dotcom, DotcomWeb.ViewHelpers,
   google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID"),
   google_tag_manager_auth: System.get_env("GOOGLE_TAG_MANAGER_AUTH"),
   google_tag_manager_preview: System.get_env("GOOGLE_TAG_MANAGER_PREVIEW")
-
-config :dotcom,
-  enable_experimental_features: System.get_env("ENABLE_EXPERIMENTAL_FEATURES")
 
 config :recaptcha,
   public_key: System.get_env("RECAPTCHA_PUBLIC_KEY"),

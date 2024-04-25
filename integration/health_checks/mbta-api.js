@@ -1,7 +1,7 @@
 const { status200 } = require("../utils");
 
 const options = {
-  baseURL: process.env.V3_URL,
+  baseURL: process.env.MBTA_API_BASE_URL,
   url: "/status",
 };
 

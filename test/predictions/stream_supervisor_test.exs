@@ -1,5 +1,6 @@
 defmodule Predictions.StreamSupervisorTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
+
   alias Predictions.StreamSupervisor
 
   setup_all do
@@ -17,6 +18,12 @@ defmodule Predictions.StreamSupervisorTest do
     :ok
   end
 
+  setup do
+    Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
+  end
+
+  setup :close_active_workers
+
   defp close_active_workers(context) do
     StreamSupervisor
     |> DynamicSupervisor.which_children()
@@ -24,8 +31,6 @@ defmodule Predictions.StreamSupervisorTest do
 
     context
   end
-
-  setup :close_active_workers
 
   describe "start_link/1" do
     test "StreamSupervisor is started along with registry" do

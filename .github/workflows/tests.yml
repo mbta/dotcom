@@ -15,8 +15,8 @@ concurrency:
 
 env:
   MIX_ENV: test
-  V3_URL: ${{ secrets.V3_URL }}
-  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+  MBTA_API_BASE_URL: ${{ secrets.MBTA_API_BASE_URL }}
+  MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
 
 jobs:
   # Report file changes by extensions

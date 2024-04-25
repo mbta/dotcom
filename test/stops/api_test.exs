@@ -110,8 +110,8 @@ defmodule Stops.ApiTest do
     end
 
     test "returns an error if the API returns an error" do
-      expect(MBTA.Api.Mock, :get_json, fn _, _, _ ->
-        {:error, %HTTPoison.Error{reason: :econnrefused}}
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        {:error, %{reason: :econnrefused}}
       end)
 
       assert {:error, _} = by_gtfs_id("error stop")
@@ -120,7 +120,7 @@ defmodule Stops.ApiTest do
 
   test "all/0 returns error if API returns error" do
     expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-      {:error, %HTTPoison.Error{reason: :econnrefused}}
+      {:error, %{reason: :econnrefused}}
     end)
 
     assert {:error, _} = all()
@@ -128,7 +128,7 @@ defmodule Stops.ApiTest do
 
   test "by_route returns an error tuple if the V3 API returns an error" do
     expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-      {:error, %HTTPoison.Error{reason: :econnrefused}}
+      {:error, %{reason: :econnrefused}}
     end)
 
     assert {:error, _} = by_route({"1", 0, []})
@@ -140,7 +140,7 @@ defmodule Stops.ApiTest do
 
   test "by_trip returns an empty list if the V3 API returns an error" do
     expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-      {:ok, %HTTPoison.Response{status_code: 500, body: ""}}
+      {:ok, %Req.Response{status: 500, body: ""}}
     end)
 
     assert [] = by_trip("1")

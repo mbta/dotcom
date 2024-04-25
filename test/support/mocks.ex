@@ -2,6 +2,7 @@
 
 # External
 Mox.defmock(HTTPoison.Mock, for: HTTPoison.Base)
+Mox.defmock(Req.Mock, for: Req.Behaviour)
 
 # Internal
 Mox.defmock(Dotcom.Redis.Mock, for: Dotcom.Redis.Behaviour)

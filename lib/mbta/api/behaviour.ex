@@ -5,9 +5,8 @@ defmodule MBTA.Api.Behaviour do
 
   @callback get_json(String.t()) :: JsonApi.t() | {:error, any}
   @callback get_json(String.t(), Keyword.t()) :: JsonApi.t() | {:error, any}
-  @callback get_json(String.t(), Keyword.t(), Keyword.t()) :: JsonApi.t() | {:error, any}
 
-  @implementation Application.compile_env!(:dotcom, :mbta_api)
+  @implementation Application.compile_env!(:dotcom, :mbta_api_module)
 
   def get_json(url) do
     @implementation.get_json(url)
@@ -15,9 +14,5 @@ defmodule MBTA.Api.Behaviour do
 
   def get_json(url, params) do
     @implementation.get_json(url, params)
-  end
-
-  def get_json(url, params, opts) do
-    @implementation.get_json(url, params, opts)
   end
 end

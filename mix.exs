@@ -134,6 +134,7 @@ defmodule DotCom.Mixfile do
       {:recase, "0.7.0"},
       {:recon, "2.5.5", [only: :prod]},
       {:redix, "1.4.1"},
+      {:req, "0.4.14", override: true},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
@@ -144,6 +145,7 @@ defmodule DotCom.Mixfile do
       {:telemetry_metrics, "0.6.2"},
       {:telemetry_metrics_statsd, "0.7.0"},
       {:telemetry_poller, "1.1.0"},
+      {:telemetry_test, "0.1.2", only: [:test]},
       # latest version is 3.7.11; cannot upgrade because tests fail
       {:timex, "3.1.24"},
       {:unrooted_polytree, "0.1.1"},

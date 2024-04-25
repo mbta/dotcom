@@ -40,15 +40,22 @@ defmodule JsonApi do
     }
   end
 
-  @spec parse(String.t()) :: JsonApi.t() | {:error, any}
+  @spec parse(String.t() | map()) :: {:error, any()} | JsonApi.t()
+  def parse(body) when is_binary(body) do
+    case Jason.decode(body) do
+      {:ok, parsed} -> parse(parsed)
+      {:error, error} -> {:error, error}
+    end
+  end
+
   def parse(body) do
-    with {:ok, parsed} <- Jason.decode(body),
-         {:ok, data} <- parse_data(parsed) do
-      %JsonApi{
-        links: parse_links(parsed),
-        data: data
-      }
-    else
+    case parse_data(body) do
+      {:ok, data} ->
+        %JsonApi{
+          links: parse_links(body),
+          data: data
+        }
+
       {:error, [_ | _] = errors} ->
         {:error, parse_errors(errors)}
 

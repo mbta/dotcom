@@ -15,12 +15,11 @@ defmodule MBTA.Api.Stream do
   Other options are made available for tests, and can include:
   - :name (name of the GenStage process)
   - :base_url
-  - :api_key
+  - :key
   """
 
   use GenStage
 
-  alias MBTA.Headers
   alias ServerSentEventStage, as: SSES
 
   defmodule Event do
@@ -67,20 +66,23 @@ defmodule MBTA.Api.Stream do
 
   @spec default_options :: Keyword.t()
   defp default_options do
-    with base_url when not is_nil(base_url) <- config(:v3_api_base_url),
-         api_key when not is_nil(api_key) <- config(:v3_api_key) do
+    with base_url when not is_nil(base_url) <- config(:base_url),
+         key when not is_nil(key) <- config(:key) do
       [
         base_url: base_url,
-        api_key: api_key
+        key: key
       ]
     else
       _ ->
-        raise ArgumentError, "Missing valid V3_URL and/or V3_API_KEY"
+        raise ArgumentError, "Missing required configuration for MBTA API"
     end
   end
 
   @spec config(atom) :: any
-  defp config(key), do: Util.config(:dotcom, key)
+  defp config(key) do
+    config = Application.get_env(:dotcom, :mbta_api)
+    config[key]
+  end
 
   @spec set_url(Keyword.t()) :: Keyword.t()
   defp set_url(opts) do
@@ -97,10 +99,13 @@ defmodule MBTA.Api.Stream do
 
   @spec set_headers(Keyword.t()) :: Keyword.t()
   defp set_headers(opts) do
-    headers =
-      opts
-      |> Keyword.fetch!(:api_key)
-      |> Headers.build()
+    config = Application.get_env(:dotcom, :mbta_api)
+
+    headers = [
+      {"MBTA-Version", config[:version]},
+      {"x-api-key", config[:key]},
+      {"x-enable-experimental-features", config[:enable_experimental_features]}
+    ]
 
     Keyword.put(opts, :headers, headers)
   end
@@ -113,11 +118,9 @@ defmodule MBTA.Api.Stream do
     }
   end
 
-  @spec event(String.t()) :: Event.event()
-  for atom <- ~w(reset add update remove)a do
-    str = Atom.to_string(atom)
-    defp event(unquote(str)), do: unquote(atom)
-  end
-
-  defp event("error"), do: :unknown
+  defp event("add"), do: :add
+  defp event("remove"), do: :remove
+  defp event("update"), do: :update
+  defp event("reset"), do: :reset
+  defp event(_), do: :unknown
 end
