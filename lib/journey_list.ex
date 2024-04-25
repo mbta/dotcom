@@ -72,8 +72,10 @@ defmodule JourneyList do
 
     next_five =
       journey_list.journeys
-      |> Enum.reject(&(&1.departure.prediction.schedule_relationship in [:cancelled, :skipped]))
-      |> Enum.reject(&missing_prediction_time_unless_recent_departure/1)
+      |> Enum.reject(fn journey ->
+        journey.departure.prediction.schedule_relationship in [:cancelled, :skipped] ||
+          missing_prediction_time_unless_recent_departure(journey)
+      end)
       |> Enum.take(5)
 
     %{journey_list | journeys: next_five}

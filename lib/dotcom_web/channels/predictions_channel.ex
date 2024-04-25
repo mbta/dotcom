@@ -45,16 +45,17 @@ defmodule DotcomWeb.PredictionsChannel do
 
   defp filter_new(predictions) do
     predictions
-    # remove predictions with no trip information
-    |> Enum.reject(&is_nil(&1.trip))
-    # remove skipped and cancelled schedules on subway
-    |> Enum.reject(fn %Prediction{schedule_relationship: sr, route: %Route{type: type, id: id}} ->
-      Route.subway?(type, id) and sr in [:skipped, :cancelled]
+    |> Enum.reject(fn prediction ->
+      is_nil(prediction.trip) ||
+        is_skipped_or_cancelled?(prediction) ||
+        is_in_past?(prediction) ||
+        is_at_terminal_stop?(prediction)
     end)
-    # remove past predictions
-    |> Enum.filter(&is_in_future?/1)
-    # remove predictions from terminal stops
-    |> Enum.reject(&is_at_terminal_stop?/1)
+  end
+
+  defp is_skipped_or_cancelled?(prediction) do
+    Route.subway?(prediction.route.type, prediction.route.id) &&
+      prediction.schedule_relationship in [:skipped, :cancelled]
   end
 
   defp is_in_future?(%Prediction{time: %DateTime{} = dt}),
@@ -77,6 +78,8 @@ defmodule DotcomWeb.PredictionsChannel do
   end
 
   defp is_in_future?(_), do: false
+
+  defp is_in_past?(prediction), do: !is_in_future?(prediction)
 
   defp is_at_terminal_stop?(%Prediction{
          arrival_time: arrival,

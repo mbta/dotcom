@@ -272,8 +272,10 @@ defmodule Stops.RouteStop do
       |> Stops.Repo.get_parent()
       |> Map.get(:id)
       |> Routes.Repo.by_stop(include: "stop.connecting_stops")
-      |> Enum.reject(&(&1.id == route_stop.route.id))
-      |> Enum.reject(&(&1.description == :rail_replacement_bus))
+      |> Enum.reject(fn route ->
+        route.id == route_stop.route.id ||
+          route.description == :rail_replacement_bus
+      end)
 
     %{route_stop | connections: connections}
   end
