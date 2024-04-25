@@ -13,7 +13,7 @@ const useRoutes = (routeIds: string[]): FetchState<Route[]> => {
     fetchData
   );
   if (error) {
-    return { status: FetchStatus.Error };
+    return { status: FetchStatus.Error, errorData: error };
   }
   const sortedRoutes = data ? sortBy(data, ["sort_order"]) : data;
   return { status: FetchStatus.Data, data: sortedRoutes };
