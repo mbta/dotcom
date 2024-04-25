@@ -1,5 +1,5 @@
 <div class="route-branch-stop<%= if @expanded, do: " expanded", else: "" %>">
-  <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0)%>
+  <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0) + 1%>
   <%=
     stop_branch = assigns[:stop] && @stop.branch
     assigns
@@ -8,7 +8,10 @@
     |> DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(true, stop_branch)
   %>
   <div class="route-branch-stop-info expand">
-    <div class="d-flex">
+    <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
+             class: "toggle-detail-list btn btn-link",
+             data: [toggle: "collapse", target: "##{@target_id}"] do %>
+
       <div>
         <% duration_minutes = DotcomWeb.TripPlanView.display_seconds_as_minutes(@itinerary_row.duration) %>
         <%= DotcomWeb.TripPlanView.icon_for_route(@route) %>
@@ -22,10 +25,8 @@
         </div>
       </div>
     </div>
-    <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
-             class: "toggle-detail-list btn btn-link",
-             data: [toggle: "collapse", target: "##{@target_id}"] do %>
 
+      <div class="d-flex">
       <span class="expand-link-stop-text">
         <span class="expand-show-details ps-8 fs-14">
           Show Details
@@ -40,6 +41,7 @@
       <span class="expand-branch-link-icon">
         <%= if @expanded, do: fa("angle-up"), else: fa("angle-down") %>
       </span>
+      </div>
     <% end %>
   </div>
 </div>
