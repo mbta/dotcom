@@ -53,6 +53,8 @@ defmodule DotcomWeb.PredictionsChannel do
     end)
   end
 
+  # Keeping this style until we change all of these.
+  # credo:disable-for-this-file Credo.Check.Readability.PredicateFunctionNames
   defp is_skipped_or_cancelled?(prediction) do
     Route.subway?(prediction.route.type, prediction.route.id) &&
       prediction.schedule_relationship in [:skipped, :cancelled]
@@ -79,6 +81,8 @@ defmodule DotcomWeb.PredictionsChannel do
 
   defp is_in_future?(_), do: false
 
+  # Keeping this style until we change all of these.
+  # credo:disable-for-this-file Credo.Check.Readability.PredicateFunctionNames
   defp is_in_past?(prediction), do: !is_in_future?(prediction)
 
   defp is_at_terminal_stop?(%Prediction{
