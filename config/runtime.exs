@@ -110,7 +110,7 @@ end
 config :dotcom, :mbta_api,
   base_url: System.get_env("MBTA_API_BASE_URL"),
   headers: [
-    {"MBTA-Version", System.get_env("MBTA_API_VERSION", "2019-07-01")},
+    {"MBTA-Version", "2019-07-01"},
     {"x-api-key", System.get_env("MBTA_API_KEY")},
     {"x-enable-experimental-features", "true"}
   ]
