@@ -109,9 +109,11 @@ end
 
 config :dotcom, :mbta_api,
   base_url: System.get_env("MBTA_API_BASE_URL"),
-  enable_experimental_features: System.get_env("MBTA_API_ENABLE_EXPERIMENTAL_FEATURES"),
-  key: System.get_env("MBTA_API_KEY"),
-  version: System.get_env("MBTA_API_VERSION", "2019-07-01")
+  headers: [
+    {"MBTA-Version", "2019-07-01"},
+    {"x-api-key", System.get_env("MBTA_API_KEY")},
+    {"x-enable-experimental-features", "true"}
+  ]
 
 config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 

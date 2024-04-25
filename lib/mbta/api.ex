@@ -20,11 +20,7 @@ defmodule MBTA.Api do
 
     @req.new(
       base_url: config[:base_url],
-      headers: [
-        {"MBTA-Version", config[:version]},
-        {"x-api-key", config[:key]},
-        {"x-enable-experimental-features", config[:enable_experimental_features]}
-      ]
+      headers: config[:headers]
     )
   end
 end
