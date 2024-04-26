@@ -61,11 +61,10 @@ defmodule Dotcom.PhoneNumber do
 
       {area_code, prefix, line} ->
         [area_code, prefix, line]
-        |> Enum.map(fn num ->
+        |> Enum.map_join(". ", fn num ->
           String.split(num, "", trim: true)
           |> Enum.join(" ")
         end)
-        |> Enum.join(". ")
 
       nil ->
         nil

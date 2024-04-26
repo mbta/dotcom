@@ -82,8 +82,7 @@ defmodule DotcomWeb.LocationCardTest do
       mode_name
       |> Atom.to_string()
       |> String.split("_")
-      |> Enum.map(&String.capitalize/1)
-      |> Enum.join(" ")
+      |> Enum.map_join(" ", &String.capitalize/1)
 
     actual =
       mode_name

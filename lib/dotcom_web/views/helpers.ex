@@ -213,8 +213,7 @@ defmodule DotcomWeb.ViewHelpers do
     mode_atom
     |> Atom.to_string()
     |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
   end
 
   @spec mode_atom(String.t()) :: atom
@@ -291,8 +290,7 @@ defmodule DotcomWeb.ViewHelpers do
     atom
     |> Atom.to_string()
     |> String.split("_")
-    |> Enum.map(&String.capitalize(&1))
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.capitalize(&1))
   end
 
   @spec format_schedule_time(DateTime.t()) :: String.t()

@@ -246,8 +246,7 @@ if Mix.env() in [:dev, :test] do
 
                 updated_class_names =
                   String.split(class_names)
-                  |> Enum.map(&"#{@css_prefix}#{&1}")
-                  |> Enum.join(" ")
+                  |> Enum.map_join(" ", &"#{@css_prefix}#{&1}")
 
                 {"class", updated_class_names}
 

@@ -135,8 +135,7 @@ defmodule Routes.Route do
       |> Atom.to_string()
       |> String.replace("_", " ")
       |> String.split(" ")
-      |> Enum.map(&String.capitalize(&1, :ascii))
-      |> Enum.join(" ")
+      |> Enum.map_join(" ", &String.capitalize(&1, :ascii))
 
     def type_name(unquote(type_atom)), do: unquote(type_string)
   end
@@ -170,8 +169,7 @@ defmodule Routes.Route do
   defp bus_route_list(routes) when is_list(routes) do
     routes
     |> Enum.filter(&(icon_atom(&1) == :bus))
-    |> Enum.map(& &1.name)
-    |> Enum.join(", ")
+    |> Enum.map_join(", ", & &1.name)
   end
 
   @spec direction_name(t, 0 | 1) :: String.t()

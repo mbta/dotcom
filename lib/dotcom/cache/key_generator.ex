@@ -25,8 +25,7 @@ defmodule Dotcom.Cache.KeyGenerator do
     |> Kernel.to_string()
     |> String.split(".")
     |> (fn [_ | tail] -> tail end).()
-    |> Enum.map(&Recase.to_snake/1)
-    |> Enum.join(".")
+    |> Enum.map_join(".", &Recase.to_snake/1)
     |> String.downcase()
   end
 end

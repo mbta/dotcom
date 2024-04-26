@@ -111,8 +111,7 @@ defmodule Dotcom.Cache.Telemetry.Reporter do
 
   defp event_name(event) do
     event
-    |> Enum.map(&Atom.to_string/1)
-    |> Enum.join(".")
+    |> Enum.map_join(".", &Atom.to_string/1)
     |> String.downcase()
   end
 
