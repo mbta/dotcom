@@ -9,6 +9,22 @@ defmodule MBTA.ApiTest do
   setup :verify_on_exit!
 
   describe "get_json/1" do
+    test "encodes the url" do
+      url = "/my busted id"
+
+      expect(Req.Mock, :new, fn _ ->
+        %Req.Request{}
+      end)
+
+      expect(Req.Mock, :get, fn _, options ->
+        assert options[:url] == URI.encode(url)
+
+        {:ok, %Req.Response{status: 200, body: ~s({"data": []})}}
+      end)
+
+      Api.get_json(url)
+    end
+
     test "normal responses return a JsonApi struct" do
       expect(Req.Mock, :new, fn _ ->
         %Req.Request{}
