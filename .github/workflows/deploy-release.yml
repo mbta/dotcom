@@ -45,3 +45,12 @@ jobs:
         with:
           environment: prod
           version: ${{ github.event.release.tag_name }}
+
+      - uses: getsentry/action-release@v1.7.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: mbtace
+          SENTRY_PROJECT: mbta-site
+        with:
+          environment: prod
+          version: ${{ github.event.release.tag_name }}
