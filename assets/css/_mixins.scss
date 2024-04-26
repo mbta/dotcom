@@ -395,22 +395,3 @@
     display: flex;
   }
 }
-
-// Currently, WebKit has spotty support for :focus-visible. We're using a
-// polyfill to work around this, but WebKit also discards any "illegal"
-// rules, including when they are comma'd together. Thus, we need to
-// manually split the class-based polyfill solution from the
-// :focus-visible state selector.
-@mixin focus-visible {
-  &.focus-visible {
-    // Our CSS optimizer tries to merge any "redundant" rules into a
-    // single comma'd CSS declaration, thus we add this property to
-    // "break" the optimization. It shouldn't have any visible effect.
-    empty-cells: inherit;
-    @content;
-  }
-
-  &:focus-visible {
-    @content;
-  }
-}

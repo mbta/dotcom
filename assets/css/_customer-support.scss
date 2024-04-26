@@ -102,8 +102,6 @@
     margin-top: calc(#{$base-spacing} / 2);
 
     img {
-      // Polyfill for IE object-fit support
-      font-family: 'object-fit: cover;';
       object-fit: contain;
     }
 

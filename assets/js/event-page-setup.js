@@ -1,60 +1,5 @@
 import A11yDialog from "a11y-dialog";
 
-function toggleAttributePolyfill() {
-  if (!Element.prototype.toggleAttribute) {
-    Element.prototype.toggleAttribute = function(name, force) {
-      if (force !== void 0) force = !!force;
-
-      if (this.hasAttribute(name)) {
-        if (force) return true;
-
-        this.removeAttribute(name);
-        return false;
-      }
-      if (force === false) return false;
-
-      this.setAttribute(name, "");
-      return true;
-    };
-  }
-}
-
-function composedPathPolyfill() {
-  // Taken from:
-  // https://gist.github.com/rockinghelvetica/00b9f7b5c97a16d3de75ba99192ff05c
-  (function(e, d, w) {
-    if (!e.composedPath) {
-      e.composedPath = function() {
-        if (this.path) {
-          return this.path;
-        }
-        let { target } = this;
-
-        this.path = [];
-        while (target.parentNode !== null) {
-          this.path.push(target);
-          target = target.parentNode;
-        }
-        this.path.push(d, w);
-        return this.path;
-      };
-    }
-  })(Event.prototype, document, window);
-}
-
-function stickyPolyfill() {
-  import("stickyfilljs").then(stickyfilljs => {
-    const elements = document.querySelectorAll(".sticky-month");
-    stickyfilljs.add(elements);
-  });
-}
-
-function addInternetExplorerPolyfills() {
-  toggleAttributePolyfill();
-  stickyPolyfill();
-  composedPathPolyfill();
-}
-
 export function setupEventPopups() {
   /**
    * Why not use Bootstrap's popover? It's not equipped to handle having lots of
@@ -70,22 +15,23 @@ export function setupEventPopups() {
 
   // find all the event popup HTML elements
   const eventPopups = calendarView.querySelectorAll(".m-event-overlay");
-  for (let i = 0; i < eventPopups.length; i++) {
+  for (let i = 0; i < eventPopups.length; i += 1) {
     const el = eventPopups[i];
     const dialog = new A11yDialog(el);
 
     // Hide popup when user clicks outside popup, or on a different event
-    const hideDialogLogicListener = function(event) {
+    const hideDialogLogicListener = event => {
       const path = event.composedPath();
-      const eventClicked = path.find(function(x) {
+      const eventClicked = path.find(x => {
         return x.className === "m-event-calendar__event";
       });
       const eventIdClicked =
         eventClicked && eventClicked.dataset.a11yDialogShow;
       if (eventIdClicked) {
+        // eslint-disable-next-line no-underscore-dangle
         if (dialog._id !== eventIdClicked) dialog.hide();
       } else if (
-        !path.find(function(x) {
+        !path.find(x => {
           return x.className === "m-event-overlay";
         })
       ) {
@@ -101,10 +47,10 @@ export function setupEventPopups() {
 
 function MakeCollapsedHeadersSticky(eventsListing) {
   const sections = eventsListing.querySelectorAll(".m-event-list__month");
-  for (let i = 0; i < sections.length; i++) {
+  for (let i = 0; i < sections.length; i += 1) {
     const section = sections[i];
     const header = section.querySelectorAll(".c-expandable-block__link");
-    if (header[0].getAttribute("aria-expanded") == "false") {
+    if (header[0].getAttribute("aria-expanded") === "false") {
       section.classList.add("sticky-top");
     } else {
       section.classList.remove("sticky-top");
@@ -117,7 +63,7 @@ export function setupEventsListing() {
   // add event listener to navigate to page on dropdown select
   const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
 
-  for (let i = 0; i < dateSelects.length; i++) {
+  for (let i = 0; i < dateSelects.length; i += 1) {
     const select = dateSelects[i];
     select.addEventListener("change", ({ target }) => {
       window.location.assign(target.value);
@@ -143,7 +89,7 @@ export function setupEventsListing() {
           const monthHeaders = eventsListing.querySelectorAll(
             ".c-expandable-block__link"
           );
-          for (let i = 0; i < monthHeaders.length; i++) {
+          for (let i = 0; i < monthHeaders.length; i += 1) {
             const el = monthHeaders[i];
             const stickyStyleTop = parseInt(
               window.getComputedStyle(el).top.replace("px", ""),
@@ -192,7 +138,7 @@ export function setupEventsListing() {
   if (activeMonthElement) activeMonthElement.scrollIntoView();
 }
 
-export default function() {
+export default function eventPageSetup() {
   window.addEventListener(
     "load",
     () => {
@@ -203,11 +149,6 @@ export default function() {
         viewPreviousEventsLink.classList.remove("hidden");
       }
       if (document.querySelector(".m-events-hub")) {
-        const isIE = !!document.documentMode;
-        if (isIE) {
-          addInternetExplorerPolyfills();
-        }
-
         setupEventsListing();
         setupEventPopups();
       }

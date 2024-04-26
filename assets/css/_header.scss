@@ -387,7 +387,7 @@ nav.m-menu--mobile {
     }
   }
 
-  @include focus-visible {
+  &:focus-visible {
     background-color: $brand-primary-darkest;
     outline: 2px solid $brand-secondary;
   }
@@ -399,7 +399,7 @@ nav.m-menu--mobile {
       }
     }
 
-    @include focus-visible {
+    &:focus-visible {
       background-color: $brand-primary;
     }
   }

@@ -43,7 +43,7 @@ const pendingEventContent = `
 const eventListHtml = `
   <div>
     <section id="1-2021" class="m-event-list__month">
-      <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+      <button class="c-expandable-block__link sticky-top" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
         <h2 class="m-event-list__month-header">
           January 2021<span class="c-expandable-block-caret"></span>
         </h2>
@@ -58,7 +58,7 @@ const eventListHtml = `
           </li>
           ${[1, 2]
             .map(
-              x => `
+              () => `
               <li class="list-group-item u-flex-container m-event hidden" data-group="january-2021">
                 ${endedEventContent}
               </li>
@@ -69,7 +69,7 @@ const eventListHtml = `
       </div>
     </section>
     <section id="2-2021" class="m-event-list__month m-event-list__month--active">
-      <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+      <button class="c-expandable-block__link sticky-top" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
         <h2 class="m-event-list__month-header">
           February 2021<span class="c-expandable-block-caret"></span>
         </h2>
@@ -84,7 +84,7 @@ const eventListHtml = `
           </li>
           ${[3, 4]
             .map(
-              x => `
+              () => `
               <li class="list-group-item u-flex-container m-event hidden" data-group="february-2021">
                 ${endedEventContent}
               </li>

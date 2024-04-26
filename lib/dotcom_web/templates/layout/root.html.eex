@@ -97,25 +97,6 @@
       <% end %>
     </div>
 
-    <%# Load polyfills only if needed %>
-    <script>
-      function loadScript(src) {
-        const script = document.createElement("script");
-        script.src = src;
-        document.body.appendChild(script);
-      }
-
-      // Lifted from https://alistairshepherd.uk/writing/focus-visible-conditional-polyfill/
-      try {
-        document.querySelector(":focus-visible");
-      } catch (e) {
-        loadScript('<%= "#{Application.get_env(:dotcom, :webpack_path)}/js/focus-visible.min.js" %>');
-      }
-
-      if (!('scrollBehavior' in document.documentElement.style)) {
-        loadScript('<%= "#{Application.get_env(:dotcom, :webpack_path)}/js/smoothscroll.min.js" %>');
-      }
-    </script>
     <%= if google_tag_manager_id() do %>
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= google_tag_manager_id()%>&gtm_auth=<%= google_tag_manager_auth() %>&gtm_preview=<%= google_tag_manager_preview() %>&gtm_cookies_win=x"

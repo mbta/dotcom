@@ -2,7 +2,7 @@
   <% header_id = "header-#{@month_number}" %>
   <% panel_id = "panel-#{@month_number}" %>
 
-  <button class="c-expandable-block__link sticky-top sticky-month"
+  <button class="c-expandable-block__link sticky-top"
     data-target="#<%= panel_id %>"
     tabIndex="0"
     id="<%= header_id %>"

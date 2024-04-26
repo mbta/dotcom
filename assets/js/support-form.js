@@ -2,11 +2,6 @@
 import Filter from "bad-words";
 import * as Sentry from "@sentry/browser";
 
-// Some FormData methods like .set or .get are not supported in IE:
-// (https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility)
-// so we need to make use of a polyfill:
-import FormData from "formdata-polyfill";
-
 export default function($ = window.jQuery) {
   window.addEventListener(
     "load",
