@@ -151,7 +151,6 @@ $location-line-width: $space-6;
   flex: 1 1 0%;
   flex-direction: column;
   margin-bottom: $base-spacing;
-  margin-top: .813rem;
   width: 60%; // for non-flex browsers
 }
 
@@ -173,7 +172,8 @@ $location-line-width: $space-6;
   color: $gray-dark;
   display: flex;
   justify-content: space-between;
-  padding-block: .75rem;
+  padding-bottom: .75rem;
+  padding-top: .5rem;
   text-align: left;
   width: 100%;
 

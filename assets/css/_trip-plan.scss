@@ -142,6 +142,11 @@
   margin-bottom: $space-6;
   padding-bottom: $space-6;
   width: 100%;
+
+  &--border {
+    border-bottom: $border;
+  }
+
 }
 
 .itinerary-stop {

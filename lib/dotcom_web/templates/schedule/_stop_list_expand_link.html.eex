@@ -1,5 +1,5 @@
 <div class="route-branch-stop<%= if @expanded, do: " expanded", else: "" %>">
-  <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0)%>
+  <% intermediate_stop_count = Map.get(assigns, :intermediate_stop_count, 0) + 1%>
   <%=
     stop_branch = assigns[:stop] && @stop.branch
     assigns
@@ -8,38 +8,44 @@
     |> DotcomWeb.PartialView.StopBubbles.render_stop_bubbles(true, stop_branch)
   %>
   <div class="route-branch-stop-info expand">
-    <div class="d-flex">
-      <div>
-        <% duration_minutes = DotcomWeb.TripPlanView.display_seconds_as_minutes(@itinerary_row.duration) %>
-        <%= DotcomWeb.TripPlanView.icon_for_route(@route) %>
-      </div>
-      <div class="ps-8">
-        <% stop_string = Inflex.inflect("Stop", intermediate_stop_count) %>
-        <span class="u-bold pe-8">Ride the <%= @branch_display %> </span> (<%= intermediate_stop_count %> <%= stop_string %>, <%= duration_minutes %> min)
+    <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
+             class: "toggle-detail-list btn btn-link ps-0 pb-8",
+             data: [toggle: "collapse", target: "##{@target_id}"] do %>
+      <div class="d-flex justify-content-space-between w-100">
         <div>
-          <% headsign = if @itinerary_row.trip.headsign == "", do: "", else: "towards #{@itinerary_row.trip.headsign}" %>
-          <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %> <%= headsign %>
+          <div class="d-flex">
+            <div>
+              <%= DotcomWeb.TripPlanView.icon_for_route(@route) %>
+            </div>
+            <div class="ps-8">
+              <% duration_minutes = DotcomWeb.TripPlanView.display_seconds_as_minutes(@itinerary_row.duration) %>
+              <% stop_string = Inflex.inflect("Stop", intermediate_stop_count) %>
+              <span class="u-bold pe-8">Ride the <%= @branch_display %> </span> (<%= intermediate_stop_count %> <%= stop_string %>, <%= duration_minutes %> min)
+              <div>
+                <% headsign = if @itinerary_row.trip.headsign == "", do: "", else: "towards #{@itinerary_row.trip.headsign}" %>
+                <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %> <%= headsign %>
+              </div>
+              <div>
+                <span class="expand-link-stop-text pt-8">
+                  <span class="expand-show-details fs-14">
+                    Show Details
+                  </span>
+                  <%= if Map.get(assigns, :alerts?, false) do %>
+                    <span class="itinerary-has-alerts-icon">
+                      <%= fa "exclamation-triangle" %>
+                    </span>
+                  <% end %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <span class="expand-branch-link-icon">
+            <%= if @expanded, do: fa("angle-up"), else: fa("angle-down") %>
+          </span>
         </div>
       </div>
-    </div>
-    <%= link to: update_url(assigns.conn, expanded: (if @expanded, do: nil, else: @branch_name)),
-             class: "toggle-detail-list btn btn-link",
-             data: [toggle: "collapse", target: "##{@target_id}"] do %>
-
-      <span class="expand-link-stop-text">
-        <span class="expand-show-details ps-8 fs-14">
-          Show Details
-        </span>
-        <%= if Map.get(assigns, :alerts?, false) do %>
-          <span class="itinerary-has-alerts-icon">
-            <%= fa "exclamation-triangle" %>
-          </span>
-        <% end %>
-      </span>
-
-      <span class="expand-branch-link-icon">
-        <%= if @expanded, do: fa("angle-up"), else: fa("angle-down") %>
-      </span>
     <% end %>
   </div>
 </div>
