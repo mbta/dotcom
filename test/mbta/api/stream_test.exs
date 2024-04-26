@@ -5,15 +5,20 @@ defmodule MBTA.Api.StreamTest do
 
   describe "build_options" do
     test "includes api key" do
-      Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
+      Application.put_env(:dotcom, :mbta_api,
+        base_url: "foo",
+        headers: [
+          {"x-api-key", "bar"}
+        ]
+      )
 
       opts = Stream.build_options(path: "/vehicles")
       assert Keyword.get(opts, :url) =~ "/vehicles"
-      assert <<_::binary>> = Keyword.get(opts, :key)
+      assert [{"x-api-key", <<_::binary>>}] = Keyword.get(opts, :headers)
     end
 
     test "throws error if mbta api base url is missing" do
-      Application.put_env(:dotcom, :mbta_api, base_url: nil, key: "foo")
+      Application.put_env(:dotcom, :mbta_api, base_url: nil)
 
       assert_raise ArgumentError, "Missing required configuration for MBTA API", fn ->
         Stream.build_options(path: "/vehicles")
@@ -21,7 +26,13 @@ defmodule MBTA.Api.StreamTest do
     end
 
     test "throws error if mbta api key is missing" do
-      Application.put_env(:dotcom, :mbta_api, base_url: "http://example.com", key: nil)
+      Application.put_env(:dotcom, :mbta_api,
+        headers: [
+          {"MBTA-Version", "2019-07-01"},
+          {"x-api-key", nil},
+          {"x-enable-experimental-features", "true"}
+        ]
+      )
 
       assert_raise ArgumentError, "Missing required configuration for MBTA API", fn ->
         Stream.build_options(path: "/vehicles")

@@ -19,7 +19,12 @@ defmodule Predictions.StreamSupervisorTest do
   end
 
   setup do
-    Application.put_env(:dotcom, :mbta_api, base_url: "foo", key: "bar")
+    Application.put_env(:dotcom, :mbta_api,
+      base_url: "foo",
+      headers: [
+        {"x-api-key", "bar"}
+      ]
+    )
   end
 
   setup :close_active_workers
