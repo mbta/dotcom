@@ -1,29 +1,24 @@
 defmodule CMS.SearchResult.File do
   @moduledoc false
-  defstruct title: "",
-            url: "",
-            mimetype: ""
+  defstruct mimetype: "", title: "", url: ""
 
-  alias CMS.Config
+  @type t :: %__MODULE__{mimetype: String.t(), title: String.t(), url: String.t()}
 
-  @type t :: %__MODULE__{
-          title: String.t(),
-          url: String.t(),
-          mimetype: String.t()
-        }
+  @static_path "/sites/default/files"
 
   @spec build(map) :: t
   def build(result) do
     %__MODULE__{
+      mimetype: result["ss_filemime"],
       title: result["ts_filename"],
-      url: link(result["ss_uri"]),
-      mimetype: result["ss_filemime"]
+      url: link(result["ss_uri"])
     }
   end
 
   @spec link(String.t()) :: String.t()
   defp link(path) do
-    path = String.replace(path, "public:/", Config.static_path())
+    path = String.replace(path, "public:/", @static_path)
+
     Util.site_path(:static_url, [path])
   end
 end

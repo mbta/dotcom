@@ -123,7 +123,7 @@ defmodule DotcomWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case @req.get(url) do
+    case client() |> @req.get(url) do
       {:ok, %{status: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)
@@ -132,6 +132,15 @@ defmodule DotcomWeb.ControllerHelpers do
       _ ->
         Conn.send_resp(conn, :not_found, "")
     end
+  end
+
+  defp client(headers \\ []) do
+    config = Application.get_env(:dotcom, :cms_api)
+
+    @req.new(
+      base_url: config[:base_url],
+      headers: config[:headers] ++ headers
+    )
   end
 
   @spec check_cms_or_404(Conn.t()) :: Conn.t()
