@@ -18,6 +18,7 @@ jobs:
         with:
           otp-version: 26.2
           elixir-version: 1.16.1
+      - run: mix deps.get
       - run: mix docs --formatter html
       - uses: actions/upload-pages-artifact@v3
         with:
