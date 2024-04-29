@@ -69,8 +69,7 @@ defmodule Predictions.StreamTopic do
       route: route_id,
       direction_id: direction_id
     }
-    |> Enum.map(fn {filter, value} -> "filter[#{filter}]=#{value}" end)
-    |> Enum.join("&")
+    |> Enum.map_join("&", fn {filter, value} -> "filter[#{filter}]=#{value}" end)
   end
 
   @spec registration_keys(t()) :: [{Store.fetch_keys(), filter_params}]

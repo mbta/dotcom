@@ -44,8 +44,7 @@ defmodule Algolia.Query do
   def encode_params(%{} = params) do
     params
     |> Map.put("analytics", Application.get_env(:dotcom, :algolia_track_analytics?, false))
-    |> Enum.map(&encode_param/1)
-    |> Enum.join("&")
+    |> Enum.map_join("&", &encode_param/1)
   end
 
   @spec encode_param({String.t(), any}) :: String.t()

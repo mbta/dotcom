@@ -122,7 +122,7 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
         (prefix <> "tag") => tag,
         (prefix <> "accessible") => accessible,
         (prefix <> "start_stop") => "#{format_time(start)}, #{format_time(stop)}",
-        (prefix <> "legs") => Enum.map(legs, &mapped_leg/1) |> Enum.join(";\n")
+        (prefix <> "legs") => Enum.map_join(legs, ";\n", &mapped_leg/1)
       }
     end)
     |> Enum.reduce(&Map.merge/2)
@@ -137,7 +137,10 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
 
   defp mode_description(%{"steps" => steps, "distance" => distance}) do
     step_description =
-      Enum.map(steps, fn %{"relative_direction" => direction, "street_name" => street_name} ->
+      Enum.map_join(steps, ";\n\t", fn %{
+                                         "relative_direction" => direction,
+                                         "street_name" => street_name
+                                       } ->
         relative_direction = String.to_atom(direction)
 
         [
@@ -147,7 +150,6 @@ defmodule DotcomWeb.TripPlan.FeedbackCSV do
         ]
         |> Enum.join(" ")
       end)
-      |> Enum.join(";\n\t")
 
     "walking #{distance} meters:\n\t#{step_description}"
   end
