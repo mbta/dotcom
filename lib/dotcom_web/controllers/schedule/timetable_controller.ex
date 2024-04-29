@@ -264,8 +264,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     all_stops =
       remove_unused_stops(all_stops, schedules)
       |> Enum.sort_by(fn stop ->
-        {zone_to_sortable(stop.zone, direction_id),
-         trip_schedule_sequence_for_stop(stop, schedules)}
+        {zone_to_sortable(stop, direction_id), trip_schedule_sequence_for_stop(stop, schedules)}
       end)
 
     %{
@@ -274,10 +273,22 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp zone_to_sortable("1A", _), do: 0
-  defp zone_to_sortable(zone, 0) when is_binary(zone), do: String.to_integer(zone)
-  defp zone_to_sortable(zone, 1) when is_binary(zone), do: -String.to_integer(zone)
-  defp zone_to_sortable(_, _), do: 0
+  # Override North and South Station zones from 1A to 0
+  defp zone_to_sortable(%Stops.Stop{id: stop_id}, _direction_id)
+       when stop_id in ["place-sstat", "place-north"],
+       do: 0.0
+
+  defp zone_to_sortable(%Stops.Stop{zone: nil}, _direction_id), do: 0.0
+
+  defp zone_to_sortable(%Stops.Stop{zone: "1A"}, direction_id),
+    do: zone_to_sortable("0.5", direction_id)
+
+  defp zone_to_sortable(%Stops.Stop{zone: zone}, direction_id),
+    do: zone_to_sortable("#{zone}.0", direction_id)
+
+  defp zone_to_sortable(zone, 0) when is_binary(zone), do: String.to_float(zone)
+  defp zone_to_sortable(zone, 1) when is_binary(zone), do: -String.to_float(zone)
+  defp zone_to_sortable(_, _), do: 0.0
 
   # translate each stop into a general stop_sequence value. a given stop will
   # have a different value for stop_sequence depending on the other stops in the
