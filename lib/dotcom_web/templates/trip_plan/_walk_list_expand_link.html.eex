@@ -20,7 +20,9 @@
             <div>
               <% duration_minutes = display_seconds_as_minutes(@itinerary_row.duration) %>
               <% distance_miles = display_meters_as_miles(@itinerary_row.distance) %>
-              <span class="u-bold ps-8 pe-8">Walk to <%= @next_stop_name %></span>(<%= distance_miles %> mi, <%= duration_minutes %> min)
+              <div class="d-flex">
+                <div class="u-bold ps-8 pe-8 text-wrap">Walk to <%= @next_stop_name %></div>(<%= distance_miles %> mi, <%= duration_minutes %> min)
+              </div>
               <div>
                 <span class="expand-link-stop-text ps-8 pt-8">
                   <span class="expand-show-details fs-14">
