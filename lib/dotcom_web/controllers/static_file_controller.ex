@@ -1,8 +1,6 @@
 defmodule DotcomWeb.StaticFileController do
   use DotcomWeb, :controller
 
-  alias CMS.Config
-
   @config Application.compile_env!(:dotcom, StaticFileController)
   @response_fn @config[:response_fn]
 
@@ -12,7 +10,8 @@ defmodule DotcomWeb.StaticFileController do
   end
 
   def send_file(conn) do
-    full_url = Config.url(conn.request_path)
+    full_url = Application.get_env(:dotcom, :cms_api)[:base_url] <> conn.request_path
+
     forward_static_file(conn, full_url)
   end
 

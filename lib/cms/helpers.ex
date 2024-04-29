@@ -4,11 +4,12 @@ defmodule CMS.Helpers do
   """
 
   alias CMS.API
-  alias CMS.Config
   alias CMS.CustomHTML5Scrubber
   alias CMS.Field.{File, Image, Link}
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
+
+  @static_path "/sites/default/files"
 
   @doc """
   Each CMS entity hosts a variety of fields which all
@@ -216,9 +217,7 @@ defmodule CMS.Helpers do
 
   @spec rewrite_static_file_links(String.t()) :: String.t()
   defp rewrite_static_file_links(body) do
-    static_path = Config.static_path()
-
-    Regex.replace(~r/"(#{static_path}[^"]+)"/, body, fn _, path ->
+    Regex.replace(~r/"(#{@static_path}[^"]+)"/, body, fn _, path ->
       [~c"\"", Util.site_path(:static_url, [path]), ~c"\""]
     end)
   end

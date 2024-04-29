@@ -30,7 +30,7 @@ defmodule CMS.Repo do
   alias Routes.Route
 
   @cache Application.compile_env!(:dotcom, :cache)
-  @cms_api Application.compile_env!(:dotcom, :cms_api)
+  @cms_api Application.compile_env!(:dotcom, :cms_api_module)
   @ttl :timer.hours(4)
 
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
@@ -238,7 +238,7 @@ defmodule CMS.Repo do
 
   defp params_to_string(params) when is_map(params) do
     case params
-         |> Enum.reduce([], &CMS.API.HTTPClient.stringify_params/2)
+         |> Enum.reduce([], &CMS.Api.stringify_params/2)
          |> Enum.map(fn {k, v} -> "#{k}=#{v}" end) do
       [head | tail] ->
         ["?#{head}", "#{Enum.join(tail, "&")}"]
