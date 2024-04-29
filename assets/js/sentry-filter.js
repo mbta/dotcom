@@ -427,6 +427,14 @@ const beforeSend = (event, hint) => {
     }
   }
 
+  // filter out webkit errors caused by safari extensions
+  if (
+    event.contexts?.browser?.name?.includes("Safari") &&
+    event.culprit?.includes("webkit-masked-url")
+  ) {
+    return null;
+  }
+
   return event;
 };
 
