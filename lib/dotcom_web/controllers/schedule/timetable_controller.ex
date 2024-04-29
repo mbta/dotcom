@@ -74,6 +74,28 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     track_changes = track_changes(trip_schedules, canonical_stop_ids)
 
+    ## Logging to capture misordered stops on CR-Newburyport timetable ##
+    # First, is this code even present?
+    Logger.info("dotcom_web.schedule_controller.timetable_controller.assign_trip_schedules")
+
+    if route.id == "CR-Newburyport" && direction_id == 1 do
+      [last, next | _rest] = Enum.map(all_stops, & &1.name) |> Enum.reverse()
+
+      case {last, next} do
+        {"North Station", "Chelsea"} ->
+          # Log both good and bad results so we can quantify
+          Logger.info(
+            "dotcom_web.schedule_controller.timetable_controller.assign_trip_schedules stop_order=expected"
+          )
+
+        _ ->
+          # Show the offending last two stops
+          Logger.warning(
+            "dotcom_web.schedule_controller.timetable_controller.assign_trip_schedules stop_order=unexpected last=#{last} next=#{next}"
+          )
+      end
+    end
+
     conn
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
