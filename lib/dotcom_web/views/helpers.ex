@@ -202,7 +202,7 @@ defmodule DotcomWeb.ViewHelpers do
   def mode_name(type) when type in ["2272", "983", :massport_shuttle],
     do: "Massport Shuttle"
 
-  def mode_name("Massport-" <> _route), do: "Massport Shuttle"
+  def mode_name("Massport" <> _route), do: "Massport Shuttle"
 
   def mode_name(:access), do: "Access"
   def mode_name(:the_ride), do: "The Ride"
