@@ -76,6 +76,7 @@ defmodule Routes.Route do
   def type_atom("subway"), do: :subway
   def type_atom("bus"), do: :bus
   def type_atom("ferry"), do: :ferry
+  def type_atom("Logan Express"), do: :logan_express
   def type_atom("909"), do: :logan_express
   def type_atom("2274"), do: :logan_express
   def type_atom("983"), do: :massport_shuttle
