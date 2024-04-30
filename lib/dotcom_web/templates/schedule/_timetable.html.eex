@@ -74,7 +74,7 @@
             <% end %>
           </tr>
         <% end %>
-        <%= for {stop, idx} <- Enum.with_index(@all_stops) do %>
+        <%= for {stop, idx} <- @header_stops do %>
           <% cell_background = if rem(idx, 2) == 0 do "white" else "gray" end %>
           <%= content_tag :tr, [class: stop_row_class(idx)] do %>
             <%= content_tag :th, [
