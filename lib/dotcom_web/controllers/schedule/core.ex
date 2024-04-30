@@ -19,6 +19,5 @@ defmodule DotcomWeb.ScheduleController.Core do
   defp schedule_pipeline_with_direction(conn, _opts) do
     conn
     |> assign_alerts([])
-    |> call_plug(DotcomWeb.ScheduleController.AllStops)
   end
 end

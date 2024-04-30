@@ -16,7 +16,6 @@ defmodule DotcomWeb.ScheduleController.LineController do
   plug(DotcomWeb.ScheduleController.RoutePdfs)
   plug(DotcomWeb.ScheduleController.Defaults)
   plug(:alerts)
-  plug(DotcomWeb.ScheduleController.AllStops)
   plug(DotcomWeb.ScheduleController.RouteBreadcrumbs)
   plug(DotcomWeb.ScheduleController.HoursOfOperation)
   plug(DotcomWeb.ScheduleController.Holidays)
