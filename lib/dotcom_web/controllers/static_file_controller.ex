@@ -10,7 +10,6 @@ defmodule DotcomWeb.StaticFileController do
   end
 
   def send_file(conn) do
-    Application.get_env(:dotcom, :cms_api) |> IO.inspect()
     full_url = Application.get_env(:dotcom, :cms_api)[:base_url] <> conn.request_path
 
     forward_static_file(conn, full_url)
