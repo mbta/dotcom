@@ -13,8 +13,7 @@ defmodule DotcomWeb.StaticFileControllerTest do
       end)
 
       expect(Req.Mock, :get, fn _, [url: url] ->
-        # TODO: Uncomment this when the environment variables are set.
-        # assert url == Application.get_env(:dotcom, :cms_api)[:base_url] <> "/path"
+        assert url == Application.get_env(:dotcom, :cms_api)[:base_url] <> "/path"
 
         {:ok, %Req.Response{status: 200, body: "file from drupal"}}
       end)
