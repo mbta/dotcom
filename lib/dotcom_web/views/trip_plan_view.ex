@@ -10,6 +10,7 @@ defmodule DotcomWeb.TripPlanView do
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias DotcomWeb.Plugs.Cookies
   alias TripPlan.{Itinerary, Leg, Transfer}
+  alias Dotcom.StopBubble
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -277,6 +278,25 @@ defmodule DotcomWeb.TripPlanView do
     ]
   end
 
+  @spec walk_row_params(map()) :: [StopBubble.Params.t()]
+  def walk_row_params(assigns) do
+    [
+      %StopBubble.Params{
+        render_type: :empty,
+        class: "",
+        direction_id: assigns[:direction_id],
+        merge_indent: nil,
+        route_id: nil,
+        route_type: nil,
+        show_line?: true,
+        vehicle_tooltip: nil,
+        content: "",
+        bubble_branch: nil,
+        show_checkmark?: false
+      }
+    ]
+  end
+
   def render_steps(conn, steps, mode_class, itinerary_id, row_id) do
     for {step, bubbles} <- steps do
       render(
@@ -296,6 +316,12 @@ defmodule DotcomWeb.TripPlanView do
   @spec display_meters_as_miles(float) :: String.t()
   def display_meters_as_miles(meters) do
     :erlang.float_to_binary(meters / @meters_per_mile, decimals: 1)
+  end
+
+  @spec display_seconds_as_minutes(integer) :: String.t()
+  def display_seconds_as_minutes(seconds) do
+    minutes = Timex.Duration.to_minutes(seconds, :seconds)
+    :erlang.integer_to_binary(Kernel.max(1, Kernel.round(minutes)))
   end
 
   def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do

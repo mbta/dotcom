@@ -1,4 +1,5 @@
 <% {stop_name, stop_id} = @itinerary_row.stop
+   {next_stop_name, _next_stop_id} = if @next_itinerary_row == nil, do: {"Destination", nil}, else: @next_itinerary_row.stop
    mode_class = mode_class(@itinerary_row)
 %>
 
@@ -10,6 +11,7 @@
     |> Map.take([:conn, :itinerary_row, :row_idx, :itinerary_idx])
     |> Map.merge(%{stop_name: stop_name,
                    stop_id: stop_id,
+                   next_stop_name: next_stop_name,
                    departure_display: stop_departure_display(@itinerary_row),
                    mode_class: mode_class,
                    expanded: @expanded})

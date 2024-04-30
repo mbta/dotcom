@@ -231,12 +231,32 @@ defmodule DotcomWeb.StopListViewTest do
         route: %Route{id: "Green-E"},
         vehicle_tooltip: nil,
         expanded: nil,
-        conn: %{query_params: %{}, request_path: ""}
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
 
       assert rendered =~ "11"
+    end
+
+    test "Expand link lists duration" do
+      assigns = %{
+        bubbles: [{"Green-E", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 11,
+        branch_name: "Green-E",
+        branch_display: "Green-E branch",
+        route: %Route{id: "Green-E"},
+        vehicle_tooltip: nil,
+        expanded: nil,
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+      }
+
+      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
+
+      assert rendered =~ "2 min"
     end
 
     test "Expand link displays branch_display as link text" do
@@ -249,7 +269,8 @@ defmodule DotcomWeb.StopListViewTest do
         route: %Route{id: "Red"},
         vehicle_tooltip: nil,
         expanded: nil,
-        conn: %{query_params: %{}, request_path: ""}
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
@@ -267,7 +288,8 @@ defmodule DotcomWeb.StopListViewTest do
         route: %Route{id: "Red"},
         vehicle_tooltip: nil,
         expanded: true,
-        conn: %{query_params: %{}, request_path: ""}
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
       }
 
       rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()

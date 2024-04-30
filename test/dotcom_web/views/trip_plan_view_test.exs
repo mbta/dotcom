@@ -450,6 +450,14 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "display_seconds_as_minutes/1" do
+    test "converts seconds to minutes" do
+      assert display_seconds_as_minutes(5) == "1"
+      assert display_seconds_as_minutes(59) == "1"
+      assert display_seconds_as_minutes(100) == "2"
+    end
+  end
+
   describe "format_additional_route/2" do
     @tag :external
     test "Correctly formats Green Line route" do

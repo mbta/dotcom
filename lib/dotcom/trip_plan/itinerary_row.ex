@@ -37,7 +37,9 @@ defmodule Dotcom.TripPlan.ItineraryRow do
             transit?: false,
             steps: [],
             additional_routes: [],
-            alerts: []
+            alerts: [],
+            distance: 0.0,
+            duration: 0
 
   @type t :: %__MODULE__{
           stop: name_and_id,
@@ -47,7 +49,9 @@ defmodule Dotcom.TripPlan.ItineraryRow do
           departure: DateTime.t(),
           steps: [step],
           additional_routes: [Route.t()],
-          alerts: [Alerts.Alert.t()]
+          alerts: [Alerts.Alert.t()],
+          distance: Float.t(),
+          duration: Integer.t()
         }
 
   def route_id(%__MODULE__{route: %Route{id: id}}), do: id
@@ -75,7 +79,9 @@ defmodule Dotcom.TripPlan.ItineraryRow do
       trip: trip,
       departure: leg.start,
       steps: get_steps(leg.mode, deps.stop_mapper, next_leg),
-      additional_routes: get_additional_routes(route, trip, leg, stop, deps)
+      additional_routes: get_additional_routes(route, trip, leg, stop, deps),
+      duration: leg.duration,
+      distance: leg.distance
     }
   end
 

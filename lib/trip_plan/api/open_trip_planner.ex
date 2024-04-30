@@ -64,7 +64,9 @@ defmodule TripPlan.Api.OpenTripPlanner do
       long_name: json["route"]["longName"],
       type: json["agency"]["name"],
       url: json["agency"]["url"],
-      description: json["mode"]
+      description: json["mode"],
+      distance: json["distance"],
+      duration: json["duration"]
     }
   end
 

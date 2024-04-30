@@ -242,8 +242,6 @@ if Mix.env() in [:dev, :test] do
           updated_attrs =
             Enum.map(attrs, fn
               {"class", class_names} ->
-                # IO.inspect(class_names, label: "\tediting classes on <#{tag}>")
-
                 updated_class_names =
                   String.split(class_names)
                   |> Enum.map_join(" ", &"#{@css_prefix}#{&1}")

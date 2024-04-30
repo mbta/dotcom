@@ -18,14 +18,6 @@
 
   end %>
   <%= if @show_line? do %>
-    <%= if @add_expand_icon? do %>
-      <%= content_tag :div, [], class: "route-branch-stop-bubble-line #{@class} direction-#{@direction_id} above", data: [branch: assigns[:bubble_branch]] %>
-      <div class="expand-icon">
-        <div class="diagonal top"></div>
-        <div class="horizontal"></div>
-        <div class="diagonal bottom"></div>
-      </div>
-    <% end %>
     <%= content_tag :div, [], class: "route-branch-stop-bubble-line #{@class} direction-#{@direction_id}", data: [branch: assigns[:bubble_branch]] %>
   <% end %>
   <%= if assigns[:merge_indent] == :below do %>
