@@ -172,6 +172,10 @@ $location-line-width: $space-6;
   text-align: left;
   width: 100%;
 
+  @include media-breakpoint-down(sm) {
+    padding-right: 0;
+  }
+
   &:hover {
     text-decoration: none;
   }
