@@ -8,10 +8,14 @@ defmodule DotcomWeb.StaticFileControllerTest do
 
   describe "index/2" do
     test "forwards files from config:cms:drupal:cms_root" do
-      expect(HTTPoison.Mock, :get, fn url, _, _ ->
-        assert url == Application.get_env(:dotcom, :drupal)[:cms_root] <> "/path"
+      expect(Req.Mock, :new, fn _ ->
+        %Req.Request{}
+      end)
 
-        {:ok, %HTTPoison.Response{status_code: 200, body: "file from drupal"}}
+      expect(Req.Mock, :get, fn _, [url: url] ->
+        assert url == Application.get_env(:dotcom, :cms_api)[:base_url] <> "/path"
+
+        {:ok, %Req.Response{status: 200, body: "file from drupal"}}
       end)
 
       conn = %{build_conn() | request_path: "/path"}

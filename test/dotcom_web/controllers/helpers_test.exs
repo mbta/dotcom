@@ -303,8 +303,12 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
   describe "forward_static_file/2" do
     test "returns a 404 if there's an error" do
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
-        {:error, %HTTPoison.Response{status_code: 500, body: "error on remote server"}}
+      expect(Req.Mock, :new, fn _ ->
+        %Req.Request{}
+      end)
+
+      expect(Req.Mock, :get, fn _, _ ->
+        {:ok, %Req.Response{status: 500, body: "error on remote server"}}
       end)
 
       response =
@@ -315,8 +319,12 @@ defmodule DotcomWeb.ControllerHelpersTest do
     end
 
     test "returns a 404 if the remote side returns a 404" do
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
-        {:ok, %HTTPoison.Response{status_code: 404, body: "not found"}}
+      expect(Req.Mock, :new, fn _ ->
+        %Req.Request{}
+      end)
+
+      expect(Req.Mock, :get, fn _, _ ->
+        {:ok, %Req.Response{status: 404, body: "not found"}}
       end)
 
       response =
@@ -328,14 +336,18 @@ defmodule DotcomWeb.ControllerHelpersTest do
 
     test "returns the body and headers from the response if it's a 200" do
       headers = [
-        {"Content-Type", "text/plain"},
-        {"ETag", "tag"},
-        {"Content-Length", "6"},
-        {"Date", "Tue, 13 Nov 2018 00:00:00 EST"}
+        {"content-type", "text/plain"},
+        {"etag", "tag"},
+        {"content-length", "6"},
+        {"date", "Tue, 13 Nov 2018 00:00:00 EST"}
       ]
 
-      expect(HTTPoison.Mock, :get, fn _, _, _ ->
-        {:ok, %HTTPoison.Response{status_code: 200, body: "a file", headers: headers}}
+      expect(Req.Mock, :new, fn _ ->
+        %Req.Request{}
+      end)
+
+      expect(Req.Mock, :get, fn _, _ ->
+        {:ok, %Req.Response{status: 200, body: "a file", headers: headers}}
       end)
 
       response =

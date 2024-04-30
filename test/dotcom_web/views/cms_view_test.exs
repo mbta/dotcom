@@ -4,7 +4,7 @@ defmodule DotcomWeb.CMSViewTest do
   import DotcomWeb.CMSView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.File
   alias CMS.Page.Basic
   alias CMS.Partial.Paragraph.CustomHTML

@@ -1,7 +1,7 @@
 defmodule CMS.Page.NewsEntryTest do
   use ExUnit.Case
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Page.NewsEntry
   alias Phoenix.HTML
 

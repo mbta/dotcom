@@ -3,7 +3,7 @@ defmodule CMS.Page.ProjectUpdateTest do
 
   import CMS.APITestHelpers, only: [update_api_response_whole_field: 3]
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.Image
   alias CMS.Page.ProjectUpdate
   alias Phoenix.HTML

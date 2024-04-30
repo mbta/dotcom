@@ -1,4 +1,4 @@
-defmodule CMS.API.Static do
+defmodule CMS.Api.Static do
   @moduledoc """
   This module provides static responses for the CMS API.
 

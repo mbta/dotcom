@@ -123,7 +123,7 @@ defmodule DotcomWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case client() |> @req.get(url) do
+    case client() |> @req.get(url: url) do
       {:ok, %{status: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)

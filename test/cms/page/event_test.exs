@@ -4,7 +4,7 @@ defmodule CMS.Page.EventTest do
   import CMS.Page.Event
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Page.Event
   alias Phoenix.HTML
 

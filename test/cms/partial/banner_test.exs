@@ -1,7 +1,7 @@
 defmodule CMS.Partial.BannerTest do
   use ExUnit.Case, async: true
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.{Image, Link}
   alias CMS.Partial.Banner
 
