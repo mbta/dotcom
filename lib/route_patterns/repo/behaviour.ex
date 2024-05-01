@@ -1,4 +1,4 @@
-defmodule RoutePatterns.RepoApi do
+defmodule RoutePatterns.Repo.Behaviour do
   @moduledoc """
   Behavior for an API client for fetching route pattern data.
   """

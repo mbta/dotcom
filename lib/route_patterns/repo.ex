@@ -10,7 +10,7 @@ defmodule RoutePatterns.Repo do
   alias MBTA.Api.RoutePatterns, as: RoutePatternsApi
   alias RoutePatterns.RoutePattern
 
-  @behaviour RoutePatterns.RepoApi
+  @behaviour RoutePatterns.Repo.Behaviour
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
@@ -34,7 +34,7 @@ defmodule RoutePatterns.Repo do
     end
   end
 
-  @impl RoutePatterns.RepoApi
+  @impl RoutePatterns.Repo.Behaviour
   def by_route_id(route_id, opts \\ [])
 
   def by_route_id("Green", opts) do

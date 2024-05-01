@@ -4,12 +4,12 @@ defmodule RoutePatterns.MockRepo do
   We are returning just a subset of what the actual API would return, given that this file is for testing purposes
   """
 
-  @behaviour RoutePatterns.RepoApi
+  @behaviour RoutePatterns.Repo.Behaviour
 
-  @impl RoutePatterns.RepoApi
+  @impl RoutePatterns.Repo.Behaviour
   def by_route_id("77", _opts), do: by_route_id("77")
 
-  @impl RoutePatterns.RepoApi
+  @impl RoutePatterns.Repo.Behaviour
   def by_route_id("77") do
     [
       %RoutePatterns.RoutePattern{
