@@ -80,7 +80,7 @@ defmodule Schedules.RepoTest do
           direction_id: 0
         )
 
-      before_now = unfiltered |> Enum.filter(before_now_fn) |> Enum.count()
+      before_now = Enum.count(unfiltered, before_now_fn)
       assert before_now > 0
 
       filtered =
@@ -91,7 +91,7 @@ defmodule Schedules.RepoTest do
           min_time: now
         )
 
-      before_now = filtered |> Enum.filter(before_now_fn) |> Enum.count()
+      before_now = Enum.count(filtered, before_now_fn)
       assert before_now == 0
     end
 
