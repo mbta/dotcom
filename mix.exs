@@ -20,7 +20,7 @@ defmodule DotCom.Mixfile do
       ],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :ex_aws, :ex_aws_ses],
-        flags: [:race_conditions, :unmatched_returns],
+        flags: [:unmatched_returns, :error_handling, :underspecs],
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
       deps: deps(),
