@@ -7,7 +7,6 @@ defmodule DotcomWeb.StaticFileControllerTest do
   setup :verify_on_exit!
 
   describe "index/2" do
-    @tag :skip
     test "forwards files from config:cms:drupal:cms_root" do
       expect(Req.Mock, :new, fn _ ->
         %Req.Request{}
