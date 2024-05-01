@@ -1,4 +1,4 @@
-defmodule RoutePatterns.MockRepo do
+defmodule RoutePatterns.Repo.Mock do
   @moduledoc """
   A mock RoutePatterns Repo client for testing purposes.
   We are returning just a subset of what the actual API would return, given that this file is for testing purposes
