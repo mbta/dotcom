@@ -82,7 +82,7 @@ defmodule Fares.Format do
   def name(:ferry_cross_harbor), do: "Cross Harbor Ferry"
   def name(:ferry_east_boston), do: "East Boston Ferry"
   def name(:ferry_lynn), do: "Lynn Ferry"
-  def name(:ferry_winthrop), do: "Winthrop Ferry"
+  def name(:ferry_winthrop), do: "Winthrop/Quincy Ferry"
   def name(:ferry_george), do: "Georges Island"
   def name(:commuter_ferry), do: "Hingham/Hull Ferry"
   def name(:commuter_ferry_logan), do: "Commuter Ferry to Logan Airport"
