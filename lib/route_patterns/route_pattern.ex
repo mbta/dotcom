@@ -26,40 +26,38 @@ defmodule RoutePatterns.RoutePattern do
 
   defstruct [
     :direction_id,
+    :headsign,
     :id,
     :name,
     :representative_trip_id,
     :representative_trip_polyline,
-    :shape_id,
-    :shape_priority,
-    :headsign,
-    :stop_ids,
     :route_id,
-    :time_desc,
-    :typicality,
     :service_id,
-    :canonical,
-    sort_order: 0
+    :shape_id,
+    :time_desc,
+    canonical: false,
+    sort_order: 0,
+    stop_ids: [],
+    typicality: 5
   ]
 
   @type id_t :: String.t()
-  @type typicality_t :: 0 | 1 | 2 | 3 | 4
+  @type typicality_t :: 0 | 1 | 2 | 3 | 4 | 5
   @type t :: %__MODULE__{
+          canonical: boolean(),
           direction_id: 0 | 1,
           id: id_t(),
+          headsign: String.t(),
           name: String.t(),
           representative_trip_id: Trip.id_t(),
           representative_trip_polyline: String.t(),
-          shape_id: String.t(),
-          shape_priority: number,
-          headsign: String.t(),
-          stop_ids: [Stop.id_t()],
           route_id: Route.id_t(),
+          service_id: String.t(),
+          shape_id: String.t(),
+          sort_order: non_neg_integer(),
+          stop_ids: [Stop.id_t()],
           time_desc: String.t(),
-          typicality: typicality_t(),
-          sort_order: integer(),
-          canonical: boolean(),
-          service_id: String.t()
+          typicality: typicality_t()
         }
 
   def new(%Item{

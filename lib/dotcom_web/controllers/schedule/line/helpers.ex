@@ -110,19 +110,12 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   @doc """
   Filters a list of route patterns down to the route patterns sharing the lowest
-  number for the "typicality" property, additionally removing route patterns
-  associated with a negative shape_priority value.
+  number for the "typicality" property.
   """
   @spec filtered_by_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
   def filtered_by_typicality(route_patterns) do
     route_patterns
     |> filter_by_min_typicality()
-    |> Enum.filter(fn x ->
-      # TODO: Deprecate our use of shape priority entirely,
-      # because it's no longer supported in the V3 API
-      # For now, be less strict if using the most typical route pattern
-      if x.typicality == 1, do: true, else: x.shape_priority > 0
-    end)
   end
 
   # Filters route patterns by the smallest typicality found in the array

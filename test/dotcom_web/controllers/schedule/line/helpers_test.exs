@@ -866,17 +866,6 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                  %RoutePatterns.RoutePattern{typicality: 5}
                ])
     end
-
-    test "excludes route patterns with negative shape_priority" do
-      assert [%RoutePatterns.RoutePattern{typicality: 2, shape_priority: 1}, _] =
-               Helpers.filtered_by_typicality([
-                 %RoutePatterns.RoutePattern{typicality: 2, shape_priority: -2},
-                 %RoutePatterns.RoutePattern{typicality: 2, shape_priority: 1},
-                 %RoutePatterns.RoutePattern{typicality: 2, shape_priority: 2},
-                 %RoutePatterns.RoutePattern{typicality: 4, shape_priority: 1},
-                 %RoutePatterns.RoutePattern{typicality: 5, shape_priority: 1}
-               ])
-    end
   end
 
   describe "get_stop_tree_or_lists/2" do
