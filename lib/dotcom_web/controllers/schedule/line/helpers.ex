@@ -3,12 +3,13 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   Helpers for the line page
   """
 
-  alias RoutePatterns.Repo, as: RoutePatternsRepo
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
+
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -88,7 +89,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   def get_map_route_patterns(route_id, type) do
     route_id
-    |> RoutePatternsRepo.by_route_id(
+    |> @route_patterns_repo.by_route_id(
       include: "representative_trip.shape,representative_trip.stops"
     )
     |> filter_map_route_patterns(type)
@@ -267,12 +268,12 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
           base_opts
       end
 
-    RoutePatternsRepo.by_route_id(route_id, opts)
+    @route_patterns_repo.by_route_id(route_id, opts)
     |> Enum.filter(&(&1.route_id == route_id))
   end
 
   defp get_line_route_patterns(_route, _direction_id, route_pattern_id) do
-    case RoutePatternsRepo.get(route_pattern_id,
+    case @route_patterns_repo.get(route_pattern_id,
            include: "representative_trip.stops"
          ) do
       %RoutePattern{} = route_pattern ->

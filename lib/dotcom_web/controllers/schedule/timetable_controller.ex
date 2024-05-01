@@ -7,6 +7,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   require Logger
 
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:tab_name)
@@ -61,7 +63,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     } = build_timetable(conn.assigns.all_stops, timetable_schedules, direction_id)
 
     canonical_rps =
-      RoutePatterns.Repo.by_route_id(route.id,
+      @route_patterns_repo.by_route_id(route.id,
         direction_id: direction_id,
         canonical: true,
         include: "representative_trip.stops"

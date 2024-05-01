@@ -5,6 +5,7 @@ config :dotcom, :cache, Dotcom.Cache.TestCache
 config :dotcom, :httpoison, HTTPoison.Mock
 
 config :dotcom, :mbta_api_module, MBTA.Api.Mock
+config :dotcom, :repo_modules, route_patterns: RoutePatterns.Repo.Mock
 
 config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock

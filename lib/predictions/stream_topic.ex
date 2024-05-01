@@ -19,6 +19,8 @@ defmodule Predictions.StreamTopic do
 
   defstruct [:topic, :fetch_keys, :streams]
 
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+
   @type filter_params :: String.t()
   @type clear_keys :: Store.fetch_keys()
   @type t :: %__MODULE__{
@@ -56,7 +58,7 @@ defmodule Predictions.StreamTopic do
 
   @spec streams_from_fetch_keys(Store.fetch_keys()) :: [{clear_keys, filter_params}]
   defp streams_from_fetch_keys(stop: stop_id) do
-    RoutePatterns.Repo.by_stop_id(stop_id)
+    @route_patterns_repo.by_stop_id(stop_id)
     |> Enum.map(&{to_keys(&1), to_filter_name(&1)})
   end
 

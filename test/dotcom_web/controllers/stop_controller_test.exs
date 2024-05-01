@@ -1,8 +1,6 @@
 defmodule DotcomWeb.StopControllerTest do
-  use DotcomWeb.ConnCase, async: false
+  use DotcomWeb.ConnCase, async: true
   @moduletag :external
-
-  import Mock
 
   alias DotcomWeb.StopController
   alias Routes.Route
@@ -138,36 +136,23 @@ defmodule DotcomWeb.StopControllerTest do
     test "grouped_route_patterns returns stop's route patterns by route & headsign", %{
       conn: conn
     } do
-      with_mock(RoutePatterns.Repo,
-        by_stop_id: fn "place-here" ->
-          [
-            %RoutePatterns.RoutePattern{
-              route_id: "Purple-A",
-              headsign: "Tree Hill",
-              name: "Here Square - Tree Hill",
-              direction_id: 0
-            }
-          ]
-        end
-      ) do
-        response =
-          get(conn, stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
+      response =
+        get(conn, stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
 
-        assert %{
-                 "Purple-A" => %{
-                   "Tree Hill" => %{
-                     "direction_id" => 0,
-                     "route_patterns" => [
-                       %{
-                         "headsign" => "Tree Hill",
-                         "name" => "Here Square - Tree Hill"
-                       }
-                       | _
-                     ]
-                   }
+      assert %{
+               "Purple-A" => %{
+                 "Tree Hill" => %{
+                   "direction_id" => 0,
+                   "route_patterns" => [
+                     %{
+                       "headsign" => "Tree Hill",
+                       "name" => "Here Square - Tree Hill"
+                     }
+                     | _
+                   ]
                  }
-               } = response
-      end
+               }
+             } = response
     end
   end
 end

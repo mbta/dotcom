@@ -1,50 +1,81 @@
 defmodule RoutePatterns.RepoTest do
   use ExUnit.Case, async: true
-  @moduletag :external
 
-  alias RoutePatterns.{Repo, RoutePattern}
+  import Mox
+  import Test.Support.Factory.MbtaApi
+
+  alias RoutePatterns.RoutePattern
+
+  setup :verify_on_exit!
 
   describe "get" do
     test "returns a single route pattern" do
-      assert %RoutePattern{id: "111-5-0"} = Repo.get("111-5-0")
+      expect(MBTA.Api.Mock, :get_json, fn url, _ ->
+        assert url == "/route_patterns/111-5-0"
+
+        %JsonApi{
+          data: [
+            build(:route_pattern_item, id: "111-5-0")
+          ]
+        }
+      end)
+
+      assert %RoutePattern{id: "111-5-0"} = RoutePatterns.Repo.get("111-5-0")
     end
 
     test "returns nil for an unknown route pattern" do
-      refute Repo.get("unknown_route_pattern")
+      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/unknown_route_pattern", _ ->
+        {:error, :not_found}
+      end)
+
+      refute RoutePatterns.Repo.get("unknown_route_pattern")
     end
   end
 
   describe "by_route_id" do
     test "returns route patterns for a route" do
-      assert [%RoutePattern{} | _] = Repo.by_route_id("Red")
+      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", opts ->
+        assert Keyword.get(opts, :route) == "Red"
+        %JsonApi{data: build_list(3, :route_pattern_item)}
+      end)
+
+      assert [%RoutePattern{} | _] = RoutePatterns.Repo.by_route_id("Red")
     end
 
-    test "returns route patterns for all Green line branches" do
-      assert [%RoutePattern{} | _] = Repo.by_route_id("Green")
-    end
+    test "handles the Green Line" do
+      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", opts ->
+        assert Keyword.get(opts, :route) == "Green-B,Green-C,Green-D,Green-E"
+        %JsonApi{data: build_list(3, :route_pattern_item)}
+      end)
 
-    test "takes a direction_id param" do
-      all_patterns = Repo.by_route_id("Red")
-      assert all_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq() == [0, 1]
-      alewife_patterns = Repo.by_route_id("Red", direction_id: 1)
-      assert alewife_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq() == [1]
-    end
-
-    test "takes a route_pattern_id param" do
-      all_patterns = Repo.by_route_id("Red")
-      assert all_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq() == [0, 1]
-      alewife_patterns = Repo.by_route_id("Red", direction_id: 1)
-      assert alewife_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq() == [1]
+      RoutePatterns.Repo.by_route_id("Green")
     end
   end
 
   describe "by_stop_id/1" do
-    test "returns route patterns for a stop, with shape and stops" do
-      assert [%RoutePattern{representative_trip_polyline: polyline, stop_ids: stop_ids} | _] =
-               Repo.by_stop_id("place-sstat")
+    test "requests route patterns for a stop with shape and stops" do
+      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", opts ->
+        assert Keyword.get(opts, :include) ==
+                 "representative_trip.shape,representative_trip.stops"
 
-      assert stop_ids
-      assert polyline
+        %JsonApi{data: []}
+      end)
+
+      RoutePatterns.Repo.by_stop_id("place-nonsense")
     end
+  end
+
+  test "logs API errors" do
+    expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/", _ ->
+      {:error, "some API mishap"}
+    end)
+
+    log =
+      ExUnit.CaptureLog.capture_log(fn ->
+        assert RoutePatterns.Repo.by_stop_id("place-sstat") == []
+      end)
+
+    assert log =~ "[warning] module=Elixir.RoutePatterns.Repo"
+    assert log =~ "some API mishap"
   end
 end

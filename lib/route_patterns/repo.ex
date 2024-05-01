@@ -15,11 +15,7 @@ defmodule RoutePatterns.Repo do
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
-  @doc """
-  Returns a single route pattern by ID
-  """
-  @callback get(RoutePattern.id_t()) :: RoutePattern.t() | nil
-  @callback get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil
+  @impl RoutePatterns.Repo.Behaviour
   def get(id, opts \\ []) when is_binary(id) do
     case get_id(id, opts) do
       {:ok, route_pattern} -> route_pattern
@@ -51,6 +47,7 @@ defmodule RoutePatterns.Repo do
     |> Enum.sort(&reorder_mrts(&1, &2, route_id))
   end
 
+  @impl RoutePatterns.Repo.Behaviour
   def by_stop_id(stop_id) do
     [stop: stop_id]
     |> Keyword.put(:include, "representative_trip.shape,representative_trip.stops")

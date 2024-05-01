@@ -17,6 +17,8 @@ defmodule DotcomWeb.StopController do
   alias Stops.{Repo, Stop}
   alias Util.AndOr
 
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+
   plug(:alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
 
@@ -90,7 +92,7 @@ defmodule DotcomWeb.StopController do
   @spec route_patterns_by_route_and_headsign(Stop.id_t()) :: by_route_and_headsign()
   defp route_patterns_by_route_and_headsign(stop_id) do
     stop_id
-    |> RoutePatterns.Repo.by_stop_id()
+    |> @route_patterns_repo.by_stop_id()
     |> Stream.reject(&ends_at?(&1, stop_id))
     |> Stream.reject(&exclusively_drop_offs?(&1, stop_id))
     |> Enum.group_by(& &1.route_id)

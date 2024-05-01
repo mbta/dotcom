@@ -1,24 +1,24 @@
 defmodule Predictions.StreamTopicTest do
   @moduledoc false
 
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   require Dotcom.Assertions
 
-  import Mock
+  import Mox
   import Predictions.StreamTopic
+  import Test.Support.Factory.RoutePattern
 
   alias Predictions.StreamTopic
-  alias RoutePatterns.RoutePattern
 
-  setup_with_mocks([
-    {RoutePatterns.Repo, [], [by_stop_id: fn id -> mock_route_patterns(id) end]}
-  ]) do
-    :ok
-  end
+  setup :verify_on_exit!
 
   describe "new/1" do
     test "works for stop id with route patterns" do
+      expect(RoutePatterns.Repo.Mock, :by_stop_id, fn "stopId" ->
+        build_list(1, :route_pattern, route_id: "Route1", direction_id: 0)
+      end)
+
       topic = "stop:stopId"
 
       assert %StreamTopic{
@@ -36,6 +36,10 @@ defmodule Predictions.StreamTopicTest do
     end
 
     test "doesn't work for stop without route patterns" do
+      expect(RoutePatterns.Repo.Mock, :by_stop_id, fn "unserved_stop" ->
+        []
+      end)
+
       assert {:error, :no_streams_found} = new("stop:unserved_stop")
     end
 
@@ -51,15 +55,5 @@ defmodule Predictions.StreamTopicTest do
         assert {:error, :unsupported_topic} = new(topic)
       end
     end
-  end
-
-  defp mock_route_patterns("unserved_stop"), do: []
-
-  defp mock_route_patterns(_id) do
-    [
-      %RoutePattern{route_id: "Route1", direction_id: 0},
-      %RoutePattern{route_id: "Route1", direction_id: 1},
-      %RoutePattern{route_id: "Route2", direction_id: 1}
-    ]
   end
 end
