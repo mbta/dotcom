@@ -87,7 +87,7 @@ defmodule DotCom.Mixfile do
       # latest version 0.18.0; cannot upgrade because expects castore >= 1
       {:excoveralls, "0.16.1", only: :test},
       {:faker, "0.18.0", only: :test},
-      {:floki, "0.36.1"},
+      {:floki, "0.36.2"},
       {:gen_stage, "1.2.1"},
       {:gettext, "0.24.0"},
       {:hackney, "1.20.1"},
@@ -133,12 +133,12 @@ defmodule DotCom.Mixfile do
        ]},
       {:recase, "0.7.0"},
       {:recon, "2.5.5", [only: :prod]},
-      {:redix, "1.4.1"},
+      {:redix, "1.5.0"},
       {:req, "0.4.14", override: true},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
       {:sentry, "7.2.5"},
-      {:server_sent_event_stage, "1.1.0"},
+      {:server_sent_event_stage, "1.2.0"},
       {:sizeable, "1.0.2"},
       {:sweet_xml, "0.7.4", only: [:prod, :dev]},
       {:telemetry, "1.2.1", override: true},
