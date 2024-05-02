@@ -24,11 +24,14 @@ defmodule RoutePatterns.RepoTest do
     end
 
     test "returns nil for an unknown route pattern" do
-      expect(MBTA.Api.Mock, :get_json, fn "/route_patterns/unknown_route_pattern", _ ->
+      id = Faker.Internet.slug()
+
+      expect(MBTA.Api.Mock, :get_json, fn path, _ ->
+        assert path == "/route_patterns/" <> id
         {:error, :not_found}
       end)
 
-      refute RoutePatterns.Repo.get("unknown_route_pattern")
+      refute RoutePatterns.Repo.get(id)
     end
   end
 
