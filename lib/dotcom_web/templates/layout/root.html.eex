@@ -90,11 +90,6 @@
         <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
-      <%= if assigns[:line_suspensions] do %>
-        <script data-line-suspensions type="text/plain">
-          <%= raw Jason.encode!(@line_suspensions) %>
-        </script>
-      <% end %>
     </div>
 
     <%= if google_tag_manager_id() do %>
