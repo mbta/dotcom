@@ -5,6 +5,8 @@ defmodule DotcomWeb.ScheduleController.AllStops do
 
   require Logger
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @impl true
   def init([]), do: []
 
@@ -14,7 +16,7 @@ defmodule DotcomWeb.ScheduleController.AllStops do
   end
 
   def do_call(conn, opts) do
-    repo_fn = Keyword.get(opts, :repo_fn, &Stops.Repo.by_route/3)
+    repo_fn = Keyword.get(opts, :repo_fn, &@stops_repo.by_route/3)
     stops = get_all_stops(conn, repo_fn)
     assign_all_stops(conn, stops)
   end

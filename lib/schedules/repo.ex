@@ -15,6 +15,8 @@ defmodule Schedules.Repo do
   alias Schedules.{Parser, Schedule}
   alias Util
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
@@ -248,7 +250,7 @@ defmodule Schedules.Repo do
         route: Routes.Repo.get(route_id),
         trip: trip(trip_id),
         platform_stop_id: stop_id,
-        stop: Stops.Repo.get_parent(stop_id),
+        stop: @stops_repo.get_parent(stop_id),
         arrival_time: arrival_time,
         departure_time: departure_time,
         time: time,

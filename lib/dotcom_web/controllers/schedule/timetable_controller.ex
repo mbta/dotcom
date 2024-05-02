@@ -8,6 +8,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   require Logger
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   plug(DotcomWeb.Plugs.Route)
   plug(DotcomWeb.Plugs.DateInRating)
@@ -141,7 +142,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   @doc """
   If the scheduled platform stop is not canonical, then return the stop of that track change.
   """
-  def track_change_for_schedule(schedule, canonical_stop_ids, stop_get_fn \\ &Stops.Repo.get/1) do
+  def track_change_for_schedule(schedule, canonical_stop_ids, stop_get_fn \\ &@stops_repo.get/1) do
     if has_scheduled_track_change(schedule, canonical_stop_ids) do
       case stop_get_fn.(schedule.platform_stop_id) do
         nil -> nil
@@ -234,7 +235,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   defp all_stops(conn, _) do
     all_stops =
-      Stops.Repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
+      @stops_repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
         date: conn.assigns.date
       )
 

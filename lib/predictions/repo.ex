@@ -10,6 +10,8 @@ defmodule Predictions.Repo do
   alias Routes.Route
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @default_params [
     "fields[prediction]":
       "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
@@ -173,7 +175,7 @@ defmodule Predictions.Repo do
 
   defp record_to_structs({_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _, _, _, _} = record) do
     stop_id
-    |> Stops.Repo.get_parent()
+    |> @stops_repo.get_parent()
     |> do_record_to_structs(record)
     |> discard_if_subway_past_prediction()
   end

@@ -12,16 +12,18 @@ defmodule DotcomWeb.ScheduleController.Line do
   alias DotcomWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias DotcomWeb.ScheduleController.Line.Maps
-  alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStops, RouteStop}
 
   defmodule Dependencies do
     @moduledoc """
     Actions pulled in from elsewhere
     """
-    defstruct stops_by_route_fn: &StopsRepo.by_route/3
+    defstruct [:stops_by_route_fn]
 
-    @type t :: %__MODULE__{stops_by_route_fn: StopsRepo.stop_by_route()}
+    @type t :: %__MODULE__{
+            stops_by_route_fn:
+              {Application.compile_env!(:dotcom, :repo_modules)[:stops], :by_route, 3}
+          }
   end
 
   @type query_param :: String.t() | nil

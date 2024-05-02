@@ -8,6 +8,8 @@ defmodule TripPlan.Transfer do
   """
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   # Paying a single-ride fare for the first may get you a transfer to the second
   # (can't be certain, as it depends on media used)!
   @single_ride_transfers %{
@@ -98,8 +100,8 @@ defmodule TripPlan.Transfer do
   def bus_to_subway_transfer?(_), do: false
 
   defp same_station?(from_stop, to_stop) do
-    to_parent_stop = Stops.Repo.get_parent(to_stop)
-    from_parent_stop = Stops.Repo.get_parent(from_stop)
+    to_parent_stop = @stops_repo.get_parent(to_stop)
+    from_parent_stop = @stops_repo.get_parent(from_stop)
 
     cond do
       is_nil(to_parent_stop) or is_nil(from_parent_stop) ->

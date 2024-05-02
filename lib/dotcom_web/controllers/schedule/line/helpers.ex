@@ -6,10 +6,10 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
-  alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -165,7 +165,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
     RoutesRepo.get_shapes(route_id, direction_id: direction_id)
   end
 
-  @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
+  @spec get_route_stops(Route.id_t(), direction_id, Stops.Repo.stop_by_route()) ::
           stops_by_route()
   def get_route_stops("Green", direction_id, stops_by_route_fn) do
     GreenLine.branch_ids()
@@ -177,7 +177,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
     do_get_route_stops(route_id, direction_id, stops_by_route_fn)
   end
 
-  @spec do_get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
+  @spec do_get_route_stops(Route.id_t(), direction_id, Stops.Repo.stop_by_route()) ::
           stops_by_route()
   defp do_get_route_stops(route_id, direction_id, stops_by_route_fn) do
     case stops_by_route_fn.(route_id, direction_id, []) do
@@ -249,7 +249,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   @spec stops_for_route_pattern(RoutePattern.t()) :: {RoutePattern.t(), [Stop.t()]}
   defp stops_for_route_pattern(%RoutePattern{stop_ids: stop_ids} = route_pattern) do
-    stops = Enum.map(stop_ids, &StopsRepo.get_parent/1)
+    stops = Enum.map(stop_ids, &@stops_repo.get_parent/1)
     {route_pattern, stops}
   end
 

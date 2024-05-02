@@ -16,7 +16,8 @@ defmodule Stops.Nearby do
     @moduledoc "Defines shared options and defaults for this module's functions."
     defstruct api_fn: &Stops.Nearby.api_around/2,
               keys_fn: &Stops.Nearby.keys/1,
-              fetch_fn: &Stops.Repo.get_parent/1,
+              fetch_fn:
+                {Application.compile_env!(:dotcom, :repo_modules)[:stops], :get_parent, 1},
               routes_fn: &Routes.Repo.by_stop_and_direction/2,
               limit: nil
   end

@@ -3,6 +3,8 @@ defmodule DotcomWeb.OldSiteRedirectController do
   import DotcomWeb.Router.Helpers
   import DotcomWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   def schedules_and_maps(conn, %{"route" => route}) do
     case old_route_to_route_id(route) do
       nil -> permanent_redirect(conn, mode_path(conn, :index))
@@ -15,7 +17,7 @@ defmodule DotcomWeb.OldSiteRedirectController do
   visitors to old links for stops. This will redirect them to the right page.
   """
   def schedules_and_maps(conn, %{"path" => [_mode, "lines", "stations" | _], "stopId" => stop_id}) do
-    case Stops.Repo.old_id_to_gtfs_id(stop_id) do
+    case @stops_repo.old_id_to_gtfs_id(stop_id) do
       nil -> permanent_redirect(conn, mode_path(conn, :index))
       gtfs_id -> permanent_redirect(conn, stop_path(conn, :show, gtfs_id))
     end

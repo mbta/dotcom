@@ -21,6 +21,8 @@ defmodule Alerts.HistoricalAlert do
 
   @type entity_key :: :route | :stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @spec from_alert(Alert.t()) :: t()
   def from_alert(alert) when not is_nil(alert) do
     %__MODULE__{
@@ -44,7 +46,7 @@ defmodule Alerts.HistoricalAlert do
     module =
       case key do
         :route -> Routes.Repo
-        :stop -> Stops.Repo
+        :stop -> @stops_repo
       end
 
     case apply(module, :get, [id]) do

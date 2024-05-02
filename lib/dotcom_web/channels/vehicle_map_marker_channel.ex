@@ -6,6 +6,8 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
   alias Leaflet.MapData.Marker
   alias Vehicles.Vehicle
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   intercept(["reset", "add", "update", "remove"])
 
   @impl Phoenix.Channel
@@ -82,7 +84,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
   end
 
   defp get_stop_name(stop_id) do
-    case Stops.Repo.get_parent(stop_id) do
+    case @stops_repo.get_parent(stop_id) do
       nil -> ""
       %Stops.Stop{name: name} -> name
     end

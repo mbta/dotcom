@@ -73,6 +73,7 @@ defmodule Dotcom.TransitNearMe do
           required(:schedule_relationship) => Prediction.schedule_relationship()
         }
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @default_opts [
     stops_nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
     schedules_fn: &Schedules.Repo.schedules_for_stop/2
@@ -245,7 +246,7 @@ defmodule Dotcom.TransitNearMe do
     stop_id =
       ps
       |> PredictedSchedule.stop()
-      |> Stops.Repo.get_parent()
+      |> @stops_repo.get_parent()
       |> Map.fetch!(:id)
 
     {closest_time, headsigns} =

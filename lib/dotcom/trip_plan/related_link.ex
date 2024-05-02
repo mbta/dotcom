@@ -13,7 +13,8 @@ defmodule Dotcom.TripPlan.RelatedLink do
             url: "",
             icon_name: nil
 
-  @default_opts [route_by_id: &Routes.Repo.get/1, stop_by_id: &Stops.Repo.get_parent/1]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @default_opts [route_by_id: &Routes.Repo.get/1, stop_by_id: {@stops_repo, :get_parent, 1}]
 
   import Phoenix.HTML.Link, only: [link: 2]
   # Need a view in order to use the components. Ideally we'd have a separate

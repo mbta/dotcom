@@ -13,8 +13,8 @@ defmodule Schedules.RepoCondensed do
   alias MBTA.Api.Schedules, as: SchedulesApi
   alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
-  alias Stops.Repo, as: StopsRepo
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
@@ -122,7 +122,7 @@ defmodule Schedules.RepoCondensed do
     |> Enum.map(fn {_, trip_id, stop_id, _, _, time, _, _, _, stop_sequence, _} ->
       Task.async(fn ->
         trip = Repo.trip(trip_id)
-        stop = StopsRepo.get!(stop_id)
+        stop = @stops_repo.get!(stop_id)
 
         %ScheduleCondensed{
           time: time,

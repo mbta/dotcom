@@ -9,9 +9,10 @@ defmodule Dotcom.TripPlan.Map do
   @type route_mapper :: (String.t() -> Route.t() | nil)
   @type stop_mapper :: (String.t() -> Stops.Stop.t() | nil)
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @default_opts [
     route_mapper: &Routes.Repo.get/1,
-    stop_mapper: &Stops.Repo.get_parent/1
+    stop_mapper: {@stops_repo, :get_parent, 1}
   ]
 
   @moduledoc """
