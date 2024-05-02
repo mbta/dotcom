@@ -29,7 +29,6 @@ defmodule DotcomWeb.Router do
     plug(DotcomWeb.Plugs.ClearCookies)
     plug(DotcomWeb.Plugs.Cookies)
     plug(:optional_disable_indexing)
-    plug(DotcomWeb.Plugs.LineSuspensions)
   end
 
   pipeline :browser_live do
