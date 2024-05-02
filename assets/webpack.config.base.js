@@ -139,7 +139,7 @@ module.exports = {
               sassOptions: {
                 includePaths: [
                   "node_modules/bootstrap/scss",
-                  "node_modules/font-awesome/scss"
+                  "node_modules/@fortawesome/fontawesome-free/scss"
                 ],
                 outputStyle: "compressed",
                 quietDeps: true
@@ -178,7 +178,9 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        { from: "static/**/*", to: "../.." }
+        { from: "static/**/*", to: "../.." },
+        // copy the font files out of the fontawesome package to the fonts directory
+        { from: "**/*", to: "../fonts", context: "node_modules/@fortawesome/fontawesome-free/webfonts"}
       ]
     }),
     new MiniCssExtractPlugin({ filename: "../css/[name].css" }),
