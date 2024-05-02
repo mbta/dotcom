@@ -245,19 +245,13 @@ defmodule Schedules.HoursOfOperation do
          special_service_params,
          departure_fn
        ) do
-    with {:ok, special_service_depature_maps} <-
-           special_service_departures_parser(
-             special_service_responses,
-             headsigns,
-             :rapid_transit,
-             special_service_params,
-             departure_fn
-           ) do
-      {
-        :ok,
-        special_service_depature_maps
-      }
-    end
+    special_service_departures_parser(
+      special_service_responses,
+      headsigns,
+      :rapid_transit,
+      special_service_params,
+      departure_fn
+    )
   end
 
   defp special_service_departures(_, _, _, _, _) do
