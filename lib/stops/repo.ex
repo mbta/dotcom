@@ -9,6 +9,8 @@ defmodule Stops.Repo do
   alias Stops.{Api, Stop}
   alias Routes.Route
 
+  @behaviour Stops.Repo.Behaviour
+
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
@@ -30,6 +32,7 @@ defmodule Stops.Repo do
         |> CSV.decode!(headers: true)
         |> Enum.map(&{&1 |> Map.get("atisId") |> String.split(","), Map.get(&1, "stopID")})
         |> Enum.flat_map(fn {ids, gtfs_id} -> Enum.map(ids, &{&1, gtfs_id}) end) do
+    @impl Stops.Repo.Behaviour
     def old_id_to_gtfs_id(unquote(old_id)) do
       unquote(gtfs_id)
     end
@@ -39,7 +42,7 @@ defmodule Stops.Repo do
     nil
   end
 
-  @spec get(Stop.id_t()) :: Stop.t() | nil
+  @impl Stops.Repo.Behaviour
   def get(id) when is_binary(id) do
     case stop(id) do
       {:ok, s} -> s
@@ -47,7 +50,7 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec get!(Stop.id_t()) :: Stop.t()
+  @impl Stops.Repo.Behaviour
   def get!(id) do
     case stop(id) do
       {:ok, %Stop{} = s} -> s
@@ -55,12 +58,12 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec has_parent?(Stop.t() | Stop.id_t() | nil) :: boolean
+  @impl Stops.Repo.Behaviour
   def has_parent?(nil), do: false
   def has_parent?(%Stop{parent_id: nil}), do: false
   def has_parent?(%Stop{parent_id: _}), do: true
 
-  @spec get_parent(Stop.t() | Stop.id_t() | nil) :: Stop.t() | nil
+  @impl Stops.Repo.Behaviour
   def get_parent(nil), do: nil
 
   def get_parent(%Stop{parent_id: nil} = stop) do
@@ -85,7 +88,7 @@ defmodule Stops.Repo do
     Api.by_gtfs_id(id)
   end
 
-  @spec by_route(Route.id_t(), 0 | 1, Keyword.t()) :: stops_response
+  @impl Stops.Repo.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route(route_id, direction_id, opts \\ []) do
     with stops when is_list(stops) <- Api.by_route({route_id, direction_id, opts}) do
@@ -99,7 +102,7 @@ defmodule Stops.Repo do
     end
   end
 
-  @spec by_routes([Route.id_t()], 0 | 1, Keyword.t()) :: stops_response
+  @impl Stops.Repo.Behaviour
   def by_routes(route_ids, direction_id, opts \\ []) when is_list(route_ids) do
     # once the V3 API supports multiple route_ids in this field, we can do it
     # as a single lookup -ps
@@ -112,6 +115,7 @@ defmodule Stops.Repo do
     |> Enum.uniq()
   end
 
+  @impl Stops.Repo.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_route_type(route_type, opts \\ []) do
     {route_type, opts}
@@ -120,11 +124,13 @@ defmodule Stops.Repo do
     |> Enum.uniq_by(& &1.id)
   end
 
+  @impl Stops.Repo.Behaviour
   @decorate cacheable(cache: @cache, on_error: :nothing, opts: [ttl: @ttl])
   def by_trip(trip_id) do
     Api.by_trip(trip_id)
   end
 
+  @impl Stops.Repo.Behaviour
   def stop_exists_on_route?(stop_id, route, direction_id) do
     route
     |> by_route(direction_id)
@@ -134,7 +140,7 @@ defmodule Stops.Repo do
   @doc """
   Returns a list of the features associated with the given stop
   """
-  @spec stop_features(Stop.t(), Keyword.t()) :: [stop_feature]
+  @impl Stops.Repo.Behaviour
   def stop_features(%Stop{} = stop, opts \\ []) do
     excluded = Keyword.get(opts, :exclude, [])
 
@@ -177,11 +183,11 @@ defmodule Stops.Repo do
     Routes.Repo.by_stop(stop_id)
   end
 
-  def branch_feature(%Route{id: "Green-B"}), do: :"Green-B"
-  def branch_feature(%Route{id: "Green-C"}), do: :"Green-C"
-  def branch_feature(%Route{id: "Green-D"}), do: :"Green-D"
-  def branch_feature(%Route{id: "Green-E"}), do: :"Green-E"
-  def branch_feature(route), do: Route.icon_atom(route)
+  defp branch_feature(%Route{id: "Green-B"}), do: :"Green-B"
+  defp branch_feature(%Route{id: "Green-C"}), do: :"Green-C"
+  defp branch_feature(%Route{id: "Green-D"}), do: :"Green-D"
+  defp branch_feature(%Route{id: "Green-E"}), do: :"Green-E"
+  defp branch_feature(route), do: Route.icon_atom(route)
 
   @spec accessibility_features([String.t()]) :: [:access]
   defp accessibility_features(["accessible" | _]), do: [:access]

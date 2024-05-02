@@ -11,4 +11,5 @@ Mox.defmock(Dotcom.Redix.PubSub.Mock, for: Dotcom.Redix.PubSub.Behaviour)
 
 Mox.defmock(MBTA.Api.Mock, for: MBTA.Api.Behaviour)
 Mox.defmock(RoutePatterns.Repo.Mock, for: RoutePatterns.Repo.Behaviour)
+Mox.defmock(Stops.Repo.Mock, for: Stops.Repo.Behaviour)
 Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)

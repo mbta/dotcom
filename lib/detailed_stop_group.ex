@@ -8,6 +8,8 @@ defmodule DetailedStopGroup do
   alias Routes.Route
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type t :: {Route.t(), [DetailedStop.t()]}
   @type grouped_stops :: {Route.t(), [Stop.t()]}
 
@@ -35,7 +37,7 @@ defmodule DetailedStopGroup do
     mode
     |> Route.types_for_mode()
     |> Routes.Repo.by_type()
-    |> Task.async_stream(&{&1, Stops.Repo.by_route(&1.id, 0)})
+    |> Task.async_stream(&{&1, @stops_repo.by_route(&1.id, 0)})
     |> Enum.map(fn {:ok, stops} -> stops end)
   end
 
@@ -64,7 +66,7 @@ defmodule DetailedStopGroup do
     green_line? = route.id == "Green"
 
     features =
-      Stops.Repo.stop_features(
+      @stops_repo.stop_features(
         stop,
         expand_branches?: green_line?
       )

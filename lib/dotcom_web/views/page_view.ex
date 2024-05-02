@@ -9,7 +9,7 @@ defmodule DotcomWeb.PageView do
   alias DotcomWeb.PartialView
 
   use DotcomWeb, :view
-
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
   def get_route(id) do
     case DotcomWeb.ScheduleController.Line.Helpers.get_route(id) do
@@ -66,7 +66,7 @@ defmodule DotcomWeb.PageView do
       )
       |> Enum.map(fn {type, stops} ->
         {type,
-         Enum.map(stops, &Stops.Repo.get_parent/1)
+         Enum.map(stops, &@stops_repo.get_parent/1)
          |> Enum.filter(& &1)
          |> Enum.uniq_by(& &1.id)
          |> Enum.sort_by(& &1.name)}

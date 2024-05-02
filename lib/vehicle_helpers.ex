@@ -11,6 +11,8 @@ defmodule VehicleHelpers do
 
   import Routes.Route, only: [vehicle_name: 1]
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type tooltip_index_key :: {Trip.id_t() | nil, Stop.id_t()} | Stop.id_t()
   @type tooltip_index :: %{
           optional({Trip.id_t() | nil, Stop.id_t()}) => VehicleTooltip.t(),
@@ -41,7 +43,7 @@ defmodule VehicleHelpers do
           {nil, nil}
         end
 
-      stop_name = Stops.Repo.get(vehicle.stop_id) |> stop_name()
+      stop_name = @stops_repo.get(vehicle.stop_id) |> stop_name()
 
       tooltip = %VehicleTooltip{
         vehicle: vehicle,

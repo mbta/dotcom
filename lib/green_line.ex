@@ -7,6 +7,8 @@ defmodule GreenLine do
   alias Routes.Route
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type route_id_stop_id_map :: %{Route.id_t() => MapSet.t()}
   @type stop_routes_pair :: {[Stop.t()] | {:error, any}, route_id_stop_id_map}
   @type branch_name :: String.t()
@@ -27,7 +29,7 @@ defmodule GreenLine do
   """
   @spec calculate_stops_on_routes(0 | 1, Date.t() | nil, stops_by_routes_fn | nil) ::
           stop_routes_pair
-  def calculate_stops_on_routes(direction_id, date \\ nil, stops_fn \\ &Stops.Repo.by_route/3) do
+  def calculate_stops_on_routes(direction_id, date \\ nil, stops_fn \\ &@stops_repo.by_route/3) do
     branch_ids()
     |> Task.async_stream(&green_line_stops(&1, direction_id, date, stops_fn))
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
@@ -39,7 +41,7 @@ defmodule GreenLine do
   """
   def termini_stops() do
     for direction_id <- [0, 1], branch_id <- GreenLine.branch_ids(), into: %{} do
-      stop = Stops.Repo.by_route(branch_id, direction_id) |> List.last()
+      stop = @stops_repo.by_route(branch_id, direction_id) |> List.last()
       {{branch_id, direction_id}, stop}
     end
   end

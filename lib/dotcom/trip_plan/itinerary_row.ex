@@ -12,12 +12,14 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   defmodule Dependencies do
     @moduledoc false
 
+    @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
     @type stop_mapper :: (Stops.Stop.id_t() -> Stops.Stop.t() | nil)
     @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
     @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)
     @type alerts_repo :: (DateTime.t() -> [Alerts.Alert.t()] | nil)
 
-    defstruct stop_mapper: &Stops.Repo.get_parent/1,
+    defstruct stop_mapper: {@stops_repo, :get_parent, 1},
               route_mapper: &Routes.Repo.get/1,
               trip_mapper: &Schedules.Repo.trip/1,
               alerts_repo: &Alerts.Repo.all/1

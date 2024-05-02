@@ -2,6 +2,8 @@ defmodule TripInfo do
   require Routes.Route
   alias Fares.OneWay
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @moduledoc """
   Wraps the important information about a trip.
 
@@ -56,7 +58,7 @@ defmodule TripInfo do
 
     starting_stop_ids =
       if opts[:vehicle] do
-        vehicle_stop = Stops.Repo.get_parent(opts[:vehicle].stop_id)
+        vehicle_stop = @stops_repo.get_parent(opts[:vehicle].stop_id)
         [origin_id, if(vehicle_stop, do: Map.get(vehicle_stop, :id))]
       else
         [origin_id]

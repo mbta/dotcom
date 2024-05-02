@@ -17,8 +17,9 @@ defmodule Dotcom.RealtimeSchedule do
   alias Routes.Route
   alias Schedules.RepoCondensed, as: SchedulesRepo
   alias Schedules.ScheduleCondensed
-  alias Stops.Repo, as: StopsRepo
   alias Stops.Stop
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
@@ -26,7 +27,7 @@ defmodule Dotcom.RealtimeSchedule do
   @predicted_schedules_per_stop 2
 
   @default_opts [
-    stops_fn: &StopsRepo.get/1,
+    stops_fn: {@stops_repo, :get, 1},
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
     predictions_fn: &PredictionsRepo.all_no_cache/1,
     schedules_fn: &SchedulesRepo.by_route_ids/2,
