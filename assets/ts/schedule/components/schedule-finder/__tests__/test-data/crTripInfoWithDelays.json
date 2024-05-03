@@ -8,7 +8,6 @@
   "origin_id": "place-bbsta",
   "route_type": 2,
   "status": "operating at normal schedule",
-  "stop_count": 7,
   "times": [
     {
       "delay": 386,
@@ -27,7 +26,9 @@
             "fully_elevated_platform"
           ],
           "address": "145 Dartmouth St Boston, MA 02116",
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "child_ids": [
             "23391",
             "70014",
@@ -153,7 +154,9 @@
             "fully_elevated_platform"
           ],
           "address": "145 Dartmouth St Boston, MA 02116",
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "child_ids": [
             "23391",
             "70014",
@@ -277,7 +280,9 @@
             "fully_elevated_platform"
           ],
           "address": "1150 Tremont St, Roxbury, MA 02120",
-          "bike_storage": ["bike_storage_rack"],
+          "bike_storage": [
+            "bike_storage_rack"
+          ],
           "child_ids": [
             "17861",
             "17862",
@@ -330,7 +335,10 @@
           ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine"
+          ],
           "has_charlie_card_vendor?": true,
           "has_fare_machine?": true,
           "id": "place-rugg",
@@ -377,7 +385,9 @@
             "fully_elevated_platform"
           ],
           "address": "1150 Tremont St, Roxbury, MA 02120",
-          "bike_storage": ["bike_storage_rack"],
+          "bike_storage": [
+            "bike_storage_rack"
+          ],
           "child_ids": [
             "17861",
             "17862",
@@ -430,7 +440,10 @@
           ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine"
+          ],
           "has_charlie_card_vendor?": true,
           "has_fare_machine?": true,
           "id": "place-rugg",
@@ -469,10 +482,18 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform", "ramp"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform",
+            "ramp"
+          ],
           "address": "1 Upland Rd, Sharon, MA 02067",
-          "bike_storage": ["bike_storage_rack"],
-          "child_ids": ["Sharon"],
+          "bike_storage": [
+            "bike_storage_rack"
+          ],
+          "child_ids": [
+            "Sharon"
+          ],
           "closed_stop_info": null,
           "description": null,
           "fare_facilities": [],
@@ -507,7 +528,10 @@
               "note": "Town of Sharon is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": "$4",
-                "methods": ["Mobile App", "Credit/Debit Card"],
+                "methods": [
+                  "Mobile App",
+                  "Credit/Debit Card"
+                ],
                 "mobile_app": {
                   "id": 2232,
                   "name": "PayByPhone",
@@ -546,10 +570,18 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform", "ramp"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform",
+            "ramp"
+          ],
           "address": "1 Upland Rd, Sharon, MA 02067",
-          "bike_storage": ["bike_storage_rack"],
-          "child_ids": ["Sharon"],
+          "bike_storage": [
+            "bike_storage_rack"
+          ],
+          "child_ids": [
+            "Sharon"
+          ],
           "closed_stop_info": null,
           "description": null,
           "fare_facilities": [],
@@ -584,7 +616,10 @@
               "note": "Town of Sharon is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": "$4",
-                "methods": ["Mobile App", "Credit/Debit Card"],
+                "methods": [
+                  "Mobile App",
+                  "Credit/Debit Card"
+                ],
                 "mobile_app": {
                   "id": 2232,
                   "name": "PayByPhone",
@@ -622,13 +657,20 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform"
+          ],
           "address": "1 Crocker St, Mansfield, MA 02048",
           "bike_storage": [],
-          "child_ids": ["Mansfield"],
+          "child_ids": [
+            "Mansfield"
+          ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_vending_retailer"],
+          "fare_facilities": [
+            "fare_vending_retailer"
+          ],
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "place-NEC-2040",
@@ -660,7 +702,11 @@
               "note": "Town of Mansfield is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": "$3 residents with sticker, $4 non-residents (free on weekends)",
-                "methods": ["Mobile App", "Credit/Debit Card", "Cash"],
+                "methods": [
+                  "Mobile App",
+                  "Credit/Debit Card",
+                  "Cash"
+                ],
                 "mobile_app": {
                   "id": 1588,
                   "name": "PayByPhone",
@@ -699,13 +745,20 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform"
+          ],
           "address": "1 Crocker St, Mansfield, MA 02048",
           "bike_storage": [],
-          "child_ids": ["Mansfield"],
+          "child_ids": [
+            "Mansfield"
+          ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_vending_retailer"],
+          "fare_facilities": [
+            "fare_vending_retailer"
+          ],
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "place-NEC-2040",
@@ -737,7 +790,11 @@
               "note": "Town of Mansfield is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": "$3 residents with sticker, $4 non-residents (free on weekends)",
-                "methods": ["Mobile App", "Credit/Debit Card", "Cash"],
+                "methods": [
+                  "Mobile App",
+                  "Credit/Debit Card",
+                  "Cash"
+                ],
                 "mobile_app": {
                   "id": 1588,
                   "name": "PayByPhone",
@@ -775,13 +832,23 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform", "ramp"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform",
+            "ramp"
+          ],
           "address": "133 S Main St, Attleboro, MA 02703",
-          "bike_storage": ["bike_storage_rack"],
-          "child_ids": ["Attleboro"],
+          "bike_storage": [
+            "bike_storage_rack"
+          ],
+          "child_ids": [
+            "Attleboro"
+          ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_vending_retailer"],
+          "fare_facilities": [
+            "fare_vending_retailer"
+          ],
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "place-NEC-1969",
@@ -813,7 +880,9 @@
               "note": "Greater Attleboro/Taunton RTA is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": "$5",
-                "methods": ["Mobile App"],
+                "methods": [
+                  "Mobile App"
+                ],
                 "mobile_app": {
                   "id": 881,
                   "name": "Parkmobile",
@@ -852,13 +921,23 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform", "ramp"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform",
+            "ramp"
+          ],
           "address": "133 S Main St, Attleboro, MA 02703",
-          "bike_storage": ["bike_storage_rack"],
-          "child_ids": ["Attleboro"],
+          "bike_storage": [
+            "bike_storage_rack"
+          ],
+          "child_ids": [
+            "Attleboro"
+          ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_vending_retailer"],
+          "fare_facilities": [
+            "fare_vending_retailer"
+          ],
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "place-NEC-1969",
@@ -890,7 +969,9 @@
               "note": "Greater Attleboro/Taunton RTA is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": "$5",
-                "methods": ["Mobile App"],
+                "methods": [
+                  "Mobile App"
+                ],
                 "mobile_app": {
                   "id": 881,
                   "name": "Parkmobile",
@@ -928,10 +1009,16 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform", "ramp"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform",
+            "ramp"
+          ],
           "address": "1315 Newport Ave, Attleboro, MA 02703",
           "bike_storage": [],
-          "child_ids": ["South Attleboro"],
+          "child_ids": [
+            "South Attleboro"
+          ],
           "closed_stop_info": null,
           "description": null,
           "fare_facilities": [],
@@ -966,7 +1053,10 @@
               "note": null,
               "payment": {
                 "daily_rate": "Mon-Fri: $6 | Sat-Sun: $2",
-                "methods": ["Mobile App", "Invoice"],
+                "methods": [
+                  "Mobile App",
+                  "Invoice"
+                ],
                 "mobile_app": {
                   "id": 4380,
                   "name": "PayByPhone",
@@ -1008,10 +1098,16 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible", "elevated_subplatform", "ramp"],
+          "accessibility": [
+            "accessible",
+            "elevated_subplatform",
+            "ramp"
+          ],
           "address": "1315 Newport Ave, Attleboro, MA 02703",
           "bike_storage": [],
-          "child_ids": ["South Attleboro"],
+          "child_ids": [
+            "South Attleboro"
+          ],
           "closed_stop_info": null,
           "description": null,
           "fare_facilities": [],
@@ -1046,7 +1142,10 @@
               "note": null,
               "payment": {
                 "daily_rate": "Mon-Fri: $6 | Sat-Sun: $2",
-                "methods": ["Mobile App", "Invoice"],
+                "methods": [
+                  "Mobile App",
+                  "Invoice"
+                ],
                 "mobile_app": {
                   "id": 4380,
                   "name": "PayByPhone",
@@ -1087,10 +1186,15 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible", "fully_elevated_platform"],
+          "accessibility": [
+            "accessible",
+            "fully_elevated_platform"
+          ],
           "address": "100 Gaspee St, Providence, RI 02903",
           "bike_storage": [],
-          "child_ids": ["Providence"],
+          "child_ids": [
+            "Providence"
+          ],
           "closed_stop_info": null,
           "description": null,
           "fare_facilities": [],
@@ -1125,7 +1229,10 @@
               "note": "Metropark is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": null,
-                "methods": ["Credit/Debit Card", "Cash"],
+                "methods": [
+                  "Credit/Debit Card",
+                  "Cash"
+                ],
                 "mobile_app": null,
                 "monthly_rate": null
               },
@@ -1160,10 +1267,15 @@
         "last_stop?": true,
         "pickup_type": 1,
         "stop": {
-          "accessibility": ["accessible", "fully_elevated_platform"],
+          "accessibility": [
+            "accessible",
+            "fully_elevated_platform"
+          ],
           "address": "100 Gaspee St, Providence, RI 02903",
           "bike_storage": [],
-          "child_ids": ["Providence"],
+          "child_ids": [
+            "Providence"
+          ],
           "closed_stop_info": null,
           "description": null,
           "fare_facilities": [],
@@ -1198,7 +1310,10 @@
               "note": "Metropark is responsible for parking maintenance, payments, and snow removal.",
               "payment": {
                 "daily_rate": null,
-                "methods": ["Credit/Debit Card", "Cash"],
+                "methods": [
+                  "Credit/Debit Card",
+                  "Cash"
+                ],
                 "mobile_app": null,
                 "monthly_rate": null
               },
