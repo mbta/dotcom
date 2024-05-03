@@ -1,23 +1,33 @@
 defmodule Predictions.StreamParserTest do
   use ExUnit.Case, async: false
   import Mock
+  import Mox
   alias JsonApi.Item
   alias Predictions.{Prediction, StreamParser}
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
 
+  setup do
+    Stops.Repo.Mock
+    |> stub(:get, fn id -> %Stops.Stop{id: id} end)
+    |> stub(:get_parent, fn id when is_binary(id) -> %Stops.Stop{id: id} end)
+    |> stub(:get_parent, fn stop -> %Stops.Stop{id: stop.id} end)
+
+    :ok
+  end
+
   describe "parse/1" do
     setup_with_mocks([
       {Routes.Repo, [:passthrough], [get: fn "route_id" -> %Route{id: "route_id"} end]},
-      {Stops.Repo, [:passthrough],
-       [get: fn "place-pktrm" -> %Stop{id: "place-pktrm", platform_code: "99"} end]},
       {Schedules.Repo, [:passthrough], [trip: fn "trip_id" -> %Trip{id: "trip_id"} end]}
     ]) do
       :ok
     end
 
     test "parses a %JsonApi.Item{} into a Prediction record" do
+      stop_id = "place-pktrm"
+
       item = %Item{
         id: "TEST-ID",
         attributes: %{
@@ -35,7 +45,7 @@ defmodule Predictions.StreamParserTest do
             %Item{id: "wrong"}
           ],
           "stop" => [
-            %Item{id: "place-pktrm"}
+            %Item{id: stop_id}
           ],
           "trip" => [
             %Item{id: "trip_id"},
@@ -66,7 +76,7 @@ defmodule Predictions.StreamParserTest do
              } = StreamParser.parse(item)
 
       assert %Route{id: "route_id"} = route
-      assert %Stop{id: "place-pktrm"} = stop
+      assert %Stop{id: ^stop_id} = stop
       assert %Trip{id: "trip_id"} = trip
       assert time == ~U[2016-01-01 04:00:00Z]
       assert track == stop.platform_code
@@ -74,6 +84,8 @@ defmodule Predictions.StreamParserTest do
     end
 
     test "When no vehicle relationship parses vehicle_id as nil" do
+      stop_id = "place-pktrm"
+
       item = %Item{
         id: "TEST-ID",
         attributes: %{
@@ -91,7 +103,7 @@ defmodule Predictions.StreamParserTest do
             %Item{id: "wrong"}
           ],
           "stop" => [
-            %Item{id: "place-pktrm"}
+            %Item{id: stop_id}
           ],
           "trip" => [
             %Item{id: "trip_id"},

@@ -148,26 +148,6 @@ defmodule DotcomWeb.StopControllerTest do
       conn: conn
     } do
       MBTA.Api.Mock
-      |> expect(:get_json, fn "/stops/place-here", _ ->
-        %JsonApi{
-          data: [
-            %JsonApi.Item{
-              attributes: %{
-                "description" => "",
-                "location_type" => 1,
-                "name" => "Somewhere",
-                "platform_code" => "",
-                "platform_name" => "",
-                "zone_number" => ""
-              },
-              relationships: %{
-                "facilities" => [],
-                "zone" => []
-              }
-            }
-          ]
-        }
-      end)
       |> expect(:get_json, fn "/schedules/", opts ->
         assert opts[:stop] == "place-here"
 
@@ -193,6 +173,11 @@ defmodule DotcomWeb.StopControllerTest do
             }
           ]
         }
+      end)
+
+      expect(Stops.Repo.Mock, :get, fn stop_id ->
+        assert stop_id == "place-here"
+        %Stop{}
       end)
 
       expect(RoutePatterns.Repo.Mock, :by_stop_id, fn stop_id ->

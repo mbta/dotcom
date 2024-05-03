@@ -1,11 +1,13 @@
 defmodule AlertsTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
   use Timex
 
   import Alerts.Alert
-  import Mock
+  import Mox
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
+
+  setup :verify_on_exit!
 
   describe "new/1" do
     test "with no params, returns a default struct" do
@@ -132,15 +134,16 @@ defmodule AlertsTest do
       alert_with_muni = Alert.new(informed_entity: [%IE{stop: "some-stop"}])
       alert_no_muni = Alert.new(informed_entity: [%IE{stop: "other-stop"}])
 
-      with_mock(Stops.Repo, [:passthrough],
-        get: fn
-          "some-stop" -> %Stops.Stop{municipality: "Metropolis"}
-          _ -> nil
-        end
-      ) do
-        assert "Metropolis" = municipality(alert_with_muni)
-        refute municipality(alert_no_muni)
-      end
+      Stops.Repo.Mock
+      |> expect(:get, fn "some-stop" ->
+        %Stops.Stop{municipality: "Metropolis"}
+      end)
+      |> expect(:get, fn "other-stop" ->
+        %Stops.Stop{municipality: nil}
+      end)
+
+      assert "Metropolis" = municipality(alert_with_muni)
+      refute municipality(alert_no_muni)
     end
   end
 end

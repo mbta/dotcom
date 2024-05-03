@@ -312,12 +312,11 @@ defmodule TripPlan.ItineraryRowTest do
   end
 
   describe "from_leg/3" do
-    @deps %ItineraryRow.Dependencies{stop_mapper: &Stops.Repo.get_parent/1}
+    @deps %ItineraryRow.Dependencies{}
     @leg build(:leg)
     @personal_leg build(:leg, mode: build(:personal_detail))
     @transit_leg build(:leg, mode: build(:transit_detail))
 
-    @tag :external
     test "returns an itinerary row from a Leg" do
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row

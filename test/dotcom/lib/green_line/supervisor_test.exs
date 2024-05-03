@@ -1,45 +1,27 @@
 defmodule Dotcom.GreenLine.CacheSupervisorTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
   alias Dotcom.GreenLine.DateAgent
 
   import Dotcom.GreenLine.CacheSupervisor
-  import Mock
+  import Mox
+
+  setup :verify_on_exit!
 
   setup_all do
-    # needed by DotcomWeb.ScheduleController.VehicleLocations plug
-    _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
-    _ = start_supervised(Vehicles.Repo)
-    # Start parent supervisor
-    _ = start_supervised({Dotcom.GreenLine.Supervisor, []})
+    _ = start_supervised!({Registry, keys: :unique, name: :green_line_cache_registry})
+    pid = start_link_supervised!(Dotcom.GreenLine.CacheSupervisor)
+    Mox.allow(Stops.Repo.Mock, self(), pid)
+
+    stub(Stops.Repo.Mock, :by_route, fn _, _, _ ->
+      []
+    end)
+
     :ok
   end
 
-  setup_with_mocks([
-    {Schedules.Repo, [:passthrough],
-     [
-       rating_dates: fn ->
-         {Timex.shift(Util.service_date(), days: -2), Timex.shift(Util.service_date(), days: 2)}
-       end,
-       end_of_rating: fn -> Timex.shift(Util.service_date(), days: 2) end
-     ]},
-    {Stops.Repo, [:passthrough],
-     [
-       by_route: fn _, _ -> [%Stops.Stop{}] end,
-       by_route: fn _, _, _ -> [%Stops.Stop{}] end
-     ]}
-  ]) do
-    :ok
-  end
-
-  test "CacheSupervisor is started along with registry" do
-    assert {:error, {:already_started, _}} = start_link([])
-
-    assert {:error, {:already_started, _}} =
-             Registry.start_link(keys: :unique, name: :green_line_cache_registry)
-  end
-
-  test "can start a child and retrieve it" do
+  test "lookup/1 can retrieve the pid by date" do
     date = Util.service_date()
+    {:ok, _} = start_child(date)
 
     case lookup(date) do
       nil -> :ok
@@ -47,9 +29,45 @@ defmodule Dotcom.GreenLine.CacheSupervisorTest do
     end
 
     assert lookup(date) == nil
+  end
 
-    # this is failing in prod
-    assert {:ok, pid} = start_child(date)
-    assert pid == lookup(date)
+  test "stops_on_routes/2 gets information for nil date" do
+    Stops.Repo.Mock
+    |> expect(:by_route, 4, fn route_id, direction_id, opts ->
+      assert route_id in GreenLine.branch_ids()
+      assert direction_id in [0, 1]
+      assert opts == []
+
+      [%Stops.Stop{}]
+    end)
+    |> expect(:by_route, 32, fn route_id, direction_id ->
+      assert route_id in GreenLine.branch_ids()
+      assert direction_id in [0, 1]
+
+      [%Stops.Stop{}]
+    end)
+
+    assert stops_on_routes(0, nil)
+  end
+
+  test "stops_on_routes/2 gets information for service date" do
+    date = Util.service_date()
+
+    Stops.Repo.Mock
+    |> expect(:by_route, 4, fn route_id, direction_id, opts ->
+      assert route_id in GreenLine.branch_ids()
+      assert direction_id in [0, 1]
+      assert opts == [{:date, date}]
+
+      [%Stops.Stop{}]
+    end)
+    |> expect(:by_route, 32, fn route_id, direction_id ->
+      assert route_id in GreenLine.branch_ids()
+      assert direction_id in [0, 1]
+
+      [%Stops.Stop{}]
+    end)
+
+    assert stops_on_routes(1, date)
   end
 end

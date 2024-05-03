@@ -1,7 +1,8 @@
 defmodule Stops.RouteStopsTest do
-  use ExUnit.Case
-  @moduletag :external
+  use ExUnit.Case, async: true
 
+  import Mox
+  import Test.Support.Factory.MbtaApi
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -9,7 +10,9 @@ defmodule Stops.RouteStopsTest do
 
   @red %Route{id: "Red", type: 1}
 
-  describe "from_route_stop_groups" do
+  setup :verify_on_exit!
+
+  describe "from_route_stop_groups/1" do
     test "makes a RouteStops struct for each list of RouteStop structs" do
       route = %Route{id: "Red", type: 1}
 
@@ -295,6 +298,7 @@ defmodule Stops.RouteStopsTest do
   end
 
   describe "by_direction/2 returns a list of stops in one direction in the correct order" do
+    @tag :external
     test "for Red Line, direction: 0" do
       stops = Stops.Repo.by_route("Red", 0)
       shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
@@ -357,6 +361,7 @@ defmodule Stops.RouteStopsTest do
       assert braintree.is_terminus? == true
     end
 
+    @tag :external
     test "for Red Line, direction: 1" do
       stops = Stops.Repo.by_route("Red", 1)
       shapes = @routes_repo_api.get_shapes("Red", direction_id: 1)
@@ -389,6 +394,7 @@ defmodule Stops.RouteStopsTest do
       assert n_quincy.is_terminus? == false
     end
 
+    @tag :external
     test "works for green E line" do
       route = %Route{id: "Green-E", type: 0}
       shapes = @routes_repo_api.get_shapes("Green-E", direction_id: 0)
@@ -415,6 +421,7 @@ defmodule Stops.RouteStopsTest do
              ] = stops
     end
 
+    @tag :external
     test "works for green non-E line" do
       route = %Route{id: "Green-D", type: 0}
       shapes = @routes_repo_api.get_shapes("Green-D", direction_id: 0)
@@ -430,6 +437,7 @@ defmodule Stops.RouteStopsTest do
       assert %RouteStop{id: "place-river", is_terminus?: true} = List.last(d_stops)
     end
 
+    @tag :external
     test "works for Kingston line (outbound)" do
       route = %Route{id: "CR-Kingston", type: 2}
       shapes = @routes_repo_api.get_shapes("CR-Kingston", direction_id: 0)
@@ -452,6 +460,7 @@ defmodule Stops.RouteStopsTest do
       end
     end
 
+    @tag :external
     test "works for Providence line (inbound)" do
       route = %Route{id: "CR-Providence", type: 2}
       shapes = @routes_repo_api.get_shapes("CR-Providence", direction_id: 1)
@@ -473,6 +482,7 @@ defmodule Stops.RouteStopsTest do
              } = trunk
     end
 
+    @tag :external
     test "works for bus routes" do
       stops = Stops.Repo.by_route("1", 0)
       shapes = @routes_repo_api.get_shapes("1", direction_id: 0)
@@ -497,6 +507,7 @@ defmodule Stops.RouteStopsTest do
       assert inbound |> List.first() |> Map.get(:is_terminus?) == true
     end
 
+    @tag :external
     test "works for ferry routes" do
       stops = Stops.Repo.by_route("Boat-F4", 0)
       shapes = @routes_repo_api.get_shapes("Boat-F4", direction_id: 0)
@@ -510,8 +521,15 @@ defmodule Stops.RouteStopsTest do
     end
 
     test "doesn't crash if we didn't have stops and/or shapes" do
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/", _ -> %JsonApi{data: [build(:route_item)]} end)
+
+      Stops.Repo.Mock
+      |> stub(:get_parent, fn _ -> %Stop{} end)
+      |> stub(:get, fn _ -> %Stop{} end)
+      |> stub(:stop_features, fn _, _ -> [] end)
+
       direction_id = 0
-      good_stops = Stops.Repo.by_route("Red", direction_id)
+      good_stops = [%Stop{}, %Stop{}, %Stop{}, %Stop{}]
       good_shapes = @routes_repo_api.get_shapes("Red", direction_id: direction_id)
 
       for stops <- [[], good_stops], shapes <- [[], good_shapes], stops == [] or shapes == [] do

@@ -1,12 +1,24 @@
 defmodule DotcomWeb.AlertControllerTest do
-  use DotcomWeb.ConnCase
-  @moduletag :external
+  use DotcomWeb.ConnCase, async: true
 
   use Phoenix.Controller
   alias Alerts.Alert
   alias DotcomWeb.PartialView.SvgIconWithCircle
-  alias Stops.Repo
+  alias Stops.Stop
   import DotcomWeb.AlertController, only: [excluding_banner: 2, group_access_alerts: 1]
+  import Mox
+
+  setup :verify_on_exit!
+
+  setup do
+    stub(MBTA.Api.Mock, :get_json, fn _, _ ->
+      %JsonApi{
+        data: []
+      }
+    end)
+
+    :ok
+  end
 
   test "renders commuter rail", %{conn: conn} do
     conn = get(conn, alert_path(conn, :show, "commuter-rail"))
@@ -175,63 +187,80 @@ defmodule DotcomWeb.AlertControllerTest do
 
   describe "group_access_alerts/1" do
     test "given a list of alerts, groups the access alerts by stop" do
+      stop_id1 = Faker.Internet.slug()
+      stop_id2 = Faker.Internet.slug()
+
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        %Stop{id: id}
+      end)
+
       alerts = [
         Alert.new(
-          id: "alewife-escalator-alert",
+          id: "stop-1-escalator-alert",
           effect: :escalator_closure,
           header: "Escalator Alert 1",
-          informed_entity: [%Alerts.InformedEntity{stop: "place-alfcl"}]
+          informed_entity: [%Alerts.InformedEntity{stop: stop_id1}]
         ),
         Alert.new(
-          id: "south-station-alert",
+          id: "stop-2-alert",
           effect: :escalator_closure,
           header: "Escalator Alert 2",
-          informed_entity: [%Alerts.InformedEntity{stop: "place-sstat"}]
+          informed_entity: [%Alerts.InformedEntity{stop: stop_id2}]
         ),
         Alert.new(
-          id: "alewife-access-alert",
+          id: "stop-1-access-alert",
           effect: :access_issue,
           header: "Access Alert",
-          informed_entity: [%Alerts.InformedEntity{stop: "place-alfcl"}]
+          informed_entity: [%Alerts.InformedEntity{stop: stop_id1}]
         )
       ]
 
       grouped = alerts |> group_access_alerts() |> Map.new()
-      alewife = Repo.get("place-alfcl")
-      south_station = Repo.get("place-sstat")
+      stop1 = %Stop{id: stop_id1}
+      stop2 = %Stop{id: stop_id2}
 
-      assert [access, escalator] = grouped |> Map.get(alewife) |> MapSet.to_list()
-      assert escalator.id == "alewife-escalator-alert"
-      assert access.id == "alewife-access-alert"
-      assert [south_station_alert] = grouped |> Map.get(south_station) |> MapSet.to_list()
-      assert south_station_alert.id == "south-station-alert"
+      assert [access, escalator] = grouped |> Map.get(stop1) |> MapSet.to_list()
+      assert escalator.id == "stop-1-escalator-alert"
+      assert access.id == "stop-1-access-alert"
+      assert [south_station_alert] = grouped |> Map.get(stop2) |> MapSet.to_list()
+      assert south_station_alert.id == "stop-2-alert"
     end
 
     test "deduplicates child stops" do
+      child_stop = %Stop{id: "child-stop", parent_id: "parent-stop"}
+      parent_stop = %Stop{id: "parent-stop", child_ids: ["child-stop"]}
+
+      stub(Stops.Repo.Mock, :get_parent, fn _ ->
+        parent_stop
+      end)
+
       alerts = [
         Alert.new(
           id: "escalator-alert",
           effect: :escalator_closure,
           header: "Escalator Alert 1",
-          informed_entity: [%Alerts.InformedEntity{stop: "place-alfcl"}]
+          informed_entity: [%Alerts.InformedEntity{stop: parent_stop.id}]
         ),
         Alert.new(
           id: "access-alert",
           effect: :access_issue,
           header: "Access Alert",
-          informed_entity: [%Alerts.InformedEntity{stop: "70061"}]
+          informed_entity: [%Alerts.InformedEntity{stop: child_stop.id}]
         )
       ]
 
-      assert Repo.get_parent("70061").id == "place-alfcl"
-
       grouped = group_access_alerts(alerts)
-      assert Enum.map(grouped, fn {stop, _} -> stop.id end) == ["place-alfcl"]
-      alewife = Repo.get("place-alfcl")
-      assert [%Alert{}, %Alert{}] = grouped |> Map.new() |> Map.get(alewife) |> MapSet.to_list()
+      assert Enum.map(grouped, fn {stop, _} -> stop.id end) == [parent_stop.id]
+
+      assert [%Alert{}, %Alert{}] =
+               grouped |> Map.new() |> Map.get(parent_stop) |> MapSet.to_list()
     end
 
     test "ignores bad stop ids" do
+      stub(Stops.Repo.Mock, :get_parent, fn _ ->
+        nil
+      end)
+
       alert = [
         Alert.new(
           id: "bad-stop-id",
