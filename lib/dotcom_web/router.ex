@@ -9,8 +9,10 @@ defmodule DotcomWeb.Router do
   alias DotcomWeb.StaticPage
 
   pipeline :secure do
+    Logger.info("THIS IS THE SECURE PIPE ################")
+
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
-      Logger.warning("Force SSL is Called")
+      Logger.info("Force SSL is Called")
       plug(Plug.SSL, force_ssl)
     end
   end
