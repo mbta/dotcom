@@ -2,6 +2,7 @@ defmodule Predictions.RepoTest do
   use ExUnit.Case, async: false
   @moduletag :external
 
+  import Mock
   import Mox
 
   alias Predictions.Repo
@@ -55,6 +56,67 @@ defmodule Predictions.RepoTest do
 
       for prediction <- predictions do
         assert DateTime.compare(prediction.time, min_time) in [:gt, :eq]
+      end
+    end
+
+    test "filtes out predictions with no departure" do
+      five_minutes_in_future = DateTime.add(Timex.now(), 5, :minute)
+
+      {:ok, five_minutes_in_future_string} =
+        Timex.format(five_minutes_in_future, "{ISO:Extended:Z}")
+
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{
+          data: [
+            %JsonApi.Item{
+              attributes: %{
+                "departure_time" => nil,
+                "arrival_time" => five_minutes_in_future_string,
+                "direction_id" => 1
+              },
+              relationships: %{
+                "route" => [
+                  %{
+                    id: "Red"
+                  }
+                ],
+                "trip" => [],
+                "vehicle" => [],
+                "stop" => [
+                  %{id: "StopID"}
+                ]
+              }
+            },
+            %JsonApi.Item{
+              attributes: %{
+                "departure_time" => five_minutes_in_future_string,
+                "arrival_time" => five_minutes_in_future_string,
+                "direction_id" => 1
+              },
+              relationships: %{
+                "route" => [
+                  %{
+                    id: "Red"
+                  }
+                ],
+                "trip" => [],
+                "vehicle" => [],
+                "stop" => [
+                  %{id: "StopID"}
+                ]
+              }
+            }
+          ]
+        }
+      end)
+
+      with_mocks([
+        {Stops.Repo, [:passthrough], get_parent: fn _ -> %Stops.Stop{id: "Parent"} end},
+        {Routes.Repo, [:passthrough], get: fn _ -> Routes.MockRepoApi.get("Red") end}
+      ]) do
+        predictions = Repo.all(route: "39")
+
+        assert Kernel.length(predictions) == 1
       end
     end
 
