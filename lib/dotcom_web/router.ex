@@ -1,5 +1,6 @@
 defmodule DotcomWeb.Router do
   @moduledoc false
+  require Logger
 
   use DotcomWeb, :router
   use Plug.ErrorHandler
@@ -9,6 +10,7 @@ defmodule DotcomWeb.Router do
 
   pipeline :secure do
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
+      Logger.warning("Force SSL is Called")
       plug(Plug.SSL, force_ssl)
     end
   end
