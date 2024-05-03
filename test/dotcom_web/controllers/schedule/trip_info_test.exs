@@ -265,14 +265,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     assert actual_stops == expected_stops
   end
 
-  test "assigns the total number of stops", %{conn: conn} do
-    conn = conn_builder(conn, [], trip: "long_trip")
-    assert conn.assigns[:trip_info].stop_count == 7
-
-    conn = conn_builder(conn, [], trip: "32893585")
-    assert conn.assigns.trip_info.stop_count == 2
-  end
-
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do
     conn = conn_builder(conn, [List.first(@schedules)])
     assert conn.assigns.trip_info == nil

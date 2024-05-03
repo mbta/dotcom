@@ -8,7 +8,6 @@
   "origin_id": "place-forhl",
   "route_type": 3,
   "status": "operating at normal schedule",
-  "stop_count": 39,
   "times": [
     {
       "delay": null,
@@ -26,7 +25,9 @@
             "fully_elevated_platform"
           ],
           "address": "Washington St and Hyde Park Ave, Jamaica Plain, MA 02130",
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "child_ids": [
             "10642",
             "70001",
@@ -68,7 +69,10 @@
           ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine"
+          ],
           "has_charlie_card_vendor?": true,
           "has_fare_machine?": true,
           "id": "place-forhl",
@@ -100,7 +104,10 @@
               "note": null,
               "payment": {
                 "daily_rate": "Mon-Fri: $9 | Sat-Sun: $3",
-                "methods": ["Mobile App", "Invoice"],
+                "methods": [
+                  "Mobile App",
+                  "Invoice"
+                ],
                 "mobile_app": {
                   "id": 4396,
                   "name": "PayByPhone",
@@ -149,7 +156,9 @@
             "fully_elevated_platform"
           ],
           "address": "Washington St and Hyde Park Ave, Jamaica Plain, MA 02130",
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "child_ids": [
             "10642",
             "70001",
@@ -191,7 +200,10 @@
           ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine"
+          ],
           "has_charlie_card_vendor?": true,
           "has_fare_machine?": true,
           "id": "place-forhl",
@@ -223,7 +235,10 @@
               "note": null,
               "payment": {
                 "daily_rate": "Mon-Fri: $9 | Sat-Sun: $3",
-                "methods": ["Mobile App", "Invoice"],
+                "methods": [
+                  "Mobile App",
+                  "Invoice"
+                ],
                 "mobile_app": {
                   "id": 4396,
                   "name": "PayByPhone",
@@ -264,7 +279,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -310,7 +327,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -355,7 +374,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -401,7 +422,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -446,7 +469,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -492,7 +517,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -537,7 +564,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -583,7 +612,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -628,7 +659,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -674,7 +707,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -719,7 +754,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -765,7 +802,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -810,7 +849,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -856,7 +897,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -901,7 +944,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -947,7 +992,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -992,7 +1039,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1038,7 +1087,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1083,7 +1134,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1129,7 +1182,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1174,7 +1229,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1220,7 +1277,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1265,7 +1324,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1311,7 +1372,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1356,7 +1419,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1402,7 +1467,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1447,7 +1514,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1493,7 +1562,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1538,7 +1609,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1584,7 +1657,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1629,7 +1704,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1675,7 +1752,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1720,7 +1799,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1766,7 +1847,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1811,7 +1894,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1857,7 +1942,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1902,7 +1989,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1948,7 +2037,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1993,7 +2084,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2039,7 +2132,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2084,7 +2179,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2130,7 +2227,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2175,7 +2274,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2221,7 +2322,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2266,7 +2369,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2312,7 +2417,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2357,7 +2464,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2403,7 +2512,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2448,7 +2559,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2494,7 +2607,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2539,7 +2654,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2585,7 +2702,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2630,7 +2749,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2676,7 +2797,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2721,7 +2844,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2767,7 +2892,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2812,7 +2939,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2858,7 +2987,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2903,7 +3034,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2949,7 +3082,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2994,7 +3129,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3040,7 +3177,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3085,7 +3224,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3131,7 +3272,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3176,7 +3319,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3222,7 +3367,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3267,7 +3414,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3313,7 +3462,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3358,7 +3509,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3404,7 +3557,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3449,7 +3604,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3495,7 +3652,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3540,7 +3699,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3586,7 +3747,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3631,7 +3794,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3677,7 +3842,9 @@
         "last_stop?": true,
         "pickup_type": 1,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],

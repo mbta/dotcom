@@ -39,7 +39,6 @@ export interface TripInfo {
   times: TripDeparture[];
   vehicle: Vehicle | null;
   vehicle_stop_name: string;
-  stop_count: number;
   status: string;
   duration: number;
   fare: Fare;
