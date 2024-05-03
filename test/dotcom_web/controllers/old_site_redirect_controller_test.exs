@@ -1,7 +1,11 @@
 defmodule DotcomWeb.OldSiteRedirectControllerTest do
   use DotcomWeb.ConnCase
 
+  import Mox
+
   @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
+
+  setup :verify_on_exit!
 
   describe "/schedules_and_maps" do
     test "redirects to mode root", %{conn: conn} do
@@ -54,6 +58,10 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Specific stops redirect to corresponding stop page", %{conn: conn} do
+      expect(Stops.Repo.Mock, :old_id_to_gtfs_id, fn "19" ->
+        "place-ER-0183"
+      end)
+
       old_url = "/schedules_and_maps/rail/lines/stations/?stopId=19"
 
       assert redirected_to(get(conn, old_url), :moved_permanently) =~
@@ -89,6 +97,14 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Redirects to stop page regardless of incoming mode", %{conn: conn} do
+      Stops.Repo.Mock
+      |> expect(:old_id_to_gtfs_id, fn "141" ->
+        "place-north"
+      end)
+      |> expect(:old_id_to_gtfs_id, fn "13610" ->
+        "place-north"
+      end)
+
       north_station_subway = "/schedules_and_maps/subway/lines/stations?stopId=141"
       north_station_rail = "/schedules_and_maps/rail/lines/stations?stopId=13610"
 
@@ -100,6 +116,10 @@ defmodule DotcomWeb.OldSiteRedirectControllerTest do
     end
 
     test "Redirects to /schedules if stopId is not found", %{conn: conn} do
+      expect(Stops.Repo.Mock, :old_id_to_gtfs_id, fn "invalidstopid" ->
+        nil
+      end)
+
       invalid_rail_url = "/schedules_and_maps/rail/lines/stations?stopId=invalidstopid"
       assert redirected_to(get(conn, invalid_rail_url), :moved_permanently) == "/schedules"
     end

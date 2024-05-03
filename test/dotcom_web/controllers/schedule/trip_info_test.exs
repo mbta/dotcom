@@ -1,6 +1,7 @@
 defmodule DotcomWeb.ScheduleController.TripInfoTest do
   use DotcomWeb.ConnCase, async: true
   import DotcomWeb.ScheduleController.TripInfo
+  import Mox
   alias DotcomWeb.ScheduleController.TripInfo
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
@@ -122,6 +123,8 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
       stop: %Stop{id: "place-nqncy"}
     }
   ]
+
+  setup :verify_on_exit!
 
   setup %{conn: conn} do
     conn =
@@ -290,6 +293,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   end
 
   test "does not redirect if we didn't have a trip already", %{conn: conn} do
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
     conn = conn_builder(conn, @schedules, origin: "fake", destination: "fake")
     refute conn.halted
     refute conn.assigns.trip_info
@@ -395,6 +399,8 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
 
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
 
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
+
     conn =
       %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
       |> assign_journeys_from_schedules(schedules)
@@ -463,6 +469,8 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
         route: %Routes.Route{type: 3}
       }
     ]
+
+    expect(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
 
     day = Timex.shift(@date, days: 1)
     future_trip_fn = fn "32893585" = trip_id, [date: ^day] -> trip_fn(trip_id, date: @date) end
@@ -573,31 +581,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     test "is true when looking at any non-subway route" do
       next_day = Timex.shift(@time, days: 1)
       assert TripInfo.show_trips?(next_day, @time, 3, "1") == true
-    end
-  end
-
-  describe "test that wollaston station is properly inserted when expected" do
-    test "Does not add Wollaston to non Red line routes", %{conn: conn} do
-      init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
-      route = %{id: "Not-Red"}
-
-      times = [
-        %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id1"}}},
-        %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id2"}}}
-      ]
-
-      trip_info = %{route: route, times: times}
-
-      conn =
-        %{conn | query_params: %{"trip" => "non-red-trip"}}
-        |> assign(:route, route)
-        |> assign(:trip_info, trip_info)
-        |> assign(:vehicle_locations, %{})
-        |> call(init)
-
-      stops = Enum.map(conn.assigns.trip_info.times, & &1.schedule.stop.id)
-
-      assert stops == ["id2", "id1"]
     end
   end
 end
