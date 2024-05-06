@@ -34,7 +34,10 @@ defmodule Dotcom.Application do
         {
           TelemetryMetricsSplunk,
           [
-            metrics: [Metrics.last_value("mbta_api.request")],
+            metrics: [
+              Metrics.last_value("mbta_api.request.count"),
+              Metrics.last_value("mbta_api.request.avg")
+            ],
             token: telemetry_metrics_splunk_config[:token],
             url: telemetry_metrics_splunk_config[:url]
           ]
@@ -45,8 +48,8 @@ defmodule Dotcom.Application do
           measurements: [
             {MBTA.Api.Stats, :dispatch_stats, []}
           ],
-          period: :timer.seconds(60),
-          init_delay: :timer.seconds(15)
+          period: :timer.seconds(5),
+          init_delay: :timer.seconds(5)
         }
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
