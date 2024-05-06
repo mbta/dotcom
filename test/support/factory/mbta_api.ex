@@ -6,8 +6,8 @@ defmodule Test.Support.Factory.MbtaApi do
 
   alias JsonApi.Item
 
-  def item_factory(attrs) do
-    merge_attributes(%Item{}, attrs)
+  def item_factory do
+    %Item{}
   end
 
   @doc """
