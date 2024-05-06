@@ -16,7 +16,11 @@ defmodule DotcomWeb.Router do
 
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
       Logger.info("Force SSL is Called")
-      plug(Plug.SSL, force_ssl)
+
+      plug(Plug.SSL,
+        host: nil,
+        rewrite_on: [:x_forwarded_proto]
+      )
     end
   end
 
