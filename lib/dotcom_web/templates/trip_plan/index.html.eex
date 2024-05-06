@@ -6,7 +6,7 @@
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>">
       <%= case assigns[:query] do %>
        <% %{itineraries: {:ok, _}} -> %>
-          <p class="no-trips page-section">
+          <p class="no-trips page-section" autofocus phx-hook="ScrollIntoView">
             <% l = length(@itineraries) %>
             <%= "We found #{l} #{Inflex.inflect("trip", l)} for you" %>
           </p>
