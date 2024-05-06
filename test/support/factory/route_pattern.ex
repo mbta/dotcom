@@ -6,7 +6,7 @@ defmodule Test.Support.Factory.RoutePattern do
 
   alias RoutePatterns.RoutePattern
 
-  def route_pattern_factory(attrs) do
-    merge_attributes(%RoutePattern{}, attrs)
+  def route_pattern_factory do
+    %RoutePattern{}
   end
 end
