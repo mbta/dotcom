@@ -15,7 +15,7 @@ defmodule DotcomWeb.Plugs.Debug do
 
   @impl Plug
   def call(conn, _) do
-    if Enum.member?(@pipeline) do
+    if [_head | _] = @pipeline do
       Logger.info(
         "#{Enum.map_join(@pipeline, "&", fn {k, v} -> "#{k}:#{v}" end)} **************************"
       )
