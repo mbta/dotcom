@@ -183,16 +183,6 @@ if config_env() == :prod do
       port: System.get_env("STATIC_PORT")
     ]
 
-  unless System.get_env("PORT") do
-    # configured separately so that we can have the health check not require
-    # SSL
-    config :dotcom, :secure_pipeline,
-      force_ssl: [
-        host: nil,
-        rewrite_on: [:x_forwarded_proto]
-      ]
-  end
-
   config :dotcom,
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL"),
     support_ticket_from_email: System.get_env("SUPPORT_TICKET_FROM_EMAIL"),
