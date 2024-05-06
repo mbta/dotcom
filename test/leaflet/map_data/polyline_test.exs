@@ -1,15 +1,21 @@
 defmodule Leaflet.MapData.PolylineTest do
   use ExUnit.Case, async: true
+
+  import Test.Support.Factory.RoutePattern
+
   alias Leaflet.MapData.Polyline
 
-  @route_patterns_repo_api Application.compile_env!(:dotcom, :route_patterns_repo_api)
+  setup do
+    route_pattern =
+      build(:route_pattern,
+        representative_trip_polyline: "gfsaGvlaqL[Ek@Ck@A[?]BU?sAH"
+      )
+
+    %{route_pattern: route_pattern}
+  end
 
   describe "new/2" do
-    test "turns a polyline into a struct" do
-      route_pattern =
-        @route_patterns_repo_api.by_route_id("77")
-        |> List.first()
-
+    test "turns a polyline into a struct", %{route_pattern: route_pattern} do
       assert %Polyline{color: color, positions: positions} =
                Polyline.new(route_pattern, color: "#FF0000")
 
@@ -18,11 +24,7 @@ defmodule Leaflet.MapData.PolylineTest do
       assert first == [42.37428, -71.119]
     end
 
-    test "makes polyline with default options" do
-      route_pattern =
-        @route_patterns_repo_api.by_route_id("77")
-        |> List.first()
-
+    test "makes polyline with default options", %{route_pattern: route_pattern} do
       assert %Polyline{color: color, positions: positions} = Polyline.new(route_pattern)
 
       assert color == "#000000"

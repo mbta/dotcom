@@ -148,10 +148,6 @@ const ScheduleDirection = ({
         if (result.length === 0 || current.typicality < result[0].typicality)
           return [current];
         if (current.typicality === result[0].typicality) {
-          if (result[0].shape_priority < 0 && current.shape_priority > 0)
-            return [current];
-          if (current.shape_priority < 0 && result[0].shape_priority > 0)
-            return result;
           return result.concat(current);
         }
         return result;

@@ -14,7 +14,6 @@ import {
 
 export interface EnhancedRoutePattern extends RoutePattern {
   shape_id: string;
-  shape_priority: number;
   headsign: string;
 }
 

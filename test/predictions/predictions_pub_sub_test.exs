@@ -29,10 +29,7 @@ defmodule Predictions.PredictionsPubSubTest do
     :ok
   end
 
-  setup_with_mocks([
-    {RoutePatterns.Repo, [:passthrough],
-     [by_stop_id: fn _stop_id -> [%RoutePatterns.RoutePattern{}] end]}
-  ]) do
+  setup do
     subscribe_fn = fn _, _ -> :ok end
     {:ok, pid} = PredictionsPubSub.start_link(name: :subscribe, subscribe_fn: subscribe_fn)
 

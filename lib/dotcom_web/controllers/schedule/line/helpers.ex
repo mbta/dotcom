@@ -3,12 +3,13 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
   Helpers for the line page
   """
 
-  alias RoutePatterns.Repo, as: RoutePatternsRepo
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
+
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -88,7 +89,7 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   def get_map_route_patterns(route_id, type) do
     route_id
-    |> RoutePatternsRepo.by_route_id(
+    |> @route_patterns_repo.by_route_id(
       include: "representative_trip.shape,representative_trip.stops"
     )
     |> filter_map_route_patterns(type)
@@ -110,19 +111,12 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
 
   @doc """
   Filters a list of route patterns down to the route patterns sharing the lowest
-  number for the "typicality" property, additionally removing route patterns
-  associated with a negative shape_priority value.
+  number for the "typicality" property.
   """
   @spec filtered_by_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
   def filtered_by_typicality(route_patterns) do
     route_patterns
     |> filter_by_min_typicality()
-    |> Enum.filter(fn x ->
-      # TODO: Deprecate our use of shape priority entirely,
-      # because it's no longer supported in the V3 API
-      # For now, be less strict if using the most typical route pattern
-      if x.typicality == 1, do: true, else: x.shape_priority > 0
-    end)
   end
 
   # Filters route patterns by the smallest typicality found in the array
@@ -274,12 +268,12 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
           base_opts
       end
 
-    RoutePatternsRepo.by_route_id(route_id, opts)
+    @route_patterns_repo.by_route_id(route_id, opts)
     |> Enum.filter(&(&1.route_id == route_id))
   end
 
   defp get_line_route_patterns(_route, _direction_id, route_pattern_id) do
-    case RoutePatternsRepo.get(route_pattern_id,
+    case @route_patterns_repo.get(route_pattern_id,
            include: "representative_trip.stops"
          ) do
       %RoutePattern{} = route_pattern ->

@@ -1,19 +1,21 @@
 defmodule DotcomWeb.StopControllerTest do
-  use DotcomWeb.ConnCase, async: false
-  @moduletag :external
+  use DotcomWeb.ConnCase, async: true
 
-  import Mock
+  import Mox
 
   alias DotcomWeb.StopController
   alias Routes.Route
   alias Stops.Stop
   alias Util.Breadcrumb
 
+  setup :verify_on_exit!
+
   test "redirects to subway stops on index", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :index))
     assert redirected_to(conn) == stop_path(conn, :show, :subway)
   end
 
+  @tag :external
   test "shows stations by mode", %{conn: conn} do
     conn =
       conn
@@ -26,6 +28,7 @@ defmodule DotcomWeb.StopControllerTest do
     end
   end
 
+  @tag :external
   test "assigns stop_info for each mode", %{conn: conn} do
     for mode <- [:subway, :ferry, "commuter-rail"] do
       conn =
@@ -44,12 +47,14 @@ defmodule DotcomWeb.StopControllerTest do
     assert redirected_to(conn) == stop_path(conn, :show, "Four Corners / Geneva")
   end
 
+  @tag :external
   test "shows a stop ID", %{conn: conn} do
     conn = conn |> get(stop_path(conn, :show, "place-sstat"))
 
     assert conn.assigns.stop_id
   end
 
+  @tag :external
   test "sets a custom meta description for stops", %{conn: conn} do
     conn =
       conn
@@ -58,6 +63,7 @@ defmodule DotcomWeb.StopControllerTest do
     assert conn.assigns.meta_description
   end
 
+  @tag :external
   test "redirects to a parent stop page for a child stop", %{conn: conn} do
     conn =
       conn
@@ -66,6 +72,7 @@ defmodule DotcomWeb.StopControllerTest do
     assert redirected_to(conn) == stop_path(conn, :show, "place-harvd")
   end
 
+  @tag :external
   test "404s for an unknown stop", %{conn: conn} do
     conn =
       conn
@@ -101,6 +108,7 @@ defmodule DotcomWeb.StopControllerTest do
   end
 
   describe "api" do
+    @tag :external
     test "returns json with departure data", %{conn: conn} do
       path = stop_path(conn, :api, id: "place-sstat")
       assert path == "/stops/api?id=place-sstat"
@@ -120,6 +128,7 @@ defmodule DotcomWeb.StopControllerTest do
   end
 
   describe "show/2" do
+    @tag :external
     test "should set the title and meta description of the page", %{conn: conn} do
       conn =
         conn
@@ -138,36 +147,84 @@ defmodule DotcomWeb.StopControllerTest do
     test "grouped_route_patterns returns stop's route patterns by route & headsign", %{
       conn: conn
     } do
-      with_mock(RoutePatterns.Repo,
-        by_stop_id: fn "place-here" ->
-          [
-            %RoutePatterns.RoutePattern{
-              route_id: "Purple-A",
-              headsign: "Tree Hill",
-              name: "Here Square - Tree Hill",
-              direction_id: 0
+      MBTA.Api.Mock
+      |> expect(:get_json, fn "/stops/place-here", _ ->
+        %JsonApi{
+          data: [
+            %JsonApi.Item{
+              attributes: %{
+                "description" => "",
+                "location_type" => 1,
+                "name" => "Somewhere",
+                "platform_code" => "",
+                "platform_name" => "",
+                "zone_number" => ""
+              },
+              relationships: %{
+                "facilities" => [],
+                "zone" => []
+              }
             }
           ]
-        end
-      ) do
-        response =
-          get(conn, stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
+        }
+      end)
+      |> expect(:get_json, fn "/schedules/", opts ->
+        assert opts[:stop] == "place-here"
 
-        assert %{
-                 "Purple-A" => %{
-                   "Tree Hill" => %{
-                     "direction_id" => 0,
-                     "route_patterns" => [
-                       %{
-                         "headsign" => "Tree Hill",
-                         "name" => "Here Square - Tree Hill"
-                       }
-                       | _
-                     ]
-                   }
+        %JsonApi{
+          data: [
+            %JsonApi.Item{
+              attributes: %{},
+              relationships: %{}
+            }
+          ]
+        }
+      end)
+      |> expect(:get_json, fn "/services/", _ ->
+        %JsonApi{
+          data: [
+            %JsonApi.Item{
+              id: "",
+              attributes: %{
+                "schedule_type" => "Weekday"
+              },
+              relationships: %{},
+              type: "service"
+            }
+          ]
+        }
+      end)
+
+      expect(RoutePatterns.Repo.Mock, :by_stop_id, fn stop_id ->
+        assert stop_id == "place-here"
+
+        [
+          %RoutePatterns.RoutePattern{
+            route_id: "Purple-A",
+            headsign: "Tree Hill",
+            name: "Here Square - Tree Hill",
+            direction_id: 0
+          }
+        ]
+      end)
+
+      response =
+        get(conn, stop_path(conn, :grouped_route_patterns, "place-here")) |> json_response(200)
+
+      assert %{
+               "Purple-A" => %{
+                 "Tree Hill" => %{
+                   "direction_id" => 0,
+                   "route_patterns" => [
+                     %{
+                       "headsign" => "Tree Hill",
+                       "name" => "Here Square - Tree Hill"
+                     }
+                     | _
+                   ]
                  }
-               } = response
-      end
+               }
+             } = response
     end
   end
 end

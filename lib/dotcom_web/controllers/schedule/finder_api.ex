@@ -19,6 +19,8 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
 
   require Logger
 
+  @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+
   @type react_keys :: :date | :direction | :is_current
   @type react_strings :: [{react_keys, String.t()}]
   @type converted_values :: {Date.t(), integer, boolean}
@@ -508,7 +510,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
     with %Schedules.Trip{route_pattern_id: route_pattern_id} when not is_nil(route_pattern_id) <-
            Schedules.Repo.trip(trip_id),
          %RoutePatterns.RoutePattern{route_id: route_id} <-
-           RoutePatterns.Repo.get(route_pattern_id) do
+           @route_patterns_repo.get(route_pattern_id) do
       route_id
     else
       _ ->

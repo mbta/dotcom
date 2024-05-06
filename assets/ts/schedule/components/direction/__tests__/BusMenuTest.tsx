@@ -21,7 +21,6 @@ const routePatterns: EnhancedRoutePattern[] = [
     stop_ids: ["123", "456", "789"],
     route_id: "66",
     shape_id: "660140",
-    shape_priority: 1,
     time_desc: null,
     typicality: 1,
     sort_order: 5,
@@ -30,7 +29,6 @@ const routePatterns: EnhancedRoutePattern[] = [
   {
     typicality: 3,
     time_desc: "School days only",
-    shape_priority: 1,
     shape_id: "660141-2",
     route_id: "66",
     representative_trip_id: "43773700_2",

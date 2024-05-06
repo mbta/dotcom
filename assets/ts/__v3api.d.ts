@@ -349,20 +349,19 @@ export interface Shape {
 }
 
 export interface RoutePattern {
-  typicality: 1 | 2 | 3 | 4;
-  time_desc: string | null;
-  route_id: string;
+  canonical: boolean;
+  direction_id: DirectionId;
+  headsign: string;
+  id: string;
+  name: string;
   representative_trip_id: string;
   representative_trip_polyline: string;
+  route_id: string;
   shape_id: string;
-  shape_priority: number;
-  stop_ids: string[];
-  headsign: string;
-  name: string;
-  id: string;
-  direction_id: DirectionId;
   sort_order: number;
-  canonical: boolean;
+  stop_ids: string[];
+  time_desc: string | null;
+  typicality: 0 | 1 | 2 | 3 | 4 | 5;
 }
 
 export interface StopHours {
