@@ -1,6 +1,5 @@
 defmodule DotcomWeb.Router do
   @moduledoc false
-  require Logger
 
   use DotcomWeb, :router
   use Plug.ErrorHandler
@@ -9,18 +8,8 @@ defmodule DotcomWeb.Router do
   alias DotcomWeb.StaticPage
 
   pipeline :secure do
-    IO.inspect("SECURE PIPELINE &&&&&&&&&&&&&&&&&&&&&&&")
-    Logger.info("THIS IS THE SECURE PIPE ################")
-
-    plug(DotcomWeb.Plugs.Debug)
-
     if force_ssl = Application.compile_env(:dotcom, :secure_pipeline)[:force_ssl] do
-      Logger.info("Force SSL is Called")
-
-      plug(Plug.SSL,
-        host: nil,
-        rewrite_on: [:x_forwarded_proto]
-      )
+      plug(Plug.SSL, force_ssl)
     end
   end
 
