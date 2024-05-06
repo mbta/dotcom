@@ -15,6 +15,7 @@ defmodule DotcomWeb.Plugs.Debug do
 
   @impl Plug
   def call(conn, _) do
+    Logger.info("#{IO.inspect(@pipeline)} SOMETHING ************** ELSE")
     conn
   end
 end
