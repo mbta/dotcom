@@ -8,9 +8,13 @@ defmodule Dotcom.Application do
 
   use Application
 
+  alias Telemetry.Metrics
+
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
+    telemetry_metrics_splunk_config = Application.get_env(:dotcom, :telemetry_metrics_splunk)
+
     Application.put_env(
       :dotcom,
       :allow_indexing,
@@ -26,7 +30,24 @@ defmodule Dotcom.Application do
 
     children =
       [
-        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []}
+        {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
+        {
+          TelemetryMetricsSplunk,
+          [
+            metrics: [Metrics.last_value("mbta_api.request")],
+            token: telemetry_metrics_splunk_config[:token],
+            url: telemetry_metrics_splunk_config[:url]
+          ]
+        },
+        {MBTA.Api.Stats, %{}},
+        {
+          :telemetry_poller,
+          measurements: [
+            {MBTA.Api.Stats, :dispatch_stats, []}
+          ],
+          period: :timer.seconds(60),
+          init_delay: :timer.seconds(15)
+        }
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [

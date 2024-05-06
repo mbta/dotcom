@@ -55,8 +55,9 @@ defmodule MBTA.Api.Stats do
       durations
       |> Enum.sum()
       |> Kernel.div(count)
+      |> System.convert_time_unit(:native, :millisecond)
 
-    :telemetry.execute([:mbta_api, :request], %{count: count, avg: avg}, %{
+    :telemetry.execute([:mbta_api], %{request: %{count: count, avg: avg}}, %{
       path: path,
       status: status
     })
