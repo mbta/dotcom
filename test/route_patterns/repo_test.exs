@@ -10,17 +10,19 @@ defmodule RoutePatterns.RepoTest do
 
   describe "get" do
     test "returns a single route pattern" do
-      expect(MBTA.Api.Mock, :get_json, fn url, _ ->
-        assert url == "/route_patterns/111-5-0"
+      id = Faker.Internet.slug()
+
+      expect(MBTA.Api.Mock, :get_json, fn path, _ ->
+        assert path == "/route_patterns/" <> id
 
         %JsonApi{
           data: [
-            build(:route_pattern_item, id: "111-5-0")
+            build(:route_pattern_item, id: id)
           ]
         }
       end)
 
-      assert %RoutePattern{id: "111-5-0"} = RoutePatterns.Repo.get("111-5-0")
+      assert %RoutePattern{id: ^id} = RoutePatterns.Repo.get(id)
     end
 
     test "returns nil for an unknown route pattern" do
