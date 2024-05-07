@@ -144,7 +144,6 @@ defmodule DotCom.Mixfile do
       {:telemetry, "1.2.1", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
       {:telemetry_metrics_splunk, "0.0.1-alpha"},
-      {:telemetry_metrics_statsd, "0.7.0"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       # latest version is 3.7.11; cannot upgrade because tests fail

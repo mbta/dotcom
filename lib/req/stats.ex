@@ -1,4 +1,4 @@
-defmodule MBTA.Api.Stats do
+defmodule Req.Stats do
   @moduledoc """
   This Agent attaches to telemetry events emitted by Finch and aggregates them by path and status.
   """
@@ -18,37 +18,40 @@ defmodule MBTA.Api.Stats do
   Handles telemetry events and aggregates them by path and status.
   """
   def handle_event(_name, measurement, metadata, _config) do
-    path = path_to_atom(metadata.request.path)
-    status = status_to_atom(metadata.status)
+    host = metadata.request.host
+    path = strip_filename(metadata.request.path)
+    status = metadata.status
     duration = measurement[:duration]
 
     Agent.update(__MODULE__, fn state ->
-      if Kernel.get_in(state, [path, status]) do
-        Kernel.update_in(state, [path, status], &(&1 ++ [duration]))
+      if Kernel.get_in(state, [host, path, status]) do
+        Kernel.update_in(state, [host, path, status], &(&1 ++ [duration]))
       else
-        Kernel.put_in(state, [Access.key(path, %{}), status], [duration])
+        Kernel.put_in(state, [Access.key(host, %{}), Access.key(path, %{}), status], [duration])
       end
     end)
   end
 
   @doc """
-  Dispatches the aggregated stats to the `[:mbta_api, :request]` telemetry event.
+  Dispatches the aggregated stats to the `[:req, :request]` telemetry event.
 
   Resets the Agent state after dispatching the stats.
   """
   def dispatch_stats() do
-    Enum.each(Agent.get(__MODULE__, & &1), &dispatch_path/1)
+    Enum.each(Agent.get(__MODULE__, & &1), &dispatch_host/1)
 
     Agent.update(__MODULE__, fn _ -> %{} end)
   end
 
-  defp dispatch_path({path, stats}) do
-    Enum.each(stats, fn {status, durations} ->
-      dispatch_stat(path, status, durations)
+  defp dispatch_host({host, stats}) do
+    Enum.each(stats, fn {path, statuses} ->
+      Enum.each(statuses, fn {status, durations} ->
+        dispatch_stat(host, path, status, durations)
+      end)
     end)
   end
 
-  defp dispatch_stat(path, status, durations) do
+  defp dispatch_stat(host, path, status, durations) do
     count = Enum.count(durations)
 
     avg =
@@ -57,22 +60,16 @@ defmodule MBTA.Api.Stats do
       |> Kernel.div(count)
       |> System.convert_time_unit(:native, :millisecond)
 
-    :telemetry.execute([:mbta_api, :request], %{count: count, avg: avg}, %{
+    :telemetry.execute([:req, :request], %{count: count, avg: avg}, %{
+      host: host,
       path: path,
       status: status
     })
   end
 
-  defp path_to_atom(path) do
+  defp strip_filename(path) do
     path
-    |> String.replace(~r{^/|/$}, "")
-    |> String.replace(~r{/}, "_")
-    |> String.to_atom()
-  end
-
-  defp status_to_atom(status) do
-    status
-    |> Integer.to_string()
-    |> String.to_atom()
+    |> (&Regex.replace(~r/\/$/, &1, "")).()
+    |> (&Regex.replace(~r/[\w|-]+\.\w+/, &1, "")).()
   end
 end
