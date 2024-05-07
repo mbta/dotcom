@@ -118,4 +118,81 @@ defmodule Test.Support.Factory.MbtaApi do
       )
     )
   end
+
+  def trip_item_factory(attrs) do
+    build(
+      :item,
+      Map.merge(
+        %{
+          attributes: %{
+            "direction_id" => Faker.Util.pick([0, 1]),
+            "headsign" => "",
+            "name" => ""
+          }
+        },
+        attrs,
+        fn _k, v1, v2 ->
+          Map.merge(v1, v2)
+        end
+      )
+    )
+  end
+
+  def prediction_item_factory(attrs) do
+    build(
+      :item,
+      Map.merge(
+        %{
+          attributes: %{
+            "arrival_time" => Faker.DateTime.forward(1),
+            "departure_time" => Faker.DateTime.forward(1),
+            "direction_id" => Faker.Util.pick([0, 1]),
+            "schedule_relationship" =>
+              Faker.Util.pick(["ADDED", "CANCELLED", "SKIPPED", "UNSCHEDULED", "NO_DATA"]),
+            "status" => "",
+            "stop_sequence" => 0,
+            "track" => ""
+          },
+          relationships: %{
+            "route" => [build(:route_item)],
+            "stop" => [build(:stop_item)],
+            "trip" => [build(:trip_item)],
+            "vehicle" => [build(:vehicle_item)]
+          }
+        },
+        attrs,
+        fn _k, v1, v2 ->
+          Map.merge(v1, v2)
+        end
+      )
+    )
+  end
+
+  def vehicle_item_factory(attrs) do
+    build(
+      :item,
+      Map.merge(
+        %{
+          attributes: %{
+            "bearing" => 0,
+            "current_status" => Faker.Util.pick(["IN_TRANSIT_TO", "INCOMING_AT", "STOPPED_AT"]),
+            "direction_id" => Faker.Util.pick([0, 1]),
+            "latitude" => Faker.Address.latitude(),
+            "longitude" => Faker.Address.longitude(),
+            "occupancy_status" =>
+              Faker.Util.pick(["FEW_SEATS_AVAILABLE", "FULL", "MANY_SEATS_AVAILABLE"])
+          },
+          relationships: %{
+            "route" => [build(:route_item)],
+            "stop" => [build(:stop_item)],
+            "trip" => [build(:trip_item)]
+          }
+        },
+        attrs,
+        fn _k, v1, v2 ->
+          Map.merge(v1, v2)
+        end
+      )
+    )
+  end
 end
