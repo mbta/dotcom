@@ -130,13 +130,6 @@ defmodule Stops.Repo do
     Api.by_trip(trip_id)
   end
 
-  @impl Stops.Repo.Behaviour
-  def stop_exists_on_route?(stop_id, route, direction_id) do
-    route
-    |> by_route(direction_id)
-    |> Enum.any?(&(&1.id == stop_id))
-  end
-
   @doc """
   Returns a list of the features associated with the given stop
   """

@@ -26,8 +26,6 @@ defmodule Stops.Repo.Behaviour do
 
   @callback by_trip(Trip.id_t()) :: Stop.stops_response()
 
-  @callback stop_exists_on_route?(Stop.id_t(), Route.t(), 0 | 1) :: boolean()
-
   @callback stop_features(Stop.t()) :: [Stop.stop_feature()]
   @callback stop_features(Stop.t(), Keyword.t()) :: [Stop.stop_feature()]
 end
