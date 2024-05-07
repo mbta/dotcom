@@ -13,3 +13,10 @@ config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 config :dotcom, :req_module, Req.Mock
 
 config :dotcom, :trip_plan_feedback_cache, Dotcom.Cache.TestCache
+
+# Let test requests get routed through the :secure pipeline
+config :dotcom, :secure_pipeline,
+  force_ssl: [
+    host: nil,
+    rewrite_on: [:x_forwarded_proto]
+  ]
