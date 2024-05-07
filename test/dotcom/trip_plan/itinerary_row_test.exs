@@ -2,11 +2,14 @@ defmodule TripPlan.ItineraryRowTest do
   use ExUnit.Case, async: true
 
   import Dotcom.TripPlan.ItineraryRow
+  import Mox
   import Test.Support.Factory
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
   alias TripPlan.{Leg, NamedPosition, PersonalDetail}
+
+  setup :verify_on_exit!
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -318,6 +321,10 @@ defmodule TripPlan.ItineraryRowTest do
     @transit_leg build(:leg, mode: build(:transit_detail))
 
     test "returns an itinerary row from a Leg" do
+      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> _, _ ->
+        %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+      end)
+
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row
     end
