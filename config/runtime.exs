@@ -42,13 +42,6 @@ if config_env() == :dev do
   config :dotcom,
     dev_server?: true,
     webpack_path: webpack_path
-
-  unless System.get_env("DRUPAL_ROOT") do
-    # To see CMS content locally, please read the README on how to setup Kalabox.
-    # These instructions will help you run the CMS locally and configure the
-    # correct endpoint for the drupal root.
-    System.put_env("DRUPAL_ROOT", "http://temp-drupal.invalid")
-  end
 end
 
 # Redis cluster configuration
@@ -107,6 +100,13 @@ else
     ]
 end
 
+config :dotcom, :cms_api,
+  base_url: System.get_env("CMS_API_BASE_URL", System.get_env("DRUPAL_ROOT")),
+  headers: [
+    {"Content-Type", "application/json"},
+    {"Accept", "application/json"}
+  ]
+
 config :dotcom, :mbta_api,
   base_url: System.get_env("MBTA_API_BASE_URL", System.get_env("V3_URL")),
   headers: [
@@ -136,14 +136,6 @@ config :dotcom, OpenTripPlanner,
 if config_env() != :test and System.get_env("OPEN_TRIP_PLANNER_URL") != "" do
   config :open_trip_planner_client,
     otp_url: System.get_env("OPEN_TRIP_PLANNER_URL")
-end
-
-if config_env() != :test do
-  config :dotcom,
-    drupal: [
-      cms_root: System.fetch_env!("DRUPAL_ROOT"),
-      cms_static_path: "/sites/default/files"
-    ]
 end
 
 if config_env() == :prod do

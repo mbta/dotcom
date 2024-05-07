@@ -3,7 +3,7 @@ defmodule DotcomWeb.TeaserViewTest do
 
   import DotcomWeb.CMS.TeaserView
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Partial.Teaser
 
   @dummy_teaser %Teaser{

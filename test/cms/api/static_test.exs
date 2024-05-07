@@ -1,6 +1,6 @@
-defmodule CMS.API.StaticTest do
+defmodule CMS.Api.StaticTest do
   use ExUnit.Case
-  import CMS.API.Static
+  import CMS.Api.Static
 
   describe "view/2" do
     test "stubs /news when given a page parameter and returns valid json" do

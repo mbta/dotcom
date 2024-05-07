@@ -1,7 +1,7 @@
 defmodule CMS.Page.RedirectTest do
   use ExUnit.Case, async: true
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.Link
   alias CMS.Page.Redirect
 

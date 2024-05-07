@@ -6,7 +6,7 @@ defmodule CMS.ParagraphTest do
   import CMS.Partial.Paragraph
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.{File, Image, Link}
 
   alias CMS.Partial.Paragraph.{

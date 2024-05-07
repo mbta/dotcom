@@ -7,7 +7,7 @@ defmodule CMS.Page.ProjectTest do
       update_api_response_whole_field: 3
     ]
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.{File, Image}
   alias CMS.Page.Project
   alias CMS.Partial.Paragraph.CustomHTML

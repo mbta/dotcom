@@ -23,10 +23,10 @@ From a development standpoint, polyfills and code transforms are implemented via
 - [Getting Started](#getting-started)
 - [Running the Server](#running-the-server)
 - [Environment Variables](docs/ENVIRONMENT.md)
+    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`](docs/ENVIRONMENT.md#algolia_app_id-algolia_search_key-and-algolia_write_key)
+    - [`CMS_API_BASE_URL`](docs/ENVIRONMENT.md#cms_api_base_url)
     - [`MBTA_API_BASE_URL`](docs/ENVIRONMENT.md#mbta_api_base_url)
     - [`MBTA_API_KEY`](docs/ENVIRONMENT.md#mbta_api_key)
-    - [`DRUPAL_ROOT`](docs/ENVIRONMENT.md#drupal_root)
-    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`](docs/ENVIRONMENT.md#algolia_app_id-algolia_search_key-and-algolia_write_key)
 - [Additional documentation](#additional-resources)
 
 ## Getting Started

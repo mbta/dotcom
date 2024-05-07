@@ -32,7 +32,7 @@ for development since requests without an API key have a very low rate limit.
 
 ## Optional
 
-### `DRUPAL_ROOT`
+### `CMS_API_BASE_URL`
 
 The URL for our CMS. You'll need to set this to view any of the static content
 on the site.

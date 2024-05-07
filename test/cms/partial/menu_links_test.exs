@@ -3,7 +3,7 @@ defmodule CMS.Partial.MenuLinksTest do
 
   import CMS.Partial.MenuLinks
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.Link
   alias CMS.Partial.MenuLinks
 

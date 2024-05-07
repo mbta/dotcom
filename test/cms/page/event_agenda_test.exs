@@ -1,7 +1,7 @@
 defmodule CMS.Page.EventAgendaTest do
   use ExUnit.Case, async: true
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Page.EventAgenda
   alias CMS.Partial.Paragraph.AgendaTopic
 

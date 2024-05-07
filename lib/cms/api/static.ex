@@ -1,10 +1,11 @@
-defmodule CMS.API.Static do
+defmodule CMS.Api.Static do
   @moduledoc """
+  This module provides static responses for the CMS API.
 
-  Emulates Drupal REST API (both native and Views-based)
-
+  Should be removed when we rewrite all tests in this module.
   """
-  @behaviour CMS.API
+
+  @behaviour CMS.Api.Behaviour
 
   alias CMS.Helpers
   alias CMS.Page.NewsEntry

@@ -3,7 +3,7 @@ defmodule CMS.Page.PersonTest do
 
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Field.Image
   alias CMS.Page.Person
 

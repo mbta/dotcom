@@ -1,7 +1,7 @@
 defmodule CMS.Factory do
   @moduledoc false
 
-  alias CMS.API.Static
+  alias CMS.Api.Static
   alias CMS.Page.{Event, NewsEntry, Person, Project, ProjectUpdate}
   alias CMS.Partial.Teaser
 

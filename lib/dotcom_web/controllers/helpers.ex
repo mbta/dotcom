@@ -11,8 +11,7 @@ defmodule DotcomWeb.ControllerHelpers do
   alias DotcomWeb.CMSController
   alias Timex.Format.DateTime.Formatters.Strftime
 
-  @content_http_pool Application.compile_env!(:dotcom, :cms_http_pool)
-  @httpoison Application.compile_env!(:dotcom, :httpoison)
+  @req Application.compile_env!(:dotcom, :req_module)
 
   @valid_resp_headers [
     "content-type",
@@ -124,8 +123,8 @@ defmodule DotcomWeb.ControllerHelpers do
   """
   @spec forward_static_file(Conn.t(), String.t()) :: Conn.t()
   def forward_static_file(conn, url) do
-    case @httpoison.get(url, [], hackney: [pool: @content_http_pool]) do
-      {:ok, %{status_code: 200, body: body, headers: headers}} ->
+    case client() |> @req.get(url: url) do
+      {:ok, %{status: 200, body: body, headers: headers}} ->
         conn
         |> add_headers_if_valid(headers)
         |> Conn.send_resp(:ok, body)
@@ -133,6 +132,15 @@ defmodule DotcomWeb.ControllerHelpers do
       _ ->
         Conn.send_resp(conn, :not_found, "")
     end
+  end
+
+  defp client(headers \\ []) do
+    config = Application.get_env(:dotcom, :cms_api)
+
+    @req.new(
+      base_url: config[:base_url],
+      headers: config[:headers] ++ headers
+    )
   end
 
   @spec check_cms_or_404(Conn.t()) :: Conn.t()
@@ -182,8 +190,8 @@ defmodule DotcomWeb.ControllerHelpers do
   @spec add_headers_if_valid(Conn.t(), [{String.t(), String.t()}]) :: Conn.t()
   defp add_headers_if_valid(conn, headers) do
     Enum.reduce(headers, conn, fn {key, value}, conn ->
-      if String.downcase(key) in @valid_resp_headers do
-        Conn.put_resp_header(conn, String.downcase(key), value)
+      if key in @valid_resp_headers && is_binary(value) do
+        Conn.put_resp_header(conn, key, value)
       else
         conn
       end

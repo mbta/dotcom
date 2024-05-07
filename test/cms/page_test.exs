@@ -2,7 +2,7 @@ defmodule PageTest do
   use ExUnit.Case, async: true
 
   alias CMS.{
-    API.Static,
+    Api.Static,
     Page,
     Partial.Paragraph.ContentList,
     Partial.Teaser
