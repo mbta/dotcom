@@ -142,15 +142,12 @@ defmodule Stops.Repo do
   """
   @impl Stops.Repo.Behaviour
   def stop_features(%Stop{} = stop, opts \\ []) do
-    excluded = Keyword.get(opts, :exclude, [])
-
     [
       route_features(stop.id, opts),
       parking_features(stop.parking_lots),
       accessibility_features(stop.accessibility)
     ]
     |> Enum.concat()
-    |> Enum.reject(&(&1 in excluded))
     |> Enum.sort_by(&sort_feature_icons/1)
   end
 
