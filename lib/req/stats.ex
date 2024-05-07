@@ -1,6 +1,6 @@
 defmodule Req.Stats do
   @moduledoc """
-  This Agent attaches to telemetry events emitted by Finch and aggregates them by path and status.
+  This Agent attaches to telemetry events emitted by Finch (used by Req) and aggregates them by host, path, and status.
   """
 
   use Agent
@@ -15,7 +15,7 @@ defmodule Req.Stats do
   end
 
   @doc """
-  Handles telemetry events and aggregates them by path and status.
+  Handles telemetry events and aggregates them by host, path, and status.
   """
   def handle_event(_name, measurement, metadata, _config) do
     host = metadata.request.host

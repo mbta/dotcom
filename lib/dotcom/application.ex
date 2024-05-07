@@ -8,8 +8,6 @@ defmodule Dotcom.Application do
 
   use Application
 
-  alias Telemetry.Metrics
-
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
@@ -29,11 +27,12 @@ defmodule Dotcom.Application do
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
+        {DotcomWeb.Telemetry, []},
         {Req.Telemetry, []}
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
-            # We can't run telemetry in the test environment because none of the levels are running
+            # We can't run cache telemetry in the test environment because none of the levels are running
             {Dotcom.Cache.Telemetry, []},
             # We don't need to run this cache because we are using the local cache for tests
             {Dotcom.Cache.TripPlanFeedback.Cache, []}
