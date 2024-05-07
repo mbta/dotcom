@@ -2,7 +2,6 @@ defmodule Predictions.RepoTest do
   use ExUnit.Case, async: false
   @moduletag :external
 
-  import Mock
   import Mox
 
   alias Predictions.Repo
@@ -62,8 +61,8 @@ defmodule Predictions.RepoTest do
     test "filtes out predictions with no departure" do
       five_minutes_in_future = DateTime.add(Timex.now(), 5, :minute)
 
-      {:ok, five_minutes_in_future_string} =
-        Timex.format(five_minutes_in_future, "{ISO:Extended:Z}")
+      five_minutes_in_future_string =
+        Timex.format!(five_minutes_in_future, "{ISO:Extended:Z}")
 
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         %JsonApi{
@@ -110,14 +109,49 @@ defmodule Predictions.RepoTest do
         }
       end)
 
-      with_mocks([
-        {Stops.Repo, [:passthrough], get_parent: fn _ -> %Stops.Stop{id: "Parent"} end},
-        {Routes.Repo, [:passthrough], get: fn _ -> Routes.MockRepoApi.get("Red") end}
-      ]) do
-        predictions = Repo.all(route: "39")
+      # Route for calculating display time
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{
+          data: [
+            %JsonApi.Item{
+              id: "Red",
+              attributes: %{
+                "type" => "1",
+                "long_name" => "Red Test Subway",
+                "direction_names" => ["North Test Name", "South Test Name"],
+                "direction_destinations" => ["North Test", "South Test"]
+              },
+              relationships: %{}
+            }
+          ]
+        }
+      end)
 
-        assert Kernel.length(predictions) == 1
-      end
+      # Parent Stop for prediction
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        %JsonApi{
+          data: [
+            %JsonApi.Item{
+              id: "place-subway",
+              attributes: %{
+                "name" => "Test Subway Stop",
+                "location_type" => 0,
+                "platform_name" => "Test Subway Platform",
+                "platform_code" => "Test Code",
+                "description" => "Test Description"
+              },
+              relationships: %{
+                "facilities" => %{},
+                "zone" => "Test Zone"
+              }
+            }
+          ]
+        }
+      end)
+
+      predictions = Repo.all(route: "39")
+
+      assert Kernel.length(predictions) == 1
     end
 
     test "returns a list even if the server is down" do
