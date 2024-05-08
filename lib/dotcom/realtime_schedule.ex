@@ -11,7 +11,6 @@ defmodule Dotcom.RealtimeSchedule do
   alias Dotcom.JsonHelpers
   alias Dotcom.TransitNearMe
   alias Predictions.Prediction
-  alias Predictions.Repo, as: PredictionsRepo
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.Route
@@ -25,10 +24,12 @@ defmodule Dotcom.RealtimeSchedule do
 
   @predicted_schedules_per_stop 2
 
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+
   @default_opts [
     stops_fn: &StopsRepo.get/1,
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
-    predictions_fn: &PredictionsRepo.all_no_cache/1,
+    predictions_fn: Function.capture(@predictions_repo, :all_no_cache, 1),
     schedules_fn: &SchedulesRepo.by_route_ids/2,
     alerts_fn: &Alerts.Repo.by_route_ids/2
   ]
