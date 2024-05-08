@@ -12,15 +12,13 @@ defmodule DotcomWeb.ScheduleController.Predictions do
   alias Predictions.Prediction
   alias Util.AsyncAssign
 
-  @default_opts [
-    predictions_fn: &Predictions.Repo.all/1
-  ]
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   @typep predictions_fn :: (Keyword.t() -> [Prediction.t()] | {:error, any})
 
   @impl true
-  def init(opts) do
-    Keyword.merge(@default_opts, opts)
+  def init(opts \\ []) do
+    Keyword.merge([predictions_fn: Function.capture(@predictions_repo, :all, 1)], opts)
   end
 
   @impl true

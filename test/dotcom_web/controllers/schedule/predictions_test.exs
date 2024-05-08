@@ -2,6 +2,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.ScheduleController.Predictions
+  import Mox
   alias Predictions.Prediction
 
   defmodule PredictionsTest do
@@ -26,8 +27,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
   end
 
   describe "init/1" do
-    test "defaults to using Predictions.Repo.all" do
-      assert init([]) == [predictions_fn: &Predictions.Repo.all/1]
+    test "defaults to using Predictions.Repo.Mock.all" do
+      assert init() == [predictions_fn: &Predictions.Repo.Mock.all/1]
     end
   end
 
@@ -36,6 +37,17 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       conn =
         conn
         |> assign(:date, ~D[2016-12-31])
+        |> assign(:origin, Faker.Pokemon.location())
+        |> call(@opts)
+
+      assert conn.assigns[:predictions] == []
+      assert conn.assigns[:vehicle_predictions] == []
+    end
+
+    test "when there is no origin, assigns no predictions", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:origin, nil)
         |> call(@opts)
 
       assert conn.assigns[:predictions] == []
@@ -43,24 +55,32 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "assigns predictions for a route, stop, and direction ID", %{conn: conn} do
+      expect(Predictions.Repo.Mock, :all, fn [route: "4", direction_id: "0"] ->
+        @empty
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "place-sstat"})
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn [route: "4", direction_id: "0"] -> @empty end)
+        |> call(init())
 
       assert conn.assigns[:predictions] == []
     end
 
     test "ignores predictions which have the origin as their destination", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        trip: 1234,
-        departing?: false
-      }
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [
+          %Predictions.Prediction{
+            time: ~N[2017-01-01T00:00:00],
+            stop: %Stops.Stop{id: "origin"},
+            trip: 1234,
+            departing?: false
+          }
+        ]
+      end)
 
       conn =
         conn
@@ -68,7 +88,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> call(init())
 
       assert conn.assigns.predictions == []
     end
@@ -82,13 +102,17 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         departing?: true
       }
 
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "origin"})
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> call(init())
 
       assert conn.assigns.predictions == [prediction]
     end
@@ -102,13 +126,17 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         departing?: true
       }
 
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "origin"})
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> call(init())
 
       assert conn.assigns.predictions == [prediction]
     end
@@ -122,13 +150,17 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         departing?: true
       }
 
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "origin"})
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> call(init())
 
       assert conn.assigns.predictions == []
     end
@@ -141,33 +173,45 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         departing?: true
       }
 
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "origin"})
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> call(init())
 
       assert conn.assigns.predictions == [prediction]
     end
 
     test "otherwise, assigns no predictions", %{conn: conn} do
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        []
+      end)
+
       conn =
         conn
-        |> call(@opts)
+        |> call(init())
 
       assert conn.assigns[:predictions] == []
     end
 
     test "destination predictions are assigned if destination is assigned", %{conn: conn} do
+      expect(Predictions.Repo.Mock, :all, fn [route: "66"] ->
+        @empty
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "1148"})
         |> assign(:destination, %Stops.Stop{id: "21148"})
         |> assign(:route, %{id: "66"})
         |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn [route: "66"] -> @empty end)
+        |> call(init())
 
       assert conn.assigns[:predictions] == []
     end
@@ -188,6 +232,16 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         }
       }
 
+      Predictions.Repo.Mock
+      |> expect(:all, fn [route: "66"] -> [] end)
+      |> expect(:all, fn [trip: "1,2"] ->
+        # we transform the data into this form so that we only need to make one repo call
+        [
+          %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
+          %Prediction{stop: %Stops.Stop{id: "place-north"}}
+        ]
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "1148"})
@@ -195,19 +249,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:route, %{id: "66"})
         |> assign(:direction_id, "0")
         |> assign(:vehicle_locations, vehicle_locations)
-        |> call(
-          predictions_fn: fn
-            [route: "66"] ->
-              []
-
-            # we transform the data into this form so that we only need to make one repo call
-            [trip: "1,2"] ->
-              [
-                %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
-                %Prediction{stop: %Stops.Stop{id: "place-north"}}
-              ]
-          end
-        )
+        |> call(init())
 
       assert conn.assigns.vehicle_predictions == [
                %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
@@ -229,6 +271,15 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         }
       }
 
+      Predictions.Repo.Mock
+      |> expect(:all, fn [route: "66"] -> [] end)
+      |> expect(:all, fn [trip: "1,2"] ->
+        # we transform the data into this form so that we only need to make one repo call
+        [
+          %Prediction{stop: %Stops.Stop{id: "place-sstat"}}
+        ]
+      end)
+
       conn =
         conn
         |> assign(:origin, %Stops.Stop{id: "1148"})
@@ -236,16 +287,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:route, %{id: "66"})
         |> assign(:direction_id, "0")
         |> assign(:vehicle_locations, vehicle_locations)
-        |> call(
-          predictions_fn: fn
-            [route: "66"] ->
-              []
-
-            # we transform the data into this form so that we only need to make one repo call
-            [trip: "1,2"] ->
-              [%Prediction{stop: %Stops.Stop{id: "place-sstat"}}]
-          end
-        )
+        |> call(init())
 
       assert conn.assigns.vehicle_predictions == [
                %Prediction{stop: %Stops.Stop{id: "place-sstat"}}
@@ -253,8 +295,11 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "assigns empty lists if the predictions return an error", %{conn: conn} do
-      predictions_fn = fn _ -> {:error, :no_predictions} end
-      conn = call(conn, init(predictions_fn: predictions_fn))
+      expect(Predictions.Repo.Mock, :all, fn [route: "66"] ->
+        {:error, :no_predictions}
+      end)
+
+      conn = call(conn, init())
 
       assert conn.assigns.predictions == []
       assert conn.assigns.vehicle_predictions == []

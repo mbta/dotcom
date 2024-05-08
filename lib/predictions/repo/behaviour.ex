@@ -3,10 +3,6 @@ defmodule Predictions.Repo.Behaviour do
   Behavior for an API client for fetching prediction data.
   """
 
-  alias RoutePatterns.RoutePattern
-  alias Routes.Route
-  alias Stops.Stop
-
   @doc """
   Return predictions for given params
   """
