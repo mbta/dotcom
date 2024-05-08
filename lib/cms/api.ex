@@ -79,7 +79,14 @@ defmodule CMS.Api do
   end
 
   defp set_redirect_options(uri) do
-    [external: parse_redirect_query(uri)]
+    base_url = Application.get_env(:dotcom, :cms_api)[:base_url]
+    file_path = "/sites/default/files"
+
+    if String.contains?(base_url, uri.host) and not String.contains?(uri.path, file_path) do
+      [to: uri |> internal_uri() |> parse_redirect_query()]
+    else
+      [external: parse_redirect_query(uri)]
+    end
   end
 
   @spec parse_redirect_query(URI.t()) :: String.t()
