@@ -1,15 +1,23 @@
 defmodule Req.Telemetry do
   @moduledoc """
+  This Supervisor is responsible for starting the Telemetry poller and defining the metrics to be collected for Req (finch).
+  We poll the metrics every 60 seconds and send them to the `TelemetryMetricsSplunk` reporter.
   """
 
   use Supervisor
 
   alias Telemetry.Metrics
 
+  @doc """
+  Starts the supervisor.
+  """
   def start_link(arg) do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
+  @doc """
+  Initializes the supervisor.
+  """
   def init(_arg) do
     telemetry_metrics_splunk_config = Application.get_env(:dotcom, :telemetry_metrics_splunk)
 
