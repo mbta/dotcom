@@ -22,7 +22,11 @@ defmodule DotcomWeb.ScheduleController.Line do
 
     @type t :: %__MODULE__{
             stops_by_route_fn:
-              {Application.compile_env!(:dotcom, :repo_modules)[:stops], :by_route, 3}
+              Function.capture(
+                Application.compile_env!(:dotcom, :repo_modules)[:stops],
+                :by_route,
+                3
+              )
           }
   end
 

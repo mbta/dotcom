@@ -27,7 +27,7 @@ defmodule Dotcom.RealtimeSchedule do
   @predicted_schedules_per_stop 2
 
   @default_opts [
-    stops_fn: {@stops_repo, :get, 1},
+    stops_fn: Function.capture(@stops_repo, :get, 1),
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
     predictions_fn: &PredictionsRepo.all_no_cache/1,
     schedules_fn: &SchedulesRepo.by_route_ids/2,

@@ -13,11 +13,12 @@ defmodule Stops.Nearby do
   @type route_with_direction :: %{direction_id: 0 | 1 | nil, route: Route.t()}
 
   defmodule Options do
+    @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
     @moduledoc "Defines shared options and defaults for this module's functions."
     defstruct api_fn: &Stops.Nearby.api_around/2,
               keys_fn: &Stops.Nearby.keys/1,
-              fetch_fn:
-                {Application.compile_env!(:dotcom, :repo_modules)[:stops], :get_parent, 1},
+              fetch_fn: Function.capture(@stops_repo, :get_parent, 1),
               routes_fn: &Routes.Repo.by_stop_and_direction/2,
               limit: nil
   end

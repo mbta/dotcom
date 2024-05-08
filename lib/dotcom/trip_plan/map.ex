@@ -12,7 +12,7 @@ defmodule Dotcom.TripPlan.Map do
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @default_opts [
     route_mapper: &Routes.Repo.get/1,
-    stop_mapper: {@stops_repo, :get_parent, 1}
+    stop_mapper: Function.capture(@stops_repo, :get_parent, 1)
   ]
 
   @moduledoc """
