@@ -11,10 +11,9 @@ defmodule CMS.Api do
   def preview(node_id, revision_id) do
     path = ~s(/cms/revisions/#{node_id})
 
-    case client(vid: revision_id) |> @req.get(url: path) do
-      {:ok, response} -> {:ok, response.body}
-      {:error, reason} -> {:error, reason}
-    end
+    client(vid: revision_id)
+    |> @req.get(url: path, decode_body: false, redirect: false)
+    |> handle_response()
   end
 
   @impl CMS.Api.Behaviour
@@ -24,11 +23,22 @@ defmodule CMS.Api do
       | Enum.reduce(params, [], &stringify_params/2)
     ]
 
-    case client() |> @req.get(url: path, params: params) do
-      {:ok, response} -> {:ok, response.body}
-      {:error, reason} -> {:error, reason}
+    client()
+    |> @req.get(url: path, params: params, decode_body: false, redirect: false)
+    |> handle_response()
+  end
+
+  defp handle_response({:ok, response}) do
+    case response.status do
+      200 -> Jason.decode(response.body)
+      301 -> handle_redirect(response)
+      302 -> handle_redirect(response)
+      404 -> {:error, :not_found}
+      _ -> {:error, :unexpected_status}
     end
   end
+
+  defp handle_response({:error, reason}), do: {:error, reason}
 
   defp client(headers \\ []) do
     config = Application.get_env(:dotcom, :cms_api)
@@ -37,6 +47,66 @@ defmodule CMS.Api do
       base_url: config[:base_url],
       headers: config[:headers] ++ headers
     )
+  end
+
+  # Drupal's Redirect module forces all location header values to be
+  # absolute paths, so we need to determine if the domain qualifies
+  # as internal (originally entered as a /relative/path) or external
+  # (entered into Drupal with a URI scheme). Sets :opts for redirect/2.
+
+  defp handle_redirect(%Req.Response{headers: headers, status: status}) do
+    headers
+    |> Enum.find(fn {key, _} -> String.downcase(key) == "location" end)
+    |> do_get_redirect(status)
+  end
+
+  @spec do_get_redirect({String.t(), String.t()} | nil, integer) :: {:error, API.error()}
+  defp do_get_redirect(nil, _), do: {:error, :invalid_response}
+
+  defp do_get_redirect({_key, url}, status) do
+    opts =
+      url
+      |> List.first()
+      |> URI.parse()
+      |> set_redirect_options()
+
+    {:error, {:redirect, status, opts}}
+  end
+
+  @spec set_redirect_options(URI.t()) :: Keyword.t()
+  defp set_redirect_options(%URI{host: host} = uri) when is_nil(host) do
+    [to: uri |> internal_uri() |> parse_redirect_query()]
+  end
+
+  defp set_redirect_options(uri) do
+    [external: parse_redirect_query(uri)]
+  end
+
+  @spec parse_redirect_query(URI.t()) :: String.t()
+  defp parse_redirect_query(%URI{} = uri) do
+    uri
+    |> Map.update!(:query, &update_query/1)
+    |> URI.to_string()
+  end
+
+  @spec update_query(String.t() | nil) :: String.t()
+  defp update_query(query) when query in ["_format=json", nil] do
+    nil
+  end
+
+  defp update_query(query) do
+    # If the redirect path happens to include query params,
+    # Drupal will append the request query parameters to the redirect params.
+
+    query
+    |> URI.decode_query()
+    |> Map.delete("_format")
+    |> URI.encode_query()
+  end
+
+  @spec internal_uri(URI.t()) :: URI.t()
+  defp internal_uri(%URI{} = uri) do
+    %URI{uri | scheme: nil, authority: nil, host: nil}
   end
 
   @type param_key :: String.t() | atom()
