@@ -1,6 +1,8 @@
 defmodule Dotcom.TransitNearMeTest do
   use ExUnit.Case
 
+  import Mox
+
   alias LocationService.Address
   alias Predictions.Prediction
   alias Routes.Route
@@ -725,7 +727,9 @@ defmodule Dotcom.TransitNearMeTest do
     }
 
     test "returns time data for the next 2 predictions" do
-      predictions_fn = fn _ -> [@prediction1, @prediction2, @prediction3] end
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [@prediction1, @prediction2, @prediction3]
+      end)
 
       schedules_fn = fn _, _ ->
         [@schedule1, @schedule2, @schedule3]
@@ -787,7 +791,6 @@ defmodule Dotcom.TransitNearMeTest do
       actual =
         TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
           schedules_fn: schedules_fn,
-          predictions_fn: predictions_fn,
           now: @now
         )
 
@@ -795,7 +798,7 @@ defmodule Dotcom.TransitNearMeTest do
     end
 
     test "returns no  data when schedules is empty" do
-      predictions_fn = fn _ -> [@prediction1] end
+      expect(Predictions.Repo.Mock, :all, fn _ -> [@prediction1] end)
 
       schedules_fn = fn _, _ ->
         []
@@ -804,7 +807,6 @@ defmodule Dotcom.TransitNearMeTest do
       actual =
         TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
           schedules_fn: schedules_fn,
-          predictions_fn: predictions_fn,
           now: @now
         )
 
@@ -812,7 +814,7 @@ defmodule Dotcom.TransitNearMeTest do
     end
 
     test "return neither schedules nor predictions if date is outside rating" do
-      predictions_fn = fn _ -> [@prediction1] end
+      expect(Predictions.Repo.Mock, :all, fn _ -> [@prediction1] end)
 
       schedules_fn = fn _, _ ->
         {:error,
@@ -833,7 +835,6 @@ defmodule Dotcom.TransitNearMeTest do
       actual =
         TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
           schedules_fn: schedules_fn,
-          predictions_fn: predictions_fn,
           now: @now
         )
 
