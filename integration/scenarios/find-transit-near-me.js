@@ -4,7 +4,7 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/transit-near-me`);
 
   await page
-    .locator("input#search-transit-near-me__input")
+    .locator("input#m-transit-near-me__input")
     .pressSequentially("Boston City Hall");
   await page.waitForSelector("div.c-search-bar__-dataset-locations");
   await page.locator("a.c-search-result__link").first().click();
