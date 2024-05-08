@@ -11,7 +11,6 @@ defmodule DotcomWeb.Telemetry do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
-  @impl true
   def init(_arg) do
     telemetry_metrics_splunk_config = Application.get_env(:dotcom, :telemetry_metrics_splunk)
 
@@ -24,17 +23,26 @@ defmodule DotcomWeb.Telemetry do
           url: telemetry_metrics_splunk_config[:url]
         ]
       },
+      {
+        :telemetry_poller,
+        measurements: measurements(), period: :timer.seconds(60), init_delay: :timer.seconds(5)
+      },
       {DotcomWeb.Stats, %{}}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  def measurements do
-    []
+  defp measurements do
+    [
+      {DotcomWeb.Stats, :dispatch_stats, []}
+    ]
   end
 
-  def metrics do
-    []
+  defp metrics do
+    [
+      Metrics.last_value("dotcom_web.request.count"),
+      Metrics.last_value("dotcom_web.request.avg")
+    ]
   end
 end

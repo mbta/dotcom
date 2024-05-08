@@ -27,6 +27,7 @@ defmodule Dotcom.Application do
     children =
       [
         {Application.get_env(:dotcom, :cache, Dotcom.Cache.Multilevel), []},
+        {Dotcom.Telemetry, []},
         {DotcomWeb.Telemetry, []},
         {Req.Telemetry, []}
       ] ++
