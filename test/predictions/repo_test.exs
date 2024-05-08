@@ -1,6 +1,5 @@
 defmodule Predictions.RepoTest do
   use ExUnit.Case, async: false
-  @moduletag :external
 
   import Mox
 
@@ -21,6 +20,7 @@ defmodule Predictions.RepoTest do
   setup :verify_on_exit!
 
   describe "all/1" do
+    @tag :external
     test "returns a list" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         %JsonApi{data: []}
@@ -31,6 +31,7 @@ defmodule Predictions.RepoTest do
       assert is_list(predictions)
     end
 
+    @tag :external
     test "can filter by trip" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         %JsonApi{data: []}
@@ -43,6 +44,7 @@ defmodule Predictions.RepoTest do
       end
     end
 
+    @tag :external
     test "filters by min_time" do
       min_time = Util.now() |> Timex.shift(minutes: 15)
 
@@ -58,102 +60,104 @@ defmodule Predictions.RepoTest do
       end
     end
 
-    test "filtes out predictions with no departure" do
+    test "filters out predictions with no departure" do
       five_minutes_in_future = DateTime.add(Timex.now(), 5, :minute)
 
       five_minutes_in_future_string =
         Timex.format!(five_minutes_in_future, "{ISO:Extended:Z}")
 
+      # Set as constant to take advantage of caching (less calls to get_json)
+      route_id = Faker.Pizza.cheese()
+
+      prediction_json = fn %{departure_time: departure_time, arrival_time: arrival_time} ->
+        %JsonApi.Item{
+          attributes: %{
+            "departure_time" => departure_time,
+            "arrival_time" => arrival_time,
+            "direction_id" => Faker.random_between(0, 1)
+          },
+          relationships: %{
+            "route" => [
+              %{
+                id: route_id
+              }
+            ],
+            "trip" => [],
+            "vehicle" => [],
+            "stop" => [
+              %{id: Faker.Pizza.topping()}
+            ]
+          }
+        }
+      end
+
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         %JsonApi{
           data: [
-            %JsonApi.Item{
-              attributes: %{
-                "departure_time" => nil,
-                "arrival_time" => five_minutes_in_future_string,
-                "direction_id" => 1
-              },
-              relationships: %{
-                "route" => [
-                  %{
-                    id: "Red"
-                  }
-                ],
-                "trip" => [],
-                "vehicle" => [],
-                "stop" => [
-                  %{id: "StopID"}
-                ]
-              }
-            },
-            %JsonApi.Item{
-              attributes: %{
-                "departure_time" => five_minutes_in_future_string,
-                "arrival_time" => five_minutes_in_future_string,
-                "direction_id" => 1
-              },
-              relationships: %{
-                "route" => [
-                  %{
-                    id: "Red"
-                  }
-                ],
-                "trip" => [],
-                "vehicle" => [],
-                "stop" => [
-                  %{id: "StopID"}
-                ]
-              }
-            }
+            prediction_json.(%{departure_time: nil, arrival_time: five_minutes_in_future_string}),
+            prediction_json.(%{
+              departure_time: five_minutes_in_future_string,
+              arrival_time: five_minutes_in_future_string
+            })
           ]
         }
       end)
 
+      test_stop_data = %JsonApi{
+        data: [
+          %JsonApi.Item{
+            id: Faker.Pizza.cheese(),
+            attributes: %{
+              "name" => Faker.Pizza.combo(),
+              "location_type" => Faker.random_between(0, 1),
+              "platform_name" => Faker.Pizza.company(),
+              "platform_code" => Faker.Pizza.company(),
+              "description" => Faker.Pizza.topping()
+            },
+            relationships: %{
+              "facilities" => %{},
+              "zone" => Faker.Pizza.topping()
+            }
+          }
+        ]
+      }
+
+      test_route_data = %JsonApi{
+        data: [
+          %JsonApi.Item{
+            id: Faker.Pizza.cheese(),
+            attributes: %{
+              "type" => "1",
+              "long_name" => Faker.Pizza.topping(),
+              "direction_names" => [Faker.Pizza.meat(), Faker.Pizza.meat()],
+              "direction_destinations" => [Faker.Pizza.company(), Faker.Pizza.company()]
+            },
+            relationships: %{}
+          }
+        ]
+      }
+
       # Route for calculating display time
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        %JsonApi{
-          data: [
-            %JsonApi.Item{
-              id: "Red",
-              attributes: %{
-                "type" => "1",
-                "long_name" => "Red Test Subway",
-                "direction_names" => ["North Test Name", "South Test Name"],
-                "direction_destinations" => ["North Test", "South Test"]
-              },
-              relationships: %{}
-            }
-          ]
-        }
+        test_route_data
       end)
 
       # Parent Stop for prediction
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        %JsonApi{
-          data: [
-            %JsonApi.Item{
-              id: "place-subway",
-              attributes: %{
-                "name" => "Test Subway Stop",
-                "location_type" => 0,
-                "platform_name" => "Test Subway Platform",
-                "platform_code" => "Test Code",
-                "description" => "Test Description"
-              },
-              relationships: %{
-                "facilities" => %{},
-                "zone" => "Test Zone"
-              }
-            }
-          ]
-        }
+        test_stop_data
       end)
 
-      predictions = Repo.all(route: "39")
+      # Route for generating struct
+      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+        test_route_data
+      end)
+
+      predictions = Repo.all(route: Faker.Pizza.cheese())
 
       assert Kernel.length(predictions) == 1
     end
 
+    @tag :external
     test "returns a list even if the server is down" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         {:error, %HTTPoison.Error{reason: :econnrefused}}
@@ -162,6 +166,7 @@ defmodule Predictions.RepoTest do
       assert Repo.all(route: "test_down_server") == []
     end
 
+    @tag :external
     test "returns valid entries even if some don't parse" do
       expect(MBTA.Api.Mock, :get_json, fn _, _, _ ->
         %JsonApi{data: []}
@@ -177,6 +182,7 @@ defmodule Predictions.RepoTest do
       refute Repo.all(route: "Red", trip: "made_up_trip") == []
     end
 
+    @tag :external
     test "caches trips that are retrieved", %{cache: cache} do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         %JsonApi{data: []}
@@ -187,6 +193,7 @@ defmodule Predictions.RepoTest do
       assert {:ok, %Schedules.Trip{id: "trip"}} = cache.get({:trip, "trip"})
     end
 
+    @tag :external
     test "returns an empty list if the API returns an error" do
       # make sure it's cached
       expect(MBTA.Api.Mock, :get_json, fn _, _, _ ->
@@ -218,6 +225,7 @@ defmodule Predictions.RepoTest do
   end
 
   describe "load_from_other_repos/1" do
+    @tag :external
     test "turns a list of records into structs" do
       prediction = {
         "prediction_id",
@@ -255,6 +263,7 @@ defmodule Predictions.RepoTest do
     end
   end
 
+  @tag :external
   test "drops prediction if stop_id is nil" do
     prediction = {
       "prediction_id",
@@ -276,6 +285,7 @@ defmodule Predictions.RepoTest do
     assert Predictions.Repo.load_from_other_repos([prediction]) == []
   end
 
+  @tag :external
   test "drops prediction if stop doesn't exist" do
     prediction = {
       "prediction_id",
@@ -302,6 +312,7 @@ defmodule Predictions.RepoTest do
     assert log =~ "Discarding prediction"
   end
 
+  @tag :external
   test "drops subway prediction if it is in the past" do
     prediction_in_the_past = {
       "past_prediction",
@@ -359,6 +370,7 @@ defmodule Predictions.RepoTest do
     assert Enum.count(total_predictions) == 2
   end
 
+  @tag :external
   test "does not drop prediction though it is in the past" do
     # predictions in the past are only dropped for subway
     bus_prediction_in_the_past = {

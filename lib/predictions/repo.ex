@@ -32,7 +32,7 @@ defmodule Predictions.Repo do
     opts
     |> add_all_optional_params()
     |> fetch()
-    |> filter_predictions(nil)
+    |> filter_predictions()
     |> load_from_other_repos
   end
 
@@ -56,6 +56,8 @@ defmodule Predictions.Repo do
 
   @spec filter_predictions([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
           [Parser.record()] | {:error, any}
+  defp filter_predictions(predictions, min_time \\ nil)
+
   defp filter_predictions({:error, error}, _) do
     {:error, error}
   end
