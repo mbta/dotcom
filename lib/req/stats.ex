@@ -15,6 +15,15 @@ defmodule Req.Stats do
   end
 
   @doc """
+  Stops the Agent and detaches from `[:finch, :recv, :stop]` telemetry events.
+  """
+  def stop() do
+    :telemetry.detach("finch-recv-stop")
+
+    Agent.stop(__MODULE__)
+  end
+
+  @doc """
   Handles telemetry events and aggregates them by host, path, and status.
   """
   def handle_event(_name, measurement, metadata, _config) do

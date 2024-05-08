@@ -37,6 +37,9 @@ defmodule Telemetry.Helper do
     :dbg.tp(:telemetry, :execute, 3, [])
   end
 
+  @doc """
+  Stop the tracer and therefore stop listening for telemetry events.
+  """
   def stop do
     :dbg.stop()
   end
