@@ -31,6 +31,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:channels)
 
   @task_timeout 10_000
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
     do: alerts(conn, [])
@@ -75,7 +76,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   def predictions(conn, opts) do
     {predictions, vehicle_predictions} =
       if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
-        predictions_fn = opts[:predictions_fn] || (&Predictions.Repo.all/1)
+        predictions_fn = opts[:predictions_fn] || Function.capture(@predictions_repo, :all, 1)
 
         predictions_stream =
           conn
