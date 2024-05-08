@@ -23,8 +23,8 @@ jobs:
     name: File changes
     uses: ./.github/workflows/changed-files.yml
     with:
-      # If it's a Dependabot PR, or a push to main, we want to run every test
-      force: ${{ github.event_name == 'push' || contains(github.head_ref, 'dependabot/hex') || contains(github.head_ref, 'dependabot/npm_and_yarn') }}
+      # If it's a Dependabot PR, we want to run every test
+      force: ${{ contains(github.head_ref, 'dependabot/') }}
 
   build_image:
     name: Build Docker image
@@ -39,9 +39,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:lint:ts
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:lint:ts
 
   jslint:
     name: Linting / JavaScript
@@ -49,9 +49,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:lint:js
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:lint:js
 
   stylelint:
     name: Linting / CSS
@@ -59,9 +59,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.scss }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:lint:scss
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:lint:scss
 
   elixirlint:
     name: Linting / Elixir
@@ -69,10 +69,10 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: git fetch origin main:main
-    - run: npm run ci:lint:ex
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: git fetch origin main:main
+      - run: npm run ci:lint:ex
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
@@ -107,9 +107,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:unit:mocha
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:unit:mocha
 
   js_unit_2:
     name: Unit tests / JavaScript & TypeScript / Jest
@@ -117,9 +117,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: TZ="America/New_York" npm run ci:unit:jest
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: TZ="America/New_York" npm run ci:unit:jest
 
   type_dialyzer:
     name: Type checks / Elixir
@@ -127,11 +127,11 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - uses: mbta/actions/dialyzer@v2
-      with:
-        cmd-line: "--ignore-exit-status"
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - uses: mbta/actions/dialyzer@v2
+        with:
+          cmd-line: "--ignore-exit-status"
 
   type_typescript:
     name: Type checks / TypeScript
@@ -139,9 +139,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ts }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:types:ts
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:types:ts
 
   elixir_format_check:
     name: Formatting / Elixir
@@ -149,9 +149,9 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.ex }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:format:ex
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:format:ex
 
   js_format_check:
     name: Formatting / JavaScript & TypeScript
@@ -159,6 +159,6 @@ jobs:
     needs: file_changes
     if: ${{ needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/actions/setup-all
-    - run: npm run ci:format:ts
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-all
+      - run: npm run ci:format:ts
