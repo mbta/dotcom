@@ -7,7 +7,10 @@ config :dotcom, :cms_api_module, CMS.Api
 config :dotcom, :httpoison, HTTPoison
 
 config :dotcom, :mbta_api_module, MBTA.Api
-config :dotcom, :repo_modules, route_patterns: RoutePatterns.Repo, predictions: Predictions.Repo
+
+config :dotcom, :repo_modules,
+  predictions: Predictions.Repo,
+  route_patterns: RoutePatterns.Repo
 
 config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
 config :dotcom, :redix, Redix

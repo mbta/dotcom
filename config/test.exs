@@ -8,8 +8,8 @@ config :dotcom, :cms_api_module, CMS.Api.Static
 config :dotcom, :mbta_api_module, MBTA.Api.Mock
 
 config :dotcom, :repo_modules,
-  route_patterns: RoutePatterns.Repo.Mock,
-  predictions: Predictions.Repo.Mock
+  predictions: Predictions.Repo.Mock,
+  route_patterns: RoutePatterns.Repo.Mock
 
 config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock
