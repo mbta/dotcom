@@ -1,9 +1,9 @@
-defmodule MBTA.Api.StatsTest do
+defmodule Req.StatsTest do
   use ExUnit.Case
 
   import TelemetryTest
 
-  alias MBTA.Api.Stats
+  alias Req.Stats
 
   setup [:telemetry_listen]
 
@@ -13,10 +13,9 @@ defmodule MBTA.Api.StatsTest do
     :ok
   end
 
-  @tag telemetry_listen: [:mbta_api, :request]
+  @tag telemetry_listen: [:req, :request]
   test "aggregates and dispatches stats" do
     # Setup
-    # 1 second in nanoseconds
     duration = :rand.uniform(1_000_000_000)
 
     measurement = %{
@@ -25,7 +24,8 @@ defmodule MBTA.Api.StatsTest do
 
     metadata = %{
       request: %{
-        path: "/#{Faker.Team.creature()}/"
+        host: Faker.Internet.domain_name(),
+        path: "/#{Faker.Internet.slug()}/"
       },
       status: Enum.random([200, 404, 500])
     }
@@ -40,9 +40,9 @@ defmodule MBTA.Api.StatsTest do
     assert_receive {
       :telemetry_event,
       %{
-        event: [:mbta_api, :request],
-        measurements: %{avg: ^duration, count: 2},
-        metadata: %{path: _path, status: _status}
+        event: [:req, :request],
+        measurements: %{avg: _duration, count: 2},
+        metadata: %{host: _host, path: _path, status: _status}
       }
     }
   end
