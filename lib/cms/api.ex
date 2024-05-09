@@ -87,7 +87,7 @@ defmodule CMS.Api do
     base_url = Application.get_env(:dotcom, :cms_api)[:base_url]
     file_path = "/sites/default/files"
 
-    if String.contains?(base_url, uri.host) and not String.contains?(uri.path, file_path) do
+    if String.contains?(base_url, uri.host) do
       [to: uri |> internal_uri() |> parse_redirect_query()]
     else
       [external: parse_redirect_query(uri)]
