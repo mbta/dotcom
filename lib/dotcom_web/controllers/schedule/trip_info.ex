@@ -13,10 +13,11 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
   alias Routes.Route
   alias DotcomWeb.ScheduleController.VehicleLocations
 
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+
   @default_opts [
     trip_fn: &Schedules.Repo.schedule_for_trip/2,
-    vehicle_fn: &Vehicles.Repo.trip/1,
-    prediction_fn: &Predictions.Repo.all/1
+    vehicle_fn: &Vehicles.Repo.trip/1
   ]
 
   @impl true
@@ -96,7 +97,7 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     case opts[:trip_fn].(trip_id, date: conn.assigns.date) do
       trips when is_list(trips) ->
         trips
-        |> build_trip_times(conn.assigns, trip_id, opts[:prediction_fn])
+        |> build_trip_times(conn.assigns, trip_id, Function.capture(@predictions_repo, :all, 1))
         |> TripInfo.from_list(
           vehicle: opts[:vehicle_fn].(trip_id),
           vehicle_stop_name: active_stop,
