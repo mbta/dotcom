@@ -1,5 +1,5 @@
 import { isDate, isSaturday, isSunday, parseISO } from "date-fns";
-import { map, min } from "lodash";
+import { min } from "lodash";
 import React, { ReactElement } from "react";
 import { formatToBostonTime } from "../../helpers/date";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
