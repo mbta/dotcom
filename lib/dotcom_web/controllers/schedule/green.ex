@@ -76,7 +76,7 @@ defmodule DotcomWeb.ScheduleController.Green do
   def predictions(conn, opts) do
     {predictions, vehicle_predictions} =
       if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
-        predictions_fn = opts[:predictions_fn] || Function.capture(@predictions_repo, :all, 1)
+        predictions_fn = Function.capture(@predictions_repo, :all, 1)
 
         predictions_stream =
           conn
