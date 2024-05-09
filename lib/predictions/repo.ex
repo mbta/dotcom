@@ -24,7 +24,7 @@ defmodule Predictions.Repo do
     opts
     |> add_all_optional_params()
     |> cache_fetch()
-    |> filter_by_min_time(Keyword.get(opts, :min_time))
+    |> filter_predictions(Keyword.get(opts, :min_time))
     |> load_from_other_repos
   end
 
@@ -32,6 +32,7 @@ defmodule Predictions.Repo do
     opts
     |> add_all_optional_params()
     |> fetch()
+    |> filter_predictions()
     |> load_from_other_repos
   end
 
@@ -51,6 +52,20 @@ defmodule Predictions.Repo do
       nil -> params
       value -> Keyword.put(params, key, value)
     end
+  end
+
+  @spec filter_predictions([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
+          [Parser.record()] | {:error, any}
+  defp filter_predictions(predictions, min_time \\ nil)
+
+  defp filter_predictions({:error, error}, _) do
+    {:error, error}
+  end
+
+  defp filter_predictions(predictions, min_time) do
+    Enum.filter(predictions, fn prediction ->
+      has_departure_time?(prediction) && after_min_time?(prediction, min_time)
+    end)
   end
 
   defp fetch(params) do
@@ -98,19 +113,17 @@ defmodule Predictions.Repo do
     []
   end
 
-  @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
-          [Parser.record()] | {:error, any}
-  defp filter_by_min_time({:error, error}, _) do
-    {:error, error}
+  defp has_departure_time?(
+         {_id, _trip_id, _stop_id, _route_id, _direction_id, _arrival, departure, _time,
+          _stop_sequence, _schedule_relationship, _track, _status, _departing?,
+          _vehicle_id} = _prediction
+       ) do
+    departure != nil
   end
 
-  defp filter_by_min_time(predictions, nil) do
-    predictions
-  end
+  defp has_departure_time?(_), do: false
 
-  defp filter_by_min_time(predictions, %DateTime{} = min_time) do
-    Enum.filter(predictions, &after_min_time?(&1, min_time))
-  end
+  defp after_min_time?(_, nil), do: true
 
   defp after_min_time?(
          {
