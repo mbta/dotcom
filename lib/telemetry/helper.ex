@@ -5,8 +5,6 @@ defmodule Telemetry.Helper do
   Only for use in development.
   """
 
-  require Logger
-
   @doc """
   Attach to all telemetry events and log them.
 
