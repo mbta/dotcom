@@ -1,4 +1,4 @@
-import { isSaturday, isSunday, parseISO } from "date-fns";
+import { isDate, isSaturday, isSunday, parseISO } from "date-fns";
 import { map, min } from "lodash";
 import React, { ReactElement } from "react";
 import { formatToBostonTime } from "../../helpers/date";
@@ -35,25 +35,17 @@ const getScheduleNoteForDate = (
   return trainsEveryHTML(scheduleNote.peak_service);
 };
 
-const getEarliestTrain = (dataArray: StopHours[] | undefined): string => {
-  if (!dataArray || dataArray.length === 0) {
-    return "";
-  }
-
-  const firstDepartureTimes = map(dataArray, d => parseISO(d.first_departure));
-  const firstDeparture = min(firstDepartureTimes);
-  return firstDeparture ? formatToBostonTime(firstDeparture) : "";
-};
-
-const getLatestTrain = (dataArray: StopHours[] | undefined): string => {
-  // get the earliest last departure
-  if (!dataArray || dataArray.length === 0) {
-    return "";
-  }
-
-  const lastDepartureTimes = map(dataArray, d => parseISO(d.last_departure));
-  const lastDeparture = min(lastDepartureTimes);
-  return lastDeparture ? formatToBostonTime(lastDeparture) : "";
+const getFirstTrainTime = (
+  dataArray: StopHours[] | undefined,
+  property: "first_departure" | "last_departure"
+): string | undefined => {
+  const departureTimes = (dataArray || [])
+    .filter(d => d[property])
+    .map(d => parseISO(d[property]));
+  const firstDeparture = min(departureTimes);
+  return firstDeparture && isDate(firstDeparture)
+    ? formatToBostonTime(firstDeparture)
+    : undefined;
 };
 
 const getHoursForDate = (
@@ -94,8 +86,8 @@ const RapidTransitHoursOfOperation = ({
   };
 
   const todaysHours = getHoursForDate(hours, date);
-  const earliestTrain = getEarliestTrain(todaysHours);
-  const latestTrain = getLatestTrain(todaysHours);
+  const earliestTrain = getFirstTrainTime(todaysHours, "first_departure");
+  const latestTrain = getFirstTrainTime(todaysHours, "last_departure");
 
   const todaysScheduleNoteHtml = getScheduleNoteForDate(scheduleNote, date);
 
@@ -104,10 +96,14 @@ const RapidTransitHoursOfOperation = ({
       <div className="u-bg-primary-light-contrast p-16 mt-16">
         <h3 style={{ marginTop: "0rem" }}>Today&#39;s Service</h3>
         <br />
-        <div className="fs-16">First & last trains</div>
-        <div className="fs-18">
-          <b>{earliestTrain}</b> | <b>{latestTrain}</b>
-        </div>
+        {earliestTrain && latestTrain && (
+          <>
+            <div className="fs-16">First & last trains</div>
+            <div className="fs-18">
+              <b>{earliestTrain}</b> | <b>{latestTrain}</b>
+            </div>
+          </>
+        )}
         <br />
         {todaysScheduleNoteHtml}
         <br />
