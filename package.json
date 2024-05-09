@@ -39,6 +39,7 @@
     "test:cypress:open": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
   },
   "lint-staged": {
-    "**/*.{ex,exs}": "mix format"
+    "**/*.{ex,exs}": "mix format",
+    "mix.exs": "mix deps.clean --unlock --unused && mix deps.get"
   }
 }
