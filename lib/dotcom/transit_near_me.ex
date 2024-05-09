@@ -384,12 +384,9 @@ defmodule Dotcom.TransitNearMe do
           PredictedSchedule.t()
         ]
   defp get_predicted_schedules(schedules, params, opts) do
-    predictions_fn =
-      Keyword.get(opts, :predictions_fn, Function.capture(@predictions_repo, :all, 1))
-
     now = Keyword.fetch!(opts, :now)
 
-    predictions = predictions_fn.(params)
+    predictions = @predictions_repo.all(params)
 
     if predictions == [] do
       Logger.warning("#{__MODULE__} no.predictions.for.schedule #{inspect(params)}")

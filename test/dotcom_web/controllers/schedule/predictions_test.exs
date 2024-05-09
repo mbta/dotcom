@@ -5,17 +5,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
   import Mox
   alias Predictions.Prediction
 
-  defmodule PredictionsTest do
-    # needs to be a separate module so that it's defined before the test uses
-    # it
-    def all(_) do
-      []
-    end
-  end
-
   @empty [%Prediction{}]
-
-  @opts init(predictions_fn: &PredictionsTest.all/1)
 
   setup %{conn: conn} do
     conn =
@@ -26,19 +16,13 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     {:ok, %{conn: conn}}
   end
 
-  describe "init/1" do
-    test "defaults to using Predictions.Repo.Mock.all" do
-      assert init() == [predictions_fn: &Predictions.Repo.Mock.all/1]
-    end
-  end
-
   describe "call/2" do
     test "when given a date that isn't the service date, assigns no predictions", %{conn: conn} do
       conn =
         conn
         |> assign(:date, ~D[2016-12-31])
         |> assign(:origin, Faker.Pokemon.location())
-        |> call(@opts)
+        |> call([])
 
       assert conn.assigns[:predictions] == []
       assert conn.assigns[:vehicle_predictions] == []
@@ -48,7 +32,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       conn =
         conn
         |> assign(:origin, nil)
-        |> call(@opts)
+        |> call([])
 
       assert conn.assigns[:predictions] == []
       assert conn.assigns[:vehicle_predictions] == []
@@ -160,7 +144,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(init())
+        |> call()
 
       assert conn.assigns.predictions == []
     end
@@ -183,7 +167,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:destination, nil)
         |> assign(:route, %{id: "4"})
         |> assign(:direction_id, "0")
-        |> call(init())
+        |> call()
 
       assert conn.assigns.predictions == [prediction]
     end

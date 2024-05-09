@@ -31,7 +31,6 @@ defmodule DotcomWeb.ScheduleController.Green do
   plug(:channels)
 
   @task_timeout 10_000
-  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
     do: alerts(conn, [])
@@ -73,24 +72,22 @@ defmodule DotcomWeb.ScheduleController.Green do
     assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
   end
 
-  def predictions(conn, opts) do
+  def predictions(conn, _opts) do
     {predictions, vehicle_predictions} =
       if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
-        predictions_fn = Function.capture(@predictions_repo, :all, 1)
-
         predictions_stream =
           conn
           |> conn_with_branches
           |> Task.async_stream(
             fn conn ->
-              DotcomWeb.ScheduleController.Predictions.predictions(conn, predictions_fn)
+              DotcomWeb.ScheduleController.Predictions.predictions(conn)
             end,
             timeout: @task_timeout,
             on_timeout: :kill_task
           )
 
         vehicle_predictions =
-          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn, predictions_fn)
+          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn)
 
         {flat_map_results(predictions_stream), vehicle_predictions}
       else

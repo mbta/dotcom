@@ -169,7 +169,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     conn
     |> DateInRating.call(opts)
     |> Green.vehicle_locations(VehicleLocations.init(opts))
-    |> Green.predictions(Predictions.init(opts))
+    |> Green.predictions(opts)
     |> VehicleTooltips.call(opts)
   end
 

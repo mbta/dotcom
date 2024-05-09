@@ -218,12 +218,9 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       direction_id: direction_id
     ]
 
-    predictions_fn =
-      Map.get(conn.assigns, :predictions_fn, Function.capture(@predictions_repo, :all, 1))
-
     predictions =
       if current_service?,
-        do: predictions_fn.(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id)),
+        do: @predictions_repo.all(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id)),
         else: []
 
     {schedules, predictions}

@@ -154,17 +154,16 @@ defmodule PredictedScheduleTest do
         @trip_schedules
       end
 
-      predictions_fn = fn opts ->
+      expect(Predictions.Repo.Mock, :all, fn opts ->
         refute Keyword.has_key?(opts, :min_time)
         @trip_predictions
-      end
+      end)
 
       predicted_schedules =
         get("Teal", "stop1",
           # between scheduled and predicted times for Trip 2
           now: Timex.shift(@base_time, minutes: 11),
-          schedules_fn: schedules_fn,
-          predictions_fn: predictions_fn
+          schedules_fn: schedules_fn
         )
 
       # should not see Trip 1 since scheduled and predicted times have passed

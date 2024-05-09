@@ -14,22 +14,18 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
-  @typep predictions_fn :: (Keyword.t() -> [Prediction.t()] | {:error, any})
+  @impl true
+  def init(opts \\ []), do: opts
 
   @impl true
-  def init(opts \\ []) do
-    Keyword.merge([predictions_fn: Function.capture(@predictions_repo, :all, 1)], opts)
+  def call(conn, _opts \\ []) do
+    Util.log_duration(__MODULE__, :do_call, [conn])
   end
 
-  @impl true
-  def call(conn, opts) do
-    Util.log_duration(__MODULE__, :do_call, [conn, opts])
-  end
-
-  def do_call(conn, opts) do
+  def do_call(conn) do
     if should_fetch_predictions?(conn) do
-      predictions_task = fn -> predictions(conn, opts[:predictions_fn]) end
-      vehicle_predictions_task = fn -> vehicle_predictions(conn, opts[:predictions_fn]) end
+      predictions_task = fn -> predictions(conn) end
+      vehicle_predictions_task = fn -> vehicle_predictions(conn) end
 
       conn
       |> AsyncAssign.async_assign_default(:predictions, predictions_task, [])
@@ -52,18 +48,15 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     Date.compare(assigns.date, Util.service_date(assigns.date_time)) == :eq
   end
 
-  @spec predictions(Plug.Conn.t(), predictions_fn) :: [Prediction.t()]
-  def predictions(
-        %{
-          assigns: %{
-            origin: origin,
-            destination: destination,
-            route: %{id: route_id},
-            direction_id: direction_id
-          }
-        },
-        predictions_fn
-      )
+  @spec predictions(Plug.Conn.t()) :: [Prediction.t()]
+  def predictions(%{
+        assigns: %{
+          origin: origin,
+          destination: destination,
+          route: %{id: route_id},
+          direction_id: direction_id
+        }
+      })
       when not is_nil(origin) do
     destination_id = if destination, do: Map.get(destination, :id)
 
@@ -74,7 +67,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
         [route: route_id, direction_id: direction_id]
       end
 
-    predictions_fn.(opts)
+    @predictions_repo.all(opts)
     |> case do
       {:error, error} ->
         Logger.error("predictions for opts #{inspect(opts)}: #{inspect(error)}")
@@ -91,7 +84,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end
   end
 
-  def predictions(_conn, _) do
+  def predictions(_conn) do
     []
   end
 
@@ -112,8 +105,8 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end)
   end
 
-  @spec vehicle_predictions(Plug.Conn.t(), predictions_fn) :: [Prediction.t()]
-  def vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}, predictions_fn) do
+  @spec vehicle_predictions(Plug.Conn.t()) :: [Prediction.t()]
+  def vehicle_predictions(%{assigns: %{vehicle_locations: vehicle_locations}}) do
     {trip_ids, stop_ids} =
       vehicle_locations
       |> Map.keys()
@@ -121,7 +114,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
 
     trip_ids = trip_ids |> Enum.reject(&is_nil/1) |> Enum.join(",")
 
-    case predictions_fn.(trip: trip_ids) do
+    case @predictions_repo.all(trip: trip_ids) do
       {:error, error} ->
         Logger.error("predictions for trips #{inspect(trip_ids)}: #{inspect(error)}")
 
@@ -133,7 +126,7 @@ defmodule DotcomWeb.ScheduleController.Predictions do
     end
   end
 
-  def vehicle_predictions(_conn, _) do
+  def vehicle_predictions(_conn) do
     []
   end
 end
