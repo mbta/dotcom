@@ -11,8 +11,13 @@ defmodule CMS.Api do
   def preview(node_id, revision_id) do
     path = ~s(/cms/revisions/#{node_id})
 
+    params = [
+      {"_format", "json"},
+      {"vid", revision_id}
+    ]
+
     client(vid: revision_id)
-    |> @req.get(url: path, decode_body: false, redirect: false)
+    |> @req.get(url: path, params: params, decode_body: false, redirect: false)
     |> handle_response()
   end
 
