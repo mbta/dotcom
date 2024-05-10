@@ -3,6 +3,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
   import DotcomWeb.ScheduleController.Predictions
   import Mox
+
   alias Predictions.Prediction
 
   @empty [%Prediction{}]
