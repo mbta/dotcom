@@ -71,7 +71,7 @@ defmodule DotCom.Mixfile do
       # latest version 1.0.7; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},
-      {:credo, "1.7.5", only: [:dev, :test]},
+      {:credo, "1.7.6", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
