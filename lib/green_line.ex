@@ -35,7 +35,6 @@ defmodule GreenLine do
 
   @doc """
   Terminal stops for each Green Line branch and direction.
-  TODO: Combine with calculate_stops_on_routes?
   """
   def termini_stops() do
     for direction_id <- [0, 1], branch_id <- GreenLine.branch_ids(), into: %{} do
@@ -56,7 +55,6 @@ defmodule GreenLine do
   @doc """
   Returns whether or not the stop is a terminus for the line in the given direction. Assumes
   the stop is actually on the line.
-  TODO: Cache this and naive_headsign, probably
   """
   @spec terminus?(Stop.id_t(), branch_name, 0 | 1) :: boolean
   def terminus?(stop_id, branch_name, direction_id) do
@@ -127,7 +125,6 @@ defmodule GreenLine do
   def excluded_shared_stops("Green-E"), do: ["place-kencl", "place-hymnl"]
 
   @doc """
-  FIXME: This and split_id/1 won't make sense when there's branching at both ends.
   The stop at which a branch joins the other branches.
   """
   @spec merge_id(branch_name) :: Stop.id_t()
