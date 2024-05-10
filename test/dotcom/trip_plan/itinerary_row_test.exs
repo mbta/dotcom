@@ -305,12 +305,15 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "name_from_position" do
     test "doesn't return stop id if mapper returns nil" do
+      stub(Stops.Repo.Mock, :get_parent, fn "ignored" ->
+        nil
+      end)
+
       stop_id = "ignored"
       name = "stop name"
-      mapper = fn _stop_id -> nil end
 
       assert {^name, nil} =
-               name_from_position(%NamedPosition{stop_id: stop_id, name: name}, mapper)
+               name_from_position(%NamedPosition{stop_id: stop_id, name: name})
     end
   end
 
@@ -320,11 +323,24 @@ defmodule TripPlan.ItineraryRowTest do
     @personal_leg build(:leg, mode: build(:personal_detail))
     @transit_leg build(:leg, mode: build(:transit_detail))
 
-    test "returns an itinerary row from a Leg" do
-      stub(MBTA.Api.Mock, :get_json, fn "/trips/" <> _, _ ->
-        %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+    setup do
+      stub(MBTA.Api.Mock, :get_json, fn path, _ ->
+        cond do
+          String.contains?(path, "trips") ->
+            %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+
+          String.contains?(path, "routes") ->
+            %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+
+          true ->
+            %JsonApi{data: []}
+        end
       end)
 
+      :ok
+    end
+
+    test "returns an itinerary row from a Leg" do
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row
     end

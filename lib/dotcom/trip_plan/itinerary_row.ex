@@ -6,26 +6,23 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
   alias TripPlan.PersonalDetail.Step
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @typep name_and_id :: {String.t(), String.t() | nil}
   @typep step :: String.t()
 
   defmodule Dependencies do
     @moduledoc false
 
-    @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-
-    @type stop_mapper :: (Stops.Stop.id_t() -> Stops.Stop.t() | nil)
     @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
     @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)
     @type alerts_repo :: (DateTime.t() -> [Alerts.Alert.t()] | nil)
 
-    defstruct stop_mapper: Function.capture(@stops_repo, :get_parent, 1),
-              route_mapper: &Routes.Repo.get/1,
+    defstruct route_mapper: &Routes.Repo.get/1,
               trip_mapper: &Schedules.Repo.trip/1,
               alerts_repo: &Alerts.Repo.all/1
 
     @type t :: %__MODULE__{
-            stop_mapper: stop_mapper,
             route_mapper: route_mapper,
             trip_mapper: trip_mapper,
             alerts_repo: alerts_repo
@@ -72,7 +69,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
   def from_leg(leg, deps, next_leg) do
     trip = leg |> Leg.trip_id() |> parse_trip_id(deps.trip_mapper)
     route = leg |> Leg.route_id() |> parse_route_id(deps.route_mapper)
-    stop = name_from_position(leg.from, deps.stop_mapper)
+    stop = name_from_position(leg.from)
 
     %__MODULE__{
       stop: stop,
@@ -80,7 +77,7 @@ defmodule Dotcom.TripPlan.ItineraryRow do
       route: route,
       trip: trip,
       departure: leg.start,
-      steps: get_steps(leg.mode, deps.stop_mapper, next_leg),
+      steps: get_steps(leg.mode, next_leg),
       additional_routes: get_additional_routes(route, trip, leg, stop, deps),
       duration: leg.duration,
       distance: leg.distance
@@ -152,32 +149,31 @@ defmodule Dotcom.TripPlan.ItineraryRow do
     Enum.any?(steps, fn step -> step.alerts != [] end)
   end
 
-  @spec name_from_position(NamedPosition.t(), Dependencies.stop_mapper()) ::
+  @spec name_from_position(NamedPosition.t()) ::
           {String.t(), String.t()}
-  def name_from_position(named_position, stop_mapper)
-
-  def name_from_position(%NamedPosition{stop_id: stop_id, name: name}, stop_mapper)
+  def name_from_position(%NamedPosition{stop_id: stop_id, name: name})
       when not is_nil(stop_id) do
-    case stop_mapper.(stop_id) do
+    case @stops_repo.get_parent(stop_id) do
       nil -> {name, nil}
       stop -> {stop.name, stop.id}
     end
   end
 
-  def name_from_position(%NamedPosition{name: name}, _stop_mapper) do
+  def name_from_position(%NamedPosition{name: name}) do
     {name, nil}
   end
 
-  @spec get_steps(Leg.mode(), Dependencies.stop_mapper(), Leg.t()) :: [IntermediateStop.t()]
+  @spec get_steps(Leg.mode(), Leg.t()) :: [IntermediateStop.t()]
 
-  defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper, %Leg{mode: %TransitDetail{}}),
+  defp get_steps(%PersonalDetail{steps: steps}, %Leg{mode: %TransitDetail{}}),
     do: Enum.map(steps, &format_personal_to_transit_step/1)
 
-  defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper, _next_leg),
+  defp get_steps(%PersonalDetail{steps: steps}, _next_leg),
     do: Enum.map(steps, &format_personal_to_personal_step/1)
 
-  defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, stop_mapper, _next_leg) do
-    for {:ok, stop} <- Task.async_stream(stop_ids, stop_mapper), stop do
+  defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, _next_leg) do
+    for {:ok, stop} <- Task.async_stream(stop_ids, fn id -> @stops_repo.get_parent(id) end),
+        stop do
       %IntermediateStop{
         description: stop.name,
         stop_id: stop.id
@@ -233,11 +229,11 @@ defmodule Dotcom.TripPlan.ItineraryRow do
        )
        when not is_nil(trip) do
     stop_pairs = GreenLine.stops_on_routes(trip.direction_id)
-    {_to_stop_name, to_stop_id} = name_from_position(leg.to, deps.stop_mapper)
+    {_to_stop_name, to_stop_id} = name_from_position(leg.to)
     available_routes(route_id, from_stop_id, to_stop_id, stop_pairs, deps.route_mapper)
   end
 
-  defp get_additional_routes(_route, _trip, _leg, _from, _stop_mapper), do: []
+  defp get_additional_routes(_route, _trip, _leg, _from, _deps), do: []
 
   defp available_routes(current_route_id, from_stop_id, to_stop_id, stop_pairs, route_mapper) do
     GreenLine.branch_ids()

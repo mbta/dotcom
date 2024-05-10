@@ -23,7 +23,7 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
         }
 
   @type opts :: [to: String.t() | nil, from: String.t() | nil]
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @doc """
   Builds a ItineraryRowList from the given itinerary
   """
@@ -74,7 +74,7 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
     last_leg = List.last(legs)
 
     {name, stop_id} =
-      last_leg |> Map.get(:to) |> ItineraryRow.name_from_position(&@stops_repo.get_parent/1)
+      last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
 
     alerts = Alerts.Stop.match(alerts, stop_id)
     {destination_name(name, opts[:to]), stop_id, last_leg.stop, alerts}

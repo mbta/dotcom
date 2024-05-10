@@ -1,5 +1,7 @@
 defmodule Dotcom.RealtimeScheduleTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+
+  import Mox
 
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
@@ -167,16 +169,21 @@ defmodule Dotcom.RealtimeScheduleTest do
     }
   ]
 
+  setup :verify_on_exit!
+
   setup do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
+
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      @stop
+    end)
 
     %{cache: cache}
   end
 
   test "stop_data/3 returns stop" do
     opts = [
-      stops_fn: fn _ -> @stop end,
       routes_fn: fn _ -> @route_with_patterns end,
       predictions_fn: fn _ -> @predictions end,
       schedules_fn: fn _, _ -> @schedules end,
@@ -302,7 +309,6 @@ defmodule Dotcom.RealtimeScheduleTest do
 
   test "stop_data/3 returns nil" do
     opts = [
-      stops_fn: fn _ -> nil end,
       routes_fn: fn _ -> [] end,
       predictions_fn: fn _ -> [] end,
       schedules_fn: fn _, _ -> [] end,

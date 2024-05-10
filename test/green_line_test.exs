@@ -3,6 +3,50 @@ defmodule GreenLineTest do
   @moduletag :external
 
   import GreenLine
+  import Mox
+
+  setup :verify_on_exit!
+
+  setup do
+    stops_fn = fn route, _, _ ->
+      case route do
+        "Green-B" ->
+          []
+
+        "Green-C" ->
+          [
+            %Stops.Stop{id: "place-clmnl"},
+            %Stops.Stop{id: "place-coecl"},
+            %Stops.Stop{id: "place-kencl"},
+            %Stops.Stop{id: "place-gover"}
+          ]
+
+        "Green-D" ->
+          [
+            %Stops.Stop{id: "place-river"},
+            %Stops.Stop{id: "place-coecl"},
+            %Stops.Stop{id: "place-kencl"},
+            %Stops.Stop{id: "place-gover"},
+            %Stops.Stop{id: "place-north"},
+            %Stops.Stop{id: "place-lech"},
+            %Stops.Stop{id: "place-unsqu"}
+          ]
+
+        "Green-E" ->
+          [
+            %Stops.Stop{id: "place-hsmnl"},
+            %Stops.Stop{id: "place-gover"},
+            %Stops.Stop{id: "place-north"},
+            %Stops.Stop{id: "place-lech"},
+            %Stops.Stop{id: "place-mdftf"}
+          ]
+      end
+    end
+
+    stub(Stops.Repo.Mock, :by_route, stops_fn)
+
+    :ok
+  end
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug
@@ -47,43 +91,10 @@ defmodule GreenLineTest do
   end
 
   describe "calculate_stops_on_routes/1" do
-    def stops_fn(route, _, _) do
-      case route do
-        "Green-B" ->
-          []
-
-        "Green-C" ->
-          [
-            %Stops.Stop{id: "place-clmnl"},
-            %Stops.Stop{id: "place-coecl"},
-            %Stops.Stop{id: "place-kencl"},
-            %Stops.Stop{id: "place-gover"}
-          ]
-
-        "Green-D" ->
-          [
-            %Stops.Stop{id: "place-river"},
-            %Stops.Stop{id: "place-coecl"},
-            %Stops.Stop{id: "place-kencl"},
-            %Stops.Stop{id: "place-gover"},
-            %Stops.Stop{id: "place-north"},
-            %Stops.Stop{id: "place-lech"},
-            %Stops.Stop{id: "place-unsqu"}
-          ]
-
-        "Green-E" ->
-          [
-            %Stops.Stop{id: "place-hsmnl"},
-            %Stops.Stop{id: "place-gover"},
-            %Stops.Stop{id: "place-north"},
-            %Stops.Stop{id: "place-lech"},
-            %Stops.Stop{id: "place-mdftf"}
-          ]
-      end
-    end
-
     test "each line returns a set of the ids of associated stops" do
-      {_, stop_map} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
+      {_, stop_map} = calculate_stops_on_routes(0, Timex.today())
+
+      IO.inspect(stop_map)
 
       assert stop_map["Green-C"] ==
                MapSet.new(["place-clmnl", "place-coecl", "place-gover", "place-kencl"])
@@ -110,7 +121,7 @@ defmodule GreenLineTest do
     end
 
     test "a list of stops without duplicates is returned" do
-      {stops, _} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
+      {stops, _} = calculate_stops_on_routes(0, Timex.today())
 
       assert Enum.sort(stops) ==
                Enum.sort([
@@ -128,7 +139,7 @@ defmodule GreenLineTest do
     end
 
     test "if a line returns no stops, it is represented in the map by an empty set" do
-      {_, stop_map} = calculate_stops_on_routes(0, Timex.today(), &stops_fn/3)
+      {_, stop_map} = calculate_stops_on_routes(0, Timex.today())
 
       assert stop_map["Green-B"] == MapSet.new()
     end

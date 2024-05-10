@@ -7,13 +7,12 @@ defmodule Dotcom.TripPlan.Map do
 
   @type t :: MapData.t()
   @type route_mapper :: (String.t() -> Route.t() | nil)
-  @type stop_mapper :: (String.t() -> Stops.Stop.t() | nil)
+
+  @default_opts [
+    route_mapper: &Routes.Repo.get/1
+  ]
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @default_opts [
-    route_mapper: &Routes.Repo.get/1,
-    stop_mapper: Function.capture(@stops_repo, :get_parent, 1)
-  ]
 
   @moduledoc """
   Handles generating the maps displayed within the TripPlan Controller
@@ -39,7 +38,7 @@ defmodule Dotcom.TripPlan.Map do
   defp itinerary_map_data(itinerary, opts) do
     markers =
       itinerary
-      |> markers_for_legs(opts)
+      |> markers_for_legs()
       |> Enum.with_index()
       |> Enum.map(fn {marker, idx} -> %{marker | id: "marker-#{idx}"} end)
 
@@ -77,29 +76,29 @@ defmodule Dotcom.TripPlan.Map do
     ""
   end
 
-  @spec markers_for_legs([Leg.t()], Keyword.t()) :: [Marker.t()]
-  defp markers_for_legs(legs, opts) do
+  @spec markers_for_legs([Leg.t()]) :: [Marker.t()]
+  defp markers_for_legs(legs) do
     leg_count = Enum.count(legs)
 
     legs
     |> Enum.zip(Stream.iterate(0, &(&1 + 2)))
-    |> Enum.flat_map(&build_marker_for_leg(&1, opts, leg_count))
+    |> Enum.flat_map(&build_marker_for_leg(&1, leg_count))
   end
 
-  @spec build_marker_for_leg({Leg.t(), non_neg_integer}, Keyword.t(), non_neg_integer) :: [
+  @spec build_marker_for_leg({Leg.t(), non_neg_integer}, non_neg_integer) :: [
           Marker.t()
         ]
-  defp build_marker_for_leg({leg, idx}, opts, leg_count) do
+  defp build_marker_for_leg({leg, idx}, leg_count) do
     leg_positions = [{leg.from, idx}, {leg.to, idx + 1}]
 
     leg_positions
     |> Enum.reject(fn {position, _n} -> is_nil(position) end)
-    |> build_markers_for_leg_positions(opts[:stop_mapper], leg_count)
+    |> build_markers_for_leg_positions(leg_count)
   end
 
-  defp build_markers_for_leg_positions(positions_with_indicies, stop_mapper, leg_count) do
+  defp build_markers_for_leg_positions(positions_with_indicies, leg_count) do
     for {position, index} <- positions_with_indicies do
-      build_marker_for_leg_position(position, stop_mapper, %{
+      build_marker_for_leg_position(position, %{
         start: 0,
         current: index,
         end: 2 * leg_count - 1
@@ -107,14 +106,14 @@ defmodule Dotcom.TripPlan.Map do
     end
   end
 
-  @spec build_marker_for_leg_position(NamedPosition.t(), stop_mapper, map) :: Marker.t()
-  defp build_marker_for_leg_position(leg_position, stop_mapper, indexes) do
+  @spec build_marker_for_leg_position(NamedPosition.t(), map) :: Marker.t()
+  defp build_marker_for_leg_position(leg_position, indexes) do
     icon_name = stop_icon_name(indexes)
 
     opts = [
       icon: icon_name,
       icon_opts: stop_icon_size(icon_name),
-      tooltip: tooltip_for_position(leg_position, stop_mapper),
+      tooltip: tooltip_for_position(leg_position),
       z_index: z_index(indexes)
     ]
 
@@ -155,13 +154,9 @@ defmodule Dotcom.TripPlan.Map do
     "#000000"
   end
 
-  @spec tooltip_for_position(NamedPosition.t(), stop_mapper) :: String.t()
-  defp tooltip_for_position(%NamedPosition{stop_id: nil, name: name}, _stop_mapper) do
-    name
-  end
-
-  defp tooltip_for_position(%NamedPosition{stop_id: stop_id} = position, stop_mapper) do
-    case stop_mapper.(stop_id) do
+  @spec tooltip_for_position(NamedPosition.t()) :: String.t()
+  defp tooltip_for_position(%NamedPosition{stop_id: stop_id} = position) do
+    case @stops_repo.get_parent(stop_id) do
       nil -> position.name
       stop -> stop.name
     end
