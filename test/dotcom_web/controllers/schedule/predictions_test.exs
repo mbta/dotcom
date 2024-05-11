@@ -3,10 +3,9 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
   import DotcomWeb.ScheduleController.Predictions
   import Mox
+  import Test.Support.Factory.Prediction
 
   alias Predictions.Prediction
-
-  @empty [%Prediction{}]
 
   setup %{conn: conn} do
     conn =
@@ -41,7 +40,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
     test "assigns predictions for a route, stop, and direction ID", %{conn: conn} do
       expect(Predictions.Repo.Mock, :all, fn [route: "4", direction_id: "0"] ->
-        @empty
+        build_list(1, :prediction, %{})
       end)
 
       conn =
@@ -57,14 +56,12 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
     test "ignores predictions which have the origin as their destination", %{conn: conn} do
       expect(Predictions.Repo.Mock, :all, fn _ ->
-        [
-          %Predictions.Prediction{
-            time: ~N[2017-01-01T00:00:00],
-            stop: %Stops.Stop{id: "origin"},
-            trip: 1234,
-            departing?: false
-          }
-        ]
+        build_list(1, :prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: "origin"},
+          trip: 1234,
+          departing?: false
+        })
       end)
 
       conn =
@@ -79,13 +76,13 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "does not ignore predictions which have a trip id but not status", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        status: nil,
-        trip: 1234,
-        departing?: true
-      }
+      prediction =
+        build(:prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: "origin"},
+          trip: 1234,
+          departing?: true
+        })
 
       expect(Predictions.Repo.Mock, :all, fn _ ->
         [prediction]
@@ -103,13 +100,14 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "does not ignore predictions which have a status but not a trip id", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        status: "On Time",
-        trip: nil,
-        departing?: true
-      }
+      prediction =
+        build(:prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: "origin"},
+          status: "On Time",
+          trip: nil,
+          departing?: true
+        })
 
       expect(Predictions.Repo.Mock, :all, fn _ ->
         [prediction]
@@ -127,13 +125,14 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "ignores predictions which do not have a trip id or a status", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        status: nil,
-        trip: nil,
-        departing?: true
-      }
+      prediction =
+        build(:prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: "origin"},
+          status: nil,
+          trip: nil,
+          departing?: true
+        })
 
       expect(Predictions.Repo.Mock, :all, fn _ ->
         [prediction]
@@ -151,12 +150,13 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     end
 
     test "keeps predictions without a time", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        stop: %Stops.Stop{id: "origin"},
-        trip: 1234,
-        status: "",
-        departing?: true
-      }
+      prediction =
+        build(:prediction, %{
+          stop: %Stops.Stop{id: "origin"},
+          trip: 1234,
+          status: "",
+          departing?: true
+        })
 
       expect(Predictions.Repo.Mock, :all, fn _ ->
         [prediction]
@@ -187,7 +187,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
 
     test "destination predictions are assigned if destination is assigned", %{conn: conn} do
       expect(Predictions.Repo.Mock, :all, fn [route: "66"] ->
-        @empty
+        build_list(1, :prediction, %{})
       end)
 
       conn =
@@ -217,14 +217,14 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         }
       }
 
+      prediction_1 = build(:prediction, %{stop: %Stops.Stop{id: "place-sstat"}})
+      prediction_2 = build(:prediction, %{stop: %Stops.Stop{id: "place-north"}})
+
       Predictions.Repo.Mock
       |> expect(:all, fn [route: "66"] -> [] end)
       |> expect(:all, fn [trip: "1,2"] ->
         # we transform the data into this form so that we only need to make one repo call
-        [
-          %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
-          %Prediction{stop: %Stops.Stop{id: "place-north"}}
-        ]
+        [prediction_1, prediction_2]
       end)
 
       conn =
@@ -237,8 +237,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> call()
 
       assert conn.assigns.vehicle_predictions == [
-               %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
-               %Prediction{stop: %Stops.Stop{id: "place-north"}}
+               prediction_1,
+               prediction_2
              ]
     end
 
@@ -256,12 +256,14 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         }
       }
 
+      prediction = build(:prediction, %{stop: %Stops.Stop{id: "place-sstat"}})
+
       Predictions.Repo.Mock
       |> expect(:all, fn [route: "66"] -> [] end)
       |> expect(:all, fn [trip: "1,2"] ->
         # we transform the data into this form so that we only need to make one repo call
         [
-          %Prediction{stop: %Stops.Stop{id: "place-sstat"}}
+          prediction
         ]
       end)
 
@@ -275,7 +277,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> call()
 
       assert conn.assigns.vehicle_predictions == [
-               %Prediction{stop: %Stops.Stop{id: "place-sstat"}}
+               prediction
              ]
     end
 
