@@ -2,6 +2,7 @@ defmodule Dotcom.TransitNearMeTest do
   use ExUnit.Case
 
   import Mox
+  import Test.Support.Factory.Prediction
 
   alias LocationService.Address
   alias Predictions.Prediction
@@ -670,19 +671,23 @@ defmodule Dotcom.TransitNearMeTest do
       time: @schedule_time1
     }
 
-    @prediction1 %Prediction{
-      departing?: true,
-      direction_id: 1,
-      id: "prediction-39783543-70050-60",
-      route: @route,
-      schedule_relationship: nil,
-      status: nil,
-      stop: @stop,
-      stop_sequence: 60,
-      time: @prediction_time1,
-      track: "2",
-      trip: @trip1
-    }
+    @track_number "#{Faker.Util.digit()}"
+    @direction_id Faker.Util.digit()
+    @stop_sequence Faker.random_between(10, 99)
+
+    @prediction1 build(:prediction, %{
+                   departing?: true,
+                   direction_id: @direction_id,
+                   id: Faker.Internet.slug(),
+                   route: @route,
+                   schedule_relationship: nil,
+                   status: nil,
+                   stop: @stop,
+                   stop_sequence: @stop_sequence,
+                   time: @prediction_time1,
+                   track: @track_number,
+                   trip: @trip1
+                 })
 
     @schedule2 %Schedule{
       route: @route,
@@ -691,19 +696,19 @@ defmodule Dotcom.TransitNearMeTest do
       time: @schedule_time2
     }
 
-    @prediction2 %Prediction{
-      departing?: true,
-      direction_id: 1,
-      id: "prediction-39783543-70050-61",
-      route: @route,
-      schedule_relationship: nil,
-      status: nil,
-      stop: @stop,
-      stop_sequence: 60,
-      time: @prediction_time2,
-      track: "2",
-      trip: @trip2
-    }
+    @prediction2 build(:prediction, %{
+                   departing?: true,
+                   direction_id: @direction_id,
+                   id: Faker.Internet.slug(),
+                   route: @route,
+                   schedule_relationship: nil,
+                   status: nil,
+                   stop: @stop,
+                   stop_sequence: @stop_sequence,
+                   time: @prediction_time2,
+                   track: @track_number,
+                   trip: @trip2
+                 })
 
     @schedule3 %Schedule{
       route: @route,
@@ -712,19 +717,19 @@ defmodule Dotcom.TransitNearMeTest do
       time: @schedule_time3
     }
 
-    @prediction3 %Prediction{
-      departing?: true,
-      direction_id: 1,
-      id: "prediction-39783543-70050-61",
-      route: @route,
-      schedule_relationship: nil,
-      status: nil,
-      stop: @stop,
-      stop_sequence: 60,
-      time: @prediction_time3,
-      track: "2",
-      trip: @trip3
-    }
+    @prediction3 build(:prediction, %{
+                   departing?: true,
+                   direction_id: @direction_id,
+                   id: Faker.Internet.slug(),
+                   route: @route,
+                   schedule_relationship: nil,
+                   status: nil,
+                   stop: @stop,
+                   stop_sequence: @stop_sequence,
+                   time: @prediction_time3,
+                   track: @track_number,
+                   trip: @trip3
+                 })
 
     test "returns time data for the next 2 predictions" do
       expect(Predictions.Repo.Mock, :all, fn _ ->
@@ -747,7 +752,7 @@ defmodule Dotcom.TransitNearMeTest do
                     seconds: 300,
                     status: nil,
                     time: ["5", " ", "min"],
-                    track: "2",
+                    track: @track_number,
                     schedule_relationship: nil
                   },
                   scheduled_time: nil
@@ -770,7 +775,7 @@ defmodule Dotcom.TransitNearMeTest do
                     seconds: 900,
                     status: nil,
                     time: ["15", " ", "min"],
-                    track: "2",
+                    track: @track_number,
                     schedule_relationship: nil
                   },
                   scheduled_time: nil,

@@ -1,11 +1,14 @@
 defmodule PredictedScheduleTest do
   use ExUnit.Case, async: false
+
   alias Schedules.{Schedule, ScheduleCondensed, Trip}
   alias Stops.Stop
   alias Predictions.Prediction
+
   import PredictedSchedule
   import Mock
   import Mox
+  import Test.Support.Factory.Prediction
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers
@@ -62,37 +65,37 @@ defmodule PredictedScheduleTest do
                        )
 
   @predictions [
-    %Prediction{
+    build(:prediction, %{
       stop: %Stop{id: "first"},
       trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 12),
       route: @route
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       stop: %Stop{id: "second"},
       trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 22),
       route: @route
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       stop: %Stop{id: "third"},
       trip: %Trip{id: "trip1"},
       time: Timex.shift(@base_time, minutes: 32),
       route: @route
-    }
+    })
   ]
 
   @non_matching_predictions [
-    %Prediction{
+    build(:prediction, %{
       stop: %Stop{id: "stop1"},
       time: Timex.shift(@base_time, minutes: 12),
       trip: %Trip{id: "trip6"}
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       stop: %Stop{id: "stop2"},
       time: Timex.shift(@base_time, minutes: 32),
       trip: %Trip{id: "trip2"}
-    }
+    })
   ]
 
   @trip_schedules [
@@ -117,24 +120,24 @@ defmodule PredictedScheduleTest do
   ]
 
   @trip_predictions [
-    %Prediction{
+    build(:prediction, %{
       trip: %Trip{id: "Trip 1"},
       stop: %Stop{id: "stop1"},
       time: Timex.shift(@base_time, minutes: 2),
       route: @route
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       trip: %Trip{id: "Trip 2"},
       stop: %Stop{id: "stop1"},
       time: Timex.shift(@base_time, minutes: 12),
       route: @route
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       trip: %Trip{id: "Trip 3"},
       stop: %Stop{id: "stop1"},
       time: Timex.shift(@base_time, minutes: 22),
       route: @route
-    }
+    })
   ]
 
   describe "get/2" do

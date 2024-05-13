@@ -97,7 +97,7 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     case opts[:trip_fn].(trip_id, date: conn.assigns.date) do
       trips when is_list(trips) ->
         trips
-        |> build_trip_times(conn.assigns, trip_id, Function.capture(@predictions_repo, :all, 1))
+        |> build_trip_times(conn.assigns, trip_id)
         |> TripInfo.from_list(
           vehicle: opts[:vehicle_fn].(trip_id),
           vehicle_stop_name: active_stop,
@@ -149,19 +149,19 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
     NaiveDateTime.compare(a, b)
   end
 
-  defp build_trip_times(schedules, %{date_time: date_time} = assigns, trip_id, prediction_fn) do
+  defp build_trip_times(schedules, %{date_time: date_time} = assigns, trip_id) do
     assigns
-    |> get_trip_predictions(Util.service_date(date_time), trip_id, prediction_fn)
+    |> get_trip_predictions(Util.service_date(date_time), trip_id)
     |> PredictedSchedule.group(schedules)
   end
 
-  defp get_trip_predictions(%{date: date}, service_date, _, _prediction_fn)
+  defp get_trip_predictions(%{date: date}, service_date, _trip_id)
        when date != service_date do
     []
   end
 
-  defp get_trip_predictions(_, _, trip_id, prediction_fn) do
-    prediction_fn.(trip: trip_id)
+  defp get_trip_predictions(_, _, trip_id) do
+    @predictions_repo.all(trip: trip_id)
   end
 
   @spec show_trips?(DateTime.t(), DateTime.t(), integer, String.t()) :: boolean
