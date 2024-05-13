@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Review Dog
-      - uses: reviewdog/action-setup@1.3.0
+        uses: reviewdog/action-setup@1.3.0
+
       - name: Run Shellcheck
-      - uses: reviewdog/action-shellcheck@v1.20.0
+        uses: reviewdog/action-shellcheck@v1.20.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
