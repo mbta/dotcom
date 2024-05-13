@@ -94,8 +94,6 @@ defmodule GreenLineTest do
     test "each line returns a set of the ids of associated stops" do
       {_, stop_map} = calculate_stops_on_routes(0, Timex.today())
 
-      IO.inspect(stop_map)
-
       assert stop_map["Green-C"] ==
                MapSet.new(["place-clmnl", "place-coecl", "place-gover", "place-kencl"])
 

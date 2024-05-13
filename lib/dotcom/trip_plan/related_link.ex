@@ -15,8 +15,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @default_opts [
-    route_by_id: &Routes.Repo.get/1,
-    stop_by_id: Function.capture(@stops_repo, :get_parent, 1)
+    route_by_id: &Routes.Repo.get/1
   ]
 
   import Phoenix.HTML.Link, only: [link: 2]
@@ -120,16 +119,16 @@ defmodule Dotcom.TripPlan.RelatedLink do
     for leg <- itinerary,
         {:ok, route_id} <- [Leg.route_id(leg)],
         %Route{custom_route?: false} = route <- [route_by_id.(route_id)] do
-      fare_link(route, leg, opts)
+      fare_link(route, leg)
     end
     |> Enum.uniq()
     |> simplify_fare_text
   end
 
-  defp fare_link(route, leg, opts) do
+  defp fare_link(route, leg) do
     type_atom = Route.type_atom(route)
     text = fare_link_text(type_atom)
-    {fare_section, opts} = fare_link_url_opts(type_atom, leg, opts)
+    {fare_section, opts} = fare_link_url_opts(type_atom, leg)
     url = fare_path(DotcomWeb.Endpoint, :show, fare_section, opts)
     new(["View ", text, " fare information"], url)
   end
@@ -138,21 +137,19 @@ defmodule Dotcom.TripPlan.RelatedLink do
     Atom.to_string(type) |> String.replace("_", " ")
   end
 
-  defp fare_link_url_opts(type, leg, opts) when type in [:commuter_rail, :ferry] do
-    stop_by_id = Keyword.get(opts, :stop_by_id)
-
+  defp fare_link_url_opts(type, leg) when type in [:commuter_rail, :ferry] do
     link_opts =
       for {key, stop_id} <- [origin: leg.from.stop_id, destination: leg.to.stop_id],
           is_binary(stop_id) do
         # fetch a parent stop ID
-        stop_id = stop_by_id.(stop_id).id
+        stop_id = @stops_repo.get_parent(stop_id).id
         {key, stop_id}
       end
 
     {type, link_opts}
   end
 
-  defp fare_link_url_opts(type, _leg, _opts) when type in [:bus, :subway] do
+  defp fare_link_url_opts(type, _leg) when type in [:bus, :subway] do
     {"#{type}-fares", []}
   end
 

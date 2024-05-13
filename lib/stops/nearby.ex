@@ -12,13 +12,12 @@ defmodule Stops.Nearby do
 
   @type route_with_direction :: %{direction_id: 0 | 1 | nil, route: Route.t()}
 
-  defmodule Options do
-    @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
+  defmodule Options do
     @moduledoc "Defines shared options and defaults for this module's functions."
     defstruct api_fn: &Stops.Nearby.api_around/2,
               keys_fn: &Stops.Nearby.keys/1,
-              fetch_fn: Function.capture(@stops_repo, :get_parent, 1),
               routes_fn: &Routes.Repo.by_stop_and_direction/2,
               limit: nil
   end
@@ -52,7 +51,7 @@ defmodule Stops.Nearby do
       subway_stops |> Task.await() |> sort(position) |> no_more_than(1, opts.keys_fn),
       bus_stops |> Task.await() |> sort(position) |> no_more_than(2, opts.keys_fn)
     )
-    |> Task.async_stream(&opts.fetch_fn.(&1.id))
+    |> Task.async_stream(&@stops_repo.get_parent(&1.id))
     |> Enum.map(fn {:ok, result} -> result end)
   end
 

@@ -10,7 +10,6 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   doctest Helpers
 
   @routes_repo_api Application.compile_env!(:dotcom, :routes_repo_api)
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @stop %Stop{
     id: "110",
@@ -22,16 +21,12 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   setup :verify_on_exit!
 
-  setup do
-    stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> id, _ ->
-      %JsonApi{data: [build(:route_item, %{id: id})]}
-    end)
-
-    :ok
-  end
-
   describe "get_route/1" do
     test "gets a route given its ID" do
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> id, _ ->
+        %JsonApi{data: [build(:route_item, %{id: id})]}
+      end)
+
       route_id = Faker.Internet.slug()
       assert {:ok, %Route{id: ^route_id}} = Helpers.get_route(route_id)
     end
@@ -47,9 +42,6 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_branch_route_stops/3" do
-    @tag skip: "We'll mock route patterns soon"
-    test "does not return branches for route patterns from multi trip routes"
-
     @tag :external
     test "returns a list of RouteStops, one for each branch of the line" do
       assert [
@@ -768,23 +760,24 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   describe "get_route_stops" do
     test "gets stops by route for a given route" do
-      stops_by_route_fn = fn route_id, direction_id, _opts ->
+      stub(Stops.Repo.Mock, :by_route, fn route_id, direction_id, _opts ->
         if route_id == "1" and direction_id == 0, do: [@stop], else: []
-      end
+      end)
 
-      assert Helpers.get_route_stops("1", 0, stops_by_route_fn) == @route_stops
+      assert Helpers.get_route_stops("1", 0) == @route_stops
     end
 
-    test "handles an error response from the stops_by_route_fn" do
-      stops_by_route_fn = fn _, _, _ -> {:error, "Error"} end
-
-      assert Helpers.get_route_stops("1", 0, stops_by_route_fn) == %{}
+    test "handles an error response from the stops function" do
+      stub(Stops.Repo.Mock, :by_route, fn _, _, _ -> {:error, "Error"} end)
+      assert Helpers.get_route_stops("1", 0) == %{}
     end
 
     test "gets stops for all Green lines" do
-      stops_by_route_fn = fn _, _, _ -> [@stop] end
+      stub(Stops.Repo.Mock, :by_route, fn _, _, _ ->
+        [@stop]
+      end)
 
-      assert Helpers.get_route_stops("Green", 0, stops_by_route_fn) == %{
+      assert Helpers.get_route_stops("Green", 0) == %{
                "Green-B" => [@stop],
                "Green-C" => [@stop],
                "Green-D" => [@stop],
@@ -847,25 +840,33 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_branches/4" do
-    @tag :external
     test "returns a list of RouteStops, one for each branch of the line" do
-      stops = Helpers.get_route_stops("Red", 0, &@stops_repo.by_route/3)
+      stub(Stops.Repo.Mock, :get, fn id -> %Stop{id: id} end)
+      stub(Stops.Repo.Mock, :get_parent, fn id -> %Stop{id: id} end)
+      stub(Stops.Repo.Mock, :stop_features, fn _, _ -> [] end)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+        %JsonApi{
+          data: [
+            build(:route_item, %{
+              relationships: %{
+                "stops" => build_list(5, :stop_item)
+              }
+            })
+          ]
+        }
+      end)
+
       shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
 
+      stops =
+        Enum.flat_map(shapes, & &1.stop_ids)
+        |> Enum.map(&%Stop{id: &1})
+
       assert [%RouteStops{}, %RouteStops{}, %RouteStops{}] =
-               Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0)
+               Helpers.get_branches(shapes, %{"Red" => stops}, %Route{id: "Red"}, 0)
     end
 
-    @tag :external
-    test "returns RouteStops for all Green line branches" do
-      stops = Helpers.get_route_stops("Green", 0, &@stops_repo.by_route/3)
-      shapes = Helpers.get_shapes_by_direction("Green", 0, 0)
-
-      assert [%RouteStops{}, %RouteStops{}, %RouteStops{}, %RouteStops{}] =
-               Helpers.get_branches(shapes, stops, %Route{id: "Green"}, 0)
-    end
-
-    @tag :external
     test "returns an empty list when given no stops" do
       stops = %{}
       shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)

@@ -165,22 +165,22 @@ defmodule DotcomWeb.ScheduleController.Line.Helpers do
     RoutesRepo.get_shapes(route_id, direction_id: direction_id)
   end
 
-  @spec get_route_stops(Route.id_t(), direction_id, Stops.Repo.stop_by_route()) ::
+  @spec get_route_stops(Route.id_t(), direction_id) ::
           stops_by_route()
-  def get_route_stops("Green", direction_id, stops_by_route_fn) do
+  def get_route_stops("Green", direction_id) do
     GreenLine.branch_ids()
-    |> Task.async_stream(&do_get_route_stops(&1, direction_id, stops_by_route_fn))
+    |> Task.async_stream(&do_get_route_stops(&1, direction_id))
     |> Enum.reduce(%{}, fn {:ok, value}, acc -> Map.merge(acc, value) end)
   end
 
-  def get_route_stops(route_id, direction_id, stops_by_route_fn) do
-    do_get_route_stops(route_id, direction_id, stops_by_route_fn)
+  def get_route_stops(route_id, direction_id) do
+    do_get_route_stops(route_id, direction_id)
   end
 
-  @spec do_get_route_stops(Route.id_t(), direction_id, Stops.Repo.stop_by_route()) ::
+  @spec do_get_route_stops(Route.id_t(), direction_id) ::
           stops_by_route()
-  defp do_get_route_stops(route_id, direction_id, stops_by_route_fn) do
-    case stops_by_route_fn.(route_id, direction_id, []) do
+  defp do_get_route_stops(route_id, direction_id) do
+    case @stops_repo.by_route(route_id, direction_id, []) do
       {:error, _} -> %{}
       stops -> %{route_id => stops}
     end
