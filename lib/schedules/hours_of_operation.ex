@@ -156,7 +156,9 @@ defmodule Schedules.HoursOfOperation do
   end
 
   defp get_valid_day(check_date, days_to_avoid) do
-    if !Enum.member?(days_to_avoid, check_date) do
+    check_date_not_avoided? = !Enum.member?(days_to_avoid, check_date)
+
+    if check_date_not_avoided? do
       check_date
     else
       next_date =
