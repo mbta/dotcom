@@ -1,7 +1,6 @@
 ![](https://github.com/mbta/dotcom/actions/workflows/tests.yml/badge.svg?branch=main)
 ![](https://github.com/mbta/dotcom/actions/workflows/docker.yml/badge.svg)
 ![](https://github.com/mbta/dotcom/actions/workflows/crawler.yml/badge.svg)
-![](https://github.com/mbta/dotcom/actions/workflows/report-coverage.yml/badge.svg)
 
 # Dotcom
 
