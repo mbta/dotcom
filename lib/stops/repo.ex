@@ -7,24 +7,13 @@ defmodule Stops.Repo do
 
   alias Dotcom.Cache.KeyGenerator
   alias Stops.{Api, Stop}
+  alias Stops.Repo.Behaviour
   alias Routes.Route
 
   @behaviour Stops.Repo.Behaviour
 
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
-
-  @type stop_feature ::
-          Route.route_type()
-          | Route.subway_lines_type()
-          | :access
-          | :parking_lot
-          | :"Green-B"
-          | :"Green-C"
-          | :"Green-D"
-          | :"Green-E"
-  @type stops_response :: [Stop.t()] | {:error, any}
-  @type stop_by_route :: (Route.id_t(), 0 | 1, Keyword.t() -> stops_response)
 
   for {old_id, gtfs_id} <-
         "priv/stops/stop_id_to_gtfs.csv"
@@ -147,7 +136,7 @@ defmodule Stops.Repo do
   defp parking_features([]), do: []
   defp parking_features(_parking_lots), do: [:parking_lot]
 
-  @spec route_features(String.t(), Keyword.t()) :: [stop_feature]
+  @spec route_features(String.t(), Keyword.t()) :: [Behaviour.stop_feature()]
   defp route_features(stop_id, opts) do
     icon_fn =
       if Keyword.get(opts, :expand_branches?) do

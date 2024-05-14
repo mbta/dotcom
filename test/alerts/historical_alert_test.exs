@@ -7,6 +7,7 @@ defmodule Alerts.HistoricalAlertTest do
   alias Alerts.{Alert, HistoricalAlert, InformedEntity}
 
   @basic_alert %Alert{header: "An alert header", effect: :delay, severity: 5}
+  @municipality Faker.Address.city()
   @stop_entity %InformedEntity{stop: "1"}
   @route_entity %InformedEntity{route: "627"}
 
@@ -28,8 +29,9 @@ defmodule Alerts.HistoricalAlertTest do
 
     test "can include municipality from related stop" do
       alert_for_stop = Alert.new(informed_entity: [@stop_entity])
-      expect(Stops.Repo.Mock, :get, 2, fn _ -> %Stops.Stop{municipality: "Atlantis"} end)
-      assert %HistoricalAlert{municipality: "Atlantis"} = from_alert(alert_for_stop)
+      expect(Stops.Repo.Mock, :get, 2, fn _ -> %Stops.Stop{municipality: @municipality} end)
+      assert %HistoricalAlert{municipality: muni} = from_alert(alert_for_stop)
+      assert muni == @municipality
       expect(Stops.Repo.Mock, :get, 2, fn _ -> %Stops.Stop{municipality: nil} end)
       assert %HistoricalAlert{municipality: nil} = from_alert(alert_for_stop)
     end
