@@ -29,7 +29,10 @@ function getLikelyQueryParams(): string | undefined {
     window.location.search,
     window.decodeURIComponent
   );
-  return searchParams.query || searchParams.name || searchParams.address;
+  const { query, name, address, latitude, longitude } = searchParams;
+  const latlon =
+    latitude && longitude ? `${latitude}, ${longitude}` : undefined;
+  return query || name || address || latlon;
 }
 
 /**

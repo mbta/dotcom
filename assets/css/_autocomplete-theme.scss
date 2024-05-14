@@ -171,7 +171,8 @@
 }
 
 #proposed-sales-locations,
-#sales-locations {
+#sales-locations,
+#transit-near-me-locations {
   @extend %large-autocomplete;
 
   .c-search-bar__autocomplete-results {
