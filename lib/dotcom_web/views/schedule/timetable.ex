@@ -1,4 +1,8 @@
 defmodule DotcomWeb.ScheduleView.Timetable do
+  @moduledoc """
+  Functions for showing timetable content.
+  """
+
   alias Schedules.Schedule
   alias DotcomWeb.ViewHelpers, as: Helpers
   alias DotcomWeb.PartialView.SvgIconWithCircle

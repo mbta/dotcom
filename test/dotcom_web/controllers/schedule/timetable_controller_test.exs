@@ -287,7 +287,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
       assert platform_stop ==
                track_change_for_schedule(
                  schedule_1,
-                 ["stop-1-other-patform"],
+                 [Faker.Internet.slug()],
                  fn _platform_stop_id -> platform_stop end
                )
     end
@@ -305,7 +305,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
       assert nil ==
                track_change_for_schedule(
                  schedule_1,
-                 ["stop-1-other-patform"],
+                 [Faker.Internet.slug()],
                  fn _platform_stop_id -> platform_stop end
                )
     end
