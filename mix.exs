@@ -81,7 +81,7 @@ defmodule DotCom.Mixfile do
       {:ex_aws, "2.5.3"},
       {:ex_aws_s3, "2.5.3"},
       {:ex_aws_ses, "2.4.1"},
-      {:ex_doc, "0.32.1", only: :dev},
+      {:ex_doc, "0.32.2", only: :dev},
       {:ex_machina, "2.7.0", only: :test},
       {:ex_unit_summary, "0.1.0", only: [:dev, :test]},
       # latest version 0.18.1; cannot upgrade because expects castore >= 1
