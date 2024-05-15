@@ -1,5 +1,7 @@
 defmodule Dotcom.RealtimeScheduleTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+
+  import Mox
 
   import Mox
 
@@ -169,9 +171,15 @@ defmodule Dotcom.RealtimeScheduleTest do
     }
   ]
 
+  setup :verify_on_exit!
+
   setup do
     cache = Application.get_env(:dotcom, :cache)
     cache.flush()
+
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      @stop
+    end)
 
     %{cache: cache}
   end
@@ -180,7 +188,6 @@ defmodule Dotcom.RealtimeScheduleTest do
     expect(Predictions.Repo.Mock, :all_no_cache, 3, fn _ -> @predictions end)
 
     opts = [
-      stops_fn: fn _ -> @stop end,
       routes_fn: fn _ -> @route_with_patterns end,
       schedules_fn: fn _, _ -> @schedules end,
       alerts_fn: fn _, _ -> @alerts end
@@ -304,10 +311,7 @@ defmodule Dotcom.RealtimeScheduleTest do
   end
 
   test "stop_data/3 returns nil" do
-    expect(Predictions.Repo.Mock, :all_no_cache, fn _ -> [] end)
-
     opts = [
-      stops_fn: fn _ -> nil end,
       routes_fn: fn _ -> [] end,
       schedules_fn: fn _, _ -> [] end,
       alerts_fn: fn _, _ -> [] end

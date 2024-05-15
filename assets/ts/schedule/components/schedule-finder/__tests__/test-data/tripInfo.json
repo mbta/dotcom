@@ -19,7 +19,10 @@
               "payment": {
                 "monthly_rate": "$445 regular, $150 overnight",
                 "mobile_app": null,
-                "methods": ["Credit/Debit Card", "Cash"],
+                "methods": [
+                  "Credit/Debit Card",
+                  "Cash"
+                ],
                 "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
               },
               "note": null,
@@ -171,7 +174,9 @@
             "node-sstat-south-farepaid",
             "node-sstat-south-fareunpaid"
           ],
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "address": "700 Atlantic Ave, Boston, MA 02110",
           "accessibility": [
             "accessible",
@@ -203,7 +208,10 @@
               "payment": {
                 "monthly_rate": "$445 regular, $150 overnight",
                 "mobile_app": null,
-                "methods": ["Credit/Debit Card", "Cash"],
+                "methods": [
+                  "Credit/Debit Card",
+                  "Cash"
+                ],
                 "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
               },
               "note": null,
@@ -355,7 +363,9 @@
             "node-sstat-south-farepaid",
             "node-sstat-south-fareunpaid"
           ],
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "address": "700 Atlantic Ave, Boston, MA 02110",
           "accessibility": [
             "accessible",
@@ -394,7 +404,9 @@
           "id": "place-crtst",
           "has_fare_machine?": true,
           "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
+          "fare_facilities": [
+            "fare_vending_machine"
+          ],
           "description": null,
           "closed_stop_info": null,
           "child_ids": [
@@ -449,7 +461,11 @@
           ],
           "bike_storage": [],
           "address": "Seaport Blvd and Pittsburg St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -478,7 +494,9 @@
           "id": "place-crtst",
           "has_fare_machine?": true,
           "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
+          "fare_facilities": [
+            "fare_vending_machine"
+          ],
           "description": null,
           "closed_stop_info": null,
           "child_ids": [
@@ -533,7 +551,11 @@
           ],
           "bike_storage": [],
           "address": "Seaport Blvd and Pittsburg St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -565,7 +587,9 @@
           "id": "place-wtcst",
           "has_fare_machine?": true,
           "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
+          "fare_facilities": [
+            "fare_vending_machine"
+          ],
           "description": null,
           "closed_stop_info": null,
           "child_ids": [
@@ -598,9 +622,15 @@
             "node-wtcst-wtctstairs-landing",
             "node-wtcst-wtctstairs-top"
           ],
-          "bike_storage": ["bike_storage_rack_covered"],
+          "bike_storage": [
+            "bike_storage_rack_covered"
+          ],
           "address": "Congress St and World Trade Center Ave, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -629,7 +659,9 @@
           "id": "place-wtcst",
           "has_fare_machine?": true,
           "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
+          "fare_facilities": [
+            "fare_vending_machine"
+          ],
           "description": null,
           "closed_stop_info": null,
           "child_ids": [
@@ -662,9 +694,15 @@
             "node-wtcst-wtctstairs-landing",
             "node-wtcst-wtctstairs-top"
           ],
-          "bike_storage": ["bike_storage_rack_covered"],
+          "bike_storage": [
+            "bike_storage_rack_covered"
+          ],
           "address": "Congress St and World Trade Center Ave, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -699,10 +737,15 @@
           "fare_facilities": [],
           "description": null,
           "closed_stop_info": null,
-          "child_ids": ["74614", "74624"],
+          "child_ids": [
+            "74614",
+            "74624"
+          ],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["accessible"]
+          "accessibility": [
+            "accessible"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -734,10 +777,15 @@
           "fare_facilities": [],
           "description": null,
           "closed_stop_info": null,
-          "child_ids": ["74614", "74624"],
+          "child_ids": [
+            "74614",
+            "74624"
+          ],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["accessible"]
+          "accessibility": [
+            "accessible"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -775,7 +823,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "Northern Ave and Harbor St, Boston, MA 02210",
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -810,7 +860,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "Northern Ave and Harbor St, Boston, MA 02210",
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -848,7 +900,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -883,7 +937,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -921,7 +977,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "21 Dry Dock Ave, Boston, MA 02210",
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -956,7 +1014,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "21 Dry Dock Ave, Boston, MA 02210",
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -994,7 +1054,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -1029,7 +1091,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -1067,7 +1131,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -1102,7 +1168,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": null,
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -1140,7 +1208,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "88 Black Falcon Ave, Boston, MA 02210",
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -1175,7 +1245,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "88 Black Falcon Ave, Boston, MA 02210",
-          "accessibility": ["unknown"]
+          "accessibility": [
+            "unknown"
+          ]
         },
         "pickup_type": 0,
         "last_stop?": false,
@@ -1213,7 +1285,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "Black Falcon Ave and Design Center Pl, Boston, MA 02210",
-          "accessibility": ["accessible"]
+          "accessibility": [
+            "accessible"
+          ]
         },
         "pickup_type": 1,
         "last_stop?": true,
@@ -1248,7 +1322,9 @@
           "child_ids": [],
           "bike_storage": [],
           "address": "Black Falcon Ave and Design Center Pl, Boston, MA 02210",
-          "accessibility": ["accessible"]
+          "accessibility": [
+            "accessible"
+          ]
         },
         "pickup_type": 1,
         "last_stop?": true,
@@ -1261,7 +1337,6 @@
       }
     }
   ],
-  "stop_count": 11,
   "status": "operating at normal schedule",
   "origin_id": "place-sstat",
   "fare": {

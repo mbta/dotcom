@@ -19,7 +19,7 @@ defmodule Stops.Api do
     include: "parent_station,facilities,child_stops",
     "fields[facility]": "long_name,type,properties,latitude,longitude,id",
     "fields[stop]":
-      "address,name,latitude,longitude,address," <>
+      "address,name,latitude,longitude," <>
         "municipality,wheelchair_boarding,location_type," <>
         "platform_name,platform_code,description"
   ]

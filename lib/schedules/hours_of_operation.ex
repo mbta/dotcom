@@ -8,6 +8,8 @@ defmodule Schedules.HoursOfOperation do
   alias Schedules.Departures
   alias Services.Service
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
@@ -456,7 +458,7 @@ defmodule Schedules.HoursOfOperation do
       end)
 
     Enum.map(times_by_stop, fn {id, x} ->
-      stop = Stops.Repo.get!(id)
+      stop = @stops_repo.get!(id)
 
       {min, max} =
         x

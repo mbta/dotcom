@@ -1,11 +1,13 @@
 defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   use DotcomWeb.ChannelCase, async: false
-  @moduletag :external
 
   alias Leaflet.MapData.Marker
   alias DotcomWeb.{VehicleMapMarkerChannel, UserSocket}
   alias Vehicles.Vehicle
+
   import Mock
+  import Mox
+  import Test.Support.Factory.MbtaApi
 
   @vehicles [
     %Vehicle{
@@ -18,15 +20,26 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
     }
   ]
 
+  setup :verify_on_exit!
+
   setup_all do
-    # needed by DotcomWeb.ScheduleController.VehicleLocations plug
     _ = start_supervised({Phoenix.PubSub, name: Vehicles.PubSub})
     _ = start_supervised(Vehicles.Repo)
-
     :ok
   end
 
   test "sends vehicles and marker data" do
+    MBTA.Api.Mock
+    |> expect(:get_json, fn "/routes/" <> _, _ ->
+      %JsonApi{links: %{}, data: [build(:route_item)]}
+    end)
+    |> expect(:get_json, fn "/trips/" <> _, _ ->
+      %JsonApi{links: %{}, data: [build(:trip_item)]}
+    end)
+
+    stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{name: "Somewhere"} end)
+
     # subscribes to a random channel name to
     # avoid receiving real data in assert_push
     assert {:ok, _, socket} =
@@ -109,11 +122,13 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
       departing?: true
     }
 
+    stub(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
+    stub(Stops.Repo.Mock, :get, fn _ -> stop end)
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
+
     with_mocks [
       {Routes.Repo, [:passthrough], [get: fn _ -> route end]},
-      {Schedules.Repo, [:passthrough], [trip: fn _ -> trip end]},
-      {Predictions.Repo, [:passthrough], [all: fn _ -> [prediction] end]},
-      {Stops.Repo, [:passthrough], [get: fn _ -> stop end]}
+      {Schedules.Repo, [:passthrough], [trip: fn _ -> trip end]}
     ] do
       assert {:ok, _, socket} =
                UserSocket

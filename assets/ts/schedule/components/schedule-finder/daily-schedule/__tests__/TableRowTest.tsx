@@ -218,7 +218,6 @@ describe("parseResults", () => {
           prediction: null
         }
       ],
-      stop_count: 7,
       status: "operating at normal schedule",
       route_type: 3,
       origin_id: "102",

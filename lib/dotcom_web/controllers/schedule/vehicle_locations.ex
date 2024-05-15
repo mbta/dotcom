@@ -8,6 +8,8 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @default_opts [
     location_fn: &Vehicles.Repo.route/2,
     schedule_for_trip_fn: &Schedules.Repo.schedule_for_trip/2
@@ -49,7 +51,7 @@ defmodule DotcomWeb.ScheduleController.VehicleLocations do
 
   @spec stop_name(String.t()) :: String.t()
   defp stop_name(<<stop_id::binary>>) do
-    stop = Stops.Repo.get_parent(stop_id)
+    stop = @stops_repo.get_parent(stop_id)
 
     if stop do
       stop.name

@@ -5,6 +5,8 @@ defprotocol Algolia.Object do
 end
 
 defimpl Algolia.Object, for: Stops.Stop do
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   def object_id(stop), do: "stop-" <> stop.id
   def url(stop), do: Util.site_path(:stop_path, [:show, stop])
 
@@ -19,7 +21,7 @@ defimpl Algolia.Object, for: Stops.Stop do
       stop: stop,
       zone: stop.zone,
       routes: Algolia.Stop.Routes.for_stop(routes_for_stop),
-      features: Stops.Repo.stop_features(stop),
+      features: @stops_repo.stop_features(stop),
       green_line_branches: Algolia.Stop.Routes.green_line_branches(routes_for_stop)
     }
   end

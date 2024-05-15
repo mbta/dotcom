@@ -74,7 +74,7 @@ defmodule Dotcom.TripPlan.ItineraryRowList do
     last_leg = List.last(legs)
 
     {name, stop_id} =
-      last_leg |> Map.get(:to) |> ItineraryRow.name_from_position(&Stops.Repo.get_parent/1)
+      last_leg |> Map.get(:to) |> ItineraryRow.name_from_position()
 
     alerts = Alerts.Stop.match(alerts, stop_id)
     {destination_name(name, opts[:to]), stop_id, last_leg.stop, alerts}

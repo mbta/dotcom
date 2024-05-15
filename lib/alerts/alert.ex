@@ -73,6 +73,8 @@ defmodule Alerts.Alert do
 
   use Timex
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @ongoing_effects [
     :cancellation,
     :detour,
@@ -239,7 +241,7 @@ defmodule Alerts.Alert do
     |> get_entity(:stop)
     |> MapSet.delete(nil)
     |> Enum.find_value(fn stop_id ->
-      with %Stops.Stop{} = stop <- Stops.Repo.get(stop_id) do
+      with %Stops.Stop{} = stop <- @stops_repo.get(stop_id) do
         stop.municipality
       end
     end)

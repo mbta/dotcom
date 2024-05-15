@@ -2,6 +2,8 @@ defmodule TripInfo do
   require Routes.Route
   alias Fares.OneWay
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @moduledoc """
   Wraps the important information about a trip.
 
@@ -14,8 +16,6 @@ defmodule TripInfo do
   * status: a text status of the trip relative to the schedule
   * times: a list of PredictedSchedules, for stops between either
     1) the origin and destination or 2) the vehicle and destination
-  * stop_count: number of stops between either 1) the origin and the destination
-    or 2) the vehicle and destination
   * duration: the number of minutes the trip takes between origin_id and destination_id
   * base_fare: The minimum, non-discounted, one-way fare for the trip
   """
@@ -29,7 +29,6 @@ defmodule TripInfo do
           vehicle_stop_name: String.t() | nil,
           status: String.t(),
           times: time_list,
-          stop_count: pos_integer,
           duration: pos_integer | nil,
           base_fare: Fares.Fare.t()
         }
@@ -41,7 +40,6 @@ defmodule TripInfo do
             vehicle_stop_name: nil,
             status: "operating at normal schedule",
             times: [],
-            stop_count: 0,
             duration: -1,
             base_fare: nil
 
@@ -56,7 +54,7 @@ defmodule TripInfo do
 
     starting_stop_ids =
       if opts[:vehicle] do
-        vehicle_stop = Stops.Repo.get_parent(opts[:vehicle].stop_id)
+        vehicle_stop = @stops_repo.get_parent(opts[:vehicle].stop_id)
         [origin_id, if(vehicle_stop, do: Map.get(vehicle_stop, :id))]
       else
         [origin_id]
@@ -98,7 +96,6 @@ defmodule TripInfo do
     route = PredictedSchedule.route(time)
     trip = PredictedSchedule.trip(time)
     duration = duration(times, origin_id)
-    stop_count = Enum.count(times)
     base_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
 
     %TripInfo{
@@ -108,7 +105,6 @@ defmodule TripInfo do
       vehicle: opts[:vehicle],
       times: times,
       duration: duration,
-      stop_count: stop_count,
       vehicle_stop_name: vehicle_stop_name,
       base_fare: base_fare
     }

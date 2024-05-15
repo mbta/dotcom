@@ -1,5 +1,7 @@
 defmodule Dotcom.TransitNearMeTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+
+  import Mox
 
   import Mox
   import Test.Support.Factory.Prediction
@@ -18,6 +20,8 @@ defmodule Dotcom.TransitNearMeTest do
   }
 
   @date Util.service_date()
+
+  setup :verify_on_exit!
 
   setup_all do
     # needed by DotcomWeb.ScheduleController.VehicleLocations plug
@@ -143,6 +147,7 @@ defmodule Dotcom.TransitNearMeTest do
   describe "build_direction_map/2" do
     test "returns schedules and predictions for non-subway routes" do
       stop = %Stop{id: "stop"}
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
 
       route = %Route{
         id: "route",
@@ -191,7 +196,8 @@ defmodule Dotcom.TransitNearMeTest do
     end
 
     test "only uses predictions for subway routes" do
-      stop = %Stop{id: "stop"}
+      stop = %Stops.Stop{id: "stop"}
+      stub(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
 
       route = %Route{
         id: "route",
@@ -813,8 +819,6 @@ defmodule Dotcom.TransitNearMeTest do
     end
 
     test "return neither schedules nor predictions if date is outside rating" do
-      expect(Predictions.Repo.Mock, :all, fn _ -> [@prediction1] end)
-
       schedules_fn = fn _, _ ->
         {:error,
          [

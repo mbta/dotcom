@@ -60,6 +60,8 @@ defmodule Stops.Stop do
           zone: String.t() | nil
         }
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   defimpl Util.Position do
     def latitude(stop), do: stop.latitude
     def longitude(stop), do: stop.longitude
@@ -86,7 +88,7 @@ defmodule Stops.Stop do
   """
   @spec has_zone?(t | id_t) :: boolean
   def has_zone?(<<id::binary>>) do
-    case Stops.Repo.get(id) do
+    case @stops_repo.get(id) do
       nil -> false
       stop -> has_zone?(stop)
     end

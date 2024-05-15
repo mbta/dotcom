@@ -1,18 +1,21 @@
 defmodule Predictions.RepoTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   import Mox
+  import Test.Support.Factory.MbtaApi
 
   alias Predictions.Repo
   alias Routes.Route
   alias Stops.Stop
 
-  setup :set_mox_global
-
   setup do
     cache = Application.get_env(:dotcom, :cache)
 
     cache.flush()
+
+    stub(Stops.Repo.Mock, :get_parent, fn id ->
+      %Stop{id: id}
+    end)
 
     %{cache: cache}
   end
@@ -20,40 +23,89 @@ defmodule Predictions.RepoTest do
   setup :verify_on_exit!
 
   describe "all/1" do
-    @tag :external
     test "returns a list" do
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      route_id = Faker.Pizza.topping()
+
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", opts ->
+        assert opts[:route] == route_id
         %JsonApi{data: []}
       end)
 
-      predictions = Repo.all(route: "Red")
+      predictions = Repo.all(route: route_id)
 
       assert is_list(predictions)
     end
 
-    @tag :external
     test "can filter by trip" do
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
+      trip_id = Faker.Internet.slug()
+
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", opts ->
+        assert opts[:trip] == trip_id
+
         %JsonApi{data: []}
       end)
 
-      trips = Repo.all(trip: "32542509")
-
-      for prediction <- trips do
-        assert prediction.trip.id == "32542509"
-      end
+      trips = Repo.all(trip: trip_id)
+      assert is_list(trips)
     end
 
-    @tag :external
     test "filters by min_time" do
-      min_time = Util.now() |> Timex.shift(minutes: 15)
+      route_id = Faker.Internet.slug()
 
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        %JsonApi{data: []}
+      route_item =
+        build(:route_item, %{
+          id: route_id,
+          attributes: %{
+            "type" => 3
+          }
+        })
+
+      min_time = Util.now()
+
+      before_time =
+        min_time
+        |> Timex.shift(hours: -3)
+        |> Timex.format!("{ISO:Extended}")
+
+      after_time =
+        min_time
+        |> Timex.shift(hours: 3)
+        |> Timex.format!("{ISO:Extended}")
+
+      expect(MBTA.Api.Mock, :get_json, fn "/predictions/", opts ->
+        assert opts[:route] == route_id
+
+        %JsonApi{
+          data:
+            build_list(2, :prediction_item, %{
+              attributes: %{
+                "arrival_time" => before_time
+              },
+              relationships: %{
+                "route" => [route_item]
+              }
+            }) ++
+              build_list(2, :prediction_item, %{
+                attributes: %{
+                  "arrival_time" => after_time
+                },
+                relationships: %{
+                  "route" => [route_item]
+                }
+              })
+        }
       end)
 
-      predictions = Repo.all(route: "39", min_time: min_time)
-      refute Enum.empty?(predictions)
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/" <> id, _ ->
+        assert id == route_id
+
+        %JsonApi{
+          data: [route_item]
+        }
+      end)
+
+      predictions = Repo.all(route: route_id, min_time: min_time)
+      assert length(predictions) == 2
 
       for prediction <- predictions do
         assert DateTime.compare(prediction.time, min_time) in [:gt, :eq]
@@ -61,6 +113,13 @@ defmodule Predictions.RepoTest do
     end
 
     test "filters out predictions with no departure" do
+      stop_id = Faker.Pizza.topping()
+
+      expect(Stops.Repo.Mock, :get_parent, fn id ->
+        assert id == stop_id
+        %Stop{}
+      end)
+
       five_minutes_in_future = DateTime.add(Timex.now(), 5, :minute)
 
       five_minutes_in_future_string =
@@ -85,7 +144,7 @@ defmodule Predictions.RepoTest do
             "trip" => [],
             "vehicle" => [],
             "stop" => [
-              %{id: Faker.Pizza.topping()}
+              %{id: stop_id}
             ]
           }
         }
@@ -103,53 +162,10 @@ defmodule Predictions.RepoTest do
         }
       end)
 
-      test_stop_data = %JsonApi{
-        data: [
-          %JsonApi.Item{
-            id: Faker.Pizza.cheese(),
-            attributes: %{
-              "name" => Faker.Pizza.combo(),
-              "location_type" => Faker.random_between(0, 1),
-              "platform_name" => Faker.Pizza.company(),
-              "platform_code" => Faker.Pizza.company(),
-              "description" => Faker.Pizza.topping()
-            },
-            relationships: %{
-              "facilities" => %{},
-              "zone" => Faker.Pizza.topping()
-            }
-          }
-        ]
-      }
-
-      test_route_data = %JsonApi{
-        data: [
-          %JsonApi.Item{
-            id: Faker.Pizza.cheese(),
-            attributes: %{
-              "type" => "1",
-              "long_name" => Faker.Pizza.topping(),
-              "direction_names" => [Faker.Pizza.meat(), Faker.Pizza.meat()],
-              "direction_destinations" => [Faker.Pizza.company(), Faker.Pizza.company()]
-            },
-            relationships: %{}
-          }
-        ]
-      }
-
-      # Route for calculating display time
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        test_route_data
-      end)
-
-      # Parent Stop for prediction
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        test_stop_data
-      end)
-
-      # Route for generating struct
-      expect(MBTA.Api.Mock, :get_json, fn _, _ ->
-        test_route_data
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+        %JsonApi{
+          data: [build(:route_item, %{id: route_id})]
+        }
       end)
 
       predictions = Repo.all(route: Faker.Pizza.cheese())
@@ -157,7 +173,6 @@ defmodule Predictions.RepoTest do
       assert Kernel.length(predictions) == 1
     end
 
-    @tag :external
     test "returns a list even if the server is down" do
       expect(MBTA.Api.Mock, :get_json, fn _, _ ->
         {:error, %HTTPoison.Error{reason: :econnrefused}}

@@ -1,9 +1,11 @@
 defmodule Schedules.HoursOfOperationTest do
   @moduledoc false
-  use ExUnit.Case, async: false
-  import Mock
+  use ExUnit.Case, async: true
+  import Mox
   import Schedules.HoursOfOperation
   alias Schedules.{HoursOfOperation, Departures}
+
+  setup :verify_on_exit!
 
   describe "hours_of_operation/2" do
     @tag :external
@@ -242,149 +244,149 @@ defmodule Schedules.HoursOfOperationTest do
     end
 
     test "returns terminus status, and first and last departure times per stop for rapid transit if present, otherwise :no_service" do
-      with_mock(Stops.Repo, [:passthrough], get!: &test_stop_name(&1)) do
-        {stop_1_d_1, stop_1_d_1_time} =
-          build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:45:00Z]})
+      stub(Stops.Repo.Mock, :get!, &test_stop_name(&1))
 
-        {stop_1_d_2, _stop_1_d_2_time} =
-          build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:55:00Z]})
+      {stop_1_d_1, stop_1_d_1_time} =
+        build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:45:00Z]})
 
-        {stop_1_d_3, stop_1_d_3_time} =
-          build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 11:05:00Z]})
+      {stop_1_d_2, _stop_1_d_2_time} =
+        build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 10:55:00Z]})
 
-        {stop_2_d_1, stop_2_d_1_time} =
-          build_schedule(%{stop_id: "2", departure_time: ~U[2022-01-01 10:45:00Z]})
+      {stop_1_d_3, stop_1_d_3_time} =
+        build_schedule(%{stop_id: "1", departure_time: ~U[2022-01-01 11:05:00Z]})
 
-        {stop_2_d_2, stop_2_d_2_time} =
-          build_schedule(%{stop_id: "2", departure_time: ~U[2022-01-01 10:55:00Z]})
+      {stop_2_d_1, stop_2_d_1_time} =
+        build_schedule(%{stop_id: "2", departure_time: ~U[2022-01-01 10:45:00Z]})
 
-        sunday_out_of_service = {:error, [%JsonApi.Error{code: "no_service"}]}
+      {stop_2_d_2, stop_2_d_2_time} =
+        build_schedule(%{stop_id: "2", departure_time: ~U[2022-01-01 10:55:00Z]})
 
-        # 0 - week, saturday, sunday
-        # 1 - week, saturday, sunday
+      sunday_out_of_service = {:error, [%JsonApi.Error{code: "no_service"}]}
 
-        responses = [
-          {:ok, %JsonApi{data: [stop_1_d_1, stop_1_d_2, stop_1_d_3, stop_2_d_1, stop_2_d_2]}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{data: [stop_2_d_1]}},
-          {:ok, sunday_out_of_service},
-          {:ok, %JsonApi{}}
-        ]
+      # 0 - week, saturday, sunday
+      # 1 - week, saturday, sunday
 
-        expected = %HoursOfOperation{
-          week:
-            {[
-               %Departures{
-                 first_departure: stop_1_d_1_time,
-                 last_departure: stop_1_d_3_time,
-                 stop_id: "1",
-                 is_terminus: true,
-                 stop_name: "Test Stop"
-               },
-               %Departures{
-                 first_departure: stop_2_d_1_time,
-                 last_departure: stop_2_d_2_time,
-                 stop_id: "2",
-                 is_terminus: false,
-                 stop_name: "Test Stop 2"
-               }
-             ], :no_service},
-          saturday:
-            {:no_service,
-             [
-               %Departures{
-                 first_departure: stop_2_d_1_time,
-                 last_departure: stop_2_d_1_time,
-                 stop_id: "2",
-                 is_terminus: false,
-                 stop_name: "Test Stop 2"
-               }
-             ]},
-          special_service: %{},
-          sunday: {:no_service, :no_service}
-        }
+      responses = [
+        {:ok, %JsonApi{data: [stop_1_d_1, stop_1_d_2, stop_1_d_3, stop_2_d_1, stop_2_d_2]}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{data: [stop_2_d_1]}},
+        {:ok, sunday_out_of_service},
+        {:ok, %JsonApi{}}
+      ]
 
-        mock_params = [[], [], [], [], [], []]
+      expected = %HoursOfOperation{
+        week:
+          {[
+             %Departures{
+               first_departure: stop_1_d_1_time,
+               last_departure: stop_1_d_3_time,
+               stop_id: "1",
+               is_terminus: true,
+               stop_name: "Test Stop"
+             },
+             %Departures{
+               first_departure: stop_2_d_1_time,
+               last_departure: stop_2_d_2_time,
+               stop_id: "2",
+               is_terminus: false,
+               stop_name: "Test Stop 2"
+             }
+           ], :no_service},
+        saturday:
+          {:no_service,
+           [
+             %Departures{
+               first_departure: stop_2_d_1_time,
+               last_departure: stop_2_d_1_time,
+               stop_id: "2",
+               is_terminus: false,
+               stop_name: "Test Stop 2"
+             }
+           ]},
+        special_service: %{},
+        sunday: {:no_service, :no_service}
+      }
 
-        actual =
-          parse_responses(
-            responses,
-            :rapid_transit,
-            mock_params,
-            &Schedules.HoursOfOperation.departure/3
-          )
+      mock_params = [[], [], [], [], [], []]
 
-        assert expected == actual
-      end
+      actual =
+        parse_responses(
+          responses,
+          :rapid_transit,
+          mock_params,
+          &Schedules.HoursOfOperation.departure/3
+        )
+
+      assert expected == actual
     end
 
     test "parses and returns rapid transit hours for any special service days" do
-      with_mock(Stops.Repo, [:passthrough], get!: &test_stop_name(&1)) do
-        {stop_1_dep_1, stop_1_dep_1_time} =
-          build_schedule(%{stop_id: "1", departure_time: ~U[2022-12-27 10:45:00Z]})
+      stub(Stops.Repo.Mock, :get!, &test_stop_name(&1))
 
-        {stop_1_dep_2, stop_1_dep_2_time} =
-          build_schedule(%{stop_id: "1", departure_time: ~U[2022-12-27 23:45:00Z]})
+      {stop_1_dep_1, stop_1_dep_1_time} =
+        build_schedule(%{stop_id: "1", departure_time: ~U[2022-12-27 10:45:00Z]})
 
-        stop_2_date = ~D[2022-12-31]
+      {stop_1_dep_2, stop_1_dep_2_time} =
+        build_schedule(%{stop_id: "1", departure_time: ~U[2022-12-27 23:45:00Z]})
 
-        {stop_2_dep_1, stop_2_dep_1_time} =
-          build_schedule(%{stop_id: "2", departure_time: ~U[2022-12-31 08:45:00Z]})
+      stop_2_date = ~D[2022-12-31]
 
-        {stop_2_dep_2, stop_2_dep_2_time} =
-          build_schedule(%{stop_id: "2", departure_time: ~U[2022-12-31 22:45:00Z]})
+      {stop_2_dep_1, stop_2_dep_1_time} =
+        build_schedule(%{stop_id: "2", departure_time: ~U[2022-12-31 08:45:00Z]})
 
-        responses = [
-          {:ok, %JsonApi{data: [stop_1_dep_1, stop_1_dep_2]}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{}},
-          {:ok, %JsonApi{data: [stop_2_dep_1, stop_2_dep_2]}},
-          {:ok, %JsonApi{}}
-        ]
+      {stop_2_dep_2, stop_2_dep_2_time} =
+        build_schedule(%{stop_id: "2", departure_time: ~U[2022-12-31 22:45:00Z]})
 
-        expected = %HoursOfOperation{
-          week:
+      responses = [
+        {:ok, %JsonApi{data: [stop_1_dep_1, stop_1_dep_2]}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{}},
+        {:ok, %JsonApi{data: [stop_2_dep_1, stop_2_dep_2]}},
+        {:ok, %JsonApi{}}
+      ]
+
+      expected = %HoursOfOperation{
+        week:
+          {[
+             %Departures{
+               first_departure: stop_1_dep_1_time,
+               last_departure: stop_1_dep_2_time,
+               stop_id: "1",
+               is_terminus: true,
+               stop_name: "Test Stop"
+             }
+           ], :no_service},
+        saturday: {:no_service, :no_service},
+        special_service: %{
+          "2022-12-31" =>
             {[
                %Departures{
-                 first_departure: stop_1_dep_1_time,
-                 last_departure: stop_1_dep_2_time,
-                 stop_id: "1",
-                 is_terminus: true,
-                 stop_name: "Test Stop"
+                 first_departure: stop_2_dep_1_time,
+                 last_departure: stop_2_dep_2_time,
+                 stop_id: "2",
+                 is_terminus: false,
+                 stop_name: "Test Stop 2"
                }
-             ], :no_service},
-          saturday: {:no_service, :no_service},
-          special_service: %{
-            "2022-12-31" =>
-              {[
-                 %Departures{
-                   first_departure: stop_2_dep_1_time,
-                   last_departure: stop_2_dep_2_time,
-                   stop_id: "2",
-                   is_terminus: false,
-                   stop_name: "Test Stop 2"
-                 }
-               ], :no_service}
-          },
-          sunday: {:no_service, :no_service}
-        }
+             ], :no_service}
+        },
+        sunday: {:no_service, :no_service}
+      }
 
-        mock_params = [[], [], [], [], [], [], [date: stop_2_date], [date: stop_2_date]]
+      mock_params = [[], [], [], [], [], [], [date: stop_2_date], [date: stop_2_date]]
 
-        actual =
-          parse_responses(
-            responses,
-            :rapid_transit,
-            mock_params,
-            &Schedules.HoursOfOperation.departure/3
-          )
+      actual =
+        parse_responses(
+          responses,
+          :rapid_transit,
+          mock_params,
+          &Schedules.HoursOfOperation.departure/3
+        )
 
-        assert expected == actual
-      end
+      assert expected == actual
     end
 
     test "returns no service for special service days not in service" do
@@ -515,53 +517,53 @@ defmodule Schedules.HoursOfOperationTest do
 
   describe "departure_overall/3" do
     test "it should ignore times with the same departure and arrival, and non-terminus departures when calculating overall" do
-      with_mock(Stops.Repo, [:passthrough], get!: &test_stop_name(&1)) do
-        {stop_1_dep_1, stop_1_dep_1_time} =
-          build_schedule(%{
-            stop_id: "1",
-            departure_time: ~U[2022-12-27 10:45:00Z],
-            arrival_time: ~U[2022-12-27 10:45:00Z],
-            headsign: "Test Stop"
-          })
+      stub(Stops.Repo.Mock, :get!, &test_stop_name(&1))
 
-        {stop_1_dep_2, stop_1_dep_2_time} =
-          build_schedule(%{
-            stop_id: "1",
-            departure_time: ~U[2022-12-27 23:45:00Z],
-            arrival_time: ~U[2022-12-27 23:45:00Z],
-            headsign: "Test Stop"
-          })
+      {stop_1_dep_1, stop_1_dep_1_time} =
+        build_schedule(%{
+          stop_id: "1",
+          departure_time: ~U[2022-12-27 10:45:00Z],
+          arrival_time: ~U[2022-12-27 10:45:00Z],
+          headsign: "Test Stop"
+        })
 
-        {stop_2_dep_1, _stop_2_dep_1_time} =
-          build_schedule(%{
-            stop_id: "2",
-            departure_time: ~U[2022-12-31 08:45:00Z],
-            arrival_time: ~U[2022-12-31 08:45:00Z],
-            headsign: "Test Stop 2"
-          })
+      {stop_1_dep_2, stop_1_dep_2_time} =
+        build_schedule(%{
+          stop_id: "1",
+          departure_time: ~U[2022-12-27 23:45:00Z],
+          arrival_time: ~U[2022-12-27 23:45:00Z],
+          headsign: "Test Stop"
+        })
 
-        {stop_2_dep_2, _stop_2_dep_1_time} =
-          build_schedule(%{
-            stop_id: "3",
-            departure_time: ~U[2022-12-31 04:45:00Z],
-            arrival_time: ~U[2022-12-31 11:45:00Z],
-            headsign: "Test Stop 2"
-          })
+      {stop_2_dep_1, _stop_2_dep_1_time} =
+        build_schedule(%{
+          stop_id: "2",
+          departure_time: ~U[2022-12-31 08:45:00Z],
+          arrival_time: ~U[2022-12-31 08:45:00Z],
+          headsign: "Test Stop 2"
+        })
 
-        departure =
-          departure_overall(
-            [stop_1_dep_1, stop_1_dep_2, stop_2_dep_1, stop_2_dep_2],
-            ["Test Stop", "Test Stop 2"],
-            :rapid_transit
-          )
+      {stop_2_dep_2, _stop_2_dep_1_time} =
+        build_schedule(%{
+          stop_id: "3",
+          departure_time: ~U[2022-12-31 04:45:00Z],
+          arrival_time: ~U[2022-12-31 11:45:00Z],
+          headsign: "Test Stop 2"
+        })
 
-        expected_departure = %Departures{
-          first_departure: stop_1_dep_1_time,
-          last_departure: stop_1_dep_2_time
-        }
+      departure =
+        departure_overall(
+          [stop_1_dep_1, stop_1_dep_2, stop_2_dep_1, stop_2_dep_2],
+          ["Test Stop", "Test Stop 2"],
+          :rapid_transit
+        )
 
-        assert expected_departure == departure
-      end
+      expected_departure = %Departures{
+        first_departure: stop_1_dep_1_time,
+        last_departure: stop_1_dep_2_time
+      }
+
+      assert expected_departure == departure
     end
   end
 

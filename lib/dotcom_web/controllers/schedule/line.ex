@@ -9,20 +9,9 @@ defmodule DotcomWeb.ScheduleController.Line do
 
   alias Plug.Conn
   alias Routes.Route
-  alias DotcomWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias DotcomWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias DotcomWeb.ScheduleController.Line.Maps
-  alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStops, RouteStop}
-
-  defmodule Dependencies do
-    @moduledoc """
-    Actions pulled in from elsewhere
-    """
-    defstruct stops_by_route_fn: &StopsRepo.by_route/3
-
-    @type t :: %__MODULE__{stops_by_route_fn: StopsRepo.stop_by_route()}
-  end
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -42,7 +31,7 @@ defmodule DotcomWeb.ScheduleController.Line do
             direction_id: direction_id
           }
         } = conn,
-        args
+        _
       ) do
     # check if URL has parameters like direction_id, origin or variant
     # If so, they will get changed to:
@@ -66,8 +55,7 @@ defmodule DotcomWeb.ScheduleController.Line do
           direction_id
         end
 
-      deps = Keyword.get(args, :deps, %Dependencies{})
-      update_conn(conn, route, direction_id_value, deps)
+      update_conn(conn, route, direction_id_value)
     else
       # overwrite query_params in `conn` with the correct format:
       conn = %{conn | query_params: new_params}
@@ -102,13 +90,13 @@ defmodule DotcomWeb.ScheduleController.Line do
     end
   end
 
-  @spec update_conn(Conn.t(), Route.t(), direction_id, Dependencies.t()) :: Conn.t()
-  defp update_conn(conn, route, direction_id, deps) do
+  @spec update_conn(Conn.t(), Route.t(), direction_id) :: Conn.t()
+  defp update_conn(conn, route, direction_id) do
     schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
     variant = schedule_direction["variant"]
     expanded = Map.get(conn.query_params, "expanded")
     reverse_direction_id = reverse_direction(direction_id)
-    route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
+    route_stops = LineHelpers.get_route_stops(route.id, direction_id)
     route_patterns = LineHelpers.get_map_route_patterns(route.id, route.type)
     route_patterns_map = map_route_patterns_by_direction(route_patterns)
 
@@ -127,7 +115,7 @@ defmodule DotcomWeb.ScheduleController.Line do
       )
 
     reverse_route_stops =
-      LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
+      LineHelpers.get_route_stops(route.id, reverse_direction_id)
 
     branch_route_stops = LineHelpers.get_branch_route_stops(route, direction_id)
 

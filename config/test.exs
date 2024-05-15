@@ -9,7 +9,8 @@ config :dotcom, :mbta_api_module, MBTA.Api.Mock
 
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo.Mock,
-  route_patterns: RoutePatterns.Repo.Mock
+  route_patterns: RoutePatterns.Repo.Mock,
+  stops: Stops.Repo.Mock
 
 config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock

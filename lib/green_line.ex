@@ -7,10 +7,11 @@ defmodule GreenLine do
   alias Routes.Route
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @type route_id_stop_id_map :: %{Route.id_t() => MapSet.t()}
   @type stop_routes_pair :: {[Stop.t()] | {:error, any}, route_id_stop_id_map}
   @type branch_name :: String.t()
-  @typep stops_by_routes_fn :: ([Route.id_t()], 0 | 1, Keyword.t() -> [Stop.t()] | {:error, any})
 
   @doc """
   Returns the `calculate_stops_on_routes` results from the GreenLine.Cache.
@@ -25,11 +26,11 @@ defmodule GreenLine do
   that a stop is on the branch in question.  Optionally takes a date for which to fetch the
   schedules.
   """
-  @spec calculate_stops_on_routes(0 | 1, Date.t() | nil, stops_by_routes_fn | nil) ::
+  @spec calculate_stops_on_routes(0 | 1, Date.t() | nil) ::
           stop_routes_pair
-  def calculate_stops_on_routes(direction_id, date \\ nil, stops_fn \\ &Stops.Repo.by_route/3) do
+  def calculate_stops_on_routes(direction_id, date \\ nil) do
     branch_ids()
-    |> Task.async_stream(&green_line_stops(&1, direction_id, date, stops_fn))
+    |> Task.async_stream(&green_line_stops(&1, direction_id, date))
     |> Enum.reduce({[], %{}}, &merge_green_line_stops/2)
   end
 
@@ -39,7 +40,7 @@ defmodule GreenLine do
   """
   def termini_stops() do
     for direction_id <- [0, 1], branch_id <- GreenLine.branch_ids(), into: %{} do
-      stop = Stops.Repo.by_route(branch_id, direction_id) |> List.last()
+      stop = @stops_repo.by_route(branch_id, direction_id) |> List.last()
       {{branch_id, direction_id}, stop}
     end
   end
@@ -164,9 +165,9 @@ defmodule GreenLine do
 
   # Returns the stops that are on a given branch of the Green line,
   # along with the route ID.
-  @spec green_line_stops(Route.id_t(), 0 | 1, Date.t() | nil, stops_by_routes_fn) ::
+  @spec green_line_stops(Route.id_t(), 0 | 1, Date.t() | nil) ::
           {Route.id_t(), [Stop.t()]}
-  defp green_line_stops(route_id, direction_id, date, stops_fn) do
+  defp green_line_stops(route_id, direction_id, date) do
     opts =
       if is_nil(date) do
         []
@@ -176,7 +177,7 @@ defmodule GreenLine do
 
     stops =
       route_id
-      |> stops_fn.(direction_id, opts)
+      |> @stops_repo.by_route(direction_id, opts)
       |> filter_lines(route_id)
 
     {route_id, stops}
