@@ -221,8 +221,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       stop_id_1 = Faker.Pokemon.location()
       stop_id_2 = Faker.Pokemon.location()
       route_id = "#{Faker.Util.digit()}"
-      trip_id_1 = "#{Faker.Util.digit()}"
-      trip_id_2 = "#{Faker.Util.digit()}"
+      trip_id_1 = "#{Faker.Internet.slug()}"
+      trip_id_2 = "#{Faker.Internet.slug()}"
 
       vehicle_locations = %{
         {trip_id_1, stop_id_1} => %Vehicles.Vehicle{
@@ -267,8 +267,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
       stop_id_1 = Faker.Pokemon.location()
       route_id = "#{Faker.Util.digit()}"
-      trip_id_1 = "#{Faker.Util.digit()}"
-      trip_id_2 = "#{Faker.Util.digit()}"
+      trip_id_1 = "#{Faker.Internet.slug()}"
+      trip_id_2 = "#{Faker.Internet.slug()}"
 
       vehicle_locations = %{
         {trip_id_1, stop_id_1} => %Vehicles.Vehicle{
@@ -284,11 +284,14 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
       }
 
       prediction = build(:prediction, %{stop: %Stops.Stop{id: stop_id_1}})
-      trip_id_match = Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
 
       Predictions.Repo.Mock
-      |> expect(:all, fn [route: ^route_id] -> [] end)
-      |> expect(:all, fn [trip: ^trip_id_match] ->
+      |> expect(:all, fn [route: id] ->
+        assert id == route_id
+        []
+      end)
+      |> expect(:all, fn [trip: trip_id] ->
+        assert trip_id == Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
         # we transform the data into this form so that we only need to make one repo call
         [
           prediction
@@ -300,7 +303,7 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
         |> assign(:origin, %Stops.Stop{id: Faker.Pokemon.location()})
         |> assign(:destination, %Stops.Stop{id: Faker.Pokemon.location()})
         |> assign(:route, %{id: route_id})
-        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> assign(:direction_id, Faker.Util.pick([0, 1]))
         |> assign(:vehicle_locations, vehicle_locations)
         |> call()
 

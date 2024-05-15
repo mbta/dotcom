@@ -4,6 +4,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
   alias Leaflet.MapData.Marker
   alias DotcomWeb.{VehicleMapMarkerChannel, UserSocket}
   alias Vehicles.Vehicle
+
   import Mock
   import Mox
   import Test.Support.Factory.MbtaApi
@@ -35,10 +36,8 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
     |> expect(:get_json, fn "/trips/" <> _, _ ->
       %JsonApi{links: %{}, data: [build(:trip_item)]}
     end)
-    |> expect(:get_json, fn "/predictions/", _ ->
-      %JsonApi{data: [build(:prediction_item)]}
-    end)
 
+    stub(Predictions.Repo.Mock, :all, fn _ -> [] end)
     stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{name: "Somewhere"} end)
 
     # subscribes to a random channel name to
@@ -123,13 +122,13 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
       departing?: true
     }
 
+    stub(Predictions.Repo.Mock, :all, fn _ -> [prediction] end)
     stub(Stops.Repo.Mock, :get, fn _ -> stop end)
     stub(Stops.Repo.Mock, :get_parent, fn _ -> stop end)
 
     with_mocks [
       {Routes.Repo, [:passthrough], [get: fn _ -> route end]},
-      {Schedules.Repo, [:passthrough], [trip: fn _ -> trip end]},
-      {Predictions.Repo, [:passthrough], [all: fn _ -> [prediction] end]}
+      {Schedules.Repo, [:passthrough], [trip: fn _ -> trip end]}
     ] do
       assert {:ok, _, socket} =
                UserSocket

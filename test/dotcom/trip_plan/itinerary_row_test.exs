@@ -341,6 +341,10 @@ defmodule TripPlan.ItineraryRowTest do
     end
 
     test "returns an itinerary row from a Leg" do
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        %Stops.Stop{id: id}
+      end)
+
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row
     end

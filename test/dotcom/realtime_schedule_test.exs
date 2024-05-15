@@ -311,8 +311,6 @@ defmodule Dotcom.RealtimeScheduleTest do
   end
 
   test "stop_data/3 returns nil" do
-    expect(Predictions.Repo.Mock, :all_no_cache, fn _ -> [] end)
-
     opts = [
       routes_fn: fn _ -> [] end,
       schedules_fn: fn _, _ -> [] end,

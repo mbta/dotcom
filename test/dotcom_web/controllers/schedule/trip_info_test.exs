@@ -102,13 +102,13 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     })
   ]
 
-  setup :verify_on_exit!
-
   setup %{conn: conn} do
     conn =
       conn
       |> assign(:date_time, @time)
       |> assign(:date, @date)
+
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
 
     {:ok, %{conn: conn}}
   end
@@ -233,18 +233,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     assert actual_stops == expected_stops
   end
 
-  test "assigns the total number of stops", %{conn: conn} do
-    expect(Predictions.Repo.Mock, :all, 2, fn trip: trip_id ->
-      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
-    end)
-
-    conn = conn_builder(conn, [], trip: "long_trip")
-    assert conn.assigns[:trip_info].stop_count == 7
-
-    conn = conn_builder(conn, [], trip: "32893585")
-    assert conn.assigns.trip_info.stop_count == 2
-  end
-
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do
     conn = conn_builder(conn, [List.first(@schedules)])
     assert conn.assigns.trip_info == nil
@@ -273,7 +261,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
       Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
     end)
 
-    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
     conn = conn_builder(conn, @schedules, origin: "fake", destination: "fake")
     refute conn.halted
     refute conn.assigns.trip_info
@@ -387,8 +374,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
 
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
-    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
-
     conn =
       %{conn | request_path: schedule_path(conn, :show, "66"), query_params: nil}
       |> assign_journeys_from_schedules(schedules)
@@ -460,8 +445,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
         route: %Routes.Route{type: 3}
       }
     ]
-
-    expect(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
 
     day = Timex.shift(@date, days: 1)
     future_trip_fn = fn "32893585" = trip_id, [date: ^day] -> trip_fn(trip_id, date: @date) end

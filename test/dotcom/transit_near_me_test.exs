@@ -819,8 +819,6 @@ defmodule Dotcom.TransitNearMeTest do
     end
 
     test "return neither schedules nor predictions if date is outside rating" do
-      expect(Predictions.Repo.Mock, :all, fn _ -> [@prediction1] end)
-
       schedules_fn = fn _, _ ->
         {:error,
          [
