@@ -5,10 +5,14 @@
       Ride the <%= @branch_display %>
     </strong> 
     <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{display_seconds_as_minutes(@itinerary_row.duration)} min)" %>
-    <div class="fs-14">
-      <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %>
-      <%= if @itinerary_row.trip.headsign == "", do: "", else: "towards #{@itinerary_row.trip.headsign}" %>
-    </div>
+    <%= if @itinerary_row.trip do %>
+      <div class="fs-14">
+        <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %>
+        <%= if @itinerary_row.trip.headsign && @itinerary_row.trip.headsign != "" do %>
+          towards <%= @itinerary_row.trip.headsign %>
+        <% end %>
+      </div>
+    <% end %>
     <div class="expand-show-details">
       <span class="expand-show-details--hide">Hide</span>
       <span class="expand-show-details--show">Show</span>
