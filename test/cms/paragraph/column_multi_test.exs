@@ -24,12 +24,12 @@ defmodule CMS.Partial.Paragraph.ColumnMultiTest do
            } = ColumnMulti.new(display_options: "grouped", right_rail: true)
   end
 
-  test "is_grouped?/1 returns whether or not the ColumnMulti paragraph is grouped" do
+  test "grouped?/1 returns whether or not the ColumnMulti paragraph is grouped" do
     grouped_column_multi = %ColumnMulti{display_options: "grouped"}
     ungrouped_column_multi = %ColumnMulti{display_options: "default"}
 
-    assert ColumnMulti.is_grouped?(grouped_column_multi)
-    refute ColumnMulti.is_grouped?(ungrouped_column_multi)
+    assert ColumnMulti.grouped?(grouped_column_multi)
+    refute ColumnMulti.grouped?(ungrouped_column_multi)
   end
 
   test "includes?/1 returns whether or not the ColumnMulti paragraph contains a fare card" do

@@ -143,7 +143,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   defp tag_default_service(services) do
     current_service_id =
       services
-      |> Enum.filter(&is_current_service?/1)
+      |> Enum.filter(&current_service?/1)
       |> get_default_service(services)
       |> Map.get(:id, "")
 
@@ -154,7 +154,7 @@ defmodule DotcomWeb.ScheduleController.LineController do
   # - within the :start_date and :end_date (REJECT otherwise)
   # - today NOT present in :removed_dates (REJECT if present)
   # - today IS present in :added_dates
-  defp is_current_service?(service) do
+  defp current_service?(service) do
     service_date_string = Date.to_iso8601(service.service_date)
 
     end_of_rating = Schedules.Repo.end_of_rating()

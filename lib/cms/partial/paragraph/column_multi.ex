@@ -32,9 +32,9 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
   @spec new(Keyword.t()) :: __MODULE__.t()
   def new(opts \\ []), do: struct(__MODULE__, opts)
 
-  @spec is_grouped?(__MODULE__.t()) :: boolean
-  def is_grouped?(%__MODULE__{display_options: "grouped"}), do: true
-  def is_grouped?(_), do: false
+  @spec grouped?(__MODULE__.t()) :: boolean
+  def grouped?(%__MODULE__{display_options: "grouped"}), do: true
+  def grouped?(_), do: false
 
   @spec includes?(__MODULE__.t(), atom) :: boolean
   def includes?(%__MODULE__{columns: columns}, type) do

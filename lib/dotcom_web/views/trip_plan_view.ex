@@ -431,12 +431,12 @@ defmodule DotcomWeb.TripPlanView do
     itinerary.legs
     |> Stream.filter(&Leg.transit?/1)
     |> Stream.chunk_every(2, 1)
-    |> Enum.reject(&Transfer.is_subway_transfer?/1)
-    |> Enum.find(&Transfer.is_maybe_transfer?/1)
+    |> Enum.reject(&Transfer.subway_transfer?/1)
+    |> Enum.find(&Transfer.maybe_transfer?/1)
     |> get_text.()
   end
 
-  @doc "Add a transfer note to the trip plan view when the itinerary might have valid transit transfers (determined by Transfer.is_maybe_transfer?) that are not already accounted for in the fare calculation. Right now the only transfer accounted for in the calculated fare is subway-subway (via Transfer.is_subway_transfer?)"
+  @doc "Add a transfer note to the trip plan view when the itinerary might have valid transit transfers (determined by Transfer.maybe_transfer?) that are not already accounted for in the fare calculation. Right now the only transfer accounted for in the calculated fare is subway-subway (via Transfer.subway_transfer?)"
   @spec transfer_note(Itinerary.t()) :: String.t() | nil
   def transfer_note(itinerary) do
     _transfer_note(itinerary, &transfer_note_text/1)
@@ -614,13 +614,13 @@ defmodule DotcomWeb.TripPlanView do
               do: acc + 70,
               else: acc
 
-          Transfer.is_maybe_transfer?(three_legs) ->
+          Transfer.maybe_transfer?(three_legs) ->
             acc
 
           Transfer.bus_to_subway_transfer?(two_legs) ->
             acc + 70
 
-          Transfer.is_maybe_transfer?(two_legs) ->
+          Transfer.maybe_transfer?(two_legs) ->
             acc
 
           true ->

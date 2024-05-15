@@ -309,7 +309,7 @@ defmodule DotcomWeb.TripPlanController do
     destination_id = leg.to.stop_id
 
     fares =
-      if Leg.is_fare_complete_transit_leg?(leg) do
+      if Leg.fare_complete_transit_leg?(leg) do
         recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
         base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
         reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
@@ -369,7 +369,7 @@ defmodule DotcomWeb.TripPlanController do
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
-    if Leg.is_fare_complete_transit_leg?(leg) do
+    if Leg.fare_complete_transit_leg?(leg) do
       Month.base_pass(route_id, trip_id, origin_id, destination_id)
     else
       nil
@@ -386,7 +386,7 @@ defmodule DotcomWeb.TripPlanController do
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
-    if Leg.is_fare_complete_transit_leg?(leg) do
+    if Leg.fare_complete_transit_leg?(leg) do
       Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
     else
       nil
@@ -403,7 +403,7 @@ defmodule DotcomWeb.TripPlanController do
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
-    if Leg.is_fare_complete_transit_leg?(leg) do
+    if Leg.fare_complete_transit_leg?(leg) do
       Month.reduced_pass(route_id, trip_id, origin_id, destination_id)
     else
       nil
@@ -600,7 +600,7 @@ defmodule DotcomWeb.TripPlanController do
             if is_nil(highest_fare) do
               false
             else
-              Transfer.is_subway?(highest_fare.mode)
+              Transfer.subway?(highest_fare.mode)
             end
           end
         )

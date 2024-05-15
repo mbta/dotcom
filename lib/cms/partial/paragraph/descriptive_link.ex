@@ -38,7 +38,7 @@ defmodule CMS.Partial.Paragraph.DescriptiveLink do
     }
   end
 
-  @spec is_alone?(__MODULE__.t()) :: boolean
-  def is_alone?(%__MODULE__{parent: "field_paragraphs"}), do: true
-  def is_alone?(%__MODULE__{}), do: false
+  @spec alone?(__MODULE__.t()) :: boolean
+  def alone?(%__MODULE__{parent: "field_paragraphs"}), do: true
+  def alone?(%__MODULE__{}), do: false
 end

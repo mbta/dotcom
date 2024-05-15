@@ -13,7 +13,7 @@ defmodule Stops.RouteStop do
       station_info: %Stop{id: "place-sstat"...}           # Full Stops.Stop struct for the parent stop.
 
       stop_features: [:commuter_rail, :bus, :accessible]  # List of atoms representing the icons that should be displayed for this stop.
-      is_terminus?: false                                 # Whether this is either the first or last stop on the route.
+      terminus?: false                                 # Whether this is either the first or last stop on the route.
     }
   ```
 
@@ -34,7 +34,7 @@ defmodule Stops.RouteStop do
           route: Route.t() | nil,
           connections: [Route.t()] | {:error, :not_fetched},
           stop_features: [Repo.stop_feature()] | {:error, :not_fetched},
-          is_terminus?: boolean,
+          terminus?: boolean,
           is_beginning?: boolean,
           closed_stop_info: Stop.ClosedStopInfo.t() | nil
         }
@@ -48,7 +48,7 @@ defmodule Stops.RouteStop do
     connections: {:error, :not_fetched},
     zone: {:error, :not_fetched},
     stop_features: {:error, :not_fetched},
-    is_terminus?: false,
+    terminus?: false,
     is_beginning?: false,
     closed_stop_info: nil
   ]
@@ -242,7 +242,7 @@ defmodule Stops.RouteStop do
       station_info: stop,
       route: route,
       branch: branch,
-      is_terminus?: first? or last?,
+      terminus?: first? or last?,
       is_beginning?: first?
     }
   end
@@ -350,7 +350,7 @@ defmodule Stops.RouteStop do
     {first_last, first_body} = List.pop_at(first, -1)
 
     first_body ++
-      [%RouteStop{first_last | is_terminus?: false}] ++
+      [%RouteStop{first_last | terminus?: false}] ++
       (second |> tl() |> Enum.map(&%RouteStop{&1 | branch: branch(first)}))
   end
 

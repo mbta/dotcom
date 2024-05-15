@@ -7,7 +7,7 @@ defmodule Algolia.Stops do
   @impl Algolia.Index
   def all do
     @repo.all
-    |> Enum.reject(& &1.is_child?)
+    |> Enum.reject(& &1.child?)
   end
 
   @impl Algolia.Index

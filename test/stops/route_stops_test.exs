@@ -321,7 +321,7 @@ defmodule Stops.RouteStopsTest do
              ]
 
       [alewife | _] = unbranched_stops
-      assert alewife.is_terminus? == true
+      assert alewife.terminus? == true
       assert alewife.zone == nil
       assert alewife.branch == nil
       assert alewife.stop_features == [:bus, :access, :parking_lot]
@@ -330,31 +330,31 @@ defmodule Stops.RouteStopsTest do
       assert jfk.name == "JFK/UMass"
       assert jfk.branch == nil
       assert jfk.stop_features == [:bus, :commuter_rail, :access]
-      assert jfk.is_terminus? == false
+      assert jfk.terminus? == false
 
       assert [savin | _] = ashmont_stops
       assert savin.name == "Savin Hill"
       assert savin.branch == "Alewife - Ashmont"
       assert savin.stop_features == [:access, :parking_lot]
-      assert savin.is_terminus? == false
+      assert savin.terminus? == false
 
       ashmont = List.last(ashmont_stops)
       assert ashmont.name == "Ashmont"
       assert ashmont.branch == "Alewife - Ashmont"
       assert ashmont.stop_features == [:mattapan_line, :bus, :access]
-      assert ashmont.is_terminus? == true
+      assert ashmont.terminus? == true
 
       [north_quincy | _] = braintree_stops
       assert north_quincy.name == "North Quincy"
       assert north_quincy.branch == "Alewife - Braintree"
       assert north_quincy.stop_features == [:bus, :access, :parking_lot]
-      assert north_quincy.is_terminus? == false
+      assert north_quincy.terminus? == false
 
       braintree = List.last(braintree_stops)
       assert braintree.name == "Braintree"
       assert braintree.branch == "Alewife - Braintree"
       assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
-      assert braintree.is_terminus? == true
+      assert braintree.terminus? == true
     end
 
     test "for Red Line, direction: 1" do
@@ -370,23 +370,23 @@ defmodule Stops.RouteStopsTest do
       [ashmont | _] = ashmont_stops
       assert ashmont.name == "Ashmont"
       assert ashmont.branch == "Ashmont - Alewife"
-      assert ashmont.is_terminus? == true
+      assert ashmont.terminus? == true
 
       savin = List.last(ashmont_stops)
       assert savin.name == "Savin Hill"
       assert savin.branch == "Ashmont - Alewife"
-      assert savin.is_terminus? == false
+      assert savin.terminus? == false
 
       [braintree | _] = braintree_stops
       assert braintree.name == "Braintree"
       assert braintree.branch == "Braintree - Alewife"
       assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
-      assert braintree.is_terminus? == true
+      assert braintree.terminus? == true
 
       n_quincy = List.last(braintree_stops)
       assert n_quincy.name == "North Quincy"
       assert n_quincy.branch == "Braintree - Alewife"
-      assert n_quincy.is_terminus? == false
+      assert n_quincy.terminus? == false
     end
 
     test "works for green E line" do
@@ -399,18 +399,18 @@ defmodule Stops.RouteStopsTest do
       # We are temporarily adding the fix but this will need to be undone later on.
       # assert [
       #          %RouteStops{
-      #            stops: [%RouteStop{id: "place-lech", is_terminus?: true} | _]
+      #            stops: [%RouteStop{id: "place-lech", terminus?: true} | _]
       #          }
       #        ] = stops
       # As of Aug 2022, the Green Line past North Station is temporarily suspended.
       # assert [
       #          %RouteStops{
-      #            stops: [%RouteStop{id: "place-north", is_terminus?: true} | _]
+      #            stops: [%RouteStop{id: "place-north", terminus?: true} | _]
       #          }
       #        ] = stops
       assert [
                %RouteStops{
-                 stops: [%RouteStop{id: "place-north", is_terminus?: true} | _]
+                 stops: [%RouteStop{id: "place-north", terminus?: true} | _]
                }
              ] = stops
     end
@@ -423,11 +423,11 @@ defmodule Stops.RouteStopsTest do
 
       assert [
                %RouteStops{
-                 stops: [%RouteStop{id: "place-gover", is_terminus?: true} | _] = d_stops
+                 stops: [%RouteStop{id: "place-gover", terminus?: true} | _] = d_stops
                }
              ] = stops
 
-      assert %RouteStop{id: "place-river", is_terminus?: true} = List.last(d_stops)
+      assert %RouteStop{id: "place-river", terminus?: true} = List.last(d_stops)
     end
 
     test "works for Kingston line (outbound)" do
@@ -483,8 +483,8 @@ defmodule Stops.RouteStopsTest do
 
       assert is_list(outbound)
       assert Enum.all?(outbound, &(&1.branch == "Nubian Station - Harvard Square"))
-      assert outbound |> List.first() |> Map.get(:is_terminus?) == true
-      assert outbound |> Enum.slice(1..-2//1) |> Enum.all?(&(&1.is_terminus? == false))
+      assert outbound |> List.first() |> Map.get(:terminus?) == true
+      assert outbound |> Enum.slice(1..-2//1) |> Enum.all?(&(&1.terminus? == false))
 
       stops = Stops.Repo.by_route("1", 1)
       shapes = @routes_repo_api.get_shapes("1", direction_id: 1)
@@ -494,7 +494,7 @@ defmodule Stops.RouteStopsTest do
         RouteStops.by_direction(stops, shapes, route, 1)
 
       assert Enum.all?(inbound, &(&1.branch == "Harvard Square - Nubian Station"))
-      assert inbound |> List.first() |> Map.get(:is_terminus?) == true
+      assert inbound |> List.first() |> Map.get(:terminus?) == true
     end
 
     test "works for ferry routes" do
@@ -530,7 +530,7 @@ defmodule Stops.RouteStopsTest do
           connections: [],
           id: "place-alfcl",
           is_beginning?: true,
-          is_terminus?: true,
+          terminus?: true,
           name: "Alewife",
           route: %Route{
             color: "DA291C",

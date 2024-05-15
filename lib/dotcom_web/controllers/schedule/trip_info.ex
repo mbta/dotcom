@@ -122,14 +122,14 @@ defmodule DotcomWeb.ScheduleController.TripInfo do
 
   @spec do_current_trip([Journey.t()], DateTime.t()) :: String.t() | nil
   defp do_current_trip(times, now) do
-    case Enum.find(times, &is_trip_after_now?(&1, now)) do
+    case Enum.find(times, &after_now?(&1, now)) do
       nil -> nil
       time -> PredictedSchedule.trip(time.departure).id
     end
   end
 
-  @spec is_trip_after_now?(Journey.t(), DateTime.t()) :: boolean
-  defp is_trip_after_now?(%Journey{departure: departure}, now) do
+  @spec after_now?(Journey.t(), DateTime.t()) :: boolean
+  defp after_now?(%Journey{departure: departure}, now) do
     # returns true if the Journey has a trip that's departing in the future
     PredictedSchedule.map_optional(departure, [:prediction, :schedule], false, fn x ->
       if x.time && x.trip do

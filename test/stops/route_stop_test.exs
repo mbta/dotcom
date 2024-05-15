@@ -221,7 +221,7 @@ defmodule Stops.RouteStopTest do
         "Green-B"
       ])
 
-      assert Enum.map(actual, & &1.is_terminus?) ==
+      assert Enum.map(actual, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -584,7 +584,7 @@ defmodule Stops.RouteStopTest do
       assert result.id == "place-brntn"
       assert result.name == "Braintree"
       assert result.station_info == @stop
-      assert result.is_terminus?
+      assert result.terminus?
       assert result.is_beginning?
       assert result.branch == "Braintree"
       assert result.zone == {:error, :not_fetched}

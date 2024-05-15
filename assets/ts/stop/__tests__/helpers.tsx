@@ -45,7 +45,7 @@ const defaultStop: Stop = {
   "has_fare_machine?": false,
   fare_facilities: [] as FareFacilityType[],
   id: "stopId",
-  "is_child?": false,
+  "child?": false,
   latitude: 42.460574,
   longitude: -71.457804,
   municipality: "Boston",
