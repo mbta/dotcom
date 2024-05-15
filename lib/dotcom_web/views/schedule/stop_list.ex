@@ -1,46 +1,10 @@
 defmodule DotcomWeb.ScheduleView.StopList do
+  @moduledoc """
+  Functions likely associated with an earlier version of the schedules page,
+  which manage to still be invoked in other pages.
+  """
   alias DotcomWeb.ViewHelpers
   alias Dotcom.StopBubble
-
-  @doc """
-  Link to expand or collapse a route branch.
-
-  Note: The target element (with id `"target_id"`) must also have class `"collapse stop-list"`
-  for the javascript to appropriately modify the button and the dotted/solid line
-  """
-  @spec view_branch_link(String.t(), map, String.t(), String.t()) :: Phoenix.HTML.Safe.t()
-  def view_branch_link(nil, _assigns, _target_id, _branch_display), do: []
-
-  def view_branch_link(branch_name, assigns, target_id, branch_display) do
-    DotcomWeb.ScheduleView.render(
-      "_stop_list_expand_link.html",
-      Map.merge(
-        assigns,
-        %{
-          branch_name: branch_name,
-          branch_display: branch_display,
-          target_id: target_id,
-          expanded: assigns.expanded == branch_name
-        }
-      )
-    )
-  end
-
-  @spec display_expand_link?([{String.t(), StopBubble.Params.t()}]) :: boolean
-  @doc "Determine if the expansion link should be shown"
-  def display_expand_link?([_, _ | _]), do: true
-  def display_expand_link?(_), do: false
-
-  @spec step_bubble_attributes([{String.t(), StopBubble.Params.t()}], String.t(), boolean) ::
-          Keyword.t()
-  @doc "Returns the html attributes to be used when rendering the intermediate steps"
-  def step_bubble_attributes(step_bubble_params, target_id, expanded) do
-    case {display_expand_link?(step_bubble_params), expanded} do
-      {true, true} -> [id: target_id, class: "collapse stop-list in"]
-      {true, _} -> [id: target_id, class: "collapse stop-list"]
-      _ -> []
-    end
-  end
 
   @spec stop_bubble_row_params(map(), boolean) :: [StopBubble.Params.t()]
   def stop_bubble_row_params(assigns, first_stop? \\ true) do

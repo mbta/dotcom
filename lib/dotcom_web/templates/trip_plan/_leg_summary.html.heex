@@ -1,0 +1,23 @@
+<div class="leg-summary">
+  <%= icon_for_route(@route) %>
+  <div>
+    <strong class="pe-8">
+      Ride the <%= @branch_display %>
+    </strong> 
+    <%= "(#{@intermediate_stop_count} #{Inflex.inflect("Stop", @intermediate_stop_count)}, #{display_seconds_as_minutes(@itinerary_row.duration)} min)" %>
+    <div class="fs-14">
+      <%= Routes.Route.direction_name(@route, @itinerary_row.trip.direction_id) %>
+      <%= if @itinerary_row.trip.headsign == "", do: "", else: "towards #{@itinerary_row.trip.headsign}" %>
+    </div>
+    <div class="expand-show-details">
+      <span class="expand-show-details--hide">Hide</span>
+      <span class="expand-show-details--show">Show</span>
+      Details
+      <%= if Map.get(assigns, :alerts?, false) do %>
+        <span class="itinerary-has-alerts-icon">
+          <%= fa "exclamation-triangle" %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+</div>

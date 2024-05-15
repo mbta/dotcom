@@ -1846,4 +1846,96 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert show_monthly_passes?(no_transit_legs_itinerary)
     end
   end
+
+  describe "_stop_list_expand_link template" do
+    test "Expand link lists number of collapsed stops" do
+      assigns = %{
+        bubbles: [{"Green-E", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 11,
+        branch_name: "Green-E",
+        branch_display: "Green-E branch",
+        route: %Route{id: "Green-E"},
+        vehicle_tooltip: nil,
+        expanded: nil,
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+      }
+
+      rendered =
+        "_stop_list_expand_link.html"
+        |> DotcomWeb.TripPlanView.render(assigns)
+        |> safe_to_string()
+
+      assert rendered =~ "11"
+    end
+
+    test "Expand link lists duration" do
+      assigns = %{
+        bubbles: [{"Green-E", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 11,
+        branch_name: "Green-E",
+        branch_display: "Green-E branch",
+        route: %Route{id: "Green-E"},
+        vehicle_tooltip: nil,
+        expanded: nil,
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+      }
+
+      rendered =
+        "_stop_list_expand_link.html"
+        |> DotcomWeb.TripPlanView.render(assigns)
+        |> safe_to_string()
+
+      assert rendered =~ "2 min"
+    end
+
+    test "Expand link displays branch_display as link text" do
+      assigns = %{
+        bubbles: [{"Braintree", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 9,
+        branch_name: "Braintree",
+        branch_display: "Braintree branch",
+        route: %Route{id: "Red"},
+        vehicle_tooltip: nil,
+        expanded: nil,
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+      }
+
+      rendered =
+        "_stop_list_expand_link.html"
+        |> DotcomWeb.TripPlanView.render(assigns)
+        |> safe_to_string()
+
+      assert rendered =~ "Braintree branch"
+    end
+
+    test "Expand link starts as expanded when the expanded is true" do
+      assigns = %{
+        bubbles: [{"Braintree", :line}],
+        target_id: "target-id",
+        intermediate_stop_count: 9,
+        branch_name: "Braintree",
+        branch_display: "Braintree branch",
+        route: %Route{id: "Red"},
+        vehicle_tooltip: nil,
+        expanded: true,
+        conn: %{query_params: %{}, request_path: ""},
+        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
+      }
+
+      rendered =
+        "_stop_list_expand_link.html"
+        |> DotcomWeb.TripPlanView.render(assigns)
+        |> safe_to_string()
+
+      branch_stop = Floki.find(rendered, ".route-branch-stop")
+
+      assert Floki.attribute(branch_stop, "class") == ["route-branch-stop expanded"]
+    end
+  end
 end

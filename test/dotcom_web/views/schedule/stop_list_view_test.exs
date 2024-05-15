@@ -220,84 +220,6 @@ defmodule DotcomWeb.StopListViewTest do
       assert [expand_link] = stop_bubble_row_params(assigns)
       assert expand_link.class == "line"
     end
-
-    test "Expand link lists number of collapsed stops" do
-      assigns = %{
-        bubbles: [{"Green-E", :line}],
-        target_id: "target-id",
-        intermediate_stop_count: 11,
-        branch_name: "Green-E",
-        branch_display: "Green-E branch",
-        route: %Route{id: "Green-E"},
-        vehicle_tooltip: nil,
-        expanded: nil,
-        conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
-      }
-
-      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
-
-      assert rendered =~ "11"
-    end
-
-    test "Expand link lists duration" do
-      assigns = %{
-        bubbles: [{"Green-E", :line}],
-        target_id: "target-id",
-        intermediate_stop_count: 11,
-        branch_name: "Green-E",
-        branch_display: "Green-E branch",
-        route: %Route{id: "Green-E"},
-        vehicle_tooltip: nil,
-        expanded: nil,
-        conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
-      }
-
-      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
-
-      assert rendered =~ "2 min"
-    end
-
-    test "Expand link displays branch_display as link text" do
-      assigns = %{
-        bubbles: [{"Braintree", :line}],
-        target_id: "target-id",
-        intermediate_stop_count: 9,
-        branch_name: "Braintree",
-        branch_display: "Braintree branch",
-        route: %Route{id: "Red"},
-        vehicle_tooltip: nil,
-        expanded: nil,
-        conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
-      }
-
-      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
-
-      assert rendered =~ "Braintree branch"
-    end
-
-    test "Expand link starts as expanded when the expanded is true" do
-      assigns = %{
-        bubbles: [{"Braintree", :line}],
-        target_id: "target-id",
-        intermediate_stop_count: 9,
-        branch_name: "Braintree",
-        branch_display: "Braintree branch",
-        route: %Route{id: "Red"},
-        vehicle_tooltip: nil,
-        expanded: true,
-        conn: %{query_params: %{}, request_path: ""},
-        itinerary_row: %{duration: 120, trip: %{headsign: nil, direction_id: 0}}
-      }
-
-      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
-
-      branch_stop = Floki.find(rendered, ".route-branch-stop")
-
-      assert Floki.attribute(branch_stop, "class") == ["route-branch-stop expanded"]
-    end
   end
 
   describe "display_departure_range/1" do
@@ -328,42 +250,6 @@ defmodule DotcomWeb.StopListViewTest do
       assert display_map_link?(0) == false
       assert display_map_link?(3) == false
       assert display_map_link?(2) == false
-    end
-  end
-
-  describe "display_expand_link?/1" do
-    test "Do not display expansion link when there are no steps" do
-      refute display_expand_link?([])
-    end
-
-    test "Do not display expansion link when there is only a single step" do
-      refute display_expand_link?(["Single Step"])
-    end
-
-    test "Display link when there are more than 1 step" do
-      assert display_expand_link?(["Step 1", "Step 2"])
-      assert display_expand_link?(["Step 1", "Step 2", "Step 3"])
-    end
-  end
-
-  describe "step_bubble_attributes/3" do
-    test "returns id and class when there is more than one intermediate step" do
-      assert step_bubble_attributes(["Step 1", "Step 2"], "target", false) == [
-               id: "target",
-               class: "collapse stop-list"
-             ]
-    end
-
-    test "returns empty when there is one or less intermediate steps" do
-      assert step_bubble_attributes([], "target", false) == []
-      assert step_bubble_attributes(["Step 1"], "target", false) == []
-    end
-
-    test "returns an expanded list when expanded is true" do
-      assert step_bubble_attributes(["Step 1", "Step 2"], "target", true) == [
-               id: "target",
-               class: "collapse stop-list in"
-             ]
     end
   end
 

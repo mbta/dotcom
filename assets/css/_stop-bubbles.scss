@@ -141,12 +141,13 @@ $location-line-width: $space-6;
 
 .route-branch-stop-info {
   border-bottom: $border;
+  border-top: $border;
   display: inline-block; // for non-flex browsers
   display: flex;
   flex: 1 1 0%;
   flex-direction: column;
   margin-bottom: $base-spacing;
-  width: 60%; // for non-flex browsers
+  padding: calc(#{$base-spacing} / 2) 0;
 }
 
 .route-branch-destination {
@@ -163,46 +164,32 @@ $location-line-width: $space-6;
 }
 
 .toggle-detail-list {
-  align-items: center;
   color: $gray-dark;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: .75rem;
-  padding-top: .5rem;
-  text-align: left;
-  width: 100%;
 
-  @include media-breakpoint-down(sm) {
-    padding-right: 0;
-  }
-
+  &:focus,
   &:hover {
     text-decoration: none;
   }
 
-  &:focus {
-    text-decoration: none;
+  .expand-show-details {
+    display: block;
   }
 }
 
 .expand-show-details {
   color: $brand-primary;
+  display: none;
+  font-size: $font-size-sm;
+  padding-top: $base-spacing-sm * .75;
 
   &:hover {
     text-decoration: underline;
   }
-}
 
-.expand-link-stop-text {
-  flex: 1 1 auto;
-  max-width: 80%;
-  // .btn has white-space: nowrap set. We need to override this to allow the stop text to wrap
-  white-space: normal;
-}
-
-.expand-branch-link-icon {
-  color: $brand-primary;
-  flex: 0 0 auto;
+  [aria-expanded='true'] &--show,
+  [aria-expanded='false'] &--hide {
+    display: none;
+  }
 }
 
 @include media-breakpoint-only(xs) {

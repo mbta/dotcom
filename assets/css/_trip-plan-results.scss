@@ -153,4 +153,28 @@
   &-fare + &-fare-title {
     margin-top: 1rem;
   }
+
+  .c-svg__walk {
+    display: inline-block;
+    height: $base-spacing * 1.25;
+    width: $base-spacing * 1.25;
+  }
+
+  .leg-summary {
+    display: grid;
+    gap: calc($base-spacing * .5);
+    grid-template-columns: 4ch 1fr;
+    line-height: 1.25;
+
+    .c-svg__walk {
+      height: $base-spacing * 1.5;
+      width: $base-spacing * 1.5;
+    }
+  }
+
+  .leg-summary-container {
+    align-items: start;
+    display: flex;
+    justify-content: space-between;
+  }
 }
