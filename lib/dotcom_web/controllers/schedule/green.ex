@@ -72,24 +72,22 @@ defmodule DotcomWeb.ScheduleController.Green do
     assign(conn, :stops_on_routes, GreenLine.stops_on_routes(direction_id, date))
   end
 
-  def predictions(conn, opts) do
+  def predictions(conn, _opts) do
     {predictions, vehicle_predictions} =
       if DotcomWeb.ScheduleController.Predictions.should_fetch_predictions?(conn) do
-        predictions_fn = opts[:predictions_fn] || (&Predictions.Repo.all/1)
-
         predictions_stream =
           conn
           |> conn_with_branches
           |> Task.async_stream(
             fn conn ->
-              DotcomWeb.ScheduleController.Predictions.predictions(conn, predictions_fn)
+              DotcomWeb.ScheduleController.Predictions.predictions(conn)
             end,
             timeout: @task_timeout,
             on_timeout: :kill_task
           )
 
         vehicle_predictions =
-          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn, predictions_fn)
+          DotcomWeb.ScheduleController.Predictions.vehicle_predictions(conn)
 
         {flat_map_results(predictions_stream), vehicle_predictions}
       else

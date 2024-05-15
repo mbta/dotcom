@@ -11,7 +11,6 @@ defmodule Dotcom.RealtimeSchedule do
   alias Dotcom.JsonHelpers
   alias Dotcom.TransitNearMe
   alias Predictions.Prediction
-  alias Predictions.Repo, as: PredictionsRepo
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.Route
@@ -25,10 +24,11 @@ defmodule Dotcom.RealtimeSchedule do
 
   @predicted_schedules_per_stop 2
 
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+
   @default_opts [
     stops_fn: &StopsRepo.get/1,
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
-    predictions_fn: &PredictionsRepo.all_no_cache/1,
     schedules_fn: &SchedulesRepo.by_route_ids/2,
     alerts_fn: &Alerts.Repo.by_route_ids/2
   ]
@@ -52,7 +52,6 @@ defmodule Dotcom.RealtimeSchedule do
     opts = Keyword.merge(@default_opts, opts)
     stops_fn = Keyword.fetch!(opts, :stops_fn)
     routes_fn = Keyword.fetch!(opts, :routes_fn)
-    predictions_fn = Keyword.fetch!(opts, :predictions_fn)
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
     alerts_fn = Keyword.fetch!(opts, :alerts_fn)
 
@@ -62,7 +61,7 @@ defmodule Dotcom.RealtimeSchedule do
 
     # stage 2, get stops, predictions, schedules, and alerts
     stops_task = Task.async(fn -> get_stops(stop_ids, stops_fn) end)
-    predictions_task = Task.async(fn -> get_predictions(route_with_patterns, predictions_fn) end)
+    predictions_task = Task.async(fn -> get_predictions(route_with_patterns) end)
     schedules_task = Task.async(fn -> get_schedules(route_with_patterns, now, schedules_fn) end)
 
     alerts_task = Task.async(fn -> get_alerts(route_with_patterns, now, alerts_fn) end)
@@ -128,12 +127,12 @@ defmodule Dotcom.RealtimeSchedule do
     |> json_safe_alerts(now)
   end
 
-  @spec get_predictions([route_with_patterns_t], fun()) :: map
-  defp get_predictions(route_with_patterns, predictions_fn) do
+  @spec get_predictions([route_with_patterns_t]) :: map
+  defp get_predictions(route_with_patterns) do
     route_with_patterns
     |> Enum.map(fn {stop_id, _route, route_patterns} ->
       Task.async(fn ->
-        do_get_predictions(stop_id, route_patterns, predictions_fn)
+        do_get_predictions(stop_id, route_patterns)
       end)
     end)
     |> Enum.flat_map(&Task.await(&1, @long_timeout))
@@ -161,13 +160,13 @@ defmodule Dotcom.RealtimeSchedule do
     end
   end
 
-  @spec do_get_predictions(Stop.id_t(), [RoutePattern.t()], fun()) :: [
+  @spec do_get_predictions(Stop.id_t(), [RoutePattern.t()]) :: [
           {
             route_pattern_name_t,
             [Prediction.t()]
           }
         ]
-  defp do_get_predictions(stop_id, route_patterns, predictions_fn) do
+  defp do_get_predictions(stop_id, route_patterns) do
     route_patterns
     |> Enum.map(fn route_pattern ->
       key = route_pattern_key(route_pattern, stop_id)
@@ -180,7 +179,7 @@ defmodule Dotcom.RealtimeSchedule do
             sort: "time",
             "page[limit]": @predicted_schedules_per_stop
           ]
-          |> predictions_fn.()
+          |> @predictions_repo.all_no_cache()
           |> Enum.filter(& &1.time)
 
         {key, next_two_predictions}

@@ -19,9 +19,11 @@ defmodule PredictedSchedule do
           prediction: Prediction.t() | nil
         }
 
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+
   def get(route_id, stop_id, opts \\ []) do
     schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
-    predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
+
     now = Keyword.get(opts, :now, Util.now())
     direction_id = Keyword.get(opts, :direction_id)
     sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
@@ -53,7 +55,7 @@ defmodule PredictedSchedule do
 
     predicted_schedules =
       [route: route_id, direction_id: direction_id]
-      |> predictions_fn.()
+      |> @predictions_repo.all()
       |> Enum.filter(&(&1.stop.id == stop_id))
       |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
       |> filter_predicted_schedules(now)

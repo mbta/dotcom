@@ -1,6 +1,8 @@
 defmodule Dotcom.RealtimeScheduleTest do
   use ExUnit.Case
 
+  import Mox
+
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
   alias Alerts.InformedEntitySet, as: IESet
@@ -175,10 +177,11 @@ defmodule Dotcom.RealtimeScheduleTest do
   end
 
   test "stop_data/3 returns stop" do
+    expect(Predictions.Repo.Mock, :all_no_cache, 3, fn _ -> @predictions end)
+
     opts = [
       stops_fn: fn _ -> @stop end,
       routes_fn: fn _ -> @route_with_patterns end,
-      predictions_fn: fn _ -> @predictions end,
       schedules_fn: fn _, _ -> @schedules end,
       alerts_fn: fn _, _ -> @alerts end
     ]
@@ -301,10 +304,11 @@ defmodule Dotcom.RealtimeScheduleTest do
   end
 
   test "stop_data/3 returns nil" do
+    expect(Predictions.Repo.Mock, :all_no_cache, fn _ -> [] end)
+
     opts = [
       stops_fn: fn _ -> nil end,
       routes_fn: fn _ -> [] end,
-      predictions_fn: fn _ -> [] end,
       schedules_fn: fn _, _ -> [] end,
       alerts_fn: fn _, _ -> [] end
     ]
