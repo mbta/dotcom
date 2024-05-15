@@ -35,7 +35,7 @@ defmodule Stops.RouteStop do
           station_info: Stop.t(),
           route: Route.t() | nil,
           connections: [Route.t()] | {:error, :not_fetched},
-          stop_features: [Repo.stop_feature()] | {:error, :not_fetched},
+          stop_features: [Stops.Repo.Behaviour.stop_feature()] | {:error, :not_fetched},
           terminus?: boolean,
           is_beginning?: boolean,
           closed_stop_info: Stop.ClosedStopInfo.t() | nil
@@ -282,7 +282,7 @@ defmodule Stops.RouteStop do
     %{route_stop | connections: connections}
   end
 
-  @spec route_stop_features(t) :: [Stops.Repo.stop_feature()]
+  @spec route_stop_features(t) :: [Stops.Repo.Behaviour.stop_feature()]
   defp route_stop_features(%__MODULE__{station_info: %Stop{}} = route_stop) do
     @stops_repo.stop_features(route_stop.station_info, connections: route_stop.connections)
   end

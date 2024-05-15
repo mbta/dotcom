@@ -94,7 +94,7 @@ defmodule Stops.RepoTest do
     end
 
     test "returns the same stop for a parent stop" do
-      parent_stop = %Stop{is_child?: false, parent_id: nil}
+      parent_stop = %Stop{child?: false, parent_id: nil}
       assert get_parent(parent_stop) == parent_stop
     end
 

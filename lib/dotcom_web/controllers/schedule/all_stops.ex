@@ -21,8 +21,9 @@ defmodule DotcomWeb.ScheduleController.AllStops do
     assign_all_stops(conn, stops)
   end
 
-  @typep repo_fn :: (Routes.Route.id_t(), 0 | 1, Keyword.t() -> Stops.Repo.stops_response())
-  @spec get_all_stops(Plug.Conn.t(), repo_fn) :: Stops.Repo.stops_response()
+  @typep repo_fn ::
+           (Routes.Route.id_t(), 0 | 1, Keyword.t() -> Stops.Repo.Behaviour.stops_response())
+  @spec get_all_stops(Plug.Conn.t(), repo_fn) :: Stops.Repo.Behaviour.stops_response()
   defp get_all_stops(%{assigns: %{all_stops: all_stops}}, _repo_fn) do
     all_stops
   end
