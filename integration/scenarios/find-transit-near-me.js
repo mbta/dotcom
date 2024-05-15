@@ -4,10 +4,13 @@ exports.scenario = async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/transit-near-me`);
 
   await page
-    .locator("input#search-transit-near-me__input")
-    .pressSequentially("Boston City Hall");
-  await page.waitForSelector("div.c-search-bar__-dataset-locations");
-  await page.locator("a.c-search-result__link").first().click();
+    .getByPlaceholder('Enter a location')
+    .pressSequentially('Boston City Hall');
+
+  await page.locator("#search-locations-list[role='listbox']")
+    .getByRole("option")
+    .first()
+    .click();
 
   await page.waitForSelector("div.m-tnm-sidebar__route");
   await expect

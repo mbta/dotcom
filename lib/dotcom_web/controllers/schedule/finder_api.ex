@@ -20,6 +20,7 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
   require Logger
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   @type react_keys :: :date | :direction | :is_current
   @type react_strings :: [{react_keys, String.t()}]
@@ -217,11 +218,9 @@ defmodule DotcomWeb.ScheduleController.FinderApi do
       direction_id: direction_id
     ]
 
-    predictions_fn = Map.get(conn.assigns, :predictions_fn, &Predictions.Repo.all/1)
-
     predictions =
       if current_service?,
-        do: predictions_fn.(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id)),
+        do: @predictions_repo.all(prediction_opts) |> Enum.filter(&(&1.stop.id == stop_id)),
         else: []
 
     {schedules, predictions}

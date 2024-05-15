@@ -2,19 +2,8 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
   use DotcomWeb.ConnCase, async: true
 
   import DotcomWeb.ScheduleController.Predictions
-  alias Predictions.Prediction
-
-  defmodule PredictionsTest do
-    # needs to be a separate module so that it's defined before the test uses
-    # it
-    def all(_) do
-      []
-    end
-  end
-
-  @empty [%Prediction{}]
-
-  @opts init(predictions_fn: &PredictionsTest.all/1)
+  import Mox
+  import Test.Support.Factory.Prediction
 
   setup %{conn: conn} do
     conn =
@@ -25,149 +14,203 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     {:ok, %{conn: conn}}
   end
 
-  describe "init/1" do
-    test "defaults to using Predictions.Repo.all" do
-      assert init([]) == [predictions_fn: &Predictions.Repo.all/1]
-    end
-  end
-
   describe "call/2" do
     test "when given a date that isn't the service date, assigns no predictions", %{conn: conn} do
       conn =
         conn
         |> assign(:date, ~D[2016-12-31])
-        |> call(@opts)
+        |> assign(:origin, Faker.Pokemon.location())
+        |> call()
+
+      assert conn.assigns[:predictions] == []
+      assert conn.assigns[:vehicle_predictions] == []
+    end
+
+    test "when there is no origin, assigns no predictions", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:origin, nil)
+        |> call()
 
       assert conn.assigns[:predictions] == []
       assert conn.assigns[:vehicle_predictions] == []
     end
 
     test "assigns predictions for a route, stop, and direction ID", %{conn: conn} do
+      route_id = "#{Faker.Util.digit()}"
+      direction_id = "#{Faker.Util.digit()}"
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id, direction_id: ^direction_id] ->
+        build_list(1, :prediction, %{})
+      end)
+
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "place-sstat"})
+        |> assign(:origin, %Stops.Stop{id: Faker.Pokemon.location()})
         |> assign(:destination, nil)
-        |> assign(:route, %{id: "4"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn [route: "4", direction_id: "0"] -> @empty end)
+        |> assign(:route, %{id: route_id})
+        |> assign(:direction_id, direction_id)
+        |> call()
 
       assert conn.assigns[:predictions] == []
     end
 
     test "ignores predictions which have the origin as their destination", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        trip: 1234,
-        departing?: false
-      }
+      stop_id = Faker.Pokemon.location()
+      trip_id = Faker.random_between(1000, 9999)
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        build_list(1, :prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: stop_id},
+          trip: trip_id,
+          departing?: false
+        })
+      end)
 
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "origin"})
+        |> assign(:origin, %Stops.Stop{id: stop_id})
         |> assign(:destination, nil)
-        |> assign(:route, %{id: "4"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> assign(:route, %{id: "#{Faker.Util.digit()}"})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> call()
 
       assert conn.assigns.predictions == []
     end
 
     test "does not ignore predictions which have a trip id but not status", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        status: nil,
-        trip: 1234,
-        departing?: true
-      }
+      stop_id = Faker.Pokemon.location()
+
+      prediction =
+        build(:prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: stop_id},
+          trip: Faker.random_between(1000, 9999),
+          departing?: true
+        })
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
 
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "origin"})
+        |> assign(:origin, %Stops.Stop{id: stop_id})
         |> assign(:destination, nil)
-        |> assign(:route, %{id: "4"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> assign(:route, %{id: "#{Faker.Util.digit()}"})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> call()
 
       assert conn.assigns.predictions == [prediction]
     end
 
     test "does not ignore predictions which have a status but not a trip id", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        status: "On Time",
-        trip: nil,
-        departing?: true
-      }
+      stop_id = Faker.Pokemon.location()
+
+      prediction =
+        build(:prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: stop_id},
+          status: "On Time",
+          trip: nil,
+          departing?: true
+        })
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
 
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "origin"})
+        |> assign(:origin, %Stops.Stop{id: stop_id})
         |> assign(:destination, nil)
-        |> assign(:route, %{id: "4"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> assign(:route, %{id: "#{Faker.Util.digit()}"})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> call()
 
       assert conn.assigns.predictions == [prediction]
     end
 
     test "ignores predictions which do not have a trip id or a status", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        time: ~N[2017-01-01T00:00:00],
-        stop: %Stops.Stop{id: "origin"},
-        status: nil,
-        trip: nil,
-        departing?: true
-      }
+      stop_id = Faker.Pokemon.location()
+
+      prediction =
+        build(:prediction, %{
+          time: ~N[2017-01-01T00:00:00],
+          stop: %Stops.Stop{id: stop_id},
+          status: nil,
+          trip: nil,
+          departing?: true
+        })
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
 
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "origin"})
+        |> assign(:origin, %Stops.Stop{id: stop_id})
         |> assign(:destination, nil)
-        |> assign(:route, %{id: "4"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> assign(:route, %{id: "#{Faker.Util.digit()}"})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> call()
 
       assert conn.assigns.predictions == []
     end
 
     test "keeps predictions without a time", %{conn: conn} do
-      prediction = %Predictions.Prediction{
-        stop: %Stops.Stop{id: "origin"},
-        trip: 1234,
-        status: "",
-        departing?: true
-      }
+      stop_id = Faker.Pokemon.location()
+
+      prediction =
+        build(:prediction, %{
+          stop: %Stops.Stop{id: stop_id},
+          trip: Faker.random_between(1000, 9999),
+          status: "",
+          departing?: true
+        })
+
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        [prediction]
+      end)
 
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "origin"})
+        |> assign(:origin, %Stops.Stop{id: stop_id})
         |> assign(:destination, nil)
-        |> assign(:route, %{id: "4"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn _ -> [prediction] end)
+        |> assign(:route, %{id: "#{Faker.Util.digit()}"})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> call()
 
       assert conn.assigns.predictions == [prediction]
     end
 
     test "otherwise, assigns no predictions", %{conn: conn} do
+      expect(Predictions.Repo.Mock, :all, fn _ ->
+        []
+      end)
+
       conn =
         conn
-        |> call(@opts)
+        |> call()
 
       assert conn.assigns[:predictions] == []
     end
 
     test "destination predictions are assigned if destination is assigned", %{conn: conn} do
+      route_id = "#{Faker.Util.digit()}"
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id] ->
+        build_list(1, :prediction, %{})
+      end)
+
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "1148"})
-        |> assign(:destination, %Stops.Stop{id: "21148"})
-        |> assign(:route, %{id: "66"})
-        |> assign(:direction_id, "0")
-        |> call(predictions_fn: fn [route: "66"] -> @empty end)
+        |> assign(:origin, %Stops.Stop{id: Faker.Pokemon.location()})
+        |> assign(:destination, %Stops.Stop{id: Faker.Pokemon.location()})
+        |> assign(:route, %{id: route_id})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
+        |> call()
 
       assert conn.assigns[:predictions] == []
     end
@@ -175,86 +218,105 @@ defmodule DotcomWeb.ScheduleController.PredictionsTest do
     test "assigns a list containing predictions for every stop with a vehicle at it", %{
       conn: conn
     } do
+      stop_id_1 = Faker.Pokemon.location()
+      stop_id_2 = Faker.Pokemon.location()
+      route_id = "#{Faker.Util.digit()}"
+      trip_id_1 = "#{Faker.Util.digit()}"
+      trip_id_2 = "#{Faker.Util.digit()}"
+
       vehicle_locations = %{
-        {"1", "place-sstat"} => %Vehicles.Vehicle{
-          trip_id: "1",
-          stop_id: "place-sstat",
+        {trip_id_1, stop_id_1} => %Vehicles.Vehicle{
+          trip_id: trip_id_1,
+          stop_id: stop_id_1,
           status: :incoming
         },
-        {"2", "place-north"} => %Vehicles.Vehicle{
-          trip_id: "2",
-          stop_id: "place-north",
+        {trip_id_2, stop_id_2} => %Vehicles.Vehicle{
+          trip_id: trip_id_2,
+          stop_id: stop_id_2,
           status: :stopped
         }
       }
 
+      prediction_1 = build(:prediction, %{stop: %Stops.Stop{id: stop_id_1}})
+      prediction_2 = build(:prediction, %{stop: %Stops.Stop{id: stop_id_2}})
+
+      trip_id_match = Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
+
+      Predictions.Repo.Mock
+      |> expect(:all, fn [route: ^route_id] -> [] end)
+      |> expect(:all, fn [trip: ^trip_id_match] ->
+        # we transform the data into this form so that we only need to make one repo call
+        [prediction_1, prediction_2]
+      end)
+
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "1148"})
-        |> assign(:destination, %Stops.Stop{id: "21148"})
-        |> assign(:route, %{id: "66"})
-        |> assign(:direction_id, "0")
+        |> assign(:origin, %Stops.Stop{id: Faker.Pokemon.location()})
+        |> assign(:destination, %Stops.Stop{id: Faker.Pokemon.location()})
+        |> assign(:route, %{id: route_id})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
         |> assign(:vehicle_locations, vehicle_locations)
-        |> call(
-          predictions_fn: fn
-            [route: "66"] ->
-              []
-
-            # we transform the data into this form so that we only need to make one repo call
-            [trip: "1,2"] ->
-              [
-                %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
-                %Prediction{stop: %Stops.Stop{id: "place-north"}}
-              ]
-          end
-        )
+        |> call()
 
       assert conn.assigns.vehicle_predictions == [
-               %Prediction{stop: %Stops.Stop{id: "place-sstat"}},
-               %Prediction{stop: %Stops.Stop{id: "place-north"}}
+               prediction_1,
+               prediction_2
              ]
     end
 
     test "does not make duplicate requests for vehicles at the same stop", %{conn: conn} do
+      stop_id_1 = Faker.Pokemon.location()
+      route_id = "#{Faker.Util.digit()}"
+      trip_id_1 = "#{Faker.Util.digit()}"
+      trip_id_2 = "#{Faker.Util.digit()}"
+
       vehicle_locations = %{
-        {"1", "place-sstat"} => %Vehicles.Vehicle{
-          trip_id: "1",
-          stop_id: "place-sstat",
+        {trip_id_1, stop_id_1} => %Vehicles.Vehicle{
+          trip_id: trip_id_1,
+          stop_id: stop_id_1,
           status: :incoming
         },
-        {"2", "place-sstat"} => %Vehicles.Vehicle{
-          trip_id: "2",
-          stop_id: "place-sstat",
+        {trip_id_2, stop_id_1} => %Vehicles.Vehicle{
+          trip_id: trip_id_2,
+          stop_id: stop_id_1,
           status: :stopped
         }
       }
 
+      prediction = build(:prediction, %{stop: %Stops.Stop{id: stop_id_1}})
+      trip_id_match = Enum.join(Enum.sort([trip_id_1, trip_id_2]), ",")
+
+      Predictions.Repo.Mock
+      |> expect(:all, fn [route: ^route_id] -> [] end)
+      |> expect(:all, fn [trip: ^trip_id_match] ->
+        # we transform the data into this form so that we only need to make one repo call
+        [
+          prediction
+        ]
+      end)
+
       conn =
         conn
-        |> assign(:origin, %Stops.Stop{id: "1148"})
-        |> assign(:destination, %Stops.Stop{id: "21148"})
-        |> assign(:route, %{id: "66"})
-        |> assign(:direction_id, "0")
+        |> assign(:origin, %Stops.Stop{id: Faker.Pokemon.location()})
+        |> assign(:destination, %Stops.Stop{id: Faker.Pokemon.location()})
+        |> assign(:route, %{id: route_id})
+        |> assign(:direction_id, "#{Faker.Util.digit()}")
         |> assign(:vehicle_locations, vehicle_locations)
-        |> call(
-          predictions_fn: fn
-            [route: "66"] ->
-              []
-
-            # we transform the data into this form so that we only need to make one repo call
-            [trip: "1,2"] ->
-              [%Prediction{stop: %Stops.Stop{id: "place-sstat"}}]
-          end
-        )
+        |> call()
 
       assert conn.assigns.vehicle_predictions == [
-               %Prediction{stop: %Stops.Stop{id: "place-sstat"}}
+               prediction
              ]
     end
 
     test "assigns empty lists if the predictions return an error", %{conn: conn} do
-      predictions_fn = fn _ -> {:error, :no_predictions} end
-      conn = call(conn, init(predictions_fn: predictions_fn))
+      route_id = "#{Faker.Util.digit()}"
+
+      expect(Predictions.Repo.Mock, :all, fn [route: ^route_id] ->
+        {:error, :no_predictions}
+      end)
+
+      conn = call(conn)
 
       assert conn.assigns.predictions == []
       assert conn.assigns.vehicle_predictions == []

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { MapData } from "../leaflet/components/__mapdata";
-import TransitNearMeSearch from "./search";
 import TransitNearMe from "./components/TransitNearMe";
 import { parseQuery } from "../helpers/query";
 
@@ -30,27 +29,8 @@ const render = (): void => {
   );
 };
 
-const renderMap = (): void => {
-  render();
-};
-
-const setupSearch = (): void => {
-  const el = document.getElementById(TransitNearMeSearch.SELECTORS.container);
-  if (el) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    search = new TransitNearMeSearch();
-  }
-};
-
-export interface GeolocationData extends CustomEvent {
-  data: {
-    url: string;
-  };
-}
-
 export const onLoad = (): void => {
-  renderMap();
-  setupSearch();
+  render();
 };
 
 export default onLoad;

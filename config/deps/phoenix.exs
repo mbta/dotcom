@@ -33,12 +33,3 @@ else
   # and calculating stacktraces is usually expensive.
   config :phoenix, :stacktrace_depth, 20
 end
-
-if config_env() == :test do
-  # Let test requests get routed through the :secure pipeline
-  config :dotcom, :secure_pipeline,
-    force_ssl: [
-      host: nil,
-      rewrite_on: [:x_forwarded_proto]
-    ]
-end

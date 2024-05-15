@@ -30,8 +30,10 @@ defmodule Dotcom.Application do
       ] ++
         if Application.get_env(:dotcom, :env) != :test do
           [
-            # We can't run telemetry in the test environment because none of the levels are running
+            {Dotcom.Telemetry, []},
             {Dotcom.Cache.Telemetry, []},
+            {DotcomWeb.Telemetry, []},
+            {Req.Telemetry, []},
             # We don't need to run this cache because we are using the local cache for tests
             {Dotcom.Cache.TripPlanFeedback.Cache, []}
           ]

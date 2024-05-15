@@ -86,6 +86,8 @@ defmodule Dotcom.TransitNearMe do
     "place-hsmnl"
   ]
 
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
+
   @spec build(Address.t(), Keyword.t()) :: stops_with_distances
   def build(%Address{} = location, opts) do
     opts = Keyword.merge(@default_opts, opts)
@@ -383,10 +385,9 @@ defmodule Dotcom.TransitNearMe do
           PredictedSchedule.t()
         ]
   defp get_predicted_schedules(schedules, params, opts) do
-    predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
     now = Keyword.fetch!(opts, :now)
 
-    predictions = predictions_fn.(params)
+    predictions = @predictions_repo.all(params)
 
     if predictions == [] do
       Logger.warning("#{__MODULE__} no.predictions.for.schedule #{inspect(params)}")

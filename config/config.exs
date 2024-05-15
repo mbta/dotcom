@@ -9,6 +9,7 @@ config :dotcom, :httpoison, HTTPoison
 config :dotcom, :mbta_api_module, MBTA.Api
 
 config :dotcom, :repo_modules,
+  predictions: Predictions.Repo,
   route_patterns: RoutePatterns.Repo,
   stops: Stops.Repo
 

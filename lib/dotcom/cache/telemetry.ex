@@ -1,16 +1,8 @@
 defmodule Dotcom.Cache.Telemetry do
   @moduledoc """
-  This supervisor establishes a connection between the telemetry_poller and our telemetry reporters.
+  This supervisor establishes a connection between the telemetry_poller and the `TelemetryMetricsSplunk` reporter.
   Cache stats are emitted by every level of `Dotcom.Cache.Multilevel`.
   We poll for them every minute.
-
-  Currently, they are passed to two reporters:
-
-  The Statsd reporter will eventually be hooked up to Splunk metrics.
-  For now, it does no harm to emit them even though nothing is listening.
-
-  The custom reporter logs in a format that can be picked up in Splunk logs.
-  Eventually, this should be removed.
   """
 
   use Supervisor
@@ -22,38 +14,41 @@ defmodule Dotcom.Cache.Telemetry do
   end
 
   def init(_arg) do
+    telemetry_metrics_splunk_config = Application.get_env(:dotcom, :telemetry_metrics_splunk)
+
     children = [
-      {:telemetry_poller, measurements: periodic_measurements(), period: 60_000},
-      {Dotcom.Cache.Telemetry.Reporter, metrics: reporter_metrics()},
-      {TelemetryMetricsStatsd, metrics: statsd_metrics()}
+      {
+        TelemetryMetricsSplunk,
+        [
+          metrics: metrics(),
+          token: telemetry_metrics_splunk_config[:token],
+          url: telemetry_metrics_splunk_config[:url]
+        ]
+      },
+      {
+        :telemetry_poller,
+        measurements: measurements(), period: :timer.seconds(60), init_delay: :timer.seconds(5)
+      }
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-  defp reporter_metrics do
+  defp measurements do
     [
-      Metrics.last_value("dotcom.cache.multilevel.l1.stats.updates"),
-      Metrics.last_value("dotcom.cache.multilevel.l2.stats.updates"),
-      Metrics.last_value("dotcom.cache.multilevel.l3.stats.updates")
+      {Dotcom.Cache.Multilevel.Local, :dispatch_stats, []},
+      {Dotcom.Cache.Multilevel.Publisher, :dispatch_stats, []},
+      {Dotcom.Cache.Multilevel.Redis, :dispatch_stats, []}
     ]
   end
 
-  defp statsd_metrics do
+  defp metrics do
     [
       Metrics.last_value("dotcom.cache.multilevel.l1.stats.hits"),
       Metrics.last_value("dotcom.cache.multilevel.l1.stats.misses"),
       Metrics.last_value("dotcom.cache.multilevel.l2.stats.hits"),
       Metrics.last_value("dotcom.cache.multilevel.l2.stats.misses"),
       Metrics.last_value("dotcom.cache.multilevel.l3.stats.evictions")
-    ]
-  end
-
-  defp periodic_measurements do
-    [
-      {Dotcom.Cache.Multilevel.Local, :dispatch_stats, []},
-      {Dotcom.Cache.Multilevel.Publisher, :dispatch_stats, []},
-      {Dotcom.Cache.Multilevel.Redis, :dispatch_stats, []}
     ]
   end
 end

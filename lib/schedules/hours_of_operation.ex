@@ -158,19 +158,21 @@ defmodule Schedules.HoursOfOperation do
   end
 
   defp get_valid_day(check_date, days_to_avoid) do
-    if !Enum.member?(days_to_avoid, check_date) do
-      check_date
-    else
-      next_date =
-        case Date.day_of_week(check_date) do
-          d when d in 1..4 -> Date.add(check_date, 1)
-          # Friday so skip weekend to Monday
-          5 -> Date.add(check_date, 3)
-          # Saturday or Sunday so jump to next weeks Sat or Sun
-          _ -> Date.add(check_date, 7)
-        end
-
+    if Enum.member?(days_to_avoid, check_date) do
+      next_date = get_next_date(check_date)
       get_valid_day(next_date, days_to_avoid)
+    else
+      check_date
+    end
+  end
+
+  defp get_next_date(check_date) do
+    case Date.day_of_week(check_date) do
+      d when d in 1..4 -> Date.add(check_date, 1)
+      # Friday so skip weekend to Monday
+      5 -> Date.add(check_date, 3)
+      # Saturday or Sunday so jump to next weeks Sat or Sun
+      _ -> Date.add(check_date, 7)
     end
   end
 

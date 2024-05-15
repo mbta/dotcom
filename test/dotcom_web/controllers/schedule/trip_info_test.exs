@@ -1,7 +1,10 @@
 defmodule DotcomWeb.ScheduleController.TripInfoTest do
   use DotcomWeb.ConnCase, async: true
+
   import DotcomWeb.ScheduleController.TripInfo
   import Mox
+  import Test.Support.Factory.Prediction
+
   alias DotcomWeb.ScheduleController.TripInfo
   alias Schedules.{Schedule, Trip}
   alias Stops.Stop
@@ -76,52 +79,27 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     }
   ]
   @predictions [
-    %Prediction{
+    build(:prediction, %{
       trip: %Trip{id: "32893585"},
       stop: %Stop{id: "first"}
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       trip: %Trip{id: "32893585"},
       stop: %Stop{id: "last"}
-    }
+    })
   ]
 
   @non_red_predictions [
-    %Prediction{
+    build(:prediction, %{
       direction_id: 0,
       trip: %Trip{id: "non-red-trip"},
       stop: %Stop{id: "id1"}
-    },
-    %Prediction{
+    }),
+    build(:prediction, %{
       direction_id: 0,
       trip: %Trip{id: "non-red-trip"},
       stop: %Stop{id: "id2"}
-    }
-  ]
-
-  @red_predictions_1 [
-    %Prediction{
-      direction_id: 1,
-      trip: %Trip{id: "red-trip-1"},
-      stop: %Stop{id: "place-nqncy"}
-    },
-    %Prediction{
-      direction_id: 1,
-      trip: %Trip{id: "red-trip-1"},
-      stop: %Stop{id: "place-qnctr"}
-    }
-  ]
-  @red_predictions_0 [
-    %Prediction{
-      direction_id: 0,
-      trip: %Trip{id: "red-trip-0"},
-      stop: %Stop{id: "place-qnctr"}
-    },
-    %Prediction{
-      direction_id: 0,
-      trip: %Trip{id: "red-trip-0"},
-      stop: %Stop{id: "place-nqncy"}
-    }
+    })
   ]
 
   setup :verify_on_exit!
@@ -135,21 +113,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     {:ok, %{conn: conn}}
   end
 
-  defp prediction_fn(trip: "non-red-trip") do
-    Enum.map(@non_red_predictions, &%Prediction{&1 | trip: %Trip{id: "non-red-trip"}})
-  end
-
-  defp prediction_fn(trip: "red-trip-0") do
-    Enum.map(@red_predictions_0, &%Prediction{&1 | trip: %Trip{id: "red-trip-0"}})
-  end
-
-  defp prediction_fn(trip: "red-trip-1") do
-    Enum.map(@red_predictions_1, &%Prediction{&1 | trip: %Trip{id: "red-trip-1"}})
-  end
-
-  defp prediction_fn(trip: trip_id) do
-    Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
-  end
+  setup :verify_on_exit!
 
   defp trip_fn("32893585", date: @date) do
     @trip_schedules
@@ -221,7 +185,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   end
 
   defp conn_builder(conn, schedules, params \\ []) do
-    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
     query_params = Map.new(params, fn {key, val} -> {Atom.to_string(key), val} end)
     params = put_in(query_params["route"], "1")
 
@@ -253,6 +217,10 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   end
 
   test "assigns trip_info when origin/destination are selected", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
     expected_stops = ["after_first", "1", "2", "3", "new_last"]
 
     conn =
@@ -265,12 +233,28 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     assert actual_stops == expected_stops
   end
 
+  test "assigns the total number of stops", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, 2, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
+    conn = conn_builder(conn, [], trip: "long_trip")
+    assert conn.assigns[:trip_info].stop_count == 7
+
+    conn = conn_builder(conn, [], trip: "32893585")
+    assert conn.assigns.trip_info.stop_count == 2
+  end
+
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do
     conn = conn_builder(conn, [List.first(@schedules)])
     assert conn.assigns.trip_info == nil
   end
 
   test "returns nil if we can't generate a trip info", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
     conn =
       conn_builder(
         conn,
@@ -285,6 +269,10 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   end
 
   test "does not redirect if we didn't have a trip already", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
     stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
     conn = conn_builder(conn, @schedules, origin: "fake", destination: "fake")
     refute conn.halted
@@ -299,7 +287,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     end
 
     init =
-      init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+      init(trip_fn: future_trip_fn, vehicle_fn: &vehicle_fn/1)
 
     conn =
       %{
@@ -320,6 +308,10 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   end
 
   test "Trip predictions are fetched if date is service day", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
     conn =
       conn
       |> conn_builder([], trip: "long_trip")
@@ -368,6 +360,10 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
   end
 
   test "Default Trip id is taken from journeys if one is not provided", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
@@ -389,7 +385,7 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
       }
     ]
 
-    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1, prediction_fn: &prediction_fn/1)
+    init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
     stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
 
@@ -405,8 +401,11 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     end
   end
 
-  @tag :external
   test "does assign trips for the subway if the date is today", %{conn: conn} do
+    expect(Predictions.Repo.Mock, :all, fn trip: trip_id ->
+      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
+    end)
+
     schedules = [
       %Schedule{
         trip: %Trip{id: "32893585"},
@@ -573,6 +572,35 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
     test "is true when looking at any non-subway route" do
       next_day = Timex.shift(@time, days: 1)
       assert TripInfo.show_trips?(next_day, @time, 3, "1") == true
+    end
+  end
+
+  describe "test that wollaston station is properly inserted when expected" do
+    test "Does not add Wollaston to non Red line routes", %{conn: conn} do
+      expect(Predictions.Repo.Mock, :all, fn trip: "non-red-trip" ->
+        Enum.map(@non_red_predictions, &%Prediction{&1 | trip: %Trip{id: "non-red-trip"}})
+      end)
+
+      init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
+      route = %{id: "Not-Red"}
+
+      times = [
+        %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id1"}}},
+        %{times: %{direction_id: 1, route: %{id: "Not-Red"}, stop: %{id: "id2"}}}
+      ]
+
+      trip_info = %{route: route, times: times}
+
+      conn =
+        %{conn | query_params: %{"trip" => "non-red-trip"}}
+        |> assign(:route, route)
+        |> assign(:trip_info, trip_info)
+        |> assign(:vehicle_locations, %{})
+        |> call(init)
+
+      stops = Enum.map(conn.assigns.trip_info.times, & &1.schedule.stop.id)
+
+      assert stops == ["id2", "id1"]
     end
   end
 end

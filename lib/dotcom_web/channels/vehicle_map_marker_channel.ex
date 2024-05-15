@@ -6,6 +6,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
   alias Leaflet.MapData.Marker
   alias Vehicles.Vehicle
 
+  @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   intercept(["reset", "add", "update", "remove"])
@@ -48,7 +49,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannel do
     trip = Schedules.Repo.trip(vehicle.trip_id)
 
     prediction =
-      Predictions.Repo.all(
+      @predictions_repo.all(
         route: vehicle.route_id,
         direction_id: vehicle.direction_id
       )

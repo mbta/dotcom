@@ -71,7 +71,7 @@ defmodule DotCom.Mixfile do
       # latest version 1.0.7; cannot upgrade because of server_sent_event_stage expects castore < 1
       {:castore, "0.1.22"},
       {:crc, "0.10.5"},
-      {:credo, "1.7.5", only: [:dev, :test]},
+      {:credo, "1.7.6", only: [:dev, :test]},
       {:csv, "3.2.1"},
       {:decorator, "1.4.0"},
       {:dialyxir, "1.4.3", [only: [:test, :dev], runtime: false]},
@@ -133,7 +133,7 @@ defmodule DotCom.Mixfile do
        ]},
       {:recase, "0.7.0"},
       {:recon, "2.5.5", [only: :prod]},
-      {:redix, "1.5.0"},
+      {:redix, "1.5.1"},
       {:req, "0.4.14", override: true},
       {:rstar, github: "armon/erl-rstar"},
       # latest version 10.1.0; cannot upgrade because setup appears to have changed
@@ -143,7 +143,7 @@ defmodule DotCom.Mixfile do
       {:sweet_xml, "0.7.4", only: [:prod, :dev]},
       {:telemetry, "1.2.1", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
-      {:telemetry_metrics_statsd, "0.7.0"},
+      {:telemetry_metrics_splunk, "0.0.2-alpha"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       # latest version is 3.7.11; cannot upgrade because tests fail

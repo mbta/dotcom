@@ -1,6 +1,5 @@
 defmodule DotcomWeb.TransitNearMeView do
   use DotcomWeb, :view
-  alias LocationService.Address
   alias Phoenix.HTML
   alias Dotcom.React
 
@@ -26,13 +25,5 @@ defmodule DotcomWeb.TransitNearMeView do
         stopsWithRoutes: []
       }
     )
-  end
-
-  defp input_value({:ok, [%Address{formatted: address}]}) do
-    address
-  end
-
-  defp input_value(_) do
-    ""
   end
 end

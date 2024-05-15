@@ -115,6 +115,10 @@ config :dotcom, :mbta_api,
     {"x-enable-experimental-features", "true"}
   ]
 
+config :dotcom, :telemetry_metrics_splunk,
+  token: System.get_env("TELEMETRY_METRICS_SPLUNK_TOKEN"),
+  url: "https://http-inputs-mbta.splunkcloud.com/services/collector"
+
 config :dotcom, aws_index_prefix: System.get_env("AWS_PLACE_INDEX_PREFIX") || "dotcom-dev"
 
 if config_env() != :test do
@@ -174,16 +178,6 @@ if config_env() == :prod do
       host: System.get_env("STATIC_HOST"),
       port: System.get_env("STATIC_PORT")
     ]
-
-  unless System.get_env("PORT") do
-    # configured separately so that we can have the health check not require
-    # SSL
-    config :dotcom, :secure_pipeline,
-      force_ssl: [
-        host: nil,
-        rewrite_on: [:x_forwarded_proto]
-      ]
-  end
 
   config :dotcom,
     support_ticket_to_email: System.get_env("SUPPORT_TICKET_TO_EMAIL"),
