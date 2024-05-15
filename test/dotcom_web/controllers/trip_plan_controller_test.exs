@@ -370,7 +370,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
     test "returns all nil fares when there is not enough information", %{conn: conn} do
       # force legs to have incomplete information:
       with_mock TripPlan.Leg, [:passthrough],
-        is_fare_complete_transit_leg?: fn _leg ->
+        fare_complete_transit_leg?: fn _leg ->
           false
         end do
         conn = get(conn, trip_plan_path(conn, :index, @good_params))

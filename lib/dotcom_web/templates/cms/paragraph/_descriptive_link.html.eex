@@ -10,7 +10,7 @@
   ]
 %>
 
-<%= extend_width_if DescriptiveLink.is_alone?(@content), :cards do %>
+<%= extend_width_if DescriptiveLink.alone?(@content), :cards do %>
   <%= link(content,
         to: if(@content.link, do: cms_static_page_path(@conn, @content.link.url), else: ""),
         class: "c-descriptive-link") %>

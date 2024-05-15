@@ -42,7 +42,7 @@ const stop: Stop = {
   "has_charlie_card_vendor?": false,
   "has_fare_machine?": false,
   id: "stop-id",
-  "is_child?": false,
+  "child?": false,
   latitude: 41.0,
   longitude: -71.0,
   municipality: "Boston",

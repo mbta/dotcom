@@ -94,8 +94,8 @@ defmodule TripPlan.Leg do
 
   # Fare calculation is not possible if the route is a commuter rail route and
   # either from/to stop is missing zone information.
-  @spec is_fare_complete_transit_leg?(t) :: boolean
-  def is_fare_complete_transit_leg?(leg), do: transit?(leg) and not leg_missing_zone?(leg)
+  @spec fare_complete_transit_leg?(t) :: boolean
+  def fare_complete_transit_leg?(leg), do: transit?(leg) and not leg_missing_zone?(leg)
 
   # Cannot compute fare for commuter rail route
   # between stops where we don't know the zones

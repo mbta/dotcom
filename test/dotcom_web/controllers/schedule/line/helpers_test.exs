@@ -65,7 +65,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-asmnl"
       ])
 
-      assert Enum.map(ashmont_route_stops, & &1.is_terminus?) ==
+      assert Enum.map(ashmont_route_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -130,7 +130,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-brntn"
       ])
 
-      assert Enum.map(braintree_route_stops, & &1.is_terminus?) ==
+      assert Enum.map(braintree_route_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -213,7 +213,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-hsmnl"
       ])
 
-      assert Enum.map(e_stops, & &1.is_terminus?) ==
+      assert Enum.map(e_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -301,7 +301,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-river"
       ])
 
-      assert Enum.map(d_stops, & &1.is_terminus?) ==
+      assert Enum.map(d_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -384,7 +384,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-clmnl"
       ])
 
-      assert Enum.map(c_stops, & &1.is_terminus?) ==
+      assert Enum.map(c_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -460,7 +460,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-lake"
       ])
 
-      assert Enum.map(b_stops, & &1.is_terminus?) ==
+      assert Enum.map(b_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -522,7 +522,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(stops, &(&1.branch == "Government Center - Boston College"))
 
-      assert Enum.map(stops, & &1.is_terminus?) ==
+      assert Enum.map(stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -584,7 +584,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(stops, &(&1.branch == "Medford/Tufts - Heath Street"))
 
-      assert Enum.map(stops, & &1.is_terminus?) ==
+      assert Enum.map(stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -669,7 +669,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull", "Boat-Hingham"] ||
                long_route_stop_ids == ["Boat-Long", "Boat-Logan", "Boat-Hull", "Boat-Hingham"]
 
-      assert [first | tail] = Enum.map(long_route_stops, & &1.is_terminus?)
+      assert [first | tail] = Enum.map(long_route_stops, & &1.terminus?)
       [last | non_termini] = Enum.reverse(tail)
       assert Enum.all?([first, last])
       refute Enum.all?(non_termini)
@@ -678,12 +678,12 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(long_hull_route_stops, &(&1.branch == "Long Wharf - Hingham via Hull"))
       assert_stop_ids(long_hull_route_stops, ["Boat-Long", "Boat-Hull", "Boat-Hingham"])
-      assert Enum.map(long_hull_route_stops, & &1.is_terminus?) == [true, false, true]
+      assert Enum.map(long_hull_route_stops, & &1.terminus?) == [true, false, true]
       assert Enum.map(long_hull_route_stops, & &1.is_beginning?) == [true, false, false]
 
       assert Enum.all?(rowe_route_stops, &(&1.branch == "Rowes Wharf - Hingham"))
       assert_stop_ids(rowe_route_stops, ["Boat-Rowes", "Boat-Hingham"])
-      assert Enum.map(rowe_route_stops, & &1.is_terminus?) == [true, true]
+      assert Enum.map(rowe_route_stops, & &1.terminus?) == [true, true]
       assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true, false]
     end
 

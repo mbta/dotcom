@@ -406,8 +406,8 @@ defmodule DotcomWeb.ScheduleView do
     Route.to_json_safe(route)
   end
 
-  @spec is_station?(Stops.Stop.t()) :: boolean()
-  def is_station?(stop) do
+  @spec station?(Stops.Stop.t()) :: boolean()
+  def station?(stop) do
     stop.station?
   end
 end

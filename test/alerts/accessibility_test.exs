@@ -3,7 +3,7 @@ defmodule Alerts.AccessibilityTest do
 
   alias Alerts.Alert
 
-  describe "is_accessibility_alert?/1" do
+  describe "accessibility?/1" do
     test "checks if accessibility alert" do
       alert =
         Alert.new(
@@ -13,7 +13,7 @@ defmodule Alerts.AccessibilityTest do
           informed_entity: [%Alerts.InformedEntity{stop: "place-sstat"}]
         )
 
-      assert Alerts.Accessibility.is_accessibility_alert?(alert)
+      assert Alerts.Accessibility.accessibility?(alert)
     end
   end
 

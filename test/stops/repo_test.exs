@@ -38,7 +38,7 @@ defmodule Stops.RepoTest do
   describe "get_parent/1" do
     test "returns the parent stop for a child stop" do
       north_station_cr = get("BNT-0000-01")
-      assert north_station_cr.is_child? == true
+      assert north_station_cr.child? == true
       assert north_station_cr.parent_id == "place-north"
       assert %Stop{id: "place-north"} = get_parent(north_station_cr)
     end

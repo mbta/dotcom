@@ -123,7 +123,7 @@ defmodule Dotcom.RealtimeSchedule do
   defp get_high_priority_alerts_for_route(route_id, now, alerts_fn) do
     [route_id]
     |> alerts_fn.(now)
-    |> Enum.filter(&Alerts.Alert.is_high_severity_or_high_priority(&1))
+    |> Enum.filter(&Alerts.Alert.high_severity_or_high_priority?(&1))
     |> json_safe_alerts(now)
   end
 

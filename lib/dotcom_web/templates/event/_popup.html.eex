@@ -22,12 +22,12 @@
 
     <div class="u-flex-container">
       <%= render "_add_button.html",
-          event_ended: is_ended?(@event),
+          event_ended: ended?(@event),
           event_started: has_started?(@event),
           conn: @conn,
           class: "popup-version",
           path: @event.path %>
-      <div class="m-event__time-information <%= if is_ended?(@event) do %>gray<% end %>">
+      <div class="m-event__time-information <%= if ended?(@event) do %>gray<% end %>">
         <% %{date: date, time: time} = get_formatted_date_time_map(@event.date, @event.date_end, "{WDshort}, {Mshort} {D}, {YYYY}") %>
         <div class="m-event__date-range m-event__bold-date">
           <%= date %>
