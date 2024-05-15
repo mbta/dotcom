@@ -60,9 +60,6 @@ Hooks.AlgoliaAutocomplete = {
   }
 };
 Hooks.ScrollIntoView = {
-  // FIXME: This shouldn't need a hook; it could be implemented with
-  // `phx-mounted={JS.dispatch("scrollIntoView", to: #element)}` and a window
-  // event listener.
   mounted() {
     this.el.scrollIntoView({ behavior: "smooth" });
   }

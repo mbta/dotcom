@@ -125,7 +125,6 @@ describe("setupChannels", () => {
 
   it("responds to an error", () => {
     // This should test the onError callback of the channel
-    // TODO write this tomorrow
     setupChannels();
     mockOnLoadEventListener();
     const mockEventListener = jest.fn();
