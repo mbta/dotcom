@@ -67,7 +67,7 @@ $homepage-gutter: math.div($base-spacing, 2);
 $half-gutter: math.div($grid-gutter-width, 2);
 $col-width: math.div(100%, $grid-columns);
 
-$font-family-base: 'Inter UI', $font-family-sans-serif;
+$font-family-base: 'Inter', $font-family-sans-serif;
 $headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
 $headings-font-weight: 700;
 
