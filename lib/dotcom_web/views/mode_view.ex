@@ -132,7 +132,7 @@ defmodule DotcomWeb.ModeView do
     entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
 
     Enum.any?(alerts, fn alert ->
-      Alerts.Alert.is_high_severity_or_high_priority(alert) and
+      Alerts.Alert.high_severity_or_high_priority?(alert) and
         Match.match([alert], entity, date) == [alert]
     end)
   end

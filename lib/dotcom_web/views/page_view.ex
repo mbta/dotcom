@@ -55,7 +55,7 @@ defmodule DotcomWeb.PageView do
 
     stops_with_accessibility_alerts_by_issue =
       alerts
-      |> Enum.filter(&Alerts.Accessibility.is_accessibility_alert?/1)
+      |> Enum.filter(&Alerts.Accessibility.accessibility?/1)
       |> Enum.reduce(
         Map.new(Alerts.Accessibility.effect_types(), fn t -> {t, MapSet.new()} end),
         fn alert, types ->

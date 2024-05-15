@@ -310,10 +310,10 @@ defmodule PredictedSchedule do
     end
   end
 
-  @spec is_schedule_after?(PredictedSchedule.t(), DateTime.t()) :: boolean
-  def is_schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
+  @spec schedule_after?(PredictedSchedule.t(), DateTime.t()) :: boolean
+  def schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
 
-  def is_schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
+  def schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
     DateTime.compare(schedule.time, time) == :gt
   end
 

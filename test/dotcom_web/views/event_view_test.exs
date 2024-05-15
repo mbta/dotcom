@@ -211,13 +211,13 @@ defmodule DotcomWeb.EventViewTest do
     end
   end
 
-  describe "is_ended?/2" do
+  describe "ended?/2" do
     test ":not_started value read by function" do
-      assert is_ended?(%Event{started_status: :not_started}) == false
+      assert ended?(%Event{started_status: :not_started}) == false
     end
 
     test ":ended value verified" do
-      assert is_ended?(%Event{started_status: :ended}) == true
+      assert ended?(%Event{started_status: :ended}) == true
     end
   end
 

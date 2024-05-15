@@ -76,56 +76,56 @@ defmodule AlertsTest do
     end
   end
 
-  describe "is_high_severity_or_high_priority/1" do
+  describe "high_severity_or_high_priority?/1" do
     test "returns true for severity >= 7" do
-      assert is_high_severity_or_high_priority(%Alert{severity: 8})
-      assert is_high_severity_or_high_priority(%Alert{severity: 8, priority: :low})
+      assert high_severity_or_high_priority?(%Alert{severity: 8})
+      assert high_severity_or_high_priority?(%Alert{severity: 8, priority: :low})
     end
 
     test "returns true for priority == :high" do
-      assert is_high_severity_or_high_priority(%Alert{priority: :high})
-      assert is_high_severity_or_high_priority(%Alert{severity: 2, priority: :high})
+      assert high_severity_or_high_priority?(%Alert{priority: :high})
+      assert high_severity_or_high_priority?(%Alert{severity: 2, priority: :high})
     end
 
     test "returns true for high severity and high priority" do
-      assert is_high_severity_or_high_priority(%Alert{severity: 7, priority: :high})
+      assert high_severity_or_high_priority?(%Alert{severity: 7, priority: :high})
     end
 
     test "returns false otherwise" do
-      refute is_high_severity_or_high_priority(%Alert{severity: 3, priority: :low})
+      refute high_severity_or_high_priority?(%Alert{severity: 3, priority: :low})
     end
   end
 
-  describe "is_diversion/1" do
+  describe "diversion?/1" do
     test "returns true for certain effects" do
-      assert is_diversion(%Alert{effect: :shuttle})
-      assert is_diversion(%Alert{effect: :stop_closure})
-      assert is_diversion(%Alert{effect: :station_closure})
-      assert is_diversion(%Alert{effect: :detour})
+      assert diversion?(%Alert{effect: :shuttle})
+      assert diversion?(%Alert{effect: :stop_closure})
+      assert diversion?(%Alert{effect: :station_closure})
+      assert diversion?(%Alert{effect: :detour})
     end
 
     test "returns false for other effects" do
-      refute is_diversion(%Alert{effect: :access_issue})
-      refute is_diversion(%Alert{effect: :amber_alert})
-      refute is_diversion(%Alert{effect: :delay})
-      refute is_diversion(%Alert{effect: :dock_closure})
-      refute is_diversion(%Alert{effect: :dock_issue})
-      refute is_diversion(%Alert{effect: :extra_service})
-      refute is_diversion(%Alert{effect: :elevator_closure})
-      refute is_diversion(%Alert{effect: :escalator_closure})
-      refute is_diversion(%Alert{effect: :policy_change})
-      refute is_diversion(%Alert{effect: :schedule_change})
-      refute is_diversion(%Alert{effect: :station_issue})
-      refute is_diversion(%Alert{effect: :stop_moved})
-      refute is_diversion(%Alert{effect: :summary})
-      refute is_diversion(%Alert{effect: :suspension})
-      refute is_diversion(%Alert{effect: :track_change})
-      refute is_diversion(%Alert{effect: :unknown})
-      refute is_diversion(%Alert{effect: :cancellation})
-      refute is_diversion(%Alert{effect: :no_service})
-      refute is_diversion(%Alert{effect: :service_change})
-      refute is_diversion(%Alert{effect: :snow_route})
-      refute is_diversion(%Alert{effect: :stop_shoveling})
+      refute diversion?(%Alert{effect: :access_issue})
+      refute diversion?(%Alert{effect: :amber_alert})
+      refute diversion?(%Alert{effect: :delay})
+      refute diversion?(%Alert{effect: :dock_closure})
+      refute diversion?(%Alert{effect: :dock_issue})
+      refute diversion?(%Alert{effect: :extra_service})
+      refute diversion?(%Alert{effect: :elevator_closure})
+      refute diversion?(%Alert{effect: :escalator_closure})
+      refute diversion?(%Alert{effect: :policy_change})
+      refute diversion?(%Alert{effect: :schedule_change})
+      refute diversion?(%Alert{effect: :station_issue})
+      refute diversion?(%Alert{effect: :stop_moved})
+      refute diversion?(%Alert{effect: :summary})
+      refute diversion?(%Alert{effect: :suspension})
+      refute diversion?(%Alert{effect: :track_change})
+      refute diversion?(%Alert{effect: :unknown})
+      refute diversion?(%Alert{effect: :cancellation})
+      refute diversion?(%Alert{effect: :no_service})
+      refute diversion?(%Alert{effect: :service_change})
+      refute diversion?(%Alert{effect: :snow_route})
+      refute diversion?(%Alert{effect: :stop_shoveling})
     end
   end
 

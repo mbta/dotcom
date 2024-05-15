@@ -44,13 +44,13 @@ defmodule Alerts.Priority do
     date = Timex.to_date(time)
 
     if Enum.all?(active_period, &outside_date_range?(date, &1)) and
-         is_urgent_alert?(params, time) == false,
+         urgent?(params, time) == false,
        do: :low,
        else: :high
   end
 
   def priority(%{severity: severity} = params, time) when severity >= 7 do
-    if is_urgent_alert?(params, time), do: :high, else: :low
+    if urgent?(params, time), do: :high, else: :low
   end
 
   def priority(%{effect: :access_issue}, _) do
@@ -86,39 +86,39 @@ defmodule Alerts.Priority do
     * now is within a week of start date
     * now is within one week of end date
   """
-  @spec is_urgent_alert?(map, DateTime.t()) :: boolean
-  def is_urgent_alert?(%{severity: severity}, _) when severity < 7 do
+  @spec urgent?(map, DateTime.t()) :: boolean
+  def urgent?(%{severity: severity}, _) when severity < 7 do
     false
   end
 
-  def is_urgent_alert?(%{active_period: []}, _) do
+  def urgent?(%{active_period: []}, _) do
     true
   end
 
-  def is_urgent_alert?(%{updated_at: updated_at, active_period: active_period}, time) do
-    within_one_week(time, updated_at) || Enum.any?(active_period, &is_urgent_period?(&1, time))
+  def urgent?(%{updated_at: updated_at, active_period: active_period}, time) do
+    within_one_week(time, updated_at) || Enum.any?(active_period, &urgent_period?(&1, time))
   end
 
-  def is_urgent_alert?(_, _) do
+  def urgent?(_, _) do
     false
   end
 
-  @spec is_urgent_period?({DateTime.t() | nil, DateTime.t() | nil}, DateTime.t()) :: boolean
+  @spec urgent_period?({DateTime.t() | nil, DateTime.t() | nil}, DateTime.t()) :: boolean
 
-  def is_urgent_period?({nil, nil}, %DateTime{}) do
+  def urgent_period?({nil, nil}, %DateTime{}) do
     true
   end
 
-  def is_urgent_period?({nil, %DateTime{} = until}, %DateTime{} = time) do
+  def urgent_period?({nil, %DateTime{} = until}, %DateTime{} = time) do
     within_one_week(until, time)
   end
 
-  def is_urgent_period?({%DateTime{} = from, nil}, %DateTime{} = time) do
+  def urgent_period?({%DateTime{} = from, nil}, %DateTime{} = time) do
     within_one_week(time, from)
   end
 
-  def is_urgent_period?({from, until}, time) do
-    is_urgent_period?({from, nil}, time) || is_urgent_period?({nil, until}, time)
+  def urgent_period?({from, until}, time) do
+    urgent_period?({from, nil}, time) || urgent_period?({nil, until}, time)
   end
 
   def within_one_week(time_1, time_2) do

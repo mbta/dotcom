@@ -87,7 +87,7 @@ defmodule Stops.RepoTest do
       end)
 
       stop = get("has-parent")
-      assert stop.is_child? == true
+      assert stop.child? == true
       assert stop.parent_id == "parent-stop"
       assert %Stop{id: "parent-stop"} = get_parent(stop)
       refute get_parent(nil)

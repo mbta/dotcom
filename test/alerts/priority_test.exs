@@ -371,44 +371,44 @@ defmodule Alerts.PriorityTest do
     assert within_one_week(~N[2018-01-07T11:59:00], ~N[2018-01-01T12:00:00]) == true
   end
 
-  describe "is_urgent_period?/2" do
+  describe "urgent_period?/2" do
     test "severe alerts within 1 week of end date are urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
       start_date = Timex.shift(now, days: -10)
       end_date = Timex.shift(now, days: 6)
-      assert is_urgent_period?({nil, end_date}, now) == true
-      assert is_urgent_period?({start_date, end_date}, now) == true
+      assert urgent_period?({nil, end_date}, now) == true
+      assert urgent_period?({start_date, end_date}, now) == true
     end
 
     test "severe alerts beyond 1 week of end date are not urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
       start_date = Timex.shift(now, days: -10)
       end_date = Timex.shift(now, days: 14)
-      assert is_urgent_period?({nil, end_date}, now) == false
-      assert is_urgent_period?({start_date, end_date}, now) == false
+      assert urgent_period?({nil, end_date}, now) == false
+      assert urgent_period?({start_date, end_date}, now) == false
     end
 
     test "severe alerts within 1 week of start date are urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
       start_date = Timex.shift(now, days: -6)
       end_date = Timex.shift(now, days: 10)
-      assert is_urgent_period?({start_date, nil}, now) == true
-      assert is_urgent_period?({start_date, end_date}, now) == true
+      assert urgent_period?({start_date, nil}, now) == true
+      assert urgent_period?({start_date, end_date}, now) == true
     end
 
     test "severe alerts beyond 1 week of start date are not urgent" do
       now = ~N[2018-01-15T12:00:00] |> Util.to_local_time()
       start_date = Timex.shift(now, days: -14)
       end_date = Timex.shift(now, days: 10)
-      assert is_urgent_period?({start_date, nil}, now) == false
-      assert is_urgent_period?({start_date, end_date}, now) == false
+      assert urgent_period?({start_date, nil}, now) == false
+      assert urgent_period?({start_date, end_date}, now) == false
     end
   end
 
-  describe "is_urgent_alert?/2" do
+  describe "urgent?/2" do
     test "alerts below level 7 are never urgent" do
       for type <- Alert.all_types() do
-        result = {type, is_urgent_alert?(%{effect: type, severity: 6}, @now)}
+        result = {type, urgent?(%{effect: type, severity: 6}, @now)}
         assert result == {type, false}
       end
     end
@@ -417,7 +417,7 @@ defmodule Alerts.PriorityTest do
       for type <- Alert.all_types() do
         result =
           {type,
-           is_urgent_alert?(
+           urgent?(
              %{
                effect: type,
                severity: 7,
@@ -440,7 +440,7 @@ defmodule Alerts.PriorityTest do
           active_period: [{nil, nil}]
         }
 
-        assert {type, is_urgent_alert?(params, @now)} == {type, true}
+        assert {type, urgent?(params, @now)} == {type, true}
       end
     end
   end

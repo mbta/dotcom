@@ -49,7 +49,7 @@ defmodule DotcomWeb.PredictionsChannel do
       is_nil(prediction.trip) ||
         is_skipped_or_cancelled?(prediction) ||
         is_in_past?(prediction) ||
-        is_at_terminal_stop?(prediction)
+        terminal_stop?(prediction)
     end)
   end
 
@@ -60,10 +60,10 @@ defmodule DotcomWeb.PredictionsChannel do
       prediction.schedule_relationship in [:skipped, :cancelled]
   end
 
-  defp is_in_future?(%Prediction{time: %DateTime{} = dt}),
+  defp future?(%Prediction{time: %DateTime{} = dt}),
     do: Util.time_is_greater_or_equal?(dt, Util.now())
 
-  defp is_in_future?(%Prediction{
+  defp future?(%Prediction{
          schedule_relationship: sr,
          stop_sequence: seq,
          time: nil,
@@ -79,13 +79,13 @@ defmodule DotcomWeb.PredictionsChannel do
     end
   end
 
-  defp is_in_future?(_), do: false
+  defp future?(_), do: false
 
   # Keeping this style until we change all of these.
   # credo:disable-for-next-line Credo.Check.Readability.PredicateFunctionNames
-  defp is_in_past?(prediction), do: !is_in_future?(prediction)
+  defp is_in_past?(prediction), do: !future?(prediction)
 
-  defp is_at_terminal_stop?(%Prediction{
+  defp terminal_stop?(%Prediction{
          arrival_time: arrival,
          departure_time: departure,
          stop_sequence: seq,

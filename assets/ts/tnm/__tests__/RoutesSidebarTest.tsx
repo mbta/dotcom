@@ -93,7 +93,7 @@ describe("filterData", () => {
               "has_charlie_card_vendor?": false,
               "has_fare_machine?": false,
               fare_facilities: [],
-              "is_child?": false,
+              "child?": false,
               latitude: 0,
               longitude: 0,
               municipality: "Malden",

@@ -109,7 +109,7 @@ export interface RouteStop {
   route: RouteStopRoute | null;
   connections: RouteStopRoute[];
   stop_features: string[];
-  "is_terminus?": boolean;
+  "terminus?": boolean;
   "is_beginning?": boolean;
   closed_stop_info: ClosedStopInfo | null;
 }

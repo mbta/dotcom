@@ -223,16 +223,16 @@ defmodule Alerts.Alert do
   def icon(%{priority: :high, effect: :shuttle}), do: :shuttle
   def icon(_), do: :alert
 
-  @spec is_high_severity_or_high_priority(t) :: boolean()
-  def is_high_severity_or_high_priority(%{priority: :high}), do: true
+  @spec high_severity_or_high_priority?(t) :: boolean()
+  def high_severity_or_high_priority?(%{priority: :high}), do: true
 
-  def is_high_severity_or_high_priority(%{severity: severity}) when severity >= 7,
+  def high_severity_or_high_priority?(%{severity: severity}) when severity >= 7,
     do: true
 
-  def is_high_severity_or_high_priority(_), do: false
+  def high_severity_or_high_priority?(_), do: false
 
-  @spec is_diversion(t) :: boolean()
-  def is_diversion(%{effect: effect}),
+  @spec diversion?(t) :: boolean()
+  def diversion?(%{effect: effect}),
     do: effect in @diversion_effects
 
   @spec municipality(t) :: String.t() | nil

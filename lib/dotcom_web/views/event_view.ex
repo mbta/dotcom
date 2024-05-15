@@ -126,8 +126,8 @@ defmodule DotcomWeb.EventView do
     "#{Timex.month_name(month)} #{year}"
   end
 
-  @spec is_ended?(Event.t() | Teaser.t()) :: boolean
-  def is_ended?(event) do
+  @spec ended?(Event.t() | Teaser.t()) :: boolean
+  def ended?(event) do
     event.started_status === :ended
   end
 

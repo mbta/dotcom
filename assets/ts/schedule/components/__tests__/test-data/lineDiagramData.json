@@ -18,7 +18,7 @@
             "municipality": "Boston",
             "longitude": -71.033138,
             "latitude": 42.415684,
-            "is_child?": false,
+            "child?": false,
             "id": "5547",
             "has_fare_machine?": false,
             "has_charlie_card_vendor?": false,
@@ -41,7 +41,7 @@
             "custom_route?": false
           },
           "name": "Elm St opp Haskell Ave",
-          "is_terminus?": true,
+          "terminus?": true,
           "is_beginning?": true,
           "id": "5547",
           "connections": [
@@ -77,7 +77,7 @@
             "municipality": "Boston",
             "longitude": -71.033138,
             "latitude": 42.415684,
-            "is_child?": false,
+            "child?": false,
             "id": "5547",
             "has_fare_machine?": false,
             "has_charlie_card_vendor?": false,
@@ -100,7 +100,7 @@
             "custom_route?": false
           },
           "name": "Elm St opp Haskell Ave",
-          "is_terminus?": true,
+          "terminus?": true,
           "is_beginning?": true,
           "id": "5547",
           "connections": [
@@ -136,7 +136,7 @@
             "municipality": "Boston",
             "longitude": -71.033138,
             "latitude": 42.415684,
-            "is_child?": false,
+            "child?": false,
             "id": "5547",
             "has_fare_machine?": false,
             "has_charlie_card_vendor?": false,
@@ -159,7 +159,7 @@
             "custom_route?": false
           },
           "name": "Elm St opp Haskell Ave",
-          "is_terminus?": true,
+          "terminus?": true,
           "is_beginning?": true,
           "id": "5547",
           "connections": [
