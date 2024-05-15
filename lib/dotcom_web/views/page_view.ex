@@ -9,6 +9,7 @@ defmodule DotcomWeb.PageView do
   alias DotcomWeb.PartialView
 
   use DotcomWeb, :view
+
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
   def get_route(id) do
