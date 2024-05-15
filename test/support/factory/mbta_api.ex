@@ -7,7 +7,7 @@ defmodule Test.Support.Factory.MbtaApi do
   alias JsonApi.Item
 
   def item_factory do
-    %Item{}
+    %Item{id: Faker.Internet.slug()}
   end
 
   @doc """
@@ -31,7 +31,8 @@ defmodule Test.Support.Factory.MbtaApi do
           relationships: %{
             "representative_trip" => [build(:item)],
             "route" => [build(:item)]
-          }
+          },
+          type: "route_pattern"
         },
         attrs
       )
@@ -80,7 +81,8 @@ defmodule Test.Support.Factory.MbtaApi do
             ],
             "parent_station" => [],
             "zone" => []
-          }
+          },
+          type: "stop"
         },
         attrs,
         fn _k, v1, v2 ->
@@ -109,7 +111,8 @@ defmodule Test.Support.Factory.MbtaApi do
           relationships: %{
             "line" => [],
             "route_patterns" => []
-          }
+          },
+          type: "route"
         },
         attrs,
         fn _k, v1, v2 ->
@@ -128,7 +131,8 @@ defmodule Test.Support.Factory.MbtaApi do
             "direction_id" => Faker.Util.pick([0, 1]),
             "headsign" => "",
             "name" => ""
-          }
+          },
+          type: "trip"
         },
         attrs,
         fn _k, v1, v2 ->
@@ -144,8 +148,8 @@ defmodule Test.Support.Factory.MbtaApi do
       Map.merge(
         %{
           attributes: %{
-            "arrival_time" => Faker.DateTime.forward(1),
-            "departure_time" => Faker.DateTime.forward(1),
+            "arrival_time" => formatted_datetime(),
+            "departure_time" => formatted_datetime(),
             "direction_id" => Faker.Util.pick([0, 1]),
             "schedule_relationship" =>
               Faker.Util.pick(["ADDED", "CANCELLED", "SKIPPED", "UNSCHEDULED", "NO_DATA"]),
@@ -158,7 +162,8 @@ defmodule Test.Support.Factory.MbtaApi do
             "stop" => [build(:stop_item)],
             "trip" => [build(:trip_item)],
             "vehicle" => [build(:vehicle_item)]
-          }
+          },
+          type: "prediction"
         },
         attrs,
         fn _k, v1, v2 ->
@@ -186,7 +191,8 @@ defmodule Test.Support.Factory.MbtaApi do
             "route" => [build(:route_item)],
             "stop" => [build(:stop_item)],
             "trip" => [build(:trip_item)]
-          }
+          },
+          type: "vehicle"
         },
         attrs,
         fn _k, v1, v2 ->
@@ -194,5 +200,10 @@ defmodule Test.Support.Factory.MbtaApi do
         end
       )
     )
+  end
+
+  defp formatted_datetime do
+    Faker.DateTime.forward(1)
+    |> Timex.format!("{ISO:Extended}")
   end
 end
