@@ -6,7 +6,7 @@ defmodule Stops.NearbyTest do
 
   import Mox
   import Stops.Nearby
-  import Test.Support.Factory.MbtaApi
+  import Test.Support.Factories.Mbta.Api
 
   @latitude 42.577
   @longitude -71.225

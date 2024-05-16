@@ -1,21 +1,26 @@
 defmodule Alerts.Alert do
-  @moduledoc "Module for representation of an alert, including information such as description, severity or additional URL to learn more"
-  alias Alerts.Priority
-  alias Alerts.InformedEntitySet, as: IESet
+  @moduledoc """
+  Module for representation of an alert, including information such as description, severity or additional URL to learn more
+  """
+
+  use Timex
+
+  alias Alerts.{InformedEntitySet, Priority}
 
   defstruct id: "",
-            header: "",
-            informed_entity: %IESet{},
             active_period: [],
-            effect: :unknown,
-            severity: 5,
-            lifecycle: :unknown,
+            banner: "",
             cause: "",
-            updated_at: Timex.now(),
             description: "",
+            effect: :unknown,
+            header: "",
+            image_url: "",
+            informed_entity: %InformedEntitySet{},
+            lifecycle: :unknown,
             priority: :low,
-            url: "",
-            banner: ""
+            severity: 5,
+            updated_at: Timex.now(),
+            url: ""
 
   @type period_pair :: {DateTime.t() | nil, DateTime.t() | nil}
 
@@ -51,29 +56,29 @@ defmodule Alerts.Alert do
           | :unknown
 
   @type severity :: 0..10
+
   @type lifecycle :: :ongoing | :upcoming | :ongoing_upcoming | :new | :unknown
+
   @type id_t :: String.t()
+
   @type t :: %Alerts.Alert{
           id: id_t(),
-          header: String.t(),
-          informed_entity: IESet.t(),
           active_period: [period_pair],
+          banner: String.t() | nil,
           cause: String.t(),
-          effect: effect,
-          severity: severity,
-          lifecycle: lifecycle,
-          updated_at: DateTime.t(),
           description: String.t() | nil,
+          effect: effect,
+          header: String.t(),
+          image_url: String.t() | nil,
+          informed_entity: InformedEntitySet.t(),
+          lifecycle: lifecycle,
           priority: Priority.priority_level(),
-          url: String.t() | nil,
-          banner: String.t() | nil
+          severity: severity,
+          updated_at: DateTime.t(),
+          url: String.t() | nil
         }
 
   @type icon_type :: :alert | :cancel | :none | :shuttle | :snow
-
-  use Timex
-
-  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @ongoing_effects [
     :cancellation,
@@ -113,6 +118,10 @@ defmodule Alerts.Alert do
     :detour
   ]
 
+  @lifecycles [:ongoing, :upcoming, :ongoing_upcoming, :new, :unknown]
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @spec new(Keyword.t()) :: t()
   def new(keywords \\ [])
 
@@ -145,7 +154,7 @@ defmodule Alerts.Alert do
 
   @spec ensure_entity_set(map) :: t()
   defp ensure_entity_set(alert) do
-    %__MODULE__{alert | informed_entity: IESet.new(alert.informed_entity)}
+    %__MODULE__{alert | informed_entity: InformedEntitySet.new(alert.informed_entity)}
   end
 
   @spec all_types :: [effect]
@@ -154,13 +163,24 @@ defmodule Alerts.Alert do
   @spec ongoing_effects :: [effect]
   def ongoing_effects, do: @ongoing_effects
 
+  @spec lifecycles :: [lifecycle]
+  def lifecycles, do: @lifecycles
+
   @spec get_entity(t, :route | :stop | :route_type | :trip | :direction_id) :: Enumerable.t()
   @doc "Helper function for retrieving InformedEntity values for an alert"
-  def get_entity(%__MODULE__{informed_entity: %IESet{route: set}}, :route), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{stop: set}}, :stop), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{route_type: set}}, :route_type), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{trip: set}}, :trip), do: set
-  def get_entity(%__MODULE__{informed_entity: %IESet{direction_id: set}}, :direction_id), do: set
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route: set}}, :route), do: set
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{stop: set}}, :stop), do: set
+
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{route_type: set}}, :route_type),
+    do: set
+
+  def get_entity(%__MODULE__{informed_entity: %InformedEntitySet{trip: set}}, :trip), do: set
+
+  def get_entity(
+        %__MODULE__{informed_entity: %InformedEntitySet{direction_id: set}},
+        :direction_id
+      ),
+      do: set
 
   def access_alert_types do
     [elevator_closure: "Elevator", escalator_closure: "Escalator", access_issue: "Other"]
