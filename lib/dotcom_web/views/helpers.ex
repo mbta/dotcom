@@ -16,6 +16,8 @@ defmodule DotcomWeb.ViewHelpers do
   alias Plug.Conn
   alias Phoenix.HTML.Safe
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @subway_lines [
     :red_line,
     :blue_line,
@@ -360,7 +362,7 @@ defmodule DotcomWeb.ViewHelpers do
 
   def stop_link(stop_id) do
     stop_id
-    |> Stops.Repo.get_parent()
+    |> @stops_repo.get_parent()
     |> stop_link
   end
 

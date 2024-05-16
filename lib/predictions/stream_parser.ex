@@ -13,6 +13,8 @@ defmodule Predictions.StreamParser do
   alias Schedules.Trip
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @spec parse(Item.t()) :: Prediction.t()
   def parse(%Item{} = item) do
     route = included_route(item)
@@ -37,7 +39,7 @@ defmodule Predictions.StreamParser do
       stop_sequence: Parser.stop_sequence(item),
       time: Schedules.Parser.display_time(arrival, departure, route),
       route: route,
-      stop: Stops.Repo.get_parent(stop),
+      stop: @stops_repo.get_parent(stop),
       platform_stop_id: stop_id(item),
       trip: trip,
       schedule_relationship: Parser.schedule_relationship(item),
@@ -89,7 +91,7 @@ defmodule Predictions.StreamParser do
 
   # note: likely to be a child stop
   @spec included_stop(Item.t()) :: Stops.Stop.t() | nil
-  defp included_stop(%Item{relationships: %{"stop" => [%Item{id: id}]}}), do: Stops.Repo.get(id)
+  defp included_stop(%Item{relationships: %{"stop" => [%Item{id: id}]}}), do: @stops_repo.get(id)
 
   defp included_stop(_), do: nil
 end

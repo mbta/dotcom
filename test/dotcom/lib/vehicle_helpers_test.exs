@@ -3,6 +3,7 @@ defmodule Dotcom.VehicleHelpersTest do
 
   import VehicleHelpers
   import Mock
+  import Mox
 
   @shape %Routes.Shape{id: "9850002", polyline: "polyline"}
   @station %Stops.Stop{id: "place-sstat", name: "South Station"}
@@ -35,18 +36,19 @@ defmodule Dotcom.VehicleHelpersTest do
     }
   ]
 
+  setup do
+    stub(Stops.Repo.Mock, :get, fn _ ->
+      @station
+    end)
+
+    :ok
+  end
+
   setup_with_mocks([
     {Routes.Repo, [],
      [
        get: fn id -> %Routes.Route{id: id} end,
        get_shape: fn "9850002" -> [@shape] end
-     ]},
-    {Stops.Repo, [:passthrough],
-     [
-       get: fn
-         "place-sstat" -> @station
-         id -> %Stops.Stop{id: id}
-       end
      ]},
     {Schedules.Repo, [:passthrough],
      [

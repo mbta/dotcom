@@ -6,7 +6,7 @@
     content_tag(:p, [
       content_tag(:a, "Learn more about bikes on Commuter Rail", href: "/bikes/bringing-your-bike-the-train", class: "c-call-to-action")], class: "u-padding-top")]
   early_departure = "The " <> mode_name <> " may leave ahead of schedule at these stops."
-  flag_stop = "Passengers must tell " <> (if is_ferry(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
+  flag_stop = "Passengers must tell " <> (if ferry?(@route), do: "a crew member", else: "the conductor") <> " that they wish to leave. Passengers waiting to board
     must be visible on the platform for the " <> mode_name <> " to stop."
   cr_crowding = [
     "Commuter Rail seat availability is regularly updated to reflect a trip’s typical ridership based on automated and conductor data from the past 14-30 days.",
@@ -87,14 +87,14 @@
           # Show crowding is for commuter rail trains so also show the track boarding change
           @show_crowding -> [cr_crowding_key] ++ [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
           # Commuter rails could also not have crowding info so show commuter rail specific keys
-          is_commuter_rail(@route) -> [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
-          is_ferry(@route) -> core_keys
+          commuter_rail?(@route) -> [bike_key] ++ core_keys ++ [cr_track_boarding_change_key]
+          ferry?(@route) -> core_keys
           true -> [bike_key | core_keys]
         end
       )
     }))
   %>
-  <%= if is_ferry(@route) do %>
+  <%= if ferry?(@route) do %>
     <div class="m-schedule-icon-key-suffix">
       <%= svg("icon-bikes-default.svg") %><span>Bikes are allowed on all ferry boats</span>
     </div>

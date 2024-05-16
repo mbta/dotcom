@@ -184,7 +184,7 @@ export interface Stop {
   "has_fare_machine?": boolean;
   fare_facilities: FareFacilityType[];
   id: string;
-  "is_child?": boolean;
+  "child?": boolean;
   latitude: number;
   longitude: number;
   municipality: string | null;

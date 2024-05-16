@@ -8,6 +8,8 @@ defmodule Schedules.HoursOfOperation do
   alias Schedules.Departures
   alias Services.Service
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @cache Application.compile_env!(:dotcom, :cache)
   @ttl :timer.hours(1)
 
@@ -156,19 +158,21 @@ defmodule Schedules.HoursOfOperation do
   end
 
   defp get_valid_day(check_date, days_to_avoid) do
-    if !Enum.member?(days_to_avoid, check_date) do
-      check_date
-    else
-      next_date =
-        case Date.day_of_week(check_date) do
-          d when d in 1..4 -> Date.add(check_date, 1)
-          # Friday so skip weekend to Monday
-          5 -> Date.add(check_date, 3)
-          # Saturday or Sunday so jump to next weeks Sat or Sun
-          _ -> Date.add(check_date, 7)
-        end
-
+    if Enum.member?(days_to_avoid, check_date) do
+      next_date = get_next_date(check_date)
       get_valid_day(next_date, days_to_avoid)
+    else
+      check_date
+    end
+  end
+
+  defp get_next_date(check_date) do
+    case Date.day_of_week(check_date) do
+      d when d in 1..4 -> Date.add(check_date, 1)
+      # Friday so skip weekend to Monday
+      5 -> Date.add(check_date, 3)
+      # Saturday or Sunday so jump to next weeks Sat or Sun
+      _ -> Date.add(check_date, 7)
     end
   end
 
@@ -410,7 +414,7 @@ defmodule Schedules.HoursOfOperation do
     error
   end
 
-  defp is_terminus?(stop_name, headsigns) do
+  defp terminus?(stop_name, headsigns) do
     Enum.member?(headsigns, stop_name)
   end
 
@@ -454,7 +458,7 @@ defmodule Schedules.HoursOfOperation do
       end)
 
     Enum.map(times_by_stop, fn {id, x} ->
-      stop = Stops.Repo.get!(id)
+      stop = @stops_repo.get!(id)
 
       {min, max} =
         x
@@ -468,7 +472,7 @@ defmodule Schedules.HoursOfOperation do
         last_departure: max,
         stop_name: stop.name,
         parent_stop_id: stop.parent_id,
-        is_terminus: is_terminus?(stop.name, headsigns)
+        is_terminus: terminus?(stop.name, headsigns)
       }
     end)
   end

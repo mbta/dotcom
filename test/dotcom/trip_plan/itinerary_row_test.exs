@@ -2,11 +2,14 @@ defmodule TripPlan.ItineraryRowTest do
   use ExUnit.Case, async: true
 
   import Dotcom.TripPlan.ItineraryRow
+  import Mox
   import Test.Support.Factory
   alias Dotcom.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
   alias TripPlan.{Leg, NamedPosition, PersonalDetail}
+
+  setup :verify_on_exit!
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -302,23 +305,46 @@ defmodule TripPlan.ItineraryRowTest do
 
   describe "name_from_position" do
     test "doesn't return stop id if mapper returns nil" do
+      stub(Stops.Repo.Mock, :get_parent, fn "ignored" ->
+        nil
+      end)
+
       stop_id = "ignored"
       name = "stop name"
-      mapper = fn _stop_id -> nil end
 
       assert {^name, nil} =
-               name_from_position(%NamedPosition{stop_id: stop_id, name: name}, mapper)
+               name_from_position(%NamedPosition{stop_id: stop_id, name: name})
     end
   end
 
   describe "from_leg/3" do
-    @deps %ItineraryRow.Dependencies{stop_mapper: &Stops.Repo.get_parent/1}
+    @deps %ItineraryRow.Dependencies{}
     @leg build(:leg)
     @personal_leg build(:leg, mode: build(:personal_detail))
     @transit_leg build(:leg, mode: build(:transit_detail))
 
-    @tag :external
+    setup do
+      stub(MBTA.Api.Mock, :get_json, fn path, _ ->
+        cond do
+          String.contains?(path, "trips") ->
+            %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:trip_item)]}
+
+          String.contains?(path, "routes") ->
+            %JsonApi{data: [Test.Support.Factory.MbtaApi.build(:route_item)]}
+
+          true ->
+            %JsonApi{data: []}
+        end
+      end)
+
+      :ok
+    end
+
     test "returns an itinerary row from a Leg" do
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        %Stops.Stop{id: id}
+      end)
+
       row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row
     end

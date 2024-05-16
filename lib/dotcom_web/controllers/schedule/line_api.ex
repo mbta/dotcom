@@ -14,6 +14,8 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   alias Stops.Stop
   alias Vehicles.Vehicle
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @typep simple_vehicle :: %{
            id: String.t(),
            headsign: String.t() | nil,
@@ -126,7 +128,7 @@ defmodule DotcomWeb.ScheduleController.LineApi do
   end
 
   defp group_tooltips_by_stop(tooltip) do
-    case Stops.Repo.get_parent(tooltip.vehicle.stop_id) do
+    case @stops_repo.get_parent(tooltip.vehicle.stop_id) do
       %Stop{id: id} -> id
       _ -> nil
     end

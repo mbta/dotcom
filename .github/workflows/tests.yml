@@ -1,5 +1,7 @@
 name: CI
 on:
+  push:
+    branches: [main]
   pull_request:
     paths-ignore:
       - ".github/workflows/**"
@@ -25,6 +27,7 @@ jobs:
       ex: ${{ steps.changes.outputs.ex == 'true' }}
       scss: ${{ steps.changes.outputs.scss == 'true' }}
     steps:
+      - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: changes
         with:
@@ -82,7 +85,7 @@ jobs:
     name: Linting / Elixir
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex }}
+    if: ${{ (contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex) && github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all

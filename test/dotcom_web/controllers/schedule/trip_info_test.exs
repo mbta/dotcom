@@ -108,6 +108,8 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
       |> assign(:date_time, @time)
       |> assign(:date, @date)
 
+    stub(Stops.Repo.Mock, :get_parent, fn _ -> %Stops.Stop{} end)
+
     {:ok, %{conn: conn}}
   end
 
@@ -229,18 +231,6 @@ defmodule DotcomWeb.ScheduleController.TripInfoTest do
       |> Enum.map(& &1.schedule.stop.id)
 
     assert actual_stops == expected_stops
-  end
-
-  test "assigns the total number of stops", %{conn: conn} do
-    expect(Predictions.Repo.Mock, :all, 2, fn trip: trip_id ->
-      Enum.map(@predictions, &%Prediction{&1 | trip: %Trip{id: trip_id}})
-    end)
-
-    conn = conn_builder(conn, [], trip: "long_trip")
-    assert conn.assigns[:trip_info].stop_count == 7
-
-    conn = conn_builder(conn, [], trip: "32893585")
-    assert conn.assigns.trip_info.stop_count == 2
   end
 
   test "does not assign a trip if there are no more trips left in the day", %{conn: conn} do

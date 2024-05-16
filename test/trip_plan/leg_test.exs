@@ -127,7 +127,7 @@ defmodule TripPlan.LegTest do
     end
   end
 
-  describe "is_fare_complete_transit_leg?/1" do
+  describe "fare_complete_transit_leg?/1" do
     test "returns false for commuter rail routes between stops without commuter rail zone information" do
       leg =
         Factory.build(:leg,
@@ -138,7 +138,7 @@ defmodule TripPlan.LegTest do
           mode: Factory.build(:transit_detail)
         )
 
-      assert is_fare_complete_transit_leg?(leg)
+      assert fare_complete_transit_leg?(leg)
 
       bad_leg = %TripPlan.Leg{
         from: %TripPlan.NamedPosition{
@@ -153,7 +153,7 @@ defmodule TripPlan.LegTest do
         }
       }
 
-      refute is_fare_complete_transit_leg?(bad_leg)
+      refute fare_complete_transit_leg?(bad_leg)
     end
   end
 

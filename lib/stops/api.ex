@@ -19,7 +19,7 @@ defmodule Stops.Api do
     include: "parent_station,facilities,child_stops",
     "fields[facility]": "long_name,type,properties,latitude,longitude,id",
     "fields[stop]":
-      "address,name,latitude,longitude,address," <>
+      "address,name,latitude,longitude," <>
         "municipality,wheelchair_boarding,location_type," <>
         "platform_name,platform_code,description"
   ]
@@ -124,9 +124,9 @@ defmodule Stops.Api do
     []
   end
 
-  @spec is_child?(Item.t()) :: boolean
-  defp is_child?(%Item{relationships: %{"parent_station" => [%Item{}]}}), do: true
-  defp is_child?(_), do: false
+  @spec child?(Item.t()) :: boolean
+  defp child?(%Item{relationships: %{"parent_station" => [%Item{}]}}), do: true
+  defp child?(_), do: false
 
   @spec v3_name(Item.t()) :: String.t()
   defp v3_name(%Item{attributes: %{"name" => name}}), do: name
@@ -161,8 +161,8 @@ defmodule Stops.Api do
       parking_lots: v3_parking(item),
       fare_facilities: fare_facilities,
       bike_storage: bike_storage(item),
-      is_child?: is_child?(item),
-      station?: is_station?(item),
+      child?: child?(item),
+      station?: station?(item),
       has_fare_machine?: MapSet.member?(fare_facilities, :fare_vending_machine),
       has_charlie_card_vendor?: MapSet.member?(fare_facilities, :fare_media_assistant),
       latitude: item.attributes["latitude"],
@@ -177,8 +177,8 @@ defmodule Stops.Api do
     {:ok, stop}
   end
 
-  @spec is_station?(Item.t()) :: boolean
-  defp is_station?(%Item{} = item) do
+  @spec station?(Item.t()) :: boolean
+  defp station?(%Item{} = item) do
     item.attributes["location_type"] == 1 or item.relationships["facilities"] != []
   end
 

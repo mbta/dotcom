@@ -104,6 +104,9 @@ defmodule DotcomWeb.SearchController do
 
         {:error, %HTTPoison.Error{reason: reason}} ->
           %{message: "error", reason: reason}
+
+        {:error, %{reason: reason}} ->
+          %{message: "error", reason: reason}
       end
 
     json(conn, response)

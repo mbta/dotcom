@@ -24,7 +24,7 @@
             <% todays_events = Map.get(events_by_day, day.day) %>
             <%= if todays_events != nil do %>
               <%= for event <- todays_events do %>
-                <% event_ended = is_ended?(event) %>
+                <% event_ended = ended?(event) %>
                 <button class="m-event-calendar__event" data-a11y-dialog-show="<%= event.id  %>">
                   <i class="fa fa-circle <%= if event_ended, do: 'ended' %>" aria-hidden="true"></i>
                   <%= if !event_ended do%>

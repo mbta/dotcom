@@ -34,7 +34,6 @@ const getExternalMapURI = (
     params += `&query=${latLongString}&q=${latLongString}`;
   }
 
-  // TODO figure out query_place_id for each station
   // https://www.google.com/maps/search/?api=1&query=Wonderland&query_place_id=ChIJSbu0PwZu44kRLxNeyhVE0oI
   let mapURI = "https://www.google.com/maps/search/?api=1&";
   if (isIPhone()) {

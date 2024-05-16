@@ -10,6 +10,7 @@ defmodule DotcomWeb.PageView do
 
   use DotcomWeb, :view
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
   @spec get_route(Routes.Route.id_t()) :: Routes.Route.t() | nil
   def get_route(id) do
     case DotcomWeb.ScheduleController.Line.Helpers.get_route(id) do
@@ -54,7 +55,7 @@ defmodule DotcomWeb.PageView do
 
     stops_with_accessibility_alerts_by_issue =
       alerts
-      |> Enum.filter(&Alerts.Accessibility.is_accessibility_alert?/1)
+      |> Enum.filter(&Alerts.Accessibility.accessibility?/1)
       |> Enum.reduce(
         Map.new(Alerts.Accessibility.effect_types(), fn t -> {t, MapSet.new()} end),
         fn alert, types ->
@@ -66,7 +67,7 @@ defmodule DotcomWeb.PageView do
       )
       |> Enum.map(fn {type, stops} ->
         {type,
-         Enum.map(stops, &Stops.Repo.get_parent/1)
+         Enum.map(stops, &@stops_repo.get_parent/1)
          |> Enum.filter(& &1)
          |> Enum.uniq_by(& &1.id)
          |> Enum.sort_by(& &1.name)}

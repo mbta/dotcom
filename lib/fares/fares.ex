@@ -9,6 +9,8 @@ defmodule Fares do
   alias Schedules.Trip
   alias Stops.Stop
 
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   @silver_line_rapid_transit ~w(741 742 743 746)
   @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
 
@@ -77,7 +79,7 @@ defmodule Fares do
   end
 
   defp zone_for_stop(stop_id) do
-    case Stops.Repo.get(stop_id) do
+    case @stops_repo.get(stop_id) do
       %{zone: zone} -> zone
       _ -> nil
     end

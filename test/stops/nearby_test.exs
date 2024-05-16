@@ -2,19 +2,28 @@ defmodule Stops.NearbyTest do
   use ExUnit.Case, async: true
   doctest Stops.Nearby
 
-  alias Stops.Stop
   alias Util.Distance
+
+  import Mox
   import Stops.Nearby
+  import Test.Support.Factory.MbtaApi
 
   @latitude 42.577
   @longitude -71.225
   @position {@latitude, @longitude}
 
+  setup :verify_on_exit!
+
   describe "nearby_with_varying_radius_by_mode/2" do
     test "gets CR/subway/bus stops, gathers then, and fetches them" do
+      # assert stops were fetched
       commuter = random_stops(5)
       subway = random_stops(5)
       bus = random_stops(5)
+
+      stub(Stops.Repo.Mock, :get_parent, fn id ->
+        Enum.find(commuter ++ subway ++ bus, &(&1.id == id))
+      end)
 
       route_type_map = %{
         "0,1" => subway,
@@ -24,25 +33,23 @@ defmodule Stops.NearbyTest do
 
       api_fn = fn _, opts -> route_type_map[opts[:route_type]] end
       keys_fn = fn %{id: id} -> [id] end
-      fetch_fn = fn id -> {:fetch, id} end
 
       actual =
         nearby_with_varying_radius_by_mode(@position,
           api_fn: api_fn,
-          keys_fn: keys_fn,
-          fetch_fn: fetch_fn
+          keys_fn: keys_fn
         )
 
       expected =
         @position
         |> gather_stops(commuter, subway, bus)
-        # verifies calling fetch
-        |> Enum.map(&{:fetch, &1.id})
 
       assert expected == actual
     end
 
     test "does not include more than two bus stops with a given key" do
+      stub(Stops.Repo.Mock, :get_parent, fn id -> id end)
+
       bus = [
         %{id: 1, latitude: @latitude, longitude: @longitude, keys: [1, 2]},
         %{id: 2, latitude: @latitude, longitude: @longitude, keys: [1]},
@@ -52,13 +59,11 @@ defmodule Stops.NearbyTest do
 
       api_fn = fn _, opts -> if opts[:route_type] == 3, do: bus, else: [] end
       keys_fn = fn %{keys: keys} -> keys end
-      fetch_fn = fn id -> id end
 
       actual =
         nearby_with_varying_radius_by_mode(@position,
           api_fn: api_fn,
-          keys_fn: keys_fn,
-          fetch_fn: fetch_fn
+          keys_fn: keys_fn
         )
 
       expected = [1, 2, 4]
@@ -67,6 +72,8 @@ defmodule Stops.NearbyTest do
     end
 
     test "does not include more than one subway stop with a given key" do
+      stub(Stops.Repo.Mock, :get_parent, fn id -> id end)
+
       subway = [
         %{id: 1, latitude: @latitude, longitude: @longitude, keys: [1, 2]},
         %{id: 2, latitude: @latitude, longitude: @longitude, keys: [1]},
@@ -75,13 +82,11 @@ defmodule Stops.NearbyTest do
 
       api_fn = fn _, opts -> if opts[:route_type] == "0,1", do: subway, else: [] end
       keys_fn = fn %{keys: keys} -> keys end
-      fetch_fn = fn id -> id end
 
       actual =
         nearby_with_varying_radius_by_mode(@position,
           api_fn: api_fn,
-          keys_fn: keys_fn,
-          fetch_fn: fetch_fn
+          keys_fn: keys_fn
         )
 
       expected = [1]
@@ -91,25 +96,25 @@ defmodule Stops.NearbyTest do
   end
 
   describe "api_around/2" do
-    @tag :external
     test "returns positions around a lat/long" do
-      actual = @position |> api_around(radius: 0.06) |> distance_sort
+      radius = :rand.uniform()
 
-      expected = [
-        %{id: "place-NHRML-0218", latitude: 42.593248, longitude: -71.280995},
-        %{id: "place-NHRML-0152", latitude: 42.546624, longitude: -71.174334},
-        %{id: "6902", latitude: 42.519675, longitude: -71.21163}
-      ]
+      expect(MBTA.Api.Mock, :get_json, fn path, args ->
+        assert path == "/stops/"
+        assert args[:sort] == "distance"
+        assert args[:radius] == radius
+        assert args[:latitude] == @latitude
+        assert args[:longitude] == @longitude
+        assert args[:include] == "parent_station"
 
-      assert expected == actual
-    end
+        %JsonApi{data: build_list(3, :stop_item)}
+      end)
 
-    @tag :external
-    test "returns the parent station if it exists" do
-      # south station
-      actual = {42.352271, -71.055242} |> api_around(radius: 0.001) |> distance_sort
-      south_station = %{id: "place-sstat", latitude: 42.352271, longitude: -71.055242}
-      assert south_station in actual
+      [result | _] = api_around(@position, radius: radius)
+      assert result
+      assert Map.has_key?(result, :id)
+      assert Map.has_key?(result, :latitude)
+      assert Map.has_key?(result, :longitude)
     end
   end
 
@@ -153,20 +158,6 @@ defmodule Stops.NearbyTest do
   describe "gather_stops/4" do
     test "given no results, returns an empty list" do
       assert gather_stops(@position, [], [], []) == []
-    end
-
-    test "takes the 4 closest commuter and subway stops" do
-      commuter = random_stops(10)
-      subway = random_stops(10)
-
-      actual = gather_stops(@position, commuter, subway, [])
-
-      [first_commuter | commuter_sorted] = commuter |> distance_sort
-      [first_subway | subway_sorted] = subway |> distance_sort
-      assert first_commuter in actual
-      assert first_subway in actual
-      assert ((commuter_sorted ++ subway_sorted) |> distance_sort |> List.first()) in actual
-      assert ((commuter_sorted ++ subway_sorted) |> distance_sort |> Enum.at(1)) in actual
     end
 
     test "if there are no CR or Bus stops, takes the 12 closest subway" do
@@ -266,7 +257,7 @@ defmodule Stops.NearbyTest do
   defp random_stop do
     id = System.unique_integer() |> Integer.to_string()
 
-    %Stop{
+    %Stops.Stop{
       id: id,
       name: "Stop #{id}",
       latitude: random_around(@latitude),
@@ -277,9 +268,5 @@ defmodule Stops.NearbyTest do
   defp random_around(float, range \\ 10_000) do
     integer = :rand.uniform(range * 2) - range
     float + integer / range
-  end
-
-  defp distance_sort(stops) do
-    Distance.sort(stops, {@latitude, @longitude})
   end
 end

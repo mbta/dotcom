@@ -38,7 +38,7 @@
             <% end %>
           <% end %>
         </tr>
-        <%= if not is_ferry(@route) do %>
+        <%= if not ferry?(@route) do %>
           <tr>
             <th scope="row" class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header m-timetable__bike-icon-spacer" data-absolute>
               <div class="m-timetable__row-header">
@@ -74,7 +74,7 @@
             <% end %>
           </tr>
         <% end %>
-        <%= for {stop, idx} <- Enum.with_index(@all_stops) do %>
+        <%= for {stop, idx} <- @header_stops do %>
           <% cell_background = if rem(idx, 2) == 0 do "white" else "gray" end %>
           <%= content_tag :tr, [class: stop_row_class(idx)] do %>
             <%= content_tag :th, [

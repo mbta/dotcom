@@ -37,7 +37,7 @@ defmodule Predictions.Prediction do
           direction_id: 0 | 1,
           arrival_time: DateTime.t() | nil,
           departure_time: DateTime.t() | nil,
-          # TODO: Deprecated, should be removed in favor of arrival_time and departure_time -- MSS 2022-09-22
+          # Deprecated, should be removed in favor of arrival_time and departure_time -- MSS 2022-09-22
           time: DateTime.t() | nil,
           stop_sequence: non_neg_integer,
           schedule_relationship: schedule_relationship,

@@ -212,7 +212,7 @@ defmodule DotcomWeb.ScheduleControllerTest do
       assert conn.assigns.holidays
     end
 
-    @tag skip: "FIXME: Not sure why the data isn't matching"
+    @tag :skip
     test "Bus line with variant", %{conn: conn} do
       direction = 1
       variant = List.last(@routes_repo_api.get_shapes("36", direction_id: direction)).id

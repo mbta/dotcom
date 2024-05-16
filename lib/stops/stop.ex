@@ -19,7 +19,7 @@ defmodule Stops.Stop do
             bike_storage: [],
             latitude: nil,
             longitude: nil,
-            is_child?: false,
+            child?: false,
             station?: false,
             has_fare_machine?: false,
             has_charlie_card_vendor?: false,
@@ -48,7 +48,7 @@ defmodule Stops.Stop do
           bike_storage: [Api.bike_storage_types()],
           latitude: float,
           longitude: float,
-          is_child?: boolean,
+          child?: boolean,
           station?: boolean,
           has_fare_machine?: boolean,
           has_charlie_card_vendor?: boolean,
@@ -59,6 +59,8 @@ defmodule Stops.Stop do
           description: String.t() | nil,
           zone: String.t() | nil
         }
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   defimpl Util.Position do
     def latitude(stop), do: stop.latitude
@@ -86,7 +88,7 @@ defmodule Stops.Stop do
   """
   @spec has_zone?(t | id_t) :: boolean
   def has_zone?(<<id::binary>>) do
-    case Stops.Repo.get(id) do
+    case @stops_repo.get(id) do
       nil -> false
       stop -> has_zone?(stop)
     end

@@ -27,10 +27,18 @@
       "color": "FFC72C"
     },
     "realtime": {
-      "scheduled_time": ["1:47", " ", "PM"],
+      "scheduled_time": [
+        "1:47",
+        " ",
+        "PM"
+      ],
       "prediction": {
         "track": null,
-        "time": ["8", " ", "min"],
+        "time": [
+          "8",
+          " ",
+          "min"
+        ],
         "status": null,
         "seconds": 491
       },
@@ -61,9 +69,11 @@
     },
     "tripInfo": {
       "vehicle_stop_name": "",
-      "vehicle": { "crowding": "some_crowding", "trip_id": "41894293" },
+      "vehicle": {
+        "crowding": "some_crowding",
+        "trip_id": "41894293"
+      },
       "times": [],
-      "stop_count": 25,
       "status": "operating at normal schedule",
       "origin_id": "place-dudly",
       "fare": {
@@ -102,10 +112,18 @@
       "color": "FFC72C"
     },
     "realtime": {
-      "scheduled_time": ["1:36", " ", "PM"],
+      "scheduled_time": [
+        "1:36",
+        " ",
+        "PM"
+      ],
       "prediction": {
         "track": null,
-        "time": ["9", " ", "min"],
+        "time": [
+          "9",
+          " ",
+          "min"
+        ],
         "status": null,
         "seconds": 546
       },
@@ -136,9 +154,11 @@
     },
     "tripInfo": {
       "vehicle_stop_name": "",
-      "vehicle": { "crowding": null, "trip_id": "41894271" },
+      "vehicle": {
+        "crowding": null,
+        "trip_id": "41894271"
+      },
       "times": [],
-      "stop_count": 25,
       "status": "operating at normal schedule",
       "origin_id": "place-dudly",
       "fare": {

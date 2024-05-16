@@ -27,7 +27,7 @@
   </div>
   <%= render "_add_button.html",
       event_started: has_started?(@event_teaser),
-      event_ended: is_ended?(@event_teaser),
+      event_ended: ended?(@event_teaser),
       conn: @conn,
       class: "list-version",
       path: @event_teaser.path %>

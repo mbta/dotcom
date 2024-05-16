@@ -16,3 +16,4 @@ Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
 # Repos
 Mox.defmock(Predictions.Repo.Mock, for: Predictions.Repo.Behaviour)
 Mox.defmock(RoutePatterns.Repo.Mock, for: RoutePatterns.Repo.Behaviour)
+Mox.defmock(Stops.Repo.Mock, for: Stops.Repo.Behaviour)

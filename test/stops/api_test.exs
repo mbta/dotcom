@@ -32,7 +32,7 @@ defmodule Stops.ApiTest do
     test "parses parent_id and child_ids" do
       assert {:ok, %Stop{} = parent} = by_gtfs_id("place-sstat")
       assert parent.parent_id == nil
-      assert parent.is_child? == false
+      assert parent.child? == false
       assert parent.name == "South Station"
       assert parent.type == :station
       assert parent.platform_name == nil
@@ -66,7 +66,7 @@ defmodule Stops.ApiTest do
       assert child.description == "South Station - Commuter Rail - Track 1"
       assert child.parent_id == "place-sstat"
       assert child.child_ids == []
-      assert child.is_child? == true
+      assert child.child? == true
     end
 
     @tag :external

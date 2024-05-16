@@ -199,9 +199,6 @@ $layout-media: (
   // Edge case: if content authors float an image directly before
   // a heading element, force that heading element and the image to
   // top-align with each other. This breaks our heading progression.
-
-  // @TODO: Use elixir content_rewriter.ex to tag the media element so
-  // that we can push the media down to match the heading margin-top.
   @each $heading in $headings {
     p + .c-media--half + #{$heading},
     p + .c-media--half + .#{$heading} {

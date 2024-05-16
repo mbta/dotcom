@@ -6,7 +6,6 @@ export default function($ = window.jQuery) {
   window.addEventListener(
     "load",
     () => {
-      // TODO: create a way to run page-specific JS so that this hack isn't needed.
       if (!document.getElementById("support")) {
         return;
       }

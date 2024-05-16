@@ -10,7 +10,8 @@ config :dotcom, :mbta_api_module, MBTA.Api
 
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo,
-  route_patterns: RoutePatterns.Repo
+  route_patterns: RoutePatterns.Repo,
+  stops: Stops.Repo
 
 config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
 config :dotcom, :redix, Redix

@@ -16,8 +16,9 @@ defmodule Dotcom.RealtimeSchedule do
   alias Routes.Route
   alias Schedules.RepoCondensed, as: SchedulesRepo
   alias Schedules.ScheduleCondensed
-  alias Stops.Repo, as: StopsRepo
   alias Stops.Stop
+
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
@@ -27,7 +28,6 @@ defmodule Dotcom.RealtimeSchedule do
   @predictions_repo Application.compile_env!(:dotcom, :repo_modules)[:predictions]
 
   @default_opts [
-    stops_fn: &StopsRepo.get/1,
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
     schedules_fn: &SchedulesRepo.by_route_ids/2,
     alerts_fn: &Alerts.Repo.by_route_ids/2
@@ -50,7 +50,6 @@ defmodule Dotcom.RealtimeSchedule do
   @spec do_stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
   defp do_stop_data(stop_ids, now, opts) do
     opts = Keyword.merge(@default_opts, opts)
-    stops_fn = Keyword.fetch!(opts, :stops_fn)
     routes_fn = Keyword.fetch!(opts, :routes_fn)
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
     alerts_fn = Keyword.fetch!(opts, :alerts_fn)
@@ -60,8 +59,8 @@ defmodule Dotcom.RealtimeSchedule do
     route_with_patterns = Task.await(routes_task)
 
     # stage 2, get stops, predictions, schedules, and alerts
-    stops_task = Task.async(fn -> get_stops(stop_ids, stops_fn) end)
     predictions_task = Task.async(fn -> get_predictions(route_with_patterns) end)
+    stops_task = Task.async(fn -> get_stops(stop_ids) end)
     schedules_task = Task.async(fn -> get_schedules(route_with_patterns, now, schedules_fn) end)
 
     alerts_task = Task.async(fn -> get_alerts(route_with_patterns, now, alerts_fn) end)
@@ -75,12 +74,12 @@ defmodule Dotcom.RealtimeSchedule do
     build_output(stops, route_with_patterns, schedules, predictions, alerts, now)
   end
 
-  @spec get_stops([Stop.id_t()], fun()) :: map
-  defp get_stops(stop_ids, stops_fn) do
+  @spec get_stops([Stop.id_t()]) :: map
+  defp get_stops(stop_ids) do
     stop_ids
     |> Enum.map(
       &Task.async(fn ->
-        {&1, &1 |> stops_fn.() |> stop_fields()}
+        {&1, @stops_repo.get(&1) |> stop_fields()}
       end)
     )
     |> Enum.into(%{}, &Task.await/1)
@@ -123,7 +122,7 @@ defmodule Dotcom.RealtimeSchedule do
   defp get_high_priority_alerts_for_route(route_id, now, alerts_fn) do
     [route_id]
     |> alerts_fn.(now)
-    |> Enum.filter(&Alerts.Alert.is_high_severity_or_high_priority(&1))
+    |> Enum.filter(&Alerts.Alert.high_severity_or_high_priority?(&1))
     |> json_safe_alerts(now)
   end
 

@@ -60,7 +60,6 @@ defmodule TripInfoTest do
     # 2 day duration trip
     duration: 60 * 24 * 2,
     times: @time_list,
-    stop_count: Enum.count(@time_list),
     base_fare: %Fares.Fare{
       additional_valid_modes: [],
       cents: 170,

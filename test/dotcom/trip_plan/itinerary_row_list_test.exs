@@ -1,12 +1,17 @@
 defmodule Dotcom.TripPlan.ItineraryRowListTest do
   use ExUnit.Case, async: true
+
   alias Dotcom.TripPlan.ItineraryRow
+
   import Dotcom.TripPlan.ItineraryRowList
+  import Mox
   import Test.Support.Factory
 
   @date_time ~N[2017-06-27T11:43:00]
   @from build(:stop_named_position, stop_id: "place-sstat")
   @to build(:named_position)
+
+  setup :verify_on_exit!
 
   describe "from_itinerary" do
     setup do
@@ -40,28 +45,14 @@ defmodule Dotcom.TripPlan.ItineraryRowListTest do
 
       deps = %ItineraryRow.Dependencies{
         route_mapper: &route_mapper/1,
-        stop_mapper: &stop_mapper/1,
         trip_mapper: &trip_mapper/1,
         alerts_repo: &alerts_repo/1
       }
 
+      stub(Stops.Repo.Mock, :get_parent, fn id -> %Stops.Stop{id: id} end)
+
       {:ok,
        %{itinerary: itinerary, itinerary_row_list: from_itinerary(itinerary, deps), deps: deps}}
-    end
-
-    test "ItineraryRow contains stop name and ID if stop_id present", %{
-      itinerary_row_list: itinerary_row_list
-    } do
-      rows_with_stops =
-        Enum.filter(itinerary_row_list.rows, fn %{stop: {_name, stop_id}} ->
-          stop_mapper(stop_id)
-        end)
-
-      assert Enum.count(rows_with_stops) > 0
-
-      for %{stop: {stop_name, stop_id}} <- rows_with_stops do
-        assert stop_name == stop_mapper(stop_id).name
-      end
     end
 
     @tag :external

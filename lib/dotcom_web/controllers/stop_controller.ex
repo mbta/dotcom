@@ -14,10 +14,11 @@ defmodule DotcomWeb.StopController do
   alias RoutePatterns.RoutePattern
   alias Services.Service
   alias Dotcom.TransitNearMe
-  alias Stops.{Repo, Stop}
+  alias Stops.Stop
   alias Util.AndOr
 
   @route_patterns_repo Application.compile_env!(:dotcom, :repo_modules)[:route_patterns]
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   plug(:alerts)
   plug(DotcomWeb.Plugs.AlertsByTimeframe)
@@ -51,12 +52,12 @@ defmodule DotcomWeb.StopController do
     stop =
       stop_id
       |> URI.decode_www_form()
-      |> Repo.get()
+      |> @stops_repo.get()
 
     if stop do
-      if Repo.has_parent?(stop) do
+      if @stops_repo.has_parent?(stop) do
         conn
-        |> redirect(to: stop_path(conn, :show, Repo.get_parent(stop)))
+        |> redirect(to: stop_path(conn, :show, @stops_repo.get_parent(stop)))
         |> halt()
       else
         routes_by_stop = Routes.Repo.by_stop(stop_id, include: "stop.connecting_stops")
@@ -76,7 +77,7 @@ defmodule DotcomWeb.StopController do
 
   @spec get(Conn.t(), map) :: Conn.t()
   def get(conn, %{"id" => stop_id}) do
-    json(conn, Repo.get(stop_id))
+    json(conn, @stops_repo.get(stop_id))
   end
 
   @spec grouped_route_patterns(Conn.t(), map) :: Conn.t()
@@ -148,7 +149,7 @@ defmodule DotcomWeb.StopController do
 
   defp ends_at?(%RoutePattern{stop_ids: stop_ids}, stop_id) when is_list(stop_ids) do
     with last_stop_id <- List.last(stop_ids),
-         %Stop{child_ids: child_ids} <- Stops.Repo.get(stop_id) do
+         %Stop{child_ids: child_ids} <- @stops_repo.get(stop_id) do
       last_stop_id == stop_id || last_stop_id in child_ids
     else
       _ ->

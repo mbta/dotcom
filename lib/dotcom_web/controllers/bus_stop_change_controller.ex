@@ -45,7 +45,7 @@ defmodule DotcomWeb.BusStopChangeController do
   end
 
   defp assign_bus_stop_alerts(conn, alerts) do
-    assign(conn, :alerts, Enum.filter(alerts, &is_stop_move_or_closure?/1))
+    assign(conn, :alerts, Enum.filter(alerts, &stop_move_or_closure?/1))
   end
 
   # These are %HistoricalAlert{} structs that we store in AWS S3.
@@ -61,7 +61,7 @@ defmodule DotcomWeb.BusStopChangeController do
     end)
   end
 
-  defp is_stop_move_or_closure?(%Alert{effect: effect}),
+  defp stop_move_or_closure?(%Alert{effect: effect}),
     do: effect in [:stop_closure, :stop_moved]
 
   # These are alerts exported from the Alerts UI application into

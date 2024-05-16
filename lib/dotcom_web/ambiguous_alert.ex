@@ -19,6 +19,8 @@ defprotocol DotcomWeb.AmbiguousAlert do
 end
 
 defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
+
   def alert_start_date(%{active_period: [{start_date, _} | _]}) do
     start_date
   end
@@ -42,7 +44,7 @@ defimpl DotcomWeb.AmbiguousAlert, for: Alerts.Alert do
     |> Alerts.Alert.get_entity(:stop)
     |> MapSet.delete(nil)
     |> Enum.map(fn id ->
-      case Stops.Repo.get_parent(id) do
+      case @stops_repo.get_parent(id) do
         %Stops.Stop{} = stop -> stop
         _ -> id
       end

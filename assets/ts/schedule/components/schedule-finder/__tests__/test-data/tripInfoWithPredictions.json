@@ -8,7 +8,6 @@
   "origin_id": "place-forhl",
   "route_type": 3,
   "status": "operating at normal schedule",
-  "stop_count": 39,
   "times": [
     {
       "delay": null,
@@ -26,7 +25,9 @@
             "fully_elevated_platform"
           ],
           "address": "Washington St and Hyde Park Ave, Jamaica Plain, MA 02130",
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "child_ids": [
             "10642",
             "70001",
@@ -68,11 +69,14 @@
           ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine"
+          ],
           "has_charlie_card_vendor?": true,
           "has_fare_machine?": true,
           "id": "place-forhl",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.300523,
           "longitude": -71.113686,
           "municipality": "Boston",
@@ -100,7 +104,10 @@
               "note": null,
               "payment": {
                 "daily_rate": "Mon-Fri: $9 | Sat-Sun: $3",
-                "methods": ["Mobile App", "Invoice"],
+                "methods": [
+                  "Mobile App",
+                  "Invoice"
+                ],
                 "mobile_app": {
                   "id": 4396,
                   "name": "PayByPhone",
@@ -149,7 +156,9 @@
             "fully_elevated_platform"
           ],
           "address": "Washington St and Hyde Park Ave, Jamaica Plain, MA 02130",
-          "bike_storage": ["bike_storage_cage"],
+          "bike_storage": [
+            "bike_storage_cage"
+          ],
           "child_ids": [
             "10642",
             "70001",
@@ -191,11 +200,14 @@
           ],
           "closed_stop_info": null,
           "description": null,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine"
+          ],
           "has_charlie_card_vendor?": true,
           "has_fare_machine?": true,
           "id": "place-forhl",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.300523,
           "longitude": -71.113686,
           "municipality": "Boston",
@@ -223,7 +235,10 @@
               "note": null,
               "payment": {
                 "daily_rate": "Mon-Fri: $9 | Sat-Sun: $3",
-                "methods": ["Mobile App", "Invoice"],
+                "methods": [
+                  "Mobile App",
+                  "Invoice"
+                ],
                 "mobile_app": {
                   "id": 4396,
                   "name": "PayByPhone",
@@ -264,7 +279,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -274,7 +291,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "596",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.296502,
           "longitude": -71.117515,
           "municipality": "Boston",
@@ -310,7 +327,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -320,7 +339,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "596",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.296502,
           "longitude": -71.117515,
           "municipality": "Boston",
@@ -355,7 +374,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -365,7 +386,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "597",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.294377,
           "longitude": -71.11976,
           "municipality": "Boston",
@@ -401,7 +422,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -411,7 +434,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "597",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.294377,
           "longitude": -71.11976,
           "municipality": "Boston",
@@ -446,7 +469,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -456,7 +481,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "598",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.292893,
           "longitude": -71.121409,
           "municipality": "Boston",
@@ -492,7 +517,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -502,7 +529,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "598",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.292893,
           "longitude": -71.121409,
           "municipality": "Boston",
@@ -537,7 +564,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -547,7 +576,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "599",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.29162,
           "longitude": -71.122671,
           "municipality": "Boston",
@@ -583,7 +612,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -593,7 +624,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "599",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.29162,
           "longitude": -71.122671,
           "municipality": "Boston",
@@ -628,7 +659,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -638,7 +671,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "600",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.290289,
           "longitude": -71.124116,
           "municipality": "Boston",
@@ -674,7 +707,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -684,7 +719,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "600",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.290289,
           "longitude": -71.124116,
           "municipality": "Boston",
@@ -719,7 +754,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -729,7 +766,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "601",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.288805,
           "longitude": -71.125748,
           "municipality": "Boston",
@@ -765,7 +802,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -775,7 +814,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "601",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.288805,
           "longitude": -71.125748,
           "municipality": "Boston",
@@ -810,7 +849,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -820,7 +861,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "602",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286987,
           "longitude": -71.128796,
           "municipality": "Boston",
@@ -856,7 +897,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -866,7 +909,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "602",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286987,
           "longitude": -71.128796,
           "municipality": "Boston",
@@ -901,7 +944,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -911,7 +956,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "797",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286845,
           "longitude": -71.130867,
           "municipality": "Boston",
@@ -947,7 +992,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -957,7 +1004,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "797",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286845,
           "longitude": -71.130867,
           "municipality": "Boston",
@@ -992,7 +1039,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1002,7 +1051,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "798",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286415,
           "longitude": -71.132946,
           "municipality": "Boston",
@@ -1038,7 +1087,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1048,7 +1099,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "798",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286415,
           "longitude": -71.132946,
           "municipality": "Boston",
@@ -1083,7 +1134,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1093,7 +1146,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "799",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286334,
           "longitude": -71.135109,
           "municipality": "Boston",
@@ -1129,7 +1182,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1139,7 +1194,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "799",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286334,
           "longitude": -71.135109,
           "municipality": "Boston",
@@ -1174,7 +1229,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1184,7 +1241,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "800",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286307,
           "longitude": -71.137533,
           "municipality": "Boston",
@@ -1220,7 +1277,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1230,7 +1289,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "800",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286307,
           "longitude": -71.137533,
           "municipality": "Boston",
@@ -1265,7 +1324,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1275,7 +1336,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "801",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286195,
           "longitude": -71.139544,
           "municipality": "Boston",
@@ -1311,7 +1372,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1321,7 +1384,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "801",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286195,
           "longitude": -71.139544,
           "municipality": "Boston",
@@ -1356,7 +1419,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1366,7 +1431,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "802",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286108,
           "longitude": -71.143403,
           "municipality": "Boston",
@@ -1402,7 +1467,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1412,7 +1479,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "802",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286108,
           "longitude": -71.143403,
           "municipality": "Boston",
@@ -1447,7 +1514,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1457,7 +1526,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "803",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286077,
           "longitude": -71.145052,
           "municipality": "Boston",
@@ -1493,7 +1562,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1503,7 +1574,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "803",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286077,
           "longitude": -71.145052,
           "municipality": "Boston",
@@ -1538,7 +1609,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1548,7 +1621,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "804",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286034,
           "longitude": -71.147975,
           "municipality": "Boston",
@@ -1584,7 +1657,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1594,7 +1669,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "804",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286034,
           "longitude": -71.147975,
           "municipality": "Boston",
@@ -1629,7 +1704,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1639,7 +1716,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "805",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.287193,
           "longitude": -71.14999,
           "municipality": "Boston",
@@ -1675,7 +1752,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1685,7 +1764,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "805",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.287193,
           "longitude": -71.14999,
           "municipality": "Boston",
@@ -1720,7 +1799,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1730,7 +1811,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "806",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.287564,
           "longitude": -71.152084,
           "municipality": "Boston",
@@ -1766,7 +1847,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1776,7 +1859,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "806",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.287564,
           "longitude": -71.152084,
           "municipality": "Boston",
@@ -1811,7 +1894,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1821,7 +1906,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "807",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286119,
           "longitude": -71.155081,
           "municipality": "Boston",
@@ -1857,7 +1942,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1867,7 +1954,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "807",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.286119,
           "longitude": -71.155081,
           "municipality": "Boston",
@@ -1902,7 +1989,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1912,7 +2001,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "808",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.284044,
           "longitude": -71.156956,
           "municipality": "Boston",
@@ -1948,7 +2037,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -1958,7 +2049,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "808",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.284044,
           "longitude": -71.156956,
           "municipality": "Boston",
@@ -1993,7 +2084,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2003,7 +2096,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "810",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.282033,
           "longitude": -71.157831,
           "municipality": "Boston",
@@ -2039,7 +2132,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2049,7 +2144,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "810",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.282033,
           "longitude": -71.157831,
           "municipality": "Boston",
@@ -2084,7 +2179,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2094,7 +2191,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "821",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.278989,
           "longitude": -71.159388,
           "municipality": "Boston",
@@ -2130,7 +2227,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2140,7 +2239,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "821",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.278989,
           "longitude": -71.159388,
           "municipality": "Boston",
@@ -2175,7 +2274,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2185,7 +2286,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "811",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.278583,
           "longitude": -71.159656,
           "municipality": "Boston",
@@ -2221,7 +2322,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2231,7 +2334,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "811",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.278583,
           "longitude": -71.159656,
           "municipality": "Boston",
@@ -2266,7 +2369,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2276,7 +2381,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "822",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.276476,
           "longitude": -71.160532,
           "municipality": "Boston",
@@ -2312,7 +2417,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2322,7 +2429,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "822",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.276476,
           "longitude": -71.160532,
           "municipality": "Boston",
@@ -2357,7 +2464,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2367,7 +2476,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "823",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.274491,
           "longitude": -71.160369,
           "municipality": "Boston",
@@ -2403,7 +2512,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2413,7 +2524,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "823",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.274491,
           "longitude": -71.160369,
           "municipality": "Boston",
@@ -2448,7 +2559,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2458,7 +2571,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "824",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.272959,
           "longitude": -71.16095,
           "municipality": "Boston",
@@ -2494,7 +2607,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2504,7 +2619,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "824",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.272959,
           "longitude": -71.16095,
           "municipality": "Boston",
@@ -2539,7 +2654,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2549,7 +2666,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "825",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.272129,
           "longitude": -71.161439,
           "municipality": "Boston",
@@ -2585,7 +2702,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2595,7 +2714,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "825",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.272129,
           "longitude": -71.161439,
           "municipality": "Boston",
@@ -2630,7 +2749,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2640,7 +2761,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "826",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.270125,
           "longitude": -71.16203,
           "municipality": "Boston",
@@ -2676,7 +2797,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2686,7 +2809,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "826",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.270125,
           "longitude": -71.16203,
           "municipality": "Boston",
@@ -2721,7 +2844,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2731,7 +2856,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10768",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.268863,
           "longitude": -71.161907,
           "municipality": "Boston",
@@ -2767,7 +2892,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2777,7 +2904,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10768",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.268863,
           "longitude": -71.161907,
           "municipality": "Boston",
@@ -2812,7 +2939,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2822,7 +2951,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "827",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.267596,
           "longitude": -71.162822,
           "municipality": "Boston",
@@ -2858,7 +2987,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2868,7 +2999,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "827",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.267596,
           "longitude": -71.162822,
           "municipality": "Boston",
@@ -2903,7 +3034,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2913,7 +3046,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "828",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.265745,
           "longitude": -71.162965,
           "municipality": "Boston",
@@ -2949,7 +3082,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -2959,7 +3094,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "828",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.265745,
           "longitude": -71.162965,
           "municipality": "Boston",
@@ -2994,7 +3129,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3004,7 +3141,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "829",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.264749,
           "longitude": -71.162978,
           "municipality": "Boston",
@@ -3040,7 +3177,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3050,7 +3189,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "829",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.264749,
           "longitude": -71.162978,
           "municipality": "Boston",
@@ -3085,7 +3224,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3095,7 +3236,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "830",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.262782,
           "longitude": -71.163277,
           "municipality": "Boston",
@@ -3131,7 +3272,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3141,7 +3284,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "830",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.262782,
           "longitude": -71.163277,
           "municipality": "Boston",
@@ -3176,7 +3319,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3186,7 +3331,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "831",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.260813,
           "longitude": -71.159719,
           "municipality": "Boston",
@@ -3222,7 +3367,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3232,7 +3379,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "831",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.260813,
           "longitude": -71.159719,
           "municipality": "Boston",
@@ -3267,7 +3414,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3277,7 +3426,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "832",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.260206,
           "longitude": -71.158675,
           "municipality": "Boston",
@@ -3313,7 +3462,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3323,7 +3474,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "832",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.260206,
           "longitude": -71.158675,
           "municipality": "Boston",
@@ -3358,7 +3509,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3368,7 +3521,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "618",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.258554,
           "longitude": -71.160671,
           "municipality": "Boston",
@@ -3404,7 +3557,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3414,7 +3569,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "618",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.258554,
           "longitude": -71.160671,
           "municipality": "Boston",
@@ -3449,7 +3604,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3459,7 +3616,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10618",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.256411,
           "longitude": -71.163235,
           "municipality": "Dedham",
@@ -3495,7 +3652,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3505,7 +3664,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10618",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.256411,
           "longitude": -71.163235,
           "municipality": "Dedham",
@@ -3540,7 +3699,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3550,7 +3711,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10835",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.253283,
           "longitude": -71.170494,
           "municipality": "Dedham",
@@ -3586,7 +3747,9 @@
         "last_stop?": false,
         "pickup_type": 0,
         "stop": {
-          "accessibility": ["unknown"],
+          "accessibility": [
+            "unknown"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3596,7 +3759,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10835",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.253283,
           "longitude": -71.170494,
           "municipality": "Dedham",
@@ -3631,7 +3794,9 @@
         "schedule_relationship": null,
         "status": null,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3641,7 +3806,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10833",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.258725,
           "longitude": -71.16853,
           "municipality": "Dedham",
@@ -3677,7 +3842,9 @@
         "last_stop?": true,
         "pickup_type": 1,
         "stop": {
-          "accessibility": ["accessible"],
+          "accessibility": [
+            "accessible"
+          ],
           "address": null,
           "bike_storage": [],
           "child_ids": [],
@@ -3687,7 +3854,7 @@
           "has_charlie_card_vendor?": false,
           "has_fare_machine?": false,
           "id": "10833",
-          "is_child?": false,
+          "child?": false,
           "latitude": 42.258725,
           "longitude": -71.16853,
           "municipality": "Dedham",

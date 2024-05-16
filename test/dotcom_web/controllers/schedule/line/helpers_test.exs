@@ -1,7 +1,8 @@
 defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: false
-  @moduletag :external
 
+  import Mox
+  import Test.Support.Factory.MbtaApi
   alias Routes.{Route}
   alias DotcomWeb.ScheduleController.Line.Helpers
   alias Stops.{RouteStops, RouteStop, Stop}
@@ -18,25 +19,30 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   @route_stops %{"1" => [@stop]}
 
+  setup :verify_on_exit!
+
   describe "get_route/1" do
     test "gets a route given its ID" do
-      assert {:ok, %Route{id: "1", name: "1"}} = Helpers.get_route("1")
-    end
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> id, _ ->
+        %JsonApi{data: [build(:route_item, %{id: id})]}
+      end)
 
-    test "gets a custom response for 'Green'" do
-      assert {:ok, %Route{id: "Green", name: "Green Line"}} = Helpers.get_route("Green")
+      route_id = Faker.Internet.slug()
+      assert {:ok, %Route{id: ^route_id}} = Helpers.get_route(route_id)
     end
 
     test "returns :not_found if given a bad route ID" do
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+        {:error, :error_atom}
+      end)
+
       assert Helpers.get_route("Puce") == :not_found
       assert Helpers.get_route("") == :not_found
     end
   end
 
   describe "get_branch_route_stops/3" do
-    @tag skip: "We'll mock route patterns soon"
-    test "does not return branches for route patterns from multi trip routes"
-
+    @tag :external
     test "returns a list of RouteStops, one for each branch of the line" do
       assert [
                %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops},
@@ -65,7 +71,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-asmnl"
       ])
 
-      assert Enum.map(ashmont_route_stops, & &1.is_terminus?) ==
+      assert Enum.map(ashmont_route_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -130,7 +136,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-brntn"
       ])
 
-      assert Enum.map(braintree_route_stops, & &1.is_terminus?) ==
+      assert Enum.map(braintree_route_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -175,6 +181,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
+    @tag :external
     test "handles the combined Green line" do
       assert [
                %Stops.RouteStops{branch: "Green-E", stops: e_stops},
@@ -213,7 +220,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-hsmnl"
       ])
 
-      assert Enum.map(e_stops, & &1.is_terminus?) ==
+      assert Enum.map(e_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -301,7 +308,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-river"
       ])
 
-      assert Enum.map(d_stops, & &1.is_terminus?) ==
+      assert Enum.map(d_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -384,7 +391,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-clmnl"
       ])
 
-      assert Enum.map(c_stops, & &1.is_terminus?) ==
+      assert Enum.map(c_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -460,7 +467,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
         "place-lake"
       ])
 
-      assert Enum.map(b_stops, & &1.is_terminus?) ==
+      assert Enum.map(b_stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -515,6 +522,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
+    @tag :external
     test "handles a single Green line" do
       assert [
                %RouteStops{branch: "Government Center - Boston College", stops: stops}
@@ -522,7 +530,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(stops, &(&1.branch == "Government Center - Boston College"))
 
-      assert Enum.map(stops, & &1.is_terminus?) ==
+      assert Enum.map(stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -577,6 +585,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
+    @tag :external
     test "handles the E line" do
       assert [
                %RouteStops{branch: "Medford/Tufts - Heath Street", stops: stops}
@@ -584,7 +593,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(stops, &(&1.branch == "Medford/Tufts - Heath Street"))
 
-      assert Enum.map(stops, & &1.is_terminus?) ==
+      assert Enum.map(stops, & &1.terminus?) ==
                [
                  true,
                  false,
@@ -643,6 +652,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
+    @tag :external
     test "handles the Hingham-Hull ferry" do
       route_stops = Helpers.get_branch_route_stops(%Route{id: "Boat-F1", type: 4}, 0)
 
@@ -669,7 +679,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
                long_route_stop_ids == ["Boat-Long", "Boat-George", "Boat-Hull", "Boat-Hingham"] ||
                long_route_stop_ids == ["Boat-Long", "Boat-Logan", "Boat-Hull", "Boat-Hingham"]
 
-      assert [first | tail] = Enum.map(long_route_stops, & &1.is_terminus?)
+      assert [first | tail] = Enum.map(long_route_stops, & &1.terminus?)
       [last | non_termini] = Enum.reverse(tail)
       assert Enum.all?([first, last])
       refute Enum.all?(non_termini)
@@ -678,15 +688,16 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(long_hull_route_stops, &(&1.branch == "Long Wharf - Hingham via Hull"))
       assert_stop_ids(long_hull_route_stops, ["Boat-Long", "Boat-Hull", "Boat-Hingham"])
-      assert Enum.map(long_hull_route_stops, & &1.is_terminus?) == [true, false, true]
+      assert Enum.map(long_hull_route_stops, & &1.terminus?) == [true, false, true]
       assert Enum.map(long_hull_route_stops, & &1.is_beginning?) == [true, false, false]
 
       assert Enum.all?(rowe_route_stops, &(&1.branch == "Rowes Wharf - Hingham"))
       assert_stop_ids(rowe_route_stops, ["Boat-Rowes", "Boat-Hingham"])
-      assert Enum.map(rowe_route_stops, & &1.is_terminus?) == [true, true]
+      assert Enum.map(rowe_route_stops, & &1.terminus?) == [true, true]
       assert Enum.map(rowe_route_stops, & &1.is_beginning?) == [true, false]
     end
 
+    @tag :external
     test "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
       plymouth_route = %Route{id: "CR-Kingston"}
 
@@ -711,6 +722,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
       )
     end
 
+    @tag :external
     test "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
       fitchburg_route = %Route{id: "CR-Fitchburg"}
 
@@ -718,6 +730,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
              "should have only one 'branch'"
     end
 
+    @tag :external
     test "ensures that Forest Hills is in the trunk of every CR-Franklin branch" do
       franklin_route = %Routes.Route{id: "CR-Franklin"}
 
@@ -733,6 +746,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
       assert Enum.member?(stop_ids(branch_1_2_stops), "place-forhl")
     end
 
+    @tag :external
     test "ensures that Forest Hills is in the trunk of every CR-Providence direction 0 branch" do
       providence_route = %Routes.Route{id: "CR-Providence"}
 
@@ -746,23 +760,24 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   describe "get_route_stops" do
     test "gets stops by route for a given route" do
-      stops_by_route_fn = fn route_id, direction_id, _opts ->
+      stub(Stops.Repo.Mock, :by_route, fn route_id, direction_id, _opts ->
         if route_id == "1" and direction_id == 0, do: [@stop], else: []
-      end
+      end)
 
-      assert Helpers.get_route_stops("1", 0, stops_by_route_fn) == @route_stops
+      assert Helpers.get_route_stops("1", 0) == @route_stops
     end
 
-    test "handles an error response from the stops_by_route_fn" do
-      stops_by_route_fn = fn _, _, _ -> {:error, "Error"} end
-
-      assert Helpers.get_route_stops("1", 0, stops_by_route_fn) == %{}
+    test "handles an error response from the stops function" do
+      stub(Stops.Repo.Mock, :by_route, fn _, _, _ -> {:error, "Error"} end)
+      assert Helpers.get_route_stops("1", 0) == %{}
     end
 
     test "gets stops for all Green lines" do
-      stops_by_route_fn = fn _, _, _ -> [@stop] end
+      stub(Stops.Repo.Mock, :by_route, fn _, _, _ ->
+        [@stop]
+      end)
 
-      assert Helpers.get_route_stops("Green", 0, stops_by_route_fn) == %{
+      assert Helpers.get_route_stops("Green", 0) == %{
                "Green-B" => [@stop],
                "Green-C" => [@stop],
                "Green-D" => [@stop],
@@ -772,10 +787,12 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_shapes_by_direction/3 (for cases not tested in line_test)" do
+    @tag :external
     test "for ferry" do
       assert Helpers.get_shapes_by_direction("Ferry ID", 4, 0) == []
     end
 
+    @tag :external
     test "for bus" do
       assert Helpers.get_shapes_by_direction("1", 3, 0) == Helpers.do_get_shapes("1", 0)
 
@@ -816,6 +833,7 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
              ]
     end
 
+    @tag :external
     test "for bus without scheduled trips" do
       assert Helpers.get_shapes_by_direction("27", 3, 0) == []
     end
@@ -823,19 +841,30 @@ defmodule DotcomWeb.ScheduleController.Line.HelpersTest do
 
   describe "get_branches/4" do
     test "returns a list of RouteStops, one for each branch of the line" do
-      stops = Helpers.get_route_stops("Red", 0, &Stops.Repo.by_route/3)
+      stub(Stops.Repo.Mock, :get, fn id -> %Stop{id: id} end)
+      stub(Stops.Repo.Mock, :get_parent, fn id -> %Stop{id: id} end)
+      stub(Stops.Repo.Mock, :stop_features, fn _, _ -> [] end)
+
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+        %JsonApi{
+          data: [
+            build(:route_item, %{
+              relationships: %{
+                "stops" => build_list(5, :stop_item)
+              }
+            })
+          ]
+        }
+      end)
+
       shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
 
+      stops =
+        Enum.flat_map(shapes, & &1.stop_ids)
+        |> Enum.map(&%Stop{id: &1})
+
       assert [%RouteStops{}, %RouteStops{}, %RouteStops{}] =
-               Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0)
-    end
-
-    test "returns RouteStops for all Green line branches" do
-      stops = Helpers.get_route_stops("Green", 0, &Stops.Repo.by_route/3)
-      shapes = Helpers.get_shapes_by_direction("Green", 0, 0)
-
-      assert [%RouteStops{}, %RouteStops{}, %RouteStops{}, %RouteStops{}] =
-               Helpers.get_branches(shapes, stops, %Route{id: "Green"}, 0)
+               Helpers.get_branches(shapes, %{"Red" => stops}, %Route{id: "Red"}, 0)
     end
 
     test "returns an empty list when given no stops" do

@@ -1,8 +1,13 @@
 defmodule DotcomWeb.ScheduleView.Timetable do
+  @moduledoc """
+  Functions for showing timetable content.
+  """
+
   alias Schedules.Schedule
   alias DotcomWeb.ViewHelpers, as: Helpers
   alias DotcomWeb.PartialView.SvgIconWithCircle
   alias Stops.Stop
+  alias Routes.Route
 
   import Phoenix.HTML.Tag, only: [content_tag: 3]
 
@@ -125,9 +130,9 @@ defmodule DotcomWeb.ScheduleView.Timetable do
   def cell_via_class(nil), do: ""
   def cell_via_class(<<_::binary>>), do: " m-timetable__cell--via"
 
-  @spec is_ferry(Route.t()) :: boolean
-  def is_ferry(route), do: Routes.Route.type_atom(route) == :ferry
+  @spec ferry?(Route.t()) :: boolean
+  def ferry?(route), do: Routes.Route.type_atom(route) == :ferry
 
-  @spec is_commuter_rail(Route.t()) :: boolean
-  def is_commuter_rail(route), do: Routes.Route.type_atom(route) == :commuter_rail
+  @spec commuter_rail?(Route.t()) :: boolean
+  def commuter_rail?(route), do: Routes.Route.type_atom(route) == :commuter_rail
 end

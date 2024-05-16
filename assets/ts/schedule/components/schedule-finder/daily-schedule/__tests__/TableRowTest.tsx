@@ -146,7 +146,7 @@ describe("parseResults", () => {
               municipality: "Cambridge",
               longitude: -71.103404,
               latitude: 42.365291,
-              "is_child?": false,
+              "child?": false,
               id: "102",
               "has_fare_machine?": false,
               "has_charlie_card_vendor?": false,
@@ -194,7 +194,7 @@ describe("parseResults", () => {
               municipality: "Cambridge",
               longitude: -71.106017,
               latitude: 42.366837,
-              "is_child?": false,
+              "child?": false,
               id: "104",
               "has_fare_machine?": false,
               "has_charlie_card_vendor?": false,
@@ -218,7 +218,6 @@ describe("parseResults", () => {
           prediction: null
         }
       ],
-      stop_count: 7,
       status: "operating at normal schedule",
       route_type: 3,
       origin_id: "102",

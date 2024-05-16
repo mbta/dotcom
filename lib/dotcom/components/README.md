@@ -43,11 +43,5 @@ Using this method ensures that any time a new color variable is added, it is aut
 
 At the moment this is only being used for color variables, but it was written such that it will generate SCSS files from and JSON file in the CSS folder. It could potentially be used for things like font sizes, margins, paddings...
 
-## // TODO:
-- Mix task to auto-create the scaffolding for a new component
-- Add components
-- Add css definitions to component listings in the style guide?
-- Maybe: add a compile-time task to read our CSS files looking for any new variables with color words in their name, and warn to move them in colors.json? Might be overkill
-
 ## Shoutout
 The architecture for this system was inspired by the [Rizzo styleguide](http://rizzo.lonelyplanet.com) created by Lonely Planet. [Styleguides.io](http://www.styleguides.io) is also an invaluable resource library for anyone interested in building a styleguide of their own from the ground up.
