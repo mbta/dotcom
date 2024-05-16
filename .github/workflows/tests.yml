@@ -27,6 +27,7 @@ jobs:
       ex: ${{ steps.changes.outputs.ex == 'true' }}
       scss: ${{ steps.changes.outputs.scss == 'true' }}
     steps:
+      - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
         id: changes
         with:
