@@ -33,14 +33,6 @@
   }
 }
 
-.m-mode__search-bar {
-  .c-search-bar--embedded {
-    @include media-breakpoint-up(md) {
-      width: 75%;
-    }
-  }
-}
-
 .m-mode__schedule-section--word {
   font-size: $font-size-base;
   text-transform: uppercase;
