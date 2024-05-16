@@ -82,8 +82,6 @@ defmodule DotcomWeb.CMS.PageView do
     end
   end
 
-  # TODO(Nick): once we move away from linking to project update URLs, we can
-  # most likely delete this function
   @spec get_project_url_paths(String.t()) :: [String.t()]
   def get_project_url_paths(s) do
     if String.contains?(s, "/projects") and String.contains?(s, "/update") do

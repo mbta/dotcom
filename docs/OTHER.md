@@ -22,6 +22,3 @@ One way would be to clone the mbta/OpenTripPlanner repo, install the dependencie
     ```bash
     docker run --publish 5000:5000 docker_repo_url/open-trip-planner:image_tag
     ```
-
----
-TODO: Add instructions on how to run Dotcom in the same manner.

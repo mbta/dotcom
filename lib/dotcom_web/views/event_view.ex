@@ -198,7 +198,6 @@ defmodule DotcomWeb.EventView do
   @spec agenda_video_bookmark(CMS.Partial.Paragraph.AgendaTopic.video_bookmark()) ::
           Phoenix.HTML.Safe.t()
   def agenda_video_bookmark(bookmark) when not is_nil(bookmark) do
-    # TODO: implement with event video livestream.
     time_tag = maybe_time_duration_tag(bookmark)
 
     if time_tag do

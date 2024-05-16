@@ -91,7 +91,6 @@ const StopMap = ({
   if (!mapConfig) return <></>;
   const iconName = routeToModeIconName(selectedRoute);
   const mapData = {
-    // TODO: Default center on the selected vehicle
     default_center: { longitude: stop.longitude, latitude: stop.latitude },
     markers: [
       ...vehicles.map(vehicle => mapMarkerFromVehicle(vehicle, iconName)),

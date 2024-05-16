@@ -33,7 +33,6 @@ const modeIconFeature = (route: Route): ReactElement<HTMLElement> => {
   );
 };
 
-// TODO figure out where this file should live
 const ModeIcons = ({
   routes
 }: {
