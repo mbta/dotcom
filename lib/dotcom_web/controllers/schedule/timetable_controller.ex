@@ -226,6 +226,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         }
   def build_timetable(conn, schedules) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
+    inbound? = conn.assigns.direction_id == 1
 
     trip_stops =
       conn.assigns.route.id
@@ -234,8 +235,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         canonical: Routes.Route.type_atom(conn.assigns.route) in [:commuter_rail, :subway]
       )
       |> Enum.map(&@stops_repo.by_trip(&1.representative_trip_id))
-      |> Enum.reduce(&merge_stop_lists(&1, &2, conn.assigns.direction_id))
+      |> Enum.reduce(&merge_stop_lists(&1, &2, inbound?))
       |> remove_unused_stops(schedules)
+      |> add_new_stops(schedules, inbound?)
 
     %{
       trip_schedules: trip_schedules,
@@ -243,14 +245,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     }
   end
 
-  @spec merge_stop_lists([Stop.t()], [Stop.t()], 0 | 1) :: [Stop.t()]
-  defp merge_stop_lists(incoming_stops, base_stops, direction_id) do
+  @spec merge_stop_lists([Stop.t()], [Stop.t()], boolean()) :: [Stop.t()]
+  defp merge_stop_lists(incoming_stops, base_stops, inbound?) do
     if Enum.all?(incoming_stops, &contains_stop?(base_stops, &1)) do
       base_stops
     else
       incoming_stops
       |> Enum.reject(&contains_stop?(base_stops, &1))
-      |> do_merge_stop_lists(base_stops, direction_id == 1)
+      |> do_merge_stop_lists(base_stops, inbound?)
     end
   end
 
@@ -264,11 +266,15 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     id in stop_ids or parent_id in stop_ids
   end
 
-  # Some shuttle stops must be placed manually within the existing stops.
+  # Some shuttle stops must be placed manually within the existing stops. Each
+  # key is a scheduled stop ID from a shuttle, and the corresponding value is
+  # the name of the canonical rail stop it should be placed adjacent to.
   @shuttle_overrides %{
+    "14748" => "Lynn Interim",
     "38671" => "Weymouth Landing/East Braintree",
     "NHRML-0127-B" => "Reading",
-    "14748" => "Lynn Interim"
+    "place-ER-0115" => "Swampscott",
+    "place-wondl" => "Lynn"
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
@@ -278,23 +284,14 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp do_merge_stop_lists(
          [%Stop{id: id} = stop],
          base_stops,
-         is_inbound?
+         inbound?
        )
        when id in @shuttle_ids do
-    next_stop_name = @shuttle_overrides[id]
-
-    case Enum.find_index(base_stops, &match?(%Stop{name: ^next_stop_name}, &1)) do
-      nil ->
-        base_stops
-
-      index ->
-        base_stops
-        |> List.insert_at(if(is_inbound?, do: index + 1, else: index), stop)
-    end
+    merge_into_stop_list(stop, base_stops, inbound?)
   end
 
-  defp do_merge_stop_lists(stops, base_stops, is_inbound?) do
-    if is_inbound? do
+  defp do_merge_stop_lists(stops, base_stops, inbound?) do
+    if inbound? do
       stops ++ base_stops
     else
       base_stops ++ stops
@@ -376,6 +373,28 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp remove_unused_stops(all_stops, schedules) do
     timetable_stops = Enum.map(schedules, & &1.stop) |> Enum.uniq()
     Enum.filter(all_stops, &contains_stop?(timetable_stops, &1))
+  end
+
+  defp add_new_stops(all_stops, schedules, inbound?) do
+    schedules
+    |> Enum.map(& &1.stop)
+    |> Enum.uniq()
+    |> Enum.reject(&contains_stop?(all_stops, &1))
+    |> Enum.sort_by(& &1.id)
+    |> Enum.reduce(all_stops, &merge_into_stop_list(&1, &2, inbound?))
+  end
+
+  defp merge_into_stop_list(new_stop, base_list, inbound?) do
+    next_stop_name = @shuttle_overrides[new_stop.id]
+
+    case Enum.find_index(base_list, &match?(%Stop{name: ^next_stop_name}, &1)) do
+      nil ->
+        base_list
+
+      index ->
+        base_list
+        |> List.insert_at(if(inbound?, do: index + 1, else: index), new_stop)
+    end
   end
 
   defp channel_id(conn, _) do
