@@ -3,7 +3,7 @@
 # """
 # Compare the attributes in our fixture files to production Drupal API endpoints to see if any are missing.
 #
-# See the project README for information on setting the `DRUPAL_ROOT` environment variable.
+# See the project README for information on setting the `CMS_API_BASE_URL` environment variable.
 #
 # Run like:
 #
