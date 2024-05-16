@@ -3,6 +3,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   use DotcomWeb, :controller
   alias Plug.Conn
   alias Routes.Route
+  alias Stops.Stop
   alias DotcomWeb.ScheduleView
 
   require Logger
@@ -14,7 +15,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   plug(DotcomWeb.Plugs.DateInRating)
   plug(:tab_name)
   plug(:direction_id)
-  plug(:all_stops)
   plug(DotcomWeb.ScheduleController.RoutePdfs)
   plug(DotcomWeb.ScheduleController.Core)
   plug(:do_assign_trip_schedules)
@@ -60,54 +60,25 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
     %{
       trip_schedules: trip_schedules,
-      all_stops: all_stops
-    } = build_timetable(conn.assigns.all_stops, timetable_schedules, direction_id)
+      trip_stops: trip_stops
+    } = build_timetable(conn, timetable_schedules)
 
-    canonical_rps =
-      @route_patterns_repo.by_route_id(route.id,
-        direction_id: direction_id,
-        canonical: true,
-        include: "representative_trip.stops"
-      )
+    track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
 
-    canonical_stop_ids =
-      canonical_rps
-      |> Enum.flat_map(& &1.stop_ids)
-      |> MapSet.new()
-
-    track_changes = track_changes(trip_schedules, canonical_stop_ids)
-
-    ## Logging to capture misordered stops on CR-Newburyport timetable ##
-    # First, is this code even present?
-    Logger.info("dotcom_web.schedule_controller.timetable_controller.assign_trip_schedules")
-
-    if route.id == "CR-Newburyport" && direction_id == 1 do
-      [last, next | _rest] = Enum.map(all_stops, & &1.name) |> Enum.reverse()
-
-      case {last, next} do
-        {"North Station", "Chelsea"} ->
-          # Log both good and bad results so we can quantify
-          Logger.info(
-            "dotcom_web.schedule_controller.timetable_controller.assign_trip_schedules stop_order=expected"
-          )
-
-        _ ->
-          # Show the offending last two stops
-          Logger.warning(
-            "dotcom_web.schedule_controller.timetable_controller.assign_trip_schedules stop_order=unexpected last=#{last} next=#{next}"
-          )
-      end
-    end
+    header_stops =
+      trip_stops
+      |> Enum.map(&@stops_repo.get_parent/1)
+      |> Enum.with_index()
 
     conn
     |> assign(:timetable_schedules, timetable_schedules)
     |> assign(:header_schedules, header_schedules)
+    |> assign(:header_stops, header_stops)
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:track_changes, track_changes)
     |> assign(:vehicle_schedules, vehicle_schedules)
     |> assign(:prior_stops, prior_stops)
     |> assign(:trip_messages, trip_messages(route, direction_id))
-    |> assign(:all_stops, all_stops)
   end
 
   def assign_trip_schedules(conn) do
@@ -119,10 +90,10 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   @spec track_changes(
-          %{required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()},
-          MapSet.t(Stops.Stop.id_t())
+          %{required({Schedules.Trip.id_t(), Stop.id_t()}) => Schedules.Schedule.t()},
+          [Stop.id_t()]
         ) :: %{
-          required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Stops.Stop.t() | nil
+          required({Schedules.Trip.id_t(), Stop.id_t()}) => Stop.t() | nil
         }
   defp track_changes(trip_schedules, canonical_stop_ids) do
     Map.new(trip_schedules, fn {{trip_id, stop_id}, sch} ->
@@ -137,8 +108,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   @spec track_change_for_schedule(
           Schedules.Schedule.t(),
-          MapSet.t(Stops.Stop.id_t())
-        ) :: Stops.Stop.t() | nil
+          [Stop.id_t()]
+        ) :: Stop.t() | nil
   @doc """
   If the scheduled platform stop is not canonical, then return the stop of that track change.
   """
@@ -157,14 +128,12 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   defp has_scheduled_track_change(schedule, canonical_stop_ids) do
     # if the scheduled stop doesn't match a canonical stop, there has been a track change
-    MapSet.size(canonical_stop_ids) > 0 &&
-      !MapSet.member?(canonical_stop_ids, schedule.platform_stop_id)
+    length(canonical_stop_ids) > 0 &&
+      schedule.platform_stop_id not in canonical_stop_ids
   end
 
   # Helper function for obtaining schedule data
   @spec timetable_schedules(Plug.Conn.t()) :: [Schedules.Schedule.t()]
-  defp timetable_schedules(%{assigns: %{date_in_rating?: false}}), do: []
-
   defp timetable_schedules(%{assigns: %{date: date, route: route, direction_id: direction_id}}) do
     case Schedules.Repo.by_route_ids([route.id], date: date, direction_id: direction_id) do
       {:error, _} ->
@@ -229,78 +198,107 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
-  defp all_stops(%Conn{assigns: %{date_in_rating?: false}} = conn, _) do
-    conn
-  end
-
-  defp all_stops(conn, _) do
-    all_stops =
-      @stops_repo.by_route(conn.assigns.route.id, conn.assigns.direction_id,
-        date: conn.assigns.date
-      )
-
-    case all_stops do
-      {:error, error} ->
-        :ok =
-          Logger.warning(
-            "module=#{__MODULE__} fun=all_stops error=#{inspect(error)} route=#{conn.assigns.route.id} direction_id=#{conn.assigns.direction_id} date=#{conn.assigns.date}"
-          )
-
-        conn
-
-      _ ->
-        assign(conn, :all_stops, all_stops)
-    end
-  end
-
   defp tab_name(conn, _), do: assign(conn, :tab, "timetable")
 
-  @spec build_timetable([Stops.Stop.t()], [Schedules.Schedule.t()], 0 | 1) :: %{
+  @doc """
+  Organize the route's schedules for timetable format, where schedules are laid
+  out horizontally by stop and vertically by trip.
+
+  Trips are derived from the input schedules, but stops are fetched for the
+  given route and direction via the route pattern relation. Where possible,
+  canonical route patterns are used to determine the ordered list of stops
+  visited. This list is augmented further by the input schedules, which may
+  introduce additional stops (in the case of a new shuttle route) or removed
+  stops (if such stop is skipped entirely).
+
+  Stops from trips from multiple route patterns are consolidated into a single
+  list of unique, ordered stops, taking into consideration directional branching
+  (e.g. Newburyport/Rockport overlapping for half its route), multi-platform
+  stations (i.e. trips using different stop IDs that are actually in the same
+  station), station busways (which, like platforms, have distinct stop IDs), and
+  shuttle stops (which may or may not be associated with a station).
+  """
+  @spec build_timetable(Conn.t(), [Schedules.Schedule.t()]) :: %{
           required(:trip_schedules) => %{
             required({Schedules.Trip.id_t(), Stops.Stop.id_t()}) => Schedules.Schedule.t()
           },
-          required(:all_stops) => [Stops.Stop.t()]
+          required(:trip_stops) => [Stops.Stop.t()]
         }
-  def build_timetable(all_stops, schedules, direction_id) do
+  def build_timetable(conn, schedules) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
 
-    all_stops =
-      remove_unused_stops(all_stops, schedules)
-      |> Enum.sort_by(fn stop ->
-        {zone_to_sortable(stop, direction_id), trip_schedule_sequence_for_stop(stop, schedules)}
-      end)
+    trip_stops =
+      conn.assigns.route.id
+      |> @route_patterns_repo.by_route_id(
+        direction_id: conn.assigns.direction_id,
+        canonical: Routes.Route.type_atom(conn.assigns.route) in [:commuter_rail, :subway]
+      )
+      |> Enum.map(&@stops_repo.by_trip(&1.representative_trip_id))
+      |> Enum.reduce(&merge_stop_lists(&1, &2, conn.assigns.direction_id))
+      |> remove_unused_stops(schedules)
 
     %{
       trip_schedules: trip_schedules,
-      all_stops: all_stops
+      trip_stops: trip_stops
     }
   end
 
-  # Override North and South Station zones from 1A to 0
-  defp zone_to_sortable(%Stops.Stop{id: stop_id}, _direction_id)
-       when stop_id in ["place-sstat", "place-north"],
-       do: 0.0
+  @spec merge_stop_lists([Stop.t()], [Stop.t()], 0 | 1) :: [Stop.t()]
+  defp merge_stop_lists(incoming_stops, base_stops, direction_id) do
+    if Enum.all?(incoming_stops, &contains_stop?(base_stops, &1)) do
+      base_stops
+    else
+      incoming_stops
+      |> Enum.reject(&contains_stop?(base_stops, &1))
+      |> do_merge_stop_lists(base_stops, direction_id == 1)
+    end
+  end
 
-  defp zone_to_sortable(%Stops.Stop{zone: nil}, _direction_id), do: 0.0
+  @spec contains_stop?([Stop.t()], Stop.t()) :: boolean()
+  defp contains_stop?(stops, %Stops.Stop{id: id, parent_id: parent_id}) do
+    stop_ids =
+      stops
+      |> Enum.flat_map(&[&1.id, &1.parent_id])
+      |> Enum.reject(&is_nil/1)
 
-  defp zone_to_sortable(%Stops.Stop{zone: "1A"}, direction_id),
-    do: zone_to_sortable("0.5", direction_id)
+    id in stop_ids or parent_id in stop_ids
+  end
 
-  defp zone_to_sortable(%Stops.Stop{zone: zone}, direction_id),
-    do: zone_to_sortable("#{zone}.0", direction_id)
+  # Some shuttle stops must be placed manually within the existing stops.
+  @shuttle_overrides %{
+    "38671" => "Weymouth Landing/East Braintree",
+    "NHRML-0127-B" => "Reading",
+    "14748" => "Lynn Interim"
+  }
+  @shuttle_ids Map.keys(@shuttle_overrides)
 
-  defp zone_to_sortable(zone, 0) when is_binary(zone), do: String.to_float(zone)
-  defp zone_to_sortable(zone, 1) when is_binary(zone), do: -String.to_float(zone)
-  defp zone_to_sortable(_, _), do: 0.0
+  @spec do_merge_stop_lists([Stop.t()], [Stop.t()], boolean()) :: [Stop.t()]
+  defp do_merge_stop_lists(stops, [], _), do: stops
 
-  # translate each stop into a general stop_sequence value. a given stop will
-  # have a different value for stop_sequence depending on the other stops in the
-  # trip, so we summarize here by taking the maximum value
-  defp trip_schedule_sequence_for_stop(stop, schedules) do
-    schedules
-    |> Enum.filter(&(&1.stop == stop))
-    |> Enum.map(& &1.stop_sequence)
-    |> Enum.max(fn -> 0 end)
+  defp do_merge_stop_lists(
+         [%Stop{id: id} = stop],
+         base_stops,
+         is_inbound?
+       )
+       when id in @shuttle_ids do
+    next_stop_name = @shuttle_overrides[id]
+
+    case Enum.find_index(base_stops, &match?(%Stop{name: ^next_stop_name}, &1)) do
+      nil ->
+        base_stops
+
+      index ->
+        base_stops
+        |> List.insert_at(if(is_inbound?, do: index + 1, else: index), stop)
+    end
+  end
+
+  defp do_merge_stop_lists(stops, base_stops, is_inbound?) do
+    if is_inbound? do
+      stops ++ base_stops
+    else
+      base_stops ++ stops
+    end
   end
 
   @spec trip_schedule(Schedules.Schedule.t()) ::
@@ -376,8 +374,8 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp remove_unused_stops(all_stops, schedules) do
-    timetable_stop = MapSet.new(schedules, & &1.stop.id)
-    Enum.filter(all_stops, &MapSet.member?(timetable_stop, &1.id))
+    timetable_stops = Enum.map(schedules, & &1.stop) |> Enum.uniq()
+    Enum.filter(all_stops, &contains_stop?(timetable_stops, &1))
   end
 
   defp channel_id(conn, _) do

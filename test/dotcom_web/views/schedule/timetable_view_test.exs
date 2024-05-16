@@ -64,8 +64,8 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
       origin = destination = nil
       alerts = []
 
-      all_stops = [
-        %Stops.Stop{id: "stop", name: "Stop"}
+      header_stops = [
+        {%Stops.Stop{id: "stop", name: "Stop"}, 0}
       ]
 
       vehicle_tooltips = vehicle_locations = trip_messages = trip_schedules = %{}
@@ -85,7 +85,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         alerts: alerts,
         offset: offset,
         show_date_select?: show_date_select?,
-        all_stops: all_stops,
+        header_stops: header_stops,
         vehicle_tooltips: vehicle_tooltips,
         vehicle_locations: vehicle_locations,
         trip_messages: trip_messages,
@@ -152,7 +152,7 @@ defmodule DotcomWeb.Schedule.TimetableViewTest do
         Keyword.merge(assigns,
           header_schedules: header_schedules,
           track_changes: track_changes,
-          all_stops: [original_stop],
+          header_stops: [{original_stop, 0}],
           trip_schedules: trip_schedules
         )
 
