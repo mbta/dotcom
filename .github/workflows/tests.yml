@@ -85,7 +85,7 @@ jobs:
     name: Linting / Elixir
     runs-on: ubuntu-latest
     needs: file_changes
-    if: ${{ contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex }}
+    if: ${{ (contains(github.head_ref, 'dependabot/') || needs.file_changes.outputs.ex) && github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-all
