@@ -150,7 +150,7 @@ describe("Customer Support Form", () => {
     });
 
     /**
-     * FIXME: Returns Poison.Encoder error, maybe the test upload is getting
+     * Returns Poison.Encoder error, maybe the test upload is getting
      * encoded suboptimally?
      */
     xit("With a photo attachment", () => {
@@ -186,7 +186,7 @@ describe("Customer Support Form", () => {
     });
 
     /**
-     * FIXME: Always raises Elixir error, e.g.:
+     * Always raises Elixir error, e.g.:
      * (File.Error) could not read file "/var/folders/2v/
      * x05g8lfd1l734_337rcx1dpwbgm0nx/T//plug-1626/
      * multipart-1626630666-24765732541476-1": no such file or directory
