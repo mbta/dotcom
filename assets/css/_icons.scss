@@ -296,11 +296,13 @@ a {
 
 .c-icon__bus-pill {
   border-radius: calc(#{$base-spacing} / 4);
+  display: inline-block;
   font-weight: bold;
-  max-height: calc(#{$base-spacing} * 1.5);
-  min-width: 2rem;
-  padding: 0 calc(#{$base-spacing} / 4);
+  line-height: normal;
+  min-width: calc(#{$base-spacing} * 4 / 2);
+  padding: 0 calc(#{$base-spacing} / 3);
   text-align: center;
+  white-space: nowrap;
 }
 
 .c-icon__bus-pill--small {
@@ -308,11 +310,11 @@ a {
   display: inline-block;
   font-size: calc(#{$font-size-base} * 2 / 3);
   font-weight: bold;
-  height: $base-spacing;
-  line-height: $base-spacing;
+  line-height: normal;
   min-width: calc(#{$base-spacing} * 4 / 3);
   padding: 0 calc(#{$base-spacing} / 6);
   text-align: center;
+  white-space: nowrap;
 }
 
 .c-icon__crowding {
