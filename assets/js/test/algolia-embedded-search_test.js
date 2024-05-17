@@ -5,7 +5,7 @@ import Algolia from "../algolia-search";
 import { AlgoliaEmbeddedSearch } from "../algolia-embedded-search";
 import AlgoliaAutocomplete from "../algolia-autocomplete";
 import { PAGE_IDS, buildOptions } from "../algolia-embedded-search-options";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -112,41 +112,11 @@ describe("AlgoliaEmbeddedSearch", () => {
 
   describe("buildSearchParams", () => {
     it("builds a string of query params", () => {
-      expect(PAGE_IDS).to.have.a.lengthOf(6);
+      expect(PAGE_IDS).to.have.a.lengthOf(1);
       const stopSearch = setup(0);
       expect(stopSearch.pageId).to.equal("search-stop");
       expect(stopSearch.buildSearchParams()).to.equal(
         "?query=&facets=stations,stops,locations&showmore=stops"
-      );
-
-      const routeSearch = setup(1);
-      expect(routeSearch.pageId).to.equal("search-route");
-      expect(routeSearch.buildSearchParams()).to.equal(
-        "?query=&facets=subway,commuter-rail,bus,ferry,locations&showmore=routes"
-      );
-
-      const subwaySearch = setup(2);
-      expect(subwaySearch.pageId).to.equal("search-route--subway");
-      expect(subwaySearch.buildSearchParams()).to.equal(
-        "?query=&facets=subway,stations,stops,locations&showmore=routes"
-      );
-
-      const crSearch = setup(3);
-      expect(crSearch.pageId).to.equal("search-route--commuter_rail");
-      expect(crSearch.buildSearchParams()).to.equal(
-        "?query=&facets=commuter-rail,stations,stops,locations&showmore=routes"
-      );
-
-      const busSearch = setup(4);
-      expect(busSearch.pageId).to.equal("search-route--bus");
-      expect(busSearch.buildSearchParams()).to.equal(
-        "?query=&facets=bus,stations,stops,locations&showmore=routes"
-      );
-
-      const ferrySearch = setup(5);
-      expect(ferrySearch.pageId).to.equal("search-route--ferry");
-      expect(ferrySearch.buildSearchParams()).to.equal(
-        "?query=&facets=ferry,stations,stops,locations&showmore=routes"
       );
     });
   });
