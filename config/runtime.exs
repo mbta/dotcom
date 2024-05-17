@@ -101,17 +101,17 @@ else
 end
 
 config :dotcom, :cms_api,
-  base_url: System.get_env("CMS_API_BASE_URL", System.get_env("DRUPAL_ROOT")),
+  base_url: System.get_env("CMS_API_BASE_URL"),
   headers: [
     {"Content-Type", "application/json"},
     {"Accept", "application/json"}
   ]
 
 config :dotcom, :mbta_api,
-  base_url: System.get_env("MBTA_API_BASE_URL", System.get_env("V3_URL")),
+  base_url: System.get_env("MBTA_API_BASE_URL"),
   headers: [
     {"MBTA-Version", "2019-07-01"},
-    {"x-api-key", System.get_env("MBTA_API_KEY", System.get_env("V3_API_KEY"))},
+    {"x-api-key", System.get_env("MBTA_API_KEY")},
     {"x-enable-experimental-features", "true"}
   ]
 

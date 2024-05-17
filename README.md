@@ -109,7 +109,7 @@ Welcome to [Dotcom](https://www.notion.so/mbta-downtown-crossing/Dotcom-6aa7b0f0
     ```
     cp .env.template .env
     ```
-   Then uncomment the `V3_API_KEY` line and fill it in with the key you obtained
+   Then uncomment the `MBTA_API_KEY` line and fill it in with the key you obtained
    in the first step. If you have [direnv] installed (recommended), it will automatically load
    and unload the environment using this file. If not, `source .envrc` will load
    or update the variables in your shell session manually.
