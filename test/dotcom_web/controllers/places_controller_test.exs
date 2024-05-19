@@ -1,6 +1,12 @@
 defmodule DotcomWeb.PlacesControllerTest do
-  use DotcomWeb.ConnCase, async: false
-  import Mock
+  @moduledoc false
+  use DotcomWeb.ConnCase, async: true
+
+  import DotcomWeb.PlacesController
+  import Mox
+  import Test.Support.Factory.LocationService
+
+  setup :verify_on_exit!
 
   setup do
     conn =
@@ -13,78 +19,89 @@ defmodule DotcomWeb.PlacesControllerTest do
 
   describe "autocomplete" do
     test "responds with predictions", %{conn: conn} do
-      input = "controller1"
+      input = Faker.App.name()
+      hit_limit = Faker.random_between(3, 5)
+      suggestions = build_list(3, :suggestion)
 
-      autocomplete_fn = fn _, _ ->
-        {:ok, [%LocationService.Suggestion{address: "123 Sesame Street", highlighted_spans: []}]}
-      end
+      expect(LocationService.Mock, :autocomplete, fn arg1, arg2 ->
+        assert arg1 == input
+        assert arg2 == hit_limit
+        {:ok, suggestions}
+      end)
 
-      conn = assign(conn, :autocomplete_fn, autocomplete_fn)
-      conn = get(conn, places_path(conn, :autocomplete, input, "3"))
-
+      conn = autocomplete(conn, %{"input" => input, "hit_limit" => "#{hit_limit}"})
       assert conn.status == 200
       body = json_response(conn, 200)
-
-      predictions = Poison.decode!(body["predictions"])
-      assert is_list(predictions)
-      assert length(predictions) == 1
+      assert length(Jason.decode!(body["predictions"])) == length(suggestions)
     end
 
     test "responds with bad request if hit limit isn't an integer", %{conn: conn} do
-      conn = get(conn, places_path(conn, :autocomplete, "controller2", "five"))
-
+      input = Faker.App.name()
+      hit_limit = "eleven"
+      conn = autocomplete(conn, %{"input" => input, "hit_limit" => "#{hit_limit}"})
       assert conn.status == 400
       body = json_response(conn, 400)
       assert body["error"] == "Invalid arguments"
     end
 
     test "responds with 500 error when location service returns an error", %{conn: conn} do
-      autocomplete_fn = fn _, _ ->
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
         {:error, :internal_error}
-      end
+      end)
 
-      conn = assign(conn, :autocomplete_fn, autocomplete_fn)
-      conn = get(conn, places_path(conn, :autocomplete, "input", "3"))
-
+      input = Faker.App.name()
+      hit_limit = Faker.random_between(3, 5)
+      conn = autocomplete(conn, %{"input" => input, "hit_limit" => "#{hit_limit}"})
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
+    end
+
+    test "responds with 500 error when location service returns zero results", %{conn: conn} do
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
+        {:error, :zero_results}
+      end)
+
+      input = Faker.App.name()
+      hit_limit = Faker.random_between(3, 5)
+      conn = autocomplete(conn, %{"input" => input, "hit_limit" => "#{hit_limit}"})
+      assert conn.status == 500
+      assert %{"error" => "Zero results"} = json_response(conn, 500)
     end
   end
 
   describe "details" do
     test "responds with place details", %{conn: conn} do
-      place_id = "controller_test_place_id"
+      expect(LocationService.Mock, :geocode, fn _ ->
+        {:ok, build_list(3, :address)}
+      end)
 
-      geocode_fn = fn _ -> {:ok, [:test]} end
-      conn = assign(conn, :geocode_fn, geocode_fn)
-      conn = get(conn, places_path(conn, :details, place_id))
+      place_id = "controller_test_place_id"
+      conn = details(conn, %{"address" => place_id})
 
       assert conn.status == 200
       body = json_response(conn, 200)
 
-      result = Poison.decode!(body["result"])
-      assert "test" = result
+      result = Jason.decode!(body["result"])
+      assert %{"formatted" => _, "latitude" => _, "longitude" => _} = result
     end
 
-    test "responds with 500 error when google returns an error", %{conn: conn} do
-      geocode_fn = fn "PLACE_ID" ->
+    test "responds with 500 error when AWS returns an error", %{conn: conn} do
+      expect(LocationService.Mock, :geocode, fn _ ->
         {:error, :internal_error}
-      end
+      end)
 
-      conn = assign(conn, :geocode_fn, geocode_fn)
-      conn = get(conn, places_path(conn, :details, "PLACE_ID"))
+      conn = details(conn, %{"address" => "PLACE_ID"})
 
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
     end
 
-    test "responds with 500 error when google returns zero_results", %{conn: conn} do
-      geocode_fn = fn "PLACE_ID" ->
+    test "responds with 500 error when AWS returns zero_results", %{conn: conn} do
+      expect(LocationService.Mock, :geocode, fn _ ->
         {:error, :zero_results}
-      end
+      end)
 
-      conn = assign(conn, :geocode_fn, geocode_fn)
-      conn = get(conn, places_path(conn, :details, "PLACE_ID"))
+      conn = details(conn, %{"address" => "PLACE_ID"})
 
       assert conn.status == 500
       assert %{"error" => "Zero results"} = json_response(conn, 500)
@@ -96,70 +113,48 @@ defmodule DotcomWeb.PlacesControllerTest do
       latitude = "42.3484012"
       longitude = "-71.039176"
 
-      reverse_geocode_fn = fn _, _ ->
-        {:ok, []}
-      end
+      expect(LocationService.Mock, :reverse_geocode, fn arg1, arg2 ->
+        assert "#{arg1}" == latitude
+        assert "#{arg2}" == longitude
+        {:ok, build_list(3, :address)}
+      end)
 
-      conn = assign(conn, :reverse_geocode_fn, reverse_geocode_fn)
-      conn = get(conn, places_path(conn, :reverse_geocode, latitude, longitude))
-
+      conn = reverse_geocode(conn, %{"latitude" => latitude, "longitude" => longitude})
       assert conn.status == 200
       body = json_response(conn, 200)
-      assert is_list(Poison.decode!(body["results"]))
+      assert is_list(Jason.decode!(body["results"]))
     end
 
     test "responds with bad request if latitude and longitude aren't floats", %{
       conn: conn
     } do
-      conn = get(conn, places_path(conn, :reverse_geocode, "latitude", "longitude"))
-
+      conn = reverse_geocode(conn, %{"latitude" => "latitude", "longitude" => "longitude"})
       assert conn.status == 400
       assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
     end
 
-    test "responds with 500 if google returns an error", %{conn: conn} do
-      latitude = 42.3484012
-      longitude = -71.039176
-
-      reverse_geocode_fn = fn ^latitude, ^longitude ->
+    test "responds with 500 if AWS returns an error", %{conn: conn} do
+      expect(LocationService.Mock, :reverse_geocode, fn _, _ ->
         {:error, :internal_error}
-      end
+      end)
 
-      conn =
-        conn
-        |> assign(:reverse_geocode_fn, reverse_geocode_fn)
-        |> get(
-          places_path(
-            conn,
-            :reverse_geocode,
-            Float.to_string(latitude),
-            Float.to_string(longitude)
-          )
-        )
+      latitude = "42.3484012"
+      longitude = "-71.039176"
+
+      conn = reverse_geocode(conn, %{"latitude" => latitude, "longitude" => longitude})
 
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
     end
 
-    test "responds with 500 if google returns zero_results", %{conn: conn} do
-      latitude = 42.3484012
-      longitude = -71.039176
-
-      reverse_geocode_fn = fn ^latitude, ^longitude ->
+    test "responds with 500 if AWS returns zero_results", %{conn: conn} do
+      expect(LocationService.Mock, :reverse_geocode, fn _, _ ->
         {:error, :zero_results}
-      end
+      end)
 
-      conn =
-        conn
-        |> assign(:reverse_geocode_fn, reverse_geocode_fn)
-        |> get(
-          places_path(
-            conn,
-            :reverse_geocode,
-            Float.to_string(latitude),
-            Float.to_string(longitude)
-          )
-        )
+      latitude = "42.3484012"
+      longitude = "-71.039176"
+      conn = reverse_geocode(conn, %{"latitude" => latitude, "longitude" => longitude})
 
       assert conn.status == 500
       assert %{"error" => "Zero results"} = json_response(conn, 500)
@@ -167,62 +162,85 @@ defmodule DotcomWeb.PlacesControllerTest do
   end
 
   test "/places/popular returns a list of popular locations", %{conn: conn} do
-    conn = get(conn, places_path(conn, :popular))
+    conn = popular(conn, %{})
     assert %{"result" => [location | _]} = json_response(conn, 200)
     assert %{"name" => "Boston Logan Airport", "icon" => "airplane"} = location
     assert has_urls?(location)
   end
 
   test "/places/urls augments a location", %{conn: conn} do
-    conn = get(conn, places_path(conn, :with_urls, %{"latitude" => 1, "longitude" => 2}))
+    conn = with_urls(conn, %{"latitude" => 1, "longitude" => 2})
     assert %{"result" => location} = json_response(conn, 200)
     assert has_urls?(location)
   end
 
   describe "/places/search/:query/:limit" do
-    setup_with_mocks([
-      {LocationService, [],
-       [
-         autocomplete: fn search, limit ->
-           result =
-             for i <- 1..limit,
-                 do: %LocationService.Suggestion{
-                   address: "suggestion #{i} for #{search}",
-                   highlighted_spans: []
-                 }
-
-           {:ok, result}
-         end,
-         geocode: fn address ->
-           {:ok, [%LocationService.Address{formatted: address, latitude: 60.4, longitude: 30.8}]}
-         end
-       ]}
-    ]) do
-      :ok
-    end
-
     test "errors if hit limit isn't a number", %{conn: conn} do
       hit_limit = "NaN"
-      conn = get(conn, places_path(conn, :search, "s", hit_limit))
+      conn = search(conn, %{"query" => "s", "hit_limit" => hit_limit})
       assert %{"error" => "Invalid arguments"} = json_response(conn, 400)
     end
 
     test "passes query and limit params to AWS autocomplete function", %{conn: conn} do
-      get(conn, places_path(conn, :search, "search term", 14))
-      assert called(LocationService.autocomplete("search term", 14))
+      search_term = Faker.App.name()
+      hit_limit = Faker.random_between(1, 10)
+
+      expect(LocationService.Mock, :autocomplete, fn arg1, arg2 ->
+        assert arg1 == search_term
+        assert arg2 == hit_limit
+        {:ok, []}
+      end)
+
+      search(conn, %{"query" => search_term, "hit_limit" => "#{hit_limit}"})
     end
 
     test "geocodes suggested results", %{conn: conn} do
-      conn = get(conn, places_path(conn, :search, "south", 3))
+      num_suggestions = Faker.random_between(2, 5)
+
+      LocationService.Mock
+      |> expect(:autocomplete, fn _, _ ->
+        {:ok, build_list(num_suggestions, :suggestion)}
+      end)
+      |> expect(:geocode, num_suggestions, fn _ ->
+        {:ok, build_list(2, :address)}
+      end)
+
+      conn = search(conn, %{"query" => "south", "hit_limit" => "3"})
       assert %{"result" => locations} = json_response(conn, 200)
       assert Enum.all?(locations, &Map.has_key?(&1, "latitude"))
       assert Enum.all?(locations, &Map.has_key?(&1, "longitude"))
     end
 
     test "adds URLs to each result", %{conn: conn} do
-      conn = get(conn, places_path(conn, :search, "south", 3))
+      LocationService.Mock
+      |> expect(:autocomplete, fn _, _ ->
+        {:ok, build_list(10, :suggestion)}
+      end)
+      |> expect(:geocode, 10, fn _ ->
+        {:ok, build_list(1, :address)}
+      end)
+
+      conn = search(conn, %{"query" => "south", "hit_limit" => "3"})
       assert %{"result" => locations} = json_response(conn, 200)
       assert Enum.all?(locations, &has_urls?/1)
+    end
+
+    test "handles if AWS returns zero_results", %{conn: conn} do
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
+        {:error, :zero_results}
+      end)
+
+      conn = search(conn, %{"query" => "south", "hit_limit" => "3"})
+      assert %{"result" => []} = json_response(conn, 200)
+    end
+
+    test "returns error", %{conn: conn} do
+      expect(LocationService.Mock, :autocomplete, fn _, _ ->
+        {:error, :interal_error}
+      end)
+
+      conn = search(conn, %{"query" => "south", "hit_limit" => "3"})
+      assert %{"error" => "Internal error"} = json_response(conn, 500)
     end
   end
 

@@ -8,6 +8,7 @@ defmodule LocationService.Suggestion do
         }
 
   @enforce_keys [:address, :highlighted_spans]
+  @derive Jason.Encoder
   defstruct address: nil,
             highlighted_spans: nil
 

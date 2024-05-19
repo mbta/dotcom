@@ -5,6 +5,7 @@ defmodule LocationService.Utils do
             length: non_neg_integer()
           }
 
+    @derive Jason.Encoder
     @enforce_keys [:offset, :length]
     defstruct offset: nil,
               length: nil

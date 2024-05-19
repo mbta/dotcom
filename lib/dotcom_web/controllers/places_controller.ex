@@ -14,7 +14,7 @@ defmodule DotcomWeb.PlacesController do
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
            @location_service.autocomplete(input, hit_limit) do
-      json(conn, %{predictions: Poison.encode!(predictions)})
+      json(conn, %{predictions: Jason.encode!(predictions)})
     else
       {:error, :internal_error} ->
         ControllerHelpers.return_internal_error(conn)
@@ -31,7 +31,7 @@ defmodule DotcomWeb.PlacesController do
   def details(conn, %{"address" => address}) do
     case @location_service.geocode(address) do
       {:ok, results} ->
-        json(conn, %{result: results |> List.first() |> Poison.encode!()})
+        json(conn, %{result: results |> List.first() |> Jason.encode!()})
 
       {:error, :internal_error} ->
         ControllerHelpers.return_internal_error(conn)
@@ -45,7 +45,7 @@ defmodule DotcomWeb.PlacesController do
   def reverse_geocode(conn, params) do
     with {:ok, latitude, longitude} <- parse_location(params),
          {:ok, results} <- @location_service.reverse_geocode(latitude, longitude) do
-      json(conn, %{results: Poison.encode!(results)})
+      json(conn, %{results: Jason.encode!(results)})
     else
       :invalid_lat_lng ->
         ControllerHelpers.return_invalid_arguments_error(conn)

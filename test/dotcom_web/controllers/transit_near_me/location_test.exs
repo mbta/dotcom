@@ -1,116 +1,130 @@
 defmodule DotcomWeb.TransitNearMeController.LocationTest do
   use ExUnit.Case, async: true
-  alias LocationService.Address
   alias DotcomWeb.TransitNearMeController.Location
 
-  @address %Address{
-    latitude: 42.351,
-    longitude: -71.066,
-    formatted: "10 Park Plaza, Boston, MA, 02116"
-  }
+  import Mox
+  import Test.Support.Factory.LocationService
 
-  def geocode_fn("10 Park Plaza, Boston, MA, 02116") do
-    send(self(), :geocode)
+  setup :verify_on_exit!
 
-    {:ok, [@address]}
-  end
-
-  def reverse_geocode_fn(42.351, -71.066) do
-    send(self(), :reverse_geocode)
-
-    {:ok, [@address]}
-  end
-
-  def reverse_geocode_fn(+0.0, +0.0) do
-    send(self(), :reverse_geocode)
-
-    {:error, :zero_results}
-  end
-
-  setup do
-    {:ok,
-     opts: [
-       geocode_fn: &geocode_fn/1,
-       reverse_geocode_fn: &reverse_geocode_fn/2
-     ]}
-  end
-
-  describe "get_location/2" do
-    test "can take unnested lat/lng values", %{opts: opts} do
+  describe "get/1" do
+    test "can take unnested lat/lng values" do
       params = %{
-        "latitude" => "42.351",
-        "longitude" => "-71.066",
+        "latitude" => "#{Faker.Address.latitude()}",
+        "longitude" => "#{Faker.Address.longitude()}",
         "location" => %{
-          "address" => "10 Park Plaza, Boston, MA, 02116"
+          "address" => Faker.Address.street_address()
         }
       }
 
-      assert Location.get(params, opts) == {:ok, [@address]}
-
-      refute_receive :geocode
-      refute_receive :reverse_geocode
+      assert Location.get(params)
     end
 
-    test "does not attempt any geocoding if all params are provided", %{opts: opts} do
+    test "does not attempt any geocoding if all params are provided" do
       params = %{
         "location" => %{
-          "latitude" => "42.351",
-          "longitude" => "-71.066",
-          "address" => "10 Park Plaza, Boston, MA, 02116"
+          "latitude" => "#{Faker.Address.latitude()}",
+          "longitude" => "#{Faker.Address.longitude()}",
+          "address" => Faker.Address.street_address()
         }
       }
 
-      assert Location.get(params, opts) == {:ok, [@address]}
-
-      refute_receive :geocode
-      refute_receive :reverse_geocode
+      assert Location.get(params)
     end
 
-    test "geocodes address if lat/lng is not provided", %{opts: opts} do
+    test "geocodes address if lat/lng is not provided" do
+      address = Faker.Address.street_address()
+
+      expect(LocationService.Mock, :geocode, fn arg ->
+        assert arg == address
+        {:ok, []}
+      end)
+
       params = %{
         "location" => %{
-          "address" => "10 Park Plaza, Boston, MA, 02116"
+          "address" => address
         }
       }
 
-      assert Location.get(params, opts) == {:ok, [@address]}
-
-      assert_receive :geocode
-      refute_receive :reverse_geocode
+      assert Location.get(params)
     end
 
-    test "geocodes address if lat/lng are not floats", %{opts: opts} do
+    test "geocodes address if lat/lng is nil" do
+      address = Faker.Address.street_address()
+
+      expect(LocationService.Mock, :geocode, fn arg ->
+        assert arg == address
+        {:ok, []}
+      end)
+
+      params = %{
+        "location" => %{
+          "latitude" => "#{Faker.Address.latitude()}",
+          "longitude" => nil,
+          "address" => address
+        }
+      }
+
+      assert Location.get(params)
+    end
+
+    test "geocodes address from param" do
+      address = Faker.Address.street_address()
+
+      expect(LocationService.Mock, :geocode, fn arg ->
+        assert arg == address
+        {:ok, []}
+      end)
+
+      params = %{
+        "address" => address
+      }
+
+      assert Location.get(params)
+    end
+
+    test "geocodes address if lat/lng are not floats" do
+      address = Faker.Address.street_address()
+
+      expect(LocationService.Mock, :geocode, fn arg ->
+        assert arg == address
+        {:ok, []}
+      end)
+
       params = %{
         "location" => %{
           "latitude" => "",
           "longitude" => "",
-          "address" => "10 Park Plaza, Boston, MA, 02116"
+          "address" => address
         }
       }
 
-      assert Location.get(params, opts) == {:ok, [@address]}
-
-      assert_receive :geocode
-      refute_receive :reverse_geocode
+      assert Location.get(params)
     end
 
-    test "reverse geocodes lat/lng if address is not provided", %{opts: opts} do
+    test "reverse geocodes lat/lng if address is not provided" do
       params = %{
         "location" => %{
-          "latitude" => "42.351",
-          "longitude" => "-71.066"
+          "latitude" => "#{Faker.Address.latitude()}",
+          "longitude" => "#{Faker.Address.longitude()}"
         }
       }
 
-      assert Location.get(params, opts) == {:ok, [@address]}
+      expect(LocationService.Mock, :reverse_geocode, fn arg, arg2 ->
+        assert "#{arg}" == params["location"]["latitude"]
+        assert "#{arg2}" == params["location"]["longitude"]
 
-      refute_receive :geocode
-      assert_receive :reverse_geocode
+        {:ok, build_list(2, :address)}
+      end)
+
+      assert Location.get(params)
     end
 
-    test "returns an error if there is an error with reverse geocoding", %{
-      opts: opts
-    } do
+    test "returns an error if there is an error with reverse geocoding" do
+      expect(LocationService.Mock, :reverse_geocode, fn _, _ ->
+        {:error, :internal_error}
+      end)
+
       params = %{
         "location" => %{
           "latitude" => "0.0",
@@ -118,14 +132,11 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
         }
       }
 
-      assert Location.get(params, opts) == {:error, :zero_results}
-
-      refute_receive :geocode
-      assert_receive :reverse_geocode
+      assert Location.get(params) == {:error, :internal_error}
     end
 
-    test "returns :no_address if params don't include address or lat/lng", %{opts: opts} do
-      assert Location.get(%{}, opts) == :no_address
+    test "returns :no_address if params don't include address or lat/lng" do
+      assert Location.get(%{}) == :no_address
     end
   end
 end
