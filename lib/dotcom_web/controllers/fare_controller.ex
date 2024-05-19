@@ -8,8 +8,6 @@ defmodule DotcomWeb.FareController do
   plug(:meta_description)
 
   @options %{
-    geocode_fn: &LocationService.geocode/1,
-    reverse_geocode_fn: &LocationService.reverse_geocode/2,
     nearby_fn: %{
       retail: &Fares.RetailLocations.get_nearby/1,
       proposed: &Fares.ProposedLocations.get_nearby/1

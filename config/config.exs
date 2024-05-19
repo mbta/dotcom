@@ -10,6 +10,8 @@ config :dotcom, :httpoison, HTTPoison
 
 config :dotcom, :mbta_api_module, MBTA.Api
 
+config :dotcom, :location_service, LocationService
+
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo,
   route_patterns: RoutePatterns.Repo,

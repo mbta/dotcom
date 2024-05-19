@@ -9,7 +9,7 @@ defmodule LocationService.Result do
   - process results
   - log results or errors
   """
-  @spec handle_response({:ok | :error, any}, any) :: LocationService.result()
+  @spec handle_response({:ok | :error, any}, any) :: LocationService.Behaviour.result()
   def handle_response({:ok, %{status_code: 200, body: body}}, input) do
     Jason.decode(body)
     |> handle_response(input)

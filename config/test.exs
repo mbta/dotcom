@@ -9,6 +9,8 @@ config :dotcom, :httpoison, HTTPoison.Mock
 config :dotcom, :cms_api_module, CMS.Api.Static
 config :dotcom, :mbta_api_module, MBTA.Api.Mock
 
+config :dotcom, :location_service, LocationService.Mock
+
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo.Mock,
   route_patterns: RoutePatterns.Repo.Mock,

@@ -7,13 +7,13 @@ defmodule DotcomWeb.PlacesController do
   alias LocationService.Address
   alias Plug.Conn
 
+  @location_service Application.compile_env!(:dotcom, :location_service)
+
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str}) do
-    autocomplete_fn = Map.get(conn.assigns, :autocomplete_fn, &LocationService.autocomplete/2)
-
     with {hit_limit, ""} <- Integer.parse(hit_limit_str),
          {:ok, predictions} <-
-           autocomplete_fn.(input, hit_limit) do
+           @location_service.autocomplete(input, hit_limit) do
       json(conn, %{predictions: Poison.encode!(predictions)})
     else
       {:error, :internal_error} ->
@@ -29,9 +29,7 @@ defmodule DotcomWeb.PlacesController do
 
   @spec details(Conn.t(), map) :: Conn.t()
   def details(conn, %{"address" => address}) do
-    geocode_fn = Map.get(conn.assigns, :geocode_fn, &LocationService.geocode/1)
-
-    case geocode_fn.(address) do
+    case @location_service.geocode(address) do
       {:ok, results} ->
         json(conn, %{result: results |> List.first() |> Poison.encode!()})
 
@@ -45,11 +43,8 @@ defmodule DotcomWeb.PlacesController do
 
   @spec reverse_geocode(Conn.t(), map) :: Conn.t()
   def reverse_geocode(conn, params) do
-    reverse_geocode_fn =
-      Map.get(conn.assigns, :reverse_geocode_fn, &LocationService.reverse_geocode/2)
-
     with {:ok, latitude, longitude} <- parse_location(params),
-         {:ok, results} <- reverse_geocode_fn.(latitude, longitude) do
+         {:ok, results} <- @location_service.reverse_geocode(latitude, longitude) do
       json(conn, %{results: Poison.encode!(results)})
     else
       :invalid_lat_lng ->
@@ -108,7 +103,7 @@ defmodule DotcomWeb.PlacesController do
   """
   def search(conn, %{"query" => query, "hit_limit" => hit_limit_str}) do
     with {hit_limit, ""} <- Integer.parse(hit_limit_str) do
-      case LocationService.autocomplete(query, hit_limit) do
+      case @location_service.autocomplete(query, hit_limit) do
         {:ok, suggestions} ->
           json(conn, %{result: with_coordinates(suggestions)})
 
@@ -143,7 +138,7 @@ defmodule DotcomWeb.PlacesController do
         ]
   defp with_coordinates(suggestions) do
     suggestions
-    |> Enum.map(&{&1, LocationService.geocode(&1.address)})
+    |> Enum.map(&{&1, @location_service.geocode(&1.address)})
     |> Enum.filter(&match?({_suggestion, {:ok, [%Address{} | _]}}, &1))
     |> Enum.map(fn {suggestion, {:ok, [address | _]}} ->
       address
