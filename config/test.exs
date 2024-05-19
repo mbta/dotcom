@@ -1,5 +1,7 @@
 import Config
 
+config :dotcom, :aws, ExAws.Mock
+
 config :dotcom, :cache, Dotcom.Cache.TestCache
 
 config :dotcom, :httpoison, HTTPoison.Mock

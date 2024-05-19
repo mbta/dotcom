@@ -12,6 +12,7 @@ Mox.defmock(Dotcom.Redix.PubSub.Mock, for: Dotcom.Redix.PubSub.Behaviour)
 Mox.defmock(CMS.Api.Mock, for: CMS.Api.Behaviour)
 Mox.defmock(MBTA.Api.Mock, for: MBTA.Api.Behaviour)
 Mox.defmock(OpenTripPlannerClient.Mock, for: OpenTripPlannerClient.Behaviour)
+Mox.defmock(ExAws.Mock, for: ExAws.Behaviour)
 
 # Repos
 Mox.defmock(Predictions.Repo.Mock, for: Predictions.Repo.Behaviour)

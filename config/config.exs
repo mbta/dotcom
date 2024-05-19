@@ -2,6 +2,8 @@ import Config
 
 config :elixir, ansi_enabled: true
 
+config :dotcom, :aws, ExAws
+
 config :dotcom, :cms_api_module, CMS.Api
 
 config :dotcom, :httpoison, HTTPoison
