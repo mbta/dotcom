@@ -163,13 +163,6 @@ defmodule Dotcom.TripPlan.Query do
     )
   end
 
-  def opts_from_query(%{"root_url" => root_url} = query, opts) do
-    opts_from_query(
-      Map.delete(query, "root_url"),
-      Keyword.put(opts, :root_url, root_url)
-    )
-  end
-
   def opts_from_query(_, opts) do
     opts
   end
