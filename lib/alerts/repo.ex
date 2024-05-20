@@ -75,11 +75,8 @@ defmodule Alerts.Repo do
   #
   defp maybe_attach_image_url(alert) do
     if is_nil(alert.image_url) do
-      cms_api_base_url = Application.get_env(:dotcom, :cms_api)[:base_url]
       this_month = Timex.format!(Timex.now(), "%Y-%m", :strftime)
-
-      image_url =
-        cms_api_base_url <> "/sites/default/files/media/#{this_month}/alert-#{alert.id}.png"
+      image_url = "/sites/default/files/media/#{this_month}/alert-#{alert.id}.png"
 
       Map.put(alert, :image_url, image_url)
     else

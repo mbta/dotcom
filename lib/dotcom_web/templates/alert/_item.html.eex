@@ -30,7 +30,7 @@
     <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
       <%= if @alert.image_url do %>
         <div class="c-alert-item__image">
-          <img src="<%= @alert.image_url %>" alt="<%= effect_name(@alert) %>" style="width: 100%" />
+          <img src="<%= @alert.image_url %>" alt="<%= effect_name(@alert) %>" />
         </div>
       <% end %>
       <div class="c-alert-item__description">
