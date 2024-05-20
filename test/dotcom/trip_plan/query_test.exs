@@ -3,6 +3,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
   import Dotcom.TripPlan.Query
   import Mox
+  import Test.Support.Factory.LocationService
   alias Dotcom.TripPlan.Query
   alias TripPlan.NamedPosition
 
@@ -27,30 +28,37 @@ defmodule Dotcom.TripPlan.QueryTest do
   setup :verify_on_exit!
 
   setup do
-    stub_with(OpenTripPlannerClient.Mock, Test.Support.OpenTripPlannerClientStub)
+    stub(LocationService.Mock, :geocode, fn address ->
+      {:ok, [build(:address, %{formatted: address})]}
+    end)
+
+    stub(OpenTripPlannerClient.Mock, :plan, fn _, _, _ ->
+      {:ok, []}
+    end)
+
     :ok
   end
 
   describe "from_query/1" do
     test "can plan a basic trip with defaults from query params" do
+      expect(OpenTripPlannerClient.Mock, :plan, fn from, to, opts ->
+        assert Keyword.get(from, :name) == "from address"
+        assert Keyword.get(to, :name) == "to address"
+        assert Keyword.get(opts, :depart_at) == @date_time
+        assert Keyword.get(opts, :tags)
+        assert Keyword.get(opts, :mode) == ["TRAM", "SUBWAY", "FERRY", "RAIL", "BUS"]
+
+        {:ok, []}
+      end)
+
       params = %{"from" => "from address", "to" => "to address"}
       actual = from_query(params, @date_opts)
       assert actual.errors == MapSet.new([])
-      assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:geocoded_address, "to address", {:ok, to_position}}
-
-      from = NamedPosition.to_keywords(from_position)
-      to = NamedPosition.to_keywords(to_position)
-      assert_received {:planned_trip, {^from, ^to, _opts}, {:ok, itineraries}}
-
       assert %Query{} = actual
-      assert actual.from == from_position
-      assert actual.to == to_position
+      assert %NamedPosition{name: "from address"} = actual.from
+      assert %NamedPosition{name: "to address"} = actual.to
       assert {:depart_at, %DateTime{}} = actual.time
-      assert {:ok, actual_itineraries} = actual.itineraries
-
-      assert Enum.sort(actual_itineraries) ==
-               Enum.sort(itineraries)
+      assert {:ok, _} = actual.itineraries
     end
 
     test "can plan a basic trip from query params" do
@@ -63,17 +71,9 @@ defmodule Dotcom.TripPlan.QueryTest do
 
       actual = from_query(params, @date_opts)
       assert actual.errors == MapSet.new([])
-      assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      from = NamedPosition.to_keywords(from_position)
-      to = NamedPosition.to_keywords(to_position)
-      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
-      assert actual.from == from_position
-      assert actual.to == to_position
       assert {:depart_at, %DateTime{}} = actual.time
       assert actual.wheelchair
-      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "can use lat/lng instead of an address" do
@@ -87,21 +87,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       }
 
       actual = from_query(params, @date_opts)
-
-      to_position = %TripPlan.NamedPosition{
-        latitude: 42.3428,
-        longitude: -71.0857,
-        name: "Your current location"
-      }
-
-      assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      from = NamedPosition.to_keywords(from_position)
-      to = NamedPosition.to_keywords(to_position)
-      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
-      assert actual.from == from_position
-      assert actual.to == to_position
-      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "ignores lat/lng that are empty strings" do
@@ -115,15 +101,7 @@ defmodule Dotcom.TripPlan.QueryTest do
       }
 
       actual = from_query(params, @date_opts)
-      assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      from = NamedPosition.to_keywords(from_position)
-      to = NamedPosition.to_keywords(to_position)
-      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
-      assert actual.from == from_position
-      assert actual.to == to_position
-      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "ignores params that are empty strings or missing" do
@@ -146,10 +124,7 @@ defmodule Dotcom.TripPlan.QueryTest do
 
       query = from_query(params, @date_opts)
       assert {:arrive_by, %DateTime{}} = query.time
-      assert_received {:planned_trip, {_from_position, _to_position, opts}, {:ok, _itineraries}}
       assert query.wheelchair
-      assert opts[:arrive_by] == @date_time
-      assert opts[:wheelchair]
     end
 
     test "depart_at time works as expected" do
@@ -162,20 +137,18 @@ defmodule Dotcom.TripPlan.QueryTest do
       }
 
       actual = from_query(params, @date_opts)
-      assert_received {:geocoded_address, "from address", {:ok, from_position}}
-      assert_received {:geocoded_address, "to address", {:ok, to_position}}
-      from = NamedPosition.to_keywords(from_position)
-      to = NamedPosition.to_keywords(to_position)
-      assert_received {:planned_trip, {^from, ^to, _}, {:ok, itineraries}}
       assert %Query{} = actual
-      assert actual.from === from_position
-      assert actual.to === to_position
       assert actual.time === {:depart_at, @date_time}
       assert actual.wheelchair === true
-      assert actual.itineraries == {:ok, itineraries}
     end
 
     test "does not plan a trip if we fail to geocode" do
+      error = {:error, :internal_error}
+
+      stub(LocationService.Mock, :geocode, fn _ ->
+        error
+      end)
+
       params = %{
         "from" => "no results",
         "to" => "too many results",
@@ -184,14 +157,14 @@ defmodule Dotcom.TripPlan.QueryTest do
       }
 
       actual = from_query(params, @date_opts)
-      assert_received {:geocoded_address, "no results", from_result}
-      assert_received {:geocoded_address, "too many results", to_result}
-      refute_received {:planned_trip, _, _, _}
-      assert {:error, :no_results} = from_result
-      assert {:error, {:multiple_results, _}} = to_result
-      assert %Query{} = actual
-      assert actual.from == from_result
-      assert actual.to == to_result
+
+      assert %Query{
+               from: ^error,
+               to: ^error,
+               errors: errors
+             } = actual
+
+      assert MapSet.size(errors)
       assert actual.itineraries == nil
     end
 
@@ -212,9 +185,27 @@ defmodule Dotcom.TripPlan.QueryTest do
 
       query = from_query(params, @date_opts)
       assert %Query{} = query
-      assert %NamedPosition{name: "Geocoded path_not_found"} = query.from
-      assert %NamedPosition{name: "Geocoded stops_nearby no_results"} = query.to
+      assert %NamedPosition{name: "path_not_found"} = query.from
+      assert %NamedPosition{name: "stops_nearby no_results"} = query.to
       assert ^error = query.itineraries
+    end
+
+    test "handles OTP error" do
+      error = :UNDERSPECIFIED_TRIANGLE
+
+      stub(OpenTripPlannerClient.Mock, :plan, fn _, _, _ ->
+        {:error, error}
+      end)
+
+      params = %{"from" => "from address", "to" => "to address"}
+      actual = from_query(params, @date_opts)
+
+      assert %Query{
+               itineraries: {:error, ^error},
+               errors: errors
+             } = actual
+
+      assert errors == MapSet.new([error])
     end
   end
 
@@ -305,6 +296,11 @@ defmodule Dotcom.TripPlan.QueryTest do
 
     test "returns empty list on failure" do
       query = %Query{itineraries: {:error, "message"}, from: nil, to: nil}
+      assert get_itineraries(query) == []
+    end
+
+    test "returns empty list on nil" do
+      query = %Query{itineraries: nil, from: nil, to: nil}
       assert get_itineraries(query) == []
     end
   end

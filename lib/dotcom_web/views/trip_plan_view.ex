@@ -190,7 +190,7 @@ defmodule DotcomWeb.TripPlanView do
     end
   end
 
-  @spec do_render_location_error(Plug.Conn.t(), :from | :to, TripPlan.Geocode.error()) ::
+  @spec do_render_location_error(Plug.Conn.t(), :from | :to, {:error, any()}) ::
           Phoenix.HTML.Safe.t()
   defp do_render_location_error(conn, field, {:multiple_results, results}) do
     render("_error_multiple_results.html", conn: conn, field: field, results: results)
