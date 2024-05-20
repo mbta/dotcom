@@ -17,11 +17,6 @@ defmodule Alerts.Repo do
     Store.alert(id)
   end
 
-  @spec by_route_id(String.t(), DateTime.t()) :: [Alert.t()]
-  def by_route_id(route_id, now) do
-    by_route_ids([route_id], now)
-  end
-
   @spec by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
   def by_route_ids([], _now) do
     []
@@ -33,6 +28,12 @@ defmodule Alerts.Repo do
     |> Store.alerts(now)
   end
 
+  @doc """
+  Get alerts that are diversion types: shuttle, station_closure, suspension.
+
+  Try to attach an image URL to the alert if it doesn't already have one.
+  """
+  @spec diversions_by_route_ids([String.t()], DateTime.t()) :: [Alert.t()]
   def diversions_by_route_ids(route_ids, now) do
     route_ids
     |> by_route_ids(now)

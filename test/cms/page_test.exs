@@ -11,6 +11,12 @@ defmodule PageTest do
   describe "from_api/1" do
     test "switches on the node type in the json response and returns the proper page struct" do
       assert %Page.Basic{} = Page.from_api(Static.basic_page_response())
+
+      diversions_data =
+        Static.basic_page_response() |> Map.put("field_page_type", [%{"name" => "Diversions"}])
+
+      assert %Page.Diversions{} = Page.from_api(diversions_data)
+
       assert %Page.Event{} = Page.from_api(List.first(Static.events_response()))
       assert %Page.Landing{} = Page.from_api(Static.landing_page_response())
       assert %Page.NewsEntry{} = Page.from_api(List.first(Static.news_repo()))

@@ -11,7 +11,7 @@ defmodule Test.Support.Factories.Alerts.Alert do
   def alert_factory do
     %Alert{
       id: :rand.uniform(999) |> Integer.to_string(),
-      active_period: {Faker.DateTime.backward(1), Faker.DateTime.forward(1)},
+      active_period: [Faker.DateTime.backward(1), Faker.DateTime.forward(1)],
       banner: Faker.Lorem.Shakespeare.king_richard_iii(),
       cause: Faker.Lorem.Shakespeare.king_richard_iii(),
       description: Faker.Lorem.Shakespeare.king_richard_iii(),

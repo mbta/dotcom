@@ -75,7 +75,6 @@ defmodule CMS.Helpers do
     |> Map.get("field_page_type", [])
     |> Enum.map(&Map.get(&1, "name"))
     |> Enum.filter(&(!is_nil(&1)))
-    |> Enum.map(&String.downcase/1)
   end
 
   @spec parse_related_transit(map) :: list(String.t())

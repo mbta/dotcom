@@ -3,7 +3,7 @@ defmodule DotcomWeb.CMS.PageViewTest do
 
   import DotcomWeb.CMS.PageView
 
-  alias CMS.Page.{Basic, Project}
+  alias CMS.Page.{Basic, Diversions, Project}
   alias CMS.Partial.Paragraph.{ContentList, CustomHTML}
   alias Phoenix.HTML
 
@@ -17,6 +17,24 @@ defmodule DotcomWeb.CMS.PageViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "<p>Hello</p>"
+    end
+
+    test "renders a CMS.Page.Diversions with sub-templates", %{conn: conn} do
+      # Setup
+      food = Faker.Food.description()
+
+      paragraph = %Diversions{
+        body: HTML.raw("<p>#{food}</p>")
+      }
+
+      # Exercise
+      rendered =
+        paragraph
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      # Verify
+      assert rendered =~ "<p>#{food}</p>"
     end
   end
 

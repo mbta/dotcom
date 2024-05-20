@@ -9,7 +9,8 @@ defmodule Test.Support.Factories.Alerts.InformedEntitySet do
   alias Test.Support.Factories.Alerts.InformedEntity
 
   def informed_entity_set_factory do
-    InformedEntity.build_list(3, :informed_entity)
-    |> InformedEntitySet.new()
+    informed_entity = InformedEntity.build(:informed_entity)
+
+    InformedEntitySet.new([informed_entity])
   end
 end

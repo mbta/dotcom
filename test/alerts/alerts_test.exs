@@ -24,6 +24,18 @@ defmodule AlertsTest do
     end
   end
 
+  describe "ongoing_effects/0" do
+    test "returs a list" do
+      assert is_list(ongoing_effects())
+    end
+  end
+
+  describe "lifecycles/0" do
+    test "returns a list" do
+      assert is_list(lifecycles())
+    end
+  end
+
   describe "update/2" do
     test "updates an existing alert, keeping the old values" do
       alert = new(effect: :detour)
