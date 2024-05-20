@@ -14,7 +14,7 @@ defmodule Alerts.Alert do
             description: "",
             effect: :unknown,
             header: "",
-            image_url: "",
+            image_url: nil,
             informed_entity: %InformedEntitySet{},
             lifecycle: :unknown,
             priority: :low,

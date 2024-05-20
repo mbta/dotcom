@@ -69,6 +69,23 @@ defmodule CMS.Helpers do
     |> Enum.map(&File.from_api/1)
   end
 
+  @spec parse_page_types(map) :: list(String.t())
+  def parse_page_types(%{} = data) do
+    data
+    |> Map.get("field_page_type", [])
+    |> Enum.map(&Map.get(&1, "name"))
+    |> Enum.filter(&(!is_nil(&1)))
+    |> Enum.map(&String.downcase/1)
+  end
+
+  @spec parse_related_transit(map) :: list(String.t())
+  def parse_related_transit(%{} = data) do
+    data
+    |> Map.get("field_related_transit", [])
+    |> Enum.map(&Map.get(&1, "name"))
+    |> Enum.filter(&(!is_nil(&1)))
+  end
+
   @spec path_alias(map) :: String.t() | nil
   def path_alias(data) do
     data
