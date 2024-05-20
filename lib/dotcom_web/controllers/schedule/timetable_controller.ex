@@ -224,6 +224,18 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           },
           required(:trip_stops) => [Stops.Stop.t()]
         }
+  def build_timetable(%Conn{assigns: %{route: %Route{id: route_id, type: 4}}} = conn, schedules) do
+    trip_schedules = Map.new(schedules, &trip_schedule(&1))
+
+    trip_stops =
+      @stops_repo.by_route(route_id, conn.assigns.direction_id)
+
+    %{
+      trip_schedules: trip_schedules,
+      trip_stops: trip_stops
+    }
+  end
+
   def build_timetable(conn, schedules) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
     inbound? = conn.assigns.direction_id == 1
