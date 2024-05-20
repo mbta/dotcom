@@ -14,6 +14,7 @@ import {
   getCurrentState
 } from "./store/ScheduleStore";
 import { isABusRoute, isFerryRoute } from "../models/route";
+import EmptySchedule from "./components/EmptySchedule";
 
 const renderMap = ({
   route_patterns: routePatternsByDirection,
@@ -135,20 +136,54 @@ export const renderDirectionOrMap = (
   renderDirectionAndMap(schedulePageData, root);
 };
 
-const render = (): void => {
+const getPageData = (): {
+  schedulePageData: SchedulePageData;
+  branchesAreEmpty: boolean;
+  mapData: MapData;
+  mapChannel: string;
+} => {
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
-  if (!schedulePageDataEl) return;
+  const mapDataEl = document.getElementById("js-map-data");
+  if (!schedulePageDataEl || !mapDataEl) {
+    throw new Error(
+      `Page Elements are Missing schedulePageDataEl:${schedulePageDataEl} mapDataEl:${mapDataEl}`
+    );
+  }
   const schedulePageData = JSON.parse(
     schedulePageDataEl.innerHTML
   ) as SchedulePageData;
+  const branchesAreEmpty =
+    schedulePageDataEl.getAttribute("data-branches-are-empty") === "true";
+  const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
+  const mapChannel = mapDataEl.getAttribute("data-channel-id");
+
+  if (!schedulePageData || !mapData || !mapChannel) {
+    throw new Error(
+      `Page Data Missing mapChannel:${mapChannel}, mapData:${mapData}, schedulePageData:${schedulePageData}`
+    );
+  }
+
+  return {
+    schedulePageData,
+    branchesAreEmpty,
+    mapData,
+    mapChannel
+  };
+};
+
+const render = (): void => {
   const {
-    direction_id: directionId,
-    route_patterns: routePatterns
-  } = schedulePageData;
+    schedulePageData,
+    branchesAreEmpty,
+    mapData,
+    mapChannel
+  } = getPageData();
+
+  const { direction_id: directionId } = schedulePageData;
 
   createScheduleStore(directionId);
   ReactDOM.render(
-    fun(schedulePageData),
+    fun(schedulePageData, branchesAreEmpty, mapData, mapChannel),
     document.getElementById("react-root-schedule-page")
   );
   // renderAdditionalLineInformation(schedulePageData);
@@ -160,7 +195,8 @@ const render = (): void => {
 
 // TODO figure out return type
 const getDirectionAndMap = (
-  schedulePageData: SchedulePageData
+  schedulePageData: SchedulePageData,
+  mapData: MapData
 ): JSX.Element | undefined => {
   const currentState = getCurrentState();
   if (!!currentState && Object.keys(currentState).length !== 0) {
@@ -169,6 +205,7 @@ const getDirectionAndMap = (
         component="SCHEDULE_DIRECTION"
         schedulePageData={schedulePageData}
         updateURL={updateURL}
+        mapData={mapData}
       />
     );
   } else {
@@ -212,8 +249,7 @@ const getAdditionalLineInfo = (
 
 const getLineMap = (
   channel: string,
-  mapImgSrc: string,
-  dynamicMapData: any,
+  dynamicMapData: MapData,
   schedulePageData: SchedulePageData
 ): JSX.Element => {
   const directionId = schedulePageData.direction_id;
@@ -224,21 +260,13 @@ const getLineMap = (
     : routePatterns.map(pattern => pattern.shape_id);
   const currentStops = defaultRoutePattern.stop_ids;
   if (!channel) throw new Error("data-channel-id attribute not set");
-  const mapData: MapData = dynamicMapData as MapData;
   return (
-    <>
-      <Map
-        data={mapData}
-        channel={channel}
-        currentShapes={currentShapes}
-        currentStops={currentStops}
-      />
-      <noscript>
-        <div className="line-map map m-schedule-line__map-static">
-          <img className="map-static map-static-img" srcSet={mapImgSrc}></img>
-        </div>
-      </noscript>
-    </>
+    <Map
+      data={dynamicMapData}
+      channel={channel}
+      currentShapes={currentShapes}
+      currentStops={currentStops}
+    />
   );
 };
 
@@ -255,85 +283,60 @@ const getPageTitle = (route: Route): string | null => {
   }
 };
 
-const getMetaJSON = (id: string): any => {
-  const metaContentString = getMetaString(id);
-  if (metaContentString) {
-    return JSON.parse(metaContentString);
-  }
-  return null;
-};
-
-const getMetaString = (id: string): string | undefined | null => {
-  const metaContent = document
-    .querySelector(`meta[name=${id}]`)
-    ?.getAttribute("content");
-
-  return metaContent;
-};
-
-const fun = (schedulePageData: SchedulePageData): JSX.Element => {
+const fun = (
+  schedulePageData: SchedulePageData,
+  noBranches: boolean,
+  dynamicMapData: MapData,
+  mapChannel: string
+): JSX.Element => {
   const route = schedulePageData.route;
 
-  const branches = getMetaJSON("branches");
-  const mapChannel = getMetaString("mapChannel");
-  const dynamicMapData = getMetaJSON("dynamicMapData");
-  const mapPdfUrl = getMetaString("mapPdfUrl");
-  const mapImageSrc = getMetaString("mapImageSrc");
-
-  const noBranches = branches.length === 0;
-
-  const width = noBranches ? "col-md-12" : "col-md-7";
-  const min_size = noBranches ? "" : "m-schedule-page__main-content__min-size";
   const offset = noBranches
     ? "col-md-offset-7 col-lg-offset-8"
     : "col-lg-offset-1";
   const ferry = isFerryRoute(route) ? "ferry" : "";
   const title = getPageTitle(route);
   return (
-    <>
-      <Provider store={store}>
-        <div className={width + " m-schedule-page__main-content " + min_size}>
+    <Provider store={store}>
+      {!noBranches && (
+        <div className="col-md-7 m-schedule-page__main-content">
           <div className={"m-schedule-line__main-content " + ferry}>
-            {noBranches ? (
-              <>{"TODO: RENDER EMPTY"}</>
-            ) : (
-              <>
-                {title && <h2>{title}</h2>}
-                {getDirectionAndMap(schedulePageData)}
-                {isFerryRoute(route) && getScheduleFinder(schedulePageData)}
-                <div className="line-map-container">
-                  {!isFerryRoute(route) &&
-                    mapChannel &&
-                    mapImageSrc &&
-                    getLineMap(
-                      mapChannel,
-                      mapImageSrc,
-                      dynamicMapData,
-                      schedulePageData
-                    )}
-                </div>
-                {/* END branchs not empty rendering 8*/}
-              </>
-            )}
+            {title && <h2>{title}</h2>}
+            <div>
+              {getDirectionAndMap(schedulePageData, dynamicMapData)}
+              {isFerryRoute(route) && getScheduleFinder(schedulePageData)}
+            </div>
+            {/* <div className="line-map-container">
+              {!isFerryRoute(route) &&
+                mapChannel &&
+                getLineMap(
+                  mapChannel,
+                  dynamicMapData,
+                  schedulePageData
+                  )}
+            </div> */}
+            {/* END branchs not empty rendering 8*/}
           </div>
         </div>
-        <div className="col-md-5 col-lg-4 col-lg-offset-1 m-schedule-page__schedule-finder-or-note">
-          {/* IF branches not empty continue rendering */}
-          {getScheduleNote(schedulePageData)}
-          {schedulePageData.schedule_note === null &&
-            !isFerryRoute(route) &&
-            getScheduleFinder(schedulePageData)}
-          {/* END branches not empty continue rendering */}
+      )}
+      <div
+        className={`col-md-5 col-lg-4 ${offset} m-schedule-page__schedule-finder-or-note`}
+      >
+        {/* IF branches not empty continue rendering */}
+        {getScheduleNote(schedulePageData)}
+        {schedulePageData.schedule_note === null &&
+          !isFerryRoute(route) &&
+          getScheduleFinder(schedulePageData)}
+        {/* END branches not empty continue rendering */}
+      </div>
+      <div
+        className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}
+      >
+        <div className="m-schedule-line__side-content">
+          {getAdditionalLineInfo(schedulePageData)}
         </div>
-        <div
-          className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}
-        >
-          <div className="m-schedule-line__side-content">
-            {getAdditionalLineInfo(schedulePageData)}
-          </div>
-        </div>
-      </Provider>
-    </>
+      </div>
+    </Provider>
   );
 };
 

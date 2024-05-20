@@ -240,7 +240,6 @@ const ScheduleDirection = ({
           alerts={alerts}
         />
       )}
-
       {!staticMapData && mapState.data && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}

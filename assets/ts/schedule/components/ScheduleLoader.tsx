@@ -29,6 +29,7 @@ interface Props {
   schedulePageData: SchedulePageData;
   component: ComponentToRender;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
+  mapData?: MapData;
 }
 
 export const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
@@ -56,6 +57,7 @@ export const changeOrigin = (origin: SelectedOrigin): void => {
 export const ScheduleLoader = ({
   component,
   schedulePageData,
+  mapData,
   updateURL
 }: Props): ReactElement<HTMLElement> => {
   const [query] = useQueryParams({
@@ -265,12 +267,6 @@ export const ScheduleLoader = ({
     }
 
     if (component === "SCHEDULE_DIRECTION") {
-      let mapData: MapData | undefined;
-      const mapDataEl = document.getElementById("js-map-data");
-      if (mapDataEl) {
-        mapData = JSON.parse(mapDataEl.innerHTML);
-      }
-
       let staticMapData: StaticMapData | undefined;
       const staticDataEl = document.getElementById("static-map-data");
       if (staticDataEl) {
