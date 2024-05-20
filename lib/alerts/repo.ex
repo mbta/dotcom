@@ -72,7 +72,7 @@ defmodule Alerts.Repo do
   end
 
   # This function is used to attach an image URL to an alert if it doesn't already have one.
-  #
+  # It should be removed once alerts support image URLs.
   defp maybe_attach_image_url(alert) do
     if is_nil(alert.image_url) do
       this_month = Timex.format!(Timex.now(), "%Y-%m", :strftime)
