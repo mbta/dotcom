@@ -25,7 +25,7 @@ defmodule AlertsTest do
   end
 
   describe "ongoing_effects/0" do
-    test "returs a list" do
+    test "returns a list" do
       assert is_list(ongoing_effects())
     end
   end
