@@ -3,6 +3,8 @@ defmodule Dotcom.TripPlan.Location do
   alias Dotcom.TripPlan.Query
   alias TripPlan.NamedPosition
 
+  @location_service Application.compile_env!(:dotcom, :location_service)
+
   @spec validate(Query.t(), map) :: Query.t()
   def validate(
         %Query{} = query,
@@ -116,27 +118,24 @@ defmodule Dotcom.TripPlan.Location do
       <<location::binary>> ->
         # lat/lng was missing or invalid; attempt geolocation based on name
         location
-        |> TripPlan.geocode()
+        |> @location_service.geocode()
         |> do_validate_by_name(field, query, params)
     end
   end
 
-  @spec do_validate_by_name(TripPlan.Geocode.t(), :to | :from, Query.t(), map) :: Query.t()
-  defp do_validate_by_name({:ok, %NamedPosition{} = pos}, field, query, params) do
+  @spec do_validate_by_name(LocationService.Behaviour.result(), :to | :from, Query.t(), map) ::
+          Query.t()
+  defp do_validate_by_name({:ok, [%LocationService.Address{} = result | _]}, field, query, params) do
+    pos = TripPlan.NamedPosition.new(result)
+
     query
     |> Map.put(field, pos)
     |> validate(params)
   end
 
   defp do_validate_by_name({:error, error}, field, query, params) do
-    error_atom =
-      case error do
-        {:multiple_results, _} -> :multiple_results
-        atom when is_atom(atom) -> atom
-      end
-
     query
-    |> Map.put(:errors, MapSet.put(query.errors, error_atom))
+    |> Map.put(:errors, MapSet.put(query.errors, error))
     |> Map.put(field, {:error, error})
     |> validate(params)
   end

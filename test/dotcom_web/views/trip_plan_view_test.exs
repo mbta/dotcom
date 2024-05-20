@@ -5,7 +5,6 @@ defmodule DotcomWeb.TripPlanViewTest do
   import Mox
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Schedules.Repo, only: [end_of_rating: 0]
-  import UrlHelpers, only: [update_url: 2]
 
   alias Fares.Fare
   alias Routes.Route
@@ -237,24 +236,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       assert rendered_location_error(conn, query, :to) ==
                "We're sorry, but we couldn't find that address."
-    end
-
-    test "renders each position as a link if we have too many results", %{conn: conn} do
-      {:error, {:multiple_results, results}} = from = TripPlan.geocode("too many results")
-      query = %Query{from: from, to: {:error, :unknown}, itineraries: {:error, :unknown}}
-      conn = Map.put(conn, :query_params, %{})
-
-      rendered =
-        conn
-        |> rendered_location_error(query, :from)
-        |> safe_to_string
-
-      assert rendered =~ "Did you mean?"
-
-      for result <- results do
-        assert rendered =~ result.name
-        assert rendered =~ update_url(conn, %{plan: %{from: result.name}})
-      end
     end
   end
 
