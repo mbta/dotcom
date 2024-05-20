@@ -27,7 +27,7 @@ defmodule LocationServiceTest do
 
   describe "geocode/1" do
     test "can parse a response with results", %{good_response: good_response} do
-      stub(ExAws.Mock, :request, fn _ ->
+      expect(ExAws.Mock, :request, fn _ ->
         {:ok, good_response}
       end)
 
@@ -43,7 +43,7 @@ defmodule LocationServiceTest do
     end
 
     test "can parse a response with no results", %{no_results: no_results} do
-      stub(ExAws.Mock, :request, fn _ ->
+      expect(ExAws.Mock, :request, fn _ ->
         {:ok, no_results}
       end)
 
@@ -51,7 +51,7 @@ defmodule LocationServiceTest do
     end
 
     test "can parse a response with no body" do
-      stub(ExAws.Mock, :request, fn _ ->
+      expect(ExAws.Mock, :request, fn _ ->
         {:ok, %{status_code: 412}}
       end)
 
@@ -59,7 +59,7 @@ defmodule LocationServiceTest do
     end
 
     test "can parse a response with error" do
-      stub(ExAws.Mock, :request, fn _ ->
+      expect(ExAws.Mock, :request, fn _ ->
         {:error, {:http_error, 500, "bad news"}}
       end)
 
@@ -110,7 +110,7 @@ defmodule LocationServiceTest do
         }
         |> Jason.encode()
 
-      stub(ExAws.Mock, :request, fn _ ->
+      expect(ExAws.Mock, :request, fn _ ->
         {:ok, %{status_code: 200, body: body_string}}
       end)
 
@@ -120,7 +120,7 @@ defmodule LocationServiceTest do
     end
 
     test "can parse a response with error" do
-      stub(ExAws.Mock, :request, fn _ ->
+      expect(ExAws.Mock, :request, fn _ ->
         {:error, {:http_error, 500, "bad news"}}
       end)
 

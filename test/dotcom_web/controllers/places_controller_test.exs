@@ -23,9 +23,7 @@ defmodule DotcomWeb.PlacesControllerTest do
       hit_limit = Faker.random_between(3, 5)
       suggestions = build_list(3, :suggestion)
 
-      expect(LocationService.Mock, :autocomplete, fn arg1, arg2 ->
-        assert arg1 == input
-        assert arg2 == hit_limit
+      expect(LocationService.Mock, :autocomplete, fn ^input, ^hit_limit ->
         {:ok, suggestions}
       end)
 
