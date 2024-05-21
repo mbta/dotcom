@@ -35,8 +35,7 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
     test "geocodes address if lat/lng is not provided" do
       address = Faker.Address.street_address()
 
-      expect(LocationService.Mock, :geocode, fn arg ->
-        assert arg == address
+      expect(LocationService.Mock, :geocode, fn ^address ->
         {:ok, []}
       end)
 
@@ -52,8 +51,7 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
     test "geocodes address if lat/lng is nil" do
       address = Faker.Address.street_address()
 
-      expect(LocationService.Mock, :geocode, fn arg ->
-        assert arg == address
+      expect(LocationService.Mock, :geocode, fn ^address ->
         {:ok, []}
       end)
 
@@ -71,8 +69,7 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
     test "geocodes address from param" do
       address = Faker.Address.street_address()
 
-      expect(LocationService.Mock, :geocode, fn arg ->
-        assert arg == address
+      expect(LocationService.Mock, :geocode, fn ^address ->
         {:ok, []}
       end)
 
@@ -86,8 +83,7 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
     test "geocodes address if lat/lng are not floats" do
       address = Faker.Address.street_address()
 
-      expect(LocationService.Mock, :geocode, fn arg ->
-        assert arg == address
+      expect(LocationService.Mock, :geocode, fn ^address ->
         {:ok, []}
       end)
 
@@ -103,17 +99,17 @@ defmodule DotcomWeb.TransitNearMeController.LocationTest do
     end
 
     test "reverse geocodes lat/lng if address is not provided" do
+      latitude = Faker.Address.latitude()
+      longitude = Faker.Address.longitude()
+
       params = %{
         "location" => %{
-          "latitude" => "#{Faker.Address.latitude()}",
-          "longitude" => "#{Faker.Address.longitude()}"
+          "latitude" => "#{latitude}",
+          "longitude" => "#{longitude}"
         }
       }
 
-      expect(LocationService.Mock, :reverse_geocode, fn arg, arg2 ->
-        assert "#{arg}" == params["location"]["latitude"]
-        assert "#{arg2}" == params["location"]["longitude"]
-
+      expect(LocationService.Mock, :reverse_geocode, fn ^latitude, ^longitude ->
         {:ok, build_list(2, :address)}
       end)
 
