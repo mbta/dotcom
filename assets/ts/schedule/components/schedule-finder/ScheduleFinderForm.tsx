@@ -110,6 +110,7 @@ const ScheduleFinderForm = ({
               handleClick={handleOriginClick}
             >
               <select
+                data-testid="schedule-finder-origin-select"
                 className="c-select-custom c-select-custom--noclick notranslate"
                 value={selectedOrigin || ""}
                 onChange={e => onOriginChange(e.target.value || null)}

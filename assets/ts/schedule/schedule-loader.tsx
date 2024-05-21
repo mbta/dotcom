@@ -48,12 +48,6 @@ const getPageData = (): {
     schedulePageDataEl.getAttribute("data-branches-are-empty") === "true";
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
 
-  if (!schedulePageData || !mapData) {
-    throw new Error(
-      `Page Data Missing mapData:${mapData}, schedulePageData:${schedulePageData}`
-    );
-  }
-
   return {
     schedulePageData,
     branchesAreEmpty,
@@ -92,7 +86,7 @@ export const getDirectionAndMap = (
   }
 };
 
-const getScheduleFinder = (
+export const getScheduleFinder = (
   schedulePageData: SchedulePageData
 ): JSX.Element | undefined => {
   return (
@@ -104,7 +98,9 @@ const getScheduleFinder = (
   );
 };
 
-const getScheduleNote = (schedulePageData: SchedulePageData): JSX.Element => {
+export const getScheduleNote = (
+  schedulePageData: SchedulePageData
+): JSX.Element => {
   return (
     <ScheduleLoader
       component="SCHEDULE_NOTE"
@@ -139,7 +135,7 @@ const getPageTitle = (route: Route): string | null => {
   }
 };
 
-const doRender = (
+export const doRender = (
   schedulePageData: SchedulePageData,
   noBranches: boolean,
   dynamicMapData: MapData

@@ -4,21 +4,20 @@ import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full li
 import {
   ServiceInSelector,
   RoutePatternsByDirection,
-  StopTreeData
+  StopTreeData,
+  SchedulePageData
 } from "../__schedule";
 import { EnhancedRoute } from "../../../__v3api";
-import { mount, ReactWrapper } from "enzyme";
 import { store } from "../../store/ScheduleStore";
 import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
 import ScheduleLoader from "../ScheduleLoader";
-import ScheduleFinder from "../ScheduleFinder";
-import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as scheduleLoader from "../../schedule-loader";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 import * as useStop from "../../../hooks/useStop";
 import { FetchStatus } from "../../../helpers/use-fetch";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -229,9 +228,8 @@ jest.mock("../ScheduleDirection", () => {
 });
 
 describe("ScheduleLoader", () => {
-  let wrapper: ReactWrapper;
-
   beforeEach(() => {
+    scheduleStoreModule.createScheduleStore(1);
     jest.spyOn(useStop, "useStop").mockImplementation(stopId => {
       return {
         status: FetchStatus.Data,
@@ -240,6 +238,10 @@ describe("ScheduleLoader", () => {
         } as any
       };
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it("Renders additional line information", () => {
@@ -276,7 +278,7 @@ describe("ScheduleLoader", () => {
   });
 
   it("Renders ScheduleFinder", () => {
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -304,9 +306,7 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-    expect(wrapper.find(ScheduleFinder).exists()).toEqual(true);
-
-    wrapper.unmount();
+    expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
   });
 
   it("Renders ScheduleNote with Schedule modal", () => {
@@ -321,7 +321,7 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_NOTE"
@@ -349,13 +349,11 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-    expect(wrapper.find(ScheduleFinderModal).exists()).toEqual(true);
-
-    wrapper.unmount();
+    expect(screen.getByText("Daily Schedule")).toBeInTheDocument();
   });
 
   it("Renders empty component", () => {
-    wrapper = mount(
+    const { container } = render(
       <Provider store={store}>
         <ScheduleLoader
           component=""
@@ -383,8 +381,7 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-    expect(wrapper.html()).toEqual("");
-    wrapper.unmount();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it("Shows the modal with pre-populated values", () => {
@@ -399,7 +396,7 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -427,9 +424,7 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-    expect(wrapper.find(ScheduleFinderModal).exists()).toEqual(true);
-
-    wrapper.unmount();
+    expect(screen.getByText("Daily Schedule")).toBeInTheDocument();
   });
 
   it("Shows the ScheduleDirection component", () => {
@@ -440,7 +435,7 @@ describe("ScheduleLoader", () => {
   )}</script>
   </div>`;
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_DIRECTION"
@@ -468,13 +463,12 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-    expect(wrapper.find("div").html()).toMatch("ScheduleDirection");
-
-    wrapper.unmount();
+    expect(screen.getByText("ScheduleDirection")).toBeInTheDocument();
   });
 
-  it("Opens the schedule modal", () => {
-    wrapper = mount(
+  it("Opens the schedule modal", async () => {
+    const user = userEvent.setup();
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -503,7 +497,7 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
 
-    const getCurrentStateStub = jest
+    jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
         return {
@@ -516,18 +510,16 @@ describe("ScheduleLoader", () => {
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    wrapper
-      .find("form")
-      .first()
-      .simulate("submit", { preventDefault: () => {} });
+    const originSelect = screen.getByTestId("schedule-finder-origin-select");
+
+    await user.click(originSelect);
 
     expect(storeHandlerStub).toHaveBeenCalledTimes(1);
-
-    wrapper.unmount();
   });
 
-  it("Opens the origin modal", () => {
-    wrapper = mount(
+  it("Opens the origin modal", async () => {
+    const user = userEvent.setup();
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -558,7 +550,7 @@ describe("ScheduleLoader", () => {
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    const getCurrentStateStub = jest
+    jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
         return {
@@ -569,11 +561,10 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    wrapper
-      .find("SelectContainer")
-      .last()
-      // @ts-ignore -- types for `invoke` seem to be too restrictive
-      .invoke("handleClick")();
+    const buttons = screen.getAllByRole("button");
+    expect(buttons.length).toBeGreaterThan(1);
+
+    await user.click(buttons[1]);
 
     // first call is with INITIALIZE
     expect(storeHandlerStub).toHaveBeenNthCalledWith(2, {
@@ -582,8 +573,6 @@ describe("ScheduleLoader", () => {
         modalMode: "origin"
       }
     });
-
-    wrapper.unmount();
   });
 
   it("Shows the schedule modal on load", () => {
@@ -595,7 +584,7 @@ describe("ScheduleLoader", () => {
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -634,15 +623,13 @@ describe("ScheduleLoader", () => {
       }
     });
 
-    wrapper.unmount();
-
     // now check with the opposite direction:
     window.history.replaceState(
       {},
       "",
       "/?schedule_finder%5Bdirection_id%5D=1&schedule_finder%5Borigin%5D=place-welln"
     );
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -680,12 +667,11 @@ describe("ScheduleLoader", () => {
         modalOpen: true
       }
     });
-
-    wrapper.unmount();
   });
 
-  it("Closes the schedule modal", () => {
-    const stubFn = jest
+  it("Closes the schedule modal", async () => {
+    const user = userEvent.setup();
+    jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
         return {
@@ -698,7 +684,7 @@ describe("ScheduleLoader", () => {
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -727,18 +713,17 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
 
-    wrapper.find("#modal-close").simulate("click");
+    await userEvent.click(screen.getByText("Close"));
 
     expect(storeHandlerStub).toHaveBeenCalledWith({
       type: "CLOSE_MODAL",
       newStoreValues: {}
     });
-
-    wrapper.unmount();
   });
 
-  it("Handles change of direction", () => {
-    wrapper = mount(
+  it("Handles change of direction", async () => {
+    const user = userEvent.setup();
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -768,11 +753,13 @@ describe("ScheduleLoader", () => {
     );
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
+    const directionSelects = screen.getAllByTestId(
+      "schedule-finder-direction-select"
+    );
+    expect(directionSelects).toHaveLength(2);
 
-    wrapper
-      .find("select")
-      .first()
-      .simulate("change", { target: { value: 1 } });
+    // TODO figure out a valid options
+    await user.selectOptions(directionSelects[1], "1");
 
     expect(storeHandlerStub).toHaveBeenNthCalledWith(2, {
       type: "CHANGE_DIRECTION",
@@ -781,11 +768,11 @@ describe("ScheduleLoader", () => {
         selectedOrigin: null
       }
     });
-    wrapper.unmount();
   });
 
-  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", () => {
-    const stubFn = jest
+  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
+    const user = userEvent.setup();
+    jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
         return {
@@ -796,7 +783,7 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_NOTE"
@@ -827,12 +814,8 @@ describe("ScheduleLoader", () => {
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    // select the origin drop-down to open the origin modal
-    wrapper
-      .find("SelectContainer")
-      .at(1)
-      // @ts-ignore -- types for `invoke` seem to be too restrictive
-      .invoke("handleClick")();
+    const originSelect = screen.getByTestId("schedule-finder-origin-select");
+    await user.click(originSelect);
 
     expect(storeHandlerStub).toHaveBeenCalledWith({
       type: "OPEN_MODAL",
@@ -840,11 +823,11 @@ describe("ScheduleLoader", () => {
         modalMode: "origin"
       }
     });
-    wrapper.unmount();
   });
 
-  it("Changes the origin", () => {
-    wrapper = mount(
+  it("Changes the origin", async () => {
+    const user = userEvent.setup();
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -874,23 +857,21 @@ describe("ScheduleLoader", () => {
     );
 
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    //change the origin
-    wrapper
-      .find("select")
-      .at(1)
-      .simulate("change", { target: { value: "123" } });
+    const originSelects = screen.getAllByTestId(
+      "schedule-finder-origin-select"
+    );
+    expect(originSelects).toHaveLength(2);
+    await user.selectOptions(originSelects[1], "123");
 
     expect(storeHandlerStub).toHaveBeenCalledTimes(3);
 
     storeHandlerStub.mockRestore();
-    wrapper.unmount();
   });
 
   it("Checks if it is a unidirectional route", () => {
     const changeDirectionStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -928,47 +909,40 @@ describe("ScheduleLoader", () => {
     });
 
     changeDirectionStub.mockRestore();
-    wrapper.unmount();
   });
 
   it("Does not render line diagram because route information is empty", () => {
     const schedulePageData = {
       route_patterns: {},
+      route_stop_lists: [],
+      hours: "",
+      teasers: "<div>Test Teasers</div>",
       direction_id: 1,
       route,
       stops,
       connections: [],
       fares: [],
+      fare_link: "",
       holidays: [],
       pdfs: [],
       stop_tree: stopTreeData,
-      alerts: []
-    };
+      alerts: [],
+      schedule_note: null,
+      services: [],
+      today: "",
+      variant: null
+    } as SchedulePageData;
 
-    document.body.innerHTML = `<div id="react-root">
-  <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
-    schedulePageData
-  )}</script>
-  </div>`;
+    render(scheduleLoader.doRender(schedulePageData, true, mapData));
 
-    const renderAdditionalLineInformationStub = jest.spyOn(
-      scheduleLoader,
-      "getAdditionalLineInfo"
-    );
-    const renderDirectionOrMapPageStub = jest.spyOn(
-      scheduleLoader,
-      "getDirectionAndMap"
-    );
-
-    scheduleLoader.default(); //onLoad
-
-    expect(renderAdditionalLineInformationStub).toHaveBeenCalled();
-    expect(renderDirectionOrMapPageStub).not.toHaveBeenCalled();
+    expect(screen.queryByText("Stations & Departures")).toBeNull();
+    expect(screen.getByText("Test Teasers")).toBeInTheDocument();
   });
 
   it("it renders component conditionally (ScheduleNote instead of ScheduleFinder in this case)", () => {
     const schedulePageData = {
       route_patterns: routes,
+      route_stop_lists: [],
       schedule_note: scheduleNoteData,
       connections: [],
       fares,
@@ -985,32 +959,20 @@ describe("ScheduleLoader", () => {
       stop_tree: stopTreeData,
       alerts: [],
       variant: null
-    };
+    } as SchedulePageData;
 
-    document.body.innerHTML = `<div id="react-root">
-  <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
-    schedulePageData
-  )}</script>
-  </div>
-  <div id="react-schedule-note-root"></div>
-  <div id="react-schedule-finder-root"></div>`;
+    render(scheduleLoader.doRender(schedulePageData, false, mapData));
 
-    scheduleLoader.default();
-
-    const scheduleNoteNode = document.getElementById(
-      "react-schedule-note-root"
-    ) as HTMLElement;
-
-    const scheduleFinderNode = document.getElementById(
-      "react-schedule-finder-root"
-    ) as HTMLElement;
-
-    expect(scheduleNoteNode.innerHTML === "").toBe(false);
-    expect(scheduleFinderNode.innerHTML === "").toBe(true);
+    expect(screen.getByText("Hours of Operation")).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "Choose a stop to get schedule information and real-time departure predictions."
+      )
+    ).toBeNull();
   });
 
   it("it renders with Schedule modal open", () => {
-    const stubFn = jest
+    jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
         return {
@@ -1021,7 +983,7 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -1049,11 +1011,13 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-
-    expect(wrapper.find(ScheduleFinderModal).exists()).toEqual(true);
+    screen.getAllByText("Schedule Finder").forEach(node => {
+      expect(node).toBeInTheDocument();
+    });
   });
 
-  it("it handles change in origin", () => {
+  it("it handles change in origin", async () => {
+    const user = userEvent.setup();
     const stubFn = jest
       .spyOn(scheduleStoreModule, "getCurrentState")
       .mockImplementation(() => {
@@ -1065,7 +1029,7 @@ describe("ScheduleLoader", () => {
         };
       });
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
@@ -1095,14 +1059,12 @@ describe("ScheduleLoader", () => {
     );
 
     const storeHandlerSpy = jest.spyOn(scheduleStoreModule, "storeHandler");
+    const originSelects = screen.getAllByTestId(
+      "schedule-finder-origin-select"
+    );
+    expect(originSelects).toHaveLength(2);
 
-    // trigger selection in origin
-    // first 2 SelectContainer's are from the ScheduleFinder 'covered' by the modal at this point
-    wrapper
-      .find("SelectContainer")
-      .at(3)
-      // @ts-ignore -- types for `invoke` seem to be too restrictive
-      .invoke("handleClick")();
+    await user.click(originSelects[1]);
 
     expect(storeHandlerSpy).toHaveBeenCalledWith({
       type: "OPEN_MODAL",
@@ -1113,7 +1075,6 @@ describe("ScheduleLoader", () => {
 
     stubFn.mockRestore();
     storeHandlerSpy.mockRestore();
-    wrapper.unmount();
   });
 
   it("it only shows teasers and upcoming holidays because it is a suspended route", () => {
@@ -1157,10 +1118,15 @@ describe("ScheduleLoader", () => {
       pdfs
     };
 
-    document.body.innerHTML = `<div id="react-root">
+    document.body.innerHTML = `<div id="react-root-schedule-page">
   <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
     schedulePageData
   )}</script>
+  <script id="js-map-data"
+        data-channel-id="test-channel"
+        type="text/plain">
+        ${JSON.stringify(mapData)}
+  </script>
   </div>`;
 
     scheduleLoader.default();
