@@ -189,11 +189,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp stops_for_fairmount(1) do
-    ["place-DB-0095", "place-forhl", "place-rugg", "place-bbsta"]
+    ["place-NEC-2203", "place-forhl", "place-rugg", "place-bbsta"]
   end
 
   defp stops_for_fairmount(0) do
-    ["place-bbsta", "place-rugg", "place-forhl", "place-NEC-2203", "place-DB-0095"]
+    ["place-bbsta", "place-rugg", "place-forhl", "place-NEC-2203"]
   end
 
   def make_via_list(list) do
