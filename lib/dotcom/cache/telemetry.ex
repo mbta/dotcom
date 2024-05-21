@@ -20,6 +20,7 @@ defmodule Dotcom.Cache.Telemetry do
       {
         TelemetryMetricsSplunk,
         [
+          finch: Telemetry.Finch,
           metrics: metrics(),
           token: telemetry_metrics_splunk_config[:token],
           url: telemetry_metrics_splunk_config[:url]
