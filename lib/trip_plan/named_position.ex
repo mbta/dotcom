@@ -22,4 +22,12 @@ defmodule TripPlan.NamedPosition do
   def to_keywords(%__MODULE__{name: name, stop_id: stop_id, latitude: lat, longitude: lon}) do
     [name: name, stop_id: stop_id, lat_lon: {lat, lon}]
   end
+
+  def new(%LocationService.Address{} = address) do
+    %__MODULE__{
+      latitude: address.latitude,
+      longitude: address.longitude,
+      name: address.formatted
+    }
+  end
 end

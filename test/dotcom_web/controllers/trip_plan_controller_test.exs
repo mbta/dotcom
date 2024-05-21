@@ -1,6 +1,5 @@
 defmodule DotcomWeb.TripPlanControllerTest do
-  use DotcomWeb.ConnCase, async: false
-  @moduletag :external
+  use DotcomWeb.ConnCase, async: true
 
   alias Fares.Fare
   alias Dotcom.TripPlan.Query
@@ -10,8 +9,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
 
   doctest DotcomWeb.TripPlanController
 
-  import Mock
   import Mox
+  import Test.Support.Factory.MbtaApi
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
@@ -144,11 +143,36 @@ defmodule DotcomWeb.TripPlanControllerTest do
   setup :verify_on_exit!
 
   setup do
-    stub_with(OpenTripPlannerClient.Mock, Test.Support.OpenTripPlannerClientStub)
-    :ok
-  end
+    stub(MBTA.Api.Mock, :get_json, fn "/schedules/", [route: "Red", date: "1970-01-01"] ->
+      {:error,
+       [
+         %JsonApi.Error{
+           code: "no_service",
+           source: %{
+             "parameter" => "date"
+           },
+           detail: "The current rating does not describe service on that date.",
+           meta: %{
+             "end_date" => "2024-06-15",
+             "start_date" => "2024-05-10",
+             "version" => "Spring 2024, 2024-05-17T21:10:15+00:00, version D"
+           }
+         }
+       ]}
+    end)
 
-  setup do
+    stub(OpenTripPlannerClient.Mock, :plan, fn _from, _to, _opts ->
+      {:ok, []}
+    end)
+
+    stub(LocationService.Mock, :geocode, fn name ->
+      {:ok, Test.Support.Factory.LocationService.build_list(2, :address, %{formatted: name})}
+    end)
+
+    stub(Stops.Repo.Mock, :get_parent, fn _ ->
+      %Stops.Stop{}
+    end)
+
     conn = default_conn()
 
     end_of_rating =
@@ -324,7 +348,8 @@ defmodule DotcomWeb.TripPlanControllerTest do
       conn = get(conn, trip_plan_path(conn, :index, @bad_params))
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
-      assert response =~ "Did you mean?"
+      # shows error styling on location input with "required" label
+      assert response =~ "(Required)"
       assert %Query{} = conn.assigns.query
     end
 
@@ -368,22 +393,16 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "returns all nil fares when there is not enough information", %{conn: conn} do
-      # force legs to have incomplete information:
-      with_mock TripPlan.Leg, [:passthrough],
-        fare_complete_transit_leg?: fn _leg ->
-          false
-        end do
-        conn = get(conn, trip_plan_path(conn, :index, @good_params))
+      conn = get(conn, trip_plan_path(conn, :index, @good_params))
 
-        for itinerary <- conn.assigns.itineraries do
-          for leg <- itinerary.legs do
-            if TripPlan.Leg.transit?(leg) do
-              assert leg.mode.fares == %{
-                       highest_one_way_fare: nil,
-                       lowest_one_way_fare: nil,
-                       reduced_one_way_fare: nil
-                     }
-            end
+      for itinerary <- conn.assigns.itineraries do
+        for leg <- itinerary.legs do
+          if TripPlan.Leg.transit?(leg) do
+            assert leg.mode.fares == %{
+                     highest_one_way_fare: nil,
+                     lowest_one_way_fare: nil,
+                     reduced_one_way_fare: nil
+                   }
           end
         end
       end
@@ -708,7 +727,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
     test "gets a valid address in the 'from' field", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :from, "Boston Common"))
 
-      assert conn.assigns.query.from.name == "Geocoded Boston Common"
+      assert conn.assigns.query.from.name == "Boston Common"
     end
 
     test "uses expected values when addres is formatted latitutde,longitude,stopName", %{
@@ -723,13 +742,12 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "is unable to get address so it redirects to index", %{conn: conn} do
-      with_mock TripPlan, [:passthrough],
-        geocode: fn _address ->
-          {:error, :not_found}
-        end do
-        conn = get(conn, trip_plan_path(conn, :from, "Atlantis"))
-        assert html_response(conn, 302) =~ "/trip-planner"
-      end
+      expect(LocationService.Mock, :geocode, fn _ ->
+        {:error, :something}
+      end)
+
+      conn = get(conn, trip_plan_path(conn, :from, "Atlantis"))
+      assert html_response(conn, 302) =~ "/trip-planner"
     end
 
     test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
@@ -750,11 +768,10 @@ defmodule DotcomWeb.TripPlanControllerTest do
   describe "/to/ address path" do
     test "gets a valid address in the 'to' field", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :to, "Boston Common"))
-
-      assert conn.assigns.query.to.name == "Geocoded Boston Common"
+      assert conn.assigns.query.to.name == "Boston Common"
     end
 
-    test "uses expected values when addres is formatted latitutde,longitude,stopName", %{
+    test "uses expected values when address is formatted latitutde,longitude,stopName", %{
       conn: conn
     } do
       conn = get(conn, trip_plan_path(conn, :to, "42.395428,-71.142483,Cobbs Corner, Canton"))
@@ -766,13 +783,12 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "is unable to get address so it redirects to index", %{conn: conn} do
-      with_mock TripPlan, [:passthrough],
-        geocode: fn _address ->
-          {:error, :not_found}
-        end do
-        conn = get(conn, trip_plan_path(conn, :to, "Atlantis"))
-        assert html_response(conn, 302) =~ "/trip-planner"
-      end
+      expect(LocationService.Mock, :geocode, fn _ ->
+        {:error, :something}
+      end)
+
+      conn = get(conn, trip_plan_path(conn, :to, "Atlantis"))
+      assert html_response(conn, 302) =~ "/trip-planner"
     end
 
     test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
@@ -797,11 +813,21 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "doesn't set custom_route? flag for regular routes", %{itineraries: itineraries} do
+      expect(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+        %JsonApi{
+          data: [build(:route_item)]
+        }
+      end)
+
       rfq = TripPlanController.routes_for_query(itineraries)
       assert Enum.all?(rfq, fn {_route_id, route} -> !route.custom_route? end)
     end
 
     test "sets custom_route? flag for routes not present in API", %{itineraries: itineraries} do
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+        {:error, %JsonApi.Error{code: "not_found"}}
+      end)
+
       itineraries =
         Enum.map(itineraries, fn i ->
           legs =

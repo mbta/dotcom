@@ -81,7 +81,7 @@ defmodule DotcomWeb.TripPlanController do
 
       case @location_service.geocode(updated_address) do
         {:ok, [geocoded_from | _]} ->
-          do_from(conn, geocoded_from)
+          do_from(conn, NamedPosition.new(geocoded_from))
 
         {:error, _} ->
           # redirect to the initial index page
@@ -151,7 +151,7 @@ defmodule DotcomWeb.TripPlanController do
 
       case @location_service.geocode(updated_address) do
         {:ok, [geocoded_to | _]} ->
-          do_to(conn, geocoded_to)
+          do_to(conn, NamedPosition.new(geocoded_to))
 
         {:error, _} ->
           # redirect to the initial index page

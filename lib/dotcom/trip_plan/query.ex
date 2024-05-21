@@ -53,8 +53,7 @@ defmodule Dotcom.TripPlan.Query do
   @otp_arrive_by_tags [ShortestTrip, MostDirect, LeastWalking]
 
   @type query_itineraries :: {:ok, [Itinerary.t()]} | {:error, any()}
-  @type position_error :: TripPlan.Geocode.error() | :same_address
-  @type position :: NamedPosition.t() | {:error, position_error} | nil
+  @type position :: NamedPosition.t() | {:error, any()} | nil
   @type t :: %__MODULE__{
           from: position,
           to: position,
@@ -160,13 +159,6 @@ defmodule Dotcom.TripPlan.Query do
     opts_from_query(
       Map.delete(query, "modes"),
       Keyword.put(opts, :mode, active_modes)
-    )
-  end
-
-  def opts_from_query(%{"root_url" => root_url} = query, opts) do
-    opts_from_query(
-      Map.delete(query, "root_url"),
-      Keyword.put(opts, :root_url, root_url)
     )
   end
 
