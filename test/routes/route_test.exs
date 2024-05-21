@@ -253,8 +253,7 @@ defmodule Routes.RouteTest do
         "9701",
         "9702",
         "9703",
-        "Logan-Airport",
-        "CapeFlyer"
+        "Logan-Airport"
       ]
 
       for route_id <- hidden_routes do

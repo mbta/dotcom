@@ -238,7 +238,6 @@ defmodule Routes.Route do
   def hidden?(%{id: "9702"}), do: true
   def hidden?(%{id: "9703"}), do: true
   def hidden?(%{id: "Logan-" <> _}), do: true
-  def hidden?(%{id: "CapeFlyer"}), do: true
   def hidden?(%{id: "Boat-F3"}), do: true
   def hidden?(_), do: false
 
