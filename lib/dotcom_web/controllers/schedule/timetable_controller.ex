@@ -286,7 +286,9 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     "38671" => "Weymouth Landing/East Braintree",
     "NHRML-0127-B" => "Reading",
     "place-ER-0115" => "Swampscott",
-    "place-wondl" => "Lynn"
+    "place-wondl" => "Lynn",
+    # Add Readville (canonically on other routes) back into the Providence timetable
+    "place-DB-0095" => "Route 128"
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
