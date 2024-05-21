@@ -26,7 +26,7 @@ defmodule DotcomWeb.TransitNearMeController do
   end
 
   defp assign_location(conn) do
-    location_fn = Map.get(conn.assigns, :location_fn, &Location.get/2)
+    location_fn = Map.get(conn.assigns, :location_fn, &Location.get/1)
 
     location = location_fn.(conn.params, [])
 

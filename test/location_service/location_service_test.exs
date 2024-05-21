@@ -1,23 +1,23 @@
 defmodule LocationServiceTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
   import LocationService
-  import Mock
+  import Mox
 
-  alias AWSLocation.Request
+  setup :verify_on_exit!
 
   setup do
-    {:ok, body_string} =
+    body_string =
       %{
         "Results" => [
           %{
             "Place" => %{
               "Label" => "Somewhere",
-              "Geometry" => %{"Point" => [-71.05566, 42.35913]}
+              "Geometry" => %{"Point" => [Faker.Address.longitude(), Faker.Address.latitude()]}
             }
           }
         ]
       }
-      |> Jason.encode()
+      |> Jason.encode!()
 
     good_response = %{status_code: 200, body: body_string}
     {:ok, no_results} = Jason.encode(%{"Results" => []})
@@ -27,103 +27,102 @@ defmodule LocationServiceTest do
 
   describe "geocode/1" do
     test "can parse a response with results", %{good_response: good_response} do
-      with_mock Request, [], new: fn _ -> {:ok, good_response} end do
-        assert {:ok, body} = geocode("testing with results")
+      address = Faker.Address.street_address()
 
-        assert [
-                 %LocationService.Address{
-                   formatted: "Somewhere",
-                   longitude: -71.05566,
-                   latitude: 42.35913
-                 }
-               ] = body
-      end
+      expect(ExAws.Mock, :request, fn operation ->
+        assert %ExAws.Operation.RestQuery{body: %{Text: ^address}} = operation
+        {:ok, good_response}
+      end)
+
+      assert {:ok, body} = geocode(address)
+      assert [%LocationService.Address{} | _] = body
     end
 
     test "can parse a response with no results", %{no_results: no_results} do
-      with_mock Request, [],
-        new: fn _ ->
-          {:ok, no_results}
-        end do
-        assert {:error, :zero_results} = geocode("test no results")
-      end
+      expect(ExAws.Mock, :request, fn _ ->
+        {:ok, no_results}
+      end)
+
+      assert {:error, :zero_results} = geocode("test no results")
     end
 
     test "can parse a response with no body" do
-      with_mock Request, [:passthrough],
-        new: fn _ ->
-          {:ok, %{status_code: 412}}
-        end do
-        assert {:error, :internal_error} = geocode("test no body")
-      end
+      expect(ExAws.Mock, :request, fn _ ->
+        {:ok, %{status_code: 412}}
+      end)
+
+      assert {:error, :internal_error} = geocode("test no body")
     end
 
     test "can parse a response with error" do
-      with_mock Request, [:passthrough],
-        new: fn _ ->
-          {:error, {:http_error, 500, "bad news"}}
-        end do
-        assert {:error, :internal_error} = geocode("test error")
-      end
+      expect(ExAws.Mock, :request, fn _ ->
+        {:error, {:http_error, 500, "bad news"}}
+      end)
+
+      assert {:error, :internal_error} = geocode("test error")
     end
   end
 
   describe "reverse_geocode/2" do
     test "can parse a response with results" do
-      # return the input coordinates along with the time the function evaluates.
-      mock_return_coordinates = fn [lat, lon] ->
-        {:ok, body_string} =
-          %{
-            "Results" => [
-              %{
-                "Place" => %{
-                  "Label" => "Geocoded page",
-                  "Geometry" => %{"Point" => [lon, lat]}
-                }
-              }
-            ]
-          }
-          |> Jason.encode()
+      latitude = Faker.Address.latitude()
+      longitude = Faker.Address.longitude()
 
-        body_string
-      end
+      expect(ExAws.Mock, :request, fn operation ->
+        assert %ExAws.Operation.RestQuery{body: %{Position: coordinates}} = operation
+        assert [^longitude, ^latitude] = coordinates
 
-      with_mock Request, [:passthrough],
-        new: fn coordinates ->
-          {:ok, %{status_code: 200, body: mock_return_coordinates.(coordinates)}}
-        end do
-        lat1 = 71.596
-        long1 = -68.321
-        assert {:ok, [%LocationService.Address{}]} = reverse_geocode(lat1, long1)
-      end
+        {:ok,
+         %{
+           status_code: 200,
+           body:
+             %{
+               "Results" => [
+                 %{
+                   "Place" => %{
+                     "Label" => "Geocoded page",
+                     "Geometry" => %{"Point" => coordinates}
+                   }
+                 }
+               ]
+             }
+             |> Jason.encode!()
+         }}
+      end)
+
+      assert {:ok, [%LocationService.Address{}]} = reverse_geocode(latitude, longitude)
     end
   end
 
   describe "autocomplete/2" do
     test "can parse a response with results" do
-      {:ok, body_string} =
-        %{
-          "Results" => [
-            %{
-              "Text" => "Test Location"
-            }
-          ]
-        }
-        |> Jason.encode()
+      expect(ExAws.Mock, :request, fn _ ->
+        {:ok,
+         %{
+           status_code: 200,
+           body:
+             %{
+               "Results" => [
+                 %{
+                   "Text" => "Test Location"
+                 }
+               ]
+             }
+             |> Jason.encode!()
+         }}
+      end)
 
-      with_mock ExAws,
-        request: fn _ -> {:ok, %{status_code: 200, body: body_string}} end do
-        assert {:ok, result} = autocomplete("Tes", 2)
+      assert {:ok, result} = autocomplete("Tes", 2)
 
-        assert [%LocationService.Suggestion{address: "Test Location"}] = result
-      end
+      assert [%LocationService.Suggestion{address: "Test Location"}] = result
     end
 
     test "can parse a response with error" do
-      with_mock ExAws,
-        request: fn _ -> {:error, {:http_error, 500, "bad news"}} end do
-        assert {:error, :internal_error} = autocomplete("test", 2)
-      end
+      expect(ExAws.Mock, :request, fn _ ->
+        {:error, {:http_error, 500, "bad news"}}
+      end)
+
+      assert {:error, :internal_error} = autocomplete("test", 2)
     end
   end
 end

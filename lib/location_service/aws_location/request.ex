@@ -2,6 +2,7 @@ defmodule AWSLocation.Request do
   @moduledoc """
   Constructs and dispatches requests to AWS Location service
   """
+  @aws Application.compile_env!(:dotcom, :aws)
 
   @base_request_body %{
     FilterBBox: [-71.9380, 41.3193, -69.6189, 42.8266],
@@ -26,7 +27,7 @@ defmodule AWSLocation.Request do
   @doc "Autocompletes some text, limiting the number of results returned"
   @spec autocomplete(String.t(), number) :: LocationService.Suggestion.result()
   def autocomplete(search, limit) when 1 <= limit and limit <= 15 do
-    ExAws.request(%ExAws.Operation.RestQuery{
+    @aws.request(%ExAws.Operation.RestQuery{
       http_method: :post,
       body:
         @base_request_body
@@ -51,7 +52,7 @@ defmodule AWSLocation.Request do
       service: :places,
       path: path
     }
-    |> ExAws.request()
+    |> @aws.request()
   end
 
   defp place_index_path(:text), do: place_index_base("esri") <> "/search/text"

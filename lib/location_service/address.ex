@@ -2,6 +2,7 @@ defmodule LocationService.Address do
   @moduledoc """
   An address provided by a Geocode lookup.
   """
+  @derive Jason.Encoder
   @type t :: %__MODULE__{
           formatted: String.t(),
           latitude: float,

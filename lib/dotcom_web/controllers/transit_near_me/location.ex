@@ -4,22 +4,10 @@ defmodule DotcomWeb.TransitNearMeController.Location do
   """
   alias LocationService.Address
 
-  @spec get(map(), keyword()) :: LocationService.result() | :no_address
-  def get(params, opts) do
-    opts =
-      Keyword.merge(
-        [
-          geocode_fn: &LocationService.geocode/1,
-          reverse_geocode_fn: &LocationService.reverse_geocode/2
-        ],
-        opts
-      )
+  @location_service Application.compile_env!(:dotcom, :location_service)
 
-    do_get(params, opts)
-  end
-
-  @spec do_get(map(), keyword()) :: LocationService.result() | :no_address
-  defp do_get(%{"latitude" => lat, "longitude" => lng} = params, opts) do
+  @spec get(map()) :: LocationService.Behaviour.result()
+  def get(%{"latitude" => lat, "longitude" => lng} = params) do
     lat_lng = %{
       "latitude" => lat,
       "longitude" => lng
@@ -29,13 +17,13 @@ defmodule DotcomWeb.TransitNearMeController.Location do
     |> Map.delete("latitude")
     |> Map.delete("longitude")
     |> Map.update("location", lat_lng, fn loc -> Map.merge(loc, lat_lng) end)
-    |> get(opts)
+    |> get()
   end
 
-  defp do_get(%{"location" => %{"latitude" => lat, "longitude" => lng}} = params, opts) do
+  def get(%{"location" => %{"latitude" => lat, "longitude" => lng}} = params) do
     with {:ok, lat} <- parse_float(lat),
          {:ok, lng} <- parse_float(lng),
-         {:ok, address} <- get_formatted_address(params, {lat, lng}, opts) do
+         {:ok, address} <- get_formatted_address(params, {lat, lng}) do
       {:ok,
        [
          %Address{
@@ -56,24 +44,22 @@ defmodule DotcomWeb.TransitNearMeController.Location do
 
         params
         |> Map.put("location", location)
-        |> get(opts)
+        |> get()
 
       {:error, error} ->
         {:error, error}
     end
   end
 
-  defp do_get(%{"location" => %{"address" => address}}, opts) do
-    geocode_fn = Keyword.fetch!(opts, :geocode_fn)
-    geocode_fn.(address)
+  def get(%{"location" => %{"address" => address}}) do
+    @location_service.geocode(address)
   end
 
-  defp do_get(%{"address" => address}, opts) do
-    geocode_fn = Keyword.fetch!(opts, :geocode_fn)
-    geocode_fn.(address)
+  def get(%{"address" => address}) do
+    @location_service.geocode(address)
   end
 
-  defp do_get(%{}, _opts) do
+  def get(%{}) do
     :no_address
   end
 
@@ -86,17 +72,15 @@ defmodule DotcomWeb.TransitNearMeController.Location do
     end
   end
 
-  @spec get_formatted_address(map(), {float(), float()}, Keyword.t()) ::
+  @spec get_formatted_address(map(), {float(), float()}) ::
           {:ok, String.t()} | {:error, :zero_results | :internal_error}
-  def get_formatted_address(%{"location" => %{"address" => <<address::binary>>}}, _latlng, _opts)
+  def get_formatted_address(%{"location" => %{"address" => <<address::binary>>}}, _latlng)
       when address != "" do
     {:ok, address}
   end
 
-  def get_formatted_address(_, {lat, lng}, opts) do
-    reverse_geocode_fn = Keyword.fetch!(opts, :reverse_geocode_fn)
-
-    case reverse_geocode_fn.(lat, lng) do
+  def get_formatted_address(_, {lat, lng}) do
+    case @location_service.reverse_geocode(lat, lng) do
       {:ok, [%{formatted: address} | _]} -> {:ok, address}
       error -> error
     end

@@ -2,11 +2,15 @@ import Config
 
 config :elixir, ansi_enabled: true
 
+config :dotcom, :aws, ExAws
+
 config :dotcom, :cms_api_module, CMS.Api
 
 config :dotcom, :httpoison, HTTPoison
 
 config :dotcom, :mbta_api_module, MBTA.Api
+
+config :dotcom, :location_service, LocationService
 
 config :dotcom, :repo_modules,
   predictions: Predictions.Repo,

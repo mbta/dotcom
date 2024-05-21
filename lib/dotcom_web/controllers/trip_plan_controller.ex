@@ -21,10 +21,7 @@ defmodule DotcomWeb.TripPlanController do
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
 
-  @options %{
-    geocode_fn: &LocationService.geocode/1,
-    reverse_geocode_fn: &LocationService.reverse_geocode/2
-  }
+  @location_service Application.compile_env!(:dotcom, :location_service)
 
   @plan_datetime_selector_fields %{
     depart: "depart",
@@ -80,10 +77,10 @@ defmodule DotcomWeb.TripPlanController do
 
       do_from(conn, destination)
     else
-      updated_address = check_address(address, @options)
+      updated_address = check_address(address)
 
-      case TripPlan.geocode(updated_address) do
-        {:ok, geocoded_from} ->
+      case @location_service.geocode(updated_address) do
+        {:ok, [geocoded_from | _]} ->
           do_from(conn, geocoded_from)
 
         {:error, _} ->
@@ -150,10 +147,10 @@ defmodule DotcomWeb.TripPlanController do
 
       do_to(conn, destination)
     else
-      updated_address = check_address(address, @options)
+      updated_address = check_address(address)
 
-      case TripPlan.geocode(updated_address) do
-        {:ok, geocoded_to} ->
+      case @location_service.geocode(updated_address) do
+        {:ok, [geocoded_to | _]} ->
           do_to(conn, geocoded_to)
 
         {:error, _} ->
@@ -201,8 +198,8 @@ defmodule DotcomWeb.TripPlanController do
     |> render(:index)
   end
 
-  @spec check_address(String.t(), map) :: String.t()
-  defp check_address(address, opts) do
+  @spec check_address(String.t()) :: String.t()
+  defp check_address(address) do
     # address can be a String containing "lat,lon" so we check for that case
 
     [lat, lon] =
@@ -217,7 +214,7 @@ defmodule DotcomWeb.TripPlanController do
       {parsed_lat, _} = Float.parse(lat)
       {parsed_lon, _} = Float.parse(lon)
 
-      case opts.reverse_geocode_fn.(parsed_lat, parsed_lon) do
+      case @location_service.reverse_geocode(parsed_lat, parsed_lon) do
         {:ok, [first | _]} ->
           first.formatted
 
