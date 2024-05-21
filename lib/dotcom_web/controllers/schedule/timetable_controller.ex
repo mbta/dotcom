@@ -230,18 +230,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
           },
           required(:trip_stops) => [Stops.Stop.t()]
         }
-  def build_timetable(%Conn{assigns: %{route: %Route{id: route_id, type: 4}}} = conn, schedules) do
-    trip_schedules = Map.new(schedules, &trip_schedule(&1))
-
-    trip_stops =
-      @stops_repo.by_route(route_id, conn.assigns.direction_id)
-
-    %{
-      trip_schedules: trip_schedules,
-      trip_stops: trip_stops
-    }
-  end
-
   def build_timetable(conn, schedules) do
     trip_schedules = Map.new(schedules, &trip_schedule(&1))
     inbound? = conn.assigns.direction_id == 1
@@ -254,6 +242,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       )
       |> with_prioritized_pattern()
       |> Enum.map(&@stops_repo.by_trip(&1.representative_trip_id))
+      |> handle_ferry_stops(conn.assigns.route.id, inbound?)
       |> Enum.reduce(&merge_stop_lists(&1, &2, inbound?))
       |> remove_unused_stops(schedules)
       |> add_new_stops(schedules, inbound?)
@@ -286,6 +275,48 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   defp with_prioritized_pattern(route_patterns, pattern_name) do
     Enum.sort_by(route_patterns, &String.contains?(&1.name, pattern_name), :desc)
   end
+
+  @ferry_inbound_ids %{
+    "Boat-F1" => [
+      "Boat-Hingham",
+      "Boat-Hull",
+      "Boat-George",
+      "Boat-Logan",
+      "Boat-Rowes",
+      "Boat-Long"
+    ],
+    "Boat-F6" => [
+      "Boat-Winthrop",
+      "Boat-Quincy",
+      "Boat-Logan",
+      "Boat-Fan",
+      "Boat-Aquarium"
+    ]
+  }
+  @ferry_inbound_keys Map.keys(@ferry_inbound_ids)
+
+  # For ferry routes with many disjoint/overlapping route patterns,
+  # concatenating the lists of stops does not produce readable results. Since
+  # these routes are short, we can hardcode the order.
+  defp handle_ferry_stops(stop_lists, route_id, inbound?)
+       when route_id in @ferry_inbound_keys do
+    ordered_ids =
+      if inbound? do
+        @ferry_inbound_ids[route_id]
+      else
+        Enum.reverse(@ferry_inbound_ids[route_id])
+      end
+
+    stops = Enum.flat_map(stop_lists, & &1) |> Enum.uniq()
+
+    [
+      Enum.map(ordered_ids, fn id ->
+        Enum.find(stops, &(&1.id == id))
+      end)
+    ]
+  end
+
+  defp handle_ferry_stops(stop_lists, _, _), do: stop_lists
 
   defp schedule_from_other_stop?({{_, stop_id}, _}, stops) do
     !contains_stop?(stops, %Stop{id: stop_id})
