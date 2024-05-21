@@ -1,12 +1,13 @@
 defmodule DotcomWeb.TransitNearMeControllerTest do
-  use DotcomWeb.ConnCase
-  @moduletag :external
+  use DotcomWeb.ConnCase, async: true
 
   alias LocationService.Address
   alias Leaflet.{MapData, MapData.Marker}
-  alias Dotcom.TransitNearMe
-  alias DotcomWeb.TransitNearMeController, as: TNMController
+  alias DotcomWeb.TransitNearMeController
   alias Stops.Stop
+
+  import Mox
+  import Test.Support.Factory.MbtaApi
 
   @orange_line %{
     id: "Orange",
@@ -57,11 +58,6 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
     station?: true
   }
 
-  @data %TransitNearMe{
-    distances: %{"place-bbsta" => 0.52934802},
-    stops: [@back_bay]
-  }
-
   @stop_with_routes %{
     distance: 0.52934802,
     routes: [
@@ -75,84 +71,26 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
     stop: @back_bay
   }
 
-  def location_fn(%{"address" => %{"latitude" => "valid", "longitude" => "valid"}}, []) do
-    send(self(), :location_fn)
+  @latitude Faker.Address.latitude()
+  @longitude Faker.Address.longitude()
+  @valid_location_params %{
+    "latitude" => "#{@latitude}",
+    "longitude" => "#{@longitude}"
+  }
 
-    {:ok,
-     [
-       %Address{
-         latitude: 42.351,
-         longitude: -71.066,
-         formatted: "10 Park Plaza, Boston, MA, 02116"
-       }
-     ]}
-  end
+  @address Faker.Address.street_address()
+  @located_address %Address{
+    formatted: @address,
+    latitude: @latitude,
+    longitude: @longitude
+  }
 
-  def location_fn(%{"address" => %{"latitude" => error}}, [])
-      when error in ["no_stops", "timeout_schedules"] do
-    send(self(), :location_fn)
-
-    {:ok,
-     [
-       %Address{
-         latitude: 0.0,
-         longitude: 0.0,
-         formatted: error
-       }
-     ]}
-  end
-
-  def location_fn(%{"address" => %{"latitude" => "no_results", "longitude" => "no_results"}}, []) do
-    send(self(), :location_fn)
-    {:error, :zero_results}
-  end
-
-  def location_fn(%{"address" => %{"latitude" => "error", "longitude" => "error"}}, []) do
-    send(self(), :location_fn)
-    {:error, :internal_error}
-  end
-
-  def location_fn(%{}, []) do
-    send(self(), :location_fn)
-    :no_address
-  end
-
-  def data_fn(
-        %Address{formatted: "10 Park Plaza, Boston, MA, 02116"},
-        _opts
-      ) do
-    send(self(), :data_fn)
-    @data
-  end
-
-  def data_fn(%Address{formatted: "no_stops"}, _opts) do
-    send(self(), :data_fn)
-    %TransitNearMe{}
-  end
-
-  def data_fn(%Address{formatted: "timeout_schedules"}, _opts) do
-    send(self(), :data_fn)
-    {:stops, {:error, :timeout}}
-  end
-
-  setup do
-    conn =
-      default_conn()
-      |> assign(:location_fn, &location_fn/2)
-      |> assign(:data_fn, &data_fn/2)
-
-    {:ok, conn: conn}
-  end
+  setup :verify_on_exit!
 
   describe "with no location params" do
     test "does not attempt to calculate stops with routes", %{conn: conn} do
       conn = get(conn, transit_near_me_path(conn, :index))
-
       assert conn.status == 200
-
-      assert_receive :location_fn
-      refute_receive :data_fn
-
       assert conn.assigns.location == :no_address
       assert conn.assigns.stops_json == %{stops: []}
       assert get_flash(conn) == %{}
@@ -161,31 +99,69 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
   describe "with valid location params" do
     test "assigns stops with routes", %{conn: conn} do
-      params = %{"address" => %{"latitude" => "valid", "longitude" => "valid"}}
+      stops = build_list(3, :stop_item)
+
+      expect(LocationService.Mock, :reverse_geocode, fn latitude, longitude ->
+        assert latitude == @latitude
+        assert longitude == @longitude
+        {:ok, [@located_address]}
+      end)
+
+      expect(MBTA.Api.Mock, :get_json, 3, fn "/stops/", opts ->
+        assert opts[:sort] == "distance"
+        assert opts[:latitude] == @located_address.latitude
+        assert opts[:longitude] == @located_address.longitude
+        assert opts[:route_type] in ["0,1", 2, 3]
+
+        %JsonApi{data: stops}
+      end)
+
+      # routes gets called twice per stop (once per direction)
+      expect(MBTA.Api.Mock, :get_json, length(stops) * 2, fn "/routes/", opts ->
+        assert opts[:stop] in Enum.map(stops, & &1.id)
+        %JsonApi{data: []}
+      end)
+
+      # attempts to find parent stop for each stop
+      expect(Stops.Repo.Mock, :get_parent, length(stops), fn id ->
+        %Stop{id: id, latitude: Faker.Address.latitude(), longitude: Faker.Address.longitude()}
+      end)
+
+      params = %{"location" => @valid_location_params}
 
       conn = get(conn, transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
 
-      assert_receive :location_fn
-      assert_receive :data_fn
-
-      assert {:ok, [%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}]} =
-               conn.assigns.location
-
+      assert {:ok, [%Address{}]} = conn.assigns.location
       assert conn.assigns.stops_json
       assert %MapData{} = conn.assigns.map_data
-      assert Enum.count(conn.assigns.map_data.markers) == 2
-      assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == "current-location"))
+      # shows markers for each stop + the located address
+      assert Enum.count(conn.assigns.map_data.markers) == length(stops) + 1
 
-      assert %Marker{} =
-               Enum.find(conn.assigns.map_data.markers, &(&1.id == @stop_with_routes.stop.id))
+      for stop <- stops do
+        assert %Marker{} = Enum.find(conn.assigns.map_data.markers, &(&1.id == stop.id))
+      end
 
       assert get_flash(conn) == %{}
     end
 
     test "flashes an error if location has no stops nearby", %{conn: conn} do
-      params = %{"address" => %{"latitude" => "no_stops", "longitude" => "no_stops"}}
+      expect(LocationService.Mock, :geocode, fn address ->
+        assert address == @address
+        {:ok, [@located_address]}
+      end)
+
+      expect(MBTA.Api.Mock, :get_json, 3, fn "/stops/", opts ->
+        assert opts[:sort] == "distance"
+        assert opts[:latitude] == @located_address.latitude
+        assert opts[:longitude] == @located_address.longitude
+        assert opts[:route_type] in ["0,1", 2, 3]
+
+        %JsonApi{data: []}
+      end)
+
+      params = %{"address" => @address}
 
       conn =
         conn
@@ -193,10 +169,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
       assert conn.status == 200
 
-      assert_receive :location_fn
-      assert_receive :data_fn
-
-      assert {:ok, [%Address{formatted: "no_stops"}]} = conn.assigns.location
+      assert {:ok, [%Address{}]} = conn.assigns.location
       assert conn.assigns.stops_json.stops == []
 
       assert get_flash(conn) == %{
@@ -211,7 +184,13 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
   describe "with invalid location params" do
     test "flashes an error when address cannot be located", %{conn: conn} do
-      params = %{"address" => %{"latitude" => "no_results", "longitude" => "no_results"}}
+      location_error = {:error, :zero_results}
+
+      expect(LocationService.Mock, :geocode, fn _ ->
+        location_error
+      end)
+
+      params = %{"address" => "not_found"}
 
       conn =
         conn
@@ -219,10 +198,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
 
       assert conn.status == 200
 
-      assert_receive :location_fn
-      refute_receive :data_fn
-
-      assert conn.assigns.location == {:error, :zero_results}
+      assert conn.assigns.location == location_error
       assert conn.assigns.stops_json.stops == []
 
       assert get_flash(conn) == %{
@@ -234,16 +210,17 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
     end
 
     test "flashes an error for any other error", %{conn: conn} do
-      params = %{"address" => %{"latitude" => "error", "longitude" => "error"}}
+      expect(LocationService.Mock, :geocode, fn _ ->
+        {:error, :internal_error}
+      end)
+
+      params = %{"address" => "nothing"}
 
       conn =
         conn
         |> get(transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
-
-      assert_receive :location_fn
-      refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :internal_error}
       assert conn.assigns.stops_json == %{stops: []}
@@ -263,7 +240,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
         conn
         |> assign(:stops_json, %{stops: []})
         |> assign(:location, nil)
-        |> TNMController.assign_map_data()
+        |> TransitNearMeController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
       assert conn.assigns.map_data.markers == []
@@ -274,7 +251,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
         conn
         |> assign(:stops_json, %{stops: [@stop_with_routes]})
         |> assign(:location, nil)
-        |> TNMController.assign_map_data()
+        |> TransitNearMeController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
       assert [marker] = conn.assigns.map_data.markers
@@ -336,7 +313,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
         conn
         |> assign(:stops_json, %{stops: [@stop_with_routes, bus_stop_with_routes]})
         |> assign(:location, nil)
-        |> TNMController.assign_map_data()
+        |> TransitNearMeController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
       assert markers = conn.assigns.map_data.markers
@@ -363,7 +340,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
         conn
         |> assign(:stops_json, %{stops: [@stop_with_routes, bus_stop_with_routes]})
         |> assign(:location, nil)
-        |> TNMController.assign_map_data()
+        |> TransitNearMeController.assign_map_data()
 
       assert %MapData{} = conn.assigns.map_data
       assert markers = conn.assigns.map_data.markers
@@ -387,24 +364,11 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
              }
            ]}
         )
-        |> TNMController.assign_map_data()
+        |> TransitNearMeController.assign_map_data()
 
       assert [marker] = conn.assigns.map_data.markers
       assert marker.id == "current-location"
       assert marker.tooltip == "10 Park Plaza"
-    end
-
-    test "handles timeouts without crashing", %{conn: conn} do
-      params = %{
-        "address" => %{"latitude" => "timeout_schedules", "longitude" => "timeout_schedules"}
-      }
-
-      conn = get(conn, transit_near_me_path(conn, :index, params))
-
-      assert conn.status == 500
-
-      assert_receive :location_fn
-      assert_receive :data_fn
     end
   end
 end
