@@ -108,16 +108,14 @@ defmodule DotcomWeb.PlacesControllerTest do
 
   describe "reverse_geocode" do
     test "responds with the address given a latitude and longitude", %{conn: conn} do
-      latitude = "42.3484012"
-      longitude = "-71.039176"
+      latitude = Faker.Address.latitude()
+      longitude = Faker.Address.longitude()
 
-      expect(LocationService.Mock, :reverse_geocode, fn arg1, arg2 ->
-        assert "#{arg1}" == latitude
-        assert "#{arg2}" == longitude
+      expect(LocationService.Mock, :reverse_geocode, fn ^latitude, ^longitude ->
         {:ok, build_list(3, :address)}
       end)
 
-      conn = reverse_geocode(conn, %{"latitude" => latitude, "longitude" => longitude})
+      conn = reverse_geocode(conn, %{"latitude" => "#{latitude}", "longitude" => "#{longitude}"})
       assert conn.status == 200
       body = json_response(conn, 200)
       assert is_list(Jason.decode!(body["results"]))
@@ -136,10 +134,11 @@ defmodule DotcomWeb.PlacesControllerTest do
         {:error, :internal_error}
       end)
 
-      latitude = "42.3484012"
-      longitude = "-71.039176"
-
-      conn = reverse_geocode(conn, %{"latitude" => latitude, "longitude" => longitude})
+      conn =
+        reverse_geocode(conn, %{
+          "latitude" => "#{Faker.Address.latitude()}",
+          "longitude" => "#{Faker.Address.longitude()}"
+        })
 
       assert conn.status == 500
       assert %{"error" => "Internal error"} = json_response(conn, 500)
@@ -150,9 +149,11 @@ defmodule DotcomWeb.PlacesControllerTest do
         {:error, :zero_results}
       end)
 
-      latitude = "42.3484012"
-      longitude = "-71.039176"
-      conn = reverse_geocode(conn, %{"latitude" => latitude, "longitude" => longitude})
+      conn =
+        reverse_geocode(conn, %{
+          "latitude" => "#{Faker.Address.latitude()}",
+          "longitude" => "#{Faker.Address.longitude()}"
+        })
 
       assert conn.status == 500
       assert %{"error" => "Zero results"} = json_response(conn, 500)
@@ -183,9 +184,7 @@ defmodule DotcomWeb.PlacesControllerTest do
       search_term = Faker.App.name()
       hit_limit = Faker.random_between(1, 10)
 
-      expect(LocationService.Mock, :autocomplete, fn arg1, arg2 ->
-        assert arg1 == search_term
-        assert arg2 == hit_limit
+      expect(LocationService.Mock, :autocomplete, fn ^search_term, ^hit_limit ->
         {:ok, []}
       end)
 
