@@ -1,8 +1,10 @@
 defmodule DotcomWeb.ScheduleController.TimetableController do
   @moduledoc "Handles the Timetable tab for commuter rail routes."
   use DotcomWeb, :controller
+
   alias Plug.Conn
   alias Routes.Route
+  alias RoutePatterns.RoutePattern
   alias Stops.Stop
   alias DotcomWeb.ScheduleView
 
@@ -250,6 +252,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         direction_id: conn.assigns.direction_id,
         canonical: Routes.Route.type_atom(conn.assigns.route) in [:commuter_rail, :subway]
       )
+      |> with_prioritized_pattern()
       |> Enum.map(&@stops_repo.by_trip(&1.representative_trip_id))
       |> Enum.reduce(&merge_stop_lists(&1, &2, inbound?))
       |> remove_unused_stops(schedules)
@@ -262,6 +265,26 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         |> remove_single_stop_trips(),
       trip_stops: trip_stops
     }
+  end
+
+  # Timetable stops will be ordered based on the route patterns from which they
+  # correspond to, but some timetable PDFs are laid out differently than that
+  # from the default route pattern sort_order. For these cases, we need to
+  # manipulate this by adjusting which route pattern is processed first.
+  defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Franklin"} | _] = route_patterns) do
+    route_patterns
+    |> with_prioritized_pattern("Foxboro")
+  end
+
+  defp with_prioritized_pattern([%RoutePattern{route_id: "CR-Providence"} | _] = route_patterns) do
+    route_patterns
+    |> with_prioritized_pattern("Stoughton")
+  end
+
+  defp with_prioritized_pattern(route_patterns), do: route_patterns
+
+  defp with_prioritized_pattern(route_patterns, pattern_name) do
+    Enum.sort_by(route_patterns, &String.contains?(&1.name, pattern_name), :desc)
   end
 
   defp schedule_from_other_stop?({{_, stop_id}, _}, stops) do
