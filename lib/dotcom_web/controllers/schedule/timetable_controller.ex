@@ -163,7 +163,7 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    ["740", "728", "758", "732", "760"]
+    ["740", "752", "728", "758", "732", "760"]
     |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
     |> Enum.into(%{})
   end
