@@ -101,9 +101,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
     test "assigns stops with routes", %{conn: conn} do
       stops = build_list(3, :stop_item)
 
-      expect(LocationService.Mock, :reverse_geocode, fn latitude, longitude ->
-        assert latitude == @latitude
-        assert longitude == @longitude
+      expect(LocationService.Mock, :reverse_geocode, fn @latitude, @longitude ->
         {:ok, [@located_address]}
       end)
 
