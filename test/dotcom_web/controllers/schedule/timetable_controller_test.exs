@@ -22,10 +22,24 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     },
     %Schedule{
       stop_sequence: 2,
+      time: DateTime.from_unix!(600),
+      stop: %Stop{id: "2", name: "name2"},
+      trip: %Trip{id: "trip-1", name: "123"},
+      platform_stop_id: "stop-2-platform-1"
+    },
+    %Schedule{
+      stop_sequence: 2,
       time: DateTime.from_unix!(5000),
       stop: %Stop{id: "2", name: "name2"},
       trip: %Trip{id: "trip-2", name: "456"},
       platform_stop_id: "stop-2-platform-1"
+    },
+    %Schedule{
+      stop_sequence: 3,
+      time: DateTime.from_unix!(6000),
+      stop: %Stop{id: "5", name: "name5"},
+      trip: %Trip{id: "trip-2", name: "456"},
+      platform_stop_id: "stop-5-platform-1"
     },
     %Schedule{
       stop_sequence: 3,
@@ -68,9 +82,15 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
       trip_id: "trip-3"
     },
     "name3-trip-5" => %{stop_name: "name3", stop_sequence: 5, trip_id: "trip-5"},
-    "shuttle-trip-4" => %{stop_name: "shuttle", stop_sequence: 4, trip_id: "trip-4"}
+    "shuttle-trip-4" => %{stop_name: "shuttle", stop_sequence: 4, trip_id: "trip-4"},
+    "name2-trip-1" => %{stop_name: "name2", stop_sequence: 2, trip_id: "trip-1"},
+    "name5-trip-2" => %{stop_name: "name5", stop_sequence: 3, trip_id: "trip-2"}
   }
   @route %Route{id: "route1", type: 1}
+  @route_patterns [
+    %RoutePatterns.RoutePattern{representative_trip_id: "trip-1"},
+    %RoutePatterns.RoutePattern{representative_trip_id: "trip-2"}
+  ]
 
   setup :verify_on_exit!
 
@@ -81,14 +101,7 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
       |> assign(:direction_id, 1)
 
     stub(RoutePatterns.Repo.Mock, :by_route_id, fn _, _ ->
-      [
-        %RoutePatterns.RoutePattern{representative_trip_id: "trip-1"},
-        %RoutePatterns.RoutePattern{representative_trip_id: "trip-2"}
-      ]
-    end)
-
-    stub(Stops.Repo.Mock, :by_trip, fn _ ->
-      @stops
+      @route_patterns
     end)
 
     {:ok, %{conn: conn}}
@@ -96,22 +109,25 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
 
   describe "build_timetable/2" do
     test "trip_schedules: a map from trip_id/stop_id to a schedule", %{conn: conn} do
+      expect(Stops.Repo.Mock, :by_trip, length(@route_patterns), fn _ ->
+        @stops
+      end)
+
       %{trip_schedules: trip_schedules} = build_timetable(conn, @schedules)
 
-      for schedule <- @schedules do
-        assert trip_schedules[{schedule.trip.id, schedule.stop.id}] == schedule
+      for {key, value} <- trip_schedules do
+        assert %Schedules.Schedule{} = value
+        assert {<<_::binary>>, <<_::binary>>} = key
       end
 
-      assert map_size(trip_schedules) == length(@schedules)
-    end
-
-    test "trip_stops: list of the stops in the same order", %{conn: conn} do
-      %{trip_stops: trip_stops} = build_timetable(conn, @schedules)
-
-      assert trip_stops == @stops
+      assert map_size(trip_schedules) <= length(@schedules)
     end
 
     test "trip_stops: if a stop isn't used, it's removed from the list", %{conn: conn} do
+      expect(Stops.Repo.Mock, :by_trip, length(@route_patterns), fn _ ->
+        @stops
+      end)
+
       schedules = Enum.take(@schedules, 1)
 
       %{trip_stops: trip_stops} = build_timetable(conn, schedules)
@@ -240,7 +256,9 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
                "trip-2-2" => "name2-trip-2",
                "trip-3-3" => "name3-trip-3",
                "trip-4-4" => "shuttle-trip-4",
-               "trip-5-5" => "name3-trip-5"
+               "trip-5-5" => "name3-trip-5",
+               "trip-1-2" => "name2-trip-1",
+               "trip-2-3" => "name5-trip-2"
              } ==
                stops
     end

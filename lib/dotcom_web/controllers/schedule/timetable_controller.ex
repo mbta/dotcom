@@ -54,7 +54,6 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
         %{assigns: %{route: route, direction_id: direction_id, date_in_rating?: true}} = conn
       ) do
     timetable_schedules = timetable_schedules(conn)
-    header_schedules = header_schedules(timetable_schedules)
     vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
     prior_stops = prior_stops(vehicle_schedules)
 
@@ -62,6 +61,11 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       trip_schedules: trip_schedules,
       trip_stops: trip_stops
     } = build_timetable(conn, timetable_schedules)
+
+    header_schedules =
+      trip_schedules
+      |> Map.values()
+      |> header_schedules()
 
     track_changes = track_changes(trip_schedules, Enum.map(trip_stops, & &1.id))
 
@@ -252,9 +256,29 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
       |> add_new_stops(schedules, inbound?)
 
     %{
-      trip_schedules: trip_schedules,
+      trip_schedules:
+        trip_schedules
+        |> Map.reject(&schedule_from_other_stop?(&1, trip_stops))
+        |> remove_single_stop_trips(),
       trip_stops: trip_stops
     }
+  end
+
+  defp schedule_from_other_stop?({{_, stop_id}, _}, stops) do
+    !contains_stop?(stops, %Stop{id: stop_id})
+  end
+
+  defp remove_single_stop_trips(trip_schedules) do
+    single_stop_trip_ids =
+      trip_schedules
+      |> Enum.frequencies_by(fn {{trip_id, _}, _} -> trip_id end)
+      |> Enum.filter(fn {_, count} -> count == 1 end)
+      |> Enum.map(fn {trip_id, _} -> trip_id end)
+
+    trip_schedules
+    |> Map.reject(fn {{trip_id, _}, _} ->
+      trip_id in single_stop_trip_ids
+    end)
   end
 
   @spec merge_stop_lists([Stop.t()], [Stop.t()], boolean()) :: [Stop.t()]
