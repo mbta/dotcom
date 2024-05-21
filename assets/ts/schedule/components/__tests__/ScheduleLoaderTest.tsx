@@ -18,6 +18,7 @@ import * as scheduleLoader from "../../schedule-loader";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 import * as useStop from "../../../hooks/useStop";
 import { FetchStatus } from "../../../helpers/use-fetch";
+import { render, screen } from "@testing-library/react";
 
 jest.mock("../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -242,7 +243,7 @@ describe("ScheduleLoader", () => {
   });
 
   it("Renders additional line information", () => {
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <ScheduleLoader
           component="ADDITIONAL_LINE_INFORMATION"
@@ -270,8 +271,8 @@ describe("ScheduleLoader", () => {
         />
       </Provider>
     );
-    expect(wrapper.html()).not.toBeNull();
-    wrapper.unmount();
+
+    expect(screen.getByText("PDF Schedules and Maps")).toBeInTheDocument();
   });
 
   it("Renders ScheduleFinder", () => {
@@ -952,11 +953,11 @@ describe("ScheduleLoader", () => {
 
     const renderAdditionalLineInformationStub = jest.spyOn(
       scheduleLoader,
-      "renderAdditionalLineInformation"
+      "getAdditionalLineInfo"
     );
     const renderDirectionOrMapPageStub = jest.spyOn(
       scheduleLoader,
-      "renderDirectionOrMap"
+      "getDirectionAndMap"
     );
 
     scheduleLoader.default(); //onLoad

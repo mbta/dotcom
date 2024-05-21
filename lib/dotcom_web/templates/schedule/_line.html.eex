@@ -29,11 +29,6 @@
   <%= DotcomWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
   <div class="m-schedule-page row">
 
-    <!-- This is to quickly get data to the page for the rewrite-->
-    <meta name="branches" content="<%= Poison.encode!(@branches) %>" />
-    <meta name="mapChannel" content="<%= @channel %>" />
-    <meta name="dynamicMapData" content="<%= Poison.encode!(@dynamic_map_data) %>" />
-
     <%= if branchesEmpty? do%>
       <div class="col-md-12 m-schedule-page__main-content">
         <div class="m-schedule-line__main-content <%= if Routes.Route.type_atom(@route.type) == :ferry, do: 'ferry' %>">
