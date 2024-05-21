@@ -1,5 +1,6 @@
 defmodule DotcomWeb.TransitNearMeControllerTest do
   use DotcomWeb.ConnCase
+  @moduletag :external
 
   alias LocationService.Address
   alias Leaflet.{MapData, MapData.Marker}
