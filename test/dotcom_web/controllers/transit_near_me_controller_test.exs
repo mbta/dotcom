@@ -7,7 +7,7 @@ defmodule DotcomWeb.TransitNearMeControllerTest do
   alias Stops.Stop
 
   import Mox
-  import Test.Support.Factory.MBTA.Api
+  import Test.Support.Factories.MBTA.Api
 
   @orange_line %{
     id: "Orange",
