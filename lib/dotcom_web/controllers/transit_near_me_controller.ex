@@ -30,9 +30,7 @@ defmodule DotcomWeb.TransitNearMeController do
   end
 
   defp assign_stops(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
-    data_fn = Map.get(conn.assigns, :data_fn, &TransitNearMe.build/2)
-
-    data = data_fn.(location, [])
+    data = TransitNearMe.build(location, [])
 
     case data do
       {:stops, {:error, _}} -> :error
