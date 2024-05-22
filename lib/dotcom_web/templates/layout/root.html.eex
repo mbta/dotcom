@@ -24,7 +24,7 @@
     <% end %>
     <% title = if Phoenix.Controller.view_template(@conn) == "404.html", do: "Page Not Found | MBTA - Massachusetts Bay Transportation Authority", else: title_breadcrumbs(@conn) %>
     <title><%= title %></title>
-    <link rel="apple-touch-icon" href="<%= static_url(@conn, "/images/mbta-logo-t-180.png") %>" type="image/png">
+    <link rel="apple-touch-icon" href="<%= static_url(@conn, "/apple-touch-icon.png") %>" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/favicon.ico") %>" sizes="16x16" type="image/vnd.microsoft.icon">
 
