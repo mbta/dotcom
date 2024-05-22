@@ -169,12 +169,6 @@
   margin-top: $space-12;
 }
 
-.c-alert-item__image {
-  img {
-    width: 100%;
-  }
-}
-
 .m-alerts__mode-buttons {
   display: flex;
   margin-left: calc(-#{$grid-gutter-width} / 4);
