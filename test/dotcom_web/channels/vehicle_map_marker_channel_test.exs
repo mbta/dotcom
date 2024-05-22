@@ -7,7 +7,7 @@ defmodule DotcomWeb.VehicleMapMarkerChannelTest do
 
   import Mock
   import Mox
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
 
   @vehicles [
     %Vehicle{

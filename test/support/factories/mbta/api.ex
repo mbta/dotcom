@@ -1,4 +1,4 @@
-defmodule Test.Support.Factories.Mbta.Api do
+defmodule Test.Support.Factories.MBTA.Api do
   @moduledoc """
   Generated fake data for MBTA.Api
   """

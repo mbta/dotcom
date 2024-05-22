@@ -2,7 +2,7 @@ defmodule Stops.RouteStopsTest do
   use ExUnit.Case, async: true
 
   import Mox
-  import Test.Support.Factories.Mbta.Api
+  import Test.Support.Factories.MBTA.Api
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
 

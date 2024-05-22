@@ -10,7 +10,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
   doctest DotcomWeb.TripPlanController
 
   import Mox
-  import Test.Support.Factory.MbtaApi
+  import Test.Support.Factories.MBTA.Api
 
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
@@ -166,7 +166,10 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end)
 
     stub(LocationService.Mock, :geocode, fn name ->
-      {:ok, Test.Support.Factory.LocationService.build_list(2, :address, %{formatted: name})}
+      {:ok,
+       Test.Support.Factories.LocationService.LocationService.build_list(2, :address, %{
+         formatted: name
+       })}
     end)
 
     stub(Stops.Repo.Mock, :get_parent, fn _ ->
