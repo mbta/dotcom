@@ -11,9 +11,11 @@ defmodule Alerts.Alert do
             active_period: [],
             banner: "",
             cause: "",
+            created_at: nil,
             description: "",
             effect: :unknown,
             header: "",
+            image_alt_text: "",
             image_url: nil,
             informed_entity: %InformedEntitySet{},
             lifecycle: :unknown,
@@ -252,8 +254,10 @@ defmodule Alerts.Alert do
   def high_severity_or_high_priority?(_), do: false
 
   @spec diversion?(t) :: boolean()
-  def diversion?(%{effect: effect}),
-    do: effect in @diversion_effects
+  def diversion?(alert) do
+    alert.effect in @diversion_effects &&
+      Timex.before?(alert.created_at, alert.active_period[0])
+  end
 
   @spec municipality(t) :: String.t() | nil
   def municipality(alert) do

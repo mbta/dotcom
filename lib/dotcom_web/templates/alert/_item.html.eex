@@ -28,9 +28,9 @@
   </div>
   <%= if @alert.description do %>
     <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
-      <%= if @alert.image_url do %>
-        <div class="c-alert-item__image">
-          <img src="<%= @alert.image_url %>" alt="<%= effect_name(@alert) %>" />
+      <%= if @alert.image_url && @alert.image_alt_text do %>
+        <div>
+          <img src="<%= @alert.image_url %>" alt="<%= @alert.image_alt_text %>" class="w-100" />
         </div>
       <% end %>
       <div class="c-alert-item__description">

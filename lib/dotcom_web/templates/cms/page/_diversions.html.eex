@@ -16,7 +16,8 @@
     <div class="c-cms__body">
       <%= render_page_content(@page, @conn) %>
 
-      <h2>Diversions</h2>
+      <hr />
+
       <%= DotcomWeb.AlertView.render("group.html", alerts: Map.get(@conn.assigns, :alerts, []), date_time: Map.get(@conn.assigns, :date_time, Timex.now())) %>
     </div>
 
