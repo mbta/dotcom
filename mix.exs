@@ -124,6 +124,8 @@ defmodule DotCom.Mixfile do
       {:poison, "3.1.0"},
       {:polyline, "1.4.0"},
       {:poolboy, "1.5.2"},
+      # Needed for rstar; workaround for mix local.hex bug
+      {:proper, "1.4.0"},
       {:quixir, "0.9.3", [only: :test]},
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,
