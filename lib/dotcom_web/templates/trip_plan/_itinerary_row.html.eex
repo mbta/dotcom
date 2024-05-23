@@ -1,6 +1,12 @@
 <% {stop_name, stop_id} = @itinerary_row.stop
    {next_stop_name, _next_stop_id} = if @next_itinerary_row == nil, do: {"Destination", nil}, else: @next_itinerary_row.stop
    mode_class = mode_class(@itinerary_row)
+
+   stop_id = cond do
+    match?("Massport" <> _, stop_id)  -> nil
+    match?("Logan Express" <> _, stop_id)  -> nil
+    true -> stop_id
+   end
 %>
 
 <div class="itinerary-row-container <%= mode_class %> route-branch-stop-list">

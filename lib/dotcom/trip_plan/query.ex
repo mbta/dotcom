@@ -102,8 +102,8 @@ defmodule Dotcom.TripPlan.Query do
   end
 
   @spec parse_itinerary_result(OpenTripPlannerClient.Behaviour.plan(), t) :: t
-  defp parse_itinerary_result({:ok, _} = result, %__MODULE__{} = query) do
-    %{query | itineraries: result}
+  defp parse_itinerary_result({:ok, result}, %__MODULE__{} = query) do
+    %{query | itineraries: {:ok, result}}
   end
 
   defp parse_itinerary_result({:error, error}, %__MODULE__{} = query) do

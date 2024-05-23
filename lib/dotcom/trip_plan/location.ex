@@ -4,6 +4,7 @@ defmodule Dotcom.TripPlan.Location do
   alias TripPlan.NamedPosition
 
   @location_service Application.compile_env!(:dotcom, :location_service)
+  @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
 
   @spec validate(Query.t(), map) :: Query.t()
   def validate(
@@ -80,7 +81,7 @@ defmodule Dotcom.TripPlan.Location do
         latitude: lat,
         longitude: lng,
         name: encode_name(name),
-        stop_id: nil_if_empty(stop_id)
+        stop: if(stop_id && stop_id != "", do: @stops_repo.get(stop_id))
       }
 
       query
@@ -91,9 +92,6 @@ defmodule Dotcom.TripPlan.Location do
         validate(query, params)
     end
   end
-
-  defp nil_if_empty(""), do: nil
-  defp nil_if_empty(value), do: value
 
   @spec encode_name(String.t()) :: String.t()
   defp encode_name(name) do

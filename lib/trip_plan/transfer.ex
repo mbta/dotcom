@@ -26,14 +26,14 @@ defmodule TripPlan.Transfer do
   @doc "Searches a list of legs for evidence of an in-station subway transfer."
   @spec subway_transfer?([Leg.t()]) :: boolean
   def subway_transfer?([
-        %Leg{to: %NamedPosition{stop_id: to_stop}, mode: %TransitDetail{route_id: route_to}},
+        %Leg{to: %NamedPosition{stop: to_stop}, mode: %TransitDetail{route: route_to}},
         %Leg{
-          from: %NamedPosition{stop_id: from_stop},
-          mode: %TransitDetail{route_id: route_from}
+          from: %NamedPosition{stop: from_stop},
+          mode: %TransitDetail{route: route_from}
         }
         | _
       ]) do
-    same_station?(from_stop, to_stop) and subway?(route_to) and subway?(route_from)
+    same_station?(from_stop.id, to_stop.id) and subway?(route_to) and subway?(route_from)
   end
 
   def subway_transfer?([_ | legs]), do: subway_transfer?(legs)
@@ -48,12 +48,22 @@ defmodule TripPlan.Transfer do
   - no transfers from a shuttle to any other mode
   """
   @spec maybe_transfer?([Leg.t()]) :: boolean
-  def maybe_transfer?([%Leg{mode: %TransitDetail{route_id: "Shuttle-" <> _}} | _]), do: false
+  def maybe_transfer?([%Leg{mode: %TransitDetail{route: %Routes.Route{custom_route?: true}}} | _]),
+    do: false
+
+  def maybe_transfer?([_ | %Leg{mode: %TransitDetail{route: %Routes.Route{custom_route?: true}}}]),
+    do: false
 
   def maybe_transfer?([
-        first_leg = %Leg{mode: %TransitDetail{route_id: first_route}},
-        middle_leg = %Leg{mode: %TransitDetail{route_id: middle_route}},
-        last_leg = %Leg{mode: %TransitDetail{route_id: last_route}}
+        first_leg = %Leg{
+          mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = first_route}
+        },
+        middle_leg = %Leg{
+          mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = middle_route}
+        },
+        last_leg = %Leg{
+          mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = last_route}
+        }
       ]) do
     @multi_ride_transfers
     |> Map.get(Fares.to_fare_atom(first_route), [])
@@ -63,8 +73,8 @@ defmodule TripPlan.Transfer do
   end
 
   def maybe_transfer?([
-        %Leg{mode: %TransitDetail{route_id: from_route}},
-        %Leg{mode: %TransitDetail{route_id: to_route}}
+        %Leg{mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = from_route}},
+        %Leg{mode: %TransitDetail{route: %Routes.Route{custom_route?: false} = to_route}}
       ]) do
     if from_route === to_route and
          Enum.all?([from_route, to_route], &bus?/1) do
@@ -91,10 +101,10 @@ defmodule TripPlan.Transfer do
   end
 
   def bus_to_subway_transfer?([
-        %Leg{mode: %TransitDetail{route_id: from_route}},
-        %Leg{mode: %TransitDetail{route_id: to_route}}
+        %Leg{mode: %TransitDetail{route: from_route}},
+        %Leg{mode: %TransitDetail{route: to_route}}
       ]) do
-    Fares.to_fare_atom(from_route) == :bus && Fares.to_fare_atom(to_route) == :subway
+    bus?(from_route) && subway?(to_route)
   end
 
   def bus_to_subway_transfer?(_), do: false
@@ -116,7 +126,9 @@ defmodule TripPlan.Transfer do
     end
   end
 
+  defp bus?(%Routes.Route{custom_route?: true}), do: false
   defp bus?(route), do: Fares.to_fare_atom(route) == :bus
+  def subway?(%Routes.Route{custom_route?: true}), do: false
   def subway?(route), do: Fares.to_fare_atom(route) == :subway
 
   defp uses_concourse?(%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-dwnxg"}),

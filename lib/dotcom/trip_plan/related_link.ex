@@ -14,15 +14,12 @@ defmodule Dotcom.TripPlan.RelatedLink do
             icon_name: nil
 
   @stops_repo Application.compile_env!(:dotcom, :repo_modules)[:stops]
-  @default_opts [
-    route_by_id: &Routes.Repo.get/1
-  ]
 
   import Phoenix.HTML.Link, only: [link: 2]
   # Need a view in order to use the components. Ideally we'd have a separate
   # module, but that doesn't work at the moment.
   import DotcomWeb.Router.Helpers
-  alias TripPlan.{Itinerary, Leg}
+  alias TripPlan.{Itinerary, Leg, TransitDetail}
   alias Routes.Route
   alias DotcomWeb.PartialView.SvgIconWithCircle
 
@@ -61,12 +58,10 @@ defmodule Dotcom.TripPlan.RelatedLink do
   end
 
   @doc "Builds a list of related links for an Itinerary"
-  @spec links_for_itinerary(Itinerary.t(), Keyword.t()) :: [t]
-  def links_for_itinerary(itinerary, opts \\ []) do
-    opts = Keyword.merge(@default_opts, opts)
-
-    for func <- [&route_links/2, &fare_links/2],
-        link <- func.(itinerary, opts) do
+  @spec links_for_itinerary(Itinerary.t()) :: [t]
+  def links_for_itinerary(itinerary) do
+    for func <- [&route_links/1, &fare_links/1],
+        link <- func.(itinerary) do
       link
     end
   end
@@ -77,48 +72,44 @@ defmodule Dotcom.TripPlan.RelatedLink do
     SvgIconWithCircle.svg_icon_with_circle(%SvgIconWithCircle{icon: icon_name, size: :small})
   end
 
-  defp route_links(itinerary, opts) do
-    route_by_id = Keyword.get(opts, :route_by_id)
+  defp route_links(itinerary) do
     not_shuttle? = fn route -> route.description !== :rail_replacement_bus end
 
-    for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary),
-        %Route{} = route <- [route_by_id.(route_id)],
+    for %Leg{mode: %TransitDetail{route: route, trip_id: trip_id}} <- itinerary.legs,
         not_shuttle?.(route) do
       route_link(route, trip_id, itinerary)
     end
   end
 
+  defp route_link(%Route{custom_route?: true} = route, _, _) do
+    url =
+      if String.starts_with?(route.long_name, "Logan Express") do
+        "https://www.massport.com/logan-airport/getting-to-logan/logan-express"
+      else
+        "https://massport.com/"
+      end
+
+    new("Massport schedules", url, :massport_shuttle)
+  end
+
   defp route_link(route, trip_id, itinerary) do
     icon_name = Route.icon_atom(route)
 
-    cond do
-      String.starts_with?(route.id, "Massport") ->
-        new("Massport schedules", "https://massport.com/", icon_name)
+    base_text =
+      if Route.type_atom(route) == :bus do
+        ["Route ", route.name]
+      else
+        route.name
+      end
 
-      route.custom_route? ->
-        leg = Enum.find(itinerary.legs, &match?(%TripPlan.Leg{url: url} when url != nil, &1))
-        new("Route information", leg.url, icon_name)
-
-      true ->
-        base_text =
-          if Route.type_atom(route) == :bus do
-            ["Route ", route.name]
-          else
-            route.name
-          end
-
-        date = Date.to_iso8601(itinerary.start)
-        url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date, trip: trip_id)
-        new([base_text, " schedules"], url, icon_name)
-    end
+    date = Date.to_iso8601(itinerary.start)
+    url = schedule_path(DotcomWeb.Endpoint, :show, route, date: date, trip: trip_id)
+    new([base_text, " schedules"], url, icon_name)
   end
 
-  defp fare_links(itinerary, opts) do
-    route_by_id = Keyword.get(opts, :route_by_id)
-
-    for leg <- itinerary,
-        {:ok, route_id} <- [Leg.route_id(leg)],
-        %Route{custom_route?: false} = route <- [route_by_id.(route_id)] do
+  defp fare_links(itinerary) do
+    for %Leg{mode: %TransitDetail{route: %Route{custom_route?: false} = route}} = leg <-
+          itinerary.legs do
       fare_link(route, leg)
     end
     |> Enum.uniq()
@@ -139,7 +130,7 @@ defmodule Dotcom.TripPlan.RelatedLink do
 
   defp fare_link_url_opts(type, leg) when type in [:commuter_rail, :ferry] do
     link_opts =
-      for {key, stop_id} <- [origin: leg.from.stop_id, destination: leg.to.stop_id],
+      for {key, stop_id} <- [origin: leg.from.stop.id, destination: leg.to.stop.id],
           is_binary(stop_id) do
         # fetch a parent stop ID
         stop_id = @stops_repo.get_parent(stop_id).id

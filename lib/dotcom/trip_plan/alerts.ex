@@ -11,19 +11,12 @@ defmodule Dotcom.TripPlan.Alerts do
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
 
-  @default_opts [
-    route_by_id: &Routes.Repo.get/1,
-    trip_by_id: &Schedules.Repo.trip/1
-  ]
-
   @doc "Filters a list of Alerts to those relevant to the Itinerary"
-  @spec filter_for_itinerary([Alert.t()], Itinerary.t(), Keyword.t()) :: [Alert.t()]
-  def filter_for_itinerary(alerts, itinerary, opts \\ []) do
-    opts = Keyword.merge(@default_opts, opts)
-
+  @spec filter_for_itinerary([Alert.t()], Itinerary.t()) :: [Alert.t()]
+  def filter_for_itinerary(alerts, itinerary) do
     Alerts.Match.match(
       alerts,
-      Enum.concat(intermediate_entities(itinerary), entities(itinerary, opts)),
+      Enum.concat(intermediate_entities(itinerary), entities(itinerary)),
       itinerary.start
     )
   end
@@ -34,23 +27,22 @@ defmodule Dotcom.TripPlan.Alerts do
     |> Enum.map(&%IE{stop: &1})
   end
 
-  @spec entities(Itinerary.t(), Keyword.t()) :: [IE.t()]
-  defp entities(itinerary, opts) do
+  @spec entities(Itinerary.t()) :: [IE.t()]
+  defp entities(itinerary) do
     itinerary
-    |> Enum.flat_map(&leg_entities(&1, opts))
+    |> Enum.flat_map(&leg_entities(&1))
     |> Enum.uniq()
   end
 
-  defp leg_entities(%Leg{mode: mode} = leg, opts) do
-    for entity <- mode_entities(mode, opts),
+  defp leg_entities(%Leg{mode: mode} = leg) do
+    for entity <- mode_entities(mode),
         stop_id <- Leg.stop_ids(leg) do
       %{entity | stop: stop_id}
     end
   end
 
-  defp mode_entities(%TransitDetail{route_id: route_id, trip_id: trip_id}, opts) do
-    route = Keyword.get(opts, :route_by_id).(route_id)
-    trip = Keyword.get(opts, :trip_by_id).(trip_id)
+  defp mode_entities(%TransitDetail{agency: agency, route: route, trip_id: trip_id}) do
+    trip = if(agency == "MBTA", do: Schedules.Repo.trip(trip_id))
 
     route_type =
       if route do
@@ -62,10 +54,10 @@ defmodule Dotcom.TripPlan.Alerts do
         trip.direction_id
       end
 
-    [%IE{route_type: route_type, route: route_id, trip: trip_id, direction_id: direction_id}]
+    [%IE{route_type: route_type, route: route.id, trip: trip_id, direction_id: direction_id}]
   end
 
-  defp mode_entities(_, _opts) do
+  defp mode_entities(_) do
     []
   end
 end

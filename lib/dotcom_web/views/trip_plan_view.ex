@@ -14,8 +14,6 @@ defmodule DotcomWeb.TripPlanView do
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
-  @meters_per_mile 1609.34
-
   @type fare_calculation :: %{
           mode: Route.gtfs_route_type(),
           # e.g. :commuter_rail
@@ -303,7 +301,7 @@ defmodule DotcomWeb.TripPlanView do
         "_itinerary_row_step.html",
         step: step.description,
         alerts: step.alerts,
-        stop_id: step.stop_id,
+        stop_id: if(step.stop, do: step.stop.id, else: ""),
         itinerary_idx: itinerary_id,
         row_idx: row_id,
         mode_class: mode_class,
@@ -311,17 +309,6 @@ defmodule DotcomWeb.TripPlanView do
         conn: conn
       )
     end
-  end
-
-  @spec display_meters_as_miles(float) :: String.t()
-  def display_meters_as_miles(meters) do
-    :erlang.float_to_binary(meters / @meters_per_mile, decimals: 1)
-  end
-
-  @spec display_seconds_as_minutes(integer) :: String.t()
-  def display_seconds_as_minutes(seconds) do
-    minutes = Timex.Duration.to_minutes(seconds, :seconds)
-    :erlang.integer_to_binary(Kernel.max(1, Kernel.round(minutes)))
   end
 
   def format_additional_route(%Route{id: "Green" <> _branch} = route, direction_id) do
@@ -375,7 +362,7 @@ defmodule DotcomWeb.TripPlanView do
     svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
   end
 
-  def icon_for_route(%Route{type: 3} = route) do
+  def icon_for_route(%Route{type: 3, custom_route?: false} = route) do
     DotcomWeb.ViewHelpers.bus_icon_pill(route)
   end
 
@@ -596,7 +583,6 @@ defmodule DotcomWeb.TripPlanView do
     transit_legs =
       itinerary.legs
       |> Stream.filter(&Leg.transit?/1)
-      |> Stream.filter(fn leg -> Fares.get_fare_by_type(leg, fare_type) != nil end)
 
     transit_legs
     |> Stream.with_index()
@@ -678,7 +664,7 @@ defmodule DotcomWeb.TripPlanView do
         acc
       else
         name =
-          if leg.long_name && leg.long_name =~ "Shuttle",
+          if leg.mode.route && leg.mode.route.long_name =~ "Shuttle",
             do: Format.name(:shuttle),
             else: Format.name(highest_fare.name)
 
@@ -758,16 +744,7 @@ defmodule DotcomWeb.TripPlanView do
         transit_legs |> Enum.any?(fn leg -> leg_is_from_or_to_airport?(leg) end)
 
       :contains_capeflyer ->
-        transit_legs |> Enum.any?(fn leg -> leg.name == "CapeFLYER" end)
-
-      :contains_blue_line ->
-        transit_legs |> Enum.any?(fn leg -> leg.name == "Blue Line" end)
-
-      :contains_east_boston_ferry ->
-        transit_legs |> Enum.any?(fn leg -> leg.name == "East Boston Ferry" end)
-
-      :contains_newburyport_rockport_line ->
-        transit_legs |> Enum.any?(fn leg -> leg.name == "Newburyport/Rockport Line" end)
+        transit_legs |> Enum.any?(fn leg -> leg.mode.route.name == "CapeFLYER" end)
 
       _ ->
         false
