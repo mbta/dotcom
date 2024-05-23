@@ -107,9 +107,6 @@ defmodule Schedules.Repo do
       %JsonApi{} = response ->
         {:ok, Parser.trip(response)}
 
-      {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
-        {:ok, nil}
-
       error ->
         error
     end
