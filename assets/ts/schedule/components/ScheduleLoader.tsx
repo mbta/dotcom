@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { connect } from "react-redux";
 import { useQueryParams, StringParam } from "use-query-params";
 import ContentTeasers from "./ContentTeasers";
@@ -86,7 +86,7 @@ export const ScheduleLoader = ({
     updateURL("");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     // get initial values from the store:
     const currentState = getCurrentState();
     const { selectedDirection, selectedOrigin } = currentState;

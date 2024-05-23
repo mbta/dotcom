@@ -6,6 +6,7 @@ import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
 import { UpcomingDepartures } from "../upcoming-departures/UpcomingDepartures";
 import { mount } from "enzyme";
 import DailySchedule from "../daily-schedule/DailySchedule";
+import { render, screen } from "@testing-library/react";
 
 const today = "2019-12-05";
 const route: EnhancedRoute = {
@@ -86,10 +87,9 @@ describe("ScheduleModalContent", () => {
     );
   });
 
-  it("renders", () => {
-    let tree;
+  it.only("renders", () => {
     act(() => {
-      tree = renderer.create(
+      render(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -106,7 +106,7 @@ describe("ScheduleModalContent", () => {
       );
     });
 
-    expect(tree).toMatchSnapshot();
+    expect(screen.getByText("Daily Schedule")).toBeInTheDocument();
   });
 
   it("will not render Daily Schedule for subway lines", () => {

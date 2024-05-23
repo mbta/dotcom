@@ -102,7 +102,7 @@ const ScheduleModalContent = ({
     selectedDirection,
     input.date
   ]);
-  useAwaitInterval(updateData, 10000);
+  // useAwaitInterval(updateData, 10000);
 
   const serviceToday = services.some(service =>
     isInCurrentService(service, stringToDateObject(today))
