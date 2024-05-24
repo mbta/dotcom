@@ -24,5 +24,4 @@
     <%# Sidebar Right %>
     <%= if !@sidebar_left && @sidebar_right, do: DotcomWeb.CMSView.render("_sidebar_right.html", page: @page, conn: @conn) %>
   </div>
-
 </div>
