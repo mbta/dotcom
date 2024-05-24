@@ -51,6 +51,7 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     # no pipe
     get("/_health", HealthController, :index)
+    post("/tracker", TrackerController, :tracker)
   end
 
   scope "/cache", DotcomWeb do
