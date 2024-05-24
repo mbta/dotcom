@@ -5,7 +5,8 @@ defmodule DotcomWeb.Endpoint do
 
   @session_options store: :cookie,
                    key: "_site_key",
-                   signing_salt: "TInvb4GN"
+                   signing_salt: "TInvb4GN",
+                   secure: true
 
   @doc """
   Callback invoked for dynamically configuring the endpoint.
