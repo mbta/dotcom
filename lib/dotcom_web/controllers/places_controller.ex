@@ -103,23 +103,27 @@ defmodule DotcomWeb.PlacesController do
   """
   def search(conn, %{"query" => query, "hit_limit" => hit_limit_str}) do
     case Integer.parse(hit_limit_str) do
-      {hit_limit, ""} ->
-        case @location_service.autocomplete(query, hit_limit) do
-          {:ok, suggestions} ->
-            json(conn, %{result: with_coordinates(suggestions)})
-
-          {:error, error} ->
-            case error do
-              :zero_results ->
-                json(conn, %{result: []})
-
-              _ ->
-                ControllerHelpers.return_internal_error(conn)
-            end
-        end
+      {hit_limit, ""} when hit_limit > 0 ->
+        do_search(conn, query, hit_limit)
 
       _ ->
         ControllerHelpers.return_invalid_arguments_error(conn)
+    end
+  end
+
+  defp do_search(conn, query, hit_limit) do
+    case @location_service.autocomplete(query, hit_limit) do
+      {:ok, suggestions} ->
+        json(conn, %{result: with_coordinates(suggestions)})
+
+      {:error, error} ->
+        case error do
+          :zero_results ->
+            json(conn, %{result: []})
+
+          _ ->
+            ControllerHelpers.return_internal_error(conn)
+        end
     end
   end
 
