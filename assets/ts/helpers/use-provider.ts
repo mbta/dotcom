@@ -38,19 +38,12 @@ export const useProvider = <Fn extends (...args: any[]) => PromiseLike<any>>(
   const [state, setState] = useState<UseProviderState<Awaited<ReturnType<Fn>>>>(
     { loading: true }
   );
-  let mounted = true;
 
   const updateData = useCallback(
     async () => {
-      if (!mounted) {
-        return;
-      }
       const setStateIfSame = (
         fn: (currentState: typeof state) => typeof state
       ): void => {
-        if (!mounted) {
-          return;
-        }
         setState(currentState => {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           if (newestUpdateData.current !== updateData) {
@@ -77,9 +70,6 @@ export const useProvider = <Fn extends (...args: any[]) => PromiseLike<any>>(
 
   useEffect(() => {
     updateData();
-    return () => {
-      mounted = false;
-    };
   }, [updateData]);
 
   return [state, updateData];

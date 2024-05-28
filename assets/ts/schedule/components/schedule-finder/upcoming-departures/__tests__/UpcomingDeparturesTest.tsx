@@ -6,18 +6,43 @@ import UpcomingDepartures, {
   upcomingDeparturesTable,
   crowdingInformation,
   BusTableRow,
-  CrTableRow
+  CrTableRow,
+  fetchData
 } from "../UpcomingDepartures";
 import enhancedBusJourneysResponse from "./test-data/enhancedBusJourneys.json";
 import enhancedCRjourneysResponse from "./test-data/enhancedCRjourneys.json";
 import LiveCrowdingIcon from "../../../line-diagram/LiveCrowdingIcon";
-import { UseProviderState } from "../../../../../helpers/use-provider";
+import * as useProvider from "../../../../../helpers/use-provider";
 import { render, screen } from "@testing-library/react";
 import * as iconHelpers from "../../../../../helpers/icon";
 import * as predictionHelpers from "../../../../../helpers/prediction-helpers";
 
 const enhancedBusJourneys = (enhancedBusJourneysResponse as unknown) as EnhancedJourney[];
 const enhancedCRjourneys = (enhancedCRjourneysResponse as unknown) as EnhancedJourney[];
+
+describe("fetchData", () => {
+  it("fetches data", async () => {
+    const payload = [{ trip: { id: "yeah" } }];
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => payload,
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+
+    const result = await fetchData("1", "99", 0, "");
+    expect(window.fetch).toHaveBeenCalledWith(
+      "/schedules/finder_api/departures?id=1&stop=99&direction=0"
+    );
+
+    expect(result).toStrictEqual([{ trip: { id: "yeah" }, tripInfo: payload }]);
+  });
+});
 
 describe("UpcomingDepartures", () => {
   let wrapper: ReactWrapper;
@@ -132,8 +157,24 @@ describe("UpcomingDepartures", () => {
   });
 
   it("renders the 'loading' status", () => {
-    const state: UseProviderState<EnhancedJourney[]> = { loading: true };
-    wrapper = mount(<UpcomingDepartures state={state} />);
+    const providerSpy = jest
+      .spyOn(useProvider, "useProvider")
+      .mockImplementation(() => {
+        return [
+          { loading: true } as useProvider.UseProviderState<EnhancedJourney[]>,
+          () => {
+            return Promise.resolve([]);
+          }
+        ];
+      });
+    wrapper = mount(
+      <UpcomingDepartures
+        routeId="1"
+        selectedDirection={0}
+        selectedOrigin="1"
+        today="today"
+      />
+    );
 
     expect(wrapper.find(".c-spinner__container")).toHaveLength(1);
   });

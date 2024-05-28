@@ -50,6 +50,8 @@ const ScheduleTable = ({
     isSchoolTrip(routePatternsById, routePatternId)
   );
 
+  console.log(journeys);
+
   const firstTrip = journeys[0];
   const lastTrip = journeys.length > 1 ? journeys[journeys.length - 1] : null;
 
