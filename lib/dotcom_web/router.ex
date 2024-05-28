@@ -73,9 +73,6 @@ defmodule DotcomWeb.Router do
   scope "/", DotcomWeb do
     pipe_through([:secure, :browser])
 
-    # redirect cape flyer to an external site
-    get("/schedules/CapeFlyer", ScheduleController, :cape_flyer)
-
     # redirect underscored urls to hyphenated version
     get("/alerts/commuter_rail", Redirector, to: "/alerts/commuter-rail")
     get("/fares/charlie_card", Redirector, to: "/fares/charliecard")
@@ -90,6 +87,8 @@ defmodule DotcomWeb.Router do
     get("/style_guide", Redirector, to: "/style-guide")
     get("/transit_near_me", Redirector, to: "/transit-near-me")
 
+    # redirect cape flyer to an external site
+    get("/schedules/CapeFlyer", ScheduleController, :cape_flyer)
     # redirect SL and CT to proper route ids
     get("/schedules/SL1", Redirector, to: "/schedules/741")
     get("/schedules/sl1", Redirector, to: "/schedules/741")
