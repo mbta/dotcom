@@ -87,6 +87,8 @@ defmodule DotcomWeb.Router do
     get("/style_guide", Redirector, to: "/style-guide")
     get("/transit_near_me", Redirector, to: "/transit-near-me")
 
+    # redirect cape flyer to an external site
+    get("/schedules/CapeFlyer", ScheduleController, :cape_flyer)
     # redirect SL and CT to proper route ids
     get("/schedules/SL1", Redirector, to: "/schedules/741")
     get("/schedules/sl1", Redirector, to: "/schedules/741")
