@@ -1,10 +1,5 @@
 import Config
 
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$date $time $metadata[$level] $message\n",
-  metadata: [:ip, :request_id]
-
 # Include referrer in Logster request log
 config :logster, :allowed_headers, ["referer"]
 
@@ -18,16 +13,14 @@ if config_env() == :prod do
   config :logger, :console,
     level: :info,
     format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-    metadata: [:request_id, :ip]
+    metadata: [:ip, :mbta_api, :request_id]
 end
 
 if config_env() == :dev do
-  # Do not include metadata nor timestamps in development logs
-  config :logger, :console, format: "[$level] $message\n"
-
-  config :logger,
-    level: :notice,
-    colors: [enabled: true]
+  config :logger, :console,
+    format: "$date $time [$level] $metadata$message\n",
+    level: :info,
+    metadata: [:ip, :mbta_api, :request_id]
 end
 
 if config_env() == :test do

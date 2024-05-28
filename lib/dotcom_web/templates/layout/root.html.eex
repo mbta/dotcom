@@ -82,13 +82,12 @@
       </div> <%# /container %>
       <%= render __MODULE__, "_footer.html", conn: @conn %>
 
+      <%# Show a warning when browser is Internet Explorer %>
       <%= if Application.get_env(:dotcom, :dev_server?) do %>
         <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/iewarning.js" %>"></script>
-        <script defer src="<%= "#{Application.get_env(:dotcom, :webpack_path)}/tracker.js" %>"></script>
       <% else %>
-        <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
         <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-        <script defer src="<%= static_url(@conn, "/js/tracker.js") %>"></script>
+        <script defer src="<%= static_url(@conn, "/js/iewarning.js") %>"></script>
       <% end %>
       <div id="ie-warning" class="c-ie-warning"></div>
     </div>
