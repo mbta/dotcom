@@ -1,4 +1,9 @@
 defmodule DotcomWeb.TrackerController do
+  @moduledoc """
+  Along with tracker.js, this controller logs the path and session_id of the user.
+  It allows us to see what pages are being visited in a session.
+  """
+
   use DotcomWeb, :controller
 
   require Logger
