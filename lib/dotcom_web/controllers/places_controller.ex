@@ -102,21 +102,22 @@ defmodule DotcomWeb.PlacesController do
   /places/search/Prudential/6 returns 6 results, each with an object containing URLs specific to that location for Transit Near Me, the Retail Sales Location page, and the Proposed Sales Location pages.
   """
   def search(conn, %{"query" => query, "hit_limit" => hit_limit_str}) do
-    with {hit_limit, ""} <- Integer.parse(hit_limit_str) do
-      case @location_service.autocomplete(query, hit_limit) do
-        {:ok, suggestions} ->
-          json(conn, %{result: with_coordinates(suggestions)})
+    case Integer.parse(hit_limit_str) do
+      {hit_limit, ""} ->
+        case @location_service.autocomplete(query, hit_limit) do
+          {:ok, suggestions} ->
+            json(conn, %{result: with_coordinates(suggestions)})
 
-        {:error, error} ->
-          case error do
-            :zero_results ->
-              json(conn, %{result: []})
+          {:error, error} ->
+            case error do
+              :zero_results ->
+                json(conn, %{result: []})
 
-            _ ->
-              ControllerHelpers.return_internal_error(conn)
-          end
-      end
-    else
+              _ ->
+                ControllerHelpers.return_internal_error(conn)
+            end
+        end
+
       _ ->
         ControllerHelpers.return_invalid_arguments_error(conn)
     end

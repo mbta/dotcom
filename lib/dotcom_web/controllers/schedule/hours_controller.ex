@@ -32,16 +32,17 @@ defmodule DotcomWeb.ScheduleController.HoursController do
   end
 
   defp do_hours_of_operation(conn, route_id, hours_fn) do
-    with %Route{description: description, id: id} <- Routes.Repo.get(route_id) do
-      hours_of_operation =
-        hours_fn.(
-          id,
-          conn.assigns.date,
-          description
-        )
+    case Routes.Repo.get(route_id) do
+      %Route{description: description, id: id} ->
+        hours_of_operation =
+          hours_fn.(
+            id,
+            conn.assigns.date,
+            description
+          )
 
-      json(conn, hours_of_operation)
-    else
+        json(conn, hours_of_operation)
+
       error ->
         ControllerHelpers.return_error(conn, :internal_server_error, inspect(error))
     end

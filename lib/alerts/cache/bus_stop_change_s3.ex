@@ -43,15 +43,14 @@ defmodule Alerts.Cache.BusStopChangeS3 do
   """
   @spec copy_alerts_to_s3([Alert.t()], any) :: :ok
   def copy_alerts_to_s3(bus_alerts, _) do
-    with stop_change_alerts when stop_change_alerts != [] <-
-           Enum.filter(bus_alerts, &(&1.effect in [:stop_closure, :stop_moved])) do
-      stop_change_alerts
-      |> Enum.sort(&(&1.id >= &2.id))
-      |> maybe_write_alerts_to_s3()
-    else
+    case Enum.filter(bus_alerts, &(&1.effect in [:stop_closure, :stop_moved])) do
       [] ->
-        # No stop change alerts to write.
         :ok
+
+      stop_change_alerts ->
+        stop_change_alerts
+        |> Enum.sort(&(&1.id >= &2.id))
+        |> maybe_write_alerts_to_s3()
     end
   end
 
