@@ -19,7 +19,7 @@ end
 if config_env() == :dev do
   config :logger, :console,
     format: "$date $time [$level] $metadata$message\n",
-    level: :info,
+    level: :notice,
     metadata: [:ip, :mbta_id, :request_id]
 end
 
