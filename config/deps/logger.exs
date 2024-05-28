@@ -13,14 +13,14 @@ if config_env() == :prod do
   config :logger, :console,
     level: :info,
     format: "$dateT$time [$level]$levelpad node=$node $metadata$message\n",
-    metadata: [:ip, :mbta_api, :request_id]
+    metadata: [:ip, :request_id, :mbta_id]
 end
 
 if config_env() == :dev do
   config :logger, :console,
     format: "$date $time [$level] $metadata$message\n",
     level: :info,
-    metadata: [:ip, :mbta_api, :request_id]
+    metadata: [:ip, :request_id, :mbta_id]
 end
 
 if config_env() == :test do
