@@ -5,7 +5,7 @@ defmodule DotcomWeb.ScheduleController do
 
   require Logger
 
-  plug(DotcomWeb.Plugs.Route when action not in [:schedules_for_stop])
+  plug(DotcomWeb.Plugs.Route when action not in [:cape_flyer, :schedules_for_stop])
 
   @spec show(Plug.Conn.t(), map) :: Phoenix.HTML.Safe.t()
   def show(%{query_params: %{"tab" => "timetable"} = query_params} = conn, _params) do
@@ -79,6 +79,10 @@ defmodule DotcomWeb.ScheduleController do
             json(conn, [])
         end
     end
+  end
+
+  def cape_flyer(conn, _params) do
+    redirect(conn, external: "https://capeflyer.com")
   end
 
   defp future_departures(schedules, %{"future_departures" => "true"} = params) do
