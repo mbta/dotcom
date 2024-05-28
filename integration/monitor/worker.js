@@ -17,7 +17,7 @@ parentPort.on("message", async (_) => {
   const { scenario } = require(workerData.path);
 
   const browser = await chromium.launch();
-  const context = await browser.newContext();
+  const context = await browser.newContext({ userAgent: 'Playwright' });
   const page = await context.newPage();
 
   const metric = `${prefix}${workerData.name}`;
