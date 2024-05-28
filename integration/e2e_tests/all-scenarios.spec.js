@@ -14,8 +14,6 @@ const baseURL = process.env.HOST
 
 files.forEach((file) => {
   test.describe("All scenarios", {tag: "@scenarios"}, (_) => {
-    test.use({userAgent: "Playwright"});
-
     const filePath = path.join(filesPath, file);
     const { scenario } = require(filePath);
 
