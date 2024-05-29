@@ -43,7 +43,7 @@ export const useProvider = <Fn extends (...args: any[]) => PromiseLike<any>>(
     async () => {
       const setStateIfSame = (
         fn: (currentState: typeof state) => typeof state
-      ): void => {
+      ): void =>
         setState(currentState => {
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
           if (newestUpdateData.current !== updateData) {
@@ -52,7 +52,6 @@ export const useProvider = <Fn extends (...args: any[]) => PromiseLike<any>>(
 
           return fn(currentState);
         });
-      };
 
       setStateIfSame(state_ => ({ ...state_, loading: true }));
       const data = await provider(...deps);

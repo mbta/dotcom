@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-``;
 import { updateInLocation } from "use-query-params";
 import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
@@ -12,7 +11,7 @@ import {
   createScheduleStore,
   getCurrentState
 } from "./store/ScheduleStore";
-import { isFerryRoute } from "../models/route";
+import { isFerryRoute, isSubwayRoute } from "../models/route";
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */
@@ -67,7 +66,7 @@ const render = (): void => {
   );
 };
 
-export const getDirectionAndMap = (
+const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
   mapData: MapData
 ): JSX.Element => {
@@ -86,7 +85,7 @@ export const getDirectionAndMap = (
   }
 };
 
-export const getScheduleFinder = (
+const getScheduleFinder = (
   schedulePageData: SchedulePageData
 ): JSX.Element | undefined => {
   return (
@@ -98,9 +97,7 @@ export const getScheduleFinder = (
   );
 };
 
-export const getScheduleNote = (
-  schedulePageData: SchedulePageData
-): JSX.Element => {
+const getScheduleNote = (schedulePageData: SchedulePageData): JSX.Element => {
   return (
     <ScheduleLoader
       component="SCHEDULE_NOTE"
@@ -110,7 +107,7 @@ export const getScheduleNote = (
   );
 };
 
-export const getAdditionalLineInfo = (
+const getAdditionalLineInfo = (
   schedulePageData: SchedulePageData
 ): JSX.Element => {
   return (
@@ -163,7 +160,7 @@ export const doRender = (
       <div
         className={`col-md-5 col-lg-4 ${offset} m-schedule-page__schedule-finder-or-note`}
       >
-        {getScheduleNote(schedulePageData)}
+        {isSubwayRoute(route) && getScheduleNote(schedulePageData)}
         {schedulePageData.schedule_note === null &&
           !isFerryRoute(route) &&
           getScheduleFinder(schedulePageData)}

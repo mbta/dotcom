@@ -121,7 +121,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                             Choose an origin stop
                             <SelectContainer error={false} handleClick={[Function: handleOriginClick]}>
                               <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                                <select className=\\"c-select-custom c-select-custom--noclick notranslate\\" value=\\"place-welln\\" onChange={[Function: onChange]}>
+                                <select data-testid=\\"schedule-finder-origin-select\\" className=\\"c-select-custom c-select-custom--noclick notranslate\\" value=\\"place-welln\\" onChange={[Function: onChange]}>
                                   <option value=\\"\\">
                                     Select
                                   </option>

@@ -69,6 +69,7 @@ exports[`ScheduleFinderForm matches snapshot 1`] = `
         >
           <select
             className="c-select-custom c-select-custom--noclick notranslate"
+            data-testid="schedule-finder-origin-select"
             onChange={[Function]}
             value=""
           >
