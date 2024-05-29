@@ -89,6 +89,10 @@ defmodule DotcomWeb.ScheduleController.LineApi do
     end
   end
 
+  def realtime(conn, _params) do
+    return_invalid_arguments_error(conn)
+  end
+
   defp do_realtime(route_id, direction_id, date, now, tooltips) do
     headsigns_by_stop =
       TransitNearMe.time_data_for_route_by_stop(
