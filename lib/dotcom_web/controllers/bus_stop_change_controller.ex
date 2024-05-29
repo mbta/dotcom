@@ -70,21 +70,22 @@ defmodule DotcomWeb.BusStopChangeController do
   defp get_old_alerts() do
     folder = Application.app_dir(:dotcom) |> Path.join("priv/bus-stop-change")
 
-    with {:ok, files} <- File.ls(folder) do
-      Enum.reduce(files, [], fn filepath, acc ->
-        alert_info =
-          Path.join(folder, filepath)
-          |> File.stream!()
-          |> CSV.decode!(headers: true, escape_max_lines: 1000)
-          |> Enum.to_list()
+    case File.ls(folder) do
+      {:ok, files} ->
+        Enum.reduce(files, [], fn filepath, acc ->
+          alert_info =
+            Path.join(folder, filepath)
+            |> File.stream!()
+            |> CSV.decode!(headers: true, escape_max_lines: 1000)
+            |> Enum.to_list()
 
-        [alert_info | acc]
-      end)
-      |> Enum.flat_map(& &1)
-      |> remove_old_versions()
-      |> Enum.reject(&excluded_alerts/1)
-      |> Enum.map(&parse_alert/1)
-    else
+          [alert_info | acc]
+        end)
+        |> Enum.flat_map(& &1)
+        |> remove_old_versions()
+        |> Enum.reject(&excluded_alerts/1)
+        |> Enum.map(&parse_alert/1)
+
       _ ->
         []
     end
@@ -136,11 +137,9 @@ defmodule DotcomWeb.BusStopChangeController do
   end
 
   defp do_affected_info(texts, arg) when arg in ["route", "stop"] do
-    with found when not is_nil(found) <-
-           Enum.find(texts, &String.contains?(&1, "Affected #{arg}")) do
-      String.split(found, ~r/\n\r\n/)
-    else
-      _ -> ["Affected #{arg}s:"]
+    case Enum.find(texts, &String.contains?(&1, "Affected #{arg}")) do
+      nil -> ["Affected #{arg}s:"]
+      found -> String.split(found, ~r/\n\r\n/)
     end
   end
 
