@@ -1,0 +1,53 @@
+---
+- from: 115 College Ave, Somerville, MA 02144
+  itineraries:
+    - - WALK FROM 115 College Avenue, Somerville, MA, 02144, USA TO College Ave @ Francesca Ave
+      - TAKE Clarendon Hill or Davis Station - Sullivan Square Station BUS FROM College Ave @ Francesca Ave TO Broadway @ Josephine Ave - Ball Sq
+      - WALK FROM Broadway @ Josephine Ave - Ball Sq TO Ball Square
+      - TAKE Green Line E TRAM FROM Ball Square TO Park Street
+      - WALK FROM Park Street TO Tremont St & Park St, Boston, MA, 02108, USA
+    - - WALK FROM 115 College Avenue, Somerville, MA, 02144, USA TO Ball Square
+      - TAKE Green Line E TRAM FROM Ball Square TO Park Street
+      - WALK FROM Park Street TO Tremont St & Park St, Boston, MA, 02108, USA
+    - - WALK FROM 115 College Avenue, Somerville, MA, 02144, USA TO Davis
+      - TAKE Red Line SUBWAY FROM Davis TO Park Street
+      - WALK FROM Park Street TO Tremont St & Park St, Boston, MA, 02108, USA
+    - - WALK FROM 115 College Avenue, Somerville, MA, 02144, USA TO College Ave @ William St
+      - TAKE Medford Square - Harvard Station BUS FROM College Ave @ William St TO Massachusetts Ave @ Upland Rd
+      - WALK FROM Massachusetts Ave @ Upland Rd TO Porter
+      - TAKE Red Line SUBWAY FROM Porter TO Park Street
+      - WALK FROM Park Street TO Tremont St & Park St, Boston, MA, 02108, USA
+    - - WALK FROM 115 College Avenue, Somerville, MA, 02144, USA TO College Ave @ Broadway - Powder House Sq
+      - TAKE Medford Square - Davis Station BUS FROM College Ave @ Broadway - Powder House Sq TO Boston Ave @ Tufts Garage
+      - WALK FROM Boston Ave @ Tufts Garage TO Medford/Tufts
+      - TAKE Green Line E TRAM FROM Medford/Tufts TO Park Street
+      - WALK FROM Park Street TO Tremont St & Park St, Boston, MA, 02108, USA
+  name: Origin between two subway lines
+  to: Tremont St & Park Street &, Winter St, Boston, MA 02108
+- from: 7 Walk Hill St, Jamaica Plain, MA 02130
+  itineraries:
+    - - WALK FROM 7 Walk Hill Street, Jamaica Plain, MA, 02130, USA TO Forest Hills
+      - TAKE Orange Line SUBWAY FROM Forest Hills TO Massachusetts Avenue
+      - WALK FROM Massachusetts Avenue TO 393 Massachusetts Avenue, Boston, MA, 02115, USA
+    - - WALK FROM 7 Walk Hill Street, Jamaica Plain, MA, 02130, USA TO Hyde Park Ave @ Walk Hill St
+      - TAKE Wolcott or Cleary Square - Forest Hills Station BUS FROM Hyde Park Ave @ Walk Hill St TO Forest Hills
+      - WALK FROM Forest Hills TO Forest Hills
+      - TAKE Orange Line SUBWAY FROM Forest Hills TO Massachusetts Avenue
+      - WALK FROM Massachusetts Avenue TO 393 Massachusetts Avenue, Boston, MA, 02115, USA
+  name: Origin along a bus route & walkable to station
+  to: 393 Massachusetts Ave, Boston, MA 02118
+- from: 186 Canal St, Boston, MA 02114
+  itineraries:
+    - - WALK FROM 186 Canal St, Boston, MA, 02114, USA TO North Station
+      - TAKE Orange Line SUBWAY FROM North Station TO Malden Center
+      - WALK FROM Malden Center TO Commercial St & Pleasant St, Malden, MA, 02148, USA
+    - - WALK FROM 186 Canal St, Boston, MA, 02114, USA TO North Station
+      - TAKE Haverhill Line RAIL FROM North Station TO Malden Center
+      - WALK FROM Malden Center TO Commercial St & Pleasant St, Malden, MA, 02148, USA
+  name: Parallel subway & commuter rail
+  to: Commercial St &, Pleasant St, Malden, MA 02148
+- from: 700 Atlantic Ave, Boston, MA 02110
+  itineraries:
+    - WALKING_BETTER_THAN_TRANSIT
+  name: Walking-only itineraries
+  to: 630 Washington St, Boston, MA 02111
