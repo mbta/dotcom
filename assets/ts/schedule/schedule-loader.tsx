@@ -54,18 +54,6 @@ const getPageData = (): {
   };
 };
 
-const render = (): void => {
-  const { schedulePageData, branchesAreEmpty, mapData } = getPageData();
-
-  const { direction_id: directionId } = schedulePageData;
-
-  createScheduleStore(directionId);
-  ReactDOM.render(
-    doRender(schedulePageData, branchesAreEmpty, mapData),
-    document.getElementById("react-root-schedule-page")
-  );
-};
-
 const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
   mapData: MapData
@@ -80,9 +68,8 @@ const getDirectionAndMap = (
         mapData={mapData}
       />
     );
-  } else {
-    return <></>;
   }
+  return <></>;
 };
 
 const getScheduleFinder = (
@@ -137,7 +124,7 @@ export const doRender = (
   noBranches: boolean,
   dynamicMapData: MapData
 ): JSX.Element => {
-  const route = schedulePageData.route;
+  const { route } = schedulePageData;
 
   const offset = noBranches
     ? "col-md-offset-7 col-lg-offset-8"
@@ -148,7 +135,7 @@ export const doRender = (
     <Provider store={store}>
       {!noBranches && (
         <div className="col-md-7 m-schedule-page__main-content">
-          <div className={"m-schedule-line__main-content " + ferry}>
+          <div className={`m-schedule-line__main-content ${ferry}`}>
             {title && <h2>{title}</h2>}
             <div>
               {getDirectionAndMap(schedulePageData, dynamicMapData)}
@@ -173,6 +160,18 @@ export const doRender = (
         </div>
       </div>
     </Provider>
+  );
+};
+
+const render = (): void => {
+  const { schedulePageData, branchesAreEmpty, mapData } = getPageData();
+
+  const { direction_id: directionId } = schedulePageData;
+
+  createScheduleStore(directionId);
+  ReactDOM.render(
+    doRender(schedulePageData, branchesAreEmpty, mapData),
+    document.getElementById("react-root-schedule-page")
   );
 };
 
