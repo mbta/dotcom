@@ -138,6 +138,7 @@
         {Credo.Check.Warning.IoInspect, []},
         # false because not compatible with Elixir 1.10.3
         {Credo.Check.Warning.LazyLogging, false},
+        {Credo.Check.Warning.MissedMetadataKeyInLoggerConfig, false},
         {Credo.Check.Warning.OperationOnSameValues, []},
         {Credo.Check.Warning.OperationWithConstantResult, []},
         {Credo.Check.Warning.RaiseInsideRescue, []},

@@ -3,6 +3,8 @@ defmodule DotcomWeb.Plugs.Cookies do
   A module Plug that creates a cookie with a unique ID if this cookie does not already exist.
   """
 
+  require Logger
+
   alias Plug.Conn
 
   @behaviour Plug
@@ -37,15 +39,29 @@ defmodule DotcomWeb.Plugs.Cookies do
   def route_cookie_name, do: @route_cookie_name
 
   @doc """
-  Sets a unique ID for every visitor. ID is never overwritten once it exists.
+  Sets a unique id cookie if it does not already exist.
+  If the user-agent is not Playwright (meaning it is a real user), then the id is added to the Logger metadata.
   """
   @spec set_id_cookie(Conn.t()) :: Conn.t()
-  def set_id_cookie(%{cookies: %{@id_cookie_name => _mbta_id}} = conn) do
+  def set_id_cookie(%{cookies: %{@id_cookie_name => mbta_id}} = conn) do
     conn
+    |> maybe_set_metadata(mbta_id)
   end
 
   def set_id_cookie(conn) do
-    Conn.put_resp_cookie(conn, @id_cookie_name, unique_id(), @id_cookie_options)
+    mbta_id = unique_id()
+
+    conn
+    |> maybe_set_metadata(mbta_id)
+    |> Conn.put_resp_cookie(@id_cookie_name, mbta_id, @id_cookie_options)
+  end
+
+  defp maybe_set_metadata(conn, mbta_id) do
+    unless Conn.get_req_header(conn, "user-agent") == ["Playwright"] do
+      Logger.metadata(mbta_id: mbta_id)
+    end
+
+    conn
   end
 
   @spec unique_id() :: String.t()
