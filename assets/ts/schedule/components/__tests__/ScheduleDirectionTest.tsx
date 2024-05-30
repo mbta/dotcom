@@ -25,7 +25,7 @@ import {
 } from "../__schedule";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
-import { fromStopTreeData } from "../ScheduleLoader";
+import { fromStopTreeData } from "../SchedulePage";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';

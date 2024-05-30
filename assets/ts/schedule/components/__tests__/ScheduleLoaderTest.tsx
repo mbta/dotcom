@@ -1,5 +1,4 @@
 import React from "react";
-import { Provider } from "react-redux";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
   ServiceInSelector,
@@ -8,16 +7,13 @@ import {
   SchedulePageData
 } from "../__schedule";
 import { EnhancedRoute } from "../../../__v3api";
-import { MapData, StaticMapData } from "../../../leaflet/components/__mapdata";
-import ScheduleLoader from "../ScheduleLoader";
-import * as scheduleStoreModule from "../../store/ScheduleStore";
+import { MapData } from "../../../leaflet/components/__mapdata";
 import * as scheduleLoader from "../../schedule-loader";
+import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 import * as useStop from "../../../hooks/useStop";
 import { FetchStatus } from "../../../helpers/use-fetch";
-import { act, render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import * as scheduleModalContent from "../schedule-finder/ScheduleModalContent";
+import { screen, waitFor } from "@testing-library/react";
 import { EnhancedJourney } from "../__trips";
 import * as upcomingDepartures from "../schedule-finder/upcoming-departures/UpcomingDepartures";
 import * as useHoursOfOperation from "../../../hooks/useHoursOfOperation";
@@ -77,9 +73,6 @@ const stops = {
 const { stop_tree: stopTreeData } = (lineDiagramData as unknown) as {
   stop_tree: StopTreeData;
 };
-const testRouteStopList = Object.values(stopTreeData.by_id).map(
-  node => node.value
-);
 
 const fares = [
   {
@@ -94,7 +87,7 @@ const fares = [
 
 const route: EnhancedRoute = {
   alerts: [],
-  description: "",
+  description: "rapid_transit",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
   direction_names: { 0: "Inbound", 1: "Outbound" },
   header: "",
@@ -102,19 +95,6 @@ const route: EnhancedRoute = {
   name: "Orange",
   long_name: "Orange Line",
   type: 1,
-  line_id: null
-};
-
-const routeNotSubway: EnhancedRoute = {
-  alerts: [],
-  description: "",
-  direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
-  direction_names: { 0: "Inbound", 1: "Outbound" },
-  header: "",
-  id: "Silver",
-  name: "Silver 1",
-  long_name: "Silver Line",
-  type: 2,
   line_id: null
 };
 
@@ -210,11 +190,6 @@ const mapData: MapData = {
   }
 };
 
-const staticMapData: StaticMapData = {
-  img_src: "http://example.com/map.png",
-  pdf_url: "http://example.com/map.pdf"
-};
-
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
 const routes: RoutePatternsByDirection = {
@@ -232,7 +207,7 @@ jest.mock("../ScheduleDirection", () => {
 
 let store = scheduleStoreModule.createScheduleStore(0);
 
-describe("ScheduleLoader", () => {
+describe("schedule-loader", () => {
   beforeEach(() => {
     store = scheduleStoreModule.createScheduleStore(0);
     jest.spyOn(useStop, "useStop").mockImplementation(stopId => {
@@ -263,681 +238,6 @@ describe("ScheduleLoader", () => {
     jest.restoreAllMocks();
   });
 
-  it("Renders additional line information", () => {
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="ADDITIONAL_LINE_INFORMATION"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    expect(screen.getByText("PDF Schedules and Maps")).toBeInTheDocument();
-  });
-
-  it("Renders ScheduleFinder", () => {
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-    expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
-  });
-
-  it("Renders ScheduleNote with Schedule modal", async () => {
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    act(() => {
-      render(
-        <Provider store={store}>
-          <ScheduleLoader
-            component="SCHEDULE_NOTE"
-            schedulePageData={{
-              schedule_note: scheduleNoteData,
-              connections: [],
-              fares,
-              fare_link: fareLink, // eslint-disable-line camelcase
-              hours,
-              holidays,
-              pdfs,
-              teasers,
-              route: routeNotSubway,
-              services,
-              stops,
-              direction_id: 0,
-              route_patterns: routePatternsByDirection,
-              today: "2019-12-05",
-              stop_tree: stopTreeData,
-              route_stop_lists: [testRouteStopList],
-              alerts: [],
-              variant: null
-            }}
-            updateURL={() => {}}
-          />
-        </Provider>
-      );
-    });
-
-    const scheduleNode = await waitFor(() =>
-      screen.getByText("Daily Schedule")
-    );
-    expect(scheduleNode).toBeInTheDocument();
-  });
-
-  it("Renders empty component", () => {
-    const { container } = render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component=""
-          schedulePageData={{
-            schedule_note: scheduleNoteData,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("Shows the modal with pre-populated values", async () => {
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    act(() => {
-      render(
-        <Provider store={store}>
-          <ScheduleLoader
-            component="SCHEDULE_FINDER"
-            schedulePageData={{
-              schedule_note: null,
-              connections: [],
-              fares,
-              fare_link: fareLink, // eslint-disable-line camelcase
-              hours,
-              holidays,
-              pdfs,
-              teasers,
-              route,
-              services,
-              stops,
-              direction_id: 0,
-              route_patterns: routePatternsByDirection,
-              today: "2019-12-05",
-              stop_tree: stopTreeData,
-              route_stop_lists: [testRouteStopList],
-              alerts: [],
-              variant: null
-            }}
-            updateURL={() => {}}
-          />
-        </Provider>
-      );
-    });
-    const scheduleNode = await waitFor(() =>
-      screen.getByText("Daily Schedule")
-    );
-    expect(scheduleNode).toBeInTheDocument();
-  });
-
-  it("Shows the ScheduleDirection component", () => {
-    document.body.innerHTML = `<div id="react-root">
-  <script id="js-map-data" type="text/plain">${JSON.stringify(mapData)}</script>
-  <script id="static-map-data" type="text/plain">${JSON.stringify(
-    staticMapData
-  )}</script>
-  </div>`;
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_DIRECTION"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services: [],
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-    expect(screen.getByText("ScheduleDirection")).toBeInTheDocument();
-  });
-
-  it("Opens the schedule modal", async () => {
-    const user = userEvent.setup();
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: false
-        };
-      });
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    const originSelect = screen.getByTestId("schedule-finder-origin-select");
-
-    await user.click(originSelect);
-
-    expect(storeHandlerStub).toHaveBeenCalledTimes(2);
-  });
-
-  it("Opens the origin modal", async () => {
-    const user = userEvent.setup();
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "origin",
-          modalOpen: false
-        };
-      });
-
-    const buttons = screen.getAllByRole("button");
-    expect(buttons.length).toBeGreaterThan(1);
-
-    await user.click(buttons[1]);
-
-    // first call is with INITIALIZE
-    expect(storeHandlerStub).toHaveBeenNthCalledWith(2, {
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
-  });
-
-  it.skip("Shows the schedule modal on load", () => {
-    window.history.replaceState(
-      {},
-      "",
-      "/?schedule_finder%5Bdirection_id%5D=0&schedule_finder%5Borigin%5D=place-welln"
-    );
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "INITIALIZE",
-      newStoreValues: {
-        selectedDirection: 0,
-        selectedOrigin: "place-welln",
-        modalMode: "schedule",
-        modalOpen: true
-      }
-    });
-
-    // now check with the opposite direction:
-    window.history.replaceState(
-      {},
-      "",
-      "/?schedule_finder%5Bdirection_id%5D=1&schedule_finder%5Borigin%5D=place-welln"
-    );
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "INITIALIZE",
-      newStoreValues: {
-        selectedDirection: 1,
-        selectedOrigin: "place-welln",
-        modalMode: "schedule",
-        modalOpen: true
-      }
-    });
-  });
-
-  it("Closes the schedule modal", async () => {
-    const user = userEvent.setup();
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    act(() => {
-      render(
-        <Provider store={store}>
-          <ScheduleLoader
-            component="SCHEDULE_FINDER"
-            schedulePageData={{
-              schedule_note: null,
-              connections: [],
-              fares,
-              fare_link: fareLink, // eslint-disable-line camelcase
-              hours,
-              holidays,
-              pdfs,
-              teasers,
-              route,
-              services,
-              stops,
-              direction_id: 0,
-              route_patterns: routePatternsByDirection,
-              today: "2019-12-05",
-              stop_tree: stopTreeData,
-              route_stop_lists: [testRouteStopList],
-              alerts: [],
-              variant: null
-            }}
-            updateURL={() => {}}
-          />
-        </Provider>
-      );
-    });
-
-    await user.click(screen.getByText("Close"));
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "CLOSE_MODAL",
-      newStoreValues: {}
-    });
-  });
-
-  it("Handles change of direction", async () => {
-    const user = userEvent.setup();
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-    const directionSelect = screen.getByTestId(
-      "schedule-finder-direction-select"
-    );
-
-    await user.selectOptions(directionSelect, "1");
-
-    expect(storeHandlerStub).toHaveBeenNthCalledWith(1, {
-      type: "CHANGE_DIRECTION",
-      newStoreValues: {
-        selectedDirection: 1,
-        selectedOrigin: null
-      }
-    });
-  });
-
-  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
-    const user = userEvent.setup();
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_NOTE"
-          schedulePageData={{
-            schedule_note: scheduleNoteData,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route: routeNotSubway,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    const originSelect = screen.getByTestId("schedule-finder-origin-select");
-    await user.click(originSelect);
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
-  });
-
-  it("Changes the origin", async () => {
-    const user = userEvent.setup();
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-    const originSelect = screen.getByTestId("schedule-finder-origin-select");
-    await user.selectOptions(originSelect, "123");
-
-    expect(storeHandlerStub).toHaveBeenCalledTimes(2);
-
-    storeHandlerStub.mockRestore();
-  });
-
-  it("Checks if it is a unidirectional route", () => {
-    const changeDirectionStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routes,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    expect(changeDirectionStub).toHaveBeenNthCalledWith(1, {
-      type: "CHANGE_DIRECTION",
-      newStoreValues: {
-        selectedDirection: 1,
-        selectedOrigin: null
-      }
-    });
-
-    changeDirectionStub.mockRestore();
-  });
-
   it("Does not render line diagram because route information is empty", () => {
     const schedulePageData = {
       route_patterns: {},
@@ -960,7 +260,18 @@ describe("ScheduleLoader", () => {
       variant: null
     } as SchedulePageData;
 
-    render(scheduleLoader.doRender(schedulePageData, true, mapData));
+    document.body.innerHTML = `<div id="react-root-schedule-page">
+    <script id="js-schedule-page-data" type="text/plain" data-branches-are-empty="true">${JSON.stringify(
+      schedulePageData
+    )}</script>
+    <script id="js-map-data"
+          data-channel-id="test-channel"
+          type="text/plain">
+          ${JSON.stringify(mapData)}
+    </script>
+    </div>`;
+
+    scheduleLoader.default();
 
     expect(screen.queryByText("Stations & Departures")).toBeNull();
     expect(screen.getByText("Test Teasers")).toBeInTheDocument();
@@ -988,11 +299,20 @@ describe("ScheduleLoader", () => {
       variant: null
     } as SchedulePageData;
 
-    render(scheduleLoader.doRender(schedulePageData, false, mapData));
+    document.body.innerHTML = `<div id="react-root-schedule-page">
+    <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
+      schedulePageData
+    )}</script>
+    <script id="js-map-data"
+          data-channel-id="test-channel"
+          type="text/plain">
+          ${JSON.stringify(mapData)}
+    </script>
+    </div>`;
 
-    const hoursNode = await waitFor(() =>
-      screen.getByText("Hours of Operation")
-    );
+    scheduleLoader.default();
+
+    const hoursNode = await waitFor(() => screen.getByText("Today's Service"));
     const noteNode = await waitFor(() =>
       screen.queryByText(
         "Choose a stop to get schedule information and real-time departure predictions."
@@ -1001,112 +321,6 @@ describe("ScheduleLoader", () => {
 
     expect(hoursNode).toBeInTheDocument();
     expect(noteNode).toBeNull();
-  });
-
-  it("it renders with Schedule modal open", () => {
-    jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink,
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-    screen.getAllByText("Schedule Finder").forEach(node => {
-      expect(node).toBeInTheDocument();
-    });
-  });
-
-  it("it handles change in origin", async () => {
-    const user = userEvent.setup();
-    const stubFn = jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink,
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
-    );
-
-    const storeHandlerSpy = jest.spyOn(scheduleStoreModule, "storeHandler");
-    const originSelects = screen.getAllByTestId(
-      "schedule-finder-origin-select"
-    );
-    expect(originSelects).toHaveLength(2);
-
-    await user.click(originSelects[1]);
-
-    expect(storeHandlerSpy).toHaveBeenCalledWith({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
-
-    stubFn.mockRestore();
-    storeHandlerSpy.mockRestore();
   });
 
   it("it only shows teasers and upcoming holidays because it is a suspended route", () => {

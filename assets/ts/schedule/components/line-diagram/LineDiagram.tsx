@@ -7,7 +7,7 @@ import useRealtime from "../../../hooks/useRealtime";
 import { isSubwayRoute } from "../../../models/route";
 import { Alert, DirectionId, Route } from "../../../__v3api";
 import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
-import { changeOrigin } from "../ScheduleLoader";
+import { changeOrigin } from "../SchedulePage";
 import {
   IndexedRouteStop,
   RouteStop,

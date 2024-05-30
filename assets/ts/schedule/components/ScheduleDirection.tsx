@@ -19,7 +19,7 @@ import {
   isACommuterRailRoute
 } from "../../models/route";
 import LineDiagram from "./line-diagram/LineDiagram";
-import { fromStopTreeData } from "./ScheduleLoader";
+import { fromStopTreeData } from "./SchedulePage";
 
 export interface Props {
   route: EnhancedRoute;
