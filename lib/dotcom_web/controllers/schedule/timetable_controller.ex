@@ -488,26 +488,20 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
     with {before_or_after, adjacent_name} <- @shuttle_overrides[new_stop.id],
          index when not is_nil(index) <-
            Enum.find_index(base_list, &match?(%Stops.Stop{name: ^adjacent_name}, &1)) do
-      position =
-        if inbound? do
-          # the after/before label is based on the inbound direction
-          case before_or_after do
-            :after -> index + 1
-            :before -> index
-          end
-        else
-          case before_or_after do
-            :after -> index
-            :before -> index + 1
-          end
-        end
-
+      position = insertion_position(before_or_after, inbound?, index)
       List.insert_at(base_list, position, new_stop)
     else
       _ ->
         base_list
     end
   end
+
+  # the after/before label is based on the inbound direction, so needs
+  # adjustment for the outbound direction
+  defp insertion_position(:before, true, index), do: index
+  defp insertion_position(:before, false, index), do: index + 1
+  defp insertion_position(:after, true, index), do: index + 1
+  defp insertion_position(:after, false, index), do: index
 
   defp channel_id(conn, _) do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
