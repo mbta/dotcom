@@ -6,14 +6,6 @@
 defmodule EvaluateOpenTripPlanner.Helpers do
   @moduledoc false
 
-  def address_to_named_position(address) do
-    address
-    |> LocationService.geocode()
-    |> Kernel.elem(1)
-    |> List.first()
-    |> TripPlan.NamedPosition.new()
-  end
-
   def attach_itineraries_to_plan(%{"from" => from, "to" => to} = plan) do
     itineraries =
       plan(from, to)
@@ -23,36 +15,44 @@ defmodule EvaluateOpenTripPlanner.Helpers do
     Map.put(plan, "itineraries", itineraries)
   end
 
-  def plan(from, to) do
+  defp address_to_named_position(address) do
+    address
+    |> LocationService.geocode()
+    |> Kernel.elem(1)
+    |> List.first()
+    |> TripPlan.NamedPosition.new()
+  end
+
+  defp itineraries_to_strings(itineraries) when is_binary(itineraries) do
+    [itineraries]
+  end
+
+  defp itineraries_to_strings(itineraries) when is_list(itineraries) do
+    Enum.map(itineraries, &itinerary_to_string/1)
+  end
+
+  defp itinerary_to_string(itinerary) do
+    Enum.map(itinerary.legs, &leg_to_string/1)
+  end
+
+  defp leg_to_string(%{description: "WALK"} = leg) do
+    "#{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
+  defp leg_to_string(%{description: "BUS"} = leg) do
+    "TAKE #{leg.name} #{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
+  defp leg_to_string(leg) do
+    "TAKE #{leg.long_name} #{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
+  defp plan(from, to) do
     TripPlan.Api.OpenTripPlanner.plan(
       address_to_named_position(from),
       address_to_named_position(to),
       []
     )
-  end
-
-  def itineraries_to_strings(itineraries) when is_binary(itineraries) do
-    [itineraries]
-  end
-
-  def itineraries_to_strings(itineraries) when is_list(itineraries) do
-    Enum.map(itineraries, &itinerary_to_string/1)
-  end
-
-  def itinerary_to_string(itinerary) do
-    Enum.map(itinerary.legs, &leg_to_string/1)
-  end
-
-  def leg_to_string(%{description: "WALK"} = leg) do
-    "#{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
-  def leg_to_string(%{description: "BUS"} = leg) do
-    "TAKE #{leg.name} #{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
-  end
-
-  def leg_to_string(leg) do
-    "TAKE #{leg.long_name} #{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
   end
 end
 
