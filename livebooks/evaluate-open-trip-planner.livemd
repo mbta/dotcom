@@ -40,6 +40,10 @@ defmodule EvaluateOpenTripPlanner.Helpers do
     "#{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
   end
 
+  def leg_to_string(%{description: "BUS"} = leg) do
+    "TAKE #{leg.name} #{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
+  end
+
   def leg_to_string(leg) do
     "TAKE #{leg.long_name} #{leg.description} FROM #{leg.from.name} TO #{leg.to.name}"
   end
@@ -49,8 +53,6 @@ alias EvaluateOpenTripPlanner.Helpers
 ```
 
 ```elixir
-require Logger
-
 {:ok, plans} = YamlElixir.read_from_file("#{File.cwd!()}/livebooks/plans.yml")
 
 content =
@@ -66,9 +68,9 @@ content =
 yaml = Ymlr.document!(content)
 path = System.tmp_dir!() |> Path.join("itineraries.yml")
 
-Logger.notice(path)
+IO.puts(path)
 
 File.write!(path, yaml)
 ```
 
-<!-- livebook:{"offset":1733,"stamp":{"token":"XCP.TGVHgoqWAmioBoypCcPzFhyOcOjBAXhryABUByiuW3-P759TIpkesRJHJa90cl4vlxNRUvV9nCa4crDy7KTVIolKv4rTHmA7Pb4ONw","version":2}} -->
+<!-- livebook:{"offset":1852,"stamp":{"token":"XCP.pHUNTBQpZgMDBa7lJd4QBQd8sVmKAcTIbWmh44MbrmVMoe1Jzd5CtMNjOZim1RmE_pgdvRpxRPU0BCOFpNFko8F7VxOsAPrZLTVi5w","version":2}} -->
