@@ -63,7 +63,7 @@ alias EvaluateOpenTripPlanner.Helpers
 write_path =
   System.tmp_dir!()
   |> Path.join("itineraries.yml")
-  |> IO.puts()
+  |> IO.inspect()
 
 yaml =
   File.cwd!()
