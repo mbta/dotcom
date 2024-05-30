@@ -16,6 +16,15 @@ defmodule EvaluateOpenTripPlanner.Helpers do
     |> TripPlan.NamedPosition.new()
   end
 
+  def attach_itineraries_to_plan(%{"from" => from, "to" => to} = plan) do
+    itineraries =
+      plan(from, to)
+      |> Kernel.elem(1)
+      |> itineraries_to_strings()
+
+    Map.put(plan, "itineraries", itineraries)
+  end
+
   def plan(from, to) do
     TripPlan.Api.OpenTripPlanner.plan(
       address_to_named_position(from),
@@ -53,24 +62,19 @@ alias EvaluateOpenTripPlanner.Helpers
 ```
 
 ```elixir
-{:ok, plans} = YamlElixir.read_from_file("#{File.cwd!()}/livebooks/plans.yml")
+write_path =
+  System.tmp_dir!()
+  |> Path.join("itineraries.yml")
+  |> IO.puts()
 
-content =
-  Enum.map(plans, fn plan ->
-    itineraries =
-      Helpers.plan(plan["from"], plan["to"])
-      |> Kernel.elem(1)
-      |> Helpers.itineraries_to_strings()
+yaml =
+  File.cwd!()
+  |> Path.join("/livebooks/plans.yml")
+  |> YamlElixir.read_from_file!()
+  |> Enum.map(&Helpers.attach_itineraries_to_plan/1)
+  |> Ymlr.document!()
 
-    Map.put(plan, "itineraries", itineraries)
-  end)
-
-yaml = Ymlr.document!(content)
-path = System.tmp_dir!() |> Path.join("itineraries.yml")
-
-IO.puts(path)
-
-File.write!(path, yaml)
+File.write!(write_path, yaml)
 ```
 
-<!-- livebook:{"offset":1852,"stamp":{"token":"XCP.pHUNTBQpZgMDBa7lJd4QBQd8sVmKAcTIbWmh44MbrmVMoe1Jzd5CtMNjOZim1RmE_pgdvRpxRPU0BCOFpNFko8F7VxOsAPrZLTVi5w","version":2}} -->
+<!-- livebook:{"offset":1929,"stamp":{"token":"XCP.XbMk6u3WaEFxcwQf0eM76oS0n1cV0-o2-nf2FgSDf3hRaidXwycL82UMdNCeQOY4i-zN4dv34h1NsHuWKdSRckjHOD1ADuYCGvZRrw","version":2}} -->
