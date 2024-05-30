@@ -37,7 +37,8 @@
     "cypress:open": "PORT=4004 npx --prefix assets cypress open",
     "test:integration": "node --test integration/tests/**/*.test.js",
     "test:cypress:run": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:run",
-    "test:cypress:open": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open"
+    "test:cypress:open": "npx --prefix assets start-server-and-test 'MIX_ENV=test PORT=4004 mix phx.server' 4004 cypress:open",
+    "test:playwright:all": "npx playwright test all-scenarios"
   },
   "lint-staged": {
     "**/*.{ex,exs}": "mix format",
