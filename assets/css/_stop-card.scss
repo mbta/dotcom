@@ -84,9 +84,9 @@ $radius: 4px;
     // on mobile, adopt a full-screen "app" view,
     // this is the scrollable section
     @include media-breakpoint-down(sm) {
+      -webkit-overflow-scrolling: touch;
       overflow-y: scroll;
       overscroll-behavior: contain;
-      -webkit-overflow-scrolling: touch;
     }
   }
 
@@ -102,9 +102,9 @@ $radius: 4px;
     @include media-breakpoint-down(sm) {
       bottom: 0;
       display: grid;
-      left: 0;
       gap: 0;
       grid-template-rows: auto 1fr;
+      left: 0;
       padding-bottom: 0;
       padding-top: 0;
       position: fixed;
@@ -423,5 +423,24 @@ $radius: 4px;
     @include heading-4();
     font-weight: bold;
     margin: 0;
+  }
+}
+
+.departure-card__times {
+  .no-real-time-data {
+    @extend .font-helvetica-neue;
+    @extend .fs-14;
+  }
+}
+
+.stop-departures--realtime {
+  .no-real-time-data {
+    @extend .align-items-center;
+    @extend .c-alert-item--low;
+    @extend .d-flex;
+    @extend .justify-content-center;
+    @extend .m-8;
+    @extend .pb-40;
+    @extend .pt-40;
   }
 }

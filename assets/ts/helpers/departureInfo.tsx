@@ -169,7 +169,11 @@ const departuresListFromInfos = (
   const tripId = departureInfos[0]?.trip?.id;
 
   if (isSubway && !predictionTimeCutoff) {
-    return [<div key={`${routeId}-${tripId}`}>No real-time data</div>];
+    return [
+      <div className="no-real-time-data" key={`${routeId}-${tripId}`}>
+        No real-time data
+      </div>
+    ];
   }
 
   return chain(departureInfos)
