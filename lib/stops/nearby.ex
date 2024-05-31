@@ -161,6 +161,22 @@ defmodule Stops.Nearby do
     {[first], rest}
   end
 
+  def reduce_keys({:ok, {item, keys}}, {existing, all_keys}, max_count) do
+    still_valid_keys = Enum.reject(keys, &(Map.get(all_keys, &1) == max_count))
+
+    if still_valid_keys == [] do
+      {existing, all_keys}
+    else
+      updated_keys =
+        still_valid_keys
+        |> Enum.reduce(all_keys, fn key, keys ->
+          Map.update(keys, key, 1, &(&1 + 1))
+        end)
+
+      {[item | existing], updated_keys}
+    end
+  end
+
   @doc """
   Filters an enumerable such that the keys (returned by `keys_fn`) do not
   appear more than `max_count` times.
@@ -179,21 +195,7 @@ defmodule Stops.Nearby do
     {items, _} =
       enum
       |> Task.async_stream(fn item -> {item, keys_fn.(item)} end)
-      |> Enum.reduce({[], %{}}, fn {:ok, {item, keys}}, {existing, all_keys} ->
-        still_valid_keys = Enum.reject(keys, &(Map.get(all_keys, &1) == max_count))
-
-        if still_valid_keys == [] do
-          {existing, all_keys}
-        else
-          updated_keys =
-            still_valid_keys
-            |> Enum.reduce(all_keys, fn key, keys ->
-              Map.update(keys, key, 1, &(&1 + 1))
-            end)
-
-          {[item | existing], updated_keys}
-        end
-      end)
+      |> Enum.reduce({[], %{}}, &reduce_keys(&1, &2, max_count))
 
     Enum.reverse(items)
   end

@@ -24,6 +24,18 @@ defmodule DotcomWeb.ScheduleController.Line do
     Util.log_duration(__MODULE__, :do_call, [conn, opts])
   end
 
+  defp parse_direction_id(schedule_direction, direction_id) do
+    if schedule_direction["direction_id"] do
+      parsed = Integer.parse(schedule_direction["direction_id"])
+
+      if parsed !== :error and (elem(parsed, 0) === 1 or elem(parsed, 0) === 0),
+        do: elem(parsed, 0),
+        else: direction_id
+    else
+      direction_id
+    end
+  end
+
   def do_call(
         %Conn{
           assigns: %{
@@ -44,16 +56,7 @@ defmodule DotcomWeb.ScheduleController.Line do
       # URL parameters have the correct format
       schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
 
-      direction_id_value =
-        if schedule_direction["direction_id"] do
-          parsed = Integer.parse(schedule_direction["direction_id"])
-
-          if parsed !== :error and (elem(parsed, 0) === 1 or elem(parsed, 0) === 0),
-            do: elem(parsed, 0),
-            else: direction_id
-        else
-          direction_id
-        end
+      direction_id_value = parse_direction_id(schedule_direction, direction_id)
 
       update_conn(conn, route, direction_id_value)
     else
