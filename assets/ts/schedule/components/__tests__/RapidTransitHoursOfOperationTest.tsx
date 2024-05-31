@@ -1,19 +1,21 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { RAPID_TRANSIT } from "../../../models/route";
 import { EnhancedRoute, TransitHours } from "../../../__v3api";
 import { ScheduleNote } from "../__schedule";
 import * as hours from "../../../hooks/useHoursOfOperation";
 import * as fetchJson from "../../../helpers/fetch-json";
 import RapidTransitHoursOfOperation from "../RapidTransitHoursOfOperation";
-import * as store from "../../store/ScheduleStore";
+import { createScheduleStore } from "../../store/ScheduleStore";
+import { Provider } from "react-redux";
+import * as reactRedux from "react-redux";
 
 describe("RapidTransitHoursOfOperation", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("calls the hours of operation hook", () => {
+  it("calls the hours of operation hook", async () => {
     const spy = jest
       .spyOn(fetchJson, "fetchJsonOrThrow")
       .mockImplementation(() => {
@@ -31,11 +33,18 @@ describe("RapidTransitHoursOfOperation", () => {
       peak_service: "5 minutes"
     } as ScheduleNote;
 
-    render(
-      <RapidTransitHoursOfOperation route={route} scheduleNote={scheduleNote} />
-    );
+    act(() => {
+      render(
+        <Provider store={createScheduleStore(0)}>
+          <RapidTransitHoursOfOperation
+            route={route}
+            scheduleNote={scheduleNote}
+          />
+        </Provider>
+      );
+    });
 
-    expect(spy).toHaveBeenCalled();
+    await waitFor(() => expect(spy).toHaveBeenCalled());
   });
 
   it("renders the rapid transit schedule", () => {
@@ -73,11 +82,13 @@ describe("RapidTransitHoursOfOperation", () => {
       peak_service: "5 minutes"
     } as ScheduleNote;
     render(
-      <RapidTransitHoursOfOperation
-        route={route}
-        scheduleNote={scheduleNote}
-        date={new Date("2022-10-24T13:54:00-04:00")}
-      />
+      <Provider store={createScheduleStore(0)}>
+        <RapidTransitHoursOfOperation
+          route={route}
+          scheduleNote={scheduleNote}
+          date={new Date("2022-10-24T13:54:00-04:00")}
+        />
+      </Provider>
     );
 
     expect(screen.getByText("Today's Service")).toBeInTheDocument();
@@ -104,11 +115,13 @@ describe("RapidTransitHoursOfOperation", () => {
       offpeak_service: "15 minutes"
     } as ScheduleNote;
     render(
-      <RapidTransitHoursOfOperation
-        route={route}
-        scheduleNote={scheduleNote}
-        date={new Date("2022-10-24T13:54:00-04:00")}
-      />
+      <Provider store={createScheduleStore(0)}>
+        <RapidTransitHoursOfOperation
+          route={route}
+          scheduleNote={scheduleNote}
+          date={new Date("2022-10-24T13:54:00-04:00")}
+        />
+      </Provider>
     );
 
     expect(screen.getByText("Peak Service: Trains depart every 5 minutes"));
@@ -152,11 +165,13 @@ describe("RapidTransitHoursOfOperation", () => {
       peak_service: "5 minutes"
     } as ScheduleNote;
     render(
-      <RapidTransitHoursOfOperation
-        route={route}
-        scheduleNote={scheduleNote}
-        date={new Date("2022-10-22T13:54:00-04:00")}
-      />
+      <Provider store={createScheduleStore(0)}>
+        <RapidTransitHoursOfOperation
+          route={route}
+          scheduleNote={scheduleNote}
+          date={new Date("2022-10-22T13:54:00-04:00")}
+        />
+      </Provider>
     );
 
     expect(screen.getByText("Today's Service")).toBeInTheDocument();
@@ -166,7 +181,10 @@ describe("RapidTransitHoursOfOperation", () => {
   });
 
   it("should open the schedule finder modal on click", async () => {
-    const spy = jest.spyOn(store, "storeHandler");
+    const spyFunction = jest.fn();
+    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
+      return spyFunction;
+    });
     jest.spyOn(hours, "default").mockImplementation(() => {
       return {
         week: [],
@@ -178,17 +196,19 @@ describe("RapidTransitHoursOfOperation", () => {
 
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
     render(
-      <RapidTransitHoursOfOperation
-        route={route}
-        scheduleNote={null}
-        date={new Date("2022-10-24T13:54:00-04:00")}
-      />
+      <Provider store={createScheduleStore(0)}>
+        <RapidTransitHoursOfOperation
+          route={route}
+          scheduleNote={null}
+          date={new Date("2022-10-24T13:54:00-04:00")}
+        />
+      </Provider>
     );
 
     screen.getByText("Find departures from your stop").click();
 
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith({
+      expect(spyFunction).toHaveBeenCalledWith({
         type: "OPEN_MODAL",
         newStoreValues: {
           modalMode: "origin"
