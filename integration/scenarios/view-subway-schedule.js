@@ -21,11 +21,11 @@ exports.scenario = async ({ page, baseURL }) => {
 
   // Get the first and last stop names
   const first = await page
-    .locator("h4.m-schedule-diagram__stop-link a span")
+    .locator("h4.m-schedule-diagram__stop-link a span:last-child")
     .first()
     .textContent();
   const last = await page
-    .locator("h4.m-schedule-diagram__stop-link a span")
+    .locator("h4.m-schedule-diagram__stop-link a span:last-child")
     .last()
     .textContent();
 
@@ -33,9 +33,9 @@ exports.scenario = async ({ page, baseURL }) => {
 
   // Expect them to be reversed after clicking the direction filter
   await expect(
-    page.locator("h4.m-schedule-diagram__stop-link a span").first(),
+    page.locator("h4.m-schedule-diagram__stop-link a span:last-child").first(),
   ).toHaveText(last);
   await expect(
-    page.locator("h4.m-schedule-diagram__stop-link a span").last(),
+    page.locator("h4.m-schedule-diagram__stop-link a span:last-child").last(),
   ).toHaveText(first);
 };
