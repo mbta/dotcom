@@ -15,11 +15,12 @@ import { isSubwayRoute } from "../../../models/route";
 import DailyScheduleSubway from "./daily-schedule/DailyScheduleSubway";
 import formattedDate, { stringToDateObject } from "../../../helpers/date";
 import { isInCurrentService } from "../../../helpers/service";
+import { Dispatch } from "redux";
 
 interface Props {
   handleChangeDirection: (direction: DirectionId) => void;
   handleChangeOrigin: (origin: SelectedOrigin) => void;
-  handleOriginSelectClick: () => void;
+  handleOriginSelectClick: (dispatch: Dispatch) => void;
   route: Route;
   selectedDirection: DirectionId;
   selectedOrigin: string;

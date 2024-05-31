@@ -10,23 +10,25 @@ import {
 import Modal from "../../../components/Modal";
 import OriginModalContent from "./OriginModalContent";
 import ScheduleModalContent from "./ScheduleModalContent";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 
 export type Mode = "origin" | "schedule";
 
 interface Props {
-  closeModal: () => void;
-  directionChanged?: (direction: DirectionId) => void;
+  closeModal: (dispatch: Dispatch) => void;
+  directionChanged?: (direction: DirectionId, dispatch: Dispatch) => void;
   initialMode: Mode;
   initialDirection: DirectionId;
   initialOrigin: SelectedOrigin;
-  originChanged?: (origin: SelectedOrigin) => void;
+  originChanged?: (origin: SelectedOrigin, dispatch: Dispatch) => void;
   route: Route;
   routePatternsByDirection: RoutePatternsByDirection;
   services: ServiceInSelector[];
   stops: SimpleStopMap;
   today: string;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
-  handleOriginSelectClick: () => void;
+  handleOriginSelectClick: (dispatch: Dispatch) => void;
   scheduleNote: ScheduleNote | null;
 }
 
@@ -47,6 +49,7 @@ const ScheduleFinderModal = ({
   scheduleNote
 }: Props): ReactElement => {
   const [originState, setOriginState] = useState(initialOrigin);
+  const dispatch = useDispatch();
 
   const getStopIdIfInDirection = (newDirection: DirectionId): string | null => {
     const directionDestination = route.direction_destinations[newDirection];
@@ -59,19 +62,19 @@ const ScheduleFinderModal = ({
   };
 
   const handleChangeDirection = (newDirection: DirectionId): void => {
-    if (directionChanged) directionChanged(newDirection);
+    if (directionChanged) directionChanged(newDirection, dispatch);
 
     // return the stop if it is present in the new direction
     // stops the user from having to reselect an origin on stop change
     const stop = getStopIdIfInDirection(newDirection);
 
-    if (originChanged) originChanged(stop);
+    if (originChanged) originChanged(stop, dispatch);
     updateURL(initialOrigin, newDirection);
   };
 
   const handleChangeOrigin = (newOrigin: SelectedOrigin): void => {
     setOriginState(newOrigin);
-    if (originChanged) originChanged(newOrigin);
+    if (originChanged) originChanged(newOrigin, dispatch);
     updateURL(newOrigin, initialDirection);
   };
 
@@ -129,7 +132,7 @@ const ScheduleFinderModal = ({
       className={
         initialMode === "origin" ? "schedule-finder__origin-modal" : ""
       }
-      closeModal={closeModal}
+      closeModal={() => closeModal(dispatch)}
     >
       {initialMode === "origin" && originModalContent()}
       {initialMode === "schedule" &&

@@ -5,14 +5,16 @@ import icon from "../../../../../priv/static/icon-svg/icon-schedule-finder.svg";
 import renderSvg from "../../../helpers/render-svg";
 import SelectContainer from "./SelectContainer";
 import { routeToModeName } from "../../../helpers/css";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 
 const validDirections = (directionInfo: DirectionInfo): DirectionId[] =>
   ([0, 1] as DirectionId[]).filter(dir => directionInfo[dir] !== null);
 
 interface Props {
-  onDirectionChange: (direction: DirectionId) => void;
-  onOriginChange: (origin: SelectedOrigin) => void;
-  onOriginSelectClick: () => void;
+  onDirectionChange: (direction: DirectionId, dispatch: Dispatch) => void;
+  onOriginChange: (origin: SelectedOrigin, dispatch: Dispatch) => void;
+  onOriginSelectClick: (dispatch: Dispatch) => void;
   onSubmit?: () => void;
   route: Route;
   selectedDirection: DirectionId;
@@ -35,11 +37,13 @@ const ScheduleFinderForm = ({
     direction_destinations: directionDestinations
   } = route;
 
+  const dispatch = useDispatch();
+
   const [originError, setOriginError] = useState(false);
 
   const handleOriginClick = (): void => {
     setOriginError(false);
-    onOriginSelectClick();
+    onOriginSelectClick(dispatch);
   };
 
   const handleSubmit = (event: FormEvent): void => {
@@ -87,7 +91,10 @@ const ScheduleFinderForm = ({
                 className="c-select-custom notranslate"
                 value={selectedDirection}
                 onChange={e =>
-                  onDirectionChange(parseInt(e.target.value, 10) as DirectionId)
+                  onDirectionChange(
+                    parseInt(e.target.value, 10) as DirectionId,
+                    dispatch
+                  )
                 }
               >
                 {validDirections(directionNames).map(direction => (
@@ -107,13 +114,16 @@ const ScheduleFinderForm = ({
             Choose an origin stop
             <SelectContainer
               error={originError}
-              handleClick={handleOriginClick}
+              handleClick={() => {
+                console.log("Click Click");
+                handleOriginClick();
+              }}
             >
               <select
                 data-testid="schedule-finder-origin-select"
                 className="c-select-custom c-select-custom--noclick notranslate"
                 value={selectedOrigin || ""}
-                onChange={e => onOriginChange(e.target.value || null)}
+                onChange={e => onOriginChange(e.target.value || null, dispatch)}
               >
                 <option value="">Select</option>
                 {stopsByDirection[selectedDirection].map(({ id, name }) => (

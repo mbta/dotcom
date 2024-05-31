@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
-import { createScheduleStore } from "./store/ScheduleStore";
+import { createScheduleStore, store } from "./store/ScheduleStore";
 import { SchedulePage } from "./components/SchedulePage";
+import { Provider } from "react-redux";
 
 const getPageData = (): {
   schedulePageData: SchedulePageData;
@@ -38,11 +39,13 @@ const render = (): void => {
 
   createScheduleStore(directionId);
   ReactDOM.render(
-    <SchedulePage
-      schedulePageData={schedulePageData}
-      noBranches={branchesAreEmpty}
-      mapData={mapData}
-    />,
+    <Provider store={store}>
+      <SchedulePage
+        schedulePageData={schedulePageData}
+        noBranches={branchesAreEmpty}
+        mapData={mapData}
+      />
+    </Provider>,
     document.getElementById("react-root-schedule-page")
   );
 };

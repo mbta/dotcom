@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Provider } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useQueryParams,
   StringParam,
@@ -19,14 +19,10 @@ import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import ScheduleFinder from "./ScheduleFinder";
 import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
 import { DirectionId, Route } from "../../__v3api";
-import {
-  store,
-  getCurrentState,
-  storeHandler,
-  StoreProps
-} from "../store/ScheduleStore";
+import { StoreProps } from "../store/ScheduleStore";
 import { isFerryRoute, isSubwayRoute } from "../../models/route";
 import HoursOfOperation from "./HoursOfOperation";
+import { Dispatch } from "redux";
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */
@@ -49,15 +45,15 @@ const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
   startingNodes: stopTreeData.starting_nodes
 });
 
-const changeOrigin = (origin: SelectedOrigin): void => {
-  storeHandler({
+const changeOrigin = (origin: SelectedOrigin, dispatch: Dispatch): void => {
+  dispatch({
     type: "CHANGE_ORIGIN",
     newStoreValues: {
       selectedOrigin: origin
     }
   });
   // reopen modal depending on choice:
-  storeHandler({
+  dispatch({
     type: "OPEN_MODAL",
     newStoreValues: {
       modalMode: origin ? "schedule" : "origin"
@@ -65,8 +61,8 @@ const changeOrigin = (origin: SelectedOrigin): void => {
   });
 };
 
-const changeDirection = (direction: DirectionId): void => {
-  storeHandler({
+const changeDirection = (direction: DirectionId, dispatch: Dispatch): void => {
+  dispatch({
     type: "CHANGE_DIRECTION",
     newStoreValues: {
       selectedDirection: direction,
@@ -75,8 +71,8 @@ const changeDirection = (direction: DirectionId): void => {
   });
 };
 
-const closeModal = (): void => {
-  storeHandler({
+const closeModal = (dispatch: Dispatch): void => {
+  dispatch({
     type: "CLOSE_MODAL",
     newStoreValues: {}
   });
@@ -200,8 +196,8 @@ const getScheduleFinder = (
   );
 };
 
-const handleOriginSelectClick = (): void => {
-  storeHandler({
+const handleOriginSelectClick = (dispatch: Dispatch): void => {
+  dispatch({
     type: "OPEN_MODAL",
     newStoreValues: {
       modalMode: "origin"
@@ -321,6 +317,7 @@ const SchedulePage = ({
   noBranches,
   mapData
 }: ScheduleLoaderProps): JSX.Element => {
+  const dispatch = useDispatch();
   const { route, route_patterns: routePatternsByDirection } = schedulePageData;
 
   const routeIsSuspended = Object.keys(routePatternsByDirection).length === 0;
@@ -332,9 +329,10 @@ const SchedulePage = ({
     "schedule_finder[origin]": StringParam
   });
 
+  const currentState = useSelector((state: StoreProps) => state);
+
   useEffect(() => {
     // get initial values from the store:
-    const currentState = getCurrentState();
     const { selectedDirection, selectedOrigin } = currentState;
     let { modalOpen, modalMode } = currentState;
 
@@ -355,7 +353,7 @@ const SchedulePage = ({
       modalOpen = true;
     }
 
-    storeHandler({
+    dispatch({
       type: "INITIALIZE",
       newStoreValues: {
         selectedDirection: newDirection || selectedDirection,
@@ -367,8 +365,6 @@ const SchedulePage = ({
     // we disable linting in this next line because we DO want to specify an empty array since we want this piece to run only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const currentState = getCurrentState();
 
   const offset = noBranches
     ? "col-md-offset-7 col-lg-offset-8"
@@ -394,12 +390,12 @@ const SchedulePage = ({
         Object.keys(routePatternsByDirection)[0],
         10
       ) as DirectionId;
-      changeDirection(readjustedDirectionId);
+      changeDirection(readjustedDirectionId, dispatch);
       updateURL(selectedOrigin, readjustedDirectionId);
     }
 
     return (
-      <Provider store={store}>
+      <>
         {!noBranches && (
           <div className="col-md-7 m-schedule-page__main-content">
             <div className={`m-schedule-line__main-content ${ferry}`}>
@@ -411,12 +407,6 @@ const SchedulePage = ({
                   mapData,
                   readjustedDirectionId
                 )}
-                {isFerryRoute(route) &&
-                  getScheduleFinder(
-                    schedulePageData,
-                    currentState,
-                    readjustedDirectionId
-                  )}
               </div>
             </div>
           </div>
@@ -446,10 +436,10 @@ const SchedulePage = ({
             {getAdditionalLineInfo(schedulePageData, routeIsSuspended)}
           </div>
         </div>
-      </Provider>
+      </>
     );
   }
   return <></>;
 };
 
-export { SchedulePage, fromStopTreeData, changeOrigin };
+export { SchedulePage, fromStopTreeData };
