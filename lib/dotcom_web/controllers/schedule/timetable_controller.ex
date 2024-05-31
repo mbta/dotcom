@@ -358,15 +358,23 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
 
   # Some shuttle stops must be placed manually within the existing stops. Each
   # key is a scheduled stop ID from a shuttle, and the corresponding value is
-  # the name of the canonical rail stop it should be placed adjacent to.
+  # the name of the canonical rail stop it should be placed adjacent to in the
+  # inbound direction
   @shuttle_overrides %{
-    "14748" => "Lynn Interim",
-    "38671" => "Weymouth Landing/East Braintree",
-    "NHRML-0127-B" => "Reading",
-    "place-ER-0115" => "Swampscott",
-    "place-wondl" => "Lynn",
+    # Lynn busway is near Lynn Interim station
+    "14748" => {:after, "Lynn Interim"},
+    # Braintree busway
+    "38671" => {:after, "Weymouth Landing/East Braintree"},
+    # Anderson/Woburn is after Ballardvale on Haverhill line shuttle
+    "NHRML-0127-B" => {:after, "Ballardvale"},
+    # Lynn station
+    "place-ER-0115" => {:after, "Swampscott"},
+    # Wonderland station
+    "place-wondl" => {:after, "Lynn"},
     # Add Readville (canonically on other routes) back into the Providence timetable
-    "place-DB-0095" => "Route 128"
+    "place-DB-0095" => {:after, "Route 128"},
+    # Add Newton Highlands shuttle stop to Needham timetable
+    "place-newtn" => {:before, "Needham Heights"}
   }
   @shuttle_ids Map.keys(@shuttle_overrides)
 
@@ -477,17 +485,23 @@ defmodule DotcomWeb.ScheduleController.TimetableController do
   end
 
   defp merge_into_stop_list(new_stop, base_list, inbound?) do
-    next_stop_name = @shuttle_overrides[new_stop.id]
-
-    case Enum.find_index(base_list, &match?(%Stop{name: ^next_stop_name}, &1)) do
-      nil ->
+    with {before_or_after, adjacent_name} <- @shuttle_overrides[new_stop.id],
+         index when not is_nil(index) <-
+           Enum.find_index(base_list, &match?(%Stops.Stop{name: ^adjacent_name}, &1)) do
+      position = insertion_position(before_or_after, inbound?, index)
+      List.insert_at(base_list, position, new_stop)
+    else
+      _ ->
         base_list
-
-      index ->
-        base_list
-        |> List.insert_at(if(inbound?, do: index + 1, else: index), new_stop)
     end
   end
+
+  # the after/before label is based on the inbound direction, so needs
+  # adjustment for the outbound direction
+  defp insertion_position(:before, true, index), do: index
+  defp insertion_position(:before, false, index), do: index + 1
+  defp insertion_position(:after, true, index), do: index + 1
+  defp insertion_position(:after, false, index), do: index
 
   defp channel_id(conn, _) do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")
