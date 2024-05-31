@@ -55,7 +55,6 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
         selectedOrigin: action.newStoreValues.selectedOrigin!
       };
     case "OPEN_MODAL":
-      console.log("STATE STUFF");
       return {
         ...newState,
         modalMode: action.newStoreValues.modalMode!,

@@ -114,10 +114,7 @@ const ScheduleFinderForm = ({
             Choose an origin stop
             <SelectContainer
               error={originError}
-              handleClick={() => {
-                console.log("Click Click");
-                handleOriginClick();
-              }}
+              handleClick={handleOriginClick}
             >
               <select
                 data-testid="schedule-finder-origin-select"
