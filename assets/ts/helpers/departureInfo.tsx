@@ -165,11 +165,11 @@ const departuresListFromInfos = (
     .maxBy("prediction.time")
     .value()?.prediction!.time;
 
-  const route = departureInfos[0]?.route?.id;
-  const trip = departureInfos[0]?.trip?.id;
+  const routeId = departureInfos[0]?.route?.id;
+  const tripId = departureInfos[0]?.trip?.id;
 
   if (isSubway && !predictionTimeCutoff) {
-    return [<div key={`${route}-${trip}`}>No real-time data</div>];
+    return [<div key={`${routeId}-${tripId}`}>No real-time data</div>];
   }
 
   return chain(departureInfos)
