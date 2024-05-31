@@ -152,6 +152,7 @@ const DefaultWrapper: React.FunctionComponent<unknown> = ({ children }) => (
 const departuresListFromInfos = (
   departureInfos: DepartureInfo[],
   isCR: boolean,
+  isSubway: boolean,
   targetDate?: Date,
   listLength?: number,
   omitCancelledAndSkipped = false,
@@ -163,6 +164,13 @@ const departuresListFromInfos = (
     .filter(d => d.routeMode === SUBWAY)
     .maxBy("prediction.time")
     .value()?.prediction!.time;
+
+  const route = departureInfos[0]?.route?.id;
+  const trip = departureInfos[0]?.trip?.id;
+
+  if (isSubway && !predictionTimeCutoff) {
+    return [<div key={`${route}-${trip}`}>No real-time data</div>];
+  }
 
   return chain(departureInfos)
     .reject(

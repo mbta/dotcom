@@ -8,7 +8,7 @@ import { routeName, routeToModeIcon } from "../../helpers/route-headers";
 import renderSvg from "../../helpers/render-svg";
 import { isSuppressiveAlert } from "../../models/alert";
 import Alerts from "../../components/Alerts";
-import { isACommuterRailRoute } from "../../models/route";
+import { isACommuterRailRoute, isSubwayRoute } from "../../models/route";
 
 interface DepartureListProps {
   route: Route;
@@ -42,6 +42,7 @@ const DepartureList = ({
   targetDate
 }: DepartureListProps): ReactElement<HTMLElement> => {
   const isCR = isACommuterRailRoute(route);
+  const isSubway = isSubwayRoute(route);
 
   // don's show cancelled departures for subway
   const modeSpecificDepartures: DepartureInfo[] = filter(
@@ -87,7 +88,12 @@ const DepartureList = ({
       {noServiceOrNoTrips ||
         (!alertsShouldSuppressDepartures && (
           <ul className="stop-routes__departures list-unstyled">
-            {departuresListFromInfos(modeSpecificDepartures, isCR, targetDate)}
+            {departuresListFromInfos(
+              modeSpecificDepartures,
+              isCR,
+              isSubway,
+              targetDate
+            )}
           </ul>
         ))}
     </>

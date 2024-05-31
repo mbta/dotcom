@@ -101,6 +101,7 @@ const DepartureCard = ({
               )}
               onClick={onClick}
               isCR={isACommuterRailRoute(route)}
+              isSubway={isSubwayRoute(route)}
               hasService={routePatterns.length !== 0}
             />
           );

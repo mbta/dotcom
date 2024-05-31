@@ -18,6 +18,7 @@ describe("DepartureTimes", () => {
         departures={[]}
         alertsForDirection={[]}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -80,6 +81,7 @@ describe("DepartureTimes", () => {
         overrideDate={dateToCompare}
         alertsForDirection={[]}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -117,6 +119,7 @@ describe("DepartureTimes", () => {
           departures={[]}
           alertsForDirection={alerts}
           isCR={false}
+          isSubway={false}
           onClick={jest.fn()}
           hasService={true}
         />
@@ -156,6 +159,7 @@ describe("DepartureTimes", () => {
         departures={mergeIntoDepartureInfo(schedules, [])}
         alertsForDirection={alerts}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -208,6 +212,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={[detourAlert] as Alert[]}
         overrideDate={dateToCompare}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -361,6 +366,7 @@ describe("DepartureTimes", () => {
         alertsForDirection={[]}
         overrideDate={compareTime}
         isCR={false}
+        isSubway={false}
         onClick={setRowSpy}
         hasService={true}
       />
@@ -447,6 +453,7 @@ describe("DepartureTimes", () => {
         overrideDate={dateToCompare}
         alertsForDirection={[]}
         isCR={true}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -466,6 +473,7 @@ describe("DepartureTimes", () => {
         departures={[]}
         alertsForDirection={[]}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -489,6 +497,7 @@ describe("DepartureTimes", () => {
         departures={[]}
         alertsForDirection={[closureAlert]}
         isCR={true}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -512,6 +521,7 @@ describe("DepartureTimes", () => {
         departures={[]}
         alertsForDirection={[closureAlert]}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={true}
       />
@@ -531,6 +541,7 @@ describe("DepartureTimes", () => {
         departures={[]}
         alertsForDirection={[]}
         isCR={false}
+        isSubway={false}
         onClick={jest.fn()}
         hasService={false}
       />

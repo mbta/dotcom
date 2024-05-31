@@ -98,7 +98,7 @@ describe("departureInfo", () => {
 
   describe("departuresListFromInfos", () => {
     it("can handle no departures", () => {
-      render(<ul>{departuresListFromInfos([], false)}</ul>);
+      render(<ul>{departuresListFromInfos([], false, false)}</ul>);
 
       // no <li> created
       expect(screen.queryByRole("listitem")).toBeNull();
@@ -120,6 +120,7 @@ describe("departureInfo", () => {
         <ul>
           {departuresListFromInfos(
             departures,
+            false,
             false,
             undefined,
             undefined,
@@ -147,7 +148,13 @@ describe("departureInfo", () => {
       const customLength = 4;
       render(
         <ul>
-          {departuresListFromInfos(departures, false, undefined, customLength)}
+          {departuresListFromInfos(
+            departures,
+            false,
+            false,
+            undefined,
+            customLength
+          )}
         </ul>
       );
 
@@ -186,7 +193,7 @@ describe("departureInfo", () => {
         } as DepartureInfo;
       });
 
-      render(<ul>{departuresListFromInfos(departures, false)}</ul>);
+      render(<ul>{departuresListFromInfos(departures, false, false)}</ul>);
 
       // the schedule-only departures at index positions 2, 4, 7 should have been removed
       expect(screen.queryAllByRole("listitem")).toHaveLength(
