@@ -6,20 +6,6 @@
         <% route_types = Enum.map @grouped_routes, fn {mode, _routes} -> {mode, mode_path(@conn, mode)} end %>
         <% the_ride = [the_ride: cms_static_page_path(@conn, "/accessibility/the-ride")] %>
         <%= content_tag(h_level_section, "Schedules and Maps") %>
-        <div class="m-mode__search-bar">
-          <%=
-              if !@home do
-                content_tag(:div, [
-                  DotcomWeb.PartialView.render("_search_input.html",
-                    Map.merge(assigns, %{
-                      placeholder: "Search for a line, stop, or address",
-                      aria_label: "Search for a line or route",
-                      prefix: "route"
-                  }))
-                ], id: "route-search", class: "hidden-no-js c-search-bar c-search-bar--embedded")
-              end
-            %>
-        </div>
         <div class="m-mode__recently-visited">
           <%= render(DotcomWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                     routes: Map.get(assigns, :recently_visited, []),

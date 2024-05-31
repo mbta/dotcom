@@ -3,12 +3,7 @@ const { expect } = require("@playwright/test");
 exports.scenario = async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/schedules/commuter-rail`);
 
-  await page
-    .locator("input#search-route--commuter_rail__input")
-    .pressSequentially("Framingham");
-  await page.waitForSelector("span.c-search-bar__-suggestions");
-  await page.keyboard.press("ArrowDown");
-  await page.keyboard.press("Enter");
+  await page.getByRole('link', { name: 'Framingham/​Worcester Line' }).click();
 
   await expect(
     page.getByRole("heading", { name: "FRAMINGHAM/​WORCESTER" }),

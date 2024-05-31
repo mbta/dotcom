@@ -7,19 +7,6 @@
         <h1><%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
           <%= svg_icon_with_circle(%SvgIconWithCircle{aria_hidden?: true, icon: @mode_icon}) %> <%= @mode_name %>
         </h1>
-        <div class="m-mode__search-bar">
-          <%=
-            term = route_term(@mode_icon)
-            content_tag(:div, [
-              DotcomWeb.PartialView.render("_search_input.html",
-                Map.merge(assigns, %{
-                  placeholder: "Search for a #{term}, stop, or address",
-                  aria_label: "Search for a #{term}",
-                  prefix: "route--#{@mode_icon}"
-              }))
-            ], class: "hidden-no-js", id: "route-#{@mode_icon}-search", class: "c-search-bar c-search-bar--embedded")
-          %>
-        </div>
         <div class="m-mode__recently-visited">
           <%= render(DotcomWeb.PartialView, "_recently_visited.html", conn: @conn,
                                                                     routes: @recently_visited,
