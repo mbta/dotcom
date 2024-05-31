@@ -71,7 +71,7 @@ defmodule Dotcom.MapHelpers do
   def image(:ferry) do
     static_url(
       DotcomWeb.Endpoint,
-      "/sites/default/files/media/2024-03/2024-03-22-ferry-map.jpg"
+      "/ferry-map"
     )
   end
 end
