@@ -180,18 +180,23 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
     end
 
     test "trip_stops: overrides position of certain shuttle stops", %{conn: conn} do
+      # uses special values that are from the TimetableController
+      # @shuttle_overrides
+      special_stop_id = "place-NHRML-0127"
+      special_stop_name = "Ballardvale"
+
       Stops.Repo.Mock
       |> expect(:by_trip, fn "trip-1" ->
         @stops ++
           [
-            %Stop{id: "4", name: "Reading"},
+            %Stop{id: "4", name: special_stop_name},
             %Stop{id: "5"},
             %Stop{id: "6"}
           ]
       end)
       |> expect(:by_trip, fn "trip-2" ->
         [
-          %Stop{id: "NHRML-0127-B"}
+          %Stop{id: special_stop_id}
         ]
       end)
 
@@ -201,12 +206,12 @@ defmodule DotcomWeb.ScheduleController.TimetableControllerTest do
             %Schedule{stop: %Stop{id: "4"}, trip: %Trip{}},
             %Schedule{stop: %Stop{id: "5"}, trip: %Trip{}},
             %Schedule{stop: %Stop{id: "6"}, trip: %Trip{}},
-            %Schedule{stop: %Stop{id: "NHRML-0127-B"}, trip: %Trip{}}
+            %Schedule{stop: %Stop{id: special_stop_id}, trip: %Trip{}}
           ]
 
       %{trip_stops: trip_stops} = build_timetable(conn, schedules)
 
-      assert Enum.map(trip_stops, & &1.id) == ["1", "2", "3", "4", "NHRML-0127-B", "5", "6"]
+      assert ["1", "2", "3", "4", ^special_stop_id, "5", "6"] = Enum.map(trip_stops, & &1.id)
     end
   end
 
