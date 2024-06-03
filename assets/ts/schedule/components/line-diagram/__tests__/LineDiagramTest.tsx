@@ -1,16 +1,14 @@
 import React from "react";
-import { mount, ReactWrapper } from "enzyme";
 import * as swr from "swr";
 import * as UseQueryParams from "use-query-params";
+import userEvent from "@testing-library/user-event";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import * as reactRedux from "react-redux";
 import LineDiagram from "../LineDiagram";
 import { Route, RouteType } from "../../../../__v3api";
 import { RouteStop, StopTree } from "../../__schedule";
-import SearchBox from "../../../../components/SearchBox";
-import * as ScheduleStore from "../../../store/ScheduleStore";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import * as store from "../../../store/ScheduleStore";
-import userEvent from "@testing-library/user-event";
 import { testRouteStopListFromStopTree } from "../../../../app/helpers/testUtils";
+import { renderWithProviders } from "../../../../__tests__/test-render-helper";
 
 const stopTree: StopTree = {
   byId: {
@@ -71,15 +69,14 @@ const route = {
   line_id: null
 };
 
-const useSWRSpy = jest.spyOn(swr, "default");
-const storeHandlerSpy = jest.spyOn(ScheduleStore, "storeHandler");
-const updateInLocationSpy = jest.spyOn(UseQueryParams, "updateInLocation");
-
 describe("LineDiagram", () => {
-  let wrapper: ReactWrapper;
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  beforeEach(() => {
-    wrapper = mount(
+  it("can filter stops by name", async () => {
+    const user = userEvent.setup();
+    renderWithProviders(
       <LineDiagram
         stopTree={stopTree}
         routeStopList={testRouteStopList}
@@ -88,26 +85,27 @@ describe("LineDiagram", () => {
         alerts={[]}
       />
     );
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-    jest.clearAllMocks();
-  });
-
-  it("renders and matches snapshot", () => {
-    expect(wrapper.debug()).toMatchSnapshot();
-  });
-
-  it("can filter stops by name", () => {
-    const filter = wrapper.find(".m-schedule-diagram__filter").at(0);
-    expect(filter.exists()).toBeTruthy();
-    expect(filter.type()).toEqual(SearchBox);
+    expect(screen.queryByText("a")).toBeInTheDocument();
+    const searchBox = screen.getByLabelText("Search for a stop");
+    await user.type(searchBox, "b");
+    expect(screen.queryByText("a")).toBeNull();
   });
 
   it("should name stops or stations", () => {
+    renderWithProviders(
+      <LineDiagram
+        stopTree={stopTree}
+        routeStopList={testRouteStopList}
+        route={route}
+        directionId={1}
+        alerts={[]}
+      />
+    );
+
+    expect(screen.getByText("Stops")).toBeInTheDocument();
+
     const subwayRoute = { ...route, type: 2 } as Route;
-    const subwayWrapper = mount(
+    renderWithProviders(
       <LineDiagram
         stopTree={stopTree}
         routeStopList={testRouteStopList}
@@ -117,15 +115,20 @@ describe("LineDiagram", () => {
       />
     );
 
-    expect(wrapper.find(".m-schedule-diagram__heading").text()).toContain(
-      "Stops"
-    );
-    expect(subwayWrapper.find(".m-schedule-diagram__heading").text()).toContain(
-      "Stations"
-    );
+    expect(screen.getByText("Stations")).toBeInTheDocument();
   });
 
   it("requests live data for most route types", () => {
+    const useSWRSpy = jest.spyOn(swr, "default");
+    renderWithProviders(
+      <LineDiagram
+        stopTree={stopTree}
+        routeStopList={testRouteStopList}
+        route={route}
+        directionId={1}
+        alerts={[]}
+      />
+    );
     expect(useSWRSpy).toHaveBeenCalled();
     expect(useSWRSpy).toHaveBeenCalledWith(
       "/schedules/line_api/realtime?id=route-1&direction_id=1",
@@ -134,20 +137,34 @@ describe("LineDiagram", () => {
     );
   });
 
-  it("should update the URL when the schedule finder modal is opened", () => {
-    wrapper
-      .find(".m-schedule-diagram__footer > button")
-      .first()
-      .simulate("click");
+  it("should update the URL when the schedule finder modal is opened", async () => {
+    const updateInLocationSpy = jest.spyOn(UseQueryParams, "updateInLocation");
+    const user = userEvent.setup();
+    const dispatchSpy = jest.fn();
+    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
+      return dispatchSpy;
+    });
+    renderWithProviders(
+      <LineDiagram
+        stopTree={stopTree}
+        routeStopList={testRouteStopList}
+        route={route}
+        directionId={1}
+        alerts={[]}
+      />
+    );
 
-    expect(storeHandlerSpy).toHaveBeenCalledWith(
+    const scheduleLinks = screen.getAllByText("View schedule");
+    await user.click(scheduleLinks[0]);
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
       expect.objectContaining({ type: "OPEN_MODAL" })
     );
     expect(updateInLocationSpy).toHaveBeenCalled();
   });
 
   it("should display the No Results card when a user doesn't query a stop", async () => {
-    render(
+    renderWithProviders(
       <LineDiagram
         stopTree={stopTree}
         routeStopList={testRouteStopList}
@@ -165,7 +182,7 @@ describe("LineDiagram", () => {
   });
 
   it("should display the Stop Card for each stop a user queries", () => {
-    render(
+    renderWithProviders(
       <LineDiagram
         stopTree={stopTree}
         routeStopList={testRouteStopList}
@@ -182,8 +199,10 @@ describe("LineDiagram", () => {
   });
 
   it("should fire the open modal event when a user clicks on the results stop card", async () => {
-    const storeHandlerSpy = jest.spyOn(store, "storeHandler");
-    render(
+    const user = userEvent.setup();
+    const dispatchSpy = jest.fn();
+    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => dispatchSpy);
+    renderWithProviders(
       <LineDiagram
         stopTree={stopTree}
         routeStopList={testRouteStopList}
@@ -193,14 +212,14 @@ describe("LineDiagram", () => {
       />
     );
     const search = screen.getByLabelText(/Search for a */);
-    fireEvent.change(search, { target: { value: "a" } });
+    await user.type(search, "a");
 
     const scheduleButton = await screen.findByText("View schedule");
 
     await userEvent.click(scheduleButton);
 
     await waitFor(() => {
-      expect(storeHandlerSpy).toHaveBeenCalledWith({
+      expect(dispatchSpy).toHaveBeenCalledWith({
         type: "OPEN_MODAL",
         newStoreValues: { modalMode: "schedule" }
       });

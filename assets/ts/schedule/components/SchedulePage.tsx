@@ -39,13 +39,16 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   }
 };
 
-const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
+export const fromStopTreeData = (stopTreeData: StopTreeData): StopTree => ({
   byId: stopTreeData.by_id,
   edges: stopTreeData.edges,
   startingNodes: stopTreeData.starting_nodes
 });
 
-const changeOrigin = (origin: SelectedOrigin, dispatch: Dispatch): void => {
+export const changeOrigin = (
+  origin: SelectedOrigin,
+  dispatch: Dispatch
+): void => {
   dispatch({
     type: "CHANGE_ORIGIN",
     newStoreValues: {
@@ -61,7 +64,10 @@ const changeOrigin = (origin: SelectedOrigin, dispatch: Dispatch): void => {
   });
 };
 
-const changeDirection = (direction: DirectionId, dispatch: Dispatch): void => {
+export const changeDirection = (
+  direction: DirectionId,
+  dispatch: Dispatch
+): void => {
   dispatch({
     type: "CHANGE_DIRECTION",
     newStoreValues: {
@@ -78,6 +84,15 @@ const closeModal = (dispatch: Dispatch): void => {
   });
   // clear parameters from URL when closing the modal:
   updateURL("");
+};
+
+export const handleOriginSelectClick = (dispatch: Dispatch): void => {
+  dispatch({
+    type: "OPEN_MODAL",
+    newStoreValues: {
+      modalMode: "origin"
+    }
+  });
 };
 
 const getDirectionAndMap = (
@@ -196,15 +211,6 @@ const getScheduleFinder = (
   );
 };
 
-const handleOriginSelectClick = (dispatch: Dispatch): void => {
-  dispatch({
-    type: "OPEN_MODAL",
-    newStoreValues: {
-      modalMode: "origin"
-    }
-  });
-};
-
 const getScheduleNote = (
   schedulePageData: SchedulePageData,
   state: StoreProps,
@@ -312,7 +318,7 @@ interface ScheduleLoaderProps {
   mapData: MapData;
 }
 
-const SchedulePage = ({
+export const SchedulePage = ({
   schedulePageData,
   noBranches,
   mapData
@@ -441,5 +447,3 @@ const SchedulePage = ({
   }
   return <></>;
 };
-
-export { SchedulePage, fromStopTreeData };
