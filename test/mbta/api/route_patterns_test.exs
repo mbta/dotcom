@@ -25,7 +25,7 @@ defmodule Mbta.Api.RoutePatternsTest do
 
   test "get/1 returns a route pattern" do
     # Setup
-    id = 1
+    id = Faker.Internet.slug()
 
     expect(Mock, :get_json, fn url, _ ->
       assert url == "/route_patterns/#{id}"
@@ -34,7 +34,7 @@ defmodule Mbta.Api.RoutePatternsTest do
     end)
 
     # Exercise
-    route_pattern = RoutePatterns.get(1)
+    route_pattern = RoutePatterns.get(id)
 
     # Verify
     assert route_pattern == %{}
