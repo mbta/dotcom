@@ -68,10 +68,5 @@ defmodule Dotcom.MapHelpers do
     )
   end
 
-  def image(:ferry) do
-    static_url(
-      DotcomWeb.Endpoint,
-      "/ferry-map"
-    )
-  end
+  def image(:ferry), do: "/ferry-map"
 end
