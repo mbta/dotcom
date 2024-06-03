@@ -26,6 +26,7 @@ defmodule Dotcom.Telemetry do
         TelemetryMetricsSplunk,
         [
           finch: Telemetry.Finch,
+          index: telemetry_metrics_splunk_config[:index],
           metrics: metrics(),
           token: telemetry_metrics_splunk_config[:token],
           url: telemetry_metrics_splunk_config[:url]

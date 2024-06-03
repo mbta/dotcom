@@ -116,6 +116,7 @@ config :dotcom, :mbta_api,
   ]
 
 config :dotcom, :telemetry_metrics_splunk,
+  index: System.get_env("TELEMETRY_METRICS_SPLUNK_INDEX"),
   token: System.get_env("TELEMETRY_METRICS_SPLUNK_TOKEN"),
   url: "https://http-inputs-mbta.splunkcloud.com/services/collector"
 
