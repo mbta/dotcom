@@ -145,7 +145,7 @@ defmodule DotCom.Mixfile do
       {:sweet_xml, "0.7.4", only: [:prod, :dev]},
       {:telemetry, "1.2.1", override: true},
       {:telemetry_metrics, "1.0.0", override: true},
-      {:telemetry_metrics_splunk, "0.0.4-alpha"},
+      {:telemetry_metrics_splunk, "0.0.5-alpha"},
       {:telemetry_poller, "1.1.0"},
       {:telemetry_test, "0.1.2", only: [:test]},
       # latest version is 3.7.11; cannot upgrade because tests fail
