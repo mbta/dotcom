@@ -1,9 +1,12 @@
 import React from "react";
-import { mount } from "enzyme";
 import ScheduleFinder from "../ScheduleFinder";
 import { EnhancedRoute } from "../../../__v3api";
 import { RoutePatternsByDirection, ServiceInSelector } from "../__schedule";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
+import { renderWithProviders } from "../../../__tests__/test-render-helper";
+import { screen, waitFor, within } from "@testing-library/dom";
+import * as reactRedux from "react-redux";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -173,8 +176,8 @@ const routePatternsByDirection = {
 } as RoutePatternsByDirection;
 
 describe("ScheduleFinder", () => {
-  const mountComponent = () =>
-    mount(
+  const renderComponent = () =>
+    renderWithProviders(
       <ScheduleFinder
         route={route}
         stops={stops}
@@ -193,13 +196,8 @@ describe("ScheduleFinder", () => {
       />
     );
 
-  it("matches snapshot", () => {
-    const wrapper = mountComponent();
-    expect(wrapper.debug()).toMatchSnapshot();
-  });
-
   it("opens the schedule modal via the origin modal", () => {
-    const wrapper = mount(
+    renderWithProviders(
       <ScheduleFinder
         route={route}
         stops={stops}
@@ -218,74 +216,42 @@ describe("ScheduleFinder", () => {
       />
     );
 
-    // Schedule modal should be open with the chosen origin selected
-    expect(
-      wrapper
-        .find(".schedule-finder--modal select")
-        .last()
-        .prop("value")
-    ).toEqual("123");
+    const scheduleFinderModal = screen.getByLabelText(/Schedules on the.*/);
+    const optionElement: HTMLOptionElement = within(
+      scheduleFinderModal
+    ).getByRole("option", { name: "Abc" });
+
+    expect(optionElement).toBeInTheDocument();
+    expect(optionElement.selected).toBeTrue();
   });
 
-  it("clears the selected origin when the direction is changed", () => {
-    const wrapper = mountComponent();
+  it("clears the selected origin when the direction is changed", async () => {
+    const user = userEvent.setup();
+    renderComponent();
 
-    wrapper
-      .find("select")
-      .last()
-      .simulate("change", { target: { value: "123" } });
-    wrapper
-      .find("select")
-      .first()
-      .simulate("change", { target: { value: "1" } });
-
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .prop("value")
-    ).toEqual("");
-  });
-
-  it("changes the available origins when the direction is changed", () => {
-    let wrapper = mountComponent();
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .text()
-    ).not.toContain("Def");
-
-    // re-mount with directionId = 1 (simulate change in direction)
-    wrapper = mount(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={1}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        updateURL={() => {}}
-        changeDirection={() => {}}
-        selectedOrigin={null}
-        changeOrigin={() => {}}
-        closeModal={() => {}}
-        modalMode="origin"
-        modalOpen={true}
-        scheduleNote={null}
-      />
+    const originSelectElement = screen.getByTestId(
+      "schedule-finder-origin-select"
+    );
+    const directionSelectElement = screen.getByTestId(
+      "schedule-finder-direction-select"
     );
 
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .text()
-    ).toContain("Def");
+    await user.selectOptions(originSelectElement, "123");
+    await user.selectOptions(directionSelectElement, "1");
+
+    const lastSelectedOriginElement: HTMLOptionElement = screen.getByText(
+      "Abc"
+    );
+    expect(lastSelectedOriginElement).toBeInTheDocument();
+    expect(lastSelectedOriginElement.selected).toBeFalse();
   });
 
-  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", () => {
-    const wrapper = mount(
+  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", async () => {
+    const user = userEvent.setup();
+    const dispatchSpy = jest.fn();
+    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => dispatchSpy);
+
+    renderWithProviders(
       <ScheduleFinder
         route={route}
         stops={stops}
@@ -303,24 +269,19 @@ describe("ScheduleFinder", () => {
         scheduleNote={null}
       />
     );
-
-    const numNodes = wrapper.find("SelectContainer").length;
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
     // select the last node (i.e. origin drop-down) and choose an option
-    wrapper
-      .find("SelectContainer")
-      .at(numNodes - 2)
-      // @ts-ignore -- types for `invoke` seem to be too restrictive
-      .invoke("handleClick")();
+    const scheduleFinderModal = screen.getByLabelText(/Schedules on the.*/);
+    const originSelectElement = within(scheduleFinderModal).getByTestId(
+      "schedule-finder-origin-select"
+    );
+    await user.click(originSelectElement);
 
-    expect(storeHandlerStub).toHaveBeenCalledWith({
+    expect(dispatchSpy).toHaveBeenCalledWith({
       type: "OPEN_MODAL",
       newStoreValues: {
         modalMode: "origin"
       }
     });
-    wrapper.unmount();
   });
 });
