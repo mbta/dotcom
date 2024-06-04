@@ -11,7 +11,11 @@ defmodule MBTA.Api.Services do
     @mbta_api.get_json("/services/", params)
   end
 
-  def get(id, params \\ []) when is_valid_potential_id(id) do
+  def get(id, params \\ [])
+
+  def get(id, params) when is_valid_potential_id(id) do
     @mbta_api.get_json("/services/#{id}", params)
   end
+
+  def get(id, _), do: {:error, {:invalid_id, id}}
 end

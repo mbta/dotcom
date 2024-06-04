@@ -14,4 +14,6 @@ defmodule MBTA.Api.Shapes do
   def by_id(id) when is_valid_potential_id(id) do
     @mbta_api.get_json("/shapes/#{id}")
   end
+
+  def by_id(id), do: {:error, {:invalid_id, id}}
 end

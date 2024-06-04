@@ -11,7 +11,11 @@ defmodule MBTA.Api.Stops do
     @mbta_api.get_json("/stops/", params)
   end
 
-  def by_gtfs_id(gtfs_id, params \\ []) when is_valid_potential_id(gtfs_id) do
+  def by_gtfs_id(gtfs_id, params \\ [])
+
+  def by_gtfs_id(gtfs_id, params) when is_valid_potential_id(gtfs_id) do
     @mbta_api.get_json("/stops/#{gtfs_id}", params)
   end
+
+  def by_gtfs_id(gtfs_id, _), do: {:error, {:invalid_id, gtfs_id}}
 end
