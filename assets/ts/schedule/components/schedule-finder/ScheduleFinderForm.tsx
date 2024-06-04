@@ -1,12 +1,12 @@
 import React, { FormEvent, ReactElement, useState } from "react";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 import { DirectionId, DirectionInfo, Route } from "../../../__v3api";
 import { SimpleStopMap, SelectedOrigin } from "../__schedule";
 import icon from "../../../../../priv/static/icon-svg/icon-schedule-finder.svg";
 import renderSvg from "../../../helpers/render-svg";
 import SelectContainer from "./SelectContainer";
 import { routeToModeName } from "../../../helpers/css";
-import { Dispatch } from "redux";
-import { useDispatch } from "react-redux";
 
 const validDirections = (directionInfo: DirectionInfo): DirectionId[] =>
   ([0, 1] as DirectionId[]).filter(dir => directionInfo[dir] !== null);

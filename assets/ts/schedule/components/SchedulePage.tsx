@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import {
   useQueryParams,
   StringParam,
@@ -22,7 +23,6 @@ import { DirectionId, Route } from "../../__v3api";
 import { StoreProps } from "../store/ScheduleStore";
 import { isFerryRoute, isSubwayRoute } from "../../models/route";
 import HoursOfOperation from "./HoursOfOperation";
-import { Dispatch } from "redux";
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   /* istanbul ignore else  */

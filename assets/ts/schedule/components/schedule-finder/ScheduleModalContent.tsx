@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { Dispatch } from "redux";
 import { DirectionId, Route } from "../../../__v3api";
 import { routeToModeName } from "../../../helpers/css";
 import {
@@ -15,7 +16,6 @@ import { isSubwayRoute } from "../../../models/route";
 import DailyScheduleSubway from "./daily-schedule/DailyScheduleSubway";
 import formattedDate, { stringToDateObject } from "../../../helpers/date";
 import { isInCurrentService } from "../../../helpers/service";
-import { Dispatch } from "redux";
 
 interface Props {
   handleChangeDirection: (direction: DirectionId) => void;

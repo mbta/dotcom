@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
 import { createScheduleStore } from "./store/ScheduleStore";
 import { SchedulePage } from "./components/SchedulePage";
-import { Provider } from "react-redux";
 
 const getPageData = (): {
   schedulePageData: SchedulePageData;

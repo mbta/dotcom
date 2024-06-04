@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import { Route, DirectionId } from "../../__v3api";
 import {
   SimpleStopMap,
@@ -15,7 +16,6 @@ import ScheduleFinderModal, {
 import { StoreProps } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
 import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
-import { Dispatch } from "redux";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;

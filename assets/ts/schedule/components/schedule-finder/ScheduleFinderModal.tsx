@@ -1,4 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 import { DirectionId, Route } from "../../../__v3api";
 import {
   SimpleStopMap,
@@ -10,8 +12,6 @@ import {
 import Modal from "../../../components/Modal";
 import OriginModalContent from "./OriginModalContent";
 import ScheduleModalContent from "./ScheduleModalContent";
-import { Dispatch } from "redux";
-import { useDispatch } from "react-redux";
 
 export type Mode = "origin" | "schedule";
 
