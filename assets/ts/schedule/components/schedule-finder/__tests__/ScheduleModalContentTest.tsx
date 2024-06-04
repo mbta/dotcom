@@ -2,7 +2,7 @@ import React from "react";
 import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import { screen, waitFor, act } from "@testing-library/react";
 import { renderWithProviders } from "../../../../__tests__/test-render-helper";
 
 jest.mock("../upcoming-departures/UpcomingDepartures", () => ({
