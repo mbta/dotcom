@@ -1,6 +1,5 @@
 import React from "react";
-import { mount } from "enzyme";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { DirectionId, Route } from "../../../../__v3api";
 import {
@@ -10,6 +9,8 @@ import {
 } from "../../__schedule";
 import * as routePatternsByDirectionData from "../../__tests__/test-data/routePatternsByDirectionData.json";
 import ScheduleFinderModal, { Mode as ModalMode } from "../ScheduleFinderModal";
+import { renderWithProviders } from "../../../../__tests__/test-render-helper";
+import { Dispatch } from "redux";
 
 jest.mock("../../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -142,14 +143,19 @@ const stops = {
 };
 
 describe("ScheduleFinderModal", () => {
-  const mountComponent = (
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  const renderComponent = (
     mode: ModalMode,
     direction: DirectionId,
     origin: SelectedOrigin,
-    directionChanged?: (direction: DirectionId) => void,
-    originChanged?: (origin: SelectedOrigin) => void
+    directionChanged?: (direction: DirectionId, dispatch: Dispatch) => void,
+    originChanged?: (origin: SelectedOrigin, dispatch: Dispatch) => void,
+    updateURL = () => {}
   ) =>
-    mount(
+    renderWithProviders(
       <ScheduleFinderModal
         closeModal={() => {}}
         initialMode={mode}
@@ -158,7 +164,7 @@ describe("ScheduleFinderModal", () => {
         services={services}
         stops={stops}
         today={today}
-        updateURL={() => {}}
+        updateURL={updateURL}
         initialDirection={direction}
         directionChanged={directionChanged}
         initialOrigin={origin}
@@ -168,110 +174,68 @@ describe("ScheduleFinderModal", () => {
       />
     );
 
-  it("matches snapshot in origin mode with origin selected", () => {
-    const wrapper = mountComponent("origin", 0, null, undefined, undefined);
-    expect(wrapper.debug()).toMatchSnapshot();
-    wrapper.unmount();
-  });
-
-  it("matches snapshot in schedule mode", () => {
-    const wrapper = mountComponent(
-      "schedule",
-      0,
-      "place-welln",
-      undefined,
-      undefined
-    );
-    expect(wrapper.debug()).toMatchSnapshot();
-    wrapper.unmount();
-  });
-
-  it("detects click and keyUp events in OriginListItem elements", () => {
+  it("detects click and keyUp events in OriginListItem elements", async () => {
+    const user = userEvent.setup();
     const originChangedSpy = jest.fn();
 
-    const wrapper = mountComponent(
-      "origin",
-      0,
-      null,
-      undefined,
-      originChangedSpy
-    );
+    renderComponent("origin", 0, null, undefined, originChangedSpy);
 
     // detect click event:
-    wrapper
-      .find(".schedule-finder__origin-list-item")
-      .at(1)
-      .simulate("click");
+    const abcNode = screen.getByRole("button", { name: /Abc/ });
+    await user.click(abcNode);
 
-    expect(originChangedSpy).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(originChangedSpy).toHaveBeenCalledTimes(1));
 
     // detect keyUp event:
-    originChangedSpy.mockRestore();
+    await waitFor(() => fireEvent.keyUp(abcNode, { key: "Enter" }));
 
-    wrapper
-      .find(".schedule-finder__origin-list-item")
-      .at(1)
-      .simulate("keyUp", { key: "Enter" });
-
-    expect(originChangedSpy).toHaveBeenCalledTimes(1);
-
-    originChangedSpy.mockRestore();
-    wrapper.unmount();
+    expect(originChangedSpy).toHaveBeenCalledTimes(2);
   });
 
-  it("detects change in direction", () => {
-    const spy = jest.fn();
+  it("detects change in direction", async () => {
+    const updateURLSpy = jest.fn();
+    const user = userEvent.setup();
 
-    const wrapper = mountComponent(
+    renderComponent(
       "schedule",
       0,
       "place-welln",
       jest.fn(),
-      jest.fn()
+      jest.fn(),
+      updateURLSpy
     );
-
-    wrapper.setProps({ updateURL: spy });
 
     // trigger change in direction:
-    wrapper
-      .find("select")
-      .at(0)
-      .simulate("change", { target: { value: "1" } });
+    const directionSelect = screen.getByTestId(
+      "schedule-finder-direction-select"
+    );
+    await user.selectOptions(directionSelect, "1");
 
-    expect(spy).toHaveBeenCalledTimes(1);
-
-    spy.mockRestore();
-    wrapper.unmount();
+    expect(updateURLSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("searches for existing and non-existing stops", () => {
-    const wrapper = mountComponent(
-      "origin",
-      0,
-      "place-welln",
-      jest.fn(),
-      jest.fn()
-    );
+  it("searches for existing and non-existing stops", async () => {
+    const user = userEvent.setup();
+    renderComponent("origin", 0, "place-welln", jest.fn(), jest.fn());
+
+    let wellingtonNode = screen.queryByText("Wellington");
+    expect(wellingtonNode).toBeInTheDocument();
 
     // type on input field:
-    wrapper
-      .find("#origin-filter")
-      .at(1) // select the input, not the SearchBox
-      .simulate("change", { target: { value: "555 Street" } });
+    const originFilter = screen.getByPlaceholderText(
+      "Filter stops and stations"
+    );
+    await user.type(originFilter, "555 Street");
 
-    expect(
-      wrapper.find(".schedule-finder__origin-list").children().length
-    ).toEqual(0);
+    wellingtonNode = screen.queryByText("Wellington");
+    expect(wellingtonNode).toBeNull();
 
-    wrapper
-      .find("#origin-filter")
-      .at(1) // select the input, not the SearchBox
-      .simulate("change", { target: { value: "Abc" } });
-
-    expect(
-      wrapper.find(".schedule-finder__origin-list").children().length
-    ).toEqual(1);
-    wrapper.unmount();
+    await user.clear(originFilter);
+    await user.type(originFilter, "Abc");
+    wellingtonNode = screen.queryByText("Wellington");
+    const abcNode = screen.queryByText("Abc");
+    expect(abcNode).toBeInTheDocument();
+    expect(wellingtonNode).toBeNull();
   });
 
   it("does not change origin if it exists on direction change", () => {
@@ -281,7 +245,7 @@ describe("ScheduleFinderModal", () => {
     const directionChanged = jest.fn();
     const originChanged = jest.fn();
     const user = userEvent.setup();
-    render(
+    renderWithProviders(
       <ScheduleFinderModal
         closeModal={() => {}}
         initialMode={mode}
@@ -325,7 +289,7 @@ describe("ScheduleFinderModal", () => {
     const directionChanged = jest.fn();
     const originChanged = jest.fn();
     const user = userEvent.setup();
-    render(
+    renderWithProviders(
       <ScheduleFinderModal
         closeModal={() => {}}
         initialMode={mode}
