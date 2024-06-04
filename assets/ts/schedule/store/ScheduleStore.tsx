@@ -82,14 +82,6 @@ export const createScheduleStore = (directionId: DirectionId): Store =>
 // initial 'dummy' value (will be overwritten when schedule-loader loads)
 export const store: Store = createScheduleStore(0);
 
-export const getCurrentState = (): StoreProps => store.getState();
-
 export const storeHandler = (newValues: Action): void => {
   store.dispatch(newValues);
 };
-
-export const mapStateToProps = (state: StoreProps): StoreProps => ({
-  ...state
-});
-
-export default mapStateToProps;

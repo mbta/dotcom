@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
-import { createScheduleStore, store } from "./store/ScheduleStore";
+import { createScheduleStore } from "./store/ScheduleStore";
 import { SchedulePage } from "./components/SchedulePage";
 import { Provider } from "react-redux";
 
@@ -37,9 +37,8 @@ const render = (): void => {
 
   const { direction_id: directionId } = schedulePageData;
 
-  createScheduleStore(directionId);
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={createScheduleStore(directionId)}>
       <SchedulePage
         schedulePageData={schedulePageData}
         noBranches={branchesAreEmpty}
