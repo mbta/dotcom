@@ -3,6 +3,7 @@ import { EnhancedRoute, Route } from "../../../../__v3api";
 import ScheduleModalContent from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
 import { render, screen, waitFor, act } from "@testing-library/react";
+import { renderWithProviders } from "../../../../__tests__/test-render-helper";
 
 jest.mock("../upcoming-departures/UpcomingDepartures", () => ({
   __esModule: true,
@@ -100,7 +101,7 @@ describe("ScheduleModalContent", () => {
 
   it("renders", async () => {
     act(() => {
-      render(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -125,7 +126,7 @@ describe("ScheduleModalContent", () => {
 
   it("will not render Daily Schedule for subway lines", async () => {
     act(() => {
-      render(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -150,7 +151,7 @@ describe("ScheduleModalContent", () => {
 
   it("renders with UpcomingDepartures for today's service", async () => {
     act(() => {
-      render(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -181,7 +182,7 @@ describe("ScheduleModalContent", () => {
 
   it("does not render UpcomingDepartures if no service today", async () => {
     act(() => {
-      render(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -223,7 +224,7 @@ describe("ScheduleModalContent", () => {
         type: 4,
         line_id: null
       } as Route;
-      render(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -260,10 +261,10 @@ it.each`
   ${"2019-10-16"} | ${baseTypicalService} | ${false}
   ${"2019-12-16"} | ${baseTypicalService} | ${false}
 `(
-  "renders with UpcomingDepartures for today's service",
+  "renders with UpcomingDepartures for service on $testToday",
   async ({ testToday, service, isMatch }) => {
     act(() => {
-      render(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
