@@ -24,9 +24,9 @@ defmodule DotcomWeb.ScheduleController.Line do
     Util.log_duration(__MODULE__, :do_call, [conn, opts])
   end
 
-  def new_or_existing_direction_id(1, _), do: 1
-  def new_or_existing_direction_id(0, _), do: 0
-  def new_or_existing_direction_id(_, direction_id), do: direction_id
+  defp new_or_existing_direction_id(1, _), do: 1
+  defp new_or_existing_direction_id(0, _), do: 0
+  defp new_or_existing_direction_id(_, direction_id), do: direction_id
 
   defp parse_direction_id(%{direction_id: schedule_direction_id}, direction_id) do
     case Integer.parse(schedule_direction_id) do
