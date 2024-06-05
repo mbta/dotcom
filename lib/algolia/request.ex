@@ -26,16 +26,16 @@ defmodule Algolia.Query.Request do
           attributesToHighlight: String.t() | [String.t()]
         }
   @spec new(String.t(), String.t()) :: t()
-  def new(indexName, query) when indexName in @supported_index_keys do
-    algoliaIndex = Keyword.fetch!(@supported_indexes, String.to_atom(indexName))
+  def new(index_name, query) when index_name in @supported_index_keys do
+    algolia_index = Keyword.fetch!(@supported_indexes, String.to_atom(index_name))
 
     %__MODULE__{
-      indexName: algoliaIndex,
+      indexName: algolia_index,
       query: query,
-      attributesToHighlight: highlight(indexName)
+      attributesToHighlight: highlight(index_name)
     }
-    |> with_hit_size(indexName)
-    |> with_facet_filters(indexName)
+    |> with_hit_size(index_name)
+    |> with_facet_filters(index_name)
   end
 
   defp highlight("routes"), do: ["route.name", "route.long_name"]

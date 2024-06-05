@@ -28,8 +28,8 @@ defmodule Algolia.Query.RequestTest do
 
     test "changes facetFilters param based on index" do
       assert %Request{params: %{"facetFilters" => [[]]}} = Request.new("routes", "")
-      assert %Request{params: %{"facetFilters" => facetFilters}} = Request.new("drupal", "")
-      refute facetFilters == [[]]
+      assert %Request{params: %{"facetFilters" => facet_filters}} = Request.new("drupal", "")
+      refute facet_filters == [[]]
     end
   end
 
