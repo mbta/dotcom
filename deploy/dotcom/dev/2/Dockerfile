@@ -6,5 +6,7 @@ RUN apt-get install -y nodejs
 
 WORKDIR /app
 
+COPY mix.exs .
+COPY mix.lock .
 RUN mix deps.get
 CMD elixir --sname dotcom2 --cookie foobarbaz -S mix phx.server
