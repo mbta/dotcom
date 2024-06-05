@@ -21,6 +21,7 @@ config :dotcom, :redis, Dotcom.Cache.Multilevel.Redis
 config :dotcom, :redix, Redix
 config :dotcom, :redix_pub_sub, Redix.PubSub
 
+config :dotcom, :otp_module, OpenTripPlannerClient
 config :dotcom, :req_module, Req
 
 for config_file <- Path.wildcard("config/{deps,dotcom}/*.exs") do

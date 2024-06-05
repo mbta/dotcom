@@ -20,6 +20,7 @@ config :dotcom, :redis, Dotcom.Redis.Mock
 config :dotcom, :redix, Dotcom.Redix.Mock
 config :dotcom, :redix_pub_sub, Dotcom.Redix.PubSub.Mock
 
+config :dotcom, :otp_module, OpenTripPlannerClient.Mock
 config :dotcom, :req_module, Req.Mock
 
 config :dotcom, :trip_plan_feedback_cache, Dotcom.Cache.TestCache
