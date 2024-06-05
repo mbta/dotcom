@@ -1,5 +1,3 @@
-// This type interface extends the default options for render from RTL, as well
-
 import React, { PropsWithChildren } from "react";
 import {
   StoreProps,
