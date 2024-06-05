@@ -99,6 +99,7 @@ const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
   state: StoreProps,
   mapData: MapData,
+  staticMapData: StaticMapData | undefined,
   directionId: DirectionId
 ): JSX.Element => {
   const {
@@ -117,11 +118,6 @@ const getDirectionAndMap = (
   const maybeStopTree: StopTree | null = stopTree
     ? fromStopTreeData(stopTree)
     : null;
-  let staticMapData: StaticMapData | undefined;
-  const staticDataEl = document.getElementById("static-map-data");
-  if (staticDataEl) {
-    staticMapData = JSON.parse(staticDataEl.innerHTML);
-  }
 
   return isFerryRoute(route) ? (
     <>
@@ -229,14 +225,12 @@ const getScheduleNote = (
   const { modalOpen, modalMode, selectedOrigin } = state;
   return (
     <>
-      {isSubwayRoute(route) ? (
-        <HoursOfOperation
-          route={route}
-          pdfs={pdfs}
-          hours={hours}
-          scheduleNote={scheduleNote}
-        />
-      ) : null}
+      <HoursOfOperation
+        route={route}
+        pdfs={pdfs}
+        hours={hours}
+        scheduleNote={scheduleNote}
+      />
       {modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}
@@ -312,17 +306,19 @@ const getPageTitle = (route: Route): string | null => {
   }
 };
 
-interface ScheduleLoaderProps {
+interface SchedulePageProps {
   schedulePageData: SchedulePageData;
   noBranches: boolean;
   mapData: MapData;
+  staticMapData?: StaticMapData;
 }
 
 export const SchedulePage = ({
   schedulePageData,
   noBranches,
-  mapData
-}: ScheduleLoaderProps): JSX.Element => {
+  mapData,
+  staticMapData
+}: SchedulePageProps): JSX.Element => {
   const dispatch = useDispatch();
   const { route, route_patterns: routePatternsByDirection } = schedulePageData;
 
@@ -411,6 +407,7 @@ export const SchedulePage = ({
                   schedulePageData,
                   currentState,
                   mapData,
+                  staticMapData,
                   readjustedDirectionId
                 )}
               </div>

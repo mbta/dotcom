@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { SchedulePageData } from "./components/__schedule";
-import { MapData } from "../leaflet/components/__mapdata";
+import { MapData, StaticMapData } from "../leaflet/components/__mapdata";
 import { createScheduleStore } from "./store/ScheduleStore";
 import { SchedulePage } from "./components/SchedulePage";
 
@@ -10,6 +10,7 @@ const getPageData = (): {
   schedulePageData: SchedulePageData;
   branchesAreEmpty: boolean;
   mapData: MapData;
+  staticMapData: StaticMapData | undefined;
 } => {
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
   const mapDataEl = document.getElementById("js-map-data");
@@ -25,15 +26,27 @@ const getPageData = (): {
     schedulePageDataEl.getAttribute("data-branches-are-empty") === "true";
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
 
+  let staticMapData: StaticMapData | undefined;
+  const staticDataEl = document.getElementById("static-map-data");
+  if (staticDataEl) {
+    staticMapData = JSON.parse(staticDataEl.innerHTML);
+  }
+
   return {
     schedulePageData,
     branchesAreEmpty,
-    mapData
+    mapData,
+    staticMapData
   };
 };
 
 const render = (): void => {
-  const { schedulePageData, branchesAreEmpty, mapData } = getPageData();
+  const {
+    schedulePageData,
+    branchesAreEmpty,
+    mapData,
+    staticMapData
+  } = getPageData();
 
   const { direction_id: directionId } = schedulePageData;
 
@@ -43,6 +56,7 @@ const render = (): void => {
         schedulePageData={schedulePageData}
         noBranches={branchesAreEmpty}
         mapData={mapData}
+        staticMapData={staticMapData}
       />
     </Provider>,
     document.getElementById("react-root-schedule-page")

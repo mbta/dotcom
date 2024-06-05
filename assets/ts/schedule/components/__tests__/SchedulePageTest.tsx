@@ -110,16 +110,16 @@ const route: EnhancedRoute = {
   line_id: null
 };
 
-const routeNotSubway: EnhancedRoute = {
+const ferryRoute: EnhancedRoute = {
   alerts: [],
   description: "",
-  direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
+  direction_destinations: { 0: "Long Warf", 1: "Charlestown" },
   direction_names: { 0: "Inbound", 1: "Outbound" },
   header: "",
-  id: "Silver",
-  name: "Silver 1",
-  long_name: "Silver Line",
-  type: 2,
+  id: "Boat-F4",
+  name: "Charlestown Ferry",
+  long_name: "Charlestown Ferry",
+  type: 4,
   line_id: null
 };
 
@@ -326,6 +326,47 @@ describe("SchedulePage", () => {
     expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
   });
 
+  it("Renders the map and schedule finder", () => {
+    renderWithProviders(
+      <SchedulePage
+        mapData={mapData}
+        noBranches={false}
+        staticMapData={staticMapData}
+        schedulePageData={{
+          schedule_note: scheduleNoteData,
+          connections: [],
+          fares,
+          fare_link: fareLink, // eslint-disable-line camelcase
+          hours,
+          holidays,
+          pdfs,
+          teasers,
+          route: ferryRoute,
+          services,
+          stops,
+          direction_id: 0,
+          route_patterns: routePatternsByDirection,
+          today: "2019-12-05",
+          stop_tree: stopTreeData,
+          route_stop_lists: [testRouteStopList],
+          alerts: [],
+          variant: null
+        }}
+      />
+    );
+
+    expect(screen.getByText("Schedule Finder")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Get schedule information for your next Charlestown Ferry trip."
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText("Route Map")).toBeInTheDocument();
+    expect(screen.getByText("View map as a PDF")).toBeInTheDocument();
+    expect(screen.queryByText("Today's Service")).toBeNull();
+    expect(screen.queryByText(/Choose a stop to get schedule.*/)).toBeNull();
+  });
+
   it("Renders ScheduleNote with Schedule modal", async () => {
     act(() => {
       renderWithProviders(
@@ -452,17 +493,11 @@ describe("SchedulePage", () => {
   });
 
   it("Shows the ScheduleDirection component", () => {
-    document.body.innerHTML = `<div id="react-root">
-  <script id="js-map-data" type="text/plain">${JSON.stringify(mapData)}</script>
-  <script id="static-map-data" type="text/plain">${JSON.stringify(
-    staticMapData
-  )}</script>
-  </div>`;
-
     renderWithProviders(
       <SchedulePage
         mapData={mapData}
         noBranches={false}
+        staticMapData={staticMapData}
         schedulePageData={{
           schedule_note: null,
           connections: [],
