@@ -161,7 +161,7 @@ defmodule Stops.Nearby do
     {[first], rest}
   end
 
-  def reduce_keys({:ok, {item, keys}}, {existing, all_keys}, max_count) do
+  defp reduce_keys({:ok, {item, keys}}, {existing, all_keys}, max_count) do
     still_valid_keys = Enum.reject(keys, &(Map.get(all_keys, &1) == max_count))
 
     if still_valid_keys == [] do

@@ -137,11 +137,11 @@ if Mix.env() in [:dev, :test] do
 
     defp strip_base_path(nil, filename_path), do: filename_path
 
-    def strip_base_path(base_path, filename_path) do
+    defp strip_base_path(base_path, filename_path) do
       String.replace_leading(filename_path, base_path, "")
     end
 
-    def append_file_and_filename(filename_path, base_path, acc) do
+    defp append_file_and_filename(filename_path, base_path, acc) do
       filename = strip_base_path(base_path, filename_path)
       [{String.to_charlist(filename), File.read!(filename_path)} | acc]
     end
