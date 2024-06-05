@@ -7,6 +7,10 @@ defmodule MBTA.Api do
 
   @req Application.compile_env(:dotcom, :req_module)
 
+  defmacro is_valid_potential_id(id) do
+    quote do: is_binary(unquote(id)) and unquote(id) != ""
+  end
+
   @impl MBTA.Api.Behaviour
   def get_json(url, params \\ []) do
     case client() |> @req.get(url: URI.encode(url), params: params) do

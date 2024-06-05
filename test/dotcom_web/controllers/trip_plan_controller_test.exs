@@ -813,7 +813,7 @@ defmodule DotcomWeb.TripPlanControllerTest do
     end
 
     test "doesn't set custom_route? flag for regular routes", %{itineraries: itineraries} do
-      expect(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
+      stub(MBTA.Api.Mock, :get_json, fn "/routes/" <> _, _ ->
         %JsonApi{
           data: [build(:route_item)]
         }

@@ -25,7 +25,7 @@ defmodule MBTA.Api.RoutesTest do
 
   test "get/1 returns a route" do
     # Setup
-    id = :rand.uniform(100)
+    id = Faker.Internet.slug()
 
     expect(Mock, :get_json, fn url, _ ->
       assert url == "/routes/#{id}"
