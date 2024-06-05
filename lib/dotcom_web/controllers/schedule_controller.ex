@@ -85,18 +85,18 @@ defmodule DotcomWeb.ScheduleController do
     redirect(conn, external: "https://capeflyer.com")
   end
 
-  defp time_fn(nil), do: "nil"
+  defp format_time(nil), do: "nil"
 
-  defp time_fn(time) do
+  defp format_time(time) do
     case Timex.format(time, "{h24}:{m}") do
       {:ok, time} -> time
       {:error, err} -> err
     end
   end
 
-  defp map_trip_to_time(%Schedule{time: t, trip: trip}) do
+  defp trip_and_time_tuple(%Schedule{time: time, trip: trip}) do
     trip_id = if is_nil(trip), do: "nil", else: Map.get(trip, :id)
-    time = time_fn(t)
+    time = format_time(time)
     {trip_id, time}
   end
 
@@ -116,13 +116,13 @@ defmodule DotcomWeb.ScheduleController do
       log_entries =
         Enum.map(
           out_schedules,
-          &map_trip_to_time/1
+          &trip_and_time_tuple/1
         )
         |> Enum.take(-5)
 
       _ =
         Logger.info(
-          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} time=#{time_fn(now)}"
+          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} time=#{format_time(now)}"
         )
     end
 

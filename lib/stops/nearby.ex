@@ -168,8 +168,7 @@ defmodule Stops.Nearby do
       {existing, all_keys}
     else
       updated_keys =
-        still_valid_keys
-        |> Enum.reduce(all_keys, fn key, keys ->
+        Enum.reduce(still_valid_keys, all_keys, fn key, keys ->
           Map.update(keys, key, 1, &(&1 + 1))
         end)
 

@@ -68,13 +68,11 @@ defmodule DotcomWeb.CMS.PageView do
     Enum.any?(paragraphs, &right_rail_check(&1))
   end
 
-  defp teasers?(paragraph) do
-    if Map.has_key?(paragraph, :teasers) do
-      if Enum.empty?(paragraph.teasers), do: false, else: true
-    else
-      true
-    end
+  defp teasers?(%{teasers: teasers}) do
+    if Enum.empty?(teasers), do: false, else: true
   end
+
+  defp teasers?(_), do: true
 
   # Checks if any paragraphs have been assigned to the right rail.
   # If the paragraph is a ContentList.t(), ensure it has teasers.

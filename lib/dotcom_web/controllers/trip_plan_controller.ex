@@ -575,8 +575,7 @@ defmodule DotcomWeb.TripPlanController do
 
   defp chunk_subway_legs({leg, _idx}) do
     highest_fare =
-      leg
-      |> Fares.get_fare_by_type(:highest_one_way_fare)
+      Fares.get_fare_by_type(leg, :highest_one_way_fare)
 
     if is_nil(highest_fare) do
       false
