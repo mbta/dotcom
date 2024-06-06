@@ -136,7 +136,17 @@ describe("passes smoke test", () => {
         cy.get(".m-schedule-diagram");
         // test both directions
         cy.contains("Change Direction").click();
-        cy.url().should("contain", "schedule_direction%5Bdirection_id%5D=1");
+        if (cy.url().contains("schedule_direction%5Bdirection_id%5D=1")) {
+          // default direction was 0 so verify it goes back
+          cy.contains("Change Direction").click();
+          cy.url().should("contain", "schedule_direction%5Bdirection_id%5D=0");
+        } else if(cy.url().contains("schedule_direction%5Bdirection_id%5D=0")) {
+          // default direction was 1 so verify it goes back
+          cy.contains("Change Direction").click();
+          cy.url().should("contain", "schedule_direction%5Bdirection_id%5D=1");
+        } else {
+          throw new Error(`url has unexpected format: ${cy.url()}`)
+        }
       } else {
         cy.get(".m-timetable");
       }
