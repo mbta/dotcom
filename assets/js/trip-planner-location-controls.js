@@ -481,7 +481,7 @@ TripPlannerLocControls.POPULAR = [
     name: "North Station",
     features: [
       "orange_line",
-      "green_line_c",
+      "green_line_d",
       "green_line_e",
       "bus",
       "commuter_rail",
