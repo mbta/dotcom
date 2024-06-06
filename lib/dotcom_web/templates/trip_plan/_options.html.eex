@@ -1,14 +1,17 @@
+<h6>When</h6>
+<%=
+  render "_departure.html", Map.merge(assigns, %{
+    title: format_plan_type_for_title(@query),
+    prefix: "trip-plan-departure",
+    datetime: datetime_from_query(@query)
+  })
+%>
+<h6>Modes</h6>
 <%=
   DotcomWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
     multiselectable: true,
     parent_view: DotcomWeb.TripPlanView,
     sections: [
-      %{
-        content_template: "_departure.html",
-        title: format_plan_type_for_title(@query),
-        prefix: "trip-plan-departure",
-        datetime: datetime_from_query(@query)
-      },
       %{
         content_template: "_more_options.html",
         title: "See more options",

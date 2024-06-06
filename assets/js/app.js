@@ -23,7 +23,6 @@ import timetableStyle from "./timetable-style";
 import timetableStick from "./timetable-stick";
 import datePicker from "./date-picker";
 import toggleBtn from "./toggle-on-click";
-import * as TimeControls from "./time-controls/time-controls";
 import * as TripPlannerLocationControls from "./trip-planner-location-controls";
 import search from "./search";
 import photoGallery from "./photo-gallery";
@@ -44,6 +43,7 @@ import tabbedNav from "./tabbed-nav.js";
 import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
 import setupAlgoliaAutocomplete from "../ts/ui/autocomplete/index";
+import { setupTripPlannerInputs } from "./trip-planner-inputs.js";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
@@ -52,17 +52,27 @@ import { LiveSocket } from "phoenix_live_view";
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
+
 let Hooks = {};
+
 Hooks.AlgoliaAutocomplete = {
   mounted() {
     setupAlgoliaAutocomplete(this.el);
   }
 };
+
 Hooks.ScrollIntoView = {
   mounted() {
     this.el.scrollIntoView({ behavior: "smooth" });
   }
 };
+
+Hooks.TripPlannerInputs = {
+  mounted() {
+    setupTripPlannerInputs(this.el);
+  }
+}
+
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
   hooks: Hooks
@@ -135,7 +145,6 @@ globalSearch.init();
 homepageSearch.init();
 embeddedSearchInit();
 TripPlannerLocationControls.init();
-TimeControls.init();
 fullstory();
 setupChannels();
 CRTrains();

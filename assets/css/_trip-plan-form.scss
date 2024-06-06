@@ -173,3 +173,48 @@
 .m-trip-plan__hidden {
   display: none;
 }
+
+.trip-planner-form {
+  h6 {
+    font-weight: 700;
+  }
+}
+
+#trip-planner-inputs {
+  margin-top: 10px;
+  width: 100%;
+
+  .btn-group {
+    width: 100%;
+
+    .btn+.btn {
+      margin-left: 0;
+    }
+  }
+
+  label {
+    border-color: $brand-primary;
+    border-width: 1px 0 1px 0;
+    padding: 4px;
+    width: 33.33%;
+  }
+
+  label.active {
+    background-color: $brand-primary-lightest;
+    color: $brand-primary;
+    font-weight: 700;
+  }
+
+  label:first-child,
+  label:last-child {
+    border-left-width: 1px;
+    border-right-width: 1px;
+  }
+
+  input[type="text"] {
+    border: 1px solid $brand-primary;
+    border-radius: $border-radius;
+    padding: 4px 6px;
+    width: 100%;
+  }
+}
