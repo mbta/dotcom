@@ -158,7 +158,6 @@ describe("ScheduleFinderModal", () => {
     renderWithProviders(
       <ScheduleFinderModal
         closeModal={() => {}}
-        initialMode={mode}
         route={route}
         routePatternsByDirection={routePatternsByDirection}
         services={services}
@@ -167,11 +166,16 @@ describe("ScheduleFinderModal", () => {
         updateURL={updateURL}
         initialDirection={direction}
         directionChanged={directionChanged}
-        initialOrigin={origin}
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
         scheduleNote={null}
-      />
+      />,
+      {
+        preloadedState: {
+          modalMode: mode,
+          selectedOrigin: origin
+        }
+      }
     );
 
   it("detects click and keyUp events in OriginListItem elements", async () => {
@@ -244,11 +248,9 @@ describe("ScheduleFinderModal", () => {
     const origin = "741";
     const directionChanged = jest.fn();
     const originChanged = jest.fn();
-    const user = userEvent.setup();
     renderWithProviders(
       <ScheduleFinderModal
         closeModal={() => {}}
-        initialMode={mode}
         route={route}
         routePatternsByDirection={routePatternsByDirection}
         services={services}
@@ -257,11 +259,16 @@ describe("ScheduleFinderModal", () => {
         updateURL={() => {}}
         initialDirection={direction}
         directionChanged={directionChanged}
-        initialOrigin={origin}
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
         scheduleNote={null}
-      />
+      />,
+      {
+        preloadedState: {
+          modalMode: mode,
+          selectedOrigin: origin
+        }
+      }
     );
 
     // makes sure schedule finder is open
@@ -292,7 +299,6 @@ describe("ScheduleFinderModal", () => {
     renderWithProviders(
       <ScheduleFinderModal
         closeModal={() => {}}
-        initialMode={mode}
         route={route}
         routePatternsByDirection={routePatternsByDirection}
         services={services}
@@ -301,11 +307,16 @@ describe("ScheduleFinderModal", () => {
         updateURL={() => {}}
         initialDirection={direction}
         directionChanged={directionChanged}
-        initialOrigin={origin}
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
         scheduleNote={null}
-      />
+      />,
+      {
+        preloadedState: {
+          modalMode: mode,
+          selectedOrigin: origin
+        }
+      }
     );
 
     // makes sure schedule finder is open

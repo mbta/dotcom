@@ -187,13 +187,17 @@ describe("ScheduleFinder", () => {
         today={today}
         updateURL={() => {}}
         changeDirection={() => {}}
-        selectedOrigin={null}
         changeOrigin={() => {}}
         closeModal={() => {}}
-        modalMode="schedule"
-        modalOpen={false}
         scheduleNote={null}
-      />
+      />,
+      {
+        preloadedState: {
+          selectedOrigin: null,
+          modalMode: "schedule",
+          modalOpen: false
+        }
+      }
     );
 
   it("opens the schedule modal via the origin modal", () => {
@@ -207,13 +211,17 @@ describe("ScheduleFinder", () => {
         today={today}
         updateURL={() => {}}
         changeDirection={() => {}}
-        selectedOrigin="123"
         changeOrigin={() => {}}
         closeModal={() => {}}
-        modalMode="schedule"
-        modalOpen={true}
         scheduleNote={null}
-      />
+      />,
+      {
+        preloadedState: {
+          selectedOrigin: "123",
+          modalMode: "schedule",
+          modalOpen: true
+        }
+      }
     );
 
     const scheduleFinderModal = screen.getByLabelText(/Schedules on the.*/);
@@ -239,9 +247,9 @@ describe("ScheduleFinder", () => {
     await user.selectOptions(originSelectElement, "123");
     await user.selectOptions(directionSelectElement, "1");
 
-    const lastSelectedOriginElement: HTMLOptionElement = screen.getByText(
-      "Abc"
-    );
+    const lastSelectedOriginElement: HTMLOptionElement = within(
+      originSelectElement
+    ).getByText("Abc");
     expect(lastSelectedOriginElement).toBeInTheDocument();
     expect(lastSelectedOriginElement.selected).toBeFalse();
   });
@@ -261,13 +269,17 @@ describe("ScheduleFinder", () => {
         today={today}
         updateURL={() => {}}
         changeDirection={() => {}}
-        selectedOrigin="123"
         changeOrigin={() => {}}
         closeModal={() => {}}
-        modalMode="schedule"
-        modalOpen={true}
         scheduleNote={null}
-      />
+      />,
+      {
+        preloadedState: {
+          modalOpen: true,
+          selectedOrigin: "123",
+          modalMode: "schedule"
+        }
+      }
     );
 
     // select the last node (i.e. origin drop-down) and choose an option

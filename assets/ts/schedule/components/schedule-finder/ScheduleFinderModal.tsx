@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Dispatch } from "redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DirectionId, Route } from "../../../__v3api";
 import {
   SimpleStopMap,
@@ -12,15 +12,14 @@ import {
 import Modal from "../../../components/Modal";
 import OriginModalContent from "./OriginModalContent";
 import ScheduleModalContent from "./ScheduleModalContent";
+import { StoreProps } from "../../store/ScheduleStore";
 
 export type Mode = "origin" | "schedule";
 
 interface Props {
   closeModal: (dispatch: Dispatch) => void;
   directionChanged?: (direction: DirectionId, dispatch: Dispatch) => void;
-  initialMode: Mode;
   initialDirection: DirectionId;
-  initialOrigin: SelectedOrigin;
   originChanged?: (origin: SelectedOrigin, dispatch: Dispatch) => void;
   route: Route;
   routePatternsByDirection: RoutePatternsByDirection;
@@ -35,9 +34,7 @@ interface Props {
 const ScheduleFinderModal = ({
   closeModal,
   directionChanged,
-  initialMode,
   initialDirection,
-  initialOrigin,
   originChanged,
   route,
   routePatternsByDirection,
@@ -48,6 +45,9 @@ const ScheduleFinderModal = ({
   handleOriginSelectClick,
   scheduleNote
 }: Props): ReactElement => {
+  const { selectedOrigin: initialOrigin, modalMode: initialMode } = useSelector(
+    (state: StoreProps) => state
+  );
   const [originState, setOriginState] = useState(initialOrigin);
   const dispatch = useDispatch();
 

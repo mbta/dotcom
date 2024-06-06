@@ -21,9 +21,10 @@ const partialToStoreProps = (
       preloadedState.selectedDirection !== undefined
         ? preloadedState.selectedDirection
         : 0,
-    selectedOrigin: preloadedState.selectedOrigin
-      ? preloadedState.selectedOrigin
-      : "",
+    selectedOrigin:
+      preloadedState.selectedOrigin !== undefined
+        ? preloadedState.selectedOrigin
+        : "",
     modalOpen: !!preloadedState.modalOpen,
     modalMode: preloadedState.modalMode ? preloadedState.modalMode : "schedule"
   };

@@ -113,9 +113,6 @@ const getDirectionAndMap = (
     alerts,
     variant: busVariantId
   } = schedulePageData;
-  const { modalMode, modalOpen, selectedOrigin } = useSelector(
-    (state: StoreProps) => state
-  );
   const maybeStopTree: StopTree | null = stopTree
     ? fromStopTreeData(stopTree)
     : null;
@@ -129,11 +126,8 @@ const getDirectionAndMap = (
         services={services}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
-        modalMode={modalMode}
-        modalOpen={modalOpen}
         directionId={directionId}
         changeDirection={changeDirection}
-        selectedOrigin={selectedOrigin}
         changeOrigin={changeOrigin}
         closeModal={closeModal}
         scheduleNote={scheduleNote}
@@ -186,9 +180,6 @@ const getScheduleFinder = (
     today,
     schedule_note: scheduleNote
   } = schedulePageData;
-  const { modalOpen, modalMode, selectedOrigin } = useSelector(
-    (state: StoreProps) => state
-  );
   return (
     <ScheduleFinder
       updateURL={updateURL}
@@ -197,11 +188,8 @@ const getScheduleFinder = (
       services={services}
       routePatternsByDirection={routePatternsByDirection}
       today={today}
-      modalMode={modalMode}
-      modalOpen={modalOpen}
       directionId={directionId}
       changeDirection={changeDirection}
-      selectedOrigin={selectedOrigin}
       changeOrigin={changeOrigin}
       closeModal={closeModal}
       scheduleNote={scheduleNote}
@@ -211,7 +199,8 @@ const getScheduleFinder = (
 
 const getScheduleNote = (
   schedulePageData: SchedulePageData,
-  directionId: DirectionId
+  directionId: DirectionId,
+  modalOpen: boolean
 ): JSX.Element => {
   const {
     pdfs,
@@ -223,9 +212,6 @@ const getScheduleNote = (
     services,
     stops
   } = schedulePageData;
-  const { modalOpen, modalMode, selectedOrigin } = useSelector(
-    (state: StoreProps) => state
-  );
   return (
     <>
       <HoursOfOperation
@@ -238,9 +224,7 @@ const getScheduleNote = (
         <ScheduleFinderModal
           closeModal={closeModal}
           directionChanged={changeDirection}
-          initialMode={modalMode}
           initialDirection={directionId}
-          initialOrigin={selectedOrigin}
           handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
@@ -422,7 +406,11 @@ export const SchedulePage = ({
         >
           {isSubwayRoute(route) &&
             schedulePageData.schedule_note !== null &&
-            getScheduleNote(schedulePageData, readjustedDirectionId)}
+            getScheduleNote(
+              schedulePageData,
+              readjustedDirectionId,
+              currentState.modalOpen
+            )}
           {schedulePageData.schedule_note === null &&
             !isFerryRoute(route) &&
             getScheduleFinder(schedulePageData, readjustedDirectionId)}

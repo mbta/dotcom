@@ -10,9 +10,7 @@ import {
   ScheduleNote
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "./schedule-finder/ScheduleFinderModal";
+import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
 import { StoreProps } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
 import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
@@ -26,11 +24,8 @@ interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
   changeDirection: (direction: DirectionId, dispatch: Dispatch) => void;
-  selectedOrigin: SelectedOrigin;
   changeOrigin: (origin: SelectedOrigin, dispatch: Dispatch) => void;
   closeModal: (dispatch: Dispatch) => void;
-  modalMode: ModalMode;
-  modalOpen: boolean;
   scheduleNote: ScheduleNote | null;
 }
 
@@ -42,20 +37,19 @@ const ScheduleFinder = ({
   stops,
   routePatternsByDirection,
   today,
-  modalMode,
-  selectedOrigin,
   changeDirection,
   changeOrigin,
-  modalOpen,
   closeModal,
   scheduleNote
 }: Props): ReactElement<HTMLElement> => {
   const dispatch = useDispatch();
-  const modalIsOpen = useSelector((state: StoreProps) => state.modalOpen);
+  const { modalOpen, selectedOrigin } = useSelector(
+    (state: StoreProps) => state
+  );
 
   const currentDirection = useDirectionChangeEvent(directionId);
   const openOriginModal = (): void => {
-    if (!modalIsOpen) {
+    if (!modalOpen) {
       dispatch({
         type: "OPEN_MODAL",
         newStoreValues: {
@@ -66,7 +60,7 @@ const ScheduleFinder = ({
   };
 
   const openScheduleModal = (): void => {
-    if (selectedOrigin !== undefined && !modalIsOpen) {
+    if (selectedOrigin !== undefined && !modalOpen) {
       dispatch({
         type: "OPEN_MODAL",
         newStoreValues: {
@@ -107,9 +101,7 @@ const ScheduleFinder = ({
         <ScheduleFinderModal
           closeModal={closeModal}
           directionChanged={changeDirection}
-          initialMode={modalMode}
           initialDirection={currentDirection}
-          initialOrigin={selectedOrigin}
           handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
