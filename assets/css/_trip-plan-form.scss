@@ -218,3 +218,15 @@
     width: 100%;
   }
 }
+
+.flatpickr-day.selected {
+  background-color: $brand-primary;
+  border-color: $white;
+  color: $white;
+
+  &:hover {
+    background-color: $brand-primary-lightest;
+    border-color: $white;
+    color: $brand-primary;
+  }
+}

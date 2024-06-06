@@ -34,6 +34,8 @@ export function setupTripPlannerInputs(elem) {
   // Set the initial value of the date input display.
   const time = formData.chosenTime || 'now';
   const dateTime = new Date(time == 'now' ? formData.dateTime : formData.chosenDateTime);
+
+  dateInputHidden.value = formatDate(dateTime);
   dateInputDisplay.value = i18nDate(dateTime);
 
   flatpickr(dateInputDisplay, {
@@ -41,10 +43,9 @@ export function setupTripPlannerInputs(elem) {
     enableTime: true,
     maxDate: maxDate,
     minDate: minDate,
-    minuteIncrement: 1,
     onChange(selectedDates, _dateStr, _instance) {
       if (selectedDates.length > 0) {
-        dateInputHidden.value = format(selectedDates[0], "yyyy-MM-dd'T'HH:mm");
+        dateInputHidden.value = formatDate(selectedDates[0]);
         dateInputDisplay.value = i18nDate(selectedDates[0]);
       }
     },
@@ -54,6 +55,9 @@ export function setupTripPlannerInputs(elem) {
   // Clicking on it will hide the time inputs.
   inputs.slice(0, 1).forEach(input => {
     input.addEventListener('click', _ => {
+      dateInputHidden.value = formatDate(minDate);
+      dateInputDisplay.value = i18nDate(minDate);
+
       elem.querySelector('#trip-plan-datepicker').style['display'] = 'none';
     });
   });
@@ -68,6 +72,10 @@ export function setupTripPlannerInputs(elem) {
   const initialTimeSelection = elem.querySelector(`input[value="${time}"]`);
   initialTimeSelection.click();
 };
+
+function formatDate(date) {
+  return format(date, "yyyy-MM-dd'T'HH:mm")
+}
 
 function i18nDate(date) {
   const formatter = new Intl.DateTimeFormat(navigator.language, { dateStyle: 'full', timeStyle: 'short' });
