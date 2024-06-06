@@ -97,7 +97,6 @@ export const handleOriginSelectClick = (dispatch: Dispatch): void => {
 
 const getDirectionAndMap = (
   schedulePageData: SchedulePageData,
-  state: StoreProps,
   mapData: MapData,
   staticMapData: StaticMapData | undefined,
   directionId: DirectionId
@@ -114,7 +113,9 @@ const getDirectionAndMap = (
     alerts,
     variant: busVariantId
   } = schedulePageData;
-  const { modalMode, modalOpen, selectedOrigin } = state;
+  const { modalMode, modalOpen, selectedOrigin } = useSelector(
+    (state: StoreProps) => state
+  );
   const maybeStopTree: StopTree | null = stopTree
     ? fromStopTreeData(stopTree)
     : null;
@@ -175,7 +176,6 @@ const getDirectionAndMap = (
 
 const getScheduleFinder = (
   schedulePageData: SchedulePageData,
-  state: StoreProps,
   directionId: DirectionId
 ): JSX.Element | undefined => {
   const {
@@ -186,7 +186,9 @@ const getScheduleFinder = (
     today,
     schedule_note: scheduleNote
   } = schedulePageData;
-  const { modalMode, modalOpen, selectedOrigin } = state;
+  const { modalOpen, modalMode, selectedOrigin } = useSelector(
+    (state: StoreProps) => state
+  );
   return (
     <ScheduleFinder
       updateURL={updateURL}
@@ -209,7 +211,6 @@ const getScheduleFinder = (
 
 const getScheduleNote = (
   schedulePageData: SchedulePageData,
-  state: StoreProps,
   directionId: DirectionId
 ): JSX.Element => {
   const {
@@ -222,7 +223,9 @@ const getScheduleNote = (
     services,
     stops
   } = schedulePageData;
-  const { modalOpen, modalMode, selectedOrigin } = state;
+  const { modalOpen, modalMode, selectedOrigin } = useSelector(
+    (state: StoreProps) => state
+  );
   return (
     <>
       <HoursOfOperation
@@ -358,7 +361,8 @@ export const SchedulePage = ({
     dispatch({
       type: "INITIALIZE",
       newStoreValues: {
-        selectedDirection: newDirection || selectedDirection,
+        selectedDirection:
+          newDirection !== undefined ? newDirection : selectedDirection,
         selectedOrigin: newOrigin || selectedOrigin,
         modalMode,
         modalOpen
@@ -405,7 +409,6 @@ export const SchedulePage = ({
               <div>
                 {getDirectionAndMap(
                   schedulePageData,
-                  currentState,
                   mapData,
                   staticMapData,
                   readjustedDirectionId
@@ -419,18 +422,10 @@ export const SchedulePage = ({
         >
           {isSubwayRoute(route) &&
             schedulePageData.schedule_note !== null &&
-            getScheduleNote(
-              schedulePageData,
-              currentState,
-              readjustedDirectionId
-            )}
+            getScheduleNote(schedulePageData, readjustedDirectionId)}
           {schedulePageData.schedule_note === null &&
             !isFerryRoute(route) &&
-            getScheduleFinder(
-              schedulePageData,
-              currentState,
-              readjustedDirectionId
-            )}
+            getScheduleFinder(schedulePageData, readjustedDirectionId)}
         </div>
         <div
           className={`col-md-5 col-lg-4 ${offset} m-schedule-page__side-content`}

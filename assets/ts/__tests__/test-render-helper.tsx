@@ -17,9 +17,10 @@ const partialToStoreProps = (
   preloadedState: Partial<StoreProps>
 ): StoreProps => {
   return {
-    selectedDirection: preloadedState.selectedDirection
-      ? preloadedState.selectedDirection
-      : 0,
+    selectedDirection:
+      preloadedState.selectedDirection !== undefined
+        ? preloadedState.selectedDirection
+        : 0,
     selectedOrigin: preloadedState.selectedOrigin
       ? preloadedState.selectedOrigin
       : "",
