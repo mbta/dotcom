@@ -48,20 +48,10 @@ export default function setupTripPlannerInputs(elem) {
   });
 
   // Gets data that is injected into the template.
-  // This is how we get the user selections from the query params set controls.
+  // This is how we get the user selections from the query params to set controls.
   let data = elem.querySelector("#data").innerHTML;
   data = JSON.parse(data);
 
-  // We have two inputs. One is for display and the other is hidden.
-  // The display shows a string from i18nDate.
-  // The hidden input is what gets sent to the server.
-  // It uses a string from formatDate.
-  const dateInputDisplay = elem.querySelector(
-    "#trip-plan-datepicker #date-time-display"
-  );
-  const dateInputHidden = elem.querySelector(
-    "#trip-plan-datepicker #date-time-hidden"
-  );
   const maxDate = new Date(data.maxDate);
   const minDate = new Date(data.minDate);
 
@@ -73,8 +63,19 @@ export default function setupTripPlannerInputs(elem) {
     time === "now" ? data.dateTime : data.chosenDateTime
   );
 
-  dateInputHidden.value = formatDate(dateTime);
+  // We have two inputs. One is for display and the other is hidden.
+  // The display shows a string from i18nDate.
+  const dateInputDisplay = elem.querySelector(
+    "#trip-plan-datepicker #date-time-display"
+  );
   dateInputDisplay.value = i18nDate(dateTime);
+
+  // The hidden input is what gets sent to the server.
+  // It uses a string from formatDate.
+  const dateInputHidden = elem.querySelector(
+    "#trip-plan-datepicker #date-time-hidden"
+  );
+  dateInputHidden.value = formatDate(dateTime);
 
   // Initializes the date picker.
   // Unfortunately, we can't use a function to format the date.
