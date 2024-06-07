@@ -1,5 +1,4 @@
 import React from "react";
-import { Provider } from "react-redux";
 import * as reactRedux from "react-redux";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import {
@@ -16,11 +15,10 @@ import {
   handleOriginSelectClick
 } from "../SchedulePage";
 import * as schedulePage from "../SchedulePage";
-import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 import * as useStop from "../../../hooks/useStop";
 import { FetchStatus } from "../../../helpers/use-fetch";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { EnhancedJourney } from "../__trips";
 import * as upcomingDepartures from "../schedule-finder/upcoming-departures/UpcomingDepartures";
@@ -624,101 +622,6 @@ describe("SchedulePage", () => {
       type: "OPEN_MODAL",
       newStoreValues: {
         modalMode: "origin"
-      }
-    });
-  });
-
-  it.skip("Shows the schedule modal on load", () => {
-    const store = scheduleStoreModule.createScheduleStore(0);
-    window.history.replaceState(
-      {},
-      "",
-      "/?schedule_finder%5Bdirection_id%5D=0&schedule_finder%5Borigin%5D=place-welln"
-    );
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    render(
-      <Provider store={store}>
-        <SchedulePage
-          mapData={mapData}
-          noBranches={false}
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-        />
-      </Provider>
-    );
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "INITIALIZE",
-      newStoreValues: {
-        selectedDirection: 0,
-        selectedOrigin: "place-welln",
-        modalMode: "schedule",
-        modalOpen: true
-      }
-    });
-
-    // now check with the opposite direction:
-    window.history.replaceState(
-      {},
-      "",
-      "/?schedule_finder%5Bdirection_id%5D=1&schedule_finder%5Borigin%5D=place-welln"
-    );
-    render(
-      <Provider store={store}>
-        <SchedulePage
-          mapData={mapData}
-          noBranches={false}
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            route_patterns: routePatternsByDirection,
-            today: "2019-12-05",
-            stop_tree: stopTreeData,
-            route_stop_lists: [testRouteStopList],
-            alerts: [],
-            variant: null
-          }}
-        />
-      </Provider>
-    );
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "INITIALIZE",
-      newStoreValues: {
-        selectedDirection: 1,
-        selectedOrigin: "place-welln",
-        modalMode: "schedule",
-        modalOpen: true
       }
     });
   });
