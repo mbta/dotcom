@@ -65,7 +65,8 @@ defmodule Dotcom.Application do
           {Phoenix.PubSub, name: Dotcom.PubSub},
           Alerts.BusStopChangeSupervisor,
           Alerts.CacheSupervisor,
-          {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint}
+          {DotcomWeb.Endpoint, name: DotcomWeb.Endpoint},
+          MBTA.Api.StatusMonitor
         ]
 
     opts = [strategy: :one_for_one, name: Dotcom.Supervisor]
