@@ -81,7 +81,7 @@ export default function setupTripPlannerInputs(elem) {
 
       elem
         .querySelector("#trip-plan-datepicker")
-        .style.setProperty("display", "nonw");
+        .style.setProperty("display", "none");
     });
   });
 
