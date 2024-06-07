@@ -113,7 +113,7 @@ defmodule AlertsTest do
   describe "diversion?/1" do
     test "returns true when created at is before active period" do
       created_at = Timex.now()
-      active_period = [Timex.shift(created_at, days: 1), Timex.shift(created_at, days: 2)]
+      active_period = [{Timex.shift(created_at, days: 1), Timex.shift(created_at, days: 2)}]
 
       alert =
         Factories.Alerts.Alert.build(:alert,
@@ -127,7 +127,7 @@ defmodule AlertsTest do
 
     test "returns false when created at is after active period" do
       created_at = Timex.now()
-      active_period = [Timex.shift(created_at, days: -2), Timex.shift(created_at, days: -1)]
+      active_period = [{Timex.shift(created_at, days: -2), Timex.shift(created_at, days: -1)}]
 
       alert =
         Factories.Alerts.Alert.build(:alert,
