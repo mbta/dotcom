@@ -85,6 +85,21 @@ defmodule DotcomWeb.ScheduleController do
     redirect(conn, external: "https://capeflyer.com")
   end
 
+  defp format_time(nil), do: "nil"
+
+  defp format_time(time) do
+    case Timex.format(time, "{h24}:{m}") do
+      {:ok, time} -> time
+      {:error, err} -> err
+    end
+  end
+
+  defp trip_and_time_tuple(%Schedule{time: time, trip: trip}) do
+    trip_id = if is_nil(trip), do: "nil", else: Map.get(trip, :id)
+    time = format_time(time)
+    {trip_id, time}
+  end
+
   defp future_departures(schedules, %{"future_departures" => "true"} = params) do
     now = Util.now()
     # Only list schedules with time in the future. The "time" property might be
@@ -97,32 +112,17 @@ defmodule DotcomWeb.ScheduleController do
     if in_schedules == [] and length(schedules) > 0 do
       # Why were so many schedules filtered out? Probably because they're in the
       # past. But let's log the last five, to uncover other possible issues.
-      time_fn = fn t ->
-        case Timex.format(t, "{h24}:{m}") do
-          {:ok, t} -> t
-          {:error, err} -> err
-        end
-      end
 
       log_entries =
-        Enum.map(out_schedules, fn
-          %Schedule{time: t, trip: trip} ->
-            trip_id = if is_nil(trip), do: "nil", else: Map.get(trip, :id)
-
-            time =
-              if is_nil(t) do
-                "nil"
-              else
-                time_fn.(t)
-              end
-
-            {trip_id, time}
-        end)
+        Enum.map(
+          out_schedules,
+          &trip_and_time_tuple/1
+        )
         |> Enum.take(-5)
 
       _ =
         Logger.info(
-          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} time=#{time_fn.(now)}"
+          "module=#{__MODULE__} fun=future_departures stop=#{params["stop_id"]} removed=#{inspect(log_entries)} time=#{format_time(now)}"
         )
     end
 

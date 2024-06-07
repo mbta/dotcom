@@ -60,6 +60,18 @@ if Mix.env() in [:dev, :test] do
       make_zip()
     end
 
+    defp click_lang(_, "en"), do: nil
+
+    defp click_lang(dropdown, lang_code) do
+      dropdown
+      |> click(:middle)
+      |> find(Query.css("option[data-lang='#{lang_code}']"), fn option ->
+        Element.click(option)
+        # Translations take so long...
+        :timer.sleep(90_000)
+      end)
+    end
+
     defp make_markup(lang_code) do
       session = new_session()
 
@@ -68,17 +80,7 @@ if Mix.env() in [:dev, :test] do
         |> visit("https://dev.mbtace.com/menu")
         |> find(
           Query.css("header .custom-language-selector"),
-          fn dropdown ->
-            if lang_code != "en" do
-              dropdown
-              |> click(:middle)
-              |> find(Query.css("option[data-lang='#{lang_code}']"), fn option ->
-                Element.click(option)
-                # Translations take so long...
-                :timer.sleep(90_000)
-              end)
-            end
-          end
+          &click_lang(&1, lang_code)
         )
         |> page_source()
 
@@ -133,6 +135,25 @@ if Mix.env() in [:dev, :test] do
       {:ok, _files} = File.rm_rf("export")
     end
 
+    defp strip_base_path(nil, filename_path), do: filename_path
+
+    defp strip_base_path(base_path, filename_path) do
+      String.replace_leading(filename_path, base_path, "")
+    end
+
+    defp append_file_and_filename(filename_path, base_path, acc) do
+      filename = strip_base_path(base_path, filename_path)
+      [{String.to_charlist(filename), File.read!(filename_path)} | acc]
+    end
+
+    defp files_list_reducer(filename, path, base_path, acc) do
+      filename_path = Path.join(path, filename)
+
+      if File.dir?(filename_path),
+        do: acc ++ create_files_list(File.ls!(filename_path), filename_path, base_path),
+        else: append_file_and_filename(filename_path, base_path, acc)
+    end
+
     defp create_files_list(path) do
       # thanks https://stackoverflow.com/a/44734142
       create_files_list(File.ls!(path), path)
@@ -143,20 +164,7 @@ if Mix.env() in [:dev, :test] do
     end
 
     defp create_files_list(paths, path, base_path) do
-      Enum.reduce(paths, [], fn filename, acc ->
-        filename_path = Path.join(path, filename)
-
-        if File.dir?(filename_path) do
-          acc ++ create_files_list(File.ls!(filename_path), filename_path, base_path)
-        else
-          filenm =
-            if base_path,
-              do: String.replace_leading(filename_path, base_path, ""),
-              else: filename_path
-
-          [{String.to_charlist(filenm), File.read!(filename_path)} | acc]
-        end
-      end)
+      Enum.reduce(paths, [], &files_list_reducer(&1, path, base_path, &2))
     end
 
     defp write_mbta_file({header_or_footer, lang_code, markup}) do

@@ -573,6 +573,17 @@ defmodule DotcomWeb.TripPlanController do
     end)
   end
 
+  defp chunk_subway_legs({leg, _idx}) do
+    highest_fare =
+      Fares.get_fare_by_type(leg, :highest_one_way_fare)
+
+    if is_nil(highest_fare) do
+      false
+    else
+      Transfer.subway?(highest_fare.mode)
+    end
+  end
+
   @spec readjust_itinerary_with_free_fares(Itinerary.t()) :: Itinerary.t()
   def readjust_itinerary_with_free_fares(itinerary) do
     transit_legs =
@@ -589,17 +600,7 @@ defmodule DotcomWeb.TripPlanController do
       else
         Enum.chunk_by(
           legs_after_airport,
-          fn {leg, _idx} ->
-            highest_fare =
-              leg
-              |> Fares.get_fare_by_type(:highest_one_way_fare)
-
-            if is_nil(highest_fare) do
-              false
-            else
-              Transfer.subway?(highest_fare.mode)
-            end
-          end
+          &chunk_subway_legs/1
         )
         |> Enum.at(0)
       end
