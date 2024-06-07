@@ -1,14 +1,27 @@
 import React from "react";
-import renderer, { act } from "react-test-renderer";
 import { EnhancedRoute, Route } from "../../../../__v3api";
-import ScheduleModalContent, { fetchData } from "../ScheduleModalContent";
+import ScheduleModalContent from "../ScheduleModalContent";
 import { ServiceInSelector, SimpleStop, SimpleStopMap } from "../../__schedule";
-import { UpcomingDepartures } from "../upcoming-departures/UpcomingDepartures";
-import { mount } from "enzyme";
-import DailySchedule from "../daily-schedule/DailySchedule";
+import { screen, waitFor, act } from "@testing-library/react";
+import { renderWithProviders } from "../../../../__tests__/test-render-helper";
+
+jest.mock("../upcoming-departures/UpcomingDepartures", () => ({
+  __esModule: true,
+  default: () => <div>Upcoming Departures</div>
+}));
+
+jest.mock("../daily-schedule/DailySchedule", () => ({
+  __esModule: true,
+  default: () => <div>Daily Schedule</div>
+}));
+
+jest.mock("../daily-schedule/DailyScheduleSubway", () => ({
+  __esModule: true,
+  default: () => <div>Daily Schedule Subway</div>
+}));
 
 const today = "2019-12-05";
-const route: EnhancedRoute = {
+const subwayRoute: EnhancedRoute = {
   alerts: [],
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
@@ -32,16 +45,6 @@ const busRoute: EnhancedRoute = {
   long_name: "1",
   type: 3,
   line_id: null
-};
-
-const scheduleNoteData = {
-  saturday_service: "8-12 minutes",
-  sunday_service: "8-12 minutes",
-  peak_service: "5 minutes",
-  exceptions: [
-    { service: "26 minutes", type: "weekend mornings and late night" }
-  ],
-  alternate_text: null
 };
 
 const stopList: SimpleStop[] = [
@@ -77,7 +80,13 @@ describe("ScheduleModalContent", () => {
       () =>
         new Promise((resolve: Function) =>
           resolve({
-            json: () => [{ trip: { id: "yeah" } }],
+            json: () => [
+              {
+                trip: { id: "yeah" },
+                departure: { time: "11:05 PM" },
+                route: { type: 0 }
+              }
+            ],
             ok: true,
             status: 200,
             statusText: "OK"
@@ -86,15 +95,18 @@ describe("ScheduleModalContent", () => {
     );
   });
 
-  it("renders", () => {
-    let tree;
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("renders", async () => {
     act(() => {
-      tree = renderer.create(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
           handleOriginSelectClick={() => {}}
-          route={route}
+          route={busRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
           selectedDirection={0}
@@ -106,17 +118,20 @@ describe("ScheduleModalContent", () => {
       );
     });
 
-    expect(tree).toMatchSnapshot();
+    const scheduleNode = await waitFor(() =>
+      screen.getByText("Daily Schedule")
+    );
+    expect(scheduleNode).toBeInTheDocument();
   });
 
-  it("will not render Daily Schedule for subway lines", () => {
+  it("will not render Daily Schedule for subway lines", async () => {
     act(() => {
-      const tree = mount(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
           handleOriginSelectClick={() => {}}
-          route={route}
+          route={subwayRoute}
           stops={stops}
           selectedOrigin={stopList[0].id}
           selectedDirection={0}
@@ -126,39 +141,17 @@ describe("ScheduleModalContent", () => {
           scheduleNote={null}
         />
       );
-      expect(tree.find(DailySchedule)).toEqual({});
     });
+
+    const scheduleNode = await waitFor(() =>
+      screen.getByText("Daily Schedule Subway")
+    );
+    expect(scheduleNode).toBeInTheDocument();
   });
 
-  describe("fetchData", () => {
-    it("fetches data", async () => {
-      const payload = [{ trip: { id: "yeah" } }];
-      window.fetch = jest.fn().mockImplementation(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              json: () => payload,
-              ok: true,
-              status: 200,
-              statusText: "OK"
-            })
-          )
-      );
-
-      const result = await fetchData("1", "99", 0, "");
-      expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/finder_api/departures?id=1&stop=99&direction=0"
-      );
-
-      expect(result).toStrictEqual([
-        { trip: { id: "yeah" }, tripInfo: payload }
-      ]);
-    });
-  });
-
-  it("renders with UpcomingDepartures for today's service", () => {
+  it("renders with UpcomingDepartures for today's service", async () => {
     act(() => {
-      const wrapper = mount(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -168,21 +161,28 @@ describe("ScheduleModalContent", () => {
           selectedOrigin={stopList[0].id}
           selectedDirection={0}
           services={[baseTypicalService]}
-          routePatternsByDirection={{}}
+          routePatternsByDirection={{ 0: [] }}
           today={"2019-07-09"}
           scheduleNote={null}
         />
       );
-
-      expect(wrapper.find(UpcomingDepartures).exists()).toEqual(true);
-
-      expect(wrapper.find(".callout").exists()).toEqual(false);
     });
+    const upcomingDeparturesNode = await waitFor(() =>
+      screen.queryByText("Upcoming Departures")
+    );
+    const noDeparturesNode = await waitFor(() =>
+      screen.queryByText(
+        "There are currently no realtime departures available."
+      )
+    );
+
+    expect(upcomingDeparturesNode).toBeInTheDocument();
+    expect(noDeparturesNode).toBeNull();
   });
 
-  it("does not render UpcomingDepartures if no service today", () => {
+  it("does not render UpcomingDepartures if no service today", async () => {
     act(() => {
-      const wrapper = mount(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -197,16 +197,19 @@ describe("ScheduleModalContent", () => {
           scheduleNote={null}
         />
       );
-
-      expect(wrapper.find(UpcomingDepartures).exists()).toEqual(false);
-      expect(wrapper.find(".callout").exists()).toEqual(true);
-      expect(wrapper.find(".callout").text()).toContain(
-        "There are no scheduled trips"
-      );
     });
+
+    const upcomingDeparturesNode = await waitFor(() =>
+      screen.queryByText("Upcoming Departures")
+    );
+    const noDeparturesNode = await waitFor(() =>
+      screen.getByText(/There are no scheduled trips for .*/)
+    );
+    expect(upcomingDeparturesNode).toBeNull();
+    expect(noDeparturesNode).toBeInTheDocument();
   });
 
-  it("does not render UpcomingDepartures if mode is ferry", () => {
+  it("does not render UpcomingDepartures if mode is ferry", async () => {
     act(() => {
       const ferryRoute = {
         color: "008EAA",
@@ -221,7 +224,7 @@ describe("ScheduleModalContent", () => {
         type: 4,
         line_id: null
       } as Route;
-      const wrapper = mount(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -236,9 +239,11 @@ describe("ScheduleModalContent", () => {
           scheduleNote={null}
         />
       );
-
-      expect(wrapper.find(UpcomingDepartures).exists()).toEqual(false);
     });
+    const upcomingDeparturesNode = await waitFor(() =>
+      screen.queryByText("Upcoming Departures")
+    );
+    expect(upcomingDeparturesNode).toBeNull();
   });
 });
 
@@ -256,10 +261,10 @@ it.each`
   ${"2019-10-16"} | ${baseTypicalService} | ${false}
   ${"2019-12-16"} | ${baseTypicalService} | ${false}
 `(
-  "renders with UpcomingDepartures for today's service",
-  ({ testToday, service, isMatch }) => {
+  "renders with UpcomingDepartures for service on $testToday",
+  async ({ testToday, service, isMatch }) => {
     act(() => {
-      const wrapper = mount(
+      renderWithProviders(
         <ScheduleModalContent
           handleChangeDirection={() => {}}
           handleChangeOrigin={() => {}}
@@ -274,9 +279,11 @@ it.each`
           scheduleNote={null}
         />
       );
-
-      expect(wrapper.find(UpcomingDepartures).exists()).toEqual(isMatch);
-      expect(wrapper.find(".callout").exists()).toEqual(!isMatch);
     });
+
+    const upcomingDeparturesNode = await waitFor(() =>
+      screen.queryByText("Upcoming Departures")
+    );
+    expect(upcomingDeparturesNode !== null).toBe(isMatch);
   }
 );

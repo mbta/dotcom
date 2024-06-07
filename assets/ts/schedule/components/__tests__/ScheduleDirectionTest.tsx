@@ -25,7 +25,9 @@ import {
 } from "../__schedule";
 import lineDiagramData from "./test-data/lineDiagramData.json"; // Not a full line diagram
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
-import { fromStopTreeData } from "../ScheduleLoader";
+import { fromStopTreeData } from "../SchedulePage";
+import { Provider } from "react-redux";
+import { createScheduleStore } from "../../store/ScheduleStore";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
@@ -168,68 +170,78 @@ const staticMapData: StaticMapData = {
 /* eslint-enable camelcase */
 
 const getComponent = () => (
-  <ScheduleDirection
-    route={route}
-    directionId={directionId}
-    routePatternsByDirection={routePatternsByDirection}
-    mapData={mapData}
-    stopTree={stopTree}
-    routeStopLists={[testRouteStopList]}
-    alerts={[]}
-    busVariantId={null}
-  />
+  <Provider store={createScheduleStore(0)}>
+    <ScheduleDirection
+      route={route}
+      directionId={directionId}
+      routePatternsByDirection={routePatternsByDirection}
+      mapData={mapData}
+      stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
+      alerts={[]}
+      busVariantId={null}
+    />
+  </Provider>
 );
 
 const getSingleDirectionComponent = () => (
-  <ScheduleDirection
-    route={oneDirectionRoute}
-    directionId={directionId}
-    routePatternsByDirection={routePatternsByDirection}
-    mapData={mapData}
-    stopTree={stopTree}
-    routeStopLists={[testRouteStopList]}
-    alerts={[]}
-    busVariantId={null}
-  />
+  <Provider store={createScheduleStore(0)}>
+    <ScheduleDirection
+      route={oneDirectionRoute}
+      directionId={directionId}
+      routePatternsByDirection={routePatternsByDirection}
+      mapData={mapData}
+      stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
+      alerts={[]}
+      busVariantId={null}
+    />
+  </Provider>
 );
 
 const getSubwayComponent = () => (
-  <ScheduleDirection
-    mapData={mapData}
-    route={{ ...route, type: 1 }}
-    directionId={directionId}
-    routePatternsByDirection={routePatternsByDirection}
-    stopTree={stopTree}
-    routeStopLists={[testRouteStopList]}
-    alerts={[]}
-    busVariantId={null}
-  />
+  <Provider store={createScheduleStore(0)}>
+    <ScheduleDirection
+      mapData={mapData}
+      route={{ ...route, type: 1 }}
+      directionId={directionId}
+      routePatternsByDirection={routePatternsByDirection}
+      stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
+      alerts={[]}
+      busVariantId={null}
+    />
+  </Provider>
 );
 
 const getCRComponent = () => (
-  <ScheduleDirection
-    route={{ ...route, type: 2 }}
-    directionId={directionId}
-    routePatternsByDirection={routePatternsByDirection}
-    mapData={mapData}
-    stopTree={stopTree}
-    routeStopLists={[testRouteStopList]}
-    alerts={[]}
-    busVariantId={null}
-  />
+  <Provider store={createScheduleStore(0)}>
+    <ScheduleDirection
+      route={{ ...route, type: 2 }}
+      directionId={directionId}
+      routePatternsByDirection={routePatternsByDirection}
+      mapData={mapData}
+      stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
+      alerts={[]}
+      busVariantId={null}
+    />
+  </Provider>
 );
 
 const getStaticMapComponent = () => (
-  <ScheduleDirection
-    staticMapData={staticMapData}
-    route={{ ...route, type: 4 }}
-    directionId={directionId}
-    routePatternsByDirection={routePatternsByDirection}
-    stopTree={stopTree}
-    routeStopLists={[testRouteStopList]}
-    alerts={[]}
-    busVariantId={null}
-  />
+  <Provider store={createScheduleStore(0)}>
+    <ScheduleDirection
+      staticMapData={staticMapData}
+      route={{ ...route, type: 4 }}
+      directionId={directionId}
+      routePatternsByDirection={routePatternsByDirection}
+      stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
+      alerts={[]}
+      busVariantId={null}
+    />
+  </Provider>
 );
 
 const getGreenLineComponent = () => {
@@ -250,240 +262,248 @@ const getGreenLineComponent = () => {
   };
 
   return (
-    <ScheduleDirection
-      mapData={mapData}
-      route={greenRoute}
-      directionId={directionId}
-      routePatternsByDirection={routePatternsByDirection}
-      stopTree={stopTree}
-      routeStopLists={[testRouteStopList]}
-      alerts={[]}
-      busVariantId={null}
-    />
+    <Provider store={createScheduleStore(0)}>
+      <ScheduleDirection
+        mapData={mapData}
+        route={greenRoute}
+        directionId={directionId}
+        routePatternsByDirection={routePatternsByDirection}
+        stopTree={stopTree}
+        routeStopLists={[testRouteStopList]}
+        alerts={[]}
+        busVariantId={null}
+      />
+    </Provider>
   );
 };
 
 const getVariantComponent = () => (
-  <ScheduleDirection
-    route={route}
-    directionId={0}
-    routePatternsByDirection={routePatternsByDirection}
-    mapData={mapData}
-    stopTree={stopTree}
-    routeStopLists={[testRouteStopList]}
-    alerts={[]}
-    busVariantId="pattern-3"
-  />
+  <Provider store={createScheduleStore(0)}>
+    <ScheduleDirection
+      route={route}
+      directionId={0}
+      routePatternsByDirection={routePatternsByDirection}
+      mapData={mapData}
+      stopTree={stopTree}
+      routeStopLists={[testRouteStopList]}
+      alerts={[]}
+      busVariantId="pattern-3"
+    />
+  </Provider>
 );
 
-it("renders a bus component", () => {
-  createReactRoot();
-  const tree = mount(getComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("renders a subway component", () => {
-  createReactRoot();
-  const tree = mount(getSubwayComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("renders a CR component", () => {
-  createReactRoot();
-  const tree = mount(getCRComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("can render green line", () => {
-  createReactRoot();
-  const tree = mount(getGreenLineComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("respects the initially selected pattern ID, if specified", () => {
-  createReactRoot();
-  const tree = mount(getVariantComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("renders with a static map", () => {
-  createReactRoot();
-  const tree = mount(getStaticMapComponent());
-  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
-});
-
-it("changes direction and updates the query params", () => {
-  document.body.innerHTML = body;
-  const component = getComponent();
-  const wrapper = mount(component);
-  window.history.replaceState = jest.fn();
-
-  expect(wrapper.find("#direction-name").text()).toBe("Inbound");
-  wrapper.find(".m-schedule-direction__button").simulate("click");
-
-  expect(wrapper.find("#direction-name").text()).toBe("Outbound");
-  expect(window.history.replaceState).toBeCalledWith(
-    window.history.state,
-    "",
-    "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
-  );
-});
-
-it("does not allow changing direction when no route patterns", () => {
-  document.body.innerHTML = body;
-  const wrapper = mount(getSingleDirectionComponent());
-
-  expect(wrapper.exists(".m-schedule-direction__button")).toEqual(false);
-});
-
-it("can change route pattern for bus mode, and updates the query params", () => {
-  document.body.innerHTML = body;
-  const component = getComponent();
-  const wrapper = mount(component);
-  window.history.replaceState = jest.fn();
-
-  wrapper.find(".m-schedule-direction__button").simulate("click");
-  expect(
-    wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
-  ).toBe("Pattern 1 SVG");
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
-  expect(window.history.replaceState).toBeCalledWith(
-    window.history.state,
-    "",
-    "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
-  );
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
-  wrapper.find("#route-pattern_pattern-3").simulate("click");
-  expect(
-    wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
-  ).toBe("Pattern 3 SVG");
-  expect(window.history.replaceState).toBeCalledWith(
-    window.history.state,
-    "",
-    "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-3"
-  );
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
-
-  // get code coverage of keyboard navigation
-  wrapper
-    .find("#route-pattern_pattern-1")
-    .simulate("keydown", { key: "ArrowRight" });
-
-  wrapper
-    .find("#route-pattern_pattern-3")
-    .simulate("keydown", { key: "ArrowRight" });
-
-  wrapper
-    .find("#route-pattern_uncommon")
-    .simulate("keydown", { key: "ArrowRight" });
-
-  wrapper
-    .find("#route-pattern_pattern-1")
-    .simulate("keydown", { key: "ArrowLeft" });
-
-  wrapper
-    .find("#route-pattern_pattern-3")
-    .simulate("keydown", { key: "ArrowLeft" });
-
-  wrapper
-    .find("#route-pattern_pattern-3")
-    .simulate("keydown", { key: "Tab", shiftKey: true });
-
-  wrapper.find("#route-pattern_pattern-3").simulate("keydown", { key: "X" });
-
-  wrapper.find("#route-pattern_uncommon").simulate("click");
-
-  wrapper.find(".m-schedule-direction__button").simulate("click");
-});
-
-it("can change route pattern for bus mode (accessible)", () => {
-  document.body.innerHTML = body;
-  const component = getComponent();
-  const wrapper = mount(component);
-  wrapper.find(".m-schedule-direction__button").simulate("click");
-  expect(
-    wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
-  ).toBe("Pattern 1 SVG");
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
-
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("keyUp", { key: "Enter" });
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
-
-  wrapper.find("#route-pattern_pattern-3").simulate("keyUp", { key: "Enter" });
-  expect(
-    wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
-  ).toBe("Pattern 3 SVG");
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
-
-  wrapper.find("#route-pattern_uncommon").simulate("keyUp", { key: "Enter" });
-});
-
-it("can change route for green line with click", () => {
-  const stubFn = jest.fn().mockImplementation(url => url);
-  Object.defineProperty(window, "location", {
-    writable: true,
-    value: { assign: stubFn }
+describe("ScheduleDirectionTest", () => {
+  it("renders a bus component", () => {
+    createReactRoot();
+    const tree = mount(getComponent());
+    expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
   });
 
-  document.body.innerHTML = body;
-  const component = getGreenLineComponent();
-  const wrapper = mount(component);
+  it("renders a subway component", () => {
+    createReactRoot();
+    const tree = mount(getSubwayComponent());
+    expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+  });
 
-  // click to open
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
+  it("renders a CR component", () => {
+    createReactRoot();
+    const tree = mount(getCRComponent());
+    expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+  });
 
-  // enter to close
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("keyUp", { key: "Enter" });
-  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+  it("can render green line", () => {
+    createReactRoot();
+    const tree = mount(getGreenLineComponent());
+    expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+  });
 
-  // open again
-  wrapper
-    .find(".m-schedule-direction__route-pattern--clickable")
-    .simulate("click");
+  it("respects the initially selected pattern ID, if specified", () => {
+    createReactRoot();
+    const tree = mount(getVariantComponent());
+    expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+  });
 
-  // click and item
-  wrapper.find("#route-pattern_Green-C").simulate("click");
-  expect(stubFn).toHaveBeenCalledTimes(1);
-  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+  it("renders with a static map", () => {
+    createReactRoot();
+    const tree = mount(getStaticMapComponent());
+    expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+  });
 
-  // enter on an item
-  wrapper.find("#route-pattern_Green-D").simulate("keyUp", { key: "Enter" });
-  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+  it("changes direction and updates the query params", () => {
+    document.body.innerHTML = body;
+    const component = getComponent();
+    const wrapper = mount(component);
+    window.history.replaceState = jest.fn();
 
-  // get code coverage of keyboard navigation
-  wrapper
-    .find("#route-pattern_Green")
-    .simulate("keydown", { key: "ArrowRight" });
-});
+    expect(wrapper.find("#direction-name").text()).toBe("Inbound");
+    wrapper.find(".m-schedule-direction__button").simulate("click");
 
-it("reducer can change state correctly for closeRoutePatternMenu", () => {
-  const previousState = { ...state, routePatternMenuOpen: true } as State;
+    expect(wrapper.find("#direction-name").text()).toBe("Outbound");
+    expect(window.history.replaceState).toBeCalledWith(
+      window.history.state,
+      "",
+      "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
+    );
+  });
 
-  const nextState = reducer(previousState, closeRoutePatternMenuAction());
+  it("does not allow changing direction when no route patterns", () => {
+    document.body.innerHTML = body;
+    const wrapper = mount(getSingleDirectionComponent());
 
-  expect(nextState.routePatternMenuOpen).toEqual(false);
-});
+    expect(wrapper.exists(".m-schedule-direction__button")).toEqual(false);
+  });
 
-it("reducer can change state correctly for showAllRoutePatterns", () => {
-  const previousState = { ...state, routePatternMenuAll: false } as State;
+  it("can change route pattern for bus mode, and updates the query params", () => {
+    document.body.innerHTML = body;
+    const component = getComponent();
+    const wrapper = mount(component);
+    window.history.replaceState = jest.fn();
 
-  const nextState = reducer(previousState, showAllRoutePatternsAction());
+    wrapper.find(".m-schedule-direction__button").simulate("click");
+    expect(
+      wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
+    ).toBe("Pattern 1 SVG");
+    expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+    expect(window.history.replaceState).toBeCalledWith(
+      window.history.state,
+      "",
+      "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
+    );
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("click");
+    expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
+    wrapper.find("#route-pattern_pattern-3").simulate("click");
+    expect(
+      wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
+    ).toBe("Pattern 3 SVG");
+    expect(window.history.replaceState).toBeCalledWith(
+      window.history.state,
+      "",
+      "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-3"
+    );
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("click");
 
-  expect(nextState.routePatternMenuAll).toEqual(true);
+    // get code coverage of keyboard navigation
+    wrapper
+      .find("#route-pattern_pattern-1")
+      .simulate("keydown", { key: "ArrowRight" });
+
+    wrapper
+      .find("#route-pattern_pattern-3")
+      .simulate("keydown", { key: "ArrowRight" });
+
+    wrapper
+      .find("#route-pattern_uncommon")
+      .simulate("keydown", { key: "ArrowRight" });
+
+    wrapper
+      .find("#route-pattern_pattern-1")
+      .simulate("keydown", { key: "ArrowLeft" });
+
+    wrapper
+      .find("#route-pattern_pattern-3")
+      .simulate("keydown", { key: "ArrowLeft" });
+
+    wrapper
+      .find("#route-pattern_pattern-3")
+      .simulate("keydown", { key: "Tab", shiftKey: true });
+
+    wrapper.find("#route-pattern_pattern-3").simulate("keydown", { key: "X" });
+
+    wrapper.find("#route-pattern_uncommon").simulate("click");
+
+    wrapper.find(".m-schedule-direction__button").simulate("click");
+  });
+
+  it("can change route pattern for bus mode (accessible)", () => {
+    document.body.innerHTML = body;
+    const component = getComponent();
+    const wrapper = mount(component);
+    wrapper.find(".m-schedule-direction__button").simulate("click");
+    expect(
+      wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
+    ).toBe("Pattern 1 SVG");
+    expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("keyUp", { key: "Enter" });
+    expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
+
+    wrapper
+      .find("#route-pattern_pattern-3")
+      .simulate("keyUp", { key: "Enter" });
+    expect(
+      wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
+    ).toBe("Pattern 3 SVG");
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("click");
+
+    wrapper.find("#route-pattern_uncommon").simulate("keyUp", { key: "Enter" });
+  });
+
+  it("can change route for green line with click", () => {
+    const stubFn = jest.fn().mockImplementation(url => url);
+    Object.defineProperty(window, "location", {
+      writable: true,
+      value: { assign: stubFn }
+    });
+
+    document.body.innerHTML = body;
+    const component = getGreenLineComponent();
+    const wrapper = mount(component);
+
+    // click to open
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("click");
+    expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
+
+    // enter to close
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("keyUp", { key: "Enter" });
+    expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+
+    // open again
+    wrapper
+      .find(".m-schedule-direction__route-pattern--clickable")
+      .simulate("click");
+
+    // click and item
+    wrapper.find("#route-pattern_Green-C").simulate("click");
+    expect(stubFn).toHaveBeenCalledTimes(1);
+    expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+
+    // enter on an item
+    wrapper.find("#route-pattern_Green-D").simulate("keyUp", { key: "Enter" });
+    expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+
+    // get code coverage of keyboard navigation
+    wrapper
+      .find("#route-pattern_Green")
+      .simulate("keydown", { key: "ArrowRight" });
+  });
+
+  it("reducer can change state correctly for closeRoutePatternMenu", () => {
+    const previousState = { ...state, routePatternMenuOpen: true } as State;
+
+    const nextState = reducer(previousState, closeRoutePatternMenuAction());
+
+    expect(nextState.routePatternMenuOpen).toEqual(false);
+  });
+
+  it("reducer can change state correctly for showAllRoutePatterns", () => {
+    const previousState = { ...state, routePatternMenuAll: false } as State;
+
+    const nextState = reducer(previousState, showAllRoutePatternsAction());
+
+    expect(nextState.routePatternMenuAll).toEqual(true);
+  });
 });
 
 describe("fetchMapData", () => {

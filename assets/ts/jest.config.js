@@ -57,6 +57,7 @@ module.exports = {
     "./ts-build",
     "./tnm/__tests__/setupTests.ts",
     "./tnm/__tests__/helpers",
+    "./ts/__tests__/test-render-helper.tsx",
     "./stop/__tests__/helpers.ts"
   ],
   moduleNameMapper: {

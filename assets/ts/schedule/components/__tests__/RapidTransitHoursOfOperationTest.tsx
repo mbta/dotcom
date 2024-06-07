@@ -1,19 +1,20 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
+import * as reactRedux from "react-redux";
 import { RAPID_TRANSIT } from "../../../models/route";
 import { EnhancedRoute, TransitHours } from "../../../__v3api";
 import { ScheduleNote } from "../__schedule";
 import * as hours from "../../../hooks/useHoursOfOperation";
 import * as fetchJson from "../../../helpers/fetch-json";
 import RapidTransitHoursOfOperation from "../RapidTransitHoursOfOperation";
-import * as store from "../../store/ScheduleStore";
+import { renderWithProviders } from "../../../__tests__/test-render-helper";
 
 describe("RapidTransitHoursOfOperation", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("calls the hours of operation hook", () => {
+  it("calls the hours of operation hook", async () => {
     const spy = jest
       .spyOn(fetchJson, "fetchJsonOrThrow")
       .mockImplementation(() => {
@@ -31,11 +32,16 @@ describe("RapidTransitHoursOfOperation", () => {
       peak_service: "5 minutes"
     } as ScheduleNote;
 
-    render(
-      <RapidTransitHoursOfOperation route={route} scheduleNote={scheduleNote} />
-    );
+    act(() => {
+      renderWithProviders(
+        <RapidTransitHoursOfOperation
+          route={route}
+          scheduleNote={scheduleNote}
+        />
+      );
+    });
 
-    expect(spy).toHaveBeenCalled();
+    await waitFor(() => expect(spy).toHaveBeenCalled());
   });
 
   it("renders the rapid transit schedule", () => {
@@ -72,7 +78,7 @@ describe("RapidTransitHoursOfOperation", () => {
       sunday_service: "10 minutes",
       peak_service: "5 minutes"
     } as ScheduleNote;
-    render(
+    renderWithProviders(
       <RapidTransitHoursOfOperation
         route={route}
         scheduleNote={scheduleNote}
@@ -103,7 +109,7 @@ describe("RapidTransitHoursOfOperation", () => {
       peak_service: "5 minutes",
       offpeak_service: "15 minutes"
     } as ScheduleNote;
-    render(
+    renderWithProviders(
       <RapidTransitHoursOfOperation
         route={route}
         scheduleNote={scheduleNote}
@@ -151,7 +157,7 @@ describe("RapidTransitHoursOfOperation", () => {
       sunday_service: "11 minutes",
       peak_service: "5 minutes"
     } as ScheduleNote;
-    render(
+    renderWithProviders(
       <RapidTransitHoursOfOperation
         route={route}
         scheduleNote={scheduleNote}
@@ -166,7 +172,10 @@ describe("RapidTransitHoursOfOperation", () => {
   });
 
   it("should open the schedule finder modal on click", async () => {
-    const spy = jest.spyOn(store, "storeHandler");
+    const spyFunction = jest.fn();
+    jest.spyOn(reactRedux, "useDispatch").mockImplementation(() => {
+      return spyFunction;
+    });
     jest.spyOn(hours, "default").mockImplementation(() => {
       return {
         week: [],
@@ -177,7 +186,7 @@ describe("RapidTransitHoursOfOperation", () => {
     });
 
     const route = { id: "Blue", description: RAPID_TRANSIT } as EnhancedRoute;
-    render(
+    renderWithProviders(
       <RapidTransitHoursOfOperation
         route={route}
         scheduleNote={null}
@@ -188,7 +197,7 @@ describe("RapidTransitHoursOfOperation", () => {
     screen.getByText("Find departures from your stop").click();
 
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith({
+      expect(spyFunction).toHaveBeenCalledWith({
         type: "OPEN_MODAL",
         newStoreValues: {
           modalMode: "origin"

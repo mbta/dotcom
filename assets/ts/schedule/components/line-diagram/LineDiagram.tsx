@@ -1,13 +1,12 @@
 import React, { ReactElement, useState } from "react";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { updateInLocation } from "use-query-params";
 import SearchBox from "../../../components/SearchBox";
 import { stopForId, stopIds } from "../../../helpers/stop-tree";
 import useRealtime from "../../../hooks/useRealtime";
 import { isSubwayRoute } from "../../../models/route";
 import { Alert, DirectionId, Route } from "../../../__v3api";
-import { getCurrentState, storeHandler } from "../../store/ScheduleStore";
-import { changeOrigin } from "../ScheduleLoader";
+import { StoreProps } from "../../store/ScheduleStore";
 import {
   IndexedRouteStop,
   RouteStop,
@@ -58,6 +57,9 @@ const LineDiagram = ({
   const liveData = useRealtime(route, directionId, true);
   const [query, setQuery] = useState("");
 
+  const dispatch = useDispatch();
+  const currentState = useSelector((state: StoreProps) => state);
+
   const allStops: RouteStop[] = stopTree
     ? stopIds(stopTree).map(stopId => stopForId(stopTree, stopId))
     : routeStopList;
@@ -65,16 +67,30 @@ const LineDiagram = ({
     stop.name.toLowerCase().includes(query.toLowerCase())
   );
 
+  const changeOrigin = (origin: SelectedOrigin): void => {
+    dispatch({
+      type: "CHANGE_ORIGIN",
+      newStoreValues: {
+        selectedOrigin: origin
+      }
+    });
+    // reopen modal depending on choice:
+    dispatch({
+      type: "OPEN_MODAL",
+      newStoreValues: {
+        modalMode: origin ? "schedule" : "origin"
+      }
+    });
+  };
+
   const handleStopClick = (stop: RouteStop): void => {
     changeOrigin(stop.id);
-
-    const currentState = getCurrentState();
-    const { modalOpen: modalIsOpen } = currentState;
+    const { modalOpen: modalIsOpen, selectedOrigin } = currentState;
 
     updateURL(stop.id, directionId);
 
-    if (currentState.selectedOrigin !== undefined && !modalIsOpen) {
-      storeHandler({
+    if (selectedOrigin !== undefined && !modalIsOpen) {
+      dispatch({
         type: "OPEN_MODAL",
         newStoreValues: {
           modalMode: "schedule"

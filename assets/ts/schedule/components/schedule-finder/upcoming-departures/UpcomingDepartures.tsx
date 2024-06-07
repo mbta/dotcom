@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { get, isEmpty } from "lodash";
-import { Route } from "../../../../__v3api";
+import { DirectionId, Route } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { caret, modeIcon } from "../../../../helpers/icon";
 import liveClockSvg from "../../../../../../priv/static/icon-svg/icon-live-clock.svg";
@@ -12,29 +12,72 @@ import {
 import { breakTextAtSlash } from "../../../../helpers/text";
 import { isABusRoute, isACommuterRailRoute } from "../../../../models/route";
 import { modeBgClass } from "../../../../stop/components/RoutePillList";
-import { EnhancedJourney, Journey } from "../../__trips";
+import { EnhancedJourney, Journey, TripInfo } from "../../__trips";
 import LiveCrowdingIcon from "../../line-diagram/LiveCrowdingIcon";
 import {
   isInitialLoading,
-  UseProviderState,
+  useProvider,
   UseProviderStateWithoutInitialLoading
 } from "../../../../helpers/use-provider";
 import TripDetails from "./TripDetails";
 import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events-react";
+import { useAwaitInterval } from "../../../../helpers/use-await-interval";
+import {
+  fetchJson,
+  fetchJsonOrThrow,
+  isFetchFailed
+} from "../../../../helpers/fetch-json";
 
-type State = UseProviderState<EnhancedJourney[]>;
 type StateWithoutInitialLoading = UseProviderStateWithoutInitialLoading<
   EnhancedJourney[]
 >;
 
 interface Props {
-  state: State;
+  routeId: string;
+  selectedOrigin: string;
+  selectedDirection: DirectionId;
+  today: string;
 }
 
 interface AccordionProps {
   journey: EnhancedJourney;
   contentComponent: () => ReactElement<HTMLElement>;
 }
+
+// exported for testing
+export const fetchData = async (
+  routeId: string,
+  selectedOrigin: string,
+  selectedDirection: DirectionId,
+  date: string
+): Promise<EnhancedJourney[]> => {
+  const departures = await fetchJsonOrThrow<Journey[]>(
+    `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
+  );
+
+  const enhanced = await Promise.all(
+    departures.map(async departure => {
+      const res = await fetchJson<TripInfo>(
+        `/schedules/finder_api/trip?id=${departure.trip.id}&route=${routeId}&date=${date}&direction=${selectedDirection}&stop=${selectedOrigin}`
+      );
+
+      if (isFetchFailed(res)) {
+        // 404s here are a known failure mode, see finder_api.ex#get_trip_info
+        if (res.status !== 404) {
+          throw new Error(
+            `Failed to fetch trip information: ${res.status} ${res.statusText}`
+          );
+        }
+
+        return { ...departure, tripInfo: null };
+      }
+
+      return { ...departure, tripInfo: res };
+    })
+  );
+
+  return enhanced;
+};
 
 // Predictions are nil unless they have a time. This helps
 // prevent far-future trips from appearing in Upcoming Departures.
@@ -298,8 +341,19 @@ export const upcomingDeparturesTable = (
 };
 
 export const UpcomingDepartures = ({
-  state
+  routeId,
+  selectedOrigin,
+  selectedDirection,
+  today
 }: Props): ReactElement<HTMLElement> | null => {
+  const [state, updateData] = useProvider(fetchData, [
+    routeId,
+    selectedOrigin,
+    selectedDirection,
+    today
+  ]);
+  useAwaitInterval(updateData, 10000);
+
   if (isInitialLoading(state)) {
     return <Loading />;
   }

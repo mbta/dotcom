@@ -1,4 +1,6 @@
 import React, { ReactElement } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import { Route, DirectionId } from "../../__v3api";
 import {
   SimpleStopMap,
@@ -8,10 +10,8 @@ import {
   ScheduleNote
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "./schedule-finder/ScheduleFinderModal";
-import { getCurrentState, storeHandler } from "../store/ScheduleStore";
+import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
+import { StoreProps } from "../store/ScheduleStore";
 import { routeToModeName } from "../../helpers/css";
 import useDirectionChangeEvent from "../../hooks/useDirectionChangeEvent";
 
@@ -23,12 +23,9 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
-  changeDirection: (direction: DirectionId) => void;
-  selectedOrigin: SelectedOrigin;
-  changeOrigin: (origin: SelectedOrigin) => void;
-  closeModal: () => void;
-  modalMode: ModalMode;
-  modalOpen: boolean;
+  changeDirection: (direction: DirectionId, dispatch: Dispatch) => void;
+  changeOrigin: (origin: SelectedOrigin, dispatch: Dispatch) => void;
+  closeModal: (dispatch: Dispatch) => void;
   scheduleNote: ScheduleNote | null;
 }
 
@@ -40,20 +37,20 @@ const ScheduleFinder = ({
   stops,
   routePatternsByDirection,
   today,
-  modalMode,
-  selectedOrigin,
   changeDirection,
   changeOrigin,
-  modalOpen,
   closeModal,
   scheduleNote
 }: Props): ReactElement<HTMLElement> => {
+  const dispatch = useDispatch();
+  const { modalOpen, selectedOrigin } = useSelector(
+    (state: StoreProps) => state
+  );
+
   const currentDirection = useDirectionChangeEvent(directionId);
   const openOriginModal = (): void => {
-    const currentState = getCurrentState();
-    const { modalOpen: modalIsOpen } = currentState;
-    if (!modalIsOpen) {
-      storeHandler({
+    if (!modalOpen) {
+      dispatch({
         type: "OPEN_MODAL",
         newStoreValues: {
           modalMode: "origin"
@@ -63,10 +60,8 @@ const ScheduleFinder = ({
   };
 
   const openScheduleModal = (): void => {
-    const currentState = getCurrentState();
-    const { modalOpen: modalIsOpen } = currentState;
-    if (selectedOrigin !== undefined && !modalIsOpen) {
-      storeHandler({
+    if (selectedOrigin !== undefined && !modalOpen) {
+      dispatch({
         type: "OPEN_MODAL",
         newStoreValues: {
           modalMode: "schedule"
@@ -76,7 +71,7 @@ const ScheduleFinder = ({
   };
 
   const handleOriginSelectClick = (): void => {
-    storeHandler({
+    dispatch({
       type: "OPEN_MODAL",
       newStoreValues: {
         modalMode: "origin"
@@ -106,9 +101,7 @@ const ScheduleFinder = ({
         <ScheduleFinderModal
           closeModal={closeModal}
           directionChanged={changeDirection}
-          initialMode={modalMode}
           initialDirection={currentDirection}
-          initialOrigin={selectedOrigin}
           handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}

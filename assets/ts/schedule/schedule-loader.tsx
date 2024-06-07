@@ -1,157 +1,66 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { isEmpty } from "lodash";
-import { updateInLocation } from "use-query-params";
-import Map from "./components/Map";
-import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
-import { MapData } from "../leaflet/components/__mapdata";
-import { DirectionId } from "../__v3api";
-import ScheduleLoader from "./components/ScheduleLoader";
-import {
-  store,
-  createScheduleStore,
-  getCurrentState
-} from "./store/ScheduleStore";
-import { isABusRoute } from "../models/route";
+import { SchedulePageData } from "./components/__schedule";
+import { MapData, StaticMapData } from "../leaflet/components/__mapdata";
+import { createScheduleStore } from "./store/ScheduleStore";
+import { SchedulePage } from "./components/SchedulePage";
 
-const renderMap = ({
-  route_patterns: routePatternsByDirection,
-  direction_id: directionId,
-  route
-}: SchedulePageData): void => {
-  const routePatterns = routePatternsByDirection[directionId];
-  const defaultRoutePattern = routePatterns.slice(0, 1)[0];
-  const currentShapes = isABusRoute(route)
-    ? [defaultRoutePattern.shape_id]
-    : routePatterns.map(pattern => pattern.shape_id);
-  const currentStops = defaultRoutePattern.stop_ids;
-  const mapDataEl = document.getElementById("js-map-data");
-  if (!mapDataEl) return;
-  const channel = mapDataEl.getAttribute("data-channel-id");
-  if (!channel) throw new Error("data-channel-id attribute not set");
-  const mapEl = document.getElementById("map-root");
-  if (!mapEl) throw new Error("cannot find #map-root");
-  const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
-  ReactDOM.render(
-    <Map
-      data={mapData}
-      channel={channel}
-      currentShapes={currentShapes}
-      currentStops={currentStops}
-    />,
-    mapEl
-  );
-};
-
-const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
-  /* istanbul ignore else  */
-  if (window) {
-    // eslint-disable-next-line camelcase
-    const newQuery = {
-      "schedule_finder[direction_id]":
-        direction !== undefined ? direction.toString() : "",
-      "schedule_finder[origin]": origin
-    };
-    const newLoc = updateInLocation(newQuery, window.location);
-    // newLoc is not a true Location, so toString doesn't work
-    window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
-  }
-};
-
-export const renderAdditionalLineInformation = (
-  schedulePageData: SchedulePageData
-): void => {
-  const { schedule_note: scheduleNote } = schedulePageData;
-
-  ReactDOM.render(
-    <Provider store={store}>
-      <ScheduleLoader
-        component="ADDITIONAL_LINE_INFORMATION"
-        schedulePageData={schedulePageData}
-        updateURL={updateURL}
-      />
-    </Provider>,
-    document.getElementById("react-root")
-  );
-  // don't show Schedule Finder for subway
-  if (scheduleNote) {
-    ReactDOM.render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_NOTE"
-          schedulePageData={schedulePageData}
-          updateURL={updateURL}
-        />
-      </Provider>,
-      document.getElementById("react-schedule-note-root")
-    );
-  } else {
-    const scheduleFinderRoot = document.getElementById(
-      "react-schedule-finder-root"
-    );
-    if (scheduleFinderRoot) {
-      ReactDOM.render(
-        <Provider store={store}>
-          <ScheduleLoader
-            component="SCHEDULE_FINDER"
-            schedulePageData={schedulePageData}
-            updateURL={updateURL}
-          />
-        </Provider>,
-        scheduleFinderRoot
-      );
-    }
-  }
-};
-
-const renderDirectionAndMap = (
-  schedulePageData: SchedulePageData,
-  root: HTMLElement
-): void => {
-  const currentState = getCurrentState();
-  if (!!currentState && Object.keys(currentState).length !== 0) {
-    ReactDOM.render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_DIRECTION"
-          schedulePageData={schedulePageData}
-          updateURL={updateURL}
-        />
-      </Provider>,
-      root
-    );
-  }
-};
-
-export const renderDirectionOrMap = (
-  schedulePageData: SchedulePageData
-): void => {
-  const root = document.getElementById("react-schedule-direction-root");
-  if (!root) {
-    renderMap(schedulePageData);
-    return;
-  }
-  renderDirectionAndMap(schedulePageData, root);
-};
-
-const render = (): void => {
+const getPageData = (): {
+  schedulePageData: SchedulePageData;
+  branchesAreEmpty: boolean;
+  mapData: MapData;
+  staticMapData: StaticMapData | undefined;
+} => {
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
-  if (!schedulePageDataEl) return;
+  const mapDataEl = document.getElementById("js-map-data");
+  if (!schedulePageDataEl || !mapDataEl) {
+    throw new Error(
+      `Page Elements are Missing schedulePageDataEl:${schedulePageDataEl} mapDataEl:${mapDataEl}`
+    );
+  }
   const schedulePageData = JSON.parse(
     schedulePageDataEl.innerHTML
   ) as SchedulePageData;
-  const {
-    direction_id: directionId,
-    route_patterns: routePatterns
-  } = schedulePageData;
+  const branchesAreEmpty =
+    schedulePageDataEl.getAttribute("data-branches-are-empty") === "true";
+  const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
 
-  createScheduleStore(directionId);
-  renderAdditionalLineInformation(schedulePageData);
-
-  if (!isEmpty(routePatterns)) {
-    renderDirectionOrMap(schedulePageData);
+  let staticMapData: StaticMapData | undefined;
+  const staticDataEl = document.getElementById("static-map-data");
+  if (staticDataEl) {
+    staticMapData = JSON.parse(staticDataEl.innerHTML);
   }
+
+  return {
+    schedulePageData,
+    branchesAreEmpty,
+    mapData,
+    staticMapData
+  };
+};
+
+const render = (): void => {
+  const {
+    schedulePageData,
+    branchesAreEmpty,
+    mapData,
+    staticMapData
+  } = getPageData();
+
+  const { direction_id: directionId } = schedulePageData;
+
+  ReactDOM.render(
+    <Provider store={createScheduleStore(directionId)}>
+      <SchedulePage
+        schedulePageData={schedulePageData}
+        noBranches={branchesAreEmpty}
+        mapData={mapData}
+        staticMapData={staticMapData}
+      />
+    </Provider>,
+    document.getElementById("react-root-schedule-page")
+  );
 };
 
 const onLoad = (): void => {

@@ -1,11 +1,11 @@
 import { isDate, isSaturday, isSunday, parseISO } from "date-fns";
 import { min } from "lodash";
 import React, { ReactElement } from "react";
+import { useDispatch } from "react-redux";
 import { formatToBostonTime } from "../../helpers/date";
 import useHoursOfOperation from "../../hooks/useHoursOfOperation";
 import { EnhancedRoute, StopHours, TransitHours } from "../../__v3api";
 import { ScheduleNote } from "./__schedule";
-import { storeHandler } from "../store/ScheduleStore";
 
 const trainsEveryHTML = (minuteString: string | undefined): JSX.Element => (
   <div className="fs-14 pt-8">{`Trains depart every ${minuteString}`}</div>
@@ -75,9 +75,10 @@ const RapidTransitHoursOfOperation = ({
   date?: Date;
 }): ReactElement<HTMLElement> => {
   const hours = useHoursOfOperation(route.id) as TransitHours | null;
+  const dispatch = useDispatch();
 
   const openModal = (): void => {
-    storeHandler({
+    dispatch({
       type: "OPEN_MODAL",
       newStoreValues: {
         modalMode: "origin"
