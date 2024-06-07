@@ -3,10 +3,16 @@
 import flatpickr from "flatpickr";
 import { format } from "date-fns";
 
+/**
+ * Formats a date into a string in the format util.ex parse/1 expects.
+ */
 function formatDate(date) {
   return format(date, "yyyy-MM-dd HH:mm aa");
 }
 
+/**
+ * Formats a date into a string in the user's locale.
+ */
 function i18nDate(date) {
   const formatter = new Intl.DateTimeFormat(navigator.language, {
     dateStyle: "full",
@@ -16,6 +22,9 @@ function i18nDate(date) {
   return formatter.format(date);
 }
 
+/**
+ * Initializes the trip planner inputs and sets all listeners.
+ */
 export default function setupTripPlannerInputs(elem) {
   // Gets all radio inputs in the form.
   // Now, Leave at, and Arrive by.
@@ -38,27 +47,38 @@ export default function setupTripPlannerInputs(elem) {
     });
   });
 
-  let formData = elem.querySelector("#data").innerHTML;
-  formData = JSON.parse(formData);
+  // Gets data that is injected into the template.
+  // This is how we get the user selections from the query params set controls.
+  let data = elem.querySelector("#data").innerHTML;
+  data = JSON.parse(data);
 
+  // We have two inputs. One is for display and the other is hidden.
+  // The display shows a string from i18nDate.
+  // The hidden input is what gets sent to the server.
+  // It uses a string from formatDate.
   const dateInputDisplay = elem.querySelector(
     "#trip-plan-datepicker #date-time-display"
   );
   const dateInputHidden = elem.querySelector(
     "#trip-plan-datepicker #date-time-hidden"
   );
-  const maxDate = new Date(formData.maxDate);
-  const minDate = new Date(formData.minDate);
+  const maxDate = new Date(data.maxDate);
+  const minDate = new Date(data.minDate);
 
-  // Set the initial value of the date input display.
-  const time = formData.chosenTime || "now";
+  // Sets the initial value of the date input display.
+  // Default to 'now' and uses the server date if 'now.'
+  // Otherwise, we use the chosen time.
+  const time = data.chosenTime || "now";
   const dateTime = new Date(
-    time === "now" ? formData.dateTime : formData.chosenDateTime
+    time === "now" ? data.dateTime : data.chosenDateTime
   );
 
   dateInputHidden.value = formatDate(dateTime);
   dateInputDisplay.value = i18nDate(dateTime);
 
+  // Initializes the date picker.
+  // Unfortunately, we can't use a function to format the date.
+  // So, it won't be in the user's locale.
   flatpickr(dateInputDisplay, {
     dateFormat: "l, F j, Y at h:i K",
     enableTime: true,
@@ -94,6 +114,7 @@ export default function setupTripPlannerInputs(elem) {
     });
   });
 
-  const initialTimeSelection = elem.querySelector(`input[value="${time}"]`);
-  initialTimeSelection.click();
+  // Get the time selector that corresponds with the set time and click it.
+  // This covers the case where the user has selected a time and the page is reloaded.
+  elem.querySelector(`input[value="${time}"]`).click();
 }
