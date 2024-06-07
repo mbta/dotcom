@@ -62,7 +62,7 @@ defmodule Util do
     case date_to_string(date_params) do
       <<str::binary>> ->
         str
-        |> Timex.parse("{YYYY}-{M}-{D}T{_h24}:{_m}")
+        |> Timex.parse("{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
         |> do_parse()
 
       error ->

@@ -1,5 +1,5 @@
 <div phx-hook="TripPlannerInputs" id="trip-planner-inputs">
-  <script id="form-data" type="text/plain">
+  <script id="data" type="text/plain">
     <%= raw(Poison.encode!(%{
           chosenDateTime: @chosen_date_time,
           chosenTime: @chosen_time,
@@ -26,5 +26,8 @@
   <div id="trip-plan-datepicker" class="m-trip-plan__departure-last" style="display: none">
     <input type="hidden" name="plan[date_time]" id="date-time-hidden">
     <input type="text" name="plan[date_time_display]" id="date-time-display">
+  </div>
+  <div class="error-container">
+    <%= date_error(@errors) %>
   </div>
 </div>

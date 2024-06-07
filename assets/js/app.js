@@ -44,7 +44,7 @@ import tabbedNav from "./tabbed-nav.js";
 import { accordionInit } from "../ts/ui/accordion";
 import initializeSentry from "../ts/sentry";
 import setupAlgoliaAutocomplete from "../ts/ui/autocomplete/index";
-import { setupTripPlannerInputs } from "./trip-planner-inputs.js";
+import setupTripPlannerInputs from "./trip-planner-inputs.js";
 
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
@@ -72,7 +72,7 @@ Hooks.TripPlannerInputs = {
   mounted() {
     setupTripPlannerInputs(this.el);
   }
-}
+};
 
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
