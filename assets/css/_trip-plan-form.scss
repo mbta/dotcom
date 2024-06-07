@@ -194,7 +194,7 @@
 
   label {
     border-color: $brand-primary;
-    border-width: 1px 0 1px 0;
+    border-width: 1px 0;
     padding: 4px;
     width: 33.33%;
   }
@@ -211,11 +211,19 @@
     border-right-width: 1px;
   }
 
-  input[type="text"] {
+  input[type='text'] {
     border: 1px solid $brand-primary;
     border-radius: $border-radius;
     padding: 4px 6px;
     width: 100%;
+  }
+
+  i {
+    color: $brand-primary;
+    float: right;
+    position: relative;
+    right: 10px;
+    top: -25px;
   }
 }
 
