@@ -137,8 +137,8 @@ defmodule DotcomWeb.FareController do
         |> Fares.Repo.for_fare_class(duration: :single_trip, reduced: nil)
         |> Fares.Format.summarize(Fares.Format.mode_type_for_fare_class(fare_class))
         |> Enum.map(fn summary ->
-          changedName = format_name(summary)
-          {changedName, Fares.Summary.price_range(summary)}
+          changed_name = format_name(summary)
+          {changed_name, Fares.Summary.price_range(summary)}
         end)
       end)
 
@@ -155,8 +155,8 @@ defmodule DotcomWeb.FareController do
 
     # capitalize lowercases every word after the first word in `name`.  This fixes the one
     # edge case for Commuter Rail
-    capitalizedName = String.capitalize(name)
-    String.replace(capitalizedName, "Commuter rail", "Commuter Rail")
+    capitalized_name = String.capitalize(name)
+    String.replace(capitalized_name, "Commuter rail", "Commuter Rail")
   end
 
   # Use the route mode to determine the display fare. e.g. instead of the 23 bus
