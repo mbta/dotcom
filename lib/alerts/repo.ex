@@ -37,9 +37,7 @@ defmodule Alerts.Repo do
   def diversions_by_route_ids(route_ids, now) do
     route_ids
     |> by_route_ids(now)
-    |> Enum.filter(fn alert ->
-      Enum.member?([:shuttle, :station_closure, :suspension], alert.effect)
-    end)
+    |> Enum.filter(&Alert.diversion?/1)
     |> Enum.map(&maybe_attach_image_url/1)
   end
 

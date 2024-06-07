@@ -256,9 +256,10 @@ defmodule Alerts.Alert do
   @spec diversion?(t) :: boolean()
   def diversion?(alert) do
     alert.effect in @diversion_effects &&
-      alert.created_at
-      |> Timex.shift(minutes: -1)
-      |> Timex.before?(List.first(alert.active_period))
+      alert.active_period
+      |> List.first()
+      |> Kernel.elem(0)
+      |> Timex.after?(alert.created_at)
   end
 
   @spec municipality(t) :: String.t() | nil
