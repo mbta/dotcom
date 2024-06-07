@@ -75,8 +75,7 @@ defmodule Alerts.Repo do
   # It should be removed once alerts support image URLs.
   defp maybe_attach_image_url(alert) do
     if is_nil(alert.image_url) do
-      this_month = Timex.format!(Timex.now(), "%Y-%m", :strftime)
-      image_url = "/sites/default/files/media/#{this_month}/alert-#{alert.id}.png"
+      image_url = "/sites/default/files/diversion-diagrams/alert-#{alert.id}.png"
 
       Map.put(alert, :image_url, image_url)
     else
