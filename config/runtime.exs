@@ -214,9 +214,6 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end
 
-IO.inspect("+++++++++++++++++")
-IO.inspect(config_env())
-
 # Set the content security policy
 case config_env() do
   :prod ->
@@ -225,11 +222,11 @@ case config_env() do
            Enum.join(
              [
                "default-src 'none'",
-               "img-src 'self' #{System.get_env("STATIC_HOST", "")} *.gstatic.com *.s3.amazonaws.com data:",
+               "img-src 'self' cdn.mbta.com #{System.get_env("STATIC_HOST", "")} #{System.get_env("CMS_API_BASE_URL", "")} *.gstatic.com *.s3.amazonaws.com data:",
                "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")}",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
                "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
-               "connect-src 'self' translate.googleapis.com",
+               "connect-src 'self' translate.googleapis.com https://64f7f40e493776a95fb675559ddb6b69@o89189.ingest.us.sentry.io/4507102206820352",
                "frame-src 'self'"
              ],
              "; "
