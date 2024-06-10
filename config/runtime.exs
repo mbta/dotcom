@@ -213,3 +213,45 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
   config :logger, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end
+
+# Set the content security policy
+case config_env() do
+  :prod ->
+    config :dotcom,
+           :content_security_policy_definition,
+           Enum.join(
+             [
+               "default-src 'none'",
+               "img-src 'self' #{System.get_env("STATIC_HOST", "")} *.gstatic.com *.s3.amazonaws.com data:",
+               "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")}",
+               "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
+               "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
+               "connect-src 'self' translate.googleapis.com",
+               "frame-src 'self'"
+             ],
+             "; "
+           )
+
+  :dev ->
+    config :dotcom,
+           :content_security_policy_definition,
+           Enum.join(
+             [
+               "default-src 'none'",
+               "img-src 'self' cdn.mbta.com *.gstatic.com #{System.get_env("CMS_API_BASE_URL", "")} *.s3.amazonaws.com data:",
+               "style-src 'self' 'unsafe-inline' localhost:* www.gstatic.com",
+               "script-src 'self' 'unsafe-eval' 'unsafe-inline' localhost:* translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
+               "font-src 'self' localhost:*",
+               "connect-src 'self' localhost:* ws://localhost:* translate.googleapis.com",
+               "frame-src 'self' localhost:*"
+             ],
+             "; "
+           )
+
+  :test ->
+    ""
+
+  # Unknown env, reject all
+  _ ->
+    "default-src 'none'"
+end
