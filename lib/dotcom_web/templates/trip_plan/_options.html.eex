@@ -1,4 +1,4 @@
-<h6>When</h6>
+<label>When</label>
 <%=
   render "_departure.html", Map.merge(assigns, %{
     title: format_plan_type_for_title(@query),
@@ -6,7 +6,7 @@
     datetime: datetime_from_query(@query)
   })
 %>
-<h6>Modes</h6>
+<label>Modes</label>
 <%=
   DotcomWeb.PartialView.render("_accordion_ui.html", Map.merge(assigns, %{
     multiselectable: true,

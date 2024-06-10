@@ -10,7 +10,6 @@
     %>
   </script>
   <fieldset>
-    <legend class="sr-only">Schedule By Arrival or Departure:</legend>
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
       <label class="btn btn-secondary" for="now">
         <input type="radio" name="plan[time]" id="now" autocomplete="off" value="now"> Now

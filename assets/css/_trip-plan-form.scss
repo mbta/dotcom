@@ -175,13 +175,13 @@
 }
 
 .trip-planner-form {
-  h6 {
-    font-weight: 700;
+  label {
+    font-weight: bold;
   }
 }
 
 #trip-planner-inputs {
-  margin-top: 10px;
+  margin: 10px 0 20px;
   width: 100%;
 
   .btn-group {
