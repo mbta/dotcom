@@ -214,6 +214,10 @@ if System.get_env("LOGGER_LEVEL") in ~w(emergency alert critical error warning n
   config :logger, :console, level: String.to_atom(System.get_env("LOGGER_LEVEL"))
 end
 
+# Extract the host fron the sentry dsn
+[sentry_dsn_host | _] =
+  Regex.run(~r/@(.*)\//, System.get_env("SENTRY_DSN"), capture: :all_but_first)
+
 # Set the content security policy
 case config_env() do
   :prod ->
@@ -226,7 +230,7 @@ case config_env() do
                "style-src 'self' 'unsafe-inline' www.gstatic.com #{System.get_env("STATIC_HOST", "")}",
                "script-src 'self' 'unsafe-eval' 'unsafe-inline' #{System.get_env("STATIC_HOST", "")} translate.google.com www.gstatic.com www.googletagmanager.com *.googleapis.com",
                "font-src 'self' #{System.get_env("STATIC_HOST", "")}",
-               "connect-src 'self' translate.googleapis.com https://64f7f40e493776a95fb675559ddb6b69@o89189.ingest.us.sentry.io/4507102206820352",
+               "connect-src 'self' translate.googleapis.com #{sentry_dsn_host || ""}",
                "frame-src 'self'"
              ],
              "; "
